@@ -64,13 +64,10 @@
     - [TestCasePreparedStep](#io.cucumber.messages.TestCasePreparedStep)
     - [TestCaseStarted](#io.cucumber.messages.TestCaseStarted)
     - [TestCaseStarted.Platform](#io.cucumber.messages.TestCaseStarted.Platform)
-    - [TestHookFinished](#io.cucumber.messages.TestHookFinished)
-    - [TestHookStarted](#io.cucumber.messages.TestHookStarted)
     - [TestResult](#io.cucumber.messages.TestResult)
     - [TestRunFinished](#io.cucumber.messages.TestRunFinished)
     - [TestRunStarted](#io.cucumber.messages.TestRunStarted)
     - [TestStepFinished](#io.cucumber.messages.TestStepFinished)
-    - [TestStepMatched](#io.cucumber.messages.TestStepMatched)
     - [TestStepStarted](#io.cucumber.messages.TestStepStarted)
     - [Timestamp](#io.cucumber.messages.Timestamp)
     - [UriToLinesMapping](#io.cucumber.messages.UriToLinesMapping)
@@ -302,8 +299,6 @@ messages.
 | testStepStarted | [TestStepStarted](#io.cucumber.messages.TestStepStarted) |  |  |
 | testStepFinished | [TestStepFinished](#io.cucumber.messages.TestStepFinished) |  |  |
 | testCaseFinished | [TestCaseFinished](#io.cucumber.messages.TestCaseFinished) |  |  |
-| testHookStarted | [TestHookStarted](#io.cucumber.messages.TestHookStarted) |  |  |
-| testHookFinished | [TestHookFinished](#io.cucumber.messages.TestHookFinished) |  |  |
 | pickleAccepted | [PickleAccepted](#io.cucumber.messages.PickleAccepted) |  |  |
 | pickleRejected | [PickleRejected](#io.cucumber.messages.PickleRejected) |  |  |
 | testCasePrepared | [TestCasePrepared](#io.cucumber.messages.TestCasePrepared) |  |  |
@@ -319,8 +314,9 @@ messages.
 | commandRunAfterTestRunHooks | [CommandRunAfterTestRunHooks](#io.cucumber.messages.CommandRunAfterTestRunHooks) |  |  |
 | commandGenerateSnippet | [CommandGenerateSnippet](#io.cucumber.messages.CommandGenerateSnippet) |  |  |
 | commandError | [string](#string) |  |  |
-| testStepMatched | [TestStepMatched](#io.cucumber.messages.TestStepMatched) |  |  |
 | testCase | [TestCase](#io.cucumber.messages.TestCase) |  |  |
+| stepDefinitionConfig | [StepDefinitionConfig](#io.cucumber.messages.StepDefinitionConfig) |  |  |
+| testCaseHookDefinitionConfig | [TestCaseHookDefinitionConfig](#io.cucumber.messages.TestCaseHookDefinitionConfig) |  |  |
 
 
 
@@ -613,6 +609,7 @@ A tag
 | ----- | ---- | ----- | ----------- |
 | location | [Location](#io.cucumber.messages.Location) |  | Location of the tag |
 | name | [string](#string) |  | The name of the tag (including the leading `@`) |
+| id | [string](#string) |  | Unique ID to be able to reference the Tag from PickleTag |
 
 
 
@@ -708,7 +705,6 @@ An executable step
 | text | [string](#string) |  |  |
 | argument | [PickleStepArgument](#io.cucumber.messages.PickleStepArgument) |  | An optional argument |
 | id | [string](#string) |  | A unique ID for the PickleStep |
-| stepId | [string](#string) |  | References the scenario step where the PickleStep originates from DEPRECATED - use sourceIds |
 | sourceIds | [string](#string) | repeated | References the IDs of the source of the step. For Gherkin, this can be the ID of a Step, and possibly also the ID of a TableRow |
 
 
@@ -725,6 +721,7 @@ A tag
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | name | [string](#string) |  |  |
+| sourceId | [string](#string) |  | Reference to the source id |
 
 
 
@@ -1103,7 +1100,7 @@ TODO: Rename to Hook
 <a name="io.cucumber.messages.TestCasePrepared"></a>
 
 ### TestCasePrepared
-
+DEPRECATED. Use TestCase
 
 
 | Field | Type | Label | Description |
@@ -1119,7 +1116,7 @@ TODO: Rename to Hook
 <a name="io.cucumber.messages.TestCasePreparedStep"></a>
 
 ### TestCasePreparedStep
-
+DEPRECATED. Use TestCase.TestStep
 
 
 | Field | Type | Label | Description |
@@ -1163,39 +1160,6 @@ TODO: Rename to Hook
 | version | [string](#string) |  | The version of the runner |
 | os | [string](#string) |  | The operating system |
 | cpu | [string](#string) |  | The CPU architecture |
-
-
-
-
-
-
-<a name="io.cucumber.messages.TestHookFinished"></a>
-
-### TestHookFinished
-DEPRECATED: Replaced by TestStepFinished
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| testResult | [TestResult](#io.cucumber.messages.TestResult) |  |  |
-| timestamp | [Timestamp](#io.cucumber.messages.Timestamp) |  |  |
-| testCaseId | [string](#string) |  |  |
-
-
-
-
-
-
-<a name="io.cucumber.messages.TestHookStarted"></a>
-
-### TestHookStarted
-DEPRECATED: Replaced by TestStepStarted
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| timestamp | [Timestamp](#io.cucumber.messages.Timestamp) |  |  |
-| testCaseId | [string](#string) |  |  |
 
 
 
@@ -1263,25 +1227,6 @@ DEPRECATED: Replaced by TestStepStarted
 | timestamp | [Timestamp](#io.cucumber.messages.Timestamp) |  |  |
 | testStepId | [string](#string) |  |  |
 | testCaseStartedId | [string](#string) |  |  |
-
-
-
-
-
-
-<a name="io.cucumber.messages.TestStepMatched"></a>
-
-### TestStepMatched
-For each step, there will be a match
-DEPRECATED - replaced by TestStep
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| pickleId | [string](#string) |  |  |
-| index | [uint32](#uint32) |  |  |
-| stepDefinitionReference | [SourceReference](#io.cucumber.messages.SourceReference) |  |  |
-| stepMatchArguments | [StepMatchArgument](#io.cucumber.messages.StepMatchArgument) | repeated |  |
 
 
 

@@ -49,28 +49,25 @@ message Envelope {
     TestStepStarted testStepStarted = 6;
     TestStepFinished testStepFinished = 7;
     TestCaseFinished testCaseFinished = 8;
-    TestHookStarted testHookStarted = 9;
-    TestHookFinished testHookFinished = 10;
-    PickleAccepted pickleAccepted = 11;
-    PickleRejected pickleRejected = 12;
-    TestCasePrepared testCasePrepared = 13;
-    TestRunStarted testRunStarted = 14;
-    TestRunFinished testRunFinished = 15;
+    PickleAccepted pickleAccepted = 9;
+    PickleRejected pickleRejected = 10;
+    TestCasePrepared testCasePrepared = 11;
+    TestRunStarted testRunStarted = 12;
+    TestRunFinished testRunFinished = 13;
     // Cucumber-Engine Messages
-    CommandStart commandStart = 16;
-    CommandActionComplete commandActionComplete = 17;
-    CommandRunBeforeTestRunHooks commandRunBeforeTestRunHooks = 18;
-    CommandInitializeTestCase commandInitializeTestCase = 19;
-    CommandRunBeforeTestCaseHook commandRunBeforeTestCaseHook = 20;
-    CommandRunTestStep commandRunTestStep = 21;
-    CommandRunAfterTestCaseHook commandRunAfterTestCaseHook = 22;
-    CommandRunAfterTestRunHooks commandRunAfterTestRunHooks = 23;
-    CommandGenerateSnippet commandGenerateSnippet = 24;
-    string commandError = 25;
-    TestStepMatched testStepMatched = 26;
-    TestCase testCase = 27;
-    StepDefinitionConfig stepDefinitionConfig = 28;
-    TestCaseHookDefinitionConfig testCaseHookDefinitionConfig = 29;
+    CommandStart commandStart = 14;
+    CommandActionComplete commandActionComplete = 15;
+    CommandRunBeforeTestRunHooks commandRunBeforeTestRunHooks = 16;
+    CommandInitializeTestCase commandInitializeTestCase = 17;
+    CommandRunBeforeTestCaseHook commandRunBeforeTestCaseHook = 18;
+    CommandRunTestStep commandRunTestStep = 19;
+    CommandRunAfterTestCaseHook commandRunAfterTestCaseHook = 20;
+    CommandRunAfterTestRunHooks commandRunAfterTestRunHooks = 21;
+    CommandGenerateSnippet commandGenerateSnippet = 22;
+    string commandError = 23;
+    TestCase testCase = 24;
+    StepDefinitionConfig stepDefinitionConfig = 25;
+    TestCaseHookDefinitionConfig testCaseHookDefinitionConfig = 26;
   }
 }
 
@@ -350,22 +347,20 @@ message Pickle {
    * It includes inherited tags from the `Feature` as well.
    */
   repeated PickleTag tags = 6;
-  reserved 7;
   /**
    * Points to the source locations of the pickle. The last one represents the unique
    * id of the pickle. A pickle constructed from `Examples` will have the first
    * sourceId originating from the `Scenario`, and the second from the table row.
    */
-  repeated string sourceIds = 8;
+  repeated string sourceIds = 7;
 
   /**
    * A tag
    */
   message PickleTag {
-    reserved 1;
-    string name = 2;
+    string name = 1;
     // Reference to the source id
-    string sourceId = 3;
+    string sourceId = 2;
   }
 
   /**
@@ -373,17 +368,13 @@ message Pickle {
    */
   message PickleStep {
     string text = 1;
-    reserved 2, 3, 4;
     // An optional argument
-    PickleStepArgument argument = 5;
+    PickleStepArgument argument = 2;
     // A unique ID for the PickleStep
-    string id = 6;
-    // References the scenario step where the PickleStep originates from
-    // DEPRECATED - use sourceIds
-    string stepId = 7;
+    string id = 3;
     // References the IDs of the source of the step. For Gherkin, this can be
     // the ID of a Step, and possibly also the ID of a TableRow
-    repeated string sourceIds = 8;
+    repeated string sourceIds = 4;
   }
 }
 
@@ -397,9 +388,8 @@ message PickleStepArgument {
   }
 
   message PickleDocString {
-    reserved 1;
-    string contentType = 2;
-    string content = 3;
+    string contentType = 1;
+    string content = 2;
   }
 
   message PickleTable {
@@ -409,8 +399,7 @@ message PickleStepArgument {
       repeated PickleTableCell cells = 1;
 
       message PickleTableCell {
-        reserved 1;
-        string value = 2;
+        string value = 1;
       }
     }
   }
@@ -454,31 +443,32 @@ message TestRunStarted {
   Timestamp timestamp = 1;
 }
 
+// DEPRECATED. Use TestCase.TestStep
 message TestCasePreparedStep {
   SourceReference sourceLocation = 1;
   SourceReference actionLocation = 2;
 }
 
+// DEPRECATED. Use TestCase
 message TestCasePrepared {
   string pickleId = 1;
   repeated TestCasePreparedStep steps = 2;
 }
 
 message TestCaseStarted {
-  reserved 1;
-  Timestamp timestamp = 2;
-  Platform platform = 3;
+  Timestamp timestamp = 1;
+  Platform platform = 2;
   /**
    * The first attempt should have value 0, and for each retry the value
    * should increase by 1.
    */
-  uint32 attempt = 4;
-  string testCaseId = 5;
+  uint32 attempt = 3;
+  string testCaseId = 4;
   /**
    * Because a `TestCase` can be run multiple times (in case of a retry),
    * we use this field to group messages relating to the same attempt.
    */
-  string id = 6;
+  string id = 5;
 
   message Platform {
     // The runner implementation. For example "SpecFlow", "Cucumber-JVM", "Behat" etc.
@@ -493,58 +483,29 @@ message TestCaseStarted {
 }
 
 message TestCaseFinished {
-  reserved 1;
-  Timestamp timestamp = 2;
-  TestResult testResult = 3;
-  reserved 4;
-  string testCaseStartedId = 5;
-}
-
-// For each step, there will be a match
-// DEPRECATED - replaced by TestStep
-message TestStepMatched {
-  string pickleId = 1;
-  uint32 index = 2;
-  SourceReference stepDefinitionReference = 3;
-  repeated StepMatchArgument stepMatchArguments = 4;
+  Timestamp timestamp = 1;
+  TestResult testResult = 2;
+  string testCaseStartedId = 3;
 }
 
 message TestStepStarted {
-  reserved 1, 2, 4;
-  Timestamp timestamp = 3;
-  string testStepId = 5;
-  string testCaseStartedId = 6;
+  Timestamp timestamp = 1;
+  string testStepId = 2;
+  string testCaseStartedId = 3;
 }
 
 message TestStepFinished {
-  reserved 1, 2, 5;
-  TestResult testResult = 3;
-  Timestamp timestamp = 4;
-  string testStepId = 6;
-  string testCaseStartedId = 7;
-}
-
-// DEPRECATED: Replaced by TestStepStarted
-message TestHookStarted {
-  reserved 1;
+  TestResult testResult = 1;
   Timestamp timestamp = 2;
-  string testCaseId = 3;
-}
-
-// DEPRECATED: Replaced by TestStepFinished
-message TestHookFinished {
-  reserved 1;
-  TestResult testResult = 2;
-  Timestamp timestamp = 3;
-  string testCaseId = 4;
+  string testStepId = 3;
+  string testCaseStartedId = 4;
 }
 
 message TestResult {
   Status status = 1;
   string message = 2;
-  reserved 3;
-  Duration duration = 4;
-  bool willBeRetried = 5;
+  Duration duration = 3;
+  bool willBeRetried = 4;
 
   /**
    * Status of a step. Can also represent status of a Pickle (aggregated
@@ -691,34 +652,27 @@ message CommandRunAfterTestRunHooks {
 
 message CommandInitializeTestCase {
   string actionId = 1;
-  reserved 2;
-  Pickle pickle = 3;
+  Pickle pickle = 2;
 }
 
 message CommandRunBeforeTestCaseHook {
   string actionId = 1;
-  reserved 2;
-  string testCaseHookDefinitionId = 3;
-  reserved 4;
-  string testCaseId = 5;
+  string testCaseHookDefinitionId = 2;
+  string testCaseId = 3;
 }
 
 message CommandRunAfterTestCaseHook {
   string actionId = 1;
-  reserved 2;
-  string testCaseHookDefinitionId = 3;
-  reserved 4;
-  string testCaseId = 5;
+  string testCaseHookDefinitionId = 2;
+  string testCaseId = 3;
 }
 
 message CommandRunTestStep {
   string actionId = 1;
-  reserved 2;
-  string stepDefinitionId = 3;
-  repeated StepMatchArgument stepMatchArguments = 4;
-  reserved 5;
-  PickleStepArgument pickleStepArgument = 6;
-  string testCaseId = 7;
+  string stepDefinitionId = 2;
+  repeated StepMatchArgument stepMatchArguments = 3;
+  PickleStepArgument pickleStepArgument = 4;
+  string testCaseId = 5;
 }
 
 /**
@@ -730,14 +684,12 @@ message CommandRunTestStep {
  * This message closely matches the `Argument` class in the `cucumber-expressions` library.
  */
 message StepMatchArgument {
-  reserved 1;
-  string parameterTypeName = 2;
-  reserved 3, 4;
+  string parameterTypeName = 1;
   /**
    * Represents the outermost capture group of an argument. This message closely matches the
    * `Group` class in the `cucumber-expressions` library.
    */
-  Group group = 5;
+  Group group = 2;
 
   message Group {
     uint32 start = 1;
@@ -749,8 +701,7 @@ message StepMatchArgument {
 message CommandGenerateSnippet {
   string actionId = 1;
   repeated GeneratedExpression generatedExpressions = 2;
-  reserved 3, 4;
-  PickleStepArgument pickleStepArgument = 5;
+  PickleStepArgument pickleStepArgument = 3;
 }
 
 message GeneratedExpression {

@@ -38,7 +38,6 @@
         "sourceIds": [
           "2"
         ],
-        "stepId": "2",
         "text": "they have arrived"
       },
       {
@@ -72,7 +71,6 @@
         "sourceIds": [
           "5"
         ],
-        "stepId": "5",
         "text": "they have arrived"
       }
     ],

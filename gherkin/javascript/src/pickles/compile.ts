@@ -252,7 +252,6 @@ function pickleStep(
 
   return messages.Pickle.PickleStep.fromObject({
     id: newId(),
-    stepId: step.id,
     text: interpolate(step.text, variableCells, valueCells),
     argument: createPickleArguments(step, variableCells, valueCells),
     locations: [pickleStepLocation(step)],

@@ -1,9 +1,0 @@
-Gemfile.lock
-coverage/
-acceptance/
-pkg/
-*.gem
-.compared
-.deps
-.tested
-*-go
