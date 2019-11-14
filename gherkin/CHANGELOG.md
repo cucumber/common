@@ -21,14 +21,6 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ## [8.2.0] - 2019-11-14
 
-### Added
-
-### Changed
-
-### Deprecated
-
-### Removed
-
 ### Fixed
 
 * [Ruby] Make CI build work on Ruby 2.3, 2.4, 2.5 and 2.6
