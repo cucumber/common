@@ -29,7 +29,7 @@
     "@types/mocha": "^5.2.7",
     "@types/node": "^12.12.7",
     "fake-cucumber": "^2.0.3",
-    "gherkin": "^8.1.1",
+    "gherkin": "^8.2.0",
     "mocha": "^6.2.2",
     "nyc": "^14.1.1",
     "prettier": "^1.19.1",
