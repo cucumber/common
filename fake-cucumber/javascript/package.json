@@ -36,6 +36,7 @@
     "nyc": "^14.1.1",
     "prettier": "^1.19.1",
     "ts-node": "^8.5.0",
+    "ts-sinon": "^1.0.24",
     "tslint": "^5.20.1",
     "tslint-config-prettier": "^1.18.0",
     "tslint-plugin-prettier": "^2.0.1",
