@@ -120,7 +120,7 @@ ifeq ($(CURRENT_MAJOR), $(NEW_MAJOR))
 else
 	echo "Updating major from $(CURRENT_MAJOR) to $(NEW_MAJOR)"
 	sed -Ei "s/$(LIBNAME)-go(\/v$(CURRENT_MAJOR))?/$(LIBNAME)-go\/v$(NEW_MAJOR)/" go.mod
-	sed -Ei "s/$(LIBNAME)-go(\/v$(CURRENT_MAJOR))?/$(LIBNAME)-go\/v$(NEW_MAJOR)/" **/*.go
+	sed -Ei "s/$(LIBNAME)-go(\/v$(CURRENT_MAJOR))?/$(LIBNAME)-go\/v$(NEW_MAJOR)/" $(shell find . -name "*.go")
 endif
 .PHONY: update-major
 

@@ -1,6 +1,6 @@
 {
   "name": "cucumber-messages",
-  "version": "6.0.2",
+  "version": "7.0.0",
   "description": "Protocol Buffer messages for Cucumber's inter-process communication",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
