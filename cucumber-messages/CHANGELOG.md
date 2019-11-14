@@ -25,10 +25,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
   ([#722](https://github.com/cucumber/cucumber/pull/722)
    [charlierudolph])
 
-* [JavaScript] package with webpack
-  ([#792](https://github.com/cucumber/cucumber/pull/792)
-   [aslakhellesoy])
-
 ### Changed
 
 * Added more reference ids and removed deprecated/reserved fields
