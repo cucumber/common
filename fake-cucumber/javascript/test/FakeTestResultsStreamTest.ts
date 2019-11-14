@@ -70,24 +70,48 @@ Scenario: some matches
       .filter(envelope => envelope.stepDefinitionConfig)
       .map(envelope => envelope.stepDefinitionConfig)
 
-    assert.equal(stepDefinitions.length, 7, "There are 6 default step definitions")
+    assert.equal(
+      stepDefinitions.length,
+      7,
+      'There are 6 default step definitions'
+    )
 
-    assert.equal(stepDefinitions[0].pattern.source, '{}passed{}',
-      "The first matches passed steps")
-    assert.equal(stepDefinitions[1].pattern.source, '{}failed{}',
-      "The second matches failed steps")
-    assert.equal(stepDefinitions[2].pattern.source, '{}pending{}',
-      "The third matches pending steps")
-    assert.equal(stepDefinitions[3].pattern.source, '{}skipped{}',
-      "The fourth matches skipped steps")
-    assert.equal(stepDefinitions[4].pattern.source, '{}ambig{}',
-      "The fifth matches ambiguous steps")
-    assert.equal(stepDefinitions[5].pattern.source, '{}ambiguous{}',
-      "The sixth matches ambiguous steps too")
+    assert.equal(
+      stepDefinitions[0].pattern.source,
+      '{}passed{}',
+      'The first matches passed steps'
+    )
+    assert.equal(
+      stepDefinitions[1].pattern.source,
+      '{}failed{}',
+      'The second matches failed steps'
+    )
+    assert.equal(
+      stepDefinitions[2].pattern.source,
+      '{}pending{}',
+      'The third matches pending steps'
+    )
+    assert.equal(
+      stepDefinitions[3].pattern.source,
+      '{}skipped{}',
+      'The fourth matches skipped steps'
+    )
+    assert.equal(
+      stepDefinitions[4].pattern.source,
+      '{}ambig{}',
+      'The fifth matches ambiguous steps'
+    )
+    assert.equal(
+      stepDefinitions[5].pattern.source,
+      '{}ambiguous{}',
+      'The sixth matches ambiguous steps too'
+    )
 
-    assert.equal(stepDefinitions[6].pattern.source, 'I have {int} cukes in my belly',
-      "The last matches a step with a typed parameter")
-
+    assert.equal(
+      stepDefinitions[6].pattern.source,
+      'I have {int} cukes in my belly',
+      'The last matches a step with a typed parameter'
+    )
   })
 
   it('uses the step definitions to generate the arguments', async () => {
@@ -99,7 +123,8 @@ Scenario: some matches
 `
     const testCases = await getTestCases(gherkinSource, 'pattern')
     const firstStepMatchArguments = testCases[0].testSteps[0].stepMatchArguments
-    const secondStepMatchArguments = testCases[0].testSteps[1].stepMatchArguments
+    const secondStepMatchArguments =
+      testCases[0].testSteps[1].stepMatchArguments
 
     assert.strictEqual(firstStepMatchArguments.length, 2)
 
@@ -111,7 +136,10 @@ Scenario: some matches
 
     assert.strictEqual(secondStepMatchArguments.length, 2)
 
-    assert.strictEqual(secondStepMatchArguments[0].group.value, 'there should be a ')
+    assert.strictEqual(
+      secondStepMatchArguments[0].group.value,
+      'there should be a '
+    )
     assert.strictEqual(secondStepMatchArguments[0].group.start, 0)
 
     assert.strictEqual(secondStepMatchArguments[1].group.value, ' step after')
@@ -127,7 +155,8 @@ Scenario: some matches
 `
     const testCases = await getTestCases(gherkinSource, 'pattern')
     const firstStepMatchArguments = testCases[0].testSteps[0].stepMatchArguments
-    const secondStepMatchArguments = testCases[0].testSteps[1].stepMatchArguments
+    const secondStepMatchArguments =
+      testCases[0].testSteps[1].stepMatchArguments
 
     assert.strictEqual(firstStepMatchArguments.length, 1)
     assert.strictEqual(firstStepMatchArguments[0].parameterTypeName, 'int')
