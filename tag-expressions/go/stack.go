@@ -1,30 +1,50 @@
 package tagexpressions
 
+import "sync"
+
 type InterfaceStack struct {
 	elements []interface{}
+	locker   sync.Mutex
 }
 
 func (i *InterfaceStack) Len() int {
+	i.locker.Lock()
+	defer i.locker.Unlock()
+
 	return len(i.elements)
 }
 
 func (i *InterfaceStack) Peek() interface{} {
-	if i.Len() == 0 {
+	i.locker.Lock()
+	defer i.locker.Unlock()
+
+	length := len(i.elements)
+	if length == 0 {
 		panic("cannot peek")
 	}
-	return i.elements[i.Len()-1]
+
+	return i.elements[length-1]
 }
 
 func (i *InterfaceStack) Pop() interface{} {
-	if i.Len() == 0 {
+	i.locker.Lock()
+	defer i.locker.Unlock()
+
+	length := len(i.elements)
+	if length == 0 {
 		panic("cannot pop")
 	}
-	value := i.elements[i.Len()-1]
-	i.elements = i.elements[:i.Len()-1]
+
+	value := i.elements[length-1]
+	i.elements = i.elements[:length-1]
+
 	return value
 }
 
 func (i *InterfaceStack) Push(value interface{}) {
+	i.locker.Lock()
+	defer i.locker.Unlock()
+
 	i.elements = append(i.elements, value)
 }
 
