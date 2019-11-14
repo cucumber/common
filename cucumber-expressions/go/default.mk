@@ -88,7 +88,7 @@ dist_compressed/$(LIBNAME)-%: dist/$(LIBNAME)-%
 .tested: .deps $(GO_SOURCE_FILES) .go-tested
 
 .go-tested:
-	go test ./...
+	go test ./... -race
 	touch $@
 
 post-release: add-replaces
