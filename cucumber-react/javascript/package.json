@@ -17,8 +17,8 @@
   },
   "dependencies": {
     "color": "^3.1.2",
-    "cucumber-messages": "^6.0.2",
-    "react-accessible-accordion": "^3.0.0",
+    "cucumber-messages": "^7.0.0",
+    "react-accessible-accordion": "^3.0.1",
     "styled-components": "^4.4.1"
   },
   "peerDependencies": {
@@ -35,7 +35,7 @@
     "@types/jsdom": "^12.2.4",
     "@types/mocha": "^5.2.7",
     "@types/node": "^12.12.7",
-    "@types/ramda": "^0.26.33",
+    "@types/ramda": "^0.26.34",
     "@types/react": "^16.9.11",
     "@types/react-dom": "^16.9.4",
     "@types/storybook__react": "^4.0.2",

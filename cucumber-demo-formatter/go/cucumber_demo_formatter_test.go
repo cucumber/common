@@ -2,7 +2,7 @@ package cucumber_demo_formatter
 
 import (
 	"bytes"
-	"github.com/cucumber/cucumber-messages-go/v6"
+	"github.com/cucumber/cucumber-messages-go/v7"
 	gio "github.com/gogo/protobuf/io"
 	"github.com/stretchr/testify/require"
 	"testing"

@@ -7,7 +7,7 @@ package cucumber_demo_formatter
 
 import (
 	"fmt"
-	messages "github.com/cucumber/cucumber-messages-go/v6"
+	messages "github.com/cucumber/cucumber-messages-go/v7"
 	gio "github.com/gogo/protobuf/io"
 	"io"
 )

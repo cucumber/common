@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "commander": "^4.0.1",
-    "cucumber-messages": "^6.0.2",
+    "cucumber-messages": "^7.0.0",
     "cucumber-react": "^2.0.1",
     "jsdom": "^15.2.1",
     "react": "^16.11.0",

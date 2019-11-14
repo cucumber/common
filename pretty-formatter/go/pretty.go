@@ -7,7 +7,7 @@ package pretty
 
 import (
 	"fmt"
-	"github.com/cucumber/cucumber-messages-go/v2"
+	"github.com/cucumber/cucumber-messages-go/v7"
 	gio "github.com/gogo/protobuf/io"
 	"io"
 	"io/ioutil"
