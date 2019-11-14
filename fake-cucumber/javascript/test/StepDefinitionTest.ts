@@ -1,6 +1,8 @@
 import assert from 'assert'
+import { messages } from 'cucumber-messages'
 import StepDefinition from '../src/StepDefinition'
 import { CucumberExpression, ParameterTypeRegistry } from 'cucumber-expressions'
+import RegularExpression from 'cucumber-expressions/dist/src/RegularExpression'
 
 describe('StepDefinition', () => {
   describe('#match', () => {
@@ -25,6 +27,24 @@ describe('StepDefinition', () => {
       )
       const match = stepdef.match('I have 7 cukes')
       assert.strictEqual(match.execute(), 7)
+    })
+  })
+
+  describe('#toMessage', () => {
+    it('generates an StepDefinitionConfig object for RegularExpression', () => {
+      const expression = new RegularExpression(
+        /banana/,
+        new ParameterTypeRegistry()
+      )
+      const stepdef = new StepDefinition(expression, () => null)
+      assert.deepStrictEqual(
+        stepdef.toMessage(),
+        new messages.StepDefinitionConfig({
+          pattern: new messages.StepDefinitionPattern({
+            type: messages.StepDefinitionPatternType.REGULAR_EXPRESSION,
+          }),
+        })
+      )
     })
   })
 })
