@@ -2,7 +2,7 @@ package gherkin
 
 import (
 	"fmt"
-	"github.com/cucumber/cucumber-messages-go/v6"
+	"github.com/cucumber/cucumber-messages-go/v7"
 	"strings"
 )
 
@@ -191,7 +191,6 @@ func pickleStep(
 	pickleStep := &messages.Pickle_PickleStep{
 		Id:        newId(),
 		Text:      interpolate(step.Text, variableCells, valueCells),
-		StepId:    step.Id,
 		SourceIds: []string{step.Id},
 	}
 	if valuesRow != nil {

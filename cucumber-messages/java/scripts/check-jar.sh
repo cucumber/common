@@ -8,7 +8,7 @@ set -uf -o pipefail
 check_jar() {
   jar="$1"
   echo "Checking contents of ${jar}"
-  unshaded_classes=$(unzip -l ${jar} | grep .class | rev | cut -d' ' -f1 | rev | grep -v "^io\/cucumber\/")
+  unshaded_classes=$(unzip -l ${jar} | grep -e "\.class" | rev | cut -d' ' -f1 | rev | grep -v "^io\/cucumber\/")
   if [[ "${unshaded_classes}" != "" ]]; then
     echo "Some classes in ${jar} are not in the io.cucumber package. Rename the classes or change the maven-shade-plugin configuration."
     echo

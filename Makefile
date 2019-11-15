@@ -11,7 +11,6 @@ MAKEFILES=c21e/Makefile \
 	datatable/Makefile \
 	config/Makefile \
 	tag-expressions/Makefile \
-	dots-formatter/Makefile \
 	cucumber-demo-formatter/Makefile
 
 default: .rsynced $(patsubst %/Makefile,default-%,$(MAKEFILES))

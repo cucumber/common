@@ -17,7 +17,6 @@
         "sourceIds": [
           "0"
         ],
-        "stepId": "0",
         "text": "a simple DocString"
       },
       {
@@ -31,7 +30,6 @@
         "sourceIds": [
           "1"
         ],
-        "stepId": "1",
         "text": "a DocString with content type"
       },
       {
@@ -44,7 +42,6 @@
         "sourceIds": [
           "2"
         ],
-        "stepId": "2",
         "text": "a DocString with wrong indentation"
       },
       {
@@ -57,7 +54,6 @@
         "sourceIds": [
           "3"
         ],
-        "stepId": "3",
         "text": "a DocString with alternative separator"
       },
       {
@@ -70,7 +66,6 @@
         "sourceIds": [
           "4"
         ],
-        "stepId": "4",
         "text": "a DocString with normal separator inside"
       },
       {
@@ -83,7 +78,6 @@
         "sourceIds": [
           "5"
         ],
-        "stepId": "5",
         "text": "a DocString with alternative separator inside"
       },
       {
@@ -96,7 +90,6 @@
         "sourceIds": [
           "6"
         ],
-        "stepId": "6",
         "text": "a DocString with escaped separator inside"
       }
     ],

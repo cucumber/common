@@ -1,6 +1,6 @@
 include default.mk
 
-GOGO_PROTOBUF_VERSION=v1.3.0
+GOGO_PROTOBUF_VERSION=v1.3.1
 
 .deps: messages.pb.go
 
@@ -11,7 +11,6 @@ GOGO_PROTOBUF_VERSION=v1.3.0
 messages.pb.go: messages.proto .go-get
 	protoc \
 		-I=. \
-		-I=/usr/local/include \
 		--gogofaster_out=Mgoogle/protobuf/timestamp.proto=github.com/gogo/protobuf/types:. \
 		$<
 

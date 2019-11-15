@@ -140,20 +140,16 @@ jobs:
             cd tag-expressions/go
             make
 
-  dots-formatter-go:
+  cucumber-demo-formatter-go:
     executor: docker-circleci-golang
     steps:
       - attach_workspace:
           at: "~/cucumber"
       - run:
-          name: dots-formatter/go
+          name: cucumber-demo-formatter/go
           command: |
-            cd dots-formatter/go
+            cd cucumber-demo-formatter/go
             make
-      - persist_to_workspace:
-          root: ~/cucumber
-          paths:
-            - dots-formatter/go/dist
 
   json-formatter-go:
     executor: docker-circleci-golang
@@ -437,17 +433,6 @@ jobs:
             cd tag-expressions/ruby
             make
 
-  dots-formatter-ruby:
-    executor: docker-circleci-ruby-26
-    steps:
-      - attach_workspace:
-          at: "~/cucumber"
-      - run:
-          name: dots-formatter/ruby
-          command: |
-            cd dots-formatter/ruby
-            make
-
   json-formatter-ruby:
     executor: docker-circleci-ruby-26
     steps:
@@ -678,12 +663,12 @@ workflows:
       - tag-expressions-go:
           requires:
             - checkout
-      - dots-formatter-go:
+      - cucumber-demo-formatter-go:
           requires:
             - cucumber-messages-go
-
       - json-formatter-go:
           requires:
+            - cucumber-messages-go
             - json-formatter-ruby
             - json-formatter-javascript
 
@@ -759,16 +744,12 @@ workflows:
       - tag-expressions-ruby:
           requires:
             - checkout
-      - dots-formatter-ruby:
-          requires:
-            - cucumber-messages-ruby
-            - dots-formatter-go
-      - json-formatter-ruby:
-          requires:
-            - checkout
       - cucumber-demo-formatter-ruby:
           requires:
             - cucumber-messages-ruby
+      - json-formatter-ruby:
+          requires:
+            - checkout
 
 ### Java
 

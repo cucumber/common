@@ -9,10 +9,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
-* Support retry
-  ([#722](https://github.com/cucumber/cucumber/pull/722)
-   [charlierudolph])
-
 ### Changed
 
 ### Deprecated
@@ -20,6 +16,22 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Removed
 
 ### Fixed
+
+## [7.0.0] - 2019-11-14
+
+### Added
+
+* Support retry
+  ([#722](https://github.com/cucumber/cucumber/pull/722)
+   [charlierudolph])
+
+### Changed
+
+* Added more reference ids and removed deprecated/reserved fields
+  ([#790](https://github.com/cucumber/cucumber/pull/790)
+   [#794](https://github.com/cucumber/cucumber/pull/794)
+   [vincent-psarga]
+   [aslakhellesoy])
 
 ## [6.0.2] - 2019-10-16
 
@@ -172,7 +184,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Protobuf messages for Go, Java, JavaScript, TypeScript and Ruby
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-messages/v6.0.2...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-messages/v7.0.0...master
+[7.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v6.0.2...cucumber-messages/v7.0.0
 [6.0.2]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v6.0.1...cucumber-messages/v6.0.2
 [6.0.1]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v6.0.0...cucumber-messages/v6.0.1
 [6.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v5.0.1...cucumber-messages/v6.0.0

@@ -1,5 +1,4 @@
 require 'cucumber/messages'
-require 'digest'
 require 'gherkin/id_generator'
 
 module Gherkin
@@ -103,7 +102,7 @@ module Gherkin
                 values_row.id
               ],
             )
-            pickles.push(pickle);
+            pickles.push(pickle)
 
           end
         end
@@ -131,7 +130,6 @@ module Gherkin
         value_cells = values_row ? values_row.cells : []
         props = {
           id: @id_generator.new_id,
-          stepId: step.id,
           sourceIds: [step.id],
           text: interpolate(step.text, variable_cells, value_cells),
         }

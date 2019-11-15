@@ -19,6 +19,10 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Fixed
 
+## [8.2.0] - 2019-11-14
+
+### Fixed
+
 * [Ruby] Make CI build work on Ruby 2.3, 2.4, 2.5 and 2.6
   ([#777](https://github.com/cucumber/cucumber/pull/777)
    [vincent-psarga]
@@ -600,11 +604,12 @@ to Gherkin 2.
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v8.1.1...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v8.2.0...master
+[8.2.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v8.1.1...gherkin/v8.2.0
 [8.1.1]:     https://github.com/cucumber/cucumber/compare/gherkin/v8.1.0...gherkin/v8.1.1
-[8.1.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v8.1.1...gherkin/v8.1.0
-[8.1.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v8.1.1...gherkin/v8.1.0
-[8.1.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v8.1.1...gherkin/v8.1.0
+[8.1.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v8.2.0...gherkin/v8.1.0
+[8.1.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v8.2.0...gherkin/v8.1.0
+[8.1.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v8.2.0...gherkin/v8.1.0
 [8.1.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v8.0.0...gherkin/v8.1.0
 [8.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v7.0.4...gherkin/v8.0.0
 [7.0.4]:     https://github.com/cucumber/cucumber/compare/gherkin/v7.0.3...gherkin/v7.0.4
