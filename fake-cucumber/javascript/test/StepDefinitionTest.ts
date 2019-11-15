@@ -31,20 +31,28 @@ describe('StepDefinition', () => {
   })
 
   describe('#toMessage', () => {
-    it('generates an StepDefinitionConfig object for RegularExpression', () => {
+    it('generates a StepDefinitionConfig object for RegularExpression', () => {
       const expression = new RegularExpression(
         /banana/,
         new ParameterTypeRegistry()
       )
       const stepdef = new StepDefinition(expression, () => null)
-      // assert.deepStrictEqual(
-      //   stepdef.toMessage(),
-      //   new messages.StepDefinitionConfig({
-      //     pattern: new messages.StepDefinitionPattern({
-      //       type: messages.StepDefinitionPatternType.REGULAR_EXPRESSION,
-      //     }),
-      //   })
-      // )
+      const message = stepdef.toMessage()
+
+      assert.ok(message instanceof messages.StepDefinitionConfig)
+      assert.strictEqual(message.pattern.type, messages.StepDefinitionPatternType.REGULAR_EXPRESSION)
+    })
+
+    it('generates a StepDefinitionConfig object for CucumberExpression', () => {
+      const expression = new CucumberExpression(
+        "banana",
+        new ParameterTypeRegistry()
+      )
+      const stepdef = new StepDefinition(expression, () => null)
+      const message = stepdef.toMessage()
+
+      assert.ok(message instanceof messages.StepDefinitionConfig)
+      assert.strictEqual(message.pattern.type, messages.StepDefinitionPatternType.CUCUMBER_EXPRESSION)
     })
   })
 })
