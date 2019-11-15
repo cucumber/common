@@ -22,9 +22,19 @@ export default class StepDefinitionRegistry {
     return messages.TestResult.Status.PASSED
   }
 
+  public executeTestStep(
+    testStep: messages.TestCase.ITestStep
+  ): messages.ITestStepFinished {
+    return new messages.TestStepFinished({
+      testResult: new messages.TestResult({
+        status: messages.TestResult.Status.UNDEFINED,
+      }),
+    })
+  }
+
   public computeTestStep(
     text: string,
-    pickleStepId: string,
+    pickleStepId: string
   ): messages.TestCase.ITestStep {
     const matchingStepDefinitions = this.stepDefinitions.filter(
       sd => sd.match(text) !== null

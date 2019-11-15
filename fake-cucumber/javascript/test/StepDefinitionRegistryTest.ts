@@ -10,8 +10,12 @@ describe('StepDefinitionRegistry', () => {
   describe('#execute', () => {
     it('returns UNDEFINED when there are no matching step definitions', () => {
       const registry = new StepDefinitionRegistry([])
-      const status = registry.execute('whatever ...')
-      assert.strictEqual(status, messages.TestResult.Status.UNDEFINED)
+      const testStep = registry.computeTestStep('an undefined step', 'step-id')
+      const testStepFinished = registry.executeTestStep(testStep)
+      assert.strictEqual(
+        testStepFinished.testResult.status,
+        messages.TestResult.Status.UNDEFINED
+      )
     })
 
     it('returns AMBIGUOUS when there are multiple matching step definitions', () => {
