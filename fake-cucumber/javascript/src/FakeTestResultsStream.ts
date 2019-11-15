@@ -2,9 +2,13 @@ import { Transform } from 'stream'
 import { messages } from 'cucumber-messages'
 import uuidv4 from 'uuid/v4'
 import FakeStepDefinitions from './FakeStepDefinitions'
+import StepDefinitionRegistry from './StepDefinitionRegistry'
+import defaultStepDefinitionRegistry from './DefaultStepDefinitions'
 
 class FakeTestResultsStream extends Transform {
   private readonly buffer: messages.IEnvelope[] = []
+  private stepDefinitionStreamed = false
+
   private stepDefinitions: FakeStepDefinitions = new FakeStepDefinitions
 
   constructor(
@@ -13,7 +17,8 @@ class FakeTestResultsStream extends Transform {
       | 'ndjson'
       | 'protobuf'
       | 'protobuf-objects',
-    private readonly results: 'none' | 'random' | 'pattern'
+    private readonly results: 'none' | 'random' | 'pattern',
+    private readonly stepDefinitionRegistry: StepDefinitionRegistry = defaultStepDefinitionRegistry()
   ) {
     super({ objectMode: true })
   }
@@ -25,10 +30,11 @@ class FakeTestResultsStream extends Transform {
   ): void {
     this.p(envelope)
 
-    if (envelope.source) {
-      this.stepDefinitions.makeMessages().forEach(message => {
+    if (!this.stepDefinitionStreamed) {
+      this.stepDefinitionRegistry.toMessages().forEach(message => {
         this.p(message)
       })
+      this.stepDefinitionStreamed = true
     }
 
     if (envelope.pickle && this.results !== 'none') {

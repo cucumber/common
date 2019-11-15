@@ -72,45 +72,20 @@ Scenario: some matches
 
     assert.equal(
       stepDefinitions.length,
-      7,
+      6,
       'There are 6 default step definitions'
     )
 
-    assert.equal(
-      stepDefinitions[0].pattern.source,
-      '{}passed{}',
-      'The first matches passed steps'
-    )
-    assert.equal(
-      stepDefinitions[1].pattern.source,
-      '{}failed{}',
-      'The second matches failed steps'
-    )
-    assert.equal(
-      stepDefinitions[2].pattern.source,
-      '{}pending{}',
-      'The third matches pending steps'
-    )
-    assert.equal(
-      stepDefinitions[3].pattern.source,
-      '{}skipped{}',
-      'The fourth matches skipped steps'
-    )
-    assert.equal(
-      stepDefinitions[4].pattern.source,
-      '{}ambig{}',
-      'The fifth matches ambiguous steps'
-    )
-    assert.equal(
-      stepDefinitions[5].pattern.source,
-      '{}ambiguous{}',
-      'The sixth matches ambiguous steps too'
-    )
-
-    assert.equal(
-      stepDefinitions[6].pattern.source,
-      'I have {int} cukes in my belly',
-      'The last matches a step with a typed parameter'
+    assert.deepStrictEqual(
+      stepDefinitions.map(stepDef => stepDef.pattern.source),
+      [
+        "a passed {word}",
+        "a failed {word}",
+        "a pending {word}",
+        "an ambiguous {word}",
+        "an {word} step",
+        "I have {int} cukes in my belly"
+      ]
     )
   })
 

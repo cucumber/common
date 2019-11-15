@@ -21,7 +21,7 @@ export default class StepDefinition {
       id: this.id,
       pattern: new messages.StepDefinitionPattern({
         type: this.expressionType(),
-        source: "some/javascript/file.js"
+        source: this.expression.source
       }),
       location: new messages.SourceReference({
         location: new messages.Location({
