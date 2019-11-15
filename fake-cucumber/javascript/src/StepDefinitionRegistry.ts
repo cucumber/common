@@ -1,12 +1,9 @@
 import { messages } from 'cucumber-messages'
 import StepDefinition from './StepDefinition'
 import uuidv4 from 'uuid/v4'
-import SupportCodeExecutor from './SupportCodeExecutor'
 
 export default class StepDefinitionRegistry {
-  constructor(
-    private readonly stepDefinitions: StepDefinition[]
-  ) {}
+  constructor(private readonly stepDefinitions: StepDefinition[]) {}
 
   public execute(text: string): messages.TestResult.Status {
     const matches = this.stepDefinitions
@@ -25,38 +22,41 @@ export default class StepDefinitionRegistry {
     return messages.TestResult.Status.PASSED
   }
 
-  public computeTestStep(pickleStep: messages.Pickle.IPickleStep): messages.TestCase.ITestStep {
-    const matchingStepDefinitions = this.getMatchingStepDefinition(pickleStep.text)
-    const testStep = new messages.TestCase.TestStep({
+  public computeTestStep(
+    pickleStep: messages.Pickle.IPickleStep
+  ): messages.TestCase.ITestStep {
+    const matchingStepDefinitions = this.getMatchingStepDefinition(
+      pickleStep.text
+    )
+    return new messages.TestCase.TestStep({
       id: uuidv4(),
       pickleStepId: pickleStep.id,
-      stepDefinitionId: matchingStepDefinitions.map(sd => sd.id)
+      stepDefinitionId: matchingStepDefinitions.map(sd => sd.id),
+      stepMatchArguments:
+        matchingStepDefinitions.length !== 1
+          ? null
+          : matchingStepDefinitions[0]
+              .getArguments(pickleStep.text)
+              .map(arg => {
+                return new messages.StepMatchArgument({
+                  // TODO: add recursive transformation.
+                  group: arg.group,
+                  parameterTypeName: arg.parameterType.name,
+                })
+              }),
     })
-
-    if (matchingStepDefinitions.length !== 1) {
-      return testStep
-    }
-
-    testStep.stepMatchArguments = matchingStepDefinitions[0].getArguments(pickleStep.text).map(arg => {
-      return new messages.StepMatchArgument({
-        // TODO: add recursive transformation.
-        group: arg.group,
-        parameterTypeName: arg.parameterType.name
-      })
-    })
-
-    return testStep
   }
 
   public toMessages(): messages.IEnvelope[] {
-    return this.stepDefinitions.map(stepdef => new messages.Envelope({
-      stepDefinitionConfig: stepdef.toMessage()
-    }))
+    return this.stepDefinitions.map(
+      stepdef =>
+        new messages.Envelope({
+          stepDefinitionConfig: stepdef.toMessage(),
+        })
+    )
   }
 
-
   private getMatchingStepDefinition(text: string): StepDefinition[] {
-    return this.stepDefinitions
-      .filter(sd => sd.match(text) !== null)
+    return this.stepDefinitions.filter(sd => sd.match(text) !== null)
   }
 }

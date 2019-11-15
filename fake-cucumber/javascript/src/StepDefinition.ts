@@ -1,5 +1,10 @@
 import SupportCodeExecutor from './SupportCodeExecutor'
-import { Expression, CucumberExpression, RegularExpression, Argument } from 'cucumber-expressions'
+import {
+  Expression,
+  CucumberExpression,
+  RegularExpression,
+  Argument,
+} from 'cucumber-expressions'
 import { messages } from 'cucumber-messages'
 import uuidv4 from 'uuid/v4'
 
@@ -25,15 +30,15 @@ export default class StepDefinition {
       id: this.id,
       pattern: new messages.StepDefinitionPattern({
         type: this.expressionType(),
-        source: this.expression.source
+        source: this.expression.source,
       }),
       location: new messages.SourceReference({
         location: new messages.Location({
           column: 3,
-          line: 10
+          line: 10,
         }),
-        uri: "some/javascript/file.js"
-      })
+        uri: 'some/javascript/file.js',
+      }),
     })
   }
 
@@ -43,7 +48,9 @@ export default class StepDefinition {
     } else if (this.expression instanceof RegularExpression) {
       return messages.StepDefinitionPatternType.REGULAR_EXPRESSION
     } else {
-      throw new Error(`Unknown expression type: ${this.expression.constructor.name}`)
+      throw new Error(
+        `Unknown expression type: ${this.expression.constructor.name}`
+      )
     }
   }
 }
