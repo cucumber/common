@@ -4,34 +4,31 @@ Cucumber-React is a set of React components for rendering Gherkin documents and 
 
 ## Overview
 
-![Cucumber-Ruby features](screenshots/cucumber-ruby-features.png)
+Collapsed:
 
-This screnshot renders the [`<App>`](src/components/app/App.tsx) component, which has a 
-[`<GherkinDocumentSideNav>`](src/components/app/GherkinDocumentSideNav.tsx) component on the left,
-and a [`<GherkinDocument>`](src/components/gherkin/GherkinDocument.tsx) on the right.
+![Collapsed](screenshots/collapsed.png)
 
-The `<GherkinDocument>` component and everything inside it is the "reusable" part of this library.
-It's intended to be embeddable in other web applications to display the contents of a Gherkin document.
+Expanded:
+
+![Expanded](screenshots/expanded.png)
+
+These screnshots show the [`<GherkinDocumentList>`](src/components/app/GherkinDocumentList.tsx) React component,
+which is an accordeon of [`<GherkinDocument>`](src/components/gherkin/GherkinDocument.tsx).
+
+The `<GherkinDocument>` React component and any component nested within it (such as [`<Scenario>`](src/components/gherkin/Scenario.tsx)) can be rendered standalone.
 
 ## `<GherkinDocument>` features
 
-The `<GherkinDocument>` component is instantiated with a single `gherkinDocument` prop, which is a
-`GherkinDocument` object returned by the Gherkin 8 parser and defined in [cucumber-messages](../../cucumber-messages/messages.md#io.cucumber.messages.GherkinDocument) library.
+The `<GherkinDocument>` React component is instantiated with a single `gherkinDocument` prop.
+The value must be a [GherkinDocument](../../cucumber-messages/messages.md#io.cucumber.messages.GherkinDocument) object.
+You can use the [Gherkin](../../gherkin) parser to generate a `GherkinDocument` object.
 
 By default the `<GherkinDocument>` component will not display any coloured results, as the `GherkinDocument`
 message object does not contain results, only the [AST](https://en.wikipedia.org/wiki/Abstract_syntax_tree) of the document. 
 This is fine for simple use cases where results are not important.
 
-To render a `<GherkinDocument>` with results, it must be nested inside a 
-[`<ResultsLookupByLineContext.Provider>`](src/ResultsLookupByLineContext.ts) component.
-
-Similarly, if you want to highlight [Cucumber Expression parameters](https://cucumber.io/docs/cucumber/cucumber-expressions/) 
-or Regexp capture groups, you have to nest `<GherkinDocument>` inside a [`<StepMatchLookupByLineContext.Provider>`](src/StepMatchLookupByLineContext.ts)
-component.
-
-An example of how this is done is in [`<App>`](src/components/app/App.tsx). The messages for results and step matches are also
-defined in [cucumber-messages](../../cucumber-messages/messages.md), and provided by Cucumber implementations that
-implement a `protobuf` formatter.
+To render a `<GherkinDocument>` with results and highlighted [Cucumber Expression parameters](https://cucumber.io/docs/cucumber/cucumber-expressions/) parameters it must be nested inside a 
+[`<CucumberQueryContext.Provider>`](src/CucumberQueryContext.ts) component.
 
 ## Build / hack
 
