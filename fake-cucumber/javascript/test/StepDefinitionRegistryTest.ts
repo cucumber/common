@@ -9,36 +9,36 @@ import StepDefinitionRegistry from '../src/StepDefinitionRegistry'
 describe('StepDefinitionRegistry', () => {
   describe('#execute', () => {
     it('returns UNDEFINED when there are no matching step definitions', () => {
-      const subject = new StepDefinitionRegistry([])
-      const status = subject.execute('whatever ...')
+      const registry = new StepDefinitionRegistry([])
+      const status = registry.execute('whatever ...')
       assert.strictEqual(status, messages.TestResult.Status.UNDEFINED)
     })
 
     it('returns AMBIGUOUS when there are multiple matching step definitions', () => {
-      const subject = new StepDefinitionRegistry([
+      const registry = new StepDefinitionRegistry([
         stubMatchingStepDefinition(),
         stubMatchingStepDefinition(),
       ])
-      const status = subject.execute('ambiguous step')
+      const status = registry.execute('ambiguous step')
       assert.strictEqual(status, messages.TestResult.Status.AMBIGUOUS)
     })
 
     context('when there is a matching step definition', () => {
       it('returns PASSED when the match execution raises no exception', () => {
-        const subject = new StepDefinitionRegistry([
+        const registry = new StepDefinitionRegistry([
           stubMatchingStepDefinition(stubPassingSupportCodeExecutor()),
         ])
-        const status = subject.execute('whatever ...')
+        const status = registry.execute('whatever ...')
         assert.strictEqual(status, messages.TestResult.Status.PASSED)
       })
 
       it('bubbles up the error when the match execution raises one', () => {
-        const subject = new StepDefinitionRegistry([
+        const registry = new StepDefinitionRegistry([
           stubMatchingStepDefinition(
             stubFailingSupportCodeExecutor('This step has failed')
           ),
         ])
-        assert.throws(() => subject.execute('whatever ...'), {
+        assert.throws(() => registry.execute('whatever ...'), {
           message: 'This step has failed',
         })
       })
@@ -50,8 +50,8 @@ describe('StepDefinitionRegistry', () => {
       const stepDef1 = stubMatchingStepDefinition()
       const stepDef2 = stubMatchingStepDefinition()
 
-      const subject = new StepDefinitionRegistry([stepDef1, stepDef2])
-      assert.deepStrictEqual(subject.toMessages(), [
+      const registry = new StepDefinitionRegistry([stepDef1, stepDef2])
+      assert.deepStrictEqual(registry.toMessages(), [
         new messages.Envelope({
           stepDefinitionConfig: stepDef1.toMessage(),
         }),

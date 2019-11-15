@@ -23,34 +23,33 @@ export default class StepDefinitionRegistry {
   }
 
   public computeTestStep(
-    pickleStep: messages.Pickle.IPickleStep
+    text: string,
+    pickleStepId: string,
   ): messages.TestCase.ITestStep {
     const matchingStepDefinitions = this.stepDefinitions.filter(
-      sd => sd.match(pickleStep.text) !== null
+      sd => sd.match(text) !== null
     )
 
     const supportCodeExecutors = this.stepDefinitions
-      .map(stepDefinition => stepDefinition.match(pickleStep.text))
+      .map(stepDefinition => stepDefinition.match(text))
       .filter(supportCodeExecutor => supportCodeExecutor !== null)
 
     return new messages.TestCase.TestStep({
       id: uuidv4(),
-      pickleStepId: pickleStep.id,
+      pickleStepId,
       stepDefinitionId: supportCodeExecutors.map(
         supportCodeExecutor => supportCodeExecutor.stepDefinitionId
       ),
       stepMatchArguments:
         matchingStepDefinitions.length !== 1
           ? null
-          : matchingStepDefinitions[0]
-              .getArguments(pickleStep.text)
-              .map(arg => {
-                return new messages.StepMatchArgument({
-                  // TODO: add recursive transformation.
-                  group: arg.group,
-                  parameterTypeName: arg.parameterType.name,
-                })
-              }),
+          : matchingStepDefinitions[0].getArguments(text).map(arg => {
+              return new messages.StepMatchArgument({
+                // TODO: add recursive transformation.
+                group: arg.group,
+                parameterTypeName: arg.parameterType.name,
+              })
+            }),
     })
   }
 
