@@ -5,6 +5,7 @@ import StepDefinitionRegistry from '../src/StepDefinitionRegistry'
 import {
   stubMatchingStepDefinition,
   stubPassingSupportCodeExecutor,
+  stubPendingSupportCodeExecutor,
   stubFailingSupportCodeExecutor
 } from './TestHelpers'
 
@@ -37,7 +38,7 @@ describe('TestStep', () => {
     })
 
     context('when there is a matching step definition', () => {
-      it('returns PASSED when the match execution raises no exception', () => {
+      it('returns PASSED when no exception is raised', () => {
         const registry = new StepDefinitionRegistry([
           stubMatchingStepDefinition(stubPassingSupportCodeExecutor()),
         ])
@@ -51,8 +52,21 @@ describe('TestStep', () => {
         assert.strictEqual(testStepFinished.testStepId, testStep.id)
       })
 
+      it('returns PENDING when the string "pending" is returned', () => {
+        const registry = new StepDefinitionRegistry([
+          stubMatchingStepDefinition(stubPendingSupportCodeExecutor()),
+        ])
+        const testStep = registry.createTestStep('a pending step', 'step-id')
+        const testStepFinished = testStep.execute()
 
-      it('bubbles up the error when the match execution raises one', () => {
+        assert.strictEqual(
+          testStepFinished.testResult.status,
+          messages.TestResult.Status.PENDING
+        )
+        assert.strictEqual(testStepFinished.testStepId, testStep.id)
+      })
+
+      it('returns FAILED when an exception is raised', () => {
         const registry = new StepDefinitionRegistry([
           stubMatchingStepDefinition(
             stubFailingSupportCodeExecutor('This step has failed')

@@ -25,9 +25,7 @@ Scenario: passed then failed
     const gherkinSource = `Feature: mixed results
 
 Scenario: passed then failed
-  Given a passed step
-  And a pending step
-  And a skipped step
+  Given a pending step
 `
     const testCaseFinished = await getTestCaseFinished(gherkinSource, 'pattern')
 

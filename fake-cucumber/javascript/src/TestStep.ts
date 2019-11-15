@@ -44,11 +44,11 @@ export default class TestStep {
     }
 
     try {
-      this.supportCodeExecutors[0].execute()
+      const result = this.supportCodeExecutors[0].execute()
       return new messages.TestStepFinished({
         testStepId: this.id,
         testResult: new messages.TestResult({
-          status: messages.TestResult.Status.PASSED
+          status: result === "pending" ? messages.TestResult.Status.PENDING : messages.TestResult.Status.PASSED
         })
       })
     } catch(error) {

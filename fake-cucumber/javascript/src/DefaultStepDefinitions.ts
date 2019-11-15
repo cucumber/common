@@ -6,7 +6,7 @@ export default function defaultStepDefinitionRegistry(): StepDefinitionRegistry 
   return new StepDefinitionRegistry([
     new StepDefinition(
       new CucumberExpression("a passed {word}", new ParameterTypeRegistry),
-      () => "ok"
+      () => undefined
     ),
     new StepDefinition(
       new CucumberExpression("a failed {word}", new ParameterTypeRegistry),
@@ -14,15 +14,15 @@ export default function defaultStepDefinitionRegistry(): StepDefinitionRegistry 
     ),
     new StepDefinition(
       new CucumberExpression("a pending {word}", new ParameterTypeRegistry),
-      () => { throw new Error("Pending") }
+      () => "pending"
     ),
     new StepDefinition(
       new CucumberExpression("an ambiguous {word}", new ParameterTypeRegistry),
-      () => "ok"
+      () => undefined
     ),
     new StepDefinition(
       new CucumberExpression("an {word} step", new ParameterTypeRegistry),
-      () => "ok"
+      () => undefined
     ),
     new StepDefinition(
       new CucumberExpression("I have {int} cukes in my belly", new ParameterTypeRegistry),

@@ -6,7 +6,16 @@ export function stubPassingSupportCodeExecutor(): SupportCodeExecutor {
   const supportCodeExecutorStub = stubConstructor<SupportCodeExecutor>(
     SupportCodeExecutor
   )
-  supportCodeExecutorStub.execute.returns('ok')
+  supportCodeExecutorStub.execute.returns(undefined)
+
+  return supportCodeExecutorStub
+}
+
+export function stubPendingSupportCodeExecutor(): SupportCodeExecutor {
+  const supportCodeExecutorStub = stubConstructor<SupportCodeExecutor>(
+    SupportCodeExecutor
+  )
+  supportCodeExecutorStub.execute.returns("pending")
 
   return supportCodeExecutorStub
 }
