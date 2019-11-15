@@ -37,9 +37,7 @@ class FakeTestResultsStream extends Transform {
     if (envelope.pickle && this.results !== 'none') {
       const testCaseId = uuidv4()
 
-      const pickleStepById = new Map<string, messages.Pickle.IPickleStep>()
       const testSteps = envelope.pickle.steps.map(pickleStep => {
-        pickleStepById.set(pickleStep.id, pickleStep)
         return this.stepDefinitionRegistry.createTestStep(
           pickleStep.text,
           pickleStep.id
