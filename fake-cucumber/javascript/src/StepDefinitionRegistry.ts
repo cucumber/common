@@ -1,6 +1,7 @@
 import { messages } from 'cucumber-messages'
 import StepDefinition from './StepDefinition'
 import uuidv4 from 'uuid/v4'
+import TestStep from './TestStep'
 
 export default class StepDefinitionRegistry {
   constructor(private readonly stepDefinitions: StepDefinition[]) {}
@@ -46,10 +47,23 @@ export default class StepDefinitionRegistry {
     throw new Error("Can't execute yet")
   }
 
+  public createTestStep(
+    text: string,
+    pickleStepId: string
+  ): TestStep {
+    const supportCodeExecutors = this.stepDefinitions
+      .map(stepDefinition => stepDefinition.match(text))
+      .filter(supportCodeExecutor => supportCodeExecutor !== null)
+
+    return new TestStep(pickleStepId, supportCodeExecutors)
+  }
+
   public computeTestStep(
     text: string,
     pickleStepId: string
   ): messages.TestCase.ITestStep {
+    throw new Error("Not anymore")
+
     const matchingStepDefinitions = this.stepDefinitions.filter(
       sd => sd.match(text) !== null
     )

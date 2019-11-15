@@ -10,8 +10,8 @@ describe('StepDefinitionRegistry', () => {
   describe('#execute', () => {
     it('returns UNDEFINED when there are no matching step definitions', () => {
       const registry = new StepDefinitionRegistry([])
-      const testStep = registry.computeTestStep('an undefined step', 'step-id')
-      const testStepFinished = registry.executeTestStep(testStep)
+      const testStep = registry.createTestStep('an undefined step', 'step-id')
+      const testStepFinished = testStep.execute()
       assert.strictEqual(
         testStepFinished.testResult.status,
         messages.TestResult.Status.UNDEFINED
@@ -24,8 +24,8 @@ describe('StepDefinitionRegistry', () => {
         stubMatchingStepDefinition(),
         stubMatchingStepDefinition(),
       ])
-      const testStep = registry.computeTestStep('an ambiguous step', 'step-id')
-      const testStepFinished = registry.executeTestStep(testStep)
+      const testStep = registry.createTestStep('an ambiguous step', 'step-id')
+      const testStepFinished = testStep.execute()
       assert.strictEqual(
         testStepFinished.testResult.status,
         messages.TestResult.Status.AMBIGUOUS
@@ -38,9 +38,16 @@ describe('StepDefinitionRegistry', () => {
         const registry = new StepDefinitionRegistry([
           stubMatchingStepDefinition(stubPassingSupportCodeExecutor()),
         ])
-        const status = registry.execute('whatever ...')
-        assert.strictEqual(status, messages.TestResult.Status.PASSED)
+        const testStep = registry.createTestStep('a passed step', 'step-id')
+        const testStepFinished = testStep.execute()
+
+        assert.strictEqual(
+          testStepFinished.testResult.status,
+          messages.TestResult.Status.PASSED
+        )
+        assert.strictEqual(testStepFinished.testStepId, testStep.id)
       })
+
 
       it('bubbles up the error when the match execution raises one', () => {
         const registry = new StepDefinitionRegistry([
@@ -48,9 +55,14 @@ describe('StepDefinitionRegistry', () => {
             stubFailingSupportCodeExecutor('This step has failed')
           ),
         ])
-        assert.throws(() => registry.execute('whatever ...'), {
-          message: 'This step has failed',
-        })
+
+        const testStep = registry.createTestStep('a failed step', 'step-id')
+        const testStepFinished = testStep.execute()
+        assert.strictEqual(
+          testStepFinished.testResult.status,
+          messages.TestResult.Status.FAILED
+        )
+        assert.strictEqual(testStepFinished.testStepId, testStep.id)
       })
     })
   })

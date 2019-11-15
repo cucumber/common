@@ -1,4 +1,5 @@
 import { Argument } from 'cucumber-expressions'
+import { messages } from 'cucumber-messages'
 
 export default class SupportCodeExecutor {
   constructor(
@@ -13,5 +14,15 @@ export default class SupportCodeExecutor {
       thisObj,
       this.args.map(arg => arg.getValue(thisObj))
     )
+  }
+
+  public argsToMessages(): messages.IStepMatchArgument[] {
+    return this.args.map(arg => {
+      return new messages.StepMatchArgument({
+        // TODO: add recursive transformation.
+        group: arg.group,
+        parameterTypeName: arg.parameterType.name,
+      })
+    })
   }
 }
