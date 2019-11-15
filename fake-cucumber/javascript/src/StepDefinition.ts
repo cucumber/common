@@ -1,5 +1,5 @@
 import SupportCodeExecutor from './SupportCodeExecutor'
-import { Expression, CucumberExpression, RegularExpression } from 'cucumber-expressions'
+import { Expression, CucumberExpression, RegularExpression, Argument } from 'cucumber-expressions'
 import { messages } from 'cucumber-messages'
 import uuidv4 from 'uuid/v4'
 
@@ -12,8 +12,12 @@ export default class StepDefinition {
   ) {}
 
   public match(text: string): SupportCodeExecutor | null {
-    const args = this.expression.match(text)
+    const args = this.getArguments(text)
     return args === null ? null : new SupportCodeExecutor(this.body, args)
+  }
+
+  public getArguments(text: string): Array<Argument<any>> {
+    return this.expression.match(text)
   }
 
   public toMessage(): messages.StepDefinitionConfig {

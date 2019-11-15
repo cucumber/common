@@ -93,32 +93,23 @@ Scenario: some matches
     const gherkinSource = `Feature: mixed results
 
 Scenario: some matches
-  When there is a failed step
-  Then there should be a skipped step after
+  When a passed step
+  Then a failed one
 `
     const testCases = await getTestCases(gherkinSource, 'pattern')
     const firstStepMatchArguments = testCases[0].testSteps[0].stepMatchArguments
     const secondStepMatchArguments =
       testCases[0].testSteps[1].stepMatchArguments
 
-    assert.strictEqual(firstStepMatchArguments.length, 2)
+    assert.strictEqual(firstStepMatchArguments.length, 1)
 
-    assert.strictEqual(firstStepMatchArguments[0].group.value, 'there is a ')
-    assert.strictEqual(firstStepMatchArguments[0].group.start, 0)
+    assert.strictEqual(firstStepMatchArguments[0].group.value, 'step')
+    assert.strictEqual(firstStepMatchArguments[0].group.start, 9)
 
-    assert.strictEqual(firstStepMatchArguments[1].group.value, ' step')
-    assert.strictEqual(firstStepMatchArguments[1].group.start, 17)
+    assert.strictEqual(secondStepMatchArguments.length, 1)
 
-    assert.strictEqual(secondStepMatchArguments.length, 2)
-
-    assert.strictEqual(
-      secondStepMatchArguments[0].group.value,
-      'there should be a '
-    )
-    assert.strictEqual(secondStepMatchArguments[0].group.start, 0)
-
-    assert.strictEqual(secondStepMatchArguments[1].group.value, ' step after')
-    assert.strictEqual(secondStepMatchArguments[1].group.start, 25)
+    assert.strictEqual(secondStepMatchArguments[0].group.value, 'one')
+    assert.strictEqual(secondStepMatchArguments[0].group.start, 9)
   })
 
   it('produces the correct type for the parameters', async () => {
@@ -136,8 +127,8 @@ Scenario: some matches
     assert.strictEqual(firstStepMatchArguments.length, 1)
     assert.strictEqual(firstStepMatchArguments[0].parameterTypeName, 'int')
 
-    assert.strictEqual(secondStepMatchArguments.length, 2)
-    assert.strictEqual(secondStepMatchArguments[0].parameterTypeName, '')
+    assert.strictEqual(secondStepMatchArguments.length, 1)
+    assert.strictEqual(secondStepMatchArguments[0].parameterTypeName, 'word')
   })
 })
 

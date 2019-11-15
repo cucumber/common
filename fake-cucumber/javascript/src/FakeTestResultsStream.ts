@@ -1,15 +1,12 @@
 import { Transform } from 'stream'
 import { messages } from 'cucumber-messages'
 import uuidv4 from 'uuid/v4'
-import FakeStepDefinitions from './FakeStepDefinitions'
 import StepDefinitionRegistry from './StepDefinitionRegistry'
 import defaultStepDefinitionRegistry from './DefaultStepDefinitions'
 
 class FakeTestResultsStream extends Transform {
   private readonly buffer: messages.IEnvelope[] = []
   private stepDefinitionStreamed = false
-
-  private stepDefinitions: FakeStepDefinitions = new FakeStepDefinitions
 
   constructor(
     private readonly format:
@@ -41,29 +38,10 @@ class FakeTestResultsStream extends Transform {
       const testCaseId = uuidv4()
 
       const pickleStepById = new Map<string, messages.Pickle.IPickleStep>()
-      const testSteps: messages.TestCase.ITestStep[] = []
-      for (const pickleStep of envelope.pickle.steps) {
+      const testSteps = envelope.pickle.steps.map(pickleStep => {
         pickleStepById.set(pickleStep.id, pickleStep)
-        const match = this.stepDefinitions.matchStep(pickleStep.text)
-
-        if (match.stepDefinitionId) {
-          testSteps.push(
-            new messages.TestCase.TestStep({
-              id: uuidv4(),
-              pickleStepId: pickleStep.id,
-              stepMatchArguments: match.makeStepMatchArgumentMessages(),
-              stepDefinitionId: [match.stepDefinitionId]
-            })
-          )
-        } else {
-          testSteps.push(
-            new messages.TestCase.TestStep({
-              id: uuidv4(),
-              pickleStepId: pickleStep.id
-            })
-          )
-        }
-      }
+        return this.stepDefinitionRegistry.computeTestStep(pickleStep)
+      })
 
       this.p(
         new messages.Envelope({
