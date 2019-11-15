@@ -5,10 +5,7 @@ import TestStep from './TestStep'
 export default class StepDefinitionRegistry {
   constructor(private readonly stepDefinitions: StepDefinition[]) {}
 
-  public createTestStep(
-    text: string,
-    pickleStepId: string
-  ): TestStep {
+  public createTestStep(text: string, pickleStepId: string): TestStep {
     const supportCodeExecutors = this.stepDefinitions
       .map(stepDefinition => stepDefinition.match(text))
       .filter(supportCodeExecutor => supportCodeExecutor !== null)

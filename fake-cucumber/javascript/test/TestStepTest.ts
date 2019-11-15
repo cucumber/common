@@ -6,9 +6,8 @@ import {
   stubMatchingStepDefinition,
   stubPassingSupportCodeExecutor,
   stubPendingSupportCodeExecutor,
-  stubFailingSupportCodeExecutor
+  stubFailingSupportCodeExecutor,
 } from './TestHelpers'
-
 
 describe('TestStep', () => {
   describe('#execute', () => {

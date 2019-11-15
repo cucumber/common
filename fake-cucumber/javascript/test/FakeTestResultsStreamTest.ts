@@ -77,12 +77,12 @@ Scenario: some matches
     assert.deepStrictEqual(
       stepDefinitions.map(stepDef => stepDef.pattern.source),
       [
-        "a passed {word}",
-        "a failed {word}",
-        "a pending {word}",
-        "an ambiguous {word}",
-        "an {word} step",
-        "I have {int} cukes in my belly"
+        'a passed {word}',
+        'a failed {word}',
+        'a pending {word}',
+        'an ambiguous {word}',
+        'an {word} step',
+        'I have {int} cukes in my belly',
       ]
     )
   })

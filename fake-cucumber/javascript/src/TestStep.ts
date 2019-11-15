@@ -1,6 +1,6 @@
-import { messages } from "cucumber-messages";
+import { messages } from 'cucumber-messages'
 import uuidv4 from 'uuid/v4'
-import SupportCodeExecutor from "./SupportCodeExecutor";
+import SupportCodeExecutor from './SupportCodeExecutor'
 
 export default class TestStep {
   public readonly id: string = uuidv4()
@@ -20,7 +20,7 @@ export default class TestStep {
       stepMatchArguments:
         this.supportCodeExecutors.length !== 1
           ? null
-          : this.supportCodeExecutors[0].argsToMessages()
+          : this.supportCodeExecutors[0].argsToMessages(),
     })
   }
 
@@ -29,8 +29,8 @@ export default class TestStep {
       return new messages.TestStepFinished({
         testStepId: this.id,
         testResult: new messages.TestResult({
-          status: messages.TestResult.Status.UNDEFINED
-        })
+          status: messages.TestResult.Status.UNDEFINED,
+        }),
       })
     }
 
@@ -38,8 +38,8 @@ export default class TestStep {
       return new messages.TestStepFinished({
         testStepId: this.id,
         testResult: new messages.TestResult({
-          status: messages.TestResult.Status.AMBIGUOUS
-        })
+          status: messages.TestResult.Status.AMBIGUOUS,
+        }),
       })
     }
 
@@ -48,15 +48,18 @@ export default class TestStep {
       return new messages.TestStepFinished({
         testStepId: this.id,
         testResult: new messages.TestResult({
-          status: result === "pending" ? messages.TestResult.Status.PENDING : messages.TestResult.Status.PASSED
-        })
+          status:
+            result === 'pending'
+              ? messages.TestResult.Status.PENDING
+              : messages.TestResult.Status.PASSED,
+        }),
       })
-    } catch(error) {
+    } catch (error) {
       return new messages.TestStepFinished({
         testStepId: this.id,
         testResult: new messages.TestResult({
-          status: messages.TestResult.Status.FAILED
-        })
+          status: messages.TestResult.Status.FAILED,
+        }),
       })
     }
   }

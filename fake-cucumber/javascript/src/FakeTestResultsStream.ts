@@ -69,7 +69,7 @@ class FakeTestResultsStream extends Transform {
         })
       )
 
-      let testStepStatus: messages.TestResult.Status = null
+      const testStepStatus: messages.TestResult.Status = null
       const testStepStatuses: messages.TestResult.Status[] = []
 
       for (const testStep of testSteps) {
@@ -85,7 +85,7 @@ class FakeTestResultsStream extends Transform {
         const testStepFinished = testStep.execute()
         this.p(
           new messages.Envelope({
-            testStepFinished: testStepFinished
+            testStepFinished,
           })
         )
 

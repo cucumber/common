@@ -15,7 +15,7 @@ export function stubPendingSupportCodeExecutor(): SupportCodeExecutor {
   const supportCodeExecutorStub = stubConstructor<SupportCodeExecutor>(
     SupportCodeExecutor
   )
-  supportCodeExecutorStub.execute.returns("pending")
+  supportCodeExecutorStub.execute.returns('pending')
 
   return supportCodeExecutorStub
 }
@@ -43,4 +43,3 @@ export function stubMatchingStepDefinition(
 
   return stepDefinitionStub
 }
-
