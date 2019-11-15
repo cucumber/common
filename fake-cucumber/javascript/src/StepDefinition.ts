@@ -33,13 +33,13 @@ export default class StepDefinition {
     })
   }
 
-  private expressionType(): any {
+  private expressionType(): messages.StepDefinitionPatternType {
     if (this.expression instanceof CucumberExpression) {
       return messages.StepDefinitionPatternType.CUCUMBER_EXPRESSION
     } else if (this.expression instanceof RegularExpression) {
       return messages.StepDefinitionPatternType.REGULAR_EXPRESSION
     } else {
-      // fail ?
+      throw new Error(`Unknown expression type: ${this.expression.constructor.name}`)
     }
   }
 }

@@ -18,11 +18,8 @@ export default class StepDefinitionRegistry {
     if (matches.length > 1) {
       return messages.TestResult.Status.AMBIGUOUS
     }
-    try {
-      matches[0].execute()
-      return messages.TestResult.Status.PASSED
-    } catch (exception) {
-      return messages.TestResult.Status.FAILED
-    }
+
+    matches[0].execute()
+    return messages.TestResult.Status.PASSED
   }
 }

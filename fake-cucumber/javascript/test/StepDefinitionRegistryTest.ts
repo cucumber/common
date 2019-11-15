@@ -17,11 +17,11 @@ describe('StepDefinitionRegistry', () => {
       return supportCodeExecutorStub
     }
 
-    function stubFailingSupportCodeExecutor(): SupportCodeExecutor {
+    function stubFailingSupportCodeExecutor(message: string): SupportCodeExecutor {
       const supportCodeExecutorStub = stubConstructor<SupportCodeExecutor>(
         SupportCodeExecutor
       )
-      supportCodeExecutorStub.execute.throws("This step has failed ...")
+      supportCodeExecutorStub.execute.throws(new Error(message))
 
       return supportCodeExecutorStub
     }
@@ -61,14 +61,18 @@ describe('StepDefinitionRegistry', () => {
         assert.strictEqual(status, messages.TestResult.Status.PASSED)
       })
 
-      it('returns FAILED when the match execution raises an exception', () => {
+      it('bubbles up the error when the match execution raises one', () => {
         const subject = new StepDefinitionRegistry([
           stubMatchingStepDefinition(
-            stubFailingSupportCodeExecutor()
+            stubFailingSupportCodeExecutor("This step has failed")
           ),
         ])
-        const status = subject.execute('whatever ...')
-        assert.strictEqual(status, messages.TestResult.Status.FAILED)
+        assert.throws(
+          () => subject.execute('whatever ...'),
+          {
+            message: "This step has failed"
+          }
+        )
       })
     })
   })
