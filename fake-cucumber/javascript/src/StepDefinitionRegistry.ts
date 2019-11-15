@@ -22,4 +22,10 @@ export default class StepDefinitionRegistry {
     matches[0].execute()
     return messages.TestResult.Status.PASSED
   }
+
+  public toMessages(): messages.Envelope[] {
+    return this.stepDefinitions.map(stepdef => new messages.Envelope({
+      stepDefinitionConfig: stepdef.toMessage()
+    }))
+  }
 }
