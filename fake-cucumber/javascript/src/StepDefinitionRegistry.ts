@@ -25,11 +25,25 @@ export default class StepDefinitionRegistry {
   public executeTestStep(
     testStep: messages.TestCase.ITestStep
   ): messages.ITestStepFinished {
-    return new messages.TestStepFinished({
-      testResult: new messages.TestResult({
-        status: messages.TestResult.Status.UNDEFINED,
-      }),
-    })
+    if (testStep.stepDefinitionId.length === 0) {
+      return new messages.TestStepFinished({
+        testStepId: testStep.id,
+        testResult: new messages.TestResult({
+          status: messages.TestResult.Status.UNDEFINED,
+        }),
+      })
+    }
+
+    if (testStep.stepDefinitionId.length > 1) {
+      return new messages.TestStepFinished({
+        testStepId: testStep.id,
+        testResult: new messages.TestResult({
+          status: messages.TestResult.Status.AMBIGUOUS,
+        }),
+      })
+    }
+
+    throw new Error("Can't execute yet")
   }
 
   public computeTestStep(

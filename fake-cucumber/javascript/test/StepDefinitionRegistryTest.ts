@@ -16,6 +16,7 @@ describe('StepDefinitionRegistry', () => {
         testStepFinished.testResult.status,
         messages.TestResult.Status.UNDEFINED
       )
+      assert.strictEqual(testStepFinished.testStepId, testStep.id)
     })
 
     it('returns AMBIGUOUS when there are multiple matching step definitions', () => {
@@ -23,8 +24,13 @@ describe('StepDefinitionRegistry', () => {
         stubMatchingStepDefinition(),
         stubMatchingStepDefinition(),
       ])
-      const status = registry.execute('ambiguous step')
-      assert.strictEqual(status, messages.TestResult.Status.AMBIGUOUS)
+      const testStep = registry.computeTestStep('an ambiguous step', 'step-id')
+      const testStepFinished = registry.executeTestStep(testStep)
+      assert.strictEqual(
+        testStepFinished.testResult.status,
+        messages.TestResult.Status.AMBIGUOUS
+      )
+      assert.strictEqual(testStepFinished.testStepId, testStep.id)
     })
 
     context('when there is a matching step definition', () => {
