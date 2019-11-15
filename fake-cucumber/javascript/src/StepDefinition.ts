@@ -18,7 +18,9 @@ export default class StepDefinition {
 
   public match(text: string): SupportCodeExecutor | null {
     const args = this.getArguments(text)
-    return args === null ? null : new SupportCodeExecutor(this.body, args)
+    return args === null
+      ? null
+      : new SupportCodeExecutor(this.id, this.body, args)
   }
 
   public getArguments(text: string): Array<Argument<any>> {

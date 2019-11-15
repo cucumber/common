@@ -26,9 +26,7 @@ describe('StepDefinitionRegistry', () => {
     context('when there is a matching step definition', () => {
       it('returns PASSED when the match execution raises no exception', () => {
         const subject = new StepDefinitionRegistry([
-          stubMatchingStepDefinition(
-            stubPassingSupportCodeExecutor()
-          ),
+          stubMatchingStepDefinition(stubPassingSupportCodeExecutor()),
         ])
         const status = subject.execute('whatever ...')
         assert.strictEqual(status, messages.TestResult.Status.PASSED)
@@ -37,15 +35,12 @@ describe('StepDefinitionRegistry', () => {
       it('bubbles up the error when the match execution raises one', () => {
         const subject = new StepDefinitionRegistry([
           stubMatchingStepDefinition(
-            stubFailingSupportCodeExecutor("This step has failed")
+            stubFailingSupportCodeExecutor('This step has failed')
           ),
         ])
-        assert.throws(
-          () => subject.execute('whatever ...'),
-          {
-            message: "This step has failed"
-          }
-        )
+        assert.throws(() => subject.execute('whatever ...'), {
+          message: 'This step has failed',
+        })
       })
     })
   })
@@ -58,11 +53,11 @@ describe('StepDefinitionRegistry', () => {
       const subject = new StepDefinitionRegistry([stepDef1, stepDef2])
       assert.deepStrictEqual(subject.toMessages(), [
         new messages.Envelope({
-          stepDefinitionConfig: stepDef1.toMessage()
+          stepDefinitionConfig: stepDef1.toMessage(),
         }),
         new messages.Envelope({
-          stepDefinitionConfig: stepDef2.toMessage()
-        })
+          stepDefinitionConfig: stepDef2.toMessage(),
+        }),
       ])
     })
   })
@@ -71,12 +66,14 @@ describe('StepDefinitionRegistry', () => {
     const supportCodeExecutorStub = stubConstructor<SupportCodeExecutor>(
       SupportCodeExecutor
     )
-    supportCodeExecutorStub.execute.returns("ok")
+    supportCodeExecutorStub.execute.returns('ok')
 
     return supportCodeExecutorStub
   }
 
-  function stubFailingSupportCodeExecutor(message: string): SupportCodeExecutor {
+  function stubFailingSupportCodeExecutor(
+    message: string
+  ): SupportCodeExecutor {
     const supportCodeExecutorStub = stubConstructor<SupportCodeExecutor>(
       SupportCodeExecutor
     )
@@ -86,7 +83,11 @@ describe('StepDefinitionRegistry', () => {
   }
 
   function stubMatchingStepDefinition(
-    executor: SupportCodeExecutor = new SupportCodeExecutor(() => null, [])
+    executor: SupportCodeExecutor = new SupportCodeExecutor(
+      'some-id',
+      () => null,
+      []
+    )
   ): StepDefinition {
     const stepDefinitionStub = stubConstructor<StepDefinition>(StepDefinition)
     stepDefinitionStub.match.returns(executor)

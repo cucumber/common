@@ -25,13 +25,20 @@ export default class StepDefinitionRegistry {
   public computeTestStep(
     pickleStep: messages.Pickle.IPickleStep
   ): messages.TestCase.ITestStep {
-    const matchingStepDefinitions = this.getMatchingStepDefinition(
-      pickleStep.text
+    const matchingStepDefinitions = this.stepDefinitions.filter(
+      sd => sd.match(pickleStep.text) !== null
     )
+
+    const supportCodeExecutors = this.stepDefinitions
+      .map(stepDefinition => stepDefinition.match(pickleStep.text))
+      .filter(supportCodeExecutor => supportCodeExecutor !== null)
+
     return new messages.TestCase.TestStep({
       id: uuidv4(),
       pickleStepId: pickleStep.id,
-      stepDefinitionId: matchingStepDefinitions.map(sd => sd.id),
+      stepDefinitionId: supportCodeExecutors.map(
+        supportCodeExecutor => supportCodeExecutor.stepDefinitionId
+      ),
       stepMatchArguments:
         matchingStepDefinitions.length !== 1
           ? null
@@ -54,9 +61,5 @@ export default class StepDefinitionRegistry {
           stepDefinitionConfig: stepdef.toMessage(),
         })
     )
-  }
-
-  private getMatchingStepDefinition(text: string): StepDefinition[] {
-    return this.stepDefinitions.filter(sd => sd.match(text) !== null)
   }
 }

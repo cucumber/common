@@ -1,8 +1,8 @@
-import { messages } from 'cucumber-messages'
 import { Argument } from 'cucumber-expressions'
 
 export default class SupportCodeExecutor {
   constructor(
+    public readonly stepDefinitionId: string,
     private readonly body: (...args: any) => any,
     private readonly args: Array<Argument<any>>
   ) {}
