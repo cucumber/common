@@ -7,7 +7,7 @@ export default class SupportCodeExecutor {
     private readonly args: Array<Argument<any>>
   ) {}
 
-  public execute(): messages.TestResult.Status {
+  public execute(): any {
     const thisObj: any = null
     return this.body.apply(
       thisObj,

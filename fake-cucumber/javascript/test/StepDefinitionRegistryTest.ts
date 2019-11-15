@@ -8,15 +8,22 @@ import StepDefinitionRegistry from '../src/StepDefinitionRegistry'
 
 describe('StepDefinitionRegistry', () => {
   context('execute', () => {
-    function stubMatch(
-      result: messages.TestResult.Status
-    ): SupportCodeExecutor {
-      const matchStub = stubConstructor<SupportCodeExecutor>(
+    function stubPassingSupportCodeExecutor(): SupportCodeExecutor {
+      const supportCodeExecutorStub = stubConstructor<SupportCodeExecutor>(
         SupportCodeExecutor
       )
-      matchStub.execute.returns(result)
+      supportCodeExecutorStub.execute.returns("ok")
 
-      return matchStub
+      return supportCodeExecutorStub
+    }
+
+    function stubFailingSupportCodeExecutor(): SupportCodeExecutor {
+      const supportCodeExecutorStub = stubConstructor<SupportCodeExecutor>(
+        SupportCodeExecutor
+      )
+      supportCodeExecutorStub.execute.throws("This step has failed ...")
+
+      return supportCodeExecutorStub
     }
 
     function stubMatchingStepDefinition(
@@ -43,14 +50,26 @@ describe('StepDefinitionRegistry', () => {
       assert.strictEqual(status, messages.TestResult.Status.AMBIGUOUS)
     })
 
-    it('returns the status after match execution', () => {
-      const subject = new StepDefinitionRegistry([
-        stubMatchingStepDefinition(
-          stubMatch(messages.TestResult.Status.PASSED)
-        ),
-      ])
-      const status = subject.execute('whatever ...')
-      assert.strictEqual(status, messages.TestResult.Status.PASSED)
+    context('when there is a matching step definition', () => {
+      it('returns PASSED when the match execution raises no exception', () => {
+        const subject = new StepDefinitionRegistry([
+          stubMatchingStepDefinition(
+            stubPassingSupportCodeExecutor()
+          ),
+        ])
+        const status = subject.execute('whatever ...')
+        assert.strictEqual(status, messages.TestResult.Status.PASSED)
+      })
+
+      it('returns FAILED when the match execution raises an exception', () => {
+        const subject = new StepDefinitionRegistry([
+          stubMatchingStepDefinition(
+            stubFailingSupportCodeExecutor()
+          ),
+        ])
+        const status = subject.execute('whatever ...')
+        assert.strictEqual(status, messages.TestResult.Status.FAILED)
+      })
     })
   })
 })
