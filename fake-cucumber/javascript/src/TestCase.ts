@@ -11,20 +11,18 @@ export default class TestCase {
     private readonly pickleId: string
   ) {}
 
+  public toMessage(): messages.ITestCase {
+    return new messages.TestCase({
+      id: this.id,
+      pickleId: this.pickleId,
+      testSteps: this.testSteps.map(step => step.toMessage()),
+    })
+  }
+
   public execute(notifier: MessageNotifier) {
     let executeNext = true
     const attempt = 0
     const testCaseStartedId = uuidv4()
-
-    notifier(
-      new messages.Envelope({
-        testCase: new messages.TestCase({
-          pickleId: this.pickleId,
-          id: this.id,
-          testSteps: this.testSteps.map(step => step.toMessage()),
-        }),
-      })
-    )
 
     notifier(
       new messages.Envelope({

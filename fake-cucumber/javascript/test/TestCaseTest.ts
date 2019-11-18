@@ -3,6 +3,7 @@ import assert from 'assert'
 import TestStep from '../src/TestStep'
 import TestCase from '../src/TestCase'
 import { MessageNotifier } from '../src/types'
+import { test } from 'mocha'
 
 class StubTestStep extends TestStep {
   public constructor(private readonly status: messages.TestResult.Status) {
@@ -50,38 +51,68 @@ describe('TestCase', () => {
       ])
     })
 
-    it('emits a TestCaseFinished message after running the steps', () => {
+    it('emits TestCaseStarted and TestCaseFinished messages', () => {
       const emitted: messages.IEnvelope[] = []
       const testSteps: TestStep[] = [
-        new StubTestStep(messages.TestResult.Status.PASSED),
         new StubTestStep(messages.TestResult.Status.PASSED),
       ]
       const testCase = new TestCase(testSteps, 'some-pickle-id')
       testCase.execute((message: messages.IEnvelope) => emitted.push(message))
+
+      const testCaseStarted = emitted[0].testCaseStarted
       const testCaseFinished = emitted.find(m => m.testCaseFinished)
         .testCaseFinished
 
-      assert.deepStrictEqual(
-        testCaseFinished.testResult.status,
-        messages.TestResult.Status.PASSED
-      )
+      assert.strictEqual(testCaseStarted.testCaseId, testCase.id)
+      assert.strictEqual(testCaseFinished.testCaseStartedId, testCaseStarted.id)
     })
 
-    it('emits a TestCaseFinished message after running the steps', () => {
-      const emitted: messages.IEnvelope[] = []
-      const testSteps: TestStep[] = [
-        new StubTestStep(messages.TestResult.Status.PASSED),
-        new StubTestStep(messages.TestResult.Status.FAILED),
-      ]
-      const testCase = new TestCase(testSteps, 'some-pickle-id')
-      testCase.execute((message: messages.IEnvelope) => emitted.push(message))
-      const testCaseFinished = emitted.find(m => m.testCaseFinished)
-        .testCaseFinished
+    context(
+      'status of TestCaseFinished messages is computed from step statuses',
+      () => {
+        function getTestStatus(
+          testSteps: TestStep[]
+        ): messages.TestResult.Status {
+          const emitted: messages.IEnvelope[] = []
+          const testCase = new TestCase(testSteps, 'some-pickle-id')
+          testCase.execute((message: messages.IEnvelope) =>
+            emitted.push(message)
+          )
 
-      assert.deepStrictEqual(
-        testCaseFinished.testResult.status,
-        messages.TestResult.Status.FAILED
-      )
-    })
+          return emitted.find(m => m.testCaseFinished).testCaseFinished
+            .testResult.status
+        }
+
+        it('emits PASSED when at all steps pass', () => {
+          const testStatus = getTestStatus([
+            new StubTestStep(messages.TestResult.Status.PASSED),
+            new StubTestStep(messages.TestResult.Status.PASSED),
+          ])
+          assert.strictEqual(testStatus, messages.TestResult.Status.PASSED)
+        })
+
+        it('emits FAILED when at least one step is failed', () => {
+          const testStatus = getTestStatus([
+            new StubTestStep(messages.TestResult.Status.PASSED),
+            new StubTestStep(messages.TestResult.Status.FAILED),
+            new StubTestStep(messages.TestResult.Status.PENDING),
+          ])
+          assert.strictEqual(testStatus, messages.TestResult.Status.FAILED)
+        })
+
+        it('emits PENDING when there is pending steps', () => {
+          const testStatus = getTestStatus([
+            new StubTestStep(messages.TestResult.Status.PASSED),
+            new StubTestStep(messages.TestResult.Status.PENDING),
+          ])
+          assert.strictEqual(testStatus, messages.TestResult.Status.PENDING)
+        })
+
+        it('emits UNKNOWN when there is no steps', () => {
+          const testStatus = getTestStatus([])
+          assert.strictEqual(testStatus, messages.TestResult.Status.UNKNOWN)
+        })
+      }
+    )
   })
 })
