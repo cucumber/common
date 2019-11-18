@@ -10,10 +10,11 @@
   "scripts": {
     "nyc": "nyc --reporter=html --reporter=text mocha",
     "test": "mocha",
+    "lint": "tslint src/**/*.ts test/**/*.ts",
+    "lint-fix": "tslint --fix src/**/*.ts test/**/*.ts",
     "build": "tsc",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook",
-    "pretty-quick": "pretty-quick --staged"
+    "build-storybook": "build-storybook"
   },
   "dependencies": {
     "color": "^3.1.2",
@@ -35,7 +36,7 @@
     "@types/color": "^3.0.0",
     "@types/jsdom": "^12.2.4",
     "@types/mocha": "^5.2.7",
-    "@types/node": "^12.12.7",
+    "@types/node": "^12.12.8",
     "@types/ramda": "^0.26.34",
     "@types/react": "^16.9.11",
     "@types/react-dom": "^16.9.4",
@@ -49,10 +50,12 @@
     "mocha": "^6.2.2",
     "nyc": "^14.1.1",
     "prettier": "^1.19.1",
-    "pretty-quick": "^2.0.1",
     "prop-types": "^15.7.2",
     "source-map-support": "^0.5.16",
     "ts-node": "^8.5.2",
+    "tslint": "^5.20.1",
+    "tslint-config-prettier": "^1.18.0",
+    "tslint-plugin-prettier": "^2.0.1",
     "typescript": "^3.7.2",
     "webpack": "^4.41.2",
     "webpack-cli": "^3.3.10"

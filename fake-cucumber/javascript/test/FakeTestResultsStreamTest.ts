@@ -91,14 +91,42 @@ Scenario: some matches
       .filter(envelope => envelope.stepDefinitionConfig)
       .map(envelope => envelope.stepDefinitionConfig)
 
-    assert.equal(stepDefinitions.length, 6, "There are 6 default step definitions")
+    assert.equal(
+      stepDefinitions.length,
+      6,
+      'There are 6 default step definitions'
+    )
 
-    assert.equal(stepDefinitions[0].pattern.source, '{}passed{}', "The first matches passed steps")
-    assert.equal(stepDefinitions[1].pattern.source, '{}failed{}', "The first matches failed steps")
-    assert.equal(stepDefinitions[2].pattern.source, '{}pending{}', "The first matches pending steps")
-    assert.equal(stepDefinitions[3].pattern.source, '{}skipped{}', "The first matches skipped steps")
-    assert.equal(stepDefinitions[4].pattern.source, '{}ambig{}', "The first matches ambiguous steps")
-    assert.equal(stepDefinitions[5].pattern.source, '{}ambiguous{}', "The first matches ambiguous steps too")
+    assert.equal(
+      stepDefinitions[0].pattern.source,
+      '{}passed{}',
+      'The first matches passed steps'
+    )
+    assert.equal(
+      stepDefinitions[1].pattern.source,
+      '{}failed{}',
+      'The first matches failed steps'
+    )
+    assert.equal(
+      stepDefinitions[2].pattern.source,
+      '{}pending{}',
+      'The first matches pending steps'
+    )
+    assert.equal(
+      stepDefinitions[3].pattern.source,
+      '{}skipped{}',
+      'The first matches skipped steps'
+    )
+    assert.equal(
+      stepDefinitions[4].pattern.source,
+      '{}ambig{}',
+      'The first matches ambiguous steps'
+    )
+    assert.equal(
+      stepDefinitions[5].pattern.source,
+      '{}ambiguous{}',
+      'The first matches ambiguous steps too'
+    )
   })
 })
 

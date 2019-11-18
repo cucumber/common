@@ -5,6 +5,8 @@
   "license": "MIT",
   "scripts": {
     "test": "echo 'no tests'",
+    "lint": "echo 'nothing to lint'",
+    "lint-fix": "echo 'nothing to lint-fix'",
     "build": "echo 'nothing to build'"
   }
 }

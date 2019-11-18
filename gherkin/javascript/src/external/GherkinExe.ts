@@ -9,9 +9,8 @@ export default class GherkinExe {
     private readonly gherkinExe: string,
     private readonly paths: string[],
     private readonly envelopes: messages.IEnvelope[],
-    private readonly options: IGherkinOptions,
-  ) {
-  }
+    private readonly options: IGherkinOptions
+  ) {}
 
   public dialects(): { [key: string]: Dialect } {
     const result = spawnSync(this.gherkinExe, ['--dialects'])
@@ -30,9 +29,11 @@ export default class GherkinExe {
       options.push('--no-pickles')
     }
     const args = options.concat(this.paths)
-    const gherkin = spawn(this.gherkinExe, args, { stdio: ['pipe', 'pipe', 'inherit'] })
+    const gherkin = spawn(this.gherkinExe, args, {
+      stdio: ['pipe', 'pipe', 'inherit'],
+    })
     const protobufMessageStream = new ProtobufMessageStream(
-      messages.Envelope.decodeDelimited.bind(messages.Envelope),
+      messages.Envelope.decodeDelimited.bind(messages.Envelope)
     )
     gherkin.on('error', err => {
       protobufMessageStream.emit('error', err)

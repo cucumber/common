@@ -25,7 +25,14 @@ class FakeTestResultsStream extends Transform {
     this.p(envelope)
 
     if (envelope.source) {
-      const stepDefinitionPatterns = ['passed', 'failed', 'pending', 'skipped', 'ambig', 'ambiguous']
+      const stepDefinitionPatterns = [
+        'passed',
+        'failed',
+        'pending',
+        'skipped',
+        'ambig',
+        'ambiguous',
+      ]
       stepDefinitionPatterns.forEach(pattern => {
         const stepDefinitionId = uuidv4()
         this.stepDefinitionIds.push(stepDefinitionId)
@@ -37,12 +44,12 @@ class FakeTestResultsStream extends Transform {
                 source: `{}${pattern}{}`,
               }),
               location: new messages.SourceReference({
-                uri: "some/javascript/file.js",
+                uri: 'some/javascript/file.js',
                 location: new messages.Location({
-                  line: this.stepDefinitionIds.length * 3
-                })
-              })
-            })
+                  line: this.stepDefinitionIds.length * 3,
+                }),
+              }),
+            }),
           })
         )
       })
@@ -99,7 +106,7 @@ class FakeTestResultsStream extends Transform {
             id: uuidv4(),
             pickleStepId: pickleStep.id,
             stepMatchArguments,
-            stepDefinitionId: [random(this.stepDefinitionIds)]
+            stepDefinitionId: [random(this.stepDefinitionIds)],
           })
         )
       }
