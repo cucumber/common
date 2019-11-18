@@ -35,7 +35,7 @@
     "@types/color": "^3.0.0",
     "@types/jsdom": "^12.2.4",
     "@types/mocha": "^5.2.7",
-    "@types/node": "^12.12.7",
+    "@types/node": "^12.12.8",
     "@types/ramda": "^0.26.34",
     "@types/react": "^16.9.11",
     "@types/react-dom": "^16.9.4",
