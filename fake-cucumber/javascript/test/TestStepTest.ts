@@ -17,7 +17,7 @@ function execute(testStep: TestStep): messages.ITestStepFinished {
 
 describe('TestStep', () => {
   describe('#execute', () => {
-    it('returns UNDEFINED when there are no matching step definitions', () => {
+    it('emits a TestStepFinished with status UNDEFINED when there are no matching step definitions', () => {
       const registry = new StepDefinitionRegistry([])
       const testStep = registry.createTestStep(
         'an undefined step',
@@ -33,7 +33,7 @@ describe('TestStep', () => {
       assert.strictEqual(testStepFinished.testStepId, testStep.id)
     })
 
-    it('returns AMBIGUOUS when there are multiple matching step definitions', () => {
+    it('emits a TestStepFinished with status AMBIGUOUS when there are multiple matching step definitions', () => {
       const registry = new StepDefinitionRegistry([
         stubMatchingStepDefinition(),
         stubMatchingStepDefinition(),
@@ -50,8 +50,21 @@ describe('TestStep', () => {
       assert.strictEqual(testStepFinished.testStepId, testStep.id)
     })
 
+    it('returns the status', () => {
+      const registry = new StepDefinitionRegistry([])
+      const testStep = registry.createTestStep(
+        'an undefined step',
+        'pickle-step-id'
+      )
+
+      assert.strictEqual(
+        testStep.execute(message => null),
+        messages.TestResult.Status.UNDEFINED
+      )
+    })
+
     context('when there is a matching step definition', () => {
-      it('returns PASSED when no exception is raised', () => {
+      it('emits a TestStepFinished with status PASSED when no exception is raised', () => {
         const registry = new StepDefinitionRegistry([
           stubMatchingStepDefinition(stubPassingSupportCodeExecutor()),
         ])
@@ -68,7 +81,7 @@ describe('TestStep', () => {
         assert.strictEqual(testStepFinished.testStepId, testStep.id)
       })
 
-      it('returns PENDING when the string "pending" is returned', () => {
+      it('emits a TestStepFinished with status PENDING when the string "pending" is returned', () => {
         const registry = new StepDefinitionRegistry([
           stubMatchingStepDefinition(stubPendingSupportCodeExecutor()),
         ])
@@ -85,7 +98,7 @@ describe('TestStep', () => {
         assert.strictEqual(testStepFinished.testStepId, testStep.id)
       })
 
-      it('returns FAILED when an exception is raised', () => {
+      it('emits a TestStepFinished with status FAILED when an exception is raised', () => {
         const registry = new StepDefinitionRegistry([
           stubMatchingStepDefinition(
             stubFailingSupportCodeExecutor('This step has failed')

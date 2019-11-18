@@ -25,60 +25,52 @@ export default class TestStep {
     })
   }
 
-  public execute(notifier: MessageNotifier): void {
+  public execute(notifier: MessageNotifier): messages.TestResult.Status {
     if (this.supportCodeExecutors.length === 0) {
-      return notifier(
-        new messages.Envelope({
-          testStepFinished: new messages.TestStepFinished({
-            testStepId: this.id,
-            testResult: new messages.TestResult({
-              status: messages.TestResult.Status.UNDEFINED,
-            }),
-          }),
-        })
+      return this.notifyAndReturn(
+        messages.TestResult.Status.UNDEFINED,
+        notifier
       )
     }
 
     if (this.supportCodeExecutors.length > 1) {
-      return notifier(
-        new messages.Envelope({
-          testStepFinished: new messages.TestStepFinished({
-            testStepId: this.id,
-            testResult: new messages.TestResult({
-              status: messages.TestResult.Status.AMBIGUOUS,
-            }),
-          }),
-        })
+      return this.notifyAndReturn(
+        messages.TestResult.Status.AMBIGUOUS,
+        notifier
       )
     }
 
     try {
       const result = this.supportCodeExecutors[0].execute()
-
-      return notifier(
-        new messages.Envelope({
-          testStepFinished: new messages.TestStepFinished({
-            testStepId: this.id,
-            testResult: new messages.TestResult({
-              status:
-                result === 'pending'
-                  ? messages.TestResult.Status.PENDING
-                  : messages.TestResult.Status.PASSED,
-            }),
-          }),
-        })
+      return this.notifyAndReturn(
+        result === 'pending'
+          ? messages.TestResult.Status.PENDING
+          : messages.TestResult.Status.PASSED,
+        notifier
       )
     } catch (error) {
-      return notifier(
-        new messages.Envelope({
-          testStepFinished: new messages.TestStepFinished({
-            testStepId: this.id,
-            testResult: new messages.TestResult({
-              status: messages.TestResult.Status.FAILED,
-            }),
-          }),
-        })
-      )
+      return this.notifyAndReturn(messages.TestResult.Status.FAILED, notifier)
     }
+  }
+
+  public skip(notifier: MessageNotifier): messages.TestResult.Status {
+    return this.notifyAndReturn(messages.TestResult.Status.SKIPPED, notifier)
+  }
+
+  protected notifyAndReturn(
+    status: messages.TestResult.Status,
+    notifier: MessageNotifier
+  ): messages.TestResult.Status {
+    notifier(
+      new messages.Envelope({
+        testStepFinished: new messages.TestStepFinished({
+          testStepId: this.id,
+          testResult: new messages.TestResult({
+            status,
+          }),
+        }),
+      })
+    )
+    return status
   }
 }
