@@ -2,7 +2,7 @@ SHELL := /usr/bin/env bash
 TYPESCRIPT_SOURCE_FILES = $(shell find src test -type f -name "*.ts" -o -name "*.tsx")
 PRIVATE = $(shell node -e "console.log(require('./package.json').private)")
 
-default: .tested .built
+default: .linted .tested .built
 .PHONY: default
 
 .deps: package-lock.json
@@ -22,7 +22,7 @@ endif
 	TS_NODE_TRANSPILE_ONLY=1 npm run test
 	touch $@
 
-.linted: $(TYPESCRIPT_SOURCE_FILES)
+.linted: $(TYPESCRIPT_SOURCE_FILES) package-lock.json
 	npm run lint-fix
 	touch $@
 

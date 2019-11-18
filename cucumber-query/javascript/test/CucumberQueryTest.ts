@@ -208,7 +208,7 @@ describe('CucumberQuery', () => {
         `Feature: hello
   Scenario: hi
     Given a passed step
-    Given a failed step
+    And I have 567 cukes in my belly
 `,
         query,
         () => {
@@ -218,9 +218,17 @@ describe('CucumberQuery', () => {
           )
           assert.deepStrictEqual(
             line3.map(arg => arg.parameterTypeName),
-            ['fake', 'fake']
+            ['word']
           )
 
+          const line4: messages.IStepMatchArgument[] = query.getStepMatchArguments(
+            'test.feature',
+            4
+          )
+          assert.deepStrictEqual(
+            line4.map(arg => arg.parameterTypeName),
+            ['int']
+          )
           cb()
         },
         cb
