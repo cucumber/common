@@ -3,18 +3,29 @@ import { messages } from 'cucumber-messages'
 import TestStep from '../src/TestStep'
 import StepDefinitionRegistry from '../src/StepDefinitionRegistry'
 import {
+  stubFailingSupportCodeExecutor,
   stubMatchingStepDefinition,
   stubPassingSupportCodeExecutor,
   stubPendingSupportCodeExecutor,
-  stubFailingSupportCodeExecutor,
 } from './TestHelpers'
+
+function execute(testStep: TestStep): messages.ITestStepFinished {
+  const receivedMessages: messages.IEnvelope[] = []
+  testStep.execute(message => receivedMessages.push(message))
+  return receivedMessages.pop().testStepFinished
+}
 
 describe('TestStep', () => {
   describe('#execute', () => {
     it('returns UNDEFINED when there are no matching step definitions', () => {
       const registry = new StepDefinitionRegistry([])
-      const testStep = registry.createTestStep('an undefined step', 'step-id')
-      const testStepFinished = testStep.execute()
+      const testStep = registry.createTestStep(
+        'an undefined step',
+        'pickle-step-id'
+      )
+
+      const testStepFinished = execute(testStep)
+
       assert.strictEqual(
         testStepFinished.testResult.status,
         messages.TestResult.Status.UNDEFINED
@@ -27,8 +38,11 @@ describe('TestStep', () => {
         stubMatchingStepDefinition(),
         stubMatchingStepDefinition(),
       ])
-      const testStep = registry.createTestStep('an ambiguous step', 'step-id')
-      const testStepFinished = testStep.execute()
+      const testStep = registry.createTestStep(
+        'an ambiguous step',
+        'pickle-step-id'
+      )
+      const testStepFinished = execute(testStep)
       assert.strictEqual(
         testStepFinished.testResult.status,
         messages.TestResult.Status.AMBIGUOUS
@@ -41,8 +55,11 @@ describe('TestStep', () => {
         const registry = new StepDefinitionRegistry([
           stubMatchingStepDefinition(stubPassingSupportCodeExecutor()),
         ])
-        const testStep = registry.createTestStep('a passed step', 'step-id')
-        const testStepFinished = testStep.execute()
+        const testStep = registry.createTestStep(
+          'a passed step',
+          'pickle-step-id'
+        )
+        const testStepFinished = execute(testStep)
 
         assert.strictEqual(
           testStepFinished.testResult.status,
@@ -55,8 +72,11 @@ describe('TestStep', () => {
         const registry = new StepDefinitionRegistry([
           stubMatchingStepDefinition(stubPendingSupportCodeExecutor()),
         ])
-        const testStep = registry.createTestStep('a pending step', 'step-id')
-        const testStepFinished = testStep.execute()
+        const testStep = registry.createTestStep(
+          'a pending step',
+          'pickle-step-id'
+        )
+        const testStepFinished = execute(testStep)
 
         assert.strictEqual(
           testStepFinished.testResult.status,
@@ -72,8 +92,11 @@ describe('TestStep', () => {
           ),
         ])
 
-        const testStep = registry.createTestStep('a failed step', 'step-id')
-        const testStepFinished = testStep.execute()
+        const testStep = registry.createTestStep(
+          'a failed step',
+          'pickle-step-id'
+        )
+        const testStepFinished = execute(testStep)
         assert.strictEqual(
           testStepFinished.testResult.status,
           messages.TestResult.Status.FAILED

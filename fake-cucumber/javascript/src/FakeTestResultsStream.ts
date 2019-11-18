@@ -1,8 +1,8 @@
 import { Transform } from 'stream'
 import { messages } from 'cucumber-messages'
-import uuidv4 from 'uuid/v4'
 import StepDefinitionRegistry from './StepDefinitionRegistry'
 import defaultStepDefinitionRegistry from './DefaultStepDefinitions'
+import TestCase from './TestCase'
 
 class FakeTestResultsStream extends Transform {
   private readonly buffer: messages.IEnvelope[] = []
@@ -35,7 +35,7 @@ class FakeTestResultsStream extends Transform {
     }
 
     if (envelope.pickle && this.results !== 'none') {
-      const testCaseId = uuidv4()
+      // const testCaseId = uuidv4()
 
       const testSteps = envelope.pickle.steps.map(pickleStep => {
         return this.stepDefinitionRegistry.createTestStep(
@@ -43,73 +43,70 @@ class FakeTestResultsStream extends Transform {
           pickleStep.id
         )
       })
+      const testCase = new TestCase(testSteps)
+      testCase.execute(message => this.p(message))
 
-      this.p(
-        new messages.Envelope({
-          testCase: new messages.TestCase({
-            pickleId: envelope.pickle.id,
-            id: testCaseId,
-            testSteps: testSteps.map(step => step.toMessage()),
-          }),
-        })
-      )
-
-      const attempt = 0
-      const testCaseStartedId = uuidv4()
-
-      this.p(
-        new messages.Envelope({
-          testCaseStarted: new messages.TestCaseStarted({
-            attempt,
-            testCaseId,
-            id: testCaseStartedId,
-          }),
-        })
-      )
-
-      const testStepStatus: messages.TestResult.Status = null
-      const testStepStatuses: messages.TestResult.Status[] = []
-
-      for (const testStep of testSteps) {
-        this.p(
-          new messages.Envelope({
-            testStepStarted: new messages.TestStepStarted({
-              testCaseStartedId,
-              testStepId: testStep.id,
-            }),
-          })
-        )
-
-        const testStepFinished = testStep.execute()
-        this.p(
-          new messages.Envelope({
-            testStepFinished,
-          })
-        )
-
-        testStepStatuses.push(testStepFinished.testResult.status)
-      }
-
-      this.p(
-        new messages.Envelope({
-          testCaseFinished: new messages.TestCaseFinished({
-            testCaseStartedId,
-            testResult: {
-              status:
-                testStepStatuses.sort()[testStepStatuses.length - 1] ||
-                messages.TestResult.Status.UNKNOWN,
-              message:
-                testStepStatus === messages.TestResult.Status.FAILED
-                  ? `Some error message\n\tfake_file:2\n\tfake_file:7\n`
-                  : null,
-              duration: new messages.Duration({
-                seconds: 987654,
-                nanos: 321,
-              }),
-            },
-          }),
-        })
-      )
+      // this.p(
+      //   new messages.Envelope({
+      //     testCase: new messages.TestCase({
+      //       pickleId: envelope.pickle.id,
+      //       id: testCaseId,
+      //       testSteps: testSteps.map(step => step.toMessage()),
+      //     }),
+      //   })
+      // )
+      //
+      // const attempt = 0
+      // const testCaseStartedId = uuidv4()
+      //
+      // this.p(
+      //   new messages.Envelope({
+      //     testCaseStarted: new messages.TestCaseStarted({
+      //       attempt,
+      //       testCaseId,
+      //       id: testCaseStartedId,
+      //     }),
+      //   })
+      // )
+      //
+      // const testStepStatus: messages.TestResult.Status = null
+      // const testStepStatuses: messages.TestResult.Status[] = []
+      //
+      // for (const testStep of testSteps) {
+      //   this.p(
+      //     new messages.Envelope({
+      //       testStepStarted: new messages.TestStepStarted({
+      //         testCaseStartedId,
+      //         testStepId: testStep.id,
+      //       }),
+      //     })
+      //   )
+      //
+      //   testStep.execute(message => this.p(message))
+      //
+      //   // testStepStatuses.push(testStepFinished.testResult.status)
+      // }
+      //
+      // this.p(
+      //   new messages.Envelope({
+      //     testCaseFinished: new messages.TestCaseFinished({
+      //       testCaseStartedId,
+      //       testResult: {
+      //         status:
+      //           testStepStatuses.sort()[testStepStatuses.length - 1] ||
+      //           messages.TestResult.Status.UNKNOWN,
+      //         message:
+      //           testStepStatus === messages.TestResult.Status.FAILED
+      //             ? `Some error message\n\tfake_file:2\n\tfake_file:7\n`
+      //             : null,
+      //         duration: new messages.Duration({
+      //           seconds: 987654,
+      //           nanos: 321,
+      //         }),
+      //       },
+      //     }),
+      //   })
+      // )
     }
 
     callback()

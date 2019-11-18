@@ -1,6 +1,7 @@
 import { messages } from 'cucumber-messages'
 import uuidv4 from 'uuid/v4'
 import SupportCodeExecutor from './SupportCodeExecutor'
+import { MessageNotifier } from './types'
 
 export default class TestStep {
   public readonly id: string = uuidv4()
@@ -24,43 +25,60 @@ export default class TestStep {
     })
   }
 
-  public execute(): messages.ITestStepFinished {
+  public execute(notifier: MessageNotifier): void {
     if (this.supportCodeExecutors.length === 0) {
-      return new messages.TestStepFinished({
-        testStepId: this.id,
-        testResult: new messages.TestResult({
-          status: messages.TestResult.Status.UNDEFINED,
-        }),
-      })
+      return notifier(
+        new messages.Envelope({
+          testStepFinished: new messages.TestStepFinished({
+            testStepId: this.id,
+            testResult: new messages.TestResult({
+              status: messages.TestResult.Status.UNDEFINED,
+            }),
+          }),
+        })
+      )
     }
 
     if (this.supportCodeExecutors.length > 1) {
-      return new messages.TestStepFinished({
-        testStepId: this.id,
-        testResult: new messages.TestResult({
-          status: messages.TestResult.Status.AMBIGUOUS,
-        }),
-      })
+      return notifier(
+        new messages.Envelope({
+          testStepFinished: new messages.TestStepFinished({
+            testStepId: this.id,
+            testResult: new messages.TestResult({
+              status: messages.TestResult.Status.AMBIGUOUS,
+            }),
+          }),
+        })
+      )
     }
 
     try {
       const result = this.supportCodeExecutors[0].execute()
-      return new messages.TestStepFinished({
-        testStepId: this.id,
-        testResult: new messages.TestResult({
-          status:
-            result === 'pending'
-              ? messages.TestResult.Status.PENDING
-              : messages.TestResult.Status.PASSED,
-        }),
-      })
+
+      return notifier(
+        new messages.Envelope({
+          testStepFinished: new messages.TestStepFinished({
+            testStepId: this.id,
+            testResult: new messages.TestResult({
+              status:
+                result === 'pending'
+                  ? messages.TestResult.Status.PENDING
+                  : messages.TestResult.Status.PASSED,
+            }),
+          }),
+        })
+      )
     } catch (error) {
-      return new messages.TestStepFinished({
-        testStepId: this.id,
-        testResult: new messages.TestResult({
-          status: messages.TestResult.Status.FAILED,
-        }),
-      })
+      return notifier(
+        new messages.Envelope({
+          testStepFinished: new messages.TestStepFinished({
+            testStepId: this.id,
+            testResult: new messages.TestResult({
+              status: messages.TestResult.Status.FAILED,
+            }),
+          }),
+        })
+      )
     }
   }
 }

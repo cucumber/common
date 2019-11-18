@@ -3,18 +3,14 @@ import SupportCodeExecutor from '../src/SupportCodeExecutor'
 import StepDefinition from '../src/StepDefinition'
 
 export function stubPassingSupportCodeExecutor(): SupportCodeExecutor {
-  const supportCodeExecutorStub = stubConstructor<SupportCodeExecutor>(
-    SupportCodeExecutor
-  )
+  const supportCodeExecutorStub = stubConstructor(SupportCodeExecutor)
   supportCodeExecutorStub.execute.returns(undefined)
 
   return supportCodeExecutorStub
 }
 
 export function stubPendingSupportCodeExecutor(): SupportCodeExecutor {
-  const supportCodeExecutorStub = stubConstructor<SupportCodeExecutor>(
-    SupportCodeExecutor
-  )
+  const supportCodeExecutorStub = stubConstructor(SupportCodeExecutor)
   supportCodeExecutorStub.execute.returns('pending')
 
   return supportCodeExecutorStub
@@ -23,9 +19,7 @@ export function stubPendingSupportCodeExecutor(): SupportCodeExecutor {
 export function stubFailingSupportCodeExecutor(
   message: string
 ): SupportCodeExecutor {
-  const supportCodeExecutorStub = stubConstructor<SupportCodeExecutor>(
-    SupportCodeExecutor
-  )
+  const supportCodeExecutorStub = stubConstructor(SupportCodeExecutor)
   supportCodeExecutorStub.execute.throws(new Error(message))
 
   return supportCodeExecutorStub
@@ -38,7 +32,7 @@ export function stubMatchingStepDefinition(
     []
   )
 ): StepDefinition {
-  const stepDefinitionStub = stubConstructor<StepDefinition>(StepDefinition)
+  const stepDefinitionStub = stubConstructor(StepDefinition)
   stepDefinitionStub.match.returns(executor)
 
   return stepDefinitionStub
