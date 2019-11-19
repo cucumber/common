@@ -1,8 +1,7 @@
-import gherkin from 'gherkin'
 import { messages } from 'cucumber-messages'
 import FakeTestResultsStream from '../src/FakeTestResultsStream'
-import { Readable } from 'stream'
 import * as assert from 'assert'
+import { gherkinMessages, streamToArray } from './TestHelpers'
 
 describe('FakeTestResultsStream', () => {
   it('generates failed pickle result', async () => {
@@ -134,20 +133,10 @@ async function generateMessages(
   gherkinSource: string,
   results: 'none' | 'pattern' | 'random'
 ): Promise<messages.IEnvelope[]> {
-  const source = messages.Envelope.fromObject({
-    source: {
-      uri: 'test.feature',
-      data: gherkinSource,
-      media: messages.Media.fromObject({
-        encoding: 'UTF8',
-        contentType: 'text/x.cucumber.gherkin+plain',
-      }),
-    },
-  })
-
-  const fakeTestResultsStream = gherkin
-    .fromSources([source], { newId: gherkin.uuid() })
-    .pipe(new FakeTestResultsStream('protobuf-objects', results))
+  const fakeTestResultsStream = gherkinMessages(
+    gherkinSource,
+    'test.feature'
+  ).pipe(new FakeTestResultsStream('protobuf-objects', results))
   return streamToArray(fakeTestResultsStream)
 }
 
@@ -167,20 +156,4 @@ async function getTestCases(
   return envelopes
     .filter(envelope => envelope.testCase)
     .map(envelope => envelope.testCase)
-}
-
-async function streamToArray(
-  readableStream: Readable
-): Promise<messages.IEnvelope[]> {
-  return new Promise<messages.IEnvelope[]>(
-    (
-      resolve: (wrappers: messages.IEnvelope[]) => void,
-      reject: (err: Error) => void
-    ) => {
-      const items: messages.IEnvelope[] = []
-      readableStream.on('data', items.push.bind(items))
-      readableStream.on('error', (err: Error) => reject(err))
-      readableStream.on('end', () => resolve(items))
-    }
-  )
 }

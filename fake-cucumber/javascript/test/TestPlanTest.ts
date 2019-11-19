@@ -1,0 +1,3 @@
+describe('TestPlan', () => {
+  // no-op
+})
