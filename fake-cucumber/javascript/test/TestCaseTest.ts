@@ -9,8 +9,11 @@ class StubTestStep extends TestStep {
     super('some-id', [])
   }
 
-  public execute(notifier: MessageNotifier): messages.TestResult.Status {
-    return this.notifyAndReturn(this.status, notifier)
+  public execute(
+    notifier: MessageNotifier,
+    testCaseStartedId: string
+  ): messages.TestResult.Status {
+    return this.emitTestStepFinished(testCaseStartedId, this.status, notifier)
   }
 }
 

@@ -11,7 +11,10 @@ import {
 
 function execute(testStep: TestStep): messages.ITestStepFinished {
   const receivedMessages: messages.IEnvelope[] = []
-  testStep.execute(message => receivedMessages.push(message))
+  testStep.execute(
+    message => receivedMessages.push(message),
+    'some-testCaseStartedId'
+  )
   return receivedMessages.pop().testStepFinished
 }
 
@@ -58,7 +61,7 @@ describe('TestStep', () => {
       )
 
       assert.strictEqual(
-        testStep.execute(message => null),
+        testStep.execute(message => null, 'some-testCaseStartedId'),
         messages.TestResult.Status.UNDEFINED
       )
     })

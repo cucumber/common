@@ -25,16 +25,23 @@ export default class TestStep {
     })
   }
 
-  public execute(notifier: MessageNotifier): messages.TestResult.Status {
+  public execute(
+    notifier: MessageNotifier,
+    testCaseStartedId: string
+  ): messages.TestResult.Status {
+    this.emitTestStepStarted(testCaseStartedId, notifier)
+
     if (this.supportCodeExecutors.length === 0) {
-      return this.notifyAndReturn(
+      return this.emitTestStepFinished(
+        testCaseStartedId,
         messages.TestResult.Status.UNDEFINED,
         notifier
       )
     }
 
     if (this.supportCodeExecutors.length > 1) {
-      return this.notifyAndReturn(
+      return this.emitTestStepFinished(
+        testCaseStartedId,
         messages.TestResult.Status.AMBIGUOUS,
         notifier
       )
@@ -42,28 +49,56 @@ export default class TestStep {
 
     try {
       const result = this.supportCodeExecutors[0].execute()
-      return this.notifyAndReturn(
+      return this.emitTestStepFinished(
+        testCaseStartedId,
         result === 'pending'
           ? messages.TestResult.Status.PENDING
           : messages.TestResult.Status.PASSED,
         notifier
       )
     } catch (error) {
-      return this.notifyAndReturn(messages.TestResult.Status.FAILED, notifier)
+      return this.emitTestStepFinished(
+        testCaseStartedId,
+        messages.TestResult.Status.FAILED,
+        notifier
+      )
     }
   }
 
-  public skip(notifier: MessageNotifier): messages.TestResult.Status {
-    return this.notifyAndReturn(messages.TestResult.Status.SKIPPED, notifier)
+  public skip(
+    notifier: MessageNotifier,
+    testCaseStartedId: string
+  ): messages.TestResult.Status {
+    return this.emitTestStepFinished(
+      testCaseStartedId,
+      messages.TestResult.Status.SKIPPED,
+      notifier
+    )
   }
 
-  protected notifyAndReturn(
+  protected emitTestStepStarted(
+    testCaseStartedId: string,
+    notifier: MessageNotifier
+  ) {
+    notifier(
+      new messages.Envelope({
+        testStepStarted: new messages.TestStepStarted({
+          testCaseStartedId,
+          testStepId: this.id,
+        }),
+      })
+    )
+  }
+
+  protected emitTestStepFinished(
+    testCaseStartedId: string,
     status: messages.TestResult.Status,
     notifier: MessageNotifier
   ): messages.TestResult.Status {
     notifier(
       new messages.Envelope({
         testStepFinished: new messages.TestStepFinished({
+          testCaseStartedId,
           testStepId: this.id,
           testResult: new messages.TestResult({
             status,

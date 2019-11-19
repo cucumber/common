@@ -35,11 +35,11 @@ export default class TestCase {
 
     const testStepStatuses = this.testSteps.map(testStep => {
       if (executeNext) {
-        const status = testStep.execute(notifier)
+        const status = testStep.execute(notifier, testCaseStartedId)
         executeNext = status === messages.TestResult.Status.PASSED
         return status
       } else {
-        return testStep.skip(notifier)
+        return testStep.skip(notifier, testCaseStartedId)
       }
     })
 
