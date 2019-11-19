@@ -3,7 +3,6 @@ import assert from 'assert'
 import TestStep from '../src/TestStep'
 import TestCase from '../src/TestCase'
 import { MessageNotifier } from '../src/types'
-import { test } from 'mocha'
 
 class StubTestStep extends TestStep {
   public constructor(private readonly status: messages.TestResult.Status) {
@@ -24,7 +23,10 @@ describe('TestCase', () => {
         new StubTestStep(messages.TestResult.Status.PASSED),
       ]
       const testCase = new TestCase(testSteps, 'some-pickle-id')
-      testCase.execute((message: messages.IEnvelope) => emitted.push(message))
+      testCase.execute(
+        (message: messages.IEnvelope) => emitted.push(message),
+        0
+      )
       const testStepStatuses = emitted
         .filter(m => m.testStepFinished)
         .map(m => m.testStepFinished.testResult.status)
@@ -41,7 +43,10 @@ describe('TestCase', () => {
         new StubTestStep(messages.TestResult.Status.PASSED),
       ]
       const testCase = new TestCase(testSteps, 'some-pickle-id')
-      testCase.execute((message: messages.IEnvelope) => emitted.push(message))
+      testCase.execute(
+        (message: messages.IEnvelope) => emitted.push(message),
+        0
+      )
       const testStepStatuses = emitted
         .filter(m => m.testStepFinished)
         .map(m => m.testStepFinished.testResult.status)
@@ -57,7 +62,10 @@ describe('TestCase', () => {
         new StubTestStep(messages.TestResult.Status.PASSED),
       ]
       const testCase = new TestCase(testSteps, 'some-pickle-id')
-      testCase.execute((message: messages.IEnvelope) => emitted.push(message))
+      testCase.execute(
+        (message: messages.IEnvelope) => emitted.push(message),
+        0
+      )
 
       const testCaseStarted = emitted[0].testCaseStarted
       const testCaseFinished = emitted.find(m => m.testCaseFinished)
@@ -75,8 +83,9 @@ describe('TestCase', () => {
         ): messages.TestResult.Status {
           const emitted: messages.IEnvelope[] = []
           const testCase = new TestCase(testSteps, 'some-pickle-id')
-          testCase.execute((message: messages.IEnvelope) =>
-            emitted.push(message)
+          testCase.execute(
+            (message: messages.IEnvelope) => emitted.push(message),
+            0
           )
 
           return emitted.find(m => m.testCaseFinished).testCaseFinished

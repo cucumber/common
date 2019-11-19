@@ -47,7 +47,7 @@ class FakeTestResultsStream extends Transform {
           testCase: testCase.toMessage(),
         })
       )
-      testCase.execute(message => this.p(message))
+      testCase.execute(message => this.p(message), 0)
     }
 
     callback()

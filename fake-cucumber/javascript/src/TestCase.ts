@@ -19,9 +19,8 @@ export default class TestCase {
     })
   }
 
-  public execute(notifier: MessageNotifier) {
+  public execute(notifier: MessageNotifier, attempt: number) {
     let executeNext = true
-    const attempt = 0
     const testCaseStartedId = uuidv4()
 
     notifier(
