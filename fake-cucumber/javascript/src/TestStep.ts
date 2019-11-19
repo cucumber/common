@@ -67,6 +67,10 @@ export default class TestStep {
           testStepId: this.id,
           testResult: new messages.TestResult({
             status,
+            duration: new messages.Duration({
+              seconds: 123,
+              nanos: 456,
+            }),
           }),
         }),
       })
