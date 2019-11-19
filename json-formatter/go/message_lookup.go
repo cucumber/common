@@ -1,6 +1,7 @@
 package json
 
 import (
+	"fmt"
 	messages "github.com/cucumber/cucumber-messages-go/v7"
 )
 
@@ -18,9 +19,10 @@ type MessageLookup struct {
 	stepDefinitionConfigByID map[string]*messages.StepDefinitionConfig
 	backgroundByStepId       map[string]*messages.GherkinDocument_Feature_Background
 	tagByID                  map[string]*messages.GherkinDocument_Feature_Tag
+	verbose                  bool
 }
 
-func (self *MessageLookup) Initialize() {
+func (self *MessageLookup) Initialize(verbose bool) {
 	self.gherkinDocumentByURI = make(map[string]*messages.GherkinDocument)
 	self.pickleByID = make(map[string]*messages.Pickle)
 	self.pickleStepByID = make(map[string]*messages.Pickle_PickleStep)
@@ -34,12 +36,17 @@ func (self *MessageLookup) Initialize() {
 	self.stepDefinitionConfigByID = make(map[string]*messages.StepDefinitionConfig)
 	self.backgroundByStepId = make(map[string]*messages.GherkinDocument_Feature_Background)
 	self.tagByID = make(map[string]*messages.GherkinDocument_Feature_Tag)
+	self.verbose = verbose
 }
 
 func (self *MessageLookup) ProcessMessage(envelope *messages.Envelope) (err error) {
 	switch m := envelope.Message.(type) {
 	case *messages.Envelope_GherkinDocument:
 		self.gherkinDocumentByURI[m.GherkinDocument.Uri] = m.GherkinDocument
+		self.comment(fmt.Sprintf("Stored GherkinDocument: %s", m.GherkinDocument.Uri))
+		for key, _ := range self.gherkinDocumentByURI {
+			self.comment(fmt.Sprintf(" - %s ", key))
+		}
 		for _, tag := range m.GherkinDocument.Feature.Tags {
 			self.tagByID[tag.Id] = tag
 		}
@@ -99,47 +106,113 @@ func (self *MessageLookup) ProcessMessage(envelope *messages.Envelope) (err erro
 }
 
 func (self *MessageLookup) LookupGherkinDocument(uri string) *messages.GherkinDocument {
-	return self.gherkinDocumentByURI[uri]
+	item, ok := self.gherkinDocumentByURI[uri]
+	if ok {
+		self.informFoundKey(uri, "gherkinDocumentByURI")
+	} else {
+		self.informMissingKey(uri, "gherkinDocumentByURI")
+	}
+	return item
 }
 
 func (self *MessageLookup) LookupScenario(id string) *messages.GherkinDocument_Feature_Scenario {
-	return self.scenarioByID[id]
+	item, ok := self.scenarioByID[id]
+	if ok {
+		self.informFoundKey(id, "scenarioByID")
+	} else {
+		self.informMissingKey(id, "scenarioByID")
+	}
+	return item
 }
 
 func (self *MessageLookup) LookupStep(id string) *messages.GherkinDocument_Feature_Step {
-	return self.stepByID[id]
+	item, ok := self.stepByID[id]
+	if ok {
+		self.informFoundKey(id, "stepByID")
+	} else {
+		self.informMissingKey(id, "stepByID")
+	}
+	return item
 }
 
 func (self *MessageLookup) LookupExample(id string) *messages.GherkinDocument_Feature_Scenario_Examples {
-	return self.exampleByRowID[id]
+	item, ok := self.exampleByRowID[id]
+	if ok {
+		self.informFoundKey(id, "exampleByRowID")
+	} else {
+		self.informMissingKey(id, "exampleByRowID")
+	}
+	return item
 }
 
 func (self *MessageLookup) LookupExampleRow(id string) *messages.GherkinDocument_Feature_TableRow {
-	return self.exampleRowByID[id]
+	item, ok := self.exampleRowByID[id]
+	if ok {
+		self.informFoundKey(id, "exampleRowByID")
+	} else {
+		self.informMissingKey(id, "exampleRowByID")
+	}
+	return item
 }
 
 func (self *MessageLookup) LookupBrackgroundByStepId(id string) *messages.GherkinDocument_Feature_Background {
-	return self.backgroundByStepId[id]
+	item, ok := self.backgroundByStepId[id]
+	if ok {
+		self.informFoundKey(id, "backgroundByStepId")
+	} else {
+		self.informMissingKey(id, "backgroundByStepId")
+	}
+	return item
 }
 
 func (self *MessageLookup) LookupTagByID(id string) *messages.GherkinDocument_Feature_Tag {
-	return self.tagByID[id]
+	item, ok := self.tagByID[id]
+	if ok {
+		self.informFoundKey(id, "tagByID")
+	} else {
+		self.informMissingKey(id, "tagByID")
+	}
+	return item
 }
 
 func (self *MessageLookup) LookupTestCaseStartedByID(id string) *messages.TestCaseStarted {
-	return self.testCaseStartedByID[id]
+	item, ok := self.testCaseStartedByID[id]
+	if ok {
+		self.informFoundKey(id, "testCaseStartedByID")
+	} else {
+		self.informMissingKey(id, "testCaseStartedByID")
+	}
+	return item
 }
 
 func (self *MessageLookup) LookupTestCaseByID(id string) *messages.TestCase {
-	return self.testCaseByID[id]
+	item, ok := self.testCaseByID[id]
+	if ok {
+		self.informFoundKey(id, "testCaseByID")
+	} else {
+		self.informMissingKey(id, "testCaseByID")
+	}
+	return item
 }
 
 func (self *MessageLookup) LookupTestStepByID(id string) *messages.TestCase_TestStep {
-	return self.testStepByID[id]
+	item, ok := self.testStepByID[id]
+	if ok {
+		self.informFoundKey(id, "testStepByID")
+	} else {
+		self.informMissingKey(id, "testStepByID")
+	}
+	return item
 }
 
 func (self *MessageLookup) LookupPickleStepByID(id string) *messages.Pickle_PickleStep {
-	return self.pickleStepByID[id]
+	item, ok := self.pickleStepByID[id]
+	if ok {
+		self.informFoundKey(id, "pickleStepByID")
+	} else {
+		self.informMissingKey(id, "pickleStepByID")
+	}
+	return item
 }
 
 func (self *MessageLookup) LookupStepDefinitionConfigsByIDs(ids []string) []*messages.StepDefinitionConfig {
@@ -151,5 +224,25 @@ func (self *MessageLookup) LookupStepDefinitionConfigsByIDs(ids []string) []*mes
 }
 
 func (self *MessageLookup) LookupStepDefinitionConfigByID(id string) *messages.StepDefinitionConfig {
-	return self.stepDefinitionConfigByID[id]
+	item, ok := self.stepDefinitionConfigByID[id]
+	if ok {
+		self.informFoundKey(id, "stepDefinitionConfigByID")
+	} else {
+		self.informMissingKey(id, "stepDefinitionConfigByID")
+	}
+	return item
+}
+
+func (self *MessageLookup) informFoundKey(key string, mapName string) {
+	self.comment((fmt.Sprintf("Found item'%s' in %s", key, mapName)))
+}
+
+func (self *MessageLookup) informMissingKey(key string, mapName string) {
+	self.comment((fmt.Sprintf("Unable to find '%s' in %s", key, mapName)))
+}
+
+func (self *MessageLookup) comment(message string) {
+	if self.verbose {
+		fmt.Println(fmt.Sprintf("// LookUp: %s", message))
+	}
 }
