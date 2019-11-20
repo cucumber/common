@@ -1,14 +1,15 @@
 import SupportCodeExecutor from './SupportCodeExecutor'
 import {
-  Expression,
-  CucumberExpression,
-  RegularExpression,
   Argument,
+  CucumberExpression,
+  Expression,
+  RegularExpression,
 } from 'cucumber-expressions'
 import { messages } from 'cucumber-messages'
 import uuidv4 from 'uuid/v4'
+import IStepDefinition from './IStepDefinition'
 
-export default class StepDefinition {
+export default class StepDefinition implements IStepDefinition {
   public readonly id = uuidv4()
 
   constructor(
@@ -16,8 +17,8 @@ export default class StepDefinition {
     private readonly body: (...args: any) => any
   ) {}
 
-  public match(text: string): SupportCodeExecutor | null {
-    const args = this.getArguments(text)
+  public match(pickleStep: messages.Pickle.IPickleStep): SupportCodeExecutor | null {
+    const args = this.getArguments(pickleStep.text)
     return args === null
       ? null
       : new SupportCodeExecutor(this.id, this.body, args)
