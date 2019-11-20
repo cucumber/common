@@ -50,13 +50,7 @@ export class UnexpectedTokenException extends GherkinException {
       ', '
     )}, got '${token.getTokenValue().trim()}'`
 
-    const location =
-      token.location && token.location.line
-        ? createLocation({
-            line: token.location.line,
-            column: token.line.indent + 1,
-          })
-        : token.location
+    const location = tokenLocation(token)
 
     return this._create(location, message)
   }
@@ -71,13 +65,7 @@ export class UnexpectedEOFException extends GherkinException {
     const message = `unexpected end of file, expected: ${expectedTokenTypes.join(
       ', '
     )}`
-    const location =
-      token.location && token.location.line
-        ? createLocation({
-            line: token.location.line,
-            column: token.line.indent + 1,
-          })
-        : token.location
+    const location = tokenLocation(token)
 
     return this._create(location, message)
   }
@@ -94,4 +82,13 @@ export class NoSuchLanguageException extends GherkinException {
     const message = 'Language not supported: ' + language
     return this._create(location, message)
   }
+}
+
+function tokenLocation(token: Token) {
+  return token.location && token.location.line && token.line && token.line.indent !== undefined
+    ? createLocation({
+        line: token.location.line,
+        column: token.line.indent + 1,
+      })
+    : token.location
 }
