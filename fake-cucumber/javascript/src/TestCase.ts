@@ -11,11 +11,13 @@ export default class TestCase {
     private readonly pickleId: string
   ) {}
 
-  public toMessage(): messages.ITestCase {
-    return new messages.TestCase({
-      id: this.id,
-      pickleId: this.pickleId,
-      testSteps: this.testSteps.map(step => step.toMessage()),
+  public toMessage(): messages.IEnvelope {
+    return new messages.Envelope({
+      testCase: new messages.TestCase({
+        id: this.id,
+        pickleId: this.pickleId,
+        testSteps: this.testSteps.map(step => step.toMessage()),
+      }),
     })
   }
 

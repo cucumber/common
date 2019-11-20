@@ -27,6 +27,6 @@ describe('TestPlan', () => {
     const messageList: messages.IEnvelope[] = []
     const notifier: MessageNotifier = message => messageList.push(message)
     testPlan.execute(notifier)
-    assert.deepStrictEqual(messageList.length, 4)
+    assert.deepStrictEqual(messageList.length, 5)
   })
 })

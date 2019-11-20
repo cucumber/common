@@ -1,0 +1,25 @@
+import { messages } from 'cucumber-messages'
+import StepDefinition from './StepDefinition'
+import { MessageNotifier } from './types'
+import TestPlan from './TestPlan'
+
+export default class Cucumber {
+  constructor(
+    private readonly gherkinMessages: messages.IEnvelope[],
+    private readonly stepDefinitions: StepDefinition[]
+  ) {}
+
+  public execute(notifier: MessageNotifier) {
+    for (const gherkinMessage of this.gherkinMessages) {
+      notifier(gherkinMessage)
+    }
+    for (const stepDefinition of this.stepDefinitions) {
+      notifier(stepDefinition.toMessage())
+    }
+    const pickles = this.gherkinMessages
+      .filter(m => m.pickle)
+      .map(m => m.pickle)
+    const testPlan = new TestPlan(pickles, this.stepDefinitions)
+    testPlan.execute(notifier)
+  }
+}

@@ -36,11 +36,7 @@ class FakeTestResultsStream extends Transform {
         )
       })
       const testCase = new TestCase(testSteps, envelope.pickle.id)
-      this.push(
-        new messages.Envelope({
-          testCase: testCase.toMessage(),
-        })
-      )
+      this.push(testCase.toMessage())
       testCase.execute(message => this.push(message), 0)
     }
 

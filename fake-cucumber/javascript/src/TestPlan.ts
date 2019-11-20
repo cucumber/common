@@ -15,6 +15,9 @@ export default class TestPlan {
 
   public execute(notifier: MessageNotifier) {
     for (const testCase of this.testCases) {
+      notifier(testCase.toMessage())
+    }
+    for (const testCase of this.testCases) {
       testCase.execute(notifier, 0)
     }
   }

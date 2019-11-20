@@ -27,19 +27,21 @@ export default class StepDefinition {
     return this.expression.match(text)
   }
 
-  public toMessage(): messages.StepDefinitionConfig {
-    return new messages.StepDefinitionConfig({
-      id: this.id,
-      pattern: new messages.StepDefinitionPattern({
-        type: this.expressionType(),
-        source: this.expression.source,
-      }),
-      location: new messages.SourceReference({
-        location: new messages.Location({
-          column: 3,
-          line: 10,
+  public toMessage(): messages.IEnvelope {
+    return new messages.Envelope({
+      stepDefinitionConfig: new messages.StepDefinitionConfig({
+        id: this.id,
+        pattern: new messages.StepDefinitionPattern({
+          type: this.expressionType(),
+          source: this.expression.source,
         }),
-        uri: 'some/javascript/file.js',
+        location: new messages.SourceReference({
+          location: new messages.Location({
+            column: 3,
+            line: 10,
+          }),
+          uri: 'some/javascript/file.js',
+        }),
       }),
     })
   }

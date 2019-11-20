@@ -14,11 +14,6 @@ export default class StepDefinitionRegistry {
   }
 
   public toMessages(): messages.IEnvelope[] {
-    return this.stepDefinitions.map(
-      stepdef =>
-        new messages.Envelope({
-          stepDefinitionConfig: stepdef.toMessage(),
-        })
-    )
+    return this.stepDefinitions.map(stepdef => stepdef.toMessage())
   }
 }

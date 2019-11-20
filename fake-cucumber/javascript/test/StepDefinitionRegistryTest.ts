@@ -12,12 +12,8 @@ describe('StepDefinitionRegistry', () => {
 
       const registry = new StepDefinitionRegistry([stepDef1, stepDef2])
       assert.deepStrictEqual(registry.toMessages(), [
-        new messages.Envelope({
-          stepDefinitionConfig: stepDef1.toMessage(),
-        }),
-        new messages.Envelope({
-          stepDefinitionConfig: stepDef2.toMessage(),
-        }),
+        stepDef1.toMessage(),
+        stepDef2.toMessage(),
       ])
     })
   })

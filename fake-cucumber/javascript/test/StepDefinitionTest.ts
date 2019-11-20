@@ -39,9 +39,8 @@ describe('StepDefinition', () => {
       const stepdef = new StepDefinition(expression, () => null)
       const message = stepdef.toMessage()
 
-      assert.ok(message instanceof messages.StepDefinitionConfig)
       assert.strictEqual(
-        message.pattern.type,
+        message.stepDefinitionConfig.pattern.type,
         messages.StepDefinitionPatternType.REGULAR_EXPRESSION
       )
     })
@@ -54,9 +53,8 @@ describe('StepDefinition', () => {
       const stepdef = new StepDefinition(expression, () => null)
       const message = stepdef.toMessage()
 
-      assert.ok(message instanceof messages.StepDefinitionConfig)
       assert.strictEqual(
-        message.pattern.type,
+        message.stepDefinitionConfig.pattern.type,
         messages.StepDefinitionPatternType.CUCUMBER_EXPRESSION
       )
     })
