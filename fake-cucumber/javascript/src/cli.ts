@@ -39,7 +39,9 @@ function formatStream(format: string): Transform {
     case 'ndjson':
       return new ProtobufNdjsonStream()
     case 'protobuf':
-      return new ProtobufBinaryStream(messages.Envelope.encodeDelimited)
+      return new ProtobufBinaryStream(
+        messages.Envelope.encodeDelimited.bind(messages.Envelope)
+      )
     default:
       throw new Error(`Unsupported format: '${format}'`)
   }
