@@ -704,6 +704,7 @@ workflows:
           requires:
             - cucumber-messages-javascript
             - gherkin-javascript
+            - cucumber-expressions-javascript
       - cucumber-react-javascript:
           requires:
             - cucumber-messages-javascript
