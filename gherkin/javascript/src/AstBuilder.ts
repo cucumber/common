@@ -4,6 +4,7 @@ import { RuleType, TokenType } from './Parser'
 import Token from './Token'
 import { AstBuilderException } from './Errors'
 import { NewId } from './types'
+import createLocation from './cli/createLocation'
 
 export default class AstBuilder {
   private stack: AstNode[]
@@ -36,7 +37,7 @@ export default class AstBuilder {
   public build(token: Token) {
     if (token.matchedType === TokenType.Comment) {
       this.comments.push(
-        messages.GherkinDocument.Comment.fromObject({
+        messages.GherkinDocument.Comment.create({
           location: this.getLocation(token),
           text: token.matchedText,
         })
@@ -57,7 +58,7 @@ export default class AstBuilder {
   public getLocation(token: Token, column?: number): messages.ILocation {
     return !column
       ? token.location
-      : messages.Location.fromObject({ line: token.location.line, column })
+      : createLocation({ line: token.location.line, column })
   }
 
   public getTags(node: AstNode) {
@@ -70,10 +71,10 @@ export default class AstBuilder {
     for (const token of tokens) {
       for (const tagItem of token.matchedItems) {
         tags.push(
-          messages.GherkinDocument.Feature.Tag.fromObject({
+          messages.GherkinDocument.Feature.Tag.create({
             location: this.getLocation(token, tagItem.column),
             name: tagItem.text,
-            id: this.newId()
+            id: this.newId(),
           })
         )
       }
@@ -83,7 +84,7 @@ export default class AstBuilder {
 
   public getCells(tableRowToken: Token) {
     return tableRowToken.matchedItems.map(cellItem =>
-      messages.GherkinDocument.Feature.TableRow.TableCell.fromObject({
+      messages.GherkinDocument.Feature.TableRow.TableCell.create({
         location: this.getLocation(tableRowToken, cellItem.column),
         value: cellItem.text,
       })
@@ -100,7 +101,7 @@ export default class AstBuilder {
 
   public getTableRows(node: AstNode) {
     const rows = node.getTokens(TokenType.TableRow).map(token =>
-      messages.GherkinDocument.Feature.TableRow.fromObject({
+      messages.GherkinDocument.Feature.TableRow.create({
         id: this.newId(),
         location: this.getLocation(token),
         cells: this.getCells(token),
@@ -133,7 +134,7 @@ export default class AstBuilder {
         const dataTable = node.getSingle(RuleType.DataTable)
         const docString = node.getSingle(RuleType.DocString)
 
-        return messages.GherkinDocument.Feature.Step.fromObject({
+        return messages.GherkinDocument.Feature.Step.create({
           id: this.newId(),
           location: this.getLocation(stepLine),
           keyword: stepLine.matchedKeyword,
@@ -151,13 +152,11 @@ export default class AstBuilder {
         const lineTokens = node.getTokens(TokenType.Other)
         const content = lineTokens.map(t => t.matchedText).join('\n')
 
-        const result = messages.GherkinDocument.Feature.Step.DocString.fromObject(
-          {
-            location: this.getLocation(separatorToken),
-            content,
-            delimiter: separatorToken.line.trimmedLineText.substring(0, 3),
-          }
-        )
+        const result = messages.GherkinDocument.Feature.Step.DocString.create({
+          location: this.getLocation(separatorToken),
+          content,
+          delimiter: separatorToken.line.trimmedLineText.substring(0, 3),
+        })
         // conditionally add this like this (needed to make tests pass on node 0.10 as well as 4.0)
         if (contentType) {
           result.contentType = contentType
@@ -166,7 +165,7 @@ export default class AstBuilder {
       }
       case RuleType.DataTable: {
         const rows = this.getTableRows(node)
-        return messages.GherkinDocument.Feature.Step.DataTable.fromObject({
+        return messages.GherkinDocument.Feature.Step.DataTable.create({
           location: rows[0].location,
           rows,
         })
@@ -176,7 +175,7 @@ export default class AstBuilder {
         const description = this.getDescription(node)
         const steps = this.getSteps(node)
 
-        return messages.GherkinDocument.Feature.Background.fromObject({
+        return messages.GherkinDocument.Feature.Background.create({
           location: this.getLocation(backgroundLine),
           keyword: backgroundLine.matchedKeyword,
           name: backgroundLine.matchedText,
@@ -191,7 +190,7 @@ export default class AstBuilder {
         const description = this.getDescription(scenarioNode)
         const steps = this.getSteps(scenarioNode)
         const examples = scenarioNode.getItems(RuleType.ExamplesDefinition)
-        return messages.GherkinDocument.Feature.Scenario.fromObject({
+        return messages.GherkinDocument.Feature.Scenario.create({
           id: this.newId(),
           tags,
           location: this.getLocation(scenarioLine),
@@ -211,7 +210,7 @@ export default class AstBuilder {
           RuleType.ExamplesTable
         )
 
-        return messages.GherkinDocument.Feature.Scenario.Examples.fromObject({
+        return messages.GherkinDocument.Feature.Scenario.Examples.create({
           tags,
           location: this.getLocation(examplesLine),
           keyword: examplesLine.matchedKeyword,
@@ -251,21 +250,21 @@ export default class AstBuilder {
         const background = node.getSingle(RuleType.Background)
         if (background) {
           children.push(
-            messages.GherkinDocument.Feature.FeatureChild.fromObject({
+            messages.GherkinDocument.Feature.FeatureChild.create({
               background,
             })
           )
         }
         for (const scenario of node.getItems(RuleType.ScenarioDefinition)) {
           children.push(
-            messages.GherkinDocument.Feature.FeatureChild.fromObject({
+            messages.GherkinDocument.Feature.FeatureChild.create({
               scenario,
             })
           )
         }
         for (const rule of node.getItems(RuleType.Rule)) {
           children.push(
-            messages.GherkinDocument.Feature.FeatureChild.fromObject({
+            messages.GherkinDocument.Feature.FeatureChild.create({
               rule,
             })
           )
@@ -274,7 +273,7 @@ export default class AstBuilder {
         const description = this.getDescription(header)
         const language = featureLine.matchedGherkinDialect
 
-        return messages.GherkinDocument.Feature.fromObject({
+        return messages.GherkinDocument.Feature.create({
           tags,
           location: this.getLocation(featureLine),
           language,
@@ -290,7 +289,6 @@ export default class AstBuilder {
         if (!header) {
           return null
         }
-        const tags = this.getTags(header)
         const ruleLine = header.getToken(TokenType.RuleLine)
         if (!ruleLine) {
           return null
@@ -299,22 +297,21 @@ export default class AstBuilder {
         const background = node.getSingle(RuleType.Background)
         if (background) {
           children.push(
-            messages.GherkinDocument.Feature.FeatureChild.fromObject({
+            messages.GherkinDocument.Feature.FeatureChild.create({
               background,
             })
           )
         }
         for (const scenario of node.getItems(RuleType.ScenarioDefinition)) {
           children.push(
-            messages.GherkinDocument.Feature.FeatureChild.fromObject({
+            messages.GherkinDocument.Feature.FeatureChild.create({
               scenario,
             })
           )
         }
         const description = this.getDescription(header)
 
-        return messages.GherkinDocument.Feature.FeatureChild.Rule.fromObject({
-          tags,
+        return messages.GherkinDocument.Feature.FeatureChild.Rule.create({
           location: this.getLocation(ruleLine),
           keyword: ruleLine.matchedKeyword,
           name: ruleLine.matchedText,
@@ -325,7 +322,7 @@ export default class AstBuilder {
       case RuleType.GherkinDocument: {
         const feature = node.getSingle(RuleType.Feature)
 
-        return messages.GherkinDocument.fromObject({
+        return messages.GherkinDocument.create({
           feature,
           comments: this.comments,
         })
