@@ -21,7 +21,6 @@ describe('Parser', function() {
           language: 'en',
           keyword: 'Feature',
           name: 'hello',
-          description: undefined,
           children: [],
         },
         comments: [],
@@ -44,7 +43,6 @@ describe('Parser', function() {
           language: 'en',
           keyword: 'Feature',
           name: 'hello',
-          description: undefined,
           children: [],
         },
         comments: [],
@@ -59,7 +57,6 @@ describe('Parser', function() {
           language: 'en',
           keyword: 'Feature',
           name: 'hello again',
-          description: undefined,
           children: [],
         },
         comments: [],
@@ -106,11 +103,9 @@ describe('Parser', function() {
           language: 'en',
           keyword: 'Feature',
           name: 'Foo',
-          description: undefined,
           children: [
             {
               scenario: {
-                description: undefined,
                 id: '1',
                 examples: [],
                 keyword: 'Scenario',
@@ -153,7 +148,6 @@ describe('Parser', function() {
           language: 'no',
           keyword: 'Egenskap',
           name: 'i18n support',
-          description: undefined,
           children: [],
         },
         comments: [],

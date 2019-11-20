@@ -1,6 +1,7 @@
 import Token from './Token'
 import GherkinLine from './GherkinLine'
 import { messages } from 'cucumber-messages'
+import createLocation from './cli/createLocation'
 
 /**
  * The scanner reads a gherkin doc (typically read from a .feature file) and creates a token for each line.
@@ -25,10 +26,10 @@ export default class TokenScanner {
 
   public read() {
     const line = this.lines[this.lineNumber++]
-    const location = messages.Location.fromObject({
+    const location = createLocation({
       line: this.lineNumber,
-      column: 0,
     })
+    location.column = undefined
     return line == null
       ? new Token(null, location)
       : new Token(new GherkinLine(line, this.lineNumber), location)

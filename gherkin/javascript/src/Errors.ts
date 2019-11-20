@@ -1,5 +1,6 @@
 import { messages } from 'cucumber-messages'
 import Token from './Token'
+import createLocation from './cli/createLocation'
 
 class GherkinException extends Error {
   public errors: Error[]
@@ -20,7 +21,8 @@ class GherkinException extends Error {
   }
 
   protected static _create<T>(location: messages.ILocation, message: string) {
-    const m = `(${location.line}:${location.column}): ${message}`
+    const column = location.column || 0
+    const m = `(${location.line}:${column}): ${message}`
     const err = new this(m)
     err.location = location
     return err
@@ -48,12 +50,7 @@ export class UnexpectedTokenException extends GherkinException {
       ', '
     )}, got '${token.getTokenValue().trim()}'`
 
-    const location = !token.location.column
-      ? messages.Location.fromObject({
-          line: token.location.line,
-          column: token.line.indent + 1,
-        })
-      : token.location
+    const location = tokenLocation(token)
 
     return this._create(location, message)
   }
@@ -68,13 +65,7 @@ export class UnexpectedEOFException extends GherkinException {
     const message = `unexpected end of file, expected: ${expectedTokenTypes.join(
       ', '
     )}`
-    const location =
-      token.location && token.line
-        ? messages.Location.fromObject({
-            line: token.location.line,
-            column: token.line.indent + 1,
-          })
-        : token.location
+    const location = tokenLocation(token)
 
     return this._create(location, message)
   }
@@ -91,4 +82,13 @@ export class NoSuchLanguageException extends GherkinException {
     const message = 'Language not supported: ' + language
     return this._create(location, message)
   }
+}
+
+function tokenLocation(token: Token) {
+  return token.location && token.location.line && token.line && token.line.indent !== undefined
+    ? createLocation({
+        line: token.location.line,
+        column: token.line.indent + 1,
+      })
+    : token.location
 }
