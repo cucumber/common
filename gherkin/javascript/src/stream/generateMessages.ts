@@ -41,7 +41,7 @@ export default function generateMessages(
 
     if (options.includeGherkinDocument) {
       result.push(
-        messages.Envelope.fromObject({
+        messages.Envelope.create({
           gherkinDocument: { ...gherkinDocument, uri },
         })
       )
@@ -51,7 +51,7 @@ export default function generateMessages(
       const pickles = compile(gherkinDocument, uri, options.newId)
       for (const pickle of pickles) {
         result.push(
-          messages.Envelope.fromObject({
+          messages.Envelope.create({
             pickle,
           })
         )
@@ -65,7 +65,7 @@ export default function generateMessages(
         throw error
       }
       result.push(
-        messages.Envelope.fromObject({
+        messages.Envelope.create({
           attachment: {
             source: {
               uri,

@@ -1,6 +1,6 @@
 import gherkin from 'gherkin'
 import { messages } from 'cucumber-messages'
-import { FakeTestResultsStream } from 'fake-cucumber'
+import { CucumberStream, makeDummyStepDefinitions } from 'fake-cucumber'
 import { Readable, Writable } from 'stream'
 import * as assert from 'assert'
 import CucumberQuery from '../src/CucumberQuery'
@@ -227,7 +227,7 @@ describe('CucumberQuery', () => {
           )
           assert.deepStrictEqual(
             line4.map(arg => arg.parameterTypeName),
-            ['int']
+            ['int', 'word']
           )
           cb()
         },
@@ -251,7 +251,7 @@ function generateMessages(gherkinSource: string, uri: string): Readable {
 
   return gherkin
     .fromSources([source], { newId: gherkin.uuid() })
-    .pipe(new FakeTestResultsStream('protobuf-objects', 'pattern'))
+    .pipe(new CucumberStream(makeDummyStepDefinitions()))
 }
 
 function check(

@@ -8,6 +8,7 @@ import {
   ProtobufNdjsonStream,
 } from 'cucumber-messages'
 import CucumberStream from './CucumberStream'
+import makeDummyStepDefinitions from './makeDummyStepDefinitions'
 
 const program = new Command()
 program.version(packageJson.version)
@@ -22,7 +23,7 @@ const paths = program.args
 async function run() {
   await pipeline(
     gherkin.fromPaths(paths, {}),
-    new CucumberStream([]),
+    new CucumberStream(makeDummyStepDefinitions()),
     formatStream(program.format),
     process.stdout,
     err => {

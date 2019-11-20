@@ -30,7 +30,10 @@ func Messages(
 	handleMessage := func(result []messages.Envelope, message *messages.Envelope) ([]messages.Envelope, error) {
 		if outStream != nil {
 			if json {
-				ma := jsonpb.Marshaler{}
+				ma := jsonpb.Marshaler{
+					EnumsAsInts:  false,
+					EmitDefaults: false,
+				}
 				msgJson, err := ma.MarshalToString(message)
 				if err != nil {
 					return result, err

@@ -1,3 +1,5 @@
-import FakeTestResultsStream from './FakeTestResultsStream'
+import Cucumber from './Cucumber'
+import CucumberStream from './CucumberStream'
+import makeDummyStepDefinitions from './makeDummyStepDefinitions'
 
-export { FakeTestResultsStream }
+export { Cucumber, CucumberStream, makeDummyStepDefinitions }

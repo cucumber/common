@@ -1,4 +1,3 @@
-import countSymbols from '../countSymbols'
 import { messages } from 'cucumber-messages'
 import IGherkinDocument = messages.IGherkinDocument
 import { NewId } from '../types'
@@ -112,14 +111,13 @@ function compileScenario(
 
   scenario.steps.forEach(step => steps.push(pickleStep(step, [], null, newId)))
 
-  const pickle = messages.Pickle.fromObject({
+  const pickle = messages.Pickle.create({
     id: newId(),
     uri,
     sourceIds: [scenario.id],
     tags: pickleTags(tags),
     name: scenario.name,
     language,
-    locations: [scenario.location],
     steps,
   })
   pickles.push(pickle)
@@ -157,7 +155,7 @@ function compileScenarioOutline(
         })
 
         pickles.push(
-          messages.Pickle.fromObject({
+          messages.Pickle.create({
             id: newId(),
             uri,
             sourceIds: [scenario.id, valuesRow.id],
@@ -165,7 +163,6 @@ function compileScenarioOutline(
             language,
             steps,
             tags: pickleTags(tags),
-            locations: [scenario.location, valuesRow.location],
           })
         )
       })
@@ -196,8 +193,7 @@ function createPickleArguments(
     }
   } else if (step.docString) {
     const argument = step.docString
-    const docString = messages.PickleStepArgument.PickleDocString.fromObject({
-      location: argument.location,
+    const docString = messages.PickleStepArgument.PickleDocString.create({
       content: interpolate(argument.content, variableCells, valueCells),
     })
     if (argument.contentType) {
@@ -250,20 +246,11 @@ function pickleStep(
   }
   const valueCells = valuesRow ? valuesRow.cells : []
 
-  return messages.Pickle.PickleStep.fromObject({
+  return messages.Pickle.PickleStep.create({
     id: newId(),
     text: interpolate(step.text, variableCells, valueCells),
     argument: createPickleArguments(step, variableCells, valueCells),
-    locations: [pickleStepLocation(step)],
     sourceIds,
-  })
-}
-
-function pickleStepLocation(step: messages.GherkinDocument.Feature.IStep) {
-  return messages.Location.fromObject({
-    line: step.location.line,
-    column:
-      step.location.column + (step.keyword ? countSymbols(step.keyword) : 0),
   })
 }
 
@@ -272,7 +259,7 @@ function pickleTags(tags: messages.GherkinDocument.Feature.ITag[]) {
 }
 
 function pickleTag(tag: messages.GherkinDocument.Feature.ITag) {
-  return messages.Pickle.PickleTag.fromObject({
+  return messages.Pickle.PickleTag.create({
     name: tag.name,
     sourceId: tag.id,
   })
