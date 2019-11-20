@@ -9,7 +9,7 @@ import { messages } from 'cucumber-messages'
 import uuidv4 from 'uuid/v4'
 import IStepDefinition from './IStepDefinition'
 
-export default class StepDefinition implements IStepDefinition {
+export default class ExpressionStepDefinition implements IStepDefinition {
   public readonly id = uuidv4()
 
   constructor(
@@ -17,7 +17,9 @@ export default class StepDefinition implements IStepDefinition {
     private readonly body: (...args: any) => any
   ) {}
 
-  public match(pickleStep: messages.Pickle.IPickleStep): SupportCodeExecutor | null {
+  public match(
+    pickleStep: messages.Pickle.IPickleStep
+  ): SupportCodeExecutor | null {
     const args = this.getArguments(pickleStep.text)
     return args === null
       ? null

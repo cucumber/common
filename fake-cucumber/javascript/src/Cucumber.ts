@@ -1,12 +1,13 @@
 import { messages } from 'cucumber-messages'
-import StepDefinition from './StepDefinition'
+import ExpressionStepDefinition from './ExpressionStepDefinition'
 import { MessageNotifier } from './types'
 import TestPlan from './TestPlan'
+import IStepDefinition from './IStepDefinition'
 
 export default class Cucumber {
   constructor(
     private readonly gherkinMessages: messages.IEnvelope[],
-    private readonly stepDefinitions: StepDefinition[]
+    private readonly stepDefinitions: IStepDefinition[]
   ) {}
 
   public execute(notifier: MessageNotifier) {

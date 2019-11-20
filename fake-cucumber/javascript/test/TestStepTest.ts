@@ -1,13 +1,13 @@
 import assert from 'assert'
 import { messages } from 'cucumber-messages'
 import TestStep from '../src/TestStep'
-import StepDefinitionRegistry from '../src/StepDefinitionRegistry'
 import {
   stubFailingSupportCodeExecutor,
   stubMatchingStepDefinition,
   stubPassingSupportCodeExecutor,
   stubPendingSupportCodeExecutor,
 } from './TestHelpers'
+import makePickleTestStep from '../src/makePickleTestStep'
 
 function execute(testStep: TestStep): messages.ITestStepFinished {
   const receivedMessages: messages.IEnvelope[] = []
@@ -21,10 +21,11 @@ function execute(testStep: TestStep): messages.ITestStepFinished {
 describe('TestStep', () => {
   describe('#execute', () => {
     it('emits a TestStepFinished with status UNDEFINED when there are no matching step definitions', () => {
-      const registry = new StepDefinitionRegistry([])
-      const testStep = registry.createTestStep(
-        'an undefined step',
-        'pickle-step-id'
+      const testStep = makePickleTestStep(
+        messages.Pickle.PickleStep.create({
+          text: 'an undefined step',
+        }),
+        []
       )
 
       const testStepFinished = execute(testStep)
@@ -37,14 +38,13 @@ describe('TestStep', () => {
     })
 
     it('emits a TestStepFinished with status AMBIGUOUS when there are multiple matching step definitions', () => {
-      const registry = new StepDefinitionRegistry([
-        stubMatchingStepDefinition(),
-        stubMatchingStepDefinition(),
-      ])
-      const testStep = registry.createTestStep(
-        'an ambiguous step',
-        'pickle-step-id'
+      const testStep = makePickleTestStep(
+        messages.Pickle.PickleStep.create({
+          text: 'an undefined step',
+        }),
+        [stubMatchingStepDefinition(), stubMatchingStepDefinition()]
       )
+
       const testStepFinished = execute(testStep)
       assert.strictEqual(
         testStepFinished.testResult.status,
@@ -54,10 +54,11 @@ describe('TestStep', () => {
     })
 
     it('returns the status', () => {
-      const registry = new StepDefinitionRegistry([])
-      const testStep = registry.createTestStep(
-        'an undefined step',
-        'pickle-step-id'
+      const testStep = makePickleTestStep(
+        messages.Pickle.PickleStep.create({
+          text: 'an undefined step',
+        }),
+        []
       )
 
       assert.strictEqual(
@@ -68,13 +69,13 @@ describe('TestStep', () => {
 
     context('when there is a matching step definition', () => {
       it('emits a TestStepFinished with status PASSED when no exception is raised', () => {
-        const registry = new StepDefinitionRegistry([
-          stubMatchingStepDefinition(stubPassingSupportCodeExecutor()),
-        ])
-        const testStep = registry.createTestStep(
-          'a passed step',
-          'pickle-step-id'
+        const testStep = makePickleTestStep(
+          messages.Pickle.PickleStep.create({
+            text: 'a passed step',
+          }),
+          [stubMatchingStepDefinition(stubPassingSupportCodeExecutor())]
         )
+
         const testStepFinished = execute(testStep)
 
         assert.strictEqual(
@@ -85,12 +86,11 @@ describe('TestStep', () => {
       })
 
       it('emits a TestStepFinished with status PENDING when the string "pending" is returned', () => {
-        const registry = new StepDefinitionRegistry([
-          stubMatchingStepDefinition(stubPendingSupportCodeExecutor()),
-        ])
-        const testStep = registry.createTestStep(
-          'a pending step',
-          'pickle-step-id'
+        const testStep = makePickleTestStep(
+          messages.Pickle.PickleStep.create({
+            text: 'a passed step',
+          }),
+          [stubMatchingStepDefinition(stubPendingSupportCodeExecutor())]
         )
         const testStepFinished = execute(testStep)
 
@@ -102,16 +102,17 @@ describe('TestStep', () => {
       })
 
       it('emits a TestStepFinished with status FAILED when an exception is raised', () => {
-        const registry = new StepDefinitionRegistry([
-          stubMatchingStepDefinition(
-            stubFailingSupportCodeExecutor('This step has failed')
-          ),
-        ])
-
-        const testStep = registry.createTestStep(
-          'a failed step',
-          'pickle-step-id'
+        const testStep = makePickleTestStep(
+          messages.Pickle.PickleStep.create({
+            text: 'a passed step',
+          }),
+          [
+            stubMatchingStepDefinition(
+              stubFailingSupportCodeExecutor('This step has failed')
+            ),
+          ]
         )
+
         const testStepFinished = execute(testStep)
         assert.strictEqual(
           testStepFinished.testResult.status,

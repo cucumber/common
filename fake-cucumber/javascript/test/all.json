@@ -1,0 +1,652 @@
+[
+  {
+    "description": "",
+    "elements": [
+      {
+        "description": "",
+        "id": "another-one;one",
+        "keyword": "Scenario",
+        "line": 3,
+        "name": "One",
+        "steps": [
+          {
+            "keyword": "Given ",
+            "line": 4,
+            "match": {
+              "location": "some_file.xyz"
+            },
+            "name": "a passed step",
+            "result": {
+              "duration": 99,
+              "error_message": "some error",
+              "status": "passed"
+            }
+          },
+          {
+            "keyword": "When ",
+            "line": 5,
+            "match": {
+              "location": "some_file.xyz"
+            },
+            "name": "a failed step",
+            "result": {
+              "duration": 99,
+              "error_message": "some error",
+              "status": "failed"
+            }
+          },
+          {
+            "keyword": "Then ",
+            "line": 6,
+            "match": {
+              "location": "some_file.xyz"
+            },
+            "name": "a skipped step",
+            "result": {
+              "duration": 99,
+              "error_message": "some error",
+              "status": "skipped"
+            }
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "another-one;two",
+        "keyword": "Scenario",
+        "line": 8,
+        "name": "Two",
+        "steps": [
+          {
+            "keyword": "Given ",
+            "line": 9,
+            "match": {
+              "location": "some_file.xyz"
+            },
+            "name": "a failed step",
+            "result": {
+              "duration": 99,
+              "error_message": "some error",
+              "status": "failed"
+            }
+          }
+        ],
+        "type": "scenario"
+      }
+    ],
+    "id": "another-one",
+    "keyword": "Feature",
+    "line": 2,
+    "name": "Another one",
+    "uri": "features/test_another_one.feature"
+  },
+  {
+    "description": "",
+    "elements": [
+      {
+        "description": "",
+        "id": "doc-strings;a-step-can-have-docstrings",
+        "keyword": "Scenario",
+        "line": 3,
+        "name": "a step can have docstrings",
+        "steps": [
+          {
+            "keyword": "Given ",
+            "line": 4,
+            "match": {
+              "location": "some_file.xyz"
+            },
+            "name": "a passed step with",
+            "result": {
+              "duration": 99,
+              "error_message": "some error",
+              "status": "passed"
+            },
+            "rows": [
+              {
+                "cells": [
+                  "name",
+                  "value"
+                ]
+              },
+              {
+                "cells": [
+                  "x",
+                  "1"
+                ]
+              }
+            ]
+          },
+          {
+            "keyword": "Then ",
+            "line": 7,
+            "match": {
+              "location": "some_file.xyz"
+            },
+            "name": "a failed step with",
+            "result": {
+              "duration": 99,
+              "error_message": "some error",
+              "status": "failed"
+            },
+            "rows": [
+              {
+                "cells": [
+                  "name",
+                  "value"
+                ]
+              },
+              {
+                "cells": [
+                  "y",
+                  "2"
+                ]
+              }
+            ]
+          }
+        ],
+        "type": "scenario"
+      }
+    ],
+    "id": "doc-strings",
+    "keyword": "Feature",
+    "line": 1,
+    "name": "doc strings",
+    "uri": "features/test_datatable.feature"
+  },
+  {
+    "description": "",
+    "elements": [
+      {
+        "description": "",
+        "id": "doc-strings;a-step-can-have-docstrings",
+        "keyword": "Scenario",
+        "line": 3,
+        "name": "a step can have docstrings",
+        "steps": [
+          {
+            "doc_string": {
+              "content_type": "",
+              "line": 5,
+              "value": "This is a doc string"
+            },
+            "keyword": "Given ",
+            "line": 4,
+            "match": {
+              "location": "some_file.xyz"
+            },
+            "name": "a passed step with",
+            "result": {
+              "duration": 99,
+              "error_message": "some error",
+              "status": "passed"
+            }
+          },
+          {
+            "doc_string": {
+              "content_type": "",
+              "line": 9,
+              "value": "Can also have doc strings"
+            },
+            "keyword": "Then ",
+            "line": 8,
+            "match": {
+              "location": "some_file.xyz"
+            },
+            "name": "a failed step with",
+            "result": {
+              "duration": 99,
+              "error_message": "some error",
+              "status": "failed"
+            }
+          }
+        ],
+        "type": "scenario"
+      }
+    ],
+    "id": "doc-strings",
+    "keyword": "Feature",
+    "line": 1,
+    "name": "doc strings",
+    "uri": "features/test_doc_strings.feature"
+  },
+  {
+    "description": "  some description\n  here",
+    "elements": [
+      {
+        "description": "",
+        "keyword": "Background",
+        "line": 5,
+        "name": "",
+        "steps": [
+          {
+            "keyword": "Given ",
+            "line": 6,
+            "match": {
+              "location": "some_file.xyz"
+            },
+            "name": "a passed step",
+            "result": {
+              "duration": 99,
+              "error_message": "some error",
+              "status": "passed"
+            }
+          }
+        ],
+        "type": "background"
+      },
+      {
+        "description": "    some other\n    description here",
+        "id": "simple;number-1",
+        "keyword": "Scenario",
+        "line": 8,
+        "name": "number 1",
+        "steps": [
+          {
+            "keyword": "Given ",
+            "line": 11,
+            "match": {
+              "location": "some_file.xyz"
+            },
+            "name": "a passed step",
+            "result": {
+              "duration": 99,
+              "error_message": "some error",
+              "status": "passed"
+            }
+          },
+          {
+            "keyword": "When ",
+            "line": 12,
+            "match": {
+              "location": "some_file.xyz"
+            },
+            "name": "a failed step",
+            "result": {
+              "duration": 99,
+              "error_message": "some error",
+              "status": "failed"
+            }
+          },
+          {
+            "keyword": "Then ",
+            "line": 13,
+            "match": {
+              "location": "some_file.xyz"
+            },
+            "name": "a skipped step",
+            "result": {
+              "duration": 99,
+              "error_message": "some error",
+              "status": "skipped"
+            }
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "keyword": "Background",
+        "line": 5,
+        "name": "",
+        "steps": [
+          {
+            "keyword": "Given ",
+            "line": 6,
+            "match": {
+              "location": "some_file.xyz"
+            },
+            "name": "a passed step",
+            "result": {
+              "duration": 99,
+              "error_message": "some error",
+              "status": "passed"
+            }
+          }
+        ],
+        "type": "background"
+      },
+      {
+        "description": "",
+        "id": "simple;number-2",
+        "keyword": "Scenario",
+        "line": 15,
+        "name": "number 2",
+        "steps": [
+          {
+            "keyword": "Given ",
+            "line": 16,
+            "match": {
+              "location": "some_file.xyz"
+            },
+            "name": "a failed step",
+            "result": {
+              "duration": 99,
+              "error_message": "some error",
+              "status": "failed"
+            }
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "keyword": "Background",
+        "line": 5,
+        "name": "",
+        "steps": [
+          {
+            "keyword": "Given ",
+            "line": 6,
+            "match": {
+              "location": "some_file.xyz"
+            },
+            "name": "a passed step",
+            "result": {
+              "duration": 99,
+              "error_message": "some error",
+              "status": "passed"
+            }
+          }
+        ],
+        "type": "background"
+      },
+      {
+        "description": "",
+        "id": "simple;with-multiple-statuses;some-examples;2",
+        "keyword": "Scenario Outline",
+        "line": 27,
+        "name": "With multiple statuses",
+        "steps": [
+          {
+            "keyword": "Given ",
+            "line": 19,
+            "match": {
+              "location": "some_file.xyz"
+            },
+            "name": "a passed step",
+            "result": {
+              "duration": 99,
+              "error_message": "some error",
+              "status": "passed"
+            }
+          },
+          {
+            "keyword": "When ",
+            "line": 20,
+            "match": {
+              "location": "some_file.xyz"
+            },
+            "name": "a passed step",
+            "result": {
+              "duration": 99,
+              "error_message": "some error",
+              "status": "passed"
+            }
+          },
+          {
+            "keyword": "Then ",
+            "line": 21,
+            "match": {
+              "location": "some_file.xyz"
+            },
+            "name": "a passed step",
+            "result": {
+              "duration": 99,
+              "error_message": "some error",
+              "status": "passed"
+            }
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "keyword": "Background",
+        "line": 5,
+        "name": "",
+        "steps": [
+          {
+            "keyword": "Given ",
+            "line": 6,
+            "match": {
+              "location": "some_file.xyz"
+            },
+            "name": "a passed step",
+            "result": {
+              "duration": 99,
+              "error_message": "some error",
+              "status": "passed"
+            }
+          }
+        ],
+        "type": "background"
+      },
+      {
+        "description": "",
+        "id": "simple;with-multiple-statuses;some-examples;3",
+        "keyword": "Scenario Outline",
+        "line": 28,
+        "name": "With multiple statuses",
+        "steps": [
+          {
+            "keyword": "Given ",
+            "line": 19,
+            "match": {
+              "location": "some_file.xyz"
+            },
+            "name": "a passed step",
+            "result": {
+              "duration": 99,
+              "error_message": "some error",
+              "status": "passed"
+            }
+          },
+          {
+            "keyword": "When ",
+            "line": 20,
+            "match": {
+              "location": "some_file.xyz"
+            },
+            "name": "a passed step",
+            "result": {
+              "duration": 99,
+              "error_message": "some error",
+              "status": "passed"
+            }
+          },
+          {
+            "keyword": "Then ",
+            "line": 21,
+            "match": {
+              "location": "some_file.xyz"
+            },
+            "name": "a undefined step",
+            "result": {
+              "duration": 99,
+              "error_message": "some error",
+              "status": "undefined"
+            }
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "keyword": "Background",
+        "line": 5,
+        "name": "",
+        "steps": [
+          {
+            "keyword": "Given ",
+            "line": 6,
+            "match": {
+              "location": "some_file.xyz"
+            },
+            "name": "a passed step",
+            "result": {
+              "duration": 99,
+              "error_message": "some error",
+              "status": "passed"
+            }
+          }
+        ],
+        "type": "background"
+      },
+      {
+        "description": "",
+        "id": "simple;with-multiple-statuses;some-more-examples;2",
+        "keyword": "Scenario Outline",
+        "line": 35,
+        "name": "With multiple statuses",
+        "steps": [
+          {
+            "keyword": "Given ",
+            "line": 19,
+            "match": {
+              "location": "some_file.xyz"
+            },
+            "name": "a passed step",
+            "result": {
+              "duration": 99,
+              "error_message": "some error",
+              "status": "passed"
+            }
+          },
+          {
+            "keyword": "When ",
+            "line": 20,
+            "match": {
+              "location": "some_file.xyz"
+            },
+            "name": "a failed step",
+            "result": {
+              "duration": 99,
+              "error_message": "some error",
+              "status": "failed"
+            }
+          },
+          {
+            "keyword": "Then ",
+            "line": 21,
+            "match": {
+              "location": "some_file.xyz"
+            },
+            "name": "a skipped step",
+            "result": {
+              "duration": 99,
+              "error_message": "some error",
+              "status": "skipped"
+            }
+          }
+        ],
+        "type": "scenario"
+      }
+    ],
+    "id": "simple",
+    "keyword": "Feature",
+    "line": 1,
+    "name": "Simple",
+    "uri": "features/test_simple.feature"
+  },
+  {
+    "description": "",
+    "elements": [
+      {
+        "description": "",
+        "id": "with-tags;with-a-single-tag",
+        "keyword": "Scenario",
+        "line": 5,
+        "name": "With a single tag",
+        "steps": [
+          {
+            "keyword": "Given ",
+            "line": 6,
+            "match": {
+              "location": "some_file.xyz"
+            },
+            "name": "a passed step",
+            "result": {
+              "duration": 99,
+              "error_message": "some error",
+              "status": "passed"
+            }
+          }
+        ],
+        "tags": [
+          {
+            "line": 1,
+            "name": "@tagged-feature"
+          },
+          {
+            "line": 4,
+            "name": "@acceptance"
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "with-tags;with-multiple-tags",
+        "keyword": "Scenario",
+        "line": 9,
+        "name": "With multiple tags",
+        "steps": [
+          {
+            "keyword": "Given ",
+            "line": 10,
+            "match": {
+              "location": "some_file.xyz"
+            },
+            "name": "a passed step",
+            "result": {
+              "duration": 99,
+              "error_message": "some error",
+              "status": "passed"
+            }
+          },
+          {
+            "keyword": "Then ",
+            "line": 11,
+            "match": {
+              "location": "some_file.xyz"
+            },
+            "name": "a failed step",
+            "result": {
+              "duration": 99,
+              "error_message": "some error",
+              "status": "failed"
+            }
+          }
+        ],
+        "tags": [
+          {
+            "line": 1,
+            "name": "@tagged-feature"
+          },
+          {
+            "line": 8,
+            "name": "@acceptance"
+          },
+          {
+            "line": 8,
+            "name": "@wip"
+          }
+        ],
+        "type": "scenario"
+      }
+    ],
+    "id": "with-tags",
+    "keyword": "Feature",
+    "line": 2,
+    "name": "With tags",
+    "tags": [
+      {
+        "line": 1,
+        "name": "@tagged-feature"
+      }
+    ],
+    "uri": "features/test_tag.feature"
+  }
+]

@@ -1,6 +1,6 @@
 import assert from 'assert'
 import { messages } from 'cucumber-messages'
-import StepDefinition from '../src/StepDefinition'
+import ExpressionStepDefinition from '../src/ExpressionStepDefinition'
 import { CucumberExpression, ParameterTypeRegistry } from 'cucumber-expressions'
 import RegularExpression from 'cucumber-expressions/dist/src/RegularExpression'
 
@@ -11,8 +11,11 @@ describe('StepDefinition', () => {
         'banana',
         new ParameterTypeRegistry()
       )
-      const stepdef = new StepDefinition(expression, () => null)
-      const match = stepdef.match('apple')
+      const stepdef = new ExpressionStepDefinition(expression, () => null)
+      const pickleStep = messages.Pickle.PickleStep.create({
+        text: 'apple',
+      })
+      const match = stepdef.match(pickleStep)
       assert.strictEqual(match, null)
     })
 
@@ -21,11 +24,14 @@ describe('StepDefinition', () => {
         'I have {int} cukes',
         new ParameterTypeRegistry()
       )
-      const stepdef = new StepDefinition(
+      const stepdef = new ExpressionStepDefinition(
         expression,
         (cukeCount: number) => cukeCount
       )
-      const executor = stepdef.match('I have 7 cukes')
+      const pickleStep = messages.Pickle.PickleStep.create({
+        text: 'I have 7 cukes',
+      })
+      const executor = stepdef.match(pickleStep)
       assert.strictEqual(executor.execute(), 7)
     })
   })
@@ -36,7 +42,7 @@ describe('StepDefinition', () => {
         /banana/,
         new ParameterTypeRegistry()
       )
-      const stepdef = new StepDefinition(expression, () => null)
+      const stepdef = new ExpressionStepDefinition(expression, () => null)
       const message = stepdef.toMessage()
 
       assert.strictEqual(
@@ -50,7 +56,7 @@ describe('StepDefinition', () => {
         'banana',
         new ParameterTypeRegistry()
       )
-      const stepdef = new StepDefinition(expression, () => null)
+      const stepdef = new ExpressionStepDefinition(expression, () => null)
       const message = stepdef.toMessage()
 
       assert.strictEqual(

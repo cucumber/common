@@ -1,12 +1,12 @@
 import { Transform, TransformCallback } from 'stream'
 import { messages } from 'cucumber-messages'
-import StepDefinition from './StepDefinition'
 import Cucumber from './Cucumber'
+import IStepDefinition from './IStepDefinition'
 
 export default class CucumberStream extends Transform {
   private readonly gherkinMessages: messages.IEnvelope[] = []
 
-  constructor(private readonly stepDefinitions: StepDefinition[]) {
+  constructor(private readonly stepDefinitions: IStepDefinition[]) {
     super({ objectMode: true })
   }
 

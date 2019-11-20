@@ -1,6 +1,6 @@
 import { stubConstructor } from 'ts-sinon'
 import SupportCodeExecutor from '../src/SupportCodeExecutor'
-import StepDefinition from '../src/StepDefinition'
+import ExpressionStepDefinition from '../src/ExpressionStepDefinition'
 import { Readable } from 'stream'
 import { messages } from 'cucumber-messages'
 import gherkin from 'gherkin'
@@ -34,8 +34,8 @@ export function stubMatchingStepDefinition(
     () => null,
     []
   )
-): StepDefinition {
-  const stepDefinitionStub = stubConstructor(StepDefinition)
+): ExpressionStepDefinition {
+  const stepDefinitionStub = stubConstructor(ExpressionStepDefinition)
   stepDefinitionStub.match.returns(executor)
 
   return stepDefinitionStub
