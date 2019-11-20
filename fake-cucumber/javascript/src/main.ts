@@ -2,12 +2,18 @@ import { Command } from 'commander'
 import packageJson from '../package.json'
 import gherkin from 'gherkin'
 import FakeTestResultsStream from './FakeTestResultsStream'
+import { Transform } from 'stream'
+import {
+  messages,
+  ProtobufBinaryStream,
+  ProtobufNdjsonStream,
+} from 'cucumber-messages'
 
 const program = new Command()
 program.version(packageJson.version)
 program.option(
   '-f, --format <format>',
-  'output format: json|ndjson|protobuf',
+  'output format: ndjson|protobuf',
   'protobuf'
 )
 program.option(
@@ -19,16 +25,25 @@ program.parse(process.argv)
 
 const paths = program.args
 
-// @ts-ignore
-const fakeTestResultsStream = new FakeTestResultsStream(
-  program.format,
-  program.results
-)
+const fakeTestResultsStream = new FakeTestResultsStream(program.results)
 fakeTestResultsStream.on('error', (err: Error) => exit(err))
+
+let formatStream: Transform
+switch (program.format) {
+  case 'ndjson':
+    formatStream = new ProtobufNdjsonStream()
+    break
+  case 'protobuf':
+    formatStream = new ProtobufBinaryStream(messages.Envelope.encodeDelimited)
+    break
+  default:
+    throw new Error(`Unsupported format: '${program.format}'`)
+}
 
 gherkin
   .fromPaths(paths, {})
   .pipe(fakeTestResultsStream)
+  .pipe(formatStream)
   .pipe(process.stdout)
 
 function exit(err: Error) {

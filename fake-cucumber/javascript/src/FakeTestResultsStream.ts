@@ -5,15 +5,9 @@ import defaultStepDefinitionRegistry from './DefaultStepDefinitions'
 import TestCase from './TestCase'
 
 class FakeTestResultsStream extends Transform {
-  private readonly buffer: messages.IEnvelope[] = []
   private stepDefinitionStreamed = false
 
   constructor(
-    private readonly format:
-      | 'json'
-      | 'ndjson'
-      | 'protobuf'
-      | 'protobuf-objects',
     private readonly results: 'none' | 'random' | 'pattern',
     private readonly stepDefinitionRegistry: StepDefinitionRegistry = defaultStepDefinitionRegistry()
   ) {
@@ -25,11 +19,11 @@ class FakeTestResultsStream extends Transform {
     encoding: string,
     callback: (error?: Error | null, data?: any) => void
   ): void {
-    this.p(envelope)
+    this.push(envelope)
 
     if (!this.stepDefinitionStreamed) {
       this.stepDefinitionRegistry.toMessages().forEach(message => {
-        this.p(message)
+        this.push(message)
       })
       this.stepDefinitionStreamed = true
     }
@@ -42,41 +36,15 @@ class FakeTestResultsStream extends Transform {
         )
       })
       const testCase = new TestCase(testSteps, envelope.pickle.id)
-      this.p(
+      this.push(
         new messages.Envelope({
           testCase: testCase.toMessage(),
         })
       )
-      testCase.execute(message => this.p(message), 0)
+      testCase.execute(message => this.push(message), 0)
     }
 
     callback()
-  }
-
-  public _flush(callback: (error?: Error | null, data?: any) => void): void {
-    if (this.format === 'json') {
-      this.push(JSON.stringify(this.buffer) + '\n')
-    }
-    callback()
-  }
-
-  private p(envelope: messages.IEnvelope) {
-    switch (this.format) {
-      case 'json':
-        this.buffer.push(envelope)
-        break
-      case 'ndjson':
-        this.push(JSON.stringify(envelope) + '\n')
-        break
-      case 'protobuf':
-        this.push(messages.Envelope.encodeDelimited(envelope).finish())
-        break
-      case 'protobuf-objects':
-        this.push(envelope)
-        break
-      default:
-        throw new Error(`Invalid format "${this.format}"`)
-    }
   }
 }
 

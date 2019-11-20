@@ -136,7 +136,7 @@ async function generateMessages(
   const fakeTestResultsStream = gherkinMessages(
     gherkinSource,
     'test.feature'
-  ).pipe(new FakeTestResultsStream('protobuf-objects', results))
+  ).pipe(new FakeTestResultsStream(results))
   return streamToArray(fakeTestResultsStream)
 }
 
