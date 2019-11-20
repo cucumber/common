@@ -205,6 +205,11 @@ jobs:
           command: |
             cd cucumber-expressions/javascript
             make
+      - persist_to_workspace:
+          root: ~/cucumber
+          paths:
+            - cucumber-expressions/javascript/dist
+            - cucumber-expressions/javascript/node_modules
 
   cucumber-expressions-javascript-node-12:
     executor: docker-circleci-node-12
