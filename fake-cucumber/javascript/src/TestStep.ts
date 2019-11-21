@@ -35,6 +35,7 @@ export default class TestStep {
       return this.emitTestStepFinished(
         testCaseStartedId,
         messages.TestResult.Status.UNDEFINED,
+        undefined,
         notifier
       )
     }
@@ -43,6 +44,7 @@ export default class TestStep {
       return this.emitTestStepFinished(
         testCaseStartedId,
         messages.TestResult.Status.AMBIGUOUS,
+        undefined,
         notifier
       )
     }
@@ -54,12 +56,14 @@ export default class TestStep {
         result === 'pending'
           ? messages.TestResult.Status.PENDING
           : messages.TestResult.Status.PASSED,
+        undefined,
         notifier
       )
     } catch (error) {
       return this.emitTestStepFinished(
         testCaseStartedId,
         messages.TestResult.Status.FAILED,
+        [error.message, error.stack].join('\n'),
         notifier
       )
     }
@@ -72,6 +76,7 @@ export default class TestStep {
     return this.emitTestStepFinished(
       testCaseStartedId,
       messages.TestResult.Status.SKIPPED,
+      undefined,
       notifier
     )
   }
@@ -93,6 +98,7 @@ export default class TestStep {
   protected emitTestStepFinished(
     testCaseStartedId: string,
     status: messages.TestResult.Status,
+    message: string,
     notifier: MessageNotifier
   ): messages.TestResult.Status {
     notifier(
@@ -102,6 +108,7 @@ export default class TestStep {
           testStepId: this.id,
           testResult: new messages.TestResult({
             status,
+            message,
             duration: new messages.Duration({
               seconds: 123,
               nanos: 456,

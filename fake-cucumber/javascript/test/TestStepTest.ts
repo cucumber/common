@@ -120,6 +120,29 @@ describe('TestStep', () => {
         )
         assert.strictEqual(testStepFinished.testStepId, testStep.id)
       })
+
+      it('adds the exception stack trace to the result', () => {
+        const testStep = makePickleTestStep(
+          messages.Pickle.PickleStep.create({
+            text: 'a passed step',
+          }),
+          [
+            stubMatchingStepDefinition(
+              stubFailingSupportCodeExecutor('Something went wrong')
+            ),
+          ]
+        )
+
+        const testStepFinished = execute(testStep)
+        assert.ok(
+          testStepFinished.testResult.message.includes('Something went wrong')
+        )
+        assert.ok(
+          testStepFinished.testResult.message.includes(
+            'at Object.stubFailingSupportCodeExecutor'
+          )
+        )
+      })
     })
   })
 })
