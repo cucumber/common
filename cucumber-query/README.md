@@ -17,10 +17,10 @@ status of a step, a scenario or an entire file.
 
 ## API
 
-| Query function                                                                          | Go | Java | Ruby | TypeScript |  
-| --------------------------------------------------------------------------------------- | -- | ---- | ---- | ---------- |
-| `getStepResults(uri: string, lineNumber: number): messages.ITestResult[]`               |    |      |      | ✓          |
-| `getScenarioResults(uri: string, lineNumber: number): messages.ITestResult[]`           |    |      |      | ✓          |
-| `getDocumentResults(uri: string): messages.ITestResult[]`                               |    |      |      | ✓          |
-| `getStepMatchArguments(uri: string, lineNumber: number): messages.IStepMatchArgument[]` |    |      |      | ✓          |
-| `getGherkinStep(gherkinStepId: string): messages.GherkinDocument.Feature.IStep`         |    |      |      | ✓          |
+| Query function                                                                          | .NET | Go | Java | Ruby | TypeScript |  
+| --------------------------------------------------------------------------------------- | ---- | -- | ---- | ---- | ---------- |
+| `getStepResults(uri: string, lineNumber: number): messages.ITestResult[]`               |      |    |      |      | ✓          |
+| `getScenarioResults(uri: string, lineNumber: number): messages.ITestResult[]`           |      |    |      |      | ✓          |
+| `getDocumentResults(uri: string): messages.ITestResult[]`                               |      |    |      |      | ✓          |
+| `getStepMatchArguments(uri: string, lineNumber: number): messages.IStepMatchArgument[]` |      |    |      |      | ✓          |
+| `getGherkinStep(gherkinStepId: string): messages.GherkinDocument.Feature.IStep`         |      |    |      |      | ✓          |
