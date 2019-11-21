@@ -2,7 +2,7 @@ import gherkin from 'gherkin'
 import { messages } from 'cucumber-messages'
 import { CucumberStream, makeDummyStepDefinitions } from 'fake-cucumber'
 import { Readable, Writable } from 'stream'
-import * as assert from 'assert'
+import assert from 'assert'
 import CucumberQuery from '../src/CucumberQuery'
 
 describe('CucumberQuery', () => {
@@ -15,8 +15,6 @@ describe('CucumberQuery', () => {
     })
 
     it('looks up results for steps', cb => {
-      const query = new CucumberQuery()
-
       check(
         `Feature: hello
   Background:
@@ -26,8 +24,7 @@ describe('CucumberQuery', () => {
     Given a passed step
     Given a failed step
 `,
-        query,
-        () => {
+        query => {
           const line3: messages.ITestResult[] = query.getStepResults(
             'test.feature',
             3
@@ -52,8 +49,6 @@ describe('CucumberQuery', () => {
     })
 
     it('looks up results for examples rows', cb => {
-      const query = new CucumberQuery()
-
       check(
         `Feature: hello
   Scenario: hi
@@ -66,8 +61,7 @@ describe('CucumberQuery', () => {
       | pending   |
       | undefined |
 `,
-        query,
-        () => {
+        query => {
           // const line3: messages.ITestResult[] = query.getStepResults(
           //   'test.feature',
           //   3
@@ -107,16 +101,13 @@ describe('CucumberQuery', () => {
     })
 
     it('looks up result for scenario', cb => {
-      const query = new CucumberQuery()
-
       check(
         `Feature: hello
   Scenario: hi
     Given a passed step
     Given a failed step
 `,
-        query,
-        () => {
+        query => {
           const line2: messages.ITestResult[] = query.getScenarioResults(
             'test.feature',
             2
@@ -131,8 +122,6 @@ describe('CucumberQuery', () => {
     it("looks up result for rule->scenario's uri and line", (cb: (
       error?: Error | null
     ) => void) => {
-      const query = new CucumberQuery()
-
       check(
         `Feature: hello
   Rule: a rule
@@ -140,8 +129,7 @@ describe('CucumberQuery', () => {
       Given a passed step
       Given a failed step
 `,
-        query,
-        () => {
+        query => {
           const line3: messages.ITestResult[] = query.getScenarioResults(
             'test.feature',
             3
@@ -163,8 +151,6 @@ describe('CucumberQuery', () => {
     })
 
     it('looks up result for a whole file', cb => {
-      const query = new CucumberQuery()
-
       check(
         `Feature: hello
 
@@ -177,8 +163,7 @@ describe('CucumberQuery', () => {
     Scenario: passed too
       Given a passed step
 `,
-        query,
-        () => {
+        query => {
           const results: messages.ITestResult[] = query.getDocumentResults(
             'test.feature'
           )
@@ -202,16 +187,13 @@ describe('CucumberQuery', () => {
     })
 
     it("looks up result for step's uri and line", cb => {
-      const query = new CucumberQuery()
-
       check(
         `Feature: hello
   Scenario: hi
     Given a passed step
     And I have 567 cukes in my belly
 `,
-        query,
-        () => {
+        query => {
           const line3: messages.IStepMatchArgument[] = query.getStepMatchArguments(
             'test.feature',
             3
@@ -229,6 +211,24 @@ describe('CucumberQuery', () => {
             line4.map(arg => arg.parameterTypeName),
             ['int', 'word']
           )
+          cb()
+        },
+        cb
+      )
+    })
+  })
+
+  describe('#getGherkinStep(pickleStepId)', () => {
+    it('looks up a Gherkin step', cb => {
+      check(
+        `Feature: hello
+  Scenario: hi
+    Given a passed step
+`,
+        (query, envelopes) => {
+          const pickleStep = envelopes.find(e => e.pickle).pickle.steps[0]
+          const gherkinStep = query.getGherkinStep(pickleStep.sourceIds[0])
+          assert.deepStrictEqual(gherkinStep.text, 'a passed step')
           cb()
         },
         cb
@@ -256,24 +256,29 @@ function generateMessages(gherkinSource: string, uri: string): Readable {
 
 function check(
   gherkinSource: string,
-  query: CucumberQuery,
-  listener: () => void,
+  listener: (
+    cucumberQuery: CucumberQuery,
+    envelopes: messages.IEnvelope[]
+  ) => void,
   cb: (error?: Error | null) => void
 ) {
+  const cucumberQuery = new CucumberQuery()
+  const envelopes: messages.IEnvelope[] = []
   const sink = generateMessages(gherkinSource, 'test.feature').pipe(
     new Writable({
       objectMode: true,
       write(
-        message: messages.IEnvelope,
+        envelope: messages.IEnvelope,
         encoding: string,
         callback: (error?: Error | null) => void
       ): void {
-        query.update(message)
+        envelopes.push(envelope)
+        cucumberQuery.update(envelope)
         callback()
       },
     })
   )
 
   sink.on('error', cb)
-  sink.on('finish', listener)
+  sink.on('finish', () => listener(cucumberQuery, envelopes))
 }

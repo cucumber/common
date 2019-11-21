@@ -3,6 +3,10 @@ import { messages } from 'cucumber-messages'
 export default class CucumberQuery {
   private readonly uriBySourceId = new Map<string, string>()
   private readonly locationBySourceId = new Map<string, messages.ILocation>()
+  private readonly gherkinStepBySourceId = new Map<
+    string,
+    messages.GherkinDocument.Feature.IStep
+  >()
 
   private readonly pickleById = new Map<string, messages.IPickle>()
   private readonly pickleStepById = new Map<
@@ -192,6 +196,7 @@ export default class CucumberQuery {
     for (const step of scenario.steps) {
       this.uriBySourceId.set(step.id, uri)
       this.locationBySourceId.set(step.id, step.location)
+      this.gherkinStepBySourceId.set(step.id, step)
     }
 
     for (const examples of scenario.examples) {
@@ -228,5 +233,11 @@ export default class CucumberQuery {
     return (
       this.testStepMatchArgumentsByUriAndLine.get(`${uri}:${lineNumber}`) || []
     )
+  }
+
+  public getGherkinStep(
+    gherkinStepId: string
+  ): messages.GherkinDocument.Feature.IStep {
+    return this.gherkinStepBySourceId.get(gherkinStepId)
   }
 }
