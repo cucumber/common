@@ -10,7 +10,7 @@ import uuidv4 from 'uuid/v4'
 import IStepDefinition from './IStepDefinition'
 
 export default class ExpressionStepDefinition implements IStepDefinition {
-  public readonly id = uuidv4()
+  private readonly id = uuidv4()
 
   constructor(
     private readonly expression: Expression,
