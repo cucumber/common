@@ -1,5 +1,9 @@
 import ExpressionStepDefinition from './ExpressionStepDefinition'
-import { CucumberExpression, ParameterTypeRegistry } from 'cucumber-expressions'
+import {
+  CucumberExpression,
+  RegularExpression,
+  ParameterTypeRegistry,
+} from 'cucumber-expressions'
 import IStepDefinition from './IStepDefinition'
 
 export default function makeDummyStepDefinitions(): IStepDefinition[] {
@@ -7,6 +11,10 @@ export default function makeDummyStepDefinitions(): IStepDefinition[] {
   return [
     new ExpressionStepDefinition(
       new CucumberExpression('a passed {word}', parameterTypeRegistry),
+      (thing: string) => undefined
+    ),
+    new ExpressionStepDefinition(
+      new RegularExpression(/a passed step .*/, parameterTypeRegistry),
       (thing: string) => undefined
     ),
     new ExpressionStepDefinition(
@@ -18,6 +26,12 @@ export default function makeDummyStepDefinitions(): IStepDefinition[] {
     ),
     new ExpressionStepDefinition(
       new CucumberExpression('a failed {word}', parameterTypeRegistry),
+      (thing: string) => {
+        throw new Error(`This step failed. The thing was "${thing}"`)
+      }
+    ),
+    new ExpressionStepDefinition(
+      new RegularExpression(/a failed step .*/, parameterTypeRegistry),
       (thing: string) => {
         throw new Error(`This step failed. The thing was "${thing}"`)
       }
