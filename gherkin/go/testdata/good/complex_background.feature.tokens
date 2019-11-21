@@ -1,0 +1,25 @@
+(1:1)FeatureLine:Feature/Complex background/
+(2:1)Other:/  We want to ensure PickleStep all have different IDs/
+(3:1)Other://
+(4:3)BackgroundLine:Background/a simple background/
+(5:5)StepLine:Given /the minimalism inside a background/
+(6:1)Empty://
+(7:3)ScenarioLine:Scenario/minimalistic/
+(8:5)StepLine:Given /the minimalism/
+(9:1)Empty://
+(10:3)ScenarioLine:Scenario/also minimalistic/
+(11:5)StepLine:Given /the minimalism/
+(12:1)Empty://
+(13:3)RuleLine:Rule/My Rule/
+(14:1)Empty://
+(15:5)BackgroundLine:Background//
+(16:7)StepLine:Given /a rule background step/
+(17:1)Empty://
+(18:5)ScenarioLine:Scenario/with examples/
+(19:7)StepLine:Given /the <value> minimalism/
+(20:1)Empty://
+(21:7)ExamplesLine:Examples//
+(22:7)TableRow://9:value
+(23:7)TableRow://9:1
+(24:7)TableRow://9:2
+EOF

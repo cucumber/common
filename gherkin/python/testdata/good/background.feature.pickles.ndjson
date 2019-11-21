@@ -1,6 +1,6 @@
 {
   "pickle": {
-    "id": "5",
+    "id": "7",
     "language": "en",
     "name": "minimalistic",
     "sourceIds": [
@@ -8,16 +8,43 @@
     ],
     "steps": [
       {
-        "id": "3",
+        "id": "5",
         "sourceIds": [
           "0"
         ],
         "text": "the minimalism inside a background"
       },
       {
-        "id": "4",
+        "id": "6",
         "sourceIds": [
           "1"
+        ],
+        "text": "the minimalism"
+      }
+    ],
+    "uri": "testdata/good/background.feature"
+  }
+}
+{
+  "pickle": {
+    "id": "10",
+    "language": "en",
+    "name": "also minimalistic",
+    "sourceIds": [
+      "4"
+    ],
+    "steps": [
+      {
+        "id": "8",
+        "sourceIds": [
+          "0"
+        ],
+        "text": "the minimalism inside a background"
+      },
+      {
+        "id": "9",
+        "sourceIds": [
+          "3"
         ],
         "text": "the minimalism"
       }

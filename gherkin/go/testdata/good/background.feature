@@ -6,3 +6,6 @@ Feature: Background
 
   Scenario: minimalistic
     Given the minimalism
+
+  Scenario: also minimalistic
+    Given the minimalism
