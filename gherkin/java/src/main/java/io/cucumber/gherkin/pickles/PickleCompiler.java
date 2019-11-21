@@ -51,18 +51,18 @@ public class PickleCompiler {
 
     private void compileFeature(List<Pickle> pickles, Feature feature, String language, String uri) {
         List<Tag> tags = feature.getTagsList();
-        List<Step> backgroundSteps = new ArrayList<>();
+        List<Step> featureBackgroundSteps = new ArrayList<>();
         for (FeatureChild child : feature.getChildrenList()) {
             if (child.hasBackground()) {
-                backgroundSteps.addAll(child.getBackground().getStepsList());
+                featureBackgroundSteps.addAll(child.getBackground().getStepsList());
             } else if (child.hasRule()) {
-                compileRule(pickles, child.getRule(), tags, backgroundSteps, language, uri);
+                compileRule(pickles, child.getRule(), tags, featureBackgroundSteps, language, uri);
             } else {
                 Feature.Scenario scenario = child.getScenario();
                 if (scenario.getExamplesList().isEmpty()) {
-                    compileScenario(pickles, scenario, tags, backgroundSteps, language, uri);
+                    compileScenario(pickles, scenario, tags, featureBackgroundSteps, language, uri);
                 } else {
-                    compileScenarioOutline(pickles, scenario, tags, backgroundSteps, language, uri);
+                    compileScenarioOutline(pickles, scenario, tags, featureBackgroundSteps, language, uri);
                 }
             }
         }

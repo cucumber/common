@@ -16,15 +16,15 @@ export default function compile(
   const feature = gherkinDocument.feature
   const language = feature.language
   const featureTags = feature.tags
-  let backgroundSteps: messages.GherkinDocument.Feature.IStep[] = []
+  let featureBackgroundSteps: messages.GherkinDocument.Feature.IStep[] = []
 
   feature.children.forEach(stepsContainer => {
     if (stepsContainer.background) {
-      backgroundSteps = [].concat(stepsContainer.background.steps)
+      featureBackgroundSteps = [].concat(stepsContainer.background.steps)
     } else if (stepsContainer.rule) {
       compileRule(
         featureTags,
-        backgroundSteps,
+        featureBackgroundSteps,
         stepsContainer.rule,
         language,
         pickles,
@@ -34,7 +34,7 @@ export default function compile(
     } else if (stepsContainer.scenario.examples.length === 0) {
       compileScenario(
         featureTags,
-        backgroundSteps,
+        featureBackgroundSteps,
         stepsContainer.scenario,
         language,
         pickles,
@@ -44,7 +44,7 @@ export default function compile(
     } else {
       compileScenarioOutline(
         featureTags,
-        backgroundSteps,
+        featureBackgroundSteps,
         stepsContainer.scenario,
         language,
         pickles,
@@ -58,22 +58,22 @@ export default function compile(
 
 function compileRule(
   featureTags: messages.GherkinDocument.Feature.ITag[],
-  inheritedBackgroundSteps: messages.GherkinDocument.Feature.IStep[],
+  featureBackgroundSteps: messages.GherkinDocument.Feature.IStep[],
   rule: messages.GherkinDocument.Feature.FeatureChild.IRule,
   language: string,
   pickles: messages.IPickle[],
   uri: string,
   newId: NewId
 ) {
-  let backgroundSteps = [].concat(inheritedBackgroundSteps)
+  let ruleBackgroundSteps = [].concat(featureBackgroundSteps)
 
   rule.children.forEach(stepsContainer => {
     if (stepsContainer.background) {
-      backgroundSteps = backgroundSteps.concat(stepsContainer.background.steps)
+      ruleBackgroundSteps = ruleBackgroundSteps.concat(stepsContainer.background.steps)
     } else if (stepsContainer.scenario.examples.length === 0) {
       compileScenario(
         featureTags,
-        backgroundSteps,
+        ruleBackgroundSteps,
         stepsContainer.scenario,
         language,
         pickles,
@@ -83,7 +83,7 @@ function compileRule(
     } else {
       compileScenarioOutline(
         featureTags,
-        backgroundSteps,
+        ruleBackgroundSteps,
         stepsContainer.scenario,
         language,
         pickles,

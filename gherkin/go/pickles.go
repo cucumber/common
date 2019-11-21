@@ -18,20 +18,20 @@ func Pickles(gherkinDocument messages.GherkinDocument, uri string, newId func() 
 }
 
 func compileFeature(pickles []*messages.Pickle, feature messages.GherkinDocument_Feature, uri string, language string, newId func() string) []*messages.Pickle {
-	backgroundSteps := make([]*messages.GherkinDocument_Feature_Step, 0)
+	featureBackgroundSteps := make([]*messages.GherkinDocument_Feature_Step, 0)
 	featureTags := feature.Tags
 	for _, child := range feature.Children {
 		switch t := child.Value.(type) {
 		case *messages.GherkinDocument_Feature_FeatureChild_Background:
-			backgroundSteps = append(backgroundSteps, t.Background.Steps...)
+			featureBackgroundSteps = append(featureBackgroundSteps, t.Background.Steps...)
 		case *messages.GherkinDocument_Feature_FeatureChild_Rule_:
-			pickles = compileRule(pickles, child.GetRule(), featureTags, backgroundSteps, uri, language, newId)
+			pickles = compileRule(pickles, child.GetRule(), featureTags, featureBackgroundSteps, uri, language, newId)
 		case *messages.GherkinDocument_Feature_FeatureChild_Scenario:
 			scenario := t.Scenario
 			if len(scenario.GetExamples()) == 0 {
-				pickles = compileScenario(pickles, backgroundSteps, scenario, featureTags, uri, language, newId)
+				pickles = compileScenario(pickles, featureBackgroundSteps, scenario, featureTags, uri, language, newId)
 			} else {
-				pickles = compileScenarioOutline(pickles, scenario, featureTags, backgroundSteps, uri, language, newId)
+				pickles = compileScenarioOutline(pickles, scenario, featureTags, featureBackgroundSteps, uri, language, newId)
 			}
 		default:
 			panic(fmt.Sprintf("unexpected %T feature child", child))

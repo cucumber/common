@@ -23,34 +23,34 @@ module Gherkin
       private
 
       def compile_feature(pickles, language, tags, feature, source)
-        background_steps = []
+        feature_background_steps = []
         feature.children.each do |child|
           if child.background
-            background_steps.concat(child.background.steps)
+            feature_background_steps.concat(child.background.steps)
           elsif child.rule
-            compile_rule(pickles, language, tags, background_steps, child.rule, source)
+            compile_rule(pickles, language, tags, feature_background_steps, child.rule, source)
           else
             scenario = child.scenario
             if scenario.examples.empty?
-              compile_scenario(tags, background_steps, scenario, language, pickles, source)
+              compile_scenario(tags, feature_background_steps, scenario, language, pickles, source)
             else
-              compile_scenario_outline(tags, background_steps, scenario, language, pickles, source)
+              compile_scenario_outline(tags, feature_background_steps, scenario, language, pickles, source)
             end
           end
         end
       end
 
       def compile_rule(pickles, language, tags, feature_background_steps, rule, source)
-        background_steps = feature_background_steps.dup
+        rule_background_steps = feature_background_steps.dup
         rule.children.each do |child|
           if child.background
-            background_steps.concat(child.background.steps)
+            rule_background_steps.concat(child.background.steps)
           else
             scenario = child.scenario
             if scenario.examples.empty?
-              compile_scenario(tags, background_steps, scenario, language, pickles, source)
+              compile_scenario(tags, rule_background_steps, scenario, language, pickles, source)
             else
-              compile_scenario_outline(tags, background_steps, scenario, language, pickles, source)
+              compile_scenario_outline(tags, rule_background_steps, scenario, language, pickles, source)
             end
           end
         end
