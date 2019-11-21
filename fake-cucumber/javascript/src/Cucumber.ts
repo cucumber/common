@@ -6,6 +6,9 @@ import IStepDefinition from './IStepDefinition'
 
 export default class Cucumber {
   constructor(
+    // * Source (sent through)
+    // * GherkinDocument (sent through)
+    // * Pickle (used)
     private readonly gherkinMessages: messages.IEnvelope[],
     private readonly stepDefinitions: IStepDefinition[]
   ) {}
