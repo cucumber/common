@@ -3,7 +3,7 @@ import { messages } from 'cucumber-messages'
 export default class CucumberQuery {
   private readonly uriBySourceId = new Map<string, string>()
   private readonly locationBySourceId = new Map<string, messages.ILocation>()
-  private readonly gherkinStepBySourceId = new Map<
+  private readonly gherkinStepById = new Map<
     string,
     messages.GherkinDocument.Feature.IStep
   >()
@@ -184,6 +184,7 @@ export default class CucumberQuery {
     for (const step of background.steps) {
       this.uriBySourceId.set(step.id, uri)
       this.locationBySourceId.set(step.id, step.location)
+      this.gherkinStepById.set(step.id, step)
     }
   }
 
@@ -196,7 +197,7 @@ export default class CucumberQuery {
     for (const step of scenario.steps) {
       this.uriBySourceId.set(step.id, uri)
       this.locationBySourceId.set(step.id, step.location)
-      this.gherkinStepBySourceId.set(step.id, step)
+      this.gherkinStepById.set(step.id, step)
     }
 
     for (const examples of scenario.examples) {
@@ -238,6 +239,6 @@ export default class CucumberQuery {
   public getGherkinStep(
     gherkinStepId: string
   ): messages.GherkinDocument.Feature.IStep {
-    return this.gherkinStepBySourceId.get(gherkinStepId)
+    return this.gherkinStepById.get(gherkinStepId)
   }
 }
