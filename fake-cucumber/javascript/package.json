@@ -46,7 +46,7 @@
     "commander": "^4.0.1",
     "cucumber-expressions": "^8.2.1",
     "cucumber-messages": "^7.0.0",
-    "gherkin": "^8.2.0",
+    "gherkin": "^8.2.1",
     "source-map-support": "^0.5.16",
     "uuid": "^3.3.3"
   }
