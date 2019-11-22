@@ -2,6 +2,7 @@ import TestStep from './TestStep'
 import { MessageNotifier } from './types'
 import { messages } from 'cucumber-messages'
 import uuidv4 from 'uuid/v4'
+import TestResult from './TestResult'
 
 export default class TestCase {
   public readonly id: string = uuidv4()
@@ -35,35 +36,33 @@ export default class TestCase {
       })
     )
 
-    const testStepStatuses = this.testSteps.map(testStep => {
+    const testStepResults = this.testSteps.map(testStep => {
       if (executeNext) {
-        const status = testStep.execute(notifier, testCaseStartedId)
-        executeNext = status === messages.TestResult.Status.PASSED
-        return status
+        const result = testStep.execute(notifier, testCaseStartedId)
+        executeNext = result.status === messages.TestResult.Status.PASSED
+        return result
       } else {
         return testStep.skip(notifier, testCaseStartedId)
       }
     })
 
+    const testStepStatuses = testStepResults.map(result => result.status)
     const testStatus =
       testStepStatuses.sort()[testStepStatuses.length - 1] ||
       messages.TestResult.Status.UNKNOWN
+
+    const testResult = new TestResult(
+       testStatus,
+       testStatus === messages.TestResult.Status.FAILED
+                ? `Some error message\n\tfake_file:2\n\tfake_file:7\n`
+                : null
+      )
 
     notifier(
       new messages.Envelope({
         testCaseFinished: new messages.TestCaseFinished({
           testCaseStartedId,
-          testResult: {
-            status: testStatus,
-            message:
-              testStatus === messages.TestResult.Status.FAILED
-                ? `Some error message\n\tfake_file:2\n\tfake_file:7\n`
-                : null,
-            duration: new messages.Duration({
-              seconds: 987654,
-              nanos: 321,
-            }),
-          },
+          testResult: testResult.toMessage(),
         }),
       })
     )

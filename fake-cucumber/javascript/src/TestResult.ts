@@ -2,7 +2,7 @@ import { messages } from 'cucumber-messages'
 
 export default class TestResult {
   public constructor(
-    private readonly status: messages.TestResult.Status,
+    public readonly status: messages.TestResult.Status,
     private readonly message: string
   ) {}
 

@@ -53,7 +53,7 @@ describe('TestStep', () => {
       assert.strictEqual(testStepFinished.testStepId, testStep.id)
     })
 
-    it('returns the status', () => {
+    it('returns a TestResult object with the status', () => {
       const testStep = makePickleTestStep(
         messages.Pickle.PickleStep.create({
           text: 'an undefined step',
@@ -62,7 +62,7 @@ describe('TestStep', () => {
       )
 
       assert.strictEqual(
-        testStep.execute(message => null, 'some-testCaseStartedId'),
+        testStep.execute(message => null, 'some-testCaseStartedId').status,
         messages.TestResult.Status.UNDEFINED
       )
     })

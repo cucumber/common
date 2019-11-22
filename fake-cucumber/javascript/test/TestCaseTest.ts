@@ -1,5 +1,6 @@
 import { messages } from 'cucumber-messages'
 import assert from 'assert'
+import TestResult from '../src/TestResult'
 import TestStep from '../src/TestStep'
 import TestCase from '../src/TestCase'
 import { MessageNotifier } from '../src/types'
@@ -12,11 +13,13 @@ class StubTestStep extends TestStep {
   public execute(
     notifier: MessageNotifier,
     testCaseStartedId: string
-  ): messages.TestResult.Status {
+  ): TestResult {
     return this.emitTestStepFinished(
       testCaseStartedId,
-      this.status,
-      undefined,
+      new TestResult(
+        this.status,
+        undefined
+      ),
       notifier
     )
   }
@@ -38,7 +41,8 @@ describe('TestCase', () => {
       const testStepStatuses = emitted
         .filter(m => m.testStepFinished)
         .map(m => m.testStepFinished.testResult.status)
-      assert.deepStrictEqual(testStepStatuses, [
+
+        assert.deepStrictEqual(testStepStatuses, [
         messages.TestResult.Status.PASSED,
         messages.TestResult.Status.PASSED,
       ])
