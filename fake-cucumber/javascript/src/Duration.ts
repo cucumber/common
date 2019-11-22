@@ -1,7 +1,7 @@
 import { messages } from 'cucumber-messages'
 
 export default class Duration {
-  constructor (
+  constructor(
     private readonly seconds: number,
     private readonly nanos: number
   ) {}
@@ -9,7 +9,7 @@ export default class Duration {
   public toMessage(): messages.IDuration {
     return new messages.Duration({
       seconds: this.seconds,
-      nanos: this.nanos
+      nanos: this.nanos,
     })
   }
 }

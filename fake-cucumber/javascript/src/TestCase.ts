@@ -46,25 +46,29 @@ export default class TestCase {
       }
     })
 
+    notifier(
+      new messages.Envelope({
+        testCaseFinished: new messages.TestCaseFinished({
+          testCaseStartedId,
+          testResult: this.computeTestResult(testStepResults).toMessage(),
+        }),
+      })
+    )
+  }
+
+  private computeTestResult(testStepResults: TestResult[]): TestResult {
     const testStepStatuses = testStepResults.map(result => result.status)
     const testStatus =
       testStepStatuses.sort()[testStepStatuses.length - 1] ||
       messages.TestResult.Status.UNKNOWN
 
-    const testResult = new TestResult(
-       testStatus,
-       testStatus === messages.TestResult.Status.FAILED
-                ? `Some error message\n\tfake_file:2\n\tfake_file:7\n`
-                : null
-      )
-
-    notifier(
-      new messages.Envelope({
-        testCaseFinished: new messages.TestCaseFinished({
-          testCaseStartedId,
-          testResult: testResult.toMessage(),
-        }),
-      })
+    return new TestResult(
+      testStatus,
+      testStatus === messages.TestResult.Status.FAILED
+        ? testStepResults.find(
+            result => result.status === messages.TestResult.Status.FAILED
+          ).message
+        : null
     )
   }
 }

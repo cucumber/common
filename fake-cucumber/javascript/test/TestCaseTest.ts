@@ -6,7 +6,10 @@ import TestCase from '../src/TestCase'
 import { MessageNotifier } from '../src/types'
 
 class StubTestStep extends TestStep {
-  public constructor(private readonly status: messages.TestResult.Status) {
+  public constructor(
+    private readonly status: messages.TestResult.Status,
+    private readonly message?: string
+  ) {
     super('some-id', [])
   }
 
@@ -16,10 +19,7 @@ class StubTestStep extends TestStep {
   ): TestResult {
     return this.emitTestStepFinished(
       testCaseStartedId,
-      new TestResult(
-        this.status,
-        undefined
-      ),
+      new TestResult(this.status, this.message),
       notifier
     )
   }
@@ -42,7 +42,7 @@ describe('TestCase', () => {
         .filter(m => m.testStepFinished)
         .map(m => m.testStepFinished.testResult.status)
 
-        assert.deepStrictEqual(testStepStatuses, [
+      assert.deepStrictEqual(testStepStatuses, [
         messages.TestResult.Status.PASSED,
         messages.TestResult.Status.PASSED,
       ])
@@ -85,6 +85,27 @@ describe('TestCase', () => {
 
       assert.strictEqual(testCaseStarted.testCaseId, testCase.id)
       assert.strictEqual(testCaseFinished.testCaseStartedId, testCaseStarted.id)
+    })
+
+    it('the error message from the first failed step is shown in TestResult message', () => {
+      const testSteps = [
+        new StubTestStep(messages.TestResult.Status.PASSED),
+        new StubTestStep(messages.TestResult.Status.FAILED, 'This step failed'),
+        new StubTestStep(
+          messages.TestResult.Status.FAILED,
+          'This step failed too'
+        ),
+      ]
+      const emitted: messages.IEnvelope[] = []
+      const testCase = new TestCase(testSteps, 'some-pickle-id')
+      testCase.execute(
+        (message: messages.IEnvelope) => emitted.push(message),
+        0
+      )
+      const testResult = emitted.find(m => m.testCaseFinished).testCaseFinished
+        .testResult
+
+      assert.strictEqual(testResult.message, 'This step failed')
     })
 
     context(
