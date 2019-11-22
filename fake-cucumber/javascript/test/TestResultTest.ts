@@ -7,6 +7,7 @@ describe('TestResult', () => {
     it('produces a TestResult message', () => {
       const result = new TestResult(
         messages.TestResult.Status.FAILED,
+        123,
         'Something went wrong'
       )
       const msg = result.toMessage()
@@ -15,15 +16,16 @@ describe('TestResult', () => {
       assert.strictEqual(msg.message, 'Something went wrong')
     })
 
-    it('produces a hardcoded duration', () => {
+    it('duration is computed', () => {
       const result = new TestResult(
         messages.TestResult.Status.FAILED,
+        9876543210,
         'Something went wrong'
       )
       const msg = result.toMessage()
 
-      assert.strictEqual(msg.duration.seconds, 123)
-      assert.strictEqual(msg.duration.nanos, 456)
+      assert.strictEqual(msg.duration.seconds, 9)
+      assert.strictEqual(msg.duration.nanos, 876543210)
     })
   })
 })

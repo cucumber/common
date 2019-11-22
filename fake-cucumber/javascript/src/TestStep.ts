@@ -64,6 +64,7 @@ export default class TestStep {
         testCaseStartedId,
         new TestResult(
           messages.TestResult.Status.FAILED,
+          0,
           [error.message, error.stack].join('\n')
         ),
         notifier

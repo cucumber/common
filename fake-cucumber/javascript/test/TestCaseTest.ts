@@ -19,7 +19,7 @@ class StubTestStep extends TestStep {
   ): TestResult {
     return this.emitTestStepFinished(
       testCaseStartedId,
-      new TestResult(this.status, this.message),
+      new TestResult(this.status, 0, this.message),
       notifier
     )
   }

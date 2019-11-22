@@ -64,6 +64,7 @@ export default class TestCase {
 
     return new TestResult(
       testStatus,
+      0,
       testStatus === messages.TestResult.Status.FAILED
         ? testStepResults.find(
             result => result.status === messages.TestResult.Status.FAILED
