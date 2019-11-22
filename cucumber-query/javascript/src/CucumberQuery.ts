@@ -91,6 +91,15 @@ export default class CucumberQuery {
         this.testStepById.set(testStep.id, testStep)
 
         const pickleStep = this.pickleStepById.get(testStep.pickleStepId)
+        if (pickleStep === undefined) {
+          throw new Error(
+            `Did not find a PickleStep with id "${
+              testStep.pickleStepId
+            }". Known ids:\n${Array.from(this.pickleStepById.keys()).join(
+              '\n'
+            )}`
+          )
+        }
 
         for (const sourceId of pickleStep.sourceIds) {
           const uri = this.uriBySourceId.get(sourceId)
