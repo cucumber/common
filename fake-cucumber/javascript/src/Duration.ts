@@ -6,7 +6,7 @@ export default class Duration {
   public toMessage(): messages.IDuration {
     const factor = 1000000000
     const seconds = Math.floor(this.nanos / factor)
-    const nanos = this.nanos % 1000000000
+    const nanos = this.nanos % factor
 
     return new messages.Duration({ seconds, nanos })
   }
