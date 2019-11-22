@@ -11,7 +11,7 @@ export default class TestResult {
     return new messages.TestResult({
       status: this.status,
       message: this.message,
-      duration: new Duration(123, 456).toMessage(),
+      duration: new Duration(123000000456).toMessage(),
     })
   }
 }
