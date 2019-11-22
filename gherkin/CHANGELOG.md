@@ -19,6 +19,22 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Fixed
 
+## [8.2.1] - 2019-11-22
+
+### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+## [8.2.1] - 2019-11-22
+
+### Fixed
+
 * PickleStep have unique IDs when generated from a `Background` section
   ([#800](https://github.com/cucumber/cucumber/pull/800)
    [vincent-psarga])
@@ -608,12 +624,14 @@ to Gherkin 2.
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v8.2.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v8.2.1...master
+[8.2.1]:     https://github.com/cucumber/cucumber/compare/gherkin/v8.2.1...gherkin/v8.2.1
+[8.2.1]:     https://github.com/cucumber/cucumber/compare/gherkin/v8.2.0...gherkin/v8.2.1
 [8.2.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v8.1.1...gherkin/v8.2.0
 [8.1.1]:     https://github.com/cucumber/cucumber/compare/gherkin/v8.1.0...gherkin/v8.1.1
-[8.1.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v8.2.0...gherkin/v8.1.0
-[8.1.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v8.2.0...gherkin/v8.1.0
-[8.1.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v8.2.0...gherkin/v8.1.0
+[8.1.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v8.2.1...gherkin/v8.1.0
+[8.1.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v8.2.1...gherkin/v8.1.0
+[8.1.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v8.2.1...gherkin/v8.1.0
 [8.1.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v8.0.0...gherkin/v8.1.0
 [8.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v7.0.4...gherkin/v8.0.0
 [7.0.4]:     https://github.com/cucumber/cucumber/compare/gherkin/v7.0.3...gherkin/v7.0.4
