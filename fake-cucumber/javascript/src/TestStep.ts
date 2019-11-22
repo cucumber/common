@@ -35,7 +35,7 @@ export default class TestStep {
     if (this.supportCodeExecutors.length === 0) {
       return this.emitTestStepFinished(
         testCaseStartedId,
-        new TestResult(messages.TestResult.Status.UNDEFINED, undefined),
+        new TestResult(messages.TestResult.Status.UNDEFINED),
         notifier
       )
     }
@@ -43,7 +43,7 @@ export default class TestStep {
     if (this.supportCodeExecutors.length > 1) {
       return this.emitTestStepFinished(
         testCaseStartedId,
-        new TestResult(messages.TestResult.Status.AMBIGUOUS, undefined),
+        new TestResult(messages.TestResult.Status.AMBIGUOUS),
         notifier
       )
     }
@@ -55,8 +55,7 @@ export default class TestStep {
         new TestResult(
           result === 'pending'
             ? messages.TestResult.Status.PENDING
-            : messages.TestResult.Status.PASSED,
-          undefined
+            : messages.TestResult.Status.PASSED
         ),
         notifier
       )
@@ -78,7 +77,7 @@ export default class TestStep {
   ): TestResult {
     return this.emitTestStepFinished(
       testCaseStartedId,
-      new TestResult(messages.TestResult.Status.SKIPPED, undefined),
+      new TestResult(messages.TestResult.Status.SKIPPED),
       notifier
     )
   }
