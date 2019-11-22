@@ -4,6 +4,7 @@ import SupportCodeExecutor from './SupportCodeExecutor'
 import TestResult from './TestResult'
 import { MessageNotifier } from './types'
 import DurationComputer from './DurationComputer'
+import Duration from './Duration'
 
 export default class TestStep {
   public readonly id: string = uuidv4()
@@ -29,10 +30,10 @@ export default class TestStep {
 
   public execute(
     notifier: MessageNotifier,
-    testCaseStartedId: string
+    testCaseStartedId: string,
+    durationComputer: DurationComputer = new DurationComputer()
   ): TestResult {
     this.emitTestStepStarted(testCaseStartedId, notifier)
-    const durationComputer = new DurationComputer()
 
     if (this.supportCodeExecutors.length === 0) {
       return this.emitTestStepFinished(

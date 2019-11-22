@@ -4,6 +4,7 @@ import ExpressionStepDefinition from '../src/ExpressionStepDefinition'
 import { Readable } from 'stream'
 import { messages } from 'cucumber-messages'
 import gherkin from 'gherkin'
+import DurationComputer from '../src/DurationComputer'
 
 export function stubPassingSupportCodeExecutor(): SupportCodeExecutor {
   const supportCodeExecutorStub = stubConstructor(SupportCodeExecutor)
@@ -72,4 +73,10 @@ export async function streamToArray(
       readableStream.on('end', () => resolve(items))
     }
   )
+}
+
+export class MockDurationComputer extends DurationComputer {
+  public nanos(): number {
+    return 1234567890
+  }
 }

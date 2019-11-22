@@ -24,7 +24,11 @@ export default class TestCase {
     })
   }
 
-  public execute(notifier: MessageNotifier, attempt: number) {
+  public execute(
+    notifier: MessageNotifier,
+    attempt: number,
+    durationComputer: DurationComputer = new DurationComputer()
+  ) {
     let executeNext = true
     const testCaseStartedId = uuidv4()
 
@@ -38,7 +42,6 @@ export default class TestCase {
       })
     )
 
-    const durationComputer = new DurationComputer()
     const testStepResults = this.testSteps.map(testStep => {
       if (executeNext) {
         const result = testStep.execute(notifier, testCaseStartedId)

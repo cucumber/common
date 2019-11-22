@@ -6,9 +6,11 @@ import {
   stubMatchingStepDefinition,
   stubPassingSupportCodeExecutor,
   stubPendingSupportCodeExecutor,
+  MockDurationComputer,
 } from './TestHelpers'
 import makePickleTestStep from '../src/makePickleTestStep'
 import SupportCodeExecutor from '../src/SupportCodeExecutor'
+import DurationComputer from '../src/DurationComputer'
 
 function execute(testStep: TestStep): messages.ITestStepFinished {
   const receivedMessages: messages.IEnvelope[] = []
@@ -69,24 +71,23 @@ describe('TestStep', () => {
     })
 
     it('computes the duration based on execution time', () => {
-      const executor = new SupportCodeExecutor(
-        'some-id',
-        () => {
-          const start = Date.now()
-          while (Date.now() - start < 500) {
-            // No-op
-          }
-        },
-        []
-      )
       const emitted: messages.IEnvelope[] = []
-      const testStep = new TestStep('some-id', [executor])
-      testStep.execute(message => emitted.push(message), 'some-id')
-
+      const testStep = makePickleTestStep(
+        messages.Pickle.PickleStep.create({
+          text: 'a passed step',
+        }),
+        [stubMatchingStepDefinition(stubPassingSupportCodeExecutor())]
+      )
+      testStep.execute(
+        message => emitted.push(message),
+        'some-id',
+        new MockDurationComputer()
+      )
       const result = emitted.find(m => m.testStepFinished).testStepFinished
         .testResult
-      assert.strictEqual(result.duration.seconds, 0)
-      assert.ok(result.duration.nanos > 400000000)
+
+      assert.strictEqual(result.duration.seconds, 1)
+      assert.strictEqual(result.duration.nanos, 234567890)
     })
 
     context('when there is a matching step definition', () => {

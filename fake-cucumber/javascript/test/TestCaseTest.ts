@@ -4,12 +4,12 @@ import TestResult from '../src/TestResult'
 import TestStep from '../src/TestStep'
 import TestCase from '../src/TestCase'
 import { MessageNotifier } from '../src/types'
+import { MockDurationComputer } from './TestHelpers'
 
 class StubTestStep extends TestStep {
   public constructor(
     private readonly status: messages.TestResult.Status,
-    private readonly message?: string,
-    private readonly waitTime?: number
+    private readonly message?: string
   ) {
     super('some-id', [])
   }
@@ -18,24 +18,11 @@ class StubTestStep extends TestStep {
     notifier: MessageNotifier,
     testCaseStartedId: string
   ): TestResult {
-    this.wait()
-
     return this.emitTestStepFinished(
       testCaseStartedId,
       new TestResult(this.status, 0, this.message),
       notifier
     )
-  }
-
-  private wait() {
-    if (this.waitTime === undefined) {
-      return
-    }
-
-    const until = Date.now() + this.waitTime
-    while (Date.now() < until) {
-      // No-op
-    }
   }
 }
 
@@ -124,21 +111,22 @@ describe('TestCase', () => {
 
     it('the test execution time is computed on execution', () => {
       const testSteps = [
-        new StubTestStep(messages.TestResult.Status.PASSED, '', 150),
-        new StubTestStep(messages.TestResult.Status.PASSED, '', 150),
-        new StubTestStep(messages.TestResult.Status.PASSED, '', 150),
+        new StubTestStep(messages.TestResult.Status.PASSED),
+        new StubTestStep(messages.TestResult.Status.PASSED),
+        new StubTestStep(messages.TestResult.Status.PASSED),
       ]
       const emitted: messages.IEnvelope[] = []
       const testCase = new TestCase(testSteps, 'some-pickle-id')
       testCase.execute(
         (message: messages.IEnvelope) => emitted.push(message),
-        0
+        0,
+        new MockDurationComputer()
       )
       const testResult = emitted.find(m => m.testCaseFinished).testCaseFinished
         .testResult
 
-      assert.strictEqual(testResult.duration.seconds, 0)
-      assert.ok(testResult.duration.nanos > 300000000)
+      assert.strictEqual(testResult.duration.seconds, 1)
+      assert.strictEqual(testResult.duration.nanos, 234567890)
     })
 
     context(
