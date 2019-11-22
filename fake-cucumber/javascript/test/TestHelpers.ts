@@ -76,7 +76,11 @@ export async function streamToArray(
 }
 
 export class MockDurationComputer extends DurationComputer {
+  public constructor(private readonly elapsedNanos: number) {
+    super()
+  }
+
   public nanos(): number {
-    return 1234567890
+    return this.elapsedNanos
   }
 }

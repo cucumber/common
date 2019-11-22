@@ -109,7 +109,7 @@ describe('TestCase', () => {
       assert.strictEqual(testResult.message, 'This step failed')
     })
 
-    it('the test execution time is computed on execution', () => {
+    it('the execution duration is based on the data provided by DurationComputer', () => {
       const testSteps = [
         new StubTestStep(messages.TestResult.Status.PASSED),
         new StubTestStep(messages.TestResult.Status.PASSED),
@@ -120,13 +120,13 @@ describe('TestCase', () => {
       testCase.execute(
         (message: messages.IEnvelope) => emitted.push(message),
         0,
-        new MockDurationComputer()
+        new MockDurationComputer(9876543210)
       )
       const testResult = emitted.find(m => m.testCaseFinished).testCaseFinished
         .testResult
 
-      assert.strictEqual(testResult.duration.seconds, 1)
-      assert.strictEqual(testResult.duration.nanos, 234567890)
+      assert.strictEqual(testResult.duration.seconds, 9)
+      assert.strictEqual(testResult.duration.nanos, 876543210)
     })
 
     context(

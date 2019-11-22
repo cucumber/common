@@ -70,7 +70,7 @@ describe('TestStep', () => {
       )
     })
 
-    it('computes the duration based on execution time', () => {
+    it('the execution duration is based on the data provided by DurationComputer', () => {
       const emitted: messages.IEnvelope[] = []
       const testStep = makePickleTestStep(
         messages.Pickle.PickleStep.create({
@@ -81,13 +81,13 @@ describe('TestStep', () => {
       testStep.execute(
         message => emitted.push(message),
         'some-id',
-        new MockDurationComputer()
+        new MockDurationComputer(9876543210)
       )
       const result = emitted.find(m => m.testStepFinished).testStepFinished
         .testResult
 
-      assert.strictEqual(result.duration.seconds, 1)
-      assert.strictEqual(result.duration.nanos, 234567890)
+      assert.strictEqual(result.duration.seconds, 9)
+      assert.strictEqual(result.duration.nanos, 876543210)
     })
 
     context('when there is a matching step definition', () => {
