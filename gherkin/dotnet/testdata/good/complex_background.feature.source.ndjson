@@ -1,0 +1,10 @@
+{
+  "source": {
+    "data": "Feature: Complex background\n  We want to ensure PickleStep all have different IDs\n\n  Background: a simple background\n    Given the minimalism inside a background\n\n  Scenario: minimalistic\n    Given the minimalism\n\n  Scenario: also minimalistic\n    Given the minimalism\n\n  Rule: My Rule\n\n    Background:\n      Given a rule background step\n\n    Scenario: with examples\n      Given the <value> minimalism\n\n      Examples:\n      | value |\n      | 1     |\n      | 2     |\n",
+    "media": {
+      "contentType": "text/x.cucumber.gherkin+plain",
+      "encoding": "UTF8"
+    },
+    "uri": "testdata/good/complex_background.feature"
+  }
+}

@@ -6,4 +6,7 @@
 (6:1)Empty://
 (7:3)ScenarioLine:Scenario/minimalistic/
 (8:5)StepLine:Given /the minimalism/
+(9:1)Empty://
+(10:3)ScenarioLine:Scenario/also minimalistic/
+(11:5)StepLine:Given /the minimalism/
 EOF
