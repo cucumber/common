@@ -3,8 +3,7 @@ import { MessageNotifier } from './types'
 import { messages } from 'cucumber-messages'
 import uuidv4 from 'uuid/v4'
 import TestResult from './TestResult'
-import DurationComputer from './DurationComputer'
-import Duration from './Duration'
+import NanosTimer from './NanosTimer'
 
 export default class TestCase {
   public readonly id: string = uuidv4()
@@ -27,7 +26,7 @@ export default class TestCase {
   public execute(
     notifier: MessageNotifier,
     attempt: number,
-    durationComputer: DurationComputer = new DurationComputer()
+    nanosTimer: NanosTimer = new NanosTimer()
   ) {
     let executeNext = true
     const testCaseStartedId = uuidv4()
@@ -58,7 +57,7 @@ export default class TestCase {
           testCaseStartedId,
           testResult: this.computeTestResult(
             testStepResults,
-            durationComputer.nanos()
+            nanosTimer.nanos()
           ).toMessage(),
         }),
       })

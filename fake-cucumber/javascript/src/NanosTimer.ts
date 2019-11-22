@@ -1,6 +1,6 @@
 import { performance } from 'perf_hooks'
 
-export default class DurationComputer {
+export default class NanosTimer {
   private readonly started = performance.now()
 
   public nanos(): number {

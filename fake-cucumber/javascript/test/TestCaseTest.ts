@@ -4,7 +4,7 @@ import TestResult from '../src/TestResult'
 import TestStep from '../src/TestStep'
 import TestCase from '../src/TestCase'
 import { MessageNotifier } from '../src/types'
-import { MockDurationComputer } from './TestHelpers'
+import { MockNanosTimer } from './TestHelpers'
 
 class StubTestStep extends TestStep {
   public constructor(
@@ -109,7 +109,7 @@ describe('TestCase', () => {
       assert.strictEqual(testResult.message, 'This step failed')
     })
 
-    it('the execution duration is based on the data provided by DurationComputer', () => {
+    it('the execution duration is based on the data provided by NanosTimer', () => {
       const testSteps = [
         new StubTestStep(messages.TestResult.Status.PASSED),
         new StubTestStep(messages.TestResult.Status.PASSED),
@@ -120,7 +120,7 @@ describe('TestCase', () => {
       testCase.execute(
         (message: messages.IEnvelope) => emitted.push(message),
         0,
-        new MockDurationComputer(9876543210)
+        new MockNanosTimer(9876543210)
       )
       const testResult = emitted.find(m => m.testCaseFinished).testCaseFinished
         .testResult

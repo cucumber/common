@@ -6,11 +6,9 @@ import {
   stubMatchingStepDefinition,
   stubPassingSupportCodeExecutor,
   stubPendingSupportCodeExecutor,
-  MockDurationComputer,
+  MockNanosTimer,
 } from './TestHelpers'
 import makePickleTestStep from '../src/makePickleTestStep'
-import SupportCodeExecutor from '../src/SupportCodeExecutor'
-import DurationComputer from '../src/DurationComputer'
 
 function execute(testStep: TestStep): messages.ITestStepFinished {
   const receivedMessages: messages.IEnvelope[] = []
@@ -70,7 +68,7 @@ describe('TestStep', () => {
       )
     })
 
-    it('the execution duration is based on the data provided by DurationComputer', () => {
+    it('the execution duration is based on the data provided by NanosTimer', () => {
       const emitted: messages.IEnvelope[] = []
       const testStep = makePickleTestStep(
         messages.Pickle.PickleStep.create({
@@ -81,7 +79,7 @@ describe('TestStep', () => {
       testStep.execute(
         message => emitted.push(message),
         'some-id',
-        new MockDurationComputer(9876543210)
+        new MockNanosTimer(9876543210)
       )
       const result = emitted.find(m => m.testStepFinished).testStepFinished
         .testResult

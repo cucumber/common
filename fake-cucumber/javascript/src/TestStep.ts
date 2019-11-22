@@ -3,8 +3,7 @@ import uuidv4 from 'uuid/v4'
 import SupportCodeExecutor from './SupportCodeExecutor'
 import TestResult from './TestResult'
 import { MessageNotifier } from './types'
-import DurationComputer from './DurationComputer'
-import Duration from './Duration'
+import NanosTimer from './NanosTimer'
 
 export default class TestStep {
   public readonly id: string = uuidv4()
@@ -31,7 +30,7 @@ export default class TestStep {
   public execute(
     notifier: MessageNotifier,
     testCaseStartedId: string,
-    durationComputer: DurationComputer = new DurationComputer()
+    nanosTimer: NanosTimer = new NanosTimer()
   ): TestResult {
     this.emitTestStepStarted(testCaseStartedId, notifier)
 
@@ -59,7 +58,7 @@ export default class TestStep {
           result === 'pending'
             ? messages.TestResult.Status.PENDING
             : messages.TestResult.Status.PASSED,
-          durationComputer.nanos()
+          nanosTimer.nanos()
         ),
         notifier
       )
@@ -68,7 +67,7 @@ export default class TestStep {
         testCaseStartedId,
         new TestResult(
           messages.TestResult.Status.FAILED,
-          durationComputer.nanos(),
+          nanosTimer.nanos(),
           [error.message, error.stack].join('\n')
         ),
         notifier
