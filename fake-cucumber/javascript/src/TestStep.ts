@@ -3,6 +3,7 @@ import uuidv4 from 'uuid/v4'
 import SupportCodeExecutor from './SupportCodeExecutor'
 import TestResult from './TestResult'
 import { MessageNotifier } from './types'
+import { performance } from 'perf_hooks'
 
 export default class TestStep {
   public readonly id: string = uuidv4()
@@ -31,6 +32,7 @@ export default class TestStep {
     testCaseStartedId: string
   ): TestResult {
     this.emitTestStepStarted(testCaseStartedId, notifier)
+    const started = performance.now()
 
     if (this.supportCodeExecutors.length === 0) {
       return this.emitTestStepFinished(
@@ -55,7 +57,8 @@ export default class TestStep {
         new TestResult(
           result === 'pending'
             ? messages.TestResult.Status.PENDING
-            : messages.TestResult.Status.PASSED
+            : messages.TestResult.Status.PASSED,
+          (performance.now() - started) * 1000000
         ),
         notifier
       )
@@ -64,7 +67,7 @@ export default class TestStep {
         testCaseStartedId,
         new TestResult(
           messages.TestResult.Status.FAILED,
-          0,
+          (performance.now() - started) * 1000000,
           [error.message, error.stack].join('\n')
         ),
         notifier

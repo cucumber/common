@@ -8,6 +8,7 @@ import {
   stubPendingSupportCodeExecutor,
 } from './TestHelpers'
 import makePickleTestStep from '../src/makePickleTestStep'
+import SupportCodeExecutor from '../src/SupportCodeExecutor'
 
 function execute(testStep: TestStep): messages.ITestStepFinished {
   const receivedMessages: messages.IEnvelope[] = []
@@ -65,6 +66,27 @@ describe('TestStep', () => {
         testStep.execute(message => null, 'some-testCaseStartedId').status,
         messages.TestResult.Status.UNDEFINED
       )
+    })
+
+    it('computes the duration based on execution time', () => {
+      const executor = new SupportCodeExecutor(
+        'some-id',
+        () => {
+          const start = Date.now()
+          while (Date.now() - start < 500) {
+            // No-op
+          }
+        },
+        []
+      )
+      const emitted: messages.IEnvelope[] = []
+      const testStep = new TestStep('some-id', [executor])
+      testStep.execute(message => emitted.push(message), 'some-id')
+
+      const result = emitted.find(m => m.testStepFinished).testStepFinished
+        .testResult
+      assert.strictEqual(result.duration.seconds, 0)
+      assert.ok(result.duration.nanos > 400000000)
     })
 
     context('when there is a matching step definition', () => {

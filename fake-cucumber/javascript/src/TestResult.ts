@@ -4,7 +4,7 @@ import Duration from './Duration'
 export default class TestResult {
   public constructor(
     public readonly status: messages.TestResult.Status,
-    public readonly durationNanos?: number,
+    private readonly durationNanos?: number,
     public readonly message?: string
   ) {}
 
