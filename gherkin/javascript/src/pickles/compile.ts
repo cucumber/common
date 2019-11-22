@@ -69,7 +69,9 @@ function compileRule(
 
   rule.children.forEach(stepsContainer => {
     if (stepsContainer.background) {
-      ruleBackgroundSteps = ruleBackgroundSteps.concat(stepsContainer.background.steps)
+      ruleBackgroundSteps = ruleBackgroundSteps.concat(
+        stepsContainer.background.steps
+      )
     } else if (stepsContainer.scenario.examples.length === 0) {
       compileScenario(
         featureTags,
@@ -103,7 +105,10 @@ function compileScenario(
   uri: string,
   newId: NewId
 ) {
-  const steps = scenario.steps.length === 0 ? [] : backgroundSteps.map(step => pickleStep(step, [], null, newId))
+  const steps =
+    scenario.steps.length === 0
+      ? []
+      : backgroundSteps.map(step => pickleStep(step, [], null, newId))
 
   const tags = [].concat(featureTags).concat(scenario.tags)
 
@@ -135,8 +140,10 @@ function compileScenarioOutline(
     .forEach(examples => {
       const variableCells = examples.tableHeader.cells
       examples.tableBody.forEach(valuesRow => {
-        const steps = scenario.steps.length === 0 ?
-          [] : backgroundSteps.map(step => pickleStep(step, [], null, newId))
+        const steps =
+          scenario.steps.length === 0
+            ? []
+            : backgroundSteps.map(step => pickleStep(step, [], null, newId))
         const tags = []
           .concat(featureTags)
           .concat(scenario.tags)
