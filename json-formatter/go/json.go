@@ -75,12 +75,14 @@ type Formatter struct {
 	jsonFeaturesByURI       map[string]*jsonFeature
 	jsonStepsByPickleStepId map[string]*jsonStep
 	exampleRowIndexById     map[string]int
+	verbose                 bool
 }
 
 // ProcessMessages writes a JSON report to STDOUT
 func (self *Formatter) ProcessMessages(stdin io.Reader, stdout io.Writer) (err error) {
+	self.verbose = false
 	self.lookup = &MessageLookup{}
-	self.lookup.Initialize()
+	self.lookup.Initialize(self.verbose)
 
 	self.jsonFeatures = make([]*jsonFeature, 0)
 	self.jsonFeaturesByURI = make(map[string]*jsonFeature)
@@ -103,6 +105,7 @@ func (self *Formatter) ProcessMessages(stdin io.Reader, stdout io.Writer) (err e
 
 		switch m := envelope.Message.(type) {
 		case *messages.Envelope_GherkinDocument:
+			self.comment("Treating GherkinDocument")
 			for _, child := range m.GherkinDocument.Feature.Children {
 				scenario := child.GetScenario()
 				if scenario != nil {
@@ -116,6 +119,12 @@ func (self *Formatter) ProcessMessages(stdin io.Reader, stdout io.Writer) (err e
 			}
 
 		case *messages.Envelope_Pickle:
+			self.comment(fmt.Sprintf(
+				"Treating Pickle: %s - %s",
+				m.Pickle.Id,
+				m.Pickle.SourceIds,
+			))
+
 			pickle := m.Pickle
 			jsonFeature := self.findOrCreateJsonFeature(pickle)
 			scenario := self.lookup.LookupScenario(pickle.SourceIds[0])
@@ -286,5 +295,12 @@ func (self *Formatter) makeId(s string) string {
 }
 
 func (self *Formatter) durationToNanos(d *messages.Duration) uint64 {
+	self.comment(fmt.Sprintf("Converting to nanos: %d - %d", d.Seconds, d.Nanos))
 	return uint64(d.Seconds*1000000000 + int64(d.Nanos))
+}
+
+func (self *Formatter) comment(message string) {
+	if self.verbose {
+		fmt.Println(fmt.Sprintf("// Formatter: %s", message))
+	}
 }

@@ -417,6 +417,7 @@ message TestCase {
     // Pointer to the PickleStep (if derived from a PickleStep)
     string pickleStepId = 2;
     // Pointer to all the matching StepDefinitions (if derived from a PickleStep)
+    // TODO: Should be renamed stepDefinitionIds
     repeated string stepDefinitionId = 3;
     // All the arguments from the match (if derived from a PickleStep and there was exactly 1 StepDefinition)
     repeated StepMatchArgument stepMatchArguments = 4;

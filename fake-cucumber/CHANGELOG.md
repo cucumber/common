@@ -15,6 +15,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Removed
 
+* Remove `--format json`. Only support `--format ndjson|protobuf`
+
 ### Fixed
 
 ## [2.1.0] - 2019-11-14

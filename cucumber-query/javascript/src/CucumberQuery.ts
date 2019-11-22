@@ -3,6 +3,10 @@ import { messages } from 'cucumber-messages'
 export default class CucumberQuery {
   private readonly uriBySourceId = new Map<string, string>()
   private readonly locationBySourceId = new Map<string, messages.ILocation>()
+  private readonly gherkinStepById = new Map<
+    string,
+    messages.GherkinDocument.Feature.IStep
+  >()
 
   private readonly pickleById = new Map<string, messages.IPickle>()
   private readonly pickleStepById = new Map<
@@ -87,6 +91,15 @@ export default class CucumberQuery {
         this.testStepById.set(testStep.id, testStep)
 
         const pickleStep = this.pickleStepById.get(testStep.pickleStepId)
+        if (pickleStep === undefined) {
+          throw new Error(
+            `Did not find a PickleStep with id "${
+              testStep.pickleStepId
+            }". Known ids:\n${Array.from(this.pickleStepById.keys()).join(
+              '\n'
+            )}`
+          )
+        }
 
         for (const sourceId of pickleStep.sourceIds) {
           const uri = this.uriBySourceId.get(sourceId)
@@ -180,6 +193,7 @@ export default class CucumberQuery {
     for (const step of background.steps) {
       this.uriBySourceId.set(step.id, uri)
       this.locationBySourceId.set(step.id, step.location)
+      this.gherkinStepById.set(step.id, step)
     }
   }
 
@@ -192,6 +206,7 @@ export default class CucumberQuery {
     for (const step of scenario.steps) {
       this.uriBySourceId.set(step.id, uri)
       this.locationBySourceId.set(step.id, step.location)
+      this.gherkinStepById.set(step.id, step)
     }
 
     for (const examples of scenario.examples) {
@@ -228,5 +243,11 @@ export default class CucumberQuery {
     return (
       this.testStepMatchArgumentsByUriAndLine.get(`${uri}:${lineNumber}`) || []
     )
+  }
+
+  public getGherkinStep(
+    gherkinStepId: string
+  ): messages.GherkinDocument.Feature.IStep {
+    return this.gherkinStepById.get(gherkinStepId)
   }
 }

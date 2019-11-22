@@ -22,7 +22,7 @@ describe('ProtobufNdjsonStream', () => {
             status: messages.TestResult.Status.UNKNOWN,
           }),
         }),
-      }),
+      })
     )
   })
 
@@ -38,7 +38,7 @@ describe('ProtobufNdjsonStream', () => {
         testCase: messages.TestCase.create({
           pickleId: '123',
         }),
-      }),
+      })
     )
   })
 
@@ -52,7 +52,7 @@ describe('ProtobufNdjsonStream', () => {
     stream.write(
       messages.Envelope.create({
         testCase: messages.TestCase.create({ pickleId: '' }),
-      }),
+      })
     )
   })
 
@@ -80,7 +80,7 @@ describe('ProtobufNdjsonStream', () => {
             }),
           }),
         }),
-      }),
+      })
     )
   })
 })

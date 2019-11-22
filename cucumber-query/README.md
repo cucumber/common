@@ -14,3 +14,13 @@ is rendering the [GherkinDocument](../cucumber-messages/messages.md#io.cucumber.
 
 The `cucumber-query` library makes this easy by providing a function to look up the
 status of a step, a scenario or an entire file.
+
+## API
+
+| Query function                                                                          | .NET | Go | Java | Ruby | TypeScript |  
+| --------------------------------------------------------------------------------------- | ---- | -- | ---- | ---- | ---------- |
+| `getStepResults(uri: string, lineNumber: number): messages.ITestResult[]`               |      |    |      |      | ✓          |
+| `getScenarioResults(uri: string, lineNumber: number): messages.ITestResult[]`           |      |    |      |      | ✓          |
+| `getDocumentResults(uri: string): messages.ITestResult[]`                               |      |    |      |      | ✓          |
+| `getStepMatchArguments(uri: string, lineNumber: number): messages.IStepMatchArgument[]` |      |    |      |      | ✓          |
+| `getGherkinStep(gherkinStepId: string): messages.GherkinDocument.Feature.IStep`         |      |    |      |      | ✓          |

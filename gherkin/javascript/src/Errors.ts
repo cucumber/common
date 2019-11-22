@@ -85,7 +85,10 @@ export class NoSuchLanguageException extends GherkinException {
 }
 
 function tokenLocation(token: Token) {
-  return token.location && token.location.line && token.line && token.line.indent !== undefined
+  return token.location &&
+    token.location.line &&
+    token.line &&
+    token.line.indent !== undefined
     ? createLocation({
         line: token.location.line,
         column: token.line.indent + 1,

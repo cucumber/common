@@ -13,8 +13,9 @@
   "scripts": {
     "nyc": "nyc --reporter=html --reporter=text mocha",
     "test": "mocha",
-    "build": "tsc && webpack-cli src/main.tsx",
-    "pretty-quick": "pretty-quick --staged"
+    "lint": "tslint src/**/*.ts test/**/*.ts",
+    "lint-fix": "tslint --fix src/**/*.ts test/**/*.ts",
+    "build": "tsc && webpack-cli src/main.tsx"
   },
   "dependencies": {
     "commander": "^4.0.1",
@@ -38,8 +39,10 @@
     "npm-link-shared": "^0.5.6",
     "nyc": "^14.1.1",
     "prettier": "^1.19.1",
-    "pretty-quick": "^2.0.1",
     "ts-node": "^8.5.2",
+    "tslint": "^5.20.1",
+    "tslint-config-prettier": "^1.18.0",
+    "tslint-plugin-prettier": "^2.0.1",
     "typescript": "^3.7.2",
     "webpack": "^4.41.2",
     "webpack-cli": "^3.3.10"

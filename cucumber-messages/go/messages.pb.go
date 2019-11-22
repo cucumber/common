@@ -2777,6 +2777,7 @@ type TestCase_TestStep struct {
 	// Pointer to the PickleStep (if derived from a PickleStep)
 	PickleStepId string `protobuf:"bytes,2,opt,name=pickleStepId,proto3" json:"pickleStepId,omitempty"`
 	// Pointer to all the matching StepDefinitions (if derived from a PickleStep)
+	// TODO: Should be renamed stepDefinitionIds
 	StepDefinitionId []string `protobuf:"bytes,3,rep,name=stepDefinitionId,proto3" json:"stepDefinitionId,omitempty"`
 	// All the arguments from the match (if derived from a PickleStep and there was exactly 1 StepDefinition)
 	StepMatchArguments []*StepMatchArgument `protobuf:"bytes,4,rep,name=stepMatchArguments,proto3" json:"stepMatchArguments,omitempty"`

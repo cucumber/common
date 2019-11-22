@@ -2,6 +2,7 @@ SHELL := /usr/bin/env bash
 MAKEFILES=c21e/Makefile \
 	cucumber-messages/Makefile \
 	gherkin/Makefile \
+	cucumber-expressions/Makefile \
 	fake-cucumber/Makefile \
 	cucumber-query/Makefile \
 	cucumber-react/Makefile \
@@ -9,7 +10,6 @@ MAKEFILES=c21e/Makefile \
 	json-formatter/Makefile \
 	datatable/Makefile \
 	config/Makefile \
-	cucumber-expressions/Makefile \
 	tag-expressions/Makefile \
 	cucumber-demo-formatter/Makefile
 
