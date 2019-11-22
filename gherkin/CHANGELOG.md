@@ -19,6 +19,10 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Fixed
 
+* PickleStep have unique IDs when generated from a `Background` section
+  ([#800](https://github.com/cucumber/cucumber/pull/800)
+   [vincent-psarga])
+
 ## [8.2.0] - 2019-11-14
 
 ### Fixed

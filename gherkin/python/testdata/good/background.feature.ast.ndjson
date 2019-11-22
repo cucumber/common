@@ -44,6 +44,28 @@
               }
             ]
           }
+        },
+        {
+          "scenario": {
+            "id": "4",
+            "keyword": "Scenario",
+            "location": {
+              "column": 3,
+              "line": 10
+            },
+            "name": "also minimalistic",
+            "steps": [
+              {
+                "id": "3",
+                "keyword": "Given ",
+                "location": {
+                  "column": 5,
+                  "line": 11
+                },
+                "text": "the minimalism"
+              }
+            ]
+          }
         }
       ],
       "keyword": "Feature",
