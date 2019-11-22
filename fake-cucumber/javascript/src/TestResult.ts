@@ -1,4 +1,5 @@
 import { messages } from 'cucumber-messages'
+import Duration from './Duration'
 
 export default class TestResult {
   public constructor(
@@ -10,10 +11,7 @@ export default class TestResult {
     return new messages.TestResult({
       status: this.status,
       message: this.message,
-      duration: new messages.Duration({
-        seconds: 123,
-        nanos: 456,
-      })
+      duration: new Duration(123, 456).toMessage()
     })
   }
 }
