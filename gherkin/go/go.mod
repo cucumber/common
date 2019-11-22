@@ -8,4 +8,6 @@ require (
 	gopkg.in/yaml.v2 v2.2.7 // indirect
 )
 
+replace github.com/cucumber/cucumber-messages-go/v7 => ../../cucumber-messages/go
+
 go 1.13
