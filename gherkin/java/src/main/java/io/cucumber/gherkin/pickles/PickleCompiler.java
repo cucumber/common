@@ -51,43 +51,43 @@ public class PickleCompiler {
 
     private void compileFeature(List<Pickle> pickles, Feature feature, String language, String uri) {
         List<Tag> tags = feature.getTagsList();
-        List<PickleStep> backgroundSteps = new ArrayList<>();
+        List<Step> featureBackgroundSteps = new ArrayList<>();
         for (FeatureChild child : feature.getChildrenList()) {
             if (child.hasBackground()) {
-                backgroundSteps.addAll(pickleSteps(child.getBackground().getStepsList()));
+                featureBackgroundSteps.addAll(child.getBackground().getStepsList());
             } else if (child.hasRule()) {
-                compileRule(pickles, child.getRule(), tags, backgroundSteps, language, uri);
+                compileRule(pickles, child.getRule(), tags, featureBackgroundSteps, language, uri);
             } else {
                 Feature.Scenario scenario = child.getScenario();
                 if (scenario.getExamplesList().isEmpty()) {
-                    compileScenario(pickles, scenario, tags, backgroundSteps, language, uri);
+                    compileScenario(pickles, scenario, tags, featureBackgroundSteps, language, uri);
                 } else {
-                    compileScenarioOutline(pickles, scenario, tags, backgroundSteps, language, uri);
+                    compileScenarioOutline(pickles, scenario, tags, featureBackgroundSteps, language, uri);
                 }
             }
         }
     }
 
-    private void compileRule(List<Pickle> pickles, Rule rule, List<Tag> tags, List<PickleStep> featureBackgroundSteps, String language, String uri) {
-        List<PickleStep> backgroundSteps = new ArrayList<>(featureBackgroundSteps);
+    private void compileRule(List<Pickle> pickles, Rule rule, List<Tag> tags, List<Step> featureBackgroundSteps, String language, String uri) {
+        List<Step> ruleBackgroundSteps = new ArrayList<>(featureBackgroundSteps);
         for (FeatureChild.RuleChild child : rule.getChildrenList()) {
             if (child.hasBackground()) {
-                backgroundSteps.addAll(pickleSteps(child.getBackground().getStepsList()));
+                ruleBackgroundSteps.addAll(child.getBackground().getStepsList());
             } else {
                 Feature.Scenario scenario = child.getScenario();
                 if (scenario.getExamplesList().isEmpty()) {
-                    compileScenario(pickles, scenario, tags, backgroundSteps, language, uri);
+                    compileScenario(pickles, scenario, tags, ruleBackgroundSteps, language, uri);
                 } else {
-                    compileScenarioOutline(pickles, scenario, tags, backgroundSteps, language, uri);
+                    compileScenarioOutline(pickles, scenario, tags, ruleBackgroundSteps, language, uri);
                 }
             }
         }
     }
 
-    private void compileScenario(List<Pickle> pickles, Feature.Scenario scenario, List<Tag> parentTags, List<PickleStep> backgroundSteps, String language, String uri) {
+    private void compileScenario(List<Pickle> pickles, Feature.Scenario scenario, List<Tag> parentTags, List<Step> backgroundSteps, String language, String uri) {
         List<PickleStep> steps = new ArrayList<>();
         if (!scenario.getStepsList().isEmpty())
-            steps.addAll(backgroundSteps);
+            steps.addAll(pickleSteps(backgroundSteps));
 
         steps.addAll(pickleSteps(scenario.getStepsList()));
 
@@ -110,7 +110,7 @@ public class PickleCompiler {
         pickles.add(pickle);
     }
 
-    private void compileScenarioOutline(List<Pickle> pickles, Feature.Scenario scenario, List<Tag> featureTags, List<PickleStep> backgroundSteps, String language, String uri) {
+    private void compileScenarioOutline(List<Pickle> pickles, Feature.Scenario scenario, List<Tag> featureTags, List<Step> backgroundSteps, String language, String uri) {
         for (final Examples examples : scenario.getExamplesList()) {
             if (examples.getTableHeader() == null) continue;
             List<TableCell> variableCells = examples.getTableHeader().getCellsList();
@@ -120,7 +120,8 @@ public class PickleCompiler {
                 List<PickleStep> steps = new ArrayList<>();
 
                 if (!scenario.getStepsList().isEmpty())
-                    steps.addAll(backgroundSteps);
+                    steps.addAll(pickleSteps(backgroundSteps));
+
 
                 List<Tag> tags = new ArrayList<>();
                 tags.addAll(featureTags);
