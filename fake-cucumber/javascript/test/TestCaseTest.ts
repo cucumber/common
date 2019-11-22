@@ -8,7 +8,8 @@ import { MessageNotifier } from '../src/types'
 class StubTestStep extends TestStep {
   public constructor(
     private readonly status: messages.TestResult.Status,
-    private readonly message?: string
+    private readonly message?: string,
+    private readonly waitTime?: number
   ) {
     super('some-id', [])
   }
@@ -17,11 +18,24 @@ class StubTestStep extends TestStep {
     notifier: MessageNotifier,
     testCaseStartedId: string
   ): TestResult {
+    this.wait()
+
     return this.emitTestStepFinished(
       testCaseStartedId,
       new TestResult(this.status, 0, this.message),
       notifier
     )
+  }
+
+  private wait() {
+    if (this.waitTime === undefined) {
+      return
+    }
+
+    const until = Date.now() + this.waitTime
+    while (Date.now() < until) {
+      // No-op
+    }
   }
 }
 
@@ -106,6 +120,25 @@ describe('TestCase', () => {
         .testResult
 
       assert.strictEqual(testResult.message, 'This step failed')
+    })
+
+    it('the test execution time is computed on execution', () => {
+      const testSteps = [
+        new StubTestStep(messages.TestResult.Status.PASSED, '', 150),
+        new StubTestStep(messages.TestResult.Status.PASSED, '', 150),
+        new StubTestStep(messages.TestResult.Status.PASSED, '', 150),
+      ]
+      const emitted: messages.IEnvelope[] = []
+      const testCase = new TestCase(testSteps, 'some-pickle-id')
+      testCase.execute(
+        (message: messages.IEnvelope) => emitted.push(message),
+        0
+      )
+      const testResult = emitted.find(m => m.testCaseFinished).testCaseFinished
+        .testResult
+
+      assert.strictEqual(testResult.duration.seconds, 0)
+      assert.ok(testResult.duration.nanos > 300000000)
     })
 
     context(

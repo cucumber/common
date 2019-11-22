@@ -3,6 +3,8 @@ import { MessageNotifier } from './types'
 import { messages } from 'cucumber-messages'
 import uuidv4 from 'uuid/v4'
 import TestResult from './TestResult'
+import DurationComputer from './DurationComputer'
+import Duration from './Duration'
 
 export default class TestCase {
   public readonly id: string = uuidv4()
@@ -36,6 +38,7 @@ export default class TestCase {
       })
     )
 
+    const durationComputer = new DurationComputer()
     const testStepResults = this.testSteps.map(testStep => {
       if (executeNext) {
         const result = testStep.execute(notifier, testCaseStartedId)
@@ -50,13 +53,19 @@ export default class TestCase {
       new messages.Envelope({
         testCaseFinished: new messages.TestCaseFinished({
           testCaseStartedId,
-          testResult: this.computeTestResult(testStepResults).toMessage(),
+          testResult: this.computeTestResult(
+            testStepResults,
+            durationComputer.nanos()
+          ).toMessage(),
         }),
       })
     )
   }
 
-  private computeTestResult(testStepResults: TestResult[]): TestResult {
+  private computeTestResult(
+    testStepResults: TestResult[],
+    nanos: number
+  ): TestResult {
     const testStepStatuses = testStepResults.map(result => result.status)
     const testStatus =
       testStepStatuses.sort()[testStepStatuses.length - 1] ||
@@ -64,7 +73,7 @@ export default class TestCase {
 
     return new TestResult(
       testStatus,
-      0,
+      nanos,
       testStatus === messages.TestResult.Status.FAILED
         ? testStepResults.find(
             result => result.status === messages.TestResult.Status.FAILED
