@@ -7,6 +7,8 @@ export enum HookType {
 }
 
 export interface IHook {
+  id: string
+
   match(pickle: messages.IPickle, type: HookType): SupportCodeExecutor | null
   toMessage(): messages.IEnvelope
 }

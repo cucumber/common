@@ -23,7 +23,7 @@ describe('TestPlan', () => {
     )
 
     const pickles = gherkinMessageList.filter(m => m.pickle).map(m => m.pickle)
-    const testPlan = new TestPlan(pickles, [stepDefinition])
+    const testPlan = new TestPlan(pickles, [stepDefinition], [])
     const messageList: messages.IEnvelope[] = []
     const notifier: MessageNotifier = message => messageList.push(message)
     testPlan.execute(notifier)

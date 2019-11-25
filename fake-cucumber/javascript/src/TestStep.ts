@@ -2,27 +2,18 @@ import { messages } from 'cucumber-messages'
 import uuidv4 from 'uuid/v4'
 import SupportCodeExecutor from './SupportCodeExecutor'
 import { MessageNotifier } from './types'
+import ITestStep from './ITestStep'
 
-export default class TestStep {
+export default class TestStep implements ITestStep {
   public readonly id: string = uuidv4()
 
   constructor(
-    private readonly pickleStepId: string,
-    private readonly supportCodeExecutors: SupportCodeExecutor[]
+    public readonly sourceId: string,
+    protected readonly supportCodeExecutors: SupportCodeExecutor[]
   ) {}
 
   public toMessage(): messages.TestCase.ITestStep {
-    return new messages.TestCase.TestStep({
-      id: this.id,
-      pickleStepId: this.pickleStepId,
-      stepDefinitionId: this.supportCodeExecutors.map(
-        supportCodeExecutor => supportCodeExecutor.stepDefinitionId
-      ),
-      stepMatchArguments:
-        this.supportCodeExecutors.length !== 1
-          ? null
-          : this.supportCodeExecutors[0].argsToMessages(),
-    })
+    throw new Error('Method not implemented.')
   }
 
   public execute(

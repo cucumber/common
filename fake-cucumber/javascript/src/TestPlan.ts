@@ -4,13 +4,18 @@ import ExpressionStepDefinition from './ExpressionStepDefinition'
 import { messages } from 'cucumber-messages'
 import makeTestCase from './makeTestCase'
 import IStepDefinition from './IStepDefinition'
+import { IHook } from './IHook'
 
 export default class TestPlan {
   private readonly testCases: TestCase[]
 
-  constructor(pickles: messages.IPickle[], stepDefinitions: IStepDefinition[]) {
+  constructor(
+    pickles: messages.IPickle[],
+    stepDefinitions: IStepDefinition[],
+    hooks: IHook[]
+  ) {
     this.testCases = pickles.map(pickle =>
-      makeTestCase(pickle, stepDefinitions)
+      makeTestCase(pickle, stepDefinitions, hooks)
     )
   }
 

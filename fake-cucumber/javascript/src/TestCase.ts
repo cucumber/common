@@ -1,4 +1,4 @@
-import TestStep from './TestStep'
+import ITestStep from './ITestStep'
 import { MessageNotifier } from './types'
 import { messages } from 'cucumber-messages'
 import uuidv4 from 'uuid/v4'
@@ -7,7 +7,7 @@ export default class TestCase {
   public readonly id: string = uuidv4()
 
   constructor(
-    private readonly testSteps: TestStep[],
+    private readonly testSteps: ITestStep[],
     private readonly pickleId: string
   ) {}
 

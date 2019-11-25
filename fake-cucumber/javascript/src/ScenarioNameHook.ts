@@ -4,7 +4,7 @@ import uuidv4 from 'uuid/v4'
 import { HookType, IHook } from './IHook'
 
 export default class ScenarioNameHook implements IHook {
-  private readonly id = uuidv4()
+  public readonly id = uuidv4()
 
   constructor(
     private readonly type: HookType,

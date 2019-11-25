@@ -18,7 +18,7 @@ describe('Cucumber', () => {
       gherkinMessages(feature, 'test.feature')
     )
     const stepDefinitions = [stubMatchingStepDefinition()]
-    const cucumber = new Cucumber(gherkinMessageList, stepDefinitions)
+    const cucumber = new Cucumber(gherkinMessageList, stepDefinitions, [])
     const messageList: messages.IEnvelope[] = []
     const notifier: MessageNotifier = message => messageList.push(message)
     cucumber.execute(notifier)

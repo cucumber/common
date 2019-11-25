@@ -24,7 +24,11 @@ export default class CucumberStream extends Transform {
   }
 
   public _flush(callback: TransformCallback): void {
-    const cucumber = new Cucumber(this.gherkinMessages, this.stepDefinitions)
+    const cucumber = new Cucumber(
+      this.gherkinMessages,
+      this.stepDefinitions,
+      this.hooks
+    )
     cucumber.execute(message => this.push(message))
     callback()
   }
