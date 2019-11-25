@@ -90,25 +90,28 @@ export default class CucumberQuery {
       for (const testStep of message.testCase.testSteps) {
         this.testStepById.set(testStep.id, testStep)
 
-        const pickleStep = this.pickleStepById.get(testStep.pickleStepId)
-        if (pickleStep === undefined) {
-          throw new Error(
-            `Did not find a PickleStep with id "${
-              testStep.pickleStepId
-            }". Known ids:\n${Array.from(this.pickleStepById.keys()).join(
-              '\n'
-            )}`
-          )
-        }
+        if (testStep.pickleStepId) {
+          const pickleStep = this.pickleStepById.get(testStep.pickleStepId)
+          if (pickleStep === undefined) {
+            throw new Error(
+              `Did not find a PickleStep with id "${
+                testStep.pickleStepId
+              }". Known ids:\n${Array.from(this.pickleStepById.keys()).join(
+                '\n'
+              )}`
+            )
+          }
+          for (const sourceId of pickleStep.sourceIds) {
+            const uri = this.uriBySourceId.get(sourceId)
+            const lineNumber = this.locationBySourceId.get(sourceId).line
 
-        for (const sourceId of pickleStep.sourceIds) {
-          const uri = this.uriBySourceId.get(sourceId)
-          const lineNumber = this.locationBySourceId.get(sourceId).line
-
-          this.testStepMatchArgumentsByUriAndLine.set(
-            `${uri}:${lineNumber}`,
-            testStep.stepMatchArguments
-          )
+            this.testStepMatchArgumentsByUriAndLine.set(
+              `${uri}:${lineNumber}`,
+              testStep.stepMatchArguments
+            )
+          }
+        } else if (testStep.hookId) {
+          // Nothing to do
         }
       }
     }
