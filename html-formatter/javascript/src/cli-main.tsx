@@ -15,17 +15,28 @@ class CucumberHtmlStream extends Transform {
     super({ objectMode: true })
   }
 
-  _transform(envelope: messages.IEnvelope, encoding: string, callback: (error?: (Error | null), data?: any) => void): void {
+  public _transform(
+    envelope: messages.IEnvelope,
+    encoding: string,
+    callback: (error?: Error | null, data?: any) => void
+  ): void {
     this.envelopes.push(envelope)
     callback()
   }
 
-  _flush(callback: (error?: (Error | null), data?: any) => void): void {
+  public _flush(callback: (error?: Error | null, data?: any) => void): void {
     readFile(__dirname + '/../main.js', (err: Error, js: Buffer) => {
-      if (err) return callback(err)
+      if (err) {
+        return callback(err)
+      }
 
-      const gherkinDocuments = this.envelopes.filter(e => e.gherkinDocument).map(e => e.gherkinDocument)
-      const cucumberQuery = this.envelopes.reduce((q, e) => q.update(e), new CucumberQuery())
+      const gherkinDocuments = this.envelopes
+        .filter(e => e.gherkinDocument)
+        .map(e => e.gherkinDocument)
+      const cucumberQuery = this.envelopes.reduce(
+        (q, e) => q.update(e),
+        new CucumberQuery()
+      )
 
       this.push(`<!DOCTYPE html>
 <html lang="en">
@@ -36,10 +47,14 @@ class CucumberHtmlStream extends Transform {
   <body>
     <div id="content">
 `)
-      this.push(renderToString(<GherkinDocumentList
-        gherkinDocuments={gherkinDocuments}
-        cucumberQuery={cucumberQuery}
-      />))
+      this.push(
+        renderToString(
+          <GherkinDocumentList
+            gherkinDocuments={gherkinDocuments}
+            cucumberQuery={cucumberQuery}
+          />
+        )
+      )
       this.push(`
     </div>
     <script>
@@ -56,11 +71,11 @@ ${js.toString('utf8')}
   }
 }
 
-program
-  .version(p.version)
-  .parse(process.argv);
+program.version(p.version).parse(process.argv)
 
-const protobufMessageStream = new ProtobufMessageStream(messages.Envelope.decodeDelimited.bind(messages.Envelope))
+const protobufMessageStream = new ProtobufMessageStream(
+  messages.Envelope.decodeDelimited.bind(messages.Envelope)
+)
 protobufMessageStream.on('error', (err: Error) => exit(err))
 
 const cucumberHtmlStream = new CucumberHtmlStream()
