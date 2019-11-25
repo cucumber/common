@@ -1,5 +1,5 @@
 import { spawn, spawnSync } from 'child_process'
-import { messages, ProtobufMessageStream } from 'cucumber-messages'
+import { messages, BinaryToMessageStream } from 'cucumber-messages'
 import { Readable } from 'stream'
 import Dialect from '../Dialect'
 import { IGherkinOptions } from '../types'
@@ -32,17 +32,15 @@ export default class GherkinExe {
     const gherkin = spawn(this.gherkinExe, args, {
       stdio: ['pipe', 'pipe', 'inherit'],
     })
-    const protobufMessageStream = new ProtobufMessageStream(
+    const toMessageStream = new BinaryToMessageStream(
       messages.Envelope.decodeDelimited.bind(messages.Envelope)
     )
-    gherkin.on('error', err => {
-      protobufMessageStream.emit('error', err)
-    })
-    gherkin.stdout.pipe(protobufMessageStream)
+    gherkin.on('error', err => toMessageStream.emit('error', err))
+    gherkin.stdout.pipe(toMessageStream)
     for (const envelope of this.envelopes) {
       gherkin.stdin.write(messages.Envelope.encodeDelimited(envelope).finish())
     }
     gherkin.stdin.end()
-    return protobufMessageStream
+    return toMessageStream
   }
 }

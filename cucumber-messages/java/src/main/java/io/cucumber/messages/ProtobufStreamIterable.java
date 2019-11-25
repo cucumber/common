@@ -7,7 +7,7 @@ import java.util.Iterator;
 /**
  * Iterates over messages read from a stream. Client code should not depend on this class
  * directly, but rather on a {@code Iterable<Messages.Envelope>} object.
- * Tests can then use a {@code new ArrayList<Messages.Envelope>} which implements the same interface .
+ * Tests can then use a {@code new ArrayList<Messages.Envelope>} which implements the same interface.
  */
 public class ProtobufStreamIterable implements Iterable<Messages.Envelope> {
     private final InputStream input;

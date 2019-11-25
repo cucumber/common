@@ -1,9 +1,13 @@
 import { readFile } from 'fs'
-import { messages, ProtobufMessageStream } from 'cucumber-messages'
+import {
+  BinaryToMessageStream,
+  messages,
+  NdjsonToMessageStream,
+} from 'cucumber-messages'
 import React from 'react'
 import program from 'commander'
 import p from '../package.json'
-import { Transform } from 'stream'
+import { pipeline, Transform, TransformCallback } from 'stream'
 import { GherkinDocumentList } from 'cucumber-react'
 import { renderToString } from 'react-dom/server'
 import CucumberQuery from 'cucumber-query'
@@ -18,13 +22,13 @@ class CucumberHtmlStream extends Transform {
   public _transform(
     envelope: messages.IEnvelope,
     encoding: string,
-    callback: (error?: Error | null, data?: any) => void
+    callback: TransformCallback
   ): void {
     this.envelopes.push(envelope)
     callback()
   }
 
-  public _flush(callback: (error?: Error | null, data?: any) => void): void {
+  public _flush(callback: TransformCallback): void {
     readFile(__dirname + '/../main.js', (err: Error, js: Buffer) => {
       if (err) {
         return callback(err)
@@ -72,21 +76,29 @@ ${js.toString('utf8')}
 }
 
 program.version(p.version).parse(process.argv)
-
-const protobufMessageStream = new ProtobufMessageStream(
-  messages.Envelope.decodeDelimited.bind(messages.Envelope)
+program.option(
+  '-f, --format <format>',
+  'output format: ndjson|protobuf',
+  'protobuf'
 )
-protobufMessageStream.on('error', (err: Error) => exit(err))
 
-const cucumberHtmlStream = new CucumberHtmlStream()
-cucumberHtmlStream.on('error', (err: Error) => exit(err))
+const toMessageStream =
+  program.format === 'ndjson'
+    ? new NdjsonToMessageStream(
+        messages.Envelope.fromObject.bind(messages.Envelope)
+      )
+    : new BinaryToMessageStream(
+        messages.Envelope.decodeDelimited.bind(messages.Envelope)
+      )
 
-process.stdin
-  .pipe(protobufMessageStream)
-  .pipe(cucumberHtmlStream)
-  .pipe(process.stdout)
-
-function exit(err: Error) {
-  console.error(err)
-  process.exit(1)
-}
+pipeline(
+  process.stdin,
+  toMessageStream,
+  new CucumberHtmlStream(),
+  process.stdout,
+  (err: any) => {
+    // tslint:disable-next-line:no-console
+    console.error(err)
+    process.exit(1)
+  }
+)

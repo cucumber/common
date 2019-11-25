@@ -1,10 +1,6 @@
 import gherkin from '../index'
 import { IGherkinOptions } from '../types'
-import {
-  messages,
-  ProtobufBinaryStream,
-  ProtobufNdjsonStream,
-} from 'cucumber-messages'
+import { MessageToBinaryStream, MessageToNdjsonStream } from 'cucumber-messages'
 import { Readable } from 'stream'
 import { incrementing, uuid } from '../IdGenerator'
 
@@ -53,11 +49,7 @@ const messageStream =
     : gherkin.fromPaths(paths, options)
 
 const encodedStream = json
-  ? messageStream.pipe(new ProtobufNdjsonStream())
-  : messageStream.pipe(
-      new ProtobufBinaryStream(
-        messages.Envelope.encodeDelimited.bind(messages.Envelope)
-      )
-    )
+  ? messageStream.pipe(new MessageToNdjsonStream())
+  : messageStream.pipe(new MessageToBinaryStream())
 
 encodedStream.pipe(process.stdout)

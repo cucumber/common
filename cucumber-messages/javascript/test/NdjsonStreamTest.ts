@@ -1,9 +1,18 @@
-import { messages, ProtobufNdjsonStream } from '../src'
+import { messages, MessageToNdjsonStream } from '../src'
 import assert from 'assert'
+import NdjsonToMessageStream from '../src/NdjsonToMessageStream'
+import verifyStreamContract from './verifyStreamContract'
 
-describe('ProtobufNdjsonStream', () => {
+describe('NdjsonStream', () => {
+  const makeToMessageStream = () =>
+    new NdjsonToMessageStream(
+      messages.Envelope.fromObject.bind(messages.Envelope)
+    )
+  const makeFromMessageStream = () => new MessageToNdjsonStream()
+  verifyStreamContract(makeFromMessageStream, makeToMessageStream)
+
   it('converts messages to JSON with enums as strings', cb => {
-    const stream = new ProtobufNdjsonStream()
+    const stream = new MessageToNdjsonStream()
     stream.on('data', (json: string) => {
       const ob = JSON.parse(json)
       assert.deepStrictEqual(ob, {
@@ -27,7 +36,7 @@ describe('ProtobufNdjsonStream', () => {
   })
 
   it('converts messages to JSON with undefined arrays omitted', cb => {
-    const stream = new ProtobufNdjsonStream()
+    const stream = new MessageToNdjsonStream()
     stream.on('data', (json: string) => {
       const ob = JSON.parse(json)
       assert.deepStrictEqual(ob, { testCase: { pickleId: '123' } })
@@ -43,7 +52,7 @@ describe('ProtobufNdjsonStream', () => {
   })
 
   it('converts messages to JSON with undefined strings omitted', cb => {
-    const stream = new ProtobufNdjsonStream()
+    const stream = new MessageToNdjsonStream()
     stream.on('data', (json: string) => {
       const ob = JSON.parse(json)
       assert.deepStrictEqual(ob, { testCase: {} })
@@ -57,7 +66,7 @@ describe('ProtobufNdjsonStream', () => {
   })
 
   it('converts messages to JSON with undefined numbers omitted', cb => {
-    const stream = new ProtobufNdjsonStream()
+    const stream = new MessageToNdjsonStream()
     stream.on('data', (json: string) => {
       const ob = JSON.parse(json)
       assert.deepStrictEqual(ob, {
