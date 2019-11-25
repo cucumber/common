@@ -21,7 +21,7 @@ public class MessageSerializationTest {
         writeOutgoingMessages(outgoingMessages, output);
 
         InputStream input = new ByteArrayInputStream(output.toByteArray());
-        Iterable<Messages.Envelope> incomingMessages = new ProtobufStreamIterable(input);
+        Iterable<Messages.Envelope> incomingMessages = new BinaryToMessageIterable(input);
 
         assertEquals(outgoingMessages, toList(incomingMessages));
     }

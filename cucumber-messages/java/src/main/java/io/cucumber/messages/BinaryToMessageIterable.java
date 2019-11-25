@@ -9,11 +9,11 @@ import java.util.Iterator;
  * directly, but rather on a {@code Iterable<Messages.Envelope>} object.
  * Tests can then use a {@code new ArrayList<Messages.Envelope>} which implements the same interface.
  */
-public class ProtobufStreamIterable implements Iterable<Messages.Envelope> {
+public class BinaryToMessageIterable implements Iterable<Messages.Envelope> {
     private final InputStream input;
     private Messages.Envelope next;
 
-    public ProtobufStreamIterable(InputStream input) {
+    public BinaryToMessageIterable(InputStream input) {
         this.input = input;
     }
 
