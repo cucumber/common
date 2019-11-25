@@ -251,7 +251,7 @@ function generateMessages(gherkinSource: string, uri: string): Readable {
 
   return gherkin
     .fromSources([source], { newId: gherkin.uuid() })
-    .pipe(new CucumberStream(makeDummyStepDefinitions()))
+    .pipe(new CucumberStream(makeDummyStepDefinitions(), []))
 }
 
 function check(
