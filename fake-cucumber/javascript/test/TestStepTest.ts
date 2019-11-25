@@ -8,6 +8,7 @@ import {
   stubPendingSupportCodeExecutor,
 } from './TestHelpers'
 import makePickleTestStep from '../src/makePickleTestStep'
+import SupportCodeExecutor from '../src/SupportCodeExecutor'
 
 function execute(testStep: TestStep): messages.ITestStepFinished {
   const receivedMessages: messages.IEnvelope[] = []
@@ -117,6 +118,40 @@ describe('TestStep', () => {
         assert.strictEqual(
           testStepFinished.testResult.status,
           messages.TestResult.Status.FAILED
+        )
+        assert.strictEqual(testStepFinished.testStepId, testStep.id)
+      })
+
+      it('emits a TestStepFinished with error message from docstring', () => {
+        const docString = new messages.PickleStepArgument.PickleDocString({
+          content: 'hello',
+        })
+        const testStep = makePickleTestStep(
+          messages.Pickle.PickleStep.create({
+            text: 'a passed step',
+            argument: new messages.PickleStepArgument({
+              docString,
+            }),
+          }),
+          [
+            stubMatchingStepDefinition(
+              new SupportCodeExecutor(
+                'an-id',
+                (docStringArg: string) => {
+                  throw new Error(`error from ${docStringArg}`)
+                },
+                [],
+                docString,
+                null
+              )
+            ),
+          ]
+        )
+
+        const testStepFinished = execute(testStep)
+        assert.strictEqual(
+          testStepFinished.testResult.message,
+          'error from hello'
         )
         assert.strictEqual(testStepFinished.testStepId, testStep.id)
       })

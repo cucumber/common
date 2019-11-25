@@ -13,7 +13,12 @@ class StubTestStep extends TestStep {
     notifier: MessageNotifier,
     testCaseStartedId: string
   ): messages.TestResult.Status {
-    return this.emitTestStepFinished(testCaseStartedId, this.status, notifier)
+    return this.emitTestStepFinished(
+      testCaseStartedId,
+      this.status,
+      null,
+      notifier
+    )
   }
 }
 
