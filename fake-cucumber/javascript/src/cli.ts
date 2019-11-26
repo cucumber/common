@@ -2,11 +2,7 @@ import { Command } from 'commander'
 import packageJson from '../package.json'
 import gherkin from 'gherkin'
 import { Transform, pipeline } from 'stream'
-import {
-  messages,
-  ProtobufBinaryStream,
-  ProtobufNdjsonStream,
-} from 'cucumber-messages'
+import { MessageToNdjsonStream, MessageToBinaryStream } from 'cucumber-messages'
 import CucumberStream from './CucumberStream'
 import makeDummyStepDefinitions from './makeDummyStepDefinitions'
 
@@ -37,15 +33,12 @@ async function run() {
 function formatStream(format: string): Transform {
   switch (format) {
     case 'ndjson':
-      return new ProtobufNdjsonStream()
+      return new MessageToNdjsonStream()
     case 'protobuf':
-      return new ProtobufBinaryStream(
-        messages.Envelope.encodeDelimited.bind(messages.Envelope)
-      )
+      return new MessageToBinaryStream()
     default:
       throw new Error(`Unsupported format: '${format}'`)
   }
 }
 
-// tslint:disable-next-line:no-console
-run().catch(console.error)
+run().then(() => null)

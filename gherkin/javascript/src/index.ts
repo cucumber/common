@@ -1,18 +1,20 @@
 import { gherkinOptions, IGherkinOptions } from './types'
-import { PassThrough, Readable } from 'stream'
+import { PassThrough, Readable, pipeline } from 'stream'
 import ParserMessageStream from './stream/ParserMessageStream'
 import fs from 'fs'
 import SourceMessageStream from './stream/SourceMessageStream'
-import { messages, ProtobufMessageStream } from 'cucumber-messages'
+import { messages, BinaryToMessageStream } from 'cucumber-messages'
 import DIALECTS from './gherkin-languages.json'
 import Dialect from './Dialect'
 import GherkinExe from './external/GherkinExe'
 import { uuid, incrementing } from './IdGenerator'
 
 export function fromStream(stream: Readable, options: IGherkinOptions = {}) {
-  return stream
-    .pipe(new ProtobufMessageStream(messages.Envelope.decodeDelimited))
-    .pipe(new ParserMessageStream(options))
+  return pipeline(
+    stream,
+    new BinaryToMessageStream(messages.Envelope.decodeDelimited),
+    new ParserMessageStream(options)
+  )
 }
 
 export function fromPaths(
@@ -47,10 +49,7 @@ export function fromPaths(
       fs.createReadStream(path, { encoding: 'utf-8' })
         .pipe(new SourceMessageStream(path))
         .pipe(parserMessageStream)
-        .pipe(
-          combinedMessageStream,
-          { end }
-        )
+        .pipe(combinedMessageStream, { end })
     }
   }
   pipeSequentially()
@@ -77,10 +76,9 @@ export function fromSources(
     const envelope = envelopes.shift()
     if (envelope !== undefined && envelope.source) {
       const parserMessageStream = new ParserMessageStream(options)
-      parserMessageStream.pipe(
-        combinedMessageStream,
-        { end: envelopes.length === 0 }
-      )
+      parserMessageStream.pipe(combinedMessageStream, {
+        end: envelopes.length === 0,
+      })
       parserMessageStream.on('end', pipeSequentially)
       parserMessageStream.end(envelope)
     }

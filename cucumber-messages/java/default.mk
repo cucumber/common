@@ -41,6 +41,6 @@ clean: clean-java
 .PHONY: clean
 
 clean-java:
-	rm -rf target .deps .tested
+	rm -rf target .deps .tested*
 	mvn clean
 .PHONY: clean-java

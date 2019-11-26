@@ -2,9 +2,9 @@ import { Transform, TransformCallback } from 'stream'
 import { Reader } from 'protobufjs'
 
 /**
- * Transforms a stream of bytes to protobuf messages
+ * Transforms a binary stream to a stream of message objects
  */
-export default class ProtobufMessageStream<T> extends Transform {
+export default class BinaryToMessageStream<T> extends Transform {
   private buffer = Buffer.alloc(0)
 
   constructor(

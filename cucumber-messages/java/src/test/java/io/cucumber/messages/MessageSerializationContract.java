@@ -12,19 +12,24 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
-public class MessageSerializationTest {
+public abstract class MessageSerializationContract {
     @Test
     public void can_serialise_messages_over_a_stream() throws IOException {
         List<Messages.Envelope> outgoingMessages = createOutgoingMessages();
 
         ByteArrayOutputStream output = new ByteArrayOutputStream();
-        writeOutgoingMessages(outgoingMessages, output);
+        MessageWriter messageWriter = makeMessageWriter(output);
+        writeOutgoingMessages(outgoingMessages, messageWriter);
 
         InputStream input = new ByteArrayInputStream(output.toByteArray());
-        Iterable<Messages.Envelope> incomingMessages = new ProtobufStreamIterable(input);
+        Iterable<Messages.Envelope> incomingMessages = makeMessageIterable(input);
 
         assertEquals(outgoingMessages, toList(incomingMessages));
     }
+
+    protected abstract MessageWriter makeMessageWriter(OutputStream output);
+
+    protected abstract Iterable<Messages.Envelope> makeMessageIterable(InputStream input);
 
     private List<Messages.Envelope> createOutgoingMessages() {
         List<Messages.Envelope> outgoingMessages = new ArrayList<>();
@@ -33,9 +38,9 @@ public class MessageSerializationTest {
         return outgoingMessages;
     }
 
-    private void writeOutgoingMessages(List<Messages.Envelope> messages, OutputStream output) throws IOException {
+    private void writeOutgoingMessages(List<Messages.Envelope> messages, MessageWriter messageWriter) throws IOException {
         for (Messages.Envelope writtenMessage : messages) {
-            writtenMessage.writeDelimitedTo(output);
+            messageWriter.write(writtenMessage);
         }
     }
 

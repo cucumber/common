@@ -13,17 +13,7 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Changed
 
-### Deprecated
-
-### Removed
-
-### Fixed
-
-## [8.2.1] - 2019-11-22
-
-### Added
-
-### Changed
+* Renamed `--json` command line option to `--format protobuf|ndjson`
 
 ### Deprecated
 

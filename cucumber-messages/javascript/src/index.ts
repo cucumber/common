@@ -1,12 +1,14 @@
-import ProtobufBinaryStream from './ProtobufBinaryStream'
-import ProtobufNdjsonStream from './ProtobufNdjsonStream'
-import ProtobufMessageStream from './ProtobufMessageStream'
+import MessageToBinaryStream from './MessageToBinaryStream'
+import MessageToNdjsonStream from './MessageToNdjsonStream'
+import BinaryToMessageStream from './BinaryToMessageStream'
+import NdjsonToMessageStream from './NdjsonToMessageStream'
 import { io } from './cucumber-messages'
 import messages = io.cucumber.messages
 
 export {
   messages,
-  ProtobufBinaryStream,
-  ProtobufNdjsonStream,
-  ProtobufMessageStream,
+  MessageToBinaryStream,
+  MessageToNdjsonStream,
+  BinaryToMessageStream,
+  NdjsonToMessageStream,
 }

@@ -9,7 +9,7 @@ dependency-reduced-pom.xml
 .deps
 .project
 .settings/
-.tested
+.tested*
 .compared
 # Approval tests
 acceptance/

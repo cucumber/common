@@ -141,7 +141,7 @@ jobs:
             make
 
   cucumber-demo-formatter-go:
-    executor: docker-circleci-golang
+    executor: docker-cucumber-build
     steps:
       - attach_workspace:
           at: "~/cucumber"
@@ -449,7 +449,7 @@ jobs:
             - json-formatter/ruby
 
   cucumber-demo-formatter-ruby:
-    executor: docker-circleci-ruby-26
+    executor: docker-cucumber-build
     steps:
       - attach_workspace:
           at: "~/cucumber"
@@ -666,6 +666,7 @@ workflows:
       - cucumber-demo-formatter-go:
           requires:
             - cucumber-messages-go
+            - fake-cucumber-javascript
       - json-formatter-go:
           requires:
             - cucumber-messages-go
@@ -748,6 +749,7 @@ workflows:
       - cucumber-demo-formatter-ruby:
           requires:
             - cucumber-messages-ruby
+            - fake-cucumber-javascript
       - json-formatter-ruby:
           requires:
             - checkout

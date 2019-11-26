@@ -1,7 +1,32 @@
 #!/usr/bin/env ruby
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__),"../lib"))
 
+require 'optparse'
+require 'cucumber/messages'
 require 'cucumber_demo_formatter'
 
+ARGV << '-h' if ARGV.empty?
+
+option_parser = OptionParser.new do |opts|
+  opts.on '-f', '--format=ndjson|protobuf', 'Output format'
+
+  opts.on_tail("-h", "--help", "Show this message") do
+    puts opts
+    exit
+  end
+end
+options = {}
+option_parser.parse!(into: options)
+
 formatter = CucumberDemoFormatter.new
-formatter.process_messages(STDIN, STDOUT)
+format = options[:format] || 'ndjson'
+message_enumerator = case format
+when 'ndjson'
+  Cucumber::Messages::NdjsonIoEnumerator.call(STDIN)
+when 'protobuf'
+  Cucumber::Messages::ProtobufIoEnumerator.call(STDIN)
+else
+  raise "Unsupported format: '#{format}'"
+end
+
+formatter.process_messages(message_enumerator, STDOUT)

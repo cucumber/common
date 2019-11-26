@@ -8,10 +8,10 @@ ALL_PROTOBUF_FILE = testdata/all.bin
 .codegen: $(GHERKIN_DOCUMENT_JSON_FILES) $(ALL_JSON_FILE) $(ALL_PROTOBUF_FILE)
 
 testdata/%.json: testdata/%.feature
-	./node_modules/fake-cucumber/bin/fake-cucumber --format json $< > $@
+	./node_modules/fake-cucumber/bin/fake-cucumber --format ndjson $< > $@
 
 $(ALL_JSON_FILE): $(FEATURE_FILES)
-	./node_modules/fake-cucumber/bin/fake-cucumber --format json $^ > $@
+	./node_modules/fake-cucumber/bin/fake-cucumber --format ndjson $^ > $@
 
 $(ALL_PROTOBUF_FILE): $(FEATURE_FILES)
 	./node_modules/fake-cucumber/bin/fake-cucumber --format protobuf $^ > $@

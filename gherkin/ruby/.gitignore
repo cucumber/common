@@ -5,5 +5,5 @@ pkg/
 *.gem
 .compared
 .deps
-.tested
+.tested*
 *-go
