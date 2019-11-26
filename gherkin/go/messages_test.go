@@ -4,6 +4,8 @@ import (
 	"bytes"
 	"github.com/cucumber/cucumber-messages-go/v7"
 	gio "github.com/gogo/protobuf/io"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 	"testing"
 )
 
@@ -33,10 +35,10 @@ func TestMessagesWithStdin(t *testing.T) {
 		},
 	}
 
-	writer.WriteMsg(wrapper)
-	writer.WriteMsg(wrapper)
+	require.NoError(t, writer.WriteMsg(wrapper))
+	require.NoError(t, writer.WriteMsg(wrapper))
 
-	messages, err := Messages(
+	writtenMessages, err := Messages(
 		nil,
 		stdin,
 		"en",
@@ -44,13 +46,9 @@ func TestMessagesWithStdin(t *testing.T) {
 		true,
 		true,
 		nil,
-		false,
 		(&Incrementing{0}).NewId,
 	)
-	if err != nil {
-		t.Error(err)
-	}
-	if len(messages) != 8 {
-		t.Fatalf("%d != %d", len(messages), 8)
-	}
+	require.NoError(t, err)
+
+	assert.Equal(t, 8, len(writtenMessages), "Wrong number of messages")
 }

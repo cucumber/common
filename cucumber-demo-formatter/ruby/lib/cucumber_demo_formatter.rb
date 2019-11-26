@@ -1,7 +1,7 @@
 require 'cucumber/messages'
 
 class CucumberDemoFormatter
-  def process_messages(input, output)
+  def process_messages(message_enumerator, output)
     emoji = {
       UNKNOWN:   '👽',
       PASSED:    '😃',
@@ -11,7 +11,6 @@ class CucumberDemoFormatter
       AMBIGUOUS: '🦄',
       FAILED:    '💣',
     }
-    message_enumerator = Cucumber::Messages::ProtobufIoEnumerator.call(input)
     message_enumerator.each do |message|
       if message.testStepFinished
         output.write(emoji[message.testStepFinished.testResult.status])

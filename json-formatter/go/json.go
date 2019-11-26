@@ -2,7 +2,6 @@ package json
 
 import (
 	"encoding/json"
-	//"errors"
 	"fmt"
 	"io"
 	"strings"
@@ -79,7 +78,7 @@ type Formatter struct {
 }
 
 // ProcessMessages writes a JSON report to STDOUT
-func (self *Formatter) ProcessMessages(stdin io.Reader, stdout io.Writer) (err error) {
+func (self *Formatter) ProcessMessages(reader gio.ReadCloser, stdout io.Writer) (err error) {
 	self.verbose = false
 	self.lookup = &MessageLookup{}
 	self.lookup.Initialize(self.verbose)
@@ -88,8 +87,6 @@ func (self *Formatter) ProcessMessages(stdin io.Reader, stdout io.Writer) (err e
 	self.jsonFeaturesByURI = make(map[string]*jsonFeature)
 	self.jsonStepsByPickleStepId = make(map[string]*jsonStep)
 	self.exampleRowIndexById = make(map[string]int)
-
-	reader := gio.NewDelimitedReader(stdin, 4096)
 
 	for {
 		envelope := &messages.Envelope{}
@@ -101,7 +98,10 @@ func (self *Formatter) ProcessMessages(stdin io.Reader, stdout io.Writer) (err e
 			return err
 		}
 
-		self.lookup.ProcessMessage(envelope)
+		err = self.lookup.ProcessMessage(envelope)
+		if err != nil {
+			return err
+		}
 
 		switch m := envelope.Message.(type) {
 		case *messages.Envelope_GherkinDocument:
