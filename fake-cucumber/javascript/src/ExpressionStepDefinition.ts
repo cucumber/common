@@ -20,10 +20,16 @@ export default class ExpressionStepDefinition implements IStepDefinition {
   public match(
     pickleStep: messages.Pickle.IPickleStep
   ): SupportCodeExecutor | null {
-    const args = this.getArguments(pickleStep.text)
-    return args === null
+    const expressionArgs = this.getArguments(pickleStep.text)
+    return expressionArgs === null
       ? null
-      : new SupportCodeExecutor(this.id, this.body, args)
+      : new SupportCodeExecutor(
+          this.id,
+          this.body,
+          expressionArgs,
+          pickleStep.argument && pickleStep.argument.docString,
+          pickleStep.argument && pickleStep.argument.dataTable
+        )
   }
 
   public getArguments(text: string): Array<Argument<any>> {

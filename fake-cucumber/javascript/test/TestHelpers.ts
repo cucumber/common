@@ -33,7 +33,9 @@ export function stubMatchingStepDefinition(
   executor: SupportCodeExecutor = new SupportCodeExecutor(
     'some-id',
     () => null,
-    []
+    [],
+    null,
+    null
   )
 ): ExpressionStepDefinition {
   const stepDefinitionStub = stubConstructor(ExpressionStepDefinition)
