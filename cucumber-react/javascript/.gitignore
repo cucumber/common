@@ -7,7 +7,7 @@ yarn.lock
 npm-debug.log
 package-lock.json
 .deps
-.tested
+.tested*
 .linted
 .built
 .compared

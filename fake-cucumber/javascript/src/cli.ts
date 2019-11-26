@@ -41,5 +41,4 @@ function formatStream(format: string): Transform {
   }
 }
 
-// tslint:disable-next-line:no-console
-run().catch(console.error)
+run().then(() => null)

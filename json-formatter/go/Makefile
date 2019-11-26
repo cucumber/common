@@ -7,10 +7,10 @@ GENERATED_JSONS = $(patsubst ../ruby/features/%.json,acceptance/%.json,$(GOLDEN_
 
 .tested: $(GENERATED_JSONS)
 
-acceptance/%.json: ../javascript/acceptance/%.bin $(EXE) ../ruby/features/%.json
+acceptance/%.json: ../javascript/acceptance/%.ndjson $(EXE) ../ruby/features/%.json
 	mkdir -p $$(dirname $@)
 	cat $< | \
-		$(EXE) | \
+		$(EXE) --format ndjson | \
 		../ruby/neutralize-json | \
 		jq --sort-keys "." > \
 		$@

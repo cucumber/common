@@ -1,12 +1,9 @@
 package gherkin
 
 import (
-	"bufio"
 	"fmt"
 	"github.com/cucumber/cucumber-messages-go/v7"
 	gio "github.com/gogo/protobuf/io"
-	"github.com/gogo/protobuf/jsonpb"
-	"github.com/gogo/protobuf/proto"
 	"io"
 	"io/ioutil"
 	"math"
@@ -20,36 +17,16 @@ func Messages(
 	includeSource bool,
 	includeGherkinDocument bool,
 	includePickles bool,
-	outStream io.Writer,
-	json bool,
+	writer gio.WriteCloser,
 	newId func() string,
 ) ([]messages.Envelope, error) {
 	var result []messages.Envelope
 	var err error
 
 	handleMessage := func(result []messages.Envelope, message *messages.Envelope) ([]messages.Envelope, error) {
-		if outStream != nil {
-			if json {
-				ma := jsonpb.Marshaler{
-					EnumsAsInts:  false,
-					EmitDefaults: false,
-				}
-				msgJson, err := ma.MarshalToString(message)
-				if err != nil {
-					return result, err
-				}
-				out := bufio.NewWriter(outStream)
-				out.WriteString(msgJson)
-				out.WriteString("\n")
-			} else {
-				bytes, err := proto.Marshal(message)
-				if err != nil {
-					return result, err
-				}
-				outStream.Write(proto.EncodeVarint(uint64(len(bytes))))
-				outStream.Write(bytes)
-			}
-
+		if writer != nil {
+			err = writer.WriteMsg(message)
+			return result, err
 		} else {
 			result = append(result, *message)
 		}
@@ -102,13 +79,13 @@ func Messages(
 	if len(paths) == 0 {
 		reader := gio.NewDelimitedReader(sourceStream, math.MaxInt32)
 		for {
-			wrapper := &messages.Envelope{}
-			err := reader.ReadMsg(wrapper)
+			envelope := &messages.Envelope{}
+			err := reader.ReadMsg(envelope)
 			if err == io.EOF {
 				break
 			}
 
-			switch t := wrapper.Message.(type) {
+			switch t := envelope.Message.(type) {
 			case *messages.Envelope_Source:
 				processSource(t.Source)
 			}
