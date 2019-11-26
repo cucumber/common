@@ -9,7 +9,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+* Added new classes for working with NDJSON streams
+
 ### Changed
+
+* Renamed some of the classes for dealing with streams
 
 ### Deprecated
 
