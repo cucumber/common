@@ -21,7 +21,7 @@ module Cucumber
 
       def write_outgoing_messages(messages, out)
         messages.each do |message|
-          out.write(message.class.encode_json(message) + "\n")
+          message.write_ndjson_to(out)
         end
       end
     end
