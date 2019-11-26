@@ -3,14 +3,14 @@ package cucumber_demo_formatter
 import (
 	"bytes"
 	"github.com/cucumber/cucumber-messages-go/v7"
-	gio "github.com/gogo/protobuf/io"
+	fio "github.com/cucumber/cucumber-messages-go/v7/io"
 	"github.com/stretchr/testify/require"
 	"testing"
 )
 
 func TestAllResultTypes(t *testing.T) {
 	stdin := &bytes.Buffer{}
-	writer := gio.NewDelimitedWriter(stdin)
+	writer := fio.NewNdjsonWriter(stdin)
 
 	var statuses = []messages.TestResult_Status{
 		messages.TestResult_UNKNOWN,
@@ -25,12 +25,20 @@ func TestAllResultTypes(t *testing.T) {
 		err := writer.WriteMsg(newTestStepFinished(status))
 		require.NoError(t, err)
 	}
+	err := writer.WriteMsg(newTestRunFinished())
+	require.NoError(t, err)
+
+	err = writer.Close()
+	require.NoError(t, err)
+
+	stdinReader := bytes.NewReader(stdin.Bytes())
+	reader := fio.NewNdjsonReader(stdinReader)
 
 	stdout := &bytes.Buffer{}
-	ProcessMessages(stdin, stdout)
+	ProcessMessages(reader, stdout)
 
 	require.EqualValues(t,
-		"👽😃🥶⏰🤷🦄💣",
+		"👽😃🥶⏰🤷🦄💣\n",
 		stdout.String())
 }
 
@@ -42,6 +50,14 @@ func newTestStepFinished(status messages.TestResult_Status) *messages.Envelope {
 					Status: status,
 				},
 			},
+		},
+	}
+}
+
+func newTestRunFinished() *messages.Envelope {
+	return &messages.Envelope{
+		Message: &messages.Envelope_TestRunFinished{
+			TestRunFinished: &messages.TestRunFinished{},
 		},
 	}
 }

@@ -1,9 +1,9 @@
 package io.cucumber.gherkin;
 
 import io.cucumber.gherkin.pickles.PickleCompiler;
+import io.cucumber.messages.BinaryToMessageIterable;
 import io.cucumber.messages.Messages;
 import io.cucumber.messages.Messages.Envelope;
-import io.cucumber.messages.ProtobufStreamIterable;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -47,7 +47,7 @@ public class Gherkin {
     }
 
     public static Stream<Envelope> fromStream(InputStream in) {
-        ProtobufStreamIterable envelopeIterable = new ProtobufStreamIterable(in);
+        BinaryToMessageIterable envelopeIterable = new BinaryToMessageIterable(in);
         return StreamSupport.stream(envelopeIterable.spliterator(), false);
     }
 

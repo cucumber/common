@@ -4,8 +4,11 @@ module Cucumber
   module Messages
     describe Messages do
 
-      it "can be serialised over a stream" do
-        outgoing_messages = create_outgoing_messages
+      it "can be serialised over a binary stream" do
+        outgoing_messages = [
+          Envelope.new(source: Source.new(data: 'Feature: Hello')),
+          Envelope.new(attachment: Attachment.new(data: 'some stack trace'))
+        ]
 
         io = StringIO.new
         write_outgoing_messages(outgoing_messages, io)
@@ -14,13 +17,6 @@ module Cucumber
         incoming_messages = ProtobufIoEnumerator.call(io)
 
         expect(incoming_messages.to_a).to(eq(outgoing_messages))
-      end
-
-      def create_outgoing_messages
-        return [
-          Envelope.new(source: Source.new(data: 'Feature: Hello')),
-          Envelope.new(attachment: Attachment.new(data: 'some stack trace'))
-        ]
       end
 
       def write_outgoing_messages(messages, out)

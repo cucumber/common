@@ -4,6 +4,7 @@ import (
 	"bytes"
 	gio "github.com/gogo/protobuf/io"
 	"github.com/stretchr/testify/require"
+	"math"
 	"testing"
 )
 
@@ -18,7 +19,7 @@ func TestMessages(t *testing.T) {
 		writer := gio.NewDelimitedWriter(b)
 		writer.WriteMsg(&pickleDocString)
 
-		r := gio.NewDelimitedReader(b, 4096)
+		r := gio.NewDelimitedReader(b, math.MaxInt32)
 		var decoded PickleStepArgument_PickleDocString
 		r.ReadMsg(&decoded)
 		require.Equal(t, "some\ncontent\n", decoded.Content)

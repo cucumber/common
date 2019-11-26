@@ -4,10 +4,9 @@
 .dist
 .dist-compressed
 .go-get
-.go-tested
 .gofmt
 .linted
-.tested
+.tested*
 acceptance/
 bin/
 dist/
