@@ -63,7 +63,6 @@ public class Gherkin {
         ).build();
     }
 
-    // TODO: Return Stream<Envelope>
     public Stream<Envelope> messages() {
         Stream<Envelope> envelopeStream = envelopes != null ? envelopes.stream() : envelopeStreamFromPaths(paths);
         return envelopeStream
