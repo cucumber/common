@@ -43,8 +43,9 @@
     "typescript": "^3.7.2"
   },
   "dependencies": {
+    "commander": "^4.0.1",
     "cucumber-messages": "7.0.0",
-    "uuid": "^3.3.3",
-    "source-map-support": "^0.5.16"
+    "source-map-support": "^0.5.16",
+    "uuid": "^3.3.3"
   }
 }

@@ -1,46 +1,31 @@
+import { Command } from 'commander'
+import packageJson from '../../package.json'
 import gherkin from '../index'
 import { IGherkinOptions } from '../types'
 import { MessageToBinaryStream, MessageToNdjsonStream } from 'cucumber-messages'
-import { Readable } from 'stream'
+import { Readable, Transform } from 'stream'
 import { incrementing, uuid } from '../IdGenerator'
 
-const args = process.argv.slice(2)
+const program = new Command()
+program.version(packageJson.version)
+program.option('--no-source', 'Do not output Source messages', false)
+program.option('--no-ast', 'Do not output GherkinDocument messages', false)
+program.option('--no-pickles', 'Do not output Pickle messages', false)
+program.option('--predictable-ids', 'Use predictable ids', false)
+program.option(
+  '-f, --format <format>',
+  'output format: ndjson|protobuf',
+  'protobuf'
+)
+program.parse(process.argv)
+const paths = program.args
+
 const options: IGherkinOptions = {
   defaultDialect: 'en',
-  includeSource: true,
-  includeGherkinDocument: true,
-  includePickles: true,
-  newId: uuid(),
-}
-let json = false
-
-const paths = []
-while (args.length > 0) {
-  const arg = args.shift()
-  switch (arg) {
-    case '--no-source':
-      options.includeSource = false
-      break
-
-    case '--no-ast':
-      options.includeGherkinDocument = false
-      break
-
-    case '--no-pickles':
-      options.includePickles = false
-      break
-
-    case '--json':
-      json = true
-      break
-
-    case '--predictable-ids':
-      options.newId = incrementing()
-      break
-
-    default:
-      paths.push(arg)
-  }
+  includeSource: program.source,
+  includeGherkinDocument: program.ast,
+  includePickles: program.pickles,
+  newId: program.predictableIds ? incrementing() : uuid(),
 }
 
 const messageStream =
@@ -48,8 +33,16 @@ const messageStream =
     ? gherkin.fromStream((process.stdin as unknown) as Readable, options)
     : gherkin.fromPaths(paths, options)
 
-const encodedStream = json
-  ? messageStream.pipe(new MessageToNdjsonStream())
-  : messageStream.pipe(new MessageToBinaryStream())
+let encodedStream: Transform
+switch (program.format) {
+  case 'ndjson':
+    encodedStream = new MessageToNdjsonStream()
+    break
+  case 'protobuf':
+    encodedStream = new MessageToBinaryStream()
+    break
+  default:
+    throw new Error(`Unsupported format: ${program.format}`)
+}
 
-encodedStream.pipe(process.stdout)
+messageStream.pipe(encodedStream).pipe(process.stdout)
