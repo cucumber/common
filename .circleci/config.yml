@@ -666,6 +666,7 @@ workflows:
       - cucumber-demo-formatter-go:
           requires:
             - cucumber-messages-go
+            - fake-cucumber-javascript
       - json-formatter-go:
           requires:
             - cucumber-messages-go
@@ -748,6 +749,7 @@ workflows:
       - cucumber-demo-formatter-ruby:
           requires:
             - cucumber-messages-ruby
+            - fake-cucumber-javascript
       - json-formatter-ruby:
           requires:
             - checkout
