@@ -75,12 +75,13 @@ ${js.toString('utf8')}
   }
 }
 
-program.version(p.version).parse(process.argv)
+program.version(p.version)
 program.option(
   '-f, --format <format>',
   'output format: ndjson|protobuf',
   'protobuf'
 )
+program.parse(process.argv)
 
 const toMessageStream =
   program.format === 'ndjson'
