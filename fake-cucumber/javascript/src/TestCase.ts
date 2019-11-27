@@ -2,8 +2,8 @@ import TestStep from './TestStep'
 import { MessageNotifier } from './types'
 import { messages } from 'cucumber-messages'
 import uuidv4 from 'uuid/v4'
-import TestResult from './TestResult'
-import NanosTimer from './NanosTimer'
+import { performance } from 'perf_hooks'
+import durationBetween from './durationBetween'
 
 export default class TestCase {
   public readonly id: string = uuidv4()
@@ -23,11 +23,7 @@ export default class TestCase {
     })
   }
 
-  public execute(
-    notifier: MessageNotifier,
-    attempt: number,
-    nanosTimer: NanosTimer = new NanosTimer()
-  ) {
+  public execute(notifier: MessageNotifier, attempt: number) {
     let executeNext = true
     const testCaseStartedId = uuidv4()
 
@@ -41,6 +37,7 @@ export default class TestCase {
       })
     )
 
+    const start = performance.now()
     const testStepResults = this.testSteps.map(testStep => {
       if (executeNext) {
         const result = testStep.execute(notifier, testCaseStartedId)
@@ -50,37 +47,38 @@ export default class TestCase {
         return testStep.skip(notifier, testCaseStartedId)
       }
     })
+    const finish = performance.now()
+    const duration = durationBetween(start, finish)
 
     notifier(
       new messages.Envelope({
         testCaseFinished: new messages.TestCaseFinished({
           testCaseStartedId,
-          testResult: this.computeTestResult(
-            testStepResults,
-            nanosTimer.nanos()
-          ).toMessage(),
+          testResult: this.computeTestResult(testStepResults, duration),
         }),
       })
     )
   }
 
   private computeTestResult(
-    testStepResults: TestResult[],
-    nanos: number
-  ): TestResult {
-    const testStepStatuses = testStepResults.map(result => result.status)
-    const testStatus =
-      testStepStatuses.sort()[testStepStatuses.length - 1] ||
-      messages.TestResult.Status.UNKNOWN
+    testStepResults: messages.ITestResult[],
+    duration: messages.IDuration
+  ): messages.ITestResult {
+    let status = messages.TestResult.Status.UNKNOWN
+    let message: string = null
 
-    return new TestResult(
-      testStatus,
-      nanos,
-      testStatus === messages.TestResult.Status.FAILED
-        ? testStepResults.find(
-            result => result.status === messages.TestResult.Status.FAILED
-          ).message
-        : null
-    )
+    if (testStepResults.length > 0) {
+      const sortedResults = testStepResults.sort(
+        (r1, r2) => r2.status - r1.status
+      )
+      status = sortedResults[0].status
+      message = sortedResults[0].message
+    }
+
+    return new messages.TestResult({
+      status,
+      message,
+      duration,
+    })
   }
 }

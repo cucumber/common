@@ -6,7 +6,6 @@ import {
   stubMatchingStepDefinition,
   stubPassingSupportCodeExecutor,
   stubPendingSupportCodeExecutor,
-  MockNanosTimer,
 } from './TestHelpers'
 import makePickleTestStep from '../src/makePickleTestStep'
 import SupportCodeExecutor from '../src/SupportCodeExecutor'
@@ -64,12 +63,12 @@ describe('TestStep', () => {
       )
 
       assert.strictEqual(
-        testStep.execute(message => null, 'some-testCaseStartedId').status,
+        testStep.execute(() => null, 'some-testCaseStartedId').status,
         messages.TestResult.Status.UNDEFINED
       )
     })
 
-    it('the execution duration is based on the data provided by NanosTimer', () => {
+    it('the execution duration is computed', () => {
       const emitted: messages.IEnvelope[] = []
       const testStep = makePickleTestStep(
         messages.Pickle.PickleStep.create({
@@ -77,16 +76,12 @@ describe('TestStep', () => {
         }),
         [stubMatchingStepDefinition(stubPassingSupportCodeExecutor())]
       )
-      testStep.execute(
-        message => emitted.push(message),
-        'some-id',
-        new MockNanosTimer(9876543210)
-      )
+      testStep.execute(message => emitted.push(message), 'some-id')
       const result = emitted.find(m => m.testStepFinished).testStepFinished
         .testResult
 
-      assert.strictEqual(result.duration.seconds, 9)
-      assert.strictEqual(result.duration.nanos, 876543210)
+      assert.strictEqual(result.duration.seconds, 0)
+      assert.strictEqual(result.duration.nanos, 0)
     })
 
     context('when there is a matching step definition', () => {

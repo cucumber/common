@@ -1,10 +1,9 @@
 import { messages } from 'cucumber-messages'
 import assert from 'assert'
-import TestResult from '../src/TestResult'
 import TestStep from '../src/TestStep'
 import TestCase from '../src/TestCase'
 import { MessageNotifier } from '../src/types'
-import { MockNanosTimer } from './TestHelpers'
+import durationBetween from '../src/durationBetween'
 
 class StubTestStep extends TestStep {
   public constructor(
@@ -17,10 +16,14 @@ class StubTestStep extends TestStep {
   public execute(
     notifier: MessageNotifier,
     testCaseStartedId: string
-  ): TestResult {
+  ): messages.ITestResult {
     return this.emitTestStepFinished(
       testCaseStartedId,
-      new TestResult(this.status, 0, this.message),
+      new messages.TestResult({
+        status: this.status,
+        duration: durationBetween(1000, 2005),
+        message: this.message,
+      }),
       notifier
     )
   }
@@ -119,14 +122,13 @@ describe('TestCase', () => {
       const testCase = new TestCase(testSteps, 'some-pickle-id')
       testCase.execute(
         (message: messages.IEnvelope) => emitted.push(message),
-        0,
-        new MockNanosTimer(9876543210)
+        0
       )
       const testResult = emitted.find(m => m.testCaseFinished).testCaseFinished
         .testResult
 
-      assert.strictEqual(testResult.duration.seconds, 9)
-      assert.strictEqual(testResult.duration.nanos, 876543210)
+      assert.strictEqual(testResult.duration.seconds, 0)
+      assert.strictEqual(testResult.duration.nanos, 0)
     })
 
     context(

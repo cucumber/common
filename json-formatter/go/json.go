@@ -233,9 +233,11 @@ func (self *Formatter) ProcessMessages(reader gio.ReadCloser, stdout io.Writer) 
 
 			status := strings.ToLower(m.TestStepFinished.TestResult.Status.String())
 			jsonStep.Result = &jsonStepResult{
-				Duration:     self.durationToNanos(m.TestStepFinished.TestResult.Duration),
 				Status:       status,
 				ErrorMessage: m.TestStepFinished.TestResult.Message,
+			}
+			if m.TestStepFinished.TestResult.Duration != nil {
+				jsonStep.Result.Duration = self.durationToNanos(m.TestStepFinished.TestResult.Duration)
 			}
 
 			stepDefinitions := self.lookup.LookupStepDefinitionConfigsByIDs(testStep.StepDefinitionId)

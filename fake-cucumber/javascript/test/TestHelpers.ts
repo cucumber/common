@@ -4,7 +4,6 @@ import ExpressionStepDefinition from '../src/ExpressionStepDefinition'
 import { Readable } from 'stream'
 import { messages } from 'cucumber-messages'
 import gherkin from 'gherkin'
-import NanosTimer from '../src/NanosTimer'
 
 export function stubPassingSupportCodeExecutor(): SupportCodeExecutor {
   const supportCodeExecutorStub = stubConstructor(SupportCodeExecutor)
@@ -75,14 +74,4 @@ export async function streamToArray(
       readableStream.on('end', () => resolve(items))
     }
   )
-}
-
-export class MockNanosTimer extends NanosTimer {
-  public constructor(private readonly elapsedNanos: number) {
-    super()
-  }
-
-  public nanos(): number {
-    return this.elapsedNanos
-  }
 }
