@@ -2,6 +2,8 @@ import TestStep from './TestStep'
 import { MessageNotifier } from './types'
 import { messages } from 'cucumber-messages'
 import uuidv4 from 'uuid/v4'
+import { performance } from 'perf_hooks'
+import durationBetween from './durationBetween'
 
 export default class TestCase {
   public readonly id: string = uuidv4()
@@ -35,37 +37,48 @@ export default class TestCase {
       })
     )
 
-    const testStepStatuses = this.testSteps.map(testStep => {
+    const start = performance.now()
+    const testStepResults = this.testSteps.map(testStep => {
       if (executeNext) {
-        const status = testStep.execute(notifier, testCaseStartedId)
-        executeNext = status === messages.TestResult.Status.PASSED
-        return status
+        const result = testStep.execute(notifier, testCaseStartedId)
+        executeNext = result.status === messages.TestResult.Status.PASSED
+        return result
       } else {
         return testStep.skip(notifier, testCaseStartedId)
       }
     })
-
-    const testStatus =
-      testStepStatuses.sort()[testStepStatuses.length - 1] ||
-      messages.TestResult.Status.UNKNOWN
+    const finish = performance.now()
+    const duration = durationBetween(start, finish)
 
     notifier(
       new messages.Envelope({
         testCaseFinished: new messages.TestCaseFinished({
           testCaseStartedId,
-          testResult: {
-            status: testStatus,
-            message:
-              testStatus === messages.TestResult.Status.FAILED
-                ? `Some error message\n\tfake_file:2\n\tfake_file:7\n`
-                : null,
-            duration: new messages.Duration({
-              seconds: 987654,
-              nanos: 321,
-            }),
-          },
+          testResult: this.computeTestResult(testStepResults, duration),
         }),
       })
     )
+  }
+
+  private computeTestResult(
+    testStepResults: messages.ITestResult[],
+    duration: messages.IDuration
+  ): messages.ITestResult {
+    let status = messages.TestResult.Status.UNKNOWN
+    let message: string = null
+
+    if (testStepResults.length > 0) {
+      const sortedResults = testStepResults.sort(
+        (r1, r2) => r2.status - r1.status
+      )
+      status = sortedResults[0].status
+      message = sortedResults[0].message
+    }
+
+    return new messages.TestResult({
+      status,
+      message,
+      duration,
+    })
   }
 }
