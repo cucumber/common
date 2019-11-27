@@ -1,7 +1,7 @@
 import path from 'path'
 import fs from 'fs'
 import { messages } from 'cucumber-messages'
-import { CucumberStream, makeDummyStepDefinitions } from 'fake-cucumber'
+import { CucumberStream, makeDummyStepDefinitions, makeDummyHooks } from 'fake-cucumber'
 import gherkin from 'gherkin'
 import { Readable } from 'stream'
 import React from 'react'
@@ -25,7 +25,7 @@ describe('App', () => {
         const p = path.join(dir, file)
         const envelopes = await streamToArray(gherkin
           .fromPaths([p], {})
-          .pipe(new CucumberStream(makeDummyStepDefinitions())))
+          .pipe(new CucumberStream(makeDummyStepDefinitions(), makeDummyHooks())))
 
         const gherkinDocuments = envelopes.filter(e => e.gherkinDocument).map(e => e.gherkinDocument)
         const cucumberQuery = envelopes.reduce((q, e) => q.update(e), new CucumberQuery())
