@@ -4,7 +4,7 @@ import SupportCodeExecutor from './SupportCodeExecutor'
 import { MessageNotifier } from './types'
 import ITestStep from './ITestStep'
 
-export default class TestStep implements ITestStep {
+export default abstract class TestStep implements ITestStep {
   public readonly id: string = uuidv4()
 
   constructor(
@@ -12,9 +12,7 @@ export default class TestStep implements ITestStep {
     protected readonly supportCodeExecutors: SupportCodeExecutor[]
   ) {}
 
-  public toMessage(): messages.TestCase.ITestStep {
-    throw new Error('Method not implemented.')
-  }
+  public abstract toMessage(): messages.TestCase.ITestStep
 
   public execute(
     notifier: MessageNotifier,

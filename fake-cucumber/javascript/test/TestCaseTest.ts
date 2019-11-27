@@ -9,6 +9,10 @@ class StubTestStep extends TestStep {
     super('some-id', [])
   }
 
+  public toMessage(): messages.TestCase.ITestStep {
+    return new messages.TestCase.TestStep()
+  }
+
   public execute(
     notifier: MessageNotifier,
     testCaseStartedId: string
