@@ -7,21 +7,30 @@ import {
 } from './TestHelpers'
 import Cucumber from '../src/Cucumber'
 import assert from 'assert'
+import { makeDummyStepDefinitions, makeDummyHooks } from '../src'
 
 describe('Cucumber', () => {
-  it('assembles the whole system', async () => {
-    const feature = `Feature: test
+  it('runs tagged hooks', async () => {
+    const feature = `Feature: hooks
+
+  @before-passed
   Scenario: test
     Given a passed step
   `
+
     const gherkinMessageList = await streamToArray(
       gherkinMessages(feature, 'test.feature')
     )
-    const stepDefinitions = [stubMatchingStepDefinition()]
-    const cucumber = new Cucumber(gherkinMessageList, stepDefinitions, [])
+    const cucumber = new Cucumber(
+      gherkinMessageList,
+      makeDummyStepDefinitions(),
+      makeDummyHooks()
+    )
     const messageList: messages.IEnvelope[] = []
     const notifier: MessageNotifier = message => messageList.push(message)
     cucumber.execute(notifier)
-    assert.strictEqual(messageList.length, 9)
+
+    const testCase = messageList.find(m => m.testCase).testCase
+    assert.strictEqual(testCase.testSteps.length, 2)
   })
 })

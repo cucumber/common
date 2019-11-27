@@ -31,6 +31,7 @@ export default class Hook implements IHook {
     return new messages.Envelope({
       testCaseHookDefinitionConfig: new messages.TestCaseHookDefinitionConfig({
         id: this.id,
+        tagExpression: this.tagExpression,
         location: new messages.SourceReference({
           location: new messages.Location({
             column: 3,
@@ -43,8 +44,8 @@ export default class Hook implements IHook {
   }
 
   private matchesTagExpression(pickle: messages.IPickle): boolean {
-    return parseTagExpression(this.tagExpression).evaluate(
-      pickle.tags.map(tag => tag.name)
-    )
+    const expression = parseTagExpression(this.tagExpression)
+    const tagNames = pickle.tags.map(tag => tag.name)
+    return expression.evaluate(tagNames)
   }
 }
