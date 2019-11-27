@@ -15,4 +15,5 @@ public class ProtobufMessageWriter implements MessageWriter {
     @Override
     public void write(GeneratedMessageV3 message) throws IOException {
         message.writeDelimitedTo(out);
-    }}
+    }
+}
