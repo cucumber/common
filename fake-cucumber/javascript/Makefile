@@ -1,10 +1,10 @@
 include default.mk
 
 FEATURE_FILES = $(shell find features -name "*.feature")
-MESSAGES = $(patsubst features/%.feature,features/%.bin,$(FEATURE_FILES))
+MESSAGES = $(patsubst features/%.feature,features/%.ndjson,$(FEATURE_FILES))
 
 .tested: $(MESSAGES)
 
-features/%.bin: features/%.feature
+features/%.ndjson: features/%.feature
 	mkdir -p `dirname $@`
-	./bin/fake-cucumber $< > $@
+	./bin/fake-cucumber --format ndjson $< > $@
