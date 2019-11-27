@@ -19,6 +19,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+* Test results are now realistic - using duration and error messages from step definitions.
+  ([#801](https://github.com/cucumber/cucumber/pull/801)
+   [vincent-psarga]
+   [aslakhellesoy])
+
 ## [2.1.0] - 2019-11-14
 
 ### Changed
@@ -94,3 +99,4 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 <!-- Contributors in alphabetical order -->
 [aslakhellesoy]:    https://github.com/aslakhellesoy
+[vincent-psarga]:    https://github.com/vincent-psarga
