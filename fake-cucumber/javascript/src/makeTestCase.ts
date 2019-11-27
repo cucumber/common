@@ -15,7 +15,7 @@ function makeHookSteps(
   return hooks
     .map(hook => {
       const supportCode = hook.match(pickle, hookType)
-      if (supportCode !== undefined) {
+      if (supportCode !== null) {
         return new HookTestStep(hook.id, [supportCode])
       }
     })
