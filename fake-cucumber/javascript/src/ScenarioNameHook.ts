@@ -17,7 +17,7 @@ export default class ScenarioNameHook implements IHook {
     type: HookType
   ): SupportCodeExecutor | null {
     if (this.type === type && this.expression.test(pickle.name)) {
-      return new SupportCodeExecutor(this.id, this.body, [])
+      return new SupportCodeExecutor(this.id, this.body, [], null, null)
     }
     return undefined
   }

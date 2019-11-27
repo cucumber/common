@@ -10,10 +10,10 @@ export default interface ITestStep {
   execute(
     notifier: MessageNotifier,
     testCaseStartedId: string
-  ): messages.TestResult.Status
+  ): messages.ITestResult
 
   skip(
     notifier: MessageNotifier,
     testCaseStartedId: string
-  ): messages.TestResult.Status
+  ): messages.ITestResult
 }

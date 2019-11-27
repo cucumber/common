@@ -1,8 +1,10 @@
+import { performance } from 'perf_hooks'
 import { messages } from 'cucumber-messages'
 import uuidv4 from 'uuid/v4'
 import SupportCodeExecutor from './SupportCodeExecutor'
 import { MessageNotifier } from './types'
 import ITestStep from './ITestStep'
+import durationBetween from './durationBetween'
 
 export default abstract class TestStep implements ITestStep {
   public readonly id: string = uuidv4()
@@ -17,13 +19,15 @@ export default abstract class TestStep implements ITestStep {
   public execute(
     notifier: MessageNotifier,
     testCaseStartedId: string
-  ): messages.TestResult.Status {
+  ): messages.ITestResult {
     this.emitTestStepStarted(testCaseStartedId, notifier)
 
     if (this.supportCodeExecutors.length === 0) {
       return this.emitTestStepFinished(
         testCaseStartedId,
-        messages.TestResult.Status.UNDEFINED,
+        new messages.TestResult({
+          status: messages.TestResult.Status.UNDEFINED,
+        }),
         notifier
       )
     }
@@ -31,24 +35,39 @@ export default abstract class TestStep implements ITestStep {
     if (this.supportCodeExecutors.length > 1) {
       return this.emitTestStepFinished(
         testCaseStartedId,
-        messages.TestResult.Status.AMBIGUOUS,
+        new messages.TestResult({
+          status: messages.TestResult.Status.AMBIGUOUS,
+        }),
         notifier
       )
     }
 
+    const start = performance.now()
     try {
       const result = this.supportCodeExecutors[0].execute()
+      const finish = performance.now()
+      const duration = durationBetween(start, finish)
       return this.emitTestStepFinished(
         testCaseStartedId,
-        result === 'pending'
-          ? messages.TestResult.Status.PENDING
-          : messages.TestResult.Status.PASSED,
+        new messages.TestResult({
+          duration,
+          status:
+            result === 'pending'
+              ? messages.TestResult.Status.PENDING
+              : messages.TestResult.Status.PASSED,
+        }),
         notifier
       )
     } catch (error) {
+      const finish = performance.now()
+      const duration = durationBetween(start, finish)
       return this.emitTestStepFinished(
         testCaseStartedId,
-        messages.TestResult.Status.FAILED,
+        new messages.TestResult({
+          duration,
+          status: messages.TestResult.Status.FAILED,
+          message: error.stack,
+        }),
         notifier
       )
     }
@@ -57,10 +76,13 @@ export default abstract class TestStep implements ITestStep {
   public skip(
     notifier: MessageNotifier,
     testCaseStartedId: string
-  ): messages.TestResult.Status {
+  ): messages.ITestResult {
     return this.emitTestStepFinished(
       testCaseStartedId,
-      messages.TestResult.Status.SKIPPED,
+      new messages.TestResult({
+        duration: durationBetween(0, 0),
+        status: messages.TestResult.Status.SKIPPED,
+      }),
       notifier
     )
   }
@@ -81,24 +103,18 @@ export default abstract class TestStep implements ITestStep {
 
   protected emitTestStepFinished(
     testCaseStartedId: string,
-    status: messages.TestResult.Status,
+    testResult: messages.ITestResult,
     notifier: MessageNotifier
-  ): messages.TestResult.Status {
+  ): messages.ITestResult {
     notifier(
       new messages.Envelope({
         testStepFinished: new messages.TestStepFinished({
           testCaseStartedId,
           testStepId: this.id,
-          testResult: new messages.TestResult({
-            status,
-            duration: new messages.Duration({
-              seconds: 123,
-              nanos: 456,
-            }),
-          }),
+          testResult,
         }),
       })
     )
-    return status
+    return testResult
   }
 }
