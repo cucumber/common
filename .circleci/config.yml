@@ -701,6 +701,7 @@ workflows:
             - cucumber-messages-javascript
             - gherkin-javascript
             - cucumber-expressions-javascript-node-12
+            - tag-expressions-javascript
       - cucumber-react-javascript:
           requires:
             - cucumber-messages-javascript

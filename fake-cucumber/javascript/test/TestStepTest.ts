@@ -1,6 +1,6 @@
 import assert from 'assert'
 import { messages } from 'cucumber-messages'
-import TestStep from '../src/TestStep'
+import ITestStep from '../src/ITestStep'
 import {
   stubFailingSupportCodeExecutor,
   stubMatchingStepDefinition,
@@ -10,7 +10,7 @@ import {
 import makePickleTestStep from '../src/makePickleTestStep'
 import SupportCodeExecutor from '../src/SupportCodeExecutor'
 
-function execute(testStep: TestStep): messages.ITestStepFinished {
+function execute(testStep: ITestStep): messages.ITestStepFinished {
   const receivedMessages: messages.IEnvelope[] = []
   testStep.execute(
     message => receivedMessages.push(message),

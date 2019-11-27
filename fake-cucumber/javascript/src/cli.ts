@@ -5,6 +5,7 @@ import { Transform, pipeline } from 'stream'
 import { MessageToNdjsonStream, MessageToBinaryStream } from 'cucumber-messages'
 import CucumberStream from './CucumberStream'
 import makeDummyStepDefinitions from './makeDummyStepDefinitions'
+import makeDummyHooks from './makeDummyHooks'
 
 const program = new Command()
 program.version(packageJson.version)
@@ -19,7 +20,7 @@ const paths = program.args
 async function run() {
   await pipeline(
     gherkin.fromPaths(paths, {}),
-    new CucumberStream(makeDummyStepDefinitions()),
+    new CucumberStream(makeDummyStepDefinitions(), makeDummyHooks()),
     formatStream(program.format),
     process.stdout,
     err => {

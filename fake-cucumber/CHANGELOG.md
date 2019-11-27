@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+* Handle Hooks (4 built-in hooks: @before-passed, @before-failed, @after-passed, @after-failed)
+  ([#803](https://github.com/cucumber/cucumber/pull/803)
+   [vincent-psarga]
+   [aslakhellesoy])
+
 ### Changed
 
 ### Deprecated
