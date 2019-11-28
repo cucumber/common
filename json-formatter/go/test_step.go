@@ -7,10 +7,9 @@ import (
 )
 
 type TestStep struct {
-	Hook       *messages.TestCaseHookDefinitionConfig
-	PickleStep *messages.Pickle_PickleStep
-	Step       *messages.GherkinDocument_Feature_Step
-	Result     *messages.TestResult
+	Hook   *messages.TestCaseHookDefinitionConfig
+	Step   *messages.GherkinDocument_Feature_Step
+	Result *messages.TestResult
 }
 
 func ProcessTestStepFinished(testStepFinished *messages.TestStepFinished, lookup *MessageLookup) *TestStep {
@@ -35,12 +34,11 @@ func ProcessTestStepFinished(testStepFinished *messages.TestStepFinished, lookup
 	if pickleStep == nil {
 		return nil
 	}
-
 	featureStep := lookup.LookupStep(pickleStep.SourceIds[0])
+
 	return &TestStep{
-		PickleStep: pickleStep,
-		Step:       featureStep,
-		Result:     testStepFinished.TestResult,
+		Step:   featureStep,
+		Result: testStepFinished.TestResult,
 	}
 }
 

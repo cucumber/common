@@ -59,14 +59,13 @@ var _ = Describe("ProcessTestStepFinished", func() {
 			Expect(testStep.Result.Status).To(Equal(messages.TestResult_PASSED))
 		})
 
-		It("returns a Step with PickleStep and Step nil", func() {
+		It("returns a Step with a nil Step", func() {
 			testStepFinished := &messages.TestStepFinished{
 				TestStepId: "hook-step-id",
 			}
 
 			testStep := ProcessTestStepFinished(testStepFinished, lookup)
 
-			Expect(testStep.PickleStep).To(BeNil())
 			Expect(testStep.Step).To(BeNil())
 		})
 
@@ -117,7 +116,7 @@ var _ = Describe("ProcessTestStepFinished", func() {
 			)
 		})
 
-		It("returns a Step referencing the Step and PickleStep", func() {
+		It("returns a Step referencing the Step", func() {
 			testStepFinished := &messages.TestStepFinished{
 				TestStepId: "test-step-id",
 				TestResult: &messages.TestResult{
@@ -126,8 +125,6 @@ var _ = Describe("ProcessTestStepFinished", func() {
 			}
 
 			testStep := ProcessTestStepFinished(testStepFinished, lookup)
-
-			Expect(testStep.PickleStep.Id).To(Equal("pickle-step-id"))
 			Expect(testStep.Step.Id).To(Equal("step-id"))
 		})
 
