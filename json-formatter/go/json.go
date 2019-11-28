@@ -66,17 +66,24 @@ func (self *Formatter) ProcessMessages(reader gio.ReadCloser, stdout io.Writer) 
 
 		case *messages.Envelope_TestCaseStarted:
 			testCase := ProcessTestCaseStarted(m.TestCaseStarted, self.lookup)
-			self.testCaseById[testCase.TestCase.Id] = testCase
+			if testCase != nil {
+				self.testCaseById[testCase.TestCase.Id] = testCase
+			}
 
 		case *messages.Envelope_TestStepFinished:
 			testStep := ProcessTestStepFinished(m.TestStepFinished, self.lookup)
-			self.testCaseById[testStep.TestCaseID].appendStep(testStep)
+			if testStep != nil {
+				self.testCaseById[testStep.TestCaseID].appendStep(testStep)
+			}
 
 		case *messages.Envelope_TestCaseFinished:
 			testCaseStarted := self.lookup.LookupTestCaseStarted(m.TestCaseFinished.TestCaseStartedId)
-			testCase := self.testCaseById[testCaseStarted.TestCaseId]
-			jsonFeature := self.findOrCreateJsonFeature(testCase.Pickle)
-			jsonFeature.Elements = append(jsonFeature.Elements, TestCaseToJSON(testCase)[0])
+			testCase, ok := self.testCaseById[testCaseStarted.TestCaseId]
+
+			if ok {
+				jsonFeature := self.findOrCreateJsonFeature(testCase.Pickle)
+				jsonFeature.Elements = append(jsonFeature.Elements, TestCaseToJSON(testCase)[0])
+			}
 		}
 	}
 

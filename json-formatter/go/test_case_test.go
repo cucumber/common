@@ -270,4 +270,10 @@ var _ = Describe("TestCaseToJSON", func() {
 		Expect(len(jsonTestCase[0].Steps)).To(Equal(1))
 		Expect(jsonTestCase[0].Steps[0].Name).To(Equal("a passed step"))
 	})
+
+	It("has the Tags", func() {
+		Expect(len(jsonTestCase[0].Tags)).To(Equal(1))
+		Expect(jsonTestCase[0].Tags[0].Line).To(Equal(1))
+		Expect(jsonTestCase[0].Tags[0].Name).To(Equal("@foo"))
+	})
 })
