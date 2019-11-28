@@ -6,20 +6,21 @@ import (
 )
 
 type MessageLookup struct {
-	gherkinDocumentByURI     map[string]*messages.GherkinDocument
-	pickleByID               map[string]*messages.Pickle
-	pickleStepByID           map[string]*messages.Pickle_PickleStep
-	testCaseByID             map[string]*messages.TestCase
-	testStepByID             map[string]*messages.TestCase_TestStep
-	testCaseStartedByID      map[string]*messages.TestCaseStarted
-	stepByID                 map[string]*messages.GherkinDocument_Feature_Step
-	scenarioByID             map[string]*messages.GherkinDocument_Feature_Scenario
-	exampleByRowID           map[string]*messages.GherkinDocument_Feature_Scenario_Examples
-	exampleRowByID           map[string]*messages.GherkinDocument_Feature_TableRow
-	stepDefinitionConfigByID map[string]*messages.StepDefinitionConfig
-	backgroundByStepId       map[string]*messages.GherkinDocument_Feature_Background
-	tagByID                  map[string]*messages.GherkinDocument_Feature_Tag
-	verbose                  bool
+	gherkinDocumentByURI             map[string]*messages.GherkinDocument
+	pickleByID                       map[string]*messages.Pickle
+	pickleStepByID                   map[string]*messages.Pickle_PickleStep
+	testCaseByID                     map[string]*messages.TestCase
+	testStepByID                     map[string]*messages.TestCase_TestStep
+	testCaseStartedByID              map[string]*messages.TestCaseStarted
+	stepByID                         map[string]*messages.GherkinDocument_Feature_Step
+	scenarioByID                     map[string]*messages.GherkinDocument_Feature_Scenario
+	exampleByRowID                   map[string]*messages.GherkinDocument_Feature_Scenario_Examples
+	exampleRowByID                   map[string]*messages.GherkinDocument_Feature_TableRow
+	stepDefinitionConfigByID         map[string]*messages.StepDefinitionConfig
+	backgroundByStepID               map[string]*messages.GherkinDocument_Feature_Background
+	tagByID                          map[string]*messages.GherkinDocument_Feature_Tag
+	testCaseHookDefinitionConfigByID map[string]*messages.TestCaseHookDefinitionConfig
+	verbose                          bool
 }
 
 func (self *MessageLookup) Initialize(verbose bool) {
@@ -34,8 +35,10 @@ func (self *MessageLookup) Initialize(verbose bool) {
 	self.exampleByRowID = make(map[string]*messages.GherkinDocument_Feature_Scenario_Examples)
 	self.exampleRowByID = make(map[string]*messages.GherkinDocument_Feature_TableRow)
 	self.stepDefinitionConfigByID = make(map[string]*messages.StepDefinitionConfig)
-	self.backgroundByStepId = make(map[string]*messages.GherkinDocument_Feature_Background)
+	self.backgroundByStepID = make(map[string]*messages.GherkinDocument_Feature_Background)
 	self.tagByID = make(map[string]*messages.GherkinDocument_Feature_Tag)
+	self.testCaseHookDefinitionConfigByID = make(map[string]*messages.TestCaseHookDefinitionConfig)
+
 	self.verbose = verbose
 }
 
@@ -55,7 +58,7 @@ func (self *MessageLookup) ProcessMessage(envelope *messages.Envelope) (err erro
 			background := child.GetBackground()
 			if background != nil {
 				for _, step := range background.Steps {
-					self.backgroundByStepId[step.Id] = background
+					self.backgroundByStepID[step.Id] = background
 					self.stepByID[step.Id] = step
 				}
 			}
@@ -100,6 +103,9 @@ func (self *MessageLookup) ProcessMessage(envelope *messages.Envelope) (err erro
 
 	case *messages.Envelope_StepDefinitionConfig:
 		self.stepDefinitionConfigByID[m.StepDefinitionConfig.Id] = m.StepDefinitionConfig
+
+	case *messages.Envelope_TestCaseHookDefinitionConfig:
+		self.testCaseHookDefinitionConfigByID[m.TestCaseHookDefinitionConfig.Id] = m.TestCaseHookDefinitionConfig
 	}
 
 	return nil
@@ -155,17 +161,17 @@ func (self *MessageLookup) LookupExampleRow(id string) *messages.GherkinDocument
 	return item
 }
 
-func (self *MessageLookup) LookupBrackgroundByStepId(id string) *messages.GherkinDocument_Feature_Background {
-	item, ok := self.backgroundByStepId[id]
+func (self *MessageLookup) LookupBackgroundByStepID(id string) *messages.GherkinDocument_Feature_Background {
+	item, ok := self.backgroundByStepID[id]
 	if ok {
-		self.informFoundKey(id, "backgroundByStepId")
+		self.informFoundKey(id, "backgroundByStepID")
 	} else {
-		self.informMissingKey(id, "backgroundByStepId")
+		self.informMissingKey(id, "backgroundByStepID")
 	}
 	return item
 }
 
-func (self *MessageLookup) LookupTagByID(id string) *messages.GherkinDocument_Feature_Tag {
+func (self *MessageLookup) LookupTag(id string) *messages.GherkinDocument_Feature_Tag {
 	item, ok := self.tagByID[id]
 	if ok {
 		self.informFoundKey(id, "tagByID")
@@ -175,7 +181,7 @@ func (self *MessageLookup) LookupTagByID(id string) *messages.GherkinDocument_Fe
 	return item
 }
 
-func (self *MessageLookup) LookupTestCaseStartedByID(id string) *messages.TestCaseStarted {
+func (self *MessageLookup) LookupTestCaseStarted(id string) *messages.TestCaseStarted {
 	item, ok := self.testCaseStartedByID[id]
 	if ok {
 		self.informFoundKey(id, "testCaseStartedByID")
@@ -185,7 +191,7 @@ func (self *MessageLookup) LookupTestCaseStartedByID(id string) *messages.TestCa
 	return item
 }
 
-func (self *MessageLookup) LookupTestCaseByID(id string) *messages.TestCase {
+func (self *MessageLookup) LookupTestCase(id string) *messages.TestCase {
 	item, ok := self.testCaseByID[id]
 	if ok {
 		self.informFoundKey(id, "testCaseByID")
@@ -195,7 +201,7 @@ func (self *MessageLookup) LookupTestCaseByID(id string) *messages.TestCase {
 	return item
 }
 
-func (self *MessageLookup) LookupTestStepByID(id string) *messages.TestCase_TestStep {
+func (self *MessageLookup) LookupTestStep(id string) *messages.TestCase_TestStep {
 	item, ok := self.testStepByID[id]
 	if ok {
 		self.informFoundKey(id, "testStepByID")
@@ -205,7 +211,7 @@ func (self *MessageLookup) LookupTestStepByID(id string) *messages.TestCase_Test
 	return item
 }
 
-func (self *MessageLookup) LookupPickleStepByID(id string) *messages.Pickle_PickleStep {
+func (self *MessageLookup) LookupPickleStep(id string) *messages.Pickle_PickleStep {
 	item, ok := self.pickleStepByID[id]
 	if ok {
 		self.informFoundKey(id, "pickleStepByID")
@@ -215,20 +221,30 @@ func (self *MessageLookup) LookupPickleStepByID(id string) *messages.Pickle_Pick
 	return item
 }
 
-func (self *MessageLookup) LookupStepDefinitionConfigsByIDs(ids []string) []*messages.StepDefinitionConfig {
+func (self *MessageLookup) LookupStepDefinitionConfigs(ids []string) []*messages.StepDefinitionConfig {
 	stepDefinitions := make([]*messages.StepDefinitionConfig, len(ids))
 	for index, id := range ids {
-		stepDefinitions[index] = self.LookupStepDefinitionConfigByID(id)
+		stepDefinitions[index] = self.LookupStepDefinitionConfig(id)
 	}
 	return stepDefinitions
 }
 
-func (self *MessageLookup) LookupStepDefinitionConfigByID(id string) *messages.StepDefinitionConfig {
+func (self *MessageLookup) LookupStepDefinitionConfig(id string) *messages.StepDefinitionConfig {
 	item, ok := self.stepDefinitionConfigByID[id]
 	if ok {
 		self.informFoundKey(id, "stepDefinitionConfigByID")
 	} else {
 		self.informMissingKey(id, "stepDefinitionConfigByID")
+	}
+	return item
+}
+
+func (self *MessageLookup) LookupTestCaseHookDefinitionConfig(id string) *messages.TestCaseHookDefinitionConfig {
+	item, ok := self.testCaseHookDefinitionConfigByID[id]
+	if ok {
+		self.informFoundKey(id, "testCaseHookDefinitionConfigByID")
+	} else {
+		self.informMissingKey(id, "testCaseHookDefinitionConfigByID")
 	}
 	return item
 }

@@ -10,63 +10,6 @@ import (
 	gio "github.com/gogo/protobuf/io"
 )
 
-type jsonFeature struct {
-	Description string                `json:"description"`
-	Elements    []*jsonFeatureElement `json:"elements"`
-	ID          string                `json:"id"`
-	Keyword     string                `json:"keyword"`
-	Line        uint32                `json:"line"`
-	Name        string                `json:"name"`
-	URI         string                `json:"uri"`
-	Tags        []*jsonTag            `json:"tags,omitempty"`
-}
-
-type jsonFeatureElement struct {
-	Description string      `json:"description"`
-	ID          string      `json:"id,omitempty"`
-	Keyword     string      `json:"keyword"`
-	Line        uint32      `json:"line"`
-	Name        string      `json:"name"`
-	Steps       []*jsonStep `json:"steps"`
-	Type        string      `json:"type"`
-	Tags        []*jsonTag  `json:"tags,omitempty"`
-}
-
-type jsonStep struct {
-	Keyword   string              `json:"keyword"`
-	Line      uint32              `json:"line"`
-	Name      string              `json:"name"`
-	Result    *jsonStepResult     `json:"result"`
-	Match     *jsonStepMatch      `json:"match,omitempty"`
-	DocString *jsonDocString      `json:"doc_string,omitempty"`
-	Rows      []*jsonDatatableRow `json:"rows,omitempty"`
-}
-
-type jsonDocString struct {
-	ContentType string `json:"content_type"`
-	Line        uint32 `json:"line"`
-	Value       string `json:"value"`
-}
-
-type jsonDatatableRow struct {
-	Cells []string `json:"cells"`
-}
-
-type jsonStepResult struct {
-	Duration     uint64 `json:"duration,omitempty"`
-	Status       string `json:"status"`
-	ErrorMessage string `json:"error_message,omitempty"`
-}
-
-type jsonStepMatch struct {
-	Location string `json:"location"`
-}
-
-type jsonTag struct {
-	Line uint32 `json:"line"`
-	Name string `json:"name"`
-}
-
 type Formatter struct {
 	lookup *MessageLookup
 
@@ -172,7 +115,7 @@ func (self *Formatter) ProcessMessages(reader gio.ReadCloser, stdout io.Writer) 
 				}
 				if self.isBackgroundStep(step.Id) {
 					backgroundJsonSteps = append(backgroundJsonSteps, jsonStep)
-					background = self.lookup.LookupBrackgroundByStepId(step.Id)
+					background = self.lookup.LookupBackgroundByStepID(step.Id)
 				} else {
 					scenarioJsonSteps = append(scenarioJsonSteps, jsonStep)
 				}
@@ -207,7 +150,7 @@ func (self *Formatter) ProcessMessages(reader gio.ReadCloser, stdout io.Writer) 
 
 			scenarioTags := make([]*jsonTag, len(pickle.Tags))
 			for tagIndex, pickleTag := range pickle.Tags {
-				tag := self.lookup.LookupTagByID(pickleTag.SourceId)
+				tag := self.lookup.LookupTag(pickleTag.SourceId)
 
 				scenarioTags[tagIndex] = &jsonTag{
 					Line: tag.Location.Line,
@@ -227,8 +170,8 @@ func (self *Formatter) ProcessMessages(reader gio.ReadCloser, stdout io.Writer) 
 			})
 
 		case *messages.Envelope_TestStepFinished:
-			testStep := self.lookup.LookupTestStepByID(m.TestStepFinished.TestStepId)
-			pickleStep := self.lookup.LookupPickleStepByID(testStep.PickleStepId)
+			testStep := self.lookup.LookupTestStep(m.TestStepFinished.TestStepId)
+			pickleStep := self.lookup.LookupPickleStep(testStep.PickleStepId)
 			jsonStep := self.jsonStepsByPickleStepId[pickleStep.Id]
 
 			status := strings.ToLower(m.TestStepFinished.TestResult.Status.String())
@@ -240,7 +183,7 @@ func (self *Formatter) ProcessMessages(reader gio.ReadCloser, stdout io.Writer) 
 				jsonStep.Result.Duration = self.durationToNanos(m.TestStepFinished.TestResult.Duration)
 			}
 
-			stepDefinitions := self.lookup.LookupStepDefinitionConfigsByIDs(testStep.StepDefinitionId)
+			stepDefinitions := self.lookup.LookupStepDefinitionConfigs(testStep.StepDefinitionId)
 			if len(stepDefinitions) > 0 {
 				jsonStep.Match = &jsonStepMatch{
 					Location: fmt.Sprintf(
@@ -288,7 +231,7 @@ func (self *Formatter) findOrCreateJsonFeature(pickle *messages.Pickle) *jsonFea
 }
 
 func (self *Formatter) isBackgroundStep(id string) bool {
-	_, ok := self.lookup.backgroundByStepId[id]
+	_, ok := self.lookup.backgroundByStepID[id]
 	return ok
 }
 
