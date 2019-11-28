@@ -7,6 +7,7 @@ import (
 )
 
 type TestStep struct {
+	TestCaseID      string
 	Hook            *messages.TestCaseHookDefinitionConfig
 	Pickle          *messages.Pickle
 	PickleStep      *messages.Pickle_PickleStep
@@ -17,6 +18,8 @@ type TestStep struct {
 
 func ProcessTestStepFinished(testStepFinished *messages.TestStepFinished, lookup *MessageLookup) *TestStep {
 	testStep := lookup.LookupTestStep(testStepFinished.TestStepId)
+	testCaseStarted := lookup.LookupTestCaseStarted(testStepFinished.TestCaseStartedId)
+	testCase := lookup.LookupTestCase(testCaseStarted.TestCaseId)
 
 	if testStep == nil {
 		return nil
@@ -29,13 +32,12 @@ func ProcessTestStepFinished(testStepFinished *messages.TestStepFinished, lookup
 		}
 
 		return &TestStep{
-			Hook:   hook,
-			Result: testStepFinished.TestResult,
+			TestCaseID: testCase.Id,
+			Hook:       hook,
+			Result:     testStepFinished.TestResult,
 		}
 	}
 
-	testCaseStarted := lookup.LookupTestCaseStarted(testStepFinished.TestCaseStartedId)
-	testCase := lookup.LookupTestCase(testCaseStarted.TestCaseId)
 	pickle := lookup.LookupPickle(testCase.PickleId)
 	pickleStep := lookup.LookupPickleStep(testStep.PickleStepId)
 
@@ -44,6 +46,7 @@ func ProcessTestStepFinished(testStepFinished *messages.TestStepFinished, lookup
 	}
 
 	return &TestStep{
+		TestCaseID:      testCase.Id,
 		Step:            lookup.LookupStep(pickleStep.SourceIds[0]),
 		Pickle:          pickle,
 		PickleStep:      pickleStep,

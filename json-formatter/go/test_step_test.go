@@ -14,15 +14,62 @@ var _ = Describe("ProcessTestStepFinished", func() {
 	BeforeEach(func() {
 		lookup = &MessageLookup{}
 		lookup.Initialize(false)
+
+		pickle := &messages.Pickle{
+			Id: "pickle-id",
+			Steps: []*messages.Pickle_PickleStep{
+				&messages.Pickle_PickleStep{
+					Id:        "pickle-step-id",
+					SourceIds: []string{"some-id"},
+				},
+			},
+		}
+		lookup.ProcessMessage(makePickleEnvelope(pickle))
+
+		testStep := makeTestStep(
+			"test-step-id",
+			"pickle-step-id",
+			[]string{},
+		)
+
+		testCase := makeTestCase(
+			"test-case-id",
+			"pickle-id",
+			[]*messages.TestCase_TestStep{testStep},
+		)
+		lookup.ProcessMessage(makeTestCaseEnvelope(testCase))
+
+		testCaseStarted := &messages.TestCaseStarted{
+			Id:         "test-case-started-id",
+			TestCaseId: testCase.Id,
+		}
+
+		lookup.ProcessMessage(&messages.Envelope{
+			Message: &messages.Envelope_TestCaseStarted{
+				TestCaseStarted: testCaseStarted,
+			},
+		})
 	})
 
-	It("returns nil if the step does not exist", func() {
+	It("has the TestCase ID", func() {
 		testStepFinished := &messages.TestStepFinished{
-			TestStepId: "unknown-step",
+			TestCaseStartedId: "test-case-started-id",
+			TestStepId:        "test-step-id",
 		}
-		testStep := ProcessTestStepFinished(testStepFinished, lookup)
 
-		Expect(testStep).To(BeNil())
+		testStep := ProcessTestStepFinished(testStepFinished, lookup)
+		Expect(testStep.TestCaseID).To(Equal("test-case-id"))
+	})
+
+	Context("with referencing issues", func() {
+		It("returns nil if the step does not exist", func() {
+			testStepFinished := &messages.TestStepFinished{
+				TestCaseStartedId: "test-case-started-id",
+				TestStepId:        "unknown-step",
+			}
+			testStep := ProcessTestStepFinished(testStepFinished, lookup)
+			Expect(testStep).To(BeNil())
+		})
 	})
 
 	Context("When step references a Hook", func() {
@@ -47,11 +94,22 @@ var _ = Describe("ProcessTestStepFinished", func() {
 					),
 				),
 			)
+
+			testCaseStarted := &messages.TestCaseStarted{
+				Id:         "hook-test-case-started-id",
+				TestCaseId: "test-case-id",
+			}
+			lookup.ProcessMessage(&messages.Envelope{
+				Message: &messages.Envelope_TestCaseStarted{
+					TestCaseStarted: testCaseStarted,
+				},
+			})
 		})
 
 		It("returns a TestStep including the TestCaseHookDefinitionConfig", func() {
 			testStepFinished := &messages.TestStepFinished{
-				TestStepId: "hook-step-id",
+				TestCaseStartedId: "test-case-started-id",
+				TestStepId:        "hook-step-id",
 				TestResult: &messages.TestResult{
 					Status: messages.TestResult_PASSED,
 				},
@@ -65,7 +123,8 @@ var _ = Describe("ProcessTestStepFinished", func() {
 
 		It("returns a TestStep with a nil Step", func() {
 			testStepFinished := &messages.TestStepFinished{
-				TestStepId: "hook-step-id",
+				TestCaseStartedId: "test-case-started-id",
+				TestStepId:        "hook-step-id",
 			}
 
 			testStep := ProcessTestStepFinished(testStepFinished, lookup)
@@ -75,7 +134,8 @@ var _ = Describe("ProcessTestStepFinished", func() {
 
 		It("returns nil if the Hook does not exist", func() {
 			testStepFinished := &messages.TestStepFinished{
-				TestStepId: "wrong-hook-step-id",
+				TestCaseStartedId: "test-case-started-id",
+				TestStepId:        "wrong-hook-step-id",
 			}
 			testStep := ProcessTestStepFinished(testStepFinished, lookup)
 
@@ -253,13 +313,13 @@ var _ = Describe("TestStepToJSON", func() {
 		})
 
 		Context("When it does not have a StepDefinition", func() {
-			It("Has a match referencing the feature file", func() {
+			It("Has a Match referencing the feature file", func() {
 				Expect(jsonStep.Match.Location).To(Equal("my_feature.feature:5"))
 			})
 		})
 
 		Context("When it has a StepDefinition", func() {
-			It("Has a match referencing the feature file", func() {
+			It("has a Match referencing the feature file", func() {
 				step.StepDefinitions = []*messages.StepDefinitionConfig{
 					&messages.StepDefinitionConfig{
 						Location: &messages.SourceReference{

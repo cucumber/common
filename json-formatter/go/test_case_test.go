@@ -65,26 +65,22 @@ var _ = Describe("ProcessTestCaseStarted", func() {
 		scenario = makeScenario("scenario-id", []*messages.GherkinDocument_Feature_Step{})
 		lookup.scenarioByID[scenario.Id] = scenario
 
-		lookup.ProcessMessage(
-			makePickleEnvelope(&messages.Pickle{
-				Id:        "pickle-id",
-				Uri:       document.Uri,
-				SourceIds: []string{scenario.Id},
-			}),
-		)
+		pickle := &messages.Pickle{
+			Id:        "pickle-id",
+			Uri:       document.Uri,
+			SourceIds: []string{scenario.Id},
+		}
+		lookup.ProcessMessage(makePickleEnvelope(pickle))
 
-		lookup.ProcessMessage(
-			makeTestCaseEnvelope(
-				makeTestCase(
-					"test-case-id",
-					"pickle-id",
-					[]*messages.TestCase_TestStep{},
-				),
-			),
+		testCaseMsg := makeTestCase(
+			"test-case-id",
+			pickle.Id,
+			[]*messages.TestCase_TestStep{},
 		)
+		lookup.ProcessMessage(makeTestCaseEnvelope(testCaseMsg))
 
 		testCase = ProcessTestCaseStarted(&messages.TestCaseStarted{
-			TestCaseId: "test-case-id",
+			TestCaseId: testCaseMsg.Id,
 		}, lookup)
 	})
 
