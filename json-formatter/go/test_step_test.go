@@ -45,7 +45,7 @@ var _ = Describe("ProcessTestStepFinished", func() {
 			)
 		})
 
-		It("returns a Step referencing the Hook", func() {
+		It("returns a TestStep including the TestCaseHookDefinitionConfig", func() {
 			testStepFinished := &messages.TestStepFinished{
 				TestStepId: "hook-step-id",
 				TestResult: &messages.TestResult{
@@ -59,7 +59,7 @@ var _ = Describe("ProcessTestStepFinished", func() {
 			Expect(testStep.Result.Status).To(Equal(messages.TestResult_PASSED))
 		})
 
-		It("returns a Step with a nil Step", func() {
+		It("returns a TestStep with a nil Step", func() {
 			testStepFinished := &messages.TestStepFinished{
 				TestStepId: "hook-step-id",
 			}
@@ -89,11 +89,23 @@ var _ = Describe("ProcessTestStepFinished", func() {
 			lookup.stepByID[step.Id] = step
 			lookup.scenarioByID[scenario.Id] = scenario
 
+			lookup.ProcessMessage(&messages.Envelope{
+				Message: &messages.Envelope_StepDefinitionConfig{
+					StepDefinitionConfig: &messages.StepDefinitionConfig{
+						Id: "step-def-id",
+						Pattern: &messages.StepDefinitionPattern{
+							Source: "a passed {word}",
+						},
+					},
+				},
+			})
+
 			pickleStep := &messages.Pickle_PickleStep{
 				Id:        "pickle-step-id",
 				SourceIds: []string{step.Id},
 				Text:      "a passed step",
 			}
+
 			pickle := &messages.Pickle{
 				Id:        "pickle-id",
 				SourceIds: []string{scenario.Id},
@@ -109,23 +121,29 @@ var _ = Describe("ProcessTestStepFinished", func() {
 			lookup.ProcessMessage(
 				makeTestCaseEnvelope(
 					makeTestCase([]*messages.TestCase_TestStep{
-						makeTestStep("test-step-id", "pickle-step-id"),
-						makeTestStep("unknown-pickle", "unknown-pickle-step-id"),
+						makeTestStep("test-step-id", "pickle-step-id", []string{"step-def-id"}),
+						makeTestStep("unknown-pickle", "unknown-pickle-step-id", []string{}),
 					}),
 				),
 			)
 		})
 
-		It("returns a Step referencing the Step", func() {
+		It("returns a TestStep including the FeatureStep", func() {
 			testStepFinished := &messages.TestStepFinished{
 				TestStepId: "test-step-id",
-				TestResult: &messages.TestResult{
-					Status: messages.TestResult_PASSED,
-				},
 			}
 
 			testStep := ProcessTestStepFinished(testStepFinished, lookup)
 			Expect(testStep.Step.Id).To(Equal("step-id"))
+		})
+
+		It("returns a Step including the StepDefinitions", func() {
+			testStepFinished := &messages.TestStepFinished{
+				TestStepId: "test-step-id",
+			}
+			testStep := ProcessTestStepFinished(testStepFinished, lookup)
+			Expect(len(testStep.StepDefinitions)).To(Equal(1))
+			Expect(testStep.StepDefinitions[0].Pattern.Source).To(Equal("a passed {word}"))
 		})
 
 		It("Returns Nil if the pickle step is unknown", func() {
@@ -219,10 +237,11 @@ func makeGherkinStep(id string, keyword string, text string) *messages.GherkinDo
 	}
 }
 
-func makeTestStep(id string, pickleStepId string) *messages.TestCase_TestStep {
+func makeTestStep(id string, pickleStepId string, stepDefinitionIds []string) *messages.TestCase_TestStep {
 	return &messages.TestCase_TestStep{
-		Id:           id,
-		PickleStepId: pickleStepId,
+		Id:               id,
+		PickleStepId:     pickleStepId,
+		StepDefinitionId: stepDefinitionIds,
 	}
 }
 

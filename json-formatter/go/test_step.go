@@ -7,19 +7,20 @@ import (
 )
 
 type TestStep struct {
-	Hook   *messages.TestCaseHookDefinitionConfig
-	Step   *messages.GherkinDocument_Feature_Step
-	Result *messages.TestResult
+	Hook            *messages.TestCaseHookDefinitionConfig
+	Step            *messages.GherkinDocument_Feature_Step
+	StepDefinitions []*messages.StepDefinitionConfig
+	Result          *messages.TestResult
 }
 
 func ProcessTestStepFinished(testStepFinished *messages.TestStepFinished, lookup *MessageLookup) *TestStep {
-	step := lookup.LookupTestStep(testStepFinished.TestStepId)
-	if step == nil {
+	testStep := lookup.LookupTestStep(testStepFinished.TestStepId)
+	if testStep == nil {
 		return nil
 	}
 
-	if step.HookId != "" {
-		hook := lookup.LookupTestCaseHookDefinitionConfig(step.HookId)
+	if testStep.HookId != "" {
+		hook := lookup.LookupTestCaseHookDefinitionConfig(testStep.HookId)
 		if hook == nil {
 			return nil
 		}
@@ -30,15 +31,15 @@ func ProcessTestStepFinished(testStepFinished *messages.TestStepFinished, lookup
 		}
 	}
 
-	pickleStep := lookup.LookupPickleStep(step.PickleStepId)
+	pickleStep := lookup.LookupPickleStep(testStep.PickleStepId)
 	if pickleStep == nil {
 		return nil
 	}
-	featureStep := lookup.LookupStep(pickleStep.SourceIds[0])
 
 	return &TestStep{
-		Step:   featureStep,
-		Result: testStepFinished.TestResult,
+		Step:            lookup.LookupStep(pickleStep.SourceIds[0]),
+		Result:          testStepFinished.TestResult,
+		StepDefinitions: lookup.LookupStepDefinitionConfigs(testStep.StepDefinitionId),
 	}
 }
 
