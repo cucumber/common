@@ -46,14 +46,25 @@ func ProcessTestCaseStarted(testCaseStarted *messages.TestCaseStarted, lookup *M
 
 func TestCaseToJSON(testCase *TestCase) []*jsonFeatureElement {
 	elements := make([]*jsonFeatureElement, 1)
+	renderedSteps := make([]*jsonStep, len(testCase.Steps))
+
+	for index, step := range testCase.Steps {
+		renderedSteps[index] = TestStepToJSON(step)
+	}
+
 	elements[0] = &jsonFeatureElement{
 		ID:          fmt.Sprintf("%s;%s", makeID(testCase.FeatureName), makeID(testCase.Scenario.Name)),
 		Keyword:     testCase.Scenario.Keyword,
 		Name:        testCase.Pickle.Name,
 		Description: testCase.Scenario.Description,
 		Line:        testCase.Scenario.Location.Line,
+		Steps:       renderedSteps,
 	}
 	return elements
+}
+
+func (self *TestCase) appendStep(step *TestStep) {
+	self.Steps = append(self.Steps, step)
 }
 
 func makeID(s string) string {

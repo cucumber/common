@@ -6,6 +6,42 @@ import (
 	. "github.com/onsi/gomega"
 )
 
+var _ = Describe("TestCase.appendStep", func() {
+	var (
+		testCase       *TestCase
+		hookTestStep   *TestStep
+		pickleTestStep *TestStep
+	)
+
+	BeforeEach(func() {
+		testCase = &TestCase{}
+		hookTestStep = &TestStep{
+			Hook: &messages.TestCaseHookDefinitionConfig{
+				Id: "my-hook",
+			},
+		}
+		pickleTestStep = &TestStep{
+			PickleStep: &messages.Pickle_PickleStep{
+				Id: "pickle-step",
+			},
+		}
+	})
+
+	It("appends a TestStep to the list of steps", func() {
+		Expect(len(testCase.Steps)).To(Equal(0))
+		testCase.appendStep(hookTestStep)
+		Expect(len(testCase.Steps)).To(Equal(1))
+	})
+
+	It("does not lose existing steps", func() {
+		testCase.appendStep(hookTestStep)
+		testCase.appendStep(pickleTestStep)
+
+		Expect(testCase.Steps[0].Hook.Id).To(Equal("my-hook"))
+		Expect(testCase.Steps[1].PickleStep.Id).To(Equal("pickle-step"))
+	})
+})
+
 var _ = Describe("ProcessTestCaseStarted", func() {
 	var (
 		lookup   *MessageLookup
@@ -171,6 +207,11 @@ var _ = Describe("TestCaseToJSON", func() {
 	)
 
 	BeforeEach(func() {
+		pickle := &messages.Pickle{
+			Uri:  "some_examples.feature",
+			Name: "A scenario (2)",
+		}
+
 		testCase = &TestCase{
 			FeatureName: "My feature",
 			Scenario: &messages.GherkinDocument_Feature_Scenario{
@@ -181,15 +222,31 @@ var _ = Describe("TestCaseToJSON", func() {
 					Line: 42,
 				},
 			},
-			Pickle: &messages.Pickle{
-				Name: "A scenario (2)",
-			},
+			Pickle: pickle,
 			TestCase: makeTestCase(
 				"test-case-id",
 				"pickle-id",
 				[]*messages.TestCase_TestStep{},
 			),
 		}
+
+		testCase.appendStep(&TestStep{
+			Step: &messages.GherkinDocument_Feature_Step{
+				Id:      "some-id",
+				Keyword: "Given",
+				Text:    "a <status> step",
+				Location: &messages.Location{
+					Line: 5,
+				},
+			},
+			Pickle: pickle,
+			PickleStep: &messages.Pickle_PickleStep{
+				Text: "a passed step",
+			},
+			Result: &messages.TestResult{
+				Status: messages.TestResult_FAILED,
+			},
+		})
 		jsonTestCase = TestCaseToJSON(testCase)
 	})
 
@@ -211,5 +268,10 @@ var _ = Describe("TestCaseToJSON", func() {
 
 	It("has the Scenario line", func() {
 		Expect(jsonTestCase[0].Line).To(Equal(uint32(42)))
+	})
+
+	It("has the steps rendered in Steps", func() {
+		Expect(len(jsonTestCase[0].Steps)).To(Equal(1))
+		Expect(jsonTestCase[0].Steps[0].Name).To(Equal("a passed step"))
 	})
 })
