@@ -46,10 +46,22 @@ func ProcessTestStepFinished(testStepFinished *messages.TestStepFinished, lookup
 
 func TestStepToJSON(step *TestStep) *jsonStep {
 	status := strings.ToLower(step.Result.Status.String())
+
+	if step.Hook != nil {
+		return &jsonStep{
+			Match: &jsonStepMatch{
+				Location: fmt.Sprintf("%s:%d", step.Hook.Location.Uri, step.Hook.Location.Location.Line),
+			},
+			Result: &jsonStepResult{
+				Status:       status,
+				ErrorMessage: step.Result.Message,
+			},
+		}
+	}
+
 	return &jsonStep{
-		Match: &jsonStepMatch{
-			Location: fmt.Sprintf("%s:%d", step.Hook.Location.Uri, step.Hook.Location.Location.Line),
-		},
+		Keyword: step.Step.Keyword,
+		Name:    step.Step.Text,
 		Result: &jsonStepResult{
 			Status:       status,
 			ErrorMessage: step.Result.Message,

@@ -144,7 +144,8 @@ var _ = Describe("ProcessTestStepFinished", func() {
 
 var _ = Describe("TestStepToJSON", func() {
 	var (
-		step *TestStep
+		step     *TestStep
+		jsonStep *jsonStep
 	)
 
 	Context("When TestStep comes from a Hook", func() {
@@ -163,18 +164,43 @@ var _ = Describe("TestStepToJSON", func() {
 					Status: messages.TestResult_PASSED,
 				},
 			}
+			jsonStep = TestStepToJSON(step)
 		})
 
 		It("Has a Match", func() {
-			jsonStep := TestStepToJSON(step)
-
 			Expect(jsonStep.Match.Location).To(Equal("some/hooks.go:12"))
 		})
 
 		It("Has a Result", func() {
-			jsonStep := TestStepToJSON(step)
-
 			Expect(jsonStep.Result.Status).To(Equal("passed"))
+		})
+	})
+
+	Context("When TestStep comes from a feature step", func() {
+		BeforeEach(func() {
+			step = &TestStep{
+				Step: makeGherkinStep(
+					"some-id",
+					"Given",
+					"a passed step",
+				),
+				Result: &messages.TestResult{
+					Status: messages.TestResult_FAILED,
+				},
+			}
+			jsonStep = TestStepToJSON(step)
+		})
+
+		It("gets keyword from Step", func() {
+			Expect(jsonStep.Keyword).To(Equal("Given"))
+		})
+
+		It("gets name from Step", func() {
+			Expect(jsonStep.Name).To(Equal("a passed step"))
+		})
+
+		It("Has a Result", func() {
+			Expect(jsonStep.Result.Status).To(Equal("failed"))
 		})
 	})
 })
