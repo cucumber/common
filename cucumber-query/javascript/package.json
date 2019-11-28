@@ -27,7 +27,7 @@
   "homepage": "https://github.com/cucumber/cucumber#readme",
   "devDependencies": {
     "@types/mocha": "^5.2.7",
-    "@types/node": "^12.12.11",
+    "@types/node": "^12.12.14",
     "fake-cucumber": "^2.1.0",
     "gherkin": "^8.2.1",
     "mocha": "^6.2.2",
