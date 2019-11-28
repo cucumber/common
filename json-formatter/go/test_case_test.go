@@ -156,7 +156,7 @@ var _ = Describe("ProcessTestCaseStarted", func() {
 
 		It("returns nil if the TestCase has not been defined", func() {
 			testCase := ProcessTestCaseStarted(&messages.TestCaseStarted{
-				TestCaseId: "unknown-id",
+				TestCaseId: "unknown-test-case-id",
 			}, lookup)
 
 			Expect(testCase).To(BeNil())

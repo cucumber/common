@@ -15,26 +15,25 @@ var _ = Describe("ProcessTestStepFinished", func() {
 		lookup = &MessageLookup{}
 		lookup.Initialize(false)
 
+		pickleStep := &messages.Pickle_PickleStep{
+			Id:        "pickle-step-id",
+			SourceIds: []string{"some-id"},
+		}
 		pickle := &messages.Pickle{
-			Id: "pickle-id",
-			Steps: []*messages.Pickle_PickleStep{
-				&messages.Pickle_PickleStep{
-					Id:        "pickle-step-id",
-					SourceIds: []string{"some-id"},
-				},
-			},
+			Id:    "pickle-id",
+			Steps: []*messages.Pickle_PickleStep{pickleStep},
 		}
 		lookup.ProcessMessage(makePickleEnvelope(pickle))
 
 		testStep := makeTestStep(
 			"test-step-id",
-			"pickle-step-id",
+			pickleStep.Id,
 			[]string{},
 		)
 
 		testCase := makeTestCase(
 			"test-case-id",
-			"pickle-id",
+			pickle.Id,
 			[]*messages.TestCase_TestStep{testStep},
 		)
 		lookup.ProcessMessage(makeTestCaseEnvelope(testCase))
@@ -43,12 +42,7 @@ var _ = Describe("ProcessTestStepFinished", func() {
 			Id:         "test-case-started-id",
 			TestCaseId: testCase.Id,
 		}
-
-		lookup.ProcessMessage(&messages.Envelope{
-			Message: &messages.Envelope_TestCaseStarted{
-				TestCaseStarted: testCaseStarted,
-			},
-		})
+		lookup.ProcessMessage(makeTestCaseStartedEnvelope(testCaseStarted))
 	})
 
 	It("has the TestCase ID", func() {
@@ -70,40 +64,54 @@ var _ = Describe("ProcessTestStepFinished", func() {
 			testStep := ProcessTestStepFinished(testStepFinished, lookup)
 			Expect(testStep).To(BeNil())
 		})
+
+		It("returns nil if the TestCaseStarted does not exist", func() {
+			testStepFinished := &messages.TestStepFinished{
+				TestCaseStartedId: "unknown-test-case-started",
+				TestStepId:        "test-step-id",
+			}
+			testStep := ProcessTestStepFinished(testStepFinished, lookup)
+			Expect(testStep).To(BeNil())
+		})
+
+		It("returns nil if the TestCaseStarted references an unknown TestCase", func() {
+			testCaseStarted := &messages.TestCaseStarted{
+				Id:         "test-case-started-no-test-case",
+				TestCaseId: "unknown-test-case",
+			}
+			lookup.ProcessMessage(makeTestCaseStartedEnvelope(testCaseStarted))
+
+			testStepFinished := &messages.TestStepFinished{
+				TestCaseStartedId: testCaseStarted.Id,
+				TestStepId:        "test-step-id",
+			}
+			testStep := ProcessTestStepFinished(testStepFinished, lookup)
+			Expect(testStep).To(BeNil())
+		})
 	})
 
 	Context("When step references a Hook", func() {
 		BeforeEach(func() {
-			lookup.ProcessMessage(
-				makeTestCaseHookDefinitionConfigEnvelope(
-					&messages.TestCaseHookDefinitionConfig{
-						Id: "hook-id",
-					},
-				),
-			)
+			hook := &messages.TestCaseHookDefinitionConfig{
+				Id: "hook-id",
+			}
+			lookup.ProcessMessage(makeTestCaseHookDefinitionConfigEnvelope(hook))
 
-			lookup.ProcessMessage(
-				makeTestCaseEnvelope(
-					makeTestCase(
-						"test-case-id",
-						"whatever-pickle-id",
-						[]*messages.TestCase_TestStep{
-							makeHookTestStep("hook-step-id", "hook-id"),
-							makeHookTestStep("wrong-hook-step-id", "unknown-hook-id"),
-						},
-					),
-				),
+			testCase := makeTestCase(
+				"test-case-id",
+				"whatever-pickle-id",
+				[]*messages.TestCase_TestStep{
+					makeHookTestStep("hook-step-id", hook.Id),
+					makeHookTestStep("wrong-hook-step-id", "unknown-hook-id"),
+				},
 			)
+			lookup.ProcessMessage(makeTestCaseEnvelope(testCase))
 
 			testCaseStarted := &messages.TestCaseStarted{
 				Id:         "hook-test-case-started-id",
-				TestCaseId: "test-case-id",
+				TestCaseId: testCase.Id,
 			}
-			lookup.ProcessMessage(&messages.Envelope{
-				Message: &messages.Envelope_TestCaseStarted{
-					TestCaseStarted: testCaseStarted,
-				},
-			})
+			lookup.ProcessMessage(makeTestCaseStartedEnvelope(testCaseStarted))
 		})
 
 		It("returns a TestStep including the TestCaseHookDefinitionConfig", func() {
@@ -144,6 +152,9 @@ var _ = Describe("ProcessTestStepFinished", func() {
 	})
 
 	Context("When step references a PickleStep", func() {
+		var (
+			testCaseStarted *messages.TestCaseStarted
+		)
 		BeforeEach(func() {
 			// This is a bit dirty hack to avoid creating all the AST
 			step := makeGherkinStep("step-id", "Given", "a passed step")
@@ -153,16 +164,13 @@ var _ = Describe("ProcessTestStepFinished", func() {
 			lookup.stepByID[step.Id] = step
 			lookup.scenarioByID[scenario.Id] = scenario
 
-			lookup.ProcessMessage(&messages.Envelope{
-				Message: &messages.Envelope_StepDefinitionConfig{
-					StepDefinitionConfig: &messages.StepDefinitionConfig{
-						Id: "step-def-id",
-						Pattern: &messages.StepDefinitionPattern{
-							Source: "a passed {word}",
-						},
-					},
+			stepDefinitionConfig := &messages.StepDefinitionConfig{
+				Id: "step-def-id",
+				Pattern: &messages.StepDefinitionPattern{
+					Source: "a passed {word}",
 				},
-			})
+			}
+			lookup.ProcessMessage(makeStepDefinitionConfigEnvelope(stepDefinitionConfig))
 
 			pickleStep := &messages.Pickle_PickleStep{
 				Id:        "pickle-step-id",
@@ -178,38 +186,29 @@ var _ = Describe("ProcessTestStepFinished", func() {
 					pickleStep,
 				},
 			}
+			lookup.ProcessMessage(makePickleEnvelope(pickle))
 
-			lookup.ProcessMessage(
-				makePickleEnvelope(pickle),
-			)
-
-			lookup.ProcessMessage(
-				makeTestCaseEnvelope(
-					makeTestCase(
-						"test-case-id",
-						pickle.Id,
-						[]*messages.TestCase_TestStep{
-							makeTestStep("test-step-id", "pickle-step-id", []string{"step-def-id"}),
-							makeTestStep("unknown-pickle", "unknown-pickle-step-id", []string{}),
-						},
-					),
-				),
-			)
-
-			lookup.ProcessMessage(&messages.Envelope{
-				Message: &messages.Envelope_TestCaseStarted{
-					TestCaseStarted: &messages.TestCaseStarted{
-						Id:         "test-case-started-id",
-						TestCaseId: "test-case-id",
-					},
+			testCase := makeTestCase(
+				"test-case-id",
+				pickle.Id,
+				[]*messages.TestCase_TestStep{
+					makeTestStep("test-step-id", "pickle-step-id", []string{"step-def-id"}),
+					makeTestStep("unknown-pickle", "unknown-pickle-step-id", []string{}),
 				},
-			})
+			)
+			lookup.ProcessMessage(makeTestCaseEnvelope(testCase))
+
+			testCaseStarted = &messages.TestCaseStarted{
+				Id:         "test-case-started-id",
+				TestCaseId: "test-case-id",
+			}
+			lookup.ProcessMessage(makeTestCaseStartedEnvelope(testCaseStarted))
 		})
 
 		It("returns a TestStep including the FeatureStep", func() {
 			testStepFinished := &messages.TestStepFinished{
 				TestStepId:        "test-step-id",
-				TestCaseStartedId: "test-case-started-id",
+				TestCaseStartedId: testCaseStarted.Id,
 			}
 
 			testStep := ProcessTestStepFinished(testStepFinished, lookup)
@@ -219,21 +218,46 @@ var _ = Describe("ProcessTestStepFinished", func() {
 		It("returns a Step including the StepDefinitions", func() {
 			testStepFinished := &messages.TestStepFinished{
 				TestStepId:        "test-step-id",
-				TestCaseStartedId: "test-case-started-id",
+				TestCaseStartedId: testCaseStarted.Id,
 			}
 			testStep := ProcessTestStepFinished(testStepFinished, lookup)
 			Expect(len(testStep.StepDefinitions)).To(Equal(1))
 			Expect(testStep.StepDefinitions[0].Pattern.Source).To(Equal("a passed {word}"))
 		})
 
-		It("Returns Nil if the pickle step is unknown", func() {
-			testStepFinished := &messages.TestStepFinished{
-				TestStepId:        "unknown-pickle",
-				TestCaseStartedId: "test-case-started-id",
-			}
+		Context("with referencing issues", func() {
+			It("returns Nil if the Pickle is unknow", func() {
+				testCase := makeTestCase(
+					"test-case-id",
+					"unknown-pickle",
+					[]*messages.TestCase_TestStep{},
+				)
+				lookup.ProcessMessage(makeTestCaseEnvelope(testCase))
 
-			testStep := ProcessTestStepFinished(testStepFinished, lookup)
-			Expect(testStep).To(BeNil())
+				testCaseStarted := &messages.TestCaseStarted{
+					Id:         "test-case-started-id",
+					TestCaseId: testCase.Id,
+				}
+				lookup.ProcessMessage(makeTestCaseStartedEnvelope(testCaseStarted))
+
+				testStepFinished := &messages.TestStepFinished{
+					TestStepId:        "test-step-id",
+					TestCaseStartedId: testCaseStarted.Id,
+				}
+
+				testStep := ProcessTestStepFinished(testStepFinished, lookup)
+				Expect(testStep).To(BeNil())
+			})
+
+			It("Returns Nil if the PickleStep is unknown", func() {
+				testStepFinished := &messages.TestStepFinished{
+					TestStepId:        "unknown-pickle-step",
+					TestCaseStartedId: testCaseStarted.Id,
+				}
+
+				testStep := ProcessTestStepFinished(testStepFinished, lookup)
+				Expect(testStep).To(BeNil())
+			})
 		})
 	})
 })

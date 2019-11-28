@@ -17,10 +17,17 @@ type TestStep struct {
 }
 
 func ProcessTestStepFinished(testStepFinished *messages.TestStepFinished, lookup *MessageLookup) *TestStep {
-	testStep := lookup.LookupTestStep(testStepFinished.TestStepId)
 	testCaseStarted := lookup.LookupTestCaseStarted(testStepFinished.TestCaseStartedId)
-	testCase := lookup.LookupTestCase(testCaseStarted.TestCaseId)
+	if testCaseStarted == nil {
+		return nil
+	}
 
+	testCase := lookup.LookupTestCase(testCaseStarted.TestCaseId)
+	if testCase == nil {
+		return nil
+	}
+
+	testStep := lookup.LookupTestStep(testStepFinished.TestStepId)
 	if testStep == nil {
 		return nil
 	}
@@ -39,8 +46,11 @@ func ProcessTestStepFinished(testStepFinished *messages.TestStepFinished, lookup
 	}
 
 	pickle := lookup.LookupPickle(testCase.PickleId)
-	pickleStep := lookup.LookupPickleStep(testStep.PickleStepId)
+	if pickle == nil {
+		return nil
+	}
 
+	pickleStep := lookup.LookupPickleStep(testStep.PickleStepId)
 	if pickleStep == nil {
 		return nil
 	}

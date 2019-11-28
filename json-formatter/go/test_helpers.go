@@ -50,10 +50,26 @@ func makeTestCaseEnvelope(testCase *messages.TestCase) *messages.Envelope {
 	}
 }
 
+func makeTestCaseStartedEnvelope(testCaseStarted *messages.TestCaseStarted) *messages.Envelope {
+	return &messages.Envelope{
+		Message: &messages.Envelope_TestCaseStarted{
+			TestCaseStarted: testCaseStarted,
+		},
+	}
+}
+
 func makeTestCaseHookDefinitionConfigEnvelope(testCaseHook *messages.TestCaseHookDefinitionConfig) *messages.Envelope {
 	return &messages.Envelope{
 		Message: &messages.Envelope_TestCaseHookDefinitionConfig{
 			TestCaseHookDefinitionConfig: testCaseHook,
+		},
+	}
+}
+
+func makeStepDefinitionConfigEnvelope(stepDefinitionConfig *messages.StepDefinitionConfig) *messages.Envelope {
+	return &messages.Envelope{
+		Message: &messages.Envelope_StepDefinitionConfig{
+			StepDefinitionConfig: stepDefinitionConfig,
 		},
 	}
 }
