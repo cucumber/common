@@ -78,6 +78,7 @@ func TestStepToJSON(step *TestStep) *jsonStep {
 	return &jsonStep{
 		Keyword: step.Step.Keyword,
 		Name:    step.PickleStep.Text,
+		Line:    step.Step.Location.Line,
 		Match: &jsonStepMatch{
 			Location: location,
 		},

@@ -244,8 +244,12 @@ var _ = Describe("TestStepToJSON", func() {
 			Expect(jsonStep.Name).To(Equal("a passed step"))
 		})
 
-		It("Has a Result", func() {
+		It("has a Result", func() {
 			Expect(jsonStep.Result.Status).To(Equal("failed"))
+		})
+
+		It("has a Line", func() {
+			Expect(jsonStep.Line).To(Equal(uint32(5)))
 		})
 
 		Context("When it does not have a StepDefinition", func() {
