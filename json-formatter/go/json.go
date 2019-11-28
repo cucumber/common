@@ -17,6 +17,7 @@ type Formatter struct {
 	jsonFeaturesByURI       map[string]*jsonFeature
 	jsonStepsByPickleStepId map[string]*jsonStep
 	exampleRowIndexById     map[string]int
+	testCaseById            map[string]*TestCase
 	verbose                 bool
 }
 
@@ -30,6 +31,8 @@ func (self *Formatter) ProcessMessages(reader gio.ReadCloser, stdout io.Writer) 
 	self.jsonFeaturesByURI = make(map[string]*jsonFeature)
 	self.jsonStepsByPickleStepId = make(map[string]*jsonStep)
 	self.exampleRowIndexById = make(map[string]int)
+
+	self.testCaseById = make(map[string]*TestCase)
 
 	for {
 		envelope := &messages.Envelope{}
@@ -61,140 +64,19 @@ func (self *Formatter) ProcessMessages(reader gio.ReadCloser, stdout io.Writer) 
 				}
 			}
 
-		case *messages.Envelope_Pickle:
-			self.comment(fmt.Sprintf(
-				"Treating Pickle: %s - %s",
-				m.Pickle.Id,
-				m.Pickle.SourceIds,
-			))
-
-			pickle := m.Pickle
-			jsonFeature := self.findOrCreateJsonFeature(pickle)
-			scenario := self.lookup.LookupScenario(pickle.SourceIds[0])
-			elementLine := scenario.Location.Line
-
-			// TODO: find a better way to get backgrounds
-			background := &messages.GherkinDocument_Feature_Background{}
-			scenarioJsonSteps := make([]*jsonStep, 0)
-			backgroundJsonSteps := make([]*jsonStep, 0)
-
-			for _, pickleStep := range pickle.Steps {
-				step := self.lookup.LookupStep(pickleStep.SourceIds[0])
-				jsonStep := &jsonStep{
-					Keyword: step.Keyword,
-					Line:    step.Location.Line,
-					Name:    pickleStep.Text,
-					// The match field defaults to the Gherkin step itself for some curious reason
-					Match: &jsonStepMatch{
-						Location: fmt.Sprintf("%s", pickle.Uri),
-					},
-				}
-
-				docString := step.GetDocString()
-				if docString != nil {
-					jsonStep.DocString = &jsonDocString{
-						Line:        docString.Location.Line,
-						ContentType: docString.ContentType,
-						Value:       docString.Content,
-					}
-				}
-
-				datatable := step.GetDataTable()
-				if datatable != nil {
-					jsonStep.Rows = make([]*jsonDatatableRow, len(datatable.GetRows()))
-					for rowIndex, row := range datatable.GetRows() {
-						cells := make([]string, len(row.Cells))
-						for cellIndex, cell := range row.Cells {
-							cells[cellIndex] = cell.Value
-						}
-
-						jsonStep.Rows[rowIndex] = &jsonDatatableRow{
-							Cells: cells,
-						}
-					}
-				}
-				if self.isBackgroundStep(step.Id) {
-					backgroundJsonSteps = append(backgroundJsonSteps, jsonStep)
-					background = self.lookup.LookupBackgroundByStepID(step.Id)
-				} else {
-					scenarioJsonSteps = append(scenarioJsonSteps, jsonStep)
-				}
-
-				self.jsonStepsByPickleStepId[pickleStep.Id] = jsonStep
-			}
-
-			if len(backgroundJsonSteps) > 0 {
-				jsonFeature.Elements = append(jsonFeature.Elements, &jsonFeatureElement{
-					Description: background.Description,
-					Keyword:     background.Keyword,
-					Line:        background.Location.Line,
-					Steps:       backgroundJsonSteps,
-					Type:        "background",
-				})
-			}
-
-			scenarioID := fmt.Sprintf("%s;%s", jsonFeature.ID, self.makeId(scenario.Name))
-
-			if len(pickle.SourceIds) > 1 {
-				exampleRow := self.lookup.LookupExampleRow(pickle.SourceIds[1])
-				example := self.lookup.LookupExample(pickle.SourceIds[1])
-				scenarioID = fmt.Sprintf(
-					"%s;%s;%s;%d",
-					jsonFeature.ID,
-					self.makeId(scenario.Name),
-					self.makeId(example.Name),
-					self.exampleRowIndexById[exampleRow.Id])
-
-				elementLine = exampleRow.Location.Line
-			}
-
-			scenarioTags := make([]*jsonTag, len(pickle.Tags))
-			for tagIndex, pickleTag := range pickle.Tags {
-				tag := self.lookup.LookupTag(pickleTag.SourceId)
-
-				scenarioTags[tagIndex] = &jsonTag{
-					Line: tag.Location.Line,
-					Name: tag.Name,
-				}
-			}
-
-			jsonFeature.Elements = append(jsonFeature.Elements, &jsonFeatureElement{
-				Description: scenario.Description,
-				ID:          scenarioID,
-				Keyword:     scenario.Keyword,
-				Line:        elementLine,
-				Name:        scenario.Name,
-				Steps:       scenarioJsonSteps,
-				Type:        "scenario",
-				Tags:        scenarioTags,
-			})
+		case *messages.Envelope_TestCaseStarted:
+			testCase := ProcessTestCaseStarted(m.TestCaseStarted, self.lookup)
+			self.testCaseById[testCase.TestCase.Id] = testCase
 
 		case *messages.Envelope_TestStepFinished:
-			ProcessTestStepFinished(m.TestStepFinished, self.lookup)
+			testStep := ProcessTestStepFinished(m.TestStepFinished, self.lookup)
+			self.testCaseById[testStep.TestCaseID].appendStep(testStep)
 
-			testStep := self.lookup.LookupTestStep(m.TestStepFinished.TestStepId)
-			pickleStep := self.lookup.LookupPickleStep(testStep.PickleStepId)
-			jsonStep := self.jsonStepsByPickleStepId[pickleStep.Id]
-
-			status := strings.ToLower(m.TestStepFinished.TestResult.Status.String())
-			jsonStep.Result = &jsonStepResult{
-				Status:       status,
-				ErrorMessage: m.TestStepFinished.TestResult.Message,
-			}
-			if m.TestStepFinished.TestResult.Duration != nil {
-				jsonStep.Result.Duration = self.durationToNanos(m.TestStepFinished.TestResult.Duration)
-			}
-
-			stepDefinitions := self.lookup.LookupStepDefinitionConfigs(testStep.StepDefinitionId)
-			if len(stepDefinitions) > 0 {
-				jsonStep.Match = &jsonStepMatch{
-					Location: fmt.Sprintf(
-						"%s:%d",
-						stepDefinitions[0].Location.Uri,
-						stepDefinitions[0].Location.Location.Line,
-					),
-				}
-			}
+		case *messages.Envelope_TestCaseFinished:
+			testCaseStarted := self.lookup.LookupTestCaseStarted(m.TestCaseFinished.TestCaseStartedId)
+			testCase := self.testCaseById[testCaseStarted.TestCaseId]
+			jsonFeature := self.findOrCreateJsonFeature(testCase.Pickle)
+			jsonFeature.Elements = append(jsonFeature.Elements, TestCaseToJSON(testCase)[0])
 		}
 	}
 

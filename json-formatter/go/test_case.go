@@ -55,6 +55,7 @@ func TestCaseToJSON(testCase *TestCase) []*jsonFeatureElement {
 	elements[0] = &jsonFeatureElement{
 		ID:          fmt.Sprintf("%s;%s", makeID(testCase.FeatureName), makeID(testCase.Scenario.Name)),
 		Keyword:     testCase.Scenario.Keyword,
+		Type:        "scenario",
 		Name:        testCase.Pickle.Name,
 		Description: testCase.Scenario.Description,
 		Line:        testCase.Scenario.Location.Line,
