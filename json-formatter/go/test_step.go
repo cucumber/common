@@ -8,6 +8,8 @@ import (
 
 type TestStep struct {
 	Hook            *messages.TestCaseHookDefinitionConfig
+	Pickle          *messages.Pickle
+	PickleStep      *messages.Pickle_PickleStep
 	Step            *messages.GherkinDocument_Feature_Step
 	StepDefinitions []*messages.StepDefinitionConfig
 	Result          *messages.TestResult
@@ -15,6 +17,7 @@ type TestStep struct {
 
 func ProcessTestStepFinished(testStepFinished *messages.TestStepFinished, lookup *MessageLookup) *TestStep {
 	testStep := lookup.LookupTestStep(testStepFinished.TestStepId)
+
 	if testStep == nil {
 		return nil
 	}
@@ -31,13 +34,19 @@ func ProcessTestStepFinished(testStepFinished *messages.TestStepFinished, lookup
 		}
 	}
 
+	testCaseStarted := lookup.LookupTestCaseStarted(testStepFinished.TestCaseStartedId)
+	testCase := lookup.LookupTestCase(testCaseStarted.TestCaseId)
+	pickle := lookup.LookupPickle(testCase.PickleId)
 	pickleStep := lookup.LookupPickleStep(testStep.PickleStepId)
+
 	if pickleStep == nil {
 		return nil
 	}
 
 	return &TestStep{
 		Step:            lookup.LookupStep(pickleStep.SourceIds[0]),
+		Pickle:          pickle,
+		PickleStep:      pickleStep,
 		Result:          testStepFinished.TestResult,
 		StepDefinitions: lookup.LookupStepDefinitionConfigs(testStep.StepDefinitionId),
 	}
@@ -49,7 +58,7 @@ func TestStepToJSON(step *TestStep) *jsonStep {
 	if step.Hook != nil {
 		return &jsonStep{
 			Match: &jsonStepMatch{
-				Location: fmt.Sprintf("%s:%d", step.Hook.Location.Uri, step.Hook.Location.Location.Line),
+				Location: makeLocation(step.Hook.Location.Uri, step.Hook.Location.Location.Line),
 			},
 			Result: &jsonStepResult{
 				Status:       status,
@@ -58,12 +67,27 @@ func TestStepToJSON(step *TestStep) *jsonStep {
 		}
 	}
 
+	location := makeLocation(step.Pickle.Uri, step.Step.Location.Line)
+	if len(step.StepDefinitions) == 1 {
+		location = makeLocation(
+			step.StepDefinitions[0].Location.Uri,
+			step.StepDefinitions[0].Location.Location.Line,
+		)
+	}
+
 	return &jsonStep{
 		Keyword: step.Step.Keyword,
-		Name:    step.Step.Text,
+		Name:    step.PickleStep.Text,
+		Match: &jsonStepMatch{
+			Location: location,
+		},
 		Result: &jsonStepResult{
 			Status:       status,
 			ErrorMessage: step.Result.Message,
 		},
 	}
+}
+
+func makeLocation(file string, line uint32) string {
+	return fmt.Sprintf("%s:%d", file, line)
 }

@@ -37,10 +37,14 @@ var _ = Describe("ProcessTestStepFinished", func() {
 
 			lookup.ProcessMessage(
 				makeTestCaseEnvelope(
-					makeTestCase([]*messages.TestCase_TestStep{
-						makeHookTestStep("hook-step-id", "hook-id"),
-						makeHookTestStep("wrong-hook-step-id", "unknown-hook-id"),
-					}),
+					makeTestCase(
+						"test-case-id",
+						"whatever-pickle-id",
+						[]*messages.TestCase_TestStep{
+							makeHookTestStep("hook-step-id", "hook-id"),
+							makeHookTestStep("wrong-hook-step-id", "unknown-hook-id"),
+						},
+					),
 				),
 			)
 		})
@@ -108,6 +112,7 @@ var _ = Describe("ProcessTestStepFinished", func() {
 
 			pickle := &messages.Pickle{
 				Id:        "pickle-id",
+				Uri:       "some_feature.feature",
 				SourceIds: []string{scenario.Id},
 				Steps: []*messages.Pickle_PickleStep{
 					pickleStep,
@@ -120,17 +125,31 @@ var _ = Describe("ProcessTestStepFinished", func() {
 
 			lookup.ProcessMessage(
 				makeTestCaseEnvelope(
-					makeTestCase([]*messages.TestCase_TestStep{
-						makeTestStep("test-step-id", "pickle-step-id", []string{"step-def-id"}),
-						makeTestStep("unknown-pickle", "unknown-pickle-step-id", []string{}),
-					}),
+					makeTestCase(
+						"test-case-id",
+						pickle.Id,
+						[]*messages.TestCase_TestStep{
+							makeTestStep("test-step-id", "pickle-step-id", []string{"step-def-id"}),
+							makeTestStep("unknown-pickle", "unknown-pickle-step-id", []string{}),
+						},
+					),
 				),
 			)
+
+			lookup.ProcessMessage(&messages.Envelope{
+				Message: &messages.Envelope_TestCaseStarted{
+					TestCaseStarted: &messages.TestCaseStarted{
+						Id:         "test-case-started-id",
+						TestCaseId: "test-case-id",
+					},
+				},
+			})
 		})
 
 		It("returns a TestStep including the FeatureStep", func() {
 			testStepFinished := &messages.TestStepFinished{
-				TestStepId: "test-step-id",
+				TestStepId:        "test-step-id",
+				TestCaseStartedId: "test-case-started-id",
 			}
 
 			testStep := ProcessTestStepFinished(testStepFinished, lookup)
@@ -139,7 +158,8 @@ var _ = Describe("ProcessTestStepFinished", func() {
 
 		It("returns a Step including the StepDefinitions", func() {
 			testStepFinished := &messages.TestStepFinished{
-				TestStepId: "test-step-id",
+				TestStepId:        "test-step-id",
+				TestCaseStartedId: "test-case-started-id",
 			}
 			testStep := ProcessTestStepFinished(testStepFinished, lookup)
 			Expect(len(testStep.StepDefinitions)).To(Equal(1))
@@ -148,7 +168,8 @@ var _ = Describe("ProcessTestStepFinished", func() {
 
 		It("Returns Nil if the pickle step is unknown", func() {
 			testStepFinished := &messages.TestStepFinished{
-				TestStepId: "unknown-pickle",
+				TestStepId:        "unknown-pickle",
+				TestCaseStartedId: "test-case-started-id",
 			}
 
 			testStep := ProcessTestStepFinished(testStepFinished, lookup)
@@ -194,11 +215,20 @@ var _ = Describe("TestStepToJSON", func() {
 	Context("When TestStep comes from a feature step", func() {
 		BeforeEach(func() {
 			step = &TestStep{
-				Step: makeGherkinStep(
-					"some-id",
-					"Given",
-					"a passed step",
-				),
+				Step: &messages.GherkinDocument_Feature_Step{
+					Id:      "some-id",
+					Keyword: "Given",
+					Text:    "a <status> step",
+					Location: &messages.Location{
+						Line: 5,
+					},
+				},
+				Pickle: &messages.Pickle{
+					Uri: "my_feature.feature",
+				},
+				PickleStep: &messages.Pickle_PickleStep{
+					Text: "a passed step",
+				},
 				Result: &messages.TestResult{
 					Status: messages.TestResult_FAILED,
 				},
@@ -210,12 +240,36 @@ var _ = Describe("TestStepToJSON", func() {
 			Expect(jsonStep.Keyword).To(Equal("Given"))
 		})
 
-		It("gets name from Step", func() {
+		It("gets name from PickleStep", func() {
 			Expect(jsonStep.Name).To(Equal("a passed step"))
 		})
 
 		It("Has a Result", func() {
 			Expect(jsonStep.Result.Status).To(Equal("failed"))
+		})
+
+		Context("When it does not have a StepDefinition", func() {
+			It("Has a match referencing the feature file", func() {
+				Expect(jsonStep.Match.Location).To(Equal("my_feature.feature:5"))
+			})
+		})
+
+		Context("When it has a StepDefinition", func() {
+			It("Has a match referencing the feature file", func() {
+				step.StepDefinitions = []*messages.StepDefinitionConfig{
+					&messages.StepDefinitionConfig{
+						Location: &messages.SourceReference{
+							Uri: "support_code.go",
+							Location: &messages.Location{
+								Line: 12,
+							},
+						},
+					},
+				}
+
+				jsonStep = TestStepToJSON(step)
+				Expect(jsonStep.Match.Location).To(Equal("support_code.go:12"))
+			})
 		})
 	})
 })
@@ -252,8 +306,10 @@ func makeHookTestStep(id string, hookId string) *messages.TestCase_TestStep {
 	}
 }
 
-func makeTestCase(testSteps []*messages.TestCase_TestStep) *messages.TestCase {
+func makeTestCase(id string, pickleId string, testSteps []*messages.TestCase_TestStep) *messages.TestCase {
 	return &messages.TestCase{
+		Id:        id,
+		PickleId:  pickleId,
 		TestSteps: testSteps,
 	}
 }

@@ -131,6 +131,16 @@ func (self *MessageLookup) LookupScenario(id string) *messages.GherkinDocument_F
 	return item
 }
 
+func (self *MessageLookup) LookupPickle(id string) *messages.Pickle {
+	item, ok := self.pickleByID[id]
+	if ok {
+		self.informFoundKey(id, "pickleByID")
+	} else {
+		self.informMissingKey(id, "pickleByID")
+	}
+	return item
+}
+
 func (self *MessageLookup) LookupStep(id string) *messages.GherkinDocument_Feature_Step {
 	item, ok := self.stepByID[id]
 	if ok {
