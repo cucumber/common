@@ -170,6 +170,8 @@ func (self *Formatter) ProcessMessages(reader gio.ReadCloser, stdout io.Writer) 
 			})
 
 		case *messages.Envelope_TestStepFinished:
+			ProcessTestStepFinished(m.TestStepFinished, self.lookup)
+
 			testStep := self.lookup.LookupTestStep(m.TestStepFinished.TestStepId)
 			pickleStep := self.lookup.LookupPickleStep(testStep.PickleStepId)
 			jsonStep := self.jsonStepsByPickleStepId[pickleStep.Id]
