@@ -157,12 +157,15 @@ var _ = Describe("ProcessTestStepFinished", func() {
 		)
 		BeforeEach(func() {
 			// This is a bit dirty hack to avoid creating all the AST
+			backgroundStep := makeGherkinStep("background-step-id", "Given", "a passed step")
 			step := makeGherkinStep("step-id", "Given", "a passed step")
 			scenario := makeScenario("scenario-id", []*messages.GherkinDocument_Feature_Step{
 				step,
 			})
+			lookup.stepByID[backgroundStep.Id] = backgroundStep
 			lookup.stepByID[step.Id] = step
 			lookup.scenarioByID[scenario.Id] = scenario
+			lookup.backgroundByStepID[backgroundStep.Id] = &messages.GherkinDocument_Feature_Background{}
 
 			stepDefinitionConfig := &messages.StepDefinitionConfig{
 				Id: "step-def-id",
@@ -171,6 +174,12 @@ var _ = Describe("ProcessTestStepFinished", func() {
 				},
 			}
 			lookup.ProcessMessage(makeStepDefinitionConfigEnvelope(stepDefinitionConfig))
+
+			backgroundPickleStep := &messages.Pickle_PickleStep{
+				Id:        "background-pickle-step-id",
+				SourceIds: []string{step.Id},
+				Text:      "a passed step",
+			}
 
 			pickleStep := &messages.Pickle_PickleStep{
 				Id:        "pickle-step-id",
@@ -183,6 +192,7 @@ var _ = Describe("ProcessTestStepFinished", func() {
 				Uri:       "some_feature.feature",
 				SourceIds: []string{scenario.Id},
 				Steps: []*messages.Pickle_PickleStep{
+					backgroundPickleStep,
 					pickleStep,
 				},
 			}
@@ -192,7 +202,8 @@ var _ = Describe("ProcessTestStepFinished", func() {
 				"test-case-id",
 				pickle.Id,
 				[]*messages.TestCase_TestStep{
-					makeTestStep("test-step-id", "pickle-step-id", []string{"step-def-id"}),
+					makeTestStep("background-step-id", backgroundPickleStep.Id, []string{"step-def-id"}),
+					makeTestStep("test-step-id", pickleStep.Id, []string{"step-def-id"}),
 					makeTestStep("unknown-pickle", "unknown-pickle-step-id", []string{}),
 				},
 			)
@@ -200,7 +211,7 @@ var _ = Describe("ProcessTestStepFinished", func() {
 
 			testCaseStarted = &messages.TestCaseStarted{
 				Id:         "test-case-started-id",
-				TestCaseId: "test-case-id",
+				TestCaseId: testCase.Id,
 			}
 			lookup.ProcessMessage(makeTestCaseStartedEnvelope(testCaseStarted))
 		})
@@ -223,6 +234,26 @@ var _ = Describe("ProcessTestStepFinished", func() {
 			testStep := ProcessTestStepFinished(testStepFinished, lookup)
 			Expect(len(testStep.StepDefinitions)).To(Equal(1))
 			Expect(testStep.StepDefinitions[0].Pattern.Source).To(Equal("a passed {word}"))
+		})
+
+		It("the Step is not marked as a Background step by default", func() {
+			testStepFinished := &messages.TestStepFinished{
+				TestStepId:        "test-step-id",
+				TestCaseStartedId: testCaseStarted.Id,
+			}
+			testStep := ProcessTestStepFinished(testStepFinished, lookup)
+			Expect(testStep.IsBackgroundStep).To(BeFalse())
+		})
+
+		Context("when the Step is defined in a background", func() {
+			It("sets Step.IsBackground to true", func() {
+				testStepFinished := &messages.TestStepFinished{
+					TestStepId:        "background-step-id",
+					TestCaseStartedId: testCaseStarted.Id,
+				}
+				testStep := ProcessTestStepFinished(testStepFinished, lookup)
+				Expect(testStep.IsBackgroundStep).To(BeTrue())
+			})
 		})
 
 		Context("with referencing issues", func() {

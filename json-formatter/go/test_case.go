@@ -15,6 +15,13 @@ type TestCase struct {
 	Tags        []*messages.GherkinDocument_Feature_Tag
 }
 
+type SortedSteps struct {
+	BeforeHook []*TestStep
+	Background []*TestStep
+	Steps      []*TestStep
+	AfterHook  []*TestStep
+}
+
 func ProcessTestCaseStarted(testCaseStarted *messages.TestCaseStarted, lookup *MessageLookup) *TestCase {
 	testCase := lookup.LookupTestCase(testCaseStarted.TestCaseId)
 	if testCase == nil {
@@ -84,6 +91,27 @@ func TestCaseToJSON(testCase *TestCase) []*jsonFeatureElement {
 
 func (self *TestCase) appendStep(step *TestStep) {
 	self.Steps = append(self.Steps, step)
+}
+
+func (self *TestCase) SortedSteps() *SortedSteps {
+	sorted := &SortedSteps{}
+	current := &sorted.BeforeHook
+
+	for _, step := range self.Steps {
+		if current == &sorted.BeforeHook && step.Hook == nil {
+			current = &sorted.Background
+		}
+		if current == &sorted.Background && !step.IsBackgroundStep {
+			current = &sorted.Steps
+		}
+		if current == &sorted.Steps && step.Hook != nil {
+			current = &sorted.AfterHook
+		}
+
+		*current = append(*current, step)
+	}
+
+	return sorted
 }
 
 func makeID(s string) string {

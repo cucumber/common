@@ -42,6 +42,147 @@ var _ = Describe("TestCase.appendStep", func() {
 	})
 })
 
+var _ = Describe("TestCase.SortedSteps", func() {
+	var (
+		firstBeforeHookStep  *TestStep
+		secondBeforeHookStep *TestStep
+		firstBackgroundStep  *TestStep
+		secondBackgroundStep *TestStep
+		firstPickleStep      *TestStep
+		secondPickleStep     *TestStep
+		firstAfterHookStep   *TestStep
+		secondAfterHookStep  *TestStep
+	)
+	BeforeEach(func() {
+		firstBeforeHookStep = &TestStep{
+			Hook: &messages.TestCaseHookDefinitionConfig{
+				Id: "hook-1",
+			},
+		}
+		secondBeforeHookStep = &TestStep{
+			Hook: &messages.TestCaseHookDefinitionConfig{
+				Id: "hook-2",
+			},
+		}
+
+		firstBackgroundStep = &TestStep{
+			IsBackgroundStep: true,
+			PickleStep: &messages.Pickle_PickleStep{
+				Id: "step-1",
+			},
+		}
+
+		secondBackgroundStep = &TestStep{
+			IsBackgroundStep: true,
+			PickleStep: &messages.Pickle_PickleStep{
+				Id: "step-2",
+			},
+		}
+
+		firstPickleStep = &TestStep{
+			PickleStep: &messages.Pickle_PickleStep{
+				Id: "step-3",
+			},
+		}
+
+		secondPickleStep = &TestStep{
+			PickleStep: &messages.Pickle_PickleStep{
+				Id: "step-4",
+			},
+		}
+
+		firstAfterHookStep = &TestStep{
+			Hook: &messages.TestCaseHookDefinitionConfig{
+				Id: "hook-3",
+			},
+		}
+		secondAfterHookStep = &TestStep{
+			Hook: &messages.TestCaseHookDefinitionConfig{
+				Id: "hook-4",
+			},
+		}
+	})
+
+	It("returns a SortedSteps", func() {
+		testCase := &TestCase{}
+		sorted := testCase.SortedSteps()
+
+		Expect(len(sorted.BeforeHook)).To(Equal(0))
+		Expect(len(sorted.Background)).To(Equal(0))
+		Expect(len(sorted.Steps)).To(Equal(0))
+		Expect(len(sorted.AfterHook)).To(Equal(0))
+	})
+
+	It("adds the steps coming from the Scenario in SortedSteps.Steps", func() {
+		testCase := &TestCase{
+			Steps: []*TestStep{firstPickleStep},
+		}
+		sorted := testCase.SortedSteps()
+
+		Expect(sorted.Steps[0]).To(Equal(firstPickleStep))
+	})
+
+	It("adds the background steps in SortedSteps.Background", func() {
+		testCase := &TestCase{
+			Steps: []*TestStep{firstBackgroundStep},
+		}
+		sorted := testCase.SortedSteps()
+
+		Expect(sorted.Background[0]).To(Equal(firstBackgroundStep))
+	})
+
+	It("adds any Hook step before a PickleStep in SortedSteps.BeforeHook", func() {
+		testCase := &TestCase{
+			Steps: []*TestStep{
+				firstBeforeHookStep,
+				firstPickleStep,
+			},
+		}
+		sorted := testCase.SortedSteps()
+
+		Expect(sorted.BeforeHook[0]).To(Equal(firstBeforeHookStep))
+		Expect(sorted.Steps[0]).To(Equal(firstPickleStep))
+	})
+
+	It("adds any Hook step after a PickleStep in SortedSteps.AfterHook", func() {
+		testCase := &TestCase{
+			Steps: []*TestStep{
+				firstPickleStep,
+				firstAfterHookStep,
+			},
+		}
+		sorted := testCase.SortedSteps()
+
+		Expect(sorted.Steps[0]).To(Equal(firstPickleStep))
+		Expect(sorted.AfterHook[0]).To(Equal(firstAfterHookStep))
+	})
+
+	It("keeps correct order of the steps", func() {
+		testCase := &TestCase{
+			Steps: []*TestStep{
+				firstBeforeHookStep,
+				secondBeforeHookStep,
+				firstBackgroundStep,
+				secondBackgroundStep,
+				firstPickleStep,
+				secondPickleStep,
+				firstAfterHookStep,
+				secondAfterHookStep,
+			},
+		}
+		sorted := testCase.SortedSteps()
+
+		Expect(sorted.BeforeHook[0]).To(Equal(firstBeforeHookStep))
+		Expect(sorted.BeforeHook[1]).To(Equal(secondBeforeHookStep))
+		Expect(sorted.Background[0]).To(Equal(firstBackgroundStep))
+		Expect(sorted.Background[1]).To(Equal(secondBackgroundStep))
+		Expect(sorted.Steps[0]).To(Equal(firstPickleStep))
+		Expect(sorted.Steps[1]).To(Equal(secondPickleStep))
+		Expect(sorted.AfterHook[0]).To(Equal(firstAfterHookStep))
+		Expect(sorted.AfterHook[1]).To(Equal(secondAfterHookStep))
+	})
+})
+
 var _ = Describe("ProcessTestCaseStarted", func() {
 	var (
 		lookup   *MessageLookup
