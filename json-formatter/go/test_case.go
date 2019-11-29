@@ -62,21 +62,25 @@ func ProcessTestCaseStarted(testCaseStarted *messages.TestCaseStarted, lookup *M
 }
 
 func TestCaseToJSON(testCase *TestCase) []*jsonFeatureElement {
+	sortedSteps := testCase.SortedSteps()
+	jsonScenarioSteps := scenarioStepsToJSON(testCase, sortedSteps.Steps)
+
+	if len(sortedSteps.Background) > 0 {
+		elements := make([]*jsonFeatureElement, 2)
+		elements[1] = jsonScenarioSteps
+		return elements
+	}
+
 	elements := make([]*jsonFeatureElement, 1)
-	jsonSteps := make([]*jsonStep, len(testCase.Steps))
-	for index, step := range testCase.Steps {
-		jsonSteps[index] = TestStepToJSON(step)
-	}
+	elements[0] = jsonScenarioSteps
+	return elements
+}
 
-	jsonTags := make([]*jsonTag, len(testCase.Tags))
-	for index, tag := range testCase.Tags {
-		jsonTags[index] = &jsonTag{
-			Name: tag.Name,
-			Line: tag.Location.Line,
-		}
-	}
+func scenarioStepsToJSON(testCase *TestCase, steps []*TestStep) *jsonFeatureElement {
+	jsonSteps := makeJSONSteps(steps)
+	jsonTags := makeJSONTags(testCase.Tags)
 
-	elements[0] = &jsonFeatureElement{
+	return &jsonFeatureElement{
 		ID:          fmt.Sprintf("%s;%s", makeID(testCase.FeatureName), makeID(testCase.Scenario.Name)),
 		Keyword:     testCase.Scenario.Keyword,
 		Type:        "scenario",
@@ -86,7 +90,25 @@ func TestCaseToJSON(testCase *TestCase) []*jsonFeatureElement {
 		Steps:       jsonSteps,
 		Tags:        jsonTags,
 	}
-	return elements
+}
+
+func makeJSONSteps(steps []*TestStep) []*jsonStep {
+	jsonSteps := make([]*jsonStep, len(steps))
+	for index, step := range steps {
+		jsonSteps[index] = TestStepToJSON(step)
+	}
+	return jsonSteps
+}
+
+func makeJSONTags(tags []*messages.GherkinDocument_Feature_Tag) []*jsonTag {
+	jsonTags := make([]*jsonTag, len(tags))
+	for index, tag := range tags {
+		jsonTags[index] = &jsonTag{
+			Name: tag.Name,
+			Line: tag.Location.Line,
+		}
+	}
+	return jsonTags
 }
 
 func (self *TestCase) appendStep(step *TestStep) {

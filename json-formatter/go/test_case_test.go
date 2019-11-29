@@ -385,12 +385,13 @@ var _ = Describe("ProcessTestCaseStarted", func() {
 
 var _ = Describe("TestCaseToJSON", func() {
 	var (
+		pickle       *messages.Pickle
 		testCase     *TestCase
 		jsonTestCase []*jsonFeatureElement
 	)
 
 	BeforeEach(func() {
-		pickle := &messages.Pickle{
+		pickle = &messages.Pickle{
 			Uri:  "some_examples.feature",
 			Name: "A scenario (2)",
 		}
@@ -470,5 +471,36 @@ var _ = Describe("TestCaseToJSON", func() {
 		Expect(len(jsonTestCase[0].Tags)).To(Equal(1))
 		Expect(jsonTestCase[0].Tags[0].Line).To(Equal(uint32(3)))
 		Expect(jsonTestCase[0].Tags[0].Name).To(Equal("@foo"))
+	})
+
+	Context("when there is a Background", func() {
+		BeforeEach(func() {
+			testCase.Steps = []*TestStep{
+				&TestStep{
+					Step: &messages.GherkinDocument_Feature_Step{
+						Id:      "background-step-id",
+						Keyword: "Given",
+						Text:    "a passed step",
+						Location: &messages.Location{
+							Line: 3,
+						},
+					},
+					Pickle: pickle,
+					PickleStep: &messages.Pickle_PickleStep{
+						Text: "a passed step",
+					},
+					Result: &messages.TestResult{
+						Status: messages.TestResult_PASSED,
+					},
+					IsBackgroundStep: true,
+				},
+				testCase.Steps[0],
+			}
+			jsonTestCase = TestCaseToJSON(testCase)
+		})
+
+		It("returns two jsonFeatureElements", func() {
+			Expect(len(jsonTestCase)).To(Equal(2))
+		})
 	})
 })
