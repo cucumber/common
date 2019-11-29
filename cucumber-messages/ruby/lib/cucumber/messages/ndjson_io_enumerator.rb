@@ -6,7 +6,8 @@ module Cucumber
       def self.call(io)
         Enumerator.new do |yielder|
           io.each_line do |json|
-            yielder.yield(Cucumber::Messages::Envelope.decode_json(json))
+            args = JSON.parse(json)
+            yielder.yield(Cucumber::Messages::Envelope.new(args))
           end
         end
       end

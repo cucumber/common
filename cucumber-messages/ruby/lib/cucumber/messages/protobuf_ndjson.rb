@@ -4,7 +4,7 @@ module Cucumber
   module Messages
     module WriteNdjson
       def write_ndjson_to(io)
-        json = self.class.encode_json(self)
+        json = self.to_json
         ob = JSON.parse(json)
         remove_empties(ob)
         io.puts(JSON.generate(ob))
