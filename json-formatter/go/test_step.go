@@ -7,14 +7,14 @@ import (
 )
 
 type TestStep struct {
-	TestCaseID       string
-	Hook             *messages.TestCaseHookDefinitionConfig
-	Pickle           *messages.Pickle
-	PickleStep       *messages.Pickle_PickleStep
-	Step             *messages.GherkinDocument_Feature_Step
-	StepDefinitions  []*messages.StepDefinitionConfig
-	Result           *messages.TestResult
-	IsBackgroundStep bool
+	TestCaseID      string
+	Hook            *messages.TestCaseHookDefinitionConfig
+	Pickle          *messages.Pickle
+	PickleStep      *messages.Pickle_PickleStep
+	Step            *messages.GherkinDocument_Feature_Step
+	StepDefinitions []*messages.StepDefinitionConfig
+	Result          *messages.TestResult
+	Background      *messages.GherkinDocument_Feature_Background
 }
 
 func ProcessTestStepFinished(testStepFinished *messages.TestStepFinished, lookup *MessageLookup) *TestStep {
@@ -56,14 +56,20 @@ func ProcessTestStepFinished(testStepFinished *messages.TestStepFinished, lookup
 		return nil
 	}
 
+	var background *messages.GherkinDocument_Feature_Background
+	scenarioStep := lookup.LookupStep(pickleStep.SourceIds[0])
+	if scenarioStep != nil {
+		background = lookup.LookupBackgroundByStepID(scenarioStep.Id)
+	}
+
 	return &TestStep{
-		TestCaseID:       testCase.Id,
-		Step:             lookup.LookupStep(pickleStep.SourceIds[0]),
-		Pickle:           pickle,
-		PickleStep:       pickleStep,
-		Result:           testStepFinished.TestResult,
-		StepDefinitions:  lookup.LookupStepDefinitionConfigs(testStep.StepDefinitionId),
-		IsBackgroundStep: lookup.LookupBackgroundByStepID(testStep.Id) != nil,
+		TestCaseID:      testCase.Id,
+		Step:            lookup.LookupStep(pickleStep.SourceIds[0]),
+		Pickle:          pickle,
+		PickleStep:      pickleStep,
+		Result:          testStepFinished.TestResult,
+		StepDefinitions: lookup.LookupStepDefinitionConfigs(testStep.StepDefinitionId),
+		Background:      background,
 	}
 }
 

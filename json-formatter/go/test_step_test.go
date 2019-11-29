@@ -154,10 +154,14 @@ var _ = Describe("ProcessTestStepFinished", func() {
 	Context("When step references a PickleStep", func() {
 		var (
 			testCaseStarted *messages.TestCaseStarted
+			background      *messages.GherkinDocument_Feature_Background
 		)
 		BeforeEach(func() {
 			// This is a bit dirty hack to avoid creating all the AST
-			backgroundStep := makeGherkinStep("background-step-id", "Given", "a passed step")
+			background = &messages.GherkinDocument_Feature_Background{
+				Keyword: "Background",
+			}
+			backgroundStep := makeGherkinStep("background-step", "Given", "a passed step")
 			step := makeGherkinStep("step-id", "Given", "a passed step")
 			scenario := makeScenario("scenario-id", []*messages.GherkinDocument_Feature_Step{
 				step,
@@ -165,7 +169,7 @@ var _ = Describe("ProcessTestStepFinished", func() {
 			lookup.stepByID[backgroundStep.Id] = backgroundStep
 			lookup.stepByID[step.Id] = step
 			lookup.scenarioByID[scenario.Id] = scenario
-			lookup.backgroundByStepID[backgroundStep.Id] = &messages.GherkinDocument_Feature_Background{}
+			lookup.backgroundByStepID[backgroundStep.Id] = background
 
 			stepDefinitionConfig := &messages.StepDefinitionConfig{
 				Id: "step-def-id",
@@ -177,7 +181,7 @@ var _ = Describe("ProcessTestStepFinished", func() {
 
 			backgroundPickleStep := &messages.Pickle_PickleStep{
 				Id:        "background-pickle-step-id",
-				SourceIds: []string{step.Id},
+				SourceIds: []string{backgroundStep.Id},
 				Text:      "a passed step",
 			}
 
@@ -242,17 +246,17 @@ var _ = Describe("ProcessTestStepFinished", func() {
 				TestCaseStartedId: testCaseStarted.Id,
 			}
 			testStep := ProcessTestStepFinished(testStepFinished, lookup)
-			Expect(testStep.IsBackgroundStep).To(BeFalse())
+			Expect(testStep.Background).To(BeNil())
 		})
 
 		Context("when the Step is defined in a background", func() {
-			It("sets Step.IsBackground to true", func() {
+			It("sets Step.IsBackground to the Background message", func() {
 				testStepFinished := &messages.TestStepFinished{
 					TestStepId:        "background-step-id",
 					TestCaseStartedId: testCaseStarted.Id,
 				}
 				testStep := ProcessTestStepFinished(testStepFinished, lookup)
-				Expect(testStep.IsBackgroundStep).To(BeTrue())
+				Expect(testStep.Background).To(Equal(background))
 			})
 		})
 

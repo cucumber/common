@@ -65,15 +65,16 @@ var _ = Describe("TestCase.SortedSteps", func() {
 			},
 		}
 
+		background := &messages.GherkinDocument_Feature_Background{}
 		firstBackgroundStep = &TestStep{
-			IsBackgroundStep: true,
+			Background: background,
 			PickleStep: &messages.Pickle_PickleStep{
 				Id: "step-1",
 			},
 		}
 
 		secondBackgroundStep = &TestStep{
-			IsBackgroundStep: true,
+			Background: background,
 			PickleStep: &messages.Pickle_PickleStep{
 				Id: "step-2",
 			},
@@ -492,7 +493,7 @@ var _ = Describe("TestCaseToJSON", func() {
 					Result: &messages.TestResult{
 						Status: messages.TestResult_PASSED,
 					},
-					IsBackgroundStep: true,
+					Background: &messages.GherkinDocument_Feature_Background{},
 				},
 				testCase.Steps[0],
 			}

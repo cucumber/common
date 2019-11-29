@@ -82,7 +82,9 @@ func (self *Formatter) ProcessMessages(reader gio.ReadCloser, stdout io.Writer) 
 
 			if ok {
 				jsonFeature := self.findOrCreateJsonFeature(testCase.Pickle)
-				jsonFeature.Elements = append(jsonFeature.Elements, TestCaseToJSON(testCase)[0])
+				for _, jsonElement := range TestCaseToJSON(testCase) {
+					jsonFeature.Elements = append(jsonFeature.Elements, jsonElement)
+				}
 			}
 		}
 	}

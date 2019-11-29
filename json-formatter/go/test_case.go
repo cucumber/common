@@ -62,24 +62,26 @@ func ProcessTestCaseStarted(testCaseStarted *messages.TestCaseStarted, lookup *M
 }
 
 func TestCaseToJSON(testCase *TestCase) []*jsonFeatureElement {
+	elements := make([]*jsonFeatureElement, 0)
 	sortedSteps := testCase.SortedSteps()
-	jsonScenarioSteps := scenarioStepsToJSON(testCase, sortedSteps.Steps)
 
 	if len(sortedSteps.Background) > 0 {
-		elements := make([]*jsonFeatureElement, 2)
-		elements[1] = jsonScenarioSteps
-		return elements
+		elements = append(elements, backgroundStepsToJSON(sortedSteps.Background))
 	}
 
-	elements := make([]*jsonFeatureElement, 1)
-	elements[0] = jsonScenarioSteps
+	elements = append(elements, scenarioStepsToJSON(testCase, sortedSteps.Steps))
 	return elements
 }
 
-func scenarioStepsToJSON(testCase *TestCase, steps []*TestStep) *jsonFeatureElement {
-	jsonSteps := makeJSONSteps(steps)
-	jsonTags := makeJSONTags(testCase.Tags)
+func backgroundStepsToJSON(steps []*TestStep) *jsonFeatureElement {
+	return &jsonFeatureElement{
+		Keyword: "Background",
+		Type:    "background",
+		Steps:   makeJSONSteps(steps),
+	}
+}
 
+func scenarioStepsToJSON(testCase *TestCase, steps []*TestStep) *jsonFeatureElement {
 	return &jsonFeatureElement{
 		ID:          fmt.Sprintf("%s;%s", makeID(testCase.FeatureName), makeID(testCase.Scenario.Name)),
 		Keyword:     testCase.Scenario.Keyword,
@@ -87,8 +89,8 @@ func scenarioStepsToJSON(testCase *TestCase, steps []*TestStep) *jsonFeatureElem
 		Name:        testCase.Pickle.Name,
 		Description: testCase.Scenario.Description,
 		Line:        testCase.Scenario.Location.Line,
-		Steps:       jsonSteps,
-		Tags:        jsonTags,
+		Steps:       makeJSONSteps(steps),
+		Tags:        makeJSONTags(testCase.Tags),
 	}
 }
 
@@ -123,7 +125,7 @@ func (self *TestCase) SortedSteps() *SortedSteps {
 		if current == &sorted.BeforeHook && step.Hook == nil {
 			current = &sorted.Background
 		}
-		if current == &sorted.Background && !step.IsBackgroundStep {
+		if current == &sorted.Background && step.Background == nil {
 			current = &sorted.Steps
 		}
 		if current == &sorted.Steps && step.Hook != nil {
