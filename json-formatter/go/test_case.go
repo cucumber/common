@@ -12,6 +12,7 @@ type TestCase struct {
 	Pickle      *messages.Pickle
 	TestCase    *messages.TestCase
 	Steps       []*TestStep
+	Tags        []*messages.GherkinDocument_Feature_Tag
 }
 
 func ProcessTestCaseStarted(testCaseStarted *messages.TestCaseStarted, lookup *MessageLookup) *TestCase {
@@ -46,10 +47,17 @@ func ProcessTestCaseStarted(testCaseStarted *messages.TestCaseStarted, lookup *M
 
 func TestCaseToJSON(testCase *TestCase) []*jsonFeatureElement {
 	elements := make([]*jsonFeatureElement, 1)
-	renderedSteps := make([]*jsonStep, len(testCase.Steps))
-
+	jsonSteps := make([]*jsonStep, len(testCase.Steps))
 	for index, step := range testCase.Steps {
-		renderedSteps[index] = TestStepToJSON(step)
+		jsonSteps[index] = TestStepToJSON(step)
+	}
+
+	jsonTags := make([]*jsonTag, len(testCase.Tags))
+	for index, tag := range testCase.Tags {
+		jsonTags[index] = &jsonTag{
+			Name: tag.Name,
+			Line: tag.Location.Line,
+		}
 	}
 
 	elements[0] = &jsonFeatureElement{
@@ -59,7 +67,8 @@ func TestCaseToJSON(testCase *TestCase) []*jsonFeatureElement {
 		Name:        testCase.Pickle.Name,
 		Description: testCase.Scenario.Description,
 		Line:        testCase.Scenario.Location.Line,
-		Steps:       renderedSteps,
+		Steps:       jsonSteps,
+		Tags:        jsonTags,
 	}
 	return elements
 }

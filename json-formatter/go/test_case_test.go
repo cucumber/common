@@ -224,6 +224,14 @@ var _ = Describe("TestCaseToJSON", func() {
 				"pickle-id",
 				[]*messages.TestCase_TestStep{},
 			),
+			Tags: []*messages.GherkinDocument_Feature_Tag{
+				&messages.GherkinDocument_Feature_Tag{
+					Location: &messages.Location{
+						Line: 3,
+					},
+					Name: "@foo",
+				},
+			},
 		}
 
 		testCase.appendStep(&TestStep{
@@ -273,7 +281,7 @@ var _ = Describe("TestCaseToJSON", func() {
 
 	It("has the Tags", func() {
 		Expect(len(jsonTestCase[0].Tags)).To(Equal(1))
-		Expect(jsonTestCase[0].Tags[0].Line).To(Equal(1))
+		Expect(jsonTestCase[0].Tags[0].Line).To(Equal(uint32(3)))
 		Expect(jsonTestCase[0].Tags[0].Name).To(Equal("@foo"))
 	})
 })
