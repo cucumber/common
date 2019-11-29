@@ -400,7 +400,7 @@ var _ = Describe("TestCaseToJSON", func() {
 		testCase = &TestCase{
 			FeatureName: "My feature",
 			Scenario: &messages.GherkinDocument_Feature_Scenario{
-				Keyword:     "Zenario",
+				Keyword:     "Eksempel",
 				Name:        "A scenario (<exampleId>)",
 				Description: "This is a scenario",
 				Location: &messages.Location{
@@ -448,7 +448,7 @@ var _ = Describe("TestCaseToJSON", func() {
 	})
 
 	It("has the Scenario keyword", func() {
-		Expect(jsonTestCase[0].Keyword).To(Equal("Zenario"))
+		Expect(jsonTestCase[0].Keyword).To(Equal("Eksempel"))
 	})
 
 	It("has the Pickle name", func() {
@@ -493,7 +493,12 @@ var _ = Describe("TestCaseToJSON", func() {
 					Result: &messages.TestResult{
 						Status: messages.TestResult_PASSED,
 					},
-					Background: &messages.GherkinDocument_Feature_Background{},
+					Background: &messages.GherkinDocument_Feature_Background{
+						Keyword: "Kontext",
+						Location: &messages.Location{
+							Line: 3,
+						},
+					},
 				},
 				testCase.Steps[0],
 			}
@@ -502,6 +507,14 @@ var _ = Describe("TestCaseToJSON", func() {
 
 		It("returns two jsonFeatureElements", func() {
 			Expect(len(jsonTestCase)).To(Equal(2))
+		})
+
+		It("has the Background keyword", func() {
+			Expect(jsonTestCase[0].Keyword).To(Equal("Kontext"))
+		})
+
+		It("has the background line", func() {
+			Expect(jsonTestCase[0].Line).To(Equal(uint32(3)))
 		})
 	})
 })

@@ -74,8 +74,11 @@ func TestCaseToJSON(testCase *TestCase) []*jsonFeatureElement {
 }
 
 func backgroundStepsToJSON(steps []*TestStep) *jsonFeatureElement {
+	background := steps[0].Background
+
 	return &jsonFeatureElement{
-		Keyword: "Background",
+		Keyword: background.Keyword,
+		Line:    background.Location.Line,
 		Type:    "background",
 		Steps:   makeJSONSteps(steps),
 	}
