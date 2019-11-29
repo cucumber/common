@@ -19,8 +19,7 @@ Gem::Specification.new do |s|
                     'source_code_uri'   => 'https://github.com/cucumber/cucumber/blob/master/cucumber-messages/ruby',
                   }
 
-  # Users of JRuby should use google-protobuf 3.2.0.2 (later versions don't work)
-  s.add_dependency('google-protobuf', ['>= 3.2', '<= 3.8'])
+  s.add_dependency 'protobuf', '~> 3.10'
   s.add_dependency 'json', '~> 2.2', '>= 2.2.0'
   s.add_development_dependency 'rake', '~> 13.0', '>= 13.0.1'
   s.add_development_dependency 'rspec', '~> 3.9', '>= 3.9.0'
