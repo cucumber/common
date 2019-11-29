@@ -61,14 +61,25 @@ var _ = Describe("ProcessTestCaseStarted", func() {
 				Name: "My feature",
 			},
 		}
-		lookup.gherkinDocumentByURI[document.Uri] = document
 		scenario = makeScenario("scenario-id", []*messages.GherkinDocument_Feature_Step{})
+		tag := &messages.GherkinDocument_Feature_Tag{
+			Id:   "tag-id",
+			Name: "@scenario-tag",
+		}
+
+		lookup.gherkinDocumentByURI[document.Uri] = document
 		lookup.scenarioByID[scenario.Id] = scenario
+		lookup.tagByID[tag.Id] = tag
 
 		pickle := &messages.Pickle{
 			Id:        "pickle-id",
 			Uri:       document.Uri,
 			SourceIds: []string{scenario.Id},
+			Tags: []*messages.Pickle_PickleTag{
+				&messages.Pickle_PickleTag{
+					SourceId: tag.Id,
+				},
+			},
 		}
 		lookup.ProcessMessage(makePickleEnvelope(pickle))
 
@@ -100,12 +111,18 @@ var _ = Describe("ProcessTestCaseStarted", func() {
 		Expect(testCase.Scenario.Id).To(Equal("scenario-id"))
 	})
 
+	It("has the tags", func() {
+		Expect(testCase.Tags[0].Id).To(Equal("tag-id"))
+		Expect(testCase.Tags[0].Name).To(Equal("@scenario-tag"))
+	})
+
 	Context("with referencing issues", func() {
 		var (
 			testCaseReferencingUnknownPickle            *messages.TestCase
 			testCaseForPickleWithoutSource              *messages.TestCase
 			testCaseForPickleWithWrongScenarioReference *messages.TestCase
 			testCaseForPickleWithWrongDocumentURI       *messages.TestCase
+			testCaseForPickleWithUnknownTag             *messages.TestCase
 		)
 
 		BeforeEach(func() {
@@ -152,6 +169,27 @@ var _ = Describe("ProcessTestCaseStarted", func() {
 			)
 			lookup.ProcessMessage(makePickleEnvelope(pickleWithWrongDocumentURI))
 			lookup.ProcessMessage(makeTestCaseEnvelope(testCaseForPickleWithWrongDocumentURI))
+
+			pickleWithUnknownTag := &messages.Pickle{
+				Id:        "wrong-tag-id-pickle",
+				Uri:       document.Uri,
+				SourceIds: []string{scenario.Id},
+				Tags: []*messages.Pickle_PickleTag{
+					&messages.Pickle_PickleTag{
+						SourceId: "tag-id",
+					},
+					&messages.Pickle_PickleTag{
+						SourceId: "wrong-tag-id",
+					},
+				},
+			}
+			testCaseForPickleWithUnknownTag = makeTestCase(
+				"wrong-tag-id",
+				pickleWithUnknownTag.Id,
+				[]*messages.TestCase_TestStep{},
+			)
+			lookup.ProcessMessage(makePickleEnvelope(pickleWithUnknownTag))
+			lookup.ProcessMessage(makeTestCaseEnvelope(testCaseForPickleWithUnknownTag))
 		})
 
 		It("returns nil if the TestCase has not been defined", func() {
@@ -189,6 +227,14 @@ var _ = Describe("ProcessTestCaseStarted", func() {
 		It("returns nil if the Pickle does not reference an existing Gherkin document", func() {
 			testCase := ProcessTestCaseStarted(&messages.TestCaseStarted{
 				TestCaseId: testCaseForPickleWithWrongDocumentURI.Id,
+			}, lookup)
+
+			Expect(testCase).To(BeNil())
+		})
+
+		It("returns Nil at least one PickleTag references a non-existing tag", func() {
+			testCase := ProcessTestCaseStarted(&messages.TestCaseStarted{
+				TestCaseId: testCaseForPickleWithUnknownTag.Id,
 			}, lookup)
 
 			Expect(testCase).To(BeNil())

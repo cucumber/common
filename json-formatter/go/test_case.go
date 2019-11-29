@@ -25,6 +25,14 @@ func ProcessTestCaseStarted(testCaseStarted *messages.TestCaseStarted, lookup *M
 	if pickle == nil || len(pickle.SourceIds) == 0 {
 		return nil
 	}
+	tags := make([]*messages.GherkinDocument_Feature_Tag, len(pickle.Tags))
+	for index, tag := range pickle.Tags {
+		sourceTag := lookup.LookupTag(tag.SourceId)
+		if sourceTag == nil {
+			return nil
+		}
+		tags[index] = sourceTag
+	}
 
 	scenario := lookup.LookupScenario(pickle.SourceIds[0])
 	if scenario == nil {
@@ -42,6 +50,7 @@ func ProcessTestCaseStarted(testCaseStarted *messages.TestCaseStarted, lookup *M
 		Scenario:    scenario,
 		Pickle:      pickle,
 		TestCase:    testCase,
+		Tags:        tags,
 	}
 }
 
