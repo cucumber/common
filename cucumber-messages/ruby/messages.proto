@@ -1,7 +1,5 @@
 syntax = "proto3";
-package io.cucumber.messages;
-option ruby_package = "Cucumber.Messages";
-option go_package = "messages";
+package cucumber.messages;
 
 // When removing a field, replace it with reserved, rather than deleting the line.
 // When adding a field, add it to the end and increment the number by one.
