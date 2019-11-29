@@ -96,7 +96,7 @@ func TestStepToJSON(step *TestStep) *jsonStep {
 		)
 	}
 
-	return &jsonStep{
+	jsonStep := &jsonStep{
 		Keyword: step.Step.Keyword,
 		Name:    step.PickleStep.Text,
 		Line:    step.Step.Location.Line,
@@ -108,6 +108,32 @@ func TestStepToJSON(step *TestStep) *jsonStep {
 			ErrorMessage: step.Result.Message,
 		},
 	}
+
+	docString := step.Step.GetDocString()
+	if docString != nil {
+		jsonStep.DocString = &jsonDocString{
+			Line:        docString.Location.Line,
+			ContentType: docString.ContentType,
+			Value:       docString.Content,
+		}
+	}
+
+	datatable := step.Step.GetDataTable()
+	if datatable != nil {
+		jsonStep.Rows = make([]*jsonDatatableRow, len(datatable.GetRows()))
+		for rowIndex, row := range datatable.GetRows() {
+			cells := make([]string, len(row.Cells))
+			for cellIndex, cell := range row.Cells {
+				cells[cellIndex] = cell.Value
+			}
+
+			jsonStep.Rows[rowIndex] = &jsonDatatableRow{
+				Cells: cells,
+			}
+		}
+	}
+
+	return jsonStep
 }
 
 func makeLocation(file string, line uint32) string {
