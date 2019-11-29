@@ -359,7 +359,7 @@ var _ = Describe("TestStepToJSON", func() {
 			Expect(jsonStep.Keyword).To(Equal("Given"))
 		})
 
-		It("gets name from PickleStep", func() {
+		It("should gets name from PickleStep", func() {
 			Expect(jsonStep.Name).To(Equal("a passed step"))
 		})
 

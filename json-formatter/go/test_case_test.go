@@ -456,8 +456,13 @@ var _ = Describe("TestCaseToJSON", func() {
 		Expect(jsonTestCase[0].Keyword).To(Equal("Eksempel"))
 	})
 
-	It("has the Pickle name", func() {
-		Expect(jsonTestCase[0].Name).To(Equal("A scenario (2)"))
+	// It does not sadly: we use Cucumber-ruby for producing the
+	// acceptance tests, which does not support that (but Cucumber-JVM,
+	// Cucumber-JS do ...)
+	XIt("should have the Pickle name", func() {})
+
+	It("has the Scenario name", func() {
+		Expect(jsonTestCase[0].Name).To(Equal("A scenario (<exampleId>)"))
 	})
 
 	It("has the Scenario description", func() {

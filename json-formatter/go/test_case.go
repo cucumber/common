@@ -114,7 +114,7 @@ func scenarioStepsToJSON(testCase *TestCase, steps []*TestStep) *jsonFeatureElem
 		ID:          id,
 		Keyword:     testCase.Scenario.Keyword,
 		Type:        "scenario",
-		Name:        testCase.Pickle.Name,
+		Name:        testCase.Scenario.Name,
 		Description: testCase.Scenario.Description,
 		Line:        line,
 		Steps:       makeJSONSteps(steps),
