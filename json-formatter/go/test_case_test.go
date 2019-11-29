@@ -558,4 +558,54 @@ var _ = Describe("TestCaseToJSON", func() {
 			Expect(jsonTestCase[0].Line).To(Equal(uint32(13)))
 		})
 	})
+
+	Context("when there is Before Hooks", func() {
+		BeforeEach(func() {
+			testCase.Steps = []*TestStep{
+				&TestStep{
+					Hook: &messages.TestCaseHookDefinitionConfig{
+						Location: &messages.SourceReference{
+							Uri: "some_hooks.rb",
+							Location: &messages.Location{
+								Line: 5,
+							},
+						},
+					},
+					Result: &messages.TestResult{
+						Status: messages.TestResult_PASSED,
+					},
+				},
+				testCase.Steps[0],
+			}
+			jsonTestCase = TestCaseToJSON(testCase)
+
+		})
+
+		It("has the Hook steps in the Before field in the first Element", func() {
+			Expect(jsonTestCase[0].Before[0].Match.Location).To(Equal("some_hooks.rb:5"))
+		})
+	})
+
+	Context("when there is After Hooks", func() {
+		BeforeEach(func() {
+			testCase.Steps = append(testCase.Steps, &TestStep{
+				Hook: &messages.TestCaseHookDefinitionConfig{
+					Location: &messages.SourceReference{
+						Uri: "some_hooks.rb",
+						Location: &messages.Location{
+							Line: 12,
+						},
+					},
+				},
+				Result: &messages.TestResult{
+					Status: messages.TestResult_PASSED,
+				},
+			})
+			jsonTestCase = TestCaseToJSON(testCase)
+		})
+
+		It("has the hooks in the After section of the last Element", func() {
+			Expect(jsonTestCase[0].After[0].Match.Location).To(Equal("some_hooks.rb:12"))
+		})
+	})
 })

@@ -17,15 +17,17 @@ type jsonFeatureElement struct {
 	Keyword     string      `json:"keyword"`
 	Line        uint32      `json:"line"`
 	Name        string      `json:"name"`
+	Before      []*jsonStep `json:"before,omitempty"`
 	Steps       []*jsonStep `json:"steps"`
+	After       []*jsonStep `json:"after,omitempty"`
 	Type        string      `json:"type"`
 	Tags        []*jsonTag  `json:"tags,omitempty"`
 }
 
 type jsonStep struct {
-	Keyword   string              `json:"keyword"`
-	Line      uint32              `json:"line"`
-	Name      string              `json:"name"`
+	Keyword   string              `json:"keyword,omitempty"`
+	Line      uint32              `json:"line,omitempty"`
+	Name      string              `json:"name,omitempty"`
 	Result    *jsonStepResult     `json:"result"`
 	Match     *jsonStepMatch      `json:"match,omitempty"`
 	DocString *jsonDocString      `json:"doc_string,omitempty"`

@@ -5,6 +5,12 @@
 # properties to be equal
 #
 
+jq ".[].elements[].before[].result.duration = 99" | \
+jq ".[].elements[].before[].result.error_message = \"some error\"" | \
+jq ".[].elements[].before[].match.location = \"some_file.xyz\"" |
 jq ".[].elements[].steps[].result.duration = 99" | \
 jq ".[].elements[].steps[].result.error_message = \"some error\"" | \
-jq ".[].elements[].steps[].match.location = \"some_file.xyz\""
+jq ".[].elements[].steps[].match.location = \"some_file.xyz\"" |
+jq ".[].elements[].after[].result.duration = 99" | \
+jq ".[].elements[].after[].result.error_message = \"some error\"" | \
+jq ".[].elements[].after[].match.location = \"some_file.xyz\""

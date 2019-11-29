@@ -1,6 +1,6 @@
-Before('@before-passed-hook') do
+Before('@before-passed') do
 end
 
-After('@after-failed-hook') do
+After('@after-failed') do
   raise 'Something went wrong'
 end

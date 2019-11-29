@@ -68,8 +68,16 @@ func TestCaseToJSON(testCase *TestCase) []*jsonFeatureElement {
 	if len(sortedSteps.Background) > 0 {
 		elements = append(elements, backgroundStepsToJSON(sortedSteps.Background))
 	}
-
 	elements = append(elements, scenarioStepsToJSON(testCase, sortedSteps.Steps))
+
+	if len(sortedSteps.BeforeHook) > 0 {
+		elements[0].Before = makeJSONSteps(sortedSteps.BeforeHook)
+	}
+
+	if len(sortedSteps.AfterHook) > 0 {
+		elements[len(elements)-1].After = makeJSONSteps(sortedSteps.AfterHook)
+	}
+
 	return elements
 }
 
