@@ -1,4 +1,4 @@
-require 'cucumber/messages_pb'
+require 'cucumber/messages.pb'
 require 'cucumber/messages/protobuf_io_enumerator'
 require 'cucumber/messages/ndjson_io_enumerator'
 require 'cucumber/messages/protobuf_delimited'

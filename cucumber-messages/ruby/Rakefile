@@ -1,6 +1,7 @@
 # encoding: utf-8
 require 'rubygems'
 require 'bundler'
+load 'protobuf/tasks/compile.rake'
 Bundler::GemHelper.install_tasks
 
 $:.unshift File.expand_path("../lib", __FILE__)
