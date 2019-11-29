@@ -85,13 +85,38 @@ func backgroundStepsToJSON(steps []*TestStep) *jsonFeatureElement {
 }
 
 func scenarioStepsToJSON(testCase *TestCase, steps []*TestStep) *jsonFeatureElement {
+	line := testCase.Scenario.Location.Line
+	id := fmt.Sprintf("%s;%s", makeID(testCase.FeatureName), makeID(testCase.Scenario.Name))
+	if len(testCase.Pickle.SourceIds) > 1 {
+		exampleName := ""
+		exampleIndex := 0
+
+		for _, example := range testCase.Scenario.Examples {
+			for index, row := range example.TableBody {
+				if row.Id == testCase.Pickle.SourceIds[1] {
+					line = row.Location.Line
+					exampleName = example.Name
+					// +2 as the index is a one-based index and the table header is taken into account
+					exampleIndex = index + 2
+				}
+			}
+		}
+		id = fmt.Sprintf(
+			"%s;%s;%s;%d",
+			makeID(testCase.FeatureName),
+			makeID(testCase.Scenario.Name),
+			makeID(exampleName),
+			exampleIndex,
+		)
+	}
+
 	return &jsonFeatureElement{
-		ID:          fmt.Sprintf("%s;%s", makeID(testCase.FeatureName), makeID(testCase.Scenario.Name)),
+		ID:          id,
 		Keyword:     testCase.Scenario.Keyword,
 		Type:        "scenario",
 		Name:        testCase.Pickle.Name,
 		Description: testCase.Scenario.Description,
-		Line:        testCase.Scenario.Location.Line,
+		Line:        line,
 		Steps:       makeJSONSteps(steps),
 		Tags:        makeJSONTags(testCase.Tags),
 	}

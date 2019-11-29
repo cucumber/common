@@ -187,6 +187,7 @@ var _ = Describe("TestCase.SortedSteps", func() {
 var _ = Describe("ProcessTestCaseStarted", func() {
 	var (
 		lookup   *MessageLookup
+		pickle   *messages.Pickle
 		testCase *TestCase
 		document *messages.GherkinDocument
 		scenario *messages.GherkinDocument_Feature_Scenario
@@ -213,7 +214,7 @@ var _ = Describe("ProcessTestCaseStarted", func() {
 		lookup.scenarioByID[scenario.Id] = scenario
 		lookup.tagByID[tag.Id] = tag
 
-		pickle := &messages.Pickle{
+		pickle = &messages.Pickle{
 			Id:        "pickle-id",
 			Uri:       document.Uri,
 			SourceIds: []string{scenario.Id},
@@ -392,22 +393,26 @@ var _ = Describe("TestCaseToJSON", func() {
 	)
 
 	BeforeEach(func() {
+		scenario := &messages.GherkinDocument_Feature_Scenario{
+			Id:          "scenario-id",
+			Keyword:     "Eksempel",
+			Name:        "A scenario (<exampleId>)",
+			Description: "This is a scenario",
+			Location: &messages.Location{
+				Line: 11,
+			},
+		}
+
 		pickle = &messages.Pickle{
-			Uri:  "some_examples.feature",
-			Name: "A scenario (2)",
+			Uri:       "some_examples.feature",
+			Name:      "A scenario (2)",
+			SourceIds: []string{scenario.Id},
 		}
 
 		testCase = &TestCase{
 			FeatureName: "My feature",
-			Scenario: &messages.GherkinDocument_Feature_Scenario{
-				Keyword:     "Eksempel",
-				Name:        "A scenario (<exampleId>)",
-				Description: "This is a scenario",
-				Location: &messages.Location{
-					Line: 42,
-				},
-			},
-			Pickle: pickle,
+			Scenario:    scenario,
+			Pickle:      pickle,
 			TestCase: makeTestCase(
 				"test-case-id",
 				"pickle-id",
@@ -460,7 +465,7 @@ var _ = Describe("TestCaseToJSON", func() {
 	})
 
 	It("has the Scenario line", func() {
-		Expect(jsonTestCase[0].Line).To(Equal(uint32(42)))
+		Expect(jsonTestCase[0].Line).To(Equal(uint32(11)))
 	})
 
 	It("has the steps rendered in Steps", func() {
@@ -515,6 +520,37 @@ var _ = Describe("TestCaseToJSON", func() {
 
 		It("has the background line", func() {
 			Expect(jsonTestCase[0].Line).To(Equal(uint32(3)))
+		})
+	})
+
+	Context("when pickles come from a Examples row", func() {
+		BeforeEach(func() {
+			exampleRow := &messages.GherkinDocument_Feature_TableRow{
+				Id: "example-row-id",
+				Location: &messages.Location{
+					Line: 13,
+				},
+			}
+
+			testCase.Scenario.Examples = []*messages.GherkinDocument_Feature_Scenario_Examples{
+				&messages.GherkinDocument_Feature_Scenario_Examples{
+					Name: "some examples",
+					TableBody: []*messages.GherkinDocument_Feature_TableRow{
+						exampleRow,
+					},
+				},
+			}
+
+			testCase.Pickle.SourceIds = append(testCase.Pickle.SourceIds, exampleRow.Id)
+			jsonTestCase = TestCaseToJSON(testCase)
+		})
+
+		It("has the Examples table name and ExampleRow line in the Id", func() {
+			Expect(jsonTestCase[0].ID).To(Equal("my-feature;a-scenario-(<exampleid>);some-examples;2"))
+		})
+
+		It("has the Example row line", func() {
+			Expect(jsonTestCase[0].Line).To(Equal(uint32(13)))
 		})
 	})
 })
