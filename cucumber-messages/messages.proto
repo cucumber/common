@@ -313,6 +313,8 @@ message Attachment {
   SourceReference source = 1;
   string data = 2;
   Media media = 3;
+  string testStepId = 4;
+  string testCaseStartedId = 5;
 }
 
 ////// Pickles
