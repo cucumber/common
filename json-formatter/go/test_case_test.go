@@ -502,6 +502,10 @@ var _ = Describe("TestCaseToJSON", func() {
 					},
 					Result: &messages.TestResult{
 						Status: messages.TestResult_PASSED,
+						Duration: &messages.Duration{
+							Seconds: 123,
+							Nanos:   456,
+						},
 					},
 					Background: &messages.GherkinDocument_Feature_Background{
 						Keyword: "Kontext",
@@ -573,6 +577,10 @@ var _ = Describe("TestCaseToJSON", func() {
 					},
 					Result: &messages.TestResult{
 						Status: messages.TestResult_PASSED,
+						Duration: &messages.Duration{
+							Seconds: 123,
+							Nanos:   456,
+						},
 					},
 				},
 				testCase.Steps[0],
@@ -599,6 +607,10 @@ var _ = Describe("TestCaseToJSON", func() {
 				},
 				Result: &messages.TestResult{
 					Status: messages.TestResult_PASSED,
+					Duration: &messages.Duration{
+						Seconds: 123,
+						Nanos:   456,
+					},
 				},
 			})
 			jsonTestCase = TestCaseToJSON(testCase)

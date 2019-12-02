@@ -75,6 +75,10 @@ func ProcessTestStepFinished(testStepFinished *messages.TestStepFinished, lookup
 
 func TestStepToJSON(step *TestStep) *jsonStep {
 	status := strings.ToLower(step.Result.Status.String())
+	duration := uint64(0)
+	if step.Result.Duration != nil {
+		duration = durationToNanos(step.Result.Duration)
+	}
 
 	if step.Hook != nil {
 		return &jsonStep{
@@ -84,6 +88,7 @@ func TestStepToJSON(step *TestStep) *jsonStep {
 			Result: &jsonStepResult{
 				Status:       status,
 				ErrorMessage: step.Result.Message,
+				Duration:     duration,
 			},
 		}
 	}
@@ -106,6 +111,7 @@ func TestStepToJSON(step *TestStep) *jsonStep {
 		Result: &jsonStepResult{
 			Status:       status,
 			ErrorMessage: step.Result.Message,
+			Duration:     duration,
 		},
 	}
 
@@ -134,6 +140,10 @@ func TestStepToJSON(step *TestStep) *jsonStep {
 	}
 
 	return jsonStep
+}
+
+func durationToNanos(d *messages.Duration) uint64 {
+	return uint64(d.Seconds*1000000000 + int64(d.Nanos))
 }
 
 func makeLocation(file string, line uint32) string {

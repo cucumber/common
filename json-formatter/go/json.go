@@ -13,12 +13,10 @@ import (
 type Formatter struct {
 	lookup *MessageLookup
 
-	jsonFeatures            []*jsonFeature
-	jsonFeaturesByURI       map[string]*jsonFeature
-	jsonStepsByPickleStepId map[string]*jsonStep
-	exampleRowIndexById     map[string]int
-	testCaseById            map[string]*TestCase
-	verbose                 bool
+	jsonFeatures      []*jsonFeature
+	jsonFeaturesByURI map[string]*jsonFeature
+	testCaseById      map[string]*TestCase
+	verbose           bool
 }
 
 // ProcessMessages writes a JSON report to STDOUT
@@ -29,9 +27,6 @@ func (self *Formatter) ProcessMessages(reader gio.ReadCloser, stdout io.Writer) 
 
 	self.jsonFeatures = make([]*jsonFeature, 0)
 	self.jsonFeaturesByURI = make(map[string]*jsonFeature)
-	self.jsonStepsByPickleStepId = make(map[string]*jsonStep)
-	self.exampleRowIndexById = make(map[string]int)
-
 	self.testCaseById = make(map[string]*TestCase)
 
 	for {
@@ -50,20 +45,6 @@ func (self *Formatter) ProcessMessages(reader gio.ReadCloser, stdout io.Writer) 
 		}
 
 		switch m := envelope.Message.(type) {
-		case *messages.Envelope_GherkinDocument:
-			self.comment("Treating GherkinDocument")
-			for _, child := range m.GherkinDocument.Feature.Children {
-				scenario := child.GetScenario()
-				if scenario != nil {
-					for _, example := range scenario.Examples {
-						for index, row := range example.TableBody {
-							// index + 2: it's a 1 based index and the header is counted too.
-							self.exampleRowIndexById[row.Id] = index + 2
-						}
-					}
-				}
-			}
-
 		case *messages.Envelope_TestCaseStarted:
 			testCase := ProcessTestCaseStarted(m.TestCaseStarted, self.lookup)
 			if testCase != nil {
@@ -123,18 +104,8 @@ func (self *Formatter) findOrCreateJsonFeature(pickle *messages.Pickle) *jsonFea
 	return jFeature
 }
 
-func (self *Formatter) isBackgroundStep(id string) bool {
-	_, ok := self.lookup.backgroundByStepID[id]
-	return ok
-}
-
 func (self *Formatter) makeId(s string) string {
 	return strings.ToLower(strings.Replace(s, " ", "-", -1))
-}
-
-func (self *Formatter) durationToNanos(d *messages.Duration) uint64 {
-	self.comment(fmt.Sprintf("Converting to nanos: %d - %d", d.Seconds, d.Nanos))
-	return uint64(d.Seconds*1000000000 + int64(d.Nanos))
 }
 
 func (self *Formatter) comment(message string) {

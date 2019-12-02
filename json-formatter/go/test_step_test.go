@@ -317,6 +317,10 @@ var _ = Describe("TestStepToJSON", func() {
 				},
 				Result: &messages.TestResult{
 					Status: messages.TestResult_PASSED,
+					Duration: &messages.Duration{
+						Seconds: 123,
+						Nanos:   456,
+					},
 				},
 			}
 			jsonStep = TestStepToJSON(step)
@@ -328,6 +332,10 @@ var _ = Describe("TestStepToJSON", func() {
 
 		It("Has a Result", func() {
 			Expect(jsonStep.Result.Status).To(Equal("passed"))
+		})
+
+		It("Has a Duration", func() {
+			Expect(jsonStep.Result.Duration).To(Equal(uint64(123000000456)))
 		})
 	})
 
@@ -350,6 +358,10 @@ var _ = Describe("TestStepToJSON", func() {
 				},
 				Result: &messages.TestResult{
 					Status: messages.TestResult_FAILED,
+					Duration: &messages.Duration{
+						Seconds: 123,
+						Nanos:   456,
+					},
 				},
 			}
 			jsonStep = TestStepToJSON(step)
@@ -365,6 +377,10 @@ var _ = Describe("TestStepToJSON", func() {
 
 		It("has a Result", func() {
 			Expect(jsonStep.Result.Status).To(Equal("failed"))
+		})
+
+		It("Has a Duration", func() {
+			Expect(jsonStep.Result.Duration).To(Equal(uint64(123000000456)))
 		})
 
 		It("has a Line", func() {
