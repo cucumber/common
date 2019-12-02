@@ -307,7 +307,9 @@ message GherkinDocument {
  * * Syntax errors during parse time
  * * Screenshots captured and attached during execution
  * * Logs captured and attached during execution
- * * Runtime errors raised/thrown during execution (TODO: Conflicts with `TestResult#message`?)
+ *
+ * It is not to be used for runtime errors raised/thrown during execution. This
+ * is captured in `TestResult`.
  */
 message Attachment {
   SourceReference source = 1;
