@@ -28,7 +28,7 @@
     "react-dom": "^16.12.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.7.2",
+    "@babel/core": "^7.7.4",
     "@storybook/addon-actions": "^5.2.6",
     "@storybook/addon-links": "^5.2.6",
     "@storybook/addons": "^5.2.6",
@@ -36,10 +36,9 @@
     "@types/color": "^3.0.0",
     "@types/jsdom": "^12.2.4",
     "@types/mocha": "^5.2.7",
-    "@types/node": "^12.12.11",
-    "@types/react": "^16.9.11",
+    "@types/node": "^12.12.14",
+    "@types/react": "^16.9.13",
     "@types/react-dom": "^16.9.4",
-    "@types/storybook__react": "^4.0.2",
     "@types/styled-components": "^4.4.0",
     "awesome-typescript-loader": "^5.2.1",
     "babel-loader": "^8.0.6",

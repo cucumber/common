@@ -127,23 +127,34 @@ export default class CucumberQuery {
       const testStep = this.testStepById.get(
         message.testStepFinished.testStepId
       )
-      const pickleStep = this.pickleStepById.get(testStep.pickleStepId)
-
-      for (const sourceId of pickleStep.sourceIds) {
-        const uri = this.uriBySourceId.get(sourceId)
-        const lineNumber = this.locationBySourceId.get(sourceId).line
-
-        let testStepResults = this.testStepResultsByUriAndLine.get(
-          `${uri}:${lineNumber}`
-        )
-        if (testStepResults === undefined) {
-          testStepResults = []
-          this.testStepResultsByUriAndLine.set(
-            `${uri}:${lineNumber}`,
-            testStepResults
+      if (testStep.pickleStepId) {
+        const pickleStep = this.pickleStepById.get(testStep.pickleStepId)
+        if (pickleStep === undefined) {
+          throw new Error(
+            `Did not find a PickleStep with id "${
+              testStep.pickleStepId
+            }". Known ids:\n${Array.from(this.pickleStepById.keys()).join(
+              '\n'
+            )}`
           )
         }
-        testStepResults.push(message.testStepFinished.testResult)
+
+        for (const sourceId of pickleStep.sourceIds) {
+          const uri = this.uriBySourceId.get(sourceId)
+          const lineNumber = this.locationBySourceId.get(sourceId).line
+
+          let testStepResults = this.testStepResultsByUriAndLine.get(
+            `${uri}:${lineNumber}`
+          )
+          if (testStepResults === undefined) {
+            testStepResults = []
+            this.testStepResultsByUriAndLine.set(
+              `${uri}:${lineNumber}`,
+              testStepResults
+            )
+          }
+          testStepResults.push(message.testStepFinished.testResult)
+        }
       }
     }
 
@@ -152,6 +163,14 @@ export default class CucumberQuery {
         message.testCaseFinished.testCaseStartedId
       )
       const testCase = this.testCaseById.get(testCaseStarted.testCaseId)
+
+      if (testCase === undefined) {
+        throw new Error(
+          `Did not find a TestCase with id "${
+            testCaseStarted.testCaseId
+          }". Known ids:\n${Array.from(this.testCaseById.keys()).join('\n')}`
+        )
+      }
 
       const pickle = this.pickleById.get(testCase.pickleId)
 

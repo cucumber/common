@@ -33,4 +33,6 @@ describe('Cucumber', () => {
     const testCase = messageList.find(m => m.testCase).testCase
     assert.strictEqual(testCase.testSteps.length, 2)
   })
+
+  it('runs after hooks even when pickle steps fail')
 })
