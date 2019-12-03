@@ -19,7 +19,7 @@ module Gherkin
           error = stderr.read
           raise error
         end
-        Cucumber::Messages::ProtobufIoEnumerator.call(stdout)
+        Cucumber::Messages::BinaryToMessageEnumerator.new(stdout)
       end
     end
   end

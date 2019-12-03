@@ -6,7 +6,7 @@ import java.io.OutputStream;
 public class NdjsonSerializationTest extends MessageSerializationContract {
     @Override
     protected MessageWriter makeMessageWriter(OutputStream output) {
-        return new NdjsonMessageWriter(output);
+        return new MessageToNdjsonWriter(output);
     }
 
     @Override

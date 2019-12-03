@@ -5,10 +5,10 @@ import com.google.protobuf.GeneratedMessageV3;
 import java.io.IOException;
 import java.io.OutputStream;
 
-public class ProtobufMessageWriter implements MessageWriter {
+public class MessageToBinaryWriter implements MessageWriter {
     private final OutputStream out;
 
-    public ProtobufMessageWriter(OutputStream out) {
+    public MessageToBinaryWriter(OutputStream out) {
         this.out = out;
     }
 

@@ -2,8 +2,8 @@ package io.cucumber.gherkin;
 
 import io.cucumber.messages.MessageWriter;
 import io.cucumber.messages.Messages.Envelope;
-import io.cucumber.messages.NdjsonMessageWriter;
-import io.cucumber.messages.ProtobufMessageWriter;
+import io.cucumber.messages.MessageToNdjsonWriter;
+import io.cucumber.messages.MessageToBinaryWriter;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -74,10 +74,10 @@ public class Main {
         MessageWriter messageWriter;
         switch (format) {
             case "ndjson":
-                messageWriter = new NdjsonMessageWriter(System.out);
+                messageWriter = new MessageToNdjsonWriter(System.out);
                 break;
             case "protobuf":
-                messageWriter = new ProtobufMessageWriter(System.out);
+                messageWriter = new MessageToBinaryWriter(System.out);
                 break;
             default:
                 throw new Error(String.format("Unsupported format: %s", format));
