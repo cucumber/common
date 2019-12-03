@@ -118,13 +118,13 @@ func compileScenarioOutline(
 			}
 
 			pickles = append(pickles, &messages.Pickle{
-				Id:        newId(),
-				Uri:       uri,
-				Steps:     computedPickleSteps,
-				Tags:      tags,
-				Name:      name,
-				Language:  language,
-				SourceIds: []string{scenario.Id, valuesRow.Id},
+				Id:         newId(),
+				Uri:        uri,
+				Steps:      computedPickleSteps,
+				Tags:       tags,
+				Name:       name,
+				Language:   language,
+				AstNodeIds: []string{scenario.Id, valuesRow.Id},
 			})
 		}
 	}
@@ -147,13 +147,13 @@ func compileScenario(
 	}
 	tags := pickleTags(append(featureTags, scenario.Tags...))
 	pickles = append(pickles, &messages.Pickle{
-		Id:        newId(),
-		Uri:       uri,
-		Steps:     steps,
-		Tags:      tags,
-		Name:      scenario.Name,
-		Language:  language,
-		SourceIds: []string{scenario.Id},
+		Id:         newId(),
+		Uri:        uri,
+		Steps:      steps,
+		Tags:       tags,
+		Name:       scenario.Name,
+		Language:   language,
+		AstNodeIds: []string{scenario.Id},
 	})
 	return pickles
 }
@@ -183,8 +183,8 @@ func pickleTags(tags []*messages.GherkinDocument_Feature_Tag) []*messages.Pickle
 	ptags := make([]*messages.Pickle_PickleTag, len(tags))
 	for i, tag := range tags {
 		ptags[i] = &messages.Pickle_PickleTag{
-			Name:     tag.Name,
-			SourceId: tag.Id,
+			Name:      tag.Name,
+			AstNodeId: tag.Id,
 		}
 	}
 	return ptags
@@ -211,12 +211,12 @@ func pickleStep(
 	}
 
 	pickleStep := &messages.Pickle_PickleStep{
-		Id:        newId(),
-		Text:      interpolate(step.Text, variableCells, valueCells),
-		SourceIds: []string{step.Id},
+		Id:         newId(),
+		Text:       interpolate(step.Text, variableCells, valueCells),
+		AstNodeIds: []string{step.Id},
 	}
 	if valuesRow != nil {
-		pickleStep.SourceIds = append(pickleStep.SourceIds, valuesRow.Id)
+		pickleStep.AstNodeIds = append(pickleStep.AstNodeIds, valuesRow.Id)
 	}
 	if step.GetDataTable() != nil {
 		pickleStep.Argument = &messages.PickleStepArgument{

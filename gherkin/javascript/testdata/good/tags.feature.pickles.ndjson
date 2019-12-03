@@ -1,44 +1,44 @@
 {
   "pickle": {
+    "astNodeIds": [
+      "4"
+    ],
     "id": "24",
     "language": "en",
     "name": "minimalistic",
-    "sourceIds": [
-      "4"
-    ],
     "steps": [
       {
-        "id": "23",
-        "sourceIds": [
+        "astNodeIds": [
           "0"
         ],
+        "id": "23",
         "text": "the minimalism"
       }
     ],
     "tags": [
       {
-        "name": "@feature_tag1",
-        "sourceId": "20"
+        "astNodeId": "20",
+        "name": "@feature_tag1"
       },
       {
-        "name": "@feature_tag2",
-        "sourceId": "21"
+        "astNodeId": "21",
+        "name": "@feature_tag2"
       },
       {
-        "name": "@feature_tag3",
-        "sourceId": "22"
+        "astNodeId": "22",
+        "name": "@feature_tag3"
       },
       {
-        "name": "@scenario_tag1",
-        "sourceId": "1"
+        "astNodeId": "1",
+        "name": "@scenario_tag1"
       },
       {
-        "name": "@scenario_tag2",
-        "sourceId": "2"
+        "astNodeId": "2",
+        "name": "@scenario_tag2"
       },
       {
-        "name": "@scenario_tag3",
-        "sourceId": "3"
+        "astNodeId": "3",
+        "name": "@scenario_tag3"
       }
     ],
     "uri": "testdata/good/tags.feature"
@@ -46,59 +46,59 @@
 }
 {
   "pickle": {
-    "id": "26",
-    "language": "en",
-    "name": "minimalistic outline",
-    "sourceIds": [
+    "astNodeIds": [
       "19",
       "7"
     ],
+    "id": "26",
+    "language": "en",
+    "name": "minimalistic outline",
     "steps": [
       {
-        "id": "25",
-        "sourceIds": [
+        "astNodeIds": [
           "5",
           "7"
         ],
+        "id": "25",
         "text": "the minimalism"
       }
     ],
     "tags": [
       {
-        "name": "@feature_tag1",
-        "sourceId": "20"
+        "astNodeId": "20",
+        "name": "@feature_tag1"
       },
       {
-        "name": "@feature_tag2",
-        "sourceId": "21"
+        "astNodeId": "21",
+        "name": "@feature_tag2"
       },
       {
-        "name": "@feature_tag3",
-        "sourceId": "22"
+        "astNodeId": "22",
+        "name": "@feature_tag3"
       },
       {
-        "name": "@so_tag1",
-        "sourceId": "16"
+        "astNodeId": "16",
+        "name": "@so_tag1"
       },
       {
-        "name": "@so_tag2",
-        "sourceId": "17"
+        "astNodeId": "17",
+        "name": "@so_tag2"
       },
       {
-        "name": "@so_tag3",
-        "sourceId": "18"
+        "astNodeId": "18",
+        "name": "@so_tag3"
       },
       {
-        "name": "@ex_tag1",
-        "sourceId": "8"
+        "astNodeId": "8",
+        "name": "@ex_tag1"
       },
       {
-        "name": "@ex_tag2",
-        "sourceId": "9"
+        "astNodeId": "9",
+        "name": "@ex_tag2"
       },
       {
-        "name": "@ex_tag3",
-        "sourceId": "10"
+        "astNodeId": "10",
+        "name": "@ex_tag3"
       }
     ],
     "uri": "testdata/good/tags.feature"
@@ -106,59 +106,59 @@
 }
 {
   "pickle": {
-    "id": "28",
-    "language": "en",
-    "name": "minimalistic outline",
-    "sourceIds": [
+    "astNodeIds": [
       "19",
       "12"
     ],
+    "id": "28",
+    "language": "en",
+    "name": "minimalistic outline",
     "steps": [
       {
-        "id": "27",
-        "sourceIds": [
+        "astNodeIds": [
           "5",
           "12"
         ],
+        "id": "27",
         "text": "the more minimalism"
       }
     ],
     "tags": [
       {
-        "name": "@feature_tag1",
-        "sourceId": "20"
+        "astNodeId": "20",
+        "name": "@feature_tag1"
       },
       {
-        "name": "@feature_tag2",
-        "sourceId": "21"
+        "astNodeId": "21",
+        "name": "@feature_tag2"
       },
       {
-        "name": "@feature_tag3",
-        "sourceId": "22"
+        "astNodeId": "22",
+        "name": "@feature_tag3"
       },
       {
-        "name": "@so_tag1",
-        "sourceId": "16"
+        "astNodeId": "16",
+        "name": "@so_tag1"
       },
       {
-        "name": "@so_tag2",
-        "sourceId": "17"
+        "astNodeId": "17",
+        "name": "@so_tag2"
       },
       {
-        "name": "@so_tag3",
-        "sourceId": "18"
+        "astNodeId": "18",
+        "name": "@so_tag3"
       },
       {
-        "name": "@ex_tag4",
-        "sourceId": "13"
+        "astNodeId": "13",
+        "name": "@ex_tag4"
       },
       {
-        "name": "@ex_tag5",
-        "sourceId": "14"
+        "astNodeId": "14",
+        "name": "@ex_tag5"
       },
       {
-        "name": "@ex_tag6",
-        "sourceId": "15"
+        "astNodeId": "15",
+        "name": "@ex_tag6"
       }
     ],
     "uri": "testdata/good/tags.feature"

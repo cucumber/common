@@ -39,13 +39,13 @@ export default class ExpressionStepDefinition implements IStepDefinition {
 
   public toMessage(): messages.IEnvelope {
     return new messages.Envelope({
-      stepDefinitionConfig: new messages.StepDefinitionConfig({
+      stepDefinition: new messages.StepDefinition({
         id: this.id,
         pattern: new messages.StepDefinitionPattern({
           type: this.expressionType(),
           source: this.expression.source,
         }),
-        location: new messages.SourceReference({
+        sourceReference: new messages.SourceReference({
           location: new messages.Location({
             column: 3,
             line: 10,

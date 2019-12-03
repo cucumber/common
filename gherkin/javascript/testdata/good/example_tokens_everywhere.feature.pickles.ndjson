@@ -1,12 +1,12 @@
 {
   "pickle": {
-    "id": "9",
-    "language": "en",
-    "name": "the un",
-    "sourceIds": [
+    "astNodeIds": [
       "6",
       "4"
     ],
+    "id": "9",
+    "language": "en",
+    "name": "the un",
     "steps": [
       {
         "argument": {
@@ -14,11 +14,11 @@
             "content": "trois"
           }
         },
-        "id": "7",
-        "sourceIds": [
+        "astNodeIds": [
           "0",
           "4"
         ],
+        "id": "7",
         "text": "the deux:"
       },
       {
@@ -35,11 +35,11 @@
             ]
           }
         },
-        "id": "8",
-        "sourceIds": [
+        "astNodeIds": [
           "2",
           "4"
         ],
+        "id": "8",
         "text": "the quatre:"
       }
     ],
@@ -48,13 +48,13 @@
 }
 {
   "pickle": {
-    "id": "12",
-    "language": "en",
-    "name": "the uno",
-    "sourceIds": [
+    "astNodeIds": [
       "6",
       "5"
     ],
+    "id": "12",
+    "language": "en",
+    "name": "the uno",
     "steps": [
       {
         "argument": {
@@ -62,11 +62,11 @@
             "content": "tres"
           }
         },
-        "id": "10",
-        "sourceIds": [
+        "astNodeIds": [
           "0",
           "5"
         ],
+        "id": "10",
         "text": "the dos:"
       },
       {
@@ -83,11 +83,11 @@
             ]
           }
         },
-        "id": "11",
-        "sourceIds": [
+        "astNodeIds": [
           "2",
           "5"
         ],
+        "id": "11",
         "text": "the quatro:"
       }
     ],

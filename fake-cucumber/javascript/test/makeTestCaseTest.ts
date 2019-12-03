@@ -33,7 +33,7 @@ describe('makeTestCase', () => {
         )
         assert.strictEqual(
           testCase.toMessage().testCase.testSteps[0].hookId,
-          hooks[0].toMessage().testCaseHookDefinitionConfig.id
+          hooks[0].toMessage().hook.id
         )
       })
     })
@@ -52,7 +52,7 @@ describe('makeTestCase', () => {
       )
       assert.strictEqual(
         testCase.toMessage().testCase.testSteps[2].hookId,
-        hooks[0].toMessage().testCaseHookDefinitionConfig.id
+        hooks[0].toMessage().hook.id
       )
     })
   })

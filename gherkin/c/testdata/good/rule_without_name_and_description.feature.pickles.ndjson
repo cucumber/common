@@ -1,16 +1,16 @@
 {
   "pickle": {
-    "id": "3",
-    "language": "en",
-    "sourceIds": [
+    "astNodeIds": [
       "1"
     ],
+    "id": "3",
+    "language": "en",
     "steps": [
       {
-        "id": "2",
-        "sourceIds": [
+        "astNodeIds": [
           "0"
         ],
+        "id": "2",
         "text": "text"
       }
     ],

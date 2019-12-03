@@ -1,17 +1,17 @@
 {
   "pickle": {
+    "astNodeIds": [
+      "1"
+    ],
     "id": "3",
     "language": "en",
     "name": "still pickles up",
-    "sourceIds": [
-      "1"
-    ],
     "steps": [
       {
-        "id": "2",
-        "sourceIds": [
+        "astNodeIds": [
           "0"
         ],
+        "id": "2",
         "text": "a step"
       }
     ],

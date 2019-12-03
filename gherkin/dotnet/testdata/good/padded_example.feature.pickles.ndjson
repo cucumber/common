@@ -1,12 +1,12 @@
 {
   "pickle": {
-    "id": "8",
-    "language": "en",
-    "name": "test",
-    "sourceIds": [
+    "astNodeIds": [
       "6",
       "5"
     ],
+    "id": "8",
+    "language": "en",
+    "name": "test",
     "steps": [
       {
         "argument": {
@@ -45,11 +45,11 @@
             ]
           }
         },
-        "id": "7",
-        "sourceIds": [
+        "astNodeIds": [
           "3",
           "5"
         ],
+        "id": "7",
         "text": "a red ball with:"
       }
     ],

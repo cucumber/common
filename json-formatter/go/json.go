@@ -122,12 +122,12 @@ func (self *Formatter) ProcessMessages(reader gio.ReadCloser, stdout io.Writer) 
 			self.comment(fmt.Sprintf(
 				"Treating Pickle: %s - %s",
 				m.Pickle.Id,
-				m.Pickle.SourceIds,
+				m.Pickle.AstNodeIds,
 			))
 
 			pickle := m.Pickle
 			jsonFeature := self.findOrCreateJsonFeature(pickle)
-			scenario := self.lookup.LookupScenario(pickle.SourceIds[0])
+			scenario := self.lookup.LookupScenario(pickle.AstNodeIds[0])
 			elementLine := scenario.Location.Line
 
 			// TODO: find a better way to get backgrounds
@@ -136,7 +136,7 @@ func (self *Formatter) ProcessMessages(reader gio.ReadCloser, stdout io.Writer) 
 			backgroundJsonSteps := make([]*jsonStep, 0)
 
 			for _, pickleStep := range pickle.Steps {
-				step := self.lookup.LookupStep(pickleStep.SourceIds[0])
+				step := self.lookup.LookupStep(pickleStep.AstNodeIds[0])
 				jsonStep := &jsonStep{
 					Keyword: step.Keyword,
 					Line:    step.Location.Line,
@@ -192,9 +192,9 @@ func (self *Formatter) ProcessMessages(reader gio.ReadCloser, stdout io.Writer) 
 
 			scenarioID := fmt.Sprintf("%s;%s", jsonFeature.ID, self.makeId(scenario.Name))
 
-			if len(pickle.SourceIds) > 1 {
-				exampleRow := self.lookup.LookupExampleRow(pickle.SourceIds[1])
-				example := self.lookup.LookupExample(pickle.SourceIds[1])
+			if len(pickle.AstNodeIds) > 1 {
+				exampleRow := self.lookup.LookupExampleRow(pickle.AstNodeIds[1])
+				example := self.lookup.LookupExample(pickle.AstNodeIds[1])
 				scenarioID = fmt.Sprintf(
 					"%s;%s;%s;%d",
 					jsonFeature.ID,
@@ -207,7 +207,7 @@ func (self *Formatter) ProcessMessages(reader gio.ReadCloser, stdout io.Writer) 
 
 			scenarioTags := make([]*jsonTag, len(pickle.Tags))
 			for tagIndex, pickleTag := range pickle.Tags {
-				tag := self.lookup.LookupTagByID(pickleTag.SourceId)
+				tag := self.lookup.LookupTagByID(pickleTag.AstNodeId)
 
 				scenarioTags[tagIndex] = &jsonTag{
 					Line: tag.Location.Line,
@@ -242,13 +242,13 @@ func (self *Formatter) ProcessMessages(reader gio.ReadCloser, stdout io.Writer) 
 				jsonStep.Result.Duration = uint64(duration)
 			}
 
-			stepDefinitions := self.lookup.LookupStepDefinitionConfigsByIDs(testStep.StepDefinitionId)
+			stepDefinitions := self.lookup.LookupStepDefinitionConfigsByIDs(testStep.StepDefinitionIds)
 			if len(stepDefinitions) > 0 {
 				jsonStep.Match = &jsonStepMatch{
 					Location: fmt.Sprintf(
 						"%s:%d",
-						stepDefinitions[0].Location.Uri,
-						stepDefinitions[0].Location.Location.Line,
+						stepDefinitions[0].SourceReference.Uri,
+						stepDefinitions[0].SourceReference.Location.Line,
 					),
 				}
 			}

@@ -6,7 +6,7 @@ export default class PickleTestStep extends TestStep {
     return new messages.TestCase.TestStep({
       id: this.id,
       pickleStepId: this.sourceId,
-      stepDefinitionId: this.supportCodeExecutors.map(
+      stepDefinitionIds: this.supportCodeExecutors.map(
         supportCodeExecutor => supportCodeExecutor.stepDefinitionId
       ),
       stepMatchArguments:

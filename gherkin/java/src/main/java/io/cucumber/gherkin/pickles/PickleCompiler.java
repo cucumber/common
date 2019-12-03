@@ -105,7 +105,7 @@ public class PickleCompiler {
                 .setLanguage(language)
                 .addAllSteps(steps)
                 .addAllTags(pickleTags)
-                .addAllSourceIds(sourceIds)
+                .addAllAstNodeIds(sourceIds)
                 .build();
         pickles.add(pickle);
     }
@@ -142,7 +142,7 @@ public class PickleCompiler {
                         .setLanguage(language)
                         .addAllSteps(steps)
                         .addAllTags(pickleTags(tags))
-                        .addAllSourceIds(sourceIds)
+                        .addAllAstNodeIds(sourceIds)
                         .build();
 
                 pickles.add(pickle);
@@ -181,10 +181,10 @@ public class PickleCompiler {
 
         PickleStep.Builder pickleStepBuilder = PickleStep.newBuilder()
                 .setId(idGenerator.newId())
-                .addSourceIds(step.getId())
+                .addAstNodeIds(step.getId())
                 .setText(stepText);
         if(valuesRow != null) {
-            pickleStepBuilder.addSourceIds(valuesRow.getId());
+            pickleStepBuilder.addAstNodeIds(valuesRow.getId());
         }
 
         if (step.hasDataTable()) {
@@ -236,7 +236,7 @@ public class PickleCompiler {
     private PickleTag pickleTag(Tag tag) {
         return PickleTag.newBuilder()
                 .setName(tag.getName())
-                .setSourceId(tag.getId())
+                .setAstNodeId(tag.getId())
                 .build();
     }
 

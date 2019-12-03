@@ -30,7 +30,7 @@ module Gherkin
 
               if @options[:include_gherkin_document]
                 gherkin_document = build_gherkin_document(source)
-                y.yield(Cucumber::Messages::Envelope.new(gherkinDocument: gherkin_document))
+                y.yield(Cucumber::Messages::Envelope.new(gherkin_document: gherkin_document))
               end
               if @options[:include_pickles]
                 gherkin_document ||= build_gherkin_document(source)
