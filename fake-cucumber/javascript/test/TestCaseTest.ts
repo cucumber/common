@@ -1,9 +1,9 @@
-import { messages } from 'cucumber-messages'
+import { messages, TimeConversion } from 'cucumber-messages'
 import assert from 'assert'
 import TestStep from '../src/TestStep'
 import TestCase from '../src/TestCase'
 import { MessageNotifier } from '../src/types'
-import durationBetween from '../src/durationBetween'
+const { millisecondsToDuration } = TimeConversion
 
 class StubTestStep extends TestStep {
   public constructor(
@@ -25,7 +25,7 @@ class StubTestStep extends TestStep {
       testCaseStartedId,
       new messages.TestResult({
         status: this.status,
-        duration: durationBetween(1000, 2005),
+        duration: millisecondsToDuration(1005),
         message: this.message,
       }),
       notifier

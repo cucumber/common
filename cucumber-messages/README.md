@@ -29,6 +29,14 @@ The protocol aims to decouple various components of the Cucumber platform so tha
   
 ![messages.png](messages.png)
 
+## Utitlities
+
+This library also contains utilities for:
+
+* Reading/Writing message objects as either [varint](https://developers.google.com/protocol-buffers/docs/encoding#varints)-delimited protobuf binary or [NDJSON](http://ndjson.org/).
+* Converting timestamps (clock time) and durations (monotonic time) to and from the
+  language-specific representation to our own protobuf `Timestamp` and `Duration` messages.
+
 ## Detailed message documentation
 
 See the generated [messages.md](messages.md) file.

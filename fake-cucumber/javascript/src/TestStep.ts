@@ -1,10 +1,10 @@
 import { performance } from 'perf_hooks'
-import { messages } from 'cucumber-messages'
+import { messages, TimeConversion } from 'cucumber-messages'
 import uuidv4 from 'uuid/v4'
 import SupportCodeExecutor from './SupportCodeExecutor'
 import { MessageNotifier } from './types'
 import ITestStep from './ITestStep'
-import durationBetween from './durationBetween'
+const { millisecondsToDuration } = TimeConversion
 
 export default abstract class TestStep implements ITestStep {
   public readonly id: string = uuidv4()
@@ -46,7 +46,7 @@ export default abstract class TestStep implements ITestStep {
     try {
       const result = this.supportCodeExecutors[0].execute()
       const finish = performance.now()
-      const duration = durationBetween(start, finish)
+      const duration = millisecondsToDuration(finish - start)
       return this.emitTestStepFinished(
         testCaseStartedId,
         new messages.TestResult({
@@ -60,7 +60,7 @@ export default abstract class TestStep implements ITestStep {
       )
     } catch (error) {
       const finish = performance.now()
-      const duration = durationBetween(start, finish)
+      const duration = millisecondsToDuration(finish - start)
       return this.emitTestStepFinished(
         testCaseStartedId,
         new messages.TestResult({
@@ -80,7 +80,7 @@ export default abstract class TestStep implements ITestStep {
     return this.emitTestStepFinished(
       testCaseStartedId,
       new messages.TestResult({
-        duration: durationBetween(0, 0),
+        duration: millisecondsToDuration(0),
         status: messages.TestResult.Status.SKIPPED,
       }),
       notifier
