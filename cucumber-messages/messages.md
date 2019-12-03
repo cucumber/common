@@ -100,7 +100,9 @@ An attachment represents any kind of data associated with a line in a
 * Syntax errors during parse time
 * Screenshots captured and attached during execution
 * Logs captured and attached during execution
-* Runtime errors raised/thrown during execution (TODO: Conflicts with `TestResult#message`?)
+
+It is not to be used for runtime errors raised/thrown during execution. This
+is captured in `TestResult`.
 
 
 | Field | Type | Label | Description |
@@ -108,6 +110,8 @@ An attachment represents any kind of data associated with a line in a
 | source | [SourceReference](#io.cucumber.messages.SourceReference) |  |  |
 | data | [string](#string) |  |  |
 | media | [Media](#io.cucumber.messages.Media) |  |  |
+| testStepId | [string](#string) |  |  |
+| testCaseStartedId | [string](#string) |  |  |
 
 
 
@@ -1054,7 +1058,7 @@ This message closely matches the `Argument` class in the `cucumber-expressions` 
 | ----- | ---- | ----- | ----------- |
 | id | [string](#string) |  |  |
 | pickleStepId | [string](#string) |  | Pointer to the PickleStep (if derived from a PickleStep) |
-| stepDefinitionId | [string](#string) | repeated | Pointer to all the matching StepDefinitions (if derived from a PickleStep) |
+| stepDefinitionId | [string](#string) | repeated | Pointer to all the matching StepDefinitions (if derived from a PickleStep) TODO: Should be renamed stepDefinitionIds |
 | stepMatchArguments | [StepMatchArgument](#io.cucumber.messages.StepMatchArgument) | repeated | All the arguments from the match (if derived from a PickleStep and there was exactly 1 StepDefinition) |
 | hookId | [string](#string) |  | Pointer to the TestCaseHookDefinitionConfig (if derived from a Hook) |
 

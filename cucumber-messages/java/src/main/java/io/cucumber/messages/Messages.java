@@ -31508,6 +31508,26 @@ public final class Messages {
      * <code>.io.cucumber.messages.Media media = 3;</code>
      */
     io.cucumber.messages.Messages.MediaOrBuilder getMediaOrBuilder();
+
+    /**
+     * <code>string testStepId = 4;</code>
+     */
+    java.lang.String getTestStepId();
+    /**
+     * <code>string testStepId = 4;</code>
+     */
+    com.google.protobuf.ByteString
+        getTestStepIdBytes();
+
+    /**
+     * <code>string testCaseStartedId = 5;</code>
+     */
+    java.lang.String getTestCaseStartedId();
+    /**
+     * <code>string testCaseStartedId = 5;</code>
+     */
+    com.google.protobuf.ByteString
+        getTestCaseStartedIdBytes();
   }
   /**
    * <pre>
@@ -31517,7 +31537,8 @@ public final class Messages {
    * * Syntax errors during parse time
    * * Screenshots captured and attached during execution
    * * Logs captured and attached during execution
-   * * Runtime errors raised/thrown during execution (TODO: Conflicts with `TestResult#message`?)
+   * It is not to be used for runtime errors raised/thrown during execution. This
+   * is captured in `TestResult`.
    * </pre>
    *
    * Protobuf type {@code io.cucumber.messages.Attachment}
@@ -31533,6 +31554,8 @@ public final class Messages {
     }
     private Attachment() {
       data_ = "";
+      testStepId_ = "";
+      testCaseStartedId_ = "";
     }
 
     @java.lang.Override
@@ -31589,6 +31612,18 @@ public final class Messages {
                 media_ = subBuilder.buildPartial();
               }
 
+              break;
+            }
+            case 34: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              testStepId_ = s;
+              break;
+            }
+            case 42: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              testCaseStartedId_ = s;
               break;
             }
             default: {
@@ -31699,6 +31734,74 @@ public final class Messages {
       return getMedia();
     }
 
+    public static final int TESTSTEPID_FIELD_NUMBER = 4;
+    private volatile java.lang.Object testStepId_;
+    /**
+     * <code>string testStepId = 4;</code>
+     */
+    public java.lang.String getTestStepId() {
+      java.lang.Object ref = testStepId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        testStepId_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string testStepId = 4;</code>
+     */
+    public com.google.protobuf.ByteString
+        getTestStepIdBytes() {
+      java.lang.Object ref = testStepId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        testStepId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int TESTCASESTARTEDID_FIELD_NUMBER = 5;
+    private volatile java.lang.Object testCaseStartedId_;
+    /**
+     * <code>string testCaseStartedId = 5;</code>
+     */
+    public java.lang.String getTestCaseStartedId() {
+      java.lang.Object ref = testCaseStartedId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        testCaseStartedId_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string testCaseStartedId = 5;</code>
+     */
+    public com.google.protobuf.ByteString
+        getTestCaseStartedIdBytes() {
+      java.lang.Object ref = testCaseStartedId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        testCaseStartedId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -31722,6 +31825,12 @@ public final class Messages {
       if (media_ != null) {
         output.writeMessage(3, getMedia());
       }
+      if (!getTestStepIdBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 4, testStepId_);
+      }
+      if (!getTestCaseStartedIdBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 5, testCaseStartedId_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -31741,6 +31850,12 @@ public final class Messages {
       if (media_ != null) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(3, getMedia());
+      }
+      if (!getTestStepIdBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, testStepId_);
+      }
+      if (!getTestCaseStartedIdBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(5, testCaseStartedId_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -31770,6 +31885,10 @@ public final class Messages {
         result = result && getMedia()
             .equals(other.getMedia());
       }
+      result = result && getTestStepId()
+          .equals(other.getTestStepId());
+      result = result && getTestCaseStartedId()
+          .equals(other.getTestCaseStartedId());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -31791,6 +31910,10 @@ public final class Messages {
         hash = (37 * hash) + MEDIA_FIELD_NUMBER;
         hash = (53 * hash) + getMedia().hashCode();
       }
+      hash = (37 * hash) + TESTSTEPID_FIELD_NUMBER;
+      hash = (53 * hash) + getTestStepId().hashCode();
+      hash = (37 * hash) + TESTCASESTARTEDID_FIELD_NUMBER;
+      hash = (53 * hash) + getTestCaseStartedId().hashCode();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -31894,7 +32017,8 @@ public final class Messages {
      * * Syntax errors during parse time
      * * Screenshots captured and attached during execution
      * * Logs captured and attached during execution
-     * * Runtime errors raised/thrown during execution (TODO: Conflicts with `TestResult#message`?)
+     * It is not to be used for runtime errors raised/thrown during execution. This
+     * is captured in `TestResult`.
      * </pre>
      *
      * Protobuf type {@code io.cucumber.messages.Attachment}
@@ -31948,6 +32072,10 @@ public final class Messages {
           media_ = null;
           mediaBuilder_ = null;
         }
+        testStepId_ = "";
+
+        testCaseStartedId_ = "";
+
         return this;
       }
 
@@ -31985,6 +32113,8 @@ public final class Messages {
         } else {
           result.media_ = mediaBuilder_.build();
         }
+        result.testStepId_ = testStepId_;
+        result.testCaseStartedId_ = testCaseStartedId_;
         onBuilt();
         return result;
       }
@@ -32042,6 +32172,14 @@ public final class Messages {
         }
         if (other.hasMedia()) {
           mergeMedia(other.getMedia());
+        }
+        if (!other.getTestStepId().isEmpty()) {
+          testStepId_ = other.testStepId_;
+          onChanged();
+        }
+        if (!other.getTestCaseStartedId().isEmpty()) {
+          testCaseStartedId_ = other.testCaseStartedId_;
+          onChanged();
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -32373,6 +32511,144 @@ public final class Messages {
           media_ = null;
         }
         return mediaBuilder_;
+      }
+
+      private java.lang.Object testStepId_ = "";
+      /**
+       * <code>string testStepId = 4;</code>
+       */
+      public java.lang.String getTestStepId() {
+        java.lang.Object ref = testStepId_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          testStepId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string testStepId = 4;</code>
+       */
+      public com.google.protobuf.ByteString
+          getTestStepIdBytes() {
+        java.lang.Object ref = testStepId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          testStepId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string testStepId = 4;</code>
+       */
+      public Builder setTestStepId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        testStepId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string testStepId = 4;</code>
+       */
+      public Builder clearTestStepId() {
+        
+        testStepId_ = getDefaultInstance().getTestStepId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string testStepId = 4;</code>
+       */
+      public Builder setTestStepIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        testStepId_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object testCaseStartedId_ = "";
+      /**
+       * <code>string testCaseStartedId = 5;</code>
+       */
+      public java.lang.String getTestCaseStartedId() {
+        java.lang.Object ref = testCaseStartedId_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          testCaseStartedId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string testCaseStartedId = 5;</code>
+       */
+      public com.google.protobuf.ByteString
+          getTestCaseStartedIdBytes() {
+        java.lang.Object ref = testCaseStartedId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          testCaseStartedId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string testCaseStartedId = 5;</code>
+       */
+      public Builder setTestCaseStartedId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        testCaseStartedId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string testCaseStartedId = 5;</code>
+       */
+      public Builder clearTestCaseStartedId() {
+        
+        testCaseStartedId_ = getDefaultInstance().getTestCaseStartedId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string testCaseStartedId = 5;</code>
+       */
+      public Builder setTestCaseStartedIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        testCaseStartedId_ = value;
+        onChanged();
+        return this;
       }
       @java.lang.Override
       public final Builder setUnknownFields(
@@ -74671,151 +74947,152 @@ public final class Messages {
       "ableRow\032w\n\tDocString\0220\n\010location\030\001 \001(\0132\036" +
       ".io.cucumber.messages.Location\022\024\n\014conten" +
       "t_type\030\002 \001(\t\022\017\n\007content\030\003 \001(\t\022\021\n\tdelimit" +
-      "er\030\004 \001(\tB\n\n\010argument\"}\n\nAttachment\0225\n\006so" +
-      "urce\030\001 \001(\0132%.io.cucumber.messages.Source" +
-      "Reference\022\014\n\004data\030\002 \001(\t\022*\n\005media\030\003 \001(\0132\033" +
-      ".io.cucumber.messages.Media\"\346\002\n\006Pickle\022\n" +
-      "\n\002id\030\001 \001(\t\022\013\n\003uri\030\002 \001(\t\022\014\n\004name\030\003 \001(\t\022\020\n" +
-      "\010language\030\004 \001(\t\0226\n\005steps\030\005 \003(\0132\'.io.cucu" +
-      "mber.messages.Pickle.PickleStep\0224\n\004tags\030" +
-      "\006 \003(\0132&.io.cucumber.messages.Pickle.Pick" +
-      "leTag\022\021\n\tsourceIds\030\007 \003(\t\032+\n\tPickleTag\022\014\n" +
-      "\004name\030\001 \001(\t\022\020\n\010sourceId\030\002 \001(\t\032u\n\nPickleS" +
-      "tep\022\014\n\004text\030\001 \001(\t\022:\n\010argument\030\002 \001(\0132(.io" +
-      ".cucumber.messages.PickleStepArgument\022\n\n" +
-      "\002id\030\003 \001(\t\022\021\n\tsourceIds\030\004 \003(\t\"\360\003\n\022PickleS" +
-      "tepArgument\022N\n\ndoc_string\030\001 \001(\01328.io.cuc" +
-      "umber.messages.PickleStepArgument.Pickle" +
-      "DocStringH\000\022J\n\ndata_table\030\002 \001(\01324.io.cuc" +
-      "umber.messages.PickleStepArgument.Pickle" +
-      "TableH\000\0327\n\017PickleDocString\022\023\n\013contentTyp" +
-      "e\030\001 \001(\t\022\017\n\007content\030\002 \001(\t\032\371\001\n\013PickleTable" +
-      "\022Q\n\004rows\030\001 \003(\0132C.io.cucumber.messages.Pi" +
-      "ckleStepArgument.PickleTable.PickleTable" +
-      "Row\032\226\001\n\016PickleTableRow\022b\n\005cells\030\001 \003(\0132S." +
-      "io.cucumber.messages.PickleStepArgument." +
-      "PickleTable.PickleTableRow.PickleTableCe" +
-      "ll\032 \n\017PickleTableCell\022\r\n\005value\030\001 \001(\tB\t\n\007" +
-      "message\"\202\002\n\010TestCase\022\n\n\002id\030\001 \001(\t\022\020\n\010pick" +
-      "leId\030\002 \001(\t\022:\n\ttestSteps\030\003 \003(\0132\'.io.cucum" +
-      "ber.messages.TestCase.TestStep\032\233\001\n\010TestS" +
-      "tep\022\n\n\002id\030\001 \001(\t\022\024\n\014pickleStepId\030\002 \001(\t\022\030\n" +
-      "\020stepDefinitionId\030\003 \003(\t\022C\n\022stepMatchArgu" +
-      "ments\030\004 \003(\0132\'.io.cucumber.messages.StepM" +
-      "atchArgument\022\016\n\006hookId\030\005 \001(\t\"\"\n\016PickleAc" +
-      "cepted\022\020\n\010pickleId\030\001 \001(\t\"\"\n\016PickleReject" +
-      "ed\022\020\n\010pickleId\030\002 \001(\t\"D\n\016TestRunStarted\0222" +
-      "\n\ttimestamp\030\001 \001(\0132\037.io.cucumber.messages" +
-      ".Timestamp\"\224\001\n\024TestCasePreparedStep\022=\n\016s" +
-      "ourceLocation\030\001 \001(\0132%.io.cucumber.messag" +
-      "es.SourceReference\022=\n\016actionLocation\030\002 \001" +
-      "(\0132%.io.cucumber.messages.SourceReferenc" +
-      "e\"_\n\020TestCasePrepared\022\020\n\010pickleId\030\001 \001(\t\022" +
-      "9\n\005steps\030\002 \003(\0132*.io.cucumber.messages.Te" +
-      "stCasePreparedStep\"\206\002\n\017TestCaseStarted\0222" +
-      "\n\ttimestamp\030\001 \001(\0132\037.io.cucumber.messages" +
-      ".Timestamp\022@\n\010platform\030\002 \001(\0132..io.cucumb" +
-      "er.messages.TestCaseStarted.Platform\022\017\n\007" +
-      "attempt\030\003 \001(\r\022\022\n\ntestCaseId\030\004 \001(\t\022\n\n\002id\030" +
-      "\005 \001(\t\032L\n\010Platform\022\026\n\016implementation\030\001 \001(" +
-      "\t\022\017\n\007version\030\002 \001(\t\022\n\n\002os\030\003 \001(\t\022\013\n\003cpu\030\004 " +
-      "\001(\t\"\227\001\n\020TestCaseFinished\0222\n\ttimestamp\030\001 " +
-      "\001(\0132\037.io.cucumber.messages.Timestamp\0224\n\n" +
+      "er\030\004 \001(\tB\n\n\010argument\"\254\001\n\nAttachment\0225\n\006s" +
+      "ource\030\001 \001(\0132%.io.cucumber.messages.Sourc" +
+      "eReference\022\014\n\004data\030\002 \001(\t\022*\n\005media\030\003 \001(\0132" +
+      "\033.io.cucumber.messages.Media\022\022\n\ntestStep" +
+      "Id\030\004 \001(\t\022\031\n\021testCaseStartedId\030\005 \001(\t\"\346\002\n\006" +
+      "Pickle\022\n\n\002id\030\001 \001(\t\022\013\n\003uri\030\002 \001(\t\022\014\n\004name\030" +
+      "\003 \001(\t\022\020\n\010language\030\004 \001(\t\0226\n\005steps\030\005 \003(\0132\'" +
+      ".io.cucumber.messages.Pickle.PickleStep\022" +
+      "4\n\004tags\030\006 \003(\0132&.io.cucumber.messages.Pic" +
+      "kle.PickleTag\022\021\n\tsourceIds\030\007 \003(\t\032+\n\tPick" +
+      "leTag\022\014\n\004name\030\001 \001(\t\022\020\n\010sourceId\030\002 \001(\t\032u\n" +
+      "\nPickleStep\022\014\n\004text\030\001 \001(\t\022:\n\010argument\030\002 " +
+      "\001(\0132(.io.cucumber.messages.PickleStepArg" +
+      "ument\022\n\n\002id\030\003 \001(\t\022\021\n\tsourceIds\030\004 \003(\t\"\360\003\n" +
+      "\022PickleStepArgument\022N\n\ndoc_string\030\001 \001(\0132" +
+      "8.io.cucumber.messages.PickleStepArgumen" +
+      "t.PickleDocStringH\000\022J\n\ndata_table\030\002 \001(\0132" +
+      "4.io.cucumber.messages.PickleStepArgumen" +
+      "t.PickleTableH\000\0327\n\017PickleDocString\022\023\n\013co" +
+      "ntentType\030\001 \001(\t\022\017\n\007content\030\002 \001(\t\032\371\001\n\013Pic" +
+      "kleTable\022Q\n\004rows\030\001 \003(\0132C.io.cucumber.mes" +
+      "sages.PickleStepArgument.PickleTable.Pic" +
+      "kleTableRow\032\226\001\n\016PickleTableRow\022b\n\005cells\030" +
+      "\001 \003(\0132S.io.cucumber.messages.PickleStepA" +
+      "rgument.PickleTable.PickleTableRow.Pickl" +
+      "eTableCell\032 \n\017PickleTableCell\022\r\n\005value\030\001" +
+      " \001(\tB\t\n\007message\"\202\002\n\010TestCase\022\n\n\002id\030\001 \001(\t" +
+      "\022\020\n\010pickleId\030\002 \001(\t\022:\n\ttestSteps\030\003 \003(\0132\'." +
+      "io.cucumber.messages.TestCase.TestStep\032\233" +
+      "\001\n\010TestStep\022\n\n\002id\030\001 \001(\t\022\024\n\014pickleStepId\030" +
+      "\002 \001(\t\022\030\n\020stepDefinitionId\030\003 \003(\t\022C\n\022stepM" +
+      "atchArguments\030\004 \003(\0132\'.io.cucumber.messag" +
+      "es.StepMatchArgument\022\016\n\006hookId\030\005 \001(\t\"\"\n\016" +
+      "PickleAccepted\022\020\n\010pickleId\030\001 \001(\t\"\"\n\016Pick" +
+      "leRejected\022\020\n\010pickleId\030\002 \001(\t\"D\n\016TestRunS" +
+      "tarted\0222\n\ttimestamp\030\001 \001(\0132\037.io.cucumber." +
+      "messages.Timestamp\"\224\001\n\024TestCasePreparedS" +
+      "tep\022=\n\016sourceLocation\030\001 \001(\0132%.io.cucumbe" +
+      "r.messages.SourceReference\022=\n\016actionLoca" +
+      "tion\030\002 \001(\0132%.io.cucumber.messages.Source" +
+      "Reference\"_\n\020TestCasePrepared\022\020\n\010pickleI" +
+      "d\030\001 \001(\t\0229\n\005steps\030\002 \003(\0132*.io.cucumber.mes" +
+      "sages.TestCasePreparedStep\"\206\002\n\017TestCaseS" +
+      "tarted\0222\n\ttimestamp\030\001 \001(\0132\037.io.cucumber." +
+      "messages.Timestamp\022@\n\010platform\030\002 \001(\0132..i" +
+      "o.cucumber.messages.TestCaseStarted.Plat" +
+      "form\022\017\n\007attempt\030\003 \001(\r\022\022\n\ntestCaseId\030\004 \001(" +
+      "\t\022\n\n\002id\030\005 \001(\t\032L\n\010Platform\022\026\n\016implementat" +
+      "ion\030\001 \001(\t\022\017\n\007version\030\002 \001(\t\022\n\n\002os\030\003 \001(\t\022\013" +
+      "\n\003cpu\030\004 \001(\t\"\227\001\n\020TestCaseFinished\0222\n\ttime" +
+      "stamp\030\001 \001(\0132\037.io.cucumber.messages.Times" +
+      "tamp\0224\n\ntestResult\030\002 \001(\0132 .io.cucumber.m" +
+      "essages.TestResult\022\031\n\021testCaseStartedId\030" +
+      "\003 \001(\t\"t\n\017TestStepStarted\0222\n\ttimestamp\030\001 " +
+      "\001(\0132\037.io.cucumber.messages.Timestamp\022\022\n\n" +
+      "testStepId\030\002 \001(\t\022\031\n\021testCaseStartedId\030\003 " +
+      "\001(\t\"\253\001\n\020TestStepFinished\0224\n\ntestResult\030\001" +
+      " \001(\0132 .io.cucumber.messages.TestResult\0222" +
+      "\n\ttimestamp\030\002 \001(\0132\037.io.cucumber.messages" +
+      ".Timestamp\022\022\n\ntestStepId\030\003 \001(\t\022\031\n\021testCa" +
+      "seStartedId\030\004 \001(\t\"\206\002\n\nTestResult\0227\n\006stat" +
+      "us\030\001 \001(\0162\'.io.cucumber.messages.TestResu" +
+      "lt.Status\022\017\n\007message\030\002 \001(\t\0220\n\010duration\030\003" +
+      " \001(\0132\036.io.cucumber.messages.Duration\022\025\n\r" +
+      "willBeRetried\030\004 \001(\010\"e\n\006Status\022\013\n\007UNKNOWN" +
+      "\020\000\022\n\n\006PASSED\020\001\022\013\n\007SKIPPED\020\002\022\013\n\007PENDING\020\003" +
+      "\022\r\n\tUNDEFINED\020\004\022\r\n\tAMBIGUOUS\020\005\022\n\n\006FAILED" +
+      "\020\006\"V\n\017TestRunFinished\022\017\n\007success\030\001 \001(\010\0222" +
+      "\n\ttimestamp\030\002 \001(\0132\037.io.cucumber.messages" +
+      ".Timestamp\"\341\001\n\014CommandStart\022\025\n\rbaseDirec" +
+      "tory\030\002 \001(\t\022:\n\rsourcesConfig\030\003 \001(\0132#.io.c" +
+      "ucumber.messages.SourcesConfig\022:\n\rruntim" +
+      "eConfig\030\004 \001(\0132#.io.cucumber.messages.Run" +
+      "timeConfig\022B\n\021supportCodeConfig\030\005 \001(\0132\'." +
+      "io.cucumber.messages.SupportCodeConfig\"\247" +
+      "\001\n\rSourcesConfig\022\025\n\rabsolutePaths\030\001 \003(\t\022" +
+      "\020\n\010language\030\002 \001(\t\022:\n\007filters\030\003 \001(\0132).io." +
+      "cucumber.messages.SourcesFilterConfig\0221\n" +
+      "\005order\030\004 \001(\0132\".io.cucumber.messages.Sour" +
+      "cesOrder\"\220\001\n\023SourcesFilterConfig\022\025\n\rtagE" +
+      "xpression\030\001 \001(\t\022\036\n\026nameRegularExpression" +
+      "s\030\002 \003(\t\022B\n\021uriToLinesMapping\030\003 \003(\0132\'.io." +
+      "cucumber.messages.UriToLinesMapping\"8\n\021U" +
+      "riToLinesMapping\022\024\n\014absolutePath\030\001 \001(\t\022\r" +
+      "\n\005lines\030\002 \003(\004\"R\n\014SourcesOrder\0224\n\004type\030\001 " +
+      "\001(\0162&.io.cucumber.messages.SourcesOrderT" +
+      "ype\022\014\n\004seed\030\002 \001(\004\"\\\n\rRuntimeConfig\022\022\n\nis" +
+      "FailFast\030\001 \001(\010\022\020\n\010isDryRun\030\002 \001(\010\022\020\n\010isSt" +
+      "rict\030\003 \001(\010\022\023\n\013maxParallel\030\004 \001(\004\"\350\002\n\021Supp" +
+      "ortCodeConfig\022_\n#beforeTestCaseHookDefin" +
+      "itionConfigs\030\001 \003(\01322.io.cucumber.message" +
+      "s.TestCaseHookDefinitionConfig\022^\n\"afterT" +
+      "estCaseHookDefinitionConfigs\030\002 \003(\01322.io." +
+      "cucumber.messages.TestCaseHookDefinition" +
+      "Config\022I\n\025stepDefinitionConfigs\030\003 \003(\0132*." +
+      "io.cucumber.messages.StepDefinitionConfi" +
+      "g\022G\n\024parameterTypeConfigs\030\004 \003(\0132).io.cuc" +
+      "umber.messages.ParameterTypeConfig\"z\n\034Te" +
+      "stCaseHookDefinitionConfig\022\n\n\002id\030\001 \001(\t\022\025" +
+      "\n\rtagExpression\030\002 \001(\t\0227\n\010location\030\003 \001(\0132" +
+      "%.io.cucumber.messages.SourceReference\"\231" +
+      "\001\n\024StepDefinitionConfig\022\n\n\002id\030\001 \001(\t\022<\n\007p" +
+      "attern\030\002 \001(\0132+.io.cucumber.messages.Step" +
+      "DefinitionPattern\0227\n\010location\030\003 \001(\0132%.io" +
+      ".cucumber.messages.SourceReference\"f\n\025St" +
+      "epDefinitionPattern\022\016\n\006source\030\001 \001(\t\022=\n\004t" +
+      "ype\030\002 \001(\0162/.io.cucumber.messages.StepDef" +
+      "initionPatternType\"\200\001\n\023ParameterTypeConf" +
+      "ig\022\014\n\004name\030\001 \001(\t\022\032\n\022regularExpressions\030\002" +
+      " \003(\t\022\'\n\037preferForRegularExpressionMatch\030" +
+      "\003 \001(\010\022\026\n\016useForSnippets\030\004 \001(\010\"\201\001\n\025Comman" +
+      "dActionComplete\022\023\n\013completedId\030\001 \001(\t\0226\n\n" +
       "testResult\030\002 \001(\0132 .io.cucumber.messages." +
-      "TestResult\022\031\n\021testCaseStartedId\030\003 \001(\t\"t\n" +
-      "\017TestStepStarted\0222\n\ttimestamp\030\001 \001(\0132\037.io" +
-      ".cucumber.messages.Timestamp\022\022\n\ntestStep" +
-      "Id\030\002 \001(\t\022\031\n\021testCaseStartedId\030\003 \001(\t\"\253\001\n\020" +
-      "TestStepFinished\0224\n\ntestResult\030\001 \001(\0132 .i" +
-      "o.cucumber.messages.TestResult\0222\n\ttimest" +
-      "amp\030\002 \001(\0132\037.io.cucumber.messages.Timesta" +
-      "mp\022\022\n\ntestStepId\030\003 \001(\t\022\031\n\021testCaseStarte" +
-      "dId\030\004 \001(\t\"\206\002\n\nTestResult\0227\n\006status\030\001 \001(\016" +
-      "2\'.io.cucumber.messages.TestResult.Statu" +
-      "s\022\017\n\007message\030\002 \001(\t\0220\n\010duration\030\003 \001(\0132\036.i" +
-      "o.cucumber.messages.Duration\022\025\n\rwillBeRe" +
-      "tried\030\004 \001(\010\"e\n\006Status\022\013\n\007UNKNOWN\020\000\022\n\n\006PA" +
-      "SSED\020\001\022\013\n\007SKIPPED\020\002\022\013\n\007PENDING\020\003\022\r\n\tUNDE" +
-      "FINED\020\004\022\r\n\tAMBIGUOUS\020\005\022\n\n\006FAILED\020\006\"V\n\017Te" +
-      "stRunFinished\022\017\n\007success\030\001 \001(\010\0222\n\ttimest" +
-      "amp\030\002 \001(\0132\037.io.cucumber.messages.Timesta" +
-      "mp\"\341\001\n\014CommandStart\022\025\n\rbaseDirectory\030\002 \001" +
-      "(\t\022:\n\rsourcesConfig\030\003 \001(\0132#.io.cucumber." +
-      "messages.SourcesConfig\022:\n\rruntimeConfig\030" +
-      "\004 \001(\0132#.io.cucumber.messages.RuntimeConf" +
-      "ig\022B\n\021supportCodeConfig\030\005 \001(\0132\'.io.cucum" +
-      "ber.messages.SupportCodeConfig\"\247\001\n\rSourc" +
-      "esConfig\022\025\n\rabsolutePaths\030\001 \003(\t\022\020\n\010langu" +
-      "age\030\002 \001(\t\022:\n\007filters\030\003 \001(\0132).io.cucumber" +
-      ".messages.SourcesFilterConfig\0221\n\005order\030\004" +
-      " \001(\0132\".io.cucumber.messages.SourcesOrder" +
-      "\"\220\001\n\023SourcesFilterConfig\022\025\n\rtagExpressio" +
-      "n\030\001 \001(\t\022\036\n\026nameRegularExpressions\030\002 \003(\t\022" +
-      "B\n\021uriToLinesMapping\030\003 \003(\0132\'.io.cucumber" +
-      ".messages.UriToLinesMapping\"8\n\021UriToLine" +
-      "sMapping\022\024\n\014absolutePath\030\001 \001(\t\022\r\n\005lines\030" +
-      "\002 \003(\004\"R\n\014SourcesOrder\0224\n\004type\030\001 \001(\0162&.io" +
-      ".cucumber.messages.SourcesOrderType\022\014\n\004s" +
-      "eed\030\002 \001(\004\"\\\n\rRuntimeConfig\022\022\n\nisFailFast" +
-      "\030\001 \001(\010\022\020\n\010isDryRun\030\002 \001(\010\022\020\n\010isStrict\030\003 \001" +
-      "(\010\022\023\n\013maxParallel\030\004 \001(\004\"\350\002\n\021SupportCodeC" +
-      "onfig\022_\n#beforeTestCaseHookDefinitionCon" +
-      "figs\030\001 \003(\01322.io.cucumber.messages.TestCa" +
-      "seHookDefinitionConfig\022^\n\"afterTestCaseH" +
-      "ookDefinitionConfigs\030\002 \003(\01322.io.cucumber" +
-      ".messages.TestCaseHookDefinitionConfig\022I" +
-      "\n\025stepDefinitionConfigs\030\003 \003(\0132*.io.cucum" +
-      "ber.messages.StepDefinitionConfig\022G\n\024par" +
-      "ameterTypeConfigs\030\004 \003(\0132).io.cucumber.me" +
-      "ssages.ParameterTypeConfig\"z\n\034TestCaseHo" +
-      "okDefinitionConfig\022\n\n\002id\030\001 \001(\t\022\025\n\rtagExp" +
-      "ression\030\002 \001(\t\0227\n\010location\030\003 \001(\0132%.io.cuc" +
-      "umber.messages.SourceReference\"\231\001\n\024StepD" +
-      "efinitionConfig\022\n\n\002id\030\001 \001(\t\022<\n\007pattern\030\002" +
-      " \001(\0132+.io.cucumber.messages.StepDefiniti" +
-      "onPattern\0227\n\010location\030\003 \001(\0132%.io.cucumbe" +
-      "r.messages.SourceReference\"f\n\025StepDefini" +
-      "tionPattern\022\016\n\006source\030\001 \001(\t\022=\n\004type\030\002 \001(" +
-      "\0162/.io.cucumber.messages.StepDefinitionP" +
-      "atternType\"\200\001\n\023ParameterTypeConfig\022\014\n\004na" +
-      "me\030\001 \001(\t\022\032\n\022regularExpressions\030\002 \003(\t\022\'\n\037" +
-      "preferForRegularExpressionMatch\030\003 \001(\010\022\026\n" +
-      "\016useForSnippets\030\004 \001(\010\"\201\001\n\025CommandActionC" +
-      "omplete\022\023\n\013completedId\030\001 \001(\t\0226\n\ntestResu" +
-      "lt\030\002 \001(\0132 .io.cucumber.messages.TestResu" +
-      "ltH\000\022\021\n\007snippet\030\003 \001(\tH\000B\010\n\006result\"0\n\034Com" +
-      "mandRunBeforeTestRunHooks\022\020\n\010actionId\030\001 " +
-      "\001(\t\"/\n\033CommandRunAfterTestRunHooks\022\020\n\010ac" +
-      "tionId\030\001 \001(\t\"[\n\031CommandInitializeTestCas" +
-      "e\022\020\n\010actionId\030\001 \001(\t\022,\n\006pickle\030\002 \001(\0132\034.io" +
-      ".cucumber.messages.Pickle\"f\n\034CommandRunB" +
-      "eforeTestCaseHook\022\020\n\010actionId\030\001 \001(\t\022 \n\030t" +
-      "estCaseHookDefinitionId\030\002 \001(\t\022\022\n\ntestCas" +
-      "eId\030\003 \001(\t\"e\n\033CommandRunAfterTestCaseHook" +
-      "\022\020\n\010actionId\030\001 \001(\t\022 \n\030testCaseHookDefini" +
-      "tionId\030\002 \001(\t\022\022\n\ntestCaseId\030\003 \001(\t\"\337\001\n\022Com" +
-      "mandRunTestStep\022\020\n\010actionId\030\001 \001(\t\022\030\n\020ste" +
-      "pDefinitionId\030\002 \001(\t\022C\n\022stepMatchArgument" +
-      "s\030\003 \003(\0132\'.io.cucumber.messages.StepMatch" +
-      "Argument\022D\n\022pickleStepArgument\030\004 \001(\0132(.i" +
-      "o.cucumber.messages.PickleStepArgument\022\022" +
-      "\n\ntestCaseId\030\005 \001(\t\"\324\001\n\021StepMatchArgument" +
-      "\022\031\n\021parameterTypeName\030\001 \001(\t\022<\n\005group\030\002 \001" +
-      "(\0132-.io.cucumber.messages.StepMatchArgum" +
-      "ent.Group\032f\n\005Group\022\r\n\005start\030\001 \001(\r\022\r\n\005val" +
-      "ue\030\002 \001(\t\022?\n\010children\030\003 \003(\0132-.io.cucumber" +
-      ".messages.StepMatchArgument.Group\"\271\001\n\026Co" +
-      "mmandGenerateSnippet\022\020\n\010actionId\030\001 \001(\t\022G" +
-      "\n\024generatedExpressions\030\002 \003(\0132).io.cucumb" +
-      "er.messages.GeneratedExpression\022D\n\022pickl" +
-      "eStepArgument\030\003 \001(\0132(.io.cucumber.messag" +
-      "es.PickleStepArgument\"?\n\023GeneratedExpres" +
-      "sion\022\014\n\004text\030\001 \001(\t\022\032\n\022parameterTypeNames" +
-      "\030\002 \003(\t*7\n\020SourcesOrderType\022\027\n\023ORDER_OF_D" +
-      "EFINITION\020\000\022\n\n\006RANDOM\020\001*L\n\031StepDefinitio" +
-      "nPatternType\022\027\n\023CUCUMBER_EXPRESSION\020\000\022\026\n" +
-      "\022REGULAR_EXPRESSION\020\001B\036Z\010messages\352\002\021Cucu" +
-      "mber.Messagesb\006proto3"
+      "TestResultH\000\022\021\n\007snippet\030\003 \001(\tH\000B\010\n\006resul" +
+      "t\"0\n\034CommandRunBeforeTestRunHooks\022\020\n\010act" +
+      "ionId\030\001 \001(\t\"/\n\033CommandRunAfterTestRunHoo" +
+      "ks\022\020\n\010actionId\030\001 \001(\t\"[\n\031CommandInitializ" +
+      "eTestCase\022\020\n\010actionId\030\001 \001(\t\022,\n\006pickle\030\002 " +
+      "\001(\0132\034.io.cucumber.messages.Pickle\"f\n\034Com" +
+      "mandRunBeforeTestCaseHook\022\020\n\010actionId\030\001 " +
+      "\001(\t\022 \n\030testCaseHookDefinitionId\030\002 \001(\t\022\022\n" +
+      "\ntestCaseId\030\003 \001(\t\"e\n\033CommandRunAfterTest" +
+      "CaseHook\022\020\n\010actionId\030\001 \001(\t\022 \n\030testCaseHo" +
+      "okDefinitionId\030\002 \001(\t\022\022\n\ntestCaseId\030\003 \001(\t" +
+      "\"\337\001\n\022CommandRunTestStep\022\020\n\010actionId\030\001 \001(" +
+      "\t\022\030\n\020stepDefinitionId\030\002 \001(\t\022C\n\022stepMatch" +
+      "Arguments\030\003 \003(\0132\'.io.cucumber.messages.S" +
+      "tepMatchArgument\022D\n\022pickleStepArgument\030\004" +
+      " \001(\0132(.io.cucumber.messages.PickleStepAr" +
+      "gument\022\022\n\ntestCaseId\030\005 \001(\t\"\324\001\n\021StepMatch" +
+      "Argument\022\031\n\021parameterTypeName\030\001 \001(\t\022<\n\005g" +
+      "roup\030\002 \001(\0132-.io.cucumber.messages.StepMa" +
+      "tchArgument.Group\032f\n\005Group\022\r\n\005start\030\001 \001(" +
+      "\r\022\r\n\005value\030\002 \001(\t\022?\n\010children\030\003 \003(\0132-.io." +
+      "cucumber.messages.StepMatchArgument.Grou" +
+      "p\"\271\001\n\026CommandGenerateSnippet\022\020\n\010actionId" +
+      "\030\001 \001(\t\022G\n\024generatedExpressions\030\002 \003(\0132).i" +
+      "o.cucumber.messages.GeneratedExpression\022" +
+      "D\n\022pickleStepArgument\030\003 \001(\0132(.io.cucumbe" +
+      "r.messages.PickleStepArgument\"?\n\023Generat" +
+      "edExpression\022\014\n\004text\030\001 \001(\t\022\032\n\022parameterT" +
+      "ypeNames\030\002 \003(\t*7\n\020SourcesOrderType\022\027\n\023OR" +
+      "DER_OF_DEFINITION\020\000\022\n\n\006RANDOM\020\001*L\n\031StepD" +
+      "efinitionPatternType\022\027\n\023CUCUMBER_EXPRESS" +
+      "ION\020\000\022\026\n\022REGULAR_EXPRESSION\020\001B\036Z\010message" +
+      "s\352\002\021Cucumber.Messagesb\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -74966,7 +75243,7 @@ public final class Messages {
     internal_static_io_cucumber_messages_Attachment_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_io_cucumber_messages_Attachment_descriptor,
-        new java.lang.String[] { "Source", "Data", "Media", });
+        new java.lang.String[] { "Source", "Data", "Media", "TestStepId", "TestCaseStartedId", });
     internal_static_io_cucumber_messages_Pickle_descriptor =
       getDescriptor().getMessageTypes().get(9);
     internal_static_io_cucumber_messages_Pickle_fieldAccessorTable = new

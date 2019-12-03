@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+* Added `testStepId` and `testCaseStartedId` to `Attachment`
+  ([#814](https://github.com/cucumber/cucumber/pull/814)
+   [charlierudolph])
 * Added new classes for working with NDJSON streams
 
 ### Changed
