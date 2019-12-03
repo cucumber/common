@@ -21,7 +21,7 @@ describe CucumberDemoFormatter do
     output = StringIO.new
 
     f = CucumberDemoFormatter.new
-    message_enumerator = Cucumber::Messages::ProtobufIoEnumerator.call(input)
+    message_enumerator = Cucumber::Messages::BinaryToMessageEnumerator.new(input)
     f.process_messages(message_enumerator, output)
     
     output.rewind

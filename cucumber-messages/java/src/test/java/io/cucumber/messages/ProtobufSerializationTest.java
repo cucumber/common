@@ -6,7 +6,7 @@ import java.io.OutputStream;
 public class ProtobufSerializationTest extends MessageSerializationContract {
     @Override
     protected MessageWriter makeMessageWriter(OutputStream output) {
-        return new ProtobufMessageWriter(output);
+        return new MessageToBinaryWriter(output);
     }
 
     @Override

@@ -9,11 +9,11 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 
-public class NdjsonMessageWriter implements MessageWriter {
+public class MessageToNdjsonWriter implements MessageWriter {
     private final Writer out;
     private final JsonFormat.Printer jsonPrinter = JsonFormat.printer().omittingInsignificantWhitespace();
 
-    public NdjsonMessageWriter(OutputStream out) {
+    public MessageToNdjsonWriter(OutputStream out) {
         this.out = new OutputStreamWriter(out, StandardCharsets.UTF_8);
     }
 
