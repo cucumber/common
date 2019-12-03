@@ -1,8 +1,8 @@
 import { messages } from 'cucumber-messages'
 
 export default class CucumberQuery {
-  private readonly uriBySourceId = new Map<string, string>()
-  private readonly locationBySourceId = new Map<string, messages.ILocation>()
+  private readonly uriByAstNodeIdId = new Map<string, string>()
+  private readonly locationByAstNodeId = new Map<string, messages.ILocation>()
   private readonly gherkinStepById = new Map<
     string,
     messages.GherkinDocument.Feature.IStep
@@ -101,9 +101,9 @@ export default class CucumberQuery {
               )}`
             )
           }
-          for (const sourceId of pickleStep.sourceIds) {
-            const uri = this.uriBySourceId.get(sourceId)
-            const lineNumber = this.locationBySourceId.get(sourceId).line
+          for (const astNodeId of pickleStep.astNodeIds) {
+            const uri = this.uriByAstNodeIdId.get(astNodeId)
+            const lineNumber = this.locationByAstNodeId.get(astNodeId).line
 
             this.testStepMatchArgumentsByUriAndLine.set(
               `${uri}:${lineNumber}`,
@@ -139,9 +139,9 @@ export default class CucumberQuery {
           )
         }
 
-        for (const sourceId of pickleStep.sourceIds) {
-          const uri = this.uriBySourceId.get(sourceId)
-          const lineNumber = this.locationBySourceId.get(sourceId).line
+        for (const astNodeId of pickleStep.astNodeIds) {
+          const uri = this.uriByAstNodeIdId.get(astNodeId)
+          const lineNumber = this.locationByAstNodeId.get(astNodeId).line
 
           let testStepResults = this.testStepResultsByUriAndLine.get(
             `${uri}:${lineNumber}`
@@ -175,8 +175,8 @@ export default class CucumberQuery {
       const pickle = this.pickleById.get(testCase.pickleId)
 
       const uri = pickle.uri
-      const lineNumbers = pickle.sourceIds.map(
-        sourceId => this.locationBySourceId.get(sourceId).line
+      const lineNumbers = pickle.astNodeIds.map(
+        astNodeId => this.locationByAstNodeId.get(astNodeId).line
       )
 
       for (const lineNumber of lineNumbers) {
@@ -213,8 +213,8 @@ export default class CucumberQuery {
     uri: string
   ) {
     for (const step of background.steps) {
-      this.uriBySourceId.set(step.id, uri)
-      this.locationBySourceId.set(step.id, step.location)
+      this.uriByAstNodeIdId.set(step.id, uri)
+      this.locationByAstNodeId.set(step.id, step.location)
       this.gherkinStepById.set(step.id, step)
     }
   }
@@ -223,18 +223,18 @@ export default class CucumberQuery {
     scenario: messages.GherkinDocument.Feature.IScenario,
     uri: string
   ) {
-    this.locationBySourceId.set(scenario.id, scenario.location)
+    this.locationByAstNodeId.set(scenario.id, scenario.location)
 
     for (const step of scenario.steps) {
-      this.uriBySourceId.set(step.id, uri)
-      this.locationBySourceId.set(step.id, step.location)
+      this.uriByAstNodeIdId.set(step.id, uri)
+      this.locationByAstNodeId.set(step.id, step.location)
       this.gherkinStepById.set(step.id, step)
     }
 
     for (const examples of scenario.examples) {
       for (const tableRow of examples.tableBody) {
-        this.uriBySourceId.set(tableRow.id, uri)
-        this.locationBySourceId.set(tableRow.id, tableRow.location)
+        this.uriByAstNodeIdId.set(tableRow.id, uri)
+        this.locationByAstNodeId.set(tableRow.id, tableRow.location)
       }
     }
   }

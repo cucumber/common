@@ -1,26 +1,26 @@
 {
   "pickle": {
-    "id": "7",
-    "language": "en",
-    "name": "Bar",
-    "sourceIds": [
+    "astNodeIds": [
       "4",
       "2"
     ],
+    "id": "7",
+    "language": "en",
+    "name": "Bar",
     "steps": [
       {
-        "id": "6",
-        "sourceIds": [
+        "astNodeIds": [
           "0",
           "2"
         ],
+        "id": "6",
         "text": "Baz"
       }
     ],
     "tags": [
       {
-        "name": "@sometag",
-        "sourceId": "5"
+        "astNodeId": "5",
+        "name": "@sometag"
       }
     ],
     "uri": "testdata/good/tagged_feature_with_scenario_outline.feature"
@@ -28,27 +28,27 @@
 }
 {
   "pickle": {
-    "id": "9",
-    "language": "en",
-    "name": "Bar",
-    "sourceIds": [
+    "astNodeIds": [
       "4",
       "3"
     ],
+    "id": "9",
+    "language": "en",
+    "name": "Bar",
     "steps": [
       {
-        "id": "8",
-        "sourceIds": [
+        "astNodeIds": [
           "0",
           "3"
         ],
+        "id": "8",
         "text": "Baz"
       }
     ],
     "tags": [
       {
-        "name": "@sometag",
-        "sourceId": "5"
+        "astNodeId": "5",
+        "name": "@sometag"
       }
     ],
     "uri": "testdata/good/tagged_feature_with_scenario_outline.feature"

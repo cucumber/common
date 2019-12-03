@@ -227,7 +227,7 @@ describe('CucumberQuery', () => {
 `,
         (query, envelopes) => {
           const pickleStep = envelopes.find(e => e.pickle).pickle.steps[0]
-          const gherkinStep = query.getGherkinStep(pickleStep.sourceIds[0])
+          const gherkinStep = query.getGherkinStep(pickleStep.astNodeIds[0])
           assert.deepStrictEqual(gherkinStep.text, 'a passed step')
           cb()
         },

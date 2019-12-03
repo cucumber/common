@@ -1,11 +1,11 @@
 {
   "pickle": {
+    "astNodeIds": [
+      "13"
+    ],
     "id": "1405",
     "language": "en",
     "name": "scenario 01",
-    "sourceIds": [
-      "13"
-    ],
     "steps": [
       {
         "argument": {
@@ -34,10 +34,10 @@
             ]
           }
         },
-        "id": "1400",
-        "sourceIds": [
+        "astNodeIds": [
           "2"
         ],
+        "id": "1400",
         "text": "a simple data table"
       },
       {
@@ -54,10 +54,10 @@
             ]
           }
         },
-        "id": "1401",
-        "sourceIds": [
+        "astNodeIds": [
           "4"
         ],
+        "id": "1401",
         "text": "a data table with a single cell"
       },
       {
@@ -80,10 +80,10 @@
             ]
           }
         },
-        "id": "1402",
-        "sourceIds": [
+        "astNodeIds": [
           "6"
         ],
+        "id": "1402",
         "text": "a data table with different fromatting"
       },
       {
@@ -104,10 +104,10 @@
             ]
           }
         },
-        "id": "1403",
-        "sourceIds": [
+        "astNodeIds": [
           "8"
         ],
+        "id": "1403",
         "text": "a data table with an empty cell"
       },
       {
@@ -147,10 +147,10 @@
             ]
           }
         },
-        "id": "1404",
-        "sourceIds": [
+        "astNodeIds": [
           "12"
         ],
+        "id": "1404",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -159,12 +159,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "27"
+    ],
     "id": "1411",
     "language": "en",
     "name": "scenario 02",
-    "sourceIds": [
-      "27"
-    ],
     "steps": [
       {
         "argument": {
@@ -193,10 +193,10 @@
             ]
           }
         },
-        "id": "1406",
-        "sourceIds": [
+        "astNodeIds": [
           "16"
         ],
+        "id": "1406",
         "text": "a simple data table"
       },
       {
@@ -213,10 +213,10 @@
             ]
           }
         },
-        "id": "1407",
-        "sourceIds": [
+        "astNodeIds": [
           "18"
         ],
+        "id": "1407",
         "text": "a data table with a single cell"
       },
       {
@@ -239,10 +239,10 @@
             ]
           }
         },
-        "id": "1408",
-        "sourceIds": [
+        "astNodeIds": [
           "20"
         ],
+        "id": "1408",
         "text": "a data table with different fromatting"
       },
       {
@@ -263,10 +263,10 @@
             ]
           }
         },
-        "id": "1409",
-        "sourceIds": [
+        "astNodeIds": [
           "22"
         ],
+        "id": "1409",
         "text": "a data table with an empty cell"
       },
       {
@@ -306,10 +306,10 @@
             ]
           }
         },
-        "id": "1410",
-        "sourceIds": [
+        "astNodeIds": [
           "26"
         ],
+        "id": "1410",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -318,12 +318,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "41"
+    ],
     "id": "1417",
     "language": "en",
     "name": "scenario 03",
-    "sourceIds": [
-      "41"
-    ],
     "steps": [
       {
         "argument": {
@@ -352,10 +352,10 @@
             ]
           }
         },
-        "id": "1412",
-        "sourceIds": [
+        "astNodeIds": [
           "30"
         ],
+        "id": "1412",
         "text": "a simple data table"
       },
       {
@@ -372,10 +372,10 @@
             ]
           }
         },
-        "id": "1413",
-        "sourceIds": [
+        "astNodeIds": [
           "32"
         ],
+        "id": "1413",
         "text": "a data table with a single cell"
       },
       {
@@ -398,10 +398,10 @@
             ]
           }
         },
-        "id": "1414",
-        "sourceIds": [
+        "astNodeIds": [
           "34"
         ],
+        "id": "1414",
         "text": "a data table with different fromatting"
       },
       {
@@ -422,10 +422,10 @@
             ]
           }
         },
-        "id": "1415",
-        "sourceIds": [
+        "astNodeIds": [
           "36"
         ],
+        "id": "1415",
         "text": "a data table with an empty cell"
       },
       {
@@ -465,10 +465,10 @@
             ]
           }
         },
-        "id": "1416",
-        "sourceIds": [
+        "astNodeIds": [
           "40"
         ],
+        "id": "1416",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -477,12 +477,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "55"
+    ],
     "id": "1423",
     "language": "en",
     "name": "scenario 04",
-    "sourceIds": [
-      "55"
-    ],
     "steps": [
       {
         "argument": {
@@ -511,10 +511,10 @@
             ]
           }
         },
-        "id": "1418",
-        "sourceIds": [
+        "astNodeIds": [
           "44"
         ],
+        "id": "1418",
         "text": "a simple data table"
       },
       {
@@ -531,10 +531,10 @@
             ]
           }
         },
-        "id": "1419",
-        "sourceIds": [
+        "astNodeIds": [
           "46"
         ],
+        "id": "1419",
         "text": "a data table with a single cell"
       },
       {
@@ -557,10 +557,10 @@
             ]
           }
         },
-        "id": "1420",
-        "sourceIds": [
+        "astNodeIds": [
           "48"
         ],
+        "id": "1420",
         "text": "a data table with different fromatting"
       },
       {
@@ -581,10 +581,10 @@
             ]
           }
         },
-        "id": "1421",
-        "sourceIds": [
+        "astNodeIds": [
           "50"
         ],
+        "id": "1421",
         "text": "a data table with an empty cell"
       },
       {
@@ -624,10 +624,10 @@
             ]
           }
         },
-        "id": "1422",
-        "sourceIds": [
+        "astNodeIds": [
           "54"
         ],
+        "id": "1422",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -636,12 +636,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "69"
+    ],
     "id": "1429",
     "language": "en",
     "name": "scenario 05",
-    "sourceIds": [
-      "69"
-    ],
     "steps": [
       {
         "argument": {
@@ -670,10 +670,10 @@
             ]
           }
         },
-        "id": "1424",
-        "sourceIds": [
+        "astNodeIds": [
           "58"
         ],
+        "id": "1424",
         "text": "a simple data table"
       },
       {
@@ -690,10 +690,10 @@
             ]
           }
         },
-        "id": "1425",
-        "sourceIds": [
+        "astNodeIds": [
           "60"
         ],
+        "id": "1425",
         "text": "a data table with a single cell"
       },
       {
@@ -716,10 +716,10 @@
             ]
           }
         },
-        "id": "1426",
-        "sourceIds": [
+        "astNodeIds": [
           "62"
         ],
+        "id": "1426",
         "text": "a data table with different fromatting"
       },
       {
@@ -740,10 +740,10 @@
             ]
           }
         },
-        "id": "1427",
-        "sourceIds": [
+        "astNodeIds": [
           "64"
         ],
+        "id": "1427",
         "text": "a data table with an empty cell"
       },
       {
@@ -783,10 +783,10 @@
             ]
           }
         },
-        "id": "1428",
-        "sourceIds": [
+        "astNodeIds": [
           "68"
         ],
+        "id": "1428",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -795,12 +795,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "83"
+    ],
     "id": "1435",
     "language": "en",
     "name": "scenario 06",
-    "sourceIds": [
-      "83"
-    ],
     "steps": [
       {
         "argument": {
@@ -829,10 +829,10 @@
             ]
           }
         },
-        "id": "1430",
-        "sourceIds": [
+        "astNodeIds": [
           "72"
         ],
+        "id": "1430",
         "text": "a simple data table"
       },
       {
@@ -849,10 +849,10 @@
             ]
           }
         },
-        "id": "1431",
-        "sourceIds": [
+        "astNodeIds": [
           "74"
         ],
+        "id": "1431",
         "text": "a data table with a single cell"
       },
       {
@@ -875,10 +875,10 @@
             ]
           }
         },
-        "id": "1432",
-        "sourceIds": [
+        "astNodeIds": [
           "76"
         ],
+        "id": "1432",
         "text": "a data table with different fromatting"
       },
       {
@@ -899,10 +899,10 @@
             ]
           }
         },
-        "id": "1433",
-        "sourceIds": [
+        "astNodeIds": [
           "78"
         ],
+        "id": "1433",
         "text": "a data table with an empty cell"
       },
       {
@@ -942,10 +942,10 @@
             ]
           }
         },
-        "id": "1434",
-        "sourceIds": [
+        "astNodeIds": [
           "82"
         ],
+        "id": "1434",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -954,12 +954,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "97"
+    ],
     "id": "1441",
     "language": "en",
     "name": "scenario 07",
-    "sourceIds": [
-      "97"
-    ],
     "steps": [
       {
         "argument": {
@@ -988,10 +988,10 @@
             ]
           }
         },
-        "id": "1436",
-        "sourceIds": [
+        "astNodeIds": [
           "86"
         ],
+        "id": "1436",
         "text": "a simple data table"
       },
       {
@@ -1008,10 +1008,10 @@
             ]
           }
         },
-        "id": "1437",
-        "sourceIds": [
+        "astNodeIds": [
           "88"
         ],
+        "id": "1437",
         "text": "a data table with a single cell"
       },
       {
@@ -1034,10 +1034,10 @@
             ]
           }
         },
-        "id": "1438",
-        "sourceIds": [
+        "astNodeIds": [
           "90"
         ],
+        "id": "1438",
         "text": "a data table with different fromatting"
       },
       {
@@ -1058,10 +1058,10 @@
             ]
           }
         },
-        "id": "1439",
-        "sourceIds": [
+        "astNodeIds": [
           "92"
         ],
+        "id": "1439",
         "text": "a data table with an empty cell"
       },
       {
@@ -1101,10 +1101,10 @@
             ]
           }
         },
-        "id": "1440",
-        "sourceIds": [
+        "astNodeIds": [
           "96"
         ],
+        "id": "1440",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -1113,12 +1113,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "111"
+    ],
     "id": "1447",
     "language": "en",
     "name": "scenario 08",
-    "sourceIds": [
-      "111"
-    ],
     "steps": [
       {
         "argument": {
@@ -1147,10 +1147,10 @@
             ]
           }
         },
-        "id": "1442",
-        "sourceIds": [
+        "astNodeIds": [
           "100"
         ],
+        "id": "1442",
         "text": "a simple data table"
       },
       {
@@ -1167,10 +1167,10 @@
             ]
           }
         },
-        "id": "1443",
-        "sourceIds": [
+        "astNodeIds": [
           "102"
         ],
+        "id": "1443",
         "text": "a data table with a single cell"
       },
       {
@@ -1193,10 +1193,10 @@
             ]
           }
         },
-        "id": "1444",
-        "sourceIds": [
+        "astNodeIds": [
           "104"
         ],
+        "id": "1444",
         "text": "a data table with different fromatting"
       },
       {
@@ -1217,10 +1217,10 @@
             ]
           }
         },
-        "id": "1445",
-        "sourceIds": [
+        "astNodeIds": [
           "106"
         ],
+        "id": "1445",
         "text": "a data table with an empty cell"
       },
       {
@@ -1260,10 +1260,10 @@
             ]
           }
         },
-        "id": "1446",
-        "sourceIds": [
+        "astNodeIds": [
           "110"
         ],
+        "id": "1446",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -1272,12 +1272,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "125"
+    ],
     "id": "1453",
     "language": "en",
     "name": "scenario 09",
-    "sourceIds": [
-      "125"
-    ],
     "steps": [
       {
         "argument": {
@@ -1306,10 +1306,10 @@
             ]
           }
         },
-        "id": "1448",
-        "sourceIds": [
+        "astNodeIds": [
           "114"
         ],
+        "id": "1448",
         "text": "a simple data table"
       },
       {
@@ -1326,10 +1326,10 @@
             ]
           }
         },
-        "id": "1449",
-        "sourceIds": [
+        "astNodeIds": [
           "116"
         ],
+        "id": "1449",
         "text": "a data table with a single cell"
       },
       {
@@ -1352,10 +1352,10 @@
             ]
           }
         },
-        "id": "1450",
-        "sourceIds": [
+        "astNodeIds": [
           "118"
         ],
+        "id": "1450",
         "text": "a data table with different fromatting"
       },
       {
@@ -1376,10 +1376,10 @@
             ]
           }
         },
-        "id": "1451",
-        "sourceIds": [
+        "astNodeIds": [
           "120"
         ],
+        "id": "1451",
         "text": "a data table with an empty cell"
       },
       {
@@ -1419,10 +1419,10 @@
             ]
           }
         },
-        "id": "1452",
-        "sourceIds": [
+        "astNodeIds": [
           "124"
         ],
+        "id": "1452",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -1431,12 +1431,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "139"
+    ],
     "id": "1459",
     "language": "en",
     "name": "scenario 10",
-    "sourceIds": [
-      "139"
-    ],
     "steps": [
       {
         "argument": {
@@ -1465,10 +1465,10 @@
             ]
           }
         },
-        "id": "1454",
-        "sourceIds": [
+        "astNodeIds": [
           "128"
         ],
+        "id": "1454",
         "text": "a simple data table"
       },
       {
@@ -1485,10 +1485,10 @@
             ]
           }
         },
-        "id": "1455",
-        "sourceIds": [
+        "astNodeIds": [
           "130"
         ],
+        "id": "1455",
         "text": "a data table with a single cell"
       },
       {
@@ -1511,10 +1511,10 @@
             ]
           }
         },
-        "id": "1456",
-        "sourceIds": [
+        "astNodeIds": [
           "132"
         ],
+        "id": "1456",
         "text": "a data table with different fromatting"
       },
       {
@@ -1535,10 +1535,10 @@
             ]
           }
         },
-        "id": "1457",
-        "sourceIds": [
+        "astNodeIds": [
           "134"
         ],
+        "id": "1457",
         "text": "a data table with an empty cell"
       },
       {
@@ -1578,10 +1578,10 @@
             ]
           }
         },
-        "id": "1458",
-        "sourceIds": [
+        "astNodeIds": [
           "138"
         ],
+        "id": "1458",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -1590,12 +1590,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "153"
+    ],
     "id": "1465",
     "language": "en",
     "name": "scenario 11",
-    "sourceIds": [
-      "153"
-    ],
     "steps": [
       {
         "argument": {
@@ -1624,10 +1624,10 @@
             ]
           }
         },
-        "id": "1460",
-        "sourceIds": [
+        "astNodeIds": [
           "142"
         ],
+        "id": "1460",
         "text": "a simple data table"
       },
       {
@@ -1644,10 +1644,10 @@
             ]
           }
         },
-        "id": "1461",
-        "sourceIds": [
+        "astNodeIds": [
           "144"
         ],
+        "id": "1461",
         "text": "a data table with a single cell"
       },
       {
@@ -1670,10 +1670,10 @@
             ]
           }
         },
-        "id": "1462",
-        "sourceIds": [
+        "astNodeIds": [
           "146"
         ],
+        "id": "1462",
         "text": "a data table with different fromatting"
       },
       {
@@ -1694,10 +1694,10 @@
             ]
           }
         },
-        "id": "1463",
-        "sourceIds": [
+        "astNodeIds": [
           "148"
         ],
+        "id": "1463",
         "text": "a data table with an empty cell"
       },
       {
@@ -1737,10 +1737,10 @@
             ]
           }
         },
-        "id": "1464",
-        "sourceIds": [
+        "astNodeIds": [
           "152"
         ],
+        "id": "1464",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -1749,12 +1749,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "167"
+    ],
     "id": "1471",
     "language": "en",
     "name": "scenario 12",
-    "sourceIds": [
-      "167"
-    ],
     "steps": [
       {
         "argument": {
@@ -1783,10 +1783,10 @@
             ]
           }
         },
-        "id": "1466",
-        "sourceIds": [
+        "astNodeIds": [
           "156"
         ],
+        "id": "1466",
         "text": "a simple data table"
       },
       {
@@ -1803,10 +1803,10 @@
             ]
           }
         },
-        "id": "1467",
-        "sourceIds": [
+        "astNodeIds": [
           "158"
         ],
+        "id": "1467",
         "text": "a data table with a single cell"
       },
       {
@@ -1829,10 +1829,10 @@
             ]
           }
         },
-        "id": "1468",
-        "sourceIds": [
+        "astNodeIds": [
           "160"
         ],
+        "id": "1468",
         "text": "a data table with different fromatting"
       },
       {
@@ -1853,10 +1853,10 @@
             ]
           }
         },
-        "id": "1469",
-        "sourceIds": [
+        "astNodeIds": [
           "162"
         ],
+        "id": "1469",
         "text": "a data table with an empty cell"
       },
       {
@@ -1896,10 +1896,10 @@
             ]
           }
         },
-        "id": "1470",
-        "sourceIds": [
+        "astNodeIds": [
           "166"
         ],
+        "id": "1470",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -1908,12 +1908,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "181"
+    ],
     "id": "1477",
     "language": "en",
     "name": "scenario 13",
-    "sourceIds": [
-      "181"
-    ],
     "steps": [
       {
         "argument": {
@@ -1942,10 +1942,10 @@
             ]
           }
         },
-        "id": "1472",
-        "sourceIds": [
+        "astNodeIds": [
           "170"
         ],
+        "id": "1472",
         "text": "a simple data table"
       },
       {
@@ -1962,10 +1962,10 @@
             ]
           }
         },
-        "id": "1473",
-        "sourceIds": [
+        "astNodeIds": [
           "172"
         ],
+        "id": "1473",
         "text": "a data table with a single cell"
       },
       {
@@ -1988,10 +1988,10 @@
             ]
           }
         },
-        "id": "1474",
-        "sourceIds": [
+        "astNodeIds": [
           "174"
         ],
+        "id": "1474",
         "text": "a data table with different fromatting"
       },
       {
@@ -2012,10 +2012,10 @@
             ]
           }
         },
-        "id": "1475",
-        "sourceIds": [
+        "astNodeIds": [
           "176"
         ],
+        "id": "1475",
         "text": "a data table with an empty cell"
       },
       {
@@ -2055,10 +2055,10 @@
             ]
           }
         },
-        "id": "1476",
-        "sourceIds": [
+        "astNodeIds": [
           "180"
         ],
+        "id": "1476",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -2067,12 +2067,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "195"
+    ],
     "id": "1483",
     "language": "en",
     "name": "scenario 14",
-    "sourceIds": [
-      "195"
-    ],
     "steps": [
       {
         "argument": {
@@ -2101,10 +2101,10 @@
             ]
           }
         },
-        "id": "1478",
-        "sourceIds": [
+        "astNodeIds": [
           "184"
         ],
+        "id": "1478",
         "text": "a simple data table"
       },
       {
@@ -2121,10 +2121,10 @@
             ]
           }
         },
-        "id": "1479",
-        "sourceIds": [
+        "astNodeIds": [
           "186"
         ],
+        "id": "1479",
         "text": "a data table with a single cell"
       },
       {
@@ -2147,10 +2147,10 @@
             ]
           }
         },
-        "id": "1480",
-        "sourceIds": [
+        "astNodeIds": [
           "188"
         ],
+        "id": "1480",
         "text": "a data table with different fromatting"
       },
       {
@@ -2171,10 +2171,10 @@
             ]
           }
         },
-        "id": "1481",
-        "sourceIds": [
+        "astNodeIds": [
           "190"
         ],
+        "id": "1481",
         "text": "a data table with an empty cell"
       },
       {
@@ -2214,10 +2214,10 @@
             ]
           }
         },
-        "id": "1482",
-        "sourceIds": [
+        "astNodeIds": [
           "194"
         ],
+        "id": "1482",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -2226,12 +2226,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "209"
+    ],
     "id": "1489",
     "language": "en",
     "name": "scenario 15",
-    "sourceIds": [
-      "209"
-    ],
     "steps": [
       {
         "argument": {
@@ -2260,10 +2260,10 @@
             ]
           }
         },
-        "id": "1484",
-        "sourceIds": [
+        "astNodeIds": [
           "198"
         ],
+        "id": "1484",
         "text": "a simple data table"
       },
       {
@@ -2280,10 +2280,10 @@
             ]
           }
         },
-        "id": "1485",
-        "sourceIds": [
+        "astNodeIds": [
           "200"
         ],
+        "id": "1485",
         "text": "a data table with a single cell"
       },
       {
@@ -2306,10 +2306,10 @@
             ]
           }
         },
-        "id": "1486",
-        "sourceIds": [
+        "astNodeIds": [
           "202"
         ],
+        "id": "1486",
         "text": "a data table with different fromatting"
       },
       {
@@ -2330,10 +2330,10 @@
             ]
           }
         },
-        "id": "1487",
-        "sourceIds": [
+        "astNodeIds": [
           "204"
         ],
+        "id": "1487",
         "text": "a data table with an empty cell"
       },
       {
@@ -2373,10 +2373,10 @@
             ]
           }
         },
-        "id": "1488",
-        "sourceIds": [
+        "astNodeIds": [
           "208"
         ],
+        "id": "1488",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -2385,12 +2385,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "223"
+    ],
     "id": "1495",
     "language": "en",
     "name": "scenario 16",
-    "sourceIds": [
-      "223"
-    ],
     "steps": [
       {
         "argument": {
@@ -2419,10 +2419,10 @@
             ]
           }
         },
-        "id": "1490",
-        "sourceIds": [
+        "astNodeIds": [
           "212"
         ],
+        "id": "1490",
         "text": "a simple data table"
       },
       {
@@ -2439,10 +2439,10 @@
             ]
           }
         },
-        "id": "1491",
-        "sourceIds": [
+        "astNodeIds": [
           "214"
         ],
+        "id": "1491",
         "text": "a data table with a single cell"
       },
       {
@@ -2465,10 +2465,10 @@
             ]
           }
         },
-        "id": "1492",
-        "sourceIds": [
+        "astNodeIds": [
           "216"
         ],
+        "id": "1492",
         "text": "a data table with different fromatting"
       },
       {
@@ -2489,10 +2489,10 @@
             ]
           }
         },
-        "id": "1493",
-        "sourceIds": [
+        "astNodeIds": [
           "218"
         ],
+        "id": "1493",
         "text": "a data table with an empty cell"
       },
       {
@@ -2532,10 +2532,10 @@
             ]
           }
         },
-        "id": "1494",
-        "sourceIds": [
+        "astNodeIds": [
           "222"
         ],
+        "id": "1494",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -2544,12 +2544,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "237"
+    ],
     "id": "1501",
     "language": "en",
     "name": "scenario 17",
-    "sourceIds": [
-      "237"
-    ],
     "steps": [
       {
         "argument": {
@@ -2578,10 +2578,10 @@
             ]
           }
         },
-        "id": "1496",
-        "sourceIds": [
+        "astNodeIds": [
           "226"
         ],
+        "id": "1496",
         "text": "a simple data table"
       },
       {
@@ -2598,10 +2598,10 @@
             ]
           }
         },
-        "id": "1497",
-        "sourceIds": [
+        "astNodeIds": [
           "228"
         ],
+        "id": "1497",
         "text": "a data table with a single cell"
       },
       {
@@ -2624,10 +2624,10 @@
             ]
           }
         },
-        "id": "1498",
-        "sourceIds": [
+        "astNodeIds": [
           "230"
         ],
+        "id": "1498",
         "text": "a data table with different fromatting"
       },
       {
@@ -2648,10 +2648,10 @@
             ]
           }
         },
-        "id": "1499",
-        "sourceIds": [
+        "astNodeIds": [
           "232"
         ],
+        "id": "1499",
         "text": "a data table with an empty cell"
       },
       {
@@ -2691,10 +2691,10 @@
             ]
           }
         },
-        "id": "1500",
-        "sourceIds": [
+        "astNodeIds": [
           "236"
         ],
+        "id": "1500",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -2703,12 +2703,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "251"
+    ],
     "id": "1507",
     "language": "en",
     "name": "scenario 18",
-    "sourceIds": [
-      "251"
-    ],
     "steps": [
       {
         "argument": {
@@ -2737,10 +2737,10 @@
             ]
           }
         },
-        "id": "1502",
-        "sourceIds": [
+        "astNodeIds": [
           "240"
         ],
+        "id": "1502",
         "text": "a simple data table"
       },
       {
@@ -2757,10 +2757,10 @@
             ]
           }
         },
-        "id": "1503",
-        "sourceIds": [
+        "astNodeIds": [
           "242"
         ],
+        "id": "1503",
         "text": "a data table with a single cell"
       },
       {
@@ -2783,10 +2783,10 @@
             ]
           }
         },
-        "id": "1504",
-        "sourceIds": [
+        "astNodeIds": [
           "244"
         ],
+        "id": "1504",
         "text": "a data table with different fromatting"
       },
       {
@@ -2807,10 +2807,10 @@
             ]
           }
         },
-        "id": "1505",
-        "sourceIds": [
+        "astNodeIds": [
           "246"
         ],
+        "id": "1505",
         "text": "a data table with an empty cell"
       },
       {
@@ -2850,10 +2850,10 @@
             ]
           }
         },
-        "id": "1506",
-        "sourceIds": [
+        "astNodeIds": [
           "250"
         ],
+        "id": "1506",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -2862,12 +2862,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "265"
+    ],
     "id": "1513",
     "language": "en",
     "name": "scenario 19",
-    "sourceIds": [
-      "265"
-    ],
     "steps": [
       {
         "argument": {
@@ -2896,10 +2896,10 @@
             ]
           }
         },
-        "id": "1508",
-        "sourceIds": [
+        "astNodeIds": [
           "254"
         ],
+        "id": "1508",
         "text": "a simple data table"
       },
       {
@@ -2916,10 +2916,10 @@
             ]
           }
         },
-        "id": "1509",
-        "sourceIds": [
+        "astNodeIds": [
           "256"
         ],
+        "id": "1509",
         "text": "a data table with a single cell"
       },
       {
@@ -2942,10 +2942,10 @@
             ]
           }
         },
-        "id": "1510",
-        "sourceIds": [
+        "astNodeIds": [
           "258"
         ],
+        "id": "1510",
         "text": "a data table with different fromatting"
       },
       {
@@ -2966,10 +2966,10 @@
             ]
           }
         },
-        "id": "1511",
-        "sourceIds": [
+        "astNodeIds": [
           "260"
         ],
+        "id": "1511",
         "text": "a data table with an empty cell"
       },
       {
@@ -3009,10 +3009,10 @@
             ]
           }
         },
-        "id": "1512",
-        "sourceIds": [
+        "astNodeIds": [
           "264"
         ],
+        "id": "1512",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -3021,12 +3021,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "279"
+    ],
     "id": "1519",
     "language": "en",
     "name": "scenario 20",
-    "sourceIds": [
-      "279"
-    ],
     "steps": [
       {
         "argument": {
@@ -3055,10 +3055,10 @@
             ]
           }
         },
-        "id": "1514",
-        "sourceIds": [
+        "astNodeIds": [
           "268"
         ],
+        "id": "1514",
         "text": "a simple data table"
       },
       {
@@ -3075,10 +3075,10 @@
             ]
           }
         },
-        "id": "1515",
-        "sourceIds": [
+        "astNodeIds": [
           "270"
         ],
+        "id": "1515",
         "text": "a data table with a single cell"
       },
       {
@@ -3101,10 +3101,10 @@
             ]
           }
         },
-        "id": "1516",
-        "sourceIds": [
+        "astNodeIds": [
           "272"
         ],
+        "id": "1516",
         "text": "a data table with different fromatting"
       },
       {
@@ -3125,10 +3125,10 @@
             ]
           }
         },
-        "id": "1517",
-        "sourceIds": [
+        "astNodeIds": [
           "274"
         ],
+        "id": "1517",
         "text": "a data table with an empty cell"
       },
       {
@@ -3168,10 +3168,10 @@
             ]
           }
         },
-        "id": "1518",
-        "sourceIds": [
+        "astNodeIds": [
           "278"
         ],
+        "id": "1518",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -3180,12 +3180,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "293"
+    ],
     "id": "1525",
     "language": "en",
     "name": "scenario 21",
-    "sourceIds": [
-      "293"
-    ],
     "steps": [
       {
         "argument": {
@@ -3214,10 +3214,10 @@
             ]
           }
         },
-        "id": "1520",
-        "sourceIds": [
+        "astNodeIds": [
           "282"
         ],
+        "id": "1520",
         "text": "a simple data table"
       },
       {
@@ -3234,10 +3234,10 @@
             ]
           }
         },
-        "id": "1521",
-        "sourceIds": [
+        "astNodeIds": [
           "284"
         ],
+        "id": "1521",
         "text": "a data table with a single cell"
       },
       {
@@ -3260,10 +3260,10 @@
             ]
           }
         },
-        "id": "1522",
-        "sourceIds": [
+        "astNodeIds": [
           "286"
         ],
+        "id": "1522",
         "text": "a data table with different fromatting"
       },
       {
@@ -3284,10 +3284,10 @@
             ]
           }
         },
-        "id": "1523",
-        "sourceIds": [
+        "astNodeIds": [
           "288"
         ],
+        "id": "1523",
         "text": "a data table with an empty cell"
       },
       {
@@ -3327,10 +3327,10 @@
             ]
           }
         },
-        "id": "1524",
-        "sourceIds": [
+        "astNodeIds": [
           "292"
         ],
+        "id": "1524",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -3339,12 +3339,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "307"
+    ],
     "id": "1531",
     "language": "en",
     "name": "scenario 22",
-    "sourceIds": [
-      "307"
-    ],
     "steps": [
       {
         "argument": {
@@ -3373,10 +3373,10 @@
             ]
           }
         },
-        "id": "1526",
-        "sourceIds": [
+        "astNodeIds": [
           "296"
         ],
+        "id": "1526",
         "text": "a simple data table"
       },
       {
@@ -3393,10 +3393,10 @@
             ]
           }
         },
-        "id": "1527",
-        "sourceIds": [
+        "astNodeIds": [
           "298"
         ],
+        "id": "1527",
         "text": "a data table with a single cell"
       },
       {
@@ -3419,10 +3419,10 @@
             ]
           }
         },
-        "id": "1528",
-        "sourceIds": [
+        "astNodeIds": [
           "300"
         ],
+        "id": "1528",
         "text": "a data table with different fromatting"
       },
       {
@@ -3443,10 +3443,10 @@
             ]
           }
         },
-        "id": "1529",
-        "sourceIds": [
+        "astNodeIds": [
           "302"
         ],
+        "id": "1529",
         "text": "a data table with an empty cell"
       },
       {
@@ -3486,10 +3486,10 @@
             ]
           }
         },
-        "id": "1530",
-        "sourceIds": [
+        "astNodeIds": [
           "306"
         ],
+        "id": "1530",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -3498,12 +3498,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "321"
+    ],
     "id": "1537",
     "language": "en",
     "name": "scenario 23",
-    "sourceIds": [
-      "321"
-    ],
     "steps": [
       {
         "argument": {
@@ -3532,10 +3532,10 @@
             ]
           }
         },
-        "id": "1532",
-        "sourceIds": [
+        "astNodeIds": [
           "310"
         ],
+        "id": "1532",
         "text": "a simple data table"
       },
       {
@@ -3552,10 +3552,10 @@
             ]
           }
         },
-        "id": "1533",
-        "sourceIds": [
+        "astNodeIds": [
           "312"
         ],
+        "id": "1533",
         "text": "a data table with a single cell"
       },
       {
@@ -3578,10 +3578,10 @@
             ]
           }
         },
-        "id": "1534",
-        "sourceIds": [
+        "astNodeIds": [
           "314"
         ],
+        "id": "1534",
         "text": "a data table with different fromatting"
       },
       {
@@ -3602,10 +3602,10 @@
             ]
           }
         },
-        "id": "1535",
-        "sourceIds": [
+        "astNodeIds": [
           "316"
         ],
+        "id": "1535",
         "text": "a data table with an empty cell"
       },
       {
@@ -3645,10 +3645,10 @@
             ]
           }
         },
-        "id": "1536",
-        "sourceIds": [
+        "astNodeIds": [
           "320"
         ],
+        "id": "1536",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -3657,12 +3657,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "335"
+    ],
     "id": "1543",
     "language": "en",
     "name": "scenario 24",
-    "sourceIds": [
-      "335"
-    ],
     "steps": [
       {
         "argument": {
@@ -3691,10 +3691,10 @@
             ]
           }
         },
-        "id": "1538",
-        "sourceIds": [
+        "astNodeIds": [
           "324"
         ],
+        "id": "1538",
         "text": "a simple data table"
       },
       {
@@ -3711,10 +3711,10 @@
             ]
           }
         },
-        "id": "1539",
-        "sourceIds": [
+        "astNodeIds": [
           "326"
         ],
+        "id": "1539",
         "text": "a data table with a single cell"
       },
       {
@@ -3737,10 +3737,10 @@
             ]
           }
         },
-        "id": "1540",
-        "sourceIds": [
+        "astNodeIds": [
           "328"
         ],
+        "id": "1540",
         "text": "a data table with different fromatting"
       },
       {
@@ -3761,10 +3761,10 @@
             ]
           }
         },
-        "id": "1541",
-        "sourceIds": [
+        "astNodeIds": [
           "330"
         ],
+        "id": "1541",
         "text": "a data table with an empty cell"
       },
       {
@@ -3804,10 +3804,10 @@
             ]
           }
         },
-        "id": "1542",
-        "sourceIds": [
+        "astNodeIds": [
           "334"
         ],
+        "id": "1542",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -3816,12 +3816,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "349"
+    ],
     "id": "1549",
     "language": "en",
     "name": "scenario 25",
-    "sourceIds": [
-      "349"
-    ],
     "steps": [
       {
         "argument": {
@@ -3850,10 +3850,10 @@
             ]
           }
         },
-        "id": "1544",
-        "sourceIds": [
+        "astNodeIds": [
           "338"
         ],
+        "id": "1544",
         "text": "a simple data table"
       },
       {
@@ -3870,10 +3870,10 @@
             ]
           }
         },
-        "id": "1545",
-        "sourceIds": [
+        "astNodeIds": [
           "340"
         ],
+        "id": "1545",
         "text": "a data table with a single cell"
       },
       {
@@ -3896,10 +3896,10 @@
             ]
           }
         },
-        "id": "1546",
-        "sourceIds": [
+        "astNodeIds": [
           "342"
         ],
+        "id": "1546",
         "text": "a data table with different fromatting"
       },
       {
@@ -3920,10 +3920,10 @@
             ]
           }
         },
-        "id": "1547",
-        "sourceIds": [
+        "astNodeIds": [
           "344"
         ],
+        "id": "1547",
         "text": "a data table with an empty cell"
       },
       {
@@ -3963,10 +3963,10 @@
             ]
           }
         },
-        "id": "1548",
-        "sourceIds": [
+        "astNodeIds": [
           "348"
         ],
+        "id": "1548",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -3975,12 +3975,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "363"
+    ],
     "id": "1555",
     "language": "en",
     "name": "scenario 26",
-    "sourceIds": [
-      "363"
-    ],
     "steps": [
       {
         "argument": {
@@ -4009,10 +4009,10 @@
             ]
           }
         },
-        "id": "1550",
-        "sourceIds": [
+        "astNodeIds": [
           "352"
         ],
+        "id": "1550",
         "text": "a simple data table"
       },
       {
@@ -4029,10 +4029,10 @@
             ]
           }
         },
-        "id": "1551",
-        "sourceIds": [
+        "astNodeIds": [
           "354"
         ],
+        "id": "1551",
         "text": "a data table with a single cell"
       },
       {
@@ -4055,10 +4055,10 @@
             ]
           }
         },
-        "id": "1552",
-        "sourceIds": [
+        "astNodeIds": [
           "356"
         ],
+        "id": "1552",
         "text": "a data table with different fromatting"
       },
       {
@@ -4079,10 +4079,10 @@
             ]
           }
         },
-        "id": "1553",
-        "sourceIds": [
+        "astNodeIds": [
           "358"
         ],
+        "id": "1553",
         "text": "a data table with an empty cell"
       },
       {
@@ -4122,10 +4122,10 @@
             ]
           }
         },
-        "id": "1554",
-        "sourceIds": [
+        "astNodeIds": [
           "362"
         ],
+        "id": "1554",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -4134,12 +4134,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "377"
+    ],
     "id": "1561",
     "language": "en",
     "name": "scenario 27",
-    "sourceIds": [
-      "377"
-    ],
     "steps": [
       {
         "argument": {
@@ -4168,10 +4168,10 @@
             ]
           }
         },
-        "id": "1556",
-        "sourceIds": [
+        "astNodeIds": [
           "366"
         ],
+        "id": "1556",
         "text": "a simple data table"
       },
       {
@@ -4188,10 +4188,10 @@
             ]
           }
         },
-        "id": "1557",
-        "sourceIds": [
+        "astNodeIds": [
           "368"
         ],
+        "id": "1557",
         "text": "a data table with a single cell"
       },
       {
@@ -4214,10 +4214,10 @@
             ]
           }
         },
-        "id": "1558",
-        "sourceIds": [
+        "astNodeIds": [
           "370"
         ],
+        "id": "1558",
         "text": "a data table with different fromatting"
       },
       {
@@ -4238,10 +4238,10 @@
             ]
           }
         },
-        "id": "1559",
-        "sourceIds": [
+        "astNodeIds": [
           "372"
         ],
+        "id": "1559",
         "text": "a data table with an empty cell"
       },
       {
@@ -4281,10 +4281,10 @@
             ]
           }
         },
-        "id": "1560",
-        "sourceIds": [
+        "astNodeIds": [
           "376"
         ],
+        "id": "1560",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -4293,12 +4293,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "391"
+    ],
     "id": "1567",
     "language": "en",
     "name": "scenario 28",
-    "sourceIds": [
-      "391"
-    ],
     "steps": [
       {
         "argument": {
@@ -4327,10 +4327,10 @@
             ]
           }
         },
-        "id": "1562",
-        "sourceIds": [
+        "astNodeIds": [
           "380"
         ],
+        "id": "1562",
         "text": "a simple data table"
       },
       {
@@ -4347,10 +4347,10 @@
             ]
           }
         },
-        "id": "1563",
-        "sourceIds": [
+        "astNodeIds": [
           "382"
         ],
+        "id": "1563",
         "text": "a data table with a single cell"
       },
       {
@@ -4373,10 +4373,10 @@
             ]
           }
         },
-        "id": "1564",
-        "sourceIds": [
+        "astNodeIds": [
           "384"
         ],
+        "id": "1564",
         "text": "a data table with different fromatting"
       },
       {
@@ -4397,10 +4397,10 @@
             ]
           }
         },
-        "id": "1565",
-        "sourceIds": [
+        "astNodeIds": [
           "386"
         ],
+        "id": "1565",
         "text": "a data table with an empty cell"
       },
       {
@@ -4440,10 +4440,10 @@
             ]
           }
         },
-        "id": "1566",
-        "sourceIds": [
+        "astNodeIds": [
           "390"
         ],
+        "id": "1566",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -4452,12 +4452,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "405"
+    ],
     "id": "1573",
     "language": "en",
     "name": "scenario 29",
-    "sourceIds": [
-      "405"
-    ],
     "steps": [
       {
         "argument": {
@@ -4486,10 +4486,10 @@
             ]
           }
         },
-        "id": "1568",
-        "sourceIds": [
+        "astNodeIds": [
           "394"
         ],
+        "id": "1568",
         "text": "a simple data table"
       },
       {
@@ -4506,10 +4506,10 @@
             ]
           }
         },
-        "id": "1569",
-        "sourceIds": [
+        "astNodeIds": [
           "396"
         ],
+        "id": "1569",
         "text": "a data table with a single cell"
       },
       {
@@ -4532,10 +4532,10 @@
             ]
           }
         },
-        "id": "1570",
-        "sourceIds": [
+        "astNodeIds": [
           "398"
         ],
+        "id": "1570",
         "text": "a data table with different fromatting"
       },
       {
@@ -4556,10 +4556,10 @@
             ]
           }
         },
-        "id": "1571",
-        "sourceIds": [
+        "astNodeIds": [
           "400"
         ],
+        "id": "1571",
         "text": "a data table with an empty cell"
       },
       {
@@ -4599,10 +4599,10 @@
             ]
           }
         },
-        "id": "1572",
-        "sourceIds": [
+        "astNodeIds": [
           "404"
         ],
+        "id": "1572",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -4611,12 +4611,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "419"
+    ],
     "id": "1579",
     "language": "en",
     "name": "scenario 30",
-    "sourceIds": [
-      "419"
-    ],
     "steps": [
       {
         "argument": {
@@ -4645,10 +4645,10 @@
             ]
           }
         },
-        "id": "1574",
-        "sourceIds": [
+        "astNodeIds": [
           "408"
         ],
+        "id": "1574",
         "text": "a simple data table"
       },
       {
@@ -4665,10 +4665,10 @@
             ]
           }
         },
-        "id": "1575",
-        "sourceIds": [
+        "astNodeIds": [
           "410"
         ],
+        "id": "1575",
         "text": "a data table with a single cell"
       },
       {
@@ -4691,10 +4691,10 @@
             ]
           }
         },
-        "id": "1576",
-        "sourceIds": [
+        "astNodeIds": [
           "412"
         ],
+        "id": "1576",
         "text": "a data table with different fromatting"
       },
       {
@@ -4715,10 +4715,10 @@
             ]
           }
         },
-        "id": "1577",
-        "sourceIds": [
+        "astNodeIds": [
           "414"
         ],
+        "id": "1577",
         "text": "a data table with an empty cell"
       },
       {
@@ -4758,10 +4758,10 @@
             ]
           }
         },
-        "id": "1578",
-        "sourceIds": [
+        "astNodeIds": [
           "418"
         ],
+        "id": "1578",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -4770,12 +4770,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "433"
+    ],
     "id": "1585",
     "language": "en",
     "name": "scenario 31",
-    "sourceIds": [
-      "433"
-    ],
     "steps": [
       {
         "argument": {
@@ -4804,10 +4804,10 @@
             ]
           }
         },
-        "id": "1580",
-        "sourceIds": [
+        "astNodeIds": [
           "422"
         ],
+        "id": "1580",
         "text": "a simple data table"
       },
       {
@@ -4824,10 +4824,10 @@
             ]
           }
         },
-        "id": "1581",
-        "sourceIds": [
+        "astNodeIds": [
           "424"
         ],
+        "id": "1581",
         "text": "a data table with a single cell"
       },
       {
@@ -4850,10 +4850,10 @@
             ]
           }
         },
-        "id": "1582",
-        "sourceIds": [
+        "astNodeIds": [
           "426"
         ],
+        "id": "1582",
         "text": "a data table with different fromatting"
       },
       {
@@ -4874,10 +4874,10 @@
             ]
           }
         },
-        "id": "1583",
-        "sourceIds": [
+        "astNodeIds": [
           "428"
         ],
+        "id": "1583",
         "text": "a data table with an empty cell"
       },
       {
@@ -4917,10 +4917,10 @@
             ]
           }
         },
-        "id": "1584",
-        "sourceIds": [
+        "astNodeIds": [
           "432"
         ],
+        "id": "1584",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -4929,12 +4929,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "447"
+    ],
     "id": "1591",
     "language": "en",
     "name": "scenario 32",
-    "sourceIds": [
-      "447"
-    ],
     "steps": [
       {
         "argument": {
@@ -4963,10 +4963,10 @@
             ]
           }
         },
-        "id": "1586",
-        "sourceIds": [
+        "astNodeIds": [
           "436"
         ],
+        "id": "1586",
         "text": "a simple data table"
       },
       {
@@ -4983,10 +4983,10 @@
             ]
           }
         },
-        "id": "1587",
-        "sourceIds": [
+        "astNodeIds": [
           "438"
         ],
+        "id": "1587",
         "text": "a data table with a single cell"
       },
       {
@@ -5009,10 +5009,10 @@
             ]
           }
         },
-        "id": "1588",
-        "sourceIds": [
+        "astNodeIds": [
           "440"
         ],
+        "id": "1588",
         "text": "a data table with different fromatting"
       },
       {
@@ -5033,10 +5033,10 @@
             ]
           }
         },
-        "id": "1589",
-        "sourceIds": [
+        "astNodeIds": [
           "442"
         ],
+        "id": "1589",
         "text": "a data table with an empty cell"
       },
       {
@@ -5076,10 +5076,10 @@
             ]
           }
         },
-        "id": "1590",
-        "sourceIds": [
+        "astNodeIds": [
           "446"
         ],
+        "id": "1590",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -5088,12 +5088,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "461"
+    ],
     "id": "1597",
     "language": "en",
     "name": "scenario 33",
-    "sourceIds": [
-      "461"
-    ],
     "steps": [
       {
         "argument": {
@@ -5122,10 +5122,10 @@
             ]
           }
         },
-        "id": "1592",
-        "sourceIds": [
+        "astNodeIds": [
           "450"
         ],
+        "id": "1592",
         "text": "a simple data table"
       },
       {
@@ -5142,10 +5142,10 @@
             ]
           }
         },
-        "id": "1593",
-        "sourceIds": [
+        "astNodeIds": [
           "452"
         ],
+        "id": "1593",
         "text": "a data table with a single cell"
       },
       {
@@ -5168,10 +5168,10 @@
             ]
           }
         },
-        "id": "1594",
-        "sourceIds": [
+        "astNodeIds": [
           "454"
         ],
+        "id": "1594",
         "text": "a data table with different fromatting"
       },
       {
@@ -5192,10 +5192,10 @@
             ]
           }
         },
-        "id": "1595",
-        "sourceIds": [
+        "astNodeIds": [
           "456"
         ],
+        "id": "1595",
         "text": "a data table with an empty cell"
       },
       {
@@ -5235,10 +5235,10 @@
             ]
           }
         },
-        "id": "1596",
-        "sourceIds": [
+        "astNodeIds": [
           "460"
         ],
+        "id": "1596",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -5247,12 +5247,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "475"
+    ],
     "id": "1603",
     "language": "en",
     "name": "scenario 34",
-    "sourceIds": [
-      "475"
-    ],
     "steps": [
       {
         "argument": {
@@ -5281,10 +5281,10 @@
             ]
           }
         },
-        "id": "1598",
-        "sourceIds": [
+        "astNodeIds": [
           "464"
         ],
+        "id": "1598",
         "text": "a simple data table"
       },
       {
@@ -5301,10 +5301,10 @@
             ]
           }
         },
-        "id": "1599",
-        "sourceIds": [
+        "astNodeIds": [
           "466"
         ],
+        "id": "1599",
         "text": "a data table with a single cell"
       },
       {
@@ -5327,10 +5327,10 @@
             ]
           }
         },
-        "id": "1600",
-        "sourceIds": [
+        "astNodeIds": [
           "468"
         ],
+        "id": "1600",
         "text": "a data table with different fromatting"
       },
       {
@@ -5351,10 +5351,10 @@
             ]
           }
         },
-        "id": "1601",
-        "sourceIds": [
+        "astNodeIds": [
           "470"
         ],
+        "id": "1601",
         "text": "a data table with an empty cell"
       },
       {
@@ -5394,10 +5394,10 @@
             ]
           }
         },
-        "id": "1602",
-        "sourceIds": [
+        "astNodeIds": [
           "474"
         ],
+        "id": "1602",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -5406,12 +5406,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "489"
+    ],
     "id": "1609",
     "language": "en",
     "name": "scenario 35",
-    "sourceIds": [
-      "489"
-    ],
     "steps": [
       {
         "argument": {
@@ -5440,10 +5440,10 @@
             ]
           }
         },
-        "id": "1604",
-        "sourceIds": [
+        "astNodeIds": [
           "478"
         ],
+        "id": "1604",
         "text": "a simple data table"
       },
       {
@@ -5460,10 +5460,10 @@
             ]
           }
         },
-        "id": "1605",
-        "sourceIds": [
+        "astNodeIds": [
           "480"
         ],
+        "id": "1605",
         "text": "a data table with a single cell"
       },
       {
@@ -5486,10 +5486,10 @@
             ]
           }
         },
-        "id": "1606",
-        "sourceIds": [
+        "astNodeIds": [
           "482"
         ],
+        "id": "1606",
         "text": "a data table with different fromatting"
       },
       {
@@ -5510,10 +5510,10 @@
             ]
           }
         },
-        "id": "1607",
-        "sourceIds": [
+        "astNodeIds": [
           "484"
         ],
+        "id": "1607",
         "text": "a data table with an empty cell"
       },
       {
@@ -5553,10 +5553,10 @@
             ]
           }
         },
-        "id": "1608",
-        "sourceIds": [
+        "astNodeIds": [
           "488"
         ],
+        "id": "1608",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -5565,12 +5565,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "503"
+    ],
     "id": "1615",
     "language": "en",
     "name": "scenario 36",
-    "sourceIds": [
-      "503"
-    ],
     "steps": [
       {
         "argument": {
@@ -5599,10 +5599,10 @@
             ]
           }
         },
-        "id": "1610",
-        "sourceIds": [
+        "astNodeIds": [
           "492"
         ],
+        "id": "1610",
         "text": "a simple data table"
       },
       {
@@ -5619,10 +5619,10 @@
             ]
           }
         },
-        "id": "1611",
-        "sourceIds": [
+        "astNodeIds": [
           "494"
         ],
+        "id": "1611",
         "text": "a data table with a single cell"
       },
       {
@@ -5645,10 +5645,10 @@
             ]
           }
         },
-        "id": "1612",
-        "sourceIds": [
+        "astNodeIds": [
           "496"
         ],
+        "id": "1612",
         "text": "a data table with different fromatting"
       },
       {
@@ -5669,10 +5669,10 @@
             ]
           }
         },
-        "id": "1613",
-        "sourceIds": [
+        "astNodeIds": [
           "498"
         ],
+        "id": "1613",
         "text": "a data table with an empty cell"
       },
       {
@@ -5712,10 +5712,10 @@
             ]
           }
         },
-        "id": "1614",
-        "sourceIds": [
+        "astNodeIds": [
           "502"
         ],
+        "id": "1614",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -5724,12 +5724,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "517"
+    ],
     "id": "1621",
     "language": "en",
     "name": "scenario 37",
-    "sourceIds": [
-      "517"
-    ],
     "steps": [
       {
         "argument": {
@@ -5758,10 +5758,10 @@
             ]
           }
         },
-        "id": "1616",
-        "sourceIds": [
+        "astNodeIds": [
           "506"
         ],
+        "id": "1616",
         "text": "a simple data table"
       },
       {
@@ -5778,10 +5778,10 @@
             ]
           }
         },
-        "id": "1617",
-        "sourceIds": [
+        "astNodeIds": [
           "508"
         ],
+        "id": "1617",
         "text": "a data table with a single cell"
       },
       {
@@ -5804,10 +5804,10 @@
             ]
           }
         },
-        "id": "1618",
-        "sourceIds": [
+        "astNodeIds": [
           "510"
         ],
+        "id": "1618",
         "text": "a data table with different fromatting"
       },
       {
@@ -5828,10 +5828,10 @@
             ]
           }
         },
-        "id": "1619",
-        "sourceIds": [
+        "astNodeIds": [
           "512"
         ],
+        "id": "1619",
         "text": "a data table with an empty cell"
       },
       {
@@ -5871,10 +5871,10 @@
             ]
           }
         },
-        "id": "1620",
-        "sourceIds": [
+        "astNodeIds": [
           "516"
         ],
+        "id": "1620",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -5883,12 +5883,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "531"
+    ],
     "id": "1627",
     "language": "en",
     "name": "scenario 38",
-    "sourceIds": [
-      "531"
-    ],
     "steps": [
       {
         "argument": {
@@ -5917,10 +5917,10 @@
             ]
           }
         },
-        "id": "1622",
-        "sourceIds": [
+        "astNodeIds": [
           "520"
         ],
+        "id": "1622",
         "text": "a simple data table"
       },
       {
@@ -5937,10 +5937,10 @@
             ]
           }
         },
-        "id": "1623",
-        "sourceIds": [
+        "astNodeIds": [
           "522"
         ],
+        "id": "1623",
         "text": "a data table with a single cell"
       },
       {
@@ -5963,10 +5963,10 @@
             ]
           }
         },
-        "id": "1624",
-        "sourceIds": [
+        "astNodeIds": [
           "524"
         ],
+        "id": "1624",
         "text": "a data table with different fromatting"
       },
       {
@@ -5987,10 +5987,10 @@
             ]
           }
         },
-        "id": "1625",
-        "sourceIds": [
+        "astNodeIds": [
           "526"
         ],
+        "id": "1625",
         "text": "a data table with an empty cell"
       },
       {
@@ -6030,10 +6030,10 @@
             ]
           }
         },
-        "id": "1626",
-        "sourceIds": [
+        "astNodeIds": [
           "530"
         ],
+        "id": "1626",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -6042,12 +6042,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "545"
+    ],
     "id": "1633",
     "language": "en",
     "name": "scenario 39",
-    "sourceIds": [
-      "545"
-    ],
     "steps": [
       {
         "argument": {
@@ -6076,10 +6076,10 @@
             ]
           }
         },
-        "id": "1628",
-        "sourceIds": [
+        "astNodeIds": [
           "534"
         ],
+        "id": "1628",
         "text": "a simple data table"
       },
       {
@@ -6096,10 +6096,10 @@
             ]
           }
         },
-        "id": "1629",
-        "sourceIds": [
+        "astNodeIds": [
           "536"
         ],
+        "id": "1629",
         "text": "a data table with a single cell"
       },
       {
@@ -6122,10 +6122,10 @@
             ]
           }
         },
-        "id": "1630",
-        "sourceIds": [
+        "astNodeIds": [
           "538"
         ],
+        "id": "1630",
         "text": "a data table with different fromatting"
       },
       {
@@ -6146,10 +6146,10 @@
             ]
           }
         },
-        "id": "1631",
-        "sourceIds": [
+        "astNodeIds": [
           "540"
         ],
+        "id": "1631",
         "text": "a data table with an empty cell"
       },
       {
@@ -6189,10 +6189,10 @@
             ]
           }
         },
-        "id": "1632",
-        "sourceIds": [
+        "astNodeIds": [
           "544"
         ],
+        "id": "1632",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -6201,12 +6201,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "559"
+    ],
     "id": "1639",
     "language": "en",
     "name": "scenario 40",
-    "sourceIds": [
-      "559"
-    ],
     "steps": [
       {
         "argument": {
@@ -6235,10 +6235,10 @@
             ]
           }
         },
-        "id": "1634",
-        "sourceIds": [
+        "astNodeIds": [
           "548"
         ],
+        "id": "1634",
         "text": "a simple data table"
       },
       {
@@ -6255,10 +6255,10 @@
             ]
           }
         },
-        "id": "1635",
-        "sourceIds": [
+        "astNodeIds": [
           "550"
         ],
+        "id": "1635",
         "text": "a data table with a single cell"
       },
       {
@@ -6281,10 +6281,10 @@
             ]
           }
         },
-        "id": "1636",
-        "sourceIds": [
+        "astNodeIds": [
           "552"
         ],
+        "id": "1636",
         "text": "a data table with different fromatting"
       },
       {
@@ -6305,10 +6305,10 @@
             ]
           }
         },
-        "id": "1637",
-        "sourceIds": [
+        "astNodeIds": [
           "554"
         ],
+        "id": "1637",
         "text": "a data table with an empty cell"
       },
       {
@@ -6348,10 +6348,10 @@
             ]
           }
         },
-        "id": "1638",
-        "sourceIds": [
+        "astNodeIds": [
           "558"
         ],
+        "id": "1638",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -6360,12 +6360,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "573"
+    ],
     "id": "1645",
     "language": "en",
     "name": "scenario 41",
-    "sourceIds": [
-      "573"
-    ],
     "steps": [
       {
         "argument": {
@@ -6394,10 +6394,10 @@
             ]
           }
         },
-        "id": "1640",
-        "sourceIds": [
+        "astNodeIds": [
           "562"
         ],
+        "id": "1640",
         "text": "a simple data table"
       },
       {
@@ -6414,10 +6414,10 @@
             ]
           }
         },
-        "id": "1641",
-        "sourceIds": [
+        "astNodeIds": [
           "564"
         ],
+        "id": "1641",
         "text": "a data table with a single cell"
       },
       {
@@ -6440,10 +6440,10 @@
             ]
           }
         },
-        "id": "1642",
-        "sourceIds": [
+        "astNodeIds": [
           "566"
         ],
+        "id": "1642",
         "text": "a data table with different fromatting"
       },
       {
@@ -6464,10 +6464,10 @@
             ]
           }
         },
-        "id": "1643",
-        "sourceIds": [
+        "astNodeIds": [
           "568"
         ],
+        "id": "1643",
         "text": "a data table with an empty cell"
       },
       {
@@ -6507,10 +6507,10 @@
             ]
           }
         },
-        "id": "1644",
-        "sourceIds": [
+        "astNodeIds": [
           "572"
         ],
+        "id": "1644",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -6519,12 +6519,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "587"
+    ],
     "id": "1651",
     "language": "en",
     "name": "scenario 42",
-    "sourceIds": [
-      "587"
-    ],
     "steps": [
       {
         "argument": {
@@ -6553,10 +6553,10 @@
             ]
           }
         },
-        "id": "1646",
-        "sourceIds": [
+        "astNodeIds": [
           "576"
         ],
+        "id": "1646",
         "text": "a simple data table"
       },
       {
@@ -6573,10 +6573,10 @@
             ]
           }
         },
-        "id": "1647",
-        "sourceIds": [
+        "astNodeIds": [
           "578"
         ],
+        "id": "1647",
         "text": "a data table with a single cell"
       },
       {
@@ -6599,10 +6599,10 @@
             ]
           }
         },
-        "id": "1648",
-        "sourceIds": [
+        "astNodeIds": [
           "580"
         ],
+        "id": "1648",
         "text": "a data table with different fromatting"
       },
       {
@@ -6623,10 +6623,10 @@
             ]
           }
         },
-        "id": "1649",
-        "sourceIds": [
+        "astNodeIds": [
           "582"
         ],
+        "id": "1649",
         "text": "a data table with an empty cell"
       },
       {
@@ -6666,10 +6666,10 @@
             ]
           }
         },
-        "id": "1650",
-        "sourceIds": [
+        "astNodeIds": [
           "586"
         ],
+        "id": "1650",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -6678,12 +6678,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "601"
+    ],
     "id": "1657",
     "language": "en",
     "name": "scenario 43",
-    "sourceIds": [
-      "601"
-    ],
     "steps": [
       {
         "argument": {
@@ -6712,10 +6712,10 @@
             ]
           }
         },
-        "id": "1652",
-        "sourceIds": [
+        "astNodeIds": [
           "590"
         ],
+        "id": "1652",
         "text": "a simple data table"
       },
       {
@@ -6732,10 +6732,10 @@
             ]
           }
         },
-        "id": "1653",
-        "sourceIds": [
+        "astNodeIds": [
           "592"
         ],
+        "id": "1653",
         "text": "a data table with a single cell"
       },
       {
@@ -6758,10 +6758,10 @@
             ]
           }
         },
-        "id": "1654",
-        "sourceIds": [
+        "astNodeIds": [
           "594"
         ],
+        "id": "1654",
         "text": "a data table with different fromatting"
       },
       {
@@ -6782,10 +6782,10 @@
             ]
           }
         },
-        "id": "1655",
-        "sourceIds": [
+        "astNodeIds": [
           "596"
         ],
+        "id": "1655",
         "text": "a data table with an empty cell"
       },
       {
@@ -6825,10 +6825,10 @@
             ]
           }
         },
-        "id": "1656",
-        "sourceIds": [
+        "astNodeIds": [
           "600"
         ],
+        "id": "1656",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -6837,12 +6837,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "615"
+    ],
     "id": "1663",
     "language": "en",
     "name": "scenario 44",
-    "sourceIds": [
-      "615"
-    ],
     "steps": [
       {
         "argument": {
@@ -6871,10 +6871,10 @@
             ]
           }
         },
-        "id": "1658",
-        "sourceIds": [
+        "astNodeIds": [
           "604"
         ],
+        "id": "1658",
         "text": "a simple data table"
       },
       {
@@ -6891,10 +6891,10 @@
             ]
           }
         },
-        "id": "1659",
-        "sourceIds": [
+        "astNodeIds": [
           "606"
         ],
+        "id": "1659",
         "text": "a data table with a single cell"
       },
       {
@@ -6917,10 +6917,10 @@
             ]
           }
         },
-        "id": "1660",
-        "sourceIds": [
+        "astNodeIds": [
           "608"
         ],
+        "id": "1660",
         "text": "a data table with different fromatting"
       },
       {
@@ -6941,10 +6941,10 @@
             ]
           }
         },
-        "id": "1661",
-        "sourceIds": [
+        "astNodeIds": [
           "610"
         ],
+        "id": "1661",
         "text": "a data table with an empty cell"
       },
       {
@@ -6984,10 +6984,10 @@
             ]
           }
         },
-        "id": "1662",
-        "sourceIds": [
+        "astNodeIds": [
           "614"
         ],
+        "id": "1662",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -6996,12 +6996,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "629"
+    ],
     "id": "1669",
     "language": "en",
     "name": "scenario 45",
-    "sourceIds": [
-      "629"
-    ],
     "steps": [
       {
         "argument": {
@@ -7030,10 +7030,10 @@
             ]
           }
         },
-        "id": "1664",
-        "sourceIds": [
+        "astNodeIds": [
           "618"
         ],
+        "id": "1664",
         "text": "a simple data table"
       },
       {
@@ -7050,10 +7050,10 @@
             ]
           }
         },
-        "id": "1665",
-        "sourceIds": [
+        "astNodeIds": [
           "620"
         ],
+        "id": "1665",
         "text": "a data table with a single cell"
       },
       {
@@ -7076,10 +7076,10 @@
             ]
           }
         },
-        "id": "1666",
-        "sourceIds": [
+        "astNodeIds": [
           "622"
         ],
+        "id": "1666",
         "text": "a data table with different fromatting"
       },
       {
@@ -7100,10 +7100,10 @@
             ]
           }
         },
-        "id": "1667",
-        "sourceIds": [
+        "astNodeIds": [
           "624"
         ],
+        "id": "1667",
         "text": "a data table with an empty cell"
       },
       {
@@ -7143,10 +7143,10 @@
             ]
           }
         },
-        "id": "1668",
-        "sourceIds": [
+        "astNodeIds": [
           "628"
         ],
+        "id": "1668",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -7155,12 +7155,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "643"
+    ],
     "id": "1675",
     "language": "en",
     "name": "scenario 46",
-    "sourceIds": [
-      "643"
-    ],
     "steps": [
       {
         "argument": {
@@ -7189,10 +7189,10 @@
             ]
           }
         },
-        "id": "1670",
-        "sourceIds": [
+        "astNodeIds": [
           "632"
         ],
+        "id": "1670",
         "text": "a simple data table"
       },
       {
@@ -7209,10 +7209,10 @@
             ]
           }
         },
-        "id": "1671",
-        "sourceIds": [
+        "astNodeIds": [
           "634"
         ],
+        "id": "1671",
         "text": "a data table with a single cell"
       },
       {
@@ -7235,10 +7235,10 @@
             ]
           }
         },
-        "id": "1672",
-        "sourceIds": [
+        "astNodeIds": [
           "636"
         ],
+        "id": "1672",
         "text": "a data table with different fromatting"
       },
       {
@@ -7259,10 +7259,10 @@
             ]
           }
         },
-        "id": "1673",
-        "sourceIds": [
+        "astNodeIds": [
           "638"
         ],
+        "id": "1673",
         "text": "a data table with an empty cell"
       },
       {
@@ -7302,10 +7302,10 @@
             ]
           }
         },
-        "id": "1674",
-        "sourceIds": [
+        "astNodeIds": [
           "642"
         ],
+        "id": "1674",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -7314,12 +7314,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "657"
+    ],
     "id": "1681",
     "language": "en",
     "name": "scenario 47",
-    "sourceIds": [
-      "657"
-    ],
     "steps": [
       {
         "argument": {
@@ -7348,10 +7348,10 @@
             ]
           }
         },
-        "id": "1676",
-        "sourceIds": [
+        "astNodeIds": [
           "646"
         ],
+        "id": "1676",
         "text": "a simple data table"
       },
       {
@@ -7368,10 +7368,10 @@
             ]
           }
         },
-        "id": "1677",
-        "sourceIds": [
+        "astNodeIds": [
           "648"
         ],
+        "id": "1677",
         "text": "a data table with a single cell"
       },
       {
@@ -7394,10 +7394,10 @@
             ]
           }
         },
-        "id": "1678",
-        "sourceIds": [
+        "astNodeIds": [
           "650"
         ],
+        "id": "1678",
         "text": "a data table with different fromatting"
       },
       {
@@ -7418,10 +7418,10 @@
             ]
           }
         },
-        "id": "1679",
-        "sourceIds": [
+        "astNodeIds": [
           "652"
         ],
+        "id": "1679",
         "text": "a data table with an empty cell"
       },
       {
@@ -7461,10 +7461,10 @@
             ]
           }
         },
-        "id": "1680",
-        "sourceIds": [
+        "astNodeIds": [
           "656"
         ],
+        "id": "1680",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -7473,12 +7473,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "671"
+    ],
     "id": "1687",
     "language": "en",
     "name": "scenario 48",
-    "sourceIds": [
-      "671"
-    ],
     "steps": [
       {
         "argument": {
@@ -7507,10 +7507,10 @@
             ]
           }
         },
-        "id": "1682",
-        "sourceIds": [
+        "astNodeIds": [
           "660"
         ],
+        "id": "1682",
         "text": "a simple data table"
       },
       {
@@ -7527,10 +7527,10 @@
             ]
           }
         },
-        "id": "1683",
-        "sourceIds": [
+        "astNodeIds": [
           "662"
         ],
+        "id": "1683",
         "text": "a data table with a single cell"
       },
       {
@@ -7553,10 +7553,10 @@
             ]
           }
         },
-        "id": "1684",
-        "sourceIds": [
+        "astNodeIds": [
           "664"
         ],
+        "id": "1684",
         "text": "a data table with different fromatting"
       },
       {
@@ -7577,10 +7577,10 @@
             ]
           }
         },
-        "id": "1685",
-        "sourceIds": [
+        "astNodeIds": [
           "666"
         ],
+        "id": "1685",
         "text": "a data table with an empty cell"
       },
       {
@@ -7620,10 +7620,10 @@
             ]
           }
         },
-        "id": "1686",
-        "sourceIds": [
+        "astNodeIds": [
           "670"
         ],
+        "id": "1686",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -7632,12 +7632,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "685"
+    ],
     "id": "1693",
     "language": "en",
     "name": "scenario 49",
-    "sourceIds": [
-      "685"
-    ],
     "steps": [
       {
         "argument": {
@@ -7666,10 +7666,10 @@
             ]
           }
         },
-        "id": "1688",
-        "sourceIds": [
+        "astNodeIds": [
           "674"
         ],
+        "id": "1688",
         "text": "a simple data table"
       },
       {
@@ -7686,10 +7686,10 @@
             ]
           }
         },
-        "id": "1689",
-        "sourceIds": [
+        "astNodeIds": [
           "676"
         ],
+        "id": "1689",
         "text": "a data table with a single cell"
       },
       {
@@ -7712,10 +7712,10 @@
             ]
           }
         },
-        "id": "1690",
-        "sourceIds": [
+        "astNodeIds": [
           "678"
         ],
+        "id": "1690",
         "text": "a data table with different fromatting"
       },
       {
@@ -7736,10 +7736,10 @@
             ]
           }
         },
-        "id": "1691",
-        "sourceIds": [
+        "astNodeIds": [
           "680"
         ],
+        "id": "1691",
         "text": "a data table with an empty cell"
       },
       {
@@ -7779,10 +7779,10 @@
             ]
           }
         },
-        "id": "1692",
-        "sourceIds": [
+        "astNodeIds": [
           "684"
         ],
+        "id": "1692",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -7791,12 +7791,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "699"
+    ],
     "id": "1699",
     "language": "en",
     "name": "scenario 50",
-    "sourceIds": [
-      "699"
-    ],
     "steps": [
       {
         "argument": {
@@ -7825,10 +7825,10 @@
             ]
           }
         },
-        "id": "1694",
-        "sourceIds": [
+        "astNodeIds": [
           "688"
         ],
+        "id": "1694",
         "text": "a simple data table"
       },
       {
@@ -7845,10 +7845,10 @@
             ]
           }
         },
-        "id": "1695",
-        "sourceIds": [
+        "astNodeIds": [
           "690"
         ],
+        "id": "1695",
         "text": "a data table with a single cell"
       },
       {
@@ -7871,10 +7871,10 @@
             ]
           }
         },
-        "id": "1696",
-        "sourceIds": [
+        "astNodeIds": [
           "692"
         ],
+        "id": "1696",
         "text": "a data table with different fromatting"
       },
       {
@@ -7895,10 +7895,10 @@
             ]
           }
         },
-        "id": "1697",
-        "sourceIds": [
+        "astNodeIds": [
           "694"
         ],
+        "id": "1697",
         "text": "a data table with an empty cell"
       },
       {
@@ -7938,10 +7938,10 @@
             ]
           }
         },
-        "id": "1698",
-        "sourceIds": [
+        "astNodeIds": [
           "698"
         ],
+        "id": "1698",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -7950,12 +7950,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "713"
+    ],
     "id": "1705",
     "language": "en",
     "name": "scenario 51",
-    "sourceIds": [
-      "713"
-    ],
     "steps": [
       {
         "argument": {
@@ -7984,10 +7984,10 @@
             ]
           }
         },
-        "id": "1700",
-        "sourceIds": [
+        "astNodeIds": [
           "702"
         ],
+        "id": "1700",
         "text": "a simple data table"
       },
       {
@@ -8004,10 +8004,10 @@
             ]
           }
         },
-        "id": "1701",
-        "sourceIds": [
+        "astNodeIds": [
           "704"
         ],
+        "id": "1701",
         "text": "a data table with a single cell"
       },
       {
@@ -8030,10 +8030,10 @@
             ]
           }
         },
-        "id": "1702",
-        "sourceIds": [
+        "astNodeIds": [
           "706"
         ],
+        "id": "1702",
         "text": "a data table with different fromatting"
       },
       {
@@ -8054,10 +8054,10 @@
             ]
           }
         },
-        "id": "1703",
-        "sourceIds": [
+        "astNodeIds": [
           "708"
         ],
+        "id": "1703",
         "text": "a data table with an empty cell"
       },
       {
@@ -8097,10 +8097,10 @@
             ]
           }
         },
-        "id": "1704",
-        "sourceIds": [
+        "astNodeIds": [
           "712"
         ],
+        "id": "1704",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -8109,12 +8109,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "727"
+    ],
     "id": "1711",
     "language": "en",
     "name": "scenario 52",
-    "sourceIds": [
-      "727"
-    ],
     "steps": [
       {
         "argument": {
@@ -8143,10 +8143,10 @@
             ]
           }
         },
-        "id": "1706",
-        "sourceIds": [
+        "astNodeIds": [
           "716"
         ],
+        "id": "1706",
         "text": "a simple data table"
       },
       {
@@ -8163,10 +8163,10 @@
             ]
           }
         },
-        "id": "1707",
-        "sourceIds": [
+        "astNodeIds": [
           "718"
         ],
+        "id": "1707",
         "text": "a data table with a single cell"
       },
       {
@@ -8189,10 +8189,10 @@
             ]
           }
         },
-        "id": "1708",
-        "sourceIds": [
+        "astNodeIds": [
           "720"
         ],
+        "id": "1708",
         "text": "a data table with different fromatting"
       },
       {
@@ -8213,10 +8213,10 @@
             ]
           }
         },
-        "id": "1709",
-        "sourceIds": [
+        "astNodeIds": [
           "722"
         ],
+        "id": "1709",
         "text": "a data table with an empty cell"
       },
       {
@@ -8256,10 +8256,10 @@
             ]
           }
         },
-        "id": "1710",
-        "sourceIds": [
+        "astNodeIds": [
           "726"
         ],
+        "id": "1710",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -8268,12 +8268,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "741"
+    ],
     "id": "1717",
     "language": "en",
     "name": "scenario 53",
-    "sourceIds": [
-      "741"
-    ],
     "steps": [
       {
         "argument": {
@@ -8302,10 +8302,10 @@
             ]
           }
         },
-        "id": "1712",
-        "sourceIds": [
+        "astNodeIds": [
           "730"
         ],
+        "id": "1712",
         "text": "a simple data table"
       },
       {
@@ -8322,10 +8322,10 @@
             ]
           }
         },
-        "id": "1713",
-        "sourceIds": [
+        "astNodeIds": [
           "732"
         ],
+        "id": "1713",
         "text": "a data table with a single cell"
       },
       {
@@ -8348,10 +8348,10 @@
             ]
           }
         },
-        "id": "1714",
-        "sourceIds": [
+        "astNodeIds": [
           "734"
         ],
+        "id": "1714",
         "text": "a data table with different fromatting"
       },
       {
@@ -8372,10 +8372,10 @@
             ]
           }
         },
-        "id": "1715",
-        "sourceIds": [
+        "astNodeIds": [
           "736"
         ],
+        "id": "1715",
         "text": "a data table with an empty cell"
       },
       {
@@ -8415,10 +8415,10 @@
             ]
           }
         },
-        "id": "1716",
-        "sourceIds": [
+        "astNodeIds": [
           "740"
         ],
+        "id": "1716",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -8427,12 +8427,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "755"
+    ],
     "id": "1723",
     "language": "en",
     "name": "scenario 54",
-    "sourceIds": [
-      "755"
-    ],
     "steps": [
       {
         "argument": {
@@ -8461,10 +8461,10 @@
             ]
           }
         },
-        "id": "1718",
-        "sourceIds": [
+        "astNodeIds": [
           "744"
         ],
+        "id": "1718",
         "text": "a simple data table"
       },
       {
@@ -8481,10 +8481,10 @@
             ]
           }
         },
-        "id": "1719",
-        "sourceIds": [
+        "astNodeIds": [
           "746"
         ],
+        "id": "1719",
         "text": "a data table with a single cell"
       },
       {
@@ -8507,10 +8507,10 @@
             ]
           }
         },
-        "id": "1720",
-        "sourceIds": [
+        "astNodeIds": [
           "748"
         ],
+        "id": "1720",
         "text": "a data table with different fromatting"
       },
       {
@@ -8531,10 +8531,10 @@
             ]
           }
         },
-        "id": "1721",
-        "sourceIds": [
+        "astNodeIds": [
           "750"
         ],
+        "id": "1721",
         "text": "a data table with an empty cell"
       },
       {
@@ -8574,10 +8574,10 @@
             ]
           }
         },
-        "id": "1722",
-        "sourceIds": [
+        "astNodeIds": [
           "754"
         ],
+        "id": "1722",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -8586,12 +8586,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "769"
+    ],
     "id": "1729",
     "language": "en",
     "name": "scenario 55",
-    "sourceIds": [
-      "769"
-    ],
     "steps": [
       {
         "argument": {
@@ -8620,10 +8620,10 @@
             ]
           }
         },
-        "id": "1724",
-        "sourceIds": [
+        "astNodeIds": [
           "758"
         ],
+        "id": "1724",
         "text": "a simple data table"
       },
       {
@@ -8640,10 +8640,10 @@
             ]
           }
         },
-        "id": "1725",
-        "sourceIds": [
+        "astNodeIds": [
           "760"
         ],
+        "id": "1725",
         "text": "a data table with a single cell"
       },
       {
@@ -8666,10 +8666,10 @@
             ]
           }
         },
-        "id": "1726",
-        "sourceIds": [
+        "astNodeIds": [
           "762"
         ],
+        "id": "1726",
         "text": "a data table with different fromatting"
       },
       {
@@ -8690,10 +8690,10 @@
             ]
           }
         },
-        "id": "1727",
-        "sourceIds": [
+        "astNodeIds": [
           "764"
         ],
+        "id": "1727",
         "text": "a data table with an empty cell"
       },
       {
@@ -8733,10 +8733,10 @@
             ]
           }
         },
-        "id": "1728",
-        "sourceIds": [
+        "astNodeIds": [
           "768"
         ],
+        "id": "1728",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -8745,12 +8745,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "783"
+    ],
     "id": "1735",
     "language": "en",
     "name": "scenario 56",
-    "sourceIds": [
-      "783"
-    ],
     "steps": [
       {
         "argument": {
@@ -8779,10 +8779,10 @@
             ]
           }
         },
-        "id": "1730",
-        "sourceIds": [
+        "astNodeIds": [
           "772"
         ],
+        "id": "1730",
         "text": "a simple data table"
       },
       {
@@ -8799,10 +8799,10 @@
             ]
           }
         },
-        "id": "1731",
-        "sourceIds": [
+        "astNodeIds": [
           "774"
         ],
+        "id": "1731",
         "text": "a data table with a single cell"
       },
       {
@@ -8825,10 +8825,10 @@
             ]
           }
         },
-        "id": "1732",
-        "sourceIds": [
+        "astNodeIds": [
           "776"
         ],
+        "id": "1732",
         "text": "a data table with different fromatting"
       },
       {
@@ -8849,10 +8849,10 @@
             ]
           }
         },
-        "id": "1733",
-        "sourceIds": [
+        "astNodeIds": [
           "778"
         ],
+        "id": "1733",
         "text": "a data table with an empty cell"
       },
       {
@@ -8892,10 +8892,10 @@
             ]
           }
         },
-        "id": "1734",
-        "sourceIds": [
+        "astNodeIds": [
           "782"
         ],
+        "id": "1734",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -8904,12 +8904,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "797"
+    ],
     "id": "1741",
     "language": "en",
     "name": "scenario 57",
-    "sourceIds": [
-      "797"
-    ],
     "steps": [
       {
         "argument": {
@@ -8938,10 +8938,10 @@
             ]
           }
         },
-        "id": "1736",
-        "sourceIds": [
+        "astNodeIds": [
           "786"
         ],
+        "id": "1736",
         "text": "a simple data table"
       },
       {
@@ -8958,10 +8958,10 @@
             ]
           }
         },
-        "id": "1737",
-        "sourceIds": [
+        "astNodeIds": [
           "788"
         ],
+        "id": "1737",
         "text": "a data table with a single cell"
       },
       {
@@ -8984,10 +8984,10 @@
             ]
           }
         },
-        "id": "1738",
-        "sourceIds": [
+        "astNodeIds": [
           "790"
         ],
+        "id": "1738",
         "text": "a data table with different fromatting"
       },
       {
@@ -9008,10 +9008,10 @@
             ]
           }
         },
-        "id": "1739",
-        "sourceIds": [
+        "astNodeIds": [
           "792"
         ],
+        "id": "1739",
         "text": "a data table with an empty cell"
       },
       {
@@ -9051,10 +9051,10 @@
             ]
           }
         },
-        "id": "1740",
-        "sourceIds": [
+        "astNodeIds": [
           "796"
         ],
+        "id": "1740",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -9063,12 +9063,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "811"
+    ],
     "id": "1747",
     "language": "en",
     "name": "scenario 58",
-    "sourceIds": [
-      "811"
-    ],
     "steps": [
       {
         "argument": {
@@ -9097,10 +9097,10 @@
             ]
           }
         },
-        "id": "1742",
-        "sourceIds": [
+        "astNodeIds": [
           "800"
         ],
+        "id": "1742",
         "text": "a simple data table"
       },
       {
@@ -9117,10 +9117,10 @@
             ]
           }
         },
-        "id": "1743",
-        "sourceIds": [
+        "astNodeIds": [
           "802"
         ],
+        "id": "1743",
         "text": "a data table with a single cell"
       },
       {
@@ -9143,10 +9143,10 @@
             ]
           }
         },
-        "id": "1744",
-        "sourceIds": [
+        "astNodeIds": [
           "804"
         ],
+        "id": "1744",
         "text": "a data table with different fromatting"
       },
       {
@@ -9167,10 +9167,10 @@
             ]
           }
         },
-        "id": "1745",
-        "sourceIds": [
+        "astNodeIds": [
           "806"
         ],
+        "id": "1745",
         "text": "a data table with an empty cell"
       },
       {
@@ -9210,10 +9210,10 @@
             ]
           }
         },
-        "id": "1746",
-        "sourceIds": [
+        "astNodeIds": [
           "810"
         ],
+        "id": "1746",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -9222,12 +9222,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "825"
+    ],
     "id": "1753",
     "language": "en",
     "name": "scenario 59",
-    "sourceIds": [
-      "825"
-    ],
     "steps": [
       {
         "argument": {
@@ -9256,10 +9256,10 @@
             ]
           }
         },
-        "id": "1748",
-        "sourceIds": [
+        "astNodeIds": [
           "814"
         ],
+        "id": "1748",
         "text": "a simple data table"
       },
       {
@@ -9276,10 +9276,10 @@
             ]
           }
         },
-        "id": "1749",
-        "sourceIds": [
+        "astNodeIds": [
           "816"
         ],
+        "id": "1749",
         "text": "a data table with a single cell"
       },
       {
@@ -9302,10 +9302,10 @@
             ]
           }
         },
-        "id": "1750",
-        "sourceIds": [
+        "astNodeIds": [
           "818"
         ],
+        "id": "1750",
         "text": "a data table with different fromatting"
       },
       {
@@ -9326,10 +9326,10 @@
             ]
           }
         },
-        "id": "1751",
-        "sourceIds": [
+        "astNodeIds": [
           "820"
         ],
+        "id": "1751",
         "text": "a data table with an empty cell"
       },
       {
@@ -9369,10 +9369,10 @@
             ]
           }
         },
-        "id": "1752",
-        "sourceIds": [
+        "astNodeIds": [
           "824"
         ],
+        "id": "1752",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -9381,12 +9381,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "839"
+    ],
     "id": "1759",
     "language": "en",
     "name": "scenario 60",
-    "sourceIds": [
-      "839"
-    ],
     "steps": [
       {
         "argument": {
@@ -9415,10 +9415,10 @@
             ]
           }
         },
-        "id": "1754",
-        "sourceIds": [
+        "astNodeIds": [
           "828"
         ],
+        "id": "1754",
         "text": "a simple data table"
       },
       {
@@ -9435,10 +9435,10 @@
             ]
           }
         },
-        "id": "1755",
-        "sourceIds": [
+        "astNodeIds": [
           "830"
         ],
+        "id": "1755",
         "text": "a data table with a single cell"
       },
       {
@@ -9461,10 +9461,10 @@
             ]
           }
         },
-        "id": "1756",
-        "sourceIds": [
+        "astNodeIds": [
           "832"
         ],
+        "id": "1756",
         "text": "a data table with different fromatting"
       },
       {
@@ -9485,10 +9485,10 @@
             ]
           }
         },
-        "id": "1757",
-        "sourceIds": [
+        "astNodeIds": [
           "834"
         ],
+        "id": "1757",
         "text": "a data table with an empty cell"
       },
       {
@@ -9528,10 +9528,10 @@
             ]
           }
         },
-        "id": "1758",
-        "sourceIds": [
+        "astNodeIds": [
           "838"
         ],
+        "id": "1758",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -9540,12 +9540,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "853"
+    ],
     "id": "1765",
     "language": "en",
     "name": "scenario 61",
-    "sourceIds": [
-      "853"
-    ],
     "steps": [
       {
         "argument": {
@@ -9574,10 +9574,10 @@
             ]
           }
         },
-        "id": "1760",
-        "sourceIds": [
+        "astNodeIds": [
           "842"
         ],
+        "id": "1760",
         "text": "a simple data table"
       },
       {
@@ -9594,10 +9594,10 @@
             ]
           }
         },
-        "id": "1761",
-        "sourceIds": [
+        "astNodeIds": [
           "844"
         ],
+        "id": "1761",
         "text": "a data table with a single cell"
       },
       {
@@ -9620,10 +9620,10 @@
             ]
           }
         },
-        "id": "1762",
-        "sourceIds": [
+        "astNodeIds": [
           "846"
         ],
+        "id": "1762",
         "text": "a data table with different fromatting"
       },
       {
@@ -9644,10 +9644,10 @@
             ]
           }
         },
-        "id": "1763",
-        "sourceIds": [
+        "astNodeIds": [
           "848"
         ],
+        "id": "1763",
         "text": "a data table with an empty cell"
       },
       {
@@ -9687,10 +9687,10 @@
             ]
           }
         },
-        "id": "1764",
-        "sourceIds": [
+        "astNodeIds": [
           "852"
         ],
+        "id": "1764",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -9699,12 +9699,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "867"
+    ],
     "id": "1771",
     "language": "en",
     "name": "scenario 62",
-    "sourceIds": [
-      "867"
-    ],
     "steps": [
       {
         "argument": {
@@ -9733,10 +9733,10 @@
             ]
           }
         },
-        "id": "1766",
-        "sourceIds": [
+        "astNodeIds": [
           "856"
         ],
+        "id": "1766",
         "text": "a simple data table"
       },
       {
@@ -9753,10 +9753,10 @@
             ]
           }
         },
-        "id": "1767",
-        "sourceIds": [
+        "astNodeIds": [
           "858"
         ],
+        "id": "1767",
         "text": "a data table with a single cell"
       },
       {
@@ -9779,10 +9779,10 @@
             ]
           }
         },
-        "id": "1768",
-        "sourceIds": [
+        "astNodeIds": [
           "860"
         ],
+        "id": "1768",
         "text": "a data table with different fromatting"
       },
       {
@@ -9803,10 +9803,10 @@
             ]
           }
         },
-        "id": "1769",
-        "sourceIds": [
+        "astNodeIds": [
           "862"
         ],
+        "id": "1769",
         "text": "a data table with an empty cell"
       },
       {
@@ -9846,10 +9846,10 @@
             ]
           }
         },
-        "id": "1770",
-        "sourceIds": [
+        "astNodeIds": [
           "866"
         ],
+        "id": "1770",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -9858,12 +9858,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "881"
+    ],
     "id": "1777",
     "language": "en",
     "name": "scenario 63",
-    "sourceIds": [
-      "881"
-    ],
     "steps": [
       {
         "argument": {
@@ -9892,10 +9892,10 @@
             ]
           }
         },
-        "id": "1772",
-        "sourceIds": [
+        "astNodeIds": [
           "870"
         ],
+        "id": "1772",
         "text": "a simple data table"
       },
       {
@@ -9912,10 +9912,10 @@
             ]
           }
         },
-        "id": "1773",
-        "sourceIds": [
+        "astNodeIds": [
           "872"
         ],
+        "id": "1773",
         "text": "a data table with a single cell"
       },
       {
@@ -9938,10 +9938,10 @@
             ]
           }
         },
-        "id": "1774",
-        "sourceIds": [
+        "astNodeIds": [
           "874"
         ],
+        "id": "1774",
         "text": "a data table with different fromatting"
       },
       {
@@ -9962,10 +9962,10 @@
             ]
           }
         },
-        "id": "1775",
-        "sourceIds": [
+        "astNodeIds": [
           "876"
         ],
+        "id": "1775",
         "text": "a data table with an empty cell"
       },
       {
@@ -10005,10 +10005,10 @@
             ]
           }
         },
-        "id": "1776",
-        "sourceIds": [
+        "astNodeIds": [
           "880"
         ],
+        "id": "1776",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -10017,12 +10017,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "895"
+    ],
     "id": "1783",
     "language": "en",
     "name": "scenario 64",
-    "sourceIds": [
-      "895"
-    ],
     "steps": [
       {
         "argument": {
@@ -10051,10 +10051,10 @@
             ]
           }
         },
-        "id": "1778",
-        "sourceIds": [
+        "astNodeIds": [
           "884"
         ],
+        "id": "1778",
         "text": "a simple data table"
       },
       {
@@ -10071,10 +10071,10 @@
             ]
           }
         },
-        "id": "1779",
-        "sourceIds": [
+        "astNodeIds": [
           "886"
         ],
+        "id": "1779",
         "text": "a data table with a single cell"
       },
       {
@@ -10097,10 +10097,10 @@
             ]
           }
         },
-        "id": "1780",
-        "sourceIds": [
+        "astNodeIds": [
           "888"
         ],
+        "id": "1780",
         "text": "a data table with different fromatting"
       },
       {
@@ -10121,10 +10121,10 @@
             ]
           }
         },
-        "id": "1781",
-        "sourceIds": [
+        "astNodeIds": [
           "890"
         ],
+        "id": "1781",
         "text": "a data table with an empty cell"
       },
       {
@@ -10164,10 +10164,10 @@
             ]
           }
         },
-        "id": "1782",
-        "sourceIds": [
+        "astNodeIds": [
           "894"
         ],
+        "id": "1782",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -10176,12 +10176,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "909"
+    ],
     "id": "1789",
     "language": "en",
     "name": "scenario 65",
-    "sourceIds": [
-      "909"
-    ],
     "steps": [
       {
         "argument": {
@@ -10210,10 +10210,10 @@
             ]
           }
         },
-        "id": "1784",
-        "sourceIds": [
+        "astNodeIds": [
           "898"
         ],
+        "id": "1784",
         "text": "a simple data table"
       },
       {
@@ -10230,10 +10230,10 @@
             ]
           }
         },
-        "id": "1785",
-        "sourceIds": [
+        "astNodeIds": [
           "900"
         ],
+        "id": "1785",
         "text": "a data table with a single cell"
       },
       {
@@ -10256,10 +10256,10 @@
             ]
           }
         },
-        "id": "1786",
-        "sourceIds": [
+        "astNodeIds": [
           "902"
         ],
+        "id": "1786",
         "text": "a data table with different fromatting"
       },
       {
@@ -10280,10 +10280,10 @@
             ]
           }
         },
-        "id": "1787",
-        "sourceIds": [
+        "astNodeIds": [
           "904"
         ],
+        "id": "1787",
         "text": "a data table with an empty cell"
       },
       {
@@ -10323,10 +10323,10 @@
             ]
           }
         },
-        "id": "1788",
-        "sourceIds": [
+        "astNodeIds": [
           "908"
         ],
+        "id": "1788",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -10335,12 +10335,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "923"
+    ],
     "id": "1795",
     "language": "en",
     "name": "scenario 66",
-    "sourceIds": [
-      "923"
-    ],
     "steps": [
       {
         "argument": {
@@ -10369,10 +10369,10 @@
             ]
           }
         },
-        "id": "1790",
-        "sourceIds": [
+        "astNodeIds": [
           "912"
         ],
+        "id": "1790",
         "text": "a simple data table"
       },
       {
@@ -10389,10 +10389,10 @@
             ]
           }
         },
-        "id": "1791",
-        "sourceIds": [
+        "astNodeIds": [
           "914"
         ],
+        "id": "1791",
         "text": "a data table with a single cell"
       },
       {
@@ -10415,10 +10415,10 @@
             ]
           }
         },
-        "id": "1792",
-        "sourceIds": [
+        "astNodeIds": [
           "916"
         ],
+        "id": "1792",
         "text": "a data table with different fromatting"
       },
       {
@@ -10439,10 +10439,10 @@
             ]
           }
         },
-        "id": "1793",
-        "sourceIds": [
+        "astNodeIds": [
           "918"
         ],
+        "id": "1793",
         "text": "a data table with an empty cell"
       },
       {
@@ -10482,10 +10482,10 @@
             ]
           }
         },
-        "id": "1794",
-        "sourceIds": [
+        "astNodeIds": [
           "922"
         ],
+        "id": "1794",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -10494,12 +10494,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "937"
+    ],
     "id": "1801",
     "language": "en",
     "name": "scenario 67",
-    "sourceIds": [
-      "937"
-    ],
     "steps": [
       {
         "argument": {
@@ -10528,10 +10528,10 @@
             ]
           }
         },
-        "id": "1796",
-        "sourceIds": [
+        "astNodeIds": [
           "926"
         ],
+        "id": "1796",
         "text": "a simple data table"
       },
       {
@@ -10548,10 +10548,10 @@
             ]
           }
         },
-        "id": "1797",
-        "sourceIds": [
+        "astNodeIds": [
           "928"
         ],
+        "id": "1797",
         "text": "a data table with a single cell"
       },
       {
@@ -10574,10 +10574,10 @@
             ]
           }
         },
-        "id": "1798",
-        "sourceIds": [
+        "astNodeIds": [
           "930"
         ],
+        "id": "1798",
         "text": "a data table with different fromatting"
       },
       {
@@ -10598,10 +10598,10 @@
             ]
           }
         },
-        "id": "1799",
-        "sourceIds": [
+        "astNodeIds": [
           "932"
         ],
+        "id": "1799",
         "text": "a data table with an empty cell"
       },
       {
@@ -10641,10 +10641,10 @@
             ]
           }
         },
-        "id": "1800",
-        "sourceIds": [
+        "astNodeIds": [
           "936"
         ],
+        "id": "1800",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -10653,12 +10653,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "951"
+    ],
     "id": "1807",
     "language": "en",
     "name": "scenario 68",
-    "sourceIds": [
-      "951"
-    ],
     "steps": [
       {
         "argument": {
@@ -10687,10 +10687,10 @@
             ]
           }
         },
-        "id": "1802",
-        "sourceIds": [
+        "astNodeIds": [
           "940"
         ],
+        "id": "1802",
         "text": "a simple data table"
       },
       {
@@ -10707,10 +10707,10 @@
             ]
           }
         },
-        "id": "1803",
-        "sourceIds": [
+        "astNodeIds": [
           "942"
         ],
+        "id": "1803",
         "text": "a data table with a single cell"
       },
       {
@@ -10733,10 +10733,10 @@
             ]
           }
         },
-        "id": "1804",
-        "sourceIds": [
+        "astNodeIds": [
           "944"
         ],
+        "id": "1804",
         "text": "a data table with different fromatting"
       },
       {
@@ -10757,10 +10757,10 @@
             ]
           }
         },
-        "id": "1805",
-        "sourceIds": [
+        "astNodeIds": [
           "946"
         ],
+        "id": "1805",
         "text": "a data table with an empty cell"
       },
       {
@@ -10800,10 +10800,10 @@
             ]
           }
         },
-        "id": "1806",
-        "sourceIds": [
+        "astNodeIds": [
           "950"
         ],
+        "id": "1806",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -10812,12 +10812,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "965"
+    ],
     "id": "1813",
     "language": "en",
     "name": "scenario 69",
-    "sourceIds": [
-      "965"
-    ],
     "steps": [
       {
         "argument": {
@@ -10846,10 +10846,10 @@
             ]
           }
         },
-        "id": "1808",
-        "sourceIds": [
+        "astNodeIds": [
           "954"
         ],
+        "id": "1808",
         "text": "a simple data table"
       },
       {
@@ -10866,10 +10866,10 @@
             ]
           }
         },
-        "id": "1809",
-        "sourceIds": [
+        "astNodeIds": [
           "956"
         ],
+        "id": "1809",
         "text": "a data table with a single cell"
       },
       {
@@ -10892,10 +10892,10 @@
             ]
           }
         },
-        "id": "1810",
-        "sourceIds": [
+        "astNodeIds": [
           "958"
         ],
+        "id": "1810",
         "text": "a data table with different fromatting"
       },
       {
@@ -10916,10 +10916,10 @@
             ]
           }
         },
-        "id": "1811",
-        "sourceIds": [
+        "astNodeIds": [
           "960"
         ],
+        "id": "1811",
         "text": "a data table with an empty cell"
       },
       {
@@ -10959,10 +10959,10 @@
             ]
           }
         },
-        "id": "1812",
-        "sourceIds": [
+        "astNodeIds": [
           "964"
         ],
+        "id": "1812",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -10971,12 +10971,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "979"
+    ],
     "id": "1819",
     "language": "en",
     "name": "scenario 70",
-    "sourceIds": [
-      "979"
-    ],
     "steps": [
       {
         "argument": {
@@ -11005,10 +11005,10 @@
             ]
           }
         },
-        "id": "1814",
-        "sourceIds": [
+        "astNodeIds": [
           "968"
         ],
+        "id": "1814",
         "text": "a simple data table"
       },
       {
@@ -11025,10 +11025,10 @@
             ]
           }
         },
-        "id": "1815",
-        "sourceIds": [
+        "astNodeIds": [
           "970"
         ],
+        "id": "1815",
         "text": "a data table with a single cell"
       },
       {
@@ -11051,10 +11051,10 @@
             ]
           }
         },
-        "id": "1816",
-        "sourceIds": [
+        "astNodeIds": [
           "972"
         ],
+        "id": "1816",
         "text": "a data table with different fromatting"
       },
       {
@@ -11075,10 +11075,10 @@
             ]
           }
         },
-        "id": "1817",
-        "sourceIds": [
+        "astNodeIds": [
           "974"
         ],
+        "id": "1817",
         "text": "a data table with an empty cell"
       },
       {
@@ -11118,10 +11118,10 @@
             ]
           }
         },
-        "id": "1818",
-        "sourceIds": [
+        "astNodeIds": [
           "978"
         ],
+        "id": "1818",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -11130,12 +11130,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "993"
+    ],
     "id": "1825",
     "language": "en",
     "name": "scenario 71",
-    "sourceIds": [
-      "993"
-    ],
     "steps": [
       {
         "argument": {
@@ -11164,10 +11164,10 @@
             ]
           }
         },
-        "id": "1820",
-        "sourceIds": [
+        "astNodeIds": [
           "982"
         ],
+        "id": "1820",
         "text": "a simple data table"
       },
       {
@@ -11184,10 +11184,10 @@
             ]
           }
         },
-        "id": "1821",
-        "sourceIds": [
+        "astNodeIds": [
           "984"
         ],
+        "id": "1821",
         "text": "a data table with a single cell"
       },
       {
@@ -11210,10 +11210,10 @@
             ]
           }
         },
-        "id": "1822",
-        "sourceIds": [
+        "astNodeIds": [
           "986"
         ],
+        "id": "1822",
         "text": "a data table with different fromatting"
       },
       {
@@ -11234,10 +11234,10 @@
             ]
           }
         },
-        "id": "1823",
-        "sourceIds": [
+        "astNodeIds": [
           "988"
         ],
+        "id": "1823",
         "text": "a data table with an empty cell"
       },
       {
@@ -11277,10 +11277,10 @@
             ]
           }
         },
-        "id": "1824",
-        "sourceIds": [
+        "astNodeIds": [
           "992"
         ],
+        "id": "1824",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -11289,12 +11289,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "1007"
+    ],
     "id": "1831",
     "language": "en",
     "name": "scenario 72",
-    "sourceIds": [
-      "1007"
-    ],
     "steps": [
       {
         "argument": {
@@ -11323,10 +11323,10 @@
             ]
           }
         },
-        "id": "1826",
-        "sourceIds": [
+        "astNodeIds": [
           "996"
         ],
+        "id": "1826",
         "text": "a simple data table"
       },
       {
@@ -11343,10 +11343,10 @@
             ]
           }
         },
-        "id": "1827",
-        "sourceIds": [
+        "astNodeIds": [
           "998"
         ],
+        "id": "1827",
         "text": "a data table with a single cell"
       },
       {
@@ -11369,10 +11369,10 @@
             ]
           }
         },
-        "id": "1828",
-        "sourceIds": [
+        "astNodeIds": [
           "1000"
         ],
+        "id": "1828",
         "text": "a data table with different fromatting"
       },
       {
@@ -11393,10 +11393,10 @@
             ]
           }
         },
-        "id": "1829",
-        "sourceIds": [
+        "astNodeIds": [
           "1002"
         ],
+        "id": "1829",
         "text": "a data table with an empty cell"
       },
       {
@@ -11436,10 +11436,10 @@
             ]
           }
         },
-        "id": "1830",
-        "sourceIds": [
+        "astNodeIds": [
           "1006"
         ],
+        "id": "1830",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -11448,12 +11448,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "1021"
+    ],
     "id": "1837",
     "language": "en",
     "name": "scenario 73",
-    "sourceIds": [
-      "1021"
-    ],
     "steps": [
       {
         "argument": {
@@ -11482,10 +11482,10 @@
             ]
           }
         },
-        "id": "1832",
-        "sourceIds": [
+        "astNodeIds": [
           "1010"
         ],
+        "id": "1832",
         "text": "a simple data table"
       },
       {
@@ -11502,10 +11502,10 @@
             ]
           }
         },
-        "id": "1833",
-        "sourceIds": [
+        "astNodeIds": [
           "1012"
         ],
+        "id": "1833",
         "text": "a data table with a single cell"
       },
       {
@@ -11528,10 +11528,10 @@
             ]
           }
         },
-        "id": "1834",
-        "sourceIds": [
+        "astNodeIds": [
           "1014"
         ],
+        "id": "1834",
         "text": "a data table with different fromatting"
       },
       {
@@ -11552,10 +11552,10 @@
             ]
           }
         },
-        "id": "1835",
-        "sourceIds": [
+        "astNodeIds": [
           "1016"
         ],
+        "id": "1835",
         "text": "a data table with an empty cell"
       },
       {
@@ -11595,10 +11595,10 @@
             ]
           }
         },
-        "id": "1836",
-        "sourceIds": [
+        "astNodeIds": [
           "1020"
         ],
+        "id": "1836",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -11607,12 +11607,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "1035"
+    ],
     "id": "1843",
     "language": "en",
     "name": "scenario 74",
-    "sourceIds": [
-      "1035"
-    ],
     "steps": [
       {
         "argument": {
@@ -11641,10 +11641,10 @@
             ]
           }
         },
-        "id": "1838",
-        "sourceIds": [
+        "astNodeIds": [
           "1024"
         ],
+        "id": "1838",
         "text": "a simple data table"
       },
       {
@@ -11661,10 +11661,10 @@
             ]
           }
         },
-        "id": "1839",
-        "sourceIds": [
+        "astNodeIds": [
           "1026"
         ],
+        "id": "1839",
         "text": "a data table with a single cell"
       },
       {
@@ -11687,10 +11687,10 @@
             ]
           }
         },
-        "id": "1840",
-        "sourceIds": [
+        "astNodeIds": [
           "1028"
         ],
+        "id": "1840",
         "text": "a data table with different fromatting"
       },
       {
@@ -11711,10 +11711,10 @@
             ]
           }
         },
-        "id": "1841",
-        "sourceIds": [
+        "astNodeIds": [
           "1030"
         ],
+        "id": "1841",
         "text": "a data table with an empty cell"
       },
       {
@@ -11754,10 +11754,10 @@
             ]
           }
         },
-        "id": "1842",
-        "sourceIds": [
+        "astNodeIds": [
           "1034"
         ],
+        "id": "1842",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -11766,12 +11766,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "1049"
+    ],
     "id": "1849",
     "language": "en",
     "name": "scenario 75",
-    "sourceIds": [
-      "1049"
-    ],
     "steps": [
       {
         "argument": {
@@ -11800,10 +11800,10 @@
             ]
           }
         },
-        "id": "1844",
-        "sourceIds": [
+        "astNodeIds": [
           "1038"
         ],
+        "id": "1844",
         "text": "a simple data table"
       },
       {
@@ -11820,10 +11820,10 @@
             ]
           }
         },
-        "id": "1845",
-        "sourceIds": [
+        "astNodeIds": [
           "1040"
         ],
+        "id": "1845",
         "text": "a data table with a single cell"
       },
       {
@@ -11846,10 +11846,10 @@
             ]
           }
         },
-        "id": "1846",
-        "sourceIds": [
+        "astNodeIds": [
           "1042"
         ],
+        "id": "1846",
         "text": "a data table with different fromatting"
       },
       {
@@ -11870,10 +11870,10 @@
             ]
           }
         },
-        "id": "1847",
-        "sourceIds": [
+        "astNodeIds": [
           "1044"
         ],
+        "id": "1847",
         "text": "a data table with an empty cell"
       },
       {
@@ -11913,10 +11913,10 @@
             ]
           }
         },
-        "id": "1848",
-        "sourceIds": [
+        "astNodeIds": [
           "1048"
         ],
+        "id": "1848",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -11925,12 +11925,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "1063"
+    ],
     "id": "1855",
     "language": "en",
     "name": "scenario 76",
-    "sourceIds": [
-      "1063"
-    ],
     "steps": [
       {
         "argument": {
@@ -11959,10 +11959,10 @@
             ]
           }
         },
-        "id": "1850",
-        "sourceIds": [
+        "astNodeIds": [
           "1052"
         ],
+        "id": "1850",
         "text": "a simple data table"
       },
       {
@@ -11979,10 +11979,10 @@
             ]
           }
         },
-        "id": "1851",
-        "sourceIds": [
+        "astNodeIds": [
           "1054"
         ],
+        "id": "1851",
         "text": "a data table with a single cell"
       },
       {
@@ -12005,10 +12005,10 @@
             ]
           }
         },
-        "id": "1852",
-        "sourceIds": [
+        "astNodeIds": [
           "1056"
         ],
+        "id": "1852",
         "text": "a data table with different fromatting"
       },
       {
@@ -12029,10 +12029,10 @@
             ]
           }
         },
-        "id": "1853",
-        "sourceIds": [
+        "astNodeIds": [
           "1058"
         ],
+        "id": "1853",
         "text": "a data table with an empty cell"
       },
       {
@@ -12072,10 +12072,10 @@
             ]
           }
         },
-        "id": "1854",
-        "sourceIds": [
+        "astNodeIds": [
           "1062"
         ],
+        "id": "1854",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -12084,12 +12084,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "1077"
+    ],
     "id": "1861",
     "language": "en",
     "name": "scenario 77",
-    "sourceIds": [
-      "1077"
-    ],
     "steps": [
       {
         "argument": {
@@ -12118,10 +12118,10 @@
             ]
           }
         },
-        "id": "1856",
-        "sourceIds": [
+        "astNodeIds": [
           "1066"
         ],
+        "id": "1856",
         "text": "a simple data table"
       },
       {
@@ -12138,10 +12138,10 @@
             ]
           }
         },
-        "id": "1857",
-        "sourceIds": [
+        "astNodeIds": [
           "1068"
         ],
+        "id": "1857",
         "text": "a data table with a single cell"
       },
       {
@@ -12164,10 +12164,10 @@
             ]
           }
         },
-        "id": "1858",
-        "sourceIds": [
+        "astNodeIds": [
           "1070"
         ],
+        "id": "1858",
         "text": "a data table with different fromatting"
       },
       {
@@ -12188,10 +12188,10 @@
             ]
           }
         },
-        "id": "1859",
-        "sourceIds": [
+        "astNodeIds": [
           "1072"
         ],
+        "id": "1859",
         "text": "a data table with an empty cell"
       },
       {
@@ -12231,10 +12231,10 @@
             ]
           }
         },
-        "id": "1860",
-        "sourceIds": [
+        "astNodeIds": [
           "1076"
         ],
+        "id": "1860",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -12243,12 +12243,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "1091"
+    ],
     "id": "1867",
     "language": "en",
     "name": "scenario 78",
-    "sourceIds": [
-      "1091"
-    ],
     "steps": [
       {
         "argument": {
@@ -12277,10 +12277,10 @@
             ]
           }
         },
-        "id": "1862",
-        "sourceIds": [
+        "astNodeIds": [
           "1080"
         ],
+        "id": "1862",
         "text": "a simple data table"
       },
       {
@@ -12297,10 +12297,10 @@
             ]
           }
         },
-        "id": "1863",
-        "sourceIds": [
+        "astNodeIds": [
           "1082"
         ],
+        "id": "1863",
         "text": "a data table with a single cell"
       },
       {
@@ -12323,10 +12323,10 @@
             ]
           }
         },
-        "id": "1864",
-        "sourceIds": [
+        "astNodeIds": [
           "1084"
         ],
+        "id": "1864",
         "text": "a data table with different fromatting"
       },
       {
@@ -12347,10 +12347,10 @@
             ]
           }
         },
-        "id": "1865",
-        "sourceIds": [
+        "astNodeIds": [
           "1086"
         ],
+        "id": "1865",
         "text": "a data table with an empty cell"
       },
       {
@@ -12390,10 +12390,10 @@
             ]
           }
         },
-        "id": "1866",
-        "sourceIds": [
+        "astNodeIds": [
           "1090"
         ],
+        "id": "1866",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -12402,12 +12402,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "1105"
+    ],
     "id": "1873",
     "language": "en",
     "name": "scenario 79",
-    "sourceIds": [
-      "1105"
-    ],
     "steps": [
       {
         "argument": {
@@ -12436,10 +12436,10 @@
             ]
           }
         },
-        "id": "1868",
-        "sourceIds": [
+        "astNodeIds": [
           "1094"
         ],
+        "id": "1868",
         "text": "a simple data table"
       },
       {
@@ -12456,10 +12456,10 @@
             ]
           }
         },
-        "id": "1869",
-        "sourceIds": [
+        "astNodeIds": [
           "1096"
         ],
+        "id": "1869",
         "text": "a data table with a single cell"
       },
       {
@@ -12482,10 +12482,10 @@
             ]
           }
         },
-        "id": "1870",
-        "sourceIds": [
+        "astNodeIds": [
           "1098"
         ],
+        "id": "1870",
         "text": "a data table with different fromatting"
       },
       {
@@ -12506,10 +12506,10 @@
             ]
           }
         },
-        "id": "1871",
-        "sourceIds": [
+        "astNodeIds": [
           "1100"
         ],
+        "id": "1871",
         "text": "a data table with an empty cell"
       },
       {
@@ -12549,10 +12549,10 @@
             ]
           }
         },
-        "id": "1872",
-        "sourceIds": [
+        "astNodeIds": [
           "1104"
         ],
+        "id": "1872",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -12561,12 +12561,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "1119"
+    ],
     "id": "1879",
     "language": "en",
     "name": "scenario 80",
-    "sourceIds": [
-      "1119"
-    ],
     "steps": [
       {
         "argument": {
@@ -12595,10 +12595,10 @@
             ]
           }
         },
-        "id": "1874",
-        "sourceIds": [
+        "astNodeIds": [
           "1108"
         ],
+        "id": "1874",
         "text": "a simple data table"
       },
       {
@@ -12615,10 +12615,10 @@
             ]
           }
         },
-        "id": "1875",
-        "sourceIds": [
+        "astNodeIds": [
           "1110"
         ],
+        "id": "1875",
         "text": "a data table with a single cell"
       },
       {
@@ -12641,10 +12641,10 @@
             ]
           }
         },
-        "id": "1876",
-        "sourceIds": [
+        "astNodeIds": [
           "1112"
         ],
+        "id": "1876",
         "text": "a data table with different fromatting"
       },
       {
@@ -12665,10 +12665,10 @@
             ]
           }
         },
-        "id": "1877",
-        "sourceIds": [
+        "astNodeIds": [
           "1114"
         ],
+        "id": "1877",
         "text": "a data table with an empty cell"
       },
       {
@@ -12708,10 +12708,10 @@
             ]
           }
         },
-        "id": "1878",
-        "sourceIds": [
+        "astNodeIds": [
           "1118"
         ],
+        "id": "1878",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -12720,12 +12720,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "1133"
+    ],
     "id": "1885",
     "language": "en",
     "name": "scenario 81",
-    "sourceIds": [
-      "1133"
-    ],
     "steps": [
       {
         "argument": {
@@ -12754,10 +12754,10 @@
             ]
           }
         },
-        "id": "1880",
-        "sourceIds": [
+        "astNodeIds": [
           "1122"
         ],
+        "id": "1880",
         "text": "a simple data table"
       },
       {
@@ -12774,10 +12774,10 @@
             ]
           }
         },
-        "id": "1881",
-        "sourceIds": [
+        "astNodeIds": [
           "1124"
         ],
+        "id": "1881",
         "text": "a data table with a single cell"
       },
       {
@@ -12800,10 +12800,10 @@
             ]
           }
         },
-        "id": "1882",
-        "sourceIds": [
+        "astNodeIds": [
           "1126"
         ],
+        "id": "1882",
         "text": "a data table with different fromatting"
       },
       {
@@ -12824,10 +12824,10 @@
             ]
           }
         },
-        "id": "1883",
-        "sourceIds": [
+        "astNodeIds": [
           "1128"
         ],
+        "id": "1883",
         "text": "a data table with an empty cell"
       },
       {
@@ -12867,10 +12867,10 @@
             ]
           }
         },
-        "id": "1884",
-        "sourceIds": [
+        "astNodeIds": [
           "1132"
         ],
+        "id": "1884",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -12879,12 +12879,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "1147"
+    ],
     "id": "1891",
     "language": "en",
     "name": "scenario 82",
-    "sourceIds": [
-      "1147"
-    ],
     "steps": [
       {
         "argument": {
@@ -12913,10 +12913,10 @@
             ]
           }
         },
-        "id": "1886",
-        "sourceIds": [
+        "astNodeIds": [
           "1136"
         ],
+        "id": "1886",
         "text": "a simple data table"
       },
       {
@@ -12933,10 +12933,10 @@
             ]
           }
         },
-        "id": "1887",
-        "sourceIds": [
+        "astNodeIds": [
           "1138"
         ],
+        "id": "1887",
         "text": "a data table with a single cell"
       },
       {
@@ -12959,10 +12959,10 @@
             ]
           }
         },
-        "id": "1888",
-        "sourceIds": [
+        "astNodeIds": [
           "1140"
         ],
+        "id": "1888",
         "text": "a data table with different fromatting"
       },
       {
@@ -12983,10 +12983,10 @@
             ]
           }
         },
-        "id": "1889",
-        "sourceIds": [
+        "astNodeIds": [
           "1142"
         ],
+        "id": "1889",
         "text": "a data table with an empty cell"
       },
       {
@@ -13026,10 +13026,10 @@
             ]
           }
         },
-        "id": "1890",
-        "sourceIds": [
+        "astNodeIds": [
           "1146"
         ],
+        "id": "1890",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -13038,12 +13038,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "1161"
+    ],
     "id": "1897",
     "language": "en",
     "name": "scenario 83",
-    "sourceIds": [
-      "1161"
-    ],
     "steps": [
       {
         "argument": {
@@ -13072,10 +13072,10 @@
             ]
           }
         },
-        "id": "1892",
-        "sourceIds": [
+        "astNodeIds": [
           "1150"
         ],
+        "id": "1892",
         "text": "a simple data table"
       },
       {
@@ -13092,10 +13092,10 @@
             ]
           }
         },
-        "id": "1893",
-        "sourceIds": [
+        "astNodeIds": [
           "1152"
         ],
+        "id": "1893",
         "text": "a data table with a single cell"
       },
       {
@@ -13118,10 +13118,10 @@
             ]
           }
         },
-        "id": "1894",
-        "sourceIds": [
+        "astNodeIds": [
           "1154"
         ],
+        "id": "1894",
         "text": "a data table with different fromatting"
       },
       {
@@ -13142,10 +13142,10 @@
             ]
           }
         },
-        "id": "1895",
-        "sourceIds": [
+        "astNodeIds": [
           "1156"
         ],
+        "id": "1895",
         "text": "a data table with an empty cell"
       },
       {
@@ -13185,10 +13185,10 @@
             ]
           }
         },
-        "id": "1896",
-        "sourceIds": [
+        "astNodeIds": [
           "1160"
         ],
+        "id": "1896",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -13197,12 +13197,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "1175"
+    ],
     "id": "1903",
     "language": "en",
     "name": "scenario 84",
-    "sourceIds": [
-      "1175"
-    ],
     "steps": [
       {
         "argument": {
@@ -13231,10 +13231,10 @@
             ]
           }
         },
-        "id": "1898",
-        "sourceIds": [
+        "astNodeIds": [
           "1164"
         ],
+        "id": "1898",
         "text": "a simple data table"
       },
       {
@@ -13251,10 +13251,10 @@
             ]
           }
         },
-        "id": "1899",
-        "sourceIds": [
+        "astNodeIds": [
           "1166"
         ],
+        "id": "1899",
         "text": "a data table with a single cell"
       },
       {
@@ -13277,10 +13277,10 @@
             ]
           }
         },
-        "id": "1900",
-        "sourceIds": [
+        "astNodeIds": [
           "1168"
         ],
+        "id": "1900",
         "text": "a data table with different fromatting"
       },
       {
@@ -13301,10 +13301,10 @@
             ]
           }
         },
-        "id": "1901",
-        "sourceIds": [
+        "astNodeIds": [
           "1170"
         ],
+        "id": "1901",
         "text": "a data table with an empty cell"
       },
       {
@@ -13344,10 +13344,10 @@
             ]
           }
         },
-        "id": "1902",
-        "sourceIds": [
+        "astNodeIds": [
           "1174"
         ],
+        "id": "1902",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -13356,12 +13356,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "1189"
+    ],
     "id": "1909",
     "language": "en",
     "name": "scenario 85",
-    "sourceIds": [
-      "1189"
-    ],
     "steps": [
       {
         "argument": {
@@ -13390,10 +13390,10 @@
             ]
           }
         },
-        "id": "1904",
-        "sourceIds": [
+        "astNodeIds": [
           "1178"
         ],
+        "id": "1904",
         "text": "a simple data table"
       },
       {
@@ -13410,10 +13410,10 @@
             ]
           }
         },
-        "id": "1905",
-        "sourceIds": [
+        "astNodeIds": [
           "1180"
         ],
+        "id": "1905",
         "text": "a data table with a single cell"
       },
       {
@@ -13436,10 +13436,10 @@
             ]
           }
         },
-        "id": "1906",
-        "sourceIds": [
+        "astNodeIds": [
           "1182"
         ],
+        "id": "1906",
         "text": "a data table with different fromatting"
       },
       {
@@ -13460,10 +13460,10 @@
             ]
           }
         },
-        "id": "1907",
-        "sourceIds": [
+        "astNodeIds": [
           "1184"
         ],
+        "id": "1907",
         "text": "a data table with an empty cell"
       },
       {
@@ -13503,10 +13503,10 @@
             ]
           }
         },
-        "id": "1908",
-        "sourceIds": [
+        "astNodeIds": [
           "1188"
         ],
+        "id": "1908",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -13515,12 +13515,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "1203"
+    ],
     "id": "1915",
     "language": "en",
     "name": "scenario 86",
-    "sourceIds": [
-      "1203"
-    ],
     "steps": [
       {
         "argument": {
@@ -13549,10 +13549,10 @@
             ]
           }
         },
-        "id": "1910",
-        "sourceIds": [
+        "astNodeIds": [
           "1192"
         ],
+        "id": "1910",
         "text": "a simple data table"
       },
       {
@@ -13569,10 +13569,10 @@
             ]
           }
         },
-        "id": "1911",
-        "sourceIds": [
+        "astNodeIds": [
           "1194"
         ],
+        "id": "1911",
         "text": "a data table with a single cell"
       },
       {
@@ -13595,10 +13595,10 @@
             ]
           }
         },
-        "id": "1912",
-        "sourceIds": [
+        "astNodeIds": [
           "1196"
         ],
+        "id": "1912",
         "text": "a data table with different fromatting"
       },
       {
@@ -13619,10 +13619,10 @@
             ]
           }
         },
-        "id": "1913",
-        "sourceIds": [
+        "astNodeIds": [
           "1198"
         ],
+        "id": "1913",
         "text": "a data table with an empty cell"
       },
       {
@@ -13662,10 +13662,10 @@
             ]
           }
         },
-        "id": "1914",
-        "sourceIds": [
+        "astNodeIds": [
           "1202"
         ],
+        "id": "1914",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -13674,12 +13674,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "1217"
+    ],
     "id": "1921",
     "language": "en",
     "name": "scenario 87",
-    "sourceIds": [
-      "1217"
-    ],
     "steps": [
       {
         "argument": {
@@ -13708,10 +13708,10 @@
             ]
           }
         },
-        "id": "1916",
-        "sourceIds": [
+        "astNodeIds": [
           "1206"
         ],
+        "id": "1916",
         "text": "a simple data table"
       },
       {
@@ -13728,10 +13728,10 @@
             ]
           }
         },
-        "id": "1917",
-        "sourceIds": [
+        "astNodeIds": [
           "1208"
         ],
+        "id": "1917",
         "text": "a data table with a single cell"
       },
       {
@@ -13754,10 +13754,10 @@
             ]
           }
         },
-        "id": "1918",
-        "sourceIds": [
+        "astNodeIds": [
           "1210"
         ],
+        "id": "1918",
         "text": "a data table with different fromatting"
       },
       {
@@ -13778,10 +13778,10 @@
             ]
           }
         },
-        "id": "1919",
-        "sourceIds": [
+        "astNodeIds": [
           "1212"
         ],
+        "id": "1919",
         "text": "a data table with an empty cell"
       },
       {
@@ -13821,10 +13821,10 @@
             ]
           }
         },
-        "id": "1920",
-        "sourceIds": [
+        "astNodeIds": [
           "1216"
         ],
+        "id": "1920",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -13833,12 +13833,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "1231"
+    ],
     "id": "1927",
     "language": "en",
     "name": "scenario 88",
-    "sourceIds": [
-      "1231"
-    ],
     "steps": [
       {
         "argument": {
@@ -13867,10 +13867,10 @@
             ]
           }
         },
-        "id": "1922",
-        "sourceIds": [
+        "astNodeIds": [
           "1220"
         ],
+        "id": "1922",
         "text": "a simple data table"
       },
       {
@@ -13887,10 +13887,10 @@
             ]
           }
         },
-        "id": "1923",
-        "sourceIds": [
+        "astNodeIds": [
           "1222"
         ],
+        "id": "1923",
         "text": "a data table with a single cell"
       },
       {
@@ -13913,10 +13913,10 @@
             ]
           }
         },
-        "id": "1924",
-        "sourceIds": [
+        "astNodeIds": [
           "1224"
         ],
+        "id": "1924",
         "text": "a data table with different fromatting"
       },
       {
@@ -13937,10 +13937,10 @@
             ]
           }
         },
-        "id": "1925",
-        "sourceIds": [
+        "astNodeIds": [
           "1226"
         ],
+        "id": "1925",
         "text": "a data table with an empty cell"
       },
       {
@@ -13980,10 +13980,10 @@
             ]
           }
         },
-        "id": "1926",
-        "sourceIds": [
+        "astNodeIds": [
           "1230"
         ],
+        "id": "1926",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -13992,12 +13992,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "1245"
+    ],
     "id": "1933",
     "language": "en",
     "name": "scenario 89",
-    "sourceIds": [
-      "1245"
-    ],
     "steps": [
       {
         "argument": {
@@ -14026,10 +14026,10 @@
             ]
           }
         },
-        "id": "1928",
-        "sourceIds": [
+        "astNodeIds": [
           "1234"
         ],
+        "id": "1928",
         "text": "a simple data table"
       },
       {
@@ -14046,10 +14046,10 @@
             ]
           }
         },
-        "id": "1929",
-        "sourceIds": [
+        "astNodeIds": [
           "1236"
         ],
+        "id": "1929",
         "text": "a data table with a single cell"
       },
       {
@@ -14072,10 +14072,10 @@
             ]
           }
         },
-        "id": "1930",
-        "sourceIds": [
+        "astNodeIds": [
           "1238"
         ],
+        "id": "1930",
         "text": "a data table with different fromatting"
       },
       {
@@ -14096,10 +14096,10 @@
             ]
           }
         },
-        "id": "1931",
-        "sourceIds": [
+        "astNodeIds": [
           "1240"
         ],
+        "id": "1931",
         "text": "a data table with an empty cell"
       },
       {
@@ -14139,10 +14139,10 @@
             ]
           }
         },
-        "id": "1932",
-        "sourceIds": [
+        "astNodeIds": [
           "1244"
         ],
+        "id": "1932",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -14151,12 +14151,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "1259"
+    ],
     "id": "1939",
     "language": "en",
     "name": "scenario 90",
-    "sourceIds": [
-      "1259"
-    ],
     "steps": [
       {
         "argument": {
@@ -14185,10 +14185,10 @@
             ]
           }
         },
-        "id": "1934",
-        "sourceIds": [
+        "astNodeIds": [
           "1248"
         ],
+        "id": "1934",
         "text": "a simple data table"
       },
       {
@@ -14205,10 +14205,10 @@
             ]
           }
         },
-        "id": "1935",
-        "sourceIds": [
+        "astNodeIds": [
           "1250"
         ],
+        "id": "1935",
         "text": "a data table with a single cell"
       },
       {
@@ -14231,10 +14231,10 @@
             ]
           }
         },
-        "id": "1936",
-        "sourceIds": [
+        "astNodeIds": [
           "1252"
         ],
+        "id": "1936",
         "text": "a data table with different fromatting"
       },
       {
@@ -14255,10 +14255,10 @@
             ]
           }
         },
-        "id": "1937",
-        "sourceIds": [
+        "astNodeIds": [
           "1254"
         ],
+        "id": "1937",
         "text": "a data table with an empty cell"
       },
       {
@@ -14298,10 +14298,10 @@
             ]
           }
         },
-        "id": "1938",
-        "sourceIds": [
+        "astNodeIds": [
           "1258"
         ],
+        "id": "1938",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -14310,12 +14310,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "1273"
+    ],
     "id": "1945",
     "language": "en",
     "name": "scenario 91",
-    "sourceIds": [
-      "1273"
-    ],
     "steps": [
       {
         "argument": {
@@ -14344,10 +14344,10 @@
             ]
           }
         },
-        "id": "1940",
-        "sourceIds": [
+        "astNodeIds": [
           "1262"
         ],
+        "id": "1940",
         "text": "a simple data table"
       },
       {
@@ -14364,10 +14364,10 @@
             ]
           }
         },
-        "id": "1941",
-        "sourceIds": [
+        "astNodeIds": [
           "1264"
         ],
+        "id": "1941",
         "text": "a data table with a single cell"
       },
       {
@@ -14390,10 +14390,10 @@
             ]
           }
         },
-        "id": "1942",
-        "sourceIds": [
+        "astNodeIds": [
           "1266"
         ],
+        "id": "1942",
         "text": "a data table with different fromatting"
       },
       {
@@ -14414,10 +14414,10 @@
             ]
           }
         },
-        "id": "1943",
-        "sourceIds": [
+        "astNodeIds": [
           "1268"
         ],
+        "id": "1943",
         "text": "a data table with an empty cell"
       },
       {
@@ -14457,10 +14457,10 @@
             ]
           }
         },
-        "id": "1944",
-        "sourceIds": [
+        "astNodeIds": [
           "1272"
         ],
+        "id": "1944",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -14469,12 +14469,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "1287"
+    ],
     "id": "1951",
     "language": "en",
     "name": "scenario 92",
-    "sourceIds": [
-      "1287"
-    ],
     "steps": [
       {
         "argument": {
@@ -14503,10 +14503,10 @@
             ]
           }
         },
-        "id": "1946",
-        "sourceIds": [
+        "astNodeIds": [
           "1276"
         ],
+        "id": "1946",
         "text": "a simple data table"
       },
       {
@@ -14523,10 +14523,10 @@
             ]
           }
         },
-        "id": "1947",
-        "sourceIds": [
+        "astNodeIds": [
           "1278"
         ],
+        "id": "1947",
         "text": "a data table with a single cell"
       },
       {
@@ -14549,10 +14549,10 @@
             ]
           }
         },
-        "id": "1948",
-        "sourceIds": [
+        "astNodeIds": [
           "1280"
         ],
+        "id": "1948",
         "text": "a data table with different fromatting"
       },
       {
@@ -14573,10 +14573,10 @@
             ]
           }
         },
-        "id": "1949",
-        "sourceIds": [
+        "astNodeIds": [
           "1282"
         ],
+        "id": "1949",
         "text": "a data table with an empty cell"
       },
       {
@@ -14616,10 +14616,10 @@
             ]
           }
         },
-        "id": "1950",
-        "sourceIds": [
+        "astNodeIds": [
           "1286"
         ],
+        "id": "1950",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -14628,12 +14628,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "1301"
+    ],
     "id": "1957",
     "language": "en",
     "name": "scenario 93",
-    "sourceIds": [
-      "1301"
-    ],
     "steps": [
       {
         "argument": {
@@ -14662,10 +14662,10 @@
             ]
           }
         },
-        "id": "1952",
-        "sourceIds": [
+        "astNodeIds": [
           "1290"
         ],
+        "id": "1952",
         "text": "a simple data table"
       },
       {
@@ -14682,10 +14682,10 @@
             ]
           }
         },
-        "id": "1953",
-        "sourceIds": [
+        "astNodeIds": [
           "1292"
         ],
+        "id": "1953",
         "text": "a data table with a single cell"
       },
       {
@@ -14708,10 +14708,10 @@
             ]
           }
         },
-        "id": "1954",
-        "sourceIds": [
+        "astNodeIds": [
           "1294"
         ],
+        "id": "1954",
         "text": "a data table with different fromatting"
       },
       {
@@ -14732,10 +14732,10 @@
             ]
           }
         },
-        "id": "1955",
-        "sourceIds": [
+        "astNodeIds": [
           "1296"
         ],
+        "id": "1955",
         "text": "a data table with an empty cell"
       },
       {
@@ -14775,10 +14775,10 @@
             ]
           }
         },
-        "id": "1956",
-        "sourceIds": [
+        "astNodeIds": [
           "1300"
         ],
+        "id": "1956",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -14787,12 +14787,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "1315"
+    ],
     "id": "1963",
     "language": "en",
     "name": "scenario 94",
-    "sourceIds": [
-      "1315"
-    ],
     "steps": [
       {
         "argument": {
@@ -14821,10 +14821,10 @@
             ]
           }
         },
-        "id": "1958",
-        "sourceIds": [
+        "astNodeIds": [
           "1304"
         ],
+        "id": "1958",
         "text": "a simple data table"
       },
       {
@@ -14841,10 +14841,10 @@
             ]
           }
         },
-        "id": "1959",
-        "sourceIds": [
+        "astNodeIds": [
           "1306"
         ],
+        "id": "1959",
         "text": "a data table with a single cell"
       },
       {
@@ -14867,10 +14867,10 @@
             ]
           }
         },
-        "id": "1960",
-        "sourceIds": [
+        "astNodeIds": [
           "1308"
         ],
+        "id": "1960",
         "text": "a data table with different fromatting"
       },
       {
@@ -14891,10 +14891,10 @@
             ]
           }
         },
-        "id": "1961",
-        "sourceIds": [
+        "astNodeIds": [
           "1310"
         ],
+        "id": "1961",
         "text": "a data table with an empty cell"
       },
       {
@@ -14934,10 +14934,10 @@
             ]
           }
         },
-        "id": "1962",
-        "sourceIds": [
+        "astNodeIds": [
           "1314"
         ],
+        "id": "1962",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -14946,12 +14946,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "1329"
+    ],
     "id": "1969",
     "language": "en",
     "name": "scenario 95",
-    "sourceIds": [
-      "1329"
-    ],
     "steps": [
       {
         "argument": {
@@ -14980,10 +14980,10 @@
             ]
           }
         },
-        "id": "1964",
-        "sourceIds": [
+        "astNodeIds": [
           "1318"
         ],
+        "id": "1964",
         "text": "a simple data table"
       },
       {
@@ -15000,10 +15000,10 @@
             ]
           }
         },
-        "id": "1965",
-        "sourceIds": [
+        "astNodeIds": [
           "1320"
         ],
+        "id": "1965",
         "text": "a data table with a single cell"
       },
       {
@@ -15026,10 +15026,10 @@
             ]
           }
         },
-        "id": "1966",
-        "sourceIds": [
+        "astNodeIds": [
           "1322"
         ],
+        "id": "1966",
         "text": "a data table with different fromatting"
       },
       {
@@ -15050,10 +15050,10 @@
             ]
           }
         },
-        "id": "1967",
-        "sourceIds": [
+        "astNodeIds": [
           "1324"
         ],
+        "id": "1967",
         "text": "a data table with an empty cell"
       },
       {
@@ -15093,10 +15093,10 @@
             ]
           }
         },
-        "id": "1968",
-        "sourceIds": [
+        "astNodeIds": [
           "1328"
         ],
+        "id": "1968",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -15105,12 +15105,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "1343"
+    ],
     "id": "1975",
     "language": "en",
     "name": "scenario 96",
-    "sourceIds": [
-      "1343"
-    ],
     "steps": [
       {
         "argument": {
@@ -15139,10 +15139,10 @@
             ]
           }
         },
-        "id": "1970",
-        "sourceIds": [
+        "astNodeIds": [
           "1332"
         ],
+        "id": "1970",
         "text": "a simple data table"
       },
       {
@@ -15159,10 +15159,10 @@
             ]
           }
         },
-        "id": "1971",
-        "sourceIds": [
+        "astNodeIds": [
           "1334"
         ],
+        "id": "1971",
         "text": "a data table with a single cell"
       },
       {
@@ -15185,10 +15185,10 @@
             ]
           }
         },
-        "id": "1972",
-        "sourceIds": [
+        "astNodeIds": [
           "1336"
         ],
+        "id": "1972",
         "text": "a data table with different fromatting"
       },
       {
@@ -15209,10 +15209,10 @@
             ]
           }
         },
-        "id": "1973",
-        "sourceIds": [
+        "astNodeIds": [
           "1338"
         ],
+        "id": "1973",
         "text": "a data table with an empty cell"
       },
       {
@@ -15252,10 +15252,10 @@
             ]
           }
         },
-        "id": "1974",
-        "sourceIds": [
+        "astNodeIds": [
           "1342"
         ],
+        "id": "1974",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -15264,12 +15264,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "1357"
+    ],
     "id": "1981",
     "language": "en",
     "name": "scenario 97",
-    "sourceIds": [
-      "1357"
-    ],
     "steps": [
       {
         "argument": {
@@ -15298,10 +15298,10 @@
             ]
           }
         },
-        "id": "1976",
-        "sourceIds": [
+        "astNodeIds": [
           "1346"
         ],
+        "id": "1976",
         "text": "a simple data table"
       },
       {
@@ -15318,10 +15318,10 @@
             ]
           }
         },
-        "id": "1977",
-        "sourceIds": [
+        "astNodeIds": [
           "1348"
         ],
+        "id": "1977",
         "text": "a data table with a single cell"
       },
       {
@@ -15344,10 +15344,10 @@
             ]
           }
         },
-        "id": "1978",
-        "sourceIds": [
+        "astNodeIds": [
           "1350"
         ],
+        "id": "1978",
         "text": "a data table with different fromatting"
       },
       {
@@ -15368,10 +15368,10 @@
             ]
           }
         },
-        "id": "1979",
-        "sourceIds": [
+        "astNodeIds": [
           "1352"
         ],
+        "id": "1979",
         "text": "a data table with an empty cell"
       },
       {
@@ -15411,10 +15411,10 @@
             ]
           }
         },
-        "id": "1980",
-        "sourceIds": [
+        "astNodeIds": [
           "1356"
         ],
+        "id": "1980",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -15423,12 +15423,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "1371"
+    ],
     "id": "1987",
     "language": "en",
     "name": "scenario 98",
-    "sourceIds": [
-      "1371"
-    ],
     "steps": [
       {
         "argument": {
@@ -15457,10 +15457,10 @@
             ]
           }
         },
-        "id": "1982",
-        "sourceIds": [
+        "astNodeIds": [
           "1360"
         ],
+        "id": "1982",
         "text": "a simple data table"
       },
       {
@@ -15477,10 +15477,10 @@
             ]
           }
         },
-        "id": "1983",
-        "sourceIds": [
+        "astNodeIds": [
           "1362"
         ],
+        "id": "1983",
         "text": "a data table with a single cell"
       },
       {
@@ -15503,10 +15503,10 @@
             ]
           }
         },
-        "id": "1984",
-        "sourceIds": [
+        "astNodeIds": [
           "1364"
         ],
+        "id": "1984",
         "text": "a data table with different fromatting"
       },
       {
@@ -15527,10 +15527,10 @@
             ]
           }
         },
-        "id": "1985",
-        "sourceIds": [
+        "astNodeIds": [
           "1366"
         ],
+        "id": "1985",
         "text": "a data table with an empty cell"
       },
       {
@@ -15570,10 +15570,10 @@
             ]
           }
         },
-        "id": "1986",
-        "sourceIds": [
+        "astNodeIds": [
           "1370"
         ],
+        "id": "1986",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -15582,12 +15582,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "1385"
+    ],
     "id": "1993",
     "language": "en",
     "name": "scenario 99",
-    "sourceIds": [
-      "1385"
-    ],
     "steps": [
       {
         "argument": {
@@ -15616,10 +15616,10 @@
             ]
           }
         },
-        "id": "1988",
-        "sourceIds": [
+        "astNodeIds": [
           "1374"
         ],
+        "id": "1988",
         "text": "a simple data table"
       },
       {
@@ -15636,10 +15636,10 @@
             ]
           }
         },
-        "id": "1989",
-        "sourceIds": [
+        "astNodeIds": [
           "1376"
         ],
+        "id": "1989",
         "text": "a data table with a single cell"
       },
       {
@@ -15662,10 +15662,10 @@
             ]
           }
         },
-        "id": "1990",
-        "sourceIds": [
+        "astNodeIds": [
           "1378"
         ],
+        "id": "1990",
         "text": "a data table with different fromatting"
       },
       {
@@ -15686,10 +15686,10 @@
             ]
           }
         },
-        "id": "1991",
-        "sourceIds": [
+        "astNodeIds": [
           "1380"
         ],
+        "id": "1991",
         "text": "a data table with an empty cell"
       },
       {
@@ -15729,10 +15729,10 @@
             ]
           }
         },
-        "id": "1992",
-        "sourceIds": [
+        "astNodeIds": [
           "1384"
         ],
+        "id": "1992",
         "text": "a data table with comments and newlines inside"
       }
     ],
@@ -15741,12 +15741,12 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "1399"
+    ],
     "id": "1999",
     "language": "en",
     "name": "scenario 100",
-    "sourceIds": [
-      "1399"
-    ],
     "steps": [
       {
         "argument": {
@@ -15775,10 +15775,10 @@
             ]
           }
         },
-        "id": "1994",
-        "sourceIds": [
+        "astNodeIds": [
           "1388"
         ],
+        "id": "1994",
         "text": "a simple data table"
       },
       {
@@ -15795,10 +15795,10 @@
             ]
           }
         },
-        "id": "1995",
-        "sourceIds": [
+        "astNodeIds": [
           "1390"
         ],
+        "id": "1995",
         "text": "a data table with a single cell"
       },
       {
@@ -15821,10 +15821,10 @@
             ]
           }
         },
-        "id": "1996",
-        "sourceIds": [
+        "astNodeIds": [
           "1392"
         ],
+        "id": "1996",
         "text": "a data table with different fromatting"
       },
       {
@@ -15845,10 +15845,10 @@
             ]
           }
         },
-        "id": "1997",
-        "sourceIds": [
+        "astNodeIds": [
           "1394"
         ],
+        "id": "1997",
         "text": "a data table with an empty cell"
       },
       {
@@ -15888,10 +15888,10 @@
             ]
           }
         },
-        "id": "1998",
-        "sourceIds": [
+        "astNodeIds": [
           "1398"
         ],
+        "id": "1998",
         "text": "a data table with comments and newlines inside"
       }
     ],

@@ -1,17 +1,17 @@
 {
   "pickle": {
+    "astNodeIds": [
+      "1"
+    ],
     "id": "19",
     "language": "en",
     "name": "two lines",
-    "sourceIds": [
-      "1"
-    ],
     "steps": [
       {
-        "id": "18",
-        "sourceIds": [
+        "astNodeIds": [
           "0"
         ],
+        "id": "18",
         "text": "the minimalism"
       }
     ],
@@ -20,18 +20,18 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "3"
+    ],
     "id": "21",
     "language": "en",
     "name": "without indentation",
-    "sourceIds": [
-      "3"
-    ],
     "steps": [
       {
-        "id": "20",
-        "sourceIds": [
+        "astNodeIds": [
           "2"
         ],
+        "id": "20",
         "text": "the minimalism"
       }
     ],
@@ -40,18 +40,18 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "5"
+    ],
     "id": "23",
     "language": "en",
     "name": "empty lines in the middle",
-    "sourceIds": [
-      "5"
-    ],
     "steps": [
       {
-        "id": "22",
-        "sourceIds": [
+        "astNodeIds": [
           "4"
         ],
+        "id": "22",
         "text": "the minimalism"
       }
     ],
@@ -60,18 +60,18 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "7"
+    ],
     "id": "25",
     "language": "en",
     "name": "empty lines around",
-    "sourceIds": [
-      "7"
-    ],
     "steps": [
       {
-        "id": "24",
-        "sourceIds": [
+        "astNodeIds": [
           "6"
         ],
+        "id": "24",
         "text": "the minimalism"
       }
     ],
@@ -80,18 +80,18 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "9"
+    ],
     "id": "27",
     "language": "en",
     "name": "comment after description",
-    "sourceIds": [
-      "9"
-    ],
     "steps": [
       {
-        "id": "26",
-        "sourceIds": [
+        "astNodeIds": [
           "8"
         ],
+        "id": "26",
         "text": "the minimalism"
       }
     ],
@@ -100,18 +100,18 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "11"
+    ],
     "id": "29",
     "language": "en",
     "name": "comment right after description",
-    "sourceIds": [
-      "11"
-    ],
     "steps": [
       {
-        "id": "28",
-        "sourceIds": [
+        "astNodeIds": [
           "10"
         ],
+        "id": "28",
         "text": "the minimalism"
       }
     ],
@@ -120,18 +120,18 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "13"
+    ],
     "id": "31",
     "language": "en",
     "name": "description with escaped docstring separator",
-    "sourceIds": [
-      "13"
-    ],
     "steps": [
       {
-        "id": "30",
-        "sourceIds": [
+        "astNodeIds": [
           "12"
         ],
+        "id": "30",
         "text": "the minimalism"
       }
     ],
@@ -140,20 +140,20 @@
 }
 {
   "pickle": {
-    "id": "33",
-    "language": "en",
-    "name": "scenario outline with a description",
-    "sourceIds": [
+    "astNodeIds": [
       "17",
       "16"
     ],
+    "id": "33",
+    "language": "en",
+    "name": "scenario outline with a description",
     "steps": [
       {
-        "id": "32",
-        "sourceIds": [
+        "astNodeIds": [
           "14",
           "16"
         ],
+        "id": "32",
         "text": "the minimalism"
       }
     ],

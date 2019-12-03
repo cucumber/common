@@ -29,10 +29,10 @@ export default class Hook implements IHook {
 
   public toMessage(): messages.IEnvelope {
     return new messages.Envelope({
-      testCaseHookDefinitionConfig: new messages.TestCaseHookDefinitionConfig({
+      hook: new messages.Hook({
         id: this.id,
         tagExpression: this.tagExpression,
-        location: new messages.SourceReference({
+        sourceReference: new messages.SourceReference({
           location: new messages.Location({
             column: 3,
             line: 10,

@@ -1,24 +1,24 @@
 {
   "pickle": {
+    "astNodeIds": [
+      "2"
+    ],
     "id": "13",
     "language": "en",
     "name": "minimalistic",
-    "sourceIds": [
-      "2"
-    ],
     "steps": [
       {
-        "id": "11",
-        "sourceIds": [
+        "astNodeIds": [
           "0"
         ],
+        "id": "11",
         "text": "the minimalism inside a background"
       },
       {
-        "id": "12",
-        "sourceIds": [
+        "astNodeIds": [
           "1"
         ],
+        "id": "12",
         "text": "the minimalism"
       }
     ],
@@ -27,25 +27,25 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "4"
+    ],
     "id": "16",
     "language": "en",
     "name": "also minimalistic",
-    "sourceIds": [
-      "4"
-    ],
     "steps": [
       {
-        "id": "14",
-        "sourceIds": [
+        "astNodeIds": [
           "0"
         ],
+        "id": "14",
         "text": "the minimalism inside a background"
       },
       {
-        "id": "15",
-        "sourceIds": [
+        "astNodeIds": [
           "3"
         ],
+        "id": "15",
         "text": "the minimalism"
       }
     ],
@@ -54,34 +54,34 @@
 }
 {
   "pickle": {
-    "id": "20",
-    "language": "en",
-    "name": "with examples",
-    "sourceIds": [
+    "astNodeIds": [
       "10",
       "8"
     ],
+    "id": "20",
+    "language": "en",
+    "name": "with examples",
     "steps": [
       {
-        "id": "17",
-        "sourceIds": [
+        "astNodeIds": [
           "0"
         ],
+        "id": "17",
         "text": "the minimalism inside a background"
       },
       {
-        "id": "18",
-        "sourceIds": [
+        "astNodeIds": [
           "5"
         ],
+        "id": "18",
         "text": "a rule background step"
       },
       {
-        "id": "19",
-        "sourceIds": [
+        "astNodeIds": [
           "6",
           "8"
         ],
+        "id": "19",
         "text": "the 1 minimalism"
       }
     ],
@@ -90,34 +90,34 @@
 }
 {
   "pickle": {
-    "id": "24",
-    "language": "en",
-    "name": "with examples",
-    "sourceIds": [
+    "astNodeIds": [
       "10",
       "9"
     ],
+    "id": "24",
+    "language": "en",
+    "name": "with examples",
     "steps": [
       {
-        "id": "21",
-        "sourceIds": [
+        "astNodeIds": [
           "0"
         ],
+        "id": "21",
         "text": "the minimalism inside a background"
       },
       {
-        "id": "22",
-        "sourceIds": [
+        "astNodeIds": [
           "5"
         ],
+        "id": "22",
         "text": "a rule background step"
       },
       {
-        "id": "23",
-        "sourceIds": [
+        "astNodeIds": [
           "6",
           "9"
         ],
+        "id": "23",
         "text": "the 2 minimalism"
       }
     ],

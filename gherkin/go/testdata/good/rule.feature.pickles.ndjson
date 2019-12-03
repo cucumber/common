@@ -1,31 +1,31 @@
 {
   "pickle": {
+    "astNodeIds": [
+      "3"
+    ],
     "id": "9",
     "language": "en",
     "name": "Example A",
-    "sourceIds": [
-      "3"
-    ],
     "steps": [
       {
-        "id": "6",
-        "sourceIds": [
+        "astNodeIds": [
           "0"
         ],
+        "id": "6",
         "text": "fb"
       },
       {
-        "id": "7",
-        "sourceIds": [
+        "astNodeIds": [
           "1"
         ],
+        "id": "7",
         "text": "ab"
       },
       {
-        "id": "8",
-        "sourceIds": [
+        "astNodeIds": [
           "2"
         ],
+        "id": "8",
         "text": "a"
       }
     ],
@@ -34,25 +34,25 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "5"
+    ],
     "id": "12",
     "language": "en",
     "name": "Example B",
-    "sourceIds": [
-      "5"
-    ],
     "steps": [
       {
-        "id": "10",
-        "sourceIds": [
+        "astNodeIds": [
           "0"
         ],
+        "id": "10",
         "text": "fb"
       },
       {
-        "id": "11",
-        "sourceIds": [
+        "astNodeIds": [
           "4"
         ],
+        "id": "11",
         "text": "b"
       }
     ],

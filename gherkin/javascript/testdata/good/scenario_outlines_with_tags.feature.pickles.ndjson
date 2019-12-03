@@ -1,33 +1,33 @@
 {
   "pickle": {
-    "id": "15",
-    "language": "en",
-    "sourceIds": [
+    "astNodeIds": [
       "5",
       "2"
     ],
+    "id": "15",
+    "language": "en",
     "steps": [
       {
-        "id": "14",
-        "sourceIds": [
+        "astNodeIds": [
           "0",
           "2"
         ],
+        "id": "14",
         "text": "y"
       }
     ],
     "tags": [
       {
-        "name": "@a",
-        "sourceId": "13"
+        "astNodeId": "13",
+        "name": "@a"
       },
       {
-        "name": "@b",
-        "sourceId": "3"
+        "astNodeId": "3",
+        "name": "@b"
       },
       {
-        "name": "@c",
-        "sourceId": "4"
+        "astNodeId": "4",
+        "name": "@c"
       }
     ],
     "uri": "testdata/good/scenario_outlines_with_tags.feature"
@@ -35,38 +35,38 @@
 }
 {
   "pickle": {
-    "id": "17",
-    "language": "en",
-    "sourceIds": [
+    "astNodeIds": [
       "12",
       "8"
     ],
+    "id": "17",
+    "language": "en",
     "steps": [
       {
-        "id": "16",
-        "sourceIds": [
+        "astNodeIds": [
           "6",
           "8"
         ],
+        "id": "16",
         "text": "n"
       }
     ],
     "tags": [
       {
-        "name": "@a",
-        "sourceId": "13"
+        "astNodeId": "13",
+        "name": "@a"
       },
       {
-        "name": "@d",
-        "sourceId": "10"
+        "astNodeId": "10",
+        "name": "@d"
       },
       {
-        "name": "@e",
-        "sourceId": "11"
+        "astNodeId": "11",
+        "name": "@e"
       },
       {
-        "name": "@f",
-        "sourceId": "9"
+        "astNodeId": "9",
+        "name": "@f"
       }
     ],
     "uri": "testdata/good/scenario_outlines_with_tags.feature"
