@@ -117,7 +117,7 @@ function compileScenario(
   const pickle = messages.Pickle.create({
     id: newId(),
     uri,
-    sourceIds: [scenario.id],
+    astNodeIds: [scenario.id],
     tags: pickleTags(tags),
     name: scenario.name,
     language,
@@ -163,7 +163,7 @@ function compileScenarioOutline(
           messages.Pickle.create({
             id: newId(),
             uri,
-            sourceIds: [scenario.id, valuesRow.id],
+            astNodeIds: [scenario.id, valuesRow.id],
             name: interpolate(scenario.name, variableCells, valuesRow.cells),
             language,
             steps,
@@ -245,9 +245,9 @@ function pickleStep(
   valuesRow: messages.GherkinDocument.Feature.ITableRow | null,
   newId: NewId
 ) {
-  const sourceIds = [step.id]
+  const astNodeIds = [step.id]
   if (valuesRow) {
-    sourceIds.push(valuesRow.id)
+    astNodeIds.push(valuesRow.id)
   }
   const valueCells = valuesRow ? valuesRow.cells : []
 
@@ -255,7 +255,7 @@ function pickleStep(
     id: newId(),
     text: interpolate(step.text, variableCells, valueCells),
     argument: createPickleArguments(step, variableCells, valueCells),
-    sourceIds,
+    astNodeIds,
   })
 }
 
@@ -266,6 +266,6 @@ function pickleTags(tags: messages.GherkinDocument.Feature.ITag[]) {
 function pickleTag(tag: messages.GherkinDocument.Feature.ITag) {
   return messages.Pickle.PickleTag.create({
     name: tag.name,
-    sourceId: tag.id,
+    astNodeId: tag.id,
   })
 }

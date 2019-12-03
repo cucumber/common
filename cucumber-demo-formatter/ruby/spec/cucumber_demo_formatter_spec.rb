@@ -8,8 +8,8 @@ describe CucumberDemoFormatter do
     
     %w{UNKNOWN PASSED SKIPPED PENDING UNDEFINED AMBIGUOUS FAILED}.each do |status|
       Cucumber::Messages::Envelope.new(
-        testStepFinished: Cucumber::Messages::TestStepFinished.new(
-          testResult: Cucumber::Messages::TestResult.new(
+        test_step_finished: Cucumber::Messages::TestStepFinished.new(
+          test_result: Cucumber::Messages::TestResult.new(
             status: status
           )
         )
@@ -21,7 +21,7 @@ describe CucumberDemoFormatter do
     output = StringIO.new
 
     f = CucumberDemoFormatter.new
-    message_enumerator = Cucumber::Messages::ProtobufIoEnumerator.call(input)
+    message_enumerator = Cucumber::Messages::BinaryToMessageEnumerator.new(input)
     f.process_messages(message_enumerator, output)
     
     output.rewind

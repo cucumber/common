@@ -1,11 +1,11 @@
 {
   "pickle": {
+    "astNodeIds": [
+      "1"
+    ],
     "id": "2",
     "language": "en",
     "name": "no steps",
-    "sourceIds": [
-      "1"
-    ],
     "uri": "testdata/good/incomplete_scenario.feature"
   }
 }

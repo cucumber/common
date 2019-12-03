@@ -1,26 +1,26 @@
 {
   "pickle": {
-    "id": "11",
-    "language": "en",
-    "name": "minimalistic",
-    "sourceIds": [
+    "astNodeIds": [
       "7",
       "2"
     ],
+    "id": "11",
+    "language": "en",
+    "name": "minimalistic",
     "steps": [
       {
-        "id": "10",
-        "sourceIds": [
+        "astNodeIds": [
           "0",
           "2"
         ],
+        "id": "10",
         "text": "the foo"
       }
     ],
     "tags": [
       {
-        "name": "@foo",
-        "sourceId": "3"
+        "astNodeId": "3",
+        "name": "@foo"
       }
     ],
     "uri": "testdata/good/several_examples.feature"
@@ -28,27 +28,27 @@
 }
 {
   "pickle": {
-    "id": "13",
-    "language": "en",
-    "name": "minimalistic",
-    "sourceIds": [
+    "astNodeIds": [
       "7",
       "5"
     ],
+    "id": "13",
+    "language": "en",
+    "name": "minimalistic",
     "steps": [
       {
-        "id": "12",
-        "sourceIds": [
+        "astNodeIds": [
           "0",
           "5"
         ],
+        "id": "12",
         "text": "the bar"
       }
     ],
     "tags": [
       {
-        "name": "@bar",
-        "sourceId": "6"
+        "astNodeId": "6",
+        "name": "@bar"
       }
     ],
     "uri": "testdata/good/several_examples.feature"
@@ -56,16 +56,16 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "9"
+    ],
     "id": "14",
     "language": "en",
     "name": "ha ok",
-    "sourceIds": [
-      "9"
-    ],
     "tags": [
       {
-        "name": "@zap",
-        "sourceId": "8"
+        "astNodeId": "8",
+        "name": "@zap"
       }
     ],
     "uri": "testdata/good/several_examples.feature"

@@ -16,8 +16,8 @@ var _ = Describe("ProcessTestStepFinished", func() {
 		lookup.Initialize(false)
 
 		pickleStep := &messages.Pickle_PickleStep{
-			Id:        "pickle-step-id",
-			SourceIds: []string{"some-id"},
+			Id:         "pickle-step-id",
+			AstNodeIds: []string{"some-id"},
 		}
 		pickle := &messages.Pickle{
 			Id:    "pickle-id",
@@ -92,10 +92,10 @@ var _ = Describe("ProcessTestStepFinished", func() {
 
 	Context("When step references a Hook", func() {
 		BeforeEach(func() {
-			hook := &messages.TestCaseHookDefinitionConfig{
+			hook := &messages.Hook{
 				Id: "hook-id",
 			}
-			lookup.ProcessMessage(makeTestCaseHookDefinitionConfigEnvelope(hook))
+			lookup.ProcessMessage(makeHookEnvelope(hook))
 
 			testCase := makeTestCase(
 				"test-case-id",
@@ -114,7 +114,7 @@ var _ = Describe("ProcessTestStepFinished", func() {
 			lookup.ProcessMessage(makeTestCaseStartedEnvelope(testCaseStarted))
 		})
 
-		It("returns a TestStep including the TestCaseHookDefinitionConfig", func() {
+		It("returns a TestStep including the Hook", func() {
 			testStepFinished := &messages.TestStepFinished{
 				TestCaseStartedId: "test-case-started-id",
 				TestStepId:        "hook-step-id",
@@ -171,30 +171,30 @@ var _ = Describe("ProcessTestStepFinished", func() {
 			lookup.scenarioByID[scenario.Id] = scenario
 			lookup.backgroundByStepID[backgroundStep.Id] = background
 
-			stepDefinitionConfig := &messages.StepDefinitionConfig{
+			stepDefinitionConfig := &messages.StepDefinition{
 				Id: "step-def-id",
 				Pattern: &messages.StepDefinitionPattern{
 					Source: "a passed {word}",
 				},
 			}
-			lookup.ProcessMessage(makeStepDefinitionConfigEnvelope(stepDefinitionConfig))
+			lookup.ProcessMessage(makeStepDefinitionEnvelope(stepDefinitionConfig))
 
 			backgroundPickleStep := &messages.Pickle_PickleStep{
-				Id:        "background-pickle-step-id",
-				SourceIds: []string{backgroundStep.Id},
-				Text:      "a passed step",
+				Id:         "background-pickle-step-id",
+				AstNodeIds: []string{backgroundStep.Id},
+				Text:       "a passed step",
 			}
 
 			pickleStep := &messages.Pickle_PickleStep{
-				Id:        "pickle-step-id",
-				SourceIds: []string{step.Id},
-				Text:      "a passed step",
+				Id:         "pickle-step-id",
+				AstNodeIds: []string{step.Id},
+				Text:       "a passed step",
 			}
 
 			pickle := &messages.Pickle{
-				Id:        "pickle-id",
-				Uri:       "some_feature.feature",
-				SourceIds: []string{scenario.Id},
+				Id:         "pickle-id",
+				Uri:        "some_feature.feature",
+				AstNodeIds: []string{scenario.Id},
 				Steps: []*messages.Pickle_PickleStep{
 					backgroundPickleStep,
 					pickleStep,
@@ -306,8 +306,8 @@ var _ = Describe("TestStepToJSON", func() {
 	Context("When TestStep comes from a Hook", func() {
 		BeforeEach(func() {
 			step = &TestStep{
-				Hook: &messages.TestCaseHookDefinitionConfig{
-					Location: &messages.SourceReference{
+				Hook: &messages.Hook{
+					SourceReference: &messages.SourceReference{
 						Uri: "some/hooks.go",
 						Location: &messages.Location{
 							Column: 3,
@@ -395,9 +395,9 @@ var _ = Describe("TestStepToJSON", func() {
 
 		Context("When it has a StepDefinition", func() {
 			It("has a Match referencing the feature file", func() {
-				step.StepDefinitions = []*messages.StepDefinitionConfig{
-					&messages.StepDefinitionConfig{
-						Location: &messages.SourceReference{
+				step.StepDefinitions = []*messages.StepDefinition{
+					&messages.StepDefinition{
+						SourceReference: &messages.SourceReference{
 							Uri: "support_code.go",
 							Location: &messages.Location{
 								Line: 12,

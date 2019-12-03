@@ -22,9 +22,9 @@ formatter = CucumberDemoFormatter.new
 format = options[:format] || 'ndjson'
 message_enumerator = case format
 when 'ndjson'
-  Cucumber::Messages::NdjsonIoEnumerator.call(STDIN)
+  Cucumber::Messages::NdjsonToMessageEnumerator.new(STDIN)
 when 'protobuf'
-  Cucumber::Messages::ProtobufIoEnumerator.call(STDIN)
+  Cucumber::Messages::BinaryToMessageEnumerator.new(STDIN)
 else
   raise "Unsupported format: '#{format}'"
 end

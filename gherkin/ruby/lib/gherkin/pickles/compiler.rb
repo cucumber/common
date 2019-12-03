@@ -71,7 +71,7 @@ module Gherkin
           tags: pickle_tags(tags),
           name: scenario.name,
           language: language,
-          sourceIds: [scenario.id],
+          ast_node_ids: [scenario.id],
           steps: steps
         )
         pickles.push(pickle)
@@ -97,7 +97,7 @@ module Gherkin
               language: language,
               steps: steps,
               tags: pickle_tags(tags),
-              sourceIds: [
+              ast_node_ids: [
                 scenario.id,
                 values_row.id
               ],
@@ -130,11 +130,11 @@ module Gherkin
         value_cells = values_row ? values_row.cells : []
         props = {
           id: @id_generator.new_id,
-          sourceIds: [step.id],
+          ast_node_ids: [step.id],
           text: interpolate(step.text, variable_cells, value_cells),
         }
         if values_row
-          props[:sourceIds].push(values_row.id)
+          props[:ast_node_ids].push(values_row.id)
         end
 
         if step.data_table
@@ -171,7 +171,7 @@ module Gherkin
           content: interpolate(doc_string.content, variable_cells, value_cells)
         }
         if doc_string.content_type
-          props[:contentType] = interpolate(doc_string.content_type, variable_cells, value_cells)
+          props[:content_type] = interpolate(doc_string.content_type, variable_cells, value_cells)
         end
         Cucumber::Messages::PickleStepArgument::PickleDocString.new(props)
       end
@@ -183,7 +183,7 @@ module Gherkin
       def pickle_tag(tag)
         Cucumber::Messages::Pickle::PickleTag.new(
           name: tag.name,
-          sourceId: tag.id
+          ast_node_id: tag.id
         )
       end
     end

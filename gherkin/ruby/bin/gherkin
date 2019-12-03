@@ -49,7 +49,7 @@ end
 gherkin_executable = ENV['GHERKIN_EXECUTABLE']
 if ARGV.empty?
   # Read protobuf from STDIN
-  messages = Cucumber::Messages::ProtobufIoEnumerator.call(STDIN)
+  messages = Cucumber::Messages::BinaryToMessageEnumerator.new(STDIN)
 elsif gherkin_executable
   # Read protobuf from STDIN
   messages = Gherkin::Stream::SubprocessMessageStream.new(

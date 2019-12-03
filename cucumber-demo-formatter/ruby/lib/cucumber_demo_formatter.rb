@@ -12,10 +12,10 @@ class CucumberDemoFormatter
       FAILED:    '💣',
     }
     message_enumerator.each do |message|
-      if message.testStepFinished
-        output.write(emoji[message.testStepFinished.testResult.status])
+      if message.test_step_finished
+        output.write(emoji[message.test_step_finished.test_result.status])
       end
-      if message.testRunFinished
+      if message.test_run_finished
         output.write("\n")
       end
     end

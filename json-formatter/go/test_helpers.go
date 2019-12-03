@@ -21,9 +21,9 @@ func makeGherkinStep(id string, keyword string, text string) *messages.GherkinDo
 
 func makeTestStep(id string, pickleStepId string, stepDefinitionIds []string) *messages.TestCase_TestStep {
 	return &messages.TestCase_TestStep{
-		Id:               id,
-		PickleStepId:     pickleStepId,
-		StepDefinitionId: stepDefinitionIds,
+		Id:                id,
+		PickleStepId:      pickleStepId,
+		StepDefinitionIds: stepDefinitionIds,
 	}
 }
 
@@ -58,18 +58,18 @@ func makeTestCaseStartedEnvelope(testCaseStarted *messages.TestCaseStarted) *mes
 	}
 }
 
-func makeTestCaseHookDefinitionConfigEnvelope(testCaseHook *messages.TestCaseHookDefinitionConfig) *messages.Envelope {
+func makeHookEnvelope(testCaseHook *messages.Hook) *messages.Envelope {
 	return &messages.Envelope{
-		Message: &messages.Envelope_TestCaseHookDefinitionConfig{
-			TestCaseHookDefinitionConfig: testCaseHook,
+		Message: &messages.Envelope_Hook{
+			Hook: testCaseHook,
 		},
 	}
 }
 
-func makeStepDefinitionConfigEnvelope(stepDefinitionConfig *messages.StepDefinitionConfig) *messages.Envelope {
+func makeStepDefinitionEnvelope(stepDefinitionConfig *messages.StepDefinition) *messages.Envelope {
 	return &messages.Envelope{
-		Message: &messages.Envelope_StepDefinitionConfig{
-			StepDefinitionConfig: stepDefinitionConfig,
+		Message: &messages.Envelope_StepDefinition{
+			StepDefinition: stepDefinitionConfig,
 		},
 	}
 }

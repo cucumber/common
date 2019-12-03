@@ -14,7 +14,7 @@ module Cucumber
         write_outgoing_messages(outgoing_messages, io)
 
         io.rewind
-        incoming_messages = NdjsonIoEnumerator.call(io)
+        incoming_messages = NdjsonToMessageEnumerator.new(io)
 
         expect(incoming_messages.to_a).to(eq(outgoing_messages))
       end

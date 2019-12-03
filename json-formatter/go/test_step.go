@@ -8,11 +8,11 @@ import (
 
 type TestStep struct {
 	TestCaseID      string
-	Hook            *messages.TestCaseHookDefinitionConfig
+	Hook            *messages.Hook
 	Pickle          *messages.Pickle
 	PickleStep      *messages.Pickle_PickleStep
 	Step            *messages.GherkinDocument_Feature_Step
-	StepDefinitions []*messages.StepDefinitionConfig
+	StepDefinitions []*messages.StepDefinition
 	Result          *messages.TestResult
 	Background      *messages.GherkinDocument_Feature_Background
 }
@@ -34,7 +34,7 @@ func ProcessTestStepFinished(testStepFinished *messages.TestStepFinished, lookup
 	}
 
 	if testStep.HookId != "" {
-		hook := lookup.LookupTestCaseHookDefinitionConfig(testStep.HookId)
+		hook := lookup.LookupHook(testStep.HookId)
 		if hook == nil {
 			return nil
 		}
@@ -57,18 +57,18 @@ func ProcessTestStepFinished(testStepFinished *messages.TestStepFinished, lookup
 	}
 
 	var background *messages.GherkinDocument_Feature_Background
-	scenarioStep := lookup.LookupStep(pickleStep.SourceIds[0])
+	scenarioStep := lookup.LookupStep(pickleStep.AstNodeIds[0])
 	if scenarioStep != nil {
 		background = lookup.LookupBackgroundByStepID(scenarioStep.Id)
 	}
 
 	return &TestStep{
 		TestCaseID:      testCase.Id,
-		Step:            lookup.LookupStep(pickleStep.SourceIds[0]),
+		Step:            lookup.LookupStep(pickleStep.AstNodeIds[0]),
 		Pickle:          pickle,
 		PickleStep:      pickleStep,
 		Result:          testStepFinished.TestResult,
-		StepDefinitions: lookup.LookupStepDefinitionConfigs(testStep.StepDefinitionId),
+		StepDefinitions: lookup.LookupStepDefinitions(testStep.StepDefinitionIds),
 		Background:      background,
 	}
 }
@@ -83,7 +83,7 @@ func TestStepToJSON(step *TestStep) *jsonStep {
 	if step.Hook != nil {
 		return &jsonStep{
 			Match: &jsonStepMatch{
-				Location: makeLocation(step.Hook.Location.Uri, step.Hook.Location.Location.Line),
+				Location: makeLocation(step.Hook.SourceReference.Uri, step.Hook.SourceReference.Location.Line),
 			},
 			Result: &jsonStepResult{
 				Status:       status,
@@ -96,8 +96,8 @@ func TestStepToJSON(step *TestStep) *jsonStep {
 	location := makeLocation(step.Pickle.Uri, step.Step.Location.Line)
 	if len(step.StepDefinitions) == 1 {
 		location = makeLocation(
-			step.StepDefinitions[0].Location.Uri,
-			step.StepDefinitions[0].Location.Location.Line,
+			step.StepDefinitions[0].SourceReference.Uri,
+			step.StepDefinitions[0].SourceReference.Location.Line,
 		)
 	}
 

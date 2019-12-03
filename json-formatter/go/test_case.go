@@ -29,19 +29,19 @@ func ProcessTestCaseStarted(testCaseStarted *messages.TestCaseStarted, lookup *M
 	}
 
 	pickle := lookup.LookupPickle(testCase.PickleId)
-	if pickle == nil || len(pickle.SourceIds) == 0 {
+	if pickle == nil || len(pickle.AstNodeIds) == 0 {
 		return nil
 	}
 	tags := make([]*messages.GherkinDocument_Feature_Tag, len(pickle.Tags))
 	for index, tag := range pickle.Tags {
-		sourceTag := lookup.LookupTag(tag.SourceId)
+		sourceTag := lookup.LookupTag(tag.AstNodeId)
 		if sourceTag == nil {
 			return nil
 		}
 		tags[index] = sourceTag
 	}
 
-	scenario := lookup.LookupScenario(pickle.SourceIds[0])
+	scenario := lookup.LookupScenario(pickle.AstNodeIds[0])
 	if scenario == nil {
 		return nil
 	}
@@ -95,13 +95,13 @@ func backgroundStepsToJSON(steps []*TestStep) *jsonFeatureElement {
 func scenarioStepsToJSON(testCase *TestCase, steps []*TestStep) *jsonFeatureElement {
 	line := testCase.Scenario.Location.Line
 	id := fmt.Sprintf("%s;%s", makeID(testCase.FeatureName), makeID(testCase.Scenario.Name))
-	if len(testCase.Pickle.SourceIds) > 1 {
+	if len(testCase.Pickle.AstNodeIds) > 1 {
 		exampleName := ""
 		exampleIndex := 0
 
 		for _, example := range testCase.Scenario.Examples {
 			for index, row := range example.TableBody {
-				if row.Id == testCase.Pickle.SourceIds[1] {
+				if row.Id == testCase.Pickle.AstNodeIds[1] {
 					line = row.Location.Line
 					exampleName = example.Name
 					// +2 as the index is a one-based index and the table header is taken into account

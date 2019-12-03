@@ -1,31 +1,31 @@
 {
   "pickle": {
+    "astNodeIds": [
+      "3"
+    ],
     "id": "7",
     "language": "no",
     "name": "Parsing many languages",
-    "sourceIds": [
-      "3"
-    ],
     "steps": [
       {
-        "id": "4",
-        "sourceIds": [
+        "astNodeIds": [
           "0"
         ],
+        "id": "4",
         "text": "Gherkin supports many languages"
       },
       {
-        "id": "5",
-        "sourceIds": [
+        "astNodeIds": [
           "1"
         ],
+        "id": "5",
         "text": "Norwegian keywords are parsed"
       },
       {
-        "id": "6",
-        "sourceIds": [
+        "astNodeIds": [
           "2"
         ],
+        "id": "6",
         "text": "they should be recognized"
       }
     ],

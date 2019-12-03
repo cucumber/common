@@ -1,12 +1,12 @@
 {
   "pickle": {
-    "id": "6",
-    "language": "en",
-    "name": "Greetings come in many forms",
-    "sourceIds": [
+    "astNodeIds": [
       "4",
       "2"
     ],
+    "id": "6",
+    "language": "en",
+    "name": "Greetings come in many forms",
     "steps": [
       {
         "argument": {
@@ -15,11 +15,11 @@
             "contentType": "en"
           }
         },
-        "id": "5",
-        "sourceIds": [
+        "astNodeIds": [
           "0",
           "2"
         ],
+        "id": "5",
         "text": "this file:"
       }
     ],
@@ -28,13 +28,13 @@
 }
 {
   "pickle": {
-    "id": "8",
-    "language": "en",
-    "name": "Greetings come in many forms",
-    "sourceIds": [
+    "astNodeIds": [
       "4",
       "3"
     ],
+    "id": "8",
+    "language": "en",
+    "name": "Greetings come in many forms",
     "steps": [
       {
         "argument": {
@@ -43,11 +43,11 @@
             "contentType": "fr"
           }
         },
-        "id": "7",
-        "sourceIds": [
+        "astNodeIds": [
           "0",
           "3"
         ],
+        "id": "7",
         "text": "this file:"
       }
     ],

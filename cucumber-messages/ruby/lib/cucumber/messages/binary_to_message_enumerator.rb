@@ -2,9 +2,9 @@ require 'cucumber/messages/varint'
 
 module Cucumber
   module Messages
-    module ProtobufIoEnumerator
-      def self.call(io)
-        Enumerator.new do |yielder|
+    class BinaryToMessageEnumerator < Enumerator
+      def initialize(io)
+        super() do |yielder|
           while !io.eof?
             yielder.yield(Cucumber::Messages::Envelope.parse_delimited_from(io))
           end
