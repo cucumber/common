@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 
 * Added new classes for working with NDJSON streams
+* Added new `TimeConversion` utilities for converting between protobuf `Timestamp/Duration` and the
+  platform's representation of timestamps (clock time) and duration (monotonic time)
 
 ### Changed
 

@@ -237,7 +237,9 @@ func (self *Formatter) ProcessMessages(reader gio.ReadCloser, stdout io.Writer) 
 				ErrorMessage: m.TestStepFinished.TestResult.Message,
 			}
 			if m.TestStepFinished.TestResult.Duration != nil {
-				jsonStep.Result.Duration = self.durationToNanos(m.TestStepFinished.TestResult.Duration)
+				duration := messages.DurationToGoDuration(*m.TestStepFinished.TestResult.Duration)
+				// Go's time.Duration is an int64 representing nanoseconds
+				jsonStep.Result.Duration = uint64(duration)
 			}
 
 			stepDefinitions := self.lookup.LookupStepDefinitionConfigsByIDs(testStep.StepDefinitionId)
@@ -294,11 +296,6 @@ func (self *Formatter) isBackgroundStep(id string) bool {
 
 func (self *Formatter) makeId(s string) string {
 	return strings.ToLower(strings.Replace(s, " ", "-", -1))
-}
-
-func (self *Formatter) durationToNanos(d *messages.Duration) uint64 {
-	self.comment(fmt.Sprintf("Converting to nanos: %d - %d", d.Seconds, d.Nanos))
-	return uint64(d.Seconds*1000000000 + int64(d.Nanos))
 }
 
 func (self *Formatter) comment(message string) {

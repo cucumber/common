@@ -1,9 +1,10 @@
 import ITestStep from './ITestStep'
 import { MessageNotifier } from './types'
-import { messages } from 'cucumber-messages'
+import { messages, TimeConversion } from 'cucumber-messages'
 import uuidv4 from 'uuid/v4'
 import { performance } from 'perf_hooks'
-import durationBetween from './durationBetween'
+
+const { millisecondsToDuration } = TimeConversion
 
 export default class TestCase {
   public readonly id: string = uuidv4()
@@ -48,7 +49,7 @@ export default class TestCase {
       }
     })
     const finish = performance.now()
-    const duration = durationBetween(start, finish)
+    const duration = millisecondsToDuration(finish - start)
 
     notifier(
       new messages.Envelope({

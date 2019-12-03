@@ -1,10 +1,12 @@
-import * as assert from 'assert'
-import {
+import assert from 'assert'
+import { TimeConversion } from '../src'
+
+const {
   durationToMilliseconds,
   millisecondsSinceEpochToTimestamp,
   millisecondsToDuration,
   timestampToMillisecondsSinceEpoch,
-} from '../src/TimeConversion'
+} = TimeConversion
 
 describe('TimeConversion', () => {
   it('converts to and from milliseconds since epoch', () => {
