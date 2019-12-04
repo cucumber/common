@@ -2,6 +2,7 @@ import assert from 'assert'
 import { HookType } from '../src/IHook'
 import Hook from '../src/Hook'
 import { messages } from 'cucumber-messages'
+import TestWorld from './TestWorld'
 
 describe('Hook', () => {
   describe('#match', () => {
@@ -26,7 +27,7 @@ describe('Hook', () => {
       })
       const executor = hook.match(pickle, HookType.Before)
 
-      assert.strictEqual(executor.execute(), 'something')
+      assert.strictEqual(executor.execute(new TestWorld()), 'something')
     })
 
     it('returns a SupportCodeExecutor if the hook has no tag expression', () => {
@@ -38,7 +39,7 @@ describe('Hook', () => {
       })
       const executor = hook.match(pickle, HookType.Before)
 
-      assert.strictEqual(executor.execute(), 'something')
+      assert.strictEqual(executor.execute(new TestWorld()), 'something')
     })
 
     it('does not return a SupportCodeExecutor if the hook type does not match', () => {

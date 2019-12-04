@@ -1,5 +1,6 @@
 import { messages } from 'cucumber-messages'
 import { MessageNotifier } from './types'
+import IWorld from './IWorld'
 
 export default interface ITestStep {
   sourceId: string
@@ -8,6 +9,7 @@ export default interface ITestStep {
   toMessage(): messages.TestCase.ITestStep
 
   execute(
+    world: IWorld,
     notifier: MessageNotifier,
     testCaseStartedId: string
   ): messages.ITestResult
