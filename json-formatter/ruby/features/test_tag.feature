@@ -1,5 +1,5 @@
 @tagged-feature
-Feature:  With tags
+Feature: With tags
 
   @acceptance
   Scenario: With a single tag

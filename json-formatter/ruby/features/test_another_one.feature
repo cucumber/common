@@ -1,4 +1,3 @@
-
 Feature: Another one
   Scenario: One
     Given a passed step

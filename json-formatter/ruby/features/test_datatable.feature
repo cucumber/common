@@ -1,6 +1,6 @@
-Feature: doc strings
+Feature: Data tables
 
-  Scenario: a step can have docstrings
+  Scenario: A step can have data tables
     Given a passed step with
       | name | value |
       | x    | 1     |

@@ -1,4 +1,4 @@
 Feature: Basic
 
-Scenario: a scenario
+Scenario: A scenario
   Given a passed step

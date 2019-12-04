@@ -1,6 +1,6 @@
-Feature: doc strings
+Feature: Doc strings
 
-  Scenario: a step can have docstrings
+  Scenario: A step can have doc strings
     Given a passed step with
       """
       This is a doc string

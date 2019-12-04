@@ -5,7 +5,7 @@ Feature: Examples
     When a <status1> step
     Then a <status2> step
 
-    Examples: some examples
+    Examples: Some examples
       Some examples description
 
       | status1 | status2   |
@@ -13,7 +13,7 @@ Feature: Examples
       | passed  | undefined |
 
 
-    Examples: some more examples
+    Examples: Some more examples
       Bla bla
 
       | status1 | status2 |
