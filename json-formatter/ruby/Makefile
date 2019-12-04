@@ -24,4 +24,4 @@ features/%_unprocessed.json: features/%.feature $(RUBY_FILES) Gemfile.lock
 	-bundle exec cucumber --format json $< > $@
 
 clean:
-	rm -f $(JSONS_GOLDEN) features/all.json
+	rm -f features/*.json
