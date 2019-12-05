@@ -1,27 +1,52 @@
 import { messages } from 'cucumber-messages'
 import ISupportCodeExecutor from './ISupportCodeExecutor'
 import Hook from './Hook'
+import ICucumberSupportCode from './ICucumberSupportCode'
 
-export default class CucumberSupportCode {
+export default class CucumberSupportCode implements ICucumberSupportCode {
   private beforeHooks: Hook[] = []
+  private afterHooks: Hook[] = []
   private hookById: { [key: string]: Hook } = {}
 
   public registerBeforeHook(
     tagExpression: string,
     executor: ISupportCodeExecutor
-  ): messages.ITestCaseHookDefinitionConfig {
+  ): messages.IHook {
+    return this.registerHook(this.beforeHooks, tagExpression, executor)
+  }
+
+  public registerAfterHook(
+    tagExpression: string,
+    executor: ISupportCodeExecutor
+  ): messages.IHook {
+    return this.registerHook(this.afterHooks, tagExpression, executor)
+  }
+
+  private registerHook(
+    storage: Hook[],
+    tagExpression: string,
+    executor: ISupportCodeExecutor
+  ): messages.IHook {
     const hook = new Hook(tagExpression, executor)
-    this.beforeHooks.push(hook)
+    storage.push(hook)
     this.hookById[hook.id] = hook
 
-    return new messages.TestCaseHookDefinitionConfig({
+    return new messages.Hook({
       id: hook.id,
       tagExpression,
     })
   }
 
   public findBeforeHooks(tags: string[]): string[] {
-    return this.beforeHooks
+    return this.findHooks(tags, this.beforeHooks)
+  }
+
+  public findAfterHooks(tags: string[]): string[] {
+    return this.findHooks(tags, this.afterHooks)
+  }
+
+  private findHooks(tags: string[], hooks: Hook[]): string[] {
+    return hooks
       .map(hook => (hook.match(tags) ? hook.id : undefined))
       .filter(hookId => hookId !== undefined)
   }

@@ -20,6 +20,21 @@ describe('CucumberSupportCode', () => {
     })
   })
 
+  describe('#registerAfterHook', () => {
+    it('emits a TestCaseHookDefinitionConfig message', () => {
+      const supportCode = new CucumberSupportCode()
+      const executor = new SupportCodeExecutor(() => undefined)
+      const message = supportCode.registerAfterHook('@bar', executor)
+
+      assert.ok(
+        message.id.match(
+          /[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}/
+        )
+      )
+      assert.strictEqual(message.tagExpression, '@bar')
+    })
+  })
+
   describe('#findBeforeHooks', () => {
     it('returns an empty array if no hooks are registered', () => {
       const supportCode = new CucumberSupportCode()
@@ -27,7 +42,7 @@ describe('CucumberSupportCode', () => {
       assert.deepStrictEqual(supportCode.findBeforeHooks(['@foo']), [])
     })
 
-    it('returns the IDs of matching hooks', () => {
+    it('returns the IDs of matching before hooks', () => {
       const supportCode = new CucumberSupportCode()
       const executor = new SupportCodeExecutor(() => undefined)
       const hookId = supportCode.registerBeforeHook('@foo', executor).id
@@ -35,7 +50,7 @@ describe('CucumberSupportCode', () => {
       assert.deepStrictEqual(supportCode.findBeforeHooks(['@foo']), [hookId])
     })
 
-    it('does not return IDs of non matching hooks', () => {
+    it('does not return IDs of non matching before hooks', () => {
       const supportCode = new CucumberSupportCode()
       const executor = new SupportCodeExecutor(() => undefined)
       const fooHookId = supportCode.registerBeforeHook('@foo', executor).id
@@ -45,6 +60,50 @@ describe('CucumberSupportCode', () => {
       assert.deepStrictEqual(supportCode.findBeforeHooks(['@bar']), [
         notFooHookId,
       ])
+    })
+
+    it('does not match after hooks', () => {
+      const supportCode = new CucumberSupportCode()
+      const executor = new SupportCodeExecutor(() => undefined)
+      const hookId = supportCode.registerAfterHook('@foo', executor).id
+
+      assert.deepStrictEqual(supportCode.findBeforeHooks(['@foo']), [])
+    })
+  })
+
+  describe('#findAfterHooks', () => {
+    it('returns an empty array if no hooks are registered', () => {
+      const supportCode = new CucumberSupportCode()
+
+      assert.deepStrictEqual(supportCode.findAfterHooks(['@foo']), [])
+    })
+
+    it('returns the IDs of matching after hooks', () => {
+      const supportCode = new CucumberSupportCode()
+      const executor = new SupportCodeExecutor(() => undefined)
+      const hookId = supportCode.registerAfterHook('@foo', executor).id
+
+      assert.deepStrictEqual(supportCode.findAfterHooks(['@foo']), [hookId])
+    })
+
+    it('does not return IDs of non matching after hooks', () => {
+      const supportCode = new CucumberSupportCode()
+      const executor = new SupportCodeExecutor(() => undefined)
+      const fooHookId = supportCode.registerAfterHook('@foo', executor).id
+      const notFooHookId = supportCode.registerAfterHook('not @foo', executor)
+        .id
+
+      assert.deepStrictEqual(supportCode.findAfterHooks(['@bar']), [
+        notFooHookId,
+      ])
+    })
+
+    it('does not match before hooks', () => {
+      const supportCode = new CucumberSupportCode()
+      const executor = new SupportCodeExecutor(() => undefined)
+      const hookId = supportCode.registerBeforeHook('@foo', executor).id
+
+      assert.deepStrictEqual(supportCode.findAfterHooks(['@foo']), [])
     })
   })
 
