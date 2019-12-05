@@ -141,9 +141,9 @@ export default class CucumberSupportCode implements ICucumberSupportCode {
     }
 
     try {
-      stepDefinition.execute(stepArguments.map(arg => arg.group.value))
+      const result = stepDefinition.execute(stepArguments.map(arg => arg.group.value))
       return new messages.TestResult({
-        status: messages.TestResult.Status.PASSED,
+        status: result === "pending" ? messages.TestResult.Status.PENDING : messages.TestResult.Status.PASSED,
       })
 
     } catch (error) {

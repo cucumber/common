@@ -293,6 +293,19 @@ describe('CucumberSupportCode', () => {
           messages.TestResult.Status.PASSED
         )
       })
+
+      it('returns a status PENDING if the support code returns the string "peinding"', () => {
+        const supportCode = new CucumberSupportCode()
+        const stepDefinitionId = supportCode.registerStepDefinition(
+          new CucumberExpression("", new ParameterTypeRegistry()),
+          new SupportCodeExecutor(() => "pending")
+        ).id
+
+        assert.strictEqual(
+          supportCode.executeStepDefinition(stepDefinitionId, []).status,
+          messages.TestResult.Status.PENDING
+        )
+      })
     })
 
     context('when the supportCodeExecutor throws an exception', () => {
