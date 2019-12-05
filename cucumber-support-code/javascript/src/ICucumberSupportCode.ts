@@ -1,5 +1,5 @@
 import { messages } from 'cucumber-messages'
-// import { Expression  } from 'cucumber-expressions'
+import { Expression  } from 'cucumber-expressions'
 import ISupportCodeExecutor from './ISupportCodeExecutor'
 import IStepMatch from './IStepMatch'
 
@@ -14,10 +14,10 @@ export default interface ICucumberSupportCode {
     executor: ISupportCodeExecutor
   ): messages.IHook
 
-  // registerStepDefinition(
-  //   // expression: Expression,
-  //   executor: ISupportCodeExecutor
-  // ): messages.IStepDefinitionConfig[]
+  registerStepDefinition(
+    expression: Expression,
+    executor: ISupportCodeExecutor
+  ): messages.IStepDefinition
 
   findBeforeHooks(tags: string[]): string[]
 

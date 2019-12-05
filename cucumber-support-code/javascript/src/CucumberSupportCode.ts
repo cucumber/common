@@ -1,7 +1,10 @@
 import { messages } from 'cucumber-messages'
+import { Expression, CucumberExpression, RegularExpression } from 'cucumber-expressions'
+import uuidv4 from 'uuid/v4'
+
 import ISupportCodeExecutor from './ISupportCodeExecutor'
-import Hook from './Hook'
 import ICucumberSupportCode from './ICucumberSupportCode'
+import Hook from './Hook'
 
 export default class CucumberSupportCode implements ICucumberSupportCode {
   private beforeHooks: Hook[] = []
@@ -35,6 +38,31 @@ export default class CucumberSupportCode implements ICucumberSupportCode {
       id: hook.id,
       tagExpression,
     })
+  }
+
+  public registerStepDefinition(
+    expression: Expression,
+    executor: ISupportCodeExecutor
+  ): messages.IStepDefinition {
+    return new messages.StepDefinition({
+      id: uuidv4(),
+      pattern: new messages.StepDefinitionPattern({
+        source: expression.source,
+        type: this.expressionType(expression)
+      })
+    })
+  }
+
+  private expressionType(expression: Expression): messages.StepDefinitionPatternType {
+    if (expression instanceof CucumberExpression) {
+      return messages.StepDefinitionPatternType.CUCUMBER_EXPRESSION
+    } else if (expression instanceof RegularExpression) {
+      return messages.StepDefinitionPatternType.REGULAR_EXPRESSION
+    } else {
+      throw new Error(
+        `Unknown expression type: ${expression.constructor.name}`
+      )
+    }
   }
 
   public findBeforeHooks(tags: string[]): string[] {

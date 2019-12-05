@@ -1,12 +1,13 @@
-import assert from 'assert'
+import assert, { AssertionError } from 'assert'
 import { messages } from 'cucumber-messages'
+import { Expression, CucumberExpression, ParameterTypeRegistry, RegularExpression  } from 'cucumber-expressions'
 
 import CucumberSupportCode from '../src/CucumberSupportCode'
 import SupportCodeExecutor from '../src/SupportCodeExecutor'
 
 describe('CucumberSupportCode', () => {
   describe('#registerBeforeHook', () => {
-    it('emits a TestCaseHookDefinitionConfig message', () => {
+    it('returns a Hook message', () => {
       const supportCode = new CucumberSupportCode()
       const executor = new SupportCodeExecutor(() => undefined)
       const message = supportCode.registerBeforeHook('@foo', executor)
@@ -21,7 +22,7 @@ describe('CucumberSupportCode', () => {
   })
 
   describe('#registerAfterHook', () => {
-    it('emits a TestCaseHookDefinitionConfig message', () => {
+    it('returns a Hook message', () => {
       const supportCode = new CucumberSupportCode()
       const executor = new SupportCodeExecutor(() => undefined)
       const message = supportCode.registerAfterHook('@bar', executor)
@@ -158,6 +159,43 @@ describe('CucumberSupportCode', () => {
             .message.includes('Something went wrong')
         )
       })
+    })
+  })
+
+  context('#registerStepDefinition', () => {
+    it('returns a StepDefinition message', () => {
+      const supportCode = new CucumberSupportCode()
+      const message = supportCode.registerStepDefinition(
+        new CucumberExpression("a {word} step", new ParameterTypeRegistry()),
+        new SupportCodeExecutor(() => undefined)
+      )
+
+      assert.ok(
+        message.id.match(
+          /[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}/
+        )
+      )
+      assert.strictEqual(message.pattern.source, 'a {word} step')
+    })
+
+    it('has the correct step definition type', () => {
+      const supportCode = new CucumberSupportCode()
+      const message = supportCode.registerStepDefinition(
+        new CucumberExpression("a {word} step", new ParameterTypeRegistry()),
+        new SupportCodeExecutor(() => undefined)
+      )
+
+      assert.strictEqual(message.pattern.type, messages.StepDefinitionPatternType.CUCUMBER_EXPRESSION)
+    })
+
+    it('has the correct step definition type', () => {
+      const supportCode = new CucumberSupportCode()
+      const message = supportCode.registerStepDefinition(
+        new RegularExpression(/a (.*) step/, new ParameterTypeRegistry()),
+        new SupportCodeExecutor(() => undefined)
+      )
+
+      assert.strictEqual(message.pattern.type, messages.StepDefinitionPatternType.REGULAR_EXPRESSION)
     })
   })
 })
