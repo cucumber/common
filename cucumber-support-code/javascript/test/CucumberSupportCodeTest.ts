@@ -6,6 +6,7 @@ import {
   ParameterTypeRegistry,
   RegularExpression,
   Argument,
+  Group,
 } from 'cucumber-expressions'
 
 import CucumberSupportCode from '../src/CucumberSupportCode'
@@ -223,52 +224,138 @@ describe('CucumberSupportCode', () => {
         []
       )
     })
-  })
 
-  it('returns a match with the matching step definition id', () => {
-    const supportCode = new CucumberSupportCode()
-    const stepDefinitionId = supportCode.registerStepDefinition(
-      new CucumberExpression('a passed step', new ParameterTypeRegistry()),
-      new SupportCodeExecutor(() => undefined)
-    ).id
-    const pickleStep = new messages.Pickle.PickleStep({
-      text: 'a passed step',
+    it('returns a match with the matching step definition id', () => {
+      const supportCode = new CucumberSupportCode()
+      const stepDefinitionId = supportCode.registerStepDefinition(
+        new CucumberExpression('a passed step', new ParameterTypeRegistry()),
+        new SupportCodeExecutor(() => undefined)
+      ).id
+      const pickleStep = new messages.Pickle.PickleStep({
+        text: 'a passed step',
+      })
+
+      const matches = supportCode.findMatchingStepDefinitions(pickleStep)
+      assert.deepStrictEqual(matches[0].stepDefinitionId, stepDefinitionId)
     })
 
-    const matches = supportCode.findMatchingStepDefinitions(pickleStep)
-    assert.deepStrictEqual(matches[0].stepDefinitionId, stepDefinitionId)
-  })
+    it('returns a match with the arguments', () => {
+      const supportCode = new CucumberSupportCode()
+      const stepDefinitionId = supportCode.registerStepDefinition(
+        new CucumberExpression('a {word} {word}', new ParameterTypeRegistry()),
+        new SupportCodeExecutor(() => undefined)
+      ).id
+      const pickleStep = new messages.Pickle.PickleStep({
+        text: 'a passed step',
+      })
 
-  it('returns a match with the arguments', () => {
-    const supportCode = new CucumberSupportCode()
-    const stepDefinitionId = supportCode.registerStepDefinition(
-      new CucumberExpression('a {word} {word}', new ParameterTypeRegistry()),
-      new SupportCodeExecutor(() => undefined)
-    ).id
-    const pickleStep = new messages.Pickle.PickleStep({
-      text: 'a passed step',
+      const matches = supportCode.findMatchingStepDefinitions(pickleStep)
+      assert.deepStrictEqual(
+        matches[0].args.map(arg => arg.group.value),
+        ['passed', 'step']
+      )
     })
 
-    const matches = supportCode.findMatchingStepDefinitions(pickleStep)
-    assert.deepStrictEqual(
-      matches[0].args.map(arg => arg.group.value),
-      ['passed', 'step']
-    )
+    it('does not return non-matching step definition ids', () => {
+      const supportCode = new CucumberSupportCode()
+      const stepDefinitionId = supportCode.registerStepDefinition(
+        new CucumberExpression('a passed step', new ParameterTypeRegistry()),
+        new SupportCodeExecutor(() => undefined)
+      ).id
+      const pickleStep = new messages.Pickle.PickleStep({
+        text: 'a failed step',
+      })
+
+      assert.deepStrictEqual(
+        supportCode.findMatchingStepDefinitions(pickleStep),
+        []
+      )
+    })
   })
 
-  it('does not return non-matching step definition ids', () => {
-    const supportCode = new CucumberSupportCode()
-    const stepDefinitionId = supportCode.registerStepDefinition(
-      new CucumberExpression('a passed step', new ParameterTypeRegistry()),
-      new SupportCodeExecutor(() => undefined)
-    ).id
-    const pickleStep = new messages.Pickle.PickleStep({
-      text: 'a failed step',
+  context('#executeStepDefinition', () => {
+    it('raises an exception when the step definition is unknown', () => {
+      const supportCode = new CucumberSupportCode()
+
+      assert.throws(() => supportCode.executeStepDefinition('123', []), Error)
     })
 
-    assert.deepStrictEqual(
-      supportCode.findMatchingStepDefinitions(pickleStep),
-      []
-    )
+    context('when the supportCodeExecutor does not throw an exception', () => {
+      it('returns a message with status Passed', () => {
+        const supportCode = new CucumberSupportCode()
+        const stepDefinitionId = supportCode.registerStepDefinition(
+          new CucumberExpression("", new ParameterTypeRegistry()),
+          new SupportCodeExecutor(() => undefined)
+        ).id
+
+        assert.strictEqual(
+          supportCode.executeStepDefinition(stepDefinitionId, []).status,
+          messages.TestResult.Status.PASSED
+        )
+      })
+    })
+
+    context('when the supportCodeExecutor throws an exception', () => {
+      it('returns a message with status Failed', () => {
+        const supportCode = new CucumberSupportCode()
+        const stepDefinitionId = supportCode.registerStepDefinition(
+          new CucumberExpression("", new ParameterTypeRegistry()),
+          new SupportCodeExecutor(() => {throw new Error("Something went wrong")})
+        ).id
+
+        assert.strictEqual(
+          supportCode.executeStepDefinition(stepDefinitionId, []).status,
+          messages.TestResult.Status.FAILED
+        )
+      })
+
+      it('returns a message with the stack trace', () => {
+        const supportCode = new CucumberSupportCode()
+        const stepDefinitionId = supportCode.registerStepDefinition(
+          new CucumberExpression("", new ParameterTypeRegistry()),
+          new SupportCodeExecutor(() => {throw new Error("No, this will: not work")})
+        ).id
+
+        assert.ok(
+          supportCode.executeStepDefinition(stepDefinitionId, []).message.includes("No, this will: not work")
+        )
+      })
+    })
+
+    it('correctly pass the arguments to the executor', () => {
+      const supportCode = new CucumberSupportCode()
+      const stepDefinitionId = supportCode.registerStepDefinition(
+        new CucumberExpression("", new ParameterTypeRegistry()),
+        new SupportCodeExecutor((a, b) => {
+          if (parseInt(a) > parseInt(b)) {
+            throw new Error(`Expected ${a} lesser than ${b}`)
+          }
+          console.log("All ok:", a, b, parseInt(a) > parseInt(b))
+        })
+      ).id
+
+      assert.strictEqual(
+        supportCode.executeStepDefinition(stepDefinitionId, [
+          new Argument(new Group("10", 0, 0, null), null),
+          new Argument(new Group("12", 0, 0, null), null)
+        ]).status,
+        messages.TestResult.Status.PASSED
+      )
+
+      assert.strictEqual(
+        supportCode.executeStepDefinition(stepDefinitionId, [
+          new Argument(new Group("12", 0, 0, null), null),
+          new Argument(new Group("10", 0, 0, null), null)
+        ]).status,
+        messages.TestResult.Status.FAILED
+      )
+
+      assert.ok(
+        supportCode.executeStepDefinition(stepDefinitionId, [
+          new Argument(new Group("12", 0, 0, null), null),
+          new Argument(new Group("10", 0, 0, null), null)
+        ]).message.includes("Expected 12 lesser than 10")
+      )
+    })
   })
 })

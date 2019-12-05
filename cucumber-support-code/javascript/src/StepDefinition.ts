@@ -17,4 +17,8 @@ export default class StepDefinition {
   ): messages.IStepMatchArgument[] {
     return this.expression.match(step.text)
   }
+
+  public execute(args: string[]): any {
+    return this.executor.execute(...args)
+  }
 }

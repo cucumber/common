@@ -27,10 +27,10 @@ export default interface ICucumberSupportCode {
 
   executeHook(hookId: string): messages.ITestResult
 
-  // executeStepDefinition(
-  //   stepId: string,
-  //   stepArguments: messages.IStepMatchArgument[]
-  // ): messages.ITestResult
+  executeStepDefinition(
+    stepId: string,
+    stepArguments: messages.IStepMatchArgument[]
+  ): messages.ITestResult
 
   // executeTestStep(testStep: messages.TestCase.ITestStep): messages.ITestResult
 }

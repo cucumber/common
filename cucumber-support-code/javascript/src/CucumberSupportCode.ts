@@ -130,4 +130,27 @@ export default class CucumberSupportCode implements ICucumberSupportCode {
       })
     }
   }
+
+  public executeStepDefinition(
+    stepId: string,
+    stepArguments: messages.IStepMatchArgument[]
+  ): messages.ITestResult {
+    const stepDefinition = this.stepDefinitionsById[stepId]
+    if (stepDefinition === undefined) {
+      throw new Error('StepDefinition not found')
+    }
+
+    try {
+      stepDefinition.execute(stepArguments.map(arg => arg.group.value))
+      return new messages.TestResult({
+        status: messages.TestResult.Status.PASSED,
+      })
+
+    } catch (error) {
+      return new messages.TestResult({
+        status: messages.TestResult.Status.FAILED,
+        message: error.stack,
+      })
+    }
+  }
 }
