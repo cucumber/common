@@ -13,112 +13,129 @@ import CucumberSupportCode from '../src/CucumberSupportCode'
 import SupportCodeExecutor from '../src/SupportCodeExecutor'
 
 describe('CucumberSupportCode', () => {
-  describe('#registerBeforeHook', () => {
-    it('returns a Hook message', () => {
-      const supportCode = new CucumberSupportCode()
-      const executor = new SupportCodeExecutor(() => undefined)
-      const message = supportCode.registerBeforeHook('@foo', executor)
+  const uuidRegexp = /[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}/
+  let supportCode: CucumberSupportCode
+  let undefinedExecutor: SupportCodeExecutor
 
-      assert.ok(
-        message.id.match(
-          /[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}/
-        )
-      )
+  beforeEach(() => {
+    supportCode = new CucumberSupportCode()
+    undefinedExecutor = new SupportCodeExecutor(() => undefined)
+  })
+
+  describe('#registerBeforeHook', () => {
+    let message: messages.IHook
+
+    beforeEach(() => {
+      message = supportCode.registerBeforeHook('@foo', undefinedExecutor)
+    })
+
+    it('returns a Hook message with the Hook id', () => {
+      assert.ok(message.id.match( uuidRegexp))
+    })
+
+    it('returns a Hook message with the Hook expression', () => {
       assert.strictEqual(message.tagExpression, '@foo')
     })
   })
 
   describe('#registerAfterHook', () => {
-    it('returns a Hook message', () => {
-      const supportCode = new CucumberSupportCode()
-      const executor = new SupportCodeExecutor(() => undefined)
-      const message = supportCode.registerAfterHook('@bar', executor)
+    let message: messages.IHook
 
-      assert.ok(
-        message.id.match(
-          /[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}/
-        )
-      )
+    beforeEach(() => {
+      message = supportCode.registerAfterHook('@bar', undefinedExecutor)
+    })
+
+    it('returns a Hook message with the Hook id', () => {
+      assert.ok(message.id.match( uuidRegexp))
+    })
+
+    it('returns a Hook message with the Hook expression', () => {
       assert.strictEqual(message.tagExpression, '@bar')
     })
   })
 
   describe('#findBeforeHooks', () => {
-    it('returns an empty array if no hooks are registered', () => {
-      const supportCode = new CucumberSupportCode()
-
-      assert.deepStrictEqual(supportCode.findBeforeHooks(['@foo']), [])
+    context('when there is no registered Hooks', () => {
+      it('returns an empty array if no hooks are registered', () => {
+        assert.deepStrictEqual(supportCode.findBeforeHooks(['@foo']), [])
+      })
     })
 
-    it('returns the IDs of matching before hooks', () => {
-      const supportCode = new CucumberSupportCode()
-      const executor = new SupportCodeExecutor(() => undefined)
-      const hookId = supportCode.registerBeforeHook('@foo', executor).id
+    context('when before Hooks are registered', () => {
+      let fooHookId: string
+      let barHookId: string
 
-      assert.deepStrictEqual(supportCode.findBeforeHooks(['@foo']), [hookId])
+      beforeEach(() => {
+        fooHookId  = supportCode.registerBeforeHook(
+          '@foo', undefinedExecutor
+        ).id
+
+        barHookId = supportCode.registerBeforeHook(
+          '@bar',
+          undefinedExecutor
+        ).id
+      })
+
+      it('returns the IDs of matching before hooks', () => {
+        assert.deepStrictEqual(supportCode.findBeforeHooks(['@foo']), [fooHookId])
+        assert.deepStrictEqual(supportCode.findBeforeHooks(['@bar']), [barHookId])
+      })
+
+      it('can returns multiple IDs', () => {
+        assert.deepStrictEqual(supportCode.findBeforeHooks(['@foo', '@bar']),[fooHookId, barHookId])
+      })
     })
 
-    it('does not return IDs of non matching before hooks', () => {
-      const supportCode = new CucumberSupportCode()
-      const executor = new SupportCodeExecutor(() => undefined)
-      const fooHookId = supportCode.registerBeforeHook('@foo', executor).id
-      const notFooHookId = supportCode.registerBeforeHook('not @foo', executor)
-        .id
-
-      assert.deepStrictEqual(supportCode.findBeforeHooks(['@bar']), [
-        notFooHookId,
-      ])
-    })
-
-    it('does not match after hooks', () => {
-      const supportCode = new CucumberSupportCode()
-      const executor = new SupportCodeExecutor(() => undefined)
-      const hookId = supportCode.registerAfterHook('@foo', executor).id
-
-      assert.deepStrictEqual(supportCode.findBeforeHooks(['@foo']), [])
+    context('when afterHooks are registered', () => {
+      it("does not return their ID even if there's a match", () => {
+        supportCode.registerAfterHook('@foo', undefinedExecutor).id
+        assert.deepStrictEqual(supportCode.findBeforeHooks(['@foo']), [])
+      })
     })
   })
 
   describe('#findAfterHooks', () => {
-    it('returns an empty array if no hooks are registered', () => {
-      const supportCode = new CucumberSupportCode()
-
-      assert.deepStrictEqual(supportCode.findAfterHooks(['@foo']), [])
+    context('when there is no registered Hooks', () => {
+      it('returns an empty array if no hooks are registered', () => {
+        assert.deepStrictEqual(supportCode.findAfterHooks(['@foo']), [])
+      })
     })
 
-    it('returns the IDs of matching after hooks', () => {
-      const supportCode = new CucumberSupportCode()
-      const executor = new SupportCodeExecutor(() => undefined)
-      const hookId = supportCode.registerAfterHook('@foo', executor).id
+    context('when after Hooks are registered', () => {
+      let fooHookId: string
+      let barHookId: string
 
-      assert.deepStrictEqual(supportCode.findAfterHooks(['@foo']), [hookId])
+      beforeEach(() => {
+        fooHookId  = supportCode.registerAfterHook(
+          '@foo', undefinedExecutor
+        ).id
+
+        barHookId = supportCode.registerAfterHook(
+          '@bar',
+          undefinedExecutor
+        ).id
+      })
+
+      it('returns the IDs of matching before hooks', () => {
+        assert.deepStrictEqual(supportCode.findAfterHooks(['@foo']), [fooHookId])
+        assert.deepStrictEqual(supportCode.findAfterHooks(['@bar']), [barHookId])
+      })
+
+      it('can returns multiple IDs', () => {
+        assert.deepStrictEqual(supportCode.findAfterHooks(['@foo', '@bar']),[fooHookId, barHookId])
+      })
     })
 
-    it('does not return IDs of non matching after hooks', () => {
-      const supportCode = new CucumberSupportCode()
-      const executor = new SupportCodeExecutor(() => undefined)
-      const fooHookId = supportCode.registerAfterHook('@foo', executor).id
-      const notFooHookId = supportCode.registerAfterHook('not @foo', executor)
-        .id
-
-      assert.deepStrictEqual(supportCode.findAfterHooks(['@bar']), [
-        notFooHookId,
-      ])
-    })
-
-    it('does not match before hooks', () => {
-      const supportCode = new CucumberSupportCode()
-      const executor = new SupportCodeExecutor(() => undefined)
-      const hookId = supportCode.registerBeforeHook('@foo', executor).id
-
-      assert.deepStrictEqual(supportCode.findAfterHooks(['@foo']), [])
+    context('when beforeHooks are registered', () => {
+      it("does not return their ID even if there's a match", () => {
+        supportCode.registerBeforeHook('@foo', undefinedExecutor).id
+        assert.deepStrictEqual(supportCode.findAfterHooks(['@foo']), [])
+      })
     })
   })
 
   context('#executeHook', () => {
     it('raises an exception if the hook in unknown', () => {
-      const supportCode = new CucumberSupportCode()
-
       assert.throws(
         () => supportCode.executeHook('123'),
         Error,
@@ -128,9 +145,7 @@ describe('CucumberSupportCode', () => {
 
     context('when the supportCodeExecutor does not throw an exception', () => {
       it('returns a message with status Passed', () => {
-        const supportCode = new CucumberSupportCode()
-        const executor = new SupportCodeExecutor(() => undefined)
-        const hookId = supportCode.registerBeforeHook('', executor).id
+        const hookId = supportCode.registerBeforeHook('', undefinedExecutor).id
 
         assert.strictEqual(
           supportCode.executeHook(hookId).status,
@@ -141,7 +156,6 @@ describe('CucumberSupportCode', () => {
 
     context('when the supportCodeExecutor throws an exception', () => {
       it('returns a message with status Failed', () => {
-        const supportCode = new CucumberSupportCode()
         const executor = new SupportCodeExecutor(() => {
           throw new Error('Something went wrong')
         })
@@ -154,7 +168,6 @@ describe('CucumberSupportCode', () => {
       })
 
       it('returns a message with the stacktrace', () => {
-        const supportCode = new CucumberSupportCode()
         const executor = new SupportCodeExecutor(() => {
           throw new Error('Something went wrong')
         })
@@ -171,25 +184,23 @@ describe('CucumberSupportCode', () => {
 
   context('#registerStepDefinition', () => {
     it('returns a StepDefinition message', () => {
-      const supportCode = new CucumberSupportCode()
       const message = supportCode.registerStepDefinition(
         new CucumberExpression('a {word} step', new ParameterTypeRegistry()),
-        new SupportCodeExecutor(() => undefined)
+        undefinedExecutor
       )
 
       assert.ok(
         message.id.match(
-          /[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}/
+          uuidRegexp
         )
       )
       assert.strictEqual(message.pattern.source, 'a {word} step')
     })
 
     it('has the correct step definition type', () => {
-      const supportCode = new CucumberSupportCode()
       const message = supportCode.registerStepDefinition(
         new CucumberExpression('a {word} step', new ParameterTypeRegistry()),
-        new SupportCodeExecutor(() => undefined)
+        undefinedExecutor
       )
 
       assert.strictEqual(
@@ -199,10 +210,9 @@ describe('CucumberSupportCode', () => {
     })
 
     it('has the correct step definition type', () => {
-      const supportCode = new CucumberSupportCode()
       const message = supportCode.registerStepDefinition(
         new RegularExpression(/a (.*) step/, new ParameterTypeRegistry()),
-        new SupportCodeExecutor(() => undefined)
+        undefinedExecutor
       )
 
       assert.strictEqual(
@@ -214,7 +224,6 @@ describe('CucumberSupportCode', () => {
 
   context('#findMatchingStepDefinitions', () => {
     it('returns an empty list if no steps have been registered', () => {
-      const supportCode = new CucumberSupportCode()
       const pickleStep = new messages.Pickle.PickleStep({
         text: 'a passed step',
       })
@@ -226,10 +235,9 @@ describe('CucumberSupportCode', () => {
     })
 
     it('returns a match with the matching step definition id', () => {
-      const supportCode = new CucumberSupportCode()
       const stepDefinitionId = supportCode.registerStepDefinition(
         new CucumberExpression('a passed step', new ParameterTypeRegistry()),
-        new SupportCodeExecutor(() => undefined)
+        undefinedExecutor
       ).id
       const pickleStep = new messages.Pickle.PickleStep({
         text: 'a passed step',
@@ -240,10 +248,9 @@ describe('CucumberSupportCode', () => {
     })
 
     it('returns a match with the arguments', () => {
-      const supportCode = new CucumberSupportCode()
       const stepDefinitionId = supportCode.registerStepDefinition(
         new CucumberExpression('a {word} {word}', new ParameterTypeRegistry()),
-        new SupportCodeExecutor(() => undefined)
+        undefinedExecutor
       ).id
       const pickleStep = new messages.Pickle.PickleStep({
         text: 'a passed step',
@@ -257,10 +264,9 @@ describe('CucumberSupportCode', () => {
     })
 
     it('does not return non-matching step definition ids', () => {
-      const supportCode = new CucumberSupportCode()
       const stepDefinitionId = supportCode.registerStepDefinition(
         new CucumberExpression('a passed step', new ParameterTypeRegistry()),
-        new SupportCodeExecutor(() => undefined)
+        undefinedExecutor
       ).id
       const pickleStep = new messages.Pickle.PickleStep({
         text: 'a failed step',
@@ -275,17 +281,14 @@ describe('CucumberSupportCode', () => {
 
   context('#executeStepDefinition', () => {
     it('raises an exception when the step definition is unknown', () => {
-      const supportCode = new CucumberSupportCode()
-
       assert.throws(() => supportCode.executeStepDefinition('123', []), Error)
     })
 
     context('when the supportCodeExecutor does not throw an exception', () => {
       it('returns a message with status Passed', () => {
-        const supportCode = new CucumberSupportCode()
         const stepDefinitionId = supportCode.registerStepDefinition(
-          new CucumberExpression("", new ParameterTypeRegistry()),
-          new SupportCodeExecutor(() => undefined)
+          new CucumberExpression('', new ParameterTypeRegistry()),
+          undefinedExecutor
         ).id
 
         assert.strictEqual(
@@ -295,10 +298,9 @@ describe('CucumberSupportCode', () => {
       })
 
       it('returns a status PENDING if the support code returns the string "peinding"', () => {
-        const supportCode = new CucumberSupportCode()
         const stepDefinitionId = supportCode.registerStepDefinition(
-          new CucumberExpression("", new ParameterTypeRegistry()),
-          new SupportCodeExecutor(() => "pending")
+          new CucumberExpression('', new ParameterTypeRegistry()),
+          new SupportCodeExecutor(() => 'pending')
         ).id
 
         assert.strictEqual(
@@ -310,10 +312,11 @@ describe('CucumberSupportCode', () => {
 
     context('when the supportCodeExecutor throws an exception', () => {
       it('returns a message with status Failed', () => {
-        const supportCode = new CucumberSupportCode()
         const stepDefinitionId = supportCode.registerStepDefinition(
-          new CucumberExpression("", new ParameterTypeRegistry()),
-          new SupportCodeExecutor(() => {throw new Error("Something went wrong")})
+          new CucumberExpression('', new ParameterTypeRegistry()),
+          new SupportCodeExecutor(() => {
+            throw new Error('Something went wrong')
+          })
         ).id
 
         assert.strictEqual(
@@ -323,51 +326,54 @@ describe('CucumberSupportCode', () => {
       })
 
       it('returns a message with the stack trace', () => {
-        const supportCode = new CucumberSupportCode()
         const stepDefinitionId = supportCode.registerStepDefinition(
-          new CucumberExpression("", new ParameterTypeRegistry()),
-          new SupportCodeExecutor(() => {throw new Error("No, this will: not work")})
+          new CucumberExpression('', new ParameterTypeRegistry()),
+          new SupportCodeExecutor(() => {
+            throw new Error('No, this will: not work')
+          })
         ).id
 
         assert.ok(
-          supportCode.executeStepDefinition(stepDefinitionId, []).message.includes("No, this will: not work")
+          supportCode
+            .executeStepDefinition(stepDefinitionId, [])
+            .message.includes('No, this will: not work')
         )
       })
     })
 
     it('correctly pass the arguments to the executor', () => {
-      const supportCode = new CucumberSupportCode()
       const stepDefinitionId = supportCode.registerStepDefinition(
-        new CucumberExpression("", new ParameterTypeRegistry()),
+        new CucumberExpression('', new ParameterTypeRegistry()),
         new SupportCodeExecutor((a, b) => {
-          if (parseInt(a) > parseInt(b)) {
+          if (parseInt(a, 10) > parseInt(b, 10)) {
             throw new Error(`Expected ${a} lesser than ${b}`)
           }
-          console.log("All ok:", a, b, parseInt(a) > parseInt(b))
         })
       ).id
 
       assert.strictEqual(
         supportCode.executeStepDefinition(stepDefinitionId, [
-          new Argument(new Group("10", 0, 0, null), null),
-          new Argument(new Group("12", 0, 0, null), null)
+          new Argument(new Group('10', 0, 0, null), null),
+          new Argument(new Group('12', 0, 0, null), null),
         ]).status,
         messages.TestResult.Status.PASSED
       )
 
       assert.strictEqual(
         supportCode.executeStepDefinition(stepDefinitionId, [
-          new Argument(new Group("12", 0, 0, null), null),
-          new Argument(new Group("10", 0, 0, null), null)
+          new Argument(new Group('12', 0, 0, null), null),
+          new Argument(new Group('10', 0, 0, null), null),
         ]).status,
         messages.TestResult.Status.FAILED
       )
 
       assert.ok(
-        supportCode.executeStepDefinition(stepDefinitionId, [
-          new Argument(new Group("12", 0, 0, null), null),
-          new Argument(new Group("10", 0, 0, null), null)
-        ]).message.includes("Expected 12 lesser than 10")
+        supportCode
+          .executeStepDefinition(stepDefinitionId, [
+            new Argument(new Group('12', 0, 0, null), null),
+            new Argument(new Group('10', 0, 0, null), null),
+          ])
+          .message.includes('Expected 12 lesser than 10')
       )
     })
   })
