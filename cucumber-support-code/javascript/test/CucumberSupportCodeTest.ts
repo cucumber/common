@@ -1,6 +1,12 @@
 import assert, { AssertionError } from 'assert'
 import { messages } from 'cucumber-messages'
-import { Expression, CucumberExpression, ParameterTypeRegistry, RegularExpression  } from 'cucumber-expressions'
+import {
+  Expression,
+  CucumberExpression,
+  ParameterTypeRegistry,
+  RegularExpression,
+  Argument,
+} from 'cucumber-expressions'
 
 import CucumberSupportCode from '../src/CucumberSupportCode'
 import SupportCodeExecutor from '../src/SupportCodeExecutor'
@@ -166,7 +172,7 @@ describe('CucumberSupportCode', () => {
     it('returns a StepDefinition message', () => {
       const supportCode = new CucumberSupportCode()
       const message = supportCode.registerStepDefinition(
-        new CucumberExpression("a {word} step", new ParameterTypeRegistry()),
+        new CucumberExpression('a {word} step', new ParameterTypeRegistry()),
         new SupportCodeExecutor(() => undefined)
       )
 
@@ -181,11 +187,14 @@ describe('CucumberSupportCode', () => {
     it('has the correct step definition type', () => {
       const supportCode = new CucumberSupportCode()
       const message = supportCode.registerStepDefinition(
-        new CucumberExpression("a {word} step", new ParameterTypeRegistry()),
+        new CucumberExpression('a {word} step', new ParameterTypeRegistry()),
         new SupportCodeExecutor(() => undefined)
       )
 
-      assert.strictEqual(message.pattern.type, messages.StepDefinitionPatternType.CUCUMBER_EXPRESSION)
+      assert.strictEqual(
+        message.pattern.type,
+        messages.StepDefinitionPatternType.CUCUMBER_EXPRESSION
+      )
     })
 
     it('has the correct step definition type', () => {
@@ -195,7 +204,71 @@ describe('CucumberSupportCode', () => {
         new SupportCodeExecutor(() => undefined)
       )
 
-      assert.strictEqual(message.pattern.type, messages.StepDefinitionPatternType.REGULAR_EXPRESSION)
+      assert.strictEqual(
+        message.pattern.type,
+        messages.StepDefinitionPatternType.REGULAR_EXPRESSION
+      )
     })
+  })
+
+  context('#findMatchingStepDefinitions', () => {
+    it('returns an empty list if no steps have been registered', () => {
+      const supportCode = new CucumberSupportCode()
+      const pickleStep = new messages.Pickle.PickleStep({
+        text: 'a passed step',
+      })
+
+      assert.deepStrictEqual(
+        supportCode.findMatchingStepDefinitions(pickleStep),
+        []
+      )
+    })
+  })
+
+  it('returns a match with the matching step definition id', () => {
+    const supportCode = new CucumberSupportCode()
+    const stepDefinitionId = supportCode.registerStepDefinition(
+      new CucumberExpression('a passed step', new ParameterTypeRegistry()),
+      new SupportCodeExecutor(() => undefined)
+    ).id
+    const pickleStep = new messages.Pickle.PickleStep({
+      text: 'a passed step',
+    })
+
+    const matches = supportCode.findMatchingStepDefinitions(pickleStep)
+    assert.deepStrictEqual(matches[0].stepDefinitionId, stepDefinitionId)
+  })
+
+  it('returns a match with the arguments', () => {
+    const supportCode = new CucumberSupportCode()
+    const stepDefinitionId = supportCode.registerStepDefinition(
+      new CucumberExpression('a {word} {word}', new ParameterTypeRegistry()),
+      new SupportCodeExecutor(() => undefined)
+    ).id
+    const pickleStep = new messages.Pickle.PickleStep({
+      text: 'a passed step',
+    })
+
+    const matches = supportCode.findMatchingStepDefinitions(pickleStep)
+    assert.deepStrictEqual(
+      matches[0].args.map(arg => arg.group.value),
+      ['passed', 'step']
+    )
+  })
+
+  it('does not return non-matching step definition ids', () => {
+    const supportCode = new CucumberSupportCode()
+    const stepDefinitionId = supportCode.registerStepDefinition(
+      new CucumberExpression('a passed step', new ParameterTypeRegistry()),
+      new SupportCodeExecutor(() => undefined)
+    ).id
+    const pickleStep = new messages.Pickle.PickleStep({
+      text: 'a failed step',
+    })
+
+    assert.deepStrictEqual(
+      supportCode.findMatchingStepDefinitions(pickleStep),
+      []
+    )
   })
 })

@@ -1,5 +1,5 @@
 import { messages } from 'cucumber-messages'
-import { Expression  } from 'cucumber-expressions'
+import { Expression } from 'cucumber-expressions'
 import ISupportCodeExecutor from './ISupportCodeExecutor'
 import IStepMatch from './IStepMatch'
 
@@ -23,7 +23,7 @@ export default interface ICucumberSupportCode {
 
   findAfterHooks(tags: string[]): string[]
 
-  // findMatchingStepDefinitions(step: messages.Pickle.IPickleStep): IStepMatch[]
+  findMatchingStepDefinitions(step: messages.Pickle.IPickleStep): IStepMatch[]
 
   executeHook(hookId: string): messages.ITestResult
 

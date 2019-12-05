@@ -1,15 +1,30 @@
 import { messages } from 'cucumber-messages'
-import { Expression, CucumberExpression, RegularExpression } from 'cucumber-expressions'
-import uuidv4 from 'uuid/v4'
+import {
+  Expression,
+  CucumberExpression,
+  RegularExpression,
+} from 'cucumber-expressions'
 
 import ISupportCodeExecutor from './ISupportCodeExecutor'
 import ICucumberSupportCode from './ICucumberSupportCode'
 import Hook from './Hook'
+import IStepMatch from './IStepMatch'
+import StepDefinition from './StepDefinition'
+
+class StepMatch implements IStepMatch {
+  constructor(
+    public readonly stepDefinitionId: string,
+    public readonly args: messages.IStepMatchArgument[]
+  ) {}
+}
 
 export default class CucumberSupportCode implements ICucumberSupportCode {
   private beforeHooks: Hook[] = []
   private afterHooks: Hook[] = []
   private hookById: { [key: string]: Hook } = {}
+
+  private stepDefinitions: StepDefinition[] = []
+  private stepDefinitionsById: { [key: string]: StepDefinition } = {}
 
   public registerBeforeHook(
     tagExpression: string,
@@ -44,24 +59,28 @@ export default class CucumberSupportCode implements ICucumberSupportCode {
     expression: Expression,
     executor: ISupportCodeExecutor
   ): messages.IStepDefinition {
+    const stepDefinition = new StepDefinition(expression, executor)
+    this.stepDefinitions.push(stepDefinition)
+    this.stepDefinitionsById[stepDefinition.id] = stepDefinition
+
     return new messages.StepDefinition({
-      id: uuidv4(),
+      id: stepDefinition.id,
       pattern: new messages.StepDefinitionPattern({
         source: expression.source,
-        type: this.expressionType(expression)
-      })
+        type: this.expressionType(expression),
+      }),
     })
   }
 
-  private expressionType(expression: Expression): messages.StepDefinitionPatternType {
+  private expressionType(
+    expression: Expression
+  ): messages.StepDefinitionPatternType {
     if (expression instanceof CucumberExpression) {
       return messages.StepDefinitionPatternType.CUCUMBER_EXPRESSION
     } else if (expression instanceof RegularExpression) {
       return messages.StepDefinitionPatternType.REGULAR_EXPRESSION
     } else {
-      throw new Error(
-        `Unknown expression type: ${expression.constructor.name}`
-      )
+      throw new Error(`Unknown expression type: ${expression.constructor.name}`)
     }
   }
 
@@ -77,6 +96,19 @@ export default class CucumberSupportCode implements ICucumberSupportCode {
     return hooks
       .map(hook => (hook.match(tags) ? hook.id : undefined))
       .filter(hookId => hookId !== undefined)
+  }
+
+  public findMatchingStepDefinitions(
+    step: messages.Pickle.IPickleStep
+  ): IStepMatch[] {
+    return this.stepDefinitions
+      .map(stepDefinition => {
+        const args = stepDefinition.match(step)
+        if (args !== null) {
+          return new StepMatch(stepDefinition.id, args)
+        }
+      })
+      .filter(match => match !== undefined)
   }
 
   public executeHook(hookId: string): messages.ITestResult {
