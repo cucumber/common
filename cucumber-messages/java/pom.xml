@@ -65,6 +65,10 @@
                             </artifactSet>
                             <relocations>
                                 <relocation>
+                                    <pattern>google.protobuf</pattern>
+                                    <shadedPattern>io.cucumber.messages.internal.google.protobuf</shadedPattern>
+                                </relocation>
+                                <relocation>
                                     <pattern>com.google</pattern>
                                     <shadedPattern>io.cucumber.messages.internal.com.google</shadedPattern>
                                 </relocation>
