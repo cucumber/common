@@ -4,7 +4,7 @@ import Hook from './Hook'
 
 export default class CucumberSupportCode {
   private beforeHooks: Hook[] = []
-  private hookById: { [key: string]: Hook; } = {}
+  private hookById: { [key: string]: Hook } = {}
 
   public registerBeforeHook(
     tagExpression: string,
@@ -16,20 +16,20 @@ export default class CucumberSupportCode {
 
     return new messages.TestCaseHookDefinitionConfig({
       id: hook.id,
-      tagExpression: tagExpression
+      tagExpression,
     })
   }
 
   public findBeforeHooks(tags: string[]): string[] {
     return this.beforeHooks
-      .map(hook => hook.match(tags) ? hook.id : undefined)
+      .map(hook => (hook.match(tags) ? hook.id : undefined))
       .filter(hookId => hookId !== undefined)
   }
 
   public executeHook(hookId: string): messages.ITestResult {
     const hook = this.hookById[hookId]
     if (hook === undefined) {
-      throw new Error("Hook not found")
+      throw new Error('Hook not found')
     }
 
     try {
@@ -41,7 +41,7 @@ export default class CucumberSupportCode {
     } catch (error) {
       return new messages.TestResult({
         status: messages.TestResult.Status.FAILED,
-        message: error.stack
+        message: error.stack,
       })
     }
   }

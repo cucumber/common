@@ -1,4 +1,4 @@
-import { messages } from "cucumber-messages";
+import { messages } from 'cucumber-messages'
 
 export default interface ISupportCodeExecutor {
   execute(...args: any): any

@@ -1,3 +1,11 @@
 import ICucumberSupportCode from './ICucumberSupportCode'
+import CucumberSupportCode from './CucumberSupportCode'
+import ISupportCodeExecutor from './ISupportCodeExecutor'
+import SupportCodeExecutor from './SupportCodeExecutor'
 
-export { ICucumberSupportCode }
+export {
+  ICucumberSupportCode,
+  CucumberSupportCode,
+  ISupportCodeExecutor,
+  SupportCodeExecutor,
+}
