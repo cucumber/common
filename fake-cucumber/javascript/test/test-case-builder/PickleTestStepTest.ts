@@ -7,18 +7,9 @@ import { CucumberSupportCode } from '../../src/support-code'
 import StepMatch from '../../src/support-code/StepMatch'
 import PickleTestStep from '../../src/test-case-builder/PickleTestStep'
 
-function execute(testStep: PickleTestStep): messages.ITestStepFinished {
-  const receivedMessages: messages.IEnvelope[] = []
-  testStep.execute(
-    message => receivedMessages.push(message),
-    'some-testCaseStartedId'
-  )
-  return receivedMessages.pop().testStepFinished
-}
-
 describe('test-case-builder/PickleTestStep', () => {
-  describe('#execute', () => {
-    it('emits a TestStepFinished with status UNDEFINED when there are no matching step definitions', () => {
+  describe('#run', () => {
+    it('returns a TestResult with status UNDEFINED when there are no matching step definitions', () => {
       const supportCode = stubConstructor(CucumberSupportCode)
       supportCode.findMatchingStepDefinitions.returns([])
 
@@ -26,16 +17,15 @@ describe('test-case-builder/PickleTestStep', () => {
         supportCode,
         messages.Pickle.PickleStep.create()
       )
-      const testStepFinished = execute(testStep)
+      const testResult = testStep.run()
 
       assert.strictEqual(
-        testStepFinished.testResult.status,
+        testResult.status,
         messages.TestResult.Status.UNDEFINED
       )
-      assert.strictEqual(testStepFinished.testStepId, testStep.id)
     })
 
-    it('emits a TestStepFinished with status AMBIGUOUS when there are multiple matching step definitions', () => {
+    it('returns a TestResult with status AMBIGUOUS when there are multiple matching step definitions', () => {
       const supportCode = stubConstructor(CucumberSupportCode)
       supportCode.findMatchingStepDefinitions.returns([undefined, undefined])
 
@@ -43,16 +33,15 @@ describe('test-case-builder/PickleTestStep', () => {
         supportCode,
         messages.Pickle.PickleStep.create()
       )
-      const testStepFinished = execute(testStep)
+      const testResult = testStep.run()
 
       assert.strictEqual(
-        testStepFinished.testResult.status,
+        testResult.status,
         messages.TestResult.Status.AMBIGUOUS
       )
-      assert.strictEqual(testStepFinished.testStepId, testStep.id)
     })
 
-    it('emits a TestStepFinished with the result produced by CucumberSupportCode', () => {
+    it('returns a TestResult with the result produced by CucumberSupportCode', () => {
       const stepMatch = new StepMatch('123', [])
       const testResult = new messages.TestResult({
         status: messages.TestResult.Status.AMBIGUOUS,
@@ -67,9 +56,7 @@ describe('test-case-builder/PickleTestStep', () => {
         supportCode,
         messages.Pickle.PickleStep.create()
       )
-      const testStepFinished = execute(testStep)
-
-      assert.deepStrictEqual(testStepFinished.testResult, testResult)
+      assert.deepStrictEqual(testStep.run(), testResult)
     })
   })
 })

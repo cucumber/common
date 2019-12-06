@@ -26,7 +26,7 @@ export default class PickleTestStep extends TestStep {
     })
   }
 
-  protected run(): messages.ITestResult {
+  public run(): messages.ITestResult {
     if (this.matches.length === 0) {
       return new messages.TestResult({
         duration: millisecondsToDuration(0),

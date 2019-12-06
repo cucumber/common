@@ -22,7 +22,7 @@ export default class HookTestStep extends TestStep {
     return testStep
   }
 
-  protected run(): messages.ITestResult {
+  public run(): messages.ITestResult {
     return this.supportCode.executeHook(this.hookId)
   }
 }

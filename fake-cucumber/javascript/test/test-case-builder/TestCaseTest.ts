@@ -17,19 +17,12 @@ class StubTestStep extends TestStep {
     return new messages.TestCase.TestStep()
   }
 
-  public execute(
-    notifier: MessageNotifier,
-    testCaseStartedId: string
-  ): messages.ITestResult {
-    return this.emitTestStepFinished(
-      testCaseStartedId,
-      new messages.TestResult({
-        status: this.status,
-        duration: millisecondsToDuration(1005),
-        message: this.message,
-      }),
-      notifier
-    )
+  public run(): messages.ITestResult {
+    return new messages.TestResult({
+      status: this.status,
+      duration: millisecondsToDuration(1005),
+      message: this.message,
+    })
   }
 }
 

@@ -9,7 +9,7 @@ export default abstract class TestStep implements ITestStep {
   public abstract toMessage(): messages.TestCase.ITestStep
 
   // The real runner
-  protected abstract run(): messages.ITestResult
+  public abstract run(): messages.ITestResult
 
   public execute(
     notifier: MessageNotifier,
