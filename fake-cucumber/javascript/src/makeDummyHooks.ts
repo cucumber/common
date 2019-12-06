@@ -1,15 +1,28 @@
-import { HookType, IHook } from './IHook'
-import Hook from './Hook'
+import { messages } from 'cucumber-messages'
+import { ICucumberSupportCode, SupportCodeExecutor } from './support-code'
 
-export default function makeDummyStepDefinitions(): IHook[] {
+export default function makeDummyStepDefinitions(supportCode: ICucumberSupportCode): messages.IEnvelope[] {
   return [
-    new Hook(HookType.Before, '@before-passed', () => null),
-    new Hook(HookType.Before, '@before-failed', () => {
-      throw new Error('Something went wrong in before hook')
-    }),
-    new Hook(HookType.After, '@after-passed', () => null),
-    new Hook(HookType.After, '@after-failed', () => {
-      throw new Error('Something went wrong in after hook')
-    }),
-  ]
+    supportCode.registerBeforeHook(
+      '@before-passed',
+      new SupportCodeExecutor(() => null)
+    ),
+    supportCode.registerBeforeHook(
+      '@before-failed',
+      new SupportCodeExecutor(() => {
+        throw new Error('Something went wrong in before hook')
+      })
+    ),
+    supportCode.registerAfterHook(
+      '@after-passed',
+      new SupportCodeExecutor(() => null)
+    ),
+    supportCode.registerAfterHook(
+      '@after-failed',
+      new SupportCodeExecutor(() => {
+        throw new Error('Something went wrong in after hook')
+      })
+    ),
+  ].map(hook => new messages.Envelope({ hook }))
 }
+

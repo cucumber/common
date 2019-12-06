@@ -1,54 +1,48 @@
-import ExpressionStepDefinition from './ExpressionStepDefinition'
 import {
   CucumberExpression,
   RegularExpression,
   ParameterTypeRegistry,
 } from 'cucumber-expressions'
-import IStepDefinition from './IStepDefinition'
+import { ICucumberSupportCode, SupportCodeExecutor } from './support-code'
+import { messages } from 'cucumber-messages'
 
-export default function makeDummyStepDefinitions(): IStepDefinition[] {
+export default function makeDummyStepDefinitions(supportCode: ICucumberSupportCode): messages.IEnvelope[] {
   const parameterTypeRegistry = new ParameterTypeRegistry()
   return [
-    new ExpressionStepDefinition(
+    supportCode.registerStepDefinition(
       new CucumberExpression('a passed {word}', parameterTypeRegistry),
-      (thing: string) => undefined
+      new SupportCodeExecutor((thing: string) => undefined)
     ),
-    new ExpressionStepDefinition(
+    supportCode.registerStepDefinition(
       new RegularExpression(/a passed step .*/, parameterTypeRegistry),
-      (thing: string) => undefined
+      new SupportCodeExecutor((thing: string) => undefined)
     ),
-    new ExpressionStepDefinition(
+    supportCode.registerStepDefinition(
       new CucumberExpression(
         'I have {int} cukes/cucumbers in my {word}',
         parameterTypeRegistry
       ),
-      (count: number, container: string) => undefined
+      new SupportCodeExecutor((count: number, container: string) => undefined)
     ),
-    new ExpressionStepDefinition(
+    supportCode.registerStepDefinition(
       new CucumberExpression('a failed {word}', parameterTypeRegistry),
-      (thing: string) => {
+      new SupportCodeExecutor((thing: string) => {
         throw new Error(`This step failed. The thing was "${thing}"`)
-      }
+      })
     ),
-    new ExpressionStepDefinition(
+    supportCode.registerStepDefinition(
       new RegularExpression(/a failed step .*/, parameterTypeRegistry),
-      (thing: string) => {
+      new SupportCodeExecutor((thing: string) => {
         throw new Error(`This step failed. The thing was "${thing}"`)
-      }
+      })
     ),
-    new ExpressionStepDefinition(
-      new CucumberExpression('a pending {word}', parameterTypeRegistry),
-      (thing: string) => {
-        return 'pending'
-      }
-    ),
-    new ExpressionStepDefinition(
+    supportCode.registerStepDefinition(
       new CucumberExpression('an ambiguou(s) {word}', parameterTypeRegistry),
-      (thing: string) => undefined
+      new SupportCodeExecutor((thing: string) => undefined)
     ),
-    new ExpressionStepDefinition(
+    supportCode.registerStepDefinition(
       new CucumberExpression('an (a)mbiguous {word}', parameterTypeRegistry),
-      (thing: string) => undefined
-    ),
-  ]
+      new SupportCodeExecutor((thing: string) => undefined)
+    )
+  ].map(stepDefinition => new messages.Envelope({ stepDefinition }))
 }

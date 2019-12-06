@@ -8,6 +8,7 @@ import {
 import Cucumber from '../src/Cucumber'
 import assert from 'assert'
 import { makeDummyStepDefinitions, makeDummyHooks } from '../src'
+import { CucumberSupportCode } from '../src/support-code'
 
 describe('Cucumber', () => {
   it('runs tagged hooks', async () => {
@@ -18,13 +19,17 @@ describe('Cucumber', () => {
     Given a passed step
   `
 
+    const supportCode = new CucumberSupportCode()
     const gherkinMessageList = await streamToArray(
       gherkinMessages(feature, 'test.feature')
     )
     const cucumber = new Cucumber(
       gherkinMessageList,
-      makeDummyStepDefinitions(),
-      makeDummyHooks()
+      supportCode,
+      (sc) => {
+        return makeDummyStepDefinitions(sc)
+          .concat(makeDummyHooks(sc))
+      }
     )
     const messageList: messages.IEnvelope[] = []
     const notifier: MessageNotifier = message => messageList.push(message)

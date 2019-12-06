@@ -1,41 +1,12 @@
 import assert from 'assert'
 import { messages } from 'cucumber-messages'
-import TestCase from '../../src/test-case-builder/TestCase'
 import {
   ICucumberSupportCode,
   CucumberSupportCode,
   SupportCodeExecutor,
 } from '../../src/support-code'
 
-import ITestStep from '../../src/test-case-builder/ITestStep'
-import PickleTestStep from '../../src/test-case-builder/PickleTestStep'
-import HookTestStep from '../../src/test-case-builder/HookTestStep'
-
-function makeTestCase(
-  pickle: messages.IPickle,
-  supportCode: ICucumberSupportCode
-): TestCase {
-  const pickleTags = pickle.tags.map(tag => tag.name)
-
-  const beforeHookSteps = supportCode
-    .findBeforeHooks(pickleTags)
-    .map(hookId => new HookTestStep(supportCode, hookId))
-
-  const pickleSteps = pickle.steps.map(
-    pickleStep => new PickleTestStep(supportCode, pickleStep)
-  )
-
-  const afterHookSteps = supportCode
-    .findAfterHooks(pickleTags)
-    .map(hookId => new HookTestStep(supportCode, hookId))
-
-  const steps: ITestStep[] = []
-    .concat(beforeHookSteps)
-    .concat(pickleSteps)
-    .concat(afterHookSteps)
-
-  return new TestCase(steps, pickle.id)
-}
+import makeTestCase from '../../src/test-case-builder/makeTestCase'
 
 describe('test-case-builder/makeTestCase', () => {
   let supportCode: ICucumberSupportCode

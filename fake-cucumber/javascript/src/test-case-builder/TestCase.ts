@@ -3,10 +3,11 @@ import { MessageNotifier } from '../types'
 import { messages, TimeConversion } from 'cucumber-messages'
 import uuidv4 from 'uuid/v4'
 import { performance } from 'perf_hooks'
+import ITestCase from './ITestCase'
 
 const { millisecondsToDuration } = TimeConversion
 
-export default class TestCase {
+export default class TestCase implements ITestCase {
   public readonly id: string = uuidv4()
 
   constructor(
@@ -24,7 +25,7 @@ export default class TestCase {
     })
   }
 
-  public execute(notifier: MessageNotifier, attempt: number) {
+  public execute(notifier: MessageNotifier, attempt: number): void {
     let executeNext = true
     const testCaseStartedId = uuidv4()
 

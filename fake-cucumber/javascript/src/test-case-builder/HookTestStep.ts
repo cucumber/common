@@ -30,6 +30,7 @@ export default class HookTestStep extends TestStep {
     notifier: MessageNotifier,
     testCaseStartedId: string
   ): messages.ITestResult {
+    this.emitTestStepStarted(testCaseStartedId, notifier)
     return this.emitTestStepFinished(
       testCaseStartedId,
       this.supportCode.executeHook(this.hookId),

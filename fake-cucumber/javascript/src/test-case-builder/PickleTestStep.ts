@@ -31,6 +31,8 @@ export default class PickleTestStep extends TestStep {
     notifier: MessageNotifier,
     testCaseStartedId: string
   ): messages.ITestResult {
+    this.emitTestStepStarted(testCaseStartedId, notifier)
+
     if (this.matches.length === 0) {
       return this.emitTestStepFinished(
         testCaseStartedId,

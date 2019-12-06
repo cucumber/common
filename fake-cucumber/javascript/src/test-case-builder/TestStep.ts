@@ -27,6 +27,20 @@ export default abstract class TestStep implements ITestStep {
     )
   }
 
+  protected emitTestStepStarted(
+    testCaseStartedId: string,
+    notifier: MessageNotifier
+  ) {
+    notifier(
+      new messages.Envelope({
+        testStepStarted: new messages.TestStepStarted({
+          testCaseStartedId,
+          testStepId: this.id,
+        }),
+      })
+    )
+  }
+
   protected emitTestStepFinished(
     testCaseStartedId: string,
     testResult: messages.ITestResult,

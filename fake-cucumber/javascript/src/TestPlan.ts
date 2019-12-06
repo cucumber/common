@@ -1,21 +1,18 @@
-import TestCase from './TestCase'
 import { MessageNotifier } from './types'
-import ExpressionStepDefinition from './ExpressionStepDefinition'
 import { messages } from 'cucumber-messages'
-import makeTestCase from './makeTestCase'
-import IStepDefinition from './IStepDefinition'
-import { IHook } from './IHook'
+import ITestCase from './test-case-builder/ITestCase'
+import makeTestCase from './test-case-builder/makeTestCase'
+import { ICucumberSupportCode } from './support-code'
 
 export default class TestPlan {
-  private readonly testCases: TestCase[]
+  private readonly testCases: ITestCase[]
 
   constructor(
     pickles: messages.IPickle[],
-    stepDefinitions: IStepDefinition[],
-    hooks: IHook[]
+    supportCode: ICucumberSupportCode
   ) {
     this.testCases = pickles.map(pickle =>
-      makeTestCase(pickle, stepDefinitions, hooks)
+      makeTestCase(pickle, supportCode)
     )
   }
 
