@@ -4,8 +4,8 @@ end
 Given("a passed {word} with") do |word, arg|
 end
 
-Given("a passed {word} with attachment") do |word|
-  embed('hello world', 'text/plain')
+Given("a passed {word} with text attachment {string}") do |word, attachment_text|
+  embed(attachment_text, 'text/plain')
 end
 
 When("a failed {word}") do |word|

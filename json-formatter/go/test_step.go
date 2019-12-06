@@ -1,6 +1,7 @@
 package json
 
 import (
+	"encoding/base64"
 	"fmt"
 	messages "github.com/cucumber/cucumber-messages-go/v7"
 	"strings"
@@ -15,6 +16,7 @@ type TestStep struct {
 	StepDefinitions []*messages.StepDefinition
 	Result          *messages.TestResult
 	Background      *messages.GherkinDocument_Feature_Background
+	Attachments     []*messages.Attachment
 }
 
 func ProcessTestStepFinished(testStepFinished *messages.TestStepFinished, lookup *MessageLookup) *TestStep {
@@ -70,6 +72,7 @@ func ProcessTestStepFinished(testStepFinished *messages.TestStepFinished, lookup
 		Result:          testStepFinished.TestResult,
 		StepDefinitions: lookup.LookupStepDefinitions(testStep.StepDefinitionIds),
 		Background:      background,
+		Attachments:     lookup.LookupAttachments(testStepFinished.TestStepId),
 	}
 }
 
@@ -113,6 +116,7 @@ func TestStepToJSON(step *TestStep) *jsonStep {
 			ErrorMessage: step.Result.Message,
 			Duration:     duration,
 		},
+		Embeddings: makeEmbeddings(step.Attachments),
 	}
 
 	docString := step.Step.GetDocString()
@@ -140,6 +144,19 @@ func TestStepToJSON(step *TestStep) *jsonStep {
 	}
 
 	return jsonStep
+}
+
+func makeEmbeddings(attachments []*messages.Attachment) []*jsonEmbedding {
+	jsonEmbeddings := make([]*jsonEmbedding, len(attachments))
+	for index, attachment := range attachments {
+		base64EncodedData := base64.StdEncoding.EncodeToString([]byte(attachment.Data))
+		jsonEmbeddings[index] = &jsonEmbedding{
+			Data:     base64EncodedData,
+			MimeType: attachment.Media.ContentType,
+		}
+	}
+
+	return jsonEmbeddings
 }
 
 func durationToNanos(d *messages.Duration) uint64 {
