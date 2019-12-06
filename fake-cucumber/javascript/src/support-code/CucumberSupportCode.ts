@@ -10,13 +10,7 @@ import ICucumberSupportCode from './ICucumberSupportCode'
 import Hook from './Hook'
 import IStepMatch from './IStepMatch'
 import StepDefinition from './StepDefinition'
-
-class StepMatch implements IStepMatch {
-  constructor(
-    public readonly stepDefinitionId: string,
-    public readonly args: messages.IStepMatchArgument[]
-  ) {}
-}
+import StepMatch from './StepMatch'
 
 export default class CucumberSupportCode implements ICucumberSupportCode {
   private beforeHooks: Hook[] = []
