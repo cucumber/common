@@ -9,10 +9,10 @@ import {
   Group,
 } from 'cucumber-expressions'
 
-import CucumberSupportCode from '../src/CucumberSupportCode'
-import SupportCodeExecutor from '../src/SupportCodeExecutor'
+import CucumberSupportCode from '../../src/support-code/CucumberSupportCode'
+import SupportCodeExecutor from '../../src/support-code/SupportCodeExecutor'
 
-describe('CucumberSupportCode', () => {
+describe('support-code/CucumberSupportCode', () => {
   const uuidRegexp = /[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}/
   let supportCode: CucumberSupportCode
   let undefinedExecutor: SupportCodeExecutor
@@ -30,7 +30,7 @@ describe('CucumberSupportCode', () => {
     })
 
     it('returns a Hook message with the Hook id', () => {
-      assert.ok(message.id.match( uuidRegexp))
+      assert.ok(message.id.match(uuidRegexp))
     })
 
     it('returns a Hook message with the Hook expression', () => {
@@ -46,7 +46,7 @@ describe('CucumberSupportCode', () => {
     })
 
     it('returns a Hook message with the Hook id', () => {
-      assert.ok(message.id.match( uuidRegexp))
+      assert.ok(message.id.match(uuidRegexp))
     })
 
     it('returns a Hook message with the Hook expression', () => {
@@ -66,29 +66,30 @@ describe('CucumberSupportCode', () => {
       let barHookId: string
 
       beforeEach(() => {
-        fooHookId  = supportCode.registerBeforeHook(
-          '@foo', undefinedExecutor
-        ).id
-
-        barHookId = supportCode.registerBeforeHook(
-          '@bar',
-          undefinedExecutor
-        ).id
+        fooHookId = supportCode.registerBeforeHook('@foo', undefinedExecutor).id
+        barHookId = supportCode.registerBeforeHook('@bar', undefinedExecutor).id
       })
 
       it('returns the IDs of matching before hooks', () => {
-        assert.deepStrictEqual(supportCode.findBeforeHooks(['@foo']), [fooHookId])
-        assert.deepStrictEqual(supportCode.findBeforeHooks(['@bar']), [barHookId])
+        assert.deepStrictEqual(supportCode.findBeforeHooks(['@foo']), [
+          fooHookId,
+        ])
+        assert.deepStrictEqual(supportCode.findBeforeHooks(['@bar']), [
+          barHookId,
+        ])
       })
 
       it('can returns multiple IDs', () => {
-        assert.deepStrictEqual(supportCode.findBeforeHooks(['@foo', '@bar']),[fooHookId, barHookId])
+        assert.deepStrictEqual(supportCode.findBeforeHooks(['@foo', '@bar']), [
+          fooHookId,
+          barHookId,
+        ])
       })
     })
 
     context('when afterHooks are registered', () => {
       it("does not return their ID even if there's a match", () => {
-        supportCode.registerAfterHook('@foo', undefinedExecutor).id
+        supportCode.registerAfterHook('@foo', undefinedExecutor)
         assert.deepStrictEqual(supportCode.findBeforeHooks(['@foo']), [])
       })
     })
@@ -106,29 +107,30 @@ describe('CucumberSupportCode', () => {
       let barHookId: string
 
       beforeEach(() => {
-        fooHookId  = supportCode.registerAfterHook(
-          '@foo', undefinedExecutor
-        ).id
-
-        barHookId = supportCode.registerAfterHook(
-          '@bar',
-          undefinedExecutor
-        ).id
+        fooHookId = supportCode.registerAfterHook('@foo', undefinedExecutor).id
+        barHookId = supportCode.registerAfterHook('@bar', undefinedExecutor).id
       })
 
       it('returns the IDs of matching before hooks', () => {
-        assert.deepStrictEqual(supportCode.findAfterHooks(['@foo']), [fooHookId])
-        assert.deepStrictEqual(supportCode.findAfterHooks(['@bar']), [barHookId])
+        assert.deepStrictEqual(supportCode.findAfterHooks(['@foo']), [
+          fooHookId,
+        ])
+        assert.deepStrictEqual(supportCode.findAfterHooks(['@bar']), [
+          barHookId,
+        ])
       })
 
       it('can returns multiple IDs', () => {
-        assert.deepStrictEqual(supportCode.findAfterHooks(['@foo', '@bar']),[fooHookId, barHookId])
+        assert.deepStrictEqual(supportCode.findAfterHooks(['@foo', '@bar']), [
+          fooHookId,
+          barHookId,
+        ])
       })
     })
 
     context('when beforeHooks are registered', () => {
       it("does not return their ID even if there's a match", () => {
-        supportCode.registerBeforeHook('@foo', undefinedExecutor).id
+        supportCode.registerBeforeHook('@foo', undefinedExecutor)
         assert.deepStrictEqual(supportCode.findAfterHooks(['@foo']), [])
       })
     })
@@ -136,11 +138,7 @@ describe('CucumberSupportCode', () => {
 
   context('#executeHook', () => {
     it('raises an exception if the hook in unknown', () => {
-      assert.throws(
-        () => supportCode.executeHook('123'),
-        Error,
-        'Hook not found'
-      )
+      assert.throws(() => supportCode.executeHook('123'), Error)
     })
 
     context('when the supportCodeExecutor does not throw an exception', () => {
@@ -189,11 +187,7 @@ describe('CucumberSupportCode', () => {
         undefinedExecutor
       )
 
-      assert.ok(
-        message.id.match(
-          uuidRegexp
-        )
-      )
+      assert.ok(message.id.match(uuidRegexp))
       assert.strictEqual(message.pattern.source, 'a {word} step')
     })
 

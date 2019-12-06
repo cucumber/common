@@ -44,6 +44,7 @@
   },
   "dependencies": {
     "commander": "^4.0.1",
+    "cucumber-support-code": "../../cucumber-support-code/javascript",
     "cucumber-expressions": "^8.2.1",
     "cucumber-messages": "^7.0.0",
     "cucumber-tag-expressions": "^2.0.2",

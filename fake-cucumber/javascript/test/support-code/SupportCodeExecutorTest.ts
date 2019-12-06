@@ -1,7 +1,7 @@
 import assert from 'assert'
-import SupportCodeExecutor from '../src/SupportCodeExecutor'
+import SupportCodeExecutor from '../../src/support-code/SupportCodeExecutor'
 
-describe('SupportCodeExecutor', () => {
+describe('support-code/SupportCodeExecutor', () => {
   context('#execute', () => {
     it('runs the code provided on creation', () => {
       const supportCodeExecutor = new SupportCodeExecutor(() => 'executed !')
