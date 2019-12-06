@@ -1,5 +1,5 @@
-import IStepMatch from "./IStepMatch";
-import { messages } from "cucumber-messages";
+import IStepMatch from './IStepMatch'
+import { messages } from 'cucumber-messages'
 
 export default class StepMatch implements IStepMatch {
   constructor(

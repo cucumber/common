@@ -6,7 +6,7 @@ import TestStep from './TestStep'
 
 const { millisecondsToDuration } = TimeConversion
 
-export default class PickleTestStep extends TestStep{
+export default class PickleTestStep extends TestStep {
   private matches: StepMatch[]
 
   constructor(
@@ -21,13 +21,9 @@ export default class PickleTestStep extends TestStep{
     return new messages.TestCase.TestStep({
       id: this.id,
       pickleStepId: this.pickleStep.id,
-      stepDefinitionIds: this.matches.map(
-        match => match.stepDefinitionId
-      ),
+      stepDefinitionIds: this.matches.map(match => match.stepDefinitionId),
       stepMatchArguments:
-        this.matches.length !== 1
-          ? null
-          : this.matches[0].args,
+        this.matches.length !== 1 ? null : this.matches[0].args,
     })
   }
 
@@ -35,7 +31,7 @@ export default class PickleTestStep extends TestStep{
     notifier: MessageNotifier,
     testCaseStartedId: string
   ): messages.ITestResult {
-    if (this.matches.length == 0) {
+    if (this.matches.length === 0) {
       return this.emitTestStepFinished(
         testCaseStartedId,
         new messages.TestResult({

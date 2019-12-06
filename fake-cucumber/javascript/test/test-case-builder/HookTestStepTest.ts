@@ -19,7 +19,7 @@ describe('test-case-builder/HookTestStep', () => {
   describe('#execute', () => {
     it('emits a TestStepFinished with the result produced by CucumberSupportCode', () => {
       const testResult = new messages.TestResult({
-        message: "Everything is ok"
+        message: 'Everything is ok',
       })
 
       const supportCode = stubConstructor(CucumberSupportCode)

@@ -1,7 +1,7 @@
 import uuidv4 from 'uuid/v4'
-import ITestStep from "./ITestStep";
-import { MessageNotifier } from "../types";
-import { messages, TimeConversion } from "cucumber-messages";
+import ITestStep from './ITestStep'
+import { MessageNotifier } from '../types'
+import { messages, TimeConversion } from 'cucumber-messages'
 const { millisecondsToDuration } = TimeConversion
 
 export default abstract class TestStep implements ITestStep {

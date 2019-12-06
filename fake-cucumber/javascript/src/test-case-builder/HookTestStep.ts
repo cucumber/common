@@ -7,7 +7,7 @@ import { MessageNotifier } from '../types'
 
 const { millisecondsToDuration } = TimeConversion
 
-export default class HookTestStep extends TestStep{
+export default class HookTestStep extends TestStep {
   public readonly id: string = uuidv4()
 
   constructor(
@@ -22,6 +22,7 @@ export default class HookTestStep extends TestStep{
       id: this.id,
       hookId: this.hookId,
     })
+    testStep.pickleStepId = undefined
     return testStep
   }
 

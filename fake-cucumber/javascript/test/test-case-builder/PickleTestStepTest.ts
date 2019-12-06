@@ -7,7 +7,6 @@ import { CucumberSupportCode } from '../../src/support-code'
 import StepMatch from '../../src/support-code/StepMatch'
 import PickleTestStep from '../../src/test-case-builder/PickleTestStep'
 
-
 function execute(testStep: PickleTestStep): messages.ITestStepFinished {
   const receivedMessages: messages.IEnvelope[] = []
   testStep.execute(
@@ -23,7 +22,10 @@ describe('test-case-builder/PickleTestStep', () => {
       const supportCode = stubConstructor(CucumberSupportCode)
       supportCode.findMatchingStepDefinitions.returns([])
 
-      const testStep = new PickleTestStep(supportCode, messages.Pickle.PickleStep.create())
+      const testStep = new PickleTestStep(
+        supportCode,
+        messages.Pickle.PickleStep.create()
+      )
       const testStepFinished = execute(testStep)
 
       assert.strictEqual(
@@ -37,7 +39,10 @@ describe('test-case-builder/PickleTestStep', () => {
       const supportCode = stubConstructor(CucumberSupportCode)
       supportCode.findMatchingStepDefinitions.returns([undefined, undefined])
 
-      const testStep = new PickleTestStep(supportCode, messages.Pickle.PickleStep.create())
+      const testStep = new PickleTestStep(
+        supportCode,
+        messages.Pickle.PickleStep.create()
+      )
       const testStepFinished = execute(testStep)
 
       assert.strictEqual(
@@ -50,14 +55,17 @@ describe('test-case-builder/PickleTestStep', () => {
     it('emits a TestStepFinished with the result produced by CucumberSupportCode', () => {
       const stepMatch = new StepMatch('123', [])
       const testResult = new messages.TestResult({
-        message: "Everything is ok"
+        message: 'Everything is ok',
       })
 
       const supportCode = stubConstructor(CucumberSupportCode)
       supportCode.findMatchingStepDefinitions.returns([stepMatch])
       supportCode.executeStepDefinition.returns(testResult)
 
-      const testStep = new PickleTestStep(supportCode, messages.Pickle.PickleStep.create())
+      const testStep = new PickleTestStep(
+        supportCode,
+        messages.Pickle.PickleStep.create()
+      )
       const testStepFinished = execute(testStep)
 
       assert.deepStrictEqual(testStepFinished.testResult, testResult)
