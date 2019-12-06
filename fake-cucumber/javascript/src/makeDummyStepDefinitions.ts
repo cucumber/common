@@ -1,9 +1,5 @@
 import ExpressionStepDefinition from './ExpressionStepDefinition'
-import {
-  CucumberExpression,
-  RegularExpression,
-  ParameterTypeRegistry,
-} from 'cucumber-expressions'
+import { CucumberExpression, ParameterTypeRegistry } from 'cucumber-expressions'
 import IStepDefinition from './IStepDefinition'
 
 export default function makeDummyStepDefinitions(): IStepDefinition[] {
@@ -14,8 +10,17 @@ export default function makeDummyStepDefinitions(): IStepDefinition[] {
       (thing: string) => undefined
     ),
     new ExpressionStepDefinition(
-      new RegularExpression(/a passed step .*/, parameterTypeRegistry),
-      (thing: string) => undefined
+      new CucumberExpression('a passed {word} with', parameterTypeRegistry),
+      (thing: string, dataTableOrDocString) => undefined
+    ),
+    new ExpressionStepDefinition(
+      new CucumberExpression(
+        'a passed {word} with text attachment {string}',
+        parameterTypeRegistry
+      ),
+      function(thing: string, textAttachment) {
+        this.attach(textAttachment, 'text/plain')
+      }
     ),
     new ExpressionStepDefinition(
       new CucumberExpression(
@@ -31,9 +36,13 @@ export default function makeDummyStepDefinitions(): IStepDefinition[] {
       }
     ),
     new ExpressionStepDefinition(
-      new RegularExpression(/a failed step .*/, parameterTypeRegistry),
-      (thing: string) => {
-        throw new Error(`This step failed. The thing was "${thing}"`)
+      new CucumberExpression('a failed {word} with', parameterTypeRegistry),
+      (thing: string, dataTableOrDocString) => {
+        throw new Error(
+          `This step failed. The thing was "${thing}" and the dataTable/docString was ${JSON.stringify(
+            dataTableOrDocString
+          )}`
+        )
       }
     ),
     new ExpressionStepDefinition(

@@ -25,13 +25,14 @@ type jsonFeatureElement struct {
 }
 
 type jsonStep struct {
-	Keyword   string              `json:"keyword,omitempty"`
-	Line      uint32              `json:"line,omitempty"`
-	Name      string              `json:"name,omitempty"`
-	Result    *jsonStepResult     `json:"result"`
-	Match     *jsonStepMatch      `json:"match,omitempty"`
-	DocString *jsonDocString      `json:"doc_string,omitempty"`
-	Rows      []*jsonDatatableRow `json:"rows,omitempty"`
+	Keyword    string              `json:"keyword,omitempty"`
+	Line       uint32              `json:"line,omitempty"`
+	Name       string              `json:"name,omitempty"`
+	Result     *jsonStepResult     `json:"result"`
+	Match      *jsonStepMatch      `json:"match,omitempty"`
+	DocString  *jsonDocString      `json:"doc_string,omitempty"`
+	Rows       []*jsonDatatableRow `json:"rows,omitempty"`
+	Embeddings []*jsonEmbedding    `json:"embeddings,omitempty"`
 }
 
 type jsonDocString struct {
@@ -57,4 +58,9 @@ type jsonStepMatch struct {
 type jsonTag struct {
 	Line uint32 `json:"line"`
 	Name string `json:"name"`
+}
+
+type jsonEmbedding struct {
+	Data     string `json:"data"`
+	MimeType string `json:"mime_type"`
 }

@@ -1,5 +1,6 @@
 import { Argument, Group } from 'cucumber-expressions'
 import { messages } from 'cucumber-messages'
+import IWorld from './IWorld'
 
 export default class SupportCodeExecutor {
   constructor(
@@ -10,8 +11,7 @@ export default class SupportCodeExecutor {
     private readonly dataTable: messages.PickleStepArgument.IPickleTable
   ) {}
 
-  public execute(): any {
-    const thisObj: any = null
+  public execute(thisObj: IWorld): any {
     const argArray = this.args.map(arg => arg.getValue(thisObj))
     if (this.docString) {
       // TODO: Hand off to DocStringTransformer

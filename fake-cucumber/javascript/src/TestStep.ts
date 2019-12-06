@@ -4,6 +4,7 @@ import uuidv4 from 'uuid/v4'
 import SupportCodeExecutor from './SupportCodeExecutor'
 import { MessageNotifier } from './types'
 import ITestStep from './ITestStep'
+import IWorld from './IWorld'
 const { millisecondsToDuration } = TimeConversion
 
 export default abstract class TestStep implements ITestStep {
@@ -17,6 +18,7 @@ export default abstract class TestStep implements ITestStep {
   public abstract toMessage(): messages.TestCase.ITestStep
 
   public execute(
+    world: IWorld,
     notifier: MessageNotifier,
     testCaseStartedId: string
   ): messages.ITestResult {
@@ -44,7 +46,8 @@ export default abstract class TestStep implements ITestStep {
 
     const start = performance.now()
     try {
-      const result = this.supportCodeExecutors[0].execute()
+      world.testStepId = this.id
+      const result = this.supportCodeExecutors[0].execute(world)
       const finish = performance.now()
       const duration = millisecondsToDuration(finish - start)
       return this.emitTestStepFinished(

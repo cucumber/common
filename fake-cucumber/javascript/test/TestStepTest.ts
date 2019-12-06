@@ -9,17 +9,23 @@ import {
 } from './TestHelpers'
 import makePickleTestStep from '../src/makePickleTestStep'
 import SupportCodeExecutor from '../src/SupportCodeExecutor'
-
-function execute(testStep: ITestStep): messages.ITestStepFinished {
-  const receivedMessages: messages.IEnvelope[] = []
-  testStep.execute(
-    message => receivedMessages.push(message),
-    'some-testCaseStartedId'
-  )
-  return receivedMessages.pop().testStepFinished
-}
+import IWorld from '../src/IWorld'
+import TestWorld from './TestWorld'
 
 describe('TestStep', () => {
+  let world: IWorld
+  beforeEach(() => (world = new TestWorld()))
+
+  function execute(testStep: ITestStep): messages.ITestStepFinished {
+    const receivedMessages: messages.IEnvelope[] = []
+    testStep.execute(
+      world,
+      message => receivedMessages.push(message),
+      'some-testCaseStartedId'
+    )
+    return receivedMessages.pop().testStepFinished
+  }
+
   describe('#execute', () => {
     it('emits a TestStepFinished with status UNDEFINED when there are no matching step definitions', () => {
       const testStep = makePickleTestStep(
@@ -63,12 +69,12 @@ describe('TestStep', () => {
       )
 
       assert.strictEqual(
-        testStep.execute(() => null, 'some-testCaseStartedId').status,
+        testStep.execute(world, () => null, 'some-testCaseStartedId').status,
         messages.TestResult.Status.UNDEFINED
       )
     })
 
-    it('the execution duration is computed', () => {
+    it('computes the execution duration', () => {
       const emitted: messages.IEnvelope[] = []
       const testStep = makePickleTestStep(
         messages.Pickle.PickleStep.create({
@@ -76,7 +82,7 @@ describe('TestStep', () => {
         }),
         [stubMatchingStepDefinition(stubPassingSupportCodeExecutor())]
       )
-      testStep.execute(message => emitted.push(message), 'some-id')
+      testStep.execute(world, message => emitted.push(message), 'some-id')
       const result = emitted.find(m => m.testStepFinished).testStepFinished
         .testResult
 

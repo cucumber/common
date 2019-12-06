@@ -6,21 +6,22 @@ import (
 )
 
 type MessageLookup struct {
-	gherkinDocumentByURI map[string]*messages.GherkinDocument
-	pickleByID           map[string]*messages.Pickle
-	pickleStepByID       map[string]*messages.Pickle_PickleStep
-	testCaseByID         map[string]*messages.TestCase
-	testStepByID         map[string]*messages.TestCase_TestStep
-	testCaseStartedByID  map[string]*messages.TestCaseStarted
-	stepByID             map[string]*messages.GherkinDocument_Feature_Step
-	scenarioByID         map[string]*messages.GherkinDocument_Feature_Scenario
-	exampleByRowID       map[string]*messages.GherkinDocument_Feature_Scenario_Examples
-	exampleRowByID       map[string]*messages.GherkinDocument_Feature_TableRow
-	stepDefinitionByID   map[string]*messages.StepDefinition
-	backgroundByStepID   map[string]*messages.GherkinDocument_Feature_Background
-	tagByID              map[string]*messages.GherkinDocument_Feature_Tag
-	hookByID             map[string]*messages.Hook
-	verbose              bool
+	gherkinDocumentByURI    map[string]*messages.GherkinDocument
+	pickleByID              map[string]*messages.Pickle
+	pickleStepByID          map[string]*messages.Pickle_PickleStep
+	testCaseByID            map[string]*messages.TestCase
+	testStepByID            map[string]*messages.TestCase_TestStep
+	testCaseStartedByID     map[string]*messages.TestCaseStarted
+	stepByID                map[string]*messages.GherkinDocument_Feature_Step
+	scenarioByID            map[string]*messages.GherkinDocument_Feature_Scenario
+	exampleByRowID          map[string]*messages.GherkinDocument_Feature_Scenario_Examples
+	exampleRowByID          map[string]*messages.GherkinDocument_Feature_TableRow
+	stepDefinitionByID      map[string]*messages.StepDefinition
+	backgroundByStepID      map[string]*messages.GherkinDocument_Feature_Background
+	tagByID                 map[string]*messages.GherkinDocument_Feature_Tag
+	hookByID                map[string]*messages.Hook
+	attachmentsByTestStepID map[string][]*messages.Attachment
+	verbose                 bool
 }
 
 func (self *MessageLookup) Initialize(verbose bool) {
@@ -38,6 +39,7 @@ func (self *MessageLookup) Initialize(verbose bool) {
 	self.backgroundByStepID = make(map[string]*messages.GherkinDocument_Feature_Background)
 	self.tagByID = make(map[string]*messages.GherkinDocument_Feature_Tag)
 	self.hookByID = make(map[string]*messages.Hook)
+	self.attachmentsByTestStepID = make(map[string][]*messages.Attachment)
 
 	self.verbose = verbose
 }
@@ -100,6 +102,15 @@ func (self *MessageLookup) ProcessMessage(envelope *messages.Envelope) (err erro
 
 	case *messages.Envelope_TestCaseStarted:
 		self.testCaseStartedByID[m.TestCaseStarted.Id] = m.TestCaseStarted
+
+	case *messages.Envelope_Attachment:
+		attachments, ok := self.attachmentsByTestStepID[m.Attachment.TestStepId]
+		if !ok {
+			attachments = make([]*messages.Attachment, 0)
+			self.attachmentsByTestStepID[m.Attachment.TestStepId] = attachments
+		}
+		attachments = append(attachments, m.Attachment)
+		self.attachmentsByTestStepID[m.Attachment.TestStepId] = attachments
 
 	case *messages.Envelope_StepDefinition:
 		self.stepDefinitionByID[m.StepDefinition.Id] = m.StepDefinition
@@ -255,6 +266,16 @@ func (self *MessageLookup) LookupHook(id string) *messages.Hook {
 		self.informFoundKey(id, "hookByID")
 	} else {
 		self.informMissingKey(id, "hookByID")
+	}
+	return item
+}
+
+func (self *MessageLookup) LookupAttachments(testStepId string) []*messages.Attachment {
+	item, ok := self.attachmentsByTestStepID[testStepId]
+	if ok {
+		self.informFoundKey(testStepId, "attachmentsByTestStepID")
+	} else {
+		self.informMissingKey(testStepId, "attachmentsByTestStepID")
 	}
 	return item
 }

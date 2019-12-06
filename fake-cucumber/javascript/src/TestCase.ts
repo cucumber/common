@@ -3,8 +3,17 @@ import { MessageNotifier } from './types'
 import { messages, TimeConversion } from 'cucumber-messages'
 import uuidv4 from 'uuid/v4'
 import { performance } from 'perf_hooks'
+import IWorld from './IWorld'
 
 const { millisecondsToDuration } = TimeConversion
+
+class DefaultWorld implements IWorld {
+  public testStepId: string
+
+  constructor(
+    public readonly attach: (data: any, contentType: string) => void
+  ) {}
+}
 
 export default class TestCase {
   public readonly id: string = uuidv4()
@@ -39,9 +48,31 @@ export default class TestCase {
     )
 
     const start = performance.now()
+
+    function attach(data: string, contentType: string) {
+      if (!this.testStepId) {
+        throw new Error(`this.testStepId is not set`)
+      }
+      const encoding = messages.Media.Encoding.UTF8 // TODO: Use Base64 is the data is a Buffer (objects will be JSONified)
+      notifier(
+        new messages.Envelope({
+          attachment: new messages.Attachment({
+            data,
+            testCaseStartedId,
+            testStepId: this.testStepId,
+            media: new messages.Media({
+              contentType,
+              encoding,
+            }),
+          }),
+        })
+      )
+    }
+
+    const world = new DefaultWorld(attach)
     const testStepResults = this.testSteps.map(testStep => {
       if (executeNext) {
-        const result = testStep.execute(notifier, testCaseStartedId)
+        const result = testStep.execute(world, notifier, testCaseStartedId)
         executeNext = result.status === messages.TestResult.Status.PASSED
         return result
       } else {
@@ -61,6 +92,7 @@ export default class TestCase {
     )
   }
 
+  // TODO: Stateless function. Extract to separate file.
   private computeTestResult(
     testStepResults: messages.ITestResult[],
     duration: messages.IDuration

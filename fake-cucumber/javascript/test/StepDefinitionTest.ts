@@ -3,6 +3,7 @@ import { messages } from 'cucumber-messages'
 import ExpressionStepDefinition from '../src/ExpressionStepDefinition'
 import { CucumberExpression, ParameterTypeRegistry } from 'cucumber-expressions'
 import RegularExpression from 'cucumber-expressions/dist/src/RegularExpression'
+import TestWorld from './TestWorld'
 
 describe('StepDefinition', () => {
   describe('#match', () => {
@@ -32,12 +33,12 @@ describe('StepDefinition', () => {
         text: 'I have 7 cukes',
       })
       const executor = stepdef.match(pickleStep)
-      assert.strictEqual(executor.execute(), 7)
+      assert.strictEqual(executor.execute(new TestWorld()), 7)
     })
   })
 
   describe('#toMessage', () => {
-    it('generates a StepDefinitionConfig object for RegularExpression', () => {
+    it('generates a StepDefinition object for RegularExpression', () => {
       const expression = new RegularExpression(
         /banana/,
         new ParameterTypeRegistry()
@@ -51,7 +52,7 @@ describe('StepDefinition', () => {
       )
     })
 
-    it('generates a StepDefinitionConfig object for CucumberExpression', () => {
+    it('generates a StepDefinition object for CucumberExpression', () => {
       const expression = new CucumberExpression(
         'banana',
         new ParameterTypeRegistry()

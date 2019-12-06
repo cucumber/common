@@ -3,6 +3,7 @@ import assert from 'assert'
 import TestStep from '../src/TestStep'
 import TestCase from '../src/TestCase'
 import { MessageNotifier } from '../src/types'
+import IWorld from '../src/IWorld'
 const { millisecondsToDuration } = TimeConversion
 
 class StubTestStep extends TestStep {
@@ -18,6 +19,7 @@ class StubTestStep extends TestStep {
   }
 
   public execute(
+    world: IWorld,
     notifier: MessageNotifier,
     testCaseStartedId: string
   ): messages.ITestResult {
