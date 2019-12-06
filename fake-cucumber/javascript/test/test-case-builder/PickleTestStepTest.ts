@@ -55,6 +55,7 @@ describe('test-case-builder/PickleTestStep', () => {
     it('emits a TestStepFinished with the result produced by CucumberSupportCode', () => {
       const stepMatch = new StepMatch('123', [])
       const testResult = new messages.TestResult({
+        status: messages.TestResult.Status.AMBIGUOUS,
         message: 'Everything is ok',
       })
 

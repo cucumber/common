@@ -1,11 +1,7 @@
 import uuidv4 from 'uuid/v4'
-
 import TestStep from './TestStep'
 import { ICucumberSupportCode } from '../support-code'
-import { messages, TimeConversion } from 'cucumber-messages'
-import { MessageNotifier } from '../types'
-
-const { millisecondsToDuration } = TimeConversion
+import { messages } from 'cucumber-messages'
 
 export default class HookTestStep extends TestStep {
   public readonly id: string = uuidv4()
@@ -26,15 +22,7 @@ export default class HookTestStep extends TestStep {
     return testStep
   }
 
-  public execute(
-    notifier: MessageNotifier,
-    testCaseStartedId: string
-  ): messages.ITestResult {
-    this.emitTestStepStarted(testCaseStartedId, notifier)
-    return this.emitTestStepFinished(
-      testCaseStartedId,
-      this.supportCode.executeHook(this.hookId),
-      notifier
-    )
+  protected run(): messages.ITestResult {
+    return this.supportCode.executeHook(this.hookId)
   }
 }

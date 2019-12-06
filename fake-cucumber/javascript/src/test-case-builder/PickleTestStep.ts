@@ -1,4 +1,3 @@
-import { MessageNotifier } from '../types'
 import { messages, TimeConversion } from 'cucumber-messages'
 import { ICucumberSupportCode } from '../support-code'
 import StepMatch from '../support-code/StepMatch'
@@ -27,42 +26,25 @@ export default class PickleTestStep extends TestStep {
     })
   }
 
-  public execute(
-    notifier: MessageNotifier,
-    testCaseStartedId: string
-  ): messages.ITestResult {
-    this.emitTestStepStarted(testCaseStartedId, notifier)
-
+  protected run(): messages.ITestResult {
     if (this.matches.length === 0) {
-      return this.emitTestStepFinished(
-        testCaseStartedId,
-        new messages.TestResult({
-          duration: millisecondsToDuration(0),
-          status: messages.TestResult.Status.UNDEFINED,
-        }),
-        notifier
-      )
+      return new messages.TestResult({
+        duration: millisecondsToDuration(0),
+        status: messages.TestResult.Status.UNDEFINED,
+      })
     }
 
     if (this.matches.length > 1) {
-      return this.emitTestStepFinished(
-        testCaseStartedId,
-        new messages.TestResult({
-          duration: millisecondsToDuration(0),
-          status: messages.TestResult.Status.AMBIGUOUS,
-        }),
-        notifier
-      )
+      return new messages.TestResult({
+        duration: millisecondsToDuration(0),
+        status: messages.TestResult.Status.AMBIGUOUS,
+      })
     }
 
     const match = this.matches[0]
-    return this.emitTestStepFinished(
-      testCaseStartedId,
-      this.supportCode.executeStepDefinition(
-        match.stepDefinitionId,
-        match.args
-      ),
-      notifier
+    return this.supportCode.executeStepDefinition(
+      match.stepDefinitionId,
+      match.args
     )
   }
 }

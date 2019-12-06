@@ -6,17 +6,34 @@ const { millisecondsToDuration } = TimeConversion
 
 export default abstract class TestStep implements ITestStep {
   public readonly id: string = uuidv4()
-
   public abstract toMessage(): messages.TestCase.ITestStep
-  public abstract execute(
+
+  // The real runner
+  protected abstract run(): messages.ITestResult
+
+  public execute(
     notifier: MessageNotifier,
     testCaseStartedId: string
-  ): messages.ITestResult
+  ): messages.ITestResult {
+    this.emitTestStepStarted(testCaseStartedId, notifier)
+    const result = this.run()
+
+    return this.emitTestStepFinished(
+      testCaseStartedId,
+      new messages.TestResult({
+        status: result.status,
+        message: result.message,
+      }),
+      notifier
+    )
+  }
 
   public skip(
     notifier: MessageNotifier,
     testCaseStartedId: string
   ): messages.ITestResult {
+    this.emitTestStepStarted(testCaseStartedId, notifier)
+
     return this.emitTestStepFinished(
       testCaseStartedId,
       new messages.TestResult({

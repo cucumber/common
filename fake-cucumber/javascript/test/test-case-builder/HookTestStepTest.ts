@@ -19,6 +19,7 @@ describe('test-case-builder/HookTestStep', () => {
   describe('#execute', () => {
     it('emits a TestStepFinished with the result produced by CucumberSupportCode', () => {
       const testResult = new messages.TestResult({
+        status: messages.TestResult.Status.AMBIGUOUS,
         message: 'Everything is ok',
       })
 
