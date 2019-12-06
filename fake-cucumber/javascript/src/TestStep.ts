@@ -46,6 +46,7 @@ export default abstract class TestStep implements ITestStep {
 
     const start = performance.now()
     try {
+      world.testStepId = this.id
       const result = this.supportCodeExecutors[0].execute(world)
       const finish = performance.now()
       const duration = millisecondsToDuration(finish - start)

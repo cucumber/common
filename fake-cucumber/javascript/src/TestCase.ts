@@ -8,6 +8,8 @@ import IWorld from './IWorld'
 const { millisecondsToDuration } = TimeConversion
 
 class DefaultWorld implements IWorld {
+  public testStepId: string
+
   constructor(
     public readonly attach: (data: any, contentType: string) => void
   ) {}
@@ -47,14 +49,17 @@ export default class TestCase {
 
     const start = performance.now()
 
-    const attach = (data: string, contentType: string) => {
+    function attach(data: string, contentType: string) {
+      if (!this.testStepId) {
+        throw new Error(`this.testStepId is not set`)
+      }
       const encoding = messages.Media.Encoding.UTF8 // TODO: Use Base64 is the data is a Buffer (objects will be JSONified)
       notifier(
         new messages.Envelope({
           attachment: new messages.Attachment({
             data,
             testCaseStartedId,
-            testStepId: 'TODO FIX ME!!!',
+            testStepId: this.testStepId,
             media: new messages.Media({
               contentType,
               encoding,

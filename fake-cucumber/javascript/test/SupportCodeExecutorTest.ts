@@ -16,6 +16,7 @@ describe('SupportCodeExecutor', () => {
 
     let attachedData: string
     const world = {
+      testStepId: 'some-test-step-id',
       attach(data: string, contentType: string) {
         attachedData = data
       },
