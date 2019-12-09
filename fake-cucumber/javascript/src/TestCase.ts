@@ -33,7 +33,10 @@ export default class TestCase {
     })
   }
 
-  public execute(notifier: MessageNotifier, attempt: number) {
+  public async execute(
+    notifier: MessageNotifier,
+    attempt: number
+  ): Promise<void> {
     let executeNext = true
     const testCaseStartedId = uuidv4()
 
@@ -46,8 +49,6 @@ export default class TestCase {
         }),
       })
     )
-
-    const start = performance.now()
 
     function attach(data: string, contentType: string) {
       if (!this.testStepId) {
@@ -70,15 +71,25 @@ export default class TestCase {
     }
 
     const world = new DefaultWorld(attach)
-    const testStepResults = this.testSteps.map(testStep => {
+    const testStepResults: messages.ITestResult[] = []
+
+    const start = performance.now()
+    for (const testStep of this.testSteps) {
+      let testStepResult: messages.ITestResult
+      // TODO: Also ask testStep if it should always execute (true for After steps)
       if (executeNext) {
-        const result = testStep.execute(world, notifier, testCaseStartedId)
-        executeNext = result.status === messages.TestResult.Status.PASSED
-        return result
+        testStepResult = await testStep.execute(
+          world,
+          notifier,
+          testCaseStartedId
+        )
+        executeNext =
+          testStepResult.status === messages.TestResult.Status.PASSED
       } else {
-        return testStep.skip(notifier, testCaseStartedId)
+        testStepResult = testStep.skip(notifier, testCaseStartedId)
       }
-    })
+      testStepResults.push(testStepResult)
+    }
     const finish = performance.now()
     const duration = millisecondsToDuration(finish - start)
 

@@ -29,7 +29,7 @@ describe('TestPlan', () => {
     const testPlan = new TestPlan(pickles, [stepDefinition], [])
     const envelopes: messages.IEnvelope[] = []
     const notifier: MessageNotifier = message => envelopes.push(message)
-    testPlan.execute(notifier)
+    await testPlan.execute(notifier)
     assert.deepStrictEqual(envelopes.length, 5)
   })
 
@@ -55,7 +55,7 @@ describe('TestPlan', () => {
     const testPlan = new TestPlan(pickles, [stepDefinition], [])
     const envelopes: messages.IEnvelope[] = []
     const notifier: MessageNotifier = message => envelopes.push(message)
-    testPlan.execute(notifier)
+    await testPlan.execute(notifier)
 
     const attachments = envelopes
       .filter(m => m.attachment)

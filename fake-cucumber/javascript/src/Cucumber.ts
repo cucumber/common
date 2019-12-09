@@ -1,9 +1,8 @@
 import { messages } from 'cucumber-messages'
-import ExpressionStepDefinition from './ExpressionStepDefinition'
 import { MessageNotifier } from './types'
 import TestPlan from './TestPlan'
 import IStepDefinition from './IStepDefinition'
-import { IHook } from './IHook'
+import IHook from './IHook'
 
 export default class Cucumber {
   constructor(
@@ -15,7 +14,7 @@ export default class Cucumber {
     private readonly hooks: IHook[]
   ) {}
 
-  public execute(notifier: MessageNotifier) {
+  public async execute(notifier: MessageNotifier): Promise<void> {
     for (const gherkinMessage of this.gherkinMessages) {
       notifier(gherkinMessage)
     }
@@ -29,6 +28,6 @@ export default class Cucumber {
       .filter(m => m.pickle)
       .map(m => m.pickle)
     const testPlan = new TestPlan(pickles, this.stepDefinitions, this.hooks)
-    testPlan.execute(notifier)
+    await testPlan.execute(notifier)
   }
 }

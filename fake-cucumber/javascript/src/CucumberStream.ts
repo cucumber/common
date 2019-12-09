@@ -2,7 +2,7 @@ import { Transform, TransformCallback } from 'stream'
 import { messages } from 'cucumber-messages'
 import Cucumber from './Cucumber'
 import IStepDefinition from './IStepDefinition'
-import { IHook } from './IHook'
+import IHook from './IHook'
 
 export default class CucumberStream extends Transform {
   private readonly gherkinMessages: messages.IEnvelope[] = []
@@ -29,7 +29,9 @@ export default class CucumberStream extends Transform {
       this.stepDefinitions,
       this.hooks
     )
-    cucumber.execute(message => this.push(message))
-    callback()
+    cucumber
+      .execute(message => this.push(message))
+      .then(() => callback())
+      .catch(err => callback(err))
   }
 }

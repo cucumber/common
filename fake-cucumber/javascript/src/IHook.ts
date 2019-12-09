@@ -6,9 +6,10 @@ export enum HookType {
   After,
 }
 
-export interface IHook {
+export default interface IHook {
   id: string
 
   match(pickle: messages.IPickle, type: HookType): SupportCodeExecutor | null
+
   toMessage(): messages.IEnvelope
 }

@@ -1,8 +1,7 @@
 import { messages } from 'cucumber-messages'
-import ExpressionStepDefinition from './ExpressionStepDefinition'
 import TestCase from './TestCase'
 import IStepDefinition from './IStepDefinition'
-import { IHook, HookType } from './IHook'
+import IHook, { HookType } from './IHook'
 import makePickleTestStep from './makePickleTestStep'
 import HookTestStep from './HookTestStep'
 import ITestStep from './ITestStep'
@@ -14,9 +13,9 @@ function makeHookSteps(
 ): ITestStep[] {
   return hooks
     .map(hook => {
-      const supportCode = hook.match(pickle, hookType)
-      if (supportCode !== null) {
-        return new HookTestStep(hook.id, [supportCode])
+      const supportCodeExecutor = hook.match(pickle, hookType)
+      if (supportCodeExecutor !== null) {
+        return new HookTestStep(hook.id, [supportCodeExecutor])
       }
     })
     .filter(testStep => testStep !== undefined)

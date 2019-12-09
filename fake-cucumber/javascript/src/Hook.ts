@@ -1,4 +1,4 @@
-import { HookType, IHook } from './IHook'
+import IHook, { HookType } from './IHook'
 import uuidv4 from 'uuid/v4'
 import parseTagExpression from 'cucumber-tag-expressions'
 import { messages } from 'cucumber-messages'

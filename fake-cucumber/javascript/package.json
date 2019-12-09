@@ -9,7 +9,7 @@
   },
   "scripts": {
     "test": "mocha",
-    "lint": "tslint src/**/*.ts test/**/*.ts",
+    "lint": "tslint --project tsconfig.json src/**/*.ts test/**/*.ts",
     "lint-fix": "tslint --fix src/**/*.ts test/**/*.ts",
     "coverage": "nyc --reporter=html --reporter=text mocha",
     "build": "tsc",
@@ -29,13 +29,14 @@
   },
   "homepage": "https://github.com/cucumber/cucumber",
   "devDependencies": {
+    "@types/glob": "^7.1.1",
     "@types/mocha": "^5.2.7",
     "@types/node": "^12.12.14",
     "@types/uuid": "^3.4.6",
     "mocha": "^6.2.2",
     "nyc": "^14.1.1",
     "prettier": "^1.19.1",
-    "ts-node": "^8.5.2",
+    "ts-node": "^8.5.4",
     "ts-sinon": "^1.0.24",
     "tslint": "^5.20.1",
     "tslint-config-prettier": "^1.18.0",
@@ -48,6 +49,7 @@
     "cucumber-messages": "^7.0.0",
     "cucumber-tag-expressions": "^2.0.2",
     "gherkin": "^8.2.1",
+    "glob": "^7.1.6",
     "source-map-support": "^0.5.16",
     "uuid": "^3.3.3"
   }
