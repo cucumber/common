@@ -14,8 +14,9 @@ function makeHookSteps(
   return hooks
     .map(hook => {
       const supportCodeExecutor = hook.match(pickle, hookType)
+      const alwaysExecute = hookType === HookType.After
       if (supportCodeExecutor !== null) {
-        return new HookTestStep(hook.id, [supportCodeExecutor])
+        return new HookTestStep(hook.id, alwaysExecute, [supportCodeExecutor])
       }
     })
     .filter(testStep => testStep !== undefined)

@@ -77,7 +77,7 @@ export default class TestCase {
     for (const testStep of this.testSteps) {
       let testStepResult: messages.ITestResult
       // TODO: Also ask testStep if it should always execute (true for After steps)
-      if (executeNext) {
+      if (executeNext || testStep.alwaysExecute) {
         testStepResult = await testStep.execute(
           world,
           notifier,

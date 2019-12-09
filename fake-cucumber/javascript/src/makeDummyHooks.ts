@@ -5,13 +5,17 @@ export default function makeDummyStepDefinitions(
 ): void {
   const { Before, After } = supportCode
 
-  Before('@before-passed', () => {})
+  Before('@before-passed', () => {
+    // no-op
+  })
 
   Before('@before-failed', () => {
     throw new Error('Something went wrong in before hook')
   })
 
-  After('@after-passed', () => {})
+  After('@after-passed', () => {
+    // no-op
+  })
 
   After('@after-failed', () => {
     throw new Error('Something went wrong in after hook')

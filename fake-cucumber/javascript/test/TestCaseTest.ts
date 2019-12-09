@@ -9,10 +9,11 @@ const { millisecondsToDuration } = TimeConversion
 
 class StubTestStep extends TestStep {
   public constructor(
+    alwaysExecute: boolean,
     private readonly status: messages.TestResult.Status,
     private readonly message?: string
   ) {
-    super('some-id', [])
+    super('some-id', alwaysExecute, [])
   }
 
   public toMessage(): messages.TestCase.ITestStep {
@@ -42,8 +43,8 @@ describe('TestCase', () => {
     it('executes all passing steps', async () => {
       const emitted: messages.IEnvelope[] = []
       const testSteps: TestStep[] = [
-        new StubTestStep(messages.TestResult.Status.PASSED),
-        new StubTestStep(messages.TestResult.Status.PASSED),
+        new StubTestStep(false, messages.TestResult.Status.PASSED),
+        new StubTestStep(false, messages.TestResult.Status.PASSED),
       ]
       const testCase = new TestCase(testSteps, 'some-pickle-id')
       await testCase.execute(
@@ -63,8 +64,8 @@ describe('TestCase', () => {
     it('skips steps after a failed step', async () => {
       const emitted: messages.IEnvelope[] = []
       const testSteps: TestStep[] = [
-        new StubTestStep(messages.TestResult.Status.FAILED),
-        new StubTestStep(messages.TestResult.Status.PASSED),
+        new StubTestStep(false, messages.TestResult.Status.FAILED),
+        new StubTestStep(false, messages.TestResult.Status.PASSED),
       ]
       const testCase = new TestCase(testSteps, 'some-pickle-id')
       await testCase.execute(
@@ -80,10 +81,30 @@ describe('TestCase', () => {
       ])
     })
 
+    it('always runs after steps regardless of previous steps status', async () => {
+      const emitted: messages.IEnvelope[] = []
+      const testSteps: TestStep[] = [
+        new StubTestStep(true, messages.TestResult.Status.FAILED),
+        new StubTestStep(true, messages.TestResult.Status.FAILED),
+      ]
+      const testCase = new TestCase(testSteps, 'some-pickle-id')
+      await testCase.execute(
+        (message: messages.IEnvelope) => emitted.push(message),
+        0
+      )
+      const testStepStatuses = emitted
+        .filter(m => m.testStepFinished)
+        .map(m => m.testStepFinished.testResult.status)
+      assert.deepStrictEqual(testStepStatuses, [
+        messages.TestResult.Status.FAILED,
+        messages.TestResult.Status.FAILED,
+      ])
+    })
+
     it('emits TestCaseStarted and TestCaseFinished messages', async () => {
       const emitted: messages.IEnvelope[] = []
       const testSteps: TestStep[] = [
-        new StubTestStep(messages.TestResult.Status.PASSED),
+        new StubTestStep(false, messages.TestResult.Status.PASSED),
       ]
       const testCase = new TestCase(testSteps, 'some-pickle-id')
       await testCase.execute(
@@ -101,9 +122,14 @@ describe('TestCase', () => {
 
     it('the error message from the first failed step is shown in TestResult message', async () => {
       const testSteps = [
-        new StubTestStep(messages.TestResult.Status.PASSED),
-        new StubTestStep(messages.TestResult.Status.FAILED, 'This step failed'),
+        new StubTestStep(false, messages.TestResult.Status.PASSED),
         new StubTestStep(
+          true,
+          messages.TestResult.Status.FAILED,
+          'This step failed'
+        ),
+        new StubTestStep(
+          true,
           messages.TestResult.Status.FAILED,
           'This step failed too'
         ),
@@ -122,9 +148,9 @@ describe('TestCase', () => {
 
     it('the execution duration is based on the data provided by NanosTimer', async () => {
       const testSteps = [
-        new StubTestStep(messages.TestResult.Status.PASSED),
-        new StubTestStep(messages.TestResult.Status.PASSED),
-        new StubTestStep(messages.TestResult.Status.PASSED),
+        new StubTestStep(false, messages.TestResult.Status.PASSED),
+        new StubTestStep(false, messages.TestResult.Status.PASSED),
+        new StubTestStep(false, messages.TestResult.Status.PASSED),
       ]
       const emitted: messages.IEnvelope[] = []
       const testCase = new TestCase(testSteps, 'some-pickle-id')
@@ -157,25 +183,25 @@ describe('TestCase', () => {
 
         it('emits PASSED when at all steps pass', async () => {
           const testStatus = await getTestStatus([
-            new StubTestStep(messages.TestResult.Status.PASSED),
-            new StubTestStep(messages.TestResult.Status.PASSED),
+            new StubTestStep(false, messages.TestResult.Status.PASSED),
+            new StubTestStep(false, messages.TestResult.Status.PASSED),
           ])
           assert.strictEqual(testStatus, messages.TestResult.Status.PASSED)
         })
 
         it('emits FAILED when at least one step is failed', async () => {
           const testStatus = await getTestStatus([
-            new StubTestStep(messages.TestResult.Status.PASSED),
-            new StubTestStep(messages.TestResult.Status.FAILED),
-            new StubTestStep(messages.TestResult.Status.PENDING),
+            new StubTestStep(false, messages.TestResult.Status.PASSED),
+            new StubTestStep(false, messages.TestResult.Status.FAILED),
+            new StubTestStep(false, messages.TestResult.Status.PENDING),
           ])
           assert.strictEqual(testStatus, messages.TestResult.Status.FAILED)
         })
 
         it('emits PENDING when there is pending steps', async () => {
           const testStatus = await getTestStatus([
-            new StubTestStep(messages.TestResult.Status.PASSED),
-            new StubTestStep(messages.TestResult.Status.PENDING),
+            new StubTestStep(false, messages.TestResult.Status.PASSED),
+            new StubTestStep(false, messages.TestResult.Status.PENDING),
           ])
           assert.strictEqual(testStatus, messages.TestResult.Status.PENDING)
         })

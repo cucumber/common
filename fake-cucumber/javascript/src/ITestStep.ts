@@ -3,6 +3,7 @@ import { MessageNotifier } from './types'
 import IWorld from './IWorld'
 
 export default interface ITestStep {
+  alwaysExecute: boolean
   sourceId: string
   id: string
 

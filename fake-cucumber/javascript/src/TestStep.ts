@@ -13,6 +13,7 @@ export default abstract class TestStep implements ITestStep {
 
   constructor(
     public readonly sourceId: string,
+    public readonly alwaysExecute: boolean,
     protected readonly supportCodeExecutors: SupportCodeExecutor[]
   ) {}
 

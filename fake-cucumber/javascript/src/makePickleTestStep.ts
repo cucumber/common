@@ -10,5 +10,5 @@ export default function makePickleTestStep(
   const supportCodeExecutors = stepDefinitions
     .map(stepDefinition => stepDefinition.match(pickleStep))
     .filter(supportCodeExecutor => supportCodeExecutor !== null)
-  return new PickleTestStep(pickleStep.id, supportCodeExecutors)
+  return new PickleTestStep(pickleStep.id, false, supportCodeExecutors)
 }
