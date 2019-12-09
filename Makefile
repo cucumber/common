@@ -19,6 +19,30 @@ default: .rsynced $(patsubst %/Makefile,default-%,$(MAKEFILES))
 default-%: %
 	cd $< && make default
 
+go: .rsynced $(patsubst %/Makefile,go-%,$(MAKEFILES))
+.PHONY: go
+
+go-%: %
+	cd $< && make default-go
+
+java: .rsynced $(patsubst %/Makefile,java-%,$(MAKEFILES))
+.PHONY: java
+
+java-%: %
+	cd $< && make default-java
+
+javascript: .rsynced $(patsubst %/Makefile,javascript-%,$(MAKEFILES))
+.PHONY: javascript
+
+javascript-%: %
+	cd $< && make default-javascript
+
+ruby: .rsynced $(patsubst %/Makefile,ruby-%,$(MAKEFILES))
+.PHONY: ruby
+
+ruby-%: %
+	cd $< && make default-ruby
+
 update-dependencies: $(patsubst %/Makefile,update-dependencies-%,$(MAKEFILES))
 .PHONY: update-dependencies
 
