@@ -12,9 +12,11 @@ endif
 	touch $@
 
 build-internal-dependencies:
-	@while read -r file; do \
-    pushd "../../$$file/javascript" && make && popd; \
-  done <.internal-dependencies
+	if [ -f ".internal-dependencies" ]; then \
+	while read -r file; do \
+	    pushd "../../$$file/javascript" && make && popd; \
+	  done <.internal-dependencies; \
+	fi
 .PHONY: build-internal-dependencies
 
 .codegen: .deps
