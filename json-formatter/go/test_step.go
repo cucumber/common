@@ -80,7 +80,7 @@ func TestStepToJSON(step *TestStep) *jsonStep {
 	status := strings.ToLower(step.Result.Status.String())
 	duration := uint64(0)
 	if step.Result.Duration != nil {
-		duration = durationToNanos(step.Result.Duration)
+		duration = uint64(messages.DurationToGoDuration(*step.Result.Duration))
 	}
 
 	if step.Hook != nil {
@@ -157,10 +157,6 @@ func makeEmbeddings(attachments []*messages.Attachment) []*jsonEmbedding {
 	}
 
 	return jsonEmbeddings
-}
-
-func durationToNanos(d *messages.Duration) uint64 {
-	return uint64(d.Seconds*1000000000 + int64(d.Nanos))
 }
 
 func makeLocation(file string, line uint32) string {
