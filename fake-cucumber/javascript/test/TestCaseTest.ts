@@ -136,7 +136,6 @@ describe('TestCase', () => {
         .testResult
 
       assert.strictEqual(testResult.duration.seconds, 0)
-      assert.strictEqual(testResult.duration.nanos, 0)
     })
 
     context(

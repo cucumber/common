@@ -1,6 +1,10 @@
 import gherkin from 'gherkin'
 import { messages } from 'cucumber-messages'
-import { CucumberStream, makeDummyStepDefinitions } from 'fake-cucumber'
+import {
+  CucumberStream,
+  SupportCode,
+  makeDummyStepDefinitions,
+} from 'fake-cucumber'
 import { Readable, Writable } from 'stream'
 import assert from 'assert'
 import CucumberQuery from '../src/CucumberQuery'
@@ -249,9 +253,11 @@ function generateMessages(gherkinSource: string, uri: string): Readable {
     },
   })
 
+  const supportCode = new SupportCode()
+  makeDummyStepDefinitions(supportCode)
   return gherkin
     .fromSources([source], { newId: gherkin.uuid() })
-    .pipe(new CucumberStream(makeDummyStepDefinitions(), []))
+    .pipe(new CucumberStream(supportCode.stepDefinitions, supportCode.hooks))
 }
 
 function check(

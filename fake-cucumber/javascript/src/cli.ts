@@ -9,6 +9,8 @@ import glob from 'glob'
 import * as tsnode from 'ts-node'
 import SupportCode from './SupportCode'
 import Dsl from './dsl/dsl'
+import { IGherkinOptions } from 'gherkin/dist/src/types'
+import { incrementing, uuid } from 'gherkin/dist/src/IdGenerator'
 
 tsnode.register({
   transpileOnly: true,
@@ -19,6 +21,7 @@ const globPromise = promisify(glob)
 
 const program = new Command()
 program.version(packageJson.version)
+program.option('--predictable-ids', 'Use predictable ids', false)
 program.option(
   '-f, --format <format>',
   'output format: ndjson|protobuf',
@@ -26,6 +29,11 @@ program.option(
 )
 program.parse(process.argv)
 const paths = program.args
+
+const options: IGherkinOptions = {
+  defaultDialect: 'en',
+  newId: program.predictableIds ? incrementing() : uuid(),
+}
 
 async function readSupportCode(): Promise<SupportCode> {
   const supportCodePaths = await globPromise(`${process.cwd()}/features/*.ts`)
@@ -42,7 +50,7 @@ readSupportCode()
   )
   .then(cucumberStream => {
     pipelinePromise(
-      gherkin.fromPaths(paths, {}),
+      gherkin.fromPaths(paths, options),
       cucumberStream,
       formatStream(program.format),
       process.stdout

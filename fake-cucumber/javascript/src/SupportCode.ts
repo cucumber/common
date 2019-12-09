@@ -16,6 +16,9 @@ type RegisterStepDefinition = (
 
 type RegisterHook = (tagExpression: string, body: AnyBody) => void
 
+/**
+ * This class provides an API for defining step definitions and hooks
+ */
 export default class SupportCode {
   private readonly parameterTypeRegistry = new ParameterTypeRegistry()
   public readonly stepDefinitions: IStepDefinition[] = []
