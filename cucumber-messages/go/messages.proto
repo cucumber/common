@@ -612,7 +612,7 @@ message Hook {
 message StepDefinition {
   string id = 1;
   StepDefinitionPattern pattern = 2;
-  SourceReference sourceReference = 3;
+  SourceReference source_reference = 3;
 }
 
 message StepDefinitionPattern {
