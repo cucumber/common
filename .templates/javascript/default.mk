@@ -5,11 +5,19 @@ PRIVATE = $(shell node -e "console.log(require('./package.json').private)")
 default: .linted .tested .built
 .PHONY: default
 
-.deps: package-lock.json
+.deps: package-lock.json build-internal-dependencies
 ifndef NEW_VERSION
 	if [ -f ".internal-dependencies" ]; then cat .internal-dependencies | xargs -n 1 scripts/npm-link; fi
 endif
 	touch $@
+
+build-internal-dependencies:
+	if [ -f ".internal-dependencies" ]; then \
+	while read -r file; do \
+	    pushd "../../$$file/javascript" && make && popd; \
+	  done <.internal-dependencies; \
+	fi
+.PHONY: build-internal-dependencies
 
 .codegen: .deps
 	touch $@
