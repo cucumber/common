@@ -10,7 +10,7 @@ MAKEFILES=c21e/Makefile \
 	json-formatter/Makefile \
 	datatable/Makefile \
 	config/Makefile \
-	tag-expressions/Makefile \
+	cucumber-tag-expressions/Makefile \
 	cucumber-demo-formatter/Makefile
 
 default: .rsynced $(patsubst %/Makefile,default-%,$(MAKEFILES))

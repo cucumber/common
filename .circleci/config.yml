@@ -71,7 +71,7 @@ jobs:
     executor: docker-cucumber-build
     environment:
       # Override CI=true to false because CI=true causes
-      # tag-expressions/python/Makefile to use sudo, which we don't want
+      # cucumber-tag-expressions/python/Makefile to use sudo, which we don't want
       # because the cucumber-build docker image doesn't have sudo installed
       CI: false
     steps:
@@ -129,15 +129,15 @@ jobs:
           paths:
             - gherkin/go/dist
 
-  tag-expressions-go:
+  cucumber-tag-expressions-go:
     executor: docker-circleci-golang
     steps:
       - attach_workspace:
           at: "~/cucumber"
       - run:
-          name: tag-expressions/go
+          name: cucumber-tag-expressions/go
           command: |
-            cd tag-expressions/go
+            cd cucumber-tag-expressions/go
             make
 
   cucumber-demo-formatter-go:
@@ -254,15 +254,15 @@ jobs:
             - gherkin/javascript/dist
             - gherkin/javascript/node_modules
 
-  tag-expressions-javascript:
+  cucumber-tag-expressions-javascript:
     executor: docker-circleci-node-12
     steps:
       - attach_workspace:
           at: "~/cucumber"
       - run:
-          name: tag-expressions/javascript
+          name: cucumber-tag-expressions/javascript
           command: |
-            cd tag-expressions/javascript
+            cd cucumber-tag-expressions/javascript
             make
 
   fake-cucumber-javascript:
@@ -422,15 +422,15 @@ jobs:
             cd gherkin/ruby
             make
 
-  tag-expressions-ruby:
+  cucumber-tag-expressions-ruby:
     executor: docker-circleci-ruby-26
     steps:
       - attach_workspace:
           at: "~/cucumber"
       - run:
-          name: tag-expressions/ruby
+          name: cucumber-tag-expressions/ruby
           command: |
-            cd tag-expressions/ruby
+            cd cucumber-tag-expressions/ruby
             make
 
   json-formatter-ruby:
@@ -529,7 +529,7 @@ jobs:
           paths:
             - "io/cucumber/gherkin"
 
-  tag-expressions-java:
+  cucumber-tag-expressions-java:
     executor: docker-circleci-openjdk
     steps:
       - attach_workspace:
@@ -537,14 +537,14 @@ jobs:
       - attach_workspace:
           at: "~/.m2/repository"
       - run:
-          name: tag-expressions/java
+          name: cucumber-tag-expressions/java
           command: |
-            cd tag-expressions/java
+            cd cucumber-tag-expressions/java
             make
       - persist_to_workspace:
           root: "~/.m2/repository"
           paths:
-            - "io/cucumber/tag-expressions"
+            - "io/cucumber/cucumber-tag-expressions"
 
   datatable-java:
     executor: docker-circleci-openjdk
@@ -595,15 +595,15 @@ jobs:
 
 ### Python
 
-  tag-expressions-python:
+  cucumber-tag-expressions-python:
     executor: docker-circleci-python
     steps:
       - attach_workspace:
           at: "~/cucumber"
       - run:
-          name: tag-expressions/python
+          name: cucumber-tag-expressions/python
           command: |
-            cd tag-expressions/python
+            cd cucumber-tag-expressions/python
             make
 
 ### C
@@ -660,7 +660,7 @@ workflows:
       - gherkin-go:
           requires:
             - cucumber-messages-go
-      - tag-expressions-go:
+      - cucumber-tag-expressions-go:
           requires:
             - checkout
       - cucumber-demo-formatter-go:
@@ -693,7 +693,7 @@ workflows:
       - gherkin-javascript:
           requires:
             - cucumber-messages-javascript
-      - tag-expressions-javascript:
+      - cucumber-tag-expressions-javascript:
           requires:
             - checkout
       - fake-cucumber-javascript:
@@ -701,7 +701,7 @@ workflows:
             - cucumber-messages-javascript
             - gherkin-javascript
             - cucumber-expressions-javascript-node-12
-            - tag-expressions-javascript
+            - cucumber-tag-expressions-javascript
       - cucumber-react-javascript:
           requires:
             - cucumber-messages-javascript
@@ -744,7 +744,7 @@ workflows:
       - gherkin-ruby-26:
           requires:
             - cucumber-messages-ruby
-      - tag-expressions-ruby:
+      - cucumber-tag-expressions-ruby:
           requires:
             - checkout
       - cucumber-demo-formatter-ruby:
@@ -769,7 +769,7 @@ workflows:
       - gherkin-java:
           requires:
             - cucumber-messages-java
-      - tag-expressions-java:
+      - cucumber-tag-expressions-java:
           requires:
             - checkout
       - datatable-java:
@@ -787,7 +787,7 @@ workflows:
 
 ## Python
 
-      - tag-expressions-python:
+      - cucumber-tag-expressions-python:
           requires:
             - checkout
 

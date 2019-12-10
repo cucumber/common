@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 Gem::Specification.new do |s|
-  s.name        = 'cucumber-tag_expressions'
+  s.name        = 'cucumber-tag-expressions'
   s.version     = '2.0.2'
   s.authors     = ['Andrea Nodari', "Aslak Hellesøy"]
   s.description = 'Cucumber tag expressions for ruby'
@@ -25,7 +25,6 @@ Gem::Specification.new do |s|
   # For coverage reports
   s.add_development_dependency 'coveralls', '~> 0.8', '>= 0.8.23'
 
-  s.executables      = ["cucumber-tag-expressions"]
   s.rubygems_version = '>= 1.6.1'
   s.files            = Dir[
     'README.md',

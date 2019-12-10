@@ -1,4 +1,4 @@
-module github.com/cucumber/cucumber/tag-expressions/go
+module github.com/cucumber/cucumber/cucumber-tag-expressions/go
 
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
