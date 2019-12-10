@@ -742,7 +742,7 @@ A tag
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | name | [string](#string) |  |  |
-| source_id | [string](#string) |  | Reference to the source id |
+| ast_node_id | [string](#string) |  | Points to the AST node this was created from |
 
 
 
@@ -969,7 +969,7 @@ Points to a [Source](#io.cucumber.messages.Source) identified by `uri` and a
 | ----- | ---- | ----- | ----------- |
 | id | [string](#string) |  |  |
 | pattern | [StepDefinitionPattern](#io.cucumber.messages.StepDefinitionPattern) |  |  |
-| location | [SourceReference](#io.cucumber.messages.SourceReference) |  |  |
+| source_reference | [SourceReference](#io.cucumber.messages.SourceReference) |  |  |
 
 
 
