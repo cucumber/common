@@ -12,10 +12,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 
 * Upgrades to `cucumber-parent:2.0.2`
+* [Ruby] Renamed gem to `cucumber-tag-expressions`
 
 ### Deprecated
 
 ### Removed
+
+* [Ruby] Removed `cucumber-tag-expressions` executable
 
 ### Fixed
 
@@ -106,7 +109,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 [2.0.0]: https://github.com/cucumber/cucumber/compare/tag-expressions-v1.1.1...tag-expressions/v2.0.0
 [1.1.1]: https://github.com/cucumber/cucumber/compare/tag-expressions-v1.1.0...tag-expressions-v1.1.1
 [1.1.0]: https://github.com/cucumber/cucumber/compare/tag-expressions-v1.0.1...tag-expressions-v1.1.0
-[1.0.1]:      https://github.com/cucumber/cucumber/releases/tag/tag-expressions-v1.0.1
+[1.0.1]: https://github.com/cucumber/cucumber/releases/tag/tag-expressions-v1.0.1
 
 <!-- Contributors -->
 [aslakhellesoy]:    https://github.com/aslakhellesoy

@@ -17,8 +17,6 @@
 
     <properties>
         <project.Automatic-Module-Name>io.cucumber.tagexpressions</project.Automatic-Module-Name>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
 
     <scm>

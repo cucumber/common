@@ -14,7 +14,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/cucumber/tag-expressions-javascript.git"
+    "url": "git://github.com/cucumber/cucumber-tag-expressions-javascript.git"
   },
   "keywords": [
     "cucumber"
@@ -22,9 +22,9 @@
   "author": "Cucumber Limited <cukes@googlegroups.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/cucumber/tag-expressions-javascript/issues"
+    "url": "https://github.com/cucumber/cucumber-tag-expressions-javascript/issues"
   },
-  "homepage": "https://github.com/cucumber/tag-expressions-javascript",
+  "homepage": "https://github.com/cucumber/cucumber-tag-expressions-javascript",
   "devDependencies": {
     "@types/mocha": "^5.2.7",
     "@types/node": "^12.12.14",
