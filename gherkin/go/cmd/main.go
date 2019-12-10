@@ -11,7 +11,7 @@ import (
 	"fmt"
 	messages "github.com/cucumber/cucumber-messages-go/v8"
 	fio "github.com/cucumber/cucumber-messages-go/v8/io"
-	"github.com/cucumber/gherkin-go/v8"
+	"github.com/cucumber/gherkin-go/v9"
 	gio "github.com/gogo/protobuf/io"
 	"os"
 )
