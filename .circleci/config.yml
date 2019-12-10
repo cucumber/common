@@ -297,15 +297,15 @@ jobs:
             - cucumber-react/javascript/dist
             - cucumber-react/javascript/node_modules
 
-  html-formatter-javascript:
+  cucumber-html-formatter-javascript:
     executor: docker-circleci-node-12
     steps:
       - attach_workspace:
           at: "~/cucumber"
       - run:
-          name: html-formatter/javascript
+          name: cucumber-html-formatter/javascript
           command: |
-            cd html-formatter/javascript
+            cd cucumber-html-formatter/javascript
             make
 
   cucumber-json-formatter-javascript:
@@ -708,7 +708,7 @@ workflows:
             - gherkin-javascript
             - fake-cucumber-javascript
             - cucumber-query-javascript
-      - html-formatter-javascript:
+      - cucumber-html-formatter-javascript:
           requires:
             - cucumber-react-javascript
       - cucumber-json-formatter-javascript:
