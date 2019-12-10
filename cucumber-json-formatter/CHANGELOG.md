@@ -9,6 +9,18 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 ----
 ## [Unreleased]
 
+### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+## [2.1.0] - 2019-12-10
+
 ### Changed
 
 * Upgrade to cucumber-messages 8.0.0
@@ -31,7 +43,8 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 * Initial release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/json-formatter/v2.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/json-formatter/v2.1.0...master
+[2.1.0]:      https://github.com/cucumber/cucumber/releases/tag/json-formatter/v2.0.0
 [2.0.0]:      https://github.com/cucumber/cucumber/releases/tag/json-formatter/v1.0.0
 [1.0.0]:      https://github.com/cucumber/cucumber/releases/tag/json-formatter/v1.0.0
 

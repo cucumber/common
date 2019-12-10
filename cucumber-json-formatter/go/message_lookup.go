@@ -52,6 +52,9 @@ func (self *MessageLookup) ProcessMessage(envelope *messages.Envelope) (err erro
 		for key, _ := range self.gherkinDocumentByURI {
 			self.comment(fmt.Sprintf(" - %s ", key))
 		}
+		if m.GherkinDocument.Feature == nil {
+			return nil
+		}
 		for _, tag := range m.GherkinDocument.Feature.Tags {
 			self.tagByID[tag.Id] = tag
 		}
