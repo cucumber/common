@@ -43,7 +43,7 @@
     "awesome-typescript-loader": "^5.2.1",
     "babel-loader": "^8.0.6",
     "fake-cucumber": "^2.1.0",
-    "gherkin": "8.2.1",
+    "gherkin": "9.0.0",
     "jsdom": "^15.2.1",
     "mocha": "^6.2.2",
     "nyc": "^14.1.1",

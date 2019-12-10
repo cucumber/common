@@ -47,7 +47,7 @@
     "cucumber-expressions": "^8.2.1",
     "cucumber-messages": "^8.0.0",
     "cucumber-tag-expressions": "^2.0.2",
-    "gherkin": "^8.2.1",
+    "gherkin": "^9.0.0",
     "glob": "^7.1.6",
     "source-map-support": "^0.5.16"
   }
