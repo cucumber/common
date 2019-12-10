@@ -23,9 +23,10 @@ const StepLi = styled.li`
   }
 `
 
-const ErrorMessage = styled.div`
+const ErrorMessage = styled.pre`
   padding: 0.5em;
   background-color: ${(props: IStatusProps) => statusColor(props.status).darken(0.1).hex()};
+  overflow: scroll;
 `
 
 interface IProps {

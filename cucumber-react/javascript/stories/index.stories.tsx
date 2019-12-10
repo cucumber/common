@@ -1,13 +1,15 @@
 import { storiesOf } from '@storybook/react'
 import React from 'react'
 import { messages } from 'cucumber-messages'
-import all from '../testdata/all.json'
 import StepList from '../src/components/gherkin/StepList'
 import GherkinDocumentList from '../src/components/app/GherkinDocumentList'
 import CucumberQuery from 'cucumber-query'
 import CucumberQueryContext from '../src/CucumberQueryContext';
 
-const envelopes = all.map(o => messages.Envelope.fromObject(o))
+// @ts-ignore
+import ndjson from '../testdata/all.ndjson'
+const envelopes: messages.IEnvelope[] = ndjson.trim().split('\n')
+  .map((json: string) => messages.Envelope.fromObject(JSON.parse(json)))
 
 storiesOf('Features', module)
   .add('Document list', () => {
