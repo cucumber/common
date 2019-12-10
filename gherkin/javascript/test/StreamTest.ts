@@ -1,13 +1,13 @@
 import assert from 'assert'
 import { Readable } from 'stream'
 import { messages } from 'cucumber-messages'
-import { fromPaths, fromSources, dialects } from '../src'
+import Gherkin from '../src/Gherkin'
 import makeSourceEnvelope from '../src/stream/makeSourceEnvelope'
 
 describe('gherkin', () => {
   it('parses gherkin from the file system', async () => {
     const envelopes = await streamToArray(
-      fromPaths(['testdata/good/minimal.feature'])
+      Gherkin.fromPaths(['testdata/good/minimal.feature'])
     )
     assert.strictEqual(envelopes.length, 3)
   })
@@ -22,7 +22,7 @@ describe('gherkin', () => {
       'test.feature'
     )
 
-    const envelopes = await streamToArray(fromSources([source]))
+    const envelopes = await streamToArray(Gherkin.fromSources([source]))
     assert.strictEqual(envelopes.length, 3)
   })
 
@@ -35,14 +35,14 @@ describe('gherkin', () => {
       'test.feature'
     )
     const envelopes = await streamToArray(
-      fromSources([source], { defaultDialect: 'fr' })
+      Gherkin.fromSources([source], { defaultDialect: 'fr' })
     )
     assert.strictEqual(envelopes.length, 3)
   })
 
   it('outputs dialects', async () => {
-    const result = dialects()
-    assert.strictEqual(result.en.name, 'English')
+    const dialects = Gherkin.dialects()
+    assert.strictEqual(dialects.en.name, 'English')
   })
 })
 

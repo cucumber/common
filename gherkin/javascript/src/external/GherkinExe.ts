@@ -2,7 +2,7 @@ import { spawn, spawnSync } from 'child_process'
 import { messages, BinaryToMessageStream } from 'cucumber-messages'
 import { Readable } from 'stream'
 import Dialect from '../Dialect'
-import { IGherkinOptions } from '../types'
+import IGherkinOptions from '../IGherkinOptions'
 
 export default class GherkinExe {
   constructor(

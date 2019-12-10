@@ -1,4 +1,4 @@
-import { Given } from '../dist/src/dsl/dsl'
+import { Given } from '../dist/src'
 
 Given('a passed step', () => {
   // no-op

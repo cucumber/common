@@ -4,24 +4,22 @@ import gherkin from 'gherkin'
 import { pipeline } from 'stream'
 import CucumberStream from './CucumberStream'
 import { promisify } from 'util'
-import formatStream from './cli/formatStream'
-import glob from 'glob'
-import * as tsnode from 'ts-node'
-import SupportCode from './SupportCode'
-import Dsl from './dsl/dsl'
-import { IGherkinOptions } from 'gherkin/dist/src/types'
-import { incrementing, uuid } from 'gherkin/dist/src/IdGenerator'
-
-tsnode.register({
-  transpileOnly: true,
-})
+import formatStream from './formatStream'
+import supportCode from './index'
+import { IdGenerator } from 'cucumber-messages'
+import findSupportCodePaths from './findSupportCodePaths'
 
 const pipelinePromise = promisify(pipeline)
-const globPromise = promisify(glob)
 
 const program = new Command()
 program.version(packageJson.version)
+program.option('-r, --require <path>', 'override require path')
 program.option('--predictable-ids', 'Use predictable ids', false)
+program.option(
+  '--globals',
+  'Assign Given/When/Then/After/Before to global scope',
+  false
+)
 program.option(
   '-f, --format <format>',
   'output format: ndjson|protobuf',
@@ -29,35 +27,55 @@ program.option(
 )
 program.parse(process.argv)
 const paths = program.args
+const requirePaths = program.require ? program.require.split(':') : paths
 
-const options: IGherkinOptions = {
-  defaultDialect: 'en',
-  newId: program.predictableIds ? incrementing() : uuid(),
+if (program.predictableIds) {
+  supportCode.newId = IdGenerator.incrementing()
 }
 
-async function readSupportCode(): Promise<SupportCode> {
-  const supportCodePaths = await globPromise(`${process.cwd()}/features/*.ts`)
+const options = {
+  defaultDialect: 'en',
+  newId: supportCode.newId,
+}
+
+async function loadSupportCode(): Promise<void> {
+  const supportCodePaths = await findSupportCodePaths(requirePaths)
+  let tsNoseRegistered = false
   for (const supportCodePath of supportCodePaths) {
+    if (supportCodePath.endsWith('.ts')) {
+      const tsnode = require('ts-node')
+      tsnode.register({
+        transpileOnly: true,
+      })
+      tsNoseRegistered = true
+    }
     require(supportCodePath)
   }
-  return Dsl
 }
 
-readSupportCode()
-  .then(
-    supportCode =>
-      new CucumberStream(supportCode.stepDefinitions, supportCode.hooks)
+async function main() {
+  if (program.globals) {
+    for (const key of Object.keys(supportCode)) {
+      // @ts-ignore
+      global[key] = supportCode[key]
+    }
+  }
+  await loadSupportCode()
+  const cucumberStream = new CucumberStream(
+    supportCode.stepDefinitions,
+    supportCode.hooks,
+    supportCode.newId
   )
-  .then(cucumberStream => {
-    pipelinePromise(
-      gherkin.fromPaths(paths, options),
-      cucumberStream,
-      formatStream(program.format),
-      process.stdout
-    )
-  })
-  .catch(err => {
-    // tslint:disable-next-line:no-console
-    console.error(err)
-    process.exit(1)
-  })
+  await pipelinePromise(
+    gherkin.fromPaths(paths, options),
+    cucumberStream,
+    formatStream(program.format),
+    process.stdout
+  )
+}
+
+main().catch(err => {
+  // tslint:disable-next-line:no-console
+  console.error(err)
+  process.exit(1)
+})

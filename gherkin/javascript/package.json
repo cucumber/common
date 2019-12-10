@@ -32,7 +32,6 @@
   "devDependencies": {
     "@types/mocha": "^5.2.7",
     "@types/node": "^12.12.14",
-    "@types/uuid": "^3.4.6",
     "mocha": "^6.2.2",
     "nyc": "^14.1.1",
     "prettier": "^1.19.1",
@@ -45,7 +44,6 @@
   "dependencies": {
     "commander": "^4.0.1",
     "cucumber-messages": "7.0.0",
-    "source-map-support": "^0.5.16",
-    "uuid": "^3.3.3"
+    "source-map-support": "^0.5.16"
   }
 }

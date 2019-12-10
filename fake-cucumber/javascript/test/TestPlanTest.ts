@@ -3,7 +3,7 @@ import {
   streamToArray,
   stubMatchingStepDefinition,
 } from './TestHelpers'
-import { messages } from 'cucumber-messages'
+import { IdGenerator, messages } from 'cucumber-messages'
 import { MessageNotifier } from '../src/types'
 import assert from 'assert'
 import TestPlan from '../src/TestPlan'
@@ -26,7 +26,12 @@ describe('TestPlan', () => {
     )
 
     const pickles = gherkinEnvelopes.filter(m => m.pickle).map(m => m.pickle)
-    const testPlan = new TestPlan(pickles, [stepDefinition], [])
+    const testPlan = new TestPlan(
+      pickles,
+      [stepDefinition],
+      [],
+      IdGenerator.incrementing()
+    )
     const envelopes: messages.IEnvelope[] = []
     const notifier: MessageNotifier = message => envelopes.push(message)
     await testPlan.execute(notifier)
@@ -35,6 +40,7 @@ describe('TestPlan', () => {
 
   it('attaches attachments from support code', async () => {
     const stepDefinition: IStepDefinition = new ExpressionStepDefinition(
+      'stepdef-id',
       new CucumberExpression('a passed step', new ParameterTypeRegistry()),
       function() {
         this.attach('hello world', 'text/plain')
@@ -52,7 +58,12 @@ describe('TestPlan', () => {
     )
 
     const pickles = gherkinEnvelopes.filter(m => m.pickle).map(m => m.pickle)
-    const testPlan = new TestPlan(pickles, [stepDefinition], [])
+    const testPlan = new TestPlan(
+      pickles,
+      [stepDefinition],
+      [],
+      IdGenerator.incrementing()
+    )
     const envelopes: messages.IEnvelope[] = []
     const notifier: MessageNotifier = message => envelopes.push(message)
     await testPlan.execute(notifier)

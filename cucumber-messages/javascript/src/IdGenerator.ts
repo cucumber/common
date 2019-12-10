@@ -1,5 +1,6 @@
 import uuidv4 from 'uuid/v4'
-import { NewId } from './types'
+
+export type NewId = () => string
 
 export function uuid(): NewId {
   return () => uuidv4()

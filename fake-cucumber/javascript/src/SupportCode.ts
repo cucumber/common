@@ -3,6 +3,7 @@ import {
   ParameterTypeRegistry,
   RegularExpression,
 } from 'cucumber-expressions'
+import { IdGenerator } from 'cucumber-messages'
 import { AnyBody } from './types'
 import ExpressionStepDefinition from './ExpressionStepDefinition'
 import IStepDefinition from './IStepDefinition'
@@ -17,12 +18,14 @@ type RegisterStepDefinition = (
 type RegisterHook = (tagExpression: string, body: AnyBody) => void
 
 /**
- * This class provides an API for defining step definitions and hooks
+ * This class provides an API for defining step definitions and hooks.
  */
 export default class SupportCode {
   private readonly parameterTypeRegistry = new ParameterTypeRegistry()
   public readonly stepDefinitions: IStepDefinition[] = []
   public readonly hooks: IHook[] = []
+
+  constructor(public newId: IdGenerator.NewId) {}
 
   private registerStepDefinition(
     expression: string | RegExp,
@@ -32,16 +35,22 @@ export default class SupportCode {
       typeof expression === 'string'
         ? new CucumberExpression(expression, this.parameterTypeRegistry)
         : new RegularExpression(expression, this.parameterTypeRegistry)
-    const stepDefinition = new ExpressionStepDefinition(expr, body)
+    const stepDefinition = new ExpressionStepDefinition(
+      this.newId(),
+      expr,
+      body
+    )
     this.stepDefinitions.push(stepDefinition)
   }
 
   private registerBeforeHook(tagExpression: string, body: AnyBody) {
-    this.hooks.push(new Hook(HookType.Before, tagExpression, body))
+    this.hooks.push(
+      new Hook(this.newId(), HookType.Before, tagExpression, body)
+    )
   }
 
   private registerAfterHook(tagExpression: string, body: AnyBody) {
-    this.hooks.push(new Hook(HookType.After, tagExpression, body))
+    this.hooks.push(new Hook(this.newId(), HookType.After, tagExpression, body))
   }
 
   public readonly Given = this.registerStepDefinition.bind(

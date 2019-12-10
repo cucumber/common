@@ -31,6 +31,7 @@ describe('TestStep', () => {
   describe('#execute', () => {
     it('emits a TestStepFinished with status UNDEFINED when there are no matching step definitions', async () => {
       const testStep = makePickleTestStep(
+        'some-test-step-id',
         messages.Pickle.PickleStep.create({
           text: 'an undefined step',
         }),
@@ -48,6 +49,7 @@ describe('TestStep', () => {
 
     it('emits a TestStepFinished with status AMBIGUOUS when there are multiple matching step definitions', async () => {
       const testStep = makePickleTestStep(
+        'some-test-step-id',
         messages.Pickle.PickleStep.create({
           text: 'an undefined step',
         }),
@@ -64,6 +66,7 @@ describe('TestStep', () => {
 
     it('returns a TestResult object with the status', async () => {
       const testStep = makePickleTestStep(
+        'some-test-step-id',
         messages.Pickle.PickleStep.create({
           text: 'an undefined step',
         }),
@@ -81,6 +84,7 @@ describe('TestStep', () => {
     it('computes the execution duration', async () => {
       const emitted: messages.IEnvelope[] = []
       const testStep = makePickleTestStep(
+        'some-test-step-id',
         messages.Pickle.PickleStep.create({
           text: 'a passed step',
         }),
@@ -96,6 +100,7 @@ describe('TestStep', () => {
     context('when there is a matching step definition', () => {
       it('emits a TestStepFinished with status PASSED when no exception is raised', async () => {
         const testStep = makePickleTestStep(
+          'some-test-step-id',
           messages.Pickle.PickleStep.create({
             text: 'a passed step',
           }),
@@ -113,6 +118,7 @@ describe('TestStep', () => {
 
       it('emits a TestStepFinished with status PENDING when the string "pending" is returned', async () => {
         const testStep = makePickleTestStep(
+          'some-test-step-id',
           messages.Pickle.PickleStep.create({
             text: 'a passed step',
           }),
@@ -129,6 +135,7 @@ describe('TestStep', () => {
 
       it('emits a TestStepFinished with status FAILED when an exception is raised', async () => {
         const testStep = makePickleTestStep(
+          'some-test-step-id',
           messages.Pickle.PickleStep.create({
             text: 'a passed step',
           }),
@@ -149,6 +156,7 @@ describe('TestStep', () => {
 
       it('adds the exception stack trace to the result', async () => {
         const testStep = makePickleTestStep(
+          'some-test-step-id',
           messages.Pickle.PickleStep.create({
             text: 'a passed step',
           }),
@@ -175,6 +183,7 @@ describe('TestStep', () => {
           content: 'hello',
         })
         const testStep = makePickleTestStep(
+          'some-test-step-id',
           messages.Pickle.PickleStep.create({
             text: 'a passed step',
             argument: new messages.PickleStepArgument({

@@ -1,5 +1,5 @@
 import { Transform, TransformCallback } from 'stream'
-import { messages } from 'cucumber-messages'
+import { IdGenerator, messages } from 'cucumber-messages'
 import Cucumber from './Cucumber'
 import IStepDefinition from './IStepDefinition'
 import IHook from './IHook'
@@ -9,7 +9,8 @@ export default class CucumberStream extends Transform {
 
   constructor(
     private readonly stepDefinitions: IStepDefinition[],
-    private readonly hooks: IHook[]
+    private readonly hooks: IHook[],
+    private readonly newId: IdGenerator.NewId
   ) {
     super({ objectMode: true })
   }
@@ -27,7 +28,8 @@ export default class CucumberStream extends Transform {
     const cucumber = new Cucumber(
       this.gherkinMessages,
       this.stepDefinitions,
-      this.hooks
+      this.hooks,
+      this.newId
     )
     cucumber
       .execute(message => this.push(message))

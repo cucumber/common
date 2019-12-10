@@ -1,6 +1,5 @@
 import { performance } from 'perf_hooks'
 import { messages, TimeConversion } from 'cucumber-messages'
-import uuidv4 from 'uuid/v4'
 import SupportCodeExecutor from './SupportCodeExecutor'
 import { MessageNotifier } from './types'
 import ITestStep from './ITestStep'
@@ -9,9 +8,8 @@ import IWorld from './IWorld'
 const { millisecondsToDuration } = TimeConversion
 
 export default abstract class TestStep implements ITestStep {
-  public readonly id: string = uuidv4()
-
   constructor(
+    public readonly id: string,
     public readonly sourceId: string,
     public readonly alwaysExecute: boolean,
     protected readonly supportCodeExecutors: SupportCodeExecutor[]

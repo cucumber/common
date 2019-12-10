@@ -1,18 +1,22 @@
 import path from 'path'
 import fs from 'fs'
-import { messages } from 'cucumber-messages'
-import { CucumberStream, makeDummyHooks, makeDummyStepDefinitions, SupportCode } from 'fake-cucumber'
+import { IdGenerator, messages } from 'cucumber-messages'
 import gherkin from 'gherkin'
 import { Readable } from 'stream'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import GherkinDocumentList from '../src/components/app/GherkinDocumentList'
 import CucumberQuery from 'cucumber-query'
+import SupportCode from 'fake-cucumber/dist/src/SupportCode'
+import makeDummyStepDefinitions from 'fake-cucumber/dist/test/makeDummyStepDefinitions'
+import makeDummyHooks from 'fake-cucumber/dist/test/makeDummyHooks'
+import CucumberStream from 'fake-cucumber/dist/src/CucumberStream'
 
 describe('App', () => {
   const dir = __dirname + '/../../../gherkin/testdata/good'
   const files = fs.readdirSync(dir)
-  const supportCode = new SupportCode()
+  const newId = IdGenerator.uuid()
+  const supportCode = new SupportCode(newId)
   makeDummyStepDefinitions(supportCode)
   makeDummyHooks(supportCode)
 
@@ -28,8 +32,8 @@ describe('App', () => {
 
         const p = path.join(dir, file)
         const envelopes = await streamToArray(gherkin
-          .fromPaths([p], { newId: gherkin.incrementing() })
-          .pipe(new CucumberStream(supportCode.stepDefinitions, supportCode.hooks)))
+          .fromPaths([p], { newId: IdGenerator.incrementing() })
+          .pipe(new CucumberStream(supportCode.stepDefinitions, supportCode.hooks, newId)))
 
         const gherkinDocuments = envelopes.filter(e => e.gherkinDocument).map(e => e.gherkinDocument)
         const cucumberQuery = envelopes.reduce((q, e) => q.update(e), new CucumberQuery())

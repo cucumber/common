@@ -1,4 +1,4 @@
-import { messages } from 'cucumber-messages'
+import { IdGenerator, messages } from 'cucumber-messages'
 import { MessageNotifier } from './types'
 import TestPlan from './TestPlan'
 import IStepDefinition from './IStepDefinition'
@@ -11,7 +11,8 @@ export default class Cucumber {
     // * Pickle (used)
     private readonly gherkinMessages: messages.IEnvelope[],
     private readonly stepDefinitions: IStepDefinition[],
-    private readonly hooks: IHook[]
+    private readonly hooks: IHook[],
+    private readonly newId: IdGenerator.NewId
   ) {}
 
   public async execute(notifier: MessageNotifier): Promise<void> {
@@ -27,7 +28,12 @@ export default class Cucumber {
     const pickles = this.gherkinMessages
       .filter(m => m.pickle)
       .map(m => m.pickle)
-    const testPlan = new TestPlan(pickles, this.stepDefinitions, this.hooks)
+    const testPlan = new TestPlan(
+      pickles,
+      this.stepDefinitions,
+      this.hooks,
+      this.newId
+    )
     await testPlan.execute(notifier)
   }
 }

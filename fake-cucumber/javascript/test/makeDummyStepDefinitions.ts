@@ -1,4 +1,4 @@
-import SupportCode from './SupportCode'
+import SupportCode from '../src/SupportCode'
 
 export default function makeDummyStepDefinitions(supportCode: SupportCode) {
   const { Given } = supportCode

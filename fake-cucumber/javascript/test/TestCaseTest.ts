@@ -1,4 +1,4 @@
-import { messages, TimeConversion } from 'cucumber-messages'
+import { IdGenerator, messages, TimeConversion } from 'cucumber-messages'
 import assert from 'assert'
 import TestStep from '../src/TestStep'
 import TestCase from '../src/TestCase'
@@ -13,7 +13,7 @@ class StubTestStep extends TestStep {
     private readonly status: messages.TestResult.Status,
     private readonly message?: string
   ) {
-    super('some-id', alwaysExecute, [])
+    super('some-id', 'some-source-id', alwaysExecute, [])
   }
 
   public toMessage(): messages.TestCase.ITestStep {
@@ -46,10 +46,15 @@ describe('TestCase', () => {
         new StubTestStep(false, messages.TestResult.Status.PASSED),
         new StubTestStep(false, messages.TestResult.Status.PASSED),
       ]
-      const testCase = new TestCase(testSteps, 'some-pickle-id')
+      const testCase = new TestCase(
+        'some-test-case-id',
+        testSteps,
+        'some-pickle-id'
+      )
       await testCase.execute(
         (message: messages.IEnvelope) => emitted.push(message),
-        0
+        0,
+        'test-case-started-id'
       )
       const testStepStatuses = emitted
         .filter(m => m.testStepFinished)
@@ -67,10 +72,15 @@ describe('TestCase', () => {
         new StubTestStep(false, messages.TestResult.Status.FAILED),
         new StubTestStep(false, messages.TestResult.Status.PASSED),
       ]
-      const testCase = new TestCase(testSteps, 'some-pickle-id')
+      const testCase = new TestCase(
+        'some-test-case-id',
+        testSteps,
+        'some-pickle-id'
+      )
       await testCase.execute(
         (message: messages.IEnvelope) => emitted.push(message),
-        0
+        0,
+        'test-case-started-id'
       )
       const testStepStatuses = emitted
         .filter(m => m.testStepFinished)
@@ -87,10 +97,15 @@ describe('TestCase', () => {
         new StubTestStep(true, messages.TestResult.Status.FAILED),
         new StubTestStep(true, messages.TestResult.Status.FAILED),
       ]
-      const testCase = new TestCase(testSteps, 'some-pickle-id')
+      const testCase = new TestCase(
+        'some-test-case-id',
+        testSteps,
+        'some-pickle-id'
+      )
       await testCase.execute(
         (message: messages.IEnvelope) => emitted.push(message),
-        0
+        0,
+        'test-case-started-id'
       )
       const testStepStatuses = emitted
         .filter(m => m.testStepFinished)
@@ -106,10 +121,15 @@ describe('TestCase', () => {
       const testSteps: TestStep[] = [
         new StubTestStep(false, messages.TestResult.Status.PASSED),
       ]
-      const testCase = new TestCase(testSteps, 'some-pickle-id')
+      const testCase = new TestCase(
+        'some-test-case-id',
+        testSteps,
+        'some-pickle-id'
+      )
       await testCase.execute(
         (message: messages.IEnvelope) => emitted.push(message),
-        0
+        0,
+        'test-case-started-id'
       )
 
       const testCaseStarted = emitted[0].testCaseStarted
@@ -135,10 +155,15 @@ describe('TestCase', () => {
         ),
       ]
       const emitted: messages.IEnvelope[] = []
-      const testCase = new TestCase(testSteps, 'some-pickle-id')
+      const testCase = new TestCase(
+        'some-test-case-id',
+        testSteps,
+        'some-pickle-id'
+      )
       await testCase.execute(
         (message: messages.IEnvelope) => emitted.push(message),
-        0
+        0,
+        'test-case-started-id'
       )
       const testResult = emitted.find(m => m.testCaseFinished).testCaseFinished
         .testResult
@@ -153,10 +178,15 @@ describe('TestCase', () => {
         new StubTestStep(false, messages.TestResult.Status.PASSED),
       ]
       const emitted: messages.IEnvelope[] = []
-      const testCase = new TestCase(testSteps, 'some-pickle-id')
+      const testCase = new TestCase(
+        'some-test-case-id',
+        testSteps,
+        'some-pickle-id'
+      )
       await testCase.execute(
         (message: messages.IEnvelope) => emitted.push(message),
-        0
+        0,
+        'test-case-started-id'
       )
       const testResult = emitted.find(m => m.testCaseFinished).testCaseFinished
         .testResult
@@ -171,10 +201,15 @@ describe('TestCase', () => {
           testSteps: TestStep[]
         ): Promise<messages.TestResult.Status> {
           const emitted: messages.IEnvelope[] = []
-          const testCase = new TestCase(testSteps, 'some-pickle-id')
+          const testCase = new TestCase(
+            'some-test-case-id',
+            testSteps,
+            'some-pickle-id'
+          )
           await testCase.execute(
             (message: messages.IEnvelope) => emitted.push(message),
-            0
+            0,
+            'test-case-started-id'
           )
 
           return emitted.find(m => m.testCaseFinished).testCaseFinished

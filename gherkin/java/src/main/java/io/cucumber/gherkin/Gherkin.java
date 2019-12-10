@@ -2,6 +2,7 @@ package io.cucumber.gherkin;
 
 import io.cucumber.gherkin.pickles.PickleCompiler;
 import io.cucumber.messages.BinaryToMessageIterable;
+import io.cucumber.messages.IdGenerator;
 import io.cucumber.messages.Messages;
 import io.cucumber.messages.Messages.Envelope;
 

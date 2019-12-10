@@ -46,7 +46,7 @@ func TestMessagesWithStdin(t *testing.T) {
 		true,
 		true,
 		nil,
-		(&Incrementing{0}).NewId,
+		(&messages.Incrementing{}).NewId,
 	)
 	require.NoError(t, err)
 

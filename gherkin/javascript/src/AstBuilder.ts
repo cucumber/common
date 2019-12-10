@@ -1,17 +1,16 @@
 import AstNode from './AstNode'
-import { messages } from 'cucumber-messages'
+import { messages, IdGenerator } from 'cucumber-messages'
 import { RuleType, TokenType } from './Parser'
 import Token from './Token'
 import { AstBuilderException } from './Errors'
-import { NewId } from './types'
 import createLocation from './cli/createLocation'
 
 export default class AstBuilder {
   private stack: AstNode[]
   private comments: messages.GherkinDocument.IComment[]
-  private readonly newId: NewId
+  private readonly newId: IdGenerator.NewId
 
-  constructor(newId: NewId) {
+  constructor(newId: IdGenerator.NewId) {
     this.newId = newId
     if (!newId) {
       throw new Error('No newId')

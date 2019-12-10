@@ -1,7 +1,6 @@
 import ITestStep from './ITestStep'
 import { MessageNotifier } from './types'
 import { messages, TimeConversion } from 'cucumber-messages'
-import uuidv4 from 'uuid/v4'
 import { performance } from 'perf_hooks'
 import IWorld from './IWorld'
 
@@ -16,9 +15,8 @@ class DefaultWorld implements IWorld {
 }
 
 export default class TestCase {
-  public readonly id: string = uuidv4()
-
   constructor(
+    public readonly id: string,
     private readonly testSteps: ITestStep[],
     private readonly pickleId: string
   ) {}
@@ -35,10 +33,10 @@ export default class TestCase {
 
   public async execute(
     notifier: MessageNotifier,
-    attempt: number
+    attempt: number,
+    testCaseStartedId: string
   ): Promise<void> {
     let executeNext = true
-    const testCaseStartedId = uuidv4()
 
     notifier(
       new messages.Envelope({

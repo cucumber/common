@@ -1,6 +1,6 @@
 package io.cucumber.gherkin.pickles;
 
-import io.cucumber.gherkin.IdGenerator;
+import io.cucumber.messages.IdGenerator;
 import io.cucumber.messages.Messages;
 import io.cucumber.messages.Messages.GherkinDocument;
 import io.cucumber.messages.Messages.GherkinDocument.Feature;

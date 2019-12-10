@@ -1,14 +1,12 @@
 import IHook, { HookType } from './IHook'
-import uuidv4 from 'uuid/v4'
 import parseTagExpression from 'cucumber-tag-expressions'
 import { messages } from 'cucumber-messages'
 import SupportCodeExecutor from './SupportCodeExecutor'
 import { AnyBody } from './types'
 
 export default class Hook implements IHook {
-  public readonly id = uuidv4()
-
   constructor(
+    public readonly id: string,
     private readonly hookType: HookType,
     private readonly tagExpression: string | null,
     private readonly body: AnyBody
