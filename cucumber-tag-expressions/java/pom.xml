@@ -8,23 +8,21 @@
         <version>2.0.2</version>
     </parent>
 
-    <artifactId>tag-expressions</artifactId>
+    <artifactId>cucumber-tag-expressions</artifactId>
     <version>2.0.3-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>Cucumber Tag Expressions</name>
     <description>Parses boolean infix expressions</description>
-    <url>https://github.com/cucumber/tag-expressions-java</url>
+    <url>https://github.com/cucumber/cucumber-tag-expressions-java</url>
 
     <properties>
         <project.Automatic-Module-Name>io.cucumber.tagexpressions</project.Automatic-Module-Name>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
 
     <scm>
-        <connection>scm:git:git://github.com/cucumber/tag-expressions-java.git</connection>
-        <developerConnection>scm:git:git@github.com:cucumber/tag-expressions-java.git</developerConnection>
-        <url>git://github.com/cucumber/tag-expressions-java.git</url>
+        <connection>scm:git:git://github.com/cucumber/cucumber-tag-expressions-java.git</connection>
+        <developerConnection>scm:git:git@github.com:cucumber/cucumber-tag-expressions-java.git</developerConnection>
+        <url>git://github.com/cucumber/cucumber-tag-expressions-java.git</url>
     </scm>
 
     <build>
