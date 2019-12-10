@@ -34,8 +34,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Upgrade to `cucumber-messages` `8.0.0`
 * Upgrade to `cucumber-expressions` `8.3.0`
 
-### Deprecated
-
 ### Removed
 
 * Remove `--format json`. Only support `--format ndjson|protobuf`
@@ -118,7 +116,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 [2.0.0]:      https://github.com/cucumber/cucumber/compare/fake-cucumber/v1.1.1...fake-cucumber/v2.0.0
 [1.1.1]:      https://github.com/cucumber/cucumber/compare/fake-cucumber/v1.1.0...fake-cucumber/v1.1.1
 [1.1.0]:      https://github.com/cucumber/cucumber/compare/fake-cucumber/v1.0.1...fake-cucumber/v1.1.0
-[1.0.1]:      https://github.com/cucumber/cucumber/compare/fake-cucumber/v3.0.0...fake-cucumber/v1.0.1
+[1.0.1]:      https://github.com/cucumber/cucumber/compare/fake-cucumber/v1.0.0...fake-cucumber/v1.0.1
 [1.0.0]:      https://github.com/cucumber/cucumber/releases/tag/fake-cucumber/v1.0.0
 
 <!-- Contributors in alphabetical order -->
