@@ -6,7 +6,7 @@ import (
 	"io"
 	"strings"
 
-	messages "github.com/cucumber/cucumber-messages-go/v7"
+	messages "github.com/cucumber/cucumber-messages-go/v8"
 	gio "github.com/gogo/protobuf/io"
 )
 
