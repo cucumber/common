@@ -13,4 +13,6 @@ require (
 	golang.org/x/text v0.3.2 // indirect
 )
 
+replace github.com/cucumber/cucumber-messages-go/v8 => ../../cucumber-messages/go
+
 go 1.13
