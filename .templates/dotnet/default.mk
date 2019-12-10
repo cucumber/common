@@ -52,8 +52,8 @@ post-release:
 .PHONY: post-release
 
 clean: clean-dotnet
-	rm -rf .generated .tested .built .packed GeneratedNuGetPackages
 .PHONY: clean
 
 clean-dotnet:
+	rm -rf .generated .tested .built .packed GeneratedNuGetPackages
 .PHONY: clean-dotnet

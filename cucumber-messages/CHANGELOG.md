@@ -9,6 +9,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+## [8.0.0] - 2019-12-10
+
+### Added
+
 * Added `testStepId` and `testCaseStartedId` to `Attachment`
   ([#814](https://github.com/cucumber/cucumber/pull/814)
    [charlierudolph])
@@ -19,12 +31,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 
 * Renamed some of the classes for dealing with streams
-
-### Deprecated
-
-### Removed
-
-### Fixed
 
 ## [7.0.0] - 2019-11-14
 
@@ -193,7 +199,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Protobuf messages for Go, Java, JavaScript, TypeScript and Ruby
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-messages/v7.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-messages/v8.0.0...master
+[8.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v7.0.0...cucumber-messages/v8.0.0
 [7.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v6.0.2...cucumber-messages/v7.0.0
 [6.0.2]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v6.0.1...cucumber-messages/v6.0.2
 [6.0.1]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v6.0.0...cucumber-messages/v6.0.1
