@@ -1,10 +1,9 @@
 import TestCase from './TestCase'
 import { MessageNotifier } from './types'
-import ExpressionStepDefinition from './ExpressionStepDefinition'
-import { messages } from 'cucumber-messages'
+import { IdGenerator, messages } from 'cucumber-messages'
 import makeTestCase from './makeTestCase'
 import IStepDefinition from './IStepDefinition'
-import { IHook } from './IHook'
+import IHook from './IHook'
 
 export default class TestPlan {
   private readonly testCases: TestCase[]
@@ -12,19 +11,20 @@ export default class TestPlan {
   constructor(
     pickles: messages.IPickle[],
     stepDefinitions: IStepDefinition[],
-    hooks: IHook[]
+    hooks: IHook[],
+    private readonly newId: IdGenerator.NewId
   ) {
     this.testCases = pickles.map(pickle =>
-      makeTestCase(pickle, stepDefinitions, hooks)
+      makeTestCase(pickle, stepDefinitions, hooks, newId)
     )
   }
 
-  public execute(notifier: MessageNotifier) {
+  public async execute(notifier: MessageNotifier): Promise<void> {
     for (const testCase of this.testCases) {
       notifier(testCase.toMessage())
     }
     for (const testCase of this.testCases) {
-      testCase.execute(notifier, 0)
+      await testCase.execute(notifier, 0, this.newId())
     }
   }
 }

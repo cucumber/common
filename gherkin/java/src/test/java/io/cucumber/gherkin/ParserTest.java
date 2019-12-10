@@ -1,5 +1,6 @@
 package io.cucumber.gherkin;
 
+import io.cucumber.messages.IdGenerator;
 import io.cucumber.messages.Messages.GherkinDocument;
 import org.junit.Test;
 

@@ -4,6 +4,7 @@ import ExpressionStepDefinition from '../src/ExpressionStepDefinition'
 import { CucumberExpression, ParameterTypeRegistry } from 'cucumber-expressions'
 import RegularExpression from 'cucumber-expressions/dist/src/RegularExpression'
 import TestWorld from './TestWorld'
+import { HookType } from '../src/IHook'
 
 describe('StepDefinition', () => {
   describe('#match', () => {
@@ -12,7 +13,11 @@ describe('StepDefinition', () => {
         'banana',
         new ParameterTypeRegistry()
       )
-      const stepdef = new ExpressionStepDefinition(expression, () => null)
+      const stepdef = new ExpressionStepDefinition(
+        'stepdef-id',
+        expression,
+        () => null
+      )
       const pickleStep = messages.Pickle.PickleStep.create({
         text: 'apple',
       })
@@ -26,6 +31,7 @@ describe('StepDefinition', () => {
         new ParameterTypeRegistry()
       )
       const stepdef = new ExpressionStepDefinition(
+        'stepdef-id',
         expression,
         (cukeCount: number) => cukeCount
       )
@@ -43,7 +49,11 @@ describe('StepDefinition', () => {
         /banana/,
         new ParameterTypeRegistry()
       )
-      const stepdef = new ExpressionStepDefinition(expression, () => null)
+      const stepdef = new ExpressionStepDefinition(
+        'stepdef-id',
+        expression,
+        () => null
+      )
       const message = stepdef.toMessage()
 
       assert.strictEqual(
@@ -57,7 +67,11 @@ describe('StepDefinition', () => {
         'banana',
         new ParameterTypeRegistry()
       )
-      const stepdef = new ExpressionStepDefinition(expression, () => null)
+      const stepdef = new ExpressionStepDefinition(
+        'stepdef-id',
+        expression,
+        () => null
+      )
       const message = stepdef.toMessage()
 
       assert.strictEqual(

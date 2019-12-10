@@ -1,8 +1,8 @@
 require 'rspec'
-require 'gherkin/id_generator'
+require 'cucumber/messages'
 
-describe Gherkin::IdGenerator::Incrementing do
-  subject { Gherkin::IdGenerator::Incrementing.new }
+describe Cucumber::Messages::IdGenerator::Incrementing do
+  subject { Cucumber::Messages::IdGenerator::Incrementing.new }
 
   context '#new_id' do
     it 'returns 0 the first time' do
@@ -17,8 +17,8 @@ describe Gherkin::IdGenerator::Incrementing do
   end
 end
 
-describe Gherkin::IdGenerator::UUID do
-  subject { Gherkin::IdGenerator::UUID.new }
+describe Cucumber::Messages::IdGenerator::UUID do
+  subject { Cucumber::Messages::IdGenerator::UUID.new }
 
   context '#new_id' do
     it 'generates a UUID' do

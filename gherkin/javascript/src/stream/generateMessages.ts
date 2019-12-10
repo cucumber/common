@@ -1,9 +1,9 @@
 import Parser from '../Parser'
 import TokenMatcher from '../TokenMatcher'
 import { messages } from 'cucumber-messages'
-import { IGherkinOptions } from '../types'
 import compile from '../pickles/compile'
 import AstBuilder from '../AstBuilder'
+import IGherkinOptions from '../IGherkinOptions'
 
 export default function generateMessages(
   data: string,

@@ -1,9 +1,11 @@
 import gherkin from 'gherkin'
-import { messages } from 'cucumber-messages'
-import { CucumberStream, makeDummyStepDefinitions } from 'fake-cucumber'
+import { IdGenerator, messages } from 'cucumber-messages'
 import { Readable, Writable } from 'stream'
 import assert from 'assert'
 import CucumberQuery from '../src/CucumberQuery'
+import SupportCode from 'fake-cucumber/dist/src/SupportCode'
+import CucumberStream from 'fake-cucumber/dist/src/CucumberStream'
+import makeDummyStepDefinitions from 'fake-cucumber/dist/test/makeDummyStepDefinitions'
 
 describe('CucumberQuery', () => {
   describe('#getStepResults(uri, lineNumber)', () => {
@@ -249,9 +251,14 @@ function generateMessages(gherkinSource: string, uri: string): Readable {
     },
   })
 
+  const newId = IdGenerator.uuid()
+  const supportCode = new SupportCode(newId)
+  makeDummyStepDefinitions(supportCode)
   return gherkin
-    .fromSources([source], { newId: gherkin.uuid() })
-    .pipe(new CucumberStream(makeDummyStepDefinitions(), []))
+    .fromSources([source], { newId })
+    .pipe(
+      new CucumberStream(supportCode.stepDefinitions, supportCode.hooks, newId)
+    )
 }
 
 function check(

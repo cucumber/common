@@ -1,9 +1,10 @@
 package io.cucumber.gherkin;
 
+import io.cucumber.messages.IdGenerator;
+import io.cucumber.messages.MessageToBinaryWriter;
+import io.cucumber.messages.MessageToNdjsonWriter;
 import io.cucumber.messages.MessageWriter;
 import io.cucumber.messages.Messages.Envelope;
-import io.cucumber.messages.MessageToNdjsonWriter;
-import io.cucumber.messages.MessageToBinaryWriter;
 
 import java.io.IOException;
 import java.util.ArrayList;

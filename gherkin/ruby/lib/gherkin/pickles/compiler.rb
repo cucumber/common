@@ -1,10 +1,7 @@
-require 'cucumber/messages'
-require 'gherkin/id_generator'
-
 module Gherkin
   module Pickles
     class Compiler
-      def initialize(id_generator = Gherkin::IdGenerator::UUID.new)
+      def initialize(id_generator)
         @id_generator = id_generator
       end
 

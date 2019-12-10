@@ -6,14 +6,12 @@ import {
   RegularExpression,
 } from 'cucumber-expressions'
 import { messages } from 'cucumber-messages'
-import uuidv4 from 'uuid/v4'
 import IStepDefinition from './IStepDefinition'
 import { AnyBody } from './types'
 
 export default class ExpressionStepDefinition implements IStepDefinition {
-  private readonly id = uuidv4()
-
   constructor(
+    private readonly id: string,
     private readonly expression: Expression,
     private readonly body: AnyBody
   ) {}

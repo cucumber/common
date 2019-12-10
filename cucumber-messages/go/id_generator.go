@@ -1,4 +1,4 @@
-package gherkin
+package messages
 
 import (
 	"github.com/gofrs/uuid"

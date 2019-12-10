@@ -12,6 +12,8 @@ acceptance/all.ndjson: $(FEATURE_FILES)
 	pushd ../ruby && \
 		../javascript/node_modules/fake-cucumber/bin/fake-cucumber \
 		--format ndjson \
+		--predictable-ids \
+		--require ../javascript/features \
 		--results pattern \
 		$(patsubst ../ruby/%,%,$^) > \
 		../javascript/$@ && \
@@ -22,6 +24,8 @@ acceptance/test_%.ndjson: ../ruby/features/test_%.feature
 	pushd ../ruby && \
 		../javascript/node_modules/fake-cucumber/bin/fake-cucumber \
 		--format ndjson \
+		--predictable-ids \
+		--require ../javascript/features \
 		--results pattern \
 		$(patsubst ../ruby/%,%,$^) > \
 		../javascript/$@ && \

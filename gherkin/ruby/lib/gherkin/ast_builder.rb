@@ -1,10 +1,9 @@
 require 'cucumber/messages'
 require 'gherkin/ast_node'
-require 'gherkin/id_generator'
 
 module Gherkin
   class AstBuilder
-    def initialize(id_generator = Gherkin::IdGenerator::UUID.new)
+    def initialize(id_generator)
       @id_generator = id_generator
       reset
     end
