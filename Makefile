@@ -7,7 +7,7 @@ MAKEFILES=c21e/Makefile \
 	cucumber-query/Makefile \
 	cucumber-react/Makefile \
 	html-formatter/Makefile \
-	json-formatter/Makefile \
+	cucumber-json-formatter/Makefile \
 	datatable/Makefile \
 	config/Makefile \
 	cucumber-tag-expressions/Makefile \
