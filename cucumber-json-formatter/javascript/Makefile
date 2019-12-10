@@ -7,7 +7,7 @@ FEATURE_NDJSONS = $(patsubst ../ruby/features/%.feature,acceptance/%.ndjson,$(FE
 
 .tested: $(FEATURE_NDJSONS) acceptance/all.ndjson
 
-acceptance/all.ndjson: $(FEATURE_FILES)
+acceptance/all.ndjson: $(FEATURE_FILES) .deps
 	mkdir -p $$(dirname $@)
 	pushd ../ruby && \
 		../javascript/node_modules/fake-cucumber/bin/fake-cucumber \
@@ -19,7 +19,7 @@ acceptance/all.ndjson: $(FEATURE_FILES)
 		../javascript/$@ && \
 		popd
 
-acceptance/test_%.ndjson: ../ruby/features/test_%.feature
+acceptance/test_%.ndjson: ../ruby/features/test_%.feature .deps
 	mkdir -p $$(dirname $@)
 	pushd ../ruby && \
 		../javascript/node_modules/fake-cucumber/bin/fake-cucumber \

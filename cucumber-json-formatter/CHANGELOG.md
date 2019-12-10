@@ -9,16 +9,13 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 ----
 ## [Unreleased]
 
-### Added
-
 ### Changed
 
-### Deprecated
-
-### Removed
+* Upgrade to cucumber-messages 8.0.0
 
 ### Fixed
 
+* Support for text/plain attachments (haven't fully implemented support for other types)
 * Support for Tags, DataTable and DocStrings
 
 ## [2.0.0] - 2019-10-17

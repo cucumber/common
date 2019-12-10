@@ -8,5 +8,8 @@
     "lint": "echo 'nothing to lint'",
     "lint-fix": "echo 'nothing to lint-fix'",
     "build": "echo 'nothing to build'"
+  },
+  "devDependencies": {
+    "fake-cucumber": "^3.0.0"
   }
 }
