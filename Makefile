@@ -6,7 +6,7 @@ MAKEFILES=c21e/Makefile \
 	fake-cucumber/Makefile \
 	cucumber-query/Makefile \
 	cucumber-react/Makefile \
-	html-formatter/Makefile \
+	cucumber-html-formatter/Makefile \
 	cucumber-json-formatter/Makefile \
 	datatable/Makefile \
 	config/Makefile \
