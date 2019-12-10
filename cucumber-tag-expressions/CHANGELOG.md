@@ -19,6 +19,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [2.0.3] - 2019-12-10
 
+### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+## [2.0.3] - 2019-12-10
+
 ### Changed
 
 * Upgrades to `cucumber-parent:2.0.2`
@@ -110,6 +122,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 <!-- Releases -->
 [Unreleased]: https://github.com/cucumber/cucumber/compare/tag-expressions/v2.0.3...master
+[2.0.2]: https://github.com/cucumber/cucumber/compare/tag-expressions/v2.0.3...tag-expressions/v2.0.2
 [2.0.2]: https://github.com/cucumber/cucumber/compare/tag-expressions/v2.0.1...tag-expressions/v2.0.2
 [2.0.2]: https://github.com/cucumber/cucumber/compare/tag-expressions/v2.0.3...tag-expressions/v2.0.2
 [2.0.1]: https://github.com/cucumber/cucumber/compare/tag-expressions/v2.0.0...tag-expressions/v2.0.1
