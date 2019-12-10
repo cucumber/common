@@ -10,6 +10,6 @@
     "build": "echo 'nothing to build'"
   },
   "devDependencies": {
-    "fake-cucumber": "^3.0.0"
+    "fake-cucumber": "^3.0.1"
   }
 }
