@@ -9,12 +9,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
-* Handle Hooks (4 built-in hooks: @before-passed, @before-failed, @after-passed, @after-failed)
+* Implement `Given`/`When`/`Then`/`After`/`Before` DSL
+* Dynamically load files from the file system
+* Support Hooks
   ([#803](https://github.com/cucumber/cucumber/pull/803)
    [vincent-psarga]
    [aslakhellesoy])
 
 ### Changed
+
+* Upgrade to `gherkin` `9.0.0`
+* Upgrade to `cucumber-messages` `8.0.0`
+* Upgrade to `cucumber-expressions` `8.3.0`
 
 ### Deprecated
 
