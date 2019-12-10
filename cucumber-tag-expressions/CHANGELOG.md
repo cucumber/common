@@ -11,16 +11,22 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
-* Upgrades to `cucumber-parent:2.0.2`
-* [Ruby] Renamed gem to `cucumber-tag-expressions`
-
 ### Deprecated
 
 ### Removed
 
-* [Ruby] Removed `cucumber-tag-expressions` executable
-
 ### Fixed
+
+## [2.0.3] - 2019-12-10
+
+### Changed
+
+* Upgrades to `cucumber-parent:2.0.2`
+* [Ruby] Renamed gem to `cucumber-tag-expressions`
+
+### Removed
+
+* [Ruby] Removed `cucumber-tag-expressions` executable
 
 ## [2.0.2] - 2019-07-15
 
@@ -103,8 +109,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First stable release!
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/tag-expressions/v2.0.1...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/tag-expressions/v2.0.3...master
 [2.0.2]: https://github.com/cucumber/cucumber/compare/tag-expressions/v2.0.1...tag-expressions/v2.0.2
+[2.0.2]: https://github.com/cucumber/cucumber/compare/tag-expressions/v2.0.3...tag-expressions/v2.0.2
 [2.0.1]: https://github.com/cucumber/cucumber/compare/tag-expressions/v2.0.0...tag-expressions/v2.0.1
 [2.0.0]: https://github.com/cucumber/cucumber/compare/tag-expressions-v1.1.1...tag-expressions/v2.0.0
 [1.1.1]: https://github.com/cucumber/cucumber/compare/tag-expressions-v1.1.0...tag-expressions-v1.1.1
