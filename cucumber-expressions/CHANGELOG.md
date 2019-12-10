@@ -9,8 +9,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
-* [JavaScript] export `Argument`, `Group` and `Expression` types
-
 ### Changed
 
 ### Deprecated
@@ -18,6 +16,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Removed
 
 ### Fixed
+
+## [8.3.0] - 2019-12-10
+
+### Added
+
+* [JavaScript] export `Argument`, `Group` and `Expression` types
 
 ## [8.2.1] - 2019-11-11
 
@@ -631,7 +635,8 @@ N/A
 * First stable release!
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions/v8.2.1...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions/v8.3.0...master
+[8.3.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v8.2.1...cucumber-expressions/v8.3.0
 [8.2.1]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v8.2.0...cucumber-expressions/v8.2.1
 [8.2.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v8.1.0...cucumber-expressions/v8.2.0
 [8.1.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v8.0.2...cucumber-expressions/v8.1.0
