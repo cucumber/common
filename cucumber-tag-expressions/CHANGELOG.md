@@ -19,18 +19,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [2.0.3] - 2019-12-10
 
-### Added
-
-### Changed
-
-### Deprecated
-
-### Removed
-
-### Fixed
-
-## [2.0.3] - 2019-12-10
-
 ### Changed
 
 * Upgrades to `cucumber-parent:2.0.2`
