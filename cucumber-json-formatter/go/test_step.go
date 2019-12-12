@@ -123,7 +123,7 @@ func TestStepToJSON(step *TestStep) *jsonStep {
 	if docString != nil {
 		jsonStep.DocString = &jsonDocString{
 			Line:        docString.Location.Line,
-			ContentType: docString.ContentType,
+			ContentType: docString.MediaType,
 			Value:       docString.Content,
 		}
 	}
@@ -149,10 +149,15 @@ func TestStepToJSON(step *TestStep) *jsonStep {
 func makeEmbeddings(attachments []*messages.Attachment) []*jsonEmbedding {
 	jsonEmbeddings := make([]*jsonEmbedding, len(attachments))
 	for index, attachment := range attachments {
-		base64EncodedData := base64.StdEncoding.EncodeToString([]byte(attachment.Data))
+		var data []byte
+		if attachment.GetBinary() != nil {
+			data = attachment.GetBinary()
+		} else {
+			data = []byte(attachment.GetText())
+		}
 		jsonEmbeddings[index] = &jsonEmbedding{
-			Data:     base64EncodedData,
-			MimeType: attachment.Media.ContentType,
+			Data:     base64.StdEncoding.EncodeToString(data),
+			MimeType: attachment.MediaType,
 		}
 	}
 

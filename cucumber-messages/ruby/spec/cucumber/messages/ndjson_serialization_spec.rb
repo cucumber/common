@@ -7,7 +7,7 @@ module Cucumber
       it "can be serialised over an ndjson stream" do
         outgoing_messages = [
           Envelope.new(source: Source.new(data: 'Feature: Hello')),
-          Envelope.new(attachment: Attachment.new(data: 'some stack trace'))
+          Envelope.new(attachment: Attachment.new(binary: [1,2,3,4].pack('C*')))
         ]
 
         io = StringIO.new

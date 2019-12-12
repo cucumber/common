@@ -95,12 +95,12 @@
               {
                 "docString": {
                   "content": "Greeting:<content>",
-                  "contentType": "<type>",
                   "delimiter": "\"\"\"",
                   "location": {
                     "column": 5,
                     "line": 5
-                  }
+                  },
+                  "mediaType": "<type>"
                 },
                 "id": "0",
                 "keyword": "Given ",
