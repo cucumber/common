@@ -34,6 +34,14 @@ describe('Cucumber', () => {
 
     const testCase = messageList.find(m => m.testCase).testCase
     assert.strictEqual(testCase.testSteps.length, 2)
+    const hook = messageList.find(m => m.hook).hook
+    assert.deepStrictEqual(
+      hook.sourceReference,
+      new messages.SourceReference({
+        uri: `test/makeDummyHooks.ts`,
+        location: new messages.Location({ line: 8 }),
+      })
+    )
   })
 
   it('runs after hooks even when pickle steps fail')

@@ -3,7 +3,8 @@ import {
   ParameterTypeRegistry,
   RegularExpression,
 } from 'cucumber-expressions'
-import { IdGenerator } from 'cucumber-messages'
+import { IdGenerator, messages } from 'cucumber-messages'
+import StackUtils from 'stack-utils'
 import { AnyBody } from './types'
 import ExpressionStepDefinition from './ExpressionStepDefinition'
 import IStepDefinition from './IStepDefinition'
@@ -16,6 +17,22 @@ type RegisterStepDefinition = (
 ) => void
 
 type RegisterHook = (tagExpression: string, body: AnyBody) => void
+
+function getSourceReference(stackTrace: string): messages.ISourceReference {
+  const stack = new StackUtils({
+    cwd: process.cwd(),
+    internals: StackUtils.nodeInternals(),
+  })
+  const trace = stack.clean(stackTrace)
+  const callSite = stack.parseLine(trace.split('\n')[1])
+  const { file: uri, line } = callSite
+  return new messages.SourceReference({
+    uri,
+    location: new messages.Location({
+      line,
+    }),
+  })
+}
 
 /**
  * This class provides an API for defining step definitions and hooks.
@@ -31,6 +48,7 @@ export default class SupportCode {
     expression: string | RegExp,
     body: AnyBody
   ): void {
+    const sourceReference = getSourceReference(new Error().stack)
     const expr =
       typeof expression === 'string'
         ? new CucumberExpression(expression, this.parameterTypeRegistry)
@@ -38,19 +56,37 @@ export default class SupportCode {
     const stepDefinition = new ExpressionStepDefinition(
       this.newId(),
       expr,
+      sourceReference,
       body
     )
     this.stepDefinitions.push(stepDefinition)
   }
 
   private registerBeforeHook(tagExpression: string, body: AnyBody) {
+    const sourceReference = getSourceReference(new Error().stack)
     this.hooks.push(
-      new Hook(this.newId(), HookType.Before, tagExpression, body)
+      new Hook(
+        this.newId(),
+        HookType.Before,
+        tagExpression,
+        sourceReference,
+        body
+      )
     )
   }
 
   private registerAfterHook(tagExpression: string, body: AnyBody) {
-    this.hooks.push(new Hook(this.newId(), HookType.After, tagExpression, body))
+    const sourceReference = getSourceReference(new Error().stack)
+
+    this.hooks.push(
+      new Hook(
+        this.newId(),
+        HookType.After,
+        tagExpression,
+        sourceReference,
+        body
+      )
+    )
   }
 
   public readonly Given = this.registerStepDefinition.bind(

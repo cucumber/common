@@ -42,6 +42,7 @@ describe('TestPlan', () => {
     const stepDefinition: IStepDefinition = new ExpressionStepDefinition(
       'stepdef-id',
       new CucumberExpression('a passed step', new ParameterTypeRegistry()),
+      null,
       function() {
         this.attach('hello world', 'text/plain')
       }

@@ -4,8 +4,8 @@
 {"pickle":{"id":"30","uri":"testdata/test.feature","name":"C","language":"en","steps":[{"text":"b","argument":{"dataTable":{"rows":[{"cells":[{"value":"text"},{"value":"number"}]},{"cells":[{"value":"a"},{"value":"10"}]},{"cells":[{"value":"bb"},{"value":"100"}]},{"cells":[{"value":"ccc"},{"value":"1000"}]}]}},"id":"26","astNodeIds":["6"]},{"text":"c failed","argument":{"docString":{"content":"x\n y\n  z"}},"id":"27","astNodeIds":["7","12"]},{"text":"bb","id":"28","astNodeIds":["8","12"]},{"text":"100","id":"29","astNodeIds":["9","12"]}],"tags":[{"name":"@ce","astNodeId":"14"}],"astNodeIds":["15","12"]}}
 {"pickle":{"id":"35","uri":"testdata/test.feature","name":"C","language":"en","steps":[{"text":"b","argument":{"dataTable":{"rows":[{"cells":[{"value":"text"},{"value":"number"}]},{"cells":[{"value":"a"},{"value":"10"}]},{"cells":[{"value":"bb"},{"value":"100"}]},{"cells":[{"value":"ccc"},{"value":"1000"}]}]}},"id":"31","astNodeIds":["6"]},{"text":"c failed","argument":{"docString":{"content":"x\n y\n  z"}},"id":"32","astNodeIds":["7","13"]},{"text":"ccc","id":"33","astNodeIds":["8","13"]},{"text":"1000","id":"34","astNodeIds":["9","13"]}],"tags":[{"name":"@ce","astNodeId":"14"}],"astNodeIds":["15","13"]}}
 {"pickle":{"id":"39","uri":"testdata/test.feature","name":"F","language":"en","steps":[{"text":"b","argument":{"dataTable":{"rows":[{"cells":[{"value":"text"},{"value":"number"}]},{"cells":[{"value":"a"},{"value":"10"}]},{"cells":[{"value":"bb"},{"value":"100"}]},{"cells":[{"value":"ccc"},{"value":"1000"}]}]}},"id":"36","astNodeIds":["6"]},{"text":"e","id":"37","astNodeIds":["16"]},{"text":"f","id":"38","astNodeIds":["17"]}],"tags":[{"name":"@f","astNodeId":"18"},{"name":"@F","astNodeId":"19"}],"astNodeIds":["20"]}}
-{"stepDefinition":{"id":"0","pattern":{"source":"a passed step","type":"CUCUMBER_EXPRESSION"},"sourceReference":{"uri":"some/javascript/file.js","location":{"line":10,"column":3}}}}
-{"stepDefinition":{"id":"1","pattern":{"source":"a step has failed","type":"CUCUMBER_EXPRESSION"},"sourceReference":{"uri":"some/javascript/file.js","location":{"line":10,"column":3}}}}
+{"stepDefinition":{"id":"0","pattern":{"source":"a passed step","type":"CUCUMBER_EXPRESSION"},"sourceReference":{"uri":"testdata/step_definitions/steps.ts","location":{"line":3}}}}
+{"stepDefinition":{"id":"1","pattern":{"source":"a step has failed","type":"CUCUMBER_EXPRESSION"},"sourceReference":{"uri":"testdata/step_definitions/steps.ts","location":{"line":7}}}}
 {"testCase":{"id":"44","pickleId":"25","testSteps":[{"id":"40","pickleStepId":"21"},{"id":"41","pickleStepId":"22"},{"id":"42","pickleStepId":"23"},{"id":"43","pickleStepId":"24"}]}}
 {"testCase":{"id":"49","pickleId":"30","testSteps":[{"id":"45","pickleStepId":"26"},{"id":"46","pickleStepId":"27"},{"id":"47","pickleStepId":"28"},{"id":"48","pickleStepId":"29"}]}}
 {"testCase":{"id":"54","pickleId":"35","testSteps":[{"id":"50","pickleStepId":"31"},{"id":"51","pickleStepId":"32"},{"id":"52","pickleStepId":"33"},{"id":"53","pickleStepId":"34"}]}}
@@ -16,7 +16,7 @@
 {"testStepFinished":{"testResult":{"status":"SKIPPED","duration":{"seconds":0,"nanos":0}},"testStepId":"41","testCaseStartedId":"59"}}
 {"testStepFinished":{"testResult":{"status":"SKIPPED","duration":{"seconds":0,"nanos":0}},"testStepId":"42","testCaseStartedId":"59"}}
 {"testStepFinished":{"testResult":{"status":"SKIPPED","duration":{"seconds":0,"nanos":0}},"testStepId":"43","testCaseStartedId":"59"}}
-{"testCaseFinished":{"testResult":{"status":"UNDEFINED","duration":{"seconds":0,"nanos":5000000}},"testCaseStartedId":"59"}}
+{"testCaseFinished":{"testResult":{"status":"UNDEFINED","duration":{"seconds":0,"nanos":6000000}},"testCaseStartedId":"59"}}
 {"testCaseStarted":{"attempt":0,"testCaseId":"49","id":"60"}}
 {"testStepStarted":{"testStepId":"45","testCaseStartedId":"60"}}
 {"testStepFinished":{"testResult":{"status":"UNDEFINED"},"testStepId":"45","testCaseStartedId":"60"}}

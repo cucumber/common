@@ -3,6 +3,7 @@ MAKEFILES=c21e/Makefile \
 	cucumber-messages/Makefile \
 	gherkin/Makefile \
 	cucumber-expressions/Makefile \
+	cucumber-tag-expressions/Makefile \
 	fake-cucumber/Makefile \
 	cucumber-query/Makefile \
 	cucumber-react/Makefile \
@@ -10,7 +11,6 @@ MAKEFILES=c21e/Makefile \
 	cucumber-json-formatter/Makefile \
 	datatable/Makefile \
 	config/Makefile \
-	cucumber-tag-expressions/Makefile \
 	cucumber-demo-formatter/Makefile
 
 default: .rsynced $(patsubst %/Makefile,default-%,$(MAKEFILES))
