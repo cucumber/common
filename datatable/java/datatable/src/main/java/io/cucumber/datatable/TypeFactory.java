@@ -49,7 +49,7 @@ final class TypeFactory {
         }
 
         if (type instanceof WildcardType) {
-            return constructWIldCardType((WildcardType) type);
+            return constructWildCardType((WildcardType) type);
         }
 
         if (type instanceof ParameterizedType) {
@@ -59,8 +59,26 @@ final class TypeFactory {
         return new OtherType(type);
     }
 
-    private static JavaType constructWIldCardType(WildcardType type) {
-        // We'll only care about exact matches for now.
+    private static JavaType constructWildCardType(WildcardType type) {
+        // For our simplified type system we can safely replace upper bounds
+        // When registering a transformer to type ? extends SomeType the
+        // transformer is guaranteed to produce an object that is an instance of
+        // SomeType.
+        // When transforming a data table to ? extends SomeType a transformer
+        // that produces SomeType is sufficient.
+        // This will result in ambiguity between a transformers for SomeType
+        // and transformers for ? extends SomeType but that seems reasonable and
+        // might be resolved by using a more specific producer.
+        Type[] upperBounds = type.getUpperBounds();
+        if (upperBounds.length > 0) {
+            // Not possible in Java. Scala?
+            if (upperBounds.length > 1) {
+                throw new IllegalArgumentException("Type contained more then upper lower bound " + type + ". Types may only have a single upper bound.");
+            }
+            return constructType(upperBounds[0]);
+        }
+
+        // We'll treat lower bounds as is.
         return new OtherType(type);
     }
 
@@ -92,6 +110,11 @@ final class TypeFactory {
 
     static String typeName(Type type) {
         return type.getTypeName();
+    }
+
+    interface JavaType extends Type {
+
+        Type getOriginal();
     }
 
     static final class OtherType implements JavaType {
@@ -217,10 +240,5 @@ final class TypeFactory {
         public Type getOriginal() {
             return original;
         }
-    }
-
-    interface JavaType extends Type {
-
-        Type getOriginal();
     }
 }

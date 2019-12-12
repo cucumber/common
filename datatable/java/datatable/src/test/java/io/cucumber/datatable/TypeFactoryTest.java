@@ -21,8 +21,9 @@ class TypeFactoryTest {
     }.getType();
     private static final Type LIST_OF_LIST_OF_OBJECT = new TypeReference<List<List<Object>>>() {
     }.getType();
-
     private static final Type LIST_OF_WILD_CARD_NUMBER = new TypeReference<List<? extends Number>>() {
+    }.getType();
+    private static final Type LIST_OF_NUMBER = new TypeReference<List<Number>>() {
     }.getType();
     private static final Type MAP_OF_OBJECT_OBJECT = new TypeReference<Map<Object, Object>>() {
     }.getType();
@@ -146,4 +147,23 @@ class TypeFactoryTest {
                 "Type contained a type variable T. Types must explicit."
         ));
     }
+
+    @Test
+    void wild_card_types_use_upper_bound_in_equality() {
+        JavaType javaType = TypeFactory.constructType(LIST_OF_WILD_CARD_NUMBER);
+        JavaType other = TypeFactory.constructType(LIST_OF_NUMBER);
+        assertThat(javaType, equalTo(other));
+        TypeFactory.ListType listType = (TypeFactory.ListType) javaType;
+        JavaType elementType = listType.getElementType();
+        assertThat(elementType.getOriginal(), equalTo(Number.class));
+    }
+
+    @Test
+    void upper_bound_of_wild_card_replaces_wild_card_type() {
+        JavaType javaType = TypeFactory.constructType(LIST_OF_WILD_CARD_NUMBER);
+        TypeFactory.ListType listType = (TypeFactory.ListType) javaType;
+        JavaType elementType = listType.getElementType();
+        assertThat(elementType.getOriginal(), equalTo(Number.class));
+    }
+
 }
