@@ -61,34 +61,7 @@ with an overview of what's implemented, and what still needs some work.
 
 ## What's tested
 
-The test suite validates that the following functionality is properly implemented
-
-* Tags
-  * Conditional hooks (formerly tagged hooks)
-  * The `--tags` option
-* Hooks
-  * Before
-  * After
-    * That they always run, regardless of previous failures
-* World
-* Attachments
-  * Text
-  * Binary
-* Cucumber Expressions
-  * Custom Parameter Types
-* Snippets
-  * Print them
-  * Templateable
-* Gherkin
-  * Tags
-  * Rules
-  * Examples tables
-  * Data tables
-  * Doc strings
-* Timeouts
-* Stack traces
-  * Filter stack trace
-  * Show relative paths
+See https://app.mindmup.com/map/_v2/2b5ee9a00d1b11ea85574541c004362d
 
 ## Configuration
 
