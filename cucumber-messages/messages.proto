@@ -102,6 +102,7 @@ message Media {
    * [IANA Media Type](https://www.iana.org/assignments/media-types/media-types.xhtml)
    * as well as Cucumber-specific media types such as `text/x.cucumber.gherkin+plain`
    * and `text/x.cucumber.stacktrace+plain`
+   * TODO: Rename to media_type
    */
   string content_type = 2;
 
@@ -317,6 +318,12 @@ message Attachment {
   Media media = 3;
   string test_step_id = 4;
   string test_case_started_id = 5;
+  // TODO
+  // oneof data {
+  //   string text = 2;
+  //   bytes binary = 3;
+  // }
+  // string media_type = 4;
 }
 
 ////// Pickles
