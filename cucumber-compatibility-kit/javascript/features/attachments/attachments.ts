@@ -4,5 +4,5 @@ When('the string {word} is attached as {word}', function(
   text: string,
   contentType: string
 ) {
-  this.attach(text, contentType)
+  this.attdach(text, contentType)
 })
