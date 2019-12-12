@@ -9,6 +9,7 @@ export default class Hook implements IHook {
     public readonly id: string,
     private readonly hookType: HookType,
     private readonly tagExpression: string | null,
+    private readonly sourceReference: messages.ISourceReference,
     private readonly body: AnyBody
   ) {}
 
@@ -30,13 +31,7 @@ export default class Hook implements IHook {
       hook: new messages.Hook({
         id: this.id,
         tagExpression: this.tagExpression,
-        sourceReference: new messages.SourceReference({
-          location: new messages.Location({
-            column: 3,
-            line: 10,
-          }),
-          uri: 'some/javascript/hooks.js',
-        }),
+        sourceReference: this.sourceReference,
       }),
     })
   }

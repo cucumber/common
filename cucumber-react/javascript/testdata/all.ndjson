@@ -25,8 +25,8 @@
 {"pickle":{"id":"131","uri":"testdata/rules.feature","name":"E33","language":"en","steps":[{"text":"fb","id":"129","astNodeIds":["88"]},{"text":"b","id":"130","astNodeIds":["102"]}],"astNodeIds":["103"]}}
 {"pickle":{"id":"134","uri":"testdata/rules.feature","name":"E39","language":"en","steps":[{"text":"fb","id":"132","astNodeIds":["88"]},{"text":"c","id":"133","astNodeIds":["104"]}],"astNodeIds":["105"]}}
 {"pickle":{"id":"137","uri":"testdata/rules.feature","name":"E42","language":"en","steps":[{"text":"fb","id":"135","astNodeIds":["88"]},{"text":"c","id":"136","astNodeIds":["106"]}],"astNodeIds":["107"]}}
-{"stepDefinition":{"id":"0","pattern":{"source":"a passed step","type":"CUCUMBER_EXPRESSION"},"sourceReference":{"uri":"some/javascript/file.js","location":{"line":10,"column":3}}}}
-{"stepDefinition":{"id":"1","pattern":{"source":"a step has failed","type":"CUCUMBER_EXPRESSION"},"sourceReference":{"uri":"some/javascript/file.js","location":{"line":10,"column":3}}}}
+{"stepDefinition":{"id":"0","pattern":{"source":"a passed step","type":"CUCUMBER_EXPRESSION"},"sourceReference":{"uri":"testdata/step_definitions/steps.ts","location":{"line":3}}}}
+{"stepDefinition":{"id":"1","pattern":{"source":"a step has failed","type":"CUCUMBER_EXPRESSION"},"sourceReference":{"uri":"testdata/step_definitions/steps.ts","location":{"line":7}}}}
 {"testCase":{"id":"141","pickleId":"23","testSteps":[{"id":"138","pickleStepId":"20","stepDefinitionIds":["0"]},{"id":"139","pickleStepId":"21","stepDefinitionIds":["1"]},{"id":"140","pickleStepId":"22"}]}}
 {"testCase":{"id":"145","pickleId":"27","testSteps":[{"id":"142","pickleStepId":"24"},{"id":"143","pickleStepId":"25"},{"id":"144","pickleStepId":"26"}]}}
 {"testCase":{"id":"149","pickleId":"31","testSteps":[{"id":"146","pickleStepId":"28"},{"id":"147","pickleStepId":"29"},{"id":"148","pickleStepId":"30"}]}}
@@ -50,15 +50,15 @@
 {"testStepStarted":{"testStepId":"138","testCaseStartedId":"210"}}
 {"testStepFinished":{"testResult":{"status":"PASSED","duration":{"seconds":0,"nanos":1000000}},"testStepId":"138","testCaseStartedId":"210"}}
 {"testStepStarted":{"testStepId":"139","testCaseStartedId":"210"}}
-{"testStepFinished":{"testResult":{"status":"FAILED","message":"Error: Oh no we have an error\n    at DefaultWorld.<anonymous> (/app/cucumber-react/javascript/testdata/step_definitions/steps.ts:8:9)\n    at SupportCodeExecutor.execute (/app/cucumber-react/javascript/node_modules/fake-cucumber/src/SupportCodeExecutor.ts:25:22)\n    at PickleTestStep.<anonymous> (/app/cucumber-react/javascript/node_modules/fake-cucumber/src/TestStep.ts:50:57)\n    at step (/app/cucumber-react/javascript/node_modules/fake-cucumber/dist/src/TestStep.js:33:23)\n    at Object.next (/app/cucumber-react/javascript/node_modules/fake-cucumber/dist/src/TestStep.js:14:53)\n    at /app/cucumber-react/javascript/node_modules/fake-cucumber/dist/src/TestStep.js:8:71\n    at new Promise (<anonymous>)\n    at __awaiter (/app/cucumber-react/javascript/node_modules/fake-cucumber/dist/src/TestStep.js:4:12)\n    at PickleTestStep.TestStep.execute (/app/cucumber-react/javascript/node_modules/fake-cucumber/dist/src/TestStep.js:50:16)\n    at TestCase.<anonymous> (/app/cucumber-react/javascript/node_modules/fake-cucumber/src/TestCase.ts:79:41)","duration":{"seconds":0,"nanos":0}},"testStepId":"139","testCaseStartedId":"210"}}
+{"testStepFinished":{"testResult":{"status":"FAILED","message":"Error: Oh no we have an error\n    at DefaultWorld.<anonymous> (/app/cucumber-react/javascript/testdata/step_definitions/steps.ts:8:9)\n    at SupportCodeExecutor.execute (/app/fake-cucumber/javascript/src/SupportCodeExecutor.ts:25:22)\n    at PickleTestStep.<anonymous> (/app/fake-cucumber/javascript/src/TestStep.ts:50:57)\n    at step (/app/fake-cucumber/javascript/dist/src/TestStep.js:33:23)\n    at Object.next (/app/fake-cucumber/javascript/dist/src/TestStep.js:14:53)\n    at /app/fake-cucumber/javascript/dist/src/TestStep.js:8:71\n    at new Promise (<anonymous>)\n    at __awaiter (/app/fake-cucumber/javascript/dist/src/TestStep.js:4:12)\n    at PickleTestStep.TestStep.execute (/app/fake-cucumber/javascript/dist/src/TestStep.js:50:16)\n    at TestCase.<anonymous> (/app/fake-cucumber/javascript/src/TestCase.ts:79:41)","duration":{"seconds":0,"nanos":0}},"testStepId":"139","testCaseStartedId":"210"}}
 {"testStepFinished":{"testResult":{"status":"SKIPPED","duration":{"seconds":0,"nanos":0}},"testStepId":"140","testCaseStartedId":"210"}}
-{"testCaseFinished":{"testResult":{"status":"FAILED","message":"Error: Oh no we have an error\n    at DefaultWorld.<anonymous> (/app/cucumber-react/javascript/testdata/step_definitions/steps.ts:8:9)\n    at SupportCodeExecutor.execute (/app/cucumber-react/javascript/node_modules/fake-cucumber/src/SupportCodeExecutor.ts:25:22)\n    at PickleTestStep.<anonymous> (/app/cucumber-react/javascript/node_modules/fake-cucumber/src/TestStep.ts:50:57)\n    at step (/app/cucumber-react/javascript/node_modules/fake-cucumber/dist/src/TestStep.js:33:23)\n    at Object.next (/app/cucumber-react/javascript/node_modules/fake-cucumber/dist/src/TestStep.js:14:53)\n    at /app/cucumber-react/javascript/node_modules/fake-cucumber/dist/src/TestStep.js:8:71\n    at new Promise (<anonymous>)\n    at __awaiter (/app/cucumber-react/javascript/node_modules/fake-cucumber/dist/src/TestStep.js:4:12)\n    at PickleTestStep.TestStep.execute (/app/cucumber-react/javascript/node_modules/fake-cucumber/dist/src/TestStep.js:50:16)\n    at TestCase.<anonymous> (/app/cucumber-react/javascript/node_modules/fake-cucumber/src/TestCase.ts:79:41)","duration":{"seconds":0,"nanos":50000000}},"testCaseStartedId":"210"}}
+{"testCaseFinished":{"testResult":{"status":"FAILED","message":"Error: Oh no we have an error\n    at DefaultWorld.<anonymous> (/app/cucumber-react/javascript/testdata/step_definitions/steps.ts:8:9)\n    at SupportCodeExecutor.execute (/app/fake-cucumber/javascript/src/SupportCodeExecutor.ts:25:22)\n    at PickleTestStep.<anonymous> (/app/fake-cucumber/javascript/src/TestStep.ts:50:57)\n    at step (/app/fake-cucumber/javascript/dist/src/TestStep.js:33:23)\n    at Object.next (/app/fake-cucumber/javascript/dist/src/TestStep.js:14:53)\n    at /app/fake-cucumber/javascript/dist/src/TestStep.js:8:71\n    at new Promise (<anonymous>)\n    at __awaiter (/app/fake-cucumber/javascript/dist/src/TestStep.js:4:12)\n    at PickleTestStep.TestStep.execute (/app/fake-cucumber/javascript/dist/src/TestStep.js:50:16)\n    at TestCase.<anonymous> (/app/fake-cucumber/javascript/src/TestCase.ts:79:41)","duration":{"seconds":0,"nanos":38000000}},"testCaseStartedId":"210"}}
 {"testCaseStarted":{"attempt":0,"testCaseId":"145","id":"211"}}
 {"testStepStarted":{"testStepId":"142","testCaseStartedId":"211"}}
 {"testStepFinished":{"testResult":{"status":"UNDEFINED"},"testStepId":"142","testCaseStartedId":"211"}}
 {"testStepFinished":{"testResult":{"status":"SKIPPED","duration":{"seconds":0,"nanos":0}},"testStepId":"143","testCaseStartedId":"211"}}
 {"testStepFinished":{"testResult":{"status":"SKIPPED","duration":{"seconds":0,"nanos":0}},"testStepId":"144","testCaseStartedId":"211"}}
-{"testCaseFinished":{"testResult":{"status":"UNDEFINED","duration":{"seconds":0,"nanos":1000000}},"testCaseStartedId":"211"}}
+{"testCaseFinished":{"testResult":{"status":"UNDEFINED","duration":{"seconds":0,"nanos":2000000}},"testCaseStartedId":"211"}}
 {"testCaseStarted":{"attempt":0,"testCaseId":"149","id":"212"}}
 {"testStepStarted":{"testStepId":"146","testCaseStartedId":"212"}}
 {"testStepFinished":{"testResult":{"status":"UNDEFINED"},"testStepId":"146","testCaseStartedId":"212"}}
@@ -81,28 +81,28 @@
 {"testStepStarted":{"testStepId":"158","testCaseStartedId":"215"}}
 {"testStepFinished":{"testResult":{"status":"UNDEFINED"},"testStepId":"158","testCaseStartedId":"215"}}
 {"testStepFinished":{"testResult":{"status":"SKIPPED","duration":{"seconds":0,"nanos":0}},"testStepId":"159","testCaseStartedId":"215"}}
-{"testCaseFinished":{"testResult":{"status":"UNDEFINED","duration":{"seconds":0,"nanos":1000000}},"testCaseStartedId":"215"}}
+{"testCaseFinished":{"testResult":{"status":"UNDEFINED","duration":{"seconds":0,"nanos":0}},"testCaseStartedId":"215"}}
 {"testCaseStarted":{"attempt":0,"testCaseId":"165","id":"216"}}
 {"testStepStarted":{"testStepId":"161","testCaseStartedId":"216"}}
 {"testStepFinished":{"testResult":{"status":"UNDEFINED"},"testStepId":"161","testCaseStartedId":"216"}}
 {"testStepFinished":{"testResult":{"status":"SKIPPED","duration":{"seconds":0,"nanos":0}},"testStepId":"162","testCaseStartedId":"216"}}
 {"testStepFinished":{"testResult":{"status":"SKIPPED","duration":{"seconds":0,"nanos":0}},"testStepId":"163","testCaseStartedId":"216"}}
 {"testStepFinished":{"testResult":{"status":"SKIPPED","duration":{"seconds":0,"nanos":0}},"testStepId":"164","testCaseStartedId":"216"}}
-{"testCaseFinished":{"testResult":{"status":"UNDEFINED","duration":{"seconds":0,"nanos":1000000}},"testCaseStartedId":"216"}}
+{"testCaseFinished":{"testResult":{"status":"UNDEFINED","duration":{"seconds":0,"nanos":2000000}},"testCaseStartedId":"216"}}
 {"testCaseStarted":{"attempt":0,"testCaseId":"170","id":"217"}}
 {"testStepStarted":{"testStepId":"166","testCaseStartedId":"217"}}
 {"testStepFinished":{"testResult":{"status":"UNDEFINED"},"testStepId":"166","testCaseStartedId":"217"}}
 {"testStepFinished":{"testResult":{"status":"SKIPPED","duration":{"seconds":0,"nanos":0}},"testStepId":"167","testCaseStartedId":"217"}}
 {"testStepFinished":{"testResult":{"status":"SKIPPED","duration":{"seconds":0,"nanos":0}},"testStepId":"168","testCaseStartedId":"217"}}
 {"testStepFinished":{"testResult":{"status":"SKIPPED","duration":{"seconds":0,"nanos":0}},"testStepId":"169","testCaseStartedId":"217"}}
-{"testCaseFinished":{"testResult":{"status":"UNDEFINED","duration":{"seconds":0,"nanos":1000000}},"testCaseStartedId":"217"}}
+{"testCaseFinished":{"testResult":{"status":"UNDEFINED","duration":{"seconds":0,"nanos":2000000}},"testCaseStartedId":"217"}}
 {"testCaseStarted":{"attempt":0,"testCaseId":"175","id":"218"}}
 {"testStepStarted":{"testStepId":"171","testCaseStartedId":"218"}}
 {"testStepFinished":{"testResult":{"status":"UNDEFINED"},"testStepId":"171","testCaseStartedId":"218"}}
 {"testStepFinished":{"testResult":{"status":"SKIPPED","duration":{"seconds":0,"nanos":0}},"testStepId":"172","testCaseStartedId":"218"}}
 {"testStepFinished":{"testResult":{"status":"SKIPPED","duration":{"seconds":0,"nanos":0}},"testStepId":"173","testCaseStartedId":"218"}}
 {"testStepFinished":{"testResult":{"status":"SKIPPED","duration":{"seconds":0,"nanos":0}},"testStepId":"174","testCaseStartedId":"218"}}
-{"testCaseFinished":{"testResult":{"status":"UNDEFINED","duration":{"seconds":0,"nanos":1000000}},"testCaseStartedId":"218"}}
+{"testCaseFinished":{"testResult":{"status":"UNDEFINED","duration":{"seconds":0,"nanos":2000000}},"testCaseStartedId":"218"}}
 {"testCaseStarted":{"attempt":0,"testCaseId":"179","id":"219"}}
 {"testStepStarted":{"testStepId":"176","testCaseStartedId":"219"}}
 {"testStepFinished":{"testResult":{"status":"UNDEFINED"},"testStepId":"176","testCaseStartedId":"219"}}
@@ -146,7 +146,7 @@
 {"testStepStarted":{"testStepId":"201","testCaseStartedId":"226"}}
 {"testStepFinished":{"testResult":{"status":"UNDEFINED"},"testStepId":"201","testCaseStartedId":"226"}}
 {"testStepFinished":{"testResult":{"status":"SKIPPED","duration":{"seconds":0,"nanos":0}},"testStepId":"202","testCaseStartedId":"226"}}
-{"testCaseFinished":{"testResult":{"status":"UNDEFINED","duration":{"seconds":0,"nanos":0}},"testCaseStartedId":"226"}}
+{"testCaseFinished":{"testResult":{"status":"UNDEFINED","duration":{"seconds":0,"nanos":1000000}},"testCaseStartedId":"226"}}
 {"testCaseStarted":{"attempt":0,"testCaseId":"206","id":"227"}}
 {"testStepStarted":{"testStepId":"204","testCaseStartedId":"227"}}
 {"testStepFinished":{"testResult":{"status":"UNDEFINED"},"testStepId":"204","testCaseStartedId":"227"}}

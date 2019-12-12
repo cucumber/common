@@ -26,7 +26,9 @@ describe('makeTestCase', () => {
   context('when hooks are defined', () => {
     context('when a before hook matches', () => {
       it('adds a step before the scenario ones', () => {
-        const hooks = [new Hook('hook-id', HookType.Before, null, () => null)]
+        const hooks = [
+          new Hook('hook-id', HookType.Before, null, null, () => null),
+        ]
         const pickle = makePickleWithTwoSteps()
         const stepDefinitions = makeStepDefinitions()
         const testCase = makeTestCase(
@@ -50,7 +52,9 @@ describe('makeTestCase', () => {
 
   context('when an after hook matches', () => {
     it('adds a step after the scenario ones', () => {
-      const hooks = [new Hook('hook-id', HookType.After, null, () => null)]
+      const hooks = [
+        new Hook('hook-id', HookType.After, null, null, () => null),
+      ]
       const pickle = makePickleWithTwoSteps()
       const stepDefinitions = makeStepDefinitions()
       const testCase = makeTestCase(
@@ -94,11 +98,13 @@ describe('makeTestCase', () => {
       new ExpressionStepDefinition(
         'hook-id',
         new CucumberExpression('a passed {word}', parameterTypeRegistry),
+        null,
         (thing: string) => undefined
       ),
       new ExpressionStepDefinition(
         'hook-id',
         new CucumberExpression('a failed {word}', parameterTypeRegistry),
+        null,
         (thing: string) => undefined
       ),
     ]

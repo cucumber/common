@@ -13,6 +13,7 @@ export default class ExpressionStepDefinition implements IStepDefinition {
   constructor(
     private readonly id: string,
     private readonly expression: Expression,
+    private readonly sourceReference: messages.ISourceReference,
     private readonly body: AnyBody
   ) {}
 
@@ -43,13 +44,7 @@ export default class ExpressionStepDefinition implements IStepDefinition {
           type: this.expressionType(),
           source: this.expression.source,
         }),
-        sourceReference: new messages.SourceReference({
-          location: new messages.Location({
-            column: 3,
-            line: 10,
-          }),
-          uri: 'some/javascript/file.js',
-        }),
+        sourceReference: this.sourceReference,
       }),
     })
   }

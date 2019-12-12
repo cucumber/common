@@ -32,6 +32,7 @@
     "@types/glob": "^7.1.1",
     "@types/mocha": "^5.2.7",
     "@types/node": "^12.12.17",
+    "@types/stack-utils": "^1.0.1",
     "mocha": "^6.2.2",
     "nyc": "^14.1.1",
     "prettier": "^1.19.1",
@@ -48,6 +49,7 @@
     "gherkin": "^9.0.0",
     "glob": "^7.1.6",
     "source-map-support": "^0.5.16",
+    "stack-utils": "^1.0.2",
     "ts-node": "^8.5.4",
     "typescript": "^3.7.3"
   }

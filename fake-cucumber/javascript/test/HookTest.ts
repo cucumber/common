@@ -7,9 +7,15 @@ import TestWorld from './TestWorld'
 describe('Hook', () => {
   describe('#match', () => {
     it("does not return a SupportCodeExecutor if the hook's tag expression does not match", () => {
-      const hook = new Hook('hook-id', HookType.Before, 'not @foo', () => {
-        throw new Error('unexpected')
-      })
+      const hook = new Hook(
+        'hook-id',
+        HookType.Before,
+        'not @foo',
+        null,
+        () => {
+          throw new Error('unexpected')
+        }
+      )
       const pickle = new messages.Pickle({
         tags: [new messages.Pickle.PickleTag({ name: '@foo' })],
       })
@@ -19,9 +25,15 @@ describe('Hook', () => {
     })
 
     it("returns a SupportCodeExecutor if the hook's tag expression matches", () => {
-      const hook = new Hook('hook-id', HookType.Before, 'not @foo', () => {
-        return 'something'
-      })
+      const hook = new Hook(
+        'hook-id',
+        HookType.Before,
+        'not @foo',
+        null,
+        () => {
+          return 'something'
+        }
+      )
       const pickle = new messages.Pickle({
         tags: [new messages.Pickle.PickleTag({ name: '@bar' })],
       })
@@ -31,7 +43,7 @@ describe('Hook', () => {
     })
 
     it('returns a SupportCodeExecutor if the hook has no tag expression', () => {
-      const hook = new Hook('hook-id', HookType.Before, null, () => {
+      const hook = new Hook('hook-id', HookType.Before, null, null, () => {
         return 'something'
       })
       const pickle = new messages.Pickle({
@@ -43,7 +55,7 @@ describe('Hook', () => {
     })
 
     it('does not return a SupportCodeExecutor if the hook type does not match', () => {
-      const hook = new Hook('hook-id', HookType.Before, null, () => {
+      const hook = new Hook('hook-id', HookType.Before, null, null, () => {
         return 'something'
       })
       const pickle = new messages.Pickle()
