@@ -2,9 +2,9 @@ package io.cucumber.gherkin;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.PrimitiveIterator;
 import java.util.Scanner;
 
-import static io.cucumber.gherkin.StringUtils.codePoints;
 import static io.cucumber.gherkin.StringUtils.ltrim;
 import static io.cucumber.gherkin.StringUtils.rtrim;
 import static io.cucumber.gherkin.StringUtils.symbolCount;
@@ -68,29 +68,31 @@ public class GherkinLine implements IGherkinLine {
         int col = 0;
         int cellStart = 0;
         boolean escape = false;
-        for (String c : codePoints(lineText)) {
+        PrimitiveIterator.OfInt iterator = lineText.codePoints().iterator();
+        while (iterator.hasNext() ) {
+            int c = iterator.next() ;
             if (escape) {
                 switch (c) {
-                    case "n":
+                    case 'n':
                         cellBuilder.append('\n');
                         break;
-                    case "\\":
+                    case '\\':
                         cellBuilder.append('\\');
                         break;
-                    case "|":
+                    case '|':
                         cellBuilder.append('|');
                         break;
                     default:
                         // Invalid escape. We'll just ignore it.
                         cellBuilder.append("\\");
-                        cellBuilder.append(c);
+                        cellBuilder.appendCodePoint(c);
                         break;
                 }
                 escape = false;
             } else {
-                if (c.equals("\\")) {
+                if (c == '\\') {
                     escape = true;
-                } else if (c.equals("|")) {
+                } else if (c == '|') {
                     if (beforeFirst) {
                         // Skip the first empty span
                         beforeFirst = false;
@@ -103,7 +105,7 @@ public class GherkinLine implements IGherkinLine {
                     cellBuilder = new StringBuilder();
                     cellStart = col + 1;
                 } else {
-                    cellBuilder.append(c);
+                    cellBuilder.appendCodePoint(c);
                 }
             }
             col++;
