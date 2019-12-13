@@ -3,20 +3,8 @@ import { MessageNotifier } from './types'
 import { messages, TimeConversion } from 'cucumber-messages'
 import { performance } from 'perf_hooks'
 import IWorld from './IWorld'
-import { Readable } from 'stream'
 
 const { millisecondsToDuration } = TimeConversion
-
-class DefaultWorld implements IWorld {
-  public testStepId: string
-
-  constructor(
-    public readonly attach: (
-      data: string | Buffer | Readable,
-      mediaType: string
-    ) => void
-  ) {}
-}
 
 export default class TestCase {
   constructor(
@@ -52,32 +40,11 @@ export default class TestCase {
       })
     )
 
-    function attach(data: string | Buffer, mediaType: string) {
-      if (!this.testStepId) {
-        throw new Error(`this.testStepId is not set`)
-      }
-      const attachment = new messages.Attachment({
-        testCaseStartedId,
-        testStepId: this.testStepId,
-        mediaType,
-      })
-
-      if (typeof data === 'string') {
-        attachment.text = data
-      } else if (Buffer.isBuffer(data)) {
-        attachment.binary = data
-      } else {
-        throw new Error(`data must be string or Buffer`)
-      }
-
-      notifier(
-        new messages.Envelope({
-          attachment,
-        })
-      )
+    const world: IWorld = {
+      attach: () => {
+        throw new Error('Attach is not ready')
+      },
     }
-
-    const world = new DefaultWorld(attach)
     const testStepResults: messages.ITestResult[] = []
 
     const start = performance.now()

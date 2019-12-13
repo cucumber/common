@@ -1,7 +1,5 @@
-import { Readable } from 'stream'
+import { Attach } from './types'
 
 export default interface IWorld {
-  testStepId: string
-
-  attach(data: string | Buffer | Readable, mediaType: string): void
+  attach: Attach
 }

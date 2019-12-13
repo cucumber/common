@@ -4,6 +4,7 @@ import SupportCodeExecutor from './SupportCodeExecutor'
 import { MessageNotifier } from './types'
 import ITestStep from './ITestStep'
 import IWorld from './IWorld'
+import makeAttach from './makeAttach'
 
 const { millisecondsToDuration } = TimeConversion
 
@@ -46,7 +47,7 @@ export default abstract class TestStep implements ITestStep {
 
     const start = performance.now()
     try {
-      world.testStepId = this.id
+      world.attach = makeAttach(this.id, testCaseStartedId, notifier)
       const result = await this.supportCodeExecutors[0].execute(world)
       const finish = performance.now()
       const duration = millisecondsToDuration(finish - start)

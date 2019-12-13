@@ -12,5 +12,8 @@ Feature: Attachments
     Scenario: Attach text
       When the string "hello" is attached as "text/plain"
 
-    Scenario: Attach screenshot
-      When 10 bytes are attached as "application/octet-stream"
+    Scenario: Attach byte array
+      When an array with 10 bytes are attached as "application/octet-stream"
+
+    Scenario: Attach byte stream
+      When a stream with 10 bytes are attached as "application/octet-stream"
