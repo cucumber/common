@@ -71,7 +71,7 @@ public final class DataTableTypeRegistry {
         if (existing != null) {
             throw new DuplicateTypeException(format(
                     "There is already a data table type registered for %s.\n" +
-                            "It registered an %s for %s.\n" +
+                            "It registered a %s for %s.\n" +
                             "You are trying to add a %s for %s.",
                     dataTableType.getElementType(),
                     existing.getTransformerType().getSimpleName(),
