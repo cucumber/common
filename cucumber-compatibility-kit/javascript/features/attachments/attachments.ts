@@ -1,19 +1,31 @@
 import { When } from 'fake-cucumber'
+import { ReadableStreamBuffer } from 'stream-buffers'
 
 When('the string {string} is attached as {string}', function(
   text: string,
-  contentType: string
+  mediaType: string
 ) {
-  this.attach(text, contentType)
+  this.attach(text, mediaType)
 })
 
-When('{int} bytes are attached as {string}', function(
+When('an array with {int} bytes are attached as {string}', function(
   size: number,
-  contentType: string
+  mediaType: string
 ) {
-  const data: number[] = []
-  for (let i = 0; i < size; i++) {
-    data[i] = i % 256
-  }
-  this.attach(Buffer.from(data), contentType)
+  const data = [...Array(size).keys()]
+  const buffer = Buffer.from(data)
+  this.attach(buffer, mediaType)
+})
+
+When('a stream with {int} bytes are attached as {string}', async function(
+  size: number,
+  mediaType: string
+) {
+  const data = [...Array(size).keys()]
+  const buffer = Buffer.from(data)
+  const stream = new ReadableStreamBuffer({ chunkSize: 1, frequency: 1 })
+  stream.put(buffer)
+  stream.stop()
+
+  await this.attach(stream, mediaType)
 })

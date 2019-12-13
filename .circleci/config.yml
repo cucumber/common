@@ -286,6 +286,22 @@ jobs:
             - fake-cucumber/javascript/dist
             - fake-cucumber/javascript/node_modules
 
+  cucumber-compatibility-kit-javascript:
+    executor: docker-circleci-node-12
+    steps:
+      - attach_workspace:
+          at: "~/cucumber"
+      - run:
+          name: cucumber-compatibility-kit/javascript
+          command: |
+            cd cucumber-compatibility-kit/javascript
+            make
+      - persist_to_workspace:
+          root: ~/cucumber
+          paths:
+            - cucumber-compatibility-kit/javascript/dist
+            - cucumber-compatibility-kit/javascript/node_modules
+
   cucumber-react-javascript:
     executor: docker-circleci-node-12
     steps:
@@ -707,6 +723,9 @@ workflows:
             - gherkin-javascript
             - cucumber-expressions-javascript-node-12
             - cucumber-tag-expressions-javascript
+      - cucumber-compatibility-kit-javascript:
+          requires:
+            - fake-cucumber-javascript
       - cucumber-react-javascript:
           requires:
             - cucumber-messages-javascript

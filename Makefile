@@ -5,6 +5,7 @@ MAKEFILES=c21e/Makefile \
 	cucumber-expressions/Makefile \
 	cucumber-tag-expressions/Makefile \
 	fake-cucumber/Makefile \
+	cucumber-compatibility-kit/Makefile \
 	cucumber-query/Makefile \
 	cucumber-react/Makefile \
 	cucumber-html-formatter/Makefile \

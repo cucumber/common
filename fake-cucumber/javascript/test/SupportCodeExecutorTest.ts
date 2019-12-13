@@ -3,32 +3,7 @@ import assert from 'assert'
 import TestWorld from './TestWorld'
 
 describe('SupportCodeExecutor', () => {
-  it('can attach attachments', () => {
-    function body() {
-      this.attach('hello', 'text/plain')
-    }
-
-    const executor = new SupportCodeExecutor(
-      'step-definition-id',
-      body,
-      [],
-      null,
-      null
-    )
-
-    let attachedData: string
-    const world = {
-      testStepId: 'some-test-step-id',
-      attach(data: string, contentType: string) {
-        attachedData = data
-      },
-    }
-
-    executor.execute(world)
-    assert.strictEqual(attachedData, 'hello')
-  })
-
-  it('can handle a promise', async () => {
+  it('can wait for a promise', async () => {
     function body() {
       return Promise.resolve('hello')
     }

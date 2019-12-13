@@ -12,6 +12,3 @@ features/%.ndjson: features/%.feature features/%.ts .deps
 		--format ndjson \
 		--predictable-ids \
 		$< > $@
-
-clean:
-	rm -f $(NDJSON_FILES)
