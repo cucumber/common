@@ -6,6 +6,26 @@ import makePickleTestStep from './makePickleTestStep'
 import HookTestStep from './HookTestStep'
 import ITestStep from './ITestStep'
 
+export default function makeTestCase(
+  pickle: messages.IPickle,
+  stepDefinitions: IStepDefinition[],
+  beforeHooks: IHook[],
+  afterHooks: IHook[],
+  newId: IdGenerator.NewId
+): TestCase {
+  const beforeHookSteps = makeHookSteps(pickle, beforeHooks, false, newId)
+  const pickleTestSteps = pickle.steps.map(pickleStep =>
+    makePickleTestStep(newId(), pickleStep, stepDefinitions)
+  )
+  const afterHookSteps = makeHookSteps(pickle, afterHooks, true, newId)
+  const testSteps: ITestStep[] = []
+    .concat(beforeHookSteps)
+    .concat(pickleTestSteps)
+    .concat(afterHookSteps)
+
+  return new TestCase(newId(), testSteps, pickle.id)
+}
+
 function makeHookSteps(
   pickle: messages.IPickle,
   hooks: IHook[],
@@ -23,25 +43,4 @@ function makeHookSteps(
       }
     })
     .filter(testStep => testStep !== undefined)
-}
-
-export default function makeTestCase(
-  pickle: messages.IPickle,
-  stepDefinitions: IStepDefinition[],
-  beforeHooks: IHook[],
-  afterHooks: IHook[],
-  newId: IdGenerator.NewId
-): TestCase {
-  const beforeHookSteps = makeHookSteps(pickle, beforeHooks, false, newId)
-  const afterHookSteps = makeHookSteps(pickle, afterHooks, true, newId)
-
-  const pickleTestSteps = pickle.steps.map(pickleStep =>
-    makePickleTestStep(newId(), pickleStep, stepDefinitions)
-  )
-  const testSteps: ITestStep[] = []
-    .concat(beforeHookSteps)
-    .concat(pickleTestSteps)
-    .concat(afterHookSteps)
-
-  return new TestCase(newId(), testSteps, pickle.id)
 }
