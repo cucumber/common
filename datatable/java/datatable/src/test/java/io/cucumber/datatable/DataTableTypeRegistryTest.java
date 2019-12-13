@@ -57,9 +57,9 @@ class DataTableTypeRegistryTest {
                 )));
 
         assertThat(exception.getMessage(), is("" +
-                "There is already a data table type registered for class io.cucumber.datatable.Place.\n" +
-                "It registered an TableTransformer for class io.cucumber.datatable.Place.\n" +
-                "You are trying to add a TableTransformer for class io.cucumber.datatable.Place."
+                "There already is a data table type registered that can supply class io.cucumber.datatable.Place.\n" +
+                "You are trying to register a TableTransformer for class io.cucumber.datatable.Place.\n" +
+                "The existing data table type registered a TableTransformer for class io.cucumber.datatable.Place.\n"
         ));
     }
 

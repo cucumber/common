@@ -5,6 +5,7 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.lang.reflect.WildcardType;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -85,21 +86,20 @@ final class TypeFactory {
     private static JavaType constructParameterizedType(ParameterizedType type) {
         // Must always be a class here
         Class<?> rawType = (Class<?>) type.getRawType();
+        JavaType[] deconstructedTypeArguments = deConstructTypeArguments(type);
 
         if (List.class.equals(rawType)) {
-            JavaType[] deconstructedTypeArguments = constructTypeArguments(type);
             return new ListType(type, List.class, deconstructedTypeArguments[0]);
         }
 
         if (Map.class.equals(rawType)) {
-            JavaType[] deconstructedTypeArguments = constructTypeArguments(type);
             return new MapType(type, Map.class, deconstructedTypeArguments[0], deconstructedTypeArguments[1]);
         }
 
-        return new OtherType(type);
+        return new Parameterized(type, rawType, deconstructedTypeArguments);
     }
 
-    private static JavaType[] constructTypeArguments(ParameterizedType type) {
+    private static JavaType[] deConstructTypeArguments(ParameterizedType type) {
         Type[] actualTypeArguments = type.getActualTypeArguments();
         JavaType[] deconstructedTypeArguments = new JavaType[actualTypeArguments.length];
         for (int i = 0; i < actualTypeArguments.length; i++) {
@@ -145,6 +145,48 @@ final class TypeFactory {
 
         public Type getOriginal() {
             return original;
+        }
+    }
+
+    static class Parameterized implements JavaType {
+        private final Type original;
+        private final Class<?> rawClass;
+        private final JavaType[] elementTypes;
+
+        private Parameterized(Type original, Class<?> rawClass, JavaType[] elementTypes) {
+            this.original = original;
+            this.rawClass = rawClass;
+            this.elementTypes = elementTypes;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Parameterized that = (Parameterized) o;
+            return rawClass.equals(that.rawClass) &&
+                    Arrays.equals(elementTypes, that.elementTypes);
+        }
+
+        JavaType[] getElementTypes() {
+            return elementTypes;
+        }
+
+        @Override
+        public int hashCode() {
+            int result = Objects.hash(rawClass);
+            result = 31 * result + Arrays.hashCode(elementTypes);
+            return result;
+        }
+
+        @Override
+        public Type getOriginal() {
+            return original;
+        }
+
+        @Override
+        public String getTypeName() {
+            return original.getTypeName();
         }
     }
 
