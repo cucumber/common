@@ -14,7 +14,6 @@ acceptance/all.ndjson: $(FEATURE_FILES) .deps
 		--format ndjson \
 		--predictable-ids \
 		--require ../javascript/features \
-		--results pattern \
 		$(patsubst ../ruby/%,%,$^) > \
 		../javascript/$@ && \
 		popd
@@ -26,7 +25,6 @@ acceptance/test_%.ndjson: ../ruby/features/test_%.feature .deps
 		--format ndjson \
 		--predictable-ids \
 		--require ../javascript/features \
-		--results pattern \
 		$(patsubst ../ruby/%,%,$^) > \
 		../javascript/$@ && \
 		popd

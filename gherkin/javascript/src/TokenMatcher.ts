@@ -158,9 +158,9 @@ export default class TokenMatcher {
     isOpen: boolean
   ) {
     if (token.line.startsWith(separator)) {
-      let contentType = null
+      let mediaType = null
       if (isOpen) {
-        contentType = token.line.getRestTrimmed(separator.length)
+        mediaType = token.line.getRestTrimmed(separator.length)
         this.activeDocStringSeparator = separator
         this.indentToRemove = token.line.indent
       } else {
@@ -169,7 +169,7 @@ export default class TokenMatcher {
       }
 
       // TODO: Use the separator as keyword. That's needed for pretty printing.
-      this.setTokenMatched(token, TokenType.DocStringSeparator, contentType)
+      this.setTokenMatched(token, TokenType.DocStringSeparator, mediaType)
       return true
     }
     return false

@@ -8,10 +8,7 @@ export default function makeSourceEnvelope(
     source: new messages.Source({
       data,
       uri,
-      media: new messages.Media({
-        encoding: messages.Media.Encoding.UTF8,
-        contentType: 'text/x.cucumber.gherkin+plain',
-      }),
+      mediaType: 'text/x.cucumber.gherkin+plain',
     }),
   })
 }

@@ -124,7 +124,7 @@ module Gherkin
         )
       when :DocString
         separator_token = node.get_tokens(:DocStringSeparator)[0]
-        content_type = separator_token.matched_text == '' ? nil : separator_token.matched_text
+        media_type = separator_token.matched_text == '' ? nil : separator_token.matched_text
         line_tokens = node.get_tokens(:Other)
         content = line_tokens.map { |t| t.matched_text }.join("\n")
 
@@ -132,7 +132,7 @@ module Gherkin
           location: get_location(separator_token, 0),
           content: content,
           delimiter: separator_token.matched_keyword,
-          content_type: content_type,
+          media_type: media_type,
         )
       when :DataTable
         rows = get_table_rows(node)

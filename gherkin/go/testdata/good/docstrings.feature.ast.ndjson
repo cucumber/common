@@ -32,12 +32,12 @@
               {
                 "docString": {
                   "content": "<foo>\n  <bar />\n</foo>",
-                  "contentType": "xml",
                   "delimiter": "\"\"\"",
                   "location": {
                     "column": 7,
                     "line": 12
-                  }
+                  },
+                  "mediaType": "xml"
                 },
                 "id": "1",
                 "keyword": "Given ",

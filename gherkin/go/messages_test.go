@@ -25,12 +25,9 @@ func TestMessagesWithStdin(t *testing.T) {
 	wrapper := &messages.Envelope{
 		Message: &messages.Envelope_Source{
 			Source: &messages.Source{
-				Uri:  "features/test.feature",
-				Data: gherkin,
-				Media: &messages.Media{
-					Encoding:    messages.Media_UTF8,
-					ContentType: "text/x.cucumber.gherkin+plain",
-				},
+				Uri:       "features/test.feature",
+				Data:      gherkin,
+				MediaType: "text/x.cucumber.gherkin+plain",
 			},
 		},
 	}

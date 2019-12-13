@@ -144,7 +144,7 @@ export default class AstBuilder {
       }
       case RuleType.DocString: {
         const separatorToken = node.getTokens(TokenType.DocStringSeparator)[0]
-        const contentType =
+        const mediaType =
           separatorToken.matchedText.length > 0
             ? separatorToken.matchedText
             : undefined
@@ -157,8 +157,8 @@ export default class AstBuilder {
           delimiter: separatorToken.line.trimmedLineText.substring(0, 3),
         })
         // conditionally add this like this (needed to make tests pass on node 0.10 as well as 4.0)
-        if (contentType) {
-          result.contentType = contentType
+        if (mediaType) {
+          result.mediaType = mediaType
         }
         return result
       }

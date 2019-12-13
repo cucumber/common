@@ -1,10 +1,7 @@
 {
   "source": {
     "data": "Feature: Scenario Outline with a value with a dollar sign ($)\n\nScenario Outline: minimalistic\n    Given the <what>\n\nExamples:\n  | what     |\n  | pa$$word |\n",
-    "media": {
-      "contentType": "text/x.cucumber.gherkin+plain",
-      "encoding": "UTF8"
-    },
+    "mediaType": "text/x.cucumber.gherkin+plain",
     "uri": "testdata/good/scenario_outline_with_value_with_dollar_sign.feature"
   }
 }

@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
+* Renamed `content_type` fields to `media_type`
+* Removed the `Media` message
+* Attachments can have one of `string text` and `bytes binary` as the `body`
+
 ### Deprecated
 
 ### Removed

@@ -1,10 +1,7 @@
 {
   "source": {
     "data": "Feature: Just a description\n  A short description\n",
-    "media": {
-      "contentType": "text/x.cucumber.gherkin+plain",
-      "encoding": "UTF8"
-    },
+    "mediaType": "text/x.cucumber.gherkin+plain",
     "uri": "testdata/good/incomplete_feature_1.feature"
   }
 }

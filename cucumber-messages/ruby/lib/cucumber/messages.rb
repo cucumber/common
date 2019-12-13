@@ -1,3 +1,7 @@
+module Cucumber
+  module Messages
+  end
+end
 require 'cucumber/messages_pb'
 require 'cucumber/messages/binary_to_message_enumerator'
 require 'cucumber/messages/ndjson_to_message_enumerator'

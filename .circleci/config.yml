@@ -264,6 +264,11 @@ jobs:
           command: |
             cd cucumber-tag-expressions/javascript
             make
+      - persist_to_workspace:
+          root: ~/cucumber
+          paths:
+            - cucumber-tag-expressions/javascript/dist
+            - cucumber-tag-expressions/javascript/node_modules
 
   fake-cucumber-javascript:
     executor: docker-circleci-node-12

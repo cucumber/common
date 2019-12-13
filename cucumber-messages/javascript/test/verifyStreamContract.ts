@@ -8,7 +8,7 @@ export default function(
   makeToMessageStream: () => Transform
 ) {
   describe('contract', () => {
-    it('can be serialised over a stream', async () => {
+    it.only('can be serialised over a stream', async () => {
       const fromMessageStream = makeFromMessageStream()
       const toMessageStream = makeToMessageStream()
 
@@ -19,7 +19,9 @@ export default function(
           source: messages.Source.create({ data: 'Feature: Hello' }),
         }),
         messages.Envelope.create({
-          attachment: messages.Attachment.create({ data: 'Some stack trace' }),
+          attachment: messages.Attachment.create({
+            binary: Buffer.of(1, 2, 3, 4),
+          }),
         }),
       ]
 

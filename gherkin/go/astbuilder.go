@@ -170,10 +170,10 @@ func (t *astBuilder) transformNode(node *astNode) (interface{}, error) {
 			text += lineTokens[i].Text
 		}
 		ds := &messages.GherkinDocument_Feature_Step_DocString{
-			Location:    astLocation(separatorToken),
-			ContentType: separatorToken.Text,
-			Content:     text,
-			Delimiter:   separatorToken.Keyword,
+			Location:  astLocation(separatorToken),
+			MediaType: separatorToken.Text,
+			Content:   text,
+			Delimiter: separatorToken.Keyword,
 		}
 		return ds, nil
 

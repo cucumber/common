@@ -96,7 +96,7 @@ public class GherkinDocumentBuilder implements Builder<GherkinDocument.Builder> 
             }
             case DocString: {
                 Token separatorToken = node.getTokens(TokenType.DocStringSeparator).get(0);
-                String contentType = separatorToken.matchedText.length() > 0 ? separatorToken.matchedText : null;
+                String mediaType = separatorToken.matchedText.length() > 0 ? separatorToken.matchedText : null;
                 List<Token> lineTokens = node.getTokens(TokenType.Other);
                 StringBuilder content = new StringBuilder();
                 boolean newLine = false;
@@ -106,8 +106,8 @@ public class GherkinDocumentBuilder implements Builder<GherkinDocument.Builder> 
                     content.append(lineToken.matchedText);
                 }
                 DocString.Builder builder = DocString.newBuilder();
-                if (contentType != null)
-                    builder.setContentType(contentType);
+                if (mediaType != null)
+                    builder.setMediaType(mediaType);
 
                 return builder
                         .setLocation(getLocation(separatorToken, 0))
@@ -198,8 +198,7 @@ public class GherkinDocumentBuilder implements Builder<GherkinDocument.Builder> 
                 }
                 lineTokens = lineTokens.subList(0, end);
 
-                return lineTokens
-                        .stream()
+                return lineTokens.stream()
                         .map(t -> t.matchedText)
                         .collect(Collectors.joining("\n"));
             }

@@ -57,10 +57,7 @@ public class Gherkin {
                 .newBuilder()
                 .setData(data)
                 .setUri(uri)
-                .setMedia(Messages.Media.newBuilder()
-                        .setEncoding(Messages.Media.Encoding.UTF8)
-                        .setContentType("text/x.cucumber.gherkin+plain")
-                )
+                .setMediaType("text/x.cucumber.gherkin+plain")
         ).build();
     }
 
@@ -149,7 +146,7 @@ public class Gherkin {
                                         .build()
                         )
                         .build())
-                .setData(e.getMessage())
+                .setText(e.getMessage())
                 .build();
         messages.add(Envelope.newBuilder().setAttachment(attachment).build());
     }
