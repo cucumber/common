@@ -11,7 +11,8 @@ export default class Cucumber {
     // * Pickle (used)
     private readonly gherkinMessages: messages.IEnvelope[],
     private readonly stepDefinitions: IStepDefinition[],
-    private readonly hooks: IHook[],
+    private readonly beforeHooks: IHook[],
+    private readonly afterHooks: IHook[],
     private readonly newId: IdGenerator.NewId
   ) {}
 
@@ -22,7 +23,7 @@ export default class Cucumber {
     for (const stepDefinition of this.stepDefinitions) {
       notifier(stepDefinition.toMessage())
     }
-    for (const hook of this.hooks) {
+    for (const hook of [].concat(this.beforeHooks, this.afterHooks)) {
       notifier(hook.toMessage())
     }
     const pickles = this.gherkinMessages
@@ -31,7 +32,8 @@ export default class Cucumber {
     const testPlan = new TestPlan(
       pickles,
       this.stepDefinitions,
-      this.hooks,
+      this.beforeHooks,
+      this.afterHooks,
       this.newId
     )
     await testPlan.execute(notifier)

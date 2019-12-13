@@ -25,7 +25,8 @@ describe('Cucumber', () => {
     const cucumber = new Cucumber(
       gherkinMessageList,
       supportCode.stepDefinitions,
-      supportCode.hooks,
+      supportCode.beforeHooks,
+      supportCode.afterHooks,
       IdGenerator.incrementing()
     )
     const messageList: messages.IEnvelope[] = []

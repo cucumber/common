@@ -2,7 +2,6 @@ import assert from 'assert'
 import { IdGenerator, messages } from 'cucumber-messages'
 import makeTestCase from '../src/makeTestCase'
 import ExpressionStepDefinition from '../src/ExpressionStepDefinition'
-import { HookType } from '../src/IHook'
 import Hook from '../src/Hook'
 import { CucumberExpression, ParameterTypeRegistry } from 'cucumber-expressions'
 
@@ -13,6 +12,7 @@ describe('makeTestCase', () => {
     const testCase = makeTestCase(
       pickle,
       stepDefinitions,
+      [],
       [],
       IdGenerator.incrementing()
     )
@@ -26,15 +26,14 @@ describe('makeTestCase', () => {
   context('when hooks are defined', () => {
     context('when a before hook matches', () => {
       it('adds a step before the scenario ones', () => {
-        const hooks = [
-          new Hook('hook-id', HookType.Before, null, null, () => null),
-        ]
+        const beforeHooks = [new Hook('hook-id', null, null, () => null)]
         const pickle = makePickleWithTwoSteps()
         const stepDefinitions = makeStepDefinitions()
         const testCase = makeTestCase(
           pickle,
           stepDefinitions,
-          hooks,
+          beforeHooks,
+          [],
           IdGenerator.incrementing()
         )
 
@@ -44,7 +43,7 @@ describe('makeTestCase', () => {
         )
         assert.strictEqual(
           testCase.toMessage().testCase.testSteps[0].hookId,
-          hooks[0].toMessage().hook.id
+          beforeHooks[0].toMessage().hook.id
         )
       })
     })
@@ -52,15 +51,14 @@ describe('makeTestCase', () => {
 
   context('when an after hook matches', () => {
     it('adds a step after the scenario ones', () => {
-      const hooks = [
-        new Hook('hook-id', HookType.After, null, null, () => null),
-      ]
+      const afterHooks = [new Hook('hook-id', null, null, () => null)]
       const pickle = makePickleWithTwoSteps()
       const stepDefinitions = makeStepDefinitions()
       const testCase = makeTestCase(
         pickle,
         stepDefinitions,
-        hooks,
+        [],
+        afterHooks,
         IdGenerator.incrementing()
       )
 
@@ -70,7 +68,7 @@ describe('makeTestCase', () => {
       )
       assert.strictEqual(
         testCase.toMessage().testCase.testSteps[2].hookId,
-        hooks[0].toMessage().hook.id
+        afterHooks[0].toMessage().hook.id
       )
     })
   })

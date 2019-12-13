@@ -4,14 +4,21 @@ import SupportCodeExecutor from './SupportCodeExecutor'
 import { MessageNotifier } from './types'
 import ITestStep from './ITestStep'
 import IWorld from './IWorld'
+import StackUtils from 'stack-utils'
 import makeAttach from './makeAttach'
 
 const { millisecondsToDuration } = TimeConversion
+
+const stack = new StackUtils({
+  cwd: process.cwd(),
+  internals: StackUtils.nodeInternals(),
+})
 
 export default abstract class TestStep implements ITestStep {
   constructor(
     public readonly id: string,
     public readonly sourceId: string,
+    // TODO: Use this field! (I think we used to - AH)
     public readonly alwaysExecute: boolean,
     protected readonly supportCodeExecutors: SupportCodeExecutor[]
   ) {}
@@ -64,13 +71,22 @@ export default abstract class TestStep implements ITestStep {
       )
     } catch (error) {
       const finish = performance.now()
+
+      const trace = stack
+        .clean(error.stack)
+        .trim()
+        .split('\n')
+        .concat(`this.sourceFrame`)
+        .map(frame => `    at ${frame}`)
+        .join('\n')
+
       const duration = millisecondsToDuration(finish - start)
       return this.emitTestStepFinished(
         testCaseStartedId,
         new messages.TestResult({
           duration,
           status: messages.TestResult.Status.FAILED,
-          message: error.stack,
+          message: `${error.message}\n${trace}`,
         }),
         notifier
       )

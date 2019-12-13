@@ -30,6 +30,7 @@ describe('TestPlan', () => {
       pickles,
       [stepDefinition],
       [],
+      [],
       IdGenerator.incrementing()
     )
     const envelopes: messages.IEnvelope[] = []
@@ -62,6 +63,7 @@ describe('TestPlan', () => {
     const testPlan = new TestPlan(
       pickles,
       [stepDefinition],
+      [],
       [],
       IdGenerator.incrementing()
     )

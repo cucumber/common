@@ -9,7 +9,8 @@ export default class CucumberStream extends Transform {
 
   constructor(
     private readonly stepDefinitions: IStepDefinition[],
-    private readonly hooks: IHook[],
+    private readonly beforeHooks: IHook[],
+    private readonly afterHooks: IHook[],
     private readonly newId: IdGenerator.NewId
   ) {
     super({ objectMode: true })
@@ -28,7 +29,8 @@ export default class CucumberStream extends Transform {
     const cucumber = new Cucumber(
       this.gherkinMessages,
       this.stepDefinitions,
-      this.hooks,
+      this.beforeHooks,
+      this.afterHooks,
       this.newId
     )
     cucumber

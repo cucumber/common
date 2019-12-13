@@ -63,7 +63,8 @@ async function main() {
   await loadSupportCode()
   const cucumberStream = new CucumberStream(
     supportCode.stepDefinitions,
-    supportCode.hooks,
+    supportCode.beforeHooks,
+    supportCode.afterHooks,
     supportCode.newId
   )
   await pipelinePromise(

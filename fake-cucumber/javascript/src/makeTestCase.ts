@@ -1,7 +1,7 @@
 import { messages, IdGenerator } from 'cucumber-messages'
 import TestCase from './TestCase'
 import IStepDefinition from './IStepDefinition'
-import IHook, { HookType } from './IHook'
+import IHook from './IHook'
 import makePickleTestStep from './makePickleTestStep'
 import HookTestStep from './HookTestStep'
 import ITestStep from './ITestStep'
@@ -9,13 +9,12 @@ import ITestStep from './ITestStep'
 function makeHookSteps(
   pickle: messages.IPickle,
   hooks: IHook[],
-  hookType: HookType,
+  alwaysExecute: boolean,
   newId: IdGenerator.NewId
 ): ITestStep[] {
   return hooks
     .map(hook => {
-      const supportCodeExecutor = hook.match(pickle, hookType)
-      const alwaysExecute = hookType === HookType.After
+      const supportCodeExecutor = hook.match(pickle)
       if (supportCodeExecutor !== null) {
         const id = newId()
         return new HookTestStep(id, hook.id, alwaysExecute, [
@@ -29,11 +28,12 @@ function makeHookSteps(
 export default function makeTestCase(
   pickle: messages.IPickle,
   stepDefinitions: IStepDefinition[],
-  hooks: IHook[],
+  beforeHooks: IHook[],
+  afterHooks: IHook[],
   newId: IdGenerator.NewId
 ): TestCase {
-  const beforeHookSteps = makeHookSteps(pickle, hooks, HookType.Before, newId)
-  const afterHookSteps = makeHookSteps(pickle, hooks, HookType.After, newId)
+  const beforeHookSteps = makeHookSteps(pickle, beforeHooks, false, newId)
+  const afterHookSteps = makeHookSteps(pickle, afterHooks, true, newId)
 
   const pickleTestSteps = pickle.steps.map(pickleStep =>
     makePickleTestStep(newId(), pickleStep, stepDefinitions)

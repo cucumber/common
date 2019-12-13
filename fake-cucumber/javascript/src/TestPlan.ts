@@ -11,11 +11,12 @@ export default class TestPlan {
   constructor(
     pickles: messages.IPickle[],
     stepDefinitions: IStepDefinition[],
-    hooks: IHook[],
+    beforeHooks: IHook[],
+    afterHooks: IHook[],
     private readonly newId: IdGenerator.NewId
   ) {
     this.testCases = pickles.map(pickle =>
-      makeTestCase(pickle, stepDefinitions, hooks, newId)
+      makeTestCase(pickle, stepDefinitions, beforeHooks, afterHooks, newId)
     )
   }
 
