@@ -38,10 +38,21 @@ function getSourceReference(stackTrace: string): messages.ISourceReference {
  * This class provides an API for defining step definitions and hooks.
  */
 export default class SupportCode {
-  private readonly parameterTypeRegistry = new ParameterTypeRegistry()
   public readonly stepDefinitions: IStepDefinition[] = []
   public readonly beforeHooks: IHook[] = []
   public readonly afterHooks: IHook[] = []
+  public readonly Given = this.registerStepDefinition.bind(
+    this
+  ) as RegisterStepDefinition
+  public readonly When = this.registerStepDefinition.bind(
+    this
+  ) as RegisterStepDefinition
+  public readonly Then = this.registerStepDefinition.bind(
+    this
+  ) as RegisterStepDefinition
+  public readonly Before = this.registerBeforeHook.bind(this) as RegisterHook
+  public readonly After = this.registerAfterHook.bind(this) as RegisterHook
+  private readonly parameterTypeRegistry = new ParameterTypeRegistry()
 
   constructor(public newId: IdGenerator.NewId) {}
 
@@ -77,16 +88,4 @@ export default class SupportCode {
       new Hook(this.newId(), tagExpression, sourceReference, body)
     )
   }
-
-  public readonly Given = this.registerStepDefinition.bind(
-    this
-  ) as RegisterStepDefinition
-  public readonly When = this.registerStepDefinition.bind(
-    this
-  ) as RegisterStepDefinition
-  public readonly Then = this.registerStepDefinition.bind(
-    this
-  ) as RegisterStepDefinition
-  public readonly Before = this.registerBeforeHook.bind(this) as RegisterHook
-  public readonly After = this.registerAfterHook.bind(this) as RegisterHook
 }

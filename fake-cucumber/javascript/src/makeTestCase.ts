@@ -1,4 +1,4 @@
-import { messages, IdGenerator } from 'cucumber-messages'
+import { IdGenerator, messages } from 'cucumber-messages'
 import TestCase from './TestCase'
 import IStepDefinition from './IStepDefinition'
 import IHook from './IHook'
