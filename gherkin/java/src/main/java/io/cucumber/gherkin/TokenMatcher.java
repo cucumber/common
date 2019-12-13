@@ -154,9 +154,9 @@ public class TokenMatcher implements ITokenMatcher {
 
     private boolean match_DocStringSeparator(Token token, String separator, boolean isOpen) {
         if (token.line.startsWith(separator)) {
-            String contentType = null;
+            String mediaType = null;
             if (isOpen) {
-                contentType = token.line.getRestTrimmed(separator.length());
+                mediaType = token.line.getRestTrimmed(separator.length());
                 activeDocStringSeparator = separator;
                 indentToRemove = token.line.indent();
             } else {
@@ -164,7 +164,7 @@ public class TokenMatcher implements ITokenMatcher {
                 indentToRemove = 0;
             }
 
-            setTokenMatched(token, TokenType.DocStringSeparator, contentType, separator, null, null);
+            setTokenMatched(token, TokenType.DocStringSeparator, mediaType, separator, null, null);
             return true;
         }
         return false;

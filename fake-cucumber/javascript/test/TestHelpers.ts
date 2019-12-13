@@ -48,10 +48,7 @@ export function gherkinMessages(gherkinSource: string, uri: string): Readable {
     source: {
       uri,
       data: gherkinSource,
-      media: messages.Media.fromObject({
-        encoding: 'UTF8',
-        contentType: 'text/x.cucumber.gherkin+plain',
-      }),
+      mediaType: 'text/x.cucumber.gherkin+plain',
     },
   })
 

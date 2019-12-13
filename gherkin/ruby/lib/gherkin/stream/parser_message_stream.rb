@@ -59,7 +59,7 @@ module Gherkin
                 column: err.location[:column]
               )
             ),
-            data: err.message
+            text: err.message
           )
           y.yield(Cucumber::Messages::Envelope.new(attachment: attachment))
         end
@@ -71,10 +71,7 @@ module Gherkin
             source = Cucumber::Messages::Source.new(
               uri: path,
               data: File.open(path, 'r:UTF-8', &:read),
-              media: Cucumber::Messages::Media.new(
-                encoding: :UTF8,
-                content_type: 'text/x.cucumber.gherkin+plain'
-              )
+              media_type: 'text/x.cucumber.gherkin+plain'
             )
             y.yield(source)
           end

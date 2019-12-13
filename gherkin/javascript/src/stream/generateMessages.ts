@@ -19,10 +19,7 @@ export default function generateMessages(
           source: {
             uri,
             data,
-            media: {
-              encoding: messages.Media.Encoding.UTF8,
-              contentType: 'text/x.cucumber.gherkin+plain',
-            },
+            mediaType: 'text/x.cucumber.gherkin+plain',
           },
         })
       )
@@ -74,7 +71,7 @@ export default function generateMessages(
                 column: error.location.column,
               },
             },
-            data: error.message,
+            text: error.message,
           },
         })
       )

@@ -73,6 +73,6 @@ describe('TestPlan', () => {
       .filter(m => m.attachment)
       .map(m => m.attachment)
     assert.deepStrictEqual(attachments.length, 1)
-    assert.strictEqual(attachments[0].data, 'hello world')
+    assert.strictEqual(attachments[0].text, 'hello world')
   })
 })

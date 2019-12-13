@@ -11,7 +11,9 @@ import java.nio.charset.StandardCharsets;
 
 public class MessageToNdjsonWriter implements MessageWriter {
     private final Writer out;
-    private final JsonFormat.Printer jsonPrinter = JsonFormat.printer().omittingInsignificantWhitespace();
+    private final JsonFormat.Printer jsonPrinter = JsonFormat
+            .printer()
+            .omittingInsignificantWhitespace();
 
     public MessageToNdjsonWriter(OutputStream out) {
         this.out = new OutputStreamWriter(out, StandardCharsets.UTF_8);

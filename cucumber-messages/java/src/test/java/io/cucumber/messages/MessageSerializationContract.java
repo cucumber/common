@@ -1,5 +1,6 @@
 package io.cucumber.messages;
 
+import com.google.protobuf.ByteString;
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
@@ -7,6 +8,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,8 +36,12 @@ public abstract class MessageSerializationContract {
 
     private List<Messages.Envelope> createOutgoingMessages() {
         List<Messages.Envelope> outgoingMessages = new ArrayList<>();
-        outgoingMessages.add(Messages.Envelope.newBuilder().setSource(Messages.Source.newBuilder().setData("Feature: Hello")).build());
-        outgoingMessages.add(Messages.Envelope.newBuilder().setAttachment(Messages.Attachment.newBuilder().setData("Some stack trace")).build());
+        outgoingMessages.add(Messages.Envelope.newBuilder()
+                .setSource(Messages.Source.newBuilder()
+                        .setData("Feature: Hello")).build());
+        outgoingMessages.add(Messages.Envelope.newBuilder()
+                .setAttachment(Messages.Attachment.newBuilder()
+                        .setBinary(ByteString.copyFrom(new byte[]{1,2,3,4}))).build());
         return outgoingMessages;
     }
 

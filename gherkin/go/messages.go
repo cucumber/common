@@ -97,12 +97,9 @@ func Messages(
 				return result, fmt.Errorf("read feature file: %s - %+v", path, err)
 			}
 			source := &messages.Source{
-				Uri:  path,
-				Data: string(in),
-				Media: &messages.Media{
-					Encoding:    messages.Media_UTF8,
-					ContentType: "text/x.cucumber.gherkin+plain",
-				},
+				Uri:       path,
+				Data:      string(in),
+				MediaType: "text/x.cucumber.gherkin+plain",
 			}
 			processSource(source)
 		}
@@ -115,7 +112,9 @@ func (a *parseError) asAttachment(uri string) *messages.Envelope {
 	return &messages.Envelope{
 		Message: &messages.Envelope_Attachment{
 			Attachment: &messages.Attachment{
-				Data: a.Error(),
+				Body: &messages.Attachment_Text{
+					Text: a.Error(),
+				},
 				Source: &messages.SourceReference{
 					Uri: uri,
 					Location: &messages.Location{

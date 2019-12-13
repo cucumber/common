@@ -200,9 +200,9 @@ function createPickleArguments(
     const docString = messages.PickleStepArgument.PickleDocString.create({
       content: interpolate(argument.content, variableCells, valueCells),
     })
-    if (argument.contentType) {
-      docString.contentType = interpolate(
-        argument.contentType,
+    if (argument.mediaType) {
+      docString.mediaType = interpolate(
+        argument.mediaType,
         variableCells,
         valueCells
       )
