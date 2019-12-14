@@ -8,7 +8,7 @@ export default function(
   makeToMessageStream: () => Transform
 ) {
   describe('contract', () => {
-    it.only('can be serialised over a stream', async () => {
+    it('can be serialised over a stream', async () => {
       const fromMessageStream = makeFromMessageStream()
       const toMessageStream = makeToMessageStream()
 
