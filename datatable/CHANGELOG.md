@@ -16,7 +16,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Removed
 
 ### Fixed
-
+ * [Java] Replace wildcard type with its upper bound
+    ([#829](https://github.com/cucumber/cucumber/pull/829)
+    [mpkorstanje])
+    
 ## [3.0.0] - 2019-08-17
 
 ### Added
@@ -29,7 +32,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
  * [Java] Remove shaded dependency on Jackson Databind
     ([#682](https://github.com/cucumber/cucumber/pull/682)
     [#679](https://github.com/cucumber/cucumber/issues/679)
-    M.P. Korstanje)
+    [mpkorstanje])
 ### Fixed
 
 ## [2.0.0] 2019-08-11
