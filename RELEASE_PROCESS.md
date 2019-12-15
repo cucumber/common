@@ -26,7 +26,7 @@ You need to decrypt these files with `git-crypt` before you can make a release.
 Here is how you do it:
 
     ./scripts/docker-run Dockerfile
-    # Find GIT_CRYPT_KEY_BASE64 in 1Password
+    # Find GIT_CRYPT_KEY_BASE64 in Keybase
     # Sign up for a free 1Password account and ping someone in the Slack #committers channel
     # to request access.
     GIT_CRYPT_KEY_BASE64="..." source ./scripts/prepare_release_env.sh
