@@ -11,7 +11,7 @@ module Gherkin
         @sources = sources
         @options = options
 
-        id_generator = id_generator_class.new
+        id_generator = options[:id_generator] || id_generator_class.new
         @parser = Parser.new(AstBuilder.new(id_generator))
         @compiler = Pickles::Compiler.new(id_generator)
       end
