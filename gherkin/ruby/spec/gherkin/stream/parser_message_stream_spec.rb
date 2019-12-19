@@ -30,39 +30,28 @@ module Gherkin
 
       let(:scenario_id) { gherkin_document.feature.children.first.scenario.id }
 
-      context 'options.predictable_ids' do
+
+      context 'options.id_generator' do
         context 'when not set' do
           it 'generates random UUIDs' do
             expect(scenario_id).to match(/[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}/)
           end
         end
 
-        context 'when set to true' do
+
+        context 'when set' do
+          let(:id_generator) { double }
           let(:options) {
             {
               include_gherkin_document: true,
-              predictable_ids: true
+              id_generator: id_generator
             }
           }
 
-          it 'generates incremental IDs' do
-            expect(scenario_id).to eq("1")
+          it 'uses the generator instance to produce the IDs' do
+            allow(id_generator).to receive(:new_id).and_return('some-random-id')
+            expect(scenario_id).to eq('some-random-id')
           end
-        end
-      end
-
-      context 'options.id_generator' do
-        let(:id_generator) { double }
-        let(:options) {
-          {
-            include_gherkin_document: true,
-            id_generator: id_generator
-          }
-        }
-
-        it 'uses the generator instance to produce the IDs' do
-          allow(id_generator).to receive(:new_id).and_return('some-random-id')
-          expect(scenario_id).to eq('some-random-id')
         end
       end
     end

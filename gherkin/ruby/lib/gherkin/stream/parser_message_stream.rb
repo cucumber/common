@@ -11,7 +11,7 @@ module Gherkin
         @sources = sources
         @options = options
 
-        id_generator = options[:id_generator] || id_generator_class.new
+        id_generator = options[:id_generator] || Cucumber::Messages::IdGenerator::UUID.new
         @parser = Parser.new(AstBuilder.new(id_generator))
         @compiler = Pickles::Compiler.new(id_generator)
       end
@@ -44,10 +44,6 @@ module Gherkin
       end
 
       private
-
-      def id_generator_class
-        @options[:predictable_ids] ? Cucumber::Messages::IdGenerator::Incrementing : Cucumber::Messages::IdGenerator::UUID
-      end
 
       def yield_error_attachments(y, errors, uri)
         errors.each do |err|
