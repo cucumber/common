@@ -10,21 +10,19 @@ interface IProps {
 }
 
 const ExamplesTable: React.FunctionComponent<IProps> = ({
-                                                          tableHeader,
-                                                          tableBody,
-                                                        }) => {
+  tableHeader,
+  tableBody,
+}) => {
   return (
     <Table>
       <thead>
-      <tr>
-        {tableHeader.cells.map((cell, j) => (
-          <Th key={j}>
-            {cell.value}
-          </Th>
-        ))}
-      </tr>
+        <tr>
+          {tableHeader.cells.map((cell, j) => (
+            <Th key={j}>{cell.value}</Th>
+          ))}
+        </tr>
       </thead>
-      <ExamplesTableBody rows={tableBody || []}/>
+      <ExamplesTableBody rows={tableBody || []} />
     </Table>
   )
 }

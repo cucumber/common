@@ -14,7 +14,9 @@ const TagList = styled.ul`
 `
 
 const Tags: React.FunctionComponent<IProps> = ({ tags }) => {
-  if (!tags) return null
+  if (!tags) {
+    return null
+  }
   return (
     <TagList>
       {tags.map((tag, index) => (

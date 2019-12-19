@@ -7,9 +7,7 @@ interface IProps {
 }
 
 const DocString: React.FunctionComponent<IProps> = ({ docString }) => {
-  return (
-    <pre>{docString.content}</pre>
-  )
+  return <pre>{docString.content}</pre>
 }
 
 export default DocString

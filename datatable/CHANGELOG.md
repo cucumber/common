@@ -16,17 +16,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Removed
 
 ### Fixed
+
+## [3.1.0] - 2019-12-15
+
+### Fixed
  * [Java] Replace wildcard type with its upper bound
     ([#829](https://github.com/cucumber/cucumber/pull/829)
     [mpkorstanje])
     
 ## [3.0.0] - 2019-08-17
-
-### Added
-    
-### Changed
- 
-### Deprecated
 
 ### Removed
  * [Java] Remove shaded dependency on Jackson Databind
@@ -136,7 +134,8 @@ There are no (1.1.0 and 1.1.1 releases).
 * java: OSGI fixes
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/datatable/v3.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/datatable/v3.1.0...master
+[3.1.0]:      https://github.com/cucumber/cucumber/compare/datatable/v3.0.0...datatable/v3.1.0
 [3.0.0]:      https://github.com/cucumber/cucumber/compare/datatable/v2.0.0...datatable/v3.0.0
 [2.0.0]:      https://github.com/cucumber/cucumber/compare/datatable/v1.1.14...datatable/v2.0.0
 [1.1.14]:     https://github.com/cucumber/cucumber/compare/datatable-v1.1.7...datatable/v1.1.14

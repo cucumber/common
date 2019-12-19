@@ -33,7 +33,10 @@ const StepText = styled.span`
 
 const StepParam = styled.span`
   font-weight: bold;
-  background-color: ${(props: IStatusProps) => statusColor(props.status).darken(0.1).hex()};
+  background-color: ${(props: IStatusProps) =>
+    statusColor(props.status)
+      .darken(0.1)
+      .hex()};
   color: #072a80;
 `
 
@@ -57,7 +60,21 @@ const numberPattern = /(?=.*\d.*)[-+]?\d*(?:\.(?=\d.*))?\d*(?:\d+[E][+\-]?\d+)?/
 const Td = styled.td`
   border: 1px solid black;
   padding: 0.3em;
-  text-align: ${(props) => (props.children as string).match(numberPattern) ? 'right' : 'left'};
+  text-align: ${props =>
+    (props.children as string).match(numberPattern) ? 'right' : 'left'};
 `
 
-export { IStatusProps, H1, H2, H3, Indent, Ol, StepParam, StepText, Section, Table, Th, Td }
+export {
+  IStatusProps,
+  H1,
+  H2,
+  H3,
+  Indent,
+  Ol,
+  StepParam,
+  StepText,
+  Section,
+  Table,
+  Th,
+  Td,
+}

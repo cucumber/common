@@ -6,6 +6,7 @@ import assert from 'assert'
 import SupportCode from '../src/SupportCode'
 import makeDummyStepDefinitions from './makeDummyStepDefinitions'
 import makeDummyHooks from './makeDummyHooks'
+import { GherkinQuery } from 'gherkin'
 
 describe('Cucumber', () => {
   it('runs tagged hooks', async () => {
@@ -16,16 +17,22 @@ describe('Cucumber', () => {
     Given a passed step
   `
 
+    const gherkinQuery = new GherkinQuery()
     const gherkinMessageList = await streamToArray(
       gherkinMessages(feature, 'test.feature')
     )
+    for (const envelope of gherkinMessageList) {
+      gherkinQuery.update(envelope)
+    }
     const supportCode = new SupportCode(IdGenerator.incrementing())
     makeDummyStepDefinitions(supportCode)
     makeDummyHooks(supportCode)
     const cucumber = new Cucumber(
       gherkinMessageList,
       supportCode.stepDefinitions,
-      supportCode.hooks,
+      supportCode.beforeHooks,
+      supportCode.afterHooks,
+      gherkinQuery,
       IdGenerator.incrementing()
     )
     const messageList: messages.IEnvelope[] = []
