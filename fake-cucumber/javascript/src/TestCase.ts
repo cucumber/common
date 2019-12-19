@@ -4,14 +4,20 @@ import { messages, TimeConversion } from 'cucumber-messages'
 import { performance } from 'perf_hooks'
 import IWorld from './IWorld'
 
-const { millisecondsToDuration } = TimeConversion
+const { millisecondsSinceEpochToTimestamp } = TimeConversion
 
 export default class TestCase {
   constructor(
     public readonly id: string,
     private readonly testSteps: ITestStep[],
     private readonly pickleId: string
-  ) {}
+  ) {
+    testSteps.forEach(testStep => {
+      if (!testStep) {
+        throw new Error('undefined step')
+      }
+    })
+  }
 
   public toMessage(): messages.IEnvelope {
     return new messages.Envelope({
@@ -28,8 +34,6 @@ export default class TestCase {
     attempt: number,
     testCaseStartedId: string
   ): Promise<void> {
-    let executeNext = true
-
     notifier(
       new messages.Envelope({
         testCaseStarted: new messages.TestCaseStarted({
@@ -45,9 +49,8 @@ export default class TestCase {
         throw new Error('Attach is not ready')
       },
     }
-    const testStepResults: messages.ITestResult[] = []
 
-    const start = performance.now()
+    let executeNext = true
     for (const testStep of this.testSteps) {
       let testStepResult: messages.ITestResult
       // TODO: Also ask testStep if it should always execute (true for After steps)
@@ -62,41 +65,15 @@ export default class TestCase {
       } else {
         testStepResult = testStep.skip(notifier, testCaseStartedId)
       }
-      testStepResults.push(testStepResult)
     }
-    const finish = performance.now()
-    const duration = millisecondsToDuration(finish - start)
 
     notifier(
       new messages.Envelope({
         testCaseFinished: new messages.TestCaseFinished({
           testCaseStartedId,
-          testResult: this.computeTestResult(testStepResults, duration),
+          timestamp: millisecondsSinceEpochToTimestamp(performance.now()),
         }),
       })
     )
-  }
-
-  // TODO: Stateless function. Extract to separate file.
-  private computeTestResult(
-    testStepResults: messages.ITestResult[],
-    duration: messages.IDuration
-  ): messages.ITestResult {
-    let status = messages.TestResult.Status.UNKNOWN
-    let message: string = null
-
-    if (testStepResults.length > 0) {
-      const sortedResults = testStepResults.sort(
-        (r1, r2) => r2.status - r1.status
-      )
-      status = sortedResults[0].status
-      message = sortedResults[0].message
-    }
-
-    return new messages.TestResult({
-      status,
-      message,
-      duration,
-    })
   }
 }

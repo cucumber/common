@@ -13,8 +13,8 @@
   "scripts": {
     "nyc": "nyc --reporter=html --reporter=text mocha",
     "test": "mocha",
-    "lint": "tslint src/**/*.ts test/**/*.ts",
-    "lint-fix": "tslint --fix src/**/*.ts test/**/*.ts",
+    "lint": "tslint src/**/*.{ts,tsx} test/**/*.{ts,tsx}",
+    "lint-fix": "tslint --fix src/**/*.{ts,tsx} test/**/*.{ts,tsx}",
     "build": "tsc && webpack-cli src/main.tsx"
   },
   "dependencies": {
@@ -36,6 +36,7 @@
     "@types/react-dom": "^16.9.4",
     "awesome-typescript-loader": "^5.2.1",
     "babel-loader": "^8.0.6",
+    "gherkin": "^9.0.0",
     "mocha": "^6.2.2",
     "npm-link-shared": "^0.5.6",
     "nyc": "^14.1.1",

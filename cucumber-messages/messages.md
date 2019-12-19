@@ -1063,7 +1063,7 @@ combined with a `StepDefinition`, or from a `Hook`.
 | pickle_step_id | [string](#string) |  | Pointer to the `PickleStep` (if derived from a PickleStep) |
 | step_definition_ids | [string](#string) | repeated | Pointer to all the matching `StepDefinition`s (if derived from a PickleStep) |
 | step_match_arguments | [StepMatchArgument](#io.cucumber.messages.StepMatchArgument) | repeated | All the arguments from the match (if derived from a PickleStep and there was exactly 1 StepDefinition) |
-| hookId | [string](#string) |  | Pointer to the Hook (if derived from a Hook) |
+| hook_id | [string](#string) |  | Pointer to the Hook (if derived from a Hook) |
 
 
 
@@ -1079,7 +1079,6 @@ combined with a `StepDefinition`, or from a `Hook`.
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | timestamp | [Timestamp](#io.cucumber.messages.Timestamp) |  |  |
-| test_result | [TestResult](#io.cucumber.messages.TestResult) |  |  |
 | test_case_started_id | [string](#string) |  |  |
 
 
@@ -1301,8 +1300,10 @@ From https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf
 <a name="io.cucumber.messages.TestResult.Status"></a>
 
 ### TestResult.Status
-Status of a step. Can also represent status of a Pickle (aggregated
-from the status of its steps).
+Status of a `PickleStep`.
+
+A `Pickle` message does not carry its own `TestResult`, but this can be accessed
+using `CucumberQuery#getTestResult(testCase)`
 
 The ordinal values of statuses are significant. The status of a Pickle
 is determined by the union of statuses of its steps. The

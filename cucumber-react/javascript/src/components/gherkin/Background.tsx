@@ -14,11 +14,15 @@ const Background: React.FunctionComponent<IProps> = ({ background }) => {
   return (
     <Section>
       <H2>
-        <Keyword>{background.keyword}:</Keyword> <StepText>{background.name}</StepText>
+        <Keyword>{background.keyword}:</Keyword>{' '}
+        <StepText>{background.name}</StepText>
       </H2>
       <Indent>
-        <Description description={background.description}/>
-        <StepList steps={background.steps || []}/>
+        <Description description={background.description} />
+        <StepList
+          steps={background.steps || []}
+          renderStepMatchArguments={true}
+        />
       </Indent>
     </Section>
   )
