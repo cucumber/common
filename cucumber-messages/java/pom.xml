@@ -61,6 +61,7 @@
                                     <include>com.google.protobuf:protobuf-java</include>
                                     <include>com.google.protobuf:protobuf-java-util</include>
                                     <include>com.google.code.gson:gson</include>
+                                    <include>com.google.guava:guava</include>
                                 </includes>
                             </artifactSet>
                             <relocations>
