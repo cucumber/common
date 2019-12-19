@@ -30,7 +30,7 @@ export function durationToMilliseconds(duration: messages.IDuration) {
 function toSecondsAndNanos(milliseconds: number) {
   const seconds = Math.floor(milliseconds / MILLISECONDS_PER_SECOND)
   const nanos = Math.floor(
-    Math.floor(milliseconds % MILLISECONDS_PER_SECOND) *
+    (milliseconds % MILLISECONDS_PER_SECOND) *
       NANOSECONDS_PER_MILLISECOND
   )
   return { seconds, nanos }
@@ -46,5 +46,5 @@ function toMillis(seconds: number | Long, nanos: number) {
       .toNumber()
   }
   const nanoMillis = nanos / NANOSECONDS_PER_MILLISECOND
-  return Math.floor(secondMillis + nanoMillis)
+  return secondMillis + nanoMillis
 }
