@@ -31,9 +31,10 @@ const ErrorMessage = styled.pre`
 
 interface IProps {
   step: messages.GherkinDocument.Feature.IStep
+  renderStepMatchArguments: boolean
 }
 
-const Step: React.FunctionComponent<IProps> = ({ step }) => {
+const Step: React.FunctionComponent<IProps> = ({ step , renderStepMatchArguments}) => {
   const cucumberQuery = React.useContext(CucumberQueryContext)
   const uri = React.useContext(UriContext)
 
@@ -43,31 +44,37 @@ const Step: React.FunctionComponent<IProps> = ({ step }) => {
 
   const stepTextElements: JSX.Element[] = []
 
-  const args = cucumberQuery.getStepMatchArguments(uri, step.location.line)
-  if(args) {
-    // Step is defined
-    let offset = 0
-    args.forEach((argument, index) => {
-      const plain = step.text.slice(offset, argument.group.start)
+  if(renderStepMatchArguments) {
+    const stepMatchArgumentsLists = cucumberQuery.getStepMatchArgumentsLists(uri, step.location.line)
+    if(stepMatchArgumentsLists.length === 1) {
+      // Step is defined
+      const stepMatchArguments = stepMatchArgumentsLists[0].stepMatchArguments
+      let offset = 0
+      stepMatchArguments.forEach((argument, index) => {
+        const plain = step.text.slice(offset, argument.group.start)
+        if(plain.length > 0) {
+          stepTextElements.push(<StepText key={`plain-${index}`}>{plain}</StepText>)
+        }
+        const arg = argument.group.value
+        if(arg.length > 0) {
+          stepTextElements.push(<StepParam key={`bold-${index}`} status={status}>{arg}</StepParam>)
+        }
+        offset += plain.length + arg.length
+      })
+      const plain = step.text.slice(offset)
       if(plain.length > 0) {
-        stepTextElements.push(<StepText key={`plain-${index}`}>{plain}</StepText>)
+        stepTextElements.push(<StepText key={`plain-rest`}>{plain}</StepText>)
       }
-      const arg = argument.group.value
-      if(arg.length > 0) {
-        stepTextElements.push(<StepParam key={`bold-${index}`} status={status}>{arg}</StepParam>)
-      }
-      offset += plain.length + arg.length
-    })
-    const plain = step.text.slice(offset)
-    if(plain.length > 0) {
-      stepTextElements.push(<StepText key={`plain-rest`}>{plain}</StepText>)
+    } else if(stepMatchArgumentsLists.length === 2) {
+      // Step is ambiguous
+      stepTextElements.push(<StepText key={`plain-ambiguous`}>{step.text}</StepText>)
+    } else {
+      // Step is undefined
+      stepTextElements.push(<StepText key={`plain-undefined`}>{step.text}</StepText>)
     }
-  } else if(args.length === 2) {
-    // Step is ambiguous
-    stepTextElements.push(<StepText key={`plain-ambiguous`}>{step.text}</StepText>)
   } else {
-    // Step is undefined
-    stepTextElements.push(<StepText key={`plain-undefined`}>{step.text}</StepText>)
+    // Step is from scenario with examples, and has <> placeholders.
+    stepTextElements.push(<StepText key={`plain-placeholders`}>{step.text}</StepText>)
   }
 
   return (

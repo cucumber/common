@@ -10,6 +10,7 @@ import TestPlan from '../src/TestPlan'
 import IStepDefinition from '../src/IStepDefinition'
 import { CucumberExpression, ParameterTypeRegistry } from 'cucumber-expressions'
 import ExpressionStepDefinition from '../src/ExpressionStepDefinition'
+import { GherkinQuery } from 'gherkin'
 
 describe('TestPlan', () => {
   it('executes test cases', async () => {
@@ -24,6 +25,10 @@ describe('TestPlan', () => {
         'test.feature'
       )
     )
+    const gherkinQuery = new GherkinQuery()
+    for (const gherkinEnvelope of gherkinEnvelopes) {
+      gherkinQuery.update(gherkinEnvelope)
+    }
 
     const pickles = gherkinEnvelopes.filter(m => m.pickle).map(m => m.pickle)
     const testPlan = new TestPlan(
@@ -31,6 +36,7 @@ describe('TestPlan', () => {
       [stepDefinition],
       [],
       [],
+      gherkinQuery,
       IdGenerator.incrementing()
     )
     const envelopes: messages.IEnvelope[] = []
@@ -59,12 +65,19 @@ describe('TestPlan', () => {
       )
     )
 
+    const gherkinQuery = new GherkinQuery()
+    for (const gherkinEnvelope of gherkinEnvelopes) {
+      gherkinQuery.update(gherkinEnvelope)
+    }
+
     const pickles = gherkinEnvelopes.filter(m => m.pickle).map(m => m.pickle)
+
     const testPlan = new TestPlan(
       pickles,
       [stepDefinition],
       [],
       [],
+      gherkinQuery,
       IdGenerator.incrementing()
     )
     const envelopes: messages.IEnvelope[] = []

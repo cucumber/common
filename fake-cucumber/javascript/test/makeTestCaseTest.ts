@@ -4,6 +4,7 @@ import makeTestCase from '../src/makeTestCase'
 import ExpressionStepDefinition from '../src/ExpressionStepDefinition'
 import Hook from '../src/Hook'
 import { CucumberExpression, ParameterTypeRegistry } from 'cucumber-expressions'
+import { GherkinQuery } from 'gherkin'
 
 describe('makeTestCase', () => {
   it('transforms a Pickle to a TestCase', () => {
@@ -14,6 +15,7 @@ describe('makeTestCase', () => {
       stepDefinitions,
       [],
       [],
+      new GherkinQuery(),
       IdGenerator.incrementing()
     )
 
@@ -34,6 +36,7 @@ describe('makeTestCase', () => {
           stepDefinitions,
           beforeHooks,
           [],
+          new GherkinQuery(),
           IdGenerator.incrementing()
         )
 
@@ -59,6 +62,7 @@ describe('makeTestCase', () => {
         stepDefinitions,
         [],
         afterHooks,
+        new GherkinQuery(),
         IdGenerator.incrementing()
       )
 

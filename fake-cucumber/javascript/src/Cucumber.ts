@@ -3,6 +3,7 @@ import { MessageNotifier } from './types'
 import TestPlan from './TestPlan'
 import IStepDefinition from './IStepDefinition'
 import IHook from './IHook'
+import { GherkinQuery } from 'gherkin'
 
 export default class Cucumber {
   constructor(
@@ -13,6 +14,7 @@ export default class Cucumber {
     private readonly stepDefinitions: IStepDefinition[],
     private readonly beforeHooks: IHook[],
     private readonly afterHooks: IHook[],
+    private readonly gherkinQuery: GherkinQuery,
     private readonly newId: IdGenerator.NewId
   ) {}
 
@@ -34,6 +36,7 @@ export default class Cucumber {
       this.stepDefinitions,
       this.beforeHooks,
       this.afterHooks,
+      this.gherkinQuery,
       this.newId
     )
     await testPlan.execute(notifier)

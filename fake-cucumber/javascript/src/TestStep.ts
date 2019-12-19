@@ -18,9 +18,9 @@ export default abstract class TestStep implements ITestStep {
   constructor(
     public readonly id: string,
     public readonly sourceId: string,
-    // TODO: Use this field! (I think we used to - AH)
     public readonly alwaysExecute: boolean,
-    protected readonly supportCodeExecutors: SupportCodeExecutor[]
+    protected readonly supportCodeExecutors: SupportCodeExecutor[],
+    private readonly sourceFrames: string[]
   ) {}
 
   public abstract toMessage(): messages.TestCase.ITestStep
@@ -76,7 +76,7 @@ export default abstract class TestStep implements ITestStep {
         .clean(error.stack)
         .trim()
         .split('\n')
-        .concat(`this.sourceFrame`)
+        .concat(this.sourceFrames)
         .map(frame => `    at ${frame}`)
         .join('\n')
 

@@ -13,6 +13,7 @@ interface IProps {
 }
 
 const Scenario: React.FunctionComponent<IProps> = ({ scenario }) => {
+  const examples = scenario.examples || []
   return (
     <Section>
       <Tags tags={scenario.tags}/>
@@ -21,9 +22,9 @@ const Scenario: React.FunctionComponent<IProps> = ({ scenario }) => {
       </H2>
       <Indent>
         <Description description={scenario.description}/>
-        <StepList steps={scenario.steps || []}/>
+        <StepList steps={scenario.steps || []} renderStepMatchArguments={examples.length === 0}/>
 
-        {(scenario.examples || []).map((examples, index) => (
+        {examples.map((examples, index) => (
           <Examples key={index} examples={examples}/>
         ))}
       </Indent>

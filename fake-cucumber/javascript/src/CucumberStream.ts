@@ -1,4 +1,5 @@
 import { Transform, TransformCallback } from 'stream'
+import { GherkinQuery } from 'gherkin'
 import { IdGenerator, messages } from 'cucumber-messages'
 import Cucumber from './Cucumber'
 import IStepDefinition from './IStepDefinition'
@@ -6,6 +7,7 @@ import IHook from './IHook'
 
 export default class CucumberStream extends Transform {
   private readonly gherkinMessages: messages.IEnvelope[] = []
+  private readonly gherkinQuery = new GherkinQuery()
 
   constructor(
     private readonly stepDefinitions: IStepDefinition[],
@@ -22,7 +24,12 @@ export default class CucumberStream extends Transform {
     callback: TransformCallback
   ): void {
     this.gherkinMessages.push(message)
-    callback()
+    try {
+      this.gherkinQuery.update(message)
+      callback()
+    } catch (err) {
+      callback(err)
+    }
   }
 
   public _flush(callback: TransformCallback): void {
@@ -31,6 +38,7 @@ export default class CucumberStream extends Transform {
       this.stepDefinitions,
       this.beforeHooks,
       this.afterHooks,
+      this.gherkinQuery,
       this.newId
     )
     cucumber

@@ -11,6 +11,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
+* A `TestCase` now has a list of `StepMatchArgumentsList` rather than a list of `StepMatchArgument`.
+  This allows a `TestCase` to hold matches from more than one `StepDefinition`, which is possible
+  in the case of ambiguous matches.
 * Renamed `content_type` fields to `media_type`
 * Removed the `Media` message
 * Attachments can have one of `string text` and `bytes binary` as the `body`
@@ -18,6 +21,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Deprecated
 
 ### Removed
+
+* Removed `TestCase#test_result`. Aggregate results will be computed by `cucumber-query` instead
 
 ### Fixed
 

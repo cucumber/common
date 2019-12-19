@@ -1,10 +1,11 @@
+import assert from 'assert'
 import ReactDOM from 'react-dom'
 import React from 'react'
-import Step from '../src/components/gherkin/Step'
+import { GherkinQuery } from 'gherkin'
 import { messages } from 'cucumber-messages'
-import * as assert from 'assert'
 import CucumberQuery from 'cucumber-query'
 import CucumberQueryContext from '../src/CucumberQueryContext'
+import Step from '../src/components/gherkin/Step'
 
 describe('Step', () => {
   it('renders', () => {
@@ -22,21 +23,27 @@ describe('Step', () => {
     })
 
     class StubCucumberQuery extends CucumberQuery {
-      getStepMatchArguments(uri: string, lineNumber: number): messages.IStepMatchArgument[] {
-        return [
-          new messages.StepMatchArgument({
-            group: new messages.StepMatchArgument.Group({
-              start: 4,
-              value: '48',
-              children: [],
+      getStepMatchArgumentsLists(uri: string, lineNumber: number): messages.TestCase.TestStep.IStepMatchArgumentsList[] {
+        return [new messages.TestCase.TestStep.StepMatchArgumentsList({
+          stepMatchArguments: [
+            new messages.StepMatchArgument({
+              group: new messages.StepMatchArgument.Group({
+                start: 4,
+                value: '48',
+                children: [],
+              }),
             }),
-          }),
-        ]
+          ]
+        })]
+      }
+
+      getStepResults(uri: string, lineNumber: number): messages.ITestResult[] {
+        return []
       }
     }
 
-    const app = <CucumberQueryContext.Provider value={new StubCucumberQuery()}>
-      <Step step={step}/>
+    const app = <CucumberQueryContext.Provider value={new StubCucumberQuery(new GherkinQuery())}>
+      <Step step={step} renderStepMatchArguments={true}/>
     </CucumberQueryContext.Provider>
     ReactDOM.render(app, document.getElementById('content'))
 

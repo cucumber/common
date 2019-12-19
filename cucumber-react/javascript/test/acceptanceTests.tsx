@@ -1,7 +1,7 @@
 import path from 'path'
 import fs from 'fs'
 import { IdGenerator, messages } from 'cucumber-messages'
-import gherkin from 'gherkin'
+import gherkin, {GherkinQuery} from 'gherkin'
 import { Readable } from 'stream'
 import React from 'react'
 import ReactDOM from 'react-dom'
@@ -33,10 +33,16 @@ describe('App', () => {
         const p = path.join(dir, file)
         const envelopes = await streamToArray(gherkin
           .fromPaths([p], { newId: IdGenerator.incrementing() })
-          .pipe(new CucumberStream(supportCode.stepDefinitions, supportCode.hooks, newId)))
+          .pipe(new CucumberStream(supportCode.stepDefinitions, supportCode.beforeHooks, supportCode.afterHooks, newId)))
 
         const gherkinDocuments = envelopes.filter(e => e.gherkinDocument).map(e => e.gherkinDocument)
-        const cucumberQuery = envelopes.reduce((q, e) => q.update(e), new CucumberQuery())
+        const gherkinQuery = new GherkinQuery()
+        const cucumberQuery = new CucumberQuery(gherkinQuery)
+        envelopes.forEach(envelope => {
+          gherkinQuery.update(envelope)
+          cucumberQuery.update(envelope)
+        })
+
         const app = <GherkinDocumentList
           gherkinDocuments={gherkinDocuments}
           cucumberQuery={cucumberQuery}

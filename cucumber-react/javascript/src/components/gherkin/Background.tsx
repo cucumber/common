@@ -18,7 +18,7 @@ const Background: React.FunctionComponent<IProps> = ({ background }) => {
       </H2>
       <Indent>
         <Description description={background.description}/>
-        <StepList steps={background.steps || []}/>
+        <StepList steps={background.steps || []} renderStepMatchArguments={true}/>
       </Indent>
     </Section>
   )

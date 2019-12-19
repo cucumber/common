@@ -35,7 +35,8 @@ describe('TestStep', () => {
         messages.Pickle.PickleStep.create({
           text: 'an undefined step',
         }),
-        []
+        [],
+        ['some.feature:123']
       )
 
       const testStepFinished = await execute(testStep)
@@ -53,7 +54,8 @@ describe('TestStep', () => {
         messages.Pickle.PickleStep.create({
           text: 'an undefined step',
         }),
-        [stubMatchingStepDefinition(), stubMatchingStepDefinition()]
+        [stubMatchingStepDefinition(), stubMatchingStepDefinition()],
+        ['some.feature:123']
       )
 
       const testStepFinished = await execute(testStep)
@@ -70,7 +72,8 @@ describe('TestStep', () => {
         messages.Pickle.PickleStep.create({
           text: 'an undefined step',
         }),
-        []
+        [],
+        ['some.feature:123']
       )
 
       const result = await testStep.execute(
@@ -88,7 +91,8 @@ describe('TestStep', () => {
         messages.Pickle.PickleStep.create({
           text: 'a passed step',
         }),
-        [stubMatchingStepDefinition(stubPassingSupportCodeExecutor())]
+        [stubMatchingStepDefinition(stubPassingSupportCodeExecutor())],
+        ['some.feature:123']
       )
       await testStep.execute(world, message => emitted.push(message), 'some-id')
       const result = emitted.find(m => m.testStepFinished).testStepFinished
@@ -104,7 +108,8 @@ describe('TestStep', () => {
           messages.Pickle.PickleStep.create({
             text: 'a passed step',
           }),
-          [stubMatchingStepDefinition(stubPassingSupportCodeExecutor())]
+          [stubMatchingStepDefinition(stubPassingSupportCodeExecutor())],
+          ['some.feature:123']
         )
 
         const testStepFinished = await execute(testStep)
@@ -122,7 +127,8 @@ describe('TestStep', () => {
           messages.Pickle.PickleStep.create({
             text: 'a passed step',
           }),
-          [stubMatchingStepDefinition(stubPendingSupportCodeExecutor())]
+          [stubMatchingStepDefinition(stubPendingSupportCodeExecutor())],
+          ['some.feature:123']
         )
         const testStepFinished = await execute(testStep)
 
@@ -143,7 +149,8 @@ describe('TestStep', () => {
             stubMatchingStepDefinition(
               stubFailingSupportCodeExecutor('This step has failed')
             ),
-          ]
+          ],
+          ['some.feature:123']
         )
 
         const testStepFinished = await execute(testStep)
@@ -164,7 +171,8 @@ describe('TestStep', () => {
             stubMatchingStepDefinition(
               stubFailingSupportCodeExecutor('Something went wrong')
             ),
-          ]
+          ],
+          ['some.feature:123']
         )
 
         const testStepFinished = await execute(testStep)
@@ -202,7 +210,8 @@ describe('TestStep', () => {
                 null
               )
             ),
-          ]
+          ],
+          ['some.feature:123']
         )
 
         const testStepFinished = await execute(testStep)

@@ -4,6 +4,7 @@ import { IdGenerator, messages } from 'cucumber-messages'
 import makeTestCase from './makeTestCase'
 import IStepDefinition from './IStepDefinition'
 import IHook from './IHook'
+import { GherkinQuery } from 'gherkin'
 
 export default class TestPlan {
   private readonly testCases: TestCase[]
@@ -13,10 +14,18 @@ export default class TestPlan {
     stepDefinitions: IStepDefinition[],
     beforeHooks: IHook[],
     afterHooks: IHook[],
+    gherkinQuery: GherkinQuery,
     private readonly newId: IdGenerator.NewId
   ) {
     this.testCases = pickles.map(pickle =>
-      makeTestCase(pickle, stepDefinitions, beforeHooks, afterHooks, newId)
+      makeTestCase(
+        pickle,
+        stepDefinitions,
+        beforeHooks,
+        afterHooks,
+        gherkinQuery,
+        newId
+      )
     )
   }
 
