@@ -10,8 +10,8 @@
   "scripts": {
     "nyc": "nyc --reporter=html --reporter=text mocha",
     "test": "mocha",
-    "lint": "tslint src/**/*.ts test/**/*.ts",
-    "lint-fix": "tslint --fix src/**/*.ts test/**/*.ts",
+    "lint": "tslint src/**/*.{ts,tsx} test/**/*.{ts,tsx}",
+    "lint-fix": "tslint --fix src/**/*.{ts,tsx} test/**/*.{ts,tsx}",
     "build": "tsc",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"

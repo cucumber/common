@@ -1,3 +1,4 @@
+import fs from 'fs'
 import { Command } from 'commander'
 import packageJson from '../../package.json'
 import Gherkin from '../Gherkin'
@@ -31,6 +32,8 @@ const options: IGherkinOptions = {
   newId: program.predictableIds
     ? IdGenerator.incrementing()
     : IdGenerator.uuid(),
+  createReadStream: (path: string) =>
+    fs.createReadStream(path, { encoding: 'utf-8' }),
 }
 
 const messageStream =

@@ -14,16 +14,19 @@ interface IExamplesProps {
 const Examples: React.FunctionComponent<IExamplesProps> = ({ examples }) => {
   return (
     <Section>
-      <Tags tags={examples.tags}/>
+      <Tags tags={examples.tags} />
       <H2>
-        <Keyword>{examples.keyword}:</Keyword> <StepText>{examples.name}</StepText>
+        <Keyword>{examples.keyword}:</Keyword>{' '}
+        <StepText>{examples.name}</StepText>
       </H2>
       <Indent>
-        <Description description={examples.description}/>
-        {examples.tableHeader && <ExamplesTable
-          tableHeader={examples.tableHeader}
-          tableBody={examples.tableBody}
-        />}
+        <Description description={examples.description} />
+        {examples.tableHeader && (
+          <ExamplesTable
+            tableHeader={examples.tableHeader}
+            tableBody={examples.tableBody}
+          />
+        )}
       </Indent>
     </Section>
   )

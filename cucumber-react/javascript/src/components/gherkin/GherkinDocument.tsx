@@ -7,11 +7,11 @@ interface IProps {
 }
 
 const GherkinDocument: React.FunctionComponent<IProps> = ({
-                                                            gherkinDocument,
-                                                          }) => {
-  return (
-    gherkinDocument.feature ? <Feature feature={gherkinDocument.feature}/> : null
-  )
+  gherkinDocument,
+}) => {
+  return gherkinDocument.feature ? (
+    <Feature feature={gherkinDocument.feature} />
+  ) : null
 }
 
 export default GherkinDocument

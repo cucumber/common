@@ -7,7 +7,7 @@
 {"pickle":{"id":"39","uri":"testdata/statuses.feature","name":"Examples","language":"en","steps":[{"text":"a pending step has run","id":"36","astNodeIds":["12","18"]},{"text":"a ambiguous step is run","id":"37","astNodeIds":["13","18"]},{"text":"a undefined step should also run","id":"38","astNodeIds":["14","18"]}],"astNodeIds":["19","18"]}}
 {"stepDefinition":{"id":"0","pattern":{"source":"a passed step","type":"CUCUMBER_EXPRESSION"},"sourceReference":{"uri":"testdata/step_definitions/steps.ts","location":{"line":3}}}}
 {"stepDefinition":{"id":"1","pattern":{"source":"a step has failed","type":"CUCUMBER_EXPRESSION"},"sourceReference":{"uri":"testdata/step_definitions/steps.ts","location":{"line":7}}}}
-{"testCase":{"id":"43","pickleId":"23","testSteps":[{"id":"40","pickleStepId":"20","stepDefinitionIds":["0"]},{"id":"41","pickleStepId":"21","stepDefinitionIds":["1"]},{"id":"42","pickleStepId":"22"}]}}
+{"testCase":{"id":"43","pickleId":"23","testSteps":[{"id":"40","pickleStepId":"20","stepDefinitionIds":["0"],"stepMatchArgumentsLists":[{}]},{"id":"41","pickleStepId":"21","stepDefinitionIds":["1"],"stepMatchArgumentsLists":[{}]},{"id":"42","pickleStepId":"22"}]}}
 {"testCase":{"id":"47","pickleId":"27","testSteps":[{"id":"44","pickleStepId":"24"},{"id":"45","pickleStepId":"25"},{"id":"46","pickleStepId":"26"}]}}
 {"testCase":{"id":"51","pickleId":"31","testSteps":[{"id":"48","pickleStepId":"28"},{"id":"49","pickleStepId":"29"},{"id":"50","pickleStepId":"30"}]}}
 {"testCase":{"id":"55","pickleId":"35","testSteps":[{"id":"52","pickleStepId":"32"},{"id":"53","pickleStepId":"33"},{"id":"54","pickleStepId":"34"}]}}
@@ -16,30 +16,30 @@
 {"testStepStarted":{"testStepId":"40","testCaseStartedId":"60"}}
 {"testStepFinished":{"testResult":{"status":"PASSED","duration":{"seconds":"0","nanos":0}},"testStepId":"40","testCaseStartedId":"60"}}
 {"testStepStarted":{"testStepId":"41","testCaseStartedId":"60"}}
-{"testStepFinished":{"testResult":{"status":"FAILED","message":"Error: Oh no we have an error\n    at DefaultWorld.<anonymous> (/Users/aslakhellesoy/git/cucumber/cucumber/cucumber-react/javascript/testdata/step_definitions/steps.ts:8:9)\n    at SupportCodeExecutor.execute (/Users/aslakhellesoy/git/cucumber/cucumber/fake-cucumber/javascript/src/SupportCodeExecutor.ts:25:22)\n    at PickleTestStep.<anonymous> (/Users/aslakhellesoy/git/cucumber/cucumber/fake-cucumber/javascript/src/TestStep.ts:50:57)\n    at step (/Users/aslakhellesoy/git/cucumber/cucumber/fake-cucumber/javascript/dist/src/TestStep.js:33:23)\n    at Object.next (/Users/aslakhellesoy/git/cucumber/cucumber/fake-cucumber/javascript/dist/src/TestStep.js:14:53)\n    at /Users/aslakhellesoy/git/cucumber/cucumber/fake-cucumber/javascript/dist/src/TestStep.js:8:71\n    at new Promise (<anonymous>)\n    at __awaiter (/Users/aslakhellesoy/git/cucumber/cucumber/fake-cucumber/javascript/dist/src/TestStep.js:4:12)\n    at PickleTestStep.TestStep.execute (/Users/aslakhellesoy/git/cucumber/cucumber/fake-cucumber/javascript/dist/src/TestStep.js:50:16)\n    at TestCase.<anonymous> (/Users/aslakhellesoy/git/cucumber/cucumber/fake-cucumber/javascript/src/TestCase.ts:88:41)","duration":{"seconds":"0","nanos":0}},"testStepId":"41","testCaseStartedId":"60"}}
+{"testStepFinished":{"testResult":{"status":"FAILED","message":"Oh no we have an error\n    at Object.<anonymous> (testdata/step_definitions/steps.ts:8:9)\n    at SupportCodeExecutor.execute (/Users/aslakhellesoy/git/cucumber/cucumber/fake-cucumber/javascript/src/SupportCodeExecutor.ts:25:22)\n    at PickleTestStep.<anonymous> (/Users/aslakhellesoy/git/cucumber/cucumber/fake-cucumber/javascript/src/TestStep.ts:58:57)\n    at step (/Users/aslakhellesoy/git/cucumber/cucumber/fake-cucumber/javascript/dist/src/TestStep.js:33:23)\n    at Object.next (/Users/aslakhellesoy/git/cucumber/cucumber/fake-cucumber/javascript/dist/src/TestStep.js:14:53)\n    at /Users/aslakhellesoy/git/cucumber/cucumber/fake-cucumber/javascript/dist/src/TestStep.js:8:71\n    at new Promise (<anonymous>)\n    at __awaiter (/Users/aslakhellesoy/git/cucumber/cucumber/fake-cucumber/javascript/dist/src/TestStep.js:4:12)\n    at PickleTestStep.TestStep.execute (/Users/aslakhellesoy/git/cucumber/cucumber/fake-cucumber/javascript/dist/src/TestStep.js:60:16)\n    at TestCase.<anonymous> (/Users/aslakhellesoy/git/cucumber/cucumber/fake-cucumber/javascript/src/TestCase.ts:58:41)\n    at testdata/statuses.feature:9","duration":{"seconds":"0","nanos":0}},"testStepId":"41","testCaseStartedId":"60"}}
 {"testStepFinished":{"testResult":{"status":"SKIPPED","duration":{"seconds":"0","nanos":0}},"testStepId":"42","testCaseStartedId":"60"}}
-{"testCaseFinished":{"testResult":{"status":"FAILED","message":"Error: Oh no we have an error\n    at DefaultWorld.<anonymous> (/Users/aslakhellesoy/git/cucumber/cucumber/cucumber-react/javascript/testdata/step_definitions/steps.ts:8:9)\n    at SupportCodeExecutor.execute (/Users/aslakhellesoy/git/cucumber/cucumber/fake-cucumber/javascript/src/SupportCodeExecutor.ts:25:22)\n    at PickleTestStep.<anonymous> (/Users/aslakhellesoy/git/cucumber/cucumber/fake-cucumber/javascript/src/TestStep.ts:50:57)\n    at step (/Users/aslakhellesoy/git/cucumber/cucumber/fake-cucumber/javascript/dist/src/TestStep.js:33:23)\n    at Object.next (/Users/aslakhellesoy/git/cucumber/cucumber/fake-cucumber/javascript/dist/src/TestStep.js:14:53)\n    at /Users/aslakhellesoy/git/cucumber/cucumber/fake-cucumber/javascript/dist/src/TestStep.js:8:71\n    at new Promise (<anonymous>)\n    at __awaiter (/Users/aslakhellesoy/git/cucumber/cucumber/fake-cucumber/javascript/dist/src/TestStep.js:4:12)\n    at PickleTestStep.TestStep.execute (/Users/aslakhellesoy/git/cucumber/cucumber/fake-cucumber/javascript/dist/src/TestStep.js:50:16)\n    at TestCase.<anonymous> (/Users/aslakhellesoy/git/cucumber/cucumber/fake-cucumber/javascript/src/TestCase.ts:88:41)","duration":{"seconds":"0","nanos":15000000}},"testCaseStartedId":"60"}}
+{"testCaseFinished":{"timestamp":{"seconds":"0","nanos":479000000},"testCaseStartedId":"60"}}
 {"testCaseStarted":{"attempt":0,"testCaseId":"47","id":"61"}}
 {"testStepStarted":{"testStepId":"44","testCaseStartedId":"61"}}
 {"testStepFinished":{"testResult":{"status":"UNDEFINED"},"testStepId":"44","testCaseStartedId":"61"}}
 {"testStepFinished":{"testResult":{"status":"SKIPPED","duration":{"seconds":"0","nanos":0}},"testStepId":"45","testCaseStartedId":"61"}}
 {"testStepFinished":{"testResult":{"status":"SKIPPED","duration":{"seconds":"0","nanos":0}},"testStepId":"46","testCaseStartedId":"61"}}
-{"testCaseFinished":{"testResult":{"status":"UNDEFINED","duration":{"seconds":"0","nanos":0}},"testCaseStartedId":"61"}}
+{"testCaseFinished":{"timestamp":{"seconds":"0","nanos":480000000},"testCaseStartedId":"61"}}
 {"testCaseStarted":{"attempt":0,"testCaseId":"51","id":"62"}}
 {"testStepStarted":{"testStepId":"48","testCaseStartedId":"62"}}
 {"testStepFinished":{"testResult":{"status":"UNDEFINED"},"testStepId":"48","testCaseStartedId":"62"}}
 {"testStepFinished":{"testResult":{"status":"SKIPPED","duration":{"seconds":"0","nanos":0}},"testStepId":"49","testCaseStartedId":"62"}}
 {"testStepFinished":{"testResult":{"status":"SKIPPED","duration":{"seconds":"0","nanos":0}},"testStepId":"50","testCaseStartedId":"62"}}
-{"testCaseFinished":{"testResult":{"status":"UNDEFINED","duration":{"seconds":"0","nanos":0}},"testCaseStartedId":"62"}}
+{"testCaseFinished":{"timestamp":{"seconds":"0","nanos":480000000},"testCaseStartedId":"62"}}
 {"testCaseStarted":{"attempt":0,"testCaseId":"55","id":"63"}}
 {"testStepStarted":{"testStepId":"52","testCaseStartedId":"63"}}
 {"testStepFinished":{"testResult":{"status":"UNDEFINED"},"testStepId":"52","testCaseStartedId":"63"}}
 {"testStepFinished":{"testResult":{"status":"SKIPPED","duration":{"seconds":"0","nanos":0}},"testStepId":"53","testCaseStartedId":"63"}}
 {"testStepFinished":{"testResult":{"status":"SKIPPED","duration":{"seconds":"0","nanos":0}},"testStepId":"54","testCaseStartedId":"63"}}
-{"testCaseFinished":{"testResult":{"status":"UNDEFINED","duration":{"seconds":"0","nanos":0}},"testCaseStartedId":"63"}}
+{"testCaseFinished":{"timestamp":{"seconds":"0","nanos":480000000},"testCaseStartedId":"63"}}
 {"testCaseStarted":{"attempt":0,"testCaseId":"59","id":"64"}}
 {"testStepStarted":{"testStepId":"56","testCaseStartedId":"64"}}
 {"testStepFinished":{"testResult":{"status":"UNDEFINED"},"testStepId":"56","testCaseStartedId":"64"}}
 {"testStepFinished":{"testResult":{"status":"SKIPPED","duration":{"seconds":"0","nanos":0}},"testStepId":"57","testCaseStartedId":"64"}}
 {"testStepFinished":{"testResult":{"status":"SKIPPED","duration":{"seconds":"0","nanos":0}},"testStepId":"58","testCaseStartedId":"64"}}
-{"testCaseFinished":{"testResult":{"status":"UNDEFINED","duration":{"seconds":"0","nanos":0}},"testCaseStartedId":"64"}}
+{"testCaseFinished":{"timestamp":{"seconds":"0","nanos":481000000},"testCaseStartedId":"64"}}

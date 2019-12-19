@@ -6,7 +6,8 @@ import ITestStep from './ITestStep'
 export default function makePickleTestStep(
   testStepId: string,
   pickleStep: messages.Pickle.IPickleStep,
-  stepDefinitions: IStepDefinition[]
+  stepDefinitions: IStepDefinition[],
+  sourceFrames: string[]
 ): ITestStep {
   const supportCodeExecutors = stepDefinitions
     .map(stepDefinition => stepDefinition.match(pickleStep))
@@ -15,6 +16,7 @@ export default function makePickleTestStep(
     testStepId,
     pickleStep.id,
     false,
-    supportCodeExecutors
+    supportCodeExecutors,
+    sourceFrames
   )
 }

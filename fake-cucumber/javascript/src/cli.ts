@@ -1,6 +1,6 @@
 import { Command } from 'commander'
 import packageJson from '../package.json'
-import gherkin from 'gherkin'
+import gherkin, { IGherkinOptions } from 'gherkin'
 import { pipeline } from 'stream'
 import CucumberStream from './CucumberStream'
 import { promisify } from 'util'
@@ -8,6 +8,7 @@ import formatStream from './formatStream'
 import supportCode from './index'
 import { IdGenerator } from 'cucumber-messages'
 import findSupportCodePaths from './findSupportCodePaths'
+import fs from 'fs'
 
 const pipelinePromise = promisify(pipeline)
 
@@ -33,9 +34,11 @@ if (program.predictableIds) {
   supportCode.newId = IdGenerator.incrementing()
 }
 
-const options = {
+const options: IGherkinOptions = {
   defaultDialect: 'en',
   newId: supportCode.newId,
+  createReadStream: (path: string) =>
+    fs.createReadStream(path, { encoding: 'utf-8' }),
 }
 
 async function loadSupportCode(): Promise<void> {
@@ -63,7 +66,8 @@ async function main() {
   await loadSupportCode()
   const cucumberStream = new CucumberStream(
     supportCode.stepDefinitions,
-    supportCode.hooks,
+    supportCode.beforeHooks,
+    supportCode.afterHooks,
     supportCode.newId
   )
   await pipelinePromise(
