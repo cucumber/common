@@ -8,11 +8,18 @@ interface IProps {
   renderStepMatchArguments: boolean
 }
 
-const StepList: React.FunctionComponent<IProps> = ({ steps, renderStepMatchArguments }) => {
+const StepList: React.FunctionComponent<IProps> = ({
+  steps,
+  renderStepMatchArguments,
+}) => {
   return (
     <Ol>
       {steps.map((step, index) => (
-        <Step key={index} step={step} renderStepMatchArguments={renderStepMatchArguments}/>
+        <Step
+          key={index}
+          step={step}
+          renderStepMatchArguments={renderStepMatchArguments}
+        />
       ))}
     </Ol>
   )

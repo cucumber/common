@@ -10,7 +10,9 @@ import Step from '../src/components/gherkin/Step'
 describe('Step', () => {
   it('renders', () => {
     const { JSDOM } = require('jsdom')
-    const dom = new JSDOM('<html lang="en"><body><div id="content"></div></body></html>')
+    const dom = new JSDOM(
+      '<html lang="en"><body><div id="content"></div></body></html>'
+    )
     // @ts-ignore
     global.window = dom.window
     // global.navigator = dom.window.navigator
@@ -23,32 +25,53 @@ describe('Step', () => {
     })
 
     class StubCucumberQuery extends CucumberQuery {
-      getStepMatchArgumentsLists(uri: string, lineNumber: number): messages.TestCase.TestStep.IStepMatchArgumentsList[] {
-        return [new messages.TestCase.TestStep.StepMatchArgumentsList({
-          stepMatchArguments: [
-            new messages.StepMatchArgument({
-              group: new messages.StepMatchArgument.Group({
-                start: 4,
-                value: '48',
-                children: [],
+      public getStepMatchArgumentsLists(
+        uri: string,
+        lineNumber: number
+      ): messages.TestCase.TestStep.IStepMatchArgumentsList[] {
+        return [
+          new messages.TestCase.TestStep.StepMatchArgumentsList({
+            stepMatchArguments: [
+              new messages.StepMatchArgument({
+                group: new messages.StepMatchArgument.Group({
+                  start: 4,
+                  value: '48',
+                  children: [],
+                }),
               }),
-            }),
-          ]
-        })]
+            ],
+          }),
+        ]
       }
 
-      getStepResults(uri: string, lineNumber: number): messages.ITestResult[] {
+      public getStepResults(
+        uri: string,
+        lineNumber: number
+      ): messages.ITestResult[] {
         return []
       }
     }
 
-    const app = <CucumberQueryContext.Provider value={new StubCucumberQuery(new GherkinQuery())}>
-      <Step step={step} renderStepMatchArguments={true}/>
-    </CucumberQueryContext.Provider>
+    const app = (
+      <CucumberQueryContext.Provider
+        value={new StubCucumberQuery(new GherkinQuery())}
+      >
+        <Step step={step} renderStepMatchArguments={true} />
+      </CucumberQueryContext.Provider>
+    )
     ReactDOM.render(app, document.getElementById('content'))
 
-    assert.strictEqual(document.querySelector('#content h3 > span:nth-child(2)').innerHTML, 'the ')
-    assert.strictEqual(document.querySelector('#content h3 > span:nth-child(3)').innerHTML, '48')
-    assert.strictEqual(document.querySelector('#content h3 > span:nth-child(4)').innerHTML, ' pixies')
+    assert.strictEqual(
+      document.querySelector('#content h3 > span:nth-child(2)').innerHTML,
+      'the '
+    )
+    assert.strictEqual(
+      document.querySelector('#content h3 > span:nth-child(3)').innerHTML,
+      '48'
+    )
+    assert.strictEqual(
+      document.querySelector('#content h3 > span:nth-child(4)').innerHTML,
+      ' pixies'
+    )
   })
 })

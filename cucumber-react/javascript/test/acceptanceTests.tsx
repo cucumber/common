@@ -1,7 +1,7 @@
 import path from 'path'
 import fs from 'fs'
 import { IdGenerator, messages } from 'cucumber-messages'
-import gherkin, {GherkinQuery} from 'gherkin'
+import gherkin, { GherkinQuery } from 'gherkin'
 import { Readable } from 'stream'
 import React from 'react'
 import ReactDOM from 'react-dom'
@@ -24,18 +24,36 @@ describe('App', () => {
     if (file.match(/\.feature$/)) {
       it(`can render ${file}`, async () => {
         const { JSDOM } = require('jsdom')
-        const dom = new JSDOM('<html lang="en"><body><div id="content"></div></body></html>')
+        const dom = new JSDOM(
+          '<html lang="en"><body><div id="content"></div></body></html>'
+        )
         // @ts-ignore
         global.window = dom.window
         // global.navigator = dom.window.navigator
         const document = dom.window.document
 
         const p = path.join(dir, file)
-        const envelopes = await streamToArray(gherkin
-          .fromPaths([p], { newId: IdGenerator.incrementing() })
-          .pipe(new CucumberStream(supportCode.stepDefinitions, supportCode.beforeHooks, supportCode.afterHooks, newId)))
+        const envelopes = await streamToArray(
+          gherkin
+            .fromPaths([p], {
+              newId: IdGenerator.incrementing(),
+              createReadStream(filePath: string) {
+                return fs.createReadStream(filePath, { encoding: 'utf-8' })
+              },
+            })
+            .pipe(
+              new CucumberStream(
+                supportCode.stepDefinitions,
+                supportCode.beforeHooks,
+                supportCode.afterHooks,
+                newId
+              )
+            )
+        )
 
-        const gherkinDocuments = envelopes.filter(e => e.gherkinDocument).map(e => e.gherkinDocument)
+        const gherkinDocuments = envelopes
+          .filter(e => e.gherkinDocument)
+          .map(e => e.gherkinDocument)
         const gherkinQuery = new GherkinQuery()
         const cucumberQuery = new CucumberQuery(gherkinQuery)
         envelopes.forEach(envelope => {
@@ -43,10 +61,12 @@ describe('App', () => {
           cucumberQuery.update(envelope)
         })
 
-        const app = <GherkinDocumentList
-          gherkinDocuments={gherkinDocuments}
-          cucumberQuery={cucumberQuery}
-        />
+        const app = (
+          <GherkinDocumentList
+            gherkinDocuments={gherkinDocuments}
+            cucumberQuery={cucumberQuery}
+          />
+        )
         ReactDOM.render(app, document.getElementById('content'))
       }).timeout(7000) // TODO: What the hell is taking so long??
     }
@@ -54,17 +74,17 @@ describe('App', () => {
 })
 
 async function streamToArray(
-  readableStream: Readable,
+  readableStream: Readable
 ): Promise<messages.IEnvelope[]> {
   return new Promise<messages.IEnvelope[]>(
     (
       resolve: (wrappers: messages.IEnvelope[]) => void,
-      reject: (err: Error) => void,
+      reject: (err: Error) => void
     ) => {
       const items: messages.IEnvelope[] = []
       readableStream.on('data', items.push.bind(items))
       readableStream.on('error', (err: Error) => reject(err))
       readableStream.on('end', () => resolve(items))
-    },
+    }
   )
 }
