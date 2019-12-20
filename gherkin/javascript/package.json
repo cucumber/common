@@ -31,7 +31,7 @@
   "homepage": "https://github.com/cucumber/gherkin-javascript",
   "devDependencies": {
     "@types/mocha": "^5.2.7",
-    "@types/node": "^12.12.16",
+    "@types/node": "^12.12.21",
     "mocha": "^6.2.2",
     "nyc": "^14.1.1",
     "prettier": "^1.19.1",
