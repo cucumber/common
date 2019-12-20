@@ -1,27 +1,35 @@
 import { performance } from 'perf_hooks'
 import { messages, TimeConversion } from 'cucumber-messages'
-import uuidv4 from 'uuid/v4'
 import SupportCodeExecutor from './SupportCodeExecutor'
 import { MessageNotifier } from './types'
 import ITestStep from './ITestStep'
 import IWorld from './IWorld'
+import StackUtils from 'stack-utils'
+import makeAttach from './makeAttach'
+
 const { millisecondsToDuration } = TimeConversion
 
-export default abstract class TestStep implements ITestStep {
-  public readonly id: string = uuidv4()
+const stack = new StackUtils({
+  cwd: process.cwd(),
+  internals: StackUtils.nodeInternals(),
+})
 
+export default abstract class TestStep implements ITestStep {
   constructor(
+    public readonly id: string,
     public readonly sourceId: string,
-    protected readonly supportCodeExecutors: SupportCodeExecutor[]
+    public readonly alwaysExecute: boolean,
+    protected readonly supportCodeExecutors: SupportCodeExecutor[],
+    private readonly sourceFrames: string[]
   ) {}
 
   public abstract toMessage(): messages.TestCase.ITestStep
 
-  public execute(
+  public async execute(
     world: IWorld,
     notifier: MessageNotifier,
     testCaseStartedId: string
-  ): messages.ITestResult {
+  ): Promise<messages.ITestResult> {
     this.emitTestStepStarted(testCaseStartedId, notifier)
 
     if (this.supportCodeExecutors.length === 0) {
@@ -46,8 +54,8 @@ export default abstract class TestStep implements ITestStep {
 
     const start = performance.now()
     try {
-      world.testStepId = this.id
-      const result = this.supportCodeExecutors[0].execute(world)
+      world.attach = makeAttach(this.id, testCaseStartedId, notifier)
+      const result = await this.supportCodeExecutors[0].execute(world)
       const finish = performance.now()
       const duration = millisecondsToDuration(finish - start)
       return this.emitTestStepFinished(
@@ -63,13 +71,22 @@ export default abstract class TestStep implements ITestStep {
       )
     } catch (error) {
       const finish = performance.now()
+
+      const trace = stack
+        .clean(error.stack)
+        .trim()
+        .split('\n')
+        .concat(this.sourceFrames)
+        .map(frame => `    at ${frame}`)
+        .join('\n')
+
       const duration = millisecondsToDuration(finish - start)
       return this.emitTestStepFinished(
         testCaseStartedId,
         new messages.TestResult({
           duration,
           status: messages.TestResult.Status.FAILED,
-          message: error.stack,
+          message: `${error.message}\n${trace}`,
         }),
         notifier
       )

@@ -12,7 +12,7 @@
         "argument": {
           "docString": {
             "content": "Greeting:Hello",
-            "contentType": "en"
+            "mediaType": "en"
           }
         },
         "astNodeIds": [
@@ -40,7 +40,7 @@
         "argument": {
           "docString": {
             "content": "Greeting:Bonjour",
-            "contentType": "fr"
+            "mediaType": "fr"
           }
         },
         "astNodeIds": [

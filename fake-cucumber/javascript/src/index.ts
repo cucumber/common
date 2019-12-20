@@ -1,6 +1,4 @@
-import Cucumber from './Cucumber'
-import CucumberStream from './CucumberStream'
-import makeDummyStepDefinitions from './makeDummyStepDefinitions'
-import makeDummyHooks from './makeDummyHooks'
+import SupportCode from './SupportCode'
+import { IdGenerator } from 'cucumber-messages'
 
-export { Cucumber, CucumberStream, makeDummyStepDefinitions, makeDummyHooks }
+export = new SupportCode(IdGenerator.uuid())

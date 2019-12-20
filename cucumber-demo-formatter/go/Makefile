@@ -8,6 +8,6 @@ ifndef CI
 endif
 
 .tested.diff: ../testdata/hello.feature $(FORMATTER) $(GO_SOURCE_FILES) 
-	../../fake-cucumber/javascript/bin/fake-cucumber ../testdata/hello.feature --format ndjson | \
+	../../fake-cucumber/javascript/bin/fake-cucumber --globals --format ndjson ../testdata/hello.feature | \
 	$(FORMATTER) --format ndjson | diff -u <(printf "😃💣🥶") -
 	touch $@

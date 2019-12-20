@@ -37,7 +37,7 @@ public class CucumberDataTableException extends RuntimeException {
     static CucumberDataTableException keyValueMismatchException(boolean firstHeaderCellIsBlank, int keySize, Type keyType, int valueSize, Type valueType) {
         if (keySize > valueSize) {
             return cantConvertToMap(keyType, valueType,
-                    "There are more keys then values. " +
+                    "There are more keys than values. " +
                             "Did you use a TableEntryTransformer for the value while using a TableRow or TableCellTransformer for the keys?");
         }
 

@@ -13,18 +13,7 @@ export default class MessageToNdjsonStream<T> extends Transform {
 
   public _transform(message: T, encoding: string, callback: TransformCallback) {
     // @ts-ignore
-    if (!message.constructor.toObject) {
-      return callback(
-        new Error(`Not a protobuf object: ${JSON.stringify(message)}`)
-      )
-    }
-    // @ts-ignore
-    const object = message.constructor.toObject(message, {
-      defaults: false,
-      enums: String,
-      arrays: false,
-      objects: false,
-    })
+    const object = message.toJSON()
 
     // This reviver omits printing fields with empty values
     // This is to make it behave the same as Golang's protobuf->JSON converter

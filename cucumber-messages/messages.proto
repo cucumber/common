@@ -1,6 +1,6 @@
 syntax = "proto3";
 package io.cucumber.messages;
-option ruby_package = "Cucumber.Messages";
+option ruby_package = "Cucumber::Messages";
 option go_package = "messages";
 
 // When removing a field, replace it with reserved, rather than deleting the line.
@@ -91,28 +91,6 @@ message SourceReference {
   Location location = 2;
 }
 
-/**
- * Meta information about encoded contents
- */
-message Media {
-  // The encoding of the data
-  Encoding encoding = 1;
-  /**
-   * The content type of the data. This can be any valid
-   * [IANA Media Type](https://www.iana.org/assignments/media-types/media-types.xhtml)
-   * as well as Cucumber-specific media types such as `text/x.cucumber.gherkin+plain`
-   * and `text/x.cucumber.stacktrace+plain`
-   */
-  string content_type = 2;
-
-  enum Encoding {
-    // Base64 encoded binary data
-    BASE64 = 0;
-    // UTF8 encoded string
-    UTF8 = 1;
-  }
-}
-
 ////// Source
 
 /**
@@ -126,8 +104,10 @@ message Source {
   string uri = 1;
   // The contents of the file
   string data = 2;
-  // The media type of the file
-  Media media = 3;
+  reserved 3;
+  // The media type of the file. Can be used to specify custom types, such as
+  // text/x.cucumber.gherkin+plain
+  string media_type = 4;
 }
 
 ////// Gherkin
@@ -290,7 +270,7 @@ message GherkinDocument {
 
       message DocString {
         Location location = 1;
-        string content_type = 2;
+        string media_type = 2;
         string content = 3;
         string delimiter = 4;
       }
@@ -313,16 +293,29 @@ message GherkinDocument {
  */
 message Attachment {
   SourceReference source = 1;
-  string data = 2;
-  Media media = 3;
+  reserved 2, 3;
   string test_step_id = 4;
   string test_case_started_id = 5;
+  // The body of the attachment
+  oneof body {
+    // For text/* media types
+    string text = 6;
+    // For all non-text/ media types
+    bytes binary = 7;
+  }
+  /**
+   * The media type of the data. This can be any valid
+   * [IANA Media Type](https://www.iana.org/assignments/media-types/media-types.xhtml)
+   * as well as Cucumber-specific media types such as `text/x.cucumber.gherkin+plain`
+   * and `text/x.cucumber.stacktrace+plain`
+   */
+  string media_type = 8;
 }
 
 ////// Pickles
 
 /**
- * A `Pickle` represents a test case Cucumber can *execute*. It is typically derived
+ * A `Pickle` represents a template for a `TestCase`. It is typically derived
  * from another format, such as [GherkinDocument](#io.cucumber.messages.GherkinDocument).
  * In the future a `Pickle` may be derived from other formats such as Markdown or
  * Excel files.
@@ -330,6 +323,8 @@ message Attachment {
  * By making `Pickle` the main data structure Cucumber uses for execution, the
  * implementation of Cucumber itself becomes simpler, as it doesn't have to deal
  * with the complex structure of a [GherkinDocument](#io.cucumber.messages.GherkinDocument).
+ *
+ * Each `PickleStep` of a `Pickle` is matched with a `StepDefinition` to create a `TestCase`
  */
 message Pickle {
   /**
@@ -392,7 +387,7 @@ message PickleStepArgument {
   }
 
   message PickleDocString {
-    string content_type = 1;
+    string media_type = 1;
     string content = 2;
   }
 
@@ -411,21 +406,35 @@ message PickleStepArgument {
 
 ////// TestCases
 
+/**
+ * A `TestCase` contains a sequence of `TestStep`s.
+ */
 message TestCase {
   string id = 1;
+  // The ID of the `Pickle` this `TestCase` is derived from.
   string pickle_id = 2;
   repeated TestStep test_steps = 3;
 
+  /**
+   * A `TestStep` is derived from either a `PickleStep`
+   * combined with a `StepDefinition`, or from a `Hook`.
+   */
   message TestStep {
     string id = 1;
-    // Pointer to the PickleStep (if derived from a PickleStep)
+    // Pointer to the `PickleStep` (if derived from a PickleStep)
     string pickle_step_id = 2;
-    // Pointer to all the matching StepDefinitions (if derived from a PickleStep)
+    // Pointer to all the matching `StepDefinition`s (if derived from a PickleStep)
     repeated string step_definition_ids = 3;
-    // All the arguments from the match (if derived from a PickleStep and there was exactly 1 StepDefinition)
-    repeated StepMatchArgument step_match_arguments = 4;
-    // Pointer to the Hook (if derived from a Hook)
-    string hookId = 5;
+    // A list of list of StepMatchArgument (if derived from a `StepDefinition`). 
+    // Each element represents a matching step definition. A size of 0 means `UNDEFINED`,
+    // and a size of 2+ means `AMBIGUOUS`
+    repeated StepMatchArgumentsList step_match_arguments_lists = 4;
+    // Pointer to the `Hook` (if derived from a Hook)
+    string hook_id = 5;
+    
+    message StepMatchArgumentsList {
+      repeated StepMatchArgument step_match_arguments = 1;
+    }
   }
 }
 
@@ -488,7 +497,7 @@ message TestCaseStarted {
 
 message TestCaseFinished {
   Timestamp timestamp = 1;
-  TestResult test_result = 2;
+  reserved 2;
   string test_case_started_id = 3;
 }
 
@@ -512,8 +521,10 @@ message TestResult {
   bool will_be_retried = 4;
 
   /**
-   * Status of a step. Can also represent status of a Pickle (aggregated
-   * from the status of its steps).
+   * Status of a `PickleStep`.
+   *
+   * A `Pickle` message does not carry its own `TestResult`, but this can be accessed
+   * using `CucumberQuery#getTestResult(testCase)`
    *
    * The ordinal values of statuses are significant. The status of a Pickle
    * is determined by the union of statuses of its steps. The
@@ -612,7 +623,7 @@ message Hook {
 message StepDefinition {
   string id = 1;
   StepDefinitionPattern pattern = 2;
-  SourceReference sourceReference = 3;
+  SourceReference source_reference = 3;
 }
 
 message StepDefinitionPattern {

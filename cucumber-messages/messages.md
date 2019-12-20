@@ -34,7 +34,6 @@
     - [GherkinDocument.Feature.Tag](#io.cucumber.messages.GherkinDocument.Feature.Tag)
     - [Hook](#io.cucumber.messages.Hook)
     - [Location](#io.cucumber.messages.Location)
-    - [Media](#io.cucumber.messages.Media)
     - [ParameterType](#io.cucumber.messages.ParameterType)
     - [Pickle](#io.cucumber.messages.Pickle)
     - [Pickle.PickleStep](#io.cucumber.messages.Pickle.PickleStep)
@@ -72,7 +71,6 @@
     - [Timestamp](#io.cucumber.messages.Timestamp)
     - [UriToLinesMapping](#io.cucumber.messages.UriToLinesMapping)
   
-    - [Media.Encoding](#io.cucumber.messages.Media.Encoding)
     - [SourcesOrderType](#io.cucumber.messages.SourcesOrderType)
     - [StepDefinitionPatternType](#io.cucumber.messages.StepDefinitionPatternType)
     - [TestResult.Status](#io.cucumber.messages.TestResult.Status)
@@ -108,10 +106,11 @@ is captured in `TestResult`.
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | source | [SourceReference](#io.cucumber.messages.SourceReference) |  |  |
-| data | [string](#string) |  |  |
-| media | [Media](#io.cucumber.messages.Media) |  |  |
 | test_step_id | [string](#string) |  |  |
 | test_case_started_id | [string](#string) |  |  |
+| text | [string](#string) |  | For text/* media types |
+| binary | [bytes](#bytes) |  | For all non-text/ media types |
+| media_type | [string](#string) |  | The media type of the data. This can be any valid [IANA Media Type](https://www.iana.org/assignments/media-types/media-types.xhtml) as well as Cucumber-specific media types such as `text/x.cucumber.gherkin&#43;plain` and `text/x.cucumber.stacktrace&#43;plain` |
 
 
 
@@ -561,7 +560,7 @@ A step
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | location | [Location](#io.cucumber.messages.Location) |  |  |
-| content_type | [string](#string) |  |  |
+| media_type | [string](#string) |  |  |
 | content | [string](#string) |  |  |
 | delimiter | [string](#string) |  |  |
 
@@ -653,22 +652,6 @@ Points to a line and a column in a text file
 
 
 
-<a name="io.cucumber.messages.Media"></a>
-
-### Media
-Meta information about encoded contents
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| encoding | [Media.Encoding](#io.cucumber.messages.Media.Encoding) |  | The encoding of the data |
-| content_type | [string](#string) |  | The content type of the data. This can be any valid [IANA Media Type](https://www.iana.org/assignments/media-types/media-types.xhtml) as well as Cucumber-specific media types such as `text/x.cucumber.gherkin&#43;plain` and `text/x.cucumber.stacktrace&#43;plain` |
-
-
-
-
-
-
 <a name="io.cucumber.messages.ParameterType"></a>
 
 ### ParameterType
@@ -690,7 +673,7 @@ Meta information about encoded contents
 <a name="io.cucumber.messages.Pickle"></a>
 
 ### Pickle
-A `Pickle` represents a test case Cucumber can *execute*. It is typically derived
+A `Pickle` represents a template for a `TestCase`. It is typically derived
 from another format, such as [GherkinDocument](#io.cucumber.messages.GherkinDocument).
 In the future a `Pickle` may be derived from other formats such as Markdown or
 Excel files.
@@ -698,6 +681,8 @@ Excel files.
 By making `Pickle` the main data structure Cucumber uses for execution, the
 implementation of Cucumber itself becomes simpler, as it doesn&#39;t have to deal
 with the complex structure of a [GherkinDocument](#io.cucumber.messages.GherkinDocument).
+
+Each `PickleStep` of a `Pickle` is matched with a `StepDefinition` to create a `TestCase`
 
 
 | Field | Type | Label | Description |
@@ -742,7 +727,7 @@ A tag
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | name | [string](#string) |  |  |
-| source_id | [string](#string) |  | Reference to the source id |
+| ast_node_id | [string](#string) |  | Points to the AST node this was created from |
 
 
 
@@ -803,7 +788,7 @@ A wrapper for either a doc string or a table.
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| content_type | [string](#string) |  |  |
+| media_type | [string](#string) |  |  |
 | content | [string](#string) |  |  |
 
 
@@ -884,7 +869,7 @@ A source file, typically a Gherkin document
 | ----- | ---- | ----- | ----------- |
 | uri | [string](#string) |  | The [URI](https://en.wikipedia.org/wiki/Uniform_Resource_Identifier) of the source, typically a file path relative to the root directory |
 | data | [string](#string) |  | The contents of the file |
-| media | [Media](#io.cucumber.messages.Media) |  | The media type of the file |
+| media_type | [string](#string) |  | The media type of the file. Can be used to specify custom types, such as text/x.cucumber.gherkin&#43;plain |
 
 
 
@@ -969,7 +954,7 @@ Points to a [Source](#io.cucumber.messages.Source) identified by `uri` and a
 | ----- | ---- | ----- | ----------- |
 | id | [string](#string) |  |  |
 | pattern | [StepDefinitionPattern](#io.cucumber.messages.StepDefinitionPattern) |  |  |
-| location | [SourceReference](#io.cucumber.messages.SourceReference) |  |  |
+| source_reference | [SourceReference](#io.cucumber.messages.SourceReference) |  |  |
 
 
 
@@ -1051,13 +1036,13 @@ This message closely matches the `Argument` class in the `cucumber-expressions` 
 <a name="io.cucumber.messages.TestCase"></a>
 
 ### TestCase
-
+A `TestCase` contains a sequence of `TestStep`s.
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | id | [string](#string) |  |  |
-| pickle_id | [string](#string) |  |  |
+| pickle_id | [string](#string) |  | The ID of the `Pickle` this `TestCase` is derived from. |
 | test_steps | [TestCase.TestStep](#io.cucumber.messages.TestCase.TestStep) | repeated |  |
 
 
@@ -1068,16 +1053,17 @@ This message closely matches the `Argument` class in the `cucumber-expressions` 
 <a name="io.cucumber.messages.TestCase.TestStep"></a>
 
 ### TestCase.TestStep
-
+A `TestStep` is derived from either a `PickleStep`
+combined with a `StepDefinition`, or from a `Hook`.
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | id | [string](#string) |  |  |
-| pickle_step_id | [string](#string) |  | Pointer to the PickleStep (if derived from a PickleStep) |
-| step_definition_ids | [string](#string) | repeated | Pointer to all the matching StepDefinitions (if derived from a PickleStep) |
+| pickle_step_id | [string](#string) |  | Pointer to the `PickleStep` (if derived from a PickleStep) |
+| step_definition_ids | [string](#string) | repeated | Pointer to all the matching `StepDefinition`s (if derived from a PickleStep) |
 | step_match_arguments | [StepMatchArgument](#io.cucumber.messages.StepMatchArgument) | repeated | All the arguments from the match (if derived from a PickleStep and there was exactly 1 StepDefinition) |
-| hookId | [string](#string) |  | Pointer to the Hook (if derived from a Hook) |
+| hook_id | [string](#string) |  | Pointer to the Hook (if derived from a Hook) |
 
 
 
@@ -1093,7 +1079,6 @@ This message closely matches the `Argument` class in the `cucumber-expressions` 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | timestamp | [Timestamp](#io.cucumber.messages.Timestamp) |  |  |
-| test_result | [TestResult](#io.cucumber.messages.TestResult) |  |  |
 | test_case_started_id | [string](#string) |  |  |
 
 
@@ -1288,18 +1273,6 @@ From https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf
  
 
 
-<a name="io.cucumber.messages.Media.Encoding"></a>
-
-### Media.Encoding
-
-
-| Name | Number | Description |
-| ---- | ------ | ----------- |
-| BASE64 | 0 | Base64 encoded binary data |
-| UTF8 | 1 | UTF8 encoded string |
-
-
-
 <a name="io.cucumber.messages.SourcesOrderType"></a>
 
 ### SourcesOrderType
@@ -1327,8 +1300,10 @@ From https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf
 <a name="io.cucumber.messages.TestResult.Status"></a>
 
 ### TestResult.Status
-Status of a step. Can also represent status of a Pickle (aggregated
-from the status of its steps).
+Status of a `PickleStep`.
+
+A `Pickle` message does not carry its own `TestResult`, but this can be accessed
+using `CucumberQuery#getTestResult(testCase)`
 
 The ordinal values of statuses are significant. The status of a Pickle
 is determined by the union of statuses of its steps. The

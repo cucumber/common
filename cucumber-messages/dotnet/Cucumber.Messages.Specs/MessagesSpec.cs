@@ -11,7 +11,7 @@ namespace Io.Cucumber.Messages.Specs
         {
             var pickleDocSring = new PickleDocString
             {
-                ContentType = "text/plain",
+                MediaType = "text/plain",
                 Content = "some\ncontent\n"
             };
 

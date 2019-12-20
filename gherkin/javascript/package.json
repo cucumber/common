@@ -1,6 +1,6 @@
 {
   "name": "gherkin",
-  "version": "8.2.1",
+  "version": "9.0.0",
   "description": "Gherkin parser",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
@@ -31,21 +31,19 @@
   "homepage": "https://github.com/cucumber/gherkin-javascript",
   "devDependencies": {
     "@types/mocha": "^5.2.7",
-    "@types/node": "^12.12.14",
-    "@types/uuid": "^3.4.6",
+    "@types/node": "^12.12.16",
     "mocha": "^6.2.2",
     "nyc": "^14.1.1",
     "prettier": "^1.19.1",
-    "ts-node": "^8.5.2",
+    "ts-node": "^8.5.4",
     "tslint": "^5.20.1",
     "tslint-config-prettier": "^1.18.0",
     "tslint-plugin-prettier": "^2.0.1",
-    "typescript": "^3.7.2"
+    "typescript": "^3.7.3"
   },
   "dependencies": {
     "commander": "^4.0.1",
-    "cucumber-messages": "7.0.0",
-    "source-map-support": "^0.5.16",
-    "uuid": "^3.3.3"
+    "cucumber-messages": "8.0.0",
+    "source-map-support": "^0.5.16"
   }
 }

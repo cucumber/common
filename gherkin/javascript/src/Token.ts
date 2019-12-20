@@ -25,5 +25,4 @@ export default class Token {
   public detach() {
     // TODO: Detach line, but is this really needed?
   }
-
 }

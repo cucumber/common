@@ -17,6 +17,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [3.1.0] - 2019-12-10
+
+### Changed
+
+* Render errors in `<pre>`
+* Upgrade to cucumber-messages 8.0.0
+
 ## [3.0.0] - 2019-11-15
 
 ### Changed
@@ -54,7 +61,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-react/v3.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-react/v3.1.0...master
+[3.1.0]:      https://github.com/cucumber/cucumber/compare/cucumber-react/v3.0.0...cucumber-react/v3.1.0
 [3.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-react/v2.0.1...cucumber-react/v3.0.0
 [2.0.1]:      https://github.com/cucumber/cucumber/compare/cucumber-react/v2.0.0...cucumber-react/v2.0.1
 [2.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-react/v1.1.0...cucumber-react/v2.0.0

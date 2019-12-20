@@ -23,7 +23,7 @@
         "argument": {
           "docString": {
             "content": "<foo>\n  <bar />\n</foo>",
-            "contentType": "xml"
+            "mediaType": "xml"
           }
         },
         "astNodeIds": [

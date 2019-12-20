@@ -9,14 +9,42 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
-* Handle Hooks (4 built-in hooks: @before-passed, @before-failed, @after-passed, @after-failed)
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+## [3.0.2] - 2019-12-10
+
+### Fixed
+
+* Add `typescript` to runtime dependencies
+
+## [3.0.1] - 2019-12-10
+
+### Fixed
+
+* Add `ts-node` to runtime dependencies
+
+## [3.0.0] - 2019-12-10
+
+### Added
+
+* Implement `Given`/`When`/`Then`/`After`/`Before` DSL
+* Dynamically load files from the file system
+* Support Hooks
   ([#803](https://github.com/cucumber/cucumber/pull/803)
    [vincent-psarga]
    [aslakhellesoy])
 
 ### Changed
 
-### Deprecated
+* Upgrade to `gherkin` `9.0.0`
+* Upgrade to `cucumber-messages` `8.0.0`
+* Upgrade to `cucumber-expressions` `8.3.0`
 
 ### Removed
 
@@ -91,7 +119,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/fake-cucumber/v2.1.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/fake-cucumber/v3.0.2...master
+[3.0.2]:      https://github.com/cucumber/cucumber/compare/fake-cucumber/v3.0.1...fake-cucumber/v3.0.2
+[3.0.1]:      https://github.com/cucumber/cucumber/compare/fake-cucumber/v3.0.0...fake-cucumber/v3.0.1
+[3.0.0]:      https://github.com/cucumber/cucumber/compare/fake-cucumber/v2.1.0...fake-cucumber/v3.0.0
 [2.1.0]:      https://github.com/cucumber/cucumber/compare/fake-cucumber/v2.0.3...fake-cucumber/v2.1.0
 [2.0.3]:      https://github.com/cucumber/cucumber/compare/fake-cucumber/v2.0.2...fake-cucumber/v2.0.3
 [2.0.2]:      https://github.com/cucumber/cucumber/compare/fake-cucumber/v2.0.1...fake-cucumber/v2.0.2
@@ -99,7 +130,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 [2.0.0]:      https://github.com/cucumber/cucumber/compare/fake-cucumber/v1.1.1...fake-cucumber/v2.0.0
 [1.1.1]:      https://github.com/cucumber/cucumber/compare/fake-cucumber/v1.1.0...fake-cucumber/v1.1.1
 [1.1.0]:      https://github.com/cucumber/cucumber/compare/fake-cucumber/v1.0.1...fake-cucumber/v1.1.0
-[1.0.1]:      https://github.com/cucumber/cucumber/compare/fake-cucumber/v2.1.0...fake-cucumber/v1.0.1
+[1.0.1]:      https://github.com/cucumber/cucumber/compare/fake-cucumber/v1.0.0...fake-cucumber/v1.0.1
 [1.0.0]:      https://github.com/cucumber/cucumber/releases/tag/fake-cucumber/v1.0.0
 
 <!-- Contributors in alphabetical order -->

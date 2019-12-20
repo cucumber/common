@@ -1,14 +1,26 @@
 import { Command } from 'commander'
 import packageJson from '../package.json'
-import gherkin from 'gherkin'
-import { Transform, pipeline } from 'stream'
-import { MessageToNdjsonStream, MessageToBinaryStream } from 'cucumber-messages'
+import gherkin, { IGherkinOptions } from 'gherkin'
+import { pipeline } from 'stream'
 import CucumberStream from './CucumberStream'
-import makeDummyStepDefinitions from './makeDummyStepDefinitions'
-import makeDummyHooks from './makeDummyHooks'
+import { promisify } from 'util'
+import formatStream from './formatStream'
+import supportCode from './index'
+import { IdGenerator } from 'cucumber-messages'
+import findSupportCodePaths from './findSupportCodePaths'
+import fs from 'fs'
+
+const pipelinePromise = promisify(pipeline)
 
 const program = new Command()
 program.version(packageJson.version)
+program.option('-r, --require <path>', 'override require path')
+program.option('--predictable-ids', 'Use predictable ids', false)
+program.option(
+  '--globals',
+  'Assign Given/When/Then/After/Before to global scope',
+  false
+)
 program.option(
   '-f, --format <format>',
   'output format: ndjson|protobuf',
@@ -16,30 +28,58 @@ program.option(
 )
 program.parse(process.argv)
 const paths = program.args
+const requirePaths = program.require ? program.require.split(':') : paths
 
-async function run() {
-  await pipeline(
-    gherkin.fromPaths(paths, {}),
-    new CucumberStream(makeDummyStepDefinitions(), makeDummyHooks()),
-    formatStream(program.format),
-    process.stdout,
-    err => {
-      // tslint:disable-next-line:no-console
-      console.error(err)
-      process.exit(1)
-    }
-  )
+if (program.predictableIds) {
+  supportCode.newId = IdGenerator.incrementing()
 }
 
-function formatStream(format: string): Transform {
-  switch (format) {
-    case 'ndjson':
-      return new MessageToNdjsonStream()
-    case 'protobuf':
-      return new MessageToBinaryStream()
-    default:
-      throw new Error(`Unsupported format: '${format}'`)
+const options: IGherkinOptions = {
+  defaultDialect: 'en',
+  newId: supportCode.newId,
+  createReadStream: (path: string) =>
+    fs.createReadStream(path, { encoding: 'utf-8' }),
+}
+
+async function loadSupportCode(): Promise<void> {
+  const supportCodePaths = await findSupportCodePaths(requirePaths)
+  let tsNoseRegistered = false
+  for (const supportCodePath of supportCodePaths) {
+    if (supportCodePath.endsWith('.ts')) {
+      const tsnode = require('ts-node')
+      tsnode.register({
+        transpileOnly: true,
+      })
+      tsNoseRegistered = true
+    }
+    require(supportCodePath)
   }
 }
 
-run().then(() => null)
+async function main() {
+  if (program.globals) {
+    for (const key of Object.keys(supportCode)) {
+      // @ts-ignore
+      global[key] = supportCode[key]
+    }
+  }
+  await loadSupportCode()
+  const cucumberStream = new CucumberStream(
+    supportCode.stepDefinitions,
+    supportCode.beforeHooks,
+    supportCode.afterHooks,
+    supportCode.newId
+  )
+  await pipelinePromise(
+    gherkin.fromPaths(paths, options),
+    cucumberStream,
+    formatStream(program.format),
+    process.stdout
+  )
+}
+
+main().catch(err => {
+  // tslint:disable-next-line:no-console
+  console.error(err)
+  process.exit(1)
+})

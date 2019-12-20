@@ -1,26 +1,20 @@
-import { HookType, IHook } from './IHook'
-import uuidv4 from 'uuid/v4'
+import IHook from './IHook'
 import parseTagExpression from 'cucumber-tag-expressions'
 import { messages } from 'cucumber-messages'
 import SupportCodeExecutor from './SupportCodeExecutor'
 import { AnyBody } from './types'
 
 export default class Hook implements IHook {
-  public readonly id = uuidv4()
-
   constructor(
-    private readonly hookType: HookType,
+    public readonly id: string,
     private readonly tagExpression: string | null,
+    private readonly sourceReference: messages.ISourceReference,
     private readonly body: AnyBody
   ) {}
 
-  public match(
-    pickle: messages.IPickle,
-    hookType: HookType
-  ): SupportCodeExecutor | null {
+  public match(pickle: messages.IPickle): SupportCodeExecutor | null {
     const matches =
-      this.hookType === hookType &&
-      (this.tagExpression === null || this.matchesTagExpression(pickle))
+      this.tagExpression === null || this.matchesTagExpression(pickle)
 
     return matches
       ? new SupportCodeExecutor(this.id, this.body, [], null, null)
@@ -32,13 +26,7 @@ export default class Hook implements IHook {
       hook: new messages.Hook({
         id: this.id,
         tagExpression: this.tagExpression,
-        sourceReference: new messages.SourceReference({
-          location: new messages.Location({
-            column: 3,
-            line: 10,
-          }),
-          uri: 'some/javascript/hooks.js',
-        }),
+        sourceReference: this.sourceReference,
       }),
     })
   }

@@ -1,17 +1,23 @@
 import assert from 'assert'
-import { messages } from 'cucumber-messages'
+import { IdGenerator, messages } from 'cucumber-messages'
 import makeTestCase from '../src/makeTestCase'
 import ExpressionStepDefinition from '../src/ExpressionStepDefinition'
-import { HookType } from '../src/IHook'
 import Hook from '../src/Hook'
-
 import { CucumberExpression, ParameterTypeRegistry } from 'cucumber-expressions'
+import { GherkinQuery } from 'gherkin'
 
 describe('makeTestCase', () => {
   it('transforms a Pickle to a TestCase', () => {
     const pickle = makePickleWithTwoSteps()
     const stepDefinitions = makeStepDefinitions()
-    const testCase = makeTestCase(pickle, stepDefinitions, [])
+    const testCase = makeTestCase(
+      pickle,
+      stepDefinitions,
+      [],
+      [],
+      new GherkinQuery(),
+      IdGenerator.incrementing()
+    )
 
     assert.deepStrictEqual(
       testCase.toMessage().testCase.testSteps.map(s => s.pickleStepId),
@@ -22,10 +28,17 @@ describe('makeTestCase', () => {
   context('when hooks are defined', () => {
     context('when a before hook matches', () => {
       it('adds a step before the scenario ones', () => {
-        const hooks = [new Hook(HookType.Before, null, () => null)]
+        const beforeHooks = [new Hook('hook-id', null, null, () => null)]
         const pickle = makePickleWithTwoSteps()
         const stepDefinitions = makeStepDefinitions()
-        const testCase = makeTestCase(pickle, stepDefinitions, hooks)
+        const testCase = makeTestCase(
+          pickle,
+          stepDefinitions,
+          beforeHooks,
+          [],
+          new GherkinQuery(),
+          IdGenerator.incrementing()
+        )
 
         assert.deepStrictEqual(
           testCase.toMessage().testCase.testSteps.map(s => s.pickleStepId),
@@ -33,7 +46,7 @@ describe('makeTestCase', () => {
         )
         assert.strictEqual(
           testCase.toMessage().testCase.testSteps[0].hookId,
-          hooks[0].toMessage().hook.id
+          beforeHooks[0].toMessage().hook.id
         )
       })
     })
@@ -41,10 +54,17 @@ describe('makeTestCase', () => {
 
   context('when an after hook matches', () => {
     it('adds a step after the scenario ones', () => {
-      const hooks = [new Hook(HookType.After, null, () => null)]
+      const afterHooks = [new Hook('hook-id', null, null, () => null)]
       const pickle = makePickleWithTwoSteps()
       const stepDefinitions = makeStepDefinitions()
-      const testCase = makeTestCase(pickle, stepDefinitions, hooks)
+      const testCase = makeTestCase(
+        pickle,
+        stepDefinitions,
+        [],
+        afterHooks,
+        new GherkinQuery(),
+        IdGenerator.incrementing()
+      )
 
       assert.deepStrictEqual(
         testCase.toMessage().testCase.testSteps.map(s => s.pickleStepId),
@@ -52,7 +72,7 @@ describe('makeTestCase', () => {
       )
       assert.strictEqual(
         testCase.toMessage().testCase.testSteps[2].hookId,
-        hooks[0].toMessage().hook.id
+        afterHooks[0].toMessage().hook.id
       )
     })
   })
@@ -78,11 +98,15 @@ describe('makeTestCase', () => {
     const parameterTypeRegistry = new ParameterTypeRegistry()
     return [
       new ExpressionStepDefinition(
+        'hook-id',
         new CucumberExpression('a passed {word}', parameterTypeRegistry),
+        null,
         (thing: string) => undefined
       ),
       new ExpressionStepDefinition(
+        'hook-id',
         new CucumberExpression('a failed {word}', parameterTypeRegistry),
+        null,
         (thing: string) => undefined
       ),
     ]

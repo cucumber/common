@@ -1183,7 +1183,7 @@ class DataTableTypeRegistryTableConverterTest {
         );
         assertThat(exception.getMessage(), is(format("" +
                 "Can't convert DataTable to Map<%s, %s>. " +
-                "There are more keys then values. " +
+                "There are more keys than values. " +
                 "Did you use a TableEntryTransformer for the value " +
                 "while using a TableRow or TableCellTransformer for the keys?", typeName(String.class), typeName(Coordinate.class))));
     }

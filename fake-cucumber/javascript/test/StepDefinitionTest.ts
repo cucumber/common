@@ -12,7 +12,12 @@ describe('StepDefinition', () => {
         'banana',
         new ParameterTypeRegistry()
       )
-      const stepdef = new ExpressionStepDefinition(expression, () => null)
+      const stepdef = new ExpressionStepDefinition(
+        'stepdef-id',
+        expression,
+        null,
+        () => null
+      )
       const pickleStep = messages.Pickle.PickleStep.create({
         text: 'apple',
       })
@@ -26,7 +31,9 @@ describe('StepDefinition', () => {
         new ParameterTypeRegistry()
       )
       const stepdef = new ExpressionStepDefinition(
+        'stepdef-id',
         expression,
+        null,
         (cukeCount: number) => cukeCount
       )
       const pickleStep = messages.Pickle.PickleStep.create({
@@ -43,7 +50,12 @@ describe('StepDefinition', () => {
         /banana/,
         new ParameterTypeRegistry()
       )
-      const stepdef = new ExpressionStepDefinition(expression, () => null)
+      const stepdef = new ExpressionStepDefinition(
+        'stepdef-id',
+        expression,
+        null,
+        () => null
+      )
       const message = stepdef.toMessage()
 
       assert.strictEqual(
@@ -57,7 +69,12 @@ describe('StepDefinition', () => {
         'banana',
         new ParameterTypeRegistry()
       )
-      const stepdef = new ExpressionStepDefinition(expression, () => null)
+      const stepdef = new ExpressionStepDefinition(
+        'stepdef-id',
+        expression,
+        null,
+        () => null
+      )
       const message = stepdef.toMessage()
 
       assert.strictEqual(

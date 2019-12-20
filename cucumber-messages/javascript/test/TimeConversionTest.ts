@@ -24,4 +24,12 @@ describe('TimeConversion', () => {
 
     assert.strictEqual(durationMillisAgain, durationInMilliseconds)
   })
+
+  it('converts to and from milliseconds duration (with decimal places)', () => {
+    const durationInMilliseconds = 1.234
+    const duration = millisecondsToDuration(durationInMilliseconds)
+    const durationMillisAgain = durationToMilliseconds(duration)
+
+    assert.strictEqual(durationMillisAgain, durationInMilliseconds)
+  })
 })

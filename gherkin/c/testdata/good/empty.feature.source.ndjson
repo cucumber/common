@@ -1,9 +1,6 @@
 {
   "source": {
-    "media": {
-      "contentType": "text/x.cucumber.gherkin+plain",
-      "encoding": "UTF8"
-    },
+    "mediaType": "text/x.cucumber.gherkin+plain",
     "uri": "testdata/good/empty.feature"
   }
 }

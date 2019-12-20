@@ -1,11 +1,12 @@
 import { Argument, Group } from 'cucumber-expressions'
 import { messages } from 'cucumber-messages'
 import IWorld from './IWorld'
+import { AnyBody } from './types'
 
 export default class SupportCodeExecutor {
   constructor(
     public readonly stepDefinitionId: string,
-    private readonly body: (...args: any) => any,
+    private readonly body: AnyBody,
     private readonly args: Array<Argument<any>>,
     private readonly docString: messages.PickleStepArgument.IPickleDocString,
     private readonly dataTable: messages.PickleStepArgument.IPickleTable

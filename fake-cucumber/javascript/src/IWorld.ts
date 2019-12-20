@@ -1,4 +1,5 @@
+import { Attach } from './types'
+
 export default interface IWorld {
-  testStepId: string
-  attach(data: string, contentType: string): void
+  attach: Attach
 }
