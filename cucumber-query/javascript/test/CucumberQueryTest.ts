@@ -219,6 +219,7 @@ describe('CucumberQuery', () => {
     makeDummyStepDefinitions(supportCode)
 
     const cucumberStream = new CucumberStream(
+      supportCode.parameterTypes,
       supportCode.stepDefinitions,
       supportCode.beforeHooks,
       supportCode.afterHooks,
