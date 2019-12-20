@@ -11,6 +11,14 @@ ifndef NEW_VERSION
 endif
 	touch $@
 
+internal-dependencies:
+	if [ -f ".internal-dependencies" ]; then \
+	while read -r file; do \
+	    pushd "../../$$file/javascript" && make internal-dependencies && make && popd; \
+	  done <.internal-dependencies; \
+	fi
+.PHONY: internal-dependencies
+
 .codegen: .deps
 	touch $@
 
