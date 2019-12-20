@@ -29,6 +29,7 @@ describe('Cucumber', () => {
     makeDummyHooks(supportCode)
     const cucumber = new Cucumber(
       gherkinMessageList,
+      supportCode.parameterTypes,
       supportCode.stepDefinitions,
       supportCode.beforeHooks,
       supportCode.afterHooks,

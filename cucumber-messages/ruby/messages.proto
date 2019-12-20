@@ -68,6 +68,7 @@ message Envelope {
     TestCase test_case = 24;
     StepDefinition step_definition = 25;
     Hook hook = 26;
+    ParameterType parameter_type = 27;
   }
 }
 
