@@ -1,6 +1,7 @@
 SHELL := /usr/bin/env bash
 TYPESCRIPT_SOURCE_FILES = $(shell find src test -type f -name "*.ts" -o -name "*.tsx")
 PRIVATE = $(shell node -e "console.log(require('./package.json').private)")
+INTERNAL_DEPENDENCIES = $(shell cat .internal-dependencies)
 
 default: .linted .tested .built
 .PHONY: default
@@ -11,20 +12,18 @@ ifndef NEW_VERSION
 endif
 	touch $@
 
-internal-dependencies:
-	if [ -f ".internal-dependencies" ]; then \
-	while read -r file; do \
-	    pushd "../../$$file/javascript" && make internal-dependencies && make && popd; \
-	  done <.internal-dependencies; \
-	fi
-.PHONY: internal-dependencies
-
 .codegen: .deps
 	touch $@
 
-.built: .codegen $(TYPESCRIPT_SOURCE_FILES)
+.built: internal-dependencies .codegen $(TYPESCRIPT_SOURCE_FILES)
 	npm run build
 	touch $@
+
+internal-dependencies: $(patsubst %,../../%/javascript/.built,$(INTERNAL_DEPENDENCIES))
+.PHONY: internal-dependencies
+
+%/.built: %
+	pushd $< && make && popd
 
 .tested: .built $(TYPESCRIPT_SOURCE_FILES)
 	TS_NODE_TRANSPILE_ONLY=1 npm run test
