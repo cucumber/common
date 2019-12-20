@@ -9,11 +9,18 @@
         "sourceType": "module"
     },
     "plugins": [
+        "node",
         "@typescript-eslint"
     ],
     "extends": [
         "eslint:recommended",
         "plugin:@typescript-eslint/eslint-recommended",
-        "plugin:@typescript-eslint/recommended"
-    ]
+        "plugin:@typescript-eslint/recommended",
+        "plugin:prettier/recommended"
+    ],
+    "rules": {
+        "node/no-extraneous-import": "error",
+        "@typescript-eslint/ban-ts-ignore": "off",
+        "@typescript-eslint/no-use-before-define": "off"
+    }
 }
