@@ -1,3 +1,4 @@
+INTERNAL_DEPENDENCIES = fake-cucumber
 include default.mk
 
 FEATURE_FILES = $(sort $(wildcard features/**/*.feature))

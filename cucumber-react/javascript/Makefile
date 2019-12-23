@@ -1,3 +1,8 @@
+INTERNAL_DEPENDENCIES = cucumber-messages \
+	fake-cucumber \
+	gherkin \
+	cucumber-query
+
 include default.mk
 
 FEATURE_FILES = $(wildcard testdata/*.feature)

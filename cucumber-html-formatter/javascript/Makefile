@@ -1,3 +1,8 @@
+INTERNAL_DEPENDENCIES = cucumber-messages \
+	cucumber-react \
+	cucumber-query \
+	gherkin
+
 include default.mk
 
 npm-link-shared:

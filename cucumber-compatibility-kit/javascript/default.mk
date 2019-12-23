@@ -1,7 +1,6 @@
 SHELL := /usr/bin/env bash
 TYPESCRIPT_SOURCE_FILES = $(shell find src test -type f -name "*.ts" -o -name "*.tsx")
 PRIVATE = $(shell node -e "console.log(require('./package.json').private)")
-INTERNAL_DEPENDENCIES = $(shell cat .internal-dependencies)
 
 default: .linted .tested .built
 .PHONY: default

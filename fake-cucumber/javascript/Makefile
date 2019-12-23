@@ -1,3 +1,8 @@
+INTERNAL_DEPENDENCIES = gherkin \
+	cucumber-expressions \
+	cucumber-messages \
+	cucumber-tag-expressions
+
 include default.mk
 
 FEATURE_FILES = $(shell find features -name "*.feature")

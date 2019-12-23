@@ -1,3 +1,4 @@
+INTERNAL_DEPENDENCIES = cucumber-messages
 include default.mk
 
 GOOD_FEATURE_FILES = $(shell find testdata/good -name "*.feature")

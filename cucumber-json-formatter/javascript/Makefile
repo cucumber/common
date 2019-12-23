@@ -1,3 +1,5 @@
+INTERNAL_DEPENDENCIES = cucumber-messages \
+	fake-cucumber
 include default.mk
 
 FEATURE_FILES = $(sort $(wildcard ../ruby/features/*.feature))
