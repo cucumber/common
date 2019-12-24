@@ -19,6 +19,22 @@ module Cucumber
       end
     end
 
+    class ShadedColor
+      attr_reader :base, :shade
+
+      ### [shaded-color-constructor]
+      def initialize(base, shade=nil)
+        @base = base
+        @shade = shade
+      end
+
+      ### [color-constructor]
+
+      def ==(other)
+        other.is_a?(ShadedColor) && other.base == base && other.shade == shade
+      end
+    end
+
     class CssColor
       attr_reader :name
 
@@ -118,6 +134,28 @@ module Cucumber
           expression = CucumberExpression.new("I have a {color} ball", parameter_type_registry)
           transformed_argument_value = expression.match("I have a dark red ball")[0].value(nil)
           expect(transformed_argument_value).to eq(Color.new('dark red'))
+        end
+
+        context "when a custom parameter with nested optional captures is specified" do
+          parameter_type_registry = ParameterTypeRegistry.new
+          parameter_type_registry.define_parameter_type(ParameterType.new(
+              'shaded color',
+              /(?:(dark|light) )?(red|blue|yellow)/,
+              Color,
+              lambda {|s,b| ShadedColor.new(b,s)},
+              true,
+              false
+          ))
+          it "matches when all arguments are provided" do
+            expression = CucumberExpression.new("I have a {shaded color} ball", parameter_type_registry)
+            transformed_argument_value = expression.match("I have a dark red ball")[0].value(nil)
+            expect(transformed_argument_value).to eq(ShadedColor.new('red','dark'))
+          end
+          it "matches when optional arguments are omitted" do
+            expression = CucumberExpression.new("I have a {shaded color} ball", parameter_type_registry)
+            transformed_argument_value = expression.match("I have a red ball")[0].value(nil)
+            expect(transformed_argument_value).to eq(ShadedColor.new('red'))
+          end
         end
 
         it "defers transformation until queried from argument" do
