@@ -1,0 +1,12 @@
+.step {
+    padding: 0.5em;
+    margin-left: 0;
+    margin-top: 0;
+    border-bottom: 1px #ccc solid;
+    border-left: 1px #ccc solid;
+    border-right: 1px #ccc solid;
+}
+
+.step:nth-child(1) {
+     border-top: 1px #ccc solid;
+ }

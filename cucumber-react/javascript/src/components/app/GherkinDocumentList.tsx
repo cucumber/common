@@ -8,7 +8,7 @@ import {
   AccordionItemButton,
   AccordionItemHeading,
   AccordionItemPanel,
-} from '../styled-react-accessible-accordion'
+} from 'react-accessible-accordion'
 import CucumberQueryContext from '../../CucumberQueryContext'
 import CucumberQuery from 'cucumber-query'
 import UriContext from '../../UriContext'
@@ -31,14 +31,6 @@ const GherkinDocumentList: React.FunctionComponent<IProps> = ({
 }) => {
   return (
     <Body>
-      <link
-        href="https://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css"
-        rel="stylesheet"
-      />
-      <link
-        href="https://fonts.googleapis.com/css?family=Open+Sans:300"
-        rel="stylesheet"
-      />
       <CucumberQueryContext.Provider value={cucumberQuery}>
         <Accordion allowMultipleExpanded={false} allowZeroExpanded={true}>
           {gherkinDocuments.map(gherkinDocument => {
@@ -56,7 +48,7 @@ const GherkinDocumentList: React.FunctionComponent<IProps> = ({
                 uuid={gherkinDocument.uri}
               >
                 <AccordionItemHeading>
-                  <AccordionItemButton status={status}>
+                  <AccordionItemButton>
                     {gherkinDocument.uri}
                   </AccordionItemButton>
                 </AccordionItemHeading>

@@ -9,20 +9,6 @@ import { StepParam, H3, Indent, StepText, IStatusProps } from './html'
 import CucumberQueryContext from '../../CucumberQueryContext'
 import UriContext from '../../UriContext'
 
-const StepLi = styled.li`
-  padding: 0.5em;
-  margin-left: 0;
-  margin-top: 0;
-  border-bottom: 1px #ccc solid;
-  border-left: 1px #ccc solid;
-  border-right: 1px #ccc solid;
-  background-color: ${(props: IStatusProps) => statusColor(props.status).hex()};
-
-  &:nth-child(1) {
-    border-top: 1px #ccc solid;
-  }
-`
-
 const ErrorMessage = styled.pre`
   padding: 0.5em;
   background-color: ${(props: IStatusProps) =>
@@ -103,7 +89,7 @@ const Step: React.FunctionComponent<IProps> = ({
   }
 
   return (
-    <StepLi status={status}>
+    <li className="step" style={{ backgroundColor: statusColor(status).hex() }}>
       <H3>
         <Keyword>{step.keyword}</Keyword>
         {stepTextElements}
@@ -117,7 +103,7 @@ const Step: React.FunctionComponent<IProps> = ({
           {result.message}
         </ErrorMessage>
       ))}
-    </StepLi>
+    </li>
   )
 }
 
