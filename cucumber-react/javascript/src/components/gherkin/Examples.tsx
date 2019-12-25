@@ -4,7 +4,6 @@ import ExamplesTable from './ExamplesTable'
 import { messages } from 'cucumber-messages'
 import Tags from './Tags'
 import Description from './Description'
-import { Indent, StepText, Section } from './html'
 import IExamples = messages.GherkinDocument.Feature.Scenario.IExamples
 
 interface IExamplesProps {
@@ -13,13 +12,13 @@ interface IExamplesProps {
 
 const Examples: React.FunctionComponent<IExamplesProps> = ({ examples }) => {
   return (
-    <Section>
+    <section>
       <Tags tags={examples.tags} />
       <h2>
         <Keyword>{examples.keyword}:</Keyword>{' '}
-        <StepText>{examples.name}</StepText>
+        <span className="step-text">{examples.name}</span>
       </h2>
-      <Indent>
+      <div className="indent">
         <Description description={examples.description} />
         {examples.tableHeader && (
           <ExamplesTable
@@ -27,8 +26,8 @@ const Examples: React.FunctionComponent<IExamplesProps> = ({ examples }) => {
             tableBody={examples.tableBody}
           />
         )}
-      </Indent>
-    </Section>
+      </div>
+    </section>
   )
 }
 

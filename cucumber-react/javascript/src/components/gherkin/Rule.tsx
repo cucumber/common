@@ -4,7 +4,6 @@ import Description from './Description'
 import Scenario from './Scenario'
 import { messages } from 'cucumber-messages'
 import Background from './Background'
-import { Indent, StepText, Section } from './html'
 import IRule = messages.GherkinDocument.Feature.FeatureChild.IRule
 
 interface IProps {
@@ -13,11 +12,12 @@ interface IProps {
 
 const Rule: React.FunctionComponent<IProps> = ({ rule }) => {
   return (
-    <Section>
+    <section>
       <h2>
-        <Keyword>{rule.keyword}:</Keyword> <StepText>{rule.name}</StepText>
+        <Keyword>{rule.keyword}:</Keyword>{' '}
+        <span className="step-text">{rule.name}</span>
       </h2>
-      <Indent>
+      <div className="indent">
         <Description description={rule.description} />
         {(rule.children || []).map((child, index) => {
           if (child.background) {
@@ -28,8 +28,8 @@ const Rule: React.FunctionComponent<IProps> = ({ rule }) => {
             throw new Error('Expected background or scenario')
           }
         })}
-      </Indent>
-    </Section>
+      </div>
+    </section>
   )
 }
 

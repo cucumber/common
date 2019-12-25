@@ -4,7 +4,6 @@ import Keyword from './Keyword'
 import DocString from './DocString'
 import { messages } from 'cucumber-messages'
 import statusColor from './statusColor'
-import { Indent, StepParam, StepText } from './html'
 import CucumberQueryContext from '../../CucumberQueryContext'
 import UriContext from '../../UriContext'
 
@@ -43,38 +42,58 @@ const Step: React.FunctionComponent<IProps> = ({
         plain = step.text.slice(offset, argument.group.start)
         if (plain.length > 0) {
           stepTextElements.push(
-            <StepText key={`plain-${index}`}>{plain}</StepText>
+            <span className="step-text" key={`plain-${index}`}>
+              {plain}
+            </span>
           )
         }
         const arg = argument.group.value
         if (arg.length > 0) {
           stepTextElements.push(
-            <StepParam key={`bold-${index}`} status={status}>
+            <span
+              className="step-param"
+              key={`bold-${index}`}
+              style={{
+                backgroundColor: statusColor(status)
+                  .darken(0.1)
+                  .hex(),
+              }}
+            >
               {arg}
-            </StepParam>
+            </span>
           )
         }
         offset += plain.length + arg.length
       })
       plain = step.text.slice(offset)
       if (plain.length > 0) {
-        stepTextElements.push(<StepText key={`plain-rest`}>{plain}</StepText>)
+        stepTextElements.push(
+          <span className="step-text" key={`plain-rest`}>
+            {plain}
+          </span>
+        )
       }
     } else if (stepMatchArgumentsLists.length === 2) {
       // Step is ambiguous
       stepTextElements.push(
-        <StepText key={`plain-ambiguous`}>{step.text}</StepText>
+        <span className="step-text" key={`plain-ambiguous`}>
+          {step.text}
+        </span>
       )
     } else {
       // Step is undefined
       stepTextElements.push(
-        <StepText key={`plain-undefined`}>{step.text}</StepText>
+        <span className="step-text" key={`plain-undefined`}>
+          {step.text}
+        </span>
       )
     }
   } else {
     // Step is from scenario with examples, and has <> placeholders.
     stepTextElements.push(
-      <StepText key={`plain-placeholders`}>{step.text}</StepText>
+      <span className="step-text" key={`plain-placeholders`}>
+        {step.text}
+      </span>
     )
   }
 
@@ -84,10 +103,10 @@ const Step: React.FunctionComponent<IProps> = ({
         <Keyword>{step.keyword}</Keyword>
         {stepTextElements}
       </h3>
-      <Indent>
+      <div className="indent">
         {step.dataTable && <DataTable dataTable={step.dataTable} />}
         {step.docString && <DocString docString={step.docString} />}
-      </Indent>
+      </div>
       {resultsWithMessage.map((result, i) => (
         <pre
           className="error-message"

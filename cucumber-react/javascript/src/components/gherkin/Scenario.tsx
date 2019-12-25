@@ -5,7 +5,6 @@ import Description from './Description'
 import Examples from './Examples'
 import { messages } from 'cucumber-messages'
 import StepList from './StepList'
-import { Indent, StepText, Section } from './html'
 import IScenario = messages.GherkinDocument.Feature.IScenario
 
 interface IProps {
@@ -15,13 +14,13 @@ interface IProps {
 const Scenario: React.FunctionComponent<IProps> = ({ scenario }) => {
   const examplesList = scenario.examples || []
   return (
-    <Section>
+    <section>
       <Tags tags={scenario.tags} />
       <h2>
         <Keyword>{scenario.keyword}:</Keyword>{' '}
-        <StepText>{scenario.name}</StepText>
+        <span className="step-text">{scenario.name}</span>
       </h2>
-      <Indent>
+      <div className="indent">
         <Description description={scenario.description} />
         <StepList
           steps={scenario.steps || []}
@@ -31,8 +30,8 @@ const Scenario: React.FunctionComponent<IProps> = ({ scenario }) => {
         {examplesList.map((examples, index) => (
           <Examples key={index} examples={examples} />
         ))}
-      </Indent>
-    </Section>
+      </div>
+    </section>
   )
 }
 

@@ -1,7 +1,6 @@
 import React from 'react'
 import GherkinDocument from '../gherkin/GherkinDocument'
 import { messages } from 'cucumber-messages'
-import styled from 'styled-components'
 import {
   Accordion,
   AccordionItem,
@@ -13,13 +12,6 @@ import CucumberQueryContext from '../../CucumberQueryContext'
 import CucumberQuery from 'cucumber-query'
 import UriContext from '../../UriContext'
 
-const Body = styled.div`
-  font: 14px 'Open Sans', sans-serif;
-  color: #212121;
-  background: #fff;
-  overflow-x: hidden;
-`
-
 interface IProps {
   gherkinDocuments: messages.IGherkinDocument[]
   cucumberQuery: CucumberQuery
@@ -30,7 +22,7 @@ const GherkinDocumentList: React.FunctionComponent<IProps> = ({
   cucumberQuery,
 }) => {
   return (
-    <Body>
+    <div className="gherkin-document-list">
       <CucumberQueryContext.Provider value={cucumberQuery}>
         <Accordion allowMultipleExpanded={false} allowZeroExpanded={true}>
           {gherkinDocuments.map(gherkinDocument => {
@@ -62,7 +54,7 @@ const GherkinDocumentList: React.FunctionComponent<IProps> = ({
           })}
         </Accordion>
       </CucumberQueryContext.Provider>
-    </Body>
+    </div>
   )
 }
 

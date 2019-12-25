@@ -6,7 +6,6 @@ import Scenario from './Scenario'
 import { messages } from 'cucumber-messages'
 import Rule from './Rule'
 import Background from './Background'
-import { Indent, StepText, Section } from './html'
 import IFeature = messages.GherkinDocument.IFeature
 
 interface IProps {
@@ -15,13 +14,13 @@ interface IProps {
 
 const Feature: React.FunctionComponent<IProps> = ({ feature }) => {
   return (
-    <Section>
+    <section>
       <Tags tags={feature.tags} />
       <h1>
         <Keyword>{feature.keyword}:</Keyword>{' '}
-        <StepText>{feature.name}</StepText>
+        <span className="step-text">{feature.name}</span>
       </h1>
-      <Indent>
+      <div className="indent">
         {feature.description ? (
           <Description description={feature.description} />
         ) : null}
@@ -36,8 +35,8 @@ const Feature: React.FunctionComponent<IProps> = ({ feature }) => {
             throw new Error('Expected background, scenario or rule')
           }
         })}
-      </Indent>
-    </Section>
+      </div>
+    </section>
   )
 }
 
