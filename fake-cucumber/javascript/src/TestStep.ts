@@ -1,4 +1,3 @@
-import { performance } from 'perf_hooks'
 import { messages, TimeConversion } from 'cucumber-messages'
 import SupportCodeExecutor from './SupportCodeExecutor'
 import { MessageNotifier } from './types'
@@ -6,6 +5,7 @@ import ITestStep from './ITestStep'
 import IWorld from './IWorld'
 import StackUtils from 'stack-utils'
 import makeAttach from './makeAttach'
+import IClock from './IClock'
 
 const { millisecondsToDuration } = TimeConversion
 
@@ -20,7 +20,8 @@ export default abstract class TestStep implements ITestStep {
     public readonly sourceId: string,
     public readonly alwaysExecute: boolean,
     protected readonly supportCodeExecutors: SupportCodeExecutor[],
-    private readonly sourceFrames: string[]
+    private readonly sourceFrames: string[],
+    private readonly clock: IClock
   ) {}
 
   public abstract toMessage(): messages.TestCase.ITestStep
@@ -52,11 +53,11 @@ export default abstract class TestStep implements ITestStep {
       )
     }
 
-    const start = performance.now()
+    const start = this.clock.now()
     try {
       world.attach = makeAttach(this.id, testCaseStartedId, notifier)
       const result = await this.supportCodeExecutors[0].execute(world)
-      const finish = performance.now()
+      const finish = this.clock.now()
       const duration = millisecondsToDuration(finish - start)
       return this.emitTestStepFinished(
         testCaseStartedId,
@@ -70,7 +71,7 @@ export default abstract class TestStep implements ITestStep {
         notifier
       )
     } catch (error) {
-      const finish = performance.now()
+      const finish = this.clock.now()
 
       const trace = stack
         .clean(error.stack)

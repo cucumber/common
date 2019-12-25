@@ -6,6 +6,7 @@ import IHook from './IHook'
 import makePickleTestStep from './makePickleTestStep'
 import HookTestStep from './HookTestStep'
 import ITestStep from './ITestStep'
+import IClock from './IClock'
 
 export default function makeTestCase(
   pickle: messages.IPickle,
@@ -13,14 +14,16 @@ export default function makeTestCase(
   beforeHooks: IHook[],
   afterHooks: IHook[],
   gherkinQuery: GherkinQuery,
-  newId: IdGenerator.NewId
+  newId: IdGenerator.NewId,
+  clock: IClock
 ): TestCase {
   const beforeHookSteps = makeHookSteps(
     pickle,
     beforeHooks,
     false,
     gherkinQuery,
-    newId
+    newId,
+    clock
   )
   const pickleTestSteps = pickle.steps.map(pickleStep => {
     const sourceFrames = pickleStep.astNodeIds.map(
@@ -30,7 +33,8 @@ export default function makeTestCase(
       newId(),
       pickleStep,
       stepDefinitions,
-      sourceFrames
+      sourceFrames,
+      clock
     )
   })
   const afterHookSteps = makeHookSteps(
@@ -38,14 +42,15 @@ export default function makeTestCase(
     afterHooks,
     true,
     gherkinQuery,
-    newId
+    newId,
+    clock
   )
   const testSteps: ITestStep[] = []
     .concat(beforeHookSteps)
     .concat(pickleTestSteps)
     .concat(afterHookSteps)
 
-  return new TestCase(newId(), testSteps, pickle.id)
+  return new TestCase(newId(), testSteps, pickle.id, clock)
 }
 
 function makeHookSteps(
@@ -53,7 +58,8 @@ function makeHookSteps(
   hooks: IHook[],
   alwaysExecute: boolean,
   gherkinQuery: GherkinQuery,
-  newId: IdGenerator.NewId
+  newId: IdGenerator.NewId,
+  clock: IClock
 ): ITestStep[] {
   return hooks
     .map(hook => {
@@ -70,7 +76,8 @@ function makeHookSteps(
           hook.id,
           alwaysExecute,
           [supportCodeExecutor],
-          sourceFrames
+          sourceFrames,
+          clock
         )
       }
     })

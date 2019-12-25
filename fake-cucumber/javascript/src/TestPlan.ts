@@ -5,6 +5,7 @@ import makeTestCase from './makeTestCase'
 import IStepDefinition from './IStepDefinition'
 import IHook from './IHook'
 import { GherkinQuery } from 'gherkin'
+import IClock from './IClock'
 
 export default class TestPlan {
   private readonly testCases: TestCase[]
@@ -15,7 +16,8 @@ export default class TestPlan {
     beforeHooks: IHook[],
     afterHooks: IHook[],
     gherkinQuery: GherkinQuery,
-    private readonly newId: IdGenerator.NewId
+    private readonly newId: IdGenerator.NewId,
+    clock: IClock
   ) {
     this.testCases = pickles.map(pickle =>
       makeTestCase(
@@ -24,7 +26,8 @@ export default class TestPlan {
         beforeHooks,
         afterHooks,
         gherkinQuery,
-        newId
+        newId,
+        clock
       )
     )
   }

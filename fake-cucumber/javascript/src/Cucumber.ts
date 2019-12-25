@@ -5,6 +5,7 @@ import IStepDefinition from './IStepDefinition'
 import IHook from './IHook'
 import { GherkinQuery } from 'gherkin'
 import { ParameterType } from 'cucumber-expressions'
+import IClock from './IClock'
 
 export default class Cucumber {
   constructor(
@@ -17,7 +18,8 @@ export default class Cucumber {
     private readonly beforeHooks: IHook[],
     private readonly afterHooks: IHook[],
     private readonly gherkinQuery: GherkinQuery,
-    private readonly newId: IdGenerator.NewId
+    private readonly newId: IdGenerator.NewId,
+    private readonly clock: IClock
   ) {}
 
   public async execute(notifier: MessageNotifier): Promise<void> {
@@ -42,7 +44,8 @@ export default class Cucumber {
       this.beforeHooks,
       this.afterHooks,
       this.gherkinQuery,
-      this.newId
+      this.newId,
+      this.clock
     )
     await testPlan.execute(notifier)
   }

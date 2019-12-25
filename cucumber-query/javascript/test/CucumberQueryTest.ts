@@ -9,6 +9,7 @@ import CucumberStream from 'fake-cucumber/dist/src/CucumberStream'
 import makeDummyStepDefinitions from 'fake-cucumber/dist/test/makeDummyStepDefinitions'
 
 import { promisify } from 'util'
+import IncrementClock from 'fake-cucumber/dist/src/IncrementClock'
 
 const pipelinePromise = promisify(pipeline)
 
@@ -215,7 +216,8 @@ describe('CucumberQuery', () => {
 
   function parse(gherkinSource: string): Promise<void> {
     const newId = IdGenerator.incrementing()
-    const supportCode = new SupportCode(newId)
+    const clock = new IncrementClock()
+    const supportCode = new SupportCode(newId, clock)
     makeDummyStepDefinitions(supportCode)
 
     const cucumberStream = new CucumberStream(
@@ -223,7 +225,8 @@ describe('CucumberQuery', () => {
       supportCode.stepDefinitions,
       supportCode.beforeHooks,
       supportCode.afterHooks,
-      newId
+      newId,
+      clock
     )
 
     const queryUpdateStream = new Writable({

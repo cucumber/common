@@ -5,6 +5,7 @@ import Cucumber from './Cucumber'
 import IStepDefinition from './IStepDefinition'
 import IHook from './IHook'
 import { ParameterType } from 'cucumber-expressions'
+import IClock from './IClock'
 
 export default class CucumberStream extends Transform {
   private readonly gherkinMessages: messages.IEnvelope[] = []
@@ -15,7 +16,8 @@ export default class CucumberStream extends Transform {
     private readonly stepDefinitions: IStepDefinition[],
     private readonly beforeHooks: IHook[],
     private readonly afterHooks: IHook[],
-    private readonly newId: IdGenerator.NewId
+    private readonly newId: IdGenerator.NewId,
+    private readonly clock: IClock
   ) {
     super({ objectMode: true })
   }
@@ -42,7 +44,8 @@ export default class CucumberStream extends Transform {
       this.beforeHooks,
       this.afterHooks,
       this.gherkinQuery,
-      this.newId
+      this.newId,
+      this.clock
     )
     cucumber
       .execute(message => this.push(message))

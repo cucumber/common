@@ -11,6 +11,7 @@ import ExpressionStepDefinition from './ExpressionStepDefinition'
 import IStepDefinition from './IStepDefinition'
 import IHook from './IHook'
 import Hook from './Hook'
+import IClock from './IClock'
 
 type RegisterStepDefinition = (
   expression: string | RegExp,
@@ -69,7 +70,7 @@ export default class SupportCode {
   public readonly After = this.registerAfterHook.bind(this) as RegisterHook
   private readonly parameterTypeRegistry = new ParameterTypeRegistry()
 
-  constructor(public newId: IdGenerator.NewId) {}
+  constructor(public newId: IdGenerator.NewId, public clock: IClock) {}
 
   public defineParameterType(
     parameterTypeDefinition: IParameterTypeDefinition

@@ -11,6 +11,7 @@ import IStepDefinition from '../src/IStepDefinition'
 import { CucumberExpression, ParameterTypeRegistry } from 'cucumber-expressions'
 import ExpressionStepDefinition from '../src/ExpressionStepDefinition'
 import { GherkinQuery } from 'gherkin'
+import IncrementClock from '../src/IncrementClock'
 
 describe('TestPlan', () => {
   it('executes test cases', async () => {
@@ -37,7 +38,8 @@ describe('TestPlan', () => {
       [],
       [],
       gherkinQuery,
-      IdGenerator.incrementing()
+      IdGenerator.incrementing(),
+      new IncrementClock()
     )
     const envelopes: messages.IEnvelope[] = []
     const notifier: MessageNotifier = message => envelopes.push(message)
@@ -78,7 +80,8 @@ describe('TestPlan', () => {
       [],
       [],
       gherkinQuery,
-      IdGenerator.incrementing()
+      IdGenerator.incrementing(),
+      new IncrementClock()
     )
     const envelopes: messages.IEnvelope[] = []
     const notifier: MessageNotifier = message => envelopes.push(message)
