@@ -1,5 +1,6 @@
 import {
   CucumberExpression,
+  ParameterType,
   ParameterTypeRegistry,
   RegularExpression,
 } from 'cucumber-expressions'
@@ -17,6 +18,19 @@ type RegisterStepDefinition = (
 ) => void
 
 type RegisterHook = (tagExpression: string, body: AnyBody) => void
+
+interface IParameterTypeDefinition {
+  name: string
+  regexp: RegExp | RegExp[] | string | string[]
+  type: any
+  transformer?: (...args: string[]) => any
+  preferForRegexpMatch?: boolean
+  useForSnippets?: boolean
+}
+
+function defaultTransformer(...args: string[]) {
+  return args
+}
 
 function getSourceReference(stackTrace: string): messages.ISourceReference {
   const stack = new StackUtils({
@@ -38,6 +52,7 @@ function getSourceReference(stackTrace: string): messages.ISourceReference {
  * This class provides an API for defining step definitions and hooks.
  */
 export default class SupportCode {
+  public readonly parameterTypes: Array<ParameterType<any>> = []
   public readonly stepDefinitions: IStepDefinition[] = []
   public readonly beforeHooks: IHook[] = []
   public readonly afterHooks: IHook[] = []
@@ -55,6 +70,21 @@ export default class SupportCode {
   private readonly parameterTypeRegistry = new ParameterTypeRegistry()
 
   constructor(public newId: IdGenerator.NewId) {}
+
+  public defineParameterType(
+    parameterTypeDefinition: IParameterTypeDefinition
+  ) {
+    const parameterType = new ParameterType<any>(
+      parameterTypeDefinition.name,
+      parameterTypeDefinition.regexp,
+      parameterTypeDefinition.type,
+      parameterTypeDefinition.transformer || defaultTransformer,
+      parameterTypeDefinition.useForSnippets,
+      parameterTypeDefinition.preferForRegexpMatch
+    )
+    this.parameterTypeRegistry.defineParameterType(parameterType)
+    this.parameterTypes.push(parameterType)
+  }
 
   private registerStepDefinition(
     expression: string | RegExp,

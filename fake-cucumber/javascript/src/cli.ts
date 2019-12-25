@@ -65,6 +65,7 @@ async function main() {
   }
   await loadSupportCode()
   const cucumberStream = new CucumberStream(
+    supportCode.parameterTypes,
     supportCode.stepDefinitions,
     supportCode.beforeHooks,
     supportCode.afterHooks,

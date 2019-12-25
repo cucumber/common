@@ -58,6 +58,7 @@
     - [SupportCodeConfig](#io.cucumber.messages.SupportCodeConfig)
     - [TestCase](#io.cucumber.messages.TestCase)
     - [TestCase.TestStep](#io.cucumber.messages.TestCase.TestStep)
+    - [TestCase.TestStep.StepMatchArgumentsList](#io.cucumber.messages.TestCase.TestStep.StepMatchArgumentsList)
     - [TestCaseFinished](#io.cucumber.messages.TestCaseFinished)
     - [TestCasePrepared](#io.cucumber.messages.TestCasePrepared)
     - [TestCasePreparedStep](#io.cucumber.messages.TestCasePreparedStep)
@@ -320,6 +321,7 @@ messages.
 | test_case | [TestCase](#io.cucumber.messages.TestCase) |  |  |
 | step_definition | [StepDefinition](#io.cucumber.messages.StepDefinition) |  |  |
 | hook | [Hook](#io.cucumber.messages.Hook) |  |  |
+| parameter_type | [ParameterType](#io.cucumber.messages.ParameterType) |  |  |
 
 
 
@@ -1062,8 +1064,23 @@ combined with a `StepDefinition`, or from a `Hook`.
 | id | [string](#string) |  |  |
 | pickle_step_id | [string](#string) |  | Pointer to the `PickleStep` (if derived from a PickleStep) |
 | step_definition_ids | [string](#string) | repeated | Pointer to all the matching `StepDefinition`s (if derived from a PickleStep) |
-| step_match_arguments | [StepMatchArgument](#io.cucumber.messages.StepMatchArgument) | repeated | All the arguments from the match (if derived from a PickleStep and there was exactly 1 StepDefinition) |
-| hook_id | [string](#string) |  | Pointer to the Hook (if derived from a Hook) |
+| step_match_arguments_lists | [TestCase.TestStep.StepMatchArgumentsList](#io.cucumber.messages.TestCase.TestStep.StepMatchArgumentsList) | repeated | A list of list of StepMatchArgument (if derived from a `StepDefinition`). Each element represents a matching step definition. A size of 0 means `UNDEFINED`, and a size of 2&#43; means `AMBIGUOUS` |
+| hook_id | [string](#string) |  | Pointer to the `Hook` (if derived from a Hook) |
+
+
+
+
+
+
+<a name="io.cucumber.messages.TestCase.TestStep.StepMatchArgumentsList"></a>
+
+### TestCase.TestStep.StepMatchArgumentsList
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| step_match_arguments | [StepMatchArgument](#io.cucumber.messages.StepMatchArgument) | repeated |  |
 
 
 
