@@ -1,3 +1,7 @@
+h1, h2, h3 {
+    margin: 0.1em;
+}
+
 .step {
     padding: 0.5em;
     margin-left: 0;
@@ -8,5 +12,10 @@
 }
 
 .step:nth-child(1) {
-     border-top: 1px #ccc solid;
- }
+    border-top: 1px #ccc solid;
+}
+
+.error-message {
+    padding: 0.5em;
+    overflow: scroll;
+}

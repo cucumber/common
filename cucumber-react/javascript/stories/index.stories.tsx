@@ -6,7 +6,7 @@ import GherkinDocumentList from '../src/components/app/GherkinDocumentList'
 import CucumberQuery from 'cucumber-query'
 import CucumberQueryContext from '../src/CucumberQueryContext';
 import '../src/styles/react-accessible-accordion.css'
-import '../src/styles/step.css'
+import '../src/styles/styles.css'
 
 // @ts-ignore
 import ndjson from '../testdata/all.ndjson'

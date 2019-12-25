@@ -3,20 +3,10 @@ import DataTable from './DataTable'
 import Keyword from './Keyword'
 import DocString from './DocString'
 import { messages } from 'cucumber-messages'
-import styled from 'styled-components'
 import statusColor from './statusColor'
-import { StepParam, H3, Indent, StepText, IStatusProps } from './html'
+import { Indent, StepParam, StepText } from './html'
 import CucumberQueryContext from '../../CucumberQueryContext'
 import UriContext from '../../UriContext'
-
-const ErrorMessage = styled.pre`
-  padding: 0.5em;
-  background-color: ${(props: IStatusProps) =>
-    statusColor(props.status)
-      .darken(0.1)
-      .hex()};
-  overflow: scroll;
-`
 
 interface IProps {
   step: messages.GherkinDocument.Feature.IStep
@@ -90,18 +80,26 @@ const Step: React.FunctionComponent<IProps> = ({
 
   return (
     <li className="step" style={{ backgroundColor: statusColor(status).hex() }}>
-      <H3>
+      <h3>
         <Keyword>{step.keyword}</Keyword>
         {stepTextElements}
-      </H3>
+      </h3>
       <Indent>
         {step.dataTable && <DataTable dataTable={step.dataTable} />}
         {step.docString && <DocString docString={step.docString} />}
       </Indent>
       {resultsWithMessage.map((result, i) => (
-        <ErrorMessage key={i} status={status}>
+        <pre
+          className="error-message"
+          key={i}
+          style={{
+            backgroundColor: statusColor(status)
+              .darken(0.1)
+              .hex(),
+          }}
+        >
           {result.message}
-        </ErrorMessage>
+        </pre>
       ))}
     </li>
   )

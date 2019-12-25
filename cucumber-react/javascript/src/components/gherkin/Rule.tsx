@@ -4,7 +4,7 @@ import Description from './Description'
 import Scenario from './Scenario'
 import { messages } from 'cucumber-messages'
 import Background from './Background'
-import { H2, Indent, StepText, Section } from './html'
+import { Indent, StepText, Section } from './html'
 import IRule = messages.GherkinDocument.Feature.FeatureChild.IRule
 
 interface IProps {
@@ -14,9 +14,9 @@ interface IProps {
 const Rule: React.FunctionComponent<IProps> = ({ rule }) => {
   return (
     <Section>
-      <H2>
+      <h2>
         <Keyword>{rule.keyword}:</Keyword> <StepText>{rule.name}</StepText>
-      </H2>
+      </h2>
       <Indent>
         <Description description={rule.description} />
         {(rule.children || []).map((child, index) => {
