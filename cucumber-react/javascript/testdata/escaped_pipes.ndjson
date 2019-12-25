@@ -8,4 +8,4 @@
 {"testStepStarted":{"testStepId":"12","testCaseStartedId":"15"}}
 {"testStepFinished":{"testResult":{"status":"UNDEFINED"},"testStepId":"12","testCaseStartedId":"15"}}
 {"testStepFinished":{"testResult":{"status":"SKIPPED","duration":{"seconds":"0","nanos":0}},"testStepId":"13","testCaseStartedId":"15"}}
-{"testCaseFinished":{"timestamp":{"seconds":"0","nanos":513000000},"testCaseStartedId":"15"}}
+{"testCaseFinished":{"timestamp":{"seconds":"0","nanos":441641883},"testCaseStartedId":"15"}}

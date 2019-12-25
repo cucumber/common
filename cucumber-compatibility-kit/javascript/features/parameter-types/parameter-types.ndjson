@@ -6,5 +6,5 @@
 {"testCase":{"id":"6","pickleId":"4","testSteps":[{"id":"5","pickleStepId":"3","stepDefinitionIds":["0"],"stepMatchArgumentsLists":[{"stepMatchArguments":[{"parameterTypeName":"flight","group":{"start":0,"value":"LHR-CDG","children":[{"start":0,"value":"LHR"},{"start":4,"value":"CDG"}]}},{"parameterTypeName":"int","group":{"start":25,"value":"45"}}]}]}]}}
 {"testCaseStarted":{"attempt":0,"testCaseId":"6","id":"7"}}
 {"testStepStarted":{"testStepId":"5","testCaseStartedId":"7"}}
-{"testStepFinished":{"testResult":{"status":"PASSED","duration":{"seconds":"0","nanos":526032}},"testStepId":"5","testCaseStartedId":"7"}}
-{"testCaseFinished":{"timestamp":{"seconds":"0","nanos":491111099},"testCaseStartedId":"7"}}
+{"testStepFinished":{"testResult":{"status":"PASSED","duration":{"seconds":"0","nanos":497005}},"testStepId":"5","testCaseStartedId":"7"}}
+{"testCaseFinished":{"timestamp":{"seconds":"0","nanos":456996571},"testCaseStartedId":"7"}}
