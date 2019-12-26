@@ -11,6 +11,7 @@ import {
 import CucumberQueryContext from '../../CucumberQueryContext'
 import CucumberQuery from 'cucumber-query'
 import UriContext from '../../UriContext'
+import statusColor from '../gherkin/statusColor'
 
 interface IProps {
   gherkinDocuments: messages.IGherkinDocument[]
@@ -40,7 +41,7 @@ const GherkinDocumentList: React.FunctionComponent<IProps> = ({
                 uuid={gherkinDocument.uri}
               >
                 <AccordionItemHeading>
-                  <AccordionItemButton>
+                  <AccordionItemButton style={{backgroundColor: statusColor(status).hex()}}>
                     {gherkinDocument.uri}
                   </AccordionItemButton>
                 </AccordionItemHeading>

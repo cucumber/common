@@ -9,10 +9,6 @@ interface IProps {
   rows: messages.GherkinDocument.Feature.ITableRow[]
 }
 
-interface ITrProps {
-  status: messages.TestResult.Status
-}
-
 const ExamplesTableBody: React.FunctionComponent<IProps> = ({ rows }) => {
   const cucumberQuery = React.useContext(CucumberQueryContext)
   const uri = React.useContext(UriContext)
