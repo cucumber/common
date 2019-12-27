@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+* Added `ParameterType` as an envelope message
+
 ### Changed
 
 * A `TestCase` now has a list of `StepMatchArgumentsList` rather than a list of `StepMatchArgument`.

@@ -4,6 +4,7 @@ import TestStep from '../src/TestStep'
 import TestCase from '../src/TestCase'
 import { MessageNotifier } from '../src/types'
 import IWorld from '../src/IWorld'
+import IncrementClock from '../src/IncrementClock'
 
 const { millisecondsToDuration } = TimeConversion
 
@@ -13,7 +14,14 @@ class StubTestStep extends TestStep {
     private readonly status: messages.TestResult.Status,
     private readonly message?: string
   ) {
-    super('some-id', 'some-source-id', alwaysExecute, [], ['some.feature:123'])
+    super(
+      'some-id',
+      'some-source-id',
+      alwaysExecute,
+      [],
+      ['some.feature:123'],
+      new IncrementClock()
+    )
   }
 
   public toMessage(): messages.TestCase.ITestStep {
@@ -49,7 +57,8 @@ describe('TestCase', () => {
       const testCase = new TestCase(
         'some-test-case-id',
         testSteps,
-        'some-pickle-id'
+        'some-pickle-id',
+        new IncrementClock()
       )
       await testCase.execute(
         (message: messages.IEnvelope) => emitted.push(message),
@@ -75,7 +84,8 @@ describe('TestCase', () => {
       const testCase = new TestCase(
         'some-test-case-id',
         testSteps,
-        'some-pickle-id'
+        'some-pickle-id',
+        new IncrementClock()
       )
       await testCase.execute(
         (message: messages.IEnvelope) => emitted.push(message),
@@ -100,7 +110,8 @@ describe('TestCase', () => {
       const testCase = new TestCase(
         'some-test-case-id',
         testSteps,
-        'some-pickle-id'
+        'some-pickle-id',
+        new IncrementClock()
       )
       await testCase.execute(
         (message: messages.IEnvelope) => emitted.push(message),
@@ -124,7 +135,8 @@ describe('TestCase', () => {
       const testCase = new TestCase(
         'some-test-case-id',
         testSteps,
-        'some-pickle-id'
+        'some-pickle-id',
+        new IncrementClock()
       )
       await testCase.execute(
         (message: messages.IEnvelope) => emitted.push(message),

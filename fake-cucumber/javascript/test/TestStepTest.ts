@@ -11,6 +11,7 @@ import makePickleTestStep from '../src/makePickleTestStep'
 import SupportCodeExecutor from '../src/SupportCodeExecutor'
 import IWorld from '../src/IWorld'
 import TestWorld from './TestWorld'
+import IncrementClock from '../src/IncrementClock'
 
 describe('TestStep', () => {
   let world: IWorld
@@ -36,7 +37,8 @@ describe('TestStep', () => {
           text: 'an undefined step',
         }),
         [],
-        ['some.feature:123']
+        ['some.feature:123'],
+        new IncrementClock()
       )
 
       const testStepFinished = await execute(testStep)
@@ -55,7 +57,8 @@ describe('TestStep', () => {
           text: 'an undefined step',
         }),
         [stubMatchingStepDefinition(), stubMatchingStepDefinition()],
-        ['some.feature:123']
+        ['some.feature:123'],
+        new IncrementClock()
       )
 
       const testStepFinished = await execute(testStep)
@@ -73,7 +76,8 @@ describe('TestStep', () => {
           text: 'an undefined step',
         }),
         [],
-        ['some.feature:123']
+        ['some.feature:123'],
+        new IncrementClock()
       )
 
       const result = await testStep.execute(
@@ -92,7 +96,8 @@ describe('TestStep', () => {
           text: 'a passed step',
         }),
         [stubMatchingStepDefinition(stubPassingSupportCodeExecutor())],
-        ['some.feature:123']
+        ['some.feature:123'],
+        new IncrementClock()
       )
       await testStep.execute(world, message => emitted.push(message), 'some-id')
       const result = emitted.find(m => m.testStepFinished).testStepFinished
@@ -109,7 +114,8 @@ describe('TestStep', () => {
             text: 'a passed step',
           }),
           [stubMatchingStepDefinition(stubPassingSupportCodeExecutor())],
-          ['some.feature:123']
+          ['some.feature:123'],
+          new IncrementClock()
         )
 
         const testStepFinished = await execute(testStep)
@@ -128,7 +134,8 @@ describe('TestStep', () => {
             text: 'a passed step',
           }),
           [stubMatchingStepDefinition(stubPendingSupportCodeExecutor())],
-          ['some.feature:123']
+          ['some.feature:123'],
+          new IncrementClock()
         )
         const testStepFinished = await execute(testStep)
 
@@ -150,7 +157,8 @@ describe('TestStep', () => {
               stubFailingSupportCodeExecutor('This step has failed')
             ),
           ],
-          ['some.feature:123']
+          ['some.feature:123'],
+          new IncrementClock()
         )
 
         const testStepFinished = await execute(testStep)
@@ -172,7 +180,8 @@ describe('TestStep', () => {
               stubFailingSupportCodeExecutor('Something went wrong')
             ),
           ],
-          ['some.feature:123']
+          ['some.feature:123'],
+          new IncrementClock()
         )
 
         const testStepFinished = await execute(testStep)
@@ -211,7 +220,8 @@ describe('TestStep', () => {
               )
             ),
           ],
-          ['some.feature:123']
+          ['some.feature:123'],
+          new IncrementClock()
         )
 
         const testStepFinished = await execute(testStep)

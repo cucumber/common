@@ -7,6 +7,7 @@ import SupportCode from '../src/SupportCode'
 import makeDummyStepDefinitions from './makeDummyStepDefinitions'
 import makeDummyHooks from './makeDummyHooks'
 import { GherkinQuery } from 'gherkin'
+import IncrementClock from '../src/IncrementClock'
 
 describe('Cucumber', () => {
   it('runs tagged hooks', async () => {
@@ -24,16 +25,21 @@ describe('Cucumber', () => {
     for (const envelope of gherkinMessageList) {
       gherkinQuery.update(envelope)
     }
-    const supportCode = new SupportCode(IdGenerator.incrementing())
+    const supportCode = new SupportCode(
+      IdGenerator.incrementing(),
+      new IncrementClock()
+    )
     makeDummyStepDefinitions(supportCode)
     makeDummyHooks(supportCode)
     const cucumber = new Cucumber(
       gherkinMessageList,
+      supportCode.parameterTypes,
       supportCode.stepDefinitions,
       supportCode.beforeHooks,
       supportCode.afterHooks,
       gherkinQuery,
-      IdGenerator.incrementing()
+      supportCode.newId,
+      supportCode.clock
     )
     const messageList: messages.IEnvelope[] = []
     const notifier: MessageNotifier = message => messageList.push(message)

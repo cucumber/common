@@ -9,6 +9,7 @@ import supportCode from './index'
 import { IdGenerator } from 'cucumber-messages'
 import findSupportCodePaths from './findSupportCodePaths'
 import fs from 'fs'
+import IncrementClock from './IncrementClock'
 
 const pipelinePromise = promisify(pipeline)
 
@@ -32,6 +33,7 @@ const requirePaths = program.require ? program.require.split(':') : paths
 
 if (program.predictableIds) {
   supportCode.newId = IdGenerator.incrementing()
+  supportCode.clock = new IncrementClock()
 }
 
 const options: IGherkinOptions = {
@@ -65,10 +67,12 @@ async function main() {
   }
   await loadSupportCode()
   const cucumberStream = new CucumberStream(
+    supportCode.parameterTypes,
     supportCode.stepDefinitions,
     supportCode.beforeHooks,
     supportCode.afterHooks,
-    supportCode.newId
+    supportCode.newId,
+    supportCode.clock
   )
   await pipelinePromise(
     gherkin.fromPaths(paths, options),

@@ -1,8 +1,8 @@
 import ITestStep from './ITestStep'
 import { MessageNotifier } from './types'
 import { messages, TimeConversion } from 'cucumber-messages'
-import { performance } from 'perf_hooks'
 import IWorld from './IWorld'
+import IClock from './IClock'
 
 const { millisecondsSinceEpochToTimestamp } = TimeConversion
 
@@ -10,7 +10,8 @@ export default class TestCase {
   constructor(
     public readonly id: string,
     private readonly testSteps: ITestStep[],
-    private readonly pickleId: string
+    private readonly pickleId: string,
+    private readonly clock: IClock
   ) {
     testSteps.forEach(testStep => {
       if (!testStep) {
@@ -71,7 +72,7 @@ export default class TestCase {
       new messages.Envelope({
         testCaseFinished: new messages.TestCaseFinished({
           testCaseStartedId,
-          timestamp: millisecondsSinceEpochToTimestamp(performance.now()),
+          timestamp: millisecondsSinceEpochToTimestamp(this.clock.now()),
         }),
       })
     )
