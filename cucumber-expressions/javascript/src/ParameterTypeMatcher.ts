@@ -1,10 +1,4 @@
 import ParameterType from './ParameterType'
-// @ts-ignore
-import XRegExp from 'xregexp'
-
-// Needed for Node8 support, should be able to remove once Node 8 reaches end of life
-// (eta 2019-12-31) https://nodejs.org/en/about/releases/
-const whitespacePunctuationPattern = XRegExp('\\s|\\p{P}', 'u')
 
 export default class ParameterTypeMatcher {
   private readonly match: RegExpExecArray
@@ -60,7 +54,7 @@ export default class ParameterTypeMatcher {
   get matchStartWord() {
     return (
       this.start === 0 ||
-      this.text[this.start - 1].match(whitespacePunctuationPattern)
+      this.text[this.start - 1].match(/\s|\p{P}/u)
     )
   }
 
@@ -68,7 +62,7 @@ export default class ParameterTypeMatcher {
     const nextCharacterIndex = this.start + this.group.length
     return (
       nextCharacterIndex === this.text.length ||
-      this.text[nextCharacterIndex].match(whitespacePunctuationPattern)
+      this.text[nextCharacterIndex].match(/\s|\p{P}/u)
     )
   }
 
