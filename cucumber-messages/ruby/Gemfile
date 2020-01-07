@@ -2,3 +2,6 @@
 source 'https://rubygems.org'
 
 gemspec
+
+# TODO: Remove when https://github.com/ruby-protobuf/protobuf/pull/410 is merged and released
+gem 'protobuf', git: 'https://github.com/cucumber/protobuf.git', branch: '3-10-cucumber'

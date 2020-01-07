@@ -1,7 +1,8 @@
-module github.com/cucumber/cucumber-messages-go/v7
+module github.com/cucumber/cucumber-messages-go/v8
 
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
+	github.com/gofrs/uuid v3.2.0+incompatible
 	github.com/gogo/protobuf v1.3.1
 	github.com/kr/pretty v0.1.0 // indirect
 	github.com/stretchr/testify v1.4.0

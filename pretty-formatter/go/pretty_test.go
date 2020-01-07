@@ -6,7 +6,7 @@ import (
 	"github.com/stretchr/testify/require"
 	"testing"
 	//"github.com/fatih/color"
-	"github.com/cucumber/cucumber-messages-go/v7"
+	"github.com/cucumber/cucumber-messages-go/v8"
 	"github.com/cucumber/gherkin-go"
 )
 

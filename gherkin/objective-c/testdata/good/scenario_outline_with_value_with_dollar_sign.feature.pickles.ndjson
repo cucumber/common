@@ -1,19 +1,19 @@
 {
   "pickle": {
-    "id": "5",
-    "language": "en",
-    "name": "minimalistic",
-    "sourceIds": [
+    "astNodeIds": [
       "3",
       "2"
     ],
+    "id": "5",
+    "language": "en",
+    "name": "minimalistic",
     "steps": [
       {
-        "id": "4",
-        "sourceIds": [
+        "astNodeIds": [
           "0",
           "2"
         ],
+        "id": "4",
         "text": "the pa$$word"
       }
     ],

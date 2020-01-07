@@ -1,10 +1,13 @@
 # encoding: utf-8
 require 'rubygems'
 require 'bundler'
-load 'protobuf/tasks/compile.rake'
 Bundler::GemHelper.install_tasks
 
 $:.unshift File.expand_path("../lib", __FILE__)
+
+Dir['./rake/*.rb'].each do |f|
+  require f
+end
 
 require "rspec/core/rake_task"
 RSpec::Core::RakeTask.new(:spec) do |t|

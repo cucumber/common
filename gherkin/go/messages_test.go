@@ -2,7 +2,7 @@ package gherkin
 
 import (
 	"bytes"
-	"github.com/cucumber/cucumber-messages-go/v7"
+	"github.com/cucumber/cucumber-messages-go/v8"
 	gio "github.com/gogo/protobuf/io"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -25,12 +25,9 @@ func TestMessagesWithStdin(t *testing.T) {
 	wrapper := &messages.Envelope{
 		Message: &messages.Envelope_Source{
 			Source: &messages.Source{
-				Uri:  "features/test.feature",
-				Data: gherkin,
-				Media: &messages.Media{
-					Encoding:    messages.Media_UTF8,
-					ContentType: "text/x.cucumber.gherkin+plain",
-				},
+				Uri:       "features/test.feature",
+				Data:      gherkin,
+				MediaType: "text/x.cucumber.gherkin+plain",
 			},
 		},
 	}
@@ -46,7 +43,7 @@ func TestMessagesWithStdin(t *testing.T) {
 		true,
 		true,
 		nil,
-		(&Incrementing{0}).NewId,
+		(&messages.Incrementing{}).NewId,
 	)
 	require.NoError(t, err)
 

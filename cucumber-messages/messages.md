@@ -32,9 +32,9 @@
     - [GherkinDocument.Feature.TableRow](#io.cucumber.messages.GherkinDocument.Feature.TableRow)
     - [GherkinDocument.Feature.TableRow.TableCell](#io.cucumber.messages.GherkinDocument.Feature.TableRow.TableCell)
     - [GherkinDocument.Feature.Tag](#io.cucumber.messages.GherkinDocument.Feature.Tag)
+    - [Hook](#io.cucumber.messages.Hook)
     - [Location](#io.cucumber.messages.Location)
-    - [Media](#io.cucumber.messages.Media)
-    - [ParameterTypeConfig](#io.cucumber.messages.ParameterTypeConfig)
+    - [ParameterType](#io.cucumber.messages.ParameterType)
     - [Pickle](#io.cucumber.messages.Pickle)
     - [Pickle.PickleStep](#io.cucumber.messages.Pickle.PickleStep)
     - [Pickle.PickleTag](#io.cucumber.messages.Pickle.PickleTag)
@@ -51,15 +51,15 @@
     - [SourcesConfig](#io.cucumber.messages.SourcesConfig)
     - [SourcesFilterConfig](#io.cucumber.messages.SourcesFilterConfig)
     - [SourcesOrder](#io.cucumber.messages.SourcesOrder)
-    - [StepDefinitionConfig](#io.cucumber.messages.StepDefinitionConfig)
+    - [StepDefinition](#io.cucumber.messages.StepDefinition)
     - [StepDefinitionPattern](#io.cucumber.messages.StepDefinitionPattern)
     - [StepMatchArgument](#io.cucumber.messages.StepMatchArgument)
     - [StepMatchArgument.Group](#io.cucumber.messages.StepMatchArgument.Group)
     - [SupportCodeConfig](#io.cucumber.messages.SupportCodeConfig)
     - [TestCase](#io.cucumber.messages.TestCase)
     - [TestCase.TestStep](#io.cucumber.messages.TestCase.TestStep)
+    - [TestCase.TestStep.StepMatchArgumentsList](#io.cucumber.messages.TestCase.TestStep.StepMatchArgumentsList)
     - [TestCaseFinished](#io.cucumber.messages.TestCaseFinished)
-    - [TestCaseHookDefinitionConfig](#io.cucumber.messages.TestCaseHookDefinitionConfig)
     - [TestCasePrepared](#io.cucumber.messages.TestCasePrepared)
     - [TestCasePreparedStep](#io.cucumber.messages.TestCasePreparedStep)
     - [TestCaseStarted](#io.cucumber.messages.TestCaseStarted)
@@ -72,7 +72,6 @@
     - [Timestamp](#io.cucumber.messages.Timestamp)
     - [UriToLinesMapping](#io.cucumber.messages.UriToLinesMapping)
   
-    - [Media.Encoding](#io.cucumber.messages.Media.Encoding)
     - [SourcesOrderType](#io.cucumber.messages.SourcesOrderType)
     - [StepDefinitionPatternType](#io.cucumber.messages.StepDefinitionPatternType)
     - [TestResult.Status](#io.cucumber.messages.TestResult.Status)
@@ -108,10 +107,11 @@ is captured in `TestResult`.
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | source | [SourceReference](#io.cucumber.messages.SourceReference) |  |  |
-| data | [string](#string) |  |  |
-| media | [Media](#io.cucumber.messages.Media) |  |  |
-| testStepId | [string](#string) |  |  |
-| testCaseStartedId | [string](#string) |  |  |
+| test_step_id | [string](#string) |  |  |
+| test_case_started_id | [string](#string) |  |  |
+| text | [string](#string) |  | For text/* media types |
+| binary | [bytes](#bytes) |  | For all non-text/ media types |
+| media_type | [string](#string) |  | The media type of the data. This can be any valid [IANA Media Type](https://www.iana.org/assignments/media-types/media-types.xhtml) as well as Cucumber-specific media types such as `text/x.cucumber.gherkin&#43;plain` and `text/x.cucumber.stacktrace&#43;plain` |
 
 
 
@@ -126,8 +126,8 @@ is captured in `TestResult`.
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| completedId | [string](#string) |  |  |
-| testResult | [TestResult](#io.cucumber.messages.TestResult) |  | Used for responses to CommandRunBeforeTestCaseHook / CommandRunTestStep / CommandRunAfterTestCaseHook |
+| completed_id | [string](#string) |  |  |
+| test_result | [TestResult](#io.cucumber.messages.TestResult) |  | Used for responses to CommandRunBeforeTestCaseHook / CommandRunTestStep / CommandRunAfterTestCaseHook |
 | snippet | [string](#string) |  | Used for response to CommandGenerateSnippet |
 
 
@@ -143,9 +143,9 @@ is captured in `TestResult`.
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| actionId | [string](#string) |  |  |
-| generatedExpressions | [GeneratedExpression](#io.cucumber.messages.GeneratedExpression) | repeated |  |
-| pickleStepArgument | [PickleStepArgument](#io.cucumber.messages.PickleStepArgument) |  |  |
+| action_id | [string](#string) |  |  |
+| generated_expressions | [GeneratedExpression](#io.cucumber.messages.GeneratedExpression) | repeated |  |
+| pickle_step_argument | [PickleStepArgument](#io.cucumber.messages.PickleStepArgument) |  |  |
 
 
 
@@ -160,7 +160,7 @@ is captured in `TestResult`.
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| actionId | [string](#string) |  |  |
+| action_id | [string](#string) |  |  |
 | pickle | [Pickle](#io.cucumber.messages.Pickle) |  |  |
 
 
@@ -176,9 +176,9 @@ is captured in `TestResult`.
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| actionId | [string](#string) |  |  |
-| testCaseHookDefinitionId | [string](#string) |  |  |
-| testCaseId | [string](#string) |  |  |
+| action_id | [string](#string) |  |  |
+| hook_id | [string](#string) |  |  |
+| test_case_id | [string](#string) |  |  |
 
 
 
@@ -193,7 +193,7 @@ is captured in `TestResult`.
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| actionId | [string](#string) |  |  |
+| action_id | [string](#string) |  |  |
 
 
 
@@ -208,9 +208,9 @@ is captured in `TestResult`.
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| actionId | [string](#string) |  |  |
-| testCaseHookDefinitionId | [string](#string) |  |  |
-| testCaseId | [string](#string) |  |  |
+| action_id | [string](#string) |  |  |
+| hook_id | [string](#string) |  |  |
+| test_case_id | [string](#string) |  |  |
 
 
 
@@ -225,7 +225,7 @@ is captured in `TestResult`.
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| actionId | [string](#string) |  |  |
+| action_id | [string](#string) |  |  |
 
 
 
@@ -240,11 +240,11 @@ is captured in `TestResult`.
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| actionId | [string](#string) |  |  |
-| stepDefinitionId | [string](#string) |  |  |
-| stepMatchArguments | [StepMatchArgument](#io.cucumber.messages.StepMatchArgument) | repeated |  |
-| pickleStepArgument | [PickleStepArgument](#io.cucumber.messages.PickleStepArgument) |  |  |
-| testCaseId | [string](#string) |  |  |
+| action_id | [string](#string) |  |  |
+| step_definition_id | [string](#string) |  |  |
+| step_match_arguments | [StepMatchArgument](#io.cucumber.messages.StepMatchArgument) | repeated |  |
+| pickle_step_argument | [PickleStepArgument](#io.cucumber.messages.PickleStepArgument) |  |  |
+| test_case_id | [string](#string) |  |  |
 
 
 
@@ -259,10 +259,10 @@ is captured in `TestResult`.
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| baseDirectory | [string](#string) |  |  |
-| sourcesConfig | [SourcesConfig](#io.cucumber.messages.SourcesConfig) |  |  |
-| runtimeConfig | [RuntimeConfig](#io.cucumber.messages.RuntimeConfig) |  |  |
-| supportCodeConfig | [SupportCodeConfig](#io.cucumber.messages.SupportCodeConfig) |  |  |
+| base_directory | [string](#string) |  |  |
+| sources_config | [SourcesConfig](#io.cucumber.messages.SourcesConfig) |  |  |
+| runtime_config | [RuntimeConfig](#io.cucumber.messages.RuntimeConfig) |  |  |
+| support_code_config | [SupportCodeConfig](#io.cucumber.messages.SupportCodeConfig) |  |  |
 
 
 
@@ -296,31 +296,32 @@ messages.
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | source | [Source](#io.cucumber.messages.Source) |  | Gherkin messages |
-| gherkinDocument | [GherkinDocument](#io.cucumber.messages.GherkinDocument) |  |  |
+| gherkin_document | [GherkinDocument](#io.cucumber.messages.GherkinDocument) |  |  |
 | pickle | [Pickle](#io.cucumber.messages.Pickle) |  |  |
 | attachment | [Attachment](#io.cucumber.messages.Attachment) |  |  |
-| testCaseStarted | [TestCaseStarted](#io.cucumber.messages.TestCaseStarted) |  | Execution messages |
-| testStepStarted | [TestStepStarted](#io.cucumber.messages.TestStepStarted) |  |  |
-| testStepFinished | [TestStepFinished](#io.cucumber.messages.TestStepFinished) |  |  |
-| testCaseFinished | [TestCaseFinished](#io.cucumber.messages.TestCaseFinished) |  |  |
-| pickleAccepted | [PickleAccepted](#io.cucumber.messages.PickleAccepted) |  |  |
-| pickleRejected | [PickleRejected](#io.cucumber.messages.PickleRejected) |  |  |
-| testCasePrepared | [TestCasePrepared](#io.cucumber.messages.TestCasePrepared) |  |  |
-| testRunStarted | [TestRunStarted](#io.cucumber.messages.TestRunStarted) |  |  |
-| testRunFinished | [TestRunFinished](#io.cucumber.messages.TestRunFinished) |  |  |
-| commandStart | [CommandStart](#io.cucumber.messages.CommandStart) |  | Cucumber-Engine Messages |
-| commandActionComplete | [CommandActionComplete](#io.cucumber.messages.CommandActionComplete) |  |  |
-| commandRunBeforeTestRunHooks | [CommandRunBeforeTestRunHooks](#io.cucumber.messages.CommandRunBeforeTestRunHooks) |  |  |
-| commandInitializeTestCase | [CommandInitializeTestCase](#io.cucumber.messages.CommandInitializeTestCase) |  |  |
-| commandRunBeforeTestCaseHook | [CommandRunBeforeTestCaseHook](#io.cucumber.messages.CommandRunBeforeTestCaseHook) |  |  |
-| commandRunTestStep | [CommandRunTestStep](#io.cucumber.messages.CommandRunTestStep) |  |  |
-| commandRunAfterTestCaseHook | [CommandRunAfterTestCaseHook](#io.cucumber.messages.CommandRunAfterTestCaseHook) |  |  |
-| commandRunAfterTestRunHooks | [CommandRunAfterTestRunHooks](#io.cucumber.messages.CommandRunAfterTestRunHooks) |  |  |
-| commandGenerateSnippet | [CommandGenerateSnippet](#io.cucumber.messages.CommandGenerateSnippet) |  |  |
-| commandError | [string](#string) |  |  |
-| testCase | [TestCase](#io.cucumber.messages.TestCase) |  |  |
-| stepDefinitionConfig | [StepDefinitionConfig](#io.cucumber.messages.StepDefinitionConfig) |  |  |
-| testCaseHookDefinitionConfig | [TestCaseHookDefinitionConfig](#io.cucumber.messages.TestCaseHookDefinitionConfig) |  |  |
+| test_case_started | [TestCaseStarted](#io.cucumber.messages.TestCaseStarted) |  | Execution messages |
+| test_step_started | [TestStepStarted](#io.cucumber.messages.TestStepStarted) |  |  |
+| test_step_finished | [TestStepFinished](#io.cucumber.messages.TestStepFinished) |  |  |
+| test_case_finished | [TestCaseFinished](#io.cucumber.messages.TestCaseFinished) |  |  |
+| pickle_accepted | [PickleAccepted](#io.cucumber.messages.PickleAccepted) |  |  |
+| pickle_rejected | [PickleRejected](#io.cucumber.messages.PickleRejected) |  |  |
+| test_case_prepared | [TestCasePrepared](#io.cucumber.messages.TestCasePrepared) |  |  |
+| test_run_started | [TestRunStarted](#io.cucumber.messages.TestRunStarted) |  |  |
+| test_run_finished | [TestRunFinished](#io.cucumber.messages.TestRunFinished) |  |  |
+| command_start | [CommandStart](#io.cucumber.messages.CommandStart) |  | Cucumber-Engine Messages |
+| command_action_complete | [CommandActionComplete](#io.cucumber.messages.CommandActionComplete) |  |  |
+| command_run_before_test_run_hooks | [CommandRunBeforeTestRunHooks](#io.cucumber.messages.CommandRunBeforeTestRunHooks) |  |  |
+| command_initialize_test_case | [CommandInitializeTestCase](#io.cucumber.messages.CommandInitializeTestCase) |  |  |
+| command_run_before_test_case_hook | [CommandRunBeforeTestCaseHook](#io.cucumber.messages.CommandRunBeforeTestCaseHook) |  |  |
+| command_run_test_step | [CommandRunTestStep](#io.cucumber.messages.CommandRunTestStep) |  |  |
+| command_run_after_test_case_hook | [CommandRunAfterTestCaseHook](#io.cucumber.messages.CommandRunAfterTestCaseHook) |  |  |
+| command_run_after_test_run_hooks | [CommandRunAfterTestRunHooks](#io.cucumber.messages.CommandRunAfterTestRunHooks) |  |  |
+| command_generate_snippet | [CommandGenerateSnippet](#io.cucumber.messages.CommandGenerateSnippet) |  |  |
+| command_error | [string](#string) |  |  |
+| test_case | [TestCase](#io.cucumber.messages.TestCase) |  |  |
+| step_definition | [StepDefinition](#io.cucumber.messages.StepDefinition) |  |  |
+| hook | [Hook](#io.cucumber.messages.Hook) |  |  |
+| parameter_type | [ParameterType](#io.cucumber.messages.ParameterType) |  |  |
 
 
 
@@ -336,7 +337,7 @@ messages.
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | text | [string](#string) |  |  |
-| parameterTypeNames | [string](#string) | repeated |  |
+| parameter_type_names | [string](#string) | repeated |  |
 
 
 
@@ -561,7 +562,7 @@ A step
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | location | [Location](#io.cucumber.messages.Location) |  |  |
-| content_type | [string](#string) |  |  |
+| media_type | [string](#string) |  |  |
 | content | [string](#string) |  |  |
 | delimiter | [string](#string) |  |  |
 
@@ -620,6 +621,23 @@ A tag
 
 
 
+<a name="io.cucumber.messages.Hook"></a>
+
+### Hook
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| id | [string](#string) |  |  |
+| tag_expression | [string](#string) |  |  |
+| source_reference | [SourceReference](#io.cucumber.messages.SourceReference) |  |  |
+
+
+
+
+
+
 <a name="io.cucumber.messages.Location"></a>
 
 ### Location
@@ -636,34 +654,18 @@ Points to a line and a column in a text file
 
 
 
-<a name="io.cucumber.messages.Media"></a>
+<a name="io.cucumber.messages.ParameterType"></a>
 
-### Media
-Meta information about encoded contents
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| encoding | [Media.Encoding](#io.cucumber.messages.Media.Encoding) |  | The encoding of the data |
-| content_type | [string](#string) |  | The content type of the data. This can be any valid [IANA Media Type](https://www.iana.org/assignments/media-types/media-types.xhtml) as well as Cucumber-specific media types such as `text/x.cucumber.gherkin&#43;plain` and `text/x.cucumber.stacktrace&#43;plain` |
-
-
-
-
-
-
-<a name="io.cucumber.messages.ParameterTypeConfig"></a>
-
-### ParameterTypeConfig
+### ParameterType
 
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| name | [string](#string) |  |  |
-| regularExpressions | [string](#string) | repeated |  |
-| preferForRegularExpressionMatch | [bool](#bool) |  |  |
-| useForSnippets | [bool](#bool) |  |  |
+| name | [string](#string) |  | The name is unique, so we don&#39;t need an id. |
+| regular_expressions | [string](#string) | repeated |  |
+| prefer_for_regular_expression_match | [bool](#bool) |  |  |
+| use_for_snippets | [bool](#bool) |  |  |
 
 
 
@@ -673,7 +675,7 @@ Meta information about encoded contents
 <a name="io.cucumber.messages.Pickle"></a>
 
 ### Pickle
-A `Pickle` represents a test case Cucumber can *execute*. It is typically derived
+A `Pickle` represents a template for a `TestCase`. It is typically derived
 from another format, such as [GherkinDocument](#io.cucumber.messages.GherkinDocument).
 In the future a `Pickle` may be derived from other formats such as Markdown or
 Excel files.
@@ -681,6 +683,8 @@ Excel files.
 By making `Pickle` the main data structure Cucumber uses for execution, the
 implementation of Cucumber itself becomes simpler, as it doesn&#39;t have to deal
 with the complex structure of a [GherkinDocument](#io.cucumber.messages.GherkinDocument).
+
+Each `PickleStep` of a `Pickle` is matched with a `StepDefinition` to create a `TestCase`
 
 
 | Field | Type | Label | Description |
@@ -691,7 +695,7 @@ with the complex structure of a [GherkinDocument](#io.cucumber.messages.GherkinD
 | language | [string](#string) |  | The language of the pickle |
 | steps | [Pickle.PickleStep](#io.cucumber.messages.Pickle.PickleStep) | repeated | One or more steps |
 | tags | [Pickle.PickleTag](#io.cucumber.messages.Pickle.PickleTag) | repeated | One or more tags. If this pickle is constructed from a Gherkin document, It includes inherited tags from the `Feature` as well. |
-| sourceIds | [string](#string) | repeated | Points to the source locations of the pickle. The last one represents the unique id of the pickle. A pickle constructed from `Examples` will have the first sourceId originating from the `Scenario`, and the second from the table row. |
+| ast_node_ids | [string](#string) | repeated | Points to the AST node locations of the pickle. The last one represents the unique id of the pickle. A pickle constructed from `Examples` will have the first id originating from the `Scenario` AST node, and the second from the `TableRow` AST node. |
 
 
 
@@ -709,7 +713,7 @@ An executable step
 | text | [string](#string) |  |  |
 | argument | [PickleStepArgument](#io.cucumber.messages.PickleStepArgument) |  | An optional argument |
 | id | [string](#string) |  | A unique ID for the PickleStep |
-| sourceIds | [string](#string) | repeated | References the IDs of the source of the step. For Gherkin, this can be the ID of a Step, and possibly also the ID of a TableRow |
+| ast_node_ids | [string](#string) | repeated | References the IDs of the source of the step. For Gherkin, this can be the ID of a Step, and possibly also the ID of a TableRow |
 
 
 
@@ -725,7 +729,7 @@ A tag
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | name | [string](#string) |  |  |
-| sourceId | [string](#string) |  | Reference to the source id |
+| ast_node_id | [string](#string) |  | Points to the AST node this was created from |
 
 
 
@@ -740,7 +744,7 @@ A tag
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| pickleId | [string](#string) |  |  |
+| pickle_id | [string](#string) |  |  |
 
 
 
@@ -755,7 +759,7 @@ A tag
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| pickleId | [string](#string) |  |  |
+| pickle_id | [string](#string) |  |  |
 
 
 
@@ -786,7 +790,7 @@ A wrapper for either a doc string or a table.
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| contentType | [string](#string) |  |  |
+| media_type | [string](#string) |  |  |
 | content | [string](#string) |  |  |
 
 
@@ -847,10 +851,10 @@ A wrapper for either a doc string or a table.
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| isFailFast | [bool](#bool) |  |  |
-| isDryRun | [bool](#bool) |  |  |
-| isStrict | [bool](#bool) |  |  |
-| maxParallel | [uint64](#uint64) |  |  |
+| is_fail_fast | [bool](#bool) |  |  |
+| is_dry_run | [bool](#bool) |  |  |
+| is_strict | [bool](#bool) |  |  |
+| max_parallel | [uint64](#uint64) |  |  |
 
 
 
@@ -867,7 +871,7 @@ A source file, typically a Gherkin document
 | ----- | ---- | ----- | ----------- |
 | uri | [string](#string) |  | The [URI](https://en.wikipedia.org/wiki/Uniform_Resource_Identifier) of the source, typically a file path relative to the root directory |
 | data | [string](#string) |  | The contents of the file |
-| media | [Media](#io.cucumber.messages.Media) |  | The media type of the file |
+| media_type | [string](#string) |  | The media type of the file. Can be used to specify custom types, such as text/x.cucumber.gherkin&#43;plain |
 
 
 
@@ -899,7 +903,7 @@ Points to a [Source](#io.cucumber.messages.Source) identified by `uri` and a
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| absolutePaths | [string](#string) | repeated |  |
+| absolute_paths | [string](#string) | repeated |  |
 | language | [string](#string) |  |  |
 | filters | [SourcesFilterConfig](#io.cucumber.messages.SourcesFilterConfig) |  |  |
 | order | [SourcesOrder](#io.cucumber.messages.SourcesOrder) |  |  |
@@ -917,9 +921,9 @@ Points to a [Source](#io.cucumber.messages.Source) identified by `uri` and a
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| tagExpression | [string](#string) |  |  |
-| nameRegularExpressions | [string](#string) | repeated |  |
-| uriToLinesMapping | [UriToLinesMapping](#io.cucumber.messages.UriToLinesMapping) | repeated |  |
+| tag_expression | [string](#string) |  |  |
+| name_regular_expressions | [string](#string) | repeated |  |
+| uri_to_lines_mapping | [UriToLinesMapping](#io.cucumber.messages.UriToLinesMapping) | repeated |  |
 
 
 
@@ -942,17 +946,17 @@ Points to a [Source](#io.cucumber.messages.Source) identified by `uri` and a
 
 
 
-<a name="io.cucumber.messages.StepDefinitionConfig"></a>
+<a name="io.cucumber.messages.StepDefinition"></a>
 
-### StepDefinitionConfig
-TODO: Rename to StepDefinition
+### StepDefinition
+
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | id | [string](#string) |  |  |
 | pattern | [StepDefinitionPattern](#io.cucumber.messages.StepDefinitionPattern) |  |  |
-| location | [SourceReference](#io.cucumber.messages.SourceReference) |  |  |
+| source_reference | [SourceReference](#io.cucumber.messages.SourceReference) |  |  |
 
 
 
@@ -988,7 +992,7 @@ This message closely matches the `Argument` class in the `cucumber-expressions` 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| parameterTypeName | [string](#string) |  |  |
+| parameter_type_name | [string](#string) |  |  |
 | group | [StepMatchArgument.Group](#io.cucumber.messages.StepMatchArgument.Group) |  | Represents the outermost capture group of an argument. This message closely matches the `Group` class in the `cucumber-expressions` library. |
 
 
@@ -1021,10 +1025,10 @@ This message closely matches the `Argument` class in the `cucumber-expressions` 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| beforeTestCaseHookDefinitionConfigs | [TestCaseHookDefinitionConfig](#io.cucumber.messages.TestCaseHookDefinitionConfig) | repeated |  |
-| afterTestCaseHookDefinitionConfigs | [TestCaseHookDefinitionConfig](#io.cucumber.messages.TestCaseHookDefinitionConfig) | repeated |  |
-| stepDefinitionConfigs | [StepDefinitionConfig](#io.cucumber.messages.StepDefinitionConfig) | repeated |  |
-| parameterTypeConfigs | [ParameterTypeConfig](#io.cucumber.messages.ParameterTypeConfig) | repeated |  |
+| before_test_case_hooks | [Hook](#io.cucumber.messages.Hook) | repeated |  |
+| after_test_case_hooks | [Hook](#io.cucumber.messages.Hook) | repeated |  |
+| step_definitions | [StepDefinition](#io.cucumber.messages.StepDefinition) | repeated |  |
+| parameter_types | [ParameterType](#io.cucumber.messages.ParameterType) | repeated |  |
 
 
 
@@ -1034,14 +1038,14 @@ This message closely matches the `Argument` class in the `cucumber-expressions` 
 <a name="io.cucumber.messages.TestCase"></a>
 
 ### TestCase
-
+A `TestCase` contains a sequence of `TestStep`s.
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | id | [string](#string) |  |  |
-| pickleId | [string](#string) |  |  |
-| testSteps | [TestCase.TestStep](#io.cucumber.messages.TestCase.TestStep) | repeated |  |
+| pickle_id | [string](#string) |  | The ID of the `Pickle` this `TestCase` is derived from. |
+| test_steps | [TestCase.TestStep](#io.cucumber.messages.TestCase.TestStep) | repeated |  |
 
 
 
@@ -1051,16 +1055,32 @@ This message closely matches the `Argument` class in the `cucumber-expressions` 
 <a name="io.cucumber.messages.TestCase.TestStep"></a>
 
 ### TestCase.TestStep
-
+A `TestStep` is derived from either a `PickleStep`
+combined with a `StepDefinition`, or from a `Hook`.
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | id | [string](#string) |  |  |
-| pickleStepId | [string](#string) |  | Pointer to the PickleStep (if derived from a PickleStep) |
-| stepDefinitionId | [string](#string) | repeated | Pointer to all the matching StepDefinitions (if derived from a PickleStep) TODO: Should be renamed stepDefinitionIds |
-| stepMatchArguments | [StepMatchArgument](#io.cucumber.messages.StepMatchArgument) | repeated | All the arguments from the match (if derived from a PickleStep and there was exactly 1 StepDefinition) |
-| hookId | [string](#string) |  | Pointer to the TestCaseHookDefinitionConfig (if derived from a Hook) |
+| pickle_step_id | [string](#string) |  | Pointer to the `PickleStep` (if derived from a PickleStep) |
+| step_definition_ids | [string](#string) | repeated | Pointer to all the matching `StepDefinition`s (if derived from a PickleStep) |
+| step_match_arguments_lists | [TestCase.TestStep.StepMatchArgumentsList](#io.cucumber.messages.TestCase.TestStep.StepMatchArgumentsList) | repeated | A list of list of StepMatchArgument (if derived from a `StepDefinition`). Each element represents a matching step definition. A size of 0 means `UNDEFINED`, and a size of 2&#43; means `AMBIGUOUS` |
+| hook_id | [string](#string) |  | Pointer to the `Hook` (if derived from a Hook) |
+
+
+
+
+
+
+<a name="io.cucumber.messages.TestCase.TestStep.StepMatchArgumentsList"></a>
+
+### TestCase.TestStep.StepMatchArgumentsList
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| step_match_arguments | [StepMatchArgument](#io.cucumber.messages.StepMatchArgument) | repeated |  |
 
 
 
@@ -1076,25 +1096,7 @@ This message closely matches the `Argument` class in the `cucumber-expressions` 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | timestamp | [Timestamp](#io.cucumber.messages.Timestamp) |  |  |
-| testResult | [TestResult](#io.cucumber.messages.TestResult) |  |  |
-| testCaseStartedId | [string](#string) |  |  |
-
-
-
-
-
-
-<a name="io.cucumber.messages.TestCaseHookDefinitionConfig"></a>
-
-### TestCaseHookDefinitionConfig
-TODO: Rename to Hook
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| id | [string](#string) |  |  |
-| tagExpression | [string](#string) |  |  |
-| location | [SourceReference](#io.cucumber.messages.SourceReference) |  | TODO: rename to sourceReference as Location is another type and this is ambiguous. |
+| test_case_started_id | [string](#string) |  |  |
 
 
 
@@ -1109,7 +1111,7 @@ DEPRECATED. Use TestCase
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| pickleId | [string](#string) |  |  |
+| pickle_id | [string](#string) |  |  |
 | steps | [TestCasePreparedStep](#io.cucumber.messages.TestCasePreparedStep) | repeated |  |
 
 
@@ -1125,8 +1127,8 @@ DEPRECATED. Use TestCase.TestStep
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| sourceLocation | [SourceReference](#io.cucumber.messages.SourceReference) |  |  |
-| actionLocation | [SourceReference](#io.cucumber.messages.SourceReference) |  |  |
+| source_location | [SourceReference](#io.cucumber.messages.SourceReference) |  |  |
+| action_location | [SourceReference](#io.cucumber.messages.SourceReference) |  |  |
 
 
 
@@ -1144,7 +1146,7 @@ DEPRECATED. Use TestCase.TestStep
 | timestamp | [Timestamp](#io.cucumber.messages.Timestamp) |  |  |
 | platform | [TestCaseStarted.Platform](#io.cucumber.messages.TestCaseStarted.Platform) |  |  |
 | attempt | [uint32](#uint32) |  | The first attempt should have value 0, and for each retry the value should increase by 1. |
-| testCaseId | [string](#string) |  |  |
+| test_case_id | [string](#string) |  |  |
 | id | [string](#string) |  | Because a `TestCase` can be run multiple times (in case of a retry), we use this field to group messages relating to the same attempt. |
 
 
@@ -1181,7 +1183,7 @@ DEPRECATED. Use TestCase.TestStep
 | status | [TestResult.Status](#io.cucumber.messages.TestResult.Status) |  |  |
 | message | [string](#string) |  |  |
 | duration | [Duration](#io.cucumber.messages.Duration) |  |  |
-| willBeRetried | [bool](#bool) |  |  |
+| will_be_retried | [bool](#bool) |  |  |
 
 
 
@@ -1227,10 +1229,10 @@ DEPRECATED. Use TestCase.TestStep
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| testResult | [TestResult](#io.cucumber.messages.TestResult) |  |  |
+| test_result | [TestResult](#io.cucumber.messages.TestResult) |  |  |
 | timestamp | [Timestamp](#io.cucumber.messages.Timestamp) |  |  |
-| testStepId | [string](#string) |  |  |
-| testCaseStartedId | [string](#string) |  |  |
+| test_step_id | [string](#string) |  |  |
+| test_case_started_id | [string](#string) |  |  |
 
 
 
@@ -1246,8 +1248,8 @@ DEPRECATED. Use TestCase.TestStep
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | timestamp | [Timestamp](#io.cucumber.messages.Timestamp) |  |  |
-| testStepId | [string](#string) |  |  |
-| testCaseStartedId | [string](#string) |  |  |
+| test_step_id | [string](#string) |  |  |
+| test_case_started_id | [string](#string) |  |  |
 
 
 
@@ -1278,7 +1280,7 @@ From https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| absolutePath | [string](#string) |  |  |
+| absolute_path | [string](#string) |  |  |
 | lines | [uint64](#uint64) | repeated |  |
 
 
@@ -1286,18 +1288,6 @@ From https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf
 
 
  
-
-
-<a name="io.cucumber.messages.Media.Encoding"></a>
-
-### Media.Encoding
-
-
-| Name | Number | Description |
-| ---- | ------ | ----------- |
-| BASE64 | 0 | Base64 encoded binary data |
-| UTF8 | 1 | UTF8 encoded string |
-
 
 
 <a name="io.cucumber.messages.SourcesOrderType"></a>
@@ -1327,8 +1317,10 @@ From https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf
 <a name="io.cucumber.messages.TestResult.Status"></a>
 
 ### TestResult.Status
-Status of a step. Can also represent status of a Pickle (aggregated
-from the status of its steps).
+Status of a `PickleStep`.
+
+A `Pickle` message does not carry its own `TestResult`, but this can be accessed
+using `CucumberQuery#getTestResult(testCase)`
 
 The ordinal values of statuses are significant. The status of a Pickle
 is determined by the union of statuses of its steps. The

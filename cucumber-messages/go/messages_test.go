@@ -11,8 +11,8 @@ import (
 func TestMessages(t *testing.T) {
 	t.Run("builds a pickle doc string", func(t *testing.T) {
 		pickleDocString := PickleStepArgument_PickleDocString{
-			ContentType: "text/plain",
-			Content:     "some\ncontent\n",
+			MediaType: "text/plain",
+			Content:   "some\ncontent\n",
 		}
 
 		b := &bytes.Buffer{}

@@ -14,5 +14,5 @@ ifdef ALPINE
 endif
 	touch $@
 
-clean-dotnet:
+clean:
 	rm -f Cucumber.Messages/Messages.cs .fixprotoc

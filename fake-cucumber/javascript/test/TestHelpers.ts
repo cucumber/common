@@ -2,7 +2,7 @@ import { stubConstructor } from 'ts-sinon'
 import SupportCodeExecutor from '../src/SupportCodeExecutor'
 import ExpressionStepDefinition from '../src/ExpressionStepDefinition'
 import { Readable } from 'stream'
-import { messages } from 'cucumber-messages'
+import { IdGenerator, messages } from 'cucumber-messages'
 import gherkin from 'gherkin'
 
 export function stubPassingSupportCodeExecutor(): SupportCodeExecutor {
@@ -48,15 +48,12 @@ export function gherkinMessages(gherkinSource: string, uri: string): Readable {
     source: {
       uri,
       data: gherkinSource,
-      media: messages.Media.fromObject({
-        encoding: 'UTF8',
-        contentType: 'text/x.cucumber.gherkin+plain',
-      }),
+      mediaType: 'text/x.cucumber.gherkin+plain',
     },
   })
 
   return gherkin.fromSources([source], {
-    newId: gherkin.uuid(),
+    newId: IdGenerator.uuid(),
   })
 }
 

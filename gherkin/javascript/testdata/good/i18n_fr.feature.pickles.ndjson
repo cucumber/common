@@ -1,31 +1,31 @@
 {
   "pickle": {
+    "astNodeIds": [
+      "3"
+    ],
     "id": "53",
     "language": "fr",
     "name": "Support des caractères spéciaux",
-    "sourceIds": [
-      "3"
-    ],
     "steps": [
       {
-        "id": "50",
-        "sourceIds": [
+        "astNodeIds": [
           "0"
         ],
+        "id": "50",
         "text": "un exemple de scénario en français"
       },
       {
-        "id": "51",
-        "sourceIds": [
+        "astNodeIds": [
           "1"
         ],
+        "id": "51",
         "text": "j'ai 1 gâteau"
       },
       {
-        "id": "52",
-        "sourceIds": [
+        "astNodeIds": [
           "2"
         ],
+        "id": "52",
         "text": "je suis heureux"
       }
     ],
@@ -34,32 +34,32 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "7"
+    ],
     "id": "57",
     "language": "fr",
     "name": "Support du mot-clef \"Etant donné que \"",
-    "sourceIds": [
-      "7"
-    ],
     "steps": [
       {
-        "id": "54",
-        "sourceIds": [
+        "astNodeIds": [
           "4"
         ],
+        "id": "54",
         "text": "j'aime les gâteaux"
       },
       {
-        "id": "55",
-        "sourceIds": [
+        "astNodeIds": [
           "5"
         ],
+        "id": "55",
         "text": "on m'offre 1 gâteau"
       },
       {
-        "id": "56",
-        "sourceIds": [
+        "astNodeIds": [
           "6"
         ],
+        "id": "56",
         "text": "je suis heureux"
       }
     ],
@@ -68,32 +68,32 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "11"
+    ],
     "id": "61",
     "language": "fr",
     "name": "Support du mot-clef \"Etant donné qu'\"",
-    "sourceIds": [
-      "11"
-    ],
     "steps": [
       {
-        "id": "58",
-        "sourceIds": [
+        "astNodeIds": [
           "8"
         ],
+        "id": "58",
         "text": "offrir un gâteau rend heureux"
       },
       {
-        "id": "59",
-        "sourceIds": [
+        "astNodeIds": [
           "9"
         ],
+        "id": "59",
         "text": "on m'offre 1 gâteau"
       },
       {
-        "id": "60",
-        "sourceIds": [
+        "astNodeIds": [
           "10"
         ],
+        "id": "60",
         "text": "je suis heureux"
       }
     ],
@@ -102,32 +102,32 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "15"
+    ],
     "id": "65",
     "language": "fr",
     "name": "Support du mot-clef \"Étant donné que \"",
-    "sourceIds": [
-      "15"
-    ],
     "steps": [
       {
-        "id": "62",
-        "sourceIds": [
+        "astNodeIds": [
           "12"
         ],
+        "id": "62",
         "text": "j'aime les gâteaux"
       },
       {
-        "id": "63",
-        "sourceIds": [
+        "astNodeIds": [
           "13"
         ],
+        "id": "63",
         "text": "on m'offre 1 gâteau"
       },
       {
-        "id": "64",
-        "sourceIds": [
+        "astNodeIds": [
           "14"
         ],
+        "id": "64",
         "text": "je suis heureux"
       }
     ],
@@ -136,32 +136,32 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "19"
+    ],
     "id": "69",
     "language": "fr",
     "name": "Support du mot-clef \"Étant donné qu'\"",
-    "sourceIds": [
-      "19"
-    ],
     "steps": [
       {
-        "id": "66",
-        "sourceIds": [
+        "astNodeIds": [
           "16"
         ],
+        "id": "66",
         "text": "offrir un gâteau rend heureux"
       },
       {
-        "id": "67",
-        "sourceIds": [
+        "astNodeIds": [
           "17"
         ],
+        "id": "67",
         "text": "on m'offre 1 gâteau"
       },
       {
-        "id": "68",
-        "sourceIds": [
+        "astNodeIds": [
           "18"
         ],
+        "id": "68",
         "text": "je suis heureux"
       }
     ],
@@ -170,39 +170,39 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "24"
+    ],
     "id": "74",
     "language": "fr",
     "name": "Support du mot-clef \"Et que \"",
-    "sourceIds": [
-      "24"
-    ],
     "steps": [
       {
-        "id": "70",
-        "sourceIds": [
+        "astNodeIds": [
           "20"
         ],
+        "id": "70",
         "text": "un exemple de scénario en français"
       },
       {
-        "id": "71",
-        "sourceIds": [
+        "astNodeIds": [
           "21"
         ],
+        "id": "71",
         "text": "j'ai 2 gâteaux"
       },
       {
-        "id": "72",
-        "sourceIds": [
+        "astNodeIds": [
           "22"
         ],
+        "id": "72",
         "text": "quelqu'un m'offre 1 gâteau"
       },
       {
-        "id": "73",
-        "sourceIds": [
+        "astNodeIds": [
           "23"
         ],
+        "id": "73",
         "text": "j'ai 3 gâteaux"
       }
     ],
@@ -211,39 +211,39 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "29"
+    ],
     "id": "79",
     "language": "fr",
     "name": "Support du mot-clef \"Et qu'\"",
-    "sourceIds": [
-      "29"
-    ],
     "steps": [
       {
-        "id": "75",
-        "sourceIds": [
+        "astNodeIds": [
           "25"
         ],
+        "id": "75",
         "text": "un exemple de scénario en français"
       },
       {
-        "id": "76",
-        "sourceIds": [
+        "astNodeIds": [
           "26"
         ],
+        "id": "76",
         "text": "j'ai 2 gâteaux"
       },
       {
-        "id": "77",
-        "sourceIds": [
+        "astNodeIds": [
           "27"
         ],
+        "id": "77",
         "text": "on m'offre 1 gâteau"
       },
       {
-        "id": "78",
-        "sourceIds": [
+        "astNodeIds": [
           "28"
         ],
+        "id": "78",
         "text": "j'ai 3 gâteaux"
       }
     ],
@@ -252,39 +252,39 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "34"
+    ],
     "id": "84",
     "language": "fr",
     "name": "Support du mot-clef \"Et \"",
-    "sourceIds": [
-      "34"
-    ],
     "steps": [
       {
-        "id": "80",
-        "sourceIds": [
+        "astNodeIds": [
           "30"
         ],
+        "id": "80",
         "text": "un exemple de scénario en français"
       },
       {
-        "id": "81",
-        "sourceIds": [
+        "astNodeIds": [
           "31"
         ],
+        "id": "81",
         "text": "j'ai 2 gâteaux"
       },
       {
-        "id": "82",
-        "sourceIds": [
+        "astNodeIds": [
           "32"
         ],
+        "id": "82",
         "text": "quelqu'un m'offre 1 gâteau"
       },
       {
-        "id": "83",
-        "sourceIds": [
+        "astNodeIds": [
           "33"
         ],
+        "id": "83",
         "text": "j'ai 3 gâteaux"
       }
     ],
@@ -293,39 +293,39 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "39"
+    ],
     "id": "89",
     "language": "fr",
     "name": "Support du mot-clef \"Mais que \"",
-    "sourceIds": [
-      "39"
-    ],
     "steps": [
       {
-        "id": "85",
-        "sourceIds": [
+        "astNodeIds": [
           "35"
         ],
+        "id": "85",
         "text": "un exemple de scénario en français"
       },
       {
-        "id": "86",
-        "sourceIds": [
+        "astNodeIds": [
           "36"
         ],
+        "id": "86",
         "text": "j'ai 2 gâteaux"
       },
       {
-        "id": "87",
-        "sourceIds": [
+        "astNodeIds": [
           "37"
         ],
+        "id": "87",
         "text": "quelqu'un me vole 1 gâteau"
       },
       {
-        "id": "88",
-        "sourceIds": [
+        "astNodeIds": [
           "38"
         ],
+        "id": "88",
         "text": "j'ai 1 gâteau"
       }
     ],
@@ -334,39 +334,39 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "44"
+    ],
     "id": "94",
     "language": "fr",
     "name": "Support du mot-clef \"Mais qu'\"",
-    "sourceIds": [
-      "44"
-    ],
     "steps": [
       {
-        "id": "90",
-        "sourceIds": [
+        "astNodeIds": [
           "40"
         ],
+        "id": "90",
         "text": "un exemple de scénario en français"
       },
       {
-        "id": "91",
-        "sourceIds": [
+        "astNodeIds": [
           "41"
         ],
+        "id": "91",
         "text": "j'ai 2 gâteaux"
       },
       {
-        "id": "92",
-        "sourceIds": [
+        "astNodeIds": [
           "42"
         ],
+        "id": "92",
         "text": "on me vole 1 gâteau"
       },
       {
-        "id": "93",
-        "sourceIds": [
+        "astNodeIds": [
           "43"
         ],
+        "id": "93",
         "text": "j'ai 1 gâteau"
       }
     ],
@@ -375,39 +375,39 @@
 }
 {
   "pickle": {
+    "astNodeIds": [
+      "49"
+    ],
     "id": "99",
     "language": "fr",
     "name": "Support du mot-clef \"Mais \"",
-    "sourceIds": [
-      "49"
-    ],
     "steps": [
       {
-        "id": "95",
-        "sourceIds": [
+        "astNodeIds": [
           "45"
         ],
+        "id": "95",
         "text": "un exemple de scénario en français"
       },
       {
-        "id": "96",
-        "sourceIds": [
+        "astNodeIds": [
           "46"
         ],
+        "id": "96",
         "text": "j'ai 2 gâteaux"
       },
       {
-        "id": "97",
-        "sourceIds": [
+        "astNodeIds": [
           "47"
         ],
+        "id": "97",
         "text": "quelqu'un me vole 1 gâteau"
       },
       {
-        "id": "98",
-        "sourceIds": [
+        "astNodeIds": [
           "48"
         ],
+        "id": "98",
         "text": "j'ai 1 gâteau"
       }
     ],

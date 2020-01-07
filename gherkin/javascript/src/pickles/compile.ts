@@ -1,11 +1,10 @@
-import { messages } from 'cucumber-messages'
+import { messages, IdGenerator } from 'cucumber-messages'
 import IGherkinDocument = messages.IGherkinDocument
-import { NewId } from '../types'
 
 export default function compile(
   gherkinDocument: IGherkinDocument,
   uri: string,
-  newId: NewId
+  newId: IdGenerator.NewId
 ) {
   const pickles: messages.IPickle[] = []
 
@@ -63,7 +62,7 @@ function compileRule(
   language: string,
   pickles: messages.IPickle[],
   uri: string,
-  newId: NewId
+  newId: IdGenerator.NewId
 ) {
   let ruleBackgroundSteps = [].concat(featureBackgroundSteps)
 
@@ -103,7 +102,7 @@ function compileScenario(
   language: string,
   pickles: messages.IPickle[],
   uri: string,
-  newId: NewId
+  newId: IdGenerator.NewId
 ) {
   const steps =
     scenario.steps.length === 0
@@ -117,7 +116,7 @@ function compileScenario(
   const pickle = messages.Pickle.create({
     id: newId(),
     uri,
-    sourceIds: [scenario.id],
+    astNodeIds: [scenario.id],
     tags: pickleTags(tags),
     name: scenario.name,
     language,
@@ -133,7 +132,7 @@ function compileScenarioOutline(
   language: string,
   pickles: messages.IPickle[],
   uri: string,
-  newId: NewId
+  newId: IdGenerator.NewId
 ) {
   scenario.examples
     .filter(e => e.tableHeader !== null)
@@ -163,7 +162,7 @@ function compileScenarioOutline(
           messages.Pickle.create({
             id: newId(),
             uri,
-            sourceIds: [scenario.id, valuesRow.id],
+            astNodeIds: [scenario.id, valuesRow.id],
             name: interpolate(scenario.name, variableCells, valuesRow.cells),
             language,
             steps,
@@ -201,9 +200,9 @@ function createPickleArguments(
     const docString = messages.PickleStepArgument.PickleDocString.create({
       content: interpolate(argument.content, variableCells, valueCells),
     })
-    if (argument.contentType) {
-      docString.contentType = interpolate(
-        argument.contentType,
+    if (argument.mediaType) {
+      docString.mediaType = interpolate(
+        argument.mediaType,
         variableCells,
         valueCells
       )
@@ -234,7 +233,7 @@ function pickleSteps(
   scenario: messages.GherkinDocument.Feature.IScenario,
   variableCells: messages.GherkinDocument.Feature.TableRow.ITableCell[],
   valuesRow: messages.GherkinDocument.Feature.ITableRow,
-  newId: NewId
+  newId: IdGenerator.NewId
 ) {
   return scenario.steps.map(s => pickleStep(s, variableCells, valuesRow, newId))
 }
@@ -243,11 +242,11 @@ function pickleStep(
   step: messages.GherkinDocument.Feature.IStep,
   variableCells: messages.GherkinDocument.Feature.TableRow.ITableCell[],
   valuesRow: messages.GherkinDocument.Feature.ITableRow | null,
-  newId: NewId
+  newId: IdGenerator.NewId
 ) {
-  const sourceIds = [step.id]
+  const astNodeIds = [step.id]
   if (valuesRow) {
-    sourceIds.push(valuesRow.id)
+    astNodeIds.push(valuesRow.id)
   }
   const valueCells = valuesRow ? valuesRow.cells : []
 
@@ -255,7 +254,7 @@ function pickleStep(
     id: newId(),
     text: interpolate(step.text, variableCells, valueCells),
     argument: createPickleArguments(step, variableCells, valueCells),
-    sourceIds,
+    astNodeIds,
   })
 }
 
@@ -266,6 +265,6 @@ function pickleTags(tags: messages.GherkinDocument.Feature.ITag[]) {
 function pickleTag(tag: messages.GherkinDocument.Feature.ITag) {
   return messages.Pickle.PickleTag.create({
     name: tag.name,
-    sourceId: tag.id,
+    astNodeId: tag.id,
   })
 }

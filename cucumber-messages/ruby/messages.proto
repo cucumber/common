@@ -1,5 +1,6 @@
 syntax = "proto3";
-package cucumber.messages;
+package io.cucumber.messages;
+option go_package = "messages";
 
 // When removing a field, replace it with reserved, rather than deleting the line.
 // When adding a field, add it to the end and increment the number by one.
@@ -39,33 +40,34 @@ message Envelope {
   oneof message {
     // Gherkin messages
     Source source = 1;
-    GherkinDocument gherkinDocument = 2;
+    GherkinDocument gherkin_document = 2;
     Pickle pickle = 3;
     Attachment attachment = 4;
     // Execution messages
-    TestCaseStarted testCaseStarted = 5;
-    TestStepStarted testStepStarted = 6;
-    TestStepFinished testStepFinished = 7;
-    TestCaseFinished testCaseFinished = 8;
-    PickleAccepted pickleAccepted = 9;
-    PickleRejected pickleRejected = 10;
-    TestCasePrepared testCasePrepared = 11;
-    TestRunStarted testRunStarted = 12;
-    TestRunFinished testRunFinished = 13;
+    TestCaseStarted test_case_started = 5;
+    TestStepStarted test_step_started = 6;
+    TestStepFinished test_step_finished = 7;
+    TestCaseFinished test_case_finished = 8;
+    PickleAccepted pickle_accepted = 9;
+    PickleRejected pickle_rejected = 10;
+    TestCasePrepared test_case_prepared = 11;
+    TestRunStarted test_run_started = 12;
+    TestRunFinished test_run_finished = 13;
     // Cucumber-Engine Messages
-    CommandStart commandStart = 14;
-    CommandActionComplete commandActionComplete = 15;
-    CommandRunBeforeTestRunHooks commandRunBeforeTestRunHooks = 16;
-    CommandInitializeTestCase commandInitializeTestCase = 17;
-    CommandRunBeforeTestCaseHook commandRunBeforeTestCaseHook = 18;
-    CommandRunTestStep commandRunTestStep = 19;
-    CommandRunAfterTestCaseHook commandRunAfterTestCaseHook = 20;
-    CommandRunAfterTestRunHooks commandRunAfterTestRunHooks = 21;
-    CommandGenerateSnippet commandGenerateSnippet = 22;
-    string commandError = 23;
-    TestCase testCase = 24;
-    StepDefinitionConfig stepDefinitionConfig = 25;
-    TestCaseHookDefinitionConfig testCaseHookDefinitionConfig = 26;
+    CommandStart command_start = 14;
+    CommandActionComplete command_action_complete = 15;
+    CommandRunBeforeTestRunHooks command_run_before_test_run_hooks = 16;
+    CommandInitializeTestCase command_initialize_test_case = 17;
+    CommandRunBeforeTestCaseHook command_run_before_test_case_hook = 18;
+    CommandRunTestStep command_run_test_step = 19;
+    CommandRunAfterTestCaseHook command_run_after_test_case_hook = 20;
+    CommandRunAfterTestRunHooks command_run_after_test_run_hooks = 21;
+    CommandGenerateSnippet command_generate_snippet = 22;
+    string command_error = 23;
+    TestCase test_case = 24;
+    StepDefinition step_definition = 25;
+    Hook hook = 26;
+    ParameterType parameter_type = 27;
   }
 }
 
@@ -89,28 +91,6 @@ message SourceReference {
   Location location = 2;
 }
 
-/**
- * Meta information about encoded contents
- */
-message Media {
-  // The encoding of the data
-  Encoding encoding = 1;
-  /**
-   * The content type of the data. This can be any valid
-   * [IANA Media Type](https://www.iana.org/assignments/media-types/media-types.xhtml)
-   * as well as Cucumber-specific media types such as `text/x.cucumber.gherkin+plain`
-   * and `text/x.cucumber.stacktrace+plain`
-   */
-  string content_type = 2;
-
-  enum Encoding {
-    // Base64 encoded binary data
-    BASE64 = 0;
-    // UTF8 encoded string
-    UTF8 = 1;
-  }
-}
-
 ////// Source
 
 /**
@@ -124,8 +104,10 @@ message Source {
   string uri = 1;
   // The contents of the file
   string data = 2;
-  // The media type of the file
-  Media media = 3;
+  reserved 3;
+  // The media type of the file. Can be used to specify custom types, such as
+  // text/x.cucumber.gherkin+plain
+  string media_type = 4;
 }
 
 ////// Gherkin
@@ -288,7 +270,7 @@ message GherkinDocument {
 
       message DocString {
         Location location = 1;
-        string content_type = 2;
+        string media_type = 2;
         string content = 3;
         string delimiter = 4;
       }
@@ -311,16 +293,29 @@ message GherkinDocument {
  */
 message Attachment {
   SourceReference source = 1;
-  string data = 2;
-  Media media = 3;
-  string testStepId = 4;
-  string testCaseStartedId = 5;
+  reserved 2, 3;
+  string test_step_id = 4;
+  string test_case_started_id = 5;
+  // The body of the attachment
+  oneof body {
+    // For text/* media types
+    string text = 6;
+    // For all non-text/ media types
+    bytes binary = 7;
+  }
+  /**
+   * The media type of the data. This can be any valid
+   * [IANA Media Type](https://www.iana.org/assignments/media-types/media-types.xhtml)
+   * as well as Cucumber-specific media types such as `text/x.cucumber.gherkin+plain`
+   * and `text/x.cucumber.stacktrace+plain`
+   */
+  string media_type = 8;
 }
 
 ////// Pickles
 
 /**
- * A `Pickle` represents a test case Cucumber can *execute*. It is typically derived
+ * A `Pickle` represents a template for a `TestCase`. It is typically derived
  * from another format, such as [GherkinDocument](#io.cucumber.messages.GherkinDocument).
  * In the future a `Pickle` may be derived from other formats such as Markdown or
  * Excel files.
@@ -328,6 +323,8 @@ message Attachment {
  * By making `Pickle` the main data structure Cucumber uses for execution, the
  * implementation of Cucumber itself becomes simpler, as it doesn't have to deal
  * with the complex structure of a [GherkinDocument](#io.cucumber.messages.GherkinDocument).
+ *
+ * Each `PickleStep` of a `Pickle` is matched with a `StepDefinition` to create a `TestCase`
  */
 message Pickle {
   /**
@@ -350,19 +347,19 @@ message Pickle {
    */
   repeated PickleTag tags = 6;
   /**
-   * Points to the source locations of the pickle. The last one represents the unique
+   * Points to the AST node locations of the pickle. The last one represents the unique
    * id of the pickle. A pickle constructed from `Examples` will have the first
-   * sourceId originating from the `Scenario`, and the second from the table row.
+   * id originating from the `Scenario` AST node, and the second from the `TableRow` AST node.
    */
-  repeated string sourceIds = 7;
+  repeated string ast_node_ids = 7;
 
   /**
    * A tag
    */
   message PickleTag {
     string name = 1;
-    // Reference to the source id
-    string sourceId = 2;
+    // Points to the AST node this was created from
+    string ast_node_id = 2;
   }
 
   /**
@@ -376,7 +373,7 @@ message Pickle {
     string id = 3;
     // References the IDs of the source of the step. For Gherkin, this can be
     // the ID of a Step, and possibly also the ID of a TableRow
-    repeated string sourceIds = 4;
+    repeated string ast_node_ids = 4;
   }
 }
 
@@ -390,7 +387,7 @@ message PickleStepArgument {
   }
 
   message PickleDocString {
-    string contentType = 1;
+    string media_type = 1;
     string content = 2;
   }
 
@@ -409,22 +406,35 @@ message PickleStepArgument {
 
 ////// TestCases
 
+/**
+ * A `TestCase` contains a sequence of `TestStep`s.
+ */
 message TestCase {
   string id = 1;
-  string pickleId = 2;
-  repeated TestStep testSteps = 3;
+  // The ID of the `Pickle` this `TestCase` is derived from.
+  string pickle_id = 2;
+  repeated TestStep test_steps = 3;
 
+  /**
+   * A `TestStep` is derived from either a `PickleStep`
+   * combined with a `StepDefinition`, or from a `Hook`.
+   */
   message TestStep {
     string id = 1;
-    // Pointer to the PickleStep (if derived from a PickleStep)
-    string pickleStepId = 2;
-    // Pointer to all the matching StepDefinitions (if derived from a PickleStep)
-    // TODO: Should be renamed stepDefinitionIds
-    repeated string stepDefinitionId = 3;
-    // All the arguments from the match (if derived from a PickleStep and there was exactly 1 StepDefinition)
-    repeated StepMatchArgument stepMatchArguments = 4;
-    // Pointer to the TestCaseHookDefinitionConfig (if derived from a Hook)
-    string hookId = 5;
+    // Pointer to the `PickleStep` (if derived from a PickleStep)
+    string pickle_step_id = 2;
+    // Pointer to all the matching `StepDefinition`s (if derived from a PickleStep)
+    repeated string step_definition_ids = 3;
+    // A list of list of StepMatchArgument (if derived from a `StepDefinition`).
+    // Each element represents a matching step definition. A size of 0 means `UNDEFINED`,
+    // and a size of 2+ means `AMBIGUOUS`
+    repeated StepMatchArgumentsList step_match_arguments_lists = 4;
+    // Pointer to the `Hook` (if derived from a Hook)
+    string hook_id = 5;
+
+    message StepMatchArgumentsList {
+      repeated StepMatchArgument step_match_arguments = 1;
+    }
   }
 }
 
@@ -433,11 +443,11 @@ message TestCase {
 ////// Filtering
 
 message PickleAccepted {
-  string pickleId = 1;
+  string pickle_id = 1;
 }
 
 message PickleRejected {
-  string pickleId = 2;
+  string pickle_id = 2;
 }
 
 ////// Results
@@ -448,13 +458,13 @@ message TestRunStarted {
 
 // DEPRECATED. Use TestCase.TestStep
 message TestCasePreparedStep {
-  SourceReference sourceLocation = 1;
-  SourceReference actionLocation = 2;
+  SourceReference source_location = 1;
+  SourceReference action_location = 2;
 }
 
 // DEPRECATED. Use TestCase
 message TestCasePrepared {
-  string pickleId = 1;
+  string pickle_id = 1;
   repeated TestCasePreparedStep steps = 2;
 }
 
@@ -466,7 +476,7 @@ message TestCaseStarted {
    * should increase by 1.
    */
   uint32 attempt = 3;
-  string testCaseId = 4;
+  string test_case_id = 4;
   /**
    * Because a `TestCase` can be run multiple times (in case of a retry),
    * we use this field to group messages relating to the same attempt.
@@ -487,32 +497,34 @@ message TestCaseStarted {
 
 message TestCaseFinished {
   Timestamp timestamp = 1;
-  TestResult testResult = 2;
-  string testCaseStartedId = 3;
+  reserved 2;
+  string test_case_started_id = 3;
 }
 
 message TestStepStarted {
   Timestamp timestamp = 1;
-  string testStepId = 2;
-  string testCaseStartedId = 3;
+  string test_step_id = 2;
+  string test_case_started_id = 3;
 }
 
 message TestStepFinished {
-  TestResult testResult = 1;
+  TestResult test_result = 1;
   Timestamp timestamp = 2;
-  string testStepId = 3;
-  string testCaseStartedId = 4;
+  string test_step_id = 3;
+  string test_case_started_id = 4;
 }
 
 message TestResult {
   Status status = 1;
   string message = 2;
   Duration duration = 3;
-  bool willBeRetried = 4;
+  bool will_be_retried = 4;
 
   /**
-   * Status of a step. Can also represent status of a Pickle (aggregated
-   * from the status of its steps).
+   * Status of a `PickleStep`.
+   *
+   * A `Pickle` message does not carry its own `TestResult`, but this can be accessed
+   * using `CucumberQuery#getTestResult(testCase)`
    *
    * The ordinal values of statuses are significant. The status of a Pickle
    * is determined by the union of statuses of its steps. The
@@ -554,27 +566,27 @@ message TestRunFinished {
 ////// Commands
 
 message CommandStart {
-  string baseDirectory = 2;
-  SourcesConfig sourcesConfig = 3;
-  RuntimeConfig runtimeConfig = 4;
-  SupportCodeConfig supportCodeConfig = 5;
+  string base_directory = 2;
+  SourcesConfig sources_config = 3;
+  RuntimeConfig runtime_config = 4;
+  SupportCodeConfig support_code_config = 5;
 }
 
 message SourcesConfig {
-  repeated string absolutePaths = 1;
+  repeated string absolute_paths = 1;
   string language = 2;
   SourcesFilterConfig filters = 3;
   SourcesOrder order = 4;
 }
 
 message SourcesFilterConfig {
-  string tagExpression = 1;
-  repeated string nameRegularExpressions = 2;
-  repeated UriToLinesMapping uriToLinesMapping = 3;
+  string tag_expression = 1;
+  repeated string name_regular_expressions = 2;
+  repeated UriToLinesMapping uri_to_lines_mapping = 3;
 }
 
 message UriToLinesMapping {
-  string absolutePath = 1;
+  string absolute_path = 1;
   repeated uint64 lines = 2;
 }
 
@@ -589,32 +601,29 @@ enum SourcesOrderType {
 }
 
 message RuntimeConfig {
-  bool isFailFast = 1;
-  bool isDryRun = 2;
-  bool isStrict = 3;
-  uint64 maxParallel = 4;
+  bool is_fail_fast = 1;
+  bool is_dry_run = 2;
+  bool is_strict = 3;
+  uint64 max_parallel = 4;
 }
 
 message SupportCodeConfig {
-  repeated TestCaseHookDefinitionConfig beforeTestCaseHookDefinitionConfigs = 1;
-  repeated TestCaseHookDefinitionConfig afterTestCaseHookDefinitionConfigs = 2;
-  repeated StepDefinitionConfig stepDefinitionConfigs = 3;
-  repeated ParameterTypeConfig parameterTypeConfigs = 4;
+  repeated Hook before_test_case_hooks = 1;
+  repeated Hook after_test_case_hooks = 2;
+  repeated StepDefinition step_definitions = 3;
+  repeated ParameterType parameter_types = 4;
 }
 
-// TODO: Rename to Hook
-message TestCaseHookDefinitionConfig {
+message Hook {
   string id = 1;
-  string tagExpression = 2;
-  // TODO: rename to sourceReference as Location is another type and this is ambiguous.
-  SourceReference location = 3;
+  string tag_expression = 2;
+  SourceReference source_reference = 3;
 }
 
-// TODO: Rename to StepDefinition
-message StepDefinitionConfig {
+message StepDefinition {
   string id = 1;
   StepDefinitionPattern pattern = 2;
-  SourceReference location = 3;
+  SourceReference source_reference = 3;
 }
 
 message StepDefinitionPattern {
@@ -627,55 +636,56 @@ enum StepDefinitionPatternType {
   REGULAR_EXPRESSION = 1;
 }
 
-message ParameterTypeConfig {
+message ParameterType {
+  // The name is unique, so we don't need an id.
   string name = 1;
-  repeated string regularExpressions = 2;
-  bool preferForRegularExpressionMatch = 3;
-  bool useForSnippets = 4;
+  repeated string regular_expressions = 2;
+  bool prefer_for_regular_expression_match = 3;
+  bool use_for_snippets = 4;
 }
 
 message CommandActionComplete {
-  string completedId = 1;
+  string completed_id = 1;
 
   oneof result {
     // Used for responses to CommandRunBeforeTestCaseHook / CommandRunTestStep / CommandRunAfterTestCaseHook
-    TestResult testResult = 2;
+    TestResult test_result = 2;
     // Used for response to CommandGenerateSnippet
     string snippet = 3;
   }
 }
 
 message CommandRunBeforeTestRunHooks {
-  string actionId = 1;
+  string action_id = 1;
 }
 
 message CommandRunAfterTestRunHooks {
-  string actionId = 1;
+  string action_id = 1;
 }
 
 message CommandInitializeTestCase {
-  string actionId = 1;
+  string action_id = 1;
   Pickle pickle = 2;
 }
 
 message CommandRunBeforeTestCaseHook {
-  string actionId = 1;
-  string testCaseHookDefinitionId = 2;
-  string testCaseId = 3;
+  string action_id = 1;
+  string hook_id = 2;
+  string test_case_id = 3;
 }
 
 message CommandRunAfterTestCaseHook {
-  string actionId = 1;
-  string testCaseHookDefinitionId = 2;
-  string testCaseId = 3;
+  string action_id = 1;
+  string hook_id = 2;
+  string test_case_id = 3;
 }
 
 message CommandRunTestStep {
-  string actionId = 1;
-  string stepDefinitionId = 2;
-  repeated StepMatchArgument stepMatchArguments = 3;
-  PickleStepArgument pickleStepArgument = 4;
-  string testCaseId = 5;
+  string action_id = 1;
+  string step_definition_id = 2;
+  repeated StepMatchArgument step_match_arguments = 3;
+  PickleStepArgument pickle_step_argument = 4;
+  string test_case_id = 5;
 }
 
 /**
@@ -687,7 +697,7 @@ message CommandRunTestStep {
  * This message closely matches the `Argument` class in the `cucumber-expressions` library.
  */
 message StepMatchArgument {
-  string parameterTypeName = 1;
+  string parameter_type_name = 1;
   /**
    * Represents the outermost capture group of an argument. This message closely matches the
    * `Group` class in the `cucumber-expressions` library.
@@ -702,12 +712,12 @@ message StepMatchArgument {
 }
 
 message CommandGenerateSnippet {
-  string actionId = 1;
-  repeated GeneratedExpression generatedExpressions = 2;
-  PickleStepArgument pickleStepArgument = 3;
+  string action_id = 1;
+  repeated GeneratedExpression generated_expressions = 2;
+  PickleStepArgument pickle_step_argument = 3;
 }
 
 message GeneratedExpression {
   string text = 1;
-  repeated string parameterTypeNames = 2;
+  repeated string parameter_type_names = 2;
 }

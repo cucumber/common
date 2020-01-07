@@ -1,17 +1,16 @@
 import AstNode from './AstNode'
-import { messages } from 'cucumber-messages'
+import { messages, IdGenerator } from 'cucumber-messages'
 import { RuleType, TokenType } from './Parser'
 import Token from './Token'
 import { AstBuilderException } from './Errors'
-import { NewId } from './types'
 import createLocation from './cli/createLocation'
 
 export default class AstBuilder {
   private stack: AstNode[]
   private comments: messages.GherkinDocument.IComment[]
-  private readonly newId: NewId
+  private readonly newId: IdGenerator.NewId
 
-  constructor(newId: NewId) {
+  constructor(newId: IdGenerator.NewId) {
     this.newId = newId
     if (!newId) {
       throw new Error('No newId')
@@ -145,7 +144,7 @@ export default class AstBuilder {
       }
       case RuleType.DocString: {
         const separatorToken = node.getTokens(TokenType.DocStringSeparator)[0]
-        const contentType =
+        const mediaType =
           separatorToken.matchedText.length > 0
             ? separatorToken.matchedText
             : undefined
@@ -158,8 +157,8 @@ export default class AstBuilder {
           delimiter: separatorToken.line.trimmedLineText.substring(0, 3),
         })
         // conditionally add this like this (needed to make tests pass on node 0.10 as well as 4.0)
-        if (contentType) {
-          result.contentType = contentType
+        if (mediaType) {
+          result.mediaType = mediaType
         }
         return result
       }

@@ -1,18 +1,26 @@
 import { storiesOf } from '@storybook/react'
 import React from 'react'
 import { messages } from 'cucumber-messages'
-import all from '../testdata/all.json'
 import StepList from '../src/components/gherkin/StepList'
 import GherkinDocumentList from '../src/components/app/GherkinDocumentList'
 import CucumberQuery from 'cucumber-query'
 import CucumberQueryContext from '../src/CucumberQueryContext';
 
-const envelopes = all.map(o => messages.Envelope.fromObject(o))
+// @ts-ignore
+import ndjson from '../testdata/all.ndjson'
+import { GherkinQuery } from 'gherkin'
+const envelopes: messages.IEnvelope[] = ndjson.trim().split('\n')
+  .map((json: string) => messages.Envelope.fromObject(JSON.parse(json)))
 
 storiesOf('Features', module)
   .add('Document list', () => {
     const gherkinDocuments = envelopes.filter(e => e.gherkinDocument).map(e => e.gherkinDocument)
-    const cucumberQuery = envelopes.reduce((q, e) => q.update(e), new CucumberQuery())
+    const gherkinQuery = new GherkinQuery()
+    const cucumberQuery = new CucumberQuery(gherkinQuery)
+    for (const envelope of envelopes) {
+      gherkinQuery.update(envelope)
+      cucumberQuery.update(envelope)
+    }
     return <GherkinDocumentList
       gherkinDocuments={gherkinDocuments}
       cucumberQuery={cucumberQuery}
@@ -31,27 +39,33 @@ storiesOf('Features', module)
     ]
 
     class StubCucumberQuery extends CucumberQuery {
-      getStepMatchArguments(uri: string, lineNumber: number): messages.IStepMatchArgument[] {
-        return [
-          new messages.StepMatchArgument({
-            group: new messages.StepMatchArgument.Group({
-              start: 7,
-              value: 'LHR-CDG',
-              children: [],
+      getStepResults(uri: string, lineNumber: number): messages.ITestResult[] {
+        return [];
+      }
+
+      getStepMatchArgumentsLists(uri: string, lineNumber: number): messages.TestCase.TestStep.IStepMatchArgumentsList[] {
+        return [new messages.TestCase.TestStep.StepMatchArgumentsList({
+          stepMatchArguments: [
+            new messages.StepMatchArgument({
+              group: new messages.StepMatchArgument.Group({
+                start: 7,
+                value: 'LHR-CDG',
+                children: [],
+              }),
             }),
-          }),
-          new messages.StepMatchArgument({
-            group: new messages.StepMatchArgument.Group({
-              start: 22,
-              value: '1st Nov',
-              children: [],
+            new messages.StepMatchArgument({
+              group: new messages.StepMatchArgument.Group({
+                start: 22,
+                value: '1st Nov',
+                children: [],
+              }),
             }),
-          }),
-        ]
+          ]
+        })]
       }
     }
 
-  return <CucumberQueryContext.Provider value={new StubCucumberQuery()}>
-      <StepList steps={steps}/>
+  return <CucumberQueryContext.Provider value={new StubCucumberQuery(new GherkinQuery())}>
+      <StepList steps={steps} renderStepMatchArguments={true}/>
     </CucumberQueryContext.Provider>
   })

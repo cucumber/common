@@ -23,16 +23,20 @@ interface IAccordionItemButtonProps {
 }
 
 const AccordionItemButton = styled(_AccordionItemButton)`
-  background-color: ${(props: IAccordionItemButtonProps) => statusColor(props.status).hex()};
+  background-color: ${(props: IAccordionItemButtonProps) =>
+    statusColor(props.status).hex()};
   cursor: pointer;
   padding: 10px;
   text-align: left;
   border: none;
-  
+
   &:hover {
-    background-color: ${(props: IAccordionItemButtonProps) => statusColor(props.status).darken(0.1).hex()};
+    background-color: ${(props: IAccordionItemButtonProps) =>
+      statusColor(props.status)
+        .darken(0.1)
+        .hex()};
   }
-  
+
   &:before {
     display: inline-block;
     content: '';
@@ -43,14 +47,13 @@ const AccordionItemButton = styled(_AccordionItemButton)`
     border-right: 2px solid currentColor;
     transform: rotate(-45deg);
   }
-  
-  &[aria-expanded=true]:before {
+
+  &[aria-expanded='true']:before {
     transform: rotate(45deg);
   }
 `
 
-const AccordionItemHeading = styled(_AccordionItemHeading)`
-`
+const AccordionItemHeading = styled(_AccordionItemHeading)``
 
 const AccordionItemPanel = styled(_AccordionItemPanel)`
   padding: 20px;

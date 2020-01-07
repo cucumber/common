@@ -180,12 +180,12 @@ func (m *matcher) MatchDocStringSeparator(line *Line) (ok bool, token *Token, er
 	}
 	if m.activeDocStringSeparator != "" {
 		// open
-		contentType := line.TrimmedLineText[len(m.activeDocStringSeparator):]
+		mediaType := line.TrimmedLineText[len(m.activeDocStringSeparator):]
 		m.indentToRemove = line.Indent()
 		token, ok = m.newTokenAtLocation(line.LineNumber, line.Indent()), true
 		token.Type = TokenTypeDocStringSeparator
 		token.Keyword = m.activeDocStringSeparator
-		token.Text = contentType
+		token.Text = mediaType
 	}
 	return
 }

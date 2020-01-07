@@ -4,7 +4,8 @@ module Cucumber
   module Messages
     module WriteNdjson
       def write_ndjson_to(io)
-        json = self.to_json
+        # https://github.com/ruby-protobuf/protobuf/pull/410
+        json = self.to_json(lower_camel_case: true)
         ob = JSON.parse(json)
         remove_empties(ob)
         io.puts(JSON.generate(ob))
@@ -13,7 +14,7 @@ module Cucumber
       def remove_empties(ob)
         if Hash === ob
           ob.each do |key, value|
-            if value == []
+            if value == [] || value == '' || value == 0
               ob.delete(key)
             else
               remove_empties(value)

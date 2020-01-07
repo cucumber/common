@@ -9,9 +9,9 @@ import {
   AccordionItemHeading,
   AccordionItemPanel,
 } from '../styled-react-accessible-accordion'
-import CucumberQueryContext from '../../CucumberQueryContext';
-import CucumberQuery from 'cucumber-query';
-import UriContext from '../../UriContext';
+import CucumberQueryContext from '../../CucumberQueryContext'
+import CucumberQuery from 'cucumber-query'
+import UriContext from '../../UriContext'
 
 const Body = styled.div`
   font: 14px 'Open Sans', sans-serif;
@@ -26,9 +26,9 @@ interface IProps {
 }
 
 const GherkinDocumentList: React.FunctionComponent<IProps> = ({
-                                                                gherkinDocuments,
-                                                                cucumberQuery,
-                                                              }) => {
+  gherkinDocuments,
+  cucumberQuery,
+}) => {
   return (
     <Body>
       <link
@@ -40,13 +40,15 @@ const GherkinDocumentList: React.FunctionComponent<IProps> = ({
         rel="stylesheet"
       />
       <CucumberQueryContext.Provider value={cucumberQuery}>
-        <Accordion
-          allowMultipleExpanded={false}
-          allowZeroExpanded={true}
-        >
+        <Accordion allowMultipleExpanded={false} allowZeroExpanded={true}>
           {gherkinDocuments.map(gherkinDocument => {
-            const testResults = cucumberQuery.getDocumentResults(gherkinDocument.uri)
-            const status = testResults.length > 0 ? testResults[0].status : messages.TestResult.Status.UNKNOWN
+            const testResults = cucumberQuery.getDocumentResults(
+              gherkinDocument.uri
+            )
+            const status =
+              testResults.length > 0
+                ? testResults[0].status
+                : messages.TestResult.Status.UNKNOWN
 
             return (
               <AccordionItem
@@ -60,7 +62,7 @@ const GherkinDocumentList: React.FunctionComponent<IProps> = ({
                 </AccordionItemHeading>
                 <AccordionItemPanel>
                   <UriContext.Provider value={gherkinDocument.uri}>
-                    <GherkinDocument gherkinDocument={gherkinDocument}/>
+                    <GherkinDocument gherkinDocument={gherkinDocument} />
                   </UriContext.Provider>
                 </AccordionItemPanel>
               </AccordionItem>

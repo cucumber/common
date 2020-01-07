@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 Gem::Specification.new do |s|
   s.name        = 'cucumber-messages'
-  s.version     = '7.0.0'
+  s.version     = '8.0.0'
   s.authors     = ["Aslak Hellesøy"]
   s.description = "Protocol Buffer messages for Cucumber's inter-process communication"
   s.summary     = "cucumber-messages-#{s.version}"
@@ -20,7 +20,8 @@ Gem::Specification.new do |s|
                   }
 
   s.add_dependency 'protobuf', '~> 3.10'
-  s.add_dependency 'json', '~> 2.2', '>= 2.2.0'
+  s.add_dependency 'json', '~> 2.3', '>= 2.3.0'
+
   s.add_development_dependency 'rake', '~> 13.0', '>= 13.0.1'
   s.add_development_dependency 'rspec', '~> 3.9', '>= 3.9.0'
 

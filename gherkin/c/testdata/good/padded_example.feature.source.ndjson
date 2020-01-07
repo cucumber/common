@@ -1,10 +1,7 @@
 {
   "source": {
     "data": "Feature: test\n\n  Scenario: test\n    Given a <color> ball with:\n      | type     | diameter |\n      | football |       69 |\n      |   pool   |      5.6 |\n\n\n    # The \"red\" cell below has the following whitespace characters on each side:\n    # - U+00A0 (non-breaking space)\n    # - U+0020 (space)\n    # - U+0009 (tab)\n    # This is generated with `ruby -e 'STDOUT.write \"\\u00A0\\u0020\\u0009\".encode(\"utf-8\")' | pbcopy`\n    # and pasted. \n    Examples:\n      | color   |\n      |  \tred  \t|\n",
-    "media": {
-      "contentType": "text/x.cucumber.gherkin+plain",
-      "encoding": "UTF8"
-    },
+    "mediaType": "text/x.cucumber.gherkin+plain",
     "uri": "testdata/good/padded_example.feature"
   }
 }

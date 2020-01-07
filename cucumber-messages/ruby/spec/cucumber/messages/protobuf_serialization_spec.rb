@@ -7,7 +7,7 @@ module Cucumber
       it "can be serialised over a binary stream" do
         outgoing_messages = [
           Envelope.new(source: Source.new(data: 'Feature: Hello')),
-          Envelope.new(attachment: Attachment.new(data: 'some stack trace'))
+          Envelope.new(attachment: Attachment.new(binary: "JALLA"))
         ]
 
         io = StringIO.new

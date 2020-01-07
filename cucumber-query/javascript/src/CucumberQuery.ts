@@ -1,19 +1,7 @@
 import { messages } from 'cucumber-messages'
+import { GherkinQuery } from 'gherkin'
 
 export default class CucumberQuery {
-  private readonly uriBySourceId = new Map<string, string>()
-  private readonly locationBySourceId = new Map<string, messages.ILocation>()
-  private readonly gherkinStepById = new Map<
-    string,
-    messages.GherkinDocument.Feature.IStep
-  >()
-
-  private readonly pickleById = new Map<string, messages.IPickle>()
-  private readonly pickleStepById = new Map<
-    string,
-    messages.Pickle.IPickleStep
-  >()
-
   private readonly testCaseStartedById = new Map<
     string,
     messages.ITestCaseStarted
@@ -21,95 +9,86 @@ export default class CucumberQuery {
   private readonly testCaseById = new Map<string, messages.ITestCase>()
   private readonly testStepById = new Map<string, messages.TestCase.ITestStep>()
 
-  private readonly testStepResultsByUriAndLine = new Map<
-    string,
-    messages.ITestResult[]
-  >()
-  private readonly testCaseResultsByUriAndLine = new Map<
-    string,
-    messages.ITestResult[]
-  >()
   private readonly documentResultsByUri = new Map<
     string,
     messages.ITestResult[]
   >()
-
-  private readonly testStepMatchArgumentsByUriAndLine = new Map<
+  private readonly stepMatchArgumentsListsByPickleStepId = new Map<
     string,
-    messages.IStepMatchArgument[]
+    messages.TestCase.TestStep.IStepMatchArgumentsList[]
+  >()
+  private readonly testResultsByPickleStepId = new Map<
+    string,
+    messages.ITestResult[]
+  >()
+  private readonly testResultByPickleId = new Map<
+    string,
+    messages.ITestResult
   >()
 
+  public constructor(private readonly gherkinQuery: GherkinQuery) {}
+
+  public getStepResults(
+    uri: string,
+    lineNumber: number
+  ): messages.ITestResult[] {
+    const pickleStepIds = this.gherkinQuery.getPickleIds(uri, lineNumber)
+    return sortResultsBySeverity(
+      pickleStepIds.reduce((r: messages.ITestResult[], pickleStepId) => {
+        return r.concat(this.testResultsByPickleStepId.get(pickleStepId))
+      }, [])
+    )
+  }
+
+  public getScenarioResults(
+    uri: string,
+    lineNumber: number
+  ): messages.ITestResult[] {
+    const pickleIds = this.gherkinQuery.getPickleIds(uri, lineNumber)
+    return sortResultsBySeverity(
+      pickleIds.map(pickleId => this.testResultByPickleId.get(pickleId))
+    )
+  }
+
+  public getStepMatchArgumentsLists(
+    uri: string,
+    lineNumber: number
+  ): messages.TestCase.TestStep.IStepMatchArgumentsList[] {
+    const pickleStepIds = this.gherkinQuery.getPickleIds(uri, lineNumber)
+    if (pickleStepIds.length === 0) {
+      // This can happen in a feature file with a Background, and no Scenarios, because
+      // no pickles are generated in that case.
+      return []
+    }
+
+    // Background steps will have a pickleStepId for each scenario. However, they
+    // will be identical, so we just grab the first one
+    const pickleStepId = pickleStepIds[0]
+    const stepMatchArgumentsLists = this.stepMatchArgumentsListsByPickleStepId.get(
+      pickleStepId
+    )
+    if (stepMatchArgumentsLists === undefined) {
+      throw new Error(
+        `No StepMatchArgumentsList for pickle step id ${pickleStepId}`
+      )
+    }
+    return stepMatchArgumentsLists
+  }
+
   public update(message: messages.IEnvelope): CucumberQuery {
-    if (message.gherkinDocument && message.gherkinDocument.feature) {
-      for (const featureChild of message.gherkinDocument.feature.children) {
-        if (featureChild.background) {
-          this.updateBackground(
-            featureChild.background,
-            message.gherkinDocument.uri
-          )
-        }
-
-        if (featureChild.scenario) {
-          this.updateScenario(
-            featureChild.scenario,
-            message.gherkinDocument.uri
-          )
-        }
-
-        if (featureChild.rule) {
-          const ruleChildren = featureChild.rule.children
-          for (const ruleChild of ruleChildren) {
-            if (ruleChild.background) {
-              this.updateBackground(
-                ruleChild.background,
-                message.gherkinDocument.uri
-              )
-            }
-
-            if (ruleChild.scenario) {
-              this.updateScenario(
-                ruleChild.scenario,
-                message.gherkinDocument.uri
-              )
-            }
-          }
-        }
-      }
-    }
-
-    if (message.pickle) {
-      this.pickleById.set(message.pickle.id, message.pickle)
-      for (const pickleStep of message.pickle.steps) {
-        this.pickleStepById.set(pickleStep.id, pickleStep)
-      }
-    }
-
     if (message.testCase) {
       this.testCaseById.set(message.testCase.id, message.testCase)
+      this.testResultsByPickleStepId.set(message.testCase.pickleId, [])
 
       for (const testStep of message.testCase.testSteps) {
         this.testStepById.set(testStep.id, testStep)
 
         if (testStep.pickleStepId) {
-          const pickleStep = this.pickleStepById.get(testStep.pickleStepId)
-          if (pickleStep === undefined) {
-            throw new Error(
-              `Did not find a PickleStep with id "${
-                testStep.pickleStepId
-              }". Known ids:\n${Array.from(this.pickleStepById.keys()).join(
-                '\n'
-              )}`
-            )
-          }
-          for (const sourceId of pickleStep.sourceIds) {
-            const uri = this.uriBySourceId.get(sourceId)
-            const lineNumber = this.locationBySourceId.get(sourceId).line
-
-            this.testStepMatchArgumentsByUriAndLine.set(
-              `${uri}:${lineNumber}`,
-              testStep.stepMatchArguments
-            )
-          }
+          this.testResultsByPickleStepId.set(testStep.pickleStepId, [])
+          this.stepMatchArgumentsListsByPickleStepId.set(
+            testStep.pickleStepId,
+            testStep.stepMatchArgumentsLists
+          )
         } else if (testStep.hookId) {
           // Nothing to do
         }
@@ -128,33 +107,9 @@ export default class CucumberQuery {
         message.testStepFinished.testStepId
       )
       if (testStep.pickleStepId) {
-        const pickleStep = this.pickleStepById.get(testStep.pickleStepId)
-        if (pickleStep === undefined) {
-          throw new Error(
-            `Did not find a PickleStep with id "${
-              testStep.pickleStepId
-            }". Known ids:\n${Array.from(this.pickleStepById.keys()).join(
-              '\n'
-            )}`
-          )
-        }
-
-        for (const sourceId of pickleStep.sourceIds) {
-          const uri = this.uriBySourceId.get(sourceId)
-          const lineNumber = this.locationBySourceId.get(sourceId).line
-
-          let testStepResults = this.testStepResultsByUriAndLine.get(
-            `${uri}:${lineNumber}`
-          )
-          if (testStepResults === undefined) {
-            testStepResults = []
-            this.testStepResultsByUriAndLine.set(
-              `${uri}:${lineNumber}`,
-              testStepResults
-            )
-          }
-          testStepResults.push(message.testStepFinished.testResult)
-        }
+        this.testResultsByPickleStepId
+          .get(testStep.pickleStepId)
+          .push(message.testStepFinished.testResult)
       }
     }
 
@@ -171,105 +126,28 @@ export default class CucumberQuery {
           }". Known ids:\n${Array.from(this.testCaseById.keys()).join('\n')}`
         )
       }
-
-      const pickle = this.pickleById.get(testCase.pickleId)
-
-      const uri = pickle.uri
-      const lineNumbers = pickle.sourceIds.map(
-        sourceId => this.locationBySourceId.get(sourceId).line
-      )
-
-      for (const lineNumber of lineNumbers) {
-        let testCaseResults = this.testCaseResultsByUriAndLine.get(
-          `${uri}:${lineNumber}`
-        )
-        if (testCaseResults === undefined) {
-          testCaseResults = []
-          this.testCaseResultsByUriAndLine.set(
-            `${uri}:${lineNumber}`,
-            testCaseResults
-          )
-        }
-        testCaseResults.push(message.testCaseFinished.testResult)
-      }
-      let documentResults = this.documentResultsByUri.get(uri)
-      if (!documentResults) {
-        documentResults = []
-        this.documentResultsByUri.set(uri, documentResults)
-      }
-      if (message.testCaseFinished.testResult.status === undefined) {
-        throw new Error(
-          'Status not set for ' + JSON.stringify(message, null, 2)
-        )
-      }
-      documentResults.push(message.testCaseFinished.testResult)
+      const testStepResults = testCase.testSteps
+        .map(testStep => testStep.pickleStepId)
+        .reduce((r: messages.ITestResult[], pickleStepId) => {
+          const items = this.testResultsByPickleStepId.get(pickleStepId)
+          if (items === undefined) {
+            throw new Error(`Nothing for pickle step id ${pickleStepId}`)
+          }
+          return r.concat(items)
+        }, [])
+      const testCaseResults = sortResultsBySeverity(testStepResults)
+      this.testResultByPickleId.set(testCase.pickleId, testCaseResults[0])
     }
 
     return this
-  }
-
-  private updateBackground(
-    background: messages.GherkinDocument.Feature.IBackground,
-    uri: string
-  ) {
-    for (const step of background.steps) {
-      this.uriBySourceId.set(step.id, uri)
-      this.locationBySourceId.set(step.id, step.location)
-      this.gherkinStepById.set(step.id, step)
-    }
-  }
-
-  private updateScenario(
-    scenario: messages.GherkinDocument.Feature.IScenario,
-    uri: string
-  ) {
-    this.locationBySourceId.set(scenario.id, scenario.location)
-
-    for (const step of scenario.steps) {
-      this.uriBySourceId.set(step.id, uri)
-      this.locationBySourceId.set(step.id, step.location)
-      this.gherkinStepById.set(step.id, step)
-    }
-
-    for (const examples of scenario.examples) {
-      for (const tableRow of examples.tableBody) {
-        this.uriBySourceId.set(tableRow.id, uri)
-        this.locationBySourceId.set(tableRow.id, tableRow.location)
-      }
-    }
-  }
-
-  public getStepResults(
-    uri: string,
-    lineNumber: number
-  ): messages.ITestResult[] {
-    return this.testStepResultsByUriAndLine.get(`${uri}:${lineNumber}`) || []
-  }
-
-  public getScenarioResults(
-    uri: string,
-    lineNumber: number
-  ): messages.ITestResult[] {
-    return this.testCaseResultsByUriAndLine.get(`${uri}:${lineNumber}`) || []
   }
 
   public getDocumentResults(uri: string): messages.ITestResult[] {
     const results = this.documentResultsByUri.get(uri) || []
     return results.sort((a, b) => b.status.valueOf() - a.status.valueOf())
   }
+}
 
-  public getStepMatchArguments(
-    uri: string,
-    lineNumber: number
-  ): messages.IStepMatchArgument[] {
-    return (
-      this.testStepMatchArgumentsByUriAndLine.get(`${uri}:${lineNumber}`) || []
-    )
-  }
-
-  public getGherkinStep(
-    gherkinStepId: string
-  ): messages.GherkinDocument.Feature.IStep {
-    return this.gherkinStepById.get(gherkinStepId)
-  }
+function sortResultsBySeverity(testStepResults: messages.ITestResult[]) {
+  return testStepResults.sort((a, b) => b.status.valueOf() - a.status.valueOf())
 }

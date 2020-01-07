@@ -4,7 +4,7 @@ import (
 	"flag"
 	"fmt"
 	formatter "github.com/cucumber/cucumber-demo-formatter-go"
-	fio "github.com/cucumber/cucumber-messages-go/v7/io"
+	fio "github.com/cucumber/cucumber-messages-go/v8/io"
 	gio "github.com/gogo/protobuf/io"
 	"io"
 	"math"

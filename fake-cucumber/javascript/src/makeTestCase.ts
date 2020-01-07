@@ -1,42 +1,85 @@
-import { messages } from 'cucumber-messages'
-import ExpressionStepDefinition from './ExpressionStepDefinition'
+import { IdGenerator, messages } from 'cucumber-messages'
+import { GherkinQuery } from 'gherkin'
 import TestCase from './TestCase'
 import IStepDefinition from './IStepDefinition'
-import { IHook, HookType } from './IHook'
+import IHook from './IHook'
 import makePickleTestStep from './makePickleTestStep'
 import HookTestStep from './HookTestStep'
 import ITestStep from './ITestStep'
-
-function makeHookSteps(
-  pickle: messages.IPickle,
-  hooks: IHook[],
-  hookType: HookType
-): ITestStep[] {
-  return hooks
-    .map(hook => {
-      const supportCode = hook.match(pickle, hookType)
-      if (supportCode !== null) {
-        return new HookTestStep(hook.id, [supportCode])
-      }
-    })
-    .filter(testStep => testStep !== undefined)
-}
+import IClock from './IClock'
 
 export default function makeTestCase(
   pickle: messages.IPickle,
   stepDefinitions: IStepDefinition[],
-  hooks: IHook[]
+  beforeHooks: IHook[],
+  afterHooks: IHook[],
+  gherkinQuery: GherkinQuery,
+  newId: IdGenerator.NewId,
+  clock: IClock
 ): TestCase {
-  const beforeHookSteps = makeHookSteps(pickle, hooks, HookType.Before)
-  const afterHookSteps = makeHookSteps(pickle, hooks, HookType.After)
-
-  const pickleTestSteps = pickle.steps.map(pickleStep =>
-    makePickleTestStep(pickleStep, stepDefinitions)
+  const beforeHookSteps = makeHookSteps(
+    pickle,
+    beforeHooks,
+    false,
+    gherkinQuery,
+    newId,
+    clock
+  )
+  const pickleTestSteps = pickle.steps.map(pickleStep => {
+    const sourceFrames = pickleStep.astNodeIds.map(
+      astNodeId => `${pickle.uri}:${gherkinQuery.getLocation(astNodeId).line}`
+    )
+    return makePickleTestStep(
+      newId(),
+      pickleStep,
+      stepDefinitions,
+      sourceFrames,
+      clock
+    )
+  })
+  const afterHookSteps = makeHookSteps(
+    pickle,
+    afterHooks,
+    true,
+    gherkinQuery,
+    newId,
+    clock
   )
   const testSteps: ITestStep[] = []
     .concat(beforeHookSteps)
     .concat(pickleTestSteps)
     .concat(afterHookSteps)
 
-  return new TestCase(testSteps, pickle.id)
+  return new TestCase(newId(), testSteps, pickle.id, clock)
+}
+
+function makeHookSteps(
+  pickle: messages.IPickle,
+  hooks: IHook[],
+  alwaysExecute: boolean,
+  gherkinQuery: GherkinQuery,
+  newId: IdGenerator.NewId,
+  clock: IClock
+): ITestStep[] {
+  return hooks
+    .map(hook => {
+      const supportCodeExecutor = hook.match(pickle)
+      if (supportCodeExecutor !== null) {
+        const id = newId()
+
+        const sourceFrames = pickle.astNodeIds.map(
+          astNodeId =>
+            `${pickle.uri}:${gherkinQuery.getLocation(astNodeId).line}`
+        )
+        return new HookTestStep(
+          id,
+          hook.id,
+          alwaysExecute,
+          [supportCodeExecutor],
+          sourceFrames,
+          clock
+        )
+      }
+    })
+    .filter(testStep => testStep !== undefined)
 }

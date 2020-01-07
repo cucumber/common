@@ -24,18 +24,21 @@ const ExamplesTableBody: React.FunctionComponent<IProps> = ({ rows }) => {
 
   return (
     <tbody>
-    {rows.map((row, i) => {
-      // TODO: cucumberQuery.getRowResults???
-      const testResults = cucumberQuery.getStepResults(uri, row.location.line)
-      const status = testResults.length > 0 ? testResults[0].status : messages.TestResult.Status.UNKNOWN
-      return (
-        <Tr key={i} status={status}>
-          {(row.cells || []).map((cell, j) => (
-            <Td key={j}>{cell.value}</Td>
-          ))}
-        </Tr>
-      )
-    })}
+      {rows.map((row, i) => {
+        // TODO: cucumberQuery.getRowResults???
+        const testResults = cucumberQuery.getStepResults(uri, row.location.line)
+        const status =
+          testResults.length > 0
+            ? testResults[0].status
+            : messages.TestResult.Status.UNKNOWN
+        return (
+          <Tr key={i} status={status}>
+            {(row.cells || []).map((cell, j) => (
+              <Td key={j}>{cell.value}</Td>
+            ))}
+          </Tr>
+        )
+      })}
     </tbody>
   )
 }

@@ -2,6 +2,7 @@ package gherkin
 
 import (
 	"fmt"
+	messages "github.com/cucumber/cucumber-messages-go/v8"
 	"os"
 	"strings"
 )
@@ -28,7 +29,7 @@ func ExampleParseGherkinDocument() {
 `
 	r := strings.NewReader(input)
 
-	gherkinDocument, err := ParseGherkinDocument(r, (&Incrementing{0}).NewId)
+	gherkinDocument, err := ParseGherkinDocument(r, (&messages.Incrementing{}).NewId)
 	if err != nil {
 		fmt.Fprintf(os.Stdout, "%s\n", err)
 		return
@@ -65,7 +66,7 @@ func ExampleParseGherkinDocument() {
 
 func ExampleParseGherkinDocument_multiple() {
 
-	builder := NewAstBuilder((&Incrementing{0}).NewId)
+	builder := NewAstBuilder((&messages.Incrementing{}).NewId)
 	parser := NewParser(builder)
 	parser.StopAtFirstError(false)
 	matcher := NewMatcher(GherkinDialectsBuildin())
@@ -113,7 +114,7 @@ func ExampleParseGherkinDocument_multiple() {
 
 func ExampleParseGherkinDocument_error() {
 
-	builder := NewAstBuilder((&Incrementing{0}).NewId)
+	builder := NewAstBuilder((&messages.Incrementing{}).NewId)
 	parser := NewParser(builder)
 	parser.StopAtFirstError(false)
 	matcher := NewMatcher(GherkinDialectsBuildin())
@@ -177,7 +178,7 @@ func ExampleParseGherkinDocument_dialect() {
 	input := "Egenskap: i18n support"
 	r := strings.NewReader(input)
 
-	gherkinDocument, err := ParseGherkinDocumentForLanguage(r, "no", (&Incrementing{0}).NewId)
+	gherkinDocument, err := ParseGherkinDocumentForLanguage(r, "no", (&messages.Incrementing{}).NewId)
 	if err != nil {
 		fmt.Fprintf(os.Stdout, "%s\n", err)
 		return

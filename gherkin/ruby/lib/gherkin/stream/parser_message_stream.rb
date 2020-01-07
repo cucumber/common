@@ -2,7 +2,6 @@ require 'cucumber/messages'
 require 'gherkin/parser'
 require 'gherkin/token_matcher'
 require 'gherkin/pickles/compiler'
-require 'gherkin/id_generator'
 
 module Gherkin
   module Stream
@@ -12,13 +11,9 @@ module Gherkin
         @sources = sources
         @options = options
 
-        id_generator = id_generator_class.new
+        id_generator = options[:id_generator] || Cucumber::Messages::IdGenerator::UUID.new
         @parser = Parser.new(AstBuilder.new(id_generator))
         @compiler = Pickles::Compiler.new(id_generator)
-      end
-
-      def id_generator_class
-        @options[:predictable_ids] ? Gherkin::IdGenerator::Incrementing : Gherkin::IdGenerator::UUID
       end
 
       def messages
@@ -30,7 +25,7 @@ module Gherkin
 
               if @options[:include_gherkin_document]
                 gherkin_document = build_gherkin_document(source)
-                y.yield(Cucumber::Messages::Envelope.new(gherkinDocument: gherkin_document))
+                y.yield(Cucumber::Messages::Envelope.new(gherkin_document: gherkin_document))
               end
               if @options[:include_pickles]
                 gherkin_document ||= build_gherkin_document(source)
@@ -60,7 +55,7 @@ module Gherkin
                 column: err.location[:column]
               )
             ),
-            data: err.message
+            text: err.message
           )
           y.yield(Cucumber::Messages::Envelope.new(attachment: attachment))
         end
@@ -72,10 +67,7 @@ module Gherkin
             source = Cucumber::Messages::Source.new(
               uri: path,
               data: File.open(path, 'r:UTF-8', &:read),
-              media: Cucumber::Messages::Media.new(
-                encoding: :UTF8,
-                content_type: 'text/x.cucumber.gherkin+plain'
-              )
+              media_type: 'text/x.cucumber.gherkin+plain'
             )
             y.yield(source)
           end

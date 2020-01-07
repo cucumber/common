@@ -9,27 +9,39 @@ import {
 } from './TestHelpers'
 import makePickleTestStep from '../src/makePickleTestStep'
 import SupportCodeExecutor from '../src/SupportCodeExecutor'
-
-function execute(testStep: ITestStep): messages.ITestStepFinished {
-  const receivedMessages: messages.IEnvelope[] = []
-  testStep.execute(
-    message => receivedMessages.push(message),
-    'some-testCaseStartedId'
-  )
-  return receivedMessages.pop().testStepFinished
-}
+import IWorld from '../src/IWorld'
+import TestWorld from './TestWorld'
+import IncrementClock from '../src/IncrementClock'
 
 describe('TestStep', () => {
+  let world: IWorld
+  beforeEach(() => (world = new TestWorld()))
+
+  async function execute(
+    testStep: ITestStep
+  ): Promise<messages.ITestStepFinished> {
+    const receivedMessages: messages.IEnvelope[] = []
+    await testStep.execute(
+      world,
+      message => receivedMessages.push(message),
+      'some-testCaseStartedId'
+    )
+    return receivedMessages.pop().testStepFinished
+  }
+
   describe('#execute', () => {
-    it('emits a TestStepFinished with status UNDEFINED when there are no matching step definitions', () => {
+    it('emits a TestStepFinished with status UNDEFINED when there are no matching step definitions', async () => {
       const testStep = makePickleTestStep(
+        'some-test-step-id',
         messages.Pickle.PickleStep.create({
           text: 'an undefined step',
         }),
-        []
+        [],
+        ['some.feature:123'],
+        new IncrementClock()
       )
 
-      const testStepFinished = execute(testStep)
+      const testStepFinished = await execute(testStep)
 
       assert.strictEqual(
         testStepFinished.testResult.status,
@@ -38,15 +50,18 @@ describe('TestStep', () => {
       assert.strictEqual(testStepFinished.testStepId, testStep.id)
     })
 
-    it('emits a TestStepFinished with status AMBIGUOUS when there are multiple matching step definitions', () => {
+    it('emits a TestStepFinished with status AMBIGUOUS when there are multiple matching step definitions', async () => {
       const testStep = makePickleTestStep(
+        'some-test-step-id',
         messages.Pickle.PickleStep.create({
           text: 'an undefined step',
         }),
-        [stubMatchingStepDefinition(), stubMatchingStepDefinition()]
+        [stubMatchingStepDefinition(), stubMatchingStepDefinition()],
+        ['some.feature:123'],
+        new IncrementClock()
       )
 
-      const testStepFinished = execute(testStep)
+      const testStepFinished = await execute(testStep)
       assert.strictEqual(
         testStepFinished.testResult.status,
         messages.TestResult.Status.AMBIGUOUS
@@ -54,46 +69,56 @@ describe('TestStep', () => {
       assert.strictEqual(testStepFinished.testStepId, testStep.id)
     })
 
-    it('returns a TestResult object with the status', () => {
+    it('returns a TestResult object with the status', async () => {
       const testStep = makePickleTestStep(
+        'some-test-step-id',
         messages.Pickle.PickleStep.create({
           text: 'an undefined step',
         }),
-        []
+        [],
+        ['some.feature:123'],
+        new IncrementClock()
       )
 
-      assert.strictEqual(
-        testStep.execute(() => null, 'some-testCaseStartedId').status,
-        messages.TestResult.Status.UNDEFINED
+      const result = await testStep.execute(
+        world,
+        () => null,
+        'some-testCaseStartedId'
       )
+      assert.strictEqual(result.status, messages.TestResult.Status.UNDEFINED)
     })
 
-    it('the execution duration is computed', () => {
+    it('computes the execution duration', async () => {
       const emitted: messages.IEnvelope[] = []
       const testStep = makePickleTestStep(
+        'some-test-step-id',
         messages.Pickle.PickleStep.create({
           text: 'a passed step',
         }),
-        [stubMatchingStepDefinition(stubPassingSupportCodeExecutor())]
+        [stubMatchingStepDefinition(stubPassingSupportCodeExecutor())],
+        ['some.feature:123'],
+        new IncrementClock()
       )
-      testStep.execute(message => emitted.push(message), 'some-id')
+      await testStep.execute(world, message => emitted.push(message), 'some-id')
       const result = emitted.find(m => m.testStepFinished).testStepFinished
         .testResult
 
       assert.strictEqual(result.duration.seconds, 0)
-      assert.strictEqual(result.duration.nanos, 0)
     })
 
     context('when there is a matching step definition', () => {
-      it('emits a TestStepFinished with status PASSED when no exception is raised', () => {
+      it('emits a TestStepFinished with status PASSED when no exception is raised', async () => {
         const testStep = makePickleTestStep(
+          'some-test-step-id',
           messages.Pickle.PickleStep.create({
             text: 'a passed step',
           }),
-          [stubMatchingStepDefinition(stubPassingSupportCodeExecutor())]
+          [stubMatchingStepDefinition(stubPassingSupportCodeExecutor())],
+          ['some.feature:123'],
+          new IncrementClock()
         )
 
-        const testStepFinished = execute(testStep)
+        const testStepFinished = await execute(testStep)
 
         assert.strictEqual(
           testStepFinished.testResult.status,
@@ -102,14 +127,17 @@ describe('TestStep', () => {
         assert.strictEqual(testStepFinished.testStepId, testStep.id)
       })
 
-      it('emits a TestStepFinished with status PENDING when the string "pending" is returned', () => {
+      it('emits a TestStepFinished with status PENDING when the string "pending" is returned', async () => {
         const testStep = makePickleTestStep(
+          'some-test-step-id',
           messages.Pickle.PickleStep.create({
             text: 'a passed step',
           }),
-          [stubMatchingStepDefinition(stubPendingSupportCodeExecutor())]
+          [stubMatchingStepDefinition(stubPendingSupportCodeExecutor())],
+          ['some.feature:123'],
+          new IncrementClock()
         )
-        const testStepFinished = execute(testStep)
+        const testStepFinished = await execute(testStep)
 
         assert.strictEqual(
           testStepFinished.testResult.status,
@@ -118,8 +146,9 @@ describe('TestStep', () => {
         assert.strictEqual(testStepFinished.testStepId, testStep.id)
       })
 
-      it('emits a TestStepFinished with status FAILED when an exception is raised', () => {
+      it('emits a TestStepFinished with status FAILED when an exception is raised', async () => {
         const testStep = makePickleTestStep(
+          'some-test-step-id',
           messages.Pickle.PickleStep.create({
             text: 'a passed step',
           }),
@@ -127,10 +156,12 @@ describe('TestStep', () => {
             stubMatchingStepDefinition(
               stubFailingSupportCodeExecutor('This step has failed')
             ),
-          ]
+          ],
+          ['some.feature:123'],
+          new IncrementClock()
         )
 
-        const testStepFinished = execute(testStep)
+        const testStepFinished = await execute(testStep)
         assert.strictEqual(
           testStepFinished.testResult.status,
           messages.TestResult.Status.FAILED
@@ -138,8 +169,9 @@ describe('TestStep', () => {
         assert.strictEqual(testStepFinished.testStepId, testStep.id)
       })
 
-      it('adds the exception stack trace to the result', () => {
+      it('adds the exception stack trace to the result', async () => {
         const testStep = makePickleTestStep(
+          'some-test-step-id',
           messages.Pickle.PickleStep.create({
             text: 'a passed step',
           }),
@@ -147,10 +179,12 @@ describe('TestStep', () => {
             stubMatchingStepDefinition(
               stubFailingSupportCodeExecutor('Something went wrong')
             ),
-          ]
+          ],
+          ['some.feature:123'],
+          new IncrementClock()
         )
 
-        const testStepFinished = execute(testStep)
+        const testStepFinished = await execute(testStep)
         assert.ok(
           testStepFinished.testResult.message.includes('Something went wrong')
         )
@@ -161,11 +195,12 @@ describe('TestStep', () => {
         )
       })
 
-      it('emits a TestStepFinished with error message from docstring', () => {
+      it('emits a TestStepFinished with error message from docstring', async () => {
         const docString = new messages.PickleStepArgument.PickleDocString({
           content: 'hello',
         })
         const testStep = makePickleTestStep(
+          'some-test-step-id',
           messages.Pickle.PickleStep.create({
             text: 'a passed step',
             argument: new messages.PickleStepArgument({
@@ -184,10 +219,12 @@ describe('TestStep', () => {
                 null
               )
             ),
-          ]
+          ],
+          ['some.feature:123'],
+          new IncrementClock()
         )
 
-        const testStepFinished = execute(testStep)
+        const testStepFinished = await execute(testStep)
         assert.ok(
           testStepFinished.testResult.message.includes('error from hello')
         )

@@ -1,11 +1,11 @@
 {
   "pickle": {
+    "astNodeIds": [
+      "7"
+    ],
     "id": "15",
     "language": "en",
     "name": "minimalistic",
-    "sourceIds": [
-      "7"
-    ],
     "steps": [
       {
         "argument": {
@@ -13,23 +13,23 @@
             "content": "first line (no indent)\n  second line (indented with two spaces)\n\nthird line was empty"
           }
         },
-        "id": "8",
-        "sourceIds": [
+        "astNodeIds": [
           "0"
         ],
+        "id": "8",
         "text": "a simple DocString"
       },
       {
         "argument": {
           "docString": {
             "content": "<foo>\n  <bar />\n</foo>",
-            "contentType": "xml"
+            "mediaType": "xml"
           }
         },
-        "id": "9",
-        "sourceIds": [
+        "astNodeIds": [
           "1"
         ],
+        "id": "9",
         "text": "a DocString with content type"
       },
       {
@@ -38,10 +38,10 @@
             "content": "wrongly indented line"
           }
         },
-        "id": "10",
-        "sourceIds": [
+        "astNodeIds": [
           "2"
         ],
+        "id": "10",
         "text": "a DocString with wrong indentation"
       },
       {
@@ -50,10 +50,10 @@
             "content": "first line\nsecond line"
           }
         },
-        "id": "11",
-        "sourceIds": [
+        "astNodeIds": [
           "3"
         ],
+        "id": "11",
         "text": "a DocString with alternative separator"
       },
       {
@@ -62,10 +62,10 @@
             "content": "first line\n\"\"\"\nthird line"
           }
         },
-        "id": "12",
-        "sourceIds": [
+        "astNodeIds": [
           "4"
         ],
+        "id": "12",
         "text": "a DocString with normal separator inside"
       },
       {
@@ -74,10 +74,10 @@
             "content": "first line\n```\nthird line"
           }
         },
-        "id": "13",
-        "sourceIds": [
+        "astNodeIds": [
           "5"
         ],
+        "id": "13",
         "text": "a DocString with alternative separator inside"
       },
       {
@@ -86,10 +86,10 @@
             "content": "first line\n\"\"\"\nthird line"
           }
         },
-        "id": "14",
-        "sourceIds": [
+        "astNodeIds": [
           "6"
         ],
+        "id": "14",
         "text": "a DocString with escaped separator inside"
       }
     ],

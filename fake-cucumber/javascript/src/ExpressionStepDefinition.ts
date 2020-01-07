@@ -6,15 +6,14 @@ import {
   RegularExpression,
 } from 'cucumber-expressions'
 import { messages } from 'cucumber-messages'
-import uuidv4 from 'uuid/v4'
 import IStepDefinition from './IStepDefinition'
 import { AnyBody } from './types'
 
 export default class ExpressionStepDefinition implements IStepDefinition {
-  private readonly id = uuidv4()
-
   constructor(
+    private readonly id: string,
     private readonly expression: Expression,
+    private readonly sourceReference: messages.ISourceReference,
     private readonly body: AnyBody
   ) {}
 
@@ -39,19 +38,13 @@ export default class ExpressionStepDefinition implements IStepDefinition {
 
   public toMessage(): messages.IEnvelope {
     return new messages.Envelope({
-      stepDefinitionConfig: new messages.StepDefinitionConfig({
+      stepDefinition: new messages.StepDefinition({
         id: this.id,
         pattern: new messages.StepDefinitionPattern({
           type: this.expressionType(),
           source: this.expression.source,
         }),
-        location: new messages.SourceReference({
-          location: new messages.Location({
-            column: 3,
-            line: 10,
-          }),
-          uri: 'some/javascript/file.js',
-        }),
+        sourceReference: this.sourceReference,
       }),
     })
   }
