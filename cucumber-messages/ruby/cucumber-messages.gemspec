@@ -21,7 +21,6 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'protobuf', '~> 3.10'
   s.add_dependency 'json', '~> 2.3', '>= 2.3.0'
-  s.add_dependency 'bigdecimal', '~> 2.0', '>= 2.0.0'
 
   s.add_development_dependency 'rake', '~> 13.0', '>= 13.0.1'
   s.add_development_dependency 'rspec', '~> 3.9', '>= 3.9.0'

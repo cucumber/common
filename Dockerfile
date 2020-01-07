@@ -32,6 +32,7 @@ RUN apk add --no-cache \
   py2-pip \
   rsync \
   ruby \
+  ruby-bigdecimal \
   ruby-dev \
   sed \
   su-exec \
