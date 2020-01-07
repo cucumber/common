@@ -17,7 +17,11 @@ module Gherkin
       end
 
       def messages
+        enumerated = false
         Enumerator.new do |y|
+          raise DoubleIterationException, "Messages have already been enumerated" if enumerated
+          enumerated = true
+
           sources.each do |source|
             y.yield(Cucumber::Messages::Envelope.new(source: source)) if @options[:include_source]
             begin
