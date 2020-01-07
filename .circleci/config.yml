@@ -397,7 +397,7 @@ jobs:
       - persist_to_workspace:
           root: ~/cucumber
           paths:
-            - cucumber-messages/ruby/lib/cucumber/messages_pb.rb
+            - cucumber-messages/ruby
 
   gherkin-ruby-23:
     executor: docker-circleci-ruby-23
