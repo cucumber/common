@@ -13,6 +13,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
+* Use pure Ruby protobuf in order to avoid problems with Ruby 2.7.0 and JRuby.
+  ([#813](https://github.com/cucumber/cucumber/pull/813)
+   [#843](https://github.com/cucumber/cucumber/issues/843)
+   [mvz]
+   [aslakhellesoy])
 * A `TestCase` now has a list of `StepMatchArgumentsList` rather than a list of `StepMatchArgument`.
   This allows a `TestCase` to hold matches from more than one `StepDefinition`, which is possible
   in the case of ambiguous matches.
@@ -238,5 +243,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 [charlierudolph]:   https://github.com/charlierudolph
 [david1995]:        https://github.com/david1995
 [luke-hill]:        https://github.com/luke-hill
+[mvz]:              https://github.com/mvz
 [SabotageAndi]:     https://github.com/SabotageAndi
 [vincent-psarga]:   https://github.com/vincent-psarga
