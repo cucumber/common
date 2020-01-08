@@ -59,7 +59,7 @@ describe Gherkin::Query do
       """
   }
 
-  context '#get_location' do
+  context '#location' do
     before do
       messages.each { |message|
         subject.update(message)
@@ -71,16 +71,16 @@ describe Gherkin::Query do
     let(:scenario) { scenarios.first }
 
     it 'raises an exception when the AST node ID is unknown' do
-      expect { subject.get_location("this-id-may-not-exist-for-real") }.to raise_exception(Gherkin::AstNodeNotLocatedException)
+      expect { subject.location("this-id-may-not-exist-for-real") }.to raise_exception(Gherkin::AstNodeNotLocatedException)
     end
 
     it 'provides the location of a scenario' do
-      expect(subject.get_location(scenario.id)).to eq(scenario.location)
+      expect(subject.location(scenario.id)).to eq(scenario.location)
     end
 
     it 'provides the location of an examples table row' do
       node = scenarios.last.examples.first.table_body.first
-      expect(subject.get_location(node.id)).to eq(node.location)
+      expect(subject.location(node.id)).to eq(node.location)
     end
 
     context 'when querying steps' do
@@ -88,11 +88,11 @@ describe Gherkin::Query do
       let(:scenario_step) { scenario.steps.first }
 
       it 'provides the location of a background step' do
-        expect(subject.get_location(background_step.id)).to eq(background_step.location)
+        expect(subject.location(background_step.id)).to eq(background_step.location)
       end
 
       it 'provides the location of a scenario step' do
-        expect(subject.get_location(scenario_step.id)).to eq(scenario_step.location)
+        expect(subject.location(scenario_step.id)).to eq(scenario_step.location)
       end
     end
 
@@ -102,15 +102,15 @@ describe Gherkin::Query do
       let(:example_tag) { scenarios.last.examples.first.tags.first }
 
       it 'provides the location of a feature tags' do
-        expect(subject.get_location(feature_tag.id)).to eq(feature_tag.location)
+        expect(subject.location(feature_tag.id)).to eq(feature_tag.location)
       end
 
       it 'provides the location of a scenario tags' do
-        expect(subject.get_location(scenario_tag.id)).to eq(scenario_tag.location)
+        expect(subject.location(scenario_tag.id)).to eq(scenario_tag.location)
       end
 
       it 'provides the location of a scenario example tags' do
-        expect(subject.get_location(example_tag.id)).to eq(example_tag.location)
+        expect(subject.location(example_tag.id)).to eq(example_tag.location)
       end
     end
 
@@ -123,19 +123,19 @@ describe Gherkin::Query do
       let(:rule_scenario_tag) { rule_scenario.tags.first }
 
       it 'provides the location of a background step' do
-        expect(subject.get_location(rule_background_step.id)).to eq(rule_background_step.location)
+        expect(subject.location(rule_background_step.id)).to eq(rule_background_step.location)
       end
 
       it 'provides the location of a scenario' do
-        expect(subject.get_location(rule_scenario.id)).to eq(rule_scenario.location)
+        expect(subject.location(rule_scenario.id)).to eq(rule_scenario.location)
       end
 
       it 'provides the location of a scenario tag' do
-        expect(subject.get_location(rule_scenario_tag.id)).to eq(rule_scenario_tag.location)
+        expect(subject.location(rule_scenario_tag.id)).to eq(rule_scenario_tag.location)
       end
 
       it 'provides the location of a scenario step' do
-        expect(subject.get_location(rule_scenario_step.id)).to eq(rule_scenario_step.location)
+        expect(subject.location(rule_scenario_step.id)).to eq(rule_scenario_step.location)
       end
     end
   end

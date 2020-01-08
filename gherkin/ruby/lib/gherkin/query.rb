@@ -8,7 +8,7 @@ module Gherkin
       update_feature(message.gherkin_document.feature) if message.gherkin_document
     end
 
-    def get_location(ast_node_id)
+    def location(ast_node_id)
       return @ast_node_locations[ast_node_id] if @ast_node_locations.has_key?(ast_node_id)
       raise AstNodeNotLocatedException, "No location found for #{ast_node_id} }. Known: #{@ast_node_locations.keys}"
     end
