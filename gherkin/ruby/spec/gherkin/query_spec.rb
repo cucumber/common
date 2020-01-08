@@ -17,6 +17,7 @@ describe Gherkin::Query do
   end
 
   let(:gherkin_document) { find_message_by_attribute(messages, :gherkin_document) }
+  let(:scenarios) { filter_messages_by_attribute(gherkin_document.feature.children, :scenario) }
 
   let(:messages) {
     Gherkin.from_source(
@@ -59,15 +60,14 @@ describe Gherkin::Query do
       """
   }
 
-  context '#location' do
-    before do
-      messages.each { |message|
-        subject.update(message)
-      }
-    end
+  before do
+    messages.each { |message|
+      subject.update(message)
+    }
+  end
 
+  context '#location' do
     let(:background) { find_message_by_attribute(gherkin_document.feature.children, :background) }
-    let(:scenarios) { filter_messages_by_attribute(gherkin_document.feature.children, :scenario) }
     let(:scenario) { scenarios.first }
 
     it 'raises an exception when the AST node ID is unknown' do
@@ -137,6 +137,43 @@ describe Gherkin::Query do
       it 'provides the location of a scenario step' do
         expect(subject.location(rule_scenario_step.id)).to eq(rule_scenario_step.location)
       end
+    end
+  end
+
+  context '#argument_location' do
+    let(:feature_content) {
+      """
+      Feature: my feature
+
+      Scenario: my scenario
+          Given a step with a datatable
+            | name   | value |
+            | things | stuff |
+          And a step with a docstring
+            \"\"\"
+            This contains things but also stuff in it
+            \"\"\"
+          And a step without arguments
+      """
+    }
+
+    let(:scenario) { scenarios.first }
+    let(:datatable_step) { scenario.steps.first }
+    let(:datatable) { datatable_step.data_table }
+    let(:docstring_step) { scenario.steps[1] }
+    let(:docstring) { docstring_step.doc_string }
+    let(:no_argument_step) { scenario.steps.last }
+
+    it 'provides the location of a step datatable when it is present' do
+      expect(subject.argument_location(datatable_step.id)).to eq(datatable.location)
+    end
+
+    it 'provides the location of a step docstring if it is present' do
+      expect(subject.argument_location(docstring_step.id)).to eq(docstring.location)
+    end
+
+    it 'returns nil if the step has no arguments' do
+      expect(subject.argument_location(no_argument_step.id)).to be_nil
     end
   end
 end
