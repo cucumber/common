@@ -1,9 +1,9 @@
 {
   "pickle": {
     "astNodeIds": [
-      "6"
+      "8"
     ],
-    "id": "9",
+    "id": "11",
     "language": "en",
     "name": "They are the future",
     "steps": [
@@ -35,9 +35,9 @@
           }
         },
         "astNodeIds": [
-          "2"
+          "3"
         ],
-        "id": "7",
+        "id": "9",
         "text": "they have arrived"
       },
       {
@@ -68,9 +68,9 @@
           }
         },
         "astNodeIds": [
-          "5"
+          "7"
         ],
-        "id": "8",
+        "id": "10",
         "text": "they have arrived"
       }
     ],

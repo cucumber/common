@@ -1,10 +1,10 @@
 {
   "pickle": {
     "astNodeIds": [
-      "6",
-      "5"
+      "7",
+      "6"
     ],
-    "id": "8",
+    "id": "9",
     "language": "en",
     "name": "test",
     "steps": [
@@ -46,10 +46,10 @@
           }
         },
         "astNodeIds": [
-          "3",
-          "5"
+          "4",
+          "6"
         ],
-        "id": "7",
+        "id": "8",
         "text": "a red ball with:"
       }
     ],

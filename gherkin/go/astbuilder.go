@@ -174,6 +174,7 @@ func (t *astBuilder) transformNode(node *astNode) (interface{}, error) {
 			MediaType: separatorToken.Text,
 			Content:   text,
 			Delimiter: separatorToken.Keyword,
+			Id:        t.newId(),
 		}
 		return ds, nil
 
@@ -182,6 +183,7 @@ func (t *astBuilder) transformNode(node *astNode) (interface{}, error) {
 		dt := &messages.GherkinDocument_Feature_Step_DataTable{
 			Location: rows[0].Location,
 			Rows:     rows,
+			Id:       t.newId(),
 		}
 		return dt, err
 

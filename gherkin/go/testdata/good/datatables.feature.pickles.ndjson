@@ -1,9 +1,9 @@
 {
   "pickle": {
     "astNodeIds": [
-      "13"
+      "18"
     ],
-    "id": "19",
+    "id": "24",
     "language": "en",
     "name": "minimalistic",
     "steps": [
@@ -35,9 +35,9 @@
           }
         },
         "astNodeIds": [
-          "2"
+          "3"
         ],
-        "id": "14",
+        "id": "19",
         "text": "a simple data table"
       },
       {
@@ -55,9 +55,9 @@
           }
         },
         "astNodeIds": [
-          "4"
+          "6"
         ],
-        "id": "15",
+        "id": "20",
         "text": "a data table with a single cell"
       },
       {
@@ -81,9 +81,9 @@
           }
         },
         "astNodeIds": [
-          "6"
+          "9"
         ],
-        "id": "16",
+        "id": "21",
         "text": "a data table with different fromatting"
       },
       {
@@ -105,9 +105,9 @@
           }
         },
         "astNodeIds": [
-          "8"
+          "12"
         ],
-        "id": "17",
+        "id": "22",
         "text": "a data table with an empty cell"
       },
       {
@@ -148,9 +148,9 @@
           }
         },
         "astNodeIds": [
-          "12"
+          "17"
         ],
-        "id": "18",
+        "id": "23",
         "text": "a data table with comments and newlines inside"
       }
     ],
