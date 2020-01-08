@@ -1,6 +1,6 @@
 require 'rspec'
 require 'gherkin'
-require 'gherkin/gherkin_query'
+require 'gherkin/query'
 
 describe Gherkin::Query do
   let(:subject) { Gherkin::Query.new() }
