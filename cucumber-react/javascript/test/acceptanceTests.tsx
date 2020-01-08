@@ -12,13 +12,15 @@ import makeDummyStepDefinitions from 'fake-cucumber/dist/test/makeDummyStepDefin
 import makeDummyHooks from 'fake-cucumber/dist/test/makeDummyHooks'
 import CucumberStream from 'fake-cucumber/dist/src/CucumberStream'
 import PerfHooksClock from 'fake-cucumber/dist/src/PerfHooksClock'
+import { withFullStackTrace } from 'fake-cucumber/dist/src/ErrorMessageGenerator'
 
 describe('App', () => {
   const dir = __dirname + '/../../../gherkin/testdata/good'
   const files = fs.readdirSync(dir)
   const newId = IdGenerator.uuid()
   const clock = new PerfHooksClock()
-  const supportCode = new SupportCode(newId, clock)
+  const makeErrorMessage = withFullStackTrace()
+  const supportCode = new SupportCode(newId, clock, makeErrorMessage)
   makeDummyStepDefinitions(supportCode)
   makeDummyHooks(supportCode)
 
@@ -49,8 +51,9 @@ describe('App', () => {
                 supportCode.stepDefinitions,
                 supportCode.beforeHooks,
                 supportCode.afterHooks,
-                newId,
-                clock
+                supportCode.newId,
+                supportCode.clock,
+                supportCode.makeErrorMessage
               )
             )
         )
