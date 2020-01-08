@@ -11,6 +11,12 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Added
 
+* [Ruby] Added `Gherkin::Query` that provides `Location` for various AST nodes.
+  ([#845](https://github.com/cucumber/cucumber/pull/845)
+   [aslakhellesoy]
+   [mattwynne]
+   [vincent-psarga])
+
 ### Changed
 
 * [JavaScript] the `Gherkin#fromStream`, `Gherkin#fromPaths` and `Gherkin#fromSources` functions'
@@ -678,6 +684,7 @@ to Gherkin 2.
 [koterpillar]:      https://github.com/koterpillar
 [l3pp4rd]:          https://github.com/l3pp4rd
 [LiohAu]:           https://github.com/LiohAu
+[mattwynne]:        https://github.com/mattwynne
 [mauriciotogneri]:  https://github.com/mauriciotogneri
 [maximeg]:          https://github.com/maximeg
 [maxmeyer]:         https://github.com/maxmeyer
