@@ -5,7 +5,7 @@ ifndef CI
 .tested: .tested.diff
 endif
 
-.tested.diff: ../testdata/hello.feature bin/cucumber-demo-formatter $(RUBY_SOURCE_FILES) 
+.tested.diff: ../testdata/hello.feature bin/cucumber-demo-formatter $(RUBY_SOURCE_FILES)
 	../../fake-cucumber/javascript/bin/fake-cucumber --globals --format ndjson ../testdata/hello.feature | \
-	bundle exec bin/cucumber-demo-formatter --format ndjson | diff -u <(printf "😃💣🥶") -
+	bundle exec bin/cucumber-demo-formatter --format ndjson | diff -u <(printf "😃💣🥶\n") -
 	touch $@

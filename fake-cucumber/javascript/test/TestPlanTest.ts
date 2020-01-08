@@ -44,7 +44,7 @@ describe('TestPlan', () => {
     const envelopes: messages.IEnvelope[] = []
     const notifier: MessageNotifier = message => envelopes.push(message)
     await testPlan.execute(notifier)
-    assert.deepStrictEqual(envelopes.length, 5)
+    assert.deepStrictEqual(envelopes.length, 7)
   })
 
   it('attaches attachments from support code', async () => {

@@ -7,7 +7,7 @@ ifndef CI
 .tested: .tested.diff
 endif
 
-.tested.diff: ../testdata/hello.feature $(FORMATTER) $(GO_SOURCE_FILES) 
+.tested.diff: ../testdata/hello.feature $(FORMATTER) $(GO_SOURCE_FILES)
 	../../fake-cucumber/javascript/bin/fake-cucumber --globals --format ndjson ../testdata/hello.feature | \
-	$(FORMATTER) --format ndjson | diff -u <(printf "😃💣🥶") -
+	$(FORMATTER) --format ndjson | diff -u <(printf "😃💣🥶\n") -
 	touch $@
