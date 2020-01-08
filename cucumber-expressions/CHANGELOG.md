@@ -15,6 +15,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Removed
 
+* [JavaScript] remove support for Node 8, which is now EOL
+
 ### Fixed
 
 ## [8.3.0] - 2019-12-10
