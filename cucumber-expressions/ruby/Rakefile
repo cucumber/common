@@ -1,21 +1,27 @@
-# encoding: utf-8
+# frozen_string_literal: true
+
 require 'rubygems'
 require 'bundler'
 Bundler::GemHelper.install_tasks
 
-$:.unshift File.expand_path("../lib", __FILE__)
+require 'rubocop/rake_task'
+RuboCop::RakeTask.new
 
-Dir['./rake/*.rb'].each do |f|
+$LOAD_PATH.unshift File.expand_path('lib', __dir__)
+
+Dir['./rake/*.rb'].sort.each do |f|
   require f
 end
 
-require "rspec/core/rake_task"
+require 'rspec/core/rake_task'
 RSpec::Core::RakeTask.new(:spec) do |t|
-  t.ruby_opts  = %w[-r./spec/coverage -w]
+  t.ruby_opts = %w[-r./spec/coverage -w]
 end
 
 require_relative 'spec/capture_warnings'
+# rubocop:disable Style/MixinUsage:
 include CaptureWarnings
+# rubocop:enable Style/MixinUsage:
 namespace :spec do
   task :warnings do
     report_warnings do

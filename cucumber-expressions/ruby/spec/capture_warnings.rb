@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # With thanks to @myronmarston
 # https://github.com/vcr/vcr/blob/master/spec/capture_warnings.rb
 
@@ -8,24 +9,22 @@ module CaptureWarnings
     warnings, errors = capture_error(&block).partition { |line| line.include?('warning') }
     project_warnings, other_warnings = warnings.uniq.partition { |line| line.include?(current_dir) }
 
-    if errors.any?
-      puts errors.join("\n")
-    end
+    puts errors.join("\n") if errors.any?
 
     if other_warnings.any?
-      puts "#{ other_warnings.count } warnings detected, set VIEW_OTHER_WARNINGS=true to see them."
+      puts "#{other_warnings.count} warnings detected, set VIEW_OTHER_WARNINGS=true to see them."
       print_warnings('other', other_warnings) if ENV['VIEW_OTHER_WARNINGS']
     end
 
     # Until they fix https://bugs.ruby-lang.org/issues/10661
-    if RUBY_VERSION == "2.2.0"
+    if RUBY_VERSION == '2.2.0'
       project_warnings = project_warnings.reject { |w| w =~ /warning: possible reference to past scope/ }
     end
 
     if project_warnings.any?
-      puts "#{ project_warnings.count } warnings detected"
+      puts "#{project_warnings.count} warnings detected"
       print_warnings('cucumber-expressions', project_warnings)
-      fail "Please remove all cucumber-expressions warnings."
+      raise 'Please remove all cucumber-expressions warnings.'
     end
 
     ensure_system_exit_if_required
@@ -56,11 +55,11 @@ module CaptureWarnings
 
   def print_warnings(type, warnings)
     puts
-    puts "-" * 30 + " #{type} warnings: " + "-" * 30
+    puts '-' * 30 + " #{type} warnings: " + '-' * 30
     puts
     puts warnings.join("\n")
     puts
-    puts "-" * 75
+    puts '-' * 75
     puts
   end
 
@@ -69,6 +68,6 @@ module CaptureWarnings
   end
 
   def capture_system_exit
-    @system_exit = $!
+    @system_exit = $ERROR_INFO
   end
 end

@@ -1,20 +1,26 @@
+# frozen_string_literal: true
+
 require 'cucumber/cucumber_expressions/errors'
 
 module Cucumber
   module CucumberExpressions
+    # A parameter type is a named type that recognises certain patterns and
+    # can transform [Group]s to a custom object
     class ParameterType
-      ILLEGAL_PARAMETER_NAME_PATTERN = /([\[\]()$.|?*+])/
-      UNESCAPE_PATTERN = /(\\([\[$.|?*+\]]))/
+      ILLEGAL_PARAMETER_NAME_PATTERN = /([\[\]()$.|?*+])/.freeze
+      UNESCAPE_PATTERN = /(\\([\[$.|?*+\]]))/.freeze
 
       attr_reader :name, :type, :regexps
 
       def self.check_parameter_type_name(type_name)
         unescaped_type_name = type_name.gsub(UNESCAPE_PATTERN) do
-          $2
+          Regexp.last_match(2)
         end
+        # rubocop:disable Style/GuardClause, Metrics/LineLength
         if ILLEGAL_PARAMETER_NAME_PATTERN =~ unescaped_type_name
-          raise CucumberExpressionError.new("Illegal character '#{$1}' in parameter name {#{unescaped_type_name}}")
+          raise CucumberExpressionError, "Illegal character '#{Regexp.last_match(1)}' in parameter name {#{unescaped_type_name}}"
         end
+        # rubocop:enable Style/GuardClause, Metrics/LineLength
       end
 
       def prefer_for_regexp_match?
@@ -35,15 +41,23 @@ module Cucumber
       # @param prefer_for_regexp_match true if this should be preferred over similar types
       #
       def initialize(name, regexp, type, transformer, use_for_snippets, prefer_for_regexp_match)
+        # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity
         raise "regexp can't be nil" if regexp.nil?
         raise "type can't be nil" if type.nil?
         raise "transformer can't be nil" if transformer.nil?
         raise "use_for_snippets can't be nil" if use_for_snippets.nil?
-        raise "prefer_for_regexp_match can't be nil" if prefer_for_regexp_match.nil?
+        if prefer_for_regexp_match.nil?
+          raise "prefer_for_regexp_match can't be nil"
+        end
 
         self.class.check_parameter_type_name(name) unless name.nil?
-        @name, @type, @transformer, @use_for_snippets, @prefer_for_regexp_match = name, type, transformer, use_for_snippets, prefer_for_regexp_match
+        @name = name
+        @type = type
+        @transformer = transformer
+        @use_for_snippets = use_for_snippets
+        @prefer_for_regexp_match = prefer_for_regexp_match
         @regexps = string_array(regexp)
+        # rubocop:enable Metrics/AbcSize, Metrics/CyclomaticComplexity
       end
 
       def transform(self_obj, group_values)
@@ -53,25 +67,26 @@ module Cucumber
       def <=>(other)
         return -1 if prefer_for_regexp_match? && !other.prefer_for_regexp_match?
         return 1 if other.prefer_for_regexp_match? && !prefer_for_regexp_match?
-        return name <=> other.name
+
+        name <=> other.name
       end
 
       private
 
       def string_array(regexps)
         array = regexps.is_a?(Array) ? regexps : [regexps]
-        array.map {|regexp| regexp.is_a?(String) ? regexp : regexp_source(regexp)}
+        array.map { |regexp| regexp.is_a?(String) ? regexp : regexp_source(regexp) }
       end
 
       def regexp_source(regexp)
-        [
-          'EXTENDED',
-          'IGNORECASE',
-          'MULTILINE'
+        %w[
+          EXTENDED
+          IGNORECASE
+          MULTILINE
         ].each do |option_name|
           option = Regexp.const_get(option_name)
           if regexp.options & option != 0
-            raise CucumberExpressionError.new("ParameterType Regexps can't use option Regexp::#{option_name}")
+            raise CucumberExpressionError, "ParameterType Regexps can't use option Regexp::#{option_name}"
           end
         end
         regexp.source

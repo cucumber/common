@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'cucumber/cucumber_expressions/group_builder'
 require 'cucumber/cucumber_expressions/errors'
 
@@ -44,7 +46,7 @@ module Cucumber
           elsif (c == '=' || c == '!') && last == '<' && @name_capturing_maybe
             end_non_capturing_group
           elsif @name_capturing_maybe
-            raise CucumberExpressionError.new("Named capture groups are not supported. See https://github.com/cucumber/cucumber/issues/329")
+            raise CucumberExpressionError, 'Named capture groups are not supported. See https://github.com/cucumber/cucumber/issues/329'
           end
 
           escaping = c == '\\' && !escaping
@@ -56,6 +58,7 @@ module Cucumber
       def match(s)
         match = @regexp.match(s)
         return nil if match.nil?
+
         group_indices = (0..match.length).to_a.to_enum
         @group_builder.build(match, group_indices)
       end

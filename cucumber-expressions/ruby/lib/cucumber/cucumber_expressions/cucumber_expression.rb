@@ -1,15 +1,18 @@
+# frozen_string_literal: true
+
 require 'cucumber/cucumber_expressions/argument'
 require 'cucumber/cucumber_expressions/tree_regexp'
 require 'cucumber/cucumber_expressions/errors'
 
 module Cucumber
   module CucumberExpressions
+    # A compiled Cucumber Expression
     class CucumberExpression
       # Does not include (){} characters because they have special meaning
-      ESCAPE_REGEXP = /([\\^\[$.|?*+\]])/
-      PARAMETER_REGEXP = /(\\\\)?{([^}]*)}/
-      OPTIONAL_REGEXP = /(\\\\)?\(([^)]+)\)/
-      ALTERNATIVE_NON_WHITESPACE_TEXT_REGEXP = /([^\s^\/]+)((\/[^\s^\/]+)+)/
+      ESCAPE_REGEXP = /([\\^\[$.|?*+\]])/.freeze
+      PARAMETER_REGEXP = /(\\\\)?{([^}]*)}/.freeze
+      OPTIONAL_REGEXP = /(\\\\)?\(([^)]+)\)/.freeze
+      ALTERNATIVE_NON_WHITESPACE_TEXT_REGEXP = %r{([^\s^/]+)((/[^\s^/]+)+)}.freeze
       DOUBLE_ESCAPE = '\\\\'
       PARAMETER_TYPES_CANNOT_BE_ALTERNATIVE = 'Parameter types cannot be alternative: '
       PARAMETER_TYPES_CANNOT_BE_OPTIONAL = 'Parameter types cannot be optional: '
@@ -50,7 +53,7 @@ module Cucumber
       def process_optional(expression)
         # Create non-capturing, optional capture groups from parenthesis
         expression.gsub(OPTIONAL_REGEXP) do
-          g2 = $2
+          g2 = Regexp.last_match(2)
           # When using Parameter Types, the () characters are used to represent an optional
           # item such as (a ) which would be equivalent to (?:a )? in regex
           #
@@ -61,7 +64,7 @@ module Cucumber
           # want to capture (3) then we still permit this as an individual rule
           # See: https://github.com/cucumber/cucumber-ruby/issues/1337 for more info
           # look for double-escaped parentheses
-          if $1 == DOUBLE_ESCAPE
+          if Regexp.last_match(1) == DOUBLE_ESCAPE
             "\\(#{g2}\\)"
           else
             check_no_parameter_type(g2, PARAMETER_TYPES_CANNOT_BE_OPTIONAL)
@@ -89,13 +92,14 @@ module Cucumber
       def process_parameters(expression, parameter_type_registry)
         # Create non-capturing, optional capture groups from parenthesis
         expression.gsub(PARAMETER_REGEXP) do
-          if ($1 == DOUBLE_ESCAPE)
-            "\\{#{$2}\\}"
+          if Regexp.last_match(1) == DOUBLE_ESCAPE
+            "\\{#{Regexp.last_match(2)}\\}"
           else
-            type_name = $2
+            type_name = Regexp.last_match(2)
             ParameterType.check_parameter_type_name(type_name)
             parameter_type = parameter_type_registry.lookup_by_type_name(type_name)
-            raise UndefinedParameterTypeError.new(type_name) if parameter_type.nil?
+            raise UndefinedParameterTypeError, type_name if parameter_type.nil?
+
             @parameter_types.push(parameter_type)
 
             build_capture_regexp(parameter_type.regexps)
@@ -105,14 +109,13 @@ module Cucumber
 
       def build_capture_regexp(regexps)
         return "(#{regexps[0]})" if regexps.size == 1
+
         capture_groups = regexps.map { |group| "(?:#{group})" }
         "(#{capture_groups.join('|')})"
       end
 
-      def check_no_parameter_type(s, message)
-        if PARAMETER_REGEXP =~ s
-          raise CucumberExpressionError.new("#{message}#{source}")
-        end
+      def check_no_parameter_type(string, message)
+        raise CucumberExpressionError, "#{message}#{source}" if PARAMETER_REGEXP =~ string
       end
     end
   end

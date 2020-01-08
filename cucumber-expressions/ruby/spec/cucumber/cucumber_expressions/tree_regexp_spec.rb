@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'cucumber/cucumber_expressions/tree_regexp'
 
 module Cucumber
@@ -5,7 +7,7 @@ module Cucumber
     describe TreeRegexp do
       it 'exposes group source' do
         tr = TreeRegexp.new(/(a(?:b)?)(c)/)
-        expect(tr.group_builder.children.map{|gb| gb.source}).to eq(['a(?:b)?', 'c'])
+        expect(tr.group_builder.children.map(&:source)).to eq(['a(?:b)?', 'c'])
       end
 
       it 'builds tree' do
@@ -78,40 +80,40 @@ module Cucumber
 
       it 'detects multiple non capturing groups' do
         tr = TreeRegexp.new(/(?:a)(:b)(\?c)(d)/)
-        group = tr.match("a:b?cd")
+        group = tr.match('a:b?cd')
         expect(group.children.length).to eq(3)
       end
 
       it 'works with escaped backslash' do
         tr = TreeRegexp.new(/foo\\(bar|baz)/)
-        group = tr.match("foo\\bar")
+        group = tr.match('foo\\bar')
         expect(group.children.length).to eq(1)
       end
 
       it 'works with escaped slash' do
-        tr = TreeRegexp.new(/^I go to '\/(.+)'$/)
+        tr = TreeRegexp.new(%r{^I go to '/(.+)'$})
         group = tr.match("I go to '/hello'")
         expect(group.children.length).to eq(1)
       end
 
       it 'works with digit and word' do
         tr = TreeRegexp.new(/^(\d) (\w+)$/)
-        group = tr.match("2 you")
+        group = tr.match('2 you')
         expect(group.children.length).to eq(2)
       end
 
       it 'captures non capturing groups with capturing groups inside' do
         tr = TreeRegexp.new(/the stdout(?: from "(.*?)")?/)
-        group = tr.match("the stdout")
-        expect(group.value).to eq("the stdout")
+        group = tr.match('the stdout')
+        expect(group.value).to eq('the stdout')
         expect(group.children[0].value).to eq(nil)
         expect(group.children.length).to eq(1)
       end
 
       it 'works with flags' do
         tr = TreeRegexp.new(/HELLO/i)
-        group = tr.match("hello")
-        expect(group.value).to eq("hello")
+        group = tr.match('hello')
+        expect(group.value).to eq('hello')
       end
 
       it('does not consider parenthesis in character class as group') do
@@ -124,9 +126,9 @@ module Cucumber
 
       it 'throws an error when there are named capture groups because they are buggy in Ruby' do
         # https://github.com/cucumber/cucumber/issues/329
-        expect {
+        expect do
           TreeRegexp.new(/^I am a person( named "(?<first_name>.+) (?<last_name>.+)")?$/)
-        }.to raise_error(/Named capture groups are not supported/)
+        end.to raise_error(/Named capture groups are not supported/)
       end
     end
   end

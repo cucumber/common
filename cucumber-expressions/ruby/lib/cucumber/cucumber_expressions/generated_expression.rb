@@ -1,14 +1,18 @@
+# frozen_string_literal: true
+
 module Cucumber
   module CucumberExpressions
+    # A generated expression
     class GeneratedExpression
       attr_reader :parameter_types
 
       def initialize(expression_template, parameters_types)
-        @expression_template, @parameter_types = expression_template, parameters_types
+        @expression_template = expression_template
+        @parameter_types = parameters_types
       end
 
       def source
-        sprintf(@expression_template, *@parameter_types.map(&:name))
+        format(@expression_template, *@parameter_types.map(&:name))
       end
 
       def parameter_names

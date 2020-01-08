@@ -1,20 +1,22 @@
+# frozen_string_literal: true
+
 module Cucumber
   module CucumberExpressions
     class ParameterTypeMatcher
       attr_reader :parameter_type
 
-      def initialize(parameter_type, regexp, text, match_position=0)
-        @parameter_type, @regexp, @text = parameter_type, regexp, text
+      def initialize(parameter_type, regexp, text, match_position = 0)
+        @parameter_type = parameter_type
+        @regexp = regexp
+        @text = text
         @match = @regexp.match(@text, match_position)
       end
 
       def advance_to(new_match_position)
-        (new_match_position...@text.length).each {|advancedPos|
+        (new_match_position...@text.length).each do |advancedPos|
           matcher = self.class.new(parameter_type, @regexp, @text, advancedPos)
-          if matcher.find && matcher.full_word?
-            return matcher
-          end
-        }
+          return matcher if matcher.find && matcher.full_word?
+        end
 
         self.class.new(parameter_type, @regexp, @text, @text.length)
       end
@@ -38,8 +40,10 @@ module Cucumber
       def <=>(other)
         pos_comparison = start <=> other.start
         return pos_comparison if pos_comparison != 0
+
         length_comparison = other.group.length <=> group.length
         return length_comparison if length_comparison != 0
+
         0
       end
 

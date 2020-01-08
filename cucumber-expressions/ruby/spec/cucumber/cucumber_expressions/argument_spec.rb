@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'cucumber/cucumber_expressions/argument'
 require 'cucumber/cucumber_expressions/tree_regexp'
 require 'cucumber/cucumber_expressions/parameter_type_registry'
@@ -8,9 +10,9 @@ module Cucumber
       it 'exposes parameter_type' do
         tree_regexp = TreeRegexp.new(/three (.*) mice/)
         parameter_type_registry = ParameterTypeRegistry.new
-        arguments = Argument.build(tree_regexp, "three blind mice", [parameter_type_registry.lookup_by_type_name("string")])
+        arguments = Argument.build(tree_regexp, 'three blind mice', [parameter_type_registry.lookup_by_type_name('string')])
         argument = arguments[0]
-        expect(argument.parameter_type.name).to eq("string")
+        expect(argument.parameter_type.name).to eq('string')
       end
     end
   end
