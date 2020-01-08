@@ -169,7 +169,10 @@ func pickleDataTable(table *messages.GherkinDocument_Feature_Step_DataTable, var
 		}
 		pickleTableRows[i] = &messages.PickleStepArgument_PickleTable_PickleTableRow{Cells: pickleTableCells}
 	}
-	return &messages.PickleStepArgument_PickleTable{Rows: pickleTableRows}
+	return &messages.PickleStepArgument_PickleTable{
+		AstNodeId: table.Id,
+		Rows:      pickleTableRows,
+	}
 }
 
 func pickleDocString(docString *messages.GherkinDocument_Feature_Step_DocString, variableCells []*messages.GherkinDocument_Feature_TableRow_TableCell, valueCells []*messages.GherkinDocument_Feature_TableRow_TableCell) *messages.PickleStepArgument_PickleDocString {

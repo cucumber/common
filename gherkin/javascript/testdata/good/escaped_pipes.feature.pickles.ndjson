@@ -10,6 +10,7 @@
       {
         "argument": {
           "dataTable": {
+            "astNodeId": "2",
             "rows": [
               {
                 "cells": [
@@ -43,6 +44,7 @@
       {
         "argument": {
           "dataTable": {
+            "astNodeId": "6",
             "rows": [
               {
                 "cells": [

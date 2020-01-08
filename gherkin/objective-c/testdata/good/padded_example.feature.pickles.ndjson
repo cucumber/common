@@ -11,6 +11,7 @@
       {
         "argument": {
           "dataTable": {
+            "astNodeId": "3",
             "rows": [
               {
                 "cells": [

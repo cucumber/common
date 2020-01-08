@@ -10,6 +10,7 @@
       {
         "argument": {
           "dataTable": {
+            "astNodeId": "2",
             "rows": [
               {
                 "cells": [
@@ -43,6 +44,7 @@
       {
         "argument": {
           "dataTable": {
+            "astNodeId": "5",
             "rows": [
               {
                 "cells": [
@@ -63,6 +65,7 @@
       {
         "argument": {
           "dataTable": {
+            "astNodeId": "8",
             "rows": [
               {
                 "cells": [
@@ -89,6 +92,7 @@
       {
         "argument": {
           "dataTable": {
+            "astNodeId": "11",
             "rows": [
               {
                 "cells": [
@@ -113,6 +117,7 @@
       {
         "argument": {
           "dataTable": {
+            "astNodeId": "16",
             "rows": [
               {
                 "cells": [
