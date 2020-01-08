@@ -3,13 +3,15 @@ import IStepDefinition from './IStepDefinition'
 import PickleTestStep from './PickleTestStep'
 import ITestStep from './ITestStep'
 import IClock from './IClock'
+import { MakeErrorMessage } from './ErrorMessageGenerator'
 
 export default function makePickleTestStep(
   testStepId: string,
   pickleStep: messages.Pickle.IPickleStep,
   stepDefinitions: IStepDefinition[],
   sourceFrames: string[],
-  clock: IClock
+  clock: IClock,
+  makeErrorMessage: MakeErrorMessage
 ): ITestStep {
   const supportCodeExecutors = stepDefinitions
     .map(stepDefinition => stepDefinition.match(pickleStep))
@@ -20,6 +22,7 @@ export default function makePickleTestStep(
     false,
     supportCodeExecutors,
     sourceFrames,
-    clock
+    clock,
+    makeErrorMessage
   )
 }

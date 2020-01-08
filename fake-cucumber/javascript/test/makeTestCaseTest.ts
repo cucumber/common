@@ -6,6 +6,7 @@ import Hook from '../src/Hook'
 import { CucumberExpression, ParameterTypeRegistry } from 'cucumber-expressions'
 import { GherkinQuery } from 'gherkin'
 import IncrementClock from '../src/IncrementClock'
+import { withSourceFramesOnlyStackTrace } from '../src/ErrorMessageGenerator'
 
 describe('makeTestCase', () => {
   it('transforms a Pickle to a TestCase', () => {
@@ -18,7 +19,8 @@ describe('makeTestCase', () => {
       [],
       new GherkinQuery(),
       IdGenerator.incrementing(),
-      new IncrementClock()
+      new IncrementClock(),
+      withSourceFramesOnlyStackTrace()
     )
 
     assert.deepStrictEqual(
@@ -40,7 +42,8 @@ describe('makeTestCase', () => {
           [],
           new GherkinQuery(),
           IdGenerator.incrementing(),
-          new IncrementClock()
+          new IncrementClock(),
+          withSourceFramesOnlyStackTrace()
         )
 
         assert.deepStrictEqual(
@@ -67,7 +70,8 @@ describe('makeTestCase', () => {
         afterHooks,
         new GherkinQuery(),
         IdGenerator.incrementing(),
-        new IncrementClock()
+        new IncrementClock(),
+        withSourceFramesOnlyStackTrace()
       )
 
       assert.deepStrictEqual(

@@ -7,6 +7,7 @@ import IHook from './IHook'
 import { GherkinQuery } from 'gherkin'
 import IClock from './IClock'
 import { millisecondsSinceEpochToTimestamp } from 'cucumber-messages/dist/src/TimeConversion'
+import { MakeErrorMessage } from './ErrorMessageGenerator'
 
 export default class TestPlan {
   private readonly testCases: TestCase[]
@@ -18,7 +19,8 @@ export default class TestPlan {
     afterHooks: IHook[],
     gherkinQuery: GherkinQuery,
     private readonly newId: IdGenerator.NewId,
-    private readonly clock: IClock
+    private readonly clock: IClock,
+    private readonly makeErrorMessage: MakeErrorMessage
   ) {
     this.testCases = pickles.map(pickle =>
       makeTestCase(
@@ -28,7 +30,8 @@ export default class TestPlan {
         afterHooks,
         gherkinQuery,
         newId,
-        clock
+        clock,
+        makeErrorMessage
       )
     )
   }
