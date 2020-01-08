@@ -40,7 +40,10 @@ module Gherkin
       store_node_location(scenario)
       store_nodes_location(scenario.tags)
       store_nodes_location(scenario.steps)
-      scenario.examples.each { |example| store_nodes_location(example.tags) }
+      scenario.examples.each do |examples|
+        store_nodes_location(examples.tags)
+        store_nodes_location(examples.table_body)
+      end
     end
 
     def store_nodes_location(nodes)
