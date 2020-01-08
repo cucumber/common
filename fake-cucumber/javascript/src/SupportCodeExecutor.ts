@@ -2,6 +2,7 @@ import { Argument, Group } from 'cucumber-expressions'
 import { messages } from 'cucumber-messages'
 import IWorld from './IWorld'
 import { AnyBody } from './types'
+import DataTable from './DataTable'
 
 export default class SupportCodeExecutor {
   constructor(
@@ -19,8 +20,9 @@ export default class SupportCodeExecutor {
       argArray.push(this.docString.content)
     }
     if (this.dataTable) {
-      // TODO: Hand off to DataTableTransformer
-      argArray.push(this.dataTable.rows.map(r => r.cells.map(c => c.value)))
+      argArray.push(
+        new DataTable(this.dataTable.rows.map(r => r.cells.map(c => c.value)))
+      )
     }
     return this.body.apply(thisObj, argArray)
   }
