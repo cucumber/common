@@ -41,7 +41,9 @@ const GherkinDocumentList: React.FunctionComponent<IProps> = ({
                 uuid={gherkinDocument.uri}
               >
                 <AccordionItemHeading>
-                  <AccordionItemButton style={{backgroundColor: statusColor(status).hex()}}>
+                  <AccordionItemButton
+                    style={{ backgroundColor: statusColor(status).hex() }}
+                  >
                     {gherkinDocument.uri}
                   </AccordionItemButton>
                 </AccordionItemHeading>
