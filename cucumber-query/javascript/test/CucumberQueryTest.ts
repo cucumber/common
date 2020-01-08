@@ -6,6 +6,7 @@ import assert from 'assert'
 import CucumberQuery from '../src/CucumberQuery'
 import SupportCode from 'fake-cucumber/dist/src/SupportCode'
 import CucumberStream from 'fake-cucumber/dist/src/CucumberStream'
+import { withFullStackTrace } from 'fake-cucumber/dist/src/ErrorMessageGenerator'
 import makeDummyStepDefinitions from 'fake-cucumber/dist/test/makeDummyStepDefinitions'
 
 import { promisify } from 'util'
@@ -217,7 +218,8 @@ describe('CucumberQuery', () => {
   function parse(gherkinSource: string): Promise<void> {
     const newId = IdGenerator.incrementing()
     const clock = new IncrementClock()
-    const supportCode = new SupportCode(newId, clock)
+    const makeErrorMessage = withFullStackTrace()
+    const supportCode = new SupportCode(newId, clock, makeErrorMessage)
     makeDummyStepDefinitions(supportCode)
 
     const cucumberStream = new CucumberStream(
@@ -225,8 +227,9 @@ describe('CucumberQuery', () => {
       supportCode.stepDefinitions,
       supportCode.beforeHooks,
       supportCode.afterHooks,
-      newId,
-      clock
+      supportCode.newId,
+      supportCode.clock,
+      supportCode.makeErrorMessage
     )
 
     const queryUpdateStream = new Writable({

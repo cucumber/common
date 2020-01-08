@@ -2,6 +2,7 @@ import assert from 'assert'
 import { When, Before, After } from 'fake-cucumber'
 
 Before(function() {
+  // no-op
 })
 
 When('a step passes', function() {
