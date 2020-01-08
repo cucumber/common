@@ -189,9 +189,7 @@ describe('TestStep', () => {
           testStepFinished.testResult.message.includes('Something went wrong')
         )
         assert.ok(
-          testStepFinished.testResult.message.includes(
-            'at Object.stubFailingSupportCodeExecutor'
-          )
+          testStepFinished.testResult.message.includes('at some.feature:123')
         )
       })
 

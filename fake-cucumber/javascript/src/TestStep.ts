@@ -14,7 +14,11 @@ const {
 
 const stack = new StackUtils({
   cwd: process.cwd(),
-  internals: StackUtils.nodeInternals(),
+  internals: [
+    ...StackUtils.nodeInternals(),
+    // Exclude ourself from stack traces in case we're npm link'ed
+    /\s*at .*[/]fake-cucumber[/]/,
+  ],
 })
 
 export default abstract class TestStep implements ITestStep {
