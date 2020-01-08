@@ -19,7 +19,10 @@ type RegisterStepDefinition = (
   body: AnyBody
 ) => void
 
-type RegisterHook = (tagExpression: string, body: AnyBody) => void
+type RegisterHook = (
+  tagExpressionOrBody: string | AnyBody,
+  body?: AnyBody
+) => void
 
 interface IParameterTypeDefinition {
   name: string
@@ -110,18 +113,30 @@ export default class SupportCode {
     this.stepDefinitions.push(stepDefinition)
   }
 
-  private registerBeforeHook(tagExpression: string, body: AnyBody) {
-    const sourceReference = getSourceReference(new Error().stack)
-    this.beforeHooks.push(
-      new Hook(this.newId(), tagExpression, sourceReference, body)
-    )
+  private registerBeforeHook(
+    tagExpressionOrBody: string | AnyBody,
+    body?: AnyBody
+  ) {
+    this.beforeHooks.push(this.makeHook(new Error(), tagExpressionOrBody, body))
   }
 
-  private registerAfterHook(tagExpression: string, body: AnyBody) {
-    const sourceReference = getSourceReference(new Error().stack)
+  private registerAfterHook(
+    tagExpressionOrBody: string | AnyBody,
+    body?: AnyBody
+  ) {
+    this.afterHooks.push(this.makeHook(new Error(), tagExpressionOrBody, body))
+  }
 
-    this.afterHooks.push(
-      new Hook(this.newId(), tagExpression, sourceReference, body)
-    )
+  private makeHook(
+    error: Error,
+    tagExpressionOrBody: string | AnyBody,
+    body?: AnyBody
+  ) {
+    const tagExpression =
+      typeof tagExpressionOrBody === 'string' ? tagExpressionOrBody : null
+    body = typeof tagExpressionOrBody !== 'string' ? tagExpressionOrBody : body
+
+    const sourceReference = getSourceReference(error.stack)
+    return new Hook(this.newId(), tagExpression, sourceReference, body)
   }
 }

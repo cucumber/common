@@ -12,7 +12,10 @@ import SupportCodeExecutor from '../src/SupportCodeExecutor'
 import IWorld from '../src/IWorld'
 import TestWorld from './TestWorld'
 import IncrementClock from '../src/IncrementClock'
-import { withSourceFramesOnlyStackTrace, withFullStackTrace } from '../src/ErrorMessageGenerator'
+import {
+  withSourceFramesOnlyStackTrace,
+  withFullStackTrace,
+} from '../src/ErrorMessageGenerator'
 
 describe('TestStep', () => {
   let world: IWorld

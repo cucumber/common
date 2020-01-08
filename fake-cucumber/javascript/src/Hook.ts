@@ -13,8 +13,7 @@ export default class Hook implements IHook {
   ) {}
 
   public match(pickle: messages.IPickle): SupportCodeExecutor | null {
-    const matches =
-      this.tagExpression === null || this.matchesTagExpression(pickle)
+    const matches = this.tagExpression === null || this.matchesPickle(pickle)
 
     return matches
       ? new SupportCodeExecutor(this.id, this.body, [], null, null)
@@ -31,7 +30,7 @@ export default class Hook implements IHook {
     })
   }
 
-  private matchesTagExpression(pickle: messages.IPickle): boolean {
+  private matchesPickle(pickle: messages.IPickle): boolean {
     const expression = parseTagExpression(this.tagExpression)
     const tagNames = pickle.tags.map(tag => tag.name)
     return expression.evaluate(tagNames)
