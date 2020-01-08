@@ -5,7 +5,19 @@ require 'gherkin/gherkin_query'
 describe Gherkin::Query do
   let(:subject) { Gherkin::Query.new() }
 
-  let(:gherkin_document) { messages.find {|m| m.gherkin_document != nil }.gherkin_document }
+  def filter_messages_by_attribute(messages, attribute)
+    messages.map do |message|
+      return unless message.respond_to?(attribute)
+      message.send(attribute)
+    end.compact
+  end
+
+  def find_message_by_attribute(messages, attribute)
+    filter_messages_by_attribute(messages, attribute).first
+  end
+
+  let(:gherkin_document) { find_message_by_attribute(messages, :gherkin_document) }
+
   let(:messages) {
     Gherkin.from_source(
       "some/path",
@@ -54,9 +66,9 @@ describe Gherkin::Query do
       }
     end
 
-    let(:background) { gherkin_document.feature.children.find { |c| c.background != nil }.background }
-    let(:scenarios) { gherkin_document.feature.children.filter {|c| c.scenario != nil } }
-    let(:scenario) { scenarios.first.scenario }
+    let(:background) { find_message_by_attribute(gherkin_document.feature.children, :background) }
+    let(:scenarios) { filter_messages_by_attribute(gherkin_document.feature.children, :scenario) }
+    let(:scenario) { scenarios.first }
 
     it 'raises an exception when the AST node ID is unknown' do
       expect { subject.get_location("this-id-may-not-exist-for-real") }.to raise_exception(Gherkin::AstNodeNotLocatedException)
@@ -82,7 +94,7 @@ describe Gherkin::Query do
     context 'when querying tags' do
       let(:feature_tag) { gherkin_document.feature.tags.first }
       let(:scenario_tag) { scenario.tags.first }
-      let(:example_tag) { scenarios.last.scenario.examples.first.tags.first }
+      let(:example_tag) { scenarios.last.examples.first.tags.first }
 
       it 'provides the location of feature tags' do
         expect(subject.get_location(feature_tag.id)).to eq(feature_tag.location)
@@ -98,10 +110,10 @@ describe Gherkin::Query do
     end
 
     context 'when children are scoped in a Rule' do
-      let(:rule) { gherkin_document.feature.children.find { |c| c.rule != nil }.rule }
-      let(:rule_background) { rule.children.find { |c| c.background != nil}.background }
+      let(:rule) { find_message_by_attribute(gherkin_document.feature.children, :rule) }
+      let(:rule_background) { find_message_by_attribute(rule.children, :background) }
       let(:rule_background_step) { rule_background.steps.first }
-      let(:rule_scenario) { rule.children.find { |c| c.scenario != nil}.scenario }
+      let(:rule_scenario) { find_message_by_attribute(rule.children, :scenario) }
       let(:rule_scenario_step) { rule_scenario.steps.first }
       let(:rule_scenario_tag) { rule_scenario.tags.first }
 
