@@ -66,7 +66,7 @@
                         "value": "red"
                       }
                     ],
-                    "id": "5",
+                    "id": "6",
                     "location": {
                       "column": 7,
                       "line": 18
@@ -83,7 +83,7 @@
                       "value": "color"
                     }
                   ],
-                  "id": "4",
+                  "id": "5",
                   "location": {
                     "column": 7,
                     "line": 17
@@ -91,7 +91,7 @@
                 }
               }
             ],
-            "id": "6",
+            "id": "7",
             "keyword": "Scenario",
             "location": {
               "column": 3,
@@ -101,6 +101,7 @@
             "steps": [
               {
                 "dataTable": {
+                  "id": "3",
                   "location": {
                     "column": 7,
                     "line": 5
@@ -177,7 +178,7 @@
                     }
                   ]
                 },
-                "id": "3",
+                "id": "4",
                 "keyword": "Given ",
                 "location": {
                   "column": 5,

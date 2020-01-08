@@ -165,11 +165,15 @@ public class PickleCompiler {
             }
             newRows.add(PickleTableRow.newBuilder().addAllCells(newCells).build());
         }
-        return PickleTable.newBuilder().addAllRows(newRows).build();
+        return PickleTable.newBuilder()
+                .setAstNodeId(dataTable.getId())
+                .addAllRows(newRows)
+                .build();
     }
 
     private PickleDocString pickleDocString(Step.DocString docString, List<TableCell> variableCells, List<TableCell> valueCells) {
         return PickleDocString.newBuilder()
+                .setAstNodeId(docString.getId())
                 .setContent(interpolate(docString.getContent(), variableCells, valueCells))
                 .setMediaType(Objects.requireNonNull(docString.getMediaType() == null ? null : interpolate(docString.getMediaType(), variableCells, valueCells)))
                 .build();
