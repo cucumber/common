@@ -1,16 +1,11 @@
 import React from 'react'
-import styled from 'styled-components'
 
 interface IProps {
   children: any
 }
 
-const KeywordSpan = styled.span`
-  font-weight: bold;
-`
-
 const Keyword: React.FunctionComponent<IProps> = ({ children }) => {
-  return <KeywordSpan>{children}</KeywordSpan>
+  return <span className="keyword">{children}</span>
 }
 
 export default Keyword

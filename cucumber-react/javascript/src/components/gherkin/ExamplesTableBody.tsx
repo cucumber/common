@@ -1,22 +1,13 @@
 import React from 'react'
 import { messages } from 'cucumber-messages'
-import { Td } from './html'
-import styled from 'styled-components'
 import statusColor from './statusColor'
 import CucumberQueryContext from '../../CucumberQueryContext'
 import UriContext from '../../UriContext'
+import isNumber from './isNumber'
 
 interface IProps {
   rows: messages.GherkinDocument.Feature.ITableRow[]
 }
-
-interface ITrProps {
-  status: messages.TestResult.Status
-}
-
-const Tr = styled.tr`
-  background-color: ${(props: ITrProps) => statusColor(props.status).hex()};
-`
 
 const ExamplesTableBody: React.FunctionComponent<IProps> = ({ rows }) => {
   const cucumberQuery = React.useContext(CucumberQueryContext)
@@ -32,11 +23,16 @@ const ExamplesTableBody: React.FunctionComponent<IProps> = ({ rows }) => {
             ? testResults[0].status
             : messages.TestResult.Status.UNKNOWN
         return (
-          <Tr key={i} status={status}>
+          <tr style={{ backgroundColor: statusColor(status).hex() }} key={i}>
             {(row.cells || []).map((cell, j) => (
-              <Td key={j}>{cell.value}</Td>
+              <td
+                key={j}
+                style={{ textAlign: isNumber(cell.value) ? 'right' : 'left' }}
+              >
+                {cell.value}
+              </td>
             ))}
-          </Tr>
+          </tr>
         )
       })}
     </tbody>

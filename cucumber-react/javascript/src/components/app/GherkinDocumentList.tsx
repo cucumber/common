@@ -1,24 +1,17 @@
 import React from 'react'
 import GherkinDocument from '../gherkin/GherkinDocument'
 import { messages } from 'cucumber-messages'
-import styled from 'styled-components'
 import {
   Accordion,
   AccordionItem,
   AccordionItemButton,
   AccordionItemHeading,
   AccordionItemPanel,
-} from '../styled-react-accessible-accordion'
+} from 'react-accessible-accordion'
 import CucumberQueryContext from '../../CucumberQueryContext'
 import CucumberQuery from 'cucumber-query'
 import UriContext from '../../UriContext'
-
-const Body = styled.div`
-  font: 14px 'Open Sans', sans-serif;
-  color: #212121;
-  background: #fff;
-  overflow-x: hidden;
-`
+import statusColor from '../gherkin/statusColor'
 
 interface IProps {
   gherkinDocuments: messages.IGherkinDocument[]
@@ -30,15 +23,7 @@ const GherkinDocumentList: React.FunctionComponent<IProps> = ({
   cucumberQuery,
 }) => {
   return (
-    <Body>
-      <link
-        href="https://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css"
-        rel="stylesheet"
-      />
-      <link
-        href="https://fonts.googleapis.com/css?family=Open+Sans:300"
-        rel="stylesheet"
-      />
+    <div className="gherkin-document-list">
       <CucumberQueryContext.Provider value={cucumberQuery}>
         <Accordion allowMultipleExpanded={false} allowZeroExpanded={true}>
           {gherkinDocuments.map(gherkinDocument => {
@@ -56,7 +41,9 @@ const GherkinDocumentList: React.FunctionComponent<IProps> = ({
                 uuid={gherkinDocument.uri}
               >
                 <AccordionItemHeading>
-                  <AccordionItemButton status={status}>
+                  <AccordionItemButton
+                    style={{ backgroundColor: statusColor(status).hex() }}
+                  >
                     {gherkinDocument.uri}
                   </AccordionItemButton>
                 </AccordionItemHeading>
@@ -70,7 +57,7 @@ const GherkinDocumentList: React.FunctionComponent<IProps> = ({
           })}
         </Accordion>
       </CucumberQueryContext.Provider>
-    </Body>
+    </div>
   )
 }
 

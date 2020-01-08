@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
+* Replace styled-components with external CSS
+  ([#839](https://github.com/cucumber/cucumber/pull/839)
+   [aslakhellesoy])
+
 ### Deprecated
 
 ### Removed

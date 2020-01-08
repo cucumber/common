@@ -20,8 +20,7 @@
     "color": "^3.1.2",
     "cucumber-messages": "^8.0.0",
     "cucumber-query": "^1.1.0",
-    "react-accessible-accordion": "^3.0.1",
-    "styled-components": "^4.4.1"
+    "react-accessible-accordion": "^3.0.1"
   },
   "peerDependencies": {
     "react": "^16.12.0",
@@ -39,7 +38,6 @@
     "@types/node": "^12.12.21",
     "@types/react": "^16.9.17",
     "@types/react-dom": "^16.9.4",
-    "@types/styled-components": "^4.4.1",
     "awesome-typescript-loader": "^5.2.1",
     "babel-loader": "^8.0.6",
     "fake-cucumber": "^3.0.2",
