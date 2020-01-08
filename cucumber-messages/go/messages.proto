@@ -1,6 +1,5 @@
 syntax = "proto3";
 package io.cucumber.messages;
-option ruby_package = "Cucumber::Messages";
 option go_package = "messages";
 
 // When removing a field, replace it with reserved, rather than deleting the line.
@@ -426,13 +425,13 @@ message TestCase {
     string pickle_step_id = 2;
     // Pointer to all the matching `StepDefinition`s (if derived from a PickleStep)
     repeated string step_definition_ids = 3;
-    // A list of list of StepMatchArgument (if derived from a `StepDefinition`). 
+    // A list of list of StepMatchArgument (if derived from a `StepDefinition`).
     // Each element represents a matching step definition. A size of 0 means `UNDEFINED`,
     // and a size of 2+ means `AMBIGUOUS`
     repeated StepMatchArgumentsList step_match_arguments_lists = 4;
     // Pointer to the `Hook` (if derived from a Hook)
     string hook_id = 5;
-    
+
     message StepMatchArgumentsList {
       repeated StepMatchArgument step_match_arguments = 1;
     }
