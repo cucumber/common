@@ -8,7 +8,7 @@ require 'cucumber_demo_formatter'
 ARGV << '-h' if ARGV.empty?
 
 option_parser = OptionParser.new do |opts|
-  opts.on '-f', '--format=ndjson|protobuf', 'Output format'
+  opts.on '-f', '--format=ndjson|protobuf', 'Input format'
 
   opts.on_tail("-h", "--help", "Show this message") do
     puts opts
