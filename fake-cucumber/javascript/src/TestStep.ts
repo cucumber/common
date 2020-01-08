@@ -7,7 +7,10 @@ import StackUtils from 'stack-utils'
 import makeAttach from './makeAttach'
 import IClock from './IClock'
 
-const { millisecondsToDuration } = TimeConversion
+const {
+  millisecondsToDuration,
+  millisecondsSinceEpochToTimestamp,
+} = TimeConversion
 
 const stack = new StackUtils({
   cwd: process.cwd(),
@@ -117,6 +120,7 @@ export default abstract class TestStep implements ITestStep {
         testStepStarted: new messages.TestStepStarted({
           testCaseStartedId,
           testStepId: this.id,
+          timestamp: millisecondsSinceEpochToTimestamp(this.clock.now()),
         }),
       })
     )
@@ -133,6 +137,7 @@ export default abstract class TestStep implements ITestStep {
           testCaseStartedId,
           testStepId: this.id,
           testResult,
+          timestamp: millisecondsSinceEpochToTimestamp(this.clock.now()),
         }),
       })
     )

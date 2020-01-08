@@ -41,6 +41,7 @@ export default class TestCase {
           attempt,
           testCaseId: this.id,
           id: testCaseStartedId,
+          timestamp: millisecondsSinceEpochToTimestamp(this.clock.now()),
         }),
       })
     )

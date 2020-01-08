@@ -4,7 +4,7 @@
 {"parameterType":{"name":"flight","regularExpressions":["([A-Z]{3})-([A-Z]{3})"],"preferForRegularExpressionMatch":false,"useForSnippets":true}}
 {"stepDefinition":{"id":"0","pattern":{"source":"{flight} has been delayed {int} minutes","type":"CUCUMBER_EXPRESSION"},"sourceReference":{"uri":"features/parameter-types/parameter-types.ts","location":{"line":16}}}}
 {"testCase":{"id":"6","pickleId":"4","testSteps":[{"id":"5","pickleStepId":"3","stepDefinitionIds":["0"],"stepMatchArgumentsLists":[{"stepMatchArguments":[{"parameterTypeName":"flight","group":{"start":0,"value":"LHR-CDG","children":[{"start":0,"value":"LHR"},{"start":4,"value":"CDG"}]}},{"parameterTypeName":"int","group":{"start":25,"value":"45"}}]}]}]}}
-{"testCaseStarted":{"attempt":0,"testCaseId":"6","id":"7"}}
-{"testStepStarted":{"testStepId":"5","testCaseStartedId":"7"}}
-{"testStepFinished":{"testResult":{"status":"PASSED","duration":{"seconds":"0","nanos":1000000}},"testStepId":"5","testCaseStartedId":"7"}}
-{"testCaseFinished":{"timestamp":{"seconds":"0","nanos":2000000},"testCaseStartedId":"7"}}
+{"testCaseStarted":{"timestamp":{"seconds":"0","nanos":0},"attempt":0,"testCaseId":"6","id":"7"}}
+{"testStepStarted":{"timestamp":{"seconds":"0","nanos":1000000},"testStepId":"5","testCaseStartedId":"7"}}
+{"testStepFinished":{"testResult":{"status":"PASSED","duration":{"seconds":"0","nanos":1000000}},"timestamp":{"seconds":"0","nanos":4000000},"testStepId":"5","testCaseStartedId":"7"}}
+{"testCaseFinished":{"timestamp":{"seconds":"0","nanos":5000000},"testCaseStartedId":"7"}}
