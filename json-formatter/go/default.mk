@@ -2,8 +2,7 @@ SHELL := /usr/bin/env bash
 GOPATH := $(shell go env GOPATH)
 PATH := $(PATH):$(GOPATH)/bin
 GO_SOURCE_FILES := $(shell find . -name "*.go" | sort)
-MOD_DIR := $(shell dirname $$(find . -name go.mod))
-LIBNAME := cucumber-$(shell basename $$(dirname $$(pwd)))
+LIBNAME := $(shell basename $$(dirname $$(pwd)))
 GOX_LDFLAGS := "-X main.version=${NEW_VERSION}"
 EXES := $(shell find dist -name '$(LIBNAME)-*')
 UPX_EXES = $(patsubst dist/$(LIBNAME)-%,dist_compressed/$(LIBNAME)-%,$(EXES))
@@ -11,7 +10,7 @@ UPX_EXES = $(patsubst dist/$(LIBNAME)-%,dist_compressed/$(LIBNAME)-%,$(EXES))
 OS := $(shell [[ "$$(uname)" == "Darwin" ]] && echo "darwin" || echo "linux")
 # Determine if we're on 386 or amd64 (ignoring other processors as we're not building on them)
 ARCH := $(shell [[ "$$(uname -m)" == "x86_64" ]] && echo "amd64" || echo "386")
-EXE = dist/$(LIBNAME)-$(OS)-$(ARCH)
+EXE = dist/cucumber-$(LIBNAME)-$(OS)-$(ARCH)
 REPLACEMENTS := $(shell sed -n "/^\s*github.com\/cucumber/p" go.mod | perl -wpe 's/\s*(github.com\/cucumber\/(.*)-go\/v\d+).*/q{replace } . $$1 . q{ => ..\/..\/} . $$2 . q{\/go}/eg')
 CURRENT_MAJOR := $(shell sed -n "/^module/p" go.mod | awk '{ print $$0 "/v1" }' | cut -d'/' -f4 | cut -d'v' -f2)
 NEW_MAJOR := $(shell echo ${NEW_VERSION} | awk -F'.' '{print $$1}')
@@ -48,13 +47,13 @@ endif
 	touch $@
 
 update-dependencies:
-	cd $(MOD_DIR) && go get -u && go mod tidy
+	go get -u && go mod tidy
 .PHONY: update-dependencies
 
-pre-release: remove-replaces update-major update-dependencies clean default
+pre-release: remove-replaces update-dependencies clean default
 .PHONY: pre-release
 
-update-version:
+update-version: update-major
 	# no-op
 .PHONY: update-version
 

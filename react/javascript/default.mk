@@ -50,7 +50,7 @@ endif
 
 publish: .codegen
 ifneq (true,$(PRIVATE))
-	npm publish
+	npm publish --access public
 else
 	@echo "Not publishing private npm module"
 endif
