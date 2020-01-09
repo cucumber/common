@@ -1,5 +1,5 @@
 {
-  "name": "@cucumber/cucumber-react",
+  "name": "@cucumber/react",
   "version": "3.1.0",
   "description": "React components for Cucumber",
   "main": "dist/src/index.js",
