@@ -2,7 +2,6 @@ module Gherkin
   class Query
     def initialize
       @ast_node_locations = {}
-      @argument_location_by_step_id = {}
     end
 
     def update(message)
@@ -12,10 +11,6 @@ module Gherkin
     def location(ast_node_id)
       return @ast_node_locations[ast_node_id] if @ast_node_locations.has_key?(ast_node_id)
       raise AstNodeNotLocatedException, "No location found for #{ast_node_id} }. Known: #{@ast_node_locations.keys}"
-    end
-
-    def argument_location(step_id)
-      return @argument_location_by_step_id[step_id]
     end
 
     private
@@ -52,17 +47,7 @@ module Gherkin
     end
 
     def update_steps(steps)
-      steps.map do |step|
-        store_node_location(step)
-
-        unless step.data_table.nil?
-          @argument_location_by_step_id[step.id] = step.data_table.location
-        end
-
-        unless step.doc_string.nil?
-          @argument_location_by_step_id[step.id] = step.doc_string.location
-        end
-      end
+      store_nodes_location(steps)
     end
 
     def store_nodes_location(nodes)
