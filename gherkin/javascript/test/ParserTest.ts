@@ -1,5 +1,5 @@
 import assert from 'assert'
-import { messages, IdGenerator } from 'cucumber-messages'
+import { messages, IdGenerator } from '@cucumber/messages'
 import AstBuilder from '../src/AstBuilder'
 import Parser from '../src/Parser'
 import TokenScanner from '../src/TokenScanner'

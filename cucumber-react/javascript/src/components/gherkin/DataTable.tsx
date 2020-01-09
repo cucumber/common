@@ -1,5 +1,5 @@
 import React from 'react'
-import { messages } from 'cucumber-messages'
+import { messages } from '@cucumber/messages'
 import TableBody from './TableBody'
 import IDataTable = messages.GherkinDocument.Feature.Step.IDataTable
 

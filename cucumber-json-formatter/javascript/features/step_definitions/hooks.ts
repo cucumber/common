@@ -1,4 +1,4 @@
-import { After, Before } from 'fake-cucumber'
+import { After, Before } from '@cucumber/fake-cucumber'
 
 Before('@before-passed', function() {
 })

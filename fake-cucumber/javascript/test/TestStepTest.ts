@@ -1,5 +1,5 @@
 import assert from 'assert'
-import { messages } from 'cucumber-messages'
+import { messages } from '@cucumber/messages'
 import ITestStep from '../src/ITestStep'
 import {
   stubFailingSupportCodeExecutor,

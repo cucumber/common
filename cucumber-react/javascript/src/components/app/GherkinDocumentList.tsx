@@ -1,6 +1,6 @@
 import React from 'react'
 import GherkinDocument from '../gherkin/GherkinDocument'
-import { messages } from 'cucumber-messages'
+import { messages } from '@cucumber/messages'
 import {
   Accordion,
   AccordionItem,
@@ -9,7 +9,7 @@ import {
   AccordionItemPanel,
 } from 'react-accessible-accordion'
 import CucumberQueryContext from '../../CucumberQueryContext'
-import CucumberQuery from 'cucumber-query'
+import CucumberQuery from '@cucumber/query'
 import UriContext from '../../UriContext'
 import statusColor from '../gherkin/statusColor'
 

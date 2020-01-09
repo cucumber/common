@@ -1,12 +1,11 @@
 import TestCase from './TestCase'
 import { MessageNotifier } from './types'
-import { IdGenerator, messages } from 'cucumber-messages'
+import { IdGenerator, messages, TimeConversion } from '@cucumber/messages'
 import makeTestCase from './makeTestCase'
 import IStepDefinition from './IStepDefinition'
 import IHook from './IHook'
-import { GherkinQuery } from 'gherkin'
+import { GherkinQuery } from '@cucumber/gherkin'
 import IClock from './IClock'
-import { millisecondsSinceEpochToTimestamp } from 'cucumber-messages/dist/src/TimeConversion'
 import { MakeErrorMessage } from './ErrorMessageGenerator'
 
 export default class TestPlan {
@@ -40,7 +39,9 @@ export default class TestPlan {
     notifier(
       new messages.Envelope({
         testRunStarted: new messages.TestRunStarted({
-          timestamp: millisecondsSinceEpochToTimestamp(this.clock.now()),
+          timestamp: TimeConversion.millisecondsSinceEpochToTimestamp(
+            this.clock.now()
+          ),
         }),
       })
     )
@@ -53,7 +54,9 @@ export default class TestPlan {
     notifier(
       new messages.Envelope({
         testRunFinished: new messages.TestRunFinished({
-          timestamp: millisecondsSinceEpochToTimestamp(this.clock.now()),
+          timestamp: TimeConversion.millisecondsSinceEpochToTimestamp(
+            this.clock.now()
+          ),
         }),
       })
     )

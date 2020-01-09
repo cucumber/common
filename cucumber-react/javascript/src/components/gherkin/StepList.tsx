@@ -1,4 +1,4 @@
-import { messages } from 'cucumber-messages'
+import { messages } from '@cucumber/messages'
 import React from 'react'
 import Step from './Step'
 

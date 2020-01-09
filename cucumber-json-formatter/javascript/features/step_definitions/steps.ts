@@ -1,4 +1,4 @@
-import { Given, Then, When } from 'fake-cucumber'
+import { Given, Then, When } from '@cucumber/fake-cucumber'
 
 Given('a passed {word}', (word: string) => undefined)
 

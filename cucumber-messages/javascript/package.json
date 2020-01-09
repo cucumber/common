@@ -1,10 +1,13 @@
 {
-  "name": "cucumber-messages",
+  "name": "@cucumber/messages",
   "version": "8.0.0",
   "description": "Protocol Buffer messages for Cucumber's inter-process communication",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
-  "repository": "git://github.com/cucumber/cucumber-messages-javascript.git",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/cucumber/cucumber-messages-javascript.git"
+  },
   "author": "Cucumber Limited <cukes@googlegroups.com>",
   "license": "MIT",
   "scripts": {
@@ -24,15 +27,23 @@
   },
   "devDependencies": {
     "@types/mocha": "^5.2.7",
-    "@types/node": "^12.12.21",
+    "@types/node": "^13.1.5",
     "copyfiles": "^2.1.1",
-    "mocha": "^6.2.2",
-    "nyc": "^14.1.1",
+    "mocha": "^7.0.0",
+    "nyc": "^15.0.0",
     "prettier": "^1.19.1",
     "ts-node": "^8.5.4",
     "tslint": "^5.20.1",
     "tslint-config-prettier": "^1.18.0",
-    "tslint-plugin-prettier": "^2.0.1",
-    "typescript": "^3.7.3"
-  }
+    "tslint-plugin-prettier": "^2.1.0",
+    "typescript": "^3.7.4"
+  },
+  "bugs": {
+    "url": "https://github.com/cucumber/cucumber-messages-javascript/issues"
+  },
+  "homepage": "https://github.com/cucumber/cucumber-messages-javascript#readme",
+  "directories": {
+    "test": "test"
+  },
+  "keywords": []
 }

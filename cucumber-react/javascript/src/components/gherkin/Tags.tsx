@@ -1,5 +1,5 @@
 import React from 'react'
-import { messages } from 'cucumber-messages'
+import { messages } from '@cucumber/messages'
 import ITag = messages.GherkinDocument.Feature.ITag
 
 interface IProps {

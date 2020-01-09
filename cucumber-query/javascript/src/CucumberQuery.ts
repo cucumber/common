@@ -1,5 +1,5 @@
-import { messages } from 'cucumber-messages'
-import { GherkinQuery } from 'gherkin'
+import { messages } from '@cucumber/messages'
+import { GherkinQuery } from '@cucumber/gherkin'
 
 export default class CucumberQuery {
   private readonly testCaseStartedById = new Map<

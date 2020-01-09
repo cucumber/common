@@ -1,10 +1,10 @@
-import { IdGenerator, messages } from 'cucumber-messages'
+import { IdGenerator, messages } from '@cucumber/messages'
 import { MessageNotifier } from './types'
 import TestPlan from './TestPlan'
 import IStepDefinition from './IStepDefinition'
 import IHook from './IHook'
-import { GherkinQuery } from 'gherkin'
-import { ParameterType } from 'cucumber-expressions'
+import { GherkinQuery } from '@cucumber/gherkin'
+import { ParameterType } from '@cucumber/expressions'
 import IClock from './IClock'
 import { MakeErrorMessage } from './ErrorMessageGenerator'
 

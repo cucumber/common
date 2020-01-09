@@ -1,5 +1,5 @@
 import React from 'react'
-import { messages } from 'cucumber-messages'
+import { messages } from '@cucumber/messages'
 import IDocString = messages.GherkinDocument.Feature.Step.IDocString
 
 interface IProps {

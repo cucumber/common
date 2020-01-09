@@ -1,4 +1,4 @@
-import { messages } from 'cucumber-messages'
+import { messages } from '@cucumber/messages'
 import GherkinLine from './GherkinLine'
 import { TokenType } from './Parser'
 

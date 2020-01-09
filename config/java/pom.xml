@@ -17,6 +17,7 @@
 
     <properties>
         <project.Automatic-Module-Name>io.cucumber.config</project.Automatic-Module-Name>
+        <jacoco-maven-plugin.version>0.8.5</jacoco-maven-plugin.version>
     </properties>
 
     <scm>
@@ -42,7 +43,7 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.13-beta-3</version>
+            <version>4.13</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

@@ -3,7 +3,7 @@ import {
   messages,
   MessageToBinaryStream,
   MessageToNdjsonStream,
-} from 'cucumber-messages'
+} from '@cucumber/messages'
 
 export default function formatStream(format: 'ndjson' | 'protobuf'): Transform {
   switch (format) {

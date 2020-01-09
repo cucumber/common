@@ -3,15 +3,15 @@ import {
   BinaryToMessageStream,
   messages,
   NdjsonToMessageStream,
-} from 'cucumber-messages'
+} from '@cucumber/messages'
 import React from 'react'
 import program from 'commander'
 import p from '../package.json'
 import { pipeline, Transform, TransformCallback } from 'stream'
-import { GherkinDocumentList } from 'cucumber-react'
+import { GherkinDocumentList } from '@cucumber/react'
 import { renderToString } from 'react-dom/server'
-import CucumberQuery from 'cucumber-query'
-import { GherkinQuery } from 'gherkin'
+import CucumberQuery from '@cucumber/query'
+import { GherkinQuery } from '@cucumber/gherkin'
 
 class CucumberHtmlStream extends Transform {
   private readonly envelopes: messages.IEnvelope[] = []

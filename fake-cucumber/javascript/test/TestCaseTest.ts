@@ -1,4 +1,4 @@
-import { messages, TimeConversion } from 'cucumber-messages'
+import { messages, TimeConversion } from '@cucumber/messages'
 import assert from 'assert'
 import TestStep from '../src/TestStep'
 import TestCase from '../src/TestCase'

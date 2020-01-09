@@ -1,7 +1,7 @@
 import assert from 'assert'
 import makeAttach from '../src/makeAttach'
 import { MessageNotifier } from '../src/types'
-import { messages } from 'cucumber-messages'
+import { messages } from '@cucumber/messages'
 import { ReadableStreamBuffer } from 'stream-buffers'
 
 describe('#attach', () => {

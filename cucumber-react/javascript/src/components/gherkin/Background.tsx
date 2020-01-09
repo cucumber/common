@@ -1,7 +1,7 @@
 import React from 'react'
 import Keyword from './Keyword'
 import Description from './Description'
-import { messages } from 'cucumber-messages'
+import { messages } from '@cucumber/messages'
 import StepList from './StepList'
 import IBackground = messages.GherkinDocument.Feature.IBackground
 

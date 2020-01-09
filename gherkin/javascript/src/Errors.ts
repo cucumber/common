@@ -1,4 +1,4 @@
-import { messages } from 'cucumber-messages'
+import { messages } from '@cucumber/messages'
 import Token from './Token'
 import createLocation from './cli/createLocation'
 

@@ -2,7 +2,7 @@ import React from 'react'
 import Keyword from './Keyword'
 import Description from './Description'
 import Scenario from './Scenario'
-import { messages } from 'cucumber-messages'
+import { messages } from '@cucumber/messages'
 import Background from './Background'
 import IRule = messages.GherkinDocument.Feature.FeatureChild.IRule
 

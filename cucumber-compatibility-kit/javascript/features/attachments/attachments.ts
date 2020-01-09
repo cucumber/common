@@ -1,4 +1,4 @@
-import { When } from 'fake-cucumber'
+import { When } from '@cucumber/fake-cucumber'
 import { ReadableStreamBuffer } from 'stream-buffers'
 
 When('the string {string} is attached as {string}', function(

@@ -1,5 +1,5 @@
 import SupportCode from './SupportCode'
-import { IdGenerator } from 'cucumber-messages'
+import { IdGenerator } from '@cucumber/messages'
 import PerfHooksClock from './PerfHooksClock'
 import { withFullStackTrace } from './ErrorMessageGenerator'
 

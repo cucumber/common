@@ -1,9 +1,9 @@
-import { messages } from 'cucumber-messages'
-import { GherkinDocumentList } from 'cucumber-react'
+import { messages } from '@cucumber/messages'
+import { GherkinDocumentList } from '@cucumber/react'
 import React from 'react'
 import ReactDOM from 'react-dom'
-import CucumberQuery from 'cucumber-query'
-import { GherkinQuery } from 'gherkin'
+import CucumberQuery from '@cucumber/query'
+import { GherkinQuery } from '@cucumber/gherkin'
 
 declare global {
   interface Window {

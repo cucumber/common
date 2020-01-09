@@ -1,5 +1,5 @@
 import assert from 'assert'
-import { When, Before, After } from 'fake-cucumber'
+import { When, Before, After } from '@cucumber/fake-cucumber'
 
 Before(function() {
   // no-op

@@ -1,10 +1,13 @@
 import assert from 'assert'
-import { IdGenerator, messages } from 'cucumber-messages'
+import { IdGenerator, messages } from '@cucumber/messages'
 import makeTestCase from '../src/makeTestCase'
 import ExpressionStepDefinition from '../src/ExpressionStepDefinition'
 import Hook from '../src/Hook'
-import { CucumberExpression, ParameterTypeRegistry } from 'cucumber-expressions'
-import { GherkinQuery } from 'gherkin'
+import {
+  CucumberExpression,
+  ParameterTypeRegistry,
+} from '@cucumber/expressions'
+import { GherkinQuery } from '@cucumber/gherkin'
 import IncrementClock from '../src/IncrementClock'
 import { withSourceFramesOnlyStackTrace } from '../src/ErrorMessageGenerator'
 

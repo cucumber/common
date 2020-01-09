@@ -1,4 +1,4 @@
-import { messages, TimeConversion } from 'cucumber-messages'
+import { messages, TimeConversion } from '@cucumber/messages'
 import SupportCodeExecutor from './SupportCodeExecutor'
 import { MessageNotifier } from './types'
 import ITestStep from './ITestStep'

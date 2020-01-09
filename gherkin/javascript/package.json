@@ -1,5 +1,5 @@
 {
-  "name": "gherkin",
+  "name": "@cucumber/gherkin",
   "version": "9.0.0",
   "description": "Gherkin parser",
   "main": "dist/src/index.js",
@@ -17,7 +17,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/cucumber/gherkin-javascript"
+    "url": "git+https://github.com/cucumber/gherkin-javascript.git"
   },
   "keywords": [
     "gherkin",
@@ -31,19 +31,22 @@
   "homepage": "https://github.com/cucumber/gherkin-javascript",
   "devDependencies": {
     "@types/mocha": "^5.2.7",
-    "@types/node": "^12.12.21",
-    "mocha": "^6.2.2",
-    "nyc": "^14.1.1",
+    "@types/node": "^13.1.5",
+    "mocha": "^7.0.0",
+    "nyc": "^15.0.0",
     "prettier": "^1.19.1",
     "ts-node": "^8.5.4",
     "tslint": "^5.20.1",
     "tslint-config-prettier": "^1.18.0",
-    "tslint-plugin-prettier": "^2.0.1",
-    "typescript": "^3.7.3"
+    "tslint-plugin-prettier": "^2.1.0",
+    "typescript": "^3.7.4"
   },
   "dependencies": {
-    "commander": "^4.0.1",
-    "cucumber-messages": "8.0.0",
+    "@cucumber/messages": "file:../../cucumber-messages/javascript",
+    "commander": "^4.1.0",
     "source-map-support": "^0.5.16"
+  },
+  "directories": {
+    "test": "test"
   }
 }

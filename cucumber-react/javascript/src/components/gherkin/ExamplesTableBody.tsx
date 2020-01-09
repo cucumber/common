@@ -1,5 +1,5 @@
 import React from 'react'
-import { messages } from 'cucumber-messages'
+import { messages } from '@cucumber/messages'
 import statusColor from './statusColor'
 import CucumberQueryContext from '../../CucumberQueryContext'
 import UriContext from '../../UriContext'

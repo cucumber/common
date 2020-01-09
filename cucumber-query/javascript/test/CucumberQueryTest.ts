@@ -1,16 +1,16 @@
 import 'source-map-support/register'
-import gherkin, { GherkinQuery } from 'gherkin'
-import { IdGenerator, messages } from 'cucumber-messages'
+import gherkin, { GherkinQuery } from '@cucumber/gherkin'
+import { IdGenerator, messages } from '@cucumber/messages'
 import { pipeline, Readable, Writable } from 'stream'
 import assert from 'assert'
 import CucumberQuery from '../src/CucumberQuery'
-import SupportCode from 'fake-cucumber/dist/src/SupportCode'
-import CucumberStream from 'fake-cucumber/dist/src/CucumberStream'
-import { withFullStackTrace } from 'fake-cucumber/dist/src/ErrorMessageGenerator'
-import makeDummyStepDefinitions from 'fake-cucumber/dist/test/makeDummyStepDefinitions'
+import SupportCode from '@cucumber/fake-cucumber/dist/src/SupportCode'
+import CucumberStream from '@cucumber/fake-cucumber/dist/src/CucumberStream'
+import { withFullStackTrace } from '@cucumber/fake-cucumber/dist/src/ErrorMessageGenerator'
+import makeDummyStepDefinitions from '@cucumber/fake-cucumber/dist/test/makeDummyStepDefinitions'
 
 import { promisify } from 'util'
-import IncrementClock from 'fake-cucumber/dist/src/IncrementClock'
+import IncrementClock from '@cucumber/fake-cucumber/dist/src/IncrementClock'
 
 const pipelinePromise = promisify(pipeline)
 

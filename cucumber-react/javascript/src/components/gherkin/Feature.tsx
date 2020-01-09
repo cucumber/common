@@ -3,7 +3,7 @@ import Tags from './Tags'
 import Keyword from './Keyword'
 import Description from './Description'
 import Scenario from './Scenario'
-import { messages } from 'cucumber-messages'
+import { messages } from '@cucumber/messages'
 import Rule from './Rule'
 import Background from './Background'
 import IFeature = messages.GherkinDocument.IFeature

@@ -1,16 +1,16 @@
 import { storiesOf } from '@storybook/react'
 import React from 'react'
-import { messages } from 'cucumber-messages'
+import { messages } from '@cucumber/messages'
 import StepList from '../src/components/gherkin/StepList'
 import GherkinDocumentList from '../src/components/app/GherkinDocumentList'
-import CucumberQuery from 'cucumber-query'
+import CucumberQuery from '@cucumber/query'
 import CucumberQueryContext from '../src/CucumberQueryContext';
 import '../src/styles/react-accessible-accordion.css'
 import '../src/styles/styles.css'
 
 // @ts-ignore
 import ndjson from '../testdata/all.ndjson'
-import { GherkinQuery } from 'gherkin'
+import { GherkinQuery } from '@cucumber/gherkin'
 const envelopes: messages.IEnvelope[] = ndjson.trim().split('\n')
   .map((json: string) => messages.Envelope.fromObject(JSON.parse(json)))
 

@@ -1,5 +1,5 @@
-import { IdGenerator, messages } from 'cucumber-messages'
-import { GherkinQuery } from 'gherkin'
+import { IdGenerator, messages } from '@cucumber/messages'
+import { GherkinQuery } from '@cucumber/gherkin'
 import TestCase from './TestCase'
 import IStepDefinition from './IStepDefinition'
 import IHook from './IHook'

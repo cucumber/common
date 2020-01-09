@@ -1,9 +1,9 @@
 import assert from 'assert'
 import ReactDOM from 'react-dom'
 import React from 'react'
-import { GherkinQuery } from 'gherkin'
-import { messages } from 'cucumber-messages'
-import CucumberQuery from 'cucumber-query'
+import { GherkinQuery } from '@cucumber/gherkin'
+import { messages } from '@cucumber/messages'
+import CucumberQuery from '@cucumber/query'
 import CucumberQueryContext from '../src/CucumberQueryContext'
 import Step from '../src/components/gherkin/Step'
 

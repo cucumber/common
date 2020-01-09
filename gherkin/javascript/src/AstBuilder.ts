@@ -1,5 +1,5 @@
 import AstNode from './AstNode'
-import { messages, IdGenerator } from 'cucumber-messages'
+import { messages, IdGenerator } from '@cucumber/messages'
 import { RuleType, TokenType } from './Parser'
 import Token from './Token'
 import { AstBuilderException } from './Errors'
