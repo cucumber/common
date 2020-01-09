@@ -1,95 +1,102 @@
 {
   "pickle": {
     "astNodeIds": [
-      "7"
+      "14"
     ],
-    "id": "15",
+    "id": "22",
     "language": "en",
     "name": "minimalistic",
     "steps": [
       {
         "argument": {
           "docString": {
+            "astNodeId": "0",
             "content": "first line (no indent)\n  second line (indented with two spaces)\n\nthird line was empty"
-          }
-        },
-        "astNodeIds": [
-          "0"
-        ],
-        "id": "8",
-        "text": "a simple DocString"
-      },
-      {
-        "argument": {
-          "docString": {
-            "content": "<foo>\n  <bar />\n</foo>",
-            "mediaType": "xml"
           }
         },
         "astNodeIds": [
           "1"
         ],
-        "id": "9",
-        "text": "a DocString with content type"
+        "id": "15",
+        "text": "a simple DocString"
       },
       {
         "argument": {
           "docString": {
-            "content": "wrongly indented line"
-          }
-        },
-        "astNodeIds": [
-          "2"
-        ],
-        "id": "10",
-        "text": "a DocString with wrong indentation"
-      },
-      {
-        "argument": {
-          "docString": {
-            "content": "first line\nsecond line"
+            "astNodeId": "2",
+            "content": "<foo>\n  <bar />\n</foo>",
+            "mediaType": "xml"
           }
         },
         "astNodeIds": [
           "3"
         ],
-        "id": "11",
-        "text": "a DocString with alternative separator"
+        "id": "16",
+        "text": "a DocString with content type"
       },
       {
         "argument": {
           "docString": {
-            "content": "first line\n\"\"\"\nthird line"
-          }
-        },
-        "astNodeIds": [
-          "4"
-        ],
-        "id": "12",
-        "text": "a DocString with normal separator inside"
-      },
-      {
-        "argument": {
-          "docString": {
-            "content": "first line\n```\nthird line"
+            "astNodeId": "4",
+            "content": "wrongly indented line"
           }
         },
         "astNodeIds": [
           "5"
         ],
-        "id": "13",
+        "id": "17",
+        "text": "a DocString with wrong indentation"
+      },
+      {
+        "argument": {
+          "docString": {
+            "astNodeId": "6",
+            "content": "first line\nsecond line"
+          }
+        },
+        "astNodeIds": [
+          "7"
+        ],
+        "id": "18",
+        "text": "a DocString with alternative separator"
+      },
+      {
+        "argument": {
+          "docString": {
+            "astNodeId": "8",
+            "content": "first line\n\"\"\"\nthird line"
+          }
+        },
+        "astNodeIds": [
+          "9"
+        ],
+        "id": "19",
+        "text": "a DocString with normal separator inside"
+      },
+      {
+        "argument": {
+          "docString": {
+            "astNodeId": "10",
+            "content": "first line\n```\nthird line"
+          }
+        },
+        "astNodeIds": [
+          "11"
+        ],
+        "id": "20",
         "text": "a DocString with alternative separator inside"
       },
       {
         "argument": {
           "docString": {
+            "astNodeId": "12",
             "content": "first line\n\"\"\"\nthird line"
           }
         },
         "astNodeIds": [
-          "6"
+          "13"
         ],
-        "id": "14",
+        "id": "21",
         "text": "a DocString with escaped separator inside"
       }
     ],

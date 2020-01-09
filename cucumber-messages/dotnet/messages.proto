@@ -266,6 +266,7 @@ message GherkinDocument {
       message DataTable {
         Location location = 1;
         repeated TableRow rows = 2;
+        string id = 3;
       }
 
       message DocString {
@@ -273,6 +274,7 @@ message GherkinDocument {
         string media_type = 2;
         string content = 3;
         string delimiter = 4;
+        string id = 5;
       }
     }
   }
@@ -389,6 +391,7 @@ message PickleStepArgument {
   message PickleDocString {
     string media_type = 1;
     string content = 2;
+    string ast_node_id = 3;
   }
 
   message PickleTable {
@@ -401,6 +404,7 @@ message PickleStepArgument {
         string value = 1;
       }
     }
+    string ast_node_id = 2;
   }
 }
 

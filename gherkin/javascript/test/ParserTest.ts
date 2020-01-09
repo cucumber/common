@@ -105,15 +105,16 @@ describe('Parser', function() {
           children: [
             {
               scenario: {
-                id: '1',
+                id: '3',
                 examples: [],
                 keyword: 'Scenario',
                 location: { line: 2, column: 3 },
                 name: 'Bar',
                 steps: [
                   {
-                    id: '0',
+                    id: '2',
                     docString: {
+                      id: '1',
                       content: 'closed docstring',
                       delimiter: '"""',
                       location: { line: 4, column: 7 },

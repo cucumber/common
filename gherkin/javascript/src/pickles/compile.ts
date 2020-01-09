@@ -181,6 +181,7 @@ function createPickleArguments(
   if (step.dataTable) {
     const argument = step.dataTable
     const table = {
+      astNodeId: argument.id,
       rows: argument.rows.map(row => {
         return {
           cells: row.cells.map(cell => {
@@ -198,6 +199,7 @@ function createPickleArguments(
   } else if (step.docString) {
     const argument = step.docString
     const docString = messages.PickleStepArgument.PickleDocString.create({
+      astNodeId: argument.id,
       content: interpolate(argument.content, variableCells, valueCells),
     })
     if (argument.mediaType) {
