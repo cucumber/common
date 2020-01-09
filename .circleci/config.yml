@@ -157,14 +157,14 @@ jobs:
       - attach_workspace:
           at: "~/cucumber"
       - run:
-          name: cucumber-json-formatter/go
+          name: json-formatter/go
           command: |
-            cd cucumber-json-formatter/go
+            cd json-formatter/go
             make
       - persist_to_workspace:
           root: ~/cucumber
           paths:
-            - cucumber-json-formatter/go/dist
+            - json-formatter/go/dist
 
 ### JavaScript
 
@@ -329,20 +329,20 @@ jobs:
             cd cucumber-html-formatter/javascript
             make
 
-  cucumber-json-formatter-javascript:
+  json-formatter-javascript:
     executor: docker-circleci-node-12
     steps:
       - attach_workspace:
           at: "~/cucumber"
       - run:
-          name: cucumber-json-formatter/javascript
+          name: json-formatter/javascript
           command: |
-            cd cucumber-json-formatter/javascript
+            cd json-formatter/javascript
             make
       - persist_to_workspace:
           root: ~/cucumber
           paths:
-            - cucumber-json-formatter/javascript/acceptance
+            - json-formatter/javascript/acceptance
 
   cucumber-query-javascript:
     executor: docker-circleci-node-12
@@ -454,20 +454,20 @@ jobs:
             cd tag-expressions/ruby
             make
 
-  cucumber-json-formatter-ruby:
+  json-formatter-ruby:
     executor: docker-circleci-ruby-26
     steps:
       - attach_workspace:
           at: "~/cucumber"
       - run:
-          name: cucumber-json-formatter/ruby
+          name: json-formatter/ruby
           command: |
-            cd cucumber-json-formatter/ruby
+            cd json-formatter/ruby
             make
       - persist_to_workspace:
           root: ~/cucumber
           paths:
-            - cucumber-json-formatter/ruby
+            - json-formatter/ruby
 
   cucumber-demo-formatter-ruby:
     executor: docker-cucumber-build
@@ -691,8 +691,8 @@ workflows:
       - json-formatter-go:
           requires:
             - messages-go
-            - cucumber-json-formatter-ruby
-            - cucumber-json-formatter-javascript
+            - json-formatter-ruby
+            - json-formatter-javascript
 
 ### JavaScript
 
@@ -735,9 +735,9 @@ workflows:
       - cucumber-html-formatter-javascript:
           requires:
             - cucumber-react-javascript
-      - cucumber-json-formatter-javascript:
+      - json-formatter-javascript:
           requires:
-            - cucumber-json-formatter-ruby
+            - json-formatter-ruby
             - fake-cucumber-javascript
       - cucumber-query-javascript:
           requires:
@@ -775,7 +775,7 @@ workflows:
           requires:
             - messages-ruby
             - fake-cucumber-javascript
-      - cucumber-json-formatter-ruby:
+      - json-formatter-ruby:
           requires:
             - checkout
 
