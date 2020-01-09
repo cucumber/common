@@ -5,7 +5,7 @@ import {
   CucumberExpression,
   ParameterTypeRegistry,
   RegularExpression,
-} from '@cucumber/expressions'
+} from '@cucumber/cucumber-expressions'
 import TestWorld from './TestWorld'
 
 describe('StepDefinition', () => {

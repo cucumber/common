@@ -6,7 +6,7 @@ import Hook from '../src/Hook'
 import {
   CucumberExpression,
   ParameterTypeRegistry,
-} from '@cucumber/expressions'
+} from '@cucumber/cucumber-expressions'
 import { GherkinQuery } from '@cucumber/gherkin'
 import IncrementClock from '../src/IncrementClock'
 import { withSourceFramesOnlyStackTrace } from '../src/ErrorMessageGenerator'

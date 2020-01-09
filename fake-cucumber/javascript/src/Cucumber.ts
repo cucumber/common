@@ -4,7 +4,7 @@ import TestPlan from './TestPlan'
 import IStepDefinition from './IStepDefinition'
 import IHook from './IHook'
 import { GherkinQuery } from '@cucumber/gherkin'
-import { ParameterType } from '@cucumber/expressions'
+import { ParameterType } from '@cucumber/cucumber-expressions'
 import IClock from './IClock'
 import { MakeErrorMessage } from './ErrorMessageGenerator'
 

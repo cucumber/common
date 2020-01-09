@@ -44,10 +44,10 @@
     "tslint-plugin-prettier": "^2.1.0"
   },
   "dependencies": {
-    "@cucumber/expressions": "file:../../cucumber-expressions/javascript",
+    "@cucumber/cucumber-expressions": "file:../../cucumber-expressions/javascript",
     "@cucumber/gherkin": "file:../../gherkin/javascript",
-    "@cucumber/messages": "file:../../cucumber-messages/javascript",
-    "@cucumber/tag-expressions": "file:../../cucumber-tag-expressions/javascript",
+    "@cucumber/messages": "file:../../messages/javascript",
+    "@cucumber/tag-expressions": "file:../../tag-expressions/javascript",
     "commander": "^4.1.0",
     "glob": "^7.1.6",
     "source-map-support": "^0.5.16",

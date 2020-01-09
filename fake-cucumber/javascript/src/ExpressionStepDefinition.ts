@@ -4,7 +4,7 @@ import {
   CucumberExpression,
   Expression,
   RegularExpression,
-} from '@cucumber/expressions'
+} from '@cucumber/cucumber-expressions'
 import { messages } from '@cucumber/messages'
 import IStepDefinition from './IStepDefinition'
 import { AnyBody } from './types'

@@ -1,5 +1,5 @@
 import SupportCodeExecutor from './SupportCodeExecutor'
-import { Argument } from '@cucumber/expressions'
+import { Argument } from '@cucumber/cucumber-expressions'
 import { messages } from '@cucumber/messages'
 
 export default interface IStepDefinition {

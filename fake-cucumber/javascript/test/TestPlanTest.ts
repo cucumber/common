@@ -11,7 +11,7 @@ import IStepDefinition from '../src/IStepDefinition'
 import {
   CucumberExpression,
   ParameterTypeRegistry,
-} from '@cucumber/expressions'
+} from '@cucumber/cucumber-expressions'
 import ExpressionStepDefinition from '../src/ExpressionStepDefinition'
 import { GherkinQuery } from '@cucumber/gherkin'
 import IncrementClock from '../src/IncrementClock'

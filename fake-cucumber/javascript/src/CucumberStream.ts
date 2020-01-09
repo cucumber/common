@@ -4,7 +4,7 @@ import { IdGenerator, messages } from '@cucumber/messages'
 import Cucumber from './Cucumber'
 import IStepDefinition from './IStepDefinition'
 import IHook from './IHook'
-import { ParameterType } from '@cucumber/expressions'
+import { ParameterType } from '@cucumber/cucumber-expressions'
 import IClock from './IClock'
 import { MakeErrorMessage } from './ErrorMessageGenerator'
 

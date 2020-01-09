@@ -42,7 +42,7 @@
     "typescript": "^3.7.4"
   },
   "dependencies": {
-    "@cucumber/messages": "file:../../cucumber-messages/javascript",
+    "@cucumber/messages": "file:../../messages/javascript",
     "commander": "^4.1.0",
     "source-map-support": "^0.5.16"
   },

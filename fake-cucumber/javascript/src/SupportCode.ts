@@ -3,7 +3,7 @@ import {
   ParameterType,
   ParameterTypeRegistry,
   RegularExpression,
-} from '@cucumber/expressions'
+} from '@cucumber/cucumber-expressions'
 import { IdGenerator, messages } from '@cucumber/messages'
 import StackUtils from 'stack-utils'
 import { AnyBody } from './types'

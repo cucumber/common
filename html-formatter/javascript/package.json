@@ -1,0 +1,63 @@
+{
+  "name": "@cucumber/html-formatter",
+  "version": "3.1.0",
+  "description": "HTML formatter for Cucumber",
+  "bin": {
+    "cucumber-html-formatter": "bin/cucumber-html-formatter.js"
+  },
+  "main": "dist/src/cli-main.js",
+  "types": "dist/src/cli-main.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cucumber/cucumber.git"
+  },
+  "author": "Aslak Hellesøy",
+  "license": "MIT",
+  "scripts": {
+    "nyc": "nyc --reporter=html --reporter=text mocha",
+    "test": "mocha",
+    "lint": "tslint src/**/*.{ts,tsx} test/**/*.{ts,tsx}",
+    "lint-fix": "tslint --fix src/**/*.{ts,tsx} test/**/*.{ts,tsx}",
+    "build": "tsc && webpack-cli src/main.tsx"
+  },
+  "dependencies": {
+    "@cucumber/messages": "file:../../messages/javascript",
+    "@cucumber/react": "file:../../react/javascript",
+    "@cucumber/query": "file:../../query/javascript",
+    "commander": "^4.1.0",
+    "jsdom": "^15.2.1",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "source-map-support": "^0.5.16"
+  },
+  "devDependencies": {
+    "@cucumber/gherkin": "file:../../gherkin/javascript",
+    "@babel/core": "^7.7.7",
+    "@types/jsdom": "^12.2.4",
+    "@types/mocha": "^5.2.7",
+    "@types/node": "^13.1.5",
+    "@types/react": "^16.9.17",
+    "@types/react-dom": "^16.9.4",
+    "awesome-typescript-loader": "^5.2.1",
+    "babel-loader": "^8.0.6",
+    "mocha": "^7.0.0",
+    "npm-link-shared": "^0.5.6",
+    "nyc": "^15.0.0",
+    "prettier": "^1.19.1",
+    "ts-node": "^8.5.4",
+    "tslint": "^5.20.1",
+    "tslint-config-prettier": "^1.18.0",
+    "tslint-plugin-prettier": "^2.1.0",
+    "typescript": "^3.7.4",
+    "webpack": "^4.41.5",
+    "webpack-cli": "^3.3.10"
+  },
+  "bugs": {
+    "url": "https://github.com/cucumber/cucumber/issues"
+  },
+  "homepage": "https://github.com/cucumber/cucumber#readme",
+  "directories": {
+    "test": "test"
+  },
+  "keywords": []
+}
