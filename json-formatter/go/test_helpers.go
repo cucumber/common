@@ -1,7 +1,7 @@
 package json
 
 import (
-	messages "github.com/cucumber/messages-go/v8"
+	messages "github.com/cucumber/messages-go/v9"
 )
 
 func makeScenario(id string, steps []*messages.GherkinDocument_Feature_Step) *messages.GherkinDocument_Feature_Scenario {

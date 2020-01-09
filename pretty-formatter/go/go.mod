@@ -1,7 +1,7 @@
 module github.com/cucumber/pretty-formatter-go
 
 require (
-	github.com/cucumber/messages-go/v8 v8.0.0
+	github.com/cucumber/messages-go/v9 v9.0.1
 	github.com/cucumber/gherkin-go v6.0.9
 	github.com/fatih/color v1.7.0
 	github.com/gogo/protobuf v1.1.1
