@@ -110,7 +110,6 @@ public class GherkinDocumentBuilder implements Builder<GherkinDocument.Builder> 
                     builder.setMediaType(mediaType);
 
                 return builder
-                        .setId(idGenerator.newId())
                         .setLocation(getLocation(separatorToken, 0))
                         .setContent(content.toString())
                         .setDelimiter(separatorToken.matchedKeyword)
@@ -119,7 +118,6 @@ public class GherkinDocumentBuilder implements Builder<GherkinDocument.Builder> 
             case DataTable: {
                 List<TableRow> rows = getTableRows(node);
                 return DataTable.newBuilder()
-                        .setId(idGenerator.newId())
                         .setLocation(rows.get(0).getLocation())
                         .addAllRows(rows)
                         .build();

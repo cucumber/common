@@ -151,7 +151,6 @@ module Gherkin
 
       def pickle_data_table(data_table, variable_cells, value_cells)
         Cucumber::Messages::PickleStepArgument::PickleTable.new(
-          ast_node_id: data_table.id,
           rows: data_table.rows.map do |row|
             Cucumber::Messages::PickleStepArgument::PickleTable::PickleTableRow.new(
               cells: row.cells.map do |cell|
@@ -166,7 +165,6 @@ module Gherkin
 
       def pickle_doc_string(doc_string, variable_cells, value_cells)
         props = {
-          ast_node_id: doc_string.id,
           content: interpolate(doc_string.content, variable_cells, value_cells)
         }
         if doc_string.media_type

@@ -1,16 +1,15 @@
 {
   "pickle": {
     "astNodeIds": [
-      "8"
+      "6"
     ],
-    "id": "11",
+    "id": "9",
     "language": "en",
     "name": "They are the future",
     "steps": [
       {
         "argument": {
           "dataTable": {
-            "astNodeId": "2",
             "rows": [
               {
                 "cells": [
@@ -36,15 +35,14 @@
           }
         },
         "astNodeIds": [
-          "3"
+          "2"
         ],
-        "id": "9",
+        "id": "7",
         "text": "they have arrived"
       },
       {
         "argument": {
           "dataTable": {
-            "astNodeId": "6",
             "rows": [
               {
                 "cells": [
@@ -70,9 +68,9 @@
           }
         },
         "astNodeIds": [
-          "7"
+          "5"
         ],
-        "id": "10",
+        "id": "8",
         "text": "they have arrived"
       }
     ],

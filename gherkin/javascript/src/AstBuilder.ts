@@ -152,7 +152,6 @@ export default class AstBuilder {
         const content = lineTokens.map(t => t.matchedText).join('\n')
 
         const result = messages.GherkinDocument.Feature.Step.DocString.create({
-          id: this.newId(),
           location: this.getLocation(separatorToken),
           content,
           delimiter: separatorToken.line.trimmedLineText.substring(0, 3),
@@ -166,7 +165,6 @@ export default class AstBuilder {
       case RuleType.DataTable: {
         const rows = this.getTableRows(node)
         return messages.GherkinDocument.Feature.Step.DataTable.create({
-          id: this.newId(),
           location: rows[0].location,
           rows,
         })

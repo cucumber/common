@@ -1,16 +1,15 @@
 {
   "pickle": {
     "astNodeIds": [
-      "18"
+      "13"
     ],
-    "id": "24",
+    "id": "19",
     "language": "en",
     "name": "minimalistic",
     "steps": [
       {
         "argument": {
           "dataTable": {
-            "astNodeId": "2",
             "rows": [
               {
                 "cells": [
@@ -36,15 +35,14 @@
           }
         },
         "astNodeIds": [
-          "3"
+          "2"
         ],
-        "id": "19",
+        "id": "14",
         "text": "a simple data table"
       },
       {
         "argument": {
           "dataTable": {
-            "astNodeId": "5",
             "rows": [
               {
                 "cells": [
@@ -57,15 +55,14 @@
           }
         },
         "astNodeIds": [
-          "6"
+          "4"
         ],
-        "id": "20",
+        "id": "15",
         "text": "a data table with a single cell"
       },
       {
         "argument": {
           "dataTable": {
-            "astNodeId": "8",
             "rows": [
               {
                 "cells": [
@@ -84,15 +81,14 @@
           }
         },
         "astNodeIds": [
-          "9"
+          "6"
         ],
-        "id": "21",
+        "id": "16",
         "text": "a data table with different fromatting"
       },
       {
         "argument": {
           "dataTable": {
-            "astNodeId": "11",
             "rows": [
               {
                 "cells": [
@@ -109,15 +105,14 @@
           }
         },
         "astNodeIds": [
-          "12"
+          "8"
         ],
-        "id": "22",
+        "id": "17",
         "text": "a data table with an empty cell"
       },
       {
         "argument": {
           "dataTable": {
-            "astNodeId": "16",
             "rows": [
               {
                 "cells": [
@@ -153,9 +148,9 @@
           }
         },
         "astNodeIds": [
-          "17"
+          "12"
         ],
-        "id": "23",
+        "id": "18",
         "text": "a data table with comments and newlines inside"
       }
     ],

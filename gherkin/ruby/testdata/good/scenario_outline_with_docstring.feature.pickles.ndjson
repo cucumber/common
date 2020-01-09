@@ -1,26 +1,25 @@
 {
   "pickle": {
     "astNodeIds": [
-      "5",
-      "3"
+      "4",
+      "2"
     ],
-    "id": "7",
+    "id": "6",
     "language": "en",
     "name": "Greetings come in many forms",
     "steps": [
       {
         "argument": {
           "docString": {
-            "astNodeId": "0",
             "content": "Greeting:Hello",
             "mediaType": "en"
           }
         },
         "astNodeIds": [
-          "1",
-          "3"
+          "0",
+          "2"
         ],
-        "id": "6",
+        "id": "5",
         "text": "this file:"
       }
     ],
@@ -30,26 +29,25 @@
 {
   "pickle": {
     "astNodeIds": [
-      "5",
-      "4"
+      "4",
+      "3"
     ],
-    "id": "9",
+    "id": "8",
     "language": "en",
     "name": "Greetings come in many forms",
     "steps": [
       {
         "argument": {
           "docString": {
-            "astNodeId": "0",
             "content": "Greeting:Bonjour",
             "mediaType": "fr"
           }
         },
         "astNodeIds": [
-          "1",
-          "4"
+          "0",
+          "3"
         ],
-        "id": "8",
+        "id": "7",
         "text": "this file:"
       }
     ],

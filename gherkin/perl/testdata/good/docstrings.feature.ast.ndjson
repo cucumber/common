@@ -4,7 +4,7 @@
       "children": [
         {
           "scenario": {
-            "id": "14",
+            "id": "7",
             "keyword": "Scenario",
             "location": {
               "column": 3,
@@ -16,13 +16,12 @@
                 "docString": {
                   "content": "first line (no indent)\n  second line (indented with two spaces)\n\nthird line was empty",
                   "delimiter": "\"\"\"",
-                  "id": "0",
                   "location": {
                     "column": 7,
                     "line": 5
                   }
                 },
-                "id": "1",
+                "id": "0",
                 "keyword": "Given ",
                 "location": {
                   "column": 5,
@@ -34,14 +33,13 @@
                 "docString": {
                   "content": "<foo>\n  <bar />\n</foo>",
                   "delimiter": "\"\"\"",
-                  "id": "2",
                   "location": {
                     "column": 7,
                     "line": 12
                   },
                   "mediaType": "xml"
                 },
-                "id": "3",
+                "id": "1",
                 "keyword": "Given ",
                 "location": {
                   "column": 5,
@@ -53,13 +51,12 @@
                 "docString": {
                   "content": "wrongly indented line",
                   "delimiter": "\"\"\"",
-                  "id": "4",
                   "location": {
                     "column": 7,
                     "line": 18
                   }
                 },
-                "id": "5",
+                "id": "2",
                 "keyword": "And ",
                 "location": {
                   "column": 5,
@@ -71,13 +68,12 @@
                 "docString": {
                   "content": "first line\nsecond line",
                   "delimiter": "```",
-                  "id": "6",
                   "location": {
                     "column": 7,
                     "line": 22
                   }
                 },
-                "id": "7",
+                "id": "3",
                 "keyword": "And ",
                 "location": {
                   "column": 5,
@@ -89,13 +85,12 @@
                 "docString": {
                   "content": "first line\n\"\"\"\nthird line",
                   "delimiter": "```",
-                  "id": "8",
                   "location": {
                     "column": 7,
                     "line": 27
                   }
                 },
-                "id": "9",
+                "id": "4",
                 "keyword": "And ",
                 "location": {
                   "column": 5,
@@ -107,13 +102,12 @@
                 "docString": {
                   "content": "first line\n```\nthird line",
                   "delimiter": "\"\"\"",
-                  "id": "10",
                   "location": {
                     "column": 7,
                     "line": 33
                   }
                 },
-                "id": "11",
+                "id": "5",
                 "keyword": "And ",
                 "location": {
                   "column": 5,
@@ -125,13 +119,12 @@
                 "docString": {
                   "content": "first line\n\"\"\"\nthird line",
                   "delimiter": "\"\"\"",
-                  "id": "12",
                   "location": {
                     "column": 7,
                     "line": 39
                   }
                 },
-                "id": "13",
+                "id": "6",
                 "keyword": "And ",
                 "location": {
                   "column": 5,

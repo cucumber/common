@@ -1,17 +1,16 @@
 {
   "pickle": {
     "astNodeIds": [
-      "7",
-      "6"
+      "6",
+      "5"
     ],
-    "id": "9",
+    "id": "8",
     "language": "en",
     "name": "test",
     "steps": [
       {
         "argument": {
           "dataTable": {
-            "astNodeId": "3",
             "rows": [
               {
                 "cells": [
@@ -47,10 +46,10 @@
           }
         },
         "astNodeIds": [
-          "4",
-          "6"
+          "3",
+          "5"
         ],
-        "id": "8",
+        "id": "7",
         "text": "a red ball with:"
       }
     ],

@@ -129,7 +129,6 @@ module Gherkin
         content = line_tokens.map { |t| t.matched_text }.join("\n")
 
         Cucumber::Messages::GherkinDocument::Feature::Step::DocString.new(
-          id: @id_generator.new_id,
           location: get_location(separator_token, 0),
           content: content,
           delimiter: separator_token.matched_keyword,
@@ -138,7 +137,6 @@ module Gherkin
       when :DataTable
         rows = get_table_rows(node)
         Cucumber::Messages::GherkinDocument::Feature::Step::DataTable.new(
-          id: @id_generator.new_id,
           location: rows[0].location,
           rows: rows,
         )
