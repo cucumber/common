@@ -13,6 +13,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
+* Renamed module name from `cucumber-messages` to `messsages`
+  ([#850](https://github.com/cucumber/cucumber/pull/850)
+   [aslakhellesoy])
 * Use pure Ruby protobuf in order to avoid problems with Ruby 2.7.0 and JRuby.
   ([#813](https://github.com/cucumber/cucumber/pull/813)
    [#843](https://github.com/cucumber/cucumber/issues/843)
@@ -25,13 +28,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Removed the `Media` message
 * Attachments can have one of `string text` and `bytes binary` as the `body`
 
-### Deprecated
-
 ### Removed
 
 * Removed `TestCase#test_result`. Aggregate results will be computed by `cucumber-query` instead
-
-### Fixed
 
 ## [8.0.0] - 2019-12-10
 
