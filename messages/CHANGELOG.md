@@ -9,6 +9,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+## [9.0.0] - 2020-01-09
+
+### Added
+
 * Added `ParameterType` as an envelope message
 
 ### Changed
@@ -214,7 +226,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Protobuf messages for Go, Java, JavaScript, TypeScript and Ruby
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-messages/v8.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-messages/v9.0.0...master
+[9.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v8.0.0...cucumber-messages/v9.0.0
 [8.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v7.0.0...cucumber-messages/v8.0.0
 [7.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v6.0.2...cucumber-messages/v7.0.0
 [6.0.2]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v6.0.1...cucumber-messages/v6.0.2
