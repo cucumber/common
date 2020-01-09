@@ -19,7 +19,7 @@ Gem::Specification.new do |s|
                     'source_code_uri'   => 'https://github.com/cucumber/cucumber/blob/master/cucumber-demo-formatter/ruby',
                   }
 
-  s.add_dependency 'cucumber-messages', '~> 8.0', '>= 8.0.0'
+  s.add_dependency 'cucumber-messages', '~> 9.0', '>= 9.0.1'
   s.add_development_dependency 'rake', '~> 13.0', '>= 13.0.1'
   s.add_development_dependency 'rspec', '~> 3.9', '>= 3.9.0'
 

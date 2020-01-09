@@ -29,7 +29,7 @@
     "@cucumber/fake-cucumber": "file:../../fake-cucumber/javascript",
     "@cucumber/gherkin": "file:../../gherkin/javascript",
     "@types/mocha": "^5.2.7",
-    "@types/node": "^13.1.5",
+    "@types/node": "^13.1.6",
     "mocha": "^7.0.0",
     "nyc": "^15.0.0",
     "prettier": "^1.19.1",
