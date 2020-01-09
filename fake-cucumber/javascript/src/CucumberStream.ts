@@ -1,10 +1,10 @@
 import { Transform, TransformCallback } from 'stream'
-import { GherkinQuery } from 'gherkin'
-import { IdGenerator, messages } from 'cucumber-messages'
+import { GherkinQuery } from '@cucumber/gherkin'
+import { IdGenerator, messages } from '@cucumber/messages'
 import Cucumber from './Cucumber'
 import IStepDefinition from './IStepDefinition'
 import IHook from './IHook'
-import { ParameterType } from 'cucumber-expressions'
+import { ParameterType } from '@cucumber/cucumber-expressions'
 import IClock from './IClock'
 import { MakeErrorMessage } from './ErrorMessageGenerator'
 

@@ -1,7 +1,7 @@
 import DIALECTS from './gherkin-languages.json'
 import Dialect from './Dialect'
 import { NoSuchLanguageException } from './Errors'
-import { messages } from 'cucumber-messages'
+import { messages } from '@cucumber/messages'
 import Token from './Token'
 import { TokenType } from './Parser'
 

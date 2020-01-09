@@ -1,4 +1,4 @@
-import { messages } from 'cucumber-messages'
+import { messages } from '@cucumber/messages'
 import IStepDefinition from './IStepDefinition'
 import PickleTestStep from './PickleTestStep'
 import ITestStep from './ITestStep'

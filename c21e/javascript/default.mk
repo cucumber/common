@@ -6,9 +6,6 @@ default: .linted .tested .built
 .PHONY: default
 
 .deps: package-lock.json
-ifndef NEW_VERSION
-	if [ -f ".internal-dependencies" ]; then cat .internal-dependencies | xargs -n 1 scripts/npm-link; fi
-endif
 	touch $@
 
 .codegen: .deps
@@ -34,7 +31,12 @@ update-dependencies:
 	npx npm-check-updates --upgrade
 .PHONY: update-dependencies
 
-pre-release: update-dependencies clean default
+remove-local-dependencies:
+	cat package.json | sed 's/"@cucumber\/\(.*\)": "file:..\/..\/.*"/"@cucumber\/\1": "0.0.0"/' > package.json.tmp
+	mv package.json.tmp package.json
+.PHONY: remove-local-dependencies
+
+pre-release: remove-local-dependencies update-dependencies clean default
 .PHONY: pre-release
 
 update-version:
@@ -55,7 +57,8 @@ endif
 .PHONY: publish
 
 post-release:
-	@echo "No post-release needed for javascript"
+	cat package.json | sed 's/"@cucumber\/\(.*\)": .*"/"@cucumber\/\1": "file:..\/..\/\1\/javascript"/' > package.json.tmp
+	mv package.json.tmp package.json
 .PHONY: post-release
 
 clean: clean-javascript

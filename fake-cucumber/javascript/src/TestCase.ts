@@ -1,6 +1,6 @@
 import ITestStep from './ITestStep'
 import { MessageNotifier } from './types'
-import { messages, TimeConversion } from 'cucumber-messages'
+import { messages, TimeConversion } from '@cucumber/messages'
 import IWorld from './IWorld'
 import IClock from './IClock'
 

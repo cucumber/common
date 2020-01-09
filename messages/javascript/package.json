@@ -1,0 +1,49 @@
+{
+  "name": "@cucumber/messages",
+  "version": "8.0.0",
+  "description": "Protocol Buffer messages for Cucumber's inter-process communication",
+  "main": "dist/src/index.js",
+  "types": "dist/src/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/cucumber/cucumber-messages-javascript.git"
+  },
+  "author": "Cucumber Limited <cukes@googlegroups.com>",
+  "license": "MIT",
+  "scripts": {
+    "test": "mocha",
+    "lint": "tslint src/**/*.ts test/**/*.ts --exclude src/cucumber-messages.d.ts --exclude dist/src/cucumber-messages.d.ts",
+    "lint-fix": "tslint --fix src/**/*.ts test/**/*.ts --exclude src/cucumber-messages.d.ts --exclude dist/src/cucumber-messages.d.ts",
+    "coverage": "nyc --reporter=html --reporter=text mocha",
+    "pbjs": "pbjs --target static-module --wrap commonjs messages.proto --out src/cucumber-messages.js",
+    "pbts": "pbts src/cucumber-messages.js > src/cucumber-messages.d.ts",
+    "build": "tsc && npm run pbjs && npm run pbts && copyfiles src/cucumber-messages.js src/cucumber-messages.d.ts dist",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "@types/uuid": "^3.4.6",
+    "protobufjs": "^6.8.8",
+    "uuid": "^3.3.3"
+  },
+  "devDependencies": {
+    "@types/mocha": "^5.2.7",
+    "@types/node": "^13.1.5",
+    "copyfiles": "^2.1.1",
+    "mocha": "^7.0.0",
+    "nyc": "^15.0.0",
+    "prettier": "^1.19.1",
+    "ts-node": "^8.5.4",
+    "tslint": "^5.20.1",
+    "tslint-config-prettier": "^1.18.0",
+    "tslint-plugin-prettier": "^2.1.0",
+    "typescript": "^3.7.4"
+  },
+  "bugs": {
+    "url": "https://github.com/cucumber/cucumber-messages-javascript/issues"
+  },
+  "homepage": "https://github.com/cucumber/cucumber-messages-javascript#readme",
+  "directories": {
+    "test": "test"
+  },
+  "keywords": []
+}

@@ -3,7 +3,7 @@ GOPATH := $(shell go env GOPATH)
 PATH := $(PATH):$(GOPATH)/bin
 GO_SOURCE_FILES := $(shell find . -name "*.go" | sort)
 MOD_DIR := $(shell dirname $$(find . -name go.mod))
-LIBNAME := $(shell basename $$(dirname $$(pwd)))
+LIBNAME := cucumber-$(shell basename $$(dirname $$(pwd)))
 GOX_LDFLAGS := "-X main.version=${NEW_VERSION}"
 EXES := $(shell find dist -name '$(LIBNAME)-*')
 UPX_EXES = $(patsubst dist/$(LIBNAME)-%,dist_compressed/$(LIBNAME)-%,$(EXES))
@@ -121,4 +121,3 @@ else
 	sed -Ei "s/$(LIBNAME)-go(\/v$(CURRENT_MAJOR))?/$(LIBNAME)-go\/v$(NEW_MAJOR)/" $(shell find . -name "*.go")
 endif
 .PHONY: update-major
-

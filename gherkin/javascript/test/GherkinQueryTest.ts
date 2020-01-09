@@ -1,5 +1,5 @@
 import gherkin from '../src'
-import { IdGenerator, messages } from 'cucumber-messages'
+import { IdGenerator, messages } from '@cucumber/messages'
 import { pipeline, Readable, Writable } from 'stream'
 import assert from 'assert'
 import GherkinQuery from '../src/GherkinQuery'

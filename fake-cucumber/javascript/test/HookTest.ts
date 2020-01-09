@@ -1,6 +1,6 @@
 import assert from 'assert'
 import Hook from '../src/Hook'
-import { messages } from 'cucumber-messages'
+import { messages } from '@cucumber/messages'
 import TestWorld from './TestWorld'
 
 describe('Hook', () => {

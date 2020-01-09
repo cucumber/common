@@ -2,8 +2,8 @@ import { stubConstructor } from 'ts-sinon'
 import SupportCodeExecutor from '../src/SupportCodeExecutor'
 import ExpressionStepDefinition from '../src/ExpressionStepDefinition'
 import { Readable } from 'stream'
-import { IdGenerator, messages } from 'cucumber-messages'
-import gherkin from 'gherkin'
+import { IdGenerator, messages } from '@cucumber/messages'
+import gherkin from '@cucumber/gherkin'
 
 export function stubPassingSupportCodeExecutor(): SupportCodeExecutor {
   const supportCodeExecutorStub = stubConstructor(SupportCodeExecutor)

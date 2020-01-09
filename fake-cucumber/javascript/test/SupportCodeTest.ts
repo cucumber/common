@@ -1,5 +1,5 @@
 import SupportCode from '../src/SupportCode'
-import { IdGenerator } from 'cucumber-messages'
+import { IdGenerator } from '@cucumber/messages'
 import IncrementClock from '../src/IncrementClock'
 import { withFullStackTrace } from '../src/ErrorMessageGenerator'
 import assert from 'assert'

@@ -1,5 +1,5 @@
 import { PassThrough, pipeline, Readable } from 'stream'
-import { BinaryToMessageStream, messages } from 'cucumber-messages'
+import { BinaryToMessageStream, messages } from '@cucumber/messages'
 import ParserMessageStream from './stream/ParserMessageStream'
 import SourceMessageStream from './stream/SourceMessageStream'
 import Dialect from './Dialect'

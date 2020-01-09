@@ -1,5 +1,5 @@
-import { Argument, Group } from 'cucumber-expressions'
-import { messages } from 'cucumber-messages'
+import { Argument, Group } from '@cucumber/cucumber-expressions'
+import { messages } from '@cucumber/messages'
 import IWorld from './IWorld'
 import { AnyBody } from './types'
 import DataTable from './DataTable'

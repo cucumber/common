@@ -1,6 +1,6 @@
 import IHook from './IHook'
-import parseTagExpression from 'cucumber-tag-expressions'
-import { messages } from 'cucumber-messages'
+import parseTagExpression from '@cucumber/tag-expressions'
+import { messages } from '@cucumber/messages'
 import SupportCodeExecutor from './SupportCodeExecutor'
 import { AnyBody } from './types'
 

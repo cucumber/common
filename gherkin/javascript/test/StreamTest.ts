@@ -1,6 +1,6 @@
 import assert from 'assert'
 import { Readable } from 'stream'
-import { messages } from 'cucumber-messages'
+import { messages } from '@cucumber/messages'
 import Gherkin from '../src/Gherkin'
 import makeSourceEnvelope from '../src/stream/makeSourceEnvelope'
 import fs from 'fs'

@@ -1,4 +1,4 @@
-import { messages } from 'cucumber-messages'
+import { messages } from '@cucumber/messages'
 import { MessageNotifier } from './types'
 import IWorld from './IWorld'
 

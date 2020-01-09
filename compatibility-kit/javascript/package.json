@@ -1,0 +1,38 @@
+{
+  "name": "@cucumber/compatibility-kit",
+  "version": "1.0.0",
+  "description": "Cucumber Compatibility Kit validates a Cucumber implementation",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cucumber/cucumber.git"
+  },
+  "author": "Aslak Hellesøy",
+  "license": "MIT",
+  "scripts": {
+    "nyc": "nyc --reporter=html --reporter=text mocha",
+    "test": "echo 'no tests'",
+    "lint": "tslint features/**/*.ts",
+    "lint-fix": "tslint --fix features/**/*.ts",
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "@cucumber/fake-cucumber": "file:../../fake-cucumber/javascript",
+    "@types/stream-buffers": "^3.0.3",
+    "prettier": "^1.19.1",
+    "stream-buffers": "^3.0.2",
+    "tslint": "^5.20.1",
+    "tslint-config-prettier": "^1.18.0",
+    "tslint-plugin-prettier": "^2.1.0",
+    "typescript": "^3.7.4"
+  },
+  "dependencies": {},
+  "bugs": {
+    "url": "https://github.com/cucumber/cucumber/issues"
+  },
+  "homepage": "https://github.com/cucumber/cucumber#readme",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "keywords": []
+}

@@ -1,4 +1,4 @@
-import { messages } from 'cucumber-messages'
+import { messages } from '@cucumber/messages'
 import { EventEmitter } from 'events'
 import { Readable } from 'stream'
 import { Attach, MessageNotifier } from './types'
