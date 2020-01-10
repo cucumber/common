@@ -46,3 +46,5 @@
 - [ ] I've added tests for my code.
 - [ ] My change requires a change to the documentation.
 - [ ] I have updated the documentation accordingly.
+- [ ] I have updated the CHANGELOG accordingly.
+
