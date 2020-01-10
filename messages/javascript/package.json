@@ -1,6 +1,6 @@
 {
   "name": "@cucumber/messages",
-  "version": "9.0.2",
+  "version": "9.0.3",
   "description": "Protocol Buffer messages for Cucumber's inter-process communication",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
@@ -32,7 +32,7 @@
     "mocha": "^7.0.0",
     "nyc": "^15.0.0",
     "prettier": "^1.19.1",
-    "ts-node": "^8.5.4",
+    "ts-node": "^8.6.0",
     "tslint": "^5.20.1",
     "tslint-config-prettier": "^1.18.0",
     "tslint-plugin-prettier": "^2.1.0",

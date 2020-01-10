@@ -17,6 +17,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [9.0.3] - 2020-01-10
+
+### Fixed
+
+* Ruby: Fix inclusion of generated lib/messages.pb.rb
+
 ## [9.0.2] - 2020-01-10
 
 * Ruby: Fix error in gemspec
@@ -236,7 +242,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Protobuf messages for Go, Java, JavaScript, TypeScript and Ruby
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/messages/v9.0.2...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/messages/v9.0.3...master
+[9.0.3]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v9.0.2...messages/v9.0.3
 [9.0.2]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v9.0.1...messages/v9.0.2
 [9.0.1]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v9.0.0...messages/v9.0.1
 [9.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v8.0.0...messages/v9.0.0

@@ -1,6 +1,8 @@
 SHELL := /usr/bin/env bash
 RUBY_SOURCE_FILES = $(shell find . -name "*.rb")
 GEMSPEC = $(shell find . -name "*.gemspec")
+LIBNAME := $(shell basename $$(dirname $$(pwd)))
+GEM := cucumber-$(LIBNAME)-$(NEW_VERSION).gem
 
 default: .tested
 .PHONY: default
@@ -20,7 +22,21 @@ update-dependencies:
 	./scripts/update-gemspec
 .PHONY: update-dependencies
 
-pre-release: update-dependencies clean default
+ifdef NEW_VERSION
+ifneq (,$(GEMSPEC))
+gem: $(GEM)
+else
+gem:
+	@echo "Not building gem because there is no gemspec"
+endif
+endif
+.PHONY: gem
+
+$(GEM): clean .tested
+	gem build $(GEMSPEC)
+	test -s "$(GEM)" || { echo "Gem not built: $(GEM)"; exit 1; }
+
+pre-release: update-version update-dependencies gem
 .PHONY: pre-release
 
 update-version:
@@ -34,10 +50,9 @@ else
 endif
 .PHONY: update-version
 
-publish: .deps
+publish: gem
 ifneq (,$(GEMSPEC))
-	gem build $(GEMSPEC)
-	gem push $$(find . -name "*$(NEW_VERSION).gem")
+	gem push $(GEM)
 else
 	@echo "Not publishing because there is no gemspec"
 endif

@@ -35,14 +35,14 @@
     "mocha": "^7.0.0",
     "nyc": "^15.0.0",
     "prettier": "^1.19.1",
-    "ts-node": "^8.5.4",
+    "ts-node": "^8.6.0",
     "tslint": "^5.20.1",
     "tslint-config-prettier": "^1.18.0",
     "tslint-plugin-prettier": "^2.1.0",
     "typescript": "^3.7.4"
   },
   "dependencies": {
-    "@cucumber/messages": "9.0.1",
+    "@cucumber/messages": "9.0.2",
     "commander": "^4.1.0",
     "source-map-support": "^0.5.16"
   },

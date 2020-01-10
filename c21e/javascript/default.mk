@@ -36,7 +36,7 @@ remove-local-dependencies:
 	mv package.json.tmp package.json
 .PHONY: remove-local-dependencies
 
-pre-release: remove-local-dependencies update-dependencies clean default
+pre-release: remove-local-dependencies update-version update-dependencies clean default
 .PHONY: pre-release
 
 update-version:

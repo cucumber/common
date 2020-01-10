@@ -1,22 +1,22 @@
 # -*- encoding: utf-8 -*-
 Gem::Specification.new do |s|
   s.name        = 'cucumber-messages'
-  s.version     = '9.0.2'
+  s.version     = '9.0.3'
   s.authors     = ["Aslak Hellesøy"]
   s.description = "Protocol Buffer messages for Cucumber's inter-process communication"
   s.summary     = "cucumber-messages-#{s.version}"
   s.email       = 'cukes@googlegroups.com'
-  s.homepage    = "https://github.com/cucumber/cucumber-messages-ruby#readme"
+  s.homepage    = "https://github.com/cucumber/messages-ruby#readme"
   s.platform    = Gem::Platform::RUBY
   s.license     = "MIT"
   s.required_ruby_version = ">= 2.3"
 
   s.metadata    = {
                     'bug_tracker_uri'   => 'https://github.com/cucumber/cucumber/issues',
-                    'changelog_uri'     => 'https://github.com/cucumber/cucumber/blob/master/cucumber-messages/CHANGELOG.md',
-                    'documentation_uri' => 'https://www.rubydoc.info/github/cucumber/cucumber-messages-ruby',
+                    'changelog_uri'     => 'https://github.com/cucumber/cucumber/blob/master/messages/CHANGELOG.md',
+                    'documentation_uri' => 'https://www.rubydoc.info/github/cucumber/messages-ruby',
                     'mailing_list_uri'  => 'https://groups.google.com/forum/#!forum/cukes',
-                    'source_code_uri'   => 'https://github.com/cucumber/cucumber/blob/master/cucumber-messages/ruby',
+                    'source_code_uri'   => 'https://github.com/cucumber/cucumber/blob/master/messages/ruby',
                   }
 
   # TODO: Switch back to 'protobuf' when this PR is merged and released:
