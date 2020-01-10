@@ -17,6 +17,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [3.0.3] - 2020-01-10
+
+### Changed
+
+* [JavaScript] changed module name to `@cucumber/fake-cucumber`
+
 ## [3.0.2] - 2019-12-10
 
 ### Fixed
@@ -119,7 +125,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/fake-cucumber/v3.0.2...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/fake-cucumber/v3.0.3...master
+[3.0.3]:      https://github.com/cucumber/cucumber/compare/fake-cucumber/v3.0.2...fake-cucumber/v3.0.3
 [3.0.2]:      https://github.com/cucumber/cucumber/compare/fake-cucumber/v3.0.1...fake-cucumber/v3.0.2
 [3.0.1]:      https://github.com/cucumber/cucumber/compare/fake-cucumber/v3.0.0...fake-cucumber/v3.0.1
 [3.0.0]:      https://github.com/cucumber/cucumber/compare/fake-cucumber/v2.1.0...fake-cucumber/v3.0.0
