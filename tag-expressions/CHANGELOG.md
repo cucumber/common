@@ -17,6 +17,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [2.0.4] - 2020-01-10
+
+### Changed
+
+* [JavaScript] changed module name to `@cucumber/tag-expressions`
+
 ## [2.0.3] - 2019-12-10
 
 ### Changed
@@ -109,10 +115,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First stable release!
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/tag-expressions/v2.0.3...master
-[2.0.2]: https://github.com/cucumber/cucumber/compare/tag-expressions/v2.0.3...tag-expressions/v2.0.2
+[Unreleased]: https://github.com/cucumber/cucumber/compare/tag-expressions/v2.0.4...master
+[2.0.4]: https://github.com/cucumber/cucumber/compare/tag-expressions/v2.0.3...tag-expressions/v2.0.4
+[2.0.3]: https://github.com/cucumber/cucumber/compare/tag-expressions/v2.0.2...tag-expressions/v2.0.3
 [2.0.2]: https://github.com/cucumber/cucumber/compare/tag-expressions/v2.0.1...tag-expressions/v2.0.2
-[2.0.2]: https://github.com/cucumber/cucumber/compare/tag-expressions/v2.0.3...tag-expressions/v2.0.2
 [2.0.1]: https://github.com/cucumber/cucumber/compare/tag-expressions/v2.0.0...tag-expressions/v2.0.1
 [2.0.0]: https://github.com/cucumber/cucumber/compare/tag-expressions-v1.1.1...tag-expressions/v2.0.0
 [1.1.1]: https://github.com/cucumber/cucumber/compare/tag-expressions-v1.1.0...tag-expressions-v1.1.1
