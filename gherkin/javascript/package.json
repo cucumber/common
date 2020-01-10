@@ -1,6 +1,6 @@
 {
   "name": "@cucumber/gherkin",
-  "version": "9.0.0",
+  "version": "9.1.0",
   "description": "Gherkin parser",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
@@ -42,7 +42,7 @@
     "typescript": "^3.7.4"
   },
   "dependencies": {
-    "@cucumber/messages": "9.0.2",
+    "@cucumber/messages": "9.0.3",
     "commander": "^4.1.0",
     "source-map-support": "^0.5.16"
   },

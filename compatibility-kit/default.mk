@@ -29,14 +29,14 @@ else
 endif
 .PHONY: update-changelog
 
-pre-release: $(patsubst %/Makefile,pre-release-%,$(MAKEFILES))
+pre-release: update-changelog $(patsubst %/Makefile,pre-release-%,$(MAKEFILES))
 .PHONY: pre-release
 
 pre-release-%: %
 	cd $< && make pre-release
 .PHONY: pre-release-%
 
-release: clean update-changelog default create-and-push-release-tag publish
+release: clean default create-and-push-release-tag publish
 .PHONY: release
 
 publish: $(patsubst %/Makefile,publish-%,$(MAKEFILES))
