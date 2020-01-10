@@ -53,12 +53,12 @@ def find_packages_by_root_package(where):
 # SETUP:
 # -----------------------------------------------------------------------------
 setup(
-    name = "tag-expressions",
+    name = "cucumber-tag-expressions",
     version = "2.0.4",
     author = "Jens Engel",
     author_email = "jenisys@noreply.github.com",
     url = "https://github.com/cucumber/tag-expressions-python",
-    download_url= "http://pypi.python.org/pypi/tag-expressions",
+    download_url= "http://pypi.python.org/pypi/cucumber-tag-expressions",
     description = "Provides tag-expression parser for cucumber/behave",
     long_description = long_description,
     keywords= "BDD, testing, cucumber, tag-expressions, behave",
