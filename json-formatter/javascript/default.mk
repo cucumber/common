@@ -32,7 +32,7 @@ update-dependencies:
 .PHONY: update-dependencies
 
 remove-local-dependencies:
-	cat package.json | sed 's/"@cucumber\/\(.*\)": "file:..\/..\/.*"/"@cucumber\/\1": "0.0.0"/' > package.json.tmp
+	cat package.json | sed 's/"@cucumber\/\(.*\)": "file:..\/..\/.*"/"@cucumber\/\1": "^0.0.0"/' > package.json.tmp
 	mv package.json.tmp package.json
 .PHONY: remove-local-dependencies
 

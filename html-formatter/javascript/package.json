@@ -1,6 +1,6 @@
 {
   "name": "@cucumber/html-formatter",
-  "version": "3.1.0",
+  "version": "3.2.0",
   "description": "HTML formatter for Cucumber",
   "bin": {
     "cucumber-html-formatter": "bin/cucumber-html-formatter.js"
@@ -21,9 +21,9 @@
     "build": "tsc && webpack-cli src/main.tsx"
   },
   "dependencies": {
-    "@cucumber/messages": "file:../../messages/javascript",
-    "@cucumber/react": "file:../../react/javascript",
-    "@cucumber/query": "file:../../query/javascript",
+    "@cucumber/messages": "^9.0.3",
+    "@cucumber/react": "^3.2.0",
+    "@cucumber/query": "^1.1.1",
     "commander": "^4.1.0",
     "jsdom": "^15.2.1",
     "react": "^16.12.0",
@@ -31,7 +31,7 @@
     "source-map-support": "^0.5.16"
   },
   "devDependencies": {
-    "@cucumber/gherkin": "file:../../gherkin/javascript",
+    "@cucumber/gherkin": "^9.1.0",
     "@babel/core": "^7.7.7",
     "@types/jsdom": "^12.2.4",
     "@types/mocha": "^5.2.7",
@@ -44,7 +44,7 @@
     "npm-link-shared": "^0.5.6",
     "nyc": "^15.0.0",
     "prettier": "^1.19.1",
-    "ts-node": "^8.5.4",
+    "ts-node": "^8.6.0",
     "tslint": "^5.20.1",
     "tslint-config-prettier": "^1.18.0",
     "tslint-plugin-prettier": "^2.1.0",
