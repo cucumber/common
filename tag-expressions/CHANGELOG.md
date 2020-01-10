@@ -32,13 +32,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
-* Fix incomplete 2.0.1 release 
+* Fix incomplete 2.0.1 release
 
 ## [2.0.1] - 2019-07-15
 
 ### Fixed
 
-* Fix incomplete 2.0.0 release 
+* Fix incomplete 2.0.0 release
 
 ## [2.0.0] - 2019-07-10
 
