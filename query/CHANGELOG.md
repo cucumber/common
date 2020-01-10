@@ -17,6 +17,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [1.1.1] - 2020-01-10
+
+### Changed
+
+* [JavaScript] changed module name to `@cucumber/query`
+
 ## [1.1.0] - 2019-12-10
 
 ### Changed
@@ -30,7 +36,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First JavaScript implementation
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-query/v1.1.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-query/v1.1.1...master
+[1.1.1]:      https://github.com/cucumber/cucumber/releases/tag/cucumber-query/v1.1.0
 [1.1.0]:      https://github.com/cucumber/cucumber/releases/tag/cucumber-query/v1.0.0
 [1.0.0]:      https://github.com/cucumber/cucumber/releases/tag/cucumber-query/v1.0.0
 
