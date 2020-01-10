@@ -11,15 +11,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
-* Replace styled-components with external CSS
-  ([#839](https://github.com/cucumber/cucumber/pull/839)
-   [aslakhellesoy])
-
 ### Deprecated
 
 ### Removed
 
 ### Fixed
+
+## [3.2.0] - 2020-01-10
+
+### Changed
+
+* [JavaScript] changed module name to `@cucumber/react`
+* Replace styled-components with external CSS
+  ([#839](https://github.com/cucumber/cucumber/pull/839)
+   [aslakhellesoy])
 
 ## [3.1.0] - 2019-12-10
 
@@ -65,7 +70,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-react/v3.1.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/react/v3.2.0...master
+[3.2.0]:      https://github.com/cucumber/cucumber/compare/cucumber-react/v3.1.0...react/v3.2.0
 [3.1.0]:      https://github.com/cucumber/cucumber/compare/cucumber-react/v3.0.0...cucumber-react/v3.1.0
 [3.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-react/v2.0.1...cucumber-react/v3.0.0
 [2.0.1]:      https://github.com/cucumber/cucumber/compare/cucumber-react/v2.0.0...cucumber-react/v2.0.1
