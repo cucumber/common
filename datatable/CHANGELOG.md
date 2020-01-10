@@ -8,7 +8,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 
 ### Added
-
+ * [Java] Add getter for TableConverter 
+     ([#853](https://github.com/cucumber/cucumber/pull/853)
+     [mpkorstanje]) 
 ### Changed
 
 ### Deprecated
