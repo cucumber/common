@@ -3,7 +3,7 @@
 
   <PropertyGroup>
     <TargetFrameworks>net45;netstandard2.0</TargetFrameworks>
-    <VersionNumber>9.0.1</VersionNumber>
+    <VersionNumber>9.0.2</VersionNumber>
     <Version Condition="'$(SnapshotSuffix)' != ''">$(VersionNumber)-$(SnapshotSuffix)</Version>
     <Version Condition="'$(SnapshotSuffix)' == ''">$(VersionNumber)</Version>
     <SignAssembly>true</SignAssembly>

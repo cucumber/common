@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 Gem::Specification.new do |s|
   s.name        = 'cucumber-messages'
-  s.version     = '9.0.1'
+  s.version     = '9.0.2'
   s.authors     = ["Aslak Hellesøy"]
   s.description = "Protocol Buffer messages for Cucumber's inter-process communication"
   s.summary     = "cucumber-messages-#{s.version}"
@@ -21,7 +21,7 @@ Gem::Specification.new do |s|
 
   # TODO: Switch back to 'protobuf' when this PR is merged and released:
   # https://github.com/ruby-protobuf/protobuf/pull/411
-  s.add_dependency 'protobuf-cucumber', '~> 3.10', '>= 3.10.4)'
+  s.add_dependency 'protobuf-cucumber', '~> 3.10', '>= 3.10.4'
   s.add_dependency 'json', '~> 2.3', '>= 2.3.0'
 
   s.add_development_dependency 'rake', '~> 13.0', '>= 13.0.1'

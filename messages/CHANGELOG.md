@@ -17,6 +17,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [9.0.2] - 2020-01-10
+
+* Ruby: Fix error in gemspec
+
 ## [9.0.1] - 2020-01-09
 
 ### Fixed
@@ -232,7 +236,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Protobuf messages for Go, Java, JavaScript, TypeScript and Ruby
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/messages/v9.0.1...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/messages/v9.0.2...master
+[9.0.2]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v9.0.1...messages/v9.0.2
 [9.0.1]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v9.0.0...messages/v9.0.1
 [9.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v8.0.0...messages/v9.0.0
 [8.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v7.0.0...cucumber-messages/v8.0.0

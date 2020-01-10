@@ -19,16 +19,11 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Changed
 
+* Upgrade to `messages` `9.0.1`
 * [JavaScript] the `Gherkin#fromStream`, `Gherkin#fromPaths` and `Gherkin#fromSources` functions'
   `options` argument is no longer optional, and it *must* have a `createReadStream` property.
   The reason for this is to decouple the library from Node's `fs` module so it can be packaged with
   Webpack and be used in a browser.
-
-### Deprecated
-
-### Removed
-
-### Fixed
 
 ## [9.0.0] - 2019-12-10
 
