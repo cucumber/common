@@ -16,7 +16,7 @@
     "build": "tsc"
   },
   "devDependencies": {
-    "@cucumber/fake-cucumber": "file:../../fake-cucumber/javascript",
+    "@cucumber/fake-cucumber": "3.0.3",
     "@types/stream-buffers": "^3.0.3",
     "prettier": "^1.19.1",
     "stream-buffers": "^3.0.2",
