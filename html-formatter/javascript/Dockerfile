@@ -1,4 +1,4 @@
-# cucumber/cucumber-html-formatter
+# cucumber/html-formatter
 FROM node:12-alpine
 
 RUN mkdir -p /home/node/app
