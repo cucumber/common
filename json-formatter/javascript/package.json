@@ -1,7 +1,7 @@
 {
   "name": "@cucumber/json-formatter",
   "private": true,
-  "version": "2.1.0",
+  "version": "2.2.0",
   "license": "MIT",
   "scripts": {
     "test": "echo 'no tests'",
@@ -10,7 +10,7 @@
     "build": "echo 'nothing to build'"
   },
   "devDependencies": {
-    "@cucumber/fake-cucumber": "file:../../fake-cucumber/javascript"
+    "@cucumber/fake-cucumber": "^3.0.3"
   },
   "description": "This module is only used for testing the Go implementation. It generates ndjson  protobuf files (`.ndjson`) from test data in `../ruby`, using `../fake-cucumber`. These files are then piped to the Go JSON formatter during acceptance tests.",
   "main": "index.js",
@@ -18,7 +18,7 @@
     "test": "test"
   },
   "dependencies": {
-    "@cucumber/messages": "file:../../messages/javascript"
+    "@cucumber/messages": "^9.0.3"
   },
   "keywords": [],
   "author": ""
