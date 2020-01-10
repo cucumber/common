@@ -3,9 +3,7 @@ package io.cucumber.datatable;
 import org.apiguardian.api.API;
 
 import java.io.IOException;
-import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.lang.reflect.TypeVariable;
 import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -123,6 +121,15 @@ public final class DataTable {
      */
     public static DataTable emptyDataTable() {
         return new DataTable(Collections.emptyList(), new NoConverterDefined());
+    }
+
+    /**
+     * Returns the table converter of this data table.
+     *
+     * @return the tables table converter
+     */
+    public TableConverter getTableConverter() {
+        return tableConverter;
     }
 
     /**
