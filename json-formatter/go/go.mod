@@ -14,4 +14,6 @@ require (
 	golang.org/x/xerrors v0.0.0-20191204190536-9bdfabe68543 // indirect
 )
 
+replace github.com/cucumber/messages-go/v9 => ../../messages/go
+
 go 1.13
