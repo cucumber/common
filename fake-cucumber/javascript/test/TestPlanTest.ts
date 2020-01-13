@@ -3,15 +3,19 @@ import {
   streamToArray,
   stubMatchingStepDefinition,
 } from './TestHelpers'
-import { IdGenerator, messages } from 'cucumber-messages'
+import { IdGenerator, messages } from '@cucumber/messages'
 import { MessageNotifier } from '../src/types'
 import assert from 'assert'
 import TestPlan from '../src/TestPlan'
 import IStepDefinition from '../src/IStepDefinition'
-import { CucumberExpression, ParameterTypeRegistry } from 'cucumber-expressions'
+import {
+  CucumberExpression,
+  ParameterTypeRegistry,
+} from '@cucumber/cucumber-expressions'
 import ExpressionStepDefinition from '../src/ExpressionStepDefinition'
-import { GherkinQuery } from 'gherkin'
+import { GherkinQuery } from '@cucumber/gherkin'
 import IncrementClock from '../src/IncrementClock'
+import { withSourceFramesOnlyStackTrace } from '../src/ErrorMessageGenerator'
 
 describe('TestPlan', () => {
   it('executes test cases', async () => {
@@ -39,12 +43,13 @@ describe('TestPlan', () => {
       [],
       gherkinQuery,
       IdGenerator.incrementing(),
-      new IncrementClock()
+      new IncrementClock(),
+      withSourceFramesOnlyStackTrace()
     )
     const envelopes: messages.IEnvelope[] = []
     const notifier: MessageNotifier = message => envelopes.push(message)
     await testPlan.execute(notifier)
-    assert.deepStrictEqual(envelopes.length, 5)
+    assert.deepStrictEqual(envelopes.length, 7)
   })
 
   it('attaches attachments from support code', async () => {
@@ -81,7 +86,8 @@ describe('TestPlan', () => {
       [],
       gherkinQuery,
       IdGenerator.incrementing(),
-      new IncrementClock()
+      new IncrementClock(),
+      withSourceFramesOnlyStackTrace()
     )
     const envelopes: messages.IEnvelope[] = []
     const notifier: MessageNotifier = message => envelopes.push(message)

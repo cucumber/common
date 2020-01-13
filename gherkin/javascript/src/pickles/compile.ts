@@ -1,4 +1,4 @@
-import { messages, IdGenerator } from 'cucumber-messages'
+import { messages, IdGenerator } from '@cucumber/messages'
 import IGherkinDocument = messages.IGherkinDocument
 
 export default function compile(

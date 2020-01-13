@@ -1,6 +1,6 @@
 {
-  "name": "cucumber-expressions",
-  "version": "8.3.0",
+  "name": "@cucumber/cucumber-expressions",
+  "version": "8.3.1",
   "description": "Cucumber Expressions - a simpler alternative to Regular Expressions",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
@@ -30,21 +30,21 @@
   "homepage": "https://github.com/cucumber/cucumber-expressions-javascript#readme",
   "devDependencies": {
     "@types/mocha": "^5.2.7",
-    "@types/node": "^12.12.21",
-    "@typescript-eslint/eslint-plugin": "^2.12.0",
-    "@typescript-eslint/parser": "^2.12.0",
+    "@types/node": "^13.1.6",
+    "@typescript-eslint/eslint-plugin": "^2.15.0",
+    "@typescript-eslint/parser": "^2.15.0",
     "eslint": "^6.8.0",
-    "eslint-config-prettier": "^6.7.0",
-    "eslint-plugin-node": "^10.0.0",
+    "eslint-config-prettier": "^6.9.0",
+    "eslint-plugin-node": "^11.0.0",
     "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-react": "^7.17.0",
-    "mocha": "^6.2.2",
-    "nyc": "^14.1.1",
+    "mocha": "^7.0.0",
+    "nyc": "^15.0.0",
     "prettier": "^1.19.1",
     "ts-loader": "^6.2.1",
-    "ts-node": "^8.5.4",
-    "typescript": "^3.7.3",
-    "webpack": "^4.41.4",
+    "ts-node": "^8.6.1",
+    "typescript": "^3.7.4",
+    "webpack": "^4.41.5",
     "webpack-cli": "^3.3.10"
   },
   "files": [
@@ -53,5 +53,8 @@
   "dependencies": {
     "becke-ch--regex--s0-0-v1--base--pl--lib": "^1.4.0",
     "xregexp": "^4.2.4"
+  },
+  "directories": {
+    "test": "test"
   }
 }

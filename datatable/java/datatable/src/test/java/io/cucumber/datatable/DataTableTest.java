@@ -7,16 +7,20 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static io.cucumber.datatable.DataTable.emptyDataTable;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
@@ -32,6 +36,20 @@ class DataTableTest {
         assertTrue(table.cells().isEmpty());
     }
 
+    @Test
+    void can_modify_data_tables() {
+        List<List<String>> raw = singletonList(emptyList());
+        DataTable table = DataTable.create(raw, tableConverter);
+        DataTable lowerCaseTable = DataTable.create(
+                raw.stream()
+                        .map(row -> row.stream()
+                                .map(String::toLowerCase)
+                                .collect(Collectors.toList()))
+                        .collect(Collectors.toList()),
+                table.getTableConverter()
+        );
+        assertSame(tableConverter, lowerCaseTable.getTableConverter());
+    }
 
     @Test
     void raw_should_equal_raw() {
@@ -295,7 +313,7 @@ class DataTableTest {
 
     @Test
     void empty_rows_are_ignored() {
-        List<List<String>> table1 = asList(Collections.emptyList(), Collections.emptyList());
+        List<List<String>> table1 = asList(emptyList(), emptyList());
         DataTable table = DataTable.create(table1, tableConverter);
         assertTrue(table.isEmpty());
         assertTrue(table.cells().isEmpty());

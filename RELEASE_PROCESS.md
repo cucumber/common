@@ -15,8 +15,7 @@ outline the process:
 * Release packages
 
 The release commands will be done from a shell session in the Docker container.
-If the release publishes a docker image, this will be done from the host OS.
-
+This ensures a consistent release environment.
 ## Decrypt credentials
 
 The credentials for the various package managers are stored in the `/secrets`
@@ -45,12 +44,14 @@ available stable versions.
 
     cd thepackage
 
-Upgrade the dependencies and also update the references in the code:
+Run the `pre-release` target:
 
     NEW_VERSION=X.Y.Z make pre-release
 
-This will typically modify the files where dependencies are declared, *without*
-committing the changes to git. Examine what changed:
+This will update the package version in the package descriptor and `CHANGELOG.md`.
+It will also update dependencies and verify that the build passes.
+
+The changes made *will not* be committed to git. Examine what changed:
 
     git diff
 
@@ -62,7 +63,7 @@ Make sure the package still builds, and that the tests are still passing:
 If all is good, commit the files.
 
     git add .
-    git commit -m "Update dependencies"
+    git commit -m "Pre-release"
 
 ## Update changelog
 
@@ -80,8 +81,6 @@ Publish a release with the following command:
 
 This will:
 
-* Update the version number in all the package descriptors
-* Update `CHANGELOG.md` with the new version
 * Publish all the packages
 * Commit all the changed files
 * Create a git tag

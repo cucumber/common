@@ -1,5 +1,5 @@
 import IWorld from '../src/IWorld'
-import { messages } from 'cucumber-messages'
+import { messages } from '@cucumber/messages'
 
 export default class TestWorld implements IWorld {
   public testStepId: string

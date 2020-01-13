@@ -1,5 +1,5 @@
 import assert from 'assert'
-import { messages } from 'cucumber-messages'
+import { messages } from '@cucumber/messages'
 import ITestStep from '../src/ITestStep'
 import {
   stubFailingSupportCodeExecutor,
@@ -12,6 +12,10 @@ import SupportCodeExecutor from '../src/SupportCodeExecutor'
 import IWorld from '../src/IWorld'
 import TestWorld from './TestWorld'
 import IncrementClock from '../src/IncrementClock'
+import {
+  withSourceFramesOnlyStackTrace,
+  withFullStackTrace,
+} from '../src/ErrorMessageGenerator'
 
 describe('TestStep', () => {
   let world: IWorld
@@ -38,7 +42,8 @@ describe('TestStep', () => {
         }),
         [],
         ['some.feature:123'],
-        new IncrementClock()
+        new IncrementClock(),
+        withSourceFramesOnlyStackTrace()
       )
 
       const testStepFinished = await execute(testStep)
@@ -58,7 +63,8 @@ describe('TestStep', () => {
         }),
         [stubMatchingStepDefinition(), stubMatchingStepDefinition()],
         ['some.feature:123'],
-        new IncrementClock()
+        new IncrementClock(),
+        withSourceFramesOnlyStackTrace()
       )
 
       const testStepFinished = await execute(testStep)
@@ -77,7 +83,8 @@ describe('TestStep', () => {
         }),
         [],
         ['some.feature:123'],
-        new IncrementClock()
+        new IncrementClock(),
+        withSourceFramesOnlyStackTrace()
       )
 
       const result = await testStep.execute(
@@ -97,7 +104,8 @@ describe('TestStep', () => {
         }),
         [stubMatchingStepDefinition(stubPassingSupportCodeExecutor())],
         ['some.feature:123'],
-        new IncrementClock()
+        new IncrementClock(),
+        withSourceFramesOnlyStackTrace()
       )
       await testStep.execute(world, message => emitted.push(message), 'some-id')
       const result = emitted.find(m => m.testStepFinished).testStepFinished
@@ -115,7 +123,8 @@ describe('TestStep', () => {
           }),
           [stubMatchingStepDefinition(stubPassingSupportCodeExecutor())],
           ['some.feature:123'],
-          new IncrementClock()
+          new IncrementClock(),
+          withSourceFramesOnlyStackTrace()
         )
 
         const testStepFinished = await execute(testStep)
@@ -135,7 +144,8 @@ describe('TestStep', () => {
           }),
           [stubMatchingStepDefinition(stubPendingSupportCodeExecutor())],
           ['some.feature:123'],
-          new IncrementClock()
+          new IncrementClock(),
+          withSourceFramesOnlyStackTrace()
         )
         const testStepFinished = await execute(testStep)
 
@@ -158,7 +168,8 @@ describe('TestStep', () => {
             ),
           ],
           ['some.feature:123'],
-          new IncrementClock()
+          new IncrementClock(),
+          withSourceFramesOnlyStackTrace()
         )
 
         const testStepFinished = await execute(testStep)
@@ -181,7 +192,8 @@ describe('TestStep', () => {
             ),
           ],
           ['some.feature:123'],
-          new IncrementClock()
+          new IncrementClock(),
+          withFullStackTrace()
         )
 
         const testStepFinished = await execute(testStep)
@@ -189,9 +201,7 @@ describe('TestStep', () => {
           testStepFinished.testResult.message.includes('Something went wrong')
         )
         assert.ok(
-          testStepFinished.testResult.message.includes(
-            'at Object.stubFailingSupportCodeExecutor'
-          )
+          testStepFinished.testResult.message.includes('at some.feature:123')
         )
       })
 
@@ -221,7 +231,8 @@ describe('TestStep', () => {
             ),
           ],
           ['some.feature:123'],
-          new IncrementClock()
+          new IncrementClock(),
+          withSourceFramesOnlyStackTrace()
         )
 
         const testStepFinished = await execute(testStep)
