@@ -23,7 +23,9 @@ default: .tested .built .linted
 	npm run lint-fix
 	touch $@
 
-package-lock.json: package.json
+package-lock.json: package.json node_modules
+
+node_modules:
 	npm install
 	touch $@
 
