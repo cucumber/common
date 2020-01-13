@@ -1,16 +1,12 @@
 import { Transform } from 'stream'
-import {
-  messages,
-  MessageToBinaryStream,
-  MessageToNdjsonStream,
-} from 'cucumber-messages'
+import { MessageToBinaryStream, MessageToNdjsonStream } from 'cucumber-messages'
 
 export default function formatStream(format: 'ndjson' | 'protobuf'): Transform {
   switch (format) {
     case 'ndjson':
-      return new MessageToNdjsonStream<messages.IEnvelope>()
+      return new MessageToNdjsonStream()
     case 'protobuf':
-      return new MessageToBinaryStream<messages.IEnvelope>()
+      return new MessageToBinaryStream()
     default:
       throw new Error(`Unsupported format: '${format}'`)
   }

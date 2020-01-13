@@ -45,14 +45,15 @@ const options: IGherkinOptions = {
 
 async function loadSupportCode(): Promise<void> {
   const supportCodePaths = await findSupportCodePaths(requirePaths)
-  let tsNoseRegistered = false
+  let tsNodeRegistered = false
   for (const supportCodePath of supportCodePaths) {
-    if (supportCodePath.endsWith('.ts')) {
+    if (supportCodePath.endsWith('.ts') && !tsNodeRegistered) {
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
       const tsnode = require('ts-node')
       tsnode.register({
         transpileOnly: true,
       })
-      tsNoseRegistered = true
+      tsNodeRegistered = true
     }
     require(supportCodePath)
   }
@@ -83,7 +84,6 @@ async function main() {
 }
 
 main().catch(err => {
-  // tslint:disable-next-line:no-console
   console.error(err)
   process.exit(1)
 })

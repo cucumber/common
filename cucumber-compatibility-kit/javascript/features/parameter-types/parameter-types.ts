@@ -19,4 +19,5 @@ Given('{flight} has been delayed {int} minutes', function(
 ) {
   assert.equal(flight.from, 'LHR')
   assert.equal(flight.to, 'CDG')
+  assert.equal(delay, 45)
 })

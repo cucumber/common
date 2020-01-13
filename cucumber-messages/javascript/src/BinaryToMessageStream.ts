@@ -13,7 +13,11 @@ export default class BinaryToMessageStream<T> extends Transform {
     super({ objectMode: true })
   }
 
-  public _transform(chunk: any, encoding: string, callback: TransformCallback) {
+  public _transform(
+    chunk: Buffer,
+    encoding: string,
+    callback: TransformCallback
+  ): void {
     this.buffer = Buffer.concat([this.buffer, chunk])
     let finished = false
     do {

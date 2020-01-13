@@ -229,15 +229,6 @@ function interpolate(
   return name
 }
 
-function pickleSteps(
-  scenario: messages.GherkinDocument.Feature.IScenario,
-  variableCells: messages.GherkinDocument.Feature.TableRow.ITableCell[],
-  valuesRow: messages.GherkinDocument.Feature.ITableRow,
-  newId: IdGenerator.NewId
-) {
-  return scenario.steps.map(s => pickleStep(s, variableCells, valuesRow, newId))
-}
-
 function pickleStep(
   step: messages.GherkinDocument.Feature.IStep,
   variableCells: messages.GherkinDocument.Feature.TableRow.ITableCell[],

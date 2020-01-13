@@ -9,8 +9,8 @@
   "license": "MIT",
   "scripts": {
     "test": "mocha",
-    "lint": "eslint src/**/*.ts test/**/*.ts --quiet",
-    "lint-fix": "eslint --fix src/**/*.ts test/**/*.ts",
+    "lint": "eslint --ext ts --max-warnings 0 src test",
+    "lint-fix": "eslint --ext ts --max-warnings 0 --fix src test",
     "coverage": "nyc --reporter=html --reporter=text mocha",
     "pbjs": "pbjs --target static-module --wrap commonjs messages.proto --out src/cucumber-messages.js",
     "pbts": "pbts src/cucumber-messages.js > src/cucumber-messages.d.ts",
@@ -32,6 +32,7 @@
     "eslint-config-prettier": "^6.7.0",
     "eslint-plugin-node": "^10.0.0",
     "eslint-plugin-prettier": "^3.1.2",
+    "eslint-plugin-react": "^7.17.0",
     "mocha": "^6.2.2",
     "nyc": "^14.1.1",
     "prettier": "^1.19.1",

@@ -7,7 +7,7 @@
       @:this.startRule(context, RuleType.@production.RuleName);
       break;
     case ProductionRuleType.End:
-      @:this.endRule(context, RuleType.@production.RuleName);
+      @:this.endRule(context);
       break;
     case ProductionRuleType.Process:
       @:this.build(context, token);
@@ -16,12 +16,11 @@
 }
 @helper HandleParserError(IEnumerable<string> expectedTokens, State state)
 {<text>
-    const stateComment = "State: @state.Id - @Raw(state.Comment)";
     token.detach();
     const expectedTokens = ["@Raw(string.Join("\", \"", expectedTokens))"];
     const error = token.isEof ?
-      UnexpectedEOFException.create(token, expectedTokens, stateComment) :
-      UnexpectedTokenException.create(token, expectedTokens, stateComment);
+      UnexpectedEOFException.create(token, expectedTokens) :
+      UnexpectedTokenException.create(token, expectedTokens);
     if (this.stopAtFirstError) throw error;
     this.addError(context, error);
     return @state.Id;</text>}
@@ -35,11 +34,11 @@ import {
   UnexpectedEOFException,
   AstBuilderException,
   NoSuchLanguageException
-} from './errors'
-import AstBuilder from './ast_builder'
-import Token from './token'
-import TokenScanner from './token_scanner'
-import TokenMatcher from './token_matcher'
+} from './Errors'
+import AstBuilder from './AstBuilder'
+import Token from './Token'
+import TokenScanner from './TokenScanner'
+import TokenMatcher from './TokenMatcher'
 
 export enum TokenType {
   None,
@@ -66,7 +65,7 @@ export default class Parser {
   public stopAtFirstError: boolean = false
   private context: Context
 
-  constructor(private readonly builder: AstBuilder = new AstBuilder()) {
+  constructor(private readonly builder: AstBuilder) {
   }
 
   public parse(tokenScanner: TokenScanner|string, tokenMatcher: TokenMatcher = new TokenMatcher()) {
@@ -90,7 +89,7 @@ export default class Parser {
       if(token.isEof) break;
     }
 
-    this.endRule(this.context, RuleType.@Model.RuleSet.StartRule.Name);
+    this.endRule(this.context);
 
     if(this.context.errors.length > 0) {
       throw CompositeParserException.create(this.context.errors);
@@ -109,8 +108,8 @@ export default class Parser {
     this.handleAstError(context, () => this.builder.startRule(ruleType));
   }
 
-  private endRule(context: Context, ruleType: RuleType) {
-    this.handleAstError(context, () => this.builder.endRule(ruleType));
+  private endRule(context: Context) {
+    this.handleAstError(context, () => this.builder.endRule());
   }
 
   private build(context: Context, token: Token) {

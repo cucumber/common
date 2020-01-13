@@ -1,9 +1,9 @@
-import { Given } from '../dist/src'
+import x from '../src'
 
-Given('a passed step', () => {
+x.Given('a passed step', () => {
   // no-op
 })
 
-Given('I have {int} cukes', cukes => {
+x.Given('I have {int} cukes', (cukes: number) => {
   // no-op
 })

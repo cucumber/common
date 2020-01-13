@@ -41,11 +41,7 @@ export class CompositeParserException extends GherkinException {
 }
 
 export class UnexpectedTokenException extends GherkinException {
-  public static create(
-    token: Token,
-    expectedTokenTypes: string[],
-    stateComment: string
-  ) {
+  public static create(token: Token, expectedTokenTypes: string[]) {
     const message = `expected: ${expectedTokenTypes.join(
       ', '
     )}, got '${token.getTokenValue().trim()}'`
@@ -57,11 +53,7 @@ export class UnexpectedTokenException extends GherkinException {
 }
 
 export class UnexpectedEOFException extends GherkinException {
-  public static create(
-    token: Token,
-    expectedTokenTypes: string[],
-    stateComment: string
-  ) {
+  public static create(token: Token, expectedTokenTypes: string[]) {
     const message = `unexpected end of file, expected: ${expectedTokenTypes.join(
       ', '
     )}`

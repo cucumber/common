@@ -12,6 +12,7 @@ import makeDummyStepDefinitions from 'fake-cucumber/dist/test/makeDummyStepDefin
 import makeDummyHooks from 'fake-cucumber/dist/test/makeDummyHooks'
 import CucumberStream from 'fake-cucumber/dist/src/CucumberStream'
 import PerfHooksClock from 'fake-cucumber/dist/src/PerfHooksClock'
+import { JSDOM } from 'jsdom'
 
 describe('App', () => {
   const dir = __dirname + '/../../../gherkin/testdata/good'
@@ -25,7 +26,6 @@ describe('App', () => {
   for (const file of files) {
     if (file.match(/\.feature$/)) {
       it(`can render ${file}`, async () => {
-        const { JSDOM } = require('jsdom')
         const dom = new JSDOM(
           '<html lang="en"><body><div id="content"></div></body></html>'
         )

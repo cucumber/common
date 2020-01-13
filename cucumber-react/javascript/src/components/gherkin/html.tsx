@@ -55,7 +55,7 @@ const Th = styled.th`
 `
 
 // Lifted from cucumber-expressions/javascript/src/ParameterTypeRegistry#FLOAT_REGEXP
-const numberPattern = /(?=.*\d.*)[-+]?\d*(?:\.(?=\d.*))?\d*(?:\d+[E][+\-]?\d+)?/
+const numberPattern = /(?=.*\d.*)[-+]?\d*(?:\.(?=\d.*))?\d*(?:\d+[E][+-]?\d+)?/
 
 const Td = styled.td`
   border: 1px solid black;
