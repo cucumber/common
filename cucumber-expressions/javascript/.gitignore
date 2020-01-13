@@ -4,6 +4,7 @@ dist/
 coverage/
 node_modules/
 yarn.lock
+package-lock.json
 npm-debug.log
 .deps
 .tested*
