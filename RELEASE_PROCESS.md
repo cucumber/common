@@ -15,8 +15,7 @@ outline the process:
 * Release packages
 
 The release commands will be done from a shell session in the Docker container.
-If the release publishes a docker image, this will be done from the host OS.
-
+This ensures a consistent release environment.
 ## Decrypt credentials
 
 The credentials for the various package managers are stored in the `/secrets`
