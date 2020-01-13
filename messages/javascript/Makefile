@@ -7,8 +7,6 @@ src/messages.js: messages.proto
 
 src/messages.d.ts: src/messages.js
 	npm run pbts
-	cat <(echo "/* eslint-disable */") $@ > $@.tmp
-	mv $@.tmp $@
 
 clean:
 	rm -rf dist src/messages.js src/messages.d.ts
