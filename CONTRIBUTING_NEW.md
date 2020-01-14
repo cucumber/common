@@ -77,6 +77,18 @@ Whenever you push code to this repo, or create a [pull request](https://help.git
 CircleCI will build the packages in parallel, so a full build will complete a lot faster
 than a local build.
 
+### Building a subset
+
+Define `PACKAGES` and/or `LANGUAGES` to only build a subset of packages / languages.
+
+Examples:
+
+```
+LANGUAGES=javascript make
+LANGUAGES="javascript ruby" make
+PACKAGES="messages gherkin" make
+```
+
 ## Encrypted secrets
 
 Some files in the repo are encrypted [git-crypt](https://www.agwa.name/projects/git-crypt/).
