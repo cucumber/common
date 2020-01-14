@@ -118,7 +118,7 @@ func TestCucumberExpressionParser(t *testing.T) {
 			expressionNode,
 			[]astNode{
 				{textNode, []astNode{}, token{"{", beginParameter}},
-				{textNode, []astNode{}, token{"string",text}},
+				{textNode, []astNode{}, token{"string", text}},
 			},
 			nullToken,
 		})
