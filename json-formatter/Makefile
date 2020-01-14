@@ -1,2 +1,2 @@
-MAKEFILES = ruby/Makefile javascript/Makefile go/Makefile
+LANGUAGES ?= ruby javascript go
 include default.mk

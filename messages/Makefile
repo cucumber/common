@@ -1,4 +1,3 @@
-MAKEFILES = $(wildcard */Makefile)
 include default.mk
 
 ifndef ALPINE
