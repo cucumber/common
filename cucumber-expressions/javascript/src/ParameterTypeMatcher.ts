@@ -46,14 +46,14 @@ export default class ParameterTypeMatcher {
   }
 
   get find() {
-    return this.match && this.group !== '' && this.full_word
+    return this.match && this.group !== '' && this.fullWord
   }
 
   get start() {
     return this.matchPosition + this.match.index
   }
 
-  get full_word() {
+  get fullWord() {
     return this.matchStartWord && this.matchEndWord
   }
 

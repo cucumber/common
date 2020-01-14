@@ -13,15 +13,20 @@ export default class BinaryToMessageStream<T> extends Transform {
     super({ objectMode: true })
   }
 
-  public _transform(chunk: any, encoding: string, callback: TransformCallback) {
+  public _transform(
+    chunk: Buffer,
+    encoding: string,
+    callback: TransformCallback
+  ): void {
     this.buffer = Buffer.concat([this.buffer, chunk])
-
-    while (true) {
+    let finished = false
+    do {
       try {
         const reader = Reader.create(this.buffer)
         const message = this.decodeDelimited(reader)
         this.push(message)
         this.buffer = this.buffer.slice(reader.pos)
+        finished = true
       } catch (err) {
         if (err instanceof RangeError) {
           // The buffer doesn't have all the data yet. Keep reading.
@@ -30,7 +35,7 @@ export default class BinaryToMessageStream<T> extends Transform {
           throw err
         }
       }
-    }
+    } while (!finished)
     callback()
   }
 }

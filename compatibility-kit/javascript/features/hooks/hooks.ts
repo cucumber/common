@@ -1,4 +1,3 @@
-import assert from 'assert'
 import { When, Before, After } from '@cucumber/fake-cucumber'
 
 Before(function() {

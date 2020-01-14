@@ -3,10 +3,12 @@ import SupportCode from '../src/SupportCode'
 export default function makeDummyStepDefinitions(supportCode: SupportCode) {
   const { Given } = supportCode
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   Given('a passed {word}', (thing: string) => {
     // no-op
   })
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   Given('a passed {word} with', (thing: string, dataTableOrDocString) => {
     // no-op
   })
@@ -20,6 +22,7 @@ export default function makeDummyStepDefinitions(supportCode: SupportCode) {
 
   Given(
     'I have {int} cukes/cucumbers in my {word}',
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     (count: number, container: string) => {
       // no-op
     }
@@ -37,12 +40,15 @@ export default function makeDummyStepDefinitions(supportCode: SupportCode) {
     )
   })
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   Given('a pending {word}', (thing: string) => 'pending')
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   Given('an ambiguou(s) {word}', (thing: string) => {
     // no-op
   })
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   Given('an (a)mbiguous {word}', (thing: string) => {
     // no-op
   })
