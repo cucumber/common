@@ -1,56 +1,32 @@
 SHELL := /usr/bin/env bash
-MAKEFILES=c21e/Makefile \
-	messages/Makefile \
-	gherkin/Makefile \
-	cucumber-expressions/Makefile \
-	tag-expressions/Makefile \
-	fake-cucumber/Makefile \
-	query/Makefile \
-	compatibility-kit/Makefile \
-	react/Makefile \
-	html-formatter/Makefile \
-	json-formatter/Makefile \
-	datatable/Makefile \
-	config/Makefile \
-	demo-formatter/Makefile
+PACKAGES ?= c21e \
+	messages \
+	gherkin \
+	cucumber-expressions \
+	tag-expressions \
+	fake-cucumber \
+	query \
+	compatibility-kit \
+	react \
+	html-formatter \
+	json-formatter \
+	datatable \
+	config \
+	demo-formatter
 
-default: .rsynced $(patsubst %/Makefile,default-%,$(MAKEFILES))
+default: .rsynced $(patsubst %,default-%,$(PACKAGES))
 .PHONY: default
 
 default-%: %
 	cd $< && make default
 
-go: .rsynced $(patsubst %/Makefile,go-%,$(MAKEFILES))
-.PHONY: go
-
-go-%: %
-	cd $< && make default-go
-
-java: .rsynced $(patsubst %/Makefile,java-%,$(MAKEFILES))
-.PHONY: java
-
-java-%: %
-	cd $< && make default-java
-
-javascript: .rsynced $(patsubst %/Makefile,javascript-%,$(MAKEFILES))
-.PHONY: javascript
-
-javascript-%: %
-	cd $< && make default-javascript
-
-ruby: .rsynced $(patsubst %/Makefile,ruby-%,$(MAKEFILES))
-.PHONY: ruby
-
-ruby-%: %
-	cd $< && make default-ruby
-
-update-dependencies: $(patsubst %/Makefile,update-dependencies-%,$(MAKEFILES))
+update-dependencies: $(patsubst %,update-dependencies-%,$(PACKAGES))
 .PHONY: update-dependencies
 
 update-dependencies-%: %
 	cd $< && make update-dependencies
 
-clean: $(patsubst %/Makefile,clean-%,$(MAKEFILES)) rm-release
+clean: $(patsubst %,clean-%,$(PACKAGES))
 	rm -f .rsynced
 .PHONY: clean
 
@@ -70,7 +46,3 @@ push_subrepos:
 .rsynced:
 	source scripts/functions.sh && rsync_files
 	touch $@
-
-rm-release:
-	find . -type d -name '.release' | xargs rm -rf
-.PHONY: rm-release
