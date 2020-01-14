@@ -1,7 +1,7 @@
 package gherkin
 
 import (
-	"github.com/cucumber/cucumber-messages-go/v7"
+	"github.com/cucumber/messages-go/v9"
 	"strings"
 )
 
@@ -170,10 +170,10 @@ func (t *astBuilder) transformNode(node *astNode) (interface{}, error) {
 			text += lineTokens[i].Text
 		}
 		ds := &messages.GherkinDocument_Feature_Step_DocString{
-			Location:    astLocation(separatorToken),
-			ContentType: separatorToken.Text,
-			Content:     text,
-			Delimiter:   separatorToken.Keyword,
+			Location:  astLocation(separatorToken),
+			MediaType: separatorToken.Text,
+			Content:   text,
+			Delimiter: separatorToken.Keyword,
 		}
 		return ds, nil
 

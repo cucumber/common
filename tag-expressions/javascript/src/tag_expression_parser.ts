@@ -234,6 +234,7 @@ class Not implements Node {
 }
 
 class True implements Node {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public evaluate(variables: string[]) {
     return true
   }

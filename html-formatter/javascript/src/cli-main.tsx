@@ -3,14 +3,15 @@ import {
   BinaryToMessageStream,
   messages,
   NdjsonToMessageStream,
-} from 'cucumber-messages'
+} from '@cucumber/messages'
 import React from 'react'
 import program from 'commander'
 import p from '../package.json'
 import { pipeline, Transform, TransformCallback } from 'stream'
-import { GherkinDocumentList } from 'cucumber-react'
+import { GherkinDocumentList } from '@cucumber/react'
 import { renderToString } from 'react-dom/server'
-import CucumberQuery from 'cucumber-query'
+import CucumberQuery from '@cucumber/query'
+import { GherkinQuery } from '@cucumber/gherkin'
 
 class CucumberHtmlStream extends Transform {
   private readonly envelopes: messages.IEnvelope[] = []
@@ -37,10 +38,13 @@ class CucumberHtmlStream extends Transform {
       const gherkinDocuments = this.envelopes
         .filter(e => e.gherkinDocument)
         .map(e => e.gherkinDocument)
-      const cucumberQuery = this.envelopes.reduce(
-        (q, e) => q.update(e),
-        new CucumberQuery()
-      )
+      const gherkinQuery = new GherkinQuery()
+      const cucumberQuery = new CucumberQuery(gherkinQuery)
+
+      for (const envelope of this.envelopes) {
+        gherkinQuery.update(envelope)
+        cucumberQuery.update(envelope)
+      }
 
       this.push(`<!DOCTYPE html>
 <html lang="en">

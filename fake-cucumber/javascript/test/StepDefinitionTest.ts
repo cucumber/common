@@ -1,8 +1,11 @@
 import assert from 'assert'
-import { messages } from 'cucumber-messages'
+import { messages } from '@cucumber/messages'
 import ExpressionStepDefinition from '../src/ExpressionStepDefinition'
-import { CucumberExpression, ParameterTypeRegistry } from 'cucumber-expressions'
-import RegularExpression from 'cucumber-expressions/dist/src/RegularExpression'
+import {
+  CucumberExpression,
+  ParameterTypeRegistry,
+  RegularExpression,
+} from '@cucumber/cucumber-expressions'
 import TestWorld from './TestWorld'
 
 describe('StepDefinition', () => {
@@ -12,7 +15,12 @@ describe('StepDefinition', () => {
         'banana',
         new ParameterTypeRegistry()
       )
-      const stepdef = new ExpressionStepDefinition(expression, () => null)
+      const stepdef = new ExpressionStepDefinition(
+        'stepdef-id',
+        expression,
+        null,
+        () => null
+      )
       const pickleStep = messages.Pickle.PickleStep.create({
         text: 'apple',
       })
@@ -26,7 +34,9 @@ describe('StepDefinition', () => {
         new ParameterTypeRegistry()
       )
       const stepdef = new ExpressionStepDefinition(
+        'stepdef-id',
         expression,
+        null,
         (cukeCount: number) => cukeCount
       )
       const pickleStep = messages.Pickle.PickleStep.create({
@@ -43,7 +53,12 @@ describe('StepDefinition', () => {
         /banana/,
         new ParameterTypeRegistry()
       )
-      const stepdef = new ExpressionStepDefinition(expression, () => null)
+      const stepdef = new ExpressionStepDefinition(
+        'stepdef-id',
+        expression,
+        null,
+        () => null
+      )
       const message = stepdef.toMessage()
 
       assert.strictEqual(
@@ -57,7 +72,12 @@ describe('StepDefinition', () => {
         'banana',
         new ParameterTypeRegistry()
       )
-      const stepdef = new ExpressionStepDefinition(expression, () => null)
+      const stepdef = new ExpressionStepDefinition(
+        'stepdef-id',
+        expression,
+        null,
+        () => null
+      )
       const message = stepdef.toMessage()
 
       assert.strictEqual(

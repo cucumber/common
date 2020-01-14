@@ -17,19 +17,27 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
-## [3.0.0] - 2019-08-17
+## [3.2.0] - 2020-01-10
 
 ### Added
-    
-### Changed
- 
-### Deprecated
+ * [Java] Add getter for TableConverter
+     ([#853](https://github.com/cucumber/cucumber/pull/853)
+     [mpkorstanje])
+
+## [3.1.0] - 2019-12-15
+
+### Fixed
+ * [Java] Replace wildcard type with its upper bound
+    ([#829](https://github.com/cucumber/cucumber/pull/829)
+    [mpkorstanje])
+
+## [3.0.0] - 2019-08-17
 
 ### Removed
  * [Java] Remove shaded dependency on Jackson Databind
     ([#682](https://github.com/cucumber/cucumber/pull/682)
     [#679](https://github.com/cucumber/cucumber/issues/679)
-    M.P. Korstanje)
+    [mpkorstanje])
 ### Fixed
 
 ## [2.0.0] 2019-08-11
@@ -41,7 +49,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * [Java] Mark public api with @API Guardian annotations
     ([cucumber/cucumber-jvm#1536](https://github.com/cucumber/cucumber-jvm/issues/1536)
     [mpkorstanje])        
-    
+
 ### Changed
  * Upgrades to `cucumber-parent:2.0.2`
  * Allow `null` values in `DataTable`.
@@ -60,7 +68,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
  *  Empty cell are not converted to `null`'s for `Double` class
-        ([#1617](https://github.com/cucumber/cucumber-jvm/issues/1617) [gkalnytskyi]) 
+        ([#1617](https://github.com/cucumber/cucumber-jvm/issues/1617) [gkalnytskyi])
 
 ## [1.1.8] - 2018-11-29
 
@@ -73,7 +81,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Fix priority of default converters
   ([#514](https://github.com/cucumber/cucumber/pull/514)
    [mpkorstanje])
-   
+
 ## [1.1.3] - 2018-07-27
 
 ### Added
@@ -133,7 +141,9 @@ There are no (1.1.0 and 1.1.1 releases).
 * java: OSGI fixes
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/datatable/v3.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/datatable/v3.2.0...master
+[3.2.0]:      https://github.com/cucumber/cucumber/compare/datatable/v3.1.0...datatable/v3.2.0
+[3.1.0]:      https://github.com/cucumber/cucumber/compare/datatable/v3.0.0...datatable/v3.1.0
 [3.0.0]:      https://github.com/cucumber/cucumber/compare/datatable/v2.0.0...datatable/v3.0.0
 [2.0.0]:      https://github.com/cucumber/cucumber/compare/datatable/v1.1.14...datatable/v2.0.0
 [1.1.14]:     https://github.com/cucumber/cucumber/compare/datatable-v1.1.7...datatable/v1.1.14

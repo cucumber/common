@@ -1,14 +1,10 @@
 import SupportCodeExecutor from './SupportCodeExecutor'
-import { messages } from 'cucumber-messages'
+import { messages } from '@cucumber/messages'
 
-export enum HookType {
-  Before,
-  After,
-}
-
-export interface IHook {
+export default interface IHook {
   id: string
 
-  match(pickle: messages.IPickle, type: HookType): SupportCodeExecutor | null
+  match(pickle: messages.IPickle): SupportCodeExecutor | null
+
   toMessage(): messages.IEnvelope
 }

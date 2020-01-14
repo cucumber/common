@@ -1,27 +1,35 @@
-import { performance } from 'perf_hooks'
-import { messages, TimeConversion } from 'cucumber-messages'
-import uuidv4 from 'uuid/v4'
+import { messages, TimeConversion } from '@cucumber/messages'
 import SupportCodeExecutor from './SupportCodeExecutor'
 import { MessageNotifier } from './types'
 import ITestStep from './ITestStep'
 import IWorld from './IWorld'
-const { millisecondsToDuration } = TimeConversion
+import makeAttach from './makeAttach'
+import IClock from './IClock'
+import { MakeErrorMessage } from './ErrorMessageGenerator'
+
+const {
+  millisecondsToDuration,
+  millisecondsSinceEpochToTimestamp,
+} = TimeConversion
 
 export default abstract class TestStep implements ITestStep {
-  public readonly id: string = uuidv4()
-
   constructor(
+    public readonly id: string,
     public readonly sourceId: string,
-    protected readonly supportCodeExecutors: SupportCodeExecutor[]
+    public readonly alwaysExecute: boolean,
+    protected readonly supportCodeExecutors: SupportCodeExecutor[],
+    private readonly sourceFrames: string[],
+    private readonly clock: IClock,
+    private readonly makeErrorMessage: MakeErrorMessage
   ) {}
 
   public abstract toMessage(): messages.TestCase.ITestStep
 
-  public execute(
+  public async execute(
     world: IWorld,
     notifier: MessageNotifier,
     testCaseStartedId: string
-  ): messages.ITestResult {
+  ): Promise<messages.ITestResult> {
     this.emitTestStepStarted(testCaseStartedId, notifier)
 
     if (this.supportCodeExecutors.length === 0) {
@@ -44,11 +52,11 @@ export default abstract class TestStep implements ITestStep {
       )
     }
 
-    const start = performance.now()
+    const start = this.clock.now()
     try {
-      world.testStepId = this.id
-      const result = this.supportCodeExecutors[0].execute(world)
-      const finish = performance.now()
+      world.attach = makeAttach(this.id, testCaseStartedId, notifier)
+      const result = await this.supportCodeExecutors[0].execute(world)
+      const finish = this.clock.now()
       const duration = millisecondsToDuration(finish - start)
       return this.emitTestStepFinished(
         testCaseStartedId,
@@ -62,14 +70,16 @@ export default abstract class TestStep implements ITestStep {
         notifier
       )
     } catch (error) {
-      const finish = performance.now()
+      const finish = this.clock.now()
+
+      const message = this.makeErrorMessage(error, this.sourceFrames)
       const duration = millisecondsToDuration(finish - start)
       return this.emitTestStepFinished(
         testCaseStartedId,
         new messages.TestResult({
           duration,
           status: messages.TestResult.Status.FAILED,
-          message: error.stack,
+          message,
         }),
         notifier
       )
@@ -99,6 +109,7 @@ export default abstract class TestStep implements ITestStep {
         testStepStarted: new messages.TestStepStarted({
           testCaseStartedId,
           testStepId: this.id,
+          timestamp: millisecondsSinceEpochToTimestamp(this.clock.now()),
         }),
       })
     )
@@ -115,6 +126,7 @@ export default abstract class TestStep implements ITestStep {
           testCaseStartedId,
           testStepId: this.id,
           testResult,
+          timestamp: millisecondsSinceEpochToTimestamp(this.clock.now()),
         }),
       })
     )

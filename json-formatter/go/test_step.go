@@ -3,7 +3,7 @@ package json
 import (
 	"encoding/base64"
 	"fmt"
-	messages "github.com/cucumber/cucumber-messages-go/v7"
+	messages "github.com/cucumber/messages-go/v9"
 	"strings"
 )
 
@@ -80,7 +80,7 @@ func TestStepToJSON(step *TestStep) *jsonStep {
 	status := strings.ToLower(step.Result.Status.String())
 	duration := uint64(0)
 	if step.Result.Duration != nil {
-		duration = durationToNanos(step.Result.Duration)
+		duration = uint64(messages.DurationToGoDuration(*step.Result.Duration))
 	}
 
 	if step.Hook != nil {
@@ -123,7 +123,7 @@ func TestStepToJSON(step *TestStep) *jsonStep {
 	if docString != nil {
 		jsonStep.DocString = &jsonDocString{
 			Line:        docString.Location.Line,
-			ContentType: docString.ContentType,
+			ContentType: docString.MediaType,
 			Value:       docString.Content,
 		}
 	}
@@ -149,18 +149,19 @@ func TestStepToJSON(step *TestStep) *jsonStep {
 func makeEmbeddings(attachments []*messages.Attachment) []*jsonEmbedding {
 	jsonEmbeddings := make([]*jsonEmbedding, len(attachments))
 	for index, attachment := range attachments {
-		base64EncodedData := base64.StdEncoding.EncodeToString([]byte(attachment.Data))
+		var data []byte
+		if attachment.GetBinary() != nil {
+			data = attachment.GetBinary()
+		} else {
+			data = []byte(attachment.GetText())
+		}
 		jsonEmbeddings[index] = &jsonEmbedding{
-			Data:     base64EncodedData,
-			MimeType: attachment.Media.ContentType,
+			Data:     base64.StdEncoding.EncodeToString(data),
+			MimeType: attachment.MediaType,
 		}
 	}
 
 	return jsonEmbeddings
-}
-
-func durationToNanos(d *messages.Duration) uint64 {
-	return uint64(d.Seconds*1000000000 + int64(d.Nanos))
 }
 
 func makeLocation(file string, line uint32) string {

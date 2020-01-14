@@ -2,7 +2,7 @@ package json
 
 import (
 	"fmt"
-	messages "github.com/cucumber/cucumber-messages-go/v7"
+	messages "github.com/cucumber/messages-go/v9"
 	"strings"
 )
 

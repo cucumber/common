@@ -1,17 +1,18 @@
 SHELL := /usr/bin/env bash
 MAKEFILES=c21e/Makefile \
-	cucumber-messages/Makefile \
+	messages/Makefile \
 	gherkin/Makefile \
 	cucumber-expressions/Makefile \
+	tag-expressions/Makefile \
 	fake-cucumber/Makefile \
-	cucumber-query/Makefile \
-	cucumber-react/Makefile \
+	query/Makefile \
+	compatibility-kit/Makefile \
+	react/Makefile \
 	html-formatter/Makefile \
 	json-formatter/Makefile \
 	datatable/Makefile \
 	config/Makefile \
-	tag-expressions/Makefile \
-	cucumber-demo-formatter/Makefile
+	demo-formatter/Makefile
 
 default: .rsynced $(patsubst %/Makefile,default-%,$(MAKEFILES))
 .PHONY: default

@@ -9,8 +9,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
-* [JavaScript] export `Argument`, `Group` and `Expression` types
-
 ### Changed
 
 ### Deprecated
@@ -18,6 +16,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Removed
 
 ### Fixed
+
+## [8.3.1] - 2020-01-10
+
+* [JavaScript] changed module name to `@cucumber/cucumber-expressions`
+
+## [8.3.0] - 2019-12-10
+
+### Added
+
+* [JavaScript] export `Argument`, `Group` and `Expression` types
 
 ## [8.2.1] - 2019-11-11
 
@@ -121,7 +129,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
-* Support Boolean in BuiltInParameterTransformer 
+* Support Boolean in BuiltInParameterTransformer
     ([#604](https://github.com/cucumber/cucumber/pull/604) [tommywo])
 
 ## [7.0.0] - 2019-03-22
@@ -164,8 +172,8 @@ This was a mistaken release due to [tooky]'s fat fingers.
 
 ## [6.2.1] - 2018-11-30
 
-### Fixed 
-     
+### Fixed
+
 * (Java) Improve heuristics for creating Cucumber/Regular Expressions from strings
   ([#515](https://github.com/cucumber/cucumber/issues/515)
    [#518](https://github.com/cucumber/cucumber/pull/518)
@@ -174,13 +182,13 @@ This was a mistaken release due to [tooky]'s fat fingers.
 ## [6.2.0] - 2018-10-28
 
 ### Added
-* Add anonymous parameter types 
+* Add anonymous parameter types
   ([#496](https://github.com/cucumber/cucumber/pull/496) [mpkorstanje])
 
 ## [6.1.2] - 2018-10-11
 
 Same as 6.1.1 - just fixed a mistake made during the 6.1.1 release.
-   
+
 ## [6.1.1] - 2018-10-11
 
 ### Fixed
@@ -222,7 +230,7 @@ Same as 6.1.1 - just fixed a mistake made during the 6.1.1 release.
    [aidamanna]
    [aslakhellesoy]
    [spicalous])
-   
+
 ## [6.0.1] - 2018-06-14
 
 ### Added
@@ -248,7 +256,7 @@ Same as 6.1.1 - just fixed a mistake made during the 6.1.1 release.
 ### Changed
 
 * Throw an error if a parameter type is used inside optional text parenthesis,
-  or with alternative text. 
+  or with alternative text.
   ([#360](https://github.com/cucumber/cucumber/pull/360)
    [aslakhellesoy])
 
@@ -631,7 +639,9 @@ N/A
 * First stable release!
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions/v8.2.1...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions/v8.3.1...master
+[8.3.1]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v8.3.0...cucumber-expressions/v8.3.1
+[8.3.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v8.2.1...cucumber-expressions/v8.3.0
 [8.2.1]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v8.2.0...cucumber-expressions/v8.2.1
 [8.2.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v8.1.0...cucumber-expressions/v8.2.0
 [8.1.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v8.0.2...cucumber-expressions/v8.1.0

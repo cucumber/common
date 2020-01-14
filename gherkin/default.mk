@@ -19,10 +19,6 @@ update-dependencies-%: %
 	cd $< && make update-dependencies
 .PHONY: update-dependencies-%
 
-update-version: $(patsubst %/Makefile,update-version-%,$(MAKEFILES))
-
-update-version: update-changelog
-
 update-changelog:
 ifdef NEW_VERSION
 	cat CHANGELOG.md | ../scripts/update_changelog.sh $(NEW_VERSION) > CHANGELOG.md.tmp
@@ -33,18 +29,14 @@ else
 endif
 .PHONY: update-changelog
 
-update-version-%: %
-	cd $< && make update-version
-.PHONY: update-version-%
-
-pre-release: $(patsubst %/Makefile,pre-release-%,$(MAKEFILES))
+pre-release: update-changelog $(patsubst %/Makefile,pre-release-%,$(MAKEFILES))
 .PHONY: pre-release
 
 pre-release-%: %
 	cd $< && make pre-release
 .PHONY: pre-release-%
 
-release: update-version clean default create-and-push-release-tag publish
+release: clean default create-and-push-release-tag publish
 .PHONY: release
 
 publish: $(patsubst %/Makefile,publish-%,$(MAKEFILES))

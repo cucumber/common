@@ -5,12 +5,12 @@ Cucumber Tag Expressions for Python
     :target: https://travis-ci.org/cucumber/tag-expressions-python
     :alt: Travis CI Build Status
 
-.. image:: https://img.shields.io/pypi/v/cucumber-tag-expressions.svg
-    :target: https://pypi.python.org/pypi/cucumber-tag-expressions
+.. image:: https://img.shields.io/pypi/v/tag-expressions.svg
+    :target: https://pypi.python.org/pypi/tag-expressions
     :alt: Latest Version
 
-.. image:: https://img.shields.io/pypi/l/cucumber-tag-expressions.svg
-    :target: https://pypi.python.org/pypi/cucumber-tag-expressions/
+.. image:: https://img.shields.io/pypi/l/tag-expressions.svg
+    :target: https://pypi.python.org/pypi/tag-expressions/
     :alt: License
 
 .. |logo| image:: https://github.com/cucumber-ltd/brand/raw/master/images/png/notm/cucumber-black/cucumber-black-128.png

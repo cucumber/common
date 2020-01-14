@@ -1,10 +1,7 @@
-require 'cucumber/messages'
-require 'gherkin/id_generator'
-
 module Gherkin
   module Pickles
     class Compiler
-      def initialize(id_generator = Gherkin::IdGenerator::UUID.new)
+      def initialize(id_generator)
         @id_generator = id_generator
       end
 
@@ -170,8 +167,8 @@ module Gherkin
         props = {
           content: interpolate(doc_string.content, variable_cells, value_cells)
         }
-        if doc_string.content_type
-          props[:content_type] = interpolate(doc_string.content_type, variable_cells, value_cells)
+        if doc_string.media_type
+          props[:media_type] = interpolate(doc_string.media_type, variable_cells, value_cells)
         end
         Cucumber::Messages::PickleStepArgument::PickleDocString.new(props)
       end

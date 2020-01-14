@@ -1,5 +1,5 @@
 import TestStep from './TestStep'
-import { messages } from 'cucumber-messages'
+import { messages } from '@cucumber/messages'
 
 export default class PickleTestStep extends TestStep {
   public toMessage(): messages.TestCase.ITestStep {
@@ -9,10 +9,12 @@ export default class PickleTestStep extends TestStep {
       stepDefinitionIds: this.supportCodeExecutors.map(
         supportCodeExecutor => supportCodeExecutor.stepDefinitionId
       ),
-      stepMatchArguments:
-        this.supportCodeExecutors.length !== 1
-          ? null
-          : this.supportCodeExecutors[0].argsToMessages(),
+      stepMatchArgumentsLists: this.supportCodeExecutors.map(
+        e =>
+          new messages.TestCase.TestStep.StepMatchArgumentsList({
+            stepMatchArguments: e.argsToMessages(),
+          })
+      ),
     })
   }
 }

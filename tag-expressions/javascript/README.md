@@ -9,7 +9,7 @@
 ## Example
 
 ```js
-import {TagExpressionParser} from 'cucumber-tag-expressions'
+import {TagExpressionParser} from '@cucumber/tag-expressions'
 const parser = new TagExpressionParser()
 
 const expressionNode = parser.parse('@tagA and @tagB')

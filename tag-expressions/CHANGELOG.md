@@ -11,25 +11,40 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
-* Upgrades to `cucumber-parent:2.0.2`
-
 ### Deprecated
 
 ### Removed
 
 ### Fixed
 
+## [2.0.4] - 2020-01-10
+
+### Changed
+
+* [JavaScript] changed module name to `@cucumber/tag-expressions`
+
+## [2.0.3] - 2019-12-10
+
+### Changed
+
+* Upgrades to `cucumber-parent:2.0.2`
+* [Ruby] Renamed gem to `tag-expressions`
+
+### Removed
+
+* [Ruby] Removed `tag-expressions` executable
+
 ## [2.0.2] - 2019-07-15
 
 ### Fixed
 
-* Fix incomplete 2.0.1 release 
+* Fix incomplete 2.0.1 release
 
 ## [2.0.1] - 2019-07-15
 
 ### Fixed
 
-* Fix incomplete 2.0.0 release 
+* Fix incomplete 2.0.0 release
 
 ## [2.0.0] - 2019-07-10
 
@@ -62,7 +77,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [1.1.0] - 2017-11-28
 
 ### Added
-* Ruby: Added `cucumber-tag-expressions` command-line tool for tag expressions
+* Ruby: Added `tag-expressions` command-line tool for tag expressions
   ([#282](https://github.com/cucumber/cucumber/pull/282)
    by [aslakhellesoy])
 * Escape special chars in tags
@@ -100,13 +115,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First stable release!
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/tag-expressions/v2.0.1...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/tag-expressions/v2.0.4...master
+[2.0.4]: https://github.com/cucumber/cucumber/compare/tag-expressions/v2.0.3...tag-expressions/v2.0.4
+[2.0.3]: https://github.com/cucumber/cucumber/compare/tag-expressions/v2.0.2...tag-expressions/v2.0.3
 [2.0.2]: https://github.com/cucumber/cucumber/compare/tag-expressions/v2.0.1...tag-expressions/v2.0.2
 [2.0.1]: https://github.com/cucumber/cucumber/compare/tag-expressions/v2.0.0...tag-expressions/v2.0.1
 [2.0.0]: https://github.com/cucumber/cucumber/compare/tag-expressions-v1.1.1...tag-expressions/v2.0.0
 [1.1.1]: https://github.com/cucumber/cucumber/compare/tag-expressions-v1.1.0...tag-expressions-v1.1.1
 [1.1.0]: https://github.com/cucumber/cucumber/compare/tag-expressions-v1.0.1...tag-expressions-v1.1.0
-[1.0.1]:      https://github.com/cucumber/cucumber/releases/tag/tag-expressions-v1.0.1
+[1.0.1]: https://github.com/cucumber/cucumber/releases/tag/tag-expressions-v1.0.1
 
 <!-- Contributors -->
 [aslakhellesoy]:    https://github.com/aslakhellesoy

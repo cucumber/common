@@ -1,7 +1,7 @@
 import generateMessages from './generateMessages'
 import { Transform, TransformCallback } from 'stream'
-import { IGherkinOptions } from '../types'
-import { messages } from 'cucumber-messages'
+import { messages } from '@cucumber/messages'
+import IGherkinOptions from '../IGherkinOptions'
 
 /**
  * Stream that reads Source messages and writes GherkinDocument and Pickle messages.

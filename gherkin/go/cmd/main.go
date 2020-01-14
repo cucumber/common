@@ -9,8 +9,9 @@ import (
 	b64 "encoding/base64"
 	"flag"
 	"fmt"
-	fio "github.com/cucumber/cucumber-messages-go/v7/io"
-	"github.com/cucumber/gherkin-go/v8"
+	"github.com/cucumber/gherkin-go/v9"
+	messages "github.com/cucumber/messages-go/v9"
+	fio "github.com/cucumber/messages-go/v9/io"
 	gio "github.com/gogo/protobuf/io"
 	"os"
 )
@@ -43,9 +44,9 @@ func main() {
 
 	var newId func() string
 	if *predictableIds {
-		newId = (&gherkin.Incrementing{}).NewId
+		newId = (&messages.Incrementing{}).NewId
 	} else {
-		newId = gherkin.UUID{}.NewId
+		newId = messages.UUID{}.NewId
 	}
 
 	paths := flag.Args()

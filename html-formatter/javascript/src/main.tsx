@@ -1,8 +1,9 @@
-import { messages } from 'cucumber-messages'
-import { GherkinDocumentList } from 'cucumber-react'
+import { messages } from '@cucumber/messages'
+import { GherkinDocumentList } from '@cucumber/react'
 import React from 'react'
 import ReactDOM from 'react-dom'
-import CucumberQuery from 'cucumber-query'
+import CucumberQuery from '@cucumber/query'
+import { GherkinQuery } from '@cucumber/gherkin'
 
 declare global {
   interface Window {
@@ -17,10 +18,14 @@ const envelopes = window.CUCUMBER_MESSAGES.map((message: any) =>
 const gherkinDocuments = envelopes
   .filter(e => e.gherkinDocument)
   .map(e => e.gherkinDocument)
-const cucumberQuery = envelopes.reduce(
-  (q, e) => q.update(e),
-  new CucumberQuery()
-)
+
+const gherkinQuery = new GherkinQuery()
+const cucumberQuery = new CucumberQuery(gherkinQuery)
+
+for (const envelope of envelopes) {
+  gherkinQuery.update(envelope)
+  cucumberQuery.update(envelope)
+}
 
 const app = (
   <GherkinDocumentList

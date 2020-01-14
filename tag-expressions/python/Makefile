@@ -1,5 +1,5 @@
 # =============================================================================
-# GNU MAKEFILE: cucumber-tag-expressions for Python
+# GNU MAKEFILE: tag-expressions for Python
 # =============================================================================
 # NOTE: bootstrap requires ON-LINE access.
 # REQUIRES: Python >= 2.7 is installed

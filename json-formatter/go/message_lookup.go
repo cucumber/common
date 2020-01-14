@@ -2,7 +2,7 @@ package json
 
 import (
 	"fmt"
-	messages "github.com/cucumber/cucumber-messages-go/v7"
+	messages "github.com/cucumber/messages-go/v9"
 )
 
 type MessageLookup struct {
@@ -51,6 +51,9 @@ func (self *MessageLookup) ProcessMessage(envelope *messages.Envelope) (err erro
 		self.comment(fmt.Sprintf("Stored GherkinDocument: %s", m.GherkinDocument.Uri))
 		for key, _ := range self.gherkinDocumentByURI {
 			self.comment(fmt.Sprintf(" - %s ", key))
+		}
+		if m.GherkinDocument.Feature == nil {
+			return nil
 		}
 		for _, tag := range m.GherkinDocument.Feature.Tags {
 			self.tagByID[tag.Id] = tag

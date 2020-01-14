@@ -1,10 +1,12 @@
 import TestCase from './TestCase'
 import { MessageNotifier } from './types'
-import ExpressionStepDefinition from './ExpressionStepDefinition'
-import { messages } from 'cucumber-messages'
+import { IdGenerator, messages, TimeConversion } from '@cucumber/messages'
 import makeTestCase from './makeTestCase'
 import IStepDefinition from './IStepDefinition'
-import { IHook } from './IHook'
+import IHook from './IHook'
+import { GherkinQuery } from '@cucumber/gherkin'
+import IClock from './IClock'
+import { MakeErrorMessage } from './ErrorMessageGenerator'
 
 export default class TestPlan {
   private readonly testCases: TestCase[]
@@ -12,19 +14,51 @@ export default class TestPlan {
   constructor(
     pickles: messages.IPickle[],
     stepDefinitions: IStepDefinition[],
-    hooks: IHook[]
+    beforeHooks: IHook[],
+    afterHooks: IHook[],
+    gherkinQuery: GherkinQuery,
+    private readonly newId: IdGenerator.NewId,
+    private readonly clock: IClock,
+    private readonly makeErrorMessage: MakeErrorMessage
   ) {
     this.testCases = pickles.map(pickle =>
-      makeTestCase(pickle, stepDefinitions, hooks)
+      makeTestCase(
+        pickle,
+        stepDefinitions,
+        beforeHooks,
+        afterHooks,
+        gherkinQuery,
+        newId,
+        clock,
+        makeErrorMessage
+      )
     )
   }
 
-  public execute(notifier: MessageNotifier) {
+  public async execute(notifier: MessageNotifier): Promise<void> {
+    notifier(
+      new messages.Envelope({
+        testRunStarted: new messages.TestRunStarted({
+          timestamp: TimeConversion.millisecondsSinceEpochToTimestamp(
+            this.clock.now()
+          ),
+        }),
+      })
+    )
     for (const testCase of this.testCases) {
       notifier(testCase.toMessage())
     }
     for (const testCase of this.testCases) {
-      testCase.execute(notifier, 0)
+      await testCase.execute(notifier, 0, this.newId())
     }
+    notifier(
+      new messages.Envelope({
+        testRunFinished: new messages.TestRunFinished({
+          timestamp: TimeConversion.millisecondsSinceEpochToTimestamp(
+            this.clock.now()
+          ),
+        }),
+      })
+    )
   }
 }

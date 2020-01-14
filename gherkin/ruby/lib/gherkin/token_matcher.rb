@@ -90,9 +90,9 @@ module Gherkin
     def _match_DocStringSeparator(token, separator, is_open)
       return false unless token.line.start_with?(separator)
 
-      content_type = nil
+      media_type = nil
       if is_open
-        content_type = token.line.get_rest_trimmed(separator.length)
+        media_type = token.line.get_rest_trimmed(separator.length)
         @active_doc_string_separator = separator
         @indent_to_remove = token.line.indent
       else
@@ -100,7 +100,7 @@ module Gherkin
         @indent_to_remove = 0
       end
 
-      set_token_matched(token, :DocStringSeparator, content_type, separator)
+      set_token_matched(token, :DocStringSeparator, media_type, separator)
       true
     end
 

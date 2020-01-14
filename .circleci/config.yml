@@ -14,7 +14,7 @@ executors:
     docker:
       # Remember to update to the latest image tag.
       # Run `source scripts/functions.sh && docker_image Dockerfile` to print it.
-      - image: cucumber/cucumber-build:9ce5f6a542de12ceecdd84caaad47365
+      - image: cucumber/cucumber-build:bcd26c1ff045bbf9848c025fb2cfcc79
     working_directory: ~/cucumber
   # Go
   docker-circleci-golang:
@@ -103,15 +103,15 @@ jobs:
             cd cucumber-expressions/go
             make
 
-  cucumber-messages-go:
+  messages-go:
     executor: docker-cucumber-build
     steps:
       - attach_workspace:
           at: "~/cucumber"
       - run:
-          name: cucumber-messages/go
+          name: messages/go
           command: |
-            cd cucumber-messages/go
+            cd messages/go
             make
 
   gherkin-go:
@@ -140,15 +140,15 @@ jobs:
             cd tag-expressions/go
             make
 
-  cucumber-demo-formatter-go:
+  demo-formatter-go:
     executor: docker-cucumber-build
     steps:
       - attach_workspace:
           at: "~/cucumber"
       - run:
-          name: cucumber-demo-formatter/go
+          name: demo-formatter/go
           command: |
-            cd cucumber-demo-formatter/go
+            cd demo-formatter/go
             make
 
   json-formatter-go:
@@ -222,21 +222,21 @@ jobs:
             - cucumber-expressions/javascript/dist
             - cucumber-expressions/javascript/node_modules
 
-  cucumber-messages-javascript:
+  messages-javascript:
     executor: docker-circleci-node-12
     steps:
       - attach_workspace:
           at: "~/cucumber"
       - run:
-          name: cucumber-messages/javascript
+          name: messages/javascript
           command: |
-            cd cucumber-messages/javascript
+            cd messages/javascript
             make
       - persist_to_workspace:
           root: ~/cucumber
           paths:
-            - cucumber-messages/javascript/dist
-            - cucumber-messages/javascript/node_modules
+            - messages/javascript/dist
+            - messages/javascript/node_modules
 
   gherkin-javascript:
     executor: docker-circleci-node-12
@@ -264,6 +264,11 @@ jobs:
           command: |
             cd tag-expressions/javascript
             make
+      - persist_to_workspace:
+          root: ~/cucumber
+          paths:
+            - tag-expressions/javascript/dist
+            - tag-expressions/javascript/node_modules
 
   fake-cucumber-javascript:
     executor: docker-circleci-node-12
@@ -281,21 +286,37 @@ jobs:
             - fake-cucumber/javascript/dist
             - fake-cucumber/javascript/node_modules
 
-  cucumber-react-javascript:
+  compatibility-kit-javascript:
     executor: docker-circleci-node-12
     steps:
       - attach_workspace:
           at: "~/cucumber"
       - run:
-          name: cucumber-react/javascript
+          name: compatibility-kit/javascript
           command: |
-            cd cucumber-react/javascript
+            cd compatibility-kit/javascript
             make
       - persist_to_workspace:
           root: ~/cucumber
           paths:
-            - cucumber-react/javascript/dist
-            - cucumber-react/javascript/node_modules
+            - compatibility-kit/javascript/dist
+            - compatibility-kit/javascript/node_modules
+
+  react-javascript:
+    executor: docker-circleci-node-12
+    steps:
+      - attach_workspace:
+          at: "~/cucumber"
+      - run:
+          name: react/javascript
+          command: |
+            cd react/javascript
+            make
+      - persist_to_workspace:
+          root: ~/cucumber
+          paths:
+            - react/javascript/dist
+            - react/javascript/node_modules
 
   html-formatter-javascript:
     executor: docker-circleci-node-12
@@ -323,21 +344,21 @@ jobs:
           paths:
             - json-formatter/javascript/acceptance
 
-  cucumber-query-javascript:
+  query-javascript:
     executor: docker-circleci-node-12
     steps:
       - attach_workspace:
           at: "~/cucumber"
       - run:
-          name: cucumber-query/javascript
+          name: query/javascript
           command: |
-            cd cucumber-query/javascript
+            cd query/javascript
             make
       - persist_to_workspace:
           root: ~/cucumber
           paths:
-            - cucumber-query/javascript/dist
-            - cucumber-query/javascript/node_modules
+            - query/javascript/dist
+            - query/javascript/node_modules
 
 ### Ruby
 
@@ -363,20 +384,20 @@ jobs:
             cd cucumber-expressions/ruby
             make
 
-  cucumber-messages-ruby:
+  messages-ruby:
     executor: docker-cucumber-build
     steps:
       - attach_workspace:
           at: "~/cucumber"
       - run:
-          name: cucumber-messages/ruby
+          name: messages/ruby
           command: |
-            cd cucumber-messages/ruby
+            cd messages/ruby
             make
       - persist_to_workspace:
           root: ~/cucumber
           paths:
-            - cucumber-messages/ruby/lib/cucumber/messages_pb.rb
+            - messages/ruby
 
   gherkin-ruby-23:
     executor: docker-circleci-ruby-23
@@ -448,15 +469,15 @@ jobs:
           paths:
             - json-formatter/ruby
 
-  cucumber-demo-formatter-ruby:
+  demo-formatter-ruby:
     executor: docker-cucumber-build
     steps:
       - attach_workspace:
           at: "~/cucumber"
       - run:
-          name: cucumber-demo-formatter/ruby
+          name: demo-formatter/ruby
           command: |
-            cd cucumber-demo-formatter/ruby
+            cd demo-formatter/ruby
             make
 
 ### Java
@@ -495,7 +516,7 @@ jobs:
           paths:
             - "io/cucumber/cucumber-expressions"
 
-  cucumber-messages-java:
+  messages-java:
     executor: docker-cucumber-build
     steps:
       - attach_workspace:
@@ -503,9 +524,9 @@ jobs:
       - attach_workspace:
           at: "~/.m2/repository"
       - run:
-          name: cucumber-messages/java
+          name: messages/java
           command: |
-            cd cucumber-messages/java
+            cd messages/java
             make
       - persist_to_workspace:
           root: "~/.m2/repository"
@@ -582,15 +603,15 @@ jobs:
 
 ### .NET
 
-  cucumber-messages-dotnet:
+  messages-dotnet:
     executor: docker-cucumber-build
     steps:
       - attach_workspace:
           at: "~/cucumber"
       - run:
-          name: cucumber-messages/dotnet
+          name: messages/dotnet
           command: |
-            cd cucumber-messages/dotnet
+            cd messages/dotnet
             make
 
 ### Python
@@ -654,22 +675,22 @@ workflows:
       - cucumber-expressions-go:
           requires:
             - checkout
-      - cucumber-messages-go:
+      - messages-go:
           requires:
             - checkout
       - gherkin-go:
           requires:
-            - cucumber-messages-go
+            - messages-go
       - tag-expressions-go:
           requires:
             - checkout
-      - cucumber-demo-formatter-go:
+      - demo-formatter-go:
           requires:
-            - cucumber-messages-go
+            - messages-go
             - fake-cucumber-javascript
       - json-formatter-go:
           requires:
-            - cucumber-messages-go
+            - messages-go
             - json-formatter-ruby
             - json-formatter-javascript
 
@@ -687,37 +708,40 @@ workflows:
       - cucumber-expressions-javascript-node-12:
           requires:
             - checkout
-      - cucumber-messages-javascript:
+      - messages-javascript:
           requires:
             - checkout
       - gherkin-javascript:
           requires:
-            - cucumber-messages-javascript
+            - messages-javascript
       - tag-expressions-javascript:
           requires:
             - checkout
       - fake-cucumber-javascript:
           requires:
-            - cucumber-messages-javascript
+            - messages-javascript
             - gherkin-javascript
             - cucumber-expressions-javascript-node-12
             - tag-expressions-javascript
-      - cucumber-react-javascript:
+      - compatibility-kit-javascript:
           requires:
-            - cucumber-messages-javascript
+            - fake-cucumber-javascript
+      - react-javascript:
+          requires:
+            - messages-javascript
             - gherkin-javascript
             - fake-cucumber-javascript
-            - cucumber-query-javascript
+            - query-javascript
       - html-formatter-javascript:
           requires:
-            - cucumber-react-javascript
+            - react-javascript
       - json-formatter-javascript:
           requires:
             - json-formatter-ruby
             - fake-cucumber-javascript
-      - cucumber-query-javascript:
+      - query-javascript:
           requires:
-            - cucumber-messages-javascript
+            - messages-javascript
             - fake-cucumber-javascript
             - gherkin-javascript
 
@@ -729,27 +753,27 @@ workflows:
       - cucumber-expressions-ruby:
           requires:
             - checkout
-      - cucumber-messages-ruby:
+      - messages-ruby:
           requires:
             - checkout
       - gherkin-ruby-23:
           requires:
-            - cucumber-messages-ruby
+            - messages-ruby
       - gherkin-ruby-24:
           requires:
-            - cucumber-messages-ruby
+            - messages-ruby
       - gherkin-ruby-25:
           requires:
-            - cucumber-messages-ruby
+            - messages-ruby
       - gherkin-ruby-26:
           requires:
-            - cucumber-messages-ruby
+            - messages-ruby
       - tag-expressions-ruby:
           requires:
             - checkout
-      - cucumber-demo-formatter-ruby:
+      - demo-formatter-ruby:
           requires:
-            - cucumber-messages-ruby
+            - messages-ruby
             - fake-cucumber-javascript
       - json-formatter-ruby:
           requires:
@@ -763,12 +787,12 @@ workflows:
       - cucumber-expressions-java:
           requires:
             - checkout
-      - cucumber-messages-java:
+      - messages-java:
           requires:
             - checkout
       - gherkin-java:
           requires:
-            - cucumber-messages-java
+            - messages-java
       - tag-expressions-java:
           requires:
             - checkout
@@ -781,7 +805,7 @@ workflows:
 
 ### .NET
 
-      - cucumber-messages-dotnet:
+      - messages-dotnet:
           requires:
             - checkout
 

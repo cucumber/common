@@ -1,17 +1,23 @@
 #!/usr/bin/env bash
-set -euf -o pipefail
+set -uf -o pipefail
 
 # Reads a changelog from STDIN and writes out a new one to STDOUT where:
 #
 # * The [Unreleased] diff link is updated
 # * A new diff link for the new release is added
-# * The ## [Unreleased] header is changed to a version header with date 
+# * The ## [Unreleased] header is changed to a version header with date
 # * A new, empty [Unreleased] paragraph is added at the top
 #
 
 changelog=$(</dev/stdin)
 
 new_version=$1
+
+version_header=$(echo "${changelog}" | grep "^## \[${new_version}\]")
+if [[ "${version_header}" != "" ]]; then
+  echo "${changelog}"
+  exit 0
+fi
 
 header=$(cat <<EOF
 ## [Unreleased]
