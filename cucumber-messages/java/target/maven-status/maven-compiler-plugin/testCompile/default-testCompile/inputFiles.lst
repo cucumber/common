@@ -1,0 +1,4 @@
+/app/cucumber-messages/java/src/test/java/io/cucumber/messages/NdjsonSerializationTest.java
+/app/cucumber-messages/java/src/test/java/io/cucumber/messages/ProtobufSerializationTest.java
+/app/cucumber-messages/java/src/test/java/io/cucumber/messages/TimeConversionTest.java
+/app/cucumber-messages/java/src/test/java/io/cucumber/messages/MessageSerializationContract.java

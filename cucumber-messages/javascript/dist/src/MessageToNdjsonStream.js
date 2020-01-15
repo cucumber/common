@@ -1,0 +1,42 @@
+"use strict";
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var stream_1 = require("stream");
+/**
+ * Transforms a stream of message objects to NDJSON
+ */
+var MessageToNdjsonStream = /** @class */ (function (_super) {
+    __extends(MessageToNdjsonStream, _super);
+    function MessageToNdjsonStream() {
+        return _super.call(this, {
+            writableObjectMode: true,
+            readableObjectMode: true,
+        }) || this;
+    }
+    MessageToNdjsonStream.prototype._transform = function (message, encoding, callback) {
+        // @ts-ignore
+        var object = message.toJSON();
+        // This reviver omits printing fields with empty values
+        // This is to make it behave the same as Golang's protobuf->JSON converter
+        var json = JSON.stringify(object, function (key, value) {
+            return value === '' ? undefined : value;
+        });
+        this.push(json + '\n');
+        callback();
+    };
+    return MessageToNdjsonStream;
+}(stream_1.Transform));
+exports.default = MessageToNdjsonStream;
+//# sourceMappingURL=MessageToNdjsonStream.js.map

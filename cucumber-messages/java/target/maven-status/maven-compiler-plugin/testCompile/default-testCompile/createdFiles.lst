@@ -1,0 +1,4 @@
+io/cucumber/messages/TimeConversionTest.class
+io/cucumber/messages/MessageSerializationContract.class
+io/cucumber/messages/ProtobufSerializationTest.class
+io/cucumber/messages/NdjsonSerializationTest.class

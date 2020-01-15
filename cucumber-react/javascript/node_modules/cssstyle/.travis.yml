@@ -1,0 +1,17 @@
+sudo: false
+language: node_js
+cache:
+  directories:
+    - node_modules
+notifications:
+  email: true
+install:
+    - npm install
+    - npm install -g codecov
+node_js:
+  - "8"
+  - "10"
+  - "12"
+
+script:
+  - npm run test-ci

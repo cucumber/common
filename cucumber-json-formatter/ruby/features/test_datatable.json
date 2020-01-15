@@ -1,0 +1,76 @@
+[
+  {
+    "description": "",
+    "elements": [
+      {
+        "description": "",
+        "id": "data-tables;a-step-can-have-data-tables",
+        "keyword": "Scenario",
+        "line": 3,
+        "name": "A step can have data tables",
+        "steps": [
+          {
+            "keyword": "Given ",
+            "line": 4,
+            "match": {
+              "location": "some_stepdef.xyz"
+            },
+            "name": "a passed step with",
+            "result": {
+              "duration": 99,
+              "error_message": "some stepdef error",
+              "status": "passed"
+            },
+            "rows": [
+              {
+                "cells": [
+                  "name",
+                  "value"
+                ]
+              },
+              {
+                "cells": [
+                  "x",
+                  "1"
+                ]
+              }
+            ]
+          },
+          {
+            "keyword": "Then ",
+            "line": 7,
+            "match": {
+              "location": "some_stepdef.xyz"
+            },
+            "name": "a failed step with",
+            "result": {
+              "duration": 99,
+              "error_message": "some stepdef error",
+              "status": "failed"
+            },
+            "rows": [
+              {
+                "cells": [
+                  "name",
+                  "value"
+                ]
+              },
+              {
+                "cells": [
+                  "y",
+                  "2"
+                ]
+              }
+            ]
+          }
+        ],
+        "type": "scenario"
+      }
+    ],
+    "id": "data-tables",
+    "keyword": "Feature",
+    "line": 1,
+    "name": "Data tables",
+    "uri": "features/test_datatable.feature"
+  }
+]

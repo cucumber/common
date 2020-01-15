@@ -1,0 +1,780 @@
+[
+  {
+    "description": "",
+    "elements": [
+      {
+        "description": "",
+        "id": "another-one;one",
+        "keyword": "Scenario",
+        "line": 2,
+        "name": "One",
+        "steps": [
+          {
+            "keyword": "Given ",
+            "line": 3,
+            "match": {
+              "location": "some_stepdef.xyz"
+            },
+            "name": "a passed step",
+            "result": {
+              "duration": 99,
+              "error_message": "some stepdef error",
+              "status": "passed"
+            }
+          },
+          {
+            "keyword": "When ",
+            "line": 4,
+            "match": {
+              "location": "some_stepdef.xyz"
+            },
+            "name": "a failed step",
+            "result": {
+              "duration": 99,
+              "error_message": "some stepdef error",
+              "status": "failed"
+            }
+          },
+          {
+            "keyword": "Then ",
+            "line": 5,
+            "match": {
+              "location": "some_stepdef.xyz"
+            },
+            "name": "a skipped step",
+            "result": {
+              "duration": 99,
+              "error_message": "some stepdef error",
+              "status": "skipped"
+            }
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "another-one;two",
+        "keyword": "Scenario",
+        "line": 7,
+        "name": "Two",
+        "steps": [
+          {
+            "keyword": "Given ",
+            "line": 8,
+            "match": {
+              "location": "some_stepdef.xyz"
+            },
+            "name": "a failed step",
+            "result": {
+              "duration": 99,
+              "error_message": "some stepdef error",
+              "status": "failed"
+            }
+          }
+        ],
+        "type": "scenario"
+      }
+    ],
+    "id": "another-one",
+    "keyword": "Feature",
+    "line": 1,
+    "name": "Another one",
+    "uri": "features/test_another_one.feature"
+  },
+  {
+    "description": "",
+    "elements": [
+      {
+        "description": "",
+        "id": "attachment;a-scenario",
+        "keyword": "Scenario",
+        "line": 3,
+        "name": "A scenario",
+        "steps": [
+          {
+            "embeddings": [
+              {
+                "data": "SGVsbG8gdGhlcmUh",
+                "mime_type": "text/plain"
+              }
+            ],
+            "keyword": "Given ",
+            "line": 4,
+            "match": {
+              "location": "some_stepdef.xyz"
+            },
+            "name": "a passed step with text attachment \"Hello there!\"",
+            "result": {
+              "duration": 99,
+              "error_message": "some stepdef error",
+              "status": "passed"
+            }
+          }
+        ],
+        "type": "scenario"
+      }
+    ],
+    "id": "attachment",
+    "keyword": "Feature",
+    "line": 1,
+    "name": "Attachment",
+    "uri": "features/test_attachment.feature"
+  },
+  {
+    "description": "",
+    "elements": [
+      {
+        "description": "",
+        "id": "basic;a-scenario",
+        "keyword": "Scenario",
+        "line": 3,
+        "name": "A scenario",
+        "steps": [
+          {
+            "keyword": "Given ",
+            "line": 4,
+            "match": {
+              "location": "some_stepdef.xyz"
+            },
+            "name": "a passed step",
+            "result": {
+              "duration": 99,
+              "error_message": "some stepdef error",
+              "status": "passed"
+            }
+          }
+        ],
+        "type": "scenario"
+      }
+    ],
+    "id": "basic",
+    "keyword": "Feature",
+    "line": 1,
+    "name": "Basic",
+    "uri": "features/test_basic.feature"
+  },
+  {
+    "description": "",
+    "elements": [
+      {
+        "description": "",
+        "id": "data-tables;a-step-can-have-data-tables",
+        "keyword": "Scenario",
+        "line": 3,
+        "name": "A step can have data tables",
+        "steps": [
+          {
+            "keyword": "Given ",
+            "line": 4,
+            "match": {
+              "location": "some_stepdef.xyz"
+            },
+            "name": "a passed step with",
+            "result": {
+              "duration": 99,
+              "error_message": "some stepdef error",
+              "status": "passed"
+            },
+            "rows": [
+              {
+                "cells": [
+                  "name",
+                  "value"
+                ]
+              },
+              {
+                "cells": [
+                  "x",
+                  "1"
+                ]
+              }
+            ]
+          },
+          {
+            "keyword": "Then ",
+            "line": 7,
+            "match": {
+              "location": "some_stepdef.xyz"
+            },
+            "name": "a failed step with",
+            "result": {
+              "duration": 99,
+              "error_message": "some stepdef error",
+              "status": "failed"
+            },
+            "rows": [
+              {
+                "cells": [
+                  "name",
+                  "value"
+                ]
+              },
+              {
+                "cells": [
+                  "y",
+                  "2"
+                ]
+              }
+            ]
+          }
+        ],
+        "type": "scenario"
+      }
+    ],
+    "id": "data-tables",
+    "keyword": "Feature",
+    "line": 1,
+    "name": "Data tables",
+    "uri": "features/test_datatable.feature"
+  },
+  {
+    "description": "",
+    "elements": [
+      {
+        "description": "",
+        "id": "doc-strings;a-step-can-have-doc-strings",
+        "keyword": "Scenario",
+        "line": 3,
+        "name": "A step can have doc strings",
+        "steps": [
+          {
+            "doc_string": {
+              "content_type": "",
+              "line": 5,
+              "value": "This is a doc string"
+            },
+            "keyword": "Given ",
+            "line": 4,
+            "match": {
+              "location": "some_stepdef.xyz"
+            },
+            "name": "a passed step with",
+            "result": {
+              "duration": 99,
+              "error_message": "some stepdef error",
+              "status": "passed"
+            }
+          },
+          {
+            "doc_string": {
+              "content_type": "",
+              "line": 9,
+              "value": "Can also have doc strings"
+            },
+            "keyword": "Then ",
+            "line": 8,
+            "match": {
+              "location": "some_stepdef.xyz"
+            },
+            "name": "a failed step with",
+            "result": {
+              "duration": 99,
+              "error_message": "some stepdef error",
+              "status": "failed"
+            }
+          }
+        ],
+        "type": "scenario"
+      }
+    ],
+    "id": "doc-strings",
+    "keyword": "Feature",
+    "line": 1,
+    "name": "Doc strings",
+    "uri": "features/test_doc_strings.feature"
+  },
+  {
+    "description": "",
+    "elements": [
+      {
+        "description": "",
+        "id": "examples;with-multiple-statuses;some-examples;2",
+        "keyword": "Scenario Outline",
+        "line": 12,
+        "name": "With multiple statuses",
+        "steps": [
+          {
+            "keyword": "Given ",
+            "line": 4,
+            "match": {
+              "location": "some_stepdef.xyz"
+            },
+            "name": "a passed step",
+            "result": {
+              "duration": 99,
+              "error_message": "some stepdef error",
+              "status": "passed"
+            }
+          },
+          {
+            "keyword": "When ",
+            "line": 5,
+            "match": {
+              "location": "some_stepdef.xyz"
+            },
+            "name": "a passed step",
+            "result": {
+              "duration": 99,
+              "error_message": "some stepdef error",
+              "status": "passed"
+            }
+          },
+          {
+            "keyword": "Then ",
+            "line": 6,
+            "match": {
+              "location": "some_stepdef.xyz"
+            },
+            "name": "a passed step",
+            "result": {
+              "duration": 99,
+              "error_message": "some stepdef error",
+              "status": "passed"
+            }
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "examples;with-multiple-statuses;some-examples;3",
+        "keyword": "Scenario Outline",
+        "line": 13,
+        "name": "With multiple statuses",
+        "steps": [
+          {
+            "keyword": "Given ",
+            "line": 4,
+            "match": {
+              "location": "some_stepdef.xyz"
+            },
+            "name": "a passed step",
+            "result": {
+              "duration": 99,
+              "error_message": "some stepdef error",
+              "status": "passed"
+            }
+          },
+          {
+            "keyword": "When ",
+            "line": 5,
+            "match": {
+              "location": "some_stepdef.xyz"
+            },
+            "name": "a passed step",
+            "result": {
+              "duration": 99,
+              "error_message": "some stepdef error",
+              "status": "passed"
+            }
+          },
+          {
+            "keyword": "Then ",
+            "line": 6,
+            "match": {
+              "location": "some_stepdef.xyz"
+            },
+            "name": "a undefined step",
+            "result": {
+              "duration": 99,
+              "error_message": "some stepdef error",
+              "status": "undefined"
+            }
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "examples;with-multiple-statuses;some-more-examples;2",
+        "keyword": "Scenario Outline",
+        "line": 20,
+        "name": "With multiple statuses",
+        "steps": [
+          {
+            "keyword": "Given ",
+            "line": 4,
+            "match": {
+              "location": "some_stepdef.xyz"
+            },
+            "name": "a passed step",
+            "result": {
+              "duration": 99,
+              "error_message": "some stepdef error",
+              "status": "passed"
+            }
+          },
+          {
+            "keyword": "When ",
+            "line": 5,
+            "match": {
+              "location": "some_stepdef.xyz"
+            },
+            "name": "a failed step",
+            "result": {
+              "duration": 99,
+              "error_message": "some stepdef error",
+              "status": "failed"
+            }
+          },
+          {
+            "keyword": "Then ",
+            "line": 6,
+            "match": {
+              "location": "some_stepdef.xyz"
+            },
+            "name": "a skipped step",
+            "result": {
+              "duration": 99,
+              "error_message": "some stepdef error",
+              "status": "skipped"
+            }
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "examples;using-example-in-name:-<examplename>;;2",
+        "keyword": "Scenario Outline",
+        "line": 27,
+        "name": "Using example in name: <exampleName>",
+        "steps": [
+          {
+            "keyword": "Given ",
+            "line": 23,
+            "match": {
+              "location": "some_stepdef.xyz"
+            },
+            "name": "a passed step",
+            "result": {
+              "duration": 99,
+              "error_message": "some stepdef error",
+              "status": "passed"
+            }
+          }
+        ],
+        "type": "scenario"
+      }
+    ],
+    "id": "examples",
+    "keyword": "Feature",
+    "line": 1,
+    "name": "Examples",
+    "uri": "features/test_examples.feature"
+  },
+  {
+    "description": "",
+    "elements": [
+      {
+        "before": [
+          {
+            "match": {
+              "location": "some_before_hook.xyz"
+            },
+            "result": {
+              "duration": 99,
+              "error_message": "some before hook error",
+              "status": "passed"
+            }
+          }
+        ],
+        "description": "",
+        "keyword": "Background",
+        "line": 3,
+        "name": "",
+        "steps": [
+          {
+            "keyword": "Given ",
+            "line": 4,
+            "match": {
+              "location": "some_stepdef.xyz"
+            },
+            "name": "a passed step",
+            "result": {
+              "duration": 99,
+              "error_message": "some stepdef error",
+              "status": "passed"
+            }
+          }
+        ],
+        "type": "background"
+      },
+      {
+        "after": [
+          {
+            "match": {
+              "location": "some_after_hook.xyz"
+            },
+            "result": {
+              "duration": 99,
+              "error_message": "some after hook error",
+              "status": "failed"
+            }
+          }
+        ],
+        "description": "",
+        "id": "with-hooks;with-a-passed-before-hook-and-a-failed-after-hook",
+        "keyword": "Scenario",
+        "line": 7,
+        "name": "With a passed before hook and a failed after hook",
+        "steps": [
+          {
+            "keyword": "Given ",
+            "line": 8,
+            "match": {
+              "location": "some_stepdef.xyz"
+            },
+            "name": "a passed step",
+            "result": {
+              "duration": 99,
+              "error_message": "some stepdef error",
+              "status": "passed"
+            }
+          }
+        ],
+        "tags": [
+          {
+            "line": 6,
+            "name": "@before-passed"
+          },
+          {
+            "line": 6,
+            "name": "@after-failed"
+          }
+        ],
+        "type": "scenario"
+      }
+    ],
+    "id": "with-hooks",
+    "keyword": "Feature",
+    "line": 1,
+    "name": "With hooks",
+    "uri": "features/test_hooks.feature"
+  },
+  {
+    "description": "  some description\n  here",
+    "elements": [
+      {
+        "description": "",
+        "keyword": "Background",
+        "line": 5,
+        "name": "",
+        "steps": [
+          {
+            "keyword": "Given ",
+            "line": 6,
+            "match": {
+              "location": "some_stepdef.xyz"
+            },
+            "name": "a passed step",
+            "result": {
+              "duration": 99,
+              "error_message": "some stepdef error",
+              "status": "passed"
+            }
+          }
+        ],
+        "type": "background"
+      },
+      {
+        "description": "    some other\n    description here",
+        "id": "simple;number-1",
+        "keyword": "Scenario",
+        "line": 8,
+        "name": "Number 1",
+        "steps": [
+          {
+            "keyword": "Given ",
+            "line": 11,
+            "match": {
+              "location": "some_stepdef.xyz"
+            },
+            "name": "a passed step",
+            "result": {
+              "duration": 99,
+              "error_message": "some stepdef error",
+              "status": "passed"
+            }
+          },
+          {
+            "keyword": "When ",
+            "line": 12,
+            "match": {
+              "location": "some_stepdef.xyz"
+            },
+            "name": "a failed step",
+            "result": {
+              "duration": 99,
+              "error_message": "some stepdef error",
+              "status": "failed"
+            }
+          },
+          {
+            "keyword": "Then ",
+            "line": 13,
+            "match": {
+              "location": "some_stepdef.xyz"
+            },
+            "name": "a skipped step",
+            "result": {
+              "duration": 99,
+              "error_message": "some stepdef error",
+              "status": "skipped"
+            }
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "keyword": "Background",
+        "line": 5,
+        "name": "",
+        "steps": [
+          {
+            "keyword": "Given ",
+            "line": 6,
+            "match": {
+              "location": "some_stepdef.xyz"
+            },
+            "name": "a passed step",
+            "result": {
+              "duration": 99,
+              "error_message": "some stepdef error",
+              "status": "passed"
+            }
+          }
+        ],
+        "type": "background"
+      },
+      {
+        "description": "",
+        "id": "simple;number-2",
+        "keyword": "Scenario",
+        "line": 15,
+        "name": "Number 2",
+        "steps": [
+          {
+            "keyword": "Given ",
+            "line": 16,
+            "match": {
+              "location": "some_stepdef.xyz"
+            },
+            "name": "a failed step",
+            "result": {
+              "duration": 99,
+              "error_message": "some stepdef error",
+              "status": "failed"
+            }
+          }
+        ],
+        "type": "scenario"
+      }
+    ],
+    "id": "simple",
+    "keyword": "Feature",
+    "line": 1,
+    "name": "Simple",
+    "uri": "features/test_simple.feature"
+  },
+  {
+    "description": "",
+    "elements": [
+      {
+        "description": "",
+        "id": "with-tags;with-a-single-tag",
+        "keyword": "Scenario",
+        "line": 5,
+        "name": "With a single tag",
+        "steps": [
+          {
+            "keyword": "Given ",
+            "line": 6,
+            "match": {
+              "location": "some_stepdef.xyz"
+            },
+            "name": "a passed step",
+            "result": {
+              "duration": 99,
+              "error_message": "some stepdef error",
+              "status": "passed"
+            }
+          }
+        ],
+        "tags": [
+          {
+            "line": 1,
+            "name": "@tagged-feature"
+          },
+          {
+            "line": 4,
+            "name": "@acceptance"
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "with-tags;with-multiple-tags",
+        "keyword": "Scenario",
+        "line": 9,
+        "name": "With multiple tags",
+        "steps": [
+          {
+            "keyword": "Given ",
+            "line": 10,
+            "match": {
+              "location": "some_stepdef.xyz"
+            },
+            "name": "a passed step",
+            "result": {
+              "duration": 99,
+              "error_message": "some stepdef error",
+              "status": "passed"
+            }
+          },
+          {
+            "keyword": "Then ",
+            "line": 11,
+            "match": {
+              "location": "some_stepdef.xyz"
+            },
+            "name": "a failed step",
+            "result": {
+              "duration": 99,
+              "error_message": "some stepdef error",
+              "status": "failed"
+            }
+          }
+        ],
+        "tags": [
+          {
+            "line": 1,
+            "name": "@tagged-feature"
+          },
+          {
+            "line": 8,
+            "name": "@acceptance"
+          },
+          {
+            "line": 8,
+            "name": "@wip"
+          }
+        ],
+        "type": "scenario"
+      }
+    ],
+    "id": "with-tags",
+    "keyword": "Feature",
+    "line": 2,
+    "name": "With tags",
+    "tags": [
+      {
+        "line": 1,
+        "name": "@tagged-feature"
+      }
+    ],
+    "uri": "features/test_tag.feature"
+  }
+]
