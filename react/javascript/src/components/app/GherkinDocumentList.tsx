@@ -25,7 +25,13 @@ const GherkinDocumentList: React.FunctionComponent<IProps> = ({
   return (
     <div className="gherkin-document-list">
       <CucumberQueryContext.Provider value={cucumberQuery}>
-        <Accordion allowMultipleExpanded={false} allowZeroExpanded={true}>
+        <Accordion
+          allowMultipleExpanded={true}
+          allowZeroExpanded={true}
+          preExpanded={gherkinDocuments.map(
+            gherkinDocument => gherkinDocument.uri
+          )}
+        >
           {gherkinDocuments.map(gherkinDocument => {
             const testResults = cucumberQuery.getDocumentResults(
               gherkinDocument.uri
