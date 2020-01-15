@@ -74,6 +74,9 @@ RUN mkdir -p /usr/man && chown -R cukebot:cukebot /usr/man
 RUN curl -L https://cpanmin.us/ -o /usr/local/bin/cpanm
 RUN chmod +x /usr/local/bin/cpanm
 
+# Upgrade NPM
+RUN npm install --global npm
+
 # Install git-crypt
 RUN git clone -b 0.6.0 --single-branch --depth 1 https://github.com/AGWA/git-crypt.git && \
     cd git-crypt && \

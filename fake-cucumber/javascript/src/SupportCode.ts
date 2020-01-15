@@ -27,7 +27,7 @@ type RegisterHook = (
 interface IParameterTypeDefinition {
   name: string
   regexp: RegExp | RegExp[] | string | string[]
-  type: any
+  type?: any
   transformer?: (...args: string[]) => any
   preferForRegexpMatch?: boolean
   useForSnippets?: boolean

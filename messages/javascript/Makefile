@@ -1,13 +1,13 @@
 include default.mk
 
-.codegen: src/cucumber-messages.js src/cucumber-messages.d.ts
+.codegen: src/messages.d.ts
 
-src/cucumber-messages.js: messages.proto
+src/messages.js: messages.proto
 	npm run pbjs
 
-src/cucumber-messages.d.ts: src/cucumber-messages.js
+src/messages.d.ts: src/messages.js
 	npm run pbts
 
 clean:
-	rm -rf dist src/cucumber-messages.js src/cucumber-messages.d.ts
+	rm -rf dist src/messages.js src/messages.d.ts
 

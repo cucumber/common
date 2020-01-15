@@ -6,6 +6,7 @@ import { Readable } from 'stream'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import GherkinDocumentList from '../src/components/app/GherkinDocumentList'
+import { JSDOM } from 'jsdom'
 import CucumberQuery from '@cucumber/query'
 import SupportCode from '@cucumber/fake-cucumber/dist/src/SupportCode'
 import makeDummyStepDefinitions from '@cucumber/fake-cucumber/dist/test/makeDummyStepDefinitions'
@@ -27,7 +28,6 @@ describe('App', () => {
   for (const file of files) {
     if (file.match(/\.feature$/)) {
       it(`can render ${file}`, async () => {
-        const { JSDOM } = require('jsdom')
         const dom = new JSDOM(
           '<html lang="en"><body><div id="content"></div></body></html>'
         )

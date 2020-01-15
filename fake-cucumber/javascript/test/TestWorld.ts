@@ -5,6 +5,7 @@ export default class TestWorld implements IWorld {
   public testStepId: string
   public readonly attachments: messages.Attachment[] = []
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public attach(data: any, mediaType: string): void {
     if (typeof data !== 'string') {
       throw new Error('Can only attach strings')

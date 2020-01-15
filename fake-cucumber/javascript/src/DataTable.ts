@@ -12,5 +12,8 @@ export default class DataTable {
 
   public diff(other: DataTable): void {
     // TODO: implement this!
+    if (other === undefined) {
+      throw new Error('No other table')
+    }
   }
 }

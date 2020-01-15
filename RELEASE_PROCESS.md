@@ -37,7 +37,14 @@ publish packages.
 releases are made from the Docker container. If you don't, you'll get an error
 when you run certain `git` commands on your host OS later.
 
-## Update dependencies
+## Update changelog
+
+Open `CHANGELOG.md` and remove any `###` headers without content. Do not commit.
+
+No further edits should be made. The markdown headers and links will be updated
+automatically in the next step.
+
+## Prepare the release
 
 Before you make a major release, you should consider updating the package's dependencies to the latest
 available stable versions.
@@ -60,17 +67,8 @@ Make sure the package still builds, and that the tests are still passing:
 
     make clean && make
 
-If all is good, commit the files.
-
-    git add .
-    git commit -m "Pre-release"
-
-## Update changelog
-
-Open `CHANGELOG.md` and remove any `###` headers without content. Do not commit.
-
-No further edits should be made. The markdown headers and links will be updated
-automatically in the next step.
+If all is good, proceed to the next step. Otherwise, make the necessary edits
+until the build passes.
 
 ## Release packages
 
@@ -81,10 +79,9 @@ Publish a release with the following command:
 
 This will:
 
-* Publish all the packages
 * Commit all the changed files
 * Create a git tag
-* If a `Dockerfile` is present, and DockerHub is configured to build it, a docker image will be published.
+* Publish all the packages
 
 Check that releases show up under:
 
@@ -92,7 +89,7 @@ Check that releases show up under:
 * `https://www.npmjs.com/package/[package]`
 * `https://search.maven.org/search?q=a:[package]` (This will take a few hours to show up)
 * `https://www.nuget.org/packages/[package]/[version]`
-* `https://cloud.docker.com/u/cucumber/repository/list`
+* `https://cloud.docker.com/u/cucumber/repository/list` (If the package has a Dockerfile)
 
 ## Post release
 

@@ -112,12 +112,14 @@ describe('makeTestCase', () => {
         'hook-id',
         new CucumberExpression('a passed {word}', parameterTypeRegistry),
         null,
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         (thing: string) => undefined
       ),
       new ExpressionStepDefinition(
         'hook-id',
         new CucumberExpression('a failed {word}', parameterTypeRegistry),
         null,
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         (thing: string) => undefined
       ),
     ]

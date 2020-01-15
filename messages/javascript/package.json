@@ -6,18 +6,18 @@
   "types": "dist/src/index.d.ts",
   "repository": {
     "type": "git",
-    "url": "git://github.com/cucumber/cucumber-messages-javascript.git"
+    "url": "git://github.com/cucumber/messages-javascript.git"
   },
   "author": "Cucumber Limited <cukes@googlegroups.com>",
   "license": "MIT",
   "scripts": {
     "test": "mocha",
-    "lint": "tslint src/**/*.ts test/**/*.ts --exclude src/cucumber-messages.d.ts --exclude dist/src/cucumber-messages.d.ts",
-    "lint-fix": "tslint --fix src/**/*.ts test/**/*.ts --exclude src/cucumber-messages.d.ts --exclude dist/src/cucumber-messages.d.ts",
+    "lint": "eslint --ext ts --max-warnings 0 src test",
+    "lint-fix": "eslint --ext ts --max-warnings 0 --fix src test",
     "coverage": "nyc --reporter=html --reporter=text mocha",
-    "pbjs": "pbjs --target static-module --wrap commonjs messages.proto --out src/cucumber-messages.js",
-    "pbts": "pbts src/cucumber-messages.js > src/cucumber-messages.d.ts",
-    "build": "tsc && npm run pbjs && npm run pbts && copyfiles src/cucumber-messages.js src/cucumber-messages.d.ts dist",
+    "pbjs": "pbjs --target static-module --wrap commonjs messages.proto --out src/messages.js",
+    "pbts": "pbts src/messages.js > src/messages.d.ts",
+    "build": "tsc && make src/messages.js && make src/messages.d.ts && copyfiles src/messages.js src/messages.d.ts dist",
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
@@ -28,20 +28,24 @@
   "devDependencies": {
     "@types/mocha": "^5.2.7",
     "@types/node": "^13.1.6",
+    "@typescript-eslint/eslint-plugin": "^2.15.0",
+    "@typescript-eslint/parser": "^2.15.0",
     "copyfiles": "^2.1.1",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.9.0",
+    "eslint-plugin-node": "^11.0.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "eslint-plugin-react": "^7.17.0",
     "mocha": "^7.0.0",
     "nyc": "^15.0.0",
     "prettier": "^1.19.1",
-    "ts-node": "^8.6.0",
-    "tslint": "^5.20.1",
-    "tslint-config-prettier": "^1.18.0",
-    "tslint-plugin-prettier": "^2.1.0",
+    "ts-node": "^8.6.1",
     "typescript": "^3.7.4"
   },
   "bugs": {
-    "url": "https://github.com/cucumber/cucumber-messages-javascript/issues"
+    "url": "https://github.com/cucumber/messages-javascript/issues"
   },
-  "homepage": "https://github.com/cucumber/cucumber-messages-javascript#readme",
+  "homepage": "https://github.com/cucumber/messages-javascript#readme",
   "directories": {
     "test": "test"
   },

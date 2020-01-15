@@ -6,10 +6,10 @@ import { messages } from '@cucumber/messages'
 import CucumberQuery from '@cucumber/query'
 import CucumberQueryContext from '../src/CucumberQueryContext'
 import Step from '../src/components/gherkin/Step'
+import { JSDOM } from 'jsdom'
 
 describe('Step', () => {
   it('renders', () => {
-    const { JSDOM } = require('jsdom')
     const dom = new JSDOM(
       '<html lang="en"><body><div id="content"></div></body></html>'
     )
@@ -25,10 +25,7 @@ describe('Step', () => {
     })
 
     class StubCucumberQuery extends CucumberQuery {
-      public getStepMatchArgumentsLists(
-        uri: string,
-        lineNumber: number
-      ): messages.TestCase.TestStep.IStepMatchArgumentsList[] {
+      public getStepMatchArgumentsLists(): messages.TestCase.TestStep.IStepMatchArgumentsList[] {
         return [
           new messages.TestCase.TestStep.StepMatchArgumentsList({
             stepMatchArguments: [
@@ -44,10 +41,7 @@ describe('Step', () => {
         ]
       }
 
-      public getStepResults(
-        uri: string,
-        lineNumber: number
-      ): messages.ITestResult[] {
+      public getStepResults(): messages.ITestResult[] {
         return []
       }
     }

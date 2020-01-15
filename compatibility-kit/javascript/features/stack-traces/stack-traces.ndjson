@@ -6,6 +6,6 @@
 {"testCase":{"id":"6","pickleId":"4","testSteps":[{"id":"5","pickleStepId":"3","stepDefinitionIds":["0"],"stepMatchArgumentsLists":[{}]}]}}
 {"testCaseStarted":{"timestamp":{"seconds":"0","nanos":1000000},"attempt":0,"testCaseId":"6","id":"7"}}
 {"testStepStarted":{"timestamp":{"seconds":"0","nanos":2000000},"testStepId":"5","testCaseStartedId":"7"}}
-{"testStepFinished":{"testResult":{"status":"FAILED","message":"Exception is not defined\nfeatures/stack-traces/stack-traces.feature:11","duration":{"seconds":"0","nanos":1000000}},"timestamp":{"seconds":"0","nanos":5000000},"testStepId":"5","testCaseStartedId":"7"}}
+{"testStepFinished":{"testResult":{"status":"FAILED","message":"BOOM\nfeatures/stack-traces/stack-traces.feature:11","duration":{"seconds":"0","nanos":1000000}},"timestamp":{"seconds":"0","nanos":5000000},"testStepId":"5","testCaseStartedId":"7"}}
 {"testCaseFinished":{"timestamp":{"seconds":"0","nanos":6000000},"testCaseStartedId":"7"}}
 {"testRunFinished":{"timestamp":{"seconds":"0","nanos":7000000}}}

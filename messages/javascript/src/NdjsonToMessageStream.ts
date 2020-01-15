@@ -6,7 +6,10 @@ import { Transform, TransformCallback } from 'stream'
 export default class NdjsonToMessageStream<T> extends Transform {
   private buffer: string
 
-  constructor(private readonly fromObject: (object: any) => T) {
+  constructor(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    private readonly fromObject: (object: { [k: string]: any }) => T
+  ) {
     super({ objectMode: true })
   }
 
@@ -14,7 +17,7 @@ export default class NdjsonToMessageStream<T> extends Transform {
     chunk: string,
     encoding: string,
     callback: TransformCallback
-  ) {
+  ): void {
     if (this.buffer === undefined) {
       this.buffer = ''
     }

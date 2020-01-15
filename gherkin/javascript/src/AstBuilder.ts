@@ -27,7 +27,7 @@ export default class AstBuilder {
     this.stack.push(new AstNode(ruleType))
   }
 
-  public endRule(ruleType: RuleType) {
+  public endRule() {
     const node = this.stack.pop()
     const transformedNode = this.transformNode(node)
     this.currentNode().add(node.ruleType, transformedNode)
@@ -110,7 +110,7 @@ export default class AstBuilder {
     return rows
   }
 
-  public ensureCellCount(rows: any[]) {
+  public ensureCellCount(rows: messages.GherkinDocument.Feature.TableRow[]) {
     if (rows.length === 0) {
       return
     }

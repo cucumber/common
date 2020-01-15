@@ -4,7 +4,7 @@ import BinaryToMessageStream from './BinaryToMessageStream'
 import NdjsonToMessageStream from './NdjsonToMessageStream'
 import * as TimeConversion from './TimeConversion'
 import * as IdGenerator from './IdGenerator'
-import { io } from './cucumber-messages'
+import { io } from './messages'
 import messages = io.cucumber.messages
 
 export {
