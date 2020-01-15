@@ -1,1 +1,0 @@
-{"version":3,"file":"assert_throws.js","sourceRoot":"","sources":["../../test/assert_throws.ts"],"names":[],"mappings":";;;;;AAAA,kDAA2B;AAE3B,2DAA2D;AAC3D,mBAAe,UAAC,EAAa,EAAE,OAAe;IAC5C,IAAM,MAAM,GAAG,IAAI,MAAM,CAAC,OAAO,CAAC,OAAO,CAAC,uBAAuB,EAAE,MAAM,CAAC,CAAC,CAAA;IAC3E,gBAAM,CAAC,MAAM,CAAC,EAAE,EAAE,MAAM,CAAC,CAAA;AAC3B,CAAC,EAAA"}

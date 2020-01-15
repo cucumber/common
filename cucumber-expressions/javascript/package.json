@@ -51,7 +51,8 @@
     "*"
   ],
   "dependencies": {
-    "becke-ch--regex--s0-0-v1--base--pl--lib": "^1.4.0"
+    "becke-ch--regex--s0-0-v1--base--pl--lib": "^1.4.0",
+    "xregexp": "^4.2.4"
   },
   "directories": {
     "test": "test"

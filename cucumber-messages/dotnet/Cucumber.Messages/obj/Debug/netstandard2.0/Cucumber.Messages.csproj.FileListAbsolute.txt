@@ -1,9 +1,0 @@
-/app/cucumber-messages/dotnet/Cucumber.Messages/bin/Debug/netstandard2.0/Cucumber.Messages.deps.json
-/app/cucumber-messages/dotnet/Cucumber.Messages/bin/Debug/netstandard2.0/Cucumber.Messages.dll
-/app/cucumber-messages/dotnet/Cucumber.Messages/bin/Debug/netstandard2.0/Cucumber.Messages.pdb
-/app/cucumber-messages/dotnet/Cucumber.Messages/obj/Debug/netstandard2.0/Cucumber.Messages.csprojAssemblyReference.cache
-/app/cucumber-messages/dotnet/Cucumber.Messages/obj/Debug/netstandard2.0/Cucumber.Messages.csproj.CoreCompileInputs.cache
-/app/cucumber-messages/dotnet/Cucumber.Messages/obj/Debug/netstandard2.0/Cucumber.Messages.AssemblyInfoInputs.cache
-/app/cucumber-messages/dotnet/Cucumber.Messages/obj/Debug/netstandard2.0/Cucumber.Messages.AssemblyInfo.cs
-/app/cucumber-messages/dotnet/Cucumber.Messages/obj/Debug/netstandard2.0/Cucumber.Messages.dll
-/app/cucumber-messages/dotnet/Cucumber.Messages/obj/Debug/netstandard2.0/Cucumber.Messages.pdb

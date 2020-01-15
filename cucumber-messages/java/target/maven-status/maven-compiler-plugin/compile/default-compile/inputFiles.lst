@@ -1,8 +1,0 @@
-/app/cucumber-messages/java/src/main/java/io/cucumber/messages/MessageToBinaryWriter.java
-/app/cucumber-messages/java/src/main/java/io/cucumber/messages/IdGenerator.java
-/app/cucumber-messages/java/src/main/java/io/cucumber/messages/Messages.java
-/app/cucumber-messages/java/src/main/java/io/cucumber/messages/TimeConversion.java
-/app/cucumber-messages/java/src/main/java/io/cucumber/messages/NdjsonToMessageIterable.java
-/app/cucumber-messages/java/src/main/java/io/cucumber/messages/MessageToNdjsonWriter.java
-/app/cucumber-messages/java/src/main/java/io/cucumber/messages/BinaryToMessageIterable.java
-/app/cucumber-messages/java/src/main/java/io/cucumber/messages/MessageWriter.java

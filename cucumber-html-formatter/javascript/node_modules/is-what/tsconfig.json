@@ -1,9 +1,0 @@
-{
-  "compilerOptions": {
-    "declaration": true,
-    "declarationDir": "./types/"
-  },
-  "include": [
-    "src/**/*"
-  ]
-}

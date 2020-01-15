@@ -22,6 +22,10 @@ executors:
       - image: circleci/golang:1.12
     working_directory: ~/cucumber
   # Node.js
+  docker-circleci-node-8:
+    docker:
+      - image: circleci/node:8
+    working_directory: ~/cucumber
   docker-circleci-node-10:
     docker:
       - image: circleci/node:10
@@ -179,6 +183,17 @@ jobs:
           paths:
             - c21e/javascript/dist
             - c21e/javascript/node_modules
+
+  cucumber-expressions-javascript-node-8:
+    executor: docker-circleci-node-8
+    steps:
+      - attach_workspace:
+          at: "~/cucumber"
+      - run:
+          name: cucumber-expressions/javascript
+          command: |
+            cd cucumber-expressions/javascript
+            make
 
   cucumber-expressions-javascript-node-10:
     executor: docker-circleci-node-10
@@ -682,6 +697,9 @@ workflows:
 ### JavaScript
 
       - c21e-javascript:
+          requires:
+            - checkout
+      - cucumber-expressions-javascript-node-8:
           requires:
             - checkout
       - cucumber-expressions-javascript-node-10:
