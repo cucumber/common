@@ -21,9 +21,9 @@
     "build": "tsc && webpack-cli src/main.tsx"
   },
   "dependencies": {
-    "@cucumber/messages": "^9.0.3",
-    "@cucumber/react": "^3.2.0",
-    "@cucumber/query": "^1.1.1",
+    "@cucumber/messages": "file:../../messages/javascript",
+    "@cucumber/react": "file:../../react/javascript",
+    "@cucumber/query": "file:../../query/javascript",
     "commander": "^4.1.0",
     "jsdom": "^16.0.0",
     "react": "^16.12.0",
@@ -31,7 +31,7 @@
     "source-map-support": "^0.5.16"
   },
   "devDependencies": {
-    "@cucumber/gherkin": "^9.1.0",
+    "@cucumber/gherkin": "file:../../gherkin/javascript",
     "@babel/core": "^7.8.3",
     "@types/jsdom": "^12.2.4",
     "@types/mocha": "^5.2.7",
