@@ -17,6 +17,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [3.2.2] - 2020-01-15
+
+### Fixed
+
+* Nothing changed, just tagged a new release to trigger docker build
+
 ## [3.2.1] - 2020-01-14
 
 ### Fixed
@@ -93,7 +99,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/html-formatter/v3.2.1...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/html-formatter/v3.2.2...master
+[3.2.2]:      https://github.com/cucumber/cucumber/compare/html-formatter/v3.2.1...html-formatter/v3.2.2
 [3.2.1]:      https://github.com/cucumber/cucumber/compare/html-formatter/v3.2.0...html-formatter/v3.2.1
 [3.2.0]:      https://github.com/cucumber/cucumber/compare/html-formatter/v3.1.0...html-formatter/v3.2.0
 [3.1.0]:      https://github.com/cucumber/cucumber/compare/html-formatter/v3.0.0...html-formatter/v3.1.0

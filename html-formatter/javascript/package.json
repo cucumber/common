@@ -1,6 +1,6 @@
 {
   "name": "@cucumber/html-formatter",
-  "version": "3.2.1",
+  "version": "3.2.2",
   "description": "HTML formatter for Cucumber",
   "bin": {
     "cucumber-html-formatter": "bin/cucumber-html-formatter.js"
@@ -35,7 +35,7 @@
     "@babel/core": "^7.8.3",
     "@types/jsdom": "^12.2.4",
     "@types/mocha": "^5.2.7",
-    "@types/node": "^13.1.6",
+    "@types/node": "^13.1.7",
     "@types/react": "^16.9.17",
     "@types/react-dom": "^16.9.4",
     "@typescript-eslint/eslint-plugin": "^2.16.0",
