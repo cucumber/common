@@ -67,10 +67,8 @@ Make sure the package still builds, and that the tests are still passing:
 
     make clean && make
 
-If all is good, commit the files.
-
-    git add .
-    git commit -m "Pre-release"
+If all is good, proceed to the next step. Otherwise, make the necessary edits
+until the build passes.
 
 ## Release packages
 
