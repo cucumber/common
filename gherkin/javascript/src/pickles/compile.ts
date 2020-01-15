@@ -1,4 +1,4 @@
-import { messages, IdGenerator } from 'cucumber-messages'
+import { messages, IdGenerator } from '@cucumber/messages'
 import IGherkinDocument = messages.IGherkinDocument
 
 export default function compile(
@@ -227,15 +227,6 @@ function interpolate(
     name = name.replace(search, replacement)
   })
   return name
-}
-
-function pickleSteps(
-  scenario: messages.GherkinDocument.Feature.IScenario,
-  variableCells: messages.GherkinDocument.Feature.TableRow.ITableCell[],
-  valuesRow: messages.GherkinDocument.Feature.ITableRow,
-  newId: IdGenerator.NewId
-) {
-  return scenario.steps.map(s => pickleStep(s, variableCells, valuesRow, newId))
 }
 
 function pickleStep(

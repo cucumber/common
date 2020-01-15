@@ -14,7 +14,7 @@ executors:
     docker:
       # Remember to update to the latest image tag.
       # Run `source scripts/functions.sh && docker_image Dockerfile` to print it.
-      - image: cucumber/cucumber-build:9ce5f6a542de12ceecdd84caaad47365
+      - image: cucumber/cucumber-build:bcd26c1ff045bbf9848c025fb2cfcc79
     working_directory: ~/cucumber
   # Go
   docker-circleci-golang:
@@ -67,7 +67,7 @@ jobs:
     executor: docker-cucumber-build
     environment:
       # Override CI=true to false because CI=true causes
-      # cucumber-tag-expressions/python/Makefile to use sudo, which we don't want
+      # tag-expressions/python/Makefile to use sudo, which we don't want
       # because the cucumber-build docker image doesn't have sudo installed
       CI: false
     steps:
@@ -99,15 +99,15 @@ jobs:
             cd cucumber-expressions/go
             make
 
-  cucumber-messages-go:
+  messages-go:
     executor: docker-cucumber-build
     steps:
       - attach_workspace:
           at: "~/cucumber"
       - run:
-          name: cucumber-messages/go
+          name: messages/go
           command: |
-            cd cucumber-messages/go
+            cd messages/go
             make
 
   gherkin-go:
@@ -125,42 +125,42 @@ jobs:
           paths:
             - gherkin/go/dist
 
-  cucumber-tag-expressions-go:
+  tag-expressions-go:
     executor: docker-circleci-golang
     steps:
       - attach_workspace:
           at: "~/cucumber"
       - run:
-          name: cucumber-tag-expressions/go
+          name: tag-expressions/go
           command: |
-            cd cucumber-tag-expressions/go
+            cd tag-expressions/go
             make
 
-  cucumber-demo-formatter-go:
+  demo-formatter-go:
     executor: docker-cucumber-build
     steps:
       - attach_workspace:
           at: "~/cucumber"
       - run:
-          name: cucumber-demo-formatter/go
+          name: demo-formatter/go
           command: |
-            cd cucumber-demo-formatter/go
+            cd demo-formatter/go
             make
 
-  cucumber-json-formatter-go:
+  json-formatter-go:
     executor: docker-circleci-golang
     steps:
       - attach_workspace:
           at: "~/cucumber"
       - run:
-          name: cucumber-json-formatter/go
+          name: json-formatter/go
           command: |
-            cd cucumber-json-formatter/go
+            cd json-formatter/go
             make
       - persist_to_workspace:
           root: ~/cucumber
           paths:
-            - cucumber-json-formatter/go/dist
+            - json-formatter/go/dist
 
 ### JavaScript
 
@@ -207,21 +207,21 @@ jobs:
             - cucumber-expressions/javascript/dist
             - cucumber-expressions/javascript/node_modules
 
-  cucumber-messages-javascript:
+  messages-javascript:
     executor: docker-circleci-node-12
     steps:
       - attach_workspace:
           at: "~/cucumber"
       - run:
-          name: cucumber-messages/javascript
+          name: messages/javascript
           command: |
-            cd cucumber-messages/javascript
+            cd messages/javascript
             make
       - persist_to_workspace:
           root: ~/cucumber
           paths:
-            - cucumber-messages/javascript/dist
-            - cucumber-messages/javascript/node_modules
+            - messages/javascript/dist
+            - messages/javascript/node_modules
 
   gherkin-javascript:
     executor: docker-circleci-node-12
@@ -239,21 +239,21 @@ jobs:
             - gherkin/javascript/dist
             - gherkin/javascript/node_modules
 
-  cucumber-tag-expressions-javascript:
+  tag-expressions-javascript:
     executor: docker-circleci-node-12
     steps:
       - attach_workspace:
           at: "~/cucumber"
       - run:
-          name: cucumber-tag-expressions/javascript
+          name: tag-expressions/javascript
           command: |
-            cd cucumber-tag-expressions/javascript
+            cd tag-expressions/javascript
             make
       - persist_to_workspace:
           root: ~/cucumber
           paths:
-            - cucumber-tag-expressions/javascript/dist
-            - cucumber-tag-expressions/javascript/node_modules
+            - tag-expressions/javascript/dist
+            - tag-expressions/javascript/node_modules
 
   fake-cucumber-javascript:
     executor: docker-circleci-node-12
@@ -271,79 +271,79 @@ jobs:
             - fake-cucumber/javascript/dist
             - fake-cucumber/javascript/node_modules
 
-  cucumber-compatibility-kit-javascript:
+  compatibility-kit-javascript:
     executor: docker-circleci-node-12
     steps:
       - attach_workspace:
           at: "~/cucumber"
       - run:
-          name: cucumber-compatibility-kit/javascript
+          name: compatibility-kit/javascript
           command: |
-            cd cucumber-compatibility-kit/javascript
+            cd compatibility-kit/javascript
             make
       - persist_to_workspace:
           root: ~/cucumber
           paths:
-            - cucumber-compatibility-kit/javascript/dist
-            - cucumber-compatibility-kit/javascript/node_modules
+            - compatibility-kit/javascript/dist
+            - compatibility-kit/javascript/node_modules
 
-  cucumber-react-javascript:
+  react-javascript:
     executor: docker-circleci-node-12
     steps:
       - attach_workspace:
           at: "~/cucumber"
       - run:
-          name: cucumber-react/javascript
+          name: react/javascript
           command: |
-            cd cucumber-react/javascript
+            cd react/javascript
             make
       - persist_to_workspace:
           root: ~/cucumber
           paths:
-            - cucumber-react/javascript/dist
-            - cucumber-react/javascript/node_modules
+            - react/javascript/dist
+            - react/javascript/node_modules
 
-  cucumber-html-formatter-javascript:
+  html-formatter-javascript:
     executor: docker-circleci-node-12
     steps:
       - attach_workspace:
           at: "~/cucumber"
       - run:
-          name: cucumber-html-formatter/javascript
+          name: html-formatter/javascript
           command: |
-            cd cucumber-html-formatter/javascript
+            cd html-formatter/javascript
             make
 
-  cucumber-json-formatter-javascript:
+  json-formatter-javascript:
     executor: docker-circleci-node-12
     steps:
       - attach_workspace:
           at: "~/cucumber"
       - run:
-          name: cucumber-json-formatter/javascript
+          name: json-formatter/javascript
           command: |
-            cd cucumber-json-formatter/javascript
-            make
-      - persist_to_workspace:
-          root: ~/cucumber
-          paths:
-            - cucumber-json-formatter/javascript/acceptance
-
-  cucumber-query-javascript:
-    executor: docker-circleci-node-12
-    steps:
-      - attach_workspace:
-          at: "~/cucumber"
-      - run:
-          name: cucumber-query/javascript
-          command: |
-            cd cucumber-query/javascript
+            cd json-formatter/javascript
             make
       - persist_to_workspace:
           root: ~/cucumber
           paths:
-            - cucumber-query/javascript/dist
-            - cucumber-query/javascript/node_modules
+            - json-formatter/javascript/acceptance
+
+  query-javascript:
+    executor: docker-circleci-node-12
+    steps:
+      - attach_workspace:
+          at: "~/cucumber"
+      - run:
+          name: query/javascript
+          command: |
+            cd query/javascript
+            make
+      - persist_to_workspace:
+          root: ~/cucumber
+          paths:
+            - query/javascript/dist
+            - query/javascript/node_modules
 
 ### Ruby
 
@@ -369,20 +369,20 @@ jobs:
             cd cucumber-expressions/ruby
             make
 
-  cucumber-messages-ruby:
+  messages-ruby:
     executor: docker-cucumber-build
     steps:
       - attach_workspace:
           at: "~/cucumber"
       - run:
-          name: cucumber-messages/ruby
+          name: messages/ruby
           command: |
-            cd cucumber-messages/ruby
+            cd messages/ruby
             make
       - persist_to_workspace:
           root: ~/cucumber
           paths:
-            - cucumber-messages/ruby/lib/cucumber/messages_pb.rb
+            - messages/ruby
 
   gherkin-ruby-23:
     executor: docker-circleci-ruby-23
@@ -428,41 +428,41 @@ jobs:
             cd gherkin/ruby
             make
 
-  cucumber-tag-expressions-ruby:
+  tag-expressions-ruby:
     executor: docker-circleci-ruby-26
     steps:
       - attach_workspace:
           at: "~/cucumber"
       - run:
-          name: cucumber-tag-expressions/ruby
+          name: tag-expressions/ruby
           command: |
-            cd cucumber-tag-expressions/ruby
+            cd tag-expressions/ruby
             make
 
-  cucumber-json-formatter-ruby:
+  json-formatter-ruby:
     executor: docker-circleci-ruby-26
     steps:
       - attach_workspace:
           at: "~/cucumber"
       - run:
-          name: cucumber-json-formatter/ruby
+          name: json-formatter/ruby
           command: |
-            cd cucumber-json-formatter/ruby
+            cd json-formatter/ruby
             make
       - persist_to_workspace:
           root: ~/cucumber
           paths:
-            - cucumber-json-formatter/ruby
+            - json-formatter/ruby
 
-  cucumber-demo-formatter-ruby:
+  demo-formatter-ruby:
     executor: docker-cucumber-build
     steps:
       - attach_workspace:
           at: "~/cucumber"
       - run:
-          name: cucumber-demo-formatter/ruby
+          name: demo-formatter/ruby
           command: |
-            cd cucumber-demo-formatter/ruby
+            cd demo-formatter/ruby
             make
 
 ### Java
@@ -501,7 +501,7 @@ jobs:
           paths:
             - "io/cucumber/cucumber-expressions"
 
-  cucumber-messages-java:
+  messages-java:
     executor: docker-cucumber-build
     steps:
       - attach_workspace:
@@ -509,9 +509,9 @@ jobs:
       - attach_workspace:
           at: "~/.m2/repository"
       - run:
-          name: cucumber-messages/java
+          name: messages/java
           command: |
-            cd cucumber-messages/java
+            cd messages/java
             make
       - persist_to_workspace:
           root: "~/.m2/repository"
@@ -535,7 +535,7 @@ jobs:
           paths:
             - "io/cucumber/gherkin"
 
-  cucumber-tag-expressions-java:
+  tag-expressions-java:
     executor: docker-circleci-openjdk
     steps:
       - attach_workspace:
@@ -543,14 +543,14 @@ jobs:
       - attach_workspace:
           at: "~/.m2/repository"
       - run:
-          name: cucumber-tag-expressions/java
+          name: tag-expressions/java
           command: |
-            cd cucumber-tag-expressions/java
+            cd tag-expressions/java
             make
       - persist_to_workspace:
           root: "~/.m2/repository"
           paths:
-            - "io/cucumber/cucumber-tag-expressions"
+            - "io/cucumber/tag-expressions"
 
   datatable-java:
     executor: docker-circleci-openjdk
@@ -588,28 +588,28 @@ jobs:
 
 ### .NET
 
-  cucumber-messages-dotnet:
+  messages-dotnet:
     executor: docker-cucumber-build
     steps:
       - attach_workspace:
           at: "~/cucumber"
       - run:
-          name: cucumber-messages/dotnet
+          name: messages/dotnet
           command: |
-            cd cucumber-messages/dotnet
+            cd messages/dotnet
             make
 
 ### Python
 
-  cucumber-tag-expressions-python:
+  tag-expressions-python:
     executor: docker-circleci-python
     steps:
       - attach_workspace:
           at: "~/cucumber"
       - run:
-          name: cucumber-tag-expressions/python
+          name: tag-expressions/python
           command: |
-            cd cucumber-tag-expressions/python
+            cd tag-expressions/python
             make
 
 ### C
@@ -660,24 +660,24 @@ workflows:
       - cucumber-expressions-go:
           requires:
             - checkout
-      - cucumber-messages-go:
+      - messages-go:
           requires:
             - checkout
       - gherkin-go:
           requires:
-            - cucumber-messages-go
-      - cucumber-tag-expressions-go:
+            - messages-go
+      - tag-expressions-go:
           requires:
             - checkout
-      - cucumber-demo-formatter-go:
+      - demo-formatter-go:
           requires:
-            - cucumber-messages-go
+            - messages-go
             - fake-cucumber-javascript
-      - cucumber-json-formatter-go:
+      - json-formatter-go:
           requires:
-            - cucumber-messages-go
-            - cucumber-json-formatter-ruby
-            - cucumber-json-formatter-javascript
+            - messages-go
+            - json-formatter-ruby
+            - json-formatter-javascript
 
 ### JavaScript
 
@@ -690,40 +690,40 @@ workflows:
       - cucumber-expressions-javascript-node-12:
           requires:
             - checkout
-      - cucumber-messages-javascript:
+      - messages-javascript:
           requires:
             - checkout
       - gherkin-javascript:
           requires:
-            - cucumber-messages-javascript
-      - cucumber-tag-expressions-javascript:
+            - messages-javascript
+      - tag-expressions-javascript:
           requires:
             - checkout
       - fake-cucumber-javascript:
           requires:
-            - cucumber-messages-javascript
+            - messages-javascript
             - gherkin-javascript
             - cucumber-expressions-javascript-node-12
-            - cucumber-tag-expressions-javascript
-      - cucumber-compatibility-kit-javascript:
+            - tag-expressions-javascript
+      - compatibility-kit-javascript:
           requires:
             - fake-cucumber-javascript
-      - cucumber-react-javascript:
+      - react-javascript:
           requires:
-            - cucumber-messages-javascript
+            - messages-javascript
             - gherkin-javascript
             - fake-cucumber-javascript
-            - cucumber-query-javascript
-      - cucumber-html-formatter-javascript:
+            - query-javascript
+      - html-formatter-javascript:
           requires:
-            - cucumber-react-javascript
-      - cucumber-json-formatter-javascript:
+            - react-javascript
+      - json-formatter-javascript:
           requires:
-            - cucumber-json-formatter-ruby
+            - json-formatter-ruby
             - fake-cucumber-javascript
-      - cucumber-query-javascript:
+      - query-javascript:
           requires:
-            - cucumber-messages-javascript
+            - messages-javascript
             - fake-cucumber-javascript
             - gherkin-javascript
 
@@ -735,29 +735,29 @@ workflows:
       - cucumber-expressions-ruby:
           requires:
             - checkout
-      - cucumber-messages-ruby:
+      - messages-ruby:
           requires:
             - checkout
       - gherkin-ruby-23:
           requires:
-            - cucumber-messages-ruby
+            - messages-ruby
       - gherkin-ruby-24:
           requires:
-            - cucumber-messages-ruby
+            - messages-ruby
       - gherkin-ruby-25:
           requires:
-            - cucumber-messages-ruby
+            - messages-ruby
       - gherkin-ruby-26:
           requires:
-            - cucumber-messages-ruby
-      - cucumber-tag-expressions-ruby:
+            - messages-ruby
+      - tag-expressions-ruby:
           requires:
             - checkout
-      - cucumber-demo-formatter-ruby:
+      - demo-formatter-ruby:
           requires:
-            - cucumber-messages-ruby
+            - messages-ruby
             - fake-cucumber-javascript
-      - cucumber-json-formatter-ruby:
+      - json-formatter-ruby:
           requires:
             - checkout
 
@@ -769,13 +769,13 @@ workflows:
       - cucumber-expressions-java:
           requires:
             - checkout
-      - cucumber-messages-java:
+      - messages-java:
           requires:
             - checkout
       - gherkin-java:
           requires:
-            - cucumber-messages-java
-      - cucumber-tag-expressions-java:
+            - messages-java
+      - tag-expressions-java:
           requires:
             - checkout
       - datatable-java:
@@ -787,13 +787,13 @@ workflows:
 
 ### .NET
 
-      - cucumber-messages-dotnet:
+      - messages-dotnet:
           requires:
             - checkout
 
 ## Python
 
-      - cucumber-tag-expressions-python:
+      - tag-expressions-python:
           requires:
             - checkout
 

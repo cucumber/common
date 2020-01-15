@@ -1,4 +1,4 @@
-import { messages } from 'cucumber-messages'
+import { messages } from '@cucumber/messages'
 import TestStep from './TestStep'
 
 export default class HookTestStep extends TestStep {

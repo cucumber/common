@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <parent>
+    <artifactId>cucumber-parent</artifactId>
+    <groupId>io.cucumber</groupId>
+    <version>2.0.2</version>
+    <relativePath>../pom.xml/pom.xml</relativePath>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>messages</artifactId>
+  <name>Cucumber Messages</name>
+  <version>8.0.1-SNAPSHOT</version>
+  <description>Protocol Buffer messages for Cucumber's inter-process communication</description>
+  <url>https://github.com/cucumber/cucumber-messages-java</url>
+  <scm>
+    <connection>scm:git:git://github.com/cucumber/cucumber-messages-java.git</connection>
+    <developerConnection>scm:git:git@github.com:cucumber/cucumber-messages-java.git</developerConnection>
+    <url>git://github.com/cucumber/cucumber-messages-java.git</url>
+  </scm>
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-shade-plugin</artifactId>
+        <version>3.1.0</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+            <configuration>
+              <artifactSet>
+                <includes>
+                  <include>com.google.protobuf:protobuf-java</include>
+                  <include>com.google.protobuf:protobuf-java-util</include>
+                  <include>com.google.code.gson:gson</include>
+                </includes>
+              </artifactSet>
+              <relocations>
+                <relocation>
+                  <pattern>google.protobuf</pattern>
+                  <shadedPattern>io.cucumber.messages.internal.google.protobuf</shadedPattern>
+                </relocation>
+                <relocation>
+                  <pattern>com.google</pattern>
+                  <shadedPattern>io.cucumber.messages.internal.com.google</shadedPattern>
+                </relocation>
+              </relocations>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.13-beta-3</version>
+      <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <artifactId>hamcrest-core</artifactId>
+          <groupId>org.hamcrest</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+  </dependencies>
+  <properties>
+    <project.Automatic-Module-Name>io.cucumber.messages</project.Automatic-Module-Name>
+  </properties>
+</project>
+

@@ -1,7 +1,7 @@
 github.com/aslakhellesoy/gox v0.4.0 h1:0Zi24+Bp0v/9x/ViLN7mKdD4+tEP1WcXxbP1uxP7V6w=
 github.com/aslakhellesoy/gox v0.4.0/go.mod h1:eWI5kaukwHdXWzQ7Hhfbb/F2NSO+VCPHIcsovzQd2sY=
-github.com/cucumber/cucumber-messages-go/v2 v2.0.0 h1:hc6z72JFAOBCvvyarcPkY8mJltpgmlUN4eBTdmOjnqQ=
-github.com/cucumber/cucumber-messages-go/v2 v2.0.0/go.mod h1:gcqqQ2QDOn2kUqcrzQ0Py6Tpks0SJTKbBzU2KetX/C8=
+github.com/cucumber/messages-go/v2 v2.0.0 h1:hc6z72JFAOBCvvyarcPkY8mJltpgmlUN4eBTdmOjnqQ=
+github.com/cucumber/messages-go/v2 v2.0.0/go.mod h1:gcqqQ2QDOn2kUqcrzQ0Py6Tpks0SJTKbBzU2KetX/C8=
 github.com/cucumber/gherkin-go v0.0.0-20181022222825-04ff9f06a694 h1:EW367w/pmOkc5d9Q/pDY0W/QOGK9laIosSbRkgcM/uo=
 github.com/cucumber/gherkin-go v0.0.0-20181022222825-04ff9f06a694/go.mod h1:vZnAEQplhpjcFx1yzDcqmtgkvygC0aclXfO+B9rBJAE=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=

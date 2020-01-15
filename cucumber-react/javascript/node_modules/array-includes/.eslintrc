@@ -1,0 +1,15 @@
+{
+	"root": true,
+
+	"extends": "@ljharb",
+
+	"rules": {
+		"func-names": 0,
+		"id-length": [2, { "min": 1, "max": 26 }],
+		"max-statements": [2, 14],
+		"max-lines-per-function": 0,
+		"new-cap": [2, { capIsNewExceptions: ["GetIntrinsic", "ToObject", "ToInteger", "ToLength", "SameValueZero", "RequireObjectCoercible"] }],
+		"no-magic-numbers": [0],
+		"no-useless-call": [1]
+	}
+}

@@ -1,0 +1,19 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+Object.defineProperty(exports, "StoryApi", {
+  enumerable: true,
+  get: function get() {
+    return _addons.StoryApi;
+  }
+});
+Object.defineProperty(exports, "DecoratorFunction", {
+  enumerable: true,
+  get: function get() {
+    return _addons.DecoratorFunction;
+  }
+});
+
+var _addons = require("@storybook/addons");

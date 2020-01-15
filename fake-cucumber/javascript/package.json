@@ -1,6 +1,6 @@
 {
-  "name": "fake-cucumber",
-  "version": "3.0.2",
+  "name": "@cucumber/fake-cucumber",
+  "version": "3.0.3",
   "description": "Fake Cucumber generates fake results",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
@@ -9,8 +9,8 @@
   },
   "scripts": {
     "test": "mocha",
-    "lint": "tslint --project tsconfig.json src/**/*.ts test/**/*.ts",
-    "lint-fix": "tslint --fix src/**/*.ts test/**/*.ts",
+    "lint": "eslint --ext ts --max-warnings 0 src test",
+    "lint-fix": "eslint --ext ts --max-warnings 0 --fix src test",
     "coverage": "nyc --reporter=html --reporter=text mocha",
     "build": "tsc",
     "prepublishOnly": "npm run build"
@@ -31,28 +31,35 @@
   "devDependencies": {
     "@types/glob": "^7.1.1",
     "@types/mocha": "^5.2.7",
-    "@types/node": "^12.12.21",
+    "@types/node": "^13.1.6",
     "@types/stack-utils": "^1.0.1",
     "@types/stream-buffers": "^3.0.3",
-    "mocha": "^6.2.2",
-    "nyc": "^14.1.1",
+    "@typescript-eslint/eslint-plugin": "^2.15.0",
+    "@typescript-eslint/parser": "^2.15.0",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.9.0",
+    "eslint-plugin-node": "^11.0.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "eslint-plugin-react": "^7.17.0",
+    "mocha": "^7.0.0",
+    "nyc": "^15.0.0",
     "prettier": "^1.19.1",
     "stream-buffers": "^3.0.2",
-    "ts-sinon": "^1.0.24",
-    "tslint": "^5.20.1",
-    "tslint-config-prettier": "^1.18.0",
-    "tslint-plugin-prettier": "^2.0.1"
+    "ts-sinon": "^1.0.24"
   },
   "dependencies": {
-    "commander": "^4.0.1",
-    "cucumber-expressions": "^8.3.0",
-    "cucumber-messages": "^8.0.0",
-    "cucumber-tag-expressions": "^2.0.3",
-    "gherkin": "^9.0.0",
+    "@cucumber/cucumber-expressions": "file:../../cucumber-expressions/javascript",
+    "@cucumber/gherkin": "file:../../gherkin/javascript",
+    "@cucumber/messages": "file:../../messages/javascript",
+    "@cucumber/tag-expressions": "file:../../tag-expressions/javascript",
+    "commander": "^4.1.0",
     "glob": "^7.1.6",
     "source-map-support": "^0.5.16",
     "stack-utils": "^2.0.1",
-    "ts-node": "^8.5.4",
-    "typescript": "^3.7.3"
+    "ts-node": "^8.6.1",
+    "typescript": "^3.7.4"
+  },
+  "directories": {
+    "test": "test"
   }
 }

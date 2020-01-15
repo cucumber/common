@@ -6,7 +6,7 @@ import {
   MessageToBinaryStream,
   MessageToNdjsonStream,
   IdGenerator,
-} from 'cucumber-messages'
+} from '@cucumber/messages'
 import { Readable, Transform } from 'stream'
 import IGherkinOptions from '../IGherkinOptions'
 

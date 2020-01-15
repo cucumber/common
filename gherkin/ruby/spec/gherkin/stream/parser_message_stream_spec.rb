@@ -30,6 +30,14 @@ module Gherkin
 
       let(:scenario_id) { gherkin_document.feature.children.first.scenario.id }
 
+      context '#messages' do
+        it "raises an exception on second iteration" do
+          messages = ParserMessageStream.new([], [source_feature], options).messages
+
+          expect { messages.map(&:to_s) }.not_to raise_exception
+          expect { messages.map(&:to_s) }.to raise_exception(Gherkin::DoubleIterationException)
+        end
+      end
 
       context 'options.id_generator' do
         context 'when not set' do

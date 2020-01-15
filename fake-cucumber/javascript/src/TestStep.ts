@@ -1,18 +1,16 @@
-import { messages, TimeConversion } from 'cucumber-messages'
+import { messages, TimeConversion } from '@cucumber/messages'
 import SupportCodeExecutor from './SupportCodeExecutor'
 import { MessageNotifier } from './types'
 import ITestStep from './ITestStep'
 import IWorld from './IWorld'
-import StackUtils from 'stack-utils'
 import makeAttach from './makeAttach'
 import IClock from './IClock'
+import { MakeErrorMessage } from './ErrorMessageGenerator'
 
-const { millisecondsToDuration } = TimeConversion
-
-const stack = new StackUtils({
-  cwd: process.cwd(),
-  internals: StackUtils.nodeInternals(),
-})
+const {
+  millisecondsToDuration,
+  millisecondsSinceEpochToTimestamp,
+} = TimeConversion
 
 export default abstract class TestStep implements ITestStep {
   constructor(
@@ -21,7 +19,8 @@ export default abstract class TestStep implements ITestStep {
     public readonly alwaysExecute: boolean,
     protected readonly supportCodeExecutors: SupportCodeExecutor[],
     private readonly sourceFrames: string[],
-    private readonly clock: IClock
+    private readonly clock: IClock,
+    private readonly makeErrorMessage: MakeErrorMessage
   ) {}
 
   public abstract toMessage(): messages.TestCase.ITestStep
@@ -73,21 +72,14 @@ export default abstract class TestStep implements ITestStep {
     } catch (error) {
       const finish = this.clock.now()
 
-      const trace = stack
-        .clean(error.stack)
-        .trim()
-        .split('\n')
-        .concat(this.sourceFrames)
-        .map(frame => `    at ${frame}`)
-        .join('\n')
-
+      const message = this.makeErrorMessage(error, this.sourceFrames)
       const duration = millisecondsToDuration(finish - start)
       return this.emitTestStepFinished(
         testCaseStartedId,
         new messages.TestResult({
           duration,
           status: messages.TestResult.Status.FAILED,
-          message: `${error.message}\n${trace}`,
+          message,
         }),
         notifier
       )
@@ -117,6 +109,7 @@ export default abstract class TestStep implements ITestStep {
         testStepStarted: new messages.TestStepStarted({
           testCaseStartedId,
           testStepId: this.id,
+          timestamp: millisecondsSinceEpochToTimestamp(this.clock.now()),
         }),
       })
     )
@@ -133,6 +126,7 @@ export default abstract class TestStep implements ITestStep {
           testCaseStartedId,
           testStepId: this.id,
           testResult,
+          timestamp: millisecondsSinceEpochToTimestamp(this.clock.now()),
         }),
       })
     )

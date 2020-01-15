@@ -1,10 +1,11 @@
-import { messages, TimeConversion } from 'cucumber-messages'
+import { messages, TimeConversion } from '@cucumber/messages'
 import assert from 'assert'
 import TestStep from '../src/TestStep'
 import TestCase from '../src/TestCase'
 import { MessageNotifier } from '../src/types'
 import IWorld from '../src/IWorld'
 import IncrementClock from '../src/IncrementClock'
+import { withSourceFramesOnlyStackTrace } from '../src/ErrorMessageGenerator'
 
 const { millisecondsToDuration } = TimeConversion
 
@@ -20,7 +21,8 @@ class StubTestStep extends TestStep {
       alwaysExecute,
       [],
       ['some.feature:123'],
-      new IncrementClock()
+      new IncrementClock(),
+      withSourceFramesOnlyStackTrace()
     )
   }
 

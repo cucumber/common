@@ -1,5 +1,5 @@
-import { IdGenerator, messages } from 'cucumber-messages'
-import { GherkinQuery } from 'gherkin'
+import { IdGenerator, messages } from '@cucumber/messages'
+import { GherkinQuery } from '@cucumber/gherkin'
 import TestCase from './TestCase'
 import IStepDefinition from './IStepDefinition'
 import IHook from './IHook'
@@ -7,6 +7,7 @@ import makePickleTestStep from './makePickleTestStep'
 import HookTestStep from './HookTestStep'
 import ITestStep from './ITestStep'
 import IClock from './IClock'
+import { MakeErrorMessage } from './ErrorMessageGenerator'
 
 export default function makeTestCase(
   pickle: messages.IPickle,
@@ -15,7 +16,8 @@ export default function makeTestCase(
   afterHooks: IHook[],
   gherkinQuery: GherkinQuery,
   newId: IdGenerator.NewId,
-  clock: IClock
+  clock: IClock,
+  makeErrorMessage: MakeErrorMessage
 ): TestCase {
   const beforeHookSteps = makeHookSteps(
     pickle,
@@ -23,7 +25,8 @@ export default function makeTestCase(
     false,
     gherkinQuery,
     newId,
-    clock
+    clock,
+    makeErrorMessage
   )
   const pickleTestSteps = pickle.steps.map(pickleStep => {
     const sourceFrames = pickleStep.astNodeIds.map(
@@ -34,7 +37,8 @@ export default function makeTestCase(
       pickleStep,
       stepDefinitions,
       sourceFrames,
-      clock
+      clock,
+      makeErrorMessage
     )
   })
   const afterHookSteps = makeHookSteps(
@@ -43,7 +47,8 @@ export default function makeTestCase(
     true,
     gherkinQuery,
     newId,
-    clock
+    clock,
+    makeErrorMessage
   )
   const testSteps: ITestStep[] = []
     .concat(beforeHookSteps)
@@ -59,7 +64,8 @@ function makeHookSteps(
   alwaysExecute: boolean,
   gherkinQuery: GherkinQuery,
   newId: IdGenerator.NewId,
-  clock: IClock
+  clock: IClock,
+  makeErrorMessage: MakeErrorMessage
 ): ITestStep[] {
   return hooks
     .map(hook => {
@@ -77,7 +83,8 @@ function makeHookSteps(
           alwaysExecute,
           [supportCodeExecutor],
           sourceFrames,
-          clock
+          clock,
+          makeErrorMessage
         )
       }
     })

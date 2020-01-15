@@ -1,0 +1,16 @@
+# Installation
+> `npm install --save @types/stream-buffers`
+
+# Summary
+This package contains type definitions for stream-buffers ( https://github.com/samcday/node-stream-buffer#readme ).
+
+# Details
+Files were exported from https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/stream-buffers
+
+Additional Details
+ * Last updated: Wed, 24 Apr 2019 20:18:10 GMT
+ * Dependencies: @types/node
+ * Global values: none
+
+# Credits
+These definitions were written by Jason Dent <https://github.com/Jason3S>.

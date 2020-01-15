@@ -1,4 +1,4 @@
-import { messages } from 'cucumber-messages'
+import { messages } from '@cucumber/messages'
 
 export default class GherkinQuery {
   private readonly locationByAstNodeId = new Map<string, messages.ILocation>()

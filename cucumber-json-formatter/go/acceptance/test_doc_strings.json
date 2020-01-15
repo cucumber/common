@@ -1,0 +1,58 @@
+[
+  {
+    "description": "",
+    "elements": [
+      {
+        "description": "",
+        "id": "doc-strings;a-step-can-have-doc-strings",
+        "keyword": "Scenario",
+        "line": 3,
+        "name": "A step can have doc strings",
+        "steps": [
+          {
+            "doc_string": {
+              "content_type": "",
+              "line": 5,
+              "value": "This is a doc string"
+            },
+            "keyword": "Given ",
+            "line": 4,
+            "match": {
+              "location": "some_stepdef.xyz"
+            },
+            "name": "a passed step with",
+            "result": {
+              "duration": 99,
+              "error_message": "some stepdef error",
+              "status": "passed"
+            }
+          },
+          {
+            "doc_string": {
+              "content_type": "",
+              "line": 9,
+              "value": "Can also have doc strings"
+            },
+            "keyword": "Then ",
+            "line": 8,
+            "match": {
+              "location": "some_stepdef.xyz"
+            },
+            "name": "a failed step with",
+            "result": {
+              "duration": 99,
+              "error_message": "some stepdef error",
+              "status": "failed"
+            }
+          }
+        ],
+        "type": "scenario"
+      }
+    ],
+    "id": "doc-strings",
+    "keyword": "Feature",
+    "line": 1,
+    "name": "Doc strings",
+    "uri": "features/test_doc_strings.feature"
+  }
+]

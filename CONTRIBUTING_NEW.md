@@ -4,7 +4,7 @@ First off - thank you for contributing to Cucumber!
 
 ## Overview
 
-This [monorepo](https://gomonorepo.org/) contains various components (libraries) 
+This [monorepo](https://gomonorepo.org/) contains various components (libraries)
 used by Cucumber, such as:
 
 * The Gherkin parser
@@ -31,7 +31,7 @@ You have a few options for building this repo as outlined below.
 ### Building on Docker
 
 You need a lot of various tools to build this repo, and to make this easy we have
-created a [docker](https://www.docker.com/) image with all the required build tools 
+created a [docker](https://www.docker.com/) image with all the required build tools
 installed. To use this you need Docker installed, and a bash shell on your host OS:
 
 ```
@@ -47,7 +47,7 @@ The build will take a while the first time you run it, but subsequent calls to `
 should be a lot faster because downloaded files will be cached, and `make` will
 only rebuild packages that you have changed.
 
-The git repo is mounted as a volume in the running Docker container, so you can 
+The git repo is mounted as a volume in the running Docker container, so you can
 edit files with your favourite IDE/editor on the host OS.
 
 If you are only making changes to a particular package, you can build just that
@@ -67,7 +67,7 @@ on the host OS.
 
 ```
 make clean
-make
+make # or make (go|java|javascript|ruby) to only build for the language
 ```
 
 ### Building on CircleCI
@@ -75,12 +75,24 @@ make
 Whenever you push code to this repo, or create a [pull request](https://help.github.com/en/articles/about-pull-requests), CircleCI will build your code.
 
 CircleCI will build the packages in parallel, so a full build will complete a lot faster
-than a local build. 
+than a local build.
+
+### Building a subset
+
+Define `PACKAGES` and/or `LANGUAGES` to only build a subset of packages / languages.
+
+Examples:
+
+```
+LANGUAGES=javascript make
+LANGUAGES="javascript ruby" make
+PACKAGES="messages gherkin" make
+```
 
 ## Encrypted secrets
 
 Some files in the repo are encrypted [git-crypt](https://www.agwa.name/projects/git-crypt/).
 Look inside `/.gitattributes` to find out which ones.
 
-Releases can only be made when these files are decrypted. See 
+Releases can only be made when these files are decrypted. See
 [RELEASE_PROCESS.md](./RELEASE_PROCESS.md) for details.

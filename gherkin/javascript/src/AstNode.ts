@@ -2,10 +2,12 @@ import { RuleType, TokenType } from './Parser'
 import Token from './Token'
 
 export default class AstNode {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private readonly subItems = new Map<any, any[]>()
 
   constructor(public readonly ruleType: RuleType) {}
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public add(type: any, obj: any) {
     let items = this.subItems.get(type)
     if (items === undefined) {

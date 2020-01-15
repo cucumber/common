@@ -1,32 +1,32 @@
 SHELL := /usr/bin/env bash
-MAKEFILES=c21e/Makefile \
-	cucumber-messages/Makefile \
-	gherkin/Makefile \
-	cucumber-expressions/Makefile \
-	cucumber-tag-expressions/Makefile \
-	fake-cucumber/Makefile \
-	cucumber-query/Makefile \
-	cucumber-compatibility-kit/Makefile \
-	cucumber-react/Makefile \
-	cucumber-html-formatter/Makefile \
-	cucumber-json-formatter/Makefile \
-	datatable/Makefile \
-	config/Makefile \
-	cucumber-demo-formatter/Makefile
+PACKAGES ?= c21e \
+	messages \
+	gherkin \
+	cucumber-expressions \
+	tag-expressions \
+	fake-cucumber \
+	query \
+	compatibility-kit \
+	react \
+	html-formatter \
+	json-formatter \
+	datatable \
+	config \
+	demo-formatter
 
-default: .rsynced $(patsubst %/Makefile,default-%,$(MAKEFILES))
+default: .rsynced $(patsubst %,default-%,$(PACKAGES))
 .PHONY: default
 
 default-%: %
 	cd $< && make default
 
-update-dependencies: $(patsubst %/Makefile,update-dependencies-%,$(MAKEFILES))
+update-dependencies: $(patsubst %,update-dependencies-%,$(PACKAGES))
 .PHONY: update-dependencies
 
 update-dependencies-%: %
 	cd $< && make update-dependencies
 
-clean: $(patsubst %/Makefile,clean-%,$(MAKEFILES)) rm-release
+clean: $(patsubst %,clean-%,$(PACKAGES))
 	rm -f .rsynced
 .PHONY: clean
 
@@ -46,7 +46,3 @@ push_subrepos:
 .rsynced:
 	source scripts/functions.sh && rsync_files
 	touch $@
-
-rm-release:
-	find . -type d -name '.release' | xargs rm -rf
-.PHONY: rm-release

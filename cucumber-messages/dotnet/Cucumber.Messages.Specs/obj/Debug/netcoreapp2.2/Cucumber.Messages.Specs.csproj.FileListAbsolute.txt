@@ -1,0 +1,17 @@
+/app/cucumber-messages/dotnet/Cucumber.Messages.Specs/bin/Debug/netcoreapp2.2/xunit.runner.visualstudio.dotnetcore.testadapter.dll
+/app/cucumber-messages/dotnet/Cucumber.Messages.Specs/bin/Debug/netcoreapp2.2/xunit.runner.reporters.netcoreapp10.dll
+/app/cucumber-messages/dotnet/Cucumber.Messages.Specs/bin/Debug/netcoreapp2.2/xunit.runner.utility.netcoreapp10.dll
+/app/cucumber-messages/dotnet/Cucumber.Messages.Specs/bin/Debug/netcoreapp2.2/Cucumber.Messages.Specs.deps.json
+/app/cucumber-messages/dotnet/Cucumber.Messages.Specs/bin/Debug/netcoreapp2.2/Cucumber.Messages.Specs.runtimeconfig.json
+/app/cucumber-messages/dotnet/Cucumber.Messages.Specs/bin/Debug/netcoreapp2.2/Cucumber.Messages.Specs.runtimeconfig.dev.json
+/app/cucumber-messages/dotnet/Cucumber.Messages.Specs/bin/Debug/netcoreapp2.2/Cucumber.Messages.Specs.dll
+/app/cucumber-messages/dotnet/Cucumber.Messages.Specs/bin/Debug/netcoreapp2.2/Cucumber.Messages.Specs.pdb
+/app/cucumber-messages/dotnet/Cucumber.Messages.Specs/bin/Debug/netcoreapp2.2/Cucumber.Messages.dll
+/app/cucumber-messages/dotnet/Cucumber.Messages.Specs/bin/Debug/netcoreapp2.2/Cucumber.Messages.pdb
+/app/cucumber-messages/dotnet/Cucumber.Messages.Specs/obj/Debug/netcoreapp2.2/Cucumber.Messages.Specs.csprojAssemblyReference.cache
+/app/cucumber-messages/dotnet/Cucumber.Messages.Specs/obj/Debug/netcoreapp2.2/Cucumber.Messages.Specs.csproj.CoreCompileInputs.cache
+/app/cucumber-messages/dotnet/Cucumber.Messages.Specs/obj/Debug/netcoreapp2.2/Cucumber.Messages.Specs.AssemblyInfoInputs.cache
+/app/cucumber-messages/dotnet/Cucumber.Messages.Specs/obj/Debug/netcoreapp2.2/Cucumber.Messages.Specs.AssemblyInfo.cs
+/app/cucumber-messages/dotnet/Cucumber.Messages.Specs/obj/Debug/netcoreapp2.2/Cucumber.Messages.Specs.csproj.CopyComplete
+/app/cucumber-messages/dotnet/Cucumber.Messages.Specs/obj/Debug/netcoreapp2.2/Cucumber.Messages.Specs.dll
+/app/cucumber-messages/dotnet/Cucumber.Messages.Specs/obj/Debug/netcoreapp2.2/Cucumber.Messages.Specs.pdb

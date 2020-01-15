@@ -1,11 +1,15 @@
 import assert from 'assert'
-import { IdGenerator, messages } from 'cucumber-messages'
+import { IdGenerator, messages } from '@cucumber/messages'
 import makeTestCase from '../src/makeTestCase'
 import ExpressionStepDefinition from '../src/ExpressionStepDefinition'
 import Hook from '../src/Hook'
-import { CucumberExpression, ParameterTypeRegistry } from 'cucumber-expressions'
-import { GherkinQuery } from 'gherkin'
+import {
+  CucumberExpression,
+  ParameterTypeRegistry,
+} from '@cucumber/cucumber-expressions'
+import { GherkinQuery } from '@cucumber/gherkin'
 import IncrementClock from '../src/IncrementClock'
+import { withSourceFramesOnlyStackTrace } from '../src/ErrorMessageGenerator'
 
 describe('makeTestCase', () => {
   it('transforms a Pickle to a TestCase', () => {
@@ -18,7 +22,8 @@ describe('makeTestCase', () => {
       [],
       new GherkinQuery(),
       IdGenerator.incrementing(),
-      new IncrementClock()
+      new IncrementClock(),
+      withSourceFramesOnlyStackTrace()
     )
 
     assert.deepStrictEqual(
@@ -40,7 +45,8 @@ describe('makeTestCase', () => {
           [],
           new GherkinQuery(),
           IdGenerator.incrementing(),
-          new IncrementClock()
+          new IncrementClock(),
+          withSourceFramesOnlyStackTrace()
         )
 
         assert.deepStrictEqual(
@@ -67,7 +73,8 @@ describe('makeTestCase', () => {
         afterHooks,
         new GherkinQuery(),
         IdGenerator.incrementing(),
-        new IncrementClock()
+        new IncrementClock(),
+        withSourceFramesOnlyStackTrace()
       )
 
       assert.deepStrictEqual(
@@ -105,12 +112,14 @@ describe('makeTestCase', () => {
         'hook-id',
         new CucumberExpression('a passed {word}', parameterTypeRegistry),
         null,
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         (thing: string) => undefined
       ),
       new ExpressionStepDefinition(
         'hook-id',
         new CucumberExpression('a failed {word}', parameterTypeRegistry),
         null,
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         (thing: string) => undefined
       ),
     ]

@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>Cucumber.Messages</id>
+    <version>8.0.0</version>
+    <title>Cucumber.Messages</title>
+    <authors>Cucumber Ltd, TechTalk</authors>
+    <owners>Cucumber Ltd, TechTalk</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="expression">MIT</license>
+    <licenseUrl>https://licenses.nuget.org/MIT</licenseUrl>
+    <iconUrl>https://cucumber.io/images/cucumber-mark-32x32.png</iconUrl>
+    <description>Protocol Buffer messages for Cucumber's and SpecFlow's inter-process communication</description>
+    <copyright>Copyright © Cucumber Ltd &amp; TechTalk</copyright>
+    <tags>cucumber-messages cucumber specflow gherkin</tags>
+    <repository type="git" url="https://github.com/cucumber/cucumber" />
+    <dependencies>
+      <group targetFramework=".NETFramework4.5">
+        <dependency id="Google.Protobuf" version="3.7.0" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework=".NETStandard2.0">
+        <dependency id="Google.Protobuf" version="3.7.0" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="/app/cucumber-messages/dotnet/Cucumber.Messages/bin/Release/net45/Cucumber.Messages.dll" target="lib/net45/Cucumber.Messages.dll" />
+    <file src="/app/cucumber-messages/dotnet/Cucumber.Messages/bin/Release/netstandard2.0/Cucumber.Messages.dll" target="lib/netstandard2.0/Cucumber.Messages.dll" />
+  </files>
+</package>

@@ -1,0 +1,10 @@
+/app/cucumber-messages/dotnet/Cucumber.Messages/bin/Release/net45/Cucumber.Messages.dll
+/app/cucumber-messages/dotnet/Cucumber.Messages/bin/Release/net45/Cucumber.Messages.pdb
+/app/cucumber-messages/dotnet/Cucumber.Messages/bin/Release/net45/Google.Protobuf.dll
+/app/cucumber-messages/dotnet/Cucumber.Messages/obj/Release/net45/Cucumber.Messages.csprojAssemblyReference.cache
+/app/cucumber-messages/dotnet/Cucumber.Messages/obj/Release/net45/Cucumber.Messages.csproj.CoreCompileInputs.cache
+/app/cucumber-messages/dotnet/Cucumber.Messages/obj/Release/net45/Cucumber.Messages.AssemblyInfoInputs.cache
+/app/cucumber-messages/dotnet/Cucumber.Messages/obj/Release/net45/Cucumber.Messages.AssemblyInfo.cs
+/app/cucumber-messages/dotnet/Cucumber.Messages/obj/Release/net45/Cucumber.Messages.csproj.CopyComplete
+/app/cucumber-messages/dotnet/Cucumber.Messages/obj/Release/net45/Cucumber.Messages.dll
+/app/cucumber-messages/dotnet/Cucumber.Messages/obj/Release/net45/Cucumber.Messages.pdb

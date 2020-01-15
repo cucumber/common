@@ -2,26 +2,27 @@
 #
 #     source scripts/functions.sh && rsync_files
 #
+SHELL := /usr/bin/env bash
 ALPINE = $(shell which apk 2> /dev/null)
 LIBNAME = $(shell basename $$(pwd))
+LANGUAGES ?= $(wildcard */)
 
-default: $(patsubst %/Makefile,default-%,$(MAKEFILES))
+default: $(patsubst %,default-%,$(LANGUAGES))
 .PHONY: default
 
 default-%: %
-	cd $< && make default
+	[[ -d $< ]] && cd $< && make default || true
 .PHONY: default-%
 
-update-dependencies: $(patsubst %/Makefile,update-dependencies-%,$(MAKEFILES))
+# Need to declare these phonies to avoid errors for packages without a particular language
+.PHONY: c dotnet go java javascript objective-c perl python ruby
+
+update-dependencies: $(patsubst %,update-dependencies-%,$(LANGUAGES))
 .PHONY: update-dependencies
 
 update-dependencies-%: %
 	cd $< && make update-dependencies
 .PHONY: update-dependencies-%
-
-update-version: $(patsubst %/Makefile,update-version-%,$(MAKEFILES))
-
-update-version: update-changelog
 
 update-changelog:
 ifdef NEW_VERSION
@@ -33,25 +34,21 @@ else
 endif
 .PHONY: update-changelog
 
-update-version-%: %
-	cd $< && make update-version
-.PHONY: update-version-%
-
-pre-release: $(patsubst %/Makefile,pre-release-%,$(MAKEFILES))
+pre-release: update-changelog $(patsubst %,pre-release-%,$(LANGUAGES))
 .PHONY: pre-release
 
 pre-release-%: %
-	cd $< && make pre-release
+	[[ -d $< ]] && cd $< && make pre-release || true
 .PHONY: pre-release-%
 
-release: update-version clean default create-and-push-release-tag publish
+release: clean default create-and-push-release-tag publish
 .PHONY: release
 
-publish: $(patsubst %/Makefile,publish-%,$(MAKEFILES))
+publish: $(patsubst %,publish-%,$(LANGUAGES))
 .PHONY: publish
 
 publish-%: %
-	cd $< && make publish
+	[[ -d $< ]] && cd $< && make publish || true
 .PHONY: publish-%
 
 create-and-push-release-tag:
@@ -60,13 +57,13 @@ create-and-push-release-tag:
 	git push --tags
 .PHONY: create-and-push-release-tag
 
-post-release: $(patsubst %/Makefile,post-release-%,$(MAKEFILES))
+post-release: $(patsubst %,post-release-%,$(LANGUAGES))
 .PHONY: post-release
 
 post-release: commit-and-push-post-release
 
 post-release-%: %
-	cd $< && make post-release
+	[[ -d $< ]] && cd $< && make post-release || true
 .PHONY: post-release-%
 
 commit-and-push-post-release:
@@ -80,9 +77,9 @@ else
 endif
 .PHONY: commit-and-push-post-release
 
-clean: $(patsubst %/Makefile,clean-%,$(MAKEFILES))
+clean: $(patsubst %,clean-%,$(LANGUAGES))
 .PHONY: clean
 
 clean-%: %
-	cd $< && make clean
+	[[ -d $< ]] && cd $< && make clean || true
 .PHONY: clean-%

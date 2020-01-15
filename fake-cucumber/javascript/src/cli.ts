@@ -1,15 +1,16 @@
 import { Command } from 'commander'
 import packageJson from '../package.json'
-import gherkin, { IGherkinOptions } from 'gherkin'
+import gherkin, { IGherkinOptions } from '@cucumber/gherkin'
 import { pipeline } from 'stream'
 import CucumberStream from './CucumberStream'
 import { promisify } from 'util'
 import formatStream from './formatStream'
 import supportCode from './index'
-import { IdGenerator } from 'cucumber-messages'
+import { IdGenerator } from '@cucumber/messages'
 import findSupportCodePaths from './findSupportCodePaths'
 import fs from 'fs'
 import IncrementClock from './IncrementClock'
+import { withSourceFramesOnlyStackTrace } from './ErrorMessageGenerator'
 
 const pipelinePromise = promisify(pipeline)
 
@@ -34,6 +35,7 @@ const requirePaths = program.require ? program.require.split(':') : paths
 if (program.predictableIds) {
   supportCode.newId = IdGenerator.incrementing()
   supportCode.clock = new IncrementClock()
+  supportCode.makeErrorMessage = withSourceFramesOnlyStackTrace()
 }
 
 const options: IGherkinOptions = {
@@ -45,14 +47,15 @@ const options: IGherkinOptions = {
 
 async function loadSupportCode(): Promise<void> {
   const supportCodePaths = await findSupportCodePaths(requirePaths)
-  let tsNoseRegistered = false
+  let tsNodeRegistered = false
   for (const supportCodePath of supportCodePaths) {
-    if (supportCodePath.endsWith('.ts')) {
+    if (supportCodePath.endsWith('.ts') && !tsNodeRegistered) {
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
       const tsnode = require('ts-node')
       tsnode.register({
         transpileOnly: true,
       })
-      tsNoseRegistered = true
+      tsNodeRegistered = true
     }
     require(supportCodePath)
   }
@@ -72,7 +75,8 @@ async function main() {
     supportCode.beforeHooks,
     supportCode.afterHooks,
     supportCode.newId,
-    supportCode.clock
+    supportCode.clock,
+    supportCode.makeErrorMessage
   )
   await pipelinePromise(
     gherkin.fromPaths(paths, options),
@@ -83,7 +87,6 @@ async function main() {
 }
 
 main().catch(err => {
-  // tslint:disable-next-line:no-console
   console.error(err)
   process.exit(1)
 })
