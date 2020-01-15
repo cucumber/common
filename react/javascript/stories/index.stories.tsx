@@ -4,7 +4,7 @@ import { messages } from '@cucumber/messages'
 import StepList from '../src/components/gherkin/StepList'
 import GherkinDocumentList from '../src/components/app/GherkinDocumentList'
 import CucumberQuery from '@cucumber/query'
-import CucumberQueryContext from '../src/CucumberQueryContext';
+import CucumberQueryContext from '../src/TestResultsQueryContext';
 import '../src/styles/react-accessible-accordion.css'
 import '../src/styles/styles.css'
 
@@ -25,7 +25,7 @@ storiesOf('Features', module)
     }
     return <GherkinDocumentList
       gherkinDocuments={gherkinDocuments}
-      cucumberQuery={cucumberQuery}
+      testResultQuery={cucumberQuery}
     />
   })
   .add('Steps', () => {

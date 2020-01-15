@@ -1,12 +1,11 @@
 import assert from 'assert'
 import ReactDOM from 'react-dom'
 import React from 'react'
-import { GherkinQuery } from '@cucumber/gherkin'
 import { messages } from '@cucumber/messages'
-import CucumberQuery from '@cucumber/query'
-import CucumberQueryContext from '../src/CucumberQueryContext'
+import { StepMatchArgumentsQuery } from '@cucumber/query'
 import Step from '../src/components/gherkin/Step'
 import { JSDOM } from 'jsdom'
+import StepMatchArgumentsQueryContext from '../src/StepMatchArgumentsQueryContext'
 
 describe('Step', () => {
   it('renders', () => {
@@ -24,7 +23,7 @@ describe('Step', () => {
       location: new messages.Location({ column: 1, line: 1 }),
     })
 
-    class StubCucumberQuery extends CucumberQuery {
+    class StubStepMatchArgumentsQuery extends StepMatchArgumentsQuery {
       public getStepMatchArgumentsLists(): messages.TestCase.TestStep.IStepMatchArgumentsList[] {
         return [
           new messages.TestCase.TestStep.StepMatchArgumentsList({
@@ -47,11 +46,11 @@ describe('Step', () => {
     }
 
     const app = (
-      <CucumberQueryContext.Provider
-        value={new StubCucumberQuery(new GherkinQuery())}
+      <StepMatchArgumentsQueryContext.Provider
+        value={new StubStepMatchArgumentsQuery()}
       >
         <Step step={step} renderStepMatchArguments={true} />
-      </CucumberQueryContext.Provider>
+      </StepMatchArgumentsQueryContext.Provider>
     )
     ReactDOM.render(app, document.getElementById('content'))
 

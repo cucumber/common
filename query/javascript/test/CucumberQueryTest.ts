@@ -14,7 +14,7 @@ import IncrementClock from '@cucumber/fake-cucumber/dist/src/IncrementClock'
 
 const pipelinePromise = promisify(pipeline)
 
-describe('CucumberQuery', () => {
+describe.skip('CucumberQuery', () => {
   let gherkinQuery: GherkinQuery
   let cucumberQuery: CucumberQuery
   beforeEach(() => {

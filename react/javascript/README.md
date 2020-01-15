@@ -28,7 +28,7 @@ message object does not contain results, only the [AST](https://en.wikipedia.org
 This is fine for simple use cases where results are not important.
 
 To render a `<GherkinDocument>` with results and highlighted [Cucumber Expression parameters](https://cucumber.io/docs/cucumber/cucumber-expressions/) parameters it must be nested inside a 
-[`<CucumberQueryContext.Provider>`](src/CucumberQueryContext.ts) component.
+[`<CucumberQueryContext.Provider>`](src/TestResultsQueryContext.ts) component.
 
 ## Build / hack
 

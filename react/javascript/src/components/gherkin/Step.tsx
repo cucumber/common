@@ -4,8 +4,10 @@ import Keyword from './Keyword'
 import DocString from './DocString'
 import { messages } from '@cucumber/messages'
 import statusColor from './statusColor'
-import CucumberQueryContext from '../../CucumberQueryContext'
+import TestResultQueryContext from '../../TestResultsQueryContext'
 import UriContext from '../../UriContext'
+import GherkinQueryContext from '../../GherkinQueryContext'
+import StepMatchArgumentsQueryContext from '../../StepMatchArgumentsQueryContext'
 
 interface IProps {
   step: messages.GherkinDocument.Feature.IStep
@@ -16,22 +18,24 @@ const Step: React.FunctionComponent<IProps> = ({
   step,
   renderStepMatchArguments,
 }) => {
-  const cucumberQuery = React.useContext(CucumberQueryContext)
+  const gherkinQuery = React.useContext(GherkinQueryContext)
+  const testResultQuery = React.useContext(TestResultQueryContext)
+  const stepMatchArgumentsQuery = React.useContext(
+    StepMatchArgumentsQueryContext
+  )
   const uri = React.useContext(UriContext)
 
-  const testResults = cucumberQuery.getStepResults(uri, step.location.line)
-  const status =
-    testResults.length > 0
-      ? testResults[0].status
-      : messages.TestResult.Status.UNKNOWN
-  const resultsWithMessage = testResults.filter(tr => tr.message)
+  const pickleStepIds = gherkinQuery.getPickleStepIds(uri, step.location.line)
+
+  const testResult = testResultQuery.getWorstResult(
+    testResultQuery.getPickleStepResults(pickleStepIds[0])
+  )
 
   const stepTextElements: JSX.Element[] = []
 
   if (renderStepMatchArguments) {
-    const stepMatchArgumentsLists = cucumberQuery.getStepMatchArgumentsLists(
-      uri,
-      step.location.line
+    const stepMatchArgumentsLists = stepMatchArgumentsQuery.getStepMatchArgumentsLists(
+      pickleStepIds[0]
     )
     if (stepMatchArgumentsLists.length === 1) {
       // Step is defined
@@ -54,7 +58,7 @@ const Step: React.FunctionComponent<IProps> = ({
               className="step-param"
               key={`bold-${index}`}
               style={{
-                backgroundColor: statusColor(status)
+                backgroundColor: statusColor(testResult.status)
                   .darken(0.1)
                   .hex(),
               }}
@@ -98,7 +102,10 @@ const Step: React.FunctionComponent<IProps> = ({
   }
 
   return (
-    <li className="step" style={{ backgroundColor: statusColor(status).hex() }}>
+    <li
+      className="step"
+      style={{ backgroundColor: statusColor(testResult.status).hex() }}
+    >
       <h3>
         <Keyword>{step.keyword}</Keyword>
         {stepTextElements}
@@ -107,19 +114,18 @@ const Step: React.FunctionComponent<IProps> = ({
         {step.dataTable && <DataTable dataTable={step.dataTable} />}
         {step.docString && <DocString docString={step.docString} />}
       </div>
-      {resultsWithMessage.map((result, i) => (
+      {testResult.message && (
         <pre
           className="error-message"
-          key={i}
           style={{
-            backgroundColor: statusColor(status)
+            backgroundColor: statusColor(testResult.status)
               .darken(0.1)
               .hex(),
           }}
         >
-          {result.message}
+          {testResult.message}
         </pre>
-      ))}
+      )}
     </li>
   )
 }
