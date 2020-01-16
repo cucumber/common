@@ -27,16 +27,22 @@ const Step: React.FunctionComponent<IProps> = ({
 
   const pickleStepIds = gherkinQuery.getPickleStepIds(uri, step.location.line)
 
-  const testResult = testResultQuery.getWorstResult(
-    testResultQuery.getPickleStepResults(pickleStepIds[0])
+  const pickleStepResults = testResultQuery.getPickleStepResults(
+    pickleStepIds[0]
   )
+  const testResult = testResultQuery.getWorstResult(pickleStepResults)
 
   const stepTextElements: JSX.Element[] = []
 
   if (renderStepMatchArguments) {
-    const stepMatchArgumentsLists = stepMatchArgumentsQuery.getStepMatchArgumentsLists(
-      pickleStepIds[0]
-    )
+    const stepMatchArgumentsLists =
+      pickleStepIds.length === 0
+        ? // This can happen in rare cases for background steps in a document that only has step-less scenarios,
+          // because background steps are not added to the pickle when the scenario has no steps. In this case
+          // the bacground step will be rendered as undefined (even if there are matching step definitions). This
+          // is not ideal, but it is rare enough that we don't care about it for now.
+          []
+        : stepMatchArgumentsQuery.getStepMatchArgumentsLists(pickleStepIds[0])
     if (stepMatchArgumentsLists.length === 1) {
       // Step is defined
       const stepMatchArguments = stepMatchArgumentsLists[0].stepMatchArguments

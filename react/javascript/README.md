@@ -2,7 +2,7 @@
 
 Cucumber-React is a set of React components for rendering Gherkin documents and Cucumber results.
 
-## Overview
+## Screenshots
 
 Collapsed:
 
@@ -12,8 +12,18 @@ Expanded:
 
 ![Expanded](screenshots/expanded.png)
 
-These screnshots show the [`<GherkinDocumentList>`](src/components/app/GherkinDocumentList.tsx) React component,
-which is an accordeon of [`<GherkinDocument>`](src/components/gherkin/GherkinDocument.tsx).
+## Usage
+
+The source code for screenshots above is:
+
+```jsx
+<Wrapper envelopes={envelopes}>
+  <GherkinDocumentList />
+</Wrapper>
+```
+
+The [`<GherkinDocumentList>`](src/components/app/GherkinDocumentList.tsx) React component,
+is an accordion of [`<GherkinDocument>`](src/components/gherkin/GherkinDocument.tsx).
 
 The `<GherkinDocument>` React component and any component nested within it (such as [`<Scenario>`](src/components/gherkin/Scenario.tsx)) can be rendered standalone.
 
@@ -28,7 +38,7 @@ message object does not contain results, only the [AST](https://en.wikipedia.org
 This is fine for simple use cases where results are not important.
 
 To render a `<GherkinDocument>` with results and highlighted [Cucumber Expression parameters](https://cucumber.io/docs/cucumber/cucumber-expressions/) parameters it must be nested inside a 
-[`<CucumberQueryContext.Provider>`](src/TestResultsQueryContext.ts) component.
+[`<Wrapper>`](src/components/app/Wrapper.tsx) component.
 
 ## Build / hack
 

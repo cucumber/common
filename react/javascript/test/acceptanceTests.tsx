@@ -1,22 +1,19 @@
 import path from 'path'
 import fs from 'fs'
 import { IdGenerator, messages } from '@cucumber/messages'
-import gherkin, { GherkinQuery } from '@cucumber/gherkin'
+import gherkin from '@cucumber/gherkin'
 import { Readable } from 'stream'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import GherkinDocumentList from '../src/components/app/GherkinDocumentList'
 import { JSDOM } from 'jsdom'
-import { StepMatchArgumentsQuery, TestResultsQuery } from '@cucumber/query'
 import SupportCode from '@cucumber/fake-cucumber/dist/src/SupportCode'
 import makeDummyStepDefinitions from '@cucumber/fake-cucumber/dist/test/makeDummyStepDefinitions'
 import makeDummyHooks from '@cucumber/fake-cucumber/dist/test/makeDummyHooks'
 import CucumberStream from '@cucumber/fake-cucumber/dist/src/CucumberStream'
 import PerfHooksClock from '@cucumber/fake-cucumber/dist/src/PerfHooksClock'
 import { withFullStackTrace } from '@cucumber/fake-cucumber/dist/src/ErrorMessageGenerator'
-import StepMatchArgumentsQueryContext from '../src/StepMatchArgumentsQueryContext'
-import TestResultsQueryContext from '../src/TestResultsQueryContext'
-import GherkinQueryContext from '../src/GherkinQueryContext'
+import Wrapper from '../src/components/app/Wrapper'
 
 describe('App', () => {
   const dir = __dirname + '/../../../gherkin/testdata/good'
@@ -29,7 +26,7 @@ describe('App', () => {
   makeDummyHooks(supportCode)
 
   for (const file of files) {
-    if (file.match(/^several_examples\.feature$/)) {
+    if (file.match(/\.feature$/)) {
       it(`can render ${file}`, async () => {
         const dom = new JSDOM(
           '<html lang="en"><body><div id="content"></div></body></html>'
@@ -60,29 +57,10 @@ describe('App', () => {
               )
             )
         )
-
-        const gherkinDocuments = envelopes
-          .filter(e => e.gherkinDocument)
-          .map(e => e.gherkinDocument)
-        const gherkinQuery = new GherkinQuery()
-        const testResultsQuery = new TestResultsQuery()
-        const stepMatchArgumentsQuery = new StepMatchArgumentsQuery()
-        envelopes.forEach(envelope => {
-          gherkinQuery.update(envelope)
-          testResultsQuery.update(envelope)
-          stepMatchArgumentsQuery.update(envelope)
-        })
-
         const app = (
-          <GherkinQueryContext.Provider value={gherkinQuery}>
-            <StepMatchArgumentsQueryContext.Provider
-              value={stepMatchArgumentsQuery}
-            >
-              <TestResultsQueryContext.Provider value={testResultsQuery}>
-                <GherkinDocumentList gherkinDocuments={gherkinDocuments} />
-              </TestResultsQueryContext.Provider>
-            </StepMatchArgumentsQueryContext.Provider>
-          </GherkinQueryContext.Provider>
+          <Wrapper envelopes={envelopes}>
+            <GherkinDocumentList />
+          </Wrapper>
         )
         ReactDOM.render(app, document.getElementById('content'))
       }).timeout(7000) // TODO: What the hell is taking so long??

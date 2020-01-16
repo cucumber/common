@@ -13,35 +13,28 @@ import statusColor from '../gherkin/statusColor'
 import GherkinQueryContext from '../../GherkinQueryContext'
 import TestResultQueryContext from '../../TestResultsQueryContext'
 
-interface IProps {
-  gherkinDocuments: messages.IGherkinDocument[]
-}
-
-const GherkinDocumentList: React.FunctionComponent<IProps> = ({
-  gherkinDocuments,
-}) => {
+const GherkinDocumentList: React.FunctionComponent = () => {
   const gherkinQuery = React.useContext(GherkinQueryContext)
   const testResultsQuery = React.useContext(TestResultQueryContext)
 
   return (
     <div className="gherkin-document-list">
       <Accordion allowMultipleExpanded={false} allowZeroExpanded={true}>
-        {gherkinDocuments.map(gherkinDocument => {
-          console.log("--pickle ids---", gherkinQuery.getPickleIds(gherkinDocument.uri))
-          const gherkinDocumentResult = testResultsQuery.getWorstResult(
-            testResultsQuery.getAllPickleResults(
-              gherkinQuery.getPickleIds(gherkinDocument.uri)
-            )
-          )
+        {gherkinQuery.getGherkinDocuments().map(gherkinDocument => {
+          const gherkinDocumentStatus = gherkinDocument.feature
+            ? testResultsQuery.getWorstResult(
+                testResultsQuery.getAllPickleResults(
+                  gherkinQuery.getPickleIds(gherkinDocument.uri)
+                )
+              ).status
+            : messages.TestResult.Status.UNDEFINED
 
           return (
             <AccordionItem key={gherkinDocument.uri} uuid={gherkinDocument.uri}>
               <AccordionItemHeading>
                 <AccordionItemButton
                   style={{
-                    backgroundColor: statusColor(
-                      gherkinDocumentResult.status
-                    ).hex(),
+                    backgroundColor: statusColor(gherkinDocumentStatus).hex(),
                   }}
                 >
                   {gherkinDocument.uri}

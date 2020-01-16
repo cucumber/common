@@ -3,6 +3,7 @@ import StrictMap from './StrictMap'
 import StrictArrayMultimap from './StrictArrayMultimap'
 
 export default class GherkinQuery {
+  private readonly gherkinDocuments: messages.IGherkinDocument[] = []
   private readonly locationByAstNodeId = new StrictMap<
     string,
     messages.ILocation
@@ -28,6 +29,10 @@ export default class GherkinQuery {
     return this.locationByAstNodeId.get(astNodeId)
   }
 
+  public getGherkinDocuments(): messages.IGherkinDocument[] {
+    return this.gherkinDocuments
+  }
+
   /**
    * Gets all the pickle IDs
    * @param uri - the URI of the document
@@ -46,34 +51,37 @@ export default class GherkinQuery {
   }
 
   public update(message: messages.IEnvelope): GherkinQuery {
-    if (message.gherkinDocument && message.gherkinDocument.feature) {
-      this.pickleIdsMapByUri.set(
-        message.gherkinDocument.uri,
-        new StrictArrayMultimap<number, string>()
-      )
-      this.pickleStepIdsMapByUri.set(
-        message.gherkinDocument.uri,
-        new StrictArrayMultimap<number, string>()
-      )
+    if (message.gherkinDocument) {
+      this.gherkinDocuments.push(message.gherkinDocument)
+      if (message.gherkinDocument.feature) {
+        this.pickleIdsMapByUri.set(
+          message.gherkinDocument.uri,
+          new StrictArrayMultimap<number, string>()
+        )
+        this.pickleStepIdsMapByUri.set(
+          message.gherkinDocument.uri,
+          new StrictArrayMultimap<number, string>()
+        )
 
-      for (const featureChild of message.gherkinDocument.feature.children) {
-        if (featureChild.background) {
-          this.updateGherkinBackground(featureChild.background)
-        }
+        for (const featureChild of message.gherkinDocument.feature.children) {
+          if (featureChild.background) {
+            this.updateGherkinBackground(featureChild.background)
+          }
 
-        if (featureChild.scenario) {
-          this.updateGherkinScenario(featureChild.scenario)
-        }
+          if (featureChild.scenario) {
+            this.updateGherkinScenario(featureChild.scenario)
+          }
 
-        if (featureChild.rule) {
-          const ruleChildren = featureChild.rule.children
-          for (const ruleChild of ruleChildren) {
-            if (ruleChild.background) {
-              this.updateGherkinBackground(ruleChild.background)
-            }
+          if (featureChild.rule) {
+            const ruleChildren = featureChild.rule.children
+            for (const ruleChild of ruleChildren) {
+              if (ruleChild.background) {
+                this.updateGherkinBackground(ruleChild.background)
+              }
 
-            if (ruleChild.scenario) {
-              this.updateGherkinScenario(ruleChild.scenario)
+              if (ruleChild.scenario) {
+                this.updateGherkinScenario(ruleChild.scenario)
+              }
             }
           }
         }
@@ -122,9 +130,9 @@ export default class GherkinQuery {
       astNodeId => this.locationByAstNodeId.get(astNodeId).line
     )
     for (const pickleLineNumber of pickleLineNumbers) {
-      if (!pickleIdsByLineNumber.has(pickleLineNumber)) {
-        pickleIdsByLineNumber.put(pickleLineNumber, pickle.id)
-      }
+      // if (!pickleIdsByLineNumber.has(pickleLineNumber)) {
+      pickleIdsByLineNumber.put(pickleLineNumber, pickle.id)
+      // }
     }
     this.updatePickleSteps(pickle)
   }

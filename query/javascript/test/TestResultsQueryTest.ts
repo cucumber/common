@@ -22,6 +22,16 @@ describe('TestResultQuery', () => {
     testResultQuery = new TestResultsQuery()
   })
 
+  describe('#getAllPickleResults(pickleIds)', () => {
+    it('returns a single UNDEFINED when the list is empty', () => {
+      const results = testResultQuery.getAllPickleResults([])
+      assert.deepStrictEqual(
+        results.map(r => r.status),
+        [messages.TestResult.Status.UNDEFINED]
+      )
+    })
+  })
+
   describe('#getPickleStepResults(pickleStepId)', () => {
     it('looks up results for scenario steps', async () => {
       await parse(
@@ -70,6 +80,32 @@ describe('TestResultQuery', () => {
       assert.strictEqual(
         testResults[0].status,
         messages.TestResult.Status.PASSED
+      )
+    })
+
+    it('looks up results for background steps when scenarios are empty', async () => {
+      await parse(
+        `Feature: hello
+  Background:
+    Given a passed step
+
+  Scenario: ok
+
+  Scenario: ok too
+`
+      )
+
+      const pickleStepIds = gherkinQuery.getPickleStepIds('test.feature', 3)
+      assert.strictEqual(pickleStepIds.length, 0)
+
+      const testResults: messages.ITestResult[] = testResultQuery.getPickleStepResults(
+        pickleStepIds[0]
+      )
+      assert.strictEqual(testResults.length, 1)
+
+      assert.strictEqual(
+        testResults[0].status,
+        messages.TestResult.Status.SKIPPED
       )
     })
   })

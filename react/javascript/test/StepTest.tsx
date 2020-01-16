@@ -6,6 +6,9 @@ import { StepMatchArgumentsQuery } from '@cucumber/query'
 import Step from '../src/components/gherkin/Step'
 import { JSDOM } from 'jsdom'
 import StepMatchArgumentsQueryContext from '../src/StepMatchArgumentsQueryContext'
+import UriContext from '../src/UriContext'
+import GherkinQueryContext from '../src/GherkinQueryContext'
+import { GherkinQuery } from '@cucumber/gherkin'
 
 describe('Step', () => {
   it('renders', () => {
@@ -39,18 +42,24 @@ describe('Step', () => {
           }),
         ]
       }
+    }
 
-      public getStepResults(): messages.ITestResult[] {
-        return []
+    class StubGherkinQuery extends GherkinQuery {
+      getPickleStepIds(): string[] {
+        return ['dummy-id']
       }
     }
 
     const app = (
-      <StepMatchArgumentsQueryContext.Provider
-        value={new StubStepMatchArgumentsQuery()}
-      >
-        <Step step={step} renderStepMatchArguments={true} />
-      </StepMatchArgumentsQueryContext.Provider>
+      <GherkinQueryContext.Provider value={new StubGherkinQuery()}>
+        <UriContext.Provider value={'some.feature'}>
+          <StepMatchArgumentsQueryContext.Provider
+            value={new StubStepMatchArgumentsQuery()}
+          >
+            <Step step={step} renderStepMatchArguments={true} />
+          </StepMatchArgumentsQueryContext.Provider>
+        </UriContext.Provider>
+      </GherkinQueryContext.Provider>
     )
     ReactDOM.render(app, document.getElementById('content'))
 

@@ -1,5 +1,5 @@
 import { StrictArrayMultimap, StrictMap } from '@cucumber/gherkin'
-import { messages } from '@cucumber/messages'
+import { messages, TimeConversion } from '@cucumber/messages'
 
 export default class TestResultsQuery {
   private testResultByPickleId = new StrictArrayMultimap<
@@ -41,6 +41,14 @@ export default class TestResultsQuery {
   }
 
   public getPickleStepResults(pickleStepId: string): messages.ITestResult[] {
+    if (pickleStepId === undefined) {
+      return [
+        new messages.TestResult({
+          status: messages.TestResult.Status.SKIPPED,
+          duration: TimeConversion.millisecondsToDuration(0),
+        }),
+      ]
+    }
     return this.testStepResultsByPickleStepId.get(pickleStepId)
   }
 
@@ -53,6 +61,14 @@ export default class TestResultsQuery {
    * @param pickleIds
    */
   public getAllPickleResults(pickleIds: string[]): messages.ITestResult[] {
+    if (pickleIds.length === 0) {
+      return [
+        new messages.TestResult({
+          status: messages.TestResult.Status.UNDEFINED,
+          duration: TimeConversion.millisecondsToDuration(0),
+        }),
+      ]
+    }
     return pickleIds.reduce((testResults: messages.ITestResult[], pickleId) => {
       return testResults.concat(this.getPickleResults(pickleId))
     }, [])
@@ -65,6 +81,12 @@ export default class TestResultsQuery {
   public getWorstResult(
     testResults: messages.ITestResult[]
   ): messages.ITestResult {
-    return testResults.sort()[0]
+    return (
+      testResults.sort()[0] ||
+      new messages.TestResult({
+        status: messages.TestResult.Status.SKIPPED,
+        duration: TimeConversion.millisecondsToDuration(0),
+      })
+    )
   }
 }
