@@ -2,15 +2,9 @@
 
 Cucumber-React is a set of React components for rendering Gherkin documents and Cucumber results.
 
-## Screenshots
+## Screenshot
 
-Collapsed:
-
-![Collapsed](screenshots/collapsed.png)
-
-Expanded:
-
-![Expanded](screenshots/expanded.png)
+![Examples Tables](screenshots/examples-tables.png)
 
 ## Usage
 
