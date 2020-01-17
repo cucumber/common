@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-set -o posix
 #
 # Runs the formatter against a list of NDJSON files and writes the output
 # next to each file
