@@ -7,15 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ----
 ## [Unreleased]
 
-### Added
-
 ### Changed
 
-### Deprecated
-
-### Removed
-
-### Fixed
+* [JavaScript] the API been rewritten
 
 ## [1.1.1] - 2020-01-10
 

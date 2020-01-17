@@ -32,6 +32,17 @@ describe('TestResultQuery', () => {
     })
   })
 
+  describe('#getWorstResult(testResults)', () => {
+    it('returns a FAILED result for PASSED,FAILED,PASSED', () => {
+      const result = testResultQuery.getWorstResult([
+        new messages.TestResult({ status: messages.TestResult.Status.PASSED }),
+        new messages.TestResult({ status: messages.TestResult.Status.FAILED }),
+        new messages.TestResult({ status: messages.TestResult.Status.PASSED }),
+      ])
+      assert.strictEqual(result.status, messages.TestResult.Status.FAILED)
+    })
+  })
+
   describe('#getPickleStepResults(pickleStepId)', () => {
     it('looks up results for scenario steps', async () => {
       await parse(

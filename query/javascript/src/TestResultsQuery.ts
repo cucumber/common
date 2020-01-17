@@ -82,7 +82,7 @@ export default class TestResultsQuery {
     testResults: messages.ITestResult[]
   ): messages.ITestResult {
     return (
-      testResults.sort()[0] ||
+      testResults.sort((r1, r2) => r2.status - r1.status)[0] ||
       new messages.TestResult({
         status: messages.TestResult.Status.SKIPPED,
         duration: TimeConversion.millisecondsToDuration(0),
