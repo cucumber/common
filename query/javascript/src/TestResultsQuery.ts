@@ -40,8 +40,12 @@ export default class TestResultsQuery {
     }
   }
 
-  public getPickleStepResults(pickleStepId: string): messages.ITestResult[] {
-    if (pickleStepId === undefined) {
+  /**
+   * Gets all the results for multiple pickle steps
+   * @param pickleStepIds
+   */
+  public getPickleStepResults(pickleStepIds: string[]): messages.ITestResult[] {
+    if (pickleStepIds.length === 0) {
       return [
         new messages.TestResult({
           status: messages.TestResult.Status.SKIPPED,
@@ -49,18 +53,21 @@ export default class TestResultsQuery {
         }),
       ]
     }
-    return this.testStepResultsByPickleStepId.get(pickleStepId)
-  }
-
-  public getPickleResults(pickleId: string): messages.ITestResult[] {
-    return this.testResultByPickleId.get(pickleId)
+    return pickleStepIds.reduce(
+      (testResults: messages.ITestResult[], pickleId) => {
+        return testResults.concat(
+          this.testStepResultsByPickleStepId.get(pickleId)
+        )
+      },
+      []
+    )
   }
 
   /**
    * Gets all the results for multiple pickles
    * @param pickleIds
    */
-  public getAllPickleResults(pickleIds: string[]): messages.ITestResult[] {
+  public getPickleResults(pickleIds: string[]): messages.ITestResult[] {
     if (pickleIds.length === 0) {
       return [
         new messages.TestResult({
@@ -70,7 +77,7 @@ export default class TestResultsQuery {
       ]
     }
     return pickleIds.reduce((testResults: messages.ITestResult[], pickleId) => {
-      return testResults.concat(this.getPickleResults(pickleId))
+      return testResults.concat(this.testResultByPickleId.get(pickleId))
     }, [])
   }
 

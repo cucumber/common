@@ -26,10 +26,7 @@ const Step: React.FunctionComponent<IProps> = ({
   const uri = React.useContext(UriContext)
 
   const pickleStepIds = gherkinQuery.getPickleStepIds(uri, step.location.line)
-
-  const pickleStepResults = testResultQuery.getPickleStepResults(
-    pickleStepIds[0]
-  )
+  const pickleStepResults = testResultQuery.getPickleStepResults(pickleStepIds)
   const testResult = testResultQuery.getWorstResult(pickleStepResults)
 
   const stepTextElements: JSX.Element[] = []

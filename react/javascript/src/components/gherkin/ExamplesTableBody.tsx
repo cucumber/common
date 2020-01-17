@@ -19,7 +19,7 @@ const ExamplesTableBody: React.FunctionComponent<IProps> = ({ rows }) => {
     <tbody>
       {rows.map((row, i) => {
         const testResult = testResultQuery.getWorstResult(
-          testResultQuery.getAllPickleResults(
+          testResultQuery.getPickleResults(
             gherkinQuery.getPickleIds(uri, row.location.line)
           )
         )

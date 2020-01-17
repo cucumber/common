@@ -23,7 +23,7 @@ const GherkinDocumentList: React.FunctionComponent = () => {
         {gherkinQuery.getGherkinDocuments().map(gherkinDocument => {
           const gherkinDocumentStatus = gherkinDocument.feature
             ? testResultsQuery.getWorstResult(
-                testResultsQuery.getAllPickleResults(
+                testResultsQuery.getPickleResults(
                   gherkinQuery.getPickleIds(gherkinDocument.uri)
                 )
               ).status

@@ -22,16 +22,6 @@ describe('TestResultQuery', () => {
     testResultQuery = new TestResultsQuery()
   })
 
-  describe('#getAllPickleResults(pickleIds)', () => {
-    it('returns a single UNDEFINED when the list is empty', () => {
-      const results = testResultQuery.getAllPickleResults([])
-      assert.deepStrictEqual(
-        results.map(r => r.status),
-        [messages.TestResult.Status.UNDEFINED]
-      )
-    })
-  })
-
   describe('#getWorstResult(testResults)', () => {
     it('returns a FAILED result for PASSED,FAILED,PASSED', () => {
       const result = testResultQuery.getWorstResult([
@@ -43,7 +33,15 @@ describe('TestResultQuery', () => {
     })
   })
 
-  describe('#getPickleStepResults(pickleStepId)', () => {
+  describe('#getPickleStepResults(pickleStepIds)', () => {
+    it('returns a single UNDEFINED when the list is empty', () => {
+      const results = testResultQuery.getPickleResults([])
+      assert.deepStrictEqual(
+        results.map(r => r.status),
+        [messages.TestResult.Status.UNDEFINED]
+      )
+    })
+
     it('looks up results for scenario steps', async () => {
       await parse(
         `Feature: hello
@@ -56,7 +54,7 @@ describe('TestResultQuery', () => {
       assert.strictEqual(pickleStepIds.length, 1)
 
       const testResults: messages.ITestResult[] = testResultQuery.getPickleStepResults(
-        pickleStepIds[0]
+        pickleStepIds
       )
       assert.strictEqual(testResults.length, 1)
 
@@ -84,13 +82,12 @@ describe('TestResultQuery', () => {
       assert.strictEqual(pickleStepIds.length, 2)
 
       const testResults: messages.ITestResult[] = testResultQuery.getPickleStepResults(
-        pickleStepIds[0]
+        pickleStepIds
       )
-      assert.strictEqual(testResults.length, 1)
 
-      assert.strictEqual(
-        testResults[0].status,
-        messages.TestResult.Status.PASSED
+      assert.deepStrictEqual(
+        testResults.map(r => r.status),
+        [messages.TestResult.Status.PASSED, messages.TestResult.Status.PASSED]
       )
     })
 
@@ -110,7 +107,7 @@ describe('TestResultQuery', () => {
       assert.strictEqual(pickleStepIds.length, 0)
 
       const testResults: messages.ITestResult[] = testResultQuery.getPickleStepResults(
-        pickleStepIds[0]
+        pickleStepIds
       )
       assert.strictEqual(testResults.length, 1)
 
@@ -121,7 +118,7 @@ describe('TestResultQuery', () => {
     })
   })
 
-  describe('#getPickleResults(pickleStepId)', () => {
+  describe('#getPickleResults(pickleIds)', () => {
     it('looks up results for scenarios', async () => {
       await parse(
         `Feature: hello
@@ -135,7 +132,7 @@ describe('TestResultQuery', () => {
       assert.strictEqual(pickleIds.length, 1)
 
       const testResults: messages.ITestResult[] = testResultQuery.getPickleResults(
-        pickleIds[0]
+        pickleIds
       )
 
       assert.deepStrictEqual(
@@ -161,95 +158,13 @@ describe('TestResultQuery', () => {
       assert.strictEqual(pickleIds.length, 2)
 
       assert.deepStrictEqual(
-        testResultQuery.getPickleResults(pickleIds[0]).map(r => r.status),
-        [messages.TestResult.Status.PASSED, messages.TestResult.Status.PASSED]
-      )
-
-      assert.deepStrictEqual(
-        testResultQuery.getPickleResults(pickleIds[1]).map(r => r.status),
-        [messages.TestResult.Status.PASSED, messages.TestResult.Status.FAILED]
-      )
-    })
-
-    it('looks up results for examples rows outlines', async () => {
-      await parse(
-        `Feature: hello
-  Scenario: hi <status1> and <status2>
-    Given a <status1> step
-    And a <status2> step
-
-    Examples:
-      | status1    | status2 |
-      | passed     | passed  |
-      | passed     | failed  |
-`
-      )
-
-      assert.deepStrictEqual(
-        testResultQuery
-          .getPickleResults(gherkinQuery.getPickleIds('test.feature', 8)[0])
-          .map(r => r.status),
-        [messages.TestResult.Status.PASSED, messages.TestResult.Status.PASSED]
-      )
-
-      assert.deepStrictEqual(
-        testResultQuery
-          .getPickleResults(gherkinQuery.getPickleIds('test.feature', 9)[0])
-          .map(r => r.status),
-        [messages.TestResult.Status.PASSED, messages.TestResult.Status.FAILED]
-      )
-    })
-  })
-
-  describe('#getDocumentResults(pickleStepId)', () => {
-    it('looks up results for scenarios', async () => {
-      await parse(
-        `Feature: hello
-  Scenario: ko
-    Given a passed step
-
-  Scenario: ok
-    Given a failed step
-`
-      )
-
-      const pickleIds = gherkinQuery.getPickleIds('test.feature')
-      assert.strictEqual(pickleIds.length, 2)
-
-      const statuses = pickleIds.map(pickleId =>
-        testResultQuery.getPickleResults(pickleId).map(r => r.status)
-      )
-
-      assert.deepStrictEqual(statuses, [
-        [messages.TestResult.Status.PASSED],
-        [messages.TestResult.Status.FAILED],
-      ])
-    })
-
-    it('looks up results for scenario outlines', async () => {
-      await parse(
-        `Feature: hello
-  Scenario: hi <status1> and <status2>
-    Given a <status1> step
-    And a <status2> step
-
-    Examples:
-      | status1    | status2 |
-      | passed     | passed  |
-      | passed     | failed  |
-`
-      )
-      const pickleIds = gherkinQuery.getPickleIds('test.feature', 2)
-      assert.strictEqual(pickleIds.length, 2)
-
-      assert.deepStrictEqual(
-        testResultQuery.getPickleResults(pickleIds[0]).map(r => r.status),
-        [messages.TestResult.Status.PASSED, messages.TestResult.Status.PASSED]
-      )
-
-      assert.deepStrictEqual(
-        testResultQuery.getPickleResults(pickleIds[1]).map(r => r.status),
-        [messages.TestResult.Status.PASSED, messages.TestResult.Status.FAILED]
+        testResultQuery.getPickleResults(pickleIds).map(r => r.status),
+        [
+          messages.TestResult.Status.PASSED,
+          messages.TestResult.Status.PASSED,
+          messages.TestResult.Status.PASSED,
+          messages.TestResult.Status.FAILED,
+        ]
       )
     })
 
@@ -269,14 +184,14 @@ describe('TestResultQuery', () => {
 
       assert.deepStrictEqual(
         testResultQuery
-          .getPickleResults(gherkinQuery.getPickleIds('test.feature', 8)[0])
+          .getPickleResults(gherkinQuery.getPickleIds('test.feature', 8))
           .map(r => r.status),
         [messages.TestResult.Status.PASSED, messages.TestResult.Status.PASSED]
       )
 
       assert.deepStrictEqual(
         testResultQuery
-          .getPickleResults(gherkinQuery.getPickleIds('test.feature', 9)[0])
+          .getPickleResults(gherkinQuery.getPickleIds('test.feature', 9))
           .map(r => r.status),
         [messages.TestResult.Status.PASSED, messages.TestResult.Status.FAILED]
       )
