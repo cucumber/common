@@ -17,6 +17,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+* Accordion now displays the aggregated status colour
+* Render Examples rows properly
+  ([#778](https://github.com/cucumber/cucumber/issues/778)
+   [aslakhellesoy])
+* Do not highlight placeholders
+  ([#826](https://github.com/cucumber/cucumber/issues/826)
+   [aslakhellesoy])
+
 ## [3.2.0] - 2020-01-10
 
 ### Changed

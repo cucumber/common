@@ -13,6 +13,8 @@ import attachments from '../../../compatibility-kit/javascript/features/attachme
 // @ts-ignore
 import dataTables from '../../../compatibility-kit/javascript/features/data-tables/data-tables.ndjson'
 // @ts-ignore
+import examplesTables from '../../../compatibility-kit/javascript/features/examples-tables/examples-tables.ndjson'
+// @ts-ignore
 import hooks from '../../../compatibility-kit/javascript/features/hooks/hooks.ndjson'
 // @ts-ignore
 import parameterTypes from '../../../compatibility-kit/javascript/features/parameter-types/parameter-types.ndjson'
@@ -32,6 +34,11 @@ storiesOf('Features', module)
   })
   .add('Attachments', () => {
     return <Wrapper envelopes={envelopes(attachments)}>
+      <GherkinDocumentList/>
+    </Wrapper>
+  })
+  .add('Examples Tables', () => {
+    return <Wrapper envelopes={envelopes(examplesTables)}>
       <GherkinDocumentList/>
     </Wrapper>
   })
