@@ -11,8 +11,8 @@ A slightly more elaborate expression may combine tags, for example:
 
 Tag Expressions are used for two purposes:
 
-1. Run a subset of scenarios (using the `--tags expression` option of the [command line](#))
-2. Specify that a hook should only run for a subset of scenarios (using [tagged hooks](#))
+1. Run a subset of scenarios (using the `--tags expression` option of the [command line](https://cucumber.io/docs/cucumber/api/#running-cucumber))
+2. Specify that a hook should only run for a subset of scenarios (using [conditional hooks](https://cucumber.io/docs/cucumber/api/#hooks))
 
 Tag Expressions are [boolean expressions](https://en.wikipedia.org/wiki/Boolean_expression)
 of tags with the logical operators `and`, `or` and `not`.
@@ -20,9 +20,6 @@ of tags with the logical operators `and`, `or` and `not`.
 For more complex Tag Expressions you can use parenthesis for clarity, or to change operator precedence:
 
     (@smoke or @ui) and (not @slow)
-
-(The [standard library](../docs/standard-library.adoc#implementations) list indicates
-what Cucumber implementations currently support Tag Expressions).
 
 ## Migrating from old style tags
 
