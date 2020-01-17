@@ -21,6 +21,7 @@ const Background: React.FunctionComponent<IProps> = ({ background }) => {
         <StepList
           steps={background.steps || []}
           renderStepMatchArguments={true}
+          renderMessage={true}
         />
       </div>
     </section>

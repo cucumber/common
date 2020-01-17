@@ -56,7 +56,11 @@ describe('Step', () => {
           <StepMatchArgumentsQueryContext.Provider
             value={new StubStepMatchArgumentsQuery()}
           >
-            <Step step={step} renderStepMatchArguments={true} />
+            <Step
+              step={step}
+              renderStepMatchArguments={true}
+              renderMessage={true}
+            />
           </StepMatchArgumentsQueryContext.Provider>
         </UriContext.Provider>
       </GherkinQueryContext.Provider>

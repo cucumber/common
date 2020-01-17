@@ -8,15 +8,18 @@ import TestResultQueryContext from '../../TestResultsQueryContext'
 import UriContext from '../../UriContext'
 import GherkinQueryContext from '../../GherkinQueryContext'
 import StepMatchArgumentsQueryContext from '../../StepMatchArgumentsQueryContext'
+import ErrorMessage from './ErrorMessage'
 
 interface IProps {
   step: messages.GherkinDocument.Feature.IStep
   renderStepMatchArguments: boolean
+  renderMessage: boolean
 }
 
 const Step: React.FunctionComponent<IProps> = ({
   step,
   renderStepMatchArguments,
+  renderMessage,
 }) => {
   const gherkinQuery = React.useContext(GherkinQueryContext)
   const testResultQuery = React.useContext(TestResultQueryContext)
@@ -117,17 +120,8 @@ const Step: React.FunctionComponent<IProps> = ({
         {step.dataTable && <DataTable dataTable={step.dataTable} />}
         {step.docString && <DocString docString={step.docString} />}
       </div>
-      {testResult.message && (
-        <pre
-          className="error-message"
-          style={{
-            backgroundColor: statusColor(testResult.status)
-              .darken(0.1)
-              .hex(),
-          }}
-        >
-          {testResult.message}
-        </pre>
+      {renderMessage && testResult.message && (
+        <ErrorMessage status={testResult.status} message={testResult.message} />
       )}
     </li>
   )
