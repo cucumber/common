@@ -7,13 +7,19 @@ GREEN='\033[0;32m'
 RED='\033[0;31m'
 NC='\033[0m'
 
+OS=$([[ "$(uname)" == "Darwin" ]] && echo "darwin" || echo "linux")
+# Determine if we're on 386 or amd64 (ignoring other processors as we're not building on them)
+ARCH=$([[ "$(uname -m)" == "x86_64" ]] && echo "amd64" || echo "386")
+EXE="./dist/cucumber-json-formatter-${OS}-${ARCH}"
+
+
 exitstatus=0
 
 for ndjson in $*
 do
   stdout="${ndjson}.json-formatter.json"
   stderr="${ndjson}.json-formatter.err.txt"
-  output=$(./dist/cucumber-json-formatter-darwin-amd64 --format ndjson 2> "${stderr}" > "${stdout}" < ${ndjson})
+  output=$($EXE --format ndjson 2> "${stderr}" > "${stdout}" < ${ndjson})
 
   if [ $? = 0 ]
   then
