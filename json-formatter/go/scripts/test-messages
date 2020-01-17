@@ -3,6 +3,9 @@
 # Runs the formatter against a list of NDJSON files and writes the output
 # next to each file
 #
+GREEN='\033[0;32m'
+RED='\033[0;31m'
+NC='\033[0m'
 
 exitstatus=0
 
@@ -11,6 +14,14 @@ do
   stdout="${ndjson}.json-formatter.json"
   stderr="${ndjson}.json-formatter.err.txt"
   output=$(./dist/cucumber-json-formatter-darwin-amd64 --format ndjson 2> "${stderr}" > "${stdout}" < ${ndjson})
+
+  if [ $? = 0 ]
+  then
+    echo -e "${GREEN}[v]${NC} $ndjson"
+  else
+    echo -e "${RED}[x]${NC} $ndjson"
+    exitstatus=1
+  fi
 done
 
 exit ${exitstatus}
