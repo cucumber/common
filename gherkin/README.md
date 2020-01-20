@@ -42,7 +42,7 @@ The Gherkin CLI `gherkin` reads Gherkin source files (`.feature` files) and outp
 The `gherkin` program takes any number of files as arguments and prints the results
 to `STDOUT` as [Newline Delimited JSON](http://ndjson.org/).
 
-Each line is a JSON document that conforms to the [Cucumber Event Protocol](https://cucumber.io/docs/event-protocol/).
+Each line is a JSON document that conforms to the [Cucumber Event Protocol](../messages).
 
 To try it out, just install Gherkin for your favourite language, and run it over the
 files in this repository:

@@ -8,61 +8,47 @@ import {
   AccordionItemHeading,
   AccordionItemPanel,
 } from 'react-accessible-accordion'
-import CucumberQueryContext from '../../CucumberQueryContext'
-import CucumberQuery from '@cucumber/query'
 import UriContext from '../../UriContext'
 import statusColor from '../gherkin/statusColor'
+import GherkinQueryContext from '../../GherkinQueryContext'
+import TestResultQueryContext from '../../TestResultsQueryContext'
 
-interface IProps {
-  gherkinDocuments: messages.IGherkinDocument[]
-  cucumberQuery: CucumberQuery
-}
+const GherkinDocumentList: React.FunctionComponent = () => {
+  const gherkinQuery = React.useContext(GherkinQueryContext)
+  const testResultsQuery = React.useContext(TestResultQueryContext)
 
-const GherkinDocumentList: React.FunctionComponent<IProps> = ({
-  gherkinDocuments,
-  cucumberQuery,
-}) => {
   return (
     <div className="gherkin-document-list">
-      <CucumberQueryContext.Provider value={cucumberQuery}>
-        <Accordion
-          allowMultipleExpanded={true}
-          allowZeroExpanded={true}
-          preExpanded={gherkinDocuments.map(
-            gherkinDocument => gherkinDocument.uri
-          )}
-        >
-          {gherkinDocuments.map(gherkinDocument => {
-            const testResults = cucumberQuery.getDocumentResults(
-              gherkinDocument.uri
-            )
-            const status =
-              testResults.length > 0
-                ? testResults[0].status
-                : messages.TestResult.Status.UNKNOWN
+      <Accordion allowMultipleExpanded={false} allowZeroExpanded={true}>
+        {gherkinQuery.getGherkinDocuments().map(gherkinDocument => {
+          const gherkinDocumentStatus = gherkinDocument.feature
+            ? testResultsQuery.getWorstResult(
+                testResultsQuery.getPickleResults(
+                  gherkinQuery.getPickleIds(gherkinDocument.uri)
+                )
+              ).status
+            : messages.TestResult.Status.UNDEFINED
 
-            return (
-              <AccordionItem
-                key={gherkinDocument.uri}
-                uuid={gherkinDocument.uri}
-              >
-                <AccordionItemHeading>
-                  <AccordionItemButton
-                    style={{ backgroundColor: statusColor(status).hex() }}
-                  >
-                    {gherkinDocument.uri}
-                  </AccordionItemButton>
-                </AccordionItemHeading>
-                <AccordionItemPanel>
-                  <UriContext.Provider value={gherkinDocument.uri}>
-                    <GherkinDocument gherkinDocument={gherkinDocument} />
-                  </UriContext.Provider>
-                </AccordionItemPanel>
-              </AccordionItem>
-            )
-          })}
-        </Accordion>
-      </CucumberQueryContext.Provider>
+          return (
+            <AccordionItem key={gherkinDocument.uri} uuid={gherkinDocument.uri}>
+              <AccordionItemHeading>
+                <AccordionItemButton
+                  style={{
+                    backgroundColor: statusColor(gherkinDocumentStatus).hex(),
+                  }}
+                >
+                  {gherkinDocument.uri}
+                </AccordionItemButton>
+              </AccordionItemHeading>
+              <AccordionItemPanel>
+                <UriContext.Provider value={gherkinDocument.uri}>
+                  <GherkinDocument gherkinDocument={gherkinDocument} />
+                </UriContext.Provider>
+              </AccordionItemPanel>
+            </AccordionItem>
+          )
+        })}
+      </Accordion>
     </div>
   )
 }

@@ -8,6 +8,7 @@ import HookTestStep from './HookTestStep'
 import ITestStep from './ITestStep'
 import IClock from './IClock'
 import { MakeErrorMessage } from './ErrorMessageGenerator'
+import EmptyPickleTestStep from './EmptyPickleTestStep'
 
 export default function makeTestCase(
   pickle: messages.IPickle,
@@ -19,6 +20,20 @@ export default function makeTestCase(
   clock: IClock,
   makeErrorMessage: MakeErrorMessage
 ): TestCase {
+  if (pickle.steps.length === 0) {
+    const id = newId()
+    const undefinedStep = new EmptyPickleTestStep(
+      id,
+      undefined,
+      true,
+      [],
+      [],
+      clock,
+      makeErrorMessage
+    )
+    return new TestCase(newId(), [undefinedStep], pickle.id, clock)
+  }
+
   const beforeHookSteps = makeHookSteps(
     pickle,
     beforeHooks,

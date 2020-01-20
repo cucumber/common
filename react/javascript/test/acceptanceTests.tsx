@@ -1,19 +1,19 @@
 import path from 'path'
 import fs from 'fs'
 import { IdGenerator, messages } from '@cucumber/messages'
-import gherkin, { GherkinQuery } from '@cucumber/gherkin'
+import gherkin from '@cucumber/gherkin'
 import { Readable } from 'stream'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import GherkinDocumentList from '../src/components/app/GherkinDocumentList'
 import { JSDOM } from 'jsdom'
-import CucumberQuery from '@cucumber/query'
 import SupportCode from '@cucumber/fake-cucumber/dist/src/SupportCode'
 import makeDummyStepDefinitions from '@cucumber/fake-cucumber/dist/test/makeDummyStepDefinitions'
 import makeDummyHooks from '@cucumber/fake-cucumber/dist/test/makeDummyHooks'
 import CucumberStream from '@cucumber/fake-cucumber/dist/src/CucumberStream'
 import PerfHooksClock from '@cucumber/fake-cucumber/dist/src/PerfHooksClock'
 import { withFullStackTrace } from '@cucumber/fake-cucumber/dist/src/ErrorMessageGenerator'
+import Wrapper from '../src/components/app/Wrapper'
 
 describe('App', () => {
   const dir = __dirname + '/../../../gherkin/testdata/good'
@@ -57,22 +57,10 @@ describe('App', () => {
               )
             )
         )
-
-        const gherkinDocuments = envelopes
-          .filter(e => e.gherkinDocument)
-          .map(e => e.gherkinDocument)
-        const gherkinQuery = new GherkinQuery()
-        const cucumberQuery = new CucumberQuery(gherkinQuery)
-        envelopes.forEach(envelope => {
-          gherkinQuery.update(envelope)
-          cucumberQuery.update(envelope)
-        })
-
         const app = (
-          <GherkinDocumentList
-            gherkinDocuments={gherkinDocuments}
-            cucumberQuery={cucumberQuery}
-          />
+          <Wrapper envelopes={envelopes}>
+            <GherkinDocumentList />
+          </Wrapper>
         )
         ReactDOM.render(app, document.getElementById('content'))
       }).timeout(7000) // TODO: What the hell is taking so long??
