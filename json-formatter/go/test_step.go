@@ -3,7 +3,7 @@ package json
 import (
 	"encoding/base64"
 	"fmt"
-	messages "github.com/cucumber/messages-go/v9"
+	"github.com/cucumber/messages-go/v9"
 	"strings"
 )
 
