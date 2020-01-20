@@ -5,11 +5,13 @@ import Step from './Step'
 interface IProps {
   steps: messages.GherkinDocument.Feature.IStep[]
   renderStepMatchArguments: boolean
+  renderMessage: boolean
 }
 
 const StepList: React.FunctionComponent<IProps> = ({
   steps,
   renderStepMatchArguments,
+  renderMessage,
 }) => {
   return (
     <ol>
@@ -18,6 +20,7 @@ const StepList: React.FunctionComponent<IProps> = ({
           key={index}
           step={step}
           renderStepMatchArguments={renderStepMatchArguments}
+          renderMessage={renderMessage}
         />
       ))}
     </ol>

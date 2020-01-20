@@ -4,35 +4,45 @@ import Keyword from './Keyword'
 import DocString from './DocString'
 import { messages } from '@cucumber/messages'
 import statusColor from './statusColor'
-import CucumberQueryContext from '../../CucumberQueryContext'
+import TestResultQueryContext from '../../TestResultsQueryContext'
 import UriContext from '../../UriContext'
+import GherkinQueryContext from '../../GherkinQueryContext'
+import StepMatchArgumentsQueryContext from '../../StepMatchArgumentsQueryContext'
+import ErrorMessage from './ErrorMessage'
 
 interface IProps {
   step: messages.GherkinDocument.Feature.IStep
   renderStepMatchArguments: boolean
+  renderMessage: boolean
 }
 
 const Step: React.FunctionComponent<IProps> = ({
   step,
   renderStepMatchArguments,
+  renderMessage,
 }) => {
-  const cucumberQuery = React.useContext(CucumberQueryContext)
+  const gherkinQuery = React.useContext(GherkinQueryContext)
+  const testResultQuery = React.useContext(TestResultQueryContext)
+  const stepMatchArgumentsQuery = React.useContext(
+    StepMatchArgumentsQueryContext
+  )
   const uri = React.useContext(UriContext)
 
-  const testResults = cucumberQuery.getStepResults(uri, step.location.line)
-  const status =
-    testResults.length > 0
-      ? testResults[0].status
-      : messages.TestResult.Status.UNKNOWN
-  const resultsWithMessage = testResults.filter(tr => tr.message)
+  const pickleStepIds = gherkinQuery.getPickleStepIds(uri, step.location.line)
+  const pickleStepResults = testResultQuery.getPickleStepResults(pickleStepIds)
+  const testResult = testResultQuery.getWorstResult(pickleStepResults)
 
   const stepTextElements: JSX.Element[] = []
 
   if (renderStepMatchArguments) {
-    const stepMatchArgumentsLists = cucumberQuery.getStepMatchArgumentsLists(
-      uri,
-      step.location.line
-    )
+    const stepMatchArgumentsLists =
+      pickleStepIds.length === 0
+        ? // This can happen in rare cases for background steps in a document that only has step-less scenarios,
+          // because background steps are not added to the pickle when the scenario has no steps. In this case
+          // the bacground step will be rendered as undefined (even if there are matching step definitions). This
+          // is not ideal, but it is rare enough that we don't care about it for now.
+          []
+        : stepMatchArgumentsQuery.getStepMatchArgumentsLists(pickleStepIds[0])
     if (stepMatchArgumentsLists.length === 1) {
       // Step is defined
       const stepMatchArguments = stepMatchArgumentsLists[0].stepMatchArguments
@@ -54,7 +64,7 @@ const Step: React.FunctionComponent<IProps> = ({
               className="step-param"
               key={`bold-${index}`}
               style={{
-                backgroundColor: statusColor(status)
+                backgroundColor: statusColor(testResult.status)
                   .darken(0.1)
                   .hex(),
               }}
@@ -98,7 +108,10 @@ const Step: React.FunctionComponent<IProps> = ({
   }
 
   return (
-    <li className="step" style={{ backgroundColor: statusColor(status).hex() }}>
+    <li
+      className="step"
+      style={{ backgroundColor: statusColor(testResult.status).hex() }}
+    >
       <h3>
         <Keyword>{step.keyword}</Keyword>
         {stepTextElements}
@@ -107,19 +120,9 @@ const Step: React.FunctionComponent<IProps> = ({
         {step.dataTable && <DataTable dataTable={step.dataTable} />}
         {step.docString && <DocString docString={step.docString} />}
       </div>
-      {resultsWithMessage.map((result, i) => (
-        <pre
-          className="error-message"
-          key={i}
-          style={{
-            backgroundColor: statusColor(status)
-              .darken(0.1)
-              .hex(),
-          }}
-        >
-          {result.message}
-        </pre>
-      ))}
+      {renderMessage && testResult.message && (
+        <ErrorMessage status={testResult.status} message={testResult.message} />
+      )}
     </li>
   )
 }

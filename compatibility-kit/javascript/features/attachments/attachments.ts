@@ -1,5 +1,8 @@
-import { When } from '@cucumber/fake-cucumber'
+import { Before, When } from '@cucumber/fake-cucumber'
 import { ReadableStreamBuffer } from 'stream-buffers'
+
+// Cucumber-JVM needs to use a Before hook in order to create attachments
+Before(() => undefined)
 
 When('the string {string} is attached as {string}', function(
   text: string,

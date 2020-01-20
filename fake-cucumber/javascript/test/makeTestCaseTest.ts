@@ -10,6 +10,7 @@ import {
 import { GherkinQuery } from '@cucumber/gherkin'
 import IncrementClock from '../src/IncrementClock'
 import { withSourceFramesOnlyStackTrace } from '../src/ErrorMessageGenerator'
+import { MessageNotifier } from '../src/types'
 
 describe('makeTestCase', () => {
   it('transforms a Pickle to a TestCase', () => {
@@ -30,6 +31,33 @@ describe('makeTestCase', () => {
       testCase.toMessage().testCase.testSteps.map(s => s.pickleStepId),
       ['step-1', 'step-2']
     )
+  })
+
+  context('when the pickle has no steps', () => {
+    it('generates a synthetic undefined test step', async () => {
+      // See https://github.com/cucumber/cucumber/issues/249
+      const pickle = new messages.Pickle({
+        id: 'some-id',
+        name: 'some name',
+        steps: [],
+      })
+      const testCase = makeTestCase(
+        pickle,
+        [],
+        [],
+        [],
+        new GherkinQuery(),
+        IdGenerator.incrementing(),
+        new IncrementClock(),
+        withSourceFramesOnlyStackTrace()
+      )
+
+      const messageList: messages.IEnvelope[] = []
+      const notifier: MessageNotifier = (message: messages.IEnvelope) =>
+        messageList.push(message)
+      await testCase.execute(notifier, 0, 'some-test-case-started-id')
+      assert.equal(messageList.length, 4)
+    })
   })
 
   context('when hooks are defined', () => {

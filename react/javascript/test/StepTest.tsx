@@ -1,12 +1,14 @@
 import assert from 'assert'
 import ReactDOM from 'react-dom'
 import React from 'react'
-import { GherkinQuery } from '@cucumber/gherkin'
 import { messages } from '@cucumber/messages'
-import CucumberQuery from '@cucumber/query'
-import CucumberQueryContext from '../src/CucumberQueryContext'
+import { StepMatchArgumentsQuery } from '@cucumber/query'
 import Step from '../src/components/gherkin/Step'
 import { JSDOM } from 'jsdom'
+import StepMatchArgumentsQueryContext from '../src/StepMatchArgumentsQueryContext'
+import UriContext from '../src/UriContext'
+import GherkinQueryContext from '../src/GherkinQueryContext'
+import { GherkinQuery } from '@cucumber/gherkin'
 
 describe('Step', () => {
   it('renders', () => {
@@ -24,7 +26,7 @@ describe('Step', () => {
       location: new messages.Location({ column: 1, line: 1 }),
     })
 
-    class StubCucumberQuery extends CucumberQuery {
+    class StubStepMatchArgumentsQuery extends StepMatchArgumentsQuery {
       public getStepMatchArgumentsLists(): messages.TestCase.TestStep.IStepMatchArgumentsList[] {
         return [
           new messages.TestCase.TestStep.StepMatchArgumentsList({
@@ -40,18 +42,28 @@ describe('Step', () => {
           }),
         ]
       }
+    }
 
-      public getStepResults(): messages.ITestResult[] {
-        return []
+    class StubGherkinQuery extends GherkinQuery {
+      getPickleStepIds(): string[] {
+        return ['dummy-id']
       }
     }
 
     const app = (
-      <CucumberQueryContext.Provider
-        value={new StubCucumberQuery(new GherkinQuery())}
-      >
-        <Step step={step} renderStepMatchArguments={true} />
-      </CucumberQueryContext.Provider>
+      <GherkinQueryContext.Provider value={new StubGherkinQuery()}>
+        <UriContext.Provider value={'some.feature'}>
+          <StepMatchArgumentsQueryContext.Provider
+            value={new StubStepMatchArgumentsQuery()}
+          >
+            <Step
+              step={step}
+              renderStepMatchArguments={true}
+              renderMessage={true}
+            />
+          </StepMatchArgumentsQueryContext.Provider>
+        </UriContext.Provider>
+      </GherkinQueryContext.Provider>
     )
     ReactDOM.render(app, document.getElementById('content'))
 
