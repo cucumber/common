@@ -19,7 +19,11 @@ const GherkinDocumentList: React.FunctionComponent = () => {
 
   return (
     <div className="gherkin-document-list">
-      <Accordion allowMultipleExpanded={false} allowZeroExpanded={true}>
+      <Accordion
+        allowMultipleExpanded={true}
+        allowZeroExpanded={true}
+        preExpanded={gherkinQuery.getGherkinDocuments().map(doc => doc.uri)}
+      >
         {gherkinQuery.getGherkinDocuments().map(gherkinDocument => {
           const gherkinDocumentStatus = gherkinDocument.feature
             ? testResultsQuery.getWorstResult(
