@@ -52,10 +52,7 @@ export default class ParameterTypeMatcher {
   }
 
   get matchStartWord() {
-    return (
-      this.start === 0 ||
-      this.text[this.start - 1].match(/\s|\p{P}/u)
-    )
+    return this.start === 0 || this.text[this.start - 1].match(/\s|\p{P}/u)
   }
 
   get matchEndWord() {
