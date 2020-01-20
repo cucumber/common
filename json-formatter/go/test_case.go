@@ -25,17 +25,20 @@ type SortedSteps struct {
 func ProcessTestCaseStarted(testCaseStarted *messages.TestCaseStarted, lookup *MessageLookup) *TestCase {
 	testCase := lookup.LookupTestCase(testCaseStarted.TestCaseId)
 	if testCase == nil {
+		panic("No testCase for " + testCaseStarted.TestCaseId)
 		return nil
 	}
 
 	pickle := lookup.LookupPickle(testCase.PickleId)
 	if pickle == nil || len(pickle.AstNodeIds) == 0 {
+		panic("No pickle for " + testCase.PickleId)
 		return nil
 	}
 	tags := make([]*messages.GherkinDocument_Feature_Tag, len(pickle.Tags))
 	for index, tag := range pickle.Tags {
 		sourceTag := lookup.LookupTag(tag.AstNodeId)
 		if sourceTag == nil {
+			panic("No sourceTag for " + tag.AstNodeId)
 			return nil
 		}
 		tags[index] = sourceTag
@@ -43,11 +46,13 @@ func ProcessTestCaseStarted(testCaseStarted *messages.TestCaseStarted, lookup *M
 
 	scenario := lookup.LookupScenario(pickle.AstNodeIds[0])
 	if scenario == nil {
+		panic(fmt.Sprintf("No scenario for %s", strings.Join(pickle.AstNodeIds, ", ")))
 		return nil
 	}
 
 	feature := lookup.LookupGherkinDocument(pickle.Uri)
 	if feature == nil {
+		panic("No feature for " + pickle.Uri)
 		return nil
 	}
 	featureName := feature.Feature.Name
@@ -57,6 +62,7 @@ func ProcessTestCaseStarted(testCaseStarted *messages.TestCaseStarted, lookup *M
 		Scenario:    scenario,
 		Pickle:      pickle,
 		TestCase:    testCase,
+		Steps:       make([]*TestStep, 0),
 		Tags:        tags,
 	}
 }
@@ -150,6 +156,12 @@ func makeJSONTags(tags []*messages.GherkinDocument_Feature_Tag) []*jsonTag {
 }
 
 func (self *TestCase) appendStep(step *TestStep) {
+	if step == nil {
+		panic("step is nil")
+	}
+	if self.Steps == nil {
+		panic("self.Steps is nil")
+	}
 	self.Steps = append(self.Steps, step)
 }
 
