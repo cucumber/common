@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+set -euf
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+OS=$([[ "$(uname)" == "Darwin" ]] && echo "darwin" || echo "linux")
+# Determine if we're on 386 or amd64 (ignoring other processors as we're not building on them)
+ARCH=$([[ "$(uname -m)" == "x86_64" ]] && echo "amd64" || echo "386")
+EXE="${DIR}/../../../json-formatter/go/dist/cucumber-json-formatter-${OS}-${ARCH}"
+
+${EXE} --format ndjson
