@@ -1,85 +1,87 @@
+.cucumber-react {
+    h1, h2, h3 {
+        margin: 0.1em;
+    }
 
-h1, h2, h3 {
-    margin: 0.1em;
-}
+    ol {
+        list-style-type: none;
+        padding-left: 0;
+    }
 
-ol {
-    list-style-type: none;
-    padding-left: 0;
-}
+    section {
+        margin-bottom: 1em;
+    }
 
-section {
-    margin-bottom: 1em;
-}
+    table {
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
 
-table {
-    border: 1px solid black;
-    border-collapse: collapse;
-}
+    th {
+        border: 1px solid black;
+        padding: 0.3em;
+    }
 
-th {
-    border: 1px solid black;
-    padding: 0.3em;
-}
+    td {
+        border: 1px solid black;
+        padding: 0.3em;
+    }
 
-td {
-    border: 1px solid black;
-    padding: 0.3em;
-}
+    .gherkin-document-list {
+        font: 14px 'Open Sans', sans-serif;
+        color: #212121;
+        background: #fff;
+        overflow-x: hidden;
+    }
 
-.gherkin-document-list {
-    font: 14px 'Open Sans', sans-serif;
-    color: #212121;
-    background: #fff;
-    overflow-x: hidden;
-}
+    .indent {
+        margin-left: 1em;
+    }
 
-.indent {
-    margin-left: 1em;
-}
+    .keyword {
+        font-weight: bold;
+    }
 
-.keyword {
-    font-weight: bold;
-}
+    .step {
+        padding: 0.5em;
+        margin-left: 0;
+        margin-top: 0;
+        border-bottom: 1px #ccc solid;
+        border-left: 1px #ccc solid;
+        border-right: 1px #ccc solid;
+    }
 
-.step {
-    padding: 0.5em;
-    margin-left: 0;
-    margin-top: 0;
-    border-bottom: 1px #ccc solid;
-    border-left: 1px #ccc solid;
-    border-right: 1px #ccc solid;
-}
+    .step:nth-child(1) {
+        border-top: 1px #ccc solid;
+    }
 
-.step:nth-child(1) {
-    border-top: 1px #ccc solid;
-}
+    .step-text {
+        font-weight: normal;
+    }
 
-.step-text {
-    font-weight: normal;
-}
+    .step-param {
+        font-weight: bold;
+        color: #072a80;
+    }
 
-.step-param {
-    font-weight: bold;
-    color: #072a80;
-}
+    .error-message {
+        padding: 0.5em;
+        margin: 0;
+        overflow: scroll;
+    }
 
-.error-message {
-    padding: 0.5em;
-    margin: 0;
-    overflow: scroll;
-}
+    .tag-list {
+        padding: 0;
+        margin-bottom: 0;
+    }
 
-.tag-list {
-    padding: 0;
-    margin-bottom: 0;
-}
+    .tag {
+        display: inline;
+        list-style-type: none;
+        padding: 4px 8px 4px 8px;
+        margin-right: 6px;
+        background-color: #ddd;
+        border-radius: 6px;
+    }
 
-.tag {
-    display: inline;
-    list-style-type: none;
-    padding: 4px 8px 4px 8px;
-    margin-right: 6px;
-    background-color: #ddd;
-    border-radius: 6px;
 }

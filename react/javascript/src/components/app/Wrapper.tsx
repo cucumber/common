@@ -21,6 +21,7 @@ const Wrapper: React.FunctionComponent<IProps> = ({ envelopes, children }) => {
   })
 
   return (
+    <div className="cucumber-react">
     <StepMatchArgumentsQueryContext.Provider value={stepMatchArgumentsQuery}>
       <TestResultsQueryContext.Provider value={testResultsQuery}>
         <GherkinQueryContext.Provider value={gherkinQuery}>
@@ -28,6 +29,7 @@ const Wrapper: React.FunctionComponent<IProps> = ({ envelopes, children }) => {
         </GherkinQueryContext.Provider>
       </TestResultsQueryContext.Provider>
     </StepMatchArgumentsQueryContext.Provider>
+    </div>
   )
 }
 
