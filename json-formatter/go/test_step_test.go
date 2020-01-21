@@ -51,7 +51,7 @@ var _ = Describe("ProcessTestStepFinished", func() {
 			TestStepId:        "test-step-id",
 		}
 
-		testStep := ProcessTestStepFinished(testStepFinished, lookup)
+		_, testStep := ProcessTestStepFinished(testStepFinished, lookup)
 		Expect(testStep.TestCaseID).To(Equal("test-case-id"))
 	})
 
@@ -61,7 +61,7 @@ var _ = Describe("ProcessTestStepFinished", func() {
 				TestCaseStartedId: "test-case-started-id",
 				TestStepId:        "unknown-step",
 			}
-			testStep := ProcessTestStepFinished(testStepFinished, lookup)
+			_, testStep := ProcessTestStepFinished(testStepFinished, lookup)
 			Expect(testStep).To(BeNil())
 		})
 
@@ -70,7 +70,7 @@ var _ = Describe("ProcessTestStepFinished", func() {
 				TestCaseStartedId: "unknown-test-case-started",
 				TestStepId:        "test-step-id",
 			}
-			testStep := ProcessTestStepFinished(testStepFinished, lookup)
+			_, testStep := ProcessTestStepFinished(testStepFinished, lookup)
 			Expect(testStep).To(BeNil())
 		})
 
@@ -85,7 +85,7 @@ var _ = Describe("ProcessTestStepFinished", func() {
 				TestCaseStartedId: testCaseStarted.Id,
 				TestStepId:        "test-step-id",
 			}
-			testStep := ProcessTestStepFinished(testStepFinished, lookup)
+			_, testStep := ProcessTestStepFinished(testStepFinished, lookup)
 			Expect(testStep).To(BeNil())
 		})
 	})
@@ -123,7 +123,7 @@ var _ = Describe("ProcessTestStepFinished", func() {
 				},
 			}
 
-			testStep := ProcessTestStepFinished(testStepFinished, lookup)
+			_, testStep := ProcessTestStepFinished(testStepFinished, lookup)
 
 			Expect(testStep.Hook.Id).To(Equal("hook-id"))
 			Expect(testStep.Result.Status).To(Equal(messages.TestResult_PASSED))
@@ -135,7 +135,7 @@ var _ = Describe("ProcessTestStepFinished", func() {
 				TestStepId:        "hook-step-id",
 			}
 
-			testStep := ProcessTestStepFinished(testStepFinished, lookup)
+			_, testStep := ProcessTestStepFinished(testStepFinished, lookup)
 
 			Expect(testStep.Step).To(BeNil())
 		})
@@ -145,7 +145,7 @@ var _ = Describe("ProcessTestStepFinished", func() {
 				TestCaseStartedId: "test-case-started-id",
 				TestStepId:        "wrong-hook-step-id",
 			}
-			testStep := ProcessTestStepFinished(testStepFinished, lookup)
+			_, testStep := ProcessTestStepFinished(testStepFinished, lookup)
 
 			Expect(testStep).To(BeNil())
 		})
@@ -226,7 +226,7 @@ var _ = Describe("ProcessTestStepFinished", func() {
 				TestCaseStartedId: testCaseStarted.Id,
 			}
 
-			testStep := ProcessTestStepFinished(testStepFinished, lookup)
+			_, testStep := ProcessTestStepFinished(testStepFinished, lookup)
 			Expect(testStep.Step.Id).To(Equal("step-id"))
 		})
 
@@ -235,7 +235,7 @@ var _ = Describe("ProcessTestStepFinished", func() {
 				TestStepId:        "test-step-id",
 				TestCaseStartedId: testCaseStarted.Id,
 			}
-			testStep := ProcessTestStepFinished(testStepFinished, lookup)
+			_, testStep := ProcessTestStepFinished(testStepFinished, lookup)
 			Expect(len(testStep.StepDefinitions)).To(Equal(1))
 			Expect(testStep.StepDefinitions[0].Pattern.Source).To(Equal("a passed {word}"))
 		})
@@ -245,7 +245,7 @@ var _ = Describe("ProcessTestStepFinished", func() {
 				TestStepId:        "test-step-id",
 				TestCaseStartedId: testCaseStarted.Id,
 			}
-			testStep := ProcessTestStepFinished(testStepFinished, lookup)
+			_, testStep := ProcessTestStepFinished(testStepFinished, lookup)
 			Expect(testStep.Background).To(BeNil())
 		})
 
@@ -255,7 +255,7 @@ var _ = Describe("ProcessTestStepFinished", func() {
 					TestStepId:        "background-step-id",
 					TestCaseStartedId: testCaseStarted.Id,
 				}
-				testStep := ProcessTestStepFinished(testStepFinished, lookup)
+				_, testStep := ProcessTestStepFinished(testStepFinished, lookup)
 				Expect(testStep.Background).To(Equal(background))
 			})
 		})
@@ -280,7 +280,7 @@ var _ = Describe("ProcessTestStepFinished", func() {
 					TestCaseStartedId: testCaseStarted.Id,
 				}
 
-				testStep := ProcessTestStepFinished(testStepFinished, lookup)
+				_, testStep := ProcessTestStepFinished(testStepFinished, lookup)
 				Expect(testStep).To(BeNil())
 			})
 
@@ -290,7 +290,7 @@ var _ = Describe("ProcessTestStepFinished", func() {
 					TestCaseStartedId: testCaseStarted.Id,
 				}
 
-				testStep := ProcessTestStepFinished(testStepFinished, lookup)
+				_, testStep := ProcessTestStepFinished(testStepFinished, lookup)
 				Expect(testStep).To(BeNil())
 			})
 		})

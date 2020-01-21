@@ -1,6 +1,7 @@
 package json
 
 import (
+	"errors"
 	"fmt"
 	"github.com/cucumber/messages-go/v9"
 	"strings"
@@ -22,42 +23,37 @@ type SortedSteps struct {
 	AfterHook  []*TestStep
 }
 
-func ProcessTestCaseStarted(testCaseStarted *messages.TestCaseStarted, lookup *MessageLookup) *TestCase {
+func ProcessTestCaseStarted(testCaseStarted *messages.TestCaseStarted, lookup *MessageLookup) (error, *TestCase) {
 	testCase := lookup.LookupTestCase(testCaseStarted.TestCaseId)
 	if testCase == nil {
-		panic("No testCase for " + testCaseStarted.TestCaseId)
-		return nil
+		return errors.New("No testCase for " + testCaseStarted.TestCaseId), nil
 	}
 
 	pickle := lookup.LookupPickle(testCase.PickleId)
 	if pickle == nil || len(pickle.AstNodeIds) == 0 {
-		panic("No pickle for " + testCase.PickleId)
-		return nil
+		return errors.New("No pickle for " + testCase.PickleId), nil
 	}
 	tags := make([]*messages.GherkinDocument_Feature_Tag, len(pickle.Tags))
 	for index, tag := range pickle.Tags {
 		sourceTag := lookup.LookupTag(tag.AstNodeId)
 		if sourceTag == nil {
-			panic("No sourceTag for " + tag.AstNodeId)
-			return nil
+			return errors.New("No sourceTag for " + tag.AstNodeId), nil
 		}
 		tags[index] = sourceTag
 	}
 
 	scenario := lookup.LookupScenario(pickle.AstNodeIds[0])
 	if scenario == nil {
-		panic(fmt.Sprintf("No scenario for %s", strings.Join(pickle.AstNodeIds, ", ")))
-		return nil
+		return errors.New(fmt.Sprintf("No scenario for %s", strings.Join(pickle.AstNodeIds, ", "))), nil
 	}
 
 	feature := lookup.LookupGherkinDocument(pickle.Uri)
 	if feature == nil {
-		panic("No feature for " + pickle.Uri)
-		return nil
+		return errors.New("No feature for " + pickle.Uri), nil
 	}
 	featureName := feature.Feature.Name
 
-	return &TestCase{
+	return nil, &TestCase{
 		FeatureName: featureName,
 		Scenario:    scenario,
 		Pickle:      pickle,
@@ -156,12 +152,6 @@ func makeJSONTags(tags []*messages.GherkinDocument_Feature_Tag) []*jsonTag {
 }
 
 func (self *TestCase) appendStep(step *TestStep) {
-	if step == nil {
-		panic("step is nil")
-	}
-	if self.Steps == nil {
-		panic("self.Steps is nil")
-	}
 	self.Steps = append(self.Steps, step)
 }
 

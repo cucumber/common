@@ -46,25 +46,26 @@ func (self *Formatter) ProcessMessages(reader gio.ReadCloser, stdout io.Writer) 
 
 		switch m := envelope.Message.(type) {
 		case *messages.Envelope_TestCaseStarted:
-			testCase := ProcessTestCaseStarted(m.TestCaseStarted, self.lookup)
-			if testCase == nil {
-				panic(fmt.Sprintf("No testCase crested for %s", m.TestCaseStarted))
+			err, testCase := ProcessTestCaseStarted(m.TestCaseStarted, self.lookup)
+			if err != nil {
+				return err
 			}
 			self.testCaseById[testCase.TestCase.Id] = testCase
 
 		case *messages.Envelope_TestStepFinished:
-			testStep := ProcessTestStepFinished(m.TestStepFinished, self.lookup)
-			if testStep != nil {
-				testCase := self.testCaseById[testStep.TestCaseID]
-				if testCase == nil {
-					keys := make([]string, 0, len(self.testCaseById))
-					for k := range self.testCaseById {
-						keys = append(keys, k)
-					}
-					panic("No testCase for " + testStep.TestCaseID + strings.Join(keys, ", "))
-				}
-				testCase.appendStep(testStep)
+			err, testStep := ProcessTestStepFinished(m.TestStepFinished, self.lookup)
+			if err != nil {
+				return err
 			}
+			testCase := self.testCaseById[testStep.TestCaseID]
+			if testCase == nil {
+				keys := make([]string, 0, len(self.testCaseById))
+				for k := range self.testCaseById {
+					keys = append(keys, k)
+				}
+				panic("No testCase for " + testStep.TestCaseID + strings.Join(keys, ", "))
+			}
+			testCase.appendStep(testStep)
 
 		case *messages.Envelope_TestCaseFinished:
 			testCaseStarted := self.lookup.LookupTestCaseStarted(m.TestCaseFinished.TestCaseStartedId)
