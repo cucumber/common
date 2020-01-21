@@ -9,7 +9,7 @@ import {
   AccordionItemPanel,
 } from 'react-accessible-accordion'
 import UriContext from '../../UriContext'
-import statusColor from '../gherkin/statusColor'
+import StatusBadge from '../gherkin/StatusBadge'
 import GherkinQueryContext from '../../GherkinQueryContext'
 import TestResultQueryContext from '../../TestResultsQueryContext'
 
@@ -36,12 +36,9 @@ const GherkinDocumentList: React.FunctionComponent = () => {
           return (
             <AccordionItem key={gherkinDocument.uri} uuid={gherkinDocument.uri}>
               <AccordionItemHeading>
-                <AccordionItemButton
-                  style={{
-                    backgroundColor: statusColor(gherkinDocumentStatus).hex(),
-                  }}
-                >
-                  {gherkinDocument.uri}
+                <AccordionItemButton>
+                  <span>{gherkinDocument.uri}</span>
+                  <StatusBadge status={gherkinDocumentStatus} />
                 </AccordionItemButton>
               </AccordionItemHeading>
               <AccordionItemPanel>

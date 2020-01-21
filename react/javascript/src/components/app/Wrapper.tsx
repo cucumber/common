@@ -22,13 +22,13 @@ const Wrapper: React.FunctionComponent<IProps> = ({ envelopes, children }) => {
 
   return (
     <div className="cucumber-react">
-    <StepMatchArgumentsQueryContext.Provider value={stepMatchArgumentsQuery}>
-      <TestResultsQueryContext.Provider value={testResultsQuery}>
-        <GherkinQueryContext.Provider value={gherkinQuery}>
-          {children}
-        </GherkinQueryContext.Provider>
-      </TestResultsQueryContext.Provider>
-    </StepMatchArgumentsQueryContext.Provider>
+      <StepMatchArgumentsQueryContext.Provider value={stepMatchArgumentsQuery}>
+        <TestResultsQueryContext.Provider value={testResultsQuery}>
+          <GherkinQueryContext.Provider value={gherkinQuery}>
+            {children}
+          </GherkinQueryContext.Provider>
+        </TestResultsQueryContext.Provider>
+      </StepMatchArgumentsQueryContext.Provider>
     </div>
   )
 }

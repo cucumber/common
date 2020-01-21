@@ -9,6 +9,7 @@ import UriContext from '../../UriContext'
 import GherkinQueryContext from '../../GherkinQueryContext'
 import StepMatchArgumentsQueryContext from '../../StepMatchArgumentsQueryContext'
 import ErrorMessage from './ErrorMessage'
+import StatusBadge from './StatusBadge'
 
 interface IProps {
   step: messages.GherkinDocument.Feature.IStep
@@ -108,14 +109,12 @@ const Step: React.FunctionComponent<IProps> = ({
   }
 
   return (
-    <li
-      className="step"
-      style={{ backgroundColor: statusColor(testResult.status).hex() }}
-    >
+    <li className="step">
       <h3>
         <Keyword>{step.keyword}</Keyword>
         {stepTextElements}
       </h3>
+      <StatusBadge status={testResult.status} />
       <div className="indent">
         {step.dataTable && <DataTable dataTable={step.dataTable} />}
         {step.docString && <DocString docString={step.docString} />}
