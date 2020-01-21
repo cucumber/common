@@ -2,7 +2,7 @@ package json
 
 import (
 	"fmt"
-	messages "github.com/cucumber/messages-go/v9"
+	"github.com/cucumber/messages-go/v9"
 )
 
 type MessageLookup struct {
@@ -55,38 +55,12 @@ func (self *MessageLookup) ProcessMessage(envelope *messages.Envelope) (err erro
 		if m.GherkinDocument.Feature == nil {
 			return nil
 		}
-		for _, tag := range m.GherkinDocument.Feature.Tags {
-			self.tagByID[tag.Id] = tag
-		}
+		self.processTags(m.GherkinDocument.Feature.Tags)
 
 		for _, child := range m.GherkinDocument.Feature.Children {
-			background := child.GetBackground()
-			if background != nil {
-				for _, step := range background.Steps {
-					self.backgroundByStepID[step.Id] = background
-					self.stepByID[step.Id] = step
-				}
-			}
-
-			scenario := child.GetScenario()
-			if scenario != nil {
-				self.scenarioByID[scenario.Id] = scenario
-				for _, tag := range scenario.Tags {
-					self.tagByID[tag.Id] = tag
-				}
-
-				for _, step := range scenario.Steps {
-					self.stepByID[step.Id] = step
-				}
-
-				for _, example := range scenario.Examples {
-					for _, row := range example.TableBody {
-						// TODO: we may also need to add IDs to the examples
-						self.exampleByRowID[row.Id] = example
-						self.exampleRowByID[row.Id] = row
-					}
-				}
-			}
+			self.processRule(child.GetRule())
+			self.processBackground(child.GetBackground())
+			self.processScenario(child.GetScenario())
 		}
 
 	case *messages.Envelope_Pickle:
@@ -123,6 +97,49 @@ func (self *MessageLookup) ProcessMessage(envelope *messages.Envelope) (err erro
 	}
 
 	return nil
+}
+
+func (self *MessageLookup) processTags(tags []*messages.GherkinDocument_Feature_Tag) {
+	for _, tag := range tags {
+		self.tagByID[tag.Id] = tag
+	}
+}
+
+func (self *MessageLookup) processRule(rule *messages.GherkinDocument_Feature_FeatureChild_Rule) {
+	if rule != nil {
+		for _, ruleChild := range rule.Children {
+			self.processBackground(ruleChild.GetBackground())
+			self.processScenario(ruleChild.GetScenario())
+		}
+	}
+}
+
+func (self *MessageLookup) processBackground(background *messages.GherkinDocument_Feature_Background) {
+	if background != nil {
+		for _, step := range background.Steps {
+			self.backgroundByStepID[step.Id] = background
+			self.stepByID[step.Id] = step
+		}
+	}
+}
+
+func (self *MessageLookup) processScenario(scenario *messages.GherkinDocument_Feature_Scenario) {
+	if scenario != nil {
+		self.scenarioByID[scenario.Id] = scenario
+		self.processTags(scenario.Tags)
+
+		for _, step := range scenario.Steps {
+			self.stepByID[step.Id] = step
+		}
+
+		for _, example := range scenario.Examples {
+			for _, row := range example.TableBody {
+				// TODO: we may also need to add IDs to the examples
+				self.exampleByRowID[row.Id] = example
+				self.exampleRowByID[row.Id] = row
+			}
+		}
+	}
 }
 
 func (self *MessageLookup) LookupGherkinDocument(uri string) *messages.GherkinDocument {

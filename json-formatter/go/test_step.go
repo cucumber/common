@@ -2,8 +2,9 @@ package json
 
 import (
 	"encoding/base64"
+	"errors"
 	"fmt"
-	messages "github.com/cucumber/messages-go/v9"
+	"github.com/cucumber/messages-go/v9"
 	"strings"
 )
 
@@ -19,29 +20,29 @@ type TestStep struct {
 	Attachments     []*messages.Attachment
 }
 
-func ProcessTestStepFinished(testStepFinished *messages.TestStepFinished, lookup *MessageLookup) *TestStep {
+func ProcessTestStepFinished(testStepFinished *messages.TestStepFinished, lookup *MessageLookup) (error, *TestStep) {
 	testCaseStarted := lookup.LookupTestCaseStarted(testStepFinished.TestCaseStartedId)
 	if testCaseStarted == nil {
-		return nil
+		return errors.New("No testCaseStarted for " + testStepFinished.TestCaseStartedId), nil
 	}
 
 	testCase := lookup.LookupTestCase(testCaseStarted.TestCaseId)
 	if testCase == nil {
-		return nil
+		return errors.New("No testCase for " + testCaseStarted.TestCaseId), nil
 	}
 
 	testStep := lookup.LookupTestStep(testStepFinished.TestStepId)
 	if testStep == nil {
-		return nil
+		return errors.New("No testStep for " + testStepFinished.TestStepId), nil
 	}
 
 	if testStep.HookId != "" {
 		hook := lookup.LookupHook(testStep.HookId)
 		if hook == nil {
-			return nil
+			return errors.New("No hook for " + testStep.HookId), nil
 		}
 
-		return &TestStep{
+		return nil, &TestStep{
 			TestCaseID: testCase.Id,
 			Hook:       hook,
 			Result:     testStepFinished.TestResult,
@@ -50,12 +51,12 @@ func ProcessTestStepFinished(testStepFinished *messages.TestStepFinished, lookup
 
 	pickle := lookup.LookupPickle(testCase.PickleId)
 	if pickle == nil {
-		return nil
+		return errors.New("No pickle for " + testCase.PickleId), nil
 	}
 
 	pickleStep := lookup.LookupPickleStep(testStep.PickleStepId)
 	if pickleStep == nil {
-		return nil
+		return errors.New("No pickleStep for " + testStep.PickleStepId), nil
 	}
 
 	var background *messages.GherkinDocument_Feature_Background
@@ -64,7 +65,7 @@ func ProcessTestStepFinished(testStepFinished *messages.TestStepFinished, lookup
 		background = lookup.LookupBackgroundByStepID(scenarioStep.Id)
 	}
 
-	return &TestStep{
+	return nil, &TestStep{
 		TestCaseID:      testCase.Id,
 		Step:            lookup.LookupStep(pickleStep.AstNodeIds[0]),
 		Pickle:          pickle,
