@@ -11,7 +11,7 @@ default: $(patsubst %,default-%,$(LANGUAGES))
 .PHONY: default
 
 default-%: %
-	[[ -d $< ]] && cd $< && make default || true
+	if [[ -d $< ]]; then cd $< && make default; fi
 .PHONY: default-%
 
 # Need to declare these phonies to avoid errors for packages without a particular language
@@ -21,7 +21,7 @@ update-dependencies: $(patsubst %,update-dependencies-%,$(LANGUAGES))
 .PHONY: update-dependencies
 
 update-dependencies-%: %
-	cd $< && make update-dependencies
+	if [[ -d $< ]]; then cd $< && make update-dependencies; fi
 .PHONY: update-dependencies-%
 
 update-changelog:
@@ -38,7 +38,7 @@ pre-release: update-changelog $(patsubst %,pre-release-%,$(LANGUAGES))
 .PHONY: pre-release
 
 pre-release-%: %
-	[[ -d $< ]] && cd $< && make pre-release || true
+	if [[ -d $< ]]; then cd $< && make pre-release; fi
 .PHONY: pre-release-%
 
 release: create-and-push-release-tag publish
@@ -48,7 +48,7 @@ publish: $(patsubst %,publish-%,$(LANGUAGES))
 .PHONY: publish
 
 publish-%: %
-	[[ -d $< ]] && cd $< && make publish || true
+	if [[ -d $< ]]; then cd $< && make publish; fi
 .PHONY: publish-%
 
 create-and-push-release-tag:
@@ -63,7 +63,7 @@ post-release: $(patsubst %,post-release-%,$(LANGUAGES))
 post-release: commit-and-push-post-release
 
 post-release-%: %
-	[[ -d $< ]] && cd $< && make post-release || true
+	if [[ -d $< ]]; then cd $< && make post-release; fi
 .PHONY: post-release-%
 
 commit-and-push-post-release:
@@ -81,5 +81,5 @@ clean: $(patsubst %,clean-%,$(LANGUAGES))
 .PHONY: clean
 
 clean-%: %
-	[[ -d $< ]] && cd $< && make clean || true
+	if [[ -d $< ]]; then cd $< && make clean; fi
 .PHONY: clean-%
