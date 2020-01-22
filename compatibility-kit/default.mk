@@ -41,7 +41,7 @@ pre-release-%: %
 	[[ -d $< ]] && cd $< && make pre-release || true
 .PHONY: pre-release-%
 
-release: clean default create-and-push-release-tag publish
+release: create-and-push-release-tag publish
 .PHONY: release
 
 publish: $(patsubst %,publish-%,$(LANGUAGES))
