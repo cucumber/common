@@ -27,7 +27,7 @@
   "homepage": "https://github.com/cucumber/cucumber#readme",
   "devDependencies": {
     "@cucumber/fake-cucumber": "^3.0.3",
-    "@cucumber/gherkin": "^9.1.0",
+    "@cucumber/gherkin": "^9.2.0",
     "@types/mocha": "^5.2.7",
     "@types/node": "^13.1.8",
     "@typescript-eslint/eslint-plugin": "^2.17.0",
