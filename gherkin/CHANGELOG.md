@@ -19,6 +19,18 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Fixed
 
+## [9.2.0] - 2020-01-22
+
+### Added
+
+* [JavaScript] Add `getGherkinDocuments(): messages.IGherkinDocument[]`
+* [JavaScript] Add `getPickleStepIds(uri: string, lineNumber: number): string[]``
+
+### Changed
+
+* [JavaScript] Change signature of `getPickleIds(uri: string, lineNumber?: number): string[]` - `lineNumber` is optional
+* [JavaScript] `getPickleIds` only operates on pickles, and not on pickle steps
+
 ## [9.1.0] - 2020-01-10
 
 ### Added
@@ -637,7 +649,8 @@ to Gherkin 2.
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v9.1.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v9.2.0...master
+[9.2.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v9.1.0...gherkin/v9.2.0
 [9.1.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v9.0.0...gherkin/v9.1.0
 [9.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v8.2.1...gherkin/v9.0.0
 [8.2.1]:     https://github.com/cucumber/cucumber/compare/gherkin/v8.2.0...gherkin/v8.2.1

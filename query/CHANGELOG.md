@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ----
 ## [Unreleased]
 
+### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+## [2.0.0] - 2020-01-22
+
 ### Changed
 
 * [JavaScript] the API been rewritten
@@ -30,7 +42,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First JavaScript implementation
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/query/v1.1.1...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/query/v2.0.0...master
+[2.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-query/v1.1.1...query/v2.0.0
 [1.1.1]:      https://github.com/cucumber/cucumber/compare/cucumber-query/v1.1.0...query/v1.1.1
 [1.1.0]:      https://github.com/cucumber/cucumber/compare/cucumber-query/v1.0.0...cucumber-query/v1.1.0
 [1.0.0]:      https://github.com/cucumber/cucumber/releases/tag/cucumber-query/v1.0.0
