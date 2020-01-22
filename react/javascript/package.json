@@ -20,8 +20,8 @@
     "build-storybook": "build-storybook"
   },
   "dependencies": {
-    "@cucumber/messages": "^9.0.3",
-    "@cucumber/query": "^2.0.0",
+    "@cucumber/messages": "file:../../messages/javascript",
+    "@cucumber/query": "file:../../query/javascript",
     "color": "^3.1.2",
     "react-accessible-accordion": "^3.0.1"
   },
@@ -31,8 +31,8 @@
   },
   "devDependencies": {
     "@babel/core": "^7.8.3",
-    "@cucumber/fake-cucumber": "^3.0.3",
-    "@cucumber/gherkin": "^9.2.0",
+    "@cucumber/fake-cucumber": "file:../../fake-cucumber/javascript",
+    "@cucumber/gherkin": "file:../../gherkin/javascript",
     "@storybook/addon-actions": "^5.3.8",
     "@storybook/addon-links": "^5.3.8",
     "@storybook/addons": "^5.3.8",
