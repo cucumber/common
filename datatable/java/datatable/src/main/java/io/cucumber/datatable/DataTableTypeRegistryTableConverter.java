@@ -236,10 +236,11 @@ public final class DataTableTypeRegistryTableConverter implements TableConverter
         while (keyIterator.hasNext() && valueIterator.hasNext()) {
             K key = keyIterator.next();
             V value = valueIterator.next();
-            V replaced = result.put(key, value);
-            if (replaced != null) {
-                throw duplicateKeyException(keyType, valueType, key, value, replaced);
+            if (result.containsKey(key)) {
+                V wouldBeReplaced = result.get(key);
+                throw duplicateKeyException(keyType, valueType, key, value, wouldBeReplaced);
             }
+            result.put(key, value);
         }
 
         return unmodifiableMap(result);
