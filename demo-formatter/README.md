@@ -14,8 +14,8 @@ over the `.feature` files used as test data in [gherkin](../gherkin/testdata/goo
 ```
 npm install -g fake-cucumber
 cd ../gherkin
-fake-cucumber --results=random testdata/good/*.feature > ../cucumber-demo-formatter/cucumber-messages.bin
-cd ../cucumber-demo-formatter
+fake-cucumber --results=random testdata/good/*.feature > ../demo-formatter/cucumber-messages.bin
+cd ../demo-formatter
 ls -al
 ```
 
