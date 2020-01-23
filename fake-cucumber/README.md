@@ -41,5 +41,5 @@ Steps matching `.*failed.*`, will get status `FAILED`. Steps matching
 
 If a step doesn't match the lower-case name of a known status it will get status `PASSED`.
 
-See [messages.proto](../cucumber-messages/messages.md#io.cucumber.messages.TestResult.Status) to see all the
+See [messages.proto](../messages/messages.md#io.cucumber.messages.TestResult.Status) to see all the
 possible statuses.
