@@ -1,2 +1,2 @@
-LANGUAGES ?= go javascript ruby java
+LANGUAGES = go javascript ruby java
 include default.mk

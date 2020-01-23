@@ -36,11 +36,11 @@ endif
 $(EXE): .deps $(GO_SOURCE_FILES)
 	mkdir -p dist
 ifndef NO_CROSS_COMPILE
-	# Cross-compile executable for many platforms if we're not running on Alpine (Docker)
-	# where cross-compilation doesn't work.
+	# Cross-compile executable for many platforms
 	go get github.com/aslakhellesoy/gox
 	gox -buildmode=exe -ldflags $(GOX_LDFLAGS) -output "dist/$(EXE_BASE_NAME)-{{.OS}}-{{.Arch}}" -rebuild ./cmd
 else
+	# Compile executable for the local platform only
 	go build -ldflags $(GOX_LDFLAGS) -o $@ ./cmd
 endif
 
