@@ -16,6 +16,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Removed
 
 ### Fixed
+ * [Java] Avoid collisions when converting to maps
+     ([#877](https://github.com/cucumber/cucumber/pull/877)
+     [mpkorstanje])
 
 ## [3.2.0] - 2020-01-10
 

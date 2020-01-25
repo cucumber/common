@@ -26,7 +26,7 @@ import static java.util.Collections.unmodifiableMap;
  * | c92 | Roald       | Dahl     | 1916-09-13 |
  * </pre>
  * <p>
- * A table is either empty or  contains one or more cells. As
+ * A table is either empty or contains one or more cells. As
  * such if a table has zero height it must have zero width and
  * vice versa.
  * <p>
@@ -50,7 +50,7 @@ public final class DataTable {
      * Creates a new DataTable.
      * <p>
      * To improve performance this constructor assumes the provided raw table
-     * is rectangular, free of null values, immutable and a safe copy.
+     * is rectangular, immutable and a safe copy.
      *
      * @param raw            the underlying table
      * @param tableConverter to transform the table
@@ -244,10 +244,13 @@ public final class DataTable {
             List<String> row = raw.get(i);
             LinkedHashMap<String, String> headersAndRow = new LinkedHashMap<>();
             for (int j = 0; j < headers.size(); j++) {
-                String replaced = headersAndRow.put(headers.get(j), row.get(j));
-                if (replaced != null) {
-                    throw duplicateKeyException(String.class, String.class, headers.get(j), row.get(j), replaced);
+                String key = headers.get(j);
+                String value = row.get(j);
+                if (headersAndRow.containsKey(key)) {
+                    String wouldBeReplaced = headersAndRow.get(key);
+                    throw duplicateKeyException(String.class, String.class, key, value, wouldBeReplaced);
                 }
+                headersAndRow.put(key, value);
             }
             headersAndRows.add(unmodifiableMap(headersAndRow));
         }
