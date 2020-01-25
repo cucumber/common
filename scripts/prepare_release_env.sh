@@ -18,7 +18,7 @@ else
 fi
 
 shopt -s dotglob
-cp -R secrets/* ~
+cp -R --no-clobber secrets/* ~
 
 chmod 0600 ~/.ssh/id_rsa
 chmod 0644 ~/.ssh/id_rsa.pub
