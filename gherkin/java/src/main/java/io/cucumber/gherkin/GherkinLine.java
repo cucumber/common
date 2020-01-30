@@ -61,23 +61,25 @@ public class GherkinLine implements IGherkinLine {
 
     @Override
     public List<GherkinLineSpan> getTags() {
+        int column = 1;
+
         String uncommentedLine = trimmedLineText.split("\\s" + COMMENT_PREFIX, 2)[0];
         List<GherkinLineSpan> tags = new ArrayList<>();
 
-        Scanner scanner = new Scanner(uncommentedLine).useDelimiter(TAG_PREFIX);
+        String[] elements = uncommentedLine.split(TAG_PREFIX);
+        for (int i = 1; i < elements.length; i++) {
+            String element = elements[i];
+            int symbolLength = uncommentedLine.codePointCount(0, column);
+            column += element.length() + 1;
 
-        while (scanner.hasNext()) {
-            String token = rtrim(scanner.next());
+            String token = rtrim(element);
             if (token.isEmpty()) {
                 continue;
             }
             if (!token.matches("\\S+")) {
                 throw new ParserException("A tag may not contain whitespace: " + trimmedLineText, location);
             }
-            int scannerStart = scanner.match().start() - 1;
-            int symbolLength = uncommentedLine.codePointCount(0, scannerStart);
-            int column = 1 + indent() + symbolLength;
-            tags.add(new GherkinLineSpan(column, TAG_PREFIX + token));
+            tags.add(new GherkinLineSpan(indent() + symbolLength, TAG_PREFIX + token));
         }
         return tags;
     }
