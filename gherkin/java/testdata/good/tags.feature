@@ -18,7 +18,7 @@ Examples:
   | what       |
   | minimalism |
 
-@ex_tag4 @ex_tag5#sdfs #
+@ex_tag4 @ex_tag5
   @ex_tag6
 Examples: 
   | what            |
