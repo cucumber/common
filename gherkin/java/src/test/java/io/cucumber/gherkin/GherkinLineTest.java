@@ -12,7 +12,7 @@ import static org.junit.Assert.assertThrows;
 
 public class GherkinLineTest {
 
-    private final Location location = new Location(-1,12);
+    private final Location location = new Location(-1, 12);
 
     @Test
     public void finds_tags() {
@@ -44,14 +44,16 @@ public class GherkinLineTest {
         GherkinLine gherkinLine = new GherkinLine("@", location);
         List<GherkinLineSpan> gherkinLineSpans = gherkinLine.getTags();
 
-        assertEquals(Collections.emptyList(), gherkinLineSpans);    }
+        assertEquals(Collections.emptyList(), gherkinLineSpans);
+    }
 
     @Test
     public void ignores_empty_tags() {
         GherkinLine gherkinLine = new GherkinLine("@@", location);
         List<GherkinLineSpan> gherkinLineSpans = gherkinLine.getTags();
 
-        assertEquals(Collections.emptyList(), gherkinLineSpans);    }
+        assertEquals(Collections.emptyList(), gherkinLineSpans);
+    }
 
     @Test
     public void finds_tags__trim_whitespace() {
