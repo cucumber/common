@@ -9,15 +9,73 @@ import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
 
 public class GherkinLineTest {
+
     @Test
     public void finds_tags() {
-        GherkinLine gherkinLine = new GherkinLine("    @this @is  @atag  ");
+        GherkinLine gherkinLine = new GherkinLine("@this @is @atag");
+        List<GherkinLineSpan> gherkinLineSpans = gherkinLine.getTags();
+
+        assertEquals(asList(
+                new GherkinLineSpan(1, "@this"),
+                new GherkinLineSpan(7, "@is"),
+                new GherkinLineSpan(11, "@atag")
+        ), gherkinLineSpans);
+    }
+
+    @Test
+    public void finds_tags_with_spaces() {
+        GherkinLine gherkinLine = new GherkinLine("@this @is @a space separated tag");
+        List<GherkinLineSpan> gherkinLineSpans = gherkinLine.getTags();
+
+        assertEquals(asList(
+                new GherkinLineSpan(1, "@this"),
+                new GherkinLineSpan(7, "@is"),
+                new GherkinLineSpan(11, "@a space separated tag")
+        ), gherkinLineSpans);
+    }
+
+    @Test
+    public void finds_tags__trim_whitespace() {
+        GherkinLine gherkinLine = new GherkinLine("    @this @is  @a tag  ");
         List<GherkinLineSpan> gherkinLineSpans = gherkinLine.getTags();
 
         assertEquals(asList(
                 new GherkinLineSpan(5, "@this"),
                 new GherkinLineSpan(11, "@is"),
-                new GherkinLineSpan(16, "@atag")
+                new GherkinLineSpan(16, "@a tag")
+        ), gherkinLineSpans);
+    }
+
+    @Test
+    public void finds_tags__comment_inside_tag() {
+        GherkinLine gherkinLine = new GherkinLine("@this @is #acomment  ");
+        List<GherkinLineSpan> gherkinLineSpans = gherkinLine.getTags();
+
+        assertEquals(asList(
+                new GherkinLineSpan(1, "@this"),
+                new GherkinLineSpan(7, "@is")
+        ), gherkinLineSpans);
+    }
+
+    @Test
+    public void finds_tags__commented_before_tag() {
+        GherkinLine gherkinLine = new GherkinLine("@this @is #@a commented tag");
+        List<GherkinLineSpan> gherkinLineSpans = gherkinLine.getTags();
+
+        assertEquals(asList(
+                new GherkinLineSpan(1, "@this"),
+                new GherkinLineSpan(7, "@is")
+        ), gherkinLineSpans);
+    }
+
+    @Test
+    public void finds_tags__commented_multiple_tags() {
+        GherkinLine gherkinLine = new GherkinLine("@this @is #@a @commented @sequence of tags");
+        List<GherkinLineSpan> gherkinLineSpans = gherkinLine.getTags();
+
+        assertEquals(asList(
+                new GherkinLineSpan(1, "@this"),
+                new GherkinLineSpan(7, "@is")
         ), gherkinLineSpans);
     }
 
