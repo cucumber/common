@@ -57,7 +57,26 @@ public class GherkinLine implements IGherkinLine {
 
     @Override
     public List<GherkinLineSpan> getTags() {
-        return getSpans("\\s+");
+        int comment = trimmedLineText.indexOf(GherkinLanguageConstants.COMMENT_PREFIX);
+
+        String trimmedUncommentedLineText = comment == -1 ? trimmedLineText : trimmedLineText.substring(0, comment);
+
+        List<GherkinLineSpan> lineSpans = new ArrayList<GherkinLineSpan>();
+
+        Scanner scanner = new Scanner(trimmedUncommentedLineText)
+                .useDelimiter(GherkinLanguageConstants.TAG_PREFIX);
+
+        while (scanner.hasNext()) {
+            String cell = GherkinLanguageConstants.TAG_PREFIX + scanner.next();
+            int cellIndent = symbolCount(cell) - symbolCount(cell);
+
+            String trimmedCell = rtrim(cell);
+            int scannerStart = scanner.match().start() - 1;
+            int symbolLength = trimmedUncommentedLineText.codePointCount(0, scannerStart);
+            int column = 1 + indent() + symbolLength + cellIndent;
+            lineSpans.add(new GherkinLineSpan(column, trimmedCell));
+        }
+        return lineSpans;
     }
 
     @Override
@@ -69,8 +88,8 @@ public class GherkinLine implements IGherkinLine {
         int cellStart = 0;
         boolean escape = false;
         PrimitiveIterator.OfInt iterator = lineText.codePoints().iterator();
-        while (iterator.hasNext() ) {
-            int c = iterator.next() ;
+        while (iterator.hasNext()) {
+            int c = iterator.next();
             if (escape) {
                 switch (c) {
                     case 'n':
@@ -122,20 +141,4 @@ public class GherkinLine implements IGherkinLine {
                         .equals(GherkinLanguageConstants.TITLE_KEYWORD_SEPARATOR);
     }
 
-    private List<GherkinLineSpan> getSpans(String delimiter) {
-        List<GherkinLineSpan> lineSpans = new ArrayList<GherkinLineSpan>();
-        Scanner scanner = new Scanner(trimmedLineText).useDelimiter(delimiter);
-        while (scanner.hasNext()) {
-            String cell = scanner.next();
-            String leftTrimmedCell = ltrim(cell);
-            int cellIndent = symbolCount(cell) - symbolCount(leftTrimmedCell);
-
-            String trimmedCell = rtrim(leftTrimmedCell);
-            int scannerStart = scanner.match().start();
-            int symbolLength = trimmedLineText.codePointCount(0, scannerStart);
-            int column = 1 + indent() + symbolLength + cellIndent;
-            lineSpans.add(new GherkinLineSpan(column, trimmedCell));
-        }
-        return lineSpans;
-    }
 }
