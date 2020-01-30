@@ -18,10 +18,12 @@ public class GherkinLine implements IGherkinLine {
     private final String lineText;
     private final String trimmedLineText;
     private final int indent;
+    private final Location location;
 
-    public GherkinLine(String lineText) {
+    public GherkinLine(String lineText, Location location) {
         this.lineText = lineText;
         this.trimmedLineText = trim(lineText);
+        this.location = location;
         indent = symbolCount(lineText) - symbolCount(ltrim(lineText));
     }
 
@@ -59,23 +61,23 @@ public class GherkinLine implements IGherkinLine {
 
     @Override
     public List<GherkinLineSpan> getTags() {
-        int comment = trimmedLineText.indexOf(COMMENT_PREFIX);
-
-        String trimmedUncommentedLineText = comment < 0 ?
-                trimmedLineText : trimmedLineText.substring(0, comment);
-
+        String uncommentedLine = trimmedLineText.split("\\s" + COMMENT_PREFIX, 2)[0];
         List<GherkinLineSpan> tags = new ArrayList<>();
 
-        Scanner scanner = new Scanner(trimmedUncommentedLineText)
-                .useDelimiter(TAG_PREFIX);
+        Scanner scanner = new Scanner(uncommentedLine).useDelimiter(TAG_PREFIX);
 
         while (scanner.hasNext()) {
-            String item = scanner.next();
-            String firstToken = rtrim(item.split("\\s+", 2)[0]);
+            String token = rtrim(scanner.next());
+            if (token.isEmpty()) {
+                continue;
+            }
+            if (!token.matches("\\S+")) {
+                throw new ParserException("A tag may not contain whitespace: " + trimmedLineText, location);
+            }
             int scannerStart = scanner.match().start() - 1;
-            int symbolLength = trimmedUncommentedLineText.codePointCount(0, scannerStart);
+            int symbolLength = uncommentedLine.codePointCount(0, scannerStart);
             int column = 1 + indent() + symbolLength;
-            tags.add(new GherkinLineSpan(column, TAG_PREFIX + firstToken));
+            tags.add(new GherkinLineSpan(column, TAG_PREFIX + token));
         }
         return tags;
     }
