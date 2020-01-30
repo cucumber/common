@@ -90,6 +90,7 @@ export default abstract class TestStep implements ITestStep {
     notifier: MessageNotifier,
     testCaseStartedId: string
   ): messages.ITestResult {
+    this.emitTestStepStarted(testCaseStartedId, notifier)
     return this.emitTestStepFinished(
       testCaseStartedId,
       new messages.TestResult({
