@@ -245,8 +245,8 @@ describe('TestStep', () => {
   })
 
   describe('#skip', () => {
-    let testStep: ITestStep;
-    let receivedMessages: messages.IEnvelope[];
+    let testStep: ITestStep
+    let receivedMessages: messages.IEnvelope[]
 
     beforeEach(() => {
       testStep = makePickleTestStep(
@@ -269,7 +269,8 @@ describe('TestStep', () => {
         'test-case-started-id'
       )
 
-      const testStepStarted = receivedMessages.find(m => m.testStepStarted).testStepStarted
+      const testStepStarted = receivedMessages.find(m => m.testStepStarted)
+        .testStepStarted
       assert.strictEqual(testStepStarted.testStepId, testStep.id)
     })
 
@@ -279,7 +280,8 @@ describe('TestStep', () => {
         'test-case-started-id'
       )
 
-      const testStepFinished = receivedMessages.find(m => m.testStepFinished).testStepFinished
+      const testStepFinished = receivedMessages.find(m => m.testStepFinished)
+        .testStepFinished
       assert.strictEqual(testStepFinished.testResult.duration.seconds, 0)
       assert.strictEqual(testStepFinished.testResult.duration.nanos, 0)
     })
@@ -290,8 +292,12 @@ describe('TestStep', () => {
         'test-case-started-id'
       )
 
-      const testStepFinished = receivedMessages.find(m => m.testStepFinished).testStepFinished
-      assert.strictEqual(testStepFinished.testResult.status, messages.TestResult.Status.SKIPPED)
+      const testStepFinished = receivedMessages.find(m => m.testStepFinished)
+        .testStepFinished
+      assert.strictEqual(
+        testStepFinished.testResult.status,
+        messages.TestResult.Status.SKIPPED
+      )
     })
   })
 })
