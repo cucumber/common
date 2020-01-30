@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.PrimitiveIterator;
 import java.util.Scanner;
 
+import static io.cucumber.gherkin.GherkinLanguageConstants.COMMENT_PREFIX;
+import static io.cucumber.gherkin.GherkinLanguageConstants.TAG_PREFIX;
 import static io.cucumber.gherkin.StringUtils.ltrim;
 import static io.cucumber.gherkin.StringUtils.rtrim;
 import static io.cucumber.gherkin.StringUtils.symbolCount;
@@ -57,24 +59,25 @@ public class GherkinLine implements IGherkinLine {
 
     @Override
     public List<GherkinLineSpan> getTags() {
-        int comment = trimmedLineText.indexOf(GherkinLanguageConstants.COMMENT_PREFIX);
+        int comment = trimmedLineText.indexOf(COMMENT_PREFIX);
 
-        String trimmedUncommentedLineText = comment < 0 ? trimmedLineText : trimmedLineText.substring(0, comment);
+        String trimmedUncommentedLineText = comment < 0 ?
+                trimmedLineText : trimmedLineText.substring(0, comment);
 
-        List<GherkinLineSpan> lineSpans = new ArrayList<GherkinLineSpan>();
+        List<GherkinLineSpan> tags = new ArrayList<>();
 
         Scanner scanner = new Scanner(trimmedUncommentedLineText)
-                .useDelimiter(GherkinLanguageConstants.TAG_PREFIX);
+                .useDelimiter(TAG_PREFIX);
 
         while (scanner.hasNext()) {
-            String cell = (GherkinLanguageConstants.TAG_PREFIX + scanner.next()).split("\\s+")[0];
-            String trimmedCell = rtrim(cell);
+            String item = scanner.next();
+            String firstToken = rtrim(item.split("\\s+", 2)[0]);
             int scannerStart = scanner.match().start() - 1;
             int symbolLength = trimmedUncommentedLineText.codePointCount(0, scannerStart);
             int column = 1 + indent() + symbolLength;
-            lineSpans.add(new GherkinLineSpan(column, trimmedCell));
+            tags.add(new GherkinLineSpan(column, TAG_PREFIX + firstToken));
         }
-        return lineSpans;
+        return tags;
     }
 
     @Override
