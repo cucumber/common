@@ -12,37 +12,40 @@ public class GherkinLineTest {
 
     @Test
     public void finds_tags() {
-        GherkinLine gherkinLine = new GherkinLine("@this @is @atag");
+        GherkinLine gherkinLine = new GherkinLine("@this @is @a @tag");
         List<GherkinLineSpan> gherkinLineSpans = gherkinLine.getTags();
 
         assertEquals(asList(
                 new GherkinLineSpan(1, "@this"),
                 new GherkinLineSpan(7, "@is"),
-                new GherkinLineSpan(11, "@atag")
+                new GherkinLineSpan(11, "@a"),
+                new GherkinLineSpan(14, "@tag")
         ), gherkinLineSpans);
     }
 
     @Test
     public void finds_tags_with_spaces() {
-        GherkinLine gherkinLine = new GherkinLine("@this @is @a space separated tag");
+        GherkinLine gherkinLine = new GherkinLine("@this @is @a space separated @tag");
         List<GherkinLineSpan> gherkinLineSpans = gherkinLine.getTags();
 
         assertEquals(asList(
                 new GherkinLineSpan(1, "@this"),
                 new GherkinLineSpan(7, "@is"),
-                new GherkinLineSpan(11, "@a space separated tag")
+                new GherkinLineSpan(11, "@a"),
+                new GherkinLineSpan(30, "@tag")
         ), gherkinLineSpans);
     }
 
     @Test
     public void finds_tags__trim_whitespace() {
-        GherkinLine gherkinLine = new GherkinLine("    @this @is  @a tag  ");
+        GherkinLine gherkinLine = new GherkinLine("    @this @is  @a @tag  ");
         List<GherkinLineSpan> gherkinLineSpans = gherkinLine.getTags();
 
         assertEquals(asList(
                 new GherkinLineSpan(5, "@this"),
                 new GherkinLineSpan(11, "@is"),
-                new GherkinLineSpan(16, "@a tag")
+                new GherkinLineSpan(16, "@a"),
+                new GherkinLineSpan(19, "@tag")
         ), gherkinLineSpans);
     }
 

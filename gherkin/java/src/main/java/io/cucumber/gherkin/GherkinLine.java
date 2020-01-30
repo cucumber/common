@@ -59,7 +59,7 @@ public class GherkinLine implements IGherkinLine {
     public List<GherkinLineSpan> getTags() {
         int comment = trimmedLineText.indexOf(GherkinLanguageConstants.COMMENT_PREFIX);
 
-        String trimmedUncommentedLineText = comment == -1 ? trimmedLineText : trimmedLineText.substring(0, comment);
+        String trimmedUncommentedLineText = comment < 0 ? trimmedLineText : trimmedLineText.substring(0, comment);
 
         List<GherkinLineSpan> lineSpans = new ArrayList<GherkinLineSpan>();
 
@@ -67,13 +67,11 @@ public class GherkinLine implements IGherkinLine {
                 .useDelimiter(GherkinLanguageConstants.TAG_PREFIX);
 
         while (scanner.hasNext()) {
-            String cell = GherkinLanguageConstants.TAG_PREFIX + scanner.next();
-            int cellIndent = symbolCount(cell) - symbolCount(cell);
-
+            String cell = (GherkinLanguageConstants.TAG_PREFIX + scanner.next()).split("\\s+")[0];
             String trimmedCell = rtrim(cell);
             int scannerStart = scanner.match().start() - 1;
             int symbolLength = trimmedUncommentedLineText.codePointCount(0, scannerStart);
-            int column = 1 + indent() + symbolLength + cellIndent;
+            int column = 1 + indent() + symbolLength;
             lineSpans.add(new GherkinLineSpan(column, trimmedCell));
         }
         return lineSpans;
