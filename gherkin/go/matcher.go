@@ -110,7 +110,7 @@ func (m *matcher) MatchTagLine(line *Line) (ok bool, token *Token, err error) {
 		}
 		if !regexp.MustCompile(`^\S+$`).MatchString(txt) {
 			location := &Location{line.LineNumber, column}
-			msg := "A tag may not contain whitespace: " + line.TrimmedLineText
+			msg := "A tag may not contain whitespace"
 			err = &parseError{msg, location}
 			break
 		}

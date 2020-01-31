@@ -7,6 +7,6 @@
       },
       "uri": "testdata/bad/whitespace_in_tags.feature"
     },
-    "text": "(3:3): A tag may not contain whitespace: @a tag containing whitespace"
+    "text": "(3:3): A tag may not contain whitespace"
   }
 }

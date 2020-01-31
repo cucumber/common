@@ -75,7 +75,7 @@ public class GherkinLine implements IGherkinLine {
             int symbolLength = uncommentedLine.codePointCount(0, indexInUncommentedLine);
             int column = indent() + symbolLength + 1;
             if (!token.matches("^\\S+$")) {
-                throw new ParserException("A tag may not contain whitespace: " + trimmedLineText, new Location(line, column));
+                throw new ParserException("A tag may not contain whitespace", new Location(line, column));
             }
             tags.add(new GherkinLineSpan(column, TAG_PREFIX + token));
             indexInUncommentedLine += element.length() + 1;

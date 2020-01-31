@@ -92,7 +92,7 @@ export default class GherkinLine {
       }
       if (!item.match(/^\S+$/)) {
         throw ParserException.create(
-          'A tag may not contain whitespace: ' + this.trimmedLineText,
+          'A tag may not contain whitespace',
           this.lineNumber,
           column
         )

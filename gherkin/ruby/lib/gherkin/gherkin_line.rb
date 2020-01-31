@@ -94,7 +94,7 @@ module Gherkin
 
         unless item =~ /^\S+$/
           location = {line: @line_number, column: column}
-          raise ParserException.new('A tag may not contain whitespace: ' + @trimmed_line_text.rstrip, location)
+          raise ParserException.new('A tag may not contain whitespace', location)
         end
 
         tags << Span.new(column, '@' + item)
