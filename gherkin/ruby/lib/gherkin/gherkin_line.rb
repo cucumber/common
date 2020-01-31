@@ -86,13 +86,19 @@ module Gherkin
       items = uncommented_line.split('@')
 
       tags = []
-      items.each { |item|
-        trimmed = item.strip
-        if trimmed.length == 0
+      items.each { |untrimmed|
+        item = untrimmed.strip
+        if item.length == 0
           next
         end
-        tags << Span.new(column, '@' + trimmed)
-        column += item.length + 1
+
+        unless item =~ /^\S+$/
+          location = {line: @line_number, column: column}
+          raise ParserException.new('A tag may not contain whitespace: ' + @trimmed_line_text.rstrip, location)
+        end
+
+        tags << Span.new(column, '@' + item)
+        column += untrimmed.length + 1
       }
       tags
     end
