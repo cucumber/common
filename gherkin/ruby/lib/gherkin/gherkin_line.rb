@@ -81,15 +81,20 @@ module Gherkin
     end
 
     def tags
-      column = @indent + 1;
-      items = @trimmed_line_text.strip.split('@')
-      items = items[1..-1] # ignore before the first @
-      items.map do |item|
-        length = item.length
-        span = Span.new(column, '@' + item.strip)
-        column += length + 1
-        span
-      end
+      uncommented_line = @trimmed_line_text.split(/\s#/,2)[0]
+      column = @indent + 1
+      items = uncommented_line.split('@')
+
+      tags = []
+      items.each { |item|
+        trimmed = item.strip
+        if trimmed.length == 0
+          next
+        end
+        tags << Span.new(column, '@' + trimmed)
+        column += item.length + 1
+      }
+      tags
     end
 
     class Span < Struct.new(:column, :text); end
