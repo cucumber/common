@@ -18,12 +18,12 @@ public class GherkinLine implements IGherkinLine {
     private final String lineText;
     private final String trimmedLineText;
     private final int indent;
-    private final Location location;
+    private final int line;
 
-    public GherkinLine(String lineText, Location location) {
+    public GherkinLine(String lineText, int line) {
         this.lineText = lineText;
         this.trimmedLineText = trim(lineText);
-        this.location = location;
+        this.line = line;
         indent = symbolCount(lineText) - symbolCount(ltrim(lineText));
     }
 
@@ -61,25 +61,24 @@ public class GherkinLine implements IGherkinLine {
 
     @Override
     public List<GherkinLineSpan> getTags() {
-        int column = 1;
 
         String uncommentedLine = trimmedLineText.split("\\s" + COMMENT_PREFIX, 2)[0];
         List<GherkinLineSpan> tags = new ArrayList<>();
+        int indexInUncommentedLine = 0;
 
         String[] elements = uncommentedLine.split(TAG_PREFIX);
-        for (int i = 1; i < elements.length; i++) {
-            String element = elements[i];
-            int symbolLength = uncommentedLine.codePointCount(0, column);
-            column += element.length() + 1;
-
+        for (String element : elements) {
             String token = rtrim(element);
             if (token.isEmpty()) {
                 continue;
             }
+            int symbolLength = uncommentedLine.codePointCount(0, indexInUncommentedLine);
+            int column = indent() + symbolLength + 1;
             if (!token.matches("\\S+")) {
-                throw new ParserException("A tag may not contain whitespace: " + trimmedLineText, location);
+                throw new ParserException("A tag may not contain whitespace: " + trimmedLineText, new Location(line, column));
             }
-            tags.add(new GherkinLineSpan(indent() + symbolLength, TAG_PREFIX + token));
+            tags.add(new GherkinLineSpan(column, TAG_PREFIX + token));
+            indexInUncommentedLine += element.length() + 1;
         }
         return tags;
     }

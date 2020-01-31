@@ -12,11 +12,11 @@ import static org.junit.Assert.assertThrows;
 
 public class GherkinLineTest {
 
-    private final Location location = new Location(-1, 12);
+    private final int line = 12;
 
     @Test
     public void finds_tags() {
-        GherkinLine gherkinLine = new GherkinLine("@this @is @a @tag", location);
+        GherkinLine gherkinLine = new GherkinLine("@this @is @a @tag", line);
         List<GherkinLineSpan> gherkinLineSpans = gherkinLine.getTags();
 
         assertEquals(asList(
@@ -29,19 +29,19 @@ public class GherkinLineTest {
 
     @Test
     public void throws_on_tags_with_spaces() {
-        GherkinLine gherkinLine = new GherkinLine("@this @is @a space separated @tag", location);
+        GherkinLine gherkinLine = new GherkinLine("@this @is @a space separated @tag", line);
         assertThrows(ParserException.class, gherkinLine::getTags);
     }
 
     @Test
     public void throws_on_tags_with_leading_spaces() {
-        GherkinLine gherkinLine = new GherkinLine("@ leadingSpace", location);
+        GherkinLine gherkinLine = new GherkinLine("@ leadingSpace", line);
         assertThrows(ParserException.class, gherkinLine::getTags);
     }
 
     @Test
     public void ignores_empty_tag() {
-        GherkinLine gherkinLine = new GherkinLine("@", location);
+        GherkinLine gherkinLine = new GherkinLine("@", line);
         List<GherkinLineSpan> gherkinLineSpans = gherkinLine.getTags();
 
         assertEquals(Collections.emptyList(), gherkinLineSpans);
@@ -49,7 +49,7 @@ public class GherkinLineTest {
 
     @Test
     public void ignores_empty_tags() {
-        GherkinLine gherkinLine = new GherkinLine("@@", location);
+        GherkinLine gherkinLine = new GherkinLine("@@", line);
         List<GherkinLineSpan> gherkinLineSpans = gherkinLine.getTags();
 
         assertEquals(Collections.emptyList(), gherkinLineSpans);
@@ -57,7 +57,7 @@ public class GherkinLineTest {
 
     @Test
     public void finds_tags__trim_whitespace() {
-        GherkinLine gherkinLine = new GherkinLine("    @this @is  @a @tag  ", location);
+        GherkinLine gherkinLine = new GherkinLine("    @this @is  @a @tag  ", line);
         List<GherkinLineSpan> gherkinLineSpans = gherkinLine.getTags();
 
         assertEquals(asList(
@@ -70,7 +70,7 @@ public class GherkinLineTest {
 
     @Test
     public void finds_tags__comment_inside_tag() {
-        GherkinLine gherkinLine = new GherkinLine("@this @is #acomment  ", location);
+        GherkinLine gherkinLine = new GherkinLine("@this @is #acomment  ", line);
         List<GherkinLineSpan> gherkinLineSpans = gherkinLine.getTags();
 
         assertEquals(asList(
@@ -81,7 +81,7 @@ public class GherkinLineTest {
 
     @Test
     public void finds_tags__commented_before_tag() {
-        GherkinLine gherkinLine = new GherkinLine("@this @is #@a commented tag", location);
+        GherkinLine gherkinLine = new GherkinLine("@this @is #@a commented tag", line);
         List<GherkinLineSpan> gherkinLineSpans = gherkinLine.getTags();
 
         assertEquals(asList(
@@ -92,7 +92,7 @@ public class GherkinLineTest {
 
     @Test
     public void finds_tags__commented_multiple_tags() {
-        GherkinLine gherkinLine = new GherkinLine("@this @is #@a @commented @sequence of tags", location);
+        GherkinLine gherkinLine = new GherkinLine("@this @is #@a @commented @sequence of tags", line);
         List<GherkinLineSpan> gherkinLineSpans = gherkinLine.getTags();
 
         assertEquals(asList(
@@ -109,7 +109,7 @@ public class GherkinLineTest {
         // - U+0009 (tab)
         // This is generated with `ruby -e 'STDOUT.write "\u00A0\u0020\u0009".encode("utf-8")' | pbcopy`
         // and pasted.
-        GherkinLine gherkinLine = new GherkinLine("      |  \tred  \t|  \tblue  \t|  \t\uD83E\uDD52\uD83E\uDD52\uD83E\uDD52  \t|  \tgreen  \t|", location);
+        GherkinLine gherkinLine = new GherkinLine("      |  \tred  \t|  \tblue  \t|  \t\uD83E\uDD52\uD83E\uDD52\uD83E\uDD52  \t|  \tgreen  \t|", line);
         GherkinLineSpan redSpan = gherkinLine.getTableCells().get(0);
         GherkinLineSpan blueSpan = gherkinLine.getTableCells().get(1);
         GherkinLineSpan emojiSpan = gherkinLine.getTableCells().get(2);
@@ -130,7 +130,7 @@ public class GherkinLineTest {
 
     @Test
     public void finds_escaped_table_cells() {
-        GherkinLine gherkinLine = new GherkinLine("      | \\|æ\\\\n     | \\o\\no\\  | \\\\\\|a\\\\\\\\n | ø\\\\\\nø\\\\|", location);
+        GherkinLine gherkinLine = new GherkinLine("      | \\|æ\\\\n     | \\o\\no\\  | \\\\\\|a\\\\\\\\n | ø\\\\\\nø\\\\|", line);
 
         List<String> texts = gherkinLine.getTableCells().stream().map(span -> span.text).collect(Collectors.toList());
         assertEquals(asList("|æ\\n", "\\o\no\\", "\\|a\\\\n", "ø\\\nø\\"), texts);
@@ -138,14 +138,14 @@ public class GherkinLineTest {
 
     @Test
     public void escapes_backslash() {
-        GherkinLine gherkinLine = new GherkinLine("|\\\\o\\no\\||", location);
+        GherkinLine gherkinLine = new GherkinLine("|\\\\o\\no\\||", line);
         List<String> texts = gherkinLine.getTableCells().stream().map(span -> span.text).collect(Collectors.toList());
         assertEquals(asList("\\o\no|"), texts);
     }
 
     @Test
     public void throws_on_illegal_escapes_backslash() {
-        GherkinLine gherkinLine = new GherkinLine("|\\o\\no\\||", location);
+        GherkinLine gherkinLine = new GherkinLine("|\\o\\no\\||", line);
         List<String> texts = gherkinLine.getTableCells().stream().map(span -> span.text).collect(Collectors.toList());
         assertEquals(asList("\\o\no|"), texts);
     }
