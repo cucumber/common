@@ -1,0 +1,11 @@
+{
+  "attachment": {
+    "source": {
+      "location": {
+        "line": 3
+      },
+      "uri": "testdata/bad/whitespace_in_tags.feature"
+    },
+    "text": "(3:0): A tag may not contain whitespace: @a tag containing whitespace"
+  }
+}
