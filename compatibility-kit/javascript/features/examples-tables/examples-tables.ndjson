@@ -38,7 +38,7 @@
 {"testStepStarted":{"timestamp":{"seconds":"0","nanos":34000000},"testStepId":"49","testCaseStartedId":"66"}}
 {"testStepFinished":{"testResult":{"status":"PASSED","duration":{"seconds":"0","nanos":1000000}},"timestamp":{"seconds":"0","nanos":37000000},"testStepId":"49","testCaseStartedId":"66"}}
 {"testStepStarted":{"timestamp":{"seconds":"0","nanos":38000000},"testStepId":"50","testCaseStartedId":"66"}}
-{"testStepFinished":{"testResult":{"status":"FAILED","message":"Input A expected to strictly equal input B:\n+ expected - actual\n\n- -8\n+ 0\nfeatures/examples-tables/examples-tables.feature:10\nfeatures/examples-tables/examples-tables.feature:19","duration":{"seconds":"0","nanos":1000000}},"timestamp":{"seconds":"0","nanos":41000000},"testStepId":"50","testCaseStartedId":"66"}}
+{"testStepFinished":{"testResult":{"status":"FAILED","message":"Expected values to be strictly equal:\n\n-8 !== 0\n\nfeatures/examples-tables/examples-tables.feature:10\nfeatures/examples-tables/examples-tables.feature:19","duration":{"seconds":"0","nanos":1000000}},"timestamp":{"seconds":"0","nanos":41000000},"testStepId":"50","testCaseStartedId":"66"}}
 {"testCaseFinished":{"timestamp":{"seconds":"0","nanos":42000000},"testCaseStartedId":"66"}}
 {"testCaseStarted":{"timestamp":{"seconds":"0","nanos":43000000},"attempt":0,"testCaseId":"55","id":"67"}}
 {"testStepStarted":{"timestamp":{"seconds":"0","nanos":44000000},"testStepId":"52","testCaseStartedId":"67"}}
@@ -46,7 +46,7 @@
 {"testStepStarted":{"timestamp":{"seconds":"0","nanos":48000000},"testStepId":"53","testCaseStartedId":"67"}}
 {"testStepFinished":{"testResult":{"status":"PASSED","duration":{"seconds":"0","nanos":1000000}},"timestamp":{"seconds":"0","nanos":51000000},"testStepId":"53","testCaseStartedId":"67"}}
 {"testStepStarted":{"timestamp":{"seconds":"0","nanos":52000000},"testStepId":"54","testCaseStartedId":"67"}}
-{"testStepFinished":{"testResult":{"status":"FAILED","message":"Input A expected to strictly equal input B:\n+ expected - actual\n\n- -1\n+ 0\nfeatures/examples-tables/examples-tables.feature:10\nfeatures/examples-tables/examples-tables.feature:20","duration":{"seconds":"0","nanos":1000000}},"timestamp":{"seconds":"0","nanos":55000000},"testStepId":"54","testCaseStartedId":"67"}}
+{"testStepFinished":{"testResult":{"status":"FAILED","message":"Expected values to be strictly equal:\n\n-1 !== 0\n\nfeatures/examples-tables/examples-tables.feature:10\nfeatures/examples-tables/examples-tables.feature:20","duration":{"seconds":"0","nanos":1000000}},"timestamp":{"seconds":"0","nanos":55000000},"testStepId":"54","testCaseStartedId":"67"}}
 {"testCaseFinished":{"timestamp":{"seconds":"0","nanos":56000000},"testCaseStartedId":"67"}}
 {"testCaseStarted":{"timestamp":{"seconds":"0","nanos":57000000},"attempt":0,"testCaseId":"59","id":"68"}}
 {"testStepStarted":{"timestamp":{"seconds":"0","nanos":58000000},"testStepId":"56","testCaseStartedId":"68"}}
