@@ -14,7 +14,7 @@ module Cucumber
       def remove_empties(ob)
         if Hash === ob
           ob.each do |key, value|
-            if value == [] || value == ''
+            if value == [] || value == '' || value == 0
               ob.delete(key)
             else
               remove_empties(value)
