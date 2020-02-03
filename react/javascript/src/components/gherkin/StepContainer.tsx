@@ -6,13 +6,14 @@ interface IProps {
   status: messages.TestResult.Status
 }
 
-const StepContainer: React.FunctionComponent<IProps> = ({ status,children }) => {
+const StepContainer: React.FunctionComponent<IProps> = ({
+  status,
+  children,
+}) => {
   return (
     <div>
-        <span className={`status-${statusName(status)}`}>
-            Icon
-        </span>
-        {children}
+      <span className={`status-${statusName(status)}`}>Icon</span>
+      {children}
     </div>
   )
 }

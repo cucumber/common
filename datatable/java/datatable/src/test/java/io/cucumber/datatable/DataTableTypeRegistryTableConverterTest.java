@@ -10,12 +10,20 @@ import java.beans.ConstructorProperties;
 import java.lang.reflect.Type;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.TimeZone;
 
 import static io.cucumber.datatable.DataTable.emptyDataTable;
 import static io.cucumber.datatable.TableParser.parse;
 import static io.cucumber.datatable.TypeFactory.typeName;
-import static io.cucumber.datatable.UndefinedDataTableTypeException.*;
+import static io.cucumber.datatable.UndefinedDataTableTypeException.listNoConverterDefined;
+import static io.cucumber.datatable.UndefinedDataTableTypeException.listsNoConverterDefined;
+import static io.cucumber.datatable.UndefinedDataTableTypeException.mapNoConverterDefined;
+import static io.cucumber.datatable.UndefinedDataTableTypeException.mapsNoConverterDefined;
+import static io.cucumber.datatable.UndefinedDataTableTypeException.singletonNoConverterDefined;
 import static java.lang.Double.parseDouble;
 import static java.lang.String.format;
 import static java.util.Arrays.asList;
@@ -26,7 +34,10 @@ import static java.util.Locale.ENGLISH;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.startsWith;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class DataTableTypeRegistryTableConverterTest {
 
@@ -78,13 +89,6 @@ class DataTableTypeRegistryTableConverterTest {
     private static final TableCellTransformer<Piece> PIECE_TABLE_CELL_TRANSFORMER = Piece::fromString;
     private static final TableCellTransformer<AirPortCode> AIR_PORT_CODE_TABLE_CELL_TRANSFORMER = AirPortCode::new;
     private static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
-
-    static {
-        SIMPLE_DATE_FORMAT.setTimeZone(TimeZone.getTimeZone("UTC"));
-    }
-
-    private static DataTableType DATE_TABLE_CELL_TRANSFORMER = new DataTableType(Date.class, (String cell) -> SIMPLE_DATE_FORMAT.parse(cell));
-
     private static final TableEntryTransformer<Coordinate> COORDINATE_TABLE_ENTRY_TRANSFORMER = tableEntry -> new Coordinate(
             parseDouble(tableEntry.get("lat")),
             parseDouble(tableEntry.get("lon"))
@@ -101,15 +105,18 @@ class DataTableTypeRegistryTableConverterTest {
             (Map<String, String> entry, Type type, TableCellByTypeTransformer cellTransformer) -> {
                 throw new IllegalStateException("Should not be used");
             };
-
     private static final TableCellByTypeTransformer TABLE_CELL_BY_TYPE_CONVERTER_SHOULD_NOT_BE_USED = (value, cellType) -> {
         throw new IllegalStateException("Should not be used");
     };
     private static final TableEntryByTypeTransformer JACKSON_TABLE_ENTRY_BY_TYPE_CONVERTER =
             (entry, type, cellTransformer) -> objectMapper.convertValue(entry, objectMapper.constructType(type));
-
     private static final TableCellByTypeTransformer JACKSON_TABLE_CELL_BY_TYPE_CONVERTER =
             (value, cellType) -> objectMapper.convertValue(value, objectMapper.constructType(cellType));
+    private static DataTableType DATE_TABLE_CELL_TRANSFORMER = new DataTableType(Date.class, (String cell) -> SIMPLE_DATE_FORMAT.parse(cell));
+
+    static {
+        SIMPLE_DATE_FORMAT.setTimeZone(TimeZone.getTimeZone("UTC"));
+    }
 
     private DataTableTypeRegistry registry = new DataTableTypeRegistry(ENGLISH);
     private final TableConverter converter = new DataTableTypeRegistryTableConverter(registry);
@@ -879,6 +886,23 @@ class DataTableTypeRegistryTableConverterTest {
         assertEquals(expected, converter.toMaps(table, Integer.class, Integer.class));
         assertEquals(expected, converter.convert(table, LIST_OF_MAP_OF_INT_TO_INT));
     }
+    @Test
+    void convert_to_maps_of_integer_to_null() {
+        DataTable table = DataTable.create(asList(
+                asList("1", "2"),
+                asList(null, null)
+        ));
+
+        List<HashMap<Integer, Integer>> expected = singletonList(
+                new HashMap<Integer, Integer>() {{
+                    put(1, null);
+                    put(2, null);
+                }}
+        );
+
+        assertEquals(expected, converter.toMaps(table, Integer.class, Integer.class));
+        assertEquals(expected, converter.convert(table, LIST_OF_MAP_OF_INT_TO_INT));
+    }
 
     @Test
     void convert_to_object() {
@@ -1287,6 +1311,23 @@ class DataTableTypeRegistryTableConverterTest {
         assertThat(exception.getMessage(), is(format("" +
                         "Can't convert DataTable to Map<%s, %s>. " +
                         "Encountered duplicate key 1 with values 4 and 5",
+                typeName(Integer.class), typeName(Integer.class))));
+    }
+
+    @Test
+    void to_maps_cant_convert_table_with_duplicate_null_keys() {
+        DataTable table = DataTable.create(asList(
+                asList(null, null),
+                asList("1", "2")
+        ));
+
+        CucumberDataTableException exception = assertThrows(
+                CucumberDataTableException.class,
+                () -> converter.toMaps(table, Integer.class, Integer.class)
+        );
+        assertThat(exception.getMessage(), is(format("" +
+                        "Can't convert DataTable to Map<%s, %s>. " +
+                        "Encountered duplicate key null with values 1 and 2",
                 typeName(Integer.class), typeName(Integer.class))));
     }
 

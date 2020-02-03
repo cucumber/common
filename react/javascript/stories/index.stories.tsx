@@ -20,6 +20,8 @@ import hooks from '../../../compatibility-kit/javascript/features/hooks/hooks.nd
 // @ts-ignore
 import parameterTypes from '../../../compatibility-kit/javascript/features/parameter-types/parameter-types.ndjson'
 // @ts-ignore
+import rules from '../../../compatibility-kit/javascript/features/rules/rules.ndjson'
+// @ts-ignore
 import stackTraces from '../../../compatibility-kit/javascript/features/stack-traces/stack-traces.ndjson'
 
 
@@ -59,6 +61,11 @@ storiesOf('Features', module)
   })
   .add('Parameter Types', () => {
     return <Wrapper envelopes={envelopes(parameterTypes)}>
+      <GherkinDocumentList/>
+    </Wrapper>
+  })
+  .add('Rules', () => {
+    return <Wrapper envelopes={envelopes(rules)}>
       <GherkinDocumentList/>
     </Wrapper>
   })

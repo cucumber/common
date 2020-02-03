@@ -5,7 +5,7 @@ Feature: Stack traces
   - Include a stack frame from the Gherkin document
   - Remove uninteresting frames by default
 
-  Rule: The first line of the stack trace must contain the feature file.
+  The first line of the stack trace must contain the feature file.
 
-    Scenario: A failing step
-      When a step throws an exception
+  Scenario: A failing step
+    When a step throws an exception

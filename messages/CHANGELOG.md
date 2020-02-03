@@ -17,6 +17,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+* Ruby: Fixed rounding errors in `TimeConversion`
+
 ## [9.0.3] - 2020-01-10
 
 ### Fixed

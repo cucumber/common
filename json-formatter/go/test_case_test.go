@@ -1,7 +1,7 @@
 package json
 
 import (
-	messages "github.com/cucumber/messages-go/v9"
+	"github.com/cucumber/messages-go/v9"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 )
@@ -14,7 +14,9 @@ var _ = Describe("TestCase.appendStep", func() {
 	)
 
 	BeforeEach(func() {
-		testCase = &TestCase{}
+		testCase = &TestCase{
+			Steps: make([]*TestStep, 0),
+		}
 		hookTestStep = &TestStep{
 			Hook: &messages.Hook{
 				Id: "my-hook",
@@ -233,7 +235,7 @@ var _ = Describe("ProcessTestCaseStarted", func() {
 		)
 		lookup.ProcessMessage(makeTestCaseEnvelope(testCaseMsg))
 
-		testCase = ProcessTestCaseStarted(&messages.TestCaseStarted{
+		_, testCase = ProcessTestCaseStarted(&messages.TestCaseStarted{
 			TestCaseId: testCaseMsg.Id,
 		}, lookup)
 	})
@@ -336,7 +338,7 @@ var _ = Describe("ProcessTestCaseStarted", func() {
 		})
 
 		It("returns nil if the TestCase has not been defined", func() {
-			testCase := ProcessTestCaseStarted(&messages.TestCaseStarted{
+			_, testCase := ProcessTestCaseStarted(&messages.TestCaseStarted{
 				TestCaseId: "unknown-test-case-id",
 			}, lookup)
 
@@ -344,7 +346,7 @@ var _ = Describe("ProcessTestCaseStarted", func() {
 		})
 
 		It("returns nil if the Pickle is Unknown", func() {
-			testCase := ProcessTestCaseStarted(&messages.TestCaseStarted{
+			_, testCase := ProcessTestCaseStarted(&messages.TestCaseStarted{
 				TestCaseId: testCaseReferencingUnknownPickle.Id,
 			}, lookup)
 
@@ -352,7 +354,7 @@ var _ = Describe("ProcessTestCaseStarted", func() {
 		})
 
 		It("returns nil if the Pickle has no source", func() {
-			testCase := ProcessTestCaseStarted(&messages.TestCaseStarted{
+			_, testCase := ProcessTestCaseStarted(&messages.TestCaseStarted{
 				TestCaseId: testCaseForPickleWithoutSource.Id,
 			}, lookup)
 
@@ -360,7 +362,7 @@ var _ = Describe("ProcessTestCaseStarted", func() {
 		})
 
 		It("returns nil if the Pickle references an unknown scenario", func() {
-			testCase := ProcessTestCaseStarted(&messages.TestCaseStarted{
+			_, testCase := ProcessTestCaseStarted(&messages.TestCaseStarted{
 				TestCaseId: testCaseForPickleWithWrongScenarioReference.Id,
 			}, lookup)
 
@@ -368,7 +370,7 @@ var _ = Describe("ProcessTestCaseStarted", func() {
 		})
 
 		It("returns nil if the Pickle does not reference an existing Gherkin document", func() {
-			testCase := ProcessTestCaseStarted(&messages.TestCaseStarted{
+			_, testCase := ProcessTestCaseStarted(&messages.TestCaseStarted{
 				TestCaseId: testCaseForPickleWithWrongDocumentURI.Id,
 			}, lookup)
 
@@ -376,7 +378,7 @@ var _ = Describe("ProcessTestCaseStarted", func() {
 		})
 
 		It("returns Nil at least one PickleTag references a non-existing tag", func() {
-			testCase := ProcessTestCaseStarted(&messages.TestCaseStarted{
+			_, testCase := ProcessTestCaseStarted(&messages.TestCaseStarted{
 				TestCaseId: testCaseForPickleWithUnknownTag.Id,
 			}, lookup)
 
@@ -426,6 +428,7 @@ var _ = Describe("TestCaseToJSON", func() {
 					Name: "@foo",
 				},
 			},
+			Steps: make([]*TestStep, 0),
 		}
 
 		testCase.appendStep(&TestStep{

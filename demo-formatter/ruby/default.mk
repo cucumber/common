@@ -32,11 +32,16 @@ endif
 endif
 .PHONY: gem
 
-$(GEM): clean .tested
+$(GEM): .tested
 	gem build $(GEMSPEC)
 	test -s "$(GEM)" || { echo "Gem not built: $(GEM)"; exit 1; }
 
-pre-release: update-version update-dependencies gem
+remove-local-dependencies:
+	cat Gemfile | sed 's/^gem /#gem /' > Gemfile.tmp
+	mv Gemfile.tmp Gemfile
+.PHONY: remove-local-dependencies
+
+pre-release: remove-local-dependencies update-version update-dependencies gem
 .PHONY: pre-release
 
 update-version:
@@ -59,7 +64,8 @@ endif
 .PHONY: publish
 
 post-release:
-	@echo "No post-release needed for ruby"
+	cat Gemfile | sed 's/^#gem /gem /' > Gemfile.tmp
+	mv Gemfile.tmp Gemfile
 .PHONY: post-release
 
 clean: clean-ruby

@@ -1,3 +1,4 @@
+LANGUAGES ?= javascript
 include default.mk
 
 default: cucumber-html-formatter cucumber-json-formatter
