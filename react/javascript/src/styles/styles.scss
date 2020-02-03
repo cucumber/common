@@ -10,7 +10,7 @@ $white : #F0EFFB;
 
 .status-passed { background-color: #2CB14A }
 .status-skipped { background-color: #00A0CC }
-.status-pending { background-color: #FFAD33}
+.status-pending { background-color: #FFAD33 }
 .status-undefined { background-color: #FFAD33 }
 .status-ambiguous { background-color: #F4EBFD }
 .status-failed { background-color: #BB0000 }
@@ -18,10 +18,25 @@ $white : #F0EFFB;
 
 .cucumber-react {
     h1, h2, h3 {
-        margin: 0.1em;
+        margin-left: 0.1em;
+        margin-top: 1em;
+        margin-bottom: 1.5em;
+    }
+    h3 {
+        display: inline-block;
+    }
+    .accordion__heading {
+        position: relative;
+        .status-badge {
+            top: 0.5em;
+        }
     }
     .status-badge {
-        float: right;
+        position: absolute;
+        text-align: center;
+        width: 5em;
+        right: 25px;
+        top: 1em;
         color: $white;
         padding: 0.75em;
         border-radius: 30px;
@@ -68,10 +83,11 @@ $white : #F0EFFB;
     }
 
     .step {
+        position: relative;
         padding: 0.5em;
         margin-left: 0;
-        margin-top: 0;
-        margin-bottom: 1em;
+        margin-top: 2em;
+        margin-bottom: 2em;
         box-shadow: 4px 4px 8px #B6BECB;
 
         &-text {
@@ -82,6 +98,8 @@ $white : #F0EFFB;
             font-weight: bold;
             color: #F0EFFB;
             background-color:#4234C5 !important;
+            padding: 0.5em;
+            border-radius: 5px;
         }
     }
 

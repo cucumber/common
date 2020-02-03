@@ -5,6 +5,7 @@ import GherkinDocumentList from '../src/components/app/GherkinDocumentList'
 import '../src/styles/react-accessible-accordion.css'
 import '../src/styles/styles.scss'
 import Wrapper from '../src/components/app/Wrapper'
+import StepContainer from '../src/components/gherkin/StepContainer'
 
 // @ts-ignore
 import documentList from '../testdata/all.ndjson'
@@ -21,12 +22,16 @@ import parameterTypes from '../../../compatibility-kit/javascript/features/param
 // @ts-ignore
 import stackTraces from '../../../compatibility-kit/javascript/features/stack-traces/stack-traces.ndjson'
 
+
 function envelopes(ndjson: string): messages.IEnvelope[] {
   return ndjson.trim().split('\n')
     .map((json: string) => messages.Envelope.fromObject(JSON.parse(json)))
 }
 
 storiesOf('Features', module)
+  .add('Step Container', () => {
+    return <StepContainer status={messages.TestResult.Status.PASSED}>Hello</StepContainer>
+  })
   .add('Document list', () => {
     return <Wrapper envelopes={envelopes(documentList)}>
       <GherkinDocumentList/>
