@@ -22,6 +22,23 @@ module Cucumber
         expect(json).to eq("{\"source\":{}}\n")
       end
 
+      it 'does not omit zero values' do
+        io = StringIO.new
+        message = Envelope.new(
+          attachment: Attachment.new(
+            source: SourceReference.new(
+              location: Location.new(line: 0)
+            )
+          )
+        )
+        message.write_ndjson_to(io)
+
+        io.rewind
+        json = io.read
+
+        expect(json).to match(/line": ?0/)
+      end
+
       it "can be serialised over an ndjson stream" do
         outgoing_messages = [
           Envelope.new(source: Source.new(data: 'Feature: Hello')),
