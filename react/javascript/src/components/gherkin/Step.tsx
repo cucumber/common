@@ -29,13 +29,17 @@ const Step: React.FunctionComponent<IProps> = ({
   )
   const uri = React.useContext(UriContext)
 
-  const pickleStepIds = gherkinQuery.getPickleStepIds(uri, step.location.line)
-  const pickleStepResults = testResultQuery.getPickleStepResults(pickleStepIds)
-  const testResult = testResultQuery.getWorstResult(pickleStepResults)
-
   const stepTextElements: JSX.Element[] = []
+  let testResult: messages.ITestResult = new messages.TestResult({
+    status: messages.TestResult.Status.UNKNOWN,
+  })
 
   if (renderStepMatchArguments) {
+    const pickleStepIds = gherkinQuery.getPickleStepIds(uri, step.location.line)
+    const pickleStepResults = testResultQuery.getPickleStepResults(
+      pickleStepIds
+    )
+    testResult = testResultQuery.getWorstResult(pickleStepResults)
     const stepMatchArgumentsLists =
       pickleStepIds.length === 0
         ? // This can happen in rare cases for background steps in a document that only has step-less scenarios,

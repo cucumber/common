@@ -31,17 +31,20 @@ $white : #F0EFFB;
             top: 0.5em;
         }
     }
-    .status-badge {
-        position: absolute;
-        text-align: center;
-        width: 5em;
-        right: 25px;
-        top: 1em;
-        color: $white;
-        padding: 0.75em;
-        border-radius: 30px;
 
+    .step-container {
+      display: flex;
+      align-items: center;
+
+      &__status {
+        margin-right: auto;
+      }
+
+      &__step {
+        flex-grow: 1;
+      }
     }
+
 
     ol {
         list-style-type: none;

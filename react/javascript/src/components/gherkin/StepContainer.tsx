@@ -4,7 +4,12 @@ import { messages } from '@cucumber/messages'
 import Status = messages.TestResult.Status
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCheckCircle, faTimesCircle, faFutbol, IconDefinition } from '@fortawesome/free-regular-svg-icons'
+import {
+  faCheckCircle,
+  faTimesCircle,
+  faFutbol,
+  IconDefinition,
+} from '@fortawesome/free-regular-svg-icons'
 
 interface IProps {
   status: messages.TestResult.Status
@@ -28,14 +33,11 @@ const StepContainer: React.FunctionComponent<IProps> = ({
   children,
 }) => {
   return (
-    <div>
-      <div className={`status-${statusName(status)}`}>
-      <FontAwesomeIcon icon={faCheckCircle} color="white" />
-
-      <FontAwesomeIcon icon={faTimesCircle} color="white" />
-
+    <div className="step-container">
+      <div className={`step-container__status status-${statusName(status)}`}>
+        <FontAwesomeIcon icon={statusIcons(status)} color="white" />
       </div>
-      {children}
+      <div className="step-container__step">{children}</div>
     </div>
   )
 }

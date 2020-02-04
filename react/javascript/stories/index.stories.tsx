@@ -23,6 +23,7 @@ import parameterTypes from '../../../compatibility-kit/javascript/features/param
 import rules from '../../../compatibility-kit/javascript/features/rules/rules.ndjson'
 // @ts-ignore
 import stackTraces from '../../../compatibility-kit/javascript/features/stack-traces/stack-traces.ndjson'
+import Step from '../src/components/gherkin/Step'
 
 
 function envelopes(ndjson: string): messages.IEnvelope[] {
@@ -32,10 +33,14 @@ function envelopes(ndjson: string): messages.IEnvelope[] {
 
 storiesOf('Features', module)
   .add('Step Container', () => {
-    return <div>
-      <StepContainer status={messages.TestResult.Status.PASSED}>Given this step passed</StepContainer>
-      <StepContainer status={messages.TestResult.Status.FAILED}>Then this step failed</StepContainer>
-    </div>
+    return <Wrapper envelopes={[]}>
+      <StepContainer status={messages.TestResult.Status.PASSED}>
+        <Step step={{
+          keyword: "Given ",
+          text: "a passed step"
+        }} renderMessage={false} renderStepMatchArguments={false}/>
+      </StepContainer>
+    </Wrapper>
   })
   .add('Document list', () => {
     return <Wrapper envelopes={envelopes(documentList)}>
