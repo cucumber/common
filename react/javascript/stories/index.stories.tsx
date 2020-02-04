@@ -35,10 +35,24 @@ storiesOf('Features', module)
   .add('Step Container', () => {
     return <Wrapper envelopes={[]}>
       <StepContainer status={messages.TestResult.Status.PASSED}>
-        <Step step={{
-          keyword: "Given ",
-          text: "a passed step"
-        }} renderMessage={false} renderStepMatchArguments={false}/>
+        <div>Given a passed step</div>
+        <table>
+          <thead></thead>
+          <tr>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+          </tr>
+        </table>
+      </StepContainer>
+      <StepContainer status={messages.TestResult.Status.FAILED}>
+        <div>When a failed step</div>
+      </StepContainer>
+      <StepContainer status={messages.TestResult.Status.SKIPPED}>
+        <div>Then a skipped step</div>
       </StepContainer>
     </Wrapper>
   })

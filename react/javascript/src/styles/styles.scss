@@ -34,10 +34,10 @@ $white : #F0EFFB;
 
     .step-container {
       display: flex;
-      align-items: center;
 
       &__status {
-        margin-right: auto;
+          padding: 0.5em 3px 3px 3px;
+
       }
 
       &__step {
