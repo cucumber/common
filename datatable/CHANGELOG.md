@@ -8,7 +8,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 
 ### Added
-
+ * [Java] Allow Object and String datatable types to be redefined
+    ([mpkorstanje])
 ### Changed
 
 ### Deprecated
