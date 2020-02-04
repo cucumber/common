@@ -22,6 +22,10 @@
   "dependencies": {
     "@cucumber/messages": "file:../../messages/javascript",
     "@cucumber/query": "file:../../query/javascript",
+    "@fortawesome/fontawesome": "^1.1.8",
+    "@fortawesome/fontawesome-svg-core": "^1.2.26",
+    "@fortawesome/free-solid-svg-icons": "^5.12.0",
+    "@fortawesome/react-fontawesome": "^0.1.8",
     "color": "^3.1.2",
     "react-accessible-accordion": "^3.0.1"
   },
