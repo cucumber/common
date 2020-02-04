@@ -32,7 +32,10 @@ function envelopes(ndjson: string): messages.IEnvelope[] {
 
 storiesOf('Features', module)
   .add('Step Container', () => {
-    return <StepContainer status={messages.TestResult.Status.PASSED}>Hello</StepContainer>
+    return <div>
+      <StepContainer status={messages.TestResult.Status.PASSED}>Given this step passed</StepContainer>
+      <StepContainer status={messages.TestResult.Status.FAILED}>Then this step failed</StepContainer>
+    </div>
   })
   .add('Document list', () => {
     return <Wrapper envelopes={envelopes(documentList)}>
