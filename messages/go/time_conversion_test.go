@@ -23,4 +23,16 @@ func TestTimeConversion(t *testing.T) {
 
 		require.Equal(t, durationInNanoseconds, durationInNanosecondsAgain)
 	})
+
+	t.Run("converts to and from duration (with nanoseconds)", func(t *testing.T) {
+		durationInNanoseconds, err := time.ParseDuration("3s890ns")
+		require.NoError(t, err)
+		duration := GoDurationToDuration(durationInNanoseconds)
+		durationInNanosecondsAgain := DurationToGoDuration(duration)
+
+		require.Equal(t, duration.Seconds, int64(3))
+		require.Equal(t, duration.Nanos, int32(890))
+
+		require.Equal(t, durationInNanoseconds, durationInNanosecondsAgain)
+	})
 }

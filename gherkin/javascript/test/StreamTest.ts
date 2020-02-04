@@ -19,6 +19,12 @@ describe('gherkin', () => {
     assert.strictEqual(envelopes.length, 3)
   })
 
+  it('throws an error when the path is a directory', async () => {
+    assert.rejects(async () =>
+      streamToArray(Gherkin.fromPaths(['testdata/good'], defaultOptions))
+    )
+  })
+
   it('parses gherkin from STDIN', async () => {
     const source = makeSourceEnvelope(
       `Feature: Minimal
