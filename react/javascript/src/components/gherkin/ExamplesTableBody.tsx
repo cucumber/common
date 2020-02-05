@@ -74,7 +74,7 @@ const ErrorMessageRow: React.FunctionComponent<IErrorMessageRowProps> = ({
     <tr className={`status-${statusName(testResult.status)}`}>
       <td>&nbsp;</td>
       <td colSpan={colSpan}>
-        <ErrorMessage status={testResult.status} message={testResult.message} />
+        <ErrorMessage message={testResult.message} />
       </td>
     </tr>
   )

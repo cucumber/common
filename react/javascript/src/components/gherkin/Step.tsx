@@ -114,10 +114,7 @@ const Step: React.FunctionComponent<IProps> = ({
         {step.dataTable && <DataTable dataTable={step.dataTable} />}
         {step.docString && <DocString docString={step.docString} />}
         {renderMessage && testResult.message && (
-          <ErrorMessage
-            status={testResult.status}
-            message={testResult.message}
-          />
+          <ErrorMessage message={testResult.message} />
         )}
       </StepContainer>
     </li>
