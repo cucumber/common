@@ -14,13 +14,13 @@ interface IProps {
 
 const Feature: React.FunctionComponent<IProps> = ({ feature }) => {
   return (
-    <section>
+    <section className="cucumberFeature">
       <Tags tags={feature.tags} />
       <h1>
         <Keyword>{feature.keyword}:</Keyword>{' '}
         <span className="step-text">{feature.name}</span>
       </h1>
-      <div className="indent">
+      <div className="cucumberFeature__indent">
         {feature.description ? (
           <Description description={feature.description} />
         ) : null}

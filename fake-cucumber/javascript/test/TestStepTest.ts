@@ -52,6 +52,8 @@ describe('TestStep', () => {
         testStepFinished.testResult.status,
         messages.TestResult.Status.UNDEFINED
       )
+      assert.notEqual(testStepFinished.testResult.duration, null)
+
       assert.strictEqual(testStepFinished.testStepId, testStep.id)
     })
 
@@ -72,6 +74,8 @@ describe('TestStep', () => {
         testStepFinished.testResult.status,
         messages.TestResult.Status.AMBIGUOUS
       )
+      assert.notEqual(testStepFinished.testResult.duration, null)
+
       assert.strictEqual(testStepFinished.testStepId, testStep.id)
     })
 
@@ -241,6 +245,63 @@ describe('TestStep', () => {
         )
         assert.strictEqual(testStepFinished.testStepId, testStep.id)
       })
+    })
+  })
+
+  describe('#skip', () => {
+    let testStep: ITestStep
+    let receivedMessages: messages.IEnvelope[]
+
+    beforeEach(() => {
+      testStep = makePickleTestStep(
+        'some-test-step-id',
+        messages.Pickle.PickleStep.create({
+          text: 'an undefined step',
+        }),
+        [],
+        ['some.feature:123'],
+        new IncrementClock(),
+        withSourceFramesOnlyStackTrace()
+      )
+
+      receivedMessages = []
+    })
+
+    it('emits a TestStepStarted message', () => {
+      testStep.skip(
+        message => receivedMessages.push(message),
+        'test-case-started-id'
+      )
+
+      const testStepStarted = receivedMessages.find(m => m.testStepStarted)
+        .testStepStarted
+      assert.strictEqual(testStepStarted.testStepId, testStep.id)
+    })
+
+    it('emits a TestStepFinished message with a duration of 0', () => {
+      testStep.skip(
+        message => receivedMessages.push(message),
+        'test-case-started-id'
+      )
+
+      const testStepFinished = receivedMessages.find(m => m.testStepFinished)
+        .testStepFinished
+      assert.strictEqual(testStepFinished.testResult.duration.seconds, 0)
+      assert.strictEqual(testStepFinished.testResult.duration.nanos, 0)
+    })
+
+    it('emits a TestStepFinished message with a result SKIPPED', () => {
+      testStep.skip(
+        message => receivedMessages.push(message),
+        'test-case-started-id'
+      )
+
+      const testStepFinished = receivedMessages.find(m => m.testStepFinished)
+        .testStepFinished
+      assert.strictEqual(
+        testStepFinished.testResult.status,
+        messages.TestResult.Status.SKIPPED
+      )
     })
   })
 })
