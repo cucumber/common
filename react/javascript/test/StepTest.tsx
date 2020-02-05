@@ -67,17 +67,14 @@ describe('Step', () => {
     )
     ReactDOM.render(app, document.getElementById('content'))
 
-    assert.strictEqual(
-      document.querySelector('#content h3 > span:nth-child(2)').innerHTML,
-      'the '
-    )
-    assert.strictEqual(
-      document.querySelector('#content h3 > span:nth-child(3)').innerHTML,
-      '48'
-    )
-    assert.strictEqual(
-      document.querySelector('#content h3 > span:nth-child(4)').innerHTML,
-      ' pixies'
-    )
+    const plainTexts = Array.from(
+      document.querySelectorAll('#content h3 span')
+    ).map(a => a.innerHTML)
+    assert.deepStrictEqual(plainTexts, ['Given', 'the ', ' pixies'])
+
+    const paramTexts = Array.from(
+      document.querySelectorAll('#content h3 a')
+    ).map(a => a.innerHTML)
+    assert.deepStrictEqual(paramTexts, ['48'])
   })
 })

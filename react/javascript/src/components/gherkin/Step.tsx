@@ -3,12 +3,12 @@ import DataTable from './DataTable'
 import Keyword from './Keyword'
 import DocString from './DocString'
 import { messages } from '@cucumber/messages'
-import statusColor from './statusColor'
 import TestResultQueryContext from '../../TestResultsQueryContext'
 import UriContext from '../../UriContext'
 import GherkinQueryContext from '../../GherkinQueryContext'
 import StepMatchArgumentsQueryContext from '../../StepMatchArgumentsQueryContext'
 import ErrorMessage from './ErrorMessage'
+import StepContainer from './StepContainer'
 
 interface IProps {
   step: messages.GherkinDocument.Feature.IStep
@@ -39,7 +39,7 @@ const Step: React.FunctionComponent<IProps> = ({
       pickleStepIds.length === 0
         ? // This can happen in rare cases for background steps in a document that only has step-less scenarios,
           // because background steps are not added to the pickle when the scenario has no steps. In this case
-          // the bacground step will be rendered as undefined (even if there are matching step definitions). This
+          // the background step will be rendered as undefined (even if there are matching step definitions). This
           // is not ideal, but it is rare enough that we don't care about it for now.
           []
         : stepMatchArgumentsQuery.getStepMatchArgumentsLists(pickleStepIds[0])
@@ -60,17 +60,14 @@ const Step: React.FunctionComponent<IProps> = ({
         const arg = argument.group.value
         if (arg.length > 0) {
           stepTextElements.push(
-            <span
+            <a
               className="step-param"
               key={`bold-${index}`}
-              style={{
-                backgroundColor: statusColor(testResult.status)
-                  .darken(0.1)
-                  .hex(),
-              }}
+              href="#"
+              title={argument.parameterTypeName}
             >
               {arg}
-            </span>
+            </a>
           )
         }
         offset += plain.length + arg.length
@@ -108,21 +105,18 @@ const Step: React.FunctionComponent<IProps> = ({
   }
 
   return (
-    <li
-      className="step"
-      style={{ backgroundColor: statusColor(testResult.status).hex() }}
-    >
-      <h3>
-        <Keyword>{step.keyword}</Keyword>
-        {stepTextElements}
-      </h3>
-      <div className="indent">
+    <li className="step">
+      <StepContainer status={testResult.status}>
+        <h3>
+          <Keyword>{step.keyword}</Keyword>
+          {stepTextElements}
+        </h3>
         {step.dataTable && <DataTable dataTable={step.dataTable} />}
         {step.docString && <DocString docString={step.docString} />}
-      </div>
-      {renderMessage && testResult.message && (
-        <ErrorMessage status={testResult.status} message={testResult.message} />
-      )}
+        {renderMessage && testResult.message && (
+          <ErrorMessage message={testResult.message} />
+        )}
+      </StepContainer>
     </li>
   )
 }
