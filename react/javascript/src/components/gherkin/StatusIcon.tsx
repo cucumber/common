@@ -20,7 +20,7 @@ const StatusIcon: React.FunctionComponent<IProps> = ({ status }) => {
     <FontAwesomeIcon
       icon={statusIcon(status)}
       size="1x"
-      className={`status_icon status-${statusName(status)}`}
+      className={`status-${statusName(status)}`}
     />
   )
 }

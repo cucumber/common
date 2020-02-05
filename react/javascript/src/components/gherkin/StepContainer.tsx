@@ -14,7 +14,9 @@ const StepContainer: React.FunctionComponent<IProps> = ({
   // @ts-ignore
   return (
     <div className="step-container">
-      <StatusIcon status={status} />
+      <span className="text_status_icon_container">
+        <StatusIcon status={status} />
+      </span>
       <div className="step-container__step">{children}</div>
     </div>
   )

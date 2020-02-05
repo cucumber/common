@@ -13,6 +13,10 @@ $unknown: #B6BECB;
   padding: .3em;
 }
 
+@mixin border-table-cell {
+  border: 1px solid $border-color;
+}
+
 .cucumber-react {
   h1, h2, h3 {
     padding: 0;
@@ -60,20 +64,48 @@ $unknown: #B6BECB;
     color: $unknown
   }
 
-  table {
-    border: 1px solid $border-color;
+  .data-table {
     border-collapse: collapse;
     margin-top: .5em;
     margin-bottom: .5em;
 
     th {
-      border: 1px solid $border-color;
+      @include border-table-cell;
       @include padding-table-cell;
     }
 
     td {
-      border: 1px solid $border-color;
+      @include border-table-cell;
       @include padding-table-cell;
+
+      &__status {
+        padding: 0.5em 3px 3px 3px;
+      }
+
+      &__step {
+        flex-grow: 1;
+      }
+    }
+  }
+  .examples-table {
+    border-collapse: collapse;
+    margin-top: .5em;
+    margin-bottom: .5em;
+
+    th {
+      @include padding-table-cell;
+    }
+
+    th + th {
+      @include border-table-cell;
+    }
+
+    td {
+      @include padding-table-cell;
+    }
+
+    td + td {
+      @include border-table-cell;
 
       &__status {
           padding: 0.5em 3px 3px 3px;
@@ -120,7 +152,7 @@ $unknown: #B6BECB;
     }
   }
 
-  .status_icon {
+  .text_status_icon_container {
     padding-top: 0.35em;
     padding-right: 0.5em;
   }

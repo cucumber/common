@@ -55,7 +55,9 @@ const GherkinDocumentList: React.FunctionComponent = () => {
             <AccordionItem key={doc.uri} uuid={doc.uri}>
               <AccordionItemHeading>
                 <AccordionItemButton>
-                  <StatusIcon status={gherkinDocumentStatus} />
+                  <span className="text_status_icon_container">
+                    <StatusIcon status={gherkinDocumentStatus} />
+                  </span>
                   <span>{doc.uri}</span>
                 </AccordionItemButton>
               </AccordionItemHeading>

@@ -6,6 +6,7 @@ import isNumber from './isNumber'
 import GherkinQueryContext from '../../GherkinQueryContext'
 import ErrorMessage from './ErrorMessage'
 import statusName from './statusName'
+import StatusIcon from './StatusIcon'
 
 interface IProps {
   rows: messages.GherkinDocument.Feature.ITableRow[]
@@ -38,6 +39,9 @@ const RowOrRows: React.FunctionComponent<IRowOrRows> = ({ row }) => {
   return (
     <>
       <tr className={`status-${statusName(testResult.status)}`}>
+        <td>
+          <StatusIcon status={testResult.status} />
+        </td>
         {row.cells.map((cell, j) => (
           <td
             key={j}
@@ -68,6 +72,7 @@ const ErrorMessageRow: React.FunctionComponent<IErrorMessageRowProps> = ({
   if (!testResult.message) return null
   return (
     <tr className={`status-${statusName(testResult.status)}`}>
+      <td>&nbsp;</td>
       <td colSpan={colSpan}>
         <ErrorMessage status={testResult.status} message={testResult.message} />
       </td>
