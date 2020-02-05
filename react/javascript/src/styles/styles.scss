@@ -1,0 +1,179 @@
+$border-color: #4B5662;
+$white: #F0EFFB;
+
+$passed: #2CB14A;
+$skipped: #00A0CC;
+$pending: #FFAD33;
+$undefined: #FFAD33;
+$ambiguous: #F4EBFD;
+$failed: #BB0000;
+$unknown: #B6BECB;
+
+@mixin padding-table-cell {
+  padding: .3em;
+}
+
+@mixin border-table-cell {
+  border: 1px solid $border-color;
+}
+
+.cucumber-react {
+  h1, h2, h3 {
+    padding: 0;
+    margin-top: 0.3em;
+    margin-bottom: 0;
+    display: inline-block;
+  }
+
+  a { color: inherit; }
+
+  ol {
+    list-style-type: none;
+    padding-left: 0;
+  }
+
+  section {
+    margin-bottom: 1em;
+  }
+
+  .status-passed {
+    color: $passed
+  }
+
+  .status-skipped {
+    color: $skipped
+  }
+
+  .status-pending {
+    color: $pending
+  }
+
+  .status-undefined {
+    color: $undefined
+  }
+
+  .status-ambiguous {
+    color: $ambiguous
+  }
+
+  .status-failed {
+    color: $failed
+  }
+
+  .status-unknown {
+    color: $unknown
+  }
+
+  .data-table {
+    border-collapse: collapse;
+    margin-top: .5em;
+    margin-bottom: .5em;
+
+    th {
+      @include border-table-cell;
+      @include padding-table-cell;
+    }
+
+    td {
+      @include border-table-cell;
+      @include padding-table-cell;
+
+      &__status {
+        padding: 0.5em 3px 3px 3px;
+      }
+
+      &__step {
+        flex-grow: 1;
+      }
+    }
+  }
+  .examples-table {
+    border-collapse: collapse;
+    margin-top: .5em;
+    margin-bottom: .5em;
+
+    th {
+      @include padding-table-cell;
+    }
+
+    th + th {
+      @include border-table-cell;
+    }
+
+    td {
+      @include padding-table-cell;
+    }
+
+    td + td {
+      @include border-table-cell;
+
+      &__status {
+          padding: 0.5em 3px 3px 3px;
+      }
+
+      &__step {
+        flex-grow: 1;
+      }
+    }
+  }
+
+  .gherkin-document-list {
+    font: 14px 'Open Sans', sans-serif;
+    color: #161C24;
+    background: #fff;
+    overflow-x: hidden;
+  }
+
+  .indent {
+    margin-left: 1em;
+  }
+
+  .keyword {
+    font-weight: bold;
+  }
+
+  .step {
+    padding: 0.1em;
+
+    &-text {
+      font-weight: normal;
+    }
+
+    &-param {
+      font-weight: normal;
+    }
+  }
+
+  .step-container {
+    display: flex;
+
+    &__step {
+      flex-grow: 1;
+    }
+  }
+
+  .text_status_icon_container {
+    padding-top: 0.35em;
+    padding-right: 0.5em;
+  }
+
+  .error-message {
+    padding: 0.5em;
+    margin: 0;
+    overflow: scroll;
+  }
+
+  .tag-list {
+    padding: 0;
+    margin-bottom: 0;
+  }
+
+  .tag {
+    display: inline;
+    list-style-type: none;
+    padding: 4px 8px 4px 8px;
+    margin-right: 6px;
+    background-color: #FFFFFF;
+    border-radius: 6px;
+  }
+}
