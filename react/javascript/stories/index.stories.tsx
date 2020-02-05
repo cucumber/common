@@ -35,11 +35,11 @@ storiesOf('Features', module)
   .add('Step Container', () => {
     return <Wrapper envelopes={[]}>
       <StepContainer status={messages.TestResult.Status.PASSED}>
-        <div style={{padding: '30px'}}>Something that passed</div>
+        <div style={{padding: '20px'}}>Something that passed</div>
       </StepContainer>
       <hr/>
       <StepContainer status={messages.TestResult.Status.FAILED}>
-        <div style={{padding: '30px'}}>Something that failed</div>
+        <div style={{padding: '20px'}}>Something that failed</div>
       </StepContainer>
     </Wrapper>
   })

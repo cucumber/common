@@ -1,11 +1,11 @@
 import React from 'react'
 import { messages } from '@cucumber/messages'
-import statusColor from './statusColor'
 import TestResultContext from '../../TestResultsQueryContext'
 import UriContext from '../../UriContext'
 import isNumber from './isNumber'
 import GherkinQueryContext from '../../GherkinQueryContext'
 import ErrorMessage from './ErrorMessage'
+import statusName from './statusName'
 
 interface IProps {
   rows: messages.GherkinDocument.Feature.ITableRow[]
@@ -37,11 +37,7 @@ const RowOrRows: React.FunctionComponent<IRowOrRows> = ({ row }) => {
   )
   return (
     <>
-      <tr
-        style={{
-          backgroundColor: statusColor(testResult.status).hex(),
-        }}
-      >
+      <tr className={`status-${statusName(testResult.status)}`}>
         {row.cells.map((cell, j) => (
           <td
             key={j}
@@ -71,11 +67,7 @@ const ErrorMessageRow: React.FunctionComponent<IErrorMessageRowProps> = ({
 }) => {
   if (!testResult.message) return null
   return (
-    <tr
-      style={{
-        backgroundColor: statusColor(testResult.status).hex(),
-      }}
-    >
+    <tr className={`status-${statusName(testResult.status)}`}>
       <td colSpan={colSpan}>
         <ErrorMessage status={testResult.status} message={testResult.message} />
       </td>

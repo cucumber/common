@@ -1,7 +1,7 @@
 import { messages } from '@cucumber/messages'
 import Status = messages.TestResult.Status
 
-const statusName = (status: Status): string => {
+export default (status: Status): string => {
   return {
     // Keep the same order as in messages.proto - for readability's sake
     [Status.PASSED]: 'passed',
@@ -13,5 +13,3 @@ const statusName = (status: Status): string => {
     [Status.UNKNOWN]: 'unknown',
   }[status]
 }
-
-export default statusName

@@ -1,128 +1,139 @@
-$border-color : #4B5662	;
-$white : #F0EFFB;
+$border-color: #4B5662;
+$white: #F0EFFB;
+
+$passed: #2CB14A;
+$skipped: #00A0CC;
+$pending: #FFAD33;
+$undefined: #FFAD33;
+$ambiguous: #F4EBFD;
+$failed: #BB0000;
+$unknown: #B6BECB;
 
 @mixin padding-table-cell {
-    padding-top: 1.25em;
-    padding-bottom: 1.25em;
-    padding-left: 2em;
-    padding-right: 2em;
+  padding: .3em;
 }
 
-.status-passed { background-color: #2CB14A }
-.status-skipped { background-color: #00A0CC }
-.status-pending { background-color: #FFAD33 }
-.status-undefined { background-color: #FFAD33 }
-.status-ambiguous { background-color: #F4EBFD }
-.status-failed { background-color: #BB0000 }
-.status-unknown { background-color: #B6BECB }
-
 .cucumber-react {
-    h1, h2, h3 {
-        margin-left: 0.1em;
-        margin-top: 1em;
-        margin-bottom: 1.5em;
-    }
-    h3 {
-        display: inline-block;
-    }
-    .accordion__heading {
-        position: relative;
-        .status-badge {
-            top: 0.5em;
-        }
-    }
+  h1, h2, h3 {
+    padding: 0;
+    margin-top: 0.3em;
+    margin-bottom: 0em;
+    display: inline-block;
+  }
 
-    .step-container {
-      display: flex;
+  a { color: inherit; }
 
-      &__status {
-        padding: 4px;
-      }
+  ol {
+    list-style-type: none;
+    padding-left: 0;
+  }
 
-      &__step {
-        flex-grow: 1;
-      }
-    }
+  section {
+    margin-bottom: 1em;
+  }
 
+  .status-passed {
+    color: $passed
+  }
 
-    ol {
-        list-style-type: none;
-        padding-left: 0;
-    }
+  .status-skipped {
+    color: $skipped
+  }
 
-    section {
-        margin-bottom: 1em;
-    }
+  .status-pending {
+    color: $pending
+  }
 
-    table {
-        border: 1px solid $border-color;
-        border-collapse: collapse;
-        margin-top: 1.5em;
-        margin-bottom: 1.5em;
-        th {
-            border: 1px solid $border-color;
-            @include padding-table-cell;
-        }
-        td {
-            border: 1px solid $border-color;
-            @include padding-table-cell;
-        }
-    }
+  .status-undefined {
+    color: $undefined
+  }
 
-    .gherkin-document-list {
-        font: 14px 'Open Sans', sans-serif;
-        color: #161C24;
-        background: #fff;
-        overflow-x: hidden;
+  .status-ambiguous {
+    color: $ambiguous
+  }
+
+  .status-failed {
+    color: $failed
+  }
+
+  .status-unknown {
+    color: $unknown
+  }
+
+  table {
+    border: 1px solid $border-color;
+    border-collapse: collapse;
+    margin-top: .5em;
+    margin-bottom: .5em;
+
+    th {
+      border: 1px solid $border-color;
+      @include padding-table-cell;
     }
 
-    .indent {
-        margin-left: 1em;
+    td {
+      border: 1px solid $border-color;
+      @include padding-table-cell;
+    }
+  }
+
+  .gherkin-document-list {
+    font: 14px 'Open Sans', sans-serif;
+    color: #161C24;
+    background: #fff;
+    overflow-x: hidden;
+  }
+
+  .indent {
+    margin-left: 1em;
+  }
+
+  .keyword {
+    font-weight: bold;
+  }
+
+  .step {
+    padding: 0.1em;
+
+    &-text {
+      font-weight: normal;
     }
 
-    .keyword {
-        font-weight: bold;
+    &-param {
+      font-weight: normal;
     }
+  }
 
-    .step {
-        position: relative;
-        padding: 0.5em;
-        margin-left: 0;
-        margin-top: 2em;
-        margin-bottom: 2em;
-        box-shadow: 4px 4px 8px #B6BECB;
+  .step-container {
+    display: flex;
 
-        &-text {
-            font-weight: normal;
-        }
-
-        &-param {
-            font-weight: bold;
-            color: #F0EFFB;
-            background-color:#4234C5 !important;
-            padding: 0.5em;
-            border-radius: 5px;
-        }
+    &__step {
+      flex-grow: 1;
     }
+  }
 
-    .error-message {
-        padding: 0.5em;
-        margin: 0;
-        overflow: scroll;
-    }
+  .status_icon {
+    padding-top: 0.35em;
+    padding-right: 0.5em;
+  }
 
-    .tag-list {
-        padding: 0;
-        margin-bottom: 0;
-    }
+  .error-message {
+    padding: 0.5em;
+    margin: 0;
+    overflow: scroll;
+  }
 
-    .tag {
-        display: inline;
-        list-style-type: none;
-        padding: 4px 8px 4px 8px;
-        margin-right: 6px;
-        background-color: #FFFFFF;
-        border-radius: 6px;
-    }
+  .tag-list {
+    padding: 0;
+    margin-bottom: 0;
+  }
 
+  .tag {
+    display: inline;
+    list-style-type: none;
+    padding: 4px 8px 4px 8px;
+    margin-right: 6px;
+    background-color: #FFFFFF;
+    border-radius: 6px;
+  }
 }
