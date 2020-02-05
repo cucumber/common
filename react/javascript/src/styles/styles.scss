@@ -17,7 +17,7 @@ $unknown: #B6BECB;
   h1, h2, h3 {
     padding: 0;
     margin-top: 0.3em;
-    margin-bottom: 0em;
+    margin-bottom: 0;
     display: inline-block;
   }
 
@@ -74,6 +74,14 @@ $unknown: #B6BECB;
     td {
       border: 1px solid $border-color;
       @include padding-table-cell;
+
+      &__status {
+          padding: 0.5em 3px 3px 3px;
+      }
+
+      &__step {
+        flex-grow: 1;
+      }
     }
   }
 
