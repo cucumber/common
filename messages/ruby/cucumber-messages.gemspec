@@ -22,7 +22,7 @@ Gem::Specification.new do |s|
   # TODO: Switch back to 'protobuf' when these PRs are merged and released:
   # https://github.com/ruby-protobuf/protobuf/pull/411
   # https://github.com/ruby-protobuf/protobuf/pull/415
-  s.add_dependency 'protobuf-cucumber', '~> 3.10', '>= 3.10.7'
+  s.add_dependency 'protobuf-cucumber', '~> 3.10', '>= 3.10.8'
   s.add_dependency 'json', '~> 2.3', '>= 2.3.0'
 
   s.add_development_dependency 'rake', '~> 13.0', '>= 13.0.1'
