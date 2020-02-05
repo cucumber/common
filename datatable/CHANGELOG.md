@@ -8,7 +8,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 
 ### Added
-
+ * [Java] Allow Object and String datatable types to be redefined
+    ([#885](https://github.com/cucumber/cucumber/pull/885)
+     [mpkorstanje])
 ### Changed
 
 ### Deprecated
