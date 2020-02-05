@@ -1,8 +1,10 @@
 import {
   faCheckCircle,
-  faFutbol,
   faQuestionCircle,
   faTimesCircle,
+  faPauseCircle,
+  faStopCircle,
+  faInfoCircle,
   IconDefinition,
 } from '@fortawesome/free-solid-svg-icons'
 import { messages } from '@cucumber/messages'
@@ -31,11 +33,11 @@ const statusIcon = (status: Status): IconDefinition => {
   return {
     // Keep the same order as in messages.proto - for readability's sake
     [Status.PASSED]: faCheckCircle,
-    [Status.SKIPPED]: faFutbol,
-    [Status.PENDING]: faFutbol,
+    [Status.SKIPPED]: faStopCircle,
+    [Status.PENDING]: faPauseCircle,
     [Status.UNDEFINED]: faQuestionCircle,
-    [Status.AMBIGUOUS]: faFutbol,
+    [Status.AMBIGUOUS]: faInfoCircle,
     [Status.FAILED]: faTimesCircle,
-    [Status.UNKNOWN]: faFutbol,
+    [Status.UNKNOWN]: faQuestionCircle,
   }[status]
 }
