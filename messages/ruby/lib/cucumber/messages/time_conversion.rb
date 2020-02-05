@@ -14,13 +14,13 @@ module Cucumber
 
       def seconds_to_duration(seconds_float)
         seconds, second_modulus = seconds_float.divmod(1)
-        nanos = second_modulus / NANOSECONDS_PER_SECOND
+        nanos = second_modulus * NANOSECONDS_PER_SECOND
         Duration.new(seconds: seconds, nanos: nanos)
       end
 
       def duration_to_seconds(duration)
         seconds_part = duration.seconds
-        nanos_part = duration.nanos / NANOSECONDS_PER_SECOND
+        nanos_part = duration.nanos.to_f / NANOSECONDS_PER_SECOND
         seconds_part + nanos_part
       end
     end
