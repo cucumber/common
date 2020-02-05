@@ -19,9 +19,10 @@ Gem::Specification.new do |s|
                     'source_code_uri'   => 'https://github.com/cucumber/cucumber/blob/master/messages/ruby',
                   }
 
-  # TODO: Switch back to 'protobuf' when this PR is merged and released:
+  # TODO: Switch back to 'protobuf' when these PRs are merged and released:
   # https://github.com/ruby-protobuf/protobuf/pull/411
-  s.add_dependency 'protobuf-cucumber', '~> 3.10', '>= 3.10.4'
+  # https://github.com/ruby-protobuf/protobuf/pull/415
+  s.add_dependency 'protobuf-cucumber', '~> 3.10', '>= 3.10.7'
   s.add_dependency 'json', '~> 2.3', '>= 2.3.0'
 
   s.add_development_dependency 'rake', '~> 13.0', '>= 13.0.1'
