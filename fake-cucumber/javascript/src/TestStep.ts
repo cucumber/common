@@ -30,7 +30,7 @@ export default abstract class TestStep implements ITestStep {
     notifier: MessageNotifier,
     testCaseStartedId: string
   ): Promise<messages.ITestResult> {
-    this.emitTestStepStarted(testCaseStartedId, notifier)
+    this.emitTestStepStarted(notifier, testCaseStartedId)
 
     if (this.supportCodeExecutors.length === 0) {
       return this.emitTestStepFinished(
@@ -90,6 +90,7 @@ export default abstract class TestStep implements ITestStep {
     notifier: MessageNotifier,
     testCaseStartedId: string
   ): messages.ITestResult {
+    this.emitTestStepStarted(notifier, testCaseStartedId)
     return this.emitTestStepFinished(
       testCaseStartedId,
       new messages.TestResult({
@@ -101,8 +102,8 @@ export default abstract class TestStep implements ITestStep {
   }
 
   protected emitTestStepStarted(
-    testCaseStartedId: string,
-    notifier: MessageNotifier
+    notifier: MessageNotifier,
+    testCaseStartedId: string
   ) {
     notifier(
       new messages.Envelope({
