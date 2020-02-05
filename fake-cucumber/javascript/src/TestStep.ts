@@ -32,10 +32,15 @@ export default abstract class TestStep implements ITestStep {
   ): Promise<messages.ITestResult> {
     this.emitTestStepStarted(notifier, testCaseStartedId)
 
+    const start = this.clock.now()
+
     if (this.supportCodeExecutors.length === 0) {
+      const duration = millisecondsToDuration(this.clock.now() - start)
+
       return this.emitTestStepFinished(
         testCaseStartedId,
         new messages.TestResult({
+          duration: duration,
           status: messages.TestResult.Status.UNDEFINED,
         }),
         notifier
@@ -43,16 +48,18 @@ export default abstract class TestStep implements ITestStep {
     }
 
     if (this.supportCodeExecutors.length > 1) {
+      const duration = millisecondsToDuration(this.clock.now() - start)
+
       return this.emitTestStepFinished(
         testCaseStartedId,
         new messages.TestResult({
+          duration: duration,
           status: messages.TestResult.Status.AMBIGUOUS,
         }),
         notifier
       )
     }
 
-    const start = this.clock.now()
     try {
       world.attach = makeAttach(this.id, testCaseStartedId, notifier)
       const result = await this.supportCodeExecutors[0].execute(world)

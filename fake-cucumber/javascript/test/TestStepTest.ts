@@ -52,6 +52,8 @@ describe('TestStep', () => {
         testStepFinished.testResult.status,
         messages.TestResult.Status.UNDEFINED
       )
+      assert.notEqual(testStepFinished.testResult.duration, null)
+
       assert.strictEqual(testStepFinished.testStepId, testStep.id)
     })
 
@@ -72,6 +74,8 @@ describe('TestStep', () => {
         testStepFinished.testResult.status,
         messages.TestResult.Status.AMBIGUOUS
       )
+      assert.notEqual(testStepFinished.testResult.duration, null)
+
       assert.strictEqual(testStepFinished.testStepId, testStep.id)
     })
 
