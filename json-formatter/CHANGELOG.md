@@ -20,7 +20,6 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 ### Fixed
 
 * Process rules
-
 * Output background name
 
 ## [2.2.0] - 2020-01-10
