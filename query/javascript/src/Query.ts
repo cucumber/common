@@ -1,23 +1,42 @@
 import { StrictArrayMultimap, StrictMap } from '@cucumber/gherkin'
 import { messages, TimeConversion } from '@cucumber/messages'
 
-export default class TestResultsQuery {
-  private testResultByPickleId = new StrictArrayMultimap<
+export default class Query {
+  private readonly testResultByPickleId = new StrictArrayMultimap<
     string,
     messages.ITestResult
   >()
-  private testStepResultsByPickleStepId = new StrictArrayMultimap<
+  private readonly testStepResultsByPickleStepId = new StrictArrayMultimap<
     string,
     messages.ITestResult
   >()
-  private testStepById = new StrictMap<string, messages.TestCase.ITestStep>()
-  private pickleIdByTestStepId = new StrictMap<string, string>()
+  private readonly testStepById = new StrictMap<
+    string,
+    messages.TestCase.ITestStep
+  >()
+  private readonly pickleIdByTestStepId = new StrictMap<string, string>()
+  private readonly pickleStepIdByTestStepId = new StrictMap<string, string>()
+
+  private readonly attachmentsByPickleStepId = new StrictArrayMultimap<
+    string,
+    messages.IAttachment
+  >()
+
+  private readonly stepMatchArgumentsListsByPickleStepId = new StrictMap<
+    string,
+    messages.TestCase.TestStep.IStepMatchArgumentsList[]
+  >()
 
   public update(envelope: messages.IEnvelope) {
     if (envelope.testCase) {
       for (const testStep of envelope.testCase.testSteps) {
         this.testStepById.set(testStep.id, testStep)
         this.pickleIdByTestStepId.set(testStep.id, envelope.testCase.pickleId)
+        this.pickleStepIdByTestStepId.set(testStep.id, testStep.pickleStepId)
+        this.stepMatchArgumentsListsByPickleStepId.set(
+          testStep.pickleStepId,
+          testStep.stepMatchArgumentsLists
+        )
       }
     }
 
@@ -37,6 +56,13 @@ export default class TestResultsQuery {
         testStep.pickleStepId,
         envelope.testStepFinished.testResult
       )
+    }
+
+    if (envelope.attachment) {
+      const pickleStepId = this.pickleStepIdByTestStepId.get(
+        envelope.attachment.testStepId
+      )
+      this.attachmentsByPickleStepId.put(pickleStepId, envelope.attachment)
     }
   }
 
@@ -95,5 +121,32 @@ export default class TestResultsQuery {
         duration: TimeConversion.millisecondsToDuration(0),
       })
     )
+  }
+
+  /**
+   * Gets all the attachments for multiple pickle steps
+   * @param pickleStepIds
+   */
+  public getPickleStepAttachments(
+    pickleStepIds: string[]
+  ): messages.IAttachment[] {
+    return pickleStepIds.reduce(
+      (attachments: messages.IAttachment[], pickleStepId) => {
+        return attachments.concat(
+          this.attachmentsByPickleStepId.get(pickleStepId)
+        )
+      },
+      []
+    )
+  }
+
+  /**
+   * Get StepMatchArguments for a pickle step
+   * @param pickleStepId
+   */
+  public getStepMatchArgumentsLists(
+    pickleStepId: string
+  ): messages.TestCase.TestStep.IStepMatchArgumentsList[] {
+    return this.stepMatchArgumentsListsByPickleStepId.get(pickleStepId)
   }
 }

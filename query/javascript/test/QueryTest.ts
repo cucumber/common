@@ -6,20 +6,19 @@ import assert from 'assert'
 import SupportCode from '@cucumber/fake-cucumber/dist/src/SupportCode'
 import CucumberStream from '@cucumber/fake-cucumber/dist/src/CucumberStream'
 import { withFullStackTrace } from '@cucumber/fake-cucumber/dist/src/ErrorMessageGenerator'
-import makeDummyStepDefinitions from '@cucumber/fake-cucumber/dist/test/makeDummyStepDefinitions'
 
 import { promisify } from 'util'
 import IncrementClock from '@cucumber/fake-cucumber/dist/src/IncrementClock'
-import TestResultsQuery from '../src/TestResultsQuery'
+import Query from '../src/Query'
 
 const pipelinePromise = promisify(pipeline)
 
 describe('TestResultQuery', () => {
   let gherkinQuery: GherkinQuery
-  let testResultQuery: TestResultsQuery
+  let testResultQuery: Query
   beforeEach(() => {
     gherkinQuery = new GherkinQuery()
-    testResultQuery = new TestResultsQuery()
+    testResultQuery = new Query()
   })
 
   describe('#getWorstResult(testResults)', () => {
@@ -198,12 +197,74 @@ describe('TestResultQuery', () => {
     })
   })
 
+  describe('#getPickleStepAttachments(pickleIds)', () => {
+    it('looks up attachments', async () => {
+      await parse(
+        `Feature: hello
+  Scenario: ok
+    Given a passed step with attachment
+`
+      )
+
+      const pickleStepIds = gherkinQuery.getPickleStepIds('test.feature', 3)
+      assert.strictEqual(pickleStepIds.length, 1)
+
+      const attachments: messages.IAttachment[] = testResultQuery.getPickleStepAttachments(
+        pickleStepIds
+      )
+      assert.strictEqual(attachments.length, 1)
+
+      assert.strictEqual(attachments[0].text, 'Hello')
+    })
+  })
+
+  describe('#getStepMatchArguments(uri, lineNumber)', () => {
+    it("looks up result for step's uri and line", async () => {
+      await parse(
+        `Feature: hello
+  Scenario: hi
+    Given a passed step
+    And I have 567 cukes in my belly
+`
+      )
+
+      assert.deepStrictEqual(
+        testResultQuery
+          .getStepMatchArgumentsLists(
+            gherkinQuery.getPickleStepIds('test.feature', 3)[0]
+          )
+          .map(sal => sal.stepMatchArguments.map(arg => arg.parameterTypeName)),
+        [[]]
+      )
+
+      assert.deepStrictEqual(
+        testResultQuery
+          .getStepMatchArgumentsLists(
+            gherkinQuery.getPickleStepIds('test.feature', 4)[0]
+          )
+          .map(sal => sal.stepMatchArguments.map(arg => arg.parameterTypeName)),
+        [['int', 'word']]
+      )
+    })
+  })
+
   function parse(gherkinSource: string): Promise<void> {
     const newId = IdGenerator.incrementing()
     const clock = new IncrementClock()
     const makeErrorMessage = withFullStackTrace()
     const supportCode = new SupportCode(newId, clock, makeErrorMessage)
-    makeDummyStepDefinitions(supportCode)
+    supportCode.Given('a passed step', () => {
+      // no-op
+    })
+    supportCode.Given('a passed step with attachment', function() {
+      this.attach('Hello', 'text/plain')
+    })
+    supportCode.Given('a failed step', () => {
+      throw new Error(`This step failed.`)
+    })
+    supportCode.Given('I have {int} cukes in my {word}', (cukes: number) => {
+      assert.ok(cukes)
+    })
 
     const cucumberStream = new CucumberStream(
       supportCode.parameterTypes,
