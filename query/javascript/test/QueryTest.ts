@@ -9,16 +9,16 @@ import { withFullStackTrace } from '@cucumber/fake-cucumber/dist/src/ErrorMessag
 
 import { promisify } from 'util'
 import IncrementClock from '@cucumber/fake-cucumber/dist/src/IncrementClock'
-import TestResultsQuery from '../src/TestResultsQuery'
+import Query from '../src/Query'
 
 const pipelinePromise = promisify(pipeline)
 
 describe('TestResultQuery', () => {
   let gherkinQuery: GherkinQuery
-  let testResultQuery: TestResultsQuery
+  let testResultQuery: Query
   beforeEach(() => {
     gherkinQuery = new GherkinQuery()
-    testResultQuery = new TestResultsQuery()
+    testResultQuery = new Query()
   })
 
   describe('#getWorstResult(testResults)', () => {
@@ -218,6 +218,36 @@ describe('TestResultQuery', () => {
     })
   })
 
+  describe('#getStepMatchArguments(uri, lineNumber)', () => {
+    it("looks up result for step's uri and line", async () => {
+      await parse(
+        `Feature: hello
+  Scenario: hi
+    Given a passed step
+    And I have 567 cukes in my belly
+`
+      )
+
+      assert.deepStrictEqual(
+        testResultQuery
+          .getStepMatchArgumentsLists(
+            gherkinQuery.getPickleStepIds('test.feature', 3)[0]
+          )
+          .map(sal => sal.stepMatchArguments.map(arg => arg.parameterTypeName)),
+        [[]]
+      )
+
+      assert.deepStrictEqual(
+        testResultQuery
+          .getStepMatchArgumentsLists(
+            gherkinQuery.getPickleStepIds('test.feature', 4)[0]
+          )
+          .map(sal => sal.stepMatchArguments.map(arg => arg.parameterTypeName)),
+        [['int', 'word']]
+      )
+    })
+  })
+
   function parse(gherkinSource: string): Promise<void> {
     const newId = IdGenerator.incrementing()
     const clock = new IncrementClock()
@@ -231,6 +261,9 @@ describe('TestResultQuery', () => {
     })
     supportCode.Given('a failed step', () => {
       throw new Error(`This step failed.`)
+    })
+    supportCode.Given('I have {int} cukes in my {word}', (cukes: number) => {
+      assert.ok(cukes)
     })
 
     const cucumberStream = new CucumberStream(

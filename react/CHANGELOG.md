@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+* Display attachments (`image/*` and `text/*` media types)
+
 ### Changed
 
 ### Deprecated

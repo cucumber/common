@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
+* Rolled `TestResultsQuery` and `StepMatchArgumentsQuery` into a new, single `Query` class.
+
 ### Deprecated
 
 ### Removed

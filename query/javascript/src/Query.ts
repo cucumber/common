@@ -1,7 +1,7 @@
 import { StrictArrayMultimap, StrictMap } from '@cucumber/gherkin'
 import { messages, TimeConversion } from '@cucumber/messages'
 
-export default class TestResultsQuery {
+export default class Query {
   private readonly testResultByPickleId = new StrictArrayMultimap<
     string,
     messages.ITestResult
@@ -22,12 +22,21 @@ export default class TestResultsQuery {
     messages.IAttachment
   >()
 
+  private readonly stepMatchArgumentsListsByPickleStepId = new StrictMap<
+    string,
+    messages.TestCase.TestStep.IStepMatchArgumentsList[]
+  >()
+
   public update(envelope: messages.IEnvelope) {
     if (envelope.testCase) {
       for (const testStep of envelope.testCase.testSteps) {
         this.testStepById.set(testStep.id, testStep)
         this.pickleIdByTestStepId.set(testStep.id, envelope.testCase.pickleId)
         this.pickleStepIdByTestStepId.set(testStep.id, testStep.pickleStepId)
+        this.stepMatchArgumentsListsByPickleStepId.set(
+          testStep.pickleStepId,
+          testStep.stepMatchArgumentsLists
+        )
       }
     }
 
@@ -115,7 +124,7 @@ export default class TestResultsQuery {
   }
 
   /**
-   * Gets all the results for multiple pickle steps
+   * Gets all the attachments for multiple pickle steps
    * @param pickleStepIds
    */
   public getPickleStepAttachments(
@@ -129,5 +138,15 @@ export default class TestResultsQuery {
       },
       []
     )
+  }
+
+  /**
+   * Get StepMatchArguments for a pickle step
+   * @param pickleStepId
+   */
+  public getStepMatchArgumentsLists(
+    pickleStepId: string
+  ): messages.TestCase.TestStep.IStepMatchArgumentsList[] {
+    return this.stepMatchArgumentsListsByPickleStepId.get(pickleStepId)
   }
 }
