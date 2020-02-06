@@ -33,6 +33,7 @@ func ProcessTestCaseStarted(testCaseStarted *messages.TestCaseStarted, lookup *M
 	if pickle == nil || len(pickle.AstNodeIds) == 0 {
 		return errors.New("No pickle for " + testCase.PickleId), nil
 	}
+
 	tags := make([]*messages.GherkinDocument_Feature_Tag, len(pickle.Tags))
 	for index, tag := range pickle.Tags {
 		sourceTag := lookup.LookupTag(tag.AstNodeId)
@@ -88,6 +89,7 @@ func backgroundStepsToJSON(steps []*TestStep) *jsonFeatureElement {
 
 	return &jsonFeatureElement{
 		Keyword: background.Keyword,
+		Name:    background.Name,
 		Line:    background.Location.Line,
 		Type:    "background",
 		Steps:   makeJSONSteps(steps),
