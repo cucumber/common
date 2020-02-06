@@ -24,7 +24,7 @@ public class TimeConversionTest {
 
     @Test
     public void convertsToAndFromDuration() {
-        Duration javaDuration = Duration.ofMillis(1234);
+        Duration javaDuration = Duration.ofSeconds(3, 161000);
         Messages.Duration duration = javaDurationToDuration(javaDuration);
         Duration javaDurationAgain = durationToJavaDuration(duration);
 

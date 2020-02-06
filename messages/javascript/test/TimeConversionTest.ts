@@ -26,7 +26,7 @@ describe('TimeConversion', () => {
   })
 
   it('converts to and from milliseconds duration (with decimal places)', () => {
-    const durationInMilliseconds = 1.234
+    const durationInMilliseconds = 3.000161
     const duration = millisecondsToDuration(durationInMilliseconds)
     const durationMillisAgain = durationToMilliseconds(duration)
 

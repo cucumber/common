@@ -30,12 +30,17 @@ export default abstract class TestStep implements ITestStep {
     notifier: MessageNotifier,
     testCaseStartedId: string
   ): Promise<messages.ITestResult> {
-    this.emitTestStepStarted(testCaseStartedId, notifier)
+    this.emitTestStepStarted(notifier, testCaseStartedId)
+
+    const start = this.clock.now()
 
     if (this.supportCodeExecutors.length === 0) {
+      const duration = millisecondsToDuration(this.clock.now() - start)
+
       return this.emitTestStepFinished(
         testCaseStartedId,
         new messages.TestResult({
+          duration: duration,
           status: messages.TestResult.Status.UNDEFINED,
         }),
         notifier
@@ -43,16 +48,18 @@ export default abstract class TestStep implements ITestStep {
     }
 
     if (this.supportCodeExecutors.length > 1) {
+      const duration = millisecondsToDuration(this.clock.now() - start)
+
       return this.emitTestStepFinished(
         testCaseStartedId,
         new messages.TestResult({
+          duration: duration,
           status: messages.TestResult.Status.AMBIGUOUS,
         }),
         notifier
       )
     }
 
-    const start = this.clock.now()
     try {
       world.attach = makeAttach(this.id, testCaseStartedId, notifier)
       const result = await this.supportCodeExecutors[0].execute(world)
@@ -90,6 +97,7 @@ export default abstract class TestStep implements ITestStep {
     notifier: MessageNotifier,
     testCaseStartedId: string
   ): messages.ITestResult {
+    this.emitTestStepStarted(notifier, testCaseStartedId)
     return this.emitTestStepFinished(
       testCaseStartedId,
       new messages.TestResult({
@@ -101,8 +109,8 @@ export default abstract class TestStep implements ITestStep {
   }
 
   protected emitTestStepStarted(
-    testCaseStartedId: string,
-    notifier: MessageNotifier
+    notifier: MessageNotifier,
+    testCaseStartedId: string
   ) {
     notifier(
       new messages.Envelope({

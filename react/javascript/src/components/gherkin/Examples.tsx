@@ -12,13 +12,13 @@ interface IExamplesProps {
 
 const Examples: React.FunctionComponent<IExamplesProps> = ({ examples }) => {
   return (
-    <section>
-      <Tags tags={examples.tags} />
-      <h2>
-        <Keyword>{examples.keyword}:</Keyword>{' '}
-        <span className="step-text">{examples.name}</span>
-      </h2>
-      <div className="indent">
+    <div className="indent">
+      <section>
+        <Tags tags={examples.tags} />
+        <h2>
+          <Keyword>{examples.keyword}:</Keyword>{' '}
+          <span className="step-text">{examples.name}</span>
+        </h2>
         <Description description={examples.description} />
         {examples.tableHeader && (
           <ExamplesTable
@@ -26,8 +26,8 @@ const Examples: React.FunctionComponent<IExamplesProps> = ({ examples }) => {
             tableBody={examples.tableBody}
           />
         )}
-      </div>
-    </section>
+      </section>
+    </div>
   )
 }
 

@@ -31,10 +31,15 @@ function fromPaths(paths: string[], options: IGherkinOptions): Readable {
       })
 
       const end = paths.length === 0
+      // Can't use pipeline here because of the { end } argument,
+      // so we have to manually propagate errors.
       options
         .createReadStream(path)
+        .on('error', err => combinedMessageStream.emit('error', err))
         .pipe(new SourceMessageStream(path))
+        .on('error', err => combinedMessageStream.emit('error', err))
         .pipe(parserMessageStream)
+        .on('error', err => combinedMessageStream.emit('error', err))
         .pipe(combinedMessageStream, { end })
     }
   }
@@ -47,7 +52,10 @@ function fromSources(
   options: IGherkinOptions
 ): Readable {
   options = makeGherkinOptions(options)
-  const combinedMessageStream = new PassThrough({ objectMode: true })
+  const combinedMessageStream = new PassThrough({
+    writableObjectMode: true,
+    readableObjectMode: true,
+  })
 
   function pipeSequentially() {
     const envelope = envelopes.shift()

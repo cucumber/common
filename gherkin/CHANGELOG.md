@@ -22,6 +22,9 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
      ([880](https://github.com/cucumber/cucumber/pull/880),
       [721](https://github.com/cucumber/cucumber/pull/721)
       [mpkorstanje])
+
+* [JavaScript] `Gherkin#fromPaths` emits an error if a path can't be read (for example if it is a directory)
+
 ## [9.2.0] - 2020-01-22
 
 ### Added

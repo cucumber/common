@@ -7,7 +7,7 @@ module Cucumber
       it "json-roundtrips messages with bytes fields" do
         a1 = Attachment.new(binary: [1,2,3,4].pack('C*'))
         expect(a1.binary.length).to eq(4)
-        a2 = Attachment.new(JSON.parse(a1.to_json))
+        a2 = Attachment.new(JSON.parse(a1.to_json(proto3: true)))
         expect(a2).to(eq(a1))
       end
 
@@ -20,6 +20,38 @@ module Cucumber
         json = io.read
 
         expect(json).to eq("{\"source\":{}}\n")
+      end
+
+      it "omits empty number fields in output" do
+        io = StringIO.new
+        message = Envelope.new(
+          test_case_started: TestCaseStarted.new(
+            timestamp: Timestamp.new(
+              seconds: 0
+            )
+          )
+        )
+        message.write_ndjson_to(io)
+
+        io.rewind
+        json = io.read
+
+        expect(json).to eq('{"testCaseStarted":{"timestamp":{}}}' + "\n")
+      end
+
+      it "omits empty repeated fields in output" do
+        io = StringIO.new
+        message = Envelope.new(
+          parameter_type: ParameterType.new(
+            regular_expressions: []
+          )
+        )
+        message.write_ndjson_to(io)
+
+        io.rewind
+        json = io.read
+
+        expect(json).to eq('{"parameterType":{}}' + "\n")
       end
 
       it "can be serialised over an ndjson stream" do
