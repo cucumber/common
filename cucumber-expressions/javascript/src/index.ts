@@ -3,6 +3,7 @@ import Expression from './Expression'
 import Group from './Group'
 import CucumberExpression from './CucumberExpression'
 import RegularExpression from './RegularExpression'
+import ExpressionFactory from './ExpressionFactory'
 import CucumberExpressionGenerator from './CucumberExpressionGenerator'
 import ParameterTypeRegistry from './ParameterTypeRegistry'
 import ParameterType from './ParameterType'
@@ -13,6 +14,7 @@ export {
   Expression,
   CucumberExpression,
   RegularExpression,
+  ExpressionFactory,
   CucumberExpressionGenerator,
   ParameterTypeRegistry,
   ParameterType,
