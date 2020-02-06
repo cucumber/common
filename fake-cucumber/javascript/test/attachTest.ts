@@ -2,7 +2,7 @@ import assert from 'assert'
 import makeAttach from '../src/makeAttach'
 import { MessageNotifier } from '../src/types'
 import { messages } from '@cucumber/messages'
-import { ReadableStreamBuffer } from 'stream-buffers'
+import fs from 'fs'
 
 describe('#attach', () => {
   it('can attach a string', () => {
@@ -69,27 +69,19 @@ describe('#attach', () => {
       notifier
     )
 
-    const size = 4096
-    const buffer = Buffer.from([...Array(size).keys()].map(n => n % 256))
-    const stream = new ReadableStreamBuffer({
-      chunkSize: 1234,
-      frequency: 1,
-    })
-    stream.put(buffer)
-    stream.stop()
-
-    await attach(stream, 'application/octet-stream')
-
-    assert.deepStrictEqual(
-      envelopes[0],
-      new messages.Envelope({
-        attachment: new messages.Attachment({
-          mediaType: 'application/octet-stream',
-          testCaseStartedId: 'the-test-case-started-id',
-          testStepId: 'the-test-step-id',
-          binary: buffer,
-        }),
-      })
+    const stream = fs.createReadStream(
+      __dirname + '/cucumber-growing-on-vine.jpg'
     )
+
+    await attach(stream, 'image/jpg')
+
+    const expectedLength = 851133 // wc -c < ./attachments/cucumber-growing-on-vine.jpg
+    assert.equal(envelopes[0].attachment.binary.length, expectedLength)
+
+    // assert that we can turn it into JSON, read it back and get the same buffer length
+    const json = JSON.stringify(envelopes[0])
+    const envelope = messages.Envelope.fromObject(JSON.parse(json))
+
+    assert.equal(envelope.attachment.binary.length, expectedLength)
   })
 })

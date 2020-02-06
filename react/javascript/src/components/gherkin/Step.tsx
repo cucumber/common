@@ -3,12 +3,12 @@ import DataTable from './DataTable'
 import Keyword from './Keyword'
 import DocString from './DocString'
 import { messages } from '@cucumber/messages'
-import TestResultQueryContext from '../../TestResultsQueryContext'
+import CucumberQueryContext from '../../CucumberQueryContext'
 import UriContext from '../../UriContext'
 import GherkinQueryContext from '../../GherkinQueryContext'
-import StepMatchArgumentsQueryContext from '../../StepMatchArgumentsQueryContext'
 import ErrorMessage from './ErrorMessage'
 import StepContainer from './StepContainer'
+import Attachment from './Attachment'
 
 interface IProps {
   step: messages.GherkinDocument.Feature.IStep
@@ -22,15 +22,13 @@ const Step: React.FunctionComponent<IProps> = ({
   renderMessage,
 }) => {
   const gherkinQuery = React.useContext(GherkinQueryContext)
-  const testResultQuery = React.useContext(TestResultQueryContext)
-  const stepMatchArgumentsQuery = React.useContext(
-    StepMatchArgumentsQueryContext
-  )
+  const cucumberQuery = React.useContext(CucumberQueryContext)
   const uri = React.useContext(UriContext)
 
   const pickleStepIds = gherkinQuery.getPickleStepIds(uri, step.location.line)
-  const pickleStepResults = testResultQuery.getPickleStepResults(pickleStepIds)
-  const testResult = testResultQuery.getWorstResult(pickleStepResults)
+  const pickleStepResults = cucumberQuery.getPickleStepResults(pickleStepIds)
+  const testResult = cucumberQuery.getWorstResult(pickleStepResults)
+  const attachments = cucumberQuery.getPickleStepAttachments(pickleStepIds)
 
   const stepTextElements: JSX.Element[] = []
 
@@ -42,7 +40,7 @@ const Step: React.FunctionComponent<IProps> = ({
           // the background step will be rendered as undefined (even if there are matching step definitions). This
           // is not ideal, but it is rare enough that we don't care about it for now.
           []
-        : stepMatchArgumentsQuery.getStepMatchArgumentsLists(pickleStepIds[0])
+        : cucumberQuery.getStepMatchArgumentsLists(pickleStepIds[0])
     if (stepMatchArgumentsLists.length === 1) {
       // Step is defined
       const stepMatchArguments = stepMatchArgumentsLists[0].stepMatchArguments
@@ -116,6 +114,9 @@ const Step: React.FunctionComponent<IProps> = ({
         {renderMessage && testResult.message && (
           <ErrorMessage message={testResult.message} />
         )}
+        {attachments.map((attachment, i) => (
+          <Attachment key={i} attachment={attachment} />
+        ))}
       </StepContainer>
     </li>
   )
