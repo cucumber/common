@@ -15,6 +15,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 * [JavaScript, Java] `ExpressionFactory#createExpression` will return an `UndefinedParameterTypeExpression`
   if the expression string references undefined parameter types, rather than throwing an exception.
+* [Go] `NewCucumberExpression` will return a `UndefinedParameterTypeExpression` instead of an error
+  if the expression string references undefined parameter type
 
 ### Deprecated
 
