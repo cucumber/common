@@ -4,10 +4,10 @@ import java.lang.reflect.Type;
 import java.util.List;
 import java.util.regex.Pattern;
 
-public class UndefinedParameterTypeExpression implements Expression {
+final class UndefinedParameterTypeExpression implements Expression {
     private final String source;
 
-    public UndefinedParameterTypeExpression(String source) {
+    UndefinedParameterTypeExpression(String source) {
         this.source = source;
     }
 

@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Removed
 
+* [Java] `CucumberExpression` and `RegularExpression` are no longer part of the public API.
 * [JavaScript] remove support for Node 8, which is now EOL
 
 ### Fixed
