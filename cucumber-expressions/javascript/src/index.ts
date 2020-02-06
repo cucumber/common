@@ -1,8 +1,6 @@
 import Argument from './Argument'
 import Expression from './Expression'
 import Group from './Group'
-import CucumberExpression from './CucumberExpression'
-import RegularExpression from './RegularExpression'
 import ExpressionFactory from './ExpressionFactory'
 import CucumberExpressionGenerator from './CucumberExpressionGenerator'
 import ParameterTypeRegistry from './ParameterTypeRegistry'
@@ -12,8 +10,6 @@ export {
   Argument,
   Group,
   Expression,
-  CucumberExpression,
-  RegularExpression,
   ExpressionFactory,
   CucumberExpressionGenerator,
   ParameterTypeRegistry,

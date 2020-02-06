@@ -20,12 +20,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Deprecated
 
-* [JavaScript, Ruby] `CucumberExpression` and `RegularExpression` constructors should not be used directly.
-  Use `ExpressionFactory#createExpression` instead.
+* [Ruby] `CucumberExpression` and `RegularExpression` constructors should not be used directly.
+  Use `ExpressionFactory#create_expression` instead.
 
 ### Removed
 
-* [Java] `CucumberExpression` and `RegularExpression` are no longer part of the public API.
+* [Java, JavaScript] `CucumberExpression` and `RegularExpression` are no longer part of the public API.
 * [JavaScript] remove support for Node 8, which is now EOL
 
 ### Fixed
