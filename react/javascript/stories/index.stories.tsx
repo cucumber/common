@@ -3,8 +3,9 @@ import React from 'react'
 import { messages } from '@cucumber/messages'
 import GherkinDocumentList from '../src/components/app/GherkinDocumentList'
 import '../src/styles/react-accessible-accordion.css'
-import '../src/styles/styles.css'
+import '../src/styles/styles.scss'
 import Wrapper from '../src/components/app/Wrapper'
+import StepContainer from '../src/components/gherkin/StepContainer'
 
 // @ts-ignore
 import documentList from '../testdata/all.ndjson'
@@ -22,6 +23,8 @@ import parameterTypes from '../../../compatibility-kit/javascript/features/param
 import rules from '../../../compatibility-kit/javascript/features/rules/rules.ndjson'
 // @ts-ignore
 import stackTraces from '../../../compatibility-kit/javascript/features/stack-traces/stack-traces.ndjson'
+import Step from '../src/components/gherkin/Step'
+
 
 function envelopes(ndjson: string): messages.IEnvelope[] {
   return ndjson.trim().split('\n')
@@ -29,6 +32,19 @@ function envelopes(ndjson: string): messages.IEnvelope[] {
 }
 
 storiesOf('Features', module)
+  .add('Step Container', () => {
+    return <Wrapper envelopes={[]}>
+      <StepContainer status={messages.TestResult.Status.PASSED}>
+        <div>Given a passed step</div>
+      </StepContainer>
+      <StepContainer status={messages.TestResult.Status.FAILED}>
+        <div>When a failed step</div>
+      </StepContainer>
+      <StepContainer status={messages.TestResult.Status.SKIPPED}>
+        <div>Then a skipped step</div>
+      </StepContainer>
+    </Wrapper>
+  })
   .add('Document list', () => {
     return <Wrapper envelopes={envelopes(documentList)}>
       <GherkinDocumentList/>

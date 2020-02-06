@@ -26,7 +26,8 @@ public final class DataTableTypeRegistry {
         final NumberParser numberParser = new NumberParser(locale);
 
         TableCellTransformer<Object> objectTableCellTransformer = applyIfPresent(s -> s);
-        defineDataTableType(new DataTableType(Object.class, objectTableCellTransformer));
+        defineDataTableType(new DataTableType(Object.class, objectTableCellTransformer, true));
+        defineDataTableType(new DataTableType(String.class, objectTableCellTransformer, true));
 
         TableCellTransformer<BigInteger> bigIntegerTableCellTransformer = applyIfPresent(BigInteger::new);
         defineDataTableType(new DataTableType(BigInteger.class, bigIntegerTableCellTransformer));
@@ -56,10 +57,6 @@ public final class DataTableTypeRegistry {
         TableCellTransformer<Double> doubleTableCellTransformer = applyIfPresent(numberParser::parseDouble);
         defineDataTableType(new DataTableType(Double.class, doubleTableCellTransformer));
         defineDataTableType(new DataTableType(double.class, doubleTableCellTransformer));
-
-        TableCellTransformer<String> stringTableCellTransformer = (String cell) -> cell;
-        defineDataTableType(new DataTableType(String.class, stringTableCellTransformer));
-
     }
 
     private static <R> TableCellTransformer<R> applyIfPresent(Function<String, R> f) {
@@ -68,7 +65,7 @@ public final class DataTableTypeRegistry {
 
     public void defineDataTableType(DataTableType dataTableType) {
         DataTableType existing = tableTypeByType.get(dataTableType.getTargetType());
-        if (existing != null) {
+        if (existing != null && !existing.isReplaceable()) {
             throw new DuplicateTypeException(format("" +
                             "There already is a data table type registered that can supply %s.\n" +
                             "You are trying to register a %s for %s.\n" +
