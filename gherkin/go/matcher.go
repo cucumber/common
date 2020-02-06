@@ -272,9 +272,11 @@ func (m *matcher) MatchOther(line *Line) (ok bool, token *Token, err error) {
 }
 
 func (m *matcher) unescapeDocString(text string) string {
-	if m.activeDocStringSeparator != "" {
-		return strings.Replace(text, "\\\"\\\"\\\"", "\"\"\"", -1)
-	} else {
-		return text
+	if m.activeDocStringSeparator == DOCSTRING_SEPARATOR {
+		return strings.Replace(text, "\\\"\\\"\\\"", DOCSTRING_SEPARATOR, -1)
 	}
+	if m.activeDocStringSeparator == DOCSTRING_ALTERNATIVE_SEPARATOR {
+		return strings.Replace(text, "\\`\\`\\`", DOCSTRING_ALTERNATIVE_SEPARATOR, -1)
+	}
+	return text
 }
