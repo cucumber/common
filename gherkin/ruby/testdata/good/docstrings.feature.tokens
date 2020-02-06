@@ -41,4 +41,10 @@
 (41:1)Other:/"""/
 (42:1)Other:/third line/
 (43:7)DocStringSeparator:"""//
+(44:5)StepLine:And /a DocString with an escaped alternative separator inside/
+(45:7)DocStringSeparator:```//
+(46:1)Other:/first line/
+(47:1)Other:/```/
+(48:1)Other:/third line/
+(49:7)DocStringSeparator:```//
 EOF

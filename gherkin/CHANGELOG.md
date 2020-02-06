@@ -22,9 +22,11 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
      ([880](https://github.com/cucumber/cucumber/pull/880),
       [721](https://github.com/cucumber/cucumber/pull/721)
       [mpkorstanje])
-
 * [JavaScript] `Gherkin#fromPaths` emits an error if a path can't be read (for example if it is a directory)
-
+* [Java/JavaScript/Ruby/Go]  Escape triple backticks in alternative docstring
+  ([#889](https://github.com/cucumber/cucumber/pull/889)
+   [mpkorstanje])
+  
 ## [9.2.0] - 2020-01-22
 
 ### Added
@@ -714,6 +716,7 @@ to Gherkin 2.
 [merrua]:           https://github.com/merrua
 [milhcbt]:          https://github.com/milhcbt
 [moreau-nicolas]:   https://github.com/moreau-nicolas
+[mpkorstanje]:      https://github.com/mpkorstanje
 [nalekberov]:       https://github.com/nalekberov
 [nixel2007]:        https://github.com/nixel2007
 [nikolovski]:       https://github.com/nikolovski

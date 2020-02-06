@@ -13,4 +13,5 @@ npm-debug.log
 .compared
 .codegen
 acceptance/
+storybook-static
 *-go

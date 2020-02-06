@@ -1,6 +1,6 @@
 import React from 'react'
 import { messages } from '@cucumber/messages'
-import TestResultContext from '../../TestResultsQueryContext'
+import TestResultContext from '../../CucumberQueryContext'
 import UriContext from '../../UriContext'
 import isNumber from './isNumber'
 import GherkinQueryContext from '../../GherkinQueryContext'
