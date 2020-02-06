@@ -3,10 +3,10 @@
 {"pickle":{"id":"4","uri":"features/parameter-types/parameter-types.feature","name":"flights","language":"en","steps":[{"text":"LHR-CDG has been delayed 45 minutes","id":"3","astNodeIds":["1"]}],"astNodeIds":["2"]}}
 {"parameterType":{"name":"flight","regularExpressions":["([A-Z]{3})-([A-Z]{3})"],"preferForRegularExpressionMatch":false,"useForSnippets":true}}
 {"stepDefinition":{"id":"0","pattern":{"source":"{flight} has been delayed {int} minutes","type":"CUCUMBER_EXPRESSION"},"sourceReference":{"uri":"features/parameter-types/parameter-types.ts","location":{"line":16}}}}
-{"testRunStarted":{"timestamp":{}}}
+{"testRunStarted":{"timestamp":{"seconds":"0","nanos":0}}}
 {"testCase":{"id":"6","pickleId":"4","testSteps":[{"id":"5","pickleStepId":"3","stepDefinitionIds":["0"],"stepMatchArgumentsLists":[{"stepMatchArguments":[{"parameterTypeName":"flight","group":{"start":0,"value":"LHR-CDG","children":[{"start":0,"value":"LHR"},{"start":4,"value":"CDG"}]}},{"parameterTypeName":"int","group":{"start":25,"value":"45"}}]}]}]}}
-{"testCaseStarted":{"timestamp":{"nanos":1000000},"attempt":0,"testCaseId":"6","id":"7"}}
-{"testStepStarted":{"timestamp":{"nanos":2000000},"testStepId":"5","testCaseStartedId":"7"}}
-{"testStepFinished":{"testResult":{"status":"PASSED","duration":{"seconds":"0","nanos":1000000}},"timestamp":{"nanos":5000000},"testStepId":"5","testCaseStartedId":"7"}}
-{"testCaseFinished":{"timestamp":{"nanos":6000000},"testCaseStartedId":"7"}}
-{"testRunFinished":{"timestamp":{"nanos":7000000}}}
+{"testCaseStarted":{"timestamp":{"seconds":"0","nanos":1000000},"attempt":0,"testCaseId":"6","id":"7"}}
+{"testStepStarted":{"timestamp":{"seconds":"0","nanos":2000000},"testStepId":"5","testCaseStartedId":"7"}}
+{"testStepFinished":{"testResult":{"status":"PASSED","duration":{"seconds":"0","nanos":1000000}},"timestamp":{"seconds":"0","nanos":5000000},"testStepId":"5","testCaseStartedId":"7"}}
+{"testCaseFinished":{"timestamp":{"seconds":"0","nanos":6000000},"testCaseStartedId":"7"}}
+{"testRunFinished":{"timestamp":{"seconds":"0","nanos":7000000}}}

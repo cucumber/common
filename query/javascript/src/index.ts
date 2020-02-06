@@ -1,3 +1,3 @@
-import TestResultsQuery from './TestResultsQuery'
-import StepMatchArgumentsQuery from './StepMatchArgumentsQuery'
-export { TestResultsQuery, StepMatchArgumentsQuery }
+import Query from './Query'
+export { Query }
+export default Query

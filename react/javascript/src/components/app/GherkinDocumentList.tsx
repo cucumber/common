@@ -10,7 +10,7 @@ import {
 } from 'react-accessible-accordion'
 import UriContext from '../../UriContext'
 import GherkinQueryContext from '../../GherkinQueryContext'
-import TestResultQueryContext from '../../TestResultsQueryContext'
+import TestResultQueryContext from '../../CucumberQueryContext'
 import StatusIcon from '../gherkin/StatusIcon'
 
 const GherkinDocumentList: React.FunctionComponent = () => {

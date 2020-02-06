@@ -23,7 +23,6 @@
   "dependencies": {
     "@cucumber/messages": "file:../../messages/javascript",
     "@cucumber/react": "file:../../react/javascript",
-    "@cucumber/query": "file:../../query/javascript",
     "commander": "^4.1.1",
     "jsdom": "^16.1.0",
     "react": "^16.12.0",
