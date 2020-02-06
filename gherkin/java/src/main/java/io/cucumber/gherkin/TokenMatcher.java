@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static io.cucumber.gherkin.GherkinLanguageConstants.DOCSTRING_ALTERNATIVE_SEPARATOR;
+import static io.cucumber.gherkin.GherkinLanguageConstants.DOCSTRING_SEPARATOR;
 import static io.cucumber.gherkin.Parser.ITokenMatcher;
 import static io.cucumber.gherkin.Parser.TokenType;
 
@@ -146,7 +148,7 @@ public class TokenMatcher implements ITokenMatcher {
     public boolean match_DocStringSeparator(Token token) {
         return activeDocStringSeparator == null
                 // open
-                ? match_DocStringSeparator(token, GherkinLanguageConstants.DOCSTRING_SEPARATOR, true) ||
+                ? match_DocStringSeparator(token, DOCSTRING_SEPARATOR, true) ||
                 match_DocStringSeparator(token, GherkinLanguageConstants.DOCSTRING_ALTERNATIVE_SEPARATOR, true)
                 // close
                 : match_DocStringSeparator(token, activeDocStringSeparator, false);
@@ -193,6 +195,13 @@ public class TokenMatcher implements ITokenMatcher {
     }
 
     private String unescapeDocString(String text) {
-        return activeDocStringSeparator != null ? text.replace("\\\"\\\"\\\"", "\"\"\"") : text;
+        if (DOCSTRING_SEPARATOR.equals(activeDocStringSeparator)) {
+            return text.replace("\\\"\\\"\\\"", DOCSTRING_SEPARATOR);
+        }
+
+        if (DOCSTRING_ALTERNATIVE_SEPARATOR.equals(activeDocStringSeparator)) {
+            return text.replace("\\`\\`\\`", DOCSTRING_ALTERNATIVE_SEPARATOR);
+        }
+        return text;
     }
 }

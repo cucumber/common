@@ -1,9 +1,9 @@
 {
   "pickle": {
     "astNodeIds": [
-      "7"
+      "8"
     ],
-    "id": "15",
+    "id": "17",
     "language": "en",
     "name": "minimalistic",
     "steps": [
@@ -16,7 +16,7 @@
         "astNodeIds": [
           "0"
         ],
-        "id": "8",
+        "id": "9",
         "text": "a simple DocString"
       },
       {
@@ -29,7 +29,7 @@
         "astNodeIds": [
           "1"
         ],
-        "id": "9",
+        "id": "10",
         "text": "a DocString with content type"
       },
       {
@@ -41,7 +41,7 @@
         "astNodeIds": [
           "2"
         ],
-        "id": "10",
+        "id": "11",
         "text": "a DocString with wrong indentation"
       },
       {
@@ -53,7 +53,7 @@
         "astNodeIds": [
           "3"
         ],
-        "id": "11",
+        "id": "12",
         "text": "a DocString with alternative separator"
       },
       {
@@ -65,7 +65,7 @@
         "astNodeIds": [
           "4"
         ],
-        "id": "12",
+        "id": "13",
         "text": "a DocString with normal separator inside"
       },
       {
@@ -77,7 +77,7 @@
         "astNodeIds": [
           "5"
         ],
-        "id": "13",
+        "id": "14",
         "text": "a DocString with alternative separator inside"
       },
       {
@@ -89,8 +89,20 @@
         "astNodeIds": [
           "6"
         ],
-        "id": "14",
+        "id": "15",
         "text": "a DocString with escaped separator inside"
+      },
+      {
+        "argument": {
+          "docString": {
+            "content": "first line\n```\nthird line"
+          }
+        },
+        "astNodeIds": [
+          "7"
+        ],
+        "id": "16",
+        "text": "a DocString with an escaped alternative separator inside"
       }
     ],
     "uri": "testdata/good/docstrings.feature"
