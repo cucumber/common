@@ -20,7 +20,7 @@ type CucumberExpression struct {
 	parameterTypeRegistry *ParameterTypeRegistry
 }
 
-func NewCucumberExpression(expression string, parameterTypeRegistry *ParameterTypeRegistry) (*CucumberExpression, error) {
+func NewCucumberExpression(expression string, parameterTypeRegistry *ParameterTypeRegistry) (Expression, error) {
 	result := &CucumberExpression{source: expression, parameterTypeRegistry: parameterTypeRegistry}
 
 	expression = result.processEscapes(expression)
@@ -37,6 +37,9 @@ func NewCucumberExpression(expression string, parameterTypeRegistry *ParameterTy
 
 	expression, err = result.processParameters(expression, parameterTypeRegistry)
 	if err != nil {
+		if strings.HasPrefix(err.Error(), "Undefined parameter type") {
+			return &UndefinedParameterTypeExpression{source: expression}, nil
+		}
 		return nil, err
 	}
 
@@ -156,6 +159,7 @@ func buildCaptureRegexp(regexps []*regexp.Regexp) string {
 
 	return fmt.Sprintf("(%s)", strings.Join(captureGroups, "|"))
 }
+
 func (r *CucumberExpression) objectMapperTransformer(typeHint reflect.Type) func(args ...*string) interface{} {
 	return func(args ...*string) interface{} {
 		i, err := r.parameterTypeRegistry.defaultTransformer.Transform(*args[0], typeHint)
@@ -164,4 +168,20 @@ func (r *CucumberExpression) objectMapperTransformer(typeHint reflect.Type) func
 		}
 		return i
 	}
+}
+
+type UndefinedParameterTypeExpression struct {
+	source string
+}
+
+func (c *UndefinedParameterTypeExpression) Match(text string, typeHints ...reflect.Type) ([]*Argument, error) {
+	return nil, nil
+}
+
+func (c *UndefinedParameterTypeExpression) Regexp() *regexp.Regexp {
+	return regexp.MustCompile(".^")
+}
+
+func (c *UndefinedParameterTypeExpression) Source() string {
+	return c.source
 }
