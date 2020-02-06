@@ -9,16 +9,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
-* [JavaScript] Added `ExpressionFactory`, which is now the preferred way to create `Expression` instances.
+* [JavaScript, Ruby] Added `ExpressionFactory`, which is now the preferred way to create `Expression` instances.
 
 ### Changed
 
-* [JavaScript,Java] `ExpressionFactory#createExpression` will return an `UndefinedParameterTypeExpression`
+* [JavaScript, Java] `ExpressionFactory#createExpression` will return an `UndefinedParameterTypeExpression`
   if the expression string references undefined parameter types, rather than throwing an exception.
 
 ### Deprecated
 
-* [JavaScript] `new CucumberExpression()` and `new RegularExpression()`. Use `ExpressionFactory#createExpression` instead.
+* [JavaScript, Ruby] `CucumberExpression` and `RegularExpression` constructors should not be used directly.
+  Use `ExpressionFactory#createExpression` instead.
 
 ### Removed
 
