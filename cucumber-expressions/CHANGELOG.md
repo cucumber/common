@@ -10,10 +10,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 
 * [JavaScript] Added `ExpressionFactory`, which is now the preferred way to create `Expression` instances.
-  In case an expression references undefined parameter types, an `UndefinedParameterTypeExpression` instance
-  will be returned, which matches nothing (its `#match` method always returns null).
 
 ### Changed
+
+* [JavaScript,Java] `ExpressionFactory#createExpression` will return an `UndefinedParameterTypeExpression`
+  if the expression string references undefined parameter types, rather than throwing an exception.
 
 ### Deprecated
 
