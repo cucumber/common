@@ -9,6 +9,7 @@ import GherkinQueryContext from '../../GherkinQueryContext'
 import StepMatchArgumentsQueryContext from '../../StepMatchArgumentsQueryContext'
 import ErrorMessage from './ErrorMessage'
 import StepContainer from './StepContainer'
+import Attachment from './Attachment'
 
 interface IProps {
   step: messages.GherkinDocument.Feature.IStep
@@ -31,6 +32,7 @@ const Step: React.FunctionComponent<IProps> = ({
   const pickleStepIds = gherkinQuery.getPickleStepIds(uri, step.location.line)
   const pickleStepResults = testResultQuery.getPickleStepResults(pickleStepIds)
   const testResult = testResultQuery.getWorstResult(pickleStepResults)
+  const attachments = testResultQuery.getPickleStepAttachments(pickleStepIds)
 
   const stepTextElements: JSX.Element[] = []
 
@@ -116,6 +118,9 @@ const Step: React.FunctionComponent<IProps> = ({
         {renderMessage && testResult.message && (
           <ErrorMessage message={testResult.message} />
         )}
+        {attachments.map((attachment, i) => (
+          <Attachment key={i} attachment={attachment} />
+        ))}
       </StepContainer>
     </li>
   )

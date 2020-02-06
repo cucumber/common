@@ -52,7 +52,7 @@ describe('TestPlan', () => {
     assert.deepStrictEqual(envelopes.length, 7)
   })
 
-  it('attaches attachments from support code', async () => {
+  it('attaches text attachments', async () => {
     const stepDefinition: IStepDefinition = new ExpressionStepDefinition(
       'stepdef-id',
       new CucumberExpression('a passed step', new ParameterTypeRegistry()),
