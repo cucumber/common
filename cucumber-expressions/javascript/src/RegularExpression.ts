@@ -6,6 +6,7 @@ import Expression from './Expression'
 
 export default class RegularExpression implements Expression {
   private readonly treeRegexp: TreeRegexp
+  public undefinedParameterTypeNames = new Set<string>()
 
   constructor(
     public readonly regexp: RegExp,

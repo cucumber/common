@@ -26,9 +26,11 @@ describe('ExpressionFactory', () => {
   })
 
   it('creates an UndefinedParameterTypeExpression', () => {
-    assert.equal(
-      expressionFactory.createExpression('{x}').constructor,
-      UndefinedParameterTypeExpression
+    const expression = expressionFactory.createExpression('{x}')
+    assert.equal(expression.constructor, UndefinedParameterTypeExpression)
+    assert.deepStrictEqual(
+      expression.undefinedParameterTypeNames,
+      new Set(['x'])
     )
   })
 })

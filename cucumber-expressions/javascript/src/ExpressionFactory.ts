@@ -20,7 +20,10 @@ export default class ExpressionFactory {
       return new CucumberExpression(expression, this.parameterTypeRegistry)
     } catch (e) {
       if (e.undefinedParameterTypeName) {
-        return new UndefinedParameterTypeExpression(expression)
+        return new UndefinedParameterTypeExpression(
+          expression,
+          new Set<string>([e.undefinedParameterTypeName])
+        )
       } else {
         throw e
       }

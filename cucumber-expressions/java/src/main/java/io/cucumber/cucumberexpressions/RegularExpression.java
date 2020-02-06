@@ -2,7 +2,9 @@ package io.cucumber.cucumberexpressions;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 import static io.cucumber.cucumberexpressions.ParameterType.createAnonymousParameterType;
@@ -73,6 +75,11 @@ final class RegularExpression implements Expression {
     @Override
     public String getSource() {
         return expressionRegexp.pattern();
+    }
+
+    @Override
+    public Set<String> getUndefinedParameterTypeNames() {
+        return Collections.emptySet();
     }
 
 }

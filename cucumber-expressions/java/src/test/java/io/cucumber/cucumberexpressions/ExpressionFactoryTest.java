@@ -5,6 +5,7 @@ import org.junit.jupiter.api.function.Executable;
 
 import java.util.Locale;
 
+import static java.util.Collections.singleton;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
@@ -74,7 +75,9 @@ public class ExpressionFactoryTest {
 
     @Test
     public void creates_UndefinedParameterTypeExpression_for_undefined_parameter_types() {
-        assertUndefinedParameterTypeExpression("{x}");
+        Expression expression = createExpression("{x}");
+        assertEquals(UndefinedParameterTypeExpression.class, expression.getClass());
+        assertEquals(singleton("x"), expression.getUndefinedParameterTypeNames());
     }
 
     private void assertRegularExpression(String expressionString) {
@@ -87,10 +90,6 @@ public class ExpressionFactoryTest {
 
     private void assertCucumberExpression(String expressionString) {
         assertExpression(CucumberExpression.class, expressionString, expressionString);
-    }
-
-    private void assertUndefinedParameterTypeExpression(String expressionString) {
-        assertExpression(UndefinedParameterTypeExpression.class, expressionString, expressionString);
     }
 
     private void assertExpression(Class<? extends Expression> expectedClass, String expectedSource, String expressionString) {

@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 
 * [JavaScript, Ruby] Added `ExpressionFactory`, which is now the preferred way to create `Expression` instances.
+* Add `Expression#getUndefinedParameterTypeNames()`, which clients can use to report undefined parameter types.
 
 ### Changed
 

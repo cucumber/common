@@ -2,7 +2,9 @@ package io.cucumber.cucumberexpressions;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -144,6 +146,11 @@ final class CucumberExpression implements Expression {
     @Override
     public String getSource() {
         return source;
+    }
+
+    @Override
+    public Set<String> getUndefinedParameterTypeNames() {
+        return Collections.emptySet();
     }
 
     @Override

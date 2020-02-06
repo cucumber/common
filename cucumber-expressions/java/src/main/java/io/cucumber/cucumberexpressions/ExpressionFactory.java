@@ -2,6 +2,7 @@ package io.cucumber.cucumberexpressions;
 
 import org.apiguardian.api.API;
 
+import java.util.Collections;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
@@ -38,7 +39,7 @@ public final class ExpressionFactory {
         try {
             return new CucumberExpression(expressionString, parameterTypeRegistry);
         } catch (UndefinedParameterTypeException e) {
-            return new UndefinedParameterTypeExpression(expressionString);
+            return new UndefinedParameterTypeExpression(expressionString, Collections.singleton(e.getUndefinedParameterTypeName()));
         }
     }
 

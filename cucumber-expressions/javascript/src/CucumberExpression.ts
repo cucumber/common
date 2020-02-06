@@ -24,6 +24,7 @@ const PARAMETER_TYPES_CANNOT_BE_OPTIONAL =
 export default class CucumberExpression implements Expression {
   private parameterTypes: Array<ParameterType<any>> = []
   private treeRegexp: TreeRegexp
+  public undefinedParameterTypeNames = new Set<string>()
 
   /**
    * @param expression
