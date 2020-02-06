@@ -92,22 +92,36 @@ func (m *matcher) MatchComment(line *Line) (ok bool, token *Token, err error) {
 }
 
 func (m *matcher) MatchTagLine(line *Line) (ok bool, token *Token, err error) {
-	if line.StartsWith(TAG_PREFIX) {
-		var tags []*LineSpan
-		var column = line.Indent()
-		splits := strings.Split(line.TrimmedLineText, TAG_PREFIX)
-		for i := range splits {
-			txt := strings.Trim(splits[i], " ")
-			if txt != "" {
-				tags = append(tags, &LineSpan{column, TAG_PREFIX + txt})
-			}
-			column = column + utf8.RuneCountInString(splits[i]) + 1
-		}
-
-		token, ok = m.newTokenAtLocation(line.LineNumber, line.Indent()), true
-		token.Type = TokenTypeTagLine
-		token.Items = tags
+	if !line.StartsWith(TAG_PREFIX) {
+		return
 	}
+	commentDelimiter := regexp.MustCompile(`\s+` + COMMENT_PREFIX)
+	uncommentedLine := commentDelimiter.Split(line.TrimmedLineText, 2)[0]
+	var tags []*LineSpan
+	var column = line.Indent() + 1
+
+	splits := strings.Split(uncommentedLine, TAG_PREFIX)
+	for i := range splits {
+		txt := strings.TrimRightFunc(splits[i], func(r rune) bool {
+			return unicode.IsSpace(r)
+		})
+		if len(txt) == 0 {
+			continue
+		}
+		if !regexp.MustCompile(`^\S+$`).MatchString(txt) {
+			location := &Location{line.LineNumber, column}
+			msg := "A tag may not contain whitespace"
+			err = &parseError{msg, location}
+			break
+		}
+		tags = append(tags, &LineSpan{column, TAG_PREFIX + txt})
+		column = column + utf8.RuneCountInString(splits[i]) + 1
+	}
+
+	token, ok = m.newTokenAtLocation(line.LineNumber, line.Indent()), true
+	token.Type = TokenTypeTagLine
+	token.Items = tags
+
 	return
 }
 
