@@ -31,7 +31,15 @@ public final class ExpressionFactory {
         if (m.find()) {
             return new RegularExpression(Pattern.compile(m.group(1)), parameterTypeRegistry);
         }
-        return new CucumberExpression(expressionString, parameterTypeRegistry);
+        return createCucumberExpression(expressionString);
+    }
+
+    private Expression createCucumberExpression(String expressionString) {
+        try {
+            return new CucumberExpression(expressionString, parameterTypeRegistry);
+        } catch (UndefinedParameterTypeException e) {
+            return new UndefinedParameterTypeExpression(expressionString);
+        }
     }
 
     private RegularExpression createRegularExpressionWithAnchors(String expressionString) {

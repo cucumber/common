@@ -72,28 +72,37 @@ public class ExpressionFactoryTest {
         assertThat("Unexpected message", thrownException.getMessage(), is(equalTo("You cannot use anchors (^ or $) in Cucumber Expressions. Please remove them from ^the seller has {int} strike(s)$")));
     }
 
+    @Test
+    public void creates_UndefinedParameterTypeExpression_for_undefined_parameter_types() {
+        assertUndefinedParameterTypeExpression("{x}");
+    }
+
     private void assertRegularExpression(String expressionString) {
         assertRegularExpression(expressionString, expressionString);
     }
 
-    private void assertRegularExpression(String expectedSource, String expressionSource) {
-        assertExpression(RegularExpression.class, expectedSource, expressionSource);
+    private void assertRegularExpression(String expectedSource, String expressionString) {
+        assertExpression(RegularExpression.class, expectedSource, expressionString);
     }
 
-    private void assertCucumberExpression(String expressionSource) {
-        assertExpression(CucumberExpression.class, expressionSource, expressionSource);
+    private void assertCucumberExpression(String expressionString) {
+        assertExpression(CucumberExpression.class, expressionString, expressionString);
     }
 
-    private void assertExpression(Class<? extends Expression> expectedClass, String expectedSource, String expressionSource) {
-        Expression expression = createExpression(expressionSource);
+    private void assertUndefinedParameterTypeExpression(String expressionString) {
+        assertExpression(UndefinedParameterTypeExpression.class, expressionString, expressionString);
+    }
+
+    private void assertExpression(Class<? extends Expression> expectedClass, String expectedSource, String expressionString) {
+        Expression expression = createExpression(expressionString);
         assertEquals(expectedClass, expression.getClass());
         if (expectedSource != null) {
             assertEquals(expectedSource, expression.getSource());
         }
     }
 
-    private Expression createExpression(String expressionSource) {
-        return new ExpressionFactory(new ParameterTypeRegistry(Locale.ENGLISH)).createExpression(expressionSource);
+    private Expression createExpression(String expressionString) {
+        return new ExpressionFactory(new ParameterTypeRegistry(Locale.ENGLISH)).createExpression(expressionString);
     }
 
 }
