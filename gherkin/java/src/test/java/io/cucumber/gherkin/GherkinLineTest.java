@@ -137,6 +137,18 @@ public class GherkinLineTest {
     }
 
     @Test
+    public void preserve_escaped_new_lines_at_start_and_end() {
+        GherkinLine gherkinLine = new GherkinLine("      |  \nraindrops--\nher last kiss\ngoodbye.\n  |", line);
+        List<String> texts = gherkinLine.getTableCells().stream().map(span -> span.text).collect(Collectors.toList());
+        assertEquals(asList("" +
+                "\n" +
+                "raindrops--\n" +
+                "her last kiss\n" +
+                "goodbye.\n"
+        ), texts);
+    }
+
+    @Test
     public void escapes_backslash() {
         GherkinLine gherkinLine = new GherkinLine("|\\\\o\\no\\||", line);
         List<String> texts = gherkinLine.getTableCells().stream().map(span -> span.text).collect(Collectors.toList());

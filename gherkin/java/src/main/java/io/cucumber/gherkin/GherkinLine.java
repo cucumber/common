@@ -8,7 +8,9 @@ import java.util.Scanner;
 import static io.cucumber.gherkin.GherkinLanguageConstants.COMMENT_PREFIX;
 import static io.cucumber.gherkin.GherkinLanguageConstants.TAG_PREFIX;
 import static io.cucumber.gherkin.StringUtils.ltrim;
+import static io.cucumber.gherkin.StringUtils.ltrimKeepNewLines;
 import static io.cucumber.gherkin.StringUtils.rtrim;
+import static io.cucumber.gherkin.StringUtils.rtrimKeepNewLines;
 import static io.cucumber.gherkin.StringUtils.symbolCount;
 import static io.cucumber.gherkin.StringUtils.trim;
 
@@ -121,9 +123,9 @@ public class GherkinLine implements IGherkinLine {
                         beforeFirst = false;
                     } else {
                         String cell = cellBuilder.toString();
-                        String leftTrimmedCell = ltrim(cell);
+                        String leftTrimmedCell = ltrimKeepNewLines(cell);
                         int cellIndent = symbolCount(cell) - symbolCount(leftTrimmedCell);
-                        lineSpans.add(new GherkinLineSpan(cellStart + cellIndent + OFFSET, rtrim(leftTrimmedCell)));
+                        lineSpans.add(new GherkinLineSpan(cellStart + cellIndent + OFFSET, rtrimKeepNewLines(leftTrimmedCell)));
                     }
                     cellBuilder = new StringBuilder();
                     cellStart = col + 1;
