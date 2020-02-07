@@ -13,4 +13,3 @@ dependency-reduced-pom.xml
 .compared
 # Approval tests
 acceptance/
-*.iml
