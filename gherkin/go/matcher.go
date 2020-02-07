@@ -204,6 +204,10 @@ func (m *matcher) MatchDocStringSeparator(line *Line) (ok bool, token *Token, er
 	return
 }
 
+func isSpaceAndNotNewLine(r rune) bool {
+	return unicode.IsSpace(r) && r != '\n'
+}
+
 func (m *matcher) MatchTableRow(line *Line) (ok bool, token *Token, err error) {
 	var firstChar, firstPos = utf8.DecodeRuneInString(line.TrimmedLineText)
 	if firstChar == TABLE_CELL_SEPARATOR {
@@ -218,9 +222,9 @@ func (m *matcher) MatchTableRow(line *Line) (ok bool, token *Token, err error) {
 				// append current cell
 				txt := string(cell)
 
-				txtTrimmedLeadingSpace := strings.TrimLeftFunc(txt, unicode.IsSpace)
+				txtTrimmedLeadingSpace := strings.TrimLeftFunc(txt, isSpaceAndNotNewLine)
 				ind := utf8.RuneCountInString(txt) - utf8.RuneCountInString(txtTrimmedLeadingSpace)
-				txtTrimmed := strings.TrimRightFunc(txtTrimmedLeadingSpace, unicode.IsSpace)
+				txtTrimmed := strings.TrimRightFunc(txtTrimmedLeadingSpace, isSpaceAndNotNewLine)
 				cells = append(cells, &LineSpan{startCol + ind, txtTrimmed})
 				// start building next
 				cell = make([]rune, 0)
