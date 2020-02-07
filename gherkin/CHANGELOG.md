@@ -68,6 +68,10 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Fixed
 
+* Do not trim leading newlines
+  ([#891](https://github.com/cucumber/cucumber/pull/891)
+   [mpkorstanje])
+   
 * PickleStep have unique IDs when generated from a `Background` section
   ([#800](https://github.com/cucumber/cucumber/pull/800)
    [vincent-psarga])
