@@ -1,6 +1,6 @@
 {
   "source": {
-    "data": "Feature: DataTables\n\n  Scenario: some whitespace is important\n    Given 3 lines of poetry on 5 lines\n      |  \\nraindrops--\\nher last kiss\\ngoodbye.\\n  |\n    Given an example of negative space\n      |        lost        i n        space        |",
+    "data": "Feature: DataTables\n\n  Scenario: some whitespace is important\n    Given 3 lines of poetry on 5 lines\n      |  \\nraindrops--\\nher last kiss\\ngoodbye.\\n  |\n    Given an example of negative space\n      |        lost        i n        space        |\n",
     "mediaType": "text/x.cucumber.gherkin+plain",
     "uri": "testdata/good/datatables_with_new_lines.feature"
   }
