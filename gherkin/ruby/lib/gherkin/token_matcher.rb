@@ -80,7 +80,7 @@ module Gherkin
       if @active_doc_string_separator.nil?
         # open
         _match_DocStringSeparator(token, '"""', true) ||
-        _match_DocStringSeparator(token, '```', true)
+            _match_DocStringSeparator(token, '```', true)
       else
         # close
         _match_DocStringSeparator(token, @active_doc_string_separator, false)
@@ -118,10 +118,10 @@ module Gherkin
 
     def match_StepLine(token)
       keywords = @dialect.given_keywords +
-                 @dialect.when_keywords +
-                 @dialect.then_keywords +
-                 @dialect.and_keywords +
-                 @dialect.but_keywords
+          @dialect.when_keywords +
+          @dialect.then_keywords +
+          @dialect.and_keywords +
+          @dialect.but_keywords
 
       keyword = keywords.detect { |k| token.line.start_with?(k) }
 
@@ -152,7 +152,7 @@ module Gherkin
       true
     end
 
-    def set_token_matched(token, matched_type, text=nil, keyword=nil, indent=nil, items=[])
+    def set_token_matched(token, matched_type, text = nil, keyword = nil, indent = nil, items = [])
       token.matched_type = matched_type
       token.matched_text = text && text.chomp
       token.matched_keyword = keyword
@@ -163,7 +163,13 @@ module Gherkin
     end
 
     def unescape_docstring(text)
-      @active_doc_string_separator ? text.gsub("\\\"\\\"\\\"", "\"\"\"") : text
+      if @active_doc_string_separator == "\"\"\""
+        text.gsub("\\\"\\\"\\\"", "\"\"\"")
+      elsif @active_doc_string_separator == "```"
+        text.gsub("\\`\\`\\`", "```")
+      else
+        text
+      end
     end
   end
 end
