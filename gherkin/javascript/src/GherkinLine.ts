@@ -52,10 +52,13 @@ export default class GherkinLine {
           // First cell (content before the first |) is skipped
           firstCell = false
         } else {
-          const cellIndent = cell.length - cell.replace(/^\s+/g, '').length
+          // Keeps newlines
+          const trimmedLeft = cell.replace(/^[ \t\v\f\r\u0085\u00A0]*/g, '')
+          const trimmed = trimmedLeft.replace(/[ \t\v\f\r\u0085\u00A0]*$/g, '')
+          const cellIndent = cell.length - trimmedLeft.length
           const span = {
             column: this.indent + startCol + cellIndent,
-            text: cell.trim(),
+            text: trimmed,
           }
           cells.push(span)
         }
