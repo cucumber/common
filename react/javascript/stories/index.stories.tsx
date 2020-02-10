@@ -25,6 +25,7 @@ import rules from '../../../compatibility-kit/javascript/features/rules/rules.nd
 import stackTraces from '../../../compatibility-kit/javascript/features/stack-traces/stack-traces.ndjson'
 import Step from '../src/components/gherkin/Step'
 import SearchBar from '../src/components/app/SearchBar'
+import FilteredResults from '../src/components/app/FilteredResults'
 
 function envelopes(ndjson: string): messages.IEnvelope[] {
   return ndjson.trim().split('\n')
@@ -48,6 +49,11 @@ storiesOf('Features', module)
   .add('Search bar', () => {
     return <Wrapper envelopes={[]}>
       <SearchBar queryUpdated={(query) => console.log("query:", query)} />
+    </Wrapper>
+  })
+  .add('Filtered results', () => {
+    return <Wrapper envelopes={envelopes(documentList)}>
+      <FilteredResults />
     </Wrapper>
   })
   .add('Document list', () => {

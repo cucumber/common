@@ -1,7 +1,7 @@
 import React, { Component, useState } from 'react'
 
 interface IProps {
-  queryUpdated: (event: any) => any
+  queryUpdated: (query: string) => any
 }
 
 const SearchBar: React.FunctionComponent<IProps> = ({ queryUpdated }) => {
