@@ -24,7 +24,7 @@ import rules from '../../../compatibility-kit/javascript/features/rules/rules.nd
 // @ts-ignore
 import stackTraces from '../../../compatibility-kit/javascript/features/stack-traces/stack-traces.ndjson'
 import Step from '../src/components/gherkin/Step'
-
+import SearchBar from '../src/components/app/SearchBar'
 
 function envelopes(ndjson: string): messages.IEnvelope[] {
   return ndjson.trim().split('\n')
@@ -43,6 +43,11 @@ storiesOf('Features', module)
       <StepContainer status={messages.TestResult.Status.SKIPPED}>
         <div>Then a skipped step</div>
       </StepContainer>
+    </Wrapper>
+  })
+  .add('Search bar', () => {
+    return <Wrapper envelopes={[]}>
+      <SearchBar />
     </Wrapper>
   })
   .add('Document list', () => {
