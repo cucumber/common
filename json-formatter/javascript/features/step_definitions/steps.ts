@@ -8,6 +8,10 @@ Given('a passed {word} with text attachment {string}', function(word: string, at
   this.attach(attachmentText, 'text/plain')
 })
 
+Given('a step outputs:', function(txt: string) {
+  this.attach(txt, 'text/output')
+})
+
 When('a failed {word}', () => {
   throw new Error('Some error')
 })
