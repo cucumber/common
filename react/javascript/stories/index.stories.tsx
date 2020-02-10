@@ -26,6 +26,7 @@ import stackTraces from '../../../compatibility-kit/javascript/features/stack-tr
 import Step from '../src/components/gherkin/Step'
 import SearchBar from '../src/components/app/SearchBar'
 import FilteredResults from '../src/components/app/FilteredResults'
+import AllGherkinDocuments from '../src/components/app/AllGherkinDocuments'
 
 function envelopes(ndjson: string): messages.IEnvelope[] {
   return ndjson.trim().split('\n')
@@ -58,41 +59,41 @@ storiesOf('Features', module)
   })
   .add('Document list', () => {
     return <Wrapper envelopes={envelopes(documentList)}>
-      <GherkinDocumentList/>
+      <AllGherkinDocuments />
     </Wrapper>
   })
   .add('Attachments', () => {
     return <Wrapper envelopes={envelopes(attachments)}>
-      <GherkinDocumentList/>
+      <AllGherkinDocuments/>
     </Wrapper>
   })
   .add('Examples Tables', () => {
     return <Wrapper envelopes={envelopes(examplesTables)}>
-      <GherkinDocumentList/>
+      <AllGherkinDocuments/>
     </Wrapper>
   })
   .add('Data Tables', () => {
     return <Wrapper envelopes={envelopes(dataTables)}>
-      <GherkinDocumentList/>
+      <AllGherkinDocuments/>
     </Wrapper>
   })
   .add('Hooks', () => {
     return <Wrapper envelopes={envelopes(hooks)}>
-      <GherkinDocumentList/>
+      <AllGherkinDocuments/>
     </Wrapper>
   })
   .add('Parameter Types', () => {
     return <Wrapper envelopes={envelopes(parameterTypes)}>
-      <GherkinDocumentList/>
+      <AllGherkinDocuments/>
     </Wrapper>
   })
   .add('Rules', () => {
     return <Wrapper envelopes={envelopes(rules)}>
-      <GherkinDocumentList/>
+      <AllGherkinDocuments/>
     </Wrapper>
   })
   .add('Stack Traces', () => {
     return <Wrapper envelopes={envelopes(stackTraces)}>
-      <GherkinDocumentList/>
+      <AllGherkinDocuments />
     </Wrapper>
   })

@@ -5,7 +5,6 @@ import gherkin from '@cucumber/gherkin'
 import { Readable } from 'stream'
 import React from 'react'
 import ReactDOM from 'react-dom'
-import GherkinDocumentList from '../src/components/app/GherkinDocumentList'
 import { JSDOM } from 'jsdom'
 import SupportCode from '@cucumber/fake-cucumber/dist/src/SupportCode'
 import makeDummyStepDefinitions from '@cucumber/fake-cucumber/dist/test/makeDummyStepDefinitions'
@@ -14,6 +13,7 @@ import CucumberStream from '@cucumber/fake-cucumber/dist/src/CucumberStream'
 import PerfHooksClock from '@cucumber/fake-cucumber/dist/src/PerfHooksClock'
 import { withFullStackTrace } from '@cucumber/fake-cucumber/dist/src/ErrorMessageGenerator'
 import Wrapper from '../src/components/app/Wrapper'
+import AllGherkinDocuments from '../src/components/app/AllGherkinDocuments'
 
 describe('App', () => {
   const dir = __dirname + '/../../../gherkin/testdata/good'
@@ -59,7 +59,7 @@ describe('App', () => {
         )
         const app = (
           <Wrapper envelopes={envelopes}>
-            <GherkinDocumentList />
+            <AllGherkinDocuments />
           </Wrapper>
         )
         ReactDOM.render(app, document.getElementById('content'))
