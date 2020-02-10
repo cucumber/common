@@ -179,14 +179,14 @@ func makeOutput(attachments []*messages.Attachment) []string {
 	return output
 }
 
-func filterAttachments(vs []*messages.Attachment, f func(*messages.Attachment) bool) []*messages.Attachment {
-	vsf := make([]*messages.Attachment, 0)
-	for _, v := range vs {
-		if f(v) {
-			vsf = append(vsf, v)
+func filterAttachments(attachments []*messages.Attachment, filter func(*messages.Attachment) bool) []*messages.Attachment {
+	matches := make([]*messages.Attachment, 0)
+	for _, attachment := range attachments {
+		if filter(attachment) {
+			matches = append(matches, attachment)
 		}
 	}
-	return vsf
+	return matches
 }
 
 func isEmbeddable(attachment *messages.Attachment) bool {
