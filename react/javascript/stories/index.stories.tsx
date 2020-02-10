@@ -47,7 +47,7 @@ storiesOf('Features', module)
   })
   .add('Search bar', () => {
     return <Wrapper envelopes={[]}>
-      <SearchBar />
+      <SearchBar queryUpdated={(query) => console.log("query:", query)} />
     </Wrapper>
   })
   .add('Document list', () => {
