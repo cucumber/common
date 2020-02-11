@@ -10,14 +10,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 
 * [JavaScript, Ruby] Added `ExpressionFactory`, which is now the preferred way to create `Expression` instances.
-* Add `Expression#getUndefinedParameterTypeNames()`, which clients can use to report undefined parameter types.
 
 ### Changed
-
-* [JavaScript, Java] `ExpressionFactory#createExpression` will return an `UndefinedParameterTypeExpression`
-  if the expression string references undefined parameter types, rather than throwing an exception.
-* [Go] `NewCucumberExpression` will return a `UndefinedParameterTypeExpression` instead of an error
-  if the expression string references undefined parameter type
 
 ### Deprecated
 
