@@ -62,6 +62,10 @@ export default abstract class TestStep implements ITestStep {
 
     try {
       world.attach = makeAttach(this.id, testCaseStartedId, notifier)
+      world.log = (text: string) => {
+        world.attach(text, 'text/x.cucumber.output+plain')
+      }
+
       const result = await this.supportCodeExecutors[0].execute(world)
       const finish = this.clock.now()
       const duration = millisecondsToDuration(finish - start)

@@ -16,4 +16,8 @@ export default class TestWorld implements IWorld {
     })
     this.attachments.push(attachment)
   }
+
+  public log(text: string): void {
+    this.attach(text, 'text/x.cucumber.output+plain')
+  }
 }
