@@ -66,7 +66,6 @@ public class ExpressionFactoryTest {
 
     @Test
     public void explains_cukexp_regexp_mix() {
-
         final Executable testMethod = () -> createExpression("^the seller has {int} strike(s)$");
 
         final CucumberExpressionException thrownException = assertThrows(CucumberExpressionException.class, testMethod);
@@ -74,10 +73,10 @@ public class ExpressionFactoryTest {
     }
 
     @Test
-    public void creates_UndefinedParameterTypeExpression_for_undefined_parameter_types() {
-        Expression expression = createExpression("{x}");
-        assertEquals(UndefinedParameterTypeExpression.class, expression.getClass());
-        assertEquals(singleton("x"), expression.getUndefinedParameterTypeNames());
+    public void explains_undefined_parameter_types() {
+        final Executable testMethod = () -> createExpression("{x}");
+        final CucumberExpressionException thrownException = assertThrows(CucumberExpressionException.class, testMethod);
+        assertThat("Unexpected message", thrownException.getMessage(), is(equalTo("Undefined parameter type {x}. Please register a ParameterType for {x}.")));
     }
 
     private void assertRegularExpression(String expressionString) {

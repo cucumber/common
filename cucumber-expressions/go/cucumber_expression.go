@@ -37,9 +37,6 @@ func NewCucumberExpression(expression string, parameterTypeRegistry *ParameterTy
 
 	expression, err = result.processParameters(expression, parameterTypeRegistry)
 	if err != nil {
-		if strings.HasPrefix(err.Error(), "Undefined parameter type") {
-			return &UndefinedParameterTypeExpression{source: expression}, nil
-		}
 		return nil, err
 	}
 
@@ -168,20 +165,4 @@ func (r *CucumberExpression) objectMapperTransformer(typeHint reflect.Type) func
 		}
 		return i
 	}
-}
-
-type UndefinedParameterTypeExpression struct {
-	source string
-}
-
-func (c *UndefinedParameterTypeExpression) Match(text string, typeHints ...reflect.Type) ([]*Argument, error) {
-	return nil, nil
-}
-
-func (c *UndefinedParameterTypeExpression) Regexp() *regexp.Regexp {
-	return regexp.MustCompile(".^")
-}
-
-func (c *UndefinedParameterTypeExpression) Source() string {
-	return c.source
 }

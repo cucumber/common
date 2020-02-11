@@ -68,6 +68,7 @@ message Envelope {
     StepDefinition step_definition = 25;
     Hook hook = 26;
     ParameterType parameter_type = 27;
+    UndefinedParameterType undefined_parameter_type = 28;
   }
 }
 
@@ -642,6 +643,11 @@ message ParameterType {
   repeated string regular_expressions = 2;
   bool prefer_for_regular_expression_match = 3;
   bool use_for_snippets = 4;
+}
+
+message UndefinedParameterType {
+  string name = 1;
+  string expression = 2;
 }
 
 message CommandActionComplete {

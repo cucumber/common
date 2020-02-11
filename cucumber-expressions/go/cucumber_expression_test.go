@@ -262,9 +262,8 @@ func TestCucumberExpression(t *testing.T) {
 
 	t.Run("returns UndefinedParameterTypeExpression for unknown parameter", func(t *testing.T) {
 		parameterTypeRegistry := NewParameterTypeRegistry()
-		expression, err := NewCucumberExpression("{unknown}", parameterTypeRegistry)
-		require.NoError(t, err)
-		require.Equal(t, expression.Source(), "{unknown}")
+		_, err := NewCucumberExpression("{unknown}", parameterTypeRegistry)
+		require.Error(t, err)
 	})
 
 	t.Run("exposes source", func(t *testing.T) {

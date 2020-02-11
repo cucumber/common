@@ -1,7 +1,6 @@
 import Expression from './Expression'
 import CucumberExpression from './CucumberExpression'
 import RegularExpression from './RegularExpression'
-import UndefinedParameterTypeExpression from './UndefinedParameterTypeExpression'
 import ParameterTypeRegistry from './ParameterTypeRegistry'
 
 export default class ExpressionFactory {
@@ -11,22 +10,7 @@ export default class ExpressionFactory {
 
   public createExpression(expression: string | RegExp): Expression {
     return typeof expression === 'string'
-      ? this.createCucumberExpression(expression)
+      ? new CucumberExpression(expression, this.parameterTypeRegistry)
       : new RegularExpression(expression, this.parameterTypeRegistry)
-  }
-
-  private createCucumberExpression(expression: string) {
-    try {
-      return new CucumberExpression(expression, this.parameterTypeRegistry)
-    } catch (e) {
-      if (e.undefinedParameterTypeName) {
-        return new UndefinedParameterTypeExpression(
-          expression,
-          new Set<string>([e.undefinedParameterTypeName])
-        )
-      } else {
-        throw e
-      }
-    }
   }
 }

@@ -76,10 +76,4 @@ final class RegularExpression implements Expression {
     public String getSource() {
         return expressionRegexp.pattern();
     }
-
-    @Override
-    public Set<String> getUndefinedParameterTypeNames() {
-        return Collections.emptySet();
-    }
-
 }

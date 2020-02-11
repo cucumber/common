@@ -14,6 +14,4 @@ public interface Expression {
     Pattern getRegexp();
 
     String getSource();
-
-    Set<String> getUndefinedParameterTypeNames();
 }

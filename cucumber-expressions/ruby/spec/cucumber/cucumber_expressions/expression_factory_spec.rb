@@ -6,7 +6,7 @@ module Cucumber
       before do
         @expression_factory = ExpressionFactory.new(ParameterTypeRegistry.new)
       end
-      
+
       it 'creates a RegularExpression' do
         expect(@expression_factory.create_expression(/x/).class).to eq(RegularExpression)
       end
@@ -16,7 +16,7 @@ module Cucumber
       end
 
       it 'creates a XXXRegularExpression' do
-        expect(@expression_factory.create_expression('hello {x}').class).to eq(UndefinedParameterTypeExpression)
+        expect {@expression_factory.create_expression('hello {x}')}.to raise_error("Undefined parameter type {x}")
       end
     end
   end

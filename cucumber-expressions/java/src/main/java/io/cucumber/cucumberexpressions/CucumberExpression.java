@@ -149,11 +149,6 @@ final class CucumberExpression implements Expression {
     }
 
     @Override
-    public Set<String> getUndefinedParameterTypeNames() {
-        return Collections.emptySet();
-    }
-
-    @Override
     public Pattern getRegexp() {
         return treeRegexp.pattern();
     }

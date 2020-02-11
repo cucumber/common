@@ -3,7 +3,6 @@ import ExpressionFactory from '../src/ExpressionFactory'
 import ParameterTypeRegistry from '../src/ParameterTypeRegistry'
 import RegularExpression from '../src/RegularExpression'
 import CucumberExpression from '../src/CucumberExpression'
-import UndefinedParameterTypeExpression from '../src/UndefinedParameterTypeExpression'
 
 describe('ExpressionFactory', () => {
   let expressionFactory: ExpressionFactory
@@ -26,11 +25,8 @@ describe('ExpressionFactory', () => {
   })
 
   it('creates an UndefinedParameterTypeExpression', () => {
-    const expression = expressionFactory.createExpression('{x}')
-    assert.equal(expression.constructor, UndefinedParameterTypeExpression)
-    assert.deepStrictEqual(
-      expression.undefinedParameterTypeNames,
-      new Set(['x'])
-    )
+    assert.throws(() => expressionFactory.createExpression('{x}'), {
+      message: 'Undefined parameter type {x}',
+    })
   })
 })
