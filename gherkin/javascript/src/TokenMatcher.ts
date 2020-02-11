@@ -1,9 +1,9 @@
 import DIALECTS from './gherkin-languages.json'
 import Dialect from './Dialect'
-import { NoSuchLanguageException } from './Errors'
-import { messages } from '@cucumber/messages'
+import {NoSuchLanguageException} from './Errors'
+import {messages} from '@cucumber/messages'
 import Token from './Token'
-import { TokenType } from './Parser'
+import {TokenType} from './Parser'
 
 const DIALECT_DICT: { [key: string]: Dialect } = DIALECTS
 const LANGUAGE_PATTERN = /^\s*#\s*language\s*:\s*([a-zA-Z\-_]+)\s*$/
@@ -142,14 +142,14 @@ export default class TokenMatcher {
   public match_DocStringSeparator(token: Token) {
     return this.activeDocStringSeparator == null
       ? // open
-        this._match_DocStringSeparator(token, '"""', true) ||
-          this._match_DocStringSeparator(token, '```', true)
+      this._match_DocStringSeparator(token, '"""', true) ||
+      this._match_DocStringSeparator(token, '```', true)
       : // close
-        this._match_DocStringSeparator(
-          token,
-          this.activeDocStringSeparator,
-          false
-        )
+      this._match_DocStringSeparator(
+        token,
+        this.activeDocStringSeparator,
+        false
+      )
   }
 
   public _match_DocStringSeparator(
@@ -251,8 +251,12 @@ export default class TokenMatcher {
   }
 
   private unescapeDocString(text: string) {
-    return this.activeDocStringSeparator != null
-      ? text.replace('\\"\\"\\"', '"""')
-      : text
+    if (this.activeDocStringSeparator === "\"\"\"") {
+      return text.replace('\\"\\"\\"', '"""')
+    }
+    if (this.activeDocStringSeparator === "```") {
+      return text.replace('\\`\\`\\`', '```')
+    }
+    return text
   }
 }

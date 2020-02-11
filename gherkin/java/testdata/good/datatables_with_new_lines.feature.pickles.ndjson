@@ -1,0 +1,53 @@
+{
+  "pickle": {
+    "astNodeIds": [
+      "4"
+    ],
+    "id": "7",
+    "language": "en",
+    "name": "some whitespace is important",
+    "steps": [
+      {
+        "argument": {
+          "dataTable": {
+            "rows": [
+              {
+                "cells": [
+                  {
+                    "value": "\nraindrops--\nher last kiss\ngoodbye.\n"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "astNodeIds": [
+          "1"
+        ],
+        "id": "5",
+        "text": "3 lines of poetry on 5 lines"
+      },
+      {
+        "argument": {
+          "dataTable": {
+            "rows": [
+              {
+                "cells": [
+                  {
+                    "value": "lost        i n        space"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "astNodeIds": [
+          "3"
+        ],
+        "id": "6",
+        "text": "an example of negative space"
+      }
+    ],
+    "uri": "testdata/good/datatables_with_new_lines.feature"
+  }
+}

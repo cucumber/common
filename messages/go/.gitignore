@@ -12,3 +12,4 @@ bin/
 dist/
 dist_compressed/
 *.bin
+*.iml
