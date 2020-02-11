@@ -39,7 +39,11 @@ export default function makeAttach(
 
       return new Promise((resolve, reject) => {
         let buf = Buffer.alloc(0)
-        stream.on('data', (chunk: Buffer) => {
+        stream.on('data', (chunk: Buffer | string) => {
+          if (!Buffer.isBuffer(chunk)) {
+            stream.destroy(new Error(`Can only attach binary streams`))
+            return
+          }
           buf = Buffer.concat([buf, chunk])
         })
         stream.on('end', () => {

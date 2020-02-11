@@ -4,7 +4,7 @@
       "children": [
         {
           "scenario": {
-            "id": "7",
+            "id": "8",
             "keyword": "Scenario",
             "location": {
               "column": 3,
@@ -131,6 +131,23 @@
                   "line": 38
                 },
                 "text": "a DocString with escaped separator inside"
+              },
+              {
+                "docString": {
+                  "content": "first line\n```\nthird line",
+                  "delimiter": "```",
+                  "location": {
+                    "column": 7,
+                    "line": 45
+                  }
+                },
+                "id": "7",
+                "keyword": "And ",
+                "location": {
+                  "column": 5,
+                  "line": 44
+                },
+                "text": "a DocString with an escaped alternative separator inside"
               }
             ]
           }

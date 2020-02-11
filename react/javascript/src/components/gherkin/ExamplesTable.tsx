@@ -13,9 +13,10 @@ const ExamplesTable: React.FunctionComponent<IProps> = ({
   tableBody,
 }) => {
   return (
-    <table>
+    <table className="examples-table">
       <thead>
         <tr>
+          <th>&nbsp;</th>
           {tableHeader.cells.map((cell, j) => (
             <th key={j}>{cell.value}</th>
           ))}

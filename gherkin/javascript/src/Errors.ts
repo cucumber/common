@@ -29,7 +29,13 @@ class GherkinException extends Error {
   }
 }
 
-export class ParserException extends GherkinException {}
+export class ParserException extends GherkinException {
+  public static create(message: string, line: number, column: number) {
+    const err = new this(`(${line}:${column}): ${message}`)
+    err.location = createLocation({ line, column })
+    return err
+  }
+}
 
 export class CompositeParserException extends GherkinException {
   public static create(errors: Error[]) {

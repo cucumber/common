@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 set -euf
 
-docker run --interactive --rm cucumber/html-formatter:3.2.2 --format ndjson
+docker run --interactive --rm cucumber/html-formatter:3.2.3 --format ndjson

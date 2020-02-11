@@ -1,0 +1,12 @@
+(1:1)FeatureLine:Feature/DataTables/
+(2:1)Empty://
+(3:3)ScenarioLine:Scenario/some whitespace is important/
+(4:5)StepLine:Given /3 lines of poetry on 5 lines/
+(5:7)TableRow://10:
+raindrops--
+her last kiss
+goodbye.
+
+(6:5)StepLine:Given /an example of negative space/
+(7:7)TableRow://16:lost        i n        space
+EOF

@@ -11,11 +11,15 @@ test suite:
 ```
 cd ../../gherkin
 ../fake-cucumber/javascript/bin/fake-cucumber \
-  --results random \
+  --format ndjson \
   testdata/good/*.feature | \
-  ../html-formatter/javascript/bin/cucumber-html-formatter.js > \
+  ../html-formatter/javascript/bin/cucumber-html-formatter.js \
+  --format ndjson > \
   gherkin.html
 ```
+
+Note that this will only work if `package.json` points to released versions. It won't
+work as long as there are `file:` dependencies - you'll get a React error.
 
 ## Docker image
 

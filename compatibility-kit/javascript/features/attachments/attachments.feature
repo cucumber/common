@@ -16,4 +16,4 @@ Feature: Attachments
     When an array with 10 bytes are attached as "application/octet-stream"
 
   Scenario: Attach byte stream
-    When a stream with 10 bytes are attached as "application/octet-stream"
+    When a JPEG image is attached

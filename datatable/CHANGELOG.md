@@ -17,6 +17,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [3.3.0] - 2020-02-06
+
+### Added
+ * [Java] Allow Object and String datatable types to be redefined
+    ([#885](https://github.com/cucumber/cucumber/pull/885)
+     [mpkorstanje])
+
+## [3.2.1] - 2020-01-25
+
+### Fixed
+ * [Java] Avoid collisions when converting to maps
+     ([#877](https://github.com/cucumber/cucumber/pull/877)
+     [mpkorstanje])
+
 ## [3.2.0] - 2020-01-10
 
 ### Added
@@ -141,7 +155,9 @@ There are no (1.1.0 and 1.1.1 releases).
 * java: OSGI fixes
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/datatable/v3.2.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/datatable/v3.3.0...master
+[3.3.0]:      https://github.com/cucumber/cucumber/compare/datatable/v3.2.1...datatable/v3.3.0
+[3.2.1]:      https://github.com/cucumber/cucumber/compare/datatable/v3.2.0...datatable/v3.2.1
 [3.2.0]:      https://github.com/cucumber/cucumber/compare/datatable/v3.1.0...datatable/v3.2.0
 [3.1.0]:      https://github.com/cucumber/cucumber/compare/datatable/v3.0.0...datatable/v3.1.0
 [3.0.0]:      https://github.com/cucumber/cucumber/compare/datatable/v2.0.0...datatable/v3.0.0

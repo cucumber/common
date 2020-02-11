@@ -2,13 +2,14 @@ import assert from 'assert'
 import ReactDOM from 'react-dom'
 import React from 'react'
 import { messages } from '@cucumber/messages'
-import { StepMatchArgumentsQuery } from '@cucumber/query'
+import CucumberQuery from '@cucumber/query'
 import Step from '../src/components/gherkin/Step'
 import { JSDOM } from 'jsdom'
-import StepMatchArgumentsQueryContext from '../src/StepMatchArgumentsQueryContext'
+
 import UriContext from '../src/UriContext'
 import GherkinQueryContext from '../src/GherkinQueryContext'
 import { GherkinQuery } from '@cucumber/gherkin'
+import CucumberQueryContext from '../src/CucumberQueryContext'
 
 describe('Step', () => {
   it('renders', () => {
@@ -26,7 +27,7 @@ describe('Step', () => {
       location: new messages.Location({ column: 1, line: 1 }),
     })
 
-    class StubStepMatchArgumentsQuery extends StepMatchArgumentsQuery {
+    class StubCucumberQuery extends CucumberQuery {
       public getStepMatchArgumentsLists(): messages.TestCase.TestStep.IStepMatchArgumentsList[] {
         return [
           new messages.TestCase.TestStep.StepMatchArgumentsList({
@@ -53,31 +54,26 @@ describe('Step', () => {
     const app = (
       <GherkinQueryContext.Provider value={new StubGherkinQuery()}>
         <UriContext.Provider value={'some.feature'}>
-          <StepMatchArgumentsQueryContext.Provider
-            value={new StubStepMatchArgumentsQuery()}
-          >
+          <CucumberQueryContext.Provider value={new StubCucumberQuery()}>
             <Step
               step={step}
               renderStepMatchArguments={true}
               renderMessage={true}
             />
-          </StepMatchArgumentsQueryContext.Provider>
+          </CucumberQueryContext.Provider>
         </UriContext.Provider>
       </GherkinQueryContext.Provider>
     )
     ReactDOM.render(app, document.getElementById('content'))
 
-    assert.strictEqual(
-      document.querySelector('#content h3 > span:nth-child(2)').innerHTML,
-      'the '
-    )
-    assert.strictEqual(
-      document.querySelector('#content h3 > span:nth-child(3)').innerHTML,
-      '48'
-    )
-    assert.strictEqual(
-      document.querySelector('#content h3 > span:nth-child(4)').innerHTML,
-      ' pixies'
-    )
+    const plainTexts = Array.from(
+      document.querySelectorAll('#content h3 span')
+    ).map(a => a.innerHTML)
+    assert.deepStrictEqual(plainTexts, ['Given', 'the ', ' pixies'])
+
+    const paramTexts = Array.from(
+      document.querySelectorAll('#content h3 a')
+    ).map(a => a.innerHTML)
+    assert.deepStrictEqual(paramTexts, ['48'])
   })
 })
