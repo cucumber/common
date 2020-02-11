@@ -9,7 +9,7 @@ Given('a passed {word} with text attachment {string}', function(word: string, at
 })
 
 Given('a step outputs:', function(txt: string) {
-  this.attach(txt, 'text/output')
+  this.attach(txt, 'text/x.cucumber.output+plain')
 })
 
 When('a failed {word}', () => {
