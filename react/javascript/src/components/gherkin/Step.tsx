@@ -26,8 +26,12 @@ const Step: React.FunctionComponent<IProps> = ({
   const uri = React.useContext(UriContext)
 
   const pickleStepIds = gherkinQuery.getPickleStepIds(uri, step.location.line)
-  const pickleStepResults = cucumberQuery.getPickleStepResults(pickleStepIds)
-  const testResult = cucumberQuery.getWorstResult(pickleStepResults)
+  const pickleStepTestStepResults = cucumberQuery.getPickleStepTestStepResults(
+    pickleStepIds
+  )
+  const testStepResult = cucumberQuery.getWorstTestStepResult(
+    pickleStepTestStepResults
+  )
   const attachments = cucumberQuery.getPickleStepAttachments(pickleStepIds)
 
   const stepTextElements: JSX.Element[] = []
@@ -104,15 +108,15 @@ const Step: React.FunctionComponent<IProps> = ({
 
   return (
     <li className="step">
-      <StepContainer status={testResult.status}>
+      <StepContainer status={testStepResult.status}>
         <h3>
           <Keyword>{step.keyword}</Keyword>
           {stepTextElements}
         </h3>
         {step.dataTable && <DataTable dataTable={step.dataTable} />}
         {step.docString && <DocString docString={step.docString} />}
-        {renderMessage && testResult.message && (
-          <ErrorMessage message={testResult.message} />
+        {renderMessage && testStepResult.message && (
+          <ErrorMessage message={testStepResult.message} />
         )}
         {attachments.map((attachment, i) => (
           <Attachment key={i} attachment={attachment} />

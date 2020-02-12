@@ -1,9 +1,9 @@
-import assertThrows from './assert_throws'
 import ParameterType from '../src/ParameterType'
+import * as assert from 'assert'
 
 describe('ParameterType', () => {
   it('does not allow ignore flag on regexp', () => {
-    assertThrows(
+    assert.throws(
       () =>
         new ParameterType(
           'case-insensitive',
@@ -13,7 +13,7 @@ describe('ParameterType', () => {
           true,
           true
         ),
-      "ParameterType Regexps can't use flag 'i'"
+      { message: "ParameterType Regexps can't use flag 'i'" }
     )
   })
 })

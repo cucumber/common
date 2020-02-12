@@ -1,15 +1,14 @@
 package io.cucumber.cucumberexpressions;
 
-import org.apiguardian.api.API;
-
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-@API(status = API.Status.STABLE)
-public final class CucumberExpression implements Expression {
+final class CucumberExpression implements Expression {
     // Does not include (){} characters because they have special meaning
     private static final Pattern ESCAPE_PATTERN = Pattern.compile("([\\\\^\\[$.|?*+\\]])");
     @SuppressWarnings("RegExpRedundantEscape") // Android can't parse unescaped braces

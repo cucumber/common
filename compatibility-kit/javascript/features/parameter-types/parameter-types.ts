@@ -21,3 +21,8 @@ Given('{flight} has been delayed {int} minutes', function(
   assert.equal(flight.to, 'CDG')
   assert.equal(delay, 45)
 })
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+Given('{airport} is closed because of a strike', function(airport) {
+  throw new Error('Should not be called because airport type not defined')
+})

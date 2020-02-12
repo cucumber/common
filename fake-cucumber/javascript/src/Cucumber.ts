@@ -16,6 +16,7 @@ export default class Cucumber {
     private readonly gherkinMessages: messages.IEnvelope[],
     private readonly parameterTypes: Array<ParameterType<any>>,
     private readonly stepDefinitions: IStepDefinition[],
+    private readonly undefinedParameterTypes: messages.IEnvelope[],
     private readonly beforeHooks: IHook[],
     private readonly afterHooks: IHook[],
     private readonly gherkinQuery: GherkinQuery,
@@ -33,6 +34,9 @@ export default class Cucumber {
     }
     for (const stepDefinition of this.stepDefinitions) {
       notifier(stepDefinition.toMessage())
+    }
+    for (const undefinedParameterType of this.undefinedParameterTypes) {
+      notifier(undefinedParameterType)
     }
     for (const hook of [].concat(this.beforeHooks, this.afterHooks)) {
       notifier(hook.toMessage())

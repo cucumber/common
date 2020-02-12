@@ -9,6 +9,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+* Add `UndefinedParameterType`
+  ([#890](https://github.com/cucumber/cucumber/pull/890)
+   [aslakhellesoy])
+* Add `TestCaseFinished#message`
+  ([#890](https://github.com/cucumber/cucumber/pull/890)
+   [aslakhellesoy])
+
 ### Changed
 
 ### Deprecated
