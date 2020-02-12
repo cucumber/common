@@ -1,27 +1,38 @@
 include default.mk
 
-FEATURE_FILES = $(sort $(wildcard features/*.feature))
-RUBY_FILES = $(sort $(wildcard features/step_definitions/*.rb))
-JSONS_GOLDEN  = $(patsubst features/%.feature,features/%.json,$(FEATURE_FILES))
+# https://stackoverflow.com/questions/2483182/recursive-wildcards-in-gnu-make
+rwildcard=$(foreach d,$(wildcard $(1:=/*)),$(call rwildcard,$d,$2) $(filter $(subst *,%,$2),$d))
+
+CCK_PATH = ../../compatibility-kit
+CCK_FEATURES=$(call rwildcard,$(CCK_PATH)/javascript/features,*.feature)
+FEATURES=$(patsubst $(CCK_PATH)/javascript/%,%,$(CCK_FEATURES))
+STEP_DEFINITIONS=$(patsubst %.feature,%_steps.rb,$(FEATURES))
+JSONS_GOLDEN  = $(patsubst features/%.feature,features/%.json,$(FEATURES))
 
 .tested: $(JSONS_GOLDEN) features/all.json
 
-features/all.json: $(FEATURE_FILES)
-	# The cucumber tests are deliberately failing, so let make continue
-	-bundle exec cucumber --format json $^ | \
-	./neutralize-json | \
-	jq --sort-keys "." > \
-	$@
+features/all.json: $(FEATURE_FILES) $(STEP_DEFINITIONS)
+	-bundle exec cucumber --format json | \
+		./neutralize-json | \
+		jq --sort-keys "." > \
+		$@
 
-features/%.json: features/%_neutralized.json
-	cat $< | jq --sort-keys "." > $@
+# Dirty hack: the Ruby version we use do not support the Rule keyword.
+features/rules/rules.feature:
+	echo "Feature: Rules" > $@
 
-features/%_neutralized.json: features/%_unprocessed.json
-	cat $< | ./neutralize-json > $@
+features/%.json: features/%-unprocessed.json
+	cat $< | jq --sort-keys "." | ./neutralize-json > $@
 
-features/%_unprocessed.json: features/%.feature $(RUBY_FILES) Gemfile.lock
-	# The cucumber tests are deliberately failing, so let make continue
-	-bundle exec cucumber --format json $< > $@
+features/%-unprocessed.json: features/%.feature features/%_steps.rb
+	-bundle exec cucumber $< --require $(patsubst %.json,%_steps.rb,$@) --format=json > $@
+
+features/%_steps.rb: $(CCK_PATH)/ruby/features/%_steps.rb
+	cp $(patsubst %,$(CCK_PATH)/ruby/%,$@) $@
+
+features/%.feature: $(CCK_PATH)/javascript/features/%.feature
+	mkdir -p $$(dirname $@)
+	cp $(patsubst %,$(CCK_PATH)/javascript/%,$@) $@
 
 clean:
-	rm -f features/*.json
+	rm -f $(FEATURES) $(STEP_DEFINITIONS) $(JSONS_GOLDEN) features/all.json
