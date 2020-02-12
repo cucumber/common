@@ -18,6 +18,6 @@ export default class TestWorld implements IWorld {
   }
 
   public log(text: string): void {
-    this.attach(text, 'text/x.cucumber.output+plain')
+    this.attach(text, 'text/x.cucumber.log+plain')
   }
 }

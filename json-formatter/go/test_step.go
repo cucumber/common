@@ -194,7 +194,7 @@ func isEmbeddable(attachment *messages.Attachment) bool {
 }
 
 func isOutput(attachment *messages.Attachment) bool {
-	return attachment.GetMediaType() == "text/x.cucumber.output+plain"
+	return attachment.GetMediaType() == "text/x.cucumber.log+plain"
 }
 
 func makeLocation(file string, line uint32) string {
