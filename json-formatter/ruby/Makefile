@@ -9,7 +9,7 @@ FEATURES=$(patsubst $(CCK_PATH)/javascript/%,%,$(CCK_FEATURES))
 STEP_DEFINITIONS=$(patsubst %.feature,%_steps.rb,$(FEATURES))
 JSONS_GOLDEN  = $(patsubst features/%.feature,features/%.json,$(FEATURES))
 
-.tested: $(JSONS_GOLDEN) features/all.json
+.tested: $(JSONS_GOLDEN)# features/all.json
 
 features/all.json: $(FEATURE_FILES) $(STEP_DEFINITIONS)
 	-bundle exec cucumber --format json | \
@@ -25,7 +25,7 @@ features/%.json: features/%-unprocessed.json
 	cat $< | jq --sort-keys "." | ./neutralize-json > $@
 
 features/%-unprocessed.json: features/%.feature features/%_steps.rb
-	-bundle exec cucumber $< --require $(patsubst %.json,%_steps.rb,$@) --format=json > $@
+	-bundle exec cucumber $< --require $(patsubst %-unprocessed.json,%_steps.rb,$@) --format=json > $@
 
 features/%_steps.rb: $(CCK_PATH)/ruby/features/%_steps.rb
 	cp $(patsubst %,$(CCK_PATH)/ruby/%,$@) $@
