@@ -29,6 +29,7 @@ features/%_steps.rb: $(CCK_PATH)/ruby/features/%_steps.rb
 
 # Dirty hack: the Ruby version we use do not support the Rule keyword.
 features/rules/rules.feature:
+	mkdir -p $$(dirname $@)
 	echo "Feature: Rules" > $@
 
 features/%.feature: $(CCK_PATH)/javascript/features/%.feature
