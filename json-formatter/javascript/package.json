@@ -10,7 +10,9 @@
     "build": "echo 'nothing to build'"
   },
   "devDependencies": {
-    "@cucumber/fake-cucumber": "file:../../fake-cucumber/javascript"
+    "@cucumber/fake-cucumber": "file:../../fake-cucumber/javascript",
+    "@types/stream-buffers": "^3.0.3",
+    "stream-buffers": "^3.0.2"
   },
   "description": "This module is only used for testing the Go implementation. It generates ndjson  protobuf files (`.ndjson`) from test data in `../ruby`, using `../fake-cucumber`. These files are then piped to the Go JSON formatter during acceptance tests.",
   "main": "index.js",
