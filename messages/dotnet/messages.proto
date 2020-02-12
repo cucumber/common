@@ -509,30 +509,25 @@ message TestStepStarted {
 }
 
 message TestStepFinished {
-  TestResult test_result = 1;
+  TestStepResult test_step_result = 1;
   Timestamp timestamp = 2;
   string test_step_id = 3;
   string test_case_started_id = 4;
 }
 
-message TestResult {
+message TestStepResult {
   Status status = 1;
   string message = 2;
   Duration duration = 3;
   bool will_be_retried = 4;
 
   /**
-   * Status of a `PickleStep`.
+   * Status of a `TestStep`.
    *
-   * A `Pickle` message does not carry its own `TestResult`, but this can be accessed
-   * using `CucumberQuery#getTestResult(testCase)`
+   * The ordinal values of statuses are significant. The status of a TestCase
+   * is computed by picking the status with the highest value for all of its steps.
    *
-   * The ordinal values of statuses are significant. The status of a Pickle
-   * is determined by the union of statuses of its steps. The
-   * status of the Pickle is the status with the highest ordinal
-   * in the enum.
-   *
-   * For example, if a pickle has steps with statuses passed, undefined and skipped,
+   * For example, if a TestCase has steps with statuses passed, undefined and skipped,
    * then the pickle's status is undefined.
    */
   enum Status {
@@ -562,6 +557,12 @@ message TestRunFinished {
   bool success = 1;
   // Timestamp when the TestRun is finished
   Timestamp timestamp = 2;
+  // Error message. Can be a stack trace from a failed `BeforeAll` or `AfterAll`.
+  // If there are undefined parameter types, the message is simply 
+  // "The following parameter type(s() are not defined: xxx, yyy". 
+  // The independent `UndefinedParameterType` messages can be used to generate 
+  // snippets for those parameter types.
+  string message = 3;
 }
 
 ////// Commands
@@ -655,7 +656,7 @@ message CommandActionComplete {
 
   oneof result {
     // Used for responses to CommandRunBeforeTestCaseHook / CommandRunTestStep / CommandRunAfterTestCaseHook
-    TestResult test_result = 2;
+    TestStepResult test_step_result = 2;
     // Used for response to CommandGenerateSnippet
     string snippet = 3;
   }

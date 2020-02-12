@@ -10,24 +10,24 @@ import {
 } from 'react-accessible-accordion'
 import UriContext from '../../UriContext'
 import GherkinQueryContext from '../../GherkinQueryContext'
-import TestResultQueryContext from '../../CucumberQueryContext'
+import CucumberQueryContext from '../../CucumberQueryContext'
 import StatusIcon from '../gherkin/StatusIcon'
 
 const GherkinDocumentList: React.FunctionComponent = () => {
   const gherkinQuery = React.useContext(GherkinQueryContext)
-  const testResultsQuery = React.useContext(TestResultQueryContext)
+  const cucumberQuery = React.useContext(CucumberQueryContext)
 
   const entries: Array<[
     string,
-    messages.TestResult.Status
+    messages.TestStepResult.Status
   ]> = gherkinQuery.getGherkinDocuments().map(gherkinDocument => {
     const gherkinDocumentStatus = gherkinDocument.feature
-      ? testResultsQuery.getWorstResult(
-          testResultsQuery.getPickleResults(
+      ? cucumberQuery.getWorstTestStepResult(
+          cucumberQuery.getPickleTestStepResults(
             gherkinQuery.getPickleIds(gherkinDocument.uri)
           )
         ).status
-      : messages.TestResult.Status.UNDEFINED
+      : messages.TestStepResult.Status.UNDEFINED
     return [gherkinDocument.uri, gherkinDocumentStatus]
   })
   const gherkinDocumentStatusByUri = new Map(entries)
@@ -38,7 +38,7 @@ const GherkinDocumentList: React.FunctionComponent = () => {
     .filter(
       doc =>
         gherkinDocumentStatusByUri.get(doc.uri) !==
-        messages.TestResult.Status.PASSED
+        messages.TestStepResult.Status.PASSED
     )
     .map(doc => doc.uri)
   return (
