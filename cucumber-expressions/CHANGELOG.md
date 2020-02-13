@@ -9,12 +9,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+* [JavaScript, Ruby] Added `ExpressionFactory`, which is now the preferred way to create `Expression` instances.
+
 ### Changed
 
 ### Deprecated
 
+* [Ruby] `CucumberExpression` and `RegularExpression` constructors should not be used directly.
+  Use `ExpressionFactory#create_expression` instead.
+
 ### Removed
 
+* [Java, JavaScript] `CucumberExpression` and `RegularExpression` are no longer part of the public API.
 * [JavaScript] remove support for Node 8, which is now EOL
 
 ### Fixed

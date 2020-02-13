@@ -2,13 +2,13 @@ import { StrictArrayMultimap, StrictMap } from '@cucumber/gherkin'
 import { messages, TimeConversion } from '@cucumber/messages'
 
 export default class Query {
-  private readonly testResultByPickleId = new StrictArrayMultimap<
+  private readonly testStepResultByPickleId = new StrictArrayMultimap<
     string,
-    messages.ITestResult
+    messages.ITestStepResult
   >()
   private readonly testStepResultsByPickleStepId = new StrictArrayMultimap<
     string,
-    messages.ITestResult
+    messages.ITestStepResult
   >()
   private readonly testStepById = new StrictMap<
     string,
@@ -44,9 +44,9 @@ export default class Query {
       const pickleId = this.pickleIdByTestStepId.get(
         envelope.testStepFinished.testStepId
       )
-      this.testResultByPickleId.put(
+      this.testStepResultByPickleId.put(
         pickleId,
-        envelope.testStepFinished.testResult
+        envelope.testStepFinished.testStepResult
       )
 
       const testStep = this.testStepById.get(
@@ -54,7 +54,7 @@ export default class Query {
       )
       this.testStepResultsByPickleStepId.put(
         testStep.pickleStepId,
-        envelope.testStepFinished.testResult
+        envelope.testStepFinished.testStepResult
       )
     }
 
@@ -70,18 +70,20 @@ export default class Query {
    * Gets all the results for multiple pickle steps
    * @param pickleStepIds
    */
-  public getPickleStepResults(pickleStepIds: string[]): messages.ITestResult[] {
+  public getPickleStepTestStepResults(
+    pickleStepIds: string[]
+  ): messages.ITestStepResult[] {
     if (pickleStepIds.length === 0) {
       return [
-        new messages.TestResult({
-          status: messages.TestResult.Status.SKIPPED,
+        new messages.TestStepResult({
+          status: messages.TestStepResult.Status.SKIPPED,
           duration: TimeConversion.millisecondsToDuration(0),
         }),
       ]
     }
     return pickleStepIds.reduce(
-      (testResults: messages.ITestResult[], pickleId) => {
-        return testResults.concat(
+      (testStepResults: messages.ITestStepResult[], pickleId) => {
+        return testStepResults.concat(
           this.testStepResultsByPickleStepId.get(pickleId)
         )
       },
@@ -93,31 +95,38 @@ export default class Query {
    * Gets all the results for multiple pickles
    * @param pickleIds
    */
-  public getPickleResults(pickleIds: string[]): messages.ITestResult[] {
+  public getPickleTestStepResults(
+    pickleIds: string[]
+  ): messages.ITestStepResult[] {
     if (pickleIds.length === 0) {
       return [
-        new messages.TestResult({
-          status: messages.TestResult.Status.UNDEFINED,
+        new messages.TestStepResult({
+          status: messages.TestStepResult.Status.UNDEFINED,
           duration: TimeConversion.millisecondsToDuration(0),
         }),
       ]
     }
-    return pickleIds.reduce((testResults: messages.ITestResult[], pickleId) => {
-      return testResults.concat(this.testResultByPickleId.get(pickleId))
-    }, [])
+    return pickleIds.reduce(
+      (testStepResults: messages.ITestStepResult[], pickleId) => {
+        return testStepResults.concat(
+          this.testStepResultByPickleId.get(pickleId)
+        )
+      },
+      []
+    )
   }
 
   /**
    * Gets the worst result
-   * @param testResults
+   * @param testStepResults
    */
-  public getWorstResult(
-    testResults: messages.ITestResult[]
-  ): messages.ITestResult {
+  public getWorstTestStepResult(
+    testStepResults: messages.ITestStepResult[]
+  ): messages.ITestStepResult {
     return (
-      testResults.sort((r1, r2) => r2.status - r1.status)[0] ||
-      new messages.TestResult({
-        status: messages.TestResult.Status.SKIPPED,
+      testStepResults.sort((r1, r2) => r2.status - r1.status)[0] ||
+      new messages.TestStepResult({
+        status: messages.TestStepResult.Status.SKIPPED,
         duration: TimeConversion.millisecondsToDuration(0),
       })
     )

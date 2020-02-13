@@ -118,15 +118,15 @@ var _ = Describe("ProcessTestStepFinished", func() {
 			testStepFinished := &messages.TestStepFinished{
 				TestCaseStartedId: "test-case-started-id",
 				TestStepId:        "hook-step-id",
-				TestResult: &messages.TestResult{
-					Status: messages.TestResult_PASSED,
+				TestStepResult: &messages.TestStepResult{
+					Status: messages.TestStepResult_PASSED,
 				},
 			}
 
 			_, testStep := ProcessTestStepFinished(testStepFinished, lookup)
 
 			Expect(testStep.Hook.Id).To(Equal("hook-id"))
-			Expect(testStep.Result.Status).To(Equal(messages.TestResult_PASSED))
+			Expect(testStep.Result.Status).To(Equal(messages.TestStepResult_PASSED))
 		})
 
 		It("returns a TestStep with a nil Step", func() {
@@ -315,8 +315,8 @@ var _ = Describe("TestStepToJSON", func() {
 						},
 					},
 				},
-				Result: &messages.TestResult{
-					Status: messages.TestResult_PASSED,
+				Result: &messages.TestStepResult{
+					Status: messages.TestStepResult_PASSED,
 					Duration: &messages.Duration{
 						Seconds: 123,
 						Nanos:   456,
@@ -356,8 +356,8 @@ var _ = Describe("TestStepToJSON", func() {
 				PickleStep: &messages.Pickle_PickleStep{
 					Text: "a passed step",
 				},
-				Result: &messages.TestResult{
-					Status: messages.TestResult_FAILED,
+				Result: &messages.TestStepResult{
+					Status: messages.TestStepResult_FAILED,
 					Duration: &messages.Duration{
 						Seconds: 123,
 						Nanos:   456,

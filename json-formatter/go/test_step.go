@@ -15,7 +15,7 @@ type TestStep struct {
 	PickleStep      *messages.Pickle_PickleStep
 	Step            *messages.GherkinDocument_Feature_Step
 	StepDefinitions []*messages.StepDefinition
-	Result          *messages.TestResult
+	Result          *messages.TestStepResult
 	Background      *messages.GherkinDocument_Feature_Background
 	Attachments     []*messages.Attachment
 	ExampleRow      *messages.GherkinDocument_Feature_TableRow
@@ -46,7 +46,7 @@ func ProcessTestStepFinished(testStepFinished *messages.TestStepFinished, lookup
 		return nil, &TestStep{
 			TestCaseID: testCase.Id,
 			Hook:       hook,
-			Result:     testStepFinished.TestResult,
+			Result:     testStepFinished.TestStepResult,
 		}
 	}
 
@@ -77,7 +77,7 @@ func ProcessTestStepFinished(testStepFinished *messages.TestStepFinished, lookup
 		Pickle:          pickle,
 		PickleStep:      pickleStep,
 		ExampleRow:      exampleRow,
-		Result:          testStepFinished.TestResult,
+		Result:          testStepFinished.TestStepResult,
 		StepDefinitions: lookup.LookupStepDefinitions(testStep.StepDefinitionIds),
 		Background:      background,
 		Attachments:     lookup.LookupAttachments(testStepFinished.TestStepId),
