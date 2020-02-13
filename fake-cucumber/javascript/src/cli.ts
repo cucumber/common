@@ -72,6 +72,7 @@ async function main() {
   const cucumberStream = new CucumberStream(
     supportCode.parameterTypes,
     supportCode.stepDefinitions,
+    supportCode.undefinedParameterTypes,
     supportCode.beforeHooks,
     supportCode.afterHooks,
     supportCode.newId,

@@ -7,3 +7,6 @@ Feature: Parameter Types
   
   Scenario: flights
     Given LHR-CDG has been delayed 45 minutes
+    
+  Scenario: undefined parameter type
+    Given CDG is closed because of a strike

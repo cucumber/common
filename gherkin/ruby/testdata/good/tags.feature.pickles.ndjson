@@ -3,7 +3,7 @@
     "astNodeIds": [
       "4"
     ],
-    "id": "24",
+    "id": "34",
     "language": "en",
     "name": "minimalistic",
     "steps": [
@@ -11,21 +11,21 @@
         "astNodeIds": [
           "0"
         ],
-        "id": "23",
+        "id": "33",
         "text": "the minimalism"
       }
     ],
     "tags": [
       {
-        "astNodeId": "20",
+        "astNodeId": "30",
         "name": "@feature_tag1"
       },
       {
-        "astNodeId": "21",
+        "astNodeId": "31",
         "name": "@feature_tag2"
       },
       {
-        "astNodeId": "22",
+        "astNodeId": "32",
         "name": "@feature_tag3"
       },
       {
@@ -50,7 +50,7 @@
       "19",
       "7"
     ],
-    "id": "26",
+    "id": "36",
     "language": "en",
     "name": "minimalistic outline",
     "steps": [
@@ -59,21 +59,21 @@
           "5",
           "7"
         ],
-        "id": "25",
+        "id": "35",
         "text": "the minimalism"
       }
     ],
     "tags": [
       {
-        "astNodeId": "20",
+        "astNodeId": "30",
         "name": "@feature_tag1"
       },
       {
-        "astNodeId": "21",
+        "astNodeId": "31",
         "name": "@feature_tag2"
       },
       {
-        "astNodeId": "22",
+        "astNodeId": "32",
         "name": "@feature_tag3"
       },
       {
@@ -110,7 +110,7 @@
       "19",
       "12"
     ],
-    "id": "28",
+    "id": "38",
     "language": "en",
     "name": "minimalistic outline",
     "steps": [
@@ -119,21 +119,21 @@
           "5",
           "12"
         ],
-        "id": "27",
+        "id": "37",
         "text": "the more minimalism"
       }
     ],
     "tags": [
       {
-        "astNodeId": "20",
+        "astNodeId": "30",
         "name": "@feature_tag1"
       },
       {
-        "astNodeId": "21",
+        "astNodeId": "31",
         "name": "@feature_tag2"
       },
       {
-        "astNodeId": "22",
+        "astNodeId": "32",
         "name": "@feature_tag3"
       },
       {
@@ -159,6 +159,124 @@
       {
         "astNodeId": "15",
         "name": "@ex_tag6"
+      }
+    ],
+    "uri": "testdata/good/tags.feature"
+  }
+}
+{
+  "pickle": {
+    "astNodeIds": [
+      "22"
+    ],
+    "id": "40",
+    "language": "en",
+    "name": "comments",
+    "steps": [
+      {
+        "astNodeIds": [
+          "20"
+        ],
+        "id": "39",
+        "text": "a comment"
+      }
+    ],
+    "tags": [
+      {
+        "astNodeId": "30",
+        "name": "@feature_tag1"
+      },
+      {
+        "astNodeId": "31",
+        "name": "@feature_tag2"
+      },
+      {
+        "astNodeId": "32",
+        "name": "@feature_tag3"
+      },
+      {
+        "astNodeId": "21",
+        "name": "@comment_tag1"
+      }
+    ],
+    "uri": "testdata/good/tags.feature"
+  }
+}
+{
+  "pickle": {
+    "astNodeIds": [
+      "25"
+    ],
+    "id": "42",
+    "language": "en",
+    "name": "hash in tags",
+    "steps": [
+      {
+        "astNodeIds": [
+          "23"
+        ],
+        "id": "41",
+        "text": "a comment is preceded by a space"
+      }
+    ],
+    "tags": [
+      {
+        "astNodeId": "30",
+        "name": "@feature_tag1"
+      },
+      {
+        "astNodeId": "31",
+        "name": "@feature_tag2"
+      },
+      {
+        "astNodeId": "32",
+        "name": "@feature_tag3"
+      },
+      {
+        "astNodeId": "24",
+        "name": "@comment_tag#2"
+      }
+    ],
+    "uri": "testdata/good/tags.feature"
+  }
+}
+{
+  "pickle": {
+    "astNodeIds": [
+      "29"
+    ],
+    "id": "44",
+    "language": "en",
+    "name": "joined tags",
+    "steps": [
+      {
+        "astNodeIds": [
+          "26"
+        ],
+        "id": "43",
+        "text": "the @delimits tags"
+      }
+    ],
+    "tags": [
+      {
+        "astNodeId": "30",
+        "name": "@feature_tag1"
+      },
+      {
+        "astNodeId": "31",
+        "name": "@feature_tag2"
+      },
+      {
+        "astNodeId": "32",
+        "name": "@feature_tag3"
+      },
+      {
+        "astNodeId": "27",
+        "name": "@joined_tag3"
+      },
+      {
+        "astNodeId": "28",
+        "name": "@joined_tag4"
       }
     ],
     "uri": "testdata/good/tags.feature"

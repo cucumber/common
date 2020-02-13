@@ -233,6 +233,110 @@
               }
             ]
           }
+        },
+        {
+          "scenario": {
+            "id": "22",
+            "keyword": "Scenario",
+            "location": {
+              "column": 1,
+              "line": 28
+            },
+            "name": "comments",
+            "steps": [
+              {
+                "id": "20",
+                "keyword": "Given ",
+                "location": {
+                  "column": 3,
+                  "line": 29
+                },
+                "text": "a comment"
+              }
+            ],
+            "tags": [
+              {
+                "id": "21",
+                "location": {
+                  "column": 1,
+                  "line": 27
+                },
+                "name": "@comment_tag1"
+              }
+            ]
+          }
+        },
+        {
+          "scenario": {
+            "id": "25",
+            "keyword": "Scenario",
+            "location": {
+              "column": 1,
+              "line": 32
+            },
+            "name": "hash in tags",
+            "steps": [
+              {
+                "id": "23",
+                "keyword": "Given ",
+                "location": {
+                  "column": 3,
+                  "line": 33
+                },
+                "text": "a comment is preceded by a space"
+              }
+            ],
+            "tags": [
+              {
+                "id": "24",
+                "location": {
+                  "column": 1,
+                  "line": 31
+                },
+                "name": "@comment_tag#2"
+              }
+            ]
+          }
+        },
+        {
+          "scenario": {
+            "id": "29",
+            "keyword": "Scenario",
+            "location": {
+              "column": 1,
+              "line": 36
+            },
+            "name": "joined tags",
+            "steps": [
+              {
+                "id": "26",
+                "keyword": "Given ",
+                "location": {
+                  "column": 3,
+                  "line": 37
+                },
+                "text": "the @delimits tags"
+              }
+            ],
+            "tags": [
+              {
+                "id": "27",
+                "location": {
+                  "column": 1,
+                  "line": 35
+                },
+                "name": "@joined_tag3"
+              },
+              {
+                "id": "28",
+                "location": {
+                  "column": 13,
+                  "line": 35
+                },
+                "name": "@joined_tag4"
+              }
+            ]
+          }
         }
       ],
       "keyword": "Feature",
@@ -244,7 +348,7 @@
       "name": "Minimal Scenario Outline",
       "tags": [
         {
-          "id": "20",
+          "id": "30",
           "location": {
             "column": 1,
             "line": 1
@@ -252,7 +356,7 @@
           "name": "@feature_tag1"
         },
         {
-          "id": "21",
+          "id": "31",
           "location": {
             "column": 15,
             "line": 1
@@ -260,7 +364,7 @@
           "name": "@feature_tag2"
         },
         {
-          "id": "22",
+          "id": "32",
           "location": {
             "column": 3,
             "line": 2

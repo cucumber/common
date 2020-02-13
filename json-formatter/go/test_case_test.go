@@ -444,8 +444,8 @@ var _ = Describe("TestCaseToJSON", func() {
 			PickleStep: &messages.Pickle_PickleStep{
 				Text: "a passed step",
 			},
-			Result: &messages.TestResult{
-				Status: messages.TestResult_FAILED,
+			Result: &messages.TestStepResult{
+				Status: messages.TestStepResult_FAILED,
 			},
 		})
 		jsonTestCase = TestCaseToJSON(testCase)
@@ -503,8 +503,8 @@ var _ = Describe("TestCaseToJSON", func() {
 					PickleStep: &messages.Pickle_PickleStep{
 						Text: "a passed step",
 					},
-					Result: &messages.TestResult{
-						Status: messages.TestResult_PASSED,
+					Result: &messages.TestStepResult{
+						Status: messages.TestStepResult_PASSED,
 						Duration: &messages.Duration{
 							Seconds: 123,
 							Nanos:   456,
@@ -578,8 +578,8 @@ var _ = Describe("TestCaseToJSON", func() {
 							},
 						},
 					},
-					Result: &messages.TestResult{
-						Status: messages.TestResult_PASSED,
+					Result: &messages.TestStepResult{
+						Status: messages.TestStepResult_PASSED,
 						Duration: &messages.Duration{
 							Seconds: 123,
 							Nanos:   456,
@@ -608,8 +608,8 @@ var _ = Describe("TestCaseToJSON", func() {
 						},
 					},
 				},
-				Result: &messages.TestResult{
-					Status: messages.TestResult_PASSED,
+				Result: &messages.TestStepResult{
+					Status: messages.TestStepResult_PASSED,
 					Duration: &messages.Duration{
 						Seconds: 123,
 						Nanos:   456,

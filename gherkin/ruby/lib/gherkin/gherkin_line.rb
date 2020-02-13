@@ -37,8 +37,9 @@ module Gherkin
       cells = []
 
       self.split_table_cells(@trimmed_line_text) do |item, column|
-        txt_trimmed_left = item.gsub(/^[ \t\n\v\f\r\u0085\u00A0]*/, '')
-        txt_trimmed = txt_trimmed_left.gsub(/[ \t\n\v\f\r\u0085\u00A0]*$/, '')
+        # Keeps new lines
+        txt_trimmed_left = item.sub(/\A[ \t\v\f\r\u0085\u00A0]*/, '')
+        txt_trimmed = txt_trimmed_left.sub(/[ \t\v\f\r\u0085\u00A0]*\z/, '')
         cell_indent = item.length - txt_trimmed_left.length
         span = Span.new(@indent + column + cell_indent, txt_trimmed)
         cells.push(span)
@@ -81,15 +82,26 @@ module Gherkin
     end
 
     def tags
-      column = @indent + 1;
-      items = @trimmed_line_text.strip.split('@')
-      items = items[1..-1] # ignore before the first @
-      items.map do |item|
-        length = item.length
-        span = Span.new(column, '@' + item.strip)
-        column += length + 1
-        span
-      end
+      uncommented_line = @trimmed_line_text.split(/\s#/,2)[0]
+      column = @indent + 1
+      items = uncommented_line.split('@')
+
+      tags = []
+      items.each { |untrimmed|
+        item = untrimmed.strip
+        if item.length == 0
+          next
+        end
+
+        unless item =~ /^\S+$/
+          location = {line: @line_number, column: column}
+          raise ParserException.new('A tag may not contain whitespace', location)
+        end
+
+        tags << Span.new(column, '@' + item)
+        column += untrimmed.length + 1
+      }
+      tags
     end
 
     class Span < Struct.new(:column, :text); end

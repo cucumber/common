@@ -6,39 +6,44 @@ import assert from 'assert'
 import SupportCode from '@cucumber/fake-cucumber/dist/src/SupportCode'
 import CucumberStream from '@cucumber/fake-cucumber/dist/src/CucumberStream'
 import { withFullStackTrace } from '@cucumber/fake-cucumber/dist/src/ErrorMessageGenerator'
-import makeDummyStepDefinitions from '@cucumber/fake-cucumber/dist/test/makeDummyStepDefinitions'
 
 import { promisify } from 'util'
 import IncrementClock from '@cucumber/fake-cucumber/dist/src/IncrementClock'
-import TestResultsQuery from '../src/TestResultsQuery'
+import Query from '../src/Query'
 
 const pipelinePromise = promisify(pipeline)
 
-describe('TestResultQuery', () => {
+describe('TestStepResultQuery', () => {
   let gherkinQuery: GherkinQuery
-  let testResultQuery: TestResultsQuery
+  let testStepResultQuery: Query
   beforeEach(() => {
     gherkinQuery = new GherkinQuery()
-    testResultQuery = new TestResultsQuery()
+    testStepResultQuery = new Query()
   })
 
-  describe('#getWorstResult(testResults)', () => {
+  describe('#getWorstTestStepResult(testStepResults)', () => {
     it('returns a FAILED result for PASSED,FAILED,PASSED', () => {
-      const result = testResultQuery.getWorstResult([
-        new messages.TestResult({ status: messages.TestResult.Status.PASSED }),
-        new messages.TestResult({ status: messages.TestResult.Status.FAILED }),
-        new messages.TestResult({ status: messages.TestResult.Status.PASSED }),
+      const result = testStepResultQuery.getWorstTestStepResult([
+        new messages.TestStepResult({
+          status: messages.TestStepResult.Status.PASSED,
+        }),
+        new messages.TestStepResult({
+          status: messages.TestStepResult.Status.FAILED,
+        }),
+        new messages.TestStepResult({
+          status: messages.TestStepResult.Status.PASSED,
+        }),
       ])
-      assert.strictEqual(result.status, messages.TestResult.Status.FAILED)
+      assert.strictEqual(result.status, messages.TestStepResult.Status.FAILED)
     })
   })
 
-  describe('#getPickleStepResults(pickleStepIds)', () => {
+  describe('#getPickleStepTestStepResults(pickleStepIds)', () => {
     it('returns a single UNDEFINED when the list is empty', () => {
-      const results = testResultQuery.getPickleResults([])
+      const results = testStepResultQuery.getPickleTestStepResults([])
       assert.deepStrictEqual(
         results.map(r => r.status),
-        [messages.TestResult.Status.UNDEFINED]
+        [messages.TestStepResult.Status.UNDEFINED]
       )
     })
 
@@ -53,14 +58,14 @@ describe('TestResultQuery', () => {
       const pickleStepIds = gherkinQuery.getPickleStepIds('test.feature', 3)
       assert.strictEqual(pickleStepIds.length, 1)
 
-      const testResults: messages.ITestResult[] = testResultQuery.getPickleStepResults(
+      const testStepResults: messages.ITestStepResult[] = testStepResultQuery.getPickleStepTestStepResults(
         pickleStepIds
       )
-      assert.strictEqual(testResults.length, 1)
+      assert.strictEqual(testStepResults.length, 1)
 
       assert.strictEqual(
-        testResults[0].status,
-        messages.TestResult.Status.PASSED
+        testStepResults[0].status,
+        messages.TestStepResult.Status.PASSED
       )
     })
 
@@ -81,13 +86,16 @@ describe('TestResultQuery', () => {
       const pickleStepIds = gherkinQuery.getPickleStepIds('test.feature', 3)
       assert.strictEqual(pickleStepIds.length, 2)
 
-      const testResults: messages.ITestResult[] = testResultQuery.getPickleStepResults(
+      const testStepResults: messages.ITestStepResult[] = testStepResultQuery.getPickleStepTestStepResults(
         pickleStepIds
       )
 
       assert.deepStrictEqual(
-        testResults.map(r => r.status),
-        [messages.TestResult.Status.PASSED, messages.TestResult.Status.PASSED]
+        testStepResults.map(r => r.status),
+        [
+          messages.TestStepResult.Status.PASSED,
+          messages.TestStepResult.Status.PASSED,
+        ]
       )
     })
 
@@ -106,19 +114,19 @@ describe('TestResultQuery', () => {
       const pickleStepIds = gherkinQuery.getPickleStepIds('test.feature', 3)
       assert.strictEqual(pickleStepIds.length, 0)
 
-      const testResults: messages.ITestResult[] = testResultQuery.getPickleStepResults(
+      const testStepResults: messages.ITestStepResult[] = testStepResultQuery.getPickleStepTestStepResults(
         pickleStepIds
       )
-      assert.strictEqual(testResults.length, 1)
+      assert.strictEqual(testStepResults.length, 1)
 
       assert.strictEqual(
-        testResults[0].status,
-        messages.TestResult.Status.SKIPPED
+        testStepResults[0].status,
+        messages.TestStepResult.Status.SKIPPED
       )
     })
   })
 
-  describe('#getPickleResults(pickleIds)', () => {
+  describe('#getPickleTestStepResults(pickleIds)', () => {
     it('looks up results for scenarios', async () => {
       await parse(
         `Feature: hello
@@ -131,13 +139,16 @@ describe('TestResultQuery', () => {
       const pickleIds = gherkinQuery.getPickleIds('test.feature', 2)
       assert.strictEqual(pickleIds.length, 1)
 
-      const testResults: messages.ITestResult[] = testResultQuery.getPickleResults(
+      const testStepResults: messages.ITestStepResult[] = testStepResultQuery.getPickleTestStepResults(
         pickleIds
       )
 
       assert.deepStrictEqual(
-        testResults.map(r => r.status),
-        [messages.TestResult.Status.PASSED, messages.TestResult.Status.FAILED]
+        testStepResults.map(r => r.status),
+        [
+          messages.TestStepResult.Status.PASSED,
+          messages.TestStepResult.Status.FAILED,
+        ]
       )
     })
 
@@ -158,12 +169,14 @@ describe('TestResultQuery', () => {
       assert.strictEqual(pickleIds.length, 2)
 
       assert.deepStrictEqual(
-        testResultQuery.getPickleResults(pickleIds).map(r => r.status),
+        testStepResultQuery
+          .getPickleTestStepResults(pickleIds)
+          .map(r => r.status),
         [
-          messages.TestResult.Status.PASSED,
-          messages.TestResult.Status.PASSED,
-          messages.TestResult.Status.PASSED,
-          messages.TestResult.Status.FAILED,
+          messages.TestStepResult.Status.PASSED,
+          messages.TestStepResult.Status.PASSED,
+          messages.TestStepResult.Status.PASSED,
+          messages.TestStepResult.Status.FAILED,
         ]
       )
     })
@@ -183,17 +196,78 @@ describe('TestResultQuery', () => {
       )
 
       assert.deepStrictEqual(
-        testResultQuery
-          .getPickleResults(gherkinQuery.getPickleIds('test.feature', 8))
+        testStepResultQuery
+          .getPickleTestStepResults(
+            gherkinQuery.getPickleIds('test.feature', 8)
+          )
           .map(r => r.status),
-        [messages.TestResult.Status.PASSED, messages.TestResult.Status.PASSED]
+        [
+          messages.TestStepResult.Status.PASSED,
+          messages.TestStepResult.Status.PASSED,
+        ]
       )
 
       assert.deepStrictEqual(
-        testResultQuery
-          .getPickleResults(gherkinQuery.getPickleIds('test.feature', 9))
+        testStepResultQuery
+          .getPickleTestStepResults(
+            gherkinQuery.getPickleIds('test.feature', 9)
+          )
           .map(r => r.status),
-        [messages.TestResult.Status.PASSED, messages.TestResult.Status.FAILED]
+        [
+          messages.TestStepResult.Status.PASSED,
+          messages.TestStepResult.Status.FAILED,
+        ]
+      )
+    })
+  })
+
+  describe('#getPickleStepAttachments(pickleIds)', () => {
+    it('looks up attachments', async () => {
+      await parse(
+        `Feature: hello
+  Scenario: ok
+    Given a passed step with attachment
+`
+      )
+
+      const pickleStepIds = gherkinQuery.getPickleStepIds('test.feature', 3)
+      assert.strictEqual(pickleStepIds.length, 1)
+
+      const attachments: messages.IAttachment[] = testStepResultQuery.getPickleStepAttachments(
+        pickleStepIds
+      )
+      assert.strictEqual(attachments.length, 1)
+
+      assert.strictEqual(attachments[0].text, 'Hello')
+    })
+  })
+
+  describe('#getStepMatchArguments(uri, lineNumber)', () => {
+    it("looks up result for step's uri and line", async () => {
+      await parse(
+        `Feature: hello
+  Scenario: hi
+    Given a passed step
+    And I have 567 cukes in my belly
+`
+      )
+
+      assert.deepStrictEqual(
+        testStepResultQuery
+          .getStepMatchArgumentsLists(
+            gherkinQuery.getPickleStepIds('test.feature', 3)[0]
+          )
+          .map(sal => sal.stepMatchArguments.map(arg => arg.parameterTypeName)),
+        [[]]
+      )
+
+      assert.deepStrictEqual(
+        testStepResultQuery
+          .getStepMatchArgumentsLists(
+            gherkinQuery.getPickleStepIds('test.feature', 4)[0]
+          )
+          .map(sal => sal.stepMatchArguments.map(arg => arg.parameterTypeName)),
+        [['int', 'word']]
       )
     })
   })
@@ -203,11 +277,23 @@ describe('TestResultQuery', () => {
     const clock = new IncrementClock()
     const makeErrorMessage = withFullStackTrace()
     const supportCode = new SupportCode(newId, clock, makeErrorMessage)
-    makeDummyStepDefinitions(supportCode)
+    supportCode.Given('a passed step', () => {
+      // no-op
+    })
+    supportCode.Given('a passed step with attachment', function() {
+      this.attach('Hello', 'text/plain')
+    })
+    supportCode.Given('a failed step', () => {
+      throw new Error(`This step failed.`)
+    })
+    supportCode.Given('I have {int} cukes in my {word}', (cukes: number) => {
+      assert.ok(cukes)
+    })
 
     const cucumberStream = new CucumberStream(
       supportCode.parameterTypes,
       supportCode.stepDefinitions,
+      supportCode.undefinedParameterTypes,
       supportCode.beforeHooks,
       supportCode.afterHooks,
       supportCode.newId,
@@ -224,7 +310,7 @@ describe('TestResultQuery', () => {
       ): void {
         try {
           gherkinQuery.update(envelope)
-          testResultQuery.update(envelope)
+          testStepResultQuery.update(envelope)
           callback()
         } catch (err) {
           callback(err)

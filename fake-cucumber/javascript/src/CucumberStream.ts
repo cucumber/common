@@ -15,6 +15,7 @@ export default class CucumberStream extends Transform {
   constructor(
     private readonly parameterTypes: Array<ParameterType<any>>,
     private readonly stepDefinitions: IStepDefinition[],
+    private readonly undefinedParameterTypes: messages.IEnvelope[],
     private readonly beforeHooks: IHook[],
     private readonly afterHooks: IHook[],
     private readonly newId: IdGenerator.NewId,
@@ -43,6 +44,7 @@ export default class CucumberStream extends Transform {
       this.gherkinMessages,
       this.parameterTypes,
       this.stepDefinitions,
+      this.undefinedParameterTypes,
       this.beforeHooks,
       this.afterHooks,
       this.gherkinQuery,

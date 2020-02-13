@@ -34,13 +34,13 @@ function envelopes(ndjson: string): messages.IEnvelope[] {
 storiesOf('Features', module)
   .add('Step Container', () => {
     return <Wrapper envelopes={[]}>
-      <StepContainer status={messages.TestResult.Status.PASSED}>
+      <StepContainer status={messages.TestStepResult.Status.PASSED}>
         <div>Given a passed step</div>
       </StepContainer>
-      <StepContainer status={messages.TestResult.Status.FAILED}>
+      <StepContainer status={messages.TestStepResult.Status.FAILED}>
         <div>When a failed step</div>
       </StepContainer>
-      <StepContainer status={messages.TestResult.Status.SKIPPED}>
+      <StepContainer status={messages.TestStepResult.Status.SKIPPED}>
         <div>Then a skipped step</div>
       </StepContainer>
     </Wrapper>
