@@ -17,7 +17,7 @@ describe('NdjsonStream', () => {
       const ob = JSON.parse(json)
       assert.deepStrictEqual(ob, {
         testStepFinished: {
-          testResult: {
+          testStepResult: {
             status: 'UNKNOWN',
           },
         },
@@ -27,8 +27,8 @@ describe('NdjsonStream', () => {
     stream.write(
       messages.Envelope.create({
         testStepFinished: messages.TestStepFinished.create({
-          testResult: messages.TestResult.create({
-            status: messages.TestResult.Status.UNKNOWN,
+          testStepResult: messages.TestStepResult.create({
+            status: messages.TestStepResult.Status.UNKNOWN,
           }),
         }),
       })
