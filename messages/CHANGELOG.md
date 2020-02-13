@@ -9,6 +9,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+## [10.0.0] - 2020-02-13
+
+### Added
+
 * Add `UndefinedParameterType`
   ([#890](https://github.com/cucumber/cucumber/pull/890)
    [aslakhellesoy])
@@ -18,9 +30,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
-### Deprecated
-
-### Removed
+* Rename `TestResult` to `TestStepResult`
+  ([#890](https://github.com/cucumber/cucumber/pull/890)
+   [aslakhellesoy])
 
 ### Fixed
 
@@ -251,7 +263,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Protobuf messages for Go, Java, JavaScript, TypeScript and Ruby
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/messages/v9.0.3...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/messages/v10.0.0...master
+[10.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v9.0.3...messages/v10.0.0
 [9.0.3]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v9.0.2...messages/v9.0.3
 [9.0.2]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v9.0.1...messages/v9.0.2
 [9.0.1]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v9.0.0...messages/v9.0.1
