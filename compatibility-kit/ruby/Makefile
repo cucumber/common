@@ -69,7 +69,7 @@ self_tested: $(SELF_TESTED)
 	-diff --unified $^
 
 %.json: %.ndjson scripts/neutralize-json
-	cat $< | "$(MONOREPO_PATH)/compatibility-kit/scripts/cucumber-json-formatter" | \
+	cat $< | "$(CCK_PATH)/scripts/cucumber-json-formatter" | \
 		jq --sort-keys "." | \
 		scripts/neutralize-json > $@
 
