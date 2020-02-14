@@ -12,7 +12,9 @@ JSONS_GOLDEN  = $(patsubst features/%.feature,features/%.json,$(FEATURES))
 .tested: $(JSONS_GOLDEN)
 
 features/%.json: features/%-unprocessed.json
-	cat $< | jq --sort-keys "." | ./neutralize-json > $@
+	cat $< | \
+		./neutralize-json | \
+		jq --sort-keys "." > $@
 
 features/%-unprocessed.json: features/%.feature features/%_steps.rb
 	-bundle exec cucumber $< --require $(patsubst %-unprocessed.json,%_steps.rb,$@) --format=json > $@
