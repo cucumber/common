@@ -1,6 +1,6 @@
 {
   "name": "@cucumber/fake-cucumber",
-  "version": "3.0.3",
+  "version": "4.0.0",
   "description": "Fake Cucumber generates fake results",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
@@ -48,10 +48,10 @@
     "ts-sinon": "^1.0.25"
   },
   "dependencies": {
-    "@cucumber/cucumber-expressions": "file:../../cucumber-expressions/javascript",
-    "@cucumber/gherkin": "file:../../gherkin/javascript",
-    "@cucumber/messages": "file:../../messages/javascript",
-    "@cucumber/tag-expressions": "file:../../tag-expressions/javascript",
+    "@cucumber/cucumber-expressions": "^9.0.0",
+    "@cucumber/gherkin": "^10.0.0",
+    "@cucumber/messages": "^10.0.1",
+    "@cucumber/tag-expressions": "^2.0.4",
     "commander": "^4.1.1",
     "glob": "^7.1.6",
     "source-map-support": "^0.5.16",
