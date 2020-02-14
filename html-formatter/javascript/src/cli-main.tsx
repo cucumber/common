@@ -8,8 +8,9 @@ import React from 'react'
 import program from 'commander'
 import p from '../package.json'
 import { pipeline, Transform, TransformCallback } from 'stream'
-import { GherkinDocumentList, Wrapper } from '@cucumber/react'
+import { Wrapper } from '@cucumber/react'
 import { renderToString } from 'react-dom/server'
+import AllGherkinDocuments from '@cucumber/react/src/components/app/AllGherkinDocuments'
 
 class CucumberHtmlStream extends Transform {
   private readonly envelopes: messages.IEnvelope[] = []
@@ -47,7 +48,7 @@ class CucumberHtmlStream extends Transform {
       this.push(
         renderToString(
           <Wrapper envelopes={this.envelopes}>
-            <GherkinDocumentList />
+            <AllGherkinDocuments />
           </Wrapper>
         )
       )

@@ -1,7 +1,8 @@
 import { messages } from '@cucumber/messages'
-import { GherkinDocumentList, Wrapper } from '@cucumber/react'
+import { Wrapper } from '@cucumber/react'
 import React from 'react'
 import ReactDOM from 'react-dom'
+import AllGherkinDocuments from '@cucumber/react/src/components/app/AllGherkinDocuments'
 
 declare global {
   interface Window {
@@ -15,7 +16,7 @@ const envelopes = window.CUCUMBER_MESSAGES.map((message: any) =>
 
 const app = (
   <Wrapper envelopes={envelopes}>
-    <GherkinDocumentList />
+    <AllGherkinDocuments />
   </Wrapper>
 )
 

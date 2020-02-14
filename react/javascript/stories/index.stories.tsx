@@ -1,7 +1,6 @@
 import { storiesOf } from '@storybook/react'
 import React from 'react'
 import { messages } from '@cucumber/messages'
-import GherkinDocumentList from '../src/components/app/GherkinDocumentList'
 import '../src/styles/react-accessible-accordion.css'
 import '../src/styles/styles.scss'
 import Wrapper from '../src/components/app/Wrapper'
@@ -23,7 +22,6 @@ import parameterTypes from '../../../compatibility-kit/javascript/features/param
 import rules from '../../../compatibility-kit/javascript/features/rules/rules.ndjson'
 // @ts-ignore
 import stackTraces from '../../../compatibility-kit/javascript/features/stack-traces/stack-traces.ndjson'
-import Step from '../src/components/gherkin/Step'
 import SearchBar from '../src/components/app/SearchBar'
 import FilteredResults from '../src/components/app/FilteredResults'
 import AllGherkinDocuments from '../src/components/app/AllGherkinDocuments'
