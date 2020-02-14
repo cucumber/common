@@ -67,7 +67,7 @@ on the host OS.
 
 ```
 make clean
-make # or make (go|java|javascript|ruby) to only build for the language
+make
 ```
 
 ### Building on CircleCI
