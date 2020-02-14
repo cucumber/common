@@ -176,4 +176,17 @@ $unknown: #B6BECB;
     background-color: #FFFFFF;
     border-radius: 6px;
   }
+  .cucumber-search-bar {
+    margin-top: 2em;
+    margin-bottom: 2em;
+    input {
+      padding: 0.4em;
+      border-radius: 0;
+    }
+    button {
+      height: 2.2em;
+      padding-left: 0.6em;
+      padding-right: 0.6em;
+    }
+  }
 }
