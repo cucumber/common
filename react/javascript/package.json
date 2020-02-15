@@ -1,6 +1,6 @@
 {
   "name": "@cucumber/react",
-  "version": "3.3.0",
+  "version": "4.0.0",
   "description": "React components for Cucumber",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
@@ -20,8 +20,8 @@
     "build-storybook": "build-storybook"
   },
   "dependencies": {
-    "@cucumber/messages": "file:../../messages/javascript",
-    "@cucumber/query": "file:../../query/javascript",
+    "@cucumber/messages": "^10.0.1",
+    "@cucumber/query": "^3.0.0",
     "@fortawesome/fontawesome": "^1.1.8",
     "@fortawesome/fontawesome-svg-core": "^1.2.27",
     "@fortawesome/free-regular-svg-icons": "^5.12.1",
@@ -36,8 +36,8 @@
   },
   "devDependencies": {
     "@babel/core": "^7.8.4",
-    "@cucumber/fake-cucumber": "file:../../fake-cucumber/javascript",
-    "@cucumber/gherkin": "file:../../gherkin/javascript",
+    "@cucumber/fake-cucumber": "^4.0.0",
+    "@cucumber/gherkin": "^10.0.0",
     "@storybook/addon-actions": "^5.3.13",
     "@storybook/addon-links": "^5.3.13",
     "@storybook/addons": "^5.3.13",
@@ -60,8 +60,6 @@
     "eslint-plugin-node": "^11.0.0",
     "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-react": "^7.18.3",
-    "fake-cucumber": "^3.0.2",
-    "gherkin": "9.0.0",
     "jsdom": "^16.1.0",
     "mocha": "^7.0.1",
     "node-sass": "4.13.1",
