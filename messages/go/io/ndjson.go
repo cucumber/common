@@ -55,6 +55,9 @@ func NewNdjsonReader(r io.Reader) gio.ReadCloser {
 		closer = c
 	}
 	scanner := bufio.NewScanner(r)
+	const maxCapacity = 10 * 1024 * 1024 // 10Mb
+	buf := make([]byte, maxCapacity)
+	scanner.Buffer(buf, maxCapacity)
 	return &ndjsonReader{bufio.NewReader(r), scanner, closer}
 }
 

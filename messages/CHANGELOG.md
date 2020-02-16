@@ -17,6 +17,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+* [Go] Increase max size of a JSON message to 10Mb
+  ([#901](https://github.com/cucumber/cucumber/issues/901)
+   []()
+   [aslakhellesoy])
+
 ## [10.0.1] - 2020-02-13
 
 ### Fixed
