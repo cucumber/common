@@ -69,8 +69,8 @@ func TestMessages(t *testing.T) {
 		require.Equal(t, "Hello", decoded.GetText())
 	})
 
-	t.Run("reads an attachment with a 70k string as NDJSON", func(t *testing.T) {
-		ba := make([]byte, 70000)
+	t.Run("reads an attachment with a 9Mb string as NDJSON", func(t *testing.T) {
+		ba := make([]byte, 9*1024*1024)
 		for i := range ba {
 			ba[i] = "x"[0]
 		}
