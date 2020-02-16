@@ -1,6 +1,6 @@
 {
   "name": "@cucumber/html-formatter",
-  "version": "3.2.3",
+  "version": "4.0.0",
   "description": "HTML formatter for Cucumber",
   "bin": {
     "cucumber-html-formatter": "bin/cucumber-html-formatter.js"
@@ -21,8 +21,8 @@
     "build": "tsc && webpack-cli src/main.tsx"
   },
   "dependencies": {
-    "@cucumber/messages": "file:../../messages/javascript",
-    "@cucumber/react": "file:../../react/javascript",
+    "@cucumber/messages": "^10.0.1",
+    "@cucumber/react": "^4.0.0",
     "commander": "^4.1.1",
     "jsdom": "^16.1.0",
     "react": "^16.12.0",
@@ -30,9 +30,9 @@
     "source-map-support": "^0.5.16"
   },
   "devDependencies": {
-    "@cucumber/gherkin": "file:../../gherkin/javascript",
+    "@cucumber/gherkin": "^10.0.0",
     "@babel/core": "^7.8.4",
-    "@types/jsdom": "^12.2.4",
+    "@types/jsdom": "^16.1.0",
     "@types/mocha": "^7.0.1",
     "@types/node": "^13.7.1",
     "@types/react": "^16.9.19",
