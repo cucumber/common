@@ -2,6 +2,7 @@ package messages
 
 import (
 	"bytes"
+	fio "github.com/cucumber/messages-go/v10/io"
 	gio "github.com/gogo/protobuf/io"
 	"github.com/stretchr/testify/require"
 	"math"
@@ -17,11 +18,11 @@ func TestMessages(t *testing.T) {
 
 		b := &bytes.Buffer{}
 		writer := gio.NewDelimitedWriter(b)
-		writer.WriteMsg(&pickleDocString)
+		require.NoError(t, writer.WriteMsg(&pickleDocString))
 
 		r := gio.NewDelimitedReader(b, math.MaxInt32)
 		var decoded PickleStepArgument_PickleDocString
-		r.ReadMsg(&decoded)
+		require.NoError(t, r.ReadMsg(&decoded))
 		require.Equal(t, "some\ncontent\n", decoded.Content)
 	})
 
@@ -47,11 +48,42 @@ func TestMessages(t *testing.T) {
 
 		b := &bytes.Buffer{}
 		writer := gio.NewDelimitedWriter(b)
-		writer.WriteMsg(step)
+		require.NoError(t, writer.WriteMsg(step))
 
 		r := gio.NewDelimitedReader(b, 4096)
 		var decoded GherkinDocument_Feature_Step
-		r.ReadMsg(&decoded)
+		require.NoError(t, r.ReadMsg(&decoded))
 		require.Equal(t, "Hello", decoded.GetDocString().Content)
+	})
+
+	t.Run("reads an attachment with a tiny string as NDJSON", func(t *testing.T) {
+		attachment := &Attachment{
+			Body: &Attachment_Text{Text: "Hello"},
+		}
+		b := &bytes.Buffer{}
+		writer := fio.NewNdjsonWriter(b)
+		require.NoError(t, writer.WriteMsg(attachment))
+		r := fio.NewNdjsonReader(b)
+		var decoded Attachment
+		require.NoError(t, r.ReadMsg(&decoded))
+		require.Equal(t, "Hello", decoded.GetText())
+	})
+
+	t.Run("reads an attachment with a 70k string as NDJSON", func(t *testing.T) {
+		ba := make([]byte, 70000)
+		for i := range ba {
+			ba[i] = "x"[0]
+		}
+		s := string(ba)
+		attachment := &Attachment{
+			Body: &Attachment_Text{Text: s},
+		}
+		b := &bytes.Buffer{}
+		writer := fio.NewNdjsonWriter(b)
+		require.NoError(t, writer.WriteMsg(attachment))
+		r := fio.NewNdjsonReader(b)
+		var decoded Attachment
+		require.NoError(t, r.ReadMsg(&decoded))
+		require.Equal(t, s, decoded.GetText())
 	})
 }
