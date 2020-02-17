@@ -18,3 +18,7 @@ Given('{flight} has been delayed {int} minutes') do |flight, delay|
   expect(flight.to).to eq('CDG')
   expect(delay).to eq(45)
 end
+
+Given('{airport} is closed because of a strike') do |airport|
+  raise StandardError, 'Should not be called because airport type not defined'
+end
