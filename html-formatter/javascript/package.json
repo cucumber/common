@@ -1,6 +1,6 @@
 {
   "name": "@cucumber/html-formatter",
-  "version": "3.2.3",
+  "version": "4.0.0",
   "description": "HTML formatter for Cucumber",
   "bin": {
     "cucumber-html-formatter": "bin/cucumber-html-formatter.js"
@@ -32,7 +32,7 @@
   "devDependencies": {
     "@cucumber/gherkin": "file:../../gherkin/javascript",
     "@babel/core": "^7.8.4",
-    "@types/jsdom": "^12.2.4",
+    "@types/jsdom": "^16.1.0",
     "@types/mocha": "^7.0.1",
     "@types/node": "^13.7.1",
     "@types/react": "^16.9.19",
