@@ -1,3 +1,5 @@
+include default.mk
+
 CCK_PATH = ..
 
 # https://stackoverflow.com/questions/2483182/recursive-wildcards-in-gnu-make
@@ -16,8 +18,7 @@ GOLDEN_JSONS=$(patsubst %.feature,%-golden.json,$(FEATURES))
 CCK_JSON_TESTED=$(patsubst %.feature,%-cck.json.tested,$(FEATURES))
 CCK_JSONS=$(patsubst %.feature,%-cck.json,$(FEATURES))
 
-default: tested cck_json_compared# self_tested
-.PHONY: default
+default: cck_json_compared
 
 reports: json_reports html_reports
 .PHONY: reports
@@ -84,9 +85,6 @@ self_tested: $(SELF_TESTED)
 
 %.ndjson: %.feature %_steps.rb Gemfile.lock $(RUBY_FILES)
 	-bundle exec cucumber $< --require $(patsubst %.ndjson,%_steps.rb,$@) --format=message > $@
-
-Gemfile.lock: Gemfile
-	bundle install
 
 %.feature:
 	mkdir -p $$(dirname $@)
