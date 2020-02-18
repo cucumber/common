@@ -18,6 +18,7 @@ type TestStep struct {
 	Result          *messages.TestStepResult
 	Background      *messages.GherkinDocument_Feature_Background
 	Attachments     []*messages.Attachment
+	ExampleRow      *messages.GherkinDocument_Feature_TableRow
 }
 
 func ProcessTestStepFinished(testStepFinished *messages.TestStepFinished, lookup *MessageLookup) (error, *TestStep) {
@@ -59,6 +60,11 @@ func ProcessTestStepFinished(testStepFinished *messages.TestStepFinished, lookup
 		return errors.New("No pickleStep for " + testStep.PickleStepId), nil
 	}
 
+	var exampleRow *messages.GherkinDocument_Feature_TableRow
+	if len(pickle.AstNodeIds) > 1 {
+		exampleRow = lookup.LookupExampleRow(pickle.AstNodeIds[1])
+	}
+
 	var background *messages.GherkinDocument_Feature_Background
 	scenarioStep := lookup.LookupStep(pickleStep.AstNodeIds[0])
 	if scenarioStep != nil {
@@ -70,6 +76,7 @@ func ProcessTestStepFinished(testStepFinished *messages.TestStepFinished, lookup
 		Step:            lookup.LookupStep(pickleStep.AstNodeIds[0]),
 		Pickle:          pickle,
 		PickleStep:      pickleStep,
+		ExampleRow:      exampleRow,
 		Result:          testStepFinished.TestStepResult,
 		StepDefinitions: lookup.LookupStepDefinitions(testStep.StepDefinitionIds),
 		Background:      background,
@@ -98,6 +105,10 @@ func TestStepToJSON(step *TestStep) *jsonStep {
 	}
 
 	location := makeLocation(step.Pickle.Uri, step.Step.Location.Line)
+	if step.ExampleRow != nil {
+		location = makeLocation(step.Pickle.Uri, step.ExampleRow.Location.Line)
+	}
+
 	if len(step.StepDefinitions) == 1 {
 		location = makeLocation(
 			step.StepDefinitions[0].SourceReference.Uri,
