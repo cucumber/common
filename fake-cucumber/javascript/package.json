@@ -1,6 +1,6 @@
 {
   "name": "@cucumber/fake-cucumber",
-  "version": "3.0.3",
+  "version": "4.0.0",
   "description": "Fake Cucumber generates fake results",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
@@ -31,11 +31,11 @@
   "devDependencies": {
     "@types/glob": "^7.1.1",
     "@types/mocha": "^7.0.1",
-    "@types/node": "^13.7.0",
+    "@types/node": "^13.7.1",
     "@types/stack-utils": "^1.0.1",
     "@types/stream-buffers": "^3.0.3",
-    "@typescript-eslint/eslint-plugin": "^2.19.0",
-    "@typescript-eslint/parser": "^2.19.0",
+    "@typescript-eslint/eslint-plugin": "^2.19.2",
+    "@typescript-eslint/parser": "^2.19.2",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.10.0",
     "eslint-plugin-node": "^11.0.0",

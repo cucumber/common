@@ -101,7 +101,7 @@ This should update the version in `java/pom.xml` file to use a `-SNAPSHOT` suffi
 the `replace`directives in the `go.mod`file.
 This is automatically committed, and pushed along with the tag of the release.
 
-If you did a new major release of a Go package, you can also update all the references in the
+If you did a new major release of a Go package, you must also update all the references in the
 libraries using it:
 
     # Run this in the root directory

@@ -1,6 +1,6 @@
 {
   "name": "@cucumber/html-formatter",
-  "version": "3.2.3",
+  "version": "4.0.0",
   "description": "HTML formatter for Cucumber",
   "bin": {
     "cucumber-html-formatter": "bin/cucumber-html-formatter.js"
@@ -32,13 +32,13 @@
   "devDependencies": {
     "@cucumber/gherkin": "file:../../gherkin/javascript",
     "@babel/core": "^7.8.4",
-    "@types/jsdom": "^12.2.4",
+    "@types/jsdom": "^16.1.0",
     "@types/mocha": "^7.0.1",
-    "@types/node": "^13.7.0",
+    "@types/node": "^13.7.1",
     "@types/react": "^16.9.19",
     "@types/react-dom": "^16.9.5",
-    "@typescript-eslint/eslint-plugin": "^2.19.0",
-    "@typescript-eslint/parser": "^2.19.0",
+    "@typescript-eslint/eslint-plugin": "^2.19.2",
+    "@typescript-eslint/parser": "^2.19.2",
     "awesome-typescript-loader": "^5.2.1",
     "babel-loader": "^8.0.6",
     "eslint": "^6.8.0",
@@ -53,8 +53,8 @@
     "prettier": "^1.19.1",
     "typescript": "^3.7.5",
     "ts-node": "^8.6.2",
-    "webpack": "^4.41.5",
-    "webpack-cli": "^3.3.10"
+    "webpack": "^4.41.6",
+    "webpack-cli": "^3.3.11"
   },
   "bugs": {
     "url": "https://github.com/cucumber/cucumber/issues"
