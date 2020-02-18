@@ -16,17 +16,21 @@ features/%.json: features/%-unprocessed.json
 		./neutralize-json | \
 		jq --sort-keys "." > $@
 
+# Dirty hack: the Ruby version we use do not support some features.
+features/rules/rules.json:
+	mkdir -p $$(dirname $@)
+	echo "[]" > $@
+
+features/unknown-parameter-type/unknown-parameter-type.json:
+	mkdir -p $$(dirname $@)
+	echo "[]" > $@
+
 features/%-unprocessed.json: features/%.feature features/%_steps.rb
-	-bundle exec cucumber $< --require $(patsubst %-unprocessed.json,%_steps.rb,$@) --format=json > $@
+	-bundle exec cucumber $< --require $(patsubst %-unprocessed.json,%_steps.rb,$@) --tags "not @exclude-json-formatter" --format=json > $@
 
 features/%_steps.rb: $(CCK_PATH)/ruby/features/%_steps.rb
 	mkdir -p $$(dirname $@)
 	cp $(patsubst %,$(CCK_PATH)/ruby/%,$@) $@
-
-# Dirty hack: the Ruby version we use do not support the Rule keyword.
-features/rules/rules.feature:
-	mkdir -p $$(dirname $@)
-	echo "Feature: Rules" > $@
 
 features/%.feature: $(CCK_PATH)/javascript/features/%.feature
 	mkdir -p $$(dirname $@)

@@ -11,10 +11,14 @@ NDJSONS_GOLDEN  = $(patsubst features/%.feature,features/%.ndjson,$(FEATURES))
 
 .tested: $(NDJSONS_GOLDEN)
 
-# Dirty hack: the Ruby version we use do not support the Rule keyword, so we'll also produce an empty one here.
-features/rules/rules.feature:
+# Dirty hack: the Ruby version we use do not support some features.
+features/rules/rules.ndjson:
 	mkdir -p $$(dirname $@)
-	echo "Feature: Rules" > $@
+	echo "" > $@
+
+features/unknown-parameter-type/unknown-parameter-type.ndjson:
+	mkdir -p $$(dirname $@)
+	echo "" > $@
 
 features/%.ndjson: features/%.feature features/%.ts .deps
 	./node_modules/@cucumber/fake-cucumber/bin/fake-cucumber \
