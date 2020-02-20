@@ -49,6 +49,7 @@ describe('App', () => {
               new CucumberStream(
                 supportCode.parameterTypes,
                 supportCode.stepDefinitions,
+                supportCode.undefinedParameterTypes,
                 supportCode.beforeHooks,
                 supportCode.afterHooks,
                 supportCode.newId,

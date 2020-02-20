@@ -18,6 +18,14 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 ### Removed
 
 ### Fixed
+
+## [10.0.0] - 2020-02-13
+
+### Changed
+
+* Upgrade to messages v10.0.1
+
+### Fixed
  * [Java/JavaScript/Go/Ruby] Fix parsing of commented tags
      ([880](https://github.com/cucumber/cucumber/pull/880),
       [721](https://github.com/cucumber/cucumber/pull/721)
@@ -661,7 +669,8 @@ to Gherkin 2.
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v9.2.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v10.0.0...master
+[10.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v9.2.0...gherkin/v10.0.0
 [9.2.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v9.1.0...gherkin/v9.2.0
 [9.1.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v9.0.0...gherkin/v9.1.0
 [9.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v8.2.1...gherkin/v9.0.0
