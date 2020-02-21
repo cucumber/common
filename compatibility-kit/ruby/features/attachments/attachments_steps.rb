@@ -14,6 +14,11 @@ When('the string {string} is attached as {string}') do |text, media_type|
   attach_or_embed(self, text, media_type)
 end
 
+When('the string {string} is logged') do |text|
+  # Backward compatibility
+  self.respond_to?(:log) ? log(text) : puts(text)
+end
+
 When('an array with {int} bytes are attached as {string}') do |size, media_type|
   # Awful monkey patch here.
   module Cucumber

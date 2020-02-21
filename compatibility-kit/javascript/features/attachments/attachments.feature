@@ -12,6 +12,9 @@ Feature: Attachments
   Scenario: Attach text
     When the string "hello" is attached as "text/plain"
 
+  Scenario: Log text
+    When the string "hello" is logged
+
   Scenario: Attach byte array
     When an array with 10 bytes are attached as "application/octet-stream"
 

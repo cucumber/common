@@ -18,7 +18,7 @@ GOLDEN_JSONS=$(patsubst %.feature,%-golden.json,$(FEATURES))
 CCK_JSON_TESTED=$(patsubst %.feature,%-cck.json.tested,$(FEATURES))
 CCK_JSONS=$(patsubst %.feature,%-cck.json,$(FEATURES))
 
-default: cck_json_compared
+default: tested cck_json_compared
 
 reports: json_reports html_reports
 .PHONY: reports
