@@ -50,6 +50,9 @@ export default class TestCase {
       attach: () => {
         throw new Error('Attach is not ready')
       },
+      log: () => {
+        throw new Error('Log is not ready')
+      },
     }
 
     let executeNext = true

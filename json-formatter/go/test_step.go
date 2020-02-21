@@ -129,6 +129,7 @@ func TestStepToJSON(step *TestStep) *jsonStep {
 			Duration:     duration,
 		},
 		Embeddings: makeEmbeddings(step.Attachments),
+		Output:     makeOutput(step.Attachments),
 	}
 
 	docString := step.Step.GetDocString()
@@ -159,8 +160,10 @@ func TestStepToJSON(step *TestStep) *jsonStep {
 }
 
 func makeEmbeddings(attachments []*messages.Attachment) []*jsonEmbedding {
-	jsonEmbeddings := make([]*jsonEmbedding, len(attachments))
-	for index, attachment := range attachments {
+	embeddableAttachments := filterAttachments(attachments, isEmbeddable)
+	jsonEmbeddings := make([]*jsonEmbedding, len(embeddableAttachments))
+
+	for index, attachment := range embeddableAttachments {
 		var data []byte
 		if attachment.GetBinary() != nil {
 			data = attachment.GetBinary()
@@ -174,6 +177,35 @@ func makeEmbeddings(attachments []*messages.Attachment) []*jsonEmbedding {
 	}
 
 	return jsonEmbeddings
+}
+
+func makeOutput(attachments []*messages.Attachment) []string {
+	outputAttachments := filterAttachments(attachments, isOutput)
+	output := make([]string, len(outputAttachments))
+
+	for index, attachment := range outputAttachments {
+		output[index] = attachment.GetText()
+	}
+
+	return output
+}
+
+func filterAttachments(attachments []*messages.Attachment, filter func(*messages.Attachment) bool) []*messages.Attachment {
+	matches := make([]*messages.Attachment, 0)
+	for _, attachment := range attachments {
+		if filter(attachment) {
+			matches = append(matches, attachment)
+		}
+	}
+	return matches
+}
+
+func isEmbeddable(attachment *messages.Attachment) bool {
+	return !isOutput(attachment)
+}
+
+func isOutput(attachment *messages.Attachment) bool {
+	return attachment.GetMediaType() == "text/x.cucumber.log+plain"
 }
 
 func makeLocation(file string, line uint32) string {

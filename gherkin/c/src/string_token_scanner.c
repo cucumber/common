@@ -17,7 +17,7 @@ static void StringTokenScanner_delete(TokenScanner* token_scanner);
 TokenScanner* StringTokenScanner_new(const wchar_t* source) {
     StringTokenScanner* token_scanner = (StringTokenScanner*)malloc(sizeof(StringTokenScanner));
     token_scanner->token_scanner.read = &StringTokenScanner_read;
-    token_scanner->token_scanner.delete = &StringTokenScanner_delete;
+    token_scanner->token_scanner.del = &StringTokenScanner_delete;
     token_scanner->source = source;
     token_scanner->line = 0;
     token_scanner->pos = 0;

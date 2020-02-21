@@ -77,7 +77,7 @@ size_t StringUtilities_code_point_length_for_part(const wchar_t* string, const i
 Utf8Source* StringUtf8Source_new(const char* string) {
     StringUtf8Source* string_utf8_source = (StringUtf8Source*)malloc(sizeof(StringUtf8Source));
     string_utf8_source->utf8_source.read = &StringUtf8Source_read;
-    string_utf8_source->utf8_source.delete = &StringUtf8Source_delete;
+    string_utf8_source->utf8_source.del = &StringUtf8Source_delete;
     string_utf8_source->position = 0;
     string_utf8_source->length = strlen(string);
     string_utf8_source->string = string;
