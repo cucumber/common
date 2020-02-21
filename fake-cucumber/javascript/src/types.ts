@@ -7,3 +7,4 @@ export type Attach = (
   data: string | Buffer | Readable,
   mediaType: string
 ) => void | Promise<void>
+export type Log = (text: string) => void | Promise<void>

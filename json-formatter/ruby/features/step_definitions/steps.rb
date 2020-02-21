@@ -20,3 +20,6 @@ Then("a skipped {word}") do |word|
   raise "Should never be called"
 end
 
+Given('a step outputs:') do |txt|
+  puts txt
+end
