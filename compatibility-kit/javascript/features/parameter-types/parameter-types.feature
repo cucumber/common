@@ -4,9 +4,6 @@ Feature: Parameter Types
   vocabulary which can be used to generate a glossary with examples taken
   from your scenarios. They also let you transform strings and tables into
   rich types.
-  
+
   Scenario: flights
     Given LHR-CDG has been delayed 45 minutes
-    
-  Scenario: undefined parameter type
-    Given CDG is closed because of a strike

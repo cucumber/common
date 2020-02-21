@@ -327,7 +327,7 @@ jobs:
       - persist_to_workspace:
           root: ~/cucumber
           paths:
-            - json-formatter/javascript/acceptance
+            - json-formatter/javascript/features
 
   query-javascript:
     executor: docker-circleci-node-12
