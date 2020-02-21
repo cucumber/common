@@ -20,7 +20,7 @@ type CucumberExpression struct {
 	parameterTypeRegistry *ParameterTypeRegistry
 }
 
-func NewCucumberExpression(expression string, parameterTypeRegistry *ParameterTypeRegistry) (*CucumberExpression, error) {
+func NewCucumberExpression(expression string, parameterTypeRegistry *ParameterTypeRegistry) (Expression, error) {
 	result := &CucumberExpression{source: expression, parameterTypeRegistry: parameterTypeRegistry}
 
 	expression = result.processEscapes(expression)
@@ -156,6 +156,7 @@ func buildCaptureRegexp(regexps []*regexp.Regexp) string {
 
 	return fmt.Sprintf("(%s)", strings.Join(captureGroups, "|"))
 }
+
 func (r *CucumberExpression) objectMapperTransformer(typeHint reflect.Type) func(args ...*string) interface{} {
 	return func(args ...*string) interface{} {
 		i, err := r.parameterTypeRegistry.defaultTransformer.Transform(*args[0], typeHint)

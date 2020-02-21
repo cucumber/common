@@ -57,7 +57,7 @@ export default class TestCase {
 
     let executeNext = true
     for (const testStep of this.testSteps) {
-      let testStepResult: messages.ITestResult
+      let testStepResult: messages.ITestStepResult
       // TODO: Also ask testStep if it should always execute (true for After steps)
       if (executeNext || testStep.alwaysExecute) {
         testStepResult = await testStep.execute(
@@ -66,7 +66,7 @@ export default class TestCase {
           testCaseStartedId
         )
         executeNext =
-          testStepResult.status === messages.TestResult.Status.PASSED
+          testStepResult.status === messages.TestStepResult.Status.PASSED
       } else {
         testStepResult = testStep.skip(notifier, testCaseStartedId)
       }

@@ -7,20 +7,20 @@ package cucumber_demo_formatter
 
 import (
 	"fmt"
-	messages "github.com/cucumber/messages-go/v9"
+	messages "github.com/cucumber/messages-go/v10"
 	gio "github.com/gogo/protobuf/io"
 	"io"
 )
 
 func ProcessMessages(reader gio.ReadCloser, output io.Writer) {
-	var emoji = map[messages.TestResult_Status]string{
-		messages.TestResult_UNKNOWN:   "👽",
-		messages.TestResult_PASSED:    "😃",
-		messages.TestResult_SKIPPED:   "🥶",
-		messages.TestResult_PENDING:   "⏰",
-		messages.TestResult_UNDEFINED: "🤷",
-		messages.TestResult_AMBIGUOUS: "🦄",
-		messages.TestResult_FAILED:    "💣",
+	var emoji = map[messages.TestStepResult_Status]string{
+		messages.TestStepResult_UNKNOWN:   "👽",
+		messages.TestStepResult_PASSED:    "😃",
+		messages.TestStepResult_SKIPPED:   "🥶",
+		messages.TestStepResult_PENDING:   "⏰",
+		messages.TestStepResult_UNDEFINED: "🤷",
+		messages.TestStepResult_AMBIGUOUS: "🦄",
+		messages.TestStepResult_FAILED:    "💣",
 	}
 
 	for {
@@ -35,7 +35,7 @@ func ProcessMessages(reader gio.ReadCloser, output io.Writer) {
 
 		switch m := envelope.Message.(type) {
 		case *messages.Envelope_TestStepFinished:
-			_, err = fmt.Fprintf(output, emoji[m.TestStepFinished.TestResult.Status])
+			_, err = fmt.Fprintf(output, emoji[m.TestStepFinished.TestStepResult.Status])
 		case *messages.Envelope_TestRunFinished:
 			_, err = fmt.Fprint(output, "\n")
 		}

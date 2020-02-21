@@ -1,8 +1,7 @@
 import {
-  CucumberExpression,
+  ExpressionFactory,
   ParameterType,
   ParameterTypeRegistry,
-  RegularExpression,
 } from '@cucumber/cucumber-expressions'
 import { IdGenerator, messages } from '@cucumber/messages'
 import StackUtils from 'stack-utils'
@@ -73,6 +72,10 @@ export default class SupportCode {
   public readonly Before = this.registerBeforeHook.bind(this) as RegisterHook
   public readonly After = this.registerAfterHook.bind(this) as RegisterHook
   private readonly parameterTypeRegistry = new ParameterTypeRegistry()
+  private readonly expressionFactory = new ExpressionFactory(
+    this.parameterTypeRegistry
+  )
+  public readonly undefinedParameterTypes: messages.IEnvelope[] = []
 
   constructor(
     public newId: IdGenerator.NewId,
@@ -100,17 +103,29 @@ export default class SupportCode {
     body: AnyBody
   ): void {
     const sourceReference = getSourceReference(new Error().stack)
-    const expr =
-      typeof expression === 'string'
-        ? new CucumberExpression(expression, this.parameterTypeRegistry)
-        : new RegularExpression(expression, this.parameterTypeRegistry)
-    const stepDefinition = new ExpressionStepDefinition(
-      this.newId(),
-      expr,
-      sourceReference,
-      body
-    )
-    this.stepDefinitions.push(stepDefinition)
+    try {
+      const expr = this.expressionFactory.createExpression(expression)
+      const stepDefinition = new ExpressionStepDefinition(
+        this.newId(),
+        expr,
+        sourceReference,
+        body
+      )
+      this.stepDefinitions.push(stepDefinition)
+    } catch (e) {
+      if (e.undefinedParameterTypeName) {
+        this.undefinedParameterTypes.push(
+          new messages.Envelope({
+            undefinedParameterType: new messages.UndefinedParameterType({
+              expression: expression.toString(),
+              name: e.undefinedParameterTypeName,
+            }),
+          })
+        )
+      } else {
+        throw e
+      }
+    }
   }
 
   private registerBeforeHook(

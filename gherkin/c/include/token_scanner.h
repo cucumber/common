@@ -17,7 +17,7 @@ typedef void (*delete_function) (TokenScanner*);
 
 struct TokenScanner {
     read_function read;
-    delete_function delete;
+    delete_function del;
 };
 
 void TokenScanner_delete(TokenScanner* token_scanner);
