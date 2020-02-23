@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
+* [Java] Minor performance improvement for matching regular expressions steps.
+
 ### Deprecated
 
 ### Removed

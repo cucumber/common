@@ -30,6 +30,11 @@ final class RegularExpression implements Expression {
 
     @Override
     public List<Argument<?>> match(String text, Type... typeHints) {
+        final Group group = treeRegexp.match(text);
+        if (group == null) {
+            return null;
+        }
+
         final ParameterByTypeTransformer defaultTransformer = parameterTypeRegistry.getDefaultParameterTransformer();
         final List<ParameterType<?>> parameterTypes = new ArrayList<>();
         int typeHintIndex = 0;
@@ -63,8 +68,7 @@ final class RegularExpression implements Expression {
             parameterTypes.add(parameterType);
         }
 
-
-        return Argument.build(treeRegexp, text, parameterTypes);
+        return Argument.build(group, treeRegexp, parameterTypes);
     }
 
     @Override

@@ -34,7 +34,6 @@ final class CucumberExpression implements Expression {
         expression = processParameters(expression, parameterTypeRegistry);
         expression = "^" + expression + "$";
         treeRegexp = new TreeRegexp(expression);
-
     }
 
     private String processEscapes(String expression) {
@@ -130,6 +129,11 @@ final class CucumberExpression implements Expression {
 
     @Override
     public List<Argument<?>> match(String text, Type... typeHints) {
+        final Group group = treeRegexp.match(text);
+        if (group == null) {
+            return null;
+        }
+
         List<ParameterType<?>> parameterTypes = new ArrayList<>(this.parameterTypes);
         for (int i = 0; i < parameterTypes.size(); i++) {
             ParameterType<?> parameterType = parameterTypes.get(i);
@@ -140,7 +144,7 @@ final class CucumberExpression implements Expression {
             }
         }
 
-        return Argument.build(treeRegexp, text, parameterTypes);
+        return Argument.build(group, treeRegexp, parameterTypes);
     }
 
     @Override
