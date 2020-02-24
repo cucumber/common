@@ -1,6 +1,7 @@
 {
   "require": ["ts-node/register", "source-map-support/register"],
   "extension": ["ts", "tsx"],
+  "resolveJsonModule": true,
   "recursive": true,
-  "timeout": 10000  
+  "timeout": 10000
 }
