@@ -15,15 +15,15 @@ const pipelinePromise = promisify(pipeline)
 
 describe('TestStepResultQuery', () => {
   let gherkinQuery: GherkinQuery
-  let testStepResultQuery: Query
+  let cucumberQuery: Query
   beforeEach(() => {
     gherkinQuery = new GherkinQuery()
-    testStepResultQuery = new Query()
+    cucumberQuery = new Query()
   })
 
   describe('#getWorstTestStepResult(testStepResults)', () => {
     it('returns a FAILED result for PASSED,FAILED,PASSED', () => {
-      const result = testStepResultQuery.getWorstTestStepResult([
+      const result = cucumberQuery.getWorstTestStepResult([
         new messages.TestStepResult({
           status: messages.TestStepResult.Status.PASSED,
         }),
@@ -40,7 +40,7 @@ describe('TestStepResultQuery', () => {
 
   describe('#getPickleStepTestStepResults(pickleStepIds)', () => {
     it('returns a single UNDEFINED when the list is empty', () => {
-      const results = testStepResultQuery.getPickleTestStepResults([])
+      const results = cucumberQuery.getPickleTestStepResults([])
       assert.deepStrictEqual(
         results.map(r => r.status),
         [messages.TestStepResult.Status.UNDEFINED]
@@ -48,17 +48,24 @@ describe('TestStepResultQuery', () => {
     })
 
     it('looks up results for scenario steps', async () => {
-      await parse(
+      await execute(
         `Feature: hello
   Scenario: ok
     Given a passed step
 `
       )
 
+      const pickleIds = gherkinQuery.getPickleIds('test.feature', 2)
+      const testCaseStartedIds = cucumberQuery.getTestCaseStartedIds(
+        pickleIds[0]
+      )
+      assert.equal(testCaseStartedIds.length, 1)
+
       const pickleStepIds = gherkinQuery.getPickleStepIds('test.feature', 3)
       assert.strictEqual(pickleStepIds.length, 1)
 
-      const testStepResults: messages.ITestStepResult[] = testStepResultQuery.getPickleStepTestStepResults(
+      const testStepResults: messages.ITestStepResult[] = cucumberQuery.getPickleStepTestStepResults(
+        testCaseStartedIds[0],
         pickleStepIds
       )
       assert.strictEqual(testStepResults.length, 1)
@@ -70,7 +77,7 @@ describe('TestStepResultQuery', () => {
     })
 
     it('looks up results for background steps', async () => {
-      await parse(
+      await execute(
         `Feature: hello
   Background:
     Given a passed step
@@ -86,7 +93,8 @@ describe('TestStepResultQuery', () => {
       const pickleStepIds = gherkinQuery.getPickleStepIds('test.feature', 3)
       assert.strictEqual(pickleStepIds.length, 2)
 
-      const testStepResults: messages.ITestStepResult[] = testStepResultQuery.getPickleStepTestStepResults(
+      const testStepResults: messages.ITestStepResult[] = cucumberQuery.getPickleStepTestStepResults(
+        null, // Means all testCaseStartedIds
         pickleStepIds
       )
 
@@ -100,7 +108,7 @@ describe('TestStepResultQuery', () => {
     })
 
     it('looks up results for background steps when scenarios are empty', async () => {
-      await parse(
+      await execute(
         `Feature: hello
   Background:
     Given a passed step
@@ -114,7 +122,8 @@ describe('TestStepResultQuery', () => {
       const pickleStepIds = gherkinQuery.getPickleStepIds('test.feature', 3)
       assert.strictEqual(pickleStepIds.length, 0)
 
-      const testStepResults: messages.ITestStepResult[] = testStepResultQuery.getPickleStepTestStepResults(
+      const testStepResults: messages.ITestStepResult[] = cucumberQuery.getPickleStepTestStepResults(
+        null,
         pickleStepIds
       )
       assert.strictEqual(testStepResults.length, 1)
@@ -128,7 +137,7 @@ describe('TestStepResultQuery', () => {
 
   describe('#getPickleTestStepResults(pickleIds)', () => {
     it('looks up results for scenarios', async () => {
-      await parse(
+      await execute(
         `Feature: hello
   Scenario: ko
     Given a passed step
@@ -139,7 +148,7 @@ describe('TestStepResultQuery', () => {
       const pickleIds = gherkinQuery.getPickleIds('test.feature', 2)
       assert.strictEqual(pickleIds.length, 1)
 
-      const testStepResults: messages.ITestStepResult[] = testStepResultQuery.getPickleTestStepResults(
+      const testStepResults: messages.ITestStepResult[] = cucumberQuery.getPickleTestStepResults(
         pickleIds
       )
 
@@ -153,7 +162,7 @@ describe('TestStepResultQuery', () => {
     })
 
     it('looks up results for scenario outlines', async () => {
-      await parse(
+      await execute(
         `Feature: hello
   Scenario: hi <status1> and <status2>
     Given a <status1> step
@@ -169,9 +178,7 @@ describe('TestStepResultQuery', () => {
       assert.strictEqual(pickleIds.length, 2)
 
       assert.deepStrictEqual(
-        testStepResultQuery
-          .getPickleTestStepResults(pickleIds)
-          .map(r => r.status),
+        cucumberQuery.getPickleTestStepResults(pickleIds).map(r => r.status),
         [
           messages.TestStepResult.Status.PASSED,
           messages.TestStepResult.Status.PASSED,
@@ -182,7 +189,7 @@ describe('TestStepResultQuery', () => {
     })
 
     it('looks up results for examples rows outlines', async () => {
-      await parse(
+      await execute(
         `Feature: hello
   Scenario: hi <status1> and <status2>
     Given a <status1> step
@@ -196,7 +203,7 @@ describe('TestStepResultQuery', () => {
       )
 
       assert.deepStrictEqual(
-        testStepResultQuery
+        cucumberQuery
           .getPickleTestStepResults(
             gherkinQuery.getPickleIds('test.feature', 8)
           )
@@ -208,7 +215,7 @@ describe('TestStepResultQuery', () => {
       )
 
       assert.deepStrictEqual(
-        testStepResultQuery
+        cucumberQuery
           .getPickleTestStepResults(
             gherkinQuery.getPickleIds('test.feature', 9)
           )
@@ -223,7 +230,7 @@ describe('TestStepResultQuery', () => {
 
   describe('#getPickleStepAttachments(pickleIds)', () => {
     it('looks up attachments', async () => {
-      await parse(
+      await execute(
         `Feature: hello
   Scenario: ok
     Given a passed step with attachment
@@ -233,7 +240,7 @@ describe('TestStepResultQuery', () => {
       const pickleStepIds = gherkinQuery.getPickleStepIds('test.feature', 3)
       assert.strictEqual(pickleStepIds.length, 1)
 
-      const attachments: messages.IAttachment[] = testStepResultQuery.getPickleStepAttachments(
+      const attachments: messages.IAttachment[] = cucumberQuery.getPickleStepAttachments(
         pickleStepIds
       )
       assert.strictEqual(attachments.length, 1)
@@ -244,7 +251,7 @@ describe('TestStepResultQuery', () => {
 
   describe('#getStepMatchArguments(uri, lineNumber)', () => {
     it("looks up result for step's uri and line", async () => {
-      await parse(
+      await execute(
         `Feature: hello
   Scenario: hi
     Given a passed step
@@ -253,7 +260,7 @@ describe('TestStepResultQuery', () => {
       )
 
       assert.deepStrictEqual(
-        testStepResultQuery
+        cucumberQuery
           .getStepMatchArgumentsLists(
             gherkinQuery.getPickleStepIds('test.feature', 3)[0]
           )
@@ -262,7 +269,7 @@ describe('TestStepResultQuery', () => {
       )
 
       assert.deepStrictEqual(
-        testStepResultQuery
+        cucumberQuery
           .getStepMatchArgumentsLists(
             gherkinQuery.getPickleStepIds('test.feature', 4)[0]
           )
@@ -272,7 +279,7 @@ describe('TestStepResultQuery', () => {
     })
   })
 
-  function parse(gherkinSource: string): Promise<void> {
+  async function execute(gherkinSource: string): Promise<void> {
     const newId = IdGenerator.incrementing()
     const clock = new IncrementClock()
     const makeErrorMessage = withFullStackTrace()
@@ -310,14 +317,14 @@ describe('TestStepResultQuery', () => {
       ): void {
         try {
           gherkinQuery.update(envelope)
-          testStepResultQuery.update(envelope)
+          cucumberQuery.update(envelope)
           callback()
         } catch (err) {
           callback(err)
         }
       },
     })
-    return pipelinePromise(
+    await pipelinePromise(
       gherkinMessages(gherkinSource, 'test.feature', newId),
       cucumberStream,
       queryUpdateStream

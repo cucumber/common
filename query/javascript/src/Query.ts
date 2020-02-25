@@ -2,7 +2,12 @@ import { StrictArrayMultimap, StrictMap } from '@cucumber/gherkin'
 import { messages, TimeConversion } from '@cucumber/messages'
 
 export default class Query {
-  private readonly testStepResultByPickleId = new StrictArrayMultimap<
+  private readonly testCaseStartedIdsByPickleId = new StrictArrayMultimap<
+    string,
+    string
+  >()
+
+  private readonly testStepResultsByPickleId = new StrictArrayMultimap<
     string,
     messages.ITestStepResult
   >()
@@ -10,10 +15,18 @@ export default class Query {
     string,
     messages.ITestStepResult
   >()
+
+  private readonly testStepResultsByTestCaseStartedIdPickleStepId = new StrictMap<
+    string,
+    StrictArrayMultimap<string, messages.ITestStepResult>
+  >()
+
   private readonly testStepById = new StrictMap<
     string,
     messages.TestCase.ITestStep
   >()
+
+  private readonly pickleIdByTestCaseId = new StrictMap<string, string>()
   private readonly pickleIdByTestStepId = new StrictMap<string, string>()
   private readonly pickleStepIdByTestStepId = new StrictMap<string, string>()
 
@@ -29,6 +42,10 @@ export default class Query {
 
   public update(envelope: messages.IEnvelope) {
     if (envelope.testCase) {
+      this.pickleIdByTestCaseId.set(
+        envelope.testCase.id,
+        envelope.testCase.pickleId
+      )
       for (const testStep of envelope.testCase.testSteps) {
         this.testStepById.set(testStep.id, testStep)
         this.pickleIdByTestStepId.set(testStep.id, envelope.testCase.pickleId)
@@ -40,11 +57,36 @@ export default class Query {
       }
     }
 
+    if (envelope.testCaseStarted) {
+      this.testStepResultsByTestCaseStartedIdPickleStepId.set(
+        envelope.testCaseStarted.id,
+        new StrictArrayMultimap<string, messages.ITestStepResult>()
+      )
+      const pickleId = this.pickleIdByTestCaseId.get(
+        envelope.testCaseStarted.testCaseId
+      )
+      this.testCaseStartedIdsByPickleId.put(
+        pickleId,
+        envelope.testCaseStarted.id
+      )
+    }
+
     if (envelope.testStepFinished) {
       const pickleId = this.pickleIdByTestStepId.get(
         envelope.testStepFinished.testStepId
       )
-      this.testStepResultByPickleId.put(
+      const testStepResultsByPickleId = this.testStepResultsByTestCaseStartedIdPickleStepId.get(
+        envelope.testStepFinished.testCaseStartedId
+      )
+      console.log(
+        `testCaseStartedId=${envelope.testStepFinished.testCaseStartedId}, pickleId=${pickleId}`
+      )
+      testStepResultsByPickleId.put(
+        pickleId,
+        envelope.testStepFinished.testStepResult
+      )
+
+      this.testStepResultsByPickleId.put(
         pickleId,
         envelope.testStepFinished.testStepResult
       )
@@ -68,9 +110,40 @@ export default class Query {
 
   /**
    * Gets all the results for multiple pickle steps
+   * @param testCaseStartedId
    * @param pickleStepIds
    */
   public getPickleStepTestStepResults(
+    testCaseStartedId: string,
+    pickleStepIds: string[]
+  ): messages.ITestStepResult[] {
+    if (pickleStepIds.length === 0) {
+      return [
+        new messages.TestStepResult({
+          status: messages.TestStepResult.Status.SKIPPED,
+          duration: TimeConversion.millisecondsToDuration(0),
+        }),
+      ]
+    }
+    const testStepResultsByPickleStepId = this.testStepResultsByTestCaseStartedIdPickleStepId.get(
+      testCaseStartedId
+    )
+
+    return pickleStepIds.reduce(
+      (testStepResults: messages.ITestStepResult[], pickleId) => {
+        return testStepResults.concat(
+          testStepResultsByPickleStepId.get(pickleId)
+        )
+      },
+      []
+    )
+  }
+
+  /**
+   * Gets all the results for multiple pickle steps
+   * @param pickleStepIds
+   */
+  public getPickleStepTestStepResultsOld(
     pickleStepIds: string[]
   ): messages.ITestStepResult[] {
     if (pickleStepIds.length === 0) {
@@ -109,7 +182,7 @@ export default class Query {
     return pickleIds.reduce(
       (testStepResults: messages.ITestStepResult[], pickleId) => {
         return testStepResults.concat(
-          this.testStepResultByPickleId.get(pickleId)
+          this.testStepResultsByPickleId.get(pickleId)
         )
       },
       []
@@ -157,5 +230,9 @@ export default class Query {
     pickleStepId: string
   ): messages.TestCase.TestStep.IStepMatchArgumentsList[] {
     return this.stepMatchArgumentsListsByPickleStepId.get(pickleStepId)
+  }
+
+  public getTestCaseStartedIds(pickleId: string): string[] {
+    return this.testCaseStartedIdsByPickleId.get(pickleId)
   }
 }
