@@ -1,6 +1,7 @@
 import assert from 'assert'
 import { messages } from '@cucumber/messages'
 import FeatureSearch from '../../src/search/FeatureSearch'
+import { makeFeature } from './utils'
 
 describe('FeatureSearch', () => {
   let featureSearch: FeatureSearch
@@ -10,9 +11,7 @@ describe('FeatureSearch', () => {
     featureSearch = new FeatureSearch()
     gherkinDocument = messages.GherkinDocument.create({
       uri: 'some/feature.file',
-      feature: messages.GherkinDocument.Feature.create({
-        name: 'this exists',
-      }),
+      feature: makeFeature('this exists', [])
     })
 
     featureSearch.add(gherkinDocument)
