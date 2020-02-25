@@ -7,9 +7,13 @@ function search(
   query: string
 ): messages.IGherkinDocument[] {
 
-  const index = elasticlunr(function () {
-    this.addField('featureName')
-  })
+  const index = elasticlunr<messages.GherkinDocument.IFeature>()
+  index.addField('name')
+  for (const gherkinDocument of gherkinDocuments) {
+    index.addDoc(gherkinDocument.feature)
+  }
+  const searchResultsList = index.search(query)
+  console.log(searchResultsList)
 
   return gherkinDocuments.filter(
     gherkinDocument => gherkinDocument.feature.name.includes(query)
