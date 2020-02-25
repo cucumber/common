@@ -9,9 +9,11 @@ export default class Search {
   >()
 
   public search(query: string): messages.IGherkinDocument[] {
-    const features =  this.featureSearch.search(query)
+    const features = this.featureSearch.search(query)
 
-    return features.map(feature => this.constructGherkinDocumentFromFeature(feature))
+    return features.map(feature =>
+      this.constructGherkinDocumentFromFeature(feature)
+    )
   }
 
   public add(gherkinDocument: messages.IGherkinDocument) {
@@ -19,12 +21,14 @@ export default class Search {
     this.featureSearch.add(gherkinDocument)
   }
 
-  private constructGherkinDocumentFromFeature(feature: messages.GherkinDocument.IFeature): messages.IGherkinDocument {
+  private constructGherkinDocumentFromFeature(
+    feature: messages.GherkinDocument.IFeature
+  ): messages.IGherkinDocument {
     const originalDocument = this.gherkinDocumentByFeature.get(feature)
 
     return messages.GherkinDocument.create({
       uri: originalDocument.uri,
-      feature: feature
+      feature: feature,
     })
   }
 }

@@ -11,7 +11,7 @@ describe('FeatureSearch', () => {
     featureSearch = new FeatureSearch()
     gherkinDocument = messages.GherkinDocument.create({
       uri: 'some/feature.file',
-      feature: makeFeature('this exists', [])
+      feature: makeFeature('this exists', []),
     })
 
     featureSearch.add(gherkinDocument)

@@ -13,7 +13,7 @@ describe('ScenarioSearch', () => {
     scenarios = [
       makeScenario('a passed scenario', []),
       makeScenario('another passed scenario', []),
-      makeScenario('a failed scenario', [])
+      makeScenario('a failed scenario', []),
     ]
 
     for (const scenario of scenarios) {

@@ -12,12 +12,15 @@ export default class ScenarioSearch {
     ctx.addField('name')
     ctx.saveDocument(true)
   })
-  private scenarioById = new Map<string, messages.GherkinDocument.Feature.IScenario>()
+  private scenarioById = new Map<
+    string,
+    messages.GherkinDocument.Feature.IScenario
+  >()
 
   public add(scenario: messages.GherkinDocument.Feature.IScenario): void {
     this.index.addDoc({
       id: scenario.id,
-      name: scenario.name
+      name: scenario.name,
     })
     this.scenarioById.set(scenario.id, scenario)
   }
@@ -25,8 +28,8 @@ export default class ScenarioSearch {
   public search(query: string): messages.GherkinDocument.Feature.IScenario[] {
     const results = this.index.search(query, {
       fields: {
-        name: { boost: 1 }
-      }
+        name: { boost: 1 },
+      },
     })
 
     return results.map(result => this.scenarioById.get(result.ref))
