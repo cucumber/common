@@ -6,7 +6,7 @@ function search(
   query: string
 ): messages.IGherkinDocument[] {
   return gherkinDocuments.filter(
-    gherkinDocument => gherkinDocument.feature.name === query
+    gherkinDocument => gherkinDocument.feature.name.includes(query)
   )
 }
 
@@ -17,13 +17,24 @@ describe('search', () => {
     assert.deepStrictEqual(searchResult, [])
   })
 
-  it('returns an array with a document when there is a hit', () => {
+  it('finds results with equal feature name', () => {
     const gherkinDocument = messages.GherkinDocument.create({
       feature: messages.GherkinDocument.Feature.create({
         name: 'this exists',
       }),
     })
     const searchResult = search([gherkinDocument], 'this exists')
+
+    assert.deepStrictEqual(searchResult, [gherkinDocument])
+  })
+
+  it('finds results with substring of feature name', () => {
+    const gherkinDocument = messages.GherkinDocument.create({
+      feature: messages.GherkinDocument.Feature.create({
+        name: 'this exists',
+      }),
+    })
+    const searchResult = search([gherkinDocument], 'exists')
 
     assert.deepStrictEqual(searchResult, [gherkinDocument])
   })
