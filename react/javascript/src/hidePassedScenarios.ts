@@ -7,10 +7,11 @@ import getFeatureStatus from './getFeatureStatus'
 export default function hidePassedScenarios(
   documents: IGherkinDocument[],
   testResultQuery: Query,
-  gherkinQuery: GherkinQuery,
+  gherkinQuery: GherkinQuery
 ): IGherkinDocument[] {
   return documents.filter(
     document =>
-      getFeatureStatus(document, testResultQuery, gherkinQuery) != messages.TestResult.Status.PASSED
+      getFeatureStatus(document, testResultQuery, gherkinQuery) !=
+      messages.TestResult.Status.PASSED
   )
 }
