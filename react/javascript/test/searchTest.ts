@@ -7,67 +7,69 @@ interface SearchableFeature {
   name: string
 }
 
-function search(
-  gherkinDocuments: messages.IGherkinDocument[],
-  query: string
-): messages.GherkinDocument.IFeature[] {
-  const featuresByUri = new Map<string, messages.GherkinDocument.IFeature>()
-
-  const index = elasticlunr<SearchableFeature>(ctx => {
+class FeatureSearch {
+  private readonly featuresByUri = new Map<
+    string,
+    messages.GherkinDocument.IFeature
+  >()
+  private readonly index = elasticlunr<SearchableFeature>(ctx => {
     ctx.setRef('uri')
     ctx.addField('name')
     ctx.saveDocument(true)
   })
 
-  for (const gherkinDocument of gherkinDocuments) {
-    featuresByUri.set(gherkinDocument.uri, gherkinDocument.feature)
+  public add(gherkinDocument: messages.IGherkinDocument) {
+    this.featuresByUri.set(gherkinDocument.uri, gherkinDocument.feature)
 
-    index.addDoc({
+    this.index.addDoc({
       uri: gherkinDocument.uri,
       name: gherkinDocument.feature.name,
     })
   }
-  const searchResultsList = index.search(query, {
-    fields: {
-      name: {},
-    },
-  })
 
-  return searchResultsList.map(searcResults => featuresByUri.get(searcResults.ref))
+  public search(query: string): messages.GherkinDocument.IFeature[] {
+    const searchResultsList = this.index.search(query, {
+      fields: {
+        name: { boost: 1 },
+      },
+    })
+
+    return searchResultsList.map(searchResults => {
+      return this.featuresByUri.get(searchResults.ref)
+    })
+  }
 }
 
 describe('search', () => {
+  let featureSearch: FeatureSearch
   let gherkinDocument: messages.IGherkinDocument
 
   beforeEach(() => {
+    featureSearch = new FeatureSearch()
     gherkinDocument = messages.GherkinDocument.create({
       uri: 'some/feature.file',
       feature: messages.GherkinDocument.Feature.create({
         name: 'this exists',
       }),
     })
+
+    featureSearch.add(gherkinDocument)
   })
 
   it('returns an empty array when there are no hits', () => {
-    const searchResult = search([], 'banana')
+    const searchResult = featureSearch.search('banana')
 
     assert.deepStrictEqual(searchResult, [])
   })
 
   it('finds results with equal feature name', () => {
-    const searchResult = search([gherkinDocument], 'this exists')
+    const searchResult = featureSearch.search('this exists')
 
     assert.deepStrictEqual(searchResult, [gherkinDocument.feature])
   })
 
   it('finds results with substring of feature name', () => {
-    const searchResult = search([gherkinDocument], 'exists')
-
-    assert.deepStrictEqual(searchResult, [gherkinDocument.feature])
-  })
-
-  xit('finds results with substring of feature name with typo', () => {
-    const searchResult = search([gherkinDocument], 'exits')
+    const searchResult = featureSearch.search('exists')
 
     assert.deepStrictEqual(searchResult, [gherkinDocument.feature])
   })
