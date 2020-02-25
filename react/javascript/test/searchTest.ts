@@ -1,17 +1,30 @@
 import assert from 'assert'
 import { messages } from '@cucumber/messages'
 
-
-function search(query: string): messages.IGherkinDocument[] {
-    return []
+function search(
+  gherkinDocuments: messages.IGherkinDocument[],
+  query: string
+): messages.IGherkinDocument[] {
+  return gherkinDocuments.filter(
+    gherkinDocument => gherkinDocument.feature.name === query
+  )
 }
 
 describe('search', () => {
-    it('returns an empty array when there are no hits', () => {
-        const searchResult = search('banana')
+  it('returns an empty array when there are no hits', () => {
+    const searchResult = search([], 'banana')
 
-        assert.deepStrictEqual(
-            searchResult, []
-        )
+    assert.deepStrictEqual(searchResult, [])
+  })
+
+  it('returns an array with a document when there is a hit', () => {
+    const gherkinDocument = messages.GherkinDocument.create({
+      feature: messages.GherkinDocument.Feature.create({
+        name: 'this exists',
+      }),
     })
+    const searchResult = search([gherkinDocument], 'this exists')
+
+    assert.deepStrictEqual(searchResult, [gherkinDocument])
+  })
 })
