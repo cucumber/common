@@ -5,6 +5,8 @@ import SearchBar from './SearchBar'
 import { GherkinDocumentList } from '../..'
 import StatusFilterPassed from './StatusFilterPassed'
 
+import hidePassedScenarios from '../../hidePassedScenarios'
+
 const FilteredResults: React.FunctionComponent = () => {
   const [query, setQuery] = useState('')
   const [hidePassed, setHidePassed] = useState(false)
@@ -12,13 +14,17 @@ const FilteredResults: React.FunctionComponent = () => {
   const gherkinQuery = React.useContext(GherkinQueryContext)
   const testResultsQuery = React.useContext(TestResultQueryContext)
 
-  const matches = gherkinQuery
+  let matches = gherkinQuery
     .getGherkinDocuments()
     .filter(
       doc =>
         query === '' ||
         doc.feature.name.toLowerCase().includes(query.toLowerCase())
     )
+
+  if (hidePassed) {
+    matches = hidePassedScenarios(matches, testResultsQuery, gherkinQuery)
+  }
 
   return (
     <div className="cucumber-filtered-results">
