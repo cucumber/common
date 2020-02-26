@@ -11,7 +11,7 @@ GENERATED_JSONS = $(patsubst ../ruby/features/%.json,acceptance/%.json,$(GOLDEN_
 .tested: $(GENERATED_JSONS)
 
 acceptance/%.json: ../javascript/features/%.ndjson $(EXE) ../ruby/features/%.json
-	mkdir -p $$(dirname $@)
+	mkdir -p $(@D)
 	cat $< | \
 		$(EXE) --format ndjson | \
 		../ruby/neutralize-json | \

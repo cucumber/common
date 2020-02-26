@@ -87,7 +87,7 @@ self_tested: $(SELF_TESTED)
 	-bundle exec cucumber $< --require $(patsubst %.ndjson,%_steps.rb,$@) --format=message > $@
 
 %.feature:
-	mkdir -p $$(dirname $@)
+	mkdir -p $(@D)
 	cp $(patsubst %,$(CCK_PATH)/javascript/%,$@) $@
 
 ###############################################################################
