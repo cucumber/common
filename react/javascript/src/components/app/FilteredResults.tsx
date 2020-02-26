@@ -8,7 +8,6 @@ import StatusFilterPassed from './StatusFilterPassed'
 import hidePassedScenarios from '../../hidePassedScenarios'
 import Search from '../../search/Search'
 
-
 const FilteredResults: React.FunctionComponent = () => {
   const [query, setQuery] = useState('')
   const [hidePassed, setHidePassed] = useState(false)

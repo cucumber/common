@@ -18,7 +18,6 @@ describe('Search', () => {
             makeStep('Then', 'a passed step'),
           ]),
           makeScenario('A failed scenario', '', [
-            makeStep('Given', 'a passed step'),
             makeStep('When', 'a failed step'),
             makeStep('Then', 'a skipped step'),
           ]),
@@ -113,7 +112,19 @@ describe('Search', () => {
       })
     })
 
-    // it('returns a constructed feature with a subset of scenarios which steps match the query)
+    it('returns a constructed feature with a subset of scenarios which steps match the query', () => {
+      const searchResults = search.search('skipped')
+
+      assert.deepStrictEqual(
+        searchResults.map(gherkinDocument => gherkinDocument.feature.name),
+        ['My first feature']
+      )
+
+      assert.deepStrictEqual(
+        searchResults[0].feature.children.map(child => child.scenario.name),
+        ['A failed scenario']
+      )
+    })
 
     // Does it always show the background ?
   })
