@@ -1,29 +1,7 @@
 import { messages } from "@cucumber/messages"
 import { makeScenario, makeFeature, makeStep } from "./utils"
 import assert from "assert"
-
-class FeatureBuilder {
-  public build(
-    sourceFeature: messages.GherkinDocument.IFeature,
-    scenarios: messages.GherkinDocument.Feature.IScenario[]
-  ): messages.GherkinDocument.IFeature {
-    return messages.GherkinDocument.Feature.create({
-      keyword: sourceFeature.keyword,
-      location: sourceFeature.location,
-      name: sourceFeature.name,
-      description: sourceFeature.name,
-      tags: sourceFeature.tags,
-      children: this.filterChidren(sourceFeature.children, scenarios)
-    })
-  }
-
-  private filterChidren(
-    children: messages.GherkinDocument.Feature.IFeatureChild[],
-    scenarios: messages.GherkinDocument.Feature.IScenario[]
-  ): messages.GherkinDocument.Feature.IFeatureChild[] {
-    return children.filter(child => child.background)
-  }
-}
+import FeatureBuilder from "../../src/search/FeatureBuilder"
 
 describe('FeatureBuilder', () => {
   let builder = new FeatureBuilder()
@@ -73,7 +51,23 @@ describe('FeatureBuilder', () => {
       )
     })
 
-    xit('filters out scenarios that do not belong to the feature', () => {})
-    xit('does not add scenarios that did not belong to the feature', () => {})
+    it('filters out scenarios that are not specified in the scenario list', () => {
+      const built = builder.build(feature, [scenarios[2]])
+
+      assert.strictEqual(built.children.length, 1)
+      assert.deepStrictEqual(built.children[0].scenario, scenarios[2])
+    })
+
+    it('can select multiple scenarios and keep original order', () => {
+      const built = builder.build(feature, [scenarios[2], scenarios[0]])
+
+      assert.deepStrictEqual(built.children, feature.children)
+    })
+
+    it('does not add scenarios that did not belong to the feature', () => {
+      const built = builder.build(feature, [scenarios[1]])
+
+      assert.deepStrictEqual(built.children, [])
+    })
   })
 })
