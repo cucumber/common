@@ -29,29 +29,34 @@ class CucumberHtmlStream extends Transform {
 
   public _flush(callback: TransformCallback): void {
     readFile(__dirname + '/../main.js', (err: Error, js: Buffer) => {
-      if (err) {
-        return callback(err)
-      }
+      if (err) return callback(err)
 
-      // TODO: embed the CSS stylesheets from @cucumber/react
+      readFile(
+        __dirname +
+          '/../../node_modules/@cucumber/react/dist/src/styles/cucumber-react.css',
+        (err: Error, css: Buffer) => {
+          if (err) return callback(err)
 
-      this.push(`<!DOCTYPE html>
+          this.push(`<!DOCTYPE html>
 <html lang="en">
   <head>
     <title>Cucumber</title>
     <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+    <style>
+${css.toString('utf8')}
+    </style>
   </head>
   <body>
     <div id="content">
 `)
-      this.push(
-        renderToString(
-          <Wrapper envelopes={this.envelopes}>
-            <GherkinDocumentList />
-          </Wrapper>
-        )
-      )
-      this.push(`
+          this.push(
+            renderToString(
+              <Wrapper envelopes={this.envelopes}>
+                <GherkinDocumentList />
+              </Wrapper>
+            )
+          )
+          this.push(`
     </div>
     <script>
       window.CUCUMBER_MESSAGES = ${JSON.stringify(this.envelopes)}
@@ -62,7 +67,9 @@ ${js.toString('utf8')}
   </body>
 </html>
 `)
-      callback()
+          callback()
+        }
+      )
     })
   }
 }

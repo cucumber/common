@@ -5,10 +5,16 @@ TYPESCRIPT_SOURCE_FILES = $(sort $(call rwildcard,src test,*.ts *.tsx))
 PRIVATE = $(shell node -e "console.log(require('./package.json').private)")
 NPM ?= npm
 
+ifeq (yarn,$(NPM))
+LOCKFILE = yarn.lock
+else
+LOCKFILE = package-lock.json
+endif
+
 default: .tested .built .linted
 .PHONY: default
 
-.deps: package-lock.json
+.deps: $(LOCKFILE)
 	touch $@
 
 .codegen: .deps
@@ -26,7 +32,7 @@ default: .tested .built .linted
 	$(NPM) run lint-fix
 	touch $@
 
-package-lock.json: package.json
+$(LOCKFILE): package.json
 	$(NPM) install
 	touch $@
 
@@ -68,5 +74,5 @@ clean: clean-javascript
 .PHONY: clean
 
 clean-javascript:
-	rm -rf .deps .codegen .built .tested* .linted package-lock.json node_modules coverage dist acceptance
+	rm -rf .deps .codegen .built .tested* .linted package-lock.json yarn.lock node_modules coverage dist acceptance
 .PHONY: clean-javascript
