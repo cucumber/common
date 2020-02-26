@@ -74,5 +74,5 @@ clean: clean-javascript
 .PHONY: clean
 
 clean-javascript:
-	rm -rf .deps .codegen .built .tested* .linted package-lock.json yarn.lock node_modules coverage dist acceptance
+	rm -rf .deps .codegen .built* .tested* .linted package-lock.json yarn.lock node_modules coverage dist acceptance
 .PHONY: clean-javascript

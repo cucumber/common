@@ -1,12 +1,25 @@
 import React from 'react'
 import { messages } from '@cucumber/messages'
 import ErrorMessage from './ErrorMessage'
+import BtoaContext from '../../BtoaContext'
 
 interface IProps {
   attachment: messages.IAttachment
 }
 
 const Attachment: React.FunctionComponent<IProps> = ({ attachment }) => {
+  const btoa = React.useContext(BtoaContext)
+
+  function bytesToBase64(buffer: Uint8Array): string {
+    let binary = ''
+    const bytes = new Uint8Array(buffer)
+    const len = bytes.byteLength
+    for (let i = 0; i < len; i++) {
+      binary += String.fromCharCode(bytes[i])
+    }
+    return btoa(binary)
+  }
+
   if (attachment.mediaType.match(/^image\//)) {
     const base64 = bytesToBase64(attachment.binary)
     return (
@@ -20,20 +33,10 @@ const Attachment: React.FunctionComponent<IProps> = ({ attachment }) => {
   } else {
     return (
       <ErrorMessage
-        message={`Can't display attachment with media type ${attachment.mediaType}`}
+        message={`Can't display attachment with media type '${attachment.mediaType}'`}
       />
     )
   }
-}
-
-function bytesToBase64(buffer: Uint8Array): string {
-  let binary = ''
-  const bytes = new Uint8Array(buffer)
-  const len = bytes.byteLength
-  for (let i = 0; i < len; i++) {
-    binary += String.fromCharCode(bytes[i])
-  }
-  return btoa(binary)
 }
 
 export default Attachment

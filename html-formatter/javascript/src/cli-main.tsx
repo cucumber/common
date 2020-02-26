@@ -51,7 +51,7 @@ ${css.toString('utf8')}
 `)
           this.push(
             renderToString(
-              <Wrapper envelopes={this.envelopes}>
+              <Wrapper envelopes={this.envelopes} btoa={nodejsBtoa}>
                 <GherkinDocumentList />
               </Wrapper>
             )
@@ -72,6 +72,10 @@ ${js.toString('utf8')}
       )
     })
   }
+}
+
+function nodejsBtoa(data: string): string {
+  return Buffer.from(data).toString('base64')
 }
 
 program.version(p.version)
