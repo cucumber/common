@@ -84,7 +84,35 @@ describe('Search', () => {
       })
     })
 
-    // it('returns a constructed feature with a subset of scenarios which names match the query)
+    context('when matches are done at the scenario level', () => {
+      it('returns a constructed feature with a subset of scenarios which names match the query', () => {
+        const searchResults = search.search('passed')
+
+        assert.deepStrictEqual(
+          searchResults.map(gherkinDocument => gherkinDocument.feature.name),
+          ['My first feature', 'My second feature']
+        )
+      })
+
+      it('includes all matching scenarios in the feature', () => {
+        const searchResults = search.search('passed')
+
+        assert.deepStrictEqual(
+          searchResults[1].feature.children.map(child => child.scenario.name),
+          ['A passed scenario', 'A passed scenario']
+        )
+      })
+
+      it('excludes scenarios that do not match', () => {
+        const searchResults = search.search('passed')
+
+        assert.deepStrictEqual(
+          searchResults[0].feature.children.map(child => child.scenario.name),
+          ['A passed scenario']
+        )
+      })
+    })
+
     // it('returns a constructed feature with a subset of scenarios which steps match the query)
 
     // Does it always show the background ?
