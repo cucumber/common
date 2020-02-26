@@ -7,7 +7,7 @@ ALL_NDJSON_FILE = testdata/all.ndjson
 .codegen: $(GHERKIN_DOCUMENT_NDJSON_FILES) $(ALL_NDJSON_FILE) dist/src/styles/cucumber-react.css
 
 dist/src/styles/cucumber-react.css: src/styles/styles.scss src/styles/react-accessible-accordion.css
-	mkdir -p $$(dirname $@)
+	mkdir -p $(@D)
 	./node_modules/.bin/sass $< > $@
 	cat src/styles/react-accessible-accordion.css >> $@
 

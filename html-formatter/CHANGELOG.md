@@ -17,6 +17,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+* Include CSS in generated HTML
+
 ## [4.0.0] - 2020-02-15
 
 ### Changed
