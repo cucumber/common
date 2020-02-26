@@ -31,7 +31,10 @@ function makeStep(
   keyword: string,
   text: string
 ): messages.GherkinDocument.Feature.IStep {
+  const idGenerator = IdGenerator.uuid()
+
   return messages.GherkinDocument.Feature.Step.create({
+    id: idGenerator(),
     keyword: keyword,
     text: text,
   })
