@@ -11,9 +11,13 @@ describe('ScenarioSearch', () => {
     scenarioSearch = new ScenarioSearch()
 
     scenarios = [
-      makeScenario('a passed scenario', []),
-      makeScenario('another passed scenario', []),
-      makeScenario('a failed scenario', []),
+      makeScenario('a passed scenario', 'a little description', []),
+      makeScenario(
+        'another passed scenario',
+        'a long description of the scenario',
+        []
+      ),
+      makeScenario('a failed scenario', 'description', []),
     ]
 
     for (const scenario of scenarios) {
@@ -38,6 +42,11 @@ describe('ScenarioSearch', () => {
       for (const scenario of scenarios) {
         assert.ok(searchResults.includes(scenario))
       }
+    })
+
+    it('returns scenario which description match the query', () => {
+      const searchResults = scenarioSearch.search('little')
+      assert.deepStrictEqual(searchResults, [scenarios[0]])
     })
   })
 })

@@ -4,6 +4,7 @@ import elasticlunr from 'elasticlunr'
 interface SearchableFeature {
   uri: string
   name: string
+  description: string
 }
 
 export default class FeatureSearch {
@@ -14,6 +15,7 @@ export default class FeatureSearch {
   private readonly index = elasticlunr<SearchableFeature>(ctx => {
     ctx.setRef('uri')
     ctx.addField('name')
+    ctx.addField('description')
     ctx.saveDocument(true)
   })
 
@@ -23,13 +25,15 @@ export default class FeatureSearch {
     this.index.addDoc({
       uri: gherkinDocument.uri,
       name: gherkinDocument.feature.name,
+      description: gherkinDocument.feature.description,
     })
   }
 
   public search(query: string): messages.GherkinDocument.IFeature[] {
     const searchResultsList = this.index.search(query, {
       fields: {
-        name: { boost: 1 },
+        name: { bool: 'OR', expand: true, boost: 1 },
+        description: { bool: 'OR', expand: true, boost: 1 },
       },
     })
 

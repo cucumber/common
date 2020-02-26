@@ -4,12 +4,14 @@ import elasticlunr from 'elasticlunr'
 interface SearchableScenario {
   id: string
   name: string
+  description: string
 }
 
 export default class ScenarioSearch {
   private readonly index = elasticlunr<SearchableScenario>(ctx => {
     ctx.setRef('id')
     ctx.addField('name')
+    ctx.addField('description')
     ctx.saveDocument(true)
   })
   private scenarioById = new Map<
@@ -21,6 +23,7 @@ export default class ScenarioSearch {
     this.index.addDoc({
       id: scenario.id,
       name: scenario.name,
+      description: scenario.description,
     })
     this.scenarioById.set(scenario.id, scenario)
   }
@@ -28,7 +31,8 @@ export default class ScenarioSearch {
   public search(query: string): messages.GherkinDocument.Feature.IScenario[] {
     const results = this.index.search(query, {
       fields: {
-        name: { boost: 1 },
+        name: { bool: 'OR', expand: true, boost: 1 },
+        description: { bool: 'OR', expand: true, boost: 1 },
       },
     })
 

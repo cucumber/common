@@ -11,13 +11,13 @@ describe('Search', () => {
     gherkinDocuments = [
       messages.GherkinDocument.create({
         uri: 'some/feature.file',
-        feature: makeFeature('My first feature', [
-          makeScenario('A passed scenario', [
+        feature: makeFeature('My first feature', '', [
+          makeScenario('A passed scenario', '', [
             makeStep('Given', 'a passed step'),
             makeStep('When', 'a passed step'),
             makeStep('Then', 'a passed step'),
           ]),
-          makeScenario('A failed scenario', [
+          makeScenario('A failed scenario', '', [
             makeStep('Given', 'a passed step'),
             makeStep('When', 'a failed step'),
             makeStep('Then', 'a skipped step'),
@@ -27,13 +27,13 @@ describe('Search', () => {
 
       messages.GherkinDocument.create({
         uri: 'another/feature.file',
-        feature: makeFeature('My second feature', [
-          makeScenario('A passed scenario', [
+        feature: makeFeature('My second feature', '', [
+          makeScenario('A passed scenario', '', [
             makeStep('Given', 'a passed step'),
             makeStep('When', 'a passed step'),
             makeStep('Then', 'a passed step'),
           ]),
-          makeScenario('A passed scenario', [
+          makeScenario('A passed scenario', '', [
             makeStep('Given', 'a passed step'),
             makeStep('When', 'a passed step'),
             makeStep('Then', 'a passed step'),
