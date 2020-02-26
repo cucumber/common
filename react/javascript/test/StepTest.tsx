@@ -11,7 +11,7 @@ import GherkinQueryContext from '../src/GherkinQueryContext'
 import { GherkinQuery } from '@cucumber/gherkin'
 import CucumberQueryContext from '../src/CucumberQueryContext'
 
-describe('Step', () => {
+describe('<Step>', () => {
   it('renders', () => {
     const dom = new JSDOM(
       '<html lang="en"><body><div id="content"></div></body></html>'
