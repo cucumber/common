@@ -6,6 +6,8 @@ import { GherkinDocumentList } from '../..'
 import StatusFilterPassed from './StatusFilterPassed'
 
 import hidePassedScenarios from '../../hidePassedScenarios'
+import Search from '../../search/Search'
+
 
 const FilteredResults: React.FunctionComponent = () => {
   const [query, setQuery] = useState('')
@@ -13,15 +15,14 @@ const FilteredResults: React.FunctionComponent = () => {
 
   const gherkinQuery = React.useContext(GherkinQueryContext)
   const testResultsQuery = React.useContext(TestResultQueryContext)
+  const allDocuments = gherkinQuery.getGherkinDocuments()
+  const search = new Search()
 
-  let matches = gherkinQuery
-    .getGherkinDocuments()
-    .filter(
-      doc =>
-        query === '' ||
-        doc.feature.name.toLowerCase().includes(query.toLowerCase())
-    )
+  for (const gherkinDocument of allDocuments) {
+    search.add(gherkinDocument)
+  }
 
+  let matches = query === '' ? allDocuments : search.search(query)
   if (hidePassed) {
     matches = hidePassedScenarios(matches, testResultsQuery, gherkinQuery)
   }
