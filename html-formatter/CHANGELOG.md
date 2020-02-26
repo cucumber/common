@@ -17,7 +17,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
-* Include CSS in generated HTML
+* Embed CSS in generated HTML
+  ([#911](https://github.com/cucumber/cucumber/pull/911)
+   [aslakhellesoy]
+   [vincent-psarga])
 
 ## [4.0.0] - 2020-02-15
 
@@ -132,3 +135,4 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 <!-- Contributors in alphabetical order -->
 [aslakhellesoy]:    https://github.com/aslakhellesoy
+[vincent-psarga]:   https://github.com/vincent-psarga
