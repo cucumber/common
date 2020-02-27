@@ -13,11 +13,11 @@ NDJSONS_GOLDEN  = $(patsubst features/%.feature,features/%.ndjson,$(FEATURES))
 
 # Dirty hack: the Ruby version we use do not support some features.
 features/rules/rules.ndjson:
-	mkdir -p $$(dirname $@)
+	mkdir -p $(@D)
 	echo "" > $@
 
 features/unknown-parameter-type/unknown-parameter-type.ndjson:
-	mkdir -p $$(dirname $@)
+	mkdir -p $(@D)
 	echo "" > $@
 
 features/%.ndjson: features/%.feature features/%.ts .deps
@@ -27,11 +27,11 @@ features/%.ndjson: features/%.feature features/%.ts .deps
 		$< > $@
 
 features/%.ts: $(CCK_PATH)/javascript/features/%.ts
-	mkdir -p $$(dirname $@)
+	mkdir -p $(@D)
 	cp $(patsubst %,$(CCK_PATH)/javascript/%,$@) $@
 
 features/%.feature: $(CCK_PATH)/javascript/features/%.feature
-	mkdir -p $$(dirname $@)
+	mkdir -p $(@D)
 	cp $(patsubst %,$(CCK_PATH)/javascript/%,$@) $@
 
 clean:

@@ -59,7 +59,7 @@ describe('App', () => {
             )
         )
         const app = (
-          <Wrapper envelopes={envelopes}>
+          <Wrapper envelopes={envelopes} btoa={nodejsBtoa}>
             <GherkinDocumentList />
           </Wrapper>
         )
@@ -83,4 +83,8 @@ async function streamToArray(
       readableStream.on('end', () => resolve(items))
     }
   )
+}
+
+function nodejsBtoa(data: string): string {
+  return Buffer.from(data).toString('base64')
 }

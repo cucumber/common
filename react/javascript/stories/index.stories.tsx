@@ -33,7 +33,7 @@ function envelopes(ndjson: string): messages.IEnvelope[] {
 
 storiesOf('Features', module)
   .add('Step Container', () => {
-    return <Wrapper envelopes={[]}>
+    return <Wrapper envelopes={[]} btoa={window.btoa}>
       <StepContainer status={messages.TestStepResult.Status.PASSED}>
         <div>Given a passed step</div>
       </StepContainer>
@@ -46,42 +46,42 @@ storiesOf('Features', module)
     </Wrapper>
   })
   .add('Document list', () => {
-    return <Wrapper envelopes={envelopes(documentList)}>
+    return <Wrapper envelopes={envelopes(documentList)} btoa={window.btoa}>
       <GherkinDocumentList/>
     </Wrapper>
   })
   .add('Attachments', () => {
-    return <Wrapper envelopes={envelopes(attachments)}>
+    return <Wrapper envelopes={envelopes(attachments)} btoa={window.btoa}>
       <GherkinDocumentList/>
     </Wrapper>
   })
   .add('Examples Tables', () => {
-    return <Wrapper envelopes={envelopes(examplesTables)}>
+    return <Wrapper envelopes={envelopes(examplesTables)} btoa={window.btoa}>
       <GherkinDocumentList/>
     </Wrapper>
   })
   .add('Data Tables', () => {
-    return <Wrapper envelopes={envelopes(dataTables)}>
+    return <Wrapper envelopes={envelopes(dataTables)} btoa={window.btoa}>
       <GherkinDocumentList/>
     </Wrapper>
   })
   .add('Hooks', () => {
-    return <Wrapper envelopes={envelopes(hooks)}>
+    return <Wrapper envelopes={envelopes(hooks)} btoa={window.btoa}>
       <GherkinDocumentList/>
     </Wrapper>
   })
   .add('Parameter Types', () => {
-    return <Wrapper envelopes={envelopes(parameterTypes)}>
+    return <Wrapper envelopes={envelopes(parameterTypes)} btoa={window.btoa}>
       <GherkinDocumentList/>
     </Wrapper>
   })
   .add('Rules', () => {
-    return <Wrapper envelopes={envelopes(rules)}>
+    return <Wrapper envelopes={envelopes(rules)} btoa={window.btoa}>
       <GherkinDocumentList/>
     </Wrapper>
   })
   .add('Stack Traces', () => {
-    return <Wrapper envelopes={envelopes(stackTraces)}>
+    return <Wrapper envelopes={envelopes(stackTraces)} btoa={window.btoa}>
       <GherkinDocumentList/>
     </Wrapper>
   })
