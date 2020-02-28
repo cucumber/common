@@ -1,0 +1,2 @@
+# Don't send any contents to the daemon. Speeds up docker build significantly.
+**
