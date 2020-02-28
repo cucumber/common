@@ -10,9 +10,7 @@ Dir['./rake/*.rb'].each do |f|
 end
 
 require "rspec/core/rake_task"
-RSpec::Core::RakeTask.new(:spec) do |t|
-  t.ruby_opts  = %w[-r./spec/coverage -w]
-end
+RSpec::Core::RakeTask.new(:spec)
 
 require_relative 'spec/capture_warnings'
 include CaptureWarnings
