@@ -1,6 +1,5 @@
 include default.mk
 
-# The .built-npm-link-shared fails on CircleCI - not sure how to fix
 .tested: acceptance/cucumber.html
 
 acceptance/cucumber.html: .built-npm-link-shared
