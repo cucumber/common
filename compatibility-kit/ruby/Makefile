@@ -24,7 +24,7 @@ reports: json_reports html_reports
 .PHONY: reports
 
 clean:
-	-rm Gemfile.lock **/*.feature **/*.ndjson feature/**.json features/**/*_spec.rb output
+	rm -rf Gemfile.lock **/*.feature **/*.ndjson feature/**.json features/**/*_spec.rb output
 .PHONY: clean
 
 ###############################################################################
