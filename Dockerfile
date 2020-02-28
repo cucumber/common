@@ -40,6 +40,7 @@ RUN apk add --no-cache \
   unzip \
   upx \
   wget \
+  yarn \
   xmlstarlet
 
 # Create a cukebot user. Some tools (Bundler, npm publish) don't work properly
@@ -113,5 +114,6 @@ RUN echo "export PATH=~/.npm-global/bin:\$PATH" > ~/.bashrc
 RUN source ~/.bashrc
 # Upgrade NPM
 RUN npm install --global npm
+
 
 CMD ["/bin/bash"]
