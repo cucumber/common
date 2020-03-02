@@ -11,7 +11,7 @@ describe('NdjsonStream', () => {
   const makeFromMessageStream = () => new MessageToNdjsonStream()
   verifyStreamContract(makeFromMessageStream, makeToMessageStream)
 
-  it('converts a buffer stream', cb => {
+  it('converts a buffer stream written byte by byte', cb => {
     const stream = makeToMessageStream()
     const envelope = messages.Envelope.create({
       testStepFinished: messages.TestStepFinished.create({
@@ -21,11 +21,15 @@ describe('NdjsonStream', () => {
       }),
     })
     const json = JSON.stringify(envelope.toJSON())
+    stream.on('error', cb)
     stream.on('data', (receivedEnvelope: messages.IEnvelope) => {
       assert.deepStrictEqual(envelope, receivedEnvelope)
       cb()
     })
-    stream.write(Buffer.from(json))
+    const buffer = Buffer.from(json)
+    for (let i = 0; i < buffer.length; i++) {
+      stream.write(buffer.slice(i, i + 1))
+    }
     stream.end()
   })
 
