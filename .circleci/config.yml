@@ -75,6 +75,7 @@ jobs:
       - run:
           name: everything
           command: |
+            apk add ruby-json
             make ci
 
   checkout:
@@ -463,6 +464,7 @@ jobs:
       - run:
           name: demo-formatter/ruby
           command: |
+            apk add ruby-json
             cd demo-formatter/ruby
             make
 
