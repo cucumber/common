@@ -1,6 +1,6 @@
 {
   "name": "@cucumber/html-formatter",
-  "version": "4.0.0",
+  "version": "4.1.0",
   "description": "HTML formatter for Cucumber",
   "bin": {
     "cucumber-html-formatter": "bin/cucumber-html-formatter.js"
@@ -21,8 +21,8 @@
     "build": "tsc && webpack-cli src/main.tsx"
   },
   "dependencies": {
-    "@cucumber/messages": "file:../../messages/javascript",
-    "@cucumber/react": "file:../../react/javascript",
+    "@cucumber/messages": "^10.0.1",
+    "@cucumber/react": "^5.0.0",
     "commander": "^4.1.1",
     "jsdom": "^16.2.0",
     "react": "^16.13.0",
@@ -30,15 +30,15 @@
     "source-map-support": "^0.5.16"
   },
   "devDependencies": {
-    "@cucumber/gherkin": "file:../../gherkin/javascript",
+    "@cucumber/gherkin": "^11.0.0",
     "@babel/core": "^7.8.6",
     "@types/jsdom": "^16.1.0",
     "@types/mocha": "^7.0.1",
     "@types/node": "^13.7.7",
     "@types/react": "^16.9.23",
     "@types/react-dom": "^16.9.5",
-    "@typescript-eslint/eslint-plugin": "^2.21.0",
-    "@typescript-eslint/parser": "^2.21.0",
+    "@typescript-eslint/eslint-plugin": "^2.22.0",
+    "@typescript-eslint/parser": "^2.22.0",
     "awesome-typescript-loader": "^5.2.1",
     "babel-loader": "^8.0.6",
     "eslint": "^6.8.0",
