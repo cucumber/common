@@ -1742,6 +1742,8 @@ var buildinDialects = gherkinDialectMap{
 				"Dengan ",
 				"Diketahui ",
 				"Diasumsikan ",
+				"Bila ",
+				"Jika ",
 			},
 			when: []string{
 				"* ",
@@ -1759,7 +1761,7 @@ var buildinDialects = gherkinDialectMap{
 			but: []string{
 				"* ",
 				"Tapi ",
-				"Tetapi",
+				"Tetapi ",
 			},
 		},
 	},
