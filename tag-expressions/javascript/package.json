@@ -27,7 +27,7 @@
   "homepage": "https://github.com/cucumber/tag-expressions-javascript",
   "devDependencies": {
     "@types/mocha": "^7.0.1",
-    "@types/node": "^13.7.6",
+    "@types/node": "^13.7.7",
     "@typescript-eslint/eslint-plugin": "^2.21.0",
     "@typescript-eslint/parser": "^2.21.0",
     "eslint": "^6.8.0",
@@ -39,7 +39,7 @@
     "nyc": "^15.0.0",
     "prettier": "^1.19.1",
     "ts-node": "^8.6.2",
-    "typescript": "^3.8.2"
+    "typescript": "^3.8.3"
   },
   "directories": {
     "test": "test"
