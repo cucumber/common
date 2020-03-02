@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+* Render Markdown in descriptions
+  ([#909](https://github.com/cucumber/cucumber/pull/909)
+   [#codemrkay])
+
 ### Changed
 
 ### Deprecated
@@ -119,3 +123,4 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 <!-- Contributors in alphabetical order -->
 [aslakhellesoy]:    https://github.com/aslakhellesoy
+[codemrkay]:        https://github.com/codemrkay
