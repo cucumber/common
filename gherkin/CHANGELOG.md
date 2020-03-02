@@ -23,6 +23,10 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Fixed
 
+* Update Indonesian Gherkin Language 
+  ([#872](https://github.com/cucumber/cucumber/pull/872)
+   [#KniveX])
+
 ## [10.0.0] - 2020-02-13
 
 ### Changed
@@ -724,6 +728,7 @@ to Gherkin 2.
 [jmezach]:          https://github.com/jmezach
 [joscha]:           https://github.com/joscha
 [koterpillar]:      https://github.com/koterpillar
+[KniveX]:           https://github.com/KniveX
 [l3pp4rd]:          https://github.com/l3pp4rd
 [LiohAu]:           https://github.com/LiohAu
 [mattwynne]:        https://github.com/mattwynne
