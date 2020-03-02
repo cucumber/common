@@ -13,7 +13,7 @@ import {
   ParameterTypeRegistry,
 } from '@cucumber/cucumber-expressions'
 import ExpressionStepDefinition from '../src/ExpressionStepDefinition'
-import { GherkinQuery } from '@cucumber/gherkin'
+import { Query } from '@cucumber/gherkin'
 import IncrementClock from '../src/IncrementClock'
 import { withSourceFramesOnlyStackTrace } from '../src/ErrorMessageGenerator'
 
@@ -30,7 +30,7 @@ describe('TestPlan', () => {
         'test.feature'
       )
     )
-    const gherkinQuery = new GherkinQuery()
+    const gherkinQuery = new Query()
     for (const gherkinEnvelope of gherkinEnvelopes) {
       gherkinQuery.update(gherkinEnvelope)
     }
@@ -72,7 +72,7 @@ describe('TestPlan', () => {
       )
     )
 
-    const gherkinQuery = new GherkinQuery()
+    const gherkinQuery = new Query()
     for (const gherkinEnvelope of gherkinEnvelopes) {
       gherkinQuery.update(gherkinEnvelope)
     }

@@ -49,7 +49,8 @@
   ],
   "dependencies": {
     "@cucumber/gherkin": "file:../../gherkin/javascript",
-    "@cucumber/messages": "file:../../messages/javascript"
+    "@cucumber/messages": "file:../../messages/javascript",
+    "@teppeis/multimaps": "^1.1.0"
   },
   "directories": {
     "test": "test"

@@ -28,17 +28,20 @@ class CucumberHtmlStream extends Transform {
   }
 
   public _flush(callback: TransformCallback): void {
-    readFile(__dirname + '/../main.js', { encoding: 'utf-8' }, (err: Error, js: string) => {
-      if (err) return callback(err)
+    readFile(
+      __dirname + '/../main.js',
+      { encoding: 'utf-8' },
+      (err: Error, js: string) => {
+        if (err) return callback(err)
 
-      readFile(
-        __dirname +
-          '/../../node_modules/@cucumber/react/dist/src/styles/cucumber-react.css',
+        readFile(
+          __dirname +
+            '/../../node_modules/@cucumber/react/dist/src/styles/cucumber-react.css',
           { encoding: 'utf-8' },
-        (err: Error, css: string) => {
-          if (err) return callback(err)
+          (err: Error, css: string) => {
+            if (err) return callback(err)
 
-          this.push(`<!DOCTYPE html>
+            this.push(`<!DOCTYPE html>
 <html lang="en">
   <head>
     <title>Cucumber</title>
@@ -50,14 +53,14 @@ ${css}
   <body>
     <div id="content">
 `)
-          this.push(
-            renderToString(
-              <Wrapper envelopes={this.envelopes} btoa={nodejsBtoa}>
-                <GherkinDocumentList />
-              </Wrapper>
+            this.push(
+              renderToString(
+                <Wrapper envelopes={this.envelopes} btoa={nodejsBtoa}>
+                  <GherkinDocumentList />
+                </Wrapper>
+              )
             )
-          )
-          this.push(`
+            this.push(`
     </div>
     <script>
       window.CUCUMBER_MESSAGES = ${JSON.stringify(this.envelopes)}
@@ -68,10 +71,11 @@ ${js}
   </body>
 </html>
 `)
-          callback()
-        }
-      )
-    })
+            callback()
+          }
+        )
+      }
+    )
   }
 }
 
