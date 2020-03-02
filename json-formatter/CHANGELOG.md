@@ -13,14 +13,6 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 * Handle text added with `log`.
 
-### Changed
-
-### Deprecated
-
-### Removed
-
-### Fixed
-
 ## [3.0.0] - 2020-02-14
 
 ### Changed
