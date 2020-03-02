@@ -377,6 +377,7 @@ jobs:
       - run:
           name: messages/ruby
           command: |
+            apk add ruby-json
             cd messages/ruby
             make
       - persist_to_workspace:
