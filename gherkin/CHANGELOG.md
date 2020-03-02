@@ -13,9 +13,17 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Changed
 
-* [JavaScript] Renamed `GherkinQuery` to `Query` 
-
 ### Deprecated
+
+### Removed
+
+### Fixed
+
+## [11.0.0] - 2020-03-02
+
+### Changed
+
+* [JavaScript] Renamed `GherkinQuery` to `Query` 
 
 ### Removed
 
@@ -677,7 +685,8 @@ to Gherkin 2.
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v10.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v11.0.0...master
+[11.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v10.0.0...gherkin/v11.0.0
 [10.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v9.2.0...gherkin/v10.0.0
 [9.2.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v9.1.0...gherkin/v9.2.0
 [9.1.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v9.0.0...gherkin/v9.1.0
