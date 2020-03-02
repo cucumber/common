@@ -35,20 +35,17 @@ final class RegularExpression implements Expression {
         int typeHintIndex = 0;
         for (GroupBuilder groupBuilder : treeRegexp.getGroupBuilder().getChildren()) {
             final String parameterTypeRegexp = groupBuilder.getSource();
-            boolean hasTypeHint = typeHintIndex < typeHints.length;
+            final boolean hasTypeHint = typeHintIndex < typeHints.length;
             final Type typeHint = hasTypeHint ? typeHints[typeHintIndex++] : String.class;
 
             ParameterType<?> parameterType = parameterTypeRegistry.lookupByRegexp(parameterTypeRegexp, expressionRegexp, text);
 
-            // When there is a conflict between the type hint from the regular expression and the method
-            // prefer the the parameter type associated with the regular expression. This ensures we will
-            // use the internal/user registered parameter transformer rather then the default.
-            //
-            // Unless the parameter type indicates it is the stronger type hint.
-            if (parameterType != null && hasTypeHint && !parameterType.useRegexpMatchAsStrongTypeHint()) {
-                if (!parameterType.getType().equals(typeHint)) {
-                    parameterType = null;
-                }
+            // When there is a conflict between the type from the regular expression and the
+            // type from the method, prefer the type from the method. If we contradict the
+            // type from the method, we'll throw an exception when we invoke the glue with
+            // an argument of the wrong type.
+            if (parameterType != null && hasTypeHint && !parameterType.getType().equals(typeHint)) {
+                parameterType = null;
             }
 
             if (parameterType == null) {

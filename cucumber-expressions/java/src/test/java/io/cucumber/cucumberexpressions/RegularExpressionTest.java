@@ -1,7 +1,6 @@
 package io.cucumber.cucumberexpressions;
 
 import org.junit.jupiter.api.Test;
-
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
@@ -133,12 +132,12 @@ public class RegularExpressionTest {
                     }
                 }
         ));
-        List<?> match = match(compile("a quote ([\"a-z ]+)"), "a quote \" and quote \"", String.class);
+        List<?> match = match(compile("a quote ([\"a-z ]+)"), "a quote \" and quote \"");
         assertEquals(singletonList("\" AND QUOTE \""), match);
     }
 
     @Test
-    public void ignores_type_hint_when_parameter_type_has_strong_type_hint() {
+    public void uses_default_transformer_when_type_hint_conflicts_with_parameter_type() {
         parameterTypeRegistry.defineParameterType(new ParameterType<>(
                 "test",
                 "one|two|three",
@@ -150,11 +149,11 @@ public class RegularExpressionTest {
                     }
                 }, false, false, true
         ));
-        assertEquals(asList(42), match(compile("(one|two|three)"), "one", String.class));
+        assertEquals(asList("one"), match(compile("(one|two|three)"), "one", String.class));
     }
 
     @Test
-    public void follows_type_hint_when_parameter_type_does_not_have_strong_type_hint() {
+    public void uses_parameter_type_when_type_hint_agrees() {
         parameterTypeRegistry.defineParameterType(new ParameterType<>(
                 "test",
                 "one|two|three",
@@ -164,10 +163,11 @@ public class RegularExpressionTest {
                     public Integer transform(String s) {
                         return 42;
                     }
-                }, false, false, false
-        ));
-        assertEquals(asList("one"), match(compile("(one|two|three)"), "one", String.class));
+                }, false, false, true
+                ));
+        assertEquals(asList(42), match(compile("(one|two|three)"), "one", Integer.class));
     }
+
 
     @Test
     public void matches_anonymous_parameter_type_with_hint() {
