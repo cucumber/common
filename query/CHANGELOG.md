@@ -17,6 +17,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+* [JavaScript] add `gherkin` as a runtime dependency
+
 ## [3.0.0] - 2020-02-14
 
 ### Changed
