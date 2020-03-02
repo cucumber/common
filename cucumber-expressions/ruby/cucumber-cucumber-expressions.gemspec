@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 Gem::Specification.new do |s|
   s.name        = 'cucumber-cucumber-expressions'
-  s.version     = '8.3.1'
+  s.version     = '9.0.0'
   s.authors     = ["Aslak Hellesøy"]
   s.description = 'Cucumber Expressions - a simpler alternative to Regular Expressions'
   s.summary     = "cucumber-expressions-#{s.version}"
@@ -21,9 +21,6 @@ Gem::Specification.new do |s|
 
   s.add_development_dependency 'rake', '~> 13.0', '>= 13.0.1'
   s.add_development_dependency 'rspec', '~> 3.9', '>= 3.9.0'
-
-  # For coverage reports
-  s.add_development_dependency 'coveralls', '~> 0.8', '>= 0.8.23'
 
   s.rubygems_version = ">= 1.6.1"
   s.files            = `git ls-files`.split("\n").reject {|path| path =~ /\.gitignore$/ }

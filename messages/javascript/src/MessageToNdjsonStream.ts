@@ -6,10 +6,7 @@ import { messages } from './index'
  */
 export default class MessageToNdjsonStream extends Transform {
   constructor() {
-    super({
-      writableObjectMode: true,
-      readableObjectMode: true,
-    })
+    super({ writableObjectMode: true, readableObjectMode: false })
   }
 
   public _transform(

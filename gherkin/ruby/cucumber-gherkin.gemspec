@@ -1,7 +1,7 @@
 # encoding: utf-8
 Gem::Specification.new do |s|
   s.name        = 'cucumber-gherkin'
-  s.version     = '9.2.0'
+  s.version     = '10.0.0'
   s.authors     = ["Gáspár Nagy", "Aslak Hellesøy", "Steve Tooke"]
   s.description = 'Gherkin parser'
   s.summary     = "#{s.name}-#{s.version}"
@@ -19,13 +19,10 @@ Gem::Specification.new do |s|
                     'source_code_uri'   => 'https://github.com/cucumber/cucumber/blob/master/gherkin/ruby',
                   }
 
-  s.add_dependency 'cucumber-messages', '~> 9.0', '>= 9.0.3'
+  s.add_dependency 'cucumber-messages', '~> 10.0', '>= 10.0.1'
 
   s.add_development_dependency 'rake', '~> 13.0', '>= 13.0.1'
   s.add_development_dependency 'rspec', '~> 3.9', '>= 3.9.0'
-
-  # For coverage reports
-  s.add_development_dependency 'coveralls', '~> 0.8', '>= 0.8.23'
 
   s.executables      = ["gherkin-ruby", "gherkin"]
   s.rubygems_version = ">= 1.6.1", '~> 0.8'

@@ -67,7 +67,7 @@ on the host OS.
 
 ```
 make clean
-make # or make (go|java|javascript|ruby) to only build for the language
+make
 ```
 
 ### Building on CircleCI
@@ -88,6 +88,25 @@ LANGUAGES=javascript make
 LANGUAGES="javascript ruby" make
 PACKAGES="messages gherkin" make
 ```
+
+### Using yarn instead of npm
+
+If you prefer to use yarn instead of npm:
+
+```
+NPM=yarn LANGUAGES=javascript make
+```
+
+## Troubleshooting
+
+### Errors during Node builds
+
+You may encounter timeouts or errors when building some npm modules. If this happens,
+try building the module with yarn (`NPM=yarn` - see above).
+
+If you're still experiencing errors or timeouts, try replacing `file:../..` dependencies
+in `package.json` with the latest release of the package. If you do, please do not
+commit that change.
 
 ## Encrypted secrets
 

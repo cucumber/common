@@ -49,6 +49,7 @@ describe('App', () => {
               new CucumberStream(
                 supportCode.parameterTypes,
                 supportCode.stepDefinitions,
+                supportCode.undefinedParameterTypes,
                 supportCode.beforeHooks,
                 supportCode.afterHooks,
                 supportCode.newId,
@@ -58,7 +59,7 @@ describe('App', () => {
             )
         )
         const app = (
-          <Wrapper envelopes={envelopes}>
+          <Wrapper envelopes={envelopes} btoa={nodejsBtoa}>
             <GherkinDocumentList />
           </Wrapper>
         )
@@ -82,4 +83,8 @@ async function streamToArray(
       readableStream.on('end', () => resolve(items))
     }
   )
+}
+
+function nodejsBtoa(data: string): string {
+  return Buffer.from(data).toString('base64')
 }

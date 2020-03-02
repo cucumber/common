@@ -19,12 +19,9 @@ Gem::Specification.new do |s|
                     'source_code_uri'   => 'https://github.com/cucumber/cucumber/blob/master/cucumber-demo-formatter/ruby',
                   }
 
-  s.add_dependency 'cucumber-messages', '~> 9.0', '>= 9.0.3'
+  s.add_dependency 'cucumber-messages', '~> 10.0', '>= 10.0.1'
   s.add_development_dependency 'rake', '~> 13.0', '>= 13.0.1'
   s.add_development_dependency 'rspec', '~> 3.9', '>= 3.9.0'
-
-  # For coverage reports
-  s.add_development_dependency 'coveralls', '~> 0.8', '>= 0.8.23'
 
   s.executables      = ["cucumber-demo-formatter"]
   s.rubygems_version = ">= 1.6.1"
