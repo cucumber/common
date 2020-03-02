@@ -3,30 +3,37 @@ SHELL := /usr/bin/env bash
 rwildcard=$(foreach d,$(wildcard $(1:=/*)),$(call rwildcard,$d,$2) $(filter $(subst *,%,$2),$d))
 TYPESCRIPT_SOURCE_FILES = $(sort $(call rwildcard,src test,*.ts *.tsx))
 PRIVATE = $(shell node -e "console.log(require('./package.json').private)")
+NPM ?= npm
+
+ifeq (yarn,$(NPM))
+LOCKFILE = yarn.lock
+else
+LOCKFILE = package-lock.json
+endif
 
 default: .tested .built .linted
 .PHONY: default
 
-.deps: package-lock.json
+.deps: $(LOCKFILE)
 	touch $@
 
 .codegen: .deps
 	touch $@
 
 .built: .codegen $(TYPESCRIPT_SOURCE_FILES)
-	npm run build
+	$(NPM) run build
 	touch $@
 
 .tested: .built $(TYPESCRIPT_SOURCE_FILES)
-	TS_NODE_TRANSPILE_ONLY=1 npm run test
+	TS_NODE_TRANSPILE_ONLY=1 $(NPM) run test
 	touch $@
 
 .linted: $(TYPESCRIPT_SOURCE_FILES) .built
-	npm run lint-fix
+	$(NPM) run lint-fix
 	touch $@
 
-package-lock.json: package.json
-	npm install
+$(LOCKFILE): package.json
+	$(NPM) install
 	touch $@
 
 update-dependencies:
@@ -43,7 +50,7 @@ pre-release: remove-local-dependencies update-version update-dependencies clean 
 
 update-version:
 ifdef NEW_VERSION
-	npm --no-git-tag-version --allow-same-version version "$(NEW_VERSION)"
+	$(NPM) --no-git-tag-version --allow-same-version version "$(NEW_VERSION)"
 else
 	@echo -e "\033[0;31mNEW_VERSION is not defined. Can't update version :-(\033[0m"
 	exit 1
@@ -52,7 +59,7 @@ endif
 
 publish: .codegen
 ifneq (true,$(PRIVATE))
-	npm publish --access public
+	$(NPM) publish --access public
 else
 	@echo "Not publishing private npm module"
 endif
@@ -67,5 +74,5 @@ clean: clean-javascript
 .PHONY: clean
 
 clean-javascript:
-	rm -rf .deps .codegen .built .tested* .linted package-lock.json node_modules coverage dist acceptance
+	rm -rf .deps .codegen .built* .tested* .linted package-lock.json yarn.lock node_modules coverage dist acceptance
 .PHONY: clean-javascript

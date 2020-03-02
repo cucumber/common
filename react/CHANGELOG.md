@@ -17,6 +17,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [4.1.1] - 2020-02-28
+
+### Fixed
+
+* Fix broken 4.1.0 release
+
+## [4.1.0] - 2020-02-28
+
+### Added
+
+* Add compiled stylesheets to package
+
 ## [4.0.0] - 2020-02-14
 
 ### Added
@@ -92,7 +104,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/react/v4.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/react/v4.1.1...master
+[4.1.1]:      https://github.com/cucumber/cucumber/compare/cucumber-react/v4.1.0...react/v4.1.1
+[4.1.0]:      https://github.com/cucumber/cucumber/compare/cucumber-react/v4.0.0...react/v4.1.0
 [4.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-react/v3.3.0...react/v4.0.0
 [3.3.0]:      https://github.com/cucumber/cucumber/compare/cucumber-react/v3.2.0...react/v3.3.0
 [3.2.0]:      https://github.com/cucumber/cucumber/compare/cucumber-react/v3.1.0...react/v3.2.0

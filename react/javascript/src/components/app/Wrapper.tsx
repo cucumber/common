@@ -4,12 +4,18 @@ import { GherkinQuery } from '@cucumber/gherkin'
 import CucumberQuery from '@cucumber/query'
 import GherkinQueryContext from '../../GherkinQueryContext'
 import CucumberQueryContext from '../../CucumberQueryContext'
+import BtoaContext from '../../BtoaContext'
 
 interface IProps {
   envelopes: messages.IEnvelope[]
+  btoa: (data: string) => string
 }
 
-const Wrapper: React.FunctionComponent<IProps> = ({ envelopes, children }) => {
+const Wrapper: React.FunctionComponent<IProps> = ({
+  envelopes,
+  btoa,
+  children,
+}) => {
   const gherkinQuery = new GherkinQuery()
   const cucumberQuery = new CucumberQuery()
   envelopes.forEach(envelope => {
@@ -19,11 +25,13 @@ const Wrapper: React.FunctionComponent<IProps> = ({ envelopes, children }) => {
 
   return (
     <div className="cucumber-react">
-      <CucumberQueryContext.Provider value={cucumberQuery}>
-        <GherkinQueryContext.Provider value={gherkinQuery}>
-          {children}
-        </GherkinQueryContext.Provider>
-      </CucumberQueryContext.Provider>
+      <BtoaContext.Provider value={btoa}>
+        <CucumberQueryContext.Provider value={cucumberQuery}>
+          <GherkinQueryContext.Provider value={gherkinQuery}>
+            {children}
+          </GherkinQueryContext.Provider>
+        </CucumberQueryContext.Provider>
+      </BtoaContext.Provider>
     </div>
   )
 }

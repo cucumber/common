@@ -23,13 +23,9 @@ Gem::Specification.new do |s|
   # https://github.com/ruby-protobuf/protobuf/pull/411
   # https://github.com/ruby-protobuf/protobuf/pull/415
   s.add_dependency 'protobuf-cucumber', '~> 3.10', '>= 3.10.8'
-  s.add_dependency 'json', '~> 2.3', '>= 2.3.0'
 
   s.add_development_dependency 'rake', '~> 13.0', '>= 13.0.1'
   s.add_development_dependency 'rspec', '~> 3.9', '>= 3.9.0'
-
-  # For coverage reports
-  s.add_development_dependency 'coveralls', '~> 0.8', '>= 0.8.23'
 
   s.rubygems_version = ">= 1.6.1"
   s.files            = Dir[

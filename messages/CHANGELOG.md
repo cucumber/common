@@ -17,6 +17,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+* [JavaScript] make stream readable/writable object modes explicit. Better buffer handling. 
+* [Ruby] Don't depend on the `json` gem, since it only installs on Windows with
+  a C compiler toolchain. The `json` gem is part of the Ruby stdlib.
 * [Go] Increase max size of a JSON message to 10Mb
   ([#901](https://github.com/cucumber/cucumber/issues/901)
    [#903](https://github.com/cucumber/cucumber/pull/903)

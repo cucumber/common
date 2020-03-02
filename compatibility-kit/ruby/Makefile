@@ -24,7 +24,7 @@ reports: json_reports html_reports
 .PHONY: reports
 
 clean:
-	-rm Gemfile.lock **/*.feature **/*.ndjson feature/**.json features/**/*_spec.rb output
+	rm -rf Gemfile.lock **/*.feature **/*.ndjson feature/**.json features/**/*_spec.rb output
 .PHONY: clean
 
 ###############################################################################
@@ -87,7 +87,7 @@ self_tested: $(SELF_TESTED)
 	-bundle exec cucumber $< --require $(patsubst %.ndjson,%_steps.rb,$@) --format=message > $@
 
 %.feature:
-	mkdir -p $$(dirname $@)
+	mkdir -p $(@D)
 	cp $(patsubst %,$(CCK_PATH)/javascript/%,$@) $@
 
 ###############################################################################
