@@ -1,6 +1,6 @@
 {
   "name": "@cucumber/react",
-  "version": "4.1.1",
+  "version": "5.0.0",
   "description": "React components for Cucumber",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "@cucumber/messages": "^10.0.1",
-    "@cucumber/query": "^3.0.0",
+    "@cucumber/query": "^4.0.0",
     "@fortawesome/fontawesome": "^1.1.8",
     "@fortawesome/fontawesome-svg-core": "^1.2.27",
     "@fortawesome/free-regular-svg-icons": "^5.12.1",
@@ -38,8 +38,8 @@
   },
   "devDependencies": {
     "@babel/core": "^7.8.6",
-    "@cucumber/fake-cucumber": "^4.0.0",
-    "@cucumber/gherkin": "^10.0.0",
+    "@cucumber/fake-cucumber": "^5.0.0",
+    "@cucumber/gherkin": "^11.0.0",
     "@storybook/addon-actions": "^5.3.14",
     "@storybook/addon-links": "^5.3.14",
     "@storybook/addons": "^5.3.14",
@@ -53,8 +53,8 @@
     "@types/react-dom": "^16.9.5",
     "@types/sanitize-html": "^1.20.2",
     "@types/styled-components": "^5.0.1",
-    "@typescript-eslint/eslint-plugin": "^2.21.0",
-    "@typescript-eslint/parser": "^2.21.0",
+    "@typescript-eslint/eslint-plugin": "^2.22.0",
+    "@typescript-eslint/parser": "^2.22.0",
     "awesome-typescript-loader": "^5.2.1",
     "babel-loader": "^8.0.6",
     "css-loader": "3.4.2",

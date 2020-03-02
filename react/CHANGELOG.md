@@ -9,10 +9,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
-* Render Markdown in descriptions
-  ([#909](https://github.com/cucumber/cucumber/pull/909)
-   [#codemrkay])
-
 ### Changed
 
 ### Deprecated
@@ -20,6 +16,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Removed
 
 ### Fixed
+
+## [5.0.0] - 2020-03-02
+
+### Added
+
+* Render Markdown in descriptions
+  ([#909](https://github.com/cucumber/cucumber/pull/909)
+   [#codemrkay])
+
+### Changed
+
+* Upgrade messages and query
 
 ## [4.1.1] - 2020-02-28
 
@@ -108,11 +116,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/react/v4.1.1...master
-[4.1.1]:      https://github.com/cucumber/cucumber/compare/cucumber-react/v4.1.0...react/v4.1.1
-[4.1.0]:      https://github.com/cucumber/cucumber/compare/cucumber-react/v4.0.0...react/v4.1.0
-[4.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-react/v3.3.0...react/v4.0.0
-[3.3.0]:      https://github.com/cucumber/cucumber/compare/cucumber-react/v3.2.0...react/v3.3.0
+[Unreleased]: https://github.com/cucumber/cucumber/compare/react/v5.0.0...master
+[5.0.0]:      https://github.com/cucumber/cucumber/compare/react/v4.1.1...react/v5.0.0
+[4.1.1]:      https://github.com/cucumber/cucumber/compare/react/v4.1.0...react/v4.1.1
+[4.1.0]:      https://github.com/cucumber/cucumber/compare/react/v4.0.0...react/v4.1.0
+[4.0.0]:      https://github.com/cucumber/cucumber/compare/react/v3.3.0...react/v4.0.0
+[3.3.0]:      https://github.com/cucumber/cucumber/compare/react/v3.2.0...react/v3.3.0
 [3.2.0]:      https://github.com/cucumber/cucumber/compare/cucumber-react/v3.1.0...react/v3.2.0
 [3.1.0]:      https://github.com/cucumber/cucumber/compare/cucumber-react/v3.0.0...cucumber-react/v3.1.0
 [3.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-react/v2.0.1...cucumber-react/v3.0.0
