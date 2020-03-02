@@ -14,7 +14,7 @@ executors:
     docker:
       # Remember to update to the latest image tag.
       # Run `source scripts/functions.sh && docker_image Dockerfile` to print it.
-      - image: cucumber/cucumber-build:bcd26c1ff045bbf9848c025fb2cfcc79
+      - image: cucumber/cucumber-build:6738cc01c24032492c5f50b81b07fced
     working_directory: ~/cucumber
   # Go
   docker-circleci-golang:
@@ -305,7 +305,7 @@ jobs:
             - react/javascript/node_modules
 
   html-formatter-javascript:
-    executor: docker-circleci-node-12
+    executor: docker-cucumber-build
     steps:
       - attach_workspace:
           at: "~/cucumber"
