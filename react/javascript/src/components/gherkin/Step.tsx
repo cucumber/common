@@ -45,7 +45,7 @@ const Step: React.FunctionComponent<IProps> = ({
           // is not ideal, but it is rare enough that we don't care about it for now.
           []
         : cucumberQuery.getStepMatchArgumentsLists(pickleStepIds[0])
-    if (stepMatchArgumentsLists.length === 1) {
+    if (stepMatchArgumentsLists && stepMatchArgumentsLists.length === 1) {
       // Step is defined
       const stepMatchArguments = stepMatchArgumentsLists[0].stepMatchArguments
       let offset = 0

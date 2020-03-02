@@ -1,5 +1,5 @@
 import { Transform, TransformCallback } from 'stream'
-import { GherkinQuery } from '@cucumber/gherkin'
+import { Query } from '@cucumber/gherkin'
 import { IdGenerator, messages } from '@cucumber/messages'
 import Cucumber from './Cucumber'
 import IStepDefinition from './IStepDefinition'
@@ -10,7 +10,7 @@ import { MakeErrorMessage } from './ErrorMessageGenerator'
 
 export default class CucumberStream extends Transform {
   private readonly gherkinMessages: messages.IEnvelope[] = []
-  private readonly gherkinQuery = new GherkinQuery()
+  private readonly gherkinQuery = new Query()
 
   constructor(
     private readonly parameterTypes: Array<ParameterType<any>>,

@@ -1,5 +1,5 @@
 import 'source-map-support/register'
-import gherkin, { GherkinQuery } from '@cucumber/gherkin'
+import gherkin, { Query as GherkinQuery } from '@cucumber/gherkin'
 import { IdGenerator, messages } from '@cucumber/messages'
 import { pipeline, Readable, Writable } from 'stream'
 import assert from 'assert'
@@ -13,17 +13,17 @@ import Query from '../src/Query'
 
 const pipelinePromise = promisify(pipeline)
 
-describe('TestStepResultQuery', () => {
+describe('Query', () => {
   let gherkinQuery: GherkinQuery
-  let testStepResultQuery: Query
+  let cucumberQuery: Query
   beforeEach(() => {
     gherkinQuery = new GherkinQuery()
-    testStepResultQuery = new Query()
+    cucumberQuery = new Query()
   })
 
   describe('#getWorstTestStepResult(testStepResults)', () => {
     it('returns a FAILED result for PASSED,FAILED,PASSED', () => {
-      const result = testStepResultQuery.getWorstTestStepResult([
+      const result = cucumberQuery.getWorstTestStepResult([
         new messages.TestStepResult({
           status: messages.TestStepResult.Status.PASSED,
         }),
@@ -39,11 +39,11 @@ describe('TestStepResultQuery', () => {
   })
 
   describe('#getPickleStepTestStepResults(pickleStepIds)', () => {
-    it('returns a single UNDEFINED when the list is empty', () => {
-      const results = testStepResultQuery.getPickleTestStepResults([])
+    it('returns a single UNKNOWN when the list is empty', () => {
+      const results = cucumberQuery.getPickleTestStepResults([])
       assert.deepStrictEqual(
         results.map(r => r.status),
-        [messages.TestStepResult.Status.UNDEFINED]
+        [messages.TestStepResult.Status.UNKNOWN]
       )
     })
 
@@ -58,7 +58,7 @@ describe('TestStepResultQuery', () => {
       const pickleStepIds = gherkinQuery.getPickleStepIds('test.feature', 3)
       assert.strictEqual(pickleStepIds.length, 1)
 
-      const testStepResults: messages.ITestStepResult[] = testStepResultQuery.getPickleStepTestStepResults(
+      const testStepResults: messages.ITestStepResult[] = cucumberQuery.getPickleStepTestStepResults(
         pickleStepIds
       )
       assert.strictEqual(testStepResults.length, 1)
@@ -86,7 +86,7 @@ describe('TestStepResultQuery', () => {
       const pickleStepIds = gherkinQuery.getPickleStepIds('test.feature', 3)
       assert.strictEqual(pickleStepIds.length, 2)
 
-      const testStepResults: messages.ITestStepResult[] = testStepResultQuery.getPickleStepTestStepResults(
+      const testStepResults: messages.ITestStepResult[] = cucumberQuery.getPickleStepTestStepResults(
         pickleStepIds
       )
 
@@ -114,14 +114,14 @@ describe('TestStepResultQuery', () => {
       const pickleStepIds = gherkinQuery.getPickleStepIds('test.feature', 3)
       assert.strictEqual(pickleStepIds.length, 0)
 
-      const testStepResults: messages.ITestStepResult[] = testStepResultQuery.getPickleStepTestStepResults(
+      const testStepResults: messages.ITestStepResult[] = cucumberQuery.getPickleStepTestStepResults(
         pickleStepIds
       )
       assert.strictEqual(testStepResults.length, 1)
 
       assert.strictEqual(
         testStepResults[0].status,
-        messages.TestStepResult.Status.SKIPPED
+        messages.TestStepResult.Status.UNKNOWN
       )
     })
   })
@@ -139,7 +139,7 @@ describe('TestStepResultQuery', () => {
       const pickleIds = gherkinQuery.getPickleIds('test.feature', 2)
       assert.strictEqual(pickleIds.length, 1)
 
-      const testStepResults: messages.ITestStepResult[] = testStepResultQuery.getPickleTestStepResults(
+      const testStepResults: messages.ITestStepResult[] = cucumberQuery.getPickleTestStepResults(
         pickleIds
       )
 
@@ -169,9 +169,7 @@ describe('TestStepResultQuery', () => {
       assert.strictEqual(pickleIds.length, 2)
 
       assert.deepStrictEqual(
-        testStepResultQuery
-          .getPickleTestStepResults(pickleIds)
-          .map(r => r.status),
+        cucumberQuery.getPickleTestStepResults(pickleIds).map(r => r.status),
         [
           messages.TestStepResult.Status.PASSED,
           messages.TestStepResult.Status.PASSED,
@@ -196,7 +194,7 @@ describe('TestStepResultQuery', () => {
       )
 
       assert.deepStrictEqual(
-        testStepResultQuery
+        cucumberQuery
           .getPickleTestStepResults(
             gherkinQuery.getPickleIds('test.feature', 8)
           )
@@ -208,7 +206,7 @@ describe('TestStepResultQuery', () => {
       )
 
       assert.deepStrictEqual(
-        testStepResultQuery
+        cucumberQuery
           .getPickleTestStepResults(
             gherkinQuery.getPickleIds('test.feature', 9)
           )
@@ -233,7 +231,7 @@ describe('TestStepResultQuery', () => {
       const pickleStepIds = gherkinQuery.getPickleStepIds('test.feature', 3)
       assert.strictEqual(pickleStepIds.length, 1)
 
-      const attachments: messages.IAttachment[] = testStepResultQuery.getPickleStepAttachments(
+      const attachments: messages.IAttachment[] = cucumberQuery.getPickleStepAttachments(
         pickleStepIds
       )
       assert.strictEqual(attachments.length, 1)
@@ -253,7 +251,7 @@ describe('TestStepResultQuery', () => {
       )
 
       assert.deepStrictEqual(
-        testStepResultQuery
+        cucumberQuery
           .getStepMatchArgumentsLists(
             gherkinQuery.getPickleStepIds('test.feature', 3)[0]
           )
@@ -262,7 +260,7 @@ describe('TestStepResultQuery', () => {
       )
 
       assert.deepStrictEqual(
-        testStepResultQuery
+        cucumberQuery
           .getStepMatchArgumentsLists(
             gherkinQuery.getPickleStepIds('test.feature', 4)[0]
           )
@@ -310,7 +308,7 @@ describe('TestStepResultQuery', () => {
       ): void {
         try {
           gherkinQuery.update(envelope)
-          testStepResultQuery.update(envelope)
+          cucumberQuery.update(envelope)
           callback()
         } catch (err) {
           callback(err)

@@ -1,24 +1,20 @@
 import { messages } from '@cucumber/messages'
-import StrictMap from './StrictMap'
-import StrictArrayMultimap from './StrictArrayMultimap'
+import { ArrayMultimap } from '@teppeis/multimaps'
 
-export default class GherkinQuery {
+export default class Query {
   private readonly gherkinDocuments: messages.IGherkinDocument[] = []
-  private readonly locationByAstNodeId = new StrictMap<
-    string,
-    messages.ILocation
-  >()
-  private readonly gherkinStepById = new StrictMap<
+  private readonly locationByAstNodeId = new Map<string, messages.ILocation>()
+  private readonly gherkinStepById = new Map<
     string,
     messages.GherkinDocument.Feature.IStep
   >()
-  private readonly pickleIdsMapByUri = new StrictMap<
+  private readonly pickleIdsMapByUri = new Map<
     string,
-    StrictArrayMultimap<number, string>
+    ArrayMultimap<number, string>
   >()
-  private readonly pickleStepIdsMapByUri = new StrictMap<
+  private readonly pickleStepIdsMapByUri = new Map<
     string,
-    StrictArrayMultimap<number, string>
+    ArrayMultimap<number, string>
   >()
 
   /**
@@ -50,17 +46,17 @@ export default class GherkinQuery {
     return pickleStepIdsByLineNumber.get(lineNumber)
   }
 
-  public update(message: messages.IEnvelope): GherkinQuery {
+  public update(message: messages.IEnvelope): Query {
     if (message.gherkinDocument) {
       this.gherkinDocuments.push(message.gherkinDocument)
       if (message.gherkinDocument.feature) {
         this.pickleIdsMapByUri.set(
           message.gherkinDocument.uri,
-          new StrictArrayMultimap<number, string>()
+          new ArrayMultimap<number, string>()
         )
         this.pickleStepIdsMapByUri.set(
           message.gherkinDocument.uri,
-          new StrictArrayMultimap<number, string>()
+          new ArrayMultimap<number, string>()
         )
 
         for (const featureChild of message.gherkinDocument.feature.children) {

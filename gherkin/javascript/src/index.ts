@@ -1,8 +1,6 @@
 import Gherkin from './Gherkin'
 import IGherkinOptions from './IGherkinOptions'
-import GherkinQuery from './GherkinQuery'
-import StrictArrayMultimap from './StrictArrayMultimap'
-import StrictMap from './StrictMap'
+import Query from './Query'
 
 export default Gherkin
-export { IGherkinOptions, GherkinQuery, StrictArrayMultimap, StrictMap }
+export { IGherkinOptions, Query }

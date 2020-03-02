@@ -4,7 +4,7 @@ import { IdGenerator, messages, TimeConversion } from '@cucumber/messages'
 import makeTestCase from './makeTestCase'
 import IStepDefinition from './IStepDefinition'
 import IHook from './IHook'
-import { GherkinQuery } from '@cucumber/gherkin'
+import { Query } from '@cucumber/gherkin'
 import IClock from './IClock'
 import { MakeErrorMessage } from './ErrorMessageGenerator'
 
@@ -16,7 +16,7 @@ export default class TestPlan {
     stepDefinitions: IStepDefinition[],
     beforeHooks: IHook[],
     afterHooks: IHook[],
-    gherkinQuery: GherkinQuery,
+    gherkinQuery: Query,
     private readonly newId: IdGenerator.NewId,
     private readonly clock: IClock,
     private readonly makeErrorMessage: MakeErrorMessage

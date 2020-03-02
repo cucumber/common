@@ -13,9 +13,13 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Changed
 
+* [JavaScript] Renamed `GherkinQuery` to `Query` 
+
 ### Deprecated
 
 ### Removed
+
+* [JavaScript] Removed `StrictMap` and `StrictArrayMultiMap`
 
 ### Fixed
 
