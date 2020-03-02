@@ -11,6 +11,24 @@ describe('NdjsonStream', () => {
   const makeFromMessageStream = () => new MessageToNdjsonStream()
   verifyStreamContract(makeFromMessageStream, makeToMessageStream)
 
+  it('converts a buffer stream', cb => {
+    const stream = makeToMessageStream()
+    const envelope = messages.Envelope.create({
+      testStepFinished: messages.TestStepFinished.create({
+        testStepResult: messages.TestStepResult.create({
+          status: messages.TestStepResult.Status.UNKNOWN,
+        }),
+      }),
+    })
+    const json = JSON.stringify(envelope.toJSON())
+    stream.on('data', (receivedEnvelope: messages.IEnvelope) => {
+      assert.deepStrictEqual(envelope, receivedEnvelope)
+      cb()
+    })
+    stream.write(Buffer.from(json))
+    stream.end()
+  })
+
   it('converts messages to JSON with enums as strings', cb => {
     const stream = new MessageToNdjsonStream()
     stream.on('data', (json: string) => {
