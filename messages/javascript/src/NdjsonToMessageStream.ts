@@ -10,7 +10,7 @@ export default class NdjsonToMessageStream<T> extends Transform {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     private readonly fromObject: (object: { [k: string]: any }) => T
   ) {
-    super({ objectMode: true })
+    super({ writableObjectMode: false, readableObjectMode: true })
   }
 
   public _transform(
@@ -21,7 +21,7 @@ export default class NdjsonToMessageStream<T> extends Transform {
     if (this.buffer === undefined) {
       this.buffer = ''
     }
-    this.buffer += chunk
+    this.buffer += Buffer.isBuffer(chunk) ? chunk.toString('utf-8') : chunk
     const lines = this.buffer.split('\n')
     this.buffer = lines.pop()
     for (const line of lines) {
