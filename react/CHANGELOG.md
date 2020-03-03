@@ -9,13 +9,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+* Add `<QueriesWrapper>` which allows incrementally updating queries without having
+  to rebuild them every time the envelope list is updated. Use this instead of `<Wrapper>`
+
 ### Changed
 
 ### Deprecated
 
+* The `<Wrapper>` component is deprecated in favour of `<QueriesWrapper>`.
+
 ### Removed
 
 ### Fixed
+
+* Fix a bug in rendering of steps before test cases have been received
 
 ## [5.0.0] - 2020-03-02
 

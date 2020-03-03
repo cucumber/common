@@ -44,8 +44,8 @@ const Step: React.FunctionComponent<IProps> = ({
           // the background step will be rendered as undefined (even if there are matching step definitions). This
           // is not ideal, but it is rare enough that we don't care about it for now.
           []
-        : cucumberQuery.getStepMatchArgumentsLists(pickleStepIds[0])
-    if (stepMatchArgumentsLists && stepMatchArgumentsLists.length === 1) {
+        : cucumberQuery.getStepMatchArgumentsLists(pickleStepIds[0]) || []
+    if (stepMatchArgumentsLists.length === 1) {
       // Step is defined
       const stepMatchArguments = stepMatchArgumentsLists[0].stepMatchArguments
       let offset = 0
@@ -82,7 +82,7 @@ const Step: React.FunctionComponent<IProps> = ({
           </span>
         )
       }
-    } else if (stepMatchArgumentsLists.length === 2) {
+    } else if (stepMatchArgumentsLists.length >= 2) {
       // Step is ambiguous
       stepTextElements.push(
         <span className="step-text" key={`plain-ambiguous`}>
