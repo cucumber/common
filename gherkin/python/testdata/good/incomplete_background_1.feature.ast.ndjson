@@ -4,6 +4,7 @@
       "children": [
         {
           "background": {
+            "id": "0",
             "keyword": "Background",
             "location": {
               "column": 3,
@@ -14,7 +15,7 @@
         },
         {
           "scenario": {
-            "id": "1",
+            "id": "2",
             "keyword": "Scenario",
             "location": {
               "column": 3,
@@ -23,7 +24,7 @@
             "name": "still pickles up",
             "steps": [
               {
-                "id": "0",
+                "id": "1",
                 "keyword": "* ",
                 "location": {
                   "column": 5,

@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+* Add `id` field to `Background`, `Rule` and `Examples`. Needed for search engine indexing.
+
 ### Changed
 
 ### Deprecated
