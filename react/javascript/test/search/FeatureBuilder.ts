@@ -1,10 +1,10 @@
-import { messages } from "@cucumber/messages"
-import { makeScenario, makeFeature, makeStep } from "./utils"
-import assert from "assert"
-import FeatureBuilder from "../../src/search/FeatureBuilder"
+import { messages } from '@cucumber/messages'
+import { makeScenario, makeFeature, makeStep } from './utils'
+import assert from 'assert'
+import FeatureBuilder from '../../src/search/FeatureBuilder'
 
 describe('FeatureBuilder', () => {
-  let builder = new FeatureBuilder()
+  const builder = new FeatureBuilder()
   let scenarios: messages.GherkinDocument.Feature.IScenario[]
   let feature: messages.GherkinDocument.IFeature
   let backgroundFeature: messages.GherkinDocument.IFeature
@@ -13,7 +13,7 @@ describe('FeatureBuilder', () => {
     scenarios = [
       makeScenario('first scenario', '', []),
       makeScenario('second scenario', '', []),
-      makeScenario('third scenario', '', [])
+      makeScenario('third scenario', '', []),
     ]
 
     feature = makeFeature('My feature', '', [scenarios[0], scenarios[2]])
@@ -23,12 +23,10 @@ describe('FeatureBuilder', () => {
         messages.GherkinDocument.Feature.FeatureChild.create({
           background: messages.GherkinDocument.Feature.Background.create({
             name: 'A named background',
-            steps: [
-              makeStep('Given', 'some context')
-            ]
-          })
-        })
-      ]
+            steps: [makeStep('Given', 'some context')],
+          }),
+        }),
+      ],
     })
   })
 
@@ -43,7 +41,9 @@ describe('FeatureBuilder', () => {
 
     it('keeps the feature background', () => {
       const built = builder.build(backgroundFeature, [])
-      const builtBackground = backgroundFeature.children.find(child => child.background).background
+      const builtBackground = backgroundFeature.children.find(
+        child => child.background
+      ).background
 
       assert.deepStrictEqual(
         built.children.find(child => child.background).background,

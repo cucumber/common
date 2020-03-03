@@ -49,17 +49,17 @@ storiesOf('Features', module)
     </Wrapper>
   })
   .add('Status Filter Passed', () => {
-    return <Wrapper envelopes={[]}>
+    return <Wrapper envelopes={[]} btoa={window.btoa}>
       <StatusFilterPassed statusQueryUpdated={status => { console.log(status); return status } } />
     </Wrapper>
   })
   .add('Search bar', () => {
-    return <Wrapper envelopes={[]}>
+    return <Wrapper envelopes={[]} btoa={window.btoa}>
       <SearchBar queryUpdated={(query) => console.log("query:", query)} />
     </Wrapper>
   })
   .add('Filtered results', () => {
-    return <Wrapper envelopes={envelopes(documentList)}>
+    return <Wrapper envelopes={envelopes(documentList)} btoa={window.btoa}>
       <FilteredResults />
     </Wrapper>
   })
@@ -94,12 +94,12 @@ storiesOf('Features', module)
     </Wrapper>
   })
   .add('Rules', () => {
-    return <Wrapper envelopes={envelopes(rules)}>
+    return <Wrapper envelopes={envelopes(rules)} btoa={window.btoa}>
       <AllGherkinDocuments/>
     </Wrapper>
   })
   .add('Stack Traces', () => {
-    return <Wrapper envelopes={envelopes(stackTraces)}>
+    return <Wrapper envelopes={envelopes(stackTraces)} btoa={window.btoa}>
       <AllGherkinDocuments />
     </Wrapper>
   })

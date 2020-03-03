@@ -1,7 +1,7 @@
 import assert from 'assert'
 import { messages } from '@cucumber/messages'
 import { Query } from '@cucumber/query'
-import { GherkinQuery } from '@cucumber/gherkin'
+import { Query as GherkinQuery } from '@cucumber/gherkin'
 import fs from 'fs'
 
 import getFeatureStatus from '../src/getFeatureStatus'
@@ -44,7 +44,7 @@ describe('getFeatureStatus', () => {
 
     assert.equal(
       getFeatureStatus(document, testResultsQuery, gherkinQuery),
-      messages.TestResult.Status.PASSED
+      messages.TestStepResult.Status.PASSED
     )
   })
 
@@ -55,7 +55,7 @@ describe('getFeatureStatus', () => {
 
     assert.equal(
       getFeatureStatus(document, testResultsQuery, gherkinQuery),
-      messages.TestResult.Status.FAILED
+      messages.TestStepResult.Status.FAILED
     )
   })
 })

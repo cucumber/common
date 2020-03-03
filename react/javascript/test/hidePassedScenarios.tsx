@@ -3,7 +3,7 @@ import { stubObject } from 'ts-sinon'
 import { messages } from '@cucumber/messages'
 import GherkinDocument = messages.GherkinDocument
 import { Query } from '@cucumber/query'
-import { GherkinQuery } from '@cucumber/gherkin'
+import { Query as GherkinQuery } from '@cucumber/gherkin'
 import fs from 'fs'
 
 import hidePassedScenarios from '../src/hidePassedScenarios'
@@ -29,12 +29,12 @@ describe('hidePassedScenarios', () => {
   it('keeps documents which do not have a passed status', () => {
     const document = new GherkinDocument()
     const testResultsQuery = stubObject<Query>(new Query())
-    testResultsQuery.getWorstResult.returns(
-      new messages.TestResult({
-        status: messages.TestResult.Status.FAILED,
+    testResultsQuery.getWorstTestStepResult.returns(
+      new messages.TestStepResult({
+        status: messages.TestStepResult.Status.FAILED,
       })
     )
-    testResultsQuery.getPickleResults.returns([])
+    testResultsQuery.getPickleTestStepResults.returns([])
 
     const gherkinQuery = stubObject<GherkinQuery>(new GherkinQuery())
     gherkinQuery.getPickleIds.returns([])
@@ -48,12 +48,12 @@ describe('hidePassedScenarios', () => {
   it('removes documents which do have a passed status', () => {
     const document = new GherkinDocument()
     const testResultsQuery = stubObject<Query>(new Query())
-    testResultsQuery.getWorstResult.returns(
-      new messages.TestResult({
-        status: messages.TestResult.Status.PASSED,
+    testResultsQuery.getWorstTestStepResult.returns(
+      new messages.TestStepResult({
+        status: messages.TestStepResult.Status.PASSED,
       })
     )
-    testResultsQuery.getPickleResults.returns([])
+    testResultsQuery.getPickleTestStepResults.returns([])
 
     const gherkinQuery = stubObject<GherkinQuery>(new GherkinQuery())
     gherkinQuery.getPickleIds.returns([])

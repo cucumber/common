@@ -100,7 +100,10 @@ export default class Search {
 
     for (const scenario of scenarios) {
       const originalFeature = this.featureByScenarioId.get(scenario.id)
-      if (!featuresToRebuild.includes(originalFeature) && !matchingFeatures.includes(originalFeature)) {
+      if (
+        !featuresToRebuild.includes(originalFeature) &&
+        !matchingFeatures.includes(originalFeature)
+      ) {
         featuresToRebuild.push(originalFeature)
       }
     }

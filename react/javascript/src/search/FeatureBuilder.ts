@@ -1,4 +1,4 @@
-import { messages } from "@cucumber/messages"
+import { messages } from '@cucumber/messages'
 
 export default class FeatureBuilder {
   public build(
@@ -11,7 +11,7 @@ export default class FeatureBuilder {
       name: sourceFeature.name,
       description: sourceFeature.name,
       tags: sourceFeature.tags,
-      children: this.filterChidren(sourceFeature.children, scenarios)
+      children: this.filterChidren(sourceFeature.children, scenarios),
     })
   }
 
@@ -20,7 +20,8 @@ export default class FeatureBuilder {
     scenarios: messages.GherkinDocument.Feature.IScenario[]
   ): messages.GherkinDocument.Feature.IFeatureChild[] {
     return children.filter(child => {
-      const isExceptedScenario = child.scenario && scenarios.includes(child.scenario)
+      const isExceptedScenario =
+        child.scenario && scenarios.includes(child.scenario)
       return child.background || isExceptedScenario
     })
   }
