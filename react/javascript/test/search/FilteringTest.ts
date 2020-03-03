@@ -8,10 +8,10 @@ import pretty from '../../src/pretty-formatter/pretty'
 
 describe('Search', () => {
   let search: Search
-  let gherkinDocuments: messages.IGherkinDocument[]
+  const source = `Feature: Continents
 
-  beforeEach(() => {
-    const source = `Feature: Continents
+  Background: World
+    Given the world exists
 
   Scenario: Europe
     Given France
@@ -23,6 +23,7 @@ describe('Search', () => {
     Then Brazil
   `
 
+  beforeEach(() => {
     const newId = IdGenerator.uuid()
     const parser = new Parser(new AstBuilder(newId))
     const gherkinDocument = parser.parse(source)
@@ -37,11 +38,39 @@ describe('Search', () => {
 
       assert.deepStrictEqual(pretty(searchResults[0]), `Feature: Continents
 
+  Background: World
+    Given the world exists
+
   Scenario: Europe
     Given France
     When Spain
     Then The Netherlands
 `)
+    })
+  })
+
+  context('Hit found in scenario', () => {
+    it('displays just one scenario', () => {
+      const searchResults = search.search('europe')
+
+      assert.deepStrictEqual(pretty(searchResults[0]), `Feature: Continents
+
+  Background: World
+    Given the world exists
+
+  Scenario: Europe
+    Given France
+    When Spain
+    Then The Netherlands
+`)
+    })
+  })
+
+  context('Hit found in background', () => {
+    it('displays all scenarios', () => {
+      const searchResults = search.search('world')
+
+      assert.deepStrictEqual(pretty(searchResults[0]), source)
     })
   })
 })
