@@ -6,6 +6,7 @@ import FeatureBuilder from './FeatureBuilder'
 
 export default class Search {
   private readonly featureSearch = new FeatureSearch()
+  private readonly backgroundSearch = new ScenarioSearch()
   private readonly scenarioSearch = new ScenarioSearch()
   private readonly stepSearch = new StepSearch()
 
@@ -19,6 +20,11 @@ export default class Search {
     messages.GherkinDocument.IFeature
   >()
 
+  private featureByBackgroundId = new Map<
+    string,
+    messages.GherkinDocument.IFeature
+  >()
+
   private scenarioByStepId = new Map<
     string,
     messages.GherkinDocument.Feature.IScenario
@@ -28,6 +34,8 @@ export default class Search {
 
   public search(query: string): messages.IGherkinDocument[] {
     const steps = this.stepSearch.search(query)
+    const matchingBackgrounds = this.backgroundSearch.search(query)
+
     const matchingScenarios = this.scenarioSearch.search(query)
     const scenarios = this.consolidateScenariosFromSteps(
       matchingScenarios,
@@ -35,9 +43,10 @@ export default class Search {
     )
 
     const matchingFeatures = this.featureSearch.search(query)
-    const features = this.consolidateFeaturesFromScenarios(
+    const features = this.consolidateFeaturesFromChildren(
       matchingFeatures,
-      scenarios
+      scenarios,
+      matchingBackgrounds
     )
 
     return features.map(feature =>
@@ -67,6 +76,11 @@ export default class Search {
 
     this.featureSearch.add(gherkinDocument)
     for (const child of gherkinDocument.feature.children) {
+      if (child.background) {
+        this.featureByBackgroundId.set(child.background.id, gherkinDocument.feature)
+        this.backgroundSearch.add(child.background)
+      }
+
       if (child.scenario) {
         this.featureByScenarioId.set(child.scenario.id, gherkinDocument.feature)
         this.scenarioSearch.add(child.scenario)
@@ -90,13 +104,18 @@ export default class Search {
     })
   }
 
-  private consolidateFeaturesFromScenarios(
+  private consolidateFeaturesFromChildren(
     matchingFeatures: messages.GherkinDocument.IFeature[],
-    scenarios: messages.GherkinDocument.Feature.IScenario[]
+    scenarios: messages.GherkinDocument.Feature.IScenario[],
+    backgrounds: messages.GherkinDocument.Feature.IBackground[]
   ): messages.GherkinDocument.IFeature[] {
     const consolidated = matchingFeatures
     const featuresToRebuild: messages.GherkinDocument.IFeature[] = []
     const featureBuilder = new FeatureBuilder()
+
+    for (const background of backgrounds) {
+      consolidated.push(this.featureByBackgroundId.get(background.id))
+    }
 
     for (const scenario of scenarios) {
       const originalFeature = this.featureByScenarioId.get(scenario.id)

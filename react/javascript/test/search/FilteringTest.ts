@@ -21,7 +21,7 @@ describe('Search', () => {
   Scenario: America
     Given Mexico
     Then Brazil
-  `
+`
 
   beforeEach(() => {
     const newId = IdGenerator.uuid()
