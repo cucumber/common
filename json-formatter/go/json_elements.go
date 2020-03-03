@@ -33,6 +33,7 @@ type jsonStep struct {
 	DocString  *jsonDocString      `json:"doc_string,omitempty"`
 	Rows       []*jsonDatatableRow `json:"rows,omitempty"`
 	Embeddings []*jsonEmbedding    `json:"embeddings,omitempty"`
+	Output     []string            `json:"output,omitempty"`
 }
 
 type jsonDocString struct {

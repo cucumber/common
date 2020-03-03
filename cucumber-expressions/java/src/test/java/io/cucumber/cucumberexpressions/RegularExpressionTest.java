@@ -179,6 +179,14 @@ public class RegularExpressionTest {
         assertEquals(singletonList("0.22"), match(compile("(.*)"), "0.22"));
     }
 
+    @Test
+    public void matches_optional_boolean_capture_group() {
+        Pattern pattern = compile("^(true|false)?$");
+        assertEquals(singletonList(true), match(pattern, "true", Boolean.class));
+        assertEquals(singletonList(false), match(pattern, "false", Boolean.class));
+        assertEquals(singletonList(null), match(pattern, "", Boolean.class));
+    }
+
     private List<?> match(Pattern pattern, String text, Type... types) {
         RegularExpression regularExpression = new RegularExpression(pattern, parameterTypeRegistry);
         List<Argument<?>> arguments = regularExpression.match(text, types);

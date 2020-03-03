@@ -17,6 +17,8 @@ import examplesTables from '../../../compatibility-kit/javascript/features/examp
 // @ts-ignore
 import hooks from '../../../compatibility-kit/javascript/features/hooks/hooks.ndjson'
 // @ts-ignore
+import minimal from '../../../compatibility-kit/javascript/features/minimal/minimal.ndjson'
+// @ts-ignore
 import parameterTypes from '../../../compatibility-kit/javascript/features/parameter-types/parameter-types.ndjson'
 // @ts-ignore
 import rules from '../../../compatibility-kit/javascript/features/rules/rules.ndjson'
@@ -34,14 +36,14 @@ function envelopes(ndjson: string): messages.IEnvelope[] {
 
 storiesOf('Features', module)
   .add('Step Container', () => {
-    return <Wrapper envelopes={[]}>
-      <StepContainer status={messages.TestResult.Status.PASSED}>
+    return <Wrapper envelopes={[]} btoa={window.btoa}>
+      <StepContainer status={messages.TestStepResult.Status.PASSED}>
         <div>Given a passed step</div>
       </StepContainer>
-      <StepContainer status={messages.TestResult.Status.FAILED}>
+      <StepContainer status={messages.TestStepResult.Status.FAILED}>
         <div>When a failed step</div>
       </StepContainer>
-      <StepContainer status={messages.TestResult.Status.SKIPPED}>
+      <StepContainer status={messages.TestStepResult.Status.SKIPPED}>
         <div>Then a skipped step</div>
       </StepContainer>
     </Wrapper>
@@ -62,32 +64,32 @@ storiesOf('Features', module)
     </Wrapper>
   })
   .add('Document list', () => {
-    return <Wrapper envelopes={envelopes(documentList)}>
+    return <Wrapper envelopes={envelopes(documentList)} btoa={window.btoa}>
       <AllGherkinDocuments />
     </Wrapper>
   })
   .add('Attachments', () => {
-    return <Wrapper envelopes={envelopes(attachments)}>
+    return <Wrapper envelopes={envelopes(attachments)} btoa={window.btoa}>
       <AllGherkinDocuments/>
     </Wrapper>
   })
   .add('Examples Tables', () => {
-    return <Wrapper envelopes={envelopes(examplesTables)}>
+    return <Wrapper envelopes={envelopes(examplesTables)} btoa={window.btoa}>
       <AllGherkinDocuments/>
     </Wrapper>
   })
   .add('Data Tables', () => {
-    return <Wrapper envelopes={envelopes(dataTables)}>
+    return <Wrapper envelopes={envelopes(dataTables)} btoa={window.btoa}>
       <AllGherkinDocuments/>
     </Wrapper>
   })
   .add('Hooks', () => {
-    return <Wrapper envelopes={envelopes(hooks)}>
+    return <Wrapper envelopes={envelopes(hooks)} btoa={window.btoa}>
       <AllGherkinDocuments/>
     </Wrapper>
   })
   .add('Parameter Types', () => {
-    return <Wrapper envelopes={envelopes(parameterTypes)}>
+    return <Wrapper envelopes={envelopes(parameterTypes)} btoa={window.btoa}>
       <AllGherkinDocuments/>
     </Wrapper>
   })

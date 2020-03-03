@@ -1,5 +1,5 @@
 import { IdGenerator, messages } from '@cucumber/messages'
-import { GherkinQuery } from '@cucumber/gherkin'
+import { Query } from '@cucumber/gherkin'
 import TestCase from './TestCase'
 import IStepDefinition from './IStepDefinition'
 import IHook from './IHook'
@@ -15,7 +15,7 @@ export default function makeTestCase(
   stepDefinitions: IStepDefinition[],
   beforeHooks: IHook[],
   afterHooks: IHook[],
-  gherkinQuery: GherkinQuery,
+  gherkinQuery: Query,
   newId: IdGenerator.NewId,
   clock: IClock,
   makeErrorMessage: MakeErrorMessage
@@ -77,7 +77,7 @@ function makeHookSteps(
   pickle: messages.IPickle,
   hooks: IHook[],
   alwaysExecute: boolean,
-  gherkinQuery: GherkinQuery,
+  gherkinQuery: Query,
   newId: IdGenerator.NewId,
   clock: IClock,
   makeErrorMessage: MakeErrorMessage

@@ -11,13 +11,35 @@ describe('NdjsonStream', () => {
   const makeFromMessageStream = () => new MessageToNdjsonStream()
   verifyStreamContract(makeFromMessageStream, makeToMessageStream)
 
+  it('converts a buffer stream written byte by byte', cb => {
+    const stream = makeToMessageStream()
+    const envelope = messages.Envelope.create({
+      testStepFinished: messages.TestStepFinished.create({
+        testStepResult: messages.TestStepResult.create({
+          status: messages.TestStepResult.Status.UNKNOWN,
+        }),
+      }),
+    })
+    const json = JSON.stringify(envelope.toJSON())
+    stream.on('error', cb)
+    stream.on('data', (receivedEnvelope: messages.IEnvelope) => {
+      assert.deepStrictEqual(envelope, receivedEnvelope)
+      cb()
+    })
+    const buffer = Buffer.from(json)
+    for (let i = 0; i < buffer.length; i++) {
+      stream.write(buffer.slice(i, i + 1))
+    }
+    stream.end()
+  })
+
   it('converts messages to JSON with enums as strings', cb => {
     const stream = new MessageToNdjsonStream()
     stream.on('data', (json: string) => {
       const ob = JSON.parse(json)
       assert.deepStrictEqual(ob, {
         testStepFinished: {
-          testResult: {
+          testStepResult: {
             status: 'UNKNOWN',
           },
         },
@@ -27,8 +49,8 @@ describe('NdjsonStream', () => {
     stream.write(
       messages.Envelope.create({
         testStepFinished: messages.TestStepFinished.create({
-          testResult: messages.TestResult.create({
-            status: messages.TestResult.Status.UNKNOWN,
+          testStepResult: messages.TestStepResult.create({
+            status: messages.TestStepResult.Status.UNKNOWN,
           }),
         }),
       })

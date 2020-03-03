@@ -46,8 +46,8 @@ I couldn't decide which one to use. You have two options:
 }
 
 class UndefinedParameterTypeError extends CucumberExpressionError {
-  constructor(typeName: string) {
-    super(`Undefined parameter type {${typeName}}`)
+  constructor(public readonly undefinedParameterTypeName: string) {
+    super(`Undefined parameter type {${undefinedParameterTypeName}}`)
   }
 }
 

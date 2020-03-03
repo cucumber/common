@@ -15,7 +15,7 @@ const envelopes = window.CUCUMBER_MESSAGES.map((message: any) =>
 )
 
 const app = (
-  <Wrapper envelopes={envelopes}>
+  <Wrapper envelopes={envelopes} btoa={window.btoa}>
     <AllGherkinDocuments />
   </Wrapper>
 )

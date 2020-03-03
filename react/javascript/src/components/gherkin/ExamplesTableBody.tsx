@@ -1,6 +1,6 @@
 import React from 'react'
 import { messages } from '@cucumber/messages'
-import TestResultContext from '../../CucumberQueryContext'
+import CucumberQueryContext from '../../CucumberQueryContext'
 import UriContext from '../../UriContext'
 import isNumber from './isNumber'
 import GherkinQueryContext from '../../GherkinQueryContext'
@@ -28,19 +28,19 @@ interface IRowOrRows {
 
 const RowOrRows: React.FunctionComponent<IRowOrRows> = ({ row }) => {
   const gherkinQuery = React.useContext(GherkinQueryContext)
-  const testResultQuery = React.useContext(TestResultContext)
+  const cucumberQuery = React.useContext(CucumberQueryContext)
   const uri = React.useContext(UriContext)
 
-  const testResult = testResultQuery.getWorstResult(
-    testResultQuery.getPickleResults(
+  const testStepResult = cucumberQuery.getWorstTestStepResult(
+    cucumberQuery.getPickleTestStepResults(
       gherkinQuery.getPickleIds(uri, row.location.line)
     )
   )
   return (
     <>
-      <tr className={`status-${statusName(testResult.status)}`}>
+      <tr className={`status-${statusName(testStepResult.status)}`}>
         <td>
-          <StatusIcon status={testResult.status} />
+          <StatusIcon status={testStepResult.status} />
         </td>
         {row.cells.map((cell, j) => (
           <td
@@ -53,7 +53,7 @@ const RowOrRows: React.FunctionComponent<IRowOrRows> = ({ row }) => {
       </tr>
       <ErrorMessageRow
         key="row-error"
-        testResult={testResult}
+        testStepResult={testStepResult}
         colSpan={row.cells.length}
       />
     </>
@@ -61,20 +61,20 @@ const RowOrRows: React.FunctionComponent<IRowOrRows> = ({ row }) => {
 }
 
 interface IErrorMessageRowProps {
-  testResult: messages.ITestResult
+  testStepResult: messages.ITestStepResult
   colSpan: number
 }
 
 const ErrorMessageRow: React.FunctionComponent<IErrorMessageRowProps> = ({
-  testResult,
+  testStepResult,
   colSpan,
 }) => {
-  if (!testResult.message) return null
+  if (!testStepResult.message) return null
   return (
-    <tr className={`status-${statusName(testResult.status)}`}>
+    <tr className={`status-${statusName(testStepResult.status)}`}>
       <td>&nbsp;</td>
       <td colSpan={colSpan}>
-        <ErrorMessage message={testResult.message} />
+        <ErrorMessage message={testStepResult.message} />
       </td>
     </tr>
   )

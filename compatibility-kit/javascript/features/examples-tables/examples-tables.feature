@@ -3,8 +3,8 @@ Feature: Examples Tables
   with different data each time. This can be done by placing an Examples
   section with an Examples Table underneath a Scenario, and use <placeholders>
   in the Scenario, matching the table headers.
-  
-  Scenario: eating cucumbers
+
+  Scenario Outline: eating cucumbers
     Given there are <start> cucumbers
     When I eat <eat> cucumbers
     Then I should have <left> cucumbers

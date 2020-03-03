@@ -12,6 +12,10 @@ When('the string {string} is attached as {string}', function(
   this.attach(text, mediaType)
 })
 
+When('the string {string} is logged', function(text: string) {
+  this.log(text)
+})
+
 When('an array with {int} bytes are attached as {string}', function(
   size: number,
   mediaType: string

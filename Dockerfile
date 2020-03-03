@@ -34,12 +34,14 @@ RUN apk add --no-cache \
   ruby \
   ruby-bigdecimal \
   ruby-dev \
+  ruby-json \
   sed \
   su-exec \
   tree \
   unzip \
   upx \
   wget \
+  yarn \
   xmlstarlet
 
 # Create a cukebot user. Some tools (Bundler, npm publish) don't work properly
@@ -74,8 +76,6 @@ RUN mkdir -p /usr/man && chown -R cukebot:cukebot /usr/man
 RUN curl -L https://cpanmin.us/ -o /usr/local/bin/cpanm
 RUN chmod +x /usr/local/bin/cpanm
 
-# Upgrade NPM
-RUN npm install --global npm
 
 # Install git-crypt
 RUN git clone -b 0.6.0 --single-branch --depth 1 https://github.com/AGWA/git-crypt.git && \
@@ -103,5 +103,18 @@ RUN go get -d github.com/libgit2/git2go && \
   make install && \
   go get github.com/splitsh/lite && \
   go build -o /usr/local/bin/splitsh-lite github.com/splitsh/lite
+
+
+USER cukebot
+
+# Change npms default directory to be cukebots
+# https://docs.npmjs.com/resolving-eacces-permissions-errors-when-installing-packages-globally
+RUN mkdir ~/.npm-global
+RUN npm config set prefix '~/.npm-global'
+RUN echo "export PATH=~/.npm-global/bin:\$PATH" > ~/.bashrc
+RUN source ~/.bashrc
+# Upgrade NPM
+RUN npm install --global npm
+
 
 CMD ["/bin/bash"]

@@ -3,7 +3,7 @@ import { MessageNotifier } from './types'
 import TestPlan from './TestPlan'
 import IStepDefinition from './IStepDefinition'
 import IHook from './IHook'
-import { GherkinQuery } from '@cucumber/gherkin'
+import { Query } from '@cucumber/gherkin'
 import { ParameterType } from '@cucumber/cucumber-expressions'
 import IClock from './IClock'
 import { MakeErrorMessage } from './ErrorMessageGenerator'
@@ -16,9 +16,10 @@ export default class Cucumber {
     private readonly gherkinMessages: messages.IEnvelope[],
     private readonly parameterTypes: Array<ParameterType<any>>,
     private readonly stepDefinitions: IStepDefinition[],
+    private readonly undefinedParameterTypes: messages.IEnvelope[],
     private readonly beforeHooks: IHook[],
     private readonly afterHooks: IHook[],
-    private readonly gherkinQuery: GherkinQuery,
+    private readonly gherkinQuery: Query,
     private readonly newId: IdGenerator.NewId,
     private readonly clock: IClock,
     private readonly makeErrorMessage: MakeErrorMessage
@@ -33,6 +34,9 @@ export default class Cucumber {
     }
     for (const stepDefinition of this.stepDefinitions) {
       notifier(stepDefinition.toMessage())
+    }
+    for (const undefinedParameterType of this.undefinedParameterTypes) {
+      notifier(undefinedParameterType)
     }
     for (const hook of [].concat(this.beforeHooks, this.afterHooks)) {
       notifier(hook.toMessage())

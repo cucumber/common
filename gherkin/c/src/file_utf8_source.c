@@ -13,7 +13,7 @@ static unsigned char FileUtf8Source_read(Utf8Source* utf8_source);
 Utf8Source* FileUtf8Source_new(FILE* file) {
     FileUtf8Source* file_utf8_source = (FileUtf8Source*)malloc(sizeof(FileUtf8Source));
     file_utf8_source->utf8_source.read = &FileUtf8Source_read;
-    file_utf8_source->utf8_source.delete = &FileUtf8Source_delete;
+    file_utf8_source->utf8_source.del = &FileUtf8Source_delete;
     file_utf8_source->file = file;
     return (Utf8Source*)file_utf8_source;
 }

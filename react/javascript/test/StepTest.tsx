@@ -8,10 +8,10 @@ import { JSDOM } from 'jsdom'
 
 import UriContext from '../src/UriContext'
 import GherkinQueryContext from '../src/GherkinQueryContext'
-import { GherkinQuery } from '@cucumber/gherkin'
+import { Query as GherkinQuery } from '@cucumber/gherkin'
 import CucumberQueryContext from '../src/CucumberQueryContext'
 
-describe('Step', () => {
+describe('<Step>', () => {
   it('renders', () => {
     const dom = new JSDOM(
       '<html lang="en"><body><div id="content"></div></body></html>'

@@ -18,4 +18,16 @@ describe('SupportCode', () => {
     const supportCodeExecutor = supportCode.beforeHooks[0].match(null)
     assert.throws(() => supportCodeExecutor.execute(null), error)
   })
+
+  it('does not define a step definition when a parameter type is not defined', () => {
+    const supportCode = new SupportCode(
+      IdGenerator.incrementing(),
+      new IncrementClock(),
+      withFullStackTrace()
+    )
+    supportCode.Given('a {bad} parameter type', () => {
+      throw new Error('should never happen')
+    })
+    assert.deepStrictEqual(supportCode.stepDefinitions, [])
+  })
 })

@@ -12,7 +12,7 @@ jq ".[].elements[]?.before[]?.match.location = \"some_before_hook.xyz\"" |
 
 jq ".[].elements[]?.steps[]?.result.duration = 99" | \
 jq ".[].elements[]?.steps[]?.result.error_message = \"some stepdef error\"" | \
-jq ".[].elements[]?.steps[]?.match.location = \"some_stepdef.xyz\"" | \
+jq ".[].elements[]?.steps[]?.match.location |= if test(\".*.feature:.*\") then . else \"some_stepdef.xyz\" end" | \
 
 jq ".[].elements[]?.after[]?.result.duration = 99" | \
 jq ".[].elements[]?.after[]?.result.error_message = \"some after hook error\"" | \

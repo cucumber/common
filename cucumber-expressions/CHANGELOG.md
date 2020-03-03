@@ -15,9 +15,23 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Removed
 
-* [JavaScript] remove support for Node 8, which is now EOL
-
 ### Fixed
+
+## [9.0.0] - 2020-02-14
+
+### Added
+
+* [JavaScript, Ruby] Added `ExpressionFactory`, which is now the preferred way to create `Expression` instances.
+
+### Deprecated
+
+* [Ruby] `CucumberExpression` and `RegularExpression` constructors should not be used directly.
+  Use `ExpressionFactory#create_expression` instead.
+
+### Removed
+
+* [Java, JavaScript] `CucumberExpression` and `RegularExpression` are no longer part of the public API.
+* [JavaScript] remove support for Node 8, which is now EOL
 
 ## [8.3.1] - 2020-01-10
 
@@ -641,7 +655,8 @@ N/A
 * First stable release!
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions/v8.3.1...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions/v9.0.0...master
+[9.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v8.3.1...cucumber-expressions/v9.0.0
 [8.3.1]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v8.3.0...cucumber-expressions/v8.3.1
 [8.3.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v8.2.1...cucumber-expressions/v8.3.0
 [8.2.1]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v8.2.0...cucumber-expressions/v8.2.1

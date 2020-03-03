@@ -1,7 +1,6 @@
 'use strict'
 
 import assert from 'assert'
-import assertThrows from './assert_throws'
 import CucumberExpression from '../src/CucumberExpression'
 import RegularExpression from '../src/RegularExpression'
 import ParameterTypeRegistry from '../src/ParameterTypeRegistry'
@@ -40,9 +39,9 @@ describe('Custom parameter type', () => {
 
   describe('CucumberExpression', () => {
     it('throws exception for illegal character in parameter name', () => {
-      assertThrows(
+      assert.throws(
         () => new ParameterType('[string]', /.*/, String, s => s, false, true),
-        "Illegal character '[' in parameter name {[string]}"
+        { message: "Illegal character '[' in parameter name {[string]}" }
       )
     })
 
@@ -134,12 +133,14 @@ describe('Custom parameter type', () => {
         parameterTypeRegistry
       )
       const args = expression.match('I have a bad parameter')
-      assertThrows(() => args[0].getValue(null), "Can't transform [bad]")
+      assert.throws(() => args[0].getValue(null), {
+        message: "Can't transform [bad]",
+      })
     })
 
     describe('conflicting parameter type', () => {
       it('is detected for type name', () => {
-        assertThrows(
+        assert.throws(
           () =>
             parameterTypeRegistry.defineParameterType(
               new ParameterType(
@@ -151,7 +152,7 @@ describe('Custom parameter type', () => {
                 true
               )
             ),
-          'There is already a parameter type with name color'
+          { message: 'There is already a parameter type with name color' }
         )
       })
 

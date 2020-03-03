@@ -1,5 +1,5 @@
 import { messages } from '@cucumber/messages'
-import Status = messages.TestResult.Status
+import Status = messages.TestStepResult.Status
 
 export default (status: Status): string => {
   return {

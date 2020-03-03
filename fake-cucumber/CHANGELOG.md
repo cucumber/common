@@ -17,6 +17,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [5.0.0] - 2020-03-02
+
+### Changed
+
+* Upgraded messages and gherkin
+
+## [4.0.0] - 2020-02-14
+
+### Changed
+
+* Upgraded cucumber-expressions, gherkin and messages
+
 ## [3.0.3] - 2020-01-10
 
 ### Changed
@@ -125,7 +137,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/fake-cucumber/v3.0.3...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/fake-cucumber/v5.0.0...master
+[5.0.0]:      https://github.com/cucumber/cucumber/compare/fake-cucumber/v4.0.0...fake-cucumber/v5.0.0
+[4.0.0]:      https://github.com/cucumber/cucumber/compare/fake-cucumber/v3.0.3...fake-cucumber/v4.0.0
 [3.0.3]:      https://github.com/cucumber/cucumber/compare/fake-cucumber/v3.0.2...fake-cucumber/v3.0.3
 [3.0.2]:      https://github.com/cucumber/cucumber/compare/fake-cucumber/v3.0.1...fake-cucumber/v3.0.2
 [3.0.1]:      https://github.com/cucumber/cucumber/compare/fake-cucumber/v3.0.0...fake-cucumber/v3.0.1
