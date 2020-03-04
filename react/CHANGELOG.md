@@ -9,16 +9,24 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
-* Add `<QueriesWrapper>` which allows incrementally updating queries without having
-  to rebuild them every time the envelope list is updated. Use this instead of `<Wrapper>`
-
 ### Changed
 
 ### Deprecated
 
-* The `<Wrapper>` component is deprecated in favour of `<QueriesWrapper>`.
-
 ### Removed
+
+### Fixed
+
+## [5.1.0] - 2020-03-04
+
+### Added
+
+* Add `<QueriesWrapper>` which allows incrementally updating queries without having
+  to rebuild them every time the envelope list is updated. Use this instead of `<Wrapper>`
+
+### Deprecated
+
+* The `<Wrapper>` component is deprecated in favour of `<QueriesWrapper>`.
 
 ### Fixed
 
@@ -123,7 +131,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/react/v5.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/react/v5.1.0...master
+[5.1.0]:      https://github.com/cucumber/cucumber/compare/react/v5.0.0...react/v5.1.0
 [5.0.0]:      https://github.com/cucumber/cucumber/compare/react/v4.1.1...react/v5.0.0
 [4.1.1]:      https://github.com/cucumber/cucumber/compare/react/v4.1.0...react/v4.1.1
 [4.1.0]:      https://github.com/cucumber/cucumber/compare/react/v4.0.0...react/v4.1.0
