@@ -7,7 +7,7 @@ import {
   CucumberExpression,
   ParameterTypeRegistry,
 } from '@cucumber/cucumber-expressions'
-import { GherkinQuery } from '@cucumber/gherkin'
+import { Query as GherkinQuery } from '@cucumber/gherkin'
 import IncrementClock from '../src/IncrementClock'
 import { withSourceFramesOnlyStackTrace } from '../src/ErrorMessageGenerator'
 import { MessageNotifier } from '../src/types'

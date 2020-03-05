@@ -10,7 +10,7 @@ export default class BinaryToMessageStream<T> extends Transform {
   constructor(
     private readonly decodeDelimited: (reader: Reader | Uint8Array) => T
   ) {
-    super({ objectMode: true })
+    super({ writableObjectMode: false, readableObjectMode: true })
   }
 
   public _transform(

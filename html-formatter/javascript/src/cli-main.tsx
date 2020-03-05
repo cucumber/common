@@ -28,49 +28,54 @@ class CucumberHtmlStream extends Transform {
   }
 
   public _flush(callback: TransformCallback): void {
-    readFile(__dirname + '/../main.js', (err: Error, js: Buffer) => {
-      if (err) return callback(err)
+    readFile(
+      __dirname + '/../main.js',
+      { encoding: 'utf-8' },
+      (err: Error, js: string) => {
+        if (err) return callback(err)
 
-      readFile(
-        __dirname +
-          '/../../node_modules/@cucumber/react/dist/src/styles/cucumber-react.css',
-        (err: Error, css: Buffer) => {
-          if (err) return callback(err)
+        readFile(
+          __dirname +
+            '/../../node_modules/@cucumber/react/dist/src/styles/cucumber-react.css',
+          { encoding: 'utf-8' },
+          (err: Error, css: string) => {
+            if (err) return callback(err)
 
-          this.push(`<!DOCTYPE html>
+            this.push(`<!DOCTYPE html>
 <html lang="en">
   <head>
     <title>Cucumber</title>
     <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
     <style>
-${css.toString('utf8')}
+${css}
     </style>
   </head>
   <body>
     <div id="content">
 `)
-          this.push(
-            renderToString(
-              <Wrapper envelopes={this.envelopes} btoa={nodejsBtoa}>
-                <GherkinDocumentList />
-              </Wrapper>
+            this.push(
+              renderToString(
+                <Wrapper envelopes={this.envelopes} btoa={nodejsBtoa}>
+                  <GherkinDocumentList />
+                </Wrapper>
+              )
             )
-          )
-          this.push(`
+            this.push(`
     </div>
     <script>
       window.CUCUMBER_MESSAGES = ${JSON.stringify(this.envelopes)}
     </script>
     <script>
-${js.toString('utf8')}
+${js}
     </script>
   </body>
 </html>
 `)
-          callback()
-        }
-      )
-    })
+            callback()
+          }
+        )
+      }
+    )
   }
 }
 

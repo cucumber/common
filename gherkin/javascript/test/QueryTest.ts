@@ -2,17 +2,17 @@ import gherkin from '../src'
 import { IdGenerator, messages } from '@cucumber/messages'
 import { pipeline, Readable, Writable } from 'stream'
 import assert from 'assert'
-import GherkinQuery from '../src/GherkinQuery'
+import Query from '../src/Query'
 import { promisify } from 'util'
 
 const pipelinePromise = promisify(pipeline)
 
-describe('GherkinQuery', () => {
-  let gherkinQuery: GherkinQuery
+describe('Query', () => {
+  let gherkinQuery: Query
   let envelopes: messages.IEnvelope[]
   beforeEach(() => {
     envelopes = []
-    gherkinQuery = new GherkinQuery()
+    gherkinQuery = new Query()
   })
 
   describe('#getLocation(astNodeId)', () => {
