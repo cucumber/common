@@ -12,12 +12,11 @@ public class Main {
     public static void main(String[] args) throws IOException {
         FileOutputStream fileOutputStream = new FileOutputStream(args[0]);
         OutputStreamWriter writer = new OutputStreamWriter(fileOutputStream);
-        MessagesToHtmlWriter htmlWriter = new MessagesToHtmlWriter(writer);
-
         NdjsonToMessageIterable envelopes = new NdjsonToMessageIterable(System.in);
-
-        for (Messages.Envelope envelope : envelopes) {
-            htmlWriter.write(envelope);
+        try (MessagesToHtmlWriter htmlWriter = new MessagesToHtmlWriter(writer)) {
+            for (Messages.Envelope envelope : envelopes) {
+                htmlWriter.write(envelope);
+            }
         }
     }
 
