@@ -1,85 +1,46 @@
-# Please update /.templates/default.mk and sync:
-#
-#     source scripts/functions.sh && rsync_files
-#
 SHELL := /usr/bin/env bash
-ALPINE = $(shell which apk 2> /dev/null)
-LIBNAME = $(shell basename $$(pwd))
-LANGUAGES ?= $(wildcard */)
+JAVA_SOURCE_FILES = $(shell find . -name "*.java")
 
-default: $(patsubst %,default-%,$(LANGUAGES))
+default: .tested
 .PHONY: default
 
-default-%: %
-	if [[ -d $< ]]; then cd $< && make default; fi
-.PHONY: default-%
+.tested: pom.xml $(JAVA_SOURCE_FILES) .deps
+	mvn install
+	./scripts/check-jar.sh
+	touch $@
 
-# Need to declare these phonies to avoid errors for packages without a particular language
-.PHONY: c dotnet go java javascript objective-c perl python ruby
+.deps:
+	touch $@
 
-update-dependencies: $(patsubst %,update-dependencies-%,$(LANGUAGES))
+update-dependencies:
+	mvn versions:force-releases
+	mvn versions:use-latest-versions -Dmaven.version.rules=file://$(shell pwd)/maven-versions-rules.xml
 .PHONY: update-dependencies
 
-update-dependencies-%: %
-	if [[ -d $< ]]; then cd $< && make update-dependencies; fi
-.PHONY: update-dependencies-%
+pre-release: update-version update-dependencies clean default
+.PHONY: pre-release
 
-update-changelog:
+update-version:
 ifdef NEW_VERSION
-	cat CHANGELOG.md | ../scripts/update_changelog.sh $(NEW_VERSION) > CHANGELOG.md.tmp
-	mv CHANGELOG.md.tmp CHANGELOG.md
+	mvn versions:set -DnewVersion=$(NEW_VERSION) -DgenerateBackupPoms=false
 else
 	@echo -e "\033[0;31mNEW_VERSION is not defined. Can't update version :-(\033[0m"
 	exit 1
 endif
-.PHONY: update-changelog
+.PHONY: update-version
 
-pre-release: update-changelog $(patsubst %,pre-release-%,$(LANGUAGES))
-.PHONY: pre-release
-
-pre-release-%: %
-	if [[ -d $< ]]; then cd $< && make pre-release; fi
-.PHONY: pre-release-%
-
-release: create-and-push-release-tag publish
-.PHONY: release
-
-publish: $(patsubst %,publish-%,$(LANGUAGES))
+publish: .deps
+	mvn deploy -Psign-source-javadoc --settings scripts/ci-settings.xml -DskipTests=true
 .PHONY: publish
 
-publish-%: %
-	if [[ -d $< ]]; then cd $< && make publish; fi
-.PHONY: publish-%
-
-create-and-push-release-tag:
-	git commit -am "Release $(LIBNAME) v$(NEW_VERSION)"
-	git tag -s "$(LIBNAME)/v$(NEW_VERSION)" -m "Release $(LIBNAME) v$(NEW_VERSION)"
-	git push --tags
-.PHONY: create-and-push-release-tag
-
-post-release: $(patsubst %,post-release-%,$(LANGUAGES))
+post-release:
+	scripts/post-release.sh
 .PHONY: post-release
 
-post-release: commit-and-push-post-release
-
-post-release-%: %
-	if [[ -d $< ]]; then cd $< && make post-release; fi
-.PHONY: post-release-%
-
-commit-and-push-post-release:
-ifdef NEW_VERSION
-	git push --tags
-	git commit -am "Post release $(LIBNAME) v$(NEW_VERSION)" 2> /dev/null || true
-	git push
-else
-	@echo -e "\033[0;31mNEW_VERSION is not defined.\033[0m"
-	exit 1
-endif
-.PHONY: commit-and-push-post-release
-
-clean: $(patsubst %,clean-%,$(LANGUAGES))
+clean: clean-java
 .PHONY: clean
 
-clean-%: %
-	if [[ -d $< ]]; then cd $< && make clean; fi
-.PHONY: clean-%
+clean-java:
+	rm -rf target .deps .tested*
+	mvn clean
+.PHONY: clean-java
