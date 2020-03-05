@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>io.cucumber</groupId>
+        <artifactId>cucumber-parent</artifactId>
+        <version>2.0.2</version>
+    </parent>
+
+    <artifactId>html-formatter</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>jar</packaging>
+    <name>Cucumber HTML Formatter</name>
+    <description>Renders Cucumber Messages as HTML</description>
+    <url>https://github.com/cucumber/html-formatter-java</url>
+
+    <properties>
+        <project.Automatic-Module-Name>io.cucumber.htmlformatter</project.Automatic-Module-Name>
+    </properties>
+
+    <scm>
+        <connection>scm:git:git://github.com/cucumber/html-formatter-java.git</connection>
+        <developerConnection>scm:git:git@github.com:cucumber/html-formatter-java.git</developerConnection>
+        <url>git://github.com/cucumber/html-formatter-java.git</url>
+    </scm>
+
+
+    <dependencies>
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>messages</artifactId>
+            <version>10.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest</artifactId>
+            <version>2.2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>5.6.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-params</artifactId>
+            <version>5.6.0</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+</project>
