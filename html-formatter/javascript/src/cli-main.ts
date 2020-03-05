@@ -4,12 +4,9 @@ import {
   messages,
   NdjsonToMessageStream,
 } from '@cucumber/messages'
-import React from 'react'
 import program from 'commander'
 import p from '../package.json'
 import { pipeline, Transform, TransformCallback } from 'stream'
-import { GherkinDocumentList, Wrapper } from '@cucumber/react'
-import { renderToString } from 'react-dom/server'
 
 class CucumberHtmlStream extends Transform {
   private readonly envelopes: messages.IEnvelope[] = []
@@ -52,15 +49,6 @@ ${css}
   </head>
   <body>
     <div id="content">
-`)
-            this.push(
-              renderToString(
-                <Wrapper envelopes={this.envelopes} btoa={nodejsBtoa}>
-                  <GherkinDocumentList />
-                </Wrapper>
-              )
-            )
-            this.push(`
     </div>
     <script>
       window.CUCUMBER_MESSAGES = ${JSON.stringify(this.envelopes)}
@@ -77,10 +65,6 @@ ${js}
       }
     )
   }
-}
-
-function nodejsBtoa(data: string): string {
-  return Buffer.from(data).toString('base64')
 }
 
 program.version(p.version)
