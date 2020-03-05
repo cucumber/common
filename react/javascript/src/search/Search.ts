@@ -30,12 +30,20 @@ export default class Search {
     messages.GherkinDocument.Feature.IScenario
   >()
 
+  private backgroundByStepId = new Map<
+    string,
+    messages.GherkinDocument.Feature.IBackground
+  >()
+
   private featureByURI = new Map<string, messages.GherkinDocument.IFeature>()
 
   public search(query: string): messages.IGherkinDocument[] {
     const steps = this.stepSearch.search(query)
     const matchingBackgrounds = this.backgroundSearch.search(query)
-
+    const backgrounds = this.consolidateBackgroundFromSteps(
+      matchingBackgrounds,
+      steps
+    )
     const matchingScenarios = this.scenarioSearch.search(query)
     const scenarios = this.consolidateScenariosFromSteps(
       matchingScenarios,
@@ -46,7 +54,7 @@ export default class Search {
     const features = this.consolidateFeaturesFromChildren(
       matchingFeatures,
       scenarios,
-      matchingBackgrounds
+      backgrounds
     )
 
     return features.map(feature =>
@@ -62,8 +70,24 @@ export default class Search {
     for (const step of steps) {
       const scenario = this.scenarioByStepId.get(step.id)
 
-      if (!consolidated.includes(scenario)) {
+      if (scenario && !consolidated.includes(scenario)) {
         consolidated.push(scenario)
+      }
+    }
+
+    return consolidated
+  }
+
+  private consolidateBackgroundFromSteps(
+    matchingBackgrounds: messages.GherkinDocument.Feature.IBackground[],
+    steps: messages.GherkinDocument.Feature.IStep[]
+  ): messages.GherkinDocument.Feature.IBackground[] {
+    const consolidated = matchingBackgrounds
+    for (const step of steps) {
+      const background = this.backgroundByStepId.get(step.id)
+
+      if (background && !consolidated.includes(background)) {
+        consolidated.push(background)
       }
     }
 
@@ -77,8 +101,16 @@ export default class Search {
     this.featureSearch.add(gherkinDocument)
     for (const child of gherkinDocument.feature.children) {
       if (child.background) {
-        this.featureByBackgroundId.set(child.background.id, gherkinDocument.feature)
+        this.featureByBackgroundId.set(
+          child.background.id,
+          gherkinDocument.feature
+        )
         this.backgroundSearch.add(child.background)
+
+        for (const step of child.background.steps) {
+          this.backgroundByStepId.set(step.id, child.background)
+          this.stepSearch.add(step)
+        }
       }
 
       if (child.scenario) {

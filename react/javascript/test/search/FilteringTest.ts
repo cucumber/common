@@ -1,7 +1,6 @@
 import assert from 'assert'
-import { messages, IdGenerator } from '@cucumber/messages'
+import { IdGenerator } from '@cucumber/messages'
 import Search from '../../src/search/Search'
-import { makeFeature, makeScenario, makeStep } from './utils'
 import Parser from '@cucumber/gherkin/dist/src/Parser'
 import AstBuilder from '@cucumber/gherkin/dist/src/AstBuilder'
 import pretty from '../../src/pretty-formatter/pretty'
@@ -36,7 +35,9 @@ describe('Search', () => {
     it('displays just one scenario', () => {
       const searchResults = search.search('Spain')
 
-      assert.deepStrictEqual(pretty(searchResults[0]), `Feature: Continents
+      assert.deepStrictEqual(
+        pretty(searchResults[0]),
+        `Feature: Continents
 
   Background: World
     Given the world exists
@@ -45,7 +46,8 @@ describe('Search', () => {
     Given France
     When Spain
     Then The Netherlands
-`)
+`
+      )
     })
   })
 
@@ -53,7 +55,9 @@ describe('Search', () => {
     it('displays just one scenario', () => {
       const searchResults = search.search('europe')
 
-      assert.deepStrictEqual(pretty(searchResults[0]), `Feature: Continents
+      assert.deepStrictEqual(
+        pretty(searchResults[0]),
+        `Feature: Continents
 
   Background: World
     Given the world exists
@@ -62,7 +66,8 @@ describe('Search', () => {
     Given France
     When Spain
     Then The Netherlands
-`)
+`
+      )
     })
   })
 
@@ -72,7 +77,11 @@ describe('Search', () => {
 
       assert.deepStrictEqual(pretty(searchResults[0]), source)
     })
+
+    it('finds hits in background steps', () => {
+      const searchResults = search.search('exists')
+
+      assert.deepStrictEqual(pretty(searchResults[0]), source)
+    })
   })
 })
-
-
