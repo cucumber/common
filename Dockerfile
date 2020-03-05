@@ -34,6 +34,7 @@ RUN apk add --no-cache \
   ruby \
   ruby-bigdecimal \
   ruby-dev \
+  ruby-json \
   sed \
   su-exec \
   tree \

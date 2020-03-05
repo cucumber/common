@@ -6,7 +6,7 @@ import assert from 'assert'
 import SupportCode from '../src/SupportCode'
 import makeDummyStepDefinitions from './makeDummyStepDefinitions'
 import makeDummyHooks from './makeDummyHooks'
-import { GherkinQuery } from '@cucumber/gherkin'
+import { Query } from '@cucumber/gherkin'
 import IncrementClock from '../src/IncrementClock'
 import { withSourceFramesOnlyStackTrace } from '../src/ErrorMessageGenerator'
 
@@ -19,7 +19,7 @@ describe('Cucumber', () => {
     Given a passed step
   `
 
-    const gherkinQuery = new GherkinQuery()
+    const gherkinQuery = new Query()
     const gherkinMessageList = await streamToArray(
       gherkinMessages(feature, 'test.feature')
     )

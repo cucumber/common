@@ -6,7 +6,7 @@ import { messages } from './index'
  */
 export default class MessageToBinaryStream extends Transform {
   constructor() {
-    super({ objectMode: true })
+    super({ writableObjectMode: true, readableObjectMode: false })
   }
 
   public _transform(

@@ -23,9 +23,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'rake', '~> 13.0', '>= 13.0.1'
   s.add_development_dependency 'rspec', '~> 3.9', '>= 3.9.0'
 
-  # For coverage reports
-  s.add_development_dependency 'coveralls', '~> 0.8', '>= 0.8.23'
-
   s.executables      = ["cucumber-demo-formatter"]
   s.rubygems_version = ">= 1.6.1"
   s.files            = `git ls-files`.split("\n").reject {|path| path =~ /\.gitignore$/ }

@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 Gem::Specification.new do |s|
   s.name        = 'cucumber-messages'
-  s.version     = '10.0.1'
+  s.version     = '10.0.3'
   s.authors     = ["Aslak Hellesøy"]
   s.description = "Protocol Buffer messages for Cucumber's inter-process communication"
   s.summary     = "cucumber-messages-#{s.version}"
@@ -26,9 +26,6 @@ Gem::Specification.new do |s|
 
   s.add_development_dependency 'rake', '~> 13.0', '>= 13.0.1'
   s.add_development_dependency 'rspec', '~> 3.9', '>= 3.9.0'
-
-  # For coverage reports
-  s.add_development_dependency 'coveralls', '~> 0.8', '>= 0.8.23'
 
   s.rubygems_version = ">= 1.6.1"
   s.files            = Dir[

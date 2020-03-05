@@ -1,29 +1,22 @@
-import { deprecate } from 'util'
 import React from 'react'
-import { messages } from '@cucumber/messages'
-import { Query as GherkinQuery } from '@cucumber/gherkin'
-import CucumberQuery from '@cucumber/query'
 import GherkinQueryContext from '../../GherkinQueryContext'
 import CucumberQueryContext from '../../CucumberQueryContext'
+import { Query as GherkinQuery } from '@cucumber/gherkin'
+import CucumberQuery from '@cucumber/query'
 import BtoaContext from '../../BtoaContext'
 
 interface IProps {
-  envelopes: messages.IEnvelope[]
+  cucumberQuery: CucumberQuery
+  gherkinQuery: GherkinQuery
   btoa: (data: string) => string
 }
 
-const Wrapper: React.FunctionComponent<IProps> = ({
-  envelopes,
+const QueriesWrapper: React.FunctionComponent<IProps> = ({
+  gherkinQuery,
+  cucumberQuery,
   btoa,
   children,
 }) => {
-  const gherkinQuery = new GherkinQuery()
-  const cucumberQuery = new CucumberQuery()
-  envelopes.forEach(envelope => {
-    gherkinQuery.update(envelope)
-    cucumberQuery.update(envelope)
-  })
-
   return (
     <div className="cucumber-react">
       <BtoaContext.Provider value={btoa}>
@@ -37,7 +30,4 @@ const Wrapper: React.FunctionComponent<IProps> = ({
   )
 }
 
-export default deprecate(
-  Wrapper,
-  '<Wrapper> is deprecated. Use <QueriesWrapper> instead'
-)
+export default QueriesWrapper
