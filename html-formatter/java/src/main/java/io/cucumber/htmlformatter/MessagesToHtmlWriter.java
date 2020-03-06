@@ -15,6 +15,9 @@ import java.io.Writer;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Objects.requireNonNull;
 
+/**
+ * Writes Cucumber messages to a single page html report.
+ */
 public class MessagesToHtmlWriter implements AutoCloseable {
 
     private static final int mebibytes = 1024 * 1024;
@@ -47,6 +50,10 @@ public class MessagesToHtmlWriter implements AutoCloseable {
     }
 
     public void write(Messages.Envelope envelope) throws IOException {
+        if(postWritten){
+            return;
+        }
+
         if (!preWritten) {
             writePreamble();
             preWritten = true;
@@ -61,6 +68,11 @@ public class MessagesToHtmlWriter implements AutoCloseable {
 
     @Override
     public void close() throws IOException {
+        if (!preWritten) {
+            writePreamble();
+            preWritten = true;
+        }
+
         if (!postWritten) {
             writePostAmble();
             postWritten = true;

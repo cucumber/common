@@ -1,7 +1,7 @@
 include default.mk
 
-# TODO: This should run after all steps default goal
-.acceptance: acceptance/cucumber.html
+# TODO: Requires JS to have been build
+.acceptance: .tested acceptance/cucumber.html
 
 acceptance/cucumber.html:
 	mkdir -p $(@D)
@@ -12,10 +12,12 @@ acceptance/cucumber.html:
         -Dexec.mainClass=io.cucumber.htmlformatter.Main \
         -Dexec.args="$@"
 
-# TODO: This should run before all steps in the default goal
-# TODO: These resources are currently broken
-#.update-resources:
-#	cp ../../react/javascript/dist/src/styles/cucumber-react.css src/main/resources/io/cucumber/htmlformatter/cucumber-react.css
-#	cp ../javascript/dist/main.js src/main/resources/io/cucumber/htmlformatter/cucumber-html.js
-#.PHONY: .update-resources
-
+# TODO: Will this be commited?
+.deps:
+	SOURCE=../../react/javascript/dist/src/styles/cucumber-react.css && \
+	TARGET=src/main/resources/io/cucumber/htmlformatter/cucumber-react.css && \
+	 ( [[ -f $$SOURCE ]] && cp $$SOURCE $$TARGET ) || true
+	SOURCE=../javascript/dist/main.js && \
+	TARGET=src/main/resources/io/cucumber/htmlformatter/cucumber-html.js && \
+	 ( [[ -f $$SOURCE ]] && cp $$SOURCE $$TARGET ) || true
+	touch $@

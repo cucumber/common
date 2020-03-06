@@ -34,6 +34,11 @@ class MessagesToHtmlWriterTest {
                 "{\"testRunStarted\":{\"timestamp\":{\"seconds\":\"10\"}}}" +
                 "];"));
     }
+    @Test
+    void it_writes_no_message_to_html() throws IOException {
+        String html = renderAsHtml();
+        assertThat(html, containsString("window.CUCUMBER_MESSAGES = [];"));
+    }
 
     @Test
     void it_writes_two_messages_separated_by_a_comma() throws IOException {
