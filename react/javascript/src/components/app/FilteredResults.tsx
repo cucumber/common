@@ -7,6 +7,7 @@ import StatusFilterPassed from './StatusFilterPassed'
 
 import hidePassedScenarios from '../../hidePassedScenarios'
 import Search from '../../search/Search'
+import NoMatchResult from './NoMatchResult'
 
 const FilteredResults: React.FunctionComponent = () => {
   const [query, setQuery] = useState('')
@@ -25,7 +26,6 @@ const FilteredResults: React.FunctionComponent = () => {
   if (hidePassed) {
     matches = hidePassedScenarios(matches, testResultsQuery, gherkinQuery)
   }
-  const showNoMatchMessage = query !== '' && matches.length === 0
 
   return (
     <div className="cucumber-filtered-results">
@@ -34,7 +34,7 @@ const FilteredResults: React.FunctionComponent = () => {
         statusQueryUpdated={hidePassed => setHidePassed(hidePassed)}
       />
       <GherkinDocumentList gherkinDocuments={matches} />
-      {showNoMatchMessage && `No match found for: "${query}"`}
+      <NoMatchResult query={query} matches={matches}/>
     </div>
   )
 }
