@@ -1,14 +1,16 @@
 package io.cucumber.htmlformatter;
 
 import io.cucumber.messages.Messages;
+import io.cucumber.messages.Messages.Envelope;
+import io.cucumber.messages.Messages.TestRunFinished;
+import io.cucumber.messages.Messages.TestRunStarted;
+import io.cucumber.messages.Messages.Timestamp;
 import org.junit.jupiter.api.Test;
 
 import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.util.Arrays;
-import java.util.List;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.hamcrest.CoreMatchers.containsString;
@@ -18,15 +20,15 @@ class MessagesToHtmlWriterTest {
 
     @Test
     void it_writes_one_message_to_html() throws IOException {
-        String html = renderAsHtml(Arrays.asList(
-                Messages.Envelope.newBuilder()
-                        .setTestRunStarted(Messages.TestRunStarted.newBuilder()
-                                .setTimestamp(Messages.Timestamp.newBuilder()
+        String html = renderAsHtml(
+                Envelope.newBuilder()
+                        .setTestRunStarted(TestRunStarted.newBuilder()
+                                .setTimestamp(Timestamp.newBuilder()
                                         .setSeconds(10)
                                         .build())
                                 .build())
                         .build()
-        ));
+        );
         assertThat(html, containsString("" +
                 "window.CUCUMBER_MESSAGES = [" +
                 "{\"testRunStarted\":{\"timestamp\":{\"seconds\":\"10\"}}}" +
@@ -35,22 +37,22 @@ class MessagesToHtmlWriterTest {
 
     @Test
     void it_writes_two_messages_separated_by_a_comma() throws IOException {
-        String html = renderAsHtml(Arrays.asList(
-                Messages.Envelope.newBuilder()
-                        .setTestRunStarted(Messages.TestRunStarted.newBuilder()
-                                .setTimestamp(Messages.Timestamp.newBuilder()
+        String html = renderAsHtml(
+                Envelope.newBuilder()
+                        .setTestRunStarted(TestRunStarted.newBuilder()
+                                .setTimestamp(Timestamp.newBuilder()
                                         .setSeconds(10)
                                         .build())
                                 .build())
                         .build(),
-                Messages.Envelope.newBuilder()
-                        .setTestRunFinished(Messages.TestRunFinished.newBuilder()
-                                .setTimestamp(Messages.Timestamp.newBuilder()
+                Envelope.newBuilder()
+                        .setTestRunFinished(TestRunFinished.newBuilder()
+                                .setTimestamp(Timestamp.newBuilder()
                                         .setSeconds(15)
                                         .build())
                                 .build())
                         .build()
-        ));
+        );
         assertThat(html, containsString("" +
                 "window.CUCUMBER_MESSAGES = [" +
                 "{\"testRunStarted\":{\"timestamp\":{\"seconds\":\"10\"}}}," +
@@ -58,12 +60,12 @@ class MessagesToHtmlWriterTest {
                 "];"));
     }
 
-    private String renderAsHtml(List<Messages.Envelope> messages) throws IOException {
+    private static String renderAsHtml(Envelope... messages) throws IOException {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         OutputStreamWriter osw = new OutputStreamWriter(bytes, UTF_8);
         BufferedWriter bw = new BufferedWriter(osw);
         try (MessagesToHtmlWriter messagesToHtmlWriter = new MessagesToHtmlWriter(bw)) {
-            for (Messages.Envelope message : messages) {
+            for (Envelope message : messages) {
                 messagesToHtmlWriter.write(message);
             }
         }

@@ -13,9 +13,11 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.Objects.requireNonNull;
 
 public class MessagesToHtmlWriter implements AutoCloseable {
 
+    private static final int mebibytes = 1024 * 1024;
     private final Writer writer;
 
     private final JsonFormat.Printer jsonPrinter = JsonFormat
@@ -74,8 +76,9 @@ public class MessagesToHtmlWriter implements AutoCloseable {
 
     private static void writeResource(Writer writer, String name) throws IOException {
         InputStream resource = MessagesToHtmlWriter.class.getResourceAsStream(name);
+        requireNonNull(resource, name + " could not be loaded");
         BufferedReader reader = new BufferedReader(new InputStreamReader(resource, UTF_8));
-        char[] buffer = new char[2 * 1024 * 1024];
+        char[] buffer = new char[2 * mebibytes];
         for (int read = reader.read(buffer); read != -1; read = reader.read(buffer)) {
             writer.write(buffer, 0, read);
         }
@@ -83,7 +86,7 @@ public class MessagesToHtmlWriter implements AutoCloseable {
 
     private static String readResource(String name) throws IOException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(baos))){
+        try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(baos))) {
             writeResource(writer, name);
         }
         return new String(baos.toByteArray(), UTF_8);
