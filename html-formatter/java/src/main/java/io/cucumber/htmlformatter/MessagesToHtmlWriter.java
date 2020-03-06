@@ -16,20 +16,18 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Objects.requireNonNull;
 
 /**
- * Writes Cucumber messages to a single page html report.
+ * Writes the message output of a test run as single page html report.
  */
 public class MessagesToHtmlWriter implements AutoCloseable {
-
-    private static final int mebibytes = 1024 * 1024;
-    private final Writer writer;
 
     private final JsonFormat.Printer jsonPrinter = JsonFormat
             .printer()
             .omittingInsignificantWhitespace();
     private final String template;
 
-    private boolean preWritten = false;
-    private boolean postWritten = false;
+    private Writer writer;
+    private boolean preMessageWritten = false;
+    private boolean postMessageWritten = false;
     private boolean firstMessageWritten = false;
 
     public MessagesToHtmlWriter(Writer writer) throws IOException {
@@ -37,47 +35,64 @@ public class MessagesToHtmlWriter implements AutoCloseable {
         this.template = readResource("index.mustache.html");
     }
 
-    private void writePreamble() throws IOException {
+    private void writePreMessage() throws IOException {
         writeTemplateBetween(writer, template, null, "{{css}}");
         writeResource(writer, "cucumber-react.css");
         writeTemplateBetween(writer, template, "{{css}}", "{{messages}}");
     }
 
-    private void writePostAmble() throws IOException {
+    private void writePostMessage() throws IOException {
         writeTemplateBetween(writer, template, "{{messages}}", "{{script}}");
         writeResource(writer, "cucumber-html.js");
         writeTemplateBetween(writer, template, "{{script}}", null);
     }
 
+    /**
+     * Writes a cucumber message to the html output.
+     *
+     * @param envelope the message
+     * @throws IOException if an IO error occurs
+     */
     public void write(Messages.Envelope envelope) throws IOException {
-        if(postWritten){
-            return;
+        if (postMessageWritten) {
+            throw new IOException("Stream closed");
         }
 
-        if (!preWritten) {
-            writePreamble();
-            preWritten = true;
+        if (!preMessageWritten) {
+            writePreMessage();
+            preMessageWritten = true;
         }
+
         if (!firstMessageWritten) {
             firstMessageWritten = true;
         } else {
             writer.write(",");
         }
+
         writer.write(jsonPrinter.print(envelope));
     }
 
+    /**
+     * Closes the stream, flushing it first. Once closed further write()
+     * invocations will cause an IOException to be thrown. Closing a closed
+     * stream has no effect.
+     *
+     * @throws IOException if an IO error occurs
+     */
     @Override
     public void close() throws IOException {
-        if (!preWritten) {
-            writePreamble();
-            preWritten = true;
+        if (postMessageWritten) {
+            return;
         }
 
-        if (!postWritten) {
-            writePostAmble();
-            postWritten = true;
+        if (!preMessageWritten) {
+            writePreMessage();
+            preMessageWritten = true;
         }
+
+        writePostMessage();
         writer.close();
+        postMessageWritten = true;
     }
 
     private static void writeTemplateBetween(Writer writer, String template, String begin, String end) throws IOException {
@@ -90,7 +105,7 @@ public class MessagesToHtmlWriter implements AutoCloseable {
         InputStream resource = MessagesToHtmlWriter.class.getResourceAsStream(name);
         requireNonNull(resource, name + " could not be loaded");
         BufferedReader reader = new BufferedReader(new InputStreamReader(resource, UTF_8));
-        char[] buffer = new char[2 * mebibytes];
+        char[] buffer = new char[1024];
         for (int read = reader.read(buffer); read != -1; read = reader.read(buffer)) {
             writer.write(buffer, 0, read);
         }

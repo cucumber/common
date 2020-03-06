@@ -1,6 +1,5 @@
 package io.cucumber.htmlformatter;
 
-import io.cucumber.messages.Messages;
 import io.cucumber.messages.Messages.Envelope;
 import io.cucumber.messages.Messages.TestRunFinished;
 import io.cucumber.messages.Messages.TestRunStarted;
@@ -15,6 +14,8 @@ import java.io.OutputStreamWriter;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class MessagesToHtmlWriterTest {
 
@@ -34,10 +35,32 @@ class MessagesToHtmlWriterTest {
                 "{\"testRunStarted\":{\"timestamp\":{\"seconds\":\"10\"}}}" +
                 "];"));
     }
+
     @Test
     void it_writes_no_message_to_html() throws IOException {
         String html = renderAsHtml();
         assertThat(html, containsString("window.CUCUMBER_MESSAGES = [];"));
+    }
+
+
+    @Test
+    void it_throws_when_writing_after_close() throws IOException {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        OutputStreamWriter osw = new OutputStreamWriter(bytes, UTF_8);
+        BufferedWriter bw = new BufferedWriter(osw);
+        MessagesToHtmlWriter messagesToHtmlWriter = new MessagesToHtmlWriter(bw);
+        messagesToHtmlWriter.close();
+        assertThrows(IOException.class, () -> messagesToHtmlWriter.write(null));
+    }
+
+    @Test
+    void it_can_be_closed_twice() throws IOException {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        OutputStreamWriter osw = new OutputStreamWriter(bytes, UTF_8);
+        BufferedWriter bw = new BufferedWriter(osw);
+        MessagesToHtmlWriter messagesToHtmlWriter = new MessagesToHtmlWriter(bw);
+        messagesToHtmlWriter.close();
+        assertDoesNotThrow(messagesToHtmlWriter::close);
     }
 
     @Test
