@@ -2,7 +2,7 @@ include default.mk
 
 .tested: acceptance/cucumber.html
 
-acceptance/cucumber.html: .built-npm-link-shared
+acceptance/cucumber.html:
 	mkdir -p $(@D)
 	../../fake-cucumber/javascript/bin/fake-cucumber \
 	  --format ndjson \
@@ -10,6 +10,3 @@ acceptance/cucumber.html: .built-npm-link-shared
 		./bin/cucumber-html-formatter.js --format ndjson > \
 		$@
 
-.built-npm-link-shared:
-	./node_modules/.bin/npm-link-shared ./node_modules/@cucumber/react/node_modules . react
-	touch $@
