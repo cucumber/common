@@ -4,9 +4,12 @@ import io.cucumber.messages.Messages;
 import io.cucumber.messages.internal.com.google.protobuf.util.JsonFormat;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.io.Writer;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -18,56 +21,27 @@ public class MessagesToHtmlWriter implements AutoCloseable {
     private final JsonFormat.Printer jsonPrinter = JsonFormat
             .printer()
             .omittingInsignificantWhitespace();
+    private final String template;
 
     private boolean preWritten = false;
     private boolean postWritten = false;
     private boolean firstMessageWritten = false;
 
-    public MessagesToHtmlWriter(Writer writer) {
+    public MessagesToHtmlWriter(Writer writer) throws IOException {
         this.writer = writer;
+        this.template = readResource("index.mustache.html");
     }
 
     private void writePreamble() throws IOException {
-        writer.write("" +
-                "<!DOCTYPE html>\n" +
-                "<html lang=\"en\">\n" +
-                "  <head>\n" +
-                "    <title>Cucumber</title>\n" +
-                "    <meta content=\"text/html;charset=utf-8\" http-equiv=\"Content-Type\">\n" +
-                "    <style>\n"
-        );
-        writeFile("cucumber-react.css");
-        writer.write("" +
-                "</style>\n" +
-                "  </head>\n" +
-                "  <body>\n" +
-                "    <div id=\"content\">\n" +
-                "    </div>\n" +
-                "    <script>\n" +
-                "      window.CUCUMBER_MESSAGES = ["
-        );
+        writeTemplateBetween(writer, template, null, "{{css}}");
+        writeResource(writer, "cucumber-react.css");
+        writeTemplateBetween(writer, template, "{{css}}", "{{messages}}");
     }
 
     private void writePostAmble() throws IOException {
-        writer.write("];\n" +
-                "    </script>\n" +
-                "    <script>\n"
-        );
-        writeFile("cucumber-html.js");
-        writer.write("" +
-                "    </script>\n" +
-                "  </body>\n" +
-                "</html>"
-        );
-    }
-
-    private void writeFile(String name) throws IOException {
-        InputStream resource = MessagesToHtmlWriter.class.getResourceAsStream(name);
-        BufferedReader reader = new BufferedReader(new InputStreamReader(resource, UTF_8));
-        char[] buffer = new char[2 * 1024 * 1024];
-        for (int read = reader.read(buffer); read != -1; read = reader.read(buffer)) {
-            writer.write(buffer, 0, read);
-        }
+        writeTemplateBetween(writer, template, "{{messages}}", "{{script}}");
+        writeResource(writer, "cucumber-html.js");
+        writeTemplateBetween(writer, template, "{{script}}", null);
     }
 
     public void write(Messages.Envelope envelope) throws IOException {
@@ -92,4 +66,26 @@ public class MessagesToHtmlWriter implements AutoCloseable {
         writer.close();
     }
 
+    private static void writeTemplateBetween(Writer writer, String template, String begin, String end) throws IOException {
+        int beginIndex = begin == null ? 0 : template.indexOf(begin) + begin.length();
+        int endIndex = end == null ? template.length() : template.indexOf(end);
+        writer.write(template.substring(beginIndex, endIndex));
+    }
+
+    private static void writeResource(Writer writer, String name) throws IOException {
+        InputStream resource = MessagesToHtmlWriter.class.getResourceAsStream(name);
+        BufferedReader reader = new BufferedReader(new InputStreamReader(resource, UTF_8));
+        char[] buffer = new char[2 * 1024 * 1024];
+        for (int read = reader.read(buffer); read != -1; read = reader.read(buffer)) {
+            writer.write(buffer, 0, read);
+        }
+    }
+
+    private static String readResource(String name) throws IOException {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(baos))){
+            writeResource(writer, name);
+        }
+        return new String(baos.toByteArray(), UTF_8);
+    }
 }
