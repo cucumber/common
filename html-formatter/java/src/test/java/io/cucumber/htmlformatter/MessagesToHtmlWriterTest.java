@@ -17,8 +17,25 @@ import static org.hamcrest.MatcherAssert.assertThat;
 class MessagesToHtmlWriterTest {
 
     @Test
-    void it_writes_html_to_output() throws IOException {
-        List<Messages.Envelope> messages = Arrays.asList(
+    void it_writes_one_message_to_html() throws IOException {
+        String html = renderAsHtml(Arrays.asList(
+                Messages.Envelope.newBuilder()
+                        .setTestRunStarted(Messages.TestRunStarted.newBuilder()
+                                .setTimestamp(Messages.Timestamp.newBuilder()
+                                        .setSeconds(10)
+                                        .build())
+                                .build())
+                        .build()
+        ));
+        assertThat(html, containsString("" +
+                "window.CUCUMBER_MESSAGES = [" +
+                "{\"testRunStarted\":{\"timestamp\":{\"seconds\":\"10\"}}}" +
+                "];"));
+    }
+
+    @Test
+    void it_writes_two_messages_separated_by_a_comma() throws IOException {
+        String html = renderAsHtml(Arrays.asList(
                 Messages.Envelope.newBuilder()
                         .setTestRunStarted(Messages.TestRunStarted.newBuilder()
                                 .setTimestamp(Messages.Timestamp.newBuilder()
@@ -33,8 +50,15 @@ class MessagesToHtmlWriterTest {
                                         .build())
                                 .build())
                         .build()
-        );
+        ));
+        assertThat(html, containsString("" +
+                "window.CUCUMBER_MESSAGES = [" +
+                "{\"testRunStarted\":{\"timestamp\":{\"seconds\":\"10\"}}}," +
+                "{\"testRunFinished\":{\"timestamp\":{\"seconds\":\"15\"}}}" +
+                "];"));
+    }
 
+    private String renderAsHtml(List<Messages.Envelope> messages) throws IOException {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         OutputStreamWriter osw = new OutputStreamWriter(bytes, UTF_8);
         BufferedWriter bw = new BufferedWriter(osw);
@@ -44,10 +68,6 @@ class MessagesToHtmlWriterTest {
             }
         }
 
-        assertThat(new String(bytes.toByteArray(), UTF_8), containsString("" +
-                "window.CUCUMBER_MESSAGES = [" +
-                "{\"testRunStarted\":{\"timestamp\":{\"seconds\":\"10\"}}}," +
-                "{\"testRunFinished\":{\"timestamp\":{\"seconds\":\"15\"}}}" +
-                "];"));
+        return new String(bytes.toByteArray(), UTF_8);
     }
 }
