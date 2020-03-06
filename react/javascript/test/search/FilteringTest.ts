@@ -84,4 +84,12 @@ describe('Search', () => {
       assert.deepStrictEqual(pretty(searchResults[0]), source)
     })
   })
+
+  context('No hit found', () => {
+    it('returns no hits', () => {
+      const searchResults = search.search('saturn')
+
+      assert.deepStrictEqual(searchResults, [])
+    })
+  })
 })
