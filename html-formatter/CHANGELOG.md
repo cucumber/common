@@ -10,7 +10,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 
 ### Changed
-
+* No server side rendering 
+    * Using both server side rendering and client side rendering results in conflicting versions of the react dom being used.
+  ([#923](https://github.com/cucumber/cucumber/pull/923)
+   [aslakhellesoy]
+   [mpkorstanje])
 ### Deprecated
 
 ### Removed
@@ -141,3 +145,4 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 <!-- Contributors in alphabetical order -->
 [aslakhellesoy]:    https://github.com/aslakhellesoy
 [vincent-psarga]:   https://github.com/vincent-psarga
+[mpkorstanje]:      https://github.com/mpkorstanje
