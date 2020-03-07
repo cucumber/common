@@ -313,6 +313,10 @@ jobs:
           command: |
             cd html-formatter/javascript
             make
+      - persist_to_workspace:
+          root: ~/cucumber
+          paths:
+            - html-formatter/javascript/dist
 
   json-formatter-javascript:
     executor: docker-circleci-node-12
@@ -586,6 +590,24 @@ jobs:
           paths:
             - "io/cucumber/config"
 
+
+  html-formatter-java:
+    executor: docker-circleci-openjdk
+    steps:
+      - attach_workspace:
+          at: "~/cucumber"
+      - attach_workspace:
+          at: "~/.m2/repository"
+      - run:
+          name: html-formatter
+          command: |
+            cd html-formatter/java
+            make
+      - persist_to_workspace:
+          root: "~/.m2/repository"
+          paths:
+            - "io/cucumber/htmlformatter"
+
 ### .NET
 
   messages-dotnet:
@@ -780,11 +802,13 @@ workflows:
             - checkout
       - datatable-java:
           requires:
-            - gherkin-java
+            - checkout
       - config-java:
           requires:
             - checkout
-
+      - html-formatter-java:
+          requires:
+            - html-formatter-javascript
 ### .NET
 
       - messages-dotnet:
