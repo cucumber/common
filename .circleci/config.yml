@@ -606,7 +606,7 @@ jobs:
       - persist_to_workspace:
           root: "~/.m2/repository"
           paths:
-            - "io/cucumber/htmlformatter"
+            - "io/cucumber/html-formatter"
 
 ### .NET
 
