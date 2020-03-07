@@ -1,6 +1,5 @@
 include default.mk
 
-# TODO: Requires JS to have been build
 .acceptance: .tested acceptance/cucumber.html
 
 acceptance/cucumber.html:
@@ -12,12 +11,11 @@ acceptance/cucumber.html:
         -Dexec.mainClass=io.cucumber.htmlformatter.Main \
         -Dexec.args="$@"
 
-# TODO: Will this be commited?
-.deps:
-	SOURCE=../../react/javascript/dist/src/styles/cucumber-react.css && \
-	TARGET=src/main/resources/io/cucumber/htmlformatter/cucumber-react.css && \
-	 ( [[ -f $$SOURCE ]] && cp $$SOURCE $$TARGET ) || true
-	SOURCE=../javascript/dist/main.js && \
-	TARGET=src/main/resources/io/cucumber/htmlformatter/cucumber-html.js && \
-	 ( [[ -f $$SOURCE ]] && cp $$SOURCE $$TARGET ) || true
-	touch $@
+.deps: src/main/resources/io/cucumber/htmlformatter/cucumber-react.css src/main/resources/io/cucumber/htmlformatter/cucumber-html.js
+        -Dexec.args="$@"
+
+src/main/resources/io/cucumber/htmlformatter/cucumber-react.css:
+	cp ../../react/javascript/dist/src/styles/cucumber-react.css $@
+
+src/main/resources/io/cucumber/htmlformatter/cucumber-html.js:
+	cp ../javascript/dist/main.js $@
