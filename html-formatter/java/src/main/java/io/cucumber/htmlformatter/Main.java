@@ -10,8 +10,7 @@ import java.io.OutputStreamWriter;
 public class Main {
 
     public static void main(String[] args) throws IOException {
-        FileOutputStream fileOutputStream = new FileOutputStream(args[0]);
-        OutputStreamWriter writer = new OutputStreamWriter(fileOutputStream);
+        OutputStreamWriter writer = new OutputStreamWriter(System.out);
         NdjsonToMessageIterable envelopes = new NdjsonToMessageIterable(System.in);
         try (MessagesToHtmlWriter htmlWriter = new MessagesToHtmlWriter(writer)) {
             for (Messages.Envelope envelope : envelopes) {

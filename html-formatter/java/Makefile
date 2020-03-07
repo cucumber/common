@@ -7,9 +7,9 @@ acceptance/cucumber.html:
 	../../fake-cucumber/javascript/bin/fake-cucumber \
 	  --format ndjson \
 		features/*.feature | \
-	    mvn exec:java \
-        -Dexec.mainClass=io.cucumber.htmlformatter.Main \
-        -Dexec.args="$@"
+	    mvn --quiet --batch-mode exec:java \
+        -Dexec.mainClass=io.cucumber.htmlformatter.Main > \
+        $@
 
 .deps: src/main/resources/io/cucumber/htmlformatter/cucumber-react.css src/main/resources/io/cucumber/htmlformatter/cucumber-html.js
         -Dexec.args="$@"
