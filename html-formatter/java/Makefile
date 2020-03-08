@@ -27,6 +27,7 @@ clean: clean-java clean-html-formatter-java
 .PHONY: clean
 
 clean-html-formatter-java:
+	rm acceptance/cucumber.html
 	rm src/main/resources/io/cucumber/htmlformatter/cucumber-react.css
 	rm src/main/resources/io/cucumber/htmlformatter/cucumber-html.js
 .PHONY: clean-html-formatter-java
