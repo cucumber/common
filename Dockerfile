@@ -17,6 +17,8 @@ RUN apk add --no-cache \
   g++ \
   jq \
   libc-dev \
+  libxml2-dev \
+  libxslt-dev \
   make \
   maven \
   nodejs \
