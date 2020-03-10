@@ -5,8 +5,8 @@
   "bin": {
     "cucumber-html-formatter": "bin/cucumber-html-formatter.js"
   },
-  "main": "dist/src/cli-main.js",
-  "types": "dist/src/cli-main.d.ts",
+  "main": "dist/src/CucumberHtmlStream.js",
+  "types": "dist/src/CucumberHtmlStream.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/cucumber/cucumber.git"
@@ -24,7 +24,6 @@
     "@cucumber/messages": "file:../../messages/javascript",
     "@cucumber/react": "file:../../react/javascript",
     "commander": "^4.1.1",
-    "jsdom": "^16.2.0",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
     "source-map-support": "^0.5.16"
