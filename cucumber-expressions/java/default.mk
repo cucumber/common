@@ -1,21 +1,18 @@
 SHELL := /usr/bin/env bash
 JAVA_SOURCE_FILES = $(shell find . -name "*.java")
-ARTIFACT_ID = $(shell xmlstarlet sel -N pom="http://maven.apache.org/POM/4.0.0" -t -m "/pom:project/pom:artifactId" -v . pom.xml)
-VERSION = $(shell xmlstarlet sel -N pom="http://maven.apache.org/POM/4.0.0" -t -m "/pom:project/pom:version" -v . pom.xml)
-JAR = target/$(ARTIFACT_ID)-$(VERSION).jar
 
 default: .tested
 .PHONY: default
 
-.tested: .deps .built
+.tested: .tested-jar-check
+
+.tested-jar-check: .deps .built
 	./scripts/check-jar.sh $(JAR)
 	touch $@
 
-.built: $(JAR)
-	touch $@
-
-$(JAR): pom.xml $(JAVA_SOURCE_FILES) 
+.built: pom.xml $(JAVA_SOURCE_FILES) 
 	mvn install
+	touch $@
 
 .deps:
 	touch $@
