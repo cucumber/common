@@ -15,7 +15,9 @@ describe('AstWalker', () => {
     walker = new AstWalker()
   })
   it.only('returns a deep copy', () => {
-    const gherkinDocument = parser.parse('Feature: hello')
+    const gherkinDocument = parser.parse(`Feature: hello
+  Scenario: salut
+`)
     const newGherkinDocument = walker.walkGherkinDocument(gherkinDocument)
 
     assert.deepEqual(newGherkinDocument, gherkinDocument)
@@ -23,6 +25,15 @@ describe('AstWalker', () => {
 
     assert.deepEqual(newGherkinDocument.feature, gherkinDocument.feature)
     assert.notEqual(newGherkinDocument.feature, gherkinDocument.feature)
+
+    assert.deepEqual(
+      newGherkinDocument.feature.children[0].scenario,
+      gherkinDocument.feature.children[0].scenario
+    )
+    assert.notEqual(
+      newGherkinDocument.feature.children[0].scenario,
+      gherkinDocument.feature.children[0].scenario
+    )
   })
 })
 
