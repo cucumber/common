@@ -6,7 +6,6 @@ import AstWalker from '../../src/search/AstWalker'
 import pretty from '../../src/pretty-formatter/pretty'
 
 describe('AstWalker', () => {
-
   let parser: Parser
   let walker: AstWalker
 
@@ -16,15 +15,14 @@ describe('AstWalker', () => {
     walker = new AstWalker()
   })
   it.only('returns a deep copy', () => {
-
     const gherkinDocument = parser.parse('Feature: hello')
     const newGherkinDocument = walker.walkGherkinDocument(gherkinDocument)
 
     assert.deepEqual(newGherkinDocument, gherkinDocument)
-    assert.notDeepStrictEqual(newGherkinDocument, gherkinDocument)
+    assert.notEqual(newGherkinDocument, gherkinDocument)
 
     assert.deepEqual(newGherkinDocument.feature, gherkinDocument.feature)
-    assert.notDeepStrictEqual(newGherkinDocument.feature, gherkinDocument.feature)
+    assert.notEqual(newGherkinDocument.feature, gherkinDocument.feature)
   })
 })
 
