@@ -1,11 +1,21 @@
 import { messages } from '@cucumber/messages'
 
 export default class AstWalker {
-  public walkGherkinDocument(gherkinDocument: messages.IGherkinDocument) {
-    this.walkFeature(gherkinDocument.feature)
+  public walkGherkinDocument(gherkinDocument: messages.IGherkinDocument): messages.IGherkinDocument {
+    return messages.GherkinDocument.create({
+      feature: this.walkFeature(gherkinDocument.feature),
+      comments: gherkinDocument.comments
+    })
   }
 
-  protected walkFeature(feature: messages.GherkinDocument.IFeature) {
+  protected walkFeature(feature: messages.GherkinDocument.IFeature): messages.GherkinDocument.IFeature {
+    const copy = messages.GherkinDocument.Feature.create({
+      children: feature.children,
+      keyword: feature.keyword,
+      language: feature.language,
+      location: feature.location,
+      name: feature.name
+    })
     for (const child of feature.children) {
       if (child.background) {
         this.walkBackground(child.background)
@@ -17,6 +27,7 @@ export default class AstWalker {
         this.walkRule(child.rule)
       }
     }
+    return copy
   }
 
   protected walkRule(

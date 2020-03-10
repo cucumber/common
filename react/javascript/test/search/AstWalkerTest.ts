@@ -6,8 +6,25 @@ import AstWalker from '../../src/search/AstWalker'
 import pretty from '../../src/pretty-formatter/pretty'
 
 describe('AstWalker', () => {
-  it('returns a deep copy', () => {
-    // no-op
+
+  let parser: Parser
+  let walker: AstWalker
+
+  beforeEach(() => {
+    const newId = IdGenerator.uuid()
+    parser = new Parser(new AstBuilder(newId))
+    walker = new AstWalker()
+  })
+  it.only('returns a deep copy', () => {
+
+    const gherkinDocument = parser.parse('Feature: hello')
+    const newGherkinDocument = walker.walkGherkinDocument(gherkinDocument)
+
+    assert.deepEqual(newGherkinDocument, gherkinDocument)
+    assert.notDeepStrictEqual(newGherkinDocument, gherkinDocument)
+
+    assert.deepEqual(newGherkinDocument.feature, gherkinDocument.feature)
+    assert.notDeepStrictEqual(newGherkinDocument.feature, gherkinDocument.feature)
   })
 })
 
@@ -113,7 +130,7 @@ describe('AstPruner', () => {
     gherkinDocument = parser.parse(source)
   })
 
-  it.only('removes saturn', () => {
+  it('removes saturn', () => {
     const astPruner = new AstPruner()
     astPruner.walkGherkinDocument(gherkinDocument)
 
