@@ -1,12 +1,12 @@
 {
   "name": "@cucumber/html-formatter",
-  "version": "4.1.0",
+  "version": "4.2.0",
   "description": "HTML formatter for Cucumber",
   "bin": {
     "cucumber-html-formatter": "bin/cucumber-html-formatter.js"
   },
-  "main": "dist/src/cli-main.js",
-  "types": "dist/src/cli-main.d.ts",
+  "main": "dist/src/CucumberHtmlStream.js",
+  "types": "dist/src/CucumberHtmlStream.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/cucumber/cucumber.git"
@@ -18,34 +18,33 @@
     "test": "mocha",
     "lint": "eslint --ext ts,tsx --max-warnings 0 src test",
     "lint-fix": "eslint --ext ts,tsx --max-warnings 0 --fix src test",
-    "build": "tsc && webpack-cli src/main.tsx"
+    "build": "tsc && webpack-cli src/main.tsx && cp src/index.mustache.html dist/src"
   },
   "dependencies": {
     "@cucumber/messages": "file:../../messages/javascript",
     "@cucumber/react": "file:../../react/javascript",
     "commander": "^4.1.1",
-    "jsdom": "^16.2.0",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
     "source-map-support": "^0.5.16"
   },
   "devDependencies": {
     "@cucumber/gherkin": "file:../../gherkin/javascript",
-    "@babel/core": "^7.8.6",
+    "@babel/core": "^7.8.7",
     "@types/jsdom": "^16.1.0",
-    "@types/mocha": "^7.0.1",
-    "@types/node": "^13.7.7",
+    "@types/mocha": "^7.0.2",
+    "@types/node": "^13.9.0",
     "@types/react": "^16.9.23",
     "@types/react-dom": "^16.9.5",
-    "@typescript-eslint/eslint-plugin": "^2.22.0",
-    "@typescript-eslint/parser": "^2.22.0",
+    "@typescript-eslint/eslint-plugin": "^2.23.0",
+    "@typescript-eslint/parser": "^2.23.0",
     "awesome-typescript-loader": "^5.2.1",
     "babel-loader": "^8.0.6",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.10.0",
     "eslint-plugin-node": "^11.0.0",
     "eslint-plugin-prettier": "^3.1.2",
-    "eslint-plugin-react": "^7.18.3",
+    "eslint-plugin-react": "^7.19.0",
     "gherkin": "^9.0.0",
     "mocha": "^7.1.0",
     "npm-link-shared": "^0.5.6",

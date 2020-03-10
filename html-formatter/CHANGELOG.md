@@ -17,6 +17,32 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [4.2.0] - 2020-03-10
+
+### Added
+
+* Java: New Java implementation
+  ([#922](https://github.com/cucumber/cucumber/pull/922)
+   [mpkorstanje])
+* JavaScript: Add a mustache template in the JavaScript npm module that other implementations can use
+* JavaScript: Add `CucumberHtmlStream` (default export), allowing this module to be used as a library (in Cucumber.js) 
+
+### Changed
+
+* JavaScript: No server side rendering 
+  * It's not *really* needed. This does break SEO, but that's not a goal for Cucumber HTML reports.
+  * Using both server side rendering and client side rendering results in conflicting versions of the react dom being used during development.
+  ([#923](https://github.com/cucumber/cucumber/pull/923)
+   [aslakhellesoy]
+   [mpkorstanje])
+* JavaScript Use a custom mustache template engine that streams output. Ported from Java
+
+### Fixed
+
+* [JavaScript] Lower memory footprint - messages are no longer buffered during HTML generation
+  ([#928](https://github.com/cucumber/cucumber/pull/928)
+   [aslakhellesoy])
+
 ## [4.1.0] - 2020-03-02
 
 ### Added
@@ -120,7 +146,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/formatter/v4.1.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/formatter/v4.2.0...master
+[4.2.0]:      https://github.com/cucumber/cucumber/compare/formatter/v4.1.0...formatter/v4.2.0
 [4.1.0]:      https://github.com/cucumber/cucumber/compare/formatter/v4.0.0...formatter/v4.1.0
 [4.0.0]:      https://github.com/cucumber/cucumber/compare/formatter/v3.2.3...formatter/v4.0.0
 [3.2.3]:      https://github.com/cucumber/cucumber/compare/formatter/v3.2.2...formatter/v3.2.3
@@ -141,3 +168,4 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 <!-- Contributors in alphabetical order -->
 [aslakhellesoy]:    https://github.com/aslakhellesoy
 [vincent-psarga]:   https://github.com/vincent-psarga
+[mpkorstanje]:      https://github.com/mpkorstanje

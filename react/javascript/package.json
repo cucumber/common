@@ -1,6 +1,6 @@
 {
   "name": "@cucumber/react",
-  "version": "5.0.0",
+  "version": "5.1.0",
   "description": "React components for Cucumber",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
@@ -49,7 +49,7 @@
     "@types/color": "^3.0.1",
     "@types/jsdom": "^16.1.0",
     "@types/marked": "^0.7.2",
-    "@types/mocha": "^7.0.1",
+    "@types/mocha": "^7.0.2",
     "@types/node": "^13.7.7",
     "@types/react": "^16.9.23",
     "@types/react-dom": "^16.9.5",
