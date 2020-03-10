@@ -9,12 +9,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+* Java: New Java implementation
+  ([#922](https://github.com/cucumber/cucumber/pull/922)
+   [mpkorstanje])
+
 ### Changed
+
 * No server side rendering 
     * Using both server side rendering and client side rendering results in conflicting versions of the react dom being used.
   ([#923](https://github.com/cucumber/cucumber/pull/923)
    [aslakhellesoy]
    [mpkorstanje])
+
 ### Deprecated
 
 ### Removed
@@ -22,6 +28,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 
 * [JavaScript] Lower memory footprint - messages are no longer buffered during HTML generation
+  ([#928](https://github.com/cucumber/cucumber/pull/928)
+   [aslakhellesoy])
 
 ## [4.1.0] - 2020-03-02
 
