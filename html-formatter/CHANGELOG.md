@@ -21,6 +21,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+* [JavaScript] Lower memory footprint - messages are no longer buffered during HTML generation
+
 ## [4.1.0] - 2020-03-02
 
 ### Added
