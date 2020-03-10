@@ -10,7 +10,7 @@ acceptance/cucumber.html: $(JAR)
 	mvn --quiet --batch-mode exec:java \
 	  -Dexec.mainClass=io.cucumber.htmlformatter.Main > \
 	$@
-.deps: target/classes/io/cucumber/htmlformatter/cucumber-react.css target/classes/io/cucumber/htmlformatter/cucumber-html.js
+.deps: target/classes/io/cucumber/htmlformatter/cucumber-react.css target/classes/io/cucumber/htmlformatter/cucumber-html.js target/classes/io/cucumber/htmlformatter/index.mustache.html
 
 target/classes/io/cucumber/htmlformatter/cucumber-react.css:
 	mkdir -p $(@D)
@@ -19,3 +19,7 @@ target/classes/io/cucumber/htmlformatter/cucumber-react.css:
 target/classes/io/cucumber/htmlformatter/cucumber-html.js:
 	mkdir -p $(@D)
 	cp ../javascript/dist/main.js $@
+
+target/classes/io/cucumber/htmlformatter/index.mustache.html:
+	mkdir -p $(@D)
+	cp ../javascript/dist/src/index.mustache.html $@
