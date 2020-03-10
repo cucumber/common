@@ -24,7 +24,9 @@ default: .tested .built .linted
 	$(NPM) run build
 	touch $@
 
-.tested: .built $(TYPESCRIPT_SOURCE_FILES)
+.tested: .tested-npm
+
+.tested-npm: .built $(TYPESCRIPT_SOURCE_FILES)
 	TS_NODE_TRANSPILE_ONLY=1 $(NPM) run test
 	touch $@
 
