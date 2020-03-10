@@ -18,7 +18,7 @@
     "test": "mocha",
     "lint": "eslint --ext ts,tsx --max-warnings 0 src test",
     "lint-fix": "eslint --ext ts,tsx --max-warnings 0 --fix src test",
-    "build": "tsc && webpack-cli src/main.tsx"
+    "build": "tsc && webpack-cli src/main.tsx && cp src/index.mustache.html dist/src"
   },
   "dependencies": {
     "@cucumber/messages": "file:../../messages/javascript",
