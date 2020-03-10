@@ -25,7 +25,7 @@ public class MessagesToHtmlWriter implements AutoCloseable {
             .omittingInsignificantWhitespace();
     private final String template;
 
-    private Writer writer;
+    private final Writer writer;
     private boolean preMessageWritten = false;
     private boolean postMessageWritten = false;
     private boolean firstMessageWritten = false;

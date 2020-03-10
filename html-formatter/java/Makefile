@@ -1,33 +1,21 @@
 include default.mk
 
-default: .acceptance
-.PHONY: default
+.tested: acceptance/cucumber.html
 
-.acceptance: .tested acceptance/cucumber.html
-
-acceptance/cucumber.html:
+acceptance/cucumber.html: $(JAR)
 	mkdir -p $(@D)
 	../../fake-cucumber/javascript/bin/fake-cucumber \
 	  --format ndjson \
 		features/*.feature | \
-	    mvn --quiet --batch-mode exec:java \
-        -Dexec.mainClass=io.cucumber.htmlformatter.Main > \
-        $@
+	mvn --quiet --batch-mode exec:java \
+	  -Dexec.mainClass=io.cucumber.htmlformatter.Main > \
+	$@
+.deps: target/classes/io/cucumber/htmlformatter/cucumber-react.css target/classes/io/cucumber/htmlformatter/cucumber-html.js
 
-.deps: src/main/resources/io/cucumber/htmlformatter/cucumber-react.css src/main/resources/io/cucumber/htmlformatter/cucumber-html.js
-        -Dexec.args="$@"
-
-src/main/resources/io/cucumber/htmlformatter/cucumber-react.css:
+target/classes/io/cucumber/htmlformatter/cucumber-react.css:
+	mkdir -p $(@D)
 	cp ../../react/javascript/dist/src/styles/cucumber-react.css $@
 
-src/main/resources/io/cucumber/htmlformatter/cucumber-html.js:
+target/classes/io/cucumber/htmlformatter/cucumber-html.js:
+	mkdir -p $(@D)
 	cp ../javascript/dist/main.js $@
-
-clean: clean-java clean-html-formatter-java
-.PHONY: clean
-
-clean-html-formatter-java:
-	rm acceptance/cucumber.html
-	rm src/main/resources/io/cucumber/htmlformatter/cucumber-react.css
-	rm src/main/resources/io/cucumber/htmlformatter/cucumber-html.js
-.PHONY: clean-html-formatter-java
