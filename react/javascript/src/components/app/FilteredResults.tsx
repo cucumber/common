@@ -34,7 +34,7 @@ const FilteredResults: React.FunctionComponent = () => {
         statusQueryUpdated={hidePassed => setHidePassed(hidePassed)}
       />
       <GherkinDocumentList gherkinDocuments={matches} />
-      <NoMatchResult query={query} matches={matches}/>
+      <NoMatchResult query={query} matches={matches} />
     </div>
   )
 }
