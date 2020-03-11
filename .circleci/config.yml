@@ -469,6 +469,17 @@ jobs:
             cd demo-formatter/ruby
             make
 
+  html-formatter-ruby:
+    executor: docker-circleci-ruby-26
+    steps:
+      - attach_workspace:
+          at: "~/cucumber"
+      - run:
+          name: html-formatter/ruby
+          command: |
+            cd html-formatter/ruby
+            make
+
 ### Java
 
   c21e-java:
@@ -782,7 +793,9 @@ workflows:
       - json-formatter-ruby:
           requires:
             - checkout
-
+      - html-formatter-ruby:
+          requires:
+            - messages-ruby
 ### Java
 
       - c21e-java:
