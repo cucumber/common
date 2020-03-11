@@ -5,6 +5,7 @@ rwildcard=$(foreach d,$(wildcard $(1:=/*)),$(call rwildcard,$d,$2) $(filter $(su
 SOURCE_FEATURES=$(call rwildcard,../javascript/features,*.feature)
 FEATURES=$(patsubst ../javascript/%,%,$(SOURCE_FEATURES))
 
+.deps: assets/cucumber-react.css assets/cucumber-html.js assets/index.mustache.html
 .tested: acceptance/cucumber.html
 
 features/%.feature: ../javascript/features/%.feature
@@ -17,6 +18,19 @@ acceptance/cucumber.html: .deps $(FEATURES)
 		features/*.feature | \
 		bundle exec bin/html-formatter --format ndjson > \
 		$@
+
+assets/cucumber-react.css:
+	mkdir -p $(@D)
+	cp ../../react/javascript/dist/src/styles/cucumber-react.css $@
+
+assets/cucumber-html.js:
+	mkdir -p $(@D)
+	cp ../javascript/dist/main.js $@
+
+assets/index.mustache.html:
+	mkdir -p $(@D)
+	cp ../javascript/dist/src/index.mustache.html $@
+
 
 clean:
 	rm -rf acceptance $(FEATURES)

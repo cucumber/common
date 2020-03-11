@@ -795,7 +795,7 @@ workflows:
             - checkout
       - html-formatter-ruby:
           requires:
-            - messages-ruby
+            - html-formatter-javascript
 ### Java
 
       - c21e-java:
