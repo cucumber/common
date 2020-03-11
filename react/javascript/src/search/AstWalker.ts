@@ -1,4 +1,5 @@
 import { messages } from '@cucumber/messages'
+import { keyword } from 'color-convert/conversions'
 
 export default class AstWalker {
   public walkGherkinDocument(
@@ -30,7 +31,9 @@ export default class AstWalker {
 
     for (const child of children) {
       if (child.background) {
-        this.walkBackground(child.background);
+        childrenCopy.push(messages.GherkinDocument.Feature.FeatureChild.create({
+          background: this.walkBackground(child.background)
+        }))
       }
       if (child.scenario) {
         childrenCopy.push(messages.GherkinDocument.Feature.FeatureChild.create({
@@ -60,10 +63,18 @@ export default class AstWalker {
 
   protected walkBackground(
     background: messages.GherkinDocument.Feature.IBackground
-  ) {
+  ): messages.GherkinDocument.Feature.IBackground {
     for (const step of background.steps) {
       this.walkStep(step)
     }
+
+    return messages.GherkinDocument.Feature.Background.create({
+      id: background.id,
+      name: background.name,
+      location: background.location,
+      keyword: background.keyword,
+      steps: background.steps
+    })
   }
 
   protected walkScenario(scenario: messages.GherkinDocument.Feature.IScenario): messages.GherkinDocument.Feature.IScenario {
