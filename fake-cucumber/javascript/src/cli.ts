@@ -58,7 +58,7 @@ const options: IGherkinOptions = {
 }
 
 async function loadSupportCode(): Promise<void> {
-  dsl.__dangerously_setSupportCode__(supportCode)
+  dsl.setSupportCode(supportCode)
   const supportCodePaths = await findSupportCodePaths(requirePaths)
   let tsNodeRegistered = false
   for (const supportCodePath of supportCodePaths) {

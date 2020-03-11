@@ -2,56 +2,51 @@ import SupportCode from './SupportCode'
 import { AnyBody } from './types'
 import { messages } from '@cucumber/messages'
 import StackUtils from 'stack-utils'
+import IParameterTypeDefinition from './IParameterTypeDefinition'
 
-// eslint-disable-next-line @typescript-eslint/camelcase
-function __dangerously_setSupportCode__(setSupportCode: SupportCode) {
-  // @ts-ignore
+declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
+  namespace NodeJS {
+    interface Global {
+      supportCode: SupportCode
+    }
+  }
+}
+function setSupportCode(setSupportCode: SupportCode) {
   global.supportCode = setSupportCode
 }
 
-function registerStepDefinition(expression: string | RegExp, body: AnyBody) {
-  // @ts-ignore
-  if (!global.supportCode) {
-    throw new Error('supportCode not set')
-  }
-  // @ts-ignore
-  global.supportCode.registerStepDefinition(
+function defineStepDefinition(expression: string | RegExp, body: AnyBody) {
+  global.supportCode.defineStepDefinition(
     getSourceReference(new Error().stack),
     expression,
     body
   )
 }
 
-function registerBeforeHook(
+function defineBeforeHook(
   tagExpressionOrBody: string | AnyBody,
   body: AnyBody
 ) {
-  // @ts-ignore
-  if (!global.supportCode) {
-    throw new Error('supportCode not set')
-  }
-  // @ts-ignore
-  global.supportCode.registerBeforeHook(
+  global.supportCode.defineBeforeHook(
     getSourceReference(new Error().stack),
     tagExpressionOrBody,
     body
   )
 }
 
-function registerAfterHook(
-  tagExpressionOrBody: string | AnyBody,
-  body: AnyBody
-) {
-  // @ts-ignore
-  if (!global.supportCode) {
-    throw new Error('supportCode not set')
-  }
-  // @ts-ignore
-  global.supportCode.registerAfterHook(
+function defineAfterHook(tagExpressionOrBody: string | AnyBody, body: AnyBody) {
+  global.supportCode.defineAfterHook(
     getSourceReference(new Error().stack),
     tagExpressionOrBody,
     body
   )
+}
+
+function defineParameterType(
+  parameterTypeDefinition: IParameterTypeDefinition
+) {
+  global.supportCode.defineParameterType(parameterTypeDefinition)
 }
 
 function getSourceReference(stackTrace: string): messages.ISourceReference {
@@ -70,12 +65,13 @@ function getSourceReference(stackTrace: string): messages.ISourceReference {
   })
 }
 
-const Given = registerStepDefinition
-const When = registerStepDefinition
-const Then = registerStepDefinition
+const Given = defineStepDefinition
+const When = defineStepDefinition
+const Then = defineStepDefinition
 
-const Before = registerBeforeHook
-const After = registerAfterHook
+const Before = defineBeforeHook
+const After = defineAfterHook
+const ParameterType = defineParameterType
 
 // eslint-disable-next-line @typescript-eslint/camelcase
-export { Given, When, Then, Before, After, __dangerously_setSupportCode__ }
+export { Given, When, Then, Before, After, ParameterType, setSupportCode }

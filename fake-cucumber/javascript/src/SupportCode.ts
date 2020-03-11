@@ -11,15 +11,7 @@ import IHook from './IHook'
 import Hook from './Hook'
 import IClock from './IClock'
 import { MakeErrorMessage } from './ErrorMessageGenerator'
-
-interface IParameterTypeDefinition {
-  name: string
-  regexp: RegExp | RegExp[] | string | string[]
-  type?: any
-  transformer?: (...args: string[]) => any
-  preferForRegexpMatch?: boolean
-  useForSnippets?: boolean
-}
+import IParameterTypeDefinition from './IParameterTypeDefinition'
 
 function defaultTransformer(...args: string[]) {
   return args
@@ -61,7 +53,7 @@ export default class SupportCode {
     this.parameterTypes.push(parameterType)
   }
 
-  public registerStepDefinition(
+  public defineStepDefinition(
     sourceReference: messages.ISourceReference,
     expression: string | RegExp,
     body: AnyBody
@@ -91,7 +83,7 @@ export default class SupportCode {
     }
   }
 
-  public registerBeforeHook(
+  public defineBeforeHook(
     sourceReference: messages.ISourceReference,
     tagExpressionOrBody: string | AnyBody,
     body?: AnyBody
@@ -101,7 +93,7 @@ export default class SupportCode {
     )
   }
 
-  public registerAfterHook(
+  public defineAfterHook(
     sourceReference: messages.ISourceReference,
     tagExpressionOrBody: string | AnyBody,
     body?: AnyBody

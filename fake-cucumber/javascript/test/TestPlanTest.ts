@@ -1,18 +1,8 @@
-import {
-  gherkinMessages,
-  streamToArray,
-  stubMatchingStepDefinition,
-} from './TestHelpers'
+import { gherkinMessages, streamToArray } from './TestHelpers'
 import { IdGenerator, messages } from '@cucumber/messages'
 import { EnvelopeListener } from '../src/types'
 import assert from 'assert'
 import TestPlan from '../src/TestPlan'
-import IStepDefinition from '../src/IStepDefinition'
-import {
-  CucumberExpression,
-  ParameterTypeRegistry,
-} from '@cucumber/cucumber-expressions'
-import ExpressionStepDefinition from '../src/ExpressionStepDefinition'
 import { Query } from '@cucumber/gherkin'
 import IncrementClock from '../src/IncrementClock'
 import { withSourceFramesOnlyStackTrace } from '../src/ErrorMessageGenerator'
@@ -20,37 +10,93 @@ import SupportCode from '../src/SupportCode'
 import makeTestCase from '../src/makeTestCase'
 
 describe('TestPlan', () => {
+  let supportCode: SupportCode
+  beforeEach(() => {
+    supportCode = new SupportCode(
+      IdGenerator.incrementing(),
+      new IncrementClock(),
+      withSourceFramesOnlyStackTrace()
+    )
+  })
+
   it('executes test cases', async () => {
-    const stepDefinition = stubMatchingStepDefinition()
+    supportCode.defineStepDefinition(null, 'a passed step', () => undefined)
 
     const gherkinSource = `Feature: test
   Scenario: test
     Given a passed step
 `
-    const testPlan = await makeTestPlan(gherkinSource, stepDefinition)
+    const testPlan = await makeTestPlan(gherkinSource, supportCode)
     const envelopes: messages.IEnvelope[] = []
-    const listener: EnvelopeListener = message => envelopes.push(message)
+    const listener: EnvelopeListener = envelope => {
+      if (!envelope) throw new Error('Envelope was null or undefined')
+      envelopes.push(envelope)
+    }
     await testPlan.execute(listener)
-    assert.deepStrictEqual(envelopes.length, 7)
+    const testStepFinisheds = envelopes
+      .filter(m => m.testStepFinished)
+      .map(m => m.testStepFinished)
+    assert.deepStrictEqual(testStepFinisheds.length, 1)
+    assert.strictEqual(
+      testStepFinisheds[0].testStepResult.status,
+      messages.TestStepResult.Status.PASSED
+    )
   })
 
-  it('attaches text attachments', async () => {
-    const stepDefinition = new ExpressionStepDefinition(
-      'stepdef-id',
-      new CucumberExpression('a passed step', new ParameterTypeRegistry()),
+  class Flight {
+    constructor(public readonly name: string) {}
+  }
+
+  it('defines parameter types', async () => {
+    supportCode.defineParameterType({
+      name: 'flight',
+      regexp: /[A-Z]{3}-[A-Z]{3}/,
+      transformer(name) {
+        return new Flight(name)
+      },
+    })
+
+    supportCode.defineStepDefinition(
       null,
-      function() {
-        this.attach('hello world', 'text/plain')
-      }
+      'flight {flight}',
+      (flight: Flight) => assert.strictEqual(flight.name, 'LHR-CDG')
     )
 
     const gherkinSource = `Feature: test
   Scenario: test
+    Given flight LHR-CDG
+`
+    const testPlan = await makeTestPlan(gherkinSource, supportCode)
+    const envelopes: messages.IEnvelope[] = []
+    const listener: EnvelopeListener = envelope => envelopes.push(envelope)
+    await testPlan.execute(listener)
+    const testStepFinisheds = envelopes
+      .filter(m => m.testStepFinished)
+      .map(m => m.testStepFinished)
+    assert.deepStrictEqual(testStepFinisheds.length, 1)
+    assert.strictEqual(
+      testStepFinisheds[0].testStepResult.status,
+      messages.TestStepResult.Status.PASSED
+    )
+    const parameterTypes = envelopes
+      .filter(m => m.parameterType)
+      .map(m => m.parameterType)
+    assert.deepStrictEqual(parameterTypes.length, 1)
+    assert.strictEqual(parameterTypes[0].name, 'flight')
+  })
+
+  it('attaches text attachments', async () => {
+    supportCode.defineStepDefinition(null, 'a passed step', function() {
+      this.attach('hello world', 'text/plain')
+    })
+
+    const gherkinSource = `Feature: test
+  Scenario: test
     Given a passed step
 `
-    const testPlan = await makeTestPlan(gherkinSource, stepDefinition)
+    const testPlan = await makeTestPlan(gherkinSource, supportCode)
     const envelopes: messages.IEnvelope[] = []
-    const listener: EnvelopeListener = message => envelopes.push(message)
+    const listener: EnvelopeListener = envelope => envelopes.push(envelope)
     await testPlan.execute(listener)
 
     const attachments = envelopes
@@ -63,7 +109,7 @@ describe('TestPlan', () => {
 
 async function makeTestPlan(
   gherkinSource: string,
-  stepDefinition: IStepDefinition
+  supportCode: SupportCode
 ): Promise<TestPlan> {
   const gherkinEnvelopes = await streamToArray(
     gherkinMessages(gherkinSource, 'test.feature')
@@ -73,20 +119,14 @@ async function makeTestPlan(
     gherkinQuery.update(gherkinEnvelope)
   }
 
-  const supportCode = new SupportCode(
-    IdGenerator.incrementing(),
-    new IncrementClock(),
-    withSourceFramesOnlyStackTrace()
-  )
-
   const testCases = gherkinQuery
     .getPickles()
     .map(pickle =>
       makeTestCase(
         pickle,
-        [stepDefinition],
-        [],
-        [],
+        supportCode.stepDefinitions,
+        supportCode.beforeHooks,
+        supportCode.afterHooks,
         gherkinQuery,
         supportCode.newId,
         supportCode.clock,
