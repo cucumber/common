@@ -14,40 +14,51 @@ describe('AstWalker', () => {
     parser = new Parser(new AstBuilder(newId))
     walker = new AstWalker()
   })
+
+  function assertCopy(copy: any, source: any) {
+    assert.deepEqual(copy, source)
+    assert.notEqual(copy, source)
+  }
+
   it.only('returns a deep copy', () => {
     const gherkinDocument = parser.parse(`Feature: hello
   Background:
     Given a passed step
 
   Scenario: salut
+
+  Rule: roule
+    Background: poupidou
+    Scenario: pouet
 `)
     const newGherkinDocument = walker.walkGherkinDocument(gherkinDocument)
 
-    console.log('gherkinDocument', gherkinDocument.feature)
-    console.log('newGherkinDocument', newGherkinDocument.feature)
+    console.log(
+      'gherkinDocument',
+      newGherkinDocument.feature.children[2].rule.children[1]
+    )
+    console.log(
+      'newGherkinDocument',
+      gherkinDocument.feature.children[2].rule.children[1]
+    )
 
-    assert.deepEqual(newGherkinDocument, gherkinDocument)
-    assert.notEqual(newGherkinDocument, gherkinDocument)
-
-    assert.deepEqual(newGherkinDocument.feature, gherkinDocument.feature)
-    assert.notEqual(newGherkinDocument.feature, gherkinDocument.feature)
-
-    assert.deepEqual(
+    assertCopy(newGherkinDocument, gherkinDocument)
+    assertCopy(newGherkinDocument.feature, gherkinDocument.feature)
+    assertCopy(
       newGherkinDocument.feature.children[0].background,
       gherkinDocument.feature.children[0].background
     )
-    assert.notEqual(
-      newGherkinDocument.feature.children[0].background,
-      gherkinDocument.feature.children[0].background
-    )
-
-    assert.deepEqual(
+    assertCopy(
       newGherkinDocument.feature.children[1].scenario,
       gherkinDocument.feature.children[1].scenario
     )
-    assert.notEqual(
-      newGherkinDocument.feature.children[1].scenario,
-      gherkinDocument.feature.children[1].scenario
+    assertCopy(
+      newGherkinDocument.feature.children[2].rule,
+      gherkinDocument.feature.children[2].rule
+    )
+    assertCopy(
+      newGherkinDocument.feature.children[2].rule.children[1],
+      gherkinDocument.feature.children[2].rule.children[1]
     )
   })
 })
