@@ -19,6 +19,8 @@ Gem::Specification.new do |s|
                     'source_code_uri'   => 'https://github.com/cucumber/cucumber/blob/master/gherkin/ruby',
                   }
 
+  s.add_dependency 'cucumber-messages', '~> 10.0', '>= 10.0.1'
+
   s.add_development_dependency 'rake', '~> 13.0', '>= 13.0.1'
   s.add_development_dependency 'rspec', '~> 3.9', '>= 3.9.0'
 
@@ -27,7 +29,8 @@ Gem::Specification.new do |s|
   s.files            = Dir[
     'README.md',
     'LICENSE',
-    'lib/**/*'
+    'lib/**/*',
+    'assets/*'
   ]
   s.test_files       = Dir['spec/**/*']
   s.rdoc_options     = ["--charset=UTF-8"]

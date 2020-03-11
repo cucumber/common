@@ -8,7 +8,9 @@ module Cucumber
       end
 
       def write_between(from, to)
-        after_from = from.nil? ? template : template.split(from)[1]
+        from_exists = !from.nil? && template.include?(from)
+
+        after_from = from_exists ? template.split(from)[1] : template
         before_to = to.nil? ? after_from : after_from.split(to)[0]
 
         return before_to

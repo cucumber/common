@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
 
-require 'cucumber/html-formatter'
+require 'cucumber/html_formatter'
 
 puts "Ok, that run"

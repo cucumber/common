@@ -20,5 +20,11 @@ describe Cucumber::HTMLFormatter::TemplateWriter do
         expect(subject.write_between('{{here}}', nil)).to eq(' with content after')
       end
     end
+
+    context 'when "from" argument is missing from the template' do
+      it 'renders the template from the beginning' do
+        expect(subject.write_between('Unknown start', '{{here}}')).to eq('Some template ')
+      end
+    end
   end
 end
