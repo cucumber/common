@@ -25,10 +25,8 @@ describe('TestStep', () => {
     testStep: ITestStep
   ): Promise<messages.ITestStepFinished> {
     const receivedMessages: messages.IEnvelope[] = []
-    await testStep.execute(
-      world,
-      message => receivedMessages.push(message),
-      'some-testCaseStartedId'
+    await testStep.execute(world, 'some-testCaseStartedId', message =>
+      receivedMessages.push(message)
     )
     return receivedMessages.pop().testStepFinished
   }
@@ -93,8 +91,8 @@ describe('TestStep', () => {
 
       const result = await testStep.execute(
         world,
-        () => null,
-        'some-testCaseStartedId'
+        'some-testCaseStartedId',
+        () => null
       )
       assert.strictEqual(
         result.status,
@@ -114,7 +112,7 @@ describe('TestStep', () => {
         new IncrementClock(),
         withSourceFramesOnlyStackTrace()
       )
-      await testStep.execute(world, message => emitted.push(message), 'some-id')
+      await testStep.execute(world, 'some-id', message => emitted.push(message))
       const result = emitted.find(m => m.testStepFinished).testStepFinished
         .testStepResult
 

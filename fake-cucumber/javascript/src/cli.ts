@@ -87,14 +87,14 @@ async function main() {
   await loadSupportCode()
   const gherkinQuery = new GherkinQuery()
 
-  const envelopeStream = gherkin.fromPaths(paths, options)
+  const gherkinEnvelopeStream = gherkin.fromPaths(paths, options)
   const gherkinQueryStream = new GherkinQueryStream(gherkinQuery)
-  envelopeStream.pipe(gherkinQueryStream).pipe(format, { end: false })
+  gherkinEnvelopeStream.pipe(gherkinQueryStream).pipe(format, { end: false })
 
   await new Promise((resolve, reject) => {
     gherkinQueryStream.on('end', resolve)
     gherkinQueryStream.on('error', reject)
-    envelopeStream.on('error', reject)
+    gherkinEnvelopeStream.on('error', reject)
   })
 
   const testCases = gherkinQuery
@@ -112,11 +112,7 @@ async function main() {
       )
     )
 
-  const testPlan = new TestPlan(
-    gherkinQuery.getPickles(),
-    testCases,
-    supportCode
-  )
+  const testPlan = new TestPlan(testCases, supportCode)
   await testPlan.execute(envelope => {
     format.write(envelope)
     if (envelope.testRunFinished) {

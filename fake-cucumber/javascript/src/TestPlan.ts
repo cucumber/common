@@ -1,35 +1,34 @@
 import TestCase from './TestCase'
-import { MessageNotifier } from './types'
+import { EnvelopeListener } from './types'
 import { messages, TimeConversion } from '@cucumber/messages'
 import SupportCode from './SupportCode'
 import { ParameterType } from '@cucumber/cucumber-expressions'
 
 export default class TestPlan {
   constructor(
-    pickles: ReadonlyArray<messages.IPickle>,
     private readonly testCases: TestCase[],
     private readonly supportCode: SupportCode
   ) {}
 
-  public async execute(notifier: MessageNotifier): Promise<void> {
+  public async execute(listener: EnvelopeListener): Promise<void> {
     for (const parameterType of this.supportCode.parameterTypes) {
-      notifier(parameterTypeToMessage(parameterType))
+      listener(parameterTypeToMessage(parameterType))
     }
     for (const stepDefinition of this.supportCode.stepDefinitions) {
-      notifier(stepDefinition.toMessage())
+      listener(stepDefinition.toMessage())
     }
     for (const undefinedParameterType of this.supportCode
       .undefinedParameterTypes) {
-      notifier(undefinedParameterType)
+      listener(undefinedParameterType)
     }
     for (const hook of this.supportCode.beforeHooks) {
-      notifier(hook.toMessage())
+      listener(hook.toMessage())
     }
     for (const hook of this.supportCode.afterHooks) {
-      notifier(hook.toMessage())
+      listener(hook.toMessage())
     }
 
-    notifier(
+    listener(
       new messages.Envelope({
         testRunStarted: new messages.TestRunStarted({
           timestamp: TimeConversion.millisecondsSinceEpochToTimestamp(
@@ -39,12 +38,12 @@ export default class TestPlan {
       })
     )
     for (const testCase of this.testCases) {
-      notifier(testCase.toMessage())
+      listener(testCase.toMessage())
     }
     for (const testCase of this.testCases) {
-      await testCase.execute(notifier, 0, this.supportCode.newId())
+      await testCase.execute(listener, 0, this.supportCode.newId())
     }
-    notifier(
+    listener(
       new messages.Envelope({
         testRunFinished: new messages.TestRunFinished({
           timestamp: TimeConversion.millisecondsSinceEpochToTimestamp(

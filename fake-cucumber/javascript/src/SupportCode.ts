@@ -44,9 +44,7 @@ export default class SupportCode {
     public newId: IdGenerator.NewId,
     public clock: IClock,
     public makeErrorMessage: MakeErrorMessage
-  ) {
-    console.error('NEW SUPPORT CODE')
-  }
+  ) {}
 
   public defineParameterType(
     parameterTypeDefinition: IParameterTypeDefinition

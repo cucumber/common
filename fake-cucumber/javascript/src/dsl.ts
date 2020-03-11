@@ -5,7 +5,6 @@ import StackUtils from 'stack-utils'
 
 // eslint-disable-next-line @typescript-eslint/camelcase
 function __dangerously_setSupportCode__(setSupportCode: SupportCode) {
-  console.error('__dangerously_setSupportCode__')
   // @ts-ignore
   global.supportCode = setSupportCode
 }
