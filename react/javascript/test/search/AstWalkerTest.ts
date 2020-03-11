@@ -16,9 +16,15 @@ describe('AstWalker', () => {
   })
   it.only('returns a deep copy', () => {
     const gherkinDocument = parser.parse(`Feature: hello
+  Background:
+    Given a passed step
+
   Scenario: salut
 `)
     const newGherkinDocument = walker.walkGherkinDocument(gherkinDocument)
+
+    console.log('gherkinDocument', gherkinDocument.feature)
+    console.log('newGherkinDocument', newGherkinDocument.feature)
 
     assert.deepEqual(newGherkinDocument, gherkinDocument)
     assert.notEqual(newGherkinDocument, gherkinDocument)
@@ -27,12 +33,21 @@ describe('AstWalker', () => {
     assert.notEqual(newGherkinDocument.feature, gherkinDocument.feature)
 
     assert.deepEqual(
-      newGherkinDocument.feature.children[0].scenario,
-      gherkinDocument.feature.children[0].scenario
+      newGherkinDocument.feature.children[0].background,
+      gherkinDocument.feature.children[0].background
     )
     assert.notEqual(
-      newGherkinDocument.feature.children[0].scenario,
-      gherkinDocument.feature.children[0].scenario
+      newGherkinDocument.feature.children[0].background,
+      gherkinDocument.feature.children[0].background
+    )
+
+    assert.deepEqual(
+      newGherkinDocument.feature.children[1].scenario,
+      gherkinDocument.feature.children[1].scenario
+    )
+    assert.notEqual(
+      newGherkinDocument.feature.children[1].scenario,
+      gherkinDocument.feature.children[1].scenario
     )
   })
 })
@@ -153,11 +168,5 @@ describe('AstPruner', () => {
     )
   })
 
-  class AstPruner extends AstWalker {
-    protected walkScenario(
-      scenario: messages.GherkinDocument.Feature.IScenario
-    ) {
-      super.walkScenario(scenario)
-    }
-  }
+  class AstPruner extends AstWalker {}
 })
