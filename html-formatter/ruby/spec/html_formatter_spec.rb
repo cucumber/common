@@ -1,10 +1,10 @@
-require 'cucumber/html-formatter'
+require 'cucumber/html_formatter'
 
-describe Cucumber::HTMLFormatter do
-  let(:subject) { Cucumber::HTMLFormatter.new(out)}
+describe Cucumber::HTMLFormatter::Formatter do
+  let(:subject) { Cucumber::HTMLFormatter::Formatter.new(out)}
   let(:out) { StringIO.new }
 
-  context('write_pre_message') do
+  context 'write_pre_message' do
     before do
       allow(subject).to receive(:template).and_return('Before{{messages}}')
     end
@@ -22,6 +22,6 @@ describe Cucumber::HTMLFormatter do
     end
   end
 
-  context('write_message')
-  context('write_post_message')
+  context 'write_message'
+  context 'write_post_message'
 end
