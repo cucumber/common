@@ -14,24 +14,35 @@ export default class AstWalker {
     feature: messages.GherkinDocument.IFeature
   ): messages.GherkinDocument.IFeature {
     const copy = messages.GherkinDocument.Feature.create({
-      children: feature.children,
-      keyword: feature.keyword,
-      language: feature.language,
+      children: this.walkFeatureChildren(feature.children),
       location: feature.location,
+      language: feature.language,
+      keyword: feature.keyword,
       name: feature.name,
     })
-    for (const child of feature.children) {
+    return copy
+  }
+
+  private walkFeatureChildren(
+    children: messages.GherkinDocument.Feature.IFeatureChild[]
+  ): messages.GherkinDocument.Feature.IFeatureChild[] {
+    const childrenCopy: messages.GherkinDocument.Feature.IFeatureChild[] = []
+
+    for (const child of children) {
       if (child.background) {
-        this.walkBackground(child.background)
+        this.walkBackground(child.background);
       }
       if (child.scenario) {
-        this.walkScenario(child.scenario)
+        childrenCopy.push(messages.GherkinDocument.Feature.FeatureChild.create({
+          scenario: this.walkScenario(child.scenario)
+        }))
       }
       if (child.rule) {
-        this.walkRule(child.rule)
+        this.walkRule(child.rule);
       }
     }
-    return copy
+
+    return childrenCopy
   }
 
   protected walkRule(
@@ -55,10 +66,20 @@ export default class AstWalker {
     }
   }
 
-  protected walkScenario(scenario: messages.GherkinDocument.Feature.IScenario) {
+  protected walkScenario(scenario: messages.GherkinDocument.Feature.IScenario): messages.GherkinDocument.Feature.IScenario {
     for (const step of scenario.steps) {
       this.walkStep(step)
     }
+
+    return messages.GherkinDocument.Feature.Scenario.create({
+      id: scenario.id,
+      name: scenario.name,
+      location: scenario.location,
+      keyword: scenario.keyword,
+      examples: scenario.examples,
+      steps: scenario.steps,
+      tags: scenario.tags
+    })
   }
 
   protected walkStep(step: messages.GherkinDocument.Feature.IStep) {
