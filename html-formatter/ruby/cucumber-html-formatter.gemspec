@@ -22,7 +22,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'rake', '~> 13.0', '>= 13.0.1'
   s.add_development_dependency 'rspec', '~> 3.9', '>= 3.9.0'
 
-  s.executables      = []
+  s.executables      = ['html-formatter']
   s.rubygems_version = ">= 1.6.1", '~> 0.8'
   s.files            = Dir[
     'README.md',
