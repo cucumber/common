@@ -7,7 +7,10 @@ module Cucumber
     end
 
     def write_pre_message
+      return if @pre_message_written
+
       out.puts pre_message
+      @pre_message_written = true
     end
 
     private
