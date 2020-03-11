@@ -1,18 +1,25 @@
 import { Command } from 'commander'
 import packageJson from '../package.json'
-import gherkin, { IGherkinOptions } from '@cucumber/gherkin'
-import { pipeline } from 'stream'
-import CucumberStream from './CucumberStream'
-import { promisify } from 'util'
+import gherkin, {
+  IGherkinOptions,
+  Query as GherkinQuery,
+} from '@cucumber/gherkin'
 import formatStream from './formatStream'
-import supportCode from './index'
 import { IdGenerator } from '@cucumber/messages'
 import findSupportCodePaths from './findSupportCodePaths'
 import fs from 'fs'
 import IncrementClock from './IncrementClock'
-import { withSourceFramesOnlyStackTrace } from './ErrorMessageGenerator'
-
-const pipelinePromise = promisify(pipeline)
+import {
+  withFullStackTrace,
+  withSourceFramesOnlyStackTrace,
+} from './ErrorMessageGenerator'
+import GherkinQueryStream from './GherkinQueryStream'
+import TestPlan from './TestPlan'
+import makeTestCase from './makeTestCase'
+import PerfHooksClock from './PerfHooksClock'
+import SupportCode from './SupportCode'
+// eslint-disable-next-line @typescript-eslint/camelcase
+import * as dsl from './dsl'
 
 const program = new Command()
 program.version(packageJson.version)
@@ -32,6 +39,11 @@ program.parse(process.argv)
 const paths = program.args
 const requirePaths = program.require ? program.require.split(':') : paths
 
+const supportCode = new SupportCode(
+  IdGenerator.uuid(),
+  new PerfHooksClock(),
+  withFullStackTrace()
+)
 if (program.predictableIds) {
   supportCode.newId = IdGenerator.incrementing()
   supportCode.clock = new IncrementClock()
@@ -46,6 +58,7 @@ const options: IGherkinOptions = {
 }
 
 async function loadSupportCode(): Promise<void> {
+  dsl.__dangerously_setSupportCode__(supportCode)
   const supportCodePaths = await findSupportCodePaths(requirePaths)
   let tsNodeRegistered = false
   for (const supportCodePath of supportCodePaths) {
@@ -63,28 +76,53 @@ async function loadSupportCode(): Promise<void> {
 
 async function main() {
   if (program.globals) {
-    for (const key of Object.keys(supportCode)) {
+    for (const key of Object.keys(dsl)) {
       // @ts-ignore
       global[key] = supportCode[key]
     }
   }
+  const format = formatStream(program.format)
+  format.pipe(process.stdout)
+
   await loadSupportCode()
-  const cucumberStream = new CucumberStream(
-    supportCode.parameterTypes,
-    supportCode.stepDefinitions,
-    supportCode.undefinedParameterTypes,
-    supportCode.beforeHooks,
-    supportCode.afterHooks,
-    supportCode.newId,
-    supportCode.clock,
-    supportCode.makeErrorMessage
+  const gherkinQuery = new GherkinQuery()
+
+  const envelopeStream = gherkin.fromPaths(paths, options)
+  const gherkinQueryStream = new GherkinQueryStream(gherkinQuery)
+  envelopeStream.pipe(gherkinQueryStream).pipe(format, { end: false })
+
+  await new Promise((resolve, reject) => {
+    gherkinQueryStream.on('end', resolve)
+    gherkinQueryStream.on('error', reject)
+    envelopeStream.on('error', reject)
+  })
+
+  const testCases = gherkinQuery
+    .getPickles()
+    .map(pickle =>
+      makeTestCase(
+        pickle,
+        supportCode.stepDefinitions,
+        supportCode.beforeHooks,
+        supportCode.afterHooks,
+        gherkinQuery,
+        supportCode.newId,
+        supportCode.clock,
+        supportCode.makeErrorMessage
+      )
+    )
+
+  const testPlan = new TestPlan(
+    gherkinQuery.getPickles(),
+    testCases,
+    supportCode
   )
-  await pipelinePromise(
-    gherkin.fromPaths(paths, options),
-    cucumberStream,
-    formatStream(program.format),
-    process.stdout
-  )
+  await testPlan.execute(envelope => {
+    format.write(envelope)
+    if (envelope.testRunFinished) {
+      format.end()
+    }
+  })
 }
 
 main().catch(err => {

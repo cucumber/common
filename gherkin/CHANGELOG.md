@@ -11,6 +11,8 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Added
 
+* [JavaScript] Add `Query#getPickles()`
+
 ### Changed
 
 ### Deprecated

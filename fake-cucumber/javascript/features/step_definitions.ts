@@ -1,9 +1,9 @@
-import x from '../src'
+import { Given } from '../src/dsl'
 
-x.Given('a passed step', () => {
+Given('a passed step', () => {
   // no-op
 })
 
-x.Given('I have {int} cukes', (cukes: number) => {
+Given('I have {int} cukes', (cukes: number) => {
   // no-op
 })

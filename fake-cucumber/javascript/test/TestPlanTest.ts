@@ -16,6 +16,8 @@ import ExpressionStepDefinition from '../src/ExpressionStepDefinition'
 import { Query } from '@cucumber/gherkin'
 import IncrementClock from '../src/IncrementClock'
 import { withSourceFramesOnlyStackTrace } from '../src/ErrorMessageGenerator'
+import SupportCode from '../src/SupportCode'
+import makeTestCase from '../src/makeTestCase'
 
 describe('TestPlan', () => {
   it('executes test cases', async () => {
@@ -36,16 +38,28 @@ describe('TestPlan', () => {
     }
 
     const pickles = gherkinEnvelopes.filter(m => m.pickle).map(m => m.pickle)
-    const testPlan = new TestPlan(
-      pickles,
-      [stepDefinition],
-      [],
-      [],
-      gherkinQuery,
+    const supportCode = new SupportCode(
       IdGenerator.incrementing(),
       new IncrementClock(),
       withSourceFramesOnlyStackTrace()
     )
+
+    const testCases = gherkinQuery
+      .getPickles()
+      .map(pickle =>
+        makeTestCase(
+          pickle,
+          [stepDefinition],
+          [],
+          [],
+          gherkinQuery,
+          supportCode.newId,
+          supportCode.clock,
+          supportCode.makeErrorMessage
+        )
+      )
+
+    const testPlan = new TestPlan(pickles, testCases, supportCode)
     const envelopes: messages.IEnvelope[] = []
     const notifier: MessageNotifier = message => envelopes.push(message)
     await testPlan.execute(notifier)
@@ -78,17 +92,28 @@ describe('TestPlan', () => {
     }
 
     const pickles = gherkinEnvelopes.filter(m => m.pickle).map(m => m.pickle)
-
-    const testPlan = new TestPlan(
-      pickles,
-      [stepDefinition],
-      [],
-      [],
-      gherkinQuery,
+    const supportCode = new SupportCode(
       IdGenerator.incrementing(),
       new IncrementClock(),
       withSourceFramesOnlyStackTrace()
     )
+
+    const testCases = gherkinQuery
+      .getPickles()
+      .map(pickle =>
+        makeTestCase(
+          pickle,
+          [stepDefinition],
+          [],
+          [],
+          gherkinQuery,
+          supportCode.newId,
+          supportCode.clock,
+          supportCode.makeErrorMessage
+        )
+      )
+
+    const testPlan = new TestPlan(pickles, testCases, supportCode)
     const envelopes: messages.IEnvelope[] = []
     const notifier: MessageNotifier = message => envelopes.push(message)
     await testPlan.execute(notifier)

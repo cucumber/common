@@ -1,46 +1,39 @@
 import TestCase from './TestCase'
 import { MessageNotifier } from './types'
-import { IdGenerator, messages, TimeConversion } from '@cucumber/messages'
-import makeTestCase from './makeTestCase'
-import IStepDefinition from './IStepDefinition'
-import IHook from './IHook'
-import { Query } from '@cucumber/gherkin'
-import IClock from './IClock'
-import { MakeErrorMessage } from './ErrorMessageGenerator'
+import { messages, TimeConversion } from '@cucumber/messages'
+import SupportCode from './SupportCode'
+import { ParameterType } from '@cucumber/cucumber-expressions'
 
 export default class TestPlan {
-  private readonly testCases: TestCase[]
-
   constructor(
-    pickles: messages.IPickle[],
-    stepDefinitions: IStepDefinition[],
-    beforeHooks: IHook[],
-    afterHooks: IHook[],
-    gherkinQuery: Query,
-    private readonly newId: IdGenerator.NewId,
-    private readonly clock: IClock,
-    private readonly makeErrorMessage: MakeErrorMessage
-  ) {
-    this.testCases = pickles.map(pickle =>
-      makeTestCase(
-        pickle,
-        stepDefinitions,
-        beforeHooks,
-        afterHooks,
-        gherkinQuery,
-        newId,
-        clock,
-        makeErrorMessage
-      )
-    )
-  }
+    pickles: ReadonlyArray<messages.IPickle>,
+    private readonly testCases: TestCase[],
+    private readonly supportCode: SupportCode
+  ) {}
 
   public async execute(notifier: MessageNotifier): Promise<void> {
+    for (const parameterType of this.supportCode.parameterTypes) {
+      notifier(parameterTypeToMessage(parameterType))
+    }
+    for (const stepDefinition of this.supportCode.stepDefinitions) {
+      notifier(stepDefinition.toMessage())
+    }
+    for (const undefinedParameterType of this.supportCode
+      .undefinedParameterTypes) {
+      notifier(undefinedParameterType)
+    }
+    for (const hook of this.supportCode.beforeHooks) {
+      notifier(hook.toMessage())
+    }
+    for (const hook of this.supportCode.afterHooks) {
+      notifier(hook.toMessage())
+    }
+
     notifier(
       new messages.Envelope({
         testRunStarted: new messages.TestRunStarted({
           timestamp: TimeConversion.millisecondsSinceEpochToTimestamp(
-            this.clock.now()
+            this.supportCode.clock.now()
           ),
         }),
       })
@@ -49,16 +42,29 @@ export default class TestPlan {
       notifier(testCase.toMessage())
     }
     for (const testCase of this.testCases) {
-      await testCase.execute(notifier, 0, this.newId())
+      await testCase.execute(notifier, 0, this.supportCode.newId())
     }
     notifier(
       new messages.Envelope({
         testRunFinished: new messages.TestRunFinished({
           timestamp: TimeConversion.millisecondsSinceEpochToTimestamp(
-            this.clock.now()
+            this.supportCode.clock.now()
           ),
         }),
       })
     )
   }
+}
+
+function parameterTypeToMessage(
+  parameterType: ParameterType<any>
+): messages.IEnvelope {
+  return new messages.Envelope({
+    parameterType: new messages.ParameterType({
+      name: parameterType.name,
+      regularExpressions: parameterType.regexpStrings,
+      preferForRegularExpressionMatch: parameterType.preferForRegexpMatch,
+      useForSnippets: parameterType.useForSnippets,
+    }),
+  })
 }
