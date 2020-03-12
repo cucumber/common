@@ -39,4 +39,4 @@ assets/index.mustache.html:
 
 
 clean:
-	rm -rf acceptance $(FEATURES)
+	rm -rf acceptance $(FEATURES) assets/*.css assets/*.js assets/*.html
