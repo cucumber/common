@@ -11,14 +11,14 @@ CCK_MESSAGES=$(call rwildcard,../../compatibility-kit/ruby,*.ndjson)
 .tested: acceptance/cucumber.html acceptance/cck.html
 
 acceptance/cck.html: $(CCK_MESSAGES)
-	cat $^ | bundle exec bin/html-formatter --format ndjson > $@
+	cat $^ | bundle exec bin/cucumber-html-formatter --format ndjson > $@
 
 acceptance/cucumber.html: .deps $(FEATURES)
 	mkdir -p $(@D)
 	../../fake-cucumber/javascript/bin/fake-cucumber \
 	  --format ndjson \
 		features/*.feature | \
-		bundle exec bin/html-formatter --format ndjson > \
+		bundle exec bin/cucumber-html-formatter --format ndjson > \
 		$@
 
 features/%.feature: ../javascript/features/%.feature
