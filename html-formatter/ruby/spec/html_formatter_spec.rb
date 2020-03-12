@@ -1,22 +1,40 @@
 require 'cucumber/messages'
 require 'cucumber/html_formatter'
 
+class FakeAssets
+  def template
+    "<html>{{css}}<body>{{messages}}</body>{{script}}</html>"
+  end
+
+  def css
+    "<style>div { color: red }</style>"
+  end
+
+  def script
+    "<script>alert('Hi')</script>"
+  end
+end
+
 describe Cucumber::HTMLFormatter::Formatter do
-  let(:subject) { Cucumber::HTMLFormatter::Formatter.new(out)}
+  let(:subject) {
+    formatter = Cucumber::HTMLFormatter::Formatter.new(out)
+    allow(formatter).to receive(:assets_loader).and_return(assets)
+    formatter
+  }
   let(:out) { StringIO.new }
+  let(:assets) { FakeAssets.new }
 
   context 'write_pre_message' do
     it 'outputs the content of the template up to {{messages}}' do
       subject.write_pre_message()
-      expect(out.string).to start_with('<!DOCTYPE html>')
-      expect(out.string).to end_with("window.CUCUMBER_MESSAGES = [\n")
+      expect(out.string).to eq("<html>\n<style>div { color: red }</style>\n<body>\n")
     end
 
     it 'does not write the content twice' do
       subject.write_pre_message()
       subject.write_pre_message()
 
-      expect(out.string.match('DOCTYPE').length).to eq(1)
+      expect(out.string).to eq("<html>\n<style>div { color: red }</style>\n<body>\n")
     end
   end
 
@@ -49,9 +67,7 @@ describe Cucumber::HTMLFormatter::Formatter do
   context 'write_post_message' do
     it 'outputs the template end' do
       subject.write_post_message()
-      expect(out.string).to start_with(']')
-      expect(out.string).to end_with("</html>\n")
-
+      expect(out.string).to eq("</body>\n<script>alert('Hi')</script>\n</html>")
     end
   end
 end
