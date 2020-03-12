@@ -26,8 +26,4 @@ else
   raise "Unsupported format: '#{format}'"
 end
 
-formatter.write_pre_message()
-message_enumerator.each do |message|
-  formatter.write_message(message)
-end
-formatter.write_post_message()
+formatter.process_messages(message_enumerator)

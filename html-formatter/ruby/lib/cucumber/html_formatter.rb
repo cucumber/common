@@ -16,6 +16,12 @@ module Cucumber
         @first_message = true
       end
 
+      def process_messages(messages)
+        write_pre_message
+        messages.each { |message| write_message(message) }
+        write_post_message
+      end
+
       def write_pre_message
         return if @pre_message_written
 

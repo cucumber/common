@@ -24,7 +24,7 @@ describe Cucumber::HTMLFormatter::Formatter do
   let(:out) { StringIO.new }
   let(:assets) { FakeAssets.new }
 
-  context 'write_pre_message' do
+  context '.write_pre_message' do
     it 'outputs the content of the template up to {{messages}}' do
       subject.write_pre_message()
       expect(out.string).to eq("<html>\n<style>div { color: red }</style>\n<body>\n")
@@ -38,7 +38,7 @@ describe Cucumber::HTMLFormatter::Formatter do
     end
   end
 
-  context 'write_message' do
+  context '.write_message' do
     let(:message) do
       Cucumber::Messages::Envelope.new({
         pickle: Cucumber::Messages::Pickle.new({
@@ -64,10 +64,32 @@ describe Cucumber::HTMLFormatter::Formatter do
     end
   end
 
-  context 'write_post_message' do
+  context '.write_post_message' do
     it 'outputs the template end' do
       subject.write_post_message()
       expect(out.string).to eq("</body>\n<script>alert('Hi')</script>\n</html>")
+    end
+  end
+
+  context '.process_messages' do
+    let(:message) do
+      Cucumber::Messages::Envelope.new({
+        pickle: Cucumber::Messages::Pickle.new({
+          id: 'some-random-uid'
+        })
+      })
+    end
+
+    it 'produces the full html report' do
+      subject.process_messages([message])
+      expect(out.string).to eq([
+        '<html>',
+        '<style>div { color: red }</style>',
+        '<body>',
+        '{"pickle":{"id":"some-random-uid"}}</body>',
+        "<script>alert('Hi')</script>",
+        '</html>'
+      ].join("\n"))
     end
   end
 end
