@@ -1,4 +1,4 @@
-# Gherkin go Go
+# Gherkin for Go
 
  [![GoDoc](https://godoc.org/github.com/cucumber/gherkin-go?status.svg)](http://godoc.org/github.com/cucumber/gherkin-go) [![Go Report Card](https://goreportcard.com/badge/github.com/cucumber/gherkin-go)](https://goreportcard.com/report/github.com/cucumber/gherkin-go)
 
