@@ -1,7 +1,9 @@
 import { messages } from './index'
+import Long from 'long'
 
-const MILLISECONDS_PER_SECOND = 1000
-const NANOSECONDS_PER_MILLISECOND = 1000000
+const MILLISECONDS_PER_SECOND = 1e3
+const NANOSECONDS_PER_MILLISECOND = 1e6
+const NANOSECONDS_PER_SECOND = 1e9
 
 export function millisecondsSinceEpochToTimestamp(
   millisecondsSinceEpoch: number
@@ -25,6 +27,16 @@ export function timestampToMillisecondsSinceEpoch(
 export function durationToMilliseconds(duration: messages.IDuration) {
   const { nanos, seconds } = duration
   return toMillis(seconds, nanos)
+}
+
+export function addDurations(durationA: messages.IDuration, durationB: messages.IDuration) {
+  let seconds = new Long(0).add(durationA.seconds).add(durationB.seconds);
+  let nanos = durationA.nanos + durationB.nanos;
+  if (nanos >= NANOSECONDS_PER_SECOND) {
+    seconds = seconds.add(1);
+    nanos -= NANOSECONDS_PER_SECOND
+  }
+  return new messages.Duration({ seconds, nanos })
 }
 
 function toSecondsAndNanos(milliseconds: number) {

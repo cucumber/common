@@ -1,5 +1,7 @@
 import assert from 'assert'
-import { TimeConversion } from '../src'
+import { TimeConversion, messages } from '../src'
+import { addDurations } from '../src/TimeConversion'
+import Long from 'long'
 
 const {
   durationToMilliseconds,
@@ -31,5 +33,29 @@ describe('TimeConversion', () => {
     const durationMillisAgain = durationToMilliseconds(duration)
 
     assert.strictEqual(durationMillisAgain, durationInMilliseconds)
+  })
+
+  it('adds durations (nanos only)', () => {
+    const durationA = millisecondsToDuration(100)
+    const durationB = millisecondsToDuration(200)
+    const sumDuration = addDurations(durationA, durationB)
+
+    assert.deepStrictEqual(sumDuration, new messages.Duration({seconds: new Long(0), nanos: 3e8}))
+  })
+
+  it('adds durations (nanos only)', () => {
+    const durationA = millisecondsToDuration(1000)
+    const durationB = millisecondsToDuration(2000)
+    const sumDuration = addDurations(durationA, durationB)
+
+    assert.deepStrictEqual(sumDuration, new messages.Duration({seconds: new Long(3), nanos: 0}))
+  })
+
+  it('adds durations (seconds and nanos)', () => {
+    const durationA = millisecondsToDuration(1500)
+    const durationB = millisecondsToDuration(1600)
+    const sumDuration = addDurations(durationA, durationB)
+
+    assert.deepStrictEqual(sumDuration, new messages.Duration({seconds: new Long(3), nanos: 1e8}))
   })
 })
