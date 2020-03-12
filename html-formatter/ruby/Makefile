@@ -4,12 +4,14 @@ rwildcard=$(foreach d,$(wildcard $(1:=/*)),$(call rwildcard,$d,$2) $(filter $(su
 
 SOURCE_FEATURES=$(call rwildcard,../javascript/features,*.feature)
 FEATURES=$(patsubst ../javascript/%,%,$(SOURCE_FEATURES))
+CCK_MESSAGES=$(call rwildcard,../../compatibility-kit/ruby,*.ndjson)
 
 .deps: assets/cucumber-react.css assets/cucumber-html.js assets/index.mustache.html
-.tested: acceptance/cucumber.html
 
-features/%.feature: ../javascript/features/%.feature
-	cp $^ $@
+.tested: acceptance/cucumber.html acceptance/cck.html
+
+acceptance/cck.html: $(CCK_MESSAGES)
+	cat $^ | bundle exec bin/html-formatter --format ndjson > $@
 
 acceptance/cucumber.html: .deps $(FEATURES)
 	mkdir -p $(@D)
@@ -18,6 +20,9 @@ acceptance/cucumber.html: .deps $(FEATURES)
 		features/*.feature | \
 		bundle exec bin/html-formatter --format ndjson > \
 		$@
+
+features/%.feature: ../javascript/features/%.feature
+	cp $^ $@
 
 assets/cucumber-react.css:
 	mkdir -p $(@D)
