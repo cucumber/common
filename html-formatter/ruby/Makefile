@@ -8,9 +8,10 @@ CCK_MESSAGES=$(call rwildcard,../../compatibility-kit/ruby,*.ndjson)
 
 .deps: assets/cucumber-react.css assets/cucumber-html.js assets/index.mustache.html
 
-.tested: acceptance/cucumber.html acceptance/cck.html
+.tested: acceptance/cck.html
 
 acceptance/cck.html: $(CCK_MESSAGES)
+	mkdir -p $(@D)
 	cat $^ | bundle exec bin/cucumber-html-formatter --format ndjson > $@
 
 acceptance/cucumber.html: .deps $(FEATURES)
