@@ -28,9 +28,12 @@ export function durationToMilliseconds(duration: messages.IDuration) {
   return toMillis(seconds, nanos)
 }
 
-export function addDurations(durationA: messages.IDuration, durationB: messages.IDuration) {
+export function addDurations(
+  durationA: messages.IDuration,
+  durationB: messages.IDuration
+) {
   let seconds = toNumber(durationA.seconds) + toNumber(durationB.seconds)
-  let nanos = durationA.nanos + durationB.nanos;
+  let nanos = durationA.nanos + durationB.nanos
   if (nanos >= NANOSECONDS_PER_SECOND) {
     seconds += 1
     nanos -= NANOSECONDS_PER_SECOND
@@ -51,7 +54,7 @@ function toSecondsAndNanos(milliseconds: number) {
 }
 
 function toMillis(seconds: number | Long, nanos: number) {
-  let secondMillis = toNumber(seconds) * MILLISECONDS_PER_SECOND
+  const secondMillis = toNumber(seconds) * MILLISECONDS_PER_SECOND
   const nanoMillis = nanos / NANOSECONDS_PER_MILLISECOND
   return secondMillis + nanoMillis
 }
