@@ -19,6 +19,6 @@ check_jar() {
   fi
 }
 
-find . -name "*.jar" | while read jar; do 
+find . -name "*.jar" | while read jar; do
   check_jar "${jar}"
 done

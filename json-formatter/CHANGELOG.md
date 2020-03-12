@@ -11,8 +11,6 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Added
 
-* Handle text added with `log`.
-
 ### Changed
 
 ### Deprecated
@@ -20,6 +18,18 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 ### Removed
 
 ### Fixed
+
+## [3.1.1] - 2020-03-02
+
+### Fixed
+
+* Fix 3.1.0 release
+
+## [3.1.0] - 2020-03-02
+
+### Added
+
+* Handle text added with `log`.
 
 ## [3.0.0] - 2020-02-14
 
@@ -62,7 +72,9 @@ Upgrade messages
 * Initial release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/json-formatter/v3.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/json-formatter/v3.1.1...master
+[3.1.1]:      https://github.com/cucumber/cucumber/compare/json-formatter/v3.1.0...json-formatter/v3.1.1
+[3.1.0]:      https://github.com/cucumber/cucumber/compare/json-formatter/v3.0.0...json-formatter/v3.1.0
 [3.0.0]:      https://github.com/cucumber/cucumber/compare/json-formatter/v2.2.0...json-formatter/v3.0.0
 [2.2.0]:      https://github.com/cucumber/cucumber/compare/json-formatter/v2.1.0...json-formatter/v2.2.0
 [2.1.0]:      https://github.com/cucumber/cucumber/compare/json-formatter/v2.0.0...json-formatter/v2.1.0

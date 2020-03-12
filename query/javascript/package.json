@@ -1,6 +1,6 @@
 {
   "name": "@cucumber/query",
-  "version": "3.0.0",
+  "version": "4.0.0",
   "description": "Cucumber Query - query messages",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
@@ -28,9 +28,9 @@
   "devDependencies": {
     "@cucumber/fake-cucumber": "file:../../fake-cucumber/javascript",
     "@types/mocha": "^7.0.1",
-    "@types/node": "^13.7.6",
-    "@typescript-eslint/eslint-plugin": "^2.21.0",
-    "@typescript-eslint/parser": "^2.21.0",
+    "@types/node": "^13.7.7",
+    "@typescript-eslint/eslint-plugin": "^2.22.0",
+    "@typescript-eslint/parser": "^2.22.0",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.10.0",
     "eslint-plugin-node": "^11.0.0",
@@ -42,14 +42,15 @@
     "source-map-support": "^0.5.16",
     "ts-loader": "^6.2.1",
     "ts-node": "^8.6.2",
-    "typescript": "^3.8.2"
+    "typescript": "^3.8.3"
   },
   "files": [
     "*"
   ],
   "dependencies": {
     "@cucumber/gherkin": "file:../../gherkin/javascript",
-    "@cucumber/messages": "file:../../messages/javascript"
+    "@cucumber/messages": "file:../../messages/javascript",
+    "@teppeis/multimaps": "^1.1.0"
   },
   "directories": {
     "test": "test"

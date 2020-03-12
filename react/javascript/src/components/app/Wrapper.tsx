@@ -1,6 +1,7 @@
+import { deprecate } from 'util'
 import React from 'react'
 import { messages } from '@cucumber/messages'
-import { GherkinQuery } from '@cucumber/gherkin'
+import { Query as GherkinQuery } from '@cucumber/gherkin'
 import CucumberQuery from '@cucumber/query'
 import GherkinQueryContext from '../../GherkinQueryContext'
 import CucumberQueryContext from '../../CucumberQueryContext'
@@ -36,4 +37,7 @@ const Wrapper: React.FunctionComponent<IProps> = ({
   )
 }
 
-export default Wrapper
+export default deprecate(
+  Wrapper,
+  '<Wrapper> is deprecated. Use <QueriesWrapper> instead'
+)
