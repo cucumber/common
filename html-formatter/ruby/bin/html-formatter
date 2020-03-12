@@ -1,5 +1,12 @@
 #!/usr/bin/env ruby
 
+require 'cucumber/messages'
 require 'cucumber/html_formatter'
 
-puts "Ok, that run"
+formatter = Cucumber::HTMLFormatter::Formatter.new(STDOUT)
+
+formatter.write_pre_message()
+Cucumber::Messages::NdjsonToMessageEnumerator.new(STDIN).each do |message|
+  formatter.write_message(message)
+end
+formatter.write_post_message()
