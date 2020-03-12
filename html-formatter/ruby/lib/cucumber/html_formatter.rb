@@ -1,5 +1,7 @@
 require 'cucumber/messages'
 require 'cucumber/html_formatter/template_writer'
+require 'cucumber/html_formatter/assets_loader'
+
 
 module Cucumber
   module HTMLFormatter
@@ -37,10 +39,14 @@ module Cucumber
 
       private
 
+      def assets_loader
+        @assets_loader ||= AssetsLoader.new
+      end
+
       def pre_message
         [
           template_writer.write_between(nil, '{{css}}'),
-          read_asset('cucumber-react.css'),
+          assets_loader.css,
           template_writer.write_between('{{css}}', '{{messages}}')
         ].join("\n")
       end
@@ -48,31 +54,13 @@ module Cucumber
       def post_message
         [
           template_writer.write_between('{{messages}}', '{{script}}'),
-          read_asset('cucumber-html.js'),
+          assets_loader.script,
           template_writer.write_between('{{script}}', nil)
         ].join("\n")
       end
 
       def template_writer
-        @template_writer ||= TemplateWriter.new(template)
-      end
-
-      def template
-        read_asset('index.mustache.html')
-      end
-
-      def read_asset(name)
-        File.read(File.join(assets_path, name))
-      end
-
-      def assets_path
-        "#{html_formatter_path}/assets"
-      end
-
-      def html_formatter_path
-        Gem.loaded_specs['cucumber-html-formatter'].full_gem_path
-      rescue
-        '.'
+        @template_writer ||= TemplateWriter.new(assets_loader.template)
       end
     end
   end
