@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+* Ruby implementation
+  ([#931](https://github.com/cucumber/cucumber/pull/931)
+   [vincent-psarga])
+
 ### Changed
 
 ### Deprecated
@@ -25,11 +29,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
   ([#922](https://github.com/cucumber/cucumber/pull/922)
    [mpkorstanje])
 * JavaScript: Add a mustache template in the JavaScript npm module that other implementations can use
-* JavaScript: Add `CucumberHtmlStream` (default export), allowing this module to be used as a library (in Cucumber.js) 
+* JavaScript: Add `CucumberHtmlStream` (default export), allowing this module to be used as a library (in Cucumber.js)
 
 ### Changed
 
-* JavaScript: No server side rendering 
+* JavaScript: No server side rendering
   * It's not *really* needed. This does break SEO, but that's not a goal for Cucumber HTML reports.
   * Using both server side rendering and client side rendering results in conflicting versions of the react dom being used during development.
   ([#923](https://github.com/cucumber/cucumber/pull/923)
