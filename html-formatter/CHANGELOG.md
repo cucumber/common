@@ -9,10 +9,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
-* Ruby implementation
-  ([#931](https://github.com/cucumber/cucumber/pull/931)
-   [vincent-psarga])
-
 ### Changed
 
 ### Deprecated
@@ -20,6 +16,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Removed
 
 ### Fixed
+
+## [4.3.0] - 2020-03-13
+
+### Added
+
+* Ruby implementation
+  ([#931](https://github.com/cucumber/cucumber/pull/931)
+   [vincent-psarga])
 
 ## [4.2.0] - 2020-03-10
 
@@ -150,7 +154,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/formatter/v4.2.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/formatter/v4.3.0...master
+[4.3.0]:      https://github.com/cucumber/cucumber/compare/formatter/v4.2.0...formatter/v4.3.0
 [4.2.0]:      https://github.com/cucumber/cucumber/compare/formatter/v4.1.0...formatter/v4.2.0
 [4.1.0]:      https://github.com/cucumber/cucumber/compare/formatter/v4.0.0...formatter/v4.1.0
 [4.0.0]:      https://github.com/cucumber/cucumber/compare/formatter/v3.2.3...formatter/v4.0.0
