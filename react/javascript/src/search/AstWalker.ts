@@ -94,25 +94,19 @@ export default class AstWalker {
   protected walkBackground(
     background: messages.GherkinDocument.Feature.IBackground
   ): messages.GherkinDocument.Feature.IBackground {
-    for (const step of background.steps) {
-      this.walkStep(step)
-    }
 
     return messages.GherkinDocument.Feature.Background.create({
       id: background.id,
       name: background.name,
       location: background.location,
       keyword: background.keyword,
-      steps: background.steps,
+      steps: this.walkAllStep(background.steps),
     })
   }
 
   protected walkScenario(
     scenario: messages.GherkinDocument.Feature.IScenario
   ): messages.GherkinDocument.Feature.IScenario {
-    for (const step of scenario.steps) {
-      this.walkStep(step)
-    }
 
     return messages.GherkinDocument.Feature.Scenario.create({
       id: scenario.id,
@@ -120,12 +114,23 @@ export default class AstWalker {
       location: scenario.location,
       keyword: scenario.keyword,
       examples: scenario.examples,
-      steps: scenario.steps,
+      steps: this.walkAllStep(scenario.steps),
       tags: scenario.tags,
     })
   }
+  protected walkAllStep (steps: messages.GherkinDocument.Feature.IStep[]): messages.GherkinDocument.Feature.IStep[] {
+    return steps.map(step => this.walkStep(step))
 
-  protected walkStep(step: messages.GherkinDocument.Feature.IStep) {
-    // no-op
+  }
+
+  protected walkStep(step: messages.GherkinDocument.Feature.IStep): messages.GherkinDocument.Feature.IStep {
+    return messages.GherkinDocument.Feature.Step.create({
+      id: step.id,
+      keyword: step.keyword,
+      location: step.location,
+      text: step.text,
+      dataTable: step.dataTable,
+      docString: step.docString
+    })
   }
 }

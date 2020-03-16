@@ -60,6 +60,10 @@ describe('AstWalker', () => {
       newGherkinDocument.feature.children[2].rule.children[1],
       gherkinDocument.feature.children[2].rule.children[1]
     )
+    assertCopy(
+      newGherkinDocument.feature.children[0].background.steps,
+      gherkinDocument.feature.children[0].background.steps
+    )
   })
 })
 
