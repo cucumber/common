@@ -3,6 +3,7 @@ import { AnyBody } from './types'
 import { messages } from '@cucumber/messages'
 import StackUtils from 'stack-utils'
 import IParameterTypeDefinition from './IParameterTypeDefinition'
+import { deprecate } from 'util'
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
@@ -12,6 +13,7 @@ declare global {
     }
   }
 }
+
 function setSupportCode(setSupportCode: SupportCode) {
   global.supportCode = setSupportCode
 }
@@ -26,7 +28,7 @@ function defineStepDefinition(expression: string | RegExp, body: AnyBody) {
 
 function defineBeforeHook(
   tagExpressionOrBody: string | AnyBody,
-  body: AnyBody
+  body?: AnyBody
 ) {
   global.supportCode.defineBeforeHook(
     getSourceReference(new Error().stack),
@@ -35,7 +37,10 @@ function defineBeforeHook(
   )
 }
 
-function defineAfterHook(tagExpressionOrBody: string | AnyBody, body: AnyBody) {
+function defineAfterHook(
+  tagExpressionOrBody: string | AnyBody,
+  body?: AnyBody
+) {
   global.supportCode.defineAfterHook(
     getSourceReference(new Error().stack),
     tagExpressionOrBody,
@@ -43,7 +48,7 @@ function defineAfterHook(tagExpressionOrBody: string | AnyBody, body: AnyBody) {
   )
 }
 
-function defineParameterType(
+function defineParameterType0(
   parameterTypeDefinition: IParameterTypeDefinition
 ) {
   global.supportCode.defineParameterType(parameterTypeDefinition)
@@ -71,7 +76,20 @@ const Then = defineStepDefinition
 
 const Before = defineBeforeHook
 const After = defineAfterHook
-const ParameterType = defineParameterType
+const ParameterType = defineParameterType0
+const defineParameterType = deprecate(
+  defineParameterType0,
+  'Please use ParameterType instead'
+)
 
 // eslint-disable-next-line @typescript-eslint/camelcase
-export { Given, When, Then, Before, After, ParameterType, setSupportCode }
+export {
+  Given,
+  When,
+  Then,
+  Before,
+  After,
+  ParameterType,
+  defineParameterType,
+  setSupportCode,
+}
