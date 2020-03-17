@@ -1,11 +1,14 @@
 import { messages } from '@cucumber/messages'
+import Feature from '../components/gherkin/Feature'
 
 export default class AstWalker {
   public walkGherkinDocument(
     gherkinDocument: messages.IGherkinDocument
   ): messages.IGherkinDocument {
+    const featureWalkerCall = this.walkFeature(gherkinDocument.feature)
+
     return messages.GherkinDocument.create({
-      feature: this.walkFeature(gherkinDocument.feature),
+      feature: featureWalkerCall,
       comments: gherkinDocument.comments,
     })
   }
@@ -13,6 +16,7 @@ export default class AstWalker {
   protected walkFeature(
     feature: messages.GherkinDocument.IFeature
   ): messages.GherkinDocument.IFeature {
+
     const copy = messages.GherkinDocument.Feature.create({
       children: this.walkFeatureChildren(feature.children),
       location: feature.location,
@@ -107,6 +111,9 @@ export default class AstWalker {
   protected walkScenario(
     scenario: messages.GherkinDocument.Feature.IScenario
   ): messages.GherkinDocument.Feature.IScenario {
+    if(scenario.name === 'Saturn') {
+      return null
+    }
 
     return messages.GherkinDocument.Feature.Scenario.create({
       id: scenario.id,
