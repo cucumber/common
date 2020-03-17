@@ -1,4 +1,6 @@
-[![Build Status](https://secure.travis-ci.org/cucumber/gherkin-java.svg)](http://travis-ci.org/cucumber/gherkin-java)
+[![Maven Central](https://img.shields.io/maven-central/v/io.cucumber/gherkin.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22io.cucumber%22%20AND%20a:%22gherkin%22)
+
+# Gherkin for Java
 
 Gherkin parser/compiler for Java.
 
