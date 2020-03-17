@@ -4,8 +4,13 @@ export default class AstWalker {
   public walkGherkinDocument(
     gherkinDocument: messages.IGherkinDocument
   ): messages.IGherkinDocument {
+    console.log(gherkinDocument.feature)
+    const featureWalkerCall = this.walkFeature(gherkinDocument.feature)
+    if (featureWalkerCall === null) {
+      return null
+    }
     return messages.GherkinDocument.create({
-      feature: this.walkFeature(gherkinDocument.feature),
+      feature: featureWalkerCall,
       comments: gherkinDocument.comments,
     })
   }
@@ -13,6 +18,9 @@ export default class AstWalker {
   protected walkFeature(
     feature: messages.GherkinDocument.IFeature
   ): messages.GherkinDocument.IFeature {
+    if (feature === null) {
+      return null
+    }
     const copy = messages.GherkinDocument.Feature.create({
       children: this.walkFeatureChildren(feature.children),
       location: feature.location,

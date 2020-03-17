@@ -4,6 +4,7 @@ import Parser from '@cucumber/gherkin/dist/src/Parser'
 import AstBuilder from '@cucumber/gherkin/dist/src/AstBuilder'
 import AstWalker from '../../src/search/AstWalker'
 import pretty from '../../src/pretty-formatter/pretty'
+import { parser } from 'marked'
 
 describe('AstWalker', () => {
   let parser: Parser
@@ -20,7 +21,7 @@ describe('AstWalker', () => {
     assert.notEqual(copy, source)
   }
 
-  it.only('returns a deep copy', () => {
+  it('returns a deep copy', () => {
     const gherkinDocument = parser.parse(`Feature: hello
   Background:
     Given a passed step
@@ -70,12 +71,14 @@ describe('AstWalker', () => {
 class StepTextGetter extends AstWalker {
   private stepTextList: string[] = []
 
-  walkStep(step: messages.GherkinDocument.Feature.IStep) {
+  walkStep(step: messages.GherkinDocument.Feature.IStep): messages.GherkinDocument.Feature.IStep  {
     super.walkStep(step)
     this.stepTextList.push(step.text)
+    return
   }
 
   stepsText(): string[] {
+    console.log(this.stepTextList)
     return this.stepTextList
   }
 }
@@ -169,7 +172,17 @@ describe('AstPruner', () => {
     gherkinDocument = parser.parse(source)
   })
 
-  it('removes saturn', () => {
+  it.only('return null when there are no elements', () => {
+    const pruner = new AstPruner([])
+    const newId = IdGenerator.uuid()
+    const parser = new Parser(new AstBuilder(newId))
+    const emptyFeature = ``
+    const parseEmptyFeature = parser.parse(emptyFeature)
+    let document: messages.IGherkinDocument = parseEmptyFeature
+    assert.deepEqual(pruner.walkGherkinDocument(document), null)
+  })
+
+  /*it('removes saturn', () => {
     const astPruner = new AstPruner()
     astPruner.walkGherkinDocument(gherkinDocument)
 
@@ -181,7 +194,19 @@ describe('AstPruner', () => {
     Given is a planet with liquid water
 `
     )
-  })
+  })*/
 
-  class AstPruner extends AstWalker {}
+  class AstPruner extends AstWalker {
+    constructor(
+      matchedFeatures: messages.GherkinDocument.IFeature[] = [],
+    ) {
+      super();
+    }
+    walkFeature(matchedFeatures: messages.GherkinDocument.IFeature): messages.GherkinDocument.IFeature {
+      super.walkFeature(matchedFeatures)
+      if(matchedFeatures === null) {
+        return null
+      }
+    }
+  }
 })
