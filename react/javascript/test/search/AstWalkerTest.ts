@@ -71,7 +71,7 @@ describe('AstWalker', () => {
     const gherkinDocument = parser.parse(source)
 
     const walker = new AstWalker({
-      acceptScenario: scenario => scenario.name !== 'Saturn',
+      acceptScenario: scenario => scenario.name === 'Earth',
     })
     const newGherkinDocument = walker.walkGherkinDocument(gherkinDocument)
     const newSource = pretty(newGherkinDocument)
@@ -82,6 +82,33 @@ describe('AstWalker', () => {
 `
     assert.strictEqual(newSource, expectedNewSource)
   })
+
+  it('keeps scenario with search hit in step', () => {
+    const source = `Feature: Solar System
+
+  Scenario: Saturn
+    Given is the sixth planet from the Sun
+
+  Scenario: Earth
+    Given is a planet with liquid water
+`
+    const newId = IdGenerator.uuid()
+    const parser = new Parser(new AstBuilder(newId))
+    const gherkinDocument = parser.parse(source)
+
+    const walker = new AstWalker({
+      acceptStep: step => step.text.includes('liquid'),
+    })
+    const newGherkinDocument = walker.walkGherkinDocument(gherkinDocument)
+    const newSource = pretty(newGherkinDocument)
+    const expectedNewSource = `Feature: Solar System
+
+  Scenario: Earth
+    Given is a planet with liquid water
+`
+    assert.strictEqual(newSource, expectedNewSource)
+  })
+
 })
 
 /*describe('AstPruner', () => {

@@ -3,11 +3,15 @@ import { messages } from '@cucumber/messages'
 interface IFilters {
   acceptScenario?: (
     scenario: messages.GherkinDocument.Feature.IScenario
+  ) => boolean,
+  acceptStep?: (
+    step: messages.GherkinDocument.Feature.IStep
   ) => boolean
 }
 
 const defaultFilters: IFilters = {
   acceptScenario: () => true,
+  acceptStep: () => true,
 }
 
 export default class AstWalker {
@@ -116,14 +120,17 @@ export default class AstWalker {
       name: background.name,
       location: background.location,
       keyword: background.keyword,
-      steps: this.walkAllStep(background.steps),
+      steps: this.walkAllSteps(background.steps),
     })
   }
 
   protected walkScenario(
     scenario: messages.GherkinDocument.Feature.IScenario
   ): messages.GherkinDocument.Feature.IScenario {
-    if (!this.filters.acceptScenario(scenario)) {
+    const steps = this.walkAllSteps(scenario.steps)
+    const allStepsRejected = steps.filter(step => step === null).length === steps.length
+
+    if (!this.filters.acceptScenario(scenario ) || (allStepsRejected && steps.length > 0)) {
       return null
     }
 
@@ -133,11 +140,11 @@ export default class AstWalker {
       location: scenario.location,
       keyword: scenario.keyword,
       examples: scenario.examples,
-      steps: this.walkAllStep(scenario.steps),
+      steps,
       tags: scenario.tags,
     })
   }
-  protected walkAllStep(
+  protected walkAllSteps(
     steps: messages.GherkinDocument.Feature.IStep[]
   ): messages.GherkinDocument.Feature.IStep[] {
     return steps.map(step => this.walkStep(step))
@@ -146,6 +153,9 @@ export default class AstWalker {
   protected walkStep(
     step: messages.GherkinDocument.Feature.IStep
   ): messages.GherkinDocument.Feature.IStep {
+    if(!this.filters.acceptStep(step)) {
+      return null
+    }
     return messages.GherkinDocument.Feature.Step.create({
       id: step.id,
       keyword: step.keyword,
