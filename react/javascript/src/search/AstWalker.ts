@@ -1,7 +1,14 @@
 import { messages } from '@cucumber/messages'
-import Feature from '../components/gherkin/Feature'
+
+interface Filters {
+  rejectScenario?: (
+    scenario: messages.GherkinDocument.Feature.IScenario
+  ) => boolean
+}
 
 export default class AstWalker {
+  constructor(private readonly filters?: Filters) {}
+
   public walkGherkinDocument(
     gherkinDocument: messages.IGherkinDocument
   ): messages.IGherkinDocument {
@@ -16,15 +23,13 @@ export default class AstWalker {
   protected walkFeature(
     feature: messages.GherkinDocument.IFeature
   ): messages.GherkinDocument.IFeature {
-
-    const copy = messages.GherkinDocument.Feature.create({
+    return messages.GherkinDocument.Feature.create({
       children: this.walkFeatureChildren(feature.children),
       location: feature.location,
       language: feature.language,
       keyword: feature.keyword,
       name: feature.name,
     })
-    return copy
   }
 
   private walkFeatureChildren(
@@ -98,7 +103,6 @@ export default class AstWalker {
   protected walkBackground(
     background: messages.GherkinDocument.Feature.IBackground
   ): messages.GherkinDocument.Feature.IBackground {
-
     return messages.GherkinDocument.Feature.Background.create({
       id: background.id,
       name: background.name,
@@ -111,7 +115,11 @@ export default class AstWalker {
   protected walkScenario(
     scenario: messages.GherkinDocument.Feature.IScenario
   ): messages.GherkinDocument.Feature.IScenario {
-    if(scenario.name === 'Saturn') {
+    if (
+      this.filters &&
+      this.filters.rejectScenario &&
+      this.filters.rejectScenario(scenario)
+    ) {
       return null
     }
 
@@ -125,19 +133,22 @@ export default class AstWalker {
       tags: scenario.tags,
     })
   }
-  protected walkAllStep (steps: messages.GherkinDocument.Feature.IStep[]): messages.GherkinDocument.Feature.IStep[] {
+  protected walkAllStep(
+    steps: messages.GherkinDocument.Feature.IStep[]
+  ): messages.GherkinDocument.Feature.IStep[] {
     return steps.map(step => this.walkStep(step))
-
   }
 
-  protected walkStep(step: messages.GherkinDocument.Feature.IStep): messages.GherkinDocument.Feature.IStep {
+  protected walkStep(
+    step: messages.GherkinDocument.Feature.IStep
+  ): messages.GherkinDocument.Feature.IStep {
     return messages.GherkinDocument.Feature.Step.create({
       id: step.id,
       keyword: step.keyword,
       location: step.location,
       text: step.text,
       dataTable: step.dataTable,
-      docString: step.docString
+      docString: step.docString,
     })
   }
 }
