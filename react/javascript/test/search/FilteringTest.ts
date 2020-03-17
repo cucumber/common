@@ -1,11 +1,9 @@
 import assert from 'assert'
-import { IdGenerator } from '@cucumber/messages'
 import Search from '../../src/search/Search'
-import Parser from '@cucumber/gherkin/dist/src/Parser'
-import AstBuilder from '@cucumber/gherkin/dist/src/AstBuilder'
 import pretty from '../../src/pretty-formatter/pretty'
+import parse from './parse'
 
-describe('Search', () => {
+xdescribe('Search', () => {
   let search: Search
   const source = `Feature: Continents
 
@@ -23,9 +21,7 @@ describe('Search', () => {
 `
 
   beforeEach(() => {
-    const newId = IdGenerator.uuid()
-    const parser = new Parser(new AstBuilder(newId))
-    const gherkinDocument = parser.parse(source)
+    const gherkinDocument = parse(source)
 
     search = new Search()
     search.add(gherkinDocument)
