@@ -12,6 +12,7 @@ describe('Search', () => {
 
   Scenario: Earth
     Given is a planet with liquid water
+    And humans living on it
 `)
 
     const search = new Search()
@@ -23,6 +24,7 @@ describe('Search', () => {
 
   Scenario: Earth
     Given is a planet with liquid water
+    And humans living on it
 `
     assert.strictEqual(newSource, expectedNewSource)
   })
