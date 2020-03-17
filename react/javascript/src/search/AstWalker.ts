@@ -1,13 +1,21 @@
 import { messages } from '@cucumber/messages'
 
-interface Filters {
-  rejectScenario?: (
+interface IFilters {
+  acceptScenario?: (
     scenario: messages.GherkinDocument.Feature.IScenario
   ) => boolean
 }
 
+const defaultFilters: IFilters = {
+  acceptScenario: () => true,
+}
+
 export default class AstWalker {
-  constructor(private readonly filters?: Filters) {}
+  private readonly filters: IFilters
+
+  constructor(filters?: IFilters) {
+    this.filters = { ...defaultFilters, ...filters }
+  }
 
   public walkGherkinDocument(
     gherkinDocument: messages.IGherkinDocument
@@ -115,11 +123,7 @@ export default class AstWalker {
   protected walkScenario(
     scenario: messages.GherkinDocument.Feature.IScenario
   ): messages.GherkinDocument.Feature.IScenario {
-    if (
-      this.filters &&
-      this.filters.rejectScenario &&
-      this.filters.rejectScenario(scenario)
-    ) {
+    if (!this.filters.acceptScenario(scenario)) {
       return null
     }
 

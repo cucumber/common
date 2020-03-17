@@ -12,7 +12,7 @@ describe('AstWalker', () => {
   beforeEach(() => {
     const newId = IdGenerator.uuid()
     parser = new Parser(new AstBuilder(newId))
-    walker = new AstWalker({})
+    walker = new AstWalker()
   })
 
   function assertCopy(copy: any, source: any) {
@@ -71,7 +71,7 @@ describe('AstWalker', () => {
     const gherkinDocument = parser.parse(source)
 
     const walker = new AstWalker({
-      rejectScenario: scenario => scenario.name === 'Saturn',
+      acceptScenario: scenario => scenario.name !== 'Saturn',
     })
     const newGherkinDocument = walker.walkGherkinDocument(gherkinDocument)
     const newSource = pretty(newGherkinDocument)
