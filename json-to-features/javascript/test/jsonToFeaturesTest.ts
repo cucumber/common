@@ -1,8 +1,5 @@
 import assert from 'assert'
-
-class GherkinDocument {
-  constructor(public readonly uri: string) {}
-}
+import GherkinDocument from '../src/GherkinDocument'
 
 class JSONToFeature {
   public makeFeatures(sources: Record<string, any>[]): GherkinDocument[] {
