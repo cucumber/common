@@ -1,20 +1,18 @@
-import { Transform, TransformCallback } from 'stream'
+import { Writable } from 'stream'
 import Query from './Query'
 import { messages } from '@cucumber/messages'
 
-export default class QueryStream extends Transform {
+export default class QueryStream extends Writable {
   constructor(private readonly query: Query) {
-    super({ readableObjectMode: true, writableObjectMode: true })
+    super({ objectMode: true })
   }
 
-  _transform(
+  _write(
     envelope: messages.IEnvelope,
     encoding: string,
-    callback: TransformCallback
+    callback: (error?: Error | null) => void
   ): void {
-    console.error(Object.keys(envelope)[0])
     this.query.update(envelope)
-    console.error('ok')
-    callback(null, envelope)
+    callback(null)
   }
 }

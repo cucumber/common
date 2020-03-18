@@ -18,7 +18,7 @@ describe('App', () => {
   const files = fs.readdirSync(dir)
 
   for (const file of files) {
-    if (file.match(/very_long\.feature$/)) {
+    if (file.match(/\.feature$/)) {
       it(`can render ${file}`, async () => {
         const dom = new JSDOM(
           '<html lang="en"><body><div id="content"></div></body></html>'
@@ -39,14 +39,12 @@ describe('App', () => {
         const gherkinQuery = new GherkinQuery()
         const cucumberQuery = new CucumberQuery()
         const cucumberQueryStream = new CucumberQueryStream(cucumberQuery)
-        console.error('before')
         await runCucumber(
           supportCode,
           gherkinStream,
           gherkinQuery,
           cucumberQueryStream
         )
-        console.error('after')
         const app = (
           <QueriesWrapper
             gherkinQuery={gherkinQuery}
@@ -57,7 +55,7 @@ describe('App', () => {
           </QueriesWrapper>
         )
         ReactDOM.render(app, document.getElementById('content'))
-      }).timeout(15000) // TODO: What the hell is taking so long??
+      }).timeout(2000)
     }
   }
 })

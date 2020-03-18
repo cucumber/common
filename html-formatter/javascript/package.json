@@ -21,7 +21,9 @@
     "build": "tsc && webpack-cli src/main.tsx && cp src/index.mustache.html dist/src"
   },
   "dependencies": {
+    "@cucumber/gherkin": "file:../../gherkin/javascript",
     "@cucumber/messages": "file:../../messages/javascript",
+    "@cucumber/query": "file:../../query/javascript",
     "@cucumber/react": "file:../../react/javascript",
     "commander": "^4.1.1",
     "react": "^16.13.0",
@@ -29,7 +31,6 @@
     "source-map-support": "^0.5.16"
   },
   "devDependencies": {
-    "@cucumber/gherkin": "file:../../gherkin/javascript",
     "@babel/core": "^7.8.7",
     "@types/jsdom": "^16.1.0",
     "@types/mocha": "^7.0.2",
