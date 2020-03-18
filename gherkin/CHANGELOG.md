@@ -15,6 +15,9 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Changed
 
+* [JavaScript] `Gherkin#fromPaths` and `Gherkin#fromSources` now use `ReadOnlyArray` to
+  prevent modifying the passed array.
+
 ### Deprecated
 
 ### Removed

@@ -2,8 +2,8 @@
   "name": "@cucumber/fake-cucumber",
   "version": "5.0.0",
   "description": "Fake Cucumber generates fake results",
-  "main": "dist/src/dsl.js",
-  "types": "dist/src/dsl.d.ts",
+  "main": "dist/src/index.js",
+  "types": "dist/src/index.d.ts",
   "bin": {
     "fake-cucumber": "bin/fake-cucumber"
   },

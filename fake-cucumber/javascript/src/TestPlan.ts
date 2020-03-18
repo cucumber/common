@@ -40,6 +40,7 @@ export default class TestPlan {
     for (const testCase of this.testCases) {
       listener(testCase.toMessage())
     }
+    // TODO: By using Promise.all here we could execute in parallel
     for (const testCase of this.testCases) {
       await testCase.execute(listener, 0, this.supportCode.newId())
     }

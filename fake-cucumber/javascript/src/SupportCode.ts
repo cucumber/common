@@ -10,8 +10,9 @@ import IStepDefinition from './IStepDefinition'
 import IHook from './IHook'
 import Hook from './Hook'
 import IClock from './IClock'
-import { MakeErrorMessage } from './ErrorMessageGenerator'
+import { MakeErrorMessage, withFullStackTrace } from './ErrorMessageGenerator'
 import IParameterTypeDefinition from './IParameterTypeDefinition'
+import PerfHooksClock from './PerfHooksClock'
 
 function defaultTransformer(...args: string[]) {
   return args
@@ -33,9 +34,9 @@ export default class SupportCode {
   public readonly undefinedParameterTypes: messages.IEnvelope[] = []
 
   constructor(
-    public newId: IdGenerator.NewId,
-    public clock: IClock,
-    public makeErrorMessage: MakeErrorMessage
+    public readonly newId: IdGenerator.NewId = IdGenerator.uuid(),
+    public readonly clock: IClock = new PerfHooksClock(),
+    public readonly makeErrorMessage: MakeErrorMessage = withFullStackTrace()
   ) {}
 
   public defineParameterType(
