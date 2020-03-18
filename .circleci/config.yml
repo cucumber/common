@@ -333,6 +333,18 @@ jobs:
           paths:
             - json-formatter/javascript/features
 
+
+  json-to-features-javascript:
+    executor: docker-circleci-node-12
+    steps:
+      - attach_workspace:
+          at: "~/cucumber"
+      - run:
+          name: json-to-features/javascript
+          command: |
+            cd json-to-features/javascript
+            make
+
   query-javascript:
     executor: docker-circleci-node-12
     steps:
@@ -774,6 +786,9 @@ workflows:
             - messages-javascript
             - fake-cucumber-javascript
             - gherkin-javascript
+      - json-to-features-javascript:
+          requires:
+            - checkout
 
 ### Ruby
 
