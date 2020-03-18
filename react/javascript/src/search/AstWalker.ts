@@ -140,7 +140,7 @@ export default class AstWalker {
       location: scenario.location,
       keyword: scenario.keyword,
       examples: scenario.examples,
-      steps,
+      steps: scenario.steps.map(step => this.copyStep(step)),
       tags: scenario.tags,
     })
   }
@@ -156,6 +156,10 @@ export default class AstWalker {
     if(!this.filters.acceptStep(step)) {
       return null
     }
+    return this.copyStep(step)
+  }
+
+  private copyStep(step: messages.GherkinDocument.Feature.IStep): messages.GherkinDocument.Feature.IStep {
     return messages.GherkinDocument.Feature.Step.create({
       id: step.id,
       keyword: step.keyword,
@@ -163,6 +167,6 @@ export default class AstWalker {
       text: step.text,
       dataTable: step.dataTable,
       docString: step.docString,
-    })
+    });
   }
 }
