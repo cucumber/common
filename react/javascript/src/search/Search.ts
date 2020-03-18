@@ -20,6 +20,7 @@ export default class Search {
 
     const walker = new AstWalker({
       acceptStep: step => matchingSteps.includes(step),
+      acceptScenario: scenario => matchingScenarios.includes(scenario),
     })
 
     return this.gherkinDocuments.map(gherkinDocument =>

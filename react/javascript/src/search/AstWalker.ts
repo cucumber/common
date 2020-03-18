@@ -128,12 +128,13 @@ export default class AstWalker {
     scenario: messages.GherkinDocument.Feature.IScenario
   ): messages.GherkinDocument.Feature.IScenario {
     const steps = this.walkAllSteps(scenario.steps)
-    const allStepsRejected = steps.filter(step => step === null).length === steps.length
 
-    if (!this.filters.acceptScenario(scenario ) || (allStepsRejected && steps.length > 0)) {
-      return null
+    if (this.filters.acceptScenario(scenario) || steps.find(step => step !== null)) {
+      return this.copyScenario(scenario)
     }
+  }
 
+  private copyScenario(scenario: messages.GherkinDocument.Feature.IScenario): messages.GherkinDocument.Feature.IScenario {
     return messages.GherkinDocument.Feature.Scenario.create({
       id: scenario.id,
       name: scenario.name,
@@ -142,8 +143,9 @@ export default class AstWalker {
       examples: scenario.examples,
       steps: scenario.steps.map(step => this.copyStep(step)),
       tags: scenario.tags,
-    })
+    });
   }
+
   protected walkAllSteps(
     steps: messages.GherkinDocument.Feature.IStep[]
   ): messages.GherkinDocument.Feature.IStep[] {

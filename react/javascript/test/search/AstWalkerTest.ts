@@ -2,6 +2,7 @@ import assert from 'assert'
 import AstWalker from '../../src/search/AstWalker'
 import pretty from '../../src/pretty-formatter/pretty'
 import parse from './parse'
+import Step from '../../src/components/gherkin/Step'
 
 describe('AstWalker', () => {
   let walker: AstWalker
@@ -63,6 +64,7 @@ describe('AstWalker', () => {
 `)
 
     const walker = new AstWalker({
+      acceptStep: step => false,
       acceptScenario: scenario => scenario.name === 'Earth',
     })
     const newGherkinDocument = walker.walkGherkinDocument(gherkinDocument)
@@ -87,6 +89,7 @@ describe('AstWalker', () => {
 
     const walker = new AstWalker({
       acceptStep: step => step.text.includes('liquid'),
+      acceptScenario: scenario => false,
     })
     const newGherkinDocument = walker.walkGherkinDocument(gherkinDocument)
     const newSource = pretty(newGherkinDocument)
@@ -94,6 +97,30 @@ describe('AstWalker', () => {
 
   Scenario: Earth
     Given is a planet with liquid water
+`
+    assert.strictEqual(newSource, expectedNewSource)
+  })
+
+  it('keeps a hit scenario even when no steps match', () => {
+    const gherkinDocument = parse(`Feature: Solar System
+
+  Scenario: Saturn
+    Given is the sixth planet from the Sun
+
+  Scenario: Earth
+    Given is a planet with liquid water
+`)
+
+    const walker = new AstWalker({
+      acceptStep: step => false,
+      acceptScenario: scenario => scenario.name === 'Saturn'
+    })
+    const newGherkinDocument = walker.walkGherkinDocument(gherkinDocument)
+    const newSource = pretty(newGherkinDocument)
+    const expectedNewSource = `Feature: Solar System
+
+  Scenario: Saturn
+    Given is the sixth planet from the Sun
 `
     assert.strictEqual(newSource, expectedNewSource)
   })
