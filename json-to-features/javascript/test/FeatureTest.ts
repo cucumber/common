@@ -1,24 +1,5 @@
 import assert from 'assert'
-
-class Feature {
-  constructor(
-    private readonly keyword: string,
-    private readonly name: string,
-    private readonly description: string = '',
-    private readonly line: number = 1
-  ) {}
-
-  public toString(): string {
-    const description = this.description == '' ?
-      '' : `\n${this.description}`
-
-    let emptyLines = ''
-    for (let i = 1; i < this.line; i++) {
-      emptyLines = `\n${emptyLines}`
-    }
-    return `${emptyLines}${this.keyword}: ${this.name}${description}`
-  }
-}
+import Feature from '../src/Feature'
 
 context('Feature', () => {
   context('toString', () => {
@@ -35,9 +16,17 @@ context('Feature', () => {
     })
 
     it('ouputs the decription if it exists', () => {
-      const feature = new Feature('Funksjonalitet', 'my feature', '  This is a feature file', 3)
+      const feature = new Feature(
+        'Funksjonalitet',
+        'my feature',
+        '  This is a feature file',
+        3
+      )
 
-      assert.equal(feature.toString(), '\n\nFunksjonalitet: my feature\n  This is a feature file')
+      assert.equal(
+        feature.toString(),
+        '\n\nFunksjonalitet: my feature\n  This is a feature file'
+      )
     })
   })
 })
