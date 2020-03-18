@@ -1,14 +1,7 @@
 import assert from 'assert'
 import { messages } from '@cucumber/messages'
 import ITestStep from '../src/ITestStep'
-import {
-  stubFailingSupportCodeExecutor,
-  stubMatchingStepDefinition,
-  stubPassingSupportCodeExecutor,
-  stubPendingSupportCodeExecutor,
-} from './TestHelpers'
 import makePickleTestStep from '../src/makePickleTestStep'
-import SupportCodeExecutor from '../src/SupportCodeExecutor'
 import IWorld from '../src/IWorld'
 import TestWorld from './TestWorld'
 import IncrementClock from '../src/IncrementClock'
@@ -16,6 +9,12 @@ import {
   withSourceFramesOnlyStackTrace,
   withFullStackTrace,
 } from '../src/ErrorMessageGenerator'
+import ExpressionStepDefinition from '../src/ExpressionStepDefinition'
+import {
+  CucumberExpression,
+  ParameterTypeRegistry,
+  RegularExpression,
+} from '@cucumber/cucumber-expressions'
 
 describe('TestStep', () => {
   let world: IWorld
@@ -25,10 +24,8 @@ describe('TestStep', () => {
     testStep: ITestStep
   ): Promise<messages.ITestStepFinished> {
     const receivedMessages: messages.IEnvelope[] = []
-    await testStep.execute(
-      world,
-      message => receivedMessages.push(message),
-      'some-testCaseStartedId'
+    await testStep.execute(world, 'some-testCaseStartedId', message =>
+      receivedMessages.push(message)
     )
     return receivedMessages.pop().testStepFinished
   }
@@ -58,12 +55,23 @@ describe('TestStep', () => {
     })
 
     it('emits a TestStepFinished with status AMBIGUOUS when there are multiple matching step definitions', async () => {
+      const stepDefinition = new ExpressionStepDefinition(
+        'an-id',
+        new CucumberExpression(
+          'an ambiguous step',
+          new ParameterTypeRegistry()
+        ),
+        null,
+        () => {
+          throw new Error('Should now be run')
+        }
+      )
       const testStep = makePickleTestStep(
         'some-test-step-id',
         messages.Pickle.PickleStep.create({
-          text: 'an undefined step',
+          text: 'an ambiguous step',
         }),
-        [stubMatchingStepDefinition(), stubMatchingStepDefinition()],
+        [stepDefinition, stepDefinition],
         ['some.feature:123'],
         new IncrementClock(),
         withSourceFramesOnlyStackTrace()
@@ -93,8 +101,8 @@ describe('TestStep', () => {
 
       const result = await testStep.execute(
         world,
-        () => null,
-        'some-testCaseStartedId'
+        'some-testCaseStartedId',
+        () => null
       )
       assert.strictEqual(
         result.status,
@@ -109,12 +117,22 @@ describe('TestStep', () => {
         messages.Pickle.PickleStep.create({
           text: 'a passed step',
         }),
-        [stubMatchingStepDefinition(stubPassingSupportCodeExecutor())],
+        [
+          new ExpressionStepDefinition(
+            'an-id',
+            new CucumberExpression(
+              'a passed step',
+              new ParameterTypeRegistry()
+            ),
+            null,
+            () => null
+          ),
+        ],
         ['some.feature:123'],
         new IncrementClock(),
         withSourceFramesOnlyStackTrace()
       )
-      await testStep.execute(world, message => emitted.push(message), 'some-id')
+      await testStep.execute(world, 'some-id', message => emitted.push(message))
       const result = emitted.find(m => m.testStepFinished).testStepFinished
         .testStepResult
 
@@ -128,7 +146,17 @@ describe('TestStep', () => {
           messages.Pickle.PickleStep.create({
             text: 'a passed step',
           }),
-          [stubMatchingStepDefinition(stubPassingSupportCodeExecutor())],
+          [
+            new ExpressionStepDefinition(
+              'an-id',
+              new CucumberExpression(
+                'a passed step',
+                new ParameterTypeRegistry()
+              ),
+              null,
+              () => null
+            ),
+          ],
           ['some.feature:123'],
           new IncrementClock(),
           withSourceFramesOnlyStackTrace()
@@ -147,9 +175,19 @@ describe('TestStep', () => {
         const testStep = makePickleTestStep(
           'some-test-step-id',
           messages.Pickle.PickleStep.create({
-            text: 'a passed step',
+            text: 'a pending step',
           }),
-          [stubMatchingStepDefinition(stubPendingSupportCodeExecutor())],
+          [
+            new ExpressionStepDefinition(
+              'an-id',
+              new CucumberExpression(
+                'a pending step',
+                new ParameterTypeRegistry()
+              ),
+              null,
+              () => 'pending'
+            ),
+          ],
           ['some.feature:123'],
           new IncrementClock(),
           withSourceFramesOnlyStackTrace()
@@ -167,11 +205,19 @@ describe('TestStep', () => {
         const testStep = makePickleTestStep(
           'some-test-step-id',
           messages.Pickle.PickleStep.create({
-            text: 'a passed step',
+            text: 'a failed step',
           }),
           [
-            stubMatchingStepDefinition(
-              stubFailingSupportCodeExecutor('This step has failed')
+            new ExpressionStepDefinition(
+              'an-id',
+              new CucumberExpression(
+                'a failed step',
+                new ParameterTypeRegistry()
+              ),
+              null,
+              () => {
+                throw new Error('This step has failed')
+              }
             ),
           ],
           ['some.feature:123'],
@@ -191,11 +237,19 @@ describe('TestStep', () => {
         const testStep = makePickleTestStep(
           'some-test-step-id',
           messages.Pickle.PickleStep.create({
-            text: 'a passed step',
+            text: 'a failed step',
           }),
           [
-            stubMatchingStepDefinition(
-              stubFailingSupportCodeExecutor('Something went wrong')
+            new ExpressionStepDefinition(
+              'an-id',
+              new CucumberExpression(
+                'a failed step',
+                new ParameterTypeRegistry()
+              ),
+              null,
+              () => {
+                throw new Error('Something went wrong')
+              }
             ),
           ],
           ['some.feature:123'],
@@ -229,16 +283,13 @@ describe('TestStep', () => {
             }),
           }),
           [
-            stubMatchingStepDefinition(
-              new SupportCodeExecutor(
-                'an-id',
-                (docStringArg: string) => {
-                  throw new Error(`error from ${docStringArg}`)
-                },
-                [],
-                docString,
-                null
-              )
+            new ExpressionStepDefinition(
+              'an-id',
+              new RegularExpression(/.*/, new ParameterTypeRegistry()),
+              null,
+              (docStringArg: string) => {
+                throw new Error(`error from ${docStringArg}`)
+              }
             ),
           ],
           ['some.feature:123'],

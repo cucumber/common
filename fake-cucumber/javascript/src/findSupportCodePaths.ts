@@ -11,7 +11,7 @@ function globCode(dir: string) {
 }
 
 export default async function findSupportCodePaths(
-  paths: string[]
+  paths: ReadonlyArray<string>
 ): Promise<string[]> {
   const files = new Set<string>()
   for (const path of paths) {

@@ -17,6 +17,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+* Fix deprecation waring about `<Wrapper>` (Use `<QueriesWrapper>` instead)
+
 ## [4.3.0] - 2020-03-13
 
 ### Added

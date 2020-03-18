@@ -1,12 +1,12 @@
 import { messages } from '@cucumber/messages'
 import { EventEmitter } from 'events'
 import { Readable } from 'stream'
-import { Attach, MessageNotifier } from './types'
+import { Attach, EnvelopeListener } from './types'
 
 export default function makeAttach(
   testStepId: string,
   testCaseStartedId: string,
-  notifier: MessageNotifier
+  listener: EnvelopeListener
 ): Attach {
   return function attach(data: any, mediaType: string): void | Promise<void> {
     const attachment = new messages.Attachment({
@@ -17,14 +17,14 @@ export default function makeAttach(
 
     if (typeof data === 'string') {
       attachment.text = data
-      notifier(
+      listener(
         new messages.Envelope({
           attachment,
         })
       )
     } else if (Buffer.isBuffer(data)) {
       attachment.binary = data
-      notifier(
+      listener(
         new messages.Envelope({
           attachment,
         })
@@ -48,7 +48,7 @@ export default function makeAttach(
         })
         stream.on('end', () => {
           attachment.binary = buf
-          notifier(
+          listener(
             new messages.Envelope({
               attachment,
             })

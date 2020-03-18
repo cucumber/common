@@ -3,6 +3,7 @@ import { ArrayMultimap } from '@teppeis/multimaps'
 
 export default class Query {
   private readonly gherkinDocuments: messages.IGherkinDocument[] = []
+  private readonly pickles: messages.IPickle[] = []
   private readonly locationByAstNodeId = new Map<string, messages.ILocation>()
   private readonly gherkinStepById = new Map<
     string,
@@ -25,8 +26,12 @@ export default class Query {
     return this.locationByAstNodeId.get(astNodeId)
   }
 
-  public getGherkinDocuments(): messages.IGherkinDocument[] {
+  public getGherkinDocuments(): ReadonlyArray<messages.IGherkinDocument> {
     return this.gherkinDocuments
+  }
+
+  public getPickles(): ReadonlyArray<messages.IGherkinDocument> {
+    return this.pickles
   }
 
   /**
@@ -34,14 +39,17 @@ export default class Query {
    * @param uri - the URI of the document
    * @param lineNumber - optionally restrict results to a particular line number
    */
-  public getPickleIds(uri: string, lineNumber?: number): string[] {
+  public getPickleIds(uri: string, lineNumber?: number): ReadonlyArray<string> {
     const pickleIdsByLineNumber = this.pickleIdsMapByUri.get(uri)
     return lineNumber === undefined
       ? Array.from(new Set(pickleIdsByLineNumber.values()))
       : pickleIdsByLineNumber.get(lineNumber)
   }
 
-  public getPickleStepIds(uri: string, lineNumber: number): string[] {
+  public getPickleStepIds(
+    uri: string,
+    lineNumber: number
+  ): ReadonlyArray<string> {
     const pickleStepIdsByLineNumber = this.pickleStepIdsMapByUri.get(uri)
     return pickleStepIdsByLineNumber.get(lineNumber)
   }
@@ -131,6 +139,7 @@ export default class Query {
       // }
     }
     this.updatePickleSteps(pickle)
+    this.pickles.push(pickle)
   }
 
   private updatePickleSteps(pickle: messages.IPickle) {

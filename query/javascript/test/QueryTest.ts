@@ -4,12 +4,12 @@ import { IdGenerator, messages } from '@cucumber/messages'
 import { pipeline, Readable, Writable } from 'stream'
 import assert from 'assert'
 import SupportCode from '@cucumber/fake-cucumber/dist/src/SupportCode'
-import CucumberStream from '@cucumber/fake-cucumber/dist/src/CucumberStream'
 import { withFullStackTrace } from '@cucumber/fake-cucumber/dist/src/ErrorMessageGenerator'
 
 import { promisify } from 'util'
 import IncrementClock from '@cucumber/fake-cucumber/dist/src/IncrementClock'
 import Query from '../src/Query'
+import makeTestPlan from '@cucumber/fake-cucumber/dist/src/makeTestPlan'
 
 const pipelinePromise = promisify(pipeline)
 
@@ -48,7 +48,7 @@ describe('Query', () => {
     })
 
     it('looks up results for scenario steps', async () => {
-      await parse(
+      await execute(
         `Feature: hello
   Scenario: ok
     Given a passed step
@@ -58,7 +58,7 @@ describe('Query', () => {
       const pickleStepIds = gherkinQuery.getPickleStepIds('test.feature', 3)
       assert.strictEqual(pickleStepIds.length, 1)
 
-      const testStepResults: messages.ITestStepResult[] = cucumberQuery.getPickleStepTestStepResults(
+      const testStepResults = cucumberQuery.getPickleStepTestStepResults(
         pickleStepIds
       )
       assert.strictEqual(testStepResults.length, 1)
@@ -70,7 +70,7 @@ describe('Query', () => {
     })
 
     it('looks up results for background steps', async () => {
-      await parse(
+      await execute(
         `Feature: hello
   Background:
     Given a passed step
@@ -86,7 +86,7 @@ describe('Query', () => {
       const pickleStepIds = gherkinQuery.getPickleStepIds('test.feature', 3)
       assert.strictEqual(pickleStepIds.length, 2)
 
-      const testStepResults: messages.ITestStepResult[] = cucumberQuery.getPickleStepTestStepResults(
+      const testStepResults = cucumberQuery.getPickleStepTestStepResults(
         pickleStepIds
       )
 
@@ -100,7 +100,7 @@ describe('Query', () => {
     })
 
     it('looks up results for background steps when scenarios are empty', async () => {
-      await parse(
+      await execute(
         `Feature: hello
   Background:
     Given a passed step
@@ -114,7 +114,7 @@ describe('Query', () => {
       const pickleStepIds = gherkinQuery.getPickleStepIds('test.feature', 3)
       assert.strictEqual(pickleStepIds.length, 0)
 
-      const testStepResults: messages.ITestStepResult[] = cucumberQuery.getPickleStepTestStepResults(
+      const testStepResults = cucumberQuery.getPickleStepTestStepResults(
         pickleStepIds
       )
       assert.strictEqual(testStepResults.length, 1)
@@ -128,7 +128,7 @@ describe('Query', () => {
 
   describe('#getPickleTestStepResults(pickleIds)', () => {
     it('looks up results for scenarios', async () => {
-      await parse(
+      await execute(
         `Feature: hello
   Scenario: ko
     Given a passed step
@@ -139,9 +139,7 @@ describe('Query', () => {
       const pickleIds = gherkinQuery.getPickleIds('test.feature', 2)
       assert.strictEqual(pickleIds.length, 1)
 
-      const testStepResults: messages.ITestStepResult[] = cucumberQuery.getPickleTestStepResults(
-        pickleIds
-      )
+      const testStepResults = cucumberQuery.getPickleTestStepResults(pickleIds)
 
       assert.deepStrictEqual(
         testStepResults.map(r => r.status),
@@ -153,7 +151,7 @@ describe('Query', () => {
     })
 
     it('looks up results for scenario outlines', async () => {
-      await parse(
+      await execute(
         `Feature: hello
   Scenario: hi <status1> and <status2>
     Given a <status1> step
@@ -180,7 +178,7 @@ describe('Query', () => {
     })
 
     it('looks up results for examples rows outlines', async () => {
-      await parse(
+      await execute(
         `Feature: hello
   Scenario: hi <status1> and <status2>
     Given a <status1> step
@@ -221,7 +219,7 @@ describe('Query', () => {
 
   describe('#getPickleStepAttachments(pickleIds)', () => {
     it('looks up attachments', async () => {
-      await parse(
+      await execute(
         `Feature: hello
   Scenario: ok
     Given a passed step with attachment
@@ -231,9 +229,7 @@ describe('Query', () => {
       const pickleStepIds = gherkinQuery.getPickleStepIds('test.feature', 3)
       assert.strictEqual(pickleStepIds.length, 1)
 
-      const attachments: messages.IAttachment[] = cucumberQuery.getPickleStepAttachments(
-        pickleStepIds
-      )
+      const attachments = cucumberQuery.getPickleStepAttachments(pickleStepIds)
       assert.strictEqual(attachments.length, 1)
 
       assert.strictEqual(attachments[0].text, 'Hello')
@@ -242,7 +238,7 @@ describe('Query', () => {
 
   describe('#getStepMatchArguments(uri, lineNumber)', () => {
     it("looks up result for step's uri and line", async () => {
-      await parse(
+      await execute(
         `Feature: hello
   Scenario: hi
     Given a passed step
@@ -270,33 +266,30 @@ describe('Query', () => {
     })
   })
 
-  function parse(gherkinSource: string): Promise<void> {
+  async function execute(gherkinSource: string): Promise<void> {
     const newId = IdGenerator.incrementing()
     const clock = new IncrementClock()
     const makeErrorMessage = withFullStackTrace()
     const supportCode = new SupportCode(newId, clock, makeErrorMessage)
-    supportCode.Given('a passed step', () => {
+    supportCode.defineStepDefinition(null, 'a passed step', () => {
       // no-op
     })
-    supportCode.Given('a passed step with attachment', function() {
-      this.attach('Hello', 'text/plain')
-    })
-    supportCode.Given('a failed step', () => {
+    supportCode.defineStepDefinition(
+      null,
+      'a passed step with attachment',
+      function() {
+        this.attach('Hello', 'text/plain')
+      }
+    )
+    supportCode.defineStepDefinition(null, 'a failed step', () => {
       throw new Error(`This step failed.`)
     })
-    supportCode.Given('I have {int} cukes in my {word}', (cukes: number) => {
-      assert.ok(cukes)
-    })
-
-    const cucumberStream = new CucumberStream(
-      supportCode.parameterTypes,
-      supportCode.stepDefinitions,
-      supportCode.undefinedParameterTypes,
-      supportCode.beforeHooks,
-      supportCode.afterHooks,
-      supportCode.newId,
-      supportCode.clock,
-      supportCode.makeErrorMessage
+    supportCode.defineStepDefinition(
+      null,
+      'I have {int} cukes in my {word}',
+      (cukes: number) => {
+        assert.ok(cukes)
+      }
     )
 
     const queryUpdateStream = new Writable({
@@ -315,11 +308,13 @@ describe('Query', () => {
         }
       },
     })
-    return pipelinePromise(
+    await pipelinePromise(
       gherkinMessages(gherkinSource, 'test.feature', newId),
-      cucumberStream,
       queryUpdateStream
     )
+
+    const testPlan = makeTestPlan(gherkinQuery, supportCode)
+    await testPlan.execute(envelope => cucumberQuery.update(envelope))
   }
 
   function gherkinMessages(

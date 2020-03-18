@@ -2,7 +2,7 @@ import { messages, TimeConversion } from '@cucumber/messages'
 import assert from 'assert'
 import TestStep from '../src/TestStep'
 import TestCase from '../src/TestCase'
-import { MessageNotifier } from '../src/types'
+import { EnvelopeListener } from '../src/types'
 import IWorld from '../src/IWorld'
 import IncrementClock from '../src/IncrementClock'
 import { withSourceFramesOnlyStackTrace } from '../src/ErrorMessageGenerator'
@@ -32,8 +32,8 @@ class StubTestStep extends TestStep {
 
   public async execute(
     world: IWorld,
-    notifier: MessageNotifier,
-    testCaseStartedId: string
+    testCaseStartedId: string,
+    listener: EnvelopeListener
   ): Promise<messages.ITestStepResult> {
     const testStepResult = this.emitTestStepFinished(
       testCaseStartedId,
@@ -42,7 +42,7 @@ class StubTestStep extends TestStep {
         duration: millisecondsToDuration(1005),
         message: this.message,
       }),
-      notifier
+      listener
     )
     return Promise.resolve(testStepResult)
   }
