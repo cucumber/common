@@ -14,10 +14,10 @@ describe('GherkinDocument', () => {
       const document = new GherkinDocument(
         'path/to/the.feature',
         new Feature(
+          4,
           'Feature',
           'My feature',
-          '  This is a feature\n  described on multiple lines',
-          4
+          '  This is a feature\n  described on multiple lines'
         )
       )
 

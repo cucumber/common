@@ -1,9 +1,12 @@
+import Scenario from "./Scenario"
+
 export default class Feature {
   constructor(
+    private readonly line: number = 1,
     private readonly keyword: string,
     private readonly name: string,
-    private readonly description: string = '',
-    private readonly line: number = 1
+    private readonly description: string,
+    private readonly scenarios?: Scenario[]
   ) {}
 
   public toString(): string {
