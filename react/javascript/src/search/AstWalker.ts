@@ -7,11 +7,15 @@ interface IFilters {
   acceptStep?: (
     step: messages.GherkinDocument.Feature.IStep
   ) => boolean
+  acceptBackground?: (
+    background: messages.GherkinDocument.Feature.IBackground
+  ) => boolean
 }
 
 const defaultFilters: IFilters = {
   acceptScenario: () => true,
   acceptStep: () => true,
+  acceptBackground: () => true,
 }
 
 export default class AstWalker {
@@ -35,13 +39,31 @@ export default class AstWalker {
   protected walkFeature(
     feature: messages.GherkinDocument.IFeature
   ): messages.GherkinDocument.IFeature {
+    const backgroundChild = feature.children.find(child => child.background !== null)
+    const walkChildren = this.walkFeatureChildren(feature.children)
+
     return messages.GherkinDocument.Feature.create({
-      children: this.walkFeatureChildren(feature.children),
+      children: this.addBackgroundIfMissing(walkChildren, backgroundChild),
       location: feature.location,
       language: feature.language,
       keyword: feature.keyword,
       name: feature.name,
     })
+  }
+
+  private addBackgroundIfMissing(
+    children: messages.GherkinDocument.Feature.IFeatureChild[],
+    backgroundChild: messages.GherkinDocument.Feature.IFeatureChild
+  ): messages.GherkinDocument.Feature.IFeatureChild[] {
+
+    const backgroundExists = children.find(child => child.background)
+    if (backgroundExists || backgroundChild === undefined) {
+      return children
+    }
+    children.unshift(messages.GherkinDocument.Feature.FeatureChild.create({
+      background: this.copyBackground(backgroundChild.background)
+    }))
+    return children
   }
 
   private walkFeatureChildren(
@@ -79,14 +101,35 @@ export default class AstWalker {
   protected walkRule(
     rule: messages.GherkinDocument.Feature.FeatureChild.IRule
   ): messages.GherkinDocument.Feature.FeatureChild.IRule {
+    const children = this.walkRuleChildren(rule.children)
+
+    if (children.find(child => child.background !== null)) {
+      return this.copyRule(rule)
+    }
+  }
+
+  private copyRule(rule: messages.GherkinDocument.Feature.FeatureChild.IRule): messages.GherkinDocument.Feature.FeatureChild.IRule {
     return messages.GherkinDocument.Feature.FeatureChild.Rule.create({
       id: rule.id,
       name: rule.name,
       location: rule.location,
       keyword: rule.keyword,
       children: this.walkRuleChildren(rule.children),
-    })
+    });
   }
+
+  /*private copyRuleChildren(
+    children: messages.GherkinDocument.Feature.FeatureChild.IRuleChild[]
+  ): messages.GherkinDocument.Feature.FeatureChild.IRuleChild[] {
+
+    return children.map(child => {
+      if (child.background) {
+        return messages.GherkinDocument.Feature.FeatureChild.RuleChild.create({
+          background: this.copyBackground(child.background),
+        })
+      }
+    })
+  }*/
 
   private walkRuleChildren(
     children: messages.GherkinDocument.Feature.FeatureChild.IRuleChild[]
@@ -115,13 +158,20 @@ export default class AstWalker {
   protected walkBackground(
     background: messages.GherkinDocument.Feature.IBackground
   ): messages.GherkinDocument.Feature.IBackground {
+
+    if (this.filters.acceptBackground(background)) {
+      return this.copyBackground(background)
+    }
+  }
+
+  private copyBackground(background: messages.GherkinDocument.Feature.IBackground): messages.GherkinDocument.Feature.IBackground {
     return messages.GherkinDocument.Feature.Background.create({
       id: background.id,
       name: background.name,
       location: background.location,
       keyword: background.keyword,
-      steps: this.walkAllSteps(background.steps),
-    })
+      steps: background.steps.map(step => this.copyStep(step)),
+    });
   }
 
   protected walkScenario(

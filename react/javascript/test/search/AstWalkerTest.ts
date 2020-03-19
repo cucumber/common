@@ -2,7 +2,6 @@ import assert from 'assert'
 import AstWalker from '../../src/search/AstWalker'
 import pretty from '../../src/pretty-formatter/pretty'
 import parse from './parse'
-import Step from '../../src/components/gherkin/Step'
 
 describe('AstWalker', () => {
   let walker: AstWalker
@@ -18,7 +17,7 @@ describe('AstWalker', () => {
 
   it('returns a deep copy', () => {
     const gherkinDocument = parse(`Feature: hello
-  Background:
+  Background: Base Background
     Given a passed step
 
   Scenario: salut
@@ -121,6 +120,41 @@ describe('AstWalker', () => {
 
   Scenario: Saturn
     Given is the sixth planet from the Sun
+`
+    assert.strictEqual(newSource, expectedNewSource)
+  })
+
+  it('keeps a hit background', () => {
+    const gherkinDocument = parse(`Feature: Solar System
+
+  Background: Space
+    Given space is real
+
+  Rule: Galaxy
+    Background: Milky Way
+      Given it contains our system
+
+  Rule: Black Hole
+    Background: TON 618
+      Given it exists
+`)
+
+    const walker = new AstWalker({
+      acceptStep: step => false,
+      acceptScenario: scenario => false,
+      acceptBackground: background => background.name === 'Milky Way'
+    })
+    const newGherkinDocument = walker.walkGherkinDocument(gherkinDocument)
+    const newSource = pretty(newGherkinDocument)
+    const expectedNewSource = `Feature: Solar System
+
+  Background: Space
+    Given space is real
+
+  Rule: Galaxy
+
+    Background: Milky Way
+      Given it contains our system
 `
     assert.strictEqual(newSource, expectedNewSource)
   })
