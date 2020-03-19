@@ -1,4 +1,4 @@
-import Step from "./Step"
+import Step from './Step'
 
 export default class FeatureElement {
   constructor(

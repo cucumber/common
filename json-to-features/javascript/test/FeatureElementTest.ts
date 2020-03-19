@@ -25,16 +25,10 @@ describe('Scenario', () => {
     })
 
     it('includes line of the steps', () => {
-      const background = new FeatureElement(
-        5,
-        'Background',
-        '',
-        '',
-        [
-          new Step(7, 'Given ', 'things'),
-          new Step(8, 'And ', 'stuff'),
-        ]
-      )
+      const background = new FeatureElement(5, 'Background', '', '', [
+        new Step(7, 'Given ', 'things'),
+        new Step(8, 'And ', 'stuff'),
+      ])
 
       assert.deepStrictEqual(
         background.contentByLineNumber(),

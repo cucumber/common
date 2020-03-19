@@ -1,6 +1,7 @@
 import GherkinDocument from './GherkinDocument'
 import Feature from './Feature'
 import FeatureElement from './FeatureElement'
+import Step from './Step'
 
 export default class JSONToFeature {
   public makeFeatures(sources: Record<string, any>[]): GherkinDocument[] {
@@ -24,11 +25,17 @@ export default class JSONToFeature {
   }
 
   private makeFeatureElement(element: Record<string, any>): FeatureElement {
+    const steps = element.steps || []
+
     return new FeatureElement(
       element.line,
       element.keyword,
       element.name,
-      element.description
+      element.description,
+      steps.map((step: Record<string, any>) => this.makeStep(step))
     )
+  }
+  makeStep(step: Record<string, any>): Step {
+    return new Step(step.line, step.keyword, step.name)
   }
 }
