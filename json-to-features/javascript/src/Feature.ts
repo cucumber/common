@@ -1,4 +1,4 @@
-import FeatureElement from "./FeatureElement"
+import FeatureElement from './FeatureElement'
 
 export default class Feature {
   constructor(
@@ -34,7 +34,7 @@ export default class Feature {
     for (const element of this.elements) {
       lines = new Map([
         ...Array.from(lines.entries()),
-        ...Array.from(element.contentByLineNumber().entries())
+        ...Array.from(element.contentByLineNumber().entries()),
       ])
     }
     return lines

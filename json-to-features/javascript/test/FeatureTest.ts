@@ -36,12 +36,14 @@ context('Feature', () => {
         'Funksjonalitet',
         'my feature',
         '  This is a feature file',
-        [new FeatureElement(
-          8,
-          'Scenario',
-          'A simple scenario',
-          'With a description'
-        )]
+        [
+          new FeatureElement(
+            8,
+            'Scenario',
+            'A simple scenario',
+            'With a description'
+          ),
+        ]
       )
 
       assert.equal(

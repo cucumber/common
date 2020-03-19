@@ -4,7 +4,7 @@ export default class FeatureElement {
     private readonly keyword: string,
     private readonly name: string,
     private readonly description: string
-  ){}
+  ) {}
 
   public contentByLineNumber(): Map<number, string> {
     const lines = new Map<number, string>()
