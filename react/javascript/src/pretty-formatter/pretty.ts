@@ -13,6 +13,9 @@ export default function pretty(
     } else if (child.rule) {
       s += `\n  ${child.rule.keyword}: ${child.rule.name}\n`
       for (const ruleChild of child.rule.children) {
+        if (ruleChild.background) {
+          s += prettyStepContainer(ruleChild.background, '    ')
+        }
         if (ruleChild.scenario) {
           s += prettyStepContainer(ruleChild.scenario, '    ')
         }

@@ -43,6 +43,19 @@ describe('PrettyFormatter', () => {
     Given world
 `)
   })
+
+  it('renders a rule with background and scenario', () => {
+    assertPrettyIdentical(`Feature: hello
+
+  Rule: machin
+
+    Background: bbb
+      Given hello
+
+    Scenario: two
+      Given world
+`)
+  })
 })
 
 function assertPrettyIdentical(source: string) {
