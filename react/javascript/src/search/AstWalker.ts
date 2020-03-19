@@ -103,7 +103,7 @@ export default class AstWalker {
   ): messages.GherkinDocument.Feature.FeatureChild.IRule {
     const children = this.walkRuleChildren(rule.children)
 
-    if (children.find(child => child.background !== null)) {
+    if (children.find(child => child.background !== null) || children.find(child => child.scenario !== null) ) {
       return this.copyRule(rule)
     }
   }

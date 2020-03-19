@@ -158,4 +158,31 @@ describe('AstWalker', () => {
 `
     assert.strictEqual(newSource, expectedNewSource)
   })
+
+  it('keeps scenario in rule', () => {
+    const gherkinDocument = parse(`Feature: Solar System
+
+  Rule: Galaxy
+    Scenario: Milky Way
+      Given it contains our system
+
+    Scenario: Andromeda
+      Given it exists
+`)
+
+    const walker = new AstWalker({
+      acceptStep: step => false,
+      acceptScenario: scenario => scenario.name === 'Andromeda',
+    })
+    const newGherkinDocument = walker.walkGherkinDocument(gherkinDocument)
+    const newSource = pretty(newGherkinDocument)
+    const expectedNewSource = `Feature: Solar System
+
+  Rule: Galaxy
+
+    Scenario: Andromeda
+      Given it exists
+`
+    assert.strictEqual(newSource, expectedNewSource)
+  })
 })
