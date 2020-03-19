@@ -1,5 +1,5 @@
 import ITestStep from './ITestStep'
-import { MessageNotifier } from './types'
+import { EnvelopeListener } from './types'
 import { messages, TimeConversion } from '@cucumber/messages'
 import IWorld from './IWorld'
 import IClock from './IClock'
@@ -31,11 +31,11 @@ export default class TestCase {
   }
 
   public async execute(
-    notifier: MessageNotifier,
+    listener: EnvelopeListener,
     attempt: number,
     testCaseStartedId: string
   ): Promise<void> {
-    notifier(
+    listener(
       new messages.Envelope({
         testCaseStarted: new messages.TestCaseStarted({
           attempt,
@@ -62,17 +62,17 @@ export default class TestCase {
       if (executeNext || testStep.alwaysExecute) {
         testStepResult = await testStep.execute(
           world,
-          notifier,
-          testCaseStartedId
+          testCaseStartedId,
+          listener
         )
         executeNext =
           testStepResult.status === messages.TestStepResult.Status.PASSED
       } else {
-        testStepResult = testStep.skip(notifier, testCaseStartedId)
+        testStepResult = testStep.skip(listener, testCaseStartedId)
       }
     }
 
-    notifier(
+    listener(
       new messages.Envelope({
         testCaseFinished: new messages.TestCaseFinished({
           testCaseStartedId,

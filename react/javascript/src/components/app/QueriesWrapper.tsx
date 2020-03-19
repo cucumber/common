@@ -2,7 +2,7 @@ import React from 'react'
 import GherkinQueryContext from '../../GherkinQueryContext'
 import CucumberQueryContext from '../../CucumberQueryContext'
 import { Query as GherkinQuery } from '@cucumber/gherkin'
-import CucumberQuery from '@cucumber/query'
+import { Query as CucumberQuery } from '@cucumber/query'
 import BtoaContext from '../../BtoaContext'
 
 interface IProps {

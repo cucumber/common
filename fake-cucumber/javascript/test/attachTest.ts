@@ -1,19 +1,19 @@
 import assert from 'assert'
 import makeAttach from '../src/makeAttach'
-import { MessageNotifier } from '../src/types'
+import { EnvelopeListener } from '../src/types'
 import { messages } from '@cucumber/messages'
 import fs from 'fs'
 
 describe('#attach', () => {
   it('can attach a string', () => {
     const envelopes: messages.IEnvelope[] = []
-    const notifier: MessageNotifier = (envelope: messages.IEnvelope) =>
+    const listener: EnvelopeListener = (envelope: messages.IEnvelope) =>
       envelopes.push(envelope)
 
     const attach = makeAttach(
       'the-test-step-id',
       'the-test-case-started-id',
-      notifier
+      listener
     )
 
     attach('hello', 'text/plain')
@@ -33,13 +33,13 @@ describe('#attach', () => {
 
   it('can attach a buffer', () => {
     const envelopes: messages.IEnvelope[] = []
-    const notifier: MessageNotifier = (envelope: messages.IEnvelope) =>
+    const listener: EnvelopeListener = (envelope: messages.IEnvelope) =>
       envelopes.push(envelope)
 
     const attach = makeAttach(
       'the-test-step-id',
       'the-test-case-started-id',
-      notifier
+      listener
     )
 
     const buffer = Buffer.from([...Array(4).keys()])
@@ -60,13 +60,13 @@ describe('#attach', () => {
 
   it('can attach a readable stream', async () => {
     const envelopes: messages.IEnvelope[] = []
-    const notifier: MessageNotifier = (envelope: messages.IEnvelope) =>
+    const listener: EnvelopeListener = (envelope: messages.IEnvelope) =>
       envelopes.push(envelope)
 
     const attach = makeAttach(
       'the-test-step-id',
       'the-test-case-started-id',
-      notifier
+      listener
     )
 
     const stream = fs.createReadStream(

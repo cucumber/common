@@ -15,6 +15,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Removed
 
+* Removed `<Wrapper>`
+
 ### Fixed
 
 ## [5.1.0] - 2020-03-04

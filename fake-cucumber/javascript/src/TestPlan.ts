@@ -1,64 +1,70 @@
 import TestCase from './TestCase'
-import { MessageNotifier } from './types'
-import { IdGenerator, messages, TimeConversion } from '@cucumber/messages'
-import makeTestCase from './makeTestCase'
-import IStepDefinition from './IStepDefinition'
-import IHook from './IHook'
-import { Query } from '@cucumber/gherkin'
-import IClock from './IClock'
-import { MakeErrorMessage } from './ErrorMessageGenerator'
+import { EnvelopeListener } from './types'
+import { messages, TimeConversion } from '@cucumber/messages'
+import SupportCode from './SupportCode'
+import { ParameterType } from '@cucumber/cucumber-expressions'
 
 export default class TestPlan {
-  private readonly testCases: TestCase[]
-
   constructor(
-    pickles: messages.IPickle[],
-    stepDefinitions: IStepDefinition[],
-    beforeHooks: IHook[],
-    afterHooks: IHook[],
-    gherkinQuery: Query,
-    private readonly newId: IdGenerator.NewId,
-    private readonly clock: IClock,
-    private readonly makeErrorMessage: MakeErrorMessage
-  ) {
-    this.testCases = pickles.map(pickle =>
-      makeTestCase(
-        pickle,
-        stepDefinitions,
-        beforeHooks,
-        afterHooks,
-        gherkinQuery,
-        newId,
-        clock,
-        makeErrorMessage
-      )
-    )
-  }
+    private readonly testCases: TestCase[],
+    private readonly supportCode: SupportCode
+  ) {}
 
-  public async execute(notifier: MessageNotifier): Promise<void> {
-    notifier(
+  public async execute(listener: EnvelopeListener): Promise<void> {
+    for (const parameterType of this.supportCode.parameterTypes) {
+      listener(parameterTypeToMessage(parameterType))
+    }
+    for (const stepDefinition of this.supportCode.stepDefinitions) {
+      listener(stepDefinition.toMessage())
+    }
+    for (const undefinedParameterType of this.supportCode
+      .undefinedParameterTypes) {
+      listener(undefinedParameterType)
+    }
+    for (const hook of this.supportCode.beforeHooks) {
+      listener(hook.toMessage())
+    }
+    for (const hook of this.supportCode.afterHooks) {
+      listener(hook.toMessage())
+    }
+
+    listener(
       new messages.Envelope({
         testRunStarted: new messages.TestRunStarted({
           timestamp: TimeConversion.millisecondsSinceEpochToTimestamp(
-            this.clock.now()
+            this.supportCode.clock.now()
           ),
         }),
       })
     )
     for (const testCase of this.testCases) {
-      notifier(testCase.toMessage())
+      listener(testCase.toMessage())
     }
+    // TODO: By using Promise.all here we could execute in parallel
     for (const testCase of this.testCases) {
-      await testCase.execute(notifier, 0, this.newId())
+      await testCase.execute(listener, 0, this.supportCode.newId())
     }
-    notifier(
+    listener(
       new messages.Envelope({
         testRunFinished: new messages.TestRunFinished({
           timestamp: TimeConversion.millisecondsSinceEpochToTimestamp(
-            this.clock.now()
+            this.supportCode.clock.now()
           ),
         }),
       })
     )
   }
+}
+
+function parameterTypeToMessage(
+  parameterType: ParameterType<any>
+): messages.IEnvelope {
+  return new messages.Envelope({
+    parameterType: new messages.ParameterType({
+      name: parameterType.name,
+      regularExpressions: parameterType.regexpStrings,
+      preferForRegularExpressionMatch: parameterType.preferForRegexpMatch,
+      useForSnippets: parameterType.useForSnippets,
+    }),
+  })
 }

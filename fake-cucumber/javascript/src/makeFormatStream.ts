@@ -4,7 +4,9 @@ import {
   MessageToNdjsonStream,
 } from '@cucumber/messages'
 
-export default function formatStream(format: 'ndjson' | 'protobuf'): Transform {
+export default function makeFormatStream(
+  format: 'ndjson' | 'protobuf'
+): Transform {
   switch (format) {
     case 'ndjson':
       return new MessageToNdjsonStream()

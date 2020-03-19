@@ -1,10 +1,23 @@
+import {
+  Given,
+  When,
+  Then,
+  Before,
+  After,
+  ParameterType,
+  defineParameterType,
+} from './dsl'
+import runCucumber from './runCucumber'
 import SupportCode from './SupportCode'
-import { IdGenerator } from '@cucumber/messages'
-import PerfHooksClock from './PerfHooksClock'
-import { withFullStackTrace } from './ErrorMessageGenerator'
 
-export = new SupportCode(
-  IdGenerator.uuid(),
-  new PerfHooksClock(),
-  withFullStackTrace()
-)
+export {
+  Given,
+  When,
+  Then,
+  Before,
+  After,
+  ParameterType,
+  defineParameterType,
+  runCucumber,
+  SupportCode,
+}
