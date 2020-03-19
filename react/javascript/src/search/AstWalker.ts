@@ -102,20 +102,40 @@ export default class AstWalker {
     rule: messages.GherkinDocument.Feature.FeatureChild.IRule
   ): messages.GherkinDocument.Feature.FeatureChild.IRule {
     const children = this.walkRuleChildren(rule.children)
+    const backgroundChild = rule.children.find(child => child.background !== null)
 
     if (children.find(child => child.background !== null) || children.find(child => child.scenario !== null) ) {
-      return this.copyRule(rule)
+      return this.copyRule(rule, children, backgroundChild)
     }
   }
 
-  private copyRule(rule: messages.GherkinDocument.Feature.FeatureChild.IRule): messages.GherkinDocument.Feature.FeatureChild.IRule {
+  private copyRule(
+    rule: messages.GherkinDocument.Feature.FeatureChild.IRule,
+    children: messages.GherkinDocument.Feature.FeatureChild.IRuleChild[],
+    backgroundChild: messages.GherkinDocument.Feature.FeatureChild.IRuleChild,
+  ): messages.GherkinDocument.Feature.FeatureChild.IRule {
     return messages.GherkinDocument.Feature.FeatureChild.Rule.create({
       id: rule.id,
       name: rule.name,
       location: rule.location,
       keyword: rule.keyword,
-      children: this.walkRuleChildren(rule.children),
+      children: this.addRuleBackgroundIfMissing(children, backgroundChild),
     });
+  }
+
+  private addRuleBackgroundIfMissing(
+    children: messages.GherkinDocument.Feature.FeatureChild.IRuleChild[],
+    backgroundChild: messages.GherkinDocument.Feature.FeatureChild.IRuleChild
+  ): messages.GherkinDocument.Feature.FeatureChild.IRuleChild[] {
+
+    const backgroundExists = children.find(child => child.background)
+    if (backgroundExists || backgroundChild === undefined) {
+      return children
+    }
+    children.unshift(messages.GherkinDocument.Feature.FeatureChild.create({
+      background: this.copyBackground(backgroundChild.background)
+    }))
+    return children
   }
 
   /*private copyRuleChildren(

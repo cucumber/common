@@ -163,6 +163,10 @@ describe('AstWalker', () => {
     const gherkinDocument = parse(`Feature: Solar System
 
   Rule: Galaxy
+
+    Background: TON 618
+      Given it's a black hole
+
     Scenario: Milky Way
       Given it contains our system
 
@@ -173,12 +177,16 @@ describe('AstWalker', () => {
     const walker = new AstWalker({
       acceptStep: step => false,
       acceptScenario: scenario => scenario.name === 'Andromeda',
+      acceptBackground: background => false,
     })
     const newGherkinDocument = walker.walkGherkinDocument(gherkinDocument)
     const newSource = pretty(newGherkinDocument)
     const expectedNewSource = `Feature: Solar System
 
   Rule: Galaxy
+
+    Background: TON 618
+      Given it's a black hole
 
     Scenario: Andromeda
       Given it exists
