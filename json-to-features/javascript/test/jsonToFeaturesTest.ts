@@ -1,11 +1,5 @@
 import assert from 'assert'
-import GherkinDocument from '../src/GherkinDocument'
-
-class JSONToFeature {
-  public makeFeatures(sources: Record<string, any>[]): GherkinDocument[] {
-    return sources.map(source => new GherkinDocument(source.uri))
-  }
-}
+import JSONToFeature from '../src/JSONToFeature'
 
 describe('JSONToFeature', () => {
   const jsonToFeatures: JSONToFeature = new JSONToFeature()
