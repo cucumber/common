@@ -4,7 +4,7 @@ export default class DataTable {
   constructor(
     private readonly line: number,
     private readonly rows: string[][]
-  ){}
+  ) {}
 
   public contentByLineNumber(): Map<number, string> {
     const lines = new Map<number, string>()
@@ -22,8 +22,13 @@ export default class DataTable {
 
     for (let index = 0; index < columnCount; index++) {
       const column = this.getColumn(index)
-      const maxLength = Math.max.apply(null, column.map(cell => cell.length))
-      const justifiedColumn = column.map(cell => `${cell}${' '.repeat(maxLength - cell.length)}`)
+      const maxLength = Math.max.apply(
+        null,
+        column.map(cell => cell.length)
+      )
+      const justifiedColumn = column.map(
+        cell => `${cell}${' '.repeat(maxLength - cell.length)}`
+      )
 
       justifiedColumn.forEach((value, index) => {
         if (justified.length <= index) {

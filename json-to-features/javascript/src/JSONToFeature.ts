@@ -4,6 +4,7 @@ import FeatureElement from './FeatureElement'
 import Step from './Step'
 import DocString from './DocString'
 import { isNullOrUndefined } from 'util'
+import DataTable from './DataTable'
 
 export default class JSONToFeature {
   public makeFeatures(sources: Record<string, any>[]): GherkinDocument[] {
@@ -39,7 +40,13 @@ export default class JSONToFeature {
   }
 
   private makeStep(step: Record<string, any>): Step {
-    return new Step(step.line, step.keyword, step.name, this.makeDocString(step.doc_string))
+    return new Step(
+      step.line,
+      step.keyword,
+      step.name,
+      this.makeDocString(step.doc_string),
+      this.makeDataTable(step.rows, step.line + 1)
+    )
   }
 
   private makeDocString(docString: Record<string, any>): DocString {
@@ -51,6 +58,17 @@ export default class JSONToFeature {
       docString.line,
       docString.content_type,
       docString.value
+    )
+  }
+
+  private makeDataTable(rows: Record<string, any>, line: number): DataTable {
+    if (isNullOrUndefined(rows)) {
+      return null
+    }
+
+    return new DataTable(
+      line,
+      rows.map((row: Record<string, any>) => row.cells)
     )
   }
 }
