@@ -28,7 +28,9 @@ process.stdin.on('end', () => {
     const fullPath = `${output}/${fileExport.path}`
 
     console.log('Writing file:', fullPath)
-    fs.mkdirSync(path.dirname(fullPath))
+    if (!fs.existsSync(path.dirname(fullPath))) {
+      fs.mkdirSync(path.dirname(fullPath))
+    }
     fs.writeFileSync(fullPath, fileExport.content)
   }
 })
