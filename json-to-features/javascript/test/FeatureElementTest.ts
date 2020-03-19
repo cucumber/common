@@ -1,11 +1,11 @@
 import assert from 'assert'
 
-import Scenario from "../src/Scenario"
+import FeatureElement from "../src/FeatureElement"
 
 describe('Scenario', () => {
   context('contentByLineNumber', () => {
     it('returns a hash with content for each line for rendering', () => {
-      const scenario = new Scenario(
+      const scenario = new FeatureElement(
         5,
         'Zenario',
         'My super scenario',

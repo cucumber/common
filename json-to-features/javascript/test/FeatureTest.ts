@@ -1,6 +1,6 @@
 import assert from 'assert'
 import Feature from '../src/Feature'
-import Scenario from '../src/Scenario'
+import FeatureElement from '../src/FeatureElement'
 
 context('Feature', () => {
   context('toString', () => {
@@ -36,7 +36,7 @@ context('Feature', () => {
         'Funksjonalitet',
         'my feature',
         '  This is a feature file',
-        [new Scenario(
+        [new FeatureElement(
           8,
           'Scenario',
           'A simple scenario',
@@ -46,7 +46,7 @@ context('Feature', () => {
 
       assert.equal(
         feature.toString(),
-        '\n\nFunksjonalitet: my feature\n  This is a feature file\n\n  Scenario: A simple scenario\n    With a decription'
+        '\n\nFunksjonalitet: my feature\n  This is a feature file\n\n\n\n  Scenario: A simple scenario\nWith a description\n'
       )
     })
   })

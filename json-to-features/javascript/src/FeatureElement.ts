@@ -1,4 +1,4 @@
-export default class Scenario {
+export default class FeatureElement {
   constructor(
     private readonly line: number = 1,
     private readonly keyword: string,

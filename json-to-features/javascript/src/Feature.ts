@@ -1,4 +1,4 @@
-import Scenario from "./Scenario"
+import FeatureElement from "./FeatureElement"
 
 export default class Feature {
   constructor(
@@ -6,7 +6,7 @@ export default class Feature {
     private readonly keyword: string,
     private readonly name: string,
     private readonly description: string,
-    private readonly scenarios?: Scenario[]
+    private readonly elements: FeatureElement[] = []
   ) {}
 
   public toString(): string {
@@ -22,13 +22,20 @@ export default class Feature {
   }
 
   private contentByLineNumber(): Map<number, string> {
-    const lines = new Map<number, string>()
+    let lines = new Map<number, string>()
 
     lines.set(this.line, `${this.keyword}: ${this.name}`)
     if (this.description !== '') {
       this.description.split('\n').forEach((value, index) => {
         lines.set(this.line + 1 + index, value)
       })
+    }
+
+    for (const element of this.elements) {
+      lines = new Map([
+        ...Array.from(lines.entries()),
+        ...Array.from(element.contentByLineNumber().entries())
+      ])
     }
     return lines
   }
