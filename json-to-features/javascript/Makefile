@@ -11,7 +11,7 @@ PRODUCED_FEATURES=$(patsubst acceptance/%.json,acceptance/%.feature,$(JSONS))
 .tested: diff_features
 
 diff_features: $(PRODUCED_FEATURES)
-	diff features acceptance/features
+	diff --unified --ignore-space-change features acceptance/features
 .PHONY: diff_features
 
 acceptance/%.feature: acceptance/%.json
