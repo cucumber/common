@@ -2,6 +2,8 @@ import GherkinDocument from './GherkinDocument'
 import Feature from './Feature'
 import FeatureElement from './FeatureElement'
 import Step from './Step'
+import DocString from './DocString'
+import { isNullOrUndefined } from 'util'
 
 export default class JSONToFeature {
   public makeFeatures(sources: Record<string, any>[]): GherkinDocument[] {
@@ -35,7 +37,20 @@ export default class JSONToFeature {
       steps.map((step: Record<string, any>) => this.makeStep(step))
     )
   }
-  makeStep(step: Record<string, any>): Step {
-    return new Step(step.line, step.keyword, step.name)
+
+  private makeStep(step: Record<string, any>): Step {
+    return new Step(step.line, step.keyword, step.name, this.makeDocString(step.doc_string))
+  }
+
+  private makeDocString(docString: Record<string, any>): DocString {
+    if (isNullOrUndefined(docString)) {
+      return null
+    }
+
+    return new DocString(
+      docString.line,
+      docString.content_type,
+      docString.value
+    )
   }
 }
