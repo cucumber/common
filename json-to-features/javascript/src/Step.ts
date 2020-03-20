@@ -7,7 +7,7 @@ export default class Step {
   constructor(
     private readonly line: number,
     private readonly keyword: string,
-    private readonly name: string,
+    public readonly name: string,
     private readonly docstring?: DocString,
     private readonly datatable?: DataTable
   ) {}
