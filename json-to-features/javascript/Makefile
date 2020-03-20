@@ -8,8 +8,6 @@ NDJSONS=$(patsubst features/%.feature,acceptance/%.ndjson,$(FEATURE_FILES))
 JSONS=$(patsubst acceptance/%.ndjson,acceptance/%.json,$(NDJSONS))
 PRODUCED_FEATURES=$(patsubst acceptance/%.json,acceptance/%.feature,$(JSONS))
 
-.tested: diff_features
-
 diff_features: $(PRODUCED_FEATURES)
 	diff --unified --ignore-space-change features acceptance/features
 .PHONY: diff_features
