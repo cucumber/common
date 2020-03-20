@@ -33,12 +33,27 @@ export default class RubyJSONParser {
         backgroundFound = true
         return this.makeBackground(element)
       }
+
+      if (element.type == 'scenario') {
+        return this.makeScenario(element)
+      }
     }).filter(child => !isNullOrUndefined(child))
   }
 
   private makeBackground(element: Record<string, any>): messages.GherkinDocument.Feature.IFeatureChild {
     return messages.GherkinDocument.Feature.FeatureChild.create({
       background: messages.GherkinDocument.Feature.Background.create({
+        keyword: element.keyword,
+        name: element.name,
+        description: element.description,
+        steps: this.makeSteps(element.steps || [])
+      })
+    })
+  }
+
+  private makeScenario(element: Record<string, any>): messages.GherkinDocument.Feature.IFeatureChild {
+    return messages.GherkinDocument.Feature.FeatureChild.create({
+      scenario: messages.GherkinDocument.Feature.Scenario.create({
         keyword: element.keyword,
         name: element.name,
         description: element.description,
