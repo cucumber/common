@@ -3,12 +3,13 @@ import { messages } from '@cucumber/messages'
 interface IFilters {
   acceptScenario?: (
     scenario: messages.GherkinDocument.Feature.IScenario
-  ) => boolean,
-  acceptStep?: (
-    step: messages.GherkinDocument.Feature.IStep
   ) => boolean
+  acceptStep?: (step: messages.GherkinDocument.Feature.IStep) => boolean
   acceptBackground?: (
     background: messages.GherkinDocument.Feature.IBackground
+  ) => boolean
+  acceptRule?: (
+    rule: messages.GherkinDocument.Feature.FeatureChild.IRule
   ) => boolean
 }
 
@@ -16,6 +17,7 @@ const defaultFilters: IFilters = {
   acceptScenario: () => true,
   acceptStep: () => true,
   acceptBackground: () => true,
+  acceptRule: () => true,
 }
 
 export default class AstWalker {
@@ -39,7 +41,9 @@ export default class AstWalker {
   protected walkFeature(
     feature: messages.GherkinDocument.IFeature
   ): messages.GherkinDocument.IFeature {
-    const backgroundChild = feature.children.find(child => child.background !== null)
+    const backgroundChild = feature.children.find(
+      child => child.background !== null
+    )
     const walkChildren = this.walkFeatureChildren(feature.children)
 
     return messages.GherkinDocument.Feature.create({
@@ -55,14 +59,15 @@ export default class AstWalker {
     children: messages.GherkinDocument.Feature.IFeatureChild[],
     backgroundChild: messages.GherkinDocument.Feature.IFeatureChild
   ): messages.GherkinDocument.Feature.IFeatureChild[] {
-
     const backgroundExists = children.find(child => child.background)
     if (backgroundExists || backgroundChild === undefined) {
       return children
     }
-    children.unshift(messages.GherkinDocument.Feature.FeatureChild.create({
-      background: this.copyBackground(backgroundChild.background)
-    }))
+    children.unshift(
+      messages.GherkinDocument.Feature.FeatureChild.create({
+        background: this.copyBackground(backgroundChild.background),
+      })
+    )
     return children
   }
 
@@ -102,40 +107,62 @@ export default class AstWalker {
     rule: messages.GherkinDocument.Feature.FeatureChild.IRule
   ): messages.GherkinDocument.Feature.FeatureChild.IRule {
     const children = this.walkRuleChildren(rule.children)
-    const backgroundChild = rule.children.find(child => child.background !== null)
+    const backgroundKept = children.find(
+      child => child !== null && child.background !== null
+    )
+    const scenariosKept = children.filter(
+      child => child !== null && child.scenario !== null
+    )
 
-    if (children.find(child => child.background !== null) || children.find(child => child.scenario !== null) ) {
-      return this.copyRule(rule, children, backgroundChild)
+    if (this.filters.acceptRule(rule) || backgroundKept) {
+      return this.copyRule(
+        rule,
+        rule.children.filter(child => child.scenario)
+      )
+    }
+    if (scenariosKept.length > 0) {
+      return this.copyRule(rule, scenariosKept)
     }
   }
 
   private copyRule(
     rule: messages.GherkinDocument.Feature.FeatureChild.IRule,
-    children: messages.GherkinDocument.Feature.FeatureChild.IRuleChild[],
-    backgroundChild: messages.GherkinDocument.Feature.FeatureChild.IRuleChild,
+    scenarios: messages.GherkinDocument.Feature.FeatureChild.IRuleChild[]
   ): messages.GherkinDocument.Feature.FeatureChild.IRule {
     return messages.GherkinDocument.Feature.FeatureChild.Rule.create({
       id: rule.id,
       name: rule.name,
       location: rule.location,
       keyword: rule.keyword,
-      children: this.addRuleBackgroundIfMissing(children, backgroundChild),
-    });
+      children: this.filterRuleChildren(rule.children, scenarios),
+    })
   }
 
-  private addRuleBackgroundIfMissing(
+  private filterRuleChildren(
     children: messages.GherkinDocument.Feature.FeatureChild.IRuleChild[],
-    backgroundChild: messages.GherkinDocument.Feature.FeatureChild.IRuleChild
+    scenariosKept: messages.GherkinDocument.Feature.FeatureChild.IRuleChild[]
   ): messages.GherkinDocument.Feature.FeatureChild.IRuleChild[] {
+    const childrenCopy: messages.GherkinDocument.Feature.FeatureChild.IRuleChild[] = []
+    const scenariosKeptIds = scenariosKept.map(child => child.scenario.id)
 
-    const backgroundExists = children.find(child => child.background)
-    if (backgroundExists || backgroundChild === undefined) {
-      return children
+    for (const child of children) {
+      if (child.background) {
+        childrenCopy.push(
+          messages.GherkinDocument.Feature.FeatureChild.RuleChild.create({
+            background: this.copyBackground(child.background),
+          })
+        )
+      }
+      if (child.scenario && scenariosKeptIds.includes(child.scenario.id)) {
+        childrenCopy.push(
+          messages.GherkinDocument.Feature.FeatureChild.RuleChild.create({
+            scenario: this.copyScenario(child.scenario),
+          })
+        )
+      }
     }
-    children.unshift(messages.GherkinDocument.Feature.FeatureChild.create({
-      background: this.copyBackground(backgroundChild.background)
-    }))
-    return children
+
+    return childrenCopy
   }
 
   /*private copyRuleChildren(
@@ -178,20 +205,21 @@ export default class AstWalker {
   protected walkBackground(
     background: messages.GherkinDocument.Feature.IBackground
   ): messages.GherkinDocument.Feature.IBackground {
-
     if (this.filters.acceptBackground(background)) {
       return this.copyBackground(background)
     }
   }
 
-  private copyBackground(background: messages.GherkinDocument.Feature.IBackground): messages.GherkinDocument.Feature.IBackground {
+  private copyBackground(
+    background: messages.GherkinDocument.Feature.IBackground
+  ): messages.GherkinDocument.Feature.IBackground {
     return messages.GherkinDocument.Feature.Background.create({
       id: background.id,
       name: background.name,
       location: background.location,
       keyword: background.keyword,
       steps: background.steps.map(step => this.copyStep(step)),
-    });
+    })
   }
 
   protected walkScenario(
@@ -199,12 +227,17 @@ export default class AstWalker {
   ): messages.GherkinDocument.Feature.IScenario {
     const steps = this.walkAllSteps(scenario.steps)
 
-    if (this.filters.acceptScenario(scenario) || steps.find(step => step !== null)) {
+    if (
+      this.filters.acceptScenario(scenario) ||
+      steps.find(step => step !== null)
+    ) {
       return this.copyScenario(scenario)
     }
   }
 
-  private copyScenario(scenario: messages.GherkinDocument.Feature.IScenario): messages.GherkinDocument.Feature.IScenario {
+  private copyScenario(
+    scenario: messages.GherkinDocument.Feature.IScenario
+  ): messages.GherkinDocument.Feature.IScenario {
     return messages.GherkinDocument.Feature.Scenario.create({
       id: scenario.id,
       name: scenario.name,
@@ -213,7 +246,7 @@ export default class AstWalker {
       examples: scenario.examples,
       steps: scenario.steps.map(step => this.copyStep(step)),
       tags: scenario.tags,
-    });
+    })
   }
 
   protected walkAllSteps(
@@ -225,13 +258,15 @@ export default class AstWalker {
   protected walkStep(
     step: messages.GherkinDocument.Feature.IStep
   ): messages.GherkinDocument.Feature.IStep {
-    if(!this.filters.acceptStep(step)) {
+    if (!this.filters.acceptStep(step)) {
       return null
     }
     return this.copyStep(step)
   }
 
-  private copyStep(step: messages.GherkinDocument.Feature.IStep): messages.GherkinDocument.Feature.IStep {
+  private copyStep(
+    step: messages.GherkinDocument.Feature.IStep
+  ): messages.GherkinDocument.Feature.IStep {
     return messages.GherkinDocument.Feature.Step.create({
       id: step.id,
       keyword: step.keyword,
@@ -239,6 +274,6 @@ export default class AstWalker {
       text: step.text,
       dataTable: step.dataTable,
       docString: step.docString,
-    });
+    })
   }
 }

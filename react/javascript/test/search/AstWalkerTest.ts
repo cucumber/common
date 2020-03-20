@@ -63,7 +63,7 @@ describe('AstWalker', () => {
 `)
 
     const walker = new AstWalker({
-      acceptStep: step => false,
+      acceptStep: () => false,
       acceptScenario: scenario => scenario.name === 'Earth',
     })
     const newGherkinDocument = walker.walkGherkinDocument(gherkinDocument)
@@ -88,7 +88,7 @@ describe('AstWalker', () => {
 
     const walker = new AstWalker({
       acceptStep: step => step.text.includes('liquid'),
-      acceptScenario: scenario => false,
+      acceptScenario: () => false,
     })
     const newGherkinDocument = walker.walkGherkinDocument(gherkinDocument)
     const newSource = pretty(newGherkinDocument)
@@ -111,8 +111,8 @@ describe('AstWalker', () => {
 `)
 
     const walker = new AstWalker({
-      acceptStep: step => false,
-      acceptScenario: scenario => scenario.name === 'Saturn'
+      acceptStep: () => false,
+      acceptScenario: scenario => scenario.name === 'Saturn',
     })
     const newGherkinDocument = walker.walkGherkinDocument(gherkinDocument)
     const newSource = pretty(newGherkinDocument)
@@ -140,9 +140,10 @@ describe('AstWalker', () => {
 `)
 
     const walker = new AstWalker({
-      acceptStep: step => false,
-      acceptScenario: scenario => false,
-      acceptBackground: background => background.name === 'Milky Way'
+      acceptStep: () => false,
+      acceptScenario: () => false,
+      acceptBackground: background => background.name === 'Milky Way',
+      acceptRule: () => false,
     })
     const newGherkinDocument = walker.walkGherkinDocument(gherkinDocument)
     const newSource = pretty(newGherkinDocument)
@@ -175,9 +176,10 @@ describe('AstWalker', () => {
 `)
 
     const walker = new AstWalker({
-      acceptStep: step => false,
+      acceptStep: () => false,
       acceptScenario: scenario => scenario.name === 'Andromeda',
-      acceptBackground: background => false,
+      acceptBackground: () => false,
+      acceptRule: () => false,
     })
     const newGherkinDocument = walker.walkGherkinDocument(gherkinDocument)
     const newSource = pretty(newGherkinDocument)
@@ -187,6 +189,45 @@ describe('AstWalker', () => {
 
     Background: TON 618
       Given it's a black hole
+
+    Scenario: Andromeda
+      Given it exists
+`
+    assert.strictEqual(newSource, expectedNewSource)
+  })
+
+  it('keeps scenario and background in rule', () => {
+    const gherkinDocument = parse(`Feature: Solar System
+
+  Rule: Galaxy
+
+    Background: TON 618
+      Given it's a black hole
+
+    Scenario: Milky Way
+      Given it contains our system
+
+    Scenario: Andromeda
+      Given it exists
+`)
+
+    const walker = new AstWalker({
+      acceptStep: () => false,
+      acceptScenario: () => false,
+      acceptBackground: () => false,
+      acceptRule: rule => rule.name === 'Galaxy',
+    })
+    const newGherkinDocument = walker.walkGherkinDocument(gherkinDocument)
+    const newSource = pretty(newGherkinDocument)
+    const expectedNewSource = `Feature: Solar System
+
+  Rule: Galaxy
+
+    Background: TON 618
+      Given it's a black hole
+
+    Scenario: Milky Way
+      Given it contains our system
 
     Scenario: Andromeda
       Given it exists
