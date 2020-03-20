@@ -100,6 +100,24 @@ describe('AstWalker', () => {
     assert.strictEqual(newSource, expectedNewSource)
   })
 
+  it('does not leave null object as a feature child', () => {
+    const gherkinDocument = parse(`Feature: Solar System
+
+  Scenario: Saturn
+    Given is the sixth planet from the Sun
+
+  Scenario: Earth
+    Given is a planet with liquid water
+`)
+
+    const walker = new AstWalker({
+      acceptStep: () => false,
+      acceptScenario: () => false,
+    })
+    const newGherkinDocument = walker.walkGherkinDocument(gherkinDocument)
+    assert.deepStrictEqual(newGherkinDocument.feature.children, [])
+  })
+
   it('keeps a hit scenario even when no steps match', () => {
     const gherkinDocument = parse(`Feature: Solar System
 

@@ -63,6 +63,7 @@ export default class AstWalker {
     if (backgroundExists || backgroundChild === undefined) {
       return children
     }
+
     children.unshift(
       messages.GherkinDocument.Feature.FeatureChild.create({
         background: this.copyBackground(backgroundChild.background),
@@ -77,24 +78,26 @@ export default class AstWalker {
     const childrenCopy: messages.GherkinDocument.Feature.IFeatureChild[] = []
 
     for (const child of children) {
+      let backgroundCopy: messages.GherkinDocument.Feature.IBackground = null
+      let scenarioCopy: messages.GherkinDocument.Feature.IScenario = null
+      let ruleCopy: messages.GherkinDocument.Feature.FeatureChild.IRule = null
+
       if (child.background) {
-        childrenCopy.push(
-          messages.GherkinDocument.Feature.FeatureChild.create({
-            background: this.walkBackground(child.background),
-          })
-        )
+        backgroundCopy = this.walkBackground(child.background)
       }
       if (child.scenario) {
-        childrenCopy.push(
-          messages.GherkinDocument.Feature.FeatureChild.create({
-            scenario: this.walkScenario(child.scenario),
-          })
-        )
+        scenarioCopy = this.walkScenario(child.scenario)
       }
       if (child.rule) {
+        ruleCopy = this.walkRule(child.rule)
+      }
+
+      if (backgroundCopy || scenarioCopy || ruleCopy) {
         childrenCopy.push(
           messages.GherkinDocument.Feature.FeatureChild.create({
-            rule: this.walkRule(child.rule),
+            background: backgroundCopy,
+            scenario: scenarioCopy,
+            rule: ruleCopy,
           })
         )
       }
