@@ -1,5 +1,6 @@
 import assert from 'assert'
 import { messages } from '@cucumber/messages'
+import { isNullOrUndefined } from 'util'
 
 class RubyJSONParser {
   public parse(sources: Record<string, any>[]): messages.IGherkinDocument[] {
@@ -26,11 +27,14 @@ class RubyJSONParser {
   }
 
   private makeChildren(elements: Record<string, any>[]): messages.GherkinDocument.Feature.IFeatureChild[] {
+    let backgroundFound = false
+
     return elements.map(element => {
-      if (element.type === 'background') {
+      if (element.type === 'background' && !backgroundFound) {
+        backgroundFound = true
         return this.makeBackground(element)
       }
-    })
+    }).filter(child => !isNullOrUndefined(child))
   }
 
   private makeBackground(element: Record<string, any>): messages.GherkinDocument.Feature.IFeatureChild {
@@ -126,6 +130,22 @@ describe('RubyJSONParser', () => {
         }
       ]
 
+      const multiBackground = [
+        {
+          name: 'Multi background',
+          elements: [
+            {
+              type: 'background',
+              name: 'First background'
+            },
+            {
+              type: 'background',
+              name: 'Second background'
+            }
+          ]
+        }
+      ]
+
       it('adds the background as a FeatureChild', () => {
         const feature = parser.parse(singleBackground)[0].feature
         assert.equal(feature.children.length, 1)
@@ -153,6 +173,15 @@ describe('RubyJSONParser', () => {
           background.steps.map(step => step.text),
           ['things', 'stuff']
         )
+      })
+
+      it('only keeps one background', () => {
+        /* When multiple scenarios are ran, the background is repeated */
+        const feature = parser.parse(multiBackground)[0].feature
+        const backgroundChildren = feature.children.filter(child => child.background)
+
+        assert.strictEqual(backgroundChildren.length, 1)
+        assert.strictEqual(backgroundChildren[0].background.name, 'First background')
       })
     })
   })
