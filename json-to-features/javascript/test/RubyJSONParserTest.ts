@@ -21,7 +21,36 @@ class RubyJSONParser {
     return messages.GherkinDocument.Feature.create({
       name: source.name,
       description: source.description,
+      children: this.makeChildren(source.elements || [])
     })
+  }
+
+  private makeChildren(elements: Record<string, any>[]): messages.GherkinDocument.Feature.IFeatureChild[] {
+    return elements.map(element => {
+      if (element.type === 'background') {
+        return this.makeBackground(element)
+      }
+    })
+  }
+
+  private makeBackground(element: Record<string, any>): messages.GherkinDocument.Feature.IFeatureChild {
+    return messages.GherkinDocument.Feature.FeatureChild.create({
+      background: messages.GherkinDocument.Feature.Background.create({
+        keyword: element.keyword,
+        name: element.name,
+        description: element.description,
+        steps: this.makeSteps(element.steps || [])
+      })
+    })
+  }
+
+  private makeSteps(steps: Record<string, any>[]): messages.GherkinDocument.Feature.IStep[] {
+    return steps.map(step =>
+      messages.GherkinDocument.Feature.Step.create({
+        keyword: step.keyword,
+        text: step.text
+      })
+    )
   }
 }
 
@@ -68,6 +97,63 @@ describe('RubyJSONParser', () => {
         documents.map(d => d.feature.description),
         ['Attachments can be added to steps', '']
       )
+    })
+
+    context('with backgrounds', () => {
+      const singleBackground = [
+        {
+          name: 'Attachments',
+          description: 'Attachments can be added to steps',
+          uri: 'features/attachments/attachments.feature',
+          elements: [
+            {
+              type: "background",
+              keyword: "Background",
+              name: "Set up",
+              description: "Let's do things",
+              steps: [
+                {
+                  keyword: "Given ",
+                  text: "things"
+                },
+                {
+                  keyword: "And ",
+                  text: "stuff"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+
+      it('adds the background as a FeatureChild', () => {
+        const feature = parser.parse(singleBackground)[0].feature
+        assert.equal(feature.children.length, 1)
+      })
+
+      it('adds the proper attributes to the background', () => {
+        const feature = parser.parse(singleBackground)[0].feature
+        const background = feature.children[0].background
+
+        assert.equal(background.keyword, "Background")
+        assert.equal(background.name, "Set up")
+        assert.equal(background.description, "Let's do things")
+      })
+
+      it('adds the steps to the background', () => {
+        const feature = parser.parse(singleBackground)[0].feature
+        const background = feature.children[0].background
+
+        assert.deepStrictEqual(
+          background.steps.map(step => step.keyword),
+          ['Given ', 'And ']
+        )
+
+        assert.deepStrictEqual(
+          background.steps.map(step => step.text),
+          ['things', 'stuff']
+        )
+      })
     })
   })
 })
