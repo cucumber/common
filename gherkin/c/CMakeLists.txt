@@ -70,11 +70,11 @@ target_include_directories(gherkin PUBLIC
     "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include;${CMAKE_CURRENT_SOURCE_DIR}/src>")
 
 add_executable(gherkinexe ${GHERKIN_CLI})
-target_link_libraries(gherkinexe gherkin)
+target_link_libraries(gherkinexe gherkin m)
 target_include_directories(gherkinexe PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
 add_executable(gherkin_generate_tokens ${GENERATE_TOKEN})
-target_link_libraries(gherkin_generate_tokens gherkin)
+target_link_libraries(gherkin_generate_tokens gherkin m)
 
 file(GLOB GOOD_FEATURE_FILES
         ${CMAKE_CURRENT_SOURCE_DIR}/testdata/good/*.feature
