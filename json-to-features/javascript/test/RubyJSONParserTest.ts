@@ -55,23 +55,23 @@ describe('RubyJSONParser', () => {
           uri: 'features/attachments/attachments.feature',
           elements: [
             {
-              type: "background",
-              keyword: "Background",
-              name: "Set up",
+              type: 'background',
+              keyword: 'Background',
+              name: 'Set up',
               description: "Let's do things",
               steps: [
                 {
-                  keyword: "Given ",
-                  text: "things"
+                  keyword: 'Given ',
+                  text: 'things',
                 },
                 {
-                  keyword: "And ",
-                  text: "stuff"
-                }
-              ]
-            }
-          ]
-        }
+                  keyword: 'And ',
+                  text: 'stuff',
+                },
+              ],
+            },
+          ],
+        },
       ]
 
       const multiBackground = [
@@ -80,14 +80,14 @@ describe('RubyJSONParser', () => {
           elements: [
             {
               type: 'background',
-              name: 'First background'
+              name: 'First background',
             },
             {
               type: 'background',
-              name: 'Second background'
-            }
-          ]
-        }
+              name: 'Second background',
+            },
+          ],
+        },
       ]
 
       it('adds the background as a FeatureChild', () => {
@@ -99,8 +99,8 @@ describe('RubyJSONParser', () => {
         const feature = parser.parse(singleBackground)[0].feature
         const background = feature.children[0].background
 
-        assert.equal(background.keyword, "Background")
-        assert.equal(background.name, "Set up")
+        assert.equal(background.keyword, 'Background')
+        assert.equal(background.name, 'Set up')
         assert.equal(background.description, "Let's do things")
       })
 
@@ -122,10 +122,15 @@ describe('RubyJSONParser', () => {
       it('only keeps one background', () => {
         /* When multiple scenarios are ran, the background is repeated */
         const feature = parser.parse(multiBackground)[0].feature
-        const backgroundChildren = feature.children.filter(child => child.background)
+        const backgroundChildren = feature.children.filter(
+          child => child.background
+        )
 
         assert.strictEqual(backgroundChildren.length, 1)
-        assert.strictEqual(backgroundChildren[0].background.name, 'First background')
+        assert.strictEqual(
+          backgroundChildren[0].background.name,
+          'First background'
+        )
       })
     })
 
@@ -137,23 +142,23 @@ describe('RubyJSONParser', () => {
           uri: 'features/attachments/attachments.feature',
           elements: [
             {
-              type: "scenario",
-              keyword: "Scenario",
-              name: "Add attachment",
-              description: "Attachments can be added to the report",
+              type: 'scenario',
+              keyword: 'Scenario',
+              name: 'Add attachment',
+              description: 'Attachments can be added to the report',
               steps: [
                 {
-                  keyword: "When ",
-                  text: "I attach something"
+                  keyword: 'When ',
+                  text: 'I attach something',
                 },
                 {
-                  keyword: "Then ",
-                  text: "it's attached"
-                }
-              ]
-            }
-          ]
-        }
+                  keyword: 'Then ',
+                  text: "it's attached",
+                },
+              ],
+            },
+          ],
+        },
       ]
 
       it('creates a feature child for the scenarios', () => {
@@ -169,7 +174,10 @@ describe('RubyJSONParser', () => {
 
         assert.strictEqual(scenario.keyword, 'Scenario')
         assert.strictEqual(scenario.name, 'Add attachment')
-        assert.strictEqual(scenario.description, 'Attachments can be added to the report')
+        assert.strictEqual(
+          scenario.description,
+          'Attachments can be added to the report'
+        )
       })
 
       it('adds the steps to the scenario', () => {
@@ -196,47 +204,38 @@ describe('RubyJSONParser', () => {
           uri: 'features/attachments/attachments.feature',
           elements: [
             {
-              type: "scenario",
-              keyword: "Scenario",
-              name: "Add attachment",
-              description: "Attachments can be added to the report",
+              type: 'scenario',
+              keyword: 'Scenario',
+              name: 'Add attachment',
+              description: 'Attachments can be added to the report',
               steps: [
                 {
-                  keyword: "When ",
-                  text: "I have a doc string",
+                  keyword: 'When ',
+                  text: 'I have a doc string',
                   doc_string: {
-                    content_type: "text/plain",
-                    value: "This is some input\nspread on multiple lines"
-                  }
+                    content_type: 'text/plain',
+                    value: 'This is some input\nspread on multiple lines',
+                  },
                 },
                 {
-                  keyword: "Then ",
-                  text: "I have a datatable",
+                  keyword: 'Then ',
+                  text: 'I have a datatable',
                   rows: [
                     {
-                      cells: [
-                        "username",
-                        "password"
-                      ]
+                      cells: ['username', 'password'],
                     },
                     {
-                      cells: [
-                        "admin",
-                        "@dmin"
-                      ]
+                      cells: ['admin', '@dmin'],
                     },
                     {
-                      cells: [
-                        "user",
-                        "s3cr3t"
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        }
+                      cells: ['user', 's3cr3t'],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
       ]
 
       const feature = parser.parse(scenarioSource)[0].feature
@@ -245,8 +244,11 @@ describe('RubyJSONParser', () => {
       it('parses doc strings', () => {
         const step = scenario.steps[0]
 
-        assert.strictEqual(step.docString.mediaType, "text/plain")
-        assert.strictEqual(step.docString.content, "This is some input\nspread on multiple lines")
+        assert.strictEqual(step.docString.mediaType, 'text/plain')
+        assert.strictEqual(
+          step.docString.content,
+          'This is some input\nspread on multiple lines'
+        )
       })
 
       it('parses doc strings', () => {
