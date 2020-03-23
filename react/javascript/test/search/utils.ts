@@ -16,6 +16,25 @@ function makeFeature(
   })
 }
 
+function makeRule(
+  name: string,
+  description: string,
+  scenarios: messages.GherkinDocument.Feature.IScenario[]
+): messages.GherkinDocument.Feature.FeatureChild.IRule {
+  const idGenerator = IdGenerator.uuid()
+
+  return messages.GherkinDocument.Feature.FeatureChild.Rule.create({
+    id: idGenerator(),
+    name: name,
+    description: description,
+    children: scenarios.map(scenario =>
+      messages.GherkinDocument.Feature.FeatureChild.RuleChild.create({
+        scenario: scenario,
+      })
+    ),
+  })
+}
+
 function makeScenario(
   name: string,
   description: string,
@@ -44,4 +63,4 @@ function makeStep(
   })
 }
 
-export { makeFeature, makeScenario, makeStep }
+export { makeFeature, makeScenario, makeStep, makeRule }
