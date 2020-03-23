@@ -1,5 +1,6 @@
 import assert from 'assert'
 import RubyJSONParser from '../src/RubyJSONParser'
+import { isNullOrUndefined } from 'util'
 
 describe('RubyJSONParser', () => {
   const parser = new RubyJSONParser()
@@ -10,6 +11,7 @@ describe('RubyJSONParser', () => {
         name: 'Attachments',
         description: 'Attachments can be added to steps',
         uri: 'features/attachments/attachments.feature',
+        line: 2,
       },
       {
         name: 'Another feature',
@@ -47,6 +49,13 @@ describe('RubyJSONParser', () => {
       )
     })
 
+    it('creates locations for the features', () => {
+      const documents = parser.parse(sources)
+      const feature = documents[0].feature
+
+      assert.strictEqual(feature.location.line, 2)
+    })
+
     context('with backgrounds', () => {
       const singleBackground = [
         {
@@ -59,10 +68,12 @@ describe('RubyJSONParser', () => {
               keyword: 'Background',
               name: 'Set up',
               description: "Let's do things",
+              line: 5,
               steps: [
                 {
                   keyword: 'Given ',
                   name: 'things',
+                  line: 7
                 },
                 {
                   keyword: 'And ',
@@ -104,6 +115,13 @@ describe('RubyJSONParser', () => {
         assert.equal(background.description, "Let's do things")
       })
 
+      it('generates proper location for the background', () => {
+        const feature = parser.parse(singleBackground)[0].feature
+        const background = feature.children[0].background
+
+        assert.strictEqual(background.location.line, 5)
+      })
+
       it('adds the steps to the background', () => {
         const feature = parser.parse(singleBackground)[0].feature
         const background = feature.children[0].background
@@ -117,6 +135,20 @@ describe('RubyJSONParser', () => {
           background.steps.map(step => step.text),
           ['things', 'stuff']
         )
+      })
+
+      it('generates IDs for the steps', () => {
+        const feature = parser.parse(singleBackground)[0].feature
+        const step = feature.children[0].background.steps[0]
+
+        assert.notEqual(step.id, "")
+      })
+
+      it('generates proper location for the steps', () => {
+        const feature = parser.parse(singleBackground)[0].feature
+        const step = feature.children[0].background.steps[0]
+
+        assert.strictEqual(step.location.line, 7)
       })
 
       it('only keeps one background', () => {
@@ -146,6 +178,7 @@ describe('RubyJSONParser', () => {
               keyword: 'Scenario',
               name: 'Add attachment',
               description: 'Attachments can be added to the report',
+              line: 9,
               steps: [
                 {
                   keyword: 'When ',
@@ -166,6 +199,21 @@ describe('RubyJSONParser', () => {
         const scenarios = feature.children.filter(child => child.scenario)
 
         assert.strictEqual(scenarios.length, 1)
+      })
+
+      it('generates IDs for the scenarios', () => {
+        const feature = parser.parse(scenarioSource)[0].feature
+        const scenarios = feature.children.filter(child => child.scenario)
+
+        assert.notEqual(scenarios[0].scenario.id, "")
+      })
+
+
+      it('generates location for the scenarios', () => {
+        const feature = parser.parse(scenarioSource)[0].feature
+        const scenarios = feature.children.filter(child => child.scenario)
+
+        assert.strictEqual(scenarios[0].scenario.location.line, 9)
       })
 
       it('creates a scenarios with the correct properties', () => {

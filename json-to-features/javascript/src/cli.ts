@@ -3,9 +3,9 @@ import packageJson from '../package.json'
 import RubyJSONParser from './RubyJSONParser'
 import { runCucumber, SupportCode } from '@cucumber/fake-cucumber'
 import { Readable } from 'stream'
-import { messages, MessageToNdjsonStream } from '@cucumber/messages'
+import { messages, MessageToNdjsonStream, IdGenerator } from '@cucumber/messages'
 
-import { Query as GherkinQuery } from '@cucumber/gherkin'
+import { compile, Query as GherkinQuery } from '@cucumber/gherkin'
 
 const program = new Command()
 program.version(packageJson.version)
@@ -21,13 +21,27 @@ process.stdin.on('readable', () => {
 })
 
 process.stdin.on('end', () => {
-  const envelopes = new RubyJSONParser()
+  let envelopes: messages.IEnvelope[] = []
+  let pickles: messages.IPickle[] = []
+  let idGenerator = IdGenerator.uuid()
+
+  new RubyJSONParser(idGenerator)
     .parse(JSON.parse(lines.join('')))
-    .map(gherkinDocument =>
-      messages.Envelope.create({
+    .forEach(gherkinDocument => {
+      compile(
         gherkinDocument,
-      })
-    )
+        gherkinDocument.uri,
+        idGenerator
+      ).forEach(pickle => pickles.push(pickle))
+
+      envelopes.push(messages.Envelope.create({
+        gherkinDocument,
+      }))
+    })
+
+  pickles.forEach(pickle => envelopes.push(messages.Envelope.create({
+    pickle
+  })))
 
   const documentStream = Readable.from(envelopes, { objectMode: true })
   const supportCode = new SupportCode()
@@ -35,5 +49,6 @@ process.stdin.on('end', () => {
   const outputStream = new MessageToNdjsonStream()
   outputStream.pipe(process.stdout)
 
+  //documentStream.pipe(outputStream)
   runCucumber(supportCode, documentStream, query, outputStream)
 })

@@ -1,7 +1,11 @@
-import { messages } from '@cucumber/messages'
+import { messages, IdGenerator } from '@cucumber/messages'
 import { isNullOrUndefined } from 'util'
 
 export default class RubyJSONParser {
+  constructor(
+    private readonly idGenerator = IdGenerator.uuid()
+  ) {}
+
   public parse(sources: Record<string, any>[]): messages.IGherkinDocument[] {
     return sources.map(source => this.makeGherkinDocument(source))
   }
@@ -21,6 +25,7 @@ export default class RubyJSONParser {
     return messages.GherkinDocument.Feature.create({
       name: source.name,
       description: source.description,
+      location: messages.Location.create({line: source.line}),
       children: this.makeChildren(source.elements || []),
     })
   }
@@ -52,6 +57,7 @@ export default class RubyJSONParser {
         keyword: element.keyword,
         name: element.name,
         description: element.description,
+        location: messages.Location.create({line: element.line}),
         steps: this.makeSteps(element.steps || []),
       }),
     })
@@ -62,9 +68,11 @@ export default class RubyJSONParser {
   ): messages.GherkinDocument.Feature.IFeatureChild {
     return messages.GherkinDocument.Feature.FeatureChild.create({
       scenario: messages.GherkinDocument.Feature.Scenario.create({
+        id: this.idGenerator(),
         keyword: element.keyword,
         name: element.name,
         description: element.description,
+        location: messages.Location.create({line: element.line}),
         steps: this.makeSteps(element.steps || []),
       }),
     })
@@ -80,8 +88,10 @@ export default class RubyJSONParser {
     step: Record<string, any>
   ): messages.GherkinDocument.Feature.Step {
     return messages.GherkinDocument.Feature.Step.create({
+      id: this.idGenerator(),
       keyword: step.keyword,
       text: step.name,
+      location: messages.Location.create({line: step.line}),
       docString: this.makeDocString(step.doc_string),
       dataTable: this.makeDataTable(step.rows || []),
     })
