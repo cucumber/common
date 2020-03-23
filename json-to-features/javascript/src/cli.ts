@@ -23,9 +23,10 @@ process.stdin.on('readable', () => {
 process.stdin.on('end', () => {
   let envelopes: messages.IEnvelope[] = []
   let pickles: messages.IPickle[] = []
-  let idGenerator = IdGenerator.uuid()
+  const idGenerator = IdGenerator.uuid()
+  const supportCode = new SupportCode()
 
-  new RubyJSONParser(idGenerator)
+  new RubyJSONParser(idGenerator, supportCode)
     .parse(JSON.parse(lines.join('')))
     .forEach(gherkinDocument => {
       compile(
@@ -44,11 +45,9 @@ process.stdin.on('end', () => {
   })))
 
   const documentStream = Readable.from(envelopes, { objectMode: true })
-  const supportCode = new SupportCode()
   const query = new GherkinQuery()
   const outputStream = new MessageToNdjsonStream()
   outputStream.pipe(process.stdout)
 
-  //documentStream.pipe(outputStream)
   runCucumber(supportCode, documentStream, query, outputStream)
 })

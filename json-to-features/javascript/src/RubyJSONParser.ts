@@ -1,9 +1,12 @@
 import { messages, IdGenerator } from '@cucumber/messages'
 import { isNullOrUndefined } from 'util'
+import { SupportCode } from '@cucumber/fake-cucumber'
+import StepDefinition from './StepDefinition'
 
 export default class RubyJSONParser {
   constructor(
-    private readonly idGenerator = IdGenerator.uuid()
+    private readonly idGenerator = IdGenerator.uuid(),
+    private readonly supportCode: SupportCode
   ) {}
 
   public parse(sources: Record<string, any>[]): messages.IGherkinDocument[] {
@@ -87,8 +90,29 @@ export default class RubyJSONParser {
   private makeStep(
     step: Record<string, any>
   ): messages.GherkinDocument.Feature.Step {
+    const stepId = this.idGenerator()
+
+    if (step.result) {
+      if (step.result.status === 'passed') {
+        this.supportCode.registerStepDefinition(new StepDefinition(
+          stepId,
+          () => null
+        ))
+      } else if (step.result.status === 'pending') {
+        this.supportCode.registerStepDefinition(new StepDefinition(
+          stepId,
+          () => 'pending'
+        ))
+      } else if (step.result.status === 'failed') {
+        this.supportCode.registerStepDefinition(new StepDefinition(
+          stepId,
+          () => { throw new Error('Exception in step') }
+        ))
+      }
+    }
+
     return messages.GherkinDocument.Feature.Step.create({
-      id: this.idGenerator(),
+      id: stepId,
       keyword: step.keyword,
       text: step.name,
       location: messages.Location.create({line: step.line}),

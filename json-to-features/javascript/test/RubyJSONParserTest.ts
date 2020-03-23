@@ -1,9 +1,17 @@
 import assert from 'assert'
 import RubyJSONParser from '../src/RubyJSONParser'
-import { isNullOrUndefined } from 'util'
+import { SupportCode } from '@cucumber/fake-cucumber'
+import { IdGenerator, messages } from '@cucumber/messages'
 
 describe('RubyJSONParser', () => {
-  const parser = new RubyJSONParser()
+  let supportCode: SupportCode
+  let parser: RubyJSONParser
+
+  beforeEach(() => {
+    supportCode = new SupportCode()
+    const idGenerator = IdGenerator.uuid()
+    parser = new RubyJSONParser(idGenerator, supportCode)
+  })
 
   context('.parse', () => {
     const sources = [
@@ -285,9 +293,12 @@ describe('RubyJSONParser', () => {
           ],
         },
       ]
+      let scenario: messages.GherkinDocument.Feature.IScenario
 
-      const feature = parser.parse(scenarioSource)[0].feature
-      const scenario = feature.children[0].scenario
+      beforeEach(() => {
+        const feature = parser.parse(scenarioSource)[0].feature
+        scenario = feature.children[0].scenario
+      })
 
       it('parses doc strings', () => {
         const step = scenario.steps[0]
@@ -315,6 +326,63 @@ describe('RubyJSONParser', () => {
           step.dataTable.rows[2].cells.map(cell => cell.value),
           ['user', 's3cr3t']
         )
+      })
+    })
+
+    context('parsing steps', () => {
+      function makeScenarioWithStepStatus(status: string): any {
+        return {
+          elements: [
+            {
+              type: 'scenario',
+              steps: [
+                {
+                  id: 'step-id',
+                  result: {
+                    duration: 3971,
+                    status: status
+                  },
+                }
+              ]
+            }
+          ]
+        }
+      }
+
+      function makePickleStep(gherkinDocument: messages.IGherkinDocument): messages.Pickle.IPickleStep {
+        return messages.Pickle.PickleStep.create({
+          astNodeIds: [gherkinDocument.feature.children[0].scenario.steps[0].id]
+        })
+      }
+
+      context('a passed step', () => {
+        it('registers a StepDefinition which returns null upon execution', () => {
+          const documents = parser.parse([makeScenarioWithStepStatus('passed')])
+          const pickleStep = makePickleStep(documents[0])
+
+          assert.equal(supportCode.stepDefinitions.length, 1)
+          assert.equal(supportCode.stepDefinitions[0].match(pickleStep).execute(null), null)
+        })
+      })
+
+      context('a pending step', () => {
+        it('registers a StepDefinition which returns "pending" upon execution', () => {
+          const documents = parser.parse([makeScenarioWithStepStatus('pending')])
+          const pickleStep = makePickleStep(documents[0])
+
+          assert.equal(supportCode.stepDefinitions.length, 1)
+          assert.equal(supportCode.stepDefinitions[0].match(pickleStep).execute(null), 'pending')
+        })
+      })
+
+      context('a failed step', () => {
+        it('registers a StepDefinition which raises an exception upon execution', () => {
+          const documents = parser.parse([makeScenarioWithStepStatus('failed')])
+          const pickleStep = makePickleStep(documents[0])
+
+          assert.equal(supportCode.stepDefinitions.length, 1)
+          assert.throws(() => supportCode.stepDefinitions[0].match(pickleStep).execute(null))
+        })
       })
     })
   })
