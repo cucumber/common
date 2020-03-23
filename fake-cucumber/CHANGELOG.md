@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+* export `IStepDefinition` to enable custom matching.
+
 ### Changed
 
 ### Deprecated

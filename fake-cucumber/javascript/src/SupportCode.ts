@@ -84,6 +84,10 @@ export default class SupportCode {
     }
   }
 
+  public registerStepDefinition(stepDefinition: IStepDefinition) {
+    this.stepDefinitions.push(stepDefinition)
+  }
+
   public defineBeforeHook(
     sourceReference: messages.ISourceReference,
     tagExpressionOrBody: string | AnyBody,

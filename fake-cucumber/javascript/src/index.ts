@@ -9,6 +9,7 @@ import {
 } from './dsl'
 import runCucumber from './runCucumber'
 import SupportCode from './SupportCode'
+import IStepDefinition from './IStepDefinition'
 
 export {
   Given,
@@ -20,4 +21,5 @@ export {
   defineParameterType,
   runCucumber,
   SupportCode,
+  IStepDefinition,
 }
