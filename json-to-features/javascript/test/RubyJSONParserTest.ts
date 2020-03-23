@@ -130,7 +130,7 @@ describe('RubyJSONParser', () => {
     })
 
     context('with scenarios', () => {
-      const singleScenario = [
+      const scenarioSource = [
         {
           name: 'Attachments',
           description: 'Attachments can be added to steps',
@@ -157,14 +157,14 @@ describe('RubyJSONParser', () => {
       ]
 
       it('creates a feature child for the scenarios', () => {
-        const feature = parser.parse(singleScenario)[0].feature
+        const feature = parser.parse(scenarioSource)[0].feature
         const scenarios = feature.children.filter(child => child.scenario)
 
         assert.strictEqual(scenarios.length, 1)
       })
 
       it('creates a scenarios with the correct properties', () => {
-        const feature = parser.parse(singleScenario)[0].feature
+        const feature = parser.parse(scenarioSource)[0].feature
         const scenario = feature.children[0].scenario
 
         assert.strictEqual(scenario.keyword, 'Scenario')
@@ -173,7 +173,7 @@ describe('RubyJSONParser', () => {
       })
 
       it('adds the steps to the scenario', () => {
-        const feature = parser.parse(singleScenario)[0].feature
+        const feature = parser.parse(scenarioSource)[0].feature
         const scenario = feature.children[0].scenario
 
         assert.deepStrictEqual(
@@ -185,6 +185,48 @@ describe('RubyJSONParser', () => {
           scenario.steps.map(step => step.text),
           ['I attach something', "it's attached"]
         )
+      })
+    })
+
+    context('parameter steps', () => {
+      const scenarioSource = [
+        {
+          name: 'Attachments',
+          description: 'Attachments can be added to steps',
+          uri: 'features/attachments/attachments.feature',
+          elements: [
+            {
+              type: "scenario",
+              keyword: "Scenario",
+              name: "Add attachment",
+              description: "Attachments can be added to the report",
+              steps: [
+                {
+                  keyword: "When ",
+                  text: "I have a doc string",
+                  doc_string: {
+                    content_type: "text/plain",
+                    value: "This is some input\nspread on multiple lines"
+                  }
+                },
+                {
+                  keyword: "Then ",
+                  text: "it's attached"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+
+      const feature = parser.parse(scenarioSource)[0].feature
+      const scenario = feature.children[0].scenario
+
+      it('parses doc strings', () => {
+        const step = scenario.steps[0]
+
+        assert.strictEqual(step.docString.mediaType, "text/plain")
+        assert.strictEqual(step.docString.content, "This is some input\nspread on multiple lines")
       })
     })
   })

@@ -64,10 +64,24 @@ export default class RubyJSONParser {
 
   private makeSteps(steps: Record<string, any>[]): messages.GherkinDocument.Feature.IStep[] {
     return steps.map(step =>
-      messages.GherkinDocument.Feature.Step.create({
-        keyword: step.keyword,
-        text: step.text
-      })
+      this.makeStep(step)
     )
+  }
+
+  private makeStep(step: Record<string, any>): messages.GherkinDocument.Feature.Step {
+    return messages.GherkinDocument.Feature.Step.create({
+      keyword: step.keyword,
+      text: step.text,
+      docString: this.makeDocString(step.doc_string)
+    })
+  }
+
+  private makeDocString(docString: Record<string, any>): messages.GherkinDocument.Feature.Step.IDocString {
+    if (!isNullOrUndefined(docString)) {
+      return messages.GherkinDocument.Feature.Step.DocString.create({
+        mediaType: docString.content_type,
+        content: docString.value
+      })
+    }
   }
 }
