@@ -1,7 +1,11 @@
 import { Command } from 'commander'
 import packageJson from '../package.json'
 import RubyJSONParser from './RubyJSONParser'
-import { runCucumber } from 'fake-cucumber'
+import { runCucumber, SupportCode } from '@cucumber/fake-cucumber'
+import { Readable } from 'stream'
+import { messages, MessageToNdjsonStream } from '@cucumber/messages'
+
+import { Query as GherkinQuery } from '@cucumber/gherkin'
 
 const program = new Command()
 program.version(packageJson.version)
@@ -17,8 +21,19 @@ process.stdin.on('readable', () => {
 })
 
 process.stdin.on('end', () => {
-  const sources = JSON.parse(lines.join(''))
-  const gherkinDocuments = new RubyJSONParser().parse(sources)
+  const envelopes = new RubyJSONParser()
+    .parse(JSON.parse(lines.join('')))
+    .map(gherkinDocument =>
+      messages.Envelope.create({
+        gherkinDocument,
+      })
+    )
 
-  runCucumber(null, gherkinDocuments, null, null)
+  const documentStream = Readable.from(envelopes, { objectMode: true })
+  const supportCode = new SupportCode()
+  const query = new GherkinQuery()
+  const outputStream = new MessageToNdjsonStream()
+  outputStream.pipe(process.stdout)
+
+  runCucumber(supportCode, documentStream, query, outputStream)
 })

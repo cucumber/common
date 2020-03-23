@@ -81,7 +81,7 @@ export default class RubyJSONParser {
   ): messages.GherkinDocument.Feature.Step {
     return messages.GherkinDocument.Feature.Step.create({
       keyword: step.keyword,
-      text: step.text,
+      text: step.name,
       docString: this.makeDocString(step.doc_string),
       dataTable: this.makeDataTable(step.rows || []),
     })

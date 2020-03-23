@@ -62,11 +62,11 @@ describe('RubyJSONParser', () => {
               steps: [
                 {
                   keyword: 'Given ',
-                  text: 'things',
+                  name: 'things',
                 },
                 {
                   keyword: 'And ',
-                  text: 'stuff',
+                  name: 'stuff',
                 },
               ],
             },
@@ -149,11 +149,11 @@ describe('RubyJSONParser', () => {
               steps: [
                 {
                   keyword: 'When ',
-                  text: 'I attach something',
+                  name: 'I attach something',
                 },
                 {
                   keyword: 'Then ',
-                  text: "it's attached",
+                  name: "it's attached",
                 },
               ],
             },
@@ -211,7 +211,7 @@ describe('RubyJSONParser', () => {
               steps: [
                 {
                   keyword: 'When ',
-                  text: 'I have a doc string',
+                  name: 'I have a doc string',
                   doc_string: {
                     content_type: 'text/plain',
                     value: 'This is some input\nspread on multiple lines',
@@ -219,7 +219,7 @@ describe('RubyJSONParser', () => {
                 },
                 {
                   keyword: 'Then ',
-                  text: 'I have a datatable',
+                  name: 'I have a datatable',
                   rows: [
                     {
                       cells: ['username', 'password'],
