@@ -211,7 +211,27 @@ describe('RubyJSONParser', () => {
                 },
                 {
                   keyword: "Then ",
-                  text: "it's attached"
+                  text: "I have a datatable",
+                  rows: [
+                    {
+                      cells: [
+                        "username",
+                        "password"
+                      ]
+                    },
+                    {
+                      cells: [
+                        "admin",
+                        "@dmin"
+                      ]
+                    },
+                    {
+                      cells: [
+                        "user",
+                        "s3cr3t"
+                      ]
+                    }
+                  ]
                 }
               ]
             }
@@ -227,6 +247,24 @@ describe('RubyJSONParser', () => {
 
         assert.strictEqual(step.docString.mediaType, "text/plain")
         assert.strictEqual(step.docString.content, "This is some input\nspread on multiple lines")
+      })
+
+      it('parses doc strings', () => {
+        const step = scenario.steps[1]
+
+        assert.deepStrictEqual(step.dataTable.rows.length, 3)
+        assert.deepStrictEqual(
+          step.dataTable.rows[0].cells.map(cell => cell.value),
+          ['username', 'password']
+        )
+        assert.deepStrictEqual(
+          step.dataTable.rows[1].cells.map(cell => cell.value),
+          ['admin', '@dmin']
+        )
+        assert.deepStrictEqual(
+          step.dataTable.rows[2].cells.map(cell => cell.value),
+          ['user', 's3cr3t']
+        )
       })
     })
   })

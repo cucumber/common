@@ -72,16 +72,33 @@ export default class RubyJSONParser {
     return messages.GherkinDocument.Feature.Step.create({
       keyword: step.keyword,
       text: step.text,
-      docString: this.makeDocString(step.doc_string)
+      docString: this.makeDocString(step.doc_string),
+      dataTable: this.makeDataTable(step.rows || [])
     })
   }
 
   private makeDocString(docString: Record<string, any>): messages.GherkinDocument.Feature.Step.IDocString {
-    if (!isNullOrUndefined(docString)) {
-      return messages.GherkinDocument.Feature.Step.DocString.create({
-        mediaType: docString.content_type,
-        content: docString.value
-      })
+    if (isNullOrUndefined(docString)) {
+      return null
     }
+
+    return messages.GherkinDocument.Feature.Step.DocString.create({
+      mediaType: docString.content_type,
+      content: docString.value
+    })
+  }
+
+  private makeDataTable(rows: Record<string, any>[]): messages.GherkinDocument.Feature.Step.IDataTable {
+    if (rows.length == 0)  {
+      return null
+    }
+
+    return messages.GherkinDocument.Feature.Step.DataTable.create({
+      rows: rows.map(row => messages.GherkinDocument.Feature.TableRow.create({
+        cells: row.cells.map((cell: string) => messages.GherkinDocument.Feature.TableRow.TableCell.create({
+          value: cell
+        }))
+      }))
+    })
   }
 }
