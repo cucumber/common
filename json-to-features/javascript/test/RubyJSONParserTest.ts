@@ -336,7 +336,10 @@ describe('RubyJSONParser', () => {
     })
 
     context('parsing steps', () => {
-      function makeScenarioWithStepStatus(status: string): any {
+      function makeScenarioWithStepStatus(
+        status: string,
+        errorMessage?: string
+      ): any {
         return {
           elements: [
             {
@@ -347,6 +350,7 @@ describe('RubyJSONParser', () => {
                   result: {
                     duration: 3971,
                     status: status,
+                    error_message: errorMessage,
                   },
                 },
               ],
@@ -402,6 +406,31 @@ describe('RubyJSONParser', () => {
           assert.throws(() =>
             supportCode.stepDefinitions[0].match(pickleStep).execute(null)
           )
+        })
+
+        it('provide the correct stacktrace', () => {
+          const stacktrace = [
+            'Woops (RuntimeError)',
+            './features/statuses/statuses_steps.rb:5:in `"a failed step"',
+            "features/statuses/statuses.feature:9:in `a failed step'",
+          ].join('\n')
+          const documents = parser.parse([
+            makeScenarioWithStepStatus('failed', stacktrace),
+          ])
+          const pickleStep = makePickleStep(documents[0])
+
+          try {
+            supportCode.stepDefinitions[0].match(pickleStep).execute(null)
+          } catch (err) {
+            assert.strictEqual(err.msg, 'Woops (RuntimeError)')
+            assert.strictEqual(
+              err.stack,
+              [
+                './features/statuses/statuses_steps.rb:5:in `"a failed step"',
+                "features/statuses/statuses.feature:9:in `a failed step'",
+              ].join('\n')
+            )
+          }
         })
       })
     })

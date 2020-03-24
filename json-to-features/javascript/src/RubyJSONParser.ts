@@ -3,6 +3,12 @@ import { isNullOrUndefined } from 'util'
 import { SupportCode } from '@cucumber/fake-cucumber'
 import StepDefinition from './StepDefinition'
 
+class CustomStackError extends Error {
+  constructor(private readonly msg: string, public readonly stack: string) {
+    super(msg)
+  }
+}
+
 export default class RubyJSONParser {
   constructor(
     private readonly idGenerator = IdGenerator.uuid(),
@@ -103,9 +109,14 @@ export default class RubyJSONParser {
           new StepDefinition(stepId, () => 'pending')
         )
       } else if (step.result.status === 'failed') {
+        const errormMessage = step.result.error_message || ''
+        const stackLines: string[] = errormMessage.split('\n')
+        const errorName = stackLines.shift()
+        const stack = stackLines.join('\n')
+
         this.supportCode.registerStepDefinition(
           new StepDefinition(stepId, () => {
-            throw new Error('Exception in step')
+            throw new CustomStackError(errorName, stack)
           })
         )
       }

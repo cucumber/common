@@ -7,7 +7,6 @@ JSONS=$(call rwildcard,../ruby/acceptance,*.json)
 NDJSONS=$(patsubst ../ruby/acceptance/%.json,acceptance/%.ndjson,$(JSONS))
 HTMLS=$(patsubst acceptance/%.ndjson,acceptance/%.ndjson.html,$(NDJSONS))
 
-
 .tested: reports
 
 reports: $(HTMLS)
@@ -20,6 +19,6 @@ acceptance/%.ndjson.html: acceptance/%.ndjson
                 -c "../../compatibility-kit/scripts/cucumber-html-formatter" \
                 $<
 
-acceptance/%.ndjson: ../ruby/acceptance/%.json
+acceptance/%.ndjson: ../ruby/acceptance/%.json $(TYPESCRIPT_SOURCE_FILES)
 	mkdir -p $(@D)
 	cat ../ruby/acceptance/statuses/statuses.json | bin/json-to-features > $@
