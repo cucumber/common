@@ -1,11 +1,11 @@
 {
-  "name": "@cucumber/json-to-features",
+  "name": "@cucumber/json-to-messages",
   "version": "0.0.1",
-  "description": "Translate legacy JSON to .feature files",
+  "description": "Translate legacy JSON to messages",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
   "bin": {
-    "json-to-features": "bin/json-to-features"
+    "json-to-features": "bin/json-to-messages"
   },
   "scripts": {
     "test": "mocha",
