@@ -1,7 +1,7 @@
 import { messages, IdGenerator } from '@cucumber/messages'
 import { isNullOrUndefined } from 'util'
 import { SupportCode } from '@cucumber/fake-cucumber'
-import StepDefinition from './StepDefinition'
+import StepDefinition, { makeStepDefinition } from './StepDefinition'
 
 class CustomStackError extends Error {
   constructor(private readonly msg: string, public readonly stack: string) {
@@ -100,25 +100,14 @@ export default class RubyJSONParser {
     const stepId = this.idGenerator()
 
     if (step.result) {
-      if (step.result.status === 'passed') {
-        this.supportCode.registerStepDefinition(
-          new StepDefinition(stepId, () => null)
-        )
-      } else if (step.result.status === 'pending') {
-        this.supportCode.registerStepDefinition(
-          new StepDefinition(stepId, () => 'pending')
-        )
-      } else if (step.result.status === 'failed') {
-        const errormMessage = step.result.error_message || ''
-        const stackLines: string[] = errormMessage.split('\n')
-        const errorName = stackLines.shift()
-        const stack = stackLines.join('\n')
+      const stepDefinition = makeStepDefinition(
+        stepId,
+        step.result.status,
+        step.result.error_message || ''
+      )
 
-        this.supportCode.registerStepDefinition(
-          new StepDefinition(stepId, () => {
-            throw new CustomStackError(errorName, stack)
-          })
-        )
+      if (stepDefinition !== null) {
+        this.supportCode.registerStepDefinition(stepDefinition)
       }
     }
 
