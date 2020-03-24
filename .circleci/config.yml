@@ -848,7 +848,9 @@ workflows:
           requires:
             - html-formatter-javascript
             - compatibility-kit-ruby
-
+      - json-to-messages-ruby:
+          requires:
+            - checkout
 ### Java
 
       - c21e-java:
