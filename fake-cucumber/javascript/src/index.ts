@@ -11,6 +11,7 @@ import runCucumber from './runCucumber'
 import SupportCode from './SupportCode'
 import IStepDefinition from './IStepDefinition'
 import ISupportCodeExecutor from './ISupportCodeExecutor'
+import IWorld from './IWorld'
 
 export {
   Given,
@@ -24,4 +25,5 @@ export {
   SupportCode,
   IStepDefinition,
   ISupportCodeExecutor,
+  IWorld,
 }

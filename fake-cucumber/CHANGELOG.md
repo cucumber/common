@@ -9,7 +9,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
-* Add and expose `ISupportCodeExecutor`
+* expose `IWorld`
+* add and expose `ISupportCodeExecutor`
 * expose `IStepDefinition` to enable custom matching.
 
 ### Changed
