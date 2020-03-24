@@ -2,6 +2,7 @@ import IStepDefinition from '@cucumber/fake-cucumber/dist/src/IStepDefinition'
 import { messages } from '@cucumber/messages'
 import SupportCodeExecutor from '@cucumber/fake-cucumber/dist/src/SupportCodeExecutor'
 import { AnyBody } from '@cucumber/fake-cucumber/dist/src/types'
+import { Argument } from '@cucumber/cucumber-expressions'
 
 export default class StepDefinition implements IStepDefinition {
   constructor(
@@ -21,6 +22,6 @@ export default class StepDefinition implements IStepDefinition {
   }
 
   toMessage(): messages.IEnvelope {
-
+    return messages.Envelope.create()
   }
 }

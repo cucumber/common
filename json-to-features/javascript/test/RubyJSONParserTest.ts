@@ -81,7 +81,7 @@ describe('RubyJSONParser', () => {
                 {
                   keyword: 'Given ',
                   name: 'things',
-                  line: 7
+                  line: 7,
                 },
                 {
                   keyword: 'And ',
@@ -149,7 +149,7 @@ describe('RubyJSONParser', () => {
         const feature = parser.parse(singleBackground)[0].feature
         const step = feature.children[0].background.steps[0]
 
-        assert.notEqual(step.id, "")
+        assert.notEqual(step.id, '')
       })
 
       it('generates proper location for the steps', () => {
@@ -213,9 +213,8 @@ describe('RubyJSONParser', () => {
         const feature = parser.parse(scenarioSource)[0].feature
         const scenarios = feature.children.filter(child => child.scenario)
 
-        assert.notEqual(scenarios[0].scenario.id, "")
+        assert.notEqual(scenarios[0].scenario.id, '')
       })
-
 
       it('generates location for the scenarios', () => {
         const feature = parser.parse(scenarioSource)[0].feature
@@ -252,7 +251,7 @@ describe('RubyJSONParser', () => {
       })
     })
 
-    context('parameter steps', () => {
+    context('step parameters', () => {
       const scenarioSource = [
         {
           name: 'Attachments',
@@ -340,18 +339,22 @@ describe('RubyJSONParser', () => {
                   id: 'step-id',
                   result: {
                     duration: 3971,
-                    status: status
+                    status: status,
                   },
-                }
-              ]
-            }
-          ]
+                },
+              ],
+            },
+          ],
         }
       }
 
-      function makePickleStep(gherkinDocument: messages.IGherkinDocument): messages.Pickle.IPickleStep {
+      function makePickleStep(
+        gherkinDocument: messages.IGherkinDocument
+      ): messages.Pickle.IPickleStep {
         return messages.Pickle.PickleStep.create({
-          astNodeIds: [gherkinDocument.feature.children[0].scenario.steps[0].id]
+          astNodeIds: [
+            gherkinDocument.feature.children[0].scenario.steps[0].id,
+          ],
         })
       }
 
@@ -361,17 +364,25 @@ describe('RubyJSONParser', () => {
           const pickleStep = makePickleStep(documents[0])
 
           assert.equal(supportCode.stepDefinitions.length, 1)
-          assert.equal(supportCode.stepDefinitions[0].match(pickleStep).execute(null), null)
+          assert.equal(
+            supportCode.stepDefinitions[0].match(pickleStep).execute(null),
+            null
+          )
         })
       })
 
       context('a pending step', () => {
         it('registers a StepDefinition which returns "pending" upon execution', () => {
-          const documents = parser.parse([makeScenarioWithStepStatus('pending')])
+          const documents = parser.parse([
+            makeScenarioWithStepStatus('pending'),
+          ])
           const pickleStep = makePickleStep(documents[0])
 
           assert.equal(supportCode.stepDefinitions.length, 1)
-          assert.equal(supportCode.stepDefinitions[0].match(pickleStep).execute(null), 'pending')
+          assert.equal(
+            supportCode.stepDefinitions[0].match(pickleStep).execute(null),
+            'pending'
+          )
         })
       })
 
@@ -381,7 +392,9 @@ describe('RubyJSONParser', () => {
           const pickleStep = makePickleStep(documents[0])
 
           assert.equal(supportCode.stepDefinitions.length, 1)
-          assert.throws(() => supportCode.stepDefinitions[0].match(pickleStep).execute(null))
+          assert.throws(() =>
+            supportCode.stepDefinitions[0].match(pickleStep).execute(null)
+          )
         })
       })
     })

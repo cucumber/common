@@ -28,7 +28,7 @@ export default class RubyJSONParser {
     return messages.GherkinDocument.Feature.create({
       name: source.name,
       description: source.description,
-      location: messages.Location.create({line: source.line}),
+      location: messages.Location.create({ line: source.line }),
       children: this.makeChildren(source.elements || []),
     })
   }
@@ -60,7 +60,7 @@ export default class RubyJSONParser {
         keyword: element.keyword,
         name: element.name,
         description: element.description,
-        location: messages.Location.create({line: element.line}),
+        location: messages.Location.create({ line: element.line }),
         steps: this.makeSteps(element.steps || []),
       }),
     })
@@ -75,7 +75,7 @@ export default class RubyJSONParser {
         keyword: element.keyword,
         name: element.name,
         description: element.description,
-        location: messages.Location.create({line: element.line}),
+        location: messages.Location.create({ line: element.line }),
         steps: this.makeSteps(element.steps || []),
       }),
     })
@@ -94,20 +94,19 @@ export default class RubyJSONParser {
 
     if (step.result) {
       if (step.result.status === 'passed') {
-        this.supportCode.registerStepDefinition(new StepDefinition(
-          stepId,
-          () => null
-        ))
+        this.supportCode.registerStepDefinition(
+          new StepDefinition(stepId, () => null)
+        )
       } else if (step.result.status === 'pending') {
-        this.supportCode.registerStepDefinition(new StepDefinition(
-          stepId,
-          () => 'pending'
-        ))
+        this.supportCode.registerStepDefinition(
+          new StepDefinition(stepId, () => 'pending')
+        )
       } else if (step.result.status === 'failed') {
-        this.supportCode.registerStepDefinition(new StepDefinition(
-          stepId,
-          () => { throw new Error('Exception in step') }
-        ))
+        this.supportCode.registerStepDefinition(
+          new StepDefinition(stepId, () => {
+            throw new Error('Exception in step')
+          })
+        )
       }
     }
 
@@ -115,7 +114,7 @@ export default class RubyJSONParser {
       id: stepId,
       keyword: step.keyword,
       text: step.name,
-      location: messages.Location.create({line: step.line}),
+      location: messages.Location.create({ line: step.line }),
       docString: this.makeDocString(step.doc_string),
       dataTable: this.makeDataTable(step.rows || []),
     })
