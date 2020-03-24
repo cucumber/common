@@ -21,4 +21,4 @@ acceptance/%.ndjson.html: acceptance/%.ndjson
 
 acceptance/%.ndjson: ../ruby/acceptance/%.json $(TYPESCRIPT_SOURCE_FILES)
 	mkdir -p $(@D)
-	cat ../ruby/acceptance/statuses/statuses.json | bin/json-to-messages > $@
+	cat $< | bin/json-to-messages > $@
