@@ -94,10 +94,13 @@ export default class RubyJSONParser {
     const stepId = this.idGenerator()
 
     if (step.result) {
+      const location =
+        step.match && step.match.location ? step.match.location : ''
       const stepDefinition = makeStepDefinition(
         stepId,
         step.result.status,
-        step.result.error_message || ''
+        step.result.error_message || '',
+        location
       )
 
       if (stepDefinition !== null) {

@@ -6,13 +6,17 @@ import StepDefinition, { makeStepDefinition } from '../src/StepDefinition'
 describe('StepDefinition', () => {
   const stepDef = new StepDefinition(
     'some-id',
-    () => 'This has been executed :)'
+    () => 'This has been executed :)',
+    'path/to/steps',
+    3
   )
 
   describe('.match', () => {
     const stepDef = new StepDefinition(
       'some-id',
-      () => 'This has been executed :)'
+      () => 'This has been executed :)',
+      'path/to/steps',
+      10
     )
 
     it('uses the step id as a reference', () => {
@@ -55,12 +59,20 @@ describe('makeStepDefinition', () => {
 
   context('when status is undefined', () => {
     it('returns null', () => {
-      assert.strictEqual(makeStepDefinition(stepId, 'undefined', ''), null)
+      assert.strictEqual(
+        makeStepDefinition(stepId, 'undefined', '', 'path/to/steps:12'),
+        null
+      )
     })
   })
 
   context('when status is passed', () => {
-    const stepDefinition = makeStepDefinition(stepId, 'passed', '')
+    const stepDefinition = makeStepDefinition(
+      stepId,
+      'passed',
+      '',
+      'path/to/steps:12'
+    )
 
     it('returns a StepDefinition', () => {
       assert.ok(stepDefinition instanceof StepDefinition)
@@ -74,10 +86,21 @@ describe('makeStepDefinition', () => {
       const executor = stepDefinition.match(pickleStep)
       assert.strictEqual(executor.execute(null), undefined)
     })
+
+    it('returns a step definition with the correct path', () => {
+      const message = stepDefinition.toMessage().stepDefinition
+      assert.strictEqual(message.sourceReference.uri, 'path/to/steps')
+      assert.strictEqual(message.sourceReference.location.line, 12)
+    })
   })
 
   context('when status is pending', () => {
-    const stepDefinition = makeStepDefinition(stepId, 'pending', '')
+    const stepDefinition = makeStepDefinition(
+      stepId,
+      'pending',
+      '',
+      'path/to/steps:12'
+    )
 
     it('returns a StepDefinition', () => {
       assert.ok(stepDefinition instanceof StepDefinition)
@@ -100,7 +123,12 @@ describe('makeStepDefinition', () => {
       "features/statuses/statuses.feature:9:in `a failed step'",
     ].join('\n')
 
-    const stepDefinition = makeStepDefinition(stepId, 'failed', stacktrace)
+    const stepDefinition = makeStepDefinition(
+      stepId,
+      'failed',
+      stacktrace,
+      'path/to/steps:12'
+    )
 
     it('returns a StepDefinition', () => {
       assert.ok(stepDefinition instanceof StepDefinition)

@@ -14,23 +14,41 @@ class CustomStackError extends Error {
 export function makeStepDefinition(
   stepId: string,
   status: string,
-  errorMessage: string
+  errorMessage: string,
+  location: string
 ): IStepDefinition {
+  const locationChunks = location.split(':')
+
   switch (status) {
     case 'passed': {
-      return new StepDefinition(stepId, () => undefined)
+      return new StepDefinition(
+        stepId,
+        () => undefined,
+        locationChunks[0],
+        parseInt(locationChunks[1])
+      )
     }
     case 'pending': {
-      return new StepDefinition(stepId, () => 'pending')
+      return new StepDefinition(
+        stepId,
+        () => 'pending',
+        locationChunks[0],
+        parseInt(locationChunks[1])
+      )
     }
     case 'failed': {
       const stackLines: string[] = errorMessage.split('\n')
       const errorName = stackLines.shift()
       const stack = stackLines.join('\n')
 
-      return new StepDefinition(stepId, () => {
-        throw new CustomStackError(errorName, stack)
-      })
+      return new StepDefinition(
+        stepId,
+        () => {
+          throw new CustomStackError(errorName, stack)
+        },
+        locationChunks[0],
+        parseInt(locationChunks[1])
+      )
     }
   }
   return null
@@ -39,7 +57,9 @@ export function makeStepDefinition(
 export default class StepDefinition implements StepDefinition {
   constructor(
     private readonly stepId: string,
-    private readonly body: AnyBody
+    private readonly body: AnyBody,
+    private readonly sourceFile: string,
+    private readonly sourceLine: number
   ) {}
 
   match(pickleStep: messages.Pickle.IPickleStep): SupportCodeExecutor | null {
@@ -54,6 +74,15 @@ export default class StepDefinition implements StepDefinition {
   }
 
   toMessage(): messages.IEnvelope {
-    return messages.Envelope.create()
+    return messages.Envelope.create({
+      stepDefinition: messages.StepDefinition.create({
+        sourceReference: messages.SourceReference.create({
+          uri: this.sourceFile,
+          location: messages.Location.create({
+            line: this.sourceLine,
+          }),
+        }),
+      }),
+    })
   }
 }
