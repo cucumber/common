@@ -1,8 +1,9 @@
-import IStepDefinition from '@cucumber/fake-cucumber/dist/src/IStepDefinition'
+import { IStepDefinition } from '@cucumber/fake-cucumber'
 import { messages } from '@cucumber/messages'
+import { Argument } from '@cucumber/cucumber-expressions'
+
 import SupportCodeExecutor from '@cucumber/fake-cucumber/dist/src/SupportCodeExecutor'
 import { AnyBody } from '@cucumber/fake-cucumber/dist/src/types'
-import { Argument } from '@cucumber/cucumber-expressions'
 
 export default class StepDefinition implements IStepDefinition {
   constructor(
@@ -17,7 +18,7 @@ export default class StepDefinition implements IStepDefinition {
     return null
   }
 
-  getArguments(text: string): Array<Argument<any>> {
+  getArguments(): Array<Argument<any>> {
     return []
   }
 

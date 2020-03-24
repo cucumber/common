@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/camelcase */
+
 import assert from 'assert'
 import RubyJSONParser from '../src/RubyJSONParser'
 import { SupportCode } from '@cucumber/fake-cucumber'

@@ -42,7 +42,7 @@ describe('StepDefinition', () => {
 
   describe('.getArguments', () => {
     it('returns an empty string', () => {
-      assert.deepEqual(stepDef.getArguments('whatever text'), [])
+      assert.deepEqual(stepDef.getArguments(), [])
     })
   })
 })
