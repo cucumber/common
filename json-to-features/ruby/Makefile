@@ -5,14 +5,17 @@ rwildcard=$(foreach d,$(wildcard $(1:=/*)),$(call rwildcard,$d,$2) $(filter $(su
 
 FEATURES=$(call rwildcard,features,*.feature)
 NDJSONS=$(patsubst features/%.feature,acceptance/%.ndjson,$(FEATURES))
-JSONS=$(patsubst acceptance/%.ndjson,acceptance/%.json,$(FEATURES))
+JSONS=$(patsubst features/%.feature,acceptance/%.json,$(FEATURES))
 
 .tested: $(NDJSONS) $(JSONS)
 
-acceptance/%.json: features/%.feature
+acceptance/%.json: features/%.feature features/%_steps.rb
 	mkdir -p $(@D)
-	-bundle exec cucumber $< --require $(patsubst %.ndjson,%_steps.rb,$@) --format json > $@
+	-bundle exec cucumber $< --require $(patsubst %.feature,%_steps.rb,$<) --format json > $@
 
-acceptance/%.ndjson: features/%.feature
+acceptance/%.ndjson: features/%.feature features/%_steps.rb
 	mkdir -p $(@D)
-	-bundle exec cucumber $< --require $(patsubst %.ndjson,%_steps.rb,$@) --format message > $@
+	-bundle exec cucumber $< --require $(patsubst %.feature,%_steps.rb,$<) --format message > $@
+
+clean:
+	rm -rf acceptance
