@@ -12,6 +12,7 @@ class CustomStackError extends Error {
 }
 
 export function makeStepDefinition(
+  stepDefinitionId: string,
   stepId: string,
   status: string,
   errorMessage: string,
@@ -22,6 +23,7 @@ export function makeStepDefinition(
   switch (status) {
     case 'passed': {
       return new StepDefinition(
+        stepDefinitionId,
         stepId,
         () => undefined,
         locationChunks[0],
@@ -30,6 +32,7 @@ export function makeStepDefinition(
     }
     case 'pending': {
       return new StepDefinition(
+        stepDefinitionId,
         stepId,
         () => 'pending',
         locationChunks[0],
@@ -42,6 +45,7 @@ export function makeStepDefinition(
       const stack = stackLines.join('\n')
 
       return new StepDefinition(
+        stepDefinitionId,
         stepId,
         () => {
           throw new CustomStackError(errorName, stack)
@@ -56,6 +60,7 @@ export function makeStepDefinition(
 
 export default class StepDefinition implements StepDefinition {
   constructor(
+    private readonly id: string,
     private readonly stepId: string,
     private readonly body: AnyBody,
     private readonly sourceFile: string,
@@ -64,7 +69,7 @@ export default class StepDefinition implements StepDefinition {
 
   match(pickleStep: messages.Pickle.IPickleStep): SupportCodeExecutor | null {
     if (pickleStep.astNodeIds.includes(this.stepId)) {
-      return new SupportCodeExecutor('plop', this.body, [], null, null)
+      return new SupportCodeExecutor(this.id, this.body, [], null, null)
     }
     return null
   }
@@ -76,6 +81,7 @@ export default class StepDefinition implements StepDefinition {
   toMessage(): messages.IEnvelope {
     return messages.Envelope.create({
       stepDefinition: messages.StepDefinition.create({
+        id: this.id,
         sourceReference: messages.SourceReference.create({
           uri: this.sourceFile,
           location: messages.Location.create({

@@ -5,6 +5,7 @@ import StepDefinition, { makeStepDefinition } from '../src/StepDefinition'
 
 describe('StepDefinition', () => {
   const stepDef = new StepDefinition(
+    'step-definition-id',
     'some-id',
     () => 'This has been executed :)',
     'path/to/steps',
@@ -13,6 +14,7 @@ describe('StepDefinition', () => {
 
   describe('.match', () => {
     const stepDef = new StepDefinition(
+      'step-definition-id',
       'some-id',
       () => 'This has been executed :)',
       'path/to/steps',
@@ -52,6 +54,7 @@ describe('StepDefinition', () => {
 })
 
 describe('makeStepDefinition', () => {
+  const stepDefinitionId = 'step-definition-id'
   const stepId = 'whatever-step-id'
   const pickleStep = messages.Pickle.PickleStep.create({
     astNodeIds: [stepId],
@@ -60,7 +63,13 @@ describe('makeStepDefinition', () => {
   context('when status is undefined', () => {
     it('returns null', () => {
       assert.strictEqual(
-        makeStepDefinition(stepId, 'undefined', '', 'path/to/steps:12'),
+        makeStepDefinition(
+          stepDefinitionId,
+          stepId,
+          'undefined',
+          '',
+          'path/to/steps:12'
+        ),
         null
       )
     })
@@ -68,6 +77,7 @@ describe('makeStepDefinition', () => {
 
   context('when status is passed', () => {
     const stepDefinition = makeStepDefinition(
+      stepDefinitionId,
       stepId,
       'passed',
       '',
@@ -96,6 +106,7 @@ describe('makeStepDefinition', () => {
 
   context('when status is pending', () => {
     const stepDefinition = makeStepDefinition(
+      stepDefinitionId,
       stepId,
       'pending',
       '',
@@ -124,6 +135,7 @@ describe('makeStepDefinition', () => {
     ].join('\n')
 
     const stepDefinition = makeStepDefinition(
+      stepDefinitionId,
       stepId,
       'failed',
       stacktrace,
