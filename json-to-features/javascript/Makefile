@@ -3,21 +3,23 @@ include default.mk
 # https://stackoverflow.com/questions/2483182/recursive-wildcards-in-gnu-make
 rwildcard=$(foreach d,$(wildcard $(1:=/*)),$(call rwildcard,$d,$2) $(filter $(subst *,%,$2),$d))
 
-FEATURE_FILES=$(call rwildcard,features,*.feature)
-NDJSONS=$(patsubst features/%.feature,acceptance/%.ndjson,$(FEATURE_FILES))
-JSONS=$(patsubst acceptance/%.ndjson,acceptance/%.json,$(NDJSONS))
-PRODUCED_FEATURES=$(patsubst acceptance/%.json,acceptance/%.feature,$(JSONS))
+JSONS=$(call rwildcard,../ruby/acceptance,*.json)
+NDJSONS=$(patsubst ../ruby/acceptance/%.json,acceptance/%.ndjson,$(JSONS))
+HTMLS=$(patsubst acceptance/%.ndjson,acceptance/%.ndjson.html,$(NDJSONS))
 
-diff_features: $(PRODUCED_FEATURES)
-	diff --unified --ignore-space-change features acceptance/features
-.PHONY: diff_features
 
-acceptance/%.feature: acceptance/%.json
-	cat $^ | bin/json-to-features -o acceptance
+.tested: reports
 
-acceptance/%.json: acceptance/%.ndjson
-	cat $^ | ../../compatibility-kit/scripts/cucumber-json-formatter > $@
+reports: $(HTMLS)
 
-acceptance/%.ndjson: features/%.feature
+acceptance/%.ndjson.html: acceptance/%.ndjson
 	mkdir -p $(@D)
-	../../fake-cucumber/javascript/bin/fake-cucumber $^ --format ndjson > $@
+	../../compatibility-kit/scripts/run-formatter \
+                -e .html \
+                -o $(@D) \
+                -c "../../compatibility-kit/scripts/cucumber-html-formatter" \
+                $<
+
+acceptance/%.ndjson: ../ruby/acceptance/%.json
+	mkdir -p $(@D)
+	cat ../ruby/acceptance/statuses/statuses.json | bin/json-to-features > $@
