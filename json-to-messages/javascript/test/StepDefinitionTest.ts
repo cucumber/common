@@ -1,13 +1,18 @@
 import assert from 'assert'
 import { messages } from '@cucumber/messages'
-import { SupportCodeExecutor } from '../src/SupportCodeExecutor'
+import {
+  PassedCodeExecutor,
+  PendingCodeExecutor,
+  FailedCodeExecutor,
+} from '../src/SupportCodeExecutor'
 import StepDefinition, { makeStepDefinition } from '../src/StepDefinition'
 
 describe('StepDefinition', () => {
+  const executor = new PassedCodeExecutor('step-definition-id')
   const stepDef = new StepDefinition(
     'step-definition-id',
     'some-id',
-    () => 'This has been executed :)',
+    executor,
     'path/to/steps',
     3
   )
@@ -16,7 +21,7 @@ describe('StepDefinition', () => {
     const stepDef = new StepDefinition(
       'step-definition-id',
       'some-id',
-      () => 'This has been executed :)',
+      executor,
       'path/to/steps',
       10
     )
@@ -34,15 +39,7 @@ describe('StepDefinition', () => {
         astNodeIds: ['some-id'],
       })
 
-      assert.ok(stepDef.match(pickleStep) instanceof SupportCodeExecutor)
-    })
-
-    it('returns a SupportCodeExecutor that will run code given upon creation', () => {
-      const pickleStep = messages.Pickle.PickleStep.create({
-        astNodeIds: ['some-id'],
-      })
-      const executor = stepDef.match(pickleStep)
-      assert.strictEqual(executor.execute(null), 'This has been executed :)')
+      assert.deepEqual(stepDef.match(pickleStep), executor)
     })
   })
 
@@ -92,9 +89,9 @@ describe('makeStepDefinition', () => {
       assert.notEqual(stepDefinition.match(pickleStep), null)
     })
 
-    it('returns a StepDefinition which returns undefined upon execution', () => {
+    it('returns a StepDefinition which has a PassedCodeExecutor', () => {
       const executor = stepDefinition.match(pickleStep)
-      assert.strictEqual(executor.execute(null), undefined)
+      assert.ok(executor instanceof PassedCodeExecutor)
     })
 
     it('returns a step definition with the correct path', () => {
@@ -121,9 +118,9 @@ describe('makeStepDefinition', () => {
       assert.notEqual(stepDefinition.match(pickleStep), null)
     })
 
-    it('returns a StepDefinition which returns "pending" upon execution', () => {
+    it('returns a StepDefinition which has a PendingCodeExecutor', () => {
       const executor = stepDefinition.match(pickleStep)
-      assert.strictEqual(executor.execute(null), 'pending')
+      assert.ok(executor instanceof PendingCodeExecutor)
     })
   })
 
@@ -150,27 +147,9 @@ describe('makeStepDefinition', () => {
       assert.notEqual(stepDefinition.match(pickleStep), null)
     })
 
-    it('returns a StepDefinition which raises an exception upon execution', () => {
+    it('returns a StepDefinition which has a FailedCodeExecutor', () => {
       const executor = stepDefinition.match(pickleStep)
-      assert.throws(() => {
-        executor.execute(null)
-      })
-    })
-
-    it('produces an error with a custom stack trace', () => {
-      try {
-        const executor = stepDefinition.match(pickleStep)
-        executor.execute(null)
-      } catch (err) {
-        assert.strictEqual(err.msg, 'Woops (RuntimeError)')
-        assert.strictEqual(
-          err.stack,
-          [
-            './features/statuses/statuses_steps.rb:5:in `"a failed step"',
-            "features/statuses/statuses.feature:9:in `a failed step'",
-          ].join('\n')
-        )
-      }
+      assert.ok(executor instanceof FailedCodeExecutor)
     })
   })
 })

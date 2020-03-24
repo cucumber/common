@@ -1,13 +1,11 @@
 import { IStepDefinition, ISupportCodeExecutor } from '@cucumber/fake-cucumber'
 import { messages } from '@cucumber/messages'
 import { Argument } from '@cucumber/cucumber-expressions'
-import { SupportCodeExecutor } from './SupportCodeExecutor'
-
-class CustomStackError extends Error {
-  constructor(private readonly msg: string, public readonly stack: string) {
-    super(msg)
-  }
-}
+import {
+  PassedCodeExecutor,
+  PendingCodeExecutor,
+  FailedCodeExecutor,
+} from './SupportCodeExecutor'
 
 export function makeStepDefinition(
   stepDefinitionId: string,
@@ -23,7 +21,7 @@ export function makeStepDefinition(
       return new StepDefinition(
         stepDefinitionId,
         stepId,
-        () => undefined,
+        new PassedCodeExecutor(stepDefinitionId),
         locationChunks[0],
         parseInt(locationChunks[1])
       )
@@ -32,22 +30,16 @@ export function makeStepDefinition(
       return new StepDefinition(
         stepDefinitionId,
         stepId,
-        () => 'pending',
+        new PendingCodeExecutor(stepDefinitionId),
         locationChunks[0],
         parseInt(locationChunks[1])
       )
     }
     case 'failed': {
-      const stackLines: string[] = errorMessage.split('\n')
-      const errorName = stackLines.shift()
-      const stack = stackLines.join('\n')
-
       return new StepDefinition(
         stepDefinitionId,
         stepId,
-        () => {
-          throw new CustomStackError(errorName, stack)
-        },
+        new FailedCodeExecutor(stepDefinitionId, errorMessage),
         locationChunks[0],
         parseInt(locationChunks[1])
       )
@@ -60,14 +52,14 @@ export default class StepDefinition implements StepDefinition {
   constructor(
     private readonly id: string,
     private readonly stepId: string,
-    private readonly body: (...args: any) => any,
+    private readonly executor: ISupportCodeExecutor,
     private readonly sourceFile: string,
     private readonly sourceLine: number
   ) {}
 
   match(pickleStep: messages.Pickle.IPickleStep): ISupportCodeExecutor | null {
     if (pickleStep.astNodeIds.includes(this.stepId)) {
-      return new SupportCodeExecutor(this.id, this.body)
+      return this.executor
     }
     return null
   }
