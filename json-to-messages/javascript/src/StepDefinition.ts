@@ -6,10 +6,7 @@ import SupportCodeExecutor from '@cucumber/fake-cucumber/dist/src/SupportCodeExe
 import { AnyBody } from '@cucumber/fake-cucumber/dist/src/types'
 
 class CustomStackError extends Error {
-  constructor(
-    private readonly msg: string,
-    public readonly stack: string
-  ) {
+  constructor(private readonly msg: string, public readonly stack: string) {
     super(msg)
   }
 }
@@ -19,9 +16,9 @@ export function makeStepDefinition(
   status: string,
   errorMessage: string
 ): IStepDefinition {
-  switch(status) {
+  switch (status) {
     case 'passed': {
-      return new StepDefinition(stepId, () => {})
+      return new StepDefinition(stepId, () => undefined)
     }
     case 'pending': {
       return new StepDefinition(stepId, () => 'pending')
@@ -35,10 +32,8 @@ export function makeStepDefinition(
         throw new CustomStackError(errorName, stack)
       })
     }
-    case 'undefined': {
-      return null
-    }
   }
+  return null
 }
 
 export default class StepDefinition implements StepDefinition {

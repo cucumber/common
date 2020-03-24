@@ -1,13 +1,7 @@
 import { messages, IdGenerator } from '@cucumber/messages'
 import { isNullOrUndefined } from 'util'
 import { SupportCode } from '@cucumber/fake-cucumber'
-import StepDefinition, { makeStepDefinition } from './StepDefinition'
-
-class CustomStackError extends Error {
-  constructor(private readonly msg: string, public readonly stack: string) {
-    super(msg)
-  }
-}
+import { makeStepDefinition } from './StepDefinition'
 
 export default class RubyJSONParser {
   constructor(

@@ -50,7 +50,7 @@ describe('StepDefinition', () => {
 describe('makeStepDefinition', () => {
   const stepId = 'whatever-step-id'
   const pickleStep = messages.Pickle.PickleStep.create({
-    astNodeIds: [stepId]
+    astNodeIds: [stepId],
   })
 
   context('when status is undefined', () => {
@@ -89,7 +89,7 @@ describe('makeStepDefinition', () => {
 
     it('returns a StepDefinition which returns "pending" upon execution', () => {
       const executor = stepDefinition.match(pickleStep)
-      assert.strictEqual(executor.execute(null), "pending")
+      assert.strictEqual(executor.execute(null), 'pending')
     })
   })
 
@@ -112,7 +112,9 @@ describe('makeStepDefinition', () => {
 
     it('returns a StepDefinition which raises an exception upon execution', () => {
       const executor = stepDefinition.match(pickleStep)
-      assert.throws(() => { executor.execute(null)} )
+      assert.throws(() => {
+        executor.execute(null)
+      })
     })
 
     it('produces an error with a custom stack trace', () => {
