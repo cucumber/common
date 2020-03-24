@@ -12,7 +12,8 @@ PACKAGES ?= c21e \
 	compatibility-kit \
 	datatable \
 	config \
-	demo-formatter
+	demo-formatter \
+	json-to-messages
 
 default: .rsynced $(patsubst %,default-%,$(PACKAGES))
 .PHONY: default
