@@ -1,3 +1,4 @@
+import ISupportCodeExecutor from './ISupportCodeExecutor'
 import SupportCodeExecutor from './SupportCodeExecutor'
 import {
   Argument,
@@ -19,7 +20,7 @@ export default class ExpressionStepDefinition implements IStepDefinition {
 
   public match(
     pickleStep: messages.Pickle.IPickleStep
-  ): SupportCodeExecutor | null {
+  ): ISupportCodeExecutor | null {
     const expressionArgs = this.getArguments(pickleStep.text)
     return expressionArgs === null
       ? null
