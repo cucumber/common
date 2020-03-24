@@ -807,6 +807,7 @@ workflows:
             - checkout
             - json-to-messages-ruby
             - fake-cucumber-javascript
+            - html-formatter-javascript
 
 ### Ruby
 
