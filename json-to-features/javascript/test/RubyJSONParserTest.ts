@@ -20,6 +20,7 @@ describe('RubyJSONParser', () => {
         description: 'Attachments can be added to steps',
         uri: 'features/attachments/attachments.feature',
         line: 2,
+        keyword: 'Funksjonalitet',
       },
       {
         name: 'Another feature',
@@ -41,6 +42,12 @@ describe('RubyJSONParser', () => {
           'features/another/another.feature',
         ]
       )
+    })
+
+    it('adds the correct keyword for the Feature', () => {
+      const feature = parser.parse(sources)[0].feature
+
+      assert.strictEqual(feature.keyword, 'Funksjonalitet')
     })
 
     it('creates a Feature for each document', () => {

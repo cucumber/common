@@ -26,6 +26,7 @@ export default class RubyJSONParser {
     source: Record<string, any>
   ): messages.GherkinDocument.IFeature {
     return messages.GherkinDocument.Feature.create({
+      keyword: source.keyword,
       name: source.name,
       description: source.description,
       location: messages.Location.create({ line: source.line }),
