@@ -334,15 +334,15 @@ jobs:
             - json-formatter/javascript/features
 
 
-  json-to-features-javascript:
+  json-to-messages-javascript:
     executor: docker-circleci-node-12
     steps:
       - attach_workspace:
           at: "~/cucumber"
       - run:
-          name: json-to-features/javascript
+          name: json-to-messages/javascript
           command: |
-            cd json-to-features/javascript
+            cd json-to-messages/javascript
             make
 
   query-javascript:
@@ -506,6 +506,22 @@ jobs:
           command: |
             cd html-formatter/ruby
             make
+
+  json-to-messages-ruby:
+    executor: docker-circleci-ruby-26
+    steps:
+      - attach_workspace:
+          at: "~/cucumber"
+      - run:
+          name: json-to-messages/ruby
+          command: |
+            cd json-to-messages/ruby
+            make
+      - persist_to_workspace:
+          root: ~/cucumber
+          paths:
+            - json-to-messages/ruby/features
+            - json-to-messages/ruby/acceptance
 
 ### Java
 
@@ -786,9 +802,11 @@ workflows:
             - messages-javascript
             - fake-cucumber-javascript
             - gherkin-javascript
-      - json-to-features-javascript:
+      - json-to-messages-javascript:
           requires:
             - checkout
+            - json-to-messages-ruby
+            - fake-cucumber-javascript
 
 ### Ruby
 
