@@ -1,5 +1,5 @@
 import assert from 'assert'
-import AstWalker from '../../src/search/AstWalker'
+import AstWalker, { IFilters } from '../../src/search/AstWalker'
 import pretty from '../../src/pretty-formatter/pretty'
 import parse from './parse'
 
@@ -52,56 +52,16 @@ describe('AstWalker', () => {
     )
   })
 
-  it('filters one scenario', () => {
-    const gherkinDocument = parse(`Feature: Solar System
-
-  Scenario: Saturn
-    Given is the sixth planet from the Sun
-
-  Scenario: Earth
-    Given is a planet with liquid water
-`)
-
-    const walker = new AstWalker({
-      acceptStep: () => false,
-      acceptScenario: scenario => scenario.name === 'Earth',
-    })
-    const newGherkinDocument = walker.walkGherkinDocument(gherkinDocument)
-    const newSource = pretty(newGherkinDocument)
-    const expectedNewSource = `Feature: Solar System
-
-  Scenario: Earth
-    Given is a planet with liquid water
-`
-    assert.strictEqual(newSource, expectedNewSource)
-  })
-
-  it('keeps scenario with search hit in step', () => {
-    const gherkinDocument = parse(`Feature: Solar System
-
-  Scenario: Saturn
-    Given is the sixth planet from the Sun
-
-  Scenario: Earth
-    Given is a planet with liquid water
-`)
-
-    const walker = new AstWalker({
-      acceptStep: step => step.text.includes('liquid'),
+  context('filtering objects', () => {
+    const rejectAll: IFilters = {
+      acceptBackground: () => false,
+      acceptRule: () => false,
       acceptScenario: () => false,
-    })
-    const newGherkinDocument = walker.walkGherkinDocument(gherkinDocument)
-    const newSource = pretty(newGherkinDocument)
-    const expectedNewSource = `Feature: Solar System
+      acceptStep:() => false,
+    }
 
-  Scenario: Earth
-    Given is a planet with liquid water
-`
-    assert.strictEqual(newSource, expectedNewSource)
-  })
-
-  it('does not leave null object as a feature child', () => {
-    const gherkinDocument = parse(`Feature: Solar System
+    it('filters one scenario', () => {
+      const gherkinDocument = parse(`Feature: Solar System
 
   Scenario: Saturn
     Given is the sixth planet from the Sun
@@ -110,16 +70,21 @@ describe('AstWalker', () => {
     Given is a planet with liquid water
 `)
 
-    const walker = new AstWalker({
-      acceptStep: () => false,
-      acceptScenario: () => false,
-    })
-    const newGherkinDocument = walker.walkGherkinDocument(gherkinDocument)
-    assert.deepStrictEqual(newGherkinDocument.feature.children, [])
-  })
+      const walker = new AstWalker({
+        ...rejectAll, ...{ acceptScenario: scenario => scenario.name === 'Earth' }
+      })
+      const newGherkinDocument = walker.walkGherkinDocument(gherkinDocument)
+      const newSource = pretty(newGherkinDocument)
+      const expectedNewSource = `Feature: Solar System
 
-  it('keeps a hit scenario even when no steps match', () => {
-    const gherkinDocument = parse(`Feature: Solar System
+  Scenario: Earth
+    Given is a planet with liquid water
+`
+      assert.strictEqual(newSource, expectedNewSource)
+    })
+
+    it('keeps scenario with search hit in step', () => {
+      const gherkinDocument = parse(`Feature: Solar System
 
   Scenario: Saturn
     Given is the sixth planet from the Sun
@@ -128,22 +93,61 @@ describe('AstWalker', () => {
     Given is a planet with liquid water
 `)
 
-    const walker = new AstWalker({
-      acceptStep: () => false,
-      acceptScenario: scenario => scenario.name === 'Saturn',
+      const walker = new AstWalker({
+        ...rejectAll, ...{ acceptStep: step => step.text.includes('liquid') }
+      })
+      const newGherkinDocument = walker.walkGherkinDocument(gherkinDocument)
+      const newSource = pretty(newGherkinDocument)
+      const expectedNewSource = `Feature: Solar System
+
+  Scenario: Earth
+    Given is a planet with liquid water
+`
+      assert.strictEqual(newSource, expectedNewSource)
     })
-    const newGherkinDocument = walker.walkGherkinDocument(gherkinDocument)
-    const newSource = pretty(newGherkinDocument)
-    const expectedNewSource = `Feature: Solar System
+
+    it('does not leave null object as a feature child', () => {
+      const gherkinDocument = parse(`Feature: Solar System
+
+  Scenario: Saturn
+    Given is the sixth planet from the Sun
+
+  Scenario: Earth
+    Given is a planet with liquid water
+`)
+
+      const walker = new AstWalker({
+        ...rejectAll
+      })
+      const newGherkinDocument = walker.walkGherkinDocument(gherkinDocument)
+      assert.deepStrictEqual(newGherkinDocument.feature.children, [])
+    })
+
+    it('keeps a hit scenario even when no steps match', () => {
+      const gherkinDocument = parse(`Feature: Solar System
+
+  Scenario: Saturn
+    Given is the sixth planet from the Sun
+
+  Scenario: Earth
+    Given is a planet with liquid water
+`)
+
+      const walker = new AstWalker({
+        ...rejectAll, ...{ acceptScenario: scenario => scenario.name === 'Saturn' }
+      })
+      const newGherkinDocument = walker.walkGherkinDocument(gherkinDocument)
+      const newSource = pretty(newGherkinDocument)
+      const expectedNewSource = `Feature: Solar System
 
   Scenario: Saturn
     Given is the sixth planet from the Sun
 `
-    assert.strictEqual(newSource, expectedNewSource)
-  })
+      assert.strictEqual(newSource, expectedNewSource)
+    })
 
-  it('keeps a hit background', () => {
-    const gherkinDocument = parse(`Feature: Solar System
+    it('keeps a hit background', () => {
+      const gherkinDocument = parse(`Feature: Solar System
 
   Background: Space
     Given space is real
@@ -157,15 +161,12 @@ describe('AstWalker', () => {
       Given it exists
 `)
 
-    const walker = new AstWalker({
-      acceptStep: () => false,
-      acceptScenario: () => false,
-      acceptBackground: background => background.name === 'Milky Way',
-      acceptRule: () => false,
-    })
-    const newGherkinDocument = walker.walkGherkinDocument(gherkinDocument)
-    const newSource = pretty(newGherkinDocument)
-    const expectedNewSource = `Feature: Solar System
+      const walker = new AstWalker({
+        ...rejectAll, ...{ acceptBackground: background => background.name === 'Milky Way' }
+      })
+      const newGherkinDocument = walker.walkGherkinDocument(gherkinDocument)
+      const newSource = pretty(newGherkinDocument)
+      const expectedNewSource = `Feature: Solar System
 
   Background: Space
     Given space is real
@@ -175,11 +176,11 @@ describe('AstWalker', () => {
     Background: Milky Way
       Given it contains our system
 `
-    assert.strictEqual(newSource, expectedNewSource)
-  })
+      assert.strictEqual(newSource, expectedNewSource)
+    })
 
-  it('keeps scenario in rule', () => {
-    const gherkinDocument = parse(`Feature: Solar System
+    it('keeps scenario in rule', () => {
+      const gherkinDocument = parse(`Feature: Solar System
 
   Rule: Galaxy
 
@@ -193,15 +194,12 @@ describe('AstWalker', () => {
       Given it exists
 `)
 
-    const walker = new AstWalker({
-      acceptStep: () => false,
-      acceptScenario: scenario => scenario.name === 'Andromeda',
-      acceptBackground: () => false,
-      acceptRule: () => false,
-    })
-    const newGherkinDocument = walker.walkGherkinDocument(gherkinDocument)
-    const newSource = pretty(newGherkinDocument)
-    const expectedNewSource = `Feature: Solar System
+      const walker = new AstWalker({
+        ...rejectAll, ...{ acceptScenario: scenario => scenario.name === 'Andromeda' }
+      })
+      const newGherkinDocument = walker.walkGherkinDocument(gherkinDocument)
+      const newSource = pretty(newGherkinDocument)
+      const expectedNewSource = `Feature: Solar System
 
   Rule: Galaxy
 
@@ -211,11 +209,11 @@ describe('AstWalker', () => {
     Scenario: Andromeda
       Given it exists
 `
-    assert.strictEqual(newSource, expectedNewSource)
-  })
+      assert.strictEqual(newSource, expectedNewSource)
+    })
 
-  it('keeps scenario and background in rule', () => {
-    const gherkinDocument = parse(`Feature: Solar System
+    it('keeps scenario and background in rule', () => {
+      const gherkinDocument = parse(`Feature: Solar System
 
   Rule: Galaxy
 
@@ -229,15 +227,12 @@ describe('AstWalker', () => {
       Given it exists
 `)
 
-    const walker = new AstWalker({
-      acceptStep: () => false,
-      acceptScenario: () => false,
-      acceptBackground: () => false,
-      acceptRule: rule => rule.name === 'Galaxy',
-    })
-    const newGherkinDocument = walker.walkGherkinDocument(gherkinDocument)
-    const newSource = pretty(newGherkinDocument)
-    const expectedNewSource = `Feature: Solar System
+      const walker = new AstWalker({
+        ...rejectAll, ...{ acceptRule: rule => rule.name === 'Galaxy' }
+      })
+      const newGherkinDocument = walker.walkGherkinDocument(gherkinDocument)
+      const newSource = pretty(newGherkinDocument)
+      const expectedNewSource = `Feature: Solar System
 
   Rule: Galaxy
 
@@ -250,6 +245,33 @@ describe('AstWalker', () => {
     Scenario: Andromeda
       Given it exists
 `
-    assert.strictEqual(newSource, expectedNewSource)
+      assert.strictEqual(newSource, expectedNewSource)
+    })
+
+    it('return a feature and keep scenario', () => {
+      const gherkinDocument = parse(`Feature: Solar System
+
+  Scenario: Saturn
+    Given is the sixth planet from the Sun
+
+  Scenario: Earth
+    Given is a planet with liquid water
+`)
+
+      const walker = new AstWalker({
+        ...rejectAll, acceptFeature: feature => feature.name === 'Solar System'
+      })
+      const newGherkinDocument = walker.walkGherkinDocument(gherkinDocument)
+      const newSource = pretty(newGherkinDocument)
+      const expectedNewSource = `Feature: Solar System
+
+  Scenario: Saturn
+    Given is the sixth planet from the Sun
+
+  Scenario: Earth
+    Given is a planet with liquid water
+`
+      assert.deepStrictEqual(newSource, expectedNewSource)
+    })
   })
 })
