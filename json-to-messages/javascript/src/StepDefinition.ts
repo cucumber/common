@@ -1,9 +1,7 @@
-import { IStepDefinition } from '@cucumber/fake-cucumber'
+import { IStepDefinition, ISupportCodeExecutor } from '@cucumber/fake-cucumber'
 import { messages } from '@cucumber/messages'
 import { Argument } from '@cucumber/cucumber-expressions'
-
-import SupportCodeExecutor from '@cucumber/fake-cucumber/dist/src/SupportCodeExecutor'
-import { AnyBody } from '@cucumber/fake-cucumber/dist/src/types'
+import { SupportCodeExecutor } from './SupportCodeExecutor'
 
 class CustomStackError extends Error {
   constructor(private readonly msg: string, public readonly stack: string) {
@@ -62,14 +60,14 @@ export default class StepDefinition implements StepDefinition {
   constructor(
     private readonly id: string,
     private readonly stepId: string,
-    private readonly body: AnyBody,
+    private readonly body: (...args: any) => any,
     private readonly sourceFile: string,
     private readonly sourceLine: number
   ) {}
 
-  match(pickleStep: messages.Pickle.IPickleStep): SupportCodeExecutor | null {
+  match(pickleStep: messages.Pickle.IPickleStep): ISupportCodeExecutor | null {
     if (pickleStep.astNodeIds.includes(this.stepId)) {
-      return new SupportCodeExecutor(this.id, this.body, [], null, null)
+      return new SupportCodeExecutor(this.id, this.body)
     }
     return null
   }

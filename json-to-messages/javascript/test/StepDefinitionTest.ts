@@ -1,6 +1,6 @@
 import assert from 'assert'
 import { messages } from '@cucumber/messages'
-import SupportCodeExecutor from '@cucumber/fake-cucumber/dist/src/SupportCodeExecutor'
+import { SupportCodeExecutor } from '../src/SupportCodeExecutor'
 import StepDefinition, { makeStepDefinition } from '../src/StepDefinition'
 
 describe('StepDefinition', () => {
