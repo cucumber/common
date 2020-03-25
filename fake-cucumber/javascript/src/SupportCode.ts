@@ -67,7 +67,7 @@ export default class SupportCode {
         sourceReference,
         body
       )
-      this.stepDefinitions.push(stepDefinition)
+      this.registerStepDefinition(stepDefinition)
     } catch (e) {
       if (e.undefinedParameterTypeName) {
         this.undefinedParameterTypes.push(
@@ -93,9 +93,13 @@ export default class SupportCode {
     tagExpressionOrBody: string | AnyBody,
     body?: AnyBody
   ) {
-    this.beforeHooks.push(
+    this.registerBeforeHook(
       this.makeHook(sourceReference, tagExpressionOrBody, body)
     )
+  }
+
+  public registerBeforeHook(hook: IHook) {
+    this.beforeHooks.push(hook)
   }
 
   public defineAfterHook(
@@ -103,9 +107,13 @@ export default class SupportCode {
     tagExpressionOrBody: string | AnyBody,
     body?: AnyBody
   ) {
-    this.afterHooks.push(
+    this.registerAfterHook(
       this.makeHook(sourceReference, tagExpressionOrBody, body)
     )
+  }
+
+  public registerAfterHook(hook: IHook) {
+    this.beforeHooks.push(hook)
   }
 
   private makeHook(

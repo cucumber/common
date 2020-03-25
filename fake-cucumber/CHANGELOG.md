@@ -9,9 +9,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+* expose `IHook`, added `SupportCode.registerBeforeDefinition` and `SupportCode.registerAfterDefinition` to enable custom Hook execution
 * expose `IWorld`
-* add and expose `ISupportCodeExecutor`
-* expose `IStepDefinition` to enable custom matching.
+* expose `IStepDefinition` and added `SupportCode.registerStepDefinition` to enable custom tep matching
 
 ### Changed
 
