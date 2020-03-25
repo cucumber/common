@@ -6,6 +6,10 @@ Before('@beforeHook') do
   # no-op
 end
 
+Before('failBeforeHook') do
+  raise 'Woops !'
+end
+
 After('@afterHook') do
   # no-op
 end

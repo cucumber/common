@@ -6,6 +6,11 @@ Feature: Hooks
     This scenario has two before hooks
     Given a passed step
 
+  @failBeforeHook
+  Scenario:
+    This scenario will fail in the hook
+    Given a passed step
+
   Scenario: no hook
     Except the feature one
     Given a passed step
