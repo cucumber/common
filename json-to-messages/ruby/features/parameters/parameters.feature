@@ -1,6 +1,6 @@
 Feature: step parameters
 
-  Scenario: simple scenario
+  Scenario Outline: simple scenario
     Given I have <count> cucumbers
     When I eat <eaten> cucumbers
     Then I have <left> cucumbers left
