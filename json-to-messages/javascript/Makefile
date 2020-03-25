@@ -3,17 +3,37 @@ include default.mk
 # https://stackoverflow.com/questions/2483182/recursive-wildcards-in-gnu-make
 rwildcard=$(foreach d,$(wildcard $(1:=/*)),$(call rwildcard,$d,$2) $(filter $(subst *,%,$2),$d))
 
-JSONS=$(call rwildcard,../ruby/acceptance,*.json)
-NDJSONS=$(patsubst ../ruby/acceptance/%.json,acceptance/%.ndjson,$(JSONS))
-HTMLS=$(patsubst acceptance/%.ndjson,acceptance/%.ndjson.html,$(NDJSONS))
-GENERATED_JSONS=$(patsubst acceptance/%.ndjson,acceptance/%.ndjson.json,$(NDJSONS))
+RUBY_JSONS=$(call rwildcard,../ruby/acceptance,*.json)
+RUBY_NDJSONS=$(patsubst ../ruby/acceptance/%.json,acceptance/ruby/%.ndjson,$(RUBY_JSONS))
+RUBY_HTMLS=$(patsubst acceptance/%.ndjson,acceptance/%.ndjson.html,$(RUBY_NDJSONS))
+RUBY_GENERATED_JSONS=$(patsubst acceptance/%.ndjson,acceptance/%.ndjson.json,$(RUBY_NDJSONS))
+
+JS_JSONS=$(call rwildcard,../javascript-json/acceptance,*.json)
+JS_NDJSONS=$(patsubst ../javascript-json/acceptance/%.json,acceptance/javascript/%.ndjson,$(JS_JSONS))
+JS_HTMLS=$(patsubst acceptance/%.ndjson,acceptance/%.ndjson.html,$(JS_NDJSONS))
+JS_GENERATED_JSONS=$(patsubst acceptance/%.ndjson,acceptance/%.ndjson.json,$(JS_NDJSONS))
+
 
 .tested: reports
 
-reports: $(HTMLS) $(GENERATED_JSONS) acceptance/all.ndjson.html
+reports: ruby_reports js_reports
 
-acceptance/all.ndjson: $(NDJSONS)
+ruby_reports: $(RUBY_HTMLS) $(RUBY_GENERATED_JSONS) acceptance/ruby/all.ndjson.html
+acceptance/ruby/all.ndjson: $(RUBY_NDJSONS)
 	cat $^ > $@
+
+acceptance/ruby/%.ndjson: ../ruby/acceptance/%.json $(TYPESCRIPT_SOURCE_FILES)
+	mkdir -p $(@D)
+	cat $< | bin/json-to-messages > $@
+
+js_reports: $(JS_HTMLS) $(JS_GENERATED_JSONS) acceptance/javascript/all.ndjson.html
+acceptance/javascript/all.ndjson: $(JS_NDJSONS)
+	cat $^ > $@
+
+acceptance/javascript/%.ndjson: ../javascript-json/acceptance/%.json $(TYPESCRIPT_SOURCE_FILES)
+	mkdir -p $(@D)
+	cat $< | bin/json-to-messages > $@
+
 
 acceptance/%.ndjson.json: acceptance/%.ndjson
 	../../compatibility-kit/scripts/run-formatter \
@@ -28,7 +48,3 @@ acceptance/%.ndjson.html: acceptance/%.ndjson
                 -o $(@D) \
                 -c "../../compatibility-kit/scripts/cucumber-html-formatter" \
                 $<
-
-acceptance/%.ndjson: ../ruby/acceptance/%.json $(TYPESCRIPT_SOURCE_FILES)
-	mkdir -p $(@D)
-	cat $< | bin/json-to-messages > $@
