@@ -3,6 +3,10 @@
 import assert from 'assert'
 import RubyJSONParser from '../src/RubyJSONParser'
 import { SupportCode } from '@cucumber/fake-cucumber'
+import {
+  PassedCodeExecutor,
+  FailedCodeExecutor,
+} from '../src/SupportCodeExecutor'
 import { IdGenerator, messages } from '@cucumber/messages'
 
 describe('RubyJSONParser', () => {
@@ -257,6 +261,122 @@ describe('RubyJSONParser', () => {
           scenario.steps.map(step => step.text),
           ['I attach something', "it's attached"]
         )
+      })
+
+      context('with hooks', () => {
+        const scenarioSource = [
+          {
+            name: 'Attachments',
+            description: 'Attachments can be added to steps',
+            uri: 'features/attachments/attachments.feature',
+            elements: [
+              {
+                before: [
+                  {
+                    match: {
+                      location: 'features/hooks/hooks_steps.rb:1',
+                    },
+                    result: {
+                      status: 'passed',
+                    },
+                  },
+                ],
+                after: [
+                  {
+                    match: {
+                      location: 'features/hooks/hooks_steps.rb:1',
+                    },
+                    result: {
+                      status: 'passed',
+                    },
+                  },
+                ],
+                type: 'scenario',
+                keyword: 'Scenario',
+                name: 'Add attachment',
+                description: 'Attachments can be added to the report',
+                line: 9,
+              },
+            ],
+          },
+        ]
+
+        it('registers a before Hook in the support code', () => {
+          parser.parse(scenarioSource)[0].feature
+          assert.equal(supportCode.beforeHooks.length, 1)
+        })
+
+        it('registers an after Hook in the support code', () => {
+          parser.parse(scenarioSource)[0].feature
+          assert.equal(supportCode.afterHooks.length, 1)
+        })
+
+        it('produces hooks that execute PassedCodeExecutor', () => {
+          const feature = parser.parse(scenarioSource)[0].feature
+          const scenario = feature.children[0].scenario
+          const pickle = messages.Pickle.create({
+            astNodeIds: [scenario.id],
+          })
+          const beforeHook = supportCode.beforeHooks[0]
+          const afterHook = supportCode.afterHooks[0]
+
+          assert.ok(beforeHook.match(pickle) instanceof PassedCodeExecutor)
+          assert.ok(afterHook.match(pickle) instanceof PassedCodeExecutor)
+        })
+
+        context('and hooks are failing', () => {
+          const scenarioSource = [
+            {
+              name: 'Attachments',
+              description: 'Attachments can be added to steps',
+              uri: 'features/attachments/attachments.feature',
+              elements: [
+                {
+                  before: [
+                    {
+                      match: {
+                        location: 'features/hooks/hooks_steps.rb:1',
+                      },
+                      result: {
+                        status: 'failed',
+                        error_message: 'Ok, something went wrong',
+                      },
+                    },
+                  ],
+                  after: [
+                    {
+                      match: {
+                        location: 'features/hooks/hooks_steps.rb:1',
+                      },
+                      result: {
+                        status: 'failed',
+                        error_message: 'Something went even wronger',
+                      },
+                    },
+                  ],
+                  type: 'scenario',
+                  keyword: 'Scenario',
+                  name: 'Add attachment',
+                  description: 'Attachments can be added to the report',
+                  line: 9,
+                },
+              ],
+            },
+          ]
+
+          it('produces hooks that execute FailedCodeExecutor', () => {
+            const feature = parser.parse(scenarioSource)[0].feature
+            const scenario = feature.children[0].scenario
+            const pickle = messages.Pickle.create({
+              astNodeIds: [scenario.id],
+            })
+            const beforeHook = supportCode.beforeHooks[0]
+            const afterHook = supportCode.afterHooks[0]
+
+            assert.ok(beforeHook.match(pickle) instanceof FailedCodeExecutor)
+            assert.ok(afterHook.match(pickle) instanceof FailedCodeExecutor)
+          })
+        })
       })
     })
 

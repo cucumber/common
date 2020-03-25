@@ -6,7 +6,7 @@ Before('@beforeHook') do
   # no-op
 end
 
-Before('failBeforeHook') do
+Before('@failBeforeHook') do
   raise 'Woops !'
 end
 

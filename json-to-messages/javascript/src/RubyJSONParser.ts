@@ -2,6 +2,7 @@ import { messages, IdGenerator } from '@cucumber/messages'
 import { isNullOrUndefined } from 'util'
 import { SupportCode } from '@cucumber/fake-cucumber'
 import { makeStepDefinition } from './StepDefinition'
+import Hook from './Hook'
 
 export default class RubyJSONParser {
   constructor(
@@ -67,12 +68,42 @@ export default class RubyJSONParser {
     })
   }
 
+  private makeBeforeHooks(scenarioId: string, hooks: Record<string, any>[]) {
+    for (const hook of hooks) {
+      this.supportCode.registerBeforeHook(this.makeHook(scenarioId, hook))
+    }
+  }
+
+  private makeAfterHooks(scenarioId: string, hooks: Record<string, any>[]) {
+    for (const hook of hooks) {
+      this.supportCode.registerAfterHook(this.makeHook(scenarioId, hook))
+    }
+  }
+
+  private makeHook(scenarioId: string, hook: Record<string, any>) {
+    return new Hook(
+      this.idGenerator(),
+      scenarioId,
+      hook.match.location,
+      hook.result.error_message
+    )
+  }
+
   private makeScenario(
     element: Record<string, any>
   ): messages.GherkinDocument.Feature.IFeatureChild {
+    const scenarioId = this.idGenerator()
+    if (element.before) {
+      this.makeBeforeHooks(scenarioId, element.before)
+    }
+
+    if (element.after) {
+      this.makeAfterHooks(scenarioId, element.after)
+    }
+
     return messages.GherkinDocument.Feature.FeatureChild.create({
       scenario: messages.GherkinDocument.Feature.Scenario.create({
-        id: this.idGenerator(),
+        id: scenarioId,
         keyword: element.keyword,
         name: element.name,
         description: element.description,
