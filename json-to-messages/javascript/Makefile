@@ -10,7 +10,10 @@ GENERATED_JSONS=$(patsubst acceptance/%.ndjson,acceptance/%.ndjson.json,$(NDJSON
 
 .tested: reports
 
-reports: $(HTMLS) $(GENERATED_JSONS)
+reports: $(HTMLS) $(GENERATED_JSONS) acceptance/all.ndjson.html
+
+acceptance/all.ndjson: $(NDJSONS)
+	cat $^ > $@
 
 acceptance/%.ndjson.json: acceptance/%.ndjson
 	../../compatibility-kit/scripts/run-formatter \
