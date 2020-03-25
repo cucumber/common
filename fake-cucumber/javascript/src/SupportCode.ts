@@ -113,7 +113,7 @@ export default class SupportCode {
   }
 
   public registerAfterHook(hook: IHook) {
-    this.beforeHooks.push(hook)
+    this.afterHooks.push(hook)
   }
 
   private makeHook(
