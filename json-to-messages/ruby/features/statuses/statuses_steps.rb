@@ -1,4 +1,5 @@
 Then('a passed step') do
+  # no-op
 end
 
 When('a failed step') do
@@ -6,4 +7,5 @@ When('a failed step') do
 end
 
 Then('a skipped step') do
+  # no-op
 end
