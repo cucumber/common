@@ -6,13 +6,21 @@ rwildcard=$(foreach d,$(wildcard $(1:=/*)),$(call rwildcard,$d,$2) $(filter $(su
 JSONS=$(call rwildcard,../ruby/acceptance,*.json)
 NDJSONS=$(patsubst ../ruby/acceptance/%.json,acceptance/%.ndjson,$(JSONS))
 HTMLS=$(patsubst acceptance/%.ndjson,acceptance/%.ndjson.html,$(NDJSONS))
+GENERATED_JSONS=$(patsubst acceptance/%.ndjson,acceptance/%.ndjson.json,$(NDJSONS))
 
 .tested: reports
 
-reports: $(HTMLS)
+reports: $(HTMLS) $(GENERATED_JSONS)
+
+acceptance/%.ndjson.json: acceptance/%.ndjson
+	../../compatibility-kit/scripts/run-formatter \
+                -e .json \
+                -o $(@D) \
+                -c "../../compatibility-kit/scripts/cucumber-json-formatter" \
+                $<
+
 
 acceptance/%.ndjson.html: acceptance/%.ndjson
-	mkdir -p $(@D)
 	../../compatibility-kit/scripts/run-formatter \
                 -e .html \
                 -o $(@D) \
