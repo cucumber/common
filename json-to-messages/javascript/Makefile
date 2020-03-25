@@ -19,7 +19,6 @@ acceptance/%.ndjson.json: acceptance/%.ndjson
                 -c "../../compatibility-kit/scripts/cucumber-json-formatter" \
                 $<
 
-
 acceptance/%.ndjson.html: acceptance/%.ndjson
 	../../compatibility-kit/scripts/run-formatter \
                 -e .html \

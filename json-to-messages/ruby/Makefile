@@ -11,7 +11,7 @@ JSONS=$(patsubst features/%.feature,acceptance/%.json,$(FEATURES))
 
 acceptance/%.json: features/%.feature features/%_steps.rb
 	mkdir -p $(@D)
-	-bundle exec cucumber $< --require $(patsubst %.feature,%_steps.rb,$<) --format json > $@
+	-bundle exec cucumber $< --require $(patsubst %.feature,%_steps.rb,$<) --format json | jq -S > $@
 
 acceptance/%.ndjson: features/%.feature features/%_steps.rb
 	mkdir -p $(@D)
