@@ -9,7 +9,7 @@ import GeneratedExpression from './GeneratedExpression'
 export default class CucumberExpressionGenerator {
   constructor(private readonly parameterTypeRegistry: ParameterTypeRegistry) {}
 
-  public generateExpressions(text: string): GeneratedExpression[] {
+  public generateExpressions(text: string): ReadonlyArray<GeneratedExpression> {
     const parameterTypeCombinations: Array<Array<ParameterType<any>>> = []
     const parameterTypeMatchers = this.createParameterTypeMatchers(text)
     let expressionTemplate = ''

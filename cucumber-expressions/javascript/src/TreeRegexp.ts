@@ -2,6 +2,7 @@ import GroupBuilder from './GroupBuilder'
 // @ts-ignore
 import Regex from 'becke-ch--regex--s0-0-v1--base--pl--lib'
 import RegexExecArray from './RegexExecArray'
+import Group from './Group'
 
 export default class TreeRegexp {
   public regexp: RegExp
@@ -52,7 +53,7 @@ export default class TreeRegexp {
     this.groupBuilder = stack.pop()
   }
 
-  public match(s: string) {
+  public match(s: string): Group | null {
     const match: RegexExecArray = this.regex.exec(s)
     if (!match) {
       return null

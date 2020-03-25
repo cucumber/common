@@ -32,7 +32,7 @@ export default class ExpressionStepDefinition implements IStepDefinition {
         )
   }
 
-  public getArguments(text: string): Array<Argument<any>> {
+  public getArguments(text: string): ReadonlyArray<Argument<any>> {
     return this.expression.match(text)
   }
 

@@ -62,7 +62,7 @@ function parameterTypeToMessage(
   return new messages.Envelope({
     parameterType: new messages.ParameterType({
       name: parameterType.name,
-      regularExpressions: parameterType.regexpStrings,
+      regularExpressions: parameterType.regexpStrings.slice(),
       preferForRegularExpressionMatch: parameterType.preferForRegexpMatch,
       useForSnippets: parameterType.useForSnippets,
     }),
