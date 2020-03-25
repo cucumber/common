@@ -17,8 +17,8 @@ export default abstract class TestStep implements ITestStep {
     public readonly id: string,
     public readonly sourceId: string,
     public readonly alwaysExecute: boolean,
-    protected readonly supportCodeExecutors: SupportCodeExecutor[],
-    private readonly sourceFrames: string[],
+    protected readonly supportCodeExecutors: ReadonlyArray<SupportCodeExecutor>,
+    private readonly sourceFrames: ReadonlyArray<string>,
     private readonly clock: IClock,
     private readonly makeErrorMessage: MakeErrorMessage
   ) {}
