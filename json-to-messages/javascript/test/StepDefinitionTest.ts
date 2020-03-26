@@ -9,13 +9,6 @@ import StepDefinition, { makeStepDefinition } from '../src/StepDefinition'
 
 describe('StepDefinition', () => {
   const executor = new PassedCodeExecutor('step-definition-id')
-  const stepDef = new StepDefinition(
-    'step-definition-id',
-    'some-id',
-    executor,
-    'path/to/steps',
-    3
-  )
 
   describe('.match', () => {
     const stepDef = new StepDefinition(
@@ -40,12 +33,6 @@ describe('StepDefinition', () => {
       })
 
       assert.deepEqual(stepDef.match(pickleStep), executor)
-    })
-  })
-
-  describe('.getArguments', () => {
-    it('returns an empty string', () => {
-      assert.deepEqual(stepDef.getArguments(), [])
     })
   })
 })
