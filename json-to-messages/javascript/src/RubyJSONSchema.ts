@@ -11,7 +11,7 @@ export interface IFeature {
 export interface IElement {
   line: number
   id: string
-  type: string
+  type: 'background' | 'scenario'
   keyword: string
   name: string
   description: string

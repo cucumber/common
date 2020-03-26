@@ -18,7 +18,7 @@ export function traverseFeature(
   let backgroundFound = false
 
   for (const element of feature.elements) {
-    const isBackground = element.type == 'background'
+    const isBackground = element.type === 'background'
 
     if (!isBackground || !backgroundFound) {
       children.push(traverseElement(element, astMaker, supportCode))
