@@ -1,7 +1,6 @@
 import { SupportCode, ISupportCodeExecutor } from '@cucumber/fake-cucumber'
 import IPredictableSupportCode from './IPredictableSupportCode'
 import StepDefinition from './StepDefinition'
-import { IdGenerator } from '@cucumber/messages'
 import {
   PassedCodeExecutor,
   PendingCodeExecutor,
@@ -9,16 +8,19 @@ import {
 } from './SupportCodeExecutor'
 import Hook from './Hook'
 
-export default class PredictableSupportCode extends SupportCode
-  implements IPredictableSupportCode {
+export default class PredictableSupportCode implements IPredictableSupportCode {
+  constructor(private readonly supportCode: SupportCode) {}
+
   addPredictableBeforeHook(
     location: string,
     scenarioId: string,
     stack?: string
   ): void {
-    const id = IdGenerator.uuid()()
+    const id = this.supportCode.newId()
 
-    this.registerBeforeHook(new Hook(id, scenarioId, location, stack))
+    this.supportCode.registerBeforeHook(
+      new Hook(id, scenarioId, location, stack)
+    )
   }
 
   addPredictableAfterHook(
@@ -26,9 +28,11 @@ export default class PredictableSupportCode extends SupportCode
     scenarioId: string,
     stack?: string
   ): void {
-    const id = IdGenerator.uuid()()
+    const id = this.supportCode.newId()
 
-    this.registerAfterHook(new Hook(id, scenarioId, location, stack))
+    this.supportCode.registerAfterHook(
+      new Hook(id, scenarioId, location, stack)
+    )
   }
 
   addPredictableStepDefinition(
@@ -37,7 +41,7 @@ export default class PredictableSupportCode extends SupportCode
     status: string,
     stack?: string
   ): void {
-    const id = IdGenerator.uuid()()
+    const id = this.supportCode.newId()
     const locationChunks = location.split(':')
     let executor: ISupportCodeExecutor = null
 
@@ -63,6 +67,6 @@ export default class PredictableSupportCode extends SupportCode
       locationChunks[0],
       parseInt(locationChunks[1])
     )
-    this.registerStepDefinition(stepDefinition)
+    this.supportCode.registerStepDefinition(stepDefinition)
   }
 }

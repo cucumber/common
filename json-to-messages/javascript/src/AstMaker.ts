@@ -2,7 +2,7 @@ import { messages, IdGenerator } from '@cucumber/messages'
 import IAstMaker from './IAstMaker'
 
 export default class AstMaker implements IAstMaker {
-  private readonly idGenerator = IdGenerator.uuid()
+  constructor(private readonly idGenerator: IdGenerator.NewId) {}
 
   public makeGherkinDocument(
     uri: string,

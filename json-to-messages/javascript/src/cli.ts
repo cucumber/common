@@ -1,12 +1,8 @@
 import { Command } from 'commander'
 import packageJson from '../package.json'
-import { runCucumber } from '@cucumber/fake-cucumber'
+import { runCucumber, SupportCode } from '@cucumber/fake-cucumber'
 import { IFeature } from './RubyJSONSchema'
-import {
-  messages,
-  MessageToNdjsonStream,
-  IdGenerator,
-} from '@cucumber/messages'
+import { messages, MessageToNdjsonStream } from '@cucumber/messages'
 
 import { compile, Query as GherkinQuery } from '@cucumber/gherkin'
 
@@ -32,17 +28,21 @@ async function main() {
     new JSONTransformStream(),
     singleObjectWritable
   )
-  const idGenerator = IdGenerator.uuid()
-  const supportCode = new PredictableSupportCode()
+  const supportCode = new SupportCode()
+  const predictableSupportCode = new PredictableSupportCode(supportCode)
 
-  const astMaker = new AstMaker()
+  const astMaker = new AstMaker(supportCode.newId)
   const gherkinDocuments = singleObjectWritable.object.map(feature =>
-    traverseFeature(feature, astMaker, supportCode)
+    traverseFeature(feature, astMaker, predictableSupportCode)
   )
   const gherkinEnvelopeStream = new PassThrough({ objectMode: true })
   for (const gherkinDocument of gherkinDocuments) {
     gherkinEnvelopeStream.write(messages.Envelope.create({ gherkinDocument }))
-    const pickles = compile(gherkinDocument, gherkinDocument.uri, idGenerator)
+    const pickles = compile(
+      gherkinDocument,
+      gherkinDocument.uri,
+      supportCode.newId
+    )
     for (const pickle of pickles) {
       gherkinEnvelopeStream.write(messages.Envelope.create({ pickle }))
     }

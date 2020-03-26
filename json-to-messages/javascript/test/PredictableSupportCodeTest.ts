@@ -6,17 +6,22 @@ import {
   PendingCodeExecutor,
   FailedCodeExecutor,
 } from '../src/SupportCodeExecutor'
+import { SupportCode } from '@cucumber/fake-cucumber'
 
 describe('PredictableSupportCode', () => {
-  context('.addPredictableBeforeHook', () => {
-    const supportCode = new PredictableSupportCode()
+  context('#addPredictableBeforeHook', () => {
+    const supportCode = new SupportCode()
+    const predictableSupportCode = new PredictableSupportCode(supportCode)
     const scenarioId = 'some-scenario-id'
     const pickle = messages.Pickle.create({
       astNodeIds: [scenarioId],
     })
 
     beforeEach(() => {
-      supportCode.addPredictableBeforeHook('some/where:7', scenarioId)
+      predictableSupportCode.addPredictableBeforeHook(
+        'some/where:7',
+        scenarioId
+      )
     })
 
     it('adds a beforeHook', () => {
@@ -49,27 +54,32 @@ describe('PredictableSupportCode', () => {
     })
 
     it('adds a hook with a FailedCodeExecutor when a stack is provided', () => {
-      const supportCode2 = new PredictableSupportCode()
-      supportCode2.addPredictableBeforeHook(
+      const supportCode = new SupportCode()
+      const predictableSupportCode2 = new PredictableSupportCode(supportCode)
+      predictableSupportCode2.addPredictableBeforeHook(
         'some/where:7',
         scenarioId,
         'BOOM !!'
       )
-      const hook = supportCode2.beforeHooks[0]
+      const hook = supportCode.beforeHooks[0]
 
       assert.ok(hook.match(pickle) instanceof FailedCodeExecutor)
     })
   })
 
-  context('.addPredictableAfterHook', () => {
-    const supportCode = new PredictableSupportCode()
+  context('#addPredictableAfterHook', () => {
+    const supportCode = new SupportCode()
+    const predictableSupportCode2 = new PredictableSupportCode(supportCode)
     const scenarioId = 'some-scenario-id'
     const pickle = messages.Pickle.create({
       astNodeIds: [scenarioId],
     })
 
     beforeEach(() => {
-      supportCode.addPredictableAfterHook('some/where:7', scenarioId)
+      predictableSupportCode2.addPredictableAfterHook(
+        'some/where:7',
+        scenarioId
+      )
     })
 
     it('adds a beforeHook', () => {
@@ -102,27 +112,29 @@ describe('PredictableSupportCode', () => {
     })
 
     it('adds a hook with a FailedCodeExecutor when a stack is provided', () => {
-      const supportCode2 = new PredictableSupportCode()
-      supportCode2.addPredictableAfterHook(
+      const supportCode = new SupportCode()
+      const predictableSupportCode2 = new PredictableSupportCode(supportCode)
+      predictableSupportCode2.addPredictableAfterHook(
         'some/where:7',
         scenarioId,
         'BOOM !!'
       )
-      const hook = supportCode2.afterHooks[0]
+      const hook = supportCode.afterHooks[0]
 
       assert.ok(hook.match(pickle) instanceof FailedCodeExecutor)
     })
   })
 
   context('.addPredictableStepDefinition', () => {
-    const supportCode = new PredictableSupportCode()
+    const supportCode = new SupportCode()
+    const predictableSupportCode = new PredictableSupportCode(supportCode)
     const stepId = 'some-step-id'
     const picklestep = messages.Pickle.PickleStep.create({
       astNodeIds: [stepId],
     })
 
     beforeEach(() => {
-      supportCode.addPredictableStepDefinition(
+      predictableSupportCode.addPredictableStepDefinition(
         'somewhere/over/the/rain.bow:2',
         stepId,
         'passed'
@@ -154,9 +166,10 @@ describe('PredictableSupportCode', () => {
 
     context('when a status is provided', () => {
       it('creates a StepDefinition with a PassedCodeExecutor for "passed"', () => {
-        const supportCode = new PredictableSupportCode()
+        const supportCode = new SupportCode()
+        const predictableSupportCode = new PredictableSupportCode(supportCode)
 
-        supportCode.addPredictableStepDefinition(
+        predictableSupportCode.addPredictableStepDefinition(
           'somewhere/over/the/rain.bow:2',
           stepId,
           'passed'
@@ -169,9 +182,10 @@ describe('PredictableSupportCode', () => {
       })
 
       it('creates a StepDefinition with a PendingCodeExecutor for "pending"', () => {
-        const supportCode = new PredictableSupportCode()
+        const supportCode = new SupportCode()
+        const predictableSupportCode = new PredictableSupportCode(supportCode)
 
-        supportCode.addPredictableStepDefinition(
+        predictableSupportCode.addPredictableStepDefinition(
           'somewhere/over/the/rain.bow:2',
           stepId,
           'pending'
@@ -184,9 +198,10 @@ describe('PredictableSupportCode', () => {
       })
 
       it('creates a StepDefinition with a FailedCodeExecutor for "failed"', () => {
-        const supportCode = new PredictableSupportCode()
+        const supportCode = new SupportCode()
+        const predictableSupportCode = new PredictableSupportCode(supportCode)
 
-        supportCode.addPredictableStepDefinition(
+        predictableSupportCode.addPredictableStepDefinition(
           'somewhere/over/the/rain.bow:2',
           stepId,
           'failed',

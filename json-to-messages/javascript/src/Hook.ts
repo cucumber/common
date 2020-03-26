@@ -1,9 +1,6 @@
-import { ISupportCodeExecutor, IHook } from '@cucumber/fake-cucumber'
+import { IHook, ISupportCodeExecutor } from '@cucumber/fake-cucumber'
 import { messages } from '@cucumber/messages'
-import {
-  PassedCodeExecutor,
-  FailedCodeExecutor,
-} from '../src/SupportCodeExecutor'
+import { FailedCodeExecutor, PassedCodeExecutor } from './SupportCodeExecutor'
 
 export default class Hook implements IHook {
   constructor(

@@ -1,8 +1,9 @@
 import assert from 'assert'
 import AstMaker from '../src/AstMaker'
+import { IdGenerator } from '@cucumber/messages'
 
 describe('AstMaker', () => {
-  const astMaker = new AstMaker()
+  const astMaker = new AstMaker(IdGenerator.incrementing())
 
   describe('.makeFeature', () => {
     it('transforms the line to a Location object', () => {
