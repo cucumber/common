@@ -1,9 +1,8 @@
 import assert from 'assert'
 import AstMaker from '../src/AstMaker'
-import { IdGenerator } from '@cucumber/messages'
 
 describe('AstMaker', () => {
-  const astMaker = new AstMaker(IdGenerator.incrementing())
+  const astMaker = new AstMaker()
 
   describe('.makeFeature', () => {
     it('transforms the line to a Location object', () => {
@@ -30,7 +29,7 @@ describe('AstMaker', () => {
   })
 
   context('#makeScenarioFeatureChild', () => {
-    const child = astMaker.makeScenarioFeatureChild(1, '', '', '', [])
+    const child = astMaker.makeScenarioFeatureChild('id', 1, '', '', '', [])
 
     it('returns a child without background', () => {
       assert.equal(child.background, null)
@@ -45,16 +44,16 @@ describe('AstMaker', () => {
     })
 
     it('creates an ID for the scenario', () => {
-      const child = astMaker.makeScenarioFeatureChild(1, '', '', '', [])
-      assert.notEqual(child.scenario.id, '')
+      const child = astMaker.makeScenarioFeatureChild('id', 1, '', '', '', [])
+      assert.equal(child.scenario.id, 'id')
     })
   })
 
   describe('makeStep', () => {
     it('generate an ID for the step', () => {
-      const step = astMaker.makeStep(10, 'Given ', 'some context')
+      const step = astMaker.makeStep('id', 10, 'Given ', 'some context')
 
-      assert.notEqual(step.id, '')
+      assert.equal(step.id, 'id')
     })
   })
 })

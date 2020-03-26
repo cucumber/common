@@ -1,4 +1,4 @@
-import { messages } from '@cucumber/messages'
+import { IdGenerator, messages } from '@cucumber/messages'
 import {
   IStep,
   IDocString,
@@ -12,7 +12,8 @@ import IPredictableSupportCode from '../IPredictableSupportCode'
 export function traverseFeature(
   feature: IFeature,
   astMaker: IAstMaker,
-  supportCode: IPredictableSupportCode
+  newId: IdGenerator.NewId,
+  predictableSupportCode: IPredictableSupportCode
 ): messages.IGherkinDocument {
   const children: messages.GherkinDocument.Feature.IFeatureChild[] = []
   let backgroundFound = false
@@ -21,7 +22,9 @@ export function traverseFeature(
     const isBackground = element.type === 'background'
 
     if (!isBackground || !backgroundFound) {
-      children.push(traverseElement(element, astMaker, supportCode))
+      children.push(
+        traverseElement(element, astMaker, newId, predictableSupportCode)
+      )
     }
     backgroundFound = backgroundFound || isBackground
   }
@@ -40,7 +43,8 @@ export function traverseFeature(
 export function traverseElement(
   element: IElement,
   astMaker: IAstMaker,
-  supportCode: IPredictableSupportCode
+  newId: IdGenerator.NewId,
+  predictableSupportCode: IPredictableSupportCode
 ): messages.GherkinDocument.Feature.IFeatureChild {
   let child: messages.GherkinDocument.Feature.IFeatureChild
 
@@ -51,16 +55,21 @@ export function traverseElement(
         element.keyword,
         element.name,
         element.description,
-        element.steps.map(step => traverseStep(step, astMaker, supportCode))
+        element.steps.map(step =>
+          traverseStep(step, astMaker, newId, predictableSupportCode)
+        )
       )
       break
     case 'scenario':
       child = astMaker.makeScenarioFeatureChild(
+        newId(),
         element.line,
         element.keyword,
         element.name,
         element.description,
-        element.steps.map(step => traverseStep(step, astMaker, supportCode))
+        element.steps.map(step =>
+          traverseStep(step, astMaker, newId, predictableSupportCode)
+        )
       )
       break
     default:
@@ -69,7 +78,7 @@ export function traverseElement(
 
   if (element.before) {
     for (const beforeHook of element.before) {
-      supportCode.addPredictableBeforeHook(
+      predictableSupportCode.addPredictableBeforeHook(
         beforeHook.match.location,
         child.scenario.id,
         beforeHook.result.error_message
@@ -79,7 +88,7 @@ export function traverseElement(
 
   if (element.after) {
     for (const afterHook of element.after) {
-      supportCode.addPredictableAfterHook(
+      predictableSupportCode.addPredictableAfterHook(
         afterHook.match.location,
         child.scenario.id,
         afterHook.result.error_message
@@ -96,13 +105,15 @@ export function traverseElement(
 export function traverseStep(
   step: IStep,
   astMaker: IAstMaker,
-  supportCode: IPredictableSupportCode
+  newId: IdGenerator.NewId,
+  predictableSupportCode: IPredictableSupportCode
 ): messages.GherkinDocument.Feature.IStep {
   const docString = step.doc_string
     ? traverseDocString(step.doc_string, astMaker)
     : null
   const dataTable = step.rows ? traverseDataTable(step.rows, astMaker) : null
   const gherkinStep = astMaker.makeStep(
+    newId(),
     step.line,
     step.keyword,
     step.name,
@@ -111,7 +122,7 @@ export function traverseStep(
   )
 
   if (gherkinStep && step.match) {
-    supportCode.addPredictableStepDefinition(
+    predictableSupportCode.addPredictableStepDefinition(
       step.match.location,
       gherkinStep.id,
       step.result.status

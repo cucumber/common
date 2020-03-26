@@ -15,6 +15,7 @@ export default interface IAstMaker {
   ): messages.GherkinDocument.IFeature
 
   makeScenarioFeatureChild(
+    id: string,
     line: number,
     keyword: string,
     name: string,
@@ -31,6 +32,7 @@ export default interface IAstMaker {
   ): messages.GherkinDocument.Feature.IFeatureChild
 
   makeStep(
+    id: string,
     line: number,
     keyword: string,
     text: string,

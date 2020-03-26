@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/camelcase */
 
 import assert from 'assert'
-import { messages } from '@cucumber/messages'
+import { messages, IdGenerator } from '@cucumber/messages'
 import { stubInterface } from 'ts-sinon'
 import {
   IStep,
@@ -87,9 +87,14 @@ describe('traversing elements', () => {
 
     it('calls AstMaker.makeFeature', () => {
       const astMaker = stubInterface<IAstMaker>()
-      const supportCode = stubInterface<IPredictableSupportCode>()
+      const predictableSupportCode = stubInterface<IPredictableSupportCode>()
 
-      traverseFeature(emptyFeature, astMaker, supportCode)
+      traverseFeature(
+        emptyFeature,
+        astMaker,
+        IdGenerator.incrementing(),
+        predictableSupportCode
+      )
 
       assert.deepEqual(astMaker.makeFeature.getCall(0).args, [
         1,
@@ -112,7 +117,12 @@ describe('traversing elements', () => {
       const astMaker = stubInterface<IAstMaker>()
       astMaker.makeScenarioFeatureChild.returns(gherkinScenario)
 
-      traverseFeature(feature, astMaker, supportCode)
+      traverseFeature(
+        feature,
+        astMaker,
+        IdGenerator.incrementing(),
+        supportCode
+      )
 
       assert.deepEqual(astMaker.makeFeature.getCall(0).args, [
         2,
@@ -131,7 +141,12 @@ describe('traversing elements', () => {
       const astMaker = stubInterface<IAstMaker>()
       astMaker.makeFeature.returns(gherkinFeature)
 
-      traverseFeature(feature, astMaker, supportCode)
+      traverseFeature(
+        feature,
+        astMaker,
+        IdGenerator.incrementing(),
+        supportCode
+      )
 
       assert.deepStrictEqual(astMaker.makeGherkinDocument.getCall(0).args, [
         'path/to/some.feature',
@@ -143,7 +158,12 @@ describe('traversing elements', () => {
       const astMaker = stubInterface<IAstMaker>()
       const supportCode = stubInterface<IPredictableSupportCode>()
 
-      traverseFeature(multiBackgroundFeature, astMaker, supportCode)
+      traverseFeature(
+        multiBackgroundFeature,
+        astMaker,
+        IdGenerator.incrementing(),
+        supportCode
+      )
 
       assert.ok(astMaker.makeBackgroundFeatureChild.calledOnce)
     })
@@ -154,7 +174,12 @@ describe('traversing elements', () => {
       const astMaker = stubInterface<IAstMaker>()
       const supportCode = stubInterface<IPredictableSupportCode>()
 
-      traverseElement(background, astMaker, supportCode)
+      traverseElement(
+        background,
+        astMaker,
+        IdGenerator.incrementing(),
+        supportCode
+      )
 
       assert.deepEqual(astMaker.makeBackgroundFeatureChild.getCall(0).args, [
         3,
@@ -173,10 +198,15 @@ describe('traversing elements', () => {
       const astMaker = stubInterface<IAstMaker>()
       astMaker.makeStep.returns(step)
 
-      traverseElement(scenario, astMaker, supportCode)
+      traverseElement(
+        scenario,
+        astMaker,
+        IdGenerator.incrementing(),
+        supportCode
+      )
 
       assert.deepStrictEqual(
-        astMaker.makeScenarioFeatureChild.getCall(0).args[4],
+        astMaker.makeScenarioFeatureChild.getCall(0).args[5],
         [step]
       )
     })
@@ -225,6 +255,7 @@ describe('traversing elements', () => {
           ],
         },
         astMaker,
+        IdGenerator.incrementing(),
         supportCode
       )
 
@@ -282,9 +313,10 @@ describe('traversing elements', () => {
       const astMaker = stubInterface<IAstMaker>()
       const supportCode = stubInterface<IPredictableSupportCode>()
 
-      traverseStep(simpleStep, astMaker, supportCode)
+      traverseStep(simpleStep, astMaker, () => 'the-id', supportCode)
 
       assert.deepEqual(astMaker.makeStep.getCall(0).args, [
+        'the-id',
         10,
         'Given',
         ' some context',
@@ -297,7 +329,12 @@ describe('traversing elements', () => {
       const astMaker = stubInterface<IAstMaker>()
       const supportCode = stubInterface<IPredictableSupportCode>()
 
-      traverseStep(docStringStep, astMaker, supportCode)
+      traverseStep(
+        docStringStep,
+        astMaker,
+        IdGenerator.incrementing(),
+        supportCode
+      )
 
       assert.notStrictEqual(astMaker.makeStep.getCall(0).args[3], null)
     })
@@ -306,9 +343,9 @@ describe('traversing elements', () => {
       const astMaker = stubInterface<IAstMaker>()
       const supportCode = stubInterface<IPredictableSupportCode>()
 
-      traverseStep(datatableStep, astMaker, supportCode)
+      traverseStep(datatableStep, astMaker, () => 'the-id', supportCode)
 
-      assert.notStrictEqual(astMaker.makeStep.getCall(0).args[4], null)
+      assert.notStrictEqual(astMaker.makeStep.getCall(0).args[5], null)
     })
 
     it('registers a stepDefinition using supportCode', () => {
@@ -319,7 +356,12 @@ describe('traversing elements', () => {
       const astMaker = stubInterface<IAstMaker>()
       astMaker.makeStep.returns(step)
 
-      traverseStep(simpleStep, astMaker, supportCode)
+      traverseStep(
+        simpleStep,
+        astMaker,
+        IdGenerator.incrementing(),
+        supportCode
+      )
 
       assert.deepEqual(
         supportCode.addPredictableStepDefinition.getCall(0).args,
@@ -345,6 +387,7 @@ describe('traversing elements', () => {
           },
         },
         astMaker,
+        IdGenerator.incrementing(),
         supportCode
       )
 

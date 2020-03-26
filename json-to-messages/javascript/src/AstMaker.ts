@@ -1,9 +1,7 @@
-import { messages, IdGenerator } from '@cucumber/messages'
+import { messages } from '@cucumber/messages'
 import IAstMaker from './IAstMaker'
 
 export default class AstMaker implements IAstMaker {
-  constructor(private readonly idGenerator: IdGenerator.NewId) {}
-
   public makeGherkinDocument(
     uri: string,
     feature: messages.GherkinDocument.IFeature
@@ -33,6 +31,7 @@ export default class AstMaker implements IAstMaker {
   }
 
   public makeScenarioFeatureChild(
+    id: string,
     line: number,
     keyword: string,
     name: string,
@@ -41,7 +40,7 @@ export default class AstMaker implements IAstMaker {
   ) {
     return messages.GherkinDocument.Feature.FeatureChild.create({
       scenario: messages.GherkinDocument.Feature.Scenario.create({
-        id: this.idGenerator(),
+        id,
         location: messages.Location.create({ line }),
         keyword,
         name,
@@ -70,6 +69,7 @@ export default class AstMaker implements IAstMaker {
   }
 
   public makeStep(
+    id: string,
     line: number,
     keyword: string,
     text: string,
@@ -77,7 +77,7 @@ export default class AstMaker implements IAstMaker {
     dataTable?: messages.GherkinDocument.Feature.Step.IDataTable
   ): messages.GherkinDocument.Feature.IStep {
     return messages.GherkinDocument.Feature.Step.create({
-      id: this.idGenerator(),
+      id,
       location: messages.Location.create({ line }),
       keyword,
       text,

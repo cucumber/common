@@ -31,9 +31,14 @@ async function main() {
   const supportCode = new SupportCode()
   const predictableSupportCode = new PredictableSupportCode(supportCode)
 
-  const astMaker = new AstMaker(supportCode.newId)
+  const astMaker = new AstMaker()
   const gherkinDocuments = singleObjectWritable.object.map(feature =>
-    traverseFeature(feature, astMaker, predictableSupportCode)
+    traverseFeature(
+      feature,
+      astMaker,
+      supportCode.newId,
+      predictableSupportCode
+    )
   )
   const gherkinEnvelopeStream = new PassThrough({ objectMode: true })
   for (const gherkinDocument of gherkinDocuments) {
