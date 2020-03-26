@@ -9,7 +9,7 @@ import {
   IDataTableRow,
   IElement,
   IFeature,
-} from '../src/RubyJSONSchema'
+} from '../src/cucumber-ruby/RubyJSONSchema'
 import IAstMaker from '../src/IAstMaker'
 import {
   traverseFeature,
@@ -17,7 +17,7 @@ import {
   traverseStep,
   traverseDocString,
   traverseDataTable,
-} from '../src/RubyJSONTraverse'
+} from '../src/cucumber-ruby/RubyJSONTraverse'
 import IPredictableSupportCode from '../src/IPredictableSupportCode'
 
 describe('traversing elements', () => {

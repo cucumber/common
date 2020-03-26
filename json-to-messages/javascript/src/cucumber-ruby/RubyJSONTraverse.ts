@@ -6,8 +6,8 @@ import {
   IElement,
   IFeature,
 } from './RubyJSONSchema'
-import IAstMaker from './IAstMaker'
-import IPredictableSupportCode from './IPredictableSupportCode'
+import IAstMaker from '../IAstMaker'
+import IPredictableSupportCode from '../IPredictableSupportCode'
 
 export function traverseFeature(
   feature: IFeature,

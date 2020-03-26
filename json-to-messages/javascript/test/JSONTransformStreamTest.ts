@@ -1,8 +1,8 @@
 import { pipeline, Readable } from 'stream'
 import { promisify } from 'util'
 import assert from 'assert'
-import JSONTransformStream from '../src/JSONTransformStream'
-import SingleObjectWritable from '../src/SingleObjectWritable'
+import JSONTransformStream from '../src/stream/JSONTransformStream'
+import SingleObjectWritableStream from '../src/stream/SingleObjectWritableStream'
 const asyncPipeline = promisify(pipeline)
 
 describe('JSONReportStream', () => {
@@ -10,7 +10,7 @@ describe('JSONReportStream', () => {
     const data = [{}, {}, {}]
     const jsonChunks = JSON.stringify(data).split('')
     const readableStream = Readable.from(jsonChunks)
-    const sink = new SingleObjectWritable<Array<any>>()
+    const sink = new SingleObjectWritableStream<Array<any>>()
     await asyncPipeline(readableStream, new JSONTransformStream(), sink)
     assert.deepStrictEqual(sink.object, data)
   })

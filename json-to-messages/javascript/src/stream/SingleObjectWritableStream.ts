@@ -1,6 +1,6 @@
 import { Writable } from 'stream'
 
-export default class SingleObjectWritable<T> extends Writable {
+export default class SingleObjectWritableStream<T> extends Writable {
   private o: T = null
   constructor() {
     super({ objectMode: true })
