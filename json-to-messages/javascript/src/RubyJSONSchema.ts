@@ -41,7 +41,8 @@ export interface IMatch {
 
 export interface IResult {
   duration: number
-  status: string
+  status: string,
+  error_message?: string
 }
 
 export interface IDataTableRow {
