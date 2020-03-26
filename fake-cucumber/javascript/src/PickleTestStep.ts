@@ -12,7 +12,7 @@ export default class PickleTestStep extends TestStep {
       stepMatchArgumentsLists: this.supportCodeExecutors.map(
         e =>
           new messages.TestCase.TestStep.StepMatchArgumentsList({
-            stepMatchArguments: e.argsToMessages(),
+            stepMatchArguments: e.argsToMessages().slice(),
           })
       ),
     })

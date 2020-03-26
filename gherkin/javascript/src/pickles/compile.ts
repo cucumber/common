@@ -5,7 +5,7 @@ export default function compile(
   gherkinDocument: IGherkinDocument,
   uri: string,
   newId: IdGenerator.NewId
-) {
+): ReadonlyArray<messages.IPickle> {
   const pickles: messages.IPickle[] = []
 
   if (gherkinDocument.feature == null) {

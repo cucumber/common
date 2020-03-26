@@ -98,7 +98,7 @@ export default class CucumberExpression implements Expression {
     })
   }
 
-  public match(text: string): Array<Argument<any>> {
+  public match(text: string): ReadonlyArray<Argument<any>> {
     return Argument.build(this.treeRegexp, text, this.parameterTypes)
   }
 
@@ -106,7 +106,7 @@ export default class CucumberExpression implements Expression {
     return this.treeRegexp.regexp
   }
 
-  get source() {
+  get source(): string {
     return this.expression
   }
 
@@ -117,7 +117,7 @@ export default class CucumberExpression implements Expression {
   }
 }
 
-function buildCaptureRegexp(regexps: string[]) {
+function buildCaptureRegexp(regexps: ReadonlyArray<string>) {
   if (regexps.length === 1) {
     return `(${regexps[0]})`
   }

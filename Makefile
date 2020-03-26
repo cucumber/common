@@ -7,13 +7,13 @@ PACKAGES ?= c21e \
 	fake-cucumber \
 	query \
 	json-formatter \
+	json-to-messages \
 	react \
 	html-formatter \
 	compatibility-kit \
 	datatable \
 	config \
-	demo-formatter \
-	json-to-messages
+	demo-formatter
 
 default: .rsynced $(patsubst %,default-%,$(PACKAGES))
 .PHONY: default

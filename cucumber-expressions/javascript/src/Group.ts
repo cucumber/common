@@ -3,7 +3,7 @@ export default class Group {
     public readonly value: string | null,
     public readonly start: number,
     public readonly end: number,
-    public readonly children: Group[]
+    public readonly children: ReadonlyArray<Group>
   ) {}
 
   get values(): string[] {
