@@ -110,7 +110,7 @@ describe('traversing elements', () => {
       )
       const supportCode = stubInterface<IPredictableSupportCode>()
       const astMaker = stubInterface<IAstMaker>()
-      astMaker.makeFeatureChild.returns(gherkinScenario)
+      astMaker.makeScenarioFeatureChild.returns(gherkinScenario)
 
       traverseFeature(feature, astMaker, supportCode)
 
@@ -145,7 +145,7 @@ describe('traversing elements', () => {
 
       traverseFeature(multiBackgroundFeature, astMaker, supportCode)
 
-      assert.ok(astMaker.makeFeatureChild.calledOnce)
+      assert.ok(astMaker.makeBackgroundFeatureChild.calledOnce)
     })
   })
 
@@ -156,8 +156,7 @@ describe('traversing elements', () => {
 
       traverseElement(background, astMaker, supportCode)
 
-      assert.deepEqual(astMaker.makeFeatureChild.getCall(0).args, [
-        'background',
+      assert.deepEqual(astMaker.makeBackgroundFeatureChild.getCall(0).args, [
         3,
         'Background',
         '',
@@ -176,9 +175,10 @@ describe('traversing elements', () => {
 
       traverseElement(scenario, astMaker, supportCode)
 
-      assert.deepStrictEqual(astMaker.makeFeatureChild.getCall(0).args[5], [
-        step,
-      ])
+      assert.deepStrictEqual(
+        astMaker.makeScenarioFeatureChild.getCall(0).args[4],
+        [step]
+      )
     })
 
     it('registers hook if available', () => {
@@ -189,7 +189,7 @@ describe('traversing elements', () => {
       })
       const supportCode = stubInterface<IPredictableSupportCode>()
       const astMaker = stubInterface<IAstMaker>()
-      astMaker.makeFeatureChild.returns(child)
+      astMaker.makeScenarioFeatureChild.returns(child)
 
       traverseElement(
         {

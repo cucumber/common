@@ -32,40 +32,41 @@ export default class AstMaker implements IAstMaker {
     })
   }
 
-  public makeFeatureChild(
-    type: string,
+  public makeScenarioFeatureChild(
     line: number,
     keyword: string,
     name: string,
     description: string,
     steps: ReadonlyArray<messages.GherkinDocument.Feature.IStep>
-  ): messages.GherkinDocument.Feature.IFeatureChild {
-    if (type === 'background') {
-      return messages.GherkinDocument.Feature.FeatureChild.create({
-        background: messages.GherkinDocument.Feature.Background.create({
-          location: messages.Location.create({ line }),
-          keyword,
-          name,
-          description,
-          steps: steps.map(step => step),
-        }),
-      })
-    }
+  ) {
+    return messages.GherkinDocument.Feature.FeatureChild.create({
+      scenario: messages.GherkinDocument.Feature.Scenario.create({
+        id: this.idGenerator(),
+        location: messages.Location.create({ line }),
+        keyword,
+        name,
+        description,
+        steps: steps.map(step => step),
+      }),
+    })
+  }
 
-    if (type === 'scenario') {
-      return messages.GherkinDocument.Feature.FeatureChild.create({
-        scenario: messages.GherkinDocument.Feature.Scenario.create({
-          id: this.idGenerator(),
-          location: messages.Location.create({ line }),
-          keyword,
-          name,
-          description,
-          steps: steps.map(step => step),
-        }),
-      })
-    }
-
-    throw new Error(`Unsupported type for feature child: ${type}`)
+  public makeBackgroundFeatureChild(
+    line: number,
+    keyword: string,
+    name: string,
+    description: string,
+    steps: ReadonlyArray<messages.GherkinDocument.Feature.IStep>
+  ) {
+    return messages.GherkinDocument.Feature.FeatureChild.create({
+      background: messages.GherkinDocument.Feature.Background.create({
+        location: messages.Location.create({ line }),
+        keyword,
+        name,
+        description,
+        steps: steps.map(step => step),
+      }),
+    })
   }
 
   public makeStep(

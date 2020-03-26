@@ -14,12 +14,19 @@ export default interface IAstMaker {
     children: ReadonlyArray<messages.GherkinDocument.Feature.IFeatureChild>
   ): messages.GherkinDocument.IFeature
 
-  makeFeatureChild(
-    type: string,
+  makeScenarioFeatureChild(
     line: number,
     keyword: string,
     name: string,
-    decription: string,
+    description: string,
+    steps: ReadonlyArray<messages.GherkinDocument.Feature.IStep>
+  ): messages.GherkinDocument.Feature.IFeatureChild
+
+  makeBackgroundFeatureChild(
+    line: number,
+    keyword: string,
+    name: string,
+    description: string,
     steps: ReadonlyArray<messages.GherkinDocument.Feature.IStep>
   ): messages.GherkinDocument.Feature.IFeatureChild
 

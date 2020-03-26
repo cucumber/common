@@ -13,47 +13,39 @@ describe('AstMaker', () => {
     })
   })
 
-  describe('.makeFeatureChild', () => {
-    it('throws an error for unknown type', () => {
-      assert.throws(() => {
-        astMaker.makeFeatureChild('unknown', 1, '', '', '', [])
-      })
+  describe('#makeBackgroundFeatureChild', () => {
+    const child = astMaker.makeBackgroundFeatureChild(1, '', '', '', [])
+
+    it('returns a child with a background', () => {
+      assert.notEqual(child.background, null)
     })
 
-    context('when the type is "background"', () => {
-      const child = astMaker.makeFeatureChild('background', 1, '', '', '', [])
-
-      it('returns a child with a background', () => {
-        assert.notEqual(child.background, null)
-      })
-
-      it('return a child without scenario', () => {
-        assert.equal(child.scenario, null)
-      })
-
-      it('return a child without rule', () => {
-        assert.equal(child.rule, null)
-      })
+    it('return a child without scenario', () => {
+      assert.equal(child.scenario, null)
     })
 
-    context('when the type is "scenario"', () => {
-      const child = astMaker.makeFeatureChild('scenario', 1, '', '', '', [])
+    it('return a child without rule', () => {
+      assert.equal(child.rule, null)
+    })
+  })
 
-      it('returns a child without background', () => {
-        assert.equal(child.background, null)
-      })
+  context('#makeScenarioFeatureChild', () => {
+    const child = astMaker.makeScenarioFeatureChild(1, '', '', '', [])
 
-      it('return a child with a scenario', () => {
-        assert.notEqual(child.scenario, null)
-      })
+    it('returns a child without background', () => {
+      assert.equal(child.background, null)
+    })
 
-      it('return a child without rule', () => {
-        assert.equal(child.rule, null)
-      })
+    it('return a child with a scenario', () => {
+      assert.notEqual(child.scenario, null)
+    })
+
+    it('return a child without rule', () => {
+      assert.equal(child.rule, null)
     })
 
     it('creates an ID for the scenario', () => {
-      const child = astMaker.makeFeatureChild('scenario', 1, '', '', '', [])
+      const child = astMaker.makeScenarioFeatureChild(1, '', '', '', [])
       assert.notEqual(child.scenario.id, '')
     })
   })

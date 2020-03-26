@@ -42,14 +42,30 @@ export function traverseElement(
   astMaker: IAstMaker,
   supportCode: IPredictableSupportCode
 ): messages.GherkinDocument.Feature.IFeatureChild {
-  const child = astMaker.makeFeatureChild(
-    element.type,
-    element.line,
-    element.keyword,
-    element.name,
-    element.description,
-    element.steps.map(step => traverseStep(step, astMaker, supportCode))
-  )
+  let child: messages.GherkinDocument.Feature.IFeatureChild
+
+  switch (element.type) {
+    case 'background':
+      child = astMaker.makeBackgroundFeatureChild(
+        element.line,
+        element.keyword,
+        element.name,
+        element.description,
+        element.steps.map(step => traverseStep(step, astMaker, supportCode))
+      )
+      break
+    case 'scenario':
+      child = astMaker.makeScenarioFeatureChild(
+        element.line,
+        element.keyword,
+        element.name,
+        element.description,
+        element.steps.map(step => traverseStep(step, astMaker, supportCode))
+      )
+      break
+    default:
+      throw new Error(`Unsupported type for feature child: ${element.type}`)
+  }
 
   if (element.before) {
     for (const beforeHook of element.before) {
