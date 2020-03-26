@@ -1,6 +1,6 @@
 import { Transform, TransformCallback } from 'stream'
 
-export default class JSONReportStream extends Transform {
+export default class JSONTransformStream extends Transform {
   private readonly stringChunks: string[] = []
 
   constructor() {
@@ -10,7 +10,7 @@ export default class JSONReportStream extends Transform {
   _transform(
     chunk: string | Buffer,
     encoding: string,
-    callback: TransformCallback,
+    callback: TransformCallback
   ): void {
     const stringChunk = Buffer.isBuffer(chunk) ? chunk.toString('utf-8') : chunk
     this.stringChunks.push(stringChunk)

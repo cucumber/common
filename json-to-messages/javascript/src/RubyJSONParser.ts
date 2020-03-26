@@ -10,7 +10,9 @@ export default class RubyJSONParser {
     private readonly supportCode: SupportCode
   ) {}
 
-  public parse(sources: Record<string, any>[]): messages.IGherkinDocument[] {
+  public parse(
+    sources: ReadonlyArray<Record<string, any>>
+  ): messages.IGherkinDocument[] {
     return sources.map(source => this.makeGherkinDocument(source))
   }
 
