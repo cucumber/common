@@ -28,7 +28,7 @@ export interface IHook {
 export interface IStep {
   keyword: string
   line: number
-  match: IMatch
+  match?: IMatch
   name: string
   result: IResult
   doc_string?: IDocString
@@ -40,8 +40,8 @@ export interface IMatch {
 }
 
 export interface IResult {
-  duration: number
-  status: string,
+  duration?: number
+  status: string
   error_message?: string
 }
 

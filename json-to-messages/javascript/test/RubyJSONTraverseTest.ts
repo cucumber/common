@@ -20,7 +20,6 @@ import {
 } from '../src/RubyJSONTraverse'
 import IPredictableSupportCode from '../src/IPredictableSupportCode'
 
-
 describe('traversing elements', () => {
   const simpleStep: IStep = {
     keyword: 'Given',
@@ -140,7 +139,7 @@ describe('traversing elements', () => {
       ])
     })
 
-    it('does not travere the backgrounds when replicated', () => {
+    it('does not traverse the backgrounds when replicated', () => {
       const astMaker = stubInterface<IAstMaker>()
       const supportCode = stubInterface<IPredictableSupportCode>()
 
@@ -185,56 +184,63 @@ describe('traversing elements', () => {
     it('registers hook if available', () => {
       const child = messages.GherkinDocument.Feature.FeatureChild.create({
         scenario: messages.GherkinDocument.Feature.Scenario.create({
-          id: 'some-scenario-id'
-        })
+          id: 'some-scenario-id',
+        }),
       })
       const supportCode = stubInterface<IPredictableSupportCode>()
       const astMaker = stubInterface<IAstMaker>()
       astMaker.makeFeatureChild.returns(child)
 
-      traverseElement({
-        before: [
-          {
-            match: {
-              location: 'some/steps.rb:2'
+      traverseElement(
+        {
+          before: [
+            {
+              match: {
+                location: 'some/steps.rb:2',
+              },
+              result: {
+                status: 'passed',
+                duration: 123,
+              },
             },
-            result: {
-              status: 'passed',
-              duration: 123
-            }
-          }
-        ],
-        id: 'my-scenario',
-        type: 'scenario',
-        keyword: 'Scenario',
-        name: 'My scenario',
-        description: 'This is my first scenario',
-        line: 5,
-        steps: [simpleStep],
-        after: [
-          {
-            match: {
-              location: 'some/steps.rb:12'
+          ],
+          id: 'my-scenario',
+          type: 'scenario',
+          keyword: 'Scenario',
+          name: 'My scenario',
+          description: 'This is my first scenario',
+          line: 5,
+          steps: [simpleStep],
+          after: [
+            {
+              match: {
+                location: 'some/steps.rb:12',
+              },
+              result: {
+                status: 'failed',
+                duration: 123,
+                error_message: 'This has failed',
+              },
             },
-            result: {
-              status: 'failed',
-              duration: 123,
-              error_message: 'This has failed'
-            }
-          }
-        ]
-      }, astMaker, supportCode)
-
-      assert.deepEqual(
-        supportCode.addPredictableBeforeHook.getCall(0).args,
-        ['some/steps.rb:2', child.scenario.id, 'passed', undefined]
+          ],
+        },
+        astMaker,
+        supportCode
       )
 
-      assert.deepEqual(
-        supportCode.addPredictableAfterHook.getCall(0).args,
-        ['some/steps.rb:12', child.scenario.id, 'failed', 'This has failed']
-      )
+      assert.deepEqual(supportCode.addPredictableBeforeHook.getCall(0).args, [
+        'some/steps.rb:2',
+        child.scenario.id,
+        'passed',
+        undefined,
+      ])
 
+      assert.deepEqual(supportCode.addPredictableAfterHook.getCall(0).args, [
+        'some/steps.rb:12',
+        child.scenario.id,
+        'failed',
+        'This has failed',
+      ])
     })
   })
 
@@ -333,18 +339,42 @@ describe('traversing elements', () => {
 
     it('registers a stepDefinition using supportCode', () => {
       const step = messages.GherkinDocument.Feature.Step.create({
-        id: 'some-step-id'
+        id: 'some-step-id',
       })
       const supportCode = stubInterface<IPredictableSupportCode>()
       const astMaker = stubInterface<IAstMaker>()
       astMaker.makeStep.returns(step)
 
-      traverseStep(datatableStep, astMaker, supportCode)
+      traverseStep(simpleStep, astMaker, supportCode)
 
       assert.deepEqual(
         supportCode.addPredictableStepDefinition.getCall(0).args,
         ['some/steps.rb:11', step.id, 'whatever']
       )
+    })
+
+    it('does not register stepDefinition when a step ha no match', () => {
+      const step = messages.GherkinDocument.Feature.Step.create({
+        id: 'some-step-id',
+      })
+      const supportCode = stubInterface<IPredictableSupportCode>()
+      const astMaker = stubInterface<IAstMaker>()
+      astMaker.makeStep.returns(step)
+
+      traverseStep(
+        {
+          keyword: 'Given',
+          name: 'an undefined step',
+          line: 10,
+          result: {
+            status: 'undefined',
+          },
+        },
+        astMaker,
+        supportCode
+      )
+
+      assert.equal(supportCode.addPredictableStepDefinition.callCount, 0)
     })
   })
 
