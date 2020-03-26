@@ -1,5 +1,4 @@
-import IHook from '@cucumber/fake-cucumber/dist/src/IHook'
-import { ISupportCodeExecutor } from '@cucumber/fake-cucumber'
+import { ISupportCodeExecutor, IHook } from '@cucumber/fake-cucumber'
 import { messages } from '@cucumber/messages'
 import {
   PassedCodeExecutor,

@@ -1,7 +1,7 @@
 import { Command } from 'commander'
 import packageJson from '../package.json'
-import RubyJSONParser from './RubyJSONParser'
-import { runCucumber, SupportCode } from '@cucumber/fake-cucumber'
+import { runCucumber } from '@cucumber/fake-cucumber'
+import { IFeature } from './RubyJSONSchema'
 import {
   messages,
   MessageToNdjsonStream,
@@ -14,6 +14,9 @@ import { PassThrough, pipeline } from 'stream'
 import { promisify } from 'util'
 import JSONTransformStream from '../src/JSONTransformStream'
 import SingleObjectWritable from './SingleObjectWritable'
+import AstMaker from './AstMaker'
+import { traverseFeature } from './RubyJSONTraverse'
+import PredictableSupportCode from './PredictableSupportCode'
 const asyncPipeline = promisify(pipeline)
 
 const program = new Command()
@@ -22,7 +25,7 @@ program.parse(process.argv)
 
 async function main() {
   const singleObjectWritable = new SingleObjectWritable<
-    ReadonlyArray<Record<string, any>>
+    ReadonlyArray<IFeature>
   >()
   await asyncPipeline(
     process.stdin,
@@ -30,10 +33,12 @@ async function main() {
     singleObjectWritable
   )
   const idGenerator = IdGenerator.uuid()
-  const supportCode = new SupportCode()
+  const supportCode = new PredictableSupportCode()
 
-  const parser = new RubyJSONParser(idGenerator, supportCode)
-  const gherkinDocuments = parser.parse(singleObjectWritable.object)
+  const astMaker = new AstMaker()
+  const gherkinDocuments = singleObjectWritable.object.map(document =>
+    traverseFeature(document, astMaker, supportCode)
+  )
   const gherkinEnvelopeStream = new PassThrough({ objectMode: true })
   for (const gherkinDocument of gherkinDocuments) {
     gherkinEnvelopeStream.write(messages.Envelope.create({ gherkinDocument }))
