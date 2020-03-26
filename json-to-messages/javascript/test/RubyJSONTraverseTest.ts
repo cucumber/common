@@ -33,6 +33,16 @@ describe('traversing elements', () => {
     },
   }
 
+  const background: IElement = {
+    id: 'my-background',
+    type: 'background',
+    keyword: 'Background',
+    name: '',
+    description: 'This background doe not much stuff',
+    line: 3,
+    steps: [],
+  }
+
   const scenario: IElement = {
     id: 'my-scenario',
     type: 'scenario',
@@ -62,6 +72,16 @@ describe('traversing elements', () => {
       name: 'An empty feature',
       description: 'It does nothing',
       elements: [],
+    }
+
+    const multiBackgroundFeature: IFeature = {
+      uri: 'path/to/some.feature',
+      id: 'my-feature',
+      line: 2,
+      keyword: 'Feature',
+      name: 'My feature',
+      description: 'It does things and stuff',
+      elements: [background, background, background],
     }
 
     it('calls AstMaker.makeFeature', () => {
@@ -99,7 +119,7 @@ describe('traversing elements', () => {
       ])
     })
 
-    it('calls AtMaker.makeGherkinDocument with the generated feature', () => {
+    it('calls AstMaker.makeGherkinDocument with the generated feature', () => {
       const gherkinFeature = messages.GherkinDocument.Feature.create({
         name: 'My awesome feature',
       })
@@ -112,19 +132,16 @@ describe('traversing elements', () => {
         gherkinFeature,
       ])
     })
+
+    it('does not travere the backgrounds when replicated', () => {
+      const astMaker = stubInterface<IAstMaker>()
+      traverseFeature(multiBackgroundFeature, astMaker)
+
+      assert.ok(astMaker.makeFeatureChild.calledOnce)
+    })
   })
 
   describe('traverseElement', () => {
-    const background: IElement = {
-      id: 'my-background',
-      type: 'background',
-      keyword: 'Background',
-      name: '',
-      description: 'This background doe not much stuff',
-      line: 3,
-      steps: [],
-    }
-
     it('calls AstMaker.makeFeatureChild with the correct data', () => {
       const astMaker = stubInterface<IAstMaker>()
       traverseElement(background, astMaker)

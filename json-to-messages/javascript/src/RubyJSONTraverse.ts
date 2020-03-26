@@ -12,12 +12,24 @@ export function traverseFeature(
   feature: IFeature,
   astMaker: IAstMaker
 ): messages.IGherkinDocument {
+  const children: messages.GherkinDocument.Feature.IFeatureChild[] = []
+  let backgroundFound = false
+
+  for (const element of feature.elements) {
+    const isBackground = element.type == 'background'
+
+    if (!isBackground || !backgroundFound) {
+      children.push(traverseElement(element, astMaker))
+    }
+    backgroundFound = backgroundFound || isBackground
+  }
+
   const gherkinFeature = astMaker.makeFeature(
     feature.line,
     feature.keyword,
     feature.name,
     feature.description,
-    feature.elements.map(element => traverseElement(element, astMaker))
+    children
   )
 
   return astMaker.makeGherkinDocument(feature.uri, gherkinFeature)
