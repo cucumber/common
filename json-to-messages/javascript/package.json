@@ -54,7 +54,6 @@
     "@cucumber/messages": "^10.0.2",
     "@types/diff-match-patch": "^1.0.32",
     "commander": "^4.1.1",
-    "fake-cucumber": "^3.0.2",
     "glob": "^7.1.6",
     "source-map-support": "^0.5.16",
     "stack-utils": "^2.0.1",
