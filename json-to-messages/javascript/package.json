@@ -48,7 +48,6 @@
     "ts-sinon": "^1.0.25"
   },
   "dependencies": {
-    "@cucumber/cucumber-expressions": "file:../../cucumber-expressions/javascript",
     "@cucumber/fake-cucumber": "file:../../fake-cucumber/javascript",
     "@cucumber/gherkin": "file:../../gherkin/javascript",
     "@cucumber/messages": "^10.0.2",

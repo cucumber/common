@@ -1,6 +1,5 @@
 import { IStepDefinition, ISupportCodeExecutor } from '@cucumber/fake-cucumber'
 import { messages } from '@cucumber/messages'
-import { Argument } from '@cucumber/cucumber-expressions'
 import {
   PassedCodeExecutor,
   PendingCodeExecutor,
@@ -48,7 +47,7 @@ export function makeStepDefinition(
   return null
 }
 
-export default class StepDefinition implements StepDefinition {
+export default class StepDefinition implements IStepDefinition {
   constructor(
     private readonly id: string,
     private readonly stepId: string,
@@ -62,10 +61,6 @@ export default class StepDefinition implements StepDefinition {
       return this.executor
     }
     return null
-  }
-
-  getArguments(): Array<Argument<any>> {
-    return []
   }
 
   toMessage(): messages.IEnvelope {

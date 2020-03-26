@@ -19,7 +19,9 @@ JS_GENERATED_JSONS=$(patsubst acceptance/%.ndjson,acceptance/%.ndjson.json,$(JS_
 reports: ruby_reports js_reports
 
 ruby_reports: $(RUBY_HTMLS) $(RUBY_GENERATED_JSONS) acceptance/ruby/all.ndjson.html
+
 acceptance/ruby/all.ndjson: $(RUBY_NDJSONS)
+	mkdir -p $(@D)
 	cat $^ > $@
 
 acceptance/ruby/%.ndjson: ../ruby/acceptance/%.json $(TYPESCRIPT_SOURCE_FILES)
@@ -27,7 +29,9 @@ acceptance/ruby/%.ndjson: ../ruby/acceptance/%.json $(TYPESCRIPT_SOURCE_FILES)
 	cat $< | bin/json-to-messages > $@
 
 js_reports: $(JS_HTMLS) $(JS_GENERATED_JSONS) acceptance/javascript/all.ndjson.html
+
 acceptance/javascript/all.ndjson: $(JS_NDJSONS)
+	mkdir -p $(@D)
 	cat $^ > $@
 
 acceptance/javascript/%.ndjson: ../javascript-json/acceptance/%.json $(TYPESCRIPT_SOURCE_FILES)
@@ -36,6 +40,7 @@ acceptance/javascript/%.ndjson: ../javascript-json/acceptance/%.json $(TYPESCRIP
 
 
 acceptance/%.ndjson.json: acceptance/%.ndjson
+	mkdir -p $(@D)
 	../../compatibility-kit/scripts/run-formatter \
                 -e .json \
                 -o $(@D) \
@@ -43,6 +48,7 @@ acceptance/%.ndjson.json: acceptance/%.ndjson
                 $<
 
 acceptance/%.ndjson.html: acceptance/%.ndjson
+	mkdir -p $(@D)
 	../../compatibility-kit/scripts/run-formatter \
                 -e .html \
                 -o $(@D) \

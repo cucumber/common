@@ -21,6 +21,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Removed
 
+* Removed the `--globals` option
+* Removed `IStepDefinition#getArguments(string)` - doesn't need to be on interface.
+  This removes an API dependency on `@cucumber/cucumber-expressions`
+
 ### Fixed
 
 ## [5.0.0] - 2020-03-02
