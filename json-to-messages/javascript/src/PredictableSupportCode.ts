@@ -2,23 +2,34 @@ import { SupportCode, ISupportCodeExecutor } from '@cucumber/fake-cucumber'
 import IPredictableSupportCode from './IPredictableSupportCode'
 import StepDefinition from './StepDefinition'
 import { IdGenerator } from '@cucumber/fake-cucumber/node_modules/@cucumber/messages'
-import { PassedCodeExecutor, PendingCodeExecutor, FailedCodeExecutor } from './SupportCodeExecutor'
+import {
+  PassedCodeExecutor,
+  PendingCodeExecutor,
+  FailedCodeExecutor,
+} from './SupportCodeExecutor'
+import Hook from './Hook'
 
 export default class PredictableSupportCode extends SupportCode
   implements IPredictableSupportCode {
   addPredictableBeforeHook(
     location: string,
     scenarioId: string,
-    status: string,
     stack?: string
-  ): void {}
+  ): void {
+    const id = IdGenerator.uuid()()
+
+    this.registerBeforeHook(new Hook(id, scenarioId, location, stack))
+  }
 
   addPredictableAfterHook(
     location: string,
     scenarioId: string,
-    status: string,
     stack?: string
-  ): void {}
+  ): void {
+    const id = IdGenerator.uuid()()
+
+    this.registerAfterHook(new Hook(id, scenarioId, location, stack))
+  }
 
   addPredictableStepDefinition(
     location: string,

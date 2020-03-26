@@ -1,6 +1,6 @@
 import { Command } from 'commander'
 import packageJson from '../package.json'
-import { runCucumber, SupportCode } from '@cucumber/fake-cucumber'
+import { runCucumber } from '@cucumber/fake-cucumber'
 import { Readable } from 'stream'
 import {
   messages,
@@ -12,6 +12,7 @@ import { compile, Query as GherkinQuery } from '@cucumber/gherkin'
 import AstMaker from './AstMaker'
 import { traverseFeature } from './RubyJSONTraverse'
 import { IFeature } from './RubyJSONSchema'
+import PredictableSupportCode from './PredictableSupportCode'
 
 const program = new Command()
 program.version(packageJson.version)
@@ -29,12 +30,12 @@ process.stdin.on('readable', () => {
 process.stdin.on('end', () => {
   const envelopes: messages.IEnvelope[] = []
   const idGenerator = IdGenerator.uuid()
-  const supportCode = new SupportCode()
+  const supportCode = new PredictableSupportCode()
 
   const astMaker = new AstMaker()
   const json = JSON.parse(lines.join(''))
   const documents: messages.IGherkinDocument[] = json.map(
-    (document: IFeature) => traverseFeature(document, astMaker)
+    (document: IFeature) => traverseFeature(document, astMaker, supportCode)
   )
   documents.forEach(gherkinDocument => {
     envelopes.push(messages.Envelope.create({ gherkinDocument }))

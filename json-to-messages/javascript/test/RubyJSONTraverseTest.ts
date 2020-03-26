@@ -231,42 +231,16 @@ describe('traversing elements', () => {
       assert.deepEqual(supportCode.addPredictableBeforeHook.getCall(0).args, [
         'some/steps.rb:2',
         child.scenario.id,
-        'passed',
         undefined,
       ])
 
       assert.deepEqual(supportCode.addPredictableAfterHook.getCall(0).args, [
         'some/steps.rb:12',
         child.scenario.id,
-        'failed',
         'This has failed',
       ])
     })
   })
-
-  // describe('traverseBefore', () => {
-  //   const beforeHook: IHook = {
-  //     match: {
-  //       location: 'steps.go:12',
-  //     },
-  //     result: {
-  //       duration: 123,
-  //       status: 'passed',
-  //     },
-  //   }
-  // })
-
-  // describe('traverseAfter', () => {
-  //   const afterHook: IHook = {
-  //     match: {
-  //       location: 'steps.go:12',
-  //     },
-  //     result: {
-  //       duration: 123,
-  //       status: 'passed',
-  //     },
-  //   }
-  // })
 
   describe('traverseStep', () => {
     const docStringStep: IStep = {
