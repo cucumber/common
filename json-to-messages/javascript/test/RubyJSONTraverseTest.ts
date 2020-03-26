@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/camelcase */
 
 import assert from 'assert'
-import { messages } from '@cucumber/fake-cucumber/node_modules/@cucumber/messages'
+import { messages } from '@cucumber/messages'
 import { stubInterface } from 'ts-sinon'
 import {
   IStep,

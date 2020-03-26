@@ -1,7 +1,7 @@
 import { SupportCode, ISupportCodeExecutor } from '@cucumber/fake-cucumber'
 import IPredictableSupportCode from './IPredictableSupportCode'
 import StepDefinition from './StepDefinition'
-import { IdGenerator } from '@cucumber/fake-cucumber/node_modules/@cucumber/messages'
+import { IdGenerator } from '@cucumber/messages'
 import {
   PassedCodeExecutor,
   PendingCodeExecutor,

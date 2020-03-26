@@ -1,6 +1,6 @@
 import assert from 'assert'
 import PredictableSupportCode from '../src/PredictableSupportCode'
-import { messages } from '@cucumber/fake-cucumber/node_modules/@cucumber/messages'
+import { messages } from '@cucumber/messages'
 import {
   PassedCodeExecutor,
   PendingCodeExecutor,
