@@ -2,11 +2,24 @@
   "scripts": {
     "lint": "eslint --ext ts --max-warnings 0 src features",
     "lint-fix": "eslint --ext ts --max-warnings 0 --fix src features",
-    "build": "tsc"
+    "build": "tsc",
+    "test": "echo"
   },
   "dependencies": {
-    "typescript": "^3.8.3",
     "@types/cucumber": "^6.0.1",
-    "cucumber": "^6.0.5"
+    "@types/node": "^12.12.31",
+    "cucumber": "^6.0.5",
+    "typescript": "^3.8.3"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^2.21.0",
+    "@typescript-eslint/parser": "^2.21.0",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.10.0",
+    "eslint-plugin-node": "^11.0.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "eslint-plugin-react": "^7.18.3",
+    "prettier": "^1.19.1",
+    "typescript": "^3.8.3"
   }
 }

@@ -7,12 +7,11 @@ RUBY_FEATURES=$(call rwildcard,../ruby/features,*.feature)
 FEATURES=$(patsubst ../ruby/features/%.feature,features/%.feature,$(RUBY_FEATURES))
 JSONS=$(patsubst features/%.feature,acceptance/%.json,$(FEATURES))
 
-
-jsons: .built $(JSONS)
+.tested: $(JSONS)
 
 acceptance/%.json: features/%.feature
 	mkdir -p $(@D)
-	-./node_modules/cucumber/bin/cucumber-js $^ -r $(patsubst %.feature,dist/%_steps.js,$(notdir $<)) --format json | jq -S > $@
+	-./node_modules/cucumber/bin/cucumber-js $^ -r $(patsubst features/%.feature,dist/%_steps.js,$<) --format json | jq -S > $@
 
 features/%.feature: ../ruby/features/%.feature
 	mkdir -p $(@D)
