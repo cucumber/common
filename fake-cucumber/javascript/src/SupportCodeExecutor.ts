@@ -8,7 +8,7 @@ export default class SupportCodeExecutor {
   constructor(
     public readonly stepDefinitionId: string,
     private readonly body: AnyBody,
-    private readonly args: Array<Argument<any>>,
+    private readonly args: ReadonlyArray<Argument<any>>,
     private readonly docString: messages.PickleStepArgument.IPickleDocString,
     private readonly dataTable: messages.PickleStepArgument.IPickleTable
   ) {}

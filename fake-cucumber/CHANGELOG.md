@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
+* [JavaScript] All array return values and function parameters are now declared as TypeScript `ReadOnlyArray`
+
 ### Deprecated
 
 ### Removed

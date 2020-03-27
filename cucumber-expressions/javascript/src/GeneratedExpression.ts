@@ -4,7 +4,7 @@ import ParameterType from './ParameterType'
 export default class GeneratedExpression {
   constructor(
     private readonly expressionTemplate: string,
-    public readonly parameterTypes: Array<ParameterType<any>>
+    public readonly parameterTypes: ReadonlyArray<ParameterType<any>>
   ) {}
 
   get source() {
@@ -17,9 +17,9 @@ export default class GeneratedExpression {
   /**
    * Returns an array of parameter names to use in generated function/method signatures
    *
-   * @returns {Array.<String>}
+   * @returns {ReadonlyArray.<String>}
    */
-  get parameterNames() {
+  get parameterNames(): ReadonlyArray<string> {
     const usageByTypeName: { [key: string]: number } = {}
     return this.parameterTypes.map(t =>
       getParameterName(t.name, usageByTypeName)

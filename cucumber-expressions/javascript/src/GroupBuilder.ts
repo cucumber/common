@@ -4,7 +4,7 @@ import RegexExecArray from './RegexExecArray'
 export default class GroupBuilder {
   public source: string
   public capturing = true
-  private groupBuilders: GroupBuilder[] = []
+  private readonly groupBuilders: GroupBuilder[] = []
 
   public add(groupBuilder: GroupBuilder) {
     this.groupBuilders.push(groupBuilder)

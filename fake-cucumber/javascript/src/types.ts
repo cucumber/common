@@ -2,7 +2,7 @@ import { Readable } from 'stream'
 import { messages } from '@cucumber/messages'
 
 export type EnvelopeListener = (envelope: messages.IEnvelope) => void
-export type AnyBody = (...args: any) => any
+export type AnyBody = (...args: ReadonlyArray<any>) => any
 export type Attach = (
   data: string | Buffer | Readable,
   mediaType: string

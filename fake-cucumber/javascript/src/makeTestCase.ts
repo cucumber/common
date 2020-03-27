@@ -12,9 +12,9 @@ import EmptyPickleTestStep from './EmptyPickleTestStep'
 
 export default function makeTestCase(
   pickle: messages.IPickle,
-  stepDefinitions: IStepDefinition[],
-  beforeHooks: IHook[],
-  afterHooks: IHook[],
+  stepDefinitions: ReadonlyArray<IStepDefinition>,
+  beforeHooks: ReadonlyArray<IHook>,
+  afterHooks: ReadonlyArray<IHook>,
   gherkinQuery: Query,
   newId: IdGenerator.NewId,
   clock: IClock,
@@ -75,7 +75,7 @@ export default function makeTestCase(
 
 function makeHookSteps(
   pickle: messages.IPickle,
-  hooks: IHook[],
+  hooks: ReadonlyArray<IHook>,
   alwaysExecute: boolean,
   gherkinQuery: Query,
   newId: IdGenerator.NewId,
