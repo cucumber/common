@@ -5,9 +5,14 @@ rwildcard=$(foreach d,$(wildcard $(1:=/*)),$(call rwildcard,$d,$2) $(filter $(su
 
 RUBY_FEATURES=$(call rwildcard,../ruby/features,*.feature)
 FEATURES=$(patsubst ../ruby/features/%.feature,src/test/resources/io/cucumber/json/%.feature,$(RUBY_FEATURES))
-JSONS=$(patsubst features/%.feature,acceptance/%.json,$(FEATURES))
+JSONS=$(patsubst src/test/resources/io/cucumber/json/%.feature,acceptance/%.json,$(FEATURES))
 
-features: $(FEATURES)
+jsons: $(JSONS)
+
+acceptance/%.json: src/test/resources/io/cucumber/json/%.feature
+	mkdir -p $(@D)
+	-mvn test -Dcucumber.options="src/test/resources/io/cucumber/json/statuses/statuses.feature"
+	cp target/cucumber.json $@
 
 src/test/resources/io/cucumber/json/%.feature: ../ruby/features/%.feature
 	mkdir -p $(@D)
