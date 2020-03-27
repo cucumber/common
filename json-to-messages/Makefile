@@ -1,4 +1,4 @@
-LANGUAGES ?= ruby javacript-json javascript
+LANGUAGES ?= ruby javacript-json java javascript
 include default.mk
 
 default-javacript-json:
