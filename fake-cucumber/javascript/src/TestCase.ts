@@ -3,10 +3,11 @@ import { EnvelopeListener } from './types'
 import { messages, TimeConversion } from '@cucumber/messages'
 import IWorld from './IWorld'
 import IClock from './IClock'
+import ITestCase from './ITestCase'
 
 const { millisecondsSinceEpochToTimestamp } = TimeConversion
 
-export default class TestCase {
+export default class TestCase implements ITestCase {
   constructor(
     public readonly id: string,
     private readonly testSteps: ITestStep[],

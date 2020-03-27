@@ -11,6 +11,7 @@ import { Query as GherkinQuery } from '@cucumber/gherkin'
 import IncrementClock from '../src/IncrementClock'
 import { withSourceFramesOnlyStackTrace } from '../src/ErrorMessageGenerator'
 import { EnvelopeListener } from '../src/types'
+import makePickleTestStep from '../src/makePickleTestStep'
 
 describe('makeTestCase', () => {
   it('transforms a Pickle to a TestCase', () => {
@@ -24,7 +25,8 @@ describe('makeTestCase', () => {
       new GherkinQuery(),
       IdGenerator.incrementing(),
       new IncrementClock(),
-      withSourceFramesOnlyStackTrace()
+      withSourceFramesOnlyStackTrace(),
+      makePickleTestStep
     )
 
     assert.deepStrictEqual(
@@ -49,7 +51,8 @@ describe('makeTestCase', () => {
         new GherkinQuery(),
         IdGenerator.incrementing(),
         new IncrementClock(),
-        withSourceFramesOnlyStackTrace()
+        withSourceFramesOnlyStackTrace(),
+        makePickleTestStep
       )
 
       const messageList: messages.IEnvelope[] = []
@@ -74,7 +77,8 @@ describe('makeTestCase', () => {
           new GherkinQuery(),
           IdGenerator.incrementing(),
           new IncrementClock(),
-          withSourceFramesOnlyStackTrace()
+          withSourceFramesOnlyStackTrace(),
+          makePickleTestStep
         )
 
         assert.deepStrictEqual(
@@ -102,7 +106,8 @@ describe('makeTestCase', () => {
         new GherkinQuery(),
         IdGenerator.incrementing(),
         new IncrementClock(),
-        withSourceFramesOnlyStackTrace()
+        withSourceFramesOnlyStackTrace(),
+        makePickleTestStep
       )
 
       assert.deepStrictEqual(

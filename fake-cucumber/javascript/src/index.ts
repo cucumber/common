@@ -13,6 +13,10 @@ import IStepDefinition from './IStepDefinition'
 import ISupportCodeExecutor from './ISupportCodeExecutor'
 import IWorld from './IWorld'
 import IHook from './IHook'
+import { MakePickleTestStep, MakeTestCase } from './types'
+import { MakeErrorMessage } from './ErrorMessageGenerator'
+import makePickleTestStep from './makePickleTestStep'
+import makeTestCase from './makeTestCase'
 
 export {
   Given,
@@ -28,4 +32,9 @@ export {
   IHook,
   ISupportCodeExecutor,
   IWorld,
+  MakeErrorMessage,
+  MakePickleTestStep,
+  makePickleTestStep,
+  MakeTestCase,
+  makeTestCase,
 }

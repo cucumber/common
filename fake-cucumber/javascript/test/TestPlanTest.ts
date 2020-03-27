@@ -8,6 +8,7 @@ import IncrementClock from '../src/IncrementClock'
 import { withSourceFramesOnlyStackTrace } from '../src/ErrorMessageGenerator'
 import SupportCode from '../src/SupportCode'
 import makeTestCase from '../src/makeTestCase'
+import makePickleTestStep from '../src/makePickleTestStep'
 
 describe('TestPlan', () => {
   let supportCode: SupportCode
@@ -130,7 +131,8 @@ async function makeTestPlan(
         gherkinQuery,
         supportCode.newId,
         supportCode.clock,
-        supportCode.makeErrorMessage
+        supportCode.makeErrorMessage,
+        makePickleTestStep
       )
     )
 

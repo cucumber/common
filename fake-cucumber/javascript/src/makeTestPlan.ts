@@ -2,6 +2,7 @@ import { Query as GherkinQuery } from '@cucumber/gherkin'
 import SupportCode from './SupportCode'
 import makeTestCase from './makeTestCase'
 import TestPlan from './TestPlan'
+import makePickleTestStep from './makePickleTestStep'
 
 export default function makeTestPlan(
   gherkinQuery: GherkinQuery,
@@ -17,7 +18,8 @@ export default function makeTestPlan(
       gherkinQuery,
       supportCode.newId,
       supportCode.clock,
-      supportCode.makeErrorMessage
+      supportCode.makeErrorMessage,
+      makePickleTestStep
     )
   )
 

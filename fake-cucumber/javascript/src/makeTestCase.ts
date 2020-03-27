@@ -3,12 +3,12 @@ import { Query } from '@cucumber/gherkin'
 import TestCase from './TestCase'
 import IStepDefinition from './IStepDefinition'
 import IHook from './IHook'
-import makePickleTestStep from './makePickleTestStep'
 import HookTestStep from './HookTestStep'
 import ITestStep from './ITestStep'
 import IClock from './IClock'
 import { MakeErrorMessage } from './ErrorMessageGenerator'
 import EmptyPickleTestStep from './EmptyPickleTestStep'
+import { MakePickleTestStep } from './types'
 
 export default function makeTestCase(
   pickle: messages.IPickle,
@@ -18,7 +18,8 @@ export default function makeTestCase(
   gherkinQuery: Query,
   newId: IdGenerator.NewId,
   clock: IClock,
-  makeErrorMessage: MakeErrorMessage
+  makeErrorMessage: MakeErrorMessage,
+  makePickleTestStep: MakePickleTestStep
 ): TestCase {
   if (pickle.steps.length === 0) {
     const id = newId()
