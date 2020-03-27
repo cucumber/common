@@ -1,12 +1,15 @@
 import { Readable } from 'stream'
 import { IdGenerator, messages } from '@cucumber/messages'
-import { IStepDefinition } from '.'
+import IStepDefinition from './IStepDefinition'
 import IClock from './IClock'
 import { MakeErrorMessage } from './ErrorMessageGenerator'
 import ITestStep from './ITestStep'
 import { Query } from '@cucumber/gherkin'
 import IHook from './IHook'
 import ITestCase from './ITestCase'
+import SupportCode from './SupportCode'
+import ITestPlan from './ITestPlan'
+import { Query as GherkinQuery } from '@cucumber/gherkin'
 
 export type EnvelopeListener = (envelope: messages.IEnvelope) => void
 export type AnyBody = (...args: ReadonlyArray<any>) => any
@@ -25,6 +28,16 @@ export type MakePickleTestStep = (
   makeErrorMessage: MakeErrorMessage
 ) => ITestStep
 
+export type MakeHookTestStep = (
+  pickle: messages.IPickle,
+  hook: IHook,
+  alwaysExecute: boolean,
+  gherkinQuery: Query,
+  newId: IdGenerator.NewId,
+  clock: IClock,
+  makeErrorMessage: MakeErrorMessage
+) => ITestStep
+
 export type MakeTestCase = (
   pickle: messages.IPickle,
   stepDefinitions: ReadonlyArray<IStepDefinition>,
@@ -33,5 +46,13 @@ export type MakeTestCase = (
   gherkinQuery: Query,
   newId: IdGenerator.NewId,
   clock: IClock,
-  makeErrorMessage: MakeErrorMessage
+  makeErrorMessage: MakeErrorMessage,
+  makePickleTestStep: MakePickleTestStep,
+  makeHookStep: MakeHookTestStep
 ) => ITestCase
+
+export type MakeTestPlan = (
+  gherkinQuery: GherkinQuery,
+  supportCode: SupportCode,
+  makeTestCase: MakeTestCase
+) => ITestPlan

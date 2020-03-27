@@ -1,13 +1,16 @@
 import { Query as GherkinQuery } from '@cucumber/gherkin'
 import SupportCode from './SupportCode'
-import makeTestCase from './makeTestCase'
 import TestPlan from './TestPlan'
 import makePickleTestStep from './makePickleTestStep'
+import ITestPlan from './ITestPlan'
+import { MakeTestCase } from '.'
+import makeHookTestStep from './makeHookTestStep'
 
 export default function makeTestPlan(
   gherkinQuery: GherkinQuery,
-  supportCode: SupportCode
-) {
+  supportCode: SupportCode,
+  makeTestCase: MakeTestCase
+): ITestPlan {
   const pickles = gherkinQuery.getPickles()
   const testCases = pickles.map(pickle =>
     makeTestCase(
@@ -19,7 +22,8 @@ export default function makeTestPlan(
       supportCode.newId,
       supportCode.clock,
       supportCode.makeErrorMessage,
-      makePickleTestStep
+      makePickleTestStep,
+      makeHookTestStep
     )
   )
 

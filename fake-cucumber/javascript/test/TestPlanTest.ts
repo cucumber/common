@@ -9,6 +9,7 @@ import { withSourceFramesOnlyStackTrace } from '../src/ErrorMessageGenerator'
 import SupportCode from '../src/SupportCode'
 import makeTestCase from '../src/makeTestCase'
 import makePickleTestStep from '../src/makePickleTestStep'
+import makeHookTestStep from '../src/makeHookTestStep'
 
 describe('TestPlan', () => {
   let supportCode: SupportCode
@@ -132,7 +133,8 @@ async function makeTestPlan(
         supportCode.newId,
         supportCode.clock,
         supportCode.makeErrorMessage,
-        makePickleTestStep
+        makePickleTestStep,
+        makeHookTestStep
       )
     )
 

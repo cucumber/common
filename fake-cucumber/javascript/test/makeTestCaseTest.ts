@@ -12,6 +12,7 @@ import IncrementClock from '../src/IncrementClock'
 import { withSourceFramesOnlyStackTrace } from '../src/ErrorMessageGenerator'
 import { EnvelopeListener } from '../src/types'
 import makePickleTestStep from '../src/makePickleTestStep'
+import makeHookTestStep from '../src/makeHookTestStep'
 
 describe('makeTestCase', () => {
   it('transforms a Pickle to a TestCase', () => {
@@ -26,7 +27,8 @@ describe('makeTestCase', () => {
       IdGenerator.incrementing(),
       new IncrementClock(),
       withSourceFramesOnlyStackTrace(),
-      makePickleTestStep
+      makePickleTestStep,
+      makeHookTestStep
     )
 
     assert.deepStrictEqual(
@@ -52,7 +54,8 @@ describe('makeTestCase', () => {
         IdGenerator.incrementing(),
         new IncrementClock(),
         withSourceFramesOnlyStackTrace(),
-        makePickleTestStep
+        makePickleTestStep,
+        makeHookTestStep
       )
 
       const messageList: messages.IEnvelope[] = []
@@ -78,7 +81,8 @@ describe('makeTestCase', () => {
           IdGenerator.incrementing(),
           new IncrementClock(),
           withSourceFramesOnlyStackTrace(),
-          makePickleTestStep
+          makePickleTestStep,
+          makeHookTestStep
         )
 
         assert.deepStrictEqual(
@@ -107,7 +111,8 @@ describe('makeTestCase', () => {
         IdGenerator.incrementing(),
         new IncrementClock(),
         withSourceFramesOnlyStackTrace(),
-        makePickleTestStep
+        makePickleTestStep,
+        makeHookTestStep
       )
 
       assert.deepStrictEqual(

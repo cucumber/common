@@ -1,12 +1,13 @@
-import TestCase from './TestCase'
 import { EnvelopeListener } from './types'
 import { messages, TimeConversion } from '@cucumber/messages'
 import SupportCode from './SupportCode'
 import { ParameterType } from '@cucumber/cucumber-expressions'
+import ITestPlan from './ITestPlan'
+import ITestCase from './ITestCase'
 
-export default class TestPlan {
+export default class TestPlan implements ITestPlan {
   constructor(
-    private readonly testCases: TestCase[],
+    private readonly testCases: ITestCase[],
     private readonly supportCode: SupportCode
   ) {}
 

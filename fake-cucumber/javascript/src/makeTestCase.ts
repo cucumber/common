@@ -3,12 +3,11 @@ import { Query } from '@cucumber/gherkin'
 import TestCase from './TestCase'
 import IStepDefinition from './IStepDefinition'
 import IHook from './IHook'
-import HookTestStep from './HookTestStep'
 import ITestStep from './ITestStep'
 import IClock from './IClock'
 import { MakeErrorMessage } from './ErrorMessageGenerator'
 import EmptyPickleTestStep from './EmptyPickleTestStep'
-import { MakePickleTestStep } from './types'
+import { MakePickleTestStep, MakeHookTestStep } from './types'
 
 export default function makeTestCase(
   pickle: messages.IPickle,
@@ -19,7 +18,8 @@ export default function makeTestCase(
   newId: IdGenerator.NewId,
   clock: IClock,
   makeErrorMessage: MakeErrorMessage,
-  makePickleTestStep: MakePickleTestStep
+  makePickleTestStep: MakePickleTestStep,
+  makeHookStep: MakeHookTestStep
 ): TestCase {
   if (pickle.steps.length === 0) {
     const id = newId()
@@ -42,7 +42,8 @@ export default function makeTestCase(
     gherkinQuery,
     newId,
     clock,
-    makeErrorMessage
+    makeErrorMessage,
+    makeHookStep
   )
   const pickleTestSteps = pickle.steps.map(pickleStep => {
     const sourceFrames = pickleStep.astNodeIds.map(
@@ -64,7 +65,8 @@ export default function makeTestCase(
     gherkinQuery,
     newId,
     clock,
-    makeErrorMessage
+    makeErrorMessage,
+    makeHookStep
   )
   const testSteps: ITestStep[] = []
     .concat(beforeHookSteps)
@@ -81,28 +83,20 @@ function makeHookSteps(
   gherkinQuery: Query,
   newId: IdGenerator.NewId,
   clock: IClock,
-  makeErrorMessage: MakeErrorMessage
+  makeErrorMessage: MakeErrorMessage,
+  makeHookStep: MakeHookTestStep
 ): ITestStep[] {
   return hooks
-    .map(hook => {
-      const supportCodeExecutor = hook.match(pickle)
-      if (supportCodeExecutor !== null) {
-        const id = newId()
-
-        const sourceFrames = pickle.astNodeIds.map(
-          astNodeId =>
-            `${pickle.uri}:${gherkinQuery.getLocation(astNodeId).line}`
-        )
-        return new HookTestStep(
-          id,
-          hook.id,
-          alwaysExecute,
-          [supportCodeExecutor],
-          sourceFrames,
-          clock,
-          makeErrorMessage
-        )
-      }
-    })
+    .map(hook =>
+      makeHookStep(
+        pickle,
+        hook,
+        alwaysExecute,
+        gherkinQuery,
+        newId,
+        clock,
+        makeErrorMessage
+      )
+    )
     .filter(testStep => testStep !== undefined)
 }
