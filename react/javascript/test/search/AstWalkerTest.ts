@@ -57,7 +57,8 @@ describe('AstWalker', () => {
       acceptBackground: () => false,
       acceptRule: () => false,
       acceptScenario: () => false,
-      acceptStep:() => false,
+      acceptStep: () => false,
+      acceptFeature: () => false,
     }
 
     it('filters one scenario', () => {
@@ -71,7 +72,8 @@ describe('AstWalker', () => {
 `)
 
       const walker = new AstWalker({
-        ...rejectAll, ...{ acceptScenario: scenario => scenario.name === 'Earth' }
+        ...rejectAll,
+        ...{ acceptScenario: scenario => scenario.name === 'Earth' },
       })
       const newGherkinDocument = walker.walkGherkinDocument(gherkinDocument)
       const newSource = pretty(newGherkinDocument)
@@ -94,7 +96,8 @@ describe('AstWalker', () => {
 `)
 
       const walker = new AstWalker({
-        ...rejectAll, ...{ acceptStep: step => step.text.includes('liquid') }
+        ...rejectAll,
+        ...{ acceptStep: step => step.text.includes('liquid') },
       })
       const newGherkinDocument = walker.walkGherkinDocument(gherkinDocument)
       const newSource = pretty(newGherkinDocument)
@@ -117,10 +120,14 @@ describe('AstWalker', () => {
 `)
 
       const walker = new AstWalker({
-        ...rejectAll
+        ...rejectAll,
+        ...{ acceptScenario: scenario => scenario.name === 'Earth' },
       })
       const newGherkinDocument = walker.walkGherkinDocument(gherkinDocument)
-      assert.deepStrictEqual(newGherkinDocument.feature.children, [])
+      assert.deepStrictEqual(
+        newGherkinDocument.feature.children.filter(child => child === null),
+        []
+      )
     })
 
     it('keeps a hit scenario even when no steps match', () => {
@@ -134,7 +141,8 @@ describe('AstWalker', () => {
 `)
 
       const walker = new AstWalker({
-        ...rejectAll, ...{ acceptScenario: scenario => scenario.name === 'Saturn' }
+        ...rejectAll,
+        ...{ acceptScenario: scenario => scenario.name === 'Saturn' },
       })
       const newGherkinDocument = walker.walkGherkinDocument(gherkinDocument)
       const newSource = pretty(newGherkinDocument)
@@ -162,7 +170,8 @@ describe('AstWalker', () => {
 `)
 
       const walker = new AstWalker({
-        ...rejectAll, ...{ acceptBackground: background => background.name === 'Milky Way' }
+        ...rejectAll,
+        ...{ acceptBackground: background => background.name === 'Milky Way' },
       })
       const newGherkinDocument = walker.walkGherkinDocument(gherkinDocument)
       const newSource = pretty(newGherkinDocument)
@@ -175,6 +184,45 @@ describe('AstWalker', () => {
 
     Background: Milky Way
       Given it contains our system
+`
+      assert.strictEqual(newSource, expectedNewSource)
+    })
+
+    it('keeps a hit in background step', () => {
+      const gherkinDocument = parse(`Feature: Solar System
+
+  Background: Space
+    Given space is real
+
+  Rule: Galaxy
+    Background: Milky Way
+      Given it contains our system
+
+  Rule: Black Hole
+    Background: TON 618
+      Given it exists
+`)
+
+      const walker = new AstWalker({
+        ...rejectAll,
+        ...{ acceptStep: step => step.text.includes('space') },
+      })
+      const newGherkinDocument = walker.walkGherkinDocument(gherkinDocument)
+      const newSource = pretty(newGherkinDocument)
+      const expectedNewSource = `Feature: Solar System
+
+  Background: Space
+    Given space is real
+
+  Rule: Galaxy
+
+    Background: Milky Way
+      Given it contains our system
+
+  Rule: Black Hole
+
+    Background: TON 618
+      Given it exists
 `
       assert.strictEqual(newSource, expectedNewSource)
     })
@@ -195,7 +243,8 @@ describe('AstWalker', () => {
 `)
 
       const walker = new AstWalker({
-        ...rejectAll, ...{ acceptScenario: scenario => scenario.name === 'Andromeda' }
+        ...rejectAll,
+        ...{ acceptScenario: scenario => scenario.name === 'Andromeda' },
       })
       const newGherkinDocument = walker.walkGherkinDocument(gherkinDocument)
       const newSource = pretty(newGherkinDocument)
@@ -228,7 +277,8 @@ describe('AstWalker', () => {
 `)
 
       const walker = new AstWalker({
-        ...rejectAll, ...{ acceptRule: rule => rule.name === 'Galaxy' }
+        ...rejectAll,
+        ...{ acceptRule: rule => rule.name === 'Galaxy' },
       })
       const newGherkinDocument = walker.walkGherkinDocument(gherkinDocument)
       const newSource = pretty(newGherkinDocument)
@@ -248,6 +298,34 @@ describe('AstWalker', () => {
       assert.strictEqual(newSource, expectedNewSource)
     })
 
+    it('only keeps rule and its content', () => {
+      const gherkinDocument = parse(`Feature: Solar System
+
+  Scenario: Milky Way
+    Given it contains our system
+
+  Rule: Galaxy
+
+    Scenario: Andromeda
+      Given it exists
+`)
+
+      const walker = new AstWalker({
+        ...rejectAll,
+        ...{ acceptRule: () => true },
+      })
+      const newGherkinDocument = walker.walkGherkinDocument(gherkinDocument)
+      const newSource = pretty(newGherkinDocument)
+      const expectedNewSource = `Feature: Solar System
+
+  Rule: Galaxy
+
+    Scenario: Andromeda
+      Given it exists
+`
+      assert.strictEqual(newSource, expectedNewSource)
+    })
+
     it('return a feature and keep scenario', () => {
       const gherkinDocument = parse(`Feature: Solar System
 
@@ -259,7 +337,8 @@ describe('AstWalker', () => {
 `)
 
       const walker = new AstWalker({
-        ...rejectAll, acceptFeature: feature => feature.name === 'Solar System'
+        ...rejectAll,
+        acceptFeature: feature => feature.name === 'Solar System',
       })
       const newGherkinDocument = walker.walkGherkinDocument(gherkinDocument)
       const newSource = pretty(newGherkinDocument)
@@ -272,6 +351,21 @@ describe('AstWalker', () => {
     Given is a planet with liquid water
 `
       assert.deepStrictEqual(newSource, expectedNewSource)
+    })
+
+    it('returns null when no hit found', () => {
+      const gherkinDocument = parse(`Feature: Solar System
+
+  Scenario: Saturn
+    Given is the sixth planet from the Sun
+
+  Scenario: Earth
+    Given is a planet with liquid water
+`)
+
+      const walker = new AstWalker(rejectAll)
+      const newGherkinDocument = walker.walkGherkinDocument(gherkinDocument)
+      assert.deepEqual(newGherkinDocument, null)
     })
   })
 })

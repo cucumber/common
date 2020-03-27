@@ -13,7 +13,7 @@ describe('RuleSearch', () => {
     rules = [
       makeRule('first rule', 'a little description', []),
       makeRule('second rule', 'a long description', []),
-      makeRule('third rule', 'description', [])
+      makeRule('third rule', 'description', []),
     ]
 
     for (const rule of rules) {

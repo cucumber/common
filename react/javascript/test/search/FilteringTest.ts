@@ -3,7 +3,7 @@ import Search from '../../src/search/Search'
 import pretty from '../../src/pretty-formatter/pretty'
 import parse from './parse'
 
-xdescribe('Search', () => {
+describe('Search', () => {
   let search: Search
   const source = `Feature: Continents
 
@@ -18,6 +18,11 @@ xdescribe('Search', () => {
   Scenario: America
     Given Mexico
     Then Brazil
+
+  Rule: zbui
+
+    Scenario: Africa
+      Given Ethiopia
 `
 
   beforeEach(() => {
@@ -78,6 +83,26 @@ xdescribe('Search', () => {
       const searchResults = search.search('exists')
 
       assert.deepStrictEqual(pretty(searchResults[0]), source)
+    })
+  })
+
+  context('Hit found in rule', () => {
+    it('displays a rule', () => {
+      const searchResults = search.search('zbui')
+
+      assert.deepStrictEqual(
+        pretty(searchResults[0]),
+        `Feature: Continents
+
+  Background: World
+    Given the world exists
+
+  Rule: zbui
+
+    Scenario: Africa
+      Given Ethiopia
+`
+      )
     })
   })
 

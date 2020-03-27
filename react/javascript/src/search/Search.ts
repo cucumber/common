@@ -26,11 +26,12 @@ export default class Search {
       acceptScenario: scenario => matchingScenarios.includes(scenario),
       acceptBackground: background => matchingBackgrounds.includes(background),
       acceptRule: rule => matchingRules.includes(rule),
+      acceptFeature: feature => matchingFeatures.includes(feature),
     })
 
-    return this.gherkinDocuments.map(gherkinDocument =>
-      walker.walkGherkinDocument(gherkinDocument)
-    )
+    return this.gherkinDocuments
+      .map(gherkinDocument => walker.walkGherkinDocument(gherkinDocument))
+      .filter(gherkinDocument => gherkinDocument !== null)
   }
 
   public add(gherkinDocument: messages.IGherkinDocument) {
@@ -52,6 +53,20 @@ export default class Search {
 
         for (const step of child.scenario.steps) {
           this.stepSearch.add(step)
+        }
+      }
+
+      if (child.rule) {
+        this.ruleSearch.add(child.rule)
+
+        for (const ruleChild of child.rule.children) {
+          if (ruleChild.scenario) {
+            this.scenarioSearch.add(ruleChild.scenario)
+          }
+
+          if (ruleChild.background) {
+            this.backgroundSearch.add(ruleChild.background)
+          }
         }
       }
     }
