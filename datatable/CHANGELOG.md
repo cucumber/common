@@ -16,6 +16,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Removed
 
 ### Fixed
+ * [Java] Improve error messages
+    ([#944](https://github.com/cucumber/cucumber/pull/944)
+      [mpkorstanje])     
+      - `table.asList(String.class)` throw an exception rather then return an empty list   
 
 ## [3.3.0] - 2020-02-06
 
