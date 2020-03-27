@@ -9,16 +9,16 @@ import {
   IDataTableRow,
   IElement,
   IFeature,
-} from '../src/cucumber-ruby/RubyJSONSchema'
-import IAstMaker from '../src/IAstMaker'
+} from '../../src/cucumber-ruby/RubyJSONSchema'
+import IAstMaker from '../../src/IAstMaker'
 import {
   traverseFeature,
   traverseElement,
   traverseStep,
   traverseDocString,
   traverseDataTable,
-} from '../src/cucumber-ruby/RubyJSONTraverse'
-import IPredictableSupportCode from '../src/IPredictableSupportCode'
+} from '../../src/cucumber-ruby/RubyJSONTraverse'
+import IPredictableSupportCode from '../../src/IPredictableSupportCode'
 
 describe('traversing elements', () => {
   const simpleStep: IStep = {

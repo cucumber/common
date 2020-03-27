@@ -1,8 +1,8 @@
 import { pipeline, Readable } from 'stream'
 import { promisify } from 'util'
 import assert from 'assert'
-import JSONTransformStream from '../src/stream/JSONTransformStream'
-import SingleObjectWritableStream from '../src/stream/SingleObjectWritableStream'
+import JSONTransformStream from '../../src/stream/JSONTransformStream'
+import SingleObjectWritableStream from '../../src/stream/SingleObjectWritableStream'
 const asyncPipeline = promisify(pipeline)
 
 describe('JSONReportStream', () => {
