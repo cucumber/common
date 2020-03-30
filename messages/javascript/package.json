@@ -1,6 +1,6 @@
 {
   "name": "@cucumber/messages",
-  "version": "11.1.0",
+  "version": "11.1.1",
   "description": "Protocol Buffer messages for Cucumber's inter-process communication",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
@@ -27,7 +27,7 @@
   },
   "devDependencies": {
     "@types/mocha": "^7.0.2",
-    "@types/node": "^13.9.6",
+    "@types/node": "^13.9.7",
     "@typescript-eslint/eslint-plugin": "^2.26.0",
     "@typescript-eslint/parser": "^2.26.0",
     "copyfiles": "^2.2.0",

@@ -17,6 +17,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [11.1.1] - 2020-03-30
+
+### Fixed
+
+* The [#932](https://github.com/cucumber/cucumber/pull/932) pull request wasn't actually
+  included in 11.1.0
+
 ## [11.1.0] - 2020-03-30
 
 ### Added
@@ -310,7 +317,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Protobuf messages for Go, Java, JavaScript, TypeScript and Ruby
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/messages/v11.1.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/messages/v11.1.1...master
+[11.1.1]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v11.1.0...messages/v11.1.1
 [11.1.0]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v11.0.1...messages/v11.1.0
 [11.0.1]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v11.0.0...messages/v11.0.1
 [11.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v10.0.3...messages/v11.0.0
