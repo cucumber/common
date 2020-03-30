@@ -2,7 +2,7 @@ module github.com/cucumber/json-formatter-go/v3
 
 require (
 	github.com/aslakhellesoy/gox v1.0.100 // indirect
-	github.com/cucumber/messages-go/v10 v10.0.1
+	github.com/cucumber/messages-go/v11 v11.0.1
 
 	github.com/gogo/protobuf v1.3.1
 	github.com/golang/protobuf v1.3.4 // indirect
@@ -14,6 +14,6 @@ require (
 	golang.org/x/xerrors v0.0.0-20191204190536-9bdfabe68543 // indirect
 )
 
-replace github.com/cucumber/messages-go/v10 => ../../messages/go
+replace github.com/cucumber/messages-go/v11 => ../../messages/go
 
 go 1.13
