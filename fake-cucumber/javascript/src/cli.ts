@@ -1,18 +1,13 @@
 import { Command } from 'commander'
 import packageJson from '../package.json'
-import gherkin, { IGherkinOptions } from '@cucumber/gherkin'
-import { pipeline } from 'stream'
-import CucumberStream from './CucumberStream'
-import { promisify } from 'util'
-import formatStream from './formatStream'
-import supportCode from './index'
-import { IdGenerator } from '@cucumber/messages'
-import findSupportCodePaths from './findSupportCodePaths'
+import loadSupportCode from './loadSupportCode'
+import runCucumber from './runCucumber'
+import gherkin, {
+  IGherkinOptions,
+  Query as GherkinQuery,
+} from '@cucumber/gherkin'
 import fs from 'fs'
-import IncrementClock from './IncrementClock'
-import { withSourceFramesOnlyStackTrace } from './ErrorMessageGenerator'
-
-const pipelinePromise = promisify(pipeline)
+import makeFormatStream from './makeFormatStream'
 
 const program = new Command()
 program.version(packageJson.version)
@@ -28,62 +23,37 @@ program.option(
   'output format: ndjson|protobuf',
   'protobuf'
 )
-program.parse(process.argv)
-const paths = program.args
-const requirePaths = program.require ? program.require.split(':') : paths
-
-if (program.predictableIds) {
-  supportCode.newId = IdGenerator.incrementing()
-  supportCode.clock = new IncrementClock()
-  supportCode.makeErrorMessage = withSourceFramesOnlyStackTrace()
-}
-
-const options: IGherkinOptions = {
-  defaultDialect: 'en',
-  newId: supportCode.newId,
-  createReadStream: (path: string) =>
-    fs.createReadStream(path, { encoding: 'utf-8' }),
-}
-
-async function loadSupportCode(): Promise<void> {
-  const supportCodePaths = await findSupportCodePaths(requirePaths)
-  let tsNodeRegistered = false
-  for (const supportCodePath of supportCodePaths) {
-    if (supportCodePath.endsWith('.ts') && !tsNodeRegistered) {
-      // eslint-disable-next-line @typescript-eslint/no-var-requires
-      const tsnode = require('ts-node')
-      tsnode.register({
-        transpileOnly: true,
-      })
-      tsNodeRegistered = true
-    }
-    require(supportCodePath)
-  }
-}
 
 async function main() {
-  if (program.globals) {
-    for (const key of Object.keys(supportCode)) {
-      // @ts-ignore
-      global[key] = supportCode[key]
-    }
-  }
-  await loadSupportCode()
-  const cucumberStream = new CucumberStream(
-    supportCode.parameterTypes,
-    supportCode.stepDefinitions,
-    supportCode.undefinedParameterTypes,
-    supportCode.beforeHooks,
-    supportCode.afterHooks,
-    supportCode.newId,
-    supportCode.clock,
-    supportCode.makeErrorMessage
+  program.parse(process.argv)
+  const { globals, predictableIds, format } = program
+
+  const paths = program.args
+  const requirePaths = program.require ? program.require.split(':') : paths
+
+  const supportCode = await loadSupportCode(
+    predictableIds,
+    requirePaths,
+    globals
   )
-  await pipelinePromise(
-    gherkin.fromPaths(paths, options),
-    cucumberStream,
-    formatStream(program.format),
-    process.stdout
+
+  const gherkinOptions: IGherkinOptions = {
+    defaultDialect: 'en',
+    newId: supportCode.newId,
+    createReadStream: (path: string) =>
+      fs.createReadStream(path, { encoding: 'utf-8' }),
+  }
+  const gherkinEnvelopeStream = gherkin.fromPaths(paths, gherkinOptions)
+
+  const envelopeOutputStream = makeFormatStream(format)
+  envelopeOutputStream.pipe(process.stdout)
+  const gherkinQuery = new GherkinQuery()
+
+  await runCucumber(
+    supportCode,
+    gherkinEnvelopeStream,
+    gherkinQuery,
+    envelopeOutputStream
   )
 }
 

@@ -12,7 +12,7 @@ describe('SupportCode', () => {
       withFullStackTrace()
     )
     const error = new Error('In Body')
-    supportCode.Before(() => {
+    supportCode.defineBeforeHook(null, () => {
       throw error
     })
     const supportCodeExecutor = supportCode.beforeHooks[0].match(null)
@@ -25,7 +25,7 @@ describe('SupportCode', () => {
       new IncrementClock(),
       withFullStackTrace()
     )
-    supportCode.Given('a {bad} parameter type', () => {
+    supportCode.defineStepDefinition(null, 'a {bad} parameter type', () => {
       throw new Error('should never happen')
     })
     assert.deepStrictEqual(supportCode.stepDefinitions, [])

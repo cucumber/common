@@ -11,7 +11,13 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Added
 
+* [JavaScript] Add `Query#getPickles()`
+
 ### Changed
+
+* Upgrade to messages 11.x
+* [JavaScript] `Gherkin#fromPaths` and `Gherkin#fromSources` now use `ReadOnlyArray` to
+  prevent modifying the passed array.
 
 ### Deprecated
 

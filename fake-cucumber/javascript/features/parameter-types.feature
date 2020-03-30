@@ -1,3 +1,3 @@
 Feature: test
   Scenario: test
-    Given a failed step
+    Given flight LHR-CDG

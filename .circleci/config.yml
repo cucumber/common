@@ -458,6 +458,21 @@ jobs:
           paths:
             - json-formatter/ruby
 
+  compatibility-kit-ruby:
+    executor: docker-cucumber-build
+    steps:
+      - attach_workspace:
+          at: "~/cucumber"
+      - run:
+          name: compatibility-kit/ruby
+          command: |
+            cd compatibility-kit/ruby
+            CUCUMBER_USE_RELEASED_GEMS=1 make
+      - persist_to_workspace:
+          root: ~/cucumber
+          paths:
+            - compatibility-kit/ruby/features
+
   demo-formatter-ruby:
     executor: docker-cucumber-build
     steps:
@@ -467,6 +482,17 @@ jobs:
           name: demo-formatter/ruby
           command: |
             cd demo-formatter/ruby
+            make
+
+  html-formatter-ruby:
+    executor: docker-circleci-ruby-26
+    steps:
+      - attach_workspace:
+          at: "~/cucumber"
+      - run:
+          name: html-formatter/ruby
+          command: |
+            cd html-formatter/ruby
             make
 
 ### Java
@@ -782,6 +808,13 @@ workflows:
       - json-formatter-ruby:
           requires:
             - checkout
+      # - compatibility-kit-ruby:
+      #     requires:
+      #       - compatibility-kit-javascript
+      # - html-formatter-ruby:
+      #     requires:
+      #       - html-formatter-javascript
+      #       - compatibility-kit-ruby
 
 ### Java
 

@@ -10,7 +10,7 @@ import {
 import { Query as GherkinQuery } from '@cucumber/gherkin'
 import IncrementClock from '../src/IncrementClock'
 import { withSourceFramesOnlyStackTrace } from '../src/ErrorMessageGenerator'
-import { MessageNotifier } from '../src/types'
+import { EnvelopeListener } from '../src/types'
 
 describe('makeTestCase', () => {
   it('transforms a Pickle to a TestCase', () => {
@@ -53,9 +53,9 @@ describe('makeTestCase', () => {
       )
 
       const messageList: messages.IEnvelope[] = []
-      const notifier: MessageNotifier = (message: messages.IEnvelope) =>
+      const listener: EnvelopeListener = (message: messages.IEnvelope) =>
         messageList.push(message)
-      await testCase.execute(notifier, 0, 'some-test-case-started-id')
+      await testCase.execute(listener, 0, 'some-test-case-started-id')
       assert.equal(messageList.length, 4)
     })
   })

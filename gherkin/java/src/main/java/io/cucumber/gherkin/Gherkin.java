@@ -146,7 +146,7 @@ public class Gherkin {
                                         .build()
                         )
                         .build())
-                .setText(e.getMessage())
+                .setBody(e.getMessage())
                 .build();
         messages.add(Envelope.newBuilder().setAttachment(attachment).build());
     }

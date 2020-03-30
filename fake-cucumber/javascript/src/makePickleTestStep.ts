@@ -8,8 +8,8 @@ import { MakeErrorMessage } from './ErrorMessageGenerator'
 export default function makePickleTestStep(
   testStepId: string,
   pickleStep: messages.Pickle.IPickleStep,
-  stepDefinitions: IStepDefinition[],
-  sourceFrames: string[],
+  stepDefinitions: ReadonlyArray<IStepDefinition>,
+  sourceFrames: ReadonlyArray<string>,
   clock: IClock,
   makeErrorMessage: MakeErrorMessage
 ): ITestStep {

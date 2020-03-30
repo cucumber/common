@@ -2,5 +2,5 @@ import Argument from './Argument'
 
 export default interface Expression {
   readonly source: string
-  match(text: string): Array<Argument<any>>
+  match(text: string): ReadonlyArray<Argument<any>>
 }

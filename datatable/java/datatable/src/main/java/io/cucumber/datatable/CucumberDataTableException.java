@@ -25,7 +25,7 @@ public class CucumberDataTableException extends RuntimeException {
 
     private static CucumberDataTableException cantConvertToMap(Type keyType, Type valueType, String message) {
         return new CucumberDataTableException(
-                format("Can't convert DataTable to Map<%s, %s>. %s", typeName(keyType), typeName(valueType), message)
+                format("Can't convert DataTable to Map<%s, %s>.\n%s", typeName(keyType), typeName(valueType), message)
         );
     }
 

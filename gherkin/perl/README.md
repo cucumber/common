@@ -1,4 +1,4 @@
-[![Build Status](https://secure.travis-ci.org/cucumber/gherkin-perl.svg)](http://travis-ci.org/cucumber/gherkin-perl)
+# Gherkin for Perl
 
 Gherkin parser/compiler for Perl. Please see [Gherkin](https://github.com/cucumber/gherkin) for details.
 

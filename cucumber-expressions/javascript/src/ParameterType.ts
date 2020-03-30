@@ -4,7 +4,7 @@ const ILLEGAL_PARAMETER_NAME_PATTERN = /([[\]()$.|?*+])/
 const UNESCAPE_PATTERN = () => /(\\([[$.|?*+\]]))/g
 
 export default class ParameterType<T> {
-  private transformFn: (...match: string[]) => T
+  private transformFn: (...match: ReadonlyArray<string>) => T
 
   public static compare(pt1: ParameterType<any>, pt2: ParameterType<any>) {
     if (pt1.preferForRegexpMatch && !pt2.preferForRegexpMatch) {
@@ -26,7 +26,7 @@ export default class ParameterType<T> {
     }
   }
 
-  public regexpStrings: string[]
+  public regexpStrings: ReadonlyArray<string>
 
   /**
    * @param name {String} the name of the type
@@ -38,7 +38,7 @@ export default class ParameterType<T> {
    */
   constructor(
     public readonly name: string,
-    regexps: RegExp[] | string[] | RegExp | string,
+    regexps: ReadonlyArray<RegExp> | ReadonlyArray<string> | RegExp | string,
     private readonly type: any,
     transform: (...match: string[]) => T,
     public readonly useForSnippets: boolean,
@@ -67,7 +67,9 @@ export default class ParameterType<T> {
   }
 }
 
-function stringArray(regexps: RegExp[] | string[] | RegExp | string): string[] {
+function stringArray(
+  regexps: ReadonlyArray<RegExp> | ReadonlyArray<string> | RegExp | string
+): string[] {
   const array = Array.isArray(regexps) ? regexps : [regexps]
   return array.map((r: RegExp | string) =>
     r instanceof RegExp ? regexpSource(r) : r

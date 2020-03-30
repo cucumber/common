@@ -1,3 +1,3 @@
 import Query from './Query'
-export { Query }
-export default Query
+import QueryStream from './QueryStream'
+export { Query, QueryStream }
