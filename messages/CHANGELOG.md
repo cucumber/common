@@ -17,6 +17,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [11.0.1] - 2020-03-30
+
+### Fixed
+
+* Release process
+
 ## [11.0.0] - 2020-03-30
 
 ### Changed
@@ -296,7 +302,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Protobuf messages for Go, Java, JavaScript, TypeScript and Ruby
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/messages/v11.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/messages/v11.0.1...master
+[11.0.1]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v11.0.0...messages/v11.0.1
 [11.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v10.0.3...messages/v11.0.0
 [10.0.3]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v10.0.2...messages/v10.0.3
 [10.0.2]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v10.0.1...messages/v10.0.2

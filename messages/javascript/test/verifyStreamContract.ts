@@ -3,7 +3,7 @@ import { Transform } from 'stream'
 import toArray from './toArray'
 import assert = require('assert')
 
-export default function(
+export default function (
   makeFromMessageStream: () => Transform,
   makeToMessageStream: () => Transform
 ) {
