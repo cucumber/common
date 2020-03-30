@@ -38,6 +38,7 @@ export default class AstWalker {
       return messages.GherkinDocument.create({
         feature: feature,
         comments: gherkinDocument.comments,
+        uri: gherkinDocument.uri,
       })
     }
 

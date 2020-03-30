@@ -23,9 +23,6 @@ const FilteredResults: React.FunctionComponent = () => {
   }
 
   let matches = query === '' ? allDocuments : search.search(query)
-  if (hidePassed) {
-    matches = hidePassedScenarios(matches, testResultsQuery, gherkinQuery)
-  }
 
   return (
     <div className="cucumber-filtered-results">
