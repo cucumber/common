@@ -11,10 +11,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
+* Upgrade to messages 11.x
+* Image attachment data processing is possibly faster since no `btoa` conversion is needed anymore
+
 ### Deprecated
 
 ### Removed
 
+* Removed `btoa` prop from `<QueriesWrapper>`
 * Removed `<Wrapper>`
 
 ### Fixed

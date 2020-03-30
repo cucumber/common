@@ -11,6 +11,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
+* `Attachment#text` and `Attachment#binary` have been replaced with `Attachment#body`,
+  and `Attachment#content_encoding` has been added.
+  ([#947](https://github.com/cucumber/cucumber/pull/947)
+   [aslakhellesoy])
+
 ### Deprecated
 
 ### Removed
