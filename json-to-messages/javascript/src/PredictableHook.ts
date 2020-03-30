@@ -1,25 +1,22 @@
 import { IHook, ISupportCodeExecutor } from '@cucumber/fake-cucumber'
 import { messages } from '@cucumber/messages'
-import { FailedCodeExecutor, PassedCodeExecutor } from './SupportCodeExecutor'
+import { NilCodeExecutor } from './SupportCodeExecutor'
 
-export default class Hook implements IHook {
+export default class PredictableHook implements IHook {
   constructor(
     public readonly id: string,
     private readonly scenarioId: string,
     private readonly location: string,
-    private readonly stack?: string
+    public readonly status: messages.TestStepResult.Status,
+    public readonly duration: number,
+    public readonly errorMessage?: string
   ) {}
 
   match(pickle: messages.IPickle): ISupportCodeExecutor {
     if (!pickle.astNodeIds.includes(this.scenarioId)) {
       return null
     }
-
-    if (this.stack !== undefined) {
-      return new FailedCodeExecutor(null, this.stack)
-    }
-
-    return new PassedCodeExecutor(null)
+    return new NilCodeExecutor(null)
   }
 
   toMessage(): messages.IEnvelope {

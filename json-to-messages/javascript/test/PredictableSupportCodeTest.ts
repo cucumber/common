@@ -7,6 +7,7 @@ import {
   FailedCodeExecutor,
 } from '../src/SupportCodeExecutor'
 import { SupportCode } from '@cucumber/fake-cucumber'
+import PredictableHook from '../src/PredictableHook'
 
 describe('PredictableSupportCode', () => {
   context('#addPredictableBeforeHook', () => {
@@ -20,7 +21,8 @@ describe('PredictableSupportCode', () => {
     beforeEach(() => {
       predictableSupportCode.addPredictableBeforeHook(
         'some/where:7',
-        scenarioId
+        scenarioId,
+        'passed'
       )
     })
 
@@ -47,23 +49,24 @@ describe('PredictableSupportCode', () => {
       )
     })
 
-    it('adds a hook with a PassedCodeExecutor', () => {
-      const hook = supportCode.beforeHooks[0]
-
-      assert.ok(hook.match(pickle) instanceof PassedCodeExecutor)
+    it('adds a hook with a passed status when status is "passed"', () => {
+      const hook = supportCode.beforeHooks[0] as PredictableHook
+      assert.equal(hook.status, messages.TestStepResult.Status.PASSED)
     })
 
-    it('adds a hook with a FailedCodeExecutor when a stack is provided', () => {
+    it('adds a hook with a failed status when status is "failed"', () => {
       const supportCode = new SupportCode()
       const predictableSupportCode2 = new PredictableSupportCode(supportCode)
       predictableSupportCode2.addPredictableBeforeHook(
         'some/where:7',
         scenarioId,
+        'failed',
         'BOOM !!'
       )
-      const hook = supportCode.beforeHooks[0]
+      const hook = supportCode.beforeHooks[0] as PredictableHook
 
-      assert.ok(hook.match(pickle) instanceof FailedCodeExecutor)
+      assert.equal(hook.status, messages.TestStepResult.Status.FAILED)
+      assert.equal(hook.errorMessage, 'BOOM !!')
     })
   })
 
@@ -78,7 +81,8 @@ describe('PredictableSupportCode', () => {
     beforeEach(() => {
       predictableSupportCode2.addPredictableAfterHook(
         'some/where:7',
-        scenarioId
+        scenarioId,
+        'passed'
       )
     })
 
@@ -105,23 +109,25 @@ describe('PredictableSupportCode', () => {
       )
     })
 
-    it('adds a hook with a PassedCodeExecutor', () => {
-      const hook = supportCode.afterHooks[0]
+    it('adds a hook with a passed status when status is "passed"', () => {
+      const hook = supportCode.afterHooks[0] as PredictableHook
 
-      assert.ok(hook.match(pickle) instanceof PassedCodeExecutor)
+      assert.equal(hook.status, messages.TestStepResult.Status.PASSED)
     })
 
-    it('adds a hook with a FailedCodeExecutor when a stack is provided', () => {
+    it('adds a hook with a failed status when status is "failed"', () => {
       const supportCode = new SupportCode()
       const predictableSupportCode2 = new PredictableSupportCode(supportCode)
       predictableSupportCode2.addPredictableAfterHook(
         'some/where:7',
         scenarioId,
+        'failed',
         'BOOM !!'
       )
-      const hook = supportCode.afterHooks[0]
+      const hook = supportCode.afterHooks[0] as PredictableHook
 
-      assert.ok(hook.match(pickle) instanceof FailedCodeExecutor)
+      assert.equal(hook.status, messages.TestStepResult.Status.FAILED)
+      assert.equal(hook.errorMessage, 'BOOM !!')
     })
   })
 

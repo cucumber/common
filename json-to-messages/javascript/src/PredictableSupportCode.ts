@@ -6,36 +6,53 @@ import {
   PendingCodeExecutor,
   FailedCodeExecutor,
 } from './SupportCodeExecutor'
-import Hook from './Hook'
+
+import PredictableHook from './PredictableHook'
+import { messages } from '@cucumber/messages'
 
 export default class PredictableSupportCode implements IPredictableSupportCode {
   constructor(private readonly supportCode: SupportCode) {}
 
-  addPredictableBeforeHook(
+  public addPredictableBeforeHook(
     location: string,
     scenarioId: string,
+    status: string,
     stack?: string
   ): void {
     const id = this.supportCode.newId()
-
     this.supportCode.registerBeforeHook(
-      new Hook(id, scenarioId, location, stack)
+      new PredictableHook(
+        id,
+        scenarioId,
+        location,
+        this.statusFromString(status),
+        0,
+        stack
+      )
     )
   }
 
-  addPredictableAfterHook(
+  public addPredictableAfterHook(
     location: string,
     scenarioId: string,
+    status: string,
     stack?: string
   ): void {
     const id = this.supportCode.newId()
 
     this.supportCode.registerAfterHook(
-      new Hook(id, scenarioId, location, stack)
+      new PredictableHook(
+        id,
+        scenarioId,
+        location,
+        this.statusFromString(status),
+        0,
+        stack
+      )
     )
   }
 
-  addPredictableStepDefinition(
+  public addPredictableStepDefinition(
     location: string,
     stepId: string,
     status: string,
@@ -68,5 +85,19 @@ export default class PredictableSupportCode implements IPredictableSupportCode {
       parseInt(locationChunks[1])
     )
     this.supportCode.registerStepDefinition(stepDefinition)
+  }
+
+  private statusFromString(status: string): messages.TestStepResult.Status {
+    switch (status) {
+      case 'passed': {
+        return messages.TestStepResult.Status.PASSED
+      }
+      case 'pending': {
+        return messages.TestStepResult.Status.PENDING
+      }
+      case 'failed': {
+        return messages.TestStepResult.Status.FAILED
+      }
+    }
   }
 }

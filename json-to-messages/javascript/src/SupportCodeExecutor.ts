@@ -13,6 +13,8 @@ class SupportCodeExecutor implements ISupportCodeExecutor {
   }
 }
 
+export class NilCodeExecutor extends SupportCodeExecutor {}
+
 export class PassedCodeExecutor extends SupportCodeExecutor {}
 
 export class PendingCodeExecutor extends SupportCodeExecutor {

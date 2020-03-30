@@ -1,12 +1,11 @@
 import assert from 'assert'
 import { messages } from '@cucumber/messages'
 import {
-  PassedCodeExecutor,
-  FailedCodeExecutor,
+  NilCodeExecutor
 } from '../src/SupportCodeExecutor'
-import Hook from '../src/Hook'
+import PredictableHook from '../src/PredictableHook'
 
-describe('Hook', () => {
+describe('PredictableHook', () => {
   const scenarioId = 'some-scenario-id'
   const pickle = messages.Pickle.create({
     id: 'some-pickle-id',
@@ -15,35 +14,38 @@ describe('Hook', () => {
 
   context('.match', () => {
     it('returns null when the pickle doe not reference the scenario id', () => {
-      const hook = new Hook('some-hook-id', 'another-scenario', 'whatever:1')
+      const hook = new PredictableHook(
+        'some-hook-id',
+        'another-scenario',
+        'whatever:1',
+        messages.TestStepResult.Status.PASSED,
+        123
+        )
 
       assert.equal(hook.match(pickle), null)
     })
 
-    it('returns a SupportCodeExecutor when there is a match', () => {
-      const hook = new Hook('some-hook-id', scenarioId, 'whatever:1')
-
-      assert.ok(hook.match(pickle) instanceof PassedCodeExecutor)
-    })
-
-    it('returns a FailedCodeExecutor when there is a match and a stacktrace was provided', () => {
-      const hook = new Hook(
+    it('returns a NilCodeExecutor when there is a match', () => {
+      const hook = new PredictableHook(
         'some-hook-id',
         scenarioId,
         'whatever:1',
-        'Woops ...'
+        messages.TestStepResult.Status.PASSED,
+        123
       )
 
-      assert.ok(hook.match(pickle) instanceof FailedCodeExecutor)
+      assert.ok(hook.match(pickle) instanceof NilCodeExecutor)
     })
   })
 
   context('.toMessage', () => {
     it('returns the correct Location', () => {
-      const hook = new Hook(
+      const hook = new PredictableHook(
         'some-hook-id',
         'another-scenario',
-        'path/to/steps.go:13'
+        'path/to/steps.go:13',
+        messages.TestStepResult.Status.PASSED,
+        123
       )
       const message = hook.toMessage().hook
 
