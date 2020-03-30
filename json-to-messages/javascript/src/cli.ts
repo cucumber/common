@@ -28,10 +28,14 @@ async function main() {
     new JSONTransformStream(),
     singleObjectWritable
   )
+
   const supportCode = new SupportCode()
   const predictableSupportCode = new PredictableSupportCode(supportCode)
-
+  const query = new GherkinQuery()
+  const ndjsonStream = new MessageToNdjsonStream()
+  const gherkinEnvelopeStream = new PassThrough({ objectMode: true })
   const astMaker = new AstMaker()
+
   const gherkinDocuments = singleObjectWritable.object.map(feature =>
     traverseFeature(
       feature,
@@ -40,7 +44,7 @@ async function main() {
       predictableSupportCode
     )
   )
-  const gherkinEnvelopeStream = new PassThrough({ objectMode: true })
+
   for (const gherkinDocument of gherkinDocuments) {
     gherkinEnvelopeStream.write(messages.Envelope.create({ gherkinDocument }))
     const pickles = compile(
@@ -52,9 +56,9 @@ async function main() {
       gherkinEnvelopeStream.write(messages.Envelope.create({ pickle }))
     }
   }
-  const query = new GherkinQuery()
-  const ndjsonStream = new MessageToNdjsonStream()
+  gherkinEnvelopeStream.end()
   ndjsonStream.pipe(process.stdout)
+
   await runCucumber(supportCode, gherkinEnvelopeStream, query, ndjsonStream)
 }
 
