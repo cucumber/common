@@ -58,7 +58,7 @@ func TestMessages(t *testing.T) {
 
 	t.Run("reads an attachment with a tiny string as NDJSON", func(t *testing.T) {
 		attachment := &Attachment{
-			Body: &Attachment_Text{Text: "Hello"},
+			Body: "Hello",
 		}
 		b := &bytes.Buffer{}
 		writer := fio.NewNdjsonWriter(b)
@@ -66,7 +66,7 @@ func TestMessages(t *testing.T) {
 		r := fio.NewNdjsonReader(b)
 		var decoded Attachment
 		require.NoError(t, r.ReadMsg(&decoded))
-		require.Equal(t, "Hello", decoded.GetText())
+		require.Equal(t, "Hello", decoded.GetBody())
 	})
 
 	t.Run("reads an attachment with a 9Mb string as NDJSON", func(t *testing.T) {
@@ -76,7 +76,7 @@ func TestMessages(t *testing.T) {
 		}
 		s := string(ba)
 		attachment := &Attachment{
-			Body: &Attachment_Text{Text: s},
+			Body: s,
 		}
 		b := &bytes.Buffer{}
 		writer := fio.NewNdjsonWriter(b)
@@ -84,6 +84,6 @@ func TestMessages(t *testing.T) {
 		r := fio.NewNdjsonReader(b)
 		var decoded Attachment
 		require.NoError(t, r.ReadMsg(&decoded))
-		require.Equal(t, s, decoded.GetText())
+		require.Equal(t, s, decoded.GetBody())
 	})
 }

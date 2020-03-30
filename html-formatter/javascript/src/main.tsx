@@ -21,11 +21,7 @@ for (const envelopeObject of window.CUCUMBER_MESSAGES) {
 }
 
 const app = (
-  <QueriesWrapper
-    gherkinQuery={gherkinQuery}
-    cucumberQuery={cucumberQuery}
-    btoa={window.btoa}
-  >
+  <QueriesWrapper gherkinQuery={gherkinQuery} cucumberQuery={cucumberQuery}>
     <GherkinDocumentList />
   </QueriesWrapper>
 )

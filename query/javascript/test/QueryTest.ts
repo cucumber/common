@@ -232,7 +232,7 @@ describe('Query', () => {
       const attachments = cucumberQuery.getPickleStepAttachments(pickleStepIds)
       assert.strictEqual(attachments.length, 1)
 
-      assert.strictEqual(attachments[0].text, 'Hello')
+      assert.strictEqual(attachments[0].body, 'Hello')
     })
   })
 

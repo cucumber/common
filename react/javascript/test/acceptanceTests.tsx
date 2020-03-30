@@ -49,7 +49,6 @@ describe('App', () => {
           <QueriesWrapper
             gherkinQuery={gherkinQuery}
             cucumberQuery={cucumberQuery}
-            btoa={nodejsBtoa}
           >
             <GherkinDocumentList />
           </QueriesWrapper>
@@ -59,7 +58,3 @@ describe('App', () => {
     }
   }
 })
-
-function nodejsBtoa(data: string): string {
-  return Buffer.from(data).toString('base64')
-}
