@@ -808,13 +808,13 @@ workflows:
       - json-formatter-ruby:
           requires:
             - checkout
-      - compatibility-kit-ruby:
-          requires:
-            - compatibility-kit-javascript
-      - html-formatter-ruby:
-          requires:
-            - html-formatter-javascript
-            - compatibility-kit-ruby
+      # - compatibility-kit-ruby:
+      #     requires:
+      #       - compatibility-kit-javascript
+      # - html-formatter-ruby:
+      #     requires:
+      #       - html-formatter-javascript
+      #       - compatibility-kit-ruby
 
 ### Java
 

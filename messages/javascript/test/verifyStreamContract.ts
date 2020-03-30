@@ -20,7 +20,7 @@ export default function(
         }),
         messages.Envelope.create({
           attachment: messages.Attachment.create({
-            binary: Buffer.of(1, 2, 3, 4),
+            body: 'hello',
           }),
         }),
       ]

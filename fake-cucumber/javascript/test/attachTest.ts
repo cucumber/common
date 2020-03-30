@@ -25,7 +25,7 @@ describe('#attach', () => {
           mediaType: 'text/plain',
           testCaseStartedId: 'the-test-case-started-id',
           testStepId: 'the-test-step-id',
-          text: 'hello',
+          body: 'hello',
         }),
       })
     )
@@ -52,7 +52,8 @@ describe('#attach', () => {
           mediaType: 'application/octet-stream',
           testCaseStartedId: 'the-test-case-started-id',
           testStepId: 'the-test-step-id',
-          binary: buffer,
+          body: buffer.toString('base64'),
+          contentEncoding: messages.Attachment.ContentEncoding.BASE64,
         }),
       })
     )
@@ -76,12 +77,7 @@ describe('#attach', () => {
     await attach(stream, 'image/jpg')
 
     const expectedLength = 851133 // wc -c < ./attachments/cucumber-growing-on-vine.jpg
-    assert.equal(envelopes[0].attachment.binary.length, expectedLength)
-
-    // assert that we can turn it into JSON, read it back and get the same buffer length
-    const json = JSON.stringify(envelopes[0])
-    const envelope = messages.Envelope.fromObject(JSON.parse(json))
-
-    assert.equal(envelope.attachment.binary.length, expectedLength)
+    const buffer = Buffer.from(envelopes[0].attachment.body, 'base64')
+    assert.equal(buffer.length, expectedLength)
   })
 })
