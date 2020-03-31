@@ -1,7 +1,7 @@
 import fs from 'fs'
 import { Command } from 'commander'
 import packageJson from '../../package.json'
-import Gherkin from '../Gherkin'
+import Gherkin from '../stream/GherkinStreams'
 import {
   MessageToBinaryStream,
   MessageToNdjsonStream,

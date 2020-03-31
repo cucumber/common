@@ -1,5 +1,5 @@
 import 'source-map-support/register'
-import gherkin, { Query as GherkinQuery } from '@cucumber/gherkin'
+import { GherkinStreams, Query as GherkinQuery } from '@cucumber/gherkin'
 import { IdGenerator, messages } from '@cucumber/messages'
 import { pipeline, Readable, Writable } from 'stream'
 import assert from 'assert'
@@ -333,6 +333,6 @@ describe('Query', () => {
         mediaType: 'text/x.cucumber.gherkin+plain',
       },
     })
-    return gherkin.fromSources([source], { newId })
+    return GherkinStreams.fromSources([source], { newId })
   }
 })

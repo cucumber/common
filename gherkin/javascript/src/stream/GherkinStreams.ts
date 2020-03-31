@@ -1,11 +1,9 @@
 import { PassThrough, pipeline, Readable } from 'stream'
 import { BinaryToMessageStream, messages } from '@cucumber/messages'
-import ParserMessageStream from './stream/ParserMessageStream'
-import SourceMessageStream from './stream/SourceMessageStream'
-import Dialect from './Dialect'
-import DIALECTS from './gherkin-languages.json'
-import IGherkinOptions from './IGherkinOptions'
-import makeGherkinOptions from './makeGherkinOptions'
+import ParserMessageStream from './ParserMessageStream'
+import SourceMessageStream from './SourceMessageStream'
+import IGherkinOptions from '../IGherkinOptions'
+import makeGherkinOptions from '../makeGherkinOptions'
 
 function fromStream(stream: Readable, options: IGherkinOptions) {
   return pipeline(
@@ -78,13 +76,8 @@ function fromSources(
   return combinedMessageStream
 }
 
-function dialects(): { [key: string]: Dialect } {
-  return DIALECTS
-}
-
 export default {
   fromPaths,
   fromStream,
   fromSources,
-  dialects,
 }

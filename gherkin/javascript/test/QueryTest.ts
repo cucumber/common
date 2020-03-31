@@ -1,4 +1,4 @@
-import gherkin from '../src'
+import { GherkinStreams } from '../src'
 import { IdGenerator, messages } from '@cucumber/messages'
 import { pipeline, Readable, Writable } from 'stream'
 import assert from 'assert'
@@ -190,6 +190,6 @@ describe('Query', () => {
     })
 
     const newId = IdGenerator.incrementing()
-    return gherkin.fromSources([source], { newId })
+    return GherkinStreams.fromSources([source], { newId })
   }
 })
