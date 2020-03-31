@@ -21,7 +21,7 @@ export function withFullStackTrace(): MakeErrorMessage {
       .trim()
       .split('\n')
       .concat(sourceFrames)
-      .map(frame => `    at ${frame}`)
+      .map((frame) => `    at ${frame}`)
       .join('\n')
 
     return `${error.message}\n${trace}`

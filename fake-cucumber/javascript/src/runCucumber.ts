@@ -21,7 +21,7 @@ export default async function runCucumber(
     gherkinEnvelopeStream.on('error', reject)
   })
   const testPlan = makeTestPlan(gherkinQuery, supportCode)
-  await testPlan.execute(envelope => {
+  await testPlan.execute((envelope) => {
     envelopeOutputStream.write(envelope)
     if (envelope.testRunFinished) {
       envelopeOutputStream.end()

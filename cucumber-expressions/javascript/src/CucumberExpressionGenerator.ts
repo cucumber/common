@@ -34,7 +34,7 @@ export default class CucumberExpressionGenerator {
         // Find all the best parameter type matchers, they are all candidates.
         const bestParameterTypeMatcher = matchingParameterTypeMatchers[0]
         const bestParameterTypeMatchers = matchingParameterTypeMatchers.filter(
-          m => ParameterTypeMatcher.compare(m, bestParameterTypeMatcher) === 0
+          (m) => ParameterTypeMatcher.compare(m, bestParameterTypeMatcher) === 0
         )
 
         // Build a list of parameter types without duplicates. The reason there

@@ -11,16 +11,21 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Added
 
-* [JavaScript] Export `Dialect`
+* [JavaScript] New exports: 
+  * `Parser`
+  * `compile`
   ([#924](https://github.com/cucumber/cucumber/pull/924)
    [davidjgoss])
-* [JavaScript] Export `compile`
 * [JavaScript] Add `Query#getPickles()`
 
 ### Changed
 
 * Upgrade to messages 11.x
-* [JavaScript] `Gherkin#fromPaths` and `Gherkin#fromSources` now use `ReadOnlyArray` to
+* [JavaScript] The default export has been removed. Replaced with:
+  * `import { GherkinStreams } from 'gherkin'` to use the `fromPaths`, `fromStream`  and `fromSources` functions
+  * `import { dialects } from 'gherkin'` to access dialects
+* [JavaScript] `Dialect` properties are read only
+* [JavaScript] `fromPaths`, `fromStream` and `fromSources` now use `ReadOnlyArray` to
   prevent modifying the passed array.
 
 ### Deprecated

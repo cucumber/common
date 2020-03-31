@@ -12,7 +12,7 @@ export default class GroupBuilder {
 
   public build(match: RegexExecArray, nextGroupIndex: () => number): Group {
     const groupIndex = nextGroupIndex()
-    const children = this.groupBuilders.map(gb =>
+    const children = this.groupBuilders.map((gb) =>
       gb.build(match, nextGroupIndex)
     )
     return new Group(
@@ -32,6 +32,6 @@ export default class GroupBuilder {
   }
 
   public moveChildrenTo(groupBuilder: GroupBuilder) {
-    this.groupBuilders.forEach(child => groupBuilder.add(child))
+    this.groupBuilders.forEach((child) => groupBuilder.add(child))
   }
 }

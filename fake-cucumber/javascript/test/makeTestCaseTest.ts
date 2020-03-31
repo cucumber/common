@@ -28,7 +28,7 @@ describe('makeTestCase', () => {
     )
 
     assert.deepStrictEqual(
-      testCase.toMessage().testCase.testSteps.map(s => s.pickleStepId),
+      testCase.toMessage().testCase.testSteps.map((s) => s.pickleStepId),
       ['step-1', 'step-2']
     )
   })
@@ -78,7 +78,7 @@ describe('makeTestCase', () => {
         )
 
         assert.deepStrictEqual(
-          testCase.toMessage().testCase.testSteps.map(s => s.pickleStepId),
+          testCase.toMessage().testCase.testSteps.map((s) => s.pickleStepId),
           [undefined, 'step-1', 'step-2']
         )
         assert.strictEqual(
@@ -106,7 +106,7 @@ describe('makeTestCase', () => {
       )
 
       assert.deepStrictEqual(
-        testCase.toMessage().testCase.testSteps.map(s => s.pickleStepId),
+        testCase.toMessage().testCase.testSteps.map((s) => s.pickleStepId),
         ['step-1', 'step-2', undefined]
       )
       assert.strictEqual(

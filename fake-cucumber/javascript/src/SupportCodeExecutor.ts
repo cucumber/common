@@ -14,21 +14,23 @@ export default class SupportCodeExecutor {
   ) {}
 
   public execute(thisObj: IWorld): any {
-    const argArray = this.args.map(arg => arg.getValue(thisObj))
+    const argArray = this.args.map((arg) => arg.getValue(thisObj))
     if (this.docString) {
       // TODO: Hand off to DocStringTransformer
       argArray.push(this.docString.content)
     }
     if (this.dataTable) {
       argArray.push(
-        new DataTable(this.dataTable.rows.map(r => r.cells.map(c => c.value)))
+        new DataTable(
+          this.dataTable.rows.map((r) => r.cells.map((c) => c.value))
+        )
       )
     }
     return this.body.apply(thisObj, argArray)
   }
 
   public argsToMessages(): messages.IStepMatchArgument[] {
-    return this.args.map(arg => {
+    return this.args.map((arg) => {
       return new messages.StepMatchArgument({
         group: toMessageGroup(arg.group),
         parameterTypeName: arg.parameterType.name,
@@ -41,6 +43,6 @@ function toMessageGroup(group: Group): messages.StepMatchArgument.IGroup {
   return new messages.StepMatchArgument.Group({
     value: group.value,
     start: group.start,
-    children: group.children.map(g => toMessageGroup(g)),
+    children: group.children.map((g) => toMessageGroup(g)),
   })
 }

@@ -1,7 +1,7 @@
 import path from 'path'
 import fs from 'fs'
 import { IdGenerator } from '@cucumber/messages'
-import gherkin, { Query as GherkinQuery } from '@cucumber/gherkin'
+import { GherkinStreams, Query as GherkinQuery } from '@cucumber/gherkin'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import GherkinDocumentList from '../src/components/app/GherkinDocumentList'
@@ -30,7 +30,7 @@ describe('App', () => {
 
         const supportCode = new SupportCode()
         const p = path.join(dir, file)
-        const gherkinStream = gherkin.fromPaths([p], {
+        const gherkinStream = GherkinStreams.fromPaths([p], {
           newId: IdGenerator.incrementing(),
           createReadStream(filePath: string) {
             return fs.createReadStream(filePath, { encoding: 'utf-8' })

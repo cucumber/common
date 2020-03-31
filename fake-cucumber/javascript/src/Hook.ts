@@ -32,7 +32,7 @@ export default class Hook implements IHook {
 
   private matchesPickle(pickle: messages.IPickle): boolean {
     const expression = parseTagExpression(this.tagExpression)
-    const tagNames = pickle.tags.map(tag => tag.name)
+    const tagNames = pickle.tags.map((tag) => tag.name)
     return expression.evaluate(tagNames)
   }
 }
