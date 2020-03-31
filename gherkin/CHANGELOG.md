@@ -34,6 +34,8 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Fixed
 
+* Fixed [#857](https://github.com/cucumber/cucumber/issues/857) via [#949](https://github.com/cucumber/cucumber/pull/949)
+
 ## [11.0.0] - 2020-03-02
 
 ### Changed
