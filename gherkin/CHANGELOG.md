@@ -11,6 +11,9 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Added
 
+* [JavaScript] Export `Dialect`
+  ([#924](https://github.com/cucumber/cucumber/pull/924)
+   [davidjgoss])
 * [JavaScript] Add `Query#getPickles()`
 
 ### Changed
@@ -734,6 +737,7 @@ to Gherkin 2.
 [coderbyheart]:     https://github.com/coderbyheart
 [cyocum]:           https://github.com/cyocum
 [danilat]:          https://github.com/danilat
+[davidjgoss]:       https://github.com/davidjgoss
 [dobiedad]:         https://github.com/dobiedad
 [ehpc]:             https://github.com/ehpc
 [enkessler]:        https://github.com/enkessler
