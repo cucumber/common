@@ -18,12 +18,18 @@ import {
   MakeTestCase,
   MakeTestPlan,
   MakeHookTestStep,
+  EnvelopeListener,
 } from './types'
 import { MakeErrorMessage } from './ErrorMessageGenerator'
 import makePickleTestStep from './makePickleTestStep'
 import makeTestCase from './makeTestCase'
 import makeTestPlan from './makeTestPlan'
 import makeHookTestStep from './makeHookTestStep'
+import ITestStep from './ITestStep'
+import TestStep from './TestStep'
+import ITestCase from './ITestCase'
+import ITestPlan from './ITestPlan'
+import IClock from './IClock'
 
 export {
   Given,
@@ -48,4 +54,10 @@ export {
   makeTestCase,
   MakeTestPlan,
   makeTestPlan,
+  ITestStep,
+  TestStep,
+  ITestCase,
+  ITestPlan,
+  IClock,
+  EnvelopeListener,
 }

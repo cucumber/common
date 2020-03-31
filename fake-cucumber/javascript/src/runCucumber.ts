@@ -3,7 +3,8 @@ import GherkinQueryStream from './GherkinQueryStream'
 import makeTestPlan from './makeTestPlan'
 import { Readable, Writable } from 'stream'
 import SupportCode from './SupportCode'
-import { makeTestCase, MakeTestPlan } from '.'
+import { MakeTestPlan } from './types'
+import makeTestCase from './makeTestCase'
 
 export default async function runCucumber(
   supportCode: SupportCode,
@@ -22,6 +23,7 @@ export default async function runCucumber(
     gherkinQueryStream.on('error', reject)
     gherkinEnvelopeStream.on('error', reject)
   })
+
   const testPlan = makeTestPlanFn(gherkinQuery, supportCode, makeTestCase)
   await testPlan.execute(envelope => {
     envelopeOutputStream.write(envelope)
