@@ -14,6 +14,20 @@ export interface IFilters {
   acceptFeature?: (feature: messages.GherkinDocument.IFeature) => boolean
 }
 
+export interface IHandlers {
+  handleStep?: (step: messages.GherkinDocument.Feature.IStep) => void
+  handleScenario?: (
+    scenario: messages.GherkinDocument.Feature.IScenario
+  ) => void
+  handleBackground?: (
+    background: messages.GherkinDocument.Feature.IBackground
+  ) => void
+  handleRule?: (
+    rule: messages.GherkinDocument.Feature.FeatureChild.IRule
+  ) => void
+  handleFeature?: (feature: messages.GherkinDocument.IFeature) => void
+}
+
 const defaultFilters: IFilters = {
   acceptScenario: () => true,
   acceptStep: () => true,
@@ -22,11 +36,21 @@ const defaultFilters: IFilters = {
   acceptFeature: () => true,
 }
 
+const defaultHandlers: IHandlers = {
+  handleStep: () => null,
+  handleScenario: () => null,
+  handleBackground: () => null,
+  handleRule: () => null,
+  handleFeature: () => null,
+}
+
 export default class AstWalker {
   private readonly filters: IFilters
+  private readonly handlers: IHandlers
 
-  constructor(filters?: IFilters) {
+  constructor(filters?: IFilters, handlers?: IHandlers) {
     this.filters = { ...defaultFilters, ...filters }
+    this.handlers = { ...defaultHandlers, ...handlers }
   }
 
   public walkGherkinDocument(
@@ -49,6 +73,9 @@ export default class AstWalker {
     feature: messages.GherkinDocument.IFeature
   ): messages.GherkinDocument.IFeature {
     const keptChildren = this.walkFeatureChildren(feature.children)
+
+    this.handlers.handleFeature(feature)
+
     const backgroundKept = keptChildren.find(child => child.background)
 
     if (this.filters.acceptFeature(feature) || backgroundKept) {
@@ -172,6 +199,9 @@ export default class AstWalker {
     rule: messages.GherkinDocument.Feature.FeatureChild.IRule
   ): messages.GherkinDocument.Feature.FeatureChild.IRule {
     const children = this.walkRuleChildren(rule.children)
+
+    this.handlers.handleRule(rule)
+
     const backgroundKept = children.find(
       child => child !== null && child.background !== null
     )
@@ -257,6 +287,7 @@ export default class AstWalker {
     background: messages.GherkinDocument.Feature.IBackground
   ): messages.GherkinDocument.Feature.IBackground {
     const steps = this.walkAllSteps(background.steps)
+    this.handlers.handleBackground(background)
 
     if (
       this.filters.acceptBackground(background) ||
@@ -282,6 +313,7 @@ export default class AstWalker {
     scenario: messages.GherkinDocument.Feature.IScenario
   ): messages.GherkinDocument.Feature.IScenario {
     const steps = this.walkAllSteps(scenario.steps)
+    this.handlers.handleScenario(scenario)
 
     if (
       this.filters.acceptScenario(scenario) ||
@@ -314,6 +346,7 @@ export default class AstWalker {
   protected walkStep(
     step: messages.GherkinDocument.Feature.IStep
   ): messages.GherkinDocument.Feature.IStep {
+    this.handlers.handleStep(step)
     if (!this.filters.acceptStep(step)) {
       return null
     }

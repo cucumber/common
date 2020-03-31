@@ -36,7 +36,12 @@ export default class Search {
 
   public add(gherkinDocument: messages.IGherkinDocument) {
     this.gherkinDocuments.push(gherkinDocument)
-
+    const walker = new AstWalker(
+      {},
+      {
+        handleStep: step => this.stepSearch.add(step),
+      }
+    )
     // TODO: Leverage AstWalker
     this.featureSearch.add(gherkinDocument)
     for (const child of gherkinDocument.feature.children) {

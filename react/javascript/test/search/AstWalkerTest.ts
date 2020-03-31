@@ -2,6 +2,7 @@ import assert from 'assert'
 import AstWalker, { IFilters } from '../../src/search/AstWalker'
 import pretty from '../../src/pretty-formatter/pretty'
 import parse from './parse'
+import { messages } from '@cucumber/messages'
 
 describe('AstWalker', () => {
   let walker: AstWalker
@@ -366,6 +367,149 @@ describe('AstWalker', () => {
       const walker = new AstWalker(rejectAll)
       const newGherkinDocument = walker.walkGherkinDocument(gherkinDocument)
       assert.deepEqual(newGherkinDocument, null)
+    })
+  })
+
+  context('handling objects', () => {
+    describe('handleStep', () => {
+      it('is called for each steps', () => {
+        const source = parse(`Feature: Solar System
+
+        Scenario: Earth
+          Given it is a planet
+`)
+
+        const stepText: string[] = []
+        const astWalker = new AstWalker(
+          {},
+          {
+            handleStep: step => stepText.push(step.text),
+          }
+        )
+        astWalker.walkGherkinDocument(source)
+
+        assert.deepEqual(stepText, ['it is a planet'])
+      })
+    })
+
+    describe('handleScenario', () => {
+      it('is called for each scenarios', () => {
+        const source = parse(`Feature: Solar System
+
+        Scenario: Earth
+          Given it is a planet
+
+        Scenario: Saturn
+          Given it's not a liquid planet
+`)
+
+        const scenarioName: string[] = []
+        const astWalker = new AstWalker(
+          {},
+          {
+            handleScenario: scenario => scenarioName.push(scenario.name),
+          }
+        )
+        astWalker.walkGherkinDocument(source)
+
+        assert.deepEqual(scenarioName, ['Earth', 'Saturn'])
+      })
+
+      it('count number of steps in scenario', () => {
+        const source = parse(`Feature: Solar System
+
+        Scenario: Earth
+          Given it is a planet
+          When there is water
+          Then life can be on
+`)
+
+        let stepNumber = null
+        const astWalker = new AstWalker(
+          {},
+          {
+            handleScenario: scenario => (stepNumber = scenario.steps.length),
+          }
+        )
+        astWalker.walkGherkinDocument(source)
+
+        assert.deepEqual(3, stepNumber)
+      })
+    })
+
+    describe('handleBackground', () => {
+      it('is called for each backgrounds', () => {
+        const source = parse(`Feature: Solar System
+
+        Background: Milky Way
+          Scenario: Earth
+            Given it is our galaxy
+`)
+
+        const backgroundName: string[] = []
+        const astWalker = new AstWalker(
+          {},
+          {
+            handleBackground: background =>
+              backgroundName.push(background.name),
+          }
+        )
+        astWalker.walkGherkinDocument(source)
+
+        assert.deepEqual(backgroundName, ['Milky Way'])
+      })
+    })
+
+    describe('handleRule', () => {
+      it('is called for each rules', () => {
+        const source = parse(`Feature: Solar System
+
+        Rule: On a planet
+          Scenario: There is life
+            Given there is water
+
+        Rule: On an exoplanet
+          Scenario: There is extraterrestrial life
+            Given there is a non-humanoid form of life
+`)
+
+        const ruleName: string[] = []
+        const astWalker = new AstWalker(
+          {},
+          {
+            handleRule: rule => ruleName.push(rule.name),
+          }
+        )
+        astWalker.walkGherkinDocument(source)
+
+        assert.deepEqual(ruleName, ['On a planet', 'On an exoplanet'])
+      })
+    })
+
+    describe('handleFeature', () => {
+      it('is called for each features', () => {
+        const source = parse(`Feature: Solar System
+
+        Rule: On a planet
+          Scenario: There is life
+            Given there is water
+
+        Rule: On an exoplanet
+          Scenario: There is extraterrestrial life
+            Given there is a non-humanoid form of life
+`)
+
+        const featureName: string[] = []
+        const astWalker = new AstWalker(
+          {},
+          {
+            handleFeature: feature => featureName.push(feature.name),
+          }
+        )
+        astWalker.walkGherkinDocument(source)
+
+        assert.deepEqual(featureName, ['Solar System'])
+      })
     })
   })
 })
