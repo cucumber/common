@@ -1,8 +1,6 @@
 import assert from 'assert'
 import { messages } from '@cucumber/messages'
-import {
-  NilCodeExecutor
-} from '../src/SupportCodeExecutor'
+import { NilCodeExecutor } from '../src/SupportCodeExecutor'
 import PredictableHook from '../src/PredictableHook'
 
 describe('PredictableHook', () => {
@@ -20,7 +18,7 @@ describe('PredictableHook', () => {
         'whatever:1',
         messages.TestStepResult.Status.PASSED,
         123
-        )
+      )
 
       assert.equal(hook.match(pickle), null)
     })

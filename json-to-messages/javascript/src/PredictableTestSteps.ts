@@ -26,7 +26,7 @@ abstract class PredictableTestStep extends TestStep implements ITestStep {
   }
 
   public async execute(
-    world: IWorld,
+    _: IWorld,
     testCaseStartedId: string,
     listener: EnvelopeListener
   ): Promise<messages.ITestStepResult> {

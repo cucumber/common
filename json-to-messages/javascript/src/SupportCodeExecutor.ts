@@ -14,34 +14,3 @@ class SupportCodeExecutor implements ISupportCodeExecutor {
 }
 
 export class NilCodeExecutor extends SupportCodeExecutor {}
-
-export class PassedCodeExecutor extends SupportCodeExecutor {}
-
-export class PendingCodeExecutor extends SupportCodeExecutor {
-  execute() {
-    return 'pending'
-  }
-}
-
-export class CustomStackError extends Error {
-  constructor(private readonly msg: string, public readonly stack: string) {
-    super(msg)
-  }
-}
-
-export class FailedCodeExecutor extends SupportCodeExecutor {
-  constructor(
-    public readonly stepDefinitionId: string,
-    private readonly stacktrace: string
-  ) {
-    super(stepDefinitionId)
-  }
-
-  execute() {
-    const stackLines: string[] = this.stacktrace.split('\n')
-    const errorName = stackLines.shift()
-    const stack = stackLines.join('\n')
-
-    throw new CustomStackError(errorName, stack)
-  }
-}

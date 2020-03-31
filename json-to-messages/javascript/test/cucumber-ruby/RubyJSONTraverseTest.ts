@@ -262,12 +262,14 @@ describe('traversing elements', () => {
       assert.deepEqual(supportCode.addPredictableBeforeHook.getCall(0).args, [
         'some/steps.rb:2',
         child.scenario.id,
+        'passed',
         undefined,
       ])
 
       assert.deepEqual(supportCode.addPredictableAfterHook.getCall(0).args, [
         'some/steps.rb:12',
         child.scenario.id,
+        'failed',
         'This has failed',
       ])
     })

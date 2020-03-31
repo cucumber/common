@@ -1,13 +1,9 @@
 import assert from 'assert'
 import PredictableSupportCode from '../src/PredictableSupportCode'
 import { messages } from '@cucumber/messages'
-import {
-  PassedCodeExecutor,
-  PendingCodeExecutor,
-  FailedCodeExecutor,
-} from '../src/SupportCodeExecutor'
 import { SupportCode } from '@cucumber/fake-cucumber'
 import PredictableHook from '../src/PredictableHook'
+import PredictableStepDefinition from '../src/PredictableStepDefinition'
 
 describe('PredictableSupportCode', () => {
   context('#addPredictableBeforeHook', () => {
@@ -171,7 +167,7 @@ describe('PredictableSupportCode', () => {
     })
 
     context('when a status is provided', () => {
-      it('creates a StepDefinition with a PassedCodeExecutor for "passed"', () => {
+      it('creates a StepDefinition with status passed for "passed"', () => {
         const supportCode = new SupportCode()
         const predictableSupportCode = new PredictableSupportCode(supportCode)
 
@@ -181,13 +177,15 @@ describe('PredictableSupportCode', () => {
           'passed'
         )
 
-        const stepDefinition = supportCode.stepDefinitions[0]
-        assert.ok(
-          stepDefinition.match(picklestep) instanceof PassedCodeExecutor
+        const stepDefinition = supportCode
+          .stepDefinitions[0] as PredictableStepDefinition
+        assert.equal(
+          stepDefinition.status,
+          messages.TestStepResult.Status.PASSED
         )
       })
 
-      it('creates a StepDefinition with a PendingCodeExecutor for "pending"', () => {
+      it('creates a StepDefinition with status pending for "pending"', () => {
         const supportCode = new SupportCode()
         const predictableSupportCode = new PredictableSupportCode(supportCode)
 
@@ -197,13 +195,15 @@ describe('PredictableSupportCode', () => {
           'pending'
         )
 
-        const stepDefinition = supportCode.stepDefinitions[0]
-        assert.ok(
-          stepDefinition.match(picklestep) instanceof PendingCodeExecutor
+        const stepDefinition = supportCode
+          .stepDefinitions[0] as PredictableStepDefinition
+        assert.equal(
+          stepDefinition.status,
+          messages.TestStepResult.Status.PENDING
         )
       })
 
-      it('creates a StepDefinition with a FailedCodeExecutor for "failed"', () => {
+      it('creates a StepDefinition with status failed for "failed"', () => {
         const supportCode = new SupportCode()
         const predictableSupportCode = new PredictableSupportCode(supportCode)
 
@@ -214,9 +214,11 @@ describe('PredictableSupportCode', () => {
           'something wrong happened'
         )
 
-        const stepDefinition = supportCode.stepDefinitions[0]
-        assert.ok(
-          stepDefinition.match(picklestep) instanceof FailedCodeExecutor
+        const stepDefinition = supportCode
+          .stepDefinitions[0] as PredictableStepDefinition
+        assert.equal(
+          stepDefinition.status,
+          messages.TestStepResult.Status.FAILED
         )
       })
     })

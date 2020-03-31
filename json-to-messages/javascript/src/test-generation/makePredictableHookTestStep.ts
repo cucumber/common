@@ -12,12 +12,14 @@ export default function makePredictableHookTestStep(
   _: GherkinQuery,
   newId: IdGenerator.NewId
 ): ITestStep {
-  return new PredictableHookTestStep(
-    newId(),
-    pickle.id,
-    alwaysExecute,
-    hook.status,
-    hook.duration,
-    hook.errorMessage
-  )
+  if (hook.match(pickle)) {
+    return new PredictableHookTestStep(
+      newId(),
+      hook.id,
+      alwaysExecute,
+      hook.status,
+      hook.duration,
+      hook.errorMessage
+    )
+  }
 }

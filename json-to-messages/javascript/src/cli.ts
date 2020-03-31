@@ -13,6 +13,7 @@ import SingleObjectWritableStream from './stream/SingleObjectWritableStream'
 import AstMaker from './AstMaker'
 import { traverseFeature } from './cucumber-ruby/RubyJSONTraverse'
 import PredictableSupportCode from './PredictableSupportCode'
+import makePredictableTestPlan from './test-generation/makePredictableTestPlan'
 const asyncPipeline = promisify(pipeline)
 
 const program = new Command()
@@ -59,7 +60,13 @@ async function main() {
   gherkinEnvelopeStream.end()
   ndjsonStream.pipe(process.stdout)
 
-  await runCucumber(supportCode, gherkinEnvelopeStream, query, ndjsonStream)
+  await runCucumber(
+    supportCode,
+    gherkinEnvelopeStream,
+    query,
+    ndjsonStream,
+    makePredictableTestPlan
+  )
 }
 
 main().catch(err => {

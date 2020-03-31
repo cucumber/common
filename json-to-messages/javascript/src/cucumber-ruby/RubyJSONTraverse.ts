@@ -81,6 +81,7 @@ export function traverseElement(
       predictableSupportCode.addPredictableBeforeHook(
         beforeHook.match.location,
         child.scenario.id,
+        beforeHook.result.status,
         beforeHook.result.error_message
       )
     }
@@ -91,6 +92,7 @@ export function traverseElement(
       predictableSupportCode.addPredictableAfterHook(
         afterHook.match.location,
         child.scenario.id,
+        afterHook.result.status,
         afterHook.result.error_message
       )
     }

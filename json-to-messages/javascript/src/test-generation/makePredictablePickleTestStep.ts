@@ -8,13 +8,29 @@ export default function makePredictablePickleTestStep(
   pickleStep: messages.Pickle.IPickleStep,
   stepDefinitions: ReadonlyArray<PredictableStepDefinition>
 ): ITestStep {
-  return new PredictablePickleTestStep(
-    testStepId,
-    pickleStep.id,
-    false,
-    stepDefinitions[0].id,
-    stepDefinitions[0].status,
-    stepDefinitions[0].duration,
-    stepDefinitions[0].errorMessage
+  const matching = stepDefinitions.filter(stepDefinition =>
+    stepDefinition.match(pickleStep)
   )
+
+  if (matching.length > 0) {
+    return new PredictablePickleTestStep(
+      testStepId,
+      pickleStep.id,
+      false,
+      matching[0].id,
+      matching[0].status,
+      matching[0].duration,
+      matching[0].errorMessage
+    )
+  } else {
+    return new PredictablePickleTestStep(
+      testStepId,
+      pickleStep.id,
+      false,
+      null,
+      messages.TestStepResult.Status.UNDEFINED,
+      0,
+      null
+    )
+  }
 }
