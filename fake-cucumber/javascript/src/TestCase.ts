@@ -13,7 +13,7 @@ export default class TestCase {
     private readonly pickleId: string,
     private readonly clock: IClock
   ) {
-    testSteps.forEach(testStep => {
+    testSteps.forEach((testStep) => {
       if (!testStep) {
         throw new Error('undefined step')
       }
@@ -25,7 +25,7 @@ export default class TestCase {
       testCase: new messages.TestCase({
         id: this.id,
         pickleId: this.pickleId,
-        testSteps: this.testSteps.map(step => step.toMessage()),
+        testSteps: this.testSteps.map((step) => step.toMessage()),
       }),
     })
   }

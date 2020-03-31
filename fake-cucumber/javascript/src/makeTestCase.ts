@@ -43,9 +43,9 @@ export default function makeTestCase(
     clock,
     makeErrorMessage
   )
-  const pickleTestSteps = pickle.steps.map(pickleStep => {
+  const pickleTestSteps = pickle.steps.map((pickleStep) => {
     const sourceFrames = pickleStep.astNodeIds.map(
-      astNodeId => `${pickle.uri}:${gherkinQuery.getLocation(astNodeId).line}`
+      (astNodeId) => `${pickle.uri}:${gherkinQuery.getLocation(astNodeId).line}`
     )
     return makePickleTestStep(
       newId(),
@@ -83,13 +83,13 @@ function makeHookSteps(
   makeErrorMessage: MakeErrorMessage
 ): ITestStep[] {
   return hooks
-    .map(hook => {
+    .map((hook) => {
       const supportCodeExecutor = hook.match(pickle)
       if (supportCodeExecutor !== null) {
         const id = newId()
 
         const sourceFrames = pickle.astNodeIds.map(
-          astNodeId =>
+          (astNodeId) =>
             `${pickle.uri}:${gherkinQuery.getLocation(astNodeId).line}`
         )
         return new HookTestStep(
@@ -103,5 +103,5 @@ function makeHookSteps(
         )
       }
     })
-    .filter(testStep => testStep !== undefined)
+    .filter((testStep) => testStep !== undefined)
 }

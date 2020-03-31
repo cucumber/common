@@ -5,8 +5,8 @@ import Parser from '../src/Parser'
 import TokenScanner from '../src/TokenScanner'
 import TokenMatcher from '../src/TokenMatcher'
 
-describe('Parser', function() {
-  it('parses a simple feature', function() {
+describe('Parser', function () {
+  it('parses a simple feature', function () {
     const parser = new Parser(new AstBuilder(IdGenerator.incrementing()))
     const scanner = new TokenScanner('Feature: hello')
     const matcher = new TokenMatcher()
@@ -27,7 +27,7 @@ describe('Parser', function() {
     )
   })
 
-  it('parses multiple features', function() {
+  it('parses multiple features', function () {
     const parser = new Parser(new AstBuilder(IdGenerator.incrementing()))
     const matcher = new TokenMatcher()
     const ast1 = parser.parse(new TokenScanner('Feature: hello'), matcher)
@@ -63,7 +63,7 @@ describe('Parser', function() {
     )
   })
 
-  it('parses feature after parse error', function() {
+  it('parses feature after parse error', function () {
     const parser = new Parser(new AstBuilder(IdGenerator.incrementing()))
     const matcher = new TokenMatcher()
     let ast: messages.IGherkinDocument
@@ -133,7 +133,7 @@ describe('Parser', function() {
     )
   })
 
-  it('can change the default language', function() {
+  it('can change the default language', function () {
     const parser = new Parser(new AstBuilder(IdGenerator.incrementing()))
     const matcher = new TokenMatcher('no')
     const scanner = new TokenScanner('Egenskap: i18n support')

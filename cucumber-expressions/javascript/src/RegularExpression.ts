@@ -16,7 +16,7 @@ export default class RegularExpression implements Expression {
 
   public match(text: string): ReadonlyArray<Argument<any>> {
     const parameterTypes = this.treeRegexp.groupBuilder.children.map(
-      groupBuilder => {
+      (groupBuilder) => {
         const parameterTypeRegexp = groupBuilder.source
 
         return (
@@ -29,7 +29,7 @@ export default class RegularExpression implements Expression {
             null,
             parameterTypeRegexp,
             String,
-            s => (s === undefined ? null : s),
+            (s) => (s === undefined ? null : s),
             false,
             false
           )

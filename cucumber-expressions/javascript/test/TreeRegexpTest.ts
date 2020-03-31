@@ -5,7 +5,7 @@ describe('TreeRegexp', () => {
   it('exposes group source', () => {
     const tr = new TreeRegexp(/(a(?:b)?)(c)/)
     assert.deepStrictEqual(
-      tr.groupBuilder.children.map(gb => gb.source),
+      tr.groupBuilder.children.map((gb) => gb.source),
       ['a(?:b)?', 'c']
     )
   })

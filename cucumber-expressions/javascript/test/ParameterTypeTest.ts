@@ -9,7 +9,7 @@ describe('ParameterType', () => {
           'case-insensitive',
           /[a-z]+/i,
           String,
-          s => s,
+          (s) => s,
           true,
           true
         ),

@@ -68,8 +68,8 @@ describe('TestCase', () => {
         'test-case-started-id'
       )
       const testStepStatuses = emitted
-        .filter(m => m.testStepFinished)
-        .map(m => m.testStepFinished.testStepResult.status)
+        .filter((m) => m.testStepFinished)
+        .map((m) => m.testStepFinished.testStepResult.status)
 
       assert.deepStrictEqual(testStepStatuses, [
         messages.TestStepResult.Status.PASSED,
@@ -95,8 +95,8 @@ describe('TestCase', () => {
         'test-case-started-id'
       )
       const testStepStatuses = emitted
-        .filter(m => m.testStepFinished)
-        .map(m => m.testStepFinished.testStepResult.status)
+        .filter((m) => m.testStepFinished)
+        .map((m) => m.testStepFinished.testStepResult.status)
       assert.deepStrictEqual(testStepStatuses, [
         messages.TestStepResult.Status.FAILED,
         messages.TestStepResult.Status.SKIPPED,
@@ -121,8 +121,8 @@ describe('TestCase', () => {
         'test-case-started-id'
       )
       const testStepStatuses = emitted
-        .filter(m => m.testStepFinished)
-        .map(m => m.testStepFinished.testStepResult.status)
+        .filter((m) => m.testStepFinished)
+        .map((m) => m.testStepFinished.testStepResult.status)
       assert.deepStrictEqual(testStepStatuses, [
         messages.TestStepResult.Status.FAILED,
         messages.TestStepResult.Status.FAILED,
@@ -147,7 +147,7 @@ describe('TestCase', () => {
       )
 
       const testCaseStarted = emitted[0].testCaseStarted
-      const testCaseFinished = emitted.find(m => m.testCaseFinished)
+      const testCaseFinished = emitted.find((m) => m.testCaseFinished)
         .testCaseFinished
 
       assert.strictEqual(testCaseStarted.testCaseId, testCase.id)
