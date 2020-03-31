@@ -848,8 +848,8 @@ workflows:
       #       - html-formatter-javascript
       #       - compatibility-kit-ruby
       - json-to-messages-ruby:
-        requires:
-          - checkout
+          requires:
+            - checkout
 
 ### Java
 
