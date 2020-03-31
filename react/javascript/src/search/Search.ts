@@ -40,40 +40,12 @@ export default class Search {
       {},
       {
         handleStep: step => this.stepSearch.add(step),
+        handleScenario: scenario => this.scenarioSearch.add(scenario),
+        handleBackground: background => this.backgroundSearch.add(background),
+        handleRule: rule => this.ruleSearch.add(rule),
       }
     )
-    // TODO: Leverage AstWalker
     this.featureSearch.add(gherkinDocument)
-    for (const child of gherkinDocument.feature.children) {
-      if (child.background) {
-        this.backgroundSearch.add(child.background)
-
-        for (const step of child.background.steps) {
-          this.stepSearch.add(step)
-        }
-      }
-
-      if (child.scenario) {
-        this.scenarioSearch.add(child.scenario)
-
-        for (const step of child.scenario.steps) {
-          this.stepSearch.add(step)
-        }
-      }
-
-      if (child.rule) {
-        this.ruleSearch.add(child.rule)
-
-        for (const ruleChild of child.rule.children) {
-          if (ruleChild.scenario) {
-            this.scenarioSearch.add(ruleChild.scenario)
-          }
-
-          if (ruleChild.background) {
-            this.backgroundSearch.add(ruleChild.background)
-          }
-        }
-      }
-    }
+    walker.walkGherkinDocument(gherkinDocument)
   }
 }

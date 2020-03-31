@@ -22,7 +22,7 @@ const FilteredResults: React.FunctionComponent = () => {
     search.add(gherkinDocument)
   }
 
-  let matches = query === '' ? allDocuments : search.search(query)
+  const matches = query === '' ? allDocuments : search.search(query)
 
   return (
     <div className="cucumber-filtered-results">

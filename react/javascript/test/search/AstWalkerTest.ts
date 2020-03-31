@@ -2,7 +2,6 @@ import assert from 'assert'
 import AstWalker, { IFilters } from '../../src/search/AstWalker'
 import pretty from '../../src/pretty-formatter/pretty'
 import parse from './parse'
-import { messages } from '@cucumber/messages'
 
 describe('AstWalker', () => {
   let walker: AstWalker
@@ -413,27 +412,6 @@ describe('AstWalker', () => {
         astWalker.walkGherkinDocument(source)
 
         assert.deepEqual(scenarioName, ['Earth', 'Saturn'])
-      })
-
-      it('count number of steps in scenario', () => {
-        const source = parse(`Feature: Solar System
-
-        Scenario: Earth
-          Given it is a planet
-          When there is water
-          Then life can be on
-`)
-
-        let stepNumber = null
-        const astWalker = new AstWalker(
-          {},
-          {
-            handleScenario: scenario => (stepNumber = scenario.steps.length),
-          }
-        )
-        astWalker.walkGherkinDocument(source)
-
-        assert.deepEqual(3, stepNumber)
       })
     })
 
