@@ -11,6 +11,18 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Added
 
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+## [12.0.0] - 2020-03-31
+
+### Added
+
 * [JavaScript] New exports: 
   * `Parser`
   * `compile`
@@ -28,13 +40,12 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 * [JavaScript] `fromPaths`, `fromStream` and `fromSources` now use `ReadOnlyArray` to
   prevent modifying the passed array.
 
-### Deprecated
-
-### Removed
-
 ### Fixed
 
-* Fixed [#857](https://github.com/cucumber/cucumber/issues/857) via [#949](https://github.com/cucumber/cucumber/pull/949)
+* [JavaScript] `Gherkin.fromPaths` is not a function
+  ([#857](https://github.com/cucumber/cucumber/issues/857)
+   [#949](https://github.com/cucumber/cucumber/pull/949)
+   [aslakhellesoy])
 
 ## [11.0.0] - 2020-03-02
 
@@ -702,7 +713,8 @@ to Gherkin 2.
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v11.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v12.0.0...master
+[12.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v11.0.0...gherkin/v12.0.0
 [11.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v10.0.0...gherkin/v11.0.0
 [10.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v9.2.0...gherkin/v10.0.0
 [9.2.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v9.1.0...gherkin/v9.2.0
