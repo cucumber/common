@@ -98,7 +98,7 @@ Run the following command (using the same NEW_VERSION as you used for the releas
     NEW_VERSION=X.Y.Z make post-release
 
 This should update the version in `java/pom.xml` file to use a `-SNAPSHOT` suffix and add
-the `replace`directives in the `go.mod`file.
+`replace` directives in the `go.mod` file.
 This is automatically committed, and pushed along with the tag of the release.
 
 If you did a new major release of a Go package, you must also update all the references in the

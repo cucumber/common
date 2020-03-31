@@ -22,7 +22,7 @@ export default class ParameterTypeRegistry {
         'int',
         ParameterTypeRegistry.INTEGER_REGEXPS,
         Number,
-        s => (s === undefined ? null : Number(s)),
+        (s) => (s === undefined ? null : Number(s)),
         true,
         true
       )
@@ -32,7 +32,7 @@ export default class ParameterTypeRegistry {
         'float',
         ParameterTypeRegistry.FLOAT_REGEXP,
         Number,
-        s => (s === undefined ? null : parseFloat(s)),
+        (s) => (s === undefined ? null : parseFloat(s)),
         true,
         false
       )
@@ -42,7 +42,7 @@ export default class ParameterTypeRegistry {
         'word',
         ParameterTypeRegistry.WORD_REGEXP,
         String,
-        s => s,
+        (s) => s,
         false,
         false
       )
@@ -52,7 +52,7 @@ export default class ParameterTypeRegistry {
         'string',
         ParameterTypeRegistry.STRING_REGEXP,
         String,
-        s => (s || '').replace(/\\"/g, '"').replace(/\\'/g, "'"),
+        (s) => (s || '').replace(/\\"/g, '"').replace(/\\'/g, "'"),
         true,
         false
       )
@@ -62,7 +62,7 @@ export default class ParameterTypeRegistry {
         '',
         ParameterTypeRegistry.ANONYMOUS_REGEXP,
         String,
-        s => s,
+        (s) => s,
         false,
         true
       )

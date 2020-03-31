@@ -1,14 +1,9 @@
 import { JSDOM } from 'jsdom'
 import ReactDOM from 'react-dom'
 import React from 'react'
-import BtoaContext from '../src/BtoaContext'
 import Attachment from '../src/components/gherkin/Attachment'
 import { messages } from '@cucumber/messages'
-import * as assert from 'assert'
-
-function nodejsBtoa(data: string): string {
-  return Buffer.from(data).toString('base64')
-}
+import assert from 'assert'
 
 describe('<Attachment>', () => {
   it('renders an image', () => {
@@ -24,19 +19,16 @@ describe('<Attachment>', () => {
     binary.fill(255, 0, binary.length)
     const attachment = messages.Attachment.create({
       mediaType: 'image/png',
-      binary,
+      body: 'fake-base64',
+      contentEncoding: messages.Attachment.ContentEncoding.BASE64,
     })
-    const attachmentElement = (
-      <BtoaContext.Provider value={nodejsBtoa}>
-        <Attachment attachment={attachment} />
-      </BtoaContext.Provider>
-    )
+    const attachmentElement = <Attachment attachment={attachment} />
     ReactDOM.render(attachmentElement, document.getElementById('content'))
 
     const img = document.querySelector('#content img')
     assert.strictEqual(
       img.getAttribute('src'),
-      'data:image/png;base64,w7/Dv8O/w7/Dv8O/w7/Dv8O/w78='
+      'data:image/png;base64,fake-base64'
     )
   })
 })

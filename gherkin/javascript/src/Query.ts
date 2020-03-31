@@ -131,7 +131,7 @@ export default class Query {
   private updatePickle(pickle: messages.IPickle) {
     const pickleIdsByLineNumber = this.pickleIdsMapByUri.get(pickle.uri)
     const pickleLineNumbers = pickle.astNodeIds.map(
-      astNodeId => this.locationByAstNodeId.get(astNodeId).line
+      (astNodeId) => this.locationByAstNodeId.get(astNodeId).line
     )
     for (const pickleLineNumber of pickleLineNumbers) {
       // if (!pickleIdsByLineNumber.has(pickleLineNumber)) {
@@ -147,7 +147,7 @@ export default class Query {
     const pickleSteps = pickle.steps
     for (const pickleStep of pickleSteps) {
       const stepLineNumbers = pickleStep.astNodeIds.map(
-        astNodeId => this.locationByAstNodeId.get(astNodeId).line
+        (astNodeId) => this.locationByAstNodeId.get(astNodeId).line
       )
       for (const stepLineNumber of stepLineNumbers) {
         pickleStepIdsByLineNumber.put(stepLineNumber, pickleStep.id)

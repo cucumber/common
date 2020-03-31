@@ -30,14 +30,14 @@ describe('TestPlan', () => {
 `
     const testPlan = await makeTestPlan(gherkinSource, supportCode)
     const envelopes: messages.IEnvelope[] = []
-    const listener: EnvelopeListener = envelope => {
+    const listener: EnvelopeListener = (envelope) => {
       if (!envelope) throw new Error('Envelope was null or undefined')
       envelopes.push(envelope)
     }
     await testPlan.execute(listener)
     const testStepFinisheds = envelopes
-      .filter(m => m.testStepFinished)
-      .map(m => m.testStepFinished)
+      .filter((m) => m.testStepFinished)
+      .map((m) => m.testStepFinished)
     assert.deepStrictEqual(testStepFinisheds.length, 1)
     assert.strictEqual(
       testStepFinisheds[0].testStepResult.status,
@@ -70,25 +70,25 @@ describe('TestPlan', () => {
 `
     const testPlan = await makeTestPlan(gherkinSource, supportCode)
     const envelopes: messages.IEnvelope[] = []
-    const listener: EnvelopeListener = envelope => envelopes.push(envelope)
+    const listener: EnvelopeListener = (envelope) => envelopes.push(envelope)
     await testPlan.execute(listener)
     const testStepFinisheds = envelopes
-      .filter(m => m.testStepFinished)
-      .map(m => m.testStepFinished)
+      .filter((m) => m.testStepFinished)
+      .map((m) => m.testStepFinished)
     assert.deepStrictEqual(testStepFinisheds.length, 1)
     assert.strictEqual(
       testStepFinisheds[0].testStepResult.status,
       messages.TestStepResult.Status.PASSED
     )
     const parameterTypes = envelopes
-      .filter(m => m.parameterType)
-      .map(m => m.parameterType)
+      .filter((m) => m.parameterType)
+      .map((m) => m.parameterType)
     assert.deepStrictEqual(parameterTypes.length, 1)
     assert.strictEqual(parameterTypes[0].name, 'flight')
   })
 
   it('attaches text attachments', async () => {
-    supportCode.defineStepDefinition(null, 'a passed step', function() {
+    supportCode.defineStepDefinition(null, 'a passed step', function () {
       this.attach('hello world', 'text/plain')
     })
 
@@ -98,14 +98,14 @@ describe('TestPlan', () => {
 `
     const testPlan = await makeTestPlan(gherkinSource, supportCode)
     const envelopes: messages.IEnvelope[] = []
-    const listener: EnvelopeListener = envelope => envelopes.push(envelope)
+    const listener: EnvelopeListener = (envelope) => envelopes.push(envelope)
     await testPlan.execute(listener)
 
     const attachments = envelopes
-      .filter(m => m.attachment)
-      .map(m => m.attachment)
+      .filter((m) => m.attachment)
+      .map((m) => m.attachment)
     assert.deepStrictEqual(attachments.length, 1)
-    assert.strictEqual(attachments[0].text, 'hello world')
+    assert.strictEqual(attachments[0].body, 'hello world')
   })
 })
 
@@ -123,7 +123,7 @@ async function makeTestPlan(
 
   const testCases = gherkinQuery
     .getPickles()
-    .map(pickle =>
+    .map((pickle) =>
       makeTestCase(
         pickle,
         supportCode.stepDefinitions,

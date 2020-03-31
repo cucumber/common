@@ -10,7 +10,7 @@ export default class GeneratedExpression {
   get source() {
     return util.format(
       this.expressionTemplate,
-      ...this.parameterTypes.map(t => t.name)
+      ...this.parameterTypes.map((t) => t.name)
     )
   }
 
@@ -21,7 +21,7 @@ export default class GeneratedExpression {
    */
   get parameterNames(): ReadonlyArray<string> {
     const usageByTypeName: { [key: string]: number } = {}
-    return this.parameterTypes.map(t =>
+    return this.parameterTypes.map((t) =>
       getParameterName(t.name, usageByTypeName)
     )
   }

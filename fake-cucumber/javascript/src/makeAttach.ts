@@ -16,14 +16,15 @@ export default function makeAttach(
     })
 
     if (typeof data === 'string') {
-      attachment.text = data
+      attachment.body = data
       listener(
         new messages.Envelope({
           attachment,
         })
       )
     } else if (Buffer.isBuffer(data)) {
-      attachment.binary = data
+      attachment.body = (data as Buffer).toString('base64')
+      attachment.contentEncoding = messages.Attachment.ContentEncoding.BASE64
       listener(
         new messages.Envelope({
           attachment,
@@ -47,7 +48,9 @@ export default function makeAttach(
           buf = Buffer.concat([buf, chunk])
         })
         stream.on('end', () => {
-          attachment.binary = buf
+          attachment.body = buf.toString('base64')
+          attachment.contentEncoding =
+            messages.Attachment.ContentEncoding.BASE64
           listener(
             new messages.Envelope({
               attachment,

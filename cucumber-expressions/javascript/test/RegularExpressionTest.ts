@@ -105,7 +105,7 @@ describe('RegularExpression', () => {
     assert.deepStrictEqual(expression.source, regexp.source)
   })
 
-  it('does not take consider parenthesis in character class as group', function() {
+  it('does not take consider parenthesis in character class as group', function () {
     const expression = new RegularExpression(
       /^drawings: ([A-Z_, ()]+)$/,
       new ParameterTypeRegistry()
@@ -123,5 +123,5 @@ const match = (regexp: RegExp, text: string) => {
   if (!args) {
     return null
   }
-  return args.map(arg => arg.getValue(null))
+  return args.map((arg) => arg.getValue(null))
 }

@@ -12,7 +12,7 @@ export default function makeTestPlan(
   makeTestCase: MakeTestCase
 ): ITestPlan {
   const pickles = gherkinQuery.getPickles()
-  const testCases = pickles.map(pickle =>
+  const testCases = pickles.map((pickle) =>
     makeTestCase(
       pickle,
       supportCode.stepDefinitions,

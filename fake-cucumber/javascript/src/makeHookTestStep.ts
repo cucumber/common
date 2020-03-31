@@ -20,7 +20,7 @@ export default function makeHookTestStep(
     const id = newId()
 
     const sourceFrames = pickle.astNodeIds.map(
-      astNodeId => `${pickle.uri}:${gherkinQuery.getLocation(astNodeId).line}`
+      (astNodeId) => `${pickle.uri}:${gherkinQuery.getLocation(astNodeId).line}`
     )
     return new HookTestStep(
       id,

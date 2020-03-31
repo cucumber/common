@@ -1,10 +1,10 @@
 import assert from 'assert'
 import { Readable } from 'stream'
 import { messages } from '@cucumber/messages'
-import Gherkin from '../src/Gherkin'
+import Gherkin from '../src/stream/GherkinStreams'
 import makeSourceEnvelope from '../src/stream/makeSourceEnvelope'
 import fs from 'fs'
-import { IGherkinOptions } from '../src'
+import { IGherkinOptions, dialects } from '../src'
 
 const defaultOptions: IGherkinOptions = {
   createReadStream: (path: string) =>
@@ -56,7 +56,6 @@ describe('gherkin', () => {
   })
 
   it('outputs dialects', async () => {
-    const dialects = Gherkin.dialects()
     assert.strictEqual(dialects.en.name, 'English')
   })
 })

@@ -28,7 +28,7 @@ export default function parse(infix: string): Node {
   const operators: string[] = []
   let expectedTokenType = OPERAND
 
-  tokens.forEach(function(token) {
+  tokens.forEach(function (token) {
     if (isUnary(token)) {
       check(expectedTokenType, OPERAND)
       operators.push(token)

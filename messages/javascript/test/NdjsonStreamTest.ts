@@ -11,7 +11,7 @@ describe('NdjsonStream', () => {
   const makeFromMessageStream = () => new MessageToNdjsonStream()
   verifyStreamContract(makeFromMessageStream, makeToMessageStream)
 
-  it('converts a buffer stream written byte by byte', cb => {
+  it('converts a buffer stream written byte by byte', (cb) => {
     const stream = makeToMessageStream()
     const envelope = messages.Envelope.create({
       testStepFinished: messages.TestStepFinished.create({
@@ -33,7 +33,7 @@ describe('NdjsonStream', () => {
     stream.end()
   })
 
-  it('converts messages to JSON with enums as strings', cb => {
+  it('converts messages to JSON with enums as strings', (cb) => {
     const stream = new MessageToNdjsonStream()
     stream.on('data', (json: string) => {
       const ob = JSON.parse(json)
@@ -57,7 +57,7 @@ describe('NdjsonStream', () => {
     )
   })
 
-  it('converts messages to JSON with undefined arrays omitted', cb => {
+  it('converts messages to JSON with undefined arrays omitted', (cb) => {
     const stream = new MessageToNdjsonStream()
     stream.on('data', (json: string) => {
       const ob = JSON.parse(json)
@@ -73,7 +73,7 @@ describe('NdjsonStream', () => {
     )
   })
 
-  it('converts messages to JSON with undefined strings omitted', cb => {
+  it('converts messages to JSON with undefined strings omitted', (cb) => {
     const stream = new MessageToNdjsonStream()
     stream.on('data', (json: string) => {
       const ob = JSON.parse(json)
@@ -87,7 +87,7 @@ describe('NdjsonStream', () => {
     )
   })
 
-  it('converts messages to JSON with undefined numbers omitted', cb => {
+  it('converts messages to JSON with undefined numbers omitted', (cb) => {
     const stream = new MessageToNdjsonStream()
     stream.on('data', (json: string) => {
       const ob = JSON.parse(json)

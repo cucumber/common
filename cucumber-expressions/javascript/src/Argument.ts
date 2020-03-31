@@ -20,9 +20,9 @@ export default class Argument<T> {
       throw new CucumberExpressionError(
         `Expression ${treeRegexp.regexp} has ${
           argGroups.length
-        } capture groups (${argGroups.map(g => g.value)}), but there were ${
+        } capture groups (${argGroups.map((g) => g.value)}), but there were ${
           parameterTypes.length
-        } parameter types (${parameterTypes.map(p => p.name)})`
+        } parameter types (${parameterTypes.map((p) => p.name)})`
       )
     }
 

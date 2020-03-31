@@ -6,7 +6,7 @@ export default class DataTable {
   }
 
   public transpose(): DataTable {
-    const transposed = this.rows[0].map((x, i) => this.rows.map(y => y[i]))
+    const transposed = this.rows[0].map((x, i) => this.rows.map((y) => y[i]))
     return new DataTable(transposed)
   }
 

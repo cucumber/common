@@ -39,13 +39,13 @@ I couldn't decide which one to use. You have two options:
   public static _parameterTypeNames(
     parameterTypes: ReadonlyArray<ParameterType<any>>
   ) {
-    return parameterTypes.map(p => `{${p.name}}`).join('\n   ')
+    return parameterTypes.map((p) => `{${p.name}}`).join('\n   ')
   }
 
   public static _expressions(
     generatedExpressions: ReadonlyArray<GeneratedExpression>
   ) {
-    return generatedExpressions.map(e => e.source).join('\n   ')
+    return generatedExpressions.map((e) => e.source).join('\n   ')
   }
 }
 

@@ -14,8 +14,8 @@ export default function makePickleTestStep(
   makeErrorMessage: MakeErrorMessage
 ): ITestStep {
   const supportCodeExecutors = stepDefinitions
-    .map(stepDefinition => stepDefinition.match(pickleStep))
-    .filter(supportCodeExecutor => supportCodeExecutor !== null)
+    .map((stepDefinition) => stepDefinition.match(pickleStep))
+    .filter((supportCodeExecutor) => supportCodeExecutor !== null)
   return new PickleTestStep(
     testStepId,
     pickleStep.id,

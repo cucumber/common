@@ -59,7 +59,7 @@ export default class CucumberExpression implements Expression {
   private processAlternation(expression: string) {
     return expression.replace(
       ALTERNATIVE_NON_WHITESPACE_TEXT_REGEXP(),
-      match => {
+      (match) => {
         // replace \/ with /
         // replace / with |
         const replacement = match.replace(/\//g, '|').replace(/\\\|/g, '/')
@@ -122,7 +122,7 @@ function buildCaptureRegexp(regexps: ReadonlyArray<string>) {
     return `(${regexps[0]})`
   }
 
-  const captureGroups = regexps.map(group => {
+  const captureGroups = regexps.map((group) => {
     return `(?:${group})`
   })
 

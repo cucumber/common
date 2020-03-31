@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
+* Upgrade to messages 11.x
 * [JavaScript] All array return values and function parameters are now declared as TypeScript `ReadOnlyArray`
 
 ### Deprecated

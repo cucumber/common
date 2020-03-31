@@ -3,7 +3,7 @@ import { Transform } from 'stream'
 import toArray from './toArray'
 import assert = require('assert')
 
-export default function(
+export default function (
   makeFromMessageStream: () => Transform,
   makeToMessageStream: () => Transform
 ) {
@@ -20,7 +20,7 @@ export default function(
         }),
         messages.Envelope.create({
           attachment: messages.Attachment.create({
-            binary: Buffer.of(1, 2, 3, 4),
+            body: 'hello',
           }),
         }),
       ]

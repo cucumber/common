@@ -1,4 +1,6 @@
 // This file is generated. Do not edit! Edit gherkin-javascript.razor instead.
+
+import { messages } from '@cucumber/messages'
 import {
   ParserException,
   CompositeParserException,
@@ -80,10 +82,8 @@ export default class Parser {
   constructor(private readonly builder: AstBuilder) {
   }
 
-  public parse(tokenScanner: TokenScanner|string, tokenMatcher: TokenMatcher = new TokenMatcher()) {
-    if(typeof tokenScanner === 'string') {
-      tokenScanner = new TokenScanner(tokenScanner);
-    }
+  public parse(gherkinSource: string, tokenMatcher: TokenMatcher = new TokenMatcher()): messages.IGherkinDocument {
+    const tokenScanner = new TokenScanner(gherkinSource);
     this.builder.reset();
     tokenMatcher.reset();
     this.context = {
