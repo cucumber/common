@@ -17,7 +17,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
-* Fix deprecation waring about `<Wrapper>` (Use `<QueriesWrapper>` instead)
+## [5.0.0] - 2020-04-01
+
+### Changed
+
+* Upgrade `@cucumber/*` dependencies to next major version
+
+### Fixed
+
+* Fix deprecation warning about `<Wrapper>` (Use `<QueriesWrapper>` instead)
 
 ## [4.3.0] - 2020-03-13
 
@@ -156,7 +164,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/formatter/v4.3.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/formatter/v5.0.0...master
+[5.0.0]:      https://github.com/cucumber/cucumber/compare/formatter/v4.3.0...formatter/v5.0.0
 [4.3.0]:      https://github.com/cucumber/cucumber/compare/formatter/v4.2.0...formatter/v4.3.0
 [4.2.0]:      https://github.com/cucumber/cucumber/compare/formatter/v4.1.0...formatter/v4.2.0
 [4.1.0]:      https://github.com/cucumber/cucumber/compare/formatter/v4.0.0...formatter/v4.1.0
