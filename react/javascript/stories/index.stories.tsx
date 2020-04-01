@@ -12,21 +12,21 @@ import {Query as CucumberQuery} from '@cucumber/query'
 // @ts-ignore
 import documentList from '../testdata/all.ndjson'
 // @ts-ignore
-import attachments from '../cck-testdata/attachments/attachments.ndjson'
+import attachments from '../../../compatibility-kit/javascript/features/attachments/attachments.ndjson'
 // @ts-ignore
-import dataTables from '../cck-testdata/data-tables/data-tables.ndjson'
+import dataTables from '../../../compatibility-kit/javascript/features/data-tables/data-tables.ndjson'
 // @ts-ignore
-import examplesTables from '../cck-testdata/examples-tables/examples-tables.ndjson'
+import examplesTables from '../../../compatibility-kit/javascript/features/examples-tables/examples-tables.ndjson'
 // @ts-ignore
-import hooks from '../cck-testdata/hooks/hooks.ndjson'
+import hooks from '../../../compatibility-kit/javascript/features/hooks/hooks.ndjson'
 // @ts-ignore
-import minimal from '../cck-testdata/minimal/minimal.ndjson'
+import minimal from '../../../compatibility-kit/javascript/features/minimal/minimal.ndjson'
 // @ts-ignore
-import parameterTypes from '../cck-testdata/parameter-types/parameter-types.ndjson'
+import parameterTypes from '../../../compatibility-kit/javascript/features/parameter-types/parameter-types.ndjson'
 // @ts-ignore
-import rules from '../cck-testdata/rules/rules.ndjson'
+import rules from '../../../compatibility-kit/javascript/features/rules/rules.ndjson'
 // @ts-ignore
-import stackTraces from '../cck-testdata/stack-traces/stack-traces.ndjson'
+import stackTraces from '../../../compatibility-kit/javascript/features/stack-traces/stack-traces.ndjson'
 import Step from '../src/components/gherkin/Step'
 
 function props(ndjson: string): {gherkinQuery: GherkinQuery, cucumberQuery: CucumberQuery, btoa: (data: string) => string} {
