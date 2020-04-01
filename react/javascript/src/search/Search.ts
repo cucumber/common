@@ -12,7 +12,7 @@ export default class Search {
   private readonly stepSearch = new StepSearch()
   private readonly ruleSearch = new RuleSearch()
 
-  private gherkinDocuments: messages.IGherkinDocument[] = []
+  private readonly gherkinDocuments: messages.IGherkinDocument[] = []
 
   public search(query: string): messages.IGherkinDocument[] {
     const matchingSteps = this.stepSearch.search(query)
