@@ -5,7 +5,7 @@ import {
   IDataTableRow,
   IElement,
   IFeature,
-} from './RubyJSONSchema'
+} from './JSONSchema'
 import IAstMaker from '../IAstMaker'
 import IPredictableSupportCode from '../IPredictableSupportCode'
 

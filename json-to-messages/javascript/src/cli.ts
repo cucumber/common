@@ -1,7 +1,7 @@
 import { Command } from 'commander'
 import packageJson from '../package.json'
 import { runCucumber, SupportCode } from '@cucumber/fake-cucumber'
-import { IFeature } from './cucumber-ruby/RubyJSONSchema'
+import { IFeature } from './cucumber-ruby/JSONSchema'
 import { messages, MessageToNdjsonStream } from '@cucumber/messages'
 
 import { compile, Query as GherkinQuery } from '@cucumber/gherkin'
@@ -11,7 +11,7 @@ import { promisify } from 'util'
 import JSONTransformStream from './stream/JSONTransformStream'
 import SingleObjectWritableStream from './stream/SingleObjectWritableStream'
 import AstMaker from './AstMaker'
-import { traverseFeature } from './cucumber-ruby/RubyJSONTraverse'
+import { traverseFeature } from './cucumber-ruby/JSONTraverse'
 import PredictableSupportCode from './PredictableSupportCode'
 import makePredictableTestPlan from './test-generation/makePredictableTestPlan'
 const asyncPipeline = promisify(pipeline)

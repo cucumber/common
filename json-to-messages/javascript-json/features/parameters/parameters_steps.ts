@@ -18,3 +18,9 @@ When('I eat {int} cucumbers', function(eaten: number) {
 Then('I have {int} cucumbers left', function(left: number) {
   assert.equal(this.cucumbers, left)
 })
+
+Given('a step with a doctring:', function(doc: string) {
+})
+
+When('a step with a datatable', function(table) {
+})

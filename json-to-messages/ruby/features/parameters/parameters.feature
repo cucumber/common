@@ -10,3 +10,17 @@ Feature: step parameters
       | 10    | 4     | 6    |
       | 10    | 6     | 4    |
       | 10    | 4     | 4    |
+
+  Scenario: step parameters
+    Given a step with a doctring:
+      """
+        This is some content
+      """
+    When a step with a datatable
+      | name | value |
+      | plic | 0     |
+      | ploc | 1     |
+    Given a step with a doctring:
+      ```text/plain
+        This is some typed content
+      ```

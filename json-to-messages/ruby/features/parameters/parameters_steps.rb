@@ -9,3 +9,9 @@ end
 Then('I have {int} cucumbers left') do |left|
   expect(@cucumbers).to eq(left)
 end
+
+Given('a step with a doctring:') do |string|
+end
+
+When('a step with a datatable') do |table|
+end

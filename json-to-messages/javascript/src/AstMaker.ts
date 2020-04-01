@@ -92,7 +92,7 @@ export default class AstMaker implements IAstMaker {
   ): messages.GherkinDocument.Feature.Step.IDocString {
     return messages.GherkinDocument.Feature.Step.DocString.create({
       mediaType,
-      content,
+      content
     })
   }
 
