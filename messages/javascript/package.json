@@ -1,6 +1,6 @@
 {
   "name": "@cucumber/messages",
-  "version": "10.0.2",
+  "version": "11.1.1",
   "description": "Protocol Buffer messages for Cucumber's inter-process communication",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
@@ -21,25 +21,25 @@
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
-    "@types/uuid": "^7.0.0",
-    "protobufjs": "^6.8.8",
-    "uuid": "^7.0.1"
+    "@types/uuid": "^7.0.2",
+    "protobufjs": "^6.8.9",
+    "uuid": "^7.0.2"
   },
   "devDependencies": {
-    "@types/mocha": "^7.0.1",
-    "@types/node": "^13.7.7",
-    "@typescript-eslint/eslint-plugin": "^2.21.0",
-    "@typescript-eslint/parser": "^2.21.0",
+    "@types/mocha": "^7.0.2",
+    "@types/node": "^13.9.7",
+    "@typescript-eslint/eslint-plugin": "^2.26.0",
+    "@typescript-eslint/parser": "^2.26.0",
     "copyfiles": "^2.2.0",
     "eslint": "^6.8.0",
-    "eslint-config-prettier": "^6.10.0",
-    "eslint-plugin-node": "^11.0.0",
+    "eslint-config-prettier": "^6.10.1",
+    "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^3.1.2",
-    "eslint-plugin-react": "^7.18.3",
-    "mocha": "^7.1.0",
+    "eslint-plugin-react": "^7.19.0",
+    "mocha": "^7.1.1",
     "nyc": "^15.0.0",
-    "prettier": "^1.19.1",
-    "ts-node": "^8.6.2",
+    "prettier": "^2.0.2",
+    "ts-node": "^8.8.1",
     "typescript": "^3.8.3"
   },
   "bugs": {

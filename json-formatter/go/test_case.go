@@ -3,7 +3,7 @@ package json
 import (
 	"errors"
 	"fmt"
-	"github.com/cucumber/messages-go/v10"
+	"github.com/cucumber/messages-go/v11"
 	"strings"
 )
 

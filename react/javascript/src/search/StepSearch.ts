@@ -8,7 +8,7 @@ interface SearchableStep {
 }
 
 export default class StepSearch {
-  private readonly index = elasticlunr<SearchableStep>(ctx => {
+  private readonly index = elasticlunr<SearchableStep>((ctx) => {
     ctx.addField('keyword')
     ctx.addField('text')
     ctx.setRef('id')
@@ -35,6 +35,6 @@ export default class StepSearch {
       },
     })
 
-    return results.map(result => this.stepById.get(result.ref))
+    return results.map((result) => this.stepById.get(result.ref))
   }
 }

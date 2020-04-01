@@ -17,6 +17,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [6.0.0] - 2020-04-01
+
+### Changed
+
+* Upgrade to messages 11.x
+* Image attachment data processing is possibly faster since no `btoa` conversion is needed anymore
+
+### Removed
+
+* Removed `btoa` prop from `<QueriesWrapper>`
+* Removed `<Wrapper>`
+
 ## [5.1.0] - 2020-03-04
 
 ### Added
@@ -131,7 +143,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/react/v5.1.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/react/v6.0.0...master
+[6.0.0]:      https://github.com/cucumber/cucumber/compare/react/v5.1.0...react/v6.0.0
 [5.1.0]:      https://github.com/cucumber/cucumber/compare/react/v5.0.0...react/v5.1.0
 [5.0.0]:      https://github.com/cucumber/cucumber/compare/react/v4.1.1...react/v5.0.0
 [4.1.1]:      https://github.com/cucumber/cucumber/compare/react/v4.1.0...react/v4.1.1

@@ -8,7 +8,7 @@ interface SearchableScenario {
 }
 
 export default class ScenarioSearch {
-  private readonly index = elasticlunr<SearchableScenario>(ctx => {
+  private readonly index = elasticlunr<SearchableScenario>((ctx) => {
     ctx.setRef('id')
     ctx.addField('name')
     ctx.addField('description')
@@ -36,6 +36,6 @@ export default class ScenarioSearch {
       },
     })
 
-    return results.map(result => this.scenarioById.get(result.ref))
+    return results.map((result) => this.scenarioById.get(result.ref))
   }
 }

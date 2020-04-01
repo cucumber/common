@@ -1,10 +1,16 @@
 import { storiesOf } from '@storybook/react'
-import React from 'react'
 import { messages } from '@cucumber/messages'
+import QueriesWrapper from '../src/components/app/QueriesWrapper'
+import StepContainer from '../src/components/gherkin/StepContainer'
+import {Query as GherkinQuery} from '@cucumber/gherkin'
+import {Query as CucumberQuery} from '@cucumber/query'
+import SearchBar from '../src/components/app/SearchBar'
+import FilteredResults from '../src/components/app/FilteredResults'
+import GherkinDocumentList from '../src/components/app/GherkinDocumentList'
+import React from 'react'
+
 import '../src/styles/react-accessible-accordion.css'
 import '../src/styles/styles.scss'
-import Wrapper from '../src/components/app/Wrapper'
-import StepContainer from '../src/components/gherkin/StepContainer'
 
 // @ts-ignore
 import documentList from '../testdata/all.ndjson'
@@ -24,18 +30,26 @@ import parameterTypes from '../../../compatibility-kit/javascript/features/param
 import rules from '../../../compatibility-kit/javascript/features/rules/rules.ndjson'
 // @ts-ignore
 import stackTraces from '../../../compatibility-kit/javascript/features/stack-traces/stack-traces.ndjson'
-import SearchBar from '../src/components/app/SearchBar'
-import FilteredResults from '../src/components/app/FilteredResults'
-import AllGherkinDocuments from '../src/components/app/AllGherkinDocuments'
 
 function envelopes(ndjson: string): messages.IEnvelope[] {
   return ndjson.trim().split('\n')
     .map((json: string) => messages.Envelope.fromObject(JSON.parse(json)))
 }
 
+function props(ndjson: string): {gherkinQuery: GherkinQuery, cucumberQuery: CucumberQuery} {
+  const gherkinQuery = new GherkinQuery()
+  const cucumberQuery = new CucumberQuery()
+  for (const json of ndjson.trim().split('\n')) {
+    const envelope = messages.Envelope.fromObject(JSON.parse(json))
+    gherkinQuery.update(envelope)
+    cucumberQuery.update(envelope)
+  }
+  return {gherkinQuery, cucumberQuery}
+}
+
 storiesOf('Features', module)
   .add('Step Container', () => {
-    return <Wrapper envelopes={[]} btoa={window.btoa}>
+    return <QueriesWrapper {...props(documentList)}>
       <StepContainer status={messages.TestStepResult.Status.PASSED}>
         <div>Given a passed step</div>
       </StepContainer>
@@ -45,55 +59,61 @@ storiesOf('Features', module)
       <StepContainer status={messages.TestStepResult.Status.SKIPPED}>
         <div>Then a skipped step</div>
       </StepContainer>
-    </Wrapper>
+    </QueriesWrapper>
   })
   .add('Search bar', () => {
-    return <Wrapper envelopes={[]} btoa={window.btoa}>
+    return<QueriesWrapper {...props(documentList)}>
       <SearchBar queryUpdated={(query) => console.log("query:", query)} />
-    </Wrapper>
+    </QueriesWrapper>
   })
   .add('Filtered results', () => {
-    return <Wrapper envelopes={envelopes(documentList)} btoa={window.btoa}>
+    return <QueriesWrapper {...props(documentList)}>
       <FilteredResults />
-    </Wrapper>
+    </QueriesWrapper>
   })
   .add('Document list', () => {
-    return <Wrapper envelopes={envelopes(documentList)} btoa={window.btoa}>
-      <AllGherkinDocuments />
-    </Wrapper>
+    return <QueriesWrapper {...props(documentList)}>
+      <GherkinDocumentList/>
+    </QueriesWrapper>
   })
   .add('Attachments', () => {
-    return <Wrapper envelopes={envelopes(attachments)} btoa={window.btoa}>
-      <AllGherkinDocuments/>
-    </Wrapper>
+    const queries = props(attachments)
+    return <QueriesWrapper {...props(attachments)}>
+      <GherkinDocumentList/>
+    </QueriesWrapper>
   })
   .add('Examples Tables', () => {
-    return <Wrapper envelopes={envelopes(examplesTables)} btoa={window.btoa}>
-      <AllGherkinDocuments/>
-    </Wrapper>
+    return <QueriesWrapper {...props(examplesTables)}>
+      <GherkinDocumentList/>
+    </QueriesWrapper>
   })
   .add('Data Tables', () => {
-    return <Wrapper envelopes={envelopes(dataTables)} btoa={window.btoa}>
-      <AllGherkinDocuments/>
-    </Wrapper>
+    return <QueriesWrapper {...props(dataTables)}>
+      <GherkinDocumentList/>
+    </QueriesWrapper>
   })
   .add('Hooks', () => {
-    return <Wrapper envelopes={envelopes(hooks)} btoa={window.btoa}>
-      <AllGherkinDocuments/>
-    </Wrapper>
+    return <QueriesWrapper {...props(hooks)}>
+      <GherkinDocumentList/>
+    </QueriesWrapper>
+  })
+  .add('Minimal', () => {
+    return <QueriesWrapper {...props(minimal)}>
+      <GherkinDocumentList/>
+    </QueriesWrapper>
   })
   .add('Parameter Types', () => {
-    return <Wrapper envelopes={envelopes(parameterTypes)} btoa={window.btoa}>
-      <AllGherkinDocuments/>
-    </Wrapper>
+    return <QueriesWrapper {...props(parameterTypes)}>
+      <GherkinDocumentList/>
+    </QueriesWrapper>
   })
   .add('Rules', () => {
-    return <Wrapper envelopes={envelopes(rules)} btoa={window.btoa}>
-      <AllGherkinDocuments/>
-    </Wrapper>
+    return <QueriesWrapper {...props(rules)}>
+      <GherkinDocumentList/>
+    </QueriesWrapper>
   })
   .add('Stack Traces', () => {
-    return <Wrapper envelopes={envelopes(stackTraces)} btoa={window.btoa}>
-      <AllGherkinDocuments />
-    </Wrapper>
+    return <QueriesWrapper {...props(stackTraces)}>
+      <GherkinDocumentList/>
+    </QueriesWrapper>
   })

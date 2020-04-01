@@ -76,12 +76,12 @@ export default class AstWalker {
 
     this.handlers.handleFeature(feature)
 
-    const backgroundKept = keptChildren.find(child => child.background)
+    const backgroundKept = keptChildren.find((child) => child.background)
 
     if (this.filters.acceptFeature(feature) || backgroundKept) {
       return this.copyFeature(
         feature,
-        feature.children.map(child => {
+        feature.children.map((child) => {
           if (child.background) {
             return messages.GherkinDocument.Feature.FeatureChild.create({
               background: this.copyBackground(child.background),
@@ -101,7 +101,7 @@ export default class AstWalker {
       )
     }
 
-    if (keptChildren.find(child => child !== null)) {
+    if (keptChildren.find((child) => child !== null)) {
       return this.copyFeature(feature, keptChildren)
     }
   }
@@ -127,12 +127,14 @@ export default class AstWalker {
 
     const scenariosKeptById = new Map(
       children
-        .filter(child => child.scenario)
-        .map(child => [child.scenario.id, child])
+        .filter((child) => child.scenario)
+        .map((child) => [child.scenario.id, child])
     )
 
     const ruleKeptById = new Map(
-      children.filter(child => child.rule).map(child => [child.rule.id, child])
+      children
+        .filter((child) => child.rule)
+        .map((child) => [child.rule.id, child])
     )
 
     for (const child of feature.children) {
@@ -203,10 +205,10 @@ export default class AstWalker {
     this.handlers.handleRule(rule)
 
     const backgroundKept = children.find(
-      child => child !== null && child.background !== null
+      (child) => child !== null && child.background !== null
     )
     const scenariosKept = children.filter(
-      child => child !== null && child.scenario !== null
+      (child) => child !== null && child.scenario !== null
     )
 
     if (this.filters.acceptRule(rule) || backgroundKept) {
@@ -236,8 +238,8 @@ export default class AstWalker {
   ): messages.GherkinDocument.Feature.FeatureChild.IRuleChild[] {
     const childrenCopy: messages.GherkinDocument.Feature.FeatureChild.IRuleChild[] = []
     const scenariosKeptIds = childrenKept
-      .filter(child => child.scenario)
-      .map(child => child.scenario.id)
+      .filter((child) => child.scenario)
+      .map((child) => child.scenario.id)
 
     for (const child of children) {
       if (child.background) {
@@ -291,7 +293,7 @@ export default class AstWalker {
 
     if (
       this.filters.acceptBackground(background) ||
-      steps.find(step => step !== null)
+      steps.find((step) => step !== null)
     ) {
       return this.copyBackground(background)
     }
@@ -305,7 +307,7 @@ export default class AstWalker {
       name: background.name,
       location: background.location,
       keyword: background.keyword,
-      steps: background.steps.map(step => this.copyStep(step)),
+      steps: background.steps.map((step) => this.copyStep(step)),
     })
   }
 
@@ -317,7 +319,7 @@ export default class AstWalker {
 
     if (
       this.filters.acceptScenario(scenario) ||
-      steps.find(step => step !== null)
+      steps.find((step) => step !== null)
     ) {
       return this.copyScenario(scenario)
     }
@@ -332,7 +334,7 @@ export default class AstWalker {
       location: scenario.location,
       keyword: scenario.keyword,
       examples: scenario.examples,
-      steps: scenario.steps.map(step => this.copyStep(step)),
+      steps: scenario.steps.map((step) => this.copyStep(step)),
       tags: scenario.tags,
     })
   }
@@ -340,7 +342,7 @@ export default class AstWalker {
   protected walkAllSteps(
     steps: messages.GherkinDocument.Feature.IStep[]
   ): messages.GherkinDocument.Feature.IStep[] {
-    return steps.map(step => this.walkStep(step))
+    return steps.map((step) => this.walkStep(step))
   }
 
   protected walkStep(

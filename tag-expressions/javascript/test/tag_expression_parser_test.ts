@@ -18,8 +18,8 @@ describe('TagExpressionParser', () => {
         '( ( ( not ( a\\(\\) ) or ( b and not ( c ) ) ) or not ( d ) ) or ( e and f ) )',
       ],
       // a or not b
-    ].forEach(function(inOut) {
-      it(inOut[0], function() {
+    ].forEach(function (inOut) {
+      it(inOut[0], function () {
         const infix = inOut[0]
         const expr = parse(infix)
         assert.strictEqual(expr.toString(), inOut[1])
@@ -39,8 +39,8 @@ describe('TagExpressionParser', () => {
       ['( a and b ) )', 'Syntax error. Unmatched )'],
       ['( ( a and b )', 'Syntax error. Unmatched ('],
       // a or not b
-    ].forEach(function(inOut) {
-      it(inOut[0] + ' fails', function() {
+    ].forEach(function (inOut) {
+      it(inOut[0] + ' fails', function () {
         const infix = inOut[0]
         try {
           parse(infix)
@@ -53,27 +53,27 @@ describe('TagExpressionParser', () => {
 
     // evaluation
 
-    it('evaluates not', function() {
+    it('evaluates not', function () {
       const expr = parse('not   x')
       assert.strictEqual(expr.evaluate(['x']), false)
       assert.strictEqual(expr.evaluate(['y']), true)
     })
 
-    it('evaluates and', function() {
+    it('evaluates and', function () {
       const expr = parse('x and y')
       assert.strictEqual(expr.evaluate(['x', 'y']), true)
       assert.strictEqual(expr.evaluate(['y']), false)
       assert.strictEqual(expr.evaluate(['x']), false)
     })
 
-    it('evaluates or', function() {
+    it('evaluates or', function () {
       const expr = parse('  x or(y) ')
       assert.strictEqual(expr.evaluate([]), false)
       assert.strictEqual(expr.evaluate(['y']), true)
       assert.strictEqual(expr.evaluate(['x']), true)
     })
 
-    it('evaluates expressions with escaped chars', function() {
+    it('evaluates expressions with escaped chars', function () {
       const expr = parse('  x\\(1\\) or(y\\(2\\)) ')
       assert.strictEqual(expr.evaluate([]), false)
       assert.strictEqual(expr.evaluate(['y(2)']), true)
@@ -82,7 +82,7 @@ describe('TagExpressionParser', () => {
       assert.strictEqual(expr.evaluate(['x']), false)
     })
 
-    it('evaluates empty expressions to true', function() {
+    it('evaluates empty expressions to true', function () {
       const expr = parse('')
       assert.strictEqual(expr.evaluate([]), true)
       assert.strictEqual(expr.evaluate(['y']), true)

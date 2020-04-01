@@ -4,7 +4,7 @@ import RegexExecArray from './RegexExecArray'
 export default class GroupBuilder {
   public source: string
   public capturing = true
-  private groupBuilders: GroupBuilder[] = []
+  private readonly groupBuilders: GroupBuilder[] = []
 
   public add(groupBuilder: GroupBuilder) {
     this.groupBuilders.push(groupBuilder)
@@ -12,7 +12,7 @@ export default class GroupBuilder {
 
   public build(match: RegexExecArray, nextGroupIndex: () => number): Group {
     const groupIndex = nextGroupIndex()
-    const children = this.groupBuilders.map(gb =>
+    const children = this.groupBuilders.map((gb) =>
       gb.build(match, nextGroupIndex)
     )
     return new Group(
@@ -32,6 +32,6 @@ export default class GroupBuilder {
   }
 
   public moveChildrenTo(groupBuilder: GroupBuilder) {
-    this.groupBuilders.forEach(child => groupBuilder.add(child))
+    this.groupBuilders.forEach((child) => groupBuilder.add(child))
   }
 }

@@ -5,7 +5,7 @@ import { messages } from '@cucumber/messages'
 export default interface IStepDefinition {
   match(pickleStep: messages.Pickle.IPickleStep): SupportCodeExecutor | null
 
-  getArguments(text: string): Array<Argument<any>>
+  getArguments(text: string): ReadonlyArray<Argument<any>>
 
   toMessage(): messages.IEnvelope
 }

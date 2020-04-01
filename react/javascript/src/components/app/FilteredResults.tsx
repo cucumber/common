@@ -21,8 +21,8 @@ const FilteredResults: React.FunctionComponent = () => {
 
   return (
     <div className="cucumber-filtered-results">
-      <SearchBar queryUpdated={query => setQuery(query)} />
-      <GherkinDocumentList gherkinDocuments={matches} />
+      <SearchBar queryUpdated={(query) => setQuery(query)} />
+      <GherkinDocumentList gherkinDocuments={matches}/>
       <NoMatchResult query={query} matches={matches} />
     </div>
   )

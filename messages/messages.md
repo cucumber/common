@@ -64,17 +64,19 @@
     - [TestCasePreparedStep](#io.cucumber.messages.TestCasePreparedStep)
     - [TestCaseStarted](#io.cucumber.messages.TestCaseStarted)
     - [TestCaseStarted.Platform](#io.cucumber.messages.TestCaseStarted.Platform)
-    - [TestResult](#io.cucumber.messages.TestResult)
     - [TestRunFinished](#io.cucumber.messages.TestRunFinished)
     - [TestRunStarted](#io.cucumber.messages.TestRunStarted)
     - [TestStepFinished](#io.cucumber.messages.TestStepFinished)
+    - [TestStepResult](#io.cucumber.messages.TestStepResult)
     - [TestStepStarted](#io.cucumber.messages.TestStepStarted)
     - [Timestamp](#io.cucumber.messages.Timestamp)
+    - [UndefinedParameterType](#io.cucumber.messages.UndefinedParameterType)
     - [UriToLinesMapping](#io.cucumber.messages.UriToLinesMapping)
   
+    - [Attachment.ContentEncoding](#io.cucumber.messages.Attachment.ContentEncoding)
     - [SourcesOrderType](#io.cucumber.messages.SourcesOrderType)
     - [StepDefinitionPatternType](#io.cucumber.messages.StepDefinitionPatternType)
-    - [TestResult.Status](#io.cucumber.messages.TestResult.Status)
+    - [TestStepResult.Status](#io.cucumber.messages.TestStepResult.Status)
   
   
   
@@ -109,9 +111,9 @@ is captured in `TestResult`.
 | source | [SourceReference](#io.cucumber.messages.SourceReference) |  |  |
 | test_step_id | [string](#string) |  |  |
 | test_case_started_id | [string](#string) |  |  |
-| text | [string](#string) |  | For text/* media types |
-| binary | [bytes](#bytes) |  | For all non-text/ media types |
+| body | [string](#string) |  |  |
 | media_type | [string](#string) |  | The media type of the data. This can be any valid [IANA Media Type](https://www.iana.org/assignments/media-types/media-types.xhtml) as well as Cucumber-specific media types such as `text/x.cucumber.gherkin&#43;plain` and `text/x.cucumber.stacktrace&#43;plain` |
+| content_encoding | [Attachment.ContentEncoding](#io.cucumber.messages.Attachment.ContentEncoding) |  |  |
 
 
 
@@ -127,7 +129,7 @@ is captured in `TestResult`.
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | completed_id | [string](#string) |  |  |
-| test_result | [TestResult](#io.cucumber.messages.TestResult) |  | Used for responses to CommandRunBeforeTestCaseHook / CommandRunTestStep / CommandRunAfterTestCaseHook |
+| test_step_result | [TestStepResult](#io.cucumber.messages.TestStepResult) |  | Used for responses to CommandRunBeforeTestCaseHook / CommandRunTestStep / CommandRunAfterTestCaseHook |
 | snippet | [string](#string) |  | Used for response to CommandGenerateSnippet |
 
 
@@ -322,6 +324,7 @@ messages.
 | step_definition | [StepDefinition](#io.cucumber.messages.StepDefinition) |  |  |
 | hook | [Hook](#io.cucumber.messages.Hook) |  |  |
 | parameter_type | [ParameterType](#io.cucumber.messages.ParameterType) |  |  |
+| undefined_parameter_type | [UndefinedParameterType](#io.cucumber.messages.UndefinedParameterType) |  |  |
 
 
 
@@ -1172,24 +1175,6 @@ DEPRECATED. Use TestCase.TestStep
 
 
 
-<a name="io.cucumber.messages.TestResult"></a>
-
-### TestResult
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| status | [TestResult.Status](#io.cucumber.messages.TestResult.Status) |  |  |
-| message | [string](#string) |  |  |
-| duration | [Duration](#io.cucumber.messages.Duration) |  |  |
-| will_be_retried | [bool](#bool) |  |  |
-
-
-
-
-
-
 <a name="io.cucumber.messages.TestRunFinished"></a>
 
 ### TestRunFinished
@@ -1200,6 +1185,7 @@ DEPRECATED. Use TestCase.TestStep
 | ----- | ---- | ----- | ----------- |
 | success | [bool](#bool) |  | success = StrictModeEnabled ? (failed_count == 0 &amp;&amp; ambiguous_count == 0 &amp;&amp; undefined_count == 0 &amp;&amp; pending_count == 0) : (failed_count == 0 &amp;&amp; ambiguous_count == 0) |
 | timestamp | [Timestamp](#io.cucumber.messages.Timestamp) |  | Timestamp when the TestRun is finished |
+| message | [string](#string) |  | Error message. Can be a stack trace from a failed `BeforeAll` or `AfterAll`. If there are undefined parameter types, the message is simply &#34;The following parameter type(s() are not defined: xxx, yyy&#34;. The independent `UndefinedParameterType` messages can be used to generate snippets for those parameter types. |
 
 
 
@@ -1229,10 +1215,28 @@ DEPRECATED. Use TestCase.TestStep
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| test_result | [TestResult](#io.cucumber.messages.TestResult) |  |  |
+| test_step_result | [TestStepResult](#io.cucumber.messages.TestStepResult) |  |  |
 | timestamp | [Timestamp](#io.cucumber.messages.Timestamp) |  |  |
 | test_step_id | [string](#string) |  |  |
 | test_case_started_id | [string](#string) |  |  |
+
+
+
+
+
+
+<a name="io.cucumber.messages.TestStepResult"></a>
+
+### TestStepResult
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| status | [TestStepResult.Status](#io.cucumber.messages.TestStepResult.Status) |  |  |
+| message | [string](#string) |  |  |
+| duration | [Duration](#io.cucumber.messages.Duration) |  |  |
+| will_be_retried | [bool](#bool) |  |  |
 
 
 
@@ -1272,6 +1276,22 @@ From https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf
 
 
 
+<a name="io.cucumber.messages.UndefinedParameterType"></a>
+
+### UndefinedParameterType
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| name | [string](#string) |  |  |
+| expression | [string](#string) |  |  |
+
+
+
+
+
+
 <a name="io.cucumber.messages.UriToLinesMapping"></a>
 
 ### UriToLinesMapping
@@ -1288,6 +1308,18 @@ From https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf
 
 
  
+
+
+<a name="io.cucumber.messages.Attachment.ContentEncoding"></a>
+
+### Attachment.ContentEncoding
+
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| IDENTITY | 0 |  |
+| BASE64 | 1 |  |
+
 
 
 <a name="io.cucumber.messages.SourcesOrderType"></a>
@@ -1314,20 +1346,15 @@ From https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf
 
 
 
-<a name="io.cucumber.messages.TestResult.Status"></a>
+<a name="io.cucumber.messages.TestStepResult.Status"></a>
 
-### TestResult.Status
-Status of a `PickleStep`.
+### TestStepResult.Status
+Status of a `TestStep`.
 
-A `Pickle` message does not carry its own `TestResult`, but this can be accessed
-using `CucumberQuery#getTestResult(testCase)`
+The ordinal values of statuses are significant. The status of a TestCase
+is computed by picking the status with the highest value for all of its steps.
 
-The ordinal values of statuses are significant. The status of a Pickle
-is determined by the union of statuses of its steps. The
-status of the Pickle is the status with the highest ordinal
-in the enum.
-
-For example, if a pickle has steps with statuses passed, undefined and skipped,
+For example, if a TestCase has steps with statuses passed, undefined and skipped,
 then the pickle&#39;s status is undefined.
 
 | Name | Number | Description |
@@ -1351,21 +1378,21 @@ then the pickle&#39;s status is undefined.
 
 ## Scalar Value Types
 
-| .proto Type | Notes | C++ Type | Java Type | Python Type |
-| ----------- | ----- | -------- | --------- | ----------- |
-| <a name="double" /> double |  | double | double | float |
-| <a name="float" /> float |  | float | float | float |
-| <a name="int32" /> int32 | Uses variable-length encoding. Inefficient for encoding negative numbers – if your field is likely to have negative values, use sint32 instead. | int32 | int | int |
-| <a name="int64" /> int64 | Uses variable-length encoding. Inefficient for encoding negative numbers – if your field is likely to have negative values, use sint64 instead. | int64 | long | int/long |
-| <a name="uint32" /> uint32 | Uses variable-length encoding. | uint32 | int | int/long |
-| <a name="uint64" /> uint64 | Uses variable-length encoding. | uint64 | long | int/long |
-| <a name="sint32" /> sint32 | Uses variable-length encoding. Signed int value. These more efficiently encode negative numbers than regular int32s. | int32 | int | int |
-| <a name="sint64" /> sint64 | Uses variable-length encoding. Signed int value. These more efficiently encode negative numbers than regular int64s. | int64 | long | int/long |
-| <a name="fixed32" /> fixed32 | Always four bytes. More efficient than uint32 if values are often greater than 2^28. | uint32 | int | int |
-| <a name="fixed64" /> fixed64 | Always eight bytes. More efficient than uint64 if values are often greater than 2^56. | uint64 | long | int/long |
-| <a name="sfixed32" /> sfixed32 | Always four bytes. | int32 | int | int |
-| <a name="sfixed64" /> sfixed64 | Always eight bytes. | int64 | long | int/long |
-| <a name="bool" /> bool |  | bool | boolean | boolean |
-| <a name="string" /> string | A string must always contain UTF-8 encoded or 7-bit ASCII text. | string | String | str/unicode |
-| <a name="bytes" /> bytes | May contain any arbitrary sequence of bytes. | string | ByteString | str |
+| .proto Type | Notes | C++ | Java | Python | Go | C# | PHP | Ruby |
+| ----------- | ----- | --- | ---- | ------ | -- | -- | --- | ---- |
+| <a name="double" /> double |  | double | double | float | float64 | double | float | Float |
+| <a name="float" /> float |  | float | float | float | float32 | float | float | Float |
+| <a name="int32" /> int32 | Uses variable-length encoding. Inefficient for encoding negative numbers – if your field is likely to have negative values, use sint32 instead. | int32 | int | int | int32 | int | integer | Bignum or Fixnum (as required) |
+| <a name="int64" /> int64 | Uses variable-length encoding. Inefficient for encoding negative numbers – if your field is likely to have negative values, use sint64 instead. | int64 | long | int/long | int64 | long | integer/string | Bignum |
+| <a name="uint32" /> uint32 | Uses variable-length encoding. | uint32 | int | int/long | uint32 | uint | integer | Bignum or Fixnum (as required) |
+| <a name="uint64" /> uint64 | Uses variable-length encoding. | uint64 | long | int/long | uint64 | ulong | integer/string | Bignum or Fixnum (as required) |
+| <a name="sint32" /> sint32 | Uses variable-length encoding. Signed int value. These more efficiently encode negative numbers than regular int32s. | int32 | int | int | int32 | int | integer | Bignum or Fixnum (as required) |
+| <a name="sint64" /> sint64 | Uses variable-length encoding. Signed int value. These more efficiently encode negative numbers than regular int64s. | int64 | long | int/long | int64 | long | integer/string | Bignum |
+| <a name="fixed32" /> fixed32 | Always four bytes. More efficient than uint32 if values are often greater than 2^28. | uint32 | int | int | uint32 | uint | integer | Bignum or Fixnum (as required) |
+| <a name="fixed64" /> fixed64 | Always eight bytes. More efficient than uint64 if values are often greater than 2^56. | uint64 | long | int/long | uint64 | ulong | integer/string | Bignum |
+| <a name="sfixed32" /> sfixed32 | Always four bytes. | int32 | int | int | int32 | int | integer | Bignum or Fixnum (as required) |
+| <a name="sfixed64" /> sfixed64 | Always eight bytes. | int64 | long | int/long | int64 | long | integer/string | Bignum |
+| <a name="bool" /> bool |  | bool | boolean | boolean | bool | bool | boolean | TrueClass/FalseClass |
+| <a name="string" /> string | A string must always contain UTF-8 encoded or 7-bit ASCII text. | string | String | str/unicode | string | string | string | String (UTF-8) |
+| <a name="bytes" /> bytes | May contain any arbitrary sequence of bytes. | string | ByteString | str | []byte | ByteString | string | String (ASCII-8BIT) |
 

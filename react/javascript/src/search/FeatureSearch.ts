@@ -12,7 +12,7 @@ export default class FeatureSearch {
     string,
     messages.GherkinDocument.IFeature
   >()
-  private readonly index = elasticlunr<SearchableFeature>(ctx => {
+  private readonly index = elasticlunr<SearchableFeature>((ctx) => {
     ctx.setRef('uri')
     ctx.addField('name')
     ctx.addField('description')
@@ -37,7 +37,7 @@ export default class FeatureSearch {
       },
     })
 
-    return searchResultsList.map(searchResults => {
+    return searchResultsList.map((searchResults) => {
       return this.featuresByUri.get(searchResults.ref)
     })
   }

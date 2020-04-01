@@ -20,7 +20,7 @@ const SearchBar: React.FunctionComponent<IProps> = ({ queryUpdated }) => {
       <input
         type="text"
         onKeyPress={updateQueryOnEnter}
-        onChange={event => setQuery(event.target.value)}
+        onChange={(event) => setQuery(event.target.value)}
       />
       <button type="submit" onClick={() => queryUpdated(query)} value="search">
         <FontAwesomeIcon icon={faSearch} />

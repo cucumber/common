@@ -2,7 +2,7 @@ import assert from 'assert'
 import ReactDOM from 'react-dom'
 import React from 'react'
 import { messages } from '@cucumber/messages'
-import CucumberQuery from '@cucumber/query'
+import { Query as CucumberQuery } from '@cucumber/query'
 import Step from '../src/components/gherkin/Step'
 import { JSDOM } from 'jsdom'
 
@@ -68,12 +68,12 @@ describe('<Step>', () => {
 
     const plainTexts = Array.from(
       document.querySelectorAll('#content h3 span')
-    ).map(a => a.innerHTML)
+    ).map((a) => a.innerHTML)
     assert.deepStrictEqual(plainTexts, ['Given', 'the ', ' pixies'])
 
     const paramTexts = Array.from(
       document.querySelectorAll('#content h3 a')
-    ).map(a => a.innerHTML)
+    ).map((a) => a.innerHTML)
     assert.deepStrictEqual(paramTexts, ['48'])
   })
 })

@@ -68,8 +68,8 @@ export default class Query {
    * @param pickleStepIds
    */
   public getPickleStepTestStepResults(
-    pickleStepIds: string[]
-  ): messages.ITestStepResult[] {
+    pickleStepIds: ReadonlyArray<string>
+  ): ReadonlyArray<messages.ITestStepResult> {
     if (pickleStepIds.length === 0) {
       return [
         new messages.TestStepResult({
@@ -93,8 +93,8 @@ export default class Query {
    * @param pickleIds
    */
   public getPickleTestStepResults(
-    pickleIds: string[]
-  ): messages.ITestStepResult[] {
+    pickleIds: ReadonlyArray<string>
+  ): ReadonlyArray<messages.ITestStepResult> {
     if (pickleIds.length === 0) {
       return [
         new messages.TestStepResult({
@@ -118,10 +118,10 @@ export default class Query {
    * @param testStepResults
    */
   public getWorstTestStepResult(
-    testStepResults: messages.ITestStepResult[]
+    testStepResults: ReadonlyArray<messages.ITestStepResult>
   ): messages.ITestStepResult {
     return (
-      testStepResults.sort((r1, r2) => r2.status - r1.status)[0] ||
+      testStepResults.slice().sort((r1, r2) => r2.status - r1.status)[0] ||
       new messages.TestStepResult({
         status: messages.TestStepResult.Status.UNKNOWN,
         duration: TimeConversion.millisecondsToDuration(0),
@@ -134,8 +134,8 @@ export default class Query {
    * @param pickleStepIds
    */
   public getPickleStepAttachments(
-    pickleStepIds: string[]
-  ): messages.IAttachment[] {
+    pickleStepIds: ReadonlyArray<string>
+  ): ReadonlyArray<messages.IAttachment> {
     return pickleStepIds.reduce(
       (attachments: messages.IAttachment[], pickleStepId) => {
         return attachments.concat(
@@ -152,7 +152,9 @@ export default class Query {
    */
   public getStepMatchArgumentsLists(
     pickleStepId: string
-  ): messages.TestCase.TestStep.IStepMatchArgumentsList[] | undefined {
+  ):
+    | ReadonlyArray<messages.TestCase.TestStep.IStepMatchArgumentsList>
+    | undefined {
     return this.stepMatchArgumentsListsByPickleStepId.get(pickleStepId)
   }
 }

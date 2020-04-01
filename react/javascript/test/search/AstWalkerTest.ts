@@ -73,7 +73,7 @@ describe('AstWalker', () => {
 
       const walker = new AstWalker({
         ...rejectAll,
-        ...{ acceptScenario: scenario => scenario.name === 'Earth' },
+        ...{ acceptScenario: (scenario) => scenario.name === 'Earth' },
       })
       const newGherkinDocument = walker.walkGherkinDocument(gherkinDocument)
       const newSource = pretty(newGherkinDocument)
@@ -97,7 +97,7 @@ describe('AstWalker', () => {
 
       const walker = new AstWalker({
         ...rejectAll,
-        ...{ acceptStep: step => step.text.includes('liquid') },
+        ...{ acceptStep: (step) => step.text.includes('liquid') },
       })
       const newGherkinDocument = walker.walkGherkinDocument(gherkinDocument)
       const newSource = pretty(newGherkinDocument)
@@ -121,11 +121,11 @@ describe('AstWalker', () => {
 
       const walker = new AstWalker({
         ...rejectAll,
-        ...{ acceptScenario: scenario => scenario.name === 'Earth' },
+        ...{ acceptScenario: (scenario) => scenario.name === 'Earth' },
       })
       const newGherkinDocument = walker.walkGherkinDocument(gherkinDocument)
       assert.deepStrictEqual(
-        newGherkinDocument.feature.children.filter(child => child === null),
+        newGherkinDocument.feature.children.filter((child) => child === null),
         []
       )
     })
@@ -142,7 +142,7 @@ describe('AstWalker', () => {
 
       const walker = new AstWalker({
         ...rejectAll,
-        ...{ acceptScenario: scenario => scenario.name === 'Saturn' },
+        ...{ acceptScenario: (scenario) => scenario.name === 'Saturn' },
       })
       const newGherkinDocument = walker.walkGherkinDocument(gherkinDocument)
       const newSource = pretty(newGherkinDocument)
@@ -171,7 +171,9 @@ describe('AstWalker', () => {
 
       const walker = new AstWalker({
         ...rejectAll,
-        ...{ acceptBackground: background => background.name === 'Milky Way' },
+        ...{
+          acceptBackground: (background) => background.name === 'Milky Way',
+        },
       })
       const newGherkinDocument = walker.walkGherkinDocument(gherkinDocument)
       const newSource = pretty(newGherkinDocument)
@@ -205,7 +207,7 @@ describe('AstWalker', () => {
 
       const walker = new AstWalker({
         ...rejectAll,
-        ...{ acceptStep: step => step.text.includes('space') },
+        ...{ acceptStep: (step) => step.text.includes('space') },
       })
       const newGherkinDocument = walker.walkGherkinDocument(gherkinDocument)
       const newSource = pretty(newGherkinDocument)
@@ -244,7 +246,7 @@ describe('AstWalker', () => {
 
       const walker = new AstWalker({
         ...rejectAll,
-        ...{ acceptScenario: scenario => scenario.name === 'Andromeda' },
+        ...{ acceptScenario: (scenario) => scenario.name === 'Andromeda' },
       })
       const newGherkinDocument = walker.walkGherkinDocument(gherkinDocument)
       const newSource = pretty(newGherkinDocument)
@@ -278,7 +280,7 @@ describe('AstWalker', () => {
 
       const walker = new AstWalker({
         ...rejectAll,
-        ...{ acceptRule: rule => rule.name === 'Galaxy' },
+        ...{ acceptRule: (rule) => rule.name === 'Galaxy' },
       })
       const newGherkinDocument = walker.walkGherkinDocument(gherkinDocument)
       const newSource = pretty(newGherkinDocument)
@@ -338,7 +340,7 @@ describe('AstWalker', () => {
 
       const walker = new AstWalker({
         ...rejectAll,
-        acceptFeature: feature => feature.name === 'Solar System',
+        acceptFeature: (feature) => feature.name === 'Solar System',
       })
       const newGherkinDocument = walker.walkGherkinDocument(gherkinDocument)
       const newSource = pretty(newGherkinDocument)
@@ -382,7 +384,7 @@ describe('AstWalker', () => {
         const astWalker = new AstWalker(
           {},
           {
-            handleStep: step => stepText.push(step.text),
+            handleStep: (step) => stepText.push(step.text),
           }
         )
         astWalker.walkGherkinDocument(source)
@@ -406,7 +408,7 @@ describe('AstWalker', () => {
         const astWalker = new AstWalker(
           {},
           {
-            handleScenario: scenario => scenarioName.push(scenario.name),
+            handleScenario: (scenario) => scenarioName.push(scenario.name),
           }
         )
         astWalker.walkGherkinDocument(source)
@@ -428,7 +430,7 @@ describe('AstWalker', () => {
         const astWalker = new AstWalker(
           {},
           {
-            handleBackground: background =>
+            handleBackground: (background) =>
               backgroundName.push(background.name),
           }
         )
@@ -455,7 +457,7 @@ describe('AstWalker', () => {
         const astWalker = new AstWalker(
           {},
           {
-            handleRule: rule => ruleName.push(rule.name),
+            handleRule: (rule) => ruleName.push(rule.name),
           }
         )
         astWalker.walkGherkinDocument(source)
@@ -481,7 +483,7 @@ describe('AstWalker', () => {
         const astWalker = new AstWalker(
           {},
           {
-            handleFeature: feature => featureName.push(feature.name),
+            handleFeature: (feature) => featureName.push(feature.name),
           }
         )
         astWalker.walkGherkinDocument(source)

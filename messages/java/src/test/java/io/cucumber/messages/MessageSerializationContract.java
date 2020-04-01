@@ -41,7 +41,7 @@ public abstract class MessageSerializationContract {
                         .setData("Feature: Hello")).build());
         outgoingMessages.add(Messages.Envelope.newBuilder()
                 .setAttachment(Messages.Attachment.newBuilder()
-                        .setBinary(ByteString.copyFrom(new byte[]{1,2,3,4}))).build());
+                        .setBody("the body")).build());
         return outgoingMessages;
     }
 

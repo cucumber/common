@@ -8,7 +8,7 @@ interface SearchableRule {
 }
 
 export default class RuleSearch {
-  private readonly index = elasticlunr<SearchableRule>(ctx => {
+  private readonly index = elasticlunr<SearchableRule>((ctx) => {
     ctx.setRef('id')
     ctx.addField('name')
     ctx.addField('description')
@@ -38,6 +38,6 @@ export default class RuleSearch {
       },
     })
 
-    return results.map(result => this.ruleById.get(result.ref))
+    return results.map((result) => this.ruleById.get(result.ref))
   }
 }

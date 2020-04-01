@@ -18,7 +18,7 @@ function pathToEnvelopes(path: string): messages.IEnvelope[] {
 function getGherkinDocument(
   envelopes: messages.IEnvelope[]
 ): messages.IGherkinDocument {
-  return envelopes.find(envelope => envelope.gherkinDocument).gherkinDocument
+  return envelopes.find((envelope) => envelope.gherkinDocument).gherkinDocument
 }
 
 describe('getFeatureStatus', () => {
@@ -31,7 +31,7 @@ describe('getFeatureStatus', () => {
   })
 
   function readEnvelopes(envelopes: messages.IEnvelope[]): void {
-    envelopes.map(envelope => {
+    envelopes.map((envelope) => {
       gherkinQuery.update(envelope)
       testResultsQuery.update(envelope)
     })

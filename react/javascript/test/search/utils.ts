@@ -8,7 +8,7 @@ function makeFeature(
   return messages.GherkinDocument.Feature.create({
     name: name,
     description: description,
-    children: scenarios.map(scenario =>
+    children: scenarios.map((scenario) =>
       messages.GherkinDocument.Feature.FeatureChild.create({
         scenario: scenario,
       })
@@ -27,7 +27,7 @@ function makeRule(
     id: idGenerator(),
     name: name,
     description: description,
-    children: scenarios.map(scenario =>
+    children: scenarios.map((scenario) =>
       messages.GherkinDocument.Feature.FeatureChild.RuleChild.create({
         scenario: scenario,
       })

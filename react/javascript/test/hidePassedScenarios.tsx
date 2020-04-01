@@ -71,24 +71,24 @@ describe('hidePassedScenarios', () => {
     const messages = envelopes(documentList)
     const testResultsQuery = new Query()
     const gherkinQuery = new GherkinQuery()
-    messages.map(message => {
+    messages.map((message) => {
       gherkinQuery.update(message)
       testResultsQuery.update(message)
     })
 
     const documents = messages
-      .filter(message => message.gherkinDocument)
-      .map(m => m.gherkinDocument)
+      .filter((message) => message.gherkinDocument)
+      .map((m) => m.gherkinDocument)
 
     assert.deepStrictEqual(
       hidePassedScenarios(documents, testResultsQuery, gherkinQuery).map(
-        document => document.uri
+        (document) => document.uri
       ),
       [
-        'testdata/rules.feature',
-        'testdata/test.feature',
         'testdata/escaped_pipes.feature',
+        'testdata/rules.feature',
         'testdata/statuses.feature',
+        'testdata/test.feature',
       ]
     )
   })

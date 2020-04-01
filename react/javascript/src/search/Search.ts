@@ -22,16 +22,17 @@ export default class Search {
     const matchingFeatures = this.featureSearch.search(query)
 
     const walker = new AstWalker({
-      acceptStep: step => matchingSteps.includes(step),
-      acceptScenario: scenario => matchingScenarios.includes(scenario),
-      acceptBackground: background => matchingBackgrounds.includes(background),
-      acceptRule: rule => matchingRules.includes(rule),
-      acceptFeature: feature => matchingFeatures.includes(feature),
+      acceptStep: (step) => matchingSteps.includes(step),
+      acceptScenario: (scenario) => matchingScenarios.includes(scenario),
+      acceptBackground: (background) =>
+        matchingBackgrounds.includes(background),
+      acceptRule: (rule) => matchingRules.includes(rule),
+      acceptFeature: (feature) => matchingFeatures.includes(feature),
     })
 
     return this.gherkinDocuments
-      .map(gherkinDocument => walker.walkGherkinDocument(gherkinDocument))
-      .filter(gherkinDocument => gherkinDocument !== null)
+      .map((gherkinDocument) => walker.walkGherkinDocument(gherkinDocument))
+      .filter((gherkinDocument) => gherkinDocument !== null)
   }
 
   public add(gherkinDocument: messages.IGherkinDocument) {
@@ -39,10 +40,10 @@ export default class Search {
     const walker = new AstWalker(
       {},
       {
-        handleStep: step => this.stepSearch.add(step),
-        handleScenario: scenario => this.scenarioSearch.add(scenario),
-        handleBackground: background => this.backgroundSearch.add(background),
-        handleRule: rule => this.ruleSearch.add(rule),
+        handleStep: (step) => this.stepSearch.add(step),
+        handleScenario: (scenario) => this.scenarioSearch.add(scenario),
+        handleBackground: (background) => this.backgroundSearch.add(background),
+        handleRule: (rule) => this.ruleSearch.add(rule),
       }
     )
     this.featureSearch.add(gherkinDocument)
