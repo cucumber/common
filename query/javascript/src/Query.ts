@@ -180,4 +180,24 @@ export default class Query {
 
     return hookSteps
   }
+
+  public getAfterHookSteps(
+    pickleId: string
+  ): ReadonlyArray<messages.TestCase.ITestStep> {
+    const testCase = this.testCaseByPickleId.get(pickleId)
+
+    const hookSteps: messages.TestCase.ITestStep[] = []
+    let pickleStepFound = false
+
+    for (const step of testCase.testSteps) {
+      if (!step.hookId) {
+        pickleStepFound = true
+      }
+      if (step.hookId && pickleStepFound) {
+        hookSteps.push(step)
+      }
+    }
+
+    return hookSteps
+  }
 }
