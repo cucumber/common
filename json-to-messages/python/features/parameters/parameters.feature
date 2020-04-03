@@ -22,5 +22,5 @@ Feature: step parameters
       | ploc | 1     |
     Given a step with a doctring:
       """
-      This is some typed content
+        This is some typed content
       """

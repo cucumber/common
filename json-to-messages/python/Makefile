@@ -17,11 +17,14 @@ default: .tested
 
 acceptance/%.json: features/%.feature .installed
 	mkdir -p $(@D)
-	behave $< --format=json -o $@
+	-behave $< --format=json -o $@
+
+features/parameters/parameters.feature:
+	# no-op
 
 features/%.feature: ../ruby/features/%.feature
 	mkdir -p $(@D)
 	cp $^ $@
 
 clean:
-	rm -rf features/**/*.feature acceptance
+	rm -rf features/hooks/hooks.feature features/statuses/statuses.feature acceptance
