@@ -4,12 +4,76 @@ import { stubInterface } from 'ts-sinon'
 import IAstMaker from '../../src/IAstMaker'
 import {
   traverseStep,
-  traverseDocString
+  traverseDocString,
+  traverseBeforeHook,
+  traverseAfterHook,
 } from '../../src/cucumber-js.ts/JSONTraverse'
 import IPredictableSupportCode from '../../src/IPredictableSupportCode'
 import { messages } from '@cucumber/messages'
 
 describe('traversing elements', () => {
+  context('traverseBeforeHook', () => {
+    const beforeHook: IStep = {
+      hidden: true,
+      keyword: 'Before ',
+      line: 15,
+      name: '',
+      result: {
+        status: 'passed',
+      },
+      match: {
+        location: 'whatever.go:123',
+      },
+    }
+
+    it('registers the before Hook with the correct data', () => {
+      const supportCode = stubInterface<IPredictableSupportCode>()
+      traverseBeforeHook(
+        beforeHook,
+        messages.GherkinDocument.Feature.Scenario.create({ id: 'scenario-id' }),
+        supportCode
+      )
+
+      assert.deepEqual(supportCode.addPredictableBeforeHook.getCall(0).args, [
+        'whatever.go:123',
+        'scenario-id',
+        'passed',
+        undefined,
+      ])
+    })
+  })
+
+  context('traverseAfterHook', () => {
+    const beforeHook: IStep = {
+      hidden: true,
+      keyword: 'After ',
+      line: 15,
+      name: '',
+      result: {
+        status: 'passed',
+      },
+      match: {
+        location: 'whatever.go:123',
+      },
+    }
+
+    it('registers the before Hook with the correct data', () => {
+      const supportCode = stubInterface<IPredictableSupportCode>()
+      traverseAfterHook(
+        beforeHook,
+        messages.GherkinDocument.Feature.Scenario.create({ id: 'scenario-id' }),
+        supportCode
+      )
+
+      assert.deepEqual(supportCode.addPredictableAfterHook.getCall(0).args, [
+        'whatever.go:123',
+        'scenario-id',
+        'passed',
+        undefined,
+      ])
+    })
+  })
+
   context('traverseStep', () => {
     const simpleStep: IStep = {
       keyword: 'Given ',
@@ -19,8 +83,8 @@ describe('traversing elements', () => {
         status: 'failed',
       },
       match: {
-        location: "whatever.go:123"
-      }
+        location: 'whatever.go:123',
+      },
     }
 
     const docStringStep: IStep = {
@@ -43,16 +107,16 @@ describe('traversing elements', () => {
         {
           rows: [
             {
-              cells: [ "name", "value"]
+              cells: ['name', 'value'],
             },
             {
-              cells: ["plic", "0"]
+              cells: ['plic', '0'],
             },
             {
-              cells: ["ploc", "1"]
-            }
-          ]
-        }
+              cells: ['ploc', '1'],
+            },
+          ],
+        },
       ],
       keyword: 'Given ',
       line: 15,
@@ -76,7 +140,7 @@ describe('traversing elements', () => {
         'Given ',
         'a step with a doctring:',
         docString,
-        null
+        null,
       ])
     })
 
@@ -94,25 +158,25 @@ describe('traversing elements', () => {
         'Given ',
         'a step with a doctring:',
         null,
-        datatable
+        datatable,
       ])
     })
 
     it('registers the step in supportCode', () => {
       const astMaker = stubInterface<IAstMaker>()
       const supportCode = stubInterface<IPredictableSupportCode>()
-      astMaker.makeStep.returns(messages.GherkinDocument.Feature.Step.create({
-        id: 'a-random-step-id'
-      }))
+      astMaker.makeStep.returns(
+        messages.GherkinDocument.Feature.Step.create({
+          id: 'a-random-step-id',
+        })
+      )
 
       traverseStep(simpleStep, astMaker, () => 'the-id', supportCode)
 
-      assert.deepEqual(supportCode.addPredictableStepDefinition.getCall(0).args, [
-        'whatever.go:123',
-        'a-random-step-id',
-        'failed',
-        undefined
-      ])
+      assert.deepEqual(
+        supportCode.addPredictableStepDefinition.getCall(0).args,
+        ['whatever.go:123', 'a-random-step-id', 'failed', undefined]
+      )
     })
   })
 

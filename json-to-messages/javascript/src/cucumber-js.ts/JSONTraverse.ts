@@ -4,21 +4,49 @@ import { messages, IdGenerator } from '@cucumber/messages'
 import IPredictableSupportCode from '../IPredictableSupportCode'
 import { traverseDataTable } from '../cucumber-ruby/JSONTraverse'
 
+export function traverseBeforeHook(
+  step: IStep,
+  scenario: messages.GherkinDocument.Feature.IScenario,
+  predictableSupportCode: IPredictableSupportCode
+): void {
+  predictableSupportCode.addPredictableBeforeHook(
+    step.match.location,
+    scenario.id,
+    step.result.status,
+    step.result.error_message
+  )
+}
+
+export function traverseAfterHook(
+  step: IStep,
+  scenario: messages.GherkinDocument.Feature.IScenario,
+  predictableSupportCode: IPredictableSupportCode
+): void {
+  predictableSupportCode.addPredictableAfterHook(
+    step.match.location,
+    scenario.id,
+    step.result.status,
+    step.result.error_message
+  )
+}
+
 export function traverseStep(
   step: IStep,
   astMaker: IAstMaker,
   newId: IdGenerator.NewId,
   predictableSupportCode: IPredictableSupportCode
 ): messages.GherkinDocument.Feature.IStep {
-  const stepArguments = step.arguments || []
-  const docStringArgument = stepArguments
-    .find((arg: IDocString) => arg.content) as IDocString
+  const stepArguments = step.arguments || []
+  const docStringArgument = stepArguments.find(
+    (arg: IDocString) => arg.content
+  ) as IDocString
   const docString = docStringArgument
     ? traverseDocString(docStringArgument, astMaker)
     : null
 
-  const datatableArgument = stepArguments
-    .find((arg: IDataTable) => arg.rows) as IDataTable
+  const datatableArgument = stepArguments.find(
+    (arg: IDataTable) => arg.rows
+  ) as IDataTable
   const datatable = datatableArgument
     ? traverseDataTable(datatableArgument.rows, astMaker)
     : null
