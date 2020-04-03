@@ -101,9 +101,6 @@ export function traverseElement(
   return child
 }
 
-// export function traverseBefore(hooks: IHook[], scenarioId: string) {}
-// export function traverseAfter(hooks: IHook[], scenarioId: string) {}
-
 export function traverseStep(
   step: IStep,
   astMaker: IAstMaker,

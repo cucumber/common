@@ -25,7 +25,7 @@ export interface IStep {
   name: string
   result: IResult
   hidden?: boolean
-  arguments?: ReadonlyArray<IDocString|IDataTable>
+  arguments?: ReadonlyArray<IDocString | IDataTable>
 }
 
 export interface IMatch {
@@ -47,6 +47,6 @@ export interface IDataTableRow {
 }
 
 export interface IDocString {
-  line: number,
+  line: number
   content: string
 }
