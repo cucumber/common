@@ -19,8 +19,10 @@ Then('I have {int} cucumbers left', function(left: number) {
   assert.equal(this.cucumbers, left)
 })
 
-Given('a step with a doctring:', function(doc: string) {
+Given('a step with a doctring:', function() {
+  // no-op
 })
 
-When('a step with a datatable', function(table) {
+When('a step with a datatable', function() {
+  // no-op
 })
