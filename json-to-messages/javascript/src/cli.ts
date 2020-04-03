@@ -1,7 +1,7 @@
 import { Command } from 'commander'
 import packageJson from '../package.json'
 import { runCucumber, SupportCode } from '@cucumber/fake-cucumber'
-import { IFeature } from './cucumber-ruby/JSONSchema'
+import { IFeature } from './cucumber-generic/JSONSchema'
 import { messages, MessageToNdjsonStream } from '@cucumber/messages'
 
 import { compile, Query as GherkinQuery } from '@cucumber/gherkin'
@@ -11,14 +11,21 @@ import { promisify } from 'util'
 import JSONTransformStream from './stream/JSONTransformStream'
 import SingleObjectWritableStream from './stream/SingleObjectWritableStream'
 import AstMaker from './AstMaker'
-import { traverseFeature } from './cucumber-ruby/JSONTraverse'
+import traverseFeature from './JSONTraverse'
+
 import PredictableSupportCode from './PredictableSupportCode'
 import makePredictableTestPlan from './test-generation/makePredictableTestPlan'
 const asyncPipeline = promisify(pipeline)
 
 const program = new Command()
 program.version(packageJson.version)
+program.option(
+  '-l, --lang <lang>',
+  'Language used to generate the report: ruby|js',
+  'protobuf'
+)
 program.parse(process.argv)
+const { lang } = program
 
 async function main() {
   const singleObjectWritable = new SingleObjectWritableStream<
@@ -39,6 +46,7 @@ async function main() {
 
   const gherkinDocuments = singleObjectWritable.object.map(feature =>
     traverseFeature(
+      lang,
       feature,
       astMaker,
       supportCode.newId,

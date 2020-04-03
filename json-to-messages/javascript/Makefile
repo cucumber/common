@@ -31,7 +31,7 @@ acceptance/ruby/all.ndjson: $(RUBY_NDJSONS)
 
 acceptance/ruby/%.ndjson: ../ruby/acceptance/%.json $(TYPESCRIPT_SOURCE_FILES)
 	mkdir -p $(@D)
-	cat $< | bin/json-to-messages > $@
+	cat $< | bin/json-to-messages --lang ruby > $@
 
 js_reports: $(JS_HTMLS) $(JS_GENERATED_JSONS) acceptance/javascript/all.ndjson.html
 
@@ -41,7 +41,7 @@ acceptance/javascript/all.ndjson: $(JS_NDJSONS)
 
 acceptance/javascript/%.ndjson: ../javascript-json/acceptance/%.json $(TYPESCRIPT_SOURCE_FILES)
 	mkdir -p $(@D)
-	cat $< | bin/json-to-messages > $@
+	cat $< | bin/json-to-messages --lang js > $@
 
 python_reports: $(PYTHON_HTMLS) $(PYTHON_GENERATED_JSONS) acceptance/python/all.ndjson.html
 
