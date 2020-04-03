@@ -1,8 +1,81 @@
-import { IDocString, IStep, IDataTable } from './JSONSchema'
+import { IDocString, IStep, IDataTable, IElement, IFeature } from './JSONSchema'
 import IAstMaker from '../IAstMaker'
 import { messages, IdGenerator } from '@cucumber/messages'
 import IPredictableSupportCode from '../IPredictableSupportCode'
 import { traverseDataTable } from '../cucumber-ruby/JSONTraverse'
+import { traverseFeature as genericTraverseFeature } from '../cucumber-generic/JSONTraverse'
+
+export function traverseFeature(
+  feature: IFeature,
+  astMaker: IAstMaker,
+  newId: IdGenerator.NewId,
+  predictableSupportCode: IPredictableSupportCode
+): messages.IGherkinDocument {
+  return genericTraverseFeature(
+    feature,
+    astMaker,
+    newId,
+    predictableSupportCode,
+    traverseElement
+  )
+}
+
+export function traverseElement(
+  element: IElement,
+  astMaker: IAstMaker,
+  newId: IdGenerator.NewId,
+  predictableSupportCode: IPredictableSupportCode
+): messages.GherkinDocument.Feature.IFeatureChild {
+  const beforeHooks: IStep[] = []
+  const scenarioSteps: IStep[] = []
+  const afterHooks: IStep[] = []
+
+  let currentStepIs = 'before'
+
+  for (const step of element.steps) {
+    if (currentStepIs === 'before' && !step.hidden) {
+      currentStepIs = 'scenario'
+    } else if (currentStepIs === 'scenario' && step.hidden) {
+      currentStepIs = 'after'
+    }
+
+    switch (currentStepIs) {
+      case 'before': {
+        beforeHooks.push(step)
+        break
+      }
+      case 'scenario': {
+        scenarioSteps.push(step)
+        break
+      }
+      case 'after': {
+        afterHooks.push(step)
+        break
+      }
+    }
+  }
+
+  const featureChild = astMaker.makeScenarioFeatureChild(
+    newId(),
+    element.line,
+    element.keyword,
+    element.name,
+    element.description,
+    scenarioSteps.map(step =>
+      traverseStep(step, astMaker, newId, predictableSupportCode)
+    )
+  )
+
+  for (const hook of beforeHooks) {
+    traverseBeforeHook(hook, featureChild.scenario, predictableSupportCode)
+  }
+
+  for (const hook of afterHooks) {
+    traverseAfterHook(hook, featureChild.scenario, predictableSupportCode)
+  }
+
+  return featureChild
+}
 
 export function traverseBeforeHook(
   step: IStep,

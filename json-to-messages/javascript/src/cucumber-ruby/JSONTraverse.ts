@@ -8,6 +8,7 @@ import {
 } from './JSONSchema'
 import IAstMaker from '../IAstMaker'
 import IPredictableSupportCode from '../IPredictableSupportCode'
+import { traverseFeature as genericTraverseFeature } from '../cucumber-generic/JSONTraverse'
 
 export function traverseFeature(
   feature: IFeature,
@@ -15,29 +16,13 @@ export function traverseFeature(
   newId: IdGenerator.NewId,
   predictableSupportCode: IPredictableSupportCode
 ): messages.IGherkinDocument {
-  const children: messages.GherkinDocument.Feature.IFeatureChild[] = []
-  let backgroundFound = false
-
-  for (const element of feature.elements) {
-    const isBackground = element.type === 'background'
-
-    if (!isBackground || !backgroundFound) {
-      children.push(
-        traverseElement(element, astMaker, newId, predictableSupportCode)
-      )
-    }
-    backgroundFound = backgroundFound || isBackground
-  }
-
-  const gherkinFeature = astMaker.makeFeature(
-    feature.line,
-    feature.keyword,
-    feature.name,
-    feature.description,
-    children
+  return genericTraverseFeature(
+    feature,
+    astMaker,
+    newId,
+    predictableSupportCode,
+    traverseElement
   )
-
-  return astMaker.makeGherkinDocument(feature.uri, gherkinFeature)
 }
 
 export function traverseElement(

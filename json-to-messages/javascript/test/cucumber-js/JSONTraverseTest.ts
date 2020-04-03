@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/camelcase */
+
 import assert from 'assert'
-import { IStep, IDocString } from '../../src/cucumber-js.ts/JSONSchema'
+import { IStep, IDocString, IElement } from '../../src/cucumber-js/JSONSchema'
 import { stubInterface } from 'ts-sinon'
 import IAstMaker from '../../src/IAstMaker'
 import {
@@ -7,11 +9,162 @@ import {
   traverseDocString,
   traverseBeforeHook,
   traverseAfterHook,
-} from '../../src/cucumber-js.ts/JSONTraverse'
+  traverseElement,
+} from '../../src/cucumber-js/JSONTraverse'
 import IPredictableSupportCode from '../../src/IPredictableSupportCode'
 import { messages } from '@cucumber/messages'
 
 describe('traversing elements', () => {
+  context('traverseFeature', () => {
+    it('create ')
+  })
+
+  context('traverseElement', () => {
+    const simpleScenario: IElement = {
+      id: 'my-scenario',
+      line: 3,
+      keyword: 'scenario',
+      type: 'scenario',
+      name: 'My scenario',
+      description: 'This scenario does things',
+      steps: [
+        {
+          keyword: 'Given ',
+          line: 6,
+          name: 'a failed step',
+          result: {
+            status: 'failed',
+          },
+          match: {
+            location: 'whatever.go:123',
+          },
+        },
+      ],
+    }
+
+    const hookedScenario: IElement = {
+      id: 'my-scenario',
+      line: 3,
+      keyword: 'scenario',
+      type: 'scenario',
+      name: 'My scenario',
+      description: 'This scenario does things',
+      steps: [
+        {
+          hidden: true,
+          keyword: 'Before ',
+          line: 3,
+          name: '',
+          result: {
+            status: 'passed',
+          },
+          match: {
+            location: 'whatever.go:123',
+          },
+        },
+        {
+          keyword: 'Given ',
+          line: 6,
+          name: 'a failed step',
+          result: {
+            status: 'passed',
+          },
+          match: {
+            location: 'whatever.go:123',
+          },
+        },
+        {
+          hidden: true,
+          keyword: 'After',
+          line: 3,
+          name: '',
+          result: {
+            status: 'failed',
+            error_message: 'This hook failed',
+          },
+          match: {
+            location: 'whatever.go:456',
+          },
+        },
+      ],
+    }
+
+    it('creates a Scenario using the AstMaker', () => {
+      const astMaker = stubInterface<IAstMaker>()
+      const supportCode = stubInterface<IPredictableSupportCode>()
+      const step = messages.GherkinDocument.Feature.Step.create()
+      astMaker.makeStep.returns(step)
+
+      traverseElement(simpleScenario, astMaker, () => 'new-id', supportCode)
+
+      assert.deepEqual(astMaker.makeScenarioFeatureChild.getCall(0).args, [
+        'new-id',
+        3,
+        'scenario',
+        'My scenario',
+        'This scenario does things',
+        [step],
+      ])
+    })
+
+    it('doe not create steps for hooks', () => {
+      const astMaker = stubInterface<IAstMaker>()
+      const supportCode = stubInterface<IPredictableSupportCode>()
+      astMaker.makeScenarioFeatureChild.returns(
+        messages.GherkinDocument.Feature.FeatureChild.create({
+          scenario: messages.GherkinDocument.Feature.Scenario.create({
+            id: 'scenario-id',
+          }),
+        })
+      )
+
+      traverseElement(hookedScenario, astMaker, () => 'new-id', supportCode)
+      assert.equal(astMaker.makeStep.callCount, 1)
+    })
+
+    it('correctly registers beforeHooks', () => {
+      const astMaker = stubInterface<IAstMaker>()
+      const supportCode = stubInterface<IPredictableSupportCode>()
+      astMaker.makeScenarioFeatureChild.returns(
+        messages.GherkinDocument.Feature.FeatureChild.create({
+          scenario: messages.GherkinDocument.Feature.Scenario.create({
+            id: 'scenario-id',
+          }),
+        })
+      )
+
+      traverseElement(hookedScenario, astMaker, () => 'new-id', supportCode)
+
+      assert.deepEqual(supportCode.addPredictableBeforeHook.getCall(0).args, [
+        'whatever.go:123',
+        'scenario-id',
+        'passed',
+        undefined,
+      ])
+    })
+
+    it('correctly registers afterHooks', () => {
+      const astMaker = stubInterface<IAstMaker>()
+      const supportCode = stubInterface<IPredictableSupportCode>()
+      astMaker.makeScenarioFeatureChild.returns(
+        messages.GherkinDocument.Feature.FeatureChild.create({
+          scenario: messages.GherkinDocument.Feature.Scenario.create({
+            id: 'scenario-id',
+          }),
+        })
+      )
+
+      traverseElement(hookedScenario, astMaker, () => 'new-id', supportCode)
+
+      assert.deepEqual(supportCode.addPredictableAfterHook.getCall(0).args, [
+        'whatever.go:456',
+        'scenario-id',
+        'failed',
+        'This hook failed',
+      ])
+    })
+  })
+
   context('traverseBeforeHook', () => {
     const beforeHook: IStep = {
       hidden: true,
