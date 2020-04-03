@@ -268,6 +268,43 @@ describe('Query', () => {
         [['int', 'word']]
       )
     })
+
+    describe('#getBeforeHookSteps(pickleId: string)', () => {
+      it('returns an empty list when there is no hooks', async () => {
+        await execute(
+          `Feature: hello
+    Scenario: hi
+      Given a passed step
+  `
+        )
+        const pickleId = gherkinQuery.getPickleIds('test.feature', 2)[0]
+        assert.deepEqual(cucumberQuery.getBeforeHookSteps(pickleId), [])
+      })
+
+      it('returns one hook step', async () => {
+        await execute(
+          `Feature: hello
+    @beforeHook
+    Scenario: hi
+      Given a passed step
+  `
+        )
+        const pickleId = gherkinQuery.getPickleIds('test.feature', 3)[0]
+        assert.equal(cucumberQuery.getBeforeHookSteps(pickleId).length, 1)
+      })
+
+      it('does not return after hook steps', async () => {
+        await execute(
+          `Feature: hello
+    @afterHook
+    Scenario: hi
+      Given a passed step
+  `
+        )
+        const pickleId = gherkinQuery.getPickleIds('test.feature', 3)[0]
+        assert.deepEqual(cucumberQuery.getBeforeHookSteps(pickleId), [])
+      })
+    })
   })
 
   async function execute(gherkinSource: string): Promise<void> {
@@ -275,6 +312,15 @@ describe('Query', () => {
     const clock = new IncrementClock()
     const makeErrorMessage = withFullStackTrace()
     const supportCode = new SupportCode(newId, clock, makeErrorMessage)
+    supportCode.defineBeforeHook(null, '@beforeHook', () => {
+      // no-op
+    })
+    supportCode.defineAfterHook(null, '@afterHook', () => {
+      // no-op
+    })
+    supportCode.defineAfterHook(null, '@afterHook', () => {
+      throw new Error(`This hook failed.`)
+    })
     supportCode.defineStepDefinition(null, 'a passed step', () => {
       // no-op
     })

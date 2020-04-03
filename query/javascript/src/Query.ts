@@ -11,6 +11,7 @@ export default class Query {
     messages.ITestStepResult
   >()
   private readonly testStepById = new Map<string, messages.TestCase.ITestStep>()
+  private readonly testCaseByPickleId = new Map<string, messages.ITestCase>()
   private readonly pickleIdByTestStepId = new Map<string, string>()
   private readonly pickleStepIdByTestStepId = new Map<string, string>()
 
@@ -26,6 +27,7 @@ export default class Query {
 
   public update(envelope: messages.IEnvelope) {
     if (envelope.testCase) {
+      this.testCaseByPickleId.set(envelope.testCase.pickleId, envelope.testCase)
       for (const testStep of envelope.testCase.testSteps) {
         this.testStepById.set(testStep.id, testStep)
         this.pickleIdByTestStepId.set(testStep.id, envelope.testCase.pickleId)
@@ -156,5 +158,26 @@ export default class Query {
     | ReadonlyArray<messages.TestCase.TestStep.IStepMatchArgumentsList>
     | undefined {
     return this.stepMatchArgumentsListsByPickleStepId.get(pickleStepId)
+  }
+
+  public getBeforeHookSteps(
+    pickleId: string
+  ): ReadonlyArray<messages.TestCase.ITestStep> {
+    const testCase = this.testCaseByPickleId.get(pickleId)
+
+    // const hookSteps = testCase.testSteps.filter((step) => step.hookId)
+    const hookSteps: messages.TestCase.ITestStep[] = []
+    let pickleStepFound = false
+
+    for (const step of testCase.testSteps) {
+      if (!step.hookId) {
+        pickleStepFound = true
+      }
+      if (step.hookId && !pickleStepFound) {
+        hookSteps.push(step)
+      }
+    }
+
+    return hookSteps
   }
 }
