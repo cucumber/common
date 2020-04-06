@@ -2,6 +2,7 @@ PROJECT(gherkin C)
 cmake_minimum_required(VERSION 3.0)
 # Install library & headers in your directory
 #SET(CMAKE_INSTALL_PREFIX  "")
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 LIST(APPEND GHERKIN_SRS
         src/file_reader.c
