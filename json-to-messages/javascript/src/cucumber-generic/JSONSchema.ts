@@ -10,3 +10,13 @@ export interface IFeature {
   description: string
   elements: ReadonlyArray<IRubyElement | IJSElement>
 }
+
+export interface IMatch {
+  location: string
+}
+
+export interface IResult {
+  duration?: number
+  status: string
+  error_message?: string
+}

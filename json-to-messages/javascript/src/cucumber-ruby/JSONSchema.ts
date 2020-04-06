@@ -1,3 +1,5 @@
+import { IMatch, IResult } from "../cucumber-generic/JSONSchema";
+
 export interface IFeature {
   uri: string
   id: string
@@ -33,16 +35,6 @@ export interface IStep {
   result: IResult
   doc_string?: IDocString
   rows?: ReadonlyArray<IDataTableRow>
-}
-
-export interface IMatch {
-  location: string
-}
-
-export interface IResult {
-  duration?: number
-  status: string
-  error_message?: string
 }
 
 export interface IDataTableRow {
