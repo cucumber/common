@@ -10,7 +10,7 @@ def step_impl(context):
 @when('a failed step')
 @then('a failed step')
 def step_impl(context):
-    pass
+    raise Exception('Oups !')
 
 @then('a skipped step')
 def step_impl(context):

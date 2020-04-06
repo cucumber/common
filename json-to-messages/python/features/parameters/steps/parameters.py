@@ -1,16 +1,17 @@
 from behave import *
 
-@given('I have {int} cucumbers')
+@given('I have {count:d} cucumbers')
 def step_impl(context, count):
-    raise Exception('spam', 'eggs')
+    context.cucumbers = count
 
-@when('I eat {int} cucumbers')
+@when('I eat {eaten:d} cucumbers')
 def step_impl(context, eaten):
-    pass
+    context.cucumbers -= eaten
 
-@then('I have {int} cucumbers left')
+@then('I have {left:d} cucumbers left')
 def step_impl(context, left):
-    pass
+    print "Cucumbers: %s - left: %s - %s" % (context.cucumbers, left, context.cucumbers == left)
+    assert context.cucumbers == left
 
 @given('a step with a doctring')
 def step_impl(context):
