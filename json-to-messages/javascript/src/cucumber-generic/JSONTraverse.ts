@@ -4,9 +4,10 @@ import IAstMaker from '../IAstMaker'
 import IPredictableSupportCode from '../IPredictableSupportCode'
 import { IElement as IRubyElement } from '../cucumber-ruby/JSONSchema'
 import { IElement as IJSElement } from '../cucumber-js/JSONSchema'
+import { IElement as IBehaveElement } from '../behave/JSONSchema'
 
 type traverseElementType = (
-  element: IRubyElement | IJSElement,
+  element: IRubyElement | IJSElement | IBehaveElement,
   astMaker: IAstMaker,
   newId: IdGenerator.NewId,
   predictableSupportCode: IPredictableSupportCode
@@ -38,7 +39,7 @@ export function traverseFeature(
     feature.keyword,
     feature.name,
     feature.description,
-    children
+    children.filter(child => child)
   )
 
   return astMaker.makeGherkinDocument(feature.uri, gherkinFeature)

@@ -21,7 +21,7 @@ const program = new Command()
 program.version(packageJson.version)
 program.option(
   '-l, --lang <lang>',
-  'Language used to generate the report: ruby|js',
+  'Language used to generate the report: ruby|js|behave',
   'protobuf'
 )
 program.parse(process.argv)

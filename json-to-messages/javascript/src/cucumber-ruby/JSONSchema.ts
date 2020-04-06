@@ -1,4 +1,4 @@
-import { IMatch, IResult } from "../cucumber-generic/JSONSchema";
+import { IMatch, IResult } from '../cucumber-generic/JSONSchema'
 
 export interface IFeature {
   uri: string

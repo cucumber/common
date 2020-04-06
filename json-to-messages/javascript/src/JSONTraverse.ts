@@ -5,20 +5,32 @@ import { traverseFeature as traverseJSFeature } from './cucumber-js/JSONTraverse
 import { IFeature as IRubyFeature } from './cucumber-ruby/JSONSchema'
 import { traverseFeature as traverseRubyFeature } from './cucumber-ruby/JSONTraverse'
 
+import { IFeature as IBehaveFeature } from './behave/JSONSchema'
+import { traverseFeature as traverseBehaveFeature } from './behave/JSONTraverse'
+
 import IPredictableSupportCode from './IPredictableSupportCode'
 import IAstMaker from './IAstMaker'
 import { IdGenerator, messages } from '@cucumber/messages'
 
 export default function traverseFeature(
   sourceLang: string,
-  feature: IFeature,
+  feature: IFeature | IBehaveFeature,
   astMaker: IAstMaker,
   newId: IdGenerator.NewId,
   predictableSupportCode: IPredictableSupportCode
 ): messages.IGherkinDocument {
-  if (sourceLang == 'js') {
+  if (sourceLang === 'js') {
     return traverseJS(
       feature as IJSFeature,
+      astMaker,
+      newId,
+      predictableSupportCode
+    )
+  }
+
+  if (sourceLang === 'behave') {
+    return traverseBehave(
+      feature as IBehaveFeature,
       astMaker,
       newId,
       predictableSupportCode
@@ -49,4 +61,13 @@ function traverseRuby(
   predictableSupportCode: IPredictableSupportCode
 ): messages.IGherkinDocument {
   return traverseRubyFeature(feature, astMaker, newId, predictableSupportCode)
+}
+
+function traverseBehave(
+  feature: IBehaveFeature,
+  astMaker: IAstMaker,
+  newId: IdGenerator.NewId,
+  predictableSupportCode: IPredictableSupportCode
+): messages.IGherkinDocument {
+  return traverseBehaveFeature(feature, astMaker, newId, predictableSupportCode)
 }

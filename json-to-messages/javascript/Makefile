@@ -51,7 +51,7 @@ acceptance/python/all.ndjson: $(PYTHON_NDJSONS)
 
 acceptance/python/%.ndjson: ../python/acceptance/%.json $(TYPESCRIPT_SOURCE_FILES)
 	mkdir -p $(@D)
-	cat $< | bin/json-to-messages > $@
+	cat $< | bin/json-to-messages --lang behave > $@
 
 
 acceptance/%.ndjson.json: acceptance/%.ndjson
