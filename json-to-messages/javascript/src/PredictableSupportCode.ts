@@ -12,6 +12,7 @@ export default class PredictableSupportCode implements IPredictableSupportCode {
     location: string,
     scenarioId: string,
     status: string,
+    duration?: number,
     stack?: string
   ): void {
     const id = this.supportCode.newId()
@@ -21,7 +22,7 @@ export default class PredictableSupportCode implements IPredictableSupportCode {
         scenarioId,
         location,
         this.statusFromString(status),
-        0,
+        duration || 0,
         stack
       )
     )
@@ -31,6 +32,7 @@ export default class PredictableSupportCode implements IPredictableSupportCode {
     location: string,
     scenarioId: string,
     status: string,
+    duration?: number,
     stack?: string
   ): void {
     const id = this.supportCode.newId()
@@ -41,7 +43,7 @@ export default class PredictableSupportCode implements IPredictableSupportCode {
         scenarioId,
         location,
         this.statusFromString(status),
-        0,
+        duration || 0,
         stack
       )
     )
@@ -51,6 +53,7 @@ export default class PredictableSupportCode implements IPredictableSupportCode {
     location: string,
     stepId: string,
     status: string,
+    duration?: number,
     stack?: string
   ): void {
     const id = this.supportCode.newId()
@@ -60,7 +63,7 @@ export default class PredictableSupportCode implements IPredictableSupportCode {
         stepId,
         location,
         this.statusFromString(status),
-        0,
+        duration || 0,
         stack
       )
     )

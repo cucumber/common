@@ -5,6 +5,10 @@ import IPredictableSupportCode from '../IPredictableSupportCode'
 import { traverseDataTable } from '../cucumber-ruby/JSONTraverse'
 import { traverseFeature as genericTraverseFeature } from '../cucumber-generic/JSONTraverse'
 
+function durationToMillis(duration: number): number {
+  return duration ? duration / 1000000 : 0
+}
+
 export function traverseFeature(
   feature: IFeature,
   astMaker: IAstMaker,
@@ -86,6 +90,7 @@ export function traverseBeforeHook(
     step.match.location,
     scenario.id,
     step.result.status,
+    durationToMillis(step.result.duration),
     step.result.error_message
   )
 }
@@ -99,6 +104,7 @@ export function traverseAfterHook(
     step.match.location,
     scenario.id,
     step.result.status,
+    durationToMillis(step.result.duration),
     step.result.error_message
   )
 }
@@ -138,6 +144,7 @@ export function traverseStep(
       step.match.location,
       gherkinStep.id,
       step.result.status,
+      durationToMillis(step.result.duration),
       step.result.error_message
     )
   }

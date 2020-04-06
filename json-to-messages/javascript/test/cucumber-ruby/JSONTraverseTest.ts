@@ -29,8 +29,8 @@ describe('traversing elements', () => {
       location: 'some/steps.rb:11',
     },
     result: {
-      duration: 123,
-      status: 'whatever',
+      duration: 12300000,
+      status: 'passed',
     },
   }
 
@@ -230,7 +230,7 @@ describe('traversing elements', () => {
               },
               result: {
                 status: 'passed',
-                duration: 123,
+                duration: 12300,
               },
             },
           ],
@@ -248,7 +248,7 @@ describe('traversing elements', () => {
               },
               result: {
                 status: 'failed',
-                duration: 123,
+                duration: 123000,
                 error_message: 'This has failed',
               },
             },
@@ -263,6 +263,7 @@ describe('traversing elements', () => {
         'some/steps.rb:2',
         child.scenario.id,
         'passed',
+        0.0123,
         undefined,
       ])
 
@@ -270,6 +271,7 @@ describe('traversing elements', () => {
         'some/steps.rb:12',
         child.scenario.id,
         'failed',
+        0.123,
         'This has failed',
       ])
     })
@@ -327,7 +329,7 @@ describe('traversing elements', () => {
       ])
     })
 
-    it('passes on doctring is available', () => {
+    it('passes on docstring is available', () => {
       const astMaker = stubInterface<IAstMaker>()
       const supportCode = stubInterface<IPredictableSupportCode>()
 
@@ -367,7 +369,7 @@ describe('traversing elements', () => {
 
       assert.deepEqual(
         supportCode.addPredictableStepDefinition.getCall(0).args,
-        ['some/steps.rb:11', step.id, 'whatever']
+        ['some/steps.rb:11', step.id, 'passed', 12.3]
       )
     })
 

@@ -3,6 +3,7 @@ export default interface IPredictableSupportCode {
     location: string,
     scenarioId: string,
     status: string,
+    duration?: number,
     stack?: string
   ): void
 
@@ -10,6 +11,7 @@ export default interface IPredictableSupportCode {
     location: string,
     scenarioId: string,
     status: string,
+    duration?: number,
     stack?: string
   ): void
 
@@ -17,6 +19,7 @@ export default interface IPredictableSupportCode {
     location: string,
     stepId: string,
     status: string,
+    duration?: number,
     stack?: string
   ): void
 }

@@ -10,14 +10,19 @@ function makeLine(location: string): number {
   return parseInt(location.split(':')[1])
 }
 
+function durationToMillis(duration: number): number {
+  return duration ? duration / 1000 : 0
+}
+
 function makeGenericFeature(source: IFeature): IGenericFeature {
+  const description = source.description ? source.description.join('\n') : ''
   return {
     uri: source.location.split(':')[0],
     id: '',
     line: makeLine(source.location),
     keyword: source.keyword,
     name: source.name,
-    description: source.description,
+    description,
     elements: source.elements,
   }
 }
@@ -82,6 +87,7 @@ export function traverseStep(
       step.match.location,
       gherkinStep.id,
       step.result.status,
+      durationToMillis(step.result.duration),
       step.result.error_message
     )
   }

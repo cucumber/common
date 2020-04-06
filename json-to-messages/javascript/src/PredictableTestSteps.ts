@@ -56,10 +56,14 @@ export class PredictablePickleTestStep extends PredictableTestStep {
   }
 
   public toMessage(): messages.TestCase.ITestStep {
+    const stepDefinitionIds = this.stepDefinitionId
+      ? [this.stepDefinitionId]
+      : []
+
     return new messages.TestCase.TestStep({
       id: this.id,
       pickleStepId: this.sourceId,
-      stepDefinitionIds: [this.stepDefinitionId],
+      stepDefinitionIds,
     })
   }
 }

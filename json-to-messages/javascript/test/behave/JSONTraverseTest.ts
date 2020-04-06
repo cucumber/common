@@ -118,7 +118,7 @@ describe('traverse elements', () => {
       },
       result: {
         status: 'failed',
-        duration: 0.00016,
+        duration: 160,
         error_message: 'Oups, that did not work',
       },
     }
@@ -242,7 +242,13 @@ describe('traverse elements', () => {
 
       assert.deepEqual(
         predictableSupportCode.addPredictableStepDefinition.getCall(0).args,
-        ['steps/some.py:5', 'some-id', 'failed', 'Oups, that did not work']
+        [
+          'steps/some.py:5',
+          'some-id',
+          'failed',
+          0.16,
+          'Oups, that did not work',
+        ]
       )
     })
   })

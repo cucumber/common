@@ -57,6 +57,7 @@ describe('traversing elements', () => {
           name: '',
           result: {
             status: 'passed',
+            duration: 4560000,
           },
           match: {
             location: 'whatever.go:123',
@@ -68,6 +69,7 @@ describe('traversing elements', () => {
           name: 'a failed step',
           result: {
             status: 'passed',
+            duration: 456000,
           },
           match: {
             location: 'whatever.go:123',
@@ -81,6 +83,7 @@ describe('traversing elements', () => {
           result: {
             status: 'failed',
             error_message: 'This hook failed',
+            duration: 45600000,
           },
           match: {
             location: 'whatever.go:456',
@@ -139,6 +142,7 @@ describe('traversing elements', () => {
         'whatever.go:123',
         'scenario-id',
         'passed',
+        4.56,
         undefined,
       ])
     })
@@ -160,6 +164,7 @@ describe('traversing elements', () => {
         'whatever.go:456',
         'scenario-id',
         'failed',
+        45.6,
         'This hook failed',
       ])
     })
@@ -173,6 +178,7 @@ describe('traversing elements', () => {
       name: '',
       result: {
         status: 'passed',
+        duration: 4560000,
       },
       match: {
         location: 'whatever.go:123',
@@ -191,6 +197,7 @@ describe('traversing elements', () => {
         'whatever.go:123',
         'scenario-id',
         'passed',
+        4.56,
         undefined,
       ])
     })
@@ -204,13 +211,14 @@ describe('traversing elements', () => {
       name: '',
       result: {
         status: 'passed',
+        duration: 1230000,
       },
       match: {
         location: 'whatever.go:123',
       },
     }
 
-    it('registers the before Hook with the correct data', () => {
+    it('registers the after Hook with the correct data', () => {
       const supportCode = stubInterface<IPredictableSupportCode>()
       traverseAfterHook(
         beforeHook,
@@ -222,6 +230,7 @@ describe('traversing elements', () => {
         'whatever.go:123',
         'scenario-id',
         'passed',
+        1.23,
         undefined,
       ])
     })
@@ -234,6 +243,7 @@ describe('traversing elements', () => {
       name: 'a step with a doctring:',
       result: {
         status: 'failed',
+        duration: 456000,
       },
       match: {
         location: 'whatever.go:123',
@@ -328,7 +338,7 @@ describe('traversing elements', () => {
 
       assert.deepEqual(
         supportCode.addPredictableStepDefinition.getCall(0).args,
-        ['whatever.go:123', 'a-random-step-id', 'failed', undefined]
+        ['whatever.go:123', 'a-random-step-id', 'failed', 0.456, undefined]
       )
     })
   })

@@ -57,12 +57,14 @@ describe('PredictableSupportCode', () => {
         'some/where:7',
         scenarioId,
         'failed',
+        0.01,
         'BOOM !!'
       )
       const hook = supportCode.beforeHooks[0] as PredictableHook
 
       assert.equal(hook.status, messages.TestStepResult.Status.FAILED)
       assert.equal(hook.errorMessage, 'BOOM !!')
+      assert.equal(hook.duration, 0.01)
     })
   })
 
@@ -118,12 +120,14 @@ describe('PredictableSupportCode', () => {
         'some/where:7',
         scenarioId,
         'failed',
+        0.12,
         'BOOM !!'
       )
       const hook = supportCode.afterHooks[0] as PredictableHook
 
       assert.equal(hook.status, messages.TestStepResult.Status.FAILED)
       assert.equal(hook.errorMessage, 'BOOM !!')
+      assert.equal(hook.duration, 0.12)
     })
   })
 
@@ -211,6 +215,7 @@ describe('PredictableSupportCode', () => {
           'somewhere/over/the/rain.bow:2',
           stepId,
           'failed',
+          1.23,
           'something wrong happened'
         )
 
@@ -220,6 +225,7 @@ describe('PredictableSupportCode', () => {
           stepDefinition.status,
           messages.TestStepResult.Status.FAILED
         )
+        assert.equal(stepDefinition.duration, 1.23)
       })
     })
   })

@@ -10,6 +10,10 @@ import IAstMaker from '../IAstMaker'
 import IPredictableSupportCode from '../IPredictableSupportCode'
 import { traverseFeature as genericTraverseFeature } from '../cucumber-generic/JSONTraverse'
 
+function durationToMillis(duration: number) {
+  return duration ? duration / 1000000 : 0
+}
+
 export function traverseFeature(
   feature: IFeature,
   astMaker: IAstMaker,
@@ -67,6 +71,7 @@ export function traverseElement(
         beforeHook.match.location,
         child.scenario.id,
         beforeHook.result.status,
+        durationToMillis(beforeHook.result.duration),
         beforeHook.result.error_message
       )
     }
@@ -78,6 +83,7 @@ export function traverseElement(
         afterHook.match.location,
         child.scenario.id,
         afterHook.result.status,
+        durationToMillis(afterHook.result.duration),
         afterHook.result.error_message
       )
     }
@@ -109,7 +115,8 @@ export function traverseStep(
     predictableSupportCode.addPredictableStepDefinition(
       step.match.location,
       gherkinStep.id,
-      step.result.status
+      step.result.status,
+      durationToMillis(step.result.duration)
     )
   }
 

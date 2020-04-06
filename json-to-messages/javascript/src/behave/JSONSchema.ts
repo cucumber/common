@@ -4,7 +4,7 @@ export interface IFeature {
   location: string
   keyword: string
   name: string
-  description: string
+  description: ReadonlyArray<string>
   status: string
   elements: ReadonlyArray<IElement>
 }
