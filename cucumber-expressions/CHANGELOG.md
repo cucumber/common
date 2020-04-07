@@ -11,13 +11,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
-* [JavaScript] All array return values and function parameters are now declared as TypeScript `ReadOnlyArray`
-
 ### Deprecated
 
 ### Removed
 
 ### Fixed
+
+## [10.0.0] - 2020-03-31
+
+### Changed
+
+* [JavaScript] All array return values and function parameters are now declared as TypeScript `ReadOnlyArray`
 
 ## [9.0.0] - 2020-02-14
 
@@ -657,7 +661,8 @@ N/A
 * First stable release!
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions/v9.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions/v10.0.0...master
+[10.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v9.0.0...cucumber-expressions/v10.0.0
 [9.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v8.3.1...cucumber-expressions/v9.0.0
 [8.3.1]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v8.3.0...cucumber-expressions/v8.3.1
 [8.3.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v8.2.1...cucumber-expressions/v8.3.0

@@ -3,7 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
-	jsonFormatter "github.com/cucumber/json-formatter-go/v3"
+	jsonFormatter "github.com/cucumber/json-formatter-go/v4"
 	fio "github.com/cucumber/messages-go/v11/io"
 	gio "github.com/gogo/protobuf/io"
 	"io"

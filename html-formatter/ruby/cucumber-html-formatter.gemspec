@@ -1,7 +1,7 @@
 # encoding: utf-8
 Gem::Specification.new do |s|
   s.name        = 'cucumber-html-formatter'
-  s.version     = '4.3.0'
+  s.version     = '5.0.0'
   s.authors     = ["Vincent Prêtre"]
   s.description = 'HTML formatter for Cucumber'
   s.summary     = "#{s.name}-#{s.version}"
@@ -19,7 +19,7 @@ Gem::Specification.new do |s|
                     'source_code_uri'   => 'https://github.com/cucumber/cucumber/blob/master/gherkin/ruby',
                   }
 
-  s.add_dependency 'cucumber-messages', '~> 11.0', '>= 11.0.1'
+  s.add_dependency 'cucumber-messages', '~> 11.1', '>= 11.1.1'
 
   s.add_development_dependency 'rake', '~> 13.0', '>= 13.0.1'
   s.add_development_dependency 'rspec', '~> 3.9', '>= 3.9.0'
