@@ -10,7 +10,6 @@ def step_impl(context, eaten):
 
 @then('I have {left:d} cucumbers left')
 def step_impl(context, left):
-    print "Cucumbers: %s - left: %s - %s" % (context.cucumbers, left, context.cucumbers == left)
     assert context.cucumbers == left
 
 @given('a step with a doctring')
