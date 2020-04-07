@@ -10,7 +10,11 @@ JSONS=$(patsubst features/%.feature,acceptance/%.json,$(FEATURES))
 default: .tested
 
 .installed:
+ifeq ($(CI),true)
+	sudo pip install behave
+else
 	pip install --user behave
+endif
 	touch $@
 
 .tested: $(JSONS)
