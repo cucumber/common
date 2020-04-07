@@ -10,7 +10,7 @@ JSONS=$(patsubst features/%.feature,acceptance/%.json,$(FEATURES))
 default: .tested
 
 .installed:
-	pip install behave
+	pip install --user behave
 	touch $@
 
 .tested: $(JSONS)
