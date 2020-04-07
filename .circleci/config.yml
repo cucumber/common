@@ -727,7 +727,7 @@ jobs:
           name: json-to-messages/python
           command: |
             cd json-to-messages/python
-            make
+            make default
       - persist_to_workspace:
           root: ~/cucumber
           paths:
