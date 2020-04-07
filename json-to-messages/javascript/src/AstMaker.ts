@@ -48,7 +48,8 @@ export default class AstMaker implements IAstMaker {
     keyword: string,
     name: string,
     description: string,
-    steps: ReadonlyArray<messages.GherkinDocument.Feature.IStep>
+    steps: ReadonlyArray<messages.GherkinDocument.Feature.IStep>,
+    tags?: ReadonlyArray<messages.GherkinDocument.Feature.ITag>
   ) {
     return messages.GherkinDocument.Feature.FeatureChild.create({
       scenario: messages.GherkinDocument.Feature.Scenario.create({
@@ -58,6 +59,7 @@ export default class AstMaker implements IAstMaker {
         name,
         description,
         steps: steps.map(step => step),
+        tags: tags ? tags.map(tag => tag) : undefined,
       }),
     })
   }

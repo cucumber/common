@@ -1,4 +1,4 @@
-import { IResult, IMatch } from '../cucumber-generic/JSONSchema'
+import { IResult, IMatch, ITag } from '../cucumber-generic/JSONSchema'
 
 export interface IElement {
   line: number
@@ -8,6 +8,7 @@ export interface IElement {
   name: string
   description: string
   steps: ReadonlyArray<IStep>
+  tags?: ReadonlyArray<ITag>
 }
 
 export interface IStep {

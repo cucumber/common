@@ -2,7 +2,10 @@ import { IdGenerator, messages } from '@cucumber/messages'
 import { IStep, IDocString, IDataTableRow, IElement } from './JSONSchema'
 import IAstMaker from '../IAstMaker'
 import IPredictableSupportCode from '../IPredictableSupportCode'
-import { traverseFeature as genericTraverseFeature } from '../cucumber-generic/JSONTraverse'
+import {
+  traverseFeature as genericTraverseFeature,
+  traverseTag,
+} from '../cucumber-generic/JSONTraverse'
 import { IFeature } from '../cucumber-generic/JSONSchema'
 
 function durationToMillis(duration: number) {
@@ -44,7 +47,10 @@ export function traverseElement(
         )
       )
       break
-    case 'scenario':
+    case 'scenario': {
+      const tags = element.tags
+        ? element.tags.map(tag => traverseTag(tag, astMaker))
+        : undefined
       child = astMaker.makeScenarioFeatureChild(
         newId(),
         element.line,
@@ -53,9 +59,11 @@ export function traverseElement(
         element.description,
         element.steps.map(step =>
           traverseStep(step, astMaker, newId, predictableSupportCode)
-        )
+        ),
+        tags
       )
       break
+    }
     default:
       throw new Error(`Unsupported type for feature child: ${element.type}`)
   }

@@ -102,6 +102,7 @@ describe('traverse elements', () => {
           'My wonderful scenario',
           'It even has a description',
           [step],
+          undefined,
         ])
       })
     })

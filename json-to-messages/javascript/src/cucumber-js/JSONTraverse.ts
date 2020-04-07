@@ -3,7 +3,10 @@ import IAstMaker from '../IAstMaker'
 import { messages, IdGenerator } from '@cucumber/messages'
 import IPredictableSupportCode from '../IPredictableSupportCode'
 import { traverseDataTable } from '../cucumber-ruby/JSONTraverse'
-import { traverseFeature as genericTraverseFeature } from '../cucumber-generic/JSONTraverse'
+import {
+  traverseFeature as genericTraverseFeature,
+  traverseTag,
+} from '../cucumber-generic/JSONTraverse'
 import { IFeature } from '../cucumber-generic/JSONSchema'
 
 function durationToMillis(duration: number): number {
@@ -59,6 +62,9 @@ export function traverseElement(
       }
     }
   }
+  const tags = element.tags
+    ? element.tags.map(tag => traverseTag(tag, astMaker))
+    : undefined
 
   const featureChild = astMaker.makeScenarioFeatureChild(
     newId(),
@@ -68,7 +74,8 @@ export function traverseElement(
     element.description,
     scenarioSteps.map(step =>
       traverseStep(step, astMaker, newId, predictableSupportCode)
-    )
+    ),
+    tags
   )
 
   for (const hook of beforeHooks) {

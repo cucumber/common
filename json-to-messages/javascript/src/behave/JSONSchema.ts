@@ -18,6 +18,7 @@ export interface IElement {
   description?: string
   status: string
   steps: ReadonlyArray<IStep>
+  tags?: ReadonlyArray<string>
 }
 
 export interface IStep {

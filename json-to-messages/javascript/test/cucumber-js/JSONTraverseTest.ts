@@ -107,6 +107,7 @@ describe('traversing elements', () => {
         'My scenario',
         'This scenario does things',
         [step],
+        undefined,
       ])
     })
 

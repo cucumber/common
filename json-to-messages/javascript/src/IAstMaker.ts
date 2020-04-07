@@ -23,7 +23,8 @@ export default interface IAstMaker {
     keyword: string,
     name: string,
     description: string,
-    steps: ReadonlyArray<messages.GherkinDocument.Feature.IStep>
+    steps: ReadonlyArray<messages.GherkinDocument.Feature.IStep>,
+    tags?: ReadonlyArray<messages.GherkinDocument.Feature.ITag>
   ): messages.GherkinDocument.Feature.IFeatureChild
 
   makeBackgroundFeatureChild(
@@ -31,7 +32,8 @@ export default interface IAstMaker {
     keyword: string,
     name: string,
     description: string,
-    steps: ReadonlyArray<messages.GherkinDocument.Feature.IStep>
+    steps: ReadonlyArray<messages.GherkinDocument.Feature.IStep>,
+    tags?: ReadonlyArray<messages.GherkinDocument.Feature.ITag>
   ): messages.GherkinDocument.Feature.IFeatureChild
 
   makeStep(

@@ -3,8 +3,22 @@ import { ITable, IStep, IElement, IFeature } from './JSONSchema'
 import IAstMaker from '../IAstMaker'
 import IPredictableSupportCode from '../IPredictableSupportCode'
 
-import { IFeature as IGenericFeature } from '../cucumber-generic/JSONSchema'
-import { traverseFeature as traverseGenericFeature } from '../cucumber-generic/JSONTraverse'
+import {
+  IFeature as IGenericFeature,
+  ITag,
+} from '../cucumber-generic/JSONSchema'
+import {
+  traverseFeature as traverseGenericFeature,
+  traverseTag,
+} from '../cucumber-generic/JSONTraverse'
+
+function makeTags(tags: ReadonlyArray<string>): ITag[] {
+  return tags
+    ? tags.map(tag => {
+        return { name: `@${tag}` }
+      })
+    : undefined
+}
 
 function makeLine(location: string): number {
   return parseInt(location.split(':')[1])
@@ -16,11 +30,7 @@ function durationToMillis(duration: number): number {
 
 function makeGenericFeature(source: IFeature): IGenericFeature {
   const description = source.description ? source.description.join('\n') : ''
-  const tags = source.tags
-    ? source.tags.map(tag => {
-        return { name: `@${tag}` }
-      })
-    : undefined
+  const tags = makeTags(source.tags)
 
   return {
     uri: source.location.split(':')[0],
@@ -58,6 +68,10 @@ export function traverseElement(
   if (element.type === 'background') {
     return
   }
+  const tags = element.tags
+    ? makeTags(element.tags).map(tag => traverseTag(tag, astMaker))
+    : undefined
+
   return astMaker.makeScenarioFeatureChild(
     newId(),
     makeLine(element.location),
@@ -66,7 +80,8 @@ export function traverseElement(
     element.description,
     element.steps.map(step =>
       traverseStep(step, astMaker, newId, predictableSupportCode)
-    )
+    ),
+    tags
   )
 }
 
