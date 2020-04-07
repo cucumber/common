@@ -1,8 +1,5 @@
 import { IFeature } from './cucumber-generic/JSONSchema'
-import { IFeature as IJSFeature } from './cucumber-js/JSONSchema'
 import { traverseFeature as traverseJSFeature } from './cucumber-js/JSONTraverse'
-
-import { IFeature as IRubyFeature } from './cucumber-ruby/JSONSchema'
 import { traverseFeature as traverseRubyFeature } from './cucumber-ruby/JSONTraverse'
 
 import { IFeature as IBehaveFeature } from './behave/JSONSchema'
@@ -19,9 +16,9 @@ export default function traverseFeature(
   newId: IdGenerator.NewId,
   predictableSupportCode: IPredictableSupportCode
 ): messages.IGherkinDocument {
-  if (sourceLang === 'js') {
+  if (sourceLang === 'javascript') {
     return traverseJS(
-      feature as IJSFeature,
+      feature as IFeature,
       astMaker,
       newId,
       predictableSupportCode
@@ -38,7 +35,7 @@ export default function traverseFeature(
   }
 
   return traverseRuby(
-    feature as IRubyFeature,
+    feature as IFeature,
     astMaker,
     newId,
     predictableSupportCode
@@ -46,7 +43,7 @@ export default function traverseFeature(
 }
 
 function traverseJS(
-  feature: IJSFeature,
+  feature: IFeature,
   astMaker: IAstMaker,
   newId: IdGenerator.NewId,
   predictableSupportCode: IPredictableSupportCode
@@ -55,7 +52,7 @@ function traverseJS(
 }
 
 function traverseRuby(
-  feature: IRubyFeature,
+  feature: IFeature,
   astMaker: IAstMaker,
   newId: IdGenerator.NewId,
   predictableSupportCode: IPredictableSupportCode

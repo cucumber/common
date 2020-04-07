@@ -15,17 +15,20 @@ import traverseFeature from './JSONTraverse'
 
 import PredictableSupportCode from './PredictableSupportCode'
 import makePredictableTestPlan from './test-generation/makePredictableTestPlan'
+import detectLanguage from './detectLanguage'
 const asyncPipeline = promisify(pipeline)
 
 const program = new Command()
 program.version(packageJson.version)
 program.option(
   '-l, --lang <lang>',
-  'Language used to generate the report: ruby|js|behave',
-  'protobuf'
+  'Language used to generate the report: ruby|javascript|behave',
+  ''
 )
+program.option('-d, --detect', 'Output detected language from JSON report', '')
+
 program.parse(process.argv)
-const { lang } = program
+const { lang, detect } = program
 
 async function main() {
   const singleObjectWritable = new SingleObjectWritableStream<
@@ -44,9 +47,16 @@ async function main() {
   const gherkinEnvelopeStream = new PassThrough({ objectMode: true })
   const astMaker = new AstMaker()
 
+  if (detect) {
+    singleObjectWritable.object.map(feature => {
+      console.log('Language is: ', detectLanguage(feature))
+    })
+    return
+  }
+
   const gherkinDocuments = singleObjectWritable.object.map(feature =>
     traverseFeature(
-      lang,
+      lang || detectLanguage(feature),
       feature,
       astMaker,
       supportCode.newId,

@@ -1,10 +1,5 @@
 import { IdGenerator, messages } from '@cucumber/messages'
-import {
-  IStep,
-  IDocString,
-  IDataTableRow,
-  IElement,
-} from './JSONSchema'
+import { IStep, IDocString, IDataTableRow, IElement } from './JSONSchema'
 import IAstMaker from '../IAstMaker'
 import IPredictableSupportCode from '../IPredictableSupportCode'
 import { traverseFeature as genericTraverseFeature } from '../cucumber-generic/JSONTraverse'
