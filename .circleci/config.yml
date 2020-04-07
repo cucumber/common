@@ -357,7 +357,6 @@ jobs:
       - persist_to_workspace:
           root: ~/cucumber
           paths:
-            - json-to-messages/javascript-json/features
             - json-to-messages/javascript-json/acceptance
 
   query-javascript:
@@ -690,7 +689,6 @@ jobs:
       - persist_to_workspace:
           root: ~/cucumber
           paths:
-            - json-to-messages/java/features
             - json-to-messages/java/acceptance
 
 
@@ -733,7 +731,6 @@ jobs:
       - persist_to_workspace:
           root: ~/cucumber
           paths:
-            - json-to-messages/python/features
             - json-to-messages/python/acceptance
 ### C
 
@@ -851,6 +848,7 @@ workflows:
       - json-to-messages-javascript-json:
           requires:
             - checkout
+            - json-to-messages-ruby
       - json-to-messages-javascript:
           requires:
             - checkout
@@ -933,6 +931,7 @@ workflows:
       - json-to-messages-java:
           requires:
             - checkout
+            - json-to-messages-ruby
 
 ### .NET
 
@@ -949,6 +948,7 @@ workflows:
       - json-to-messages-python:
           requires:
             - checkout
+            - json-to-messages-ruby
 
 
 ### C
