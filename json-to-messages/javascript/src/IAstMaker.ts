@@ -11,8 +11,11 @@ export default interface IAstMaker {
     keyword: string,
     name: string,
     description: string,
-    children: ReadonlyArray<messages.GherkinDocument.Feature.IFeatureChild>
+    children: ReadonlyArray<messages.GherkinDocument.Feature.IFeatureChild>,
+    tags?: ReadonlyArray<messages.GherkinDocument.Feature.ITag>
   ): messages.GherkinDocument.IFeature
+
+  makeTag(name: string, line: number): messages.GherkinDocument.Feature.ITag
 
   makeScenarioFeatureChild(
     id: string,

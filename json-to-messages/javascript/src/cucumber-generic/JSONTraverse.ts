@@ -1,5 +1,5 @@
 import { IdGenerator, messages } from '@cucumber/messages'
-import { IFeature } from './JSONSchema'
+import { IFeature, ITag } from './JSONSchema'
 import IAstMaker from '../IAstMaker'
 import IPredictableSupportCode from '../IPredictableSupportCode'
 import { IElement as IRubyElement } from '../cucumber-ruby/JSONSchema'
@@ -22,6 +22,9 @@ export function traverseFeature(
 ): messages.IGherkinDocument {
   const children: messages.GherkinDocument.Feature.IFeatureChild[] = []
   let backgroundFound = false
+  const tags = feature.tags
+    ? feature.tags.map(tag => traverseTag(tag, astMaker))
+    : undefined
 
   for (const element of feature.elements) {
     const isBackground = element.type === 'background'
@@ -39,8 +42,16 @@ export function traverseFeature(
     feature.keyword,
     feature.name,
     feature.description,
-    children.filter(child => child)
+    children.filter(child => child),
+    tags
   )
 
   return astMaker.makeGherkinDocument(feature.uri, gherkinFeature)
+}
+
+export function traverseTag(
+  tag: ITag,
+  astMaker: IAstMaker
+): messages.GherkinDocument.Feature.ITag {
+  return astMaker.makeTag(tag.name, tag.line)
 }

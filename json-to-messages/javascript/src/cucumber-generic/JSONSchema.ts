@@ -12,6 +12,7 @@ export interface IFeature {
   name: string
   description: string
   elements: ReadonlyArray<IElement>
+  tags?: ReadonlyArray<ITag>
 }
 
 export interface IMatch {
@@ -22,4 +23,9 @@ export interface IResult {
   duration?: number
   status: string
   error_message?: string
+}
+
+export interface ITag {
+  name: string
+  line?: number
 }

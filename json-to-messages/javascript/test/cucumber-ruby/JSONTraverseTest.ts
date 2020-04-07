@@ -102,10 +102,11 @@ describe('traversing elements', () => {
         'An empty feature',
         'It does nothing',
         [],
+        undefined,
       ])
     })
 
-    it('uses the result of AtMaker.makeFeatureChild to populate the children', () => {
+    it('uses the result of AstMaker.makeFeatureChild to populate the children', () => {
       const gherkinScenario = messages.GherkinDocument.Feature.FeatureChild.create(
         {
           scenario: messages.GherkinDocument.Feature.Scenario.create({
@@ -130,6 +131,7 @@ describe('traversing elements', () => {
         'My feature',
         'It does things and stuff',
         [gherkinScenario],
+        undefined,
       ])
     })
 

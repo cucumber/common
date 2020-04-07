@@ -16,6 +16,12 @@ function durationToMillis(duration: number): number {
 
 function makeGenericFeature(source: IFeature): IGenericFeature {
   const description = source.description ? source.description.join('\n') : ''
+  const tags = source.tags
+    ? source.tags.map(tag => {
+        return { name: `@${tag}` }
+      })
+    : undefined
+
   return {
     uri: source.location.split(':')[0],
     id: '',
@@ -24,6 +30,7 @@ function makeGenericFeature(source: IFeature): IGenericFeature {
     name: source.name,
     description,
     elements: source.elements,
+    tags,
   }
 }
 

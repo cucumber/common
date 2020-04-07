@@ -7,6 +7,7 @@ export interface IFeature {
   description: ReadonlyArray<string>
   status: string
   elements: ReadonlyArray<IElement>
+  tags: ReadonlyArray<string>
 }
 
 export interface IElement {

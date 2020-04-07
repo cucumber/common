@@ -8,7 +8,10 @@ import { traverseElement } from '../../src/cucumber-ruby/JSONTraverse'
 
 import IAstMaker from '../../src/IAstMaker'
 
-import { traverseFeature } from '../../src/cucumber-generic/JSONTraverse'
+import {
+  traverseFeature,
+  traverseTag,
+} from '../../src/cucumber-generic/JSONTraverse'
 import { IFeature } from '../../src/cucumber-generic/JSONSchema'
 
 import IPredictableSupportCode from '../../src/IPredictableSupportCode'
@@ -96,6 +99,7 @@ describe('traversing elements', () => {
         'An empty feature',
         'It does nothing',
         [],
+        undefined,
       ])
     })
 
@@ -125,6 +129,7 @@ describe('traversing elements', () => {
         'My feature',
         'It does things and stuff',
         [gherkinScenario],
+        undefined,
       ])
     })
 
@@ -163,6 +168,16 @@ describe('traversing elements', () => {
       )
 
       assert.ok(astMaker.makeBackgroundFeatureChild.calledOnce)
+    })
+  })
+
+  describe('travereTag', () => {
+    it('calls AstMaker.makeTag to create the message', () => {
+      const astMaker = stubInterface<IAstMaker>()
+
+      traverseTag({ name: '@something', line: 1 }, astMaker)
+
+      assert.deepEqual(astMaker.makeTag.getCall(0).args, ['@something', 1])
     })
   })
 })
