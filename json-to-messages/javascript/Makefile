@@ -13,6 +13,11 @@ JS_NDJSONS=$(patsubst ../javascript-json/acceptance/%.json,acceptance/javascript
 JS_HTMLS=$(patsubst acceptance/%.ndjson,acceptance/%.ndjson.html,$(JS_NDJSONS))
 JS_GENERATED_JSONS=$(patsubst acceptance/%.ndjson,acceptance/%.ndjson.json,$(JS_NDJSONS))
 
+JAVA_JSONS=$(call rwildcard,../java/acceptance,*.json)
+JAVA_NDJSONS=$(patsubst ../java/acceptance/%.json,acceptance/java/%.ndjson,$(JAVA_JSONS))
+JAVA_HTMLS=$(patsubst acceptance/%.ndjson,acceptance/%.ndjson.html,$(JAVA_NDJSONS))
+JAVA_GENERATED_JSONS=$(patsubst acceptance/%.ndjson,acceptance/%.ndjson.json,$(JAVA_NDJSONS))
+
 PYTHON_JSONS=$(call rwildcard,../python/acceptance,*.json)
 PYTHON_NDJSONS=$(patsubst ../python/acceptance/%.json,acceptance/python/%.ndjson,$(PYTHON_JSONS))
 PYTHON_HTMLS=$(patsubst acceptance/%.ndjson,acceptance/%.ndjson.html,$(PYTHON_NDJSONS))
@@ -21,7 +26,7 @@ PYTHON_GENERATED_JSONS=$(patsubst acceptance/%.ndjson,acceptance/%.ndjson.json,$
 
 .tested: reports
 
-reports: ruby_reports js_reports python_reports
+reports: ruby_reports js_reports java_reports python_reports
 
 ruby_reports: $(RUBY_HTMLS) $(RUBY_GENERATED_JSONS) acceptance/ruby/all.ndjson.html
 
@@ -43,6 +48,16 @@ acceptance/javascript/%.ndjson: ../javascript-json/acceptance/%.json $(TYPESCRIP
 	mkdir -p $(@D)
 	cat $< | bin/json-to-messages --lang js > $@
 
+java_reports: $(JAVA_HTMLS) $(JAVA_GENERATED_JSONS) acceptance/java/all.ndjson.html
+
+acceptance/java/all.ndjson: $(JAVA_NDJSONS)
+	mkdir -p $(@D)
+	cat $^ > $@
+
+acceptance/java/%.ndjson: ../java/acceptance/%.json $(TYPESCRIPT_SOURCE_FILES)
+	mkdir -p $(@D)
+	cat $< | bin/json-to-messages > $@
+
 python_reports: $(PYTHON_HTMLS) $(PYTHON_GENERATED_JSONS) acceptance/python/all.ndjson.html
 
 acceptance/python/all.ndjson: $(PYTHON_NDJSONS)
@@ -52,7 +67,6 @@ acceptance/python/all.ndjson: $(PYTHON_NDJSONS)
 acceptance/python/%.ndjson: ../python/acceptance/%.json $(TYPESCRIPT_SOURCE_FILES)
 	mkdir -p $(@D)
 	cat $< | bin/json-to-messages --lang behave > $@
-
 
 acceptance/%.ndjson.json: acceptance/%.ndjson
 	mkdir -p $(@D)

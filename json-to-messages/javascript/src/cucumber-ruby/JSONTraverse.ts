@@ -111,7 +111,7 @@ export function traverseStep(
     dataTable
   )
 
-  if (gherkinStep && step.match) {
+  if (gherkinStep && step.match && step.match.location) {
     predictableSupportCode.addPredictableStepDefinition(
       step.match.location,
       gherkinStep.id,

@@ -373,7 +373,7 @@ describe('traversing elements', () => {
       )
     })
 
-    it('does not register stepDefinition when a step ha no match', () => {
+    it('does not register stepDefinition when a step has no match', () => {
       const step = messages.GherkinDocument.Feature.Step.create({
         id: 'some-step-id',
       })
@@ -389,6 +389,34 @@ describe('traversing elements', () => {
           result: {
             status: 'undefined',
           },
+        },
+        astMaker,
+        IdGenerator.incrementing(),
+        supportCode
+      )
+
+      assert.equal(supportCode.addPredictableStepDefinition.callCount, 0)
+    })
+
+    it('does not register stepDefinition when a step has an empty match', () => {
+      const step = messages.GherkinDocument.Feature.Step.create({
+        id: 'some-step-id',
+      })
+      const supportCode = stubInterface<IPredictableSupportCode>()
+      const astMaker = stubInterface<IAstMaker>()
+      astMaker.makeStep.returns(step)
+
+      traverseStep(
+        {
+          keyword: 'Given',
+          name: 'an undefined step',
+          line: 10,
+          result: {
+            status: 'undefined',
+          },
+          match: {
+            location: undefined
+          }
         },
         astMaker,
         IdGenerator.incrementing(),
