@@ -1,9 +1,10 @@
-import { IDocString, IStep, IDataTable, IElement, IFeature } from './JSONSchema'
+import { IDocString, IStep, IDataTable, IElement } from './JSONSchema'
 import IAstMaker from '../IAstMaker'
 import { messages, IdGenerator } from '@cucumber/messages'
 import IPredictableSupportCode from '../IPredictableSupportCode'
 import { traverseDataTable } from '../cucumber-ruby/JSONTraverse'
 import { traverseFeature as genericTraverseFeature } from '../cucumber-generic/JSONTraverse'
+import { IFeature } from '../cucumber-generic/JSONSchema'
 
 function durationToMillis(duration: number): number {
   return duration ? duration / 1000000 : 0

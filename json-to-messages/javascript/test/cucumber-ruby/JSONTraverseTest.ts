@@ -8,7 +8,6 @@ import {
   IDocString,
   IDataTableRow,
   IElement,
-  IFeature,
 } from '../../src/cucumber-ruby/JSONSchema'
 import IAstMaker from '../../src/IAstMaker'
 import {
@@ -19,6 +18,7 @@ import {
   traverseDataTable,
 } from '../../src/cucumber-ruby/JSONTraverse'
 import IPredictableSupportCode from '../../src/IPredictableSupportCode'
+import { IFeature } from '../../src/cucumber-generic/JSONSchema'
 
 describe('traversing elements', () => {
   const simpleStep: IStep = {

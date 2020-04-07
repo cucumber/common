@@ -1,15 +1,5 @@
 import { IMatch, IResult } from '../cucumber-generic/JSONSchema'
 
-export interface IFeature {
-  uri: string
-  id: string
-  line: number
-  keyword: string
-  name: string
-  description: string
-  elements: ReadonlyArray<IElement>
-}
-
 export interface IElement {
   line: number
   id: string

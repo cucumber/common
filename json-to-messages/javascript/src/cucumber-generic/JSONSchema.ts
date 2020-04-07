@@ -2,6 +2,8 @@ import { IElement as IRubyElement } from '../cucumber-ruby/JSONSchema'
 import { IElement as IJSElement } from '../cucumber-js/JSONSchema'
 import { IElement as IBehaveElement } from '../behave/JSONSchema'
 
+type IElement = IRubyElement | IJSElement | IBehaveElement
+
 export interface IFeature {
   uri: string
   id: string
@@ -9,7 +11,7 @@ export interface IFeature {
   keyword: string
   name: string
   description: string
-  elements: ReadonlyArray<IRubyElement | IJSElement | IBehaveElement>
+  elements: ReadonlyArray<IElement>
 }
 
 export interface IMatch {

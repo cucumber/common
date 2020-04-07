@@ -4,11 +4,11 @@ import {
   IDocString,
   IDataTableRow,
   IElement,
-  IFeature,
 } from './JSONSchema'
 import IAstMaker from '../IAstMaker'
 import IPredictableSupportCode from '../IPredictableSupportCode'
 import { traverseFeature as genericTraverseFeature } from '../cucumber-generic/JSONTraverse'
+import { IFeature } from '../cucumber-generic/JSONSchema'
 
 function durationToMillis(duration: number) {
   return duration ? duration / 1000000 : 0
