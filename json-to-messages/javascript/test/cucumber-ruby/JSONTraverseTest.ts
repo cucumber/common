@@ -369,7 +369,7 @@ describe('traversing elements', () => {
 
       assert.deepEqual(
         supportCode.addPredictableStepDefinition.getCall(0).args,
-        ['some/steps.rb:11', step.id, 'passed', 12.3]
+        ['some/steps.rb:11', step.id, 'passed', 12.3, undefined]
       )
     })
 
@@ -415,8 +415,8 @@ describe('traversing elements', () => {
             status: 'undefined',
           },
           match: {
-            location: undefined
-          }
+            location: undefined,
+          },
         },
         astMaker,
         IdGenerator.incrementing(),

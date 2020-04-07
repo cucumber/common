@@ -36,6 +36,7 @@ abstract class PredictableTestStep extends TestStep implements ITestStep {
       new messages.TestStepResult({
         duration: TimeConversion.millisecondsToDuration(this.duration),
         status: this.status,
+        message: this.errorMessage,
       }),
       listener
     )

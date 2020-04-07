@@ -36,8 +36,30 @@ describe('makePredictablePickleTestStep', () => {
     )
     const result = await step.execute(null, 'some-id', () => null)
 
-    assert.equal(result.status, messages.TestStepResult.Status.SKIPPED),
-      assert.equal(result.duration.seconds, 987)
+    assert.equal(result.status, messages.TestStepResult.Status.SKIPPED)
+    assert.equal(result.duration.seconds, 987)
     assert.equal(result.duration.nanos, 654000000)
+  })
+
+  it('correctly sets the error message if existing', async () => {
+    const step = makePredictablePickleTestStep(
+      'test-step-id',
+      messages.Pickle.PickleStep.create({
+        astNodeIds: ['some-step-id'],
+      }),
+      [
+        new PredictableStepDefinition(
+          'some-id',
+          'some-step-id',
+          'somewhere',
+          messages.TestStepResult.Status.FAILED,
+          987654,
+          'An error has been raised here'
+        ),
+      ]
+    )
+    const result = await step.execute(null, 'some-id', () => null)
+
+    assert.equal(result.message, 'An error has been raised here')
   })
 })

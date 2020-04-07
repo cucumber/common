@@ -116,7 +116,8 @@ export function traverseStep(
       step.match.location,
       gherkinStep.id,
       step.result.status,
-      durationToMillis(step.result.duration)
+      durationToMillis(step.result.duration),
+      step.result.error_message
     )
   }
 
