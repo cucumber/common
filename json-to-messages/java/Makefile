@@ -11,8 +11,7 @@ jsons: $(JSONS)
 
 acceptance/%.json: src/test/resources/io/cucumber/json/%.feature
 	mkdir -p $(@D)
-	-mvn test -Dcucumber.options="src/test/resources/io/cucumber/json/statuses/statuses.feature"
-	cp target/cucumber.json $@
+	-mvn test -Dcucumber.features="$<" -Dcucumber.plugin="json:$@"
 
 src/test/resources/io/cucumber/json/%.feature: ../ruby/features/%.feature
 	mkdir -p $(@D)
