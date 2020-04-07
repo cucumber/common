@@ -333,7 +333,6 @@ jobs:
           paths:
             - json-formatter/javascript/features
 
-
   json-to-messages-javascript:
     executor: docker-circleci-node-12
     steps:
@@ -344,6 +343,22 @@ jobs:
           command: |
             cd json-to-messages/javascript
             make
+
+  json-to-messages-javascript-json:
+    executor: docker-circleci-node-12
+    steps:
+      - attach_workspace:
+          at: "~/cucumber"
+      - run:
+          name: json-to-messages/javascript-json
+          command: |
+            cd json-to-messages/javascript-json
+            make
+      - persist_to_workspace:
+          root: ~/cucumber
+          paths:
+            - json-to-messages/javascript-json/features
+            - json-to-messages/javascript-json/acceptance
 
   query-javascript:
     executor: docker-circleci-node-12
@@ -662,6 +677,23 @@ jobs:
           paths:
             - "io/cucumber/html-formatter"
 
+  json-to-messages-java:
+    executor: docker-circleci-openjdk
+    steps:
+      - attach_workspace:
+          at: "~/cucumber"
+      - run:
+          name: json-to-messages/java
+          command: |
+            cd json-to-messages/java
+            make
+      - persist_to_workspace:
+          root: ~/cucumber
+          paths:
+            - json-to-messages/java/features
+            - json-to-messages/java/acceptance
+
+
 ### .NET
 
   messages-dotnet:
@@ -688,6 +720,21 @@ jobs:
             cd tag-expressions/python
             make
 
+  json-to-messages-python:
+    executor: docker-circleci-python
+    steps:
+      - attach_workspace:
+          at: "~/cucumber"
+      - run:
+          name: json-to-messages/python
+          command: |
+            cd json-to-messages/python
+            make
+      - persist_to_workspace:
+          root: ~/cucumber
+          paths:
+            - json-to-messages/python/features
+            - json-to-messages/python/acceptance
 ### C
 
   gherkin-c:
@@ -801,10 +848,16 @@ workflows:
             - messages-javascript
             - fake-cucumber-javascript
             - gherkin-javascript
+      - json-to-messages-javascript-json:
+          requires:
+            - checkout
       - json-to-messages-javascript:
           requires:
             - checkout
             - json-to-messages-ruby
+            - json-to-messages-java
+            - json-to-messages-python
+            - json-to-messages-javascript-json
             - fake-cucumber-javascript
             - html-formatter-javascript
 
@@ -877,6 +930,10 @@ workflows:
       - html-formatter-java:
           requires:
             - html-formatter-javascript
+      - json-to-messages-java:
+          requires:
+            - checkout
+
 ### .NET
 
       - messages-dotnet:
@@ -888,6 +945,11 @@ workflows:
       - tag-expressions-python:
           requires:
             - checkout
+
+      - json-to-messages-python:
+          requires:
+            - checkout
+
 
 ### C
 
