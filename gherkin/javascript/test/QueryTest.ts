@@ -128,18 +128,16 @@ describe('Query', () => {
       )
 
       const pickleIds = envelopes
-        .filter(envelope => envelope.pickle)
-        .map(envelope => envelope.pickle.id)
+        .filter((envelope) => envelope.pickle)
+        .map((envelope) => envelope.pickle.id)
 
-      const gherkinDocument = envelopes
-        .find(envelope => envelope.gherkinDocument)
-        .gherkinDocument
+      const gherkinDocument = envelopes.find(
+        (envelope) => envelope.gherkinDocument
+      ).gherkinDocument
 
-      const scenario = gherkinDocument
-        .feature
-        .children
-        .find(child => child.scenario)
-        .scenario
+      const scenario = gherkinDocument.feature.children.find(
+        (child) => child.scenario
+      ).scenario
 
       assert.deepEqual(
         gherkinQuery.getPickleIdsFromAtNodeId(scenario.id),
@@ -148,9 +146,7 @@ describe('Query', () => {
     })
 
     it('returns an empty list for unknown ids', async () => {
-      await parse(
-        `Feature: hello`
-      )
+      await parse(`Feature: hello`)
 
       assert.deepEqual(
         gherkinQuery.getPickleIdsFromAtNodeId('this-id-not-an-exiting-id'),
@@ -171,20 +167,15 @@ describe('Query', () => {
     `
       )
 
-      const gherkinDocument = envelopes
-        .find(envelope => envelope.gherkinDocument)
-        .gherkinDocument
+      const gherkinDocument = envelopes.find(
+        (envelope) => envelope.gherkinDocument
+      ).gherkinDocument
 
-      const scenario = gherkinDocument
-        .feature
-        .children
-        .find(child => child.scenario)
-        .scenario
+      const scenario = gherkinDocument.feature.children.find(
+        (child) => child.scenario
+      ).scenario
 
-      assert.equal(
-        gherkinQuery.getPickleIdsFromAtNodeId(scenario.id).length,
-        2
-      )
+      assert.equal(gherkinQuery.getPickleIdsFromAtNodeId(scenario.id).length, 2)
     })
   })
 
@@ -223,6 +214,96 @@ describe('Query', () => {
       )
       assert.throws(() => gherkinQuery.getPickleStepIds('test.feature', 2), {
         message: 'No values found for key 2. Keys: [3]',
+      })
+    })
+  })
+
+  describe('#getPickleStepIdsFromAstNodeId(astNodeId', () => {
+    it('returns an empty list when the ID is unknown', async () => {
+      await parse('Feature: An empty feature')
+
+      assert.deepEqual(
+        gherkinQuery.getPickleStepIdsFromAstNodeId('whetever-id'),
+        []
+      )
+    })
+
+    it('returns the pickle step IDs corresponding the a scenario step', async () => {
+      await parse(
+        `Feature: hello
+  Scenario:
+    Given a failed step
+`
+      )
+
+      const pickleStepIds = envelopes
+        .find((envelope) => envelope.pickle)
+        .pickle.steps.map((pickleStep) => pickleStep.id)
+
+      const stepId = envelopes.find((envelope) => envelope.gherkinDocument)
+        .gherkinDocument.feature.children[0].scenario.steps[0].id
+
+      assert.deepEqual(
+        gherkinQuery.getPickleStepIdsFromAstNodeId(stepId),
+        pickleStepIds
+      )
+    })
+
+    context('when a step has multiple pickle step', () => {
+      it('returns all pickleStepIds linked to a background step', async () => {
+        await parse(
+          `Feature: hello
+  Background:
+    Given a step that will have 2 pickle steps
+
+  Scenario:
+    Given a step that will only have 1 pickle step
+
+    Scenario:
+    Given a step that will only have 1 pickle step
+  `
+        )
+
+        const backgroundStepId = envelopes.find(
+          (envelope) => envelope.gherkinDocument
+        ).gherkinDocument.feature.children[0].background.steps[0].id
+
+        const pickleStepIds = envelopes
+          .filter((envelope) => envelope.pickle)
+          .map((envelope) => envelope.pickle.steps[0].id)
+
+        assert.deepEqual(
+          gherkinQuery.getPickleStepIdsFromAstNodeId(backgroundStepId),
+          pickleStepIds
+        )
+      })
+
+      it('return all pickleStepIds linked to a tep in a scenario with examples', async () => {
+        await parse(
+          `Feature: hello
+  Scenario:
+    Given a passed step
+    And a <status> step
+
+    Examples:
+      | status |
+      | passed |
+      | failed |
+`
+        )
+
+        const scenarioStepId = envelopes.find(
+          (envelope) => envelope.gherkinDocument
+        ).gherkinDocument.feature.children[0].scenario.steps[1].id
+
+        const pickleStepIds = envelopes
+          .filter((envelope) => envelope.pickle)
+          .map((envelope) => envelope.pickle.steps[1].id)
+
+        assert.deepEqual(
+          gherkinQuery.getPickleStepIdsFromAstNodeId(scenarioStepId),
+          pickleStepIds
+        )
       })
     })
   })

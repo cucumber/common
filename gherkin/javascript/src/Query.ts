@@ -18,10 +18,9 @@ export default class Query {
     ArrayMultimap<number, string>
   >()
 
-  private readonly pickleIdsByAstNodeId = new Map<
-    string,
-    string[]
-  >()
+  private readonly pickleIdsByAstNodeId = new Map<string, string[]>()
+
+  private readonly pickleStepIdsByAstNodeId = new Map<string, string[]>()
 
   /**
    * Gets the location (line and column) of an AST node.
@@ -51,10 +50,8 @@ export default class Query {
       : pickleIdsByLineNumber.get(lineNumber)
   }
 
-  public getPickleIdsFromAtNodeId(
-    astNodeId: string
-  ): ReadonlyArray<string> {
-    return this.pickleIdsByAstNodeId.get(astNodeId) || []
+  public getPickleIdsFromAtNodeId(astNodeId: string): ReadonlyArray<string> {
+    return this.pickleIdsByAstNodeId.get(astNodeId) || []
   }
 
   public getPickleStepIds(
@@ -68,7 +65,7 @@ export default class Query {
   public getPickleStepIdsFromAstNodeId(
     astNodeId: string
   ): ReadonlyArray<string> {
-    return
+    return this.pickleStepIdsByAstNodeId.get(astNodeId) || []
   }
 
   public update(message: messages.IEnvelope): Query {
@@ -176,6 +173,13 @@ export default class Query {
       )
       for (const stepLineNumber of stepLineNumbers) {
         pickleStepIdsByLineNumber.put(stepLineNumber, pickleStep.id)
+      }
+
+      for (const astNodeId of pickleStep.astNodeIds) {
+        if (!this.pickleStepIdsByAstNodeId.has(astNodeId)) {
+          this.pickleStepIdsByAstNodeId.set(astNodeId, [])
+        }
+        this.pickleStepIdsByAstNodeId.get(astNodeId).push(pickleStep.id)
       }
     }
   }
