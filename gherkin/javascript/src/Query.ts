@@ -18,6 +18,11 @@ export default class Query {
     ArrayMultimap<number, string>
   >()
 
+  private readonly pickleIdsByAstNodeId = new Map<
+    string,
+    string[]
+  >()
+
   /**
    * Gets the location (line and column) of an AST node.
    * @param astNodeId
@@ -46,6 +51,12 @@ export default class Query {
       : pickleIdsByLineNumber.get(lineNumber)
   }
 
+  public getPickleIdsFromAtNodeId(
+    astNodeId: string
+  ): ReadonlyArray<string> {
+    return this.pickleIdsByAstNodeId.get(astNodeId) || []
+  }
+
   public getPickleStepIds(
     uri: string,
     lineNumber: number
@@ -54,9 +65,16 @@ export default class Query {
     return pickleStepIdsByLineNumber.get(lineNumber)
   }
 
+  public getPickleStepIdsFromAstNodeId(
+    astNodeId: string
+  ): ReadonlyArray<string> {
+    return
+  }
+
   public update(message: messages.IEnvelope): Query {
     if (message.gherkinDocument) {
       this.gherkinDocuments.push(message.gherkinDocument)
+
       if (message.gherkinDocument.feature) {
         this.pickleIdsMapByUri.set(
           message.gherkinDocument.uri,
@@ -140,6 +158,13 @@ export default class Query {
     }
     this.updatePickleSteps(pickle)
     this.pickles.push(pickle)
+
+    for (const astNodeId of pickle.astNodeIds) {
+      if (!this.pickleIdsByAstNodeId.has(astNodeId)) {
+        this.pickleIdsByAstNodeId.set(astNodeId, [])
+      }
+      this.pickleIdsByAstNodeId.get(astNodeId).push(pickle.id)
+    }
   }
 
   private updatePickleSteps(pickle: messages.IPickle) {
