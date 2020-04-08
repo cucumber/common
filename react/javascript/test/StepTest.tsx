@@ -46,7 +46,7 @@ describe('<Step>', () => {
     }
 
     class StubGherkinQuery extends GherkinQuery {
-      getPickleStepIds(): string[] {
+      getPickleStepIdsFromAstNodeId(): string[] {
         return ['dummy-id']
       }
     }

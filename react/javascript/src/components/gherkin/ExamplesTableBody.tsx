@@ -1,7 +1,6 @@
 import React from 'react'
 import { messages } from '@cucumber/messages'
 import CucumberQueryContext from '../../CucumberQueryContext'
-import UriContext from '../../UriContext'
 import isNumber from './isNumber'
 import GherkinQueryContext from '../../GherkinQueryContext'
 import ErrorMessage from './ErrorMessage'
@@ -29,11 +28,10 @@ interface IRowOrRows {
 const RowOrRows: React.FunctionComponent<IRowOrRows> = ({ row }) => {
   const gherkinQuery = React.useContext(GherkinQueryContext)
   const cucumberQuery = React.useContext(CucumberQueryContext)
-  const uri = React.useContext(UriContext)
 
   const testStepResult = cucumberQuery.getWorstTestStepResult(
     cucumberQuery.getPickleTestStepResults(
-      gherkinQuery.getPickleIds(uri, row.location.line)
+      gherkinQuery.getPickleIdsFromAtNodeId(row.id)
     )
   )
   return (
