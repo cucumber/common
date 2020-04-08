@@ -33,6 +33,7 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
   ([#924](https://github.com/cucumber/cucumber/pull/924)
    [davidjgoss])
 * [JavaScript] Add `Query#getPickles()`
+* [JavaScript] Export `compile` function for compiling `Pickles`
 
 ### Changed
 

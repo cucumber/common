@@ -15,11 +15,6 @@ program.version(packageJson.version)
 program.option('-r, --require <path>', 'override require path')
 program.option('--predictable-ids', 'Use predictable ids', false)
 program.option(
-  '--globals',
-  'Assign Given/When/Then/After/Before to global scope',
-  false
-)
-program.option(
   '-f, --format <format>',
   'output format: ndjson|protobuf',
   'protobuf'
@@ -27,16 +22,12 @@ program.option(
 
 async function main() {
   program.parse(process.argv)
-  const { globals, predictableIds, format } = program
+  const { predictableIds, format } = program
 
   const paths = program.args
   const requirePaths = program.require ? program.require.split(':') : paths
 
-  const supportCode = await loadSupportCode(
-    predictableIds,
-    requirePaths,
-    globals
-  )
+  const supportCode = await loadSupportCode(predictableIds, requirePaths)
 
   const gherkinOptions: IGherkinOptions = {
     defaultDialect: 'en',

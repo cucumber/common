@@ -9,7 +9,7 @@ import { withFullStackTrace } from '@cucumber/fake-cucumber/dist/src/ErrorMessag
 import { promisify } from 'util'
 import IncrementClock from '@cucumber/fake-cucumber/dist/src/IncrementClock'
 import Query from '../src/Query'
-import makeTestPlan from '@cucumber/fake-cucumber/dist/src/makeTestPlan'
+import { makeTestPlan, makeTestCase } from '@cucumber/fake-cucumber'
 
 const pipelinePromise = promisify(pipeline)
 
@@ -317,7 +317,7 @@ describe('Query', () => {
       queryUpdateStream
     )
 
-    const testPlan = makeTestPlan(gherkinQuery, supportCode)
+    const testPlan = makeTestPlan(gherkinQuery, supportCode, makeTestCase)
     await testPlan.execute((envelope) => cucumberQuery.update(envelope))
   }
 
