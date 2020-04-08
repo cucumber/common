@@ -11,6 +11,10 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Added
 
+* [Javascript] New methods in gherkinQuery:
+  * `getPickleIdsFromAtNodeId`
+  * `getPickleStepIdsFromAstNodeId`
+
 ### Changed
 
 ### Deprecated
@@ -23,7 +27,7 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Added
 
-* [JavaScript] New exports: 
+* [JavaScript] New exports:
   * `Parser`
   * `compile`
   ([#924](https://github.com/cucumber/cucumber/pull/924)
@@ -51,7 +55,7 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Changed
 
-* [JavaScript] Renamed `GherkinQuery` to `Query` 
+* [JavaScript] Renamed `GherkinQuery` to `Query`
 
 ### Removed
 
@@ -59,7 +63,7 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Fixed
 
-* Update Indonesian Gherkin Language 
+* Update Indonesian Gherkin Language
   ([#872](https://github.com/cucumber/cucumber/pull/872)
    [#KniveX])
 
@@ -78,7 +82,7 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 * [Java/JavaScript/Ruby/Go]  Escape triple backticks in alternative docstring
   ([#889](https://github.com/cucumber/cucumber/pull/889)
    [mpkorstanje])
-  
+
 ## [9.2.0] - 2020-01-22
 
 ### Added
@@ -123,7 +127,7 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 * Do not trim leading newlines
   ([#891](https://github.com/cucumber/cucumber/pull/891)
    [mpkorstanje])
-   
+
 * PickleStep have unique IDs when generated from a `Background` section
   ([#800](https://github.com/cucumber/cucumber/pull/800)
    [vincent-psarga])
