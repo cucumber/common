@@ -1,6 +1,6 @@
+import ISupportCodeExecutor from './ISupportCodeExecutor'
 import SupportCodeExecutor from './SupportCodeExecutor'
 import {
-  Argument,
   CucumberExpression,
   Expression,
   RegularExpression,
@@ -19,8 +19,8 @@ export default class ExpressionStepDefinition implements IStepDefinition {
 
   public match(
     pickleStep: messages.Pickle.IPickleStep
-  ): SupportCodeExecutor | null {
-    const expressionArgs = this.getArguments(pickleStep.text)
+  ): ISupportCodeExecutor | null {
+    const expressionArgs = this.expression.match(pickleStep.text)
     return expressionArgs === null
       ? null
       : new SupportCodeExecutor(
@@ -30,10 +30,6 @@ export default class ExpressionStepDefinition implements IStepDefinition {
           pickleStep.argument && pickleStep.argument.docString,
           pickleStep.argument && pickleStep.argument.dataTable
         )
-  }
-
-  public getArguments(text: string): ReadonlyArray<Argument<any>> {
-    return this.expression.match(text)
   }
 
   public toMessage(): messages.IEnvelope {
