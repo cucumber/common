@@ -8,8 +8,8 @@ PACKAGES ?= c21e \
 	query \
 	json-formatter \
 	react \
-	html-formatter \
 	compatibility-kit \
+	html-formatter \
 	datatable \
 	config \
 	demo-formatter \
