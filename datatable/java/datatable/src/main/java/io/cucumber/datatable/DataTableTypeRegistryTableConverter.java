@@ -20,13 +20,19 @@ import static io.cucumber.datatable.CucumberDataTableException.keyValueMismatchE
 import static io.cucumber.datatable.CucumberDataTableException.keysImplyTableEntryTransformer;
 import static io.cucumber.datatable.TypeFactory.aListOf;
 import static io.cucumber.datatable.TypeFactory.constructType;
-import static io.cucumber.datatable.UndefinedDataTableTypeException.singletonNoConverterDefined;
-import static io.cucumber.datatable.UndefinedDataTableTypeException.mapNoConverterDefined;
-import static io.cucumber.datatable.UndefinedDataTableTypeException.mapsNoConverterDefined;
 import static io.cucumber.datatable.UndefinedDataTableTypeException.listNoConverterDefined;
 import static io.cucumber.datatable.UndefinedDataTableTypeException.listsNoConverterDefined;
-import static io.cucumber.datatable.UndefinedDataTableTypeException.listTableTooWide;
-import static io.cucumber.datatable.UndefinedDataTableTypeException.singletonTableTooWide;
+import static io.cucumber.datatable.UndefinedDataTableTypeException.mapNoConverterDefined;
+import static io.cucumber.datatable.UndefinedDataTableTypeException.mapsNoConverterDefined;
+import static io.cucumber.datatable.UndefinedDataTableTypeException.problemNoDefaultTableCellTransformer;
+import static io.cucumber.datatable.UndefinedDataTableTypeException.problemNoDefaultTableEntryTransformer;
+import static io.cucumber.datatable.UndefinedDataTableTypeException.problemNoTableCellTransformer;
+import static io.cucumber.datatable.UndefinedDataTableTypeException.problemNoTableEntryOrTableRowTransformer;
+import static io.cucumber.datatable.UndefinedDataTableTypeException.problemNoTableEntryTransformer;
+import static io.cucumber.datatable.UndefinedDataTableTypeException.singletonNoConverterDefined;
+import static io.cucumber.datatable.UndefinedDataTableTypeException.problemTableTooShortForDefaultTableEntry;
+import static io.cucumber.datatable.UndefinedDataTableTypeException.problemTableTooWideForDefaultTableCell;
+import static io.cucumber.datatable.UndefinedDataTableTypeException.problemTableTooWideForTableCellTransformer;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.emptyMap;
 import static java.util.Collections.nCopies;
@@ -101,20 +107,16 @@ public final class DataTableTypeRegistryTableConverter implements TableConverter
             return null;
         }
 
-        List<T> singletonList = toListOrNull(dataTable, type);
-        if (singletonList == null) {
-            DataTableType cellValueType = registry.lookupTableTypeByType(aListOf(aListOf(type)));
-            if (cellValueType != null) {
-                throw singletonTableTooWide(type, "TableEntryConverter or TableCellConverter", type);
+        ListOrProblems<T> result = toListOrProblems(dataTable, type);
+        if (result.hasList()) {
+            List<T> singletonList = result.getList();
+            if (singletonList.size() == 1) {
+                return singletonList.get(0);
             }
-            throw singletonNoConverterDefined(type);
+            throw cantConvertTo(type, "The table contained more then one item: " + singletonList);
         }
 
-        if (singletonList.size() == 1) {
-            return singletonList.get(0);
-        }
-
-        throw cantConvertTo(type, "The table contained more then one item: " + singletonList);
+        throw singletonNoConverterDefined(type, result.getProblems());
     }
 
     @Override
@@ -126,57 +128,97 @@ public final class DataTableTypeRegistryTableConverter implements TableConverter
             return emptyList();
         }
 
-        List<T> list = toListOrNull(dataTable, itemType);
-        if (list != null) {
-            return unmodifiableList(list);
+        ListOrProblems<T> result = toListOrProblems(dataTable, itemType);
+        if (result.hasList()) {
+            return unmodifiableList(result.getList());
         }
 
-        if (dataTable.width() == 1) {
-            throw listNoConverterDefined(itemType, "TableEntryTransformer, TableRowTransformer or TableCellTransformer", itemType);
+        throw listNoConverterDefined(
+                itemType,
+                result.getProblems()
+        );
+    }
+
+    @SuppressWarnings("unchecked")
+    private <T> ListOrProblems<T> toListOrProblems(DataTable dataTable, Type itemType) {
+        List<String> problems = new ArrayList<>();
+        List<List<String>> cells = dataTable.cells();
+        boolean singleColumn = dataTable.width() == 1;
+        boolean mayHaveHeader = dataTable.height() > 1;
+
+        DataTableType entryOrRowValueType = registry.lookupTableTypeByType(aListOf(itemType));
+        if (entryOrRowValueType != null) {
+            return ListOrProblems.list((List<T>) entryOrRowValueType.transform(cells));
+        } else {
+            problems.add(problemNoTableEntryOrTableRowTransformer(itemType));
         }
 
         DataTableType cellValueType = registry.lookupTableTypeByType(aListOf(aListOf(itemType)));
         if (cellValueType != null) {
-            throw listTableTooWide(itemType, "TableEntryTransformer or TableRowTransformer", itemType);
+            if (singleColumn) {
+                return ListOrProblems.list(unpack((List<List<T>>) cellValueType.transform(cells)));
+            }
+            // This is not common but when it happens it is usually the cause.
+            // Make sure its on the top.
+            problems.add(0, problemTableTooWideForTableCellTransformer(itemType));
+        } else if (singleColumn) {
+            problems.add(problemNoTableCellTransformer(itemType));
         }
 
-        throw listNoConverterDefined(itemType, "TableEntryTransformer or TableRowTransformer", itemType);
+        DataTableType defaultTableEntryType = registry.getDefaultTableEntryTransformer(itemType);
+        if (defaultTableEntryType != null) {
+            if (mayHaveHeader) {
+                return ListOrProblems.list((List<T>) defaultTableEntryType.transform(cells));
+            }
+            problems.add(problemTableTooShortForDefaultTableEntry(itemType));
+        } else if (mayHaveHeader) {
+            problems.add(problemNoDefaultTableEntryTransformer(itemType));
+        }
+
+        DataTableType defaultCellValueType = registry.getDefaultTableCellTransformer(itemType);
+        if (defaultCellValueType != null) {
+            if (singleColumn) {
+                return ListOrProblems.list(unpack((List<List<T>>) defaultCellValueType.transform(cells)));
+            }
+            // This is not common but when it happens it is usually the cause.
+            // Make sure its on the top.
+            problems.add(0, problemTableTooWideForDefaultTableCell(itemType));
+        } else if (singleColumn) {
+            problems.add(problemNoDefaultTableCellTransformer(itemType));
+        }
+
+        return ListOrProblems.problems(problems);
     }
 
-    private <T> List<T> toListOrNull(DataTable dataTable, Type itemType) {
-        DataTableType tableType = registry.lookupTableTypeByType(aListOf(itemType));
-        List<List<String>> cells = dataTable.cells();
-        if (tableType != null) {
-            return (List<T>) tableType.transform(cells);
+
+    private static final class ListOrProblems<T> {
+        private final List<T> list;
+        private final List<String> problems;
+
+        private ListOrProblems(List<T> list, List<String> problems) {
+            this.list = list;
+            this.problems = problems;
         }
 
-        if (dataTable.width() == 1) {
-            DataTableType cellValueType = registry.lookupTableTypeByType(aListOf(aListOf(itemType)));
-            if (cellValueType != null) {
-                return unpack((List<List<T>>) cellValueType.transform(cells));
-            }
+        private static <T> ListOrProblems<T> problems(List<String> problems) {
+            return new ListOrProblems<>(null, problems);
         }
 
-        if (dataTable.height() > 1) {
-            DataTableType defaultTableType = registry.getDefaultTableEntryTransformer(itemType);
-            if (defaultTableType != null) {
-                return (List<T>) defaultTableType.transform(cells);
-            }
+        private static <T> ListOrProblems<T> list(List<T> list) {
+            return new ListOrProblems<>(list, null);
         }
 
-        if (dataTable.width() == 1) {
-            DataTableType defaultCellValueType = registry.getDefaultTableCellTransformer(itemType);
-            if (defaultCellValueType != null) {
-                return unpack((List<List<T>>) defaultCellValueType.transform(cells));
-            }
+        public boolean hasList() {
+            return list != null;
         }
 
-        DataTableType defaultTableType = registry.getDefaultTableEntryTransformer(itemType);
-        if (defaultTableType != null) {
-            return (List<T>) defaultTableType.transform(cells);
+        public List<T> getList() {
+            return list;
         }
 
-        return null;
+        public List<String> getProblems() {
+            return problems;
+        }
     }
 
     @Override
@@ -189,14 +231,22 @@ public final class DataTableTypeRegistryTableConverter implements TableConverter
             return emptyList();
         }
 
+        List<String> problems = new ArrayList<>();
+
         DataTableType tableType = registry.lookupTableTypeByType(aListOf(aListOf(itemType)));
-        if (tableType == null) {
-            tableType = registry.getDefaultTableCellTransformer(itemType);
-        }
         if (tableType != null) {
             return unmodifiableList((List<List<T>>) tableType.transform(dataTable.cells()));
+        } else {
+            problems.add(problemNoTableCellTransformer(itemType));
         }
-        throw listsNoConverterDefined(itemType);
+
+        tableType = registry.getDefaultTableCellTransformer(itemType);
+        if (tableType != null) {
+            return unmodifiableList((List<List<T>>) tableType.transform(dataTable.cells()));
+        } else {
+            problems.add(problemNoDefaultTableCellTransformer(itemType));
+        }
+        throw listsNoConverterDefined(itemType, problems);
     }
 
     @Override
@@ -216,7 +266,7 @@ public final class DataTableTypeRegistryTableConverter implements TableConverter
         List<K> keys = convertEntryKeys(keyType, keyColumn, valueType, firstHeaderCellIsBlank);
 
         if (valueColumns.isEmpty()) {
-            return createMap(keyType, keys, valueType, nCopies(keys.size(), (V) null));
+            return createMap(keyType, keys, valueType, nCopies(keys.size(), null));
         }
 
         boolean keysImplyTableRowTransformer = keys.size() == dataTable.height() - 1;
@@ -246,26 +296,39 @@ public final class DataTableTypeRegistryTableConverter implements TableConverter
         return unmodifiableMap(result);
     }
 
-    @SuppressWarnings("unchecked")
     private <K> List<K> convertEntryKeys(Type keyType, DataTable keyColumn, Type valueType, boolean firstHeaderCellIsBlank) {
         if (firstHeaderCellIsBlank) {
-            DataTableType keyConverter;
-            keyConverter = registry.lookupTableTypeByType(aListOf(aListOf(keyType)));
-            if (keyConverter == null) {
-                keyConverter = registry.getDefaultTableCellTransformer(keyType);
-            }
-            if (keyConverter == null) {
-                throw mapNoConverterDefined(keyType, valueType, "TableCellTransformer", keyType);
-            }
-            return unpack((List<List<K>>) keyConverter.transform(keyColumn.rows(1, keyColumn.height()).cells()));
+            DataTable keyColumnRows = keyColumn.subTable(1, 0);
+            return convertEntryKeyColumnRows(keyType, valueType, keyColumnRows);
         }
 
-        List<K> list = toListOrNull(keyColumn, keyType);
-        if (list != null) {
-            return list;
+        ListOrProblems<K> listOrProblems = toListOrProblems(keyColumn, keyType);
+        if (listOrProblems.hasList()) {
+            return listOrProblems.getList();
         }
 
-        throw mapNoConverterDefined(keyType, valueType, "TableEntryTransformer or TableCellTransformer", keyType);
+        throw mapNoConverterDefined(keyType, valueType, listOrProblems.getProblems());
+    }
+
+    @SuppressWarnings("unchecked")
+    private <K> List<K> convertEntryKeyColumnRows(Type keyType, Type valueType, DataTable keyColumnRows) {
+        List<String> problems = new ArrayList<>(2);
+
+        DataTableType keyConverter = registry.lookupTableTypeByType(aListOf(aListOf(keyType)));
+        if (keyConverter != null) {
+            return unpack((List<List<K>>) keyConverter.transform(keyColumnRows.cells()));
+        } else {
+            problems.add(problemNoTableCellTransformer(keyType));
+        }
+
+        keyConverter = registry.getDefaultTableCellTransformer(keyType);
+        if (keyConverter != null) {
+            return unpack((List<List<K>>) keyConverter.transform(keyColumnRows.cells()));
+        } else {
+            problems.add(problemNoDefaultTableCellTransformer(keyType));
+        }
+
+        throw mapNoConverterDefined(keyType, valueType, problems);
     }
 
     @SuppressWarnings("unchecked")
@@ -294,6 +357,7 @@ public final class DataTableTypeRegistryTableConverter implements TableConverter
         // 3. otherwise                 => toList  => no further recursion
         //
         // So instead we unroll these steps here. This keeps the error handling and messages sane.
+        List<String> problems = new ArrayList<>();
 
         JavaType javaType = constructType(valueType);
 
@@ -303,10 +367,12 @@ public final class DataTableTypeRegistryTableConverter implements TableConverter
             // Table cell types take priority over default converters
             DataTableType cellValueConverter = registry.lookupTableTypeByType(aListOf(aListOf(listType.getElementType())));
             if (cellValueConverter == null) {
+                problems.add(problemNoTableCellTransformer(listType.getElementType()));
                 cellValueConverter = registry.getDefaultTableCellTransformer(listType.getElementType());
             }
             if (cellValueConverter == null) {
-                throw mapNoConverterDefined(keyType, valueType, "TableCellTransformer", valueType);
+                problems.add(problemNoDefaultTableCellTransformer(listType.getElementType()));
+                throw mapNoConverterDefined(keyType, valueType, problems);
             }
             return (List<V>) cellValueConverter.transform(dataTable.cells());
         }
@@ -323,6 +389,8 @@ public final class DataTableTypeRegistryTableConverter implements TableConverter
         DataTableType entryValueConverter = registry.lookupTableTypeByType(aListOf(valueType));
         if (entryValueConverter != null) {
             return (List<V>) entryValueConverter.transform(dataTable.cells());
+        } else {
+            problems.add(problemNoTableEntryTransformer(valueType));
         }
 
         if (keysImplyTableEntryTransformer) {
@@ -338,13 +406,17 @@ public final class DataTableTypeRegistryTableConverter implements TableConverter
         DataTableType cellValueConverter = registry.lookupTableTypeByType(aListOf(aListOf(valueType)));
         if (cellValueConverter != null) {
             return unpack((List<List<V>>) cellValueConverter.transform(dataTable.cells()));
+        } else {
+            problems.add(problemNoTableCellTransformer(valueType));
         }
         DataTableType defaultCellValueConverter = registry.getDefaultTableCellTransformer(valueType);
         if (defaultCellValueConverter != null) {
             return unpack((List<List<V>>) defaultCellValueConverter.transform(dataTable.cells()));
+        } else {
+            problems.add(problemNoDefaultTableCellTransformer(valueType));
         }
 
-        throw mapNoConverterDefined(keyType, valueType, "TableEntryTransformer or TableCellTransformer", valueType);
+        throw mapNoConverterDefined(keyType, valueType, problems);
     }
 
     @Override
@@ -361,12 +433,16 @@ public final class DataTableTypeRegistryTableConverter implements TableConverter
         DataTableType keyConverter = registry.lookupTableTypeByType(aListOf(aListOf(keyType)));
         DataTableType valueConverter = registry.lookupTableTypeByType(aListOf(aListOf(valueType)));
 
+        List<String> problems = new ArrayList<>();
         if (keyConverter == null) {
-            throw mapsNoConverterDefined(keyType, valueType, keyType);
+            problems.add(problemNoTableCellTransformer(keyType));
         }
 
         if (valueConverter == null) {
-            throw mapsNoConverterDefined(keyType, valueType, valueType);
+            problems.add(problemNoTableCellTransformer(valueType));
+        }
+        if (!problems.isEmpty()) {
+            throw mapsNoConverterDefined(keyType, valueType, problems);
         }
 
         DataTable header = dataTable.rows(0, 1);

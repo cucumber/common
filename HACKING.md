@@ -91,11 +91,12 @@ In the new directory, create the following files:
 
 `README.md` with a build badge for the new subrepo. For example:
 
-    # Tag Expressions for Go
-
-    [![Build Status](https://travis-ci.org/cucumber/tag-expressions-go.svg?branch=master)](https://travis-ci.org/cucumber/tag-expressions-go)
-
+    # Cucumber Tag Expressions for Java
+    
+    [![Maven Central](https://img.shields.io/maven-central/v/io.cucumber/tag-expressions.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22io.cucumber%22%20AND%20a:%22tag-expressions%22)
+    
     [The docs are here](https://cucumber.io/docs/cucumber/api/#tag-expressions).
+
 
 #### Sync files
 

@@ -2,16 +2,16 @@ import assert from 'assert'
 import ReactDOM from 'react-dom'
 import React from 'react'
 import { messages } from '@cucumber/messages'
-import CucumberQuery from '@cucumber/query'
+import { Query as CucumberQuery } from '@cucumber/query'
 import Step from '../src/components/gherkin/Step'
 import { JSDOM } from 'jsdom'
 
 import UriContext from '../src/UriContext'
 import GherkinQueryContext from '../src/GherkinQueryContext'
-import { GherkinQuery } from '@cucumber/gherkin'
+import { Query as GherkinQuery } from '@cucumber/gherkin'
 import CucumberQueryContext from '../src/CucumberQueryContext'
 
-describe('Step', () => {
+describe('<Step>', () => {
   it('renders', () => {
     const dom = new JSDOM(
       '<html lang="en"><body><div id="content"></div></body></html>'
@@ -68,12 +68,12 @@ describe('Step', () => {
 
     const plainTexts = Array.from(
       document.querySelectorAll('#content h3 span')
-    ).map(a => a.innerHTML)
+    ).map((a) => a.innerHTML)
     assert.deepStrictEqual(plainTexts, ['Given', 'the ', ' pixies'])
 
     const paramTexts = Array.from(
       document.querySelectorAll('#content h3 a')
-    ).map(a => a.innerHTML)
+    ).map((a) => a.innerHTML)
     assert.deepStrictEqual(paramTexts, ['48'])
   })
 })

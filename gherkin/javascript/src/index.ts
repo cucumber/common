@@ -1,8 +1,23 @@
-import Gherkin from './Gherkin'
+import GherkinStreams from './stream/GherkinStreams'
 import IGherkinOptions from './IGherkinOptions'
-import GherkinQuery from './GherkinQuery'
-import StrictArrayMultimap from './StrictArrayMultimap'
-import StrictMap from './StrictMap'
+import Query from './Query'
+import Dialect from './Dialect'
+import Parser from './Parser'
+import AstBuilder from './AstBuilder'
+import TokenScanner from './TokenScanner'
+import compile from './pickles/compile'
+import DIALECTS from './gherkin-languages.json'
 
-export default Gherkin
-export { IGherkinOptions, GherkinQuery, StrictArrayMultimap, StrictMap }
+const dialects = DIALECTS as Readonly<{ [key: string]: Dialect }>
+
+export {
+  GherkinStreams,
+  IGherkinOptions,
+  Query,
+  dialects,
+  Dialect,
+  Parser,
+  AstBuilder,
+  TokenScanner,
+  compile,
+}

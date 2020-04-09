@@ -1,4 +1,4 @@
-[![Build Status](https://secure.travis-ci.org/cucumber/gherkin-javascript.svg)](http://travis-ci.org/cucumber/gherkin-javascript)
+# Gherkin for JavaScript
 
 Gherkin parser/compiler for JavaScript. Please see [Gherkin](https://github.com/cucumber/cucumber/tree/master/gherkin) for details.
 

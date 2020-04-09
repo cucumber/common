@@ -40,7 +40,8 @@ describe('Custom parameter type', () => {
   describe('CucumberExpression', () => {
     it('throws exception for illegal character in parameter name', () => {
       assert.throws(
-        () => new ParameterType('[string]', /.*/, String, s => s, false, true),
+        () =>
+          new ParameterType('[string]', /.*/, String, (s) => s, false, true),
         { message: "Illegal character '[' in parameter name {[string]}" }
       )
     })
@@ -101,7 +102,7 @@ describe('Custom parameter type', () => {
           'color',
           [/red|blue|yellow/, /(?:dark|light) (?:red|blue|yellow)/],
           Color,
-          s => new Color(s),
+          (s) => new Color(s),
           false,
           true
         )
@@ -120,7 +121,7 @@ describe('Custom parameter type', () => {
           'throwing',
           /bad/,
           null,
-          s => {
+          (s) => {
             throw new Error(`Can't transform [${s}]`)
           },
           false,
@@ -147,7 +148,7 @@ describe('Custom parameter type', () => {
                 'color',
                 /.*/,
                 CssColor,
-                s => new CssColor(s),
+                (s) => new CssColor(s),
                 false,
                 true
               )
@@ -162,7 +163,7 @@ describe('Custom parameter type', () => {
             'whatever',
             /.*/,
             Color,
-            s => new Color(s),
+            (s) => new Color(s),
             false,
             false
           )
@@ -175,7 +176,7 @@ describe('Custom parameter type', () => {
             'css-color',
             /red|blue|yellow/,
             CssColor,
-            s => new CssColor(s),
+            (s) => new CssColor(s),
             true,
             false
           )
@@ -223,7 +224,7 @@ describe('Custom parameter type', () => {
           'asyncColor',
           /red|blue|yellow/,
           Color,
-          async s => new Color(s),
+          async (s) => new Color(s),
           false,
           true
         )

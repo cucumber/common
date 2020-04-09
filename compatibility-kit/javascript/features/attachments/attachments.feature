@@ -10,7 +10,10 @@ Feature: Attachments
   Attachments must have a body and a content type
 
   Scenario: Attach text
-    When the string "hello" is attached as "text/plain"
+    When the string "hello in text/plain" is attached as "text/plain"
+
+  Scenario: Log text
+    When the string "hello" is logged
 
   Scenario: Attach byte array
     When an array with 10 bytes are attached as "application/octet-stream"

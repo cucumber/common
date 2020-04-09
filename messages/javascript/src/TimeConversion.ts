@@ -1,7 +1,8 @@
 import { messages } from './index'
 
-const MILLISECONDS_PER_SECOND = 1000
-const NANOSECONDS_PER_MILLISECOND = 1000000
+const MILLISECONDS_PER_SECOND = 1e3
+const NANOSECONDS_PER_MILLISECOND = 1e6
+const NANOSECONDS_PER_SECOND = 1e9
 
 export function millisecondsSinceEpochToTimestamp(
   millisecondsSinceEpoch: number
@@ -27,6 +28,23 @@ export function durationToMilliseconds(duration: messages.IDuration) {
   return toMillis(seconds, nanos)
 }
 
+export function addDurations(
+  durationA: messages.IDuration,
+  durationB: messages.IDuration
+) {
+  let seconds = toNumber(durationA.seconds) + toNumber(durationB.seconds)
+  let nanos = durationA.nanos + durationB.nanos
+  if (nanos >= NANOSECONDS_PER_SECOND) {
+    seconds += 1
+    nanos -= NANOSECONDS_PER_SECOND
+  }
+  return new messages.Duration({ seconds, nanos })
+}
+
+function toNumber(x: number | Long): number {
+  return typeof x === 'number' ? x : x.toNumber()
+}
+
 function toSecondsAndNanos(milliseconds: number) {
   const seconds = Math.floor(milliseconds / MILLISECONDS_PER_SECOND)
   const nanos = Math.floor(
@@ -36,14 +54,7 @@ function toSecondsAndNanos(milliseconds: number) {
 }
 
 function toMillis(seconds: number | Long, nanos: number) {
-  let secondMillis: number
-  if (typeof seconds === 'number') {
-    secondMillis = (seconds as number) * MILLISECONDS_PER_SECOND
-  } else {
-    secondMillis = (seconds as Long)
-      .multiply(MILLISECONDS_PER_SECOND)
-      .toNumber()
-  }
+  const secondMillis = toNumber(seconds) * MILLISECONDS_PER_SECOND
   const nanoMillis = nanos / NANOSECONDS_PER_MILLISECOND
   return secondMillis + nanoMillis
 }

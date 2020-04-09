@@ -297,20 +297,20 @@ message Attachment {
   reserved 2, 3;
   string test_step_id = 4;
   string test_case_started_id = 5;
-  // The body of the attachment
-  oneof body {
-    // For text/* media types
-    string text = 6;
-    // For all non-text/ media types
-    bytes binary = 7;
-  }
+  string body = 6;
   /**
    * The media type of the data. This can be any valid
    * [IANA Media Type](https://www.iana.org/assignments/media-types/media-types.xhtml)
    * as well as Cucumber-specific media types such as `text/x.cucumber.gherkin+plain`
    * and `text/x.cucumber.stacktrace+plain`
    */
-  string media_type = 8;
+  string media_type = 7;
+  ContentEncoding content_encoding = 8;
+  
+  enum ContentEncoding {
+    IDENTITY = 0;
+    BASE64 = 1;
+  }
 }
 
 ////// Pickles

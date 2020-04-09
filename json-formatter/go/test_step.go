@@ -4,7 +4,7 @@ import (
 	"encoding/base64"
 	"errors"
 	"fmt"
-	"github.com/cucumber/messages-go/v10"
+	"github.com/cucumber/messages-go/v11"
 	"strings"
 )
 
@@ -129,6 +129,7 @@ func TestStepToJSON(step *TestStep) *jsonStep {
 			Duration:     duration,
 		},
 		Embeddings: makeEmbeddings(step.Attachments),
+		Output:     makeOutput(step.Attachments),
 	}
 
 	docString := step.Step.GetDocString()
@@ -159,21 +160,52 @@ func TestStepToJSON(step *TestStep) *jsonStep {
 }
 
 func makeEmbeddings(attachments []*messages.Attachment) []*jsonEmbedding {
-	jsonEmbeddings := make([]*jsonEmbedding, len(attachments))
-	for index, attachment := range attachments {
-		var data []byte
-		if attachment.GetBinary() != nil {
-			data = attachment.GetBinary()
+	embeddableAttachments := filterAttachments(attachments, isEmbeddable)
+	jsonEmbeddings := make([]*jsonEmbedding, len(embeddableAttachments))
+
+	for index, attachment := range embeddableAttachments {
+		var data string
+		if attachment.ContentEncoding == messages.Attachment_BASE64 {
+			data = attachment.Body
 		} else {
-			data = []byte(attachment.GetText())
+			data = base64.StdEncoding.EncodeToString([]byte(attachment.Body))
 		}
 		jsonEmbeddings[index] = &jsonEmbedding{
-			Data:     base64.StdEncoding.EncodeToString(data),
+			Data:     data,
 			MimeType: attachment.MediaType,
 		}
 	}
 
 	return jsonEmbeddings
+}
+
+func makeOutput(attachments []*messages.Attachment) []string {
+	outputAttachments := filterAttachments(attachments, isOutput)
+	output := make([]string, len(outputAttachments))
+
+	for index, attachment := range outputAttachments {
+		output[index] = attachment.GetBody()
+	}
+
+	return output
+}
+
+func filterAttachments(attachments []*messages.Attachment, filter func(*messages.Attachment) bool) []*messages.Attachment {
+	matches := make([]*messages.Attachment, 0)
+	for _, attachment := range attachments {
+		if filter(attachment) {
+			matches = append(matches, attachment)
+		}
+	}
+	return matches
+}
+
+func isEmbeddable(attachment *messages.Attachment) bool {
+	return !isOutput(attachment)
+}
+
+func isOutput(attachment *messages.Attachment) bool {
+	return attachment.GetMediaType() == "text/x.cucumber.log+plain"
 }
 
 func makeLocation(file string, line uint32) string {

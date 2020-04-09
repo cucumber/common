@@ -1,47 +1,6 @@
-import { stubConstructor } from 'ts-sinon'
-import SupportCodeExecutor from '../src/SupportCodeExecutor'
-import ExpressionStepDefinition from '../src/ExpressionStepDefinition'
 import { Readable } from 'stream'
 import { IdGenerator, messages } from '@cucumber/messages'
-import gherkin from '@cucumber/gherkin'
-
-export function stubPassingSupportCodeExecutor(): SupportCodeExecutor {
-  const supportCodeExecutorStub = stubConstructor(SupportCodeExecutor)
-  supportCodeExecutorStub.execute.returns(undefined)
-
-  return supportCodeExecutorStub
-}
-
-export function stubPendingSupportCodeExecutor(): SupportCodeExecutor {
-  const supportCodeExecutorStub = stubConstructor(SupportCodeExecutor)
-  supportCodeExecutorStub.execute.returns('pending')
-
-  return supportCodeExecutorStub
-}
-
-export function stubFailingSupportCodeExecutor(
-  message: string
-): SupportCodeExecutor {
-  const supportCodeExecutorStub = stubConstructor(SupportCodeExecutor)
-  supportCodeExecutorStub.execute.throws(new Error(message))
-
-  return supportCodeExecutorStub
-}
-
-export function stubMatchingStepDefinition(
-  executor: SupportCodeExecutor = new SupportCodeExecutor(
-    'some-id',
-    () => null,
-    [],
-    null,
-    null
-  )
-): ExpressionStepDefinition {
-  const stepDefinitionStub = stubConstructor(ExpressionStepDefinition)
-  stepDefinitionStub.match.returns(executor)
-
-  return stepDefinitionStub
-}
+import { GherkinStreams } from '@cucumber/gherkin'
 
 export function gherkinMessages(gherkinSource: string, uri: string): Readable {
   const source = messages.Envelope.fromObject({
@@ -52,7 +11,7 @@ export function gherkinMessages(gherkinSource: string, uri: string): Readable {
     },
   })
 
-  return gherkin.fromSources([source], {
+  return GherkinStreams.fromSources([source], {
     newId: IdGenerator.uuid(),
   })
 }

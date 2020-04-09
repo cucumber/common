@@ -9,13 +9,35 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+* expose internal needed to generate test cases and allow specifying a custom function to compute test cases
+* expose `IHook`, added `SupportCode.registerBeforeDefinition` and `SupportCode.registerAfterDefinition` to enable custom Hook execution
+* expose `IWorld`
+* expose `IStepDefinition` and added `SupportCode.registerStepDefinition` to enable custom tep matching
+
 ### Changed
 
 ### Deprecated
 
 ### Removed
 
+* Removed the `--globals` option
+* Removed `IStepDefinition#getArguments(string)` - doesn't need to be on interface.
+  This removes an API dependency on `@cucumber/cucumber-expressions`
+
 ### Fixed
+
+## [6.0.0] - 2020-03-31
+
+### Changed
+
+* Upgrade to messages 11.x
+* [JavaScript] All array return values and function parameters are now declared as TypeScript `ReadOnlyArray`
+
+## [5.0.0] - 2020-03-02
+
+### Changed
+
+* Upgraded messages and gherkin
 
 ## [4.0.0] - 2020-02-14
 
@@ -131,7 +153,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/fake-cucumber/v4.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/fake-cucumber/v6.0.0...master
+[6.0.0]:      https://github.com/cucumber/cucumber/compare/fake-cucumber/v5.0.0...fake-cucumber/v6.0.0
+[5.0.0]:      https://github.com/cucumber/cucumber/compare/fake-cucumber/v4.0.0...fake-cucumber/v5.0.0
 [4.0.0]:      https://github.com/cucumber/cucumber/compare/fake-cucumber/v3.0.3...fake-cucumber/v4.0.0
 [3.0.3]:      https://github.com/cucumber/cucumber/compare/fake-cucumber/v3.0.2...fake-cucumber/v3.0.3
 [3.0.2]:      https://github.com/cucumber/cucumber/compare/fake-cucumber/v3.0.1...fake-cucumber/v3.0.2

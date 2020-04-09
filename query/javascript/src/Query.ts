@@ -1,28 +1,25 @@
-import { StrictArrayMultimap, StrictMap } from '@cucumber/gherkin'
 import { messages, TimeConversion } from '@cucumber/messages'
+import { ArrayMultimap } from '@teppeis/multimaps'
 
 export default class Query {
-  private readonly testStepResultByPickleId = new StrictArrayMultimap<
+  private readonly testStepResultByPickleId = new ArrayMultimap<
     string,
     messages.ITestStepResult
   >()
-  private readonly testStepResultsByPickleStepId = new StrictArrayMultimap<
+  private readonly testStepResultsByPickleStepId = new ArrayMultimap<
     string,
     messages.ITestStepResult
   >()
-  private readonly testStepById = new StrictMap<
-    string,
-    messages.TestCase.ITestStep
-  >()
-  private readonly pickleIdByTestStepId = new StrictMap<string, string>()
-  private readonly pickleStepIdByTestStepId = new StrictMap<string, string>()
+  private readonly testStepById = new Map<string, messages.TestCase.ITestStep>()
+  private readonly pickleIdByTestStepId = new Map<string, string>()
+  private readonly pickleStepIdByTestStepId = new Map<string, string>()
 
-  private readonly attachmentsByPickleStepId = new StrictArrayMultimap<
+  private readonly attachmentsByPickleStepId = new ArrayMultimap<
     string,
     messages.IAttachment
   >()
 
-  private readonly stepMatchArgumentsListsByPickleStepId = new StrictMap<
+  private readonly stepMatchArgumentsListsByPickleStepId = new Map<
     string,
     messages.TestCase.TestStep.IStepMatchArgumentsList[]
   >()
@@ -71,12 +68,12 @@ export default class Query {
    * @param pickleStepIds
    */
   public getPickleStepTestStepResults(
-    pickleStepIds: string[]
-  ): messages.ITestStepResult[] {
+    pickleStepIds: ReadonlyArray<string>
+  ): ReadonlyArray<messages.ITestStepResult> {
     if (pickleStepIds.length === 0) {
       return [
         new messages.TestStepResult({
-          status: messages.TestStepResult.Status.SKIPPED,
+          status: messages.TestStepResult.Status.UNKNOWN,
           duration: TimeConversion.millisecondsToDuration(0),
         }),
       ]
@@ -96,12 +93,12 @@ export default class Query {
    * @param pickleIds
    */
   public getPickleTestStepResults(
-    pickleIds: string[]
-  ): messages.ITestStepResult[] {
+    pickleIds: ReadonlyArray<string>
+  ): ReadonlyArray<messages.ITestStepResult> {
     if (pickleIds.length === 0) {
       return [
         new messages.TestStepResult({
-          status: messages.TestStepResult.Status.UNDEFINED,
+          status: messages.TestStepResult.Status.UNKNOWN,
           duration: TimeConversion.millisecondsToDuration(0),
         }),
       ]
@@ -121,12 +118,12 @@ export default class Query {
    * @param testStepResults
    */
   public getWorstTestStepResult(
-    testStepResults: messages.ITestStepResult[]
+    testStepResults: ReadonlyArray<messages.ITestStepResult>
   ): messages.ITestStepResult {
     return (
-      testStepResults.sort((r1, r2) => r2.status - r1.status)[0] ||
+      testStepResults.slice().sort((r1, r2) => r2.status - r1.status)[0] ||
       new messages.TestStepResult({
-        status: messages.TestStepResult.Status.SKIPPED,
+        status: messages.TestStepResult.Status.UNKNOWN,
         duration: TimeConversion.millisecondsToDuration(0),
       })
     )
@@ -137,8 +134,8 @@ export default class Query {
    * @param pickleStepIds
    */
   public getPickleStepAttachments(
-    pickleStepIds: string[]
-  ): messages.IAttachment[] {
+    pickleStepIds: ReadonlyArray<string>
+  ): ReadonlyArray<messages.IAttachment> {
     return pickleStepIds.reduce(
       (attachments: messages.IAttachment[], pickleStepId) => {
         return attachments.concat(
@@ -155,7 +152,9 @@ export default class Query {
    */
   public getStepMatchArgumentsLists(
     pickleStepId: string
-  ): messages.TestCase.TestStep.IStepMatchArgumentsList[] {
+  ):
+    | ReadonlyArray<messages.TestCase.TestStep.IStepMatchArgumentsList>
+    | undefined {
     return this.stepMatchArgumentsListsByPickleStepId.get(pickleStepId)
   }
 }

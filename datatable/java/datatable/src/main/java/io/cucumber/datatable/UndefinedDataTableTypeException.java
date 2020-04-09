@@ -3,9 +3,11 @@ package io.cucumber.datatable;
 import org.apiguardian.api.API;
 
 import java.lang.reflect.Type;
+import java.util.List;
 
 import static io.cucumber.datatable.TypeFactory.typeName;
 import static java.lang.String.format;
+import static java.util.stream.Collectors.joining;
 
 @API(status = API.Status.STABLE)
 public final class UndefinedDataTableTypeException extends CucumberDataTableException {
@@ -13,65 +15,105 @@ public final class UndefinedDataTableTypeException extends CucumberDataTableExce
         super(message);
     }
 
-    static UndefinedDataTableTypeException singletonNoConverterDefined(Type type) {
-        return new UndefinedDataTableTypeException(
-                format("Can't convert DataTable to %s.\n" +
-                                "Please register a DataTableType with a " +
-                                "TableTransformer, TableEntryTransformer or TableRowTransformer for %s.",
-                        typeName(type), typeName(type))
+    static String problemNoDefaultTableCellTransformer(Type valueType) {
+        return problem(valueType,
+                "There was no default table cell transformer registered to transform %s.",
+                "Please consider registering a default table cell transformer."
         );
     }
 
-    static CucumberDataTableException singletonTableTooWide(Type itemType, String missingConverter, Type typeToRegister) {
-        return new UndefinedDataTableTypeException(
-                format("Can't convert DataTable to %s.\n" +
-                                "There was a table cell converter but the table was too wide to use it.\n" +
-                                "Please reduce the table width or register a %s for %s.\n",
-                        typeName(itemType), missingConverter, typeName(typeToRegister))
+    static String problemNoTableCellTransformer(Type itemType) {
+        return problem(itemType,
+                "There was no table cell transformer registered for %s.",
+                "Please consider registering a table cell transformer."
         );
     }
 
-    static UndefinedDataTableTypeException mapNoConverterDefined(Type keyType, Type valueType, String missingConverter, Type typeToRegister) {
-        return new UndefinedDataTableTypeException(
-                format("Can't convert DataTable to Map<%s, %s>.\n" +
-                                "Please register a DataTableType with a %s for %s.",
-                        typeName(keyType), typeName(valueType), missingConverter, typeName(typeToRegister))
+    static String problemNoTableEntryOrTableRowTransformer(Type itemType) {
+        return problem(itemType,
+                "There was no table entry or table row transformer registered for %s.",
+                "Please consider registering a table entry or row transformer."
         );
     }
 
-
-    static UndefinedDataTableTypeException mapsNoConverterDefined(Type keyType, Type valueType, Type typeToRegister) {
-        return new UndefinedDataTableTypeException(
-                format("Can't convert DataTable to List<Map<%s, %s>>.\n" +
-                                "Please register a DataTableType with a TableCellTransformer for %s.",
-                        typeName(keyType), typeName(valueType), typeName(typeToRegister))
+    static String problemNoTableEntryTransformer(Type valueType) {
+        return problem(valueType,
+                "There was no table entry transformer registered for %s.",
+                "Please consider registering a table entry transformer."
+        );
+    }
+    static String problemNoDefaultTableEntryTransformer(Type valueType) {
+        return problem(valueType,
+                "There was no default table entry transformer registered to transform %s.",
+                "Please consider registering a default table entry transformer."
         );
     }
 
-
-    static CucumberDataTableException listNoConverterDefined(Type itemType, String missingConverter, Type typeToRegister) {
-        return new UndefinedDataTableTypeException(
-                format("Can't convert DataTable to List<%s>.\n" +
-                                "You can register a with a %s for %s.\n",
-                        typeName(itemType), typeName(typeToRegister), missingConverter, typeName(typeToRegister))
+    static String problemTableTooShortForDefaultTableEntry(Type itemType) {
+        return problem(itemType,
+                "There was a default table entry transformer that could be used but the table was too short use it.",
+                "Please increase the table height to use this converter."
         );
     }
 
-    static CucumberDataTableException listTableTooWide(Type itemType, String missingConverter, Type typeToRegister) {
-        return new UndefinedDataTableTypeException(
-                format("Can't convert DataTable to List<%s>.\n" +
-                                "There was a table cell converter but the table was too wide to use it.\n" +
-                                "Please reduce the table width or register a %s for %s.\n",
-                        typeName(itemType), missingConverter, typeName(typeToRegister))
+    static String problemTableTooWideForDefaultTableCell(Type itemType) {
+        return problem(itemType,
+                "There was a default table cell transformer that could be used but the table was too wide to use it.",
+                "Please reduce the table width to use this converter."
         );
     }
 
-    static CucumberDataTableException listsNoConverterDefined(Type itemType) {
-        return new UndefinedDataTableTypeException(
-                format("Can't convert DataTable to List<List<%s>>.\n" +
-                                "Please register a DataTableType with a TableCellTransformer for %s.",
-                        typeName(itemType), typeName(itemType))
+    static String problemTableTooWideForTableCellTransformer(Type itemType) {
+        return problem(itemType,
+                "There was a table cell transformer for %s but the table was too wide to use it.",
+                "Please reduce the table width to use this converter."
         );
     }
 
+    private static String problem(Type itemType, String problem, String solution) {
+        return format(" - " + problem + "\n   " + solution, typeName(itemType));
+    }
+
+    private static String prettyProblemList(List<String> problems) {
+        return "Please review these problems:\n" +
+                problems.stream().collect(joining("" +
+
+                        "\n" +
+                        "\n", "\n", "\n" +
+                        "\n" +
+                        "Note: Usually solving one is enough"));
+    }
+
+    static UndefinedDataTableTypeException singletonNoConverterDefined(Type type, List<String> problems) {
+        return new UndefinedDataTableTypeException(
+                format("Can't convert DataTable to %s.\n%s",
+                        typeName(type), prettyProblemList(problems)));
+
+    }
+
+    static UndefinedDataTableTypeException mapNoConverterDefined(Type keyType, Type valueType, List<String> problems) {
+        return new UndefinedDataTableTypeException(
+                format("Can't convert DataTable to Map<%s, %s>.\n%s",
+                        typeName(keyType), typeName(valueType), prettyProblemList(problems)));
+    }
+
+
+    static UndefinedDataTableTypeException mapsNoConverterDefined(Type keyType, Type valueType, List<String> problems) {
+        return new UndefinedDataTableTypeException(
+                format("Can't convert DataTable to List<Map<%s, %s>>.\n%s",
+                        typeName(keyType), typeName(valueType), prettyProblemList(problems)));
+    }
+
+
+    static CucumberDataTableException listNoConverterDefined(Type itemType, List<String> problems) {
+        return new UndefinedDataTableTypeException(
+                format("Can't convert DataTable to List<%s>.\n%s",
+                        typeName(itemType), prettyProblemList(problems)));
+    }
+
+    static CucumberDataTableException listsNoConverterDefined(Type itemType, List<String> problems) {
+        return new UndefinedDataTableTypeException(
+                format("Can't convert DataTable to List<List<%s>>.\n%s",
+                        typeName(itemType), prettyProblemList(problems)));
+    }
 }
