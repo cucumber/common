@@ -12,8 +12,6 @@ CCK_MESSAGES=$(call rwildcard,../../compatibility-kit/ruby,*.ndjson)
 
 acceptance/cck.html: $(CCK_MESSAGES)
 	mkdir -p $(@D)
-	echo $(CCK_MESSAGES)
-	echo $^
 	cat $^ | bundle exec bin/cucumber-html-formatter --format ndjson > $@
 
 acceptance/cucumber.html: .deps $(FEATURES)
