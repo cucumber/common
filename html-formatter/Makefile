@@ -1,2 +1,2 @@
-LANGUAGES ?= javascript java ruby
+LANGUAGES ?= javascript java
 include default.mk

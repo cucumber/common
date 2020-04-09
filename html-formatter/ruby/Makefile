@@ -24,6 +24,7 @@ acceptance/cucumber.html: .deps $(FEATURES)
 		bundle exec bin/cucumber-html-formatter --format ndjson > \
 		$@
 
+# TOOD: Replace this with .rsync
 features/%.feature: ../javascript/features/%.feature
 	cp $^ $@
 
