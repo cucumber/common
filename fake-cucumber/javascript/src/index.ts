@@ -20,7 +20,11 @@ import {
   MakeHookTestStep,
   EnvelopeListener,
 } from './types'
-import { MakeErrorMessage } from './ErrorMessageGenerator'
+import {
+  MakeErrorMessage,
+  withFullStackTrace,
+  withSourceFramesOnlyStackTrace,
+} from './ErrorMessageGenerator'
 import makePickleTestStep from './makePickleTestStep'
 import makeTestCase from './makeTestCase'
 import makeTestPlan from './makeTestPlan'
@@ -46,6 +50,8 @@ export {
   ISupportCodeExecutor,
   IWorld,
   MakeErrorMessage,
+  withFullStackTrace,
+  withSourceFramesOnlyStackTrace,
   MakePickleTestStep,
   makePickleTestStep,
   MakeHookTestStep,

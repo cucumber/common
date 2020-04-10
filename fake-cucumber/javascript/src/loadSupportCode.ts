@@ -9,7 +9,6 @@ import {
 import IncrementClock from './IncrementClock'
 import * as dsl from './dsl'
 import findSupportCodePaths from './findSupportCodePaths'
-import { NewId } from '@cucumber/messages/dist/src/IdGenerator'
 import IClock from './IClock'
 
 export default async function loadSupportCode(
@@ -36,7 +35,7 @@ export default async function loadSupportCode(
 }
 
 function makeSupportCode(predictableIds: boolean) {
-  let newId: NewId
+  let newId: IdGenerator.NewId
   let clock: IClock
   let makeErrorMessage: MakeErrorMessage
   if (predictableIds) {

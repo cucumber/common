@@ -44,7 +44,7 @@ describe('getFeatureStatus', () => {
 
     assert.equal(
       getFeatureStatus(document, testResultsQuery, gherkinQuery),
-      messages.TestStepResult.Status.PASSED
+      messages.TestStepFinished.TestStepResult.Status.PASSED
     )
   })
 
@@ -55,7 +55,7 @@ describe('getFeatureStatus', () => {
 
     assert.equal(
       getFeatureStatus(document, testResultsQuery, gherkinQuery),
-      messages.TestStepResult.Status.FAILED
+      messages.TestStepFinished.TestStepResult.Status.FAILED
     )
   })
 })

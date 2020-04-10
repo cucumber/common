@@ -12,6 +12,6 @@ export default function hidePassedScenarios(
   return documents.filter(
     (document) =>
       getFeatureStatus(document, cucumberQuery, gherkinQuery) !=
-      messages.TestStepResult.Status.PASSED
+      messages.TestStepFinished.TestStepResult.Status.PASSED
   )
 }

@@ -8,7 +8,7 @@ export default function getFeatureStatus(
   document: IGherkinDocument,
   testResultsQuery: Query,
   gherkinQuery: GherkinQuery
-): messages.TestStepResult.Status {
+): messages.TestStepFinished.TestStepResult.Status {
   return testResultsQuery.getWorstTestStepResult(
     testResultsQuery.getPickleTestStepResults(
       gherkinQuery.getPickleIds(document.uri)

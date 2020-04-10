@@ -50,7 +50,9 @@ describe('App', () => {
             gherkinQuery={gherkinQuery}
             cucumberQuery={cucumberQuery}
           >
-            <GherkinDocumentList gherkinDocuments={gherkinQuery.getGherkinDocuments()}/>
+            <GherkinDocumentList
+              gherkinDocuments={gherkinQuery.getGherkinDocuments()}
+            />
           </QueriesWrapper>
         )
         ReactDOM.render(app, document.getElementById('content'))
