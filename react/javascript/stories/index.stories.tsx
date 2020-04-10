@@ -43,13 +43,13 @@ function props(ndjson: string): {gherkinQuery: GherkinQuery, cucumberQuery: Cucu
 storiesOf('Features', module)
   .add('Step Container', () => {
     return <QueriesWrapper {...props(documentList)}>
-      <StepContainer status={messages.TestStepResult.Status.PASSED}>
+      <StepContainer status={messages.TestStepFinished.TestStepResult.Status.PASSED}>
         <div>Given a passed step</div>
       </StepContainer>
-      <StepContainer status={messages.TestStepResult.Status.FAILED}>
+      <StepContainer status={messages.TestStepFinished.TestStepResult.Status.FAILED}>
         <div>When a failed step</div>
       </StepContainer>
-      <StepContainer status={messages.TestStepResult.Status.SKIPPED}>
+      <StepContainer status={messages.TestStepFinished.TestStepResult.Status.SKIPPED}>
         <div>Then a skipped step</div>
       </StepContainer>
     </QueriesWrapper>

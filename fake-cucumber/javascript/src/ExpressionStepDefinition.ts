@@ -36,7 +36,7 @@ export default class ExpressionStepDefinition implements IStepDefinition {
     return new messages.Envelope({
       stepDefinition: new messages.StepDefinition({
         id: this.id,
-        pattern: new messages.StepDefinitionPattern({
+        pattern: new messages.StepDefinition.StepDefinitionPattern({
           type: this.expressionType(),
           source: this.expression.source,
         }),
@@ -45,11 +45,13 @@ export default class ExpressionStepDefinition implements IStepDefinition {
     })
   }
 
-  private expressionType(): messages.StepDefinitionPatternType {
+  private expressionType(): messages.StepDefinition.StepDefinitionPattern.StepDefinitionPatternType {
     if (this.expression instanceof CucumberExpression) {
-      return messages.StepDefinitionPatternType.CUCUMBER_EXPRESSION
+      return messages.StepDefinition.StepDefinitionPattern
+        .StepDefinitionPatternType.CUCUMBER_EXPRESSION
     } else if (this.expression instanceof RegularExpression) {
-      return messages.StepDefinitionPatternType.REGULAR_EXPRESSION
+      return messages.StepDefinition.StepDefinitionPattern
+        .StepDefinitionPatternType.REGULAR_EXPRESSION
     } else {
       throw new Error(
         `Unknown expression type: ${this.expression.constructor.name}`
