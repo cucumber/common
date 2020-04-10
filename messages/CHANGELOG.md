@@ -25,6 +25,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+* Ignore unknown fields when parsing JSON. This is to ensure forward and backward
+  compatibility when using JSON encoding (NDJSON).
+  ([#959](https://github.com/cucumber/cucumber/pull/959)
+   [#957](https://github.com/cucumber/cucumber/pull/957)
+   [aslakhellesoy]
+   [mpkorstanje])
+
 ## [11.1.1] - 2020-03-30
 
 ### Fixed
@@ -365,6 +372,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 [charlierudolph]:   https://github.com/charlierudolph
 [david1995]:        https://github.com/david1995
 [luke-hill]:        https://github.com/luke-hill
+[mpkorstanje]:      https://github.com/mpkorstanje
 [mvz]:              https://github.com/mvz
 [SabotageAndi]:     https://github.com/SabotageAndi
 [vincent-psarga]:   https://github.com/vincent-psarga
