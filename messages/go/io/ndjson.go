@@ -2,15 +2,15 @@ package io
 
 import (
 	"bufio"
-	gio "github.com/gogo/protobuf/io"
+	gogoio "github.com/gogo/protobuf/io"
 	"github.com/gogo/protobuf/jsonpb"
 	"github.com/gogo/protobuf/proto"
 	"io"
 	"strings"
 )
 
-func NewNdjsonWriter(writer io.Writer) gio.WriteCloser {
-	marshaler := &jsonpb.Marshaler{
+func NewNdjsonWriter(writer io.Writer) gogoio.WriteCloser {
+	marshaler := jsonpb.Marshaler{
 		EnumsAsInts:  false,
 		EmitDefaults: false,
 	}
@@ -19,7 +19,7 @@ func NewNdjsonWriter(writer io.Writer) gio.WriteCloser {
 
 type ndjsonWriter struct {
 	writer    io.Writer
-	marshaler *jsonpb.Marshaler
+	marshaler jsonpb.Marshaler
 }
 
 func (this *ndjsonWriter) WriteMsg(msg proto.Message) (err error) {
@@ -50,7 +50,7 @@ func (this *ndjsonWriter) Close() error {
 	return nil
 }
 
-func NewNdjsonReader(reader io.Reader) gio.ReadCloser {
+func NewNdjsonReader(reader io.Reader) gogoio.ReadCloser {
 	var closer io.Closer
 	if c, ok := reader.(io.Closer); ok {
 		closer = c
@@ -59,16 +59,16 @@ func NewNdjsonReader(reader io.Reader) gio.ReadCloser {
 	const maxCapacity = 10 * 1024 * 1024 // 10Mb
 	buf := make([]byte, maxCapacity)
 	scanner.Buffer(buf, maxCapacity)
-	unmarshaler := &jsonpb.Unmarshaler{
+	unmarshaler := jsonpb.Unmarshaler{
 		AllowUnknownFields: true,
 	}
-	return &ndjsonReader{bufio.NewReader(reader), scanner, unmarshaler, closer}
+	return &ndjsonReader{*bufio.NewReader(reader), *scanner, unmarshaler, closer}
 }
 
 type ndjsonReader struct {
-	reader      *bufio.Reader
-	scanner     *bufio.Scanner
-	unmarshaler *jsonpb.Unmarshaler
+	reader      bufio.Reader
+	scanner     bufio.Scanner
+	unmarshaler jsonpb.Unmarshaler
 	closer      io.Closer
 }
 
