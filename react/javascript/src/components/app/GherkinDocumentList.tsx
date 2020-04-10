@@ -19,7 +19,7 @@ const GherkinDocumentList: React.FunctionComponent = () => {
 
   const entries: Array<[
     string,
-    messages.TestStepResult.Status
+    messages.TestStepFinished.TestStepResult.Status
   ]> = gherkinQuery.getGherkinDocuments().map((gherkinDocument) => {
     const gherkinDocumentStatus = gherkinDocument.feature
       ? cucumberQuery.getWorstTestStepResult(
@@ -27,7 +27,7 @@ const GherkinDocumentList: React.FunctionComponent = () => {
             gherkinQuery.getPickleIds(gherkinDocument.uri)
           )
         ).status
-      : messages.TestStepResult.Status.UNDEFINED
+      : messages.TestStepFinished.TestStepResult.Status.UNDEFINED
     return [gherkinDocument.uri, gherkinDocumentStatus]
   })
   const gherkinDocumentStatusByUri = new Map(entries)
@@ -38,7 +38,7 @@ const GherkinDocumentList: React.FunctionComponent = () => {
     .filter(
       (doc) =>
         gherkinDocumentStatusByUri.get(doc.uri) !==
-        messages.TestStepResult.Status.PASSED
+        messages.TestStepFinished.TestStepResult.Status.PASSED
     )
     .map((doc) => doc.uri)
   return (

@@ -16,8 +16,8 @@ describe('NdjsonStream', () => {
     const stream = makeToMessageStream()
     const envelope = messages.Envelope.create({
       testStepFinished: messages.TestStepFinished.create({
-        testStepResult: messages.TestStepResult.create({
-          status: messages.TestStepResult.Status.UNKNOWN,
+        testStepResult: messages.TestStepFinished.TestStepResult.create({
+          status: messages.TestStepFinished.TestStepResult.Status.UNKNOWN,
         }),
       }),
     })
@@ -50,8 +50,8 @@ describe('NdjsonStream', () => {
     stream.write(
       messages.Envelope.create({
         testStepFinished: messages.TestStepFinished.create({
-          testStepResult: messages.TestStepResult.create({
-            status: messages.TestStepResult.Status.UNKNOWN,
+          testStepResult: messages.TestStepFinished.TestStepResult.create({
+            status: messages.TestStepFinished.TestStepResult.Status.UNKNOWN,
           }),
         }),
       })
