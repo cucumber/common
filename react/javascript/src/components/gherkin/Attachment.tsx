@@ -9,6 +9,8 @@ interface IProps {
 const Attachment: React.FunctionComponent<IProps> = ({ attachment }) => {
   if (attachment.mediaType.match(/^image\//)) {
     return image(attachment)
+  } else if (attachment.mediaType.match(/^video\//)) {
+    return video(attachment)
   } else if (attachment.mediaType.match(/^text\//)) {
     return text(attachment, (s) => s)
   } else if (attachment.mediaType.match(/^application\/json/)) {
@@ -16,7 +18,7 @@ const Attachment: React.FunctionComponent<IProps> = ({ attachment }) => {
   } else {
     return (
       <ErrorMessage
-        message={`Couldn't display ${attachment.mediaType} data because it's unsupported. Please submit a feature request at https://github.com/cucumber/cucumber/issues`}
+        message={`Couldn't display ${attachment.mediaType} attachment because the media type is unsupported. Please submit a feature request at https://github.com/cucumber/cucumber/issues`}
       />
     )
   }
@@ -37,6 +39,24 @@ function image(attachment: messages.IAttachment) {
       alt="Embedded Image"
       src={`data:${attachment.mediaType};base64,${attachment.body}`}
     />
+  )
+}
+
+function video(attachment: messages.IAttachment) {
+  if (
+    attachment.contentEncoding !== messages.Attachment.ContentEncoding.BASE64
+  ) {
+    return (
+      <ErrorMessage
+        message={`Couldn't display ${attachment.mediaType} image because it wasn't base64 encoded`}
+      />
+    )
+  }
+  return (
+    <video controls>
+      <source src={`data:${attachment.mediaType};base64,${attachment.body}`} />
+      Your browser is unable to display video
+    </video>
   )
 }
 
