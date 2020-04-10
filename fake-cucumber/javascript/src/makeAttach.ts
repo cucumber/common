@@ -8,7 +8,10 @@ export default function makeAttach(
   testCaseStartedId: string,
   listener: EnvelopeListener
 ): Attach {
-  return function attach(data: any, mediaType: string): void | Promise<void> {
+  return function attach(
+    data: string | Buffer | Readable,
+    mediaType: string
+  ): void | Promise<void> {
     const attachment = new messages.Attachment({
       testStepId,
       testCaseStartedId,
@@ -17,6 +20,7 @@ export default function makeAttach(
 
     if (typeof data === 'string') {
       attachment.body = data
+      attachment.contentEncoding = messages.Attachment.ContentEncoding.IDENTITY
       listener(
         new messages.Envelope({
           attachment,
@@ -61,7 +65,7 @@ export default function makeAttach(
         stream.on('error', reject)
       })
     } else {
-      throw new Error(`data must be string or Buffer`)
+      throw new Error(`data must be string, Buffer or Readable`)
     }
   }
 }

@@ -9,17 +9,9 @@ JSONS=$(patsubst features/%.feature,acceptance/%.json,$(FEATURES))
 
 default: .tested
 
-.installed:
-ifeq ($(CI),true)
-	sudo pip install behave
-else
-	pip install --user behave
-endif
-	touch $@
-
 .tested: $(JSONS)
 
-acceptance/%.json: features/%.feature .installed
+acceptance/%.json: features/%.feature
 	mkdir -p $(@D)
 	-behave $< --format=json -o $@
 

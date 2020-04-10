@@ -9,7 +9,7 @@ describe CucumberDemoFormatter do
     %w{UNKNOWN PASSED SKIPPED PENDING UNDEFINED AMBIGUOUS FAILED}.each do |status|
       Cucumber::Messages::Envelope.new(
         test_step_finished: Cucumber::Messages::TestStepFinished.new(
-          test_step_result: Cucumber::Messages::TestStepResult.new(
+          test_step_result: Cucumber::Messages::TestStepFinished::TestStepResult.new(
             status: status
           )
         )

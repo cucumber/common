@@ -58,7 +58,7 @@ export default class TestCase implements ITestCase {
 
     let executeNext = true
     for (const testStep of this.testSteps) {
-      let testStepResult: messages.ITestStepResult
+      let testStepResult: messages.TestStepFinished.ITestStepResult
       // TODO: Also ask testStep if it should always execute (true for After steps)
       if (executeNext || testStep.alwaysExecute) {
         testStepResult = await testStep.execute(
@@ -67,7 +67,8 @@ export default class TestCase implements ITestCase {
           listener
         )
         executeNext =
-          testStepResult.status === messages.TestStepResult.Status.PASSED
+          testStepResult.status ===
+          messages.TestStepFinished.TestStepResult.Status.PASSED
       } else {
         testStepResult = testStep.skip(listener, testCaseStartedId)
       }

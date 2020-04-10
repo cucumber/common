@@ -30,8 +30,8 @@ describe('hidePassedScenarios', () => {
     const document = new GherkinDocument()
     const testResultsQuery = stubObject<Query>(new Query())
     testResultsQuery.getWorstTestStepResult.returns(
-      new messages.TestStepResult({
-        status: messages.TestStepResult.Status.FAILED,
+      new messages.TestStepFinished.TestStepResult({
+        status: messages.TestStepFinished.TestStepResult.Status.FAILED,
       })
     )
     testResultsQuery.getPickleTestStepResults.returns([])
@@ -49,8 +49,8 @@ describe('hidePassedScenarios', () => {
     const document = new GherkinDocument()
     const testResultsQuery = stubObject<Query>(new Query())
     testResultsQuery.getWorstTestStepResult.returns(
-      new messages.TestStepResult({
-        status: messages.TestStepResult.Status.PASSED,
+      new messages.TestStepFinished.TestStepResult({
+        status: messages.TestStepFinished.TestStepResult.Status.PASSED,
       })
     )
     testResultsQuery.getPickleTestStepResults.returns([])

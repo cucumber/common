@@ -225,11 +225,11 @@ func (t *astBuilder) transformNode(node *astNode) (interface{}, error) {
 		examplesTable := examplesNode.getSingle(RuleTypeExamplesTable)
 
 		ex := &messages.GherkinDocument_Feature_Scenario_Examples{
-			Id: t.newId(),
-			Tags:  tags,
-			Location: astLocation(examplesLine),
-			Keyword: examplesLine.Keyword,
-			Name: examplesLine.Text,
+			Id:          t.newId(),
+			Tags:        tags,
+			Location:    astLocation(examplesLine),
+			Keyword:     examplesLine.Keyword,
+			Name:        examplesLine.Text,
 			Description: description,
 		}
 		if examplesTable != nil {
@@ -332,12 +332,12 @@ func (t *astBuilder) transformNode(node *astNode) (interface{}, error) {
 		description, _ := header.getSingle(RuleTypeDescription).(string)
 
 		rule := &messages.GherkinDocument_Feature_FeatureChild_Rule{
-			Id: t.newId(),
-			Location: astLocation(ruleLine),
-			Keyword: ruleLine.Keyword,
-			Name: ruleLine.Text,
+			Id:          t.newId(),
+			Location:    astLocation(ruleLine),
+			Keyword:     ruleLine.Keyword,
+			Name:        ruleLine.Text,
 			Description: description,
-			Children: children,
+			Children:    children,
 		}
 		return rule, nil
 

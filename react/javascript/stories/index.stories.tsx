@@ -8,6 +8,7 @@ import SearchBar from '../src/components/app/SearchBar'
 import FilteredResults from '../src/components/app/FilteredResults'
 import GherkinDocumentList from '../src/components/app/GherkinDocumentList'
 import React from 'react'
+import Attachment from '../src/components/gherkin/Attachment'
 
 import '../src/styles/react-accessible-accordion.css'
 import '../src/styles/styles.scss'
@@ -31,12 +32,16 @@ import rules from '../../../compatibility-kit/javascript/features/rules/rules.nd
 // @ts-ignore
 import stackTraces from '../../../compatibility-kit/javascript/features/stack-traces/stack-traces.ndjson'
 
+// @ts-ignore
+import mp4Base64 from '../testdata/video/sample.mp4.txt'
+
+
 function envelopes(ndjson: string): messages.IEnvelope[] {
   return ndjson.trim().split('\n')
     .map((json: string) => messages.Envelope.fromObject(JSON.parse(json)))
 }
 
-function props(ndjson: string): {gherkinQuery: GherkinQuery, cucumberQuery: CucumberQuery} {
+function props(ndjson: string): { gherkinQuery: GherkinQuery, cucumberQuery: CucumberQuery } {
   const gherkinQuery = new GherkinQuery()
   const cucumberQuery = new CucumberQuery()
   for (const json of ndjson.trim().split('\n')) {
@@ -50,13 +55,13 @@ function props(ndjson: string): {gherkinQuery: GherkinQuery, cucumberQuery: Cucu
 storiesOf('Features', module)
   .add('Step Container', () => {
     return <QueriesWrapper {...props(documentList)}>
-      <StepContainer status={messages.TestStepResult.Status.PASSED}>
+      <StepContainer status={messages.TestStepFinished.TestStepResult.Status.PASSED}>
         <div>Given a passed step</div>
       </StepContainer>
-      <StepContainer status={messages.TestStepResult.Status.FAILED}>
+      <StepContainer status={messages.TestStepFinished.TestStepResult.Status.FAILED}>
         <div>When a failed step</div>
       </StepContainer>
-      <StepContainer status={messages.TestStepResult.Status.SKIPPED}>
+      <StepContainer status={messages.TestStepFinished.TestStepResult.Status.SKIPPED}>
         <div>Then a skipped step</div>
       </StepContainer>
     </QueriesWrapper>
@@ -77,7 +82,6 @@ storiesOf('Features', module)
     </QueriesWrapper>
   })
   .add('Attachments', () => {
-    const queries = props(attachments)
     return <QueriesWrapper {...props(attachments)}>
       <GherkinDocumentList/>
     </QueriesWrapper>
@@ -116,4 +120,34 @@ storiesOf('Features', module)
     return <QueriesWrapper {...props(stackTraces)}>
       <GherkinDocumentList/>
     </QueriesWrapper>
+  })
+
+storiesOf('Attachments', module)
+  .add('text/plain identity encoded', () => {
+    return <Attachment attachment={messages.Attachment.create({
+      mediaType: 'text/plain',
+      contentEncoding: messages.Attachment.ContentEncoding.IDENTITY,
+      body: 'This text is identity encoded',
+    })}/>
+  })
+  .add('text/plain base64 encoded', () => {
+    return <Attachment attachment={messages.Attachment.create({
+      mediaType: 'text/plain',
+      contentEncoding: messages.Attachment.ContentEncoding.BASE64,
+      body: btoa('This text is base64 encoded'),
+    })}/>
+  })
+  .add('application/json', () => {
+    return <Attachment attachment={messages.Attachment.create({
+      mediaType: 'application/json',
+      contentEncoding: messages.Attachment.ContentEncoding.IDENTITY,
+      body: '{"this": "is", "json": true}',
+    })}/>
+  })
+  .add('video/mp4', () => {
+    return <Attachment attachment={messages.Attachment.create({
+      mediaType: 'video/mp4',
+      contentEncoding: messages.Attachment.ContentEncoding.BASE64,
+      body: mp4Base64,
+    })}/>
   })
