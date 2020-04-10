@@ -17,6 +17,9 @@ import java.util.Iterator;
  * Tests can then use a {@code new ArrayList<Messages.Envelope>} which implements the same interface.
  */
 public class NdjsonToMessageIterable implements Iterable<Messages.Envelope> {
+    public static final JsonFormat.Parser JSON_PARSER = JsonFormat
+            .parser()
+            .ignoringUnknownFields();
     private final BufferedReader input;
     private Messages.Envelope next;
 
@@ -33,7 +36,7 @@ public class NdjsonToMessageIterable implements Iterable<Messages.Envelope> {
                     String line = input.readLine();
                     if(line == null) return false;
                     Messages.Envelope.Builder builder = Messages.Envelope.newBuilder();
-                    JsonFormat.parser().merge(line, builder);
+                    JSON_PARSER.merge(line, builder);
                     next = builder.build();
                     return true;
                 } catch (IOException e) {

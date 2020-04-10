@@ -71,6 +71,7 @@ RUN chown -R cukebot:cukebot /usr/bin
 # Configure Python
 RUN pip install pipenv
 RUN pip install twine
+RUN pip install behave
 RUN chown -R cukebot:cukebot /usr/lib/python2.7/site-packages
 RUN mkdir -p /usr/man && chown -R cukebot:cukebot /usr/man
 
