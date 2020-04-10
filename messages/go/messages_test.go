@@ -86,4 +86,12 @@ func TestMessages(t *testing.T) {
 		require.NoError(t, r.ReadMsg(&decoded))
 		require.Equal(t, s, decoded.GetBody())
 	})
+
+	t.Run("reads an attachment with a tiny string as NDJSON", func(t *testing.T) {
+		b := &bytes.Buffer{}
+		b.WriteString("{\"unused\": 99}\n")
+		r := fio.NewNdjsonReader(b)
+		var decoded Envelope
+		require.NoError(t, r.ReadMsg(&decoded))
+	})
 }
