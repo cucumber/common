@@ -2,6 +2,7 @@ import { messages, MessageToNdjsonStream } from '../src'
 import assert from 'assert'
 import NdjsonToMessageStream from '../src/NdjsonToMessageStream'
 import verifyStreamContract from './verifyStreamContract'
+import toArray from './toArray'
 
 describe('NdjsonStream', () => {
   const makeToMessageStream = () =>
@@ -113,5 +114,15 @@ describe('NdjsonStream', () => {
         }),
       })
     )
+  })
+
+  it('ignores missing fields', async () => {
+    const toMessageStream = makeToMessageStream()
+    toMessageStream.write('{"unused": 999}\n')
+    toMessageStream.end()
+
+    const incomingMessages = await toArray(toMessageStream)
+
+    assert.deepStrictEqual(incomingMessages, [messages.Envelope.create({})])
   })
 })
