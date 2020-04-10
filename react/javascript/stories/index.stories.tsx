@@ -6,9 +6,8 @@ import '../src/styles/react-accessible-accordion.css'
 import '../src/styles/styles.scss'
 import QueriesWrapper from '../src/components/app/QueriesWrapper'
 import StepContainer from '../src/components/gherkin/StepContainer'
-import {Query as GherkinQuery} from '@cucumber/gherkin'
-import {Query as CucumberQuery} from '@cucumber/query'
-
+import { Query as GherkinQuery } from '@cucumber/gherkin'
+import { Query as CucumberQuery } from '@cucumber/query'
 // @ts-ignore
 import documentList from '../testdata/all.ndjson'
 // @ts-ignore
@@ -27,7 +26,7 @@ import parameterTypes from '../../../compatibility-kit/javascript/features/param
 import rules from '../../../compatibility-kit/javascript/features/rules/rules.ndjson'
 // @ts-ignore
 import stackTraces from '../../../compatibility-kit/javascript/features/stack-traces/stack-traces.ndjson'
-import Step from '../src/components/gherkin/Step'
+import Attachment from '../src/components/gherkin/Attachment'
 
 function props(ndjson: string): {gherkinQuery: GherkinQuery, cucumberQuery: CucumberQuery, btoa: (data: string) => string} {
   const gherkinQuery = new GherkinQuery()
@@ -99,4 +98,19 @@ storiesOf('Features', module)
     return <QueriesWrapper {...props(stackTraces)}>
       <GherkinDocumentList/>
     </QueriesWrapper>
+  })
+storiesOf('Attachments', module)
+  .add('text/plain', () => {
+    return <Attachment attachment={messages.Attachment.create({
+      mediaType: 'text/plain',
+      contentEncoding: messages.Attachment.ContentEncoding.IDENTITY,
+      body: 'This is text'
+    })}/>
+  })
+  .add('application/json', () => {
+    return <Attachment attachment={messages.Attachment.create({
+      mediaType: 'application/json',
+      contentEncoding: messages.Attachment.ContentEncoding.IDENTITY,
+      body: '{"this": "is", "json": true}'
+    })}/>
   })
