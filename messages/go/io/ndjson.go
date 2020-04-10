@@ -9,16 +9,16 @@ import (
 	"strings"
 )
 
-func NewNdjsonWriter(w io.Writer) gio.WriteCloser {
+func NewNdjsonWriter(writer io.Writer) gio.WriteCloser {
 	marshaler := &jsonpb.Marshaler{
 		EnumsAsInts:  false,
 		EmitDefaults: false,
 	}
-	return &ndjsonWriter{w, marshaler}
+	return &ndjsonWriter{writer, marshaler}
 }
 
 type ndjsonWriter struct {
-	w         io.Writer
+	writer    io.Writer
 	marshaler *jsonpb.Marshaler
 }
 
@@ -27,7 +27,7 @@ func (this *ndjsonWriter) WriteMsg(msg proto.Message) (err error) {
 	if err != nil {
 		return err
 	}
-	out := bufio.NewWriter(this.w)
+	out := bufio.NewWriter(this.writer)
 	_, err = out.WriteString(msgJson)
 	if err != nil {
 		return err
@@ -44,29 +44,29 @@ func (this *ndjsonWriter) WriteMsg(msg proto.Message) (err error) {
 }
 
 func (this *ndjsonWriter) Close() error {
-	if closer, ok := this.w.(io.Closer); ok {
+	if closer, ok := this.writer.(io.Closer); ok {
 		return closer.Close()
 	}
 	return nil
 }
 
-func NewNdjsonReader(r io.Reader) gio.ReadCloser {
+func NewNdjsonReader(reader io.Reader) gio.ReadCloser {
 	var closer io.Closer
-	if c, ok := r.(io.Closer); ok {
+	if c, ok := reader.(io.Closer); ok {
 		closer = c
 	}
-	scanner := bufio.NewScanner(r)
+	scanner := bufio.NewScanner(reader)
 	const maxCapacity = 10 * 1024 * 1024 // 10Mb
 	buf := make([]byte, maxCapacity)
 	scanner.Buffer(buf, maxCapacity)
 	unmarshaler := &jsonpb.Unmarshaler{
 		AllowUnknownFields: true,
 	}
-	return &ndjsonReader{bufio.NewReader(r), scanner, unmarshaler, closer}
+	return &ndjsonReader{bufio.NewReader(reader), scanner, unmarshaler, closer}
 }
 
 type ndjsonReader struct {
-	r           *bufio.Reader
+	reader      *bufio.Reader
 	scanner     *bufio.Scanner
 	unmarshaler *jsonpb.Unmarshaler
 	closer      io.Closer
