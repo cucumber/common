@@ -40,20 +40,27 @@ function image(attachment: messages.IAttachment) {
   )
 }
 
+function base64Decode(body: string) {
+  // @ts-ignore
+  if (typeof global.atob === 'function') {
+    // @ts-ignore
+    return global.atob(body)
+  } else if (typeof global.Buffer === 'function') {
+    return global.Buffer.from(body, 'base64').toString('utf8')
+  } else {
+    throw new Error()
+  }
+}
+
 function text(
   attachment: messages.IAttachment,
   prettify: (body: string) => string
 ) {
-  if (
-    attachment.contentEncoding !== messages.Attachment.ContentEncoding.IDENTITY
-  ) {
-    return (
-      <ErrorMessage
-        message={`Couldn't display ${attachment.mediaType} text because it wasn't identity encoded`}
-      />
-    )
-  }
-  return <pre className="attachment">{prettify(attachment.body)}</pre>
+  const body =
+    attachment.contentEncoding === messages.Attachment.ContentEncoding.IDENTITY
+      ? attachment.body
+      : base64Decode(attachment.body)
+  return <pre className="attachment">{prettify(body)}</pre>
 }
 
 function prettyJSON() {

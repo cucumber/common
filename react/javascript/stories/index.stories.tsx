@@ -100,11 +100,18 @@ storiesOf('Features', module)
     </QueriesWrapper>
   })
 storiesOf('Attachments', module)
-  .add('text/plain', () => {
+  .add('text/plain identity encoded', () => {
     return <Attachment attachment={messages.Attachment.create({
       mediaType: 'text/plain',
       contentEncoding: messages.Attachment.ContentEncoding.IDENTITY,
-      body: 'This is text'
+      body: 'This text is identity encoded'
+    })}/>
+  })
+  .add('text/plain base64 encoded', () => {
+    return <Attachment attachment={messages.Attachment.create({
+      mediaType: 'text/plain',
+      contentEncoding: messages.Attachment.ContentEncoding.BASE64,
+      body: btoa('This text is base64 encoded')
     })}/>
   })
   .add('application/json', () => {
