@@ -6,9 +6,8 @@ import '../src/styles/react-accessible-accordion.css'
 import '../src/styles/styles.scss'
 import QueriesWrapper from '../src/components/app/QueriesWrapper'
 import StepContainer from '../src/components/gherkin/StepContainer'
-import {Query as GherkinQuery} from '@cucumber/gherkin'
-import {Query as CucumberQuery} from '@cucumber/query'
-
+import { Query as GherkinQuery } from '@cucumber/gherkin'
+import { Query as CucumberQuery } from '@cucumber/query'
 // @ts-ignore
 import documentList from '../testdata/all.ndjson'
 // @ts-ignore
@@ -27,9 +26,12 @@ import parameterTypes from '../../../compatibility-kit/javascript/features/param
 import rules from '../../../compatibility-kit/javascript/features/rules/rules.ndjson'
 // @ts-ignore
 import stackTraces from '../../../compatibility-kit/javascript/features/stack-traces/stack-traces.ndjson'
-import Step from '../src/components/gherkin/Step'
+import Attachment from '../src/components/gherkin/Attachment'
 
-function props(ndjson: string): {gherkinQuery: GherkinQuery, cucumberQuery: CucumberQuery, btoa: (data: string) => string} {
+// @ts-ignore
+import mp4Base64 from '../testdata/video/sample.mp4.txt'
+
+function props(ndjson: string): { gherkinQuery: GherkinQuery, cucumberQuery: CucumberQuery } {
   const gherkinQuery = new GherkinQuery()
   const cucumberQuery = new CucumberQuery()
   for (const json of ndjson.trim().split('\n')) {
@@ -37,7 +39,7 @@ function props(ndjson: string): {gherkinQuery: GherkinQuery, cucumberQuery: Cucu
     gherkinQuery.update(envelope)
     cucumberQuery.update(envelope)
   }
-  return {gherkinQuery, cucumberQuery, btoa: window.btoa}
+  return { gherkinQuery, cucumberQuery }
 }
 
 storiesOf('Features', module)
@@ -60,7 +62,6 @@ storiesOf('Features', module)
     </QueriesWrapper>
   })
   .add('Attachments', () => {
-    const queries = props(attachments)
     return <QueriesWrapper {...props(attachments)}>
       <GherkinDocumentList/>
     </QueriesWrapper>
@@ -99,4 +100,33 @@ storiesOf('Features', module)
     return <QueriesWrapper {...props(stackTraces)}>
       <GherkinDocumentList/>
     </QueriesWrapper>
+  })
+storiesOf('Attachments', module)
+  .add('text/plain identity encoded', () => {
+    return <Attachment attachment={messages.Attachment.create({
+      mediaType: 'text/plain',
+      contentEncoding: messages.Attachment.ContentEncoding.IDENTITY,
+      body: 'This text is identity encoded',
+    })}/>
+  })
+  .add('text/plain base64 encoded', () => {
+    return <Attachment attachment={messages.Attachment.create({
+      mediaType: 'text/plain',
+      contentEncoding: messages.Attachment.ContentEncoding.BASE64,
+      body: btoa('This text is base64 encoded'),
+    })}/>
+  })
+  .add('application/json', () => {
+    return <Attachment attachment={messages.Attachment.create({
+      mediaType: 'application/json',
+      contentEncoding: messages.Attachment.ContentEncoding.IDENTITY,
+      body: '{"this": "is", "json": true}',
+    })}/>
+  })
+  .add('video/mp4', () => {
+    return <Attachment attachment={messages.Attachment.create({
+      mediaType: 'video/mp4',
+      contentEncoding: messages.Attachment.ContentEncoding.BASE64,
+      body: mp4Base64,
+    })}/>
   })
