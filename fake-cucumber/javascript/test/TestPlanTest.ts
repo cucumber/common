@@ -41,7 +41,7 @@ describe('TestPlan', () => {
     assert.deepStrictEqual(testStepFinisheds.length, 1)
     assert.strictEqual(
       testStepFinisheds[0].testStepResult.status,
-      messages.TestStepResult.Status.PASSED
+      messages.TestStepFinished.TestStepResult.Status.PASSED
     )
   })
 
@@ -78,7 +78,7 @@ describe('TestPlan', () => {
     assert.deepStrictEqual(testStepFinisheds.length, 1)
     assert.strictEqual(
       testStepFinisheds[0].testStepResult.status,
-      messages.TestStepResult.Status.PASSED
+      messages.TestStepFinished.TestStepResult.Status.PASSED
     )
     const parameterTypes = envelopes
       .filter((m) => m.parameterType)

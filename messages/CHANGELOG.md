@@ -11,9 +11,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
+* Some messages have been nested under other messages (removal of other messages)
+  made it possible to scope them more locally
+
 ### Deprecated
 
 ### Removed
+
+* Several messages that weren't used have been removed
 
 ### Fixed
 
