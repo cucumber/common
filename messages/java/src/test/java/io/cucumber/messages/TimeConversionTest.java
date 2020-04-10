@@ -4,7 +4,6 @@ import org.junit.Test;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.time.temporal.TemporalUnit;
 
 import static io.cucumber.messages.TimeConversion.durationToJavaDuration;
 import static io.cucumber.messages.TimeConversion.javaDurationToDuration;

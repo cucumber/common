@@ -63,7 +63,8 @@ describe('StepDefinition', () => {
 
       assert.strictEqual(
         message.stepDefinition.pattern.type,
-        messages.StepDefinitionPatternType.REGULAR_EXPRESSION
+        messages.StepDefinition.StepDefinitionPattern.StepDefinitionPatternType
+          .REGULAR_EXPRESSION
       )
     })
 
@@ -82,7 +83,8 @@ describe('StepDefinition', () => {
 
       assert.strictEqual(
         message.stepDefinition.pattern.type,
-        messages.StepDefinitionPatternType.CUCUMBER_EXPRESSION
+        messages.StepDefinition.StepDefinitionPattern.StepDefinitionPatternType
+          .CUCUMBER_EXPRESSION
       )
     })
   })
