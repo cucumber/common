@@ -69,6 +69,16 @@ module Cucumber
         expect(incoming_messages.to_a).to(eq(outgoing_messages))
       end
 
+      it "ignores missing fields" do
+        io = StringIO.new
+        io.puts('{"unused": 99}')
+
+        io.rewind
+        incoming_messages = NdjsonToMessageEnumerator.new(io)
+
+        expect(incoming_messages.to_a).to(eq([Envelope.new]))
+      end
+
       def write_outgoing_messages(messages, out)
         messages.each do |message|
           message.write_ndjson_to(out)
