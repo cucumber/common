@@ -33,7 +33,9 @@ public class NdjsonToMessageIterable implements Iterable<Messages.Envelope> {
                     String line = input.readLine();
                     if(line == null) return false;
                     Messages.Envelope.Builder builder = Messages.Envelope.newBuilder();
-                    JsonFormat.parser().merge(line, builder);
+                    JsonFormat.parser()
+                            .ignoringUnknownFields()
+                            .merge(line, builder);
                     next = builder.build();
                     return true;
                 } catch (IOException e) {
