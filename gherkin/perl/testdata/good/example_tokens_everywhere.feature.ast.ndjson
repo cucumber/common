@@ -6,6 +6,7 @@
           "scenario": {
             "examples": [
               {
+                "id": "6",
                 "keyword": "Examples",
                 "location": {
                   "column": 5,
@@ -147,7 +148,7 @@
                 }
               }
             ],
-            "id": "6",
+            "id": "7",
             "keyword": "Scenario Outline",
             "location": {
               "column": 3,
