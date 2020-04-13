@@ -1,6 +1,6 @@
 {
-  "attachment": {
-    "body": "(3:3): A tag may not contain whitespace",
+  "parseError": {
+    "message": "(3:3): A tag may not contain whitespace",
     "source": {
       "location": {
         "column": 3,

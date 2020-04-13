@@ -51,7 +51,7 @@ module Gherkin
 
       def yield_parse_errors(y, errors, uri)
         errors.each do |err|
-          parse_error = Cucumber::Messages::Attachment.new(
+          parse_error = Cucumber::Messages::ParseError.new(
             source: Cucumber::Messages::SourceReference.new(
               uri: uri,
               location: Cucumber::Messages::Location.new(
