@@ -34,6 +34,9 @@ message Envelope {
     TestStepFinished test_step_finished = 13;
     TestCaseFinished test_case_finished = 14;
     TestRunFinished test_run_finished = 15;
+
+    // Parsing
+    ParseError parse_error = 16;
   }
 }
 
@@ -597,3 +600,7 @@ message UndefinedParameterType {
   string expression = 2;
 }
 
+message ParseError {
+  SourceReference source = 1;
+  string message = 2;
+}
