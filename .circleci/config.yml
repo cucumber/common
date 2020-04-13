@@ -928,6 +928,7 @@ workflows:
       - html-formatter-java:
           requires:
             - html-formatter-javascript
+            - messages-java
       - json-to-messages-java:
           requires:
             - checkout

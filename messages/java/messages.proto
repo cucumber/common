@@ -180,6 +180,7 @@ message GherkinDocument {
         string name = 3;
         string description = 4;
         repeated RuleChild children = 5;
+        string id = 6;
       }
 
       message RuleChild {
@@ -197,6 +198,7 @@ message GherkinDocument {
       string name = 3;
       string description = 4;
       repeated Step steps = 5;
+      string id = 6;
     }
 
     message Scenario {
@@ -219,6 +221,7 @@ message GherkinDocument {
         string description = 5;
         TableRow table_header = 6;
         repeated TableRow table_body = 7;
+        string id = 8;
       }
     }
 
