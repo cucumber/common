@@ -593,6 +593,7 @@ message ParameterType {
   repeated string regular_expressions = 2;
   bool prefer_for_regular_expression_match = 3;
   bool use_for_snippets = 4;
+  string id = 5;
 }
 
 message UndefinedParameterType {

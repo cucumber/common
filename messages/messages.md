@@ -475,6 +475,7 @@ Points to a line and a column in a text file
 | regular_expressions | [string](#string) | repeated |  |
 | prefer_for_regular_expression_match | [bool](#bool) |  |  |
 | use_for_snippets | [bool](#bool) |  |  |
+| id | [string](#string) |  |  |
 
 
 
