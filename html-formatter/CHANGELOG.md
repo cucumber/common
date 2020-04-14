@@ -17,6 +17,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [6.0.0] - 2020-04-14
+
+### Changed
+
+* Upgrade to messages 12.0.0
+* Upgrade to gherkin 13.0.0
+* Upgrade to @cucumber/react 7.0.0
+
 ## [5.0.0] - 2020-04-01
 
 ### Changed
@@ -164,7 +172,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/formatter/v5.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/formatter/v6.0.0...master
+[6.0.0]:      https://github.com/cucumber/cucumber/compare/formatter/v5.0.0...formatter/v6.0.0
 [5.0.0]:      https://github.com/cucumber/cucumber/compare/formatter/v4.3.0...formatter/v5.0.0
 [4.3.0]:      https://github.com/cucumber/cucumber/compare/formatter/v4.2.0...formatter/v4.3.0
 [4.2.0]:      https://github.com/cucumber/cucumber/compare/formatter/v4.1.0...formatter/v4.2.0
