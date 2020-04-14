@@ -11,14 +11,21 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
-* [Java] Minor performance improvement for matching regular expressions steps.
-* [Java] `CucumberExpression` and `RegularExpression` are now public.  
-
 ### Deprecated
 
 ### Removed
 
 ### Fixed
+
+## [10.1.0] - 2020-04-14
+
+### Changed
+
+* [Java] `CucumberExpression` and `RegularExpression` are now public.  
+
+### Fixed
+
+* [Java] Minor performance improvement for matching regular expressions steps.
 
 ## [10.0.0] - 2020-03-31
 
@@ -664,7 +671,8 @@ N/A
 * First stable release!
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions/v10.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions/v10.1.0...master
+[10.1.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v10.0.0...cucumber-expressions/v10.1.0
 [10.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v9.0.0...cucumber-expressions/v10.0.0
 [9.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v8.3.1...cucumber-expressions/v9.0.0
 [8.3.1]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v8.3.0...cucumber-expressions/v8.3.1
