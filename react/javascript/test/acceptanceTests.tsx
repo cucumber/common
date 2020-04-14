@@ -1,29 +1,21 @@
 import path from 'path'
 import fs from 'fs'
-import { IdGenerator, messages } from '@cucumber/messages'
-import gherkin from '@cucumber/gherkin'
-import { Readable } from 'stream'
+import { IdGenerator } from '@cucumber/messages'
+import { GherkinStreams, Query as GherkinQuery } from '@cucumber/gherkin'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import GherkinDocumentList from '../src/components/app/GherkinDocumentList'
 import { JSDOM } from 'jsdom'
-import SupportCode from '@cucumber/fake-cucumber/dist/src/SupportCode'
-import makeDummyStepDefinitions from '@cucumber/fake-cucumber/dist/test/makeDummyStepDefinitions'
-import makeDummyHooks from '@cucumber/fake-cucumber/dist/test/makeDummyHooks'
-import CucumberStream from '@cucumber/fake-cucumber/dist/src/CucumberStream'
-import PerfHooksClock from '@cucumber/fake-cucumber/dist/src/PerfHooksClock'
-import { withFullStackTrace } from '@cucumber/fake-cucumber/dist/src/ErrorMessageGenerator'
-import Wrapper from '../src/components/app/Wrapper'
+import { runCucumber, SupportCode } from '@cucumber/fake-cucumber'
+import { QueriesWrapper } from '../src'
+import {
+  Query as CucumberQuery,
+  QueryStream as CucumberQueryStream,
+} from '@cucumber/query'
 
 describe('App', () => {
   const dir = __dirname + '/../../../gherkin/testdata/good'
   const files = fs.readdirSync(dir)
-  const newId = IdGenerator.uuid()
-  const clock = new PerfHooksClock()
-  const makeErrorMessage = withFullStackTrace()
-  const supportCode = new SupportCode(newId, clock, makeErrorMessage)
-  makeDummyStepDefinitions(supportCode)
-  makeDummyHooks(supportCode)
 
   for (const file of files) {
     if (file.match(/\.feature$/)) {
@@ -36,55 +28,33 @@ describe('App', () => {
         // global.navigator = dom.window.navigator
         const document = dom.window.document
 
+        const supportCode = new SupportCode()
         const p = path.join(dir, file)
-        const envelopes = await streamToArray(
-          gherkin
-            .fromPaths([p], {
-              newId: IdGenerator.incrementing(),
-              createReadStream(filePath: string) {
-                return fs.createReadStream(filePath, { encoding: 'utf-8' })
-              },
-            })
-            .pipe(
-              new CucumberStream(
-                supportCode.parameterTypes,
-                supportCode.stepDefinitions,
-                supportCode.undefinedParameterTypes,
-                supportCode.beforeHooks,
-                supportCode.afterHooks,
-                supportCode.newId,
-                supportCode.clock,
-                supportCode.makeErrorMessage
-              )
-            )
+        const gherkinStream = GherkinStreams.fromPaths([p], {
+          newId: IdGenerator.incrementing(),
+          createReadStream(filePath: string) {
+            return fs.createReadStream(filePath, { encoding: 'utf-8' })
+          },
+        })
+        const gherkinQuery = new GherkinQuery()
+        const cucumberQuery = new CucumberQuery()
+        const cucumberQueryStream = new CucumberQueryStream(cucumberQuery)
+        await runCucumber(
+          supportCode,
+          gherkinStream,
+          gherkinQuery,
+          cucumberQueryStream
         )
         const app = (
-          <Wrapper envelopes={envelopes} btoa={nodejsBtoa}>
+          <QueriesWrapper
+            gherkinQuery={gherkinQuery}
+            cucumberQuery={cucumberQuery}
+          >
             <GherkinDocumentList />
-          </Wrapper>
+          </QueriesWrapper>
         )
         ReactDOM.render(app, document.getElementById('content'))
-      }).timeout(7000) // TODO: What the hell is taking so long??
+      }).timeout(2000)
     }
   }
 })
-
-async function streamToArray(
-  readableStream: Readable
-): Promise<messages.IEnvelope[]> {
-  return new Promise<messages.IEnvelope[]>(
-    (
-      resolve: (wrappers: messages.IEnvelope[]) => void,
-      reject: (err: Error) => void
-    ) => {
-      const items: messages.IEnvelope[] = []
-      readableStream.on('data', items.push.bind(items))
-      readableStream.on('error', (err: Error) => reject(err))
-      readableStream.on('end', () => resolve(items))
-    }
-  )
-}
-
-function nodejsBtoa(data: string): string {
-  return Buffer.from(data).toString('base64')
-}

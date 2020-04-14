@@ -1,6 +1,4 @@
-[![Build Status](https://secure.travis-ci.org/cucumber/pretty-formatter-go.svg)](http://travis-ci.org/cucumber/pretty-formatter-go)
-
-# Cucumber Pretty Formatter
+# Cucumber Pretty Formatter for Go
 
 This formatter pretty-prints Feature files.
 

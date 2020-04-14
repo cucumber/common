@@ -4,9 +4,9 @@ module Cucumber
   module Messages
     describe Messages do
 
-      it "json-roundtrips messages with bytes fields" do
-        a1 = Attachment.new(binary: [1,2,3,4].pack('C*'))
-        expect(a1.binary.length).to eq(4)
+      it "json-roundtrips messages" do
+        a1 = Attachment.new(body: 'hello')
+        expect(a1.body).to eq('hello')
         a2 = Attachment.new(JSON.parse(a1.to_json(proto3: true)))
         expect(a2).to(eq(a1))
       end
@@ -67,6 +67,16 @@ module Cucumber
         incoming_messages = NdjsonToMessageEnumerator.new(io)
 
         expect(incoming_messages.to_a).to(eq(outgoing_messages))
+      end
+
+      it "ignores missing fields" do
+        io = StringIO.new
+        io.puts('{"unused": 99}')
+
+        io.rewind
+        incoming_messages = NdjsonToMessageEnumerator.new(io)
+
+        expect(incoming_messages.to_a).to(eq([Envelope.new]))
       end
 
       def write_outgoing_messages(messages, out)

@@ -509,7 +509,7 @@ class DataTableTest {
         );
 
         assertThat(exception.getMessage(), is(format("" +
-                        "Can't convert DataTable to Map<%s, %s>. " +
+                        "Can't convert DataTable to Map<%s, %s>.\n" +
                         "Encountered duplicate key 1 with values 4 and 5",
                 typeName(String.class), typeName(String.class))));
     }
@@ -526,7 +526,7 @@ class DataTableTest {
                 table::asMaps
         );
         assertThat(exception.getMessage(), is(format("" +
-                        "Can't convert DataTable to Map<%s, %s>. " +
+                        "Can't convert DataTable to Map<%s, %s>.\n" +
                         "Encountered duplicate key null with values 1 and 2",
                 typeName(String.class), typeName(String.class))));
     }

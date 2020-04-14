@@ -185,6 +185,7 @@
             "examples": [
               {
                 "description": "This is an examples description",
+                "id": "17",
                 "keyword": "Examples",
                 "location": {
                   "column": 3,
@@ -227,7 +228,7 @@
                 }
               }
             ],
-            "id": "17",
+            "id": "18",
             "keyword": "Scenario Outline",
             "location": {
               "column": 3,

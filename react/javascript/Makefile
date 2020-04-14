@@ -19,7 +19,7 @@ $(ALL_NDJSON_FILE): $(FEATURE_FILES)
 
 .tested: .tested-storybook
 
-.tested-storybook:
+.tested-storybook: $(TYPESCRIPT_SOURCE_FILES)
 	./node_modules/.bin/build-storybook
 	touch $@
 

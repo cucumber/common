@@ -71,7 +71,7 @@ export default function generateMessages(
                 column: error.location.column,
               },
             },
-            text: error.message,
+            body: error.message,
           },
         })
       )

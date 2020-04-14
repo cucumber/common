@@ -4,11 +4,11 @@ import { ArrayMultimap } from '@teppeis/multimaps'
 export default class Query {
   private readonly testStepResultByPickleId = new ArrayMultimap<
     string,
-    messages.ITestStepResult
+    messages.TestStepFinished.ITestStepResult
   >()
   private readonly testStepResultsByPickleStepId = new ArrayMultimap<
     string,
-    messages.ITestStepResult
+    messages.TestStepFinished.ITestStepResult
   >()
   private readonly testStepById = new Map<string, messages.TestCase.ITestStep>()
   private readonly pickleIdByTestStepId = new Map<string, string>()
@@ -68,18 +68,21 @@ export default class Query {
    * @param pickleStepIds
    */
   public getPickleStepTestStepResults(
-    pickleStepIds: string[]
-  ): messages.ITestStepResult[] {
+    pickleStepIds: ReadonlyArray<string>
+  ): ReadonlyArray<messages.TestStepFinished.ITestStepResult> {
     if (pickleStepIds.length === 0) {
       return [
-        new messages.TestStepResult({
-          status: messages.TestStepResult.Status.UNKNOWN,
+        new messages.TestStepFinished.TestStepResult({
+          status: messages.TestStepFinished.TestStepResult.Status.UNKNOWN,
           duration: TimeConversion.millisecondsToDuration(0),
         }),
       ]
     }
     return pickleStepIds.reduce(
-      (testStepResults: messages.ITestStepResult[], pickleId) => {
+      (
+        testStepResults: messages.TestStepFinished.ITestStepResult[],
+        pickleId
+      ) => {
         return testStepResults.concat(
           this.testStepResultsByPickleStepId.get(pickleId)
         )
@@ -93,18 +96,21 @@ export default class Query {
    * @param pickleIds
    */
   public getPickleTestStepResults(
-    pickleIds: string[]
-  ): messages.ITestStepResult[] {
+    pickleIds: ReadonlyArray<string>
+  ): ReadonlyArray<messages.TestStepFinished.ITestStepResult> {
     if (pickleIds.length === 0) {
       return [
-        new messages.TestStepResult({
-          status: messages.TestStepResult.Status.UNKNOWN,
+        new messages.TestStepFinished.TestStepResult({
+          status: messages.TestStepFinished.TestStepResult.Status.UNKNOWN,
           duration: TimeConversion.millisecondsToDuration(0),
         }),
       ]
     }
     return pickleIds.reduce(
-      (testStepResults: messages.ITestStepResult[], pickleId) => {
+      (
+        testStepResults: messages.TestStepFinished.ITestStepResult[],
+        pickleId
+      ) => {
         return testStepResults.concat(
           this.testStepResultByPickleId.get(pickleId)
         )
@@ -118,12 +124,12 @@ export default class Query {
    * @param testStepResults
    */
   public getWorstTestStepResult(
-    testStepResults: messages.ITestStepResult[]
-  ): messages.ITestStepResult {
+    testStepResults: ReadonlyArray<messages.TestStepFinished.ITestStepResult>
+  ): messages.TestStepFinished.ITestStepResult {
     return (
-      testStepResults.sort((r1, r2) => r2.status - r1.status)[0] ||
-      new messages.TestStepResult({
-        status: messages.TestStepResult.Status.UNKNOWN,
+      testStepResults.slice().sort((r1, r2) => r2.status - r1.status)[0] ||
+      new messages.TestStepFinished.TestStepResult({
+        status: messages.TestStepFinished.TestStepResult.Status.UNKNOWN,
         duration: TimeConversion.millisecondsToDuration(0),
       })
     )
@@ -134,8 +140,8 @@ export default class Query {
    * @param pickleStepIds
    */
   public getPickleStepAttachments(
-    pickleStepIds: string[]
-  ): messages.IAttachment[] {
+    pickleStepIds: ReadonlyArray<string>
+  ): ReadonlyArray<messages.IAttachment> {
     return pickleStepIds.reduce(
       (attachments: messages.IAttachment[], pickleStepId) => {
         return attachments.concat(
@@ -152,7 +158,9 @@ export default class Query {
    */
   public getStepMatchArgumentsLists(
     pickleStepId: string
-  ): messages.TestCase.TestStep.IStepMatchArgumentsList[] | undefined {
+  ):
+    | ReadonlyArray<messages.TestCase.TestStep.IStepMatchArgumentsList>
+    | undefined {
     return this.stepMatchArgumentsListsByPickleStepId.get(pickleStepId)
   }
 }

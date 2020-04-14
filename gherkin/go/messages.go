@@ -2,7 +2,7 @@ package gherkin
 
 import (
 	"fmt"
-	"github.com/cucumber/messages-go/v10"
+	"github.com/cucumber/messages-go/v11"
 	gio "github.com/gogo/protobuf/io"
 	"io"
 	"io/ioutil"
@@ -112,9 +112,7 @@ func (a *parseError) asAttachment(uri string) *messages.Envelope {
 	return &messages.Envelope{
 		Message: &messages.Envelope_Attachment{
 			Attachment: &messages.Attachment{
-				Body: &messages.Attachment_Text{
-					Text: a.Error(),
-				},
+				Body: a.Error(),
 				Source: &messages.SourceReference{
 					Uri: uri,
 					Location: &messages.Location{

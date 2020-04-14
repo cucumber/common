@@ -115,7 +115,7 @@ describe('CucumberExpressionGenerator', () => {
         'currency',
         /[A-Z]{3}/,
         Currency,
-        s => new Currency(s),
+        (s) => new Currency(s),
         true,
         false
       )
@@ -134,13 +134,13 @@ describe('CucumberExpressionGenerator', () => {
         'currency',
         /c d/,
         Currency,
-        s => new Currency(s),
+        (s) => new Currency(s),
         true,
         false
       )
     )
     parameterTypeRegistry.defineParameterType(
-      new ParameterType('date', /b c/, Date, s => new Date(s), true, false)
+      new ParameterType('date', /b c/, Date, (s) => new Date(s), true, false)
     )
 
     assertExpression('a {date} d e f g', ['date'], 'a b c d e f g')
@@ -154,19 +154,19 @@ describe('CucumberExpressionGenerator', () => {
         'currency',
         /x/,
         null,
-        s => new Currency(s),
+        (s) => new Currency(s),
         true,
         false
       )
     )
     parameterTypeRegistry.defineParameterType(
-      new ParameterType('date', /x/, null, s => new Date(s), true, false)
+      new ParameterType('date', /x/, null, (s) => new Date(s), true, false)
     )
 
     const generatedExpressions = generator.generateExpressions(
       'I have x and x and another x'
     )
-    const expressions = generatedExpressions.map(e => e.source)
+    const expressions = generatedExpressions.map((e) => e.source)
     assert.deepStrictEqual(expressions, [
       'I have {currency} and {currency} and another {currency}',
       'I have {currency} and {currency} and another {date}',
@@ -183,7 +183,9 @@ describe('CucumberExpressionGenerator', () => {
     const expression = generator.generateExpressions(
       'I have 2 cukes and 1.5 euro'
     )[0]
-    const typeNames = expression.parameterTypes.map(parameter => parameter.name)
+    const typeNames = expression.parameterTypes.map(
+      (parameter) => parameter.name
+    )
     assert.deepStrictEqual(typeNames, ['int', 'float'])
   })
 
@@ -193,7 +195,7 @@ describe('CucumberExpressionGenerator', () => {
         'optional-flight',
         /(1st flight)?/,
         null,
-        s => s,
+        (s) => s,
         true,
         false
       )
@@ -203,7 +205,7 @@ describe('CucumberExpressionGenerator', () => {
         'optional-hotel',
         /(1 hotel)?/,
         null,
-        s => s,
+        (s) => s,
         true,
         false
       )
@@ -227,7 +229,7 @@ describe('CucumberExpressionGenerator', () => {
           'my-type-' + i,
           /([a-z] )*?[a-z]/,
           null,
-          s => s,
+          (s) => s,
           true,
           false
         )
@@ -240,10 +242,10 @@ describe('CucumberExpressionGenerator', () => {
 
   it('prefers expression with longest non empty match', () => {
     parameterTypeRegistry.defineParameterType(
-      new ParameterType('zero-or-more', /[a-z]*/, null, s => s, true, false)
+      new ParameterType('zero-or-more', /[a-z]*/, null, (s) => s, true, false)
     )
     parameterTypeRegistry.defineParameterType(
-      new ParameterType('exactly-one', /[a-z]/, null, s => s, true, false)
+      new ParameterType('exactly-one', /[a-z]/, null, (s) => s, true, false)
     )
 
     const expressions = generator.generateExpressions('a simple step')
@@ -260,7 +262,7 @@ describe('CucumberExpressionGenerator', () => {
 
   it('does not suggest parameter included at the beginning of a word', () => {
     parameterTypeRegistry.defineParameterType(
-      new ParameterType('direction', /(up|down)/, null, s => s, true, false)
+      new ParameterType('direction', /(up|down)/, null, (s) => s, true, false)
     )
 
     const expressions = generator.generateExpressions('I download a picture')
@@ -271,7 +273,7 @@ describe('CucumberExpressionGenerator', () => {
 
   it('does not suggest parameter included inside a word', () => {
     parameterTypeRegistry.defineParameterType(
-      new ParameterType('direction', /(up|down)/, null, s => s, true, false)
+      new ParameterType('direction', /(up|down)/, null, (s) => s, true, false)
     )
 
     const expressions = generator.generateExpressions('I watch the muppet show')
@@ -282,7 +284,7 @@ describe('CucumberExpressionGenerator', () => {
 
   it('does not suggest parameter at the end of a word', () => {
     parameterTypeRegistry.defineParameterType(
-      new ParameterType('direction', /(up|down)/, null, s => s, true, false)
+      new ParameterType('direction', /(up|down)/, null, (s) => s, true, false)
     )
 
     const expressions = generator.generateExpressions('I create a group')
@@ -293,7 +295,7 @@ describe('CucumberExpressionGenerator', () => {
 
   it('does suggest parameter that are a full word', () => {
     parameterTypeRegistry.defineParameterType(
-      new ParameterType('direction', /(up|down)/, null, s => s, true, false)
+      new ParameterType('direction', /(up|down)/, null, (s) => s, true, false)
     )
 
     assert.strictEqual(
@@ -315,7 +317,7 @@ describe('CucumberExpressionGenerator', () => {
 
   it('does not consider punctuation as being part of a word', () => {
     parameterTypeRegistry.defineParameterType(
-      new ParameterType('direction', /(up|down)/, null, s => s, true, false)
+      new ParameterType('direction', /(up|down)/, null, (s) => s, true, false)
     )
 
     assert.strictEqual(

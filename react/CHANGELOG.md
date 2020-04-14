@@ -9,6 +9,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+* The `<Attachment>` component can now display the following media types:
+  - `image/*`
+    - Only base64 content encoding supported
+  - `video/*`
+    - Only base64 content encoding supported
+  - `text/*`
+    - Both base64 and identity content encoding supported
+  - `application/json`
+    - Both base64 and identity content encoding supported
+    - JSON is prettified with 2 space indent
+  ([#964](https://github.com/cucumber/cucumber/pull/964)
+   [#945](https://github.com/cucumber/cucumber/issues/945)
+   [aslakhellesoy])
+
 ### Changed
 
 ### Deprecated
@@ -16,6 +30,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Removed
 
 ### Fixed
+
+## [6.0.0] - 2020-04-01
+
+### Changed
+
+* Upgrade to messages 11.x
+* Image attachment data processing is possibly faster since no `btoa` conversion is needed anymore
+
+### Removed
+
+* Removed `btoa` prop from `<QueriesWrapper>`
+* Removed `<Wrapper>`
 
 ## [5.1.0] - 2020-03-04
 
@@ -131,7 +157,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/react/v5.1.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/react/v6.0.0...master
+[6.0.0]:      https://github.com/cucumber/cucumber/compare/react/v5.1.0...react/v6.0.0
 [5.1.0]:      https://github.com/cucumber/cucumber/compare/react/v5.0.0...react/v5.1.0
 [5.0.0]:      https://github.com/cucumber/cucumber/compare/react/v4.1.1...react/v5.0.0
 [4.1.1]:      https://github.com/cucumber/cucumber/compare/react/v4.1.0...react/v4.1.1

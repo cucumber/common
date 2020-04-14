@@ -1,4 +1,4 @@
-import gherkin from '../src'
+import { GherkinStreams } from '../src'
 import { IdGenerator, messages } from '@cucumber/messages'
 import { pipeline, Readable, Writable } from 'stream'
 import assert from 'assert'
@@ -23,7 +23,7 @@ describe('Query', () => {
     Given a passed step
 `
       )
-      const pickle = envelopes.find(e => e.pickle).pickle
+      const pickle = envelopes.find((e) => e.pickle).pickle
       const gherkinScenarioId = pickle.astNodeIds[0]
       const location = gherkinQuery.getLocation(gherkinScenarioId)
       assert.deepStrictEqual(location.line, 2)
@@ -36,7 +36,7 @@ describe('Query', () => {
     Given a passed step
 `
       )
-      const pickleStep = envelopes.find(e => e.pickle).pickle.steps[0]
+      const pickleStep = envelopes.find((e) => e.pickle).pickle.steps[0]
       const gherkinStepId = pickleStep.astNodeIds[0]
       const location = gherkinQuery.getLocation(gherkinStepId)
       assert.deepStrictEqual(location.line, 3)
@@ -54,7 +54,7 @@ describe('Query', () => {
     Given a passed step
 `
       )
-      const pickleId = envelopes.find(e => e.pickle).pickle.id
+      const pickleId = envelopes.find((e) => e.pickle).pickle.id
       const pickleIds = gherkinQuery.getPickleIds('test.feature', 5)
       assert.deepStrictEqual(pickleIds, [pickleId])
     })
@@ -70,8 +70,8 @@ describe('Query', () => {
 `
       )
       const expectedPickleIds = envelopes
-        .filter(e => e.pickle)
-        .map(e => e.pickle.id)
+        .filter((e) => e.pickle)
+        .map((e) => e.pickle.id)
       const pickleIds = gherkinQuery.getPickleIds('test.feature')
       assert.deepStrictEqual(pickleIds, expectedPickleIds)
     })
@@ -126,7 +126,7 @@ describe('Query', () => {
     Given a passed step
 `
       )
-      const pickleStepId = envelopes.find(e => e.pickle).pickle.steps[0].id
+      const pickleStepId = envelopes.find((e) => e.pickle).pickle.steps[0].id
       const pickleStepIds = gherkinQuery.getPickleStepIds('test.feature', 3)
       assert.deepStrictEqual(pickleStepIds, [pickleStepId])
     })
@@ -190,6 +190,6 @@ describe('Query', () => {
     })
 
     const newId = IdGenerator.incrementing()
-    return gherkin.fromSources([source], { newId })
+    return GherkinStreams.fromSources([source], { newId })
   }
 })

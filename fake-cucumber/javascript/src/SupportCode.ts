@@ -4,52 +4,18 @@ import {
   ParameterTypeRegistry,
 } from '@cucumber/cucumber-expressions'
 import { IdGenerator, messages } from '@cucumber/messages'
-import StackUtils from 'stack-utils'
 import { AnyBody } from './types'
 import ExpressionStepDefinition from './ExpressionStepDefinition'
 import IStepDefinition from './IStepDefinition'
 import IHook from './IHook'
 import Hook from './Hook'
 import IClock from './IClock'
-import { MakeErrorMessage } from './ErrorMessageGenerator'
-
-type RegisterStepDefinition = (
-  expression: string | RegExp,
-  body: AnyBody
-) => void
-
-type RegisterHook = (
-  tagExpressionOrBody: string | AnyBody,
-  body?: AnyBody
-) => void
-
-interface IParameterTypeDefinition {
-  name: string
-  regexp: RegExp | RegExp[] | string | string[]
-  type?: any
-  transformer?: (...args: string[]) => any
-  preferForRegexpMatch?: boolean
-  useForSnippets?: boolean
-}
+import { MakeErrorMessage, withFullStackTrace } from './ErrorMessageGenerator'
+import IParameterTypeDefinition from './IParameterTypeDefinition'
+import PerfHooksClock from './PerfHooksClock'
 
 function defaultTransformer(...args: string[]) {
   return args
-}
-
-function getSourceReference(stackTrace: string): messages.ISourceReference {
-  const stack = new StackUtils({
-    cwd: process.cwd(),
-    internals: StackUtils.nodeInternals(),
-  })
-  const trace = stack.clean(stackTrace)
-  const callSite = stack.parseLine(trace.split('\n')[1])
-  const { file: uri, line } = callSite
-  return new messages.SourceReference({
-    uri,
-    location: new messages.Location({
-      line,
-    }),
-  })
 }
 
 /**
@@ -57,30 +23,21 @@ function getSourceReference(stackTrace: string): messages.ISourceReference {
  */
 export default class SupportCode {
   public readonly parameterTypes: Array<ParameterType<any>> = []
+  public readonly parameterTypeMessages: Array<messages.IEnvelope> = []
   public readonly stepDefinitions: IStepDefinition[] = []
   public readonly beforeHooks: IHook[] = []
   public readonly afterHooks: IHook[] = []
-  public readonly Given = this.registerStepDefinition.bind(
-    this
-  ) as RegisterStepDefinition
-  public readonly When = this.registerStepDefinition.bind(
-    this
-  ) as RegisterStepDefinition
-  public readonly Then = this.registerStepDefinition.bind(
-    this
-  ) as RegisterStepDefinition
-  public readonly Before = this.registerBeforeHook.bind(this) as RegisterHook
-  public readonly After = this.registerAfterHook.bind(this) as RegisterHook
+
   private readonly parameterTypeRegistry = new ParameterTypeRegistry()
   private readonly expressionFactory = new ExpressionFactory(
     this.parameterTypeRegistry
   )
-  public readonly undefinedParameterTypes: messages.IEnvelope[] = []
+  public readonly undefinedParameterTypeMessages: messages.IEnvelope[] = []
 
   constructor(
-    public newId: IdGenerator.NewId,
-    public clock: IClock,
-    public makeErrorMessage: MakeErrorMessage
+    public readonly newId: IdGenerator.NewId = IdGenerator.uuid(),
+    public readonly clock: IClock = new PerfHooksClock(),
+    public readonly makeErrorMessage: MakeErrorMessage = withFullStackTrace()
   ) {}
 
   public defineParameterType(
@@ -96,13 +53,24 @@ export default class SupportCode {
     )
     this.parameterTypeRegistry.defineParameterType(parameterType)
     this.parameterTypes.push(parameterType)
+    this.parameterTypeMessages.push(
+      new messages.Envelope({
+        parameterType: new messages.ParameterType({
+          id: this.newId(),
+          name: parameterType.name,
+          regularExpressions: parameterType.regexpStrings.slice(),
+          preferForRegularExpressionMatch: parameterType.preferForRegexpMatch,
+          useForSnippets: parameterType.useForSnippets,
+        }),
+      })
+    )
   }
 
-  private registerStepDefinition(
+  public defineStepDefinition(
+    sourceReference: messages.ISourceReference,
     expression: string | RegExp,
     body: AnyBody
   ): void {
-    const sourceReference = getSourceReference(new Error().stack)
     try {
       const expr = this.expressionFactory.createExpression(expression)
       const stepDefinition = new ExpressionStepDefinition(
@@ -111,10 +79,10 @@ export default class SupportCode {
         sourceReference,
         body
       )
-      this.stepDefinitions.push(stepDefinition)
+      this.registerStepDefinition(stepDefinition)
     } catch (e) {
       if (e.undefinedParameterTypeName) {
-        this.undefinedParameterTypes.push(
+        this.undefinedParameterTypeMessages.push(
           new messages.Envelope({
             undefinedParameterType: new messages.UndefinedParameterType({
               expression: expression.toString(),
@@ -128,30 +96,46 @@ export default class SupportCode {
     }
   }
 
-  private registerBeforeHook(
-    tagExpressionOrBody: string | AnyBody,
-    body?: AnyBody
-  ) {
-    this.beforeHooks.push(this.makeHook(new Error(), tagExpressionOrBody, body))
+  public registerStepDefinition(stepDefinition: IStepDefinition) {
+    this.stepDefinitions.push(stepDefinition)
   }
 
-  private registerAfterHook(
+  public defineBeforeHook(
+    sourceReference: messages.ISourceReference,
     tagExpressionOrBody: string | AnyBody,
     body?: AnyBody
   ) {
-    this.afterHooks.push(this.makeHook(new Error(), tagExpressionOrBody, body))
+    this.registerBeforeHook(
+      this.makeHook(sourceReference, tagExpressionOrBody, body)
+    )
+  }
+
+  public registerBeforeHook(hook: IHook) {
+    this.beforeHooks.push(hook)
+  }
+
+  public defineAfterHook(
+    sourceReference: messages.ISourceReference,
+    tagExpressionOrBody: string | AnyBody,
+    body?: AnyBody
+  ) {
+    this.registerAfterHook(
+      this.makeHook(sourceReference, tagExpressionOrBody, body)
+    )
+  }
+
+  public registerAfterHook(hook: IHook) {
+    this.afterHooks.push(hook)
   }
 
   private makeHook(
-    error: Error,
+    sourceReference: messages.ISourceReference,
     tagExpressionOrBody: string | AnyBody,
     body?: AnyBody
   ) {
     const tagExpression =
       typeof tagExpressionOrBody === 'string' ? tagExpressionOrBody : null
     body = typeof tagExpressionOrBody !== 'string' ? tagExpressionOrBody : body
-
-    const sourceReference = getSourceReference(error.stack)
     return new Hook(this.newId(), tagExpression, sourceReference, body)
   }
 }
