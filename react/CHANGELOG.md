@@ -9,6 +9,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+## [7.0.0] - 2020-04-14
+
+### Added
+
 * The `<Attachment>` component can now display the following media types:
   - `image/*`
     - Only base64 content encoding supported
@@ -25,11 +37,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
-### Deprecated
-
-### Removed
-
-### Fixed
+* Upgrade to messages 12.0.0
+* Upgrade to gherkin 13.0.0
 
 ## [6.0.0] - 2020-04-01
 
@@ -157,7 +166,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/react/v6.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/react/v7.0.0...master
+[7.0.0]:      https://github.com/cucumber/cucumber/compare/react/v6.0.0...react/v7.0.0
 [6.0.0]:      https://github.com/cucumber/cucumber/compare/react/v5.1.0...react/v6.0.0
 [5.1.0]:      https://github.com/cucumber/cucumber/compare/react/v5.0.0...react/v5.1.0
 [5.0.0]:      https://github.com/cucumber/cucumber/compare/react/v4.1.1...react/v5.0.0
