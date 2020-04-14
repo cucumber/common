@@ -10,7 +10,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 
 ### Changed
- - [Java] `CucumberExpression` and `RegularExpression` are now public.  
+
+* [Java] Minor performance improvement for matching regular expressions steps.
+* [Java] `CucumberExpression` and `RegularExpression` are now public.  
+
 ### Deprecated
 
 ### Removed
