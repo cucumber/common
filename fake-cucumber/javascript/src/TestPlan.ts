@@ -1,7 +1,6 @@
 import { EnvelopeListener } from './types'
 import { messages, TimeConversion } from '@cucumber/messages'
 import SupportCode from './SupportCode'
-import { ParameterType } from '@cucumber/cucumber-expressions'
 import ITestPlan from './ITestPlan'
 import ITestCase from './ITestCase'
 
@@ -12,14 +11,14 @@ export default class TestPlan implements ITestPlan {
   ) {}
 
   public async execute(listener: EnvelopeListener): Promise<void> {
-    for (const parameterType of this.supportCode.parameterTypes) {
-      listener(parameterTypeToMessage(parameterType))
+    for (const parameterTypeMessage of this.supportCode.parameterTypeMessages) {
+      listener(parameterTypeMessage)
     }
     for (const stepDefinition of this.supportCode.stepDefinitions) {
       listener(stepDefinition.toMessage())
     }
     for (const undefinedParameterType of this.supportCode
-      .undefinedParameterTypes) {
+      .undefinedParameterTypeMessages) {
       listener(undefinedParameterType)
     }
     for (const hook of this.supportCode.beforeHooks) {
@@ -55,17 +54,4 @@ export default class TestPlan implements ITestPlan {
       })
     )
   }
-}
-
-function parameterTypeToMessage(
-  parameterType: ParameterType<any>
-): messages.IEnvelope {
-  return new messages.Envelope({
-    parameterType: new messages.ParameterType({
-      name: parameterType.name,
-      regularExpressions: parameterType.regexpStrings.slice(),
-      preferForRegularExpressionMatch: parameterType.preferForRegexpMatch,
-      useForSnippets: parameterType.useForSnippets,
-    }),
-  })
 }
