@@ -23,6 +23,7 @@ function defaultTransformer(...args: string[]) {
  */
 export default class SupportCode {
   public readonly parameterTypes: Array<ParameterType<any>> = []
+  public readonly parameterTypeMessages: Array<messages.IEnvelope> = []
   public readonly stepDefinitions: IStepDefinition[] = []
   public readonly beforeHooks: IHook[] = []
   public readonly afterHooks: IHook[] = []
@@ -31,7 +32,7 @@ export default class SupportCode {
   private readonly expressionFactory = new ExpressionFactory(
     this.parameterTypeRegistry
   )
-  public readonly undefinedParameterTypes: messages.IEnvelope[] = []
+  public readonly undefinedParameterTypeMessages: messages.IEnvelope[] = []
 
   constructor(
     public readonly newId: IdGenerator.NewId = IdGenerator.uuid(),
@@ -52,6 +53,17 @@ export default class SupportCode {
     )
     this.parameterTypeRegistry.defineParameterType(parameterType)
     this.parameterTypes.push(parameterType)
+    this.parameterTypeMessages.push(
+      new messages.Envelope({
+        parameterType: new messages.ParameterType({
+          id: this.newId(),
+          name: parameterType.name,
+          regularExpressions: parameterType.regexpStrings.slice(),
+          preferForRegularExpressionMatch: parameterType.preferForRegexpMatch,
+          useForSnippets: parameterType.useForSnippets,
+        }),
+      })
+    )
   }
 
   public defineStepDefinition(
@@ -70,7 +82,7 @@ export default class SupportCode {
       this.registerStepDefinition(stepDefinition)
     } catch (e) {
       if (e.undefinedParameterTypeName) {
-        this.undefinedParameterTypes.push(
+        this.undefinedParameterTypeMessages.push(
           new messages.Envelope({
             undefinedParameterType: new messages.UndefinedParameterType({
               expression: expression.toString(),
