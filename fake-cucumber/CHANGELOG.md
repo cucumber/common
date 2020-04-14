@@ -9,23 +9,34 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
-* expose `withFullStackTrace` and `withSourceFramesOnlyStackTrace`
-* expose internals needed to generate test cases and allow specifying a custom function to compute test cases
-* expose `IHook`, added `SupportCode.registerBeforeDefinition` and `SupportCode.registerAfterDefinition` to enable custom Hook execution
-* expose `IWorld`
-* expose `IStepDefinition` and added `SupportCode.registerStepDefinition` to enable custom tep matching
-
 ### Changed
 
 ### Deprecated
 
 ### Removed
 
+### Fixed
+
+## [7.0.0] - 2020-04-14
+
+### Added
+
+* expose `withFullStackTrace` and `withSourceFramesOnlyStackTrace`
+* expose internals needed to generate test cases and allow specifying a custom function to compute test cases
+* expose `IHook`, added `SupportCode.registerBeforeDefinition` and `SupportCode.registerAfterDefinition` to enable custom Hook execution
+* expose `IWorld`
+* expose `IStepDefinition` and added `SupportCode.registerStepDefinition` to enable custom step matching
+
+### Changed
+
+* Upgrade to messages 12.0.0
+* Upgrade to gherkin 13.0.0
+
+### Removed
+
 * Removed the `--globals` option
 * Removed `IStepDefinition#getArguments(string)` - doesn't need to be on interface.
   This removes an API dependency on `@cucumber/cucumber-expressions`
-
-### Fixed
 
 ## [6.0.0] - 2020-03-31
 
@@ -154,7 +165,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/fake-cucumber/v6.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/fake-cucumber/v7.0.0...master
+[7.0.0]:      https://github.com/cucumber/cucumber/compare/fake-cucumber/v6.0.0...fake-cucumber/v7.0.0
 [6.0.0]:      https://github.com/cucumber/cucumber/compare/fake-cucumber/v5.0.0...fake-cucumber/v6.0.0
 [5.0.0]:      https://github.com/cucumber/cucumber/compare/fake-cucumber/v4.0.0...fake-cucumber/v5.0.0
 [4.0.0]:      https://github.com/cucumber/cucumber/compare/fake-cucumber/v3.0.3...fake-cucumber/v4.0.0
