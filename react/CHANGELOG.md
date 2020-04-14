@@ -9,6 +9,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+* The `<Attachment>` component can now display the following media types:
+  - `image/*`
+    - Only base64 content encoding supported
+  - `video/*`
+    - Only base64 content encoding supported
+  - `text/*`
+    - Both base64 and identity content encoding supported
+  - `application/json`
+    - Both base64 and identity content encoding supported
+    - JSON is prettified with 2 space indent
+  ([#964](https://github.com/cucumber/cucumber/pull/964)
+   [#945](https://github.com/cucumber/cucumber/issues/945)
+   [aslakhellesoy])
+
 ### Changed
 
 ### Deprecated

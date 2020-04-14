@@ -1,9 +1,9 @@
 {
   "pickle": {
     "astNodeIds": [
-      "2"
+      "3"
     ],
-    "id": "13",
+    "id": "17",
     "language": "en",
     "name": "minimalistic",
     "steps": [
@@ -11,14 +11,14 @@
         "astNodeIds": [
           "0"
         ],
-        "id": "11",
+        "id": "15",
         "text": "the minimalism inside a background"
       },
       {
         "astNodeIds": [
-          "1"
+          "2"
         ],
-        "id": "12",
+        "id": "16",
         "text": "the minimalism"
       }
     ],
@@ -28,9 +28,9 @@
 {
   "pickle": {
     "astNodeIds": [
-      "4"
+      "5"
     ],
-    "id": "16",
+    "id": "20",
     "language": "en",
     "name": "also minimalistic",
     "steps": [
@@ -38,14 +38,14 @@
         "astNodeIds": [
           "0"
         ],
-        "id": "14",
+        "id": "18",
         "text": "the minimalism inside a background"
       },
       {
         "astNodeIds": [
-          "3"
+          "4"
         ],
-        "id": "15",
+        "id": "19",
         "text": "the minimalism"
       }
     ],
@@ -55,44 +55,8 @@
 {
   "pickle": {
     "astNodeIds": [
-      "10",
-      "8"
-    ],
-    "id": "20",
-    "language": "en",
-    "name": "with examples",
-    "steps": [
-      {
-        "astNodeIds": [
-          "0"
-        ],
-        "id": "17",
-        "text": "the minimalism inside a background"
-      },
-      {
-        "astNodeIds": [
-          "5"
-        ],
-        "id": "18",
-        "text": "a rule background step"
-      },
-      {
-        "astNodeIds": [
-          "6",
-          "8"
-        ],
-        "id": "19",
-        "text": "the 1 minimalism"
-      }
-    ],
-    "uri": "testdata/good/complex_background.feature"
-  }
-}
-{
-  "pickle": {
-    "astNodeIds": [
-      "10",
-      "9"
+      "13",
+      "10"
     ],
     "id": "24",
     "language": "en",
@@ -107,17 +71,53 @@
       },
       {
         "astNodeIds": [
-          "5"
+          "6"
         ],
         "id": "22",
         "text": "a rule background step"
       },
       {
         "astNodeIds": [
-          "6",
-          "9"
+          "8",
+          "10"
         ],
         "id": "23",
+        "text": "the 1 minimalism"
+      }
+    ],
+    "uri": "testdata/good/complex_background.feature"
+  }
+}
+{
+  "pickle": {
+    "astNodeIds": [
+      "13",
+      "11"
+    ],
+    "id": "28",
+    "language": "en",
+    "name": "with examples",
+    "steps": [
+      {
+        "astNodeIds": [
+          "0"
+        ],
+        "id": "25",
+        "text": "the minimalism inside a background"
+      },
+      {
+        "astNodeIds": [
+          "6"
+        ],
+        "id": "26",
+        "text": "a rule background step"
+      },
+      {
+        "astNodeIds": [
+          "8",
+          "11"
+        ],
+        "id": "27",
         "text": "the 2 minimalism"
       }
     ],

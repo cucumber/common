@@ -47,7 +47,7 @@ describe('TestStep', () => {
 
       assert.strictEqual(
         testStepFinished.testStepResult.status,
-        messages.TestStepResult.Status.UNDEFINED
+        messages.TestStepFinished.TestStepResult.Status.UNDEFINED
       )
       assert.notEqual(testStepFinished.testStepResult.duration, null)
 
@@ -80,7 +80,7 @@ describe('TestStep', () => {
       const testStepFinished = await execute(testStep)
       assert.strictEqual(
         testStepFinished.testStepResult.status,
-        messages.TestStepResult.Status.AMBIGUOUS
+        messages.TestStepFinished.TestStepResult.Status.AMBIGUOUS
       )
       assert.notEqual(testStepFinished.testStepResult.duration, null)
 
@@ -106,7 +106,7 @@ describe('TestStep', () => {
       )
       assert.strictEqual(
         result.status,
-        messages.TestStepResult.Status.UNDEFINED
+        messages.TestStepFinished.TestStepResult.Status.UNDEFINED
       )
     })
 
@@ -168,7 +168,7 @@ describe('TestStep', () => {
 
         assert.strictEqual(
           testStepFinished.testStepResult.status,
-          messages.TestStepResult.Status.PASSED
+          messages.TestStepFinished.TestStepResult.Status.PASSED
         )
         assert.strictEqual(testStepFinished.testStepId, testStep.id)
       })
@@ -198,7 +198,7 @@ describe('TestStep', () => {
 
         assert.strictEqual(
           testStepFinished.testStepResult.status,
-          messages.TestStepResult.Status.PENDING
+          messages.TestStepFinished.TestStepResult.Status.PENDING
         )
         assert.strictEqual(testStepFinished.testStepId, testStep.id)
       })
@@ -230,7 +230,7 @@ describe('TestStep', () => {
         const testStepFinished = await execute(testStep)
         assert.strictEqual(
           testStepFinished.testStepResult.status,
-          messages.TestStepResult.Status.FAILED
+          messages.TestStepFinished.TestStepResult.Status.FAILED
         )
         assert.strictEqual(testStepFinished.testStepId, testStep.id)
       })
@@ -360,7 +360,7 @@ describe('TestStep', () => {
         .testStepFinished
       assert.strictEqual(
         testStepFinished.testStepResult.status,
-        messages.TestStepResult.Status.SKIPPED
+        messages.TestStepFinished.TestStepResult.Status.SKIPPED
       )
     })
   })

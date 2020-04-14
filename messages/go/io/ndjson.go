@@ -2,31 +2,32 @@ package io
 
 import (
 	"bufio"
-	gio "github.com/gogo/protobuf/io"
+	gogoio "github.com/gogo/protobuf/io"
 	"github.com/gogo/protobuf/jsonpb"
 	"github.com/gogo/protobuf/proto"
 	"io"
 	"strings"
 )
 
-func NewNdjsonWriter(w io.Writer) gio.WriteCloser {
-	return &ndjsonWriter{w}
-}
-
-type ndjsonWriter struct {
-	w io.Writer
-}
-
-func (this *ndjsonWriter) WriteMsg(msg proto.Message) (err error) {
-	ma := jsonpb.Marshaler{
+func NewNdjsonWriter(writer io.Writer) gogoio.WriteCloser {
+	marshaler := jsonpb.Marshaler{
 		EnumsAsInts:  false,
 		EmitDefaults: false,
 	}
-	msgJson, err := ma.MarshalToString(msg)
+	return &ndjsonWriter{writer, marshaler}
+}
+
+type ndjsonWriter struct {
+	writer    io.Writer
+	marshaler jsonpb.Marshaler
+}
+
+func (this *ndjsonWriter) WriteMsg(msg proto.Message) (err error) {
+	msgJson, err := this.marshaler.MarshalToString(msg)
 	if err != nil {
 		return err
 	}
-	out := bufio.NewWriter(this.w)
+	out := bufio.NewWriter(this.writer)
 	_, err = out.WriteString(msgJson)
 	if err != nil {
 		return err
@@ -43,33 +44,37 @@ func (this *ndjsonWriter) WriteMsg(msg proto.Message) (err error) {
 }
 
 func (this *ndjsonWriter) Close() error {
-	if closer, ok := this.w.(io.Closer); ok {
+	if closer, ok := this.writer.(io.Closer); ok {
 		return closer.Close()
 	}
 	return nil
 }
 
-func NewNdjsonReader(r io.Reader) gio.ReadCloser {
+func NewNdjsonReader(reader io.Reader) gogoio.ReadCloser {
 	var closer io.Closer
-	if c, ok := r.(io.Closer); ok {
+	if c, ok := reader.(io.Closer); ok {
 		closer = c
 	}
-	scanner := bufio.NewScanner(r)
+	scanner := bufio.NewScanner(reader)
 	const maxCapacity = 10 * 1024 * 1024 // 10Mb
 	buf := make([]byte, maxCapacity)
 	scanner.Buffer(buf, maxCapacity)
-	return &ndjsonReader{bufio.NewReader(r), scanner, closer}
+	unmarshaler := jsonpb.Unmarshaler{
+		AllowUnknownFields: true,
+	}
+	return &ndjsonReader{*bufio.NewReader(reader), *scanner, unmarshaler, closer}
 }
 
 type ndjsonReader struct {
-	r       *bufio.Reader
-	scanner *bufio.Scanner
-	closer  io.Closer
+	reader      bufio.Reader
+	scanner     bufio.Scanner
+	unmarshaler jsonpb.Unmarshaler
+	closer      io.Closer
 }
 
 func (this *ndjsonReader) ReadMsg(msg proto.Message) error {
 	if this.scanner.Scan() {
-		return jsonpb.Unmarshal(strings.NewReader(this.scanner.Text()), msg)
+		return this.unmarshaler.Unmarshal(strings.NewReader(this.scanner.Text()), msg)
 	}
 	return io.EOF
 }

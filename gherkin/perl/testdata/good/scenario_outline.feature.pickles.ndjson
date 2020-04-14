@@ -1,10 +1,10 @@
 {
   "pickle": {
     "astNodeIds": [
-      "3",
+      "4",
       "2"
     ],
-    "id": "5",
+    "id": "6",
     "language": "en",
     "name": "minimalistic",
     "steps": [
@@ -13,7 +13,7 @@
           "0",
           "2"
         ],
-        "id": "4",
+        "id": "5",
         "text": "the minimalism"
       }
     ],

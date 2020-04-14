@@ -23,7 +23,6 @@ PYTHON_NDJSONS=$(patsubst ../python/acceptance/%.json,acceptance/python/%.ndjson
 PYTHON_HTMLS=$(patsubst acceptance/%.ndjson,acceptance/%.ndjson.html,$(PYTHON_NDJSONS))
 PYTHON_GENERATED_JSONS=$(patsubst acceptance/%.ndjson,acceptance/%.ndjson.json,$(PYTHON_NDJSONS))
 
-
 .tested: reports
 
 reports: ruby_reports js_reports java_reports python_reports
@@ -31,8 +30,12 @@ reports: ruby_reports js_reports java_reports python_reports
 ruby_reports: $(RUBY_HTMLS) $(RUBY_GENERATED_JSONS) acceptance/ruby/all.ndjson.html
 
 acceptance/ruby/all.ndjson: $(RUBY_NDJSONS)
+ifeq ($(RUBY_NDJSONS),)
+	# No JSONs made for Ruby
+else
 	mkdir -p $(@D)
 	cat $^ > $@
+endif
 
 acceptance/ruby/%.ndjson: ../ruby/acceptance/%.json $(TYPESCRIPT_SOURCE_FILES)
 	mkdir -p $(@D)
@@ -41,8 +44,12 @@ acceptance/ruby/%.ndjson: ../ruby/acceptance/%.json $(TYPESCRIPT_SOURCE_FILES)
 js_reports: $(JS_HTMLS) $(JS_GENERATED_JSONS) acceptance/javascript/all.ndjson.html
 
 acceptance/javascript/all.ndjson: $(JS_NDJSONS)
+ifeq ($(JS_NDJSONS),)
+	# No JSONs made for Javascript
+else
 	mkdir -p $(@D)
 	cat $^ > $@
+endif
 
 acceptance/javascript/%.ndjson: ../javascript-json/acceptance/%.json $(TYPESCRIPT_SOURCE_FILES)
 	mkdir -p $(@D)
@@ -51,8 +58,12 @@ acceptance/javascript/%.ndjson: ../javascript-json/acceptance/%.json $(TYPESCRIP
 java_reports: $(JAVA_HTMLS) $(JAVA_GENERATED_JSONS) acceptance/java/all.ndjson.html
 
 acceptance/java/all.ndjson: $(JAVA_NDJSONS)
+ifeq ($(JAVA_NDJSONS),)
+	# No JSONs made for Java
+else
 	mkdir -p $(@D)
 	cat $^ > $@
+endif
 
 acceptance/java/%.ndjson: ../java/acceptance/%.json $(TYPESCRIPT_SOURCE_FILES)
 	mkdir -p $(@D)
@@ -61,8 +72,12 @@ acceptance/java/%.ndjson: ../java/acceptance/%.json $(TYPESCRIPT_SOURCE_FILES)
 python_reports: $(PYTHON_HTMLS) $(PYTHON_GENERATED_JSONS) acceptance/python/all.ndjson.html
 
 acceptance/python/all.ndjson: $(PYTHON_NDJSONS)
+ifeq ($(PYTHON_NDJSONS),)
+	# No JSONs made for Python
+else
 	mkdir -p $(@D)
 	cat $^ > $@
+endif
 
 acceptance/python/%.ndjson: ../python/acceptance/%.json $(TYPESCRIPT_SOURCE_FILES)
 	mkdir -p $(@D)
