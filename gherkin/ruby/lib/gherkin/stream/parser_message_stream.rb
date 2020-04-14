@@ -59,7 +59,7 @@ module Gherkin
                 column: err.location[:column]
               )
             ),
-            text: err.message
+            body: err.message
           )
           y.yield(Cucumber::Messages::Envelope.new(attachment: attachment))
         end

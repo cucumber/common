@@ -1,6 +1,9 @@
 import StackUtils from 'stack-utils'
 
-export type MakeErrorMessage = (error: Error, sourceFrames: string[]) => string
+export type MakeErrorMessage = (
+  error: Error,
+  sourceFrames: ReadonlyArray<string>
+) => string
 
 export function withFullStackTrace(): MakeErrorMessage {
   const stack = new StackUtils({
@@ -18,7 +21,7 @@ export function withFullStackTrace(): MakeErrorMessage {
       .trim()
       .split('\n')
       .concat(sourceFrames)
-      .map(frame => `    at ${frame}`)
+      .map((frame) => `    at ${frame}`)
       .join('\n')
 
     return `${error.message}\n${trace}`

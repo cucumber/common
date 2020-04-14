@@ -14,7 +14,7 @@ executors:
     docker:
       # Remember to update to the latest image tag.
       # Run `source scripts/functions.sh && docker_image Dockerfile` to print it.
-      - image: cucumber/cucumber-build:bcd26c1ff045bbf9848c025fb2cfcc79
+      - image: cucumber/cucumber-build:63d2492020942f28e03bb54f23cb2b3f
     working_directory: ~/cucumber
   # Go
   docker-circleci-golang:
@@ -304,7 +304,7 @@ jobs:
             - react/javascript/node_modules
 
   html-formatter-javascript:
-    executor: docker-circleci-node-12
+    executor: docker-cucumber-build
     steps:
       - attach_workspace:
           at: "~/cucumber"
@@ -313,6 +313,10 @@ jobs:
           command: |
             cd html-formatter/javascript
             make
+      - persist_to_workspace:
+          root: ~/cucumber
+          paths:
+            - html-formatter/javascript/dist
 
   json-formatter-javascript:
     executor: docker-circleci-node-12
@@ -327,7 +331,33 @@ jobs:
       - persist_to_workspace:
           root: ~/cucumber
           paths:
-            - json-formatter/javascript/acceptance
+            - json-formatter/javascript/features
+
+  json-to-messages-javascript:
+    executor: docker-circleci-node-12
+    steps:
+      - attach_workspace:
+          at: "~/cucumber"
+      - run:
+          name: json-to-messages/javascript
+          command: |
+            cd json-to-messages/javascript
+            make
+
+  json-to-messages-javascript-json:
+    executor: docker-circleci-node-12
+    steps:
+      - attach_workspace:
+          at: "~/cucumber"
+      - run:
+          name: json-to-messages/javascript-json
+          command: |
+            cd json-to-messages/javascript-json
+            make
+      - persist_to_workspace:
+          root: ~/cucumber
+          paths:
+            - json-to-messages/javascript-json/acceptance
 
   query-javascript:
     executor: docker-circleci-node-12
@@ -454,6 +484,21 @@ jobs:
           paths:
             - json-formatter/ruby
 
+  compatibility-kit-ruby:
+    executor: docker-cucumber-build
+    steps:
+      - attach_workspace:
+          at: "~/cucumber"
+      - run:
+          name: compatibility-kit/ruby
+          command: |
+            cd compatibility-kit/ruby
+            CUCUMBER_USE_RELEASED_GEMS=1 make
+      - persist_to_workspace:
+          root: ~/cucumber
+          paths:
+            - compatibility-kit/ruby/features
+
   demo-formatter-ruby:
     executor: docker-cucumber-build
     steps:
@@ -464,6 +509,33 @@ jobs:
           command: |
             cd demo-formatter/ruby
             make
+
+  html-formatter-ruby:
+    executor: docker-circleci-ruby-26
+    steps:
+      - attach_workspace:
+          at: "~/cucumber"
+      - run:
+          name: html-formatter/ruby
+          command: |
+            cd html-formatter/ruby
+            make
+
+  json-to-messages-ruby:
+    executor: docker-circleci-ruby-26
+    steps:
+      - attach_workspace:
+          at: "~/cucumber"
+      - run:
+          name: json-to-messages/ruby
+          command: |
+            cd json-to-messages/ruby
+            make
+      - persist_to_workspace:
+          root: ~/cucumber
+          paths:
+            - json-to-messages/ruby/features
+            - json-to-messages/ruby/acceptance
 
 ### Java
 
@@ -586,6 +658,40 @@ jobs:
           paths:
             - "io/cucumber/config"
 
+
+  html-formatter-java:
+    executor: docker-circleci-openjdk
+    steps:
+      - attach_workspace:
+          at: "~/cucumber"
+      - attach_workspace:
+          at: "~/.m2/repository"
+      - run:
+          name: html-formatter
+          command: |
+            cd html-formatter/java
+            make
+      - persist_to_workspace:
+          root: "~/.m2/repository"
+          paths:
+            - "io/cucumber/html-formatter"
+
+  json-to-messages-java:
+    executor: docker-circleci-openjdk
+    steps:
+      - attach_workspace:
+          at: "~/cucumber"
+      - run:
+          name: json-to-messages/java
+          command: |
+            cd json-to-messages/java
+            make
+      - persist_to_workspace:
+          root: ~/cucumber
+          paths:
+            - json-to-messages/java/acceptance
+
+
 ### .NET
 
   messages-dotnet:
@@ -612,6 +718,20 @@ jobs:
             cd tag-expressions/python
             make
 
+  json-to-messages-python:
+    executor: docker-circleci-python
+    steps:
+      - attach_workspace:
+          at: "~/cucumber"
+      - run:
+          name: json-to-messages/python
+          command: |
+            cd json-to-messages/python
+            make default
+      - persist_to_workspace:
+          root: ~/cucumber
+          paths:
+            - json-to-messages/python/acceptance
 ### C
 
   gherkin-c:
@@ -672,7 +792,6 @@ workflows:
       - demo-formatter-go:
           requires:
             - messages-go
-            - fake-cucumber-javascript
       - json-formatter-go:
           requires:
             - messages-go
@@ -726,6 +845,19 @@ workflows:
             - messages-javascript
             - fake-cucumber-javascript
             - gherkin-javascript
+      - json-to-messages-javascript-json:
+          requires:
+            - checkout
+            - json-to-messages-ruby
+      - json-to-messages-javascript:
+          requires:
+            - checkout
+            - json-to-messages-ruby
+            - json-to-messages-java
+            - json-to-messages-python
+            - json-to-messages-javascript-json
+            - fake-cucumber-javascript
+            - html-formatter-javascript
 
 ### Ruby
 
@@ -756,8 +888,17 @@ workflows:
       - demo-formatter-ruby:
           requires:
             - messages-ruby
-            - fake-cucumber-javascript
       - json-formatter-ruby:
+          requires:
+            - checkout
+      # - compatibility-kit-ruby:
+      #     requires:
+      #       - compatibility-kit-javascript
+      # - html-formatter-ruby:
+      #     requires:
+      #       - html-formatter-javascript
+      #       - compatibility-kit-ruby
+      - json-to-messages-ruby:
           requires:
             - checkout
 
@@ -780,10 +921,18 @@ workflows:
             - checkout
       - datatable-java:
           requires:
-            - gherkin-java
+            - checkout
       - config-java:
           requires:
             - checkout
+      - html-formatter-java:
+          requires:
+            - html-formatter-javascript
+            - messages-java
+      - json-to-messages-java:
+          requires:
+            - checkout
+            - json-to-messages-ruby
 
 ### .NET
 
@@ -796,6 +945,12 @@ workflows:
       - tag-expressions-python:
           requires:
             - checkout
+
+      - json-to-messages-python:
+          requires:
+            - checkout
+            - json-to-messages-ruby
+
 
 ### C
 

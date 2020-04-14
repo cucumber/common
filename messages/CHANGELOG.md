@@ -9,6 +9,89 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+* Add `id` field to `Background`, `Rule` and `Examples`. Needed for search engine indexing.
+
+### Changed
+
+* Some messages have been nested under other messages (removal of other messages)
+  made it possible to scope them more locally
+
+### Deprecated
+
+### Removed
+
+* Several messages that weren't used have been removed
+  ([#962](https://github.com/cucumber/cucumber/pull/962)
+   [#951](https://github.com/cucumber/cucumber/issues/951)
+   [aslakhellesoy])
+
+### Fixed
+
+* Ignore unknown fields when parsing JSON. This is to ensure forward and backward
+  compatibility when using JSON encoding (NDJSON).
+  ([#959](https://github.com/cucumber/cucumber/pull/959)
+   [#957](https://github.com/cucumber/cucumber/pull/957)
+   [aslakhellesoy]
+   [mpkorstanje])
+
+## [11.1.1] - 2020-03-30
+
+### Fixed
+
+* The [#932](https://github.com/cucumber/cucumber/pull/932) pull request wasn't actually
+  included in 11.1.0
+
+## [11.1.0] - 2020-03-30
+
+### Added
+
+* [JavaScript] Add `#addDurations` function to `TimeConversion`
+  ([#932](https://github.com/cucumber/cucumber/pull/932)
+   [charlierudolph])
+
+## [11.0.1] - 2020-03-30
+
+### Fixed
+
+* Release process
+
+## [11.0.0] - 2020-03-30
+
+### Changed
+
+* `Attachment#text` and `Attachment#binary` have been replaced with `Attachment#body`,
+  and `Attachment#content_encoding` has been added.
+  ([#947](https://github.com/cucumber/cucumber/pull/947)
+   [aslakhellesoy])
+
+## [10.0.3] - 2020-03-05
+
+### Fixed
+
+* 10.0.2 release process failed.
+
+## [10.0.2] - 2020-03-02
+
+### Fixed
+
+* [JavaScript] make stream readable/writable object modes explicit. Better buffer handling.
+* [Ruby] Don't depend on the `json` gem, since it only installs on Windows with
+  a C compiler toolchain. The `json` gem is part of the Ruby stdlib.
+* [Go] Increase max size of a JSON message to 10Mb
+  ([#901](https://github.com/cucumber/cucumber/issues/901)
+   [#903](https://github.com/cucumber/cucumber/pull/903)
+   [aslakhellesoy])
+
+## [10.0.1] - 2020-02-13
+
+### Fixed
+
+* The 10.0.0 release failed.
+
+## [10.0.0] - 2020-02-13
+
+### Added
+
 * Add `UndefinedParameterType`
   ([#890](https://github.com/cucumber/cucumber/pull/890)
    [aslakhellesoy])
@@ -18,9 +101,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
-### Deprecated
-
-### Removed
+* Rename `TestResult` to `TestStepResult`
+  ([#890](https://github.com/cucumber/cucumber/pull/890)
+   [aslakhellesoy])
 
 ### Fixed
 
@@ -251,7 +334,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Protobuf messages for Go, Java, JavaScript, TypeScript and Ruby
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/messages/v9.0.3...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/messages/v11.1.1...master
+[11.1.1]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v11.1.0...messages/v11.1.1
+[11.1.0]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v11.0.1...messages/v11.1.0
+[11.0.1]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v11.0.0...messages/v11.0.1
+[11.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v10.0.3...messages/v11.0.0
+[10.0.3]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v10.0.2...messages/v10.0.3
+[10.0.2]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v10.0.1...messages/v10.0.2
+[10.0.1]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v10.0.0...messages/v10.0.1
+[10.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v9.0.3...messages/v10.0.0
 [9.0.3]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v9.0.2...messages/v9.0.3
 [9.0.2]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v9.0.1...messages/v9.0.2
 [9.0.1]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v9.0.0...messages/v9.0.1
@@ -283,6 +374,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 [charlierudolph]:   https://github.com/charlierudolph
 [david1995]:        https://github.com/david1995
 [luke-hill]:        https://github.com/luke-hill
+[mpkorstanje]:      https://github.com/mpkorstanje
 [mvz]:              https://github.com/mvz
 [SabotageAndi]:     https://github.com/SabotageAndi
 [vincent-psarga]:   https://github.com/vincent-psarga

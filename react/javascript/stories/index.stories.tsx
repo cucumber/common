@@ -4,9 +4,10 @@ import { messages } from '@cucumber/messages'
 import GherkinDocumentList from '../src/components/app/GherkinDocumentList'
 import '../src/styles/react-accessible-accordion.css'
 import '../src/styles/styles.scss'
-import Wrapper from '../src/components/app/Wrapper'
+import QueriesWrapper from '../src/components/app/QueriesWrapper'
 import StepContainer from '../src/components/gherkin/StepContainer'
-
+import { Query as GherkinQuery } from '@cucumber/gherkin'
+import { Query as CucumberQuery } from '@cucumber/query'
 // @ts-ignore
 import documentList from '../testdata/all.ndjson'
 // @ts-ignore
@@ -18,70 +19,114 @@ import examplesTables from '../../../compatibility-kit/javascript/features/examp
 // @ts-ignore
 import hooks from '../../../compatibility-kit/javascript/features/hooks/hooks.ndjson'
 // @ts-ignore
+import minimal from '../../../compatibility-kit/javascript/features/minimal/minimal.ndjson'
+// @ts-ignore
 import parameterTypes from '../../../compatibility-kit/javascript/features/parameter-types/parameter-types.ndjson'
 // @ts-ignore
 import rules from '../../../compatibility-kit/javascript/features/rules/rules.ndjson'
 // @ts-ignore
 import stackTraces from '../../../compatibility-kit/javascript/features/stack-traces/stack-traces.ndjson'
-import Step from '../src/components/gherkin/Step'
+import Attachment from '../src/components/gherkin/Attachment'
 
+// @ts-ignore
+import mp4Base64 from '../testdata/video/sample.mp4.txt'
 
-function envelopes(ndjson: string): messages.IEnvelope[] {
-  return ndjson.trim().split('\n')
-    .map((json: string) => messages.Envelope.fromObject(JSON.parse(json)))
+function props(ndjson: string): { gherkinQuery: GherkinQuery, cucumberQuery: CucumberQuery } {
+  const gherkinQuery = new GherkinQuery()
+  const cucumberQuery = new CucumberQuery()
+  for (const json of ndjson.trim().split('\n')) {
+    const envelope = messages.Envelope.fromObject(JSON.parse(json))
+    gherkinQuery.update(envelope)
+    cucumberQuery.update(envelope)
+  }
+  return { gherkinQuery, cucumberQuery }
 }
 
 storiesOf('Features', module)
   .add('Step Container', () => {
-    return <Wrapper envelopes={[]}>
-      <StepContainer status={messages.TestStepResult.Status.PASSED}>
+    return <QueriesWrapper {...props(documentList)}>
+      <StepContainer status={messages.TestStepFinished.TestStepResult.Status.PASSED}>
         <div>Given a passed step</div>
       </StepContainer>
-      <StepContainer status={messages.TestStepResult.Status.FAILED}>
+      <StepContainer status={messages.TestStepFinished.TestStepResult.Status.FAILED}>
         <div>When a failed step</div>
       </StepContainer>
-      <StepContainer status={messages.TestStepResult.Status.SKIPPED}>
+      <StepContainer status={messages.TestStepFinished.TestStepResult.Status.SKIPPED}>
         <div>Then a skipped step</div>
       </StepContainer>
-    </Wrapper>
+    </QueriesWrapper>
   })
   .add('Document list', () => {
-    return <Wrapper envelopes={envelopes(documentList)}>
+    return <QueriesWrapper {...props(documentList)}>
       <GherkinDocumentList/>
-    </Wrapper>
+    </QueriesWrapper>
   })
   .add('Attachments', () => {
-    return <Wrapper envelopes={envelopes(attachments)}>
+    return <QueriesWrapper {...props(attachments)}>
       <GherkinDocumentList/>
-    </Wrapper>
+    </QueriesWrapper>
   })
   .add('Examples Tables', () => {
-    return <Wrapper envelopes={envelopes(examplesTables)}>
+    return <QueriesWrapper {...props(examplesTables)}>
       <GherkinDocumentList/>
-    </Wrapper>
+    </QueriesWrapper>
   })
   .add('Data Tables', () => {
-    return <Wrapper envelopes={envelopes(dataTables)}>
+    return <QueriesWrapper {...props(dataTables)}>
       <GherkinDocumentList/>
-    </Wrapper>
+    </QueriesWrapper>
   })
   .add('Hooks', () => {
-    return <Wrapper envelopes={envelopes(hooks)}>
+    return <QueriesWrapper {...props(hooks)}>
       <GherkinDocumentList/>
-    </Wrapper>
+    </QueriesWrapper>
+  })
+  .add('Minimal', () => {
+    return <QueriesWrapper {...props(minimal)}>
+      <GherkinDocumentList/>
+    </QueriesWrapper>
   })
   .add('Parameter Types', () => {
-    return <Wrapper envelopes={envelopes(parameterTypes)}>
+    return <QueriesWrapper {...props(parameterTypes)}>
       <GherkinDocumentList/>
-    </Wrapper>
+    </QueriesWrapper>
   })
   .add('Rules', () => {
-    return <Wrapper envelopes={envelopes(rules)}>
+    return <QueriesWrapper {...props(rules)}>
       <GherkinDocumentList/>
-    </Wrapper>
+    </QueriesWrapper>
   })
   .add('Stack Traces', () => {
-    return <Wrapper envelopes={envelopes(stackTraces)}>
+    return <QueriesWrapper {...props(stackTraces)}>
       <GherkinDocumentList/>
-    </Wrapper>
+    </QueriesWrapper>
+  })
+storiesOf('Attachments', module)
+  .add('text/plain identity encoded', () => {
+    return <Attachment attachment={messages.Attachment.create({
+      mediaType: 'text/plain',
+      contentEncoding: messages.Attachment.ContentEncoding.IDENTITY,
+      body: 'This text is identity encoded',
+    })}/>
+  })
+  .add('text/plain base64 encoded', () => {
+    return <Attachment attachment={messages.Attachment.create({
+      mediaType: 'text/plain',
+      contentEncoding: messages.Attachment.ContentEncoding.BASE64,
+      body: btoa('This text is base64 encoded'),
+    })}/>
+  })
+  .add('application/json', () => {
+    return <Attachment attachment={messages.Attachment.create({
+      mediaType: 'application/json',
+      contentEncoding: messages.Attachment.ContentEncoding.IDENTITY,
+      body: '{"this": "is", "json": true}',
+    })}/>
+  })
+  .add('video/mp4', () => {
+    return <Attachment attachment={messages.Attachment.create({
+      mediaType: 'video/mp4',
+      contentEncoding: messages.Attachment.ContentEncoding.BASE64,
+      body: mp4Base64,
+    })}/>
   })

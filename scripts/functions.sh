@@ -176,9 +176,16 @@ function update_go_library_version()
 
     echo "Updating ${libname} to ${version}"
     pushd ${root_dir}
-    sed -i "s/${libname}-go\/v[[:digit:]]\+ v.*/${libname}-go\/v$major v${version}/" */go/go.mod
-    sed -i "s/${libname}-go\/v[[:digit:]]\+/${libname}-go\/v${major}/" */go/*.go
-    sed -i "s/${libname}-go\/v[[:digit:]]\+/${libname}-go\/v${major}/" */go/**/*.go
+    git ls-files "${root_dir}/**/go.mod" | while read go_mod; do
+      # Edit require directives
+      sed -Ei "s/github\.com\/cucumber\/${libname}-go(\/v[[:digit:]]+)? v.*/github\.com\/cucumber\/${libname}-go\/v${major} v${version}/" ${go_mod}
+      # Edit replace directives
+      sed -Ei "s/github\.com\/cucumber\/${libname}-go(\/v[[:digit:]]+)? =>/github\.com\/cucumber\/${libname}-go\/v${major} =>/" ${go_mod}
+    done
+    git ls-files "${root_dir}/**/*.go" | while read go_mod; do
+      sed -Ei "s/github\.com\/cucumber\/${libname}-go(\/v[[:digit:]]+)?/github\.com\/cucumber\/${libname}-go\/v${major}/" ${go_mod}
+      # sed -i "s/github.com\/cucumber\/${libname}-go\/v[[:digit:]]\+/github.com\/cucumber\/${libname}-go\/v${major}/" ${go_mod}
+    done
     popd
   fi
 }

@@ -39,7 +39,7 @@ export class ParserException extends GherkinException {
 
 export class CompositeParserException extends GherkinException {
   public static create(errors: Error[]) {
-    const message = 'Parser errors:\n' + errors.map(e => e.message).join('\n')
+    const message = 'Parser errors:\n' + errors.map((e) => e.message).join('\n')
     const err = new this(message)
     err.errors = errors
     return err

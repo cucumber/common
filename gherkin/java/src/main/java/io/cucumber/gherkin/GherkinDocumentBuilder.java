@@ -131,6 +131,7 @@ public class GherkinDocumentBuilder implements Builder<GherkinDocument.Builder> 
                     builder.setDescription(description);
 
                 return builder
+                        .setId(idGenerator.newId())
                         .setLocation(getLocation(backgroundLine, 0))
                         .setKeyword(backgroundLine.matchedKeyword)
                         .setName(backgroundLine.matchedText)
@@ -176,6 +177,7 @@ public class GherkinDocumentBuilder implements Builder<GherkinDocument.Builder> 
                     builder.addAllTableBody(tableBody);
 
                 builder
+                        .setId(idGenerator.newId())
                         .setLocation(getLocation(examplesLine, 0))
                         .setKeyword(examplesLine.matchedKeyword)
                         .setName(examplesLine.matchedText)
@@ -253,6 +255,7 @@ public class GherkinDocumentBuilder implements Builder<GherkinDocument.Builder> 
                 }
 
                 return builder
+                        .setId(idGenerator.newId())
                         .setLocation(getLocation(ruleLine, 0))
                         .setKeyword(ruleLine.matchedKeyword)
                         .setName(ruleLine.matchedText)

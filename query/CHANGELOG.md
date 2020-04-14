@@ -11,13 +11,36 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
-* Rolled `TestResultsQuery` and `StepMatchArgumentsQuery` into a new, single `Query` class.
-
 ### Deprecated
 
 ### Removed
 
 ### Fixed
+
+## [5.0.0] - 2020-03-31
+
+### Added
+
+* Add `QueryStream`
+* Major bump of gherkin and messages
+
+## [4.0.0] - 2020-03-02
+
+### Changed
+
+* Upgraded gherkin
+
+### Fixed
+
+* Report `Status.UNKNOWN` when status is not known
+* Add `gherkin` as a runtime dependency
+
+## [3.0.0] - 2020-02-14
+
+### Changed
+
+* Rolled `TestResultsQuery` and `StepMatchArgumentsQuery` into a new, single `Query` class.
+* Upgraded fake-cucumber, gherkin and messages
 
 ## [2.0.0] - 2020-01-22
 
@@ -44,7 +67,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First JavaScript implementation
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/query/v2.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/query/v5.0.0...master
+[5.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-query/v4.0.0...query/v5.0.0
+[4.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-query/v3.0.0...query/v4.0.0
+[3.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-query/v2.0.0...query/v3.0.0
 [2.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-query/v1.1.1...query/v2.0.0
 [1.1.1]:      https://github.com/cucumber/cucumber/compare/cucumber-query/v1.1.0...query/v1.1.1
 [1.1.0]:      https://github.com/cucumber/cucumber/compare/cucumber-query/v1.0.0...cucumber-query/v1.1.0

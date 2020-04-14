@@ -4,7 +4,7 @@ import (
 	"encoding/base64"
 	"errors"
 	"fmt"
-	"github.com/cucumber/messages-go/v9"
+	"github.com/cucumber/messages-go/v11"
 	"strings"
 )
 
@@ -15,9 +15,10 @@ type TestStep struct {
 	PickleStep      *messages.Pickle_PickleStep
 	Step            *messages.GherkinDocument_Feature_Step
 	StepDefinitions []*messages.StepDefinition
-	Result          *messages.TestStepResult
+	Result          *messages.TestStepFinished_TestStepResult
 	Background      *messages.GherkinDocument_Feature_Background
 	Attachments     []*messages.Attachment
+	ExampleRow      *messages.GherkinDocument_Feature_TableRow
 }
 
 func ProcessTestStepFinished(testStepFinished *messages.TestStepFinished, lookup *MessageLookup) (error, *TestStep) {
@@ -59,6 +60,11 @@ func ProcessTestStepFinished(testStepFinished *messages.TestStepFinished, lookup
 		return errors.New("No pickleStep for " + testStep.PickleStepId), nil
 	}
 
+	var exampleRow *messages.GherkinDocument_Feature_TableRow
+	if len(pickle.AstNodeIds) > 1 {
+		exampleRow = lookup.LookupExampleRow(pickle.AstNodeIds[1])
+	}
+
 	var background *messages.GherkinDocument_Feature_Background
 	scenarioStep := lookup.LookupStep(pickleStep.AstNodeIds[0])
 	if scenarioStep != nil {
@@ -70,6 +76,7 @@ func ProcessTestStepFinished(testStepFinished *messages.TestStepFinished, lookup
 		Step:            lookup.LookupStep(pickleStep.AstNodeIds[0]),
 		Pickle:          pickle,
 		PickleStep:      pickleStep,
+		ExampleRow:      exampleRow,
 		Result:          testStepFinished.TestStepResult,
 		StepDefinitions: lookup.LookupStepDefinitions(testStep.StepDefinitionIds),
 		Background:      background,
@@ -98,6 +105,10 @@ func TestStepToJSON(step *TestStep) *jsonStep {
 	}
 
 	location := makeLocation(step.Pickle.Uri, step.Step.Location.Line)
+	if step.ExampleRow != nil {
+		location = makeLocation(step.Pickle.Uri, step.ExampleRow.Location.Line)
+	}
+
 	if len(step.StepDefinitions) == 1 {
 		location = makeLocation(
 			step.StepDefinitions[0].SourceReference.Uri,
@@ -118,6 +129,7 @@ func TestStepToJSON(step *TestStep) *jsonStep {
 			Duration:     duration,
 		},
 		Embeddings: makeEmbeddings(step.Attachments),
+		Output:     makeOutput(step.Attachments),
 	}
 
 	docString := step.Step.GetDocString()
@@ -148,21 +160,52 @@ func TestStepToJSON(step *TestStep) *jsonStep {
 }
 
 func makeEmbeddings(attachments []*messages.Attachment) []*jsonEmbedding {
-	jsonEmbeddings := make([]*jsonEmbedding, len(attachments))
-	for index, attachment := range attachments {
-		var data []byte
-		if attachment.GetBinary() != nil {
-			data = attachment.GetBinary()
+	embeddableAttachments := filterAttachments(attachments, isEmbeddable)
+	jsonEmbeddings := make([]*jsonEmbedding, len(embeddableAttachments))
+
+	for index, attachment := range embeddableAttachments {
+		var data string
+		if attachment.ContentEncoding == messages.Attachment_BASE64 {
+			data = attachment.Body
 		} else {
-			data = []byte(attachment.GetText())
+			data = base64.StdEncoding.EncodeToString([]byte(attachment.Body))
 		}
 		jsonEmbeddings[index] = &jsonEmbedding{
-			Data:     base64.StdEncoding.EncodeToString(data),
+			Data:     data,
 			MimeType: attachment.MediaType,
 		}
 	}
 
 	return jsonEmbeddings
+}
+
+func makeOutput(attachments []*messages.Attachment) []string {
+	outputAttachments := filterAttachments(attachments, isOutput)
+	output := make([]string, len(outputAttachments))
+
+	for index, attachment := range outputAttachments {
+		output[index] = attachment.GetBody()
+	}
+
+	return output
+}
+
+func filterAttachments(attachments []*messages.Attachment, filter func(*messages.Attachment) bool) []*messages.Attachment {
+	matches := make([]*messages.Attachment, 0)
+	for _, attachment := range attachments {
+		if filter(attachment) {
+			matches = append(matches, attachment)
+		}
+	}
+	return matches
+}
+
+func isEmbeddable(attachment *messages.Attachment) bool {
+	return !isOutput(attachment)
+}
+
+func isOutput(attachment *messages.Attachment) bool {
+	return attachment.GetMediaType() == "text/x.cucumber.log+plain"
 }
 
 func makeLocation(file string, line uint32) string {

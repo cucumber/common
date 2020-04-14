@@ -1,11 +1,15 @@
 import React from 'react'
+import marked from 'marked'
+import sanitizeHtml from 'sanitize-html'
 
 interface IProps {
   description: string
 }
 
 const Description: React.FunctionComponent<IProps> = ({ description }) => {
-  return <p>{description}</p>
+  const html = marked(description)
+  const sanitizedHtml = sanitizeHtml(html)
+  return <div dangerouslySetInnerHTML={{ __html: sanitizedHtml }} />
 }
 
 export default Description

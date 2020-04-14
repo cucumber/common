@@ -1,19 +1,19 @@
 import assert from 'assert'
 import makeAttach from '../src/makeAttach'
-import { MessageNotifier } from '../src/types'
+import { EnvelopeListener } from '../src/types'
 import { messages } from '@cucumber/messages'
 import fs from 'fs'
 
 describe('#attach', () => {
   it('can attach a string', () => {
     const envelopes: messages.IEnvelope[] = []
-    const notifier: MessageNotifier = (envelope: messages.IEnvelope) =>
+    const listener: EnvelopeListener = (envelope: messages.IEnvelope) =>
       envelopes.push(envelope)
 
     const attach = makeAttach(
       'the-test-step-id',
       'the-test-case-started-id',
-      notifier
+      listener
     )
 
     attach('hello', 'text/plain')
@@ -23,9 +23,10 @@ describe('#attach', () => {
       new messages.Envelope({
         attachment: new messages.Attachment({
           mediaType: 'text/plain',
+          contentEncoding: messages.Attachment.ContentEncoding.IDENTITY,
           testCaseStartedId: 'the-test-case-started-id',
           testStepId: 'the-test-step-id',
-          text: 'hello',
+          body: 'hello',
         }),
       })
     )
@@ -33,13 +34,13 @@ describe('#attach', () => {
 
   it('can attach a buffer', () => {
     const envelopes: messages.IEnvelope[] = []
-    const notifier: MessageNotifier = (envelope: messages.IEnvelope) =>
+    const listener: EnvelopeListener = (envelope: messages.IEnvelope) =>
       envelopes.push(envelope)
 
     const attach = makeAttach(
       'the-test-step-id',
       'the-test-case-started-id',
-      notifier
+      listener
     )
 
     const buffer = Buffer.from([...Array(4).keys()])
@@ -52,7 +53,8 @@ describe('#attach', () => {
           mediaType: 'application/octet-stream',
           testCaseStartedId: 'the-test-case-started-id',
           testStepId: 'the-test-step-id',
-          binary: buffer,
+          body: buffer.toString('base64'),
+          contentEncoding: messages.Attachment.ContentEncoding.BASE64,
         }),
       })
     )
@@ -60,13 +62,13 @@ describe('#attach', () => {
 
   it('can attach a readable stream', async () => {
     const envelopes: messages.IEnvelope[] = []
-    const notifier: MessageNotifier = (envelope: messages.IEnvelope) =>
+    const listener: EnvelopeListener = (envelope: messages.IEnvelope) =>
       envelopes.push(envelope)
 
     const attach = makeAttach(
       'the-test-step-id',
       'the-test-case-started-id',
-      notifier
+      listener
     )
 
     const stream = fs.createReadStream(
@@ -76,12 +78,7 @@ describe('#attach', () => {
     await attach(stream, 'image/jpg')
 
     const expectedLength = 851133 // wc -c < ./attachments/cucumber-growing-on-vine.jpg
-    assert.equal(envelopes[0].attachment.binary.length, expectedLength)
-
-    // assert that we can turn it into JSON, read it back and get the same buffer length
-    const json = JSON.stringify(envelopes[0])
-    const envelope = messages.Envelope.fromObject(JSON.parse(json))
-
-    assert.equal(envelope.attachment.binary.length, expectedLength)
+    const buffer = Buffer.from(envelopes[0].attachment.body, 'base64')
+    assert.equal(buffer.length, expectedLength)
   })
 })

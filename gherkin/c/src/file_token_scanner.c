@@ -23,7 +23,7 @@ static void FileTokenScanner_delete(TokenScanner* token_scanner);
 TokenScanner* FileTokenScanner_new(const char* const file_name) {
     FileTokenScanner* token_scanner = (FileTokenScanner*)malloc(sizeof(FileTokenScanner));
     token_scanner->token_scanner.read = &FileTokenScanner_read;
-    token_scanner->token_scanner.delete = &FileTokenScanner_delete;
+    token_scanner->token_scanner.del = &FileTokenScanner_delete;
     token_scanner->line = 0;
     token_scanner->file = 0;
     token_scanner->file = fopen(file_name, "rb");

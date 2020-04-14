@@ -9,7 +9,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
-* Display attachments (`image/*` and `text/*` media types)
+* The `<Attachment>` component can now display the following media types:
+  - `image/*`
+    - Only base64 content encoding supported
+  - `video/*`
+    - Only base64 content encoding supported
+  - `text/*`
+    - Both base64 and identity content encoding supported
+  - `application/json`
+    - Both base64 and identity content encoding supported
+    - JSON is prettified with 2 space indent
+  ([#964](https://github.com/cucumber/cucumber/pull/964)
+   [#945](https://github.com/cucumber/cucumber/issues/945)
+   [aslakhellesoy])
 
 ### Changed
 
@@ -18,6 +30,67 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Removed
 
 ### Fixed
+
+## [6.0.0] - 2020-04-01
+
+### Changed
+
+* Upgrade to messages 11.x
+* Image attachment data processing is possibly faster since no `btoa` conversion is needed anymore
+
+### Removed
+
+* Removed `btoa` prop from `<QueriesWrapper>`
+* Removed `<Wrapper>`
+
+## [5.1.0] - 2020-03-04
+
+### Added
+
+* Add `<QueriesWrapper>` which allows incrementally updating queries without having
+  to rebuild them every time the envelope list is updated. Use this instead of `<Wrapper>`
+
+### Deprecated
+
+* The `<Wrapper>` component is deprecated in favour of `<QueriesWrapper>`.
+
+### Fixed
+
+* Fix a bug in rendering of steps before test cases have been received
+
+## [5.0.0] - 2020-03-02
+
+### Added
+
+* Render Markdown in descriptions
+  ([#909](https://github.com/cucumber/cucumber/pull/909)
+   [#codemrkay])
+
+### Changed
+
+* Upgrade messages and query
+
+## [4.1.1] - 2020-02-28
+
+### Fixed
+
+* Fix broken 4.1.0 release
+
+## [4.1.0] - 2020-02-28
+
+### Added
+
+* Add compiled stylesheets to package
+
+## [4.0.0] - 2020-02-14
+
+### Added
+
+* Display attachments (`image/*` and `text/*` media types)
+
+### Changed
+
+* Upgraded messages and query
 
 ## [3.3.0] - 2020-01-22
 
@@ -84,8 +157,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/react/v3.3.0...master
-[3.3.0]:      https://github.com/cucumber/cucumber/compare/cucumber-react/v3.2.0...react/v3.3.0
+[Unreleased]: https://github.com/cucumber/cucumber/compare/react/v6.0.0...master
+[6.0.0]:      https://github.com/cucumber/cucumber/compare/react/v5.1.0...react/v6.0.0
+[5.1.0]:      https://github.com/cucumber/cucumber/compare/react/v5.0.0...react/v5.1.0
+[5.0.0]:      https://github.com/cucumber/cucumber/compare/react/v4.1.1...react/v5.0.0
+[4.1.1]:      https://github.com/cucumber/cucumber/compare/react/v4.1.0...react/v4.1.1
+[4.1.0]:      https://github.com/cucumber/cucumber/compare/react/v4.0.0...react/v4.1.0
+[4.0.0]:      https://github.com/cucumber/cucumber/compare/react/v3.3.0...react/v4.0.0
+[3.3.0]:      https://github.com/cucumber/cucumber/compare/react/v3.2.0...react/v3.3.0
 [3.2.0]:      https://github.com/cucumber/cucumber/compare/cucumber-react/v3.1.0...react/v3.2.0
 [3.1.0]:      https://github.com/cucumber/cucumber/compare/cucumber-react/v3.0.0...cucumber-react/v3.1.0
 [3.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-react/v2.0.1...cucumber-react/v3.0.0
@@ -96,3 +175,4 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 <!-- Contributors in alphabetical order -->
 [aslakhellesoy]:    https://github.com/aslakhellesoy
+[codemrkay]:        https://github.com/codemrkay
