@@ -1,5 +1,7 @@
 module github.com/cucumber/json-formatter-go/v5
 
+replace github.com/cucumber/messages-go/v12 => ../../messages/go
+
 go 1.13
 
 require (
