@@ -1,6 +1,6 @@
 {
-  "attachment": {
-    "body": "(2:1): expected: #EOF, #Language, #TagLine, #FeatureLine, #Comment, #Empty, got 'invalid line here'",
+  "parseError": {
+    "message": "(2:1): expected: #EOF, #Language, #TagLine, #FeatureLine, #Comment, #Empty, got 'invalid line here'",
     "source": {
       "location": {
         "column": 1,
@@ -11,8 +11,8 @@
   }
 }
 {
-  "attachment": {
-    "body": "(9:1): expected: #EOF, #TableRow, #DocStringSeparator, #StepLine, #TagLine, #ExamplesLine, #ScenarioLine, #RuleLine, #Comment, #Empty, got 'another invalid line here'",
+  "parseError": {
+    "message": "(9:1): expected: #EOF, #TableRow, #DocStringSeparator, #StepLine, #TagLine, #ExamplesLine, #ScenarioLine, #RuleLine, #Comment, #Empty, got 'another invalid line here'",
     "source": {
       "location": {
         "column": 1,

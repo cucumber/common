@@ -25,6 +25,7 @@
     - [Hook](#io.cucumber.messages.Hook)
     - [Location](#io.cucumber.messages.Location)
     - [ParameterType](#io.cucumber.messages.ParameterType)
+    - [ParseError](#io.cucumber.messages.ParseError)
     - [Pickle](#io.cucumber.messages.Pickle)
     - [Pickle.PickleStep](#io.cucumber.messages.Pickle.PickleStep)
     - [Pickle.PickleTag](#io.cucumber.messages.Pickle.PickleTag)
@@ -142,6 +143,7 @@ messages.
 | test_step_finished | [TestStepFinished](#io.cucumber.messages.TestStepFinished) |  |  |
 | test_case_finished | [TestCaseFinished](#io.cucumber.messages.TestCaseFinished) |  |  |
 | test_run_finished | [TestRunFinished](#io.cucumber.messages.TestRunFinished) |  |  |
+| parse_error | [ParseError](#io.cucumber.messages.ParseError) |  | Parsing |
 
 
 
@@ -474,6 +476,22 @@ Points to a line and a column in a text file
 | prefer_for_regular_expression_match | [bool](#bool) |  |  |
 | use_for_snippets | [bool](#bool) |  |  |
 | id | [string](#string) |  |  |
+
+
+
+
+
+
+<a name="io.cucumber.messages.ParseError"></a>
+
+### ParseError
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| source | [SourceReference](#io.cucumber.messages.SourceReference) |  |  |
+| message | [string](#string) |  |  |
 
 
 
