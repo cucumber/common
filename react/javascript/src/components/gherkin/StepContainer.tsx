@@ -4,7 +4,7 @@ import { messages } from '@cucumber/messages'
 import StatusIcon from './StatusIcon'
 
 interface IProps {
-  status: messages.TestStepResult.Status
+  status: messages.TestStepFinished.TestStepResult.Status
 }
 
 const StepContainer: React.FunctionComponent<IProps> = ({

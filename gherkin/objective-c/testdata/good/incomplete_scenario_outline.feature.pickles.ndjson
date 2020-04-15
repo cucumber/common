@@ -1,9 +1,9 @@
 {
   "pickle": {
     "astNodeIds": [
-      "2"
+      "3"
     ],
-    "id": "12",
+    "id": "16",
     "language": "en",
     "name": "steps, no examples",
     "steps": [
@@ -11,14 +11,14 @@
         "astNodeIds": [
           "0"
         ],
-        "id": "10",
+        "id": "14",
         "text": "a step"
       },
       {
         "astNodeIds": [
-          "1"
+          "2"
         ],
-        "id": "11",
+        "id": "15",
         "text": "a step"
       }
     ],
@@ -28,9 +28,9 @@
 {
   "pickle": {
     "astNodeIds": [
-      "3"
+      "4"
     ],
-    "id": "13",
+    "id": "17",
     "language": "en",
     "name": "no steps, no examples",
     "uri": "testdata/good/incomplete_scenario_outline.feature"
@@ -39,10 +39,10 @@
 {
   "pickle": {
     "astNodeIds": [
-      "9",
-      "8"
+      "13",
+      "11"
     ],
-    "id": "14",
+    "id": "18",
     "language": "en",
     "name": "no steps, one example header",
     "uri": "testdata/good/incomplete_scenario_outline.feature"

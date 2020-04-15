@@ -1,3 +1,7 @@
+# Please update /.templates/java/default.mk and sync:
+#
+#     source scripts/functions.sh && rsync_files
+#
 SHELL := /usr/bin/env bash
 JAVA_SOURCE_FILES = $(shell find . -name "*.java")
 
@@ -46,6 +50,6 @@ clean: clean-java
 .PHONY: clean
 
 clean-java:
-	rm -rf target .deps .tested* .built
+	rm -rf target .deps .tested* .built acceptance
 	mvn clean
 .PHONY: clean-java

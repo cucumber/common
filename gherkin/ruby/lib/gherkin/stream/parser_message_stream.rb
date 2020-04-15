@@ -39,9 +39,9 @@ module Gherkin
                 end
               end
             rescue CompositeParserException => err
-              yield_error_attachments(y, err.errors, source.uri)
+              yield_parse_errors(y, err.errors, source.uri)
             rescue ParserException => err
-              yield_error_attachments(y, [err], source.uri)
+              yield_parse_errors(y, [err], source.uri)
             end
           end
         end
@@ -49,9 +49,9 @@ module Gherkin
 
       private
 
-      def yield_error_attachments(y, errors, uri)
+      def yield_parse_errors(y, errors, uri)
         errors.each do |err|
-          attachment = Cucumber::Messages::Attachment.new(
+          parse_error = Cucumber::Messages::ParseError.new(
             source: Cucumber::Messages::SourceReference.new(
               uri: uri,
               location: Cucumber::Messages::Location.new(
@@ -59,9 +59,9 @@ module Gherkin
                 column: err.location[:column]
               )
             ),
-            text: err.message
+            message: err.message
           )
-          y.yield(Cucumber::Messages::Envelope.new(attachment: attachment))
+          y.yield(Cucumber::Messages::Envelope.new(parse_error: parse_error))
         end
       end
 

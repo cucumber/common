@@ -1,4 +1,4 @@
-export default interface RegexExecArray extends Array<string> {
-  index: number[]
+export default interface RegexExecArray extends ReadonlyArray<string> {
+  index: ReadonlyArray<number>
   input: string
 }

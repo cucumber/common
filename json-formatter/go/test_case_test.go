@@ -1,7 +1,7 @@
 package json
 
 import (
-	"github.com/cucumber/messages-go/v10"
+	"github.com/cucumber/messages-go/v12"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 )
@@ -444,8 +444,8 @@ var _ = Describe("TestCaseToJSON", func() {
 			PickleStep: &messages.Pickle_PickleStep{
 				Text: "a passed step",
 			},
-			Result: &messages.TestStepResult{
-				Status: messages.TestStepResult_FAILED,
+			Result: &messages.TestStepFinished_TestStepResult{
+				Status: messages.TestStepFinished_TestStepResult_FAILED,
 			},
 		})
 		jsonTestCase = TestCaseToJSON(testCase)
@@ -503,8 +503,8 @@ var _ = Describe("TestCaseToJSON", func() {
 					PickleStep: &messages.Pickle_PickleStep{
 						Text: "a passed step",
 					},
-					Result: &messages.TestStepResult{
-						Status: messages.TestStepResult_PASSED,
+					Result: &messages.TestStepFinished_TestStepResult{
+						Status: messages.TestStepFinished_TestStepResult_PASSED,
 						Duration: &messages.Duration{
 							Seconds: 123,
 							Nanos:   456,
@@ -578,8 +578,8 @@ var _ = Describe("TestCaseToJSON", func() {
 							},
 						},
 					},
-					Result: &messages.TestStepResult{
-						Status: messages.TestStepResult_PASSED,
+					Result: &messages.TestStepFinished_TestStepResult{
+						Status: messages.TestStepFinished_TestStepResult_PASSED,
 						Duration: &messages.Duration{
 							Seconds: 123,
 							Nanos:   456,
@@ -608,8 +608,8 @@ var _ = Describe("TestCaseToJSON", func() {
 						},
 					},
 				},
-				Result: &messages.TestStepResult{
-					Status: messages.TestStepResult_PASSED,
+				Result: &messages.TestStepFinished_TestStepResult{
+					Status: messages.TestStepFinished_TestStepResult_PASSED,
 					Duration: &messages.Duration{
 						Seconds: 123,
 						Nanos:   456,

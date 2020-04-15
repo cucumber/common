@@ -1,7 +1,7 @@
 package gherkin
 
 import (
-	"github.com/cucumber/messages-go/v10"
+	"github.com/cucumber/messages-go/v12"
 	"strings"
 )
 
@@ -189,6 +189,7 @@ func (t *astBuilder) transformNode(node *astNode) (interface{}, error) {
 		backgroundLine := node.getToken(TokenTypeBackgroundLine)
 		description, _ := node.getSingle(RuleTypeDescription).(string)
 		bg := &messages.GherkinDocument_Feature_Background{
+			Id:          t.newId(),
 			Location:    astLocation(backgroundLine),
 			Keyword:     backgroundLine.Keyword,
 			Name:        backgroundLine.Text,
@@ -223,15 +224,14 @@ func (t *astBuilder) transformNode(node *astNode) (interface{}, error) {
 		description, _ := examplesNode.getSingle(RuleTypeDescription).(string)
 		examplesTable := examplesNode.getSingle(RuleTypeExamplesTable)
 
-		// TODO: Is this mutation style ok?
-		ex := &messages.GherkinDocument_Feature_Scenario_Examples{}
-		ex.Tags = tags
-		ex.Location = astLocation(examplesLine)
-		ex.Keyword = examplesLine.Keyword
-		ex.Name = examplesLine.Text
-		ex.Description = description
-		ex.TableHeader = nil
-		ex.TableBody = nil
+		ex := &messages.GherkinDocument_Feature_Scenario_Examples{
+			Id:          t.newId(),
+			Tags:        tags,
+			Location:    astLocation(examplesLine),
+			Keyword:     examplesLine.Keyword,
+			Name:        examplesLine.Text,
+			Description: description,
+		}
 		if examplesTable != nil {
 			allRows, _ := examplesTable.([]*messages.GherkinDocument_Feature_TableRow)
 			ex.TableHeader = allRows[0]
@@ -331,12 +331,14 @@ func (t *astBuilder) transformNode(node *astNode) (interface{}, error) {
 
 		description, _ := header.getSingle(RuleTypeDescription).(string)
 
-		rule := &messages.GherkinDocument_Feature_FeatureChild_Rule{}
-		rule.Location = astLocation(ruleLine)
-		rule.Keyword = ruleLine.Keyword
-		rule.Name = ruleLine.Text
-		rule.Description = description
-		rule.Children = children
+		rule := &messages.GherkinDocument_Feature_FeatureChild_Rule{
+			Id:          t.newId(),
+			Location:    astLocation(ruleLine),
+			Keyword:     ruleLine.Keyword,
+			Name:        ruleLine.Text,
+			Description: description,
+			Children:    children,
+		}
 		return rule, nil
 
 	case RuleTypeGherkinDocument:

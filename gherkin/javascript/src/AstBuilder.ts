@@ -82,7 +82,7 @@ export default class AstBuilder {
   }
 
   public getCells(tableRowToken: Token) {
-    return tableRowToken.matchedItems.map(cellItem =>
+    return tableRowToken.matchedItems.map((cellItem) =>
       messages.GherkinDocument.Feature.TableRow.TableCell.create({
         location: this.getLocation(tableRowToken, cellItem.column),
         value: cellItem.text,
@@ -99,7 +99,7 @@ export default class AstBuilder {
   }
 
   public getTableRows(node: AstNode) {
-    const rows = node.getTokens(TokenType.TableRow).map(token =>
+    const rows = node.getTokens(TokenType.TableRow).map((token) =>
       messages.GherkinDocument.Feature.TableRow.create({
         id: this.newId(),
         location: this.getLocation(token),
@@ -116,7 +116,7 @@ export default class AstBuilder {
     }
     const cellCount = rows[0].cells.length
 
-    rows.forEach(row => {
+    rows.forEach((row) => {
       if (row.cells.length !== cellCount) {
         throw AstBuilderException.create(
           'inconsistent cell count within the table',
@@ -149,7 +149,7 @@ export default class AstBuilder {
             ? separatorToken.matchedText
             : undefined
         const lineTokens = node.getTokens(TokenType.Other)
-        const content = lineTokens.map(t => t.matchedText).join('\n')
+        const content = lineTokens.map((t) => t.matchedText).join('\n')
 
         const result = messages.GherkinDocument.Feature.Step.DocString.create({
           location: this.getLocation(separatorToken),
@@ -175,6 +175,7 @@ export default class AstBuilder {
         const steps = this.getSteps(node)
 
         return messages.GherkinDocument.Feature.Background.create({
+          id: this.newId(),
           location: this.getLocation(backgroundLine),
           keyword: backgroundLine.matchedKeyword,
           name: backgroundLine.matchedText,
@@ -210,6 +211,7 @@ export default class AstBuilder {
         )
 
         return messages.GherkinDocument.Feature.Scenario.Examples.create({
+          id: this.newId(),
           tags,
           location: this.getLocation(examplesLine),
           keyword: examplesLine.matchedKeyword,
@@ -232,7 +234,7 @@ export default class AstBuilder {
         }
         lineTokens = lineTokens.slice(0, end)
 
-        return lineTokens.map(token => token.matchedText).join('\n')
+        return lineTokens.map((token) => token.matchedText).join('\n')
       }
 
       case RuleType.Feature: {
@@ -311,6 +313,7 @@ export default class AstBuilder {
         const description = this.getDescription(header)
 
         return messages.GherkinDocument.Feature.FeatureChild.Rule.create({
+          id: this.newId(),
           location: this.getLocation(ruleLine),
           keyword: ruleLine.matchedKeyword,
           name: ruleLine.matchedText,

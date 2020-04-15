@@ -2,7 +2,7 @@ package gherkin
 
 import (
 	"fmt"
-	"github.com/cucumber/messages-go/v10"
+	"github.com/cucumber/messages-go/v12"
 	gio "github.com/gogo/protobuf/io"
 	"io"
 	"io/ioutil"
@@ -47,7 +47,7 @@ func Messages(
 			// expected parse errors
 			for _, err := range errs {
 				if pe, ok := err.(*parseError); ok {
-					result, err = handleMessage(result, pe.asAttachment(source.Uri))
+					result, err = handleMessage(result, pe.asMessage(source.Uri))
 				} else {
 					return fmt.Errorf("parse feature file: %s, unexpected error: %+v\n", source.Uri, err)
 				}
@@ -108,13 +108,11 @@ func Messages(
 	return result, err
 }
 
-func (a *parseError) asAttachment(uri string) *messages.Envelope {
+func (a *parseError) asMessage(uri string) *messages.Envelope {
 	return &messages.Envelope{
-		Message: &messages.Envelope_Attachment{
-			Attachment: &messages.Attachment{
-				Body: &messages.Attachment_Text{
-					Text: a.Error(),
-				},
+		Message: &messages.Envelope_ParseError{
+			ParseError: &messages.ParseError{
+				Message: a.Error(),
 				Source: &messages.SourceReference{
 					Uri: uri,
 					Location: &messages.Location{

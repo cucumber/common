@@ -4,7 +4,7 @@ import (
 	"encoding/base64"
 	"errors"
 	"fmt"
-	"github.com/cucumber/messages-go/v10"
+	"github.com/cucumber/messages-go/v12"
 	"strings"
 )
 
@@ -15,7 +15,7 @@ type TestStep struct {
 	PickleStep      *messages.Pickle_PickleStep
 	Step            *messages.GherkinDocument_Feature_Step
 	StepDefinitions []*messages.StepDefinition
-	Result          *messages.TestStepResult
+	Result          *messages.TestStepFinished_TestStepResult
 	Background      *messages.GherkinDocument_Feature_Background
 	Attachments     []*messages.Attachment
 	ExampleRow      *messages.GherkinDocument_Feature_TableRow
@@ -164,14 +164,14 @@ func makeEmbeddings(attachments []*messages.Attachment) []*jsonEmbedding {
 	jsonEmbeddings := make([]*jsonEmbedding, len(embeddableAttachments))
 
 	for index, attachment := range embeddableAttachments {
-		var data []byte
-		if attachment.GetBinary() != nil {
-			data = attachment.GetBinary()
+		var data string
+		if attachment.ContentEncoding == messages.Attachment_BASE64 {
+			data = attachment.Body
 		} else {
-			data = []byte(attachment.GetText())
+			data = base64.StdEncoding.EncodeToString([]byte(attachment.Body))
 		}
 		jsonEmbeddings[index] = &jsonEmbedding{
-			Data:     base64.StdEncoding.EncodeToString(data),
+			Data:     data,
 			MimeType: attachment.MediaType,
 		}
 	}
@@ -184,7 +184,7 @@ func makeOutput(attachments []*messages.Attachment) []string {
 	output := make([]string, len(outputAttachments))
 
 	for index, attachment := range outputAttachments {
-		output[index] = attachment.GetText()
+		output[index] = attachment.GetBody()
 	}
 
 	return output

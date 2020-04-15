@@ -2,7 +2,8 @@ import { Command } from 'commander'
 import packageJson from '../package.json'
 import loadSupportCode from './loadSupportCode'
 import runCucumber from './runCucumber'
-import gherkin, {
+import {
+  GherkinStreams,
   IGherkinOptions,
   Query as GherkinQuery,
 } from '@cucumber/gherkin'
@@ -14,11 +15,6 @@ program.version(packageJson.version)
 program.option('-r, --require <path>', 'override require path')
 program.option('--predictable-ids', 'Use predictable ids', false)
 program.option(
-  '--globals',
-  'Assign Given/When/Then/After/Before to global scope',
-  false
-)
-program.option(
   '-f, --format <format>',
   'output format: ndjson|protobuf',
   'protobuf'
@@ -26,16 +22,12 @@ program.option(
 
 async function main() {
   program.parse(process.argv)
-  const { globals, predictableIds, format } = program
+  const { predictableIds, format } = program
 
   const paths = program.args
   const requirePaths = program.require ? program.require.split(':') : paths
 
-  const supportCode = await loadSupportCode(
-    predictableIds,
-    requirePaths,
-    globals
-  )
+  const supportCode = await loadSupportCode(predictableIds, requirePaths)
 
   const gherkinOptions: IGherkinOptions = {
     defaultDialect: 'en',
@@ -43,7 +35,7 @@ async function main() {
     createReadStream: (path: string) =>
       fs.createReadStream(path, { encoding: 'utf-8' }),
   }
-  const gherkinEnvelopeStream = gherkin.fromPaths(paths, gherkinOptions)
+  const gherkinEnvelopeStream = GherkinStreams.fromPaths(paths, gherkinOptions)
 
   const envelopeOutputStream = makeFormatStream(format)
   envelopeOutputStream.pipe(process.stdout)
@@ -57,7 +49,7 @@ async function main() {
   )
 }
 
-main().catch(err => {
+main().catch((err) => {
   console.error(err)
   process.exit(1)
 })

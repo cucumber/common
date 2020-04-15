@@ -3,17 +3,18 @@ import { EnvelopeListener } from './types'
 import { messages, TimeConversion } from '@cucumber/messages'
 import IWorld from './IWorld'
 import IClock from './IClock'
+import ITestCase from './ITestCase'
 
 const { millisecondsSinceEpochToTimestamp } = TimeConversion
 
-export default class TestCase {
+export default class TestCase implements ITestCase {
   constructor(
     public readonly id: string,
     private readonly testSteps: ITestStep[],
     private readonly pickleId: string,
     private readonly clock: IClock
   ) {
-    testSteps.forEach(testStep => {
+    testSteps.forEach((testStep) => {
       if (!testStep) {
         throw new Error('undefined step')
       }
@@ -25,7 +26,7 @@ export default class TestCase {
       testCase: new messages.TestCase({
         id: this.id,
         pickleId: this.pickleId,
-        testSteps: this.testSteps.map(step => step.toMessage()),
+        testSteps: this.testSteps.map((step) => step.toMessage()),
       }),
     })
   }
@@ -57,7 +58,7 @@ export default class TestCase {
 
     let executeNext = true
     for (const testStep of this.testSteps) {
-      let testStepResult: messages.ITestStepResult
+      let testStepResult: messages.TestStepFinished.ITestStepResult
       // TODO: Also ask testStep if it should always execute (true for After steps)
       if (executeNext || testStep.alwaysExecute) {
         testStepResult = await testStep.execute(
@@ -66,7 +67,8 @@ export default class TestCase {
           listener
         )
         executeNext =
-          testStepResult.status === messages.TestStepResult.Status.PASSED
+          testStepResult.status ===
+          messages.TestStepFinished.TestStepResult.Status.PASSED
       } else {
         testStepResult = testStep.skip(listener, testCaseStartedId)
       }

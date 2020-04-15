@@ -14,7 +14,7 @@ describe('examples.txt', () => {
     if (!args) {
       return null
     }
-    return args.map(arg => arg.getValue(null))
+    return args.map((arg) => arg.getValue(null))
   }
 
   const examples = fs.readFileSync('examples.txt', 'utf-8')

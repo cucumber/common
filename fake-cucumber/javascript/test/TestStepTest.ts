@@ -24,7 +24,7 @@ describe('TestStep', () => {
     testStep: ITestStep
   ): Promise<messages.ITestStepFinished> {
     const receivedMessages: messages.IEnvelope[] = []
-    await testStep.execute(world, 'some-testCaseStartedId', message =>
+    await testStep.execute(world, 'some-testCaseStartedId', (message) =>
       receivedMessages.push(message)
     )
     return receivedMessages.pop().testStepFinished
@@ -47,7 +47,7 @@ describe('TestStep', () => {
 
       assert.strictEqual(
         testStepFinished.testStepResult.status,
-        messages.TestStepResult.Status.UNDEFINED
+        messages.TestStepFinished.TestStepResult.Status.UNDEFINED
       )
       assert.notEqual(testStepFinished.testStepResult.duration, null)
 
@@ -80,7 +80,7 @@ describe('TestStep', () => {
       const testStepFinished = await execute(testStep)
       assert.strictEqual(
         testStepFinished.testStepResult.status,
-        messages.TestStepResult.Status.AMBIGUOUS
+        messages.TestStepFinished.TestStepResult.Status.AMBIGUOUS
       )
       assert.notEqual(testStepFinished.testStepResult.duration, null)
 
@@ -106,7 +106,7 @@ describe('TestStep', () => {
       )
       assert.strictEqual(
         result.status,
-        messages.TestStepResult.Status.UNDEFINED
+        messages.TestStepFinished.TestStepResult.Status.UNDEFINED
       )
     })
 
@@ -132,8 +132,10 @@ describe('TestStep', () => {
         new IncrementClock(),
         withSourceFramesOnlyStackTrace()
       )
-      await testStep.execute(world, 'some-id', message => emitted.push(message))
-      const result = emitted.find(m => m.testStepFinished).testStepFinished
+      await testStep.execute(world, 'some-id', (message) =>
+        emitted.push(message)
+      )
+      const result = emitted.find((m) => m.testStepFinished).testStepFinished
         .testStepResult
 
       assert.strictEqual(result.duration.seconds, 0)
@@ -166,7 +168,7 @@ describe('TestStep', () => {
 
         assert.strictEqual(
           testStepFinished.testStepResult.status,
-          messages.TestStepResult.Status.PASSED
+          messages.TestStepFinished.TestStepResult.Status.PASSED
         )
         assert.strictEqual(testStepFinished.testStepId, testStep.id)
       })
@@ -196,7 +198,7 @@ describe('TestStep', () => {
 
         assert.strictEqual(
           testStepFinished.testStepResult.status,
-          messages.TestStepResult.Status.PENDING
+          messages.TestStepFinished.TestStepResult.Status.PENDING
         )
         assert.strictEqual(testStepFinished.testStepId, testStep.id)
       })
@@ -228,7 +230,7 @@ describe('TestStep', () => {
         const testStepFinished = await execute(testStep)
         assert.strictEqual(
           testStepFinished.testStepResult.status,
-          messages.TestStepResult.Status.FAILED
+          messages.TestStepFinished.TestStepResult.Status.FAILED
         )
         assert.strictEqual(testStepFinished.testStepId, testStep.id)
       })
@@ -327,22 +329,22 @@ describe('TestStep', () => {
 
     it('emits a TestStepStarted message', () => {
       testStep.skip(
-        message => receivedMessages.push(message),
+        (message) => receivedMessages.push(message),
         'test-case-started-id'
       )
 
-      const testStepStarted = receivedMessages.find(m => m.testStepStarted)
+      const testStepStarted = receivedMessages.find((m) => m.testStepStarted)
         .testStepStarted
       assert.strictEqual(testStepStarted.testStepId, testStep.id)
     })
 
     it('emits a TestStepFinished message with a duration of 0', () => {
       testStep.skip(
-        message => receivedMessages.push(message),
+        (message) => receivedMessages.push(message),
         'test-case-started-id'
       )
 
-      const testStepFinished = receivedMessages.find(m => m.testStepFinished)
+      const testStepFinished = receivedMessages.find((m) => m.testStepFinished)
         .testStepFinished
       assert.strictEqual(testStepFinished.testStepResult.duration.seconds, 0)
       assert.strictEqual(testStepFinished.testStepResult.duration.nanos, 0)
@@ -350,15 +352,15 @@ describe('TestStep', () => {
 
     it('emits a TestStepFinished message with a result SKIPPED', () => {
       testStep.skip(
-        message => receivedMessages.push(message),
+        (message) => receivedMessages.push(message),
         'test-case-started-id'
       )
 
-      const testStepFinished = receivedMessages.find(m => m.testStepFinished)
+      const testStepFinished = receivedMessages.find((m) => m.testStepFinished)
         .testStepFinished
       assert.strictEqual(
         testStepFinished.testStepResult.status,
-        messages.TestStepResult.Status.SKIPPED
+        messages.TestStepFinished.TestStepResult.Status.SKIPPED
       )
     })
   })

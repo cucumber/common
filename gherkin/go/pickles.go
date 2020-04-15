@@ -2,7 +2,7 @@ package gherkin
 
 import (
 	"fmt"
-	"github.com/cucumber/messages-go/v10"
+	"github.com/cucumber/messages-go/v12"
 	"strings"
 )
 

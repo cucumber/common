@@ -21,7 +21,7 @@ namespace Gherkin
 
         public GherkinDocument Parse(string sourceFile)
         {
-            using (var stream = new FileStream(sourceFile, FileMode.Open))
+            using (var stream = new FileStream(sourceFile, FileMode.Open, FileAccess.Read))
             {
                 using (var reader = new StreamReader(stream))
                 {

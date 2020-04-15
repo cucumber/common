@@ -11,6 +11,8 @@ import { Query as GherkinQuery } from '@cucumber/gherkin'
 import IncrementClock from '../src/IncrementClock'
 import { withSourceFramesOnlyStackTrace } from '../src/ErrorMessageGenerator'
 import { EnvelopeListener } from '../src/types'
+import makePickleTestStep from '../src/makePickleTestStep'
+import makeHookTestStep from '../src/makeHookTestStep'
 
 describe('makeTestCase', () => {
   it('transforms a Pickle to a TestCase', () => {
@@ -24,11 +26,13 @@ describe('makeTestCase', () => {
       new GherkinQuery(),
       IdGenerator.incrementing(),
       new IncrementClock(),
-      withSourceFramesOnlyStackTrace()
+      withSourceFramesOnlyStackTrace(),
+      makePickleTestStep,
+      makeHookTestStep
     )
 
     assert.deepStrictEqual(
-      testCase.toMessage().testCase.testSteps.map(s => s.pickleStepId),
+      testCase.toMessage().testCase.testSteps.map((s) => s.pickleStepId),
       ['step-1', 'step-2']
     )
   })
@@ -49,7 +53,9 @@ describe('makeTestCase', () => {
         new GherkinQuery(),
         IdGenerator.incrementing(),
         new IncrementClock(),
-        withSourceFramesOnlyStackTrace()
+        withSourceFramesOnlyStackTrace(),
+        makePickleTestStep,
+        makeHookTestStep
       )
 
       const messageList: messages.IEnvelope[] = []
@@ -74,11 +80,13 @@ describe('makeTestCase', () => {
           new GherkinQuery(),
           IdGenerator.incrementing(),
           new IncrementClock(),
-          withSourceFramesOnlyStackTrace()
+          withSourceFramesOnlyStackTrace(),
+          makePickleTestStep,
+          makeHookTestStep
         )
 
         assert.deepStrictEqual(
-          testCase.toMessage().testCase.testSteps.map(s => s.pickleStepId),
+          testCase.toMessage().testCase.testSteps.map((s) => s.pickleStepId),
           [undefined, 'step-1', 'step-2']
         )
         assert.strictEqual(
@@ -102,11 +110,13 @@ describe('makeTestCase', () => {
         new GherkinQuery(),
         IdGenerator.incrementing(),
         new IncrementClock(),
-        withSourceFramesOnlyStackTrace()
+        withSourceFramesOnlyStackTrace(),
+        makePickleTestStep,
+        makeHookTestStep
       )
 
       assert.deepStrictEqual(
-        testCase.toMessage().testCase.testSteps.map(s => s.pickleStepId),
+        testCase.toMessage().testCase.testSteps.map((s) => s.pickleStepId),
         ['step-1', 'step-2', undefined]
       )
       assert.strictEqual(

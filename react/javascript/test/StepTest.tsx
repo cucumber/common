@@ -32,13 +32,17 @@ describe('<Step>', () => {
         return [
           new messages.TestCase.TestStep.StepMatchArgumentsList({
             stepMatchArguments: [
-              new messages.StepMatchArgument({
-                group: new messages.StepMatchArgument.Group({
-                  start: 4,
-                  value: '48',
-                  children: [],
-                }),
-              }),
+              new messages.TestCase.TestStep.StepMatchArgumentsList.StepMatchArgument(
+                {
+                  group: new messages.TestCase.TestStep.StepMatchArgumentsList.StepMatchArgument.Group(
+                    {
+                      start: 4,
+                      value: '48',
+                      children: [],
+                    }
+                  ),
+                }
+              ),
             ],
           }),
         ]
@@ -68,12 +72,12 @@ describe('<Step>', () => {
 
     const plainTexts = Array.from(
       document.querySelectorAll('#content h3 span')
-    ).map(a => a.innerHTML)
+    ).map((a) => a.innerHTML)
     assert.deepStrictEqual(plainTexts, ['Given', 'the ', ' pixies'])
 
     const paramTexts = Array.from(
       document.querySelectorAll('#content h3 a')
-    ).map(a => a.innerHTML)
+    ).map((a) => a.innerHTML)
     assert.deepStrictEqual(paramTexts, ['48'])
   })
 })

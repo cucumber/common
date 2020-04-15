@@ -1,11 +1,8 @@
-import SupportCodeExecutor from './SupportCodeExecutor'
-import { Argument } from '@cucumber/cucumber-expressions'
+import ISupportCodeExecutor from './ISupportCodeExecutor'
 import { messages } from '@cucumber/messages'
 
 export default interface IStepDefinition {
-  match(pickleStep: messages.Pickle.IPickleStep): SupportCodeExecutor | null
-
-  getArguments(text: string): Array<Argument<any>>
+  match(pickleStep: messages.Pickle.IPickleStep): ISupportCodeExecutor | null
 
   toMessage(): messages.IEnvelope
 }

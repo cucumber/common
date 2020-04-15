@@ -9,8 +9,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
-* Add `QueryStream`
-
 ### Changed
 
 ### Deprecated
@@ -18,6 +16,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Removed
 
 ### Fixed
+
+## [6.0.0] - 2020-04-14
+
+### Changed
+
+* Upgrade to messages 12.0.0
+* Upgrade to gherkin 13.0.0
+
+## [5.0.0] - 2020-03-31
+
+### Added
+
+* Add `QueryStream`
+* Major bump of gherkin and messages
 
 ## [4.0.0] - 2020-03-02
 
@@ -62,7 +74,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First JavaScript implementation
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/query/v4.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/query/v6.0.0...master
+[6.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-query/v5.0.0...query/v6.0.0
+[5.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-query/v4.0.0...query/v5.0.0
 [4.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-query/v3.0.0...query/v4.0.0
 [3.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-query/v2.0.0...query/v3.0.0
 [2.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-query/v1.1.1...query/v2.0.0

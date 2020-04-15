@@ -54,6 +54,7 @@
           "scenario": {
             "examples": [
               {
+                "id": "11",
                 "keyword": "Examples",
                 "location": {
                   "column": 1,
@@ -121,6 +122,7 @@
                 ]
               },
               {
+                "id": "17",
                 "keyword": "Examples",
                 "location": {
                   "column": 1,
@@ -137,7 +139,7 @@
                         "value": "more minimalism"
                       }
                     ],
-                    "id": "12",
+                    "id": "13",
                     "location": {
                       "column": 3,
                       "line": 25
@@ -154,7 +156,7 @@
                       "value": "what"
                     }
                   ],
-                  "id": "11",
+                  "id": "12",
                   "location": {
                     "column": 3,
                     "line": 24
@@ -162,7 +164,7 @@
                 },
                 "tags": [
                   {
-                    "id": "13",
+                    "id": "14",
                     "location": {
                       "column": 1,
                       "line": 21
@@ -170,7 +172,7 @@
                     "name": "@ex_tag4"
                   },
                   {
-                    "id": "14",
+                    "id": "15",
                     "location": {
                       "column": 10,
                       "line": 21
@@ -178,7 +180,7 @@
                     "name": "@ex_tag5"
                   },
                   {
-                    "id": "15",
+                    "id": "16",
                     "location": {
                       "column": 3,
                       "line": 22
@@ -188,7 +190,7 @@
                 ]
               }
             ],
-            "id": "19",
+            "id": "21",
             "keyword": "Scenario Outline",
             "location": {
               "column": 1,
@@ -208,7 +210,7 @@
             ],
             "tags": [
               {
-                "id": "16",
+                "id": "18",
                 "location": {
                   "column": 1,
                   "line": 10
@@ -216,7 +218,7 @@
                 "name": "@so_tag1"
               },
               {
-                "id": "17",
+                "id": "19",
                 "location": {
                   "column": 11,
                   "line": 10
@@ -224,7 +226,7 @@
                 "name": "@so_tag2"
               },
               {
-                "id": "18",
+                "id": "20",
                 "location": {
                   "column": 3,
                   "line": 11
@@ -236,7 +238,7 @@
         },
         {
           "scenario": {
-            "id": "22",
+            "id": "24",
             "keyword": "Scenario",
             "location": {
               "column": 1,
@@ -245,7 +247,7 @@
             "name": "comments",
             "steps": [
               {
-                "id": "20",
+                "id": "22",
                 "keyword": "Given ",
                 "location": {
                   "column": 3,
@@ -256,7 +258,7 @@
             ],
             "tags": [
               {
-                "id": "21",
+                "id": "23",
                 "location": {
                   "column": 1,
                   "line": 27
@@ -268,7 +270,7 @@
         },
         {
           "scenario": {
-            "id": "25",
+            "id": "27",
             "keyword": "Scenario",
             "location": {
               "column": 1,
@@ -277,7 +279,7 @@
             "name": "hash in tags",
             "steps": [
               {
-                "id": "23",
+                "id": "25",
                 "keyword": "Given ",
                 "location": {
                   "column": 3,
@@ -288,7 +290,7 @@
             ],
             "tags": [
               {
-                "id": "24",
+                "id": "26",
                 "location": {
                   "column": 1,
                   "line": 31
@@ -300,7 +302,7 @@
         },
         {
           "scenario": {
-            "id": "29",
+            "id": "31",
             "keyword": "Scenario",
             "location": {
               "column": 1,
@@ -309,7 +311,7 @@
             "name": "joined tags",
             "steps": [
               {
-                "id": "26",
+                "id": "28",
                 "keyword": "Given ",
                 "location": {
                   "column": 3,
@@ -320,7 +322,7 @@
             ],
             "tags": [
               {
-                "id": "27",
+                "id": "29",
                 "location": {
                   "column": 1,
                   "line": 35
@@ -328,7 +330,7 @@
                 "name": "@joined_tag3"
               },
               {
-                "id": "28",
+                "id": "30",
                 "location": {
                   "column": 13,
                   "line": 35
@@ -348,7 +350,7 @@
       "name": "Minimal Scenario Outline",
       "tags": [
         {
-          "id": "30",
+          "id": "32",
           "location": {
             "column": 1,
             "line": 1
@@ -356,7 +358,7 @@
           "name": "@feature_tag1"
         },
         {
-          "id": "31",
+          "id": "33",
           "location": {
             "column": 15,
             "line": 1
@@ -364,7 +366,7 @@
           "name": "@feature_tag2"
         },
         {
-          "id": "32",
+          "id": "34",
           "location": {
             "column": 3,
             "line": 2

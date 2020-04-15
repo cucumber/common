@@ -262,7 +262,7 @@ describe('CucumberExpression', () => {
         'widget',
         /\w+/,
         null,
-        function(s: string) {
+        function (s: string) {
           return this.createWidget(s)
         },
         false,
@@ -285,17 +285,19 @@ describe('CucumberExpression', () => {
   })
 
   describe('escapes special characters', () => {
-    ;['\\', '[', ']', '^', '$', '.', '|', '?', '*', '+'].forEach(character => {
-      it(`escapes ${character}`, () => {
-        const expr = `I have {int} cuke(s) and ${character}`
-        const expression = new CucumberExpression(
-          expr,
-          new ParameterTypeRegistry()
-        )
-        const arg1 = expression.match(`I have 800 cukes and ${character}`)[0]
-        assert.strictEqual(arg1.getValue(null), 800)
-      })
-    })
+    ;['\\', '[', ']', '^', '$', '.', '|', '?', '*', '+'].forEach(
+      (character) => {
+        it(`escapes ${character}`, () => {
+          const expr = `I have {int} cuke(s) and ${character}`
+          const expression = new CucumberExpression(
+            expr,
+            new ParameterTypeRegistry()
+          )
+          const arg1 = expression.match(`I have 800 cukes and ${character}`)[0]
+          assert.strictEqual(arg1.getValue(null), 800)
+        })
+      }
+    )
 
     it(`escapes .`, () => {
       const expr = `I have {int} cuke(s) and .`
@@ -331,5 +333,5 @@ const match = (expression: string, text: string) => {
   if (!args) {
     return null
   }
-  return args.map(arg => arg.getValue(null))
+  return args.map((arg) => arg.getValue(null))
 }
