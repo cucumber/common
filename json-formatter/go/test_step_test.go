@@ -1,7 +1,7 @@
 package json
 
 import (
-	"github.com/cucumber/messages-go/v11"
+	"github.com/cucumber/messages-go/v12"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 )

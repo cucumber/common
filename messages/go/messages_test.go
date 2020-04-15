@@ -2,7 +2,7 @@ package messages
 
 import (
 	"bytes"
-	messagesio "github.com/cucumber/messages-go/v11/io"
+	messagesio "github.com/cucumber/messages-go/v12/io"
 	gogoio "github.com/gogo/protobuf/io"
 	"github.com/stretchr/testify/require"
 	"math"

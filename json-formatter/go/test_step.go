@@ -4,7 +4,7 @@ import (
 	"encoding/base64"
 	"errors"
 	"fmt"
-	"github.com/cucumber/messages-go/v11"
+	"github.com/cucumber/messages-go/v12"
 	"strings"
 )
 

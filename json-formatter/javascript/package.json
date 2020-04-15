@@ -1,7 +1,7 @@
 {
   "name": "@cucumber/json-formatter",
   "private": true,
-  "version": "4.0.0",
+  "version": "5.0.0",
   "license": "MIT",
   "scripts": {
     "test": "echo 'no tests'",

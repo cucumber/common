@@ -1,6 +1,6 @@
 {
-  "attachment": {
-    "body": "(1:1): Language not supported: no-such",
+  "parseError": {
+    "message": "(1:1): Language not supported: no-such",
     "source": {
       "location": {
         "column": 1,
