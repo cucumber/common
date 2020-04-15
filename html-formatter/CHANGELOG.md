@@ -17,6 +17,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [6.0.1] - 2020-04-15
+
+### Fixed
+
+* Fix Ruby release
+  ([#970](https://github.com/cucumber/cucumber/pull/970)
+   [aslakhellesoy])
+
 ## [6.0.0] - 2020-04-14
 
 ### Changed
@@ -172,7 +180,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/formatter/v6.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/formatter/v6.0.1...master
+[6.0.1]:      https://github.com/cucumber/cucumber/compare/formatter/v6.0.0...formatter/v6.0.1
 [6.0.0]:      https://github.com/cucumber/cucumber/compare/formatter/v5.0.0...formatter/v6.0.0
 [5.0.0]:      https://github.com/cucumber/cucumber/compare/formatter/v4.3.0...formatter/v5.0.0
 [4.3.0]:      https://github.com/cucumber/cucumber/compare/formatter/v4.2.0...formatter/v4.3.0

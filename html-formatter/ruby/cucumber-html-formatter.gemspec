@@ -1,7 +1,7 @@
 # encoding: utf-8
 Gem::Specification.new do |s|
   s.name        = 'cucumber-html-formatter'
-  s.version     = '5.0.0'
+  s.version     = '6.0.1'
   s.authors     = ["Vincent Prêtre"]
   s.description = 'HTML formatter for Cucumber'
   s.summary     = "#{s.name}-#{s.version}"
