@@ -6,7 +6,7 @@ import detectPlatforms from './detectPlatforms'
 const program = new Command()
 program.version(packageJson.version)
 program.option(
-  '-p, --platform <lang>',
+  '-p, --platform <platform>',
   'Platform used to generate the report: ruby|javascript|behave',
   ''
 )
@@ -21,15 +21,14 @@ if (detect) {
       process.stdout.write(`Detected platforms:
 ${platforms}
 `)
-      process.exit(0)
     })
     .catch(err => {
       console.error(err)
       process.exit(1)
     })
+} else {
+  jsonToMessages(process.stdin, process.stdout, lang).catch(err => {
+    console.error(err)
+    process.exit(1)
+  })
 }
-
-jsonToMessages(process.stdin, process.stdout, lang).catch(err => {
-  console.error(err)
-  process.exit(1)
-})
