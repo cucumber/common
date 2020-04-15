@@ -1,10 +1,11 @@
-import { IFeature } from '../src/cucumber-generic/JSONSchema'
+import { IFeature } from './cucumber-generic/JSONSchema'
 import { IFeature as IBehaveFeature } from '../src/behave/JSONSchema'
 import { IStep as IJSStep } from '../src/cucumber-js/JSONSchema'
+import { Platform } from './types'
 
-export default function detectLanguage(
+export default function detectPlatform(
   feature: IFeature | IBehaveFeature
-): string {
+): Platform {
   const featureAsBehave = feature as IBehaveFeature
 
   if (featureAsBehave.status || featureAsBehave.location) {

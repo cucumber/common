@@ -8,15 +8,16 @@ import { traverseFeature as traverseBehaveFeature } from './behave/JSONTraverse'
 import IPredictableSupportCode from './IPredictableSupportCode'
 import IAstMaker from './IAstMaker'
 import { IdGenerator, messages } from '@cucumber/messages'
+import { Platform } from './types'
 
 export default function traverseFeature(
-  sourceLang: string,
+  platform: Platform,
   feature: IFeature | IBehaveFeature,
   astMaker: IAstMaker,
   newId: IdGenerator.NewId,
   predictableSupportCode: IPredictableSupportCode
 ): messages.IGherkinDocument {
-  if (sourceLang === 'javascript') {
+  if (platform === 'javascript') {
     return traverseJS(
       feature as IFeature,
       astMaker,
@@ -25,7 +26,7 @@ export default function traverseFeature(
     )
   }
 
-  if (sourceLang === 'behave') {
+  if (platform === 'behave') {
     return traverseBehave(
       feature as IBehaveFeature,
       astMaker,

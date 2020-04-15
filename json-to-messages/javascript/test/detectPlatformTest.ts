@@ -6,13 +6,13 @@ import {
   IStep as IJSStep,
   IDocString,
 } from '../src/cucumber-js/JSONSchema'
-import detectLanguage from '../src/detectLanguage'
+import detectPlatform from '../src/detectPlatform'
 
-describe('detectLanguage', () => {
+describe('detectPlatform', () => {
   it('defaults to "ruby"', () => {
     const feature = {} as IFeature
 
-    assert.equal(detectLanguage(feature), 'ruby')
+    assert.equal(detectPlatform(feature), 'ruby')
   })
 
   context('when the feature has a status field', () => {
@@ -21,7 +21,7 @@ describe('detectLanguage', () => {
         status: 'passed',
       } as IBehaveFeature
 
-      assert.equal(detectLanguage(feature), 'behave')
+      assert.equal(detectPlatform(feature), 'behave')
     })
   })
 
@@ -31,7 +31,7 @@ describe('detectLanguage', () => {
         location: 'my/wonderful.feature:3',
       } as IBehaveFeature
 
-      assert.equal(detectLanguage(feature), 'behave')
+      assert.equal(detectPlatform(feature), 'behave')
     })
   })
 
@@ -54,7 +54,7 @@ describe('detectLanguage', () => {
         elements,
       } as IFeature
 
-      assert.equal(detectLanguage(feature), 'javascript')
+      assert.equal(detectPlatform(feature), 'javascript')
     })
   })
 
@@ -78,7 +78,7 @@ describe('detectLanguage', () => {
         elements,
       } as IFeature
 
-      assert.equal(detectLanguage(feature), 'javascript')
+      assert.equal(detectPlatform(feature), 'javascript')
     })
   })
 })
