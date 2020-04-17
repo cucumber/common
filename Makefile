@@ -34,7 +34,7 @@ clean: $(patsubst %,clean-%,$(PACKAGES))
 clean-%: %
 	cd $< && make clean
 
-ci: check_synced push_subrepos default
+ci: default check_synced push_subrepos
 
 check_synced: .rsynced
 	[[ -z $$(git status -s) ]] || (echo "Working copy is dirty. Please run 'source scripts/functions.sh && rsync_files' and commit modified files." && exit 1)
