@@ -12,7 +12,8 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 ### Added
 
 ### Changed
-
+* Fixed Estonian translation of "Rule" ([#973](https://github.com/cucumber/cucumber/pull/973) [ookull])  
+* Fixed Estonian translation of "Scenario Outline" ([#972](https://github.com/cucumber/cucumber/pull/972) [ookull]) 
 ### Deprecated
 
 ### Removed
@@ -786,6 +787,7 @@ to Gherkin 2.
 [milhcbt]:          https://github.com/milhcbt
 [moreau-nicolas]:   https://github.com/moreau-nicolas
 [mpkorstanje]:      https://github.com/mpkorstanje
+[ookull]:           https://github.com/ookull
 [nalekberov]:       https://github.com/nalekberov
 [nixel2007]:        https://github.com/nixel2007
 [nikolovski]:       https://github.com/nikolovski
