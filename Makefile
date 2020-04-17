@@ -7,8 +7,8 @@ PACKAGES ?= c21e \
 	fake-cucumber \
 	query \
 	json-formatter \
-	react \
 	compatibility-kit \
+	react \
 	html-formatter \
 	datatable \
 	config \
