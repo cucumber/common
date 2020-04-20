@@ -342,9 +342,57 @@ describe('Query', () => {
         assert.deepEqual(cucumberQuery.getAfterHookSteps(pickleId), [])
       })
     })
+
+    describe('#getTestStepResult', () => {
+      it('returns one test step result', async () => {
+        const emittedMessages: Array<messages.IEnvelope> = []
+        await execute(
+          `Feature: hello
+    Scenario: hi
+      Given a passed step
+  `,
+          (message) => emittedMessages.push(message)
+        )
+        const testCase = emittedMessages.find((child) => child.testCase)
+          .testCase
+        const testStep = testCase.testSteps[0]
+        const results = cucumberQuery.getTestStepResults(testStep.id)
+
+        assert.deepEqual(results.length, 1)
+        assert.deepEqual(
+          results[0].status,
+          messages.TestStepResult.Status.PASSED
+        )
+      })
+
+      it('returns a result for hook step', async () => {
+        const emittedMessages: Array<messages.IEnvelope> = []
+        await execute(
+          `Feature: hello
+    @beforeHook
+    Scenario: hi
+      Given a passed step
+  `,
+          (message) => emittedMessages.push(message)
+        )
+        const testCase = emittedMessages.find((child) => child.testCase)
+          .testCase
+        const testStep = testCase.testSteps[0]
+        const results = cucumberQuery.getTestStepResults(testStep.id)
+
+        assert.deepEqual(results.length, 1)
+        assert.deepEqual(
+          results[0].status,
+          messages.TestStepResult.Status.PASSED
+        )
+      })
+    })
   })
 
-  async function execute(gherkinSource: string): Promise<void> {
+  async function execute(
+    gherkinSource: string,
+    messagesHandler: (message: messages.IEnvelope) => void = () => null
+  ): Promise<void> {
     const newId = IdGenerator.incrementing()
     const clock = new IncrementClock()
     const makeErrorMessage = withFullStackTrace()
@@ -384,6 +432,7 @@ describe('Query', () => {
         callback: (error?: Error | null) => void
       ): void {
         try {
+          messagesHandler(envelope)
           gherkinQuery.update(envelope)
           cucumberQuery.update(envelope)
           callback()
@@ -398,7 +447,10 @@ describe('Query', () => {
     )
 
     const testPlan = makeTestPlan(gherkinQuery, supportCode)
-    await testPlan.execute((envelope) => cucumberQuery.update(envelope))
+    await testPlan.execute((envelope) => {
+      messagesHandler(envelope)
+      cucumberQuery.update(envelope)
+    })
   }
 
   function gherkinMessages(

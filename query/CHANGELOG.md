@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 
 * Add `QueryStream`
+* Add `getBeforeHookSteps` and `getAfterHookSteps`
+* Add `getTestStepResults`
 
 ### Changed
 

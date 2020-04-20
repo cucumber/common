@@ -14,6 +14,10 @@ export default class Query {
   private readonly testCaseByPickleId = new Map<string, messages.ITestCase>()
   private readonly pickleIdByTestStepId = new Map<string, string>()
   private readonly pickleStepIdByTestStepId = new Map<string, string>()
+  private readonly testStepResultsbyTestStepId = new ArrayMultimap<
+    string,
+    messages.ITestStepResult
+  >()
 
   private readonly attachmentsByPickleStepId = new ArrayMultimap<
     string,
@@ -53,6 +57,10 @@ export default class Query {
       )
       this.testStepResultsByPickleStepId.put(
         testStep.pickleStepId,
+        envelope.testStepFinished.testStepResult
+      )
+      this.testStepResultsbyTestStepId.put(
+        testStep.id,
         envelope.testStepFinished.testStepResult
       )
     }
@@ -199,5 +207,11 @@ export default class Query {
     }
 
     return hookSteps
+  }
+
+  public getTestStepResults(testStepId: string): messages.ITestStepResult[] {
+    const testStepResults = this.testStepResultsbyTestStepId.get(testStepId)
+
+    return testStepResults
   }
 }
