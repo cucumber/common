@@ -13,10 +13,6 @@ export default class Query {
     string,
     ArrayMultimap<string, string>
   >()
-  private readonly pickleStepIdsMapByUri = new Map<
-    string,
-    ArrayMultimap<number, string>
-  >()
 
   private readonly pickleIdsByAstNodeId = new Map<string, string[]>()
 
@@ -50,17 +46,7 @@ export default class Query {
       : pickleIdsByAstNodeId.get(astNodeId)
   }
 
-  public getPickleStepIds(
-    uri: string,
-    lineNumber: number
-  ): ReadonlyArray<string> {
-    const pickleStepIdsByLineNumber = this.pickleStepIdsMapByUri.get(uri)
-    return pickleStepIdsByLineNumber.get(lineNumber)
-  }
-
-  public getPickleStepIdsFromAstNodeId(
-    astNodeId: string
-  ): ReadonlyArray<string> {
+  public getPickleStepIds(astNodeId: string): ReadonlyArray<string> {
     return this.pickleStepIdsByAstNodeId.get(astNodeId) || []
   }
 
@@ -72,10 +58,6 @@ export default class Query {
         this.pickleIdsMapByUri.set(
           message.gherkinDocument.uri,
           new ArrayMultimap<string, string>()
-        )
-        this.pickleStepIdsMapByUri.set(
-          message.gherkinDocument.uri,
-          new ArrayMultimap<number, string>()
         )
 
         for (const featureChild of message.gherkinDocument.feature.children) {
@@ -157,16 +139,8 @@ export default class Query {
   }
 
   private updatePickleSteps(pickle: messages.IPickle) {
-    const pickleStepIdsByLineNumber = this.pickleStepIdsMapByUri.get(pickle.uri)
     const pickleSteps = pickle.steps
     for (const pickleStep of pickleSteps) {
-      const stepLineNumbers = pickleStep.astNodeIds.map(
-        (astNodeId) => this.locationByAstNodeId.get(astNodeId).line
-      )
-      for (const stepLineNumber of stepLineNumbers) {
-        pickleStepIdsByLineNumber.put(stepLineNumber, pickleStep.id)
-      }
-
       for (const astNodeId of pickleStep.astNodeIds) {
         if (!this.pickleStepIdsByAstNodeId.has(astNodeId)) {
           this.pickleStepIdsByAstNodeId.set(astNodeId, [])
