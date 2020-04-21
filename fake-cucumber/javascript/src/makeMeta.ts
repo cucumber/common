@@ -1,4 +1,4 @@
-import os from 'os'
+import * as os from 'os'
 import { version } from '../package.json'
 import { messages, version as protocolVersion } from '@cucumber/messages'
 
