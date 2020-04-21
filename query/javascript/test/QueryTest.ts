@@ -60,12 +60,7 @@ describe('Query', () => {
         (envelope) => envelopes.push(envelope)
       )
 
-      const gherkinDocument = envelopes.find(
-        (envelope) => envelope.gherkinDocument
-      ).gherkinDocument
-      const scenario = gherkinDocument.feature.children.find(
-        (child) => child.scenario
-      ).scenario
+      const scenario = findScenario(envelopes)
 
       const pickleStepIds = gherkinQuery.getPickleStepIds(scenario.steps[0].id)
       assert.strictEqual(pickleStepIds.length, 1)
@@ -98,13 +93,7 @@ describe('Query', () => {
         (envelope) => envelopes.push(envelope)
       )
 
-      const gherkinDocument = envelopes.find(
-        (envelope) => envelope.gherkinDocument
-      ).gherkinDocument
-      const background = gherkinDocument.feature.children.find(
-        (child) => child.background
-      ).background
-
+      const background = findBackground(envelopes)
       const pickleStepIds = gherkinQuery.getPickleStepIds(
         background.steps[0].id
       )
@@ -138,13 +127,7 @@ describe('Query', () => {
         (envelope) => envelopes.push(envelope)
       )
 
-      const gherkinDocument = envelopes.find(
-        (envelope) => envelope.gherkinDocument
-      ).gherkinDocument
-      const background = gherkinDocument.feature.children.find(
-        (child) => child.background
-      ).background
-
+      const background = findBackground(envelopes)
       const pickleStepIds = gherkinQuery.getPickleStepIds(
         background.steps[0].id
       )
@@ -174,13 +157,7 @@ describe('Query', () => {
         (envelope) => envelopes.push(envelope)
       )
 
-      const gherkinDocument = envelopes.find(
-        (envelope) => envelope.gherkinDocument
-      ).gherkinDocument
-      const scenario = gherkinDocument.feature.children.find(
-        (child) => child.scenario
-      ).scenario
-
+      const scenario = findScenario(envelopes)
       const pickleIds = gherkinQuery.getPickleIds('test.feature', scenario.id)
       assert.strictEqual(pickleIds.length, 1)
 
@@ -211,13 +188,7 @@ describe('Query', () => {
         (envelope) => envelopes.push(envelope)
       )
 
-      const gherkinDocument = envelopes.find(
-        (envelope) => envelope.gherkinDocument
-      ).gherkinDocument
-      const scenario = gherkinDocument.feature.children.find(
-        (child) => child.scenario
-      ).scenario
-
+      const scenario = findScenario(envelopes)
       const pickleIds = gherkinQuery.getPickleIds('test.feature', scenario.id)
       assert.strictEqual(pickleIds.length, 2)
 
@@ -249,12 +220,7 @@ describe('Query', () => {
         (envelope) => envelopes.push(envelope)
       )
 
-      const gherkinDocument = envelopes.find(
-        (envelope) => envelope.gherkinDocument
-      ).gherkinDocument
-      const scenario = gherkinDocument.feature.children.find(
-        (child) => child.scenario
-      ).scenario
+      const scenario = findScenario(envelopes)
       const exampleIds = scenario.examples[0].tableBody.map((row) => row.id)
 
       assert.deepStrictEqual(
@@ -294,13 +260,7 @@ describe('Query', () => {
         (envelope) => envelopes.push(envelope)
       )
 
-      const gherkinDocument = envelopes.find(
-        (envelope) => envelope.gherkinDocument
-      ).gherkinDocument
-      const scenario = gherkinDocument.feature.children.find(
-        (child) => child.scenario
-      ).scenario
-
+      const scenario = findScenario(envelopes)
       const pickleStepIds = gherkinQuery.getPickleStepIds(scenario.steps[0].id)
       assert.strictEqual(pickleStepIds.length, 1)
 
@@ -323,12 +283,7 @@ describe('Query', () => {
         (envelope) => envelopes.push(envelope)
       )
 
-      const gherkinDocument = envelopes.find(
-        (envelope) => envelope.gherkinDocument
-      ).gherkinDocument
-      const scenario = gherkinDocument.feature.children.find(
-        (child) => child.scenario
-      ).scenario
+      const scenario = findScenario(envelopes)
 
       assert.deepStrictEqual(
         cucumberQuery
@@ -425,5 +380,25 @@ describe('Query', () => {
       },
     })
     return GherkinStreams.fromSources([source], { newId })
+  }
+
+  function findScenario(
+    envelopes: messages.IEnvelope[]
+  ): messages.GherkinDocument.Feature.IScenario {
+    const gherkinDocument = envelopes.find(
+      (envelope) => envelope.gherkinDocument
+    ).gherkinDocument
+    return gherkinDocument.feature.children.find((child) => child.scenario)
+      .scenario
+  }
+
+  function findBackground(
+    envelopes: messages.IEnvelope[]
+  ): messages.GherkinDocument.Feature.IBackground {
+    const gherkinDocument = envelopes.find(
+      (envelope) => envelope.gherkinDocument
+    ).gherkinDocument
+    return gherkinDocument.feature.children.find((child) => child.background)
+      .background
   }
 })
