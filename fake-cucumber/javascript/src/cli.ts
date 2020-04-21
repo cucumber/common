@@ -9,6 +9,8 @@ import {
 } from '@cucumber/gherkin'
 import fs from 'fs'
 import makeFormatStream from './makeFormatStream'
+import { messages } from '@cucumber/messages'
+import makeMeta from './makeMeta'
 
 const program = new Command()
 program.version(packageJson.version)
@@ -39,6 +41,9 @@ async function main() {
 
   const envelopeOutputStream = makeFormatStream(format)
   envelopeOutputStream.pipe(process.stdout)
+
+  envelopeOutputStream.write(new messages.Envelope({ meta: makeMeta() }))
+
   const gherkinQuery = new GherkinQuery()
 
   await runCucumber(

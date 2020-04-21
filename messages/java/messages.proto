@@ -37,6 +37,39 @@ message Envelope {
 
     // Parsing
     ParseError parse_error = 16;
+    
+    Meta meta = 17;
+  }
+}
+
+/**
+ * This message contains meta information about the environment. Consumers can use
+ * this for various purposes.
+ */
+message Meta {
+  /**
+   * The [SEMVER](https://semver.org/) version number of the protocol
+   */
+  string protocol_version = 1;
+
+  // SpecFlow, Cucumber-JVM, Cucumber.js, Cucumber-Ruby, Behat etc.
+  Product implementation = 2;
+
+  // Java, Ruby, Node.js etc
+  Product runtime = 3;
+
+  // Windows, Linux, MacOS etc
+  Product os = 4;
+
+  // 386, arm, amd64 etc
+  Product cpu = 5;
+  
+  // A product has a name and a version
+  message Product {
+    // The product name
+    string name = 1;
+    // The product version
+    string version = 2;
   }
 }
 
@@ -470,7 +503,7 @@ message TestRunStarted {
 
 message TestCaseStarted {
   Timestamp timestamp = 1;
-  Platform platform = 2;
+  reserved 2;
   /**
    * The first attempt should have value 0, and for each retry the value
    * should increase by 1.
@@ -482,17 +515,6 @@ message TestCaseStarted {
    * we use this field to group messages relating to the same attempt.
    */
   string id = 5;
-
-  message Platform {
-    // The runner implementation. For example "SpecFlow", "Cucumber-JVM", "Behat" etc.
-    string implementation = 1;
-    // The version of the runner
-    string version = 2;
-    // The operating system
-    string os = 3;
-    // The CPU architecture
-    string cpu = 4;
-  }
 }
 
 message TestCaseFinished {

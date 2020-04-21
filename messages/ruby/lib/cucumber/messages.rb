@@ -9,3 +9,9 @@ require 'cucumber/messages/id_generator'
 Cucumber::Messages::Envelope.include(Cucumber::Messages::WriteNdjson)
 Cucumber::Messages::Envelope.include(Cucumber::Messages::WriteDelimited)
 Cucumber::Messages::Envelope.extend(Cucumber::Messages::ParseDelimited)
+
+module Cucumber
+  module Messages
+    VERSION = File.read(File.expand_path("../../VERSION", __dir__)).strip
+  end
+end

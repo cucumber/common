@@ -9,6 +9,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+* Expose the library version through the API
+  * Java: `io.cucumber.messages.Messages.Envelope.class.getPackage().getImplementationVersion()`
+  * Ruby: `Messages::Envelope::VERSION`
+  * JavaScript: `import { version } from '@cucumber/messages'`
+* Add `Meta` message
+  ([#976](https://github.com/cucumber/cucumber/pull/976)
+   [aslakhellesoy]) 
+* [Java] Upgrade to `cucumber-parent:2.1.0` (needed to expose library version)
+ ([#976](https://github.com/cucumber/cucumber/pull/976)
+  [aslakhellesoy])
+
 ### Changed
 
 ### Deprecated
