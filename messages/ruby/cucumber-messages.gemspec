@@ -34,6 +34,7 @@ Gem::Specification.new do |s|
   s.files            = Dir[
     'README.md',
     'LICENSE',
+    'VERSION',
     'lib/**/*'
   ]
   s.test_files       = Dir['spec/**/*']
