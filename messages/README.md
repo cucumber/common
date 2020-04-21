@@ -3,11 +3,15 @@
 *Cucumber Messages* is a message protocol for representing results and other information
 from Cucumber.
 
-It is currently implemented in the following versions of Cucumber (using the `message` formatter):
+Cucumber Messages are currently implemented in the following versions of Cucumber (using the `message` formatter):
 
 * Cucumber-JVM 6.0.0 and greater 
 * Cucumber-Ruby 4.0.0 and greater
 * Cucumber.js 6.0.5 and greater
+
+The use of the `json` formatter may be deprecated and eventually removed from these implementations.
+See [utilities](#utilities) for a list of tools that may help with backward and forward compatibility
+with the `json` format.
 
 ## Why Cucumber Messages
 
