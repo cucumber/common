@@ -23,7 +23,7 @@ const Step: React.FunctionComponent<IProps> = ({
   const gherkinQuery = React.useContext(GherkinQueryContext)
   const cucumberQuery = React.useContext(CucumberQueryContext)
 
-  const pickleStepIds = gherkinQuery.getPickleStepIdsFromAstNodeId(step.id)
+  const pickleStepIds = gherkinQuery.getPickleStepIds(step.id)
   const pickleStepTestStepResults = cucumberQuery.getPickleStepTestStepResults(
     pickleStepIds
   )

@@ -6,6 +6,7 @@ import GherkinQueryContext from '../../GherkinQueryContext'
 import ErrorMessage from './ErrorMessage'
 import statusName from './statusName'
 import StatusIcon from './StatusIcon'
+import UriContext from '../../UriContext'
 
 interface IProps {
   rows: messages.GherkinDocument.Feature.ITableRow[]
@@ -28,10 +29,11 @@ interface IRowOrRows {
 const RowOrRows: React.FunctionComponent<IRowOrRows> = ({ row }) => {
   const gherkinQuery = React.useContext(GherkinQueryContext)
   const cucumberQuery = React.useContext(CucumberQueryContext)
+  const uri = React.useContext(UriContext)
 
   const testStepResult = cucumberQuery.getWorstTestStepResult(
     cucumberQuery.getPickleTestStepResults(
-      gherkinQuery.getPickleIdsFromAtNodeId(row.id)
+      gherkinQuery.getPickleIds(uri, row.id)
     )
   )
   return (
