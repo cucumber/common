@@ -130,15 +130,24 @@ describe('Query', () => {
 
   describe('#getPickleTestStepResults(pickleIds)', () => {
     it('looks up results for scenarios', async () => {
+      const envelopes: messages.IEnvelope[] = []
       await execute(
         `Feature: hello
   Scenario: ko
     Given a passed step
     Given a failed step
-`
+`,
+        (envelope) => envelopes.push(envelope)
       )
 
-      const pickleIds = gherkinQuery.getPickleIds('test.feature', 2)
+      const gherkinDocument = envelopes.find(
+        (envelope) => envelope.gherkinDocument
+      ).gherkinDocument
+      const scenario = gherkinDocument.feature.children.find(
+        (child) => child.scenario
+      ).scenario
+
+      const pickleIds = gherkinQuery.getPickleIds('test.feature', scenario.id)
       assert.strictEqual(pickleIds.length, 1)
 
       const testStepResults = cucumberQuery.getPickleTestStepResults(pickleIds)
@@ -153,6 +162,7 @@ describe('Query', () => {
     })
 
     it('looks up results for scenario outlines', async () => {
+      const envelopes: messages.IEnvelope[] = []
       await execute(
         `Feature: hello
   Scenario: hi <status1> and <status2>
@@ -163,9 +173,18 @@ describe('Query', () => {
       | status1    | status2 |
       | passed     | passed  |
       | passed     | failed  |
-`
+`,
+        (envelope) => envelopes.push(envelope)
       )
-      const pickleIds = gherkinQuery.getPickleIds('test.feature', 2)
+
+      const gherkinDocument = envelopes.find(
+        (envelope) => envelope.gherkinDocument
+      ).gherkinDocument
+      const scenario = gherkinDocument.feature.children.find(
+        (child) => child.scenario
+      ).scenario
+
+      const pickleIds = gherkinQuery.getPickleIds('test.feature', scenario.id)
       assert.strictEqual(pickleIds.length, 2)
 
       assert.deepStrictEqual(
@@ -180,6 +199,8 @@ describe('Query', () => {
     })
 
     it('looks up results for examples rows outlines', async () => {
+      const envelopes: messages.IEnvelope[] = []
+
       await execute(
         `Feature: hello
   Scenario: hi <status1> and <status2>
@@ -190,13 +211,22 @@ describe('Query', () => {
       | status1    | status2 |
       | passed     | passed  |
       | passed     | failed  |
-`
+`,
+        (envelope) => envelopes.push(envelope)
       )
+
+      const gherkinDocument = envelopes.find(
+        (envelope) => envelope.gherkinDocument
+      ).gherkinDocument
+      const scenario = gherkinDocument.feature.children.find(
+        (child) => child.scenario
+      ).scenario
+      const exampleIds = scenario.examples[0].tableBody.map((row) => row.id)
 
       assert.deepStrictEqual(
         cucumberQuery
           .getPickleTestStepResults(
-            gherkinQuery.getPickleIds('test.feature', 8)
+            gherkinQuery.getPickleIds('test.feature', exampleIds[0])
           )
           .map((r) => r.status),
         [
@@ -208,7 +238,7 @@ describe('Query', () => {
       assert.deepStrictEqual(
         cucumberQuery
           .getPickleTestStepResults(
-            gherkinQuery.getPickleIds('test.feature', 9)
+            gherkinQuery.getPickleIds('test.feature', exampleIds[1])
           )
           .map((r) => r.status),
         [
@@ -272,7 +302,10 @@ describe('Query', () => {
     })
   })
 
-  async function execute(gherkinSource: string): Promise<void> {
+  async function execute(
+    gherkinSource: string,
+    messagesHandler: (envelope: messages.IEnvelope) => void = () => null
+  ): Promise<void> {
     const newId = IdGenerator.incrementing()
     const clock = new IncrementClock()
     const makeErrorMessage = withFullStackTrace()
@@ -306,6 +339,7 @@ describe('Query', () => {
         callback: (error?: Error | null) => void
       ): void {
         try {
+          messagesHandler(envelope)
           gherkinQuery.update(envelope)
           cucumberQuery.update(envelope)
           callback()
@@ -320,7 +354,10 @@ describe('Query', () => {
     )
 
     const testPlan = makeTestPlan(gherkinQuery, supportCode, makeTestCase)
-    await testPlan.execute((envelope) => cucumberQuery.update(envelope))
+    await testPlan.execute((envelope) => {
+      messagesHandler(envelope)
+      cucumberQuery.update(envelope)
+    })
   }
 
   function gherkinMessages(
