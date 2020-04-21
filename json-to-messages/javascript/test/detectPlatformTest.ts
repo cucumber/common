@@ -12,7 +12,7 @@ describe('detectPlatform', () => {
   it('defaults to "ruby"', () => {
     const feature = {} as IFeature
 
-    assert.equal(detectPlatform(feature), 'ruby')
+    assert.equal(detectPlatform(feature), 'cucumber-ruby')
   })
 
   context('when the feature has a status field', () => {
@@ -54,7 +54,7 @@ describe('detectPlatform', () => {
         elements,
       } as IFeature
 
-      assert.equal(detectPlatform(feature), 'javascript')
+      assert.equal(detectPlatform(feature), 'cucumber-js')
     })
   })
 
@@ -78,7 +78,7 @@ describe('detectPlatform', () => {
         elements,
       } as IFeature
 
-      assert.equal(detectPlatform(feature), 'javascript')
+      assert.equal(detectPlatform(feature), 'cucumber-js')
     })
   })
 })

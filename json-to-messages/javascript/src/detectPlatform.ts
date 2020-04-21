@@ -16,14 +16,14 @@ export default function detectPlatform(
     for (const step of element.steps || []) {
       const stepAsJS = step as IJSStep
       if (stepAsJS.hidden) {
-        return 'javascript'
+        return 'cucumber-js'
       }
 
       if (stepAsJS.arguments) {
-        return 'javascript'
+        return 'cucumber-js'
       }
     }
   }
 
-  return 'ruby'
+  return 'cucumber-ruby'
 }

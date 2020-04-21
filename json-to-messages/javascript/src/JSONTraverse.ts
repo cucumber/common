@@ -17,7 +17,7 @@ export default function traverseFeature(
   newId: IdGenerator.NewId,
   predictableSupportCode: IPredictableSupportCode
 ): messages.IGherkinDocument {
-  if (platform === 'javascript') {
+  if (platform === 'cucumber-js') {
     return traverseJS(
       feature as IFeature,
       astMaker,
