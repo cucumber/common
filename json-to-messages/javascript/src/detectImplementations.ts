@@ -1,14 +1,14 @@
 import { pipeline, Readable } from 'stream'
-import { Platform } from './types'
+import { Implementation } from './types'
 import { promisify } from 'util'
 import SingleObjectWritableStream from './stream/SingleObjectWritableStream'
 import { IFeature } from './cucumber-generic/JSONSchema'
 import JSONTransformStream from './stream/JSONTransformStream'
-import detectPlatform from './detectPlatform'
+import detectImplementation from './detectImplementation'
 
-export default async function detectPlatforms(
+export default async function detectImplementations(
   jsonReadable: Readable
-): Promise<readonly Platform[]> {
+): Promise<readonly Implementation[]> {
   const asyncPipeline = promisify(pipeline)
   const singleObjectWritable = new SingleObjectWritableStream<
     ReadonlyArray<IFeature>
@@ -19,5 +19,7 @@ export default async function detectPlatforms(
     singleObjectWritable
   )
 
-  return singleObjectWritable.object.map(feature => detectPlatform(feature))
+  return singleObjectWritable.object.map(feature =>
+    detectImplementation(feature)
+  )
 }

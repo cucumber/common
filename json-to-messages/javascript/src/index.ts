@@ -1,7 +1,4 @@
 import jsonToMessages from './jsonToMessages'
-import { Platform } from './types'
+import { Implementation } from './types'
 
-export {
-  jsonToMessages,
-  Platform
-}
+export { jsonToMessages, Implementation }

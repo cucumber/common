@@ -1,13 +1,13 @@
 import { Command } from 'commander'
 import packageJson from '../package.json'
 import jsonToMessages from './jsonToMessages'
-import detectPlatforms from './detectPlatforms'
+import detectImplementations from './detectImplementations'
 
 const program = new Command()
 program.version(packageJson.version)
 program.option(
-  '-p, --platform <platform>',
-  'Platform used to generate the report: ruby|javascript|behave',
+  '-i, --implementation <implementation>',
+  'Cucumber implementation used to generate the report: cucumber-ruby|cucumber-js|behave',
   ''
 )
 program.option('-d, --detect', 'Output detected language from JSON report', '')
@@ -16,10 +16,10 @@ program.parse(process.argv)
 const { lang, detect } = program
 
 if (detect) {
-  detectPlatforms(process.stdin)
-    .then(platforms => {
-      process.stdout.write(`Detected platforms:
-${platforms}
+  detectImplementations(process.stdin)
+    .then(implementations => {
+      process.stdout.write(`Detected implementations:
+${implementations}
 `)
     })
     .catch(err => {

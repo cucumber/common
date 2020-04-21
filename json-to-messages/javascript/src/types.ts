@@ -1,1 +1,1 @@
-export type Platform = 'behave' | 'cucumber-js' | 'cucumber-ruby'
+export type Implementation = 'behave' | 'cucumber-js' | 'cucumber-ruby'

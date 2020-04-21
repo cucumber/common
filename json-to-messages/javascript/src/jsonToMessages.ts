@@ -7,11 +7,11 @@ import PredictableSupportCode from './PredictableSupportCode'
 import { compile, Query as GherkinQuery } from '@cucumber/gherkin'
 import { messages, MessageToNdjsonStream } from '@cucumber/messages'
 import AstMaker from './AstMaker'
-import detectPlatform from './detectPlatform'
+import detectImplementation from './detectImplementation'
 import traverseFeature from './JSONTraverse'
 import makePredictableTestPlan from './test-generation/makePredictableTestPlan'
 import { promisify } from 'util'
-import { Platform } from './types'
+import { Implementation } from './types'
 
 const asyncPipeline = promisify(pipeline)
 
@@ -21,12 +21,12 @@ const asyncPipeline = promisify(pipeline)
  *
  * @param jsonReadable - a Readable stream containing vintage Cucumber JSON
  * @param messageWritable - a Writable stream where messages will be written
- * @param platform - an explicit implementation, such as "behave", "javascript" or "ruby"
+ * @param implementation - an explicit implementation, such as "behave", "javascript" or "ruby"
  */
 export default async function main(
   jsonReadable: Readable,
   messageWritable: Writable,
-  platform?: Platform
+  implementation?: Implementation
 ) {
   const singleObjectWritable = new SingleObjectWritableStream<
     ReadonlyArray<IFeature>
@@ -46,7 +46,7 @@ export default async function main(
 
   const gherkinDocuments = singleObjectWritable.object.map(feature =>
     traverseFeature(
-      platform || detectPlatform(feature),
+      implementation || detectImplementation(feature),
       feature,
       astMaker,
       supportCode.newId,

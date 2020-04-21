@@ -6,13 +6,13 @@ import {
   IStep as IJSStep,
   IDocString,
 } from '../src/cucumber-js/JSONSchema'
-import detectPlatform from '../src/detectPlatform'
+import detectImplementation from '../src/detectImplementation'
 
-describe('detectPlatform', () => {
+describe('detectImplementation', () => {
   it('defaults to "ruby"', () => {
     const feature = {} as IFeature
 
-    assert.equal(detectPlatform(feature), 'cucumber-ruby')
+    assert.equal(detectImplementation(feature), 'cucumber-ruby')
   })
 
   context('when the feature has a status field', () => {
@@ -21,7 +21,7 @@ describe('detectPlatform', () => {
         status: 'passed',
       } as IBehaveFeature
 
-      assert.equal(detectPlatform(feature), 'behave')
+      assert.equal(detectImplementation(feature), 'behave')
     })
   })
 
@@ -31,7 +31,7 @@ describe('detectPlatform', () => {
         location: 'my/wonderful.feature:3',
       } as IBehaveFeature
 
-      assert.equal(detectPlatform(feature), 'behave')
+      assert.equal(detectImplementation(feature), 'behave')
     })
   })
 
@@ -54,7 +54,7 @@ describe('detectPlatform', () => {
         elements,
       } as IFeature
 
-      assert.equal(detectPlatform(feature), 'cucumber-js')
+      assert.equal(detectImplementation(feature), 'cucumber-js')
     })
   })
 
@@ -78,7 +78,7 @@ describe('detectPlatform', () => {
         elements,
       } as IFeature
 
-      assert.equal(detectPlatform(feature), 'cucumber-js')
+      assert.equal(detectImplementation(feature), 'cucumber-js')
     })
   })
 })
