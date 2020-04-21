@@ -59,7 +59,7 @@ const RowOrRows: React.FunctionComponent<IRowOrRows> = ({ row }) => {
 }
 
 interface IErrorMessageRowProps {
-  testStepResult: messages.ITestStepResult
+  testStepResult: messages.TestStepFinished.ITestStepResult
   colSpan: number
 }
 

@@ -13,10 +13,10 @@ export default interface ITestStep {
     world: IWorld,
     testCaseStartedId: string,
     listener: EnvelopeListener
-  ): Promise<messages.ITestStepResult>
+  ): Promise<messages.TestStepFinished.ITestStepResult>
 
   skip(
     listener: EnvelopeListener,
     testCaseStartedId: string
-  ): messages.ITestStepResult
+  ): messages.TestStepFinished.ITestStepResult
 }

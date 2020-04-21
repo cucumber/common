@@ -6,5 +6,5 @@ export default interface ISupportCodeExecutor {
 
   execute(thisObj: IWorld): any
 
-  argsToMessages(): messages.IStepMatchArgument[]
+  argsToMessages(): messages.TestCase.TestStep.StepMatchArgumentsList.IStepMatchArgument[]
 }

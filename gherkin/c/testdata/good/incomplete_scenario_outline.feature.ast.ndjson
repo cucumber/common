@@ -4,6 +4,7 @@
       "children": [
         {
           "background": {
+            "id": "1",
             "keyword": "Background",
             "location": {
               "column": 3,
@@ -25,7 +26,7 @@
         },
         {
           "scenario": {
-            "id": "2",
+            "id": "3",
             "keyword": "Scenario Outline",
             "location": {
               "column": 3,
@@ -34,7 +35,7 @@
             "name": "steps, no examples",
             "steps": [
               {
-                "id": "1",
+                "id": "2",
                 "keyword": "Given ",
                 "location": {
                   "column": 5,
@@ -47,7 +48,7 @@
         },
         {
           "scenario": {
-            "id": "3",
+            "id": "4",
             "keyword": "Scenario Outline",
             "location": {
               "column": 3,
@@ -60,6 +61,7 @@
           "scenario": {
             "examples": [
               {
+                "id": "5",
                 "keyword": "Examples",
                 "location": {
                   "column": 5,
@@ -67,7 +69,7 @@
                 }
               }
             ],
-            "id": "4",
+            "id": "6",
             "keyword": "Scenario Outline",
             "location": {
               "column": 3,
@@ -80,6 +82,7 @@
           "scenario": {
             "examples": [
               {
+                "id": "8",
                 "keyword": "Examples",
                 "location": {
                   "column": 5,
@@ -95,7 +98,7 @@
                       "value": "what"
                     }
                   ],
-                  "id": "5",
+                  "id": "7",
                   "location": {
                     "column": 5,
                     "line": 18
@@ -103,7 +106,7 @@
                 }
               }
             ],
-            "id": "6",
+            "id": "9",
             "keyword": "Scenario Outline",
             "location": {
               "column": 3,
@@ -116,6 +119,7 @@
           "scenario": {
             "examples": [
               {
+                "id": "12",
                 "keyword": "Examples",
                 "location": {
                   "column": 5,
@@ -132,7 +136,7 @@
                         "value": "nada"
                       }
                     ],
-                    "id": "8",
+                    "id": "11",
                     "location": {
                       "column": 5,
                       "line": 24
@@ -149,7 +153,7 @@
                       "value": "nope"
                     }
                   ],
-                  "id": "7",
+                  "id": "10",
                   "location": {
                     "column": 5,
                     "line": 23
@@ -157,7 +161,7 @@
                 }
               }
             ],
-            "id": "9",
+            "id": "13",
             "keyword": "Scenario Outline",
             "location": {
               "column": 3,

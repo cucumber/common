@@ -3,7 +3,7 @@
     "astNodeIds": [
       "4"
     ],
-    "id": "34",
+    "id": "36",
     "language": "en",
     "name": "minimalistic",
     "steps": [
@@ -11,21 +11,21 @@
         "astNodeIds": [
           "0"
         ],
-        "id": "33",
+        "id": "35",
         "text": "the minimalism"
       }
     ],
     "tags": [
       {
-        "astNodeId": "30",
+        "astNodeId": "32",
         "name": "@feature_tag1"
       },
       {
-        "astNodeId": "31",
+        "astNodeId": "33",
         "name": "@feature_tag2"
       },
       {
-        "astNodeId": "32",
+        "astNodeId": "34",
         "name": "@feature_tag3"
       },
       {
@@ -47,10 +47,10 @@
 {
   "pickle": {
     "astNodeIds": [
-      "19",
+      "21",
       "7"
     ],
-    "id": "36",
+    "id": "38",
     "language": "en",
     "name": "minimalistic outline",
     "steps": [
@@ -59,33 +59,33 @@
           "5",
           "7"
         ],
-        "id": "35",
+        "id": "37",
         "text": "the minimalism"
       }
     ],
     "tags": [
       {
-        "astNodeId": "30",
+        "astNodeId": "32",
         "name": "@feature_tag1"
       },
       {
-        "astNodeId": "31",
+        "astNodeId": "33",
         "name": "@feature_tag2"
       },
       {
-        "astNodeId": "32",
+        "astNodeId": "34",
         "name": "@feature_tag3"
       },
       {
-        "astNodeId": "16",
+        "astNodeId": "18",
         "name": "@so_tag1"
       },
       {
-        "astNodeId": "17",
+        "astNodeId": "19",
         "name": "@so_tag2"
       },
       {
-        "astNodeId": "18",
+        "astNodeId": "20",
         "name": "@so_tag3"
       },
       {
@@ -107,57 +107,57 @@
 {
   "pickle": {
     "astNodeIds": [
-      "19",
-      "12"
+      "21",
+      "13"
     ],
-    "id": "38",
+    "id": "40",
     "language": "en",
     "name": "minimalistic outline",
     "steps": [
       {
         "astNodeIds": [
           "5",
-          "12"
+          "13"
         ],
-        "id": "37",
+        "id": "39",
         "text": "the more minimalism"
       }
     ],
     "tags": [
       {
-        "astNodeId": "30",
+        "astNodeId": "32",
         "name": "@feature_tag1"
       },
       {
-        "astNodeId": "31",
+        "astNodeId": "33",
         "name": "@feature_tag2"
       },
       {
-        "astNodeId": "32",
+        "astNodeId": "34",
         "name": "@feature_tag3"
       },
       {
-        "astNodeId": "16",
+        "astNodeId": "18",
         "name": "@so_tag1"
       },
       {
-        "astNodeId": "17",
+        "astNodeId": "19",
         "name": "@so_tag2"
       },
       {
-        "astNodeId": "18",
+        "astNodeId": "20",
         "name": "@so_tag3"
       },
       {
-        "astNodeId": "13",
+        "astNodeId": "14",
         "name": "@ex_tag4"
       },
       {
-        "astNodeId": "14",
+        "astNodeId": "15",
         "name": "@ex_tag5"
       },
       {
-        "astNodeId": "15",
+        "astNodeId": "16",
         "name": "@ex_tag6"
       }
     ],
@@ -167,35 +167,35 @@
 {
   "pickle": {
     "astNodeIds": [
-      "22"
+      "24"
     ],
-    "id": "40",
+    "id": "42",
     "language": "en",
     "name": "comments",
     "steps": [
       {
         "astNodeIds": [
-          "20"
+          "22"
         ],
-        "id": "39",
+        "id": "41",
         "text": "a comment"
       }
     ],
     "tags": [
       {
-        "astNodeId": "30",
+        "astNodeId": "32",
         "name": "@feature_tag1"
       },
       {
-        "astNodeId": "31",
+        "astNodeId": "33",
         "name": "@feature_tag2"
       },
       {
-        "astNodeId": "32",
+        "astNodeId": "34",
         "name": "@feature_tag3"
       },
       {
-        "astNodeId": "21",
+        "astNodeId": "23",
         "name": "@comment_tag1"
       }
     ],
@@ -205,35 +205,35 @@
 {
   "pickle": {
     "astNodeIds": [
-      "25"
+      "27"
     ],
-    "id": "42",
+    "id": "44",
     "language": "en",
     "name": "hash in tags",
     "steps": [
       {
         "astNodeIds": [
-          "23"
+          "25"
         ],
-        "id": "41",
+        "id": "43",
         "text": "a comment is preceded by a space"
       }
     ],
     "tags": [
       {
-        "astNodeId": "30",
+        "astNodeId": "32",
         "name": "@feature_tag1"
       },
       {
-        "astNodeId": "31",
+        "astNodeId": "33",
         "name": "@feature_tag2"
       },
       {
-        "astNodeId": "32",
+        "astNodeId": "34",
         "name": "@feature_tag3"
       },
       {
-        "astNodeId": "24",
+        "astNodeId": "26",
         "name": "@comment_tag#2"
       }
     ],
@@ -243,39 +243,39 @@
 {
   "pickle": {
     "astNodeIds": [
-      "29"
+      "31"
     ],
-    "id": "44",
+    "id": "46",
     "language": "en",
     "name": "joined tags",
     "steps": [
       {
         "astNodeIds": [
-          "26"
+          "28"
         ],
-        "id": "43",
+        "id": "45",
         "text": "the @delimits tags"
       }
     ],
     "tags": [
       {
-        "astNodeId": "30",
+        "astNodeId": "32",
         "name": "@feature_tag1"
       },
       {
-        "astNodeId": "31",
+        "astNodeId": "33",
         "name": "@feature_tag2"
       },
       {
-        "astNodeId": "32",
+        "astNodeId": "34",
         "name": "@feature_tag3"
       },
       {
-        "astNodeId": "27",
+        "astNodeId": "29",
         "name": "@joined_tag3"
       },
       {
-        "astNodeId": "28",
+        "astNodeId": "30",
         "name": "@joined_tag4"
       }
     ],

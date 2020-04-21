@@ -4,7 +4,7 @@ import (
 	"encoding/base64"
 	"errors"
 	"fmt"
-	"github.com/cucumber/messages-go/v11"
+	"github.com/cucumber/messages-go/v12"
 	"strings"
 )
 
@@ -15,7 +15,7 @@ type TestStep struct {
 	PickleStep      *messages.Pickle_PickleStep
 	Step            *messages.GherkinDocument_Feature_Step
 	StepDefinitions []*messages.StepDefinition
-	Result          *messages.TestStepResult
+	Result          *messages.TestStepFinished_TestStepResult
 	Background      *messages.GherkinDocument_Feature_Background
 	Attachments     []*messages.Attachment
 	ExampleRow      *messages.GherkinDocument_Feature_TableRow

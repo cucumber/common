@@ -14,7 +14,7 @@ executors:
     docker:
       # Remember to update to the latest image tag.
       # Run `source scripts/functions.sh && docker_image Dockerfile` to print it.
-      - image: cucumber/cucumber-build:889c9aabdae3f09025837b97c358d10a
+      - image: cucumber/cucumber-build:63d2492020942f28e03bb54f23cb2b3f
     working_directory: ~/cucumber
   # Go
   docker-circleci-golang:
@@ -836,6 +836,8 @@ workflows:
       - html-formatter-javascript:
           requires:
             - react-javascript
+            - messages-javascript
+            - compatibility-kit-javascript
       - json-formatter-javascript:
           requires:
             - json-formatter-ruby
@@ -894,10 +896,11 @@ workflows:
       # - compatibility-kit-ruby:
       #     requires:
       #       - compatibility-kit-javascript
-      # - html-formatter-ruby:
-      #     requires:
-      #       - html-formatter-javascript
-      #       - compatibility-kit-ruby
+      - html-formatter-ruby:
+          requires:
+            - html-formatter-javascript
+            - messages-ruby
+            - compatibility-kit-javascript
       - json-to-messages-ruby:
           requires:
             - checkout
@@ -928,6 +931,8 @@ workflows:
       - html-formatter-java:
           requires:
             - html-formatter-javascript
+            - messages-java
+            - compatibility-kit-javascript
       - json-to-messages-java:
           requires:
             - checkout

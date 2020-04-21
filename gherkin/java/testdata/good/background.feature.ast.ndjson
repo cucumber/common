@@ -4,6 +4,7 @@
       "children": [
         {
           "background": {
+            "id": "1",
             "keyword": "Background",
             "location": {
               "column": 3,
@@ -25,7 +26,7 @@
         },
         {
           "scenario": {
-            "id": "2",
+            "id": "3",
             "keyword": "Scenario",
             "location": {
               "column": 3,
@@ -34,7 +35,7 @@
             "name": "minimalistic",
             "steps": [
               {
-                "id": "1",
+                "id": "2",
                 "keyword": "Given ",
                 "location": {
                   "column": 5,
@@ -47,7 +48,7 @@
         },
         {
           "scenario": {
-            "id": "4",
+            "id": "5",
             "keyword": "Scenario",
             "location": {
               "column": 3,
@@ -56,7 +57,7 @@
             "name": "also minimalistic",
             "steps": [
               {
-                "id": "3",
+                "id": "4",
                 "keyword": "Given ",
                 "location": {
                   "column": 5,
