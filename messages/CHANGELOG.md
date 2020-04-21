@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+* Expose the library version through the API
+* Add `Meta` message
+  ([#976](https://github.com/cucumber/cucumber/pull/976)
+   [aslakhellesoy]) 
+
 ### Changed
 
 ### Deprecated

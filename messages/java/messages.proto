@@ -64,9 +64,6 @@ message Meta {
   // 386, arm, amd64 etc
   Product cpu = 5;
   
-  // Jenkins, GitHub Actions, CircleCI etc
-  Product ci = 6;
-
   // A product has a name and a version
   message Product {
     // The product name
