@@ -1,4 +1,4 @@
-import * as os from 'os'
+import os from 'os'
 import { version } from '../package.json'
 import { messages, version as protocolVersion } from '@cucumber/messages'
 
@@ -14,7 +14,7 @@ export default function (): messages.Meta {
     }),
     os: new messages.Meta.Product({
       name: os.platform(),
-      version: os.version(),
+      version: os.release(),
     }),
     runtime: new messages.Meta.Product({
       name: 'node.js',
