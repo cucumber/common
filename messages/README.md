@@ -12,8 +12,12 @@ It is currently implemented in the following versions of Cucumber (using the `me
 ## Why Cucumber Messages
 
 Cucumber needs to produce results in a machine-readable format so that other tools can generate reports.
-Historically, Cucumber has done this with the `json` and `junit` formatters.
 
+    +----------+    messages     +-----------+
+    | Cucumber |---m-m-m-m-m-m-->| Formatter |
+    +----------+                 +-----------+
+
+Historically, Cucumber has done this with the `json` and `junit` formatters.
 These formats have several shortcomings that are addressed by cucumber messages:
 
 ### Lack of streaming
@@ -80,10 +84,12 @@ in [compatibility-kit](compatibility-kit/javascript/features) directories.
 
 ## Utitlities
 
-This library also contains utilities for:
-
-* Reading/Writing message objects as either [varint](https://developers.google.com/protocol-buffers/docs/encoding#varints)-delimited protobuf binary or [NDJSON](http://ndjson.org/).
-* Converting timestamps (clock time) and durations (monotonic time) to and from the
+* [json-formatter](../json-formatter) - produce legacy JSON from Cucumber Messages
+* [json-to-messages](../json-to-messages) - produce Cucumber Messages from legacy JSON
+* [@cucumber/react](../react) - React component that renders Cucumber Messages nicely
+* In this library
+  * Reading/Writing message objects as either [varint](https://developers.google.com/protocol-buffers/docs/encoding#varints)-delimited protobuf binary or [NDJSON](http://ndjson.org/).
+  * Converting timestamps (clock time) and durations (monotonic time) to and from the
   language-specific representation to our own protobuf `Timestamp` and `Duration` messages.
 
 ## Detailed message documentation
