@@ -43,7 +43,7 @@ describe('Query', () => {
     })
   })
 
-  describe('#getPickleIds(uri, lineNumber)', () => {
+  describe('#getPickleIds(uri, astNodeId)', () => {
     it('looks up pickle IDs for a scenario', async () => {
       await parse(
         `Feature: hello
@@ -54,8 +54,16 @@ describe('Query', () => {
     Given a passed step
 `
       )
+
+      const gherkinDocument = envelopes.find(
+        (envelope) => envelope.gherkinDocument
+      ).gherkinDocument
+      const scenario = gherkinDocument.feature.children.find(
+        (child) => child.scenario
+      ).scenario
+
       const pickleId = envelopes.find((e) => e.pickle).pickle.id
-      const pickleIds = gherkinQuery.getPickleIds('test.feature', 5)
+      const pickleIds = gherkinQuery.getPickleIds('test.feature', scenario.id)
       assert.deepStrictEqual(pickleIds, [pickleId])
     })
 
@@ -87,9 +95,12 @@ describe('Query', () => {
 `
       )
 
-      assert.throws(() => gherkinQuery.getPickleIds('test.feature', 6), {
-        message: 'No values found for key 6. Keys: [5]',
-      })
+      assert.throws(
+        () => gherkinQuery.getPickleIds('test.feature', 'some-non-existing-id'),
+        {
+          message: 'No values found for key 6. Keys: [some-non-existing-id]',
+        }
+      )
     })
 
     it('avoids dupes and ignores empty scenarios', async () => {
@@ -115,67 +126,6 @@ describe('Query', () => {
       // One for each table, and one for the empty scenario
       // https://github.com/cucumber/cucumber/issues/249
       assert.strictEqual(pickleIds.length, 3, pickleIds.join(','))
-    })
-  })
-
-  describe('#getPickleIdsFromAtNodeId(astNodeId)', () => {
-    it('returns the pickle ID generated from a scenario', async () => {
-      await parse(
-        `Feature: hello
-  Scenario: hi
-    Given a passed step
-`
-      )
-
-      const pickleIds = envelopes
-        .filter((envelope) => envelope.pickle)
-        .map((envelope) => envelope.pickle.id)
-
-      const gherkinDocument = envelopes.find(
-        (envelope) => envelope.gherkinDocument
-      ).gherkinDocument
-
-      const scenario = gherkinDocument.feature.children.find(
-        (child) => child.scenario
-      ).scenario
-
-      assert.deepEqual(
-        gherkinQuery.getPickleIdsFromAtNodeId(scenario.id),
-        pickleIds
-      )
-    })
-
-    it('returns an empty list for unknown ids', async () => {
-      await parse(`Feature: hello`)
-
-      assert.deepEqual(
-        gherkinQuery.getPickleIdsFromAtNodeId('this-id-not-an-exiting-id'),
-        []
-      )
-    })
-
-    it('returns multiple IDs when multiple pickles are generated', async () => {
-      await parse(
-        `Feature: hello
-  Scenario: hi
-    Given a <status> step
-
-    Examples:
-      | status |
-      | passed |
-      | failed |
-    `
-      )
-
-      const gherkinDocument = envelopes.find(
-        (envelope) => envelope.gherkinDocument
-      ).gherkinDocument
-
-      const scenario = gherkinDocument.feature.children.find(
-        (child) => child.scenario
-      ).scenario
-
-      assert.equal(gherkinQuery.getPickleIdsFromAtNodeId(scenario.id).length, 2)
     })
   })
 
