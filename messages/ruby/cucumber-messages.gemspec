@@ -1,7 +1,10 @@
 # -*- encoding: utf-8 -*-
+
+version = File.read(File.expand_path("VERSION", __dir__)).strip
+
 Gem::Specification.new do |s|
   s.name        = 'cucumber-messages'
-  s.version     = '12.0.0'
+  s.version     = version
   s.authors     = ["Aslak Hellesøy"]
   s.description = "Protocol Buffer messages for Cucumber's inter-process communication"
   s.summary     = "cucumber-messages-#{s.version}"
