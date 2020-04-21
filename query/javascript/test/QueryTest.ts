@@ -50,14 +50,24 @@ describe('Query', () => {
     })
 
     it('looks up results for scenario steps', async () => {
+      const envelopes: messages.IEnvelope[] = []
+
       await execute(
         `Feature: hello
   Scenario: ok
     Given a passed step
-`
+`,
+        (envelope) => envelopes.push(envelope)
       )
 
-      const pickleStepIds = gherkinQuery.getPickleStepIds('test.feature', 3)
+      const gherkinDocument = envelopes.find(
+        (envelope) => envelope.gherkinDocument
+      ).gherkinDocument
+      const scenario = gherkinDocument.feature.children.find(
+        (child) => child.scenario
+      ).scenario
+
+      const pickleStepIds = gherkinQuery.getPickleStepIds(scenario.steps[0].id)
       assert.strictEqual(pickleStepIds.length, 1)
 
       const testStepResults = cucumberQuery.getPickleStepTestStepResults(
@@ -72,6 +82,8 @@ describe('Query', () => {
     })
 
     it('looks up results for background steps', async () => {
+      const envelopes: messages.IEnvelope[] = []
+
       await execute(
         `Feature: hello
   Background:
@@ -82,10 +94,20 @@ describe('Query', () => {
 
   Scenario: ko
     Given a failed step
-`
+`,
+        (envelope) => envelopes.push(envelope)
       )
 
-      const pickleStepIds = gherkinQuery.getPickleStepIds('test.feature', 3)
+      const gherkinDocument = envelopes.find(
+        (envelope) => envelope.gherkinDocument
+      ).gherkinDocument
+      const background = gherkinDocument.feature.children.find(
+        (child) => child.background
+      ).background
+
+      const pickleStepIds = gherkinQuery.getPickleStepIds(
+        background.steps[0].id
+      )
       assert.strictEqual(pickleStepIds.length, 2)
 
       const testStepResults = cucumberQuery.getPickleStepTestStepResults(
@@ -102,18 +124,30 @@ describe('Query', () => {
     })
 
     it('looks up results for background steps when scenarios are empty', async () => {
+      const envelopes: messages.IEnvelope[] = []
+
       await execute(
         `Feature: hello
   Background:
-    Given a passed step
+  Given a passed step
 
   Scenario: ok
 
   Scenario: ok too
-`
+`,
+        (envelope) => envelopes.push(envelope)
       )
 
-      const pickleStepIds = gherkinQuery.getPickleStepIds('test.feature', 3)
+      const gherkinDocument = envelopes.find(
+        (envelope) => envelope.gherkinDocument
+      ).gherkinDocument
+      const background = gherkinDocument.feature.children.find(
+        (child) => child.background
+      ).background
+
+      const pickleStepIds = gherkinQuery.getPickleStepIds(
+        background.steps[0].id
+      )
       assert.strictEqual(pickleStepIds.length, 0)
 
       const testStepResults = cucumberQuery.getPickleStepTestStepResults(
@@ -251,14 +285,23 @@ describe('Query', () => {
 
   describe('#getPickleStepAttachments(pickleIds)', () => {
     it('looks up attachments', async () => {
+      const envelopes: messages.IEnvelope[] = []
       await execute(
         `Feature: hello
   Scenario: ok
     Given a passed step with attachment
-`
+    `,
+        (envelope) => envelopes.push(envelope)
       )
 
-      const pickleStepIds = gherkinQuery.getPickleStepIds('test.feature', 3)
+      const gherkinDocument = envelopes.find(
+        (envelope) => envelope.gherkinDocument
+      ).gherkinDocument
+      const scenario = gherkinDocument.feature.children.find(
+        (child) => child.scenario
+      ).scenario
+
+      const pickleStepIds = gherkinQuery.getPickleStepIds(scenario.steps[0].id)
       assert.strictEqual(pickleStepIds.length, 1)
 
       const attachments = cucumberQuery.getPickleStepAttachments(pickleStepIds)
@@ -270,18 +313,27 @@ describe('Query', () => {
 
   describe('#getStepMatchArguments(uri, lineNumber)', () => {
     it("looks up result for step's uri and line", async () => {
+      const envelopes: messages.IEnvelope[] = []
       await execute(
         `Feature: hello
-  Scenario: hi
+  Scenario: ok
     Given a passed step
     And I have 567 cukes in my belly
-`
+    `,
+        (envelope) => envelopes.push(envelope)
       )
+
+      const gherkinDocument = envelopes.find(
+        (envelope) => envelope.gherkinDocument
+      ).gherkinDocument
+      const scenario = gherkinDocument.feature.children.find(
+        (child) => child.scenario
+      ).scenario
 
       assert.deepStrictEqual(
         cucumberQuery
           .getStepMatchArgumentsLists(
-            gherkinQuery.getPickleStepIds('test.feature', 3)[0]
+            gherkinQuery.getPickleStepIds(scenario.steps[0].id)[0]
           )
           .map((sal) =>
             sal.stepMatchArguments.map((arg) => arg.parameterTypeName)
@@ -292,7 +344,7 @@ describe('Query', () => {
       assert.deepStrictEqual(
         cucumberQuery
           .getStepMatchArgumentsLists(
-            gherkinQuery.getPickleStepIds('test.feature', 4)[0]
+            gherkinQuery.getPickleStepIds(scenario.steps[1].id)[0]
           )
           .map((sal) =>
             sal.stepMatchArguments.map((arg) => arg.parameterTypeName)
