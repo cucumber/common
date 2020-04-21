@@ -1133,14 +1133,14 @@
     "name": "Estonian",
     "native": "eesti keel",
     "rule": [
-      "Rule"
+      "Reegel"
     ],
     "scenario": [
       "Juhtum",
       "Stsenaarium"
     ],
     "scenarioOutline": [
-      "Raamstjuhtum",
+      "Raamjuhtum",
       "Raamstsenaarium"
     ],
     "then": [
