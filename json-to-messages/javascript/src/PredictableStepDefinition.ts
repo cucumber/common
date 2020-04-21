@@ -7,7 +7,7 @@ export default class PredictableStepDefinition implements IStepDefinition {
     public readonly id: string,
     private readonly stepId: string,
     private readonly location: string,
-    public readonly status: messages.TestStepResult.Status,
+    public readonly status: messages.TestStepFinished.TestStepResult.Status,
     public readonly duration: number,
     public readonly errorMessage?: string
   ) {}

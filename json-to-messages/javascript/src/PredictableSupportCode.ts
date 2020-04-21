@@ -69,17 +69,19 @@ export default class PredictableSupportCode implements IPredictableSupportCode {
     )
   }
 
-  private statusFromString(status: string): messages.TestStepResult.Status {
+  private statusFromString(
+    status: string
+  ): messages.TestStepFinished.TestStepResult.Status {
     if (status === 'passed') {
-      return messages.TestStepResult.Status.PASSED
+      return messages.TestStepFinished.TestStepResult.Status.PASSED
     }
     if (status === 'pending') {
-      return messages.TestStepResult.Status.PENDING
+      return messages.TestStepFinished.TestStepResult.Status.PENDING
     }
     if (status === 'failed') {
-      return messages.TestStepResult.Status.FAILED
+      return messages.TestStepFinished.TestStepResult.Status.FAILED
     }
 
-    return messages.TestStepResult.Status.UNDEFINED
+    return messages.TestStepFinished.TestStepResult.Status.UNDEFINED
   }
 }

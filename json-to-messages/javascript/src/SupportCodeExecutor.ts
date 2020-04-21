@@ -8,7 +8,7 @@ class SupportCodeExecutor implements ISupportCodeExecutor {
     // no-op
   }
 
-  argsToMessages(): messages.IStepMatchArgument[] {
+  argsToMessages(): messages.TestCase.TestStep.StepMatchArgumentsList.IStepMatchArgument[] {
     return []
   }
 }

@@ -16,7 +16,7 @@ describe('PredictableHook', () => {
         'some-hook-id',
         'another-scenario',
         'whatever:1',
-        messages.TestStepResult.Status.PASSED,
+        messages.TestStepFinished.TestStepResult.Status.PASSED,
         123
       )
 
@@ -28,7 +28,7 @@ describe('PredictableHook', () => {
         'some-hook-id',
         scenarioId,
         'whatever:1',
-        messages.TestStepResult.Status.PASSED,
+        messages.TestStepFinished.TestStepResult.Status.PASSED,
         123
       )
 
@@ -42,7 +42,7 @@ describe('PredictableHook', () => {
         'some-hook-id',
         'another-scenario',
         'path/to/steps.go:13',
-        messages.TestStepResult.Status.PASSED,
+        messages.TestStepFinished.TestStepResult.Status.PASSED,
         123
       )
       const message = hook.toMessage().hook
