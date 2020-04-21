@@ -13,6 +13,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Add `Meta` message
   ([#976](https://github.com/cucumber/cucumber/pull/976)
    [aslakhellesoy]) 
+* [Java] Enable consumers to find our version at runtime using `clazz.getPackage().getImplementationVersion()` by upgrading to `cucumber-parent:2.1.0`
+ ([#976](https://github.com/cucumber/cucumber/pull/976)
+  [aslakhellesoy])
 
 ### Changed
 
