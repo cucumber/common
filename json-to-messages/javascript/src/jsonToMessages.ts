@@ -44,7 +44,7 @@ export default async function main(
   const gherkinEnvelopeStream = new PassThrough({ objectMode: true })
   const astMaker = new AstMaker()
 
-  const gherkinDocuments = singleObjectWritable.object.map(feature =>
+  const gherkinDocuments = singleObjectWritable.object.map((feature) =>
     traverseFeature(
       implementation || detectImplementation(feature),
       feature,
