@@ -31,5 +31,5 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 <!-- Releases -->
 [Unreleased]: https://github.com/cucumber/cucumber/compare/json-to-messages/v1.0.1...master
-[1.0.1]: https://github.com/cucumber/cucumber/compare/json-to-messages/v1.0.1...v1.0.0
+[1.0.1]: https://github.com/cucumber/cucumber/compare/json-to-messages/v1.0.0...json-to-messages/v1.0.1
 [1.0.0]: https://github.com/cucumber/cucumber/compare/json-to-messages/v1.0.0
