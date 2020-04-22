@@ -18,7 +18,7 @@ abstract class PredictableTestStep extends TestStep implements ITestStep {
     public readonly id: string,
     public readonly sourceId: string,
     public readonly alwaysExecute: boolean,
-    private readonly status: messages.TestStepResult.Status,
+    private readonly status: messages.TestStepFinished.TestStepResult.Status,
     private readonly duration: number,
     private readonly errorMessage?: string
   ) {
@@ -29,11 +29,11 @@ abstract class PredictableTestStep extends TestStep implements ITestStep {
     _: IWorld,
     testCaseStartedId: string,
     listener: EnvelopeListener
-  ): Promise<messages.ITestStepResult> {
+  ): Promise<messages.TestStepFinished.ITestStepResult> {
     this.emitTestStepStarted(testCaseStartedId, listener)
     return this.emitTestStepFinished(
       testCaseStartedId,
-      new messages.TestStepResult({
+      new messages.TestStepFinished.TestStepResult({
         duration: TimeConversion.millisecondsToDuration(this.duration),
         status: this.status,
         message: this.errorMessage,
@@ -49,7 +49,7 @@ export class PredictablePickleTestStep extends PredictableTestStep {
     public readonly sourceId: string,
     public readonly alwaysExecute: boolean,
     private readonly stepDefinitionId: string,
-    status: messages.TestStepResult.Status,
+    status: messages.TestStepFinished.TestStepResult.Status,
     duration: number,
     errorMessage?: string
   ) {

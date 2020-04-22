@@ -47,7 +47,10 @@ describe('PredictableSupportCode', () => {
 
     it('adds a hook with a passed status when status is "passed"', () => {
       const hook = supportCode.beforeHooks[0] as PredictableHook
-      assert.equal(hook.status, messages.TestStepResult.Status.PASSED)
+      assert.equal(
+        hook.status,
+        messages.TestStepFinished.TestStepResult.Status.PASSED
+      )
     })
 
     it('adds a hook with a failed status when status is "failed"', () => {
@@ -62,7 +65,10 @@ describe('PredictableSupportCode', () => {
       )
       const hook = supportCode.beforeHooks[0] as PredictableHook
 
-      assert.equal(hook.status, messages.TestStepResult.Status.FAILED)
+      assert.equal(
+        hook.status,
+        messages.TestStepFinished.TestStepResult.Status.FAILED
+      )
       assert.equal(hook.errorMessage, 'BOOM !!')
       assert.equal(hook.duration, 0.01)
     })
@@ -110,7 +116,10 @@ describe('PredictableSupportCode', () => {
     it('adds a hook with a passed status when status is "passed"', () => {
       const hook = supportCode.afterHooks[0] as PredictableHook
 
-      assert.equal(hook.status, messages.TestStepResult.Status.PASSED)
+      assert.equal(
+        hook.status,
+        messages.TestStepFinished.TestStepResult.Status.PASSED
+      )
     })
 
     it('adds a hook with a failed status when status is "failed"', () => {
@@ -125,7 +134,10 @@ describe('PredictableSupportCode', () => {
       )
       const hook = supportCode.afterHooks[0] as PredictableHook
 
-      assert.equal(hook.status, messages.TestStepResult.Status.FAILED)
+      assert.equal(
+        hook.status,
+        messages.TestStepFinished.TestStepResult.Status.FAILED
+      )
       assert.equal(hook.errorMessage, 'BOOM !!')
       assert.equal(hook.duration, 0.12)
     })
@@ -185,7 +197,7 @@ describe('PredictableSupportCode', () => {
           .stepDefinitions[0] as PredictableStepDefinition
         assert.equal(
           stepDefinition.status,
-          messages.TestStepResult.Status.PASSED
+          messages.TestStepFinished.TestStepResult.Status.PASSED
         )
       })
 
@@ -203,7 +215,7 @@ describe('PredictableSupportCode', () => {
           .stepDefinitions[0] as PredictableStepDefinition
         assert.equal(
           stepDefinition.status,
-          messages.TestStepResult.Status.PENDING
+          messages.TestStepFinished.TestStepResult.Status.PENDING
         )
       })
 
@@ -223,7 +235,7 @@ describe('PredictableSupportCode', () => {
           .stepDefinitions[0] as PredictableStepDefinition
         assert.equal(
           stepDefinition.status,
-          messages.TestStepResult.Status.FAILED
+          messages.TestStepFinished.TestStepResult.Status.FAILED
         )
         assert.equal(stepDefinition.duration, 1.23)
       })
