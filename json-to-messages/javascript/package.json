@@ -1,6 +1,6 @@
 {
   "name": "@cucumber/json-to-messages",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Translate legacy JSON to messages",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
@@ -48,9 +48,9 @@
     "ts-sinon": "^1.2.0"
   },
   "dependencies": {
-    "@cucumber/fake-cucumber": "file:../../fake-cucumber/javascript",
-    "@cucumber/gherkin": "file:../../gherkin/javascript",
-    "@cucumber/messages": "file:../../messages/javascript",
+    "@cucumber/fake-cucumber": "^7.0.0",
+    "@cucumber/gherkin": "^13.0.0",
+    "@cucumber/messages": "^12.1.1",
     "@types/diff-match-patch": "^1.0.32",
     "commander": "^5.0.0",
     "glob": "^7.1.6",

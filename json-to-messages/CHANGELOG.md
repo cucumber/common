@@ -9,8 +9,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
-* README file.
-
 ### Changed
 
 ### Deprecated
@@ -19,6 +17,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [1.0.1] - 2020-04-22
+
+### Added
+
+* README file.
+
 ## [1.0.0] - 2020-04-22
 
 ### Added
@@ -26,4 +30,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/json-to-messages/v1.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/json-to-messages/v1.0.1...master
+[1.0.1]: https://github.com/cucumber/cucumber/compare/json-to-messages/v1.0.1...v1.0.0
+[1.0.0]: https://github.com/cucumber/cucumber/compare/json-to-messages/v1.0.0
