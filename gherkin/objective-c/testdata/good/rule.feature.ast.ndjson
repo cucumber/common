@@ -4,6 +4,7 @@
       "children": [
         {
           "background": {
+            "id": "1",
             "keyword": "Background",
             "location": {
               "column": 3,
@@ -27,6 +28,7 @@
             "children": [
               {
                 "background": {
+                  "id": "3",
                   "keyword": "Background",
                   "location": {
                     "column": 5,
@@ -34,7 +36,7 @@
                   },
                   "steps": [
                     {
-                      "id": "1",
+                      "id": "2",
                       "keyword": "Given ",
                       "location": {
                         "column": 7,
@@ -47,7 +49,7 @@
               },
               {
                 "scenario": {
-                  "id": "3",
+                  "id": "5",
                   "keyword": "Example",
                   "location": {
                     "column": 5,
@@ -56,7 +58,7 @@
                   "name": "Example A",
                   "steps": [
                     {
-                      "id": "2",
+                      "id": "4",
                       "keyword": "Given ",
                       "location": {
                         "column": 7,
@@ -69,6 +71,7 @@
               }
             ],
             "description": "    The rule A description",
+            "id": "6",
             "keyword": "Rule",
             "location": {
               "column": 3,
@@ -82,7 +85,7 @@
             "children": [
               {
                 "scenario": {
-                  "id": "5",
+                  "id": "8",
                   "keyword": "Example",
                   "location": {
                     "column": 5,
@@ -91,7 +94,7 @@
                   "name": "Example B",
                   "steps": [
                     {
-                      "id": "4",
+                      "id": "7",
                       "keyword": "Given ",
                       "location": {
                         "column": 7,
@@ -104,6 +107,7 @@
               }
             ],
             "description": "    The rule B description",
+            "id": "9",
             "keyword": "Rule",
             "location": {
               "column": 3,

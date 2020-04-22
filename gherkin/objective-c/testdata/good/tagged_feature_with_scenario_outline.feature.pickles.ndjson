@@ -1,10 +1,10 @@
 {
   "pickle": {
     "astNodeIds": [
-      "4",
+      "5",
       "2"
     ],
-    "id": "7",
+    "id": "8",
     "language": "en",
     "name": "Bar",
     "steps": [
@@ -13,13 +13,13 @@
           "0",
           "2"
         ],
-        "id": "6",
+        "id": "7",
         "text": "Baz"
       }
     ],
     "tags": [
       {
-        "astNodeId": "5",
+        "astNodeId": "6",
         "name": "@sometag"
       }
     ],
@@ -29,10 +29,10 @@
 {
   "pickle": {
     "astNodeIds": [
-      "4",
+      "5",
       "3"
     ],
-    "id": "9",
+    "id": "10",
     "language": "en",
     "name": "Bar",
     "steps": [
@@ -41,13 +41,13 @@
           "0",
           "3"
         ],
-        "id": "8",
+        "id": "9",
         "text": "Baz"
       }
     ],
     "tags": [
       {
-        "astNodeId": "5",
+        "astNodeId": "6",
         "name": "@sometag"
       }
     ],

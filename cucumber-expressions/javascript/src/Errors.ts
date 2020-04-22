@@ -7,8 +7,8 @@ class AmbiguousParameterTypeError extends CucumberExpressionError {
   public static forConstructor(
     keyName: string,
     keyValue: string,
-    parameterTypes: Array<ParameterType<any>>,
-    generatedExpressions: GeneratedExpression[]
+    parameterTypes: ReadonlyArray<ParameterType<any>>,
+    generatedExpressions: ReadonlyArray<GeneratedExpression>
   ) {
     return new this(
       `parameter type with ${keyName}=${keyValue} is used by several parameter types: ${parameterTypes}, ${generatedExpressions}`
@@ -18,8 +18,8 @@ class AmbiguousParameterTypeError extends CucumberExpressionError {
   public static forRegExp(
     parameterTypeRegexp: string,
     expressionRegexp: RegExp,
-    parameterTypes: Array<ParameterType<any>>,
-    generatedExpressions: GeneratedExpression[]
+    parameterTypes: ReadonlyArray<ParameterType<any>>,
+    generatedExpressions: ReadonlyArray<GeneratedExpression>
   ) {
     return new this(
       `Your Regular Expression ${expressionRegexp}
@@ -36,12 +36,16 @@ I couldn't decide which one to use. You have two options:
     )
   }
 
-  public static _parameterTypeNames(parameterTypes: Array<ParameterType<any>>) {
-    return parameterTypes.map(p => `{${p.name}}`).join('\n   ')
+  public static _parameterTypeNames(
+    parameterTypes: ReadonlyArray<ParameterType<any>>
+  ) {
+    return parameterTypes.map((p) => `{${p.name}}`).join('\n   ')
   }
 
-  public static _expressions(generatedExpressions: GeneratedExpression[]) {
-    return generatedExpressions.map(e => e.source).join('\n   ')
+  public static _expressions(
+    generatedExpressions: ReadonlyArray<GeneratedExpression>
+  ) {
+    return generatedExpressions.map((e) => e.source).join('\n   ')
   }
 }
 

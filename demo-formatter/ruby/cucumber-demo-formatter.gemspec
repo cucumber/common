@@ -1,7 +1,10 @@
 # -*- encoding: utf-8 -*-
+
+version = File.read(File.expand_path("VERSION", __dir__)).strip
+
 Gem::Specification.new do |s|
   s.name        = 'cucumber-demo-formatter'
-  s.version     = '8.1.0'
+  s.version     = version
   s.authors     = ["Aslak Hellesøy"]
   s.description = 'Cucumber Expressions - a simpler alternative to Regular Expressions'
   s.summary     = "cucumber-demo-formatter-#{s.version}"
@@ -19,7 +22,7 @@ Gem::Specification.new do |s|
                     'source_code_uri'   => 'https://github.com/cucumber/cucumber/blob/master/cucumber-demo-formatter/ruby',
                   }
 
-  s.add_dependency 'cucumber-messages', '~> 10.0', '>= 10.0.1'
+  s.add_dependency 'cucumber-messages', '~> 12.0', '>= 12.0.0'
   s.add_development_dependency 'rake', '~> 13.0', '>= 13.0.1'
   s.add_development_dependency 'rspec', '~> 3.9', '>= 3.9.0'
 

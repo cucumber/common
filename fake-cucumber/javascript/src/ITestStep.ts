@@ -1,5 +1,5 @@
 import { messages } from '@cucumber/messages'
-import { MessageNotifier } from './types'
+import { EnvelopeListener } from './types'
 import IWorld from './IWorld'
 
 export default interface ITestStep {
@@ -11,12 +11,12 @@ export default interface ITestStep {
 
   execute(
     world: IWorld,
-    notifier: MessageNotifier,
-    testCaseStartedId: string
-  ): Promise<messages.ITestStepResult>
+    testCaseStartedId: string,
+    listener: EnvelopeListener
+  ): Promise<messages.TestStepFinished.ITestStepResult>
 
   skip(
-    notifier: MessageNotifier,
+    listener: EnvelopeListener,
     testCaseStartedId: string
-  ): messages.ITestStepResult
+  ): messages.TestStepFinished.ITestStepResult
 }

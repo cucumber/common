@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+* [Java] Enable consumers to find our version at runtime using `clazz.getPackage().getImplementationVersion()` by upgrading to `cucumber-parent:2.1.0`
+  ([#976](https://github.com/cucumber/cucumber/pull/976)
+   [aslakhellesoy])
+
 ### Changed
 
 ### Deprecated
@@ -16,6 +20,22 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Removed
 
 ### Fixed
+
+## [10.1.0] - 2020-04-14
+
+### Changed
+
+* [Java] `CucumberExpression` and `RegularExpression` are now public.  
+
+### Fixed
+
+* [Java] Minor performance improvement for matching regular expressions steps.
+
+## [10.0.0] - 2020-03-31
+
+### Changed
+
+* [JavaScript] All array return values and function parameters are now declared as TypeScript `ReadOnlyArray`
 
 ## [9.0.0] - 2020-02-14
 
@@ -110,7 +130,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
    [aslakhellesoy]
    [luke-hill]
    [mpkorstanje])
-* Upgrades to `cucumber-parent:2.0.2`
+* [Java] Upgrades to `cucumber-parent:2.0.2`
 * [Java] Simplify heuristics to distinguish between Cucumber Expressions and Regular Expressions
   ([#515](https://github.com/cucumber/cucumber/issues/515)
    [#581](https://github.com/cucumber/cucumber/pull/581)
@@ -655,7 +675,9 @@ N/A
 * First stable release!
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions/v9.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions/v10.1.0...master
+[10.1.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v10.0.0...cucumber-expressions/v10.1.0
+[10.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v9.0.0...cucumber-expressions/v10.0.0
 [9.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v8.3.1...cucumber-expressions/v9.0.0
 [8.3.1]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v8.3.0...cucumber-expressions/v8.3.1
 [8.3.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v8.2.1...cucumber-expressions/v8.3.0

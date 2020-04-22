@@ -125,18 +125,17 @@ public class Gherkin {
                 }
             } catch (ParserException.CompositeParserException e) {
                 for (ParserException error : e.errors) {
-                    addErrorAttachment(messages, error, uri);
+                    addParseError(messages, error, uri);
                 }
             } catch (ParserException e) {
-                addErrorAttachment(messages, e, uri);
+                addParseError(messages, e, uri);
             }
         }
         return messages.stream();
     }
 
-    private void addErrorAttachment(List<Envelope> messages, ParserException e, String uri) {
-        Messages.Attachment attachment = Messages.Attachment.newBuilder()
-                // TODO: Set media here?
+    private void addParseError(List<Envelope> messages, ParserException e, String uri) {
+        Messages.ParseError parseError = Messages.ParseError.newBuilder()
                 .setSource(Messages.SourceReference.newBuilder()
                         .setUri(uri)
                         .setLocation(
@@ -146,8 +145,8 @@ public class Gherkin {
                                         .build()
                         )
                         .build())
-                .setText(e.getMessage())
+                .setMessage(e.getMessage())
                 .build();
-        messages.add(Envelope.newBuilder().setAttachment(attachment).build());
+        messages.add(Envelope.newBuilder().setParseError(parseError).build());
     }
 }

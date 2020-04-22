@@ -7,20 +7,20 @@ package cucumber_demo_formatter
 
 import (
 	"fmt"
-	messages "github.com/cucumber/messages-go/v10"
+	"github.com/cucumber/messages-go/v12"
 	gio "github.com/gogo/protobuf/io"
 	"io"
 )
 
 func ProcessMessages(reader gio.ReadCloser, output io.Writer) {
-	var emoji = map[messages.TestStepResult_Status]string{
-		messages.TestStepResult_UNKNOWN:   "👽",
-		messages.TestStepResult_PASSED:    "😃",
-		messages.TestStepResult_SKIPPED:   "🥶",
-		messages.TestStepResult_PENDING:   "⏰",
-		messages.TestStepResult_UNDEFINED: "🤷",
-		messages.TestStepResult_AMBIGUOUS: "🦄",
-		messages.TestStepResult_FAILED:    "💣",
+	var emoji = map[messages.TestStepFinished_TestStepResult_Status]string{
+		messages.TestStepFinished_TestStepResult_UNKNOWN:   "👽",
+		messages.TestStepFinished_TestStepResult_PASSED:    "😃",
+		messages.TestStepFinished_TestStepResult_SKIPPED:   "🥶",
+		messages.TestStepFinished_TestStepResult_PENDING:   "⏰",
+		messages.TestStepFinished_TestStepResult_UNDEFINED: "🤷",
+		messages.TestStepFinished_TestStepResult_AMBIGUOUS: "🦄",
+		messages.TestStepFinished_TestStepResult_FAILED:    "💣",
 	}
 
 	for {

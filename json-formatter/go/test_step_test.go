@@ -1,7 +1,7 @@
 package json
 
 import (
-	"github.com/cucumber/messages-go/v10"
+	"github.com/cucumber/messages-go/v12"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 )
@@ -118,15 +118,15 @@ var _ = Describe("ProcessTestStepFinished", func() {
 			testStepFinished := &messages.TestStepFinished{
 				TestCaseStartedId: "test-case-started-id",
 				TestStepId:        "hook-step-id",
-				TestStepResult: &messages.TestStepResult{
-					Status: messages.TestStepResult_PASSED,
+				TestStepResult: &messages.TestStepFinished_TestStepResult{
+					Status: messages.TestStepFinished_TestStepResult_PASSED,
 				},
 			}
 
 			_, testStep := ProcessTestStepFinished(testStepFinished, lookup)
 
 			Expect(testStep.Hook.Id).To(Equal("hook-id"))
-			Expect(testStep.Result.Status).To(Equal(messages.TestStepResult_PASSED))
+			Expect(testStep.Result.Status).To(Equal(messages.TestStepFinished_TestStepResult_PASSED))
 		})
 
 		It("returns a TestStep with a nil Step", func() {
@@ -173,7 +173,7 @@ var _ = Describe("ProcessTestStepFinished", func() {
 
 			stepDefinitionConfig := &messages.StepDefinition{
 				Id: "step-def-id",
-				Pattern: &messages.StepDefinitionPattern{
+				Pattern: &messages.StepDefinition_StepDefinitionPattern{
 					Source: "a passed {word}",
 				},
 			}
@@ -315,8 +315,8 @@ var _ = Describe("TestStepToJSON", func() {
 						},
 					},
 				},
-				Result: &messages.TestStepResult{
-					Status: messages.TestStepResult_PASSED,
+				Result: &messages.TestStepFinished_TestStepResult{
+					Status: messages.TestStepFinished_TestStepResult_PASSED,
 					Duration: &messages.Duration{
 						Seconds: 123,
 						Nanos:   456,
@@ -356,8 +356,8 @@ var _ = Describe("TestStepToJSON", func() {
 				PickleStep: &messages.Pickle_PickleStep{
 					Text: "a passed step",
 				},
-				Result: &messages.TestStepResult{
-					Status: messages.TestStepResult_FAILED,
+				Result: &messages.TestStepFinished_TestStepResult{
+					Status: messages.TestStepFinished_TestStepResult_FAILED,
 					Duration: &messages.Duration{
 						Seconds: 123,
 						Nanos:   456,

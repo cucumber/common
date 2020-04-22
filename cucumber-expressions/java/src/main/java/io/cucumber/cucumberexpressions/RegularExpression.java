@@ -1,15 +1,16 @@
 package io.cucumber.cucumberexpressions;
 
+import org.apiguardian.api.API;
+
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 import java.util.regex.Pattern;
 
 import static io.cucumber.cucumberexpressions.ParameterType.createAnonymousParameterType;
 
-final class RegularExpression implements Expression {
+@API(status = API.Status.STABLE)
+public final class RegularExpression implements Expression {
     private final Pattern expressionRegexp;
     private final ParameterTypeRegistry parameterTypeRegistry;
     private final TreeRegexp treeRegexp;
@@ -30,6 +31,11 @@ final class RegularExpression implements Expression {
 
     @Override
     public List<Argument<?>> match(String text, Type... typeHints) {
+        final Group group = treeRegexp.match(text);
+        if (group == null) {
+            return null;
+        }
+
         final ParameterByTypeTransformer defaultTransformer = parameterTypeRegistry.getDefaultParameterTransformer();
         final List<ParameterType<?>> parameterTypes = new ArrayList<>();
         int typeHintIndex = 0;
@@ -63,8 +69,7 @@ final class RegularExpression implements Expression {
             parameterTypes.add(parameterType);
         }
 
-
-        return Argument.build(treeRegexp, text, parameterTypes);
+        return Argument.build(group, treeRegexp, parameterTypes);
     }
 
     @Override

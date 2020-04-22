@@ -11,7 +11,14 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Added
 
+* [Java] Enable consumers to find our version at runtime using `clazz.getPackage().getImplementationVersion()` by upgrading to `cucumber-parent:2.1.0`
+  ([#976](https://github.com/cucumber/cucumber/pull/976)
+   [aslakhellesoy])
+
 ### Changed
+
+* Fixed Estonian translation of "Rule" ([#973](https://github.com/cucumber/cucumber/pull/973) [ookull])  
+* Fixed Estonian translation of "Scenario Outline" ([#972](https://github.com/cucumber/cucumber/pull/972) [ookull]) 
 
 ### Deprecated
 
@@ -19,11 +26,46 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Fixed
 
+## [13.0.0] - 2020-04-14
+
+### Changed
+
+* Upgrade to messages 12.0.0
+
+## [12.0.0] - 2020-03-31
+
+### Added
+
+* [JavaScript] New exports: 
+  * `Parser`
+  * `compile`
+  ([#924](https://github.com/cucumber/cucumber/pull/924)
+   [davidjgoss])
+* [JavaScript] Add `Query#getPickles()`
+* [JavaScript] Export `compile` function for compiling `Pickles`
+
+### Changed
+
+* Upgrade to messages 11.x
+* [JavaScript] The default export has been removed. Replaced with:
+  * `import { GherkinStreams } from 'gherkin'` to use the `fromPaths`, `fromStream`  and `fromSources` functions
+  * `import { dialects } from 'gherkin'` to access dialects
+* [JavaScript] `Dialect` properties are read only
+* [JavaScript] `fromPaths`, `fromStream` and `fromSources` now use `ReadOnlyArray` to
+  prevent modifying the passed array.
+
+### Fixed
+
+* [JavaScript] `Gherkin.fromPaths` is not a function
+  ([#857](https://github.com/cucumber/cucumber/issues/857)
+   [#949](https://github.com/cucumber/cucumber/pull/949)
+   [aslakhellesoy])
+
 ## [11.0.0] - 2020-03-02
 
 ### Changed
 
-* [JavaScript] Renamed `GherkinQuery` to `Query` 
+* [JavaScript] Renamed `GherkinQuery` to `Query`
 
 ### Removed
 
@@ -31,7 +73,7 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Fixed
 
-* Update Indonesian Gherkin Language 
+* Update Indonesian Gherkin Language
   ([#872](https://github.com/cucumber/cucumber/pull/872)
    [#KniveX])
 
@@ -50,7 +92,7 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 * [Java/JavaScript/Ruby/Go]  Escape triple backticks in alternative docstring
   ([#889](https://github.com/cucumber/cucumber/pull/889)
    [mpkorstanje])
-  
+
 ## [9.2.0] - 2020-01-22
 
 ### Added
@@ -95,7 +137,7 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 * Do not trim leading newlines
   ([#891](https://github.com/cucumber/cucumber/pull/891)
    [mpkorstanje])
-   
+
 * PickleStep have unique IDs when generated from a `Background` section
   ([#800](https://github.com/cucumber/cucumber/pull/800)
    [vincent-psarga])
@@ -685,7 +727,9 @@ to Gherkin 2.
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v11.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v13.0.0...master
+[13.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v12.0.0...gherkin/v13.0.0
+[12.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v11.0.0...gherkin/v12.0.0
 [11.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v10.0.0...gherkin/v11.0.0
 [10.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v9.2.0...gherkin/v10.0.0
 [9.2.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v9.1.0...gherkin/v9.2.0
@@ -728,6 +772,7 @@ to Gherkin 2.
 [coderbyheart]:     https://github.com/coderbyheart
 [cyocum]:           https://github.com/cyocum
 [danilat]:          https://github.com/danilat
+[davidjgoss]:       https://github.com/davidjgoss
 [dobiedad]:         https://github.com/dobiedad
 [ehpc]:             https://github.com/ehpc
 [enkessler]:        https://github.com/enkessler
@@ -748,6 +793,7 @@ to Gherkin 2.
 [milhcbt]:          https://github.com/milhcbt
 [moreau-nicolas]:   https://github.com/moreau-nicolas
 [mpkorstanje]:      https://github.com/mpkorstanje
+[ookull]:           https://github.com/ookull
 [nalekberov]:       https://github.com/nalekberov
 [nixel2007]:        https://github.com/nixel2007
 [nikolovski]:       https://github.com/nikolovski

@@ -1,12 +1,10 @@
 include default.mk
 
-.tested: acceptance/cucumber.html
+CCK_NDJSONS = $(shell find ../../compatibility-kit/javascript/features -name "*.ndjson")
+HTML_REPORTS = $(patsubst ../../compatibility-kit/javascript/features/%.ndjson,acceptance/%.html,$(CCK_NDJSONS))
 
-acceptance/cucumber.html: .built
+.tested: $(HTML_REPORTS)
+
+acceptance/%.html: ../../compatibility-kit/javascript/features/%.ndjson .built
 	mkdir -p $(@D)
-	../../fake-cucumber/javascript/bin/fake-cucumber \
-	  --format ndjson \
-		features/*.feature | \
-		./bin/cucumber-html-formatter.js --format ndjson > \
-		$@
-
+	cat $< | ./bin/cucumber-html-formatter.js --format ndjson > $@

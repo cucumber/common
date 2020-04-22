@@ -10,7 +10,7 @@ describe('CucumberExpressionGenerator', () => {
           'color',
           /red|blue|yellow/,
           null,
-          s => s,
+          (s) => s,
           false,
           true
         ),
@@ -18,7 +18,7 @@ describe('CucumberExpressionGenerator', () => {
           'csscolor',
           /red|blue|yellow/,
           null,
-          s => s,
+          (s) => s,
           false,
           true
         ),
@@ -28,7 +28,7 @@ describe('CucumberExpressionGenerator', () => {
           'date',
           /\d{4}-\d{2}-\d{2}/,
           null,
-          s => s,
+          (s) => s,
           false,
           true
         ),
@@ -36,7 +36,7 @@ describe('CucumberExpressionGenerator', () => {
           'datetime',
           /\d{4}-\d{2}-\d{2}/,
           null,
-          s => s,
+          (s) => s,
           false,
           true
         ),
@@ -44,7 +44,7 @@ describe('CucumberExpressionGenerator', () => {
           'timestamp',
           /\d{4}-\d{2}-\d{2}/,
           null,
-          s => s,
+          (s) => s,
           false,
           true
         ),
@@ -55,7 +55,7 @@ describe('CucumberExpressionGenerator', () => {
       'I bought a {%s} ball on {%s}',
       parameterTypeCombinations
     )
-    const expressions = factory.generateExpressions().map(ge => ge.source)
+    const expressions = factory.generateExpressions().map((ge) => ge.source)
     assert.deepStrictEqual(expressions, [
       'I bought a {color} ball on {date}',
       'I bought a {color} ball on {datetime}',

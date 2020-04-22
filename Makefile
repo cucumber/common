@@ -8,11 +8,12 @@ PACKAGES ?= c21e \
 	query \
 	json-formatter \
 	react \
-	html-formatter \
 	compatibility-kit \
+	html-formatter \
 	datatable \
 	config \
-	demo-formatter
+	demo-formatter \
+	json-to-messages
 
 default: .rsynced $(patsubst %,default-%,$(PACKAGES))
 .PHONY: default

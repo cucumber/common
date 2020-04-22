@@ -3,8 +3,9 @@ package json
 import (
 	"errors"
 	"fmt"
-	"github.com/cucumber/messages-go/v10"
 	"strings"
+
+	"github.com/cucumber/messages-go/v12"
 )
 
 type TestCase struct {
@@ -88,11 +89,12 @@ func backgroundStepsToJSON(steps []*TestStep) *jsonFeatureElement {
 	background := steps[0].Background
 
 	return &jsonFeatureElement{
-		Keyword: background.Keyword,
-		Name:    background.Name,
-		Line:    background.Location.Line,
-		Type:    "background",
-		Steps:   makeJSONSteps(steps),
+		Keyword:     background.Keyword,
+		Name:        background.Name,
+		Description: background.Description,
+		Line:        background.Location.Line,
+		Type:        "background",
+		Steps:       makeJSONSteps(steps),
 	}
 }
 

@@ -63,7 +63,7 @@ export default function generateMessages(
       }
       result.push(
         messages.Envelope.create({
-          attachment: {
+          parseError: {
             source: {
               uri,
               location: {
@@ -71,7 +71,7 @@ export default function generateMessages(
                 column: error.location.column,
               },
             },
-            text: error.message,
+            message: error.message,
           },
         })
       )

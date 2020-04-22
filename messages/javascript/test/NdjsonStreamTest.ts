@@ -2,6 +2,7 @@ import { messages, MessageToNdjsonStream } from '../src'
 import assert from 'assert'
 import NdjsonToMessageStream from '../src/NdjsonToMessageStream'
 import verifyStreamContract from './verifyStreamContract'
+import toArray from './toArray'
 
 describe('NdjsonStream', () => {
   const makeToMessageStream = () =>
@@ -11,12 +12,12 @@ describe('NdjsonStream', () => {
   const makeFromMessageStream = () => new MessageToNdjsonStream()
   verifyStreamContract(makeFromMessageStream, makeToMessageStream)
 
-  it('converts a buffer stream written byte by byte', cb => {
+  it('converts a buffer stream written byte by byte', (cb) => {
     const stream = makeToMessageStream()
     const envelope = messages.Envelope.create({
       testStepFinished: messages.TestStepFinished.create({
-        testStepResult: messages.TestStepResult.create({
-          status: messages.TestStepResult.Status.UNKNOWN,
+        testStepResult: messages.TestStepFinished.TestStepResult.create({
+          status: messages.TestStepFinished.TestStepResult.Status.UNKNOWN,
         }),
       }),
     })
@@ -33,7 +34,7 @@ describe('NdjsonStream', () => {
     stream.end()
   })
 
-  it('converts messages to JSON with enums as strings', cb => {
+  it('converts messages to JSON with enums as strings', (cb) => {
     const stream = new MessageToNdjsonStream()
     stream.on('data', (json: string) => {
       const ob = JSON.parse(json)
@@ -49,15 +50,15 @@ describe('NdjsonStream', () => {
     stream.write(
       messages.Envelope.create({
         testStepFinished: messages.TestStepFinished.create({
-          testStepResult: messages.TestStepResult.create({
-            status: messages.TestStepResult.Status.UNKNOWN,
+          testStepResult: messages.TestStepFinished.TestStepResult.create({
+            status: messages.TestStepFinished.TestStepResult.Status.UNKNOWN,
           }),
         }),
       })
     )
   })
 
-  it('converts messages to JSON with undefined arrays omitted', cb => {
+  it('converts messages to JSON with undefined arrays omitted', (cb) => {
     const stream = new MessageToNdjsonStream()
     stream.on('data', (json: string) => {
       const ob = JSON.parse(json)
@@ -73,7 +74,7 @@ describe('NdjsonStream', () => {
     )
   })
 
-  it('converts messages to JSON with undefined strings omitted', cb => {
+  it('converts messages to JSON with undefined strings omitted', (cb) => {
     const stream = new MessageToNdjsonStream()
     stream.on('data', (json: string) => {
       const ob = JSON.parse(json)
@@ -87,7 +88,7 @@ describe('NdjsonStream', () => {
     )
   })
 
-  it('converts messages to JSON with undefined numbers omitted', cb => {
+  it('converts messages to JSON with undefined numbers omitted', (cb) => {
     const stream = new MessageToNdjsonStream()
     stream.on('data', (json: string) => {
       const ob = JSON.parse(json)
@@ -113,5 +114,15 @@ describe('NdjsonStream', () => {
         }),
       })
     )
+  })
+
+  it('ignores missing fields', async () => {
+    const toMessageStream = makeToMessageStream()
+    toMessageStream.write('{"unused": 999}\n')
+    toMessageStream.end()
+
+    const incomingMessages = await toArray(toMessageStream)
+
+    assert.deepStrictEqual(incomingMessages, [messages.Envelope.create({})])
   })
 })

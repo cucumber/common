@@ -13,7 +13,10 @@ public class ArgumentTest {
     public void exposes_parameter_type() {
         TreeRegexp treeRegexp = new TreeRegexp("three (.*) mice");
         ParameterTypeRegistry parameterTypeRegistry = new ParameterTypeRegistry(Locale.ENGLISH);
-        List<Argument<?>> arguments = Argument.build(treeRegexp, "three blind mice", Collections.singletonList(parameterTypeRegistry.lookupByTypeName("string")));
+        List<Argument<?>> arguments = Argument.build(
+                treeRegexp.match("three blind mice"),
+                treeRegexp,
+                Collections.singletonList(parameterTypeRegistry.lookupByTypeName("string")));
         Argument<?> argument = arguments.get(0);
         assertEquals("string", argument.getParameterType().getName());
     }

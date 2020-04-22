@@ -26,7 +26,7 @@ export default class CucumberHtmlStream extends Transform {
       return callback(new Error('Stream closed'))
     }
 
-    this.writePreMessageUnlessAlreadyWritten(err => {
+    this.writePreMessageUnlessAlreadyWritten((err) => {
       if (err) return callback(err)
       this.writeMessage(envelope)
       callback()
@@ -44,11 +44,11 @@ export default class CucumberHtmlStream extends Transform {
       return callback()
     }
     this.preMessageWritten = true
-    this.writeTemplateBetween(null, '{{css}}', err => {
+    this.writeTemplateBetween(null, '{{css}}', (err) => {
       if (err) return callback(err)
-      this.writeFile(this.cssPath, err => {
+      this.writeFile(this.cssPath, (err) => {
         if (err) return callback(err)
-        this.writeTemplateBetween('{{css}}', '{{messages}}', err => {
+        this.writeTemplateBetween('{{css}}', '{{messages}}', (err) => {
           if (err) return callback(err)
           // this.writeResource("cucumber-react.css", callback);
           callback()
@@ -60,11 +60,11 @@ export default class CucumberHtmlStream extends Transform {
   private jsPath: string
 
   private writePostMessage(callback: TransformCallback) {
-    this.writePreMessageUnlessAlreadyWritten(err => {
+    this.writePreMessageUnlessAlreadyWritten((err) => {
       if (err) return callback(err)
-      this.writeTemplateBetween('{{messages}}', '{{script}}', err => {
+      this.writeTemplateBetween('{{messages}}', '{{script}}', (err) => {
         if (err) return callback(err)
-        this.writeFile(this.jsPath, err => {
+        this.writeFile(this.jsPath, (err) => {
           if (err) return callback(err)
           this.writeTemplateBetween('{{script}}', null, callback)
         })
@@ -74,8 +74,8 @@ export default class CucumberHtmlStream extends Transform {
 
   private writeFile(path: string, callback: (error?: Error | null) => void) {
     const cssStream: Readable = fs.createReadStream(path, { encoding: 'utf-8' })
-    cssStream.on('data', chunk => this.push(chunk))
-    cssStream.on('error', err => callback(err))
+    cssStream.on('data', (chunk) => this.push(chunk))
+    cssStream.on('error', (err) => callback(err))
     cssStream.on('end', callback)
   }
 
