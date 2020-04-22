@@ -1,7 +1,10 @@
 # encoding: utf-8
+
+version = File.read(File.expand_path("VERSION", __dir__)).strip
+
 Gem::Specification.new do |s|
   s.name        = 'cucumber-html-formatter'
-  s.version     = '6.0.1'
+  s.version     = version
   s.authors     = ["Vincent Prêtre"]
   s.description = 'HTML formatter for Cucumber'
   s.summary     = "#{s.name}-#{s.version}"

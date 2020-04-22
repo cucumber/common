@@ -24,6 +24,8 @@
     - [GherkinDocument.Feature.Tag](#io.cucumber.messages.GherkinDocument.Feature.Tag)
     - [Hook](#io.cucumber.messages.Hook)
     - [Location](#io.cucumber.messages.Location)
+    - [Meta](#io.cucumber.messages.Meta)
+    - [Meta.Product](#io.cucumber.messages.Meta.Product)
     - [ParameterType](#io.cucumber.messages.ParameterType)
     - [ParseError](#io.cucumber.messages.ParseError)
     - [Pickle](#io.cucumber.messages.Pickle)
@@ -45,7 +47,6 @@
     - [TestCase.TestStep.StepMatchArgumentsList.StepMatchArgument.Group](#io.cucumber.messages.TestCase.TestStep.StepMatchArgumentsList.StepMatchArgument.Group)
     - [TestCaseFinished](#io.cucumber.messages.TestCaseFinished)
     - [TestCaseStarted](#io.cucumber.messages.TestCaseStarted)
-    - [TestCaseStarted.Platform](#io.cucumber.messages.TestCaseStarted.Platform)
     - [TestRunFinished](#io.cucumber.messages.TestRunFinished)
     - [TestRunStarted](#io.cucumber.messages.TestRunStarted)
     - [TestStepFinished](#io.cucumber.messages.TestStepFinished)
@@ -144,6 +145,7 @@ messages.
 | test_case_finished | [TestCaseFinished](#io.cucumber.messages.TestCaseFinished) |  |  |
 | test_run_finished | [TestRunFinished](#io.cucumber.messages.TestRunFinished) |  |  |
 | parse_error | [ParseError](#io.cucumber.messages.ParseError) |  | Parsing |
+| meta | [Meta](#io.cucumber.messages.Meta) |  |  |
 
 
 
@@ -457,6 +459,42 @@ Points to a line and a column in a text file
 | ----- | ---- | ----- | ----------- |
 | line | [uint32](#uint32) |  |  |
 | column | [uint32](#uint32) |  |  |
+
+
+
+
+
+
+<a name="io.cucumber.messages.Meta"></a>
+
+### Meta
+This message contains meta information about the environment. Consumers can use
+this for various purposes.
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| protocol_version | [string](#string) |  | The [SEMVER](https://semver.org/) version number of the protocol |
+| implementation | [Meta.Product](#io.cucumber.messages.Meta.Product) |  | SpecFlow, Cucumber-JVM, Cucumber.js, Cucumber-Ruby, Behat etc. |
+| runtime | [Meta.Product](#io.cucumber.messages.Meta.Product) |  | Java, Ruby, Node.js etc |
+| os | [Meta.Product](#io.cucumber.messages.Meta.Product) |  | Windows, Linux, MacOS etc |
+| cpu | [Meta.Product](#io.cucumber.messages.Meta.Product) |  | 386, arm, amd64 etc |
+
+
+
+
+
+
+<a name="io.cucumber.messages.Meta.Product"></a>
+
+### Meta.Product
+A product has a name and a version
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| name | [string](#string) |  | The product name |
+| version | [string](#string) |  | The product version |
 
 
 
@@ -821,28 +859,9 @@ This message closely matches the `Argument` class in the `cucumber-expressions` 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | timestamp | [Timestamp](#io.cucumber.messages.Timestamp) |  |  |
-| platform | [TestCaseStarted.Platform](#io.cucumber.messages.TestCaseStarted.Platform) |  |  |
 | attempt | [uint32](#uint32) |  | The first attempt should have value 0, and for each retry the value should increase by 1. |
 | test_case_id | [string](#string) |  |  |
 | id | [string](#string) |  | Because a `TestCase` can be run multiple times (in case of a retry), we use this field to group messages relating to the same attempt. |
-
-
-
-
-
-
-<a name="io.cucumber.messages.TestCaseStarted.Platform"></a>
-
-### TestCaseStarted.Platform
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| implementation | [string](#string) |  | The runner implementation. For example &#34;SpecFlow&#34;, &#34;Cucumber-JVM&#34;, &#34;Behat&#34; etc. |
-| version | [string](#string) |  | The version of the runner |
-| os | [string](#string) |  | The operating system |
-| cpu | [string](#string) |  | The CPU architecture |
 
 
 

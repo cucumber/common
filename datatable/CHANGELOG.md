@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+* [Java] Enable consumers to find our version at runtime using `clazz.getPackage().getImplementationVersion()` by upgrading to `cucumber-parent:2.1.0`
+  ([#976](https://github.com/cucumber/cucumber/pull/976)
+   [aslakhellesoy])
+
 ### Changed
 
 ### Deprecated
@@ -73,7 +77,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
     [mpkorstanje])        
 
 ### Changed
- * Upgrades to `cucumber-parent:2.0.2`
+ * [Java] Upgrades to `cucumber-parent:2.0.2`
  * Allow `null` values in `DataTable`.
      ([cucumber/cucumber-jvm#1617](https://github.com/cucumber/cucumber-jvm/issues/1617)
      [mpkorstanje])        

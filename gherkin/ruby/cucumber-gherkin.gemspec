@@ -1,7 +1,10 @@
 # encoding: utf-8
+
+version = File.read(File.expand_path("VERSION", __dir__)).strip
+
 Gem::Specification.new do |s|
   s.name        = 'cucumber-gherkin'
-  s.version     = '13.0.0'
+  s.version     = version
   s.authors     = ["Gáspár Nagy", "Aslak Hellesøy", "Steve Tooke"]
   s.description = 'Gherkin parser'
   s.summary     = "#{s.name}-#{s.version}"

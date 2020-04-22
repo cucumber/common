@@ -1,10 +1,11 @@
-import { IFeature } from '../src/cucumber-generic/JSONSchema'
-import { IFeature as IBehaveFeature } from '../src/behave/JSONSchema'
-import { IStep as IJSStep } from '../src/cucumber-js/JSONSchema'
+import { IFeature } from './cucumber-generic/JSONSchema'
+import { IFeature as IBehaveFeature } from './behave/JSONSchema'
+import { IStep as IJSStep } from './cucumber-js/JSONSchema'
+import { Implementation } from './types'
 
-export default function detectLanguage(
+export default function detectImplementation(
   feature: IFeature | IBehaveFeature
-): string {
+): Implementation {
   const featureAsBehave = feature as IBehaveFeature
 
   if (featureAsBehave.status || featureAsBehave.location) {
@@ -15,14 +16,14 @@ export default function detectLanguage(
     for (const step of element.steps || []) {
       const stepAsJS = step as IJSStep
       if (stepAsJS.hidden) {
-        return 'javascript'
+        return 'cucumber-js'
       }
 
       if (stepAsJS.arguments) {
-        return 'javascript'
+        return 'cucumber-js'
       }
     }
   }
 
-  return 'ruby'
+  return 'cucumber-ruby'
 }

@@ -1,7 +1,10 @@
 # -*- encoding: utf-8 -*-
+
+version = File.read(File.expand_path("VERSION", __dir__)).strip
+
 Gem::Specification.new do |s|
   s.name        = 'cucumber-demo-formatter'
-  s.version     = '8.1.0'
+  s.version     = version
   s.authors     = ["Aslak Hellesøy"]
   s.description = 'Cucumber Expressions - a simpler alternative to Regular Expressions'
   s.summary     = "cucumber-demo-formatter-#{s.version}"
