@@ -14,7 +14,7 @@ describe('PredictablePickleTestStep', () => {
         123456
       )
       const emitted: messages.IEnvelope[] = []
-      await step.execute(null, 'test-case-started-id', envelope => {
+      await step.execute(null, 'test-case-started-id', (envelope) => {
         emitted.push(envelope)
       })
       const testStepFinished = emitted[1].testStepFinished

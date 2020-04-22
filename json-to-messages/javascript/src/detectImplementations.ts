@@ -19,7 +19,7 @@ export default async function detectImplementations(
     singleObjectWritable
   )
 
-  return singleObjectWritable.object.map(feature =>
+  return singleObjectWritable.object.map((feature) =>
     detectImplementation(feature)
   )
 }

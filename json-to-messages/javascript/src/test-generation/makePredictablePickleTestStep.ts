@@ -8,7 +8,7 @@ export default function makePredictablePickleTestStep(
   pickleStep: messages.Pickle.IPickleStep,
   stepDefinitions: ReadonlyArray<PredictableStepDefinition>
 ): ITestStep {
-  const matching = stepDefinitions.filter(stepDefinition =>
+  const matching = stepDefinitions.filter((stepDefinition) =>
     stepDefinition.match(pickleStep)
   )
 

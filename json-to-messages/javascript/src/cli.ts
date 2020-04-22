@@ -17,17 +17,17 @@ const { lang, detect } = program
 
 if (detect) {
   detectImplementations(process.stdin)
-    .then(implementations => {
+    .then((implementations) => {
       process.stdout.write(`Detected implementations:
 ${implementations}
 `)
     })
-    .catch(err => {
+    .catch((err) => {
       console.error(err)
       process.exit(1)
     })
 } else {
-  jsonToMessages(process.stdin, process.stdout, lang).catch(err => {
+  jsonToMessages(process.stdin, process.stdout, lang).catch((err) => {
     console.error(err)
     process.exit(1)
   })

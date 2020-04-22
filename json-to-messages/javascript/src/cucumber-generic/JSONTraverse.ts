@@ -23,7 +23,7 @@ export function traverseFeature(
   const children: messages.GherkinDocument.Feature.IFeatureChild[] = []
   let backgroundFound = false
   const tags = feature.tags
-    ? feature.tags.map(tag => traverseTag(tag, astMaker))
+    ? feature.tags.map((tag) => traverseTag(tag, astMaker))
     : undefined
 
   for (const element of feature.elements) {
@@ -42,7 +42,7 @@ export function traverseFeature(
     feature.keyword,
     feature.name,
     feature.description,
-    children.filter(child => child),
+    children.filter((child) => child),
     tags
   )
 

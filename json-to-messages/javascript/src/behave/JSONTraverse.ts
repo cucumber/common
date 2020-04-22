@@ -14,7 +14,7 @@ import {
 
 function makeTags(tags: ReadonlyArray<string>): ITag[] {
   return tags
-    ? tags.map(tag => {
+    ? tags.map((tag) => {
         return { name: `@${tag}` }
       })
     : undefined
@@ -69,7 +69,7 @@ export function traverseElement(
     return
   }
   const tags = element.tags
-    ? makeTags(element.tags).map(tag => traverseTag(tag, astMaker))
+    ? makeTags(element.tags).map((tag) => traverseTag(tag, astMaker))
     : undefined
 
   return astMaker.makeScenarioFeatureChild(
@@ -78,7 +78,7 @@ export function traverseElement(
     element.keyword,
     element.name,
     element.description,
-    element.steps.map(step =>
+    element.steps.map((step) =>
       traverseStep(step, astMaker, newId, predictableSupportCode)
     ),
     tags
@@ -128,9 +128,9 @@ export function traverseTable(
   table: ITable,
   astMaker: IAstMaker
 ): messages.GherkinDocument.Feature.Step.IDataTable {
-  const cells: string[][] = [table.headings.map(head => head)]
+  const cells: string[][] = [table.headings.map((head) => head)]
   for (const row of table.rows) {
-    cells.push(row.map(cell => cell))
+    cells.push(row.map((cell) => cell))
   }
   return astMaker.makeDataTable(cells)
 }
