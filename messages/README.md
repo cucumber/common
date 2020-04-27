@@ -84,7 +84,7 @@ The protocol aims to decouple various components of the Cucumber platform so tha
 ## Examples
 
 You will find examples of Cucumber Message streams as [NDJSON](http://ndjson.org/) files
-in [compatibility-kit](compatibility-kit/javascript/features) directories.
+in [compatibility-kit](../compatibility-kit/javascript/features) directories.
 
 ## Utitlities
 
