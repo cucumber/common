@@ -18,6 +18,7 @@ export default class Query {
     string,
     messages.ITestStepResult
   >()
+  private readonly hooksById = new Map<string, messages.IHook>()
 
   private readonly attachmentsByPickleStepId = new ArrayMultimap<
     string,
@@ -63,6 +64,10 @@ export default class Query {
         testStep.id,
         envelope.testStepFinished.testStepResult
       )
+    }
+
+    if (envelope.hook) {
+      this.hooksById.set(envelope.hook.id, envelope.hook)
     }
 
     if (envelope.attachment) {
@@ -166,6 +171,10 @@ export default class Query {
     | ReadonlyArray<messages.TestCase.TestStep.IStepMatchArgumentsList>
     | undefined {
     return this.stepMatchArgumentsListsByPickleStepId.get(pickleStepId)
+  }
+
+  public getHook(hookId: string): messages.IHook {
+    return this.hooksById.get(hookId)
   }
 
   public getBeforeHookSteps(

@@ -387,6 +387,25 @@ describe('Query', () => {
         )
       })
     })
+
+    describe('#getHook(HookId)', () => {
+      it('returns null if the id does not match any hook', () => {
+        assert.equal(cucumberQuery.getHook('tralala'), null)
+      })
+
+      it('returns the matching hook', () => {
+        const hook = messages.Hook.create({
+          id: 'tralala',
+        })
+        const envelope = messages.Envelope.create({
+          hook,
+        })
+
+        cucumberQuery.update(envelope)
+
+        assert.deepEqual(cucumberQuery.getHook('tralala'), hook)
+      })
+    })
   })
 
   async function execute(
