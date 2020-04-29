@@ -1,5 +1,6 @@
 import { messages, TimeConversion } from '@cucumber/messages'
 import { ArrayMultimap } from '@teppeis/multimaps'
+import { isNullOrUndefined } from 'util'
 
 export default class Query {
   private readonly testStepResultByPickleId = new ArrayMultimap<
@@ -182,7 +183,10 @@ export default class Query {
   ): ReadonlyArray<messages.TestCase.ITestStep> {
     const testCase = this.testCaseByPickleId.get(pickleId)
 
-    // const hookSteps = testCase.testSteps.filter((step) => step.hookId)
+    if (isNullOrUndefined(testCase)) {
+      return []
+    }
+
     const hookSteps: messages.TestCase.ITestStep[] = []
     let pickleStepFound = false
 
