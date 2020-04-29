@@ -23,6 +23,7 @@ describe('#attach', () => {
       new messages.Envelope({
         attachment: new messages.Attachment({
           mediaType: 'text/plain',
+          contentEncoding: messages.Attachment.ContentEncoding.IDENTITY,
           testCaseStartedId: 'the-test-case-started-id',
           testStepId: 'the-test-step-id',
           body: 'hello',

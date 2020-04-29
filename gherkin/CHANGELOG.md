@@ -11,13 +11,26 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Added
 
+* [Java] Enable consumers to find our version at runtime using `clazz.getPackage().getImplementationVersion()` by upgrading to `cucumber-parent:2.1.0`
+  ([#976](https://github.com/cucumber/cucumber/pull/976)
+   [aslakhellesoy])
+
 ### Changed
+
+* Fixed Estonian translation of "Rule" ([#973](https://github.com/cucumber/cucumber/pull/973) [ookull])  
+* Fixed Estonian translation of "Scenario Outline" ([#972](https://github.com/cucumber/cucumber/pull/972) [ookull]) 
 
 ### Deprecated
 
 ### Removed
 
 ### Fixed
+
+## [13.0.0] - 2020-04-14
+
+### Changed
+
+* Upgrade to messages 12.0.0
 
 ## [12.0.0] - 2020-03-31
 
@@ -29,6 +42,7 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
   ([#924](https://github.com/cucumber/cucumber/pull/924)
    [davidjgoss])
 * [JavaScript] Add `Query#getPickles()`
+* [JavaScript] Export `compile` function for compiling `Pickles`
 
 ### Changed
 
@@ -51,7 +65,7 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Changed
 
-* [JavaScript] Renamed `GherkinQuery` to `Query` 
+* [JavaScript] Renamed `GherkinQuery` to `Query`
 
 ### Removed
 
@@ -59,7 +73,7 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Fixed
 
-* Update Indonesian Gherkin Language 
+* Update Indonesian Gherkin Language
   ([#872](https://github.com/cucumber/cucumber/pull/872)
    [#KniveX])
 
@@ -78,7 +92,7 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 * [Java/JavaScript/Ruby/Go]  Escape triple backticks in alternative docstring
   ([#889](https://github.com/cucumber/cucumber/pull/889)
    [mpkorstanje])
-  
+
 ## [9.2.0] - 2020-01-22
 
 ### Added
@@ -123,7 +137,7 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 * Do not trim leading newlines
   ([#891](https://github.com/cucumber/cucumber/pull/891)
    [mpkorstanje])
-   
+
 * PickleStep have unique IDs when generated from a `Background` section
   ([#800](https://github.com/cucumber/cucumber/pull/800)
    [vincent-psarga])
@@ -713,7 +727,8 @@ to Gherkin 2.
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v12.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v13.0.0...master
+[13.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v12.0.0...gherkin/v13.0.0
 [12.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v11.0.0...gherkin/v12.0.0
 [11.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v10.0.0...gherkin/v11.0.0
 [10.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v9.2.0...gherkin/v10.0.0
@@ -778,6 +793,7 @@ to Gherkin 2.
 [milhcbt]:          https://github.com/milhcbt
 [moreau-nicolas]:   https://github.com/moreau-nicolas
 [mpkorstanje]:      https://github.com/mpkorstanje
+[ookull]:           https://github.com/ookull
 [nalekberov]:       https://github.com/nalekberov
 [nixel2007]:        https://github.com/nixel2007
 [nikolovski]:       https://github.com/nikolovski

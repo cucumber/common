@@ -8,7 +8,7 @@ module.exports = ({ config }) => {
     ],
   })
   config.module.rules.push({
-    test: /\.ndjson$/,
+    test: /\.(ndjson|txt)$/,
     use: [
       {
         loader: require.resolve('raw-loader'),

@@ -23,6 +23,7 @@ function defaultTransformer(...args: string[]) {
  */
 export default class SupportCode {
   public readonly parameterTypes: Array<ParameterType<any>> = []
+  public readonly parameterTypeMessages: Array<messages.IEnvelope> = []
   public readonly stepDefinitions: IStepDefinition[] = []
   public readonly beforeHooks: IHook[] = []
   public readonly afterHooks: IHook[] = []
@@ -31,7 +32,7 @@ export default class SupportCode {
   private readonly expressionFactory = new ExpressionFactory(
     this.parameterTypeRegistry
   )
-  public readonly undefinedParameterTypes: messages.IEnvelope[] = []
+  public readonly undefinedParameterTypeMessages: messages.IEnvelope[] = []
 
   constructor(
     public readonly newId: IdGenerator.NewId = IdGenerator.uuid(),
@@ -52,6 +53,17 @@ export default class SupportCode {
     )
     this.parameterTypeRegistry.defineParameterType(parameterType)
     this.parameterTypes.push(parameterType)
+    this.parameterTypeMessages.push(
+      new messages.Envelope({
+        parameterType: new messages.ParameterType({
+          id: this.newId(),
+          name: parameterType.name,
+          regularExpressions: parameterType.regexpStrings.slice(),
+          preferForRegularExpressionMatch: parameterType.preferForRegexpMatch,
+          useForSnippets: parameterType.useForSnippets,
+        }),
+      })
+    )
   }
 
   public defineStepDefinition(
@@ -67,10 +79,10 @@ export default class SupportCode {
         sourceReference,
         body
       )
-      this.stepDefinitions.push(stepDefinition)
+      this.registerStepDefinition(stepDefinition)
     } catch (e) {
       if (e.undefinedParameterTypeName) {
-        this.undefinedParameterTypes.push(
+        this.undefinedParameterTypeMessages.push(
           new messages.Envelope({
             undefinedParameterType: new messages.UndefinedParameterType({
               expression: expression.toString(),
@@ -84,14 +96,22 @@ export default class SupportCode {
     }
   }
 
+  public registerStepDefinition(stepDefinition: IStepDefinition) {
+    this.stepDefinitions.push(stepDefinition)
+  }
+
   public defineBeforeHook(
     sourceReference: messages.ISourceReference,
     tagExpressionOrBody: string | AnyBody,
     body?: AnyBody
   ) {
-    this.beforeHooks.push(
+    this.registerBeforeHook(
       this.makeHook(sourceReference, tagExpressionOrBody, body)
     )
+  }
+
+  public registerBeforeHook(hook: IHook) {
+    this.beforeHooks.push(hook)
   }
 
   public defineAfterHook(
@@ -99,9 +119,13 @@ export default class SupportCode {
     tagExpressionOrBody: string | AnyBody,
     body?: AnyBody
   ) {
-    this.afterHooks.push(
+    this.registerAfterHook(
       this.makeHook(sourceReference, tagExpressionOrBody, body)
     )
+  }
+
+  public registerAfterHook(hook: IHook) {
+    this.afterHooks.push(hook)
   }
 
   private makeHook(

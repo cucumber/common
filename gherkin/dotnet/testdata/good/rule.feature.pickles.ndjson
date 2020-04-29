@@ -1,45 +1,11 @@
 {
   "pickle": {
     "astNodeIds": [
-      "3"
-    ],
-    "id": "9",
-    "language": "en",
-    "name": "Example A",
-    "steps": [
-      {
-        "astNodeIds": [
-          "0"
-        ],
-        "id": "6",
-        "text": "fb"
-      },
-      {
-        "astNodeIds": [
-          "1"
-        ],
-        "id": "7",
-        "text": "ab"
-      },
-      {
-        "astNodeIds": [
-          "2"
-        ],
-        "id": "8",
-        "text": "a"
-      }
-    ],
-    "uri": "testdata/good/rule.feature"
-  }
-}
-{
-  "pickle": {
-    "astNodeIds": [
       "5"
     ],
-    "id": "12",
+    "id": "13",
     "language": "en",
-    "name": "Example B",
+    "name": "Example A",
     "steps": [
       {
         "astNodeIds": [
@@ -50,9 +16,43 @@
       },
       {
         "astNodeIds": [
-          "4"
+          "2"
         ],
         "id": "11",
+        "text": "ab"
+      },
+      {
+        "astNodeIds": [
+          "4"
+        ],
+        "id": "12",
+        "text": "a"
+      }
+    ],
+    "uri": "testdata/good/rule.feature"
+  }
+}
+{
+  "pickle": {
+    "astNodeIds": [
+      "8"
+    ],
+    "id": "16",
+    "language": "en",
+    "name": "Example B",
+    "steps": [
+      {
+        "astNodeIds": [
+          "0"
+        ],
+        "id": "14",
+        "text": "fb"
+      },
+      {
+        "astNodeIds": [
+          "7"
+        ],
+        "id": "15",
         "text": "b"
       }
     ],

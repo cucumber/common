@@ -1,6 +1,6 @@
 {
-  "attachment": {
-    "body": "(6:7): inconsistent cell count within the table",
+  "parseError": {
+    "message": "(6:7): inconsistent cell count within the table",
     "source": {
       "location": {
         "column": 7,
@@ -11,8 +11,8 @@
   }
 }
 {
-  "attachment": {
-    "body": "(14:5): inconsistent cell count within the table",
+  "parseError": {
+    "message": "(14:5): inconsistent cell count within the table",
     "source": {
       "location": {
         "column": 5,

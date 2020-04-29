@@ -1,0 +1,16 @@
+.idea/
+*.iml
+target/
+release.properties
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+dependency-reduced-pom.xml
+.classpath
+.deps
+.project
+.settings/
+.tested*
+.compared
+.built
+# Approval tests
+acceptance/

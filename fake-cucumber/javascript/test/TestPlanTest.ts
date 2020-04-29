@@ -8,6 +8,8 @@ import IncrementClock from '../src/IncrementClock'
 import { withSourceFramesOnlyStackTrace } from '../src/ErrorMessageGenerator'
 import SupportCode from '../src/SupportCode'
 import makeTestCase from '../src/makeTestCase'
+import makePickleTestStep from '../src/makePickleTestStep'
+import makeHookTestStep from '../src/makeHookTestStep'
 
 describe('TestPlan', () => {
   let supportCode: SupportCode
@@ -39,7 +41,7 @@ describe('TestPlan', () => {
     assert.deepStrictEqual(testStepFinisheds.length, 1)
     assert.strictEqual(
       testStepFinisheds[0].testStepResult.status,
-      messages.TestStepResult.Status.PASSED
+      messages.TestStepFinished.TestStepResult.Status.PASSED
     )
   })
 
@@ -76,7 +78,7 @@ describe('TestPlan', () => {
     assert.deepStrictEqual(testStepFinisheds.length, 1)
     assert.strictEqual(
       testStepFinisheds[0].testStepResult.status,
-      messages.TestStepResult.Status.PASSED
+      messages.TestStepFinished.TestStepResult.Status.PASSED
     )
     const parameterTypes = envelopes
       .filter((m) => m.parameterType)
@@ -130,7 +132,9 @@ async function makeTestPlan(
         gherkinQuery,
         supportCode.newId,
         supportCode.clock,
-        supportCode.makeErrorMessage
+        supportCode.makeErrorMessage,
+        makePickleTestStep,
+        makeHookTestStep
       )
     )
 
