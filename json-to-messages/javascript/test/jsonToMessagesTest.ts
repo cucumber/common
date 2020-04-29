@@ -52,7 +52,13 @@ describe('jsonToMesssages', () => {
 })
 
 async function produceMessages(jsons: string[]): Promise<messages.IEnvelope[]> {
-  const inputStream = Readable.from(jsons)
+  const inputStream = new Readable({
+    read() {
+      this.push(jsons.join(''))
+      this.push(null)
+    },
+  })
+
   const emitted: messages.IEnvelope[] = []
   const out = new NdjsonToMessageStream(
     messages.Envelope.fromObject.bind(messages.Envelope)
