@@ -12,6 +12,7 @@ import traverseFeature from './JSONTraverse'
 import makePredictableTestPlan from './test-generation/makePredictableTestPlan'
 import { promisify } from 'util'
 import { Implementation } from './types'
+import gherkinDocumentToSource from '../test/gherkinDocumentToSource'
 
 const asyncPipeline = promisify(pipeline)
 
@@ -55,6 +56,11 @@ export default async function main(
   )
 
   for (const gherkinDocument of gherkinDocuments) {
+    gherkinEnvelopeStream.write(
+      messages.Envelope.create({
+        source: gherkinDocumentToSource(gherkinDocument),
+      })
+    )
     gherkinEnvelopeStream.write(messages.Envelope.create({ gherkinDocument }))
     const pickles = compile(
       gherkinDocument,
