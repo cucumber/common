@@ -181,50 +181,52 @@ export default class Query {
   public getBeforeHookSteps(
     pickleId: string
   ): ReadonlyArray<messages.TestCase.ITestStep> {
-    const testCase = this.testCaseByPickleId.get(pickleId)
-
-    if (isNullOrUndefined(testCase)) {
-      return []
-    }
-
     const hookSteps: messages.TestCase.ITestStep[] = []
-    let pickleStepFound = false
 
-    for (const step of testCase.testSteps) {
-      if (!step.hookId) {
-        pickleStepFound = true
-      }
-      if (step.hookId && !pickleStepFound) {
-        hookSteps.push(step)
-      }
-    }
-
+    this.identifyHookSteps(
+      pickleId,
+      (hook) => hookSteps.push(hook),
+      () => null
+    )
     return hookSteps
   }
 
   public getAfterHookSteps(
     pickleId: string
   ): ReadonlyArray<messages.TestCase.ITestStep> {
-    const testCase = this.testCaseByPickleId.get(pickleId)
-
     const hookSteps: messages.TestCase.ITestStep[] = []
-    let pickleStepFound = false
 
-    for (const step of testCase.testSteps) {
-      if (!step.hookId) {
-        pickleStepFound = true
-      }
-      if (step.hookId && pickleStepFound) {
-        hookSteps.push(step)
-      }
-    }
-
+    this.identifyHookSteps(
+      pickleId,
+      () => null,
+      (hook) => hookSteps.push(hook)
+    )
     return hookSteps
   }
 
-  public getTestStepResults(testStepId: string): messages.ITestStepResult[] {
-    const testStepResults = this.testStepResultsbyTestStepId.get(testStepId)
+  private identifyHookSteps(
+    pickleId: string,
+    onBeforeHookFound: (hook: messages.TestCase.ITestStep) => void,
+    onAfterHookFound: (hook: messages.TestCase.ITestStep) => void
+  ): void {
+    const testCase = this.testCaseByPickleId.get(pickleId)
 
-    return testStepResults
+    if (isNullOrUndefined(testCase)) {
+      return
+    }
+
+    let pickleStepFound = false
+
+    for (const step of testCase.testSteps) {
+      if (step.hookId) {
+        pickleStepFound ? onAfterHookFound(step) : onBeforeHookFound(step)
+      } else {
+        pickleStepFound = true
+      }
+    }
+  }
+
+  public getTestStepResults(testStepId: string): messages.ITestStepResult[] {
+    return this.testStepResultsbyTestStepId.get(testStepId)
   }
 }
