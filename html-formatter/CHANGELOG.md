@@ -20,7 +20,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Removed
 
 ### Fixed
-
+* [Java] Use version range for messages dependency 
+  ([#986](https://github.com/cucumber/cucumber/pull/986)
+   [mpkorstanje])
+* [Java] Make writer idempotent when failing to close underlying writer 
+  ([#986](https://github.com/cucumber/cucumber/pull/986)
+   [mpkorstanje])
+   
 ## [6.0.1] - 2020-04-15
 
 ### Fixed
