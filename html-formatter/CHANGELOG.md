@@ -9,15 +9,21 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
-* [Java] Enable consumers to find our version at runtime using `clazz.getPackage().getImplementationVersion()` by upgrading to `cucumber-parent:2.1.0`
-  ([#976](https://github.com/cucumber/cucumber/pull/976)
-   [aslakhellesoy])
-
 ### Changed
 
 ### Deprecated
 
 ### Removed
+
+### Fixed
+
+## [6.0.2] - 2020-05-01
+
+### Added
+
+* [Java] Enable consumers to find our version at runtime using `clazz.getPackage().getImplementationVersion()` by upgrading to `cucumber-parent:2.1.0`
+  ([#976](https://github.com/cucumber/cucumber/pull/976)
+   [aslakhellesoy])
 
 ### Fixed
 * [Java] Use version range for messages dependency 
@@ -190,7 +196,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/formatter/v6.0.1...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/formatter/v6.0.2...master
+[6.0.2]:      https://github.com/cucumber/cucumber/compare/formatter/v6.0.1...formatter/v6.0.2
 [6.0.1]:      https://github.com/cucumber/cucumber/compare/formatter/v6.0.0...formatter/v6.0.1
 [6.0.0]:      https://github.com/cucumber/cucumber/compare/formatter/v5.0.0...formatter/v6.0.0
 [5.0.0]:      https://github.com/cucumber/cucumber/compare/formatter/v4.3.0...formatter/v5.0.0
