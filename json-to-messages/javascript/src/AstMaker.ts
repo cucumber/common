@@ -28,7 +28,7 @@ export default class AstMaker implements IAstMaker {
       children: children.map(
         (child: messages.GherkinDocument.Feature.FeatureChild) => child
       ),
-      tags: tags ? tags.map(tag => tag) : undefined,
+      tags: tags ? tags.map((tag) => tag) : undefined,
     })
   }
 
@@ -58,8 +58,8 @@ export default class AstMaker implements IAstMaker {
         keyword,
         name,
         description,
-        steps: steps.map(step => step),
-        tags: tags ? tags.map(tag => tag) : undefined,
+        steps: steps.map((step) => step),
+        tags: tags ? tags.map((tag) => tag) : undefined,
       }),
     })
   }
@@ -77,7 +77,7 @@ export default class AstMaker implements IAstMaker {
         keyword,
         name,
         description,
-        steps: steps.map(step => step),
+        steps: steps.map((step) => step),
       }),
     })
   }
@@ -114,9 +114,9 @@ export default class AstMaker implements IAstMaker {
     cells: ReadonlyArray<ReadonlyArray<string>>
   ): messages.GherkinDocument.Feature.Step.IDataTable {
     return messages.GherkinDocument.Feature.Step.DataTable.create({
-      rows: cells.map(row =>
+      rows: cells.map((row) =>
         messages.GherkinDocument.Feature.TableRow.create({
-          cells: row.map(cell =>
+          cells: row.map((cell) =>
             messages.GherkinDocument.Feature.TableRow.TableCell.create({
               value: cell,
             })

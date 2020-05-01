@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+* [Java] Enable consumers to find our version at runtime using `clazz.getPackage().getImplementationVersion()` by upgrading to `cucumber-parent:2.1.0`
+  ([#976](https://github.com/cucumber/cucumber/pull/976)
+   [aslakhellesoy])
+
 ### Changed
 
 ### Deprecated
@@ -126,7 +130,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
    [aslakhellesoy]
    [luke-hill]
    [mpkorstanje])
-* Upgrades to `cucumber-parent:2.0.2`
+* [Java] Upgrades to `cucumber-parent:2.0.2`
 * [Java] Simplify heuristics to distinguish between Cucumber Expressions and Regular Expressions
   ([#515](https://github.com/cucumber/cucumber/issues/515)
    [#581](https://github.com/cucumber/cucumber/pull/581)

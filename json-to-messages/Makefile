@@ -1,8 +1,8 @@
-LANGUAGES ?= ruby javacript-json java python javascript
+LANGUAGES ?= ruby javascript-json java python javascript
 include default.mk
 
-default-javacript-json:
+default-javascript-json:
 	cd javascript-json && make
 
-clean-javacript-json:
+clean-javascript-json:
 	cd javascript-json && make clean

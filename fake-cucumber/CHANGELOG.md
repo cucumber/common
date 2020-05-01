@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+* The first emitted message is a `Meta` message.
+  ([#976](https://github.com/cucumber/cucumber/pull/976)
+   [aslakhellesoy]) 
+
 ### Changed
 
 ### Deprecated
