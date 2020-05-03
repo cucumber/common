@@ -14,9 +14,9 @@ def compile(gherkin_document):
     background_steps = []
     for scenario_definition in feature['children']:
         args = (feature_tags, background_steps, scenario_definition, language, pickles)
-        if scenario_definition['type'] is 'Background':
+        if scenario_definition['type'] == 'Background':
             background_steps = _pickle_steps(scenario_definition)
-        elif scenario_definition['type'] is 'Scenario':
+        elif scenario_definition['type'] == 'Scenario':
             _compile_scenario(*args)
         else:
             _compile_scenario_outline(*args)
@@ -97,7 +97,7 @@ def _create_pickle_arguments(argument, variables, values):
     if not argument:
         return result
 
-    if argument['type'] is 'DataTable':
+    if argument['type'] == 'DataTable':
         table = {'rows': []}
         for row in argument['rows']:
             cells = [
@@ -109,7 +109,7 @@ def _create_pickle_arguments(argument, variables, values):
             table['rows'].append({'cells': cells})
         result.append(table)
 
-    elif argument['type'] is 'DocString':
+    elif argument['type'] == 'DocString':
         docstring = {
             'location': _pickle_location(argument['location']),
             'content': _interpolate(argument['content'], variables, values)
