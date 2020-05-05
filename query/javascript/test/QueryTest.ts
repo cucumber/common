@@ -406,6 +406,30 @@ describe('Query', () => {
         assert.deepEqual(cucumberQuery.getHook('tralala'), hook)
       })
     })
+
+    describe('#getAttachmentByTestStepId', () => {
+      it('looks up attachments', async () => {
+        const testCases: messages.ITestCase[] = []
+        await execute(
+          `Feature: hello
+    Scenario: ok
+      Given a passed step with attachment
+  `,
+          (envelope) => {
+            if (envelope.testCase) {
+              testCases.push(envelope.testCase)
+            }
+          }
+        )
+
+        const attachments = cucumberQuery.getTestStepAttachments([
+          testCases[0].testSteps[0].id,
+        ])
+        assert.strictEqual(attachments.length, 1)
+
+        assert.strictEqual(attachments[0].body, 'Hello')
+      })
+    })
   })
 
   async function execute(

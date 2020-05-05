@@ -26,6 +26,11 @@ export default class Query {
     messages.IAttachment
   >()
 
+  private readonly attachmentsByTestStepId = new ArrayMultimap<
+    string,
+    messages.IAttachment
+  >()
+
   private readonly stepMatchArgumentsListsByPickleStepId = new Map<
     string,
     messages.TestCase.TestStep.IStepMatchArgumentsList[]
@@ -76,6 +81,10 @@ export default class Query {
         envelope.attachment.testStepId
       )
       this.attachmentsByPickleStepId.put(pickleStepId, envelope.attachment)
+      this.attachmentsByTestStepId.put(
+        envelope.attachment.testStepId,
+        envelope.attachment
+      )
     }
   }
 
@@ -157,6 +166,17 @@ export default class Query {
         return attachments.concat(
           this.attachmentsByPickleStepId.get(pickleStepId)
         )
+      },
+      []
+    )
+  }
+
+  public getTestStepAttachments(
+    testStepIds: ReadonlyArray<string>
+  ): ReadonlyArray<messages.IAttachment> {
+    return testStepIds.reduce(
+      (attachments: messages.IAttachment[], testStepId) => {
+        return attachments.concat(this.attachmentsByTestStepId.get(testStepId))
       },
       []
     )
