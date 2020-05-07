@@ -30,7 +30,7 @@ describe('JSONReportStream', () => {
       },
     })
     const sink = new SingleObjectWritableStream<Array<any>>()
-    let f = () => {}
+    let f = (): null => null
     try {
       await asyncPipeline(readableStream, new JSONTransformStream(), sink)
     } catch (e) {
