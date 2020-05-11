@@ -17,6 +17,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+* Emit missing `Meta` and `Source` messages [#984](https://github.com/cucumber/cucumber/issues/984)
+
 * Catch JSON parsing errors [#992](https://github.com/cucumber/cucumber/issues/992) (@tooky)
 
 ## [1.0.1] - 2020-04-22
