@@ -1,0 +1,32 @@
+{"source":{"uri":"testdata/hooks.feature","data":"Feature: Milky Way\n\n  @hooked\n  Scenario: Earth passed step\n    Given a passed step\n\n  @passedHooked\n  Scenario: Earth passed step\n    Given a passed step","mediaType":"text/x.cucumber.gherkin+plain"}}
+{"gherkinDocument":{"uri":"testdata/hooks.feature","feature":{"location":{"line":1,"column":1},"language":"en","keyword":"Feature","name":"Milky Way","children":[{"scenario":{"location":{"line":4,"column":3},"tags":[{"location":{"line":3,"column":3},"name":"@hooked","id":"7"}],"keyword":"Scenario","name":"Earth passed step","steps":[{"location":{"line":5,"column":5},"keyword":"Given ","text":"a passed step","id":"6"}],"id":"8"}},{"scenario":{"location":{"line":8,"column":3},"tags":[{"location":{"line":7,"column":3},"name":"@passedHooked","id":"10"}],"keyword":"Scenario","name":"Earth passed step","steps":[{"location":{"line":9,"column":5},"keyword":"Given ","text":"a passed step","id":"9"}],"id":"11"}}]}}}
+{"pickle":{"id":"13","uri":"testdata/hooks.feature","name":"Earth passed step","language":"en","steps":[{"text":"a passed step","id":"12","astNodeIds":["6"]}],"tags":[{"name":"@hooked","astNodeId":"7"}],"astNodeIds":["8"]}}
+{"pickle":{"id":"15","uri":"testdata/hooks.feature","name":"Earth passed step","language":"en","steps":[{"text":"a passed step","id":"14","astNodeIds":["9"]}],"tags":[{"name":"@passedHooked","astNodeId":"10"}],"astNodeIds":["11"]}}
+{"parameterType":{"name":"flight","regularExpressions":["([A-Z]{3})-([A-Z]{3})"],"preferForRegularExpressionMatch":false,"useForSnippets":true}}
+{"stepDefinition":{"id":"0","pattern":{"source":"{flight} has been delayed {int} minutes","type":"CUCUMBER_EXPRESSION"},"sourceReference":{"uri":"testdata/step_definitions/steps.ts","location":{"line":16}}}}
+{"stepDefinition":{"id":"1","pattern":{"source":"a passed step","type":"CUCUMBER_EXPRESSION"},"sourceReference":{"uri":"testdata/step_definitions/steps.ts","location":{"line":25}}}}
+{"stepDefinition":{"id":"2","pattern":{"source":"a step has failed","type":"CUCUMBER_EXPRESSION"},"sourceReference":{"uri":"testdata/step_definitions/steps.ts","location":{"line":28}}}}
+{"hook":{"id":"3","tagExpression":"@hooked","sourceReference":{"uri":"testdata/step_definitions/steps.ts","location":{"line":32}}}}
+{"hook":{"id":"4","tagExpression":"@passedHooked","sourceReference":{"uri":"testdata/step_definitions/steps.ts","location":{"line":37}}}}
+{"hook":{"id":"5","tagExpression":"@passedHooked","sourceReference":{"uri":"testdata/step_definitions/steps.ts","location":{"line":41}}}}
+{"testRunStarted":{"timestamp":{"seconds":"0","nanos":0}}}
+{"testCase":{"id":"18","pickleId":"13","testSteps":[{"id":"16","hookId":"3"},{"id":"17","pickleStepId":"12","stepDefinitionIds":["1"],"stepMatchArgumentsLists":[{}]}]}}
+{"testCase":{"id":"22","pickleId":"15","testSteps":[{"id":"19","hookId":"4"},{"id":"20","pickleStepId":"14","stepDefinitionIds":["1"],"stepMatchArgumentsLists":[{}]},{"id":"21","hookId":"5"}]}}
+{"testCaseStarted":{"timestamp":{"seconds":"0","nanos":1000000},"attempt":0,"testCaseId":"18","id":"23"}}
+{"testStepStarted":{"timestamp":{"seconds":"0","nanos":2000000},"testStepId":"16","testCaseStartedId":"23"}}
+{"attachment":{"testStepId":"16","testCaseStartedId":"23","body":"This hook is going to fail","mediaType":"text/x.cucumber.log+plain"}}
+{"testStepFinished":{"testStepResult":{"status":"FAILED","message":"Oh no we have an error\ntestdata/hooks.feature:4","duration":{"seconds":"0","nanos":1000000}},"timestamp":{"seconds":"0","nanos":5000000},"testStepId":"16","testCaseStartedId":"23"}}
+{"testStepStarted":{"timestamp":{"seconds":"0","nanos":6000000},"testStepId":"17","testCaseStartedId":"23"}}
+{"testStepFinished":{"testStepResult":{"status":"SKIPPED","duration":{"seconds":"0","nanos":0}},"timestamp":{"seconds":"0","nanos":7000000},"testStepId":"17","testCaseStartedId":"23"}}
+{"testCaseFinished":{"timestamp":{"seconds":"0","nanos":8000000},"testCaseStartedId":"23"}}
+{"testCaseStarted":{"timestamp":{"seconds":"0","nanos":9000000},"attempt":0,"testCaseId":"22","id":"24"}}
+{"testStepStarted":{"timestamp":{"seconds":"0","nanos":10000000},"testStepId":"19","testCaseStartedId":"24"}}
+{"attachment":{"testStepId":"19","testCaseStartedId":"24","body":"This hook passed before the scenario","mediaType":"text/x.cucumber.log+plain"}}
+{"testStepFinished":{"testStepResult":{"status":"PASSED","duration":{"seconds":"0","nanos":1000000}},"timestamp":{"seconds":"0","nanos":13000000},"testStepId":"19","testCaseStartedId":"24"}}
+{"testStepStarted":{"timestamp":{"seconds":"0","nanos":14000000},"testStepId":"20","testCaseStartedId":"24"}}
+{"testStepFinished":{"testStepResult":{"status":"PASSED","duration":{"seconds":"0","nanos":1000000}},"timestamp":{"seconds":"0","nanos":17000000},"testStepId":"20","testCaseStartedId":"24"}}
+{"testStepStarted":{"timestamp":{"seconds":"0","nanos":18000000},"testStepId":"21","testCaseStartedId":"24"}}
+{"attachment":{"testStepId":"21","testCaseStartedId":"24","body":"This hook passed after the scenario","mediaType":"text/x.cucumber.log+plain"}}
+{"testStepFinished":{"testStepResult":{"status":"PASSED","duration":{"seconds":"0","nanos":1000000}},"timestamp":{"seconds":"0","nanos":21000000},"testStepId":"21","testCaseStartedId":"24"}}
+{"testCaseFinished":{"timestamp":{"seconds":"0","nanos":22000000},"testCaseStartedId":"24"}}
+{"testRunFinished":{"timestamp":{"seconds":"0","nanos":23000000}}}
