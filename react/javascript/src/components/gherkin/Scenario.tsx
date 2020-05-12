@@ -34,17 +34,13 @@ const Scenario: React.FunctionComponent<IProps> = ({ scenario }) => {
           <span className="step-text">{scenario.name}</span>
         </h2>
         <Description description={scenario.description} />
-        <HookList
-          hookSteps={beforeHooks}
-        />
+        <HookList hookSteps={beforeHooks} />
         <StepList
           steps={scenario.steps || []}
           renderStepMatchArguments={!hasExamples}
           renderMessage={!hasExamples}
         />
-        <HookList
-          hookSteps={afterHooks}
-        />
+        <HookList hookSteps={afterHooks} />
 
         {examplesList.map((examples, index) => (
           <Examples key={index} examples={examples} />

@@ -422,7 +422,7 @@ describe('Query', () => {
           }
         )
 
-        const attachments = cucumberQuery.getTestStepAttachments([
+        const attachments = cucumberQuery.getTestStepsAttachments([
           testCases[0].testSteps[0].id,
         ])
         assert.strictEqual(attachments.length, 1)

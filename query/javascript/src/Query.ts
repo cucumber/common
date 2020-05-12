@@ -157,7 +157,7 @@ export default class Query {
   public getPickleStepAttachments(
     pickleStepIds: ReadonlyArray<string>
   ): ReadonlyArray<messages.IAttachment> {
-    return this.getTestStepAttachments(
+    return this.getTestStepsAttachments(
       pickleStepIds.reduce((testStepIds: string[], pickleStepId: string) => {
         return testStepIds.concat(
           this.testStepIdsByPickleStepId.get(pickleStepId)
@@ -166,7 +166,7 @@ export default class Query {
     )
   }
 
-  public getTestStepAttachments(
+  public getTestStepsAttachments(
     testStepIds: ReadonlyArray<string>
   ): ReadonlyArray<messages.IAttachment> {
     return testStepIds.reduce(
