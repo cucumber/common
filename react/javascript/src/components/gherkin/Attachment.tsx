@@ -1,6 +1,8 @@
 import React from 'react'
 import { messages } from '@cucumber/messages'
 import ErrorMessage from './ErrorMessage'
+import { faPaperclip } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 interface IProps {
   attachment: messages.IAttachment
@@ -14,6 +16,7 @@ const Attachment: React.FunctionComponent<IProps> = ({ attachment }) => {
           <img
             alt="Embedded Image"
             src={`data:${attachment.mediaType};base64,${attachment.body}`}
+            className="attachment-image"
           />
         )
       } else {
@@ -25,7 +28,14 @@ const Attachment: React.FunctionComponent<IProps> = ({ attachment }) => {
       }
     case messages.Attachment.ContentEncoding.IDENTITY:
       if (attachment.mediaType.match(/^text\//)) {
-        return <pre className="attachment">{attachment.body}</pre>
+        return (
+          <div>
+            <pre className="attachment">
+              <FontAwesomeIcon icon={faPaperclip} className="attachment-icon" />
+              {attachment.body}
+            </pre>
+          </div>
+        )
       } else {
         return (
           <ErrorMessage

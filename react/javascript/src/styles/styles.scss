@@ -176,4 +176,15 @@ $unknown: #B6BECB;
     background-color: #FFFFFF;
     border-radius: 6px;
   }
+
+  .attachment {
+      background-color: rgb(235, 235, 235);
+      padding: 0.5em;
+      .attachment-icon {
+        margin-right: 0.5em;
+      }
+  }
+  .attachment-image {
+    margin-top: 1em;
+  }
 }
