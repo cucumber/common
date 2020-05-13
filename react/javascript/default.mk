@@ -44,7 +44,7 @@ update-dependencies:
 .PHONY: update-dependencies
 
 remove-local-dependencies:
-ifeq ($(IS_TESTDATA),)
+ifeq ($(IS_TESTDATA),-testdata)
 	# no-op
 else
 	cat package.json | sed 's/"@cucumber\/\(.*\)": "file:..\/..\/.*"/"@cucumber\/\1": "^0.0.0"/' > package.json.tmp
@@ -56,7 +56,7 @@ pre-release: remove-local-dependencies update-version update-dependencies clean 
 .PHONY: pre-release
 
 update-version:
-ifeq ($(IS_TESTDATA),)
+ifeq ($(IS_TESTDATA),-testdata)
 	# no-op
 else
 ifdef NEW_VERSION
@@ -69,7 +69,7 @@ endif
 .PHONY: update-version
 
 publish: .codegen
-ifeq ($(IS_TESTDATA),)
+ifeq ($(IS_TESTDATA),-testdata)
 	# no-op
 else
 ifneq (true,$(PRIVATE))
@@ -81,7 +81,7 @@ endif
 .PHONY: publish
 
 post-release:
-ifeq ($(IS_TESTDATA),)
+ifeq ($(IS_TESTDATA),-testdata)
 	# no-op
 else
 	cat package.json | sed 's/"@cucumber\/\(.*\)": .*"/"@cucumber\/\1": "file:..\/..\/\1\/javascript"/' > package.json.tmp

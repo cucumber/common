@@ -1,12 +1,12 @@
 include default.mk
 
-RUBY_JSONS=$(call rwildcard,../ruby/acceptance,*.json)
-RUBY_NDJSONS=$(patsubst ../ruby/acceptance/%.json,acceptance/ruby/%.ndjson,$(RUBY_JSONS))
+RUBY_JSONS=$(call rwildcard,../ruby-testdata/acceptance,*.json)
+RUBY_NDJSONS=$(patsubst ../ruby-testdata/acceptance/%.json,acceptance/ruby/%.ndjson,$(RUBY_JSONS))
 RUBY_HTMLS=$(patsubst acceptance/%.ndjson,acceptance/%.ndjson.html,$(RUBY_NDJSONS))
 RUBY_GENERATED_JSONS=$(patsubst acceptance/%.ndjson,acceptance/%.ndjson.json,$(RUBY_NDJSONS))
 
-JS_JSONS=$(call rwildcard,../javascript-json/acceptance,*.json)
-JS_NDJSONS=$(patsubst ../javascript-json/acceptance/%.json,acceptance/javascript/%.ndjson,$(JS_JSONS))
+JS_JSONS=$(call rwildcard,../javascript-testdata/acceptance,*.json)
+JS_NDJSONS=$(patsubst ../javascript-testdata/acceptance/%.json,acceptance/javascript/%.ndjson,$(JS_JSONS))
 JS_HTMLS=$(patsubst acceptance/%.ndjson,acceptance/%.ndjson.html,$(JS_NDJSONS))
 JS_GENERATED_JSONS=$(patsubst acceptance/%.ndjson,acceptance/%.ndjson.json,$(JS_NDJSONS))
 
@@ -34,7 +34,7 @@ else
 	cat $^ > $@
 endif
 
-acceptance/ruby/%.ndjson: ../ruby/acceptance/%.json $(TYPESCRIPT_SOURCE_FILES)
+acceptance/ruby/%.ndjson: ../ruby-testdata/acceptance/%.json $(TYPESCRIPT_SOURCE_FILES)
 	mkdir -p $(@D)
 	cat $< | bin/json-to-messages > $@
 
@@ -48,7 +48,7 @@ else
 	cat $^ > $@
 endif
 
-acceptance/javascript/%.ndjson: ../javascript-json/acceptance/%.json $(TYPESCRIPT_SOURCE_FILES)
+acceptance/javascript/%.ndjson: ../javascript-testdata/acceptance/%.json $(TYPESCRIPT_SOURCE_FILES)
 	mkdir -p $(@D)
 	cat $< | bin/json-to-messages > $@
 
