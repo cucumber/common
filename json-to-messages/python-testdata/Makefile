@@ -1,7 +1,7 @@
 include default.mk
 
-RUBY_FEATURES=$(call rwildcard,../ruby/features,*.feature)
-FEATURES=$(patsubst ../ruby/features/%.feature,features/%.feature,$(RUBY_FEATURES))
+RUBY_FEATURES=$(call rwildcard,../ruby-testdata/features,*.feature)
+FEATURES=$(patsubst ../ruby-testdata/features/%.feature,features/%.feature,$(RUBY_FEATURES))
 JSONS=$(patsubst features/%.feature,acceptance/%.json,$(FEATURES))
 
 default: .tested
@@ -15,7 +15,7 @@ acceptance/%.json: features/%.feature
 features/parameters/parameters.feature:
 	# no-op
 
-features/%.feature: ../ruby/features/%.feature
+features/%.feature: ../ruby-testdata/features/%.feature
 	mkdir -p $(@D)
 	cp $^ $@
 
