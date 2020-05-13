@@ -1,6 +1,6 @@
 # Cucumber Compatibility Kit
 
-The CCK is a platform agnostic set of acceptance tests for validating a Cucumber 
+The CCK is a platform agnostic set of acceptance tests for validating a Cucumber
 implementation.
 
 ## Overview
@@ -10,7 +10,7 @@ documents do not contain doc strings with other Gherkin documents and support co
 It's not that meta. (That style has been used for older Cucumber implementations.
 It's clunky to deal with).
 
-This test suite is just a set of plain gherkin documents (feature files) and 
+This test suite is just a set of plain gherkin documents (feature files) and
 support code (step definitions and hooks).
 
 The test suite *exercises* various features of Cucumber (hopefully all of them).
@@ -63,6 +63,14 @@ with an overview of what's implemented, and what still needs some work.
 
 See https://app.mindmup.com/map/_v2/2b5ee9a00d1b11ea85574541c004362d
 
+## Regenerating the Golden NDJSONs
+
+The messages produced by `fake-cucumber` are stored in GIT. You can generate them again by running:
+
+```shell
+GOLDEN=1 make
+```
+
 ## Configuration
 
 The CCK works by comparing the golden master NDJSON files against files generated
@@ -78,4 +86,3 @@ To enable this we specify the `--cck` option, which will:
 * Use a clock that starts on 1000000 millis and increments by 1ms each time it is asked.
   All durations are 1ms.
 * Renders errors with only the error message, and not the stack trace.
-  
