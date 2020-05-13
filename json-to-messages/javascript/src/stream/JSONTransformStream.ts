@@ -18,7 +18,11 @@ export default class JSONTransformStream extends Transform {
   }
 
   _flush(callback: TransformCallback): void {
-    this.push(JSON.parse(this.stringChunks.join('')))
-    callback()
+    try {
+      this.push(JSON.parse(this.stringChunks.join('')))
+      callback()
+    } catch (err) {
+      callback(err)
+    }
   }
 }
