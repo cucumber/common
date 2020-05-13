@@ -1,5 +1,6 @@
 # https://stackoverflow.com/questions/2483182/recursive-wildcards-in-gnu-make
 rwildcard=$(foreach d,$(wildcard $(1:=/*)),$(call rwildcard,$d,$2) $(filter $(subst *,%,$2),$d))
+IS_TESTDATA = $(findstring -testdata,${CURDIR})
 
 update-dependencies:
 	@echo "\033[0;31mPlease update dependencies for python manually!!\033[0m"
@@ -20,8 +21,12 @@ endif
 .PHONY: update-version
 
 publish:
+ifeq ($(IS_TESTDATA),-testdata)
+	# no-op
+else
 	python setup.py sdist
 	python -m twine upload dist/*
+endif
 .PHONY: publish
 
 post-release:

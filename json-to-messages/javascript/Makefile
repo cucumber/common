@@ -15,8 +15,8 @@ JAVA_NDJSONS=$(patsubst ../java-testdata/acceptance/%.json,acceptance/java/%.ndj
 JAVA_HTMLS=$(patsubst acceptance/%.ndjson,acceptance/%.ndjson.html,$(JAVA_NDJSONS))
 JAVA_GENERATED_JSONS=$(patsubst acceptance/%.ndjson,acceptance/%.ndjson.json,$(JAVA_NDJSONS))
 
-PYTHON_JSONS=$(call rwildcard,../python/acceptance,*.json)
-PYTHON_NDJSONS=$(patsubst ../python/acceptance/%.json,acceptance/python/%.ndjson,$(PYTHON_JSONS))
+PYTHON_JSONS=$(call rwildcard,../python-testdata/acceptance,*.json)
+PYTHON_NDJSONS=$(patsubst ../python-testdata/acceptance/%.json,acceptance/python/%.ndjson,$(PYTHON_JSONS))
 PYTHON_HTMLS=$(patsubst acceptance/%.ndjson,acceptance/%.ndjson.html,$(PYTHON_NDJSONS))
 PYTHON_GENERATED_JSONS=$(patsubst acceptance/%.ndjson,acceptance/%.ndjson.json,$(PYTHON_NDJSONS))
 
@@ -76,7 +76,7 @@ else
 	cat $^ > $@
 endif
 
-acceptance/python/%.ndjson: ../python/acceptance/%.json $(TYPESCRIPT_SOURCE_FILES)
+acceptance/python/%.ndjson: ../python-testdata/acceptance/%.json $(TYPESCRIPT_SOURCE_FILES)
 	mkdir -p $(@D)
 	cat $< | bin/json-to-messages > $@
 
