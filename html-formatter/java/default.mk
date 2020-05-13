@@ -4,6 +4,7 @@
 #
 SHELL := /usr/bin/env bash
 JAVA_SOURCE_FILES = $(shell find . -name "*.java")
+IS_TESTDATA = $(findstring -testdata,${CURDIR})
 
 # https://stackoverflow.com/questions/2483182/recursive-wildcards-in-gnu-make
 rwildcard=$(foreach d,$(wildcard $(1:=/*)),$(call rwildcard,$d,$2) $(filter $(subst *,%,$2),$d))
@@ -42,7 +43,11 @@ endif
 .PHONY: update-version
 
 publish: .deps
+ifeq ($(IS_TESTDATA),-testdata)
+	# no-op
+else
 	mvn deploy -Psign-source-javadoc --settings scripts/ci-settings.xml -DskipTests=true
+endif
 .PHONY: publish
 
 post-release:

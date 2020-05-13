@@ -10,8 +10,8 @@ JS_NDJSONS=$(patsubst ../javascript-testdata/acceptance/%.json,acceptance/javasc
 JS_HTMLS=$(patsubst acceptance/%.ndjson,acceptance/%.ndjson.html,$(JS_NDJSONS))
 JS_GENERATED_JSONS=$(patsubst acceptance/%.ndjson,acceptance/%.ndjson.json,$(JS_NDJSONS))
 
-JAVA_JSONS=$(call rwildcard,../java/acceptance,*.json)
-JAVA_NDJSONS=$(patsubst ../java/acceptance/%.json,acceptance/java/%.ndjson,$(JAVA_JSONS))
+JAVA_JSONS=$(call rwildcard,../java-testdata/acceptance,*.json)
+JAVA_NDJSONS=$(patsubst ../java-testdata/acceptance/%.json,acceptance/java/%.ndjson,$(JAVA_JSONS))
 JAVA_HTMLS=$(patsubst acceptance/%.ndjson,acceptance/%.ndjson.html,$(JAVA_NDJSONS))
 JAVA_GENERATED_JSONS=$(patsubst acceptance/%.ndjson,acceptance/%.ndjson.json,$(JAVA_NDJSONS))
 
@@ -62,7 +62,7 @@ else
 	cat $^ > $@
 endif
 
-acceptance/java/%.ndjson: ../java/acceptance/%.json $(TYPESCRIPT_SOURCE_FILES)
+acceptance/java/%.ndjson: ../java-testdata/acceptance/%.json $(TYPESCRIPT_SOURCE_FILES)
 	mkdir -p $(@D)
 	cat $< | bin/json-to-messages > $@
 
