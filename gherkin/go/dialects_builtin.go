@@ -1135,7 +1135,7 @@ var buildinDialects = gherkinDialectMap{
 				"Omadus",
 			},
 			rule: []string{
-				"Rule",
+				"Reegel",
 			},
 			background: []string{
 				"Taust",
@@ -1145,7 +1145,7 @@ var buildinDialects = gherkinDialectMap{
 				"Stsenaarium",
 			},
 			scenarioOutline: []string{
-				"Raamstjuhtum",
+				"Raamjuhtum",
 				"Raamstsenaarium",
 			},
 			examples: []string{
