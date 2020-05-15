@@ -1473,7 +1473,7 @@ var buildinDialects = gherkinDialectMap{
 				"תכונה",
 			},
 			rule: []string{
-				"Rule",
+				"כלל",
 			},
 			background: []string{
 				"רקע",
@@ -2724,7 +2724,7 @@ var buildinDialects = gherkinDialectMap{
 				"Свойство",
 			},
 			rule: []string{
-				"Rule",
+				"Правило",
 			},
 			background: []string{
 				"Предыстория",
