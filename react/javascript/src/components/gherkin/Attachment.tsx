@@ -9,40 +9,95 @@ interface IProps {
 }
 
 const Attachment: React.FunctionComponent<IProps> = ({ attachment }) => {
-  switch (attachment.contentEncoding) {
-    case messages.Attachment.ContentEncoding.BASE64:
-      if (attachment.mediaType.match(/^image\//)) {
-        return (
-          <img
-            alt="Embedded Image"
-            src={`data:${attachment.mediaType};base64,${attachment.body}`}
-            className="attachment-image"
-          />
-        )
-      } else {
-        return (
-          <ErrorMessage
-            message={`Can't display base64 encoded attachment with media type '${attachment.mediaType}'`}
-          />
-        )
-      }
-    case messages.Attachment.ContentEncoding.IDENTITY:
-      if (attachment.mediaType.match(/^text\//)) {
-        return (
-          <div>
-            <pre className="attachment">
-              <FontAwesomeIcon icon={faPaperclip} className="attachment-icon" />
-              {attachment.body}
-            </pre>
-          </div>
-        )
-      } else {
-        return (
-          <ErrorMessage
-            message={`Can't display plain text attachment with media type '${attachment.mediaType}'`}
-          />
-        )
-      }
+  if (attachment.mediaType.match(/^image\//)) {
+    return image(attachment)
+  } else if (attachment.mediaType.match(/^video\//)) {
+    return video(attachment)
+  } else if (attachment.mediaType.match(/^text\//)) {
+    return text(attachment, (s) => s)
+  } else if (attachment.mediaType.match(/^application\/json/)) {
+    return text(attachment, prettyJSON())
+  } else {
+    return (
+      <ErrorMessage
+        message={`Couldn't display ${attachment.mediaType} attachment because the media type is unsupported. Please submit a feature request at https://github.com/cucumber/cucumber/issues`}
+      />
+    )
+  }
+}
+
+function image(attachment: messages.IAttachment) {
+  if (
+    attachment.contentEncoding !== messages.Attachment.ContentEncoding.BASE64
+  ) {
+    return (
+      <ErrorMessage
+        message={`Couldn't display ${attachment.mediaType} image because it wasn't base64 encoded`}
+      />
+    )
+  }
+  return (
+    <img
+      alt="Embedded Image"
+      src={`data:${attachment.mediaType};base64,${attachment.body}`}
+      className="attachment-image"
+    />
+  )
+}
+
+function video(attachment: messages.IAttachment) {
+  if (
+    attachment.contentEncoding !== messages.Attachment.ContentEncoding.BASE64
+  ) {
+    return (
+      <ErrorMessage
+        message={`Couldn't display ${attachment.mediaType} image because it wasn't base64 encoded`}
+      />
+    )
+  }
+  return (
+    <video controls>
+      <source src={`data:${attachment.mediaType};base64,${attachment.body}`} />
+      Your browser is unable to display video
+    </video>
+  )
+}
+
+function base64Decode(body: string) {
+  // @ts-ignore
+  if (typeof global.atob === 'function') {
+    // @ts-ignore
+    return global.atob(body)
+  } else if (typeof global.Buffer === 'function') {
+    return global.Buffer.from(body, 'base64').toString('utf8')
+  } else {
+    throw new Error()
+  }
+}
+
+function text(
+  attachment: messages.IAttachment,
+  prettify: (body: string) => string
+) {
+  const body =
+    attachment.contentEncoding === messages.Attachment.ContentEncoding.IDENTITY
+      ? attachment.body
+      : base64Decode(attachment.body)
+  return(
+    <pre className="attachment">
+      <FontAwesomeIcon icon={faPaperclip} className="attachment-icon" />
+      {prettify(body)}
+    </pre>
+    )
+}
+
+function prettyJSON() {
+  return (s: string) => {
+    try {
+      return JSON.stringify(JSON.parse(s), null, 2)
+    } catch (ignore) {
+      return s
+    }
   }
 }
 

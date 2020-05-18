@@ -3,13 +3,13 @@ require 'cucumber/messages'
 class CucumberDemoFormatter
   def process_messages(message_enumerator, output)
     emoji = {
-      ::Cucumber::Messages::TestStepResult::Status::UNKNOWN   => '👽',
-      ::Cucumber::Messages::TestStepResult::Status::PASSED    => '😃',
-      ::Cucumber::Messages::TestStepResult::Status::SKIPPED   => '🥶',
-      ::Cucumber::Messages::TestStepResult::Status::PENDING   => '⏰',
-      ::Cucumber::Messages::TestStepResult::Status::UNDEFINED => '🤷',
-      ::Cucumber::Messages::TestStepResult::Status::AMBIGUOUS => '🦄',
-      ::Cucumber::Messages::TestStepResult::Status::FAILED    => '💣',
+      ::Cucumber::Messages::TestStepFinished::TestStepResult::Status::UNKNOWN   => '👽',
+      ::Cucumber::Messages::TestStepFinished::TestStepResult::Status::PASSED    => '😃',
+      ::Cucumber::Messages::TestStepFinished::TestStepResult::Status::SKIPPED   => '🥶',
+      ::Cucumber::Messages::TestStepFinished::TestStepResult::Status::PENDING   => '⏰',
+      ::Cucumber::Messages::TestStepFinished::TestStepResult::Status::UNDEFINED => '🤷',
+      ::Cucumber::Messages::TestStepFinished::TestStepResult::Status::AMBIGUOUS => '🦄',
+      ::Cucumber::Messages::TestStepFinished::TestStepResult::Status::FAILED    => '💣',
     }
     message_enumerator.each do |message|
       if message.test_step_finished

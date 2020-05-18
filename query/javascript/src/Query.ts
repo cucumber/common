@@ -5,11 +5,11 @@ import { isNullOrUndefined } from 'util'
 export default class Query {
   private readonly testStepResultByPickleId = new ArrayMultimap<
     string,
-    messages.ITestStepResult
+    messages.TestStepFinished.ITestStepResult
   >()
   private readonly testStepResultsByPickleStepId = new ArrayMultimap<
     string,
-    messages.ITestStepResult
+    messages.TestStepFinished.ITestStepResult
   >()
   private readonly testStepById = new Map<string, messages.TestCase.ITestStep>()
   private readonly testCaseByPickleId = new Map<string, messages.ITestCase>()
@@ -17,7 +17,7 @@ export default class Query {
   private readonly pickleStepIdByTestStepId = new Map<string, string>()
   private readonly testStepResultsbyTestStepId = new ArrayMultimap<
     string,
-    messages.ITestStepResult
+    messages.TestStepFinished.ITestStepResult
   >()
   private readonly testStepIdsByPickleStepId = new ArrayMultimap<
     string,
@@ -90,17 +90,20 @@ export default class Query {
    */
   public getPickleStepTestStepResults(
     pickleStepIds: ReadonlyArray<string>
-  ): ReadonlyArray<messages.ITestStepResult> {
+  ): ReadonlyArray<messages.TestStepFinished.ITestStepResult> {
     if (pickleStepIds.length === 0) {
       return [
-        new messages.TestStepResult({
-          status: messages.TestStepResult.Status.UNKNOWN,
+        new messages.TestStepFinished.TestStepResult({
+          status: messages.TestStepFinished.TestStepResult.Status.UNKNOWN,
           duration: TimeConversion.millisecondsToDuration(0),
         }),
       ]
     }
     return pickleStepIds.reduce(
-      (testStepResults: messages.ITestStepResult[], pickleId) => {
+      (
+        testStepResults: messages.TestStepFinished.ITestStepResult[],
+        pickleId
+      ) => {
         return testStepResults.concat(
           this.testStepResultsByPickleStepId.get(pickleId)
         )
@@ -115,17 +118,20 @@ export default class Query {
    */
   public getPickleTestStepResults(
     pickleIds: ReadonlyArray<string>
-  ): ReadonlyArray<messages.ITestStepResult> {
+  ): ReadonlyArray<messages.TestStepFinished.ITestStepResult> {
     if (pickleIds.length === 0) {
       return [
-        new messages.TestStepResult({
-          status: messages.TestStepResult.Status.UNKNOWN,
+        new messages.TestStepFinished.TestStepResult({
+          status: messages.TestStepFinished.TestStepResult.Status.UNKNOWN,
           duration: TimeConversion.millisecondsToDuration(0),
         }),
       ]
     }
     return pickleIds.reduce(
-      (testStepResults: messages.ITestStepResult[], pickleId) => {
+      (
+        testStepResults: messages.TestStepFinished.ITestStepResult[],
+        pickleId
+      ) => {
         return testStepResults.concat(
           this.testStepResultByPickleId.get(pickleId)
         )
@@ -139,12 +145,12 @@ export default class Query {
    * @param testStepResults
    */
   public getWorstTestStepResult(
-    testStepResults: ReadonlyArray<messages.ITestStepResult>
-  ): messages.ITestStepResult {
+    testStepResults: ReadonlyArray<messages.TestStepFinished.ITestStepResult>
+  ): messages.TestStepFinished.ITestStepResult {
     return (
       testStepResults.slice().sort((r1, r2) => r2.status - r1.status)[0] ||
-      new messages.TestStepResult({
-        status: messages.TestStepResult.Status.UNKNOWN,
+      new messages.TestStepFinished.TestStepResult({
+        status: messages.TestStepFinished.TestStepResult.Status.UNKNOWN,
         duration: TimeConversion.millisecondsToDuration(0),
       })
     )
@@ -241,7 +247,7 @@ export default class Query {
     }
   }
 
-  public getTestStepResults(testStepId: string): messages.ITestStepResult[] {
+  public getTestStepResults(testStepId: string): messages.TestStepFinished.ITestStepResult[] {
     return this.testStepResultsbyTestStepId.get(testStepId)
   }
 }

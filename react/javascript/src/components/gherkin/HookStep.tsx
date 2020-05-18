@@ -19,7 +19,7 @@ const HookStep: React.FunctionComponent<IProps> = ({ step }) => {
   const hook = cucumberQuery.getHook(step.hookId)
   const attachments = cucumberQuery.getTestStepsAttachments([step.id])
 
-  if (stepResult.status === messages.TestStepResult.Status.FAILED) {
+  if (stepResult.status === messages.TestStepFinished.TestStepResult.Status.FAILED) {
     return (
       <li className="step">
         <StepContainer status={stepResult.status}>

@@ -2,7 +2,8 @@ package json
 
 import (
 	"fmt"
-	"github.com/cucumber/messages-go/v11"
+
+	"github.com/cucumber/messages-go/v12"
 )
 
 type MessageLookup struct {

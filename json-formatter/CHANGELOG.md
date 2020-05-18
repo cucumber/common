@@ -19,6 +19,23 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Fixed
 
+## [5.0.0] - 2020-04-14
+
+### Added
+
+* Output description for Backgrounds.
+
+### Changed
+
+* Upgrade to messages 12.0.0
+* Upgrade to gherkin 13.0.0
+
+## [4.0.0] - 2020-04-01
+
+### Changed
+
+* Bump major version of messages
+
 ## [3.1.1] - 2020-03-02
 
 ### Fixed
@@ -72,7 +89,9 @@ Upgrade messages
 * Initial release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/json-formatter/v3.1.1...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/json-formatter/v5.0.0...master
+[5.0.0]:      https://github.com/cucumber/cucumber/compare/json-formatter/v4.0.0...json-formatter/v5.0.0
+[4.0.0]:      https://github.com/cucumber/cucumber/compare/json-formatter/v3.1.1...json-formatter/v4.0.0
 [3.1.1]:      https://github.com/cucumber/cucumber/compare/json-formatter/v3.1.0...json-formatter/v3.1.1
 [3.1.0]:      https://github.com/cucumber/cucumber/compare/json-formatter/v3.0.0...json-formatter/v3.1.0
 [3.0.0]:      https://github.com/cucumber/cucumber/compare/json-formatter/v2.2.0...json-formatter/v3.0.0

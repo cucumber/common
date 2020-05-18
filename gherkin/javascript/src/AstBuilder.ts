@@ -175,6 +175,7 @@ export default class AstBuilder {
         const steps = this.getSteps(node)
 
         return messages.GherkinDocument.Feature.Background.create({
+          id: this.newId(),
           location: this.getLocation(backgroundLine),
           keyword: backgroundLine.matchedKeyword,
           name: backgroundLine.matchedText,
@@ -210,6 +211,7 @@ export default class AstBuilder {
         )
 
         return messages.GherkinDocument.Feature.Scenario.Examples.create({
+          id: this.newId(),
           tags,
           location: this.getLocation(examplesLine),
           keyword: examplesLine.matchedKeyword,
@@ -311,6 +313,7 @@ export default class AstBuilder {
         const description = this.getDescription(header)
 
         return messages.GherkinDocument.Feature.FeatureChild.Rule.create({
+          id: this.newId(),
           location: this.getLocation(ruleLine),
           keyword: ruleLine.matchedKeyword,
           name: ruleLine.matchedText,
