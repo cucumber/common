@@ -49,6 +49,7 @@
   },
   "dependencies": {
     "@cucumber/cucumber-expressions": "file:../../cucumber-expressions/javascript",
+    "@cucumber/create-meta": "file:../../create-meta/javascript",
     "@cucumber/gherkin": "file:../../gherkin/javascript",
     "@cucumber/messages": "file:../../messages/javascript",
     "@cucumber/tag-expressions": "file:../../tag-expressions/javascript",
