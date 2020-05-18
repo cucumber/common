@@ -19,7 +19,7 @@ message Envelope {
     // Compiler(s)
     Pickle pickle = 3;
 
-    // 
+    //
     StepDefinition step_definition = 4;
     Hook hook = 5;
     ParameterType parameter_type = 6;
@@ -37,7 +37,7 @@ message Envelope {
 
     // Parsing
     ParseError parse_error = 16;
-    
+
     Meta meta = 17;
   }
 }
@@ -63,13 +63,22 @@ message Meta {
 
   // 386, arm, amd64 etc
   Product cpu = 5;
-  
+
+  // ENV content
+  repeated EnvVariable envVariables= 6;
+
   // A product has a name and a version
   message Product {
     // The product name
     string name = 1;
     // The product version
     string version = 2;
+  }
+
+  // Environment variable name and value
+  message EnvVariable {
+    string name = 1;
+    string value = 2;
   }
 }
 
@@ -340,7 +349,7 @@ message Attachment {
    * - stream => BASE64
    */
   ContentEncoding content_encoding = 6;
-  
+
   enum ContentEncoding {
     IDENTITY = 0;
     // When this is used, the data field is a single line base64 string
@@ -535,7 +544,7 @@ message TestStepFinished {
   string test_step_id = 3;
   string test_case_started_id = 4;
 
-  
+
   message TestStepResult {
     Status status = 1;
     string message = 2;
@@ -580,9 +589,9 @@ message TestRunFinished {
   // Timestamp when the TestRun is finished
   Timestamp timestamp = 2;
   // Error message. Can be a stack trace from a failed `BeforeAll` or `AfterAll`.
-  // If there are undefined parameter types, the message is simply 
-  // "The following parameter type(s() are not defined: xxx, yyy". 
-  // The independent `UndefinedParameterType` messages can be used to generate 
+  // If there are undefined parameter types, the message is simply
+  // "The following parameter type(s() are not defined: xxx, yyy".
+  // The independent `UndefinedParameterType` messages can be used to generate
   // snippets for those parameter types.
   string message = 3;
 }
