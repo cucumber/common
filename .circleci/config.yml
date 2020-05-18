@@ -618,6 +618,19 @@ jobs:
           paths:
             - "io/cucumber/messages"
 
+  create-meta-java:
+    executor: docker-cucumber-build
+    steps:
+      - attach_workspace:
+          at: "~/cucumber"
+      - attach_workspace:
+          at: "~/.m2/repository"
+      - run:
+          name: create-meta/java
+          command: |
+            cd create-meta/java
+            make
+
   gherkin-java:
     executor: docker-circleci-openjdk
     steps:
@@ -952,6 +965,9 @@ workflows:
       - messages-java:
           requires:
             - checkout
+      - create-meta-java:
+          requires:
+            - messages-java
       - gherkin-java:
           requires:
             - messages-java
