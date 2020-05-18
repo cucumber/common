@@ -431,6 +431,17 @@ jobs:
           paths:
             - messages/ruby
 
+  create-meta-ruby:
+    executor: docker-circleci-ruby-26
+    steps:
+      - attach_workspace:
+          at: "~/cucumber"
+      - run:
+          name: create-meta/ruby
+          command: |
+            cd create-meta/ruby
+            make
+
   gherkin-ruby-23:
     executor: docker-circleci-ruby-23
     steps:
@@ -894,6 +905,9 @@ workflows:
       - messages-ruby:
           requires:
             - checkout
+      - create-meta-ruby:
+          requires:
+            - messages-ruby
       - gherkin-ruby-23:
           requires:
             - messages-ruby
