@@ -26,7 +26,7 @@ describe('jsonToMesssages', () => {
     assert.equal(emitted.filter((envelope) => envelope.source).length, 1)
   })
 
-  context('a meta Mesage is emitted at the beginning', () => {
+  context('a meta Message is emitted at the beginning', () => {
     let meta: messages.IMeta
 
     before(async () => {
@@ -41,12 +41,6 @@ describe('jsonToMesssages', () => {
     it('does not provide any information about the original producer of the JSON', () => {
       assert.equal(meta.implementation.name, '@cucumber/json-to-messages')
       assert.equal(meta.implementation.version, version)
-    })
-
-    it('doe not provide informations about the underlying infrastructure', () => {
-      assert.equal(meta.cpu, null)
-      assert.equal(meta.os, null)
-      assert.equal(meta.runtime, null)
     })
   })
 })
