@@ -75,7 +75,7 @@ jobs:
       - run:
           name: everything
           command: |
-            make ci
+            make clean && make ci
 
   checkout:
     executor: docker-circleci-ruby-26
