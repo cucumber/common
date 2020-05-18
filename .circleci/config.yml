@@ -223,6 +223,23 @@ jobs:
             - messages/javascript/dist
             - messages/javascript/node_modules
 
+  create-meta-javascript:
+    executor: docker-circleci-node-12
+    steps:
+      - attach_workspace:
+          at: "~/cucumber"
+      - run:
+          name: create-meta/javascript
+          command: |
+            cd create-meta/javascript
+            make
+      - persist_to_workspace:
+          root: ~/cucumber
+          paths:
+            - create-meta/javascript/dist
+            - create-meta/javascript/node_modules
+
+
   gherkin-javascript:
     executor: docker-circleci-node-12
     steps:
@@ -812,6 +829,9 @@ workflows:
       - messages-javascript:
           requires:
             - checkout
+      - create-meta-javascript:
+          requires:
+            - messages-javascript
       - gherkin-javascript:
           requires:
             - messages-javascript
@@ -821,6 +841,7 @@ workflows:
       - fake-cucumber-javascript:
           requires:
             - messages-javascript
+            - create-meta-javascript
             - gherkin-javascript
             - cucumber-expressions-javascript-node-12
             - tag-expressions-javascript
@@ -858,6 +879,7 @@ workflows:
             - json-to-messages-java
             - json-to-messages-python
             - json-to-messages-javascript-json
+            - create-meta-javascript
             - fake-cucumber-javascript
             - html-formatter-javascript
 

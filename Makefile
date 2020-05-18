@@ -4,6 +4,7 @@ PACKAGES ?= c21e \
 	gherkin \
 	cucumber-expressions \
 	tag-expressions \
+	create-meta \
 	fake-cucumber \
 	query \
 	json-formatter \
