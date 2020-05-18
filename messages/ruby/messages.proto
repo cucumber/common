@@ -64,8 +64,8 @@ message Meta {
   // 386, arm, amd64 etc
   Product cpu = 5;
 
-  // ENV content
-  repeated EnvVariable envVariables= 6;
+  // CI environment
+  CI ci = 6;
 
   // A product has a name and a version
   message Product {
@@ -75,10 +75,13 @@ message Meta {
     string version = 2;
   }
 
-  // Environment variable name and value
-  message EnvVariable {
+  message CI {
     string name = 1;
-    string value = 2;
+    string remote = 2;
+    string revision = 3;
+    string branch = 4;
+    string tag = 5;
+    string projectName = 6;
   }
 }
 
