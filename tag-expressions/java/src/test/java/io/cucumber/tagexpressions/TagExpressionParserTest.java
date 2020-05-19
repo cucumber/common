@@ -49,7 +49,7 @@ public class TagExpressionParserTest {
         final Executable testMethod = () -> parser.parse("or or");
 
         final TagExpressionException thrownException = assertThrows(TagExpressionException.class, testMethod);
-        assertThat("Unexpected message", thrownException.getMessage(), is(equalTo("Syntax error. Expected operand")));
+        assertThat("Unexpected message", thrownException.getMessage(), is(equalTo("Tag expression 'or or' could not be parsed because of syntax error: expected operand")));
     }
 
 }
