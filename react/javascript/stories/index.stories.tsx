@@ -19,6 +19,8 @@ import examplesTables from '../../../compatibility-kit/javascript/features/examp
 // @ts-ignore
 import hooks from '../../../compatibility-kit/javascript/features/hooks/hooks.ndjson'
 // @ts-ignore
+import hooks2 from '../testdata/hooks.ndjson'
+// @ts-ignore
 import minimal from '../../../compatibility-kit/javascript/features/minimal/minimal.ndjson'
 // @ts-ignore
 import parameterTypes from '../../../compatibility-kit/javascript/features/parameter-types/parameter-types.ndjson'
@@ -78,6 +80,11 @@ storiesOf('Features', module)
   })
   .add('Hooks', () => {
     return <QueriesWrapper {...props(hooks)}>
+      <GherkinDocumentList/>
+    </QueriesWrapper>
+  })
+  .add('Hooks2', () => {
+    return <QueriesWrapper {...props(hooks2)}>
       <GherkinDocumentList/>
     </QueriesWrapper>
   })
