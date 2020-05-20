@@ -11,14 +11,18 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Added
 
+* [Javascript] Change gherkinQuery API:
+  * `getPickleIds`: now takes a URI and an `astNodeId` to find the pickle ids instead of a line number
+  * `getPickleStepIds`: now takes an `astNodeId` parameter instead of a URL and a line number to locate the pickle step id
 * [Java] Enable consumers to find our version at runtime using `clazz.getPackage().getImplementationVersion()` by upgrading to `cucumber-parent:2.1.0`
   ([#976](https://github.com/cucumber/cucumber/pull/976)
    [aslakhellesoy])
 
 ### Changed
 
-* Fixed Estonian translation of "Rule" ([#973](https://github.com/cucumber/cucumber/pull/973) [ookull])  
-* Fixed Estonian translation of "Scenario Outline" ([#972](https://github.com/cucumber/cucumber/pull/972) [ookull]) 
+* Fixed Estonian translation of "Rule" ([#973](https://github.com/cucumber/cucumber/pull/973) [ookull])
+* Fixed Estonian translation of "Scenario Outline" ([#972](https://github.com/cucumber/cucumber/pull/972) [ookull])
+
 
 ### Deprecated
 
@@ -36,7 +40,7 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Added
 
-* [JavaScript] New exports: 
+* [JavaScript] New exports:
   * `Parser`
   * `compile`
   ([#924](https://github.com/cucumber/cucumber/pull/924)
