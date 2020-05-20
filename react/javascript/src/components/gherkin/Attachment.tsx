@@ -83,12 +83,12 @@ function text(
     attachment.contentEncoding === messages.Attachment.ContentEncoding.IDENTITY
       ? attachment.body
       : base64Decode(attachment.body)
-  return(
+  return (
     <pre className="attachment">
       <FontAwesomeIcon icon={faPaperclip} className="attachment-icon" />
       {prettify(body)}
     </pre>
-    )
+  )
 }
 
 function prettyJSON() {

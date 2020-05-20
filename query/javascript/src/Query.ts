@@ -247,7 +247,9 @@ export default class Query {
     }
   }
 
-  public getTestStepResults(testStepId: string): messages.TestStepFinished.ITestStepResult[] {
+  public getTestStepResults(
+    testStepId: string
+  ): messages.TestStepFinished.ITestStepResult[] {
     return this.testStepResultsbyTestStepId.get(testStepId)
   }
 }
