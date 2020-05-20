@@ -2,6 +2,7 @@ import { messages, MessageToNdjsonStream } from '../src'
 import assert from 'assert'
 import NdjsonToMessageStream from '../src/NdjsonToMessageStream'
 import verifyStreamContract from './verifyStreamContract'
+import toArray from './toArray'
 
 describe('NdjsonStream', () => {
   const makeToMessageStream = () =>
@@ -15,8 +16,8 @@ describe('NdjsonStream', () => {
     const stream = makeToMessageStream()
     const envelope = messages.Envelope.create({
       testStepFinished: messages.TestStepFinished.create({
-        testStepResult: messages.TestStepResult.create({
-          status: messages.TestStepResult.Status.UNKNOWN,
+        testStepResult: messages.TestStepFinished.TestStepResult.create({
+          status: messages.TestStepFinished.TestStepResult.Status.UNKNOWN,
         }),
       }),
     })
@@ -49,8 +50,8 @@ describe('NdjsonStream', () => {
     stream.write(
       messages.Envelope.create({
         testStepFinished: messages.TestStepFinished.create({
-          testStepResult: messages.TestStepResult.create({
-            status: messages.TestStepResult.Status.UNKNOWN,
+          testStepResult: messages.TestStepFinished.TestStepResult.create({
+            status: messages.TestStepFinished.TestStepResult.Status.UNKNOWN,
           }),
         }),
       })
@@ -113,5 +114,15 @@ describe('NdjsonStream', () => {
         }),
       })
     )
+  })
+
+  it('ignores missing fields', async () => {
+    const toMessageStream = makeToMessageStream()
+    toMessageStream.write('{"unused": 999}\n')
+    toMessageStream.end()
+
+    const incomingMessages = await toArray(toMessageStream)
+
+    assert.deepStrictEqual(incomingMessages, [messages.Envelope.create({})])
   })
 })

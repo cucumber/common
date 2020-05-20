@@ -32,13 +32,17 @@ describe('<Step>', () => {
         return [
           new messages.TestCase.TestStep.StepMatchArgumentsList({
             stepMatchArguments: [
-              new messages.StepMatchArgument({
-                group: new messages.StepMatchArgument.Group({
-                  start: 4,
-                  value: '48',
-                  children: [],
-                }),
-              }),
+              new messages.TestCase.TestStep.StepMatchArgumentsList.StepMatchArgument(
+                {
+                  group: new messages.TestCase.TestStep.StepMatchArgumentsList.StepMatchArgument.Group(
+                    {
+                      start: 4,
+                      value: '48',
+                      children: [],
+                    }
+                  ),
+                }
+              ),
             ],
           }),
         ]

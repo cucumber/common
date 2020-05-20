@@ -1,6 +1,6 @@
 {
-  "attachment": {
-    "body": "(1:1): expected: #EOF, #Language, #TagLine, #FeatureLine, #Comment, #Empty, got 'not gherkin'",
+  "parseError": {
+    "message": "(1:1): expected: #EOF, #Language, #TagLine, #FeatureLine, #Comment, #Empty, got 'not gherkin'",
     "source": {
       "location": {
         "column": 1,

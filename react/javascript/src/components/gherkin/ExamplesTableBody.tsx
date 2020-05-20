@@ -1,12 +1,12 @@
 import React from 'react'
 import { messages } from '@cucumber/messages'
 import CucumberQueryContext from '../../CucumberQueryContext'
-import UriContext from '../../UriContext'
 import isNumber from './isNumber'
 import GherkinQueryContext from '../../GherkinQueryContext'
 import ErrorMessage from './ErrorMessage'
 import statusName from './statusName'
 import StatusIcon from './StatusIcon'
+import UriContext from '../../UriContext'
 
 interface IProps {
   rows: messages.GherkinDocument.Feature.ITableRow[]
@@ -33,7 +33,7 @@ const RowOrRows: React.FunctionComponent<IRowOrRows> = ({ row }) => {
 
   const testStepResult = cucumberQuery.getWorstTestStepResult(
     cucumberQuery.getPickleTestStepResults(
-      gherkinQuery.getPickleIds(uri, row.location.line)
+      gherkinQuery.getPickleIds(uri, row.id)
     )
   )
   return (
@@ -61,7 +61,7 @@ const RowOrRows: React.FunctionComponent<IRowOrRows> = ({ row }) => {
 }
 
 interface IErrorMessageRowProps {
-  testStepResult: messages.ITestStepResult
+  testStepResult: messages.TestStepFinished.ITestStepResult
   colSpan: number
 }
 

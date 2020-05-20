@@ -17,6 +17,38 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [6.0.2] - 2020-05-01
+
+### Added
+
+* [Java] Enable consumers to find our version at runtime using `clazz.getPackage().getImplementationVersion()` by upgrading to `cucumber-parent:2.1.0`
+  ([#976](https://github.com/cucumber/cucumber/pull/976)
+   [aslakhellesoy])
+
+### Fixed
+* [Java] Use version range for messages dependency 
+  ([#986](https://github.com/cucumber/cucumber/pull/986)
+   [mpkorstanje])
+* [Java] Make writer idempotent when failing to close underlying writer 
+  ([#986](https://github.com/cucumber/cucumber/pull/986)
+   [mpkorstanje])
+   
+## [6.0.1] - 2020-04-15
+
+### Fixed
+
+* Fix Ruby release
+  ([#970](https://github.com/cucumber/cucumber/pull/970)
+   [aslakhellesoy])
+
+## [6.0.0] - 2020-04-14
+
+### Changed
+
+* Upgrade to messages 12.0.0
+* Upgrade to gherkin 13.0.0
+* Upgrade to @cucumber/react 7.0.0
+
 ## [5.0.0] - 2020-04-01
 
 ### Changed
@@ -164,7 +196,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/formatter/v5.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/formatter/v6.0.2...master
+[6.0.2]:      https://github.com/cucumber/cucumber/compare/formatter/v6.0.1...formatter/v6.0.2
+[6.0.1]:      https://github.com/cucumber/cucumber/compare/formatter/v6.0.0...formatter/v6.0.1
+[6.0.0]:      https://github.com/cucumber/cucumber/compare/formatter/v5.0.0...formatter/v6.0.0
 [5.0.0]:      https://github.com/cucumber/cucumber/compare/formatter/v4.3.0...formatter/v5.0.0
 [4.3.0]:      https://github.com/cucumber/cucumber/compare/formatter/v4.2.0...formatter/v4.3.0
 [4.2.0]:      https://github.com/cucumber/cucumber/compare/formatter/v4.1.0...formatter/v4.2.0

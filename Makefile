@@ -7,12 +7,13 @@ PACKAGES ?= c21e \
 	fake-cucumber \
 	query \
 	json-formatter \
+	compatibility-kit \
 	react \
 	html-formatter \
-	compatibility-kit \
 	datatable \
 	config \
-	demo-formatter
+	demo-formatter \
+	json-to-messages
 
 default: .rsynced $(patsubst %,default-%,$(PACKAGES))
 .PHONY: default
@@ -33,10 +34,15 @@ clean: $(patsubst %,clean-%,$(PACKAGES))
 clean-%: %
 	cd $< && make clean
 
-ci: check_synced push_subrepos default
+ci: default check_synced push_subrepos
 
 check_synced: .rsynced
-	[[ -z $$(git status -s) ]] || (echo "Working copy is dirty. Please run `source scripts/functions.sh && rsync_files` and commit modified files." && exit 1)
+	[[ -z $$(git status -s) ]] || ( \
+		echo "Working copy is dirty. Please run 'source scripts/functions.sh && rsync_files' and commit modified files." && \
+		echo "Found: " && \
+		git status -s && \
+		exit 1 \
+	)
 .PHONY: check_synced
 
 push_subrepos:

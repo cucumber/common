@@ -176,6 +176,7 @@ $unknown: #B6BECB;
     background-color: #FFFFFF;
     border-radius: 6px;
   }
+
   .cucumber-search-bar {
     margin-top: 2em;
     margin-bottom: 2em;
@@ -188,5 +189,15 @@ $unknown: #B6BECB;
       padding-left: 0.6em;
       padding-right: 0.6em;
     }
+
+  .attachment {
+      background-color: rgb(235, 235, 235);
+      padding: 0.5em;
+      .attachment-icon {
+        margin-right: 0.5em;
+      }
+  }
+  .attachment-image {
+    margin-top: 1em;
   }
 }

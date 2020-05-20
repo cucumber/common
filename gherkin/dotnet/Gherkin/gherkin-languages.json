@@ -1133,14 +1133,14 @@
     "name": "Estonian",
     "native": "eesti keel",
     "rule": [
-      "Rule"
+      "Reegel"
     ],
     "scenario": [
       "Juhtum",
       "Stsenaarium"
     ],
     "scenarioOutline": [
-      "Raamstjuhtum",
+      "Raamjuhtum",
       "Raamstsenaarium"
     ],
     "then": [
@@ -1471,7 +1471,7 @@
     "name": "Hebrew",
     "native": "עברית",
     "rule": [
-      "Rule"
+      "כלל"
     ],
     "scenario": [
       "דוגמא",
@@ -2729,7 +2729,7 @@
     "name": "Russian",
     "native": "русский",
     "rule": [
-      "Rule"
+      "Правило"
     ],
     "scenario": [
       "Пример",

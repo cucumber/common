@@ -19,6 +19,54 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [12.1.1] - 2020-04-21
+
+### Fixed
+
+* [Ruby] Add `VERSION` file to gem, so `Messages::Envelope::VERSION` works
+
+## [12.1.0] - 2020-04-21
+
+### Added
+
+* Expose the library version through the API
+  * Java: `io.cucumber.messages.Messages.Envelope.class.getPackage().getImplementationVersion()`
+  * Ruby: `Messages::Envelope::VERSION`
+  * JavaScript: `import { version } from '@cucumber/messages'`
+* Add `Meta` message
+  ([#976](https://github.com/cucumber/cucumber/pull/976)
+   [aslakhellesoy]) 
+* [Java] Upgrade to `cucumber-parent:2.1.0` (needed to expose library version)
+ ([#976](https://github.com/cucumber/cucumber/pull/976)
+  [aslakhellesoy])
+
+## [12.0.0] - 2020-04-14
+
+### Added
+
+* Add `id` field to `Background`, `Rule` and `Examples`. Needed for search engine indexing.
+
+### Changed
+
+* Some messages have been nested under other messages (removal of other messages)
+  made it possible to scope them more locally
+
+### Removed
+
+* Several messages that weren't used have been removed
+  ([#962](https://github.com/cucumber/cucumber/pull/962)
+   [#951](https://github.com/cucumber/cucumber/issues/951)
+   [aslakhellesoy])
+
+### Fixed
+
+* Ignore unknown fields when parsing JSON. This is to ensure forward and backward
+  compatibility when using JSON encoding (NDJSON).
+  ([#959](https://github.com/cucumber/cucumber/pull/959)
+   [#957](https://github.com/cucumber/cucumber/pull/957)
+   [aslakhellesoy]
+   [mpkorstanje])
+
 ## [11.1.1] - 2020-03-30
 
 ### Fixed
@@ -319,7 +367,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Protobuf messages for Go, Java, JavaScript, TypeScript and Ruby
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/messages/v11.1.1...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/messages/v12.1.1...master
+[12.1.1]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v12.1.0...messages/v12.1.1
+[12.1.0]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v12.0.0...messages/v12.1.0
+[12.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v11.1.1...messages/v12.0.0
 [11.1.1]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v11.1.0...messages/v11.1.1
 [11.1.0]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v11.0.1...messages/v11.1.0
 [11.0.1]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v11.0.0...messages/v11.0.1
@@ -359,6 +410,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 [charlierudolph]:   https://github.com/charlierudolph
 [david1995]:        https://github.com/david1995
 [luke-hill]:        https://github.com/luke-hill
+[mpkorstanje]:      https://github.com/mpkorstanje
 [mvz]:              https://github.com/mvz
 [SabotageAndi]:     https://github.com/SabotageAndi
 [vincent-psarga]:   https://github.com/vincent-psarga

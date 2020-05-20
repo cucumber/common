@@ -1,6 +1,6 @@
 {
-  "attachment": {
-    "body": "(2:1): expected: #EOF, #Language, #TagLine, #FeatureLine, #Comment, #Empty, got 'invalid line here'",
+  "parseError": {
+    "message": "(2:1): expected: #EOF, #Language, #TagLine, #FeatureLine, #Comment, #Empty, got 'invalid line here'",
     "source": {
       "location": {
         "column": 1,
