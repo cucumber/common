@@ -184,7 +184,7 @@ public class TagExpressionParser {
     }
 
     private class Literal implements Expression {
-        private String value;
+        private final String value;
 
         Literal(String value) {
             this.value = value;
@@ -202,8 +202,8 @@ public class TagExpressionParser {
     }
 
     private class Or implements Expression {
-        private Expression left;
-        private Expression right;
+        private final Expression left;
+        private final Expression right;
 
         Or(Expression left, Expression right) {
             this.left = left;
@@ -222,8 +222,8 @@ public class TagExpressionParser {
     }
 
     private class And implements Expression {
-        private Expression left;
-        private Expression right;
+        private final Expression left;
+        private final Expression right;
 
         And(Expression left, Expression right) {
             this.left = left;
@@ -242,7 +242,7 @@ public class TagExpressionParser {
     }
 
     private class Not implements Expression {
-        private Expression expr;
+        private final Expression expr;
 
         Not(Expression expr) {
             this.expr = expr;
