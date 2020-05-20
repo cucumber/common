@@ -18,7 +18,7 @@ public class TagExpressionParserSyntaxErrorTest {
         return Stream.of(
                 arguments("@a @b or", "Tag expression '@a @b or' could not be parsed because of syntax error: expected operator"),
                 arguments("@a and (@b not)", "Tag expression '@a and (@b not)' could not be parsed because of syntax error: expected operator"),
-                arguments("Tag expression '@a and (@b @c) or' could not be parsed because of syntax error: expected operator"),
+                arguments("@a and (@b @c) or", "Tag expression '@a and (@b @c) or' could not be parsed because of syntax error: expected operator"),
                 arguments("@a and or", "Tag expression '@a and or' could not be parsed because of syntax error: expected operand"),
                 arguments("or or", "Tag expression 'or or' could not be parsed because of syntax error: expected operand"),
                 arguments("a b", "Tag expression 'a b' could not be parsed because of syntax error: expected operator"),
