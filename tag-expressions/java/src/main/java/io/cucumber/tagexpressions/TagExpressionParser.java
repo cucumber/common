@@ -21,17 +21,22 @@ public class TagExpressionParser {
         put("not", 2);
     }};
     private static final char ESCAPING_CHAR = '\\';
-    private String infix;
+    private final String infix;
 
-    
-    public Expression parse(final String infix) {
+    public static Expression parse(String infix) {
+	return new TagExpressionParser(infix).parse();
+    }
+
+    private TagExpressionParser(String infix) {
 	this.infix = infix;
-	
-        final List<String> tokens = tokenize(infix);
+    }
+    
+    private Expression parse() {	
+        List<String> tokens = tokenize(infix);
         if(tokens.isEmpty()) return new True();
 
-        final Deque<String> operators = new ArrayDeque<>();
-        final Deque<Expression> expressions = new ArrayDeque<>();
+        Deque<String> operators = new ArrayDeque<>();
+        Deque<Expression> expressions = new ArrayDeque<>();
         TokenType expectedTokenType = TokenType.OPERAND;
         for (String token : tokens) {
             if (isUnary(token)) {
@@ -74,7 +79,7 @@ public class TagExpressionParser {
 
         while (operators.size() > 0) {
             if ("(".equals(operators.peek())) {
-                throw new TagExpressionException("Tag expression '%s' could not be parsed because of syntax error: unmatched (", this.infix);
+                throw new TagExpressionException("Tag expression '%s' could not be parsed because of syntax error: unmatched (", infix);
             }
             pushExpr(pop(operators), expressions);
         }
@@ -82,7 +87,7 @@ public class TagExpressionParser {
         return expressions.pop();
     }
 
-    private static List<String> tokenize(final String expr) {
+    private static List<String> tokenize(String expr) {
         List<String> tokens = new ArrayList<>();
 
         boolean isEscaped = false;
@@ -128,23 +133,23 @@ public class TagExpressionParser {
 
     private void check(TokenType expectedTokenType, TokenType tokenType) {
         if (expectedTokenType != tokenType) {
-            throw new TagExpressionException("Tag expression '%s' could not be parsed because of syntax error: expected %s", this.infix, expectedTokenType.toString().toLowerCase());
+            throw new TagExpressionException("Tag expression '%s' could not be parsed because of syntax error: expected %s", infix, expectedTokenType.toString().toLowerCase());
         }
     }
 
-    private <T> T pop(final Deque<T> stack) {
-        if (stack.isEmpty()) throw new TagExpressionException("Tag expression '%s' could not be parsed because of an empty stack", this.infix);
+    private <T> T pop(Deque<T> stack) {
+        if (stack.isEmpty()) throw new TagExpressionException("Tag expression '%s' could not be parsed because of an empty stack", infix);
         return stack.pop();
     }
 
     private void pushExpr(String token, Deque<Expression> stack) {
         switch (token) {
             case "and":
-                final Expression rightAndExpr = pop(stack);
+                Expression rightAndExpr = pop(stack);
                 stack.push(new And(pop(stack), rightAndExpr));
                 break;
             case "or":
-                final Expression rightOrExpr = pop(stack);
+                Expression rightOrExpr = pop(stack);
                 stack.push(new Or(pop(stack), rightOrExpr));
                 break;
             case "not":
@@ -197,8 +202,8 @@ public class TagExpressionParser {
     }
 
     private class Or implements Expression {
-        private final Expression left;
-        private final Expression right;
+        private Expression left;
+        private Expression right;
 
         Or(Expression left, Expression right) {
             this.left = left;
@@ -217,8 +222,8 @@ public class TagExpressionParser {
     }
 
     private class And implements Expression {
-        private final Expression left;
-        private final Expression right;
+        private Expression left;
+        private Expression right;
 
         And(Expression left, Expression right) {
             this.left = left;

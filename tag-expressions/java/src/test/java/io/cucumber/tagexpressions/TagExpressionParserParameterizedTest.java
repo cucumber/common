@@ -10,7 +10,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 public class TagExpressionParserParameterizedTest {
-    private final TagExpressionParser parser = new TagExpressionParser();
 
     static Stream<Arguments> data() {
         return Stream.of(
@@ -26,7 +25,7 @@ public class TagExpressionParserParameterizedTest {
     @ParameterizedTest
     @MethodSource("data")
     public void parser_expression(String infix, String expected) {
-        Expression expr = parser.parse(infix);
+        Expression expr = TagExpressionParser.parse(infix);
         assertEquals(expected, expr.toString());
     }
 

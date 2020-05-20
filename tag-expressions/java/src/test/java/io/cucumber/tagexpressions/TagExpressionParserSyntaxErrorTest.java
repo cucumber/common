@@ -12,8 +12,6 @@ import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 public class TagExpressionParserSyntaxErrorTest {
 
-    private final TagExpressionParser parser = new TagExpressionParser();
-
     static Stream<Arguments> data() {
         return Stream.of(
                 arguments("@a @b or", "Tag expression '@a @b or' could not be parsed because of syntax error: expected operator"),
@@ -31,7 +29,7 @@ public class TagExpressionParserSyntaxErrorTest {
     @MethodSource("data")
     public void parser_expression(String infix, String expectedError) {
 	TagExpressionException e = assertThrows(TagExpressionException.class,
-			() -> parser.parse(infix));
+			() -> TagExpressionParser.parse(infix));
 
             assertEquals(expectedError, e.getMessage());
     }
