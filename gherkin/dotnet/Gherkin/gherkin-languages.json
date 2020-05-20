@@ -1471,7 +1471,7 @@
     "name": "Hebrew",
     "native": "עברית",
     "rule": [
-      "Rule"
+      "כלל"
     ],
     "scenario": [
       "דוגמא",
@@ -2729,7 +2729,7 @@
     "name": "Russian",
     "native": "русский",
     "rule": [
-      "Rule"
+      "Правило"
     ],
     "scenario": [
       "Пример",

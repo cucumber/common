@@ -12,10 +12,14 @@ ndjson_files: $(NDJSON_FILES)
 .PHONY: ndjson_files
 
 features/%.ndjson: features/%.feature features/%.ts .deps
+ifdef GOLDEN
 	./node_modules/@cucumber/fake-cucumber/bin/fake-cucumber \
 		--format ndjson \
 		--predictable-ids \
 		$< > $@
+else
+  # no-op: run with GOLDEN=1
+endif
 
 binary_files: $(BINARY_FILES)
 .PHONY: ndjson_files
@@ -29,5 +33,7 @@ features/%.bin: features/%.feature features/%.ts .deps
 clean: clean-ndjson
 
 clean-ndjson:
+ifdef GOLDEN
 	rm -f $(NDJSON_FILES)
+endif
 .PHONY: clean-ndjson
