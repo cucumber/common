@@ -1,13 +1,19 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
+
 import { messages } from '@cucumber/messages'
-import QueriesWrapper from '../src/components/app/QueriesWrapper'
-import StepContainer from '../src/components/gherkin/StepContainer'
-import SearchBar from '../src/components/app/SearchBar'
+import { Query as CucumberQuery } from '@cucumber/query'
+import { Query as GherkinQuery } from '@cucumber/gherkin'
+import Attachment from '../src/components/gherkin/Attachment'
 import FilteredResults from '../src/components/app/FilteredResults'
 import GherkinDocumentList from '../src/components/app/GherkinDocumentList'
-import { Query as GherkinQuery } from '@cucumber/gherkin'
-import { Query as CucumberQuery } from '@cucumber/query'
+import QueriesWrapper from '../src/components/app/QueriesWrapper'
+import SearchBar from '../src/components/app/SearchBar'
+import StepContainer from '../src/components/gherkin/StepContainer'
+
+import '../src/styles/react-accessible-accordion.css'
+import '../src/styles/styles.scss'
+
 // @ts-ignore
 import documentList from '../testdata/all.ndjson'
 // @ts-ignore
@@ -29,8 +35,6 @@ import rules from '../../../compatibility-kit/javascript/features/rules/rules.nd
 // @ts-ignore
 import stackTraces from '../../../compatibility-kit/javascript/features/stack-traces/stack-traces.ndjson'
 // @ts-ignore
-import Attachment from '../src/components/gherkin/Attachment'
-// @ts-ignore
 import mp4Base64 from '../testdata/video/sample.mp4.txt'
 
 function envelopes(ndjson: string): messages.IEnvelope[] {
@@ -46,7 +50,7 @@ function props(ndjson: string): { gherkinQuery: GherkinQuery, cucumberQuery: Cuc
     gherkinQuery.update(envelope)
     cucumberQuery.update(envelope)
   }
-  return { gherkinQuery, cucumberQuery }
+  return {gherkinQuery, cucumberQuery}
 }
 
 storiesOf('Features', module)
@@ -123,6 +127,7 @@ storiesOf('Features', module)
       <GherkinDocumentList/>
     </QueriesWrapper>
   })
+
 storiesOf('Attachments', module)
   .add('text/plain identity encoded', () => {
     return <Attachment attachment={messages.Attachment.create({

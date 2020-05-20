@@ -1,16 +1,16 @@
 import { messages } from '@cucumber/messages'
 import IGherkinDocument = messages.IGherkinDocument
 
-import { Query } from '@cucumber/query'
+import { Query as CucumberQuery } from '@cucumber/query'
 import { Query as GherkinQuery } from '@cucumber/gherkin'
 
 export default function getFeatureStatus(
   document: IGherkinDocument,
-  testResultsQuery: Query,
+  cucumberQuery: CucumberQuery,
   gherkinQuery: GherkinQuery
 ): messages.TestStepFinished.TestStepResult.Status {
-  return testResultsQuery.getWorstTestStepResult(
-    testResultsQuery.getPickleTestStepResults(
+  return cucumberQuery.getWorstTestStepResult(
+    cucumberQuery.getPickleTestStepResults(
       gherkinQuery.getPickleIds(document.uri)
     )
   ).status
