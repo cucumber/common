@@ -29,7 +29,7 @@ public class TagExpressionParserSyntaxErrorTest {
 
     @ParameterizedTest
     @MethodSource("data")
-    public void parser_expression(final String infix, final String expectedError) {
+    public void parser_expression(String infix, String expectedError) {
 	TagExpressionException e = assertThrows(TagExpressionException.class,
 			() -> parser.parse(infix));
 

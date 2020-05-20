@@ -25,7 +25,7 @@ public class TagExpressionParserParameterizedTest {
 
     @ParameterizedTest
     @MethodSource("data")
-    public void parser_expression(final String infix, final String expected) {
+    public void parser_expression(String infix, String expected) {
         Expression expr = parser.parse(infix);
         assertEquals(expected, expr.toString());
     }

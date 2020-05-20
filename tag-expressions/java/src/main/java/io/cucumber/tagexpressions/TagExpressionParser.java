@@ -33,7 +33,7 @@ public class TagExpressionParser {
         final Deque<String> operators = new ArrayDeque<>();
         final Deque<Expression> expressions = new ArrayDeque<>();
         TokenType expectedTokenType = TokenType.OPERAND;
-        for (final String token : tokens) {
+        for (String token : tokens) {
             if (isUnary(token)) {
                 check(expectedTokenType, TokenType.OPERAND);
                 operators.push(token);
@@ -83,12 +83,12 @@ public class TagExpressionParser {
     }
 
     private static List<String> tokenize(final String expr) {
-        final List<String> tokens = new ArrayList<>();
+        List<String> tokens = new ArrayList<>();
 
         boolean isEscaped = false;
         StringBuilder token = null;
         for (int i = 0; i < expr.length(); i++) {
-            final char c = expr.charAt(i);
+            char c = expr.charAt(i);
             if (ESCAPING_CHAR == c) {
                 isEscaped = true;
             } else {
@@ -126,7 +126,7 @@ public class TagExpressionParser {
         return tokens;
     }
 
-    private void check(final TokenType expectedTokenType, final TokenType tokenType) {
+    private void check(TokenType expectedTokenType, TokenType tokenType) {
         if (expectedTokenType != tokenType) {
             throw new TagExpressionException("Tag expression '%s' could not be parsed because of syntax error: expected %s", this.infix, expectedTokenType.toString().toLowerCase());
         }
@@ -137,7 +137,7 @@ public class TagExpressionParser {
         return stack.pop();
     }
 
-    private void pushExpr(final String token, final Deque<Expression> stack) {
+    private void pushExpr(String token, Deque<Expression> stack) {
         switch (token) {
             case "and":
                 final Expression rightAndExpr = pop(stack);
@@ -156,15 +156,15 @@ public class TagExpressionParser {
         }
     }
 
-    private boolean isUnary(final String token) {
+    private boolean isUnary(String token) {
         return "not".equals(token);
     }
 
-    private boolean isBinary(final String token) {
+    private boolean isBinary(String token) {
         return "or".equals(token) || "and".equals(token);
     }
 
-    private boolean isOperator(final String token) {
+    private boolean isOperator(String token) {
         return ASSOC.get(token) != null;
     }
 
@@ -179,14 +179,14 @@ public class TagExpressionParser {
     }
 
     private class Literal implements Expression {
-        private final String value;
+        private String value;
 
-        Literal(final String value) {
+        Literal(String value) {
             this.value = value;
         }
 
         @Override
-        public boolean evaluate(final List<String> variables) {
+        public boolean evaluate(List<String> variables) {
             return variables.contains(value);
         }
 
@@ -200,13 +200,13 @@ public class TagExpressionParser {
         private final Expression left;
         private final Expression right;
 
-        Or(final Expression left, final Expression right) {
+        Or(Expression left, Expression right) {
             this.left = left;
             this.right = right;
         }
 
         @Override
-        public boolean evaluate(final List<String> variables) {
+        public boolean evaluate(List<String> variables) {
             return left.evaluate(variables) || right.evaluate(variables);
         }
 
@@ -220,13 +220,13 @@ public class TagExpressionParser {
         private final Expression left;
         private final Expression right;
 
-        And(final Expression left, final Expression right) {
+        And(Expression left, Expression right) {
             this.left = left;
             this.right = right;
         }
 
         @Override
-        public boolean evaluate(final List<String> variables) {
+        public boolean evaluate(List<String> variables) {
             return left.evaluate(variables) && right.evaluate(variables);
         }
 
@@ -237,14 +237,14 @@ public class TagExpressionParser {
     }
 
     private class Not implements Expression {
-        private final Expression expr;
+        private Expression expr;
 
-        Not(final Expression expr) {
+        Not(Expression expr) {
             this.expr = expr;
         }
 
         @Override
-        public boolean evaluate(final List<String> variables) {
+        public boolean evaluate(List<String> variables) {
             return !expr.evaluate(variables);
         }
 
@@ -256,7 +256,7 @@ public class TagExpressionParser {
 
     private class True implements Expression {
         @Override
-        public boolean evaluate(final List<String> variables) {
+        public boolean evaluate(List<String> variables) {
             return true;
         }
     }
