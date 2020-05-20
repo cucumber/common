@@ -26,6 +26,7 @@ const Step: React.FunctionComponent<IProps> = ({
   const uri = React.useContext(UriContext)
 
   const pickleStepIds = gherkinQuery.getPickleStepIds(uri, step.location.line)
+
   const pickleStepTestStepResults = cucumberQuery.getPickleStepTestStepResults(
     pickleStepIds
   )

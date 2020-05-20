@@ -1,6 +1,8 @@
 import React from 'react'
 import { messages } from '@cucumber/messages'
 import ErrorMessage from './ErrorMessage'
+import { faPaperclip } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 interface IProps {
   attachment: messages.IAttachment
@@ -38,6 +40,7 @@ function image(attachment: messages.IAttachment) {
     <img
       alt="Embedded Image"
       src={`data:${attachment.mediaType};base64,${attachment.body}`}
+      className="attachment-image"
     />
   )
 }
@@ -80,7 +83,12 @@ function text(
     attachment.contentEncoding === messages.Attachment.ContentEncoding.IDENTITY
       ? attachment.body
       : base64Decode(attachment.body)
-  return <pre className="attachment">{prettify(body)}</pre>
+  return (
+    <pre className="attachment">
+      <FontAwesomeIcon icon={faPaperclip} className="attachment-icon" />
+      {prettify(body)}
+    </pre>
+  )
 }
 
 function prettyJSON() {
