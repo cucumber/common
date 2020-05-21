@@ -3,10 +3,19 @@
 #
 FROM ubuntu:20.04
 
+ENV DEBIAN_FRONTEND=noninteractive
+ENV LANG=en_US.UTF-8
+
 WORKDIR /app
 
+# Include universe repositories for EOLed versions
 RUN apt-get update \
-    && DEBIAN_FRONTEND=noninteractive apt-get install --assume-yes  \
+    && apt-get install --assume-yes  \
+        software-properties-common \
+    && add-apt-repository universe
+
+RUN apt-get update \
+    && apt-get install --assume-yes  \
         bash \
         cmake \
         curl \
@@ -27,9 +36,8 @@ RUN apt-get update \
         openssl \
         perl \
         protobuf-compiler \
-        python3 \
-        python3-dev \
-        python3-pip \
+        python2 \
+        pipenv \
         rsync \
         ruby \
         ruby-dev \
@@ -65,13 +73,12 @@ RUN echo "gem: --no-document" > ~/.gemrc \
     && chown -R cukebot:cukebot /var/lib \
     && chown -R cukebot:cukebot /usr/bin
 
-# Configure Python
-RUN pip3 install pipenv \
-    && pip3 install twine \
-    && pip3 install pytest \
-    && pip3 install behave
-#    \
-#    && chown -R cukebot:cukebot /usr/local/lib/python2.7/site-packages \
+# Install and configure pip2, twine and behave
+RUN curl https://bootstrap.pypa.io/get-pip.py | python2 \
+    && pip install pipenv \
+    && pip install twine \
+    && pip install behave
+#    && chown -R cukebot:cukebot /usr/lib/python2.7/site-packages \
 #    && mkdir -p /usr/man && chown -R cukebot:cukebot /usr/man
 
 # Configure Perl
@@ -106,6 +113,7 @@ RUN go get -d github.com/libgit2/git2go \
 
 # Install .NET Core
 # https://github.com/dotnet/dotnet-docker/blob/5c25dd2ed863dfd73edb1a6381dd9635734d0e5f/2.2/sdk/bionic/amd64/Dockerfile
+ENV DOTNET_CLI_TELEMETRY_OPTOUT=true
 ## Install .NET CLI dependencies
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
