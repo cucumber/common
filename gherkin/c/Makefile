@@ -62,7 +62,7 @@ libs_so: ./include/rule_type.h src/parser.c src/dialect.c $(SRC_FILES) src/Makef
 	touch $@
 
 ./include/rule_type.h: gherkin.berp gherkin-c-rule-type.razor
-	mono  /var/lib/berp/1.1.1/tools/net471/Berp.exe -g gherkin.berp -t gherkin-c-rule-type.razor -o $@
+	mono /var/lib/berp/1.1.1/tools/net471/Berp.exe -g gherkin.berp -t gherkin-c-rule-type.razor -o $@
 	# Remove BOM
 	awk 'NR==1{sub(/^\xef\xbb\xbf/,"")}{print}' < $@ > $@.nobom
 	mv $@.nobom $@
