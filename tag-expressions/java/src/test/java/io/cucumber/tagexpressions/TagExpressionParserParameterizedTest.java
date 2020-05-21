@@ -9,7 +9,7 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
-public class TagExpressionParserParameterizedTest {
+class TagExpressionParserParameterizedTest {
 
     static Stream<Arguments> data() {
         return Stream.of(

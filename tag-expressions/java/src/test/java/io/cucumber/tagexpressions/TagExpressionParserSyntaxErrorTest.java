@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
-public class TagExpressionParserSyntaxErrorTest {
+class TagExpressionParserSyntaxErrorTest {
 
     static Stream<Arguments> data() {
         return Stream.of(
