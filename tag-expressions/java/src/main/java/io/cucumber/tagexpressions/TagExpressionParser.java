@@ -7,13 +7,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class TagExpressionParser {
-    private static Map<String, Assoc> ASSOC = new HashMap<String, Assoc>() {{
+public final class TagExpressionParser {
+    private static final Map<String, Assoc> ASSOC = new HashMap<String, Assoc>() {{
         put("or", Assoc.LEFT);
         put("and", Assoc.LEFT);
         put("not", Assoc.RIGHT);
     }};
-    private static Map<String, Integer> PREC = new HashMap<String, Integer>() {{
+    private static final Map<String, Integer> PREC = new HashMap<String, Integer>() {{
         put("(", -2);
         put(")", -1);
         put("or", 0);
