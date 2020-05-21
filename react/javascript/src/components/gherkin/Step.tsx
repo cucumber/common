@@ -4,7 +4,6 @@ import Keyword from './Keyword'
 import DocString from './DocString'
 import { messages } from '@cucumber/messages'
 import CucumberQueryContext from '../../CucumberQueryContext'
-import UriContext from '../../UriContext'
 import GherkinQueryContext from '../../GherkinQueryContext'
 import ErrorMessage from './ErrorMessage'
 import StepContainer from './StepContainer'
@@ -23,9 +22,8 @@ const Step: React.FunctionComponent<IProps> = ({
 }) => {
   const gherkinQuery = React.useContext(GherkinQueryContext)
   const cucumberQuery = React.useContext(CucumberQueryContext)
-  const uri = React.useContext(UriContext)
 
-  const pickleStepIds = gherkinQuery.getPickleStepIds(uri, step.location.line)
+  const pickleStepIds = gherkinQuery.getPickleStepIds(step.id)
   const pickleStepTestStepResults = cucumberQuery.getPickleStepTestStepResults(
     pickleStepIds
   )

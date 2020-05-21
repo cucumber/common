@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
+* Do not rely on line number to obtain Step or Row status.
+
 ### Deprecated
 
 ### Removed
