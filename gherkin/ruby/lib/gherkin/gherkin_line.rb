@@ -39,7 +39,7 @@ module Gherkin
       self.split_table_cells(@trimmed_line_text) do |item, column|
         # Keeps new lines
         txt_trimmed_left = item.sub(/\A[ \t\v\f\r\u0085\u00A0]*/, '')
-        txt_trimmed = txt_trimmed_left.sub(/[ \t\v\f\r\u0085\u00A0]*\Z/, '')
+        txt_trimmed = txt_trimmed_left.sub(/[ \t\v\f\r\u0085\u00A0]*\z/, '')
         cell_indent = item.length - txt_trimmed_left.length
         span = Span.new(@indent + column + cell_indent, txt_trimmed)
         cells.push(span)
