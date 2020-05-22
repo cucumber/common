@@ -1,10 +1,7 @@
 {
   "source": {
     "data": "@a\nFeature:\n  @b @c\n  Scenario Outline:\n    Given <x>\n\n    Examples:\n      | x |\n      | y |\n\n  @d @e\n  Scenario Outline:\n    Given <m>\n\n    @f\n    Examples:\n      | m |\n      | n |\n",
-    "media": {
-      "contentType": "text/x.cucumber.gherkin+plain",
-      "encoding": "UTF8"
-    },
+    "mediaType": "text/x.cucumber.gherkin+plain",
     "uri": "testdata/good/readme_example.feature"
   }
 }

@@ -1,7 +1,6 @@
 'use strict'
 
 import assert from 'assert'
-import assertThrows from './assert_throws'
 import CucumberExpression from '../src/CucumberExpression'
 import RegularExpression from '../src/RegularExpression'
 import ParameterTypeRegistry from '../src/ParameterTypeRegistry'
@@ -40,9 +39,10 @@ describe('Custom parameter type', () => {
 
   describe('CucumberExpression', () => {
     it('throws exception for illegal character in parameter name', () => {
-      assertThrows(
-        () => new ParameterType('[string]', /.*/, String, s => s, false, true),
-        "Illegal character '[' in parameter name {[string]}"
+      assert.throws(
+        () =>
+          new ParameterType('[string]', /.*/, String, (s) => s, false, true),
+        { message: "Illegal character '[' in parameter name {[string]}" }
       )
     })
 
@@ -102,7 +102,7 @@ describe('Custom parameter type', () => {
           'color',
           [/red|blue|yellow/, /(?:dark|light) (?:red|blue|yellow)/],
           Color,
-          s => new Color(s),
+          (s) => new Color(s),
           false,
           true
         )
@@ -121,7 +121,7 @@ describe('Custom parameter type', () => {
           'throwing',
           /bad/,
           null,
-          s => {
+          (s) => {
             throw new Error(`Can't transform [${s}]`)
           },
           false,
@@ -134,24 +134,26 @@ describe('Custom parameter type', () => {
         parameterTypeRegistry
       )
       const args = expression.match('I have a bad parameter')
-      assertThrows(() => args[0].getValue(null), "Can't transform [bad]")
+      assert.throws(() => args[0].getValue(null), {
+        message: "Can't transform [bad]",
+      })
     })
 
     describe('conflicting parameter type', () => {
       it('is detected for type name', () => {
-        assertThrows(
+        assert.throws(
           () =>
             parameterTypeRegistry.defineParameterType(
               new ParameterType(
                 'color',
                 /.*/,
                 CssColor,
-                s => new CssColor(s),
+                (s) => new CssColor(s),
                 false,
                 true
               )
             ),
-          'There is already a parameter type with name color'
+          { message: 'There is already a parameter type with name color' }
         )
       })
 
@@ -161,7 +163,7 @@ describe('Custom parameter type', () => {
             'whatever',
             /.*/,
             Color,
-            s => new Color(s),
+            (s) => new Color(s),
             false,
             false
           )
@@ -174,7 +176,7 @@ describe('Custom parameter type', () => {
             'css-color',
             /red|blue|yellow/,
             CssColor,
-            s => new CssColor(s),
+            (s) => new CssColor(s),
             true,
             false
           )
@@ -222,7 +224,7 @@ describe('Custom parameter type', () => {
           'asyncColor',
           /red|blue|yellow/,
           Color,
-          async s => new Color(s),
+          async (s) => new Color(s),
           false,
           true
         )

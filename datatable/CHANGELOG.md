@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+* [Java] Enable consumers to find our version at runtime using `clazz.getPackage().getImplementationVersion()` by upgrading to `cucumber-parent:2.1.0`
+  ([#976](https://github.com/cucumber/cucumber/pull/976)
+   [aslakhellesoy])
+
 ### Changed
 
 ### Deprecated
@@ -17,19 +21,49 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
-## [3.0.0] - 2019-08-17
+## [3.3.1] - 2020-03-28
+
+### Fixed
+ * [Java] Improve error messages
+    ([#944](https://github.com/cucumber/cucumber/pull/944)
+      [mpkorstanje])     
+      - `table.asList(String.class)` throw an exception rather then return an empty list   
+
+## [3.3.0] - 2020-02-06
 
 ### Added
-    
-### Changed
- 
-### Deprecated
+ * [Java] Allow Object and String datatable types to be redefined
+    ([#885](https://github.com/cucumber/cucumber/pull/885)
+     [mpkorstanje])
+
+## [3.2.1] - 2020-01-25
+
+### Fixed
+ * [Java] Avoid collisions when converting to maps
+     ([#877](https://github.com/cucumber/cucumber/pull/877)
+     [mpkorstanje])
+
+## [3.2.0] - 2020-01-10
+
+### Added
+ * [Java] Add getter for TableConverter
+     ([#853](https://github.com/cucumber/cucumber/pull/853)
+     [mpkorstanje])
+
+## [3.1.0] - 2019-12-15
+
+### Fixed
+ * [Java] Replace wildcard type with its upper bound
+    ([#829](https://github.com/cucumber/cucumber/pull/829)
+    [mpkorstanje])
+
+## [3.0.0] - 2019-08-17
 
 ### Removed
  * [Java] Remove shaded dependency on Jackson Databind
     ([#682](https://github.com/cucumber/cucumber/pull/682)
     [#679](https://github.com/cucumber/cucumber/issues/679)
-    M.P. Korstanje)
+    [mpkorstanje])
 ### Fixed
 
 ## [2.0.0] 2019-08-11
@@ -41,9 +75,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * [Java] Mark public api with @API Guardian annotations
     ([cucumber/cucumber-jvm#1536](https://github.com/cucumber/cucumber-jvm/issues/1536)
     [mpkorstanje])        
-    
+
 ### Changed
- * Upgrades to `cucumber-parent:2.0.2`
+ * [Java] Upgrades to `cucumber-parent:2.0.2`
  * Allow `null` values in `DataTable`.
      ([cucumber/cucumber-jvm#1617](https://github.com/cucumber/cucumber-jvm/issues/1617)
      [mpkorstanje])        
@@ -60,7 +94,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
  *  Empty cell are not converted to `null`'s for `Double` class
-        ([#1617](https://github.com/cucumber/cucumber-jvm/issues/1617) [gkalnytskyi]) 
+        ([#1617](https://github.com/cucumber/cucumber-jvm/issues/1617) [gkalnytskyi])
 
 ## [1.1.8] - 2018-11-29
 
@@ -73,7 +107,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Fix priority of default converters
   ([#514](https://github.com/cucumber/cucumber/pull/514)
    [mpkorstanje])
-   
+
 ## [1.1.3] - 2018-07-27
 
 ### Added
@@ -133,7 +167,12 @@ There are no (1.1.0 and 1.1.1 releases).
 * java: OSGI fixes
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/datatable/v3.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/datatable/v3.3.1...master
+[3.3.1]:      https://github.com/cucumber/cucumber/compare/datatable/v3.3.0...datatable/v3.3.1
+[3.3.0]:      https://github.com/cucumber/cucumber/compare/datatable/v3.2.1...datatable/v3.3.0
+[3.2.1]:      https://github.com/cucumber/cucumber/compare/datatable/v3.2.0...datatable/v3.2.1
+[3.2.0]:      https://github.com/cucumber/cucumber/compare/datatable/v3.1.0...datatable/v3.2.0
+[3.1.0]:      https://github.com/cucumber/cucumber/compare/datatable/v3.0.0...datatable/v3.1.0
 [3.0.0]:      https://github.com/cucumber/cucumber/compare/datatable/v2.0.0...datatable/v3.0.0
 [2.0.0]:      https://github.com/cucumber/cucumber/compare/datatable/v1.1.14...datatable/v2.0.0
 [1.1.14]:     https://github.com/cucumber/cucumber/compare/datatable-v1.1.7...datatable/v1.1.14

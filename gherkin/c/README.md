@@ -1,5 +1,3 @@
-[![Build Status](https://travis-ci.org/cucumber/gherkin-c.svg?branch=master)](https://travis-ci.org/cucumber/gherkin-c)
-
 <h2>Build instruction:</h2>
 
 ```

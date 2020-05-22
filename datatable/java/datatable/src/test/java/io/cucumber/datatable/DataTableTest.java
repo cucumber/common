@@ -7,16 +7,25 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static io.cucumber.datatable.DataTable.emptyDataTable;
+import static io.cucumber.datatable.TableParser.parse;
+import static io.cucumber.datatable.TypeFactory.typeName;
+import static java.lang.String.format;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
@@ -32,6 +41,20 @@ class DataTableTest {
         assertTrue(table.cells().isEmpty());
     }
 
+    @Test
+    void can_modify_data_tables() {
+        List<List<String>> raw = singletonList(emptyList());
+        DataTable table = DataTable.create(raw, tableConverter);
+        DataTable lowerCaseTable = DataTable.create(
+                raw.stream()
+                        .map(row -> row.stream()
+                                .map(String::toLowerCase)
+                                .collect(Collectors.toList()))
+                        .collect(Collectors.toList()),
+                table.getTableConverter()
+        );
+        assertSame(tableConverter, lowerCaseTable.getTableConverter());
+    }
 
     @Test
     void raw_should_equal_raw() {
@@ -295,7 +318,7 @@ class DataTableTest {
 
     @Test
     void empty_rows_are_ignored() {
-        List<List<String>> table1 = asList(Collections.emptyList(), Collections.emptyList());
+        List<List<String>> table1 = asList(emptyList(), emptyList());
         DataTable table = DataTable.create(table1, tableConverter);
         assertTrue(table.isEmpty());
         assertTrue(table.cells().isEmpty());
@@ -452,6 +475,67 @@ class DataTableTest {
         Map<String, String> expected = new HashMap<String, String>() {{
             put("1", "2");
             put("100", "1000");
+        }};
+
+        assertEquals(singletonList(expected), table.asMaps());
+    }
+
+    @Test
+    void asMaps_can_convert_table_with_null_values() {
+        DataTable table = DataTable.create(asList(
+                asList("1", "2"),
+                asList(null, null)
+        ));
+
+        Map<String, String> expected = new HashMap<String, String>() {{
+            put("1", null);
+            put("2", null);
+        }};
+
+        assertEquals(singletonList(expected), table.asMaps());
+    }
+
+    @Test
+    void asMaps_cant_convert_table_with_duplicate_keys() {
+        DataTable table = parse("",
+                "| 1 | 1 | 1 |",
+                "| 4 | 5 | 6 |",
+                "| 7 | 8 | 9 |"
+        );
+
+        CucumberDataTableException exception = assertThrows(
+                CucumberDataTableException.class,
+                table::asMaps
+        );
+
+        assertThat(exception.getMessage(), is(format("" +
+                        "Can't convert DataTable to Map<%s, %s>.\n" +
+                        "Encountered duplicate key 1 with values 4 and 5",
+                typeName(String.class), typeName(String.class))));
+    }
+
+    @Test
+    void asMaps_cant_convert_table_with_duplicate_null_keys() {
+        DataTable table = DataTable.create(asList(
+                asList(null, null),
+                asList("1", "2")
+        ));
+
+        CucumberDataTableException exception = assertThrows(
+                CucumberDataTableException.class,
+                table::asMaps
+        );
+        assertThat(exception.getMessage(), is(format("" +
+                        "Can't convert DataTable to Map<%s, %s>.\n" +
+                        "Encountered duplicate key null with values 1 and 2",
+                typeName(String.class), typeName(String.class))));
+    }
+
+    @Test
+    void asMaps_with_nulls_returns_maps_of_raw() {
+        DataTable table = DataTable.create(asList(singletonList(null), singletonList(null)));
+        Map<String, String> expected = new HashMap<String, String>() {{
+            put(null, null);
         }};
 
         assertEquals(singletonList(expected), table.asMaps());

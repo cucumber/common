@@ -1,5 +1,6 @@
-export default interface IWorld {
-  testStepId: string
+import { Attach, Log } from './types'
 
-  attach(data: string, contentType: string): void
+export default interface IWorld {
+  attach: Attach
+  log: Log
 }

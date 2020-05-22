@@ -5,6 +5,7 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.lang.reflect.WildcardType;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -49,7 +50,7 @@ final class TypeFactory {
         }
 
         if (type instanceof WildcardType) {
-            return constructWIldCardType((WildcardType) type);
+            return constructWildCardType((WildcardType) type);
         }
 
         if (type instanceof ParameterizedType) {
@@ -59,29 +60,46 @@ final class TypeFactory {
         return new OtherType(type);
     }
 
-    private static JavaType constructWIldCardType(WildcardType type) {
-        // We'll only care about exact matches for now.
+    private static JavaType constructWildCardType(WildcardType type) {
+        // For our simplified type system we can safely replace upper bounds
+        // When registering a transformer to type ? extends SomeType the
+        // transformer is guaranteed to produce an object that is an instance of
+        // SomeType.
+        // When transforming a data table to ? extends SomeType a transformer
+        // that produces SomeType is sufficient.
+        // This will result in ambiguity between a transformers for SomeType
+        // and transformers for ? extends SomeType but that seems reasonable and
+        // might be resolved by using a more specific producer.
+        Type[] upperBounds = type.getUpperBounds();
+        if (upperBounds.length > 0) {
+            // Not possible in Java. Scala?
+            if (upperBounds.length > 1) {
+                throw new IllegalArgumentException("Type contained more then upper lower bound " + type + ". Types may only have a single upper bound.");
+            }
+            return constructType(upperBounds[0]);
+        }
+
+        // We'll treat lower bounds as is.
         return new OtherType(type);
     }
 
     private static JavaType constructParameterizedType(ParameterizedType type) {
         // Must always be a class here
         Class<?> rawType = (Class<?>) type.getRawType();
+        JavaType[] deconstructedTypeArguments = deConstructTypeArguments(type);
 
         if (List.class.equals(rawType)) {
-            JavaType[] deconstructedTypeArguments = constructTypeArguments(type);
             return new ListType(type, List.class, deconstructedTypeArguments[0]);
         }
 
         if (Map.class.equals(rawType)) {
-            JavaType[] deconstructedTypeArguments = constructTypeArguments(type);
             return new MapType(type, Map.class, deconstructedTypeArguments[0], deconstructedTypeArguments[1]);
         }
 
-        return new OtherType(type);
+        return new Parameterized(type, rawType, deconstructedTypeArguments);
     }
 
-    private static JavaType[] constructTypeArguments(ParameterizedType type) {
+    private static JavaType[] deConstructTypeArguments(ParameterizedType type) {
         Type[] actualTypeArguments = type.getActualTypeArguments();
         JavaType[] deconstructedTypeArguments = new JavaType[actualTypeArguments.length];
         for (int i = 0; i < actualTypeArguments.length; i++) {
@@ -92,6 +110,11 @@ final class TypeFactory {
 
     static String typeName(Type type) {
         return type.getTypeName();
+    }
+
+    interface JavaType extends Type {
+
+        Type getOriginal();
     }
 
     static final class OtherType implements JavaType {
@@ -122,6 +145,48 @@ final class TypeFactory {
 
         public Type getOriginal() {
             return original;
+        }
+    }
+
+    static class Parameterized implements JavaType {
+        private final Type original;
+        private final Class<?> rawClass;
+        private final JavaType[] elementTypes;
+
+        private Parameterized(Type original, Class<?> rawClass, JavaType[] elementTypes) {
+            this.original = original;
+            this.rawClass = rawClass;
+            this.elementTypes = elementTypes;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Parameterized that = (Parameterized) o;
+            return rawClass.equals(that.rawClass) &&
+                    Arrays.equals(elementTypes, that.elementTypes);
+        }
+
+        JavaType[] getElementTypes() {
+            return elementTypes;
+        }
+
+        @Override
+        public int hashCode() {
+            int result = Objects.hash(rawClass);
+            result = 31 * result + Arrays.hashCode(elementTypes);
+            return result;
+        }
+
+        @Override
+        public Type getOriginal() {
+            return original;
+        }
+
+        @Override
+        public String getTypeName() {
+            return original.getTypeName();
         }
     }
 
@@ -217,10 +282,5 @@ final class TypeFactory {
         public Type getOriginal() {
             return original;
         }
-    }
-
-    interface JavaType extends Type {
-
-        Type getOriginal();
     }
 }

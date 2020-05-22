@@ -1,11 +1,11 @@
-import { messages, IdGenerator } from 'cucumber-messages'
+import { messages, IdGenerator } from '@cucumber/messages'
 import IGherkinDocument = messages.IGherkinDocument
 
 export default function compile(
   gherkinDocument: IGherkinDocument,
   uri: string,
   newId: IdGenerator.NewId
-) {
+): ReadonlyArray<messages.IPickle> {
   const pickles: messages.IPickle[] = []
 
   if (gherkinDocument.feature == null) {
@@ -17,7 +17,7 @@ export default function compile(
   const featureTags = feature.tags
   let featureBackgroundSteps: messages.GherkinDocument.Feature.IStep[] = []
 
-  feature.children.forEach(stepsContainer => {
+  feature.children.forEach((stepsContainer) => {
     if (stepsContainer.background) {
       featureBackgroundSteps = [].concat(stepsContainer.background.steps)
     } else if (stepsContainer.rule) {
@@ -66,7 +66,7 @@ function compileRule(
 ) {
   let ruleBackgroundSteps = [].concat(featureBackgroundSteps)
 
-  rule.children.forEach(stepsContainer => {
+  rule.children.forEach((stepsContainer) => {
     if (stepsContainer.background) {
       ruleBackgroundSteps = ruleBackgroundSteps.concat(
         stepsContainer.background.steps
@@ -107,11 +107,13 @@ function compileScenario(
   const steps =
     scenario.steps.length === 0
       ? []
-      : backgroundSteps.map(step => pickleStep(step, [], null, newId))
+      : backgroundSteps.map((step) => pickleStep(step, [], null, newId))
 
   const tags = [].concat(featureTags).concat(scenario.tags)
 
-  scenario.steps.forEach(step => steps.push(pickleStep(step, [], null, newId)))
+  scenario.steps.forEach((step) =>
+    steps.push(pickleStep(step, [], null, newId))
+  )
 
   const pickle = messages.Pickle.create({
     id: newId(),
@@ -135,20 +137,20 @@ function compileScenarioOutline(
   newId: IdGenerator.NewId
 ) {
   scenario.examples
-    .filter(e => e.tableHeader !== null)
-    .forEach(examples => {
+    .filter((e) => e.tableHeader !== null)
+    .forEach((examples) => {
       const variableCells = examples.tableHeader.cells
-      examples.tableBody.forEach(valuesRow => {
+      examples.tableBody.forEach((valuesRow) => {
         const steps =
           scenario.steps.length === 0
             ? []
-            : backgroundSteps.map(step => pickleStep(step, [], null, newId))
+            : backgroundSteps.map((step) => pickleStep(step, [], null, newId))
         const tags = []
           .concat(featureTags)
           .concat(scenario.tags)
           .concat(examples.tags)
 
-        scenario.steps.forEach(scenarioOutlineStep => {
+        scenario.steps.forEach((scenarioOutlineStep) => {
           const step = pickleStep(
             scenarioOutlineStep,
             variableCells,
@@ -181,9 +183,9 @@ function createPickleArguments(
   if (step.dataTable) {
     const argument = step.dataTable
     const table = {
-      rows: argument.rows.map(row => {
+      rows: argument.rows.map((row) => {
         return {
-          cells: row.cells.map(cell => {
+          cells: row.cells.map((cell) => {
             return {
               location: cell.location,
               value: interpolate(cell.value, variableCells, valueCells),
@@ -200,9 +202,9 @@ function createPickleArguments(
     const docString = messages.PickleStepArgument.PickleDocString.create({
       content: interpolate(argument.content, variableCells, valueCells),
     })
-    if (argument.contentType) {
-      docString.contentType = interpolate(
-        argument.contentType,
+    if (argument.mediaType) {
+      docString.mediaType = interpolate(
+        argument.mediaType,
         variableCells,
         valueCells
       )
@@ -227,15 +229,6 @@ function interpolate(
     name = name.replace(search, replacement)
   })
   return name
-}
-
-function pickleSteps(
-  scenario: messages.GherkinDocument.Feature.IScenario,
-  variableCells: messages.GherkinDocument.Feature.TableRow.ITableCell[],
-  valuesRow: messages.GherkinDocument.Feature.ITableRow,
-  newId: IdGenerator.NewId
-) {
-  return scenario.steps.map(s => pickleStep(s, variableCells, valuesRow, newId))
 }
 
 function pickleStep(

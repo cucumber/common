@@ -23,4 +23,16 @@
 (23:1)ExamplesLine:Examples//
 (24:3)TableRow://5:what
 (25:3)TableRow://5:more minimalism
+(26:1)Empty://
+(27:1)TagLine://1:@comment_tag1
+(28:1)ScenarioLine:Scenario/comments/
+(29:3)StepLine:Given /a comment/
+(30:1)Empty://
+(31:1)TagLine://1:@comment_tag#2
+(32:1)ScenarioLine:Scenario/hash in tags/
+(33:3)StepLine:Given /a comment is preceded by a space/
+(34:1)Empty://
+(35:1)TagLine://1:@joined_tag3,13:@joined_tag4
+(36:1)ScenarioLine:Scenario/joined tags/
+(37:3)StepLine:Given /the @delimits tags/
 EOF

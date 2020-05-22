@@ -1,104 +1,129 @@
-import { performance } from 'perf_hooks'
-import { messages, TimeConversion } from 'cucumber-messages'
-import SupportCodeExecutor from './SupportCodeExecutor'
-import { MessageNotifier } from './types'
+import { messages, TimeConversion } from '@cucumber/messages'
+import ISupportCodeExecutor from './ISupportCodeExecutor'
+import { EnvelopeListener } from './types'
 import ITestStep from './ITestStep'
 import IWorld from './IWorld'
+import makeAttach from './makeAttach'
+import IClock from './IClock'
+import { MakeErrorMessage } from './ErrorMessageGenerator'
 
-const { millisecondsToDuration } = TimeConversion
+const {
+  millisecondsToDuration,
+  millisecondsSinceEpochToTimestamp,
+} = TimeConversion
 
 export default abstract class TestStep implements ITestStep {
   constructor(
     public readonly id: string,
     public readonly sourceId: string,
     public readonly alwaysExecute: boolean,
-    protected readonly supportCodeExecutors: SupportCodeExecutor[]
+    protected readonly supportCodeExecutors: ReadonlyArray<
+      ISupportCodeExecutor
+    >,
+    private readonly sourceFrames: ReadonlyArray<string>,
+    private readonly clock: IClock,
+    private readonly makeErrorMessage: MakeErrorMessage
   ) {}
 
   public abstract toMessage(): messages.TestCase.ITestStep
 
   public async execute(
     world: IWorld,
-    notifier: MessageNotifier,
-    testCaseStartedId: string
-  ): Promise<messages.ITestResult> {
-    this.emitTestStepStarted(testCaseStartedId, notifier)
+    testCaseStartedId: string,
+    listener: EnvelopeListener
+  ): Promise<messages.TestStepFinished.ITestStepResult> {
+    this.emitTestStepStarted(testCaseStartedId, listener)
+
+    const start = this.clock.now()
 
     if (this.supportCodeExecutors.length === 0) {
+      const duration = millisecondsToDuration(this.clock.now() - start)
+
       return this.emitTestStepFinished(
         testCaseStartedId,
-        new messages.TestResult({
-          status: messages.TestResult.Status.UNDEFINED,
+        new messages.TestStepFinished.TestStepResult({
+          duration: duration,
+          status: messages.TestStepFinished.TestStepResult.Status.UNDEFINED,
         }),
-        notifier
+        listener
       )
     }
 
     if (this.supportCodeExecutors.length > 1) {
+      const duration = millisecondsToDuration(this.clock.now() - start)
+
       return this.emitTestStepFinished(
         testCaseStartedId,
-        new messages.TestResult({
-          status: messages.TestResult.Status.AMBIGUOUS,
+        new messages.TestStepFinished.TestStepResult({
+          duration: duration,
+          status: messages.TestStepFinished.TestStepResult.Status.AMBIGUOUS,
         }),
-        notifier
+        listener
       )
     }
 
-    const start = performance.now()
     try {
-      world.testStepId = this.id
+      world.attach = makeAttach(this.id, testCaseStartedId, listener)
+      world.log = (text: string) => {
+        world.attach(text, 'text/x.cucumber.log+plain')
+      }
+
       const result = await this.supportCodeExecutors[0].execute(world)
-      const finish = performance.now()
+      const finish = this.clock.now()
       const duration = millisecondsToDuration(finish - start)
       return this.emitTestStepFinished(
         testCaseStartedId,
-        new messages.TestResult({
+        new messages.TestStepFinished.TestStepResult({
           duration,
           status:
             result === 'pending'
-              ? messages.TestResult.Status.PENDING
-              : messages.TestResult.Status.PASSED,
+              ? messages.TestStepFinished.TestStepResult.Status.PENDING
+              : messages.TestStepFinished.TestStepResult.Status.PASSED,
         }),
-        notifier
+        listener
       )
     } catch (error) {
-      const finish = performance.now()
+      const finish = this.clock.now()
+
+      const message = this.makeErrorMessage(error, this.sourceFrames)
       const duration = millisecondsToDuration(finish - start)
       return this.emitTestStepFinished(
         testCaseStartedId,
-        new messages.TestResult({
+        new messages.TestStepFinished.TestStepResult({
           duration,
-          status: messages.TestResult.Status.FAILED,
-          message: error.stack,
+          status: messages.TestStepFinished.TestStepResult.Status.FAILED,
+          message,
         }),
-        notifier
+        listener
       )
     }
   }
 
   public skip(
-    notifier: MessageNotifier,
+    listener: EnvelopeListener,
     testCaseStartedId: string
-  ): messages.ITestResult {
+  ): messages.TestStepFinished.ITestStepResult {
+    this.emitTestStepStarted(testCaseStartedId, listener)
     return this.emitTestStepFinished(
       testCaseStartedId,
-      new messages.TestResult({
+      new messages.TestStepFinished.TestStepResult({
         duration: millisecondsToDuration(0),
-        status: messages.TestResult.Status.SKIPPED,
+        status: messages.TestStepFinished.TestStepResult.Status.SKIPPED,
       }),
-      notifier
+      listener
     )
   }
 
   protected emitTestStepStarted(
     testCaseStartedId: string,
-    notifier: MessageNotifier
+    listener: EnvelopeListener
   ) {
-    notifier(
+    listener(
       new messages.Envelope({
         testStepStarted: new messages.TestStepStarted({
           testCaseStartedId,
           testStepId: this.id,
+          timestamp: millisecondsSinceEpochToTimestamp(this.clock.now()),
         }),
       })
     )
@@ -106,18 +131,19 @@ export default abstract class TestStep implements ITestStep {
 
   protected emitTestStepFinished(
     testCaseStartedId: string,
-    testResult: messages.ITestResult,
-    notifier: MessageNotifier
-  ): messages.ITestResult {
-    notifier(
+    testStepResult: messages.TestStepFinished.ITestStepResult,
+    listener: EnvelopeListener
+  ): messages.TestStepFinished.ITestStepResult {
+    listener(
       new messages.Envelope({
         testStepFinished: new messages.TestStepFinished({
           testCaseStartedId,
           testStepId: this.id,
-          testResult,
+          testStepResult,
+          timestamp: millisecondsSinceEpochToTimestamp(this.clock.now()),
         }),
       })
     )
-    return testResult
+    return testStepResult
   }
 }

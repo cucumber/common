@@ -4,13 +4,15 @@ dist/
 coverage/
 node_modules/
 yarn.lock
-npm-debug.log
 package-lock.json
+*.log
 .deps
 .tested*
 .linted
-.built
+.built*
 .compared
 .codegen
 acceptance/
+storybook-static
 *-go
+*.iml

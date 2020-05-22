@@ -1,4 +1,4 @@
-import { messages } from 'cucumber-messages'
+import { messages } from '@cucumber/messages'
 import GherkinLine from './GherkinLine'
 import { TokenType } from './Parser'
 
@@ -25,5 +25,4 @@ export default class Token {
   public detach() {
     // TODO: Detach line, but is this really needed?
   }
-
 }

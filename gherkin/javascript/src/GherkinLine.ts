@@ -1,4 +1,5 @@
 import countSymbols from './countSymbols'
+import { ParserException } from './Errors'
 
 export default class GherkinLine {
   public trimmedLineText: string
@@ -51,10 +52,13 @@ export default class GherkinLine {
           // First cell (content before the first |) is skipped
           firstCell = false
         } else {
-          const cellIndent = cell.length - cell.replace(/^\s+/g, '').length
+          // Keeps newlines
+          const trimmedLeft = cell.replace(/^[ \t\v\f\r\u0085\u00A0]*/g, '')
+          const trimmed = trimmedLeft.replace(/[ \t\v\f\r\u0085\u00A0]*$/g, '')
+          const cellIndent = cell.length - trimmedLeft.length
           const span = {
             column: this.indent + startCol + cellIndent,
-            text: cell.trim(),
+            text: trimmed,
           }
           cells.push(span)
         }
@@ -80,15 +84,27 @@ export default class GherkinLine {
   }
 
   public getTags() {
+    const uncommentedLine = this.trimmedLineText.split(/\s#/g, 2)[0]
     let column = this.indent + 1
-    const items = this.trimmedLineText.trim().split('@')
-    items.shift()
-    return items.map(function(item) {
-      const length = item.length
-      const span = { column, text: '@' + item.trim() }
-      column += length + 1
-      return span
-    })
+    const items = uncommentedLine.split('@')
+    const tags: any[] = []
+    for (let i = 0; i < items.length; i++) {
+      const item = items[i].trimRight()
+      if (item.length == 0) {
+        continue
+      }
+      if (!item.match(/^\S+$/)) {
+        throw ParserException.create(
+          'A tag may not contain whitespace',
+          this.lineNumber,
+          column
+        )
+      }
+      const span = { column, text: '@' + item }
+      tags.push(span)
+      column += countSymbols(items[i]) + 1
+    }
+    return tags
   }
 }
 

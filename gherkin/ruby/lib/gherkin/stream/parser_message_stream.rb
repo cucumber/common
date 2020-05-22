@@ -11,13 +11,17 @@ module Gherkin
         @sources = sources
         @options = options
 
-        id_generator = id_generator_class.new
+        id_generator = options[:id_generator] || Cucumber::Messages::IdGenerator::UUID.new
         @parser = Parser.new(AstBuilder.new(id_generator))
         @compiler = Pickles::Compiler.new(id_generator)
       end
 
       def messages
+        enumerated = false
         Enumerator.new do |y|
+          raise DoubleIterationException, "Messages have already been enumerated" if enumerated
+          enumerated = true
+
           sources.each do |source|
             y.yield(Cucumber::Messages::Envelope.new(source: source)) if @options[:include_source]
             begin
@@ -35,9 +39,9 @@ module Gherkin
                 end
               end
             rescue CompositeParserException => err
-              yield_error_attachments(y, err.errors, source.uri)
+              yield_parse_errors(y, err.errors, source.uri)
             rescue ParserException => err
-              yield_error_attachments(y, [err], source.uri)
+              yield_parse_errors(y, [err], source.uri)
             end
           end
         end
@@ -45,13 +49,9 @@ module Gherkin
 
       private
 
-      def id_generator_class
-        @options[:predictable_ids] ? Cucumber::Messages::IdGenerator::Incrementing : Cucumber::Messages::IdGenerator::UUID
-      end
-
-      def yield_error_attachments(y, errors, uri)
+      def yield_parse_errors(y, errors, uri)
         errors.each do |err|
-          attachment = Cucumber::Messages::Attachment.new(
+          parse_error = Cucumber::Messages::ParseError.new(
             source: Cucumber::Messages::SourceReference.new(
               uri: uri,
               location: Cucumber::Messages::Location.new(
@@ -59,9 +59,9 @@ module Gherkin
                 column: err.location[:column]
               )
             ),
-            data: err.message
+            message: err.message
           )
-          y.yield(Cucumber::Messages::Envelope.new(attachment: attachment))
+          y.yield(Cucumber::Messages::Envelope.new(parse_error: parse_error))
         end
       end
 
@@ -71,10 +71,7 @@ module Gherkin
             source = Cucumber::Messages::Source.new(
               uri: path,
               data: File.open(path, 'r:UTF-8', &:read),
-              media: Cucumber::Messages::Media.new(
-                encoding: :UTF8,
-                content_type: 'text/x.cucumber.gherkin+plain'
-              )
+              media_type: 'text/x.cucumber.gherkin+plain'
             )
             y.yield(source)
           end

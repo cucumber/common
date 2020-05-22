@@ -1,5 +1,5 @@
 import AstNode from './AstNode'
-import { messages, IdGenerator } from 'cucumber-messages'
+import { messages, IdGenerator } from '@cucumber/messages'
 import { RuleType, TokenType } from './Parser'
 import Token from './Token'
 import { AstBuilderException } from './Errors'
@@ -27,7 +27,7 @@ export default class AstBuilder {
     this.stack.push(new AstNode(ruleType))
   }
 
-  public endRule(ruleType: RuleType) {
+  public endRule() {
     const node = this.stack.pop()
     const transformedNode = this.transformNode(node)
     this.currentNode().add(node.ruleType, transformedNode)
@@ -82,7 +82,7 @@ export default class AstBuilder {
   }
 
   public getCells(tableRowToken: Token) {
-    return tableRowToken.matchedItems.map(cellItem =>
+    return tableRowToken.matchedItems.map((cellItem) =>
       messages.GherkinDocument.Feature.TableRow.TableCell.create({
         location: this.getLocation(tableRowToken, cellItem.column),
         value: cellItem.text,
@@ -99,7 +99,7 @@ export default class AstBuilder {
   }
 
   public getTableRows(node: AstNode) {
-    const rows = node.getTokens(TokenType.TableRow).map(token =>
+    const rows = node.getTokens(TokenType.TableRow).map((token) =>
       messages.GherkinDocument.Feature.TableRow.create({
         id: this.newId(),
         location: this.getLocation(token),
@@ -110,13 +110,13 @@ export default class AstBuilder {
     return rows
   }
 
-  public ensureCellCount(rows: any[]) {
+  public ensureCellCount(rows: messages.GherkinDocument.Feature.TableRow[]) {
     if (rows.length === 0) {
       return
     }
     const cellCount = rows[0].cells.length
 
-    rows.forEach(row => {
+    rows.forEach((row) => {
       if (row.cells.length !== cellCount) {
         throw AstBuilderException.create(
           'inconsistent cell count within the table',
@@ -144,12 +144,12 @@ export default class AstBuilder {
       }
       case RuleType.DocString: {
         const separatorToken = node.getTokens(TokenType.DocStringSeparator)[0]
-        const contentType =
+        const mediaType =
           separatorToken.matchedText.length > 0
             ? separatorToken.matchedText
             : undefined
         const lineTokens = node.getTokens(TokenType.Other)
-        const content = lineTokens.map(t => t.matchedText).join('\n')
+        const content = lineTokens.map((t) => t.matchedText).join('\n')
 
         const result = messages.GherkinDocument.Feature.Step.DocString.create({
           location: this.getLocation(separatorToken),
@@ -157,8 +157,8 @@ export default class AstBuilder {
           delimiter: separatorToken.line.trimmedLineText.substring(0, 3),
         })
         // conditionally add this like this (needed to make tests pass on node 0.10 as well as 4.0)
-        if (contentType) {
-          result.contentType = contentType
+        if (mediaType) {
+          result.mediaType = mediaType
         }
         return result
       }
@@ -175,6 +175,7 @@ export default class AstBuilder {
         const steps = this.getSteps(node)
 
         return messages.GherkinDocument.Feature.Background.create({
+          id: this.newId(),
           location: this.getLocation(backgroundLine),
           keyword: backgroundLine.matchedKeyword,
           name: backgroundLine.matchedText,
@@ -210,6 +211,7 @@ export default class AstBuilder {
         )
 
         return messages.GherkinDocument.Feature.Scenario.Examples.create({
+          id: this.newId(),
           tags,
           location: this.getLocation(examplesLine),
           keyword: examplesLine.matchedKeyword,
@@ -232,7 +234,7 @@ export default class AstBuilder {
         }
         lineTokens = lineTokens.slice(0, end)
 
-        return lineTokens.map(token => token.matchedText).join('\n')
+        return lineTokens.map((token) => token.matchedText).join('\n')
       }
 
       case RuleType.Feature: {
@@ -311,6 +313,7 @@ export default class AstBuilder {
         const description = this.getDescription(header)
 
         return messages.GherkinDocument.Feature.FeatureChild.Rule.create({
+          id: this.newId(),
           location: this.getLocation(ruleLine),
           keyword: ruleLine.matchedKeyword,
           name: ruleLine.matchedText,

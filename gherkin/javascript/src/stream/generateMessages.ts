@@ -1,6 +1,6 @@
 import Parser from '../Parser'
 import TokenMatcher from '../TokenMatcher'
-import { messages } from 'cucumber-messages'
+import { messages } from '@cucumber/messages'
 import compile from '../pickles/compile'
 import AstBuilder from '../AstBuilder'
 import IGherkinOptions from '../IGherkinOptions'
@@ -19,10 +19,7 @@ export default function generateMessages(
           source: {
             uri,
             data,
-            media: {
-              encoding: messages.Media.Encoding.UTF8,
-              contentType: 'text/x.cucumber.gherkin+plain',
-            },
+            mediaType: 'text/x.cucumber.gherkin+plain',
           },
         })
       )
@@ -66,7 +63,7 @@ export default function generateMessages(
       }
       result.push(
         messages.Envelope.create({
-          attachment: {
+          parseError: {
             source: {
               uri,
               location: {
@@ -74,7 +71,7 @@ export default function generateMessages(
                 column: error.location.column,
               },
             },
-            data: error.message,
+            message: error.message,
           },
         })
       )

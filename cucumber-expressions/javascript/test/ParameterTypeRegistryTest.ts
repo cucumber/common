@@ -26,7 +26,7 @@ describe('ParameterTypeRegistry', () => {
         'name',
         CAPITALISED_WORD,
         Name,
-        s => new Name(s),
+        (s) => new Name(s),
         true,
         true
       )
@@ -36,7 +36,7 @@ describe('ParameterTypeRegistry', () => {
         'person',
         CAPITALISED_WORD,
         Person,
-        s => new Person(s),
+        (s) => new Person(s),
         true,
         false
       )
@@ -47,7 +47,7 @@ describe('ParameterTypeRegistry', () => {
           'place',
           CAPITALISED_WORD,
           Place,
-          s => new Place(s),
+          (s) => new Place(s),
           true,
           true
         )
@@ -66,7 +66,7 @@ describe('ParameterTypeRegistry', () => {
       'name',
       /[A-Z]+\w+/,
       null,
-      s => new Name(s),
+      (s) => new Name(s),
       true,
       false
     )
@@ -74,7 +74,7 @@ describe('ParameterTypeRegistry', () => {
       'person',
       /[A-Z]+\w+/,
       null,
-      s => new Person(s),
+      (s) => new Person(s),
       true,
       true
     )
@@ -82,7 +82,7 @@ describe('ParameterTypeRegistry', () => {
       'place',
       /[A-Z]+\w+/,
       null,
-      s => new Place(s),
+      (s) => new Place(s),
       true,
       false
     )

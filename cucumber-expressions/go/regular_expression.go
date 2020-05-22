@@ -11,7 +11,7 @@ type RegularExpression struct {
 	treeRegexp            *TreeRegexp
 }
 
-func NewRegularExpression(expressionRegexp *regexp.Regexp, parameterTypeRegistry *ParameterTypeRegistry) *RegularExpression {
+func NewRegularExpression(expressionRegexp *regexp.Regexp, parameterTypeRegistry *ParameterTypeRegistry) Expression {
 	return &RegularExpression{
 		expressionRegexp:      expressionRegexp,
 		parameterTypeRegistry: parameterTypeRegistry,

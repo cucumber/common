@@ -1,0 +1,49 @@
+{
+  "name": "@cucumber/tag-expressions",
+  "version": "2.0.4",
+  "description": "Cucumber Tag Expression parser",
+  "main": "dist/src/tag_expression_parser.js",
+  "types": "dist/src/tag_expression_parser.d.ts",
+  "scripts": {
+    "test": "mocha",
+    "lint": "eslint --ext ts --max-warnings 0 src test",
+    "lint-fix": "eslint --ext ts --max-warnings 0 --fix src test",
+    "coverage": "nyc --reporter=html --reporter=text mocha",
+    "build": "tsc",
+    "prepublishOnly": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/cucumber/tag-expressions-javascript.git"
+  },
+  "keywords": [
+    "cucumber"
+  ],
+  "author": "Cucumber Limited <cukes@googlegroups.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cucumber/tag-expressions-javascript/issues"
+  },
+  "homepage": "https://github.com/cucumber/tag-expressions-javascript",
+  "devDependencies": {
+    "@types/mocha": "^7.0.2",
+    "@types/node": "^13.9.6",
+    "@typescript-eslint/eslint-plugin": "^2.26.0",
+    "@typescript-eslint/parser": "^2.26.0",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.10.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "eslint-plugin-react": "^7.19.0",
+    "json-schema": "^0.2.5",
+    "mocha": "^7.1.1",
+    "nyc": "^15.0.0",
+    "prettier": "^2.0.2",
+    "ts-node": "^8.8.1",
+    "typescript": "^3.8.3"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {}
+}

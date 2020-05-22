@@ -1,10 +1,7 @@
 {
   "source": {
     "data": "Feature: Background\n\n  Background: a simple background\n    Given the minimalism inside a background\n\n\n  Scenario: minimalistic\n    Given the minimalism\n\n  Scenario: also minimalistic\n    Given the minimalism",
-    "media": {
-      "contentType": "text/x.cucumber.gherkin+plain",
-      "encoding": "UTF8"
-    },
+    "mediaType": "text/x.cucumber.gherkin+plain",
     "uri": "testdata/good/background.feature"
   }
 }

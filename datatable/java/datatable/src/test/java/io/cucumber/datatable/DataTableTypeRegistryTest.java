@@ -29,6 +29,7 @@ class DataTableTypeRegistryTest {
     private static final Type LIST_OF_LIST_OF_FLOAT = aListOf(aListOf(Float.class));
     private static final Type LIST_OF_LIST_OF_DOUBLE = aListOf(aListOf(Double.class));
     private static final Type LIST_OF_LIST_OF_STRING = aListOf(aListOf(String.class));
+    private static final Type LIST_OF_LIST_OF_OBJECT = aListOf(aListOf(Object.class));
 
     private static final TableCellByTypeTransformer PLACE_TABLE_CELL_TRANSFORMER =
             (value, cellType) -> new Place(value);
@@ -57,8 +58,9 @@ class DataTableTypeRegistryTest {
                 )));
 
         assertThat(exception.getMessage(), is("" +
-                "There is already a data table type registered for class io.cucumber.datatable.Place.\n" +
-                "It registered an TableTransformer. You are trying to add a TableTransformer"
+                "There already is a data table type registered that can supply class io.cucumber.datatable.Place.\n" +
+                "You are trying to register a TableTransformer for class io.cucumber.datatable.Place.\n" +
+                "The existing data table type registered a TableTransformer for class io.cucumber.datatable.Place.\n"
         ));
     }
 
@@ -234,6 +236,27 @@ class DataTableTypeRegistryTest {
                 singletonList(singletonList(null)),
                 dataTableType.transform(singletonList(singletonList(null)))
         );
+    }
 
+    @Test
+    void string_transformer_is_replaceable() {
+        DataTableTypeRegistry registry = new DataTableTypeRegistry(Locale.ENGLISH);
+        registry.defineDataTableType(new DataTableType(String.class, (String cell) -> "[blank]".equals(cell) ? "" : cell));
+        DataTableType dataTableType = registry.lookupTableTypeByType(LIST_OF_LIST_OF_STRING);
+        assertEquals(
+                singletonList(singletonList("")),
+                dataTableType.transform(singletonList(singletonList("[blank]")))
+        );
+    }
+
+    @Test
+    void object_transformer_is_replaceable() {
+        DataTableTypeRegistry registry = new DataTableTypeRegistry(Locale.ENGLISH);
+        registry.defineDataTableType(new DataTableType(Object.class, (String cell) -> "[blank]".equals(cell) ? "" : cell));
+        DataTableType dataTableType = registry.lookupTableTypeByType(LIST_OF_LIST_OF_OBJECT);
+        assertEquals(
+                singletonList(singletonList("")),
+                dataTableType.transform(singletonList(singletonList("[blank]")))
+        );
     }
 }

@@ -57,10 +57,7 @@ public class Gherkin {
                 .newBuilder()
                 .setData(data)
                 .setUri(uri)
-                .setMedia(Messages.Media.newBuilder()
-                        .setEncoding(Messages.Media.Encoding.UTF8)
-                        .setContentType("text/x.cucumber.gherkin+plain")
-                )
+                .setMediaType("text/x.cucumber.gherkin+plain")
         ).build();
     }
 
@@ -128,18 +125,17 @@ public class Gherkin {
                 }
             } catch (ParserException.CompositeParserException e) {
                 for (ParserException error : e.errors) {
-                    addErrorAttachment(messages, error, uri);
+                    addParseError(messages, error, uri);
                 }
             } catch (ParserException e) {
-                addErrorAttachment(messages, e, uri);
+                addParseError(messages, e, uri);
             }
         }
         return messages.stream();
     }
 
-    private void addErrorAttachment(List<Envelope> messages, ParserException e, String uri) {
-        Messages.Attachment attachment = Messages.Attachment.newBuilder()
-                // TODO: Set media here?
+    private void addParseError(List<Envelope> messages, ParserException e, String uri) {
+        Messages.ParseError parseError = Messages.ParseError.newBuilder()
                 .setSource(Messages.SourceReference.newBuilder()
                         .setUri(uri)
                         .setLocation(
@@ -149,8 +145,8 @@ public class Gherkin {
                                         .build()
                         )
                         .build())
-                .setData(e.getMessage())
+                .setMessage(e.getMessage())
                 .build();
-        messages.add(Envelope.newBuilder().setAttachment(attachment).build());
+        messages.add(Envelope.newBuilder().setParseError(parseError).build());
     }
 }

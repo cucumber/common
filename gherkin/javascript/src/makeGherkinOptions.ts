@@ -1,4 +1,4 @@
-import { IdGenerator } from 'cucumber-messages'
+import { IdGenerator } from '@cucumber/messages'
 import IGherkinOptions from './IGherkinOptions'
 
 const defaultOptions: IGherkinOptions = {

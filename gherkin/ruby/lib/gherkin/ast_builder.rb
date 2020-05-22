@@ -124,7 +124,7 @@ module Gherkin
         )
       when :DocString
         separator_token = node.get_tokens(:DocStringSeparator)[0]
-        content_type = separator_token.matched_text == '' ? nil : separator_token.matched_text
+        media_type = separator_token.matched_text == '' ? nil : separator_token.matched_text
         line_tokens = node.get_tokens(:Other)
         content = line_tokens.map { |t| t.matched_text }.join("\n")
 
@@ -132,7 +132,7 @@ module Gherkin
           location: get_location(separator_token, 0),
           content: content,
           delimiter: separator_token.matched_keyword,
-          content_type: content_type,
+          media_type: media_type,
         )
       when :DataTable
         rows = get_table_rows(node)
@@ -146,6 +146,7 @@ module Gherkin
         steps = get_steps(node)
 
         Cucumber::Messages::GherkinDocument::Feature::Background.new(
+          id: @id_generator.new_id,
           location: get_location(background_line, 0),
           keyword: background_line.matched_keyword,
           name: background_line.matched_text,
@@ -180,6 +181,7 @@ module Gherkin
         table_body = rows.nil? ? nil : rows[1..-1]
 
         Cucumber::Messages::GherkinDocument::Feature::Scenario::Examples.new(
+          id: @id_generator.new_id,
           tags: tags,
           location: get_location(examples_line, 0),
           keyword: examples_line.matched_keyword,
@@ -237,6 +239,7 @@ module Gherkin
         description = get_description(header)
 
         Cucumber::Messages::GherkinDocument::Feature::FeatureChild::Rule.new(
+          id: @id_generator.new_id,
           location: get_location(rule_line, 0),
           keyword: rule_line.matched_keyword,
           name: rule_line.matched_text,

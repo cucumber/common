@@ -1,126 +1,86 @@
 import ITestStep from './ITestStep'
-import { MessageNotifier } from './types'
-import { messages, TimeConversion } from 'cucumber-messages'
-import { performance } from 'perf_hooks'
+import { EnvelopeListener } from './types'
+import { messages, TimeConversion } from '@cucumber/messages'
 import IWorld from './IWorld'
+import IClock from './IClock'
+import ITestCase from './ITestCase'
 
-const { millisecondsToDuration } = TimeConversion
+const { millisecondsSinceEpochToTimestamp } = TimeConversion
 
-class DefaultWorld implements IWorld {
-  public testStepId: string
-
-  constructor(
-    public readonly attach: (data: any, contentType: string) => void
-  ) {}
-}
-
-export default class TestCase {
+export default class TestCase implements ITestCase {
   constructor(
     public readonly id: string,
     private readonly testSteps: ITestStep[],
-    private readonly pickleId: string
-  ) {}
+    private readonly pickleId: string,
+    private readonly clock: IClock
+  ) {
+    testSteps.forEach((testStep) => {
+      if (!testStep) {
+        throw new Error('undefined step')
+      }
+    })
+  }
 
   public toMessage(): messages.IEnvelope {
     return new messages.Envelope({
       testCase: new messages.TestCase({
         id: this.id,
         pickleId: this.pickleId,
-        testSteps: this.testSteps.map(step => step.toMessage()),
+        testSteps: this.testSteps.map((step) => step.toMessage()),
       }),
     })
   }
 
   public async execute(
-    notifier: MessageNotifier,
+    listener: EnvelopeListener,
     attempt: number,
     testCaseStartedId: string
   ): Promise<void> {
-    let executeNext = true
-
-    notifier(
+    listener(
       new messages.Envelope({
         testCaseStarted: new messages.TestCaseStarted({
           attempt,
           testCaseId: this.id,
           id: testCaseStartedId,
+          timestamp: millisecondsSinceEpochToTimestamp(this.clock.now()),
         }),
       })
     )
 
-    function attach(data: string, contentType: string) {
-      if (!this.testStepId) {
-        throw new Error(`this.testStepId is not set`)
-      }
-      const encoding = messages.Media.Encoding.UTF8 // TODO: Use Base64 is the data is a Buffer (objects will be JSONified)
-      notifier(
-        new messages.Envelope({
-          attachment: new messages.Attachment({
-            data,
-            testCaseStartedId,
-            testStepId: this.testStepId,
-            media: new messages.Media({
-              contentType,
-              encoding,
-            }),
-          }),
-        })
-      )
+    const world: IWorld = {
+      attach: () => {
+        throw new Error('Attach is not ready')
+      },
+      log: () => {
+        throw new Error('Log is not ready')
+      },
     }
 
-    const world = new DefaultWorld(attach)
-    const testStepResults: messages.ITestResult[] = []
-
-    const start = performance.now()
+    let executeNext = true
     for (const testStep of this.testSteps) {
-      let testStepResult: messages.ITestResult
+      let testStepResult: messages.TestStepFinished.ITestStepResult
       // TODO: Also ask testStep if it should always execute (true for After steps)
       if (executeNext || testStep.alwaysExecute) {
         testStepResult = await testStep.execute(
           world,
-          notifier,
-          testCaseStartedId
+          testCaseStartedId,
+          listener
         )
         executeNext =
-          testStepResult.status === messages.TestResult.Status.PASSED
+          testStepResult.status ===
+          messages.TestStepFinished.TestStepResult.Status.PASSED
       } else {
-        testStepResult = testStep.skip(notifier, testCaseStartedId)
+        testStepResult = testStep.skip(listener, testCaseStartedId)
       }
-      testStepResults.push(testStepResult)
     }
-    const finish = performance.now()
-    const duration = millisecondsToDuration(finish - start)
 
-    notifier(
+    listener(
       new messages.Envelope({
         testCaseFinished: new messages.TestCaseFinished({
           testCaseStartedId,
-          testResult: this.computeTestResult(testStepResults, duration),
+          timestamp: millisecondsSinceEpochToTimestamp(this.clock.now()),
         }),
       })
     )
-  }
-
-  // TODO: Stateless function. Extract to separate file.
-  private computeTestResult(
-    testStepResults: messages.ITestResult[],
-    duration: messages.IDuration
-  ): messages.ITestResult {
-    let status = messages.TestResult.Status.UNKNOWN
-    let message: string = null
-
-    if (testStepResults.length > 0) {
-      const sortedResults = testStepResults.sort(
-        (r1, r2) => r2.status - r1.status
-      )
-      status = sortedResults[0].status
-      message = sortedResults[0].message
-    }
-
-    return new messages.TestResult({
-      status,
-      message,
-      duration,
-    })
   }
 }

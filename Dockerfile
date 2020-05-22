@@ -17,6 +17,8 @@ RUN apk add --no-cache \
   g++ \
   jq \
   libc-dev \
+  libxml2-dev \
+  libxslt-dev \
   make \
   maven \
   nodejs \
@@ -32,13 +34,16 @@ RUN apk add --no-cache \
   py2-pip \
   rsync \
   ruby \
+  ruby-bigdecimal \
   ruby-dev \
+  ruby-json \
   sed \
   su-exec \
   tree \
   unzip \
   upx \
   wget \
+  yarn \
   xmlstarlet
 
 # Create a cukebot user. Some tools (Bundler, npm publish) don't work properly
@@ -66,12 +71,14 @@ RUN chown -R cukebot:cukebot /usr/bin
 # Configure Python
 RUN pip install pipenv
 RUN pip install twine
+RUN pip install behave
 RUN chown -R cukebot:cukebot /usr/lib/python2.7/site-packages
 RUN mkdir -p /usr/man && chown -R cukebot:cukebot /usr/man
 
 # Configure Perl
 RUN curl -L https://cpanmin.us/ -o /usr/local/bin/cpanm
 RUN chmod +x /usr/local/bin/cpanm
+
 
 # Install git-crypt
 RUN git clone -b 0.6.0 --single-branch --depth 1 https://github.com/AGWA/git-crypt.git && \
@@ -99,5 +106,18 @@ RUN go get -d github.com/libgit2/git2go && \
   make install && \
   go get github.com/splitsh/lite && \
   go build -o /usr/local/bin/splitsh-lite github.com/splitsh/lite
+
+
+USER cukebot
+
+# Change npms default directory to be cukebots
+# https://docs.npmjs.com/resolving-eacces-permissions-errors-when-installing-packages-globally
+RUN mkdir ~/.npm-global
+RUN npm config set prefix '~/.npm-global'
+RUN echo "export PATH=~/.npm-global/bin:\$PATH" > ~/.bashrc
+RUN source ~/.bashrc
+# Upgrade NPM
+RUN npm install --global npm
+
 
 CMD ["/bin/bash"]

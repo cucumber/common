@@ -85,7 +85,9 @@ public class ParserException extends RuntimeException {
 
         private static String getMessage(List<ParserException> errors) {
             if (errors == null) throw new NullPointerException("errors");
-            return "Parser errors:\n" + errors.stream().map(Throwable::getMessage).collect(Collectors.joining("\n"));
+            return "Parser errors:\n" + errors.stream()
+                    .map(Throwable::getMessage)
+                    .collect(Collectors.joining("\n"));
         }
     }
 }

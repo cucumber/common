@@ -1133,14 +1133,14 @@
     "name": "Estonian",
     "native": "eesti keel",
     "rule": [
-      "Rule"
+      "Reegel"
     ],
     "scenario": [
       "Juhtum",
       "Stsenaarium"
     ],
     "scenarioOutline": [
-      "Raamstjuhtum",
+      "Raamjuhtum",
       "Raamstsenaarium"
     ],
     "then": [
@@ -1471,7 +1471,7 @@
     "name": "Hebrew",
     "native": "עברית",
     "rule": [
-      "Rule"
+      "כלל"
     ],
     "scenario": [
       "דוגמא",
@@ -1704,7 +1704,7 @@
     "but": [
       "* ",
       "Tapi ",
-      "Tetapi"
+      "Tetapi "
     ],
     "examples": [
       "Contoh",
@@ -1717,7 +1717,9 @@
       "* ",
       "Dengan ",
       "Diketahui ",
-      "Diasumsikan "
+      "Diasumsikan ",
+      "Bila ",
+      "Jika "
     ],
     "name": "Indonesian",
     "native": "Bahasa Indonesia",
@@ -2727,7 +2729,7 @@
     "name": "Russian",
     "native": "русский",
     "rule": [
-      "Rule"
+      "Правило"
     ],
     "scenario": [
       "Пример",

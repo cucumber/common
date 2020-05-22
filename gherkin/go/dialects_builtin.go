@@ -1135,7 +1135,7 @@ var buildinDialects = gherkinDialectMap{
 				"Omadus",
 			},
 			rule: []string{
-				"Rule",
+				"Reegel",
 			},
 			background: []string{
 				"Taust",
@@ -1145,7 +1145,7 @@ var buildinDialects = gherkinDialectMap{
 				"Stsenaarium",
 			},
 			scenarioOutline: []string{
-				"Raamstjuhtum",
+				"Raamjuhtum",
 				"Raamstsenaarium",
 			},
 			examples: []string{
@@ -1473,7 +1473,7 @@ var buildinDialects = gherkinDialectMap{
 				"תכונה",
 			},
 			rule: []string{
-				"Rule",
+				"כלל",
 			},
 			background: []string{
 				"רקע",
@@ -1742,6 +1742,8 @@ var buildinDialects = gherkinDialectMap{
 				"Dengan ",
 				"Diketahui ",
 				"Diasumsikan ",
+				"Bila ",
+				"Jika ",
 			},
 			when: []string{
 				"* ",
@@ -1759,7 +1761,7 @@ var buildinDialects = gherkinDialectMap{
 			but: []string{
 				"* ",
 				"Tapi ",
-				"Tetapi",
+				"Tetapi ",
 			},
 		},
 	},
@@ -2722,7 +2724,7 @@ var buildinDialects = gherkinDialectMap{
 				"Свойство",
 			},
 			rule: []string{
-				"Rule",
+				"Правило",
 			},
 			background: []string{
 				"Предыстория",

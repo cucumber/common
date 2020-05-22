@@ -2,11 +2,15 @@ package io.cucumber.gherkin;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.PrimitiveIterator;
 import java.util.Scanner;
 
-import static io.cucumber.gherkin.StringUtils.codePoints;
+import static io.cucumber.gherkin.GherkinLanguageConstants.COMMENT_PREFIX;
+import static io.cucumber.gherkin.GherkinLanguageConstants.TAG_PREFIX;
 import static io.cucumber.gherkin.StringUtils.ltrim;
+import static io.cucumber.gherkin.StringUtils.ltrimKeepNewLines;
 import static io.cucumber.gherkin.StringUtils.rtrim;
+import static io.cucumber.gherkin.StringUtils.rtrimKeepNewLines;
 import static io.cucumber.gherkin.StringUtils.symbolCount;
 import static io.cucumber.gherkin.StringUtils.trim;
 
@@ -16,10 +20,12 @@ public class GherkinLine implements IGherkinLine {
     private final String lineText;
     private final String trimmedLineText;
     private final int indent;
+    private final int line;
 
-    public GherkinLine(String lineText) {
+    public GherkinLine(String lineText, int line) {
         this.lineText = lineText;
         this.trimmedLineText = trim(lineText);
+        this.line = line;
         indent = symbolCount(lineText) - symbolCount(ltrim(lineText));
     }
 
@@ -57,7 +63,26 @@ public class GherkinLine implements IGherkinLine {
 
     @Override
     public List<GherkinLineSpan> getTags() {
-        return getSpans("\\s+");
+
+        String uncommentedLine = trimmedLineText.split("\\s" + COMMENT_PREFIX, 2)[0];
+        List<GherkinLineSpan> tags = new ArrayList<>();
+        int indexInUncommentedLine = 0;
+
+        String[] elements = uncommentedLine.split(TAG_PREFIX);
+        for (String element : elements) {
+            String token = rtrim(element);
+            if (token.isEmpty()) {
+                continue;
+            }
+            int symbolLength = uncommentedLine.codePointCount(0, indexInUncommentedLine);
+            int column = indent() + symbolLength + 1;
+            if (!token.matches("^\\S+$")) {
+                throw new ParserException("A tag may not contain whitespace", new Location(line, column));
+            }
+            tags.add(new GherkinLineSpan(column, TAG_PREFIX + token));
+            indexInUncommentedLine += element.length() + 1;
+        }
+        return tags;
     }
 
     @Override
@@ -68,42 +93,44 @@ public class GherkinLine implements IGherkinLine {
         int col = 0;
         int cellStart = 0;
         boolean escape = false;
-        for (String c : codePoints(lineText)) {
+        PrimitiveIterator.OfInt iterator = lineText.codePoints().iterator();
+        while (iterator.hasNext()) {
+            int c = iterator.next();
             if (escape) {
                 switch (c) {
-                    case "n":
+                    case 'n':
                         cellBuilder.append('\n');
                         break;
-                    case "\\":
+                    case '\\':
                         cellBuilder.append('\\');
                         break;
-                    case "|":
+                    case '|':
                         cellBuilder.append('|');
                         break;
                     default:
                         // Invalid escape. We'll just ignore it.
                         cellBuilder.append("\\");
-                        cellBuilder.append(c);
+                        cellBuilder.appendCodePoint(c);
                         break;
                 }
                 escape = false;
             } else {
-                if (c.equals("\\")) {
+                if (c == '\\') {
                     escape = true;
-                } else if (c.equals("|")) {
+                } else if (c == '|') {
                     if (beforeFirst) {
                         // Skip the first empty span
                         beforeFirst = false;
                     } else {
                         String cell = cellBuilder.toString();
-                        String leftTrimmedCell = ltrim(cell);
+                        String leftTrimmedCell = ltrimKeepNewLines(cell);
                         int cellIndent = symbolCount(cell) - symbolCount(leftTrimmedCell);
-                        lineSpans.add(new GherkinLineSpan(cellStart + cellIndent + OFFSET, rtrim(leftTrimmedCell)));
+                        lineSpans.add(new GherkinLineSpan(cellStart + cellIndent + OFFSET, rtrimKeepNewLines(leftTrimmedCell)));
                     }
                     cellBuilder = new StringBuilder();
                     cellStart = col + 1;
                 } else {
-                    cellBuilder.append(c);
+                    cellBuilder.appendCodePoint(c);
                 }
             }
             col++;
@@ -120,20 +147,4 @@ public class GherkinLine implements IGherkinLine {
                         .equals(GherkinLanguageConstants.TITLE_KEYWORD_SEPARATOR);
     }
 
-    private List<GherkinLineSpan> getSpans(String delimiter) {
-        List<GherkinLineSpan> lineSpans = new ArrayList<GherkinLineSpan>();
-        Scanner scanner = new Scanner(trimmedLineText).useDelimiter(delimiter);
-        while (scanner.hasNext()) {
-            String cell = scanner.next();
-            String leftTrimmedCell = ltrim(cell);
-            int cellIndent = symbolCount(cell) - symbolCount(leftTrimmedCell);
-
-            String trimmedCell = rtrim(leftTrimmedCell);
-            int scannerStart = scanner.match().start();
-            int symbolLength = trimmedLineText.codePointCount(0, scannerStart);
-            int column = 1 + indent() + symbolLength + cellIndent;
-            lineSpans.add(new GherkinLineSpan(column, trimmedCell));
-        }
-        return lineSpans;
-    }
 }

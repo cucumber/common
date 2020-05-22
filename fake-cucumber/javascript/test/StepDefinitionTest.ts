@@ -1,10 +1,12 @@
 import assert from 'assert'
-import { messages } from 'cucumber-messages'
+import { messages } from '@cucumber/messages'
 import ExpressionStepDefinition from '../src/ExpressionStepDefinition'
-import { CucumberExpression, ParameterTypeRegistry } from 'cucumber-expressions'
-import RegularExpression from 'cucumber-expressions/dist/src/RegularExpression'
+import {
+  CucumberExpression,
+  ParameterTypeRegistry,
+  RegularExpression,
+} from '@cucumber/cucumber-expressions'
 import TestWorld from './TestWorld'
-import { HookType } from '../src/IHook'
 
 describe('StepDefinition', () => {
   describe('#match', () => {
@@ -16,6 +18,7 @@ describe('StepDefinition', () => {
       const stepdef = new ExpressionStepDefinition(
         'stepdef-id',
         expression,
+        null,
         () => null
       )
       const pickleStep = messages.Pickle.PickleStep.create({
@@ -33,6 +36,7 @@ describe('StepDefinition', () => {
       const stepdef = new ExpressionStepDefinition(
         'stepdef-id',
         expression,
+        null,
         (cukeCount: number) => cukeCount
       )
       const pickleStep = messages.Pickle.PickleStep.create({
@@ -52,13 +56,15 @@ describe('StepDefinition', () => {
       const stepdef = new ExpressionStepDefinition(
         'stepdef-id',
         expression,
+        null,
         () => null
       )
       const message = stepdef.toMessage()
 
       assert.strictEqual(
         message.stepDefinition.pattern.type,
-        messages.StepDefinitionPatternType.REGULAR_EXPRESSION
+        messages.StepDefinition.StepDefinitionPattern.StepDefinitionPatternType
+          .REGULAR_EXPRESSION
       )
     })
 
@@ -70,13 +76,15 @@ describe('StepDefinition', () => {
       const stepdef = new ExpressionStepDefinition(
         'stepdef-id',
         expression,
+        null,
         () => null
       )
       const message = stepdef.toMessage()
 
       assert.strictEqual(
         message.stepDefinition.pattern.type,
-        messages.StepDefinitionPatternType.CUCUMBER_EXPRESSION
+        messages.StepDefinition.StepDefinitionPattern.StepDefinitionPatternType
+          .CUCUMBER_EXPRESSION
       )
     })
   })

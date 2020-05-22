@@ -14,7 +14,9 @@ public class TokenFormatter {
                 toString(token.matchedType),
                 toString(token.matchedKeyword),
                 toString(token.matchedText),
-                toString(token.mathcedItems == null ? "" : token.mathcedItems.stream().map(i -> i.column + ":" + i.text).collect(joining(",")))
+                toString(token.mathcedItems == null ? "" : token.mathcedItems.stream()
+                        .map(o ->  o.column + ":" + o.text)
+                        .collect(joining(",")))
         );
     }
 

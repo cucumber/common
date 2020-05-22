@@ -1,10 +1,10 @@
 {
   "pickle": {
     "astNodeIds": [
-      "5",
+      "6",
       "2"
     ],
-    "id": "15",
+    "id": "17",
     "language": "en",
     "steps": [
       {
@@ -12,21 +12,21 @@
           "0",
           "2"
         ],
-        "id": "14",
+        "id": "16",
         "text": "y"
       }
     ],
     "tags": [
       {
-        "astNodeId": "13",
+        "astNodeId": "15",
         "name": "@a"
       },
       {
-        "astNodeId": "3",
+        "astNodeId": "4",
         "name": "@b"
       },
       {
-        "astNodeId": "4",
+        "astNodeId": "5",
         "name": "@c"
       }
     ],
@@ -36,36 +36,36 @@
 {
   "pickle": {
     "astNodeIds": [
-      "12",
-      "8"
+      "14",
+      "9"
     ],
-    "id": "17",
+    "id": "19",
     "language": "en",
     "steps": [
       {
         "astNodeIds": [
-          "6",
-          "8"
+          "7",
+          "9"
         ],
-        "id": "16",
+        "id": "18",
         "text": "n"
       }
     ],
     "tags": [
       {
-        "astNodeId": "13",
+        "astNodeId": "15",
         "name": "@a"
       },
       {
-        "astNodeId": "10",
+        "astNodeId": "12",
         "name": "@d"
       },
       {
-        "astNodeId": "11",
+        "astNodeId": "13",
         "name": "@e"
       },
       {
-        "astNodeId": "9",
+        "astNodeId": "10",
         "name": "@f"
       }
     ],

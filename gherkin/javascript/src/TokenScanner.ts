@@ -1,6 +1,5 @@
 import Token from './Token'
 import GherkinLine from './GherkinLine'
-import { messages } from 'cucumber-messages'
 import createLocation from './cli/createLocation'
 
 /**

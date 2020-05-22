@@ -9,7 +9,7 @@ import GeneratedExpression from './GeneratedExpression'
 export default class CucumberExpressionGenerator {
   constructor(private readonly parameterTypeRegistry: ParameterTypeRegistry) {}
 
-  public generateExpressions(text: string): GeneratedExpression[] {
+  public generateExpressions(text: string): ReadonlyArray<GeneratedExpression> {
     const parameterTypeCombinations: Array<Array<ParameterType<any>>> = []
     const parameterTypeMatchers = this.createParameterTypeMatchers(text)
     let expressionTemplate = ''
@@ -34,7 +34,7 @@ export default class CucumberExpressionGenerator {
         // Find all the best parameter type matchers, they are all candidates.
         const bestParameterTypeMatcher = matchingParameterTypeMatchers[0]
         const bestParameterTypeMatchers = matchingParameterTypeMatchers.filter(
-          m => ParameterTypeMatcher.compare(m, bestParameterTypeMatcher) === 0
+          (m) => ParameterTypeMatcher.compare(m, bestParameterTypeMatcher) === 0
         )
 
         // Build a list of parameter types without duplicates. The reason there

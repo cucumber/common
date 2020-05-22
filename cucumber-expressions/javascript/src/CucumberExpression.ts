@@ -22,8 +22,8 @@ const PARAMETER_TYPES_CANNOT_BE_OPTIONAL =
   'Parameter types cannot be optional: '
 
 export default class CucumberExpression implements Expression {
-  private parameterTypes: Array<ParameterType<any>> = []
-  private treeRegexp: TreeRegexp
+  private readonly parameterTypes: Array<ParameterType<any>> = []
+  private readonly treeRegexp: TreeRegexp
 
   /**
    * @param expression
@@ -59,7 +59,7 @@ export default class CucumberExpression implements Expression {
   private processAlternation(expression: string) {
     return expression.replace(
       ALTERNATIVE_NON_WHITESPACE_TEXT_REGEXP(),
-      match => {
+      (match) => {
         // replace \/ with /
         // replace / with |
         const replacement = match.replace(/\//g, '|').replace(/\\\|/g, '/')
@@ -98,7 +98,7 @@ export default class CucumberExpression implements Expression {
     })
   }
 
-  public match(text: string): Array<Argument<any>> {
+  public match(text: string): ReadonlyArray<Argument<any>> {
     return Argument.build(this.treeRegexp, text, this.parameterTypes)
   }
 
@@ -106,7 +106,7 @@ export default class CucumberExpression implements Expression {
     return this.treeRegexp.regexp
   }
 
-  get source() {
+  get source(): string {
     return this.expression
   }
 
@@ -117,12 +117,12 @@ export default class CucumberExpression implements Expression {
   }
 }
 
-function buildCaptureRegexp(regexps: string[]) {
+function buildCaptureRegexp(regexps: ReadonlyArray<string>) {
   if (regexps.length === 1) {
     return `(${regexps[0]})`
   }
 
-  const captureGroups = regexps.map(group => {
+  const captureGroups = regexps.map((group) => {
     return `(?:${group})`
   })
 

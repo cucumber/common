@@ -1,12 +1,21 @@
+# Please update /.templates/java/default.mk and sync:
+#
+#     source scripts/functions.sh && rsync_files
+#
 SHELL := /usr/bin/env bash
 JAVA_SOURCE_FILES = $(shell find . -name "*.java")
 
 default: .tested
 .PHONY: default
 
-.tested: pom.xml $(JAVA_SOURCE_FILES) .deps
+.tested: .tested-jar-check
+
+.tested-jar-check: .deps .built
+	./scripts/check-jar.sh $(JAR)
+	touch $@
+
+.built: pom.xml $(JAVA_SOURCE_FILES) 
 	mvn install
-	./scripts/check-jar.sh
 	touch $@
 
 .deps:
@@ -17,7 +26,7 @@ update-dependencies:
 	mvn versions:use-latest-versions -Dmaven.version.rules=file://$(shell pwd)/maven-versions-rules.xml
 .PHONY: update-dependencies
 
-pre-release: update-dependencies clean default
+pre-release: update-version update-dependencies clean default
 .PHONY: pre-release
 
 update-version:
@@ -41,6 +50,6 @@ clean: clean-java
 .PHONY: clean
 
 clean-java:
-	rm -rf target .deps .tested*
+	rm -rf target .deps .tested* .built acceptance
 	mvn clean
 .PHONY: clean-java

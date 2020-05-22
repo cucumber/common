@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+set -euf
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+EXE="${DIR}/../../html-formatter/javascript/bin/cucumber-html-formatter.js"
+
+${EXE} --format ndjson
+#docker run --interactive --rm cucumber/html-formatter:4.0.0 --format ndjson

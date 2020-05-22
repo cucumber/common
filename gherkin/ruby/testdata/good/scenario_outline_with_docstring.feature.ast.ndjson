@@ -6,6 +6,7 @@
           "scenario": {
             "examples": [
               {
+                "id": "4",
                 "keyword": "Examples",
                 "location": {
                   "column": 1,
@@ -84,7 +85,7 @@
                 }
               }
             ],
-            "id": "4",
+            "id": "5",
             "keyword": "Scenario Outline",
             "location": {
               "column": 1,
@@ -95,12 +96,12 @@
               {
                 "docString": {
                   "content": "Greeting:<content>",
-                  "contentType": "<type>",
                   "delimiter": "\"\"\"",
                   "location": {
                     "column": 5,
                     "line": 5
-                  }
+                  },
+                  "mediaType": "<type>"
                 },
                 "id": "0",
                 "keyword": "Given ",

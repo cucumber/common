@@ -33,10 +33,7 @@ module Gherkin
     Cucumber::Messages::Source.new({
       uri: uri,
       data: data,
-      media: Cucumber::Messages::Media.new({
-        encoding: :UTF8,
-        content_type: 'text/x.cucumber.gherkin+plain'
-      })
+      media_type: 'text/x.cucumber.gherkin+plain'
     })
   end
 end

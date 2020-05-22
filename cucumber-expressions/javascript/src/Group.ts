@@ -3,12 +3,12 @@ export default class Group {
     public readonly value: string | null,
     public readonly start: number,
     public readonly end: number,
-    public readonly children: Group[]
+    public readonly children: ReadonlyArray<Group>
   ) {}
 
   get values(): string[] {
     return (this.children.length === 0 ? [this] : this.children)
-      .filter(g => typeof g.start !== 'undefined')
-      .map(g => g.value)
+      .filter((g) => typeof g.start !== 'undefined')
+      .map((g) => g.value)
   }
 }

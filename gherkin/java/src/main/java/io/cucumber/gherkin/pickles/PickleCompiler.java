@@ -171,7 +171,7 @@ public class PickleCompiler {
     private PickleDocString pickleDocString(Step.DocString docString, List<TableCell> variableCells, List<TableCell> valueCells) {
         return PickleDocString.newBuilder()
                 .setContent(interpolate(docString.getContent(), variableCells, valueCells))
-                .setContentType(Objects.requireNonNull(docString.getContentType() == null ? null : interpolate(docString.getContentType(), variableCells, valueCells)))
+                .setMediaType(Objects.requireNonNull(docString.getMediaType() == null ? null : interpolate(docString.getMediaType(), variableCells, valueCells)))
                 .build();
     }
 

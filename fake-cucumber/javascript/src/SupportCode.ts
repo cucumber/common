@@ -1,67 +1,141 @@
 import {
-  CucumberExpression,
+  ExpressionFactory,
+  ParameterType,
   ParameterTypeRegistry,
-  RegularExpression,
-} from 'cucumber-expressions'
-import { IdGenerator } from 'cucumber-messages'
+} from '@cucumber/cucumber-expressions'
+import { IdGenerator, messages } from '@cucumber/messages'
 import { AnyBody } from './types'
 import ExpressionStepDefinition from './ExpressionStepDefinition'
 import IStepDefinition from './IStepDefinition'
-import IHook, { HookType } from './IHook'
+import IHook from './IHook'
 import Hook from './Hook'
+import IClock from './IClock'
+import { MakeErrorMessage, withFullStackTrace } from './ErrorMessageGenerator'
+import IParameterTypeDefinition from './IParameterTypeDefinition'
+import PerfHooksClock from './PerfHooksClock'
 
-type RegisterStepDefinition = (
-  expression: string | RegExp,
-  body: AnyBody
-) => void
-
-type RegisterHook = (tagExpression: string, body: AnyBody) => void
+function defaultTransformer(...args: string[]) {
+  return args
+}
 
 /**
  * This class provides an API for defining step definitions and hooks.
  */
 export default class SupportCode {
-  private readonly parameterTypeRegistry = new ParameterTypeRegistry()
+  public readonly parameterTypes: Array<ParameterType<any>> = []
+  public readonly parameterTypeMessages: Array<messages.IEnvelope> = []
   public readonly stepDefinitions: IStepDefinition[] = []
-  public readonly hooks: IHook[] = []
+  public readonly beforeHooks: IHook[] = []
+  public readonly afterHooks: IHook[] = []
 
-  constructor(public newId: IdGenerator.NewId) {}
+  private readonly parameterTypeRegistry = new ParameterTypeRegistry()
+  private readonly expressionFactory = new ExpressionFactory(
+    this.parameterTypeRegistry
+  )
+  public readonly undefinedParameterTypeMessages: messages.IEnvelope[] = []
 
-  private registerStepDefinition(
+  constructor(
+    public readonly newId: IdGenerator.NewId = IdGenerator.uuid(),
+    public readonly clock: IClock = new PerfHooksClock(),
+    public readonly makeErrorMessage: MakeErrorMessage = withFullStackTrace()
+  ) {}
+
+  public defineParameterType(
+    parameterTypeDefinition: IParameterTypeDefinition
+  ) {
+    const parameterType = new ParameterType<any>(
+      parameterTypeDefinition.name,
+      parameterTypeDefinition.regexp,
+      parameterTypeDefinition.type,
+      parameterTypeDefinition.transformer || defaultTransformer,
+      parameterTypeDefinition.useForSnippets,
+      parameterTypeDefinition.preferForRegexpMatch
+    )
+    this.parameterTypeRegistry.defineParameterType(parameterType)
+    this.parameterTypes.push(parameterType)
+    this.parameterTypeMessages.push(
+      new messages.Envelope({
+        parameterType: new messages.ParameterType({
+          id: this.newId(),
+          name: parameterType.name,
+          regularExpressions: parameterType.regexpStrings.slice(),
+          preferForRegularExpressionMatch: parameterType.preferForRegexpMatch,
+          useForSnippets: parameterType.useForSnippets,
+        }),
+      })
+    )
+  }
+
+  public defineStepDefinition(
+    sourceReference: messages.ISourceReference,
     expression: string | RegExp,
     body: AnyBody
   ): void {
-    const expr =
-      typeof expression === 'string'
-        ? new CucumberExpression(expression, this.parameterTypeRegistry)
-        : new RegularExpression(expression, this.parameterTypeRegistry)
-    const stepDefinition = new ExpressionStepDefinition(
-      this.newId(),
-      expr,
-      body
-    )
+    try {
+      const expr = this.expressionFactory.createExpression(expression)
+      const stepDefinition = new ExpressionStepDefinition(
+        this.newId(),
+        expr,
+        sourceReference,
+        body
+      )
+      this.registerStepDefinition(stepDefinition)
+    } catch (e) {
+      if (e.undefinedParameterTypeName) {
+        this.undefinedParameterTypeMessages.push(
+          new messages.Envelope({
+            undefinedParameterType: new messages.UndefinedParameterType({
+              expression: expression.toString(),
+              name: e.undefinedParameterTypeName,
+            }),
+          })
+        )
+      } else {
+        throw e
+      }
+    }
+  }
+
+  public registerStepDefinition(stepDefinition: IStepDefinition) {
     this.stepDefinitions.push(stepDefinition)
   }
 
-  private registerBeforeHook(tagExpression: string, body: AnyBody) {
-    this.hooks.push(
-      new Hook(this.newId(), HookType.Before, tagExpression, body)
+  public defineBeforeHook(
+    sourceReference: messages.ISourceReference,
+    tagExpressionOrBody: string | AnyBody,
+    body?: AnyBody
+  ) {
+    this.registerBeforeHook(
+      this.makeHook(sourceReference, tagExpressionOrBody, body)
     )
   }
 
-  private registerAfterHook(tagExpression: string, body: AnyBody) {
-    this.hooks.push(new Hook(this.newId(), HookType.After, tagExpression, body))
+  public registerBeforeHook(hook: IHook) {
+    this.beforeHooks.push(hook)
   }
 
-  public readonly Given = this.registerStepDefinition.bind(
-    this
-  ) as RegisterStepDefinition
-  public readonly When = this.registerStepDefinition.bind(
-    this
-  ) as RegisterStepDefinition
-  public readonly Then = this.registerStepDefinition.bind(
-    this
-  ) as RegisterStepDefinition
-  public readonly Before = this.registerBeforeHook.bind(this) as RegisterHook
-  public readonly After = this.registerAfterHook.bind(this) as RegisterHook
+  public defineAfterHook(
+    sourceReference: messages.ISourceReference,
+    tagExpressionOrBody: string | AnyBody,
+    body?: AnyBody
+  ) {
+    this.registerAfterHook(
+      this.makeHook(sourceReference, tagExpressionOrBody, body)
+    )
+  }
+
+  public registerAfterHook(hook: IHook) {
+    this.afterHooks.push(hook)
+  }
+
+  private makeHook(
+    sourceReference: messages.ISourceReference,
+    tagExpressionOrBody: string | AnyBody,
+    body?: AnyBody
+  ) {
+    const tagExpression =
+      typeof tagExpressionOrBody === 'string' ? tagExpressionOrBody : null
+    body = typeof tagExpressionOrBody !== 'string' ? tagExpressionOrBody : body
+    return new Hook(this.newId(), tagExpression, sourceReference, body)
+  }
 }

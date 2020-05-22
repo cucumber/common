@@ -5,10 +5,12 @@ Bundler::GemHelper.install_tasks
 
 $:.unshift File.expand_path("../lib", __FILE__)
 
-require "rspec/core/rake_task"
-RSpec::Core::RakeTask.new(:spec) do |t|
-  t.ruby_opts  = %w[-r./spec/coverage -w]
+Dir['./rake/*.rb'].each do |f|
+  require f
 end
+
+require "rspec/core/rake_task"
+RSpec::Core::RakeTask.new(:spec)
 
 require_relative 'spec/capture_warnings'
 include CaptureWarnings

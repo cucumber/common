@@ -23,3 +23,15 @@ Examples:
 Examples: 
   | what            |
   | more minimalism |
+
+@comment_tag1 #a comment
+Scenario: comments
+  Given a comment
+
+@comment_tag#2 #a comment
+Scenario: hash in tags
+  Given a comment is preceded by a space
+
+@joined_tag3@joined_tag4
+Scenario: joined tags
+  Given the @delimits tags

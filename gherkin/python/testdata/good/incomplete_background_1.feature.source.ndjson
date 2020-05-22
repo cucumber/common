@@ -1,10 +1,7 @@
 {
   "source": {
     "data": "Feature: Incomplete backgrounds, Part 1\n\n  Background: no steps\n\n  Scenario: still pickles up\n    * a step\n",
-    "media": {
-      "contentType": "text/x.cucumber.gherkin+plain",
-      "encoding": "UTF8"
-    },
+    "mediaType": "text/x.cucumber.gherkin+plain",
     "uri": "testdata/good/incomplete_background_1.feature"
   }
 }

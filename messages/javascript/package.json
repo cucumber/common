@@ -1,0 +1,54 @@
+{
+  "name": "@cucumber/messages",
+  "version": "12.1.1",
+  "description": "Protocol Buffer messages for Cucumber's inter-process communication",
+  "main": "dist/src/index.js",
+  "types": "dist/src/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/cucumber/messages-javascript.git"
+  },
+  "author": "Cucumber Limited <cukes@googlegroups.com>",
+  "license": "MIT",
+  "scripts": {
+    "test": "mocha",
+    "lint": "eslint --ext ts --max-warnings 0 src test",
+    "lint-fix": "eslint --ext ts --max-warnings 0 --fix src test",
+    "coverage": "nyc --reporter=html --reporter=text mocha",
+    "pbjs": "pbjs --target static-module --wrap commonjs messages.proto --out src/messages.js",
+    "pbts": "pbts src/messages.js > src/messages.d.ts",
+    "build": "tsc && make src/messages.js && make src/messages.d.ts && copyfiles src/messages.js src/messages.d.ts dist",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "@types/uuid": "^7.0.2",
+    "protobufjs": "^6.9.0",
+    "uuid": "^7.0.3"
+  },
+  "devDependencies": {
+    "@types/mocha": "^7.0.2",
+    "@types/node": "^13.13.1",
+    "@typescript-eslint/eslint-plugin": "^2.29.0",
+    "@typescript-eslint/parser": "^2.29.0",
+    "copyfiles": "^2.2.0",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.10.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^3.1.3",
+    "eslint-plugin-react": "^7.19.0",
+    "json-schema": "^0.2.5",
+    "mocha": "^7.1.1",
+    "nyc": "^15.0.1",
+    "prettier": "^2.0.4",
+    "ts-node": "^8.9.0",
+    "typescript": "^3.8.3"
+  },
+  "bugs": {
+    "url": "https://github.com/cucumber/messages-javascript/issues"
+  },
+  "homepage": "https://github.com/cucumber/messages-javascript#readme",
+  "directories": {
+    "test": "test"
+  },
+  "keywords": []
+}

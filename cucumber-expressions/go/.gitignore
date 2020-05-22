@@ -12,3 +12,5 @@ bin/
 dist/
 dist_compressed/
 *.bin
+*.iml
+core.*.!usr!bin!upx

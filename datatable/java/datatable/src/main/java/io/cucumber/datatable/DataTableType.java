@@ -24,14 +24,19 @@ public final class DataTableType {
     private final JavaType targetType;
     private final RawTableTransformer<?> transformer;
     private final Type elementType;
+    private final boolean replaceable;
 
     private DataTableType(Type type, Type target, RawTableTransformer<?> transformer) {
+        this(type, target, transformer, false);
+    }
+    private DataTableType(Type type, Type target, RawTableTransformer<?> transformer, boolean replaceable) {
         if (type == null) throw new NullPointerException("targetType cannot be null");
         if (target == null) throw new NullPointerException("target cannot be null");
         if (transformer == null) throw new NullPointerException("transformer cannot be null");
         this.elementType = type;
         this.targetType = constructType(target);
         this.transformer = transformer;
+        this.replaceable = replaceable;
     }
 
     /**
@@ -72,6 +77,21 @@ public final class DataTableType {
      */
     public <T> DataTableType(Type type, TableEntryTransformer<T> transformer) {
         this(type, aListOf(type), new TableEntryTransformerAdaptor<>(transformer));
+    }
+
+    /**
+     * Creates a data replaceable table type that transforms the entries of the
+     * table into a list of objects. An entry consists of the elements of the
+     * table header paired with the values of each subsequent row.
+     *
+     * @param type        the type of the list items
+     * @param transformer a function that creates an instance of
+     *                    <code>type</code> from the data table entry
+     * @param replaceable can this datatable type be replaced with another for the same type
+     * @param <T>         see <code>type</code>
+     */
+    <T> DataTableType(Type type, TableCellTransformer<T> transformer, boolean replaceable) {
+        this(type, aListOf(aListOf(type)), new TableCellTransformerAdaptor<>(transformer), replaceable);
     }
 
     /**
@@ -139,6 +159,10 @@ public final class DataTableType {
 
     Class<?> getTransformerType() {
         return transformer.getOriginalTransformerType();
+    }
+
+    public boolean isReplaceable() {
+        return replaceable;
     }
 
     @Override

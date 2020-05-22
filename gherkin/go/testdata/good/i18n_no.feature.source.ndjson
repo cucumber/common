@@ -1,10 +1,7 @@
 {
   "source": {
     "data": "#language:no\nEgenskap: i18n support\n\n  Scenario: Parsing many languages\n    Gitt Gherkin supports many languages\n    Når Norwegian keywords are parsed\n    Så they should be recognized\n",
-    "media": {
-      "contentType": "text/x.cucumber.gherkin+plain",
-      "encoding": "UTF8"
-    },
+    "mediaType": "text/x.cucumber.gherkin+plain",
     "uri": "testdata/good/i18n_no.feature"
   }
 }

@@ -1,11 +1,12 @@
+import fs from 'fs'
 import { Command } from 'commander'
 import packageJson from '../../package.json'
-import Gherkin from '../Gherkin'
+import Gherkin from '../stream/GherkinStreams'
 import {
   MessageToBinaryStream,
   MessageToNdjsonStream,
   IdGenerator,
-} from 'cucumber-messages'
+} from '@cucumber/messages'
 import { Readable, Transform } from 'stream'
 import IGherkinOptions from '../IGherkinOptions'
 
@@ -31,6 +32,8 @@ const options: IGherkinOptions = {
   newId: program.predictableIds
     ? IdGenerator.incrementing()
     : IdGenerator.uuid(),
+  createReadStream: (path: string) =>
+    fs.createReadStream(path, { encoding: 'utf-8' }),
 }
 
 const messageStream =

@@ -1,7 +1,10 @@
 # -*- encoding: utf-8 -*-
+
+version = File.read(File.expand_path("VERSION", __dir__)).strip
+
 Gem::Specification.new do |s|
   s.name        = 'c21e'
-  s.version     = '2.0.0'
+  s.version     = version
   s.authors     = ["Aslak Hellesøy"]
   s.description = 'Run cross-platform executables'
   s.summary     = "#{s.name}-#{s.version}"
@@ -20,9 +23,6 @@ Gem::Specification.new do |s|
 
   s.add_development_dependency 'rake', '~> 13.0', '>= 13.0.1'
   s.add_development_dependency 'rspec', '~> 3.9', '>= 3.9.0'
-
-  # For coverage reports
-  s.add_development_dependency 'coveralls', '~> 0.8', '>= 0.8.23'
 
   s.rubygems_version = ">= 1.6.1"
   s.files            = Dir[

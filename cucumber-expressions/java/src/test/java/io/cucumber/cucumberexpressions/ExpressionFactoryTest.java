@@ -5,6 +5,7 @@ import org.junit.jupiter.api.function.Executable;
 
 import java.util.Locale;
 
+import static java.util.Collections.singleton;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
@@ -65,35 +66,41 @@ public class ExpressionFactoryTest {
 
     @Test
     public void explains_cukexp_regexp_mix() {
-
         final Executable testMethod = () -> createExpression("^the seller has {int} strike(s)$");
 
         final CucumberExpressionException thrownException = assertThrows(CucumberExpressionException.class, testMethod);
         assertThat("Unexpected message", thrownException.getMessage(), is(equalTo("You cannot use anchors (^ or $) in Cucumber Expressions. Please remove them from ^the seller has {int} strike(s)$")));
     }
 
+    @Test
+    public void explains_undefined_parameter_types() {
+        final Executable testMethod = () -> createExpression("{x}");
+        final CucumberExpressionException thrownException = assertThrows(CucumberExpressionException.class, testMethod);
+        assertThat("Unexpected message", thrownException.getMessage(), is(equalTo("Undefined parameter type {x}. Please register a ParameterType for {x}.")));
+    }
+
     private void assertRegularExpression(String expressionString) {
         assertRegularExpression(expressionString, expressionString);
     }
 
-    private void assertRegularExpression(String expectedSource, String expressionSource) {
-        assertExpression(RegularExpression.class, expectedSource, expressionSource);
+    private void assertRegularExpression(String expectedSource, String expressionString) {
+        assertExpression(RegularExpression.class, expectedSource, expressionString);
     }
 
-    private void assertCucumberExpression(String expressionSource) {
-        assertExpression(CucumberExpression.class, expressionSource, expressionSource);
+    private void assertCucumberExpression(String expressionString) {
+        assertExpression(CucumberExpression.class, expressionString, expressionString);
     }
 
-    private void assertExpression(Class<? extends Expression> expectedClass, String expectedSource, String expressionSource) {
-        Expression expression = createExpression(expressionSource);
+    private void assertExpression(Class<? extends Expression> expectedClass, String expectedSource, String expressionString) {
+        Expression expression = createExpression(expressionString);
         assertEquals(expectedClass, expression.getClass());
         if (expectedSource != null) {
             assertEquals(expectedSource, expression.getSource());
         }
     }
 
-    private Expression createExpression(String expressionSource) {
-        return new ExpressionFactory(new ParameterTypeRegistry(Locale.ENGLISH)).createExpression(expressionSource);
+    private Expression createExpression(String expressionString) {
+        return new ExpressionFactory(new ParameterTypeRegistry(Locale.ENGLISH)).createExpression(expressionString);
     }
 
 }

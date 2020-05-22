@@ -1,5 +1,7 @@
 module Gherkin
   class ParserError < StandardError; end
+  class AstNodeNotLocatedException < StandardError; end
+  class DoubleIterationException < StandardError; end
 
   class ParserException < ParserError
     attr_reader :location

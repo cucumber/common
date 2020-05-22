@@ -1,41 +1,48 @@
 SHELL := /usr/bin/env bash
-MAKEFILES=c21e/Makefile \
-	cucumber-messages/Makefile \
-	gherkin/Makefile \
-	cucumber-expressions/Makefile \
-	fake-cucumber/Makefile \
-	cucumber-query/Makefile \
-	cucumber-react/Makefile \
-	cucumber-html-formatter/Makefile \
-	cucumber-json-formatter/Makefile \
-	datatable/Makefile \
-	config/Makefile \
-	cucumber-tag-expressions/Makefile \
-	cucumber-demo-formatter/Makefile
+PACKAGES ?= c21e \
+	messages \
+	gherkin \
+	cucumber-expressions \
+	tag-expressions \
+	fake-cucumber \
+	query \
+	json-formatter \
+	compatibility-kit \
+	react \
+	html-formatter \
+	datatable \
+	config \
+	demo-formatter \
+	json-to-messages
 
-default: .rsynced $(patsubst %/Makefile,default-%,$(MAKEFILES))
+default: .rsynced $(patsubst %,default-%,$(PACKAGES))
 .PHONY: default
 
 default-%: %
 	cd $< && make default
 
-update-dependencies: $(patsubst %/Makefile,update-dependencies-%,$(MAKEFILES))
+update-dependencies: $(patsubst %,update-dependencies-%,$(PACKAGES))
 .PHONY: update-dependencies
 
 update-dependencies-%: %
 	cd $< && make update-dependencies
 
-clean: $(patsubst %/Makefile,clean-%,$(MAKEFILES)) rm-release
+clean: $(patsubst %,clean-%,$(PACKAGES))
 	rm -f .rsynced
 .PHONY: clean
 
 clean-%: %
 	cd $< && make clean
 
-ci: check_synced push_subrepos default
+ci: default check_synced push_subrepos
 
 check_synced: .rsynced
-	[[ -z $$(git status -s) ]] || (echo "Working copy is dirty. Please run `source scripts/functions.sh && rsync_files` and commit modified files." && exit 1)
+	[[ -z $$(git status -s) ]] || ( \
+		echo "Working copy is dirty. Please run 'source scripts/functions.sh && rsync_files' and commit modified files." && \
+		echo "Found: " && \
+		git status -s && \
+		exit 1 \
+	)
 .PHONY: check_synced
 
 push_subrepos:
@@ -45,7 +52,3 @@ push_subrepos:
 .rsynced:
 	source scripts/functions.sh && rsync_files
 	touch $@
-
-rm-release:
-	find . -type d -name '.release' | xargs rm -rf
-.PHONY: rm-release

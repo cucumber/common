@@ -1,4 +1,4 @@
-import { messages } from 'cucumber-messages'
+import { messages } from '@cucumber/messages'
 import Token from './Token'
 import createLocation from './cli/createLocation'
 
@@ -29,11 +29,17 @@ class GherkinException extends Error {
   }
 }
 
-export class ParserException extends GherkinException {}
+export class ParserException extends GherkinException {
+  public static create(message: string, line: number, column: number) {
+    const err = new this(`(${line}:${column}): ${message}`)
+    err.location = createLocation({ line, column })
+    return err
+  }
+}
 
 export class CompositeParserException extends GherkinException {
   public static create(errors: Error[]) {
-    const message = 'Parser errors:\n' + errors.map(e => e.message).join('\n')
+    const message = 'Parser errors:\n' + errors.map((e) => e.message).join('\n')
     const err = new this(message)
     err.errors = errors
     return err
@@ -41,11 +47,7 @@ export class CompositeParserException extends GherkinException {
 }
 
 export class UnexpectedTokenException extends GherkinException {
-  public static create(
-    token: Token,
-    expectedTokenTypes: string[],
-    stateComment: string
-  ) {
+  public static create(token: Token, expectedTokenTypes: string[]) {
     const message = `expected: ${expectedTokenTypes.join(
       ', '
     )}, got '${token.getTokenValue().trim()}'`
@@ -57,11 +59,7 @@ export class UnexpectedTokenException extends GherkinException {
 }
 
 export class UnexpectedEOFException extends GherkinException {
-  public static create(
-    token: Token,
-    expectedTokenTypes: string[],
-    stateComment: string
-  ) {
+  public static create(token: Token, expectedTokenTypes: string[]) {
     const message = `unexpected end of file, expected: ${expectedTokenTypes.join(
       ', '
     )}`

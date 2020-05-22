@@ -260,11 +260,10 @@ func TestCucumberExpression(t *testing.T) {
 		require.Equal(t, "Parameter types cannot be alternative: {int}/x", err.Error())
 	})
 
-	t.Run("returns error for unknown parameter", func(t *testing.T) {
+	t.Run("returns UndefinedParameterTypeExpression for unknown parameter", func(t *testing.T) {
 		parameterTypeRegistry := NewParameterTypeRegistry()
 		_, err := NewCucumberExpression("{unknown}", parameterTypeRegistry)
 		require.Error(t, err)
-		require.Equal(t, err.Error(), "Undefined parameter type {unknown}")
 	})
 
 	t.Run("exposes source", func(t *testing.T) {
