@@ -17,7 +17,7 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 * [Java] Enable consumers to find our version at runtime using `clazz.getPackage().getImplementationVersion()` by upgrading to `cucumber-parent:2.1.0`
   ([#976](https://github.com/cucumber/cucumber/pull/976)
    [aslakhellesoy])
-* [Java/Ruby/Go/Javascript] Add tests to ensure we do not delete table cell contents  
+* [Java/Ruby/Go/Javascript] Add tests to ensure we do not delete whitespace inside a table cell  
   ([#769](https://github.com/cucumber/cucumber/pull/769)
    [mpkorstanje]
    [vincent-psarga])
