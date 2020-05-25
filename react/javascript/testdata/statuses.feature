@@ -24,4 +24,13 @@ Feature: Statuses
       | passed  | passed    | passed    |
       | passed  | failed    | skipped   |
       | pending | ambiguous | undefined |
-      
+
+  Scenario: Step parameters
+    Given a passed step
+      | name  | text                                    |
+      | error | this step fails due to multiple reasons |
+    When a failed step with:
+      """
+      This step fails due to multiple reasons
+      """
+    Then a skipped step

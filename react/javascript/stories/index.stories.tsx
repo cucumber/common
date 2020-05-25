@@ -10,6 +10,7 @@ import GherkinDocumentList from '../src/components/app/GherkinDocumentList'
 import QueriesWrapper from '../src/components/app/QueriesWrapper'
 import SearchBar from '../src/components/app/SearchBar'
 import StepContainer from '../src/components/gherkin/StepContainer'
+import HighLight from '../src/components/app/HighLight'
 
 import '../src/styles/react-accessible-accordion.css'
 import '../src/styles/styles.scss'
@@ -125,6 +126,22 @@ storiesOf('Features', module)
   .add('Stack Traces', () => {
     return <QueriesWrapper {...props(stackTraces)}>
       <GherkinDocumentList/>
+    </QueriesWrapper>
+  })
+  .add('HighLight', () => {
+    const gherkinQuery = new GherkinQuery()
+    const cucumberQuery = new CucumberQuery()
+    const query = "et dolore co"
+
+    return <QueriesWrapper
+      gherkinQuery={gherkinQuery}
+      cucumberQuery={cucumberQuery}
+      query={ query }
+      >
+      <h1> Highligthing: { query } </h1>
+      <p>
+      <HighLight text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum." />
+      </p>
     </QueriesWrapper>
   })
 

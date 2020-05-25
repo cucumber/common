@@ -5,6 +5,7 @@ import Scenario from './Scenario'
 import { messages } from '@cucumber/messages'
 import Background from './Background'
 import IRule = messages.GherkinDocument.Feature.FeatureChild.IRule
+import HighLight from '../app/HighLight'
 
 interface IProps {
   rule: IRule
@@ -15,7 +16,9 @@ const Rule: React.FunctionComponent<IProps> = ({ rule }) => {
     <section>
       <h2>
         <Keyword>{rule.keyword}:</Keyword>{' '}
-        <span className="step-text">{rule.name}</span>
+        <span className="step-text">
+          <HighLight text={rule.name} />
+        </span>
       </h2>
       <div className="indent">
         <Description description={rule.description} />

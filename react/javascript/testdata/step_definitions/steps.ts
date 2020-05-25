@@ -26,6 +26,10 @@ Given('{flight} has been delayed {int} minutes', function(
 Given('a passed step', (table: string[][]) => {
 })
 
+When('a failed step with:', (docstring: string) => {
+  throw new Error(`Failing with: ${docstring} ?`)
+})
+
 When('a step has failed', () => {
   throw new Error('Oh no we have an error')
 })

@@ -1,17 +1,18 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import SearchQueryContext from '../../SearchQueryContext'
 
 interface IProps {
   queryUpdated: (query: string) => any
 }
 
 const SearchBar: React.FunctionComponent<IProps> = ({ queryUpdated }) => {
-  const [query, setQuery] = useState('')
+  const searchQueryContext = React.useContext(SearchQueryContext)
 
   const updateQueryOnEnter = (event: React.KeyboardEvent) => {
     if (event.key === 'Enter') {
-      queryUpdated(query)
+      queryUpdated(searchQueryContext.query)
     }
   }
 
@@ -20,9 +21,13 @@ const SearchBar: React.FunctionComponent<IProps> = ({ queryUpdated }) => {
       <input
         type="text"
         onKeyPress={updateQueryOnEnter}
-        onChange={(event) => setQuery(event.target.value)}
+        onChange={(event) => (searchQueryContext.query = event.target.value)}
       />
-      <button type="submit" onClick={() => queryUpdated(query)} value="search">
+      <button
+        type="submit"
+        onClick={() => queryUpdated(searchQueryContext.query)}
+        value="search"
+      >
         <FontAwesomeIcon icon={faSearch} />
       </button>
     </div>

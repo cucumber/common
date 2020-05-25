@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import GherkinQueryContext from '../../GherkinQueryContext'
+
 import SearchBar from './SearchBar'
 import { GherkinDocumentList } from '../..'
 
