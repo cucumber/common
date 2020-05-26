@@ -63,6 +63,7 @@ describe('AstWalker', () => {
 
     it('filters one scenario', () => {
       const gherkinDocument = parse(`Feature: Solar System
+  The solar system is kind of a nice place
 
   Scenario: Saturn
     Given is the sixth planet from the Sun
@@ -78,6 +79,7 @@ describe('AstWalker', () => {
       const newGherkinDocument = walker.walkGherkinDocument(gherkinDocument)
       const newSource = pretty(newGherkinDocument)
       const expectedNewSource = `Feature: Solar System
+  The solar system is kind of a nice place
 
   Scenario: Earth
     Given is a planet with liquid water
@@ -161,6 +163,8 @@ describe('AstWalker', () => {
     Given space is real
 
   Rule: Galaxy
+    A galaxy is a place where big stuff floats
+
     Background: Milky Way
       Given it contains our system
 
@@ -183,6 +187,7 @@ describe('AstWalker', () => {
     Given space is real
 
   Rule: Galaxy
+    A galaxy is a place where big stuff floats
 
     Background: Milky Way
       Given it contains our system
@@ -198,6 +203,8 @@ describe('AstWalker', () => {
 
   Rule: Galaxy
     Background: Milky Way
+      The Milky way (with a capital) is not simply a snack
+
       Given it contains our system
 
   Rule: Black Hole
@@ -219,6 +226,8 @@ describe('AstWalker', () => {
   Rule: Galaxy
 
     Background: Milky Way
+      The Milky way (with a capital) is not simply a snack
+
       Given it contains our system
 
   Rule: Black Hole
@@ -241,6 +250,8 @@ describe('AstWalker', () => {
       Given it contains our system
 
     Scenario: Andromeda
+      Nebula Chain !!!
+
       Given it exists
 `)
 
@@ -258,6 +269,8 @@ describe('AstWalker', () => {
       Given it's a black hole
 
     Scenario: Andromeda
+      Nebula Chain !!!
+
       Given it exists
 `
       assert.strictEqual(newSource, expectedNewSource)
