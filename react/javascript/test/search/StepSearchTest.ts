@@ -13,7 +13,11 @@ describe('StepSearch', () => {
     steps = [
       makeStep('Given', 'a passed step', 'There is a docstring here'),
       makeStep('When', 'another passed step'),
-      makeStep('Then', 'a failed step'),
+      makeStep('Then', 'a failed step', '', [
+        ['name', 'value'],
+        ['errorType', 'NullPointerException'],
+        ['message', 'Something really bad hapenned here'],
+      ]),
     ]
 
     for (const step of steps) {
@@ -54,6 +58,11 @@ describe('StepSearch', () => {
     it('returns step which DocString matches the query', () => {
       const searchResults = stepSearch.search('docstring')
       assert.deepStrictEqual(searchResults, [steps[0]])
+    })
+
+    it('returns step which datatable matches the query', () => {
+      const searchResults = stepSearch.search('NullPointerException')
+      assert.deepStrictEqual(searchResults, [steps[2]])
     })
   })
 })

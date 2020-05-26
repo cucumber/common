@@ -5,14 +5,16 @@ interface SearchableStep {
   id: string
   keyword: string
   text: string
-  docstring?: string
+  docString?: string
+  dataTable?: string
 }
 
 export default class StepSearch {
   private readonly index = elasticlunr<SearchableStep>((ctx) => {
     ctx.addField('keyword')
     ctx.addField('text')
-    ctx.addField('docstring')
+    ctx.addField('docString')
+    ctx.addField('dataTable')
     ctx.setRef('id')
     ctx.saveDocument(true)
   })
@@ -23,7 +25,8 @@ export default class StepSearch {
       id: step.id,
       keyword: step.keyword,
       text: step.text,
-      docstring: this.docstringToString(step),
+      docString: this.docStringToString(step),
+      dataTable: this.dataTableToString(step),
     }
 
     this.index.addDoc(doc)
@@ -35,16 +38,27 @@ export default class StepSearch {
       fields: {
         keyword: { bool: 'OR', expand: true, boost: 1 },
         text: { bool: 'OR', expand: true, boost: 2 },
-        docstring: { bool: 'OR', expand: true, boost: 1 },
+        docString: { bool: 'OR', expand: true, boost: 1 },
+        dataTable: { bool: 'OR', expand: true, boost: 1 },
       },
     })
 
     return results.map((result) => this.stepById.get(result.ref))
   }
 
-  private docstringToString(
+  private docStringToString(
     step: messages.GherkinDocument.Feature.IStep
   ): string {
     return step.docString ? step.docString.content : ''
+  }
+
+  private dataTableToString(
+    step: messages.GherkinDocument.Feature.IStep
+  ): string {
+    return step.dataTable
+      ? step.dataTable.rows
+          .map((row) => row.cells.map((cell) => cell.value).join(' '))
+          .join(' ')
+      : undefined
   }
 }
