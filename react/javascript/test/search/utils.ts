@@ -52,14 +52,21 @@ function makeScenario(
 
 function makeStep(
   keyword: string,
-  text: string
+  text: string,
+  docstring = ''
 ): messages.GherkinDocument.Feature.IStep {
   const idGenerator = IdGenerator.uuid()
+  const docStringParam = docstring
+    ? messages.GherkinDocument.Feature.Step.DocString.create({
+        content: docstring,
+      })
+    : undefined
 
   return messages.GherkinDocument.Feature.Step.create({
     id: idGenerator(),
     keyword: keyword,
     text: text,
+    docString: docStringParam,
   })
 }
 

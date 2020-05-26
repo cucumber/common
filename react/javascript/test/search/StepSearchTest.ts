@@ -11,7 +11,7 @@ describe('StepSearch', () => {
     stepSearch = new StepSearch()
 
     steps = [
-      makeStep('Given', 'a passed step'),
+      makeStep('Given', 'a passed step', 'There is a docstring here'),
       makeStep('When', 'another passed step'),
       makeStep('Then', 'a failed step'),
     ]
@@ -49,6 +49,11 @@ describe('StepSearch', () => {
       // By default, ElasticLurn exclude some words from indexing/searching,
       // amongst them are 'Then' and 'When'.
       // See: http://elasticlunr.com/docs/stop_word_filter.js.html#resetStopWords
+    })
+
+    it('returns step which DocString matches the query', () => {
+      const searchResults = stepSearch.search('docstring')
+      assert.deepStrictEqual(searchResults, [steps[0]])
     })
   })
 })
