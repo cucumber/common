@@ -3,10 +3,12 @@ package io.cucumber.cucumberexpressions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
+import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Optional;
 
 import static java.util.Locale.ENGLISH;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -63,6 +65,60 @@ public class BuiltInParameterTransformerTest {
         for (String value : Arrays.asList("true", "True", "false", "False")) {
             objectMapper.transform(value, Boolean.class);
         }
+    }
+
+    @Test
+    public void should_transform_optional() {
+        assertThat(objectMapper.transform("abc", Optional.class), is(equalTo(Optional.of("abc"))));
+        assertThat(objectMapper.transform("", Optional.class), is(equalTo(Optional.of(""))));
+        assertThat(objectMapper.transform(null, Optional.class), is(equalTo(Optional.empty())));
+    }
+
+    @Test
+    public void should_transform_optional_generic_string() {
+        ParameterizedType optionalStringType = new ParameterizedType() {
+            @Override
+            public Type[] getActualTypeArguments() {
+                return new Type[] { String.class };
+            }
+
+            @Override
+            public Type getRawType() {
+                return Optional.class;
+            }
+
+            @Override
+            public Type getOwnerType() {
+                return null;
+            }
+        };
+
+        assertThat(objectMapper.transform("abc", optionalStringType), is(equalTo(Optional.<String>of("abc"))));
+        assertThat(objectMapper.transform("", optionalStringType), is(equalTo(Optional.<String>of(""))));
+        assertThat(objectMapper.transform(null, optionalStringType), is(equalTo(Optional.<String>empty())));
+    }
+
+    @Test
+    public void should_transform_optional_generic_integer() {
+        ParameterizedType optionalIntType = new ParameterizedType() {
+            @Override
+            public Type[] getActualTypeArguments() {
+                return new Type[] { Integer.class };
+            }
+
+            @Override
+            public Type getRawType() {
+                return Optional.class;
+            }
+
+            @Override
+            public Type getOwnerType() {
+                return null;
+            }
+        };
+
+        assertThat(objectMapper.transform("42", optionalIntType), is(equalTo(Optional.<Integer>of(42))));
+        assertThat(objectMapper.transform(null, optionalIntType), is(equalTo(Optional.<Integer>empty())));
     }
 
     private enum TestEnum {

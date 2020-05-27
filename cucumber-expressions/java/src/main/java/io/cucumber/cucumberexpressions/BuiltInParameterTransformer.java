@@ -1,9 +1,10 @@
 package io.cucumber.cucumberexpressions;
 
+import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.Locale;
+import java.util.*;
 
 import static java.util.Objects.requireNonNull;
 
@@ -17,13 +18,23 @@ final class BuiltInParameterTransformer implements ParameterByTypeTransformer {
 
     @Override
     public Object transform(String fromValue, Type toValueType) {
+
+        if (isGenericOptionalType(toValueType)) {
+            Object wrappedValue = transform(fromValue, getGenericOptionalType(toValueType));
+            return Optional.ofNullable(wrappedValue);
+        }
+
         if (!(toValueType instanceof Class)) {
             throw createIllegalArgumentException(fromValue, toValueType);
         }
 
         Class<?> toValueClass = (Class<?>) requireNonNull(toValueType);
         if (fromValue == null) {
-            return null;
+            if (Optional.class.equals(toValueClass)) {
+                return Optional.empty();
+            } else {
+                return null;
+            }
         }
 
         if (String.class.equals(toValueClass) || Object.class.equals(toValueClass)) {
@@ -66,6 +77,10 @@ final class BuiltInParameterTransformer implements ParameterByTypeTransformer {
             return Boolean.parseBoolean(fromValue);
         }
 
+        if (Optional.class.equals(toValueClass)) {
+            return Optional.of(fromValue);
+        }
+
         if (toValueClass.isEnum()) {
             @SuppressWarnings("unchecked")
             Class<? extends Enum<?>> enumClass = (Class<? extends Enum<?>>) toValueClass;
@@ -81,6 +96,13 @@ final class BuiltInParameterTransformer implements ParameterByTypeTransformer {
         throw createIllegalArgumentException(fromValue, toValueType);
     }
 
+    private boolean isGenericOptionalType(Type type) {
+        return type instanceof ParameterizedType && Optional.class.equals(((ParameterizedType) type).getRawType());
+    }
+
+    private Type getGenericOptionalType(Type optionalGenericType) {
+        return ((ParameterizedType) optionalGenericType).getActualTypeArguments()[0];
+    }
 
     private IllegalArgumentException createIllegalArgumentException(String fromValue, Type toValueType) {
         return new IllegalArgumentException(
