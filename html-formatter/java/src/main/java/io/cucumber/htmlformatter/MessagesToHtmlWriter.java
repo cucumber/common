@@ -29,6 +29,7 @@ public class MessagesToHtmlWriter implements AutoCloseable {
     private boolean preMessageWritten = false;
     private boolean postMessageWritten = false;
     private boolean firstMessageWritten = false;
+    private boolean streamClosed = false;
 
     public MessagesToHtmlWriter(Writer writer) throws IOException {
         this.writer = writer;
@@ -54,7 +55,7 @@ public class MessagesToHtmlWriter implements AutoCloseable {
      * @throws IOException if an IO error occurs
      */
     public void write(Messages.Envelope envelope) throws IOException {
-        if (postMessageWritten) {
+        if (streamClosed) {
             throw new IOException("Stream closed");
         }
 
@@ -81,7 +82,7 @@ public class MessagesToHtmlWriter implements AutoCloseable {
      */
     @Override
     public void close() throws IOException {
-        if (postMessageWritten) {
+        if(streamClosed){
             return;
         }
 
@@ -89,10 +90,14 @@ public class MessagesToHtmlWriter implements AutoCloseable {
             writePreMessage();
             preMessageWritten = true;
         }
-
-        writePostMessage();
+        // writer.close may fail
+        // this conditional keeps the writer idempotent
+        if (!postMessageWritten) {
+            writePostMessage();
+            postMessageWritten = true;
+        }
         writer.close();
-        postMessageWritten = true;
+        streamClosed = true;
     }
 
     private static void writeTemplateBetween(Writer writer, String template, String begin, String end) throws IOException {

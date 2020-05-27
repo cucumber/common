@@ -75,7 +75,7 @@ jobs:
       - run:
           name: everything
           command: |
-            make ci
+            make clean && make ci
 
   checkout:
     executor: docker-circleci-ruby-26
@@ -836,6 +836,8 @@ workflows:
       - html-formatter-javascript:
           requires:
             - react-javascript
+            - messages-javascript
+            - compatibility-kit-javascript
       - json-formatter-javascript:
           requires:
             - json-formatter-ruby
@@ -894,10 +896,11 @@ workflows:
       # - compatibility-kit-ruby:
       #     requires:
       #       - compatibility-kit-javascript
-      # - html-formatter-ruby:
-      #     requires:
-      #       - html-formatter-javascript
-      #       - compatibility-kit-ruby
+      - html-formatter-ruby:
+          requires:
+            - html-formatter-javascript
+            - messages-ruby
+            - compatibility-kit-javascript
       - json-to-messages-ruby:
           requires:
             - checkout
@@ -929,6 +932,7 @@ workflows:
           requires:
             - html-formatter-javascript
             - messages-java
+            - compatibility-kit-javascript
       - json-to-messages-java:
           requires:
             - checkout

@@ -11,7 +11,23 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Added
 
+* [Javascript] Change gherkinQuery API:
+  * `getPickleIds`: now takes a URI and an `astNodeId` to find the pickle ids instead of a line number
+  * `getPickleStepIds`: now takes an `astNodeId` parameter instead of a URL and a line number to locate the pickle step id
+* [Java] Enable consumers to find our version at runtime using `clazz.getPackage().getImplementationVersion()` by upgrading to `cucumber-parent:2.1.0`
+  ([#976](https://github.com/cucumber/cucumber/pull/976)
+   [aslakhellesoy])
+* [Java/Ruby/Go/Javascript] Add tests to ensure we do not delete whitespace inside a table cell  
+  ([#769](https://github.com/cucumber/cucumber/pull/769)
+   [mpkorstanje]
+   [vincent-psarga])
+
+
 ### Changed
+
+* Fixed Estonian translation of "Rule" ([#973](https://github.com/cucumber/cucumber/pull/973) [ookull])
+* Fixed Estonian translation of "Scenario Outline" ([#972](https://github.com/cucumber/cucumber/pull/972) [ookull])
+
 
 ### Deprecated
 
@@ -19,11 +35,17 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Fixed
 
+## [13.0.0] - 2020-04-14
+
+### Changed
+
+* Upgrade to messages 12.0.0
+
 ## [12.0.0] - 2020-03-31
 
 ### Added
 
-* [JavaScript] New exports: 
+* [JavaScript] New exports:
   * `Parser`
   * `compile`
   ([#924](https://github.com/cucumber/cucumber/pull/924)
@@ -714,7 +736,8 @@ to Gherkin 2.
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v12.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v13.0.0...master
+[13.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v12.0.0...gherkin/v13.0.0
 [12.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v11.0.0...gherkin/v12.0.0
 [11.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v10.0.0...gherkin/v11.0.0
 [10.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v9.2.0...gherkin/v10.0.0
@@ -775,10 +798,12 @@ to Gherkin 2.
 [mauriciotogneri]:  https://github.com/mauriciotogneri
 [maximeg]:          https://github.com/maximeg
 [maxmeyer]:         https://github.com/maxmeyer
+[mpkorstanje]:         https://github.com/mpkorstanje
 [merrua]:           https://github.com/merrua
 [milhcbt]:          https://github.com/milhcbt
 [moreau-nicolas]:   https://github.com/moreau-nicolas
 [mpkorstanje]:      https://github.com/mpkorstanje
+[ookull]:           https://github.com/ookull
 [nalekberov]:       https://github.com/nalekberov
 [nixel2007]:        https://github.com/nixel2007
 [nikolovski]:       https://github.com/nikolovski

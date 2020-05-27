@@ -5,6 +5,9 @@ export default function pretty(
 ): string {
   const feature = gherkinDocument.feature
   let s = feature.keyword + ': ' + feature.name + '\n'
+  if (feature.description) {
+    s += feature.description + '\n'
+  }
   for (const child of feature.children) {
     if (child.background) {
       s += prettyStepContainer(child.background, '  ')
@@ -12,6 +15,10 @@ export default function pretty(
       s += prettyStepContainer(child.scenario, '  ')
     } else if (child.rule) {
       s += `\n  ${child.rule.keyword}: ${child.rule.name}\n`
+      if (child.rule.description) {
+        s += child.rule.description + '\n'
+      }
+
       for (const ruleChild of child.rule.children) {
         if (ruleChild.background) {
           s += prettyStepContainer(ruleChild.background, '    ')
@@ -30,6 +37,9 @@ function prettyStepContainer(
   indent: string
 ): string {
   let s = `\n${indent}${stepContainer.keyword}: ${stepContainer.name}\n`
+  if (stepContainer.description) {
+    s += stepContainer.description + '\n\n'
+  }
   for (const step of stepContainer.steps) {
     s += `${indent}  ${step.keyword}${step.text}\n`
   }

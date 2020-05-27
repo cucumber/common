@@ -4,6 +4,7 @@ import io.cucumber.messages.Messages.Envelope;
 import io.cucumber.messages.Messages.TestRunFinished;
 import io.cucumber.messages.Messages.TestRunStarted;
 import io.cucumber.messages.Messages.Timestamp;
+import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.Test;
 
 import java.io.BufferedWriter;
@@ -14,7 +15,9 @@ import java.io.OutputStreamWriter;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class MessagesToHtmlWriterTest {
@@ -61,6 +64,25 @@ class MessagesToHtmlWriterTest {
         MessagesToHtmlWriter messagesToHtmlWriter = new MessagesToHtmlWriter(bw);
         messagesToHtmlWriter.close();
         assertDoesNotThrow(messagesToHtmlWriter::close);
+    }
+
+    @Test
+    void it_is_idempotent_under_failure_to_close() throws IOException {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        OutputStreamWriter osw = new OutputStreamWriter(bytes, UTF_8);
+        BufferedWriter bw = new BufferedWriter(osw) {
+
+            @Override
+            public void close() throws IOException {
+                throw new IOException("Can't close this");
+            }
+        };
+        MessagesToHtmlWriter messagesToHtmlWriter = new MessagesToHtmlWriter(bw);
+        assertThrows(IOException.class, messagesToHtmlWriter::close);
+        byte[] before = bytes.toByteArray();
+        assertThrows(IOException.class, messagesToHtmlWriter::close);
+        byte[] after = bytes.toByteArray();
+        assertArrayEquals(before, after);
     }
 
     @Test

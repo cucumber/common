@@ -1,8 +1,8 @@
 github.com/aslakhellesoy/gox v1.0.100 h1:IP+x+v9Wya7OHP1OmaetTFZkL4OYY2/9t+7Ndc61mMo=
 github.com/aslakhellesoy/gox v1.0.100/go.mod h1:AJl542QsKKG96COVsv0N74HHzVQgDIQPceVUh1aeU2M=
 github.com/creack/pty v1.1.9/go.mod h1:oKZEueFk5CKHvIhNR5MUki03XCEU+Q6VDXinZuGJ33E=
-github.com/cucumber/messages-go/v11 v11.1.1 h1:dGqskMAMzcVaJJb/gIS3v38xeP5PDBWYSYM4yA8cLj4=
-github.com/cucumber/messages-go/v11 v11.1.1/go.mod h1:bWQT4Us7JCN52EVfiTDsgylJ2bbtPIxlAkTgF+tal8E=
+github.com/cucumber/messages-go/v12 v12.0.0 h1:ZlZYZrYDDc35zCe0HK2y95GUcxHHqr8yB9kdrXCjnzU=
+github.com/cucumber/messages-go/v12 v12.0.0/go.mod h1:5zuJu21U6rB+BBqyGoQr839a4h4GUElPnSozdHyhCOQ=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=

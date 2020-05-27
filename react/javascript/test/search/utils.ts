@@ -52,14 +52,37 @@ function makeScenario(
 
 function makeStep(
   keyword: string,
-  text: string
+  text: string,
+  docstring = '',
+  datatable: ReadonlyArray<ReadonlyArray<string>> = []
 ): messages.GherkinDocument.Feature.IStep {
   const idGenerator = IdGenerator.uuid()
+  const docStringParam = docstring
+    ? messages.GherkinDocument.Feature.Step.DocString.create({
+        content: docstring,
+      })
+    : undefined
+  const datatableParam =
+    datatable.length > 0
+      ? messages.GherkinDocument.Feature.Step.DataTable.create({
+          rows: datatable.map((row) =>
+            messages.GherkinDocument.Feature.TableRow.create({
+              cells: row.map((cell) =>
+                messages.GherkinDocument.Feature.TableRow.TableCell.create({
+                  value: cell,
+                })
+              ),
+            })
+          ),
+        })
+      : undefined
 
   return messages.GherkinDocument.Feature.Step.create({
     id: idGenerator(),
     keyword: keyword,
     text: text,
+    docString: docStringParam,
+    dataTable: datatableParam,
   })
 }
 

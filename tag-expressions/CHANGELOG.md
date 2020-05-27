@@ -9,7 +9,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+* [Java] Enable consumers to find our version at runtime using `clazz.getPackage().getImplementationVersion()` by upgrading to `cucumber-parent:2.1.0`
+  ([#976](https://github.com/cucumber/cucumber/pull/976)
+   [aslakhellesoy])
+
 ### Changed
+
+* [Java] Updated `TagExpressionParser` to use a static method to parse a tag expression and return an `Expression` object to the user.
+* [Java] Reduced public API to the bare minimum required.
+* [Java] Added more informative error messages for `TagExpressionParser` through the `TagExpressionException`. 
+  ([#1005](https://github.com/cucumber/cucumber/pull/1005)
+  [cyocum])
 
 ### Deprecated
 
@@ -27,7 +37,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
-* Upgrades to `cucumber-parent:2.0.2`
+* [Java] Upgrades to `cucumber-parent:2.0.2`
 * [Ruby] Renamed gem to `tag-expressions`
 
 ### Removed

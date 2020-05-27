@@ -81,11 +81,12 @@ describe('hidePassedScenarios', () => {
       .map((m) => m.gherkinDocument)
 
     assert.deepStrictEqual(
-      hidePassedScenarios(documents, testResultsQuery, gherkinQuery).map(
-        (document) => document.uri
-      ),
+      hidePassedScenarios(documents, testResultsQuery, gherkinQuery)
+        .map((document) => document.uri)
+        .sort(),
       [
         'testdata/escaped_pipes.feature',
+        'testdata/hooks.feature',
         'testdata/rules.feature',
         'testdata/statuses.feature',
         'testdata/test.feature',

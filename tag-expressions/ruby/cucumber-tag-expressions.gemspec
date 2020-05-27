@@ -1,7 +1,10 @@
 # -*- encoding: utf-8 -*-
+
+version = File.read(File.expand_path("VERSION", __dir__)).strip
+
 Gem::Specification.new do |s|
   s.name        = 'cucumber-tag-expressions'
-  s.version     = '2.0.4'
+  s.version     = version
   s.authors     = ['Andrea Nodari', "Aslak Hellesøy"]
   s.description = 'Cucumber tag expressions for ruby'
   s.summary     = "#{s.name}-#{s.version}"

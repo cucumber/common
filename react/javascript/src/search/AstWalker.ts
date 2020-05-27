@@ -116,6 +116,7 @@ export default class AstWalker {
       language: feature.language,
       keyword: feature.keyword,
       name: feature.name,
+      description: feature.description ? feature.description : undefined,
     })
   }
 
@@ -229,6 +230,7 @@ export default class AstWalker {
       location: rule.location,
       keyword: rule.keyword,
       children: this.filterRuleChildren(rule.children, children),
+      description: rule.description ? rule.description : undefined,
     })
   }
 
@@ -308,6 +310,7 @@ export default class AstWalker {
       location: background.location,
       keyword: background.keyword,
       steps: background.steps.map((step) => this.copyStep(step)),
+      description: background.description ? background.description : undefined,
     })
   }
 
@@ -336,6 +339,7 @@ export default class AstWalker {
       examples: scenario.examples,
       steps: scenario.steps.map((step) => this.copyStep(step)),
       tags: scenario.tags,
+      description: scenario.description ? scenario.description : undefined,
     })
   }
 

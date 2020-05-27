@@ -7,6 +7,7 @@ import { messages } from '@cucumber/messages'
 import Rule from './Rule'
 import Background from './Background'
 import IFeature = messages.GherkinDocument.IFeature
+import HighLight from '../app/HighLight'
 
 interface IProps {
   feature: IFeature
@@ -18,7 +19,9 @@ const Feature: React.FunctionComponent<IProps> = ({ feature }) => {
       <Tags tags={feature.tags} />
       <h1>
         <Keyword>{feature.keyword}:</Keyword>{' '}
-        <span className="step-text">{feature.name}</span>
+        <span className="step-text">
+          <HighLight text={feature.name} />
+        </span>
       </h1>
       <div className="cucumberFeature__indent">
         {feature.description ? (

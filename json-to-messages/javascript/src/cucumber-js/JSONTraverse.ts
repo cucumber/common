@@ -63,7 +63,7 @@ export function traverseElement(
     }
   }
   const tags = element.tags
-    ? element.tags.map(tag => traverseTag(tag, astMaker))
+    ? element.tags.map((tag) => traverseTag(tag, astMaker))
     : undefined
 
   const featureChild = astMaker.makeScenarioFeatureChild(
@@ -72,7 +72,7 @@ export function traverseElement(
     element.keyword,
     element.name,
     element.description,
-    scenarioSteps.map(step =>
+    scenarioSteps.map((step) =>
       traverseStep(step, astMaker, newId, predictableSupportCode)
     ),
     tags

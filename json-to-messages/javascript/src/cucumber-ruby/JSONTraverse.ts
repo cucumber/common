@@ -42,14 +42,14 @@ export function traverseElement(
         element.keyword,
         element.name,
         element.description,
-        element.steps.map(step =>
+        element.steps.map((step) =>
           traverseStep(step, astMaker, newId, predictableSupportCode)
         )
       )
       break
     case 'scenario': {
       const tags = element.tags
-        ? element.tags.map(tag => traverseTag(tag, astMaker))
+        ? element.tags.map((tag) => traverseTag(tag, astMaker))
         : undefined
       child = astMaker.makeScenarioFeatureChild(
         newId(),
@@ -57,7 +57,7 @@ export function traverseElement(
         element.keyword,
         element.name,
         element.description,
-        element.steps.map(step =>
+        element.steps.map((step) =>
           traverseStep(step, astMaker, newId, predictableSupportCode)
         ),
         tags
@@ -138,5 +138,5 @@ export function traverseDataTable(
   rows: ReadonlyArray<IDataTableRow>,
   astMaker: IAstMaker
 ): messages.GherkinDocument.Feature.Step.IDataTable {
-  return astMaker.makeDataTable(rows.map(row => row.cells))
+  return astMaker.makeDataTable(rows.map((row) => row.cells))
 }
