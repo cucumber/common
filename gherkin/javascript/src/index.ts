@@ -6,7 +6,9 @@ import Parser from './Parser'
 import AstBuilder from './AstBuilder'
 import TokenScanner from './TokenScanner'
 import compile from './pickles/compile'
+import pretty from './pretty/pretty'
 import DIALECTS from './gherkin-languages.json'
+import parse from '../test/walker/parse'
 
 const dialects = DIALECTS as Readonly<{ [key: string]: Dialect }>
 
@@ -20,4 +22,6 @@ export {
   AstBuilder,
   TokenScanner,
   compile,
+  parse,
+  pretty,
 }
