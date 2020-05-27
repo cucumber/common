@@ -1,39 +1,71 @@
 import React from 'react'
-import Highlighter from 'react-highlight-words'
+import { findAll, Chunk } from '../highlight-words'
 import SearchQueryContext from '../../SearchQueryContext'
 import elasticlunr from 'elasticlunr'
 
 interface IProps {
   text: string
+  htmlText?: boolean
 }
 
-const HighLight: React.FunctionComponent<IProps> = ({ text }) => {
-  const searchQueryContext = React.useContext(SearchQueryContext)
-  const queryWords = searchQueryContext.query
-    ? searchQueryContext.query.split(' ')
-    : []
-  const searchWords: string[] = []
-
-  for (const word of queryWords) {
+const allQueryWords = (queryWords: string[]): string[] => {
+  return queryWords.reduce((allWords, word) => {
     const stem = elasticlunr.stemmer(word)
-    searchWords.push(word)
+    allWords.push(word)
 
     if (stem !== word) {
-      searchWords.push(stem)
+      allWords.push(stem)
     }
+    return allWords
+  }, [])
+}
+
+const highlightText = (text: string, chunks: Chunk[]): string => {
+  return chunks.reduce((highlighted, chunk) => {
+    const chunkText = text.slice(chunk.start, chunk.end)
+    if (chunk.highlight) {
+      return `${highlighted}<mark>${chunkText}</mark>`
+    }
+    return `${highlighted}${chunkText}`
+  }, '')
+}
+
+const highlightElements = (text: string, chunks: Chunk[]): JSX.Element[] => {
+  return chunks.reduce((elements: JSX.Element[], chunk) => {
+    const chunkText = text.slice(chunk.start, chunk.end)
+    if (chunk.highlight) {
+      elements.push(<mark>{chunkText}</mark>)
+    } else {
+      elements.push(<span>{chunkText}</span>)
+    }
+    return elements
+  }, [])
+}
+
+const HighLight: React.FunctionComponent<IProps> = ({
+  text,
+  htmlText = false,
+}) => {
+  const searchQueryContext = React.useContext(SearchQueryContext)
+  const queryWords = allQueryWords(
+    searchQueryContext.query ? searchQueryContext.query.split(' ') : []
+  )
+  const chunks = findAll({
+    searchWords: queryWords,
+    textToHighlight: text,
+    htmlText,
+  })
+
+  if (htmlText) {
+    return (
+      <span
+        className="highlight"
+        dangerouslySetInnerHTML={{ __html: highlightText(text, chunks) }}
+      />
+    )
   }
 
-  elasticlunr.stemmer
-
-  return (
-    <Highlighter
-      className="highlight"
-      highlightClassName="YourHighlightClass"
-      searchWords={searchWords}
-      autoEscape={true}
-      textToHighlight={text}
-    />
-  )
+  return <span className="highlight">{highlightElements(text, chunks)}</span>
 }
 
 export default HighLight

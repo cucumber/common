@@ -6,7 +6,11 @@ import { JSDOM } from 'jsdom'
 import SearchQueryContext from '../src/SearchQueryContext'
 
 describe('HighLight', () => {
-  function renderHighlight(text: string, query: string): Document {
+  function renderHighlight(
+    text: string,
+    query: string,
+    htmlText = false
+  ): Document {
     const dom = new JSDOM(
       '<html lang="en"><body><div id="content"></div></body></html>'
     )
@@ -17,7 +21,7 @@ describe('HighLight', () => {
 
     const app = (
       <SearchQueryContext.Provider value={{ query: query }}>
-        <HighLight text={text} />
+        <HighLight text={text} htmlText={htmlText} />
       </SearchQueryContext.Provider>
     )
     ReactDOM.render(app, document.getElementById('content'))
@@ -68,5 +72,76 @@ describe('HighLight', () => {
       'skipped',
       'step',
     ])
+  })
+
+  context('when htmlContent is not set', () => {
+    it('escapes HTML characters', () => {
+      const document = renderHighlight(
+        '<span>Given</span> a passed step',
+        'step'
+      )
+      const highlighted = Array.from(
+        document.querySelectorAll('#content .highlight')
+      )
+        .map((span) => span.innerHTML)
+        .join('')
+
+      assert.equal(
+        highlighted,
+        '<span>&lt;span&gt;Given&lt;/span&gt; a passed </span><mark>step</mark>'
+      )
+    })
+
+    it('also highlight the tags', () => {
+      const document = renderHighlight(
+        '<strong>Given</strong> a strong step',
+        'strong'
+      )
+      const highlighted = Array.from(
+        document.querySelectorAll('#content .highlight')
+      )
+        .map((span) => span.innerHTML)
+        .join('')
+
+      assert.equal(
+        highlighted,
+        '<span>&lt;</span><mark>strong</mark><span>&gt;Given&lt;/</span><mark>strong</mark><span>&gt; a </span><mark>strong</mark><span> step</span>'
+      )
+    })
+  })
+
+  context('when htmlContent is set to true', () => {
+    it('keeps the HTML content', () => {
+      const document = renderHighlight(
+        '<em>Given</em> a passed step',
+        'step',
+        true
+      )
+      const highlighted = Array.from(
+        document.querySelectorAll('#content .highlight')
+      )
+        .map((span) => span.innerHTML)
+        .join('')
+
+      assert.equal(highlighted, '<em>Given</em> a passed <mark>step</mark>')
+    })
+
+    it('does not highlight the tags', () => {
+      const document = renderHighlight(
+        '<strong>Given</strong> a strong step',
+        'strong',
+        true
+      )
+      const highlighted = Array.from(
+        document.querySelectorAll('#content .highlight')
+      )
+        .map((span) => span.innerHTML)
+        .join('')
+
+      assert.equal(
+        highlighted,
+        '<strong>Given</strong> a <mark>strong</mark> step'
+      )
+    })
   })
 })
