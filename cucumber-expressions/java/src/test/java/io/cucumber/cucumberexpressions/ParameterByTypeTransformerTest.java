@@ -42,22 +42,7 @@ public class ParameterByTypeTransformerTest {
     @ParameterizedTest
     @MethodSource("objectMapperImplementations")
     public void should_convert_null_to_optional_generic(final ParameterByTypeTransformer defaultTransformer) throws Throwable {
-        ParameterizedType optionalIntType = new ParameterizedType() {
-            @Override
-            public Type[] getActualTypeArguments() {
-                return new Type[] { Integer.class };
-            }
-
-            @Override
-            public Type getRawType() {
-                return Optional.class;
-            }
-
-            @Override
-            public Type getOwnerType() {
-                return null;
-            }
-        };
+        Type optionalIntType = new TypeReference<Optional<Integer>>(){}.getType();
 
         assertEquals(Optional.empty(), defaultTransformer.transform(null, optionalIntType));
     }
@@ -72,22 +57,7 @@ public class ParameterByTypeTransformerTest {
     @ParameterizedTest
     @MethodSource("objectMapperImplementations")
     public void should_convert_to_optional_string(final ParameterByTypeTransformer defaultTransformer) throws Throwable {
-        ParameterizedType optionalStringType = new ParameterizedType() {
-            @Override
-            public Type[] getActualTypeArguments() {
-                return new Type[] { String.class };
-            }
-
-            @Override
-            public Type getRawType() {
-                return Optional.class;
-            }
-
-            @Override
-            public Type getOwnerType() {
-                return null;
-            }
-        };
+        Type optionalStringType = new TypeReference<Optional<String>>(){}.getType();
 
         assertEquals(Optional.of("Barbara Liskov"), defaultTransformer.transform("Barbara Liskov", optionalStringType));
     }
@@ -137,22 +107,7 @@ public class ParameterByTypeTransformerTest {
     @ParameterizedTest
     @MethodSource("objectMapperImplementations")
     public void should_convert_to_optional_integer(final ParameterByTypeTransformer defaultTransformer) throws Throwable {
-        ParameterizedType optionalIntType = new ParameterizedType() {
-            @Override
-            public Type[] getActualTypeArguments() {
-                return new Type[] { Integer.class };
-            }
-
-            @Override
-            public Type getRawType() {
-                return Optional.class;
-            }
-
-            @Override
-            public Type getOwnerType() {
-                return null;
-            }
-        };
+        Type optionalIntType = new TypeReference<Optional<Integer>>(){}.getType();
 
         assertEquals(Optional.of(Integer.decode("42")), defaultTransformer.transform("42", optionalIntType));
     }
