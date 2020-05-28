@@ -22,15 +22,15 @@ final class BuiltInParameterTransformer implements ParameterByTypeTransformer {
         return doTransform(fromValue, toValueType, toValueType);
     }
 
-    private Object doTransform(String fromValue, Type toValueType, Type originalValueType) {
+    private Object doTransform(String fromValue, Type toValueType, Type originalToValueType) {
         Type optionalValueType;
         if ((optionalValueType = getOptionalGenericType(toValueType)) != null) {
-            Object wrappedValue = doTransform(fromValue, optionalValueType, originalValueType);
+            Object wrappedValue = doTransform(fromValue, optionalValueType, originalToValueType);
             return Optional.ofNullable(wrappedValue);
         }
 
         if (!(toValueType instanceof Class)) {
-            throw createIllegalArgumentException(fromValue, originalValueType);
+            throw createIllegalArgumentException(fromValue, originalToValueType);
         }
 
         Class<?> toValueClass = (Class<?>) requireNonNull(toValueType);
@@ -86,11 +86,11 @@ final class BuiltInParameterTransformer implements ParameterByTypeTransformer {
                     return enumConstant;
                 }
             }
-            throw new CucumberExpressionException("Can't transform '" + fromValue + "' to " + originalValueType + ". " +
+            throw new CucumberExpressionException("Can't transform '" + fromValue + "' to " + originalToValueType + ". " +
                     "Not an enum constant");
         }
 
-        throw createIllegalArgumentException(fromValue, originalValueType);
+        throw createIllegalArgumentException(fromValue, originalToValueType);
     }
 
     private Type getOptionalGenericType(Type type) {
