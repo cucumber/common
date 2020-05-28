@@ -1,10 +1,10 @@
 import assert from 'assert'
-import Search from '../../src/search/Search'
+import TextSearch from '../../src/search/TextSearch'
 import pretty from '../../src/pretty-formatter/pretty'
 import parse from './parse'
 
-describe('Search', () => {
-  let search: Search
+describe('TextSearch', () => {
+  let search: TextSearch
   const source = `Feature: Continents
 
   Background: World
@@ -28,7 +28,7 @@ describe('Search', () => {
   beforeEach(() => {
     const gherkinDocument = parse(source)
 
-    search = new Search()
+    search = new TextSearch()
     search.add(gherkinDocument)
   })
 

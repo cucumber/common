@@ -5,7 +5,7 @@ import StepSearch from './StepSearch'
 import AstWalker from './AstWalker'
 import RuleSearch from './RuleSearch'
 
-export default class Search {
+export default class TextSearch {
   private readonly featureSearch = new FeatureSearch()
   private readonly backgroundSearch = new ScenarioSearch()
   private readonly scenarioSearch = new ScenarioSearch()

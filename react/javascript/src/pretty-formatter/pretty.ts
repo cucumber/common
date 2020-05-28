@@ -40,6 +40,7 @@ function prettyStepContainer(
   if (stepContainer.description) {
     s += stepContainer.description + '\n\n'
   }
+
   for (const step of stepContainer.steps) {
     s += `${indent}  ${step.keyword}${step.text}\n`
   }

@@ -4,7 +4,7 @@ import GherkinQueryContext from '../../GherkinQueryContext'
 import SearchBar from './SearchBar'
 import { GherkinDocumentList } from '../..'
 
-import Search from '../../search/Search'
+import TextSearch from '../../search/TextSearch'
 import NoMatchResult from './NoMatchResult'
 
 const FilteredResults: React.FunctionComponent = () => {
@@ -12,7 +12,7 @@ const FilteredResults: React.FunctionComponent = () => {
 
   const gherkinQuery = React.useContext(GherkinQueryContext)
   const allDocuments = gherkinQuery.getGherkinDocuments()
-  const search = new Search()
+  const search = new TextSearch()
 
   for (const gherkinDocument of allDocuments) {
     search.add(gherkinDocument)
