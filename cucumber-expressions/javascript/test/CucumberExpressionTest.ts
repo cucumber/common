@@ -285,7 +285,7 @@ describe('CucumberExpression', () => {
   })
 
   describe('escapes special characters', () => {
-    ;['\\', '[', ']', '^', '$', '.', '|', '?', '*', '+'].forEach(
+    ['\\', '[', ']', '^', '$', '.', '|', '?', '*', '+'].forEach(
       (character) => {
         it(`escapes ${character}`, () => {
           const expr = `I have {int} cuke(s) and ${character}`
