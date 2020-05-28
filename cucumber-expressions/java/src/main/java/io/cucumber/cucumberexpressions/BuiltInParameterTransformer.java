@@ -1,9 +1,11 @@
 package io.cucumber.cucumberexpressions;
 
+import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Locale;
+import java.util.Optional;
 
 import static java.util.Objects.requireNonNull;
 
@@ -17,8 +19,18 @@ final class BuiltInParameterTransformer implements ParameterByTypeTransformer {
 
     @Override
     public Object transform(String fromValue, Type toValueType) {
+        return doTransform(fromValue, toValueType, toValueType);
+    }
+
+    private Object doTransform(String fromValue, Type toValueType, Type originalToValueType) {
+        Type optionalValueType;
+        if ((optionalValueType = getOptionalGenericType(toValueType)) != null) {
+            Object wrappedValue = doTransform(fromValue, optionalValueType, originalToValueType);
+            return Optional.ofNullable(wrappedValue);
+        }
+
         if (!(toValueType instanceof Class)) {
-            throw createIllegalArgumentException(fromValue, toValueType);
+            throw createIllegalArgumentException(fromValue, originalToValueType);
         }
 
         Class<?> toValueClass = (Class<?>) requireNonNull(toValueType);
@@ -74,13 +86,29 @@ final class BuiltInParameterTransformer implements ParameterByTypeTransformer {
                     return enumConstant;
                 }
             }
-            throw new CucumberExpressionException("Can't transform '" + fromValue + "' to " + toValueType + ". " +
+            throw new CucumberExpressionException("Can't transform '" + fromValue + "' to " + originalToValueType + ". " +
                     "Not an enum constant");
         }
 
-        throw createIllegalArgumentException(fromValue, toValueType);
+        throw createIllegalArgumentException(fromValue, originalToValueType);
     }
 
+    private Type getOptionalGenericType(Type type) {
+        if (Optional.class.equals(type)) {
+            return Object.class;
+        }
+
+        if (!(type instanceof ParameterizedType)) {
+            return null;
+        }
+
+        ParameterizedType parameterizedType = (ParameterizedType) type;
+        if (Optional.class.equals(parameterizedType.getRawType())) {
+            return parameterizedType.getActualTypeArguments()[0];
+        }
+
+        return null;
+    }
 
     private IllegalArgumentException createIllegalArgumentException(String fromValue, Type toValueType) {
         return new IllegalArgumentException(

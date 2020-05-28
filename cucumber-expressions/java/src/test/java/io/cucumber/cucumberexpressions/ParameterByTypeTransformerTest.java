@@ -4,9 +4,14 @@ import com.fasterxml.jackson.databind.type.TypeFactory;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.Optional;
+import java.util.OptionalDouble;
+import java.util.OptionalInt;
+import java.util.OptionalLong;
 import java.util.stream.Stream;
 
 import static java.util.Locale.ENGLISH;
@@ -30,9 +35,31 @@ public class ParameterByTypeTransformerTest {
 
     @ParameterizedTest
     @MethodSource("objectMapperImplementations")
+    public void should_convert_null_to_optional(final ParameterByTypeTransformer defaultTransformer) throws Throwable {
+        assertEquals(Optional.empty(), defaultTransformer.transform(null, Optional.class));
+    }
+
+    @ParameterizedTest
+    @MethodSource("objectMapperImplementations")
+    public void should_convert_null_to_optional_generic(final ParameterByTypeTransformer defaultTransformer) throws Throwable {
+        Type optionalIntType = new TypeReference<Optional<Integer>>(){}.getType();
+
+        assertEquals(Optional.empty(), defaultTransformer.transform(null, optionalIntType));
+    }
+
+    @ParameterizedTest
+    @MethodSource("objectMapperImplementations")
     public void should_convert_to_string(final ParameterByTypeTransformer defaultTransformer) throws Throwable {
         assertEquals("Barbara Liskov",
                 defaultTransformer.transform("Barbara Liskov", String.class));
+    }
+
+    @ParameterizedTest
+    @MethodSource("objectMapperImplementations")
+    public void should_convert_to_optional_string(final ParameterByTypeTransformer defaultTransformer) throws Throwable {
+        Type optionalStringType = new TypeReference<Optional<String>>(){}.getType();
+
+        assertEquals(Optional.of("Barbara Liskov"), defaultTransformer.transform("Barbara Liskov", optionalStringType));
     }
 
     @ParameterizedTest
@@ -79,6 +106,14 @@ public class ParameterByTypeTransformerTest {
 
     @ParameterizedTest
     @MethodSource("objectMapperImplementations")
+    public void should_convert_to_optional_integer(final ParameterByTypeTransformer defaultTransformer) throws Throwable {
+        Type optionalIntType = new TypeReference<Optional<Integer>>(){}.getType();
+
+        assertEquals(Optional.of(Integer.decode("42")), defaultTransformer.transform("42", optionalIntType));
+    }
+
+    @ParameterizedTest
+    @MethodSource("objectMapperImplementations")
     public void should_convert_to_long(final ParameterByTypeTransformer defaultTransformer) throws Throwable {
         assertEquals(Long.decode("42"), defaultTransformer.transform("42", Long.class));
         assertEquals(Long.decode("42"), defaultTransformer.transform("42", long.class));
@@ -105,8 +140,13 @@ public class ParameterByTypeTransformerTest {
     }
 
     private static class TestJacksonDefaultTransformer implements ParameterByTypeTransformer {
-        com.fasterxml.jackson.databind.ObjectMapper delegate =
-                new com.fasterxml.jackson.databind.ObjectMapper();
+        com.fasterxml.jackson.databind.ObjectMapper delegate = initMapper();
+
+        private static com.fasterxml.jackson.databind.ObjectMapper initMapper() {
+            com.fasterxml.jackson.databind.ObjectMapper objectMapper = new com.fasterxml.jackson.databind.ObjectMapper();
+            objectMapper.registerModule(new com.fasterxml.jackson.datatype.jdk8.Jdk8Module());
+            return objectMapper;
+        }
 
         @Override
         public Object transform(String fromValue, Type toValueType) {
