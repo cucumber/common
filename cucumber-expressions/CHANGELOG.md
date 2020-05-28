@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 
 ### Added
+* [Java]  Support for Optional
+  ([#1006](https://github.com/cucumber/cucumber/pull/1006)
+   [gaeljw], [mpkorstanje])
 
 * [Java] Enable consumers to find our version at runtime using `clazz.getPackage().getImplementationVersion()` by upgrading to `cucumber-parent:2.1.0`
   ([#976](https://github.com/cucumber/cucumber/pull/976)
@@ -735,6 +738,7 @@ N/A
 [charlierudolph]:   https://github.com/charlierudolph
 [davidjgoss]:       https://github.com/davidjgoss
 [dmeehan1968]:      https://github.com/dmeehan1968
+[gaeljw]:          https://github.com/gaeljw
 [gpichot]:          https://github.com/gpichot
 [jamis]:            https://github.com/jamis
 [jaysonesmith]:     https://github.com/jaysonesmith
