@@ -4,7 +4,8 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.*;
+import java.util.Locale;
+import java.util.Optional;
 
 import static java.util.Objects.requireNonNull;
 
@@ -18,23 +19,22 @@ final class BuiltInParameterTransformer implements ParameterByTypeTransformer {
 
     @Override
     public Object transform(String fromValue, Type toValueType) {
+        return doTransform(fromValue, toValueType, toValueType);
+    }
 
-        if (isGenericOptionalType(toValueType)) {
-            Object wrappedValue = transform(fromValue, getGenericOptionalType(toValueType));
+    private Object doTransform(String fromValue, Type toValueType, Type originalValueType) {
+        if (isOptionalType(toValueType)) {
+            Object wrappedValue = doTransform(fromValue, getOptionalGenericType(toValueType), originalValueType);
             return Optional.ofNullable(wrappedValue);
         }
 
         if (!(toValueType instanceof Class)) {
-            throw createIllegalArgumentException(fromValue, toValueType);
+            throw createIllegalArgumentException(fromValue, originalValueType);
         }
 
         Class<?> toValueClass = (Class<?>) requireNonNull(toValueType);
         if (fromValue == null) {
-            if (Optional.class.equals(toValueClass)) {
-                return Optional.empty();
-            } else {
-                return null;
-            }
+            return null;
         }
 
         if (String.class.equals(toValueClass) || Object.class.equals(toValueClass)) {
@@ -77,10 +77,6 @@ final class BuiltInParameterTransformer implements ParameterByTypeTransformer {
             return Boolean.parseBoolean(fromValue);
         }
 
-        if (Optional.class.equals(toValueClass)) {
-            return Optional.of(fromValue);
-        }
-
         if (toValueClass.isEnum()) {
             @SuppressWarnings("unchecked")
             Class<? extends Enum<?>> enumClass = (Class<? extends Enum<?>>) toValueClass;
@@ -89,19 +85,27 @@ final class BuiltInParameterTransformer implements ParameterByTypeTransformer {
                     return enumConstant;
                 }
             }
-            throw new CucumberExpressionException("Can't transform '" + fromValue + "' to " + toValueType + ". " +
+            throw new CucumberExpressionException("Can't transform '" + fromValue + "' to " + originalValueType + ". " +
                     "Not an enum constant");
         }
 
-        throw createIllegalArgumentException(fromValue, toValueType);
+        throw createIllegalArgumentException(fromValue, originalValueType);
     }
 
-    private boolean isGenericOptionalType(Type type) {
-        return type instanceof ParameterizedType && Optional.class.equals(((ParameterizedType) type).getRawType());
+    private boolean isOptionalType(Type type) {
+        if (type instanceof ParameterizedType) {
+            ParameterizedType parameterizedType = (ParameterizedType) type;
+            return Optional.class.equals(parameterizedType.getRawType());
+        }
+        return Optional.class.equals(type);
     }
 
-    private Type getGenericOptionalType(Type optionalGenericType) {
-        return ((ParameterizedType) optionalGenericType).getActualTypeArguments()[0];
+    private Type getOptionalGenericType(Type optionalGenericType) {
+        if (optionalGenericType instanceof ParameterizedType) {
+            ParameterizedType parameterizedType = (ParameterizedType) optionalGenericType;
+            return parameterizedType.getActualTypeArguments()[0];
+        }
+        return Object.class;
     }
 
     private IllegalArgumentException createIllegalArgumentException(String fromValue, Type toValueType) {

@@ -3,7 +3,6 @@ package io.cucumber.cucumberexpressions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
-import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class BuiltInParameterTransformerTest {
 
-    private BuiltInParameterTransformer objectMapper = new BuiltInParameterTransformer(ENGLISH);
+    private final BuiltInParameterTransformer objectMapper = new BuiltInParameterTransformer(ENGLISH);
 
     @Test
     public void simple_object_mapper_only_supports_class_types() {
@@ -45,6 +44,20 @@ public class BuiltInParameterTransformerTest {
                 "Can't transform 'something' to class java.util.Date\n" +
                         "BuiltInParameterTransformer only supports a limited number of class types\n" +
                         "Consider using a different object mapper or register a parameter type for class java.util.Date"
+        )));
+    }
+
+    @Test
+    public void simple_object_mapper_only_supports_some_optional_types() {
+        Type optionalDate = new TypeReference<Optional<Date>>() {}.getType();
+
+        final Executable testMethod = () -> objectMapper.transform("something", optionalDate);
+
+        final IllegalArgumentException thrownException = assertThrows(IllegalArgumentException.class, testMethod);
+        assertThat("Unexpected message", thrownException.getMessage(), is(equalTo(
+                "Can't transform 'something' to java.util.Optional<java.util.Date>\n" +
+                        "BuiltInParameterTransformer only supports a limited number of class types\n" +
+                        "Consider using a different object mapper or register a parameter type for java.util.Optional<java.util.Date>"
         )));
     }
 
@@ -76,22 +89,7 @@ public class BuiltInParameterTransformerTest {
 
     @Test
     public void should_transform_optional_generic_string() {
-        ParameterizedType optionalStringType = new ParameterizedType() {
-            @Override
-            public Type[] getActualTypeArguments() {
-                return new Type[] { String.class };
-            }
-
-            @Override
-            public Type getRawType() {
-                return Optional.class;
-            }
-
-            @Override
-            public Type getOwnerType() {
-                return null;
-            }
-        };
+        Type optionalStringType = new TypeReference<Optional<String>>() {}.getType();
 
         assertThat(objectMapper.transform("abc", optionalStringType), is(equalTo(Optional.<String>of("abc"))));
         assertThat(objectMapper.transform("", optionalStringType), is(equalTo(Optional.<String>of(""))));
@@ -100,22 +98,7 @@ public class BuiltInParameterTransformerTest {
 
     @Test
     public void should_transform_optional_generic_integer() {
-        ParameterizedType optionalIntType = new ParameterizedType() {
-            @Override
-            public Type[] getActualTypeArguments() {
-                return new Type[] { Integer.class };
-            }
-
-            @Override
-            public Type getRawType() {
-                return Optional.class;
-            }
-
-            @Override
-            public Type getOwnerType() {
-                return null;
-            }
-        };
+        Type optionalIntType = new TypeReference<Optional<Integer>>() {}.getType();
 
         assertThat(objectMapper.transform("42", optionalIntType), is(equalTo(Optional.<Integer>of(42))));
         assertThat(objectMapper.transform(null, optionalIntType), is(equalTo(Optional.<Integer>empty())));
