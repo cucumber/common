@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Optional;
+import java.util.function.Supplier;
 
 import static java.util.Locale.ENGLISH;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -58,6 +59,20 @@ public class BuiltInParameterTransformerTest {
                 "Can't transform 'something' to java.util.Optional<java.util.Date>\n" +
                         "BuiltInParameterTransformer only supports a limited number of class types\n" +
                         "Consider using a different object mapper or register a parameter type for java.util.Optional<java.util.Date>"
+        )));
+    }
+
+    @Test
+    public void simple_object_mapper_only_supports_some_generic_types() {
+        Type optionalDate = new TypeReference<Supplier<String>>() {}.getType();
+
+        final Executable testMethod = () -> objectMapper.transform("something", optionalDate);
+
+        final IllegalArgumentException thrownException = assertThrows(IllegalArgumentException.class, testMethod);
+        assertThat("Unexpected message", thrownException.getMessage(), is(equalTo(
+                "Can't transform 'something' to java.util.function.Supplier<java.lang.String>\n" +
+                        "BuiltInParameterTransformer only supports a limited number of class types\n" +
+                        "Consider using a different object mapper or register a parameter type for java.util.function.Supplier<java.lang.String>"
         )));
     }
 

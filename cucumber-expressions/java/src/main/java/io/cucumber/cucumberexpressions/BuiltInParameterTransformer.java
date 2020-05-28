@@ -23,8 +23,9 @@ final class BuiltInParameterTransformer implements ParameterByTypeTransformer {
     }
 
     private Object doTransform(String fromValue, Type toValueType, Type originalValueType) {
-        if (isOptionalType(toValueType)) {
-            Object wrappedValue = doTransform(fromValue, getOptionalGenericType(toValueType), originalValueType);
+        Type optionalValueType;
+        if ((optionalValueType = getOptionalGenericType(toValueType)) != null) {
+            Object wrappedValue = doTransform(fromValue, optionalValueType, originalValueType);
             return Optional.ofNullable(wrappedValue);
         }
 
@@ -92,20 +93,21 @@ final class BuiltInParameterTransformer implements ParameterByTypeTransformer {
         throw createIllegalArgumentException(fromValue, originalValueType);
     }
 
-    private boolean isOptionalType(Type type) {
-        if (type instanceof ParameterizedType) {
-            ParameterizedType parameterizedType = (ParameterizedType) type;
-            return Optional.class.equals(parameterizedType.getRawType());
+    private Type getOptionalGenericType(Type type) {
+        if (Optional.class.equals(type)) {
+            return Object.class;
         }
-        return Optional.class.equals(type);
-    }
 
-    private Type getOptionalGenericType(Type optionalGenericType) {
-        if (optionalGenericType instanceof ParameterizedType) {
-            ParameterizedType parameterizedType = (ParameterizedType) optionalGenericType;
+        if (!(type instanceof ParameterizedType)) {
+            return null;
+        }
+
+        ParameterizedType parameterizedType = (ParameterizedType) type;
+        if (Optional.class.equals(parameterizedType.getRawType())) {
             return parameterizedType.getActualTypeArguments()[0];
         }
-        return Object.class;
+
+        return null;
     }
 
     private IllegalArgumentException createIllegalArgumentException(String fromValue, Type toValueType) {
