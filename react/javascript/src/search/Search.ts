@@ -2,8 +2,8 @@ import { messages } from '@cucumber/messages'
 import FeatureSearch from './FeatureSearch'
 import ScenarioSearch from './ScenarioSearch'
 import StepSearch from './StepSearch'
-import AstWalker from './AstWalker'
 import RuleSearch from './RuleSearch'
+import GherkinDocumentWalker from '@cucumber/gherkin/dist/src/walker/GherkinDocumentWalker'
 
 export default class Search {
   private readonly featureSearch = new FeatureSearch()
@@ -21,7 +21,7 @@ export default class Search {
     const matchingRules = this.ruleSearch.search(query)
     const matchingFeatures = this.featureSearch.search(query)
 
-    const walker = new AstWalker({
+    const walker = new GherkinDocumentWalker({
       acceptStep: (step) => matchingSteps.includes(step),
       acceptScenario: (scenario) => matchingScenarios.includes(scenario),
       acceptBackground: (background) =>
@@ -37,7 +37,7 @@ export default class Search {
 
   public add(gherkinDocument: messages.IGherkinDocument) {
     this.gherkinDocuments.push(gherkinDocument)
-    const walker = new AstWalker(
+    const walker = new GherkinDocumentWalker(
       {},
       {
         handleStep: (step) => this.stepSearch.add(step),

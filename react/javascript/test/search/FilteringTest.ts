@@ -1,7 +1,7 @@
 import assert from 'assert'
 import Search from '../../src/search/Search'
-import pretty from '../../src/pretty-formatter/pretty'
 import parse from './parse'
+import { pretty } from '@cucumber/gherkin'
 
 describe('Search', () => {
   let search: Search

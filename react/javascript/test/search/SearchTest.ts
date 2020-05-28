@@ -1,7 +1,7 @@
-import pretty from '../../src/pretty-formatter/pretty'
 import assert from 'assert'
 import parse from './parse'
 import Search from '../../src/search/Search'
+import { pretty } from '@cucumber/gherkin'
 
 describe('Search', () => {
   it('keeps scenario with search hit in step', () => {

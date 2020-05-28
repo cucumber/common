@@ -1,8 +1,6 @@
-import Parser from '@cucumber/gherkin/dist/src/Parser'
-import AstBuilder from '@cucumber/gherkin/dist/src/AstBuilder'
+import assert from 'assert'
 import { IdGenerator } from '@cucumber/messages'
-import * as assert from 'assert'
-import pretty from '../../src/pretty-formatter/pretty'
+import { pretty, Parser, AstBuilder } from '@cucumber/gherkin'
 
 describe('PrettyFormatter', () => {
   it('renders a feature with no scenarios', () => {
