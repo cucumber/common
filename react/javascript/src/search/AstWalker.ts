@@ -36,6 +36,14 @@ const defaultFilters: IFilters = {
   acceptFeature: () => true,
 }
 
+export const rejectAllFilters: IFilters = {
+  acceptScenario: () => false,
+  acceptStep: () => false,
+  acceptBackground: () => false,
+  acceptRule: () => false,
+  acceptFeature: () => false,
+}
+
 const defaultHandlers: IHandlers = {
   handleStep: () => null,
   handleScenario: () => null,
