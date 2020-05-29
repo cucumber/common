@@ -9,10 +9,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
-* [Java] Enable consumers to find our version at runtime using `clazz.getPackage().getImplementationVersion()` by upgrading to `cucumber-parent:2.1.0`
-  ([#976](https://github.com/cucumber/cucumber/pull/976)
-   [aslakhellesoy])
-
 ### Changed
 
 ### Deprecated
@@ -20,6 +16,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Removed
 
 ### Fixed
+
+## [10.2.0] - 2020-05-28
+
+### Added
+* [Java]  Support for Optional
+  ([#1006](https://github.com/cucumber/cucumber/pull/1006)
+   [gaeljw], [mpkorstanje])
+
+* [Java] Enable consumers to find our version at runtime using `clazz.getPackage().getImplementationVersion()` by upgrading to `cucumber-parent:2.1.0`
+  ([#976](https://github.com/cucumber/cucumber/pull/976)
+   [aslakhellesoy])
 
 ## [10.1.0] - 2020-04-14
 
@@ -675,7 +682,8 @@ N/A
 * First stable release!
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions/v10.1.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions/v10.2.0...master
+[10.2.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v10.1.0...cucumber-expressions/v10.2.0
 [10.1.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v10.0.0...cucumber-expressions/v10.1.0
 [10.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v9.0.0...cucumber-expressions/v10.0.0
 [9.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v8.3.1...cucumber-expressions/v9.0.0
@@ -735,6 +743,7 @@ N/A
 [charlierudolph]:   https://github.com/charlierudolph
 [davidjgoss]:       https://github.com/davidjgoss
 [dmeehan1968]:      https://github.com/dmeehan1968
+[gaeljw]:          https://github.com/gaeljw
 [gpichot]:          https://github.com/gpichot
 [jamis]:            https://github.com/jamis
 [jaysonesmith]:     https://github.com/jaysonesmith
