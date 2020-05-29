@@ -36,6 +36,9 @@ import rules from '../../../compatibility-kit/javascript/features/rules/rules.nd
 // @ts-ignore
 import stackTraces from '../../../compatibility-kit/javascript/features/stack-traces/stack-traces.ndjson'
 // @ts-ignore
+import cucumberRuby from './cucumber-ruby.ndjson'
+
+// @ts-ignore
 import mp4Base64 from '../testdata/video/sample.mp4.txt'
 
 function envelopes(ndjson: string): messages.IEnvelope[] {
@@ -75,6 +78,11 @@ storiesOf('Features', module)
   })
   .add('Filtered results', () => {
     return <QueriesWrapper {...props(documentList)}>
+      <FilteredResults />
+    </QueriesWrapper>
+  })
+  .add('Large input', () => {
+    return <QueriesWrapper {...props(cucumberRuby)}>
       <FilteredResults />
     </QueriesWrapper>
   })
