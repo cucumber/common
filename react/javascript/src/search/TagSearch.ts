@@ -1,6 +1,6 @@
 import { messages } from '@cucumber/messages'
 import { Query as GherkinQuery } from '@cucumber/gherkin'
-import AstWalker, { rejectAllFilters } from '../../src/search/AstWalker'
+import AstWalker, { rejectAllFilters } from './AstWalker'
 import { ArrayMultimap } from '@teppeis/multimaps'
 import parse from '@cucumber/tag-expressions'
 

@@ -3,7 +3,7 @@ import pretty from '../../src/pretty-formatter/pretty'
 import assert from 'assert'
 import { parseAndCompile } from './parse'
 import { Query as GherkinQuery } from '@cucumber/gherkin'
-import TagSearch from '../search/TagSearch'
+import TagSearch from '../../src/search/TagSearch'
 
 describe('TagSearchTest', () => {
   let gherkinQuery: GherkinQuery
