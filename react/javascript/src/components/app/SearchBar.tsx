@@ -20,6 +20,7 @@ const SearchBar: React.FunctionComponent<IProps> = ({ queryUpdated }) => {
     <div className="cucumber-search-bar">
       <input
         type="text"
+        placeholder="Some text or @tags"
         onKeyPress={updateQueryOnEnter}
         onChange={(event) => (searchQueryContext.query = event.target.value)}
       />
@@ -30,6 +31,14 @@ const SearchBar: React.FunctionComponent<IProps> = ({ queryUpdated }) => {
       >
         <FontAwesomeIcon icon={faSearch} />
       </button>
+
+      <p>
+        You can use either plain text for the search or &nbsp;
+        <a href="https://cucumber.io/docs/cucumber/api/#tag-expressions">
+          cucumber tag expressions
+        </a>
+        &nbsp; to filter the output.
+      </p>
     </div>
   )
 }
