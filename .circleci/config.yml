@@ -14,8 +14,13 @@ executors:
     docker:
       # Remember to update to the latest image tag.
       # Run `source scripts/functions.sh && docker_image Dockerfile` to print it.
-      - image: cucumber/cucumber-build:63d2492020942f28e03bb54f23cb2b3f
+      - image: cucumber/cucumber-build:20c27526b9123daf4769edde09da0978
     working_directory: ~/cucumber
+    environment:
+      # nvm, node and npm are installed locally rather globally.
+      # this avoids issues when using npm link
+      # to make this work nvm must be configured for each shell
+      BASH_ENV: ~/.nvm/nvm.sh
   # Go
   docker-circleci-golang:
     docker:
