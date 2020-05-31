@@ -90,11 +90,8 @@ acceptance/testdata/%.feature.pickles.ndjson: testdata/%.feature testdata/%.feat
 	$(EXE) --predictable-ids --format ndjson --no-source --no-ast $< | jq --sort-keys --compact-output -f remove_empty.jq > $@
 	diff --unified <(jq "." $<.pickles.ndjson) <(jq "." $@)
 
-parser.go: gherkin.berp parser.go.razor berp/berp.exe
-	# We're allowing mono to fail. The monorepo build runs in a docker image which
-	# doesn't have mono installed. This looks like it will be fixed post Alpine 3.9:
-	# https://pkgs.alpinelinux.org/packages?name=mono&branch=edge
-	-mono berp/berp.exe -g gherkin.berp -t parser.go.razor -o $@
+parser.go: gherkin.berp parser.go.razor
+	mono  /var/lib/berp/1.1.1/tools/net471/Berp.exe -g gherkin.berp -t parser.go.razor -o $@
 	# Remove BOM
 	awk 'NR==1{sub(/^\xef\xbb\xbf/,"")}{print}' < $@ > $@.nobom
 	mv $@.nobom $@

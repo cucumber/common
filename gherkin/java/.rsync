@@ -3,5 +3,4 @@
 ../../.templates/java/ .
 ../testdata/ testdata/
 ../gherkin.berp gherkin.berp
-../bin/ berp/
 ../gherkin-languages.json src/main/resources/io/cucumber/gherkin/gherkin-languages.json

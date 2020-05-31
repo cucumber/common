@@ -51,8 +51,8 @@ clobber: clean
 	rm -rf lib/gherkin/parser.rb Gemfile.lock
 .PHONY: clobber
 
-lib/gherkin/parser.rb: gherkin.berp gherkin-ruby.razor berp/berp.exe
-	-mono berp/berp.exe -g gherkin.berp -t gherkin-ruby.razor -o $@
+lib/gherkin/parser.rb: gherkin.berp gherkin-ruby.razor
+	mono  /var/lib/berp/1.1.1/tools/net471/Berp.exe -g gherkin.berp -t gherkin-ruby.razor -o $@
 	# Remove BOM
 	awk 'NR==1{sub(/^\xef\xbb\xbf/,"")}{print}' < $@ > $@.nobom
 	mv $@.nobom $@
