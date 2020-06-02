@@ -19,10 +19,13 @@ describe('TextSearch', () => {
     Given Mexico
     Then Brazil
 
-  Rule: zbui
+  Scenario: Africa
+    Given Ethiopia
 
-    Scenario: Africa
-      Given Ethiopia
+  Rule: uninhabited continents
+
+    Scenario: Antartica
+      Given some scientific bases
 `
 
   beforeEach(() => {
@@ -70,6 +73,24 @@ describe('TextSearch', () => {
 `
       )
     })
+
+    it('displays just one scenario', () => {
+      const searchResults = search.search('europe')
+
+      assert.deepStrictEqual(
+        pretty(searchResults[0]),
+        `Feature: Continents
+
+  Background: World
+    Given the world exists
+
+  Scenario: Europe
+    Given France
+    When Spain
+    Then The Netherlands
+`
+      )
+    })
   })
 
   context('Hit found in background', () => {
@@ -88,7 +109,7 @@ describe('TextSearch', () => {
 
   context('Hit found in rule', () => {
     it('displays a rule', () => {
-      const searchResults = search.search('zbui')
+      const searchResults = search.search('uninhabited')
 
       assert.deepStrictEqual(
         pretty(searchResults[0]),
@@ -97,10 +118,10 @@ describe('TextSearch', () => {
   Background: World
     Given the world exists
 
-  Rule: zbui
+  Rule: uninhabited continents
 
-    Scenario: Africa
-      Given Ethiopia
+    Scenario: Antartica
+      Given some scientific bases
 `
       )
     })
