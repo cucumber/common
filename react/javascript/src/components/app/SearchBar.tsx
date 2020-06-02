@@ -32,14 +32,16 @@ const SearchBar: React.FunctionComponent<IProps> = ({ queryUpdated }) => {
         <FontAwesomeIcon icon={faSearch} />
       </button>
 
-      <legend>
-        <FontAwesomeIcon icon={faQuestionCircle} />
-        You can use either plain text for the search or &nbsp;
-        <a href="https://cucumber.io/docs/cucumber/api/#tag-expressions">
-          cucumber tag expressions
-        </a>
-        &nbsp; to filter the output.
-      </legend>
+      <details>
+        <summary><FontAwesomeIcon icon={faQuestionCircle} /></summary>
+        <p
+          >You can use either plain text for the search or &nbsp;
+          <a href="https://cucumber.io/docs/cucumber/api/#tag-expressions">
+            cucumber tag expressions
+          </a>
+          &nbsp; to filter the output.
+        </p>
+      </details>
     </div>
   )
 }

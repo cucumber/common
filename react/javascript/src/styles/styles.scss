@@ -192,9 +192,13 @@ $unknown: #B6BECB;
       padding-right: 0.6em;
     }
 
-    legend {
-      color: $border-color;
+    details {
       font-size: 80%;
+
+      p {
+        border-color: $border-color;
+        background-color: #f4f4f4;
+      }
     }
   }
 
