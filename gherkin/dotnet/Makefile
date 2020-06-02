@@ -46,12 +46,8 @@ clobber: clean
 	rm -rf Gherkin/Parser.cs
 .PHONY: clobber
 
-Gherkin/Parser.cs: gherkin.berp gherkin-csharp.razor berp/berp.exe
-	# Some build environments (Travis) mess up timestamps
-	# so that all files have the same timestamp, causing make to think this
-	# file needs to be rebuilt when it's actually uptodate. Our travis build doesn't
-	# have mono, so we'll allow this line to fail.
-	-mono berp/berp.exe -g gherkin.berp -t gherkin-csharp.razor -o $@
+Gherkin/Parser.cs: gherkin.berp gherkin-csharp.razor
+	mono  /var/lib/berp/1.1.1/tools/net471/Berp.exe -g gherkin.berp -t gherkin-csharp.razor -o $@
 
 .sln_built_debug: Gherkin/Parser.cs $(CS_FILES) Gherkin/gherkin-languages.json
 	echo "Building on $(UNAME)"

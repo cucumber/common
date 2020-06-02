@@ -12,11 +12,8 @@ ERRORS       = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.error
 
 .codegen: src/Parser.ts
 
-src/Parser.ts: gherkin.berp gherkin-javascript.razor berp/berp.exe
-	# We're allowing mono to fail. The monorepo build runs in a docker image which
-	# doesn't have mono installed. This looks like it will be fixed post Alpine 3.9:
-	# https://pkgs.alpinelinux.org/packages?name=mono&branch=edge
-	-mono berp/berp.exe -g gherkin.berp -t gherkin-javascript.razor -o $@
+src/Parser.ts: gherkin.berp gherkin-javascript.razor
+	mono  /var/lib/berp/1.1.1/tools/net471/Berp.exe -g gherkin.berp -t gherkin-javascript.razor -o $@
 	# Remove BOM
 	awk 'NR==1{sub(/^\xef\xbb\xbf/,"")}{print}' < $@ > $@.nobom
 	mv $@.nobom $@
