@@ -35,6 +35,8 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Fixed
 
+* [Ruby] Use `require_relative` for internal requires ([#1010](https://github.com/cucumber/cucumber/pull/1010) [deivid-rodriguez])
+
 ## [13.0.0] - 2020-04-14
 
 ### Changed
@@ -782,6 +784,7 @@ to Gherkin 2.
 [cyocum]:           https://github.com/cyocum
 [danilat]:          https://github.com/danilat
 [davidjgoss]:       https://github.com/davidjgoss
+[deivid-rodriguez]  https://github.com/deivid-rodriguez
 [dobiedad]:         https://github.com/dobiedad
 [ehpc]:             https://github.com/ehpc
 [enkessler]:        https://github.com/enkessler
