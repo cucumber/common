@@ -1,5 +1,5 @@
 require 'cucumber/messages'
-require 'gherkin/ast_node'
+require_relative 'ast_node'
 
 module Gherkin
   class AstBuilder
