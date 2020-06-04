@@ -31,7 +31,9 @@ function prettyStepContainer(
   stepContainer: messages.GherkinDocument.Feature.IScenario,
   indent: string
 ): string {
-  let s = `\n${prettyTags(stepContainer.tags, indent)}${indent}${stepContainer.keyword}: ${stepContainer.name}\n`
+  let s = `\n${prettyTags(stepContainer.tags, indent)}${indent}${
+    stepContainer.keyword
+  }: ${stepContainer.name}\n`
   if (stepContainer.description) {
     s += stepContainer.description + '\n\n'
   }
@@ -71,11 +73,11 @@ function prettyTableRow(
 
 function prettyTags(
   tags: ReadonlyArray<messages.GherkinDocument.Feature.ITag>,
-  indent: string = ''
+  indent = ''
 ): string {
   if (tags === undefined || tags.length == 0) {
     return ''
   }
 
-  return indent + tags.map(tag => tag.name).join(' ') + '\n'
+  return indent + tags.map((tag) => tag.name).join(' ') + '\n'
 }
