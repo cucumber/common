@@ -7,6 +7,9 @@ export default function pretty(
   let s = prettyTags(feature.tags)
 
   s += feature.keyword + ': ' + feature.name + '\n'
+  if (feature.description) {
+    s += feature.description + '\n'
+  }
   for (const child of feature.children) {
     if (child.background) {
       s += prettyStepContainer(child.background, '  ')
@@ -14,6 +17,9 @@ export default function pretty(
       s += prettyStepContainer(child.scenario, '  ')
     } else if (child.rule) {
       s += `\n  ${child.rule.keyword}: ${child.rule.name}\n`
+      if (child.rule.description) {
+        s += child.rule.description + '\n'
+      }
       for (const ruleChild of child.rule.children) {
         if (ruleChild.background) {
           s += prettyStepContainer(ruleChild.background, '    ')
