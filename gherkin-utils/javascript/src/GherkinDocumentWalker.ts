@@ -125,18 +125,20 @@ export default class GherkinDocumentWalker {
       keyword: feature.keyword,
       name: feature.name,
       description: feature.description ? feature.description : undefined,
-      tags: this.copyTags(feature.tags)
+      tags: this.copyTags(feature.tags),
     })
   }
 
   private copyTags(
     tags: ReadonlyArray<messages.GherkinDocument.Feature.ITag>
   ): messages.GherkinDocument.Feature.ITag[] {
-    return tags.map(tag => messages.GherkinDocument.Feature.Tag.create({
-      name: tag.name,
-      id: tag.id,
-      location: tag.location
-    }))
+    return tags.map((tag) =>
+      messages.GherkinDocument.Feature.Tag.create({
+        name: tag.name,
+        id: tag.id,
+        location: tag.location,
+      })
+    )
   }
 
   private filterFeatureChildren(

@@ -1,4 +1,6 @@
 import pretty from './pretty'
-import GherkinDocumentWalker from './GherkinDocumentWalker'
+import GherkinDocumentWalker, {
+  rejectAllFilters,
+} from './GherkinDocumentWalker'
 
-export { pretty, GherkinDocumentWalker }
+export { pretty, GherkinDocumentWalker, rejectAllFilters }
