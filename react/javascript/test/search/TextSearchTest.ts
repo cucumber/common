@@ -1,7 +1,7 @@
 import assert from 'assert'
 import TextSearch from '../../src/search/TextSearch'
 import parse from './parse'
-import { pretty } from '@cucumber/gherkin'
+import { pretty } from '@cucumber/gherkin-utils'
 
 describe('TextSearch', () => {
   let search: TextSearch

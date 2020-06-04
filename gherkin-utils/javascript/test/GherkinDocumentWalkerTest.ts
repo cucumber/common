@@ -1,9 +1,7 @@
 import assert from 'assert'
-import GherkinDocumentWalker, {
-  IFilters,
-} from '../../src/walker/GherkinDocumentWalker'
-import parse from './parse'
-import pretty from '../../src/pretty/pretty'
+import GherkinDocumentWalker, { IFilters } from '../src/GherkinDocumentWalker'
+import pretty from '../src/pretty'
+import { parse } from '@cucumber/gherkin'
 
 describe('GherkinDocumentWalker', () => {
   let walker: GherkinDocumentWalker

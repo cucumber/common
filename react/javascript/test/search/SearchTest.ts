@@ -4,7 +4,7 @@ import { parseAndCompile } from './parse'
 import { messages } from '@cucumber/messages'
 import { Query as GherkinQuery } from '@cucumber/gherkin'
 import Search from '../../src/search/Search'
-import { pretty } from '@cucumber/gherkin'
+import { pretty } from '@cucumber/gherkin-utils'
 
 describe('Search', () => {
   let search: Search

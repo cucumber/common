@@ -1,8 +1,7 @@
 import { IdGenerator } from '@cucumber/messages'
 import assert from 'assert'
-import { AstBuilder } from '../../src'
-import Parser from '../../src/Parser'
-import pretty from '../../src/pretty/pretty'
+import { AstBuilder, Parser } from '@cucumber/gherkin'
+import pretty from '../src/pretty'
 
 describe('PrettyFormatter', () => {
   it('renders a feature with no scenarios', () => {
