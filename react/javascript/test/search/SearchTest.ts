@@ -11,8 +11,7 @@ describe('Search', () => {
   let gherkinQuery: GherkinQuery
   let messagesHandler: (envelope: messages.IEnvelope) => void
 
-  const feature = `@system
-Feature: Solar System
+  const feature = `Feature: Solar System
 
   @planet
   Scenario: Earth
@@ -45,6 +44,7 @@ Feature: Solar System
           results,
           `Feature: Solar System
 
+  @planet
   Scenario: Earth
     Given is the sixth planet from the Sun
 `
@@ -57,9 +57,11 @@ Feature: Solar System
           results,
           `Feature: Solar System
 
+  @planet
   Scenario: Earth
     Given is the sixth planet from the Sun
 
+  @dwarf
   Scenario: Pluto
     Given it is not really a planet
 `
@@ -74,6 +76,7 @@ Feature: Solar System
           results,
           `Feature: Solar System
 
+  @dwarf
   Scenario: Pluto
     Given it is not really a planet
 `
