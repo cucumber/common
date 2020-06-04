@@ -124,6 +124,7 @@ export default class GherkinDocumentWalker {
       language: feature.language,
       keyword: feature.keyword,
       name: feature.name,
+      description: feature.description ? feature.description : undefined,
     })
   }
 
@@ -234,6 +235,7 @@ export default class GherkinDocumentWalker {
     return messages.GherkinDocument.Feature.FeatureChild.Rule.create({
       id: rule.id,
       name: rule.name,
+      description: rule.description ? rule.description : undefined,
       location: rule.location,
       keyword: rule.keyword,
       children: this.filterRuleChildren(rule.children, children),
@@ -316,6 +318,7 @@ export default class GherkinDocumentWalker {
       location: background.location,
       keyword: background.keyword,
       steps: background.steps.map((step) => this.copyStep(step)),
+      description: background.description ? background.description : undefined,
     })
   }
 
@@ -339,6 +342,7 @@ export default class GherkinDocumentWalker {
     return messages.GherkinDocument.Feature.Scenario.create({
       id: scenario.id,
       name: scenario.name,
+      description: scenario.description ? scenario.description : undefined,
       location: scenario.location,
       keyword: scenario.keyword,
       examples: scenario.examples,

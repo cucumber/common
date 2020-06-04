@@ -1,5 +1,7 @@
 import assert from 'assert'
-import GherkinDocumentWalker, { rejectAllFilters } from '../src/GherkinDocumentWalker'
+import GherkinDocumentWalker, {
+  rejectAllFilters,
+} from '../src/GherkinDocumentWalker'
 import pretty from '../src/pretty'
 import { parse } from '@cucumber/gherkin'
 
@@ -17,12 +19,18 @@ describe('GherkinDocumentWalker', () => {
 
   it('returns a deep copy', () => {
     const gherkinDocument = parse(`Feature: hello
+  This feature has a description
+
   Background: Base Background
+    This is a described background
     Given a passed step
 
   Scenario: salut
+    Yes, there is a description here too
 
   Rule: roule
+    Can we describe a Rule ?
+
     Background: poupidou
     Scenario: pouet
 `)
