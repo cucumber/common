@@ -2,9 +2,10 @@ import { messages } from '@cucumber/messages'
 import { Query as GherkinQuery } from '@cucumber/gherkin'
 import { ArrayMultimap } from '@teppeis/multimaps'
 import parse from '@cucumber/tag-expressions'
-import GherkinDocumentWalker, {
+import {
+  GherkinDocumentWalker,
   rejectAllFilters,
-} from '@cucumber/gherkin/dist/src/walker/GherkinDocumentWalker'
+} from '@cucumber/gherkin-utils'
 
 export default class TagSearch {
   private readonly pickleById = new Map<string, messages.IPickle>()

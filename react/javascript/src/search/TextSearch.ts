@@ -3,7 +3,7 @@ import FeatureSearch from './FeatureSearch'
 import ScenarioSearch from './ScenarioSearch'
 import StepSearch from './StepSearch'
 import RuleSearch from './RuleSearch'
-import GherkinDocumentWalker from '@cucumber/gherkin/dist/src/walker/GherkinDocumentWalker'
+import { GherkinDocumentWalker } from '@cucumber/gherkin-utils'
 
 export default class TextSearch {
   private readonly featureSearch = new FeatureSearch()
