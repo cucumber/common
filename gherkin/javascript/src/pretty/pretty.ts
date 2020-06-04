@@ -4,7 +4,9 @@ export default function pretty(
   gherkinDocument: messages.IGherkinDocument
 ): string {
   const feature = gherkinDocument.feature
-  let s = feature.keyword + ': ' + feature.name + '\n'
+  let s = prettyTags(feature.tags)
+
+  s += feature.keyword + ': ' + feature.name + '\n'
   for (const child of feature.children) {
     if (child.background) {
       s += prettyStepContainer(child.background, '  ')
@@ -29,7 +31,7 @@ function prettyStepContainer(
   stepContainer: messages.GherkinDocument.Feature.IScenario,
   indent: string
 ): string {
-  let s = `\n${indent}${stepContainer.keyword}: ${stepContainer.name}\n`
+  let s = `\n${prettyTags(stepContainer.tags, indent)}${indent}${stepContainer.keyword}: ${stepContainer.name}\n`
   if (stepContainer.description) {
     s += stepContainer.description + '\n\n'
   }
@@ -65,4 +67,15 @@ function prettyTableRow(
   indent: string
 ): string {
   return `${indent}| ${row.cells.map((cell) => cell.value).join(' | ')} |\n`
+}
+
+function prettyTags(
+  tags: ReadonlyArray<messages.GherkinDocument.Feature.ITag>,
+  indent: string = ''
+): string {
+  if (tags === undefined || tags.length == 0) {
+    return ''
+  }
+
+  return indent + tags.map(tag => tag.name).join(' ') + '\n'
 }

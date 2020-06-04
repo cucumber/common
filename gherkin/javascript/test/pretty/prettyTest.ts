@@ -56,6 +56,21 @@ describe('PrettyFormatter', () => {
       Given world
 `)
   })
+
+  it('renders tags when set', () => {
+    assertPrettyIdentical(`@featureTag
+Feature: hello
+
+  Rule: machin
+
+    Background: bbb
+      Given hello
+
+    @scenarioTag @secondTag
+    Scenario: two
+      Given world
+`)
+  })
 })
 
 function assertPrettyIdentical(source: string) {
