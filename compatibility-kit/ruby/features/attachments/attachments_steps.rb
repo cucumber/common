@@ -20,28 +20,6 @@ When('the string {string} is logged') do |text|
 end
 
 When('an array with {int} bytes are attached as {string}') do |size, media_type|
-  # Awful monkey patch here.
-  module Cucumber
-    module Formatter
-      class Json
-        def embed(src, mime_type, _label)
-          is_file = File.file?(src) rescue false
-
-          if is_file
-            content = File.open(src, 'rb', &:read)
-            data = encode64(content)
-          elsif mime_type =~ /;base64$/
-            mime_type = mime_type[0..-8]
-            data = src
-          else
-            data = encode64(src)
-          end
-          test_step_embeddings << { mime_type: mime_type, data: data }
-        end
-      end
-    end
-  end
-
   data = (0..size-1).map {|i| [i].pack('C') }.join
   attach_or_embed(self, data, media_type)
 end

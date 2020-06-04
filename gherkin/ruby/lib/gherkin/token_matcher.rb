@@ -1,5 +1,5 @@
-require 'gherkin/dialect'
-require 'gherkin/errors'
+require_relative 'dialect'
+require_relative 'errors'
 
 module Gherkin
   class TokenMatcher
