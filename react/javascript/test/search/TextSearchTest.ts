@@ -1,10 +1,10 @@
 import assert from 'assert'
-import Search from '../../src/search/Search'
+import TextSearch from '../../src/search/TextSearch'
 import parse from './parse'
 import { pretty } from '@cucumber/gherkin'
 
-describe('Search', () => {
-  let search: Search
+describe('TextSearch', () => {
+  let search: TextSearch
   const source = `Feature: Continents
 
   Background: World
@@ -19,16 +19,19 @@ describe('Search', () => {
     Given Mexico
     Then Brazil
 
-  Rule: zbui
+  Scenario: Africa
+    Given Ethiopia
 
-    Scenario: Africa
-      Given Ethiopia
+  Rule: uninhabited continents
+
+    Scenario: Antartica
+      Given some scientific bases
 `
 
   beforeEach(() => {
     const gherkinDocument = parse(source)
 
-    search = new Search()
+    search = new TextSearch()
     search.add(gherkinDocument)
   })
 
@@ -70,6 +73,24 @@ describe('Search', () => {
 `
       )
     })
+
+    it('displays just one scenario', () => {
+      const searchResults = search.search('europe')
+
+      assert.deepStrictEqual(
+        pretty(searchResults[0]),
+        `Feature: Continents
+
+  Background: World
+    Given the world exists
+
+  Scenario: Europe
+    Given France
+    When Spain
+    Then The Netherlands
+`
+      )
+    })
   })
 
   context('Hit found in background', () => {
@@ -88,7 +109,7 @@ describe('Search', () => {
 
   context('Hit found in rule', () => {
     it('displays a rule', () => {
-      const searchResults = search.search('zbui')
+      const searchResults = search.search('uninhabited')
 
       assert.deepStrictEqual(
         pretty(searchResults[0]),
@@ -97,10 +118,10 @@ describe('Search', () => {
   Background: World
     Given the world exists
 
-  Rule: zbui
+  Rule: uninhabited continents
 
-    Scenario: Africa
-      Given Ethiopia
+    Scenario: Antartica
+      Given some scientific bases
 `
       )
     })

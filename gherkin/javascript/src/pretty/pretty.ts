@@ -26,12 +26,43 @@ export default function pretty(
 }
 
 function prettyStepContainer(
-  stepContainer: messages.GherkinDocument.Feature.IBackground,
+  stepContainer: messages.GherkinDocument.Feature.IScenario,
   indent: string
 ): string {
   let s = `\n${indent}${stepContainer.keyword}: ${stepContainer.name}\n`
+  if (stepContainer.description) {
+    s += stepContainer.description + '\n\n'
+  }
+
   for (const step of stepContainer.steps) {
     s += `${indent}  ${step.keyword}${step.text}\n`
   }
+
+  if (stepContainer.examples) {
+    for (const example of stepContainer.examples) {
+      s += prettyExample(example, `${indent}  `)
+    }
+  }
   return s
+}
+
+function prettyExample(
+  example: messages.GherkinDocument.Feature.Scenario.IExamples,
+  indent: string
+): string {
+  let s = `\n${indent}Examples: ${example.name}\n`
+
+  s += prettyTableRow(example.tableHeader, `${indent}  `)
+  for (const row of example.tableBody) {
+    s += prettyTableRow(row, `${indent}  `)
+  }
+
+  return s
+}
+
+function prettyTableRow(
+  row: messages.GherkinDocument.Feature.ITableRow,
+  indent: string
+): string {
+  return `${indent}| ${row.cells.map((cell) => cell.value).join(' | ')} |\n`
 }

@@ -2,5 +2,4 @@
 ../../.templates/github/ .github/
 ../testdata/ testdata/
 ../gherkin.berp gherkin.berp
-../bin/ berp/
 ../gherkin-languages.json gherkin/gherkin-languages.json

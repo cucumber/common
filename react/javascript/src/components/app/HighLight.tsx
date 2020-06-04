@@ -31,12 +31,14 @@ const highlightText = (text: string, chunks: Chunk[]): string => {
 }
 
 const highlightElements = (text: string, chunks: Chunk[]): JSX.Element[] => {
+  let highlightIndex = -1
   return chunks.reduce((elements: JSX.Element[], chunk) => {
     const chunkText = text.slice(chunk.start, chunk.end)
+    highlightIndex += 1
     if (chunk.highlight) {
-      elements.push(<mark>{chunkText}</mark>)
+      elements.push(<mark key={highlightIndex}>{chunkText}</mark>)
     } else {
-      elements.push(<span>{chunkText}</span>)
+      elements.push(<span key={highlightIndex}>{chunkText}</span>)
     }
     return elements
   }, [])

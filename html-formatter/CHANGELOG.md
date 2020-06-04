@@ -17,6 +17,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+* [JavaScript] Fixed a bug where the command-line interface would always exit with 1
+  even if there were no errors. 
+
 ## [6.0.2] - 2020-05-01
 
 ### Added

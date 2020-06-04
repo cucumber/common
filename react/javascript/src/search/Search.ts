@@ -1,52 +1,31 @@
 import { messages } from '@cucumber/messages'
-import FeatureSearch from './FeatureSearch'
-import ScenarioSearch from './ScenarioSearch'
-import StepSearch from './StepSearch'
-import RuleSearch from './RuleSearch'
-import GherkinDocumentWalker from '@cucumber/gherkin/dist/src/walker/GherkinDocumentWalker'
+import { Query as GherkinQuery } from '@cucumber/gherkin'
+import TagSearch from '../../src/search/TagSearch'
+import TextSearch from '../../src/search/TextSearch'
+import isTagExpression from '../../src/is_tag_expression'
 
 export default class Search {
-  private readonly featureSearch = new FeatureSearch()
-  private readonly backgroundSearch = new ScenarioSearch()
-  private readonly scenarioSearch = new ScenarioSearch()
-  private readonly stepSearch = new StepSearch()
-  private readonly ruleSearch = new RuleSearch()
+  private readonly tagSearch: TagSearch
+  private readonly textSearch = new TextSearch()
 
-  private readonly gherkinDocuments: messages.IGherkinDocument[] = []
+  constructor(private readonly gherkinQuery: GherkinQuery) {
+    this.tagSearch = new TagSearch(gherkinQuery)
+  }
 
   public search(query: string): messages.IGherkinDocument[] {
-    const matchingSteps = this.stepSearch.search(query)
-    const matchingBackgrounds = this.backgroundSearch.search(query)
-    const matchingScenarios = this.scenarioSearch.search(query)
-    const matchingRules = this.ruleSearch.search(query)
-    const matchingFeatures = this.featureSearch.search(query)
+    if (isTagExpression(query)) {
+      try {
+        return this.tagSearch.search(query)
+      } catch {
+        // No-op, we fall back to text search.
+      }
+    }
 
-    const walker = new GherkinDocumentWalker({
-      acceptStep: (step) => matchingSteps.includes(step),
-      acceptScenario: (scenario) => matchingScenarios.includes(scenario),
-      acceptBackground: (background) =>
-        matchingBackgrounds.includes(background),
-      acceptRule: (rule) => matchingRules.includes(rule),
-      acceptFeature: (feature) => matchingFeatures.includes(feature),
-    })
-
-    return this.gherkinDocuments
-      .map((gherkinDocument) => walker.walkGherkinDocument(gherkinDocument))
-      .filter((gherkinDocument) => gherkinDocument !== null)
+    return this.textSearch.search(query)
   }
 
   public add(gherkinDocument: messages.IGherkinDocument) {
-    this.gherkinDocuments.push(gherkinDocument)
-    const walker = new GherkinDocumentWalker(
-      {},
-      {
-        handleStep: (step) => this.stepSearch.add(step),
-        handleScenario: (scenario) => this.scenarioSearch.add(scenario),
-        handleBackground: (background) => this.backgroundSearch.add(background),
-        handleRule: (rule) => this.ruleSearch.add(rule),
-      }
-    )
-    this.featureSearch.add(gherkinDocument)
-    walker.walkGherkinDocument(gherkinDocument)
+    this.tagSearch.add(gherkinDocument)
+    this.textSearch.add(gherkinDocument)
   }
 }

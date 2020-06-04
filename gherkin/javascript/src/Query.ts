@@ -30,7 +30,7 @@ export default class Query {
     return this.gherkinDocuments
   }
 
-  public getPickles(): ReadonlyArray<messages.IGherkinDocument> {
+  public getPickles(): ReadonlyArray<messages.IPickle> {
     return this.pickles
   }
 
