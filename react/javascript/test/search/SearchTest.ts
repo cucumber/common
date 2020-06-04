@@ -1,5 +1,5 @@
 import assert from 'assert'
-import { parseAndCompile } from './parse'
+import { parseAndCompile } from '@cucumber/gherkin'
 
 import { messages } from '@cucumber/messages'
 import { Query as GherkinQuery } from '@cucumber/gherkin'

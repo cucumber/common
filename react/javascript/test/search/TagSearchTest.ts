@@ -1,6 +1,6 @@
 import { messages } from '@cucumber/messages'
 import assert from 'assert'
-import { parseAndCompile } from './parse'
+import { parseAndCompile } from '@cucumber/gherkin'
 import { Query as GherkinQuery } from '@cucumber/gherkin'
 import { pretty } from '@cucumber/gherkin-utils'
 import TagSearch from '../../src/search/TagSearch'

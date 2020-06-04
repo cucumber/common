@@ -1,5 +1,5 @@
 import assert from 'assert'
-import GherkinDocumentWalker, { IFilters } from '../src/GherkinDocumentWalker'
+import GherkinDocumentWalker, { rejectAllFilters } from '../src/GherkinDocumentWalker'
 import pretty from '../src/pretty'
 import { parse } from '@cucumber/gherkin'
 
@@ -53,14 +53,6 @@ describe('GherkinDocumentWalker', () => {
   })
 
   context('filtering objects', () => {
-    const rejectAll: IFilters = {
-      acceptBackground: () => false,
-      acceptRule: () => false,
-      acceptScenario: () => false,
-      acceptStep: () => false,
-      acceptFeature: () => false,
-    }
-
     it('filters one scenario', () => {
       const gherkinDocument = parse(`Feature: Solar System
 
@@ -72,7 +64,7 @@ describe('GherkinDocumentWalker', () => {
 `)
 
       const walker = new GherkinDocumentWalker({
-        ...rejectAll,
+        ...rejectAllFilters,
         ...{ acceptScenario: (scenario) => scenario.name === 'Earth' },
       })
       const newGherkinDocument = walker.walkGherkinDocument(gherkinDocument)
@@ -96,7 +88,7 @@ describe('GherkinDocumentWalker', () => {
 `)
 
       const walker = new GherkinDocumentWalker({
-        ...rejectAll,
+        ...rejectAllFilters,
         ...{ acceptStep: (step) => step.text.includes('liquid') },
       })
       const newGherkinDocument = walker.walkGherkinDocument(gherkinDocument)
@@ -120,7 +112,7 @@ describe('GherkinDocumentWalker', () => {
 `)
 
       const walker = new GherkinDocumentWalker({
-        ...rejectAll,
+        ...rejectAllFilters,
         ...{ acceptScenario: (scenario) => scenario.name === 'Earth' },
       })
       const newGherkinDocument = walker.walkGherkinDocument(gherkinDocument)
@@ -141,7 +133,7 @@ describe('GherkinDocumentWalker', () => {
 `)
 
       const walker = new GherkinDocumentWalker({
-        ...rejectAll,
+        ...rejectAllFilters,
         ...{ acceptScenario: (scenario) => scenario.name === 'Saturn' },
       })
       const newGherkinDocument = walker.walkGherkinDocument(gherkinDocument)
@@ -170,7 +162,7 @@ describe('GherkinDocumentWalker', () => {
 `)
 
       const walker = new GherkinDocumentWalker({
-        ...rejectAll,
+        ...rejectAllFilters,
         ...{
           acceptBackground: (background) => background.name === 'Milky Way',
         },
@@ -206,7 +198,7 @@ describe('GherkinDocumentWalker', () => {
 `)
 
       const walker = new GherkinDocumentWalker({
-        ...rejectAll,
+        ...rejectAllFilters,
         ...{ acceptStep: (step) => step.text.includes('space') },
       })
       const newGherkinDocument = walker.walkGherkinDocument(gherkinDocument)
@@ -245,7 +237,7 @@ describe('GherkinDocumentWalker', () => {
 `)
 
       const walker = new GherkinDocumentWalker({
-        ...rejectAll,
+        ...rejectAllFilters,
         ...{ acceptScenario: (scenario) => scenario.name === 'Andromeda' },
       })
       const newGherkinDocument = walker.walkGherkinDocument(gherkinDocument)
@@ -279,7 +271,7 @@ describe('GherkinDocumentWalker', () => {
 `)
 
       const walker = new GherkinDocumentWalker({
-        ...rejectAll,
+        ...rejectAllFilters,
         ...{ acceptRule: (rule) => rule.name === 'Galaxy' },
       })
       const newGherkinDocument = walker.walkGherkinDocument(gherkinDocument)
@@ -313,7 +305,7 @@ describe('GherkinDocumentWalker', () => {
 `)
 
       const walker = new GherkinDocumentWalker({
-        ...rejectAll,
+        ...rejectAllFilters,
         ...{ acceptRule: () => true },
       })
       const newGherkinDocument = walker.walkGherkinDocument(gherkinDocument)
@@ -339,7 +331,7 @@ describe('GherkinDocumentWalker', () => {
 `)
 
       const walker = new GherkinDocumentWalker({
-        ...rejectAll,
+        ...rejectAllFilters,
         acceptFeature: (feature) => feature.name === 'Solar System',
       })
       const newGherkinDocument = walker.walkGherkinDocument(gherkinDocument)
@@ -365,7 +357,7 @@ describe('GherkinDocumentWalker', () => {
     Given is a planet with liquid water
 `)
 
-      const walker = new GherkinDocumentWalker(rejectAll)
+      const walker = new GherkinDocumentWalker(rejectAllFilters)
       const newGherkinDocument = walker.walkGherkinDocument(gherkinDocument)
       assert.deepEqual(newGherkinDocument, null)
     })

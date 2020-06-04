@@ -1,6 +1,5 @@
-import { IdGenerator } from '@cucumber/messages'
 import assert from 'assert'
-import { AstBuilder, Parser } from '@cucumber/gherkin'
+import { parse } from '@cucumber/gherkin'
 import pretty from '../src/pretty'
 
 describe('PrettyFormatter', () => {
@@ -73,8 +72,6 @@ Feature: hello
 })
 
 function assertPrettyIdentical(source: string) {
-  const newId = IdGenerator.uuid()
-  const parser = new Parser(new AstBuilder(newId))
-  const gherkinDocument = parser.parse(source)
+  const gherkinDocument = parse(source)
   assert.strictEqual(pretty(gherkinDocument), source)
 }
