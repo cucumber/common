@@ -125,7 +125,18 @@ export default class GherkinDocumentWalker {
       keyword: feature.keyword,
       name: feature.name,
       description: feature.description ? feature.description : undefined,
+      tags: this.copyTags(feature.tags)
     })
+  }
+
+  private copyTags(
+    tags: ReadonlyArray<messages.GherkinDocument.Feature.ITag>
+  ): messages.GherkinDocument.Feature.ITag[] {
+    return tags.map(tag => messages.GherkinDocument.Feature.Tag.create({
+      name: tag.name,
+      id: tag.id,
+      location: tag.location
+    }))
   }
 
   private filterFeatureChildren(
@@ -347,7 +358,7 @@ export default class GherkinDocumentWalker {
       keyword: scenario.keyword,
       examples: scenario.examples,
       steps: scenario.steps.map((step) => this.copyStep(step)),
-      tags: scenario.tags,
+      tags: this.copyTags(scenario.tags),
     })
   }
 

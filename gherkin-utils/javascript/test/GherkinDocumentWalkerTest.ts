@@ -18,13 +18,15 @@ describe('GherkinDocumentWalker', () => {
   }
 
   it('returns a deep copy', () => {
-    const gherkinDocument = parse(`Feature: hello
+    const gherkinDocument = parse(`@featureTag
+Feature: hello
   This feature has a description
 
   Background: Base Background
     This is a described background
     Given a passed step
 
+  @scenarioTag
   Scenario: salut
     Yes, there is a description here too
 
