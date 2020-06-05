@@ -2,7 +2,7 @@ module github.com/cucumber/messages-go/v12
 
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
-	github.com/gofrs/uuid v3.2.0+incompatible
+	github.com/gofrs/uuid v3.3.0+incompatible
 	github.com/gogo/protobuf v1.3.1
 	github.com/kr/text v0.2.0 // indirect
 	github.com/niemeyer/pretty v0.0.0-20200227124842-a10e7caefd8e // indirect

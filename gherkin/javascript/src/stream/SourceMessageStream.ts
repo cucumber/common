@@ -21,7 +21,7 @@ export default class SourceMessageStream extends Transform {
   }
 
   public _flush(callback: TransformCallback) {
-    const data = this.buffer.toString('UTF-8')
+    const data = this.buffer.toString('utf8')
     const chunk = makeSourceEnvelope(data, this.uri)
     this.push(chunk)
     callback()
