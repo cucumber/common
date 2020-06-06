@@ -32,7 +32,6 @@ final class Ast {
             this.token = token;
         }
 
-
         enum Type {
             TEXT_NODE,
             OPTIONAL_NODE,
@@ -75,19 +74,18 @@ final class Ast {
                 sb.append(", token=").append(token);
             }
 
-            if(nodes == null){
-                sb.append('}');
-            } else {
+            if (nodes != null) {
                 sb.append("\n");
                 for (AstNode node : nodes) {
-                    sb.append(node.toString(depth+1));
+                    sb.append(node.toString(depth + 1));
                     sb.append("\n");
                 }
                 for (int i = 0; i < depth; i++) {
                     sb.append("\t");
                 }
-                sb.append('}');
             }
+
+            sb.append('}');
             return sb;
         }
 
@@ -149,7 +147,6 @@ final class Ast {
             BEGIN_PARAMETER,
             END_PARAMETER,
             ALTERNATION,
-            ESCAPE,
             TEXT;
         }
     }

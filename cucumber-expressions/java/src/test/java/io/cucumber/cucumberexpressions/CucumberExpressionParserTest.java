@@ -11,7 +11,6 @@ import static io.cucumber.cucumberexpressions.Ast.AstNode.Type.OPTIONAL_NODE;
 import static io.cucumber.cucumberexpressions.Ast.AstNode.Type.PARAMETER_NODE;
 import static io.cucumber.cucumberexpressions.Ast.AstNode.Type.TEXT_NODE;
 import static io.cucumber.cucumberexpressions.Ast.Token.Type.BEGIN_OPTIONAL;
-import static io.cucumber.cucumberexpressions.Ast.Token.Type.BEGIN_PARAMETER;
 import static io.cucumber.cucumberexpressions.Ast.Token.Type.END_OPTIONAL;
 import static io.cucumber.cucumberexpressions.Ast.Token.Type.TEXT;
 import static io.cucumber.cucumberexpressions.Ast.Token.Type.WHITE_SPACE;
@@ -207,6 +206,31 @@ class CucumberExpressionParserTest {
                                 ),
                                 new AstNode(ALTERNATIVE_NODE,
                                         new AstNode(TEXT_NODE, new Token("rats", TEXT)))
+                        )
+                )
+        ));
+    }
+
+    @Test
+    void emptyAlternation() {
+        assertThat(astOf("/"), equalTo(
+                new AstNode(EXPRESSION_NODE,
+                        new AstNode(ALTERNATION_NODE,
+                                new AstNode(ALTERNATIVE_NODE),
+                                new AstNode(ALTERNATIVE_NODE)
+                        )
+                )
+        ));
+    }
+
+    @Test
+    void emptyAlternations() {
+        assertThat(astOf("//"), equalTo(
+                new AstNode(EXPRESSION_NODE,
+                        new AstNode(ALTERNATION_NODE,
+                                new AstNode(ALTERNATIVE_NODE),
+                                new AstNode(ALTERNATIVE_NODE),
+                                new AstNode(ALTERNATIVE_NODE)
                         )
                 )
         ));
