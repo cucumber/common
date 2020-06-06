@@ -7,7 +7,6 @@ import io.cucumber.cucumberexpressions.Ast.Token.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-import static io.cucumber.cucumberexpressions.Ast.ALTERNATIVE_SEPARATOR;
 import static io.cucumber.cucumberexpressions.Ast.AstNode.Type.ALTERNATION_NODE;
 import static io.cucumber.cucumberexpressions.Ast.AstNode.Type.ALTERNATIVE_NODE;
 import static io.cucumber.cucumberexpressions.Ast.AstNode.Type.EXPRESSION_NODE;
@@ -35,32 +34,9 @@ final class CucumberExpressionParser {
      * text := token
      */
     private static final Parser textParser = (ast, expression, current) -> {
-        Token currentToken = expression.get(current);
-        Token unescaped = unEscape(currentToken);
-        ast.add(new AstNode(TEXT_NODE, unescaped));
+        ast.add(new AstNode(TEXT_NODE, expression.get(current)));
         return 1;
     };
-
-    private static Token unEscape(Token currentToken) {
-        switch (currentToken.type) {
-            case WHITE_SPACE_ESCAPED:
-                return new Token(currentToken.text.substring(1), Type.WHITE_SPACE);
-            case BEGIN_OPTIONAL_ESCAPED:
-                return Token.BEGIN_OPTIONAL;
-            case END_OPTIONAL_ESCAPED:
-                return Token.END_OPTIONAL;
-            case BEGIN_PARAMETER_ESCAPED:
-                return Token.BEGIN_PARAMETER;
-            case END_PARAMETER_ESCAPED:
-                return Token.END_PARAMETER;
-            case ALTERNATION_ESCAPED:
-                return Token.ALTERNATION;
-            case ESCAPE_ESCAPED:
-                return Token.ESCAPE;
-            default:
-                return currentToken;
-        }
-    }
 
     /*
      * parameter := '{' + text* + '}'
@@ -107,7 +83,13 @@ final class CucumberExpressionParser {
         };
     }
 
-    private static Parser alternativeSeparator = (ast, expression, current) -> {
+    // Marker. This way we don't need to model the
+    // the tail end of alternation in the AST:
+    //
+    // alternation := alternative* + ( '/' + alternative* )+
+    private static final AstNode ALTERNATIVE_SEPARATOR = new AstNode(ALTERNATIVE_NODE, new Token("/", Token.Type.ALTERNATION));
+
+    private static final Parser alternativeSeparator = (ast, expression, current) -> {
         if (!lookingAt(expression, current, ALTERNATION)) {
             return 0;
         }
@@ -144,26 +126,32 @@ final class CucumberExpressionParser {
         return consumed;
     };
 
-    private static final List<Parser> cucumberExpressionParsers = asList(
-            alternationParser,
-            optionalParser,
-            parameterParser,
-            textParser
-    );
-
     /*
      * cucumber-expression :=  ( alternation | optional | parameter | text )*
      */
+    private static final Parser cucumberExpressionParser = parseBetween(
+            EXPRESSION_NODE,
+            START_OF_LINE,
+            END_OF_LINE,
+            asList(
+                    alternationParser,
+                    optionalParser,
+                    parameterParser,
+                    textParser
+            )
+    );
+
+
     AstNode parse(String expression) {
         CucumberExpressionTokenizer tokenizer = new CucumberExpressionTokenizer();
         List<Token> tokens = tokenizer.tokenize(expression);
         List<AstNode> ast = new ArrayList<>();
-        int consumed = parseTokensUntil(cucumberExpressionParsers, ast, tokens, 0, END_OF_LINE);
-        if (consumed != tokens.size()) {
+        int consumed = cucumberExpressionParser.parse(ast, tokens, 0);
+        if (ast.size() != 1 || consumed < tokens.size()) {
             // If configured correctly this will never happen
             throw new IllegalStateException("Could not parse " + expression);
         }
-        return new AstNode(EXPRESSION_NODE, ast);
+        return ast.get(0);
     }
 
     private static int parseTokensUntil(List<Parser> parsers,
@@ -226,7 +214,7 @@ final class CucumberExpressionParser {
         List<AstNode> alternatives = new ArrayList<>();
         List<AstNode> alternative = new ArrayList<>();
         for (AstNode token : astNode) {
-            if (Ast.ALTERNATIVE_SEPARATOR.equals(token)) {
+            if (ALTERNATIVE_SEPARATOR.equals(token)) {
                 alternatives.add(new AstNode(ALTERNATIVE_NODE, alternative));
                 alternative = new ArrayList<>();
             } else {

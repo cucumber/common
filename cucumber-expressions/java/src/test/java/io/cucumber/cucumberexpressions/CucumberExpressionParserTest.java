@@ -10,15 +10,15 @@ import static io.cucumber.cucumberexpressions.Ast.AstNode.Type.EXPRESSION_NODE;
 import static io.cucumber.cucumberexpressions.Ast.AstNode.Type.OPTIONAL_NODE;
 import static io.cucumber.cucumberexpressions.Ast.AstNode.Type.PARAMETER_NODE;
 import static io.cucumber.cucumberexpressions.Ast.AstNode.Type.TEXT_NODE;
-import static io.cucumber.cucumberexpressions.Ast.Token.Type.ALTERNATION;
 import static io.cucumber.cucumberexpressions.Ast.Token.Type.BEGIN_OPTIONAL;
 import static io.cucumber.cucumberexpressions.Ast.Token.Type.BEGIN_PARAMETER;
 import static io.cucumber.cucumberexpressions.Ast.Token.Type.END_OPTIONAL;
-import static io.cucumber.cucumberexpressions.Ast.Token.Type.ESCAPE;
 import static io.cucumber.cucumberexpressions.Ast.Token.Type.TEXT;
 import static io.cucumber.cucumberexpressions.Ast.Token.Type.WHITE_SPACE;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class CucumberExpressionParserTest {
 
@@ -91,10 +91,17 @@ class CucumberExpressionParserTest {
     }
 
     @Test
-    void slash() {
-        assertThat(astOf("\\"), equalTo(
+    void escapedEndOfLine() {
+        // TODO: Better error message
+        CucumberExpressionException exception = assertThrows(CucumberExpressionException.class, () -> astOf("\\"));
+        assertThat(exception.getMessage(), is("End of line can not be escaped"));
+    }
+
+    @Test
+    void escapedBackSlash() {
+        assertThat(astOf("\\\\"), equalTo(
                 new AstNode(EXPRESSION_NODE,
-                        new AstNode(TEXT_NODE, new Token("\\", ESCAPE))
+                        new AstNode(TEXT_NODE, new Token("\\", TEXT))
                 )
         ));
     }
@@ -131,7 +138,7 @@ class CucumberExpressionParserTest {
     void escapedOpeningParenthesis() {
         assertThat(astOf("\\("), equalTo(
                 new AstNode(EXPRESSION_NODE,
-                        new AstNode(TEXT_NODE, new Token("(", BEGIN_OPTIONAL))
+                        new AstNode(TEXT_NODE, new Token("(", TEXT))
                 )
         ));
     }
@@ -140,8 +147,7 @@ class CucumberExpressionParserTest {
     void escapedOptional() {
         assertThat(astOf("\\(blind)"), equalTo(
                 new AstNode(EXPRESSION_NODE,
-                        new AstNode(TEXT_NODE, new Token("(", BEGIN_OPTIONAL)),
-                        new AstNode(TEXT_NODE, new Token("blind", TEXT)),
+                        new AstNode(TEXT_NODE, new Token("(blind", TEXT)),
                         new AstNode(TEXT_NODE, new Token(")", END_OPTIONAL))
                 )
         ));
@@ -153,8 +159,7 @@ class CucumberExpressionParserTest {
                 new AstNode(EXPRESSION_NODE,
                         new AstNode(TEXT_NODE, new Token("three", TEXT)),
                         new AstNode(TEXT_NODE, new Token(" ", WHITE_SPACE)),
-                        new AstNode(TEXT_NODE, new Token("(", BEGIN_OPTIONAL)),
-                        new AstNode(TEXT_NODE, new Token("blind", TEXT)),
+                        new AstNode(TEXT_NODE, new Token("(blind", TEXT)),
                         new AstNode(TEXT_NODE, new Token(")", END_OPTIONAL)),
                         new AstNode(TEXT_NODE, new Token(" ", WHITE_SPACE)),
                         new AstNode(TEXT_NODE, new Token("mice", TEXT))
@@ -168,7 +173,7 @@ class CucumberExpressionParserTest {
                 new AstNode(EXPRESSION_NODE,
                         new AstNode(TEXT_NODE, new Token("three", TEXT)),
                         new AstNode(TEXT_NODE, new Token(" ", WHITE_SPACE)),
-                        new AstNode(TEXT_NODE, new Token("(", BEGIN_OPTIONAL)),
+                        new AstNode(TEXT_NODE, new Token("(", TEXT)),
                         new AstNode(OPTIONAL_NODE,
                                 new AstNode(TEXT_NODE, new Token("very", TEXT))
                         ),
@@ -189,8 +194,7 @@ class CucumberExpressionParserTest {
                         new AstNode(TEXT_NODE, new Token(" ", WHITE_SPACE)),
                         new AstNode(OPTIONAL_NODE,
                                 new AstNode(TEXT_NODE, new Token("(", BEGIN_OPTIONAL)),
-                                new AstNode(TEXT_NODE, new Token("very", TEXT)),
-                                new AstNode(TEXT_NODE, new Token(")", END_OPTIONAL)),
+                                new AstNode(TEXT_NODE, new Token("very)", TEXT)),
                                 new AstNode(TEXT_NODE, new Token(" ", WHITE_SPACE)),
                                 new AstNode(TEXT_NODE, new Token("blind", TEXT))
                         ),
@@ -199,7 +203,6 @@ class CucumberExpressionParserTest {
                 )
         ));
     }
-
 
     @Test
     void alternation() {
@@ -220,13 +223,10 @@ class CucumberExpressionParserTest {
     void escapedAlternation() {
         assertThat(astOf("mice\\/rats"), equalTo(
                 new AstNode(EXPRESSION_NODE,
-                        new AstNode(TEXT_NODE, new Token("mice", TEXT)),
-                        new AstNode(TEXT_NODE, new Token("/", ALTERNATION)),
-                        new AstNode(TEXT_NODE, new Token("rats", TEXT))
+                        new AstNode(TEXT_NODE, new Token("mice/rats", TEXT))
                 )
         ));
     }
-
 
     @Test
     void alternationPhrase() {
@@ -254,16 +254,10 @@ class CucumberExpressionParserTest {
                 new AstNode(EXPRESSION_NODE,
                         new AstNode(ALTERNATION_NODE,
                                 new AstNode(ALTERNATIVE_NODE,
-                                        new AstNode(TEXT_NODE, new Token(" ", WHITE_SPACE)),
-                                        new AstNode(TEXT_NODE, new Token("three", TEXT)),
-                                        new AstNode(TEXT_NODE, new Token(" ", WHITE_SPACE)),
-                                        new AstNode(TEXT_NODE, new Token("hungry", TEXT))
+                                        new AstNode(TEXT_NODE, new Token(" three hungry", TEXT))
                                 ),
                                 new AstNode(ALTERNATIVE_NODE,
-                                        new AstNode(TEXT_NODE, new Token("blind", TEXT)),
-                                        new AstNode(TEXT_NODE, new Token(" ", WHITE_SPACE)),
-                                        new AstNode(TEXT_NODE, new Token("mice", TEXT)),
-                                        new AstNode(TEXT_NODE, new Token(" ", WHITE_SPACE))
+                                        new AstNode(TEXT_NODE, new Token("blind mice ", TEXT))
                                 )
                         )
 
@@ -280,9 +274,7 @@ class CucumberExpressionParserTest {
                         new AstNode(ALTERNATION_NODE,
                                 new AstNode(ALTERNATIVE_NODE,
                                         new AstNode(TEXT_NODE, new Token(")", END_OPTIONAL)),
-                                        new AstNode(TEXT_NODE, new Token("blind", TEXT)),
-                                        new AstNode(TEXT_NODE, new Token(" ", WHITE_SPACE)),
-                                        new AstNode(TEXT_NODE, new Token("mice", TEXT))
+                                        new AstNode(TEXT_NODE, new Token("blind mice", TEXT))
                                 ),
                                 new AstNode(ALTERNATIVE_NODE,
                                         new AstNode(TEXT_NODE, new Token("rats", TEXT))
@@ -300,9 +292,7 @@ class CucumberExpressionParserTest {
                         new AstNode(TEXT_NODE, new Token(" ", WHITE_SPACE)),
                         new AstNode(ALTERNATION_NODE,
                                 new AstNode(ALTERNATIVE_NODE,
-                                        new AstNode(TEXT_NODE, new Token("blind", TEXT)),
-                                        new AstNode(TEXT_NODE, new Token(" ", WHITE_SPACE)),
-                                        new AstNode(TEXT_NODE, new Token("mice", TEXT))
+                                        new AstNode(TEXT_NODE, new Token("blind mice", TEXT))
                                 ),
                                 new AstNode(ALTERNATIVE_NODE,
                                         new AstNode(TEXT_NODE, new Token("rats", TEXT)),
@@ -321,9 +311,7 @@ class CucumberExpressionParserTest {
                         new AstNode(TEXT_NODE, new Token(" ", WHITE_SPACE)),
                         new AstNode(ALTERNATION_NODE,
                                 new AstNode(ALTERNATIVE_NODE,
-                                        new AstNode(TEXT_NODE, new Token("blind", TEXT)),
-                                        new AstNode(TEXT_NODE, new Token(" ", WHITE_SPACE)),
-                                        new AstNode(TEXT_NODE, new Token("rat", TEXT))
+                                        new AstNode(TEXT_NODE, new Token("blind rat", TEXT))
                                 ),
                                 new AstNode(ALTERNATIVE_NODE,
                                         new AstNode(TEXT_NODE, new Token("cat", TEXT)),

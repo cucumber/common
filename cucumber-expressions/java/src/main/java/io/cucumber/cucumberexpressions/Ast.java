@@ -3,17 +3,10 @@ package io.cucumber.cucumberexpressions;
 import java.util.List;
 import java.util.Objects;
 
-import static io.cucumber.cucumberexpressions.Ast.AstNode.Type.ALTERNATIVE_NODE;
-import static io.cucumber.cucumberexpressions.Ast.Token.ALTERNATION;
 import static java.util.Arrays.asList;
 import static java.util.stream.Collectors.joining;
 
 final class Ast {
-    // Marker. This way we don't need to model the
-    // the tail end of alternation in the AST:
-    //
-    // alternation := alternative* + ( '/' + alternative* )+
-    static final AstNode ALTERNATIVE_SEPARATOR = new AstNode(ALTERNATIVE_NODE, ALTERNATION);
 
     static final class AstNode {
 
@@ -68,11 +61,34 @@ final class Ast {
 
         @Override
         public String toString() {
-            return "AstNode{" +
-                    "type=" + type +
-                    ", nodes=" + nodes +
-                    ", token=" + token +
-                    '}';
+            return toString(0).toString();
+        }
+
+        private StringBuilder toString(int depth){
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < depth; i++) {
+                sb.append("\t");
+            }
+            sb.append("AstNode{" + "type=").append(type);
+
+            if (token != null) {
+                sb.append(", token=").append(token);
+            }
+
+            if(nodes == null){
+                sb.append('}');
+            } else {
+                sb.append("\n");
+                for (AstNode node : nodes) {
+                    sb.append(node.toString(depth+1));
+                    sb.append("\n");
+                }
+                for (int i = 0; i < depth; i++) {
+                    sb.append("\t");
+                }
+                sb.append('}');
+            }
+            return sb;
         }
 
         @Override
@@ -93,13 +109,6 @@ final class Ast {
 
 
     static final class Token {
-
-        static final Token BEGIN_PARAMETER = new Token("{", Token.Type.BEGIN_PARAMETER);
-        static final Token END_PARAMETER = new Token("}", Token.Type.END_PARAMETER);
-        static final Token BEGIN_OPTIONAL = new Token("(", Token.Type.BEGIN_OPTIONAL);
-        static final Token END_OPTIONAL = new Token(")", Token.Type.END_OPTIONAL);
-        static final Token ESCAPE = new Token("\\", Token.Type.ESCAPE);
-        static final Token ALTERNATION = new Token("/", Token.Type.ALTERNATION);
 
         final String text;
         final Token.Type type;
@@ -134,20 +143,12 @@ final class Ast {
         enum Type {
             START_OF_LINE,
             END_OF_LINE,
-            // In order of precedence
-            WHITE_SPACE_ESCAPED,
             WHITE_SPACE,
-            BEGIN_OPTIONAL_ESCAPED,
             BEGIN_OPTIONAL,
-            END_OPTIONAL_ESCAPED,
             END_OPTIONAL,
-            BEGIN_PARAMETER_ESCAPED,
             BEGIN_PARAMETER,
-            END_PARAMETER_ESCAPED,
             END_PARAMETER,
-            ALTERNATION_ESCAPED,
             ALTERNATION,
-            ESCAPE_ESCAPED,
             ESCAPE,
             TEXT;
         }

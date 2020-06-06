@@ -1,120 +1,111 @@
 package io.cucumber.cucumberexpressions;
 
 import io.cucumber.cucumberexpressions.Ast.Token;
+import io.cucumber.cucumberexpressions.Ast.Token.Type;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import static io.cucumber.cucumberexpressions.Ast.Token.Type.ALTERNATION;
-import static io.cucumber.cucumberexpressions.Ast.Token.Type.ALTERNATION_ESCAPED;
-import static io.cucumber.cucumberexpressions.Ast.Token.Type.BEGIN_OPTIONAL;
-import static io.cucumber.cucumberexpressions.Ast.Token.Type.BEGIN_OPTIONAL_ESCAPED;
-import static io.cucumber.cucumberexpressions.Ast.Token.Type.BEGIN_PARAMETER;
-import static io.cucumber.cucumberexpressions.Ast.Token.Type.BEGIN_PARAMETER_ESCAPED;
-import static io.cucumber.cucumberexpressions.Ast.Token.Type.END_OPTIONAL;
-import static io.cucumber.cucumberexpressions.Ast.Token.Type.END_OPTIONAL_ESCAPED;
-import static io.cucumber.cucumberexpressions.Ast.Token.Type.END_PARAMETER;
-import static io.cucumber.cucumberexpressions.Ast.Token.Type.END_PARAMETER_ESCAPED;
-import static io.cucumber.cucumberexpressions.Ast.Token.Type.ESCAPE;
-import static io.cucumber.cucumberexpressions.Ast.Token.Type.ESCAPE_ESCAPED;
-import static io.cucumber.cucumberexpressions.Ast.Token.Type.TEXT;
-import static io.cucumber.cucumberexpressions.Ast.Token.Type.WHITE_SPACE;
-import static io.cucumber.cucumberexpressions.Ast.Token.Type.WHITE_SPACE_ESCAPED;
+import java.util.NoSuchElementException;
+import java.util.PrimitiveIterator.OfInt;
 
 final class CucumberExpressionTokenizer {
 
-    private interface Tokenizer {
-        int tokenize(List<Token> tokens, String expression, int current);
-    }
-
-    private static final List<Tokenizer> tokenizers = Arrays.asList(
-            tokenizePattern(WHITE_SPACE_ESCAPED, Pattern.compile("\\\\\\s")),
-            tokenizePattern(WHITE_SPACE, Pattern.compile("\\s+")),
-
-            tokenizeString(BEGIN_OPTIONAL_ESCAPED, "\\("),
-            tokenizeCharacter(BEGIN_OPTIONAL, '('),
-
-            tokenizeString(END_OPTIONAL_ESCAPED, "\\)"),
-            tokenizeCharacter(END_OPTIONAL, ')'),
-
-            tokenizeString(BEGIN_PARAMETER_ESCAPED, "\\{"),
-            tokenizeCharacter(BEGIN_PARAMETER, '{'),
-
-            tokenizeString(END_PARAMETER_ESCAPED, "\\}"),
-            tokenizeCharacter(END_PARAMETER, '}'),
-
-            tokenizeString(ALTERNATION_ESCAPED, "\\/"),
-            tokenizeCharacter(ALTERNATION, '/'),
-
-            tokenizeString(ESCAPE_ESCAPED, "\\\\"),
-            tokenizeString(ESCAPE, "\\"),
-
-            // Should be `.` but this creates a nicer parse tree.
-            tokenizePattern(TEXT, Pattern.compile("[^(){}\\\\/\\s]+"))
-    );
-
-    /*
-     * token := '\' + whitespace | whitespace | '\(' | '(' | '\)' | ')' |
-     *          '\{' | '{' | '\}' | '}' | '\/' | '/' | '\\' | '\' | .
-     */
-    List<Token> tokenize(String expression) {
+    List<Token> tokenize(String expression){
         List<Token> tokens = new ArrayList<>();
-        int length = expression.length();
-        int current = 0;
-        while (current < length) {
-            boolean tokenized = false;
-            for (Tokenizer tokenizer : tokenizers) {
-                int consumed = tokenizer.tokenize(tokens, expression, current);
-                if (consumed != 0) {
-                    current += consumed;
-                    tokenized = true;
-                    break;
-                }
-            }
-            if (!tokenized) {
-                // Can't happen if configured properly
-                // Leave in to avoid looping if not configured properly
-                throw new IllegalStateException("Could not tokenize " + expression);
-            }
-        }
+        tokenizeImpl(expression).forEach(tokens::add);
         return tokens;
     }
 
-    private static Tokenizer tokenizeCharacter(Token.Type type, char character) {
-        return (tokens, expression, current) -> {
-            if (character != expression.charAt(current)) {
-                return 0;
+    private Iterable<Token> tokenizeImpl(String expression) {
+        return () -> new Iterator<Token>() {
+            final OfInt codePoints = expression.codePoints().iterator();
+            StringBuilder buffer = new StringBuilder();
+            Type previousTokenType = null;
+            Type currentTokenType = Type.START_OF_LINE;
+            boolean treatAsText = false;
+
+            @Override
+            public boolean hasNext() {
+                return previousTokenType != Type.END_OF_LINE;
             }
-            tokens.add(new Token("" + character, type));
-            return 1;
+
+            @Override
+            public Token next() {
+                if (!hasNext()) {
+                    throw new NoSuchElementException();
+                }
+
+                if(currentTokenType == Type.START_OF_LINE){
+                    currentTokenType = null;
+                    return new Token("", Type.START_OF_LINE);
+                }
+
+                while (codePoints.hasNext()) {
+                    int current = codePoints.nextInt();
+                    if (!treatAsText && current == '\\') {
+                        treatAsText = true;
+                        continue;
+                    }
+                    currentTokenType = tokenTypeOf(current, treatAsText);
+                    treatAsText = false;
+
+                    if (previousTokenType != null
+                            && (currentTokenType != previousTokenType
+                            || (currentTokenType != Type.WHITE_SPACE && currentTokenType != Type.TEXT))) {
+                        Token t = new Token(buffer.toString(), previousTokenType);
+                        buffer = new StringBuilder();
+                        buffer.appendCodePoint(current);
+                        previousTokenType = currentTokenType;
+                        return t;
+                    }
+                    buffer.appendCodePoint(current);
+                    previousTokenType = currentTokenType;
+                }
+
+                if (buffer.length() > 0) {
+                    Token t = new Token(buffer.toString(), previousTokenType);
+                    buffer = new StringBuilder();
+                    currentTokenType = Type.END_OF_LINE;
+                    return t;
+                }
+
+                if (treatAsText) {
+                    throw new CucumberExpressionException("End of line can not be escaped");
+                }
+
+                currentTokenType = null;
+                previousTokenType = Type.END_OF_LINE;
+                Token t = new Token(buffer.toString(), previousTokenType);
+                buffer = new StringBuilder();
+                return t;
+            }
         };
+
     }
 
-    private static Tokenizer tokenizeString(Token.Type type, String string) {
-        return (tokens, expression, current) -> {
-            if (!expression.regionMatches(current, string, 0, string.length())) {
-                return 0;
-            }
-            tokens.add(new Token(string, type));
-            return string.length();
-        };
-    }
+    private Type tokenTypeOf(Integer c, boolean treatAsText) {
+        if (treatAsText) {
+            return Type.TEXT;
+        }
 
-    private static Tokenizer tokenizePattern(Token.Type type, Pattern pattern) {
-        return (tokens, expression, current) -> {
-            String tail = expression.substring(current);
-            Matcher matcher = pattern.matcher(tail);
-            if (!matcher.lookingAt()) {
-                return 0;
-            }
-            String match = tail.substring(0, matcher.end());
-            tokens.add(new Token(match, type));
-            return match.length();
-        };
-    }
+        if (Character.isWhitespace(c)) {
+            return Type.WHITE_SPACE;
+        }
 
+        switch (c) {
+            case (int) '/':
+                return Type.ALTERNATION;
+            case (int) '{':
+                return Type.BEGIN_PARAMETER;
+            case (int) '}':
+                return Type.END_PARAMETER;
+            case (int) '(':
+                return Type.BEGIN_OPTIONAL;
+            case (int) ')':
+                return Type.END_OPTIONAL;
+        }
+        return Type.TEXT;
+    }
 
 }
