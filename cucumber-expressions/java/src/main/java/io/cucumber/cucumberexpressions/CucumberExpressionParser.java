@@ -26,10 +26,6 @@ import static java.util.Collections.singletonList;
 
 final class CucumberExpressionParser {
 
-    private interface Parser {
-        int parse(List<AstNode> ast, List<Token> expression, int current);
-    }
-
     /*
      * text := token
      */
@@ -58,30 +54,6 @@ final class CucumberExpressionParser {
             END_OPTIONAL,
             asList(parameterParser, textParser)
     );
-
-    private static Parser parseBetween(
-            AstNode.Type type,
-            Type beginToken,
-            Type endToken,
-            List<Parser> parsers) {
-        return (ast, expression, current) -> {
-            if (!lookingAt(expression, current, beginToken)) {
-                return 0;
-            }
-            List<AstNode> subAst = new ArrayList<>();
-            int subCurrent = current + 1;
-            int consumed = parseTokensUntil(parsers, subAst, expression, subCurrent, endToken);
-            subCurrent += consumed;
-
-            // endToken not found
-            if (!lookingAt(expression, subCurrent, endToken)) {
-                throw new CucumberExpressionException("missing " + endToken + " at " + subCurrent);
-            }
-            ast.add(new AstNode(type, subAst));
-            // consumes endToken
-            return subCurrent + 1 - current;
-        };
-    }
 
     // Marker. This way we don't need to model the
     // the tail end of alternation in the AST:
@@ -141,7 +113,6 @@ final class CucumberExpressionParser {
             )
     );
 
-
     AstNode parse(String expression) {
         CucumberExpressionTokenizer tokenizer = new CucumberExpressionTokenizer();
         List<Token> tokens = tokenizer.tokenize(expression);
@@ -153,6 +124,35 @@ final class CucumberExpressionParser {
         }
         return ast.get(0);
     }
+
+    private interface Parser {
+        int parse(List<AstNode> ast, List<Token> expression, int current);
+    }
+
+    private static Parser parseBetween(
+            AstNode.Type type,
+            Type beginToken,
+            Type endToken,
+            List<Parser> parsers) {
+        return (ast, expression, current) -> {
+            if (!lookingAt(expression, current, beginToken)) {
+                return 0;
+            }
+            List<AstNode> subAst = new ArrayList<>();
+            int subCurrent = current + 1;
+            int consumed = parseTokensUntil(parsers, subAst, expression, subCurrent, endToken);
+            subCurrent += consumed;
+
+            // endToken not found
+            if (!lookingAt(expression, subCurrent, endToken)) {
+                throw new CucumberExpressionException("missing " + endToken + " at " + subCurrent);
+            }
+            ast.add(new AstNode(type, subAst));
+            // consumes endToken
+            return subCurrent + 1 - current;
+        };
+    }
+
 
     private static int parseTokensUntil(List<Parser> parsers,
                                         List<AstNode> ast,
@@ -170,7 +170,7 @@ final class CucumberExpressionParser {
             if (consumed == 0) {
                 // If configured correctly this will never happen
                 // Keep to avoid infinite loops
-                break;
+                throw new IllegalStateException("No eligible parsers for " + expression);
             }
             current += consumed;
         }
