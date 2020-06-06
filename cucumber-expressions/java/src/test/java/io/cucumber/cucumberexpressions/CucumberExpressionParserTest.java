@@ -108,30 +108,23 @@ class CucumberExpressionParserTest {
 
     @Test
     void openingBrace() {
-        assertThat(astOf("{"), equalTo(
-                new AstNode(EXPRESSION_NODE,
-                        new AstNode(TEXT_NODE, new Token("{", BEGIN_PARAMETER))
-                )
-        ));
+        //TODO: Improve message
+        CucumberExpressionException exception = assertThrows(CucumberExpressionException.class, () -> astOf("{"));
+        assertThat(exception.getMessage(), is("missing END_PARAMETER at 3"));
     }
 
     @Test
     void unfinishedParameter() {
-        assertThat(astOf("{string"), equalTo(
-                new AstNode(EXPRESSION_NODE,
-                        new AstNode(TEXT_NODE, new Token("{", BEGIN_PARAMETER)),
-                        new AstNode(TEXT_NODE, new Token("string", TEXT))
-                )
-        ));
+        //TODO: Improve message
+        CucumberExpressionException exception = assertThrows(CucumberExpressionException.class, () -> astOf("{string"));
+        assertThat(exception.getMessage(), is("missing END_PARAMETER at 4"));
     }
 
     @Test
     void openingParenthesis() {
-        assertThat(astOf("("), equalTo(
-                new AstNode(EXPRESSION_NODE,
-                        new AstNode(TEXT_NODE, new Token("(", BEGIN_OPTIONAL))
-                )
-        ));
+        //TODO: Improve message
+        CucumberExpressionException exception = assertThrows(CucumberExpressionException.class, () -> astOf("("));
+        assertThat(exception.getMessage(), is("missing END_OPTIONAL at 3"));
     }
 
     @Test
@@ -286,21 +279,11 @@ class CucumberExpressionParserTest {
 
     @Test
     void alternationWithUnusedStartOptional() {
-        assertThat(astOf("three blind\\ mice/rats("), equalTo(
-                new AstNode(EXPRESSION_NODE,
-                        new AstNode(TEXT_NODE, new Token("three", TEXT)),
-                        new AstNode(TEXT_NODE, new Token(" ", WHITE_SPACE)),
-                        new AstNode(ALTERNATION_NODE,
-                                new AstNode(ALTERNATIVE_NODE,
-                                        new AstNode(TEXT_NODE, new Token("blind mice", TEXT))
-                                ),
-                                new AstNode(ALTERNATIVE_NODE,
-                                        new AstNode(TEXT_NODE, new Token("rats", TEXT)),
-                                        new AstNode(TEXT_NODE, new Token("(", BEGIN_OPTIONAL))
-                                )
-                        )
-                )
-        ));
+        //TODO: Improve message
+        CucumberExpressionException exception = assertThrows(
+                CucumberExpressionException.class,
+                () -> astOf("three blind\\ mice/rats("));
+        assertThat(exception.getMessage(), is("missing END_OPTIONAL at 8"));
     }
 
     @Test

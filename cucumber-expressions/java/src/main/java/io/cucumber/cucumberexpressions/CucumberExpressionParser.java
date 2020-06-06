@@ -75,7 +75,7 @@ final class CucumberExpressionParser {
 
             // endToken not found
             if (!lookingAt(expression, subCurrent, endToken)) {
-                return 0;
+                throw new CucumberExpressionException("missing " + endToken + " at " + subCurrent);
             }
             ast.add(new AstNode(type, subAst));
             // consumes endToken
