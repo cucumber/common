@@ -5,6 +5,7 @@ import io.cucumber.cucumberexpressions.Ast.Token;
 import io.cucumber.cucumberexpressions.Ast.Token.Type;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static io.cucumber.cucumberexpressions.Ast.AstNode.Type.ALTERNATION_NODE;
@@ -29,10 +30,9 @@ final class CucumberExpressionParser {
     /*
      * text := token
      */
-    private static final Parser textParser = (ast, expression, current) -> {
+    private static final Parser textParser = (expression, current) -> {
         Token token = expression.get(current);
-        ast.add(new AstNode(TEXT_NODE, token.text));
-        return 1;
+        return new Result(1, new AstNode(TEXT_NODE, token.text));
     };
 
     /*
@@ -62,12 +62,11 @@ final class CucumberExpressionParser {
     // alternation := alternative* + ( '/' + alternative* )+
     private static final AstNode ALTERNATIVE_SEPARATOR = new AstNode(ALTERNATIVE_NODE, "/");
 
-    private static final Parser alternativeSeparator = (ast, expression, current) -> {
+    private static final Parser alternativeSeparator = (expression, current) -> {
         if (!lookingAt(expression, current, ALTERNATION)) {
-            return 0;
+            return new Result(0);
         }
-        ast.add(ALTERNATIVE_SEPARATOR);
-        return 1;
+        return new Result(1, ALTERNATIVE_SEPARATOR);
     };
 
     private static final List<Parser> alternativeParsers = asList(
@@ -82,21 +81,19 @@ final class CucumberExpressionParser {
      * boundary := whitespace | ^ | $
      * alternative: = optional | parameter | text
      */
-    private static final Parser alternationParser = (ast, expression, current) -> {
+    private static final Parser alternationParser = (expression, current) -> {
         int previous = current - 1;
         if (!lookingAt(expression, previous, START_OF_LINE, WHITE_SPACE)) {
-            return 0;
+            return new Result(0);
         }
 
-        List<AstNode> subAst = new ArrayList<>();
-        int consumed = parseTokensUntil(alternativeParsers, subAst, expression, current, WHITE_SPACE, END_OF_LINE);
-        if (!subAst.contains(ALTERNATIVE_SEPARATOR)) {
-            return 0;
+        Result result = parseTokensUntil(alternativeParsers, expression, current, WHITE_SPACE, END_OF_LINE);
+        if (!result.ast.contains(ALTERNATIVE_SEPARATOR)) {
+            return new Result(0);
         }
 
-        ast.add(new AstNode(ALTERNATION_NODE, splitAlternatives(subAst)));
         // Does not consume right hand boundary token
-        return consumed;
+        return new Result(result.consumed, new AstNode(ALTERNATION_NODE, splitAlternatives(result.ast)));
     };
 
     /*
@@ -117,13 +114,25 @@ final class CucumberExpressionParser {
     AstNode parse(String expression) {
         CucumberExpressionTokenizer tokenizer = new CucumberExpressionTokenizer();
         List<Token> tokens = tokenizer.tokenize(expression);
-        List<AstNode> ast = new ArrayList<>();
-        cucumberExpressionParser.parse(ast, tokens, 0);
-        return ast.get(0);
+        Result result = cucumberExpressionParser.parse(tokens, 0);
+        return result.ast.get(0);
     }
 
     private interface Parser {
-        int parse(List<AstNode> ast, List<Token> expression, int current);
+        Result parse(List<Token> expression, int current);
+    }
+
+    private static final class Result {
+        final int consumed;
+        final List<AstNode> ast;
+
+        private Result(int consumed, AstNode... ast) {
+            this(consumed, Arrays.asList(ast));
+        }
+        private Result(int consumed, List<AstNode> ast) {
+            this.consumed = consumed;
+            this.ast = ast;
+        }
     }
 
     private static Parser parseBetween(
@@ -131,57 +140,55 @@ final class CucumberExpressionParser {
             Type beginToken,
             Type endToken,
             List<Parser> parsers) {
-        return (ast, expression, current) -> {
+        return (expression, current) -> {
             if (!lookingAt(expression, current, beginToken)) {
-                return 0;
+                return new Result(0);
             }
-            List<AstNode> subAst = new ArrayList<>();
             int subCurrent = current + 1;
-            int consumed = parseTokensUntil(parsers, subAst, expression, subCurrent, endToken);
-            subCurrent += consumed;
+            Result result = parseTokensUntil(parsers, expression, subCurrent, endToken);
+            subCurrent += result.consumed;
 
             // endToken not found
             if (!lookingAt(expression, subCurrent, endToken)) {
                 throw new CucumberExpressionException("missing " + endToken + " at " + subCurrent);
             }
-            ast.add(new AstNode(type, subAst));
             // consumes endToken
-            return subCurrent + 1 - current;
+            return new Result(subCurrent + 1 - current, new AstNode(type, result.ast));
         };
     }
 
 
-    private static int parseTokensUntil(List<Parser> parsers,
-                                        List<AstNode> ast,
+    private static Result parseTokensUntil(List<Parser> parsers,
                                         List<Token> expression,
                                         int startAt,
                                         Type... endTokens) {
         int current = startAt;
         int size = expression.size();
+        List<AstNode> ast = new ArrayList<>();
         while (current < size) {
             if (lookingAt(expression, current, endTokens)) {
                 break;
             }
 
-            int consumed = parseToken(parsers, ast, expression, current);
-            if (consumed == 0) {
+            Result result = parseToken(parsers, expression, current);
+            if (result.consumed == 0) {
                 // If configured correctly this will never happen
                 // Keep to avoid infinite loops
                 throw new IllegalStateException("No eligible parsers for " + expression);
             }
-            current += consumed;
+            current += result.consumed;
+            ast.addAll(result.ast);
         }
-        return current - startAt;
+        return new Result(current - startAt, ast);
     }
 
-    private static int parseToken(List<Parser> parsers,
-                                  List<AstNode> ast,
+    private static Result parseToken(List<Parser> parsers,
                                   List<Token> expression,
                                   int startAt) {
         for (Parser parser : parsers) {
-            int consumed = parser.parse(ast, expression, startAt);
-            if (consumed != 0) {
-                return consumed;
+            Result result = parser.parse(expression, startAt);
+            if (result.consumed != 0) {
+                return result;
             }
         }
         // If configured correctly this will never happen
