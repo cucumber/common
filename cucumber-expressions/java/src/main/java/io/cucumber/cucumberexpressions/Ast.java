@@ -12,9 +12,9 @@ final class Ast {
 
         private final Type type;
         private final List<AstNode> nodes;
-        private final Token token;
+        private final String token;
 
-        AstNode(Type type, Token token) {
+        AstNode(Type type, String token) {
             this(type, null, token);
         }
 
@@ -26,7 +26,7 @@ final class Ast {
             this(type, nodes, null);
         }
 
-        private AstNode(Type type, List<AstNode> nodes, Token token) {
+        private AstNode(Type type, List<AstNode> nodes, String token) {
             this.type = type;
             this.nodes = nodes;
             this.token = token;
@@ -51,7 +51,7 @@ final class Ast {
 
         String getText() {
             if(token != null)
-                return token.text;
+                return token;
 
             return getNodes().stream()
                     .map(AstNode::getText)

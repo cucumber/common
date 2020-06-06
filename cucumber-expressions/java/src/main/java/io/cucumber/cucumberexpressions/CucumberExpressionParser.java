@@ -30,7 +30,8 @@ final class CucumberExpressionParser {
      * text := token
      */
     private static final Parser textParser = (ast, expression, current) -> {
-        ast.add(new AstNode(TEXT_NODE, expression.get(current)));
+        Token token = expression.get(current);
+        ast.add(new AstNode(TEXT_NODE, token.text));
         return 1;
     };
 
@@ -59,7 +60,7 @@ final class CucumberExpressionParser {
     // the tail end of alternation in the AST:
     //
     // alternation := alternative* + ( '/' + alternative* )+
-    private static final AstNode ALTERNATIVE_SEPARATOR = new AstNode(ALTERNATIVE_NODE, new Token("/", Token.Type.ALTERNATION));
+    private static final AstNode ALTERNATIVE_SEPARATOR = new AstNode(ALTERNATIVE_NODE, "/");
 
     private static final Parser alternativeSeparator = (ast, expression, current) -> {
         if (!lookingAt(expression, current, ALTERNATION)) {
@@ -117,11 +118,7 @@ final class CucumberExpressionParser {
         CucumberExpressionTokenizer tokenizer = new CucumberExpressionTokenizer();
         List<Token> tokens = tokenizer.tokenize(expression);
         List<AstNode> ast = new ArrayList<>();
-        int consumed = cucumberExpressionParser.parse(ast, tokens, 0);
-        if (ast.size() != 1 || consumed < tokens.size()) {
-            // If configured correctly this will never happen
-            throw new IllegalStateException("Could not parse " + expression);
-        }
+        cucumberExpressionParser.parse(ast, tokens, 0);
         return ast.get(0);
     }
 
@@ -188,7 +185,7 @@ final class CucumberExpressionParser {
             }
         }
         // If configured correctly this will never happen
-        return 0;
+        throw new IllegalStateException("No eligible parsers for " + expression);
     }
 
     private static boolean lookingAt(List<Token> expression, int at, Type... tokens) {
