@@ -82,7 +82,6 @@ const defineParameterType = deprecate(
   'Please use ParameterType instead'
 )
 
-// eslint-disable-next-line @typescript-eslint/camelcase
 export {
   Given,
   When,
