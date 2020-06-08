@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp2.0'">
-    <PackageReference Include="Microsoft.TestPlatform.TestHost" Version="15.9.2" />
+    <PackageReference Include="Microsoft.TestPlatform.TestHost" Version="16.6.1" />
 
   </ItemGroup>
 
