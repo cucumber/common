@@ -1,7 +1,7 @@
 # Builds a docker image used for building most projects in this repo. It's
 # used both by contributors and CI.
 #
-FROM ubuntu:20.04
+FROM ubuntu:20.10
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV LANG=en_US.UTF-8
