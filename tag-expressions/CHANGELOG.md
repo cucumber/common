@@ -9,6 +9,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+## [3.0.0] - 2020-06-11
+
+### Added
+
 * [Java] Enable consumers to find our version at runtime using `clazz.getPackage().getImplementationVersion()` by upgrading to `cucumber-parent:2.1.0`
   ([#976](https://github.com/cucumber/cucumber/pull/976)
    [aslakhellesoy])
@@ -125,7 +137,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First stable release!
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/tag-expressions/v2.0.4...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/tag-expressions/v3.0.0...master
+[3.0.0]: https://github.com/cucumber/cucumber/compare/tag-expressions/v2.0.4...tag-expressions/v3.0.0
 [2.0.4]: https://github.com/cucumber/cucumber/compare/tag-expressions/v2.0.3...tag-expressions/v2.0.4
 [2.0.3]: https://github.com/cucumber/cucumber/compare/tag-expressions/v2.0.2...tag-expressions/v2.0.3
 [2.0.2]: https://github.com/cucumber/cucumber/compare/tag-expressions/v2.0.1...tag-expressions/v2.0.2
