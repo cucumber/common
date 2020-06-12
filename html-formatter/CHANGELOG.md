@@ -16,6 +16,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Removed
 
 ### Fixed
+
+## [6.0.3] - 2020-06-12
+
+### Fixed
 * [JavaScript] Fixed a bug where the command-line interface would always exit with 1
   even if there were no errors.
 * [Java] Always use UFT_8 encoding
@@ -199,7 +203,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/formatter/v6.0.2...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/formatter/v6.0.3...master
+[6.0.3]:      https://github.com/cucumber/cucumber/compare/formatter/v6.0.2...formatter/v6.0.3
 [6.0.2]:      https://github.com/cucumber/cucumber/compare/formatter/v6.0.1...formatter/v6.0.2
 [6.0.1]:      https://github.com/cucumber/cucumber/compare/formatter/v6.0.0...formatter/v6.0.1
 [6.0.0]:      https://github.com/cucumber/cucumber/compare/formatter/v5.0.0...formatter/v6.0.0
