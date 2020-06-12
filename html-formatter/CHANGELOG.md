@@ -16,9 +16,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Removed
 
 ### Fixed
-
 * [JavaScript] Fixed a bug where the command-line interface would always exit with 1
-  even if there were no errors. 
+  even if there were no errors.
+* [Java] Always use UFT_8 encoding
 
 ## [6.0.2] - 2020-05-01
 
