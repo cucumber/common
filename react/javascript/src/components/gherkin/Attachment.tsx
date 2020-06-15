@@ -20,7 +20,7 @@ const Attachment: React.FunctionComponent<IProps> = ({ attachment }) => {
   } else {
     return (
       <ErrorMessage
-        message={`Couldn't display ${attachment.mediaType} attachment because the media type ${attachment.mediaType} is unsupported. Please submit a feature request at https://github.com/cucumber/cucumber/issues`}
+        message={`Couldn't display ${attachment.mediaType} attachment because the media type is unsupported. Please submit a feature request at https://github.com/cucumber/cucumber/issues`}
       />
     )
   }
