@@ -1,5 +1,5 @@
 import React from 'react'
-import { messages } from '@cucumber/messages'
+import {messages} from '@cucumber/messages'
 import ErrorMessage from './ErrorMessage'
 // @ts-ignore
 import Convert from 'ansi-to-html'
@@ -100,10 +100,7 @@ function prettyJSON(s: string) {
 
 function ansiToHtml(s: string) {
   const convert = new Convert()
-  const html = convert.toHtml(s)
-  console.log('STRI', s)
-  console.log('HTML', html)
-  return html
+  return convert.toHtml(s)
 }
 
 export default Attachment
