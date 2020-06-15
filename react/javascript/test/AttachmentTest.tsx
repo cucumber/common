@@ -54,4 +54,29 @@ describe('<Attachment>', () => {
     const pre = document.querySelector('#content pre')
     assert.strictEqual(pre.textContent, 'hello')
   })
+
+  it('correctly renders ANSI characters', () => {
+    const dom = new JSDOM(
+      '<!DOCTYPE html><html lang="en"><body><div id="content"></div></body></html>'
+    )
+    // React complains if we don't do this
+    // @ts-ignore
+    global.window = dom.window
+
+    const document = dom.window.document
+
+    const attachment = messages.Attachment.create({
+      mediaType: 'text/x.cucumber.log+plain',
+      body: '\x1b[30mblack\x1b[37mwhite',
+      contentEncoding: messages.Attachment.ContentEncoding.IDENTITY,
+    })
+    const attachmentElement = <Attachment attachment={attachment} />
+    ReactDOM.render(attachmentElement, document.getElementById('content'))
+
+    const span = document.querySelector('#content pre > span')
+    assert.strictEqual(
+      span.innerHTML,
+      '<span style="color:#000">black<span style="color:#AAA">white</span></span>'
+    )
+  })
 })

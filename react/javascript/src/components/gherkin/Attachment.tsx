@@ -3,6 +3,7 @@ import { messages } from '@cucumber/messages'
 import ErrorMessage from './ErrorMessage'
 import { faPaperclip } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import Convert from 'ansi-to-html'
 
 interface IProps {
   attachment: messages.IAttachment
@@ -13,6 +14,8 @@ const Attachment: React.FunctionComponent<IProps> = ({ attachment }) => {
     return image(attachment)
   } else if (attachment.mediaType.match(/^video\//)) {
     return video(attachment)
+  } else if (attachment.mediaType == 'text/x.cucumber.log+plain') {
+    return log(attachment)
   } else if (attachment.mediaType.match(/^text\//)) {
     return text(attachment, (s) => s)
   } else if (attachment.mediaType.match(/^application\/json/)) {
@@ -87,6 +90,21 @@ function text(
     <pre className="attachment">
       <FontAwesomeIcon icon={faPaperclip} className="attachment-icon" />
       {prettify(body)}
+    </pre>
+  )
+}
+
+function log(attachment: messages.IAttachment) {
+  const body =
+    attachment.contentEncoding === messages.Attachment.ContentEncoding.IDENTITY
+      ? attachment.body
+      : base64Decode(attachment.body)
+  const colored = new Convert().toHtml(body)
+
+  return (
+    <pre className="attachment">
+      <FontAwesomeIcon icon={faPaperclip} className="attachment-icon" />
+      <span dangerouslySetInnerHTML={{ __html: colored }} />
     </pre>
   )
 }
