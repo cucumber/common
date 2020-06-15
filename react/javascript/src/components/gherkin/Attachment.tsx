@@ -2,7 +2,7 @@ import React from 'react'
 import {messages} from '@cucumber/messages'
 import ErrorMessage from './ErrorMessage'
 // @ts-ignore
-import Convert from 'ansi-to-html'
+import Ansi from 'ansi-to-html'
 
 interface IProps {
   attachment: messages.IAttachment
@@ -14,13 +14,13 @@ const Attachment: React.FunctionComponent<IProps> = ({ attachment }) => {
   } else if (attachment.mediaType.match(/^video\//)) {
     return video(attachment)
   } else if (attachment.mediaType.match(/^text\//)) {
-    return text(attachment, prettyANSI)
+    return text(attachment, prettyANSI, true)
   } else if (attachment.mediaType.match(/^application\/json/)) {
-    return text(attachment, prettyJSON)
+    return text(attachment, prettyJSON, false)
   } else {
     return (
       <ErrorMessage
-        message={`Couldn't display ${attachment.mediaType} attachment because the media type is unsupported. Please submit a feature request at https://github.com/cucumber/cucumber/issues`}
+        message={`Couldn't display ${attachment.mediaType} attachment because the media type ${attachment.mediaType} is unsupported. Please submit a feature request at https://github.com/cucumber/cucumber/issues`}
       />
     )
   }
@@ -77,17 +77,16 @@ function base64Decode(body: string) {
 
 function text(
   attachment: messages.IAttachment,
-  prettify: (body: string) => string
+  prettify: (body: string) => string,
+  dangerouslySetInnerHTML: boolean
 ) {
   const body =
-    attachment.contentEncoding === messages.Attachment.ContentEncoding.IDENTITY
-      ? attachment.body
-      : base64Decode(attachment.body)
-  return (
-      <>
+    attachment.contentEncoding === messages.Attachment.ContentEncoding.BASE64
+      ? base64Decode(attachment.body)
+      : attachment.body
+  return dangerouslySetInnerHTML ? (
         <pre className="attachment" dangerouslySetInnerHTML={{__html: prettify(body)}}/>
-        </>
-  )
+  ) : (<pre className="attachment">{prettify(body)}</pre>)
 }
 
 function prettyJSON(s: string) {
@@ -99,8 +98,8 @@ function prettyJSON(s: string) {
 }
 
 function prettyANSI(s: string) {
-  const convert = new Convert()
-  return convert.toHtml(s)
+  const ansi = new Ansi()
+  return ansi.toHtml(s)
 }
 
 export default Attachment

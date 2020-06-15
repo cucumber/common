@@ -20,7 +20,14 @@ When('text with ANSI escapes is logged', function () {
   this.log('\u001b[44;1m A \u001b[45;1m B \u001b[46;1m C \u001b[47;1m D \u001b[0m')
 })
 
-When('an array with {int} bytes are attached as {string}', function (
+When('the following string is attached as {string}:', function (
+  mediaType: string,
+  text: string,
+) {
+  this.attach(text, mediaType)
+})
+
+When('an array with {int} bytes is attached as {string}', function (
   size: number,
   mediaType: string
 ) {
