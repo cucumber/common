@@ -14,7 +14,7 @@ const Attachment: React.FunctionComponent<IProps> = ({ attachment }) => {
   } else if (attachment.mediaType.match(/^video\//)) {
     return video(attachment)
   } else if (attachment.mediaType.match(/^text\//)) {
-    return text(attachment, ansiToHtml)
+    return text(attachment, prettyANSI)
   } else if (attachment.mediaType.match(/^application\/json/)) {
     return text(attachment, prettyJSON)
   } else {
@@ -51,7 +51,7 @@ function video(attachment: messages.IAttachment) {
   ) {
     return (
       <ErrorMessage
-        message={`Couldn't display ${attachment.mediaType} image because it wasn't base64 encoded`}
+        message={`Couldn't display ${attachment.mediaType} video because it wasn't base64 encoded`}
       />
     )
   }
@@ -98,7 +98,7 @@ function prettyJSON(s: string) {
     }
 }
 
-function ansiToHtml(s: string) {
+function prettyANSI(s: string) {
   const convert = new Convert()
   return convert.toHtml(s)
 }
