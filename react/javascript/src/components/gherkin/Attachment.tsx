@@ -1,8 +1,8 @@
 import React from 'react'
 import { messages } from '@cucumber/messages'
 import ErrorMessage from './ErrorMessage'
-import { faPaperclip } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+// @ts-ignore
+import Convert from 'ansi-to-html'
 
 interface IProps {
   attachment: messages.IAttachment
@@ -14,9 +14,9 @@ const Attachment: React.FunctionComponent<IProps> = ({ attachment }) => {
   } else if (attachment.mediaType.match(/^video\//)) {
     return video(attachment)
   } else if (attachment.mediaType.match(/^text\//)) {
-    return text(attachment, (s) => s)
+    return text(attachment, ansiToHtml)
   } else if (attachment.mediaType.match(/^application\/json/)) {
-    return text(attachment, prettyJSON())
+    return text(attachment, prettyJSON)
   } else {
     return (
       <ErrorMessage
@@ -84,21 +84,26 @@ function text(
       ? attachment.body
       : base64Decode(attachment.body)
   return (
-    <pre className="attachment">
-      <FontAwesomeIcon icon={faPaperclip} className="attachment-icon" />
-      {prettify(body)}
-    </pre>
+      <>
+        <pre className="attachment" dangerouslySetInnerHTML={{__html: prettify(body)}}/>
+        </>
   )
 }
 
-function prettyJSON() {
-  return (s: string) => {
+function prettyJSON(s: string) {
     try {
       return JSON.stringify(JSON.parse(s), null, 2)
     } catch (ignore) {
       return s
     }
-  }
+}
+
+function ansiToHtml(s: string) {
+  const convert = new Convert()
+  const html = convert.toHtml(s)
+  console.log('STRI', s)
+  console.log('HTML', html)
+  return html
 }
 
 export default Attachment

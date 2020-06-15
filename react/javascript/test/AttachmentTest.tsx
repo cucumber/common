@@ -33,7 +33,7 @@ describe('<Attachment>', () => {
     )
   })
 
-  it('renders base64 encoded plaintext', () => {
+  it('renders base64 encoded plaintext with ansi escapes', () => {
     const dom = new JSDOM(
       '<!DOCTYPE html><html lang="en"><body><div id="content"></div></body></html>'
     )
@@ -45,13 +45,13 @@ describe('<Attachment>', () => {
 
     const attachment = messages.Attachment.create({
       mediaType: 'text/plain',
-      body: Buffer.from('hello').toString('base64'),
+      body: Buffer.from('\x1b[30mblack\x1b[37mwhite').toString('base64'),
       contentEncoding: messages.Attachment.ContentEncoding.BASE64,
     })
     const attachmentElement = <Attachment attachment={attachment} />
     ReactDOM.render(attachmentElement, document.getElementById('content'))
 
     const pre = document.querySelector('#content pre')
-    assert.strictEqual(pre.textContent, 'hello')
+    assert.strictEqual(pre.innerHTML, '<span style="color:#000">black<span style="color:#AAA">white</span></span>')
   })
 })
