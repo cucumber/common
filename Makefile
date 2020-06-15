@@ -35,7 +35,7 @@ clean: $(patsubst %,clean-%,$(PACKAGES))
 clean-%: %
 	cd $< && make clean
 
-ci: default check_synced push_subrepos
+ci: check_synced default push_subrepos
 
 check_synced: .rsynced
 	[[ -z $$(git status -s) ]] || ( \
