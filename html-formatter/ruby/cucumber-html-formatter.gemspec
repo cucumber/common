@@ -16,7 +16,7 @@ Gem::Specification.new do |s|
 
   s.metadata    = {
                     'bug_tracker_uri'   => 'https://github.com/cucumber/cucumber/issues',
-                    'changelog_uri'     => 'https://github.com/cucumber/cucumber/blob/master/gherkin/CHANGELOG.md',
+                    'changelog_uri'     => 'https://github.com/cucumber/cucumber/blob/master/html-formatter/CHANGELOG.md',
                     'documentation_uri' => 'https://cucumber.io/docs/gherkin/',
                     'mailing_list_uri'  => 'https://groups.google.com/forum/#!forum/cukes',
                     'source_code_uri'   => 'https://github.com/cucumber/cucumber/blob/master/gherkin/ruby',
