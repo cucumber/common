@@ -11,7 +11,8 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Added
 
-* [Javascript] Change gherkinQuery API:
+* [JavaScript] Update `gherkin-languages.json`, which hadn't been updated for a few versions (not sure for how long!)
+* [JavaScript] Change gherkinQuery API:
   * `getPickleIds`: now takes a URI and an `astNodeId` to find the pickle ids instead of a line number
   * `getPickleStepIds`: now takes an `astNodeId` parameter instead of a URL and a line number to locate the pickle step id
   * expose `parse` and `parseAndCompile` utilities
