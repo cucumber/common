@@ -18,8 +18,9 @@ Gem::Specification.new do |s|
                     'bug_tracker_uri'   => 'https://github.com/cucumber/cucumber/issues',
                     'changelog_uri'     => 'https://github.com/cucumber/cucumber/blob/master/html-formatter/CHANGELOG.md',
                     'documentation_uri' => 'https://cucumber.io/docs/gherkin/',
+                    'homepage_uri'      => s.homepage,
                     'mailing_list_uri'  => 'https://groups.google.com/forum/#!forum/cukes',
-                    'source_code_uri'   => 'https://github.com/cucumber/cucumber/blob/master/gherkin/ruby',
+                    'source_code_uri'   => 'https://github.com/cucumber/cucumber/tree/master/html-formatter/ruby'
                   }
 
   s.add_dependency 'cucumber-messages', '~> 12.1', '>= 12.1.1'
