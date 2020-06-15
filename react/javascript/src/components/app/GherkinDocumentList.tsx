@@ -13,14 +13,25 @@ import GherkinQueryContext from '../../GherkinQueryContext'
 import CucumberQueryContext from '../../CucumberQueryContext'
 import StatusIcon from '../gherkin/StatusIcon'
 
-const GherkinDocumentList: React.FunctionComponent = () => {
+interface IProps {
+  gherkinDocuments?: ReadonlyArray<messages.IGherkinDocument>
+}
+
+const GherkinDocumentList: React.FunctionComponent<IProps> = ({
+  gherkinDocuments,
+}) => {
   const gherkinQuery = React.useContext(GherkinQueryContext)
   const cucumberQuery = React.useContext(CucumberQueryContext)
+
+  const gherkinDocs =
+    gherkinDocuments === undefined
+      ? gherkinQuery.getGherkinDocuments()
+      : gherkinDocuments
 
   const entries: Array<[
     string,
     messages.TestStepFinished.TestStepResult.Status
-  ]> = gherkinQuery.getGherkinDocuments().map((gherkinDocument) => {
+  ]> = gherkinDocs.map((gherkinDocument) => {
     const gherkinDocumentStatus = gherkinDocument.feature
       ? cucumberQuery.getWorstTestStepResult(
           cucumberQuery.getPickleTestStepResults(
@@ -33,8 +44,7 @@ const GherkinDocumentList: React.FunctionComponent = () => {
   const gherkinDocumentStatusByUri = new Map(entries)
 
   // Pre-expand any document that is *not* passed - assuming this is what people want to look at first
-  const preExpanded = gherkinQuery
-    .getGherkinDocuments()
+  const preExpanded = gherkinDocs
     .filter(
       (doc) =>
         gherkinDocumentStatusByUri.get(doc.uri) !==
@@ -48,7 +58,7 @@ const GherkinDocumentList: React.FunctionComponent = () => {
         allowZeroExpanded={true}
         preExpanded={preExpanded}
       >
-        {gherkinQuery.getGherkinDocuments().map((doc) => {
+        {gherkinDocs.map((doc) => {
           const gherkinDocumentStatus = gherkinDocumentStatusByUri.get(doc.uri)
 
           return (

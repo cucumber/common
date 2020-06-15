@@ -71,13 +71,15 @@ describe('<Step>', () => {
     ReactDOM.render(app, document.getElementById('content'))
 
     const plainTexts = Array.from(
-      document.querySelectorAll('#content h3 span')
-    ).map((a) => a.innerHTML)
+      document.querySelectorAll(
+        '#content h3 span.step-text, #content h3 span.keyword'
+      )
+    ).map((span) => span.textContent)
     assert.deepStrictEqual(plainTexts, ['Given', 'the ', ' pixies'])
 
     const paramTexts = Array.from(
       document.querySelectorAll('#content h3 a')
-    ).map((a) => a.innerHTML)
+    ).map((a) => a.textContent)
     assert.deepStrictEqual(paramTexts, ['48'])
   })
 })

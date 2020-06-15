@@ -2,6 +2,7 @@ SHELL := /usr/bin/env bash
 PACKAGES ?= c21e \
 	messages \
 	gherkin \
+	gherkin-utils \
 	cucumber-expressions \
 	tag-expressions \
 	fake-cucumber \

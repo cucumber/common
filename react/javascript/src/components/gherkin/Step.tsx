@@ -8,6 +8,7 @@ import GherkinQueryContext from '../../GherkinQueryContext'
 import ErrorMessage from './ErrorMessage'
 import StepContainer from './StepContainer'
 import Attachment from './Attachment'
+import HighLight from '../app/HighLight'
 
 interface IProps {
   step: messages.GherkinDocument.Feature.IStep
@@ -53,7 +54,7 @@ const Step: React.FunctionComponent<IProps> = ({
         if (plain.length > 0) {
           stepTextElements.push(
             <span className="step-text" key={`plain-${index}`}>
-              {plain}
+              <HighLight text={plain} />
             </span>
           )
         }
@@ -66,7 +67,7 @@ const Step: React.FunctionComponent<IProps> = ({
               href="#"
               title={argument.parameterTypeName}
             >
-              {arg}
+              <HighLight text={arg} />
             </a>
           )
         }
@@ -76,7 +77,7 @@ const Step: React.FunctionComponent<IProps> = ({
       if (plain.length > 0) {
         stepTextElements.push(
           <span className="step-text" key={`plain-rest`}>
-            {plain}
+            <HighLight text={plain} />
           </span>
         )
       }
@@ -84,14 +85,14 @@ const Step: React.FunctionComponent<IProps> = ({
       // Step is ambiguous
       stepTextElements.push(
         <span className="step-text" key={`plain-ambiguous`}>
-          {step.text}
+          <HighLight text={step.text} />
         </span>
       )
     } else {
       // Step is undefined
       stepTextElements.push(
         <span className="step-text" key={`plain-undefined`}>
-          {step.text}
+          <HighLight text={step.text} />
         </span>
       )
     }
@@ -99,7 +100,7 @@ const Step: React.FunctionComponent<IProps> = ({
     // Step is from scenario with examples, and has <> placeholders.
     stepTextElements.push(
       <span className="step-text" key={`plain-placeholders`}>
-        {step.text}
+        <HighLight text={step.text} />
       </span>
     )
   }
