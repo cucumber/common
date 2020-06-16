@@ -20,7 +20,7 @@ const Attachment: React.FunctionComponent<IProps> = ({ attachment }) => {
   } else if (attachment.mediaType.match(/^text\//)) {
     return text(attachment, (s) => s, false)
   } else if (attachment.mediaType.match(/^application\/json/)) {
-    return text(attachment, prettyJSON(), false)
+    return text(attachment, prettyJSON, false)
   } else {
     return (
       <ErrorMessage
@@ -105,13 +105,11 @@ function text(
   )
 }
 
-function prettyJSON() {
-  return (s: string) => {
-    try {
-      return JSON.stringify(JSON.parse(s), null, 2)
-    } catch (ignore) {
-      return s
-    }
+function prettyJSON(s: string) {
+  try {
+    return JSON.stringify(JSON.parse(s), null, 2)
+  } catch (ignore) {
+    return s
   }
 }
 
