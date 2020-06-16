@@ -3,4 +3,4 @@
 ../../.templates/javascript/ .
 ../testdata/ testdata/
 ../gherkin.berp gherkin.berp
-../gherkin-languages.json src/legacy/gherkin/gherkin-languages.json
+../gherkin-languages.json src/gherkin-languages.json

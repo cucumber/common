@@ -1,6 +1,6 @@
 Feature: Statuses
   This is a test file with a bunch of steps
-  that will have different status thanks to fake-cucumber.
+  that will have different **statuses** thanks to [fake-cucumber](https://www.npmjs.com/package/@cucumber/fake-cucumber).
 
   Scenario: Passed-Failed-Skipped
     Given a passed step
@@ -24,4 +24,13 @@ Feature: Statuses
       | passed  | passed    | passed    |
       | passed  | failed    | skipped   |
       | pending | ambiguous | undefined |
-      
+
+  Scenario: Step parameters
+    Given a passed step
+      | name  | text                                    |
+      | error | this step fails due to multiple reasons |
+    When a failed step with:
+      """
+      This step fails due to multiple reasons
+      """
+    Then a skipped step

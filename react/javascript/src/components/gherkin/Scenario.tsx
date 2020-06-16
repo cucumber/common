@@ -10,6 +10,7 @@ import IScenario = messages.GherkinDocument.Feature.IScenario
 import CucumberQueryContext from '../../CucumberQueryContext'
 import GherkinQueryContext from '../../GherkinQueryContext'
 import UriContext from '../../UriContext'
+import HighLight from '../app/HighLight'
 
 interface IProps {
   scenario: IScenario
@@ -31,7 +32,9 @@ const Scenario: React.FunctionComponent<IProps> = ({ scenario }) => {
         <Tags tags={scenario.tags} />
         <h2>
           <Keyword>{scenario.keyword}:</Keyword>{' '}
-          <span className="step-text">{scenario.name}</span>
+          <span className="step-text">
+            <HighLight text={scenario.name} />
+          </span>
         </h2>
         <Description description={scenario.description} />
         <HookList hookSteps={beforeHooks} />

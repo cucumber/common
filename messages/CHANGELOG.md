@@ -33,7 +33,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
   * JavaScript: `import { version } from '@cucumber/messages'`
 * Add `Meta` message
   ([#976](https://github.com/cucumber/cucumber/pull/976)
-   [aslakhellesoy]) 
+   [aslakhellesoy])
 * [Java] Upgrade to `cucumber-parent:2.1.0` (needed to expose library version)
  ([#976](https://github.com/cucumber/cucumber/pull/976)
   [aslakhellesoy])

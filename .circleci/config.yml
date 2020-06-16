@@ -244,6 +244,22 @@ jobs:
             - gherkin/javascript/dist
             - gherkin/javascript/node_modules
 
+  gherkin-utils-javascript:
+    executor: docker-circleci-node-12
+    steps:
+      - attach_workspace:
+          at: "~/cucumber"
+      - run:
+          name: gherkin-utils/javascript
+          command: |
+            cd gherkin-utils/javascript
+            make
+      - persist_to_workspace:
+          root: ~/cucumber
+          paths:
+            - gherkin-utils/javascript/dist
+            - gherkin-utils/javascript/node_modules
+
   tag-expressions-javascript:
     executor: docker-circleci-node-12
     steps:
@@ -820,6 +836,9 @@ workflows:
       - gherkin-javascript:
           requires:
             - messages-javascript
+      - gherkin-utils-javascript:
+          requires:
+            - gherkin-javascript
       - tag-expressions-javascript:
           requires:
             - checkout
@@ -836,6 +855,7 @@ workflows:
           requires:
             - messages-javascript
             - gherkin-javascript
+            - gherkin-utils-javascript
             - fake-cucumber-javascript
             - query-javascript
       - html-formatter-javascript:
