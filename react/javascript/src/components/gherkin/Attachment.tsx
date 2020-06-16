@@ -3,6 +3,7 @@ import { messages } from '@cucumber/messages'
 import ErrorMessage from './ErrorMessage'
 import { faPaperclip } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+// @ts-ignore
 import Convert from 'ansi-to-html'
 
 interface IProps {
@@ -54,7 +55,7 @@ function video(attachment: messages.IAttachment) {
   ) {
     return (
       <ErrorMessage
-        message={`Couldn't display ${attachment.mediaType} image because it wasn't base64 encoded`}
+        message={`Couldn't display ${attachment.mediaType} video because it wasn't base64 encoded`}
       />
     )
   }
