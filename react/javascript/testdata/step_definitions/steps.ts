@@ -36,7 +36,6 @@ When('a step has failed', () => {
 
 Before('@hooked', function () {
   this.log('This hook is going to fail')
-  this.log('This displays a \x1b[31mr\x1b[0m\x1b[91ma\x1b[0m\x1b[33mi\x1b[0m\x1b[32mn\x1b[0m\x1b[34mb\x1b[0m\x1b[95mo\x1b[0m\x1b[35mw\x1b[0m')
   throw new Error('Oh no we have an error')
 })
 
