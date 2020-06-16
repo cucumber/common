@@ -65,6 +65,9 @@ RUN addgroup --gid "$GID" "$USER" \
         --shell /bin/bash \
         "$USER"
 
+# Configure Java Home
+ENV JAVA_HOME /usr/lib/jvm/java-11-openjdk-amd64
+
 # Configure Ruby
 RUN echo "gem: --no-document" > ~/.gemrc \
     && gem install bundler io-console \
