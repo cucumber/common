@@ -16,11 +16,11 @@ const Attachment: React.FunctionComponent<IProps> = ({ attachment }) => {
   } else if (attachment.mediaType.match(/^video\//)) {
     return video(attachment)
   } else if (attachment.mediaType == 'text/x.cucumber.log+plain') {
-    return log(attachment)
+    return text(attachment, prettyANSI, true)
   } else if (attachment.mediaType.match(/^text\//)) {
-    return text(attachment, (s) => s)
+    return text(attachment, (s) => s, false)
   } else if (attachment.mediaType.match(/^application\/json/)) {
-    return text(attachment, prettyJSON())
+    return text(attachment, prettyJSON(), false)
   } else {
     return (
       <ErrorMessage
@@ -81,31 +81,26 @@ function base64Decode(body: string) {
 
 function text(
   attachment: messages.IAttachment,
-  prettify: (body: string) => string
+  prettify: (body: string) => string,
+  dangerouslySetInnerHTML: boolean
 ) {
   const body =
     attachment.contentEncoding === messages.Attachment.ContentEncoding.IDENTITY
       ? attachment.body
       : base64Decode(attachment.body)
+
+  if (dangerouslySetInnerHTML) {
+    return (
+      <pre className="attachment">
+        <FontAwesomeIcon icon={faPaperclip} className="attachment-icon" />
+        <span dangerouslySetInnerHTML={{ __html: prettify(body) }} />
+      </pre>
+    )
+  }
   return (
     <pre className="attachment">
       <FontAwesomeIcon icon={faPaperclip} className="attachment-icon" />
       {prettify(body)}
-    </pre>
-  )
-}
-
-function log(attachment: messages.IAttachment) {
-  const body =
-    attachment.contentEncoding === messages.Attachment.ContentEncoding.IDENTITY
-      ? attachment.body
-      : base64Decode(attachment.body)
-  const colored = new Convert().toHtml(body)
-
-  return (
-    <pre className="attachment">
-      <FontAwesomeIcon icon={faPaperclip} className="attachment-icon" />
-      <span dangerouslySetInnerHTML={{ __html: colored }} />
     </pre>
   )
 }
@@ -118,6 +113,10 @@ function prettyJSON() {
       return s
     }
   }
+}
+
+function prettyANSI(s: string) {
+  return new Convert().toHtml(s)
 }
 
 export default Attachment
