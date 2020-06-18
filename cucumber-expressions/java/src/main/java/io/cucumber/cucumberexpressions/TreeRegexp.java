@@ -51,12 +51,11 @@ final class TreeRegexp {
                 GroupBuilder gb = stack.pop();
                 int groupStart = groupStartStack.pop();
                 if (gb.isCapturing()) {
-                    gb.setSource(source.substring(groupStart, i + 1 - 1));
+                    gb.setSource(source.substring(groupStart, i));
                     stack.peek().add(gb);
                 } else {
                     gb.moveChildrenTo(stack.peek());
                 }
-
             }
             escaping = c == '\\' && !escaping;
         }
