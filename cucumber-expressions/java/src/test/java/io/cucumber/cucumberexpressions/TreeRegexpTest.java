@@ -78,6 +78,15 @@ public class TreeRegexpTest {
     }
 
     @Test
+    public void ignores_question_mark_greater_then_non_capturing_group() {
+        TreeRegexp tr = new TreeRegexp("a(?>b)(c)$");
+        Group g = tr.match("abc");
+        assertEquals("abc", g.getValue());
+        assertEquals(1, g.getChildren().size());
+        assertEquals("c", g.getChildren().get(0).getValue());
+    }
+
+    @Test
     public void matches_optional_group() {
         TreeRegexp tr = new TreeRegexp("^Something( with an optional argument)?");
         Group g = tr.match("Something");
