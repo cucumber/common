@@ -7,7 +7,7 @@ import java.util.Locale;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
- * This empty_capturing_group verifies that the regular expression generated
+ * This test verifies that the regular expression generated
  * from the cucumber expression is as expected.
  */
 public class CucumberExpressionPatternTest {
