@@ -87,6 +87,15 @@ public class TreeRegexpTest {
     }
 
     @Test
+    public void matches_named_capturing_group() {
+        TreeRegexp tr = new TreeRegexp("a(?<name>b)c$");
+        Group g = tr.match("abc");
+        assertEquals("abc", g.getValue());
+        assertEquals(1, g.getChildren().size());
+        assertEquals("b", g.getChildren().get(0).getValue());
+    }
+
+    @Test
     public void matches_optional_group() {
         TreeRegexp tr = new TreeRegexp("^Something( with an optional argument)?");
         Group g = tr.match("Something");
@@ -170,6 +179,46 @@ public class TreeRegexpTest {
         TreeRegexp tr = new TreeRegexp(Pattern.compile("HELLO", Pattern.CASE_INSENSITIVE));
         Group g = tr.match("hello");
         assertEquals("hello", g.getValue());
+    }
+
+    @Test
+    public void works_with_inline_flags() {
+        TreeRegexp tr = new TreeRegexp(Pattern.compile("(?i)HELLO"));
+        Group g = tr.match("hello");
+        assertEquals("hello", g.getValue());
+        assertEquals(0, g.getChildren().size());
+    }
+
+    @Test
+    public void works_with_non_capturing_inline_flags() {
+        TreeRegexp tr = new TreeRegexp(Pattern.compile("(?i:HELLO)"));
+        Group g = tr.match("hello");
+        assertEquals("hello", g.getValue());
+        assertEquals(0, g.getChildren().size());
+    }
+
+    @Test
+    public void empty_capturing_group() {
+        TreeRegexp tr = new TreeRegexp(Pattern.compile("()"));
+        Group g = tr.match("");
+        assertEquals("", g.getValue());
+        assertEquals(1, g.getChildren().size());
+    }
+
+    @Test
+    public void empty_non_capturing_group() {
+        TreeRegexp tr = new TreeRegexp(Pattern.compile("(?)"));
+        Group g = tr.match("");
+        assertEquals("", g.getValue());
+        assertEquals(0, g.getChildren().size());
+    }
+
+    @Test
+    public void empty_look_ahead() {
+        TreeRegexp tr = new TreeRegexp(Pattern.compile("(?<=)"));
+        Group g = tr.match("");
+        assertEquals("", g.getValue());
+        assertEquals(0, g.getChildren().size());
     }
 
     @Test

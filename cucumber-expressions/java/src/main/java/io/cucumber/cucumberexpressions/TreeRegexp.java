@@ -2,8 +2,6 @@ package io.cucumber.cucumberexpressions;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.IntStream;
@@ -23,49 +21,72 @@ final class TreeRegexp {
 
     TreeRegexp(Pattern pattern) {
         this.pattern = pattern;
+        this.groupBuilder = parsePattern(pattern);
+    }
+
+    private static GroupBuilder parsePattern(Pattern pattern) {
         String source = pattern.pattern();
         char[] chars = source.toCharArray();
         Deque<GroupBuilder> stack = new ArrayDeque<>();
         Deque<Integer> groupStartStack = new ArrayDeque<>();
 
         stack.push(new GroupBuilder());
-        char last = 0;
-
         boolean escaping = false, charClass = false;
-        boolean nonCapturingMaybe = false;
-        int n = 1;
 
-        for (char c : chars) {
+        for (int i = 0; i < chars.length; i++) {
+            char c = chars[i];
             if (c == '[' && !escaping) {
                 charClass = true;
             } else if (c == ']' && !escaping) {
                 charClass = false;
             } else if (c == '(' && !escaping && !charClass) {
-                stack.push(new GroupBuilder());
-                groupStartStack.push(n);
-                nonCapturingMaybe = false;
+                groupStartStack.push(i + 1);
+                boolean capturing = isCapturingGroup(i, chars);
+                GroupBuilder e = new GroupBuilder();
+                if (!capturing) {
+                    e.setNonCapturing();
+                }
+                stack.push(e);
             } else if (c == ')' && !escaping && !charClass) {
                 GroupBuilder gb = stack.pop();
                 int groupStart = groupStartStack.pop();
                 if (gb.isCapturing()) {
-                    gb.setSource(source.substring(groupStart, n - 1));
+                    gb.setSource(source.substring(groupStart, i + 1 - 1));
                     stack.peek().add(gb);
                 } else {
                     gb.moveChildrenTo(stack.peek());
                 }
-                nonCapturingMaybe = false;
-            } else if (c == '?' && last == '(') {
-                nonCapturingMaybe = true;
-            } else if ((c == ':' || c == '!' || c == '=' || c == '<' || c == '>') && last == '?' && nonCapturingMaybe) {
-                stack.peek().setNonCapturing();
-                nonCapturingMaybe = false;
-            }
 
+            }
             escaping = c == '\\' && !escaping;
-            last = c;
-            n++;
         }
-        groupBuilder = stack.pop();
+        return stack.pop();
+    }
+
+    private static boolean isCapturingGroup(int i, char[] chars) {
+        // Regex is valid. Bounds check not required.
+        char next = chars[++i];
+        if (next != '?') {
+            return true;
+        }
+        next = chars[++i];
+        if (next != '<') {
+            // (?:X)
+            // (?idmsuxU-idmsuxU)
+            // (?idmsux-idmsux:X)
+            // (?=X)
+            // (?!X)
+            // (?>X)
+            return false;
+        }
+        next = chars[++i];
+        if (next == '=' || next == '!') {
+            // (?<=X)
+            // (?<!X)
+            return false;
+        }
+        // (?<name>X)
+        return true;
     }
 
     Pattern pattern() {
@@ -74,11 +95,13 @@ final class TreeRegexp {
 
     Group match(CharSequence s) {
         final Matcher matcher = pattern.matcher(s);
-        if (!matcher.matches()) return null;
+        if (!matcher.matches())
+            return null;
         return groupBuilder.build(matcher, IntStream.rangeClosed(0, matcher.groupCount()).iterator());
     }
 
     public GroupBuilder getGroupBuilder() {
         return groupBuilder;
     }
+
 }
