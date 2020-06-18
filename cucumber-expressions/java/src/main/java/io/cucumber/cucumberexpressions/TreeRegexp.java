@@ -65,7 +65,9 @@ final class TreeRegexp {
     private static boolean isCapturingGroup(int i, char[] chars) {
         // Regex is valid. Bounds check not required.
         char next = chars[++i];
+
         if (next != '?') {
+            // (X)
             return true;
         }
         next = chars[++i];
