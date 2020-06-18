@@ -17,8 +17,8 @@ endif
 .PHONY: update-version
 
 publish:
-	python setup.py sdist
-	python -m twine upload dist/*
+	python2 setup.py sdist
+	python2 -m twine upload dist/*
 .PHONY: publish
 
 post-release:

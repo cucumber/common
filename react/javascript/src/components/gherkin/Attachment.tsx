@@ -1,6 +1,10 @@
 import React from 'react'
 import { messages } from '@cucumber/messages'
 import ErrorMessage from './ErrorMessage'
+import { faPaperclip } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+// @ts-ignore
+import Convert from 'ansi-to-html'
 
 interface IProps {
   attachment: messages.IAttachment
@@ -11,10 +15,12 @@ const Attachment: React.FunctionComponent<IProps> = ({ attachment }) => {
     return image(attachment)
   } else if (attachment.mediaType.match(/^video\//)) {
     return video(attachment)
+  } else if (attachment.mediaType == 'text/x.cucumber.log+plain') {
+    return text(attachment, prettyANSI, true)
   } else if (attachment.mediaType.match(/^text\//)) {
-    return text(attachment, (s) => s)
+    return text(attachment, (s) => s, false)
   } else if (attachment.mediaType.match(/^application\/json/)) {
-    return text(attachment, prettyJSON())
+    return text(attachment, prettyJSON, false)
   } else {
     return (
       <ErrorMessage
@@ -38,6 +44,7 @@ function image(attachment: messages.IAttachment) {
     <img
       alt="Embedded Image"
       src={`data:${attachment.mediaType};base64,${attachment.body}`}
+      className="attachment-image"
     />
   )
 }
@@ -48,7 +55,7 @@ function video(attachment: messages.IAttachment) {
   ) {
     return (
       <ErrorMessage
-        message={`Couldn't display ${attachment.mediaType} image because it wasn't base64 encoded`}
+        message={`Couldn't display ${attachment.mediaType} video because it wasn't base64 encoded`}
       />
     )
   }
@@ -74,23 +81,40 @@ function base64Decode(body: string) {
 
 function text(
   attachment: messages.IAttachment,
-  prettify: (body: string) => string
+  prettify: (body: string) => string,
+  dangerouslySetInnerHTML: boolean
 ) {
   const body =
     attachment.contentEncoding === messages.Attachment.ContentEncoding.IDENTITY
       ? attachment.body
       : base64Decode(attachment.body)
-  return <pre className="attachment">{prettify(body)}</pre>
+
+  if (dangerouslySetInnerHTML) {
+    return (
+      <pre className="attachment">
+        <FontAwesomeIcon icon={faPaperclip} className="attachment-icon" />
+        <span dangerouslySetInnerHTML={{ __html: prettify(body) }} />
+      </pre>
+    )
+  }
+  return (
+    <pre className="attachment">
+      <FontAwesomeIcon icon={faPaperclip} className="attachment-icon" />
+      {prettify(body)}
+    </pre>
+  )
 }
 
-function prettyJSON() {
-  return (s: string) => {
-    try {
-      return JSON.stringify(JSON.parse(s), null, 2)
-    } catch (ignore) {
-      return s
-    }
+function prettyJSON(s: string) {
+  try {
+    return JSON.stringify(JSON.parse(s), null, 2)
+  } catch (ignore) {
+    return s
   }
+}
+
+function prettyANSI(s: string) {
+  return new Convert().toHtml(s)
 }
 
 export default Attachment

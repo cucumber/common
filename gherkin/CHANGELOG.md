@@ -11,20 +11,33 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Added
 
+* [JavaScript] Update `gherkin-languages.json`, which hadn't been updated for a few versions (not sure for how long!)
+* [JavaScript] Change gherkinQuery API:
+  * `getPickleIds`: now takes a URI and an `astNodeId` to find the pickle ids instead of a line number
+  * `getPickleStepIds`: now takes an `astNodeId` parameter instead of a URL and a line number to locate the pickle step id
+  * expose `parse` and `parseAndCompile` utilities
 * [Java] Enable consumers to find our version at runtime using `clazz.getPackage().getImplementationVersion()` by upgrading to `cucumber-parent:2.1.0`
   ([#976](https://github.com/cucumber/cucumber/pull/976)
    [aslakhellesoy])
+* [Java/Ruby/Go/Javascript] Add tests to ensure we do not delete whitespace inside a table cell
+  ([#769](https://github.com/cucumber/cucumber/pull/769)
+   [mpkorstanje]
+   [vincent-psarga])
+
 
 ### Changed
 
-* Fixed Estonian translation of "Rule" ([#973](https://github.com/cucumber/cucumber/pull/973) [ookull])  
-* Fixed Estonian translation of "Scenario Outline" ([#972](https://github.com/cucumber/cucumber/pull/972) [ookull]) 
+* Fixed Estonian translation of "Rule" ([#973](https://github.com/cucumber/cucumber/pull/973) [ookull])
+* Fixed Estonian translation of "Scenario Outline" ([#972](https://github.com/cucumber/cucumber/pull/972) [ookull])
+
 
 ### Deprecated
 
 ### Removed
 
 ### Fixed
+
+* [Ruby] Use `require_relative` for internal requires ([#1010](https://github.com/cucumber/cucumber/pull/1010) [deivid-rodriguez])
 
 ## [13.0.0] - 2020-04-14
 
@@ -36,7 +49,7 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Added
 
-* [JavaScript] New exports: 
+* [JavaScript] New exports:
   * `Parser`
   * `compile`
   ([#924](https://github.com/cucumber/cucumber/pull/924)
@@ -773,6 +786,7 @@ to Gherkin 2.
 [cyocum]:           https://github.com/cyocum
 [danilat]:          https://github.com/danilat
 [davidjgoss]:       https://github.com/davidjgoss
+[deivid-rodriguez]  https://github.com/deivid-rodriguez
 [dobiedad]:         https://github.com/dobiedad
 [ehpc]:             https://github.com/ehpc
 [enkessler]:        https://github.com/enkessler
@@ -789,6 +803,7 @@ to Gherkin 2.
 [mauriciotogneri]:  https://github.com/mauriciotogneri
 [maximeg]:          https://github.com/maximeg
 [maxmeyer]:         https://github.com/maxmeyer
+[mpkorstanje]:         https://github.com/mpkorstanje
 [merrua]:           https://github.com/merrua
 [milhcbt]:          https://github.com/milhcbt
 [moreau-nicolas]:   https://github.com/moreau-nicolas

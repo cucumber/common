@@ -1,4 +1,4 @@
-require 'gherkin/stream/parser_message_stream'
+require_relative 'gherkin/stream/parser_message_stream'
 
 module Gherkin
   DEFAULT_OPTIONS = {

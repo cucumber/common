@@ -1,6 +1,6 @@
 # Cucumber Query
 
-This is a query API for [cucumber-messsages](../cucumber-messages).
+This is a query API for [cucumber-messages](../cucumber-messages).
 
 ## Overview
 

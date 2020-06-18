@@ -14,12 +14,17 @@ executors:
     docker:
       # Remember to update to the latest image tag.
       # Run `source scripts/functions.sh && docker_image Dockerfile` to print it.
-      - image: cucumber/cucumber-build:63d2492020942f28e03bb54f23cb2b3f
+      - image: cucumber/cucumber-build:ea5ce6dab9e786f77c39e556c629d78a
     working_directory: ~/cucumber
+    environment:
+      # nvm, node and npm are installed locally rather globally.
+      # this avoids issues when using npm link
+      # to make this work nvm must be configured for each shell
+      BASH_ENV: ~/.nvm/nvm.sh
   # Go
   docker-circleci-golang:
     docker:
-      - image: circleci/golang:1.12
+      - image: circleci/golang:1.14
     working_directory: ~/cucumber
   # Node.js
   docker-circleci-node-10:
@@ -55,7 +60,7 @@ executors:
   # Python
   docker-circleci-python:
     docker:
-      - image: circleci/python:3.7.3
+      - image: circleci/python:3.8.3
     working_directory: ~/cucumber
 
 ###
@@ -255,6 +260,22 @@ jobs:
           paths:
             - gherkin/javascript/dist
             - gherkin/javascript/node_modules
+
+  gherkin-utils-javascript:
+    executor: docker-circleci-node-12
+    steps:
+      - attach_workspace:
+          at: "~/cucumber"
+      - run:
+          name: gherkin-utils/javascript
+          command: |
+            cd gherkin-utils/javascript
+            make
+      - persist_to_workspace:
+          root: ~/cucumber
+          paths:
+            - gherkin-utils/javascript/dist
+            - gherkin-utils/javascript/node_modules
 
   tag-expressions-javascript:
     executor: docker-circleci-node-12
@@ -859,6 +880,9 @@ workflows:
       - gherkin-javascript:
           requires:
             - messages-javascript
+      - gherkin-utils-javascript:
+          requires:
+            - gherkin-javascript
       - tag-expressions-javascript:
           requires:
             - checkout
@@ -876,6 +900,7 @@ workflows:
           requires:
             - messages-javascript
             - gherkin-javascript
+            - gherkin-utils-javascript
             - fake-cucumber-javascript
             - query-javascript
       - html-formatter-javascript:

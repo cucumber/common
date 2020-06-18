@@ -3,5 +3,4 @@
 ../../.templates/ruby/ .
 ../testdata/ testdata/
 ../gherkin.berp gherkin.berp
-../bin/ berp/
 ../gherkin-languages.json lib/gherkin/gherkin-languages.json
