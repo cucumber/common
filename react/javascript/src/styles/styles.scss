@@ -184,20 +184,8 @@ $statusColors:
   .cucumber-status-filter {
     padding-bottom: 1em;
 
-    p, ul {
-      display: inline;
-    }
-
-    li {
-      list-style-type: none;
-      display: inline;
-      padding-right: 1em;
-    }
-
-    @each $name, $color in $statusColors {
-      li.filter-status-#{$name} {
-        border-bottom: 2px solid $color;
-      }
+    th {
+      display: table-row
     }
   }
 
