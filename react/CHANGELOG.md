@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+* Use ANSI color to render logs ([#1057](https://github.com/cucumber/cucumber/issues/1057))
+
 ### Changed
 
 * Do not rely on line number to obtain Step or Row status.

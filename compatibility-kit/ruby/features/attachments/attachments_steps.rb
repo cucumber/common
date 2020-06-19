@@ -19,7 +19,17 @@ When('the string {string} is logged') do |text|
   self.respond_to?(:log) ? log(text) : puts(text)
 end
 
-When('an array with {int} bytes are attached as {string}') do |size, media_type|
+When('the following string is attached as {string}:') do |media_type, doc_string|
+  attach_or_embed(self, doc_string, media_type)
+end
+
+When('text with ANSI escapes is logged') do
+  text = "This displays a \x1b[31mr\x1b[0m\x1b[91ma\x1b[0m\x1b[33mi\x1b[0m\x1b[32mn\x1b[0m\x1b[34mb\x1b[0m\x1b[95mo\x1b[0m\x1b[35mw\x1b[0m"
+
+  self.respond_to?(:log) ? log(text) : puts(text)
+end
+
+When('an array with {int} bytes is attached as {string}') do |size, media_type|
   data = (0..size-1).map {|i| [i].pack('C') }.join
   attach_or_embed(self, data, media_type)
 end
@@ -35,3 +45,5 @@ end
 When('a JPEG image is attached') do
   attach_or_embed(self, File.open("#{__dir__}/cucumber-growing-on-vine.jpg"), 'image/jpg')
 end
+
+
