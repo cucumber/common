@@ -70,9 +70,7 @@ func isNonCapturing(source string, i int) bool {
 		if next == '<' {
 			return false
 		}
-
 	}
-
 	// (?...)
 	return true
 
