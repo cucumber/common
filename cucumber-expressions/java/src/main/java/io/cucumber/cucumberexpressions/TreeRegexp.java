@@ -26,27 +26,26 @@ final class TreeRegexp {
 
     private static GroupBuilder createGroupBuilder(Pattern pattern) {
         String source = pattern.pattern();
-        char[] chars = source.toCharArray();
         Deque<GroupBuilder> stack = new ArrayDeque<>();
         Deque<Integer> groupStartStack = new ArrayDeque<>();
 
         stack.push(new GroupBuilder());
         boolean escaping = false, charClass = false;
 
-        for (int i = 0; i < chars.length; i++) {
-            char c = chars[i];
+        for (int i = 0; i < source.length(); i++) {
+            char c = source.charAt(i);
             if (c == '[' && !escaping) {
                 charClass = true;
             } else if (c == ']' && !escaping) {
                 charClass = false;
             } else if (c == '(' && !escaping && !charClass) {
                 groupStartStack.push(i);
-                boolean nonCapturing = isNonCapturingGroup(chars, i);
-                GroupBuilder e = new GroupBuilder();
+                boolean nonCapturing = isNonCapturingGroup(source, i);
+                GroupBuilder groupBuilder = new GroupBuilder();
                 if (nonCapturing) {
-                    e.setNonCapturing();
+                    groupBuilder.setNonCapturing();
                 }
-                stack.push(e);
+                stack.push(groupBuilder);
             } else if (c == ')' && !escaping && !charClass) {
                 GroupBuilder gb = stack.pop();
                 int groupStart = groupStartStack.pop();
@@ -62,15 +61,15 @@ final class TreeRegexp {
         return stack.pop();
     }
 
-    private static boolean isNonCapturingGroup(char[] chars, int i) {
+    private static boolean isNonCapturingGroup(String source, int i) {
         // Regex is valid. Bounds check not required.
-        char next = chars[++i];
+        char next = source.charAt(++i);
 
         if (next != '?') {
             // (X)
             return false;
         }
-        next = chars[++i];
+        next = source.charAt(++i);
         if (next != '<') {
             // (?:X)
             // (?idmsuxU-idmsuxU)
@@ -80,7 +79,7 @@ final class TreeRegexp {
             // (?>X)
             return true;
         }
-        next = chars[++i];
+        next = source.charAt(++i);
         if (next == '=' || next == '!') {
             // (?<=X)
             // (?<!X)
