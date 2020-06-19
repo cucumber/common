@@ -6,6 +6,24 @@ import {
   rejectAllFilters,
 } from '@cucumber/gherkin-utils'
 
+function getPickleResult(
+  pickle: messages.IPickle,
+  cucumberQuery: CucumberQuery
+): messages.TestStepFinished.TestStepResult.Status {
+  const pickleStepIds = pickle.steps.map((step) => step.id)
+  const pickleStepResults = cucumberQuery.getPickleStepTestStepResults(pickleStepIds)
+
+  const stepResults = pickleStepResults.slice()
+  const hookTestSteps = cucumberQuery.getBeforeHookSteps(pickle.id).concat(cucumberQuery.getAfterHookSteps(pickle.id))
+  hookTestSteps.forEach(step => {
+    const results = cucumberQuery.getTestStepResults(step.id)
+    results.forEach(result => stepResults.push(result))
+  })
+
+
+  return cucumberQuery.getWorstTestStepResult(stepResults).status
+}
+
 export default function filterByStatus(
   gherkinDocument: messages.IGherkinDocument,
   gherkinQuery: GherkinQuery,
@@ -23,13 +41,7 @@ export default function filterByStatus(
       return pickles
         .filter((pickle) => pickleIds.includes(pickle.id))
         .map((pickle) => {
-          const pickleStatus = cucumberQuery.getWorstTestStepResult(
-            cucumberQuery.getPickleStepTestStepResults(
-              pickle.steps.map((step) => step.id)
-            )
-          ).status
-
-          return statuses.includes(pickleStatus)
+          return statuses.includes(getPickleResult(pickle, cucumberQuery))
         })
         .includes(true)
     },
