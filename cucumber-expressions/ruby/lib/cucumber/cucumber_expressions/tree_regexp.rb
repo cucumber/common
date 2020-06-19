@@ -72,9 +72,9 @@ module Cucumber
             stack.push(group_builder)
           elsif c == ')' && !escaping && !char_class
             gb = stack.pop
-            group_start = group_start_stack.pop + 1
+            group_start = group_start_stack.pop
             if gb.capturing?
-              gb.source = source[group_start...i]
+              gb.source = source[group_start + 1...i]
               stack.last.add(gb)
             else
               gb.move_children_to(stack.last)
