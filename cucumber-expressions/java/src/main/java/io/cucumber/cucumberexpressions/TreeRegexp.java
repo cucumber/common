@@ -21,10 +21,10 @@ final class TreeRegexp {
 
     TreeRegexp(Pattern pattern) {
         this.pattern = pattern;
-        this.groupBuilder = parsePattern(pattern);
+        this.groupBuilder = createGroupBuilder(pattern);
     }
 
-    private static GroupBuilder parsePattern(Pattern pattern) {
+    private static GroupBuilder createGroupBuilder(Pattern pattern) {
         String source = pattern.pattern();
         char[] chars = source.toCharArray();
         Deque<GroupBuilder> stack = new ArrayDeque<>();
@@ -41,9 +41,9 @@ final class TreeRegexp {
                 charClass = false;
             } else if (c == '(' && !escaping && !charClass) {
                 groupStartStack.push(i + 1);
-                boolean capturing = isCapturingGroup(i, chars);
+                boolean nonCapturing = isNonCapturing(chars, i);
                 GroupBuilder e = new GroupBuilder();
-                if (!capturing) {
+                if (nonCapturing) {
                     e.setNonCapturing();
                 }
                 stack.push(e);
@@ -62,13 +62,13 @@ final class TreeRegexp {
         return stack.pop();
     }
 
-    private static boolean isCapturingGroup(int i, char[] chars) {
+    private static boolean isNonCapturing(char[] chars, int i) {
         // Regex is valid. Bounds check not required.
         char next = chars[++i];
 
         if (next != '?') {
             // (X)
-            return true;
+            return false;
         }
         next = chars[++i];
         if (next != '<') {
@@ -78,16 +78,16 @@ final class TreeRegexp {
             // (?=X)
             // (?!X)
             // (?>X)
-            return false;
+            return true;
         }
         next = chars[++i];
         if (next == '=' || next == '!') {
             // (?<=X)
             // (?<!X)
-            return false;
+            return true;
         }
         // (?<name>X)
-        return true;
+        return false;
     }
 
     Pattern pattern() {
