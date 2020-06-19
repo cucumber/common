@@ -12,10 +12,10 @@ export default class TreeRegexp {
   constructor(regexp: RegExp | string) {
     this.regexp = 'string' === typeof regexp ? new RegExp(regexp) : regexp
     this.regex = new Regex(this.regexp.source, this.regexp.flags)
-    this.groupBuilder = this.createGroupBuilder(this.regex)
+    this.groupBuilder = TreeRegexp.createGroupBuilder(this.regex)
   }
 
-  private createGroupBuilder(regexp: RegExp) {
+  private static createGroupBuilder(regexp: RegExp) {
     const source = regexp.source
     const stack: GroupBuilder[] = [new GroupBuilder()]
     const groupStartStack: number[] = []
@@ -30,7 +30,7 @@ export default class TreeRegexp {
         charClass = false
       } else if (c === '(' && !escaping && !charClass) {
         groupStartStack.push(i)
-        const nonCapturing = this.isNonCapturing(source, i)
+        const nonCapturing = TreeRegexp.isNonCapturing(source, i)
         const groupBuilder = new GroupBuilder()
         if (nonCapturing) {
           groupBuilder.setNonCapturing()
@@ -51,7 +51,7 @@ export default class TreeRegexp {
     return stack.pop()
   }
 
-  private isNonCapturing(source: string, i: number): boolean {
+  private static isNonCapturing(source: string, i: number): boolean {
     // Regex is valid. Bounds check not required.
     let next = source[++i]
     if (next != '?') {
