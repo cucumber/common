@@ -1,13 +1,14 @@
 $border-color: #4B5662;
 $white: #F0EFFB;
 
-$passed: #2CB14A;
-$skipped: #00A0CC;
-$pending: #FFAD33;
-$undefined: #FFAD33;
-$ambiguous: #F4EBFD;
-$failed: #BB0000;
-$unknown: #B6BECB;
+$statusColors:
+  "passed" #2CB14A,
+  "skipped" #00A0CC,
+  "pending" #FFAD33,
+  "undefined" #FFAD33,
+  "ambiguous" #F4EBFD,
+  "failed" #BB0000,
+  "unknown" #B6BECB;
 
 @mixin padding-table-cell {
   padding: .3em;
@@ -36,32 +37,10 @@ $unknown: #B6BECB;
     margin-bottom: 1em;
   }
 
-  .status-passed {
-    color: $passed
-  }
-
-  .status-skipped {
-    color: $skipped
-  }
-
-  .status-pending {
-    color: $pending
-  }
-
-  .status-undefined {
-    color: $undefined
-  }
-
-  .status-ambiguous {
-    color: $ambiguous
-  }
-
-  .status-failed {
-    color: $failed
-  }
-
-  .status-unknown {
-    color: $unknown
+  @each $name, $color in $statusColors {
+    .status-#{$name} {
+      color: $color
+    }
   }
 
   .data-table {
@@ -198,6 +177,26 @@ $unknown: #B6BECB;
       p {
         border-color: $border-color;
         background-color: #f4f4f4;
+      }
+    }
+  }
+
+  .cucumber-status-filter {
+    padding-bottom: 1em;
+
+    p, ul {
+      display: inline;
+    }
+
+    li {
+      list-style-type: none;
+      display: inline;
+      padding-right: 1em;
+    }
+
+    @each $name, $color in $statusColors {
+      li.filter-status-#{$name} {
+        border-bottom: 2px solid $color;
       }
     }
   }
