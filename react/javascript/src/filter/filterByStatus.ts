@@ -11,15 +11,18 @@ function getPickleResult(
   cucumberQuery: CucumberQuery
 ): messages.TestStepFinished.TestStepResult.Status {
   const pickleStepIds = pickle.steps.map((step) => step.id)
-  const pickleStepResults = cucumberQuery.getPickleStepTestStepResults(pickleStepIds)
+  const pickleStepResults = cucumberQuery.getPickleStepTestStepResults(
+    pickleStepIds
+  )
 
   const stepResults = pickleStepResults.slice()
-  const hookTestSteps = cucumberQuery.getBeforeHookSteps(pickle.id).concat(cucumberQuery.getAfterHookSteps(pickle.id))
-  hookTestSteps.forEach(step => {
+  const hookTestSteps = cucumberQuery
+    .getBeforeHookSteps(pickle.id)
+    .concat(cucumberQuery.getAfterHookSteps(pickle.id))
+  hookTestSteps.forEach((step) => {
     const results = cucumberQuery.getTestStepResults(step.id)
-    results.forEach(result => stepResults.push(result))
+    results.forEach((result) => stepResults.push(result))
   })
-
 
   return cucumberQuery.getWorstTestStepResult(stepResults).status
 }

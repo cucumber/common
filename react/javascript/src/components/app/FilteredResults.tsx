@@ -17,12 +17,14 @@ const defaultDisplayedResults = [
   messages.TestStepFinished.TestStepResult.Status.PASSED,
   messages.TestStepFinished.TestStepResult.Status.PENDING,
   messages.TestStepFinished.TestStepResult.Status.SKIPPED,
-  messages.TestStepFinished.TestStepResult.Status.UNDEFINED
+  messages.TestStepFinished.TestStepResult.Status.UNDEFINED,
 ]
 
 const FilteredResults: React.FunctionComponent = () => {
   const [query, setQuery] = useState('')
-  const [displayedStatuses, setDisplayedStatuses] = useState(defaultDisplayedResults)
+  const [displayedStatuses, setDisplayedStatuses] = useState(
+    defaultDisplayedResults
+  )
 
   const gherkinQuery = React.useContext(GherkinQueryContext)
   const cucumberQuery = React.useContext(CucumberQueryContext)
@@ -36,8 +38,10 @@ const FilteredResults: React.FunctionComponent = () => {
 
   const matches = query === '' ? allDocuments : search.search(query)
   const filtered = matches
-    .map(document => filterByStatus(document, gherkinQuery, cucumberQuery, displayedStatuses))
-    .filter(document => document !== null)
+    .map((document) =>
+      filterByStatus(document, gherkinQuery, cucumberQuery, displayedStatuses)
+    )
+    .filter((document) => document !== null)
 
   return (
     <div className="cucumber-filtered-results">

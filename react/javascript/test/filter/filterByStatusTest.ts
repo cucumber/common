@@ -1,5 +1,10 @@
 import assert from 'assert'
-import { runCucumber, SupportCode, IHook, ISupportCodeExecutor, IWorld } from '@cucumber/fake-cucumber'
+import {
+  runCucumber,
+  SupportCode,
+  IHook,
+  ISupportCodeExecutor,
+} from '@cucumber/fake-cucumber'
 import { Query as GherkinQuery, parseAndCompile } from '@cucumber/gherkin'
 import { Query as CucumberQuery } from '@cucumber/query'
 import { Writable, PassThrough } from 'stream'
@@ -8,30 +13,28 @@ import filterByStatus from '../../src/filter/filterByStatus'
 import { pretty } from '@cucumber/gherkin-utils'
 
 class SimpleSupport implements ISupportCodeExecutor {
-  constructor(
-    readonly stepDefinitionId: string
-  ) {}
+  constructor(readonly stepDefinitionId: string) {}
 
-  public execute(thisObj: IWorld) { throw new Error('Woops ...') }
+  public execute() {
+    throw new Error('Woops ...')
+  }
   public argsToMessages(): messages.TestCase.TestStep.StepMatchArgumentsList.IStepMatchArgument[] {
     return []
   }
 }
 
 class Hook implements IHook {
-  constructor(
-    public readonly id: string
-  ) {}
+  constructor(public readonly id: string) {}
 
-  match(pickle: messages.IPickle): ISupportCodeExecutor {
+  match(): ISupportCodeExecutor {
     return new SimpleSupport('')
   }
 
   toMessage(): messages.IEnvelope {
     return messages.Envelope.create({
       hook: messages.Hook.create({
-        id: this.id
-      })
+        id: this.id,
+      }),
     })
   }
 }
@@ -220,8 +223,9 @@ Feature: statuses
       supportCode.registerBeforeHook(new Hook('1234-5678'))
 
       const emitted = await runFeature(feature, gherkinQuery, supportCode)
-      const gherkinDocument = emitted.find((envelope) => envelope.gherkinDocument)
-        .gherkinDocument
+      const gherkinDocument = emitted.find(
+        (envelope) => envelope.gherkinDocument
+      ).gherkinDocument
       emitted.map((message) => cucumberQuery.update(message))
 
       const onlyFailedScenarios = filterByStatus(
@@ -231,7 +235,11 @@ Feature: statuses
         [messages.TestStepFinished.TestStepResult.Status.FAILED]
       )
 
-      assert.deepStrictEqual(scenarioNames(onlyFailedScenarios), ['passed', 'failed', 'undefined'])
+      assert.deepStrictEqual(scenarioNames(onlyFailedScenarios), [
+        'passed',
+        'failed',
+        'undefined',
+      ])
     })
   })
 
@@ -240,8 +248,9 @@ Feature: statuses
       supportCode.registerAfterHook(new Hook('1234-5678'))
 
       const emitted = await runFeature(feature, gherkinQuery, supportCode)
-      const gherkinDocument = emitted.find((envelope) => envelope.gherkinDocument)
-        .gherkinDocument
+      const gherkinDocument = emitted.find(
+        (envelope) => envelope.gherkinDocument
+      ).gherkinDocument
       emitted.map((message) => cucumberQuery.update(message))
 
       const onlyFailedScenarios = filterByStatus(
@@ -251,7 +260,11 @@ Feature: statuses
         [messages.TestStepFinished.TestStepResult.Status.FAILED]
       )
 
-      assert.deepStrictEqual(scenarioNames(onlyFailedScenarios), ['passed', 'failed', 'undefined'])
+      assert.deepStrictEqual(scenarioNames(onlyFailedScenarios), [
+        'passed',
+        'failed',
+        'undefined',
+      ])
     })
   })
 })
