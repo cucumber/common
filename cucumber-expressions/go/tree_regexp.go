@@ -67,7 +67,7 @@ func isNonCapturing(source string, i int) bool {
 		i = i + 1
 		next = source[i]
 		if next == '<' {
-			// (?P<
+			// (?P<name>X)
 			return false
 		}
 	}
