@@ -40,8 +40,8 @@ final class TreeRegexp {
             } else if (c == ']' && !escaping) {
                 charClass = false;
             } else if (c == '(' && !escaping && !charClass) {
-                groupStartStack.push(i + 1);
-                boolean nonCapturing = isNonCapturing(chars, i);
+                groupStartStack.push(i);
+                boolean nonCapturing = isNonCapturingGroup(chars, i);
                 GroupBuilder e = new GroupBuilder();
                 if (nonCapturing) {
                     e.setNonCapturing();
@@ -51,7 +51,7 @@ final class TreeRegexp {
                 GroupBuilder gb = stack.pop();
                 int groupStart = groupStartStack.pop();
                 if (gb.isCapturing()) {
-                    gb.setSource(source.substring(groupStart, i));
+                    gb.setSource(source.substring(groupStart + 1, i));
                     stack.peek().add(gb);
                 } else {
                     gb.moveChildrenTo(stack.peek());
@@ -62,7 +62,7 @@ final class TreeRegexp {
         return stack.pop();
     }
 
-    private static boolean isNonCapturing(char[] chars, int i) {
+    private static boolean isNonCapturingGroup(char[] chars, int i) {
         // Regex is valid. Bounds check not required.
         char next = chars[++i];
 
