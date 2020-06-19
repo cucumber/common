@@ -33,6 +33,13 @@ func TestTreeRegexp(t *testing.T) {
 		require.Len(t, group.Children(), 1)
 	})
 
+	t.Run("matches named and numbered capturing group", func(t *testing.T) {
+		tr := NewTreeRegexp(regexp.MustCompile("a(?P<name>b)c"))
+		group := tr.Match("abc")
+		require.Equal(t, *group.Value(), "abc")
+		require.Equal(t, *group.Children()[0].Value(), "b")
+	})
+
 	t.Run("matches optional group", func(t *testing.T) {
 		tr := NewTreeRegexp(regexp.MustCompile("^Something( with an optional argument)?"))
 		group := tr.Match("Something")
@@ -93,7 +100,7 @@ func TestTreeRegexp(t *testing.T) {
 		require.Equal(t, *group.Children()[0].Value(), "ONE(TWO)")
 	})
 
-	t.Run("works with flags", func(t *testing.T) {
+	t.Run("works with inline flags", func(t *testing.T) {
 		tr := NewTreeRegexp(regexp.MustCompile("(?i)HELLO"))
 		var gbSources []string
 		for _, gb := range tr.GroupBuilder().Children() {
@@ -102,6 +109,43 @@ func TestTreeRegexp(t *testing.T) {
 		require.Empty(t, gbSources)
 		group := tr.Match("hello")
 		require.Equal(t, *group.Value(), "hello")
+		require.Len(t, group.Children(), 0)
+	})
+
+	t.Run("works with non-capturing inline flags", func(t *testing.T) {
+		tr := NewTreeRegexp(regexp.MustCompile("(?i:HELLO)"))
+		var gbSources []string
+		for _, gb := range tr.GroupBuilder().Children() {
+			gbSources = append(gbSources, gb.Source())
+		}
+		require.Empty(t, gbSources)
+		group := tr.Match("hello")
+		require.Equal(t, *group.Value(), "hello")
+		require.Len(t, group.Children(), 0)
+	})
+
+	t.Run("works with empty capturing group", func(t *testing.T) {
+		tr := NewTreeRegexp(regexp.MustCompile("()"))
+		var gbSources []string
+		for _, gb := range tr.GroupBuilder().Children() {
+			gbSources = append(gbSources, gb.Source())
+		}
+		require.Equal(t, gbSources, []string{""})
+		group := tr.Match("")
+		require.Equal(t, *group.Value(), "")
+		require.Len(t, group.Children(), 1)
+	})
+
+	t.Run("works with empty non-capturing group", func(t *testing.T) {
+		tr := NewTreeRegexp(regexp.MustCompile("(?)"))
+		var gbSources []string
+		for _, gb := range tr.GroupBuilder().Children() {
+			gbSources = append(gbSources, gb.Source())
+		}
+		require.Empty(t, gbSources)
+		group := tr.Match("")
+		require.Equal(t, *group.Value(), "")
+		require.Len(t, group.Children(), 0)
 	})
 
 	t.Run("works with disabled flags", func(t *testing.T) {
