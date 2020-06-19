@@ -54,12 +54,14 @@ const FilteredResults: React.FunctionComponent = () => {
 
   return (
     <div className="cucumber-filtered-results">
-      <SearchBar queryUpdated={(query) => setQuery(query)} />
-      <StatusesFilter
-        statusesUpdated={(statuses) => setDisplayedStatuses(statuses)}
-        enabledStatuses={displayedStatuses}
-        scenarioCountByStatus={scenarioCountByStatus}
-      />
+      <div className="cucumber-report-header">
+        <StatusesFilter
+          statusesUpdated={(statuses) => setDisplayedStatuses(statuses)}
+          enabledStatuses={displayedStatuses}
+          scenarioCountByStatus={scenarioCountByStatus}
+        />
+        <SearchBar queryUpdated={(query) => setQuery(query)} />
+      </div>
       <GherkinDocumentList gherkinDocuments={filtered} />
       <NoMatchResult query={query} matches={filtered} />
     </div>

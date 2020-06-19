@@ -156,36 +156,42 @@ $statusColors:
     border-radius: 6px;
   }
 
-  .cucumber-search-bar {
-    margin-top: 2em;
-    margin-bottom: 2em;
+  .cucumber-report-header {
+    width: 100%;
+    display: flex;
+    align-items: baseline;
 
-    input {
-      padding: 0.4em;
-      border-radius: 0;
+    & > * {
+      flex-grow: 1;
     }
 
-    button {
-      height: 2.2em;
-      padding-left: 0.6em;
-      padding-right: 0.6em;
-    }
+    .cucumber-status-filter {
+      padding-bottom: 1em;
 
-    details {
-      font-size: 80%;
+      th {
+        display: table-row
+      }
 
-      p {
-        border-color: $border-color;
-        background-color: #f4f4f4;
+      td {
+        padding: 3px 15px
       }
     }
-  }
 
-  .cucumber-status-filter {
-    padding-bottom: 1em;
+    .cucumber-search-bar {
+      input {
+        padding: 0.4em;
+        border-radius: 0;
+      }
 
-    th {
-      display: table-row
+      button {
+        height: 2.2em;
+        padding-left: 0.6em;
+        padding-right: 0.6em;
+      }
+
+      p.help {
+        font-size: 80%;
+      }
     }
   }
 

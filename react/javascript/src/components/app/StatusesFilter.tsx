@@ -19,7 +19,7 @@ const StatusesFilter: React.FunctionComponent<IProps> = ({
   enabledStatuses: enabledStatuses,
   scenarioCountByStatus: scenarioCountByStatus,
 }) => {
-  const statuses =[
+  const statuses = [
     messages.TestStepFinished.TestStepResult.Status.AMBIGUOUS,
     messages.TestStepFinished.TestStepResult.Status.FAILED,
     messages.TestStepFinished.TestStepResult.Status.PASSED,
@@ -36,7 +36,7 @@ const StatusesFilter: React.FunctionComponent<IProps> = ({
           <th>
             <td>Status</td>
             <td>Scenarios</td>
-            <td>Display ?</td>
+            <td>Show</td>
           </th>
         </thead>
         <tbody>
@@ -51,17 +51,15 @@ const StatusesFilter: React.FunctionComponent<IProps> = ({
             }
 
             return (
-              <tr>
+              <tr key={index}>
                 <td>
                   <label htmlFor={inputId}>
                     <StatusIcon status={status} /> {name}
                   </label>
                 </td>
+                <td>{scenarioCount} scenarios</td>
                 <td>
-                {scenarioCount} scenarios
-                </td>
-                <td>
-                <input
+                  <input
                     id={inputId}
                     type="checkbox"
                     defaultChecked={enabled}
