@@ -8,49 +8,71 @@ export default class TreeRegexp {
   public regexp: RegExp
   private regex: any
   public groupBuilder: GroupBuilder
+
   constructor(regexp: RegExp | string) {
     this.regexp = 'string' === typeof regexp ? new RegExp(regexp) : regexp
     this.regex = new Regex(this.regexp.source, this.regexp.flags)
+    this.groupBuilder = this.createGroupBuilder(this.regex)
+  }
 
+  private createGroupBuilder(regexp: RegExp) {
+    const source = regexp.source
     const stack: GroupBuilder[] = [new GroupBuilder()]
     const groupStartStack: number[] = []
-    let last: string = null
     let escaping = false
-    let nonCapturingMaybe = false
     let charClass = false
-    this.regexp.source.split('').forEach((c, n) => {
+
+    for (let i = 0; i < source.length; i++) {
+      const c = source[i]
       if (c === '[' && !escaping) {
         charClass = true
       } else if (c === ']' && !escaping) {
         charClass = false
       } else if (c === '(' && !escaping && !charClass) {
-        stack.push(new GroupBuilder())
-        groupStartStack.push(n + 1)
-        nonCapturingMaybe = false
+        groupStartStack.push(i)
+        const nonCapturing = this.isNonCapturing(source, i)
+        const groupBuilder = new GroupBuilder()
+        if (nonCapturing) {
+          groupBuilder.setNonCapturing()
+        }
+        stack.push(groupBuilder)
       } else if (c === ')' && !escaping && !charClass) {
         const gb = stack.pop()
         const groupStart = groupStartStack.pop()
         if (gb.capturing) {
-          gb.source = this.regexp.source.substring(groupStart, n)
+          gb.source = source.substring(groupStart + 1, i)
           stack[stack.length - 1].add(gb)
         } else {
           gb.moveChildrenTo(stack[stack.length - 1])
         }
-        nonCapturingMaybe = false
-      } else if (c === '?' && last === '(') {
-        nonCapturingMaybe = true
-      } else if (
-        (c === ':' || c === '!' || c === '=' || c === '<') &&
-        last === '?' &&
-        nonCapturingMaybe
-      ) {
-        stack[stack.length - 1].setNonCapturing()
-        nonCapturingMaybe = false
       }
       escaping = c === '\\' && !escaping
-      last = c
-    })
-    this.groupBuilder = stack.pop()
+    }
+    return stack.pop()
+  }
+
+  private isNonCapturing(source: string, i: number): boolean {
+    // Regex is valid. Bounds check not required.
+    let next = source[++i]
+    if (next != '?') {
+      // (X)
+      return false
+    }
+    next = source[++i]
+    if (next != '<') {
+      // (?:X)
+      // (?=X)
+      // (?!X)
+      return true
+    }
+    next = source[++i]
+    if (next == '=' || next == '!') {
+      // (?<=X)
+      // (?<!X)
+      return true
+    }
+    // (?<name>X)
+    return false
   }
 
   public match(s: string): Group | null {
