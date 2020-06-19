@@ -11,6 +11,13 @@ module Cucumber
         @group_builder = create_group_builder(@regexp)
       end
 
+      def match(s)
+        match = @regexp.match(s)
+        return nil if match.nil?
+        group_indices = (0..match.length).to_a.to_enum
+        @group_builder.build(match, group_indices)
+      end
+
       private def is_non_capturing(source, i)
         # Regex is valid. Bounds check not required.
         i = i + 1
@@ -42,13 +49,6 @@ module Cucumber
 
         # (?<name>X)
         raise CucumberExpressionError.new("Named capture groups are not supported. See https://github.com/cucumber/cucumber/issues/329")
-      end
-
-      def match(s)
-        match = @regexp.match(s)
-        return nil if match.nil?
-        group_indices = (0..match.length).to_a.to_enum
-        @group_builder.build(match, group_indices)
       end
 
       private def create_group_builder(regexp)
