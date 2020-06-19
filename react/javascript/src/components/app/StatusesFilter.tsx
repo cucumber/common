@@ -6,11 +6,16 @@ interface IProps {
     statuses: messages.TestStepFinished.TestStepResult.Status[]
   ) => any
   enabledStatuses: messages.TestStepFinished.TestStepResult.Status[]
+  scenarioCountByStatus: Map<
+    messages.TestStepFinished.TestStepResult.Status,
+    number
+  >
 }
 
 const StatusesFilter: React.FunctionComponent<IProps> = ({
   statusesUpdated: statusesUpdated,
   enabledStatuses: enabledStatuses,
+  scenarioCountByStatus: scenarioCountByStatus,
 }) => {
   const statuses = new Map<
     string,
@@ -32,6 +37,11 @@ const StatusesFilter: React.FunctionComponent<IProps> = ({
         {Array.from(statuses.entries()).map((entry, index) => {
           const name = entry[0]
           const status = entry[1]
+          const scenarioCount = scenarioCountByStatus.get(status)
+
+          if (scenarioCount === undefined) {
+            return
+          }
 
           const enabled = enabledStatuses.includes(status)
           return (
@@ -50,7 +60,7 @@ const StatusesFilter: React.FunctionComponent<IProps> = ({
                     }
                   }}
                 />
-                {name}
+                {name} ({scenarioCount} scenarios)
               </label>
             </li>
           )
