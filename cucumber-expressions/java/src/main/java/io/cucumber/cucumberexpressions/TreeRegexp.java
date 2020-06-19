@@ -1,10 +1,13 @@
 package io.cucumber.cucumberexpressions;
 
 import java.util.ArrayDeque;
+import java.util.Collections;
 import java.util.Deque;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.IntStream;
+
+import static java.util.Collections.singleton;
 
 /**
  * TreeRegexp represents matches as a tree of {@link Group}
@@ -26,11 +29,10 @@ final class TreeRegexp {
 
     private static GroupBuilder createGroupBuilder(Pattern pattern) {
         String source = pattern.pattern();
-        Deque<GroupBuilder> stack = new ArrayDeque<>();
+        Deque<GroupBuilder> stack = new ArrayDeque<>(singleton(new GroupBuilder()));
         Deque<Integer> groupStartStack = new ArrayDeque<>();
-
-        stack.push(new GroupBuilder());
-        boolean escaping = false, charClass = false;
+        boolean escaping = false;
+        boolean charClass = false;
 
         for (int i = 0; i < source.length(); i++) {
             char c = source.charAt(i);
