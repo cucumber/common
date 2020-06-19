@@ -1,76 +1,11 @@
 import assert from 'assert'
-import {
-  runCucumber,
-  SupportCode,
-  IHook,
-  ISupportCodeExecutor,
-} from '@cucumber/fake-cucumber'
-import { Query as GherkinQuery, parseAndCompile } from '@cucumber/gherkin'
+import { SupportCode } from '@cucumber/fake-cucumber'
+import { Query as GherkinQuery } from '@cucumber/gherkin'
 import { Query as CucumberQuery } from '@cucumber/query'
-import { Writable, PassThrough } from 'stream'
 import { messages } from '@cucumber/messages'
 import filterByStatus from '../../src/filter/filterByStatus'
 import { pretty } from '@cucumber/gherkin-utils'
-
-class SimpleSupport implements ISupportCodeExecutor {
-  constructor(readonly stepDefinitionId: string) {}
-
-  public execute() {
-    throw new Error('Woops ...')
-  }
-  public argsToMessages(): messages.TestCase.TestStep.StepMatchArgumentsList.IStepMatchArgument[] {
-    return []
-  }
-}
-
-class Hook implements IHook {
-  constructor(public readonly id: string) {}
-
-  match(): ISupportCodeExecutor {
-    return new SimpleSupport('')
-  }
-
-  toMessage(): messages.IEnvelope {
-    return messages.Envelope.create({
-      hook: messages.Hook.create({
-        id: this.id,
-      }),
-    })
-  }
-}
-
-async function runFeature(
-  feature: string,
-  gherkinQuery: GherkinQuery,
-  supportCode: SupportCode = new SupportCode()
-): Promise<messages.IEnvelope[]> {
-  const emitted: messages.IEnvelope[] = []
-  const out = new Writable({
-    objectMode: true,
-    write(
-      envelope: messages.IEnvelope,
-      encoding: string,
-      callback: (error?: Error | null) => void
-    ): void {
-      emitted.push(envelope)
-      try {
-        callback()
-      } catch (err) {
-        callback(err)
-      }
-    },
-  })
-
-  const gherkinEnvelopeStream = new PassThrough({ objectMode: true })
-  parseAndCompile(feature, (envelope) => {
-    gherkinEnvelopeStream.write(envelope)
-    gherkinQuery.update(envelope)
-  })
-  gherkinEnvelopeStream.end()
-
-  await runCucumber(supportCode, gherkinEnvelopeStream, gherkinQuery, out)
-  return emitted
-}
+import runFeature, { FailingHook } from '../runFeature'
 
 function scenarioNames(gherkinDocument: messages.IGherkinDocument): string[] {
   if (gherkinDocument === null) {
@@ -220,7 +155,7 @@ Feature: statuses
 
   context('when before hook steps fail', () => {
     it('takes those step statuses into account', async () => {
-      supportCode.registerBeforeHook(new Hook('1234-5678'))
+      supportCode.registerBeforeHook(new FailingHook('1234-5678'))
 
       const emitted = await runFeature(feature, gherkinQuery, supportCode)
       const gherkinDocument = emitted.find(
@@ -245,7 +180,7 @@ Feature: statuses
 
   context('when after hook steps fail', () => {
     it('takes those step statuses into account', async () => {
-      supportCode.registerAfterHook(new Hook('1234-5678'))
+      supportCode.registerAfterHook(new FailingHook('1234-5678'))
 
       const emitted = await runFeature(feature, gherkinQuery, supportCode)
       const gherkinDocument = emitted.find(
