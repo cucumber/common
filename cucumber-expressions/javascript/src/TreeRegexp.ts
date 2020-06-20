@@ -53,26 +53,18 @@ export default class TreeRegexp {
 
   private static isNonCapturing(source: string, i: number): boolean {
     // Regex is valid. Bounds check not required.
-    let next = source[++i]
-    if (next != '?') {
+    if (source[i + 1] != '?') {
       // (X)
       return false
     }
-    next = source[++i]
-    if (next != '<') {
+    if (source[i + 2] != '<') {
       // (?:X)
       // (?=X)
       // (?!X)
       return true
     }
-    next = source[++i]
-    if (next == '=' || next == '!') {
-      // (?<=X)
-      // (?<!X)
-      return true
-    }
-    // (?<name>X)
-    return false
+    // (?<=X) or (?<!X) else (?<name>X)
+    return source[i + 3] == '=' || source[i + 3] == '!'
   }
 
   public match(s: string): Group | null {

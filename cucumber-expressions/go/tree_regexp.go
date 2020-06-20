@@ -55,25 +55,18 @@ func createGroupBuilder(regexp *regexp.Regexp) *GroupBuilder {
 
 func isNonCapturing(source string, i int) bool {
 	// Regex is valid. Bounds check not required.
-	i = i + 1
-	next := source[i]
-	if next != '?' {
+	if source[i+1] != '?' {
 		// (X)
 		return false
 	}
-	i = i + 1
-	next = source[i]
-	if next == 'P' {
-		i = i + 1
-		next = source[i]
-		if next == '<' {
+	if source[i+2] == 'P' {
+		if source[i+3] == '<' {
 			// (?P<name>X)
 			return false
 		}
 	}
 	// (?...)
 	return true
-
 }
 
 func (t *TreeRegexp) Regexp() *regexp.Regexp {

@@ -65,14 +65,11 @@ final class TreeRegexp {
 
     private static boolean isNonCapturingGroup(String source, int i) {
         // Regex is valid. Bounds check not required.
-        char next = source.charAt(++i);
-
-        if (next != '?') {
+        if (source.charAt(i+1) != '?') {
             // (X)
             return false;
         }
-        next = source.charAt(++i);
-        if (next != '<') {
+        if (source.charAt(i+2) != '<') {
             // (?:X)
             // (?idmsuxU-idmsuxU)
             // (?idmsux-idmsux:X)
@@ -81,14 +78,8 @@ final class TreeRegexp {
             // (?>X)
             return true;
         }
-        next = source.charAt(++i);
-        if (next == '=' || next == '!') {
-            // (?<=X)
-            // (?<!X)
-            return true;
-        }
-        // (?<name>X)
-        return false;
+        // (?<=X) or (?<!X) else (?<name>X)
+        return source.charAt(i + 3) == '=' || source.charAt(i + 3) == '!';
     }
 
     Pattern pattern() {
