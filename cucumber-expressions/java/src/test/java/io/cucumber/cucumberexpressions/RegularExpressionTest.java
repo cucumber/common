@@ -187,6 +187,23 @@ public class RegularExpressionTest {
         assertEquals(singletonList(null), match(pattern, "", Boolean.class));
     }
 
+    @Test
+    public void parameter_types_can_be_optional_when_used_in_regex() {
+        parameterTypeRegistry.defineParameterType(new ParameterType<>(
+                "test",
+                ".+",
+                String.class,
+                new Transformer<String>() {
+                    @Override
+                    public String transform(String s) {
+                        return s.toUpperCase();
+                    }
+                }
+        ));
+        List<?> match = match(compile("^text(?: (.+))? text2$"), "text text2", String.class);
+        assertEquals(singletonList(null), match);
+    }
+
     private List<?> match(Pattern pattern, String text, Type... types) {
         RegularExpression regularExpression = new RegularExpression(pattern, parameterTypeRegistry);
         List<Argument<?>> arguments = regularExpression.match(text, types);

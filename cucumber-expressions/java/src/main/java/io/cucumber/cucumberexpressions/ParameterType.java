@@ -215,6 +215,14 @@ public final class ParameterType<T> implements Comparable<ParameterType<?>> {
     }
 
     T transform(List<String> groupValues) {
+        // This only happens when a parameter type is used in an optional group
+        // This can not happen with Cucumber expressions which do not allow
+        // parameter types in an optional group, but it can happen when a
+        // parameter type is matched to a regex in an optional group.
+        if (groupValues.isEmpty()) {
+            return null;
+        }
+
         if (transformer instanceof TransformerAdaptor) {
             if (groupValues.size() > 1) {
                 if (isAnonymous()) {
@@ -265,8 +273,7 @@ public final class ParameterType<T> implements Comparable<ParameterType<?>> {
 
         @Override
         public T transform(String[] args) throws Throwable {
-            String arg = args.length == 0 ? null : args[0];
-            return transformer.transform(arg);
+            return transformer.transform(args[0]);
         }
     }
 }
