@@ -59,7 +59,7 @@ export default async function main(
 
   gherkinEnvelopeStream.write(
     messages.Envelope.create({
-      meta: createMeta('@cucumber/json-to-messages', version),
+      meta: createMeta('@cucumber/json-to-messages', version, process.env),
     })
   )
 

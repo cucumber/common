@@ -76,12 +76,22 @@ message Meta {
   }
 
   message CI {
+    // Name of the CI product, e.g. "Jenkins", "CircleCI" etc.
     string name = 1;
-    string remote = 2;
-    string revision = 3;
-    string branch = 4;
-    string tag = 5;
-    string projectName = 6;
+
+    // Link to the build
+    string url = 2;
+
+    // Information about Git, provided by the Build/CI server as environment
+    // variables.
+    Git git = 3;
+
+    message Git {
+      string remote = 1;
+      string revision = 2;
+      string branch = 3;
+      string tag = 4;
+    }
   }
 }
 

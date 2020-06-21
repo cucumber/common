@@ -19,27 +19,27 @@ default: .compared
 	touch $@
 
 acceptance/testdata/%.feature.tokens: testdata/%.feature testdata/%.feature.tokens .deps
-	mkdir -p `dirname $@`
+	mkdir -p $(@D)
 	bundle exec bin/gherkin-generate-tokens $< > $@
 	diff --unified $<.tokens $@
 
 acceptance/testdata/%.feature.ast.ndjson: testdata/%.feature testdata/%.feature.ast.ndjson .deps
-	mkdir -p `dirname $@`
+	mkdir -p $(@D)
 	bundle exec bin/gherkin --predictable-ids --no-source --no-pickles --format ndjson $< | jq --sort-keys --compact-output "." > $@
 	diff --unified <(jq "." $<.ast.ndjson) <(jq "." $@)
 
 acceptance/testdata/%.feature.pickles.ndjson: testdata/%.feature testdata/%.feature.pickles.ndjson .deps
-	mkdir -p `dirname $@`
+	mkdir -p $(@D)
 	bundle exec bin/gherkin --predictable-ids --no-source --no-ast --format ndjson $< | jq --sort-keys --compact-output "." > $@
 	diff --unified <(jq "." $<.pickles.ndjson) <(jq "." $@)
 
 acceptance/testdata/%.feature.source.ndjson: testdata/%.feature testdata/%.feature.source.ndjson .deps
-	mkdir -p `dirname $@`
+	mkdir -p $(@D)
 	bundle exec bin/gherkin --predictable-ids --no-ast --no-pickles --format ndjson $< | jq --sort-keys --compact-output "." > $@
 	diff --unified <(jq "." $<.source.ndjson) <(jq "." $@)
 
 acceptance/testdata/%.feature.errors.ndjson: testdata/%.feature testdata/%.feature.errors.ndjson .deps
-	mkdir -p `dirname $@`
+	mkdir -p $(@D)
 	bundle exec bin/gherkin --predictable-ids --no-source --format ndjson $< | jq --sort-keys --compact-output "." > $@
 	diff --unified <(jq "." $<.errors.ndjson) <(jq "." $@)
 

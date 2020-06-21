@@ -1,0 +1,9 @@
+{
+  "git": {
+    "remote": "https://github.com/cucumber/cucumber-ruby.git",
+    "revision": "the-revision",
+    "tag": "the-tag"
+  },
+  "name": "GitHub Actions",
+  "url": "https://github.com/cucumber/cucumber-ruby/actions/runs/140170388"
+}

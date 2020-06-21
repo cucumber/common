@@ -45,7 +45,7 @@ async function main() {
 
   envelopeOutputStream.write(
     new messages.Envelope({
-      meta: createMeta('fake-cucumber', version),
+      meta: createMeta('fake-cucumber', version, process.env),
     })
   )
 
