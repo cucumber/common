@@ -159,15 +159,20 @@ $statusColors:
   .cucumber-report-header {
     width: 100%;
     display: flex;
+    flex-wrap: wrap;
     align-items: stretch;
     border: 1px solid $border-color;
     border-right: 0;
+    border-bottom: 0;
+
     font-size: 80%;
     margin-bottom: 1em;
 
     & > * {
       flex-grow: 1;
       border-right: 1px solid $border-color;
+      border-bottom: 1px solid $border-color;
+
       padding: 1em;
     }
 
@@ -187,6 +192,7 @@ $statusColors:
       input {
         padding: 0.4em;
         border-radius: 0;
+        width: 80%;
       }
 
       button {
