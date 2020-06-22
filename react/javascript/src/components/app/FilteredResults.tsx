@@ -12,7 +12,6 @@ import filterByStatus from '../../filter/filterByStatus'
 import StatusesFilter from './StatusesFilter'
 import countScenariosByStatuses from '../../countScenariosByStatuses'
 import ExecutionSummary from './ExecutionSummary'
-import EnvelopesQueryContext from '../../EnvelopesQueryContext'
 
 const defaultDisplayedResults = [
   messages.TestStepFinished.TestStepResult.Status.AMBIGUOUS,
@@ -26,7 +25,6 @@ const defaultDisplayedResults = [
 const FilteredResults: React.FunctionComponent = () => {
   const gherkinQuery = React.useContext(GherkinQueryContext)
   const cucumberQuery = React.useContext(CucumberQueryContext)
-  const envelopesQuery = React.useContext(EnvelopesQueryContext)
   const allDocuments = gherkinQuery.getGherkinDocuments()
 
   const [query, setQuery] = useState('')
@@ -54,7 +52,6 @@ const FilteredResults: React.FunctionComponent = () => {
       filterByStatus(document, gherkinQuery, cucumberQuery, displayedStatuses)
     )
     .filter((document) => document !== null)
-  const meta = envelopesQuery.find((envelope) => envelope.meta !== null).meta
 
   return (
     <div className="cucumber-filtered-results">
@@ -64,7 +61,7 @@ const FilteredResults: React.FunctionComponent = () => {
           enabledStatuses={displayedStatuses}
           scenarioCountByStatus={scenarioCountByStatus}
         />
-        <ExecutionSummary meta={meta} />
+        <ExecutionSummary />
         <SearchBar queryUpdated={(query) => setQuery(query)} />
       </div>
       <GherkinDocumentList gherkinDocuments={filtered} />
