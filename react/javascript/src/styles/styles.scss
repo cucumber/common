@@ -159,10 +159,16 @@ $statusColors:
   .cucumber-report-header {
     width: 100%;
     display: flex;
-    align-items: baseline;
+    align-items: stretch;
+    border: 1px solid $border-color;
+    border-right: 0;
+    font-size: 80%;
+    margin-bottom: 1em;
 
     & > * {
       flex-grow: 1;
+      border-right: 1px solid $border-color;
+      padding: 1em;
     }
 
     .cucumber-status-filter {

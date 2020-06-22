@@ -11,6 +11,7 @@ import { messages } from '@cucumber/messages'
 import filterByStatus from '../../filter/filterByStatus'
 import StatusesFilter from './StatusesFilter'
 import countScenariosByStatuses from '../../countScenariosByStatuses'
+import ExecutionSummary from './ExecutionSummary'
 
 const defaultDisplayedResults = [
   messages.TestStepFinished.TestStepResult.Status.AMBIGUOUS,
@@ -60,6 +61,7 @@ const FilteredResults: React.FunctionComponent = () => {
           enabledStatuses={displayedStatuses}
           scenarioCountByStatus={scenarioCountByStatus}
         />
+        <ExecutionSummary />
         <SearchBar queryUpdated={(query) => setQuery(query)} />
       </div>
       <GherkinDocumentList gherkinDocuments={filtered} />
