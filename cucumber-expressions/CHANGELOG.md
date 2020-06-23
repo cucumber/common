@@ -16,6 +16,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Removed
 
 ### Fixed
+* [Java, Go, Ruby, JavaScript] Parse all group variants
+    ([#1069](https://github.com/cucumber/cucumber/pull/1069)
+ [mpkorstanje])  
 
 ## [10.2.0] - 2020-05-28
 
