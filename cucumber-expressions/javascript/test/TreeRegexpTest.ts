@@ -130,7 +130,7 @@ describe('TreeRegexp', () => {
     const tr = new TreeRegexp(/()/)
     const group = tr.match('')
     // TODO: Would expect the empty string here
-    assert.strictEqual(group.value, null)
+    assert.strictEqual(group.value, undefined)
     assert.strictEqual(group.children.length, 1)
   })
 
@@ -138,7 +138,7 @@ describe('TreeRegexp', () => {
     const tr = new TreeRegexp(/(?<=)/)
     const group = tr.match('')
     // TODO: Would expect the empty string here
-    assert.strictEqual(group.value, null)
+    assert.strictEqual(group.value, undefined)
     assert.strictEqual(group.children.length, 0)
   })
 

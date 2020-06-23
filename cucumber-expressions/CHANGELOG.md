@@ -16,6 +16,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Removed
 
 ### Fixed
+
+## [10.2.1] - 2020-06-23
+
+### Fixed
 * [Java, Go, Ruby, JavaScript] Parse all group variants
     ([#1069](https://github.com/cucumber/cucumber/pull/1069)
  [mpkorstanje])  
@@ -688,7 +692,8 @@ N/A
 * First stable release!
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions/v10.2.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions/v10.2.1...master
+[10.2.1]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v10.2.0...cucumber-expressions/v10.2.1
 [10.2.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v10.1.0...cucumber-expressions/v10.2.0
 [10.1.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v10.0.0...cucumber-expressions/v10.1.0
 [10.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v9.0.0...cucumber-expressions/v10.0.0
