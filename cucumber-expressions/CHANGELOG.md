@@ -16,10 +16,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Removed
 
 ### Fixed
-* [All] Retain position of optional groups
+* [Java, Go, Ruby, JavaScript] Parse all group variants
+    ([#1069](https://github.com/cucumber/cucumber/pull/1069)
+ [mpkorstanje])  
+* [Java, Go, Ruby, JavaScript] Retain position of optional groups
   ([#1076](https://github.com/cucumber/cucumber/pull/1076)
    [mpkorstanje])
-
 
 ## [10.2.0] - 2020-05-28
 
