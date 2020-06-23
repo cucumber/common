@@ -30,7 +30,6 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 * Fixed Estonian translation of "Rule" ([#973](https://github.com/cucumber/cucumber/pull/973) [ookull])
 * Fixed Estonian translation of "Scenario Outline" ([#972](https://github.com/cucumber/cucumber/pull/972) [ookull])
 
-
 ### Deprecated
 
 ### Removed
@@ -38,6 +37,7 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 ### Fixed
 
 * [Ruby] Use `require_relative` for internal requires ([#1010](https://github.com/cucumber/cucumber/pull/1010) [deivid-rodriguez])
+* [Javascript] Escape regex characters in table header ([#1077](https://github.com/cucumber/cucumber/pull/1077) [mpkorstanje])
 
 ## [13.0.0] - 2020-04-14
 
