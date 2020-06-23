@@ -18,7 +18,7 @@ module Cucumber
         define_parameter_type(ParameterType.new('int', INTEGER_REGEXPS, Integer, lambda {|s = nil| s && s.to_i}, true, true))
         define_parameter_type(ParameterType.new('float', FLOAT_REGEXP, Float, lambda {|s = nil| s && s.to_f}, true, false))
         define_parameter_type(ParameterType.new('word', WORD_REGEXP, String, lambda {|s = nil| s}, false, false))
-        define_parameter_type(ParameterType.new('string', STRING_REGEXP, String, lambda {|s = nil| s && s.gsub(/\\"/, '"').gsub(/\\'/, "'")}, true, false))
+        define_parameter_type(ParameterType.new('string', STRING_REGEXP, String, lambda { |s1, s2| arg = s1 != nil ? s1 : s2; arg.gsub(/\\"/, '"').gsub(/\\'/, "'")}, true, false))
         define_parameter_type(ParameterType.new('', ANONYMOUS_REGEXP, String, lambda {|s = nil| s}, false, true))
       end
 
