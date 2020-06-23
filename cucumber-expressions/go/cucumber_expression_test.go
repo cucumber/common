@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/stretchr/testify/require"
 	"reflect"
+	"regexp"
 	"testing"
 )
 
@@ -317,6 +318,37 @@ func TestCucumberExpression(t *testing.T) {
 			require.NoError(t, err)
 			require.NotNil(t, args)
 		})
+	})
+
+	t.Run("unmatched optional groups have nil values", func(t *testing.T) {
+		parameterTypeRegistry := NewParameterTypeRegistry()
+		colorParameterType, err := NewParameterType(
+			"textAndOrNumber",
+			[]*regexp.Regexp{
+				regexp.MustCompile("([A-Z]+)?(?: )?([0-9]+)?"),
+			},
+			"color",
+			func(args ...*string) interface{} { return args },
+			false,
+			true,
+			false,
+		)
+		require.NoError(t, err)
+		err = parameterTypeRegistry.DefineParameterType(colorParameterType)
+
+		/// [capture-match-arguments]
+		expr := "{textAndOrNumber}"
+		expression, err := NewCucumberExpression(expr, parameterTypeRegistry)
+		require.NoError(t, err)
+		tla := "TLA"
+		tlaArgs, err := expression.Match(tla)
+		require.NoError(t, err)
+		require.Equal(t, tlaArgs[0].GetValue(), []*string{&tla, nil})
+		num := "123"
+		numArgs, err := expression.Match(num)
+		require.NoError(t, err)
+		require.Equal(t, numArgs[0].GetValue(), []*string{nil, &num})
+		/// [capture-match-arguments]
 	})
 }
 
