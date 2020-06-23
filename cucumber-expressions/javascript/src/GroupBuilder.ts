@@ -16,7 +16,7 @@ export default class GroupBuilder {
       gb.build(match, nextGroupIndex)
     )
     return new Group(
-      match[groupIndex] || null,
+      match[groupIndex] || undefined,
       match.index[groupIndex],
       match.index[groupIndex] + (match[groupIndex] || '').length,
       children
