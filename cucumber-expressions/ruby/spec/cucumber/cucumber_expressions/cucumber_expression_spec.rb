@@ -201,6 +201,33 @@ module Cucumber
         end
       end
 
+
+      it "unmatched optional groups have undefined values" do
+        parameter_type_registry = ParameterTypeRegistry.new
+        parameter_type_registry.define_parameter_type(
+            ParameterType.new(
+                'textAndOrNumber',
+                /([A-Z]+)?(?: )?([0-9]+)?/,
+                Object,
+                -> (s1, s2) {
+                  [s1, s2]
+                },
+                false,
+                true
+            )
+        )
+        expression = CucumberExpression.new(
+            '{textAndOrNumber}',
+            parameter_type_registry
+        )
+
+        class World
+        end
+
+        expect(expression.match("TLA")[0].value(World.new)).to eq(["TLA", nil])
+        expect(expression.match("123")[0].value(World.new)).to eq([nil, "123"])
+      end
+
       def match(expression, text)
         cucumber_expression = CucumberExpression.new(expression, ParameterTypeRegistry.new)
         args = cucumber_expression.match(text)
