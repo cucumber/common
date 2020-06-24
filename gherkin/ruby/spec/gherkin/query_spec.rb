@@ -59,13 +59,27 @@ describe Gherkin::Query do
       """
   }
 
-  before do
-    messages.each { |message|
-      subject.update(message)
-    }
+  context '#update' do
+    context 'when the feature file is empty' do
+      let(:feature_content) { '' }
+
+      it 'does not fail' do
+        expect {
+          messages.each { |message|
+            subject.update(message)
+          }
+        }.not_to raise_exception
+      end
+    end
   end
 
   context '#location' do
+    before do
+      messages.each { |message|
+        subject.update(message)
+      }
+    end
+
     let(:background) { find_message_by_attribute(gherkin_document.feature.children, :background) }
     let(:scenarios) { filter_messages_by_attribute(gherkin_document.feature.children, :scenario) }
     let(:scenario) { scenarios.first }

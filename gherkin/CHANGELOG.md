@@ -23,7 +23,9 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
   ([#769](https://github.com/cucumber/cucumber/pull/769)
    [mpkorstanje]
    [vincent-psarga])
-
+* [Ruby] gherkin-query: if a feature file is empty, do not update anything.
+  ([cucumber-ruby#1427](https://github.com/cucumber/cucumber-ruby/issues/1427)
+   [vincent-psarga])
 
 ### Changed
 
