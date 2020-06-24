@@ -1,3 +1,4 @@
 ../../LICENSE LICENSE
 ../../.templates/github/ .github/
 ../../.templates/ruby/ .
+../ciDict.json lib/cucumber/ciDict.json
