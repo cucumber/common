@@ -11,7 +11,7 @@ module Cucumber
       end
 
       def values
-        (children.empty? ? [self] : children).map(&:value).compact
+        (children.empty? ? [self] : children).map(&:value)
       end
     end
   end

@@ -84,7 +84,8 @@ public class RegularExpressionTest {
     @Test
     public void exposes_source_and_regexp() {
         String regexp = "I have (\\d+) cukes? in my (.+) now";
-        RegularExpression expression = new RegularExpression(Pattern.compile(regexp), new ParameterTypeRegistry(Locale.ENGLISH));
+        RegularExpression expression = new RegularExpression(Pattern.compile(regexp),
+                new ParameterTypeRegistry(Locale.ENGLISH));
         assertEquals(regexp, expression.getSource());
         assertEquals(regexp, expression.getRegexp().pattern());
     }
@@ -185,6 +186,23 @@ public class RegularExpressionTest {
         assertEquals(singletonList(true), match(pattern, "true", Boolean.class));
         assertEquals(singletonList(false), match(pattern, "false", Boolean.class));
         assertEquals(singletonList(null), match(pattern, "", Boolean.class));
+    }
+
+    @Test
+    public void parameter_types_can_be_optional_when_used_in_regex() {
+        parameterTypeRegistry.defineParameterType(new ParameterType<>(
+                "test",
+                ".+",
+                String.class,
+                new Transformer<String>() {
+                    @Override
+                    public String transform(String s) {
+                        return s;
+                    }
+                }
+        ));
+        List<?> match = match(compile("^text(?: (.+))? text2$"), "text text2", String.class);
+        assertEquals(singletonList(null), match);
     }
 
     private List<?> match(Pattern pattern, String text, Type... types) {
