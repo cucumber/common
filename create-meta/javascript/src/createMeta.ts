@@ -62,12 +62,6 @@ export function detectCI(
   return detected[0]
 }
 
-function group1(value: string, regexp: RegExp): string {
-  const match = value.match(regexp)
-  if (match === null) throw new Error('No match')
-  return match[1]
-}
-
 function createCi(
   ciName: string,
   ciSystem: CiSystem,
@@ -126,4 +120,10 @@ function evaluate(template: string, envDict: EnvDict): string | undefined {
     // There was an undefined variable
     return undefined
   }
+}
+
+function group1(value: string, regexp: RegExp): string {
+  const match = value.match(regexp)
+  if (match === null) throw new Error('No match')
+  return match[1]
 }
