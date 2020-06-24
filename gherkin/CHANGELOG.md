@@ -38,6 +38,9 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Fixed
 
+* [Ruby] Fix the default constructor of `Gherkin::Parser`
+  ([#1074](https://github.com/cucumber/cucumber/issues/1074)
+   [aslakhellesoy])
 * [Ruby] Use `require_relative` for internal requires ([#1010](https://github.com/cucumber/cucumber/pull/1010) [deivid-rodriguez])
 * [Javascript] Escape regex characters in table header ([#1077](https://github.com/cucumber/cucumber/pull/1077) [mpkorstanje])
 
