@@ -21,5 +21,4 @@ public class Main {
         JsonFormat.Printer jsonPrinter = JsonFormat.printer();
         System.out.println(jsonPrinter.print(ci));
     }
-
 }

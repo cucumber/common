@@ -16,6 +16,7 @@ module Gherkin
     private
 
     def update_feature(feature)
+      return if feature.nil?
       store_nodes_location(feature.tags)
 
       feature.children.each do |child|
