@@ -1,5 +1,5 @@
 import assert from 'assert'
-import { parse } from '@cucumber/gherkin'
+import parse from './parse'
 import pretty from '../src/pretty'
 
 describe('PrettyFormatter', () => {
