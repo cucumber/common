@@ -253,6 +253,37 @@ describe('CucumberExpression', () => {
     )
   })
 
+  it('unmatched optional groups have undefined values', () => {
+    const parameterTypeRegistry = new ParameterTypeRegistry()
+    parameterTypeRegistry.defineParameterType(
+      new ParameterType(
+        'textAndOrNumber',
+        /([A-Z]+)?(?: )?([0-9]+)?/,
+        null,
+        function (s1, s2) {
+          return [s1, s2]
+        },
+        false,
+        true
+      )
+    )
+    const expression = new CucumberExpression(
+      '{textAndOrNumber}',
+      parameterTypeRegistry
+    )
+
+    const world = {}
+
+    assert.deepStrictEqual(expression.match(`TLA`)[0].getValue(world), [
+      'TLA',
+      undefined,
+    ])
+    assert.deepStrictEqual(expression.match(`123`)[0].getValue(world), [
+      undefined,
+      '123',
+    ])
+  })
+
   // JavaScript-specific
 
   it('delegates transform to custom object', () => {

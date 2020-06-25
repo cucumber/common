@@ -222,11 +222,13 @@ function interpolate(
 ) {
   variableCells.forEach((variableCell, n) => {
     const valueCell = valueCells[n]
-    const search = new RegExp('<' + variableCell.value + '>', 'g')
+    const valuePattern = '<' + variableCell.value + '>'
+    const escapedPattern = valuePattern.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&')
+    const regexp = new RegExp(escapedPattern, 'g')
     // JS Specific - dollar sign needs to be escaped with another dollar sign
     // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace#Specifying_a_string_as_a_parameter
     const replacement = valueCell.value.replace(new RegExp('\\$', 'g'), '$$$$')
-    name = name.replace(search, replacement)
+    name = name.replace(regexp, replacement)
   })
   return name
 }
