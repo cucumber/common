@@ -16,6 +16,7 @@ outline the process:
 
 The release commands will be done from a shell session in the Docker container.
 This ensures a consistent release environment.
+
 ## Decrypt credentials
 
 The credentials for the various package managers are stored in the `/secrets`
@@ -25,9 +26,8 @@ You need to decrypt these files with `git-crypt` before you can make a release.
 Here is how you do it:
 
     ./scripts/docker-run Dockerfile
+    # git clone keybase://team/cucumberbdd/secrets
     # Find GIT_CRYPT_KEY_BASE64 in Keybase
-    # Sign up for a free 1Password account and ping someone in the Slack #committers channel
-    # to request access.
     GIT_CRYPT_KEY_BASE64="..." source ./scripts/prepare_release_env.sh
 
 The files under `/secrets` are now decrypted, and will be used later when we
