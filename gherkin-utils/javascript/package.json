@@ -45,7 +45,7 @@
     "typescript": "^3.8.3"
   },
   "dependencies": {
-    "@cucumber/messages": "file:../../messages/javascript",
+    "@cucumber/messages": "file:../../messages/javascript"
   },
   "directories": {
     "test": "test"
