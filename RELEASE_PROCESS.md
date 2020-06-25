@@ -14,28 +14,35 @@ outline the process:
 * Update changelog
 * Release packages
 
-The release commands will be done from a shell session in the Docker container.
+The release commands will be done from a terminal session in the Docker container.
 This ensures a consistent release environment.
 
-## Decrypt credentials
+## Get the secrets
 
-The credentials for the various package managers are stored in the `/secrets`
-directory. They are encrypted with [git-crypt](https://www.agwa.name/projects/git-crypt/).
+In order to publish packages there are several secrets that need to be defined.
+These secrets are stored in an encrypted git repository that only the Cucumber
+core team has access to.
 
-You need to decrypt these files with `git-crypt` before you can make a release.
-Here is how you do it:
+You should clone this repo next to this repo:
+
+    cd ..
+    git clone keybase://team/cucumberbdd/secrets
+    cd cucumber
+
+If you've already cloned it, make sure it's uptodate:
+
+    cd ..
+    git pull
+    cd cucumber
+
+## Start the Cucumber docker container
+
+All commands should be made from the Cucumber docker container. Start it:
 
     ./scripts/docker-run Dockerfile
-    # git clone keybase://team/cucumberbdd/secrets
-    # Find GIT_CRYPT_KEY_BASE64 in Keybase
-    GIT_CRYPT_KEY_BASE64="..." source ./scripts/prepare_release_env.sh
+    source ./scripts/prepare_release_env.sh
 
-The files under `/secrets` are now decrypted, and will be used later when we
-publish packages.
-
-*IMPORTANT:* You should also install `git-crypt` on your host OS, even if the
-releases are made from the Docker container. If you don't, you'll get an error
-when you run certain `git` commands on your host OS later.
+You're now ready to make a release.
 
 ## Update changelog
 
