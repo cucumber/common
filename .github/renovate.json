@@ -3,5 +3,13 @@
     "config:base",
     ":preserveSemverRanges",
     ":rebaseStalePrs"
+  ],
+  "prHourlyLimit": 0,
+  "packageRules": [
+    {
+      "updateTypes": ["minor", "patch"],
+      "automerge": true,
+      "automergeType": "branch"
+    }
   ]
 }
