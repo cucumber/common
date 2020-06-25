@@ -64,7 +64,6 @@ const Step: React.FunctionComponent<IProps> = ({
             <a
               className="step-param"
               key={`bold-${index}`}
-              href="#"
               title={argument.parameterTypeName}
             >
               <HighLight text={arg} />
