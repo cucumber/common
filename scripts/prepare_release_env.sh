@@ -18,6 +18,7 @@ chmod 0644 ~/.ssh/known_hosts
 
 source ~/secrets.sh
 cukebot_enable_rubygems_release
+cukebot_enable_npm_release
 
 export GPG_TTY=$(tty)
 eval $(gpg-agent --daemon --sh)
