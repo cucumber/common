@@ -60,7 +60,7 @@ describe('App', () => {
           </QueriesWrapper>
         )
         ReactDOM.render(app, document.getElementById('content'))
-      }).timeout(2000)
+      }).timeout(10000)
     }
   }
 })
