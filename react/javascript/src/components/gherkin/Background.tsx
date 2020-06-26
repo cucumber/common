@@ -17,10 +17,7 @@ const Background: React.FunctionComponent<IProps> = ({ background }) => {
 
   return (
     <section>
-      <BackgroundTitle
-          id={idGenerated}
-          background={background}
-      />
+      <BackgroundTitle id={idGenerated} background={background} />
       <div className="indent">
         <Description description={background.description} />
         <StepList

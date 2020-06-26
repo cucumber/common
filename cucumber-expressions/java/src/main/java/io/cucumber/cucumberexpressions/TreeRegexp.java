@@ -1,12 +1,13 @@
 package io.cucumber.cucumberexpressions;
 
 import java.util.ArrayDeque;
+import java.util.Collections;
 import java.util.Deque;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.IntStream;
+
+import static java.util.Collections.singleton;
 
 /**
  * TreeRegexp represents matches as a tree of {@link Group}
@@ -23,49 +24,62 @@ final class TreeRegexp {
 
     TreeRegexp(Pattern pattern) {
         this.pattern = pattern;
+        this.groupBuilder = createGroupBuilder(pattern);
+    }
+
+    private static GroupBuilder createGroupBuilder(Pattern pattern) {
         String source = pattern.pattern();
-        char[] chars = source.toCharArray();
-        Deque<GroupBuilder> stack = new ArrayDeque<>();
+        Deque<GroupBuilder> stack = new ArrayDeque<>(singleton(new GroupBuilder()));
         Deque<Integer> groupStartStack = new ArrayDeque<>();
+        boolean escaping = false;
+        boolean charClass = false;
 
-        stack.push(new GroupBuilder());
-        char last = 0;
-
-        boolean escaping = false, charClass = false;
-        boolean nonCapturingMaybe = false;
-        int n = 1;
-
-        for (char c : chars) {
+        for (int i = 0; i < source.length(); i++) {
+            char c = source.charAt(i);
             if (c == '[' && !escaping) {
                 charClass = true;
             } else if (c == ']' && !escaping) {
                 charClass = false;
             } else if (c == '(' && !escaping && !charClass) {
-                stack.push(new GroupBuilder());
-                groupStartStack.push(n);
-                nonCapturingMaybe = false;
+                groupStartStack.push(i);
+                boolean nonCapturing = isNonCapturingGroup(source, i);
+                GroupBuilder groupBuilder = new GroupBuilder();
+                if (nonCapturing) {
+                    groupBuilder.setNonCapturing();
+                }
+                stack.push(groupBuilder);
             } else if (c == ')' && !escaping && !charClass) {
                 GroupBuilder gb = stack.pop();
                 int groupStart = groupStartStack.pop();
                 if (gb.isCapturing()) {
-                    gb.setSource(source.substring(groupStart, n - 1));
+                    gb.setSource(source.substring(groupStart + 1, i));
                     stack.peek().add(gb);
                 } else {
                     gb.moveChildrenTo(stack.peek());
                 }
-                nonCapturingMaybe = false;
-            } else if (c == '?' && last == '(') {
-                nonCapturingMaybe = true;
-            } else if ((c == ':' || c == '!' || c == '=' || c == '<') && last == '?' && nonCapturingMaybe) {
-                stack.peek().setNonCapturing();
-                nonCapturingMaybe = false;
             }
-
             escaping = c == '\\' && !escaping;
-            last = c;
-            n++;
         }
-        groupBuilder = stack.pop();
+        return stack.pop();
+    }
+
+    private static boolean isNonCapturingGroup(String source, int i) {
+        // Regex is valid. Bounds check not required.
+        if (source.charAt(i+1) != '?') {
+            // (X)
+            return false;
+        }
+        if (source.charAt(i+2) != '<') {
+            // (?:X)
+            // (?idmsuxU-idmsuxU)
+            // (?idmsux-idmsux:X)
+            // (?=X)
+            // (?!X)
+            // (?>X)
+            return true;
+        }
+        // (?<=X) or (?<!X) else (?<name>X)
+        return source.charAt(i + 3) == '=' || source.charAt(i + 3) == '!';
     }
 
     Pattern pattern() {
@@ -74,11 +88,13 @@ final class TreeRegexp {
 
     Group match(CharSequence s) {
         final Matcher matcher = pattern.matcher(s);
-        if (!matcher.matches()) return null;
+        if (!matcher.matches())
+            return null;
         return groupBuilder.build(matcher, IntStream.rangeClosed(0, matcher.groupCount()).iterator());
     }
 
     public GroupBuilder getGroupBuilder() {
         return groupBuilder;
     }
+
 }

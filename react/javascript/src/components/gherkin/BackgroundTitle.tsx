@@ -10,11 +10,16 @@ interface IProps {
   background: IBackground
 }
 
-const BackgroundTitle: React.FunctionComponent<IProps> = ({ id, background }) => {
+const BackgroundTitle: React.FunctionComponent<IProps> = ({
+  id,
+  background,
+}) => {
   return (
     <div className="anchored-link">
-      <a href={"#" + id}><FontAwesomeIcon icon={faLink} className="attachment-icon"/></a>
-      <h2 id={id} >
+      <a href={'#' + id}>
+        <FontAwesomeIcon icon={faLink} className="attachment-icon" />
+      </a>
+      <h2 id={id}>
         <Keyword>{background.keyword}:</Keyword>{' '}
         <span className="step-text">{background.name}</span>
       </h2>

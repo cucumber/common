@@ -17,10 +17,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [10.2.1] - 2020-06-23
+
+### Fixed
+* [Java, Go, Ruby, JavaScript] Parse all group variants
+    ([#1069](https://github.com/cucumber/cucumber/pull/1069)
+ [mpkorstanje])  
+* [Java, Go, Ruby, JavaScript] Retain position of optional groups
+  ([#1076](https://github.com/cucumber/cucumber/pull/1076)
+   [mpkorstanje])
+
 ## [10.2.0] - 2020-05-28
 
 ### Added
-* [Java]  Support for Optional
+* [Java] Add support for Optional
   ([#1006](https://github.com/cucumber/cucumber/pull/1006)
    [gaeljw], [mpkorstanje])
 
@@ -682,7 +692,8 @@ N/A
 * First stable release!
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions/v10.2.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions/v10.2.1...master
+[10.2.1]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v10.2.0...cucumber-expressions/v10.2.1
 [10.2.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v10.1.0...cucumber-expressions/v10.2.0
 [10.1.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v10.0.0...cucumber-expressions/v10.1.0
 [10.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v9.0.0...cucumber-expressions/v10.0.0

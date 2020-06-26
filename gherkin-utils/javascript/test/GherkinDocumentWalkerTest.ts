@@ -3,7 +3,7 @@ import GherkinDocumentWalker, {
   rejectAllFilters,
 } from '../src/GherkinDocumentWalker'
 import pretty from '../src/pretty'
-import { parse } from '@cucumber/gherkin'
+import parse from './parse'
 
 describe('GherkinDocumentWalker', () => {
   let walker: GherkinDocumentWalker

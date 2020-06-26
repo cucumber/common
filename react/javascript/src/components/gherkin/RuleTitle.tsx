@@ -14,7 +14,9 @@ interface IProps {
 const RuleTitle: React.FunctionComponent<IProps> = ({ id, rule }) => {
   return (
     <div className="anchored-link">
-      <a href={"#" + id}><FontAwesomeIcon icon={faLink} className="attachment-icon"/></a>
+      <a href={'#' + id}>
+        <FontAwesomeIcon icon={faLink} className="attachment-icon" />
+      </a>
       <h2 id={id}>
         <Keyword>{rule.keyword}:</Keyword>{' '}
         <span className="step-text">

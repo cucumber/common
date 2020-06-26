@@ -18,10 +18,7 @@ const Rule: React.FunctionComponent<IProps> = ({ rule }) => {
 
   return (
     <section>
-      <RuleTitle
-        id={idGenerated}
-        rule={rule}
-      />
+      <RuleTitle id={idGenerated} rule={rule} />
       <div className="indent">
         <Description description={rule.description} />
         {(rule.children || []).map((child, index) => {

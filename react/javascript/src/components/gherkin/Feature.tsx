@@ -21,10 +21,7 @@ const Feature: React.FunctionComponent<IProps> = ({ feature }) => {
   return (
     <section className="cucumberFeature">
       <Tags tags={feature.tags} />
-      <FeatureTitle
-          id={idGenerated}
-          feature={feature}
-      />
+      <FeatureTitle id={idGenerated} feature={feature} />
       <div className="cucumberFeature__indent">
         {feature.description ? (
           <Description description={feature.description} />

@@ -33,10 +33,7 @@ const Scenario: React.FunctionComponent<IProps> = ({ scenario }) => {
     <div className="indent">
       <section>
         <Tags tags={scenario.tags} />
-        <ScenarioTitle
-          id={idGenerated}
-          scenario={scenario}
-        />
+        <ScenarioTitle id={idGenerated} scenario={scenario} />
         <Description description={scenario.description} />
         <HookList hookSteps={beforeHooks} />
         <StepList

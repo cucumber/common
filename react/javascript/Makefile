@@ -11,7 +11,7 @@ dist/src/styles/cucumber-react.css: src/styles/styles.scss src/styles/react-acce
 	./node_modules/.bin/sass $< > $@
 	cat src/styles/react-accessible-accordion.css >> $@
 
-testdata/%.ndjson: testdata/%.feature
+testdata/%.ndjson: testdata/%.feature testdata/step_definitions/steps.ts
 	./node_modules/@cucumber/fake-cucumber/bin/fake-cucumber --predictable-ids --format ndjson $< > $@
 
 $(ALL_NDJSON_FILE): $(FEATURE_FILES)

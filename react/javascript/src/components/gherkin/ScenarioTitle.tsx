@@ -14,7 +14,9 @@ interface IProps {
 const ScenarioTitle: React.FunctionComponent<IProps> = ({ id, scenario }) => {
   return (
     <div className="anchored-link">
-      <a href={"#" + id}><FontAwesomeIcon icon={faLink} className="attachment-icon"/></a>
+      <a href={'#' + id}>
+        <FontAwesomeIcon icon={faLink} className="attachment-icon" />
+      </a>
       <h2 id={id}>
         <Keyword>{scenario.keyword}:</Keyword>{' '}
         <span className="step-text">

@@ -29,3 +29,7 @@ I have 22 cukes in my belly now
 I have {} cuke(s) in my {} now
 I have 22 cukes in my belly now
 ["22","belly"]
+---
+/^a (pre-commercial transaction |pre buyer fee model )?purchase(?: for \$(\d+))?$/
+a purchase for $33
+[null,33]

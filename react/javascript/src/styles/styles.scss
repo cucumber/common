@@ -1,13 +1,14 @@
 $border-color: #4B5662;
 $white: #F0EFFB;
 
-$passed: #2CB14A;
-$skipped: #00A0CC;
-$pending: #FFAD33;
-$undefined: #FFAD33;
-$ambiguous: #F4EBFD;
-$failed: #BB0000;
-$unknown: #B6BECB;
+$statusColors:
+  "passed" #2CB14A,
+  "skipped" #00A0CC,
+  "pending" #FFAD33,
+  "undefined" #FFAD33,
+  "ambiguous" #F4EBFD,
+  "failed" #BB0000,
+  "unknown" #B6BECB;
 
 @mixin padding-table-cell {
   padding: .3em;
@@ -36,32 +37,10 @@ $unknown: #B6BECB;
     margin-bottom: 1em;
   }
 
-  .status-passed {
-    color: $passed
-  }
-
-  .status-skipped {
-    color: $skipped
-  }
-
-  .status-pending {
-    color: $pending
-  }
-
-  .status-undefined {
-    color: $undefined
-  }
-
-  .status-ambiguous {
-    color: $ambiguous
-  }
-
-  .status-failed {
-    color: $failed
-  }
-
-  .status-unknown {
-    color: $unknown
+  @each $name, $color in $statusColors {
+    .status-#{$name} {
+      color: $color
+    }
   }
 
   .data-table {
@@ -192,14 +171,46 @@ $unknown: #B6BECB;
     }
   }
 }
+.cucumber-report-header {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  border: 1px solid $border-color;
+  border-right: 0;
+  border-bottom: 0;
+
+  font-size: 80%;
+  margin-bottom: 1em;
+
+  & > * {
+    flex-grow: 1;
+    border-right: 1px solid $border-color;
+    border-bottom: 1px solid $border-color;
+
+    padding: 1em;
+  }
+
+  .cucumber-status-filter {
+    padding-bottom: 1em;
+
+    th {
+      display: table-row
+    }
+
+    td {
+      padding: 3px 15px
+    }
+  }
+}
 
 .cucumber-search-bar {
   margin-top: 2em;
   margin-bottom: 2em;
-
   input {
     padding: 0.4em;
     border-radius: 0;
+    width: 80%;
   }
 
   button {
@@ -208,15 +219,26 @@ $unknown: #B6BECB;
     padding-right: 0.6em;
   }
 
-  details {
+  p.help {
     font-size: 80%;
-
-    p {
-      border-color: $border-color;
-      background-color: #f4f4f4;
-    }
   }
 }
+
+button {
+  height: 2.2em;
+  padding-left: 0.6em;
+  padding-right: 0.6em;
+}
+
+details {
+  font-size: 80%;
+
+  p {
+    border-color: $border-color;
+    background-color: #f4f4f4;
+  }
+}
+
 
 .attachment {
     background-color: rgb(235, 235, 235);
