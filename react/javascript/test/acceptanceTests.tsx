@@ -12,6 +12,7 @@ import {
   QueryStream as CucumberQueryStream,
 } from '@cucumber/query'
 import GherkinDocumentList from '../src/components/app/GherkinDocumentList'
+import { EnvelopesQuery } from '../src/EnvelopesQueryContext'
 
 describe('App', () => {
   const dir = __dirname + '/../../../gherkin/testdata/good'
@@ -38,6 +39,8 @@ describe('App', () => {
         })
         const gherkinQuery = new GherkinQuery()
         const cucumberQuery = new CucumberQuery()
+        const envelopesQuery = new EnvelopesQuery()
+
         const cucumberQueryStream = new CucumberQueryStream(cucumberQuery)
         await runCucumber(
           supportCode,
@@ -49,6 +52,7 @@ describe('App', () => {
           <QueriesWrapper
             gherkinQuery={gherkinQuery}
             cucumberQuery={cucumberQuery}
+            envelopesQuery={envelopesQuery}
           >
             <GherkinDocumentList
               gherkinDocuments={gherkinQuery.getGherkinDocuments()}
