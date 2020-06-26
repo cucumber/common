@@ -97,8 +97,8 @@ const Gherkin = require('@cucumber/gherkin');
 const {IdGenerator} = require('@cucumber/messages');
 
 const parser = new Gherkin.Parser(new Gherkin.AstBuilder(IdGenerator.incrementing()));
-var gherkinDocument = parser.parse("Feature: ...");
-var pickles = new Gherkin.compile(gherkinDocument, uri, IdGenerator.incrementing());
+const gherkinDocument = parser.parse("Feature: ...");
+const pickles = new Gherkin.compile(gherkinDocument, uri, IdGenerator.incrementing());
 ```
 
 ```go
