@@ -43,7 +43,7 @@ describe('Query', () => {
     })
   })
 
-  describe('#getPickleIds(uri, lineNumber)', () => {
+  describe('#getPickleIds(uri, astNodeId)', () => {
     it('looks up pickle IDs for a scenario', async () => {
       await parse(
         `Feature: hello
@@ -54,8 +54,16 @@ describe('Query', () => {
     Given a passed step
 `
       )
+
+      const gherkinDocument = envelopes.find(
+        (envelope) => envelope.gherkinDocument
+      ).gherkinDocument
+      const scenario = gherkinDocument.feature.children.find(
+        (child) => child.scenario
+      ).scenario
+
       const pickleId = envelopes.find((e) => e.pickle).pickle.id
-      const pickleIds = gherkinQuery.getPickleIds('test.feature', 5)
+      const pickleIds = gherkinQuery.getPickleIds('test.feature', scenario.id)
       assert.deepStrictEqual(pickleIds, [pickleId])
     })
 
@@ -87,9 +95,12 @@ describe('Query', () => {
 `
       )
 
-      assert.throws(() => gherkinQuery.getPickleIds('test.feature', 6), {
-        message: 'No values found for key 6. Keys: [5]',
-      })
+      assert.throws(
+        () => gherkinQuery.getPickleIds('test.feature', 'some-non-existing-id'),
+        {
+          message: 'No values found for key 6. Keys: [some-non-existing-id]',
+        }
+      )
     })
 
     it('avoids dupes and ignores empty scenarios', async () => {
@@ -118,41 +129,86 @@ describe('Query', () => {
     })
   })
 
-  describe('#getPickleStepIds(uri, lineNumber)', () => {
-    it('looks up pickle step IDs for a step', async () => {
-      await parse(
-        `Feature: hello
-  Scenario: hi
-    Given a passed step
-`
-      )
-      const pickleStepId = envelopes.find((e) => e.pickle).pickle.steps[0].id
-      const pickleStepIds = gherkinQuery.getPickleStepIds('test.feature', 3)
-      assert.deepStrictEqual(pickleStepIds, [pickleStepId])
+  describe('#getPickleStepIds(astNodeId', () => {
+    it('returns an empty list when the ID is unknown', async () => {
+      await parse('Feature: An empty feature')
+
+      assert.deepEqual(gherkinQuery.getPickleStepIds('whetever-id'), [])
     })
 
-    it('looks up pickle step IDs for a background step followed by an empty scenario', async () => {
-      await parse(`Feature: Incomplete scenarios
+    it('returns the pickle step IDs corresponding the a scenario step', async () => {
+      await parse(
+        `Feature: hello
+  Scenario:
+    Given a failed step
+`
+      )
 
+      const pickleStepIds = envelopes
+        .find((envelope) => envelope.pickle)
+        .pickle.steps.map((pickleStep) => pickleStep.id)
+
+      const stepId = envelopes.find((envelope) => envelope.gherkinDocument)
+        .gherkinDocument.feature.children[0].scenario.steps[0].id
+
+      assert.deepEqual(gherkinQuery.getPickleStepIds(stepId), pickleStepIds)
+    })
+
+    context('when a step has multiple pickle step', () => {
+      it('returns all pickleStepIds linked to a background step', async () => {
+        await parse(
+          `Feature: hello
   Background:
+    Given a step that will have 2 pickle steps
+
+  Scenario:
+    Given a step that will only have 1 pickle step
+
+    Scenario:
+    Given a step that will only have 1 pickle step
+  `
+        )
+
+        const backgroundStepId = envelopes.find(
+          (envelope) => envelope.gherkinDocument
+        ).gherkinDocument.feature.children[0].background.steps[0].id
+
+        const pickleStepIds = envelopes
+          .filter((envelope) => envelope.pickle)
+          .map((envelope) => envelope.pickle.steps[0].id)
+
+        assert.deepEqual(
+          gherkinQuery.getPickleStepIds(backgroundStepId),
+          pickleStepIds
+        )
+      })
+
+      it('return all pickleStepIds linked to a step in a scenario with examples', async () => {
+        await parse(
+          `Feature: hello
+  Scenario:
     Given a passed step
+    And a <status> step
 
-  Scenario: no steps
-`)
-
-      const pickleStepIds = gherkinQuery.getPickleStepIds('test.feature', 4)
-      assert.deepStrictEqual(pickleStepIds, [])
-    })
-
-    it.skip('fails to looks up pickle step IDs for a pickle', async () => {
-      await parse(
-        `Feature: hello
-  Scenario: hi
-    Given a passed step
+    Examples:
+      | status |
+      | passed |
+      | failed |
 `
-      )
-      assert.throws(() => gherkinQuery.getPickleStepIds('test.feature', 2), {
-        message: 'No values found for key 2. Keys: [3]',
+        )
+
+        const scenarioStepId = envelopes.find(
+          (envelope) => envelope.gherkinDocument
+        ).gherkinDocument.feature.children[0].scenario.steps[1].id
+
+        const pickleStepIds = envelopes
+          .filter((envelope) => envelope.pickle)
+          .map((envelope) => envelope.pickle.steps[1].id)
+
+        assert.deepEqual(
+          gherkinQuery.getPickleStepIds(scenarioStepId),
+          pickleStepIds
+        )
       })
     })
   })

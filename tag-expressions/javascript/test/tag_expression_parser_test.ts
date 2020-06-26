@@ -3,7 +3,7 @@ import parse from '../src/tag_expression_parser'
 
 describe('TagExpressionParser', () => {
   describe('#parse', () => {
-    ;[
+    const tests = [
       ['', 'true'],
       ['a and b', '( a and b )'],
       ['a or b', '( a or b )'],
@@ -18,7 +18,8 @@ describe('TagExpressionParser', () => {
         '( ( ( not ( a\\(\\) ) or ( b and not ( c ) ) ) or not ( d ) ) or ( e and f ) )',
       ],
       // a or not b
-    ].forEach(function (inOut) {
+    ]
+    tests.forEach(function (inOut) {
       it(inOut[0], function () {
         const infix = inOut[0]
         const expr = parse(infix)

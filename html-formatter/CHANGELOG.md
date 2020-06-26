@@ -17,6 +17,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [6.0.3] - 2020-06-12
+
+### Fixed
+* [JavaScript] Fixed a bug where the command-line interface would always exit with 1
+  even if there were no errors.
+* [Java] Always use UTF-8 encoding
+
 ## [6.0.2] - 2020-05-01
 
 ### Added
@@ -26,13 +33,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
    [aslakhellesoy])
 
 ### Fixed
-* [Java] Use version range for messages dependency 
+* [Java] Use version range for messages dependency
   ([#986](https://github.com/cucumber/cucumber/pull/986)
    [mpkorstanje])
-* [Java] Make writer idempotent when failing to close underlying writer 
+* [Java] Make writer idempotent when failing to close underlying writer
   ([#986](https://github.com/cucumber/cucumber/pull/986)
    [mpkorstanje])
-   
+
 ## [6.0.1] - 2020-04-15
 
 ### Fixed
@@ -196,7 +203,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/formatter/v6.0.2...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/formatter/v6.0.3...master
+[6.0.3]:      https://github.com/cucumber/cucumber/compare/formatter/v6.0.2...formatter/v6.0.3
 [6.0.2]:      https://github.com/cucumber/cucumber/compare/formatter/v6.0.1...formatter/v6.0.2
 [6.0.1]:      https://github.com/cucumber/cucumber/compare/formatter/v6.0.0...formatter/v6.0.1
 [6.0.0]:      https://github.com/cucumber/cucumber/compare/formatter/v5.0.0...formatter/v6.0.0

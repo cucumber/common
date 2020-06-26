@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+* Add `getBeforeHookSteps` and `getAfterHookSteps`
+* Add `getTestStepResults`
+* Add `getHook`
+
 ### Changed
 
 ### Deprecated

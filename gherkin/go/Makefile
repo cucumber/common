@@ -49,7 +49,7 @@ acceptance/testdata/%.feature.tokens: testdata/%.feature testdata/%.feature.toke
 testdata/%.feature.ast.ndjson: testdata/%.feature $(EXE)
 ifdef GOLDEN
 	mkdir -p `dirname $@`
-	$(EXE) --predictable-ids --format ndjson --no-source --no-pickles $< | jq --sort-keys -f remove_empty.jq > $@
+	$(EXE) --predictable-ids --format ndjson --no-source --no-pickles $< | jq --sort-keys  --compact-output -f remove_empty.jq > $@
 endif
 
 acceptance/testdata/%.feature.ast.ndjson: testdata/%.feature testdata/%.feature.ast.ndjson $(EXE)
@@ -60,7 +60,7 @@ acceptance/testdata/%.feature.ast.ndjson: testdata/%.feature testdata/%.feature.
 testdata/%.feature.errors.ndjson: testdata/%.feature $(EXE)
 ifdef GOLDEN
 	mkdir -p `dirname $@`
-	$(EXE) --predictable-ids --format ndjson --no-source $< | jq --sort-keys -f remove_empty.jq > $@
+	$(EXE) --predictable-ids --format ndjson --no-source $< | jq --sort-keys  --compact-output -f remove_empty.jq > $@
 endif
 
 acceptance/testdata/%.feature.errors.ndjson: testdata/%.feature testdata/%.feature.errors.ndjson $(EXE)
@@ -71,7 +71,7 @@ acceptance/testdata/%.feature.errors.ndjson: testdata/%.feature testdata/%.featu
 testdata/%.feature.source.ndjson: testdata/%.feature $(EXE)
 ifdef GOLDEN
 	mkdir -p `dirname $@`
-	$(EXE) --predictable-ids --format ndjson --no-ast --no-pickles $< | jq --sort-keys -f remove_empty.jq > $@
+	$(EXE) --predictable-ids --format ndjson --no-ast --no-pickles $< | jq --sort-keys  --compact-output -f remove_empty.jq > $@
 endif
 
 acceptance/testdata/%.feature.source.ndjson: testdata/%.feature testdata/%.feature.source.ndjson $(EXE)
@@ -82,7 +82,7 @@ acceptance/testdata/%.feature.source.ndjson: testdata/%.feature testdata/%.featu
 testdata/%.feature.pickles.ndjson: testdata/%.feature $(EXE)
 ifdef GOLDEN
 	mkdir -p `dirname $@`
-	$(EXE) --predictable-ids --format ndjson --no-source --no-ast $< | jq --sort-keys -f remove_empty.jq > $@
+	$(EXE) --predictable-ids --format ndjson --no-source --no-ast $< | jq --sort-keys --compact-output -f remove_empty.jq > $@
 endif
 
 acceptance/testdata/%.feature.pickles.ndjson: testdata/%.feature testdata/%.feature.pickles.ndjson $(EXE)
@@ -90,11 +90,8 @@ acceptance/testdata/%.feature.pickles.ndjson: testdata/%.feature testdata/%.feat
 	$(EXE) --predictable-ids --format ndjson --no-source --no-ast $< | jq --sort-keys --compact-output -f remove_empty.jq > $@
 	diff --unified <(jq "." $<.pickles.ndjson) <(jq "." $@)
 
-parser.go: gherkin.berp parser.go.razor berp/berp.exe
-	# We're allowing mono to fail. The monorepo build runs in a docker image which
-	# doesn't have mono installed. This looks like it will be fixed post Alpine 3.9:
-	# https://pkgs.alpinelinux.org/packages?name=mono&branch=edge
-	-mono berp/berp.exe -g gherkin.berp -t parser.go.razor -o $@
+parser.go: gherkin.berp parser.go.razor
+	mono  /var/lib/berp/1.1.1/tools/net471/Berp.exe -g gherkin.berp -t parser.go.razor -o $@
 	# Remove BOM
 	awk 'NR==1{sub(/^\xef\xbb\xbf/,"")}{print}' < $@ > $@.nobom
 	mv $@.nobom $@

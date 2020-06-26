@@ -1,6 +1,7 @@
 import React from 'react'
 import { messages } from '@cucumber/messages'
 import isNumber from './isNumber'
+import HighLight from '../app/HighLight'
 
 interface IProps {
   rows: messages.GherkinDocument.Feature.ITableRow[]
@@ -16,7 +17,7 @@ const TableBody: React.FunctionComponent<IProps> = ({ rows }) => {
               key={j}
               style={{ textAlign: isNumber(cell.value) ? 'right' : 'left' }}
             >
-              {cell.value}
+              <HighLight text={cell.value} />
             </td>
           ))}
         </tr>

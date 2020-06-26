@@ -185,9 +185,50 @@ $unknown: #B6BECB;
   }
   &:hover {
     a {
-      display: block;
+      display: inline-block;
+      margin-right: 1em;
       width: max-content;
       transition: all 0.5s ease-in-out;
     }
   }
+}
+
+.cucumber-search-bar {
+  margin-top: 2em;
+  margin-bottom: 2em;
+
+  input {
+    padding: 0.4em;
+    border-radius: 0;
+  }
+
+  button {
+    height: 2.2em;
+    padding-left: 0.6em;
+    padding-right: 0.6em;
+  }
+
+  details {
+    font-size: 80%;
+
+    p {
+      border-color: $border-color;
+      background-color: #f4f4f4;
+    }
+  }
+}
+
+.attachment {
+    background-color: rgb(235, 235, 235);
+    padding: 0.5em;
+    .attachment-icon {
+      margin-right: 0.5em;
+    }
+}
+.attachment-image {
+  margin-top: 1em;
+}
+
+.highlight mark {
+  background-color: yellow
 }

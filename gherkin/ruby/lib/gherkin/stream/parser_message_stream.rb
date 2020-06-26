@@ -1,7 +1,7 @@
 require 'cucumber/messages'
-require 'gherkin/parser'
-require 'gherkin/token_matcher'
-require 'gherkin/pickles/compiler'
+require_relative '../parser'
+require_relative '../token_matcher'
+require_relative '../pickles/compiler'
 
 module Gherkin
   module Stream

@@ -13,4 +13,5 @@ dist/
 dist_compressed/
 *.bin
 *.iml
-core.*.!usr!bin!upx
+# upx dist/cucumber-gherkin-openbsd-386 fails with a core dump
+core.*.!usr!bin!upx-ucl

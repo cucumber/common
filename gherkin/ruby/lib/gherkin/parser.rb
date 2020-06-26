@@ -1,8 +1,8 @@
 # This file is generated. Do not edit! Edit gherkin-ruby.razor instead.
-require 'gherkin/ast_builder'
-require 'gherkin/token_matcher'
-require 'gherkin/token_scanner'
-require 'gherkin/errors'
+require_relative 'ast_builder'
+require_relative 'token_matcher'
+require_relative 'token_scanner'
+require_relative 'errors'
 
 module Gherkin
 

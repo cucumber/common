@@ -1,22 +1,27 @@
 import React from 'react'
-import Keyword from './Keyword'
+import IdGenerator from '../../IdGenerator'
 import Description from './Description'
 import Scenario from './Scenario'
 import { messages } from '@cucumber/messages'
 import Background from './Background'
 import IRule = messages.GherkinDocument.Feature.FeatureChild.IRule
+import RuleTitle from './RuleTitle'
 
 interface IProps {
   rule: IRule
 }
 
+const generator = new IdGenerator()
+
 const Rule: React.FunctionComponent<IProps> = ({ rule }) => {
+  const idGenerated = generator.generate(rule.name)
+
   return (
     <section>
-      <h2>
-        <Keyword>{rule.keyword}:</Keyword>{' '}
-        <span className="step-text">{rule.name}</span>
-      </h2>
+      <RuleTitle
+        id={idGenerated}
+        rule={rule}
+      />
       <div className="indent">
         <Description description={rule.description} />
         {(rule.children || []).map((child, index) => {
