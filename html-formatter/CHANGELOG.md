@@ -203,20 +203,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/formatter/v6.0.3...master
-[6.0.3]:      https://github.com/cucumber/cucumber/compare/formatter/v6.0.2...formatter/v6.0.3
-[6.0.2]:      https://github.com/cucumber/cucumber/compare/formatter/v6.0.1...formatter/v6.0.2
-[6.0.1]:      https://github.com/cucumber/cucumber/compare/formatter/v6.0.0...formatter/v6.0.1
-[6.0.0]:      https://github.com/cucumber/cucumber/compare/formatter/v5.0.0...formatter/v6.0.0
-[5.0.0]:      https://github.com/cucumber/cucumber/compare/formatter/v4.3.0...formatter/v5.0.0
-[4.3.0]:      https://github.com/cucumber/cucumber/compare/formatter/v4.2.0...formatter/v4.3.0
-[4.2.0]:      https://github.com/cucumber/cucumber/compare/formatter/v4.1.0...formatter/v4.2.0
-[4.1.0]:      https://github.com/cucumber/cucumber/compare/formatter/v4.0.0...formatter/v4.1.0
-[4.0.0]:      https://github.com/cucumber/cucumber/compare/formatter/v3.2.3...formatter/v4.0.0
-[3.2.3]:      https://github.com/cucumber/cucumber/compare/formatter/v3.2.2...formatter/v3.2.3
-[3.2.2]:      https://github.com/cucumber/cucumber/compare/formatter/v3.2.1...formatter/v3.2.2
-[3.2.1]:      https://github.com/cucumber/cucumber/compare/formatter/v3.2.0...formatter/v3.2.1
-[3.2.0]:      https://github.com/cucumber/cucumber/compare/html-formatter/v3.1.0...formatter/v3.2.0
+[Unreleased]: https://github.com/cucumber/cucumber/compare/html-formatter/v6.0.3...master
+[6.0.3]:      https://github.com/cucumber/cucumber/compare/html-formatter/v6.0.2...html-formatter/v6.0.3
+[6.0.2]:      https://github.com/cucumber/cucumber/compare/html-formatter/v6.0.1...html-formatter/v6.0.2
+[6.0.1]:      https://github.com/cucumber/cucumber/compare/html-formatter/v6.0.0...html-formatter/v6.0.1
+[6.0.0]:      https://github.com/cucumber/cucumber/compare/html-formatter/v5.0.0...html-formatter/v6.0.0
+[5.0.0]:      https://github.com/cucumber/cucumber/compare/html-formatter/v4.3.0...html-formatter/v5.0.0
+[4.3.0]:      https://github.com/cucumber/cucumber/compare/html-formatter/v4.2.0...html-formatter/v4.3.0
+[4.2.0]:      https://github.com/cucumber/cucumber/compare/html-formatter/v4.1.0...html-formatter/v4.2.0
+[4.1.0]:      https://github.com/cucumber/cucumber/compare/html-formatter/v4.0.0...html-formatter/v4.1.0
+[4.0.0]:      https://github.com/cucumber/cucumber/compare/html-formatter/v3.2.3...html-formatter/v4.0.0
+[3.2.3]:      https://github.com/cucumber/cucumber/compare/html-formatter/v3.2.2...html-formatter/v3.2.3
+[3.2.2]:      https://github.com/cucumber/cucumber/compare/html-formatter/v3.2.1...html-formatter/v3.2.2
+[3.2.1]:      https://github.com/cucumber/cucumber/compare/html-formatter/v3.2.0...html-formatter/v3.2.1
+[3.2.0]:      https://github.com/cucumber/cucumber/compare/html-formatter/v3.1.0...html-formatter/v3.2.0
 [3.1.0]:      https://github.com/cucumber/cucumber/compare/html-formatter/v3.0.0...html-formatter/v3.1.0
 [3.0.0]:      https://github.com/cucumber/cucumber/compare/html-formatter/v2.0.3...html-formatter/v3.0.0
 [2.0.3]:      https://github.com/cucumber/cucumber/compare/html-formatter/v2.0.2...html-formatter/v2.0.3
