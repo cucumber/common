@@ -13,6 +13,7 @@ import StatusesFilter from './StatusesFilter'
 import countScenariosByStatuses from '../../countScenariosByStatuses'
 import ExecutionSummary from './ExecutionSummary'
 import EnvelopesQueryContext from '../../EnvelopesQueryContext'
+import CIInformation from './CIInformation'
 
 const defaultDisplayedResults = [
   messages.TestStepFinished.TestStepResult.Status.AMBIGUOUS,
@@ -65,7 +66,9 @@ const FilteredResults: React.FunctionComponent = () => {
           enabledStatuses={displayedStatuses}
           scenarioCountByStatus={scenarioCountByStatus}
         />
-        <ExecutionSummary meta={meta}/>
+        <ExecutionSummary meta={meta} />
+        {meta.ci && <CIInformation ci={meta.ci} />}
+
         <SearchBar queryUpdated={(query) => setQuery(query)} />
       </div>
       <GherkinDocumentList gherkinDocuments={filtered} />

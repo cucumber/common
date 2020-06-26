@@ -39,7 +39,7 @@ interface IProps {
   meta: messages.IMeta
 }
 
-const ExecutionSummary: React.FunctionComponent<IProps> = ({meta: meta}) => {
+const ExecutionSummary: React.FunctionComponent<IProps> = ({ meta: meta }) => {
   const envelopesQuery = React.useContext(EnvelopesQueryContext)
 
   const testRunStarted = envelopesQuery.find(

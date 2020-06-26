@@ -89,6 +89,11 @@ storiesOf('Features', module)
       <FilteredResults />
     </QueriesWrapper>
   })
+  .add('Filtered results: attachments', () => {
+    return <QueriesWrapper {...props(attachments)}>
+      <FilteredResults />
+    </QueriesWrapper>
+  })
   .add('Document list', () => {
     return <QueriesWrapper {...props(documentList)}>
       <GherkinDocumentList/>
