@@ -93,10 +93,12 @@ pickles = Gherkin::Pickles::Compiler.new.compile(gherkin_document)
 
 ```javascript
 // JavaScript
-var Gherkin = require("gherkin");
-var parser = new Gherkin.Parser();
+const Gherkin = require('@cucumber/gherkin');
+const {IdGenerator} = require('@cucumber/messages');
+
+const parser = new Gherkin.Parser(new Gherkin.AstBuilder(IdGenerator.incrementing()));
 var gherkinDocument = parser.parse("Feature: ...");
-var pickles = new Gherkin.Compiler().compile(gherkinDocument);
+var pickles = new Gherkin.compile(gherkinDocument, uri, IdGenerator.incrementing());
 ```
 
 ```go

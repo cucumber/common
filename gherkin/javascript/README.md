@@ -5,14 +5,19 @@ Gherkin parser/compiler for JavaScript. Please see [Gherkin](https://github.com/
 ## Usage
 
 ```javascript
-const gherkin = require('gherkin')
+const Gherkin = require('@cucumber/gherkin');
+const fs = require('fs');
 
 const options = {
-  includeSource: true,
-  includeGherkinDocument: true,
-  includePickles: true,
-}
-const stream = gherkin.fromPaths(['features/hello.feature'])
+    includeSource: true,
+    includeGherkinDocument: true,
+    includePickles: true,
+    createReadStream(path) {
+        return fs.createReadStream(path, {encoding: 'utf-8'});
+    }
+};
+
+const stream = new Gherkin.GherkinStreams.fromPaths(['features/hello.feature'], options);
 
 // Pipe the stream to another stream that can read messages.
 stream.pipe(...)

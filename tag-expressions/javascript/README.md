@@ -8,10 +8,9 @@
 ## Example
 
 ```js
-import {TagExpressionParser} from '@cucumber/tag-expressions'
-const parser = new TagExpressionParser()
+const tagExpressions = require("@cucumber/tag-expressions");
 
-const expressionNode = parser.parse('@tagA and @tagB')
+const expressionNode = tagExpressions.default('@tagA and @tagB');
 
 expressionNode.evaluate(["@tagA", "@tagB"]) // => true
 expressionNode.evaluate(["@tagA", "@tagC"]) // => false
