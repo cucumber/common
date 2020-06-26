@@ -12,12 +12,14 @@ const Product: React.FunctionComponent<IProductProps> = ({
   name: name,
   product: product,
 }) => {
+  const value = [product.name, product.version]
+    .filter((v) => v !== '' && v !== undefined && v !== null)
+    .join(' - ')
+
   return (
     <tr>
       <th>{name}</th>
-      <td>
-        {product.name} - {product.version}
-      </td>
+      <td>{value}</td>
     </tr>
   )
 }
@@ -75,10 +77,12 @@ const ExecutionSummary: React.FunctionComponent<IProps> = ({ meta: meta }) => {
               </td>
             </tr>
           )}
-          <Product name="Implementation" product={meta.implementation} />
-          <Product name="Runtime" product={meta.runtime} />
-          <Product name="OS" product={meta.os} />
-          <Product name="CPU" product={meta.cpu} />
+          {meta.implementation && (
+            <Product name="Implementation" product={meta.implementation} />
+          )}
+          {meta.runtime && <Product name="Runtime" product={meta.runtime} />}
+          {meta.os && <Product name="OS" product={meta.os} />}
+          {meta.cpu && <Product name="CPU" product={meta.cpu} />}
         </tbody>
       </table>
     </div>
