@@ -39,7 +39,7 @@ endif
 .PHONY: update-version
 
 publish: .deps
-	mvn deploy -Psign-source-javadoc --settings scripts/ci-settings.xml -DskipTests=true
+	mvn deploy -Psign-source-javadoc -DskipTests=true
 .PHONY: publish
 
 post-release:

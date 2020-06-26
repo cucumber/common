@@ -18,7 +18,7 @@ docker run \
   --volume "${LOCAL_PATH}/../secrets/.ssh":/home/cukebot/.ssh \
   --volume "${LOCAL_PATH}/../secrets/codesigning.key":/home/cukebot/codesigning.key \
   --volume "${LOCAL_PATH}/../secrets/secrets.sh":/home/cukebot/secrets.sh \
-  --volume "${HOME}/.m2":/home/cukebot/.m2 \
+  --volume "${HOME}/.m2"/repository:/home/cukebot/.m2/repository \
   --volume "${HOME}/.gitconfig":/home/cukebot/.gitconfig \
   --user 1000 \
   --rm \

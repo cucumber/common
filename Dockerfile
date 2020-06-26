@@ -4,7 +4,15 @@
 FROM ubuntu:20.04
 
 ENV DEBIAN_FRONTEND=noninteractive
-ENV LANG=en_US.UTF-8
+
+RUN apt-get update \
+    && apt-get install --assume-yes \
+        locales
+
+RUN locale-gen en_US.UTF-8
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US:en
+ENV LC_ALL en_US.UTF-8
 
 WORKDIR /app
 
@@ -65,8 +73,10 @@ RUN addgroup --gid "$GID" "$USER" \
         --shell /bin/bash \
         "$USER"
 
-# Configure Java Home
+# Configure Maven and Java
 ENV JAVA_HOME /usr/lib/jvm/java-11-openjdk-amd64
+COPY .templates/java/scripts/ci-toolchain.xml /home/cukebot/.m2/toolchain.xml
+COPY .templates/java/scripts/ci-settings.xml /home/cukebot/.m2/settings.xml
 
 # Configure Ruby
 RUN echo "gem: --no-document" > ~/.gemrc \
@@ -87,12 +97,6 @@ RUN curl https://bootstrap.pypa.io/get-pip.py | python2 \
 # Configure Perl
 RUN curl -L https://cpanmin.us/ -o /usr/local/bin/cpanm \
     && chmod +x /usr/local/bin/cpanm
-
-# Install git-crypt
-RUN apt-get install libssl-dev \
-    && git clone -b 0.6.0 --single-branch --depth 1 https://github.com/AGWA/git-crypt.git \
-    && cd git-crypt \
-    && make && make install
 
 # Install hub
 RUN git clone \
@@ -161,6 +165,5 @@ RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.2/install.sh | b
     && [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" \
     && nvm install 12.16.2 \
     && nvm install-latest-npm
-
 
 CMD ["/bin/bash"]

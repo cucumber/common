@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF8"?>
+<toolchains>
+    <toolchain>
+        <type>jdk</type>
+        <provides>
+            <version>11</version>
+            <vendor>openjdk</vendor>
+        </provides>
+        <configuration>
+            <jdkHome>/usr/lib/jvm/java-11-openjdk-amd64</jdkHome>
+        </configuration>
+    </toolchain>
+</toolchains>
