@@ -188,6 +188,12 @@ $statusColors:
       }
     }
 
+    .cucumber-ci-information {
+      ul {
+        list-style-type: none;
+      }
+    }
+
     .cucumber-search-bar {
       input {
         padding: 0.4em;
