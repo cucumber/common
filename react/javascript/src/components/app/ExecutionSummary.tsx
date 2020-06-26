@@ -35,9 +35,13 @@ function getDurationsMillis(
   }
 }
 
-const ExecutionSummary: React.FunctionComponent = () => {
+interface IProps {
+  meta: messages.IMeta
+}
+
+const ExecutionSummary: React.FunctionComponent<IProps> = ({meta: meta}) => {
   const envelopesQuery = React.useContext(EnvelopesQueryContext)
-  const meta = envelopesQuery.find((envelope) => envelope.meta !== null).meta
+
   const testRunStarted = envelopesQuery.find(
     (envelope) => envelope.testRunStarted !== null
   ).testRunStarted
