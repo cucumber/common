@@ -9,7 +9,7 @@ Go and JavaScript implementations of that library, with the same version number.
 You *must* be on the `master` branch when you make a release. The steps below
 outline the process:
 
-* Decrypt credentials
+* Start the docker container with secrets
 * Update dependencies
 * Update changelog
 * Release packages
@@ -19,28 +19,14 @@ This ensures a consistent release environment.
 
 ## Get the secrets
 
-In order to publish packages there are several secrets that need to be defined.
-These secrets are stored in an encrypted git repository that only the Cucumber
-core team has access to.
-
-You should clone this repo next to this repo:
-
-    cd ..
-    git clone keybase://team/cucumberbdd/secrets
-    cd cucumber
-
-If you've already cloned it, make sure it's uptodate:
-
-    cd ..
-    git pull
-    cd cucumber
+In order to publish packages several secrets are required. Members of the core
+team can install keybase and join the `cucumberbdd` team to access these secrets.
 
 ## Start the Cucumber docker container
 
 All commands should be made from the Cucumber docker container. Start it:
 
-    ./scripts/docker-run Dockerfile
-    source ./scripts/prepare_release_env.sh
+    make docker-run-with-secrets
 
 You're now ready to make a release.
 

@@ -27,6 +27,7 @@ update-dependencies:
 .PHONY: update-dependencies
 
 pre-release: update-version update-dependencies clean default
+	[ -f '/home/cukebot/import-gpg-key.sh' ] && /home/cukebot/import-gpg-key.sh
 .PHONY: pre-release
 
 update-version:
@@ -39,7 +40,7 @@ endif
 .PHONY: update-version
 
 publish: .deps
-	mvn deploy -Psign-source-javadoc --settings scripts/ci-settings.xml -DskipTests=true
+	mvn deploy -Psign-source-javadoc -DskipTests=true
 .PHONY: publish
 
 post-release:
