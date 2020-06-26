@@ -1,6 +1,7 @@
 import React from 'react'
 import { messages, TimeConversion } from '@cucumber/messages'
 import EnvelopesQueryContext from '../../EnvelopesQueryContext'
+import CICommitLink from './CICommitLink'
 
 interface IProductProps {
   name: string
@@ -58,6 +59,22 @@ const ExecutionSummary: React.FunctionComponent<IProps> = ({ meta: meta }) => {
             <th>Duration (milliseconds)</th>
             <td>{millisDuration || '--'} ms</td>
           </tr>
+          {meta.ci && (
+            <tr>
+              <th>Build</th>
+              <td>
+                <a href={meta.ci.url}>{meta.ci.name}</a>
+              </td>
+            </tr>
+          )}
+          {meta.ci && (
+            <tr>
+              <th>Commit</th>
+              <td>
+                <CICommitLink ci={meta.ci} />
+              </td>
+            </tr>
+          )}
           <Product name="Implementation" product={meta.implementation} />
           <Product name="Runtime" product={meta.runtime} />
           <Product name="OS" product={meta.os} />
