@@ -10,7 +10,7 @@
 ```js
 const tagExpressions = require("@cucumber/tag-expressions");
 
-const expressionNode = tagExpressions.default('@tagA and @tagB');
+const expressionNode = tagExpressions.parse('@tagA and @tagB');
 
 expressionNode.evaluate(["@tagA", "@tagB"]) // => true
 expressionNode.evaluate(["@tagA", "@tagC"]) // => false

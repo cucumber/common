@@ -19,7 +19,7 @@ const ASSOC: { [key: string]: string } = {
  *
  * This expression can be evaluated by passing in an array of literals that resolve to true
  */
-export default function parse(infix: string): Node {
+export function parse(infix: string): Node {
   const tokens = tokenize(infix)
   if (tokens.length === 0) {
     return new True()
