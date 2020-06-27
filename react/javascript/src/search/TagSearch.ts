@@ -1,7 +1,7 @@
 import { messages } from '@cucumber/messages'
 import { Query as GherkinQuery } from '@cucumber/gherkin'
 import { ArrayMultimap } from '@teppeis/multimaps'
-import parse from '@cucumber/tag-expressions'
+import { parse } from '@cucumber/tag-expressions'
 import {
   GherkinDocumentWalker,
   rejectAllFilters,
