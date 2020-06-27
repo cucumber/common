@@ -29,7 +29,7 @@
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>messages</artifactId>
-            <version>12.1.2-SNAPSHOT</version>
+            <version>12.2.0</version>
         </dependency>
 
         <dependency>
