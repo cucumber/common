@@ -1,5 +1,5 @@
 import IHook from './IHook'
-import parseTagExpression from '@cucumber/tag-expressions'
+import { parse } from '@cucumber/tag-expressions'
 import { messages } from '@cucumber/messages'
 import ISupportCodeExecutor from './ISupportCodeExecutor'
 import SupportCodeExecutor from './SupportCodeExecutor'
@@ -32,7 +32,7 @@ export default class Hook implements IHook {
   }
 
   private matchesPickle(pickle: messages.IPickle): boolean {
-    const expression = parseTagExpression(this.tagExpression)
+    const expression = parse(this.tagExpression)
     const tagNames = pickle.tags.map((tag) => tag.name)
     return expression.evaluate(tagNames)
   }
