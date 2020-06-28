@@ -29,15 +29,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 * [Java] Updated `TagExpressionParser` to use a static method to parse a tag expression and return an `Expression` object to the user.
 * [Java] Reduced public API to the bare minimum required.
-* [Java] Added more informative error messages for `TagExpressionParser` through the `TagExpressionException`. 
+* [Java] Added more informative error messages for `TagExpressionParser` through the `TagExpressionException`.
   ([#1005](https://github.com/cucumber/cucumber/pull/1005)
   [cyocum])
-
-### Deprecated
-
-### Removed
-
-### Fixed
 
 ## [2.0.4] - 2020-01-10
 
