@@ -410,6 +410,8 @@ message Pickle {
    * id originating from the `Scenario` AST node, and the second from the `TableRow` AST node.
    */
   repeated string ast_node_ids = 7;
+  // The location of the pickle
+  Location location = 8;
 
   /**
    * A tag

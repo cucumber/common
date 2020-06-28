@@ -123,6 +123,7 @@ function compileScenario(
     name: scenario.name,
     language,
     steps,
+    location: scenario.location,
   })
   pickles.push(pickle)
 }
@@ -169,6 +170,7 @@ function compileScenarioOutline(
             language,
             steps,
             tags: pickleTags(tags),
+            location: scenario.location,
           })
         )
       })
