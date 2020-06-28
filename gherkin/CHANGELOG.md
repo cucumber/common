@@ -17,6 +17,9 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Removed
 
+* Remove `parse` and `parseAndCompile` utilities which were introduced in 14.0.0.
+  Use `generateMessages` instead.
+
 ### Fixed
 
 ## [14.0.0] - 2020-06-27
