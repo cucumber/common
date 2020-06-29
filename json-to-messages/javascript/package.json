@@ -49,10 +49,10 @@
     "ts-sinon": "^1.2.0"
   },
   "dependencies": {
-    "@cucumber/fake-cucumber": "^7.1.0",
-    "@cucumber/create-meta": "^1.0.0",
-    "@cucumber/gherkin": "^14.0.2",
-    "@cucumber/messages": "^12.2.0",
+    "@cucumber/fake-cucumber": "file:../../fake-cucumber/javascript",
+    "@cucumber/create-meta": "file:../../create-meta/javascript",
+    "@cucumber/gherkin": "file:../../gherkin/javascript",
+    "@cucumber/messages": "file:../../messages/javascript",
     "@types/diff-match-patch": "^1.0.32",
     "commander": "^5.1.0",
     "glob": "^7.1.6",
