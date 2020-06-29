@@ -5,11 +5,8 @@ import JSONTransformStream from './stream/JSONTransformStream'
 import { runCucumber, SupportCode } from '@cucumber/fake-cucumber'
 import PredictableSupportCode from './PredictableSupportCode'
 import { compile, Query as GherkinQuery } from '@cucumber/gherkin'
-import {
-  messages,
-  MessageToNdjsonStream,
-  version as messagesVersion,
-} from '@cucumber/messages'
+import createMeta from '@cucumber/create-meta'
+import { messages, MessageToNdjsonStream } from '@cucumber/messages'
 import AstMaker from './AstMaker'
 import detectImplementation from './detectImplementation'
 import traverseFeature from './JSONTraverse'
@@ -62,13 +59,7 @@ export default async function main(
 
   gherkinEnvelopeStream.write(
     messages.Envelope.create({
-      meta: messages.Meta.create({
-        protocolVersion: messagesVersion,
-        implementation: messages.Meta.Product.create({
-          name: '@cucumber/json-to-messages',
-          version,
-        }),
-      }),
+      meta: createMeta('@cucumber/json-to-messages', version, process.env),
     })
   )
 

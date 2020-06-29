@@ -11,26 +11,7 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Added
 
-* [JavaScript] Update `gherkin-languages.json`, which hadn't been updated for a few versions (not sure for how long!)
-* [JavaScript] Change gherkinQuery API:
-  * `getPickleIds`: now takes a URI and an `astNodeId` to find the pickle ids instead of a line number
-  * `getPickleStepIds`: now takes an `astNodeId` parameter instead of a URL and a line number to locate the pickle step id
-  * expose `parse` and `parseAndCompile` utilities
-* [Java] Enable consumers to find our version at runtime using `clazz.getPackage().getImplementationVersion()` by upgrading to `cucumber-parent:2.1.0`
-  ([#976](https://github.com/cucumber/cucumber/pull/976)
-   [aslakhellesoy])
-* [Java/Ruby/Go/Javascript] Add tests to ensure we do not delete whitespace inside a table cell
-  ([#769](https://github.com/cucumber/cucumber/pull/769)
-   [mpkorstanje]
-   [vincent-psarga])
-* [Ruby] gherkin-query: if a feature file is empty, do not update anything.
-  ([cucumber-ruby#1427](https://github.com/cucumber/cucumber-ruby/issues/1427)
-   [vincent-psarga])
-
 ### Changed
-
-* Fixed Estonian translation of "Rule" ([#973](https://github.com/cucumber/cucumber/pull/973) [ookull])
-* Fixed Estonian translation of "Scenario Outline" ([#972](https://github.com/cucumber/cucumber/pull/972) [ookull])
 
 ### Deprecated
 
@@ -38,6 +19,48 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Fixed
 
+## [14.0.2] - 2020-06-29
+
+### Fixed
+
+* [JavaScript] Actually merge #1094 - it wasn't done in 14.0.1
+
+## [14.0.1] - 2020-06-29
+
+### Fixed
+
+* [JavaScript] Remove test code from exports
+  ([#1094](https://github.com/cucumber/cucumber/pull/1094/)
+   [aslakhellesoy])
+
+## [14.0.0] - 2020-06-27
+
+### Added
+
+* [Java] Enable consumers to find our version at runtime using `clazz.getPackage().getImplementationVersion()` by upgrading to `cucumber-parent:2.1.0`
+  ([#976](https://github.com/cucumber/cucumber/pull/976)
+   [aslakhellesoy])
+* [Java/Ruby/Go/Javascript] Add tests to ensure we do not delete whitespace inside a table cell
+  ([#769](https://github.com/cucumber/cucumber/pull/769)
+   [mpkorstanje]
+   [vincent-psarga])
+
+### Changed
+
+* Upgrade to messages 12.2.0
+* [Ruby] gherkin-query: if a feature file is empty, do not update anything.
+  ([cucumber-ruby#1427](https://github.com/cucumber/cucumber-ruby/issues/1427)
+   [vincent-psarga])
+* [JavaScript] Change gherkinQuery API:
+  * `getPickleIds`: now takes a URI and an `astNodeId` to find the pickle ids instead of a line number
+  * `getPickleStepIds`: now takes an `astNodeId` parameter instead of a URL and a line number to locate the pickle step id
+  * expose `parse` and `parseAndCompile` utilities
+* Fixed Estonian translation of "Rule" ([#973](https://github.com/cucumber/cucumber/pull/973) [ookull])
+* Fixed Estonian translation of "Scenario Outline" ([#972](https://github.com/cucumber/cucumber/pull/972) [ookull])
+
+### Fixed
+
+* [JavaScript] Update `gherkin-languages.json`, which hadn't been updated for a few versions (not sure for how long!)
 * [Ruby] Fix the default constructor of `Gherkin::Parser`
   ([#1074](https://github.com/cucumber/cucumber/issues/1074)
    [aslakhellesoy])
@@ -745,7 +768,11 @@ to Gherkin 2.
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v13.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v14.0.2...master
+[14.0.2]:     https://github.com/cucumber/cucumber/compare/gherkin/v14.0.1...gherkin/v14.0.2
+[14.0.1]:     https://github.com/cucumber/cucumber/compare/gherkin/v12.2.1...gherkin/v14.0.1
+[12.2.1]:     https://github.com/cucumber/cucumber/compare/gherkin/v14.0.0...gherkin/v12.2.1
+[14.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v13.0.0...gherkin/v14.0.0
 [13.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v12.0.0...gherkin/v13.0.0
 [12.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v11.0.0...gherkin/v12.0.0
 [11.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v10.0.0...gherkin/v11.0.0

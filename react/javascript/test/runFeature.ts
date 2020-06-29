@@ -4,9 +4,10 @@ import {
   IHook,
   ISupportCodeExecutor,
 } from '@cucumber/fake-cucumber'
-import { Query as GherkinQuery, parseAndCompile } from '@cucumber/gherkin'
-import { Writable, PassThrough } from 'stream'
-import { messages } from '@cucumber/messages'
+import { Query as GherkinQuery, GherkinStreams } from '@cucumber/gherkin'
+import { Writable } from 'stream'
+import { messages, IdGenerator } from '@cucumber/messages'
+import makeSourceEnvelope from '@cucumber/gherkin/dist/src/stream/makeSourceEnvelope'
 
 export class FailingCodeSupport implements ISupportCodeExecutor {
   constructor(readonly stepDefinitionId: string) {}
@@ -57,12 +58,10 @@ export default async function runFeature(
     },
   })
 
-  const gherkinEnvelopeStream = new PassThrough({ objectMode: true })
-  parseAndCompile(feature, (envelope) => {
-    gherkinEnvelopeStream.write(envelope)
-    gherkinQuery.update(envelope)
-  })
-  gherkinEnvelopeStream.end()
+  const gherkinEnvelopeStream = GherkinStreams.fromSources(
+    [makeSourceEnvelope(feature, '')],
+    { newId: IdGenerator.incrementing() }
+  )
 
   await runCucumber(supportCode, gherkinEnvelopeStream, gherkinQuery, out)
   return emitted

@@ -17,6 +17,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [1.0.1] - 2020-06-29
+
+### Fixed
+
+* [JavaScript] Upgrade Gherkin
+
 ## [1.0.0] - 2020-06-25
 
 ### Added
@@ -24,8 +30,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin-utils/v1.0.0...master
-[1.0.0]:      https://github.com/cucumber/cucumber/releases/tag/gherkin-utils/v0.0.1
+[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin-utils/v1.0.1...master
+[1.0.1]:      https://github.com/cucumber/cucumber/compare/gherkin-utils/v1.0.0...gherkin-utils/v1.0.1
 [1.0.0]:      https://github.com/cucumber/cucumber/releases/tag/gherkin-utils/v1.0.0
 
 <!-- Contributors in alphabetical order -->

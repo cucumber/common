@@ -228,6 +228,23 @@ jobs:
             - messages/javascript/dist
             - messages/javascript/node_modules
 
+  create-meta-javascript:
+    executor: docker-circleci-node-12
+    steps:
+      - attach_workspace:
+          at: "~/cucumber"
+      - run:
+          name: create-meta/javascript
+          command: |
+            cd create-meta/javascript
+            make
+      - persist_to_workspace:
+          root: ~/cucumber
+          paths:
+            - create-meta/javascript/dist
+            - create-meta/javascript/node_modules
+
+
   gherkin-javascript:
     executor: docker-circleci-node-12
     steps:
@@ -435,6 +452,17 @@ jobs:
           paths:
             - messages/ruby
 
+  create-meta-ruby:
+    executor: docker-circleci-ruby-26
+    steps:
+      - attach_workspace:
+          at: "~/cucumber"
+      - run:
+          name: create-meta/ruby
+          command: |
+            cd create-meta/ruby
+            make
+
   gherkin-ruby-23:
     executor: docker-circleci-ruby-23
     steps:
@@ -610,6 +638,19 @@ jobs:
           root: "~/.m2/repository"
           paths:
             - "io/cucumber/messages"
+
+  create-meta-java:
+    executor: docker-cucumber-build
+    steps:
+      - attach_workspace:
+          at: "~/cucumber"
+      - attach_workspace:
+          at: "~/.m2/repository"
+      - run:
+          name: create-meta/java
+          command: |
+            cd create-meta/java
+            make
 
   gherkin-java:
     executor: docker-circleci-openjdk
@@ -833,6 +874,9 @@ workflows:
       - messages-javascript:
           requires:
             - checkout
+      - create-meta-javascript:
+          requires:
+            - messages-javascript
       - gherkin-javascript:
           requires:
             - messages-javascript
@@ -845,6 +889,7 @@ workflows:
       - fake-cucumber-javascript:
           requires:
             - messages-javascript
+            - create-meta-javascript
             - gherkin-javascript
             - cucumber-expressions-javascript-node-12
             - tag-expressions-javascript
@@ -883,6 +928,7 @@ workflows:
             - json-to-messages-java
             - json-to-messages-python
             - json-to-messages-javascript-json
+            - create-meta-javascript
             - fake-cucumber-javascript
             - html-formatter-javascript
 
@@ -897,6 +943,9 @@ workflows:
       - messages-ruby:
           requires:
             - checkout
+      - create-meta-ruby:
+          requires:
+            - messages-ruby
       - gherkin-ruby-23:
           requires:
             - messages-ruby
@@ -941,6 +990,9 @@ workflows:
       - messages-java:
           requires:
             - checkout
+      - create-meta-java:
+          requires:
+            - messages-java
       - gherkin-java:
           requires:
             - messages-java

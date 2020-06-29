@@ -77,28 +77,28 @@ src/dialect.c: gherkin-languages.json dialect.c.jq
 	cat $< | jq -f dialect.c.jq -r -c > $@
 
 acceptance/testdata/%.feature.tokens: testdata/%.feature testdata/%.feature.tokens $(GHERKIN_GENERATE_TOKENS)
-	mkdir -p `dirname $@`
+	mkdir -p $(@D)
 	echo $(RUN_GHERKIN_GENERATE_TOKENS)
 	$(RUN_GHERKIN_GENERATE_TOKENS) $< > $@
 	diff --strip-trailing-cr --unified $<.tokens $@
 
 acceptance/testdata/%.feature.ast.ndjson: testdata/%.feature testdata/%.feature.ast.ndjson $(GHERKIN)
-	mkdir -p `dirname $@`
+	mkdir -p $(@D)
 	$(RUN_GHERKIN) --no-source --no-pickles $< | jq --sort-keys --compact-output "." > $@
 	diff --unified <(jq "." $<.ast.ndjson) <(jq "." $@)
 
 acceptance/testdata/%.feature.errors.ndjson: testdata/%.feature testdata/%.feature.errors.ndjson $(GHERKIN)
-	mkdir -p `dirname $@`
+	mkdir -p $(@D)
 	$(RUN_GHERKIN) --no-source --no-pickles $< | jq --sort-keys --compact-output "." > $@
 	diff --unified <(jq "." $<.errors.ndjson) <(jq "." $@)
 
 acceptance/testdata/%.feature.pickles.ndjson: testdata/%.feature testdata/%.feature.pickles.ndjson $(GHERKIN)
-	mkdir -p `dirname $@`
+	mkdir -p $(@D)
 	$(RUN_GHERKIN) --no-source --no-ast $< | jq --sort-keys --compact-output "." > $@
 	diff --unified <(jq "." $<.pickles.ndjson) <(jq "." $@)
 
 acceptance/testdata/%.feature.source.ndjson: testdata/%.feature testdata/%.feature.source.ndjson .built
-	mkdir -p `dirname $@`
+	mkdir -p $(@D)
 	$(RUN_GHERKIN) --no-ast --no-pickles $< | jq --sort-keys --compact-output "." > $@
 	diff --unified <(jq "." $<.source.ndjson) <(jq "." $@)
 

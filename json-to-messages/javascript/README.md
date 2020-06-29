@@ -7,7 +7,7 @@ Currently supports output from:
  * `behave`
  * `cucumber-java`
  * `cucumber-javascript`
- * `cucumber-ruby``
+ * `cucumber-ruby`
 
 ## InstalLing
 

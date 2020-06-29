@@ -1,6 +1,7 @@
 import React from 'react'
 import { messages, TimeConversion } from '@cucumber/messages'
 import EnvelopesQueryContext from '../../EnvelopesQueryContext'
+import CICommitLink from './CICommitLink'
 
 interface IProductProps {
   name: string
@@ -11,12 +12,14 @@ const Product: React.FunctionComponent<IProductProps> = ({
   name: name,
   product: product,
 }) => {
+  const value = [product.name, product.version]
+    .filter((v) => v !== '' && v !== undefined && v !== null)
+    .join(' - ')
+
   return (
     <tr>
       <th>{name}</th>
-      <td>
-        {product.name} - {product.version}
-      </td>
+      <td>{value}</td>
     </tr>
   )
 }
@@ -35,9 +38,13 @@ function getDurationsMillis(
   }
 }
 
-const ExecutionSummary: React.FunctionComponent = () => {
+interface IProps {
+  meta: messages.IMeta
+}
+
+const ExecutionSummary: React.FunctionComponent<IProps> = ({ meta: meta }) => {
   const envelopesQuery = React.useContext(EnvelopesQueryContext)
-  const meta = envelopesQuery.find((envelope) => envelope.meta !== null).meta
+
   const testRunStarted = envelopesQuery.find(
     (envelope) => envelope.testRunStarted !== null
   ).testRunStarted
@@ -54,10 +61,28 @@ const ExecutionSummary: React.FunctionComponent = () => {
             <th>Duration (milliseconds)</th>
             <td>{millisDuration || '--'} ms</td>
           </tr>
-          <Product name="Implementation" product={meta.implementation} />
-          <Product name="Runtime" product={meta.runtime} />
-          <Product name="OS" product={meta.os} />
-          <Product name="CPU" product={meta.cpu} />
+          {meta.ci && (
+            <tr>
+              <th>Build</th>
+              <td>
+                <a href={meta.ci.url}>{meta.ci.name}</a>
+              </td>
+            </tr>
+          )}
+          {meta.ci && (
+            <tr>
+              <th>Commit</th>
+              <td>
+                <CICommitLink ci={meta.ci} />
+              </td>
+            </tr>
+          )}
+          {meta.implementation && (
+            <Product name="Implementation" product={meta.implementation} />
+          )}
+          {meta.runtime && <Product name="Runtime" product={meta.runtime} />}
+          {meta.os && <Product name="OS" product={meta.os} />}
+          {meta.cpu && <Product name="CPU" product={meta.cpu} />}
         </tbody>
       </table>
     </div>

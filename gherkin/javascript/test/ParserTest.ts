@@ -3,7 +3,7 @@ import { messages, IdGenerator } from '@cucumber/messages'
 import AstBuilder from '../src/AstBuilder'
 import Parser from '../src/Parser'
 import TokenMatcher from '../src/TokenMatcher'
-import { parseAndCompile } from './utils/parse'
+import generateMessages from '../src/stream/generateMessages'
 
 describe('Parser', function () {
   it('parses a simple feature', function () {
@@ -124,22 +124,21 @@ describe('Parser', function () {
   })
 
   it('it interpolates data tables', function () {
-    const pickles: messages.IPickle[] = []
-    parseAndCompile(
+    const envelopes = generateMessages(
       'Feature: Foo\n' +
         '  Scenario Outline: Parenthesis\n' +
         '    Given the thing <is (not) triggered> and has <value>\n' +
         '  Examples:\n' +
         '    | is (not) triggered | value |\n' +
         '    | is triggered       | foo   |\n ',
-      (envelope) => {
-        if (envelope.pickle) {
-          pickles.push(envelope.pickle)
-        }
-      }
+      '',
+      { includePickles: true, newId: IdGenerator.incrementing() }
     )
+
+    const pickle = envelopes.find((envelope) => envelope.pickle).pickle
+
     assert.strictEqual(
-      pickles[0].steps[0].text,
+      pickle.steps[0].text,
       'the thing is triggered and has foo'
     )
   })

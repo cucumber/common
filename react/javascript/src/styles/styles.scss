@@ -194,8 +194,18 @@ $statusColors:
     padding: 1em;
   }
 
-  .cucumber-status-filter {
-    padding-bottom: 1em;
+    .cucumber-ci-information {
+      ul {
+        list-style-type: none;
+      }
+    }
+
+    .cucumber-search-bar {
+      input {
+        padding: 0.4em;
+        border-radius: 0;
+        width: 80%;
+      }
 
     th {
       display: table-row

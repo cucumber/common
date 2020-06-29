@@ -1,0 +1,4 @@
+GITHUB_REPOSITORY=cucumber/cucumber-ruby
+GITHUB_RUN_ID=140170388
+GITHUB_SHA=the-revision
+GITHUB_REF=refs/tags/the-tag
