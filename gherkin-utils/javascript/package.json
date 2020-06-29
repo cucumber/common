@@ -27,7 +27,7 @@
   },
   "homepage": "https://github.com/cucumber/cucumber",
   "devDependencies": {
-    "@cucumber/gherkin": "^14.0.2",
+    "@cucumber/gherkin": "file:../../gherkin/javascript",
     "@types/mocha": "^7.0.2",
     "@types/node": "^14.0.14",
     "@typescript-eslint/eslint-plugin": "^3.4.0",
@@ -45,7 +45,7 @@
     "typescript": "^3.9.5"
   },
   "dependencies": {
-    "@cucumber/messages": "^12.2.0"
+    "@cucumber/messages": "file:../../messages/javascript"
   },
   "directories": {
     "test": "test"
