@@ -19,14 +19,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [8.0.1] - 2020-06-29
 
-### Added
-
-### Changed
-
-### Deprecated
-
-### Removed
-
 ### Fixed
 
 * Make `ansi-to-html` a runtime dependency
