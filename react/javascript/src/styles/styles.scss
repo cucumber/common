@@ -30,7 +30,7 @@ $statusColors:
 
   ol {
     list-style-type: none;
-    padding-left: 0;
+    padding-left: 10px;
   }
 
   section {
@@ -159,15 +159,18 @@ $statusColors:
 
 .anchored-link {
   a {
-    display: none;
-    transition: all 0.5s ease-in-out;
+    display: inline-block;
+    opacity: 0;
+    transition: all 0.35s ease-in-out;
+    position: relative;
+    right: 15px;
   }
   &:hover {
     a {
       display: inline-block;
-      margin-right: 1em;
+      opacity: 1;
       width: max-content;
-      transition: all 0.5s ease-in-out;
+      transition: all 0.35s ease-in-out;
     }
   }
 }
@@ -253,4 +256,8 @@ details {
 
 .highlight mark {
   background-color: yellow
+}
+
+.cucumberFeature {
+  padding-left: 10px;
 }
