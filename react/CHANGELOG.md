@@ -17,6 +17,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+* Expose `<FilteredResults>` in exports so we don't need to reach into `dist`
+
 ## [8.0.1] - 2020-06-29
 
 ### Fixed

@@ -42,11 +42,6 @@ import cucumberRuby from './cucumber-ruby.ndjson'
 import mp4Base64 from '../testdata/video/sample.mp4.txt'
 import { EnvelopesQuery } from '../src/EnvelopesQueryContext'
 
-function envelopes(ndjson: string): messages.IEnvelope[] {
-  return ndjson.trim().split('\n')
-    .map((json: string) => messages.Envelope.fromObject(JSON.parse(json)))
-}
-
 function props(ndjson: string): { gherkinQuery: GherkinQuery, cucumberQuery: CucumberQuery, envelopesQuery: EnvelopesQuery } {
   const gherkinQuery = new GherkinQuery()
   const cucumberQuery = new CucumberQuery()
