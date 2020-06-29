@@ -8,6 +8,4 @@ require (
 	github.com/stretchr/testify v1.6.1
 )
 
-replace github.com/cucumber/messages-go/v12 => ../../messages/go
-
 go 1.13

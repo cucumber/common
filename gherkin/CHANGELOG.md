@@ -9,6 +9,18 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 ----
 ## [Unreleased]
 
+### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+## [14.0.2] - 2020-06-29
+
 ### Fixed
 
 * [JavaScript] Actually merge #1094 - it wasn't done in 14.0.1
@@ -756,7 +768,8 @@ to Gherkin 2.
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v14.0.1...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v14.0.2...master
+[14.0.2]:     https://github.com/cucumber/cucumber/compare/gherkin/v14.0.1...gherkin/v14.0.2
 [14.0.1]:     https://github.com/cucumber/cucumber/compare/gherkin/v12.2.1...gherkin/v14.0.1
 [12.2.1]:     https://github.com/cucumber/cucumber/compare/gherkin/v14.0.0...gherkin/v12.2.1
 [14.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v13.0.0...gherkin/v14.0.0
