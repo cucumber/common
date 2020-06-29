@@ -1,14 +1,12 @@
-import { messages } from '@cucumber/messages'
+import { IdGenerator } from '@cucumber/messages'
 import assert from 'assert'
-import { parseAndCompile } from '@cucumber/gherkin'
-import { Query as GherkinQuery } from '@cucumber/gherkin'
+import { generateMessages, Query as GherkinQuery } from '@cucumber/gherkin'
 import { pretty } from '@cucumber/gherkin-utils'
 import TagSearch from '../../src/search/TagSearch'
 
 describe('TagSearchTest', () => {
   let gherkinQuery: GherkinQuery
   let tagSearch: TagSearch
-  let messagesHandler: (envelope: messages.IEnvelope) => void
 
   const feature = `@system
 Feature: Solar System
@@ -25,24 +23,28 @@ Feature: Solar System
   beforeEach(() => {
     gherkinQuery = new GherkinQuery()
     tagSearch = new TagSearch(gherkinQuery)
-    messagesHandler = (envelope: messages.IEnvelope) => {
-      gherkinQuery.update(envelope)
-    }
   })
 
   function prettyResults(feature: string, query: string): string {
-    const gherkinDocument = parseAndCompile(feature, messagesHandler)
-    tagSearch.add(gherkinDocument)
+    const envelopes = generateMessages(feature, 'test.feature', {
+      includePickles: true,
+      includeGherkinDocument: true,
+      newId: IdGenerator.incrementing(),
+    })
+    for (const envelope of envelopes) {
+      gherkinQuery.update(envelope)
+    }
+    for (const envelope of envelopes) {
+      if (envelope.gherkinDocument) {
+        tagSearch.add(envelope.gherkinDocument)
+      }
+    }
     return pretty(tagSearch.search(query)[0])
   }
 
   context('search', () => {
-    it('return an empty list when no document have been added', () => {
-      assert.deepEqual(tagSearch.search('@any'), [])
-    })
-
-    it('return an empty list the query has no match', () => {
-      assert.deepEqual(tagSearch.search('@sattelite'), [])
+    it('returns an empty list when no documents have been added', () => {
+      assert.deepStrictEqual(tagSearch.search('@any'), [])
     })
 
     it('finds matching scenarios', () => {

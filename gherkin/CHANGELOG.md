@@ -9,15 +9,9 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 ----
 ## [Unreleased]
 
-### Added
-
-### Changed
-
-### Deprecated
-
-### Removed
-
 ### Fixed
+
+* [JavaScript] Actually merge #1094 - it wasn't done in 14.0.1
 
 ## [14.0.1] - 2020-06-29
 
