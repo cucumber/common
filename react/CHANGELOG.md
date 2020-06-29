@@ -17,6 +17,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [8.0.2] - 2020-06-29
+
+### Added
+
+* Display visible anchors for headers ([#983](https://github.com/cucumber/cucumber/issues/983))
+
 ## [8.0.1] - 2020-06-29
 
 ### Fixed
