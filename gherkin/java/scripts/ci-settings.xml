@@ -7,6 +7,15 @@
             <id>ossrh</id>
             <username>cukebot</username>
             <password>${env.SONATYPE_PASSWORD}</password>
+            <configuration>
+                <httpConfiguration>
+                    <all>
+                        <!-- 10 min timeout -->
+                        <connectionTimeout>600000</connectionTimeout>
+                        <readTimeout>600000</readTimeout>
+                    </all>
+                </httpConfiguration>
+            </configuration>
         </server>
     </servers>
     <profiles>

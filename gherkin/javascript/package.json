@@ -47,7 +47,7 @@
     "typescript": "^3.9.5"
   },
   "dependencies": {
-    "@cucumber/messages": "^12.2.0",
+    "@cucumber/messages": "file:../../messages/javascript",
     "@teppeis/multimaps": "^1.1.0",
     "commander": "^5.1.0",
     "source-map-support": "^0.5.19"
