@@ -9,19 +9,26 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
-* Dissplay execution summary ([#1067](https://github.com/cucumber/cucumber/pull/1067))
-* Display failed Hooks and attachments added in Hooks ([#975](https://github.com/cucumber/cucumber/pull/975))
-* Use ANSI color to render logs ([#1057](https://github.com/cucumber/cucumber/issues/1057))
-
 ### Changed
-
-* Do not rely on line number to obtain Step or Row status.
 
 ### Deprecated
 
 ### Removed
 
 ### Fixed
+
+## [8.0.0] - 2020-06-29
+
+### Added
+
+* Display execution summary ([#1067](https://github.com/cucumber/cucumber/pull/1067))
+* Display failed Hooks and attachments added in Hooks ([#975](https://github.com/cucumber/cucumber/pull/975))
+* Use ANSI color to render logs ([#1057](https://github.com/cucumber/cucumber/issues/1057))
+
+### Changed
+
+* Do not rely on line number to obtain Step or Row status.
+* Upgrade internal dependencies
 
 ## [7.0.0] - 2020-04-14
 
@@ -172,7 +179,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/react/v7.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/react/v8.0.0...master
+[8.0.0]:      https://github.com/cucumber/cucumber/compare/react/v7.0.0...react/v8.0.0
 [7.0.0]:      https://github.com/cucumber/cucumber/compare/react/v6.0.0...react/v7.0.0
 [6.0.0]:      https://github.com/cucumber/cucumber/compare/react/v5.1.0...react/v6.0.0
 [5.1.0]:      https://github.com/cucumber/cucumber/compare/react/v5.0.0...react/v5.1.0
