@@ -1,0 +1,10 @@
+#!/usr/bin/env ruby
+$LOAD_PATH.unshift(File.join(File.dirname(__FILE__),"../lib"))
+require 'cucumber/create_meta'
+
+env_path = ARGV[0]
+env_data = IO.read(env_path)
+entries = env_data.split(/\n/).map{ |line| line.split(/=/) }
+env = Hash[entries]
+ci = Cucumber::CreateMeta.detect_ci(env)
+puts ci.to_json(proto3: true) unless ci.nil?

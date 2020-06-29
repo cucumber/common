@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+* Dissplay execution summary ([#1067](https://github.com/cucumber/cucumber/pull/1067))
+* Display failed Hooks and attachments added in Hooks ([#975](https://github.com/cucumber/cucumber/pull/975))
 * Use ANSI color to render logs ([#1057](https://github.com/cucumber/cucumber/issues/1057))
 
 ### Changed

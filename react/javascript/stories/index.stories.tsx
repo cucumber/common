@@ -40,21 +40,24 @@ import cucumberRuby from './cucumber-ruby.ndjson'
 
 // @ts-ignore
 import mp4Base64 from '../testdata/video/sample.mp4.txt'
+import { EnvelopesQuery } from '../src/EnvelopesQueryContext'
 
 function envelopes(ndjson: string): messages.IEnvelope[] {
   return ndjson.trim().split('\n')
     .map((json: string) => messages.Envelope.fromObject(JSON.parse(json)))
 }
 
-function props(ndjson: string): { gherkinQuery: GherkinQuery, cucumberQuery: CucumberQuery } {
+function props(ndjson: string): { gherkinQuery: GherkinQuery, cucumberQuery: CucumberQuery, envelopesQuery: EnvelopesQuery } {
   const gherkinQuery = new GherkinQuery()
   const cucumberQuery = new CucumberQuery()
+  const envelopesQuery = new EnvelopesQuery()
   for (const json of ndjson.trim().split('\n')) {
     const envelope = messages.Envelope.fromObject(JSON.parse(json))
     gherkinQuery.update(envelope)
     cucumberQuery.update(envelope)
+    envelopesQuery.update(envelope)
   }
-  return {gherkinQuery, cucumberQuery}
+  return {gherkinQuery, cucumberQuery, envelopesQuery}
 }
 
 storiesOf('Features', module)
@@ -83,6 +86,11 @@ storiesOf('Features', module)
   })
   .add('Large input', () => {
     return <QueriesWrapper {...props(cucumberRuby)}>
+      <FilteredResults />
+    </QueriesWrapper>
+  })
+  .add('Filtered results: attachments', () => {
+    return <QueriesWrapper {...props(attachments)}>
       <FilteredResults />
     </QueriesWrapper>
   })
@@ -139,11 +147,13 @@ storiesOf('Features', module)
   .add('HighLight', () => {
     const gherkinQuery = new GherkinQuery()
     const cucumberQuery = new CucumberQuery()
+    const envelopesQuery = new EnvelopesQuery()
     const query = "et dolore co"
 
     return <QueriesWrapper
       gherkinQuery={gherkinQuery}
       cucumberQuery={cucumberQuery}
+      envelopesQuery={envelopesQuery}
       query={ query }
       >
       <h1> Highligthing: { query } </h1>

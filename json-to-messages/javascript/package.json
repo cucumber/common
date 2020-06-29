@@ -50,6 +50,7 @@
   },
   "dependencies": {
     "@cucumber/fake-cucumber": "file:../../fake-cucumber/javascript",
+    "@cucumber/create-meta": "file:../../create-meta/javascript",
     "@cucumber/gherkin": "file:../../gherkin/javascript",
     "@cucumber/messages": "file:../../messages/javascript",
     "@types/diff-match-patch": "^1.0.32",

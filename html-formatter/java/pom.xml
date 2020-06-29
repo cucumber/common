@@ -30,7 +30,7 @@
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>messages</artifactId>
-            <version>12.1.1</version>
+            <version>12.2.0</version>
         </dependency>
         <dependency>
             <groupId>org.hamcrest</groupId>
