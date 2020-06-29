@@ -9,7 +9,7 @@
     </parent>
 
     <artifactId>create-meta</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>Cucumber create meta</name>
     <description>Produce the meta message for Cucumber-JVM</description>
