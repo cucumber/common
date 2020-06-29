@@ -1,7 +1,7 @@
 {
   "name": "@cucumber/json-formatter",
   "private": true,
-  "version": "5.0.0",
+  "version": "5.1.0",
   "license": "MIT",
   "scripts": {
     "test": "echo 'no tests'",
@@ -10,7 +10,7 @@
     "build": "echo 'nothing to build'"
   },
   "devDependencies": {
-    "@cucumber/fake-cucumber": "file:../../fake-cucumber/javascript",
+    "@cucumber/fake-cucumber": "^7.1.0",
     "@types/stream-buffers": "^3.0.3",
     "stream-buffers": "^3.0.2"
   },
@@ -20,7 +20,7 @@
     "test": "test"
   },
   "dependencies": {
-    "@cucumber/messages": "file:../../messages/javascript"
+    "@cucumber/messages": "^12.2.0"
   },
   "keywords": [],
   "author": ""
