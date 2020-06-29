@@ -9,15 +9,15 @@ export class EnvelopesQuery {
   }
 
   public find(
-    callback: (envelope: messages.IEnvelope) => boolean
+    predicate: (envelope: messages.IEnvelope) => boolean
   ): messages.IEnvelope {
-    return this.envelopes.find(callback)
+    return this.envelopes.find(predicate)
   }
 
   public filter(
-    callback: (envelope: messages.IEnvelope) => boolean
+    predicate: (envelope: messages.IEnvelope) => boolean
   ): messages.IEnvelope[] {
-    return this.envelopes.filter(callback)
+    return this.envelopes.filter(predicate)
   }
 }
 
