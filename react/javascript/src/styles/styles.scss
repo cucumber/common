@@ -66,6 +66,7 @@ $statusColors:
       }
     }
   }
+
   .examples-table {
     border-collapse: collapse;
     margin-top: .5em;
@@ -158,22 +159,38 @@ $statusColors:
 }
 
 .anchored-link {
+  position: relative;
+  display: flex;
+  align-items: center;
+
   a {
-    display: inline-block;
     opacity: 0;
     transition: all 0.35s ease-in-out;
-    position: relative;
-    right: 15px;
+    position: absolute;
+    left: -20px;
+
+    display: flex;
+    align-items: center;
   }
+
   &:hover {
     a {
-      display: inline-block;
       opacity: 1;
       width: max-content;
       transition: all 0.35s ease-in-out;
     }
   }
+
+  & > * {
+    height: 100%;
+    margin-top: 0px;
+  }
+
+  h1, h2, h3 {
+    margin-top: 0px
+  }
 }
+
 .cucumber-report-header {
   width: 100%;
   display: flex;
