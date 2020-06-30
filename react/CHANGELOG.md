@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+* Display visible anchors for headers ([#983](https://github.com/cucumber/cucumber/issues/983))
+
 ### Changed
 
 ### Deprecated
@@ -21,7 +23,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
-* Display visible anchors for headers ([#983](https://github.com/cucumber/cucumber/issues/983))
+* Expose `<FilteredResults>` in exports so we don't need to reach into `dist`
 
 ## [8.0.1] - 2020-06-29
 
