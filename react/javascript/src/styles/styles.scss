@@ -30,7 +30,7 @@ $statusColors:
 
   ol {
     list-style-type: none;
-    padding-left: 0;
+    padding-left: 10px;
   }
 
   section {
@@ -66,6 +66,7 @@ $statusColors:
       }
     }
   }
+
   .examples-table {
     border-collapse: collapse;
     margin-top: .5em;
@@ -155,38 +156,61 @@ $statusColors:
     background-color: #FFFFFF;
     border-radius: 6px;
   }
+}
 
-  .cucumber-report-header {
-    width: 100%;
+.anchored-link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-top: 0.3em;
+
+  a {
+    opacity: 0;
+    transition: all 0.35s ease-in-out;
+    position: absolute;
+    left: -20px;
+
     display: flex;
-    flex-wrap: wrap;
-    align-items: stretch;
-    border: 1px solid $border-color;
-    border-right: 0;
-    border-bottom: 0;
+    align-items: center;
+  }
 
-    font-size: 80%;
-    margin-bottom: 1em;
-
-    & > * {
-      flex-grow: 1;
-      border-right: 1px solid $border-color;
-      border-bottom: 1px solid $border-color;
-
-      padding: 1em;
+  &:hover {
+    a {
+      opacity: 1;
+      width: max-content;
+      transition: all 0.35s ease-in-out;
     }
+  }
 
-    .cucumber-status-filter {
-      padding-bottom: 1em;
+  & > * {
+    height: 100%;
+    margin-top: 0px;
+  }
 
-      th {
-        display: table-row
-      }
+  h1, h2, h3 {
+    margin-top: 0px
+  }
+}
 
-      td {
-        padding: 3px 15px
-      }
-    }
+.cucumber-report-header {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  border: 1px solid $border-color;
+  border-right: 0;
+  border-bottom: 0;
+
+  font-size: 80%;
+  margin-bottom: 1em;
+
+  & > * {
+    flex-grow: 1;
+    border-right: 1px solid $border-color;
+    border-bottom: 1px solid $border-color;
+
+    padding: 1em;
+  }
 
     .cucumber-ci-information {
       ul {
@@ -201,30 +225,67 @@ $statusColors:
         width: 80%;
       }
 
-      button {
-        height: 2.2em;
-        padding-left: 0.6em;
-        padding-right: 0.6em;
-      }
+    th {
+      display: table-row
+    }
 
-      p.help {
-        font-size: 80%;
-      }
+    td {
+      padding: 3px 15px
     }
   }
+}
 
-  .attachment {
-      background-color: rgb(235, 235, 235);
-      padding: 0.5em;
-      .attachment-icon {
-        margin-right: 0.5em;
-      }
-  }
-  .attachment-image {
-    margin-top: 1em;
+.cucumber-search-bar {
+  margin-top: 2em;
+  margin-bottom: 2em;
+  input {
+    padding: 0.4em;
+    border-radius: 0;
+    width: 80%;
   }
 
-  .highlight mark {
-    background-color: yellow
+  button {
+    height: 2.2em;
+    padding-left: 0.6em;
+    padding-right: 0.6em;
   }
+
+  p.help {
+    font-size: 80%;
+  }
+}
+
+button {
+  height: 2.2em;
+  padding-left: 0.6em;
+  padding-right: 0.6em;
+}
+
+details {
+  font-size: 80%;
+
+  p {
+    border-color: $border-color;
+    background-color: #f4f4f4;
+  }
+}
+
+
+.attachment {
+    background-color: rgb(235, 235, 235);
+    padding: 0.5em;
+    .attachment-icon {
+      margin-right: 0.5em;
+    }
+}
+.attachment-image {
+  margin-top: 1em;
+}
+
+.highlight mark {
+  background-color: yellow
+}
+
+.cucumberFeature {
+  padding-left: 10px;
 }

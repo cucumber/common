@@ -1,28 +1,27 @@
 import React from 'react'
 import Tags from './Tags'
-import Keyword from './Keyword'
+import IdGenerator from '../../IdGenerator'
 import Description from './Description'
 import Scenario from './Scenario'
 import { messages } from '@cucumber/messages'
 import Rule from './Rule'
 import Background from './Background'
 import IFeature = messages.GherkinDocument.IFeature
-import HighLight from '../app/HighLight'
+import FeatureTitle from './FeatureTitle'
 
 interface IProps {
   feature: IFeature
 }
 
+const generator = new IdGenerator()
+
 const Feature: React.FunctionComponent<IProps> = ({ feature }) => {
+  const idGenerated = generator.generate(feature.name)
+
   return (
     <section className="cucumberFeature">
       <Tags tags={feature.tags} />
-      <h1>
-        <Keyword>{feature.keyword}:</Keyword>{' '}
-        <span className="step-text">
-          <HighLight text={feature.name} />
-        </span>
-      </h1>
+      <FeatureTitle id={idGenerated} feature={feature} />
       <div className="cucumberFeature__indent">
         {feature.description ? (
           <Description description={feature.description} />
