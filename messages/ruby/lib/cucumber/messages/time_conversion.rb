@@ -4,12 +4,16 @@ module Cucumber
       NANOSECONDS_PER_SECOND = 1000000000
 
       def time_to_timestamp(time)
-        rational = time.to_r
-        Timestamp.new(seconds: rational.numerator, nanos: rational.denominator)
+        nanos = time.to_i * NANOSECONDS_PER_SECOND + time.nsec
+
+        Timestamp.new(
+          seconds: time.to_i,
+          nanos: time.nsec
+        )
       end
 
       def timestamp_to_time(timestamp)
-        Time.at(Rational(timestamp.seconds, timestamp.nanos))
+        Time.at(timestamp.seconds + timestamp.nanos.to_f / NANOSECONDS_PER_SECOND)
       end
 
       def seconds_to_duration(seconds_float)
@@ -22,6 +26,10 @@ module Cucumber
         seconds_part = duration.seconds
         nanos_part = duration.nanos.to_f / NANOSECONDS_PER_SECOND
         seconds_part + nanos_part
+      end
+
+      def time_to_nanos(time)
+        time.to_i * NANOSECONDS_PER_SECOND + time.nsec
       end
     end
   end
