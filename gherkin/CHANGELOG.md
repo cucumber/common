@@ -22,7 +22,6 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 ## [14.0.2] - 2020-06-29
 
 ### Fixed
-
 * [JavaScript] Actually merge #1094 - it wasn't done in 14.0.1
 
 ## [14.0.1] - 2020-06-29
