@@ -23,7 +23,9 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Fixed
 * [JavaScript] Actually merge #1094 - it wasn't done in 14.0.1
-
+* [JavaScript] Throw NoSuchLanguageException when language is unknown #1102
+  ([#1102](https://github.com/cucumber/cucumber/pull/1102/)
+   [mpkorstanje])
 ## [14.0.1] - 2020-06-29
 
 ### Fixed
