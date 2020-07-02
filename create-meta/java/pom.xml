@@ -83,6 +83,14 @@
                                     <shadedPattern>io.cucumber.createmeta.internal.com.eclipsesource.json</shadedPattern>
                                 </relocation>
                             </relocations>
+                            <filters>
+                                <filter>
+                                    <artifact>com.eclipsesource.minimal-json:minimal-json</artifact>
+                                    <excludes>
+                                        <exclude>META-INF/MANIFEST.MF</exclude>
+                                    </excludes>
+                                </filter>
+                            </filters>
                         </configuration>
                     </execution>
                 </executions>
