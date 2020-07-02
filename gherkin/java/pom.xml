@@ -86,7 +86,7 @@
                                 <filter>
                                     <artifact>com.eclipsesource.minimal-json:minimal-json</artifact>
                                     <excludes>
-                                        <exclude>META-INF/**</exclude>
+                                        <exclude>META-INF/MANIFEST.MF</exclude>
                                     </excludes>
                                 </filter>
                             </filters>

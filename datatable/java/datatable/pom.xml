@@ -88,7 +88,7 @@
                                 <filter>
                                     <artifact>com.googlecode.java-diff-utils:diffutils</artifact>
                                     <excludes>
-                                        <exclude>META-INF/**</exclude>
+                                        <exclude>META-INF/MANIFEST.MF</exclude>
                                     </excludes>
                                 </filter>
                             </filters>
