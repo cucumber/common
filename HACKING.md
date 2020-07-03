@@ -49,7 +49,7 @@ Once docker is installed, we then need to grab a copy of the official cucumber i
 to be done once and will likely take 5-10 minutes.
 
 ```bash
-$ ./scripts/docker-run Dockerfile # This requires at least 2.5Gig of space on your directory
+$ make docker-run # This requires at least 2.5Gig of space on your directory
 ```
 
 This will create a localised version of the Docker image used on CI to build cucumber then run through
@@ -171,14 +171,7 @@ Add the passphrase for the GPG signing key (in 1Password)
 
 ### Docker and CI
 
-Our CI build uses Docker. We have our own docker images defined in `Dockerfile.*`
-files. These need to be rebuilt and published manually whenever they change.
+Our CI build uses Docker. We have our own docker images defined in [cucumber-build](https://github.com/cucumber/cucumber-build).
+These need to be rebuilt and published manually whenever they change.
 
-In order to publish new images, log in as `cukebot`. The password is in 1Password,
-in the "Cucumber Open Source" vault.
 
-    source ./scripts/functions.sh
-    docker_build Dockerfile
-    docker_push Dockerfile
-
-The images are published [in the cucumber repository section at Docker Hub](https://hub.docker.com/r/cucumber/).

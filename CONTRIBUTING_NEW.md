@@ -35,7 +35,7 @@ created a [docker](https://www.docker.com/) image with all the required build to
 installed. To use this you need Docker installed, and a bash shell on your host OS:
 
 ```
-./scripts/docker-run Dockerfile
+make docker-run
 make clean
 NO_CROSS_COMPILE=1 make
 ```

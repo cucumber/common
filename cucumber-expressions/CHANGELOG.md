@@ -17,6 +17,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [0.0.0] - 2020-07-03
+
+### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
 ## [10.2.1] - 2020-06-23
 
 ### Fixed
@@ -692,7 +704,8 @@ N/A
 * First stable release!
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions/v10.2.1...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions/v0.0.0...master
+[0.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v10.2.1...cucumber-expressions/v0.0.0
 [10.2.1]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v10.2.0...cucumber-expressions/v10.2.1
 [10.2.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v10.1.0...cucumber-expressions/v10.2.0
 [10.1.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v10.0.0...cucumber-expressions/v10.1.0
