@@ -20,9 +20,10 @@ class GherkinException extends Error {
     }
   }
 
-  protected static _create<T>(location: messages.ILocation, message: string) {
-    const column = location.column || 0
-    const m = `(${location.line}:${column}): ${message}`
+  protected static _create<T>(message: string, location?: messages.ILocation) {
+    const column = location != null ? location.column || 0 : -1
+    const line = location != null ? location.line || 0 : -1
+    const m = `(${line}:${column}): ${message}`
     const err = new this(m)
     err.location = location
     return err
@@ -54,7 +55,7 @@ export class UnexpectedTokenException extends GherkinException {
 
     const location = tokenLocation(token)
 
-    return this._create(location, message)
+    return this._create(message, location)
   }
 }
 
@@ -65,20 +66,20 @@ export class UnexpectedEOFException extends GherkinException {
     )}`
     const location = tokenLocation(token)
 
-    return this._create(location, message)
+    return this._create(message, location)
   }
 }
 
 export class AstBuilderException extends GherkinException {
   public static create(message: string, location: messages.ILocation) {
-    return this._create(location, message)
+    return this._create(message, location)
   }
 }
 
 export class NoSuchLanguageException extends GherkinException {
-  public static create(language: string, location: messages.ILocation) {
+  public static create(language: string, location?: messages.ILocation) {
     const message = 'Language not supported: ' + language
-    return this._create(location, message)
+    return this._create(message, location)
   }
 }
 
