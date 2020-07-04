@@ -12,9 +12,7 @@ executors:
   # the build nodes (faster builds).
   docker-cucumber-build:
     docker:
-      # Remember to update to the latest image tag.
-      # Run `source scripts/functions.sh && docker_image Dockerfile` to print it.
-      - image: cucumber/cucumber-build:ea5ce6dab9e786f77c39e556c629d78a
+      - image: cucumber/cucumber-build:latest
     working_directory: ~/cucumber
     environment:
       # nvm, node and npm are installed locally rather globally.
