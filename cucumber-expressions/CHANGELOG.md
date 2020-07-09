@@ -16,19 +16,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Removed
 
 ### Fixed
-
-## [0.0.0] - 2020-07-03
-
-### Added
-
-### Changed
-
-### Deprecated
-
-### Removed
-
-### Fixed
-
+* Use Unicode symbols as a parameter boundary in snippets 
+    ([#1108](https://github.com/cucumber/cucumber/pull/1108)
+ [mpkorstanje])  
+ 
 ## [10.2.1] - 2020-06-23
 
 ### Fixed
