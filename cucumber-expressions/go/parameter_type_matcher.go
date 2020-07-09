@@ -55,7 +55,7 @@ func (p *ParameterTypeMatcher) MatchEndWord() bool {
 }
 
 func (p *ParameterTypeMatcher) CharacterIsWordDelimiter(index int) bool {
-	matched, _ := regexp.MatchString(`\s|\p{P}`, p.text[index:index+1])
+	matched, _ := regexp.MatchString(`\p{Z}|\p{P}|\p{S}`, p.text[index:index+1])
 	return matched
 }
 
