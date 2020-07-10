@@ -102,7 +102,7 @@ class CucumberExpressionParserTest {
 
     @Test
     void openingBrace() {
-        CucumberExpressionParseException exception = assertThrows(CucumberExpressionParseException.class, () -> astOf("{"));
+        CucumberExpressionException exception = assertThrows(CucumberExpressionException.class, () -> astOf("{"));
         assertThat(exception.getMessage(), is("This Cucumber Expression has problem:\n" +
                 "\n" +
                 "{\n" +
@@ -123,7 +123,7 @@ class CucumberExpressionParserTest {
 
     @Test
     void unfinishedParameter() {
-        CucumberExpressionParseException exception = assertThrows(CucumberExpressionParseException.class, () -> astOf("{string"));
+        CucumberExpressionException exception = assertThrows(CucumberExpressionException.class, () -> astOf("{string"));
         assertThat(exception.getMessage(), is("This Cucumber Expression has problem:\n" +
                 "\n" +
                 "{string\n" +
@@ -134,7 +134,7 @@ class CucumberExpressionParserTest {
 
     @Test
     void openingParenthesis() {
-        CucumberExpressionParseException exception = assertThrows(CucumberExpressionParseException.class, () -> astOf("("));
+        CucumberExpressionException exception = assertThrows(CucumberExpressionException.class, () -> astOf("("));
         assertThat(exception.getMessage(), is("This Cucumber Expression has problem:\n" +
                 "\n" +
                 "(\n" +
@@ -331,8 +331,8 @@ class CucumberExpressionParserTest {
 
     @Test
     void alternationWithUnusedStartOptional() {
-        CucumberExpressionParseException exception = assertThrows(
-                CucumberExpressionParseException.class,
+        CucumberExpressionException exception = assertThrows(
+                CucumberExpressionException.class,
                 () -> astOf("three blind\\ mice/rats("));
         assertThat(exception.getMessage(), is("This Cucumber Expression has problem:\n" +
                 "\n" +

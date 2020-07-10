@@ -22,7 +22,7 @@ import static io.cucumber.cucumberexpressions.Ast.Token.Type.END_OPTIONAL;
 import static io.cucumber.cucumberexpressions.Ast.Token.Type.END_PARAMETER;
 import static io.cucumber.cucumberexpressions.Ast.Token.Type.START_OF_LINE;
 import static io.cucumber.cucumberexpressions.Ast.Token.Type.WHITE_SPACE;
-import static io.cucumber.cucumberexpressions.CucumberExpressionParseException.createMissingEndTokenException;
+import static io.cucumber.cucumberexpressions.CucumberExpressionException.createMissingEndTokenException;
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 
