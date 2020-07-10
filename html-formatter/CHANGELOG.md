@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
+* Use `FilteredResults` as the entry point for the reporter
+
 ### Deprecated
 
 ### Removed
