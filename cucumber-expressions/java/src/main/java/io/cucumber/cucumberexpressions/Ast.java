@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Objects;
 
 import static java.util.Arrays.asList;
+import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.joining;
 
 final class Ast {
@@ -50,7 +51,7 @@ final class Ast {
         }
 
         String getText() {
-            if(token != null)
+            if (token != null)
                 return token;
 
             return getNodes().stream()
@@ -63,7 +64,7 @@ final class Ast {
             return toString(0).toString();
         }
 
-        private StringBuilder toString(int depth){
+        private StringBuilder toString(int depth) {
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < depth; i++) {
                 sb.append("\t");
@@ -105,7 +106,6 @@ final class Ast {
         }
     }
 
-
     static final class Token {
 
         final String text;
@@ -142,34 +142,34 @@ final class Ast {
             START_OF_LINE,
             END_OF_LINE,
             WHITE_SPACE,
-            BEGIN_OPTIONAL('(', "optional text"),
-            END_OPTIONAL(')', "optional text"),
-            BEGIN_PARAMETER('{', "a parameter"),
-            END_PARAMETER('}', "a parameter"),
-            ALTERNATION('/', "alternation"),
+            BEGIN_OPTIONAL("(", "optional text"),
+            END_OPTIONAL(")", "optional text"),
+            BEGIN_PARAMETER("{", "a parameter"),
+            END_PARAMETER("}", "a parameter"),
+            ALTERNATION("/", "alternation"),
             TEXT;
 
-            private final int token;
+            private final String symbol;
             private final String purpose;
 
-            Type(){ this(-1, null);}
+            Type() {
+                this(null, null);
+            }
 
-            Type(int token, String purpose) {
-                this.token = token;
+            Type(String symbol, String purpose) {
+                this.symbol = symbol;
                 this.purpose = purpose;
             }
 
-            public String getPurpose() {
-                return purpose;
+            String getPurpose() {
+                return requireNonNull(purpose, name() + " does not have a purpose");
             }
 
-            int codePoint() {
-                if (token == -1) {
-                    throw new IllegalStateException(name() + " does not have a code point");
-                }
-
-                return token;
+            String symbol() {
+                return requireNonNull(symbol, name() + " does not have a symbol");
             }
         }
+
     }
+
 }

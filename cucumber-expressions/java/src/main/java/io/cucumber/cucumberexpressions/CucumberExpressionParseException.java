@@ -12,23 +12,30 @@ class CucumberExpressionParseException extends CucumberExpressionException {
         super(message);
     }
 
-    static CucumberExpressionException createMissingEndTokenException(Type beginToken, Type endToken, List<Token> expression, int current) {
-        String expr = expression.stream().map(token -> token.text).collect(Collectors.joining());
+    static CucumberExpressionException createMissingEndTokenException(Type beginToken, Type endToken, List<Token> tokens, int current) {
+        String expression = createExpressionString(tokens);
+        StringBuilder pointer = createPointer(tokens, current);
+        return new CucumberExpressionParseException(
+                "This Cucumber Expression has problem:" + "\n" +
+                        "\n" +
+                        expression + "\n" +
+                        pointer + "\n" +
+                        "The '" + beginToken.symbol() + "' at " + pointer.length() + " did not have a matching '" + endToken.symbol() + "'. " + "\n" +
+                        "If you did not intended to use " + beginToken.getPurpose() + " you can use '\\" + beginToken.symbol() + "' to escape the " + beginToken.getPurpose() + "\n");
+    }
+
+    private static String createExpressionString(List<Token> expression) {
+        return expression.stream().map(token -> token.text).collect(Collectors.joining());
+    }
+
+    private static StringBuilder createPointer(List<Token> expression, int current) {
         int currentInExpr = expression.stream().limit(current).mapToInt(value -> value.text.length()).sum();
         StringBuilder pointer = new StringBuilder();
         for (int i = 0; i < currentInExpr; i++) {
             pointer.append(" ");
         }
         pointer.append("^");
-
-        return new CucumberExpressionParseException(
-                new StringBuilder()
-                        .append("This Cucumber Expression has problem:").append("\n")
-                        .append("\n")
-                        .append(expr).append("\n")
-                        .append(pointer).append("\n")
-                        .append("The '").appendCodePoint(beginToken.codePoint()).append("' at ").append(pointer.length()).append(" did not have a matching '").appendCodePoint(endToken.codePoint()).append("'. ").append("\n")
-                        .append("If you did not intended to use ").append(beginToken.getPurpose()).append(" you can use '\\").appendCodePoint(beginToken.codePoint()).append("' to escape the ").append(beginToken.getPurpose()).append("\n")
-                        .toString());
+        return pointer;
     }
+
 }
