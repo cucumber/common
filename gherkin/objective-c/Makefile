@@ -32,17 +32,17 @@ skip_build:
 	touch $@
 
 acceptance/testdata/%.feature.tokens: testdata/%.feature testdata/%.feature.tokens .built
-	mkdir -p `dirname $@`
+	mkdir -p $(@D)
 	bin/gherkin-generate-tokens $< > $@
 	diff --unified $<.tokens $@
 
 acceptance/testdata/%.feature.ast.ndjson: testdata/%.feature testdata/%.feature.ast.ndjson .built
-	mkdir -p `dirname $@`
+	mkdir -p $(@D)
 	bin/gherkin-generate-ast $< | jq --sort-keys "." > $@
 	diff --unified <(jq "." $<.ast.ndjson) <(jq "." $@)
 
 acceptance/testdata/%.feature.errors.ndjson: testdata/%.feature testdata/%.feature.errors.ndjson .built
-	mkdir -p `dirname $@`
+	mkdir -p $(@D)
 	bin/gherkin $< | jq --sort-keys --compact-output "." > $@
 	diff --unified <(jq "." $<.errors.ndjson) <(jq "." $@)
 
@@ -56,14 +56,14 @@ clobber: clean
 	rm -rf Gherkin/GHParser.m Gherkin/GHParser.h
 .PHONY: clobber
 
-Gherkin/GHParser.h: gherkin.berp gherkin-objective-c-header.razor berp/berp.exe
-	-mono berp/berp.exe -g gherkin.berp -t gherkin-objective-c-header.razor -o $@
+Gherkin/GHParser.h: gherkin.berp gherkin-objective-c-header.razor
+	mono  /var/lib/berp/1.1.1/tools/net471/Berp.exe -g gherkin.berp -t gherkin-objective-c-header.razor -o $@
 	# Remove BOM
 	awk 'NR==1{sub(/^\xef\xbb\xbf/,"")}{print}' < $@ > $@.nobom
 	mv $@.nobom $@
 
-Gherkin/GHParser.m: gherkin.berp gherkin-objective-c-implementation.razor berp/berp.exe
-	-mono berp/berp.exe -g gherkin.berp -t gherkin-objective-c-implementation.razor -o $@
+Gherkin/GHParser.m: gherkin.berp gherkin-objective-c-implementation.razor
+	mono  /var/lib/berp/1.1.1/tools/net471/Berp.exe -g gherkin.berp -t gherkin-objective-c-implementation.razor -o $@
 	# Remove BOM
 	awk 'NR==1{sub(/^\xef\xbb\xbf/,"")}{print}' < $@ > $@.nobom
 	mv $@.nobom $@

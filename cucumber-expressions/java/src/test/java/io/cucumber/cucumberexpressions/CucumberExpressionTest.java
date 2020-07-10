@@ -236,12 +236,38 @@ public class CucumberExpressionTest {
         assertEquals(0.0f, values.get(0));
     }
 
+    @Test
+    public void unmatched_optional_groups_have_null_values() {
+        ParameterTypeRegistry parameterTypeRegistry = new ParameterTypeRegistry(Locale.ENGLISH);
+        parameterTypeRegistry.defineParameterType(new ParameterType<>(
+                "textAndOrNumber",
+                singletonList("([A-Z]+)?(?: )?([0-9]+)?"),
+                new TypeReference<List<String>>() {
+                }.getType(),
+                new CaptureGroupTransformer<List<String>>() {
+                    @Override
+                    public List<String> transform(String... args) {
+                        return asList(args);
+                    }
+                },
+                false,
+                false)
+        );
+        assertThat(match("{textAndOrNumber}", "TLA", parameterTypeRegistry), is(singletonList(asList("TLA", null))));
+        assertThat(match("{textAndOrNumber}", "123", parameterTypeRegistry), is(singletonList(asList(null, "123"))));
+    }
+
     private List<?> match(String expr, String text, Type... typeHints) {
         return match(expr, text, Locale.ENGLISH, typeHints);
     }
 
     private List<?> match(String expr, String text, Locale locale, Type... typeHints) {
-        CucumberExpression expression = new CucumberExpression(expr, new ParameterTypeRegistry(locale));
+        ParameterTypeRegistry parameterTypeRegistry = new ParameterTypeRegistry(locale);
+        return match(expr, text, parameterTypeRegistry, typeHints);
+    }
+
+    private List<?> match(String expr, String text, ParameterTypeRegistry parameterTypeRegistry, Type... typeHints) {
+        CucumberExpression expression = new CucumberExpression(expr, parameterTypeRegistry);
         List<Argument<?>> args = expression.match(text, typeHints);
         if (args == null) {
             return null;

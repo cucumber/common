@@ -4,7 +4,6 @@ import { IdGenerator } from '@cucumber/messages'
 import { GherkinStreams, Query as GherkinQuery } from '@cucumber/gherkin'
 import React from 'react'
 import ReactDOM from 'react-dom'
-import GherkinDocumentList from '../src/components/app/GherkinDocumentList'
 import { JSDOM } from 'jsdom'
 import { runCucumber, SupportCode } from '@cucumber/fake-cucumber'
 import { QueriesWrapper } from '../src'
@@ -12,6 +11,8 @@ import {
   Query as CucumberQuery,
   QueryStream as CucumberQueryStream,
 } from '@cucumber/query'
+import GherkinDocumentList from '../src/components/app/GherkinDocumentList'
+import { EnvelopesQuery } from '../src/EnvelopesQueryContext'
 
 describe('App', () => {
   const dir = __dirname + '/../../../gherkin/testdata/good'
@@ -38,6 +39,8 @@ describe('App', () => {
         })
         const gherkinQuery = new GherkinQuery()
         const cucumberQuery = new CucumberQuery()
+        const envelopesQuery = new EnvelopesQuery()
+
         const cucumberQueryStream = new CucumberQueryStream(cucumberQuery)
         await runCucumber(
           supportCode,
@@ -49,12 +52,15 @@ describe('App', () => {
           <QueriesWrapper
             gherkinQuery={gherkinQuery}
             cucumberQuery={cucumberQuery}
+            envelopesQuery={envelopesQuery}
           >
-            <GherkinDocumentList />
+            <GherkinDocumentList
+              gherkinDocuments={gherkinQuery.getGherkinDocuments()}
+            />
           </QueriesWrapper>
         )
         ReactDOM.render(app, document.getElementById('content'))
-      }).timeout(2000)
+      }).timeout(10000)
     }
   }
 })

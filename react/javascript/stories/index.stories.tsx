@@ -1,13 +1,20 @@
-import { storiesOf } from '@storybook/react'
 import React from 'react'
+import { storiesOf } from '@storybook/react'
+
 import { messages } from '@cucumber/messages'
+import { Query as CucumberQuery } from '@cucumber/query'
+import { Query as GherkinQuery } from '@cucumber/gherkin'
+import Attachment from '../src/components/gherkin/Attachment'
+import FilteredResults from '../src/components/app/FilteredResults'
 import GherkinDocumentList from '../src/components/app/GherkinDocumentList'
+import QueriesWrapper from '../src/components/app/QueriesWrapper'
+import SearchBar from '../src/components/app/SearchBar'
+import StepContainer from '../src/components/gherkin/StepContainer'
+import HighLight from '../src/components/app/HighLight'
+
 import '../src/styles/react-accessible-accordion.css'
 import '../src/styles/styles.scss'
-import QueriesWrapper from '../src/components/app/QueriesWrapper'
-import StepContainer from '../src/components/gherkin/StepContainer'
-import { Query as GherkinQuery } from '@cucumber/gherkin'
-import { Query as CucumberQuery } from '@cucumber/query'
+
 // @ts-ignore
 import documentList from '../testdata/all.ndjson'
 // @ts-ignore
@@ -19,6 +26,8 @@ import examplesTables from '../../../compatibility-kit/javascript/features/examp
 // @ts-ignore
 import hooks from '../../../compatibility-kit/javascript/features/hooks/hooks.ndjson'
 // @ts-ignore
+import hooks2 from '../testdata/hooks.ndjson'
+// @ts-ignore
 import minimal from '../../../compatibility-kit/javascript/features/minimal/minimal.ndjson'
 // @ts-ignore
 import parameterTypes from '../../../compatibility-kit/javascript/features/parameter-types/parameter-types.ndjson'
@@ -26,20 +35,24 @@ import parameterTypes from '../../../compatibility-kit/javascript/features/param
 import rules from '../../../compatibility-kit/javascript/features/rules/rules.ndjson'
 // @ts-ignore
 import stackTraces from '../../../compatibility-kit/javascript/features/stack-traces/stack-traces.ndjson'
-import Attachment from '../src/components/gherkin/Attachment'
+// @ts-ignore
+import cucumberRuby from './cucumber-ruby.ndjson'
 
 // @ts-ignore
 import mp4Base64 from '../testdata/video/sample.mp4.txt'
+import { EnvelopesQuery } from '../src/EnvelopesQueryContext'
 
-function props(ndjson: string): { gherkinQuery: GherkinQuery, cucumberQuery: CucumberQuery } {
+function props(ndjson: string): { gherkinQuery: GherkinQuery, cucumberQuery: CucumberQuery, envelopesQuery: EnvelopesQuery } {
   const gherkinQuery = new GherkinQuery()
   const cucumberQuery = new CucumberQuery()
+  const envelopesQuery = new EnvelopesQuery()
   for (const json of ndjson.trim().split('\n')) {
     const envelope = messages.Envelope.fromObject(JSON.parse(json))
     gherkinQuery.update(envelope)
     cucumberQuery.update(envelope)
+    envelopesQuery.update(envelope)
   }
-  return { gherkinQuery, cucumberQuery }
+  return {gherkinQuery, cucumberQuery, envelopesQuery}
 }
 
 storiesOf('Features', module)
@@ -54,6 +67,26 @@ storiesOf('Features', module)
       <StepContainer status={messages.TestStepFinished.TestStepResult.Status.SKIPPED}>
         <div>Then a skipped step</div>
       </StepContainer>
+    </QueriesWrapper>
+  })
+  .add('Search bar', () => {
+    return<QueriesWrapper {...props(documentList)}>
+      <SearchBar queryUpdated={(query) => console.log("query:", query)} />
+    </QueriesWrapper>
+  })
+  .add('Filtered results', () => {
+    return <QueriesWrapper {...props(documentList)}>
+      <FilteredResults />
+    </QueriesWrapper>
+  })
+  .add('Large input', () => {
+    return <QueriesWrapper {...props(cucumberRuby)}>
+      <FilteredResults />
+    </QueriesWrapper>
+  })
+  .add('Filtered results: attachments', () => {
+    return <QueriesWrapper {...props(attachments)}>
+      <FilteredResults />
     </QueriesWrapper>
   })
   .add('Document list', () => {
@@ -81,6 +114,11 @@ storiesOf('Features', module)
       <GherkinDocumentList/>
     </QueriesWrapper>
   })
+  .add('Hooks2', () => {
+    return <QueriesWrapper {...props(hooks2)}>
+      <GherkinDocumentList/>
+    </QueriesWrapper>
+  })
   .add('Minimal', () => {
     return <QueriesWrapper {...props(minimal)}>
       <GherkinDocumentList/>
@@ -101,6 +139,25 @@ storiesOf('Features', module)
       <GherkinDocumentList/>
     </QueriesWrapper>
   })
+  .add('HighLight', () => {
+    const gherkinQuery = new GherkinQuery()
+    const cucumberQuery = new CucumberQuery()
+    const envelopesQuery = new EnvelopesQuery()
+    const query = "et dolore co"
+
+    return <QueriesWrapper
+      gherkinQuery={gherkinQuery}
+      cucumberQuery={cucumberQuery}
+      envelopesQuery={envelopesQuery}
+      query={ query }
+      >
+      <h1> Highligthing: { query } </h1>
+      <p>
+      <HighLight text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum." />
+      </p>
+    </QueriesWrapper>
+  })
+
 storiesOf('Attachments', module)
   .add('text/plain identity encoded', () => {
     return <Attachment attachment={messages.Attachment.create({

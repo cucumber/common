@@ -31,6 +31,7 @@ update-dependencies:
 .PHONY: update-dependencies
 
 pre-release: update-version update-dependencies clean default
+	[ -f '/home/cukebot/import-gpg-key.sh' ] && /home/cukebot/import-gpg-key.sh
 .PHONY: pre-release
 
 update-version:
@@ -46,7 +47,7 @@ publish: .deps
 ifeq ($(IS_TESTDATA),-testdata)
 	# no-op
 else
-	mvn deploy -Psign-source-javadoc --settings scripts/ci-settings.xml -DskipTests=true
+	mvn deploy -Psign-source-javadoc -DskipTests=true
 endif
 .PHONY: publish
 

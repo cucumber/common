@@ -57,10 +57,18 @@ describe('TreeRegexp', () => {
     assert.strictEqual(group.children[0].value, 'bc')
   })
 
+  it('matches named capturing group', () => {
+    const tr = new TreeRegexp(/a(?<name>b)c/)
+    const group = tr.match('abc')
+    assert.strictEqual(group.value, 'abc')
+    assert.strictEqual(group.children.length, 1)
+    assert.strictEqual(group.children[0].value, 'b')
+  })
+
   it('matches optional group', () => {
     const tr = new TreeRegexp(/^Something( with an optional argument)?/)
     const group = tr.match('Something')
-    assert.strictEqual(group.children[0].value, null)
+    assert.strictEqual(group.children[0].value, undefined)
   })
 
   it('matches nested groups', () => {
@@ -108,7 +116,7 @@ describe('TreeRegexp', () => {
     const tr = new TreeRegexp('the stdout(?: from "(.*?)")?')
     const group = tr.match('the stdout')
     assert.strictEqual(group.value, 'the stdout')
-    assert.strictEqual(group.children[0].value, null)
+    assert.strictEqual(group.children[0].value, undefined)
     assert.strictEqual(group.children.length, 1)
   })
 
@@ -116,6 +124,22 @@ describe('TreeRegexp', () => {
     const tr = new TreeRegexp(/HELLO/i)
     const group = tr.match('hello')
     assert.strictEqual(group.value, 'hello')
+  })
+
+  it('empty capturing group', () => {
+    const tr = new TreeRegexp(/()/)
+    const group = tr.match('')
+    // TODO: Would expect the empty string here
+    assert.strictEqual(group.value, undefined)
+    assert.strictEqual(group.children.length, 1)
+  })
+
+  it('empty look ahead', () => {
+    const tr = new TreeRegexp(/(?<=)/)
+    const group = tr.match('')
+    // TODO: Would expect the empty string here
+    assert.strictEqual(group.value, undefined)
+    assert.strictEqual(group.children.length, 0)
   })
 
   it('does not consider parenthesis in character class as group', () => {

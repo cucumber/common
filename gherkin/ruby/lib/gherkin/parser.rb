@@ -1,8 +1,8 @@
 # This file is generated. Do not edit! Edit gherkin-ruby.razor instead.
-require 'gherkin/ast_builder'
-require 'gherkin/token_matcher'
-require 'gherkin/token_scanner'
-require 'gherkin/errors'
+require_relative 'ast_builder'
+require_relative 'token_matcher'
+require_relative 'token_scanner'
+require_relative 'errors'
 
 module Gherkin
 
@@ -56,7 +56,7 @@ module Gherkin
   class Parser
     attr_accessor :stop_at_first_error
 
-    def initialize(ast_builder = AstBuilder.new)
+    def initialize(ast_builder = AstBuilder.new(Cucumber::Messages::IdGenerator::UUID.new))
       @ast_builder = ast_builder
     end
 

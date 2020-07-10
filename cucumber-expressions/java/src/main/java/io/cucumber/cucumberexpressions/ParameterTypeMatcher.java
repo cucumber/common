@@ -14,8 +14,8 @@ final class ParameterTypeMatcher implements Comparable<ParameterTypeMatcher> {
         this.text = text;
     }
 
-    private static boolean isWhitespaceOrPunctuation(char c) {
-        return Pattern.matches("[\\s\\p{P}]", new String(new char[]{c}));
+    private static boolean isWhitespaceOrPunctuationOrSymbol(char c) {
+        return Pattern.matches("[\\p{Z}\\p{P}\\p{S}]", new String(new char[] { c }));
     }
 
     boolean advanceToAndFind(int newMatchPos) {
@@ -23,24 +23,32 @@ final class ParameterTypeMatcher implements Comparable<ParameterTypeMatcher> {
         // so we can't use the immutable semantics.
         matcher.region(newMatchPos, text.length());
         while (matcher.find()) {
-            if (!group().isEmpty() && groupMatchesFullWord()) {
+            if (group().isEmpty()) {
+                continue;
+            }
+            if (groupHasWordBoundaryOnBothSides()) {
                 return true;
             }
         }
         return false;
     }
 
-    private boolean groupMatchesFullWord() {
+    private boolean groupHasWordBoundaryOnBothSides() {
+        return groupHasLeftWordBoundary() && groupHasRightWordBoundary();
+    }
+
+    private boolean groupHasLeftWordBoundary() {
         if (matcher.start() > 0) {
             char before = text.charAt(matcher.start() - 1);
-            if (!isWhitespaceOrPunctuation(before)) {
-                return false;
-            }
+            return isWhitespaceOrPunctuationOrSymbol(before);
         }
+        return true;
+    }
 
+    private boolean groupHasRightWordBoundary() {
         if (matcher.end() < text.length()) {
             char after = text.charAt(matcher.end());
-            return isWhitespaceOrPunctuation(after);
+            return isWhitespaceOrPunctuationOrSymbol(after);
         }
         return true;
     }

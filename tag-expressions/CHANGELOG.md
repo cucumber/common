@@ -9,10 +9,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
-* [Java] Enable consumers to find our version at runtime using `clazz.getPackage().getImplementationVersion()` by upgrading to `cucumber-parent:2.1.0`
-  ([#976](https://github.com/cucumber/cucumber/pull/976)
-   [aslakhellesoy])
-
 ### Changed
 
 ### Deprecated
@@ -20,6 +16,22 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Removed
 
 ### Fixed
+
+## [3.0.0] - 2020-06-11
+
+### Added
+
+* [Java] Enable consumers to find our version at runtime using `clazz.getPackage().getImplementationVersion()` by upgrading to `cucumber-parent:2.1.0`
+  ([#976](https://github.com/cucumber/cucumber/pull/976)
+   [aslakhellesoy])
+
+### Changed
+
+* [Java] Updated `TagExpressionParser` to use a static method to parse a tag expression and return an `Expression` object to the user.
+* [Java] Reduced public API to the bare minimum required.
+* [Java] Added more informative error messages for `TagExpressionParser` through the `TagExpressionException`.
+  ([#1005](https://github.com/cucumber/cucumber/pull/1005)
+  [cyocum])
 
 ## [2.0.4] - 2020-01-10
 
@@ -119,7 +131,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First stable release!
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/tag-expressions/v2.0.4...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/tag-expressions/v3.0.0...master
+[3.0.0]: https://github.com/cucumber/cucumber/compare/tag-expressions/v2.0.4...tag-expressions/v3.0.0
 [2.0.4]: https://github.com/cucumber/cucumber/compare/tag-expressions/v2.0.3...tag-expressions/v2.0.4
 [2.0.3]: https://github.com/cucumber/cucumber/compare/tag-expressions/v2.0.2...tag-expressions/v2.0.3
 [2.0.2]: https://github.com/cucumber/cucumber/compare/tag-expressions/v2.0.1...tag-expressions/v2.0.2

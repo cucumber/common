@@ -2,8 +2,8 @@ package io.cucumber.cucumberexpressions;
 
 import org.apiguardian.api.API;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static java.util.Collections.singletonList;
 
@@ -38,13 +38,9 @@ public class Group {
     }
 
     public List<String> getValues() {
-        List<String> list = new ArrayList<>();
-        for (Group group : (getChildren().isEmpty() ? singletonList(this) : getChildren())) {
-            String groupValue = group.getValue();
-            if (groupValue != null) {
-                list.add(groupValue);
-            }
-        }
-        return list;
+        List<Group> groups = getChildren().isEmpty() ? singletonList(this) : getChildren();
+        return groups.stream()
+                .map(Group::getValue)
+                .collect(Collectors.toList());
     }
 }

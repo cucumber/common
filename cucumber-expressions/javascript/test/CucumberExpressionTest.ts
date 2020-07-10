@@ -253,6 +253,37 @@ describe('CucumberExpression', () => {
     )
   })
 
+  it('unmatched optional groups have undefined values', () => {
+    const parameterTypeRegistry = new ParameterTypeRegistry()
+    parameterTypeRegistry.defineParameterType(
+      new ParameterType(
+        'textAndOrNumber',
+        /([A-Z]+)?(?: )?([0-9]+)?/,
+        null,
+        function (s1, s2) {
+          return [s1, s2]
+        },
+        false,
+        true
+      )
+    )
+    const expression = new CucumberExpression(
+      '{textAndOrNumber}',
+      parameterTypeRegistry
+    )
+
+    const world = {}
+
+    assert.deepStrictEqual(expression.match(`TLA`)[0].getValue(world), [
+      'TLA',
+      undefined,
+    ])
+    assert.deepStrictEqual(expression.match(`123`)[0].getValue(world), [
+      undefined,
+      '123',
+    ])
+  })
+
   // JavaScript-specific
 
   it('delegates transform to custom object', () => {
@@ -285,19 +316,18 @@ describe('CucumberExpression', () => {
   })
 
   describe('escapes special characters', () => {
-    ;['\\', '[', ']', '^', '$', '.', '|', '?', '*', '+'].forEach(
-      (character) => {
-        it(`escapes ${character}`, () => {
-          const expr = `I have {int} cuke(s) and ${character}`
-          const expression = new CucumberExpression(
-            expr,
-            new ParameterTypeRegistry()
-          )
-          const arg1 = expression.match(`I have 800 cukes and ${character}`)[0]
-          assert.strictEqual(arg1.getValue(null), 800)
-        })
-      }
-    )
+    const special = ['\\', '[', ']', '^', '$', '.', '|', '?', '*', '+']
+    special.forEach((character) => {
+      it(`escapes ${character}`, () => {
+        const expr = `I have {int} cuke(s) and ${character}`
+        const expression = new CucumberExpression(
+          expr,
+          new ParameterTypeRegistry()
+        )
+        const arg1 = expression.match(`I have 800 cukes and ${character}`)[0]
+        assert.strictEqual(arg1.getValue(null), 800)
+      })
+    })
 
     it(`escapes .`, () => {
       const expr = `I have {int} cuke(s) and .`

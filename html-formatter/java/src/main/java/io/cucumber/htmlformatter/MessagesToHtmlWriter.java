@@ -118,7 +118,7 @@ public class MessagesToHtmlWriter implements AutoCloseable {
 
     private static String readResource(String name) throws IOException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(baos))) {
+        try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(baos, UTF_8))) {
             writeResource(writer, name);
         }
         return new String(baos.toByteArray(), UTF_8);

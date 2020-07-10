@@ -55,7 +55,7 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.11.0.rc1</version>
+            <version>2.11.1</version>
             <scope>test</scope>
         </dependency>
 
@@ -66,7 +66,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.1.0</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -85,6 +84,14 @@
                                     <shadedPattern>io.cucumber.datatable.internal.difflib</shadedPattern>
                                 </relocation>
                             </relocations>
+                            <filters>
+                                <filter>
+                                    <artifact>com.googlecode.java-diff-utils:diffutils</artifact>
+                                    <excludes>
+                                        <exclude>META-INF/MANIFEST.MF</exclude>
+                                    </excludes>
+                                </filter>
+                            </filters>
                         </configuration>
                     </execution>
                 </executions>

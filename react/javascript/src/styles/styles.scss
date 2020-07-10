@@ -1,13 +1,14 @@
 $border-color: #4B5662;
 $white: #F0EFFB;
 
-$passed: #2CB14A;
-$skipped: #00A0CC;
-$pending: #FFAD33;
-$undefined: #FFAD33;
-$ambiguous: #F4EBFD;
-$failed: #BB0000;
-$unknown: #B6BECB;
+$statusColors:
+  "passed" #2CB14A,
+  "skipped" #00A0CC,
+  "pending" #FFAD33,
+  "undefined" #FFAD33,
+  "ambiguous" #F4EBFD,
+  "failed" #BB0000,
+  "unknown" #B6BECB;
 
 @mixin padding-table-cell {
   padding: .3em;
@@ -29,39 +30,17 @@ $unknown: #B6BECB;
 
   ol {
     list-style-type: none;
-    padding-left: 0;
+    padding-left: 10px;
   }
 
   section {
     margin-bottom: 1em;
   }
 
-  .status-passed {
-    color: $passed
-  }
-
-  .status-skipped {
-    color: $skipped
-  }
-
-  .status-pending {
-    color: $pending
-  }
-
-  .status-undefined {
-    color: $undefined
-  }
-
-  .status-ambiguous {
-    color: $ambiguous
-  }
-
-  .status-failed {
-    color: $failed
-  }
-
-  .status-unknown {
-    color: $unknown
+  @each $name, $color in $statusColors {
+    .status-#{$name} {
+      color: $color
+    }
   }
 
   .data-table {
@@ -87,6 +66,7 @@ $unknown: #B6BECB;
       }
     }
   }
+
   .examples-table {
     border-collapse: collapse;
     margin-top: .5em;
@@ -176,4 +156,136 @@ $unknown: #B6BECB;
     background-color: #FFFFFF;
     border-radius: 6px;
   }
+}
+
+.anchored-link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-top: 0.3em;
+
+  a {
+    opacity: 0;
+    transition: all 0.35s ease-in-out;
+    position: absolute;
+    left: -20px;
+
+    display: flex;
+    align-items: center;
+  }
+
+  &:hover {
+    a {
+      opacity: 1;
+      width: max-content;
+      transition: all 0.35s ease-in-out;
+    }
+  }
+
+  & > * {
+    height: 100%;
+    margin-top: 0px;
+  }
+
+  h1, h2, h3 {
+    margin-top: 0px
+  }
+}
+
+.cucumber-report-header {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  border: 1px solid $border-color;
+  border-right: 0;
+  border-bottom: 0;
+
+  font-size: 80%;
+  margin-bottom: 1em;
+
+  & > * {
+    flex-grow: 1;
+    border-right: 1px solid $border-color;
+    border-bottom: 1px solid $border-color;
+
+    padding: 1em;
+  }
+
+    .cucumber-ci-information {
+      ul {
+        list-style-type: none;
+      }
+    }
+
+    .cucumber-search-bar {
+      input {
+        padding: 0.4em;
+        border-radius: 0;
+        width: 80%;
+      }
+
+    th {
+      display: table-row
+    }
+
+    td {
+      padding: 3px 15px
+    }
+  }
+}
+
+.cucumber-search-bar {
+  margin-top: 2em;
+  margin-bottom: 2em;
+  input {
+    padding: 0.4em;
+    border-radius: 0;
+    width: 80%;
+  }
+
+  button {
+    height: 2.2em;
+    padding-left: 0.6em;
+    padding-right: 0.6em;
+  }
+
+  p.help {
+    font-size: 80%;
+  }
+}
+
+button {
+  height: 2.2em;
+  padding-left: 0.6em;
+  padding-right: 0.6em;
+}
+
+details {
+  font-size: 80%;
+
+  p {
+    border-color: $border-color;
+    background-color: #f4f4f4;
+  }
+}
+
+
+.attachment {
+    background-color: rgb(235, 235, 235);
+    padding: 0.5em;
+    .attachment-icon {
+      margin-right: 0.5em;
+    }
+}
+.attachment-image {
+  margin-top: 1em;
+}
+
+.highlight mark {
+  background-color: yellow
+}
+
+.cucumberFeature {
+  padding-left: 10px;
 }

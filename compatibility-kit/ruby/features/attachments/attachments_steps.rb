@@ -19,29 +19,17 @@ When('the string {string} is logged') do |text|
   self.respond_to?(:log) ? log(text) : puts(text)
 end
 
-When('an array with {int} bytes are attached as {string}') do |size, media_type|
-  # Awful monkey patch here.
-  module Cucumber
-    module Formatter
-      class Json
-        def embed(src, mime_type, _label)
-          is_file = File.file?(src) rescue false
+When('the following string is attached as {string}:') do |media_type, doc_string|
+  attach_or_embed(self, doc_string, media_type)
+end
 
-          if is_file
-            content = File.open(src, 'rb', &:read)
-            data = encode64(content)
-          elsif mime_type =~ /;base64$/
-            mime_type = mime_type[0..-8]
-            data = src
-          else
-            data = encode64(src)
-          end
-          test_step_embeddings << { mime_type: mime_type, data: data }
-        end
-      end
-    end
-  end
+When('text with ANSI escapes is logged') do
+  text = "This displays a \x1b[31mr\x1b[0m\x1b[91ma\x1b[0m\x1b[33mi\x1b[0m\x1b[32mn\x1b[0m\x1b[34mb\x1b[0m\x1b[95mo\x1b[0m\x1b[35mw\x1b[0m"
 
+  self.respond_to?(:log) ? log(text) : puts(text)
+end
+
+When('an array with {int} bytes is attached as {string}') do |size, media_type|
   data = (0..size-1).map {|i| [i].pack('C') }.join
   attach_or_embed(self, data, media_type)
 end
@@ -57,3 +45,5 @@ end
 When('a JPEG image is attached') do
   attach_or_embed(self, File.open("#{__dir__}/cucumber-growing-on-vine.jpg"), 'image/jpg')
 end
+
+

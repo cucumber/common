@@ -17,6 +17,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [7.0.0] - 2020-06-29
+
+### Changed
+
+* Upgrade `@cucumber/react` and other dependencies
+
+## [6.0.3] - 2020-06-12
+
+### Fixed
+* [JavaScript] Fixed a bug where the command-line interface would always exit with 1
+  even if there were no errors.
+* [Java] Always use UTF-8 encoding
+
 ## [6.0.2] - 2020-05-01
 
 ### Added
@@ -26,13 +39,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
    [aslakhellesoy])
 
 ### Fixed
-* [Java] Use version range for messages dependency 
+* [Java] Use version range for messages dependency
   ([#986](https://github.com/cucumber/cucumber/pull/986)
    [mpkorstanje])
-* [Java] Make writer idempotent when failing to close underlying writer 
+* [Java] Make writer idempotent when failing to close underlying writer
   ([#986](https://github.com/cucumber/cucumber/pull/986)
    [mpkorstanje])
-   
+
 ## [6.0.1] - 2020-04-15
 
 ### Fixed
@@ -196,19 +209,21 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/formatter/v6.0.2...master
-[6.0.2]:      https://github.com/cucumber/cucumber/compare/formatter/v6.0.1...formatter/v6.0.2
-[6.0.1]:      https://github.com/cucumber/cucumber/compare/formatter/v6.0.0...formatter/v6.0.1
-[6.0.0]:      https://github.com/cucumber/cucumber/compare/formatter/v5.0.0...formatter/v6.0.0
-[5.0.0]:      https://github.com/cucumber/cucumber/compare/formatter/v4.3.0...formatter/v5.0.0
-[4.3.0]:      https://github.com/cucumber/cucumber/compare/formatter/v4.2.0...formatter/v4.3.0
-[4.2.0]:      https://github.com/cucumber/cucumber/compare/formatter/v4.1.0...formatter/v4.2.0
-[4.1.0]:      https://github.com/cucumber/cucumber/compare/formatter/v4.0.0...formatter/v4.1.0
-[4.0.0]:      https://github.com/cucumber/cucumber/compare/formatter/v3.2.3...formatter/v4.0.0
-[3.2.3]:      https://github.com/cucumber/cucumber/compare/formatter/v3.2.2...formatter/v3.2.3
-[3.2.2]:      https://github.com/cucumber/cucumber/compare/formatter/v3.2.1...formatter/v3.2.2
-[3.2.1]:      https://github.com/cucumber/cucumber/compare/formatter/v3.2.0...formatter/v3.2.1
-[3.2.0]:      https://github.com/cucumber/cucumber/compare/html-formatter/v3.1.0...formatter/v3.2.0
+[Unreleased]: https://github.com/cucumber/cucumber/compare/html-formatter/v7.0.0...master
+[7.0.0]:      https://github.com/cucumber/cucumber/compare/html-formatter/v6.0.3...html-formatter/v7.0.0
+[6.0.3]:      https://github.com/cucumber/cucumber/compare/html-formatter/v6.0.2...html-formatter/v6.0.3
+[6.0.2]:      https://github.com/cucumber/cucumber/compare/html-formatter/v6.0.1...html-formatter/v6.0.2
+[6.0.1]:      https://github.com/cucumber/cucumber/compare/html-formatter/v6.0.0...html-formatter/v6.0.1
+[6.0.0]:      https://github.com/cucumber/cucumber/compare/html-formatter/v5.0.0...html-formatter/v6.0.0
+[5.0.0]:      https://github.com/cucumber/cucumber/compare/html-formatter/v4.3.0...html-formatter/v5.0.0
+[4.3.0]:      https://github.com/cucumber/cucumber/compare/html-formatter/v4.2.0...html-formatter/v4.3.0
+[4.2.0]:      https://github.com/cucumber/cucumber/compare/html-formatter/v4.1.0...html-formatter/v4.2.0
+[4.1.0]:      https://github.com/cucumber/cucumber/compare/html-formatter/v4.0.0...html-formatter/v4.1.0
+[4.0.0]:      https://github.com/cucumber/cucumber/compare/html-formatter/v3.2.3...html-formatter/v4.0.0
+[3.2.3]:      https://github.com/cucumber/cucumber/compare/html-formatter/v3.2.2...html-formatter/v3.2.3
+[3.2.2]:      https://github.com/cucumber/cucumber/compare/html-formatter/v3.2.1...html-formatter/v3.2.2
+[3.2.1]:      https://github.com/cucumber/cucumber/compare/html-formatter/v3.2.0...html-formatter/v3.2.1
+[3.2.0]:      https://github.com/cucumber/cucumber/compare/html-formatter/v3.1.0...html-formatter/v3.2.0
 [3.1.0]:      https://github.com/cucumber/cucumber/compare/html-formatter/v3.0.0...html-formatter/v3.1.0
 [3.0.0]:      https://github.com/cucumber/cucumber/compare/html-formatter/v2.0.3...html-formatter/v3.0.0
 [2.0.3]:      https://github.com/cucumber/cucumber/compare/html-formatter/v2.0.2...html-formatter/v2.0.3
