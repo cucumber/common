@@ -142,12 +142,34 @@ final class Ast {
             START_OF_LINE,
             END_OF_LINE,
             WHITE_SPACE,
-            BEGIN_OPTIONAL,
-            END_OPTIONAL,
-            BEGIN_PARAMETER,
-            END_PARAMETER,
-            ALTERNATION,
+            BEGIN_OPTIONAL('(', "optional text"),
+            END_OPTIONAL(')', "optional text"),
+            BEGIN_PARAMETER('{', "a parameter"),
+            END_PARAMETER('}', "a parameter"),
+            ALTERNATION('/', "alternation"),
             TEXT;
+
+            private final int token;
+            private final String purpose;
+
+            Type(){ this(-1, null);}
+
+            Type(int token, String purpose) {
+                this.token = token;
+                this.purpose = purpose;
+            }
+
+            public String getPurpose() {
+                return purpose;
+            }
+
+            int codePoint() {
+                if (token == -1) {
+                    throw new IllegalStateException(name() + " does not have a code point");
+                }
+
+                return token;
+            }
         }
     }
 }

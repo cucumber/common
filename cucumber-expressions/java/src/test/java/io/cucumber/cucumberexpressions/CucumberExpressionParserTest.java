@@ -102,9 +102,14 @@ class CucumberExpressionParserTest {
 
     @Test
     void openingBrace() {
-        //TODO: Improve message
-        CucumberExpressionException exception = assertThrows(CucumberExpressionException.class, () -> astOf("{"));
-        assertThat(exception.getMessage(), is("missing END_PARAMETER at 3"));
+        CucumberExpressionParseException exception = assertThrows(CucumberExpressionParseException.class, () -> astOf("{"));
+        assertThat(exception.getMessage(), is("This Cucumber Expression has problem:\n" +
+                "\n" +
+                "{\n" +
+                "^\n" +
+                "The '{' at 1 did not have a matching '}'. \n" +
+                "If you did not intended to use a parameter you can use '\\{' to escape the a parameter\n"
+        ));
     }
 
     @Test
@@ -118,16 +123,25 @@ class CucumberExpressionParserTest {
 
     @Test
     void unfinishedParameter() {
-        //TODO: Improve message
-        CucumberExpressionException exception = assertThrows(CucumberExpressionException.class, () -> astOf("{string"));
-        assertThat(exception.getMessage(), is("missing END_PARAMETER at 4"));
+        CucumberExpressionParseException exception = assertThrows(CucumberExpressionParseException.class, () -> astOf("{string"));
+        assertThat(exception.getMessage(), is("This Cucumber Expression has problem:\n" +
+                "\n" +
+                "{string\n" +
+                "^\n" +
+                "The '{' at 1 did not have a matching '}'. \n" +
+                "If you did not intended to use a parameter you can use '\\{' to escape the a parameter\n"));
     }
 
     @Test
     void openingParenthesis() {
-        //TODO: Improve message
-        CucumberExpressionException exception = assertThrows(CucumberExpressionException.class, () -> astOf("("));
-        assertThat(exception.getMessage(), is("missing END_OPTIONAL at 3"));
+        CucumberExpressionParseException exception = assertThrows(CucumberExpressionParseException.class, () -> astOf("("));
+        assertThat(exception.getMessage(), is("This Cucumber Expression has problem:\n" +
+                "\n" +
+                "(\n" +
+                "^\n" +
+                "The '(' at 1 did not have a matching ')'. \n" +
+                "If you did not intended to use optional text you can use '\\(' to escape the optional text\n"
+        ));
     }
 
     @Test
@@ -317,11 +331,15 @@ class CucumberExpressionParserTest {
 
     @Test
     void alternationWithUnusedStartOptional() {
-        //TODO: Improve message
-        CucumberExpressionException exception = assertThrows(
-                CucumberExpressionException.class,
+        CucumberExpressionParseException exception = assertThrows(
+                CucumberExpressionParseException.class,
                 () -> astOf("three blind\\ mice/rats("));
-        assertThat(exception.getMessage(), is("missing END_OPTIONAL at 8"));
+        assertThat(exception.getMessage(), is("This Cucumber Expression has problem:\n" +
+                "\n" +
+                "three blind mice/rats(\n" +
+                "                     ^\n" +
+                "The '(' at 22 did not have a matching ')'. \n" +
+                "If you did not intended to use optional text you can use '\\(' to escape the optional text\n"));
     }
 
     @Test

@@ -22,6 +22,7 @@ import static io.cucumber.cucumberexpressions.Ast.Token.Type.END_OPTIONAL;
 import static io.cucumber.cucumberexpressions.Ast.Token.Type.END_PARAMETER;
 import static io.cucumber.cucumberexpressions.Ast.Token.Type.START_OF_LINE;
 import static io.cucumber.cucumberexpressions.Ast.Token.Type.WHITE_SPACE;
+import static io.cucumber.cucumberexpressions.CucumberExpressionParseException.createMissingEndTokenException;
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 
@@ -150,13 +151,12 @@ final class CucumberExpressionParser {
 
             // endToken not found
             if (!lookingAt(expression, subCurrent, endToken)) {
-                throw new CucumberExpressionException("missing " + endToken + " at " + subCurrent);
+                throw createMissingEndTokenException(beginToken, endToken, expression, current);
             }
             // consumes endToken
             return new Result(subCurrent + 1 - current, new AstNode(type, result.ast));
         };
     }
-
 
     private static Result parseTokensUntil(List<Parser> parsers,
                                         List<Token> expression,
