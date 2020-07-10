@@ -13,22 +13,20 @@ class CucumberExpressionParseException extends CucumberExpressionException {
     }
 
     static CucumberExpressionException createMissingEndTokenException(Type beginToken, Type endToken, List<Token> tokens, int current) {
-        String expression = createExpressionString(tokens);
-        StringBuilder pointer = createPointer(tokens, current);
         return new CucumberExpressionParseException(
                 "This Cucumber Expression has problem:" + "\n" +
                         "\n" +
-                        expression + "\n" +
-                        pointer + "\n" +
-                        "The '" + beginToken.symbol() + "' at " + pointer.length() + " did not have a matching '" + endToken.symbol() + "'. " + "\n" +
-                        "If you did not intended to use " + beginToken.getPurpose() + " you can use '\\" + beginToken.symbol() + "' to escape the " + beginToken.getPurpose() + "\n");
+                        expressionOf(tokens) + "\n" +
+                        pointAtCurrentToken(tokens, current) + "\n" +
+                        "The '" + beginToken.symbol() + "' at " + pointAtCurrentToken(tokens, current).length() + " did not have a matching '" + endToken.symbol() + "'. " + "\n" +
+                        "If you did not intended to use " + beginToken.purpose() + " you can use '\\" + beginToken.symbol() + "' to escape the " + beginToken.purpose() + "\n");
     }
 
-    private static String createExpressionString(List<Token> expression) {
+    private static String expressionOf(List<Token> expression) {
         return expression.stream().map(token -> token.text).collect(Collectors.joining());
     }
 
-    private static StringBuilder createPointer(List<Token> expression, int current) {
+    private static StringBuilder pointAtCurrentToken(List<Token> expression, int current) {
         int currentInExpr = expression.stream().limit(current).mapToInt(value -> value.text.length()).sum();
         StringBuilder pointer = new StringBuilder();
         for (int i = 0; i < currentInExpr; i++) {

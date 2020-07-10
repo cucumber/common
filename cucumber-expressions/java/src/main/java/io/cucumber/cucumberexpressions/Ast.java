@@ -161,7 +161,7 @@ final class Ast {
                 this.purpose = purpose;
             }
 
-            String getPurpose() {
+            String purpose() {
                 return requireNonNull(purpose, name() + " does not have a purpose");
             }
 
