@@ -1,3 +1,6 @@
+# https://stackoverflow.com/questions/2483182/recursive-wildcards-in-gnu-make
+rwildcard=$(foreach d,$(wildcard $(1:=/*)),$(call rwildcard,$d,$2) $(filter $(subst *,%,$2),$d))
+IS_TESTDATA = $(findstring -testdata,${CURDIR})
 SETUP_PY = $(shell find . -name "setup.py")
 
 update-dependencies:
@@ -21,8 +24,12 @@ endif
 .PHONY: update-version
 
 publish:
+ifeq ($(IS_TESTDATA),-testdata)
+	# no-op
+else
 	python2 setup.py sdist
 	python2 -m twine upload dist/*
+endif
 .PHONY: publish
 
 post-release:
