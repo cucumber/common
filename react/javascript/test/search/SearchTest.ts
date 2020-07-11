@@ -1,15 +1,13 @@
 import assert from 'assert'
-import { parseAndCompile } from '@cucumber/gherkin'
 
-import { messages } from '@cucumber/messages'
-import { Query as GherkinQuery } from '@cucumber/gherkin'
+import { IdGenerator } from '@cucumber/messages'
+import { generateMessages, Query as GherkinQuery } from '@cucumber/gherkin'
 import Search from '../../src/search/Search'
 import { pretty } from '@cucumber/gherkin-utils'
 
 describe('Search', () => {
   let search: Search
   let gherkinQuery: GherkinQuery
-  let messagesHandler: (envelope: messages.IEnvelope) => void
 
   const feature = `Feature: Solar System
 
@@ -25,14 +23,23 @@ describe('Search', () => {
   beforeEach(() => {
     gherkinQuery = new GherkinQuery()
     search = new Search(gherkinQuery)
-    messagesHandler = (envelope: messages.IEnvelope) => {
-      gherkinQuery.update(envelope)
-    }
   })
 
   function prettyResults(feature: string, query: string): string {
-    const gherkinDocument = parseAndCompile(feature, messagesHandler)
-    search.add(gherkinDocument)
+    const envelopes = generateMessages(feature, 'test.feature', {
+      includeGherkinDocument: true,
+      includePickles: true,
+      includeSource: true,
+      newId: IdGenerator.incrementing(),
+    })
+    for (const envelope of envelopes) {
+      gherkinQuery.update(envelope)
+    }
+    for (const envelope of envelopes) {
+      if (envelope.gherkinDocument) {
+        search.add(envelope.gherkinDocument)
+      }
+    }
     return pretty(search.search(query)[0])
   }
 

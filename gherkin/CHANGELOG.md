@@ -19,6 +19,21 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Fixed
 
+## [14.0.2] - 2020-06-29
+
+### Fixed
+* [JavaScript] Actually merge #1094 - it wasn't done in 14.0.1
+* [JavaScript] Throw NoSuchLanguageException when language is unknown #1102
+  ([#1102](https://github.com/cucumber/cucumber/pull/1102/)
+   [mpkorstanje])
+## [14.0.1] - 2020-06-29
+
+### Fixed
+
+* [JavaScript] Remove test code from exports
+  ([#1094](https://github.com/cucumber/cucumber/pull/1094/)
+   [aslakhellesoy])
+
 ## [14.0.0] - 2020-06-27
 
 ### Added
@@ -754,7 +769,10 @@ to Gherkin 2.
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v14.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v14.0.2...master
+[14.0.2]:     https://github.com/cucumber/cucumber/compare/gherkin/v14.0.1...gherkin/v14.0.2
+[14.0.1]:     https://github.com/cucumber/cucumber/compare/gherkin/v12.2.1...gherkin/v14.0.1
+[12.2.1]:     https://github.com/cucumber/cucumber/compare/gherkin/v14.0.0...gherkin/v12.2.1
 [14.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v13.0.0...gherkin/v14.0.0
 [13.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v12.0.0...gherkin/v13.0.0
 [12.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v11.0.0...gherkin/v12.0.0

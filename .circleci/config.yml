@@ -12,9 +12,7 @@ executors:
   # the build nodes (faster builds).
   docker-cucumber-build:
     docker:
-      # Remember to update to the latest image tag.
-      # Run `source scripts/functions.sh && docker_image Dockerfile` to print it.
-      - image: cucumber/cucumber-build:ea5ce6dab9e786f77c39e556c629d78a
+      - image: cucumber/cucumber-build:latest
     working_directory: ~/cucumber
     environment:
       # nvm, node and npm are installed locally rather globally.
@@ -356,20 +354,20 @@ jobs:
           paths:
             - html-formatter/javascript/dist
 
-  json-formatter-javascript:
+  json-formatter-javascript-testdata:
     executor: docker-circleci-node-12
     steps:
       - attach_workspace:
           at: "~/cucumber"
       - run:
-          name: json-formatter/javascript
+          name: json-formatter/javascript-testdata
           command: |
-            cd json-formatter/javascript
+            cd json-formatter/javascript-testdata
             make
       - persist_to_workspace:
           root: ~/cucumber
           paths:
-            - json-formatter/javascript/features
+            - json-formatter/javascript-testdata/features
 
   json-to-messages-javascript:
     executor: docker-circleci-node-12
@@ -382,20 +380,20 @@ jobs:
             cd json-to-messages/javascript
             make
 
-  json-to-messages-javascript-json:
+  json-to-messages-javascript-testdata:
     executor: docker-circleci-node-12
     steps:
       - attach_workspace:
           at: "~/cucumber"
       - run:
-          name: json-to-messages/javascript-json
+          name: json-to-messages/javascript-testdata
           command: |
-            cd json-to-messages/javascript-json
+            cd json-to-messages/javascript-testdata
             make
       - persist_to_workspace:
           root: ~/cucumber
           paths:
-            - json-to-messages/javascript-json/acceptance
+            - json-to-messages/javascript-testdata/acceptance
 
   query-javascript:
     executor: docker-circleci-node-12
@@ -518,20 +516,20 @@ jobs:
             cd tag-expressions/ruby
             make
 
-  json-formatter-ruby:
+  json-formatter-ruby-testdata:
     executor: docker-circleci-ruby-26
     steps:
       - attach_workspace:
           at: "~/cucumber"
       - run:
-          name: json-formatter/ruby
+          name: json-formatter/ruby-testdata
           command: |
-            cd json-formatter/ruby
+            cd json-formatter/ruby-testdata
             make
       - persist_to_workspace:
           root: ~/cucumber
           paths:
-            - json-formatter/ruby
+            - json-formatter/ruby-testdata
 
   compatibility-kit-ruby:
     executor: docker-cucumber-build
@@ -570,21 +568,21 @@ jobs:
             cd html-formatter/ruby
             make
 
-  json-to-messages-ruby:
+  json-to-messages-ruby-testdata:
     executor: docker-circleci-ruby-26
     steps:
       - attach_workspace:
           at: "~/cucumber"
       - run:
-          name: json-to-messages/ruby
+          name: json-to-messages/ruby-testdata
           command: |
-            cd json-to-messages/ruby
+            cd json-to-messages/ruby-testdata
             make
       - persist_to_workspace:
           root: ~/cucumber
           paths:
-            - json-to-messages/ruby/features
-            - json-to-messages/ruby/acceptance
+            - json-to-messages/ruby-testdata/features
+            - json-to-messages/ruby-testdata/acceptance
 
 ### Java
 
@@ -738,20 +736,20 @@ jobs:
           paths:
             - "io/cucumber/html-formatter"
 
-  json-to-messages-java:
+  json-to-messages-java-testdata:
     executor: docker-circleci-openjdk
     steps:
       - attach_workspace:
           at: "~/cucumber"
       - run:
-          name: json-to-messages/java
+          name: json-to-messages/java-testdata
           command: |
-            cd json-to-messages/java
+            cd json-to-messages/java-testdata
             make
       - persist_to_workspace:
           root: ~/cucumber
           paths:
-            - json-to-messages/java/acceptance
+            - json-to-messages/java-testdata/acceptance
 
 
 ### .NET
@@ -780,20 +778,20 @@ jobs:
             cd tag-expressions/python
             make
 
-  json-to-messages-python:
+  json-to-messages-python-testdata:
     executor: docker-circleci-python
     steps:
       - attach_workspace:
           at: "~/cucumber"
       - run:
-          name: json-to-messages/python
+          name: json-to-messages/python-testdata
           command: |
-            cd json-to-messages/python
+            cd json-to-messages/python-testdata
             make default
       - persist_to_workspace:
           root: ~/cucumber
           paths:
-            - json-to-messages/python/acceptance
+            - json-to-messages/python-testdata/acceptance
 ### C
 
   gherkin-c:
@@ -857,8 +855,8 @@ workflows:
       - json-formatter-go:
           requires:
             - messages-go
-            - json-formatter-ruby
-            - json-formatter-javascript
+            - json-formatter-ruby-testdata
+            - json-formatter-javascript-testdata
 
 ### JavaScript
 
@@ -908,26 +906,26 @@ workflows:
             - react-javascript
             - messages-javascript
             - compatibility-kit-javascript
-      - json-formatter-javascript:
+      - json-formatter-javascript-testdata:
           requires:
-            - json-formatter-ruby
+            - json-formatter-ruby-testdata
             - fake-cucumber-javascript
       - query-javascript:
           requires:
             - messages-javascript
             - fake-cucumber-javascript
             - gherkin-javascript
-      - json-to-messages-javascript-json:
+      - json-to-messages-javascript-testdata:
           requires:
             - checkout
-            - json-to-messages-ruby
+            - json-to-messages-ruby-testdata
       - json-to-messages-javascript:
           requires:
             - checkout
-            - json-to-messages-ruby
-            - json-to-messages-java
-            - json-to-messages-python
-            - json-to-messages-javascript-json
+            - json-to-messages-ruby-testdata
+            - json-to-messages-java-testdata
+            - json-to-messages-python-testdata
+            - json-to-messages-javascript-testdata
             - create-meta-javascript
             - fake-cucumber-javascript
             - html-formatter-javascript
@@ -964,7 +962,7 @@ workflows:
       - demo-formatter-ruby:
           requires:
             - messages-ruby
-      - json-formatter-ruby:
+      - json-formatter-ruby-testdata:
           requires:
             - checkout
       # - compatibility-kit-ruby:
@@ -975,7 +973,7 @@ workflows:
             - html-formatter-javascript
             - messages-ruby
             - compatibility-kit-javascript
-      - json-to-messages-ruby:
+      - json-to-messages-ruby-testdata:
           requires:
             - checkout
 
@@ -1010,10 +1008,10 @@ workflows:
             - html-formatter-javascript
             - messages-java
             - compatibility-kit-javascript
-      - json-to-messages-java:
+      - json-to-messages-java-testdata:
           requires:
             - checkout
-            - json-to-messages-ruby
+            - json-to-messages-ruby-testdata
 
 ### .NET
 
@@ -1027,10 +1025,10 @@ workflows:
           requires:
             - checkout
 
-      - json-to-messages-python:
+      - json-to-messages-python-testdata:
           requires:
             - checkout
-            - json-to-messages-ruby
+            - json-to-messages-ruby-testdata
 
 
 ### C

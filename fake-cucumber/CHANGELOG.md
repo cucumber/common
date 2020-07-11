@@ -9,10 +9,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
-* The first emitted message is a `Meta` message.
-  ([#976](https://github.com/cucumber/cucumber/pull/976)
-   [aslakhellesoy]) 
-
 ### Changed
 
 ### Deprecated
@@ -20,6 +16,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Removed
 
 ### Fixed
+
+## [7.1.0] - 2020-06-29
+
+### Added
+
+* The first emitted message is a `Meta` message.
+  ([#976](https://github.com/cucumber/cucumber/pull/976)
+   [aslakhellesoy])
 
 ## [7.0.0] - 2020-04-14
 
@@ -169,7 +173,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/fake-cucumber/v7.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/fake-cucumber/v7.1.0...master
+[7.1.0]:      https://github.com/cucumber/cucumber/compare/fake-cucumber/v7.0.0...fake-cucumber/v7.1.0
 [7.0.0]:      https://github.com/cucumber/cucumber/compare/fake-cucumber/v6.0.0...fake-cucumber/v7.0.0
 [6.0.0]:      https://github.com/cucumber/cucumber/compare/fake-cucumber/v5.0.0...fake-cucumber/v6.0.0
 [5.0.0]:      https://github.com/cucumber/cucumber/compare/fake-cucumber/v4.0.0...fake-cucumber/v5.0.0

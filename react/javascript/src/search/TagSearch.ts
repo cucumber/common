@@ -45,9 +45,8 @@ export default class TagSearch {
 
   public add(gherkinDocument: messages.IGherkinDocument) {
     this.gherkinDocuments.push(gherkinDocument)
-    this.gherkinQuery
-      .getPickles()
-      .map((pickle) => this.pickleById.set(pickle.id, pickle))
+    const pickles = this.gherkinQuery.getPickles()
+    pickles.forEach((pickle) => this.pickleById.set(pickle.id, pickle))
 
     const astWalker = new GherkinDocumentWalker(
       {},

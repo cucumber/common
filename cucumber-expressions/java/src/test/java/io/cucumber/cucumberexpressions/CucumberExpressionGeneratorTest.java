@@ -65,6 +65,20 @@ public class CucumberExpressionGeneratorTest {
     }
 
     @Test
+    public void generates_expression_for_numbers_with_symbols_and_currency() {
+        assertExpression(
+                "Some ${double} of cukes at {int}° Celsius", asList("double1", "int1"),
+                "Some $5000.00 of cukes at 42° Celsius");
+    }
+
+    @Test
+    public void generates_expression_for_numbers_with_text_on_both_sides() {
+        assertExpression(
+                "i18n", asList(),
+                "i18n");
+    }
+
+    @Test
     public void generates_expression_for_strings() {
         assertExpression(
                 "I like {string} and {string}", asList("string", "string2"),

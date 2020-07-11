@@ -1,25 +1,22 @@
 include default.mk
 
-# https://stackoverflow.com/questions/2483182/recursive-wildcards-in-gnu-make
-rwildcard=$(foreach d,$(wildcard $(1:=/*)),$(call rwildcard,$d,$2) $(filter $(subst *,%,$2),$d))
-
-RUBY_JSONS=$(call rwildcard,../ruby/acceptance,*.json)
-RUBY_NDJSONS=$(patsubst ../ruby/acceptance/%.json,acceptance/ruby/%.ndjson,$(RUBY_JSONS))
+RUBY_JSONS=$(call rwildcard,../ruby-testdata/acceptance,*.json)
+RUBY_NDJSONS=$(patsubst ../ruby-testdata/acceptance/%.json,acceptance/ruby/%.ndjson,$(RUBY_JSONS))
 RUBY_HTMLS=$(patsubst acceptance/%.ndjson,acceptance/%.ndjson.html,$(RUBY_NDJSONS))
 RUBY_GENERATED_JSONS=$(patsubst acceptance/%.ndjson,acceptance/%.ndjson.json,$(RUBY_NDJSONS))
 
-JS_JSONS=$(call rwildcard,../javascript-json/acceptance,*.json)
-JS_NDJSONS=$(patsubst ../javascript-json/acceptance/%.json,acceptance/javascript/%.ndjson,$(JS_JSONS))
+JS_JSONS=$(call rwildcard,../javascript-testdata/acceptance,*.json)
+JS_NDJSONS=$(patsubst ../javascript-testdata/acceptance/%.json,acceptance/javascript/%.ndjson,$(JS_JSONS))
 JS_HTMLS=$(patsubst acceptance/%.ndjson,acceptance/%.ndjson.html,$(JS_NDJSONS))
 JS_GENERATED_JSONS=$(patsubst acceptance/%.ndjson,acceptance/%.ndjson.json,$(JS_NDJSONS))
 
-JAVA_JSONS=$(call rwildcard,../java/acceptance,*.json)
-JAVA_NDJSONS=$(patsubst ../java/acceptance/%.json,acceptance/java/%.ndjson,$(JAVA_JSONS))
+JAVA_JSONS=$(call rwildcard,../java-testdata/acceptance,*.json)
+JAVA_NDJSONS=$(patsubst ../java-testdata/acceptance/%.json,acceptance/java/%.ndjson,$(JAVA_JSONS))
 JAVA_HTMLS=$(patsubst acceptance/%.ndjson,acceptance/%.ndjson.html,$(JAVA_NDJSONS))
 JAVA_GENERATED_JSONS=$(patsubst acceptance/%.ndjson,acceptance/%.ndjson.json,$(JAVA_NDJSONS))
 
-PYTHON_JSONS=$(call rwildcard,../python/acceptance,*.json)
-PYTHON_NDJSONS=$(patsubst ../python/acceptance/%.json,acceptance/python/%.ndjson,$(PYTHON_JSONS))
+PYTHON_JSONS=$(call rwildcard,../python-testdata/acceptance,*.json)
+PYTHON_NDJSONS=$(patsubst ../python-testdata/acceptance/%.json,acceptance/python/%.ndjson,$(PYTHON_JSONS))
 PYTHON_HTMLS=$(patsubst acceptance/%.ndjson,acceptance/%.ndjson.html,$(PYTHON_NDJSONS))
 PYTHON_GENERATED_JSONS=$(patsubst acceptance/%.ndjson,acceptance/%.ndjson.json,$(PYTHON_NDJSONS))
 
@@ -37,7 +34,7 @@ else
 	cat $^ > $@
 endif
 
-acceptance/ruby/%.ndjson: ../ruby/acceptance/%.json $(TYPESCRIPT_SOURCE_FILES)
+acceptance/ruby/%.ndjson: ../ruby-testdata/acceptance/%.json $(TYPESCRIPT_SOURCE_FILES)
 	mkdir -p $(@D)
 	cat $< | bin/json-to-messages > $@
 
@@ -51,7 +48,7 @@ else
 	cat $^ > $@
 endif
 
-acceptance/javascript/%.ndjson: ../javascript-json/acceptance/%.json $(TYPESCRIPT_SOURCE_FILES)
+acceptance/javascript/%.ndjson: ../javascript-testdata/acceptance/%.json $(TYPESCRIPT_SOURCE_FILES)
 	mkdir -p $(@D)
 	cat $< | bin/json-to-messages > $@
 
@@ -65,7 +62,7 @@ else
 	cat $^ > $@
 endif
 
-acceptance/java/%.ndjson: ../java/acceptance/%.json $(TYPESCRIPT_SOURCE_FILES)
+acceptance/java/%.ndjson: ../java-testdata/acceptance/%.json $(TYPESCRIPT_SOURCE_FILES)
 	mkdir -p $(@D)
 	cat $< | bin/json-to-messages > $@
 
@@ -79,7 +76,7 @@ else
 	cat $^ > $@
 endif
 
-acceptance/python/%.ndjson: ../python/acceptance/%.json $(TYPESCRIPT_SOURCE_FILES)
+acceptance/python/%.ndjson: ../python-testdata/acceptance/%.json $(TYPESCRIPT_SOURCE_FILES)
 	mkdir -p $(@D)
 	cat $< | bin/json-to-messages > $@
 

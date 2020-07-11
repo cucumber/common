@@ -84,6 +84,14 @@
                                     <shadedPattern>io.cucumber.datatable.internal.difflib</shadedPattern>
                                 </relocation>
                             </relocations>
+                            <filters>
+                                <filter>
+                                    <artifact>com.googlecode.java-diff-utils:diffutils</artifact>
+                                    <excludes>
+                                        <exclude>META-INF/MANIFEST.MF</exclude>
+                                    </excludes>
+                                </filter>
+                            </filters>
                         </configuration>
                     </execution>
                 </executions>

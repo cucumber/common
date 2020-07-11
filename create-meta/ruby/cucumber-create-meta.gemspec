@@ -22,8 +22,8 @@ Gem::Specification.new do |s|
                     'source_code_uri'   => 'https://github.com/cucumber/cucumber/blob/master/gherkin/ruby',
                   }
 
-  s.add_dependency 'cucumber-messages', '~> 12.0', '>= 12.0.0'
-  s.add_dependency 'sys-uname', '~> 1.0', '>= 1.0.2'
+  s.add_dependency 'cucumber-messages', '~> 12.2', '>= 12.2.0'
+  s.add_dependency 'sys-uname', '~> 1.2', '>= 1.2.1'
 
   s.add_development_dependency 'rake', '~> 13.0', '>= 13.0.1'
   s.add_development_dependency 'rspec', '~> 3.9', '>= 3.9.0'

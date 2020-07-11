@@ -55,6 +55,24 @@ func TestCucumberExpressionGeneratory(t *testing.T) {
 		)
 	})
 
+	t.Run("generates expression for numbers with symbol and currency", func(t *testing.T) {
+		assertExpression(
+			t,
+			"Some ${float} of cukes at {int}° Celsius",
+			[]string{"float", "int"},
+			"Some $3.50 of cukes at 42° Celsius",
+		)
+	})
+
+	t.Run("generates expression for numbers with text on both sides", func(t *testing.T) {
+		assertExpression(
+			t,
+			"i18n",
+			[]string{},
+			"i18n",
+		)
+	})
+
 	t.Run("generates expression for strings", func(t *testing.T) {
 		assertExpression(
 			t,
