@@ -9,9 +9,11 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.PrimitiveIterator.OfInt;
 
+import static io.cucumber.cucumberexpressions.CucumberExpressionException.createTheEndOfLineCanNotBeEscapedException;
+
 final class CucumberExpressionTokenizer {
 
-    List<Token> tokenize(String expression){
+    List<Token> tokenize(String expression) {
         List<Token> tokens = new ArrayList<>();
         tokenizeImpl(expression).forEach(tokens::add);
         return tokens;
@@ -24,6 +26,8 @@ final class CucumberExpressionTokenizer {
             Type previousTokenType = null;
             Type currentTokenType = Type.START_OF_LINE;
             boolean treatAsText = false;
+            int index = 0;
+            int escaped = 0;
 
             @Override
             public boolean hasNext() {
@@ -35,49 +39,65 @@ final class CucumberExpressionTokenizer {
                 if (!hasNext()) {
                     throw new NoSuchElementException();
                 }
-
-                if(currentTokenType == Type.START_OF_LINE){
-                    currentTokenType = null;
-                    return new Token("", Type.START_OF_LINE);
+                if (currentTokenType == Type.START_OF_LINE) {
+                    Token token = convertBufferToToken(currentTokenType);
+                    advanceTokenTypes();
+                    return token;
                 }
 
                 while (codePoints.hasNext()) {
-                    int current = codePoints.nextInt();
-                    if (!treatAsText && current == '\\') {
+                    int token = codePoints.nextInt();
+                    if (!treatAsText && token == '\\') {
+                        escaped++;
                         treatAsText = true;
                         continue;
                     }
-                    currentTokenType = tokenTypeOf(current, treatAsText);
+                    currentTokenType = tokenTypeOf(token, treatAsText);
                     treatAsText = false;
 
-                    if (previousTokenType != null
+                    if (previousTokenType != Type.START_OF_LINE
                             && (currentTokenType != previousTokenType
                             || (currentTokenType != Type.WHITE_SPACE && currentTokenType != Type.TEXT))) {
-                        Token t = new Token(buffer.toString(), previousTokenType);
-                        buffer = new StringBuilder();
-                        buffer.appendCodePoint(current);
-                        previousTokenType = currentTokenType;
+                        Token t = convertBufferToToken(previousTokenType);
+                        advanceTokenTypes();
+                        buffer.appendCodePoint(token);
                         return t;
+                    } else {
+                        advanceTokenTypes();
+                        buffer.appendCodePoint(token);
                     }
-                    buffer.appendCodePoint(current);
-                    previousTokenType = currentTokenType;
                 }
 
                 if (buffer.length() > 0) {
-                    Token t = new Token(buffer.toString(), previousTokenType);
-                    buffer = new StringBuilder();
-                    currentTokenType = Type.END_OF_LINE;
-                    return t;
+                    Token token = convertBufferToToken(previousTokenType);
+                    advanceTokenTypes();
+                    return token;
                 }
 
+                currentTokenType = Type.END_OF_LINE;
                 if (treatAsText) {
-                    throw new CucumberExpressionException("End of line can not be escaped");
+                    throw createTheEndOfLineCanNotBeEscapedException(expression);
                 }
+                Token token = convertBufferToToken(currentTokenType);
+                advanceTokenTypes();
+                return token;
+            }
 
+            private void advanceTokenTypes() {
+                previousTokenType = currentTokenType;
                 currentTokenType = null;
-                previousTokenType = Type.END_OF_LINE;
-                Token t = new Token(buffer.toString(), previousTokenType);
+            }
+
+            private Token convertBufferToToken(Type currentTokenType) {
+                int escapeTokens = 0;
+                if(currentTokenType == Type.TEXT){
+                    escapeTokens = escaped;
+                    escaped = 0;
+                }
+                int endIndex = index + buffer.codePointCount(0, buffer.length()) + escapeTokens;
+                Token t = new Token(buffer.toString(), currentTokenType, index, endIndex);
                 buffer = new StringBuilder();
+                this.index = endIndex;
                 return t;
             }
         };

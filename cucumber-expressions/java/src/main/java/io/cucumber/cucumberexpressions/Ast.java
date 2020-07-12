@@ -2,6 +2,7 @@ package io.cucumber.cucumberexpressions;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.StringJoiner;
 
 import static java.util.Arrays.asList;
 import static java.util.Objects.requireNonNull;
@@ -14,23 +15,28 @@ final class Ast {
         private final Type type;
         private final List<AstNode> nodes;
         private final String token;
+        private final int startIndex;
+        private final int endIndex;
 
-        AstNode(Type type, String token) {
-            this(type, null, token);
+        AstNode(Type type, int startIndex, int endIndex, String token) {
+            this(type, startIndex, endIndex, null, token);
         }
 
-        AstNode(Type type, AstNode... nodes) {
-            this(type, asList(nodes));
+        AstNode(Type type, int startIndex, int endIndex, AstNode... nodes) {
+            this(type, startIndex, endIndex, asList(nodes));
         }
 
-        AstNode(Type type, List<AstNode> nodes) {
-            this(type, nodes, null);
+        AstNode(Type type, int startIndex, int endIndex, List<AstNode> nodes) {
+            this(type, startIndex, endIndex, nodes, null);
         }
 
-        private AstNode(Type type, List<AstNode> nodes, String token) {
-            this.type = type;
+        private AstNode(Type type, int startIndex, int endIndex, List<AstNode> nodes, String token) {
+            this.type = requireNonNull(type);
             this.nodes = nodes;
             this.token = token;
+            this.startIndex = startIndex;
+            this.endIndex = endIndex;
+
         }
 
         enum Type {
@@ -42,20 +48,31 @@ final class Ast {
             EXPRESSION_NODE
         }
 
-        List<AstNode> getNodes() {
+        int start(){
+            return startIndex;
+        }
+        int end(){
+            return endIndex;
+        }
+
+        List<AstNode> nodes() {
             return nodes;
         }
 
-        Type getType() {
+        boolean isLeaf() {
+            return nodes == null;
+        }
+
+        Type type() {
             return type;
         }
 
-        String getText() {
-            if (token != null)
+        String text() {
+            if (isLeaf())
                 return token;
 
-            return getNodes().stream()
-                    .map(AstNode::getText)
+            return nodes().stream()
+                    .map(AstNode::text)
                     .collect(joining());
         }
 
@@ -69,7 +86,7 @@ final class Ast {
             for (int i = 0; i < depth; i++) {
                 sb.append("\t");
             }
-            sb.append("AstNode{" + "type=").append(type);
+            sb.append("AstNode{").append(startIndex).append(":").append(endIndex).append(", type=").append(type);
 
             if (token != null) {
                 sb.append(", token=").append(token);
@@ -92,50 +109,72 @@ final class Ast {
 
         @Override
         public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
+            if (this == o)
+                return true;
+            if (o == null || getClass() != o.getClass())
+                return false;
             AstNode astNode = (AstNode) o;
-            return type == astNode.type &&
+            return startIndex == astNode.startIndex &&
+                    endIndex == astNode.endIndex &&
+                    type == astNode.type &&
                     Objects.equals(nodes, astNode.nodes) &&
                     Objects.equals(token, astNode.token);
         }
 
         @Override
         public int hashCode() {
-            return Objects.hash(type, nodes, token);
+            return Objects.hash(type, nodes, token, startIndex, endIndex);
         }
+
     }
 
     static final class Token {
 
+        final int startIndex;
+        final int endIndex;
         final String text;
         final Token.Type type;
 
-        Token(String text, Token.Type type) {
-            this.text = text;
-            this.type = type;
+        Token(String text, Token.Type type, int startIndex, int endIndex) {
+            this.text = requireNonNull(text);
+            this.type = requireNonNull(type);
+            this.startIndex = startIndex;
+            this.endIndex = endIndex;
+        }
+
+        int start(){
+            return startIndex;
+        }
+        int end(){
+            return endIndex;
         }
 
         @Override
         public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
+            if (this == o)
+                return true;
+            if (o == null || getClass() != o.getClass())
+                return false;
             Token token = (Token) o;
-            return text.equals(token.text) &&
+            return startIndex == token.startIndex &&
+                    endIndex == token.endIndex &&
+                    text.equals(token.text) &&
                     type == token.type;
         }
 
         @Override
         public int hashCode() {
-            return Objects.hash(text, type);
+            return Objects.hash(startIndex, endIndex, text, type);
         }
 
         @Override
         public String toString() {
-            return "Token{" +
-                    "text='" + text + '\'' +
-                    ", type=" + type +
-                    '}';
+            return new StringJoiner(", ", Token.class.getSimpleName() + "[", "]")
+                    .add("startIndex=" + startIndex)
+                    .add("endIndex=" + endIndex)
+                    .add("text='" + text + "'")
+                    .add("type=" + type)
+                    .toString();
         }
 
         enum Type {

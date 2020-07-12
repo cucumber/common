@@ -33,7 +33,7 @@ final class CucumberExpressionParser {
      */
     private static final Parser textParser = (expression, current) -> {
         Token token = expression.get(current);
-        return new Result(1, new AstNode(TEXT_NODE, token.text));
+        return new Result(1, new AstNode(TEXT_NODE, token.start(), token.end(), token.text));
     };
 
     /*
@@ -57,17 +57,13 @@ final class CucumberExpressionParser {
             asList(parameterParser, textParser)
     );
 
-    // Marker. This way we don't need to model the
-    // the tail end of alternation in the AST:
-    //
     // alternation := alternative* + ( '/' + alternative* )+
-    private static final AstNode ALTERNATIVE_SEPARATOR = new AstNode(ALTERNATIVE_NODE, "/");
-
     private static final Parser alternativeSeparator = (expression, current) -> {
         if (!lookingAt(expression, current, ALTERNATION)) {
             return new Result(0);
         }
-        return new Result(1, ALTERNATIVE_SEPARATOR);
+        Token token = expression.get(current);
+        return new Result(1, new AstNode(ALTERNATIVE_NODE, token.start(), token.end(), "/"));
     };
 
     private static final List<Parser> alternativeParsers = asList(
@@ -89,12 +85,14 @@ final class CucumberExpressionParser {
         }
 
         Result result = parseTokensUntil(alternativeParsers, expression, current, WHITE_SPACE, END_OF_LINE);
-        if (!result.ast.contains(ALTERNATIVE_SEPARATOR)) {
+        int subCurrent = current + result.consumed;
+        if (result.ast.stream().noneMatch(astNode -> astNode.type() == ALTERNATIVE_NODE)) {
             return new Result(0);
         }
-
+        int start = expression.get(current).start();
+        int end = expression.get(subCurrent).start();
         // Does not consume right hand boundary token
-        return new Result(result.consumed, new AstNode(ALTERNATION_NODE, splitAlternatives(result.ast)));
+        return new Result(result.consumed, new AstNode(ALTERNATION_NODE,  start, end, splitAlternatives(start, end, result.ast)));
     };
 
     /*
@@ -154,7 +152,9 @@ final class CucumberExpressionParser {
                 throw createMissingEndTokenException(beginToken, endToken, expression, current);
             }
             // consumes endToken
-            return new Result(subCurrent + 1 - current, new AstNode(type, result.ast));
+            int start = expression.get(current).start();
+            int end = expression.get(subCurrent).end();
+            return new Result(subCurrent + 1 - current, new AstNode(type, start, end, result.ast));
         };
     }
 
@@ -214,19 +214,35 @@ final class CucumberExpressionParser {
         return expression.get(at).type == token;
     }
 
-    private static List<AstNode> splitAlternatives(List<AstNode> astNode) {
-        List<AstNode> alternatives = new ArrayList<>();
+    private static List<AstNode> splitAlternatives(int start, int end, List<AstNode> astNode) {
+
+        List<AstNode> seperators = new ArrayList<>();
+        List<List<AstNode>> alternatives = new ArrayList<>();
         List<AstNode> alternative = new ArrayList<>();
         for (AstNode token : astNode) {
-            if (ALTERNATIVE_SEPARATOR.equals(token)) {
-                alternatives.add(new AstNode(ALTERNATIVE_NODE, alternative));
+            if (ALTERNATIVE_NODE.equals(token.type())) {
+                seperators.add(token);
+                alternatives.add(alternative);
                 alternative = new ArrayList<>();
             } else {
                 alternative.add(token);
             }
         }
-        alternatives.add(new AstNode(ALTERNATIVE_NODE, alternative));
-        return alternatives;
+        alternatives.add(alternative);
+
+        List<AstNode> alts = new ArrayList<>();
+        for (int i = 0; i < alternatives.size(); i++) {
+            List<AstNode> astNodes = alternatives.get(i);
+            if (i == 0) {
+                alts.add(new AstNode(ALTERNATIVE_NODE, start, seperators.get(i).start(), astNodes));
+            } else if( i == alternatives.size() - 1){
+                alts.add(new AstNode(ALTERNATIVE_NODE, seperators.get(i - 1).end(), end, astNodes));
+            } else {
+                alts.add(new AstNode(ALTERNATIVE_NODE, seperators.get(i-1).end(), seperators.get(i).start(), astNodes));
+            }
+        }
+
+        return alts;
     }
 
 }
