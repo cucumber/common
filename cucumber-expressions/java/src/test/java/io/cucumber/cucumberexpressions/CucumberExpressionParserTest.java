@@ -90,12 +90,21 @@ class CucumberExpressionParserTest {
         @Test
         void escapedEndOfLine() {
             CucumberExpressionException exception = assertThrows(CucumberExpressionException.class, () -> astOf("\\"));
-            assertThat(exception.getMessage(), is("This Cucumber Expression has problem:\n" +
+            assertThat(exception.getMessage(), is("This Cucumber Expression has problem at column 2:\n" +
                     "\n" +
                     "\\\n" +
                     " ^\n" +
-                    "You can use '\\\\' to escape the the '\\'"));
-            fail();
+                    "The end of line can not be escaped. You can use '\\\\' to escape the the '\\'"));
+        }
+
+        @Test
+        void escapeNonReservedCharacter() {
+            CucumberExpressionException exception = assertThrows(CucumberExpressionException.class, () -> astOf("\\["));
+            assertThat(exception.getMessage(), is("This Cucumber Expression has problem at column 2:\n" +
+                    "\n" +
+                    "\\[\n" +
+                    " ^\n" +
+                    "Only the characters '{', '}', '(', ')', '\\', '/' and whitespace can be escaped. If you did mean to use an '\\' you can use '\\\\' to escape it"));
         }
 
         @Test
@@ -110,11 +119,11 @@ class CucumberExpressionParserTest {
         @Test
         void openingBrace() {
             CucumberExpressionException exception = assertThrows(CucumberExpressionException.class, () -> astOf("{"));
-            assertThat(exception.getMessage(), is("This Cucumber Expression has problem:\n" +
+            assertThat(exception.getMessage(), is("This Cucumber Expression has problem at column 1:\n" +
                     "\n" +
                     "{\n" +
                     "^\n" +
-                    "The '{' at 1 did not have a matching '}'. \n" +
+                    "The '{' does not have a matching '}'. \n" +
                     "If you did not intended to use a parameter you can use '\\{' to escape the a parameter\n"
             ));
         }
@@ -131,22 +140,22 @@ class CucumberExpressionParserTest {
         @Test
         void unfinishedParameter() {
             CucumberExpressionException exception = assertThrows(CucumberExpressionException.class, () -> astOf("{string"));
-            assertThat(exception.getMessage(), is("This Cucumber Expression has problem:\n" +
+            assertThat(exception.getMessage(), is("This Cucumber Expression has problem at column 1:\n" +
                     "\n" +
                     "{string\n" +
                     "^\n" +
-                    "The '{' at 1 did not have a matching '}'. \n" +
+                    "The '{' does not have a matching '}'. \n" +
                     "If you did not intended to use a parameter you can use '\\{' to escape the a parameter\n"));
         }
 
         @Test
         void openingParenthesis() {
             CucumberExpressionException exception = assertThrows(CucumberExpressionException.class, () -> astOf("("));
-            assertThat(exception.getMessage(), is("This Cucumber Expression has problem:\n" +
+            assertThat(exception.getMessage(), is("This Cucumber Expression has problem at column 1:\n" +
                     "\n" +
                     "(\n" +
                     "^\n" +
-                    "The '(' at 1 did not have a matching ')'. \n" +
+                    "The '(' does not have a matching ')'. \n" +
                     "If you did not intended to use optional text you can use '\\(' to escape the optional text\n"
             ));
         }
@@ -271,105 +280,105 @@ class CucumberExpressionParserTest {
             ));
         }
 
-    //    @Test
-    //    void escapedAlternation() {
-    //        assertThat(astOf("mice\\/rats"), equalTo(
-    //                new AstNode(EXPRESSION_NODE,
-    //                        new AstNode(TEXT_NODE, -1, -1, "mice/rats")
-    //                )
-    //        ));
-    //    }
-    //
-    //    @Test
-    //    void alternationPhrase() {
-    //        assertThat(astOf("three hungry/blind mice"), equalTo(
-    //                new AstNode(EXPRESSION_NODE,
-    //                        new AstNode(TEXT_NODE, -1, -1, "three"),
-    //                        new AstNode(TEXT_NODE, -1, -1, " "),
-    //                        new AstNode(ALTERNATION_NODE,
-    //                                new AstNode(ALTERNATIVE_NODE,
-    //                                        new AstNode(TEXT_NODE, -1, -1, "hungry")
-    //                                ),
-    //                                new AstNode(ALTERNATIVE_NODE,
-    //                                        new AstNode(TEXT_NODE, -1, -1, "blind")
-    //                                )
-    //                        ),
-    //                        new AstNode(TEXT_NODE, -1, -1, " "),
-    //                        new AstNode(TEXT_NODE, -1, -1, "mice")
-    //                )
-    //        ));
-    //    }
-    //
-    //    @Test
-    //    void alternationWithWhiteSpace() {
-    //        assertThat(astOf("\\ three\\ hungry/blind\\ mice\\ "), equalTo(
-    //                new AstNode(EXPRESSION_NODE,
-    //                        new AstNode(ALTERNATION_NODE,
-    //                                new AstNode(ALTERNATIVE_NODE,
-    //                                        new AstNode(TEXT_NODE, -1, -1, " three hungry")
-    //                                ),
-    //                                new AstNode(ALTERNATIVE_NODE,
-    //                                        new AstNode(TEXT_NODE, -1, -1, "blind mice ")
-    //                                )
-    //                        )
-    //
-    //                )
-    //        ));
-    //    }
-    //
-    //    @Test
-    //    void alternationWithUnusedEndOptional() {
-    //        assertThat(astOf("three )blind\\ mice/rats"), equalTo(
-    //                new AstNode(EXPRESSION_NODE,
-    //                        new AstNode(TEXT_NODE, -1, -1, "three"),
-    //                        new AstNode(TEXT_NODE, -1, -1, " "),
-    //                        new AstNode(ALTERNATION_NODE,
-    //                                new AstNode(ALTERNATIVE_NODE,
-    //                                        new AstNode(TEXT_NODE, -1, -1, ")"),
-    //                                        new AstNode(TEXT_NODE, -1, -1, "blind mice")
-    //                                ),
-    //                                new AstNode(ALTERNATIVE_NODE,
-    //                                        new AstNode(TEXT_NODE, -1, -1, "rats")
-    //                                )
-    //                        )
-    //                )
-    //        ));
-    //    }
-    //
-    //    @Test
-    //    void alternationWithUnusedStartOptional() {
-    //        CucumberExpressionException exception = assertThrows(
-    //                CucumberExpressionException.class,
-    //                () -> astOf("three blind\\ mice/rats("));
-    //        assertThat(exception.getMessage(), is("This Cucumber Expression has problem:\n" +
-    //                "\n" +
-    //                "three blind mice/rats(\n" +
-    //                "                     ^\n" +
-    //                "The '(' at 22 did not have a matching ')'. \n" +
-    //                "If you did not intended to use optional text you can use '\\(' to escape the optional text\n"));
-    //    }
-    //
-    //    @Test
-    //    void alternationFollowedByOptional() {
-    //        assertThat(astOf("three blind\\ rat/cat(s)"), equalTo(
-    //                new AstNode(EXPRESSION_NODE,
-    //                        new AstNode(TEXT_NODE, -1, -1, "three"),
-    //                        new AstNode(TEXT_NODE, -1, -1, " "),
-    //                        new AstNode(ALTERNATION_NODE,
-    //                                new AstNode(ALTERNATIVE_NODE,
-    //                                        new AstNode(TEXT_NODE, -1, -1, "blind rat")
-    //                                ),
-    //                                new AstNode(ALTERNATIVE_NODE,
-    //                                        new AstNode(TEXT_NODE, -1, -1, "cat"),
-    //                                        new AstNode(OPTIONAL_NODE,
-    //                                                new AstNode(TEXT_NODE, -1, -1, "s")
-    //                                        )
-    //                                )
-    //                        )
-    //                )
-    //        ));
-    //    }
-    //
+        @Test
+        void escapedAlternation() {
+            assertThat(astOf("mice\\/rats"), equalTo(
+                    new AstNode(EXPRESSION_NODE, 0, 10,
+                            new AstNode(TEXT_NODE, 0, 10, "mice/rats")
+                    )
+            ));
+        }
+
+        @Test
+        void alternationPhrase() {
+            assertThat(astOf("three hungry/blind mice"), equalTo(
+                    new AstNode(EXPRESSION_NODE, 0, 23,
+                            new AstNode(TEXT_NODE, 0, 5, "three"),
+                            new AstNode(TEXT_NODE, 5, 6, " "),
+                            new AstNode(ALTERNATION_NODE, 6,18,
+                                    new AstNode(ALTERNATIVE_NODE, 6, 12,
+                                            new AstNode(TEXT_NODE, 6, 12, "hungry")
+                                    ),
+                                    new AstNode(ALTERNATIVE_NODE, 13, 18,
+                                            new AstNode(TEXT_NODE, 13, 18, "blind")
+                                    )
+                            ),
+                            new AstNode(TEXT_NODE, 18, 19, " "),
+                            new AstNode(TEXT_NODE, 19, 23, "mice")
+                    )
+            ));
+        }
+
+        @Test
+        void alternationWithWhiteSpace() {
+            assertThat(astOf("\\ three\\ hungry/blind\\ mice\\ "), equalTo(
+                    new AstNode(EXPRESSION_NODE, 0, 29,
+                            new AstNode(ALTERNATION_NODE, 0,29,
+                                    new AstNode(ALTERNATIVE_NODE,0,15,
+                                            new AstNode(TEXT_NODE, 0, 15, " three hungry")
+                                    ),
+                                    new AstNode(ALTERNATIVE_NODE,16,29,
+                                            new AstNode(TEXT_NODE, 16, 29, "blind mice ")
+                                    )
+                            )
+
+                    )
+            ));
+        }
+
+        @Test
+        void alternationWithUnusedEndOptional() {
+            assertThat(astOf("three )blind\\ mice/rats"), equalTo(
+                    new AstNode(EXPRESSION_NODE,0,23,
+                            new AstNode(TEXT_NODE, 0, 5, "three"),
+                            new AstNode(TEXT_NODE, 5, 6, " "),
+                            new AstNode(ALTERNATION_NODE,6,23,
+                                    new AstNode(ALTERNATIVE_NODE,6,18,
+                                            new AstNode(TEXT_NODE, 6, 7, ")"),
+                                            new AstNode(TEXT_NODE, 7, 18, "blind mice")
+                                    ),
+                                    new AstNode(ALTERNATIVE_NODE,19,23,
+                                            new AstNode(TEXT_NODE, 19, 23, "rats")
+                                    )
+                            )
+                    )
+            ));
+        }
+
+        @Test
+        void alternationWithUnusedStartOptional() {
+            CucumberExpressionException exception = assertThrows(
+                    CucumberExpressionException.class,
+                    () -> astOf("three blind\\ mice/rats("));
+            assertThat(exception.getMessage(), is("This Cucumber Expression has problem at column 22:\n" +
+                    "\n" +
+                    "three blind mice/rats(\n" +
+                    "                     ^\n" +
+                    "The '(' does not have a matching ')'. \n" +
+                    "If you did not intended to use optional text you can use '\\(' to escape the optional text\n"));
+        }
+
+        @Test
+        void alternationFollowedByOptional() {
+            assertThat(astOf("three blind\\ rat/cat(s)"), equalTo(
+                    new AstNode(EXPRESSION_NODE,0,23,
+                            new AstNode(TEXT_NODE, 0, 5, "three"),
+                            new AstNode(TEXT_NODE, 5, 6, " "),
+                            new AstNode(ALTERNATION_NODE,6,23,
+                                    new AstNode(ALTERNATIVE_NODE,6,16,
+                                            new AstNode(TEXT_NODE, 6, 16, "blind rat")
+                                    ),
+                                    new AstNode(ALTERNATIVE_NODE,17,23,
+                                            new AstNode(TEXT_NODE, 17, 20, "cat"),
+                                            new AstNode(OPTIONAL_NODE,20,23,
+                                                    new AstNode(TEXT_NODE, 21, 22, "s")
+                                            )
+                                    )
+                            )
+                    )
+            ));
+        }
+
     private AstNode astOf(String expression) {
         return parser.parse(expression);
     }

@@ -52,33 +52,35 @@ public class CucumberExpressionException extends RuntimeException {
 
     static CucumberExpressionException createMissingEndTokenException(Type beginToken, Type endToken,
             List<Token> tokens, int current) {
+        int index = currentTokenIndex(tokens, current);
         return new CucumberExpressionException("" +
-                "This Cucumber Expression has problem:" + "\n" +
+                thisCucumberExpressionHasAProblemAt(index) +
                 "\n" +
                 expressionOf(tokens) + "\n" +
-                pointAtCurrentToken(tokens, current) + "\n" +
-                "The '" + beginToken.symbol() + "' at " + pointAtCurrentToken(tokens, current)
-                .length() + " did not have a matching '" + endToken.symbol() + "'. " + "\n" +
+                pointAt(index) + "\n" +
+                "The '" + beginToken.symbol() + "' does not have a matching '" + endToken.symbol() + "'. " + "\n" +
                 "If you did not intended to use " + beginToken.purpose() + " you can use '\\" + beginToken
                 .symbol() + "' to escape the " + beginToken.purpose() + "\n");
+    }
+
+    private static String thisPRo(int i) {
+        return "This Cucumber Expression has problem at index '" + i + "' :" + "\n";
     }
 
     private static String expressionOf(List<Token> expression) {
         return expression.stream().map(token -> token.text).collect(Collectors.joining());
     }
 
-    private static StringBuilder pointAtCurrentToken(List<Token> expression, int current) {
-        int indexInExpression = expression.stream().limit(current).mapToInt(value -> value.text.length()).sum();
-        return pointAt(indexInExpression);
+    private static int currentTokenIndex(List<Token> expression, int current) {
+        return expression.stream().limit(current).mapToInt(value -> value.text.length()).sum();
     }
 
     static CucumberExpressionException createTheEndOfLineCanNotBeEscapedException(String expression) {
-        return new CucumberExpressionException("" +
-                "This Cucumber Expression has problem:\n" +
+        return new CucumberExpressionException(thisCucumberExpressionHasAProblemAt(expression.length()) +
                 "\n" +
                 expression + "\n" +
                 pointAt(expression.length()) + "\n" +
-                "You can use '\\\\' to escape the the '\\'");
+                "The end of line can not be escaped. You can use '\\\\' to escape the the '\\'");
     }
 
     private static StringBuilder pointAt(int index) {
@@ -90,12 +92,24 @@ public class CucumberExpressionException extends RuntimeException {
         return pointer;
     }
 
-    static CucumberExpressionException createAlternativeIsEmpty(String expression, AstNode ast, AstNode node) {
-        return new CucumberExpressionException("This Cucumber Expression has problem:" + "\n" +
+    static CucumberExpressionException createAlternativeIsEmpty(String expression, AstNode node) {
+        return new CucumberExpressionException(thisCucumberExpressionHasAProblemAt(node.start()) +
                 "\n" +
                 expression + "\n" +
-                pointAt(0) + "\n" + //TODO: 0
-                "Alternative may not be empty: " +"");
+                pointAt(node.start()) + "\n" +
+                "Alternative may not be empty. If you did not mean to use an alternative you can use '\\\\' to escape the the '\\'");
+    }
+
+    private static String thisCucumberExpressionHasAProblemAt(int index) {
+        return "This Cucumber Expression has problem at column " + (index+1) + ":" + "\n";
+    }
+
+    static CucumberExpressionException createCantEscape(String expression, int index) {
+        return new CucumberExpressionException(thisCucumberExpressionHasAProblemAt(index) +
+                "\n" +
+                expression + "\n" +
+                pointAt(index) + "\n" +
+                "Only the characters '{', '}', '(', ')', '\\', '/' and whitespace can be escaped. If you did mean to use an '\\' you can use '\\\\' to escape it");
     }
 
 }

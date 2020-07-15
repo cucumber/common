@@ -10,6 +10,7 @@ import java.util.regex.Pattern;
 
 import static io.cucumber.cucumberexpressions.Ast.AstNode.Type.PARAMETER_NODE;
 import static io.cucumber.cucumberexpressions.Ast.AstNode.Type.TEXT_NODE;
+import static io.cucumber.cucumberexpressions.CucumberExpressionException.createAlternativeIsEmpty;
 import static java.util.stream.Collectors.joining;
 
 @API(status = API.Status.STABLE)
@@ -71,7 +72,7 @@ public final class CucumberExpression implements Expression {
         // Make sure the alternative parts aren't empty and don't contain parameter types
         for (AstNode alternative : node.nodes()) {
             if (alternative.nodes().isEmpty()) {
-                throw CucumberExpressionException.createAlternativeIsEmpty(this.source, ast, alternative);
+                throw createAlternativeIsEmpty(this.source, alternative);
             }
             assertNoParameters(alternative, PARAMETER_TYPES_CANNOT_BE_ALTERNATIVE);
             assertNotEmpty(alternative, ALTERNATIVE_MAY_NOT_EXCLUSIVELY_CONTAIN_OPTIONALS);

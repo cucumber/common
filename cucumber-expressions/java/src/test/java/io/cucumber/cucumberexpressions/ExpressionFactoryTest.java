@@ -46,7 +46,7 @@ public class ExpressionFactoryTest {
 
     @Test
     public void creates_cucumber_expression_for_parenthesis_with_regex_symbols() {
-        assertCucumberExpression("the temperature is (\\+){int} degrees celsius");
+        assertCucumberExpression("the temperature is (+){int} degrees celsius");
     }
 
     @Test

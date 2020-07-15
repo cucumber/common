@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.PrimitiveIterator.OfInt;
 
+import static io.cucumber.cucumberexpressions.CucumberExpressionException.createCantEscape;
 import static io.cucumber.cucumberexpressions.CucumberExpressionException.createTheEndOfLineCanNotBeEscapedException;
 
 final class CucumberExpressionTokenizer {
@@ -90,7 +91,7 @@ final class CucumberExpressionTokenizer {
 
             private Token convertBufferToToken(Type currentTokenType) {
                 int escapeTokens = 0;
-                if(currentTokenType == Type.TEXT){
+                if (currentTokenType == Type.TEXT) {
                     escapeTokens = escaped;
                     escaped = 0;
                 }
@@ -100,32 +101,44 @@ final class CucumberExpressionTokenizer {
                 this.index = endIndex;
                 return t;
             }
+
+            private Type tokenTypeOf(Integer token, boolean treatAsText) {
+                if (treatAsText) {
+                    switch (token) {
+                        case (int) '\\':
+                        case (int) '/':
+                        case (int) '{':
+                        case (int) '}':
+                        case (int) '(':
+                        case (int) ')':
+                            return Type.TEXT;
+                    }
+                    if (Character.isWhitespace(token)) {
+                        return Type.TEXT;
+                    }
+                    throw createCantEscape(expression, index + escaped);
+                }
+
+                if (Character.isWhitespace(token)) {
+                    return Type.WHITE_SPACE;
+                }
+
+                switch (token) {
+                    case (int) '/':
+                        return Type.ALTERNATION;
+                    case (int) '{':
+                        return Type.BEGIN_PARAMETER;
+                    case (int) '}':
+                        return Type.END_PARAMETER;
+                    case (int) '(':
+                        return Type.BEGIN_OPTIONAL;
+                    case (int) ')':
+                        return Type.END_OPTIONAL;
+                }
+                return Type.TEXT;
+            }
         };
 
-    }
-
-    private Type tokenTypeOf(Integer c, boolean treatAsText) {
-        if (treatAsText) {
-            return Type.TEXT;
-        }
-
-        if (Character.isWhitespace(c)) {
-            return Type.WHITE_SPACE;
-        }
-
-        switch (c) {
-            case (int) '/':
-                return Type.ALTERNATION;
-            case (int) '{':
-                return Type.BEGIN_PARAMETER;
-            case (int) '}':
-                return Type.END_PARAMETER;
-            case (int) '(':
-                return Type.BEGIN_OPTIONAL;
-            case (int) ')':
-                return Type.END_OPTIONAL;
-        }
-        return Type.TEXT;
     }
 
 }

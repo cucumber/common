@@ -2,7 +2,7 @@ I have {int} cuke(s)
 I have 22 cukes
 [22]
 ---
-I have {int} cuke(s) and some \[]^$.|?*+
+I have {int} cuke(s) and some \\[]^$.|?*+
 I have 1 cuke and some \[]^$.|?*+
 [1]
 ---

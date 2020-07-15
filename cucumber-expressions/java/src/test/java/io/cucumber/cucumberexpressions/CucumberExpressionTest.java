@@ -76,7 +76,11 @@ public class CucumberExpressionTest {
     public void does_not_allow_alternation_with_empty_alternative() {
         Executable testMethod = () -> match("three brown//black mice", "three brown mice");
         CucumberExpressionException thrownException = assertThrows(CucumberExpressionException.class, testMethod);
-        assertThat(thrownException.getMessage(), is(equalTo("Alternative may not be empty: three brown//black mice")));
+        assertThat(thrownException.getMessage(), is(equalTo("This Cucumber Expression has problem at column 13:\n" +
+                "\n" +
+                "three brown//black mice\n" +
+                "            ^\n" +
+                "Alternative may not be empty. If you did not mean to use an alternative you can use '\\\\' to escape the the '\\'")));
     }
 
     @Test
