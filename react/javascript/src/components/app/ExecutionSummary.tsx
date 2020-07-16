@@ -1,7 +1,8 @@
 import React from 'react'
-import { messages, TimeConversion } from '@cucumber/messages'
+import { messages } from '@cucumber/messages'
 import EnvelopesQueryContext from '../../EnvelopesQueryContext'
 import CICommitLink from './CICommitLink'
+import getDurationsMillis from '../../getDurationMillis'
 
 interface IProductProps {
   name: string
@@ -22,20 +23,6 @@ const Product: React.FunctionComponent<IProductProps> = ({
       <td>{value}</td>
     </tr>
   )
-}
-
-function getDurationsMillis(
-  testRunStarted: messages.ITestRunStarted,
-  testRunFinished: messages.ITestRunFinished
-): number {
-  if (testRunStarted !== undefined && testRunFinished !== undefined) {
-    return (
-      TimeConversion.timestampToMillisecondsSinceEpoch(
-        testRunFinished.timestamp
-      ) -
-      TimeConversion.timestampToMillisecondsSinceEpoch(testRunStarted.timestamp)
-    )
-  }
 }
 
 interface IProps {
@@ -59,7 +46,7 @@ const ExecutionSummary: React.FunctionComponent<IProps> = ({ meta: meta }) => {
         <tbody>
           <tr>
             <th>Duration (milliseconds)</th>
-            <td>{millisDuration || '--'} ms</td>
+            <td>{millisDuration || '--'}</td>
           </tr>
           {meta.ci && (
             <tr>
