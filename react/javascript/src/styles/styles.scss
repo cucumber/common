@@ -1,5 +1,6 @@
 $border-color: #4B5662;
 $white: #F0EFFB;
+$summary-border-color: rgba(0, 0, 0, 0.1);
 
 $statusColors:
   "passed" #2CB14A,
@@ -197,7 +198,7 @@ $statusColors:
   display: flex;
   flex-wrap: wrap;
   align-items: stretch;
-  border: 1px solid $border-color;
+  border: 1px solid $summary-border-color;
   border-right: 0;
   border-bottom: 0;
 
@@ -206,8 +207,8 @@ $statusColors:
 
   & > * {
     flex-grow: 1;
-    border-right: 1px solid $border-color;
-    border-bottom: 1px solid $border-color;
+    border-right: 1px solid $summary-border-color;
+    border-bottom: 1px solid $summary-border-color;
 
     padding: 1em;
   }
