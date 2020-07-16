@@ -201,7 +201,7 @@ $statusColors:
   border-right: 0;
   border-bottom: 0;
 
-  font-size: 80%;
+  font: 10px 'Open Sans', sans-serif;
   margin-bottom: 1em;
 
   & > * {
@@ -238,6 +238,7 @@ $statusColors:
 .cucumber-search-bar {
   margin-top: 2em;
   margin-bottom: 2em;
+
   input {
     padding: 0.4em;
     border-radius: 0;
