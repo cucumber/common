@@ -100,7 +100,7 @@ public class CucumberExpressionException extends RuntimeException {
     }
 
     private static String thisCucumberExpressionHasAProblemAt(int index) {
-        return "This Cucumber Expression has problem at column " + (index + 1) + ":" + "\n";
+        return "This Cucumber Expression has a problem at column " + (index + 1) + ":" + "\n";
     }
 
     static CucumberExpressionException createCantEscape(String expression, int index) {

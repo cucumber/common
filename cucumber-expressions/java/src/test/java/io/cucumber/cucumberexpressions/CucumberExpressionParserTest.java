@@ -90,7 +90,7 @@ class CucumberExpressionParserTest {
         @Test
         void escapedEndOfLine() {
             CucumberExpressionException exception = assertThrows(CucumberExpressionException.class, () -> astOf("\\"));
-            assertThat(exception.getMessage(), is("This Cucumber Expression has problem at column 2:\n" +
+            assertThat(exception.getMessage(), is("This Cucumber Expression has a problem at column 2:\n" +
                     "\n" +
                     "\\\n" +
                     " ^\n" +
@@ -101,7 +101,7 @@ class CucumberExpressionParserTest {
         @Test
         void escapeNonReservedCharacter() {
             CucumberExpressionException exception = assertThrows(CucumberExpressionException.class, () -> astOf("\\["));
-            assertThat(exception.getMessage(), is("This Cucumber Expression has problem at column 2:\n" +
+            assertThat(exception.getMessage(), is("This Cucumber Expression has a problem at column 2:\n" +
                     "\n" +
                     "\\[\n" +
                     " ^\n" +
@@ -121,7 +121,7 @@ class CucumberExpressionParserTest {
         @Test
         void openingBrace() {
             CucumberExpressionException exception = assertThrows(CucumberExpressionException.class, () -> astOf("{"));
-            assertThat(exception.getMessage(), is("This Cucumber Expression has problem at column 1:\n" +
+            assertThat(exception.getMessage(), is("This Cucumber Expression has a problem at column 1:\n" +
                     "\n" +
                     "{\n" +
                     "^\n" +
@@ -142,7 +142,7 @@ class CucumberExpressionParserTest {
         @Test
         void unfinishedParameter() {
             CucumberExpressionException exception = assertThrows(CucumberExpressionException.class, () -> astOf("{string"));
-            assertThat(exception.getMessage(), is("This Cucumber Expression has problem at column 1:\n" +
+            assertThat(exception.getMessage(), is("This Cucumber Expression has a problem at column 1:\n" +
                     "\n" +
                     "{string\n" +
                     "^\n" +
@@ -153,7 +153,7 @@ class CucumberExpressionParserTest {
         @Test
         void openingParenthesis() {
             CucumberExpressionException exception = assertThrows(CucumberExpressionException.class, () -> astOf("("));
-            assertThat(exception.getMessage(), is("This Cucumber Expression has problem at column 1:\n" +
+            assertThat(exception.getMessage(), is("This Cucumber Expression has a problem at column 1:\n" +
                     "\n" +
                     "(\n" +
                     "^\n" +
@@ -353,7 +353,7 @@ class CucumberExpressionParserTest {
                     CucumberExpressionException.class,
                     () -> astOf("three blind\\ mice/rats("));
             assertThat(exception.getMessage(), is("" +
-                    "This Cucumber Expression has problem at column 22:\n" +
+                    "This Cucumber Expression has a problem at column 22:\n" +
                     "\n" +
                     "three blind\\ mice/rats(\n" +
                     "                      ^\n" +

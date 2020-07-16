@@ -76,7 +76,7 @@ public class CucumberExpressionTest {
     public void does_not_allow_alternation_with_empty_alternative() {
         Executable testMethod = () -> match("three brown//black mice", "three brown mice");
         CucumberExpressionException thrownException = assertThrows(CucumberExpressionException.class, testMethod);
-        assertThat(thrownException.getMessage(), is(equalTo("This Cucumber Expression has problem at column 13:\n" +
+        assertThat(thrownException.getMessage(), is(equalTo("This Cucumber Expression has a problem at column 13:\n" +
                 "\n" +
                 "three brown//black mice\n" +
                 "            ^\n" +
@@ -245,7 +245,7 @@ public class CucumberExpressionTest {
 
         final CucumberExpressionException thrownException = assertThrows(CucumberExpressionException.class, testMethod);
         assertThat(thrownException.getMessage(), is(equalTo("" +
-                "This Cucumber Expression has problem at column 2:\n" +
+                "This Cucumber Expression has a problem at column 2:\n" +
                 "\n" +
                 "({int})\n" +
                 " ^---^\n" +
@@ -265,7 +265,7 @@ public class CucumberExpressionTest {
 
         final CucumberExpressionException thrownException = assertThrows(CucumberExpressionException.class, testMethod);
         assertThat(thrownException.getMessage(), is(equalTo("" +
-                "This Cucumber Expression has problem at column 3:\n" +
+                "This Cucumber Expression has a problem at column 3:\n" +
                 "\n" +
                 "x/{int}\n" +
                 "  ^---^\n" +
@@ -280,7 +280,7 @@ public class CucumberExpressionTest {
 
         final CucumberExpressionException thrownException = assertThrows(CucumberExpressionException.class, testMethod);
         assertThat(thrownException.getMessage(), is(equalTo("" +
-                "This Cucumber Expression has problem at column 1:\n" +
+                "This Cucumber Expression has a problem at column 1:\n" +
                 "\n" +
                 "{int}/x\n" +
                 "^---^\n" +
