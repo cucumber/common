@@ -6,18 +6,20 @@ import org.apiguardian.api.API;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.regex.Pattern;
 
 import static io.cucumber.cucumberexpressions.Ast.AstNode.Type.PARAMETER_NODE;
 import static io.cucumber.cucumberexpressions.Ast.AstNode.Type.TEXT_NODE;
 import static io.cucumber.cucumberexpressions.CucumberExpressionException.createAlternativeIsEmpty;
+import static io.cucumber.cucumberexpressions.CucumberExpressionException.createParameterIsNotAllowedHere;
 import static java.util.stream.Collectors.joining;
 
 @API(status = API.Status.STABLE)
 public final class CucumberExpression implements Expression {
     private static final Pattern ESCAPE_PATTERN = Pattern.compile("([\\\\^\\[({$.|?*+})\\]])");
-    private static final String PARAMETER_TYPES_CANNOT_BE_OPTIONAL = "Parameter types cannot be optional: ";
-    private static final String PARAMETER_TYPES_CANNOT_BE_ALTERNATIVE = "Parameter types cannot be alternative: ";
+    private static final String PARAMETER_TYPES_CANNOT_BE_OPTIONAL = "Parameter types cannot be optional";
+    private static final String PARAMETER_TYPES_CANNOT_BE_ALTERNATIVE = "Parameter types cannot be alternative";
     private static final String OPTIONAL_MAY_NOT_BE_EMPTY = "Optional may not be empty: ";
     private static final String ALTERNATIVE_MAY_NOT_EXCLUSIVELY_CONTAIN_OPTIONALS = "Alternative may not exclusively contain optionals: ";
 
@@ -25,14 +27,13 @@ public final class CucumberExpression implements Expression {
     private final String source;
     private final TreeRegexp treeRegexp;
     private final ParameterTypeRegistry parameterTypeRegistry;
-    private final AstNode ast;
 
     CucumberExpression(String expression, ParameterTypeRegistry parameterTypeRegistry) {
         this.source = expression;
         this.parameterTypeRegistry = parameterTypeRegistry;
 
         CucumberExpressionParser parser = new CucumberExpressionParser();
-        this.ast = parser.parse(expression);
+        AstNode ast = parser.parse(expression);
         String pattern = rewriteToRegex(ast);
         treeRegexp = new TreeRegexp(pattern);
     }
@@ -112,6 +113,7 @@ public final class CucumberExpression implements Expression {
     }
 
     private void assertNotEmpty(AstNode node, String message) {
+        //TODO: Change message
         boolean hasTextNode = node.nodes()
                 .stream()
                 .map(AstNode::type)
@@ -122,11 +124,11 @@ public final class CucumberExpression implements Expression {
     }
 
     private void assertNoParameters(AstNode node, String message) {
-        boolean hasParameter = node.nodes().stream()
-                .map(AstNode::type)
-                .anyMatch(type -> type == PARAMETER_NODE);
-        if (hasParameter) {
-            throw new CucumberExpressionException(message + source);
+        Optional<AstNode> hasParameter = node.nodes().stream()
+                .filter(astNode -> PARAMETER_NODE.equals(astNode.type()))
+                .findFirst();
+        if (hasParameter.isPresent()) {
+            throw createParameterIsNotAllowedHere(hasParameter.get(), this.source, message);
         }
     }
 

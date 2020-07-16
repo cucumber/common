@@ -80,14 +80,16 @@ public class CucumberExpressionTest {
                 "\n" +
                 "three brown//black mice\n" +
                 "            ^\n" +
-                "Alternative may not be empty. If you did not mean to use an alternative you can use '\\\\' to escape the the '\\'")));
+                "Alternative may not be empty." +
+                "\nIf you did not mean to use an alternative you can use '\\/' to escape the the '/'")));
     }
 
     @Test
     public void allows_optional_adjacent_to_alternation() {
         Executable testMethod = () -> match("three (brown)/black mice", "three brown mice");
         CucumberExpressionException thrownException = assertThrows(CucumberExpressionException.class, testMethod);
-        assertThat(thrownException.getMessage(), is(equalTo("Alternative may not exclusively contain optionals: three (brown)/black mice")));
+        assertThat(thrownException.getMessage(),
+                is(equalTo("Alternative may not exclusively contain optionals: three (brown)/black mice")));
     }
 
     @Test
@@ -97,7 +99,8 @@ public class CucumberExpressionTest {
 
     @Test
     public void matches_multiple_double_quoted_strings() {
-        assertEquals(asList("blind", "crippled"), match("three {string} and {string} mice", "three \"blind\" and \"crippled\" mice"));
+        assertEquals(asList("blind", "crippled"),
+                match("three {string} and {string} mice", "three \"blind\" and \"crippled\" mice"));
     }
 
     @Test
@@ -107,7 +110,8 @@ public class CucumberExpressionTest {
 
     @Test
     public void matches_multiple_single_quoted_strings() {
-        assertEquals(asList("blind", "crippled"), match("three {string} and {string} mice", "three 'blind' and 'crippled' mice"));
+        assertEquals(asList("blind", "crippled"),
+                match("three {string} and {string} mice", "three 'blind' and 'crippled' mice"));
     }
 
     @Test
@@ -152,21 +156,28 @@ public class CucumberExpressionTest {
 
     @Test
     public void matches_double_quoted_empty_string_as_empty_string_along_with_other_strings() {
-        assertEquals(asList("", "handsome"), match("three {string} and {string} mice", "three \"\" and \"handsome\" mice"));
+        assertEquals(asList("", "handsome"),
+                match("three {string} and {string} mice", "three \"\" and \"handsome\" mice"));
     }
 
     @Test
     public void matches_escaped_parenthesis() {
-        assertEquals(emptyList(), match("three \\(exceptionally) \\{string} mice", "three (exceptionally) {string} mice"));
-        assertEquals(singletonList("blind"), match("three \\((exceptionally)) \\{{string}} mice", "three (exceptionally) {\"blind\"} mice"));
-        assertEquals(singletonList("blind"), match("three \\((exceptionally)) \\{{string}} mice", "three (exceptionally) {\"blind\"} mice"));
-        parameterTypeRegistry.defineParameterType(new ParameterType<>("{string}", "\"(.*)\"", String.class, (String arg) -> arg));
-        assertEquals(singletonList("blind"), match("three ((exceptionally\\)) {{string\\}} mice", "three (exceptionally) \"blind\" mice"));
+        assertEquals(emptyList(),
+                match("three \\(exceptionally) \\{string} mice", "three (exceptionally) {string} mice"));
+        assertEquals(singletonList("blind"),
+                match("three \\((exceptionally)) \\{{string}} mice", "three (exceptionally) {\"blind\"} mice"));
+        assertEquals(singletonList("blind"),
+                match("three \\((exceptionally)) \\{{string}} mice", "three (exceptionally) {\"blind\"} mice"));
+        parameterTypeRegistry
+                .defineParameterType(new ParameterType<>("{string}", "\"(.*)\"", String.class, (String arg) -> arg));
+        assertEquals(singletonList("blind"),
+                match("three ((exceptionally\\)) {{string\\}} mice", "three (exceptionally) \"blind\" mice"));
     }
 
     @Test
     public void matches_doubly_escaped_parenthesis() {
-        assertEquals(singletonList("blind"), match("three \\\\(exceptionally) \\\\{string} mice", "three \\exceptionally \\\"blind\" mice"));
+        assertEquals(singletonList("blind"),
+                match("three \\\\(exceptionally) \\\\{string} mice", "three \\exceptionally \\\"blind\" mice"));
     }
 
     @Test
@@ -212,7 +223,8 @@ public class CucumberExpressionTest {
         final Executable testMethod = () -> match("{[string]}", "something");
 
         final CucumberExpressionException thrownException = assertThrows(CucumberExpressionException.class, testMethod);
-        assertThat("Unexpected message", thrownException.getMessage(), is(equalTo("Illegal character '[' in parameter name {[string]}.")));
+        assertThat("Unexpected message", thrownException.getMessage(),
+                is(equalTo("Illegal character '[' in parameter name {[string]}.")));
     }
 
     @Test
@@ -220,8 +232,10 @@ public class CucumberExpressionTest {
 
         final Executable testMethod = () -> match("{unknown}", "something");
 
-        final UndefinedParameterTypeException thrownException = assertThrows(UndefinedParameterTypeException.class, testMethod);
-        assertThat("Unexpected message", thrownException.getMessage(), is(equalTo("Undefined parameter type {unknown}. Please register a ParameterType for {unknown}.")));
+        final UndefinedParameterTypeException thrownException = assertThrows(UndefinedParameterTypeException.class,
+                testMethod);
+        assertThat(thrownException.getMessage(),
+                is(equalTo("Undefined parameter type {unknown}. Please register a ParameterType for {unknown}.")));
     }
 
     @Test
@@ -230,7 +244,13 @@ public class CucumberExpressionTest {
         final Executable testMethod = () -> match("({int})", "3");
 
         final CucumberExpressionException thrownException = assertThrows(CucumberExpressionException.class, testMethod);
-        assertThat("Unexpected message", thrownException.getMessage(), is(equalTo("Parameter types cannot be optional: ({int})")));
+        assertThat(thrownException.getMessage(), is(equalTo("" +
+                "This Cucumber Expression has problem at column 2:\n" +
+                "\n" +
+                "({int})\n" +
+                " ^---^\n" +
+                "Parameter types cannot be optional.\n" +
+                "If you did not mean to use an alternative you can use '\\(' to escape the the '('")));
     }
 
     @Test
@@ -244,7 +264,13 @@ public class CucumberExpressionTest {
         final Executable testMethod = () -> match("x/{int}", "3");
 
         final CucumberExpressionException thrownException = assertThrows(CucumberExpressionException.class, testMethod);
-        assertThat("Unexpected message", thrownException.getMessage(), is(equalTo("Parameter types cannot be alternative: x/{int}")));
+        assertThat(thrownException.getMessage(), is(equalTo("" +
+                "This Cucumber Expression has problem at column 3:\n" +
+                "\n" +
+                "x/{int}\n" +
+                "  ^---^\n" +
+                "Parameter types cannot be alternative.\n" +
+                "If you did not mean to use an alternative you can use '\\{' to escape the the '{'")));
     }
 
     @Test
@@ -253,7 +279,13 @@ public class CucumberExpressionTest {
         final Executable testMethod = () -> match("{int}/x", "3");
 
         final CucumberExpressionException thrownException = assertThrows(CucumberExpressionException.class, testMethod);
-        assertThat("Unexpected message", thrownException.getMessage(), is(equalTo("Parameter types cannot be alternative: {int}/x")));
+        assertThat(thrownException.getMessage(), is(equalTo("" +
+                "This Cucumber Expression has problem at column 1:\n" +
+                "\n" +
+                "{int}/x\n" +
+                "^---^\n" +
+                "Parameter types cannot be alternative.\n" +
+                "If you did not mean to use an alternative you can use '\\{' to escape the the '{'")));
     }
 
     @Test

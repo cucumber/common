@@ -52,19 +52,13 @@ public class CucumberExpressionException extends RuntimeException {
 
     static CucumberExpressionException createMissingEndTokenException(Type beginToken, Type endToken,
             List<Token> tokens, int current) {
-        int index = currentTokenIndex(tokens, current);
-        return new CucumberExpressionException("" +
-                thisCucumberExpressionHasAProblemAt(index) +
-                "\n" +
-                expressionOf(tokens) + "\n" +
-                pointAt(index) + "\n" +
-                "The '" + beginToken.symbol() + "' does not have a matching '" + endToken.symbol() + "'. " + "\n" +
-                "If you did not intended to use " + beginToken.purpose() + " you can use '\\" + beginToken
-                .symbol() + "' to escape the " + beginToken.purpose() + "\n");
-    }
-
-    private static String thisPRo(int i) {
-        return "This Cucumber Expression has problem at index '" + i + "' :" + "\n";
+        return new CucumberExpressionException(message(
+                currentTokenIndex(tokens, current),
+                expressionOf(tokens),
+                pointAt(tokens.get(current)),
+                "The '" + beginToken.symbol() + "' does not have a matching '" + endToken.symbol() + "'",
+                "If you did not intend to use " + beginToken.purpose() + " you can use '\\" + beginToken
+                        .symbol() + "' to escape the " + beginToken.purpose()));
     }
 
     private static String expressionOf(List<Token> expression) {
@@ -76,11 +70,56 @@ public class CucumberExpressionException extends RuntimeException {
     }
 
     static CucumberExpressionException createTheEndOfLineCanNotBeEscapedException(String expression) {
-        return new CucumberExpressionException(thisCucumberExpressionHasAProblemAt(expression.length()) +
+        int index = expression.length();
+        return new CucumberExpressionException(message(
+                index,
+                expression,
+                pointAt(index),
+                "The end of line can not be escaped",
+                "You can use '\\\\' to escape the the '\\'"
+        ));
+    }
+
+    static CucumberExpressionException createAlternativeIsEmpty(String expression, AstNode node) {
+        return new CucumberExpressionException(message(
+                node.start(),
+                expression,
+                pointAt(node),
+                "Alternative may not be empty",
+                "If you did not mean to use an alternative you can use '\\/' to escape the the '/'"));
+    }
+
+    public static CucumberExpressionException createParameterIsNotAllowedHere(AstNode node, String expression,
+            String message) {
+        return new CucumberExpressionException(message(
+                node.start(),
+                expression,
+                pointAt(node),
+                message,
+                "If you did not mean to use an alternative you can use '\\{' to escape the the '{'"));
+    }
+
+    private static String thisCucumberExpressionHasAProblemAt(int index) {
+        return "This Cucumber Expression has problem at column " + (index + 1) + ":" + "\n";
+    }
+
+    static CucumberExpressionException createCantEscape(String expression, int index) {
+        return new CucumberExpressionException(message(
+                index,
+                expression,
+                pointAt(index),
+                "Only the characters '{', '}', '(', ')', '\\', '/' and whitespace can be escaped",
+                "If you did mean to use an '\\' you can use '\\\\' to escape it"));
+    }
+
+    private static String message(int index, String expression, StringBuilder pointer, String problem,
+            String solution) {
+        return thisCucumberExpressionHasAProblemAt(index) +
                 "\n" +
                 expression + "\n" +
-                pointAt(expression.length()) + "\n" +
-                "The end of line can not be escaped. You can use '\\\\' to escape the the '\\'");
+                pointer + "\n" +
+                problem + ".\n" +
+                solution;
     }
 
     private static StringBuilder pointAt(int index) {
@@ -92,24 +131,35 @@ public class CucumberExpressionException extends RuntimeException {
         return pointer;
     }
 
-    static CucumberExpressionException createAlternativeIsEmpty(String expression, AstNode node) {
-        return new CucumberExpressionException(thisCucumberExpressionHasAProblemAt(node.start()) +
-                "\n" +
-                expression + "\n" +
-                pointAt(node.start()) + "\n" +
-                "Alternative may not be empty. If you did not mean to use an alternative you can use '\\\\' to escape the the '\\'");
+    //TODO: Dedupe
+    private static StringBuilder pointAt(AstNode node) {
+        StringBuilder pointer = new StringBuilder();
+        for (int i = 0; i < node.start(); i++) {
+            pointer.append(" ");
+        }
+        pointer.append("^");
+        if (node.start() + 1 < node.end()) {
+            for (int i = node.start() + 1; i < node.end() - 1; i++) {
+                pointer.append("-");
+            }
+            pointer.append("^");
+        }
+        return pointer;
     }
 
-    private static String thisCucumberExpressionHasAProblemAt(int index) {
-        return "This Cucumber Expression has problem at column " + (index+1) + ":" + "\n";
-    }
-
-    static CucumberExpressionException createCantEscape(String expression, int index) {
-        return new CucumberExpressionException(thisCucumberExpressionHasAProblemAt(index) +
-                "\n" +
-                expression + "\n" +
-                pointAt(index) + "\n" +
-                "Only the characters '{', '}', '(', ')', '\\', '/' and whitespace can be escaped. If you did mean to use an '\\' you can use '\\\\' to escape it");
+    private static StringBuilder pointAt(Token token) {
+        StringBuilder pointer = new StringBuilder();
+        for (int i = 0; i < token.start(); i++) {
+            pointer.append(" ");
+        }
+        pointer.append("^");
+        if (token.start() + 1 < token.end()) {
+            for (int i = token.start() + 1; i < token.end() - 1; i++) {
+                pointer.append("-");
+            }
+            pointer.append("^");
+        }
+        return pointer;
     }
 
 }

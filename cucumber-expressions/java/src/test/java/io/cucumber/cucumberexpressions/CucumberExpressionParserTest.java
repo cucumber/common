@@ -94,7 +94,8 @@ class CucumberExpressionParserTest {
                     "\n" +
                     "\\\n" +
                     " ^\n" +
-                    "The end of line can not be escaped. You can use '\\\\' to escape the the '\\'"));
+                    "The end of line can not be escaped.\n" +
+                    "You can use '\\\\' to escape the the '\\'"));
         }
 
         @Test
@@ -104,7 +105,8 @@ class CucumberExpressionParserTest {
                     "\n" +
                     "\\[\n" +
                     " ^\n" +
-                    "Only the characters '{', '}', '(', ')', '\\', '/' and whitespace can be escaped. If you did mean to use an '\\' you can use '\\\\' to escape it"));
+                    "Only the characters '{', '}', '(', ')', '\\', '/' and whitespace can be escaped.\n" +
+                    "If you did mean to use an '\\' you can use '\\\\' to escape it"));
         }
 
         @Test
@@ -123,8 +125,8 @@ class CucumberExpressionParserTest {
                     "\n" +
                     "{\n" +
                     "^\n" +
-                    "The '{' does not have a matching '}'. \n" +
-                    "If you did not intended to use a parameter you can use '\\{' to escape the a parameter\n"
+                    "The '{' does not have a matching '}'.\n" +
+                    "If you did not intend to use a parameter you can use '\\{' to escape the a parameter"
             ));
         }
 
@@ -144,8 +146,8 @@ class CucumberExpressionParserTest {
                     "\n" +
                     "{string\n" +
                     "^\n" +
-                    "The '{' does not have a matching '}'. \n" +
-                    "If you did not intended to use a parameter you can use '\\{' to escape the a parameter\n"));
+                    "The '{' does not have a matching '}'.\n" +
+                    "If you did not intend to use a parameter you can use '\\{' to escape the a parameter"));
         }
 
         @Test
@@ -155,8 +157,8 @@ class CucumberExpressionParserTest {
                     "\n" +
                     "(\n" +
                     "^\n" +
-                    "The '(' does not have a matching ')'. \n" +
-                    "If you did not intended to use optional text you can use '\\(' to escape the optional text\n"
+                    "The '(' does not have a matching ')'.\n" +
+                    "If you did not intend to use optional text you can use '\\(' to escape the optional text"
             ));
         }
 
@@ -350,12 +352,13 @@ class CucumberExpressionParserTest {
             CucumberExpressionException exception = assertThrows(
                     CucumberExpressionException.class,
                     () -> astOf("three blind\\ mice/rats("));
-            assertThat(exception.getMessage(), is("This Cucumber Expression has problem at column 22:\n" +
+            assertThat(exception.getMessage(), is("" +
+                    "This Cucumber Expression has problem at column 22:\n" +
                     "\n" +
-                    "three blind mice/rats(\n" +
-                    "                     ^\n" +
-                    "The '(' does not have a matching ')'. \n" +
-                    "If you did not intended to use optional text you can use '\\(' to escape the optional text\n"));
+                    "three blind\\ mice/rats(\n" +
+                    "                      ^\n" +
+                    "The '(' does not have a matching ')'.\n" +
+                    "If you did not intend to use optional text you can use '\\(' to escape the optional text"));
         }
 
         @Test
