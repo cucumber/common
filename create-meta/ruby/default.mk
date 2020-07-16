@@ -3,6 +3,10 @@ RUBY_SOURCE_FILES = $(shell find . -name "*.rb")
 GEMSPEC = $(shell find . -name "*.gemspec")
 LIBNAME := $(shell basename $$(dirname $$(pwd)))
 GEM := cucumber-$(LIBNAME)-$(NEW_VERSION).gem
+IS_TESTDATA = $(findstring -testdata,${CURDIR})
+
+# https://stackoverflow.com/questions/2483182/recursive-wildcards-in-gnu-make
+rwildcard=$(foreach d,$(wildcard $(1:=/*)),$(call rwildcard,$d,$2) $(filter $(subst *,%,$2),$d))
 
 default: .tested
 .PHONY: default
@@ -45,16 +49,24 @@ pre-release: remove-local-dependencies update-version update-dependencies gem
 .PHONY: pre-release
 
 update-version:
+ifeq ($(IS_TESTDATA),-testdata)
+	# no-op
+else
 ifdef NEW_VERSION
 	@echo "$(NEW_VERSION)" > VERSION
+endif
 endif
 .PHONY: update-version
 
 publish: gem
+ifeq ($(IS_TESTDATA),-testdata)
+	# no-op
+else
 ifneq (,$(GEMSPEC))
 	gem push $(GEM)
 else
 	@echo "Not publishing because there is no gemspec"
+endif
 endif
 .PHONY: publish
 

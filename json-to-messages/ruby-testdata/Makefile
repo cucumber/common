@@ -1,8 +1,5 @@
 include default.mk
 
-# https://stackoverflow.com/questions/2483182/recursive-wildcards-in-gnu-make
-rwildcard=$(foreach d,$(wildcard $(1:=/*)),$(call rwildcard,$d,$2) $(filter $(subst *,%,$2),$d))
-
 FEATURES=$(call rwildcard,features,*.feature)
 NDJSONS=$(patsubst features/%.feature,acceptance/%.ndjson,$(FEATURES))
 HTMLS=$(patsubst acceptance/%.ndjson,acceptance/%.ndjson.html,$(NDJSONS))
