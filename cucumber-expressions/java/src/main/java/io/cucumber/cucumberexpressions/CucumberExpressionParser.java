@@ -220,36 +220,41 @@ final class CucumberExpressionParser {
         return tokens.get(at).type == token;
     }
 
-    private static List<Node> splitAlternatives(int start, int end, List<Node> node) {
-
-        List<Node> seperators = new ArrayList<>();
+    private static List<Node> splitAlternatives(int start, int end, List<Node> alternation) {
+        List<Node> separators = new ArrayList<>();
         List<List<Node>> alternatives = new ArrayList<>();
         List<Node> alternative = new ArrayList<>();
-        for (Node token : node) {
-            if (ALTERNATIVE_NODE.equals(token.type())) {
-                seperators.add(token);
+        for (Node node : alternation) {
+            if (ALTERNATIVE_NODE.equals(node.type())) {
+                separators.add(node);
                 alternatives.add(alternative);
                 alternative = new ArrayList<>();
             } else {
-                alternative.add(token);
+                alternative.add(node);
             }
         }
         alternatives.add(alternative);
 
-        List<Node> alts = new ArrayList<>();
+        return createAlternativeNodes(start, end, separators, alternatives);
+    }
+
+    private static List<Node> createAlternativeNodes(int start, int end, List<Node> separators, List<List<Node>> alternatives) {
+        List<Node> nodes = new ArrayList<>();
         for (int i = 0; i < alternatives.size(); i++) {
-            List<Node> nodes = alternatives.get(i);
+            List<Node> node = alternatives.get(i);
             if (i == 0) {
-                alts.add(new Node(ALTERNATIVE_NODE, start, seperators.get(i).start(), nodes));
+                Node rightSeparator = separators.get(i);
+                nodes.add(new Node(ALTERNATIVE_NODE, start, rightSeparator.start(), node));
             } else if (i == alternatives.size() - 1) {
-                alts.add(new Node(ALTERNATIVE_NODE, seperators.get(i - 1).end(), end, nodes));
+                Node leftSeparator = separators.get(i - 1);
+                nodes.add(new Node(ALTERNATIVE_NODE, leftSeparator.end(), end, node));
             } else {
-                alts.add(new Node(ALTERNATIVE_NODE, seperators.get(i - 1).end(), seperators.get(i).start(),
-                        nodes));
+                Node leftSeparator = separators.get(i - 1);
+                Node rightSeparator = separators.get(i);
+                nodes.add(new Node(ALTERNATIVE_NODE, leftSeparator.end(), rightSeparator.start(), node));
             }
         }
-
-        return alts;
+        return nodes;
     }
 
 }
