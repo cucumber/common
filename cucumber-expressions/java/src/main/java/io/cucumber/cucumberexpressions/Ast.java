@@ -10,16 +10,18 @@ import static java.util.stream.Collectors.joining;
 
 final class Ast {
 
-   static final char ESCAPE_CHARACTER = '\\';
-   static final char ALTERNATION_CHARACTER = '/';
-   static final char BEGIN_PARAMETER_CHARACTER = '{';
-   static final char END_PARAMETER_CHARACTER = '}';
-   static final char BEGIN_OPTIONAL_CHARACTER = '(';
-   static final char END_OPTIONAL_CHARACTER = ')';
+    private static final char ESCAPE_CHARACTER = '\\';
+    private static final char ALTERNATION_CHARACTER = '/';
+    private static final char BEGIN_PARAMETER_CHARACTER = '{';
+    private static final char END_PARAMETER_CHARACTER = '}';
+    private static final char BEGIN_OPTIONAL_CHARACTER = '(';
+    private static final char END_OPTIONAL_CHARACTER = ')';
 
     interface Located {
         int start();
+
         int end();
+
     }
 
     static final class Node implements Located {
@@ -60,10 +62,11 @@ final class Ast {
             EXPRESSION_NODE
         }
 
-        public int start(){
+        public int start() {
             return startIndex;
         }
-        public int end(){
+
+        public int end() {
             return endIndex;
         }
 
@@ -154,10 +157,50 @@ final class Ast {
             this.endIndex = endIndex;
         }
 
-        public int start(){
+        static boolean canEscape(Integer token) {
+            if (Character.isWhitespace(token)) {
+                return true;
+            }
+            switch (token) {
+                case (int) ESCAPE_CHARACTER:
+                case (int) ALTERNATION_CHARACTER:
+                case (int) BEGIN_PARAMETER_CHARACTER:
+                case (int) END_PARAMETER_CHARACTER:
+                case (int) BEGIN_OPTIONAL_CHARACTER:
+                case (int) END_OPTIONAL_CHARACTER:
+                    return true;
+            }
+            return false;
+        }
+
+        static Type typeOf(Integer token) {
+            if (Character.isWhitespace(token)) {
+                return Type.WHITE_SPACE;
+            }
+            switch (token) {
+                case (int) ALTERNATION_CHARACTER:
+                    return Type.ALTERNATION;
+                case (int) BEGIN_PARAMETER_CHARACTER:
+                    return Type.BEGIN_PARAMETER;
+                case (int) END_PARAMETER_CHARACTER:
+                    return Type.END_PARAMETER;
+                case (int) BEGIN_OPTIONAL_CHARACTER:
+                    return Type.BEGIN_OPTIONAL;
+                case (int) END_OPTIONAL_CHARACTER:
+                    return Type.END_OPTIONAL;
+            }
+            return Type.TEXT;
+        }
+
+        static boolean isEscapeCharacter(int token) {
+            return token == ESCAPE_CHARACTER;
+        }
+
+        public int start() {
             return startIndex;
         }
-        public int end(){
+
+        public int end() {
             return endIndex;
         }
 
@@ -193,7 +236,7 @@ final class Ast {
             START_OF_LINE,
             END_OF_LINE,
             WHITE_SPACE,
-            BEGIN_OPTIONAL(""+ BEGIN_OPTIONAL_CHARACTER, "optional text"),
+            BEGIN_OPTIONAL("" + BEGIN_OPTIONAL_CHARACTER, "optional text"),
             END_OPTIONAL("" + END_OPTIONAL_CHARACTER, "optional text"),
             BEGIN_PARAMETER("" + BEGIN_PARAMETER_CHARACTER, "a parameter"),
             END_PARAMETER("" + END_PARAMETER_CHARACTER, "a parameter"),

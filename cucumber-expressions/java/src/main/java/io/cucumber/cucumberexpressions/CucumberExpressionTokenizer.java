@@ -64,7 +64,7 @@ final class CucumberExpressionTokenizer {
 
             while (codePoints.hasNext()) {
                 int token = codePoints.nextInt();
-                if (!treatAsText && token == Ast.ESCAPE_CHARACTER) {
+                if (!treatAsText && Token.isEscapeCharacter(token)) {
                     escaped++;
                     treatAsText = true;
                     continue;
@@ -119,42 +119,13 @@ final class CucumberExpressionTokenizer {
         }
 
         private Type tokenTypeOf(Integer token, boolean treatAsText) {
-            return treatAsText ? textTokenTypeOf(token) : tokenTypeOf(token);
-        }
-
-        private Type textTokenTypeOf(Integer token) {
-            if (Character.isWhitespace(token)) {
+            if (!treatAsText) {
+                return Token.typeOf(token);
+            }
+            if (Token.canEscape(token)) {
                 return Type.TEXT;
             }
-            switch (token) {
-                case (int) Ast.ESCAPE_CHARACTER:
-                case (int) Ast.ALTERNATION_CHARACTER:
-                case (int) Ast.BEGIN_PARAMETER_CHARACTER:
-                case (int) Ast.END_PARAMETER_CHARACTER:
-                case (int) Ast.BEGIN_OPTIONAL_CHARACTER:
-                case (int) Ast.END_OPTIONAL_CHARACTER:
-                    return Type.TEXT;
-            }
             throw createCantEscape(expression, index + escaped);
-        }
-
-        private Type tokenTypeOf(Integer token) {
-            if (Character.isWhitespace(token)) {
-                return Type.WHITE_SPACE;
-            }
-            switch (token) {
-                case (int) Ast.ALTERNATION_CHARACTER:
-                    return Type.ALTERNATION;
-                case (int) Ast.BEGIN_PARAMETER_CHARACTER:
-                    return Type.BEGIN_PARAMETER;
-                case (int) Ast.END_PARAMETER_CHARACTER:
-                    return Type.END_PARAMETER;
-                case (int) Ast.BEGIN_OPTIONAL_CHARACTER:
-                    return Type.BEGIN_OPTIONAL;
-                case (int) Ast.END_OPTIONAL_CHARACTER:
-                    return Type.END_OPTIONAL;
-            }
-            return Type.TEXT;
         }
 
     }
