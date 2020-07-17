@@ -26,24 +26,20 @@ final class CucumberExpressionTokenizer {
     }
 
     private static class TokenIterator implements Iterator<Token> {
-        final OfInt codePoints;
+
         private final String expression;
-        StringBuilder buffer;
-        Type previousTokenType;
-        Type currentTokenType;
-        boolean treatAsText;
-        int index;
-        int escaped;
+        private final OfInt codePoints;
+
+        private StringBuilder buffer = new StringBuilder();
+        private Type previousTokenType;
+        private Type currentTokenType = Type.START_OF_LINE;
+        private boolean treatAsText;
+        private int index;
+        private int escaped;
 
         TokenIterator(String expression) {
             this.expression = expression;
-            codePoints = expression.codePoints().iterator();
-            buffer = new StringBuilder();
-            previousTokenType = null;
-            currentTokenType = Type.START_OF_LINE;
-            treatAsText = false;
-            index = 0;
-            escaped = 0;
+            this.codePoints = expression.codePoints().iterator();
         }
 
         @Override
