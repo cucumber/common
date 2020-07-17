@@ -35,7 +35,7 @@ final class CucumberExpressionTokenizer {
         int index;
         int escaped;
 
-        public TokenIterator(String expression) {
+        TokenIterator(String expression) {
             this.expression = expression;
             codePoints = expression.codePoints().iterator();
             buffer = new StringBuilder();
