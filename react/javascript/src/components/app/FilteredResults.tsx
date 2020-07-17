@@ -60,9 +60,7 @@ const FilteredResults: React.FunctionComponent = () => {
   return (
     <div className="cucumber-filtered-results">
       <div className="cucumber-report-header">
-        <StatusesSummary
-          scenarioCountByStatus={scenarioCountByStatus}
-        />
+        <StatusesSummary scenarioCountByStatus={scenarioCountByStatus} />
         <ExecutionSummary meta={meta} />
         <SearchBar
           queryUpdated={(query) => setQuery(query)}

@@ -1,23 +1,32 @@
 import React from 'react'
-import { faSearch, faQuestionCircle } from '@fortawesome/free-solid-svg-icons'
+import {
+  faSearch,
+  faQuestionCircle,
+  faFilter,
+} from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import SearchQueryContext from '../../SearchQueryContext'
 import { messages } from '@cucumber/messages'
 import statusName from '../gherkin/statusName'
 
 interface IProps {
-  queryUpdated: (query: string) => any,
+  queryUpdated: (query: string) => any
   statusesUpdated: (
     statuses: messages.TestStepFinished.TestStepResult.Status[]
   ) => any
-  enabledStatuses: messages.TestStepFinished.TestStepResult.Status[],
+  enabledStatuses: messages.TestStepFinished.TestStepResult.Status[]
   scenarioCountByStatus: Map<
     messages.TestStepFinished.TestStepResult.Status,
     number
   >
 }
 
-const SearchBar: React.FunctionComponent<IProps> = ({ queryUpdated, statusesUpdated, enabledStatuses, scenarioCountByStatus }) => {
+const SearchBar: React.FunctionComponent<IProps> = ({
+  queryUpdated,
+  statusesUpdated,
+  enabledStatuses,
+  scenarioCountByStatus,
+}) => {
   const searchQueryContext = React.useContext(SearchQueryContext)
   const statuses = [
     messages.TestStepFinished.TestStepResult.Status.AMBIGUOUS,
@@ -50,7 +59,6 @@ const SearchBar: React.FunctionComponent<IProps> = ({ queryUpdated, statusesUpda
       >
         <FontAwesomeIcon icon={faSearch} />
       </button>
-
       <p className="help">
         <FontAwesomeIcon icon={faQuestionCircle} />
         &nbsp; You can use either plain text for the search or &nbsp;
@@ -59,35 +67,37 @@ const SearchBar: React.FunctionComponent<IProps> = ({ queryUpdated, statusesUpda
         </a>
         &nbsp; to filter the output.
       </p>
+      <span>
+        <FontAwesomeIcon icon={faFilter} /> Filter:
+      </span>
+      <ul className="filter">
+        {statuses.map((status, index) => {
+          const name = statusName(status)
+          const enabled = enabledStatuses.includes(status)
+          const inputId = `filter-status-${name}`
 
-      <span>Display: </span> <ul className="filter">
-      {statuses.map((status, index) => {
-        const name = statusName(status)
-        const enabled = enabledStatuses.includes(status)
-        const inputId = `filter-status-${name}`
+          if (scenarioCountByStatus.get(status) === undefined) {
+            return
+          }
 
-        if (scenarioCountByStatus.get(status) === undefined) { return }
-
-        return <li>
-          <label>
-            <input
-              id={inputId}
-              type="checkbox"
-              defaultChecked={enabled}
-              onChange={() => {
-                if (enabledStatuses.includes(status)) {
-                  statusesUpdated(
-                    enabledStatuses.filter((s) => s !== status)
-                  )
-                } else {
-                  statusesUpdated([status].concat(enabledStatuses))
-                }
-              }}
-            />
-            {name}
-          </label>
-        </li>
-      })}
+          return (
+            <li key={index}>
+              <input
+                id={inputId}
+                type="checkbox"
+                defaultChecked={enabled}
+                onChange={() => {
+                  if (enabledStatuses.includes(status)) {
+                    statusesUpdated(enabledStatuses.filter((s) => s !== status))
+                  } else {
+                    statusesUpdated([status].concat(enabledStatuses))
+                  }
+                }}
+              />
+              <label htmlFor={inputId}>{name}</label>
+            </li>
+          )
+        })}
       </ul>
     </div>
   )

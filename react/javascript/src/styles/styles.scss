@@ -221,7 +221,7 @@ $statusColors:
 
   border: 1px solid $summary-border-color;
 
-  font: 10px 'Open Sans', sans-serif;
+  font: 11px 'Open Sans', sans-serif;
   margin-bottom: 1em;
 
   & > * {
@@ -269,6 +269,7 @@ $statusColors:
         input {
           display: inline-block;
           width: auto;
+          height: 0.6em;
         }
       }
     }
