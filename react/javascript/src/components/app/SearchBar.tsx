@@ -45,6 +45,8 @@ const SearchBar: React.FunctionComponent<IProps> = ({
     }
   }
 
+  const showFilters = scenarioCountByStatus.size > 1
+
   return (
     <div className="cucumber-search-bar">
       <form className="cucumber-search-bar-search">
@@ -70,8 +72,9 @@ const SearchBar: React.FunctionComponent<IProps> = ({
         </a>
         &nbsp; to filter the output.
       </p>
-      <span>
-        <FontAwesomeIcon icon={faFilter} /> Filter:
+      {showFilters && <form className="cucumber-search-bar-filter">
+        <span>
+        <FontAwesomeIcon icon={faFilter} /> Filter by scenario status:
       </span>
       <ul className="filter">
         {statuses.map((status, index) => {
@@ -102,6 +105,8 @@ const SearchBar: React.FunctionComponent<IProps> = ({
           )
         })}
       </ul>
+
+      </form>}
     </div>
   )
 }
