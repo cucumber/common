@@ -2,13 +2,32 @@ import React from 'react'
 import { faSearch, faQuestionCircle } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import SearchQueryContext from '../../SearchQueryContext'
+import { messages } from '@cucumber/messages'
+import statusName from '../gherkin/statusName'
 
 interface IProps {
-  queryUpdated: (query: string) => any
+  queryUpdated: (query: string) => any,
+  statusesUpdated: (
+    statuses: messages.TestStepFinished.TestStepResult.Status[]
+  ) => any
+  enabledStatuses: messages.TestStepFinished.TestStepResult.Status[],
+  scenarioCountByStatus: Map<
+    messages.TestStepFinished.TestStepResult.Status,
+    number
+  >
 }
 
-const SearchBar: React.FunctionComponent<IProps> = ({ queryUpdated }) => {
+const SearchBar: React.FunctionComponent<IProps> = ({ queryUpdated, statusesUpdated, enabledStatuses, scenarioCountByStatus }) => {
   const searchQueryContext = React.useContext(SearchQueryContext)
+  const statuses = [
+    messages.TestStepFinished.TestStepResult.Status.AMBIGUOUS,
+    messages.TestStepFinished.TestStepResult.Status.FAILED,
+    messages.TestStepFinished.TestStepResult.Status.PASSED,
+    messages.TestStepFinished.TestStepResult.Status.PENDING,
+    messages.TestStepFinished.TestStepResult.Status.SKIPPED,
+    messages.TestStepFinished.TestStepResult.Status.UNDEFINED,
+    messages.TestStepFinished.TestStepResult.Status.UNKNOWN,
+  ]
 
   const updateQueryOnEnter = (event: React.KeyboardEvent) => {
     if (event.key === 'Enter') {
@@ -40,6 +59,36 @@ const SearchBar: React.FunctionComponent<IProps> = ({ queryUpdated }) => {
         </a>
         &nbsp; to filter the output.
       </p>
+
+      <span>Display: </span> <ul className="filter">
+      {statuses.map((status, index) => {
+        const name = statusName(status)
+        const enabled = enabledStatuses.includes(status)
+        const inputId = `filter-status-${name}`
+
+        if (scenarioCountByStatus.get(status) === undefined) { return }
+
+        return <li>
+          <label>
+            <input
+              id={inputId}
+              type="checkbox"
+              defaultChecked={enabled}
+              onChange={() => {
+                if (enabledStatuses.includes(status)) {
+                  statusesUpdated(
+                    enabledStatuses.filter((s) => s !== status)
+                  )
+                } else {
+                  statusesUpdated([status].concat(enabledStatuses))
+                }
+              }}
+            />
+            {name}
+          </label>
+        </li>
+      })}
+      </ul>
     </div>
   )
 }

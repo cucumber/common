@@ -230,6 +230,10 @@ $statusColors:
 
   .cucumber-status-filter {
     border-bottom: 1px solid $summary-border-color;
+
+    table {
+      width: 100%;
+    }
   }
 
   .cucumber-execution-data {
@@ -253,6 +257,20 @@ $statusColors:
 
     p.help {
       font-size: 80%;
+    }
+
+    ul.filter {
+      display: inline;
+
+      li {
+        list-style-type: none;
+        display: inline-block;
+
+        input {
+          display: inline-block;
+          width: auto;
+        }
+      }
     }
   }
 }

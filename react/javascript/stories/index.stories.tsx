@@ -71,7 +71,12 @@ storiesOf('Features', module)
   })
   .add('Search bar', () => {
     return<QueriesWrapper {...props(documentList)}>
-      <SearchBar queryUpdated={(query) => console.log("query:", query)} />
+      <SearchBar
+        queryUpdated={(query) => console.log("query:", query)}
+        statusesUpdated={(statuses) => console.log("statuses:", statuses)}
+        enabledStatuses={[]}
+        scenarioCountByStatus={new Map<messages.TestStepFinished.TestStepResult.Status, number>()}
+      />
     </QueriesWrapper>
   })
   .add('Filtered results', () => {
