@@ -22,7 +22,6 @@ final class CucumberExpressionTokenizer {
 
     private Iterable<Token> tokenizeImpl(String expression) {
         return () -> new TokenIterator(expression);
-
     }
 
     private static class TokenIterator implements Iterator<Token> {
