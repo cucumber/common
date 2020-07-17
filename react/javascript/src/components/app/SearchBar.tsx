@@ -41,24 +41,27 @@ const SearchBar: React.FunctionComponent<IProps> = ({
   const updateQueryOnEnter = (event: React.KeyboardEvent) => {
     if (event.key === 'Enter') {
       queryUpdated(searchQueryContext.query)
+      event.preventDefault()
     }
   }
 
   return (
     <div className="cucumber-search-bar">
-      <input
-        type="text"
-        placeholder="Some text or @tags"
-        onKeyPress={updateQueryOnEnter}
-        onChange={(event) => (searchQueryContext.query = event.target.value)}
-      />
-      <button
-        type="submit"
-        onClick={() => queryUpdated(searchQueryContext.query)}
-        value="search"
-      >
-        <FontAwesomeIcon icon={faSearch} />
-      </button>
+      <form className="cucumber-search-bar-search">
+        <input
+          type="text"
+          placeholder="Some text or @tags"
+          onKeyPress={updateQueryOnEnter}
+          onChange={(event) => (searchQueryContext.query = event.target.value)}
+        />
+        <button
+          type="submit"
+          onClick={() => queryUpdated(searchQueryContext.query)}
+          value="search"
+        >
+          <FontAwesomeIcon icon={faSearch} />
+        </button>
+      </form>
       <p className="help">
         <FontAwesomeIcon icon={faQuestionCircle} />
         &nbsp; You can use either plain text for the search or &nbsp;

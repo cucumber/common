@@ -243,17 +243,24 @@ $statusColors:
   .cucumber-search-bar {
     border-right: 0;
 
-    input {
-      padding: 0.4em;
-      border-radius: 0;
-      width: 80%;
+    form.cucumber-search-bar-search {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 9fr 1fr;
+
+      input {
+        padding: 0.4em;
+        border-radius: 0;
+      }
+
+      button {
+        height: 2.2em;
+        padding-left: 0.6em;
+        padding-right: 0.6em;
+      }
+
     }
 
-    button {
-      height: 2.2em;
-      padding-left: 0.6em;
-      padding-right: 0.6em;
-    }
 
     p.help {
       font-size: 80%;
@@ -283,6 +290,10 @@ $statusColors:
     .cucumber-status-filter {
       border-right: 1px solid $summary-border-color;
     }
+
+    .cucumber-search-bar {
+      grid-column: 1 / -1;
+    }
   }
 }
 
@@ -297,6 +308,10 @@ $statusColors:
     .cucumber-execution-data {
       border-right: 1px solid $summary-border-color;
       border-bottom: 0
+    }
+
+    .cucumber-search-bar {
+      grid-column: auto;
     }
   }
 }
