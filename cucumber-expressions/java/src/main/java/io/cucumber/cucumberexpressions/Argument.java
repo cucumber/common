@@ -6,18 +6,18 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-import static io.cucumber.cucumberexpressions.CucumberExpressionException.createCaptureGroupParameterTypeMisMatch;
-
 @API(status = API.Status.STABLE)
 public final class Argument<T> {
     private final ParameterType<T> parameterType;
     private final Group group;
 
-    static List<Argument<?>> build(Group group, TreeRegexp treeRegexp, List<ParameterType<?>> parameterTypes) {
+    static List<Argument<?>> build(Group group, List<ParameterType<?>> parameterTypes) {
         List<Group> argGroups = group.getChildren();
 
         if (argGroups.size() != parameterTypes.size()) {
-            throw createCaptureGroupParameterTypeMisMatch(treeRegexp, parameterTypes, argGroups);
+            // This requires regex injection through a Cucumber expression.
+            // Regex injection should be be possible any more.
+            throw new IllegalArgumentException(String.format("Group has %s capture groups, but there were %s parameter types", argGroups.size(), parameterTypes.size()));
         }
         List<Argument<?>> args = new ArrayList<>(argGroups.size());
         for (int i = 0; i < parameterTypes.size(); i++) {

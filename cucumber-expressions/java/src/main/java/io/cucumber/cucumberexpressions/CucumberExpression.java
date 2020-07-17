@@ -149,7 +149,7 @@ public final class CucumberExpression implements Expression {
             }
         }
 
-        return Argument.build(group, treeRegexp, parameterTypes);
+        return Argument.build(group, parameterTypes);
     }
 
     @Override
