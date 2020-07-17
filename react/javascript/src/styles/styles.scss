@@ -191,103 +191,93 @@ $statusColors:
   h1, h2, h3 {
     margin-top: 0px
   }
+
+  .attachment {
+    background-color: rgb(235, 235, 235);
+    padding: 0.5em;
+
+    .attachment-icon {
+      margin-right: 0.5em;
+    }
+  }
+
+  .attachment-image {
+    margin-top: 1em;
+  }
+
+  .highlight mark {
+    background-color: yellow
+  }
+
+  .cucumberFeature {
+    padding-left: 10px;
+  }
 }
 
 .cucumber-report-header {
   width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: stretch;
+  display: grid;
+  grid-template-columns: 1fr;
+
   border: 1px solid $summary-border-color;
-  border-right: 0;
-  border-bottom: 0;
 
   font: 10px 'Open Sans', sans-serif;
   margin-bottom: 1em;
 
   & > * {
-    flex-grow: 1;
-    border-right: 1px solid $summary-border-color;
-    border-bottom: 1px solid $summary-border-color;
-
     padding: 1em;
   }
 
-    .cucumber-ci-information {
-      ul {
-        list-style-type: none;
-      }
+  .cucumber-status-filter {
+    border-bottom: 1px solid $summary-border-color;
+  }
+
+  .cucumber-execution-data {
+    border-bottom: 1px solid $summary-border-color;
+  }
+
+  .cucumber-search-bar {
+    border-right: 0;
+
+    input {
+      padding: 0.4em;
+      border-radius: 0;
+      width: 80%;
     }
 
-    .cucumber-search-bar {
-      input {
-        padding: 0.4em;
-        border-radius: 0;
-        width: 80%;
-      }
-
-    th {
-      display: table-row
+    button {
+      height: 2.2em;
+      padding-left: 0.6em;
+      padding-right: 0.6em;
     }
 
-    td {
-      padding: 3px 15px
+    p.help {
+      font-size: 80%;
     }
   }
 }
 
-.cucumber-search-bar {
-  margin-top: 2em;
-  margin-bottom: 2em;
+@media only screen and (min-width: 600px) {
+  .cucumber-report-header {
+    grid-template-columns: 1fr 1fr;
 
-  input {
-    padding: 0.4em;
-    border-radius: 0;
-    width: 80%;
-  }
-
-  button {
-    height: 2.2em;
-    padding-left: 0.6em;
-    padding-right: 0.6em;
-  }
-
-  p.help {
-    font-size: 80%;
-  }
-}
-
-button {
-  height: 2.2em;
-  padding-left: 0.6em;
-  padding-right: 0.6em;
-}
-
-details {
-  font-size: 80%;
-
-  p {
-    border-color: $border-color;
-    background-color: #f4f4f4;
-  }
-}
-
-
-.attachment {
-    background-color: rgb(235, 235, 235);
-    padding: 0.5em;
-    .attachment-icon {
-      margin-right: 0.5em;
+    .cucumber-status-filter {
+      border-right: 1px solid $summary-border-color;
     }
-}
-.attachment-image {
-  margin-top: 1em;
+  }
 }
 
-.highlight mark {
-  background-color: yellow
-}
+@media only screen and (min-width: 992px) {
+  .cucumber-report-header {
+    grid-template-columns: 1fr 1fr 2fr;
 
-.cucumberFeature {
-  padding-left: 10px;
+    .cucumber-status-filter {
+      border-bottom: 0
+    }
+
+    .cucumber-execution-data {
+      border-right: 1px solid $summary-border-color;
+      border-bottom: 0
+    }
+  }
 }

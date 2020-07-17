@@ -41,7 +41,7 @@ const ExecutionSummary: React.FunctionComponent<IProps> = ({ meta: meta }) => {
   const millisDuration = getDurationsMillis(testRunStarted, testRunFinished)
 
   return (
-    <div>
+    <div className="cucumber-execution-data">
       <table>
         <tbody>
           <tr>
