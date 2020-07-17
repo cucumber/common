@@ -1,6 +1,6 @@
 package io.cucumber.cucumberexpressions;
 
-import io.cucumber.cucumberexpressions.Ast.AstNode;
+import io.cucumber.cucumberexpressions.Ast.Node;
 import io.cucumber.cucumberexpressions.Ast.Located;
 import io.cucumber.cucumberexpressions.Ast.Token;
 import io.cucumber.cucumberexpressions.Ast.Token.Type;
@@ -38,7 +38,7 @@ public class CucumberExpressionException extends RuntimeException {
         ));
     }
 
-    static CucumberExpressionException createAlternativeIsEmpty(AstNode node, String expression) {
+    static CucumberExpressionException createAlternativeIsEmpty(Node node, String expression) {
         return new CucumberExpressionException(message(
                 node.start(),
                 expression,
@@ -47,7 +47,7 @@ public class CucumberExpressionException extends RuntimeException {
                 "If you did not mean to use an alternative you can use '\\/' to escape the the '/'"));
     }
 
-    static CucumberExpressionException createParameterIsNotAllowedInAlternative(AstNode node, String expression) {
+    static CucumberExpressionException createParameterIsNotAllowedInAlternative(Node node, String expression) {
         return new CucumberExpressionException(message(
                 node.start(),
                 expression,
@@ -56,7 +56,7 @@ public class CucumberExpressionException extends RuntimeException {
                 "If you did not mean to use an parameter type you can use '\\{' to escape the the '{'"));
     }
 
-    static CucumberExpressionException createParameterIsNotAllowedInOptional(AstNode node, String expression) {
+    static CucumberExpressionException createParameterIsNotAllowedInOptional(Node node, String expression) {
         return new CucumberExpressionException(message(
                 node.start(),
                 expression,
@@ -65,7 +65,7 @@ public class CucumberExpressionException extends RuntimeException {
                 "If you did not mean to use an parameter type you can use '\\{' to escape the the '{'"));
     }
 
-    static CucumberExpressionException createOptionalMayNotBeEmpty(AstNode node, String expression) {
+    static CucumberExpressionException createOptionalMayNotBeEmpty(Node node, String expression) {
         return new CucumberExpressionException(message(
                 node.start(),
                 expression,
@@ -74,7 +74,7 @@ public class CucumberExpressionException extends RuntimeException {
                 "If you did not mean to use an optional you can use '\\(' to escape the the '('"));
     }
 
-    static CucumberExpressionException createAlternativeMayExclusivelyContainOptionals(AstNode node,
+    static CucumberExpressionException createAlternativeMayExclusivelyContainOptionals(Node node,
             String expression) {
         return new CucumberExpressionException(message(
                 node.start(),

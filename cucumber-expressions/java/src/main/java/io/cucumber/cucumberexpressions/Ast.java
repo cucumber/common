@@ -10,32 +10,39 @@ import static java.util.stream.Collectors.joining;
 
 final class Ast {
 
+   static final char ESCAPE_CHARACTER = '\\';
+   static final char ALTERNATION_CHARACTER = '/';
+   static final char BEGIN_PARAMETER_CHARACTER = '{';
+   static final char END_PARAMETER_CHARACTER = '}';
+   static final char BEGIN_OPTIONAL_CHARACTER = '(';
+   static final char END_OPTIONAL_CHARACTER = ')';
+
     interface Located {
         int start();
         int end();
     }
 
-    static final class AstNode implements Located {
+    static final class Node implements Located {
 
         private final Type type;
-        private final List<AstNode> nodes;
+        private final List<Node> nodes;
         private final String token;
         private final int startIndex;
         private final int endIndex;
 
-        AstNode(Type type, int startIndex, int endIndex, String token) {
+        Node(Type type, int startIndex, int endIndex, String token) {
             this(type, startIndex, endIndex, null, token);
         }
 
-        AstNode(Type type, int startIndex, int endIndex, AstNode... nodes) {
+        Node(Type type, int startIndex, int endIndex, Node... nodes) {
             this(type, startIndex, endIndex, asList(nodes));
         }
 
-        AstNode(Type type, int startIndex, int endIndex, List<AstNode> nodes) {
+        Node(Type type, int startIndex, int endIndex, List<Node> nodes) {
             this(type, startIndex, endIndex, nodes, null);
         }
 
-        private AstNode(Type type, int startIndex, int endIndex, List<AstNode> nodes, String token) {
+        private Node(Type type, int startIndex, int endIndex, List<Node> nodes, String token) {
             this.type = requireNonNull(type);
             this.nodes = nodes;
             this.token = token;
@@ -60,7 +67,7 @@ final class Ast {
             return endIndex;
         }
 
-        List<AstNode> nodes() {
+        List<Node> nodes() {
             return nodes;
         }
 
@@ -77,7 +84,7 @@ final class Ast {
                 return token;
 
             return nodes().stream()
-                    .map(AstNode::text)
+                    .map(Node::text)
                     .collect(joining());
         }
 
@@ -99,7 +106,7 @@ final class Ast {
 
             if (nodes != null) {
                 sb.append("\n");
-                for (AstNode node : nodes) {
+                for (Node node : nodes) {
                     sb.append(node.toString(depth + 1));
                     sb.append("\n");
                 }
@@ -118,12 +125,12 @@ final class Ast {
                 return true;
             if (o == null || getClass() != o.getClass())
                 return false;
-            AstNode astNode = (AstNode) o;
-            return startIndex == astNode.startIndex &&
-                    endIndex == astNode.endIndex &&
-                    type == astNode.type &&
-                    Objects.equals(nodes, astNode.nodes) &&
-                    Objects.equals(token, astNode.token);
+            Node node = (Node) o;
+            return startIndex == node.startIndex &&
+                    endIndex == node.endIndex &&
+                    type == node.type &&
+                    Objects.equals(nodes, node.nodes) &&
+                    Objects.equals(token, node.token);
         }
 
         @Override
@@ -186,11 +193,11 @@ final class Ast {
             START_OF_LINE,
             END_OF_LINE,
             WHITE_SPACE,
-            BEGIN_OPTIONAL("(", "optional text"),
-            END_OPTIONAL(")", "optional text"),
-            BEGIN_PARAMETER("{", "a parameter"),
-            END_PARAMETER("}", "a parameter"),
-            ALTERNATION("/", "alternation"),
+            BEGIN_OPTIONAL(""+ BEGIN_OPTIONAL_CHARACTER, "optional text"),
+            END_OPTIONAL("" + END_OPTIONAL_CHARACTER, "optional text"),
+            BEGIN_PARAMETER("" + BEGIN_PARAMETER_CHARACTER, "a parameter"),
+            END_PARAMETER("" + END_PARAMETER_CHARACTER, "a parameter"),
+            ALTERNATION("" + ALTERNATION_CHARACTER, "alternation"),
             TEXT;
 
             private final String symbol;

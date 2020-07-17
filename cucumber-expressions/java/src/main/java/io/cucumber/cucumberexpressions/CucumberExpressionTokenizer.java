@@ -21,123 +21,141 @@ final class CucumberExpressionTokenizer {
     }
 
     private Iterable<Token> tokenizeImpl(String expression) {
-        return () -> new Iterator<Token>() {
-            final OfInt codePoints = expression.codePoints().iterator();
-            StringBuilder buffer = new StringBuilder();
-            Type previousTokenType = null;
-            Type currentTokenType = Type.START_OF_LINE;
-            boolean treatAsText = false;
-            int index = 0;
-            int escaped = 0;
+        return () -> new TokenIterator(expression);
 
-            @Override
-            public boolean hasNext() {
-                return previousTokenType != Type.END_OF_LINE;
+    }
+
+    private static class TokenIterator implements Iterator<Token> {
+        final OfInt codePoints;
+        private final String expression;
+        StringBuilder buffer;
+        Type previousTokenType;
+        Type currentTokenType;
+        boolean treatAsText;
+        int index;
+        int escaped;
+
+        public TokenIterator(String expression) {
+            this.expression = expression;
+            codePoints = expression.codePoints().iterator();
+            buffer = new StringBuilder();
+            previousTokenType = null;
+            currentTokenType = Type.START_OF_LINE;
+            treatAsText = false;
+            index = 0;
+            escaped = 0;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return previousTokenType != Type.END_OF_LINE;
+        }
+
+        @Override
+        public Token next() {
+            if (!hasNext()) {
+                throw new NoSuchElementException();
             }
-
-            @Override
-            public Token next() {
-                if (!hasNext()) {
-                    throw new NoSuchElementException();
-                }
-                if (currentTokenType == Type.START_OF_LINE) {
-                    Token token = convertBufferToToken(currentTokenType);
-                    advanceTokenTypes();
-                    return token;
-                }
-
-                while (codePoints.hasNext()) {
-                    int token = codePoints.nextInt();
-                    if (!treatAsText && token == '\\') {
-                        escaped++;
-                        treatAsText = true;
-                        continue;
-                    }
-                    currentTokenType = tokenTypeOf(token, treatAsText);
-                    treatAsText = false;
-
-                    if (previousTokenType != Type.START_OF_LINE
-                            && (currentTokenType != previousTokenType
-                            || (currentTokenType != Type.WHITE_SPACE && currentTokenType != Type.TEXT))) {
-                        Token t = convertBufferToToken(previousTokenType);
-                        advanceTokenTypes();
-                        buffer.appendCodePoint(token);
-                        return t;
-                    } else {
-                        advanceTokenTypes();
-                        buffer.appendCodePoint(token);
-                    }
-                }
-
-                if (buffer.length() > 0) {
-                    Token token = convertBufferToToken(previousTokenType);
-                    advanceTokenTypes();
-                    return token;
-                }
-
-                currentTokenType = Type.END_OF_LINE;
-                if (treatAsText) {
-                    throw createTheEndOfLineCanNotBeEscapedException(expression);
-                }
+            if (currentTokenType == Type.START_OF_LINE) {
                 Token token = convertBufferToToken(currentTokenType);
                 advanceTokenTypes();
                 return token;
             }
 
-            private void advanceTokenTypes() {
-                previousTokenType = currentTokenType;
-                currentTokenType = null;
+            while (codePoints.hasNext()) {
+                int token = codePoints.nextInt();
+                if (!treatAsText && token == Ast.ESCAPE_CHARACTER) {
+                    escaped++;
+                    treatAsText = true;
+                    continue;
+                }
+                currentTokenType = tokenTypeOf(token, treatAsText);
+                treatAsText = false;
+
+                if (previousTokenType != Type.START_OF_LINE
+                        && (currentTokenType != previousTokenType
+                        || (currentTokenType != Type.WHITE_SPACE && currentTokenType != Type.TEXT))) {
+                    Token t = convertBufferToToken(previousTokenType);
+                    advanceTokenTypes();
+                    buffer.appendCodePoint(token);
+                    return t;
+                } else {
+                    advanceTokenTypes();
+                    buffer.appendCodePoint(token);
+                }
             }
 
-            private Token convertBufferToToken(Type currentTokenType) {
-                int escapeTokens = 0;
-                if (currentTokenType == Type.TEXT) {
-                    escapeTokens = escaped;
-                    escaped = 0;
-                }
-                int endIndex = index + buffer.codePointCount(0, buffer.length()) + escapeTokens;
-                Token t = new Token(buffer.toString(), currentTokenType, index, endIndex);
-                buffer = new StringBuilder();
-                this.index = endIndex;
-                return t;
+            if (buffer.length() > 0) {
+                Token token = convertBufferToToken(previousTokenType);
+                advanceTokenTypes();
+                return token;
             }
 
-            private Type tokenTypeOf(Integer token, boolean treatAsText) {
-                if (treatAsText) {
-                    switch (token) {
-                        case (int) '\\':
-                        case (int) '/':
-                        case (int) '{':
-                        case (int) '}':
-                        case (int) '(':
-                        case (int) ')':
-                            return Type.TEXT;
-                    }
-                    if (Character.isWhitespace(token)) {
-                        return Type.TEXT;
-                    }
-                    throw createCantEscape(expression, index + escaped);
-                }
+            currentTokenType = Type.END_OF_LINE;
+            if (treatAsText) {
+                throw createTheEndOfLineCanNotBeEscapedException(expression);
+            }
+            Token token = convertBufferToToken(currentTokenType);
+            advanceTokenTypes();
+            return token;
+        }
 
-                if (Character.isWhitespace(token)) {
-                    return Type.WHITE_SPACE;
-                }
+        private void advanceTokenTypes() {
+            previousTokenType = currentTokenType;
+            currentTokenType = null;
+        }
 
-                switch (token) {
-                    case (int) '/':
-                        return Type.ALTERNATION;
-                    case (int) '{':
-                        return Type.BEGIN_PARAMETER;
-                    case (int) '}':
-                        return Type.END_PARAMETER;
-                    case (int) '(':
-                        return Type.BEGIN_OPTIONAL;
-                    case (int) ')':
-                        return Type.END_OPTIONAL;
-                }
+        private Token convertBufferToToken(Type currentTokenType) {
+            int escapeTokens = 0;
+            if (currentTokenType == Type.TEXT) {
+                escapeTokens = escaped;
+                escaped = 0;
+            }
+            int endIndex = index + buffer.codePointCount(0, buffer.length()) + escapeTokens;
+            Token t = new Token(buffer.toString(), currentTokenType, index, endIndex);
+            buffer = new StringBuilder();
+            this.index = endIndex;
+            return t;
+        }
+
+        private Type tokenTypeOf(Integer token, boolean treatAsText) {
+            return treatAsText ? textTokenTypeOf(token) : tokenTypeOf(token);
+        }
+
+        private Type textTokenTypeOf(Integer token) {
+            if (Character.isWhitespace(token)) {
                 return Type.TEXT;
             }
-        };
+            switch (token) {
+                case (int) Ast.ESCAPE_CHARACTER:
+                case (int) Ast.ALTERNATION_CHARACTER:
+                case (int) Ast.BEGIN_PARAMETER_CHARACTER:
+                case (int) Ast.END_PARAMETER_CHARACTER:
+                case (int) Ast.BEGIN_OPTIONAL_CHARACTER:
+                case (int) Ast.END_OPTIONAL_CHARACTER:
+                    return Type.TEXT;
+            }
+            throw createCantEscape(expression, index + escaped);
+        }
+
+        private Type tokenTypeOf(Integer token) {
+            if (Character.isWhitespace(token)) {
+                return Type.WHITE_SPACE;
+            }
+            switch (token) {
+                case (int) Ast.ALTERNATION_CHARACTER:
+                    return Type.ALTERNATION;
+                case (int) Ast.BEGIN_PARAMETER_CHARACTER:
+                    return Type.BEGIN_PARAMETER;
+                case (int) Ast.END_PARAMETER_CHARACTER:
+                    return Type.END_PARAMETER;
+                case (int) Ast.BEGIN_OPTIONAL_CHARACTER:
+                    return Type.BEGIN_OPTIONAL;
+                case (int) Ast.END_OPTIONAL_CHARACTER:
+                    return Type.END_OPTIONAL;
+            }
+            return Type.TEXT;
+        }
 
     }
 

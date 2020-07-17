@@ -1,6 +1,6 @@
 package io.cucumber.cucumberexpressions;
 
-import io.cucumber.cucumberexpressions.Ast.AstNode;
+import io.cucumber.cucumberexpressions.Ast.Node;
 import org.apiguardian.api.API;
 
 import java.lang.reflect.Type;
@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.regex.Pattern;
 
-import static io.cucumber.cucumberexpressions.Ast.AstNode.Type.PARAMETER_NODE;
-import static io.cucumber.cucumberexpressions.Ast.AstNode.Type.TEXT_NODE;
+import static io.cucumber.cucumberexpressions.Ast.Node.Type.PARAMETER_NODE;
+import static io.cucumber.cucumberexpressions.Ast.Node.Type.TEXT_NODE;
 import static io.cucumber.cucumberexpressions.CucumberExpressionException.createAlternativeIsEmpty;
 import static io.cucumber.cucumberexpressions.CucumberExpressionException.createAlternativeMayExclusivelyContainOptionals;
 import static io.cucumber.cucumberexpressions.CucumberExpressionException.createOptionalMayNotBeEmpty;
@@ -32,12 +32,12 @@ public final class CucumberExpression implements Expression {
         this.parameterTypeRegistry = parameterTypeRegistry;
 
         CucumberExpressionParser parser = new CucumberExpressionParser();
-        AstNode ast = parser.parse(expression);
+        Node ast = parser.parse(expression);
         String pattern = rewriteToRegex(ast);
         treeRegexp = new TreeRegexp(pattern);
     }
 
-    private String rewriteToRegex(AstNode node) {
+    private String rewriteToRegex(Node node) {
         switch (node.type()) {
             case TEXT_NODE:
                 return escapeRegex(node.text());
@@ -60,7 +60,7 @@ public final class CucumberExpression implements Expression {
         return ESCAPE_PATTERN.matcher(text).replaceAll("\\\\$1");
     }
 
-    private String rewriteOptional(AstNode node) {
+    private String rewriteOptional(Node node) {
         assertNoParameters(node, astNode -> createParameterIsNotAllowedInOptional(astNode, source));
         assertNotEmpty(node, astNode -> createOptionalMayNotBeEmpty(astNode, source));
         return node.nodes().stream()
@@ -68,9 +68,9 @@ public final class CucumberExpression implements Expression {
                 .collect(joining("", "(?:", ")?"));
     }
 
-    private String rewriteAlternation(AstNode node) {
+    private String rewriteAlternation(Node node) {
         // Make sure the alternative parts aren't empty and don't contain parameter types
-        for (AstNode alternative : node.nodes()) {
+        for (Node alternative : node.nodes()) {
             if (alternative.nodes().isEmpty()) {
                 throw createAlternativeIsEmpty(alternative, source);
             }
@@ -83,13 +83,13 @@ public final class CucumberExpression implements Expression {
                 .collect(joining("|", "(?:", ")"));
     }
 
-    private String rewriteAlternative(AstNode node) {
+    private String rewriteAlternative(Node node) {
         return node.nodes().stream()
                 .map(this::rewriteToRegex)
                 .collect(joining());
     }
 
-    private String rewriteParameter(AstNode node) {
+    private String rewriteParameter(Node node) {
         String name = node.text();
         ParameterType.checkParameterTypeName(name);
         ParameterType<?> parameterType = parameterTypeRegistry.lookupByTypeName(name);
@@ -105,14 +105,14 @@ public final class CucumberExpression implements Expression {
                 .collect(joining(")|(?:", "((?:", "))"));
     }
 
-    private String rewriteExpression(AstNode node) {
+    private String rewriteExpression(Node node) {
         return node.nodes().stream()
                 .map(this::rewriteToRegex)
                 .collect(joining("", "^", "$"));
     }
 
-    private void assertNotEmpty(AstNode node,
-            Function<AstNode, CucumberExpressionException> createNodeWasNotEmptyException) {
+    private void assertNotEmpty(Node node,
+            Function<Node, CucumberExpressionException> createNodeWasNotEmptyException) {
         node.nodes()
                 .stream()
                 .filter(astNode -> TEXT_NODE.equals(astNode.type()))
@@ -120,8 +120,8 @@ public final class CucumberExpression implements Expression {
                 .orElseThrow(() -> createNodeWasNotEmptyException.apply(node));
     }
 
-    private void assertNoParameters(AstNode node,
-            Function<AstNode, CucumberExpressionException> createNodeContainedAParameterException) {
+    private void assertNoParameters(Node node,
+            Function<Node, CucumberExpressionException> createNodeContainedAParameterException) {
         node.nodes()
                 .stream()
                 .filter(astNode -> PARAMETER_NODE.equals(astNode.type()))
