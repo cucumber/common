@@ -266,17 +266,23 @@ $statusColors:
       font-size: 80%;
     }
 
-    ul.filter {
-      display: inline;
+    form.cucumber-search-bar-filter {
+      ul {
+        display: inline;
 
-      li {
-        list-style-type: none;
-        display: inline-block;
-
-        input {
+        li {
+          list-style-type: none;
           display: inline-block;
-          width: auto;
-          height: 0.6em;
+
+          input {
+            display: inline-block;
+            width: auto;
+            height: 0.6em;
+          }
+
+          label {
+            padding-right: 1em;
+          }
         }
       }
     }

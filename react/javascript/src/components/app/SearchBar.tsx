@@ -76,7 +76,7 @@ const SearchBar: React.FunctionComponent<IProps> = ({
         <span>
         <FontAwesomeIcon icon={faFilter} /> Filter by scenario status:
       </span>
-      <ul className="filter">
+      <ul>
         {statuses.map((status, index) => {
           const name = statusName(status)
           const enabled = enabledStatuses.includes(status)
