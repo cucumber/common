@@ -10,7 +10,12 @@ import static java.util.stream.Collectors.joining;
 
 final class Ast {
 
-    static final class AstNode {
+    interface Located {
+        int start();
+        int end();
+    }
+
+    static final class AstNode implements Located {
 
         private final Type type;
         private final List<AstNode> nodes;
@@ -48,10 +53,10 @@ final class Ast {
             EXPRESSION_NODE
         }
 
-        int start(){
+        public int start(){
             return startIndex;
         }
-        int end(){
+        public int end(){
             return endIndex;
         }
 
@@ -128,7 +133,7 @@ final class Ast {
 
     }
 
-    static final class Token {
+    static final class Token implements Located {
 
         final int startIndex;
         final int endIndex;
@@ -142,10 +147,10 @@ final class Ast {
             this.endIndex = endIndex;
         }
 
-        int start(){
+        public int start(){
             return startIndex;
         }
-        int end(){
+        public int end(){
             return endIndex;
         }
 

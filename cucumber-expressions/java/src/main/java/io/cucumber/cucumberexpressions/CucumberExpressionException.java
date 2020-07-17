@@ -1,13 +1,13 @@
 package io.cucumber.cucumberexpressions;
 
 import io.cucumber.cucumberexpressions.Ast.AstNode;
+import io.cucumber.cucumberexpressions.Ast.Located;
 import io.cucumber.cucumberexpressions.Ast.Token;
 import io.cucumber.cucumberexpressions.Ast.Token.Type;
 import org.apiguardian.api.API;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @API(status = API.Status.STABLE)
 public class CucumberExpressionException extends RuntimeException {
@@ -50,37 +50,28 @@ public class CucumberExpressionException extends RuntimeException {
         return list;
     }
 
-    static CucumberExpressionException createMissingEndTokenException(Type beginToken, Type endToken,
-            List<Token> tokens, int current) {
+    static CucumberExpressionException createMissingEndTokenException(String expression, Type beginToken, Type endToken,
+            Token current) {
         return new CucumberExpressionException(message(
-                currentTokenIndex(tokens, current),
-                expressionOf(tokens),
-                pointAt(tokens.get(current)),
+                current.start(),
+                expression,
+                pointAt(current),
                 "The '" + beginToken.symbol() + "' does not have a matching '" + endToken.symbol() + "'",
                 "If you did not intend to use " + beginToken.purpose() + " you can use '\\" + beginToken
                         .symbol() + "' to escape the " + beginToken.purpose()));
     }
 
-    private static String expressionOf(List<Token> expression) {
-        return expression.stream().map(token -> token.text).collect(Collectors.joining());
-    }
-
-    private static int currentTokenIndex(List<Token> expression, int current) {
-        return expression.stream().limit(current).mapToInt(value -> value.text.length()).sum();
-    }
-
     static CucumberExpressionException createTheEndOfLineCanNotBeEscapedException(String expression) {
-        int index = expression.length();
         return new CucumberExpressionException(message(
-                index,
+                expression.length(),
                 expression,
-                pointAt(index),
+                pointAt(expression.length()),
                 "The end of line can not be escaped",
                 "You can use '\\\\' to escape the the '\\'"
         ));
     }
 
-    static CucumberExpressionException createAlternativeIsEmpty(String expression, AstNode node) {
+    static CucumberExpressionException createAlternativeIsEmpty(AstNode node, String expression) {
         return new CucumberExpressionException(message(
                 node.start(),
                 expression,
@@ -89,14 +80,41 @@ public class CucumberExpressionException extends RuntimeException {
                 "If you did not mean to use an alternative you can use '\\/' to escape the the '/'"));
     }
 
-    public static CucumberExpressionException createParameterIsNotAllowedHere(AstNode node, String expression,
-            String message) {
+    static CucumberExpressionException createParameterIsNotAllowedInAlternative(AstNode node, String expression) {
         return new CucumberExpressionException(message(
                 node.start(),
                 expression,
                 pointAt(node),
-                message,
-                "If you did not mean to use an alternative you can use '\\{' to escape the the '{'"));
+                "An alternative may not contain a parameter type",
+                "If you did not mean to use an parameter type you can use '\\{' to escape the the '{'"));
+    }
+
+    static CucumberExpressionException createParameterIsNotAllowedInOptional(AstNode node, String expression) {
+        return new CucumberExpressionException(message(
+                node.start(),
+                expression,
+                pointAt(node),
+                "An optional may not contain a parameter type",
+                "If you did not mean to use an parameter type you can use '\\{' to escape the the '{'"));
+    }
+
+    static CucumberExpressionException createOptionalMayNotBeEmpty(AstNode node, String expression) {
+        return new CucumberExpressionException(message(
+                node.start(),
+                expression,
+                pointAt(node),
+                "An optional must contain some text",
+                "If you did not mean to use an optional you can use '\\(' to escape the the '('"));
+    }
+
+    static CucumberExpressionException createAlternativeMayExclusivelyContainOptionals(AstNode node,
+            String expression) {
+        return new CucumberExpressionException(message(
+                node.start(),
+                expression,
+                pointAt(node),
+                "An alternative may not exclusively contain optionals",
+                "If you did not mean to use an optional you can use '\\(' to escape the the '('"));
     }
 
     private static String thisCucumberExpressionHasAProblemAt(int index) {
@@ -122,22 +140,8 @@ public class CucumberExpressionException extends RuntimeException {
                 solution;
     }
 
-    private static StringBuilder pointAt(int index) {
-        StringBuilder pointer = new StringBuilder();
-        for (int i = 0; i < index; i++) {
-            pointer.append(" ");
-        }
-        pointer.append("^");
-        return pointer;
-    }
-
-    //TODO: Dedupe
-    private static StringBuilder pointAt(AstNode node) {
-        StringBuilder pointer = new StringBuilder();
-        for (int i = 0; i < node.start(); i++) {
-            pointer.append(" ");
-        }
-        pointer.append("^");
+    private static StringBuilder pointAt(Located node) {
+        StringBuilder pointer = pointAt(node.start());
         if (node.start() + 1 < node.end()) {
             for (int i = node.start() + 1; i < node.end() - 1; i++) {
                 pointer.append("-");
@@ -147,19 +151,14 @@ public class CucumberExpressionException extends RuntimeException {
         return pointer;
     }
 
-    private static StringBuilder pointAt(Token token) {
+    private static StringBuilder pointAt(int index) {
         StringBuilder pointer = new StringBuilder();
-        for (int i = 0; i < token.start(); i++) {
+        for (int i = 0; i < index; i++) {
             pointer.append(" ");
         }
         pointer.append("^");
-        if (token.start() + 1 < token.end()) {
-            for (int i = token.start() + 1; i < token.end() - 1; i++) {
-                pointer.append("-");
-            }
-            pointer.append("^");
-        }
         return pointer;
     }
+
 
 }

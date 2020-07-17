@@ -69,7 +69,13 @@ public class CucumberExpressionTest {
     public void does_not_allow_empty_optional() {
         Executable testMethod = () -> match("three () mice", "three brown mice");
         CucumberExpressionException thrownException = assertThrows(CucumberExpressionException.class, testMethod);
-        assertThat(thrownException.getMessage(), is(equalTo("Optional may not be empty: three () mice")));
+        assertThat(thrownException.getMessage(), is(equalTo("" +
+                "This Cucumber Expression has a problem at column 7:\n" +
+                "\n" +
+                "three () mice\n" +
+                "      ^^\n" +
+                "An optional must contain some text.\n" +
+                "If you did not mean to use an optional you can use '\\(' to escape the the '('")));
     }
 
     @Test
@@ -89,7 +95,13 @@ public class CucumberExpressionTest {
         Executable testMethod = () -> match("three (brown)/black mice", "three brown mice");
         CucumberExpressionException thrownException = assertThrows(CucumberExpressionException.class, testMethod);
         assertThat(thrownException.getMessage(),
-                is(equalTo("Alternative may not exclusively contain optionals: three (brown)/black mice")));
+                is(equalTo("" +
+                        "This Cucumber Expression has a problem at column 7:\n" +
+                        "\n" +
+                        "three (brown)/black mice\n" +
+                        "      ^-----^\n" +
+                        "An alternative may not exclusively contain optionals.\n" +
+                        "If you did not mean to use an optional you can use '\\(' to escape the the '('")));
     }
 
     @Test
@@ -249,8 +261,8 @@ public class CucumberExpressionTest {
                 "\n" +
                 "({int})\n" +
                 " ^---^\n" +
-                "Parameter types cannot be optional.\n" +
-                "If you did not mean to use an alternative you can use '\\(' to escape the the '('")));
+                "An optional may not contain a parameter type.\n" +
+                "If you did not mean to use an parameter type you can use '\\{' to escape the the '{'")));
     }
 
     @Test
@@ -269,8 +281,8 @@ public class CucumberExpressionTest {
                 "\n" +
                 "x/{int}\n" +
                 "  ^---^\n" +
-                "Parameter types cannot be alternative.\n" +
-                "If you did not mean to use an alternative you can use '\\{' to escape the the '{'")));
+                "An alternative may not contain a parameter type.\n" +
+                "If you did not mean to use an parameter type you can use '\\{' to escape the the '{'")));
     }
 
     @Test
@@ -284,8 +296,8 @@ public class CucumberExpressionTest {
                 "\n" +
                 "{int}/x\n" +
                 "^---^\n" +
-                "Parameter types cannot be alternative.\n" +
-                "If you did not mean to use an alternative you can use '\\{' to escape the the '{'")));
+                "An alternative may not contain a parameter type.\n" +
+                "If you did not mean to use an parameter type you can use '\\{' to escape the the '{'")));
     }
 
     @Test

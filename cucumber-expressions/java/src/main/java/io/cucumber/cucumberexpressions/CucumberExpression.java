@@ -6,22 +6,21 @@ import org.apiguardian.api.API;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+import java.util.function.Function;
 import java.util.regex.Pattern;
 
 import static io.cucumber.cucumberexpressions.Ast.AstNode.Type.PARAMETER_NODE;
 import static io.cucumber.cucumberexpressions.Ast.AstNode.Type.TEXT_NODE;
 import static io.cucumber.cucumberexpressions.CucumberExpressionException.createAlternativeIsEmpty;
-import static io.cucumber.cucumberexpressions.CucumberExpressionException.createParameterIsNotAllowedHere;
+import static io.cucumber.cucumberexpressions.CucumberExpressionException.createAlternativeMayExclusivelyContainOptionals;
+import static io.cucumber.cucumberexpressions.CucumberExpressionException.createOptionalMayNotBeEmpty;
+import static io.cucumber.cucumberexpressions.CucumberExpressionException.createParameterIsNotAllowedInAlternative;
+import static io.cucumber.cucumberexpressions.CucumberExpressionException.createParameterIsNotAllowedInOptional;
 import static java.util.stream.Collectors.joining;
 
 @API(status = API.Status.STABLE)
 public final class CucumberExpression implements Expression {
     private static final Pattern ESCAPE_PATTERN = Pattern.compile("([\\\\^\\[({$.|?*+})\\]])");
-    private static final String PARAMETER_TYPES_CANNOT_BE_OPTIONAL = "Parameter types cannot be optional";
-    private static final String PARAMETER_TYPES_CANNOT_BE_ALTERNATIVE = "Parameter types cannot be alternative";
-    private static final String OPTIONAL_MAY_NOT_BE_EMPTY = "Optional may not be empty: ";
-    private static final String ALTERNATIVE_MAY_NOT_EXCLUSIVELY_CONTAIN_OPTIONALS = "Alternative may not exclusively contain optionals: ";
 
     private final List<ParameterType<?>> parameterTypes = new ArrayList<>();
     private final String source;
@@ -62,8 +61,8 @@ public final class CucumberExpression implements Expression {
     }
 
     private String rewriteOptional(AstNode node) {
-        assertNoParameters(node, PARAMETER_TYPES_CANNOT_BE_OPTIONAL);
-        assertNotEmpty(node, OPTIONAL_MAY_NOT_BE_EMPTY);
+        assertNoParameters(node, astNode -> createParameterIsNotAllowedInOptional(astNode, source));
+        assertNotEmpty(node, astNode -> createOptionalMayNotBeEmpty(astNode, source));
         return node.nodes().stream()
                 .map(this::rewriteToRegex)
                 .collect(joining("", "(?:", ")?"));
@@ -73,10 +72,10 @@ public final class CucumberExpression implements Expression {
         // Make sure the alternative parts aren't empty and don't contain parameter types
         for (AstNode alternative : node.nodes()) {
             if (alternative.nodes().isEmpty()) {
-                throw createAlternativeIsEmpty(this.source, alternative);
+                throw createAlternativeIsEmpty(alternative, source);
             }
-            assertNoParameters(alternative, PARAMETER_TYPES_CANNOT_BE_ALTERNATIVE);
-            assertNotEmpty(alternative, ALTERNATIVE_MAY_NOT_EXCLUSIVELY_CONTAIN_OPTIONALS);
+            assertNoParameters(alternative, astNode -> createParameterIsNotAllowedInAlternative(astNode, source));
+            assertNotEmpty(alternative, astNode -> createAlternativeMayExclusivelyContainOptionals(astNode, source));
         }
         return node.nodes()
                 .stream()
@@ -112,24 +111,25 @@ public final class CucumberExpression implements Expression {
                 .collect(joining("", "^", "$"));
     }
 
-    private void assertNotEmpty(AstNode node, String message) {
-        //TODO: Change message
-        boolean hasTextNode = node.nodes()
+    private void assertNotEmpty(AstNode node,
+            Function<AstNode, CucumberExpressionException> createNodeWasNotEmptyException) {
+        node.nodes()
                 .stream()
-                .map(AstNode::type)
-                .anyMatch(type -> type == TEXT_NODE);
-        if (!hasTextNode) {
-            throw new CucumberExpressionException(message + source);
-        }
+                .filter(astNode -> TEXT_NODE.equals(astNode.type()))
+                .findFirst()
+                .orElseThrow(() -> createNodeWasNotEmptyException.apply(node));
     }
 
-    private void assertNoParameters(AstNode node, String message) {
-        Optional<AstNode> hasParameter = node.nodes().stream()
+    private void assertNoParameters(AstNode node,
+            Function<AstNode, CucumberExpressionException> createNodeContainedAParameterException) {
+        node.nodes()
+                .stream()
                 .filter(astNode -> PARAMETER_NODE.equals(astNode.type()))
-                .findFirst();
-        if (hasParameter.isPresent()) {
-            throw createParameterIsNotAllowedHere(hasParameter.get(), this.source, message);
-        }
+                .map(createNodeContainedAParameterException)
+                .findFirst()
+                .ifPresent(nodeContainedAParameterException -> {
+                    throw nodeContainedAParameterException;
+                });
     }
 
     @Override
@@ -161,4 +161,5 @@ public final class CucumberExpression implements Expression {
     public Pattern getRegexp() {
         return treeRegexp.pattern();
     }
+
 }

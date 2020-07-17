@@ -353,7 +353,7 @@ class CucumberExpressionParserTest {
                     CucumberExpressionException.class,
                     () -> astOf("three blind\\ mice/rats("));
             assertThat(exception.getMessage(), is("" +
-                    "This Cucumber Expression has a problem at column 22:\n" +
+                    "This Cucumber Expression has a problem at column 23:\n" +
                     "\n" +
                     "three blind\\ mice/rats(\n" +
                     "                      ^\n" +
