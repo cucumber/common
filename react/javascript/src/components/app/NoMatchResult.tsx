@@ -9,7 +9,11 @@ interface IProps {
 const NoMatchResult: React.FunctionComponent<IProps> = ({ query, matches }) => {
   const showNoMatchMessage = query !== '' && matches.length === 0
 
-  return <p className="cucumber-no-results">{showNoMatchMessage && `No match found for: "${query}"`}</p>
+  return (
+    <p className="cucumber-no-results">
+      {showNoMatchMessage && `No match found for: "${query}"`}
+    </p>
+  )
 }
 
 export default NoMatchResult

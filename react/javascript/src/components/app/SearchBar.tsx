@@ -45,7 +45,11 @@ const SearchBar: React.FunctionComponent<IProps> = ({
     }
   }
 
-  const showFilters = scenarioCountByStatus.size > 1
+  const showFilters =
+    scenarioCountByStatus.size > 1 ||
+    scenarioCountByStatus.has(
+      messages.TestStepFinished.TestStepResult.Status.UNKNOWN
+    )
 
   return (
     <div className="cucumber-search-bar">
@@ -72,41 +76,44 @@ const SearchBar: React.FunctionComponent<IProps> = ({
         </a>
         &nbsp; to filter the output.
       </p>
-      {showFilters && <form className="cucumber-search-bar-filter">
-        <span>
-        <FontAwesomeIcon icon={faFilter} /> Filter by scenario status:
-      </span>
-      <ul>
-        {statuses.map((status, index) => {
-          const name = statusName(status)
-          const enabled = enabledStatuses.includes(status)
-          const inputId = `filter-status-${name}`
+      {showFilters && (
+        <form className="cucumber-search-bar-filter">
+          <span>
+            <FontAwesomeIcon icon={faFilter} /> Filter by scenario status:
+          </span>
+          <ul>
+            {statuses.map((status, index) => {
+              const name = statusName(status)
+              const enabled = enabledStatuses.includes(status)
+              const inputId = `filter-status-${name}`
 
-          if (scenarioCountByStatus.get(status) === undefined) {
-            return
-          }
+              if (scenarioCountByStatus.get(status) === undefined) {
+                return
+              }
 
-          return (
-            <li key={index}>
-              <input
-                id={inputId}
-                type="checkbox"
-                defaultChecked={enabled}
-                onChange={() => {
-                  if (enabledStatuses.includes(status)) {
-                    statusesUpdated(enabledStatuses.filter((s) => s !== status))
-                  } else {
-                    statusesUpdated([status].concat(enabledStatuses))
-                  }
-                }}
-              />
-              <label htmlFor={inputId}>{name}</label>
-            </li>
-          )
-        })}
-      </ul>
-
-      </form>}
+              return (
+                <li key={index}>
+                  <input
+                    id={inputId}
+                    type="checkbox"
+                    defaultChecked={enabled}
+                    onChange={() => {
+                      if (enabledStatuses.includes(status)) {
+                        statusesUpdated(
+                          enabledStatuses.filter((s) => s !== status)
+                        )
+                      } else {
+                        statusesUpdated([status].concat(enabledStatuses))
+                      }
+                    }}
+                  />
+                  <label htmlFor={inputId}>{name}</label>
+                </li>
+              )
+            })}
+          </ul>
+        </form>
+      )}
     </div>
   )
 }
