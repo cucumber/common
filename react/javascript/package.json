@@ -53,7 +53,7 @@
     "@types/color": "^3.0.1",
     "@types/jsdom": "^16.2.3",
     "@types/marked": "^1.1.0",
-    "@types/mocha": "^7.0.2",
+    "@types/mocha": "^8.0.0",
     "@types/node": "^14.0.14",
     "@types/react": "^16.9.41",
     "@types/react-dom": "^16.9.8",
