@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
-* Use `FilteredResults` as the entry point for the reporter
+* Use `FilteredResults` as the entry point for the reporter ([#1111](https://github.com/cucumber/cucumber/pull/1111))
 
 ### Deprecated
 
