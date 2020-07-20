@@ -19,6 +19,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+ * Various fixes ([#1111](https://github.com/cucumber/cucumber/pull/1111))
+    * better styling
+    * enhanced responsivness
+    * filtering is now alongside search
+    * do not display filter when all scenarios have the same status (except if status is "unknown")
+
 ## [8.0.2] - 2020-06-29
 
 ### Added
