@@ -32,46 +32,6 @@ function echo_blue
   echo -e "${BLUE}$@${NC}"
 }
 
-function docker_image() {
-  dockerfile=$1
-
-  if [[ -n "${NEW_VERSION}" ]]; then
-    tag="${NEW_VERSION}"
-  elif hash md5sum 2>/dev/null; then
-    tag=$(cat ${dockerfile} | md5sum | cut -d ' ' -f 1)
-  else
-    tag=$(cat ${dockerfile} | md5 -r | cut -d ' ' -f 1)
-  fi
-
-  echo "$(docker_image_base "${dockerfile}"):${tag}"
-}
-
-function docker_image_base() {
-  dockerfile=$1
-  base=$(cat "${dockerfile}" | grep -e "# cucumber\/" | cut -d' ' -f2)
-  if [ "${base}" != "" ]; then
-    echo "${base}"
-  else
-    echo "cucumber/cucumber-build"
-  fi
-}
-
-function docker_build() {
-  dockerfile=$1
-  docker build --rm --file ${dockerfile} --tag $(docker_image ${dockerfile}) .
-}
-
-function docker_push() {
-  dockerfile=$1
-  source ${root_dir}/secrets/.bash_profile
-  if [ -z "${DOCKER_HUB_PASSWORD}" ] || [ -z "${DOCKER_HUB_USER}" ]; then
-    echo "ERROR: DOCKER_HUB_USER and DOCKER_HUB_PASSWORD must be defined"
-    exit 1
-  fi
-  echo "${DOCKER_HUB_PASSWORD}" | docker login --username ${DOCKER_HUB_USER} --password-stdin
-  docker push $(docker_image ${dockerfile})
-}
-
 function rsync_files()
 {
   git ls-files "${root_dir}/**/.rsync" | while read rsync_file; do

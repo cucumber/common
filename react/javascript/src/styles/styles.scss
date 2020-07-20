@@ -1,5 +1,6 @@
 $border-color: #4B5662;
 $white: #F0EFFB;
+$summary-border-color: rgba(0, 0, 0, 0.1);
 
 $statusColors:
   "passed" #2CB14A,
@@ -156,6 +157,10 @@ $statusColors:
     background-color: #FFFFFF;
     border-radius: 6px;
   }
+
+  p.cucumber-no-results {
+    font: 14px 'Open Sans', sans-serif;
+  }
 }
 
 .anchored-link {
@@ -190,102 +195,133 @@ $statusColors:
   h1, h2, h3 {
     margin-top: 0px
   }
+
+  .attachment {
+    background-color: rgb(235, 235, 235);
+    padding: 0.5em;
+
+    .attachment-icon {
+      margin-right: 0.5em;
+    }
+  }
+
+  .attachment-image {
+    margin-top: 1em;
+  }
+
+  .highlight mark {
+    background-color: yellow
+  }
+
+  .cucumberFeature {
+    padding-left: 10px;
+  }
 }
 
 .cucumber-report-header {
   width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: stretch;
-  border: 1px solid $border-color;
-  border-right: 0;
-  border-bottom: 0;
+  display: grid;
+  grid-template-columns: 1fr;
 
-  font-size: 80%;
+  border: 1px solid $summary-border-color;
+
+  font: 11px 'Open Sans', sans-serif;
   margin-bottom: 1em;
 
   & > * {
-    flex-grow: 1;
-    border-right: 1px solid $border-color;
-    border-bottom: 1px solid $border-color;
-
     padding: 1em;
   }
 
-    .cucumber-ci-information {
-      ul {
-        list-style-type: none;
-      }
-    }
+  .cucumber-status-filter {
+    border-bottom: 1px solid $summary-border-color;
 
-    .cucumber-search-bar {
+    table {
+      width: 100%;
+    }
+  }
+
+  .cucumber-execution-data {
+    border-bottom: 1px solid $summary-border-color;
+  }
+
+  .cucumber-search-bar {
+    border-right: 0;
+
+    form.cucumber-search-bar-search {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 9fr 1fr;
+
       input {
         padding: 0.4em;
         border-radius: 0;
-        width: 80%;
       }
 
-    th {
-      display: table-row
+      button {
+        height: 2.2em;
+        padding-left: 0.6em;
+        padding-right: 0.6em;
+      }
+
     }
 
-    td {
-      padding: 3px 15px
+
+    p.help {
+      font-size: 80%;
+    }
+
+    form.cucumber-search-bar-filter {
+      ul {
+        display: inline;
+
+        li {
+          list-style-type: none;
+          display: inline-block;
+
+          input {
+            display: inline-block;
+            width: auto;
+            height: 0.6em;
+          }
+
+          label {
+            padding-right: 1em;
+          }
+        }
+      }
     }
   }
 }
 
-.cucumber-search-bar {
-  margin-top: 2em;
-  margin-bottom: 2em;
-  input {
-    padding: 0.4em;
-    border-radius: 0;
-    width: 80%;
-  }
+@media only screen and (min-width: 600px) {
+  .cucumber-report-header {
+    grid-template-columns: 1fr 1fr;
 
-  button {
-    height: 2.2em;
-    padding-left: 0.6em;
-    padding-right: 0.6em;
-  }
-
-  p.help {
-    font-size: 80%;
-  }
-}
-
-button {
-  height: 2.2em;
-  padding-left: 0.6em;
-  padding-right: 0.6em;
-}
-
-details {
-  font-size: 80%;
-
-  p {
-    border-color: $border-color;
-    background-color: #f4f4f4;
-  }
-}
-
-
-.attachment {
-    background-color: rgb(235, 235, 235);
-    padding: 0.5em;
-    .attachment-icon {
-      margin-right: 0.5em;
+    .cucumber-status-filter {
+      border-right: 1px solid $summary-border-color;
     }
-}
-.attachment-image {
-  margin-top: 1em;
+
+    .cucumber-search-bar {
+      grid-column: 1 / -1;
+    }
+  }
 }
 
-.highlight mark {
-  background-color: yellow
-}
+@media only screen and (min-width: 992px) {
+  .cucumber-report-header {
+    grid-template-columns: 1fr 1fr 2fr;
 
-.cucumberFeature {
-  padding-left: 10px;
+    .cucumber-status-filter {
+      border-bottom: 0
+    }
+
+    .cucumber-execution-data {
+      border-right: 1px solid $summary-border-color;
+      border-bottom: 0
+    }
+
+    .cucumber-search-bar {
+      grid-column: auto;
+    }
+  }
 }

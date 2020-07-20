@@ -1,8 +1,8 @@
 import { messages } from '@cucumber/messages'
 import {
-  GherkinDocumentList,
   QueriesWrapper,
   EnvelopesQuery,
+  FilteredResults,
 } from '@cucumber/react'
 import { Query as GherkinQuery } from '@cucumber/gherkin'
 import { Query as CucumberQuery } from '@cucumber/query'
@@ -32,7 +32,7 @@ const app = (
     cucumberQuery={cucumberQuery}
     envelopesQuery={envelopesQuery}
   >
-    <GherkinDocumentList />
+    <FilteredResults />
   </QueriesWrapper>
 )
 
