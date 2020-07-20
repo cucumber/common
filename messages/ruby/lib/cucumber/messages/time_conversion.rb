@@ -25,10 +25,6 @@ module Cucumber
         nanos_part = duration.nanos.to_f / NANOSECONDS_PER_SECOND
         seconds_part + nanos_part
       end
-
-      def time_to_nanos(time)
-        time.to_i * NANOSECONDS_PER_SECOND + time.nsec
-      end
     end
   end
 end
