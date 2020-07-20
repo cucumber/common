@@ -78,7 +78,7 @@
     "prettier": "^2.0.5",
     "raw-loader": "^4.0.1",
     "sass": "^1.26.9",
-    "sass-loader": "^8.0.2",
+    "sass-loader": "^9.0.0",
     "sinon": "^9.0.2",
     "source-map-support": "^0.5.19",
     "style-loader": "1.2.1",
