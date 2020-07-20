@@ -4,8 +4,6 @@ module Cucumber
       NANOSECONDS_PER_SECOND = 1000000000
 
       def time_to_timestamp(time)
-        nanos = time.to_i * NANOSECONDS_PER_SECOND + time.nsec
-
         Timestamp.new(
           seconds: time.to_i,
           nanos: time.nsec
