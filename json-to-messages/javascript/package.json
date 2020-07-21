@@ -54,7 +54,7 @@
     "@cucumber/gherkin": "file:../../gherkin/javascript",
     "@cucumber/messages": "file:../../messages/javascript",
     "@types/diff-match-patch": "^1.0.32",
-    "commander": "^5.1.0",
+    "commander": "^6.0.0",
     "glob": "^7.1.6",
     "source-map-support": "^0.5.19",
     "stack-utils": "^2.0.2",

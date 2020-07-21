@@ -49,7 +49,7 @@
   "dependencies": {
     "@cucumber/messages": "file:../../messages/javascript",
     "@teppeis/multimaps": "^1.1.0",
-    "commander": "^5.1.0",
+    "commander": "^6.0.0",
     "source-map-support": "^0.5.19"
   },
   "directories": {
