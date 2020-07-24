@@ -10,12 +10,12 @@ import static java.util.stream.Collectors.joining;
 
 final class Ast {
 
-    private static final char ESCAPE_CHARACTER = '\\';
-    private static final char ALTERNATION_CHARACTER = '/';
-    private static final char BEGIN_PARAMETER_CHARACTER = '{';
-    private static final char END_PARAMETER_CHARACTER = '}';
-    private static final char BEGIN_OPTIONAL_CHARACTER = '(';
-    private static final char END_OPTIONAL_CHARACTER = ')';
+    private static final char escapeCharacter = '\\';
+    private static final char alternationCharacter = '/';
+    private static final char beginParameterCharacter = '{';
+    private static final char endParameterCharacter = '}';
+    private static final char beginOptionalCharacter = '(';
+    private static final char endOptionalCharacter = ')';
 
     interface Located {
         int start();
@@ -29,27 +29,27 @@ final class Ast {
         private final Type type;
         private final List<Node> nodes;
         private final String token;
-        private final int startIndex;
-        private final int endIndex;
+        private final int start;
+        private final int end;
 
-        Node(Type type, int startIndex, int endIndex, String token) {
-            this(type, startIndex, endIndex, null, token);
+        Node(Type type, int start, int end, String token) {
+            this(type, start, end, null, token);
         }
 
-        Node(Type type, int startIndex, int endIndex, Node... nodes) {
-            this(type, startIndex, endIndex, asList(nodes));
+        Node(Type type, int start, int end, Node... nodes) {
+            this(type, start, end, asList(nodes));
         }
 
-        Node(Type type, int startIndex, int endIndex, List<Node> nodes) {
-            this(type, startIndex, endIndex, nodes, null);
+        Node(Type type, int start, int end, List<Node> nodes) {
+            this(type, start, end, nodes, null);
         }
 
-        private Node(Type type, int startIndex, int endIndex, List<Node> nodes, String token) {
+        private Node(Type type, int start, int end, List<Node> nodes, String token) {
             this.type = requireNonNull(type);
             this.nodes = nodes;
             this.token = token;
-            this.startIndex = startIndex;
-            this.endIndex = endIndex;
+            this.start = start;
+            this.end = end;
 
         }
 
@@ -63,19 +63,15 @@ final class Ast {
         }
 
         public int start() {
-            return startIndex;
+            return start;
         }
 
         public int end() {
-            return endIndex;
+            return end;
         }
 
         List<Node> nodes() {
             return nodes;
-        }
-
-        boolean isLeaf() {
-            return nodes == null;
         }
 
         Type type() {
@@ -83,7 +79,7 @@ final class Ast {
         }
 
         String text() {
-            if (isLeaf())
+            if (nodes == null)
                 return token;
 
             return nodes().stream()
@@ -101,7 +97,7 @@ final class Ast {
             for (int i = 0; i < depth; i++) {
                 sb.append("\t");
             }
-            sb.append("AstNode{").append(startIndex).append(":").append(endIndex).append(", type=").append(type);
+            sb.append("AstNode{").append(start).append(":").append(end).append(", type=").append(type);
 
             if (token != null) {
                 sb.append(", token=").append(token);
@@ -129,8 +125,8 @@ final class Ast {
             if (o == null || getClass() != o.getClass())
                 return false;
             Node node = (Node) o;
-            return startIndex == node.startIndex &&
-                    endIndex == node.endIndex &&
+            return start == node.start &&
+                    end == node.end &&
                     type == node.type &&
                     Objects.equals(nodes, node.nodes) &&
                     Objects.equals(token, node.token);
@@ -138,23 +134,23 @@ final class Ast {
 
         @Override
         public int hashCode() {
-            return Objects.hash(type, nodes, token, startIndex, endIndex);
+            return Objects.hash(type, nodes, token, start, end);
         }
 
     }
 
     static final class Token implements Located {
 
-        final int startIndex;
-        final int endIndex;
         final String text;
         final Token.Type type;
+        final int start;
+        final int end;
 
-        Token(String text, Token.Type type, int startIndex, int endIndex) {
+        Token(String text, Token.Type type, int start, int end) {
             this.text = requireNonNull(text);
             this.type = requireNonNull(type);
-            this.startIndex = startIndex;
-            this.endIndex = endIndex;
+            this.start = start;
+            this.end = end;
         }
 
         static boolean canEscape(Integer token) {
@@ -162,12 +158,12 @@ final class Ast {
                 return true;
             }
             switch (token) {
-                case (int) ESCAPE_CHARACTER:
-                case (int) ALTERNATION_CHARACTER:
-                case (int) BEGIN_PARAMETER_CHARACTER:
-                case (int) END_PARAMETER_CHARACTER:
-                case (int) BEGIN_OPTIONAL_CHARACTER:
-                case (int) END_OPTIONAL_CHARACTER:
+                case (int) escapeCharacter:
+                case (int) alternationCharacter:
+                case (int) beginParameterCharacter:
+                case (int) endParameterCharacter:
+                case (int) beginOptionalCharacter:
+                case (int) endOptionalCharacter:
                     return true;
             }
             return false;
@@ -178,30 +174,30 @@ final class Ast {
                 return Type.WHITE_SPACE;
             }
             switch (token) {
-                case (int) ALTERNATION_CHARACTER:
+                case (int) alternationCharacter:
                     return Type.ALTERNATION;
-                case (int) BEGIN_PARAMETER_CHARACTER:
+                case (int) beginParameterCharacter:
                     return Type.BEGIN_PARAMETER;
-                case (int) END_PARAMETER_CHARACTER:
+                case (int) endParameterCharacter:
                     return Type.END_PARAMETER;
-                case (int) BEGIN_OPTIONAL_CHARACTER:
+                case (int) beginOptionalCharacter:
                     return Type.BEGIN_OPTIONAL;
-                case (int) END_OPTIONAL_CHARACTER:
+                case (int) endOptionalCharacter:
                     return Type.END_OPTIONAL;
             }
             return Type.TEXT;
         }
 
         static boolean isEscapeCharacter(int token) {
-            return token == ESCAPE_CHARACTER;
+            return token == escapeCharacter;
         }
 
         public int start() {
-            return startIndex;
+            return start;
         }
 
         public int end() {
-            return endIndex;
+            return end;
         }
 
         @Override
@@ -211,22 +207,22 @@ final class Ast {
             if (o == null || getClass() != o.getClass())
                 return false;
             Token token = (Token) o;
-            return startIndex == token.startIndex &&
-                    endIndex == token.endIndex &&
+            return start == token.start &&
+                    end == token.end &&
                     text.equals(token.text) &&
                     type == token.type;
         }
 
         @Override
         public int hashCode() {
-            return Objects.hash(startIndex, endIndex, text, type);
+            return Objects.hash(start, end, text, type);
         }
 
         @Override
         public String toString() {
             return new StringJoiner(", ", Token.class.getSimpleName() + "[", "]")
-                    .add("startIndex=" + startIndex)
-                    .add("endIndex=" + endIndex)
+                    .add("startIndex=" + start)
+                    .add("endIndex=" + end)
                     .add("text='" + text + "'")
                     .add("type=" + type)
                     .toString();
@@ -236,11 +232,11 @@ final class Ast {
             START_OF_LINE,
             END_OF_LINE,
             WHITE_SPACE,
-            BEGIN_OPTIONAL("" + BEGIN_OPTIONAL_CHARACTER, "optional text"),
-            END_OPTIONAL("" + END_OPTIONAL_CHARACTER, "optional text"),
-            BEGIN_PARAMETER("" + BEGIN_PARAMETER_CHARACTER, "a parameter"),
-            END_PARAMETER("" + END_PARAMETER_CHARACTER, "a parameter"),
-            ALTERNATION("" + ALTERNATION_CHARACTER, "alternation"),
+            BEGIN_OPTIONAL("" + beginOptionalCharacter, "optional text"),
+            END_OPTIONAL("" + endOptionalCharacter, "optional text"),
+            BEGIN_PARAMETER("" + beginParameterCharacter, "a parameter"),
+            END_PARAMETER("" + endParameterCharacter, "a parameter"),
+            ALTERNATION("" + alternationCharacter, "alternation"),
             TEXT;
 
             private final String symbol;

@@ -1,33 +1,11 @@
 package cucumberexpressions
 
-type parser func(expression []token, current int) (int, astNode)
-
 /*
- * parameter := '{' + text* + '}'
+ * text := token
  */
-var textParser = func(expression []token, current int) (int, astNode) {
-	unEscape := func(t token) token {
-		switch t.tokenType {
-		case whiteSpaceEscaped:
-			return token{t.text[1:], whiteSpace}
-		case beginOptionalEscaped:
-			return beginOptionalToken
-		case endOptionalEscaped:
-			return endOptionalToken
-		case beginParameterEscaped:
-			return beginParameterToken
-		case endParameterEscaped:
-			return endParameterToken
-		case alternationEscaped:
-			return alternationToken
-		case escapeEscaped:
-			return escapeToken
-		default:
-			return t
-		}
-	}
-	currentToken := expression[current]
-	return 1, astNode{textNode, []astNode{}, unEscape(currentToken)}
+var textParser = func(tokens []token, current int) (int, node) {
+	token := tokens[current]
+	return 1, node{textNode, token.start, token.end, token.text, []node{}}
 }
 
 /*
@@ -52,30 +30,13 @@ var optionalParser = parseBetween(
 	textParser,
 )
 
-func parseBetween(nodeType nodeType, beginToken tokenType, endToken tokenType, parsers ...parser) parser {
-	return func(expression []token, current int) (int, astNode) {
-		if !lookingAt(expression, current, beginToken) {
-			return 0, nullNode
-		}
-
-		subCurrent := current + 1
-		consumed, subAst := parseTokensUntil(parsers, expression, subCurrent, endToken)
-		subCurrent += consumed
-
-		// endToken not found
-		if !lookingAt(expression, subCurrent, endToken) {
-			return 0, nullNode
-		}
-		// consumes endToken
-		return subCurrent + 1 - current, astNode{nodeType, subAst, nullToken}
-	}
-}
-
-var alternativeSeparatorParser = func(expression []token, current int) (int, astNode) {
-	if !lookingAt(expression, current, alternation) {
+// alternation := alternative* + ( '/' + alternative* )+
+var alternativeSeparatorParser = func(tokens []token, current int) (int, node) {
+	if !lookingAt(tokens, current, alternation) {
 		return 0, nullNode
 	}
-	return 1, alternativeSeparator
+	token := tokens[current]
+	return 1, node{alternativeNode, token.start, token.end, token.text, []node{}}
 }
 
 var alternativeParsers = []parser{
@@ -90,71 +51,83 @@ var alternativeParsers = []parser{
  * boundary := whitespace | ^ | $
  * alternative: = optional | parameter | text
  */
-var alternationParser = func(expression []token, current int) (int, astNode) {
+var alternationParser = func(tokens []token, current int) (int, node) {
 	previous := current - 1
-	if !lookingAtAny(expression, previous, startOfLine, whiteSpace) {
+	if !lookingAtAny(tokens, previous, startOfLine, whiteSpace) {
 		return 0, nullNode
 	}
-	consumed, subAst := parseTokensUntil(alternativeParsers, expression, current, whiteSpace, endOfLine)
 
-	var contains = func(s []astNode, node astNode) bool {
+	consumed, subAst := parseTokensUntil(alternativeParsers, tokens, current, whiteSpace, endOfLine)
+	var contains = func(s []node, nodeType nodeType) bool {
 		for _, a := range s {
-			if a.nodeType == node.nodeType {
+			if a.nodeType == nodeType {
 				return true
 			}
 		}
 		return false
 	}
-
-	if !contains(subAst, alternativeSeparator) {
+	subCurrent := current + consumed
+	if !contains(subAst, alternativeNode) {
 		return 0, nullNode
 	}
 
-	splitAlternatives := func(subAst []astNode) []astNode {
-		alternatives := make([]astNode, 0)
-		alternative := make([]astNode, 0)
-		for _, node := range subAst {
-			if node.nodeType == alternativeSeparator.nodeType {
-				alternatives = append(alternatives, astNode{alternativeNode, alternative, nullToken})
-				alternative = make([]astNode, 0)
-			} else {
-				alternative = append(alternative, node)
-			}
-		}
-		return append(alternatives, astNode{alternativeNode, alternative, nullToken})
-	}
-
 	// Does not consume right hand boundary token
-	return consumed, astNode{alternationNode, splitAlternatives(subAst), nullToken}
-
-}
-
-var cucumberExpressionParsers = []parser{
-	alternationParser,
-	optionalParser,
-	parameterParser,
-	textParser,
+	start := tokens[current].start
+	end := tokens[subCurrent].end
+	return consumed, node{alternationNode, start, end, "", splitAlternatives(start, end, subAst)}
 }
 
 /*
  * cucumber-expression :=  ( alternation | optional | parameter | text )*
  */
-func parse(expression string) (astNode, error) {
+var cucumberExpressionParser = parseBetween(
+	expressionNode,
+	startOfLine,
+	endOfLine,
+	alternationParser,
+	optionalParser,
+	parameterParser,
+	textParser,
+)
+
+func parse(expression string) (node, error) {
 	tokens, err := tokenize(expression)
 	if err != nil {
 		return nullNode, err
 	}
-	consumed, ast := parseTokensUntil(cucumberExpressionParsers, tokens, 0, endOfLine)
+	consumed, ast := cucumberExpressionParser(tokens, 0)
 	if consumed != len(tokens) {
 		// Can't happen if configured properly
 		return nullNode, NewCucumberExpressionError("Could not parse" + expression)
 	}
-
-	return astNode{expressionNode, ast, nullToken}, nil
+	return ast, nil
 }
 
-func parseTokensUntil(parsers []parser, expresion []token, startAt int, endTokens ...tokenType) (int, []astNode) {
-	ast := make([]astNode, 0)
+type parser func(tokens []token, current int) (int, node)
+
+func parseBetween(nodeType nodeType, beginToken tokenType, endToken tokenType, parsers ...parser) parser {
+	return func(tokens []token, current int) (int, node) {
+		if !lookingAt(tokens, current, beginToken) {
+			return 0, nullNode
+		}
+
+		subCurrent := current + 1
+		consumed, subAst := parseTokensUntil(parsers, tokens, subCurrent, endToken)
+		subCurrent += consumed
+
+		// endToken not found
+		if !lookingAt(tokens, subCurrent, endToken) {
+			return 0, nullNode
+		}
+		// consumes endToken
+		start := tokens[current].start
+		end := tokens[subCurrent].end
+		return subCurrent + 1 - current, node{nodeType, start, end, "", subAst}
+	}
+}
+
+func parseTokensUntil(parsers []parser, expresion []token, startAt int, endTokens ...tokenType) (int, []node) {
+	ast := make([]node, 0)
 	current := startAt
 	size := len(expresion)
 	for current < size {
@@ -174,7 +147,7 @@ func parseTokensUntil(parsers []parser, expresion []token, startAt int, endToken
 	return current - startAt, ast
 }
 
-func parseToken(parsers []parser, expresion []token, startAt int) (int, astNode) {
+func parseToken(parsers []parser, expresion []token, startAt int) (int, node) {
 	for _, parser := range parsers {
 		consumed, node := parser(expresion, startAt)
 		if consumed != 0 {
@@ -185,22 +158,58 @@ func parseToken(parsers []parser, expresion []token, startAt int) (int, astNode)
 	return 0, nullNode
 }
 
-func lookingAtAny(expression []token, at int, tokens ...tokenType) bool {
-	for _, token := range tokens {
-		if lookingAt(expression, at, token) {
+func lookingAtAny(tokens []token, at int, tokenTypes ...tokenType) bool {
+	for _, tokenType := range tokenTypes {
+		if lookingAt(tokens, at, tokenType) {
 			return true
 		}
 	}
 	return false
 }
 
-func lookingAt(expression []token, at int, token tokenType) bool {
-	size := len(expression)
+func lookingAt(tokens []token, at int, tokenType tokenType) bool {
+	size := len(tokens)
 	if at < 0 {
-		return token == startOfLine
+		return tokenType == startOfLine
 	}
 	if at >= size {
-		return token == endOfLine
+		return tokenType == endOfLine
 	}
-	return expression[at].tokenType == token
+	return tokens[at].tokenType == tokenType
+}
+
+func splitAlternatives(start int, end int, alternation []node) []node {
+	separators := make([]node, 0)
+	alternatives := make([][]node, 0)
+	alternative := make([]node, 0)
+	for _, n := range alternation {
+		if n.nodeType == alternativeNode {
+			separators = append(separators, n)
+			alternatives = append(alternatives, alternative)
+			alternative = make([]node, 0)
+		} else {
+			alternative = append(alternative, n)
+		}
+	}
+	alternatives = append(alternatives, alternative)
+
+	return createAlternativeNodes(start, end, separators, alternatives)
+}
+
+func createAlternativeNodes(start int, end int, separators []node, alternatives [][]node) []node {
+	nodes := make([]node, 0)
+	for i, n := range alternatives {
+		if i == 0 {
+			rightSeparator := separators[i]
+			nodes = append(nodes, node{alternativeNode, start, rightSeparator.start, "", n})
+		} else if i == len(alternatives)-1 {
+			leftSeparator := separators[i-1]
+			nodes = append(nodes, node{alternativeNode, leftSeparator.end, end, "", n})
+		} else {
+			rightSeparator := separators[i-1]
+			leftSeparator := separators[i]
+			nodes = append(nodes, node{alternativeNode, leftSeparator.end, rightSeparator.start, "", n})
+		}
+	}
+	return nodes
 }

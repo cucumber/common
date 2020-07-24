@@ -63,7 +63,7 @@ final class CucumberExpressionParser {
             return new Result(0);
         }
         Token token = tokens.get(current);
-        return new Result(1, new Node(ALTERNATIVE_NODE, token.start(), token.end(), "/"));
+        return new Result(1, new Node(ALTERNATIVE_NODE, token.start(), token.end(), token.text));
     };
 
     private static final List<Parser> alternativeParsers = asList(
@@ -80,7 +80,7 @@ final class CucumberExpressionParser {
      */
     private static final Parser alternationParser = (expression, tokens, current) -> {
         int previous = current - 1;
-        if (!lookingAt(tokens, previous, START_OF_LINE, WHITE_SPACE)) {
+        if (!lookingAtAny(tokens, previous, START_OF_LINE, WHITE_SPACE)) {
             return new Result(0);
         }
 
@@ -89,6 +89,7 @@ final class CucumberExpressionParser {
         if (result.ast.stream().noneMatch(astNode -> astNode.type() == ALTERNATIVE_NODE)) {
             return new Result(0);
         }
+
         int start = tokens.get(current).start();
         int end = tokens.get(subCurrent).start();
         // Does not consume right hand boundary token
@@ -172,7 +173,7 @@ final class CucumberExpressionParser {
         int size = tokens.size();
         List<Node> ast = new ArrayList<>();
         while (current < size) {
-            if (lookingAt(tokens, current, endTokens)) {
+            if (lookingAtAny(tokens, current, endTokens)) {
                 break;
             }
 
@@ -201,7 +202,7 @@ final class CucumberExpressionParser {
         throw new IllegalStateException("No eligible parsers for " + tokens);
     }
 
-    private static boolean lookingAt(List<Token> tokens, int at, Type... tokenTypes) {
+    private static boolean lookingAtAny(List<Token> tokens, int at, Type... tokenTypes) {
         for (Type tokeType : tokenTypes) {
             if (lookingAt(tokens, at, tokeType)) {
                 return true;
@@ -224,13 +225,13 @@ final class CucumberExpressionParser {
         List<Node> separators = new ArrayList<>();
         List<List<Node>> alternatives = new ArrayList<>();
         List<Node> alternative = new ArrayList<>();
-        for (Node node : alternation) {
-            if (ALTERNATIVE_NODE.equals(node.type())) {
-                separators.add(node);
+        for (Node n : alternation) {
+            if (ALTERNATIVE_NODE.equals(n.type())) {
+                separators.add(n);
                 alternatives.add(alternative);
                 alternative = new ArrayList<>();
             } else {
-                alternative.add(node);
+                alternative.add(n);
             }
         }
         alternatives.add(alternative);
@@ -241,17 +242,17 @@ final class CucumberExpressionParser {
     private static List<Node> createAlternativeNodes(int start, int end, List<Node> separators, List<List<Node>> alternatives) {
         List<Node> nodes = new ArrayList<>();
         for (int i = 0; i < alternatives.size(); i++) {
-            List<Node> node = alternatives.get(i);
+            List<Node> n = alternatives.get(i);
             if (i == 0) {
                 Node rightSeparator = separators.get(i);
-                nodes.add(new Node(ALTERNATIVE_NODE, start, rightSeparator.start(), node));
+                nodes.add(new Node(ALTERNATIVE_NODE, start, rightSeparator.start(), n));
             } else if (i == alternatives.size() - 1) {
                 Node leftSeparator = separators.get(i - 1);
-                nodes.add(new Node(ALTERNATIVE_NODE, leftSeparator.end(), end, node));
+                nodes.add(new Node(ALTERNATIVE_NODE, leftSeparator.end(), end, n));
             } else {
                 Node leftSeparator = separators.get(i - 1);
                 Node rightSeparator = separators.get(i);
-                nodes.add(new Node(ALTERNATIVE_NODE, leftSeparator.end(), rightSeparator.start(), node));
+                nodes.add(new Node(ALTERNATIVE_NODE, leftSeparator.end(), rightSeparator.start(), n));
             }
         }
         return nodes;
