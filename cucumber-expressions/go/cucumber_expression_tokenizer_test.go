@@ -17,100 +17,100 @@ func TestCucumberExpressionTokenizer(t *testing.T) {
 	})
 	t.Run("phrase", func(t *testing.T) {
 		assertContains(t, "three blind mice", []token{
-			{"three", text},
-			{" ", whiteSpace},
-			{"blind", text},
-			{" ", whiteSpace},
-			{"mice", text},
+			{"three", text, -1, -1},
+			{" ", whiteSpace, -1, -1},
+			{"blind", text, -1, -1},
+			{" ", whiteSpace, -1, -1},
+			{"mice", text, -1, -1},
 		})
 	})
 
 	t.Run("optional", func(t *testing.T) {
 		assertContains(t, "(blind)", []token{
-			{"(", beginOptional},
-			{"blind", text},
-			{")", endOptional},
+			{"(", beginOptional, -1, -1},
+			{"blind", text, -1, -1},
+			{")", endOptional, -1, -1},
 		})
 	})
 
 	t.Run("escaped optional", func(t *testing.T) {
 		assertContains(t, "\\(blind\\)", []token{
-			{"\\(", beginOptionalEscaped},
-			{"blind", text},
-			{"\\)", endOptionalEscaped},
+			{"\\(", beginOptionalEscaped, -1, -1},
+			{"blind", text, -1, -1},
+			{"\\)", endOptionalEscaped, -1, -1},
 		})
 	})
 
 	t.Run("optional phrase", func(t *testing.T) {
 		assertContains(t, "three (blind) mice", []token{
-			{"three", text},
-			{" ", whiteSpace},
-			{"(", beginOptional},
-			{"blind", text},
-			{")", endOptional},
-			{" ", whiteSpace},
-			{"mice", text},
+			{"three", text, -1, -1},
+			{" ", whiteSpace, -1, -1},
+			{"(", beginOptional, -1, -1},
+			{"blind", text, -1, -1},
+			{")", endOptional, -1, -1},
+			{" ", whiteSpace, -1, -1},
+			{"mice", text, -1, -1},
 		})
 	})
 
 	t.Run("parameter", func(t *testing.T) {
 		assertContains(t, "{string}", []token{
-			{"{", beginParameter},
-			{"string", text},
-			{"}", endParameter},
+			{"{", beginParameter, -1, -1},
+			{"string", text, -1, -1},
+			{"}", endParameter, -1, -1},
 		})
 	})
 
 	t.Run("escaped parameter", func(t *testing.T) {
 		assertContains(t, "\\{string\\}", []token{
-			{"\\{", beginParameterEscaped},
-			{"string", text},
-			{"\\}", endParameterEscaped},
+			{"\\{", beginParameterEscaped, -1, -1},
+			{"string", text, -1, -1},
+			{"\\}", endParameterEscaped, -1, -1},
 		})
 	})
 
 	t.Run("parameter phrase", func(t *testing.T) {
 		assertContains(t, "three {string} mice", []token{
-			{"three", text},
-			{" ", whiteSpace},
-			{"{", beginParameter},
-			{"string", text},
-			{"}", endParameter},
-			{" ", whiteSpace},
-			{"mice", text},
+			{"three", text, -1, -1},
+			{" ", whiteSpace, -1, -1},
+			{"{", beginParameter, -1, -1},
+			{"string", text, -1, -1},
+			{"}", endParameter, -1, -1},
+			{" ", whiteSpace, -1, -1},
+			{"mice", text, -1, -1},
 		})
 	})
 	t.Run("alternation", func(t *testing.T) {
 		assertContains(t, "blind/cripple", []token{
-			{"blind", text},
-			{"/", alternation},
-			{"cripple", text},
+			{"blind", text, -1, -1},
+			{"/", alternation, -1, -1},
+			{"cripple", text, -1, -1},
 		})
 	})
 
 	t.Run("escaped alternation", func(t *testing.T) {
 		assertContains(t, "blind\\ and\\ famished\\/cripple mice", []token{
-			{"blind", text},
-			{"\\ ", whiteSpaceEscaped},
-			{"and", text},
-			{"\\ ", whiteSpaceEscaped},
-			{"famished", text},
-			{"\\/", alternationEscaped},
-			{"cripple", text},
-			{" ", whiteSpace},
-			{"mice", text},
+			{"blind", text, -1, -1},
+			{"\\ ", whiteSpaceEscaped, -1, -1},
+			{"and", text, -1, -1},
+			{"\\ ", whiteSpaceEscaped, -1, -1},
+			{"famished", text, -1, -1},
+			{"\\/", alternationEscaped, -1, -1},
+			{"cripple", text, -1, -1},
+			{" ", whiteSpace, -1, -1},
+			{"mice", text, -1, -1},
 		})
 	})
 
 	t.Run("alternation phrase", func(t *testing.T) {
 		assertContains(t, "three blind/cripple mice", []token{
-			{"three", text},
-			{" ", whiteSpace},
-			{"blind", text},
-			{"/", alternation},
-			{"cripple", text},
-			{" ", whiteSpace},
-			{"mice", text},
+			{"three", text, -1, -1},
+			{" ", whiteSpace, -1, -1},
+			{"blind", text, -1, -1},
+			{"/", alternation, -1, -1},
+			{"cripple", text, -1, -1},
+			{" ", whiteSpace, -1, -1},
+			{"mice", text, -1, -1},
 		})
 	})
 
