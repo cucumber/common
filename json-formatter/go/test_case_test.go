@@ -572,7 +572,9 @@ var _ = Describe("TestCaseToJSON", func() {
 				{
 					Hook: &messages.Hook{
 						SourceReference: &messages.SourceReference{
-							Uri: "some_hooks.rb",
+							Reference: &messages.SourceReference_Uri{
+								Uri: "some_hooks.rb",
+							},
 							Location: &messages.Location{
 								Line: 5,
 							},
@@ -602,7 +604,9 @@ var _ = Describe("TestCaseToJSON", func() {
 			testCase.Steps = append(testCase.Steps, &TestStep{
 				Hook: &messages.Hook{
 					SourceReference: &messages.SourceReference{
-						Uri: "some_hooks.rb",
+						Reference: &messages.SourceReference_Uri{
+							Uri: "some_hooks.rb",
+						},
 						Location: &messages.Location{
 							Line: 12,
 						},

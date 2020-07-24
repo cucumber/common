@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 
 ### Added
+* Add JavaMethod and JavaStackTraceElement as SourceReference ([#1120](https://github.com/cucumber/cucumber/pull/1120))
 
 ### Changed
 
