@@ -9,7 +9,7 @@ import NoMatchResult from './NoMatchResult'
 import Search from '../../search/Search'
 import { messages } from '@cucumber/messages'
 import filterByStatus from '../../filter/filterByStatus'
-import StatusesFilter from './StatusesFilter'
+import StatusesSummary from './StatusesSummary'
 import countScenariosByStatuses from '../../countScenariosByStatuses'
 import ExecutionSummary from './ExecutionSummary'
 import EnvelopesQueryContext from '../../EnvelopesQueryContext'
@@ -60,13 +60,14 @@ const FilteredResults: React.FunctionComponent = () => {
   return (
     <div className="cucumber-filtered-results">
       <div className="cucumber-report-header">
-        <StatusesFilter
+        <StatusesSummary scenarioCountByStatus={scenarioCountByStatus} />
+        <ExecutionSummary meta={meta} />
+        <SearchBar
+          queryUpdated={(query) => setQuery(query)}
           statusesUpdated={(statuses) => setDisplayedStatuses(statuses)}
           enabledStatuses={displayedStatuses}
           scenarioCountByStatus={scenarioCountByStatus}
         />
-        <ExecutionSummary meta={meta} />
-        <SearchBar queryUpdated={(query) => setQuery(query)} />
       </div>
       <GherkinDocumentList gherkinDocuments={filtered} />
       <NoMatchResult query={query} matches={filtered} />

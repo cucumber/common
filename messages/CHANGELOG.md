@@ -17,6 +17,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+* [Ruby] Fix computing of Timestamp (see [cucumber-ruby#1438](https://github.com/cucumber/cucumber-ruby/issues/1438))
+
 ## [12.2.0] - 2020-06-26
 
 ### Added
