@@ -3,6 +3,7 @@ import { messages } from '@cucumber/messages'
 import EnvelopesQueryContext from '../../EnvelopesQueryContext'
 import CICommitLink from './CICommitLink'
 import getDurationsMillis from '../../getDurationMillis'
+import Duration from './Duration'
 
 interface IProductProps {
   name: string
@@ -38,15 +39,21 @@ const ExecutionSummary: React.FunctionComponent<IProps> = ({ meta: meta }) => {
   const testRunFinished = envelopesQuery.find(
     (envelope) => envelope.testRunFinished !== null
   ).testRunFinished
-  const millisDuration = getDurationsMillis(testRunStarted, testRunFinished)
+  const millisDuration = getDurationsMillis(testRunStarted, testRunFinished, 0)
 
   return (
     <div className="cucumber-execution-data">
       <table>
         <tbody>
           <tr>
-            <th>Duration (milliseconds)</th>
-            <td>{millisDuration || '--'}</td>
+            <th>Duration</th>
+            <td>
+              {millisDuration ? (
+                <Duration durationMillis={millisDuration} />
+              ) : (
+                '--'
+              )}
+            </td>
           </tr>
           {meta.ci && (
             <tr>

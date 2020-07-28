@@ -11,6 +11,7 @@ import QueriesWrapper from '../src/components/app/QueriesWrapper'
 import SearchBar from '../src/components/app/SearchBar'
 import StepContainer from '../src/components/gherkin/StepContainer'
 import HighLight from '../src/components/app/HighLight'
+import Duration from '../src/components/app/Duration'
 
 import '../src/styles/react-accessible-accordion.css'
 import '../src/styles/styles.scss'
@@ -192,3 +193,32 @@ storiesOf('Attachments', module)
       body: mp4Base64,
     })}/>
   })
+
+  storiesOf('Durations', module)
+    .add('sub second', () => {
+      return <Duration durationMillis={123} />
+    })
+    .add('sub minutes', () => {
+      return <ul>
+        <li> with millis: <Duration durationMillis={12300} /></li>
+        <li> no millis: <Duration durationMillis={12000} /></li>
+      </ul>
+    })
+    .add('sub hours', () => {
+      return <ul>
+        <li> with seconds: <Duration durationMillis={312301} /></li>
+        <li> no seconds: <Duration durationMillis={120000} /></li>
+      </ul>
+    })
+    .add('sub days', () => {
+      return <ul>
+        <li> with minutes: <Duration durationMillis={3660000} /></li>
+        <li> no minutes: <Duration durationMillis={3600000} /></li>
+      </ul>
+    })
+    .add('more than a day', () => {
+      return <ul>
+        <li> all fields sets: <Duration durationMillis={25*3600000 + 61234} /></li>
+        <li> just days: <Duration durationMillis={24 * 3600000} /></li>
+      </ul>
+    })
