@@ -341,6 +341,37 @@ var _ = Describe("TestStepToJSON", func() {
 		})
 	})
 
+	Context("When SourceReference does not have a Location", func() {
+		Describe("from a Hook", func() {
+			BeforeEach(func() {
+				step = &TestStep{
+					Hook: &messages.Hook{
+						SourceReference: &messages.SourceReference{
+							Reference: &messages.SourceReference_JavaMethod{
+								JavaMethod: &messages.JavaMethod{
+									ClassName:  "org.cucumber.jvm.Class",
+									MethodName: "someMethod",
+								},
+							},
+						},
+					},
+					Result: &messages.TestStepFinished_TestStepResult{
+						Status: messages.TestStepFinished_TestStepResult_PASSED,
+						Duration: &messages.Duration{
+							Seconds: 123,
+							Nanos:   456,
+						},
+					},
+				}
+				jsonStep = TestStepToJSON(step)
+			})
+
+			It("Has a Match", func() {
+				Expect(jsonStep.Match.Location).To(Equal("org.cucumber.jvm.Class.someMethod"))
+			})
+		})
+	})
+
 	Context("When TestStep comes from a feature step", func() {
 		BeforeEach(func() {
 			step = &TestStep{

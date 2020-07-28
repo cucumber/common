@@ -4,8 +4,9 @@ import (
 	"encoding/base64"
 	"errors"
 	"fmt"
-	"github.com/cucumber/messages-go/v12"
 	"strings"
+
+	"github.com/cucumber/messages-go/v12"
 )
 
 type TestStep struct {
@@ -94,7 +95,7 @@ func TestStepToJSON(step *TestStep) *jsonStep {
 	if step.Hook != nil {
 		return &jsonStep{
 			Match: &jsonStepMatch{
-				Location: makeLocation(step.Hook.SourceReference.GetUri(), step.Hook.SourceReference.Location.Line),
+				Location: makeSourceReferenceLocation(step.Hook.SourceReference),
 			},
 			Result: &jsonStepResult{
 				Status:       status,
@@ -110,10 +111,7 @@ func TestStepToJSON(step *TestStep) *jsonStep {
 	}
 
 	if len(step.StepDefinitions) == 1 {
-		location = makeLocation(
-			step.StepDefinitions[0].SourceReference.GetUri(),
-			step.StepDefinitions[0].SourceReference.Location.Line,
-		)
+		location = makeSourceReferenceLocation(step.StepDefinitions[0].SourceReference)
 	}
 
 	jsonStep := &jsonStep{
@@ -210,4 +208,17 @@ func isOutput(attachment *messages.Attachment) bool {
 
 func makeLocation(file string, line uint32) string {
 	return fmt.Sprintf("%s:%d", file, line)
+}
+
+func makeSourceReferenceLocation(sourceReference *messages.SourceReference) string {
+	location := sourceReference.GetLocation()
+	if location == nil {
+		javaMethod := sourceReference.GetJavaMethod()
+		if javaMethod != nil {
+			return fmt.Sprintf("%s.%s", javaMethod.GetClassName(), javaMethod.GetMethodName())
+		}
+
+		return sourceReference.GetUri()
+	}
+	return makeLocation(sourceReference.GetUri(), location.GetLine())
 }
