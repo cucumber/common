@@ -13,6 +13,8 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Changed
 
+* Handle the `JavaMethod` field in `SourceReference`, will output `<className>.<methodName>`
+
 ### Deprecated
 
 ### Removed
