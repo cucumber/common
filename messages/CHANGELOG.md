@@ -8,13 +8,31 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 
 ### Added
-* Add JavaMethod and JavaStackTraceElement as SourceReference ([#1120](https://github.com/cucumber/cucumber/pull/1120))
 
 ### Changed
 
 ### Deprecated
 
 ### Removed
+
+### Fixed
+
+## [12.3.2] - 2020-07-29
+
+### Fixed
+
+* Release process for 12.3.1 failed
+
+## [12.3.1] - 2020-07-29
+
+### Fixed
+
+* Release process for 12.3.0 failed
+
+## [12.3.0] - 2020-07-29
+
+### Added
+* Add JavaMethod and JavaStackTraceElement as SourceReference ([#1120](https://github.com/cucumber/cucumber/pull/1120))
 
 ### Fixed
 
@@ -374,7 +392,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Protobuf messages for Go, Java, JavaScript, TypeScript and Ruby
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/messages/v12.2.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/messages/v12.3.2...master
+[12.3.2]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v12.3.1...messages/v12.3.2
+[12.3.1]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v12.3.0...messages/v12.3.1
+[12.3.0]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v12.2.0...messages/v12.3.0
 [12.2.0]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v12.1.1...messages/v12.2.0
 [12.1.1]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v12.1.0...messages/v12.1.1
 [12.1.0]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v12.0.0...messages/v12.1.0

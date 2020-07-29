@@ -9,7 +9,7 @@
         <version>2.1.1</version>
     </parent>
     <artifactId>messages</artifactId>
-    <version>12.2.1-SNAPSHOT</version>
+    <version>12.3.3-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>Cucumber Messages</name>
     <description>Protocol Buffer messages for Cucumber's inter-process communication</description>
@@ -29,12 +29,12 @@
         <dependency>
             <groupId>com.google.protobuf</groupId>
             <artifactId>protobuf-java</artifactId>
-            <version>3.12.2</version>
+            <version>3.12.4</version>
         </dependency>
         <dependency>
             <groupId>com.google.protobuf</groupId>
             <artifactId>protobuf-java-util</artifactId>
-            <version>3.12.2</version>
+            <version>3.12.4</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
