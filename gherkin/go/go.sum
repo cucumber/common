@@ -3,6 +3,8 @@ github.com/aslakhellesoy/gox v1.0.100/go.mod h1:AJl542QsKKG96COVsv0N74HHzVQgDIQP
 github.com/creack/pty v1.1.9/go.mod h1:oKZEueFk5CKHvIhNR5MUki03XCEU+Q6VDXinZuGJ33E=
 github.com/cucumber/messages-go/v12 v12.1.1 h1:JJrcLMMqW4LX4mfpiufoGDjQgLI33EkQTsL5nLdgzGk=
 github.com/cucumber/messages-go/v12 v12.1.1/go.mod h1:5zuJu21U6rB+BBqyGoQr839a4h4GUElPnSozdHyhCOQ=
+github.com/cucumber/messages-go/v12 v12.3.2 h1:3icEezFL5RTYXOAP38vPa8Nrii1EnZHEGpNb63yqtAU=
+github.com/cucumber/messages-go/v12 v12.3.2/go.mod h1:cDd0XC62+JmPkCRM/wT5ZcNZLaObZYQnhvres3WXH7Q=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
