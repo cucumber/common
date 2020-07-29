@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 * Display visible anchors for headers ([#983](https://github.com/cucumber/cucumber/issues/983))
 
+* Make Duration human readable.
+
 ### Changed
 
 ### Deprecated
