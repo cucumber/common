@@ -20,11 +20,11 @@ describe('humanFriendlyDuration', () => {
   })
 
   context('sub-minutes', () => {
-    it('only sets the seconds and millis field', () => {
-      const result = humanFriendlyDuration(1234)
+    it('only sets the seconds', () => {
+      const result = humanFriendlyDuration(1034)
 
-      assert.strictEqual(result.millis, 234)
-      assert.strictEqual(result.seconds, 1)
+      assert.strictEqual(result.millis, undefined)
+      assert.strictEqual(result.seconds, 1.034)
       assert.strictEqual(result.minutes, undefined)
       assert.strictEqual(result.hours, undefined)
       assert.strictEqual(result.days, undefined)
@@ -32,11 +32,11 @@ describe('humanFriendlyDuration', () => {
   })
 
   context('sub-hours', () => {
-    it('only sets the minutes, seconds and millis field', () => {
+    it('only sets the minutes and seconds field', () => {
       const result = humanFriendlyDuration(123456)
 
-      assert.strictEqual(result.millis, 456)
-      assert.strictEqual(result.seconds, 3)
+      assert.strictEqual(result.millis, undefined)
+      assert.strictEqual(result.seconds, 3.456)
       assert.strictEqual(result.minutes, 2)
       assert.strictEqual(result.hours, undefined)
       assert.strictEqual(result.days, undefined)
@@ -44,11 +44,11 @@ describe('humanFriendlyDuration', () => {
   })
 
   context('sub-days', () => {
-    it('only sets the hours, minutes, seconds and millis field', () => {
+    it('only sets the hours, minutes and seconds field', () => {
       const result = humanFriendlyDuration(3661123)
 
-      assert.strictEqual(result.millis, 123)
-      assert.strictEqual(result.seconds, 1)
+      assert.strictEqual(result.millis, undefined)
+      assert.strictEqual(result.seconds, 1.123)
       assert.strictEqual(result.minutes, 1)
       assert.strictEqual(result.hours, 1)
       assert.strictEqual(result.days, undefined)
@@ -56,11 +56,11 @@ describe('humanFriendlyDuration', () => {
   })
 
   context('days and more', () => {
-    it('sets all the fields', () => {
+    it('only sets the hours, minutes and seconds field', () => {
       const result = humanFriendlyDuration((25 * 3600 + 61) * 1000 + 111)
 
-      assert.strictEqual(result.millis, 111)
-      assert.strictEqual(result.seconds, 1)
+      assert.strictEqual(result.millis, undefined)
+      assert.strictEqual(result.seconds, 1.111)
       assert.strictEqual(result.minutes, 1)
       assert.strictEqual(result.hours, 1)
       assert.strictEqual(result.days, 1)

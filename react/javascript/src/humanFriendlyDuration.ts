@@ -6,11 +6,20 @@ interface IHumanFriendlyDuration {
   days?: number
 }
 
+function preciseNumber(value: number, precision: number): number {
+  if (precision > 0) {
+    return parseFloat(value.toFixed(precision))
+  }
+
+  return parseInt(value.toFixed(precision))
+}
+
 function splitFields(
   duration: IHumanFriendlyDuration,
   readField: string,
   nextField: string,
-  ratio: number
+  ratio: number,
+  precision = 0
 ) {
   const value: number = duration[readField as keyof IHumanFriendlyDuration]
 
@@ -18,7 +27,10 @@ function splitFields(
     duration[nextField as keyof IHumanFriendlyDuration] = Math.trunc(
       value / ratio
     )
-    duration[readField as keyof IHumanFriendlyDuration] = value % ratio
+    duration[readField as keyof IHumanFriendlyDuration] = preciseNumber(
+      value % ratio,
+      precision
+    )
   }
 
   return duration
@@ -37,21 +49,21 @@ function minutesToHours(
 function secondsToMinutes(
   duration: IHumanFriendlyDuration
 ): IHumanFriendlyDuration {
-  return splitFields(duration, 'seconds', 'minutes', 60)
-}
-
-function millisToSeconds(
-  duration: IHumanFriendlyDuration
-): IHumanFriendlyDuration {
-  return splitFields(duration, 'millis', 'seconds', 1000)
+  return splitFields(duration, 'seconds', 'minutes', 60, 3)
 }
 
 export default function humanFriendlyDuration(
   millis: number
 ): IHumanFriendlyDuration {
-  const duration = hoursToDays(
-    minutesToHours(secondsToMinutes(millisToSeconds({ millis: millis })))
+  if (millis < 1000) {
+    return { millis: preciseNumber(millis, 2) }
+  }
+
+  return hoursToDays(
+    minutesToHours(
+      secondsToMinutes({
+        seconds: preciseNumber(millis / 1000, 3),
+      })
+    )
   )
-  duration.millis = parseFloat(duration.millis.toFixed(2))
-  return duration
 }
