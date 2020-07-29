@@ -210,15 +210,33 @@ func makeLocation(file string, line uint32) string {
 	return fmt.Sprintf("%s:%d", file, line)
 }
 
-func makeSourceReferenceLocation(sourceReference *messages.SourceReference) string {
-	location := sourceReference.GetLocation()
-	if location == nil {
-		javaMethod := sourceReference.GetJavaMethod()
-		if javaMethod != nil {
-			return fmt.Sprintf("%s.%s", javaMethod.GetClassName(), javaMethod.GetMethodName())
-		}
+func makeJavaMethodLocation(
+	javaMethod *messages.JavaMethod,
+) string {
+	return fmt.Sprintf("%s.%s", javaMethod.GetClassName(), javaMethod.GetMethodName())
+}
 
-		return sourceReference.GetUri()
+func makeJavaStackTraceElementLocation(
+	javaStackTraceElement *messages.JavaStackTraceElement,
+	location *messages.Location,
+) string {
+	if location != nil {
+		return makeLocation(javaStackTraceElement.GetFileName(), location.GetLine())
 	}
+	return javaStackTraceElement.GetFileName()
+}
+
+func makeSourceReferenceLocation(sourceReference *messages.SourceReference) string {
+	javaMethod := sourceReference.GetJavaMethod()
+	if javaMethod != nil {
+		return makeJavaMethodLocation(javaMethod)
+	}
+
+	location := sourceReference.GetLocation()
+	javaStackTraceElement := sourceReference.GetJavaStackTraceElement()
+	if javaStackTraceElement != nil {
+		return makeJavaStackTraceElementLocation(javaStackTraceElement, location)
+	}
+
 	return makeLocation(sourceReference.GetUri(), location.GetLine())
 }
