@@ -39,7 +39,7 @@ const ExecutionSummary: React.FunctionComponent<IProps> = ({ meta: meta }) => {
   const testRunFinished = envelopesQuery.find(
     (envelope) => envelope.testRunFinished !== null
   ).testRunFinished
-  const millisDuration = getDurationsMillis(testRunStarted, testRunFinished, 0)
+  const millisDuration = getDurationsMillis(testRunStarted, testRunFinished)
 
   return (
     <div className="cucumber-execution-data">
