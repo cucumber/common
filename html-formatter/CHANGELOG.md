@@ -11,13 +11,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
-* Use `FilteredResults` as the entry point for the reporter ([#1111](https://github.com/cucumber/cucumber/pull/1111))
-
 ### Deprecated
 
 ### Removed
 
 ### Fixed
+
+## [7.1.0] - 2020-07-30
+
+### Changed
+
+* Use `FilteredResults` as the entry point for the reporter ([#1111](https://github.com/cucumber/cucumber/pull/1111))
+
+* Use `react` 8.1.0
 
 ## [7.0.0] - 2020-06-29
 
@@ -211,7 +217,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/html-formatter/v7.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/html-formatter/v7.1.0...master
+[7.1.0]:      https://github.com/cucumber/cucumber/compare/html-formatter/v7.0.0...html-formatter/v7.1.0
 [7.0.0]:      https://github.com/cucumber/cucumber/compare/html-formatter/v6.0.3...html-formatter/v7.0.0
 [6.0.3]:      https://github.com/cucumber/cucumber/compare/html-formatter/v6.0.2...html-formatter/v6.0.3
 [6.0.2]:      https://github.com/cucumber/cucumber/compare/html-formatter/v6.0.1...html-formatter/v6.0.2
