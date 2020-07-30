@@ -9,7 +9,7 @@
         <version>2.1.1</version>
     </parent>
     <artifactId>gherkin</artifactId>
-    <version>14.0.3-SNAPSHOT</version>
+    <version>14.1.1-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>Gherkin</name>
     <description>Gherkin parser</description>
@@ -30,7 +30,7 @@
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>messages</artifactId>
-            <version>12.2.0</version>
+            <version>12.3.2</version>
         </dependency>
 
         <dependency>
@@ -82,6 +82,14 @@
                                     <shadedPattern>io.cucumber.gherkin.internal.com.eclipsesource.json</shadedPattern>
                                 </relocation>
                             </relocations>
+                            <filters>
+                                <filter>
+                                    <artifact>com.eclipsesource.minimal-json:minimal-json</artifact>
+                                    <excludes>
+                                        <exclude>META-INF/MANIFEST.MF</exclude>
+                                    </excludes>
+                                </filter>
+                            </filters>
                         </configuration>
                     </execution>
                 </executions>

@@ -17,12 +17,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [10.2.2] - 2020-07-30
+
+### Fixed
+* Use Unicode symbols as a parameter boundary in snippets
+    ([#1108](https://github.com/cucumber/cucumber/pull/1108)
+ [mpkorstanje])
+
 ## [10.2.1] - 2020-06-23
 
 ### Fixed
 * [Java, Go, Ruby, JavaScript] Parse all group variants
     ([#1069](https://github.com/cucumber/cucumber/pull/1069)
- [mpkorstanje])  
+ [mpkorstanje])
 * [Java, Go, Ruby, JavaScript] Retain position of optional groups
   ([#1076](https://github.com/cucumber/cucumber/pull/1076)
    [mpkorstanje])
@@ -42,7 +49,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
-* [Java] `CucumberExpression` and `RegularExpression` are now public.  
+* [Java] `CucumberExpression` and `RegularExpression` are now public.
 
 ### Fixed
 
@@ -250,7 +257,7 @@ Same as 6.1.1 - just fixed a mistake made during the 6.1.1 release.
   to work around a limitation on Android (and other platforms).
   ([#494](https://github.com/cucumber/cucumber/issues/494)
    [#498](https://github.com/cucumber/cucumber/pull/498)
-   [lsuski])  
+   [lsuski])
 
 ## [6.1.0] - 2018-09-23
 
@@ -692,7 +699,9 @@ N/A
 * First stable release!
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions/v10.2.1...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions/v10.2.2...master
+[10.2.2]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v0.0.0...cucumber-expressions/v10.2.2
+[0.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v10.2.1...cucumber-expressions/v0.0.0
 [10.2.1]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v10.2.0...cucumber-expressions/v10.2.1
 [10.2.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v10.1.0...cucumber-expressions/v10.2.0
 [10.1.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v10.0.0...cucumber-expressions/v10.1.0

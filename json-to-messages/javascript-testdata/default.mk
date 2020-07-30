@@ -4,6 +4,7 @@ rwildcard=$(foreach d,$(wildcard $(1:=/*)),$(call rwildcard,$d,$2) $(filter $(su
 TYPESCRIPT_SOURCE_FILES = $(sort $(call rwildcard,src test,*.ts *.tsx))
 PRIVATE = $(shell node -e "console.log(require('./package.json').private)")
 NPM ?= npm
+IS_TESTDATA = $(findstring -testdata,${CURDIR})
 
 ifeq (yarn,$(NPM))
 LOCKFILE = yarn.lock
@@ -43,33 +44,49 @@ update-dependencies:
 .PHONY: update-dependencies
 
 remove-local-dependencies:
+ifeq ($(IS_TESTDATA),-testdata)
+	# no-op
+else
 	cat package.json | sed 's/"@cucumber\/\(.*\)": "file:..\/..\/.*"/"@cucumber\/\1": "^0.0.0"/' > package.json.tmp
 	mv package.json.tmp package.json
+endif
 .PHONY: remove-local-dependencies
 
 pre-release: remove-local-dependencies update-version update-dependencies clean default
 .PHONY: pre-release
 
 update-version:
+ifeq ($(IS_TESTDATA),-testdata)
+	# no-op
+else
 ifdef NEW_VERSION
 	$(NPM) --no-git-tag-version --allow-same-version version "$(NEW_VERSION)"
 else
 	@echo -e "\033[0;31mNEW_VERSION is not defined. Can't update version :-(\033[0m"
 	exit 1
 endif
+endif
 .PHONY: update-version
 
 publish: .codegen
+ifeq ($(IS_TESTDATA),-testdata)
+	# no-op
+else
 ifneq (true,$(PRIVATE))
 	$(NPM) publish --access public
 else
 	@echo "Not publishing private npm module"
 endif
+endif
 .PHONY: publish
 
 post-release:
+ifeq ($(IS_TESTDATA),-testdata)
+	# no-op
+else
 	cat package.json | sed 's/"@cucumber\/\(.*\)": .*"/"@cucumber\/\1": "file:..\/..\/\1\/javascript"/' > package.json.tmp
 	mv package.json.tmp package.json
+endif
 .PHONY: post-release
 
 clean: clean-javascript

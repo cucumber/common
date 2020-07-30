@@ -1,8 +1,5 @@
 include default.mk
 
-# https://stackoverflow.com/questions/2483182/recursive-wildcards-in-gnu-make
-rwildcard=$(foreach d,$(wildcard $(1:=/*)),$(call rwildcard,$d,$2) $(filter $(subst *,%,$2),$d))
-
 CCK_PATH = ../../compatibility-kit
 CCK_FEATURES=$(call rwildcard,$(CCK_PATH)/javascript/features,*.feature)
 FEATURES=$(patsubst $(CCK_PATH)/javascript/%,%,$(CCK_FEATURES))

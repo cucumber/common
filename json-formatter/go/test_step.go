@@ -94,7 +94,7 @@ func TestStepToJSON(step *TestStep) *jsonStep {
 	if step.Hook != nil {
 		return &jsonStep{
 			Match: &jsonStepMatch{
-				Location: makeLocation(step.Hook.SourceReference.Uri, step.Hook.SourceReference.Location.Line),
+				Location: makeLocation(step.Hook.SourceReference.GetUri(), step.Hook.SourceReference.Location.Line),
 			},
 			Result: &jsonStepResult{
 				Status:       status,
@@ -111,7 +111,7 @@ func TestStepToJSON(step *TestStep) *jsonStep {
 
 	if len(step.StepDefinitions) == 1 {
 		location = makeLocation(
-			step.StepDefinitions[0].SourceReference.Uri,
+			step.StepDefinitions[0].SourceReference.GetUri(),
 			step.StepDefinitions[0].SourceReference.Location.Line,
 		)
 	}
