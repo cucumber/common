@@ -9,7 +9,7 @@
     </parent>
 
     <artifactId>cucumber-expressions</artifactId>
-    <version>0.0.0</version>
+    <version>10.2.2</version>
     <packaging>jar</packaging>
     <name>Cucumber Expressions</name>
     <description>Cucumber Expressions are simple patterns for matching Step Definitions with Gherkin steps</description>
