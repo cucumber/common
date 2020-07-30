@@ -91,6 +91,8 @@ message Meta {
       string revision = 2;
       string branch = 3;
       string tag = 4;
+
+      string revision_url = 5;
     }
   }
 }
