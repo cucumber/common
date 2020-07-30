@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 
 ### Added
+ * Suggested file name to the Attachment messages ([#1128](https://github.com/cucumber/cucumber/pull/1128)) 
 
 ### Changed
 
