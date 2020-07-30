@@ -20,10 +20,10 @@
     "build-storybook": "build-storybook"
   },
   "dependencies": {
-    "@cucumber/gherkin-utils": "^1.0.1",
-    "@cucumber/messages": "^12.3.2",
-    "@cucumber/query": "^6.1.0",
-    "@cucumber/tag-expressions": "^2.0.4",
+    "@cucumber/gherkin-utils": "file:../../gherkin-utils/javascript",
+    "@cucumber/messages": "file:../../messages/javascript",
+    "@cucumber/query": "file:../../query/javascript",
+    "@cucumber/tag-expressions": "file:../../tag-expressions/javascript",
     "@fortawesome/fontawesome": "^1.1.8",
     "@fortawesome/fontawesome-svg-core": "^1.2.30",
     "@fortawesome/free-regular-svg-icons": "^5.14.0",
@@ -44,8 +44,8 @@
   },
   "devDependencies": {
     "@babel/core": "^7.10.5",
-    "@cucumber/fake-cucumber": "^7.1.0",
-    "@cucumber/gherkin": "^14.1.0",
+    "@cucumber/fake-cucumber": "file:../../fake-cucumber/javascript",
+    "@cucumber/gherkin": "file:../../gherkin/javascript",
     "@storybook/addon-actions": "^5.3.19",
     "@storybook/addon-links": "^5.3.19",
     "@storybook/addons": "^5.3.19",
