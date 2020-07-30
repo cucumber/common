@@ -21,10 +21,10 @@
     "build": "tsc && webpack-cli src/main.tsx && cp src/index.mustache.html dist/src"
   },
   "dependencies": {
-    "@cucumber/gherkin": "^14.1.0",
-    "@cucumber/messages": "^12.3.2",
-    "@cucumber/query": "^6.1.0",
-    "@cucumber/react": "^8.1.0",
+    "@cucumber/gherkin": "file:../../gherkin/javascript",
+    "@cucumber/messages": "file:../../messages/javascript",
+    "@cucumber/query": "file:../../query/javascript",
+    "@cucumber/react": "file:../../react/javascript",
     "commander": "^6.0.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
