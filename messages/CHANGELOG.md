@@ -8,7 +8,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 
 ### Added
- * Suggested file name to the Attachment messages ([#1128](https://github.com/cucumber/cucumber/pull/1128)) 
+* Suggested file name to the Attachment messages ([#1128](https://github.com/cucumber/cucumber/pull/1128)) 
+* Added ProtocolVersion to access messages version reliably ([#1127](https://github.com/cucumber/cucumber/pull/1127) [mpkorstanje])
 
 ### Changed
 

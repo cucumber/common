@@ -1,28 +1,35 @@
 package io.cucumber.createmeta;
 
 import io.cucumber.messages.Messages;
-
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.matchesPattern;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class CreateMetaTest {
+class CreateMetaTest {
     @Test
-    public void it_provides_the_correct_tool_name() {
+    void it_provides_the_correct_tool_name() {
         Messages.Meta meta = CreateMeta.createMeta("cucumber-jvm", "3.2.1", new HashMap<>());
         assertEquals("cucumber-jvm", meta.getImplementation().getName());
     }
 
     @Test
-    public void it_provides_the_correct_tool_version() {
+    void it_provides_the_correct_tool_version() {
         Messages.Meta meta = CreateMeta.createMeta("cucumber-jvm", "3.2.1", new HashMap<>());
         assertEquals("3.2.1", meta.getImplementation().getVersion());
     }
 
     @Test
-    public void it_detects_github_actions() {
+    void it_provides_the_correct_protocol_version() {
+        Messages.Meta meta = CreateMeta.createMeta("cucumber-jvm", "3.2.1", new HashMap<>());
+        assertThat(meta.getProtocolVersion(), matchesPattern("\\d+\\.\\d+\\.\\d+(-SNAPSHOT)?"));
+    }
+
+    @Test
+    void it_detects_github_actions() {
         HashMap<String, String> env = new HashMap<String, String>() {{
             put("GITHUB_REPOSITORY", "cucumber/cucumber-ruby");
             put("GITHUB_RUN_ID", "140170388");
@@ -41,4 +48,5 @@ public class CreateMetaTest {
                         .build(),
                 meta.getCi());
     }
+
 }
