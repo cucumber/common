@@ -23,8 +23,12 @@
     - [GherkinDocument.Feature.TableRow.TableCell](#io.cucumber.messages.GherkinDocument.Feature.TableRow.TableCell)
     - [GherkinDocument.Feature.Tag](#io.cucumber.messages.GherkinDocument.Feature.Tag)
     - [Hook](#io.cucumber.messages.Hook)
+    - [JavaMethod](#io.cucumber.messages.JavaMethod)
+    - [JavaStackTraceElement](#io.cucumber.messages.JavaStackTraceElement)
     - [Location](#io.cucumber.messages.Location)
     - [Meta](#io.cucumber.messages.Meta)
+    - [Meta.CI](#io.cucumber.messages.Meta.CI)
+    - [Meta.CI.Git](#io.cucumber.messages.Meta.CI.Git)
     - [Meta.Product](#io.cucumber.messages.Meta.Product)
     - [ParameterType](#io.cucumber.messages.ParameterType)
     - [ParseError](#io.cucumber.messages.ParseError)
@@ -59,9 +63,6 @@
     - [StepDefinition.StepDefinitionPattern.StepDefinitionPatternType](#io.cucumber.messages.StepDefinition.StepDefinitionPattern.StepDefinitionPatternType)
     - [TestStepFinished.TestStepResult.Status](#io.cucumber.messages.TestStepFinished.TestStepResult.Status)
   
-  
-  
-
 - [Scalar Value Types](#scalar-value-types)
 
 
@@ -97,6 +98,7 @@ is captured in `TestResult`.
 | content_encoding | [Attachment.ContentEncoding](#io.cucumber.messages.Attachment.ContentEncoding) |  | Content encoding is *not* determined by the media type, but rather by the type of the object being attached:
 
 - string =&gt; IDENTITY - byte array =&gt; BASE64 - stream =&gt; BASE64 |
+| file_name | [string](#string) |  | Suggested file name of the attachment. |
 
 
 
@@ -449,6 +451,40 @@ A tag
 
 
 
+<a name="io.cucumber.messages.JavaMethod"></a>
+
+### JavaMethod
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| class_name | [string](#string) |  |  |
+| method_name | [string](#string) |  |  |
+| method_parameter_types | [string](#string) | repeated |  |
+
+
+
+
+
+
+<a name="io.cucumber.messages.JavaStackTraceElement"></a>
+
+### JavaStackTraceElement
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| class_name | [string](#string) |  |  |
+| method_name | [string](#string) |  |  |
+| file_name | [string](#string) |  |  |
+
+
+
+
+
+
 <a name="io.cucumber.messages.Location"></a>
 
 ### Location
@@ -479,6 +515,42 @@ this for various purposes.
 | runtime | [Meta.Product](#io.cucumber.messages.Meta.Product) |  | Java, Ruby, Node.js etc |
 | os | [Meta.Product](#io.cucumber.messages.Meta.Product) |  | Windows, Linux, MacOS etc |
 | cpu | [Meta.Product](#io.cucumber.messages.Meta.Product) |  | 386, arm, amd64 etc |
+| ci | [Meta.CI](#io.cucumber.messages.Meta.CI) |  | CI environment |
+
+
+
+
+
+
+<a name="io.cucumber.messages.Meta.CI"></a>
+
+### Meta.CI
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| name | [string](#string) |  | Name of the CI product, e.g. &#34;Jenkins&#34;, &#34;CircleCI&#34; etc. |
+| url | [string](#string) |  | Link to the build |
+| git | [Meta.CI.Git](#io.cucumber.messages.Meta.CI.Git) |  | Information about Git, provided by the Build/CI server as environment variables. |
+
+
+
+
+
+
+<a name="io.cucumber.messages.Meta.CI.Git"></a>
+
+### Meta.CI.Git
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| remote | [string](#string) |  |  |
+| revision | [string](#string) |  |  |
+| branch | [string](#string) |  |  |
+| tag | [string](#string) |  |  |
 
 
 
@@ -704,6 +776,8 @@ Points to a [Source](#io.cucumber.messages.Source) identified by `uri` and a
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | uri | [string](#string) |  |  |
+| java_method | [JavaMethod](#io.cucumber.messages.JavaMethod) |  |  |
+| java_stack_trace_element | [JavaStackTraceElement](#io.cucumber.messages.JavaStackTraceElement) |  |  |
 | location | [Location](#io.cucumber.messages.Location) |  |  |
 
 
