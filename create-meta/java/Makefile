@@ -13,4 +13,4 @@ CIS               = $(patsubst ../testdata/%.txt,acceptance/%.txt.json,$(ENVIRON
 acceptance/%.txt.json: ../testdata/%.txt ../testdata/%.txt.json
 	mkdir -p $(@D)
 	./bin/print-meta $< | jq --sort-keys "." > $@
-	diff --unified <(jq "." $<.json) <(jq "." $@)
+	diff --unified <(jq --sort-keys "." $<.json) <(jq "." $@)

@@ -13,6 +13,11 @@ ndjson_files: $(NDJSON_FILES)
 
 features/%.ndjson: features/%.feature features/%.ts .deps
 ifdef GOLDEN
+	GITHUB_SERVER_URL=https://github.com \
+	GITHUB_REPOSITORY=cucumber-ltd/shouty.rb \
+	GITHUB_RUN_ID=154666429 \
+	GITHUB_SHA=99684bcacf01d95875834d87903dcb072306c9ad \
+	GITHUB_REF=refs/heads/master \
 	./node_modules/@cucumber/fake-cucumber/bin/fake-cucumber \
 		--format ndjson \
 		$< > $@
