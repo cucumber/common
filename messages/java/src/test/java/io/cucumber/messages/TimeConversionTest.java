@@ -1,6 +1,6 @@
 package io.cucumber.messages;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -9,11 +9,12 @@ import static io.cucumber.messages.TimeConversion.durationToJavaDuration;
 import static io.cucumber.messages.TimeConversion.javaDurationToDuration;
 import static io.cucumber.messages.TimeConversion.javaInstantToTimestamp;
 import static io.cucumber.messages.TimeConversion.timestampToJavaInstant;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class TimeConversionTest {
+class TimeConversionTest {
+
     @Test
-    public void convertsToAndFromTimestamp() {
+    void convertsToAndFromTimestamp() {
         Instant javaInstant = Instant.now();
         Messages.Timestamp timestamp = javaInstantToTimestamp(javaInstant);
         Instant javaInstantAgain = timestampToJavaInstant(timestamp);
@@ -22,11 +23,12 @@ public class TimeConversionTest {
     }
 
     @Test
-    public void convertsToAndFromDuration() {
+    void convertsToAndFromDuration() {
         Duration javaDuration = Duration.ofSeconds(3, 161000);
         Messages.Duration duration = javaDurationToDuration(javaDuration);
         Duration javaDurationAgain = durationToJavaDuration(duration);
 
         assertEquals(javaDuration, javaDurationAgain);
     }
+
 }
