@@ -88,47 +88,49 @@ public class CreateMeta {
         return ciBuilder.setGit(gitBuilder).build();
     }
 
-    private static String evaluate(String template, Map<String, String> env) {
+    /**
+     * Evaluates a simple template
+     *
+     * @param template the template from the ciDict.json file
+     * @param envDict variables
+     * @return the evaluated template, or undefined if a variable was undefined
+     */
+    private static String evaluate(String template, Map<String, String> envDict) {
         if (template == null) return null;
-        try {
-            Pattern pattern = Pattern.compile("\\$\\{((refbranch|reftag)\\s+)?([^\\s}]+)(\\s+\\|\\s+([^}]+))?}");
-            Matcher matcher = pattern.matcher(template);
-            StringBuffer sb = new StringBuffer();
-            while (matcher.find()) {
-                String func = matcher.group(2);
-                String variable = matcher.group(3);
-                String defaultValue = matcher.group(5);
-                String value = env.getOrDefault(variable, defaultValue);
-                if (value == null) {
-                    throw new RuntimeException(String.format("Undefined variable: %s", variable));
-                }
-                if(func != null) {
-                    switch (func) {
-                        case "refbranch":
-                            value = group1(value, Pattern.compile("^refs/heads/(.*)"));
-                            break;
-                        case "reftag":
-                            value = group1(value, Pattern.compile("^refs/tags/(.*)"));
-                            break;
-                    }
-                }
-                if (value == null) {
-                    throw new RuntimeException(String.format("Undefined variable: %s", variable));
-                }
-                matcher.appendReplacement(sb, value);
+        Pattern pattern = Pattern.compile("\\$\\{((refbranch|reftag)\\s+)?([^\\s}]+)(\\s+\\|\\s+([^}]+))?}");
+        Matcher matcher = pattern.matcher(template);
+        StringBuffer sb = new StringBuffer();
+        while (matcher.find()) {
+            String func = matcher.group(2);
+            String variable = matcher.group(3);
+            String defaultValue = matcher.group(5);
+            String value = envDict.getOrDefault(variable, defaultValue);
+            if (value == null) {
+                return null;
             }
-            matcher.appendTail(sb);
-            return sb.toString();
-        } catch (RuntimeException e) {
-            return null;
+            if(func != null) {
+                switch (func) {
+                    case "refbranch":
+                        value = group1(value, Pattern.compile("^refs/heads/(.*)"));
+                        break;
+                    case "reftag":
+                        value = group1(value, Pattern.compile("^refs/tags/(.*)"));
+                        break;
+                }
+            }
+            if (value == null) {
+                return null;
+            }
+            matcher.appendReplacement(sb, value);
         }
+        matcher.appendTail(sb);
+        return sb.toString();
     }
 
     private static String group1(String value, Pattern pattern) {
         Matcher matcher = pattern.matcher(value);
         if(matcher.find()) {
-            String g1 = matcher.group(1);
-            return g1;
+            return matcher.group(1);
         }
         return matcher.find() ? matcher.group(1) : null;
     }

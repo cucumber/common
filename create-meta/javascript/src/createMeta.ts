@@ -87,9 +87,11 @@ function createCi(
 }
 
 /**
- * Evaluates a simple template language
+ * Evaluates a simple template
+ *
  * @param template - the template from the ciDict.json file
  * @param envDict - variables
+ * @return the evaluated template, or undefined if a variable was undefined
  */
 function evaluate(template: string, envDict: EnvDict): string | undefined {
   if (template === undefined) {
