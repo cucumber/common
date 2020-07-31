@@ -45,9 +45,9 @@
     }
   },
   "GitHub Actions": {
-    "url": "${_GITHUB_BASEURL | https://github.com/}${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}",
+    "url": "${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}",
     "git": {
-      "remote": "${_GITHUB_BASEURL | https://github.com/}${GITHUB_REPOSITORY}.git",
+      "remote": "${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}.git",
       "revision": "${GITHUB_SHA}",
       "branch": "${refbranch GITHUB_REF}",
       "tag": "${reftag GITHUB_REF}"

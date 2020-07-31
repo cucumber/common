@@ -17,17 +17,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+* Support GitHub Enterprise by using `GITHUB_SERVER_URL` to construct URLs
+
 ## [1.2.0] - 2020-07-31
 
 ### Changed
 
-* Updated `messages` to v12.4.0 
+* Updated `messages` to v12.4.0
 
 ## [1.1.0] - 2020-07-30
 
 ### Changed
 
-* Updated `messages` to v12.3.2 
+* Updated `messages` to v12.3.2
 
 ## [1.0.0] - 2020-06-29
 
