@@ -1,6 +1,6 @@
 {
   "name": "@cucumber/gherkin",
-  "version": "14.1.0",
+  "version": "14.2.0",
   "description": "Gherkin parser",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
@@ -40,14 +40,14 @@
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-react": "^7.20.5",
     "json-schema": "^0.2.5",
-    "mocha": "^8.0.1",
+    "mocha": "^8.1.0",
     "nyc": "^15.1.0",
     "prettier": "^2.0.5",
     "ts-node": "^8.10.2",
     "typescript": "^3.9.7"
   },
   "dependencies": {
-    "@cucumber/messages": "file:../../messages/javascript",
+    "@cucumber/messages": "^12.4.0",
     "@teppeis/multimaps": "^1.1.0",
     "commander": "^6.0.0",
     "source-map-support": "^0.5.19"
