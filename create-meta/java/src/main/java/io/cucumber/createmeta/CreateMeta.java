@@ -3,6 +3,7 @@ package io.cucumber.createmeta;
 import com.eclipsesource.json.Json;
 import com.eclipsesource.json.JsonObject;
 import io.cucumber.messages.Messages;
+import io.cucumber.messages.ProtocolVersion;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -33,7 +34,6 @@ public class CreateMeta {
             Map<String, String> env
     ) {
         Messages.Meta.Builder metaBuilder = Messages.Meta.newBuilder()
-                .setProtocolVersion(Messages.class.getPackage().getImplementationVersion())
                 .setRuntime(Messages.Meta.Product.newBuilder()
                         .setName(System.getProperty("java.vendor"))
                         .setVersion(System.getProperty("java.version")))
@@ -44,6 +44,10 @@ public class CreateMeta {
                         .setName(System.getProperty("os.name")))
                 .setCpu(Messages.Meta.Product.newBuilder()
                         .setName(System.getProperty("os.arch")));
+
+        ProtocolVersion.getVersion()
+                .ifPresent(metaBuilder::setProtocolVersion);
+
         Messages.Meta.CI ci = detectCI(env);
         if (ci != null) {
             metaBuilder.setCi(ci);
