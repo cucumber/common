@@ -34,10 +34,10 @@ export default abstract class TestStep implements ITestStep {
   ): Promise<messages.TestStepFinished.ITestStepResult> {
     this.emitTestStepStarted(testCaseStartedId, listener)
 
-    const start = this.clock.now()
+    const start = this.clock.clockNow()
 
     if (this.supportCodeExecutors.length === 0) {
-      const duration = millisecondsToDuration(this.clock.now() - start)
+      const duration = millisecondsToDuration(this.clock.clockNow() - start)
 
       return this.emitTestStepFinished(
         testCaseStartedId,
@@ -50,7 +50,7 @@ export default abstract class TestStep implements ITestStep {
     }
 
     if (this.supportCodeExecutors.length > 1) {
-      const duration = millisecondsToDuration(this.clock.now() - start)
+      const duration = millisecondsToDuration(this.clock.clockNow() - start)
 
       return this.emitTestStepFinished(
         testCaseStartedId,
@@ -69,7 +69,7 @@ export default abstract class TestStep implements ITestStep {
       }
 
       const result = await this.supportCodeExecutors[0].execute(world)
-      const finish = this.clock.now()
+      const finish = this.clock.clockNow()
       const duration = millisecondsToDuration(finish - start)
       return this.emitTestStepFinished(
         testCaseStartedId,
@@ -83,7 +83,7 @@ export default abstract class TestStep implements ITestStep {
         listener
       )
     } catch (error) {
-      const finish = this.clock.now()
+      const finish = this.clock.clockNow()
 
       const message = this.makeErrorMessage(error, this.sourceFrames)
       const duration = millisecondsToDuration(finish - start)
@@ -123,7 +123,7 @@ export default abstract class TestStep implements ITestStep {
         testStepStarted: new messages.TestStepStarted({
           testCaseStartedId,
           testStepId: this.id,
-          timestamp: millisecondsSinceEpochToTimestamp(this.clock.now()),
+          timestamp: millisecondsSinceEpochToTimestamp(this.clock.clockNow()),
         }),
       })
     )
@@ -140,7 +140,7 @@ export default abstract class TestStep implements ITestStep {
           testCaseStartedId,
           testStepId: this.id,
           testStepResult,
-          timestamp: millisecondsSinceEpochToTimestamp(this.clock.now()),
+          timestamp: millisecondsSinceEpochToTimestamp(this.clock.clockNow()),
         }),
       })
     )

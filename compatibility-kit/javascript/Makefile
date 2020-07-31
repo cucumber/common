@@ -15,7 +15,6 @@ features/%.ndjson: features/%.feature features/%.ts .deps
 ifdef GOLDEN
 	./node_modules/@cucumber/fake-cucumber/bin/fake-cucumber \
 		--format ndjson \
-		--predictable-ids \
 		$< > $@
 else
   # no-op: run with GOLDEN=1

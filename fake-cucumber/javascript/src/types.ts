@@ -10,6 +10,7 @@ import ITestCase from './ITestCase'
 import SupportCode from './SupportCode'
 import ITestPlan from './ITestPlan'
 import { Query as GherkinQuery } from '@cucumber/gherkin'
+import IStopwatch from './IStopwatch'
 
 export type EnvelopeListener = (envelope: messages.IEnvelope) => void
 export type AnyBody = (...args: ReadonlyArray<any>) => any
@@ -35,6 +36,7 @@ export type MakeHookTestStep = (
   gherkinQuery: Query,
   newId: IdGenerator.NewId,
   clock: IClock,
+  stopwatch: IStopwatch,
   makeErrorMessage: MakeErrorMessage
 ) => ITestStep
 
@@ -46,6 +48,7 @@ export type MakeTestCase = (
   gherkinQuery: Query,
   newId: IdGenerator.NewId,
   clock: IClock,
+  stopwatch: IStopwatch,
   makeErrorMessage: MakeErrorMessage,
   makePickleTestStep: MakePickleTestStep,
   makeHookStep: MakeHookTestStep

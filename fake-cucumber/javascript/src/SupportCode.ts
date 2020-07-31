@@ -12,7 +12,9 @@ import Hook from './Hook'
 import IClock from './IClock'
 import { MakeErrorMessage, withFullStackTrace } from './ErrorMessageGenerator'
 import IParameterTypeDefinition from './IParameterTypeDefinition'
-import PerfHooksClock from './PerfHooksClock'
+import PerfHooksStopwatch from './PerfHooksStopwatch'
+import IStopwatch from './IStopwatch'
+import DateClock from './DateClock'
 
 function defaultTransformer(...args: string[]) {
   return args
@@ -36,7 +38,8 @@ export default class SupportCode {
 
   constructor(
     public readonly newId: IdGenerator.NewId = IdGenerator.uuid(),
-    public readonly clock: IClock = new PerfHooksClock(),
+    public readonly clock: IClock = new DateClock(),
+    public readonly stopwatch: IStopwatch = new PerfHooksStopwatch(),
     public readonly makeErrorMessage: MakeErrorMessage = withFullStackTrace()
   ) {}
 
