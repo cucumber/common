@@ -17,6 +17,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [8.2.0] - 2020-07-31
+
+### Changed
+
+* Updated `messages` to v12.4.0 
+
 ## [8.1.0] - 2020-07-30
 
 ### Added
@@ -208,7 +214,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/react/v8.1.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/react/v8.2.0...master
+[8.2.0]:      https://github.com/cucumber/cucumber/compare/react/v8.1.0...react/v8.2.0
 [8.1.0]:      https://github.com/cucumber/cucumber/compare/react/v8.0.1...react/v8.1.0
 [8.0.1]:      https://github.com/cucumber/cucumber/compare/react/v8.0.0...react/v8.0.1
 [8.0.0]:      https://github.com/cucumber/cucumber/compare/react/v7.0.0...react/v8.0.0
