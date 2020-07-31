@@ -1,8 +1,8 @@
 package cucumberexpressions
 
 import (
-	"regexp"
-	"strings"
+	//"regexp"
+	//"strings"
 )
 
 type tokenizer func(expression string, current int) (int, token)
