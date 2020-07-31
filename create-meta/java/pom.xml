@@ -9,7 +9,7 @@
     </parent>
 
     <artifactId>create-meta</artifactId>
-    <version>1.1.1-SNAPSHOT</version>
+    <version>1.2.0</version>
     <packaging>jar</packaging>
     <name>Cucumber create meta</name>
     <description>Produce the meta message for Cucumber-JVM</description>
@@ -29,7 +29,7 @@
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>messages</artifactId>
-            <version>12.3.3-SNAPSHOT</version>
+            <version>12.4.0</version>
         </dependency>
 
         <dependency>

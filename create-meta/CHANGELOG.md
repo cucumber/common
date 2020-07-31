@@ -17,6 +17,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [1.2.0] - 2020-07-31
+
+### Changed
+
+* Updated `messages` to v12.4.0 
+
 ## [1.1.0] - 2020-07-30
 
 ### Changed
@@ -30,7 +36,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/create-meta/v1.1.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/create-meta/v1.2.0...master
+[1.2.0]:      https://github.com/cucumber/cucumber/releases/tag/create-meta/v1.1.0
 [1.1.0]:      https://github.com/cucumber/cucumber/releases/tag/create-meta/v1.0.0
 [1.0.0]:      https://github.com/cucumber/cucumber/releases/tag/create-meta/v1.0.0
 
