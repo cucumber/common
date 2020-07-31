@@ -9,6 +9,7 @@ import { promisify } from 'util'
 import IncrementClock from '@cucumber/fake-cucumber/dist/src/IncrementClock'
 import Query from '../src/Query'
 import { makeTestPlan, makeTestCase } from '@cucumber/fake-cucumber'
+import IncrementStopwatch from '@cucumber/fake-cucumber/dist/src/IncrementStopwatch'
 
 const pipelinePromise = promisify(pipeline)
 
@@ -519,8 +520,14 @@ describe('Query', () => {
   ): Promise<void> {
     const newId = IdGenerator.incrementing()
     const clock = new IncrementClock()
+    const stopwatch = new IncrementStopwatch()
     const makeErrorMessage = withFullStackTrace()
-    const supportCode = new SupportCode(newId, clock, makeErrorMessage)
+    const supportCode = new SupportCode(
+      newId,
+      clock,
+      stopwatch,
+      makeErrorMessage
+    )
     supportCode.defineBeforeHook(null, '@beforeHook', () => {
       // no-op
     })
