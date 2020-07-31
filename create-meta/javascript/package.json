@@ -48,7 +48,7 @@
     "ts-sinon": "^1.2.0"
   },
   "dependencies": {
-    "@cucumber/messages": "^12.4.0",
+    "@cucumber/messages": "file:../../messages/javascript",
     "ts-node": "^8.10.2",
     "typescript": "^3.9.7"
   },
