@@ -98,6 +98,7 @@ is captured in `TestResult`.
 | content_encoding | [Attachment.ContentEncoding](#io.cucumber.messages.Attachment.ContentEncoding) |  | Content encoding is *not* determined by the media type, but rather by the type of the object being attached:
 
 - string =&gt; IDENTITY - byte array =&gt; BASE64 - stream =&gt; BASE64 |
+| file_name | [string](#string) |  | Suggested file name of the attachment. |
 
 
 

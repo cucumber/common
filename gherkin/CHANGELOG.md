@@ -19,6 +19,12 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Fixed
 
+## [14.2.0] - 2020-07-31
+
+### Changed
+
+* Update `messages` to 12.4.0
+
 ## [14.1.0] - 2020-07-29
 
 ### Changed
@@ -775,7 +781,8 @@ to Gherkin 2.
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v14.1.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v14.2.0...master
+[14.2.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v14.1.0...gherkin/v14.2.0
 [14.1.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v14.0.2...gherkin/v14.1.0
 [14.0.2]:     https://github.com/cucumber/cucumber/compare/gherkin/v14.0.1...gherkin/v14.0.2
 [14.0.1]:     https://github.com/cucumber/cucumber/compare/gherkin/v12.2.1...gherkin/v14.0.1
