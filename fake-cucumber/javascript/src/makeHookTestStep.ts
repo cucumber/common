@@ -31,6 +31,7 @@ export default function makeHookTestStep(
       [supportCodeExecutor],
       sourceFrames,
       clock,
+      stopwatch,
       makeErrorMessage
     )
   }

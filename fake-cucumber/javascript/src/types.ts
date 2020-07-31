@@ -26,6 +26,7 @@ export type MakePickleTestStep = (
   stepDefinitions: ReadonlyArray<IStepDefinition>,
   sourceFrames: ReadonlyArray<string>,
   clock: IClock,
+  stopwatch: IStopwatch,
   makeErrorMessage: MakeErrorMessage
 ) => ITestStep
 

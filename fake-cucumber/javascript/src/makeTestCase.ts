@@ -32,6 +32,7 @@ export default function makeTestCase(
       [],
       [],
       clock,
+      stopwatch,
       makeErrorMessage
     )
     return new TestCase(newId(), [undefinedStep], pickle.id, clock)
@@ -58,6 +59,7 @@ export default function makeTestCase(
       stepDefinitions,
       sourceFrames,
       clock,
+      stopwatch,
       makeErrorMessage
     )
   })
