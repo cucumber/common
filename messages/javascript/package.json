@@ -1,6 +1,6 @@
 {
   "name": "@cucumber/messages",
-  "version": "12.3.2",
+  "version": "12.4.0",
   "description": "Protocol Buffer messages for Cucumber's inter-process communication",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
@@ -37,7 +37,7 @@
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-react": "^7.20.5",
     "json-schema": "^0.2.5",
-    "mocha": "^8.0.1",
+    "mocha": "^8.1.0",
     "nyc": "^15.1.0",
     "prettier": "^2.0.5",
     "ts-node": "^8.10.2",
