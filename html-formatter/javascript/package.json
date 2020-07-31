@@ -1,6 +1,6 @@
 {
   "name": "@cucumber/html-formatter",
-  "version": "7.1.0",
+  "version": "7.2.0",
   "description": "HTML formatter for Cucumber",
   "bin": {
     "cucumber-html-formatter": "bin/cucumber-html-formatter.js"
@@ -21,17 +21,17 @@
     "build": "tsc && webpack-cli src/main.tsx && cp src/index.mustache.html dist/src"
   },
   "dependencies": {
-    "@cucumber/gherkin": "file:../../gherkin/javascript",
-    "@cucumber/messages": "file:../../messages/javascript",
-    "@cucumber/query": "file:../../query/javascript",
-    "@cucumber/react": "file:../../react/javascript",
+    "@cucumber/gherkin": "^14.2.0",
+    "@cucumber/messages": "^12.4.0",
+    "@cucumber/query": "^6.1.0",
+    "@cucumber/react": "^8.1.0",
     "commander": "^6.0.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "source-map-support": "^0.5.19"
   },
   "devDependencies": {
-    "@babel/core": "^7.10.5",
+    "@babel/core": "^7.11.0",
     "@types/jsdom": "^16.2.3",
     "@types/mocha": "^8.0.0",
     "@types/node": "^14.0.27",
@@ -48,13 +48,13 @@
     "eslint-plugin-react": "^7.20.5",
     "gherkin": "^9.0.0",
     "json-schema": "^0.2.5",
-    "mocha": "^8.0.1",
+    "mocha": "^8.1.0",
     "npm-link-shared": "^0.5.6",
     "nyc": "^15.1.0",
     "prettier": "^2.0.5",
     "typescript": "^3.9.7",
     "ts-node": "^8.10.2",
-    "webpack": "^4.44.0",
+    "webpack": "^4.44.1",
     "webpack-cli": "^3.3.12"
   },
   "bugs": {
