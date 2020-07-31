@@ -9,8 +9,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
-* Add `revision_url` for GitHub Action and GitLab CI/CD
-
 ### Changed
 
 ### Deprecated

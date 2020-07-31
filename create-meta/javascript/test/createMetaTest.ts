@@ -38,6 +38,7 @@ describe('createMeta', () => {
 
   it('detects GitHub Actions', () => {
     const envDict = {
+      GITHUB_SERVER_URL: 'https://github.com',
       GITHUB_REPOSITORY: 'cucumber/cucumber-ruby',
       GITHUB_RUN_ID: '140170388',
       GITHUB_SHA: 'the-revision',
@@ -62,7 +63,7 @@ describe('createMeta', () => {
 
   it('detects GitHub Actions with custom base url', () => {
     const envDict = {
-      _GITHUB_BASEURL: 'https://github.company.com/',
+      GITHUB_SERVER_URL: 'https://github.company.com',
       GITHUB_REPOSITORY: 'cucumber/cucumber-ruby',
       GITHUB_RUN_ID: '140170388',
       GITHUB_SHA: 'the-revision',

@@ -24,6 +24,7 @@ public class CreateMetaTest {
     @Test
     public void it_detects_github_actions() {
         HashMap<String, String> env = new HashMap<String, String>() {{
+            put("GITHUB_SERVER_URL", "https://github.company.com");
             put("GITHUB_REPOSITORY", "cucumber/cucumber-ruby");
             put("GITHUB_RUN_ID", "140170388");
             put("GITHUB_SHA", "the-revision");
@@ -32,9 +33,9 @@ public class CreateMetaTest {
         Messages.Meta meta = CreateMeta.createMeta("cucumber-jvm", "3.2.1", env);
         assertEquals(Messages.Meta.CI.newBuilder()
                         .setName("GitHub Actions")
-                        .setUrl("https://github.com/cucumber/cucumber-ruby/actions/runs/140170388")
+                        .setUrl("https://github.company.com/cucumber/cucumber-ruby/actions/runs/140170388")
                         .setGit(Messages.Meta.CI.Git.newBuilder()
-                                .setRemote("https://github.com/cucumber/cucumber-ruby.git")
+                                .setRemote("https://github.company.com/cucumber/cucumber-ruby.git")
                                 .setRevision("the-revision")
                                 .setTag("the-tag")
                         )
