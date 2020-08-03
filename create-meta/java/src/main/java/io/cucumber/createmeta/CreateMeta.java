@@ -35,10 +35,6 @@ public class CreateMeta {
             String toolVersion,
             Map<String, String> env
     ) {
-        for (Object key : new TreeSet(System.getProperties().keySet())) {
-            System.out.println(String.format("%s=%s", key, System.getProperty((String) key)));
-        }
-
         Messages.Meta.Builder metaBuilder = Messages.Meta.newBuilder()
                 .setRuntime(Messages.Meta.Product.newBuilder()
                         .setName(System.getProperty("java.vm.name"))
