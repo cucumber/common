@@ -13,7 +13,7 @@ interface IProps {
 
 const FeatureTitle: React.FunctionComponent<IProps> = ({ id, feature }) => {
   return (
-    <div className="anchored-link">
+    <div className="anchored-link cucumberFeature__title">
       <a href={'#' + id}>
         <FontAwesomeIcon icon={faLink} className="attachment-icon" />
       </a>
