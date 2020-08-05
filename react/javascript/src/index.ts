@@ -13,5 +13,5 @@ export {
   GherkinQueryContext,
   CucumberQueryContext,
   SearchQueryContext,
-  EnvelopesQueryContext
+  EnvelopesQueryContext,
 }
