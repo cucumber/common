@@ -13,15 +13,13 @@ interface IProps {
 
 const RuleTitle: React.FunctionComponent<IProps> = ({ id, rule }) => {
   return (
-    <div className="anchored-link">
+    <div className="anchored-link cucumber-title">
       <a href={'#' + id}>
         <FontAwesomeIcon icon={faLink} className="attachment-icon" />
       </a>
       <h2 id={id}>
-        <Keyword>{rule.keyword}:</Keyword>{' '}
-        <span className="step-text">
-          <HighLight text={rule.name} />
-        </span>
+        <Keyword className="cucumber-title__keyword">{rule.keyword}:</Keyword>{' '}
+        <HighLight className="cucumber-title__text" text={rule.name} />
       </h2>
     </div>
   )

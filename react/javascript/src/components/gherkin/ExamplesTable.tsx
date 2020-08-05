@@ -13,7 +13,7 @@ const ExamplesTable: React.FunctionComponent<IProps> = ({
   tableBody,
 }) => {
   return (
-    <table className="examples-table">
+    <table className="cucumber-table cucumber-examples-table">
       <thead>
         <tr>
           <th>&nbsp;</th>

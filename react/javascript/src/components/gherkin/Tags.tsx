@@ -12,9 +12,9 @@ const Tags: React.FunctionComponent<IProps> = ({ tags }) => {
     return null
   }
   return (
-    <ul className="tag-list">
+    <ul className="cucumber-tags">
       {tags.map((tag, index) => (
-        <li className="tag" key={index}>
+        <li className="cucumber-tag" key={index}>
           <HighLight text={tag.name} />
         </li>
       ))}

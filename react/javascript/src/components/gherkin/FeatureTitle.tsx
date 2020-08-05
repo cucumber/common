@@ -13,15 +13,15 @@ interface IProps {
 
 const FeatureTitle: React.FunctionComponent<IProps> = ({ id, feature }) => {
   return (
-    <div className="anchored-link cucumberFeature__title">
+    <div className="anchored-link cucumber-title">
       <a href={'#' + id}>
         <FontAwesomeIcon icon={faLink} className="attachment-icon" />
       </a>
       <h1 id={id}>
-        <Keyword>{feature.keyword}:</Keyword>{' '}
-        <span className="step-text">
-          <HighLight text={feature.name} />
-        </span>
+        <Keyword className="cucumber-title__keyword">
+          {feature.keyword}:
+        </Keyword>{' '}
+        <HighLight className="cucumber-title__text" text={feature.name} />
       </h1>
     </div>
   )

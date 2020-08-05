@@ -5,18 +5,18 @@ import HighLight from '../app/HighLight'
 
 interface IProps {
   description: string
-  className?: string
 }
 
-const Description: React.FunctionComponent<IProps> = ({
-  description,
-  className = '',
-}) => {
+const Description: React.FunctionComponent<IProps> = ({ description }) => {
   const html = marked(description)
   const sanitizedHtml = sanitizeHtml(html)
 
   return (
-    <HighLight className={className} text={sanitizedHtml} htmlText={true} />
+    <HighLight
+      className="cucumber-description"
+      text={sanitizedHtml}
+      htmlText={true}
+    />
   )
 }
 

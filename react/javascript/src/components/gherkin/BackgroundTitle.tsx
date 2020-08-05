@@ -15,13 +15,15 @@ const BackgroundTitle: React.FunctionComponent<IProps> = ({
   background,
 }) => {
   return (
-    <div className="anchored-link">
+    <div className="anchored-link cucumber-title">
       <a href={'#' + id}>
         <FontAwesomeIcon icon={faLink} className="attachment-icon" />
       </a>
       <h2 id={id}>
-        <Keyword>{background.keyword}:</Keyword>{' '}
-        <span className="step-text">{background.name}</span>
+        <Keyword className="cucumber-title__keyword">
+          {background.keyword}:
+        </Keyword>{' '}
+        <span className="cucumber-title__text">{background.name}</span>
       </h2>
     </div>
   )

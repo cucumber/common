@@ -53,7 +53,7 @@ const Step: React.FunctionComponent<IProps> = ({
         plain = step.text.slice(offset, argument.group.start)
         if (plain.length > 0) {
           stepTextElements.push(
-            <span className="step-text" key={`plain-${index}`}>
+            <span className="cucumber-step__text" key={`plain-${index}`}>
               <HighLight text={plain} />
             </span>
           )
@@ -62,7 +62,7 @@ const Step: React.FunctionComponent<IProps> = ({
         if (arg.length > 0) {
           stepTextElements.push(
             <a
-              className="step-param"
+              className="cucumber-step__param"
               key={`bold-${index}`}
               title={argument.parameterTypeName}
             >
@@ -75,7 +75,7 @@ const Step: React.FunctionComponent<IProps> = ({
       plain = step.text.slice(offset)
       if (plain.length > 0) {
         stepTextElements.push(
-          <span className="step-text" key={`plain-rest`}>
+          <span className="cucumber-step__text" key={`plain-rest`}>
             <HighLight text={plain} />
           </span>
         )
@@ -83,14 +83,14 @@ const Step: React.FunctionComponent<IProps> = ({
     } else if (stepMatchArgumentsLists.length >= 2) {
       // Step is ambiguous
       stepTextElements.push(
-        <span className="step-text" key={`plain-ambiguous`}>
+        <span className="cucumber-step__text" key={`plain-ambiguous`}>
           <HighLight text={step.text} />
         </span>
       )
     } else {
       // Step is undefined
       stepTextElements.push(
-        <span className="step-text" key={`plain-undefined`}>
+        <span className="cucumber-step__text" key={`plain-undefined`}>
           <HighLight text={step.text} />
         </span>
       )
@@ -98,17 +98,17 @@ const Step: React.FunctionComponent<IProps> = ({
   } else {
     // Step is from scenario with examples, and has <> placeholders.
     stepTextElements.push(
-      <span className="step-text" key={`plain-placeholders`}>
+      <span className="cucumber-step__text" key={`plain-placeholders`}>
         <HighLight text={step.text} />
       </span>
     )
   }
 
   return (
-    <li className="step">
+    <li className="cucumber-step">
       <StepContainer status={testStepResult.status}>
         <h3>
-          <Keyword>{step.keyword}</Keyword>
+          <Keyword className="cucumber-step__keyword">{step.keyword}</Keyword>
           {stepTextElements}
         </h3>
         {step.dataTable && <DataTable dataTable={step.dataTable} />}
@@ -116,9 +116,11 @@ const Step: React.FunctionComponent<IProps> = ({
         {renderMessage && testStepResult.message && (
           <ErrorMessage message={testStepResult.message} />
         )}
-        {attachments.map((attachment, i) => (
-          <Attachment key={i} attachment={attachment} />
-        ))}
+        <div className="cucumber-attachments">
+          {attachments.map((attachment, i) => (
+            <Attachment key={i} attachment={attachment} />
+          ))}
+        </div>
       </StepContainer>
     </li>
   )

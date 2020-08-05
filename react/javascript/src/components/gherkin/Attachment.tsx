@@ -36,6 +36,7 @@ function image(attachment: messages.IAttachment) {
   ) {
     return (
       <ErrorMessage
+        className="cucumber-attachment"
         message={`Couldn't display ${attachment.mediaType} image because it wasn't base64 encoded`}
       />
     )
@@ -44,7 +45,7 @@ function image(attachment: messages.IAttachment) {
     <img
       alt="Embedded Image"
       src={`data:${attachment.mediaType};base64,${attachment.body}`}
-      className="attachment-image"
+      className="cucumber-attachment cucumber-attachment__image"
     />
   )
 }
@@ -55,6 +56,7 @@ function video(attachment: messages.IAttachment) {
   ) {
     return (
       <ErrorMessage
+        className="cucumber-attachment"
         message={`Couldn't display ${attachment.mediaType} video because it wasn't base64 encoded`}
       />
     )
@@ -91,14 +93,14 @@ function text(
 
   if (dangerouslySetInnerHTML) {
     return (
-      <pre className="attachment">
+      <pre className="cucumber-attachment cucumber-attachment__text">
         <FontAwesomeIcon icon={faPaperclip} className="attachment-icon" />
         <span dangerouslySetInnerHTML={{ __html: prettify(body) }} />
       </pre>
     )
   }
   return (
-    <pre className="attachment">
+    <pre className="cucumber-attachment cucumber-attachment__text">
       <FontAwesomeIcon icon={faPaperclip} className="attachment-icon" />
       {prettify(body)}
     </pre>

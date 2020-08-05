@@ -30,24 +30,22 @@ const Scenario: React.FunctionComponent<IProps> = ({ scenario }) => {
   const afterHooks = cucumberQuery.getAfterHookSteps(pickleIds[0])
 
   return (
-    <div className="indent">
-      <section>
-        <Tags tags={scenario.tags} />
-        <ScenarioTitle id={idGenerated} scenario={scenario} />
-        <Description description={scenario.description} />
-        <HookList hookSteps={beforeHooks} />
-        <StepList
-          steps={scenario.steps || []}
-          renderStepMatchArguments={!hasExamples}
-          renderMessage={!hasExamples}
-        />
-        <HookList hookSteps={afterHooks} />
+    <section className="cucumber-scenario">
+      <Tags tags={scenario.tags} />
+      <ScenarioTitle id={idGenerated} scenario={scenario} />
+      <Description description={scenario.description} />
+      <HookList hookSteps={beforeHooks} />
+      <StepList
+        steps={scenario.steps || []}
+        renderStepMatchArguments={!hasExamples}
+        renderMessage={!hasExamples}
+      />
+      <HookList hookSteps={afterHooks} />
 
-        {examplesList.map((examples, index) => (
-          <Examples key={index} examples={examples} />
-        ))}
-      </section>
-    </div>
+      {examplesList.map((examples, index) => (
+        <Examples key={index} examples={examples} />
+      ))}
+    </section>
   )
 }
 

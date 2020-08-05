@@ -9,7 +9,7 @@ interface IProps {
 
 const DocString: React.FunctionComponent<IProps> = ({ docString }) => {
   return (
-    <pre>
+    <pre className="cucumber-code cucumber-docstring">
       <HighLight text={docString.content} />
     </pre>
   )

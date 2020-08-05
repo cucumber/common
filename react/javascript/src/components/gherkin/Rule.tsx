@@ -17,7 +17,7 @@ const Rule: React.FunctionComponent<IProps> = ({ rule }) => {
   const idGenerated = generator.generate(rule.name)
 
   return (
-    <section>
+    <section className="cucumber-rule">
       <RuleTitle id={idGenerated} rule={rule} />
       <div className="indent">
         <Description description={rule.description} />
