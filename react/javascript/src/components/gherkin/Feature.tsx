@@ -24,7 +24,10 @@ const Feature: React.FunctionComponent<IProps> = ({ feature }) => {
       <FeatureTitle id={idGenerated} feature={feature} />
       <div className="cucumberFeature__indent">
         {feature.description ? (
-          <Description description={feature.description} />
+          <Description
+            description={feature.description}
+            className="cucumberfeature__description"
+          />
         ) : null}
         {(feature.children || []).map((child, index) => {
           if (child.background) {

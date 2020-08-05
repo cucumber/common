@@ -5,7 +5,8 @@ import elasticlunr from 'elasticlunr'
 
 interface IProps {
   text: string
-  htmlText?: boolean
+  htmlText?: boolean,
+  className?: string
 }
 
 const allQueryWords = (queryWords: string[]): string[] => {
@@ -47,6 +48,7 @@ const highlightElements = (text: string, chunks: Chunk[]): JSX.Element[] => {
 const HighLight: React.FunctionComponent<IProps> = ({
   text,
   htmlText = false,
+  className = ''
 }) => {
   const searchQueryContext = React.useContext(SearchQueryContext)
   const queryWords = allQueryWords(
@@ -58,16 +60,18 @@ const HighLight: React.FunctionComponent<IProps> = ({
     htmlText,
   })
 
+  const appliedClassName = className ? `highlight ${className}` : 'highlight'
+
   if (htmlText) {
     return (
-      <span
-        className="highlight"
+      <div
+        className={appliedClassName}
         dangerouslySetInnerHTML={{ __html: highlightText(text, chunks) }}
       />
     )
   }
 
-  return <span className="highlight">{highlightElements(text, chunks)}</span>
+  return <span className={appliedClassName}>{highlightElements(text, chunks)}</span>
 }
 
 export default HighLight
