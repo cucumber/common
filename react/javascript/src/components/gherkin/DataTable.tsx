@@ -9,7 +9,7 @@ interface IProps {
 
 const DataTable: React.FunctionComponent<IProps> = ({ dataTable }) => {
   return (
-    <table className="data-table">
+    <table className="cucumber-table cucumber-datatable">
       <TableBody rows={dataTable.rows || []} />
     </table>
   )
