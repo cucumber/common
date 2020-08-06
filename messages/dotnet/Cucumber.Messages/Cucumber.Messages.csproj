@@ -30,7 +30,7 @@
 
   <ItemGroup>
     <PackageReference Include="Google.Protobuf" Version="3.12.4"/>
-    <PackageReference Include="Grpc.Tools" Version="2.30.0">
+    <PackageReference Include="Grpc.Tools" Version="2.31.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
