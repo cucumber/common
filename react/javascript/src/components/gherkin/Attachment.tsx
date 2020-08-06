@@ -94,14 +94,20 @@ function text(
   if (dangerouslySetInnerHTML) {
     return (
       <pre className="cucumber-attachment cucumber-attachment__text">
-        <FontAwesomeIcon icon={faPaperclip} className="cucumber-attachment__icon" />
+        <FontAwesomeIcon
+          icon={faPaperclip}
+          className="cucumber-attachment__icon"
+        />
         <span dangerouslySetInnerHTML={{ __html: prettify(body) }} />
       </pre>
     )
   }
   return (
     <pre className="cucumber-attachment cucumber-attachment__text">
-      <FontAwesomeIcon icon={faPaperclip} className="cucumber-attachment__icon" />
+      <FontAwesomeIcon
+        icon={faPaperclip}
+        className="cucumber-attachment__icon"
+      />
       {prettify(body)}
     </pre>
   )

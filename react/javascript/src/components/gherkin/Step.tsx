@@ -9,7 +9,6 @@ import ErrorMessage from './ErrorMessage'
 import StepContainer from './StepContainer'
 import Attachment from './Attachment'
 import HighLight from '../app/HighLight'
-import StatusIcon from './StatusIcon'
 
 interface IProps {
   step: messages.GherkinDocument.Feature.IStep

@@ -18,7 +18,9 @@ const ExamplesTable: React.FunctionComponent<IProps> = ({
         <tr>
           <th className="cucumber-table__header-cell">&nbsp;</th>
           {tableHeader.cells.map((cell, j) => (
-            <th className="cucumber-table__header-cell" key={j}>{cell.value}</th>
+            <th className="cucumber-table__header-cell" key={j}>
+              {cell.value}
+            </th>
           ))}
         </tr>
       </thead>

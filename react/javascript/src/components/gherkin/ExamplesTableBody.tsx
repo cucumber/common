@@ -72,7 +72,11 @@ const ErrorMessageRow: React.FunctionComponent<IErrorMessageRowProps> = ({
 }) => {
   if (!testStepResult.message) return null
   return (
-    <tr className={`cucumber-status--${statusName(testStepResult.status)} cucumber-table__cell`}>
+    <tr
+      className={`cucumber-status--${statusName(
+        testStepResult.status
+      )} cucumber-table__cell`}
+    >
       <td>&nbsp;</td>
       <td colSpan={colSpan}>
         <ErrorMessage message={testStepResult.message} />
