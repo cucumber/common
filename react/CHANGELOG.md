@@ -9,7 +9,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+* expose `filterByStatus` method
+
 ### Changed
+
+* fix `filterByStatus` signature
 
 ### Deprecated
 
@@ -21,7 +25,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
-* Updated `messages` to v12.4.0 
+* Updated `messages` to v12.4.0
 
 ## [8.1.0] - 2020-07-30
 
