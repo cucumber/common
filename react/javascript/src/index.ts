@@ -1,17 +1,6 @@
 import GherkinDocumentList from './components/app/GherkinDocumentList'
 import FilteredResults from './components/app/FilteredResults'
 import QueriesWrapper from './components/app/QueriesWrapper'
-import GherkinQueryContext from './GherkinQueryContext'
-import CucumberQueryContext from './CucumberQueryContext'
-import SearchQueryContext from './SearchQueryContext'
-import EnvelopesQueryContext from './EnvelopesQueryContext'
+import { EnvelopesQuery } from './EnvelopesQueryContext'
 
-export {
-  GherkinDocumentList,
-  FilteredResults,
-  QueriesWrapper,
-  GherkinQueryContext,
-  CucumberQueryContext,
-  SearchQueryContext,
-  EnvelopesQueryContext
-}
+export { GherkinDocumentList, QueriesWrapper, EnvelopesQuery, FilteredResults }
