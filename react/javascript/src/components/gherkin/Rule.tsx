@@ -19,7 +19,7 @@ const Rule: React.FunctionComponent<IProps> = ({ rule }) => {
   return (
     <section className="cucumber-rule">
       <RuleTitle id={idGenerated} rule={rule} />
-      <div className="indent">
+      <div className="cucumber-children">
         <Description description={rule.description} />
         {(rule.children || []).map((child, index) => {
           if (child.background) {

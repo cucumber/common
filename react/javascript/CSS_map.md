@@ -19,12 +19,15 @@ Some CSS classes can be applied to multiple places:
  * `cucumber-children`: list of childrens for a `Feature` or a `Rule`
  * `cucumber-steps`: list of steps
  * `cucumber-step`: single step
+ * `cucumber-step__status`: the status of the step
+ * `cucumber-step__content`: the content of the step (keyword, text, parameters, attachments ...)
  * `cucumber-step__keyword`: the keyword of a step
  * `cucumber-step__param`: a parameter of a step
  * `cucumber-step__text`: the text of a step
  * `cucumber-table`: a Table rendered by cucumber-react. Can be either `Examples` or `datatable`
  * `cucumber-code`: code rendered (either `docstring` or attachment logs)
  * `cucumber-status`: the status of a step or a Feature
+ * `cucumber-status-<status name>`: a specific status
 
 ### Specific class by element in the AST
 
@@ -44,3 +47,7 @@ Some CSS classes can be applied to multiple places:
  * `cucumber-attachment__text`: a text attachment
  * `cucumber-attachment__image`: an image attachment
  * `cucumber-error`: an error message
+ * `cucumber-anchor`: anchor + link to easily point to a specific part of the document
+ * `cucumber-anchor__link`: the link to the anchor
+ * `cucumber-anchor__icon`: the icon used to find the link
+ * `cucumber-no-documents`: a text displayed when no document can be displayed

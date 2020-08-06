@@ -13,9 +13,9 @@ interface IProps {
 
 const FeatureTitle: React.FunctionComponent<IProps> = ({ id, feature }) => {
   return (
-    <div className="anchored-link cucumber-title">
-      <a href={'#' + id}>
-        <FontAwesomeIcon icon={faLink} className="attachment-icon" />
+    <div className="cucumber-anchor cucumber-title">
+      <a href={'#' + id} className="cucumber-anchor__link">
+        <FontAwesomeIcon icon={faLink} className="cucumber-anchor__icon" />
       </a>
       <h1 id={id}>
         <Keyword className="cucumber-title__keyword">

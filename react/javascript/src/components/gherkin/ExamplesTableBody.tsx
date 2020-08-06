@@ -38,12 +38,13 @@ const RowOrRows: React.FunctionComponent<IRowOrRows> = ({ row }) => {
   )
   return (
     <>
-      <tr className={`status-${statusName(testStepResult.status)}`}>
-        <td>
+      <tr className={`cucumber-status--${statusName(testStepResult.status)}`}>
+        <td className="cucumber-table__cell">
           <StatusIcon status={testStepResult.status} />
         </td>
         {row.cells.map((cell, j) => (
           <td
+            className="cucumber-table__cell"
             key={j}
             style={{ textAlign: isNumber(cell.value) ? 'right' : 'left' }}
           >
@@ -71,7 +72,7 @@ const ErrorMessageRow: React.FunctionComponent<IErrorMessageRowProps> = ({
 }) => {
   if (!testStepResult.message) return null
   return (
-    <tr className={`status-${statusName(testStepResult.status)}`}>
+    <tr className={`cucumber-status--${statusName(testStepResult.status)} cucumber-table__cell`}>
       <td>&nbsp;</td>
       <td colSpan={colSpan}>
         <ErrorMessage message={testStepResult.message} />

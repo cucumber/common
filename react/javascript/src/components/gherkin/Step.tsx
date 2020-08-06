@@ -9,6 +9,7 @@ import ErrorMessage from './ErrorMessage'
 import StepContainer from './StepContainer'
 import Attachment from './Attachment'
 import HighLight from '../app/HighLight'
+import StatusIcon from './StatusIcon'
 
 interface IProps {
   step: messages.GherkinDocument.Feature.IStep
@@ -105,24 +106,22 @@ const Step: React.FunctionComponent<IProps> = ({
   }
 
   return (
-    <li className="cucumber-step">
-      <StepContainer status={testStepResult.status}>
-        <h3>
-          <Keyword className="cucumber-step__keyword">{step.keyword}</Keyword>
-          {stepTextElements}
-        </h3>
-        {step.dataTable && <DataTable dataTable={step.dataTable} />}
-        {step.docString && <DocString docString={step.docString} />}
-        {renderMessage && testStepResult.message && (
-          <ErrorMessage message={testStepResult.message} />
-        )}
-        <div className="cucumber-attachments">
-          {attachments.map((attachment, i) => (
-            <Attachment key={i} attachment={attachment} />
-          ))}
-        </div>
-      </StepContainer>
-    </li>
+    <StepContainer status={testStepResult.status}>
+      <h3 className="cucumber-step__title">
+        <Keyword className="cucumber-step__keyword">{step.keyword}</Keyword>
+        {stepTextElements}
+      </h3>
+      {step.dataTable && <DataTable dataTable={step.dataTable} />}
+      {step.docString && <DocString docString={step.docString} />}
+      {renderMessage && testStepResult.message && (
+        <ErrorMessage message={testStepResult.message} />
+      )}
+      <div className="cucumber-attachments">
+        {attachments.map((attachment, i) => (
+          <Attachment key={i} attachment={attachment} />
+        ))}
+      </div>
+    </StepContainer>
   )
 }
 
