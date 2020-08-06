@@ -10,8 +10,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 
 * semantic CSS classes on elements.
+* expose `filterByStatus` method
 
 ### Changed
+
+* fix `filterByStatus` signature
 
 ### Deprecated
 
