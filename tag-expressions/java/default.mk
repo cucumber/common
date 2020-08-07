@@ -28,6 +28,7 @@ default: .tested
 update-dependencies:
 	mvn versions:force-releases
 	mvn versions:use-latest-versions -Dmaven.version.rules=file://$(shell pwd)/maven-versions-rules.xml
+	ruby scripts/set_version_ranges.rb
 .PHONY: update-dependencies
 
 pre-release: update-version update-dependencies clean default
