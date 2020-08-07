@@ -9,8 +9,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -35,8 +37,8 @@ public class CreateMeta {
     ) {
         Messages.Meta.Builder metaBuilder = Messages.Meta.newBuilder()
                 .setRuntime(Messages.Meta.Product.newBuilder()
-                        .setName(System.getProperty("java.vendor"))
-                        .setVersion(System.getProperty("java.version")))
+                        .setName(System.getProperty("java.vm.name"))
+                        .setVersion(System.getProperty("java.vm.version")))
                 .setImplementation(Messages.Meta.Product.newBuilder()
                         .setName(toolName)
                         .setVersion(toolVersion))
@@ -81,56 +83,54 @@ public class CreateMeta {
                 .setName(name)
                 .setUrl(url);
         Messages.Meta.CI.Git.Builder gitBuilder = Messages.Meta.CI.Git.newBuilder();
-        if(remote != null) gitBuilder.setRemote(remote);
-        if(revision != null) gitBuilder.setRevision(revision);
-        if(branch != null) gitBuilder.setBranch(branch);
-        if(tag != null) gitBuilder.setTag(tag);
+        if (remote != null) gitBuilder.setRemote(remote);
+        if (revision != null) gitBuilder.setRevision(revision);
+        if (branch != null) gitBuilder.setBranch(branch);
+        if (tag != null) gitBuilder.setTag(tag);
         return ciBuilder.setGit(gitBuilder).build();
     }
 
-    /**
-     * Evaluates a simple template
-     *
-     * @param template the template from the ciDict.json file
-     * @param envDict variables
-     * @return the evaluated template, or undefined if a variable was undefined
-     */
-    private static String evaluate(String template, Map<String, String> envDict) {
+    private static String evaluate(String template, Map<String, String> env) {
         if (template == null) return null;
-        Pattern pattern = Pattern.compile("\\$\\{((refbranch|reftag)\\s+)?([^\\s}]+)(\\s+\\|\\s+([^}]+))?}");
-        Matcher matcher = pattern.matcher(template);
-        StringBuffer sb = new StringBuffer();
-        while (matcher.find()) {
-            String func = matcher.group(2);
-            String variable = matcher.group(3);
-            String defaultValue = matcher.group(5);
-            String value = envDict.getOrDefault(variable, defaultValue);
-            if (value == null) {
-                return null;
-            }
-            if(func != null) {
-                switch (func) {
-                    case "refbranch":
-                        value = group1(value, Pattern.compile("^refs/heads/(.*)"));
-                        break;
-                    case "reftag":
-                        value = group1(value, Pattern.compile("^refs/tags/(.*)"));
-                        break;
+        try {
+            Pattern pattern = Pattern.compile("\\$\\{((refbranch|reftag)\\s+)?([^\\s}]+)(\\s+\\|\\s+([^}]+))?}");
+            Matcher matcher = pattern.matcher(template);
+            StringBuffer sb = new StringBuffer();
+            while (matcher.find()) {
+                String func = matcher.group(2);
+                String variable = matcher.group(3);
+                String defaultValue = matcher.group(5);
+                String value = env.getOrDefault(variable, defaultValue);
+                if (value == null) {
+                    throw new RuntimeException(String.format("Undefined variable: %s", variable));
                 }
+                if (func != null) {
+                    switch (func) {
+                        case "refbranch":
+                            value = group1(value, Pattern.compile("^refs/heads/(.*)"));
+                            break;
+                        case "reftag":
+                            value = group1(value, Pattern.compile("^refs/tags/(.*)"));
+                            break;
+                    }
+                }
+                if (value == null) {
+                    throw new RuntimeException(String.format("Undefined variable: %s", variable));
+                }
+                matcher.appendReplacement(sb, value);
             }
-            if (value == null) {
-                return null;
-            }
-            matcher.appendReplacement(sb, value);
+            matcher.appendTail(sb);
+            return sb.toString();
+        } catch (RuntimeException e) {
+            return null;
         }
-        matcher.appendTail(sb);
-        return sb.toString();
     }
 
     private static String group1(String value, Pattern pattern) {
         Matcher matcher = pattern.matcher(value);
-        if(matcher.find()) {
-            return matcher.group(1);
+        if (matcher.find()) {
+            String g1 = matcher.group(1);
+            return g1;
         }
         return matcher.find() ? matcher.group(1) : null;
     }

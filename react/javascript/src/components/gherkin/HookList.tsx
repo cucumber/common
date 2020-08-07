@@ -8,7 +8,7 @@ interface IProps {
 
 const HookList: React.FunctionComponent<IProps> = ({ hookSteps }) => {
   return (
-    <ol>
+    <ol className="cucumber-steps">
       {hookSteps.map((step, index) => (
         <HookStep key={index} step={step} />
       ))}

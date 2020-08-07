@@ -11,7 +11,7 @@ export default function filterByStatus(
   gherkinQuery: GherkinQuery,
   cucumberQuery: CucumberQuery,
   statuses: messages.TestStepFinished.TestStepResult.Status[]
-): messages.IGherkinDocument {
+): messages.IGherkinDocument | null {
   const filters = {
     acceptScenario: (scenario: messages.GherkinDocument.Feature.IScenario) => {
       const pickleIds = gherkinQuery.getPickleIds(

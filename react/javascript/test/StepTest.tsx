@@ -72,13 +72,13 @@ describe('<Step>', () => {
 
     const plainTexts = Array.from(
       document.querySelectorAll(
-        '#content h3 span.step-text, #content h3 span.keyword'
+        '#content h3 .cucumber-step__text, #content h3 .cucumber-step__keyword'
       )
     ).map((span) => span.textContent)
     assert.deepStrictEqual(plainTexts, ['Given', 'the ', ' pixies'])
 
     const paramTexts = Array.from(
-      document.querySelectorAll('#content h3 a')
+      document.querySelectorAll('#content h3 .cucumber-step__param')
     ).map((a) => a.textContent)
     assert.deepStrictEqual(paramTexts, ['48'])
   })
