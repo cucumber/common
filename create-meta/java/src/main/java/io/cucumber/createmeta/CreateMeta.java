@@ -9,8 +9,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -35,8 +37,8 @@ public class CreateMeta {
     ) {
         Messages.Meta.Builder metaBuilder = Messages.Meta.newBuilder()
                 .setRuntime(Messages.Meta.Product.newBuilder()
-                        .setName(System.getProperty("java.vendor"))
-                        .setVersion(System.getProperty("java.version")))
+                        .setName(System.getProperty("java.vm.name"))
+                        .setVersion(System.getProperty("java.vm.version")))
                 .setImplementation(Messages.Meta.Product.newBuilder()
                         .setName(toolName)
                         .setVersion(toolVersion))
@@ -81,10 +83,10 @@ public class CreateMeta {
                 .setName(name)
                 .setUrl(url);
         Messages.Meta.CI.Git.Builder gitBuilder = Messages.Meta.CI.Git.newBuilder();
-        if(remote != null) gitBuilder.setRemote(remote);
-        if(revision != null) gitBuilder.setRevision(revision);
-        if(branch != null) gitBuilder.setBranch(branch);
-        if(tag != null) gitBuilder.setTag(tag);
+        if (remote != null) gitBuilder.setRemote(remote);
+        if (revision != null) gitBuilder.setRevision(revision);
+        if (branch != null) gitBuilder.setBranch(branch);
+        if (tag != null) gitBuilder.setTag(tag);
         return ciBuilder.setGit(gitBuilder).build();
     }
 
@@ -102,7 +104,7 @@ public class CreateMeta {
                 if (value == null) {
                     throw new RuntimeException(String.format("Undefined variable: %s", variable));
                 }
-                if(func != null) {
+                if (func != null) {
                     switch (func) {
                         case "refbranch":
                             value = group1(value, Pattern.compile("^refs/heads/(.*)"));
@@ -126,7 +128,7 @@ public class CreateMeta {
 
     private static String group1(String value, Pattern pattern) {
         Matcher matcher = pattern.matcher(value);
-        if(matcher.find()) {
+        if (matcher.find()) {
             String g1 = matcher.group(1);
             return g1;
         }
