@@ -14,7 +14,7 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 ### Changed
 
 * Handle the `JavaMethod` and `JavaStackTraceElement` fields in `SourceReference`:
-  - outputs `<className>.<methodName>` for `JavaMethod`
+  - outputs `<className>.<methodName>(<parameter1>,<parameter2>, etc)` for `JavaMethod`
   - outputs `<fileName>:<line?>` for `JavaStackTraceElement`
 
 ### Deprecated
