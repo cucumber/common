@@ -17,6 +17,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [2.0.0] - 2020-08-07
+
+### Changed
+
+* Update `messages` to 13.0.1
+
+### Fixed
+
 * Java: Use `java.vm.name` instead of `java.vendor` (which is `N/A` on OpenJDK)
 * Java: Use `java.vm.version` instead of `java.version`
 * Support GitHub Enterprise by using `GITHUB_SERVER_URL` to construct URLs
@@ -40,7 +48,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/create-meta/v1.2.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/create-meta/v2.0.0...master
+[2.0.0]:      https://github.com/cucumber/cucumber/releases/tag/create-meta/v1.2.0
 [1.2.0]:      https://github.com/cucumber/cucumber/releases/tag/create-meta/v1.1.0
 [1.1.0]:      https://github.com/cucumber/cucumber/releases/tag/create-meta/v1.0.0
 [1.0.0]:      https://github.com/cucumber/cucumber/releases/tag/create-meta/v1.0.0
