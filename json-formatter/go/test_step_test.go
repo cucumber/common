@@ -415,4 +415,251 @@ var _ = Describe("TestStepToJSON", func() {
 			})
 		})
 	})
+
+	Context("When SourceReference uses JavaMethod and no Location", func() {
+		Describe("from a Hook", func() {
+			BeforeEach(func() {
+				step = &TestStep{
+					Hook: &messages.Hook{
+						SourceReference: &messages.SourceReference{
+							Reference: &messages.SourceReference_JavaMethod_{
+								JavaMethod: &messages.SourceReference_JavaMethod{
+									ClassName:  "org.cucumber.jvm.Class",
+									MethodName: "someMethod",
+									MethodParameterTypes: []string{
+										"java.lang.String",
+										"int",
+									},
+								},
+							},
+						},
+					},
+					Result: &messages.TestStepFinished_TestStepResult{
+						Status: messages.TestStepFinished_TestStepResult_PASSED,
+						Duration: &messages.Duration{
+							Seconds: 123,
+							Nanos:   456,
+						},
+					},
+				}
+				jsonStep = TestStepToJSON(step)
+			})
+
+			It("Has a Match", func() {
+				Expect(jsonStep.Match.Location).To(Equal("org.cucumber.jvm.Class.someMethod(java.lang.String,int)"))
+			})
+		})
+
+		Describe("from a feature step", func() {
+			BeforeEach(func() {
+				step = &TestStep{
+					Step: &messages.GherkinDocument_Feature_Step{
+						Id:      "some-id",
+						Keyword: "Given",
+						Text:    "a <status> step",
+						Location: &messages.Location{
+							Line: 5,
+						},
+					},
+					Pickle: &messages.Pickle{
+						Uri: "my_feature.feature",
+					},
+					PickleStep: &messages.Pickle_PickleStep{
+						Text: "a passed step",
+					},
+					Result: &messages.TestStepFinished_TestStepResult{
+						Status: messages.TestStepFinished_TestStepResult_FAILED,
+						Duration: &messages.Duration{
+							Seconds: 123,
+							Nanos:   456,
+						},
+					},
+					StepDefinitions: []*messages.StepDefinition{
+						&messages.StepDefinition{
+							SourceReference: &messages.SourceReference{
+								Reference: &messages.SourceReference_JavaMethod_{
+									JavaMethod: &messages.SourceReference_JavaMethod{
+										ClassName:  "org.cucumber.jvm.Class",
+										MethodName: "someMethod",
+										MethodParameterTypes: []string{
+											"java.lang.String",
+											"int",
+										},
+									},
+								},
+							},
+						},
+					},
+				}
+				jsonStep = TestStepToJSON(step)
+			})
+
+			It("Has a Match", func() {
+				Expect(jsonStep.Match.Location).To(Equal("org.cucumber.jvm.Class.someMethod(java.lang.String,int)"))
+			})
+		})
+	})
+
+	Context("When SourceReference uses JavaStackTraceElement and Location", func() {
+		Describe("from a Hook", func() {
+			BeforeEach(func() {
+				step = &TestStep{
+					Hook: &messages.Hook{
+						SourceReference: &messages.SourceReference{
+							Reference: &messages.SourceReference_JavaStackTraceElement_{
+								JavaStackTraceElement: &messages.SourceReference_JavaStackTraceElement{
+									ClassName:  "org.cucumber.jvm.ExceptionClass",
+									MethodName: "someMethod",
+									FileName:   "ExceptionClass.java",
+								},
+							},
+							Location: &messages.Location{
+								Line: 123,
+							},
+						},
+					},
+					Result: &messages.TestStepFinished_TestStepResult{
+						Status: messages.TestStepFinished_TestStepResult_PASSED,
+						Duration: &messages.Duration{
+							Seconds: 123,
+							Nanos:   456,
+						},
+					},
+				}
+				jsonStep = TestStepToJSON(step)
+			})
+
+			It("Has a Match", func() {
+				Expect(jsonStep.Match.Location).To(Equal("ExceptionClass.java:123"))
+			})
+		})
+
+		Describe("from a feature step", func() {
+			BeforeEach(func() {
+				step = &TestStep{
+					Step: &messages.GherkinDocument_Feature_Step{
+						Id:      "some-id",
+						Keyword: "Given",
+						Text:    "a <status> step",
+						Location: &messages.Location{
+							Line: 5,
+						},
+					},
+					Pickle: &messages.Pickle{
+						Uri: "my_feature.feature",
+					},
+					PickleStep: &messages.Pickle_PickleStep{
+						Text: "a passed step",
+					},
+					Result: &messages.TestStepFinished_TestStepResult{
+						Status: messages.TestStepFinished_TestStepResult_FAILED,
+						Duration: &messages.Duration{
+							Seconds: 123,
+							Nanos:   456,
+						},
+					},
+					StepDefinitions: []*messages.StepDefinition{
+						&messages.StepDefinition{
+							SourceReference: &messages.SourceReference{
+								Reference: &messages.SourceReference_JavaStackTraceElement_{
+									JavaStackTraceElement: &messages.SourceReference_JavaStackTraceElement{
+										ClassName:  "org.cucumber.jvm.ExceptionClass",
+										MethodName: "someMethod",
+										FileName:   "ExceptionClass.java",
+									},
+								},
+								Location: &messages.Location{
+									Line: 123,
+								},
+							},
+						},
+					},
+				}
+				jsonStep = TestStepToJSON(step)
+			})
+
+			It("Has a Match", func() {
+				Expect(jsonStep.Match.Location).To(Equal("ExceptionClass.java:123"))
+			})
+		})
+	})
+
+	Context("When SourceReference uses JavaStackTraceElement and no Location", func() {
+		Describe("from a Hook", func() {
+			BeforeEach(func() {
+				step = &TestStep{
+					Hook: &messages.Hook{
+						SourceReference: &messages.SourceReference{
+							Reference: &messages.SourceReference_JavaStackTraceElement_{
+								JavaStackTraceElement: &messages.SourceReference_JavaStackTraceElement{
+									ClassName:  "org.cucumber.jvm.ExceptionClass",
+									MethodName: "someMethod",
+									FileName:   "ExceptionClass.java",
+								},
+							},
+						},
+					},
+					Result: &messages.TestStepFinished_TestStepResult{
+						Status: messages.TestStepFinished_TestStepResult_PASSED,
+						Duration: &messages.Duration{
+							Seconds: 123,
+							Nanos:   456,
+						},
+					},
+				}
+				jsonStep = TestStepToJSON(step)
+			})
+
+			It("Has a Match", func() {
+				Expect(jsonStep.Match.Location).To(Equal("ExceptionClass.java"))
+			})
+		})
+
+		Describe("from a feature step", func() {
+			BeforeEach(func() {
+				step = &TestStep{
+					Step: &messages.GherkinDocument_Feature_Step{
+						Id:      "some-id",
+						Keyword: "Given",
+						Text:    "a <status> step",
+						Location: &messages.Location{
+							Line: 5,
+						},
+					},
+					Pickle: &messages.Pickle{
+						Uri: "my_feature.feature",
+					},
+					PickleStep: &messages.Pickle_PickleStep{
+						Text: "a passed step",
+					},
+					Result: &messages.TestStepFinished_TestStepResult{
+						Status: messages.TestStepFinished_TestStepResult_FAILED,
+						Duration: &messages.Duration{
+							Seconds: 123,
+							Nanos:   456,
+						},
+					},
+					StepDefinitions: []*messages.StepDefinition{
+						&messages.StepDefinition{
+							SourceReference: &messages.SourceReference{
+								Reference: &messages.SourceReference_JavaStackTraceElement_{
+									JavaStackTraceElement: &messages.SourceReference_JavaStackTraceElement{
+										ClassName:  "org.cucumber.jvm.ExceptionClass",
+										MethodName: "someMethod",
+										FileName:   "ExceptionClass.java",
+									},
+								},
+							},
+						},
+					},
+				}
+				jsonStep = TestStepToJSON(step)
+			})
+
+			It("Has a Match", func() {
+				Expect(jsonStep.Match.Location).To(Equal("ExceptionClass.java"))
+			})
+		})
+	})
+
 })
