@@ -1,6 +1,6 @@
 import SupportCode from './SupportCode'
 import { IdGenerator } from '@cucumber/messages'
-import PerfHooksClock from './PerfHooksClock'
+import PerfHooksStopwatch from './PerfHooksStopwatch'
 import {
   MakeErrorMessage,
   withFullStackTrace,
@@ -10,6 +10,8 @@ import IncrementClock from './IncrementClock'
 import * as dsl from './dsl'
 import findSupportCodePaths from './findSupportCodePaths'
 import IClock from './IClock'
+import DateClock from './DateClock'
+import IStopwatch from './IStopwatch'
 
 export default async function loadSupportCode(
   predictableIds: boolean,
@@ -37,6 +39,7 @@ export default async function loadSupportCode(
 function makeSupportCode(predictableIds: boolean) {
   let newId: IdGenerator.NewId
   let clock: IClock
+  let stopwatch: IStopwatch
   let makeErrorMessage: MakeErrorMessage
   if (predictableIds) {
     newId = IdGenerator.incrementing()
@@ -44,8 +47,9 @@ function makeSupportCode(predictableIds: boolean) {
     makeErrorMessage = withSourceFramesOnlyStackTrace()
   } else {
     newId = IdGenerator.uuid()
-    clock = new PerfHooksClock()
+    clock = new DateClock()
+    stopwatch = new PerfHooksStopwatch()
     makeErrorMessage = withFullStackTrace()
   }
-  return new SupportCode(newId, clock, makeErrorMessage)
+  return new SupportCode(newId, clock, stopwatch, makeErrorMessage)
 }

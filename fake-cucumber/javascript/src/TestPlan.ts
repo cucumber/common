@@ -32,7 +32,7 @@ export default class TestPlan implements ITestPlan {
       new messages.Envelope({
         testRunStarted: new messages.TestRunStarted({
           timestamp: TimeConversion.millisecondsSinceEpochToTimestamp(
-            this.supportCode.clock.now()
+            this.supportCode.clock.clockNow()
           ),
         }),
       })
@@ -48,7 +48,7 @@ export default class TestPlan implements ITestPlan {
       new messages.Envelope({
         testRunFinished: new messages.TestRunFinished({
           timestamp: TimeConversion.millisecondsSinceEpochToTimestamp(
-            this.supportCode.clock.now()
+            this.supportCode.clock.clockNow()
           ),
         }),
       })

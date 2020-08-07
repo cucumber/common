@@ -9,13 +9,42 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
-* Display visible anchors for headers ([#983](https://github.com/cucumber/cucumber/issues/983))
+* Export all the `*Context` classes
 
 ### Changed
 
 ### Deprecated
 
 ### Removed
+
+### Fixed
+
+* Added missing CSS class on BackgroundTitle anchor link.
+
+## [9.0.0] - 2020-08-07
+
+### Added
+
+* semantic CSS classes on elements.
+* expose `filterByStatus` method
+
+### Changed
+
+* fix `filterByStatus` signature
+
+## [8.2.0] - 2020-07-31
+
+### Changed
+
+* Updated `messages` to v12.4.0
+
+## [8.1.0] - 2020-07-30
+
+### Added
+
+* Display visible anchors for headers ([#983](https://github.com/cucumber/cucumber/issues/983))
+
+* Make Duration human readable.
 
 ### Fixed
 
@@ -200,7 +229,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/react/v8.0.1...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/react/v9.0.0...master
+[9.0.0]:      https://github.com/cucumber/cucumber/compare/react/v8.2.0...react/v9.0.0
+[8.2.0]:      https://github.com/cucumber/cucumber/compare/react/v8.1.0...react/v8.2.0
+[8.1.0]:      https://github.com/cucumber/cucumber/compare/react/v8.0.1...react/v8.1.0
 [8.0.1]:      https://github.com/cucumber/cucumber/compare/react/v8.0.0...react/v8.0.1
 [8.0.0]:      https://github.com/cucumber/cucumber/compare/react/v7.0.0...react/v8.0.0
 [7.0.0]:      https://github.com/cucumber/cucumber/compare/react/v6.0.0...react/v7.0.0

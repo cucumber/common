@@ -13,6 +13,7 @@ import { withSourceFramesOnlyStackTrace } from '../src/ErrorMessageGenerator'
 import { EnvelopeListener } from '../src/types'
 import makePickleTestStep from '../src/makePickleTestStep'
 import makeHookTestStep from '../src/makeHookTestStep'
+import IncrementStopwatch from '../src/IncrementStopwatch'
 
 describe('makeTestCase', () => {
   it('transforms a Pickle to a TestCase', () => {
@@ -26,6 +27,7 @@ describe('makeTestCase', () => {
       new GherkinQuery(),
       IdGenerator.incrementing(),
       new IncrementClock(),
+      new IncrementStopwatch(),
       withSourceFramesOnlyStackTrace(),
       makePickleTestStep,
       makeHookTestStep
@@ -53,6 +55,7 @@ describe('makeTestCase', () => {
         new GherkinQuery(),
         IdGenerator.incrementing(),
         new IncrementClock(),
+        new IncrementStopwatch(),
         withSourceFramesOnlyStackTrace(),
         makePickleTestStep,
         makeHookTestStep
@@ -80,6 +83,7 @@ describe('makeTestCase', () => {
           new GherkinQuery(),
           IdGenerator.incrementing(),
           new IncrementClock(),
+          new IncrementStopwatch(),
           withSourceFramesOnlyStackTrace(),
           makePickleTestStep,
           makeHookTestStep
@@ -110,6 +114,7 @@ describe('makeTestCase', () => {
         new GherkinQuery(),
         IdGenerator.incrementing(),
         new IncrementClock(),
+        new IncrementStopwatch(),
         withSourceFramesOnlyStackTrace(),
         makePickleTestStep,
         makeHookTestStep

@@ -378,6 +378,10 @@ message Attachment {
    * - stream => BASE64
    */
   ContentEncoding content_encoding = 6;
+  /**
+   * Suggested file name of the attachment.
+   */
+  string file_name = 7;
 
   enum ContentEncoding {
     IDENTITY = 0;

@@ -1,3 +1,3 @@
 export default interface IClock {
-  now(): number
+  clockNow(): number
 }

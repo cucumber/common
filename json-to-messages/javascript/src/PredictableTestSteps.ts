@@ -1,17 +1,12 @@
-import { performance } from 'perf_hooks'
 import { messages, TimeConversion } from '@cucumber/messages'
 import {
   ITestStep,
   TestStep,
   IWorld,
   EnvelopeListener,
+  DateClock,
 } from '@cucumber/fake-cucumber'
-
-class PerfHooksClock {
-  public now(): number {
-    return performance.now()
-  }
-}
+import { PerfHooksStopwatch } from '@cucumber/fake-cucumber'
 
 abstract class PredictableTestStep extends TestStep implements ITestStep {
   constructor(
@@ -22,7 +17,18 @@ abstract class PredictableTestStep extends TestStep implements ITestStep {
     private readonly duration: number,
     private readonly errorMessage?: string
   ) {
-    super(id, sourceId, alwaysExecute, [], [], new PerfHooksClock(), null)
+    // TODO: Rather than injecting a PerfHooksStopwatch here we should inject one that uses duration.
+    // That will also require a different API for measuring duration...
+    super(
+      id,
+      sourceId,
+      alwaysExecute,
+      [],
+      [],
+      new DateClock(),
+      new PerfHooksStopwatch(),
+      null
+    )
   }
 
   public async execute(

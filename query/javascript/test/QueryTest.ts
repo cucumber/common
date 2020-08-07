@@ -9,6 +9,7 @@ import { promisify } from 'util'
 import IncrementClock from '@cucumber/fake-cucumber/dist/src/IncrementClock'
 import Query from '../src/Query'
 import { makeTestPlan, makeTestCase } from '@cucumber/fake-cucumber'
+import IncrementStopwatch from '@cucumber/fake-cucumber/dist/src/IncrementStopwatch'
 
 const pipelinePromise = promisify(pipeline)
 
@@ -324,7 +325,7 @@ describe('Query', () => {
           scenarioId
         )[0]
 
-        assert.deepEqual(cucumberQuery.getBeforeHookSteps(pickleId), [])
+        assert.deepStrictEqual(cucumberQuery.getBeforeHookSteps(pickleId), [])
       })
 
       it('returns one before hook step', async () => {
@@ -343,7 +344,7 @@ describe('Query', () => {
           scenarioId
         )[0]
 
-        assert.equal(cucumberQuery.getBeforeHookSteps(pickleId).length, 1)
+        assert.strictEqual(cucumberQuery.getBeforeHookSteps(pickleId).length, 1)
       })
 
       it('does not return after hook steps', async () => {
@@ -362,7 +363,7 @@ describe('Query', () => {
           scenarioId
         )[0]
 
-        assert.deepEqual(cucumberQuery.getBeforeHookSteps(pickleId), [])
+        assert.deepStrictEqual(cucumberQuery.getBeforeHookSteps(pickleId), [])
       })
     })
 
@@ -382,7 +383,7 @@ describe('Query', () => {
           scenarioId
         )[0]
 
-        assert.deepEqual(cucumberQuery.getAfterHookSteps(pickleId), [])
+        assert.deepStrictEqual(cucumberQuery.getAfterHookSteps(pickleId), [])
       })
 
       it('returns one after hook step', async () => {
@@ -401,7 +402,7 @@ describe('Query', () => {
           scenarioId
         )[0]
 
-        assert.equal(cucumberQuery.getAfterHookSteps(pickleId).length, 1)
+        assert.strictEqual(cucumberQuery.getAfterHookSteps(pickleId).length, 1)
       })
 
       it('does not return before hook steps', async () => {
@@ -420,7 +421,7 @@ describe('Query', () => {
           scenarioId
         )[0]
 
-        assert.deepEqual(cucumberQuery.getAfterHookSteps(pickleId), [])
+        assert.deepStrictEqual(cucumberQuery.getAfterHookSteps(pickleId), [])
       })
     })
 
@@ -439,8 +440,8 @@ describe('Query', () => {
         const testStep = testCase.testSteps[0]
         const results = cucumberQuery.getTestStepResults(testStep.id)
 
-        assert.deepEqual(results.length, 1)
-        assert.deepEqual(
+        assert.deepStrictEqual(results.length, 1)
+        assert.deepStrictEqual(
           results[0].status,
           messages.TestStepFinished.TestStepResult.Status.PASSED
         )
@@ -461,8 +462,8 @@ describe('Query', () => {
         const testStep = testCase.testSteps[0]
         const results = cucumberQuery.getTestStepResults(testStep.id)
 
-        assert.deepEqual(results.length, 1)
-        assert.deepEqual(
+        assert.deepStrictEqual(results.length, 1)
+        assert.deepStrictEqual(
           results[0].status,
           messages.TestStepFinished.TestStepResult.Status.PASSED
         )
@@ -470,8 +471,8 @@ describe('Query', () => {
     })
 
     describe('#getHook(HookId)', () => {
-      it('returns null if the id does not match any hook', () => {
-        assert.equal(cucumberQuery.getHook('tralala'), null)
+      it('returns undefined if the id does not match any hook', () => {
+        assert.strictEqual(cucumberQuery.getHook('tralala'), undefined)
       })
 
       it('returns the matching hook', () => {
@@ -484,7 +485,7 @@ describe('Query', () => {
 
         cucumberQuery.update(envelope)
 
-        assert.deepEqual(cucumberQuery.getHook('tralala'), hook)
+        assert.deepStrictEqual(cucumberQuery.getHook('tralala'), hook)
       })
     })
 
@@ -519,8 +520,14 @@ describe('Query', () => {
   ): Promise<void> {
     const newId = IdGenerator.incrementing()
     const clock = new IncrementClock()
+    const stopwatch = new IncrementStopwatch()
     const makeErrorMessage = withFullStackTrace()
-    const supportCode = new SupportCode(newId, clock, makeErrorMessage)
+    const supportCode = new SupportCode(
+      newId,
+      clock,
+      stopwatch,
+      makeErrorMessage
+    )
     supportCode.defineBeforeHook(null, '@beforeHook', () => {
       // no-op
     })
