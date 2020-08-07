@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+* Export all the `*Context` classes
+
 ### Changed
 
 ### Deprecated
@@ -17,7 +19,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
-* added missing CSS class on BackgroundTitle anchor link.
+* Added missing CSS class on BackgroundTitle anchor link.
 
 ## [9.0.0] - 2020-08-07
 

@@ -9,7 +9,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+* Export `IClock`, `DateClock`, `IStopwatch` and `PerfHooksStopwatch`
+
 ### Changed
+
+* The public API now uses a new `IStopwatch` interface in some method signatures.
+  ([#1131](https://github.com/cucumber/cucumber/pull/1131)
+   [aslakhellesoy])
+* The `IClock#now()` signature changed to `IClock#clockNow()`
 
 ### Deprecated
 
