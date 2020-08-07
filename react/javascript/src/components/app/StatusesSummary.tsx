@@ -4,19 +4,13 @@ import statusName from '../gherkin/statusName'
 import StatusIcon from '../gherkin/StatusIcon'
 
 interface IProps {
-  statusesUpdated: (
-    statuses: messages.TestStepFinished.TestStepResult.Status[]
-  ) => any
-  enabledStatuses: messages.TestStepFinished.TestStepResult.Status[]
   scenarioCountByStatus: Map<
     messages.TestStepFinished.TestStepResult.Status,
     number
   >
 }
 
-const StatusesFilter: React.FunctionComponent<IProps> = ({
-  statusesUpdated: statusesUpdated,
-  enabledStatuses: enabledStatuses,
+const StatusesSummary: React.FunctionComponent<IProps> = ({
   scenarioCountByStatus: scenarioCountByStatus,
 }) => {
   const statuses = [
@@ -33,18 +27,14 @@ const StatusesFilter: React.FunctionComponent<IProps> = ({
     <div className="cucumber-status-filter">
       <table>
         <thead>
-          <th>
-            <td>Status</td>
-            <td>Scenarios</td>
-            <td>Show</td>
-          </th>
+          <tr>
+            <th colSpan={2}>Execution summary</th>
+          </tr>
         </thead>
         <tbody>
           {statuses.map((status, index) => {
             const name = statusName(status)
             const scenarioCount = scenarioCountByStatus.get(status)
-            const enabled = enabledStatuses.includes(status)
-            const inputId = `filter-status-${name}`
 
             if (scenarioCount === undefined) {
               return
@@ -53,27 +43,9 @@ const StatusesFilter: React.FunctionComponent<IProps> = ({
             return (
               <tr key={index}>
                 <td>
-                  <label htmlFor={inputId}>
-                    <StatusIcon status={status} /> {name}
-                  </label>
+                  <StatusIcon status={status} /> {name}
                 </td>
                 <td>{scenarioCount} scenarios</td>
-                <td>
-                  <input
-                    id={inputId}
-                    type="checkbox"
-                    defaultChecked={enabled}
-                    onChange={() => {
-                      if (enabledStatuses.includes(status)) {
-                        statusesUpdated(
-                          enabledStatuses.filter((s) => s !== status)
-                        )
-                      } else {
-                        statusesUpdated([status].concat(enabledStatuses))
-                      }
-                    }}
-                  />
-                </td>
               </tr>
             )
           })}
@@ -83,4 +55,4 @@ const StatusesFilter: React.FunctionComponent<IProps> = ({
   )
 }
 
-export default StatusesFilter
+export default StatusesSummary

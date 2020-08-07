@@ -10,7 +10,7 @@ module Cucumber
         timestamp = time_to_timestamp(time)
         time_again = timestamp_to_time(timestamp)
 
-        expect(time_again).to eq(time)
+        expect(time).to be_within(0.000001).of(time_again)
       end
 
       it 'converts to and from seconds duration' do

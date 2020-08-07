@@ -69,6 +69,7 @@ docker-run:
 docker-run-with-secrets:
 	[ -d '../secrets' ]  || git clone keybase://team/cucumberbdd/secrets ../secrets
 	git -C ../secrets pull
+	../secrets/update_permissions
 	docker run \
 	  --volume "${shell pwd}":/app \
 	  --volume "${shell pwd}/../secrets/import-gpg-key.sh":/home/cukebot/import-gpg-key.sh \

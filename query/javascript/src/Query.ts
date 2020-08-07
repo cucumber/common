@@ -1,6 +1,5 @@
 import { messages, TimeConversion } from '@cucumber/messages'
 import { ArrayMultimap } from '@teppeis/multimaps'
-import { isNullOrUndefined } from 'util'
 
 export default class Query {
   private readonly testStepResultByPickleId = new ArrayMultimap<
@@ -232,7 +231,7 @@ export default class Query {
   ): void {
     const testCase = this.testCaseByPickleId.get(pickleId)
 
-    if (isNullOrUndefined(testCase)) {
+    if (!testCase) {
       return
     }
 

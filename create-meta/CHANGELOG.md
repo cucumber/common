@@ -17,6 +17,22 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+* Java: Use `java.vm.name` instead of `java.vendor` (which is `N/A` on OpenJDK)
+* Java: Use `java.vm.version` instead of `java.version`
+* Support GitHub Enterprise by using `GITHUB_SERVER_URL` to construct URLs
+
+## [1.2.0] - 2020-07-31
+
+### Changed
+
+* Updated `messages` to v12.4.0
+
+## [1.1.0] - 2020-07-30
+
+### Changed
+
+* Updated `messages` to v12.3.2
+
 ## [1.0.0] - 2020-06-29
 
 ### Added
@@ -24,7 +40,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/create-meta/v1.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/create-meta/v1.2.0...master
+[1.2.0]:      https://github.com/cucumber/cucumber/releases/tag/create-meta/v1.1.0
+[1.1.0]:      https://github.com/cucumber/cucumber/releases/tag/create-meta/v1.0.0
 [1.0.0]:      https://github.com/cucumber/cucumber/releases/tag/create-meta/v1.0.0
 
 <!-- Contributors in alphabetical order -->

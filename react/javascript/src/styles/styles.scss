@@ -1,5 +1,6 @@
 $border-color: #4B5662;
 $white: #F0EFFB;
+$summary-border-color: rgba(0, 0, 0, 0.1);
 
 $statusColors:
   "passed" #2CB14A,
@@ -19,41 +20,117 @@ $statusColors:
 }
 
 .cucumber-react {
-  h1, h2, h3 {
-    padding: 0;
-    margin-top: 0.3em;
-    margin-bottom: 0;
-    display: inline-block;
-  }
-
-  a { color: inherit; }
-
-  ol {
-    list-style-type: none;
-    padding-left: 10px;
-  }
-
-  section {
-    margin-bottom: 1em;
-  }
-
   @each $name, $color in $statusColors {
-    .status-#{$name} {
+    .cucumber-status--#{$name} {
       color: $color
     }
   }
 
-  .data-table {
+  // Reset browser defaults.
+  h1, h2, h3 {
+    padding: 0;
+    margin: 0;
+  }
+  a { color: inherit; }
+
+
+  .gherkin-document-list {
+    font: 14px 'Open Sans', sans-serif;
+    color: #161C24;
+    background: #fff;
+    overflow-x: hidden;
+  }
+
+  .cucumber-title {
+    margin-top: 0.3em;
+    margin-bottom: 0;
+    display: inline-block;
+
+    &__keyword {
+      font-weight: bold;
+    }
+
+    &__text {
+      font-weight: normal;
+    }
+  }
+
+
+  .cucumber-tags {
+    padding: 0;
+    margin-bottom: 0;
+
+    .cucumber-tag {
+      display: inline;
+      list-style-type: none;
+      padding: 4px 8px 4px 8px;
+      margin-right: 6px;
+      background-color: #FFFFFF;
+      border-radius: 6px;
+    }
+  }
+
+  .cucumber-feature__icon {
+    padding-top: 0.35em;
+    padding-right: 0.5em;
+  }
+
+  // Indentation inside feature and rules
+  .cucumber-description,
+  .cucumber-children {
+    margin-left: 1em;
+  }
+
+  // Spacing between elements
+  .cucumber-feature,
+  .cucumber-rule,
+  .cucumber-scenario,
+  .cucumber-background {
+    margin-bottom: 1em;
+  }
+
+  .cucumber-steps {
+    list-style-type: none;
+    padding-left: 10px;
+
+    & .cucumber-step {
+      display: flex;
+
+      &__status {
+        padding-top: 0.2em;
+        padding-right: 0.5em;
+      }
+
+      &__content {
+        flex-grow: 1;
+      }
+
+      &__keyword {
+        font-weight: bold;
+      }
+
+      &__text {
+        font-weight: normal;
+      }
+
+      &__param {
+        font-weight: normal;
+        font-style: italic;
+      }
+    }
+  }
+
+  .cucumber-table {
     border-collapse: collapse;
     margin-top: .5em;
     margin-bottom: .5em;
 
-    th {
+    &__header-cell {
       @include border-table-cell;
       @include padding-table-cell;
     }
 
-    td {
+    &__cell {
       @include border-table-cell;
       @include padding-table-cell;
 
@@ -67,225 +144,173 @@ $statusColors:
     }
   }
 
-  .examples-table {
-    border-collapse: collapse;
-    margin-top: .5em;
-    margin-bottom: .5em;
-
-    th {
-      @include padding-table-cell;
-    }
-
-    th + th {
-      @include border-table-cell;
-    }
-
-    td {
-      @include padding-table-cell;
-    }
-
-    td + td {
-      @include border-table-cell;
-
-      &__status {
-          padding: 0.5em 3px 3px 3px;
-      }
-
-      &__step {
-        flex-grow: 1;
-      }
-    }
+  .cucumber-code {
+    padding: 0.25em;
+    background-color: rgb(235, 235, 235);
   }
 
-  .gherkin-document-list {
-    font: 14px 'Open Sans', sans-serif;
-    color: #161C24;
-    background: #fff;
-    overflow-x: hidden;
-  }
-
-  .indent {
-    margin-left: 1em;
-  }
-
-  .keyword {
-    font-weight: bold;
-  }
-
-  .step {
-    padding: 0.1em;
-
-    &-text {
-      font-weight: normal;
-    }
-
-    &-param {
-      font-weight: normal;
-    }
-  }
-
-  .step-container {
-    display: flex;
-
-    &__step {
-      flex-grow: 1;
-    }
-  }
-
-  .text_status_icon_container {
-    padding-top: 0.35em;
-    padding-right: 0.5em;
-  }
-
-  .error-message {
+  .cucumber-error {
     padding: 0.5em;
     margin: 0;
     overflow: scroll;
   }
 
-  .tag-list {
-    padding: 0;
-    margin-bottom: 0;
+  .cucumber-no-documents {
+    font: 14px 'Open Sans', sans-serif;
   }
 
-  .tag {
-    display: inline;
-    list-style-type: none;
-    padding: 4px 8px 4px 8px;
-    margin-right: 6px;
-    background-color: #FFFFFF;
-    border-radius: 6px;
-  }
-}
+  .cucumber-attachment {
+    background-color: rgb(235, 235, 235);
+    padding: 0.5em;
 
-.anchored-link {
-  position: relative;
-  display: flex;
-  align-items: center;
-  margin-top: 0.3em;
+    &__icon {
+      margin-right: 0.5em;
+    }
 
-  a {
-    opacity: 0;
-    transition: all 0.35s ease-in-out;
-    position: absolute;
-    left: -20px;
-
-    display: flex;
-    align-items: center;
-  }
-
-  &:hover {
-    a {
-      opacity: 1;
-      width: max-content;
-      transition: all 0.35s ease-in-out;
+    &__image {
+      margin-top: 1em;
     }
   }
 
-  & > * {
-    height: 100%;
-    margin-top: 0px;
-  }
+  .cucumber-anchor {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-top: 0.3em;
 
-  h1, h2, h3 {
-    margin-top: 0px
+    &__link {
+      opacity: 0;
+      transition: all 0.35s ease-in-out;
+      position: absolute;
+      left: -20px;
+
+      display: flex;
+      align-items: center;
+    }
+
+    &__icon {
+      margin-right: 0.5em;
+    }
+
+    &:hover {
+      a {
+        opacity: 1;
+        width: max-content;
+        transition: all 0.35s ease-in-out;
+      }
+    }
+
+    & > * {
+      height: 100%;
+      margin-top: 0px;
+    }
   }
 }
 
 .cucumber-report-header {
   width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: stretch;
-  border: 1px solid $border-color;
-  border-right: 0;
-  border-bottom: 0;
+  display: grid;
+  grid-template-columns: 1fr;
 
-  font-size: 80%;
+  border: 1px solid $summary-border-color;
+
+  font: 11px 'Open Sans', sans-serif;
   margin-bottom: 1em;
 
   & > * {
-    flex-grow: 1;
-    border-right: 1px solid $border-color;
-    border-bottom: 1px solid $border-color;
-
     padding: 1em;
   }
 
-    .cucumber-ci-information {
-      ul {
-        list-style-type: none;
-      }
-    }
+  .cucumber-status-filter {
+    border-bottom: 1px solid $summary-border-color;
 
-    .cucumber-search-bar {
+    table {
+      width: 100%;
+    }
+  }
+
+  .cucumber-execution-data {
+    border-bottom: 1px solid $summary-border-color;
+  }
+
+  .cucumber-search-bar {
+    border-right: 0;
+
+    form.cucumber-search-bar-search {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 9fr 1fr;
+
       input {
         padding: 0.4em;
         border-radius: 0;
-        width: 80%;
       }
 
-    th {
-      display: table-row
+      button {
+        height: 2.2em;
+        padding-left: 0.6em;
+        padding-right: 0.6em;
+      }
+
     }
 
-    td {
-      padding: 3px 15px
+
+    p.help {
+      font-size: 80%;
+    }
+
+    form.cucumber-search-bar-filter {
+      ul {
+        display: inline;
+
+        li {
+          list-style-type: none;
+          display: inline-block;
+
+          input {
+            display: inline-block;
+            width: auto;
+            height: 0.6em;
+          }
+
+          label {
+            padding-right: 1em;
+          }
+        }
+      }
     }
   }
 }
 
-.cucumber-search-bar {
-  margin-top: 2em;
-  margin-bottom: 2em;
-  input {
-    padding: 0.4em;
-    border-radius: 0;
-    width: 80%;
-  }
+@media only screen and (min-width: 600px) {
+  .cucumber-report-header {
+    grid-template-columns: 1fr 1fr;
 
-  button {
-    height: 2.2em;
-    padding-left: 0.6em;
-    padding-right: 0.6em;
-  }
-
-  p.help {
-    font-size: 80%;
-  }
-}
-
-button {
-  height: 2.2em;
-  padding-left: 0.6em;
-  padding-right: 0.6em;
-}
-
-details {
-  font-size: 80%;
-
-  p {
-    border-color: $border-color;
-    background-color: #f4f4f4;
-  }
-}
-
-
-.attachment {
-    background-color: rgb(235, 235, 235);
-    padding: 0.5em;
-    .attachment-icon {
-      margin-right: 0.5em;
+    .cucumber-status-filter {
+      border-right: 1px solid $summary-border-color;
     }
-}
-.attachment-image {
-  margin-top: 1em;
+
+    .cucumber-search-bar {
+      grid-column: 1 / -1;
+    }
+  }
 }
 
-.highlight mark {
-  background-color: yellow
-}
+@media only screen and (min-width: 992px) {
+  .cucumber-report-header {
+    grid-template-columns: 1fr 1fr 2fr;
 
-.cucumberFeature {
-  padding-left: 10px;
+    .cucumber-status-filter {
+      border-bottom: 0
+    }
+
+    .cucumber-execution-data {
+      border-right: 1px solid $summary-border-color;
+      border-bottom: 0
+    }
+
+    .cucumber-search-bar {
+      grid-column: auto;
+    }
+  }
 }

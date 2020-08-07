@@ -308,7 +308,9 @@ var _ = Describe("TestStepToJSON", func() {
 			step = &TestStep{
 				Hook: &messages.Hook{
 					SourceReference: &messages.SourceReference{
-						Uri: "some/hooks.go",
+						Reference: &messages.SourceReference_Uri{
+							Uri: "some/hooks.go",
+						},
 						Location: &messages.Location{
 							Column: 3,
 							Line:   12,
@@ -398,7 +400,9 @@ var _ = Describe("TestStepToJSON", func() {
 				step.StepDefinitions = []*messages.StepDefinition{
 					&messages.StepDefinition{
 						SourceReference: &messages.SourceReference{
-							Uri: "support_code.go",
+							Reference: &messages.SourceReference_Uri{
+								Uri: "support_code.go",
+							},
 							Location: &messages.Location{
 								Line: 12,
 							},

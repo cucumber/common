@@ -1,6 +1,6 @@
 package io.cucumber.messages;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -10,11 +10,12 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public abstract class MessageSerializationContract {
+abstract class MessageSerializationContract {
+
     @Test
-    public void can_serialise_messages_over_a_stream() throws IOException {
+    void can_serialise_messages_over_a_stream() throws IOException {
         List<Messages.Envelope> outgoingMessages = createOutgoingMessages();
 
         ByteArrayOutputStream output = new ByteArrayOutputStream();
@@ -42,7 +43,8 @@ public abstract class MessageSerializationContract {
         return outgoingMessages;
     }
 
-    private void writeOutgoingMessages(List<Messages.Envelope> messages, MessageWriter messageWriter) throws IOException {
+    private void writeOutgoingMessages(List<Messages.Envelope> messages, MessageWriter messageWriter)
+            throws IOException {
         for (Messages.Envelope writtenMessage : messages) {
             messageWriter.write(writtenMessage);
         }
@@ -55,4 +57,5 @@ public abstract class MessageSerializationContract {
         }
         return result;
     }
+
 }
