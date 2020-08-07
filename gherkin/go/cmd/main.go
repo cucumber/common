@@ -9,7 +9,7 @@ import (
 	b64 "encoding/base64"
 	"flag"
 	"fmt"
-	"github.com/cucumber/gherkin-go/v14"
+	"github.com/cucumber/gherkin-go/v15"
 	messages "github.com/cucumber/messages-go/v13"
 	fio "github.com/cucumber/messages-go/v13/io"
 	gio "github.com/gogo/protobuf/io"
