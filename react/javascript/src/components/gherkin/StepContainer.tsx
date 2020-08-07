@@ -13,12 +13,12 @@ const StepContainer: React.FunctionComponent<IProps> = ({
 }) => {
   // @ts-ignore
   return (
-    <div className="step-container">
-      <span className="text_status_icon_container">
+    <li className="cucumber-step">
+      <span className="cucumber-step__status">
         <StatusIcon status={status} />
       </span>
-      <div className="step-container__step">{children}</div>
-    </div>
+      <div className="cucumber-step__content">{children}</div>
+    </li>
   )
 }
 

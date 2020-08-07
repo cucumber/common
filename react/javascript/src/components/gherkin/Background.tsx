@@ -16,16 +16,14 @@ const Background: React.FunctionComponent<IProps> = ({ background }) => {
   const idGenerated = generator.generate(background.name)
 
   return (
-    <section>
+    <section className="cucumber-background">
       <BackgroundTitle id={idGenerated} background={background} />
-      <div className="indent">
-        <Description description={background.description} />
-        <StepList
-          steps={background.steps || []}
-          renderStepMatchArguments={true}
-          renderMessage={true}
-        />
-      </div>
+      <Description description={background.description} />
+      <StepList
+        steps={background.steps || []}
+        renderStepMatchArguments={true}
+        renderMessage={true}
+      />
     </section>
   )
 }
