@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
+* Move `JavaMethod` and `JavaStackTraceElement` to be children of `SourceReference`
+
 ### Deprecated
 
 ### Removed
@@ -20,7 +22,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [12.4.0] - 2020-07-31
 
 ### Added
-* Suggested file name to the Attachment messages ([#1128](https://github.com/cucumber/cucumber/pull/1128)) 
+
+* Suggested file name to the Attachment messages ([#1128](https://github.com/cucumber/cucumber/pull/1128))
 * Added ProtocolVersion to access messages version reliably ([#1127](https://github.com/cucumber/cucumber/pull/1127) [mpkorstanje])
 
 ## [12.3.2] - 2020-07-29
@@ -38,7 +41,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [12.3.0] - 2020-07-29
 
 ### Added
-* Add JavaMethod and JavaStackTraceElement as SourceReference ([#1120](https://github.com/cucumber/cucumber/pull/1120))
+
+* Add `JavaMethod` and `JavaStackTraceElement` as `SourceReference` ([#1120](https://github.com/cucumber/cucumber/pull/1120))
 
 ### Fixed
 
