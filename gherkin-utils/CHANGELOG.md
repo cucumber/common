@@ -17,6 +17,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [2.0.0] - 2020-08-07
+
+### Changed
+
+* Update `messages` to 13.0.1
+
 ## [1.0.1] - 2020-06-29
 
 ### Fixed
@@ -30,7 +36,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin-utils/v1.0.1...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin-utils/v2.0.0...master
+[2.0.0]:      https://github.com/cucumber/cucumber/compare/gherkin-utils/v1.0.1...gherkin-utils/v2.0.0
 [1.0.1]:      https://github.com/cucumber/cucumber/compare/gherkin-utils/v1.0.0...gherkin-utils/v1.0.1
 [1.0.0]:      https://github.com/cucumber/cucumber/releases/tag/gherkin-utils/v1.0.0
 
