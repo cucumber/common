@@ -29,6 +29,12 @@ class CreateMetaTest {
     }
 
     @Test
+    void it_provides_the_correct_jvm_version_and_name() {
+        Messages.Meta meta = CreateMeta.createMeta("cucumber-jvm", "3.2.1", new HashMap<>());
+        assertThat(meta.getRuntime().getName(), matchesPattern("(OpenJDK).*"));
+    }
+
+    @Test
     void it_detects_github_actions() {
         HashMap<String, String> env = new HashMap<String, String>() {{
             put("GITHUB_SERVER_URL", "https://github.company.com");
