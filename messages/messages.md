@@ -42,6 +42,8 @@
     - [PickleStepArgument.PickleTable.PickleTableRow.PickleTableCell](#io.cucumber.messages.PickleStepArgument.PickleTable.PickleTableRow.PickleTableCell)
     - [Source](#io.cucumber.messages.Source)
     - [SourceReference](#io.cucumber.messages.SourceReference)
+    - [SourceReference.JavaMethod](#io.cucumber.messages.SourceReference.JavaMethod)
+    - [SourceReference.JavaStackTraceElement](#io.cucumber.messages.SourceReference.JavaStackTraceElement)
     - [StepDefinition](#io.cucumber.messages.StepDefinition)
     - [StepDefinition.StepDefinitionPattern](#io.cucumber.messages.StepDefinition.StepDefinitionPattern)
     - [TestCase](#io.cucumber.messages.TestCase)
@@ -752,7 +754,7 @@ A wrapper for either a doc string or a table.
 <a name="io.cucumber.messages.Source"></a>
 
 ### Source
-A source file, typically a Gherkin document
+A source file, typically a Gherkin document or Java/Ruby/JavaScript source code
 
 
 | Field | Type | Label | Description |
@@ -776,9 +778,48 @@ Points to a [Source](#io.cucumber.messages.Source) identified by `uri` and a
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | uri | [string](#string) |  |  |
+<<<<<<< HEAD
 | java_method | [JavaMethod](#io.cucumber.messages.JavaMethod) |  |  |
 | java_stack_trace_element | [JavaStackTraceElement](#io.cucumber.messages.JavaStackTraceElement) |  |  |
+=======
+| java_method | [SourceReference.JavaMethod](#io.cucumber.messages.SourceReference.JavaMethod) |  |  |
+| java_stack_trace_element | [SourceReference.JavaStackTraceElement](#io.cucumber.messages.SourceReference.JavaStackTraceElement) |  |  |
+>>>>>>> ad5c939f... Include parameter types in location (and move Java protobuf messages into narrower scope)
 | location | [Location](#io.cucumber.messages.Location) |  |  |
+
+
+
+
+
+
+<a name="io.cucumber.messages.SourceReference.JavaMethod"></a>
+
+### SourceReference.JavaMethod
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| class_name | [string](#string) |  |  |
+| method_name | [string](#string) |  |  |
+| method_parameter_types | [string](#string) | repeated |  |
+
+
+
+
+
+
+<a name="io.cucumber.messages.SourceReference.JavaStackTraceElement"></a>
+
+### SourceReference.JavaStackTraceElement
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| class_name | [string](#string) |  |  |
+| method_name | [string](#string) |  |  |
+| file_name | [string](#string) |  |  |
 
 
 

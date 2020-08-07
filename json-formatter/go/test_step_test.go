@@ -422,10 +422,14 @@ var _ = Describe("TestStepToJSON", func() {
 				step = &TestStep{
 					Hook: &messages.Hook{
 						SourceReference: &messages.SourceReference{
-							Reference: &messages.SourceReference_JavaMethod{
-								JavaMethod: &messages.JavaMethod{
+							Reference: &messages.SourceReference_JavaMethod_{
+								JavaMethod: &messages.SourceReference_JavaMethod{
 									ClassName:  "org.cucumber.jvm.Class",
 									MethodName: "someMethod",
+									MethodParameterTypes: []string{
+										"java.lang.String",
+										"int",
+									},
 								},
 							},
 						},
@@ -442,7 +446,7 @@ var _ = Describe("TestStepToJSON", func() {
 			})
 
 			It("Has a Match", func() {
-				Expect(jsonStep.Match.Location).To(Equal("org.cucumber.jvm.Class.someMethod"))
+				Expect(jsonStep.Match.Location).To(Equal("org.cucumber.jvm.Class.someMethod(java.lang.String,int)"))
 			})
 		})
 
@@ -473,10 +477,14 @@ var _ = Describe("TestStepToJSON", func() {
 					StepDefinitions: []*messages.StepDefinition{
 						&messages.StepDefinition{
 							SourceReference: &messages.SourceReference{
-								Reference: &messages.SourceReference_JavaMethod{
-									JavaMethod: &messages.JavaMethod{
+								Reference: &messages.SourceReference_JavaMethod_{
+									JavaMethod: &messages.SourceReference_JavaMethod{
 										ClassName:  "org.cucumber.jvm.Class",
 										MethodName: "someMethod",
+										MethodParameterTypes: []string{
+											"java.lang.String",
+											"int",
+										},
 									},
 								},
 							},
@@ -487,7 +495,7 @@ var _ = Describe("TestStepToJSON", func() {
 			})
 
 			It("Has a Match", func() {
-				Expect(jsonStep.Match.Location).To(Equal("org.cucumber.jvm.Class.someMethod"))
+				Expect(jsonStep.Match.Location).To(Equal("org.cucumber.jvm.Class.someMethod(java.lang.String,int)"))
 			})
 		})
 	})
@@ -498,8 +506,8 @@ var _ = Describe("TestStepToJSON", func() {
 				step = &TestStep{
 					Hook: &messages.Hook{
 						SourceReference: &messages.SourceReference{
-							Reference: &messages.SourceReference_JavaStackTraceElement{
-								JavaStackTraceElement: &messages.JavaStackTraceElement{
+							Reference: &messages.SourceReference_JavaStackTraceElement_{
+								JavaStackTraceElement: &messages.SourceReference_JavaStackTraceElement{
 									ClassName:  "org.cucumber.jvm.ExceptionClass",
 									MethodName: "someMethod",
 									FileName:   "ExceptionClass.java",
@@ -553,8 +561,8 @@ var _ = Describe("TestStepToJSON", func() {
 					StepDefinitions: []*messages.StepDefinition{
 						&messages.StepDefinition{
 							SourceReference: &messages.SourceReference{
-								Reference: &messages.SourceReference_JavaStackTraceElement{
-									JavaStackTraceElement: &messages.JavaStackTraceElement{
+								Reference: &messages.SourceReference_JavaStackTraceElement_{
+									JavaStackTraceElement: &messages.SourceReference_JavaStackTraceElement{
 										ClassName:  "org.cucumber.jvm.ExceptionClass",
 										MethodName: "someMethod",
 										FileName:   "ExceptionClass.java",
@@ -582,8 +590,8 @@ var _ = Describe("TestStepToJSON", func() {
 				step = &TestStep{
 					Hook: &messages.Hook{
 						SourceReference: &messages.SourceReference{
-							Reference: &messages.SourceReference_JavaStackTraceElement{
-								JavaStackTraceElement: &messages.JavaStackTraceElement{
+							Reference: &messages.SourceReference_JavaStackTraceElement_{
+								JavaStackTraceElement: &messages.SourceReference_JavaStackTraceElement{
 									ClassName:  "org.cucumber.jvm.ExceptionClass",
 									MethodName: "someMethod",
 									FileName:   "ExceptionClass.java",
@@ -634,8 +642,8 @@ var _ = Describe("TestStepToJSON", func() {
 					StepDefinitions: []*messages.StepDefinition{
 						&messages.StepDefinition{
 							SourceReference: &messages.SourceReference{
-								Reference: &messages.SourceReference_JavaStackTraceElement{
-									JavaStackTraceElement: &messages.JavaStackTraceElement{
+								Reference: &messages.SourceReference_JavaStackTraceElement_{
+									JavaStackTraceElement: &messages.SourceReference_JavaStackTraceElement{
 										ClassName:  "org.cucumber.jvm.ExceptionClass",
 										MethodName: "someMethod",
 										FileName:   "ExceptionClass.java",

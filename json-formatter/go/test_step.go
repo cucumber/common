@@ -211,13 +211,14 @@ func makeLocation(file string, line uint32) string {
 }
 
 func makeJavaMethodLocation(
-	javaMethod *messages.JavaMethod,
+	javaMethod *messages.SourceReference_JavaMethod,
 ) string {
-	return fmt.Sprintf("%s.%s", javaMethod.GetClassName(), javaMethod.GetMethodName())
+	typeList := strings.Join(javaMethod.MethodParameterTypes, ",")
+	return fmt.Sprintf("%s.%s(%s)", javaMethod.GetClassName(), javaMethod.GetMethodName(), typeList)
 }
 
 func makeJavaStackTraceElementLocation(
-	javaStackTraceElement *messages.JavaStackTraceElement,
+	javaStackTraceElement *messages.SourceReference_JavaStackTraceElement,
 	location *messages.Location,
 ) string {
 	if location != nil {
