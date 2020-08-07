@@ -17,6 +17,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+* Java: Use `java.vm.name` instead of `java.vendor` (which is `N/A` on OpenJDK)
+* Java: Use `java.vm.version` instead of `java.version`
 * Support GitHub Enterprise by using `GITHUB_SERVER_URL` to construct URLs
 
 ## [1.2.0] - 2020-07-31

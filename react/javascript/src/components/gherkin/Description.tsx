@@ -11,7 +11,13 @@ const Description: React.FunctionComponent<IProps> = ({ description }) => {
   const html = marked(description)
   const sanitizedHtml = sanitizeHtml(html)
 
-  return <HighLight text={sanitizedHtml} htmlText={true} />
+  return (
+    <HighLight
+      className="cucumber-description"
+      text={sanitizedHtml}
+      htmlText={true}
+    />
+  )
 }
 
 export default Description

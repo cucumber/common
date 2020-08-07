@@ -14,7 +14,7 @@ const StepList: React.FunctionComponent<IProps> = ({
   renderMessage,
 }) => {
   return (
-    <ol>
+    <ol className="cucumber-steps">
       {steps.map((step, index) => (
         <Step
           key={index}
