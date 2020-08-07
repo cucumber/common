@@ -11,13 +11,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
-* Move `JavaMethod` and `JavaStackTraceElement` to be children of `SourceReference`
-
 ### Deprecated
 
 ### Removed
 
 ### Fixed
+
+## [13.0.0] - 2020-08-07
+
+### Changed
+
+* Move `JavaMethod` and `JavaStackTraceElement` to be children of `SourceReference`
 
 ## [12.4.0] - 2020-07-31
 
@@ -402,7 +406,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Protobuf messages for Go, Java, JavaScript, TypeScript and Ruby
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/messages/v12.4.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/messages/v13.0.0...master
+[13.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v12.4.0...messages/v13.0.0
 [12.4.0]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v12.3.2...messages/v12.4.0
 [12.3.2]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v12.3.1...messages/v12.3.2
 [12.3.1]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v12.3.0...messages/v12.3.1
