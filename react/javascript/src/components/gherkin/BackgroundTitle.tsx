@@ -16,7 +16,7 @@ const BackgroundTitle: React.FunctionComponent<IProps> = ({
 }) => {
   return (
     <div className="cucumber-anchor cucumber-title">
-      <a href={'#' + id}>
+      <a href={'#' + id} className="cucumber-anchor__link">
         <FontAwesomeIcon icon={faLink} className="cucumber-anchor__icon" />
       </a>
       <h2 id={id}>
