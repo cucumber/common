@@ -10,6 +10,7 @@ import SupportCode from '../src/SupportCode'
 import makeTestCase from '../src/makeTestCase'
 import makePickleTestStep from '../src/makePickleTestStep'
 import makeHookTestStep from '../src/makeHookTestStep'
+import IncrementStopwatch from '../src/IncrementStopwatch'
 
 describe('TestPlan', () => {
   let supportCode: SupportCode
@@ -17,6 +18,7 @@ describe('TestPlan', () => {
     supportCode = new SupportCode(
       IdGenerator.incrementing(),
       new IncrementClock(),
+      new IncrementStopwatch(),
       withSourceFramesOnlyStackTrace()
     )
   })
@@ -132,6 +134,7 @@ async function makeTestPlan(
         gherkinQuery,
         supportCode.newId,
         supportCode.clock,
+        supportCode.stopwatch,
         supportCode.makeErrorMessage,
         makePickleTestStep,
         makeHookTestStep
