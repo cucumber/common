@@ -43,6 +43,7 @@ This depends on what's changed (see `CHANGELOG.md`):
 
 * Bump `MAJOR` if:
   * There are `Changed` or `Removed` entries
+  * A cucumber library dependency upgrade was major
 * Bump `MINOR` if:
   * There are `Added` entries
 * Bump `PATCH` if:
