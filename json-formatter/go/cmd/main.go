@@ -4,7 +4,7 @@ import (
 	"flag"
 	"fmt"
 	jsonFormatter "github.com/cucumber/json-formatter-go/v5"
-	fio "github.com/cucumber/messages-go/v12/io"
+	fio "github.com/cucumber/messages-go/v13/io"
 	gio "github.com/gogo/protobuf/io"
 	"io"
 	"log"

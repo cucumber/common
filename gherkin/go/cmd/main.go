@@ -10,8 +10,8 @@ import (
 	"flag"
 	"fmt"
 	"github.com/cucumber/gherkin-go/v14"
-	messages "github.com/cucumber/messages-go/v12"
-	fio "github.com/cucumber/messages-go/v12/io"
+	messages "github.com/cucumber/messages-go/v13"
+	fio "github.com/cucumber/messages-go/v13/io"
 	gio "github.com/gogo/protobuf/io"
 	"os"
 )
