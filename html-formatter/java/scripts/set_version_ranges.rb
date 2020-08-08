@@ -4,7 +4,7 @@ pom = File.open("pom.xml") { |f| Nokogiri::XML(f) }
 
 versions = pom.xpath("//xmlns:dependency/xmlns:version[../xmlns:groupId/text() = 'io.cucumber']")
 versions.each do |version|
-  return version if version.content =~ /^\[/
+  return version unless version.content =~ /^\d+\.\d+\.\d+$/
   major, minor, patch = version.content.split('.').map {|i| i.to_i}
   version.content = "[#{major}.#{minor}.#{patch},#{major+1}.0.0)"
 end

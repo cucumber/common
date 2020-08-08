@@ -5,7 +5,7 @@ import filterByStatus from './filter/filterByStatus'
 import GherkinQueryContext from './GherkinQueryContext'
 import CucumberQueryContext from './CucumberQueryContext'
 import SearchQueryContext from './SearchQueryContext'
-import EnvelopesQueryContext,{ EnvelopesQuery } from './EnvelopesQueryContext'
+import EnvelopesQueryContext, { EnvelopesQuery } from './EnvelopesQueryContext'
 
 export {
   GherkinDocumentList,
