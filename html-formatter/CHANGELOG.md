@@ -7,15 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ----
 ## [Unreleased]
 
-### Added
-
 ### Changed
 
-### Deprecated
-
-### Removed
-
-### Fixed
+* Update `messages` to 13.0.1
+* Update `messages` to 10.0.0
 
 ## [8.0.0] - 2020-08-07
 
