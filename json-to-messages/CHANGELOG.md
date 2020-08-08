@@ -19,15 +19,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [6.0.0] - 2020-08-08
 
-### Added
+This should have been 2.0.0, but was accidentally released as 6.0.0.
 
 ### Changed
 
-### Deprecated
-
-### Removed
-
-### Fixed
+* Update `messages` to 13.0.1
 
 ## [1.1.0] - 2020-06-29
 
