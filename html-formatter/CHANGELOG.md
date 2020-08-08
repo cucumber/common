@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ----
 ## [Unreleased]
 
+### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+## [9.0.0] - 2020-08-08
+
 ### Changed
 
 * Update `messages` to 13.0.1
@@ -223,7 +235,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/html-formatter/v8.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/html-formatter/v9.0.0...master
+[9.0.0]:      https://github.com/cucumber/cucumber/compare/html-formatter/v8.0.0...html-formatter/v9.0.0
 [8.0.0]:      https://github.com/cucumber/cucumber/compare/html-formatter/v7.2.0...html-formatter/v8.0.0
 [7.2.0]:      https://github.com/cucumber/cucumber/compare/html-formatter/v7.1.0...html-formatter/v7.2.0
 [7.1.0]:      https://github.com/cucumber/cucumber/compare/html-formatter/v7.0.0...html-formatter/v7.1.0
