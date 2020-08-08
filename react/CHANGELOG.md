@@ -9,13 +9,23 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
-* Export all the `*Context` classes
-
 ### Changed
 
 ### Deprecated
 
 ### Removed
+
+### Fixed
+
+## [10.0.0] - 2020-08-08
+
+### Added
+
+* Export all the `*Context` classes
+
+### Changed
+
+* Update `messages` to 13.0.1
 
 ### Fixed
 
@@ -229,7 +239,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/react/v9.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/react/v10.0.0...master
+[10.0.0]:      https://github.com/cucumber/cucumber/compare/react/v9.0.0...react/v10.0.0
 [9.0.0]:      https://github.com/cucumber/cucumber/compare/react/v8.2.0...react/v9.0.0
 [8.2.0]:      https://github.com/cucumber/cucumber/compare/react/v8.1.0...react/v8.2.0
 [8.1.0]:      https://github.com/cucumber/cucumber/compare/react/v8.0.1...react/v8.1.0
