@@ -1,6 +1,6 @@
 {
   "name": "@cucumber/compatibility-kit",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Cucumber Compatibility Kit validates a Cucumber implementation",
   "repository": {
     "type": "git",
@@ -16,10 +16,10 @@
     "build": "tsc"
   },
   "devDependencies": {
-    "@cucumber/fake-cucumber": "file:../../fake-cucumber/javascript",
+    "@cucumber/fake-cucumber": "^8.0.0",
     "@types/stream-buffers": "^3.0.3",
-    "@typescript-eslint/eslint-plugin": "^3.8.0",
-    "@typescript-eslint/parser": "^3.8.0",
+    "@typescript-eslint/eslint-plugin": "^3.9.0",
+    "@typescript-eslint/parser": "^3.9.0",
     "eslint": "^7.6.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-node": "^11.1.0",
@@ -37,8 +37,5 @@
   },
   "homepage": "https://github.com/cucumber/cucumber#readme",
   "main": "index.js",
-  "directories": {
-    "test": "test"
-  },
   "keywords": []
 }
