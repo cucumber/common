@@ -19,6 +19,10 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Fixed
 
+## [15.0.1] - 2020-08-12
+
+### Fixed
+
 * Remove keyword aliases that only differ by letter case (French, Creole).
   The reason for this is that Cucumber-JVM generates annotation classes for each
   step keyword, and some file systems are case insensitive. This led to inconsistencies
@@ -794,7 +798,8 @@ to Gherkin 2.
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v15.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v15.0.1...master
+[15.0.1]:     https://github.com/cucumber/cucumber/compare/gherkin/v15.0.0...gherkin/v15.0.1
 [15.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v14.2.0...gherkin/v15.0.0
 [14.2.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v14.1.0...gherkin/v14.2.0
 [14.1.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v14.0.2...gherkin/v14.1.0
