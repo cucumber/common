@@ -1288,7 +1288,6 @@
       "Scénario"
     ],
     "scenarioOutline": [
-      "Plan du scénario",
       "Plan du Scénario"
     ],
     "then": [
@@ -1616,7 +1615,6 @@
     "given": [
       "* ",
       "Sipoze ",
-      "Sipoze ke ",
       "Sipoze Ke "
     ],
     "name": "Creole",
@@ -1628,11 +1626,8 @@
       "Senaryo"
     ],
     "scenarioOutline": [
-      "Plan senaryo",
       "Plan Senaryo",
-      "Senaryo deskripsyon",
       "Senaryo Deskripsyon",
-      "Dyagram senaryo",
       "Dyagram Senaryo"
     ],
     "then": [

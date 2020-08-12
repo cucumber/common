@@ -19,6 +19,13 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Fixed
 
+* Remove keyword aliases that only differ by letter case (French, Creole).
+  The reason for this is that Cucumber-JVM generates annotation classes for each
+  step keyword, and some file systems are case insensitive. This led to inconsistencies
+  in the classes that were generated during the build. Removing these keywords fixes
+  this problem. Theoretically this should trigger a new major release, but because the
+  change is so minor and will affect very few users we've made this a patch release.
+
 ## [15.0.0] - 2020-08-07
 
 ### Changed
