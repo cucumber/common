@@ -67,7 +67,7 @@ docker-run:
 .PHONY:
 
 docker-run-with-secrets:
-	[ -d '../secrets' ]  || git clone keybase://team/cucumberbdd/secrets ../secrets
+	[ -d '../secrets' ] || git clone keybase://team/cucumberbdd/secrets ../secrets
 	git -C ../secrets pull
 	../secrets/update_permissions
 	docker run \
