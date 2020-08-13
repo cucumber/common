@@ -20,3 +20,6 @@ are *not* implementations of the json formatter.
     ../gherkin/testdata/good/*.feature \ | 
     go/dist/json-formatter-darwin-amd64
 
+## Prebuilt executables
+
+You'll find prebuilt executables for most operating systems [here](https://github.com/cucumber/cucumber/releases).
