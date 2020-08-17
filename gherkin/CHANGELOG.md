@@ -21,15 +21,9 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ## [15.0.2] - 2020-08-17
 
-### Added
-
-### Changed
-
-### Deprecated
-
-### Removed
-
 ### Fixed
+
+* Revert removal of Gherkin keywords from 15.0.1
 
 ## [15.0.1] - 2020-08-12
 
