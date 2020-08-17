@@ -21,7 +21,11 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ## [15.0.1] - 2020-08-12
 
-### Fixed
+Do not use this release. The removal of Gherkin keywords breaks backwards compatibility for Creole and French,
+and this should have been released as a major release. The keywords are restored in 15.0.2, and we'll remove them
+again in a future major release.
+
+### Removed
 
 * Remove keyword aliases that only differ by letter case (French, Creole).
   The reason for this is that Cucumber-JVM generates annotation classes for each

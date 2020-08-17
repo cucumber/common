@@ -1274,6 +1274,7 @@ var buildinDialects = gherkinDialectMap{
 				"Scénario",
 			},
 			scenarioOutline: []string{
+				"Plan du scénario",
 				"Plan du Scénario",
 			},
 			examples: []string{
@@ -1628,8 +1629,11 @@ var buildinDialects = gherkinDialectMap{
 				"Senaryo",
 			},
 			scenarioOutline: []string{
+				"Plan senaryo",
 				"Plan Senaryo",
+				"Senaryo deskripsyon",
 				"Senaryo Deskripsyon",
+				"Dyagram senaryo",
 				"Dyagram Senaryo",
 			},
 			examples: []string{
@@ -1638,6 +1642,7 @@ var buildinDialects = gherkinDialectMap{
 			given: []string{
 				"* ",
 				"Sipoze ",
+				"Sipoze ke ",
 				"Sipoze Ke ",
 			},
 			when: []string{
