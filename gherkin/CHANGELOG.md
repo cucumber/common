@@ -19,6 +19,18 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Fixed
 
+## [15.0.2] - 2020-08-17
+
+### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
 ## [15.0.1] - 2020-08-12
 
 Do not use this release. The removal of Gherkin keywords breaks backwards compatibility for Creole and French,
@@ -802,7 +814,8 @@ to Gherkin 2.
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v15.0.1...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v15.0.2...master
+[15.0.2]:     https://github.com/cucumber/cucumber/compare/gherkin/v15.0.1...gherkin/v15.0.2
 [15.0.1]:     https://github.com/cucumber/cucumber/compare/gherkin/v15.0.0...gherkin/v15.0.1
 [15.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v14.2.0...gherkin/v15.0.0
 [14.2.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v14.1.0...gherkin/v14.2.0
