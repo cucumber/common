@@ -31,7 +31,7 @@ You have a few options for building this repo as outlined below.
 ### Building on Docker
 
 You need a lot of various tools to build this repo, and to make this easy we have
-created a [docker](https://www.docker.com/) image with all the required build tools
+created a [docker image](https://github.com/cucumber/cucumber-build) with all the required build tools
 installed. To use this you need Docker installed, and a bash shell on your host OS:
 
 ```
