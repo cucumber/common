@@ -5,7 +5,7 @@ if ENV['CUCUMBER_RUBY']
   gem 'cucumber', path: ENV['CUCUMBER_RUBY']
 else
   if ENV['CUCUMBER_USE_RELEASED_GEMS']
-    gem 'cucumber', '>= 4.0.0.rc.4'
+    gem 'cucumber', '>= 4.1.0'
   else
     gem 'cucumber', github: 'cucumber/cucumber-ruby'
   end
@@ -26,6 +26,7 @@ end
 if ENV['USE_MONOREPO_GEM']
   gem 'cucumber-gherkin', path: "../../gherkin/ruby/"
   gem 'cucumber-messages', path: "../../messages/ruby/"
+  gem 'cucumber-create-meta', path: "../../create-meta/ruby/"
 end
 
 gem 'rspec'

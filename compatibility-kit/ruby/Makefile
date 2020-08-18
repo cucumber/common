@@ -81,7 +81,7 @@ self_tested: $(SELF_TESTED)
 ###############################################################################
 
 %.ndjson: %.feature %_steps.rb Gemfile.lock $(RUBY_FILES)
-	-bundle exec cucumber $< --require $(patsubst %.ndjson,%_steps.rb,$@) --format=message > $@
+	-source ../ci_env && bundle exec cucumber $< --require $(patsubst %.ndjson,%_steps.rb,$@) --format=message > $@
 
 %.feature:
 	mkdir -p $(@D)

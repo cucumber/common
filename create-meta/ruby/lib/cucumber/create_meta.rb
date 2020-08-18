@@ -6,7 +6,7 @@ module Cucumber
   module CreateMeta
     CI_DICT = JSON.parse(IO.read(File.join(File.dirname(__FILE__),"ciDict.json")))
 
-    def create_meta(tool_name, tool_version)
+    def create_meta(tool_name, tool_version, env=ENV)
       Cucumber::Messages::Meta.new(
         protocol_version: Cucumber::Messages::VERSION,
         implementation: Cucumber::Messages::Meta::Product.new(
@@ -23,7 +23,8 @@ module Cucumber
         ),
         cpu: Cucumber::Messages::Meta::Product.new(
           name: RbConfig::CONFIG['target_cpu']
-        )
+        ),
+        ci: detect_ci(env)
       )
     end
 
