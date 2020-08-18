@@ -82,18 +82,39 @@ than a local build.
 
 ### Building a subset
 
+Package names are the top level directory names, and language names are the
+directory names underneath. For instance, `html-formatter` package has
+implementations for `java`, `javascript`, and `ruby` languages.
+
 Define `PACKAGES` and/or `LANGUAGES` to only build a subset of packages / languages.
 
-Examples:
+To build `html-formatter` package for `javascript` language:
+
+```
+PACKAGES=html-formatter LANGUAGES=javascript make
+```
+
+To build `html-formatter` package for `javascript` and `ruby` languages:
+
+```
+PACKAGES=html-formatter LANGUAGES="javascript ruby" make
+```
+
+To build all packages for `javascript` language:
 
 ```
 LANGUAGES=javascript make
-LANGUAGES="javascript ruby" make
+```
+
+To build `messages` and `gherkin` packages for all languages:
+
+```
 PACKAGES="messages gherkin" make
 ```
 
-Package names are the top level directory names, and language names are the
-directory names underneath.
+Packages have to be built in a particular order. This order is defined in
+`Makefile`. If you set `PACKAGES` when running `make`, be careful at keeping
+that order to prevent any build error.
 
 ### Using yarn instead of npm
 
