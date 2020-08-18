@@ -17,6 +17,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [2.0.1] - 2020-08-18
+
+### Fixed
+
 * Ruby: Add the ci property to meta message
 
 ## [2.0.0] - 2020-08-07
@@ -50,7 +54,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/create-meta/v2.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/create-meta/v2.0.1...master
+[2.0.1]:      https://github.com/cucumber/cucumber/releases/tag/create-meta/v2.0.0
 [2.0.0]:      https://github.com/cucumber/cucumber/releases/tag/create-meta/v1.2.0
 [1.2.0]:      https://github.com/cucumber/cucumber/releases/tag/create-meta/v1.1.0
 [1.1.0]:      https://github.com/cucumber/cucumber/releases/tag/create-meta/v1.0.0

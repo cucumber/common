@@ -9,7 +9,7 @@
     </parent>
 
     <artifactId>create-meta</artifactId>
-    <version>2.0.1-SNAPSHOT</version>
+    <version>2.0.1</version>
     <packaging>jar</packaging>
     <name>Cucumber create meta</name>
     <description>Produce the meta message for Cucumber-JVM</description>
@@ -48,14 +48,14 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
-            <version>5.6.2</version>
+            <version>5.7.0-RC1</version>
             <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-params</artifactId>
-            <version>5.6.2</version>
+            <version>5.7.0-RC1</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
