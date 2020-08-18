@@ -31,7 +31,7 @@ You have a few options for building this repo as outlined below.
 ### Building on Docker
 
 You need a lot of various tools to build this repo, and to make this easy we have
-created a [docker](https://www.docker.com/) image with all the required build tools
+created a [docker image](https://github.com/cucumber/cucumber-build) with all the required build tools
 installed. To use this you need Docker installed, and a bash shell on your host OS:
 
 ```
@@ -107,11 +107,3 @@ try building the module with yarn (`NPM=yarn` - see above).
 If you're still experiencing errors or timeouts, try replacing `file:../..` dependencies
 in `package.json` with the latest release of the package. If you do, please do not
 commit that change.
-
-## Encrypted secrets
-
-Some files in the repo are encrypted [git-crypt](https://www.agwa.name/projects/git-crypt/).
-Look inside `/.gitattributes` to find out which ones.
-
-Releases can only be made when these files are decrypted. See
-[RELEASE_PROCESS.md](./RELEASE_PROCESS.md) for details.
