@@ -13,6 +13,9 @@ used by Cucumber, such as:
 * The Cucumber Protocol messages
 * ...and a few more bits and bobs.
 
+Each top level directory is the name of a cucumber *package*, and each directory
+underneath is an implementation *language* for that package.
+
 The Cucumber implementations themselves live in separate Git repositories:
 
 * [cucumber-jvm](https://github.com/cucumber/cucumber-jvm)
@@ -88,6 +91,9 @@ LANGUAGES=javascript make
 LANGUAGES="javascript ruby" make
 PACKAGES="messages gherkin" make
 ```
+
+Package names are the top level directory names, and language names are the
+directory names underneath.
 
 ### Using yarn instead of npm
 
