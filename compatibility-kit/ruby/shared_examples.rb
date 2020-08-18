@@ -47,6 +47,8 @@ RSpec.shared_examples 'equivalent messages' do
     comparator = CCK::MessagesComparator.new(CCK::KeysChecker, parsed_generated, parsed_original)
     comparator.debug if ENV['VERBOSE']
 
-    expect(comparator.errors).to be_empty
+    if comparator.errors.any?
+      fail "There were comparison errors: #{comparator.errors}"
+    end
   end
 end

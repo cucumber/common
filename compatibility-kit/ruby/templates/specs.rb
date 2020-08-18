@@ -2,7 +2,7 @@ require_relative '../../shared_examples.rb'
 
 describe __dir__ do
   let(:current_path) { __dir__ }
-  let(:monorepo_path) { ENV['MONOREPO_PATH'] || '../../../cucumber' }
+  let(:monorepo_path) { ENV['MONOREPO_PATH'] || '../..' }
   let(:examples_name) { File.basename(current_path) }
 
   let(:generated) { "#{current_path}/#{examples_name}.ndjson" }

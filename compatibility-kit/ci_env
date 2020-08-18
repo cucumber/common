@@ -1,0 +1,8 @@
+# Define environment variables to emulate a CI environment (GitHub Actions in this case)
+# This is necessary in order to create a meta message with a ci property set.
+#
+export GITHUB_SERVER_URL=https://github.com
+export GITHUB_REPOSITORY=cucumber-ltd/shouty.rb
+export GITHUB_RUN_ID=154666429
+export GITHUB_SHA=99684bcacf01d95875834d87903dcb072306c9ad
+export GITHUB_REF=refs/heads/master
