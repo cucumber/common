@@ -72,7 +72,7 @@ self_tested: $(SELF_TESTED)
 		scripts/neutralize-json > $@
 
 %-golden.json: %.feature %_steps.rb Gemfile.lock $(RUBY_FILES) scripts/neutralize-json
-	-bundle exec cucumber $< --require $(patsubst %-golden.json,%_steps.rb,$@) --format=json  | \
+	-source ../ci_env && bundle exec cucumber $< --require $(patsubst %-golden.json,%_steps.rb,$@) --format=json  | \
 		jq --sort-keys "." | \
 		scripts/neutralize-json > $@
 
