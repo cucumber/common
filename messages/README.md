@@ -86,9 +86,10 @@ generated from the [messages.proto](./messages.proto) schema.
 
 Cucumber outputs the JSON representation of these messages rather than the binary
 representation (which is often more common with Protocol Buffers). This does increase
-the size of the messages, but on the flip side it becomes a lot easier to read.
+the size of the messages, but on the flip side they are readable by humans and easier
+to process with tools like `jq`, `grep` etc.
 
-Each JSON message is written as a single line ([NDJSON](http://ndjson.org/))
+Each JSON message is written as a single line (it's [NDJSON](http://ndjson.org/)).
 
 ## Detailed message documentation
 
