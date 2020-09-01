@@ -1,7 +1,7 @@
 # Cucumber HTML Formatter
 
 This is a cross-platform formatter that produces a HTML report for Cucumber runs.
-It is built on top of [cucumber-react](../cucumber-react/javascript) and works with *any* 
+It is built on top of [@cucumber/react](../react/javascript) and works with *any* 
 Cucumber implementation with a `message` formatter that outputs [cucumber messages](../cucumber-messages).
 
 This formatter is built-in in cucumber-ruby and cucumber-jvm, but for other Cucumber implementations that
