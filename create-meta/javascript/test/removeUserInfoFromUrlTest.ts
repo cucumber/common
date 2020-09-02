@@ -10,6 +10,10 @@ describe('removeUserInfoFromUrl', () => {
     assert.strictEqual(removeUserInfoFromUrl(null), null)
   })
 
+  it('returns empty string for empty string', () => {
+    assert.strictEqual(removeUserInfoFromUrl(null), null)
+  })
+
   it('leaves the data intact when no sensitive information is detected', () => {
     assert.strictEqual(removeUserInfoFromUrl('pretty safe'), 'pretty safe')
   })
