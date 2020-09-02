@@ -22,25 +22,29 @@ const HookStep: React.FunctionComponent<IProps> = ({ step }) => {
   if (
     stepResult.status === messages.TestStepFinished.TestStepResult.Status.FAILED
   ) {
+    const location = hook.sourceReference.location
+      ? hook.sourceReference.location.line
+      : hook.sourceReference.javaMethod
+      ? hook.sourceReference.javaMethod.className +
+        '.' +
+        hook.sourceReference.javaMethod.methodName
+      : 'Unknown location'
     return (
-      <li className="step">
-        <StepContainer status={stepResult.status}>
-          <h3>
-            Hook failed: {hook.sourceReference.uri}:
-            {hook.sourceReference.location.line}
-          </h3>
-          {stepResult.message && <ErrorMessage message={stepResult.message} />}
-          {attachments.map((attachment, i) => (
-            <Attachment key={i} attachment={attachment} />
-          ))}
-        </StepContainer>
-      </li>
+      <StepContainer status={stepResult.status}>
+        <h3>
+          Hook failed: {hook.sourceReference.uri}:{location}
+        </h3>
+        {stepResult.message && <ErrorMessage message={stepResult.message} />}
+        {attachments.map((attachment, i) => (
+          <Attachment key={i} attachment={attachment} />
+        ))}
+      </StepContainer>
     )
   }
 
   if (attachments) {
     return (
-      <li className="step">
+      <li className="cucumber-step">
         {attachments.map((attachment, i) => (
           <Attachment key={i} attachment={attachment} />
         ))}

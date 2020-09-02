@@ -17,6 +17,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+* Fix rendering of failed hooks from Cucumber-JVM
+  ([#1166](https://github.com/cucumber/cucumber/issues/1166)
+   @aslakhellesoy
+   @sebrose
+   @cbliard)
+
 ## [10.0.0] - 2020-08-08
 
 ### Added
@@ -264,4 +270,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 <!-- Contributors in alphabetical order -->
 [aslakhellesoy]:    https://github.com/aslakhellesoy
+[cbliard]:          https://github.com/cbliard
 [codemrkay]:        https://github.com/codemrkay
+[sebrose]:          https://github.com/sebrose
