@@ -23,7 +23,7 @@ const HookStep: React.FunctionComponent<IProps> = ({ step }) => {
     stepResult.status === messages.TestStepFinished.TestStepResult.Status.FAILED
   ) {
     const location = hook.sourceReference.location
-      ? hook.sourceReference.location.line
+      ? hook.sourceReference.uri + ':' + hook.sourceReference.location.line
       : hook.sourceReference.javaMethod
       ? hook.sourceReference.javaMethod.className +
         '.' +
@@ -32,7 +32,7 @@ const HookStep: React.FunctionComponent<IProps> = ({ step }) => {
     return (
       <StepContainer status={stepResult.status}>
         <h3>
-          Hook failed: {hook.sourceReference.uri}:{location}
+          Hook failed: {location}
         </h3>
         {stepResult.message && <ErrorMessage message={stepResult.message} />}
         {attachments.map((attachment, i) => (
