@@ -57,6 +57,17 @@ public class CreateMeta {
                 .build();
     }
 
+    public static String cleanSensitiveInformation(String value) {
+        Pattern passwordUrlPattern = Pattern.compile("^(.*?)://(.*?@)?(.*)$");
+        Matcher passwordUrlMatcher = passwordUrlPattern.matcher(value);
+
+        if (passwordUrlMatcher.find()) {
+          return passwordUrlMatcher.group(1) + "://" + passwordUrlMatcher.group(3);
+        }
+
+        return value;
+      }
+
     static Messages.Meta.CI detectCI(Map<String, String> env) {
         List<Messages.Meta.CI> detected = new ArrayList<>();
         for (JsonObject.Member envEntry : CI_DICT) {
@@ -72,7 +83,7 @@ public class CreateMeta {
         String url = evaluate(ciSystem.getString("url", null), env);
         if (url == null) return null;
         JsonObject git = ciSystem.get("git").asObject();
-        String remote = evaluate(git.getString("remote", null), env);
+        String remote = cleanSensitiveInformation(evaluate(git.getString("remote", null), env));
         String revision = evaluate(git.getString("revision", null), env);
         String branch = evaluate(git.getString("branch", null), env);
         String tag = evaluate(git.getString("tag", null), env);
