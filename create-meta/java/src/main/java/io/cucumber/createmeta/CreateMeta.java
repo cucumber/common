@@ -60,6 +60,7 @@ public class CreateMeta {
     }
 
     public static String cleanSensitiveInformation(String value) {
+        if (value == null) return null;
         try {
             URI uri = URI.create(value);
             return new URI(uri.getScheme(), null, uri.getHost(), uri.getPort(), uri.getPath(), uri.getQuery(), uri.getFragment()).toASCIIString();

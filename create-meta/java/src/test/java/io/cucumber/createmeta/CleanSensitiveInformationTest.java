@@ -9,8 +9,19 @@ import java.util.regex.Pattern;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.matchesPattern;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 class CleanSensitiveInformationTest {
+  @Test
+  void returns_null_for_null() {
+    assertNull(CreateMeta.cleanSensitiveInformation(null));
+  }
+
+  @Test
+  void returns_empty_string_for_empty_string() {
+    assertEquals("", CreateMeta.cleanSensitiveInformation(""));
+  }
+
   @Test
   void leaves_the_data_intact_when_no_sensitive_information_is_detected() {
     assertEquals("pretty safe", CreateMeta.cleanSensitiveInformation("pretty safe"));
