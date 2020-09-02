@@ -10,7 +10,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.matchesPattern;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class CleanSensitiveInformationTest {
+class CleanSensitiveInformationTest {
   @Test
   void leaves_the_data_intact_when_no_sensitive_information_is_detected() {
     assertEquals("pretty safe", CreateMeta.cleanSensitiveInformation("pretty safe"));
