@@ -31,9 +31,7 @@ const HookStep: React.FunctionComponent<IProps> = ({ step }) => {
       : 'Unknown location'
     return (
       <StepContainer status={stepResult.status}>
-        <h3>
-          Hook failed: {location}
-        </h3>
+        <h3>Hook failed: {location}</h3>
         {stepResult.message && <ErrorMessage message={stepResult.message} />}
         {attachments.map((attachment, i) => (
           <Attachment key={i} attachment={attachment} />

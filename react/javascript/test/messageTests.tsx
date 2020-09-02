@@ -1,22 +1,24 @@
 import fs from 'fs'
-import {messages, NdjsonToMessageStream} from '@cucumber/messages'
-import {Query as GherkinQuery} from '@cucumber/gherkin'
+import { messages, NdjsonToMessageStream } from '@cucumber/messages'
+import { Query as GherkinQuery } from '@cucumber/gherkin'
 import React from 'react'
 import ReactDOM from 'react-dom'
-import {JSDOM} from 'jsdom'
-import {QueriesWrapper} from '../src'
-import {Query as CucumberQuery} from '@cucumber/query'
+import { JSDOM } from 'jsdom'
+import { QueriesWrapper } from '../src'
+import { Query as CucumberQuery } from '@cucumber/query'
 import GherkinDocumentList from '../src/components/app/GherkinDocumentList'
-import {EnvelopesQuery} from '../src/EnvelopesQueryContext'
-import {promisify} from 'util'
-import {pipeline, Writable} from 'stream'
+import { EnvelopesQuery } from '../src/EnvelopesQueryContext'
+import { promisify } from 'util'
+import { pipeline, Writable } from 'stream'
 import glob from 'glob'
 
 const asyncPipeline = promisify(pipeline)
 
 describe('App with messages', () => {
   const localMessageFiles = glob.sync(`${__dirname}/messages/**/*.ndjson`)
-  const tckMessageFiles = glob.sync(`${__dirname}/../../../compatibility-kit/javascript/features/**/*.ndjson`)
+  const tckMessageFiles = glob.sync(
+    `${__dirname}/../../../compatibility-kit/javascript/features/**/*.ndjson`
+  )
   const messageFiles = [].concat(localMessageFiles, tckMessageFiles)
 
   for (const messageFile of messageFiles) {
