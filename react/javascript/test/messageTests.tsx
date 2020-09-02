@@ -15,8 +15,6 @@ import glob from 'glob'
 const asyncPipeline = promisify(pipeline)
 
 describe('App with messages', () => {
-  const dir = __dirname + '/messages'
-
   const localMessageFiles = glob.sync(`${__dirname}/messages/**/*.ndjson`)
   const tckMessageFiles = glob.sync(`${__dirname}/../../../compatibility-kit/javascript/features/**/*.ndjson`)
   const messageFiles = [].concat(localMessageFiles, tckMessageFiles)
