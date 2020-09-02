@@ -2,6 +2,14 @@ import { cleanSensitiveInformation } from '../src/createMeta'
 import assert from 'assert'
 
 describe('cleanSensitiveInformation', () => {
+  it('returns undefined for undefined', () => {
+    assert.strictEqual(cleanSensitiveInformation(undefined), undefined)
+  })
+
+  it('returns null for null', () => {
+    assert.strictEqual(cleanSensitiveInformation(null), null)
+  })
+
   it('leaves the data intact when no sensitive information is detected', () => {
     assert.strictEqual(cleanSensitiveInformation('pretty safe'), 'pretty safe')
   })

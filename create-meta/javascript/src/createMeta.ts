@@ -1,4 +1,5 @@
 import os from 'os'
+import { parse as parseUrl, format as formatUrl } from 'url'
 import { messages, version as protocolVersion } from '@cucumber/messages'
 import defaultCiDict from './ciDict.json'
 
@@ -63,13 +64,11 @@ export function detectCI(
 }
 
 export function cleanSensitiveInformation(value: string): string {
-  const urlPassword = /^(.*?):\/\/(.*?@)?(.*)$/
-  const urlPasswordMatches = urlPassword.exec(value)
-  if (urlPasswordMatches) {
-    return `${urlPasswordMatches[1]}://${urlPasswordMatches[3]}`
-  }
-
-  return value
+  if (!value) return value
+  const url = parseUrl(value)
+  if (url.auth === null) return value
+  url.auth = null
+  return formatUrl(url)
 }
 
 function createCi(
