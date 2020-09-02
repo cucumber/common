@@ -1,4 +1,3 @@
-import path from 'path'
 import fs from 'fs'
 import {messages, NdjsonToMessageStream} from '@cucumber/messages'
 import {Query as GherkinQuery} from '@cucumber/gherkin'
@@ -17,7 +16,6 @@ const asyncPipeline = promisify(pipeline)
 
 describe('App with messages', () => {
   const dir = __dirname + '/messages'
-  const files = fs.readdirSync(dir)
 
   const localMessageFiles = glob.sync(`${__dirname}/messages/**/*.ndjson`)
   const tckMessageFiles = glob.sync(`${__dirname}/../../../compatibility-kit/javascript/features/**/*.ndjson`)
