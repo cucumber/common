@@ -17,6 +17,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+* Do not fail when walking empty or commented Gherkin documents.
+
 ## [2.0.0] - 2020-08-07
 
 ### Changed

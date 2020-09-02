@@ -38,6 +38,7 @@ describe('Walking with messages', () => {
               }
               callback()
             } catch (error) {
+              error.message += `\n${envelope.gherkinDocument.uri}\n`
               callback(error)
             }
           },
