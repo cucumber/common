@@ -7,5 +7,5 @@ This is useful whenever we come across a message stream that causes a runtime er
 in HTML Reporter or any other tool depending on `@cucumber/react` so we can diagnose
 and fix any issues.
 
-The `.ndjson` files are gitignores since they tend to be big, and may contain confidential
-information (if they come from users).
+Sometimes we will get message files from users that might be useful for reproducing a bug.
+Put these in `./production` - they will not be added to git.
