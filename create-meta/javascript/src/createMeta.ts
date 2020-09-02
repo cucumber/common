@@ -64,9 +64,9 @@ export function detectCI(
 
 export function cleanSensitiveInformation(value: string): string {
   const urlPassword = /^(.*?):\/\/(.*?@)?(.*)$/
-  const urlPasswodMatches = urlPassword.exec(value)
-  if (urlPasswodMatches) {
-    return `${urlPasswodMatches[1]}://${urlPasswodMatches[3]}`
+  const urlPasswordMatches = urlPassword.exec(value)
+  if (urlPasswordMatches) {
+    return `${urlPasswordMatches[1]}://${urlPasswordMatches[3]}`
   }
 
   return value
