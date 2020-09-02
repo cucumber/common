@@ -44,7 +44,7 @@ module Cucumber
         url: url,
         name: ci_name,
         git: Cucumber::Messages::Meta::CI::Git.new(
-          remote: evaluate(ci_system['git']['remote'], env),
+          remote: clean_sensitive_information(evaluate(ci_system['git']['remote'], env)),
           revision: evaluate(ci_system['git']['revision'], env),
           branch: evaluate(ci_system['git']['branch'], env),
           tag: evaluate(ci_system['git']['tag'], env),
