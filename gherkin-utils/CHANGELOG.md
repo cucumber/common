@@ -17,6 +17,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+* Do not fail when walking empty or commented Gherkin documents.
+  ([#1169](https://github.com/cucumber/cucumber/pull/1169)
+   [@vincent-psarga]
+   [@aslakhellesoy]
+   [@cbliard])
+
 ## [2.0.0] - 2020-08-07
 
 ### Changed
@@ -43,4 +49,5 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 <!-- Contributors in alphabetical order -->
 [aslakhellesoy]:    https://github.com/aslakhellesoy
+[cbliard]:          https://github.com/cbliard
 [vincent-psarga]:   https://github.com/vincent-psarga
