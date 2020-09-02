@@ -1,6 +1,14 @@
 require 'cucumber/create_meta'
 
 describe 'clean_sensitive_information' do
+  it 'returns nil for nil' do
+    expect(Cucumber::CreateMeta.clean_sensitive_information(nil)).to be_nil
+  end
+
+  it 'returns empty string for empty string' do
+    expect(Cucumber::CreateMeta.clean_sensitive_information('')).to eq('')
+  end
+
   it 'leaves the data intact when no sensitive information is detected' do
     expect(Cucumber::CreateMeta.clean_sensitive_information('pretty safe')).to eq('pretty safe')
   end

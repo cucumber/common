@@ -1,30 +1,31 @@
+require 'uri'
 require 'cucumber/messages'
 require 'sys/uname'
 require 'json'
 
 module Cucumber
   module CreateMeta
-    CI_DICT = JSON.parse(IO.read(File.join(File.dirname(__FILE__),"ciDict.json")))
+    CI_DICT = JSON.parse(IO.read(File.join(File.dirname(__FILE__), "ciDict.json")))
 
-    def create_meta(tool_name, tool_version, env=ENV)
+    def create_meta(tool_name, tool_version, env = ENV)
       Cucumber::Messages::Meta.new(
-        protocol_version: Cucumber::Messages::VERSION,
-        implementation: Cucumber::Messages::Meta::Product.new(
-          name: tool_name,
-          version: tool_version
-        ),
-        runtime: Cucumber::Messages::Meta::Product.new(
-          name: RUBY_ENGINE,
-          version: RUBY_VERSION
-        ),
-        os: Cucumber::Messages::Meta::Product.new(
-          name: RbConfig::CONFIG['target_os'],
-          version: Sys::Uname.uname.version
-        ),
-        cpu: Cucumber::Messages::Meta::Product.new(
-          name: RbConfig::CONFIG['target_cpu']
-        ),
-        ci: detect_ci(env)
+          protocol_version: Cucumber::Messages::VERSION,
+          implementation: Cucumber::Messages::Meta::Product.new(
+              name: tool_name,
+              version: tool_version
+          ),
+          runtime: Cucumber::Messages::Meta::Product.new(
+              name: RUBY_ENGINE,
+              version: RUBY_VERSION
+          ),
+          os: Cucumber::Messages::Meta::Product.new(
+              name: RbConfig::CONFIG['target_os'],
+              version: Sys::Uname.uname.version
+          ),
+          cpu: Cucumber::Messages::Meta::Product.new(
+              name: RbConfig::CONFIG['target_cpu']
+          ),
+          ci: detect_ci(env)
       )
     end
 
@@ -41,14 +42,14 @@ module Cucumber
       return nil if url.nil?
 
       Cucumber::Messages::Meta::CI.new(
-        url: url,
-        name: ci_name,
-        git: Cucumber::Messages::Meta::CI::Git.new(
-          remote: clean_sensitive_information(evaluate(ci_system['git']['remote'], env)),
-          revision: evaluate(ci_system['git']['revision'], env),
-          branch: evaluate(ci_system['git']['branch'], env),
-          tag: evaluate(ci_system['git']['tag'], env),
-        )
+          url: url,
+          name: ci_name,
+          git: Cucumber::Messages::Meta::CI::Git.new(
+              remote: clean_sensitive_information(evaluate(ci_system['git']['remote'], env)),
+              revision: evaluate(ci_system['git']['revision'], env),
+              branch: evaluate(ci_system['git']['branch'], env),
+              tag: evaluate(ci_system['git']['tag'], env),
+          )
       )
     end
 
@@ -81,10 +82,14 @@ module Cucumber
     end
 
     def clean_sensitive_information(value)
-      url_data = value.match(/^(.*?):\/\/(.*?@)?(.*)$/)
-      return "#{url_data[1]}://#{url_data[3]}" if url_data
-
-      value
+      return nil if value.nil?
+      begin
+        uri = URI(value)
+        uri.userinfo = ''
+        uri.to_s
+      rescue
+        value
+      end
     end
 
     module_function :create_meta, :detect_ci, :create_ci, :group1, :evaluate, :clean_sensitive_information
