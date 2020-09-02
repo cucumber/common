@@ -8,6 +8,8 @@ import io.cucumber.messages.ProtocolVersion;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -58,15 +60,13 @@ public class CreateMeta {
     }
 
     public static String cleanSensitiveInformation(String value) {
-        Pattern passwordUrlPattern = Pattern.compile("^(.*?)://(.*?@)?(.*)$");
-        Matcher passwordUrlMatcher = passwordUrlPattern.matcher(value);
-
-        if (passwordUrlMatcher.find()) {
-          return passwordUrlMatcher.group(1) + "://" + passwordUrlMatcher.group(3);
+        try {
+            URI uri = URI.create(value);
+            return new URI(uri.getScheme(), null, uri.getHost(), uri.getPort(), uri.getPath(), uri.getQuery(), uri.getFragment()).toASCIIString();
+        } catch (URISyntaxException | IllegalArgumentException e) {
+            return value;
         }
-
-        return value;
-      }
+    }
 
     static Messages.Meta.CI detectCI(Map<String, String> env) {
         List<Messages.Meta.CI> detected = new ArrayList<>();
