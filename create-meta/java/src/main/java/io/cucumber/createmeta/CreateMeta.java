@@ -59,7 +59,7 @@ public class CreateMeta {
                 .build();
     }
 
-    public static String cleanSensitiveInformation(String value) {
+    public static String removeUserInfoFromUrl(String value) {
         if (value == null) return null;
         try {
             URI uri = URI.create(value);
@@ -84,7 +84,7 @@ public class CreateMeta {
         String url = evaluate(ciSystem.getString("url", null), env);
         if (url == null) return null;
         JsonObject git = ciSystem.get("git").asObject();
-        String remote = cleanSensitiveInformation(evaluate(git.getString("remote", null), env));
+        String remote = removeUserInfoFromUrl(evaluate(git.getString("remote", null), env));
         String revision = evaluate(git.getString("revision", null), env);
         String branch = evaluate(git.getString("branch", null), env);
         String tag = evaluate(git.getString("tag", null), env);

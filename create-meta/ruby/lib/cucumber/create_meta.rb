@@ -45,7 +45,7 @@ module Cucumber
           url: url,
           name: ci_name,
           git: Cucumber::Messages::Meta::CI::Git.new(
-              remote: clean_sensitive_information(evaluate(ci_system['git']['remote'], env)),
+              remote: remove_userinfo_from_url(evaluate(ci_system['git']['remote'], env)),
               revision: evaluate(ci_system['git']['revision'], env),
               branch: evaluate(ci_system['git']['branch'], env),
               tag: evaluate(ci_system['git']['tag'], env),
@@ -81,7 +81,7 @@ module Cucumber
       m[1]
     end
 
-    def clean_sensitive_information(value)
+    def remove_userinfo_from_url(value)
       return nil if value.nil?
       begin
         uri = URI(value)
@@ -92,6 +92,6 @@ module Cucumber
       end
     end
 
-    module_function :create_meta, :detect_ci, :create_ci, :group1, :evaluate, :clean_sensitive_information
+    module_function :create_meta, :detect_ci, :create_ci, :group1, :evaluate, :remove_userinfo_from_url
   end
 end

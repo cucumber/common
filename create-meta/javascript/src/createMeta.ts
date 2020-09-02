@@ -63,7 +63,7 @@ export function detectCI(
   return detected[0]
 }
 
-export function cleanSensitiveInformation(value: string): string {
+export function removeUserInfoFromUrl(value: string): string {
   if (!value) return value
   const url = parseUrl(value)
   if (url.auth === null) return value
@@ -87,7 +87,7 @@ function createCi(
     url,
     name: ciName,
     git: {
-      remote: cleanSensitiveInformation(evaluate(ciSystem.git.remote, envDict)),
+      remote: removeUserInfoFromUrl(evaluate(ciSystem.git.remote, envDict)),
       revision: evaluate(ciSystem.git.revision, envDict),
       branch: evaluate(ciSystem.git.branch, envDict),
       tag: evaluate(ciSystem.git.tag, envDict),
