@@ -62,6 +62,16 @@ export function detectCI(
   return detected[0]
 }
 
+export function cleanSensitiveInformation(value: string): string {
+  const urlPassword = /^(.*?):\/\/(.*?@)?(.*)$/
+  const urlPasswodMatches = urlPassword.exec(value)
+  if (urlPasswodMatches) {
+    return `${urlPasswodMatches[1]}://${urlPasswodMatches[3]}`
+  }
+
+  return value
+}
+
 function createCi(
   ciName: string,
   ciSystem: CiSystem,
@@ -78,7 +88,7 @@ function createCi(
     url,
     name: ciName,
     git: {
-      remote: evaluate(ciSystem.git.remote, envDict),
+      remote: cleanSensitiveInformation(evaluate(ciSystem.git.remote, envDict)),
       revision: evaluate(ciSystem.git.revision, envDict),
       branch: evaluate(ciSystem.git.branch, envDict),
       tag: evaluate(ciSystem.git.tag, envDict),
