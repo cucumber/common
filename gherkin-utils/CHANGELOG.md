@@ -17,6 +17,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [2.0.1] - 2020-09-02
+
+### Fixed
+
 * Do not fail when walking empty or commented Gherkin documents.
   ([#1169](https://github.com/cucumber/cucumber/pull/1169)
    [@vincent-psarga]
@@ -42,7 +46,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin-utils/v2.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin-utils/v2.0.1...master
+[2.0.1]:      https://github.com/cucumber/cucumber/compare/gherkin-utils/v2.0.0...gherkin-utils/v2.0.1
 [2.0.0]:      https://github.com/cucumber/cucumber/compare/gherkin-utils/v1.0.1...gherkin-utils/v2.0.0
 [1.0.1]:      https://github.com/cucumber/cucumber/compare/gherkin-utils/v1.0.0...gherkin-utils/v1.0.1
 [1.0.0]:      https://github.com/cucumber/cucumber/releases/tag/gherkin-utils/v1.0.0
