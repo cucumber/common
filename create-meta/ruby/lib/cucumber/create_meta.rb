@@ -80,6 +80,13 @@ module Cucumber
       m[1]
     end
 
-    module_function :create_meta, :detect_ci, :create_ci, :group1, :evaluate
+    def clean_sensitive_information(value)
+      url_data = value.match(/^(.*?):\/\/(.*?@)?(.*)$/)
+      return "#{url_data[1]}://#{url_data[3]}" if url_data
+
+      value
+    end
+
+    module_function :create_meta, :detect_ci, :create_ci, :group1, :evaluate, :clean_sensitive_information
   end
 end
