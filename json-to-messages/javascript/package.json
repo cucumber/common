@@ -46,7 +46,7 @@
     "nyc": "^15.1.0",
     "prettier": "^2.0.5",
     "stream-buffers": "^3.0.2",
-    "ts-sinon": "^1.2.0"
+    "ts-sinon": "^2.0.0"
   },
   "dependencies": {
     "@cucumber/fake-cucumber": "file:../../fake-cucumber/javascript",
