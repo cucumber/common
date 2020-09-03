@@ -56,6 +56,7 @@ push_subrepos:
 	touch $@
 
 docker-run:
+	docker pull cucumber/cucumber-build:latest
 	docker run \
 	  --volume "${shell pwd}":/app \
 	  --volume "${HOME}/.m2"/repository:/home/cukebot/.m2/repository \
@@ -70,6 +71,7 @@ docker-run-with-secrets:
 	[ -d '../secrets' ] || git clone keybase://team/cucumberbdd/secrets ../secrets
 	git -C ../secrets pull
 	../secrets/update_permissions
+	docker pull cucumber/cucumber-build:latest
 	docker run \
 	  --volume "${shell pwd}":/app \
 	  --volume "${shell pwd}/../secrets/import-gpg-key.sh":/home/cukebot/import-gpg-key.sh \
