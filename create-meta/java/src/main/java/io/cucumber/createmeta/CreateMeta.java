@@ -8,6 +8,8 @@ import io.cucumber.messages.ProtocolVersion;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -57,6 +59,16 @@ public class CreateMeta {
                 .build();
     }
 
+    public static String removeUserInfoFromUrl(String value) {
+        if (value == null) return null;
+        try {
+            URI uri = URI.create(value);
+            return new URI(uri.getScheme(), null, uri.getHost(), uri.getPort(), uri.getPath(), uri.getQuery(), uri.getFragment()).toASCIIString();
+        } catch (URISyntaxException | IllegalArgumentException e) {
+            return value;
+        }
+    }
+
     static Messages.Meta.CI detectCI(Map<String, String> env) {
         List<Messages.Meta.CI> detected = new ArrayList<>();
         for (JsonObject.Member envEntry : CI_DICT) {
@@ -72,7 +84,7 @@ public class CreateMeta {
         String url = evaluate(ciSystem.getString("url", null), env);
         if (url == null) return null;
         JsonObject git = ciSystem.get("git").asObject();
-        String remote = evaluate(git.getString("remote", null), env);
+        String remote = removeUserInfoFromUrl(evaluate(git.getString("remote", null), env));
         String revision = evaluate(git.getString("revision", null), env);
         String branch = evaluate(git.getString("branch", null), env);
         String tag = evaluate(git.getString("tag", null), env);

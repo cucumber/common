@@ -17,6 +17,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+### Security fixes
+
+* remove credentials in git remote [#1168](https://github.com/cucumber/cucumber/pull/1168)
+
 ## [2.0.1] - 2020-08-18
 
 ### Fixed
