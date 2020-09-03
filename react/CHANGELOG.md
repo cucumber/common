@@ -24,9 +24,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Fix rendering of failed hooks from Cucumber-JVM
   ([#1166](https://github.com/cucumber/cucumber/issues/1166)
    [#1167](https://github.com/cucumber/cucumber/pull/1167)
-   @aslakhellesoy
-   @sebrose
-   @cbliard)
+   [@aslakhellesoy]
+   [@sebrose]
+   [@cbliard])
 * Fix react warnings about rendering `<li>` inside `<li>`
 * Updated some class names
 

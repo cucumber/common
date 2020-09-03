@@ -494,4 +494,13 @@ Feature: hello
       })
     })
   })
+
+  describe('regression tests', () => {
+    it('does not fail with empty/commented documents', () => {
+      const source = parse('# Feature: Solar System')
+      const astWalker = new GherkinDocumentWalker()
+
+      astWalker.walkGherkinDocument(source)
+    })
+  })
 })
