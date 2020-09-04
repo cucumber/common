@@ -21,10 +21,9 @@ if [[ -z "$1" ]]; then
   exit 1
 fi
 
-upload_url=$(curl -si 'https://messages.cucumber.io/api/reports' | grep 'location:' | awk '{print $2}' | tr -d "\r")
-curl -X PUT "${upload_url}" --upload-file "$1"
-path=$(echo "${upload_url}" | grep --only "/reports/........-....-....-....-............")
+response=$(curl -si 'https://messages.cucumber.io/api/reports')
 
-echo
-echo -e "${GREEN}Report successfully uploaded to${NC}"
-echo -e "${GREEN}https://reports.cucumber.io${path}${NC}"
+upload_url=$(echo "${response}" | grep 'location:' | awk '{print $2}' | tr -d "\r")
+curl -X PUT "${upload_url}" --upload-file "$1"
+# Only print the banner which starts with a "┌" character
+echo "${response}" | sed -n '/┌/,$p'
