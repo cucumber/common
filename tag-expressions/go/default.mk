@@ -1,3 +1,6 @@
+# Please update /.templates/go/default.mk and sync:
+#  source /scripts/functions.sh && rsync_files
+
 SHELL := /usr/bin/env bash
 GOPATH := $(shell go env GOPATH)
 PATH := $(PATH):$(GOPATH)/bin
@@ -15,6 +18,15 @@ EXE = dist/$(EXE_BASE_NAME)-$(OS)-$(ARCH)
 REPLACEMENTS := $(shell sed -n "/^\s*github.com\/cucumber/p" go.mod | perl -wpe 's/\s*(github.com\/cucumber\/(.*)-go\/v\d+).*/q{replace } . $$1 . q{ => ..\/..\/} . $$2 . q{\/go}/eg')
 CURRENT_MAJOR := $(shell sed -n "/^module/p" go.mod | awk '{ print $$0 "/v1" }' | cut -d'/' -f4 | cut -d'v' -f2)
 NEW_MAJOR := $(shell echo ${NEW_VERSION} | awk -F'.' '{print $$1}')
+# Enumerating Cross compilation targets 
+PLATFORMS = darwin/amd64 linux/386 linux/amd64 linux/arm freebsd/386 freebsd/amd64 openbsd/386 openbsd/amd64 windows/386 windows/amd64 freebsd/arm netbsd/386 netbsd/amd64 netbsd/arm
+TMP = $(subst /, ,$@)
+X-OS = $(word 1, $(TMP))
+X-ARCH = $(word 2, $(TMP))
+GO_MAJOR_V = $(shell go version | cut -c 14- | cut -d' ' -f1 | cut -d'.' -f1)
+GO_MINOR_V = $(shell go version | cut -c 14- | cut -d' ' -f1 | cut -d'.' -f2)
+MIN_SUPPORTED_GO_MAJOR_V = 1
+MIN_SUPPORTED_GO_MINOR_V = 13
 
 # https://stackoverflow.com/questions/2483182/recursive-wildcards-in-gnu-make
 rwildcard=$(foreach d,$(wildcard $(1:=/*)),$(call rwildcard,$d,$2) $(filter $(subst *,%,$2),$d))
@@ -30,22 +42,42 @@ endif
 .deps:
 	touch $@
 
-dist: $(EXE)
+dist: $(EXE) 
 ifndef NO_UPX_COMPRESSION
 	make .dist-compressed
 endif
 	touch $@
 
-$(EXE): .deps $(GO_SOURCE_FILES)
-	mkdir -p dist
+# Define build $(EXE) target differentially depending on NO_CROSS_COMPILE flag
 ifndef NO_CROSS_COMPILE
-	# Cross-compile executable for many platforms
-	go get github.com/aslakhellesoy/gox
-	gox -buildmode=exe -ldflags $(GOX_LDFLAGS) -output "dist/$(EXE_BASE_NAME)-{{.OS}}-{{.Arch}}" -rebuild ./cmd
+$(EXE): $(PLATFORMS)
+	# Rename windows compilations to include .exe extension
+	rm -f dist/*windows*.exe
+	for f in dist/*windows*; do mv -f $${f} $${f}.exe; done
 else
+$(EXE): .deps $(GO_SOURCE_FILES)
 	# Compile executable for the local platform only
 	go build -ldflags $(GOX_LDFLAGS) -o $@ ./cmd
 endif
+
+$(PLATFORMS): .deps $(GO_SOURCE_FILES) supported-go-version
+	mkdir -p dist
+	# Cross-compile executable for many platforms
+	echo "Building $(X-OS)-$(X-ARCH)"
+	GOOS=$(X-OS) GOARCH=$(X-ARCH) go build -buildmode=exe -ldflags $(GOX_LDFLAGS) -o "dist/$(EXE_BASE_NAME)-$(X-OS)-$(X-ARCH)" -a ./cmd
+.PHONY: $(PLATFORMS)
+
+supported-go-version: #Determine if we're on a supported go platform
+	@if [ $(GO_MAJOR_V) -gt $(MIN_SUPPORTED_GO_MAJOR_V) ]; then \
+		exit 0 ;\
+	elif [ $(GO_MAJOR_V) -lt $(MIN_SUPPORTED_GO_MAJOR_V) ]; then \
+		echo '$(GO_MAJOR_V).$(GO_MINOR_V) is not a supported version, $(MIN_SUPPORTED_GO_MAJOR_V).$(MIN_SUPPORTED_GO_MINOR_V) is required';\
+		exit 1; \
+	elif [ $(GO_MINOR_V) -lt $(MIN_SUPPORTED_GO_MINOR_V) ] ; then \
+		echo '$(GO_MAJOR_V).$(GO_MINOR_V) is not a supported version, $(MIN_SUPPORTED_GO_MAJOR_V).$(MIN_SUPPORTED_GO_MINOR_V) is required';\
+		exit 1; \
+	fi
+.PHONY: supported-go-version
 
 .dist-compressed: $(UPX_EXES)
 	touch $@
