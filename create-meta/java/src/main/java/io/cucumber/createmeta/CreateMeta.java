@@ -3,10 +3,13 @@ package io.cucumber.createmeta;
 import com.eclipsesource.json.Json;
 import com.eclipsesource.json.JsonObject;
 import io.cucumber.messages.Messages;
+import io.cucumber.messages.ProtocolVersion;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -33,10 +36,9 @@ public class CreateMeta {
             Map<String, String> env
     ) {
         Messages.Meta.Builder metaBuilder = Messages.Meta.newBuilder()
-                .setProtocolVersion(Messages.class.getPackage().getImplementationVersion())
                 .setRuntime(Messages.Meta.Product.newBuilder()
-                        .setName(System.getProperty("java.vendor"))
-                        .setVersion(System.getProperty("java.version")))
+                        .setName(System.getProperty("java.vm.name"))
+                        .setVersion(System.getProperty("java.vm.version")))
                 .setImplementation(Messages.Meta.Product.newBuilder()
                         .setName(toolName)
                         .setVersion(toolVersion))
@@ -44,6 +46,10 @@ public class CreateMeta {
                         .setName(System.getProperty("os.name")))
                 .setCpu(Messages.Meta.Product.newBuilder()
                         .setName(System.getProperty("os.arch")));
+
+        ProtocolVersion.getVersion()
+                .ifPresent(metaBuilder::setProtocolVersion);
+
         Messages.Meta.CI ci = detectCI(env);
         if (ci != null) {
             metaBuilder.setCi(ci);
@@ -51,6 +57,16 @@ public class CreateMeta {
 
         return metaBuilder
                 .build();
+    }
+
+    public static String removeUserInfoFromUrl(String value) {
+        if (value == null) return null;
+        try {
+            URI uri = URI.create(value);
+            return new URI(uri.getScheme(), null, uri.getHost(), uri.getPort(), uri.getPath(), uri.getQuery(), uri.getFragment()).toASCIIString();
+        } catch (URISyntaxException | IllegalArgumentException e) {
+            return value;
+        }
     }
 
     static Messages.Meta.CI detectCI(Map<String, String> env) {
@@ -68,7 +84,7 @@ public class CreateMeta {
         String url = evaluate(ciSystem.getString("url", null), env);
         if (url == null) return null;
         JsonObject git = ciSystem.get("git").asObject();
-        String remote = evaluate(git.getString("remote", null), env);
+        String remote = removeUserInfoFromUrl(evaluate(git.getString("remote", null), env));
         String revision = evaluate(git.getString("revision", null), env);
         String branch = evaluate(git.getString("branch", null), env);
         String tag = evaluate(git.getString("tag", null), env);
@@ -77,10 +93,10 @@ public class CreateMeta {
                 .setName(name)
                 .setUrl(url);
         Messages.Meta.CI.Git.Builder gitBuilder = Messages.Meta.CI.Git.newBuilder();
-        if(remote != null) gitBuilder.setRemote(remote);
-        if(revision != null) gitBuilder.setRevision(revision);
-        if(branch != null) gitBuilder.setBranch(branch);
-        if(tag != null) gitBuilder.setTag(tag);
+        if (remote != null) gitBuilder.setRemote(remote);
+        if (revision != null) gitBuilder.setRevision(revision);
+        if (branch != null) gitBuilder.setBranch(branch);
+        if (tag != null) gitBuilder.setTag(tag);
         return ciBuilder.setGit(gitBuilder).build();
     }
 
@@ -98,7 +114,7 @@ public class CreateMeta {
                 if (value == null) {
                     throw new RuntimeException(String.format("Undefined variable: %s", variable));
                 }
-                if(func != null) {
+                if (func != null) {
                     switch (func) {
                         case "refbranch":
                             value = group1(value, Pattern.compile("^refs/heads/(.*)"));
@@ -122,7 +138,7 @@ public class CreateMeta {
 
     private static String group1(String value, Pattern pattern) {
         Matcher matcher = pattern.matcher(value);
-        if(matcher.find()) {
+        if (matcher.find()) {
             String g1 = matcher.group(1);
             return g1;
         }

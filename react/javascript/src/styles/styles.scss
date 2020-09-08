@@ -20,41 +20,117 @@ $statusColors:
 }
 
 .cucumber-react {
-  h1, h2, h3 {
-    padding: 0;
-    margin-top: 0.3em;
-    margin-bottom: 0;
-    display: inline-block;
-  }
-
-  a { color: inherit; }
-
-  ol {
-    list-style-type: none;
-    padding-left: 10px;
-  }
-
-  section {
-    margin-bottom: 1em;
-  }
-
   @each $name, $color in $statusColors {
-    .status-#{$name} {
+    .cucumber-status--#{$name} {
       color: $color
     }
   }
 
-  .data-table {
+  // Reset browser defaults.
+  h1, h2, h3 {
+    padding: 0;
+    margin: 0;
+  }
+  a { color: inherit; }
+
+
+  .gherkin-document-list {
+    font: 14px 'Open Sans', sans-serif;
+    color: #161C24;
+    background: #fff;
+    overflow-x: hidden;
+  }
+
+  .cucumber-title {
+    margin-top: 0.3em;
+    margin-bottom: 0;
+    display: inline-block;
+
+    &__keyword {
+      font-weight: bold;
+    }
+
+    &__text {
+      font-weight: normal;
+    }
+  }
+
+
+  .cucumber-tags {
+    padding: 0;
+    margin-bottom: 0;
+
+    .cucumber-tag {
+      display: inline;
+      list-style-type: none;
+      padding: 4px 8px 4px 8px;
+      margin-right: 6px;
+      background-color: #FFFFFF;
+      border-radius: 6px;
+    }
+  }
+
+  .cucumber-feature__icon {
+    padding-top: 0.35em;
+    padding-right: 0.5em;
+  }
+
+  // Indentation inside feature and rules
+  .cucumber-description,
+  .cucumber-children {
+    margin-left: 1em;
+  }
+
+  // Spacing between elements
+  .cucumber-feature,
+  .cucumber-rule,
+  .cucumber-scenario,
+  .cucumber-background {
+    margin-bottom: 1em;
+  }
+
+  .cucumber-steps {
+    list-style-type: none;
+    padding-left: 10px;
+
+    & .cucumber-step {
+      display: flex;
+
+      &__status {
+        padding-top: 0.2em;
+        padding-right: 0.5em;
+      }
+
+      &__content {
+        flex-grow: 1;
+      }
+
+      &__keyword {
+        font-weight: bold;
+      }
+
+      &__text {
+        font-weight: normal;
+      }
+
+      &__param {
+        font-weight: normal;
+        font-style: italic;
+      }
+    }
+  }
+
+  .cucumber-table {
     border-collapse: collapse;
     margin-top: .5em;
     margin-bottom: .5em;
 
-    th {
+    &__header-cell {
       @include border-table-cell;
       @include padding-table-cell;
     }
 
-    td {
+    &__cell {
       @include border-table-cell;
       @include padding-table-cell;
 
@@ -68,153 +144,66 @@ $statusColors:
     }
   }
 
-  .examples-table {
-    border-collapse: collapse;
-    margin-top: .5em;
-    margin-bottom: .5em;
-
-    th {
-      @include padding-table-cell;
-    }
-
-    th + th {
-      @include border-table-cell;
-    }
-
-    td {
-      @include padding-table-cell;
-    }
-
-    td + td {
-      @include border-table-cell;
-
-      &__status {
-          padding: 0.5em 3px 3px 3px;
-      }
-
-      &__step {
-        flex-grow: 1;
-      }
-    }
+  .cucumber-code {
+    padding: 0.25em;
+    background-color: rgb(235, 235, 235);
   }
 
-  .gherkin-document-list {
-    font: 14px 'Open Sans', sans-serif;
-    color: #161C24;
-    background: #fff;
-    overflow-x: hidden;
-  }
-
-  .indent {
-    margin-left: 1em;
-  }
-
-  .keyword {
-    font-weight: bold;
-  }
-
-  .step {
-    padding: 0.1em;
-
-    &-text {
-      font-weight: normal;
-    }
-
-    &-param {
-      font-weight: normal;
-    }
-  }
-
-  .step-container {
-    display: flex;
-
-    &__step {
-      flex-grow: 1;
-    }
-  }
-
-  .text_status_icon_container {
-    padding-top: 0.35em;
-    padding-right: 0.5em;
-  }
-
-  .error-message {
+  .cucumber-error {
     padding: 0.5em;
     margin: 0;
     overflow: scroll;
   }
 
-  .tag-list {
-    padding: 0;
-    margin-bottom: 0;
-  }
-
-  .tag {
-    display: inline;
-    list-style-type: none;
-    padding: 4px 8px 4px 8px;
-    margin-right: 6px;
-    background-color: #FFFFFF;
-    border-radius: 6px;
-  }
-
-  p.cucumber-no-results {
+  .cucumber-no-documents {
     font: 14px 'Open Sans', sans-serif;
   }
-}
 
-.anchored-link {
-  position: relative;
-  display: flex;
-  align-items: center;
-  margin-top: 0.3em;
-
-  a {
-    opacity: 0;
-    transition: all 0.35s ease-in-out;
-    position: absolute;
-    left: -20px;
-
-    display: flex;
-    align-items: center;
-  }
-
-  &:hover {
-    a {
-      opacity: 1;
-      width: max-content;
-      transition: all 0.35s ease-in-out;
-    }
-  }
-
-  & > * {
-    height: 100%;
-    margin-top: 0px;
-  }
-
-  h1, h2, h3 {
-    margin-top: 0px
-  }
-
-  .attachment {
+  .cucumber-attachment {
     background-color: rgb(235, 235, 235);
     padding: 0.5em;
 
-    .attachment-icon {
+    &__icon {
       margin-right: 0.5em;
+    }
+
+    &__image {
+      margin-top: 1em;
     }
   }
 
-  .attachment-image {
-    margin-top: 1em;
-  }
+  .cucumber-anchor {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-top: 0.3em;
 
-  .highlight mark {
-    background-color: yellow
-  }
+    &__link {
+      opacity: 0;
+      transition: all 0.35s ease-in-out;
+      position: absolute;
+      left: -20px;
 
-  .cucumberFeature {
-    padding-left: 10px;
+      display: flex;
+      align-items: center;
+    }
+
+    &__icon {
+      margin-right: 0.5em;
+    }
+
+    &:hover {
+      a {
+        opacity: 1;
+        width: max-content;
+        transition: all 0.35s ease-in-out;
+      }
+    }
+
+    & > * {
+      height: 100%;
+      margin-top: 0px;
+    }
   }
 }
 

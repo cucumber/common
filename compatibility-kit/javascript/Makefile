@@ -2,7 +2,6 @@ include default.mk
 
 FEATURE_FILES = $(sort $(wildcard features/**/*.feature))
 NDJSON_FILES = $(patsubst features/%.feature,features/%.ndjson,$(FEATURE_FILES))
-BINARY_FILES = $(patsubst features/%.feature,features/%.bin,$(FEATURE_FILES))
 
 .DELETE_ON_ERROR:
 
@@ -13,9 +12,9 @@ ndjson_files: $(NDJSON_FILES)
 
 features/%.ndjson: features/%.feature features/%.ts .deps
 ifdef GOLDEN
+  source ../ci_env
 	./node_modules/@cucumber/fake-cucumber/bin/fake-cucumber \
 		--format ndjson \
-		--predictable-ids \
 		$< > $@
 else
   # no-op: run with GOLDEN=1

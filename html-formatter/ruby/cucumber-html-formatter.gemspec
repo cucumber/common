@@ -23,7 +23,7 @@ Gem::Specification.new do |s|
                     'source_code_uri'   => 'https://github.com/cucumber/cucumber/tree/master/html-formatter/ruby'
                   }
 
-  s.add_dependency 'cucumber-messages', '~> 12.2', '>= 12.2.0'
+  s.add_dependency 'cucumber-messages', '~> 13.0', '>= 13.0.1'
 
   s.add_development_dependency 'rake', '~> 13.0', '>= 13.0.1'
   s.add_development_dependency 'rspec', '~> 3.9', '>= 3.9.0'

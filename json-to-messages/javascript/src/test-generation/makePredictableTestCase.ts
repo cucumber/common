@@ -5,6 +5,7 @@ import {
   MakeErrorMessage,
   IHook,
   IClock,
+  IStopwatch,
   ITestCase,
   IStepDefinition,
 } from '@cucumber/fake-cucumber'
@@ -20,6 +21,7 @@ export default function makePredictableTestCase(
   gherkinQuery: GherkinQuery,
   newId: IdGenerator.NewId,
   clock: IClock,
+  stopwatch: IStopwatch,
   makeErrorMessage: MakeErrorMessage
 ): ITestCase {
   return makeTestCase(
@@ -30,6 +32,7 @@ export default function makePredictableTestCase(
     gherkinQuery,
     newId,
     clock,
+    stopwatch,
     makeErrorMessage,
     makePredictablePickleTestStep,
     makePredictableHookTestStep

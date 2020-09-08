@@ -19,6 +19,45 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Fixed
 
+## [15.0.2] - 2020-08-17
+
+### Fixed
+
+* Revert removal of Gherkin keywords from 15.0.1
+
+## [15.0.1] - 2020-08-12
+
+Do not use this release. The removal of Gherkin keywords breaks backwards compatibility for Creole and French,
+and this should have been released as a major release. The keywords are restored in 15.0.2, and we'll remove them
+again in a future major release.
+
+### Removed
+
+* Remove keyword aliases that only differ by letter case (French, Creole).
+  The reason for this is that Cucumber-JVM generates annotation classes for each
+  step keyword, and some file systems are case insensitive. This led to inconsistencies
+  in the classes that were generated during the build. Removing these keywords fixes
+  this problem. Theoretically this should trigger a new major release, but because the
+  change is so minor and will affect very few users we've made this a patch release.
+
+## [15.0.0] - 2020-08-07
+
+### Changed
+
+* Update `messages` to 13.0.1
+
+## [14.2.0] - 2020-07-31
+
+### Changed
+
+* Update `messages` to 12.4.0
+
+## [14.1.0] - 2020-07-29
+
+### Changed
+
+* Update `messages` to 12.3.2
+
 ## [14.0.2] - 2020-06-29
 
 ### Fixed
@@ -769,7 +808,12 @@ to Gherkin 2.
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v14.0.2...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v15.0.2...master
+[15.0.2]:     https://github.com/cucumber/cucumber/compare/gherkin/v15.0.1...gherkin/v15.0.2
+[15.0.1]:     https://github.com/cucumber/cucumber/compare/gherkin/v15.0.0...gherkin/v15.0.1
+[15.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v14.2.0...gherkin/v15.0.0
+[14.2.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v14.1.0...gherkin/v14.2.0
+[14.1.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v14.0.2...gherkin/v14.1.0
 [14.0.2]:     https://github.com/cucumber/cucumber/compare/gherkin/v14.0.1...gherkin/v14.0.2
 [14.0.1]:     https://github.com/cucumber/cucumber/compare/gherkin/v12.2.1...gherkin/v14.0.1
 [12.2.1]:     https://github.com/cucumber/cucumber/compare/gherkin/v14.0.0...gherkin/v12.2.1

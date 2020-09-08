@@ -9,13 +9,65 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
-* Display visible anchors for headers ([#983](https://github.com/cucumber/cucumber/issues/983))
-
 ### Changed
 
 ### Deprecated
 
 ### Removed
+
+### Fixed
+
+## [10.0.1] - 2020-09-02
+
+### Fixed
+
+* Fix rendering of failed hooks from Cucumber-JVM
+  ([#1166](https://github.com/cucumber/cucumber/issues/1166)
+   [#1167](https://github.com/cucumber/cucumber/pull/1167)
+   [@aslakhellesoy]
+   [@sebrose]
+   [@cbliard])
+* Fix react warnings about rendering `<li>` inside `<li>`
+* Updated some class names
+
+## [10.0.0] - 2020-08-08
+
+### Added
+
+* Export all the `*Context` classes
+
+### Changed
+
+* Update `messages` to 13.0.1
+
+### Fixed
+
+* Added missing CSS class on BackgroundTitle anchor link.
+
+## [9.0.0] - 2020-08-07
+
+### Added
+
+* semantic CSS classes on elements.
+* expose `filterByStatus` method
+
+### Changed
+
+* fix `filterByStatus` signature
+
+## [8.2.0] - 2020-07-31
+
+### Changed
+
+* Updated `messages` to v12.4.0
+
+## [8.1.0] - 2020-07-30
+
+### Added
+
+* Display visible anchors for headers ([#983](https://github.com/cucumber/cucumber/issues/983))
+
+* Make Duration human readable.
 
 ### Fixed
 
@@ -200,7 +252,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/react/v8.0.1...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/react/v10.0.1...master
+[10.0.1]:      https://github.com/cucumber/cucumber/compare/react/v10.0.0...react/v10.0.1
+[10.0.0]:      https://github.com/cucumber/cucumber/compare/react/v9.0.0...react/v10.0.0
+[9.0.0]:      https://github.com/cucumber/cucumber/compare/react/v8.2.0...react/v9.0.0
+[8.2.0]:      https://github.com/cucumber/cucumber/compare/react/v8.1.0...react/v8.2.0
+[8.1.0]:      https://github.com/cucumber/cucumber/compare/react/v8.0.1...react/v8.1.0
 [8.0.1]:      https://github.com/cucumber/cucumber/compare/react/v8.0.0...react/v8.0.1
 [8.0.0]:      https://github.com/cucumber/cucumber/compare/react/v7.0.0...react/v8.0.0
 [7.0.0]:      https://github.com/cucumber/cucumber/compare/react/v6.0.0...react/v7.0.0
@@ -221,4 +278,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 <!-- Contributors in alphabetical order -->
 [aslakhellesoy]:    https://github.com/aslakhellesoy
+[cbliard]:          https://github.com/cbliard
 [codemrkay]:        https://github.com/codemrkay
+[sebrose]:          https://github.com/sebrose

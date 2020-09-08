@@ -37,10 +37,19 @@ Open `CHANGELOG.md` and remove any `###` headers without content. Do not commit.
 No further edits should be made. The markdown headers and links will be updated
 automatically in the next step.
 
-## Prepare the release
+## Decide what the next version should be
 
-Before you make a major release, you should consider updating the package's dependencies to the latest
-available stable versions.
+This depends on what's changed (see `CHANGELOG.md`):
+
+* Bump `MAJOR` if:
+  * There are `Changed` or `Removed` entries
+  * A cucumber library dependency upgrade was major
+* Bump `MINOR` if:
+  * There are `Added` entries
+* Bump `PATCH` if:
+  * There are `Fixed` or `Deprecated` entries
+
+## Prepare the release
 
     cd thepackage
 

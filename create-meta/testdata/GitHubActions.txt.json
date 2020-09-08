@@ -1,9 +1,9 @@
 {
   "git": {
-    "remote": "https://github.com/cucumber/cucumber-ruby.git",
-    "revision": "the-revision",
-    "tag": "the-tag"
+    "remote": "https://github.com/cucumber-ltd/shouty.rb.git",
+    "revision": "99684bcacf01d95875834d87903dcb072306c9ad",
+    "branch": "master"
   },
   "name": "GitHub Actions",
-  "url": "https://github.com/cucumber/cucumber-ruby/actions/runs/140170388"
+  "url": "https://github.com/cucumber-ltd/shouty.rb/actions/runs/154666429"
 }

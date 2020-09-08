@@ -23,7 +23,7 @@ describe('getDurationMillis', () => {
     assert.strictEqual(getDurationsMillis(started, ended), 2000)
   })
 
-  it('float values only have 2 digits', () => {
+  it('no precision is provided', () => {
     const started = messages.TestRunStarted.create({
       timestamp: messages.Timestamp.create({ seconds: 12, nanos: 123456789 }),
     })
@@ -31,17 +31,6 @@ describe('getDurationMillis', () => {
       timestamp: messages.Timestamp.create({ seconds: 14, nanos: 234567890 }),
     })
 
-    assert.strictEqual(getDurationsMillis(started, ended), 2111.11)
-  })
-
-  it('returns an integer when a precision of 0 is specified', () => {
-    const started = messages.TestRunStarted.create({
-      timestamp: messages.Timestamp.create({ seconds: 12, nanos: 123456789 }),
-    })
-    const ended = messages.TestRunStarted.create({
-      timestamp: messages.Timestamp.create({ seconds: 14, nanos: 234567890 }),
-    })
-
-    assert.strictEqual(getDurationsMillis(started, ended, 0), 2111)
+    assert.strictEqual(getDurationsMillis(started, ended), 2111.1111010000004)
   })
 })
