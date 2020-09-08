@@ -5,7 +5,7 @@ import IClock from './IClock'
 import ITestStep from './ITestStep'
 import HookTestStep from './HookTestStep'
 import { MakeErrorMessage } from './ErrorMessageGenerator'
-import IStopwatch from './IStopwatch'
+import { StartStopwatch } from './types'
 
 export default function makeHookTestStep(
   pickle: messages.IPickle,
@@ -14,7 +14,7 @@ export default function makeHookTestStep(
   gherkinQuery: Query,
   newId: IdGenerator.NewId,
   clock: IClock,
-  stopwatch: IStopwatch,
+  startStopwatch: StartStopwatch,
   makeErrorMessage: MakeErrorMessage
 ): ITestStep {
   const supportCodeExecutor = hook.match(pickle)
@@ -31,7 +31,7 @@ export default function makeHookTestStep(
       [supportCodeExecutor],
       sourceFrames,
       clock,
-      stopwatch,
+      startStopwatch,
       makeErrorMessage
     )
   }

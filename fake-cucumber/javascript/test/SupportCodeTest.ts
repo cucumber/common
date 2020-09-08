@@ -3,14 +3,14 @@ import { IdGenerator } from '@cucumber/messages'
 import IncrementClock from '../src/IncrementClock'
 import { withFullStackTrace } from '../src/ErrorMessageGenerator'
 import assert from 'assert'
-import IncrementStopwatch from '../src/IncrementStopwatch'
+import incrementStopwatch from '../src/startIncrementStopwatch'
 
 describe('SupportCode', () => {
   it('allows no tags', () => {
     const supportCode = new SupportCode(
       IdGenerator.incrementing(),
       new IncrementClock(),
-      new IncrementStopwatch(),
+      incrementStopwatch,
       withFullStackTrace()
     )
     const error = new Error('In Body')
@@ -25,7 +25,7 @@ describe('SupportCode', () => {
     const supportCode = new SupportCode(
       IdGenerator.incrementing(),
       new IncrementClock(),
-      new IncrementStopwatch(),
+      incrementStopwatch,
       withFullStackTrace()
     )
     supportCode.defineStepDefinition(null, 'a {bad} parameter type', () => {

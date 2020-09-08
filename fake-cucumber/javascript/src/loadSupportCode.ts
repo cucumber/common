@@ -1,17 +1,15 @@
 import SupportCode from './SupportCode'
 import { IdGenerator } from '@cucumber/messages'
-import PerfHooksStopwatch from './PerfHooksStopwatch'
 import {
-  MakeErrorMessage,
   withFullStackTrace,
   withSourceFramesOnlyStackTrace,
 } from './ErrorMessageGenerator'
 import IncrementClock from './IncrementClock'
 import * as dsl from './dsl'
 import findSupportCodePaths from './findSupportCodePaths'
-import IClock from './IClock'
 import DateClock from './DateClock'
-import IStopwatch from './IStopwatch'
+import startIncrementStopwatch from './startIncrementStopwatch'
+import startPerfHooksStopwatch from './startPerfHooksStopwatch'
 
 export default async function loadSupportCode(
   predictableIds: boolean,
@@ -37,19 +35,19 @@ export default async function loadSupportCode(
 }
 
 function makeSupportCode(predictableIds: boolean) {
-  let newId: IdGenerator.NewId
-  let clock: IClock
-  let stopwatch: IStopwatch
-  let makeErrorMessage: MakeErrorMessage
   if (predictableIds) {
-    newId = IdGenerator.incrementing()
-    clock = new IncrementClock()
-    makeErrorMessage = withSourceFramesOnlyStackTrace()
+    return new SupportCode(
+      IdGenerator.incrementing(),
+      new IncrementClock(),
+      startIncrementStopwatch,
+      withSourceFramesOnlyStackTrace()
+    )
   } else {
-    newId = IdGenerator.uuid()
-    clock = new DateClock()
-    stopwatch = new PerfHooksStopwatch()
-    makeErrorMessage = withFullStackTrace()
+    return new SupportCode(
+      IdGenerator.uuid(),
+      new DateClock(),
+      startPerfHooksStopwatch,
+      withFullStackTrace()
+    )
   }
-  return new SupportCode(newId, clock, stopwatch, makeErrorMessage)
 }

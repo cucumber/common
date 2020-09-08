@@ -19,6 +19,7 @@ import {
   MakeTestPlan,
   MakeHookTestStep,
   EnvelopeListener,
+  StartStopwatch,
 } from './types'
 import {
   MakeErrorMessage,
@@ -35,8 +36,7 @@ import ITestCase from './ITestCase'
 import ITestPlan from './ITestPlan'
 import IClock from './IClock'
 import DateClock from './DateClock'
-import IStopwatch from './IStopwatch'
-import PerfHooksStopwatch from './PerfHooksStopwatch'
+import perfHooksStopwatch from './startIncrementStopwatch'
 
 export {
   Given,
@@ -69,7 +69,7 @@ export {
   ITestPlan,
   IClock,
   DateClock,
-  IStopwatch,
-  PerfHooksStopwatch,
+  StartStopwatch,
+  perfHooksStopwatch,
   EnvelopeListener,
 }

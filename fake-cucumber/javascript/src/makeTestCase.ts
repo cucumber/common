@@ -7,8 +7,7 @@ import ITestStep from './ITestStep'
 import IClock from './IClock'
 import { MakeErrorMessage } from './ErrorMessageGenerator'
 import EmptyPickleTestStep from './EmptyPickleTestStep'
-import { MakePickleTestStep, MakeHookTestStep } from './types'
-import IStopwatch from './IStopwatch'
+import { MakePickleTestStep, MakeHookTestStep, StartStopwatch } from './types'
 
 export default function makeTestCase(
   pickle: messages.IPickle,
@@ -18,7 +17,7 @@ export default function makeTestCase(
   gherkinQuery: Query,
   newId: IdGenerator.NewId,
   clock: IClock,
-  stopwatch: IStopwatch,
+  startStopwatch: StartStopwatch,
   makeErrorMessage: MakeErrorMessage,
   makePickleTestStep: MakePickleTestStep,
   makeHookStep: MakeHookTestStep
@@ -32,7 +31,7 @@ export default function makeTestCase(
       [],
       [],
       clock,
-      stopwatch,
+      startStopwatch,
       makeErrorMessage
     )
     return new TestCase(newId(), [undefinedStep], pickle.id, clock)
@@ -45,7 +44,7 @@ export default function makeTestCase(
     gherkinQuery,
     newId,
     clock,
-    stopwatch,
+    startStopwatch,
     makeErrorMessage,
     makeHookStep
   )
@@ -59,7 +58,7 @@ export default function makeTestCase(
       stepDefinitions,
       sourceFrames,
       clock,
-      stopwatch,
+      startStopwatch,
       makeErrorMessage
     )
   })
@@ -70,7 +69,7 @@ export default function makeTestCase(
     gherkinQuery,
     newId,
     clock,
-    stopwatch,
+    startStopwatch,
     makeErrorMessage,
     makeHookStep
   )
@@ -89,7 +88,7 @@ function makeHookSteps(
   gherkinQuery: Query,
   newId: IdGenerator.NewId,
   clock: IClock,
-  stopwatch: IStopwatch,
+  startStopwatch: StartStopwatch,
   makeErrorMessage: MakeErrorMessage,
   makeHookStep: MakeHookTestStep
 ): ITestStep[] {
@@ -102,7 +101,7 @@ function makeHookSteps(
         gherkinQuery,
         newId,
         clock,
-        stopwatch,
+        startStopwatch,
         makeErrorMessage
       )
     )

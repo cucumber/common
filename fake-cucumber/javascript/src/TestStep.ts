@@ -1,11 +1,10 @@
 import { messages, TimeConversion } from '@cucumber/messages'
 import ISupportCodeExecutor from './ISupportCodeExecutor'
-import { EnvelopeListener } from './types'
+import { EnvelopeListener, StartStopwatch } from './types'
 import ITestStep from './ITestStep'
 import IWorld from './IWorld'
 import makeAttach from './makeAttach'
 import IClock from './IClock'
-import IStopwatch from './IStopwatch'
 import { MakeErrorMessage } from './ErrorMessageGenerator'
 
 const {
@@ -23,7 +22,7 @@ export default abstract class TestStep implements ITestStep {
     >,
     private readonly sourceFrames: ReadonlyArray<string>,
     private readonly clock: IClock,
-    private readonly stopwatch: IStopwatch,
+    private readonly startStopwatch: StartStopwatch,
     private readonly makeErrorMessage: MakeErrorMessage
   ) {}
 
@@ -36,10 +35,10 @@ export default abstract class TestStep implements ITestStep {
   ): Promise<messages.TestStepFinished.ITestStepResult> {
     this.emitTestStepStarted(testCaseStartedId, listener)
 
-    const start = this.stopwatch.stopwatchNow()
+    const stopStopwatch = this.startStopwatch()
 
     if (this.supportCodeExecutors.length === 0) {
-      const duration = millisecondsToDuration(this.clock.clockNow() - start)
+      const duration = millisecondsToDuration(stopStopwatch())
 
       return this.emitTestStepFinished(
         testCaseStartedId,
@@ -52,7 +51,7 @@ export default abstract class TestStep implements ITestStep {
     }
 
     if (this.supportCodeExecutors.length > 1) {
-      const duration = millisecondsToDuration(this.clock.clockNow() - start)
+      const duration = millisecondsToDuration(stopStopwatch())
 
       return this.emitTestStepFinished(
         testCaseStartedId,
@@ -71,8 +70,7 @@ export default abstract class TestStep implements ITestStep {
       }
 
       const result = await this.supportCodeExecutors[0].execute(world)
-      const finish = this.stopwatch.stopwatchNow()
-      const duration = millisecondsToDuration(finish - start)
+      const duration = millisecondsToDuration(stopStopwatch())
       return this.emitTestStepFinished(
         testCaseStartedId,
         new messages.TestStepFinished.TestStepResult({
@@ -85,10 +83,8 @@ export default abstract class TestStep implements ITestStep {
         listener
       )
     } catch (error) {
-      const finish = this.clock.clockNow()
-
       const message = this.makeErrorMessage(error, this.sourceFrames)
-      const duration = millisecondsToDuration(finish - start)
+      const duration = millisecondsToDuration(stopStopwatch())
       return this.emitTestStepFinished(
         testCaseStartedId,
         new messages.TestStepFinished.TestStepResult({

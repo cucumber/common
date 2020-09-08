@@ -6,7 +6,7 @@ import { EnvelopeListener } from '../src/types'
 import IWorld from '../src/IWorld'
 import IncrementClock from '../src/IncrementClock'
 import { withSourceFramesOnlyStackTrace } from '../src/ErrorMessageGenerator'
-import IncrementStopwatch from '../src/IncrementStopwatch'
+import startStopwatch from '../src/startIncrementStopwatch'
 
 const { millisecondsToDuration } = TimeConversion
 
@@ -23,7 +23,7 @@ class StubTestStep extends TestStep {
       [],
       ['some.feature:123'],
       new IncrementClock(),
-      new IncrementStopwatch(),
+      startStopwatch,
       withSourceFramesOnlyStackTrace()
     )
   }

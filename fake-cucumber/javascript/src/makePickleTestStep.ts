@@ -4,7 +4,7 @@ import PickleTestStep from './PickleTestStep'
 import ITestStep from './ITestStep'
 import IClock from './IClock'
 import { MakeErrorMessage } from './ErrorMessageGenerator'
-import IStopwatch from '../src/IStopwatch'
+import { StartStopwatch } from './types'
 
 export default function makePickleTestStep(
   testStepId: string,
@@ -12,7 +12,7 @@ export default function makePickleTestStep(
   stepDefinitions: ReadonlyArray<IStepDefinition>,
   sourceFrames: ReadonlyArray<string>,
   clock: IClock,
-  stopwatch: IStopwatch,
+  startStopwatch: StartStopwatch,
   makeErrorMessage: MakeErrorMessage
 ): ITestStep {
   const supportCodeExecutors = stepDefinitions
@@ -25,7 +25,7 @@ export default function makePickleTestStep(
     supportCodeExecutors,
     sourceFrames,
     clock,
-    stopwatch,
+    startStopwatch,
     makeErrorMessage
   )
 }

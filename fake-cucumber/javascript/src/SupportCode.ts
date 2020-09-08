@@ -4,7 +4,7 @@ import {
   ParameterTypeRegistry,
 } from '@cucumber/cucumber-expressions'
 import { IdGenerator, messages } from '@cucumber/messages'
-import { AnyBody } from './types'
+import { AnyBody, StartStopwatch } from './types'
 import ExpressionStepDefinition from './ExpressionStepDefinition'
 import IStepDefinition from './IStepDefinition'
 import IHook from './IHook'
@@ -12,8 +12,6 @@ import Hook from './Hook'
 import IClock from './IClock'
 import { MakeErrorMessage, withFullStackTrace } from './ErrorMessageGenerator'
 import IParameterTypeDefinition from './IParameterTypeDefinition'
-import PerfHooksStopwatch from './PerfHooksStopwatch'
-import IStopwatch from './IStopwatch'
 import DateClock from './DateClock'
 
 function defaultTransformer(...args: string[]) {
@@ -39,7 +37,7 @@ export default class SupportCode {
   constructor(
     public readonly newId: IdGenerator.NewId = IdGenerator.uuid(),
     public readonly clock: IClock = new DateClock(),
-    public readonly stopwatch: IStopwatch = new PerfHooksStopwatch(),
+    public readonly startStopwatch: StartStopwatch = startStopwatch,
     public readonly makeErrorMessage: MakeErrorMessage = withFullStackTrace()
   ) {}
 

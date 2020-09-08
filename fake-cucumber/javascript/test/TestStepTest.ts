@@ -15,7 +15,7 @@ import {
   ParameterTypeRegistry,
   RegularExpression,
 } from '@cucumber/cucumber-expressions'
-import IncrementStopwatch from '../src/IncrementStopwatch'
+import incrementStopwatch from '../src/startIncrementStopwatch'
 
 describe('TestStep', () => {
   let world: IWorld
@@ -41,7 +41,7 @@ describe('TestStep', () => {
         [],
         ['some.feature:123'],
         new IncrementClock(),
-        new IncrementStopwatch(),
+        incrementStopwatch,
         withSourceFramesOnlyStackTrace()
       )
 
@@ -76,7 +76,7 @@ describe('TestStep', () => {
         [stepDefinition, stepDefinition],
         ['some.feature:123'],
         new IncrementClock(),
-        new IncrementStopwatch(),
+        incrementStopwatch,
         withSourceFramesOnlyStackTrace()
       )
 
@@ -99,7 +99,7 @@ describe('TestStep', () => {
         [],
         ['some.feature:123'],
         new IncrementClock(),
-        new IncrementStopwatch(),
+        incrementStopwatch,
         withSourceFramesOnlyStackTrace()
       )
 
@@ -134,7 +134,7 @@ describe('TestStep', () => {
         ],
         ['some.feature:123'],
         new IncrementClock(),
-        new IncrementStopwatch(),
+        incrementStopwatch,
         withSourceFramesOnlyStackTrace()
       )
       await testStep.execute(world, 'some-id', (message) =>
@@ -143,7 +143,7 @@ describe('TestStep', () => {
       const result = emitted.find((m) => m.testStepFinished).testStepFinished
         .testStepResult
 
-      assert.strictEqual(result.duration.seconds, 0)
+      assert.strictEqual(result.duration.seconds, 1000)
     })
 
     context('when there is a matching step definition', () => {
@@ -166,7 +166,7 @@ describe('TestStep', () => {
           ],
           ['some.feature:123'],
           new IncrementClock(),
-          new IncrementStopwatch(),
+          incrementStopwatch,
           withSourceFramesOnlyStackTrace()
         )
 
@@ -198,7 +198,7 @@ describe('TestStep', () => {
           ],
           ['some.feature:123'],
           new IncrementClock(),
-          new IncrementStopwatch(),
+          incrementStopwatch,
           withSourceFramesOnlyStackTrace()
         )
         const testStepFinished = await execute(testStep)
@@ -231,7 +231,7 @@ describe('TestStep', () => {
           ],
           ['some.feature:123'],
           new IncrementClock(),
-          new IncrementStopwatch(),
+          incrementStopwatch,
           withSourceFramesOnlyStackTrace()
         )
 
@@ -264,7 +264,7 @@ describe('TestStep', () => {
           ],
           ['some.feature:123'],
           new IncrementClock(),
-          new IncrementStopwatch(),
+          incrementStopwatch,
           withFullStackTrace()
         )
 
@@ -305,7 +305,7 @@ describe('TestStep', () => {
           ],
           ['some.feature:123'],
           new IncrementClock(),
-          new IncrementStopwatch(),
+          incrementStopwatch,
           withSourceFramesOnlyStackTrace()
         )
 
@@ -331,7 +331,7 @@ describe('TestStep', () => {
         [],
         ['some.feature:123'],
         new IncrementClock(),
-        new IncrementStopwatch(),
+        incrementStopwatch,
         withSourceFramesOnlyStackTrace()
       )
 

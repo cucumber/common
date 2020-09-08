@@ -21,7 +21,7 @@ export default function makeTestPlan(
       gherkinQuery,
       supportCode.newId,
       supportCode.clock,
-      supportCode.stopwatch,
+      supportCode.startStopwatch,
       supportCode.makeErrorMessage,
       makePickleTestStep,
       makeHookTestStep
