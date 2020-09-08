@@ -7,8 +7,9 @@ A Cucumber Expression has the following AST:
 
 ```
 cucumber-expression :=  ( alternation | optional | parameter | text )*
-alternation := (?<=boundary) + alternative* + ( '/' + alternative* )+ + (?=boundary) 
-boundary := whitespace | ^ | $
+alternation := (?<=left-boundary) + alternative* + ( '/' + alternative* )+ + (?=right-boundary)
+left-boundary := whitespace | } | ^
+right-boundary := whitespace | { | $
 alternative: = optional | parameter | text 
 optional := '(' + option* + ')'
 option := parameter | text

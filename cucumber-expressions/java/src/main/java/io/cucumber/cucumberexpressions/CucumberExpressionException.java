@@ -47,15 +47,6 @@ public class CucumberExpressionException extends RuntimeException {
                 "If you did not mean to use an alternative you can use '\\/' to escape the the '/'"));
     }
 
-    static CucumberExpressionException createParameterIsNotAllowedInAlternative(Node node, String expression) {
-        return new CucumberExpressionException(message(
-                node.start(),
-                expression,
-                pointAt(node),
-                "An alternative may not contain a parameter type",
-                "If you did not mean to use an parameter type you can use '\\{' to escape the the '{'"));
-    }
-
     static CucumberExpressionException createParameterIsNotAllowedInOptional(Node node, String expression) {
         return new CucumberExpressionException(message(
                 node.start(),

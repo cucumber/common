@@ -91,7 +91,7 @@ public class CucumberExpressionTest {
     }
 
     @Test
-    public void allows_optional_adjacent_to_alternation() {
+    public void does_not_allow_alternation_with_empty_alternative_by_adjacent_optional() {
         Executable testMethod = () -> match("three (brown)/black mice", "three brown mice");
         CucumberExpressionException thrownException = assertThrows(CucumberExpressionException.class, testMethod);
         assertThat(thrownException.getMessage(),
@@ -102,6 +102,41 @@ public class CucumberExpressionTest {
                         "      ^-----^\n" +
                         "An alternative may not exclusively contain optionals.\n" +
                         "If you did not mean to use an optional you can use '\\(' to escape the the '('")));
+    }
+
+    @Test
+    public void does_not_allow_alternation_with_empty_alternative_by_adjacent_right_parameter() {
+
+        final Executable testMethod = () -> match("x/{int}", "3");
+
+        final CucumberExpressionException thrownException = assertThrows(CucumberExpressionException.class, testMethod);
+        assertThat(thrownException.getMessage(), is(equalTo("" +
+                "This Cucumber Expression has a problem at column 3:\n" +
+                "\n" +
+                "x/{int}\n" +
+                "  ^\n" +
+                "Alternative may not be empty.\n" +
+                "If you did not mean to use an alternative you can use '\\/' to escape the the '/'")));
+    }
+
+    @Test
+    public void does_allow_parameter_adjacent_to_alternation() {
+        assertEquals(singletonList(3), match("{int}st/nd/rd/th", "3rd"));
+    }
+
+    @Test
+    public void does_not_allow_alternation_with_empty_alternative_by_adjacent_left_parameter() {
+
+        final Executable testMethod = () -> match("{int}/x", "3");
+
+        final CucumberExpressionException thrownException = assertThrows(CucumberExpressionException.class, testMethod);
+        assertThat(thrownException.getMessage(), is(equalTo("" +
+                "This Cucumber Expression has a problem at column 6:\n" +
+                "\n" +
+                "{int}/x\n" +
+                "     ^\n" +
+                "Alternative may not be empty.\n" +
+                "If you did not mean to use an alternative you can use '\\/' to escape the the '/'")));
     }
 
     @Test
@@ -170,6 +205,15 @@ public class CucumberExpressionTest {
     public void matches_double_quoted_empty_string_as_empty_string_along_with_other_strings() {
         assertEquals(asList("", "handsome"),
                 match("three {string} and {string} mice", "three \"\" and \"handsome\" mice"));
+    }
+
+
+    @Test
+    public void alternation_seperator_can_be_used_in_parameter() {
+        parameterTypeRegistry
+                .defineParameterType(new ParameterType<>("a/b", "(.*)", String.class, (String arg) -> arg));
+        assertEquals(singletonList("three mice"),
+                match("{a/b}", "three mice"));
     }
 
     @Test
@@ -271,33 +315,9 @@ public class CucumberExpressionTest {
     }
 
     @Test
-    public void does_not_allow_text_parameter_type_alternation() {
-
-        final Executable testMethod = () -> match("x/{int}", "3");
-
-        final CucumberExpressionException thrownException = assertThrows(CucumberExpressionException.class, testMethod);
-        assertThat(thrownException.getMessage(), is(equalTo("" +
-                "This Cucumber Expression has a problem at column 3:\n" +
-                "\n" +
-                "x/{int}\n" +
-                "  ^---^\n" +
-                "An alternative may not contain a parameter type.\n" +
-                "If you did not mean to use an parameter type you can use '\\{' to escape the the '{'")));
-    }
-
-    @Test
-    public void does_not_allow_parameter_type_text_alternation() {
-
-        final Executable testMethod = () -> match("{int}/x", "3");
-
-        final CucumberExpressionException thrownException = assertThrows(CucumberExpressionException.class, testMethod);
-        assertThat(thrownException.getMessage(), is(equalTo("" +
-                "This Cucumber Expression has a problem at column 1:\n" +
-                "\n" +
-                "{int}/x\n" +
-                "^---^\n" +
-                "An alternative may not contain a parameter type.\n" +
-                "If you did not mean to use an parameter type you can use '\\{' to escape the the '{'")));
+    public void allows_parameter_type_in_alternation() {
+        assertEquals(singletonList(18), match("a/i{int}n/y", "i18n"));
+        assertEquals(singletonList(11), match("a/i{int}n/y", "a11y"));
     }
 
     @Test

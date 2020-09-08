@@ -74,17 +74,18 @@ final class CucumberExpressionParser {
     );
 
     /*
-     * alternation := (?<=boundary) + alternative* + ( '/' + alternative* )+ + (?=boundary)
-     * boundary := whitespace | ^ | $
+     * alternation := (?<=left-boundary) + alternative* + ( '/' + alternative* )+ + (?=right-boundary)
+     * left-boundary := whitespace | } | ^
+     * right-boundary := whitespace | { | $
      * alternative: = optional | parameter | text
      */
     private static final Parser alternationParser = (expression, tokens, current) -> {
         int previous = current - 1;
-        if (!lookingAtAny(tokens, previous, START_OF_LINE, WHITE_SPACE)) {
+        if (!lookingAtAny(tokens, previous, START_OF_LINE, WHITE_SPACE, END_PARAMETER)) {
             return new Result(0);
         }
 
-        Result result = parseTokensUntil(expression, alternativeParsers, tokens, current, WHITE_SPACE, END_OF_LINE);
+        Result result = parseTokensUntil(expression, alternativeParsers, tokens, current, WHITE_SPACE, END_OF_LINE, BEGIN_PARAMETER);
         int subCurrent = current + result.consumed;
         if (result.ast.stream().noneMatch(astNode -> astNode.type() == ALTERNATIVE_NODE)) {
             return new Result(0);
@@ -213,6 +214,8 @@ final class CucumberExpressionParser {
 
     private static boolean lookingAt(List<Token> tokens, int at, Type token) {
         if (at < 0) {
+            // If configured correctly this will never happen
+            // Keep for completeness
             return token == START_OF_LINE;
         }
         if (at >= tokens.size()) {

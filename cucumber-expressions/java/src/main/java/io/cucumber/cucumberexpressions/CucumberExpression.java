@@ -14,7 +14,6 @@ import static io.cucumber.cucumberexpressions.Ast.Node.Type.TEXT_NODE;
 import static io.cucumber.cucumberexpressions.CucumberExpressionException.createAlternativeIsEmpty;
 import static io.cucumber.cucumberexpressions.CucumberExpressionException.createAlternativeMayExclusivelyContainOptionals;
 import static io.cucumber.cucumberexpressions.CucumberExpressionException.createOptionalMayNotBeEmpty;
-import static io.cucumber.cucumberexpressions.CucumberExpressionException.createParameterIsNotAllowedInAlternative;
 import static io.cucumber.cucumberexpressions.CucumberExpressionException.createParameterIsNotAllowedInOptional;
 import static java.util.stream.Collectors.joining;
 
@@ -74,7 +73,6 @@ public final class CucumberExpression implements Expression {
             if (alternative.nodes().isEmpty()) {
                 throw createAlternativeIsEmpty(alternative, source);
             }
-            assertNoParameters(alternative, astNode -> createParameterIsNotAllowedInAlternative(astNode, source));
             assertNotEmpty(alternative, astNode -> createAlternativeMayExclusivelyContainOptionals(astNode, source));
         }
         return node.nodes()
