@@ -8,7 +8,7 @@ import GherkinQueryContext from '../../contexts/GherkinQueryContext'
 import ErrorMessage from './ErrorMessage'
 import StepContainer from './StepContainer'
 import HighLight from '../app/HighLight'
-import CustomizableAttachment from '../../../test/components/customizable/CustomizableAttachment'
+import CustomizableAttachment from '../customizable/CustomizableAttachment'
 
 interface IProps {
   step: messages.GherkinDocument.Feature.IStep

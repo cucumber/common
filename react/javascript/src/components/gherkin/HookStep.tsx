@@ -3,7 +3,7 @@ import { messages } from '@cucumber/messages'
 import CucumberQueryContext from '../../contexts/CucumberQueryContext'
 import ErrorMessage from './ErrorMessage'
 import StepContainer from './StepContainer'
-import CustomizableAttachment from '../../../test/components/customizable/CustomizableAttachment'
+import CustomizableAttachment from '../customizable/CustomizableAttachment'
 
 interface IProps {
   step: messages.TestCase.ITestStep
