@@ -9,8 +9,8 @@ import {
   AccordionItemPanel,
 } from 'react-accessible-accordion'
 import UriContext from '../../UriContext'
-import GherkinQueryContext from '../../GherkinQueryContext'
-import CucumberQueryContext from '../../CucumberQueryContext'
+import GherkinQueryContext from '../../contexts/GherkinQueryContext'
+import CucumberQueryContext from '../../contexts/CucumberQueryContext'
 import StatusIcon from '../gherkin/StatusIcon'
 
 interface IProps {

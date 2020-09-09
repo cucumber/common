@@ -2,7 +2,7 @@ import React from 'react'
 import { messages } from '@cucumber/messages'
 import EnvelopesQueryContext, {
   EnvelopesQuery,
-} from '../../EnvelopesQueryContext'
+} from '../../contexts/EnvelopesQueryContext'
 import CICommitLink from './CICommitLink'
 import getDurationsMillis from '../../getDurationMillis'
 import Duration from './Duration'

@@ -41,7 +41,7 @@ import cucumberRuby from './cucumber-ruby.ndjson'
 
 // @ts-ignore
 import mp4Base64 from '../testdata/video/sample.mp4.txt'
-import { EnvelopesQuery } from '../src/EnvelopesQueryContext'
+import { EnvelopesQuery } from '../src/contexts/EnvelopesQueryContext'
 
 function props(ndjson: string): { gherkinQuery: GherkinQuery, cucumberQuery: CucumberQuery, envelopesQuery: EnvelopesQuery } {
   const gherkinQuery = new GherkinQuery()

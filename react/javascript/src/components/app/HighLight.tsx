@@ -1,6 +1,6 @@
 import React from 'react'
 import { findAll, Chunk } from '../highlight-words'
-import SearchQueryContext from '../../SearchQueryContext'
+import SearchQueryContext from '../../contexts/SearchQueryContext'
 import elasticlunr from 'elasticlunr'
 
 interface IProps {

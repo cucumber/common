@@ -5,7 +5,7 @@ import {
   faFilter,
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import SearchQueryContext from '../../SearchQueryContext'
+import SearchQueryContext from '../../contexts/SearchQueryContext'
 import { messages } from '@cucumber/messages'
 import statusName from '../gherkin/statusName'
 

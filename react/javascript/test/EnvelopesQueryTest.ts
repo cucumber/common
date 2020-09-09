@@ -1,4 +1,4 @@
-import { EnvelopesQuery } from '../src/EnvelopesQueryContext'
+import { EnvelopesQuery } from '../src/contexts/EnvelopesQueryContext'
 import { messages } from '@cucumber/messages'
 import assert from 'assert'
 

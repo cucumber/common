@@ -12,7 +12,7 @@ import {
   QueryStream as CucumberQueryStream,
 } from '@cucumber/query'
 import GherkinDocumentList from '../src/components/app/GherkinDocumentList'
-import { EnvelopesQuery } from '../src/EnvelopesQueryContext'
+import { EnvelopesQuery } from '../src/contexts/EnvelopesQueryContext'
 
 describe('App', () => {
   const dir = __dirname + '/../../../gherkin/testdata/good'

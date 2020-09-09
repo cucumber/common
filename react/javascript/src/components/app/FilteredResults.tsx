@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import GherkinQueryContext from '../../GherkinQueryContext'
-import CucumberQueryContext from '../../CucumberQueryContext'
+import GherkinQueryContext from '../../contexts/GherkinQueryContext'
+import CucumberQueryContext from '../../contexts/CucumberQueryContext'
 
 import SearchBar from './SearchBar'
 import { GherkinDocumentList } from '../..'
@@ -12,7 +12,7 @@ import filterByStatus from '../../filter/filterByStatus'
 import StatusesSummary from './StatusesSummary'
 import countScenariosByStatuses from '../../countScenariosByStatuses'
 import ExecutionSummary from './ExecutionSummary'
-import EnvelopesQueryContext from '../../EnvelopesQueryContext'
+import EnvelopesQueryContext from '../../contexts/EnvelopesQueryContext'
 
 const defaultDisplayedResults = [
   messages.TestStepFinished.TestStepResult.Status.AMBIGUOUS,

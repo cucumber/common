@@ -7,9 +7,9 @@ import Step from '../src/components/gherkin/Step'
 import { JSDOM } from 'jsdom'
 
 import UriContext from '../src/UriContext'
-import GherkinQueryContext from '../src/GherkinQueryContext'
+import GherkinQueryContext from '../src/contexts/GherkinQueryContext'
 import { Query as GherkinQuery } from '@cucumber/gherkin'
-import CucumberQueryContext from '../src/CucumberQueryContext'
+import CucumberQueryContext from '../src/contexts/CucumberQueryContext'
 
 describe('<Step>', () => {
   it('renders', () => {

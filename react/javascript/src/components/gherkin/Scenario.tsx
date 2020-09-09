@@ -8,8 +8,8 @@ import HookList from './HookList'
 import IScenario = messages.GherkinDocument.Feature.IScenario
 import IdGenerator from '../../IdGenerator'
 import ScenarioTitle from './ScenarioTitle'
-import CucumberQueryContext from '../../CucumberQueryContext'
-import GherkinQueryContext from '../../GherkinQueryContext'
+import CucumberQueryContext from '../../contexts/CucumberQueryContext'
+import GherkinQueryContext from '../../contexts/GherkinQueryContext'
 import UriContext from '../../UriContext'
 
 interface IProps {

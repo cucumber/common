@@ -1,6 +1,6 @@
 import React from 'react'
 import { messages } from '@cucumber/messages'
-import CucumberQueryContext from '../../CucumberQueryContext'
+import CucumberQueryContext from '../../contexts/CucumberQueryContext'
 import ErrorMessage from './ErrorMessage'
 import StepContainer from './StepContainer'
 import Attachment from './Attachment'
