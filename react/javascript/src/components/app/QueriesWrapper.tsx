@@ -7,6 +7,9 @@ import { Query as CucumberQuery } from '@cucumber/query'
 import EnvelopesQueryContext, {
   EnvelopesQuery,
 } from '../../contexts/EnvelopesQueryContext'
+import MessageToComponentMappingContext, {
+  defaultMessageToComponentMapping,
+} from '../../contexts/MessageToComponentMappingContext'
 
 interface IProps {
   cucumberQuery: CucumberQuery
@@ -30,7 +33,11 @@ const QueriesWrapper: React.FunctionComponent<IProps> = ({
         <GherkinQueryContext.Provider value={gherkinQuery}>
           <SearchQueryContext.Provider value={searchQuery}>
             <EnvelopesQueryContext.Provider value={envelopesQuery}>
-              {children}
+              <MessageToComponentMappingContext.Provider
+                value={defaultMessageToComponentMapping}
+              >
+                {children}
+              </MessageToComponentMappingContext.Provider>
             </EnvelopesQueryContext.Provider>
           </SearchQueryContext.Provider>
         </GherkinQueryContext.Provider>

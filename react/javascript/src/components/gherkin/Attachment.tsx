@@ -6,11 +6,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 // @ts-ignore
 import Convert from 'ansi-to-html'
 
-interface IProps {
+export interface IAttachmentProps {
   attachment: messages.IAttachment
 }
 
-const Attachment: React.FunctionComponent<IProps> = ({ attachment }) => {
+const Attachment: React.FunctionComponent<IAttachmentProps> = ({
+  attachment,
+}) => {
   if (attachment.mediaType.match(/^image\//)) {
     return image(attachment)
   } else if (attachment.mediaType.match(/^video\//)) {
