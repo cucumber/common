@@ -8,7 +8,7 @@ import GherkinQueryContext from '../../contexts/GherkinQueryContext'
 import ErrorMessage from './ErrorMessage'
 import StepContainer from './StepContainer'
 import HighLight from '../app/HighLight'
-import MessageToComponentMappingContext from '../../contexts/MessageToComponentMappingContext'
+import CustomizableAttachment from '../../../test/components/customizable/CustomizableAttachment'
 
 interface IProps {
   step: messages.GherkinDocument.Feature.IStep
@@ -23,9 +23,6 @@ const Step: React.FunctionComponent<IProps> = ({
 }) => {
   const gherkinQuery = React.useContext(GherkinQueryContext)
   const cucumberQuery = React.useContext(CucumberQueryContext)
-  const messageToComponent = React.useContext(MessageToComponentMappingContext)
-
-  const AttachmentComponent = messageToComponent.attachment
 
   const pickleStepIds = gherkinQuery.getPickleStepIds(step.id)
   const pickleStepTestStepResults = cucumberQuery.getPickleStepTestStepResults(
@@ -120,7 +117,7 @@ const Step: React.FunctionComponent<IProps> = ({
       )}
       <div className="cucumber-attachments">
         {attachments.map((attachment, i) => (
-          <AttachmentComponent key={i} attachment={attachment} />
+          <CustomizableAttachment key={i} attachment={attachment} />
         ))}
       </div>
     </StepContainer>
