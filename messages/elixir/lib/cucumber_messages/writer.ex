@@ -1,4 +1,4 @@
-defmodule ExCucumberMessages.Writer do
+defmodule CucumberMessages.Writer do
   @moduledoc false
   # This is a temporary writer up until Protox supports json encoding
 

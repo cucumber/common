@@ -1,14 +1,14 @@
-defmodule ExCucumberMessages.MixProject do
+defmodule CucumberMessages.MixProject do
   @moduledoc false
   use Mix.Project
 
   @vsn "0.1.0"
-  @github "https://github.com/WannesFransen1994/ex_cucumber_messages"
-  @name "ExCucumberMessages"
+  @github "https://github.com/cucumber/cucumber/tree/master/messages/elixir"
+  @name "CucumberMessages"
 
   def project do
     [
-      app: :ex_cucumber_messages,
+      app: :cucumber_messages,
       version: @vsn,
       name: @name,
       description: description(),
@@ -19,14 +19,12 @@ defmodule ExCucumberMessages.MixProject do
     ]
   end
 
-  # Run "mix help compile.app" to learn about applications.
   def application do
     [
       extra_applications: [:logger]
     ]
   end
 
-  # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
       {:protox, "~> 0.25.0"},
