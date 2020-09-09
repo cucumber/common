@@ -8,6 +8,8 @@ import SearchQueryContext from './contexts/SearchQueryContext'
 import EnvelopesQueryContext, {
   EnvelopesQuery,
 } from './contexts/EnvelopesQueryContext'
+import Attachment, { IAttachmentProps } from './components/gherkin/Attachment'
+import MessageToComponentMappingContext from './contexts/MessageToComponentMappingContext'
 
 export {
   GherkinDocumentList,
@@ -19,4 +21,7 @@ export {
   EnvelopesQuery,
   FilteredResults,
   filterByStatus,
+  MessageToComponentMappingContext,
+  Attachment,
+  IAttachmentProps,
 }
