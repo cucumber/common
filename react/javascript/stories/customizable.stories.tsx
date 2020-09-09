@@ -31,8 +31,13 @@ storiesOf('CustomizableAttachment', module)
       return <div>{attachment.body.toUpperCase()}</div>
     }
 
+    const overridenComponents = {
+      ...defaultMessageToComponentMapping,
+      ...{attachment: CapitalizedAttachment}
+    }
+
     return (
-      <MessageToComponentMappingContext.Provider value={{attachment: CapitalizedAttachment}}>
+      <MessageToComponentMappingContext.Provider value={overridenComponents}>
         <CustomizableAttachment attachment={attachment} />
       </MessageToComponentMappingContext.Provider>
     )
