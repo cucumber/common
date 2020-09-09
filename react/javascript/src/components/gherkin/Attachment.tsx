@@ -14,7 +14,7 @@ const Attachment: React.FunctionComponent<IAttachmentProps> = ({
   attachment,
 }) => {
   if (attachment.mediaType.match(/^image\//)) {
-    return image(attachment)
+    return <ImageAttachment attachment={attachment} />
   } else if (attachment.mediaType.match(/^video\//)) {
     return video(attachment)
   } else if (attachment.mediaType == 'text/x.cucumber.log+plain') {
@@ -32,7 +32,9 @@ const Attachment: React.FunctionComponent<IAttachmentProps> = ({
   }
 }
 
-function image(attachment: messages.IAttachment) {
+const ImageAttachment: React.FunctionComponent<IAttachmentProps> = ({
+  attachment,
+}) => {
   if (
     attachment.contentEncoding !== messages.Attachment.ContentEncoding.BASE64
   ) {
@@ -127,4 +129,5 @@ function prettyANSI(s: string) {
   return new Convert().toHtml(s)
 }
 
+export { ImageAttachment }
 export default Attachment

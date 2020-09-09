@@ -41,7 +41,11 @@ import cucumberRuby from './cucumber-ruby.ndjson'
 
 // @ts-ignore
 import mp4Base64 from '../testdata/video/sample.mp4.txt'
+// @ts-ignore
+import pngBase64 from '../testdata/images/cucumber-base64.txt'
+
 import { EnvelopesQuery } from '../src/contexts/EnvelopesQueryContext'
+import fs from 'fs'
 
 function props(ndjson: string): { gherkinQuery: GherkinQuery, cucumberQuery: CucumberQuery, envelopesQuery: EnvelopesQuery } {
   const gherkinQuery = new GherkinQuery()
@@ -186,6 +190,13 @@ storiesOf('Attachments', module)
       mediaType: 'application/json',
       contentEncoding: messages.Attachment.ContentEncoding.IDENTITY,
       body: '{"this": "is", "json": true}',
+    })}/>
+  })
+  .add('image/png', () => {
+    return <Attachment attachment={messages.Attachment.create({
+      mediaType: 'image/png',
+      contentEncoding: messages.Attachment.ContentEncoding.BASE64,
+      body: pngBase64,
     })}/>
   })
   .add('video/mp4', () => {
