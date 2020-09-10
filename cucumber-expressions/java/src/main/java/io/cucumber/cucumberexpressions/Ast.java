@@ -228,10 +228,10 @@ final class Ast {
         @Override
         public String toString() {
             return new StringJoiner(", ", "" + "{", "}")
-                    .add("type: '" + type + "'")
-                    .add("start: '" + start + "'")
-                    .add("end: '" + end + "'")
-                    .add("text: '" + text + "'")
+                    .add("type: \"" + type + "\"")
+                    .add("start: \"" + start + "\"")
+                    .add("end: \"" + end + "\"")
+                    .add("text: \"" + text + "\"")
                     .toString();
         }
 

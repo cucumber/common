@@ -1,5 +1,6 @@
-expression: ''
-elements:
-- "{type: 'START_OF_LINE', start: '0', end: '0', text: ''}"
-- "{type: 'END_OF_LINE', start: '0', end: '0', text: ''}"
-
+expression: ""
+element: |-
+  [
+    {type: "START_OF_LINE", start: "0", end: "0", text: ""},
+    {type: "END_OF_LINE", start: "0", end: "0", text: ""}
+  ]

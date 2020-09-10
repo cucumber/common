@@ -29,12 +29,12 @@ class CucumberExpressionTokenizerTest {
     @MethodSource
     void test(@ConvertWith(FileToExpectationConverter.class) Expectation expectation) {
         if (expectation.getException() == null) {
-            List<String> tokens = tokenizer
+            String tokens = tokenizer
                     .tokenize(expectation.getExpression())
                     .stream()
                     .map(Token::toString)
-                    .collect(Collectors.toList());
-            assertThat(tokens, is(expectation.getElements()));
+                    .collect(Collectors.joining(",\n  ", "[\n  ","\n]"));
+            assertThat(tokens, is(expectation.getElement()));
         } else {
             CucumberExpressionException exception = assertThrows(
                     CucumberExpressionException.class,
