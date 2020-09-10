@@ -227,11 +227,11 @@ final class Ast {
 
         @Override
         public String toString() {
-            return new StringJoiner(", ", Token.class.getSimpleName() + "[", "]")
-                    .add("type=" + type)
-                    .add("start=" + start)
-                    .add("end=" + end)
-                    .add("text='" + text + "'")
+            return new StringJoiner(", ", "" + "{", "}")
+                    .add("type: '" + type + "'")
+                    .add("start: '" + start + "'")
+                    .add("end: '" + end + "'")
+                    .add("text: '" + text + "'")
                     .toString();
         }
 

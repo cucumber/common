@@ -1,6 +1,6 @@
 exception: null
 expression: ''
 elements:
-- Token[type=START_OF_LINE, start=0, end=0, text='']
-- Token[type=END_OF_LINE, start=0, end=0, text='']
+- "{type: 'START_OF_LINE', start: '0', end: '0', text: ''}"
+- "{type: 'END_OF_LINE', start: '0', end: '0', text: ''}"
 
