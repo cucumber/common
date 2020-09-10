@@ -1,6 +1,6 @@
 exception: null
 expression: '{string}'
-tokens:
+elements:
 - Token[type=START_OF_LINE, startIndex=0, endIndex=0, text='']
 - Token[type=BEGIN_PARAMETER, startIndex=0, endIndex=1, text='{']
 - Token[type=TEXT, startIndex=1, endIndex=7, text='string']

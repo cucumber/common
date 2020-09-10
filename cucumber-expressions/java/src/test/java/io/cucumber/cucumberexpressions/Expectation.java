@@ -5,12 +5,12 @@ import java.util.Map;
 
 class Expectation {
     String expression;
-    List<String> tokens;
+    List<String> elements;
     String exception;
 
-    Expectation(String expression, List<String> tokens, String exception) {
+    Expectation(String expression, List<String> elements, String exception) {
         this.expression = expression;
-        this.tokens = tokens;
+        this.elements = elements;
         this.exception = exception;
     }
 
@@ -18,8 +18,8 @@ class Expectation {
         return expression;
     }
 
-    public List<String> getTokens() {
-        return tokens;
+    public List<String> getElements() {
+        return elements;
     }
 
     public String getException() {
@@ -29,7 +29,7 @@ class Expectation {
     public static Expectation fromMap(Map<?, ?> map) {
         return new Expectation(
                 (String) map.get("expression"),
-                (List<String>) map.get("tokens"),
+                (List<String>) map.get("elements"),
                 (String) map.get("exception"));
     }
 

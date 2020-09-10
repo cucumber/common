@@ -34,7 +34,7 @@ class CucumberExpressionTokenizerTest {
                     .stream()
                     .map(Token::toString)
                     .collect(Collectors.toList());
-            assertThat(tokens, is(expectation.getTokens()));
+            assertThat(tokens, is(expectation.getElements()));
         } else {
             CucumberExpressionException exception = assertThrows(
                     CucumberExpressionException.class,

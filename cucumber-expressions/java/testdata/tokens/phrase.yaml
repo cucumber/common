@@ -1,6 +1,6 @@
 exception: null
 expression: three blind mice
-tokens:
+elements:
 - Token[type=START_OF_LINE, startIndex=0, endIndex=0, text='']
 - Token[type=TEXT, startIndex=0, endIndex=5, text='three']
 - Token[type=WHITE_SPACE, startIndex=5, endIndex=6, text=' ']

@@ -1,6 +1,6 @@
 exception: null
 expression: \(blind\)
-tokens:
+elements:
 - Token[type=START_OF_LINE, startIndex=0, endIndex=0, text='']
 - Token[type=TEXT, startIndex=0, endIndex=9, text='(blind)']
 - Token[type=END_OF_LINE, startIndex=9, endIndex=9, text='']
