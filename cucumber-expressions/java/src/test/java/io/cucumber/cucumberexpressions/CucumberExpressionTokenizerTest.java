@@ -44,7 +44,7 @@ class CucumberExpressionTokenizerTest {
 
     private static Stream<Expectation> test() throws IOException {
         List<Expectation> expectations = new ArrayList<>();
-        Path testdata = Paths.get("testdata");
+        Path testdata = Paths.get("testdata/tokens");
         Yaml yaml = new Yaml();
         try (DirectoryStream<Path> stream = Files.newDirectoryStream(testdata)) {
             for (Path path : stream) {
@@ -138,7 +138,7 @@ class CucumberExpressionTokenizerTest {
         DumperOptions dumperOptions = new DumperOptions();
         String yaml = new Yaml(dumperOptions).dumpAsMap(new Expectation(s, tokensString, t));
         try {
-            Files.write(Paths.get("testdata", displayName + ".yaml"), singletonList(yaml), UTF_8);
+            Files.write(Paths.get("testdata", "tokens", displayName + ".yaml"), singletonList(yaml), UTF_8);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
