@@ -1,0 +1,7 @@
+exception: null
+expression: \{string\}
+tokens:
+- Token[type=START_OF_LINE, startIndex=0, endIndex=0, text='']
+- Token[type=TEXT, startIndex=0, endIndex=10, text='{string}']
+- Token[type=END_OF_LINE, startIndex=10, endIndex=10, text='']
+

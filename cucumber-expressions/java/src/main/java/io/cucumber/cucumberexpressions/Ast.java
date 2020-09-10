@@ -221,10 +221,10 @@ final class Ast {
         @Override
         public String toString() {
             return new StringJoiner(", ", Token.class.getSimpleName() + "[", "]")
+                    .add("type=" + type)
                     .add("startIndex=" + start)
                     .add("endIndex=" + end)
                     .add("text='" + text + "'")
-                    .add("type=" + type)
                     .toString();
         }
 

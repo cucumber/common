@@ -1,0 +1,13 @@
+exception: null
+expression: three {string} mice
+tokens:
+- Token[type=START_OF_LINE, startIndex=0, endIndex=0, text='']
+- Token[type=TEXT, startIndex=0, endIndex=5, text='three']
+- Token[type=WHITE_SPACE, startIndex=5, endIndex=6, text=' ']
+- Token[type=BEGIN_PARAMETER, startIndex=6, endIndex=7, text='{']
+- Token[type=TEXT, startIndex=7, endIndex=13, text='string']
+- Token[type=END_PARAMETER, startIndex=13, endIndex=14, text='}']
+- Token[type=WHITE_SPACE, startIndex=14, endIndex=15, text=' ']
+- Token[type=TEXT, startIndex=15, endIndex=19, text='mice']
+- Token[type=END_OF_LINE, startIndex=19, endIndex=19, text='']
+

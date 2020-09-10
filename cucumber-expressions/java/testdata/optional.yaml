@@ -1,0 +1,9 @@
+exception: null
+expression: (blind)
+tokens:
+- Token[type=START_OF_LINE, startIndex=0, endIndex=0, text='']
+- Token[type=BEGIN_OPTIONAL, startIndex=0, endIndex=1, text='(']
+- Token[type=TEXT, startIndex=1, endIndex=6, text='blind']
+- Token[type=END_OPTIONAL, startIndex=6, endIndex=7, text=')']
+- Token[type=END_OF_LINE, startIndex=7, endIndex=7, text='']
+

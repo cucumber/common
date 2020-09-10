@@ -1,0 +1,9 @@
+exception: null
+expression: ' \/ '
+tokens:
+- Token[type=START_OF_LINE, startIndex=0, endIndex=0, text='']
+- Token[type=WHITE_SPACE, startIndex=0, endIndex=1, text=' ']
+- Token[type=TEXT, startIndex=1, endIndex=3, text='/']
+- Token[type=WHITE_SPACE, startIndex=3, endIndex=4, text=' ']
+- Token[type=END_OF_LINE, startIndex=4, endIndex=4, text='']
+

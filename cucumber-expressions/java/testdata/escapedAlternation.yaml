@@ -1,0 +1,9 @@
+exception: null
+expression: blind\ and\ famished\/cripple mice
+tokens:
+- Token[type=START_OF_LINE, startIndex=0, endIndex=0, text='']
+- Token[type=TEXT, startIndex=0, endIndex=29, text='blind and famished/cripple']
+- Token[type=WHITE_SPACE, startIndex=29, endIndex=30, text=' ']
+- Token[type=TEXT, startIndex=30, endIndex=34, text='mice']
+- Token[type=END_OF_LINE, startIndex=34, endIndex=34, text='']
+

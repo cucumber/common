@@ -1,7 +1,25 @@
 package io.cucumber.cucumberexpressions;
 
 import io.cucumber.cucumberexpressions.Ast.Token;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInfo;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
+import org.yaml.snakeyaml.DumperOptions;
+import org.yaml.snakeyaml.Yaml;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static io.cucumber.cucumberexpressions.Ast.Token.Type.ALTERNATION;
 import static io.cucumber.cucumberexpressions.Ast.Token.Type.BEGIN_OPTIONAL;
@@ -12,6 +30,8 @@ import static io.cucumber.cucumberexpressions.Ast.Token.Type.END_PARAMETER;
 import static io.cucumber.cucumberexpressions.Ast.Token.Type.START_OF_LINE;
 import static io.cucumber.cucumberexpressions.Ast.Token.Type.TEXT;
 import static io.cucumber.cucumberexpressions.Ast.Token.Type.WHITE_SPACE;
+import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.Collections.singletonList;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.is;
@@ -20,10 +40,119 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class CucumberExpressionTokenizerTest {
 
     private final CucumberExpressionTokenizer tokenizer = new CucumberExpressionTokenizer();
+    private String displayName;
+
+    private static Stream<Expectation> test() throws IOException {
+        List<Expectation> expectations = new ArrayList<>();
+        Path testdata = Paths.get("testdata");
+        Yaml yaml = new Yaml();
+        try (DirectoryStream<Path> stream = Files.newDirectoryStream(testdata)) {
+            for (Path path : stream) {
+                InputStream inputStream = Files.newInputStream(path);
+                Map<?, ?> map = yaml.loadAs(inputStream, Map.class);
+                Expectation expectation = new Expectation(
+                        (String) map.get("expression"),
+                        (List<String>) map.get("tokens"),
+                        (String) map.get("exception"));
+                expectations.add(expectation);
+            }
+        }
+        return expectations.stream();
+    }
+
+    @ParameterizedTest
+    @MethodSource
+    void test(Expectation expectation) {
+        if (expectation.getException() == null) {
+            List<String> tokens = tokenizer
+                    .tokenize(expectation.getExpression())
+                    .stream()
+                    .map(Token::toString)
+                    .collect(Collectors.toList());
+            assertThat(tokens, is(expectation.getTokens()));
+        } else {
+            CucumberExpressionException exception = assertThrows(
+                    CucumberExpressionException.class,
+                    () -> tokenizer.tokenize(expectation.getExpression()));
+            assertThat(exception.getMessage(), is(exception.getMessage()));
+        }
+    }
+
+    @BeforeEach
+    void setup(TestInfo testInfo) {
+        String displayName = testInfo.getDisplayName();
+        this.displayName = displayName.substring(0, displayName.length() - 2);
+
+    }
+
+    public static class Expectation {
+        String expression;
+        List<String> tokens;
+        String exception;
+
+        Expectation(String expression, List<String> tokens, String exception) {
+            this.expression = expression;
+            this.tokens = tokens;
+            this.exception = exception;
+        }
+
+        public String getExpression() {
+            return expression;
+        }
+
+        public List<String> getTokens() {
+            return tokens;
+        }
+
+        public String getException() {
+            return exception;
+        }
+
+        public void setExpression(String expression) {
+            this.expression = expression;
+        }
+
+        public void setTokens(List<String> tokens) {
+            this.tokens = tokens;
+        }
+
+        public void setException(String exception) {
+            this.exception = exception;
+        }
+
+    }
+
+    private List<Token> tokenize(String s) {
+        List<String> tokensString = null;
+        List<Token> tokens = null;
+        String t = null;
+        RuntimeException orig = null;
+        try {
+            tokens = tokenizer.tokenize(s);
+            tokensString = tokens.stream().map(Token::toString).collect(Collectors.toList());
+        } catch (RuntimeException e) {
+            orig = e;
+            t = e.getMessage();
+        }
+
+        DumperOptions dumperOptions = new DumperOptions();
+        String yaml = new Yaml(dumperOptions).dumpAsMap(new Expectation(s, tokensString, t));
+        try {
+            Files.write(Paths.get("testdata", displayName + ".yaml"), singletonList(yaml), UTF_8);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        if (orig != null) {
+            throw orig;
+        }
+
+        return tokens;
+    }
 
     @Test
     void emptyString() {
-        assertThat(tokenizer.tokenize(""), contains(
+        assertThat(tokenize(""), contains(
                 new Token("", START_OF_LINE, 0, 0),
                 new Token("", END_OF_LINE, 0, 0)
         ));
@@ -31,7 +160,7 @@ class CucumberExpressionTokenizerTest {
 
     @Test
     void phrase() {
-        assertThat(tokenizer.tokenize("three blind mice"), contains(
+        assertThat(tokenize("three blind mice"), contains(
                 new Token("", START_OF_LINE, 0, 0),
                 new Token("three", TEXT, 0, 5),
                 new Token(" ", WHITE_SPACE, 5, 6),
@@ -44,7 +173,7 @@ class CucumberExpressionTokenizerTest {
 
     @Test
     void optional() {
-        assertThat(tokenizer.tokenize("(blind)"), contains(
+        assertThat(tokenize("(blind)"), contains(
                 new Token("", START_OF_LINE, 0, 0),
                 new Token("(", BEGIN_OPTIONAL, 0, 1),
                 new Token("blind", TEXT, 1, 6),
@@ -55,7 +184,7 @@ class CucumberExpressionTokenizerTest {
 
     @Test
     void escapedOptional() {
-        assertThat(tokenizer.tokenize("\\(blind\\)"), contains(
+        assertThat(tokenize("\\(blind\\)"), contains(
                 new Token("", START_OF_LINE, 0, 0),
                 new Token("(blind)", TEXT, 0, 9),
                 new Token("", END_OF_LINE, 9, 9)
@@ -64,7 +193,7 @@ class CucumberExpressionTokenizerTest {
 
     @Test
     void optionalPhrase() {
-        assertThat(tokenizer.tokenize("three (blind) mice"), contains(
+        assertThat(tokenize("three (blind) mice"), contains(
                 new Token("", START_OF_LINE, 0, 0),
                 new Token("three", TEXT, 0, 5),
                 new Token(" ", WHITE_SPACE, 5, 6),
@@ -79,7 +208,7 @@ class CucumberExpressionTokenizerTest {
 
     @Test
     void parameter() {
-        assertThat(tokenizer.tokenize("{string}"), contains(
+        assertThat(tokenize("{string}"), contains(
                 new Token("", START_OF_LINE, 0, 0),
                 new Token("{", BEGIN_PARAMETER, 0, 1),
                 new Token("string", TEXT, 1, 7),
@@ -90,7 +219,7 @@ class CucumberExpressionTokenizerTest {
 
     @Test
     void escapedParameter() {
-        assertThat(tokenizer.tokenize("\\{string\\}"), contains(
+        assertThat(tokenize("\\{string\\}"), contains(
                 new Token("", START_OF_LINE, 0, 0),
                 new Token("{string}", TEXT, 0, 10),
                 new Token("", END_OF_LINE, 10, 10)
@@ -99,7 +228,7 @@ class CucumberExpressionTokenizerTest {
 
     @Test
     void parameterPhrase() {
-        assertThat(tokenizer.tokenize("three {string} mice"), contains(
+        assertThat(tokenize("three {string} mice"), contains(
                 new Token("", START_OF_LINE, 0, 0),
                 new Token("three", TEXT, 0, 5),
                 new Token(" ", WHITE_SPACE, 5, 6),
@@ -114,7 +243,7 @@ class CucumberExpressionTokenizerTest {
 
     @Test
     void alternation() {
-        assertThat(tokenizer.tokenize("blind/cripple"), contains(
+        assertThat(tokenize("blind/cripple"), contains(
                 new Token("", START_OF_LINE, 0, 0),
                 new Token("blind", TEXT, 0, 5),
                 new Token("/", ALTERNATION, 5, 6),
@@ -125,7 +254,7 @@ class CucumberExpressionTokenizerTest {
 
     @Test
     void escapedAlternation() {
-        assertThat(tokenizer.tokenize("blind\\ and\\ famished\\/cripple mice"), contains(
+        assertThat(tokenize("blind\\ and\\ famished\\/cripple mice"), contains(
                 new Token("", START_OF_LINE, 0, 0),
                 new Token("blind and famished/cripple", TEXT, 0, 29),
                 new Token(" ", WHITE_SPACE, 29, 30),
@@ -136,7 +265,7 @@ class CucumberExpressionTokenizerTest {
 
     @Test
     void escapeCharIsStartIndexOfTextToken() {
-        assertThat(tokenizer.tokenize(" \\/ "), contains(
+        assertThat(tokenize(" \\/ "), contains(
                 new Token("", START_OF_LINE, 0, 0),
                 new Token(" ", WHITE_SPACE, 0, 1),
                 new Token("/", TEXT, 1, 3),
@@ -147,7 +276,7 @@ class CucumberExpressionTokenizerTest {
 
     @Test
     void alternationPhrase() {
-        assertThat(tokenizer.tokenize("three blind/cripple mice"), contains(
+        assertThat(tokenize("three blind/cripple mice"), contains(
                 new Token("", START_OF_LINE, 0, 0),
                 new Token("three", TEXT, 0, 5),
                 new Token(" ", WHITE_SPACE, 5, 6),
@@ -162,7 +291,7 @@ class CucumberExpressionTokenizerTest {
 
     @Test
     void escapedSpace() {
-        assertThat(tokenizer.tokenize("\\ "), contains(
+        assertThat(tokenize("\\ "), contains(
                 new Token("", START_OF_LINE, 0, 0),
                 new Token(" ", TEXT, 0, 2),
                 new Token("", END_OF_LINE, 2, 2)
@@ -171,7 +300,7 @@ class CucumberExpressionTokenizerTest {
 
     @Test
     void escapedEndOfLine() {
-        CucumberExpressionException exception = assertThrows(CucumberExpressionException.class, () -> tokenizer.tokenize("\\"));
+        CucumberExpressionException exception = assertThrows(CucumberExpressionException.class, () -> tokenize("\\"));
         assertThat(exception.getMessage(), is("This Cucumber Expression has a problem at column 2:\n" +
                 "\n" +
                 "\\\n" +
@@ -182,7 +311,7 @@ class CucumberExpressionTokenizerTest {
 
     @Test
     void escapeNonReservedCharacter() {
-        CucumberExpressionException exception = assertThrows(CucumberExpressionException.class, () -> tokenizer.tokenize("\\["));
+        CucumberExpressionException exception = assertThrows(CucumberExpressionException.class, () -> tokenize("\\["));
         assertThat(exception.getMessage(), is("This Cucumber Expression has a problem at column 2:\n" +
                 "\n" +
                 "\\[\n" +

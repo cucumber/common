@@ -1,0 +1,7 @@
+exception: null
+expression: '\ '
+tokens:
+- Token[type=START_OF_LINE, startIndex=0, endIndex=0, text='']
+- Token[type=TEXT, startIndex=0, endIndex=2, text=' ']
+- Token[type=END_OF_LINE, startIndex=2, endIndex=2, text='']
+

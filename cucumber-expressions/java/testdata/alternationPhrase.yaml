@@ -1,0 +1,13 @@
+exception: null
+expression: three blind/cripple mice
+tokens:
+- Token[type=START_OF_LINE, startIndex=0, endIndex=0, text='']
+- Token[type=TEXT, startIndex=0, endIndex=5, text='three']
+- Token[type=WHITE_SPACE, startIndex=5, endIndex=6, text=' ']
+- Token[type=TEXT, startIndex=6, endIndex=11, text='blind']
+- Token[type=ALTERNATION, startIndex=11, endIndex=12, text='/']
+- Token[type=TEXT, startIndex=12, endIndex=19, text='cripple']
+- Token[type=WHITE_SPACE, startIndex=19, endIndex=20, text=' ']
+- Token[type=TEXT, startIndex=20, endIndex=24, text='mice']
+- Token[type=END_OF_LINE, startIndex=24, endIndex=24, text='']
+
