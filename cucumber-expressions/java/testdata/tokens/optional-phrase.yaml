@@ -1,13 +1,13 @@
 exception: null
 expression: three (blind) mice
 elements:
-- Token[type=START_OF_LINE, startIndex=0, endIndex=0, text='']
-- Token[type=TEXT, startIndex=0, endIndex=5, text='three']
-- Token[type=WHITE_SPACE, startIndex=5, endIndex=6, text=' ']
-- Token[type=BEGIN_OPTIONAL, startIndex=6, endIndex=7, text='(']
-- Token[type=TEXT, startIndex=7, endIndex=12, text='blind']
-- Token[type=END_OPTIONAL, startIndex=12, endIndex=13, text=')']
-- Token[type=WHITE_SPACE, startIndex=13, endIndex=14, text=' ']
-- Token[type=TEXT, startIndex=14, endIndex=18, text='mice']
-- Token[type=END_OF_LINE, startIndex=18, endIndex=18, text='']
+- Token[type=START_OF_LINE, start=0, end=0, text='']
+- Token[type=TEXT, start=0, end=5, text='three']
+- Token[type=WHITE_SPACE, start=5, end=6, text=' ']
+- Token[type=BEGIN_OPTIONAL, start=6, end=7, text='(']
+- Token[type=TEXT, start=7, end=12, text='blind']
+- Token[type=END_OPTIONAL, start=12, end=13, text=')']
+- Token[type=WHITE_SPACE, start=13, end=14, text=' ']
+- Token[type=TEXT, start=14, end=18, text='mice']
+- Token[type=END_OF_LINE, start=18, end=18, text='']
 

@@ -1,9 +1,9 @@
 exception: null
 expression: blind/cripple
 elements:
-- Token[type=START_OF_LINE, startIndex=0, endIndex=0, text='']
-- Token[type=TEXT, startIndex=0, endIndex=5, text='blind']
-- Token[type=ALTERNATION, startIndex=5, endIndex=6, text='/']
-- Token[type=TEXT, startIndex=6, endIndex=13, text='cripple']
-- Token[type=END_OF_LINE, startIndex=13, endIndex=13, text='']
+- Token[type=START_OF_LINE, start=0, end=0, text='']
+- Token[type=TEXT, start=0, end=5, text='blind']
+- Token[type=ALTERNATION, start=5, end=6, text='/']
+- Token[type=TEXT, start=6, end=13, text='cripple']
+- Token[type=END_OF_LINE, start=13, end=13, text='']
 

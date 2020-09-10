@@ -1,11 +1,11 @@
 exception: null
 expression: three blind mice
 elements:
-- Token[type=START_OF_LINE, startIndex=0, endIndex=0, text='']
-- Token[type=TEXT, startIndex=0, endIndex=5, text='three']
-- Token[type=WHITE_SPACE, startIndex=5, endIndex=6, text=' ']
-- Token[type=TEXT, startIndex=6, endIndex=11, text='blind']
-- Token[type=WHITE_SPACE, startIndex=11, endIndex=12, text=' ']
-- Token[type=TEXT, startIndex=12, endIndex=16, text='mice']
-- Token[type=END_OF_LINE, startIndex=16, endIndex=16, text='']
+- Token[type=START_OF_LINE, start=0, end=0, text='']
+- Token[type=TEXT, start=0, end=5, text='three']
+- Token[type=WHITE_SPACE, start=5, end=6, text=' ']
+- Token[type=TEXT, start=6, end=11, text='blind']
+- Token[type=WHITE_SPACE, start=11, end=12, text=' ']
+- Token[type=TEXT, start=12, end=16, text='mice']
+- Token[type=END_OF_LINE, start=16, end=16, text='']
 

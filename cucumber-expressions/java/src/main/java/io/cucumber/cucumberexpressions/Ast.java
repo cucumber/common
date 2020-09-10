@@ -95,26 +95,32 @@ final class Ast {
         private StringBuilder toString(int depth) {
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < depth; i++) {
-                sb.append("\t");
+                sb.append("  ");
             }
-            sb.append("AstNode{").append(start).append(":").append(end).append(", type=").append(type);
+            sb.append("AstNode[")
+                    .append("type=").append(type)
+                    .append("', start='")
+                    .append(start)
+                    .append("', end=")
+                    .append(end)
+                    .append("'");
 
             if (token != null) {
                 sb.append(", token=").append(token);
             }
 
-            if (nodes != null) {
+            if (nodes != null && !nodes.isEmpty()) {
                 sb.append("\n");
                 for (Node node : nodes) {
                     sb.append(node.toString(depth + 1));
                     sb.append("\n");
                 }
                 for (int i = 0; i < depth; i++) {
-                    sb.append("\t");
+                    sb.append("  ");
                 }
             }
 
-            sb.append('}');
+            sb.append(']');
             return sb;
         }
 
@@ -222,8 +228,8 @@ final class Ast {
         public String toString() {
             return new StringJoiner(", ", Token.class.getSimpleName() + "[", "]")
                     .add("type=" + type)
-                    .add("startIndex=" + start)
-                    .add("endIndex=" + end)
+                    .add("start=" + start)
+                    .add("end=" + end)
                     .add("text='" + text + "'")
                     .toString();
         }
