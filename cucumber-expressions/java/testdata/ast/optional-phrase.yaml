@@ -1,6 +1,6 @@
 expression: three (blind) mice
 
-element: |-
+expected: |-
   {type: "EXPRESSION_NODE", start: "0", end: "18", nodes: [
     {type: "TEXT_NODE", start: "0", end: "5", token: "three"},
     {type: "TEXT_NODE", start: "5", end: "6", token: " "},

@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
 import java.util.stream.Collectors;
 
 import static java.nio.file.Files.newDirectoryStream;
@@ -34,7 +33,7 @@ class CucumberExpressionTokenizerTest {
                     .stream()
                     .map(Token::toString)
                     .collect(Collectors.joining(",\n  ", "[\n  ","\n]"));
-            assertThat(tokens, is(expectation.getElement()));
+            assertThat(tokens, is(expectation.getExpected()));
         } else {
             CucumberExpressionException exception = assertThrows(
                     CucumberExpressionException.class,

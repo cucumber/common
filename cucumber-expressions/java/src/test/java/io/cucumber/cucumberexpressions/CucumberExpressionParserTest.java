@@ -28,7 +28,7 @@ class CucumberExpressionParserTest {
     void test(@ConvertWith(FileToExpectationConverter.class) Expectation expectation) {
         if (expectation.getException() == null) {
             Node node = parser.parse(expectation.getExpression());
-            assertThat(node.toString(), is(expectation.getElement()));
+            assertThat(node.toString(), is(expectation.getExpected()));
         } else {
             CucumberExpressionException exception = assertThrows(
                     CucumberExpressionException.class,
