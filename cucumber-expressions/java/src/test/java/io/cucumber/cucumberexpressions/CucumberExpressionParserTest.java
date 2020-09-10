@@ -87,28 +87,6 @@ class CucumberExpressionParserTest {
         }
 
         @Test
-        void escapedEndOfLine() {
-            CucumberExpressionException exception = assertThrows(CucumberExpressionException.class, () -> astOf("\\"));
-            assertThat(exception.getMessage(), is("This Cucumber Expression has a problem at column 2:\n" +
-                    "\n" +
-                    "\\\n" +
-                    " ^\n" +
-                    "The end of line can not be escaped.\n" +
-                    "You can use '\\\\' to escape the the '\\'"));
-        }
-
-        @Test
-        void escapeNonReservedCharacter() {
-            CucumberExpressionException exception = assertThrows(CucumberExpressionException.class, () -> astOf("\\["));
-            assertThat(exception.getMessage(), is("This Cucumber Expression has a problem at column 2:\n" +
-                    "\n" +
-                    "\\[\n" +
-                    " ^\n" +
-                    "Only the characters '{', '}', '(', ')', '\\', '/' and whitespace can be escaped.\n" +
-                    "If you did mean to use an '\\' you can use '\\\\' to escape it"));
-        }
-
-        @Test
         void escapedBackSlash() {
             assertThat(astOf("\\\\"), equalTo(
                     new Node(EXPRESSION_NODE,0,2,

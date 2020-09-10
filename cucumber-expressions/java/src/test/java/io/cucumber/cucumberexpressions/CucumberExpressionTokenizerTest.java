@@ -14,6 +14,8 @@ import static io.cucumber.cucumberexpressions.Ast.Token.Type.TEXT;
 import static io.cucumber.cucumberexpressions.Ast.Token.Type.WHITE_SPACE;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class CucumberExpressionTokenizerTest {
 
@@ -165,6 +167,28 @@ class CucumberExpressionTokenizerTest {
                 new Token(" ", TEXT, 0, 2),
                 new Token("", END_OF_LINE, 2, 2)
         ));
+    }
+
+    @Test
+    void escapedEndOfLine() {
+        CucumberExpressionException exception = assertThrows(CucumberExpressionException.class, () -> tokenizer.tokenize("\\"));
+        assertThat(exception.getMessage(), is("This Cucumber Expression has a problem at column 2:\n" +
+                "\n" +
+                "\\\n" +
+                " ^\n" +
+                "The end of line can not be escaped.\n" +
+                "You can use '\\\\' to escape the the '\\'"));
+    }
+
+    @Test
+    void escapeNonReservedCharacter() {
+        CucumberExpressionException exception = assertThrows(CucumberExpressionException.class, () -> tokenizer.tokenize("\\["));
+        assertThat(exception.getMessage(), is("This Cucumber Expression has a problem at column 2:\n" +
+                "\n" +
+                "\\[\n" +
+                " ^\n" +
+                "Only the characters '{', '}', '(', ')', '\\', '/' and whitespace can be escaped.\n" +
+                "If you did mean to use an '\\' you can use '\\\\' to escape it"));
     }
 
 }
