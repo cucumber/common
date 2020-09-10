@@ -98,15 +98,15 @@ final class Ast {
                 sb.append("  ");
             }
             sb.append("{")
-                    .append("type: '").append(type)
-                    .append("', start: '")
+                    .append("type: \"").append(type)
+                    .append("\", start: \"")
                     .append(start)
-                    .append("', end: ")
+                    .append("\", end: \"")
                     .append(end)
-                    .append("'");
+                    .append("\"");
 
             if (token != null) {
-                sb.append(", token: '").append(token).append("'");
+                sb.append(", token: \"").append(token).append("\"");
             }
 
             if (nodes != null && !nodes.isEmpty()) {
@@ -121,7 +121,7 @@ final class Ast {
                 sb.append("]");
             }
 
-            sb.append('}');
+            sb.append("}");
             return sb;
         }
 
