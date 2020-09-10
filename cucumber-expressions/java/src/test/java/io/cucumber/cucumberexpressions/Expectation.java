@@ -26,18 +26,6 @@ class Expectation {
         return exception;
     }
 
-    public void setExpression(String expression) {
-        this.expression = expression;
-    }
-
-    public void setTokens(List<String> tokens) {
-        this.tokens = tokens;
-    }
-
-    public void setException(String exception) {
-        this.exception = exception;
-    }
-
     public static Expectation fromMap(Map<?, ?> map) {
         return new Expectation(
                 (String) map.get("expression"),
