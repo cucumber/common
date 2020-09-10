@@ -1,3 +1,4 @@
+expression: three hungry/blind mice
 element: |-
   {type: "EXPRESSION_NODE", start: "0", end: "23", nodes: [
     {type: "TEXT_NODE", start: "0", end: "5", token: "three"},
@@ -13,5 +14,3 @@ element: |-
     {type: "TEXT_NODE", start: "18", end: "19", token: " "},
     {type: "TEXT_NODE", start: "19", end: "23", token: "mice"}
   ]}
-expression: three hungry/blind mice
-

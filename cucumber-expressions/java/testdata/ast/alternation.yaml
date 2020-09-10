@@ -1,3 +1,4 @@
+expression: mice/rats
 element: |-
   {type: "EXPRESSION_NODE", start: "0", end: "9", nodes: [
     {type: "ALTERNATION_NODE", start: "0", end: "9", nodes: [
@@ -9,5 +10,3 @@ element: |-
       ]}
     ]}
   ]}
-expression: mice/rats
-

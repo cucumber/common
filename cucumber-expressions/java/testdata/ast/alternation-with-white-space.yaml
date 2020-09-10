@@ -1,3 +1,4 @@
+expression: '\ three\ hungry/blind\ mice\ '
 element: |-
   {type: "EXPRESSION_NODE", start: "0", end: "29", nodes: [
     {type: "ALTERNATION_NODE", start: "0", end: "29", nodes: [
@@ -9,5 +10,3 @@ element: |-
       ]}
     ]}
   ]}
-expression: '\ three\ hungry/blind\ mice\ '
-

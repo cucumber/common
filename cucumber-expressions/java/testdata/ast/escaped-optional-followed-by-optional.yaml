@@ -1,3 +1,4 @@
+expression: three \((very) blind) mice
 element: |-
   {type: "EXPRESSION_NODE", start: "0", end: "26", nodes: [
     {type: "TEXT_NODE", start: "0", end: "5", token: "three"},
@@ -12,5 +13,3 @@ element: |-
     {type: "TEXT_NODE", start: "21", end: "22", token: " "},
     {type: "TEXT_NODE", start: "22", end: "26", token: "mice"}
   ]}
-expression: three \((very) blind) mice
-
