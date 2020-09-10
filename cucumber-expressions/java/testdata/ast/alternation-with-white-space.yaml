@@ -3,7 +3,7 @@ element: |-
     {type: "ALTERNATION_NODE", start: "0", end: "29", nodes: [
       {type: "ALTERNATIVE_NODE", start: "0", end: "15", nodes: [
         {type: "TEXT_NODE", start: "0", end: "15", token: " three hungry"}
-      ]}
+      ]},
       {type: "ALTERNATIVE_NODE", start: "16", end: "29", nodes: [
         {type: "TEXT_NODE", start: "16", end: "29", token: "blind mice "}
       ]}

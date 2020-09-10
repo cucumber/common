@@ -110,17 +110,15 @@ final class Ast {
             }
 
             if (nodes != null && !nodes.isEmpty()) {
-                sb.append(", nodes: [\n");
-                for (Node node : nodes) {
-                    sb.append(node.toString(depth + 1));
-                    sb.append("\n");
-                }
+                sb.append(", nodes: ");
+                StringBuilder padding = new StringBuilder();
                 for (int i = 0; i < depth; i++) {
-                    sb.append("  ");
+                    padding.append("  ");
                 }
-                sb.append("]");
+                sb.append(nodes.stream()
+                        .map(node -> node.toString(depth + 1))
+                        .collect(joining(",\n", "[\n", "\n" +padding + "]")));
             }
-
             sb.append("}");
             return sb;
         }
