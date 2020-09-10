@@ -2,7 +2,6 @@ element: |-
   {type: 'EXPRESSION_NODE', start: '0', end: 2', nodes: [
     {type: 'PARAMETER_NODE', start: '0', end: 2'}
   ]}
-elements: null
 exception: null
 expression: '{}'
 

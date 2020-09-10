@@ -6,7 +6,6 @@ element: |-
       {type: 'ALTERNATIVE_NODE', start: '2', end: 2'}
     ]}
   ]}
-elements: null
 exception: null
 expression: //
 

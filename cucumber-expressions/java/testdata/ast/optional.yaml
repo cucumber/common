@@ -4,7 +4,6 @@ element: |-
       {type: 'TEXT_NODE', start: '1', end: 6', token: 'blind'}
     ]}
   ]}
-elements: null
 exception: null
 expression: (blind)
 

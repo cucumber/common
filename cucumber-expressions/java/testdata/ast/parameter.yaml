@@ -4,7 +4,6 @@ element: |-
       {type: 'TEXT_NODE', start: '1', end: 7', token: 'string'}
     ]}
   ]}
-elements: null
 exception: null
 expression: '{string}'
 
