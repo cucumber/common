@@ -13,6 +13,5 @@ element: |-
     {type: 'TEXT_NODE', start: '18', end: 19', token: ' '}
     {type: 'TEXT_NODE', start: '19', end: 23', token: 'mice'}
   ]}
-exception: null
 expression: three hungry/blind mice
 

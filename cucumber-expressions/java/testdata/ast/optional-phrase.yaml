@@ -8,6 +8,5 @@ element: |-
     {type: 'TEXT_NODE', start: '13', end: 14', token: ' '}
     {type: 'TEXT_NODE', start: '14', end: 18', token: 'mice'}
   ]}
-exception: null
 expression: three (blind) mice
 

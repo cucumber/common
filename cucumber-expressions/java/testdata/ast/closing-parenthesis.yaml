@@ -2,6 +2,5 @@ element: |-
   {type: 'EXPRESSION_NODE', start: '0', end: 1', nodes: [
     {type: 'TEXT_NODE', start: '0', end: 1', token: ')'}
   ]}
-exception: null
 expression: )
 
