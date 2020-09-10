@@ -42,21 +42,37 @@ public class CucumberExpressionTest {
     }
 
     @Test
-    public void matches_optional_before_alternation() {
+    public void matches_optional_before_alternation_1() {
         assertEquals(emptyList(), match("three (brown )mice/rats", "three brown mice"));
+    }
+
+    @Test
+    public void matches_optional_before_alternation_2() {
         assertEquals(emptyList(), match("three (brown )mice/rats", "three rats"));
     }
 
     @Test
-    public void matches_optional_in_alternation() {
+    public void matches_optional_in_alternation_1() {
         assertEquals(singletonList(3), match("{int} rat(s)/mouse/mice", "3 rats"));
+    }
+
+    @Test
+    public void matches_optional_in_alternation_2() {
         assertEquals(singletonList(2), match("{int} rat(s)/mouse/mice", "2 mice"));
+    }
+
+    @Test
+    public void matches_optional_in_alternation_3() {
         assertEquals(singletonList(1), match("{int} rat(s)/mouse/mice", "1 mouse"));
     }
 
     @Test
-    public void matches_optional_before_alternation_with_regex_characters() {
+    public void matches_optional_before_alternation_with_regex_characters_1() {
         assertEquals(singletonList(2), match("I wait {int} second(s)./second(s)?", "I wait 2 seconds?"));
+    }
+
+    @Test
+    public void matches_optional_before_alternation_with_regex_characters_2() {
         assertEquals(singletonList(1), match("I wait {int} second(s)./second(s)?", "I wait 1 second."));
     }
 
@@ -207,7 +223,6 @@ public class CucumberExpressionTest {
                 match("three {string} and {string} mice", "three \"\" and \"handsome\" mice"));
     }
 
-
     @Test
     public void alternation_seperator_can_be_used_in_parameter() {
         parameterTypeRegistry
@@ -217,13 +232,25 @@ public class CucumberExpressionTest {
     }
 
     @Test
-    public void matches_escaped_parenthesis() {
+    public void matches_escaped_parenthesis_1() {
         assertEquals(emptyList(),
                 match("three \\(exceptionally) \\{string} mice", "three (exceptionally) {string} mice"));
+    }
+
+    @Test
+    public void matches_escaped_parenthesis_2() {
         assertEquals(singletonList("blind"),
                 match("three \\((exceptionally)) \\{{string}} mice", "three (exceptionally) {\"blind\"} mice"));
+    }
+
+    @Test
+    public void matches_escaped_parenthesis_3() {
         assertEquals(singletonList("blind"),
                 match("three \\((exceptionally)) \\{{string}} mice", "three (exceptionally) {\"blind\"} mice"));
+    }
+
+    @Test
+    public void matches_escaped_parenthesis_4() {
         parameterTypeRegistry
                 .defineParameterType(new ParameterType<>("{string}", "\"(.*)\"", String.class, (String arg) -> arg));
         assertEquals(singletonList("blind"),
@@ -242,8 +269,12 @@ public class CucumberExpressionTest {
     }
 
     @Test
-    public void matches_doubly_escaped_slash() {
+    public void matches_doubly_escaped_slash_1() {
         assertEquals(emptyList(), match("12\\\\/2020", "12\\"));
+    }
+
+    @Test
+    public void matches_doubly_escaped_slash_2() {
         assertEquals(emptyList(), match("12\\\\/2020", "2020"));
     }
 
@@ -258,8 +289,12 @@ public class CucumberExpressionTest {
     }
 
     @Test
-    public void matches_float() {
+    public void matches_float_1() {
         assertEquals(singletonList(0.22f), match("{float}", "0.22"));
+    }
+
+    @Test
+    public void matches_float_2() {
         assertEquals(singletonList(0.22f), match("{float}", ".22"));
     }
 
@@ -315,8 +350,11 @@ public class CucumberExpressionTest {
     }
 
     @Test
-    public void allows_parameter_type_in_alternation() {
+    public void allows_parameter_type_in_alternation_1() {
         assertEquals(singletonList(18), match("a/i{int}n/y", "i18n"));
+    }
+    @Test
+    public void allows_parameter_type_in_alternation_2() {
         assertEquals(singletonList(11), match("a/i{int}n/y", "a11y"));
     }
 
