@@ -97,20 +97,20 @@ final class Ast {
             for (int i = 0; i < depth; i++) {
                 sb.append("  ");
             }
-            sb.append("AstNode[")
-                    .append("type=").append(type)
-                    .append("', start='")
+            sb.append("{")
+                    .append("type: '").append(type)
+                    .append("', start: '")
                     .append(start)
-                    .append("', end=")
+                    .append("', end: ")
                     .append(end)
                     .append("'");
 
             if (token != null) {
-                sb.append(", token=").append(token);
+                sb.append(", token: '").append(token).append("'");
             }
 
             if (nodes != null && !nodes.isEmpty()) {
-                sb.append("\n");
+                sb.append(", nodes: [\n");
                 for (Node node : nodes) {
                     sb.append(node.toString(depth + 1));
                     sb.append("\n");
@@ -118,9 +118,10 @@ final class Ast {
                 for (int i = 0; i < depth; i++) {
                     sb.append("  ");
                 }
+                sb.append("]");
             }
 
-            sb.append(']');
+            sb.append('}');
             return sb;
         }
 

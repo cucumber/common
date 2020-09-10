@@ -1,0 +1,8 @@
+element: |-
+  {type: 'EXPRESSION_NODE', start: '0', end: 2', nodes: [
+    {type: 'TEXT_NODE', start: '0', end: 2', token: '('}
+  ]}
+elements: null
+exception: null
+expression: \(
+
