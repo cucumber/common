@@ -53,10 +53,10 @@ const (
 )
 
 type token struct {
-	text      string
-	tokenType tokenType
-	start     int
-	end       int
+	Text      string    `json:"text"`
+	TokenType tokenType `json:"type"`
+	Start     int       `json:"start"`
+	End       int       `json:"end"`
 }
 
 var nullNode = node{textNode, -1, -1, "", []node{}}

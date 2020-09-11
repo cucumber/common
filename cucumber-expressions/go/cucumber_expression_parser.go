@@ -5,7 +5,7 @@ package cucumberexpressions
  */
 var textParser = func(tokens []token, current int) (int, node) {
 	token := tokens[current]
-	return 1, node{textNode, token.start, token.end, token.text, []node{}}
+	return 1, node{textNode, token.Start, token.End, token.Text, []node{}}
 }
 
 /*
@@ -36,7 +36,7 @@ var alternativeSeparatorParser = func(tokens []token, current int) (int, node) {
 		return 0, nullNode
 	}
 	token := tokens[current]
-	return 1, node{alternativeNode, token.start, token.end, token.text, []node{}}
+	return 1, node{alternativeNode, token.Start, token.End, token.Text, []node{}}
 }
 
 var alternativeParsers = []parser{
@@ -72,8 +72,8 @@ var alternationParser = func(tokens []token, current int) (int, node) {
 	}
 
 	// Does not consume right hand boundary token
-	start := tokens[current].start
-	end := tokens[subCurrent].end
+	start := tokens[current].Start
+	end := tokens[subCurrent].End
 	return consumed, node{alternationNode, start, end, "", splitAlternatives(start, end, subAst)}
 }
 
@@ -120,8 +120,8 @@ func parseBetween(nodeType nodeType, beginToken tokenType, endToken tokenType, p
 			return 0, nullNode
 		}
 		// consumes endToken
-		start := tokens[current].start
-		end := tokens[subCurrent].end
+		start := tokens[current].Start
+		end := tokens[subCurrent].End
 		return subCurrent + 1 - current, node{nodeType, start, end, "", subAst}
 	}
 }
@@ -175,7 +175,7 @@ func lookingAt(tokens []token, at int, tokenType tokenType) bool {
 	if at >= size {
 		return tokenType == endOfLine
 	}
-	return tokens[at].tokenType == tokenType
+	return tokens[at].TokenType == tokenType
 }
 
 func splitAlternatives(start int, end int, alternation []node) []node {
