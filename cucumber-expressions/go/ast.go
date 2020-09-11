@@ -37,19 +37,18 @@ func (node node) text() string {
 	return builder.String()
 }
 
-type tokenType int
+type tokenType string
 
 const (
-	startOfLine tokenType = iota
-	endOfLine
-	whiteSpace
-	beginOptional
-	endOptional
-	beginParameter
-	endParameter
-	alternation
-	escape
-	text
+	startOfLine    tokenType = "START_OF_LINE"
+	endOfLine                = "END_OF_LINE"
+	whiteSpace               = "WHITE_SPACE"
+	beginOptional            = "BEGIN_OPTIONAL"
+	endOptional              = "END_OPTIONAL"
+	beginParameter           = "BEGIN_PARAMETER"
+	endParameter             = "END_PARAMETER"
+	alternation              = "ALTERNATION"
+	text                     = "TEXT"
 )
 
 type token struct {

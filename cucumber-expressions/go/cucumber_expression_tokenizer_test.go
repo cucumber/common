@@ -30,11 +30,12 @@ func TestCucumberExpressionTokenizer(t *testing.T) {
 	//	})
 	//})
 
-	files, err := ioutil.ReadDir("./testdata/tokens")
+	directory := "../java/testdata/tokens/"
+	files, err := ioutil.ReadDir(directory)
 	require.NoError(t, err)
 
 	for _, file := range files {
-		contents, err := ioutil.ReadFile("./testdata/tokens/" + file.Name())
+		contents, err := ioutil.ReadFile(directory + file.Name())
 		require.NoError(t, err)
 		t.Run(fmt.Sprintf("%s", file.Name()), func(t *testing.T) {
 			var expectation expectation
