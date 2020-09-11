@@ -98,19 +98,18 @@ final class Ast {
                 sb.append("  ");
             }
             sb.append("{")
-                    .append("type: \"").append(type)
-                    .append("\", start: \"")
+                    .append("\"type\": \"").append(type)
+                    .append("\", \"start\": ")
                     .append(start)
-                    .append("\", end: \"")
-                    .append(end)
-                    .append("\"");
+                    .append(", \"end\": ")
+                    .append(end);
 
             if (token != null) {
-                sb.append(", token: \"").append(token).append("\"");
+                sb.append(", \"token\": \"").append(token).append("\"");
             }
 
             if (nodes != null && !nodes.isEmpty()) {
-                sb.append(", nodes: ");
+                sb.append(", \"nodes\": ");
                 StringBuilder padding = new StringBuilder();
                 for (int i = 0; i < depth; i++) {
                     padding.append("  ");
@@ -226,10 +225,10 @@ final class Ast {
         @Override
         public String toString() {
             return new StringJoiner(", ", "" + "{", "}")
-                    .add("type: \"" + type + "\"")
-                    .add("start: \"" + start + "\"")
-                    .add("end: \"" + end + "\"")
-                    .add("text: \"" + text + "\"")
+                    .add("\"type\": \"" + type + "\"")
+                    .add("\"start\": " + start + "")
+                    .add("\"end\": " + end + "")
+                    .add("\"text\": \"" + text + "\"")
                     .toString();
         }
 
