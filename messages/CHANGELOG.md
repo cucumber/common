@@ -17,6 +17,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+* Ignore empty lines rather than throwing an error.
+
 ## [13.0.1] - 2020-08-07
 
 ### Fixed
