@@ -9,6 +9,7 @@ import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 
 import static io.cucumber.datatable.TypeFactory.constructType;
@@ -57,6 +58,44 @@ public final class DataTableTypeRegistry {
         TableCellTransformer<Double> doubleTableCellTransformer = applyIfPresent(numberParser::parseDouble);
         defineDataTableType(new DataTableType(Double.class, doubleTableCellTransformer));
         defineDataTableType(new DataTableType(double.class, doubleTableCellTransformer));
+
+        TableCellTransformer<Optional<Object>> optionalTableCellTransformer =
+                (String s) -> s == null || s.isEmpty() ? Optional.empty() : Optional.of(s);
+        defineDataTableType(new DataTableType(Optional.class, optionalTableCellTransformer));
+
+        Type optionalString = new TypeReference<Optional<String>>() { }.getType();
+        defineDataTableType(new DataTableType(optionalString, optionalTableCellTransformer));
+
+        Type optionalDouble = new TypeReference<Optional<Double>>() { }.getType();
+        TableCellTransformer<Optional<Double>> optionalDoubleTableCellTransformer =
+                (String s) -> s == null || s.isEmpty() ? Optional.empty() : Optional.of(numberParser.parseDouble(s));
+        defineDataTableType(new DataTableType(optionalDouble, optionalDoubleTableCellTransformer));
+
+        Type optionalFloat = new TypeReference<Optional<Float>>() { }.getType();
+        TableCellTransformer<Optional<Float>> optionalFloatTableCellTransformer =
+                (String s) -> s == null || s.isEmpty() ? Optional.empty() : Optional.of(numberParser.parseFloat(s));
+        defineDataTableType(new DataTableType(optionalFloat, optionalFloatTableCellTransformer));
+
+        Type optionalLong = new TypeReference<Optional<Long>>() { }.getType();
+        TableCellTransformer<Optional<Long>> optionalLongTableCellTransformer =
+                (String s) -> s == null || s.isEmpty() ? Optional.empty() : Optional.of(Long.decode(s));
+        defineDataTableType(new DataTableType(optionalLong, optionalLongTableCellTransformer));
+
+        Type optionalByte = new TypeReference<Optional<Byte>>() { }.getType();
+        TableCellTransformer<Optional<Byte>> optionalByteTableCellTransformer =
+                (String s) -> s == null || s.isEmpty() ? Optional.empty() : Optional.of(Byte.decode(s));
+        defineDataTableType(new DataTableType(optionalByte, optionalByteTableCellTransformer));
+
+        Type optionalBigDecimal = new TypeReference<Optional<BigDecimal>>() { }.getType();
+        TableCellTransformer<Optional<BigDecimal>> optionalBigDecimalTableCellTransformer =
+                (String s) -> s == null || s.isEmpty() ? Optional.empty() : Optional.of(numberParser.parseBigDecimal(s));
+        defineDataTableType(new DataTableType(optionalBigDecimal, optionalBigDecimalTableCellTransformer));
+
+
+        Type optionalBigInt = new TypeReference<Optional<BigInteger>>() { }.getType();
+        TableCellTransformer<Optional<BigInteger>> optionalBigIntTableCellTransformer =
+                (String s) -> s == null || s.isEmpty() ? Optional.empty() : Optional.of(new BigInteger(s));
+        defineDataTableType(new DataTableType(optionalBigInt, optionalBigIntTableCellTransformer));
     }
 
     private static <R> TableCellTransformer<R> applyIfPresent(Function<String, R> f) {
