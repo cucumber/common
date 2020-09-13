@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+* Add `Attachment#url`. This makes it possible to "detach" attachments so the main stream
+  gets smaller and the attachments can be processed/downloaded separately with more ease.
+  ([#997](https://github.com/cucumber/cucumber/issues/997)
+   [aslakhellesoy])
+
 ### Changed
 
 ### Deprecated
