@@ -57,7 +57,7 @@
     "glob": "^7.1.6",
     "source-map-support": "^0.5.19",
     "stack-utils": "^2.0.2",
-    "ts-node": "^8.10.2",
+    "ts-node": "^9.0.0",
     "typescript": "^3.9.7"
   },
   "directories": {
