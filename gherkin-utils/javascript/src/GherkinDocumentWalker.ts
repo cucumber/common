@@ -64,17 +64,21 @@ export default class GherkinDocumentWalker {
   public walkGherkinDocument(
     gherkinDocument: messages.IGherkinDocument
   ): messages.IGherkinDocument {
-    const feature = this.walkFeature(gherkinDocument.feature)
-
-    if (feature) {
-      return messages.GherkinDocument.create({
-        feature: feature,
-        comments: gherkinDocument.comments,
-        uri: gherkinDocument.uri,
-      })
+    if (!gherkinDocument.feature) {
+      return null
     }
 
-    return null
+    const feature = this.walkFeature(gherkinDocument.feature)
+
+    if (!feature) {
+      return null
+    }
+
+    return messages.GherkinDocument.create({
+      feature: feature,
+      comments: gherkinDocument.comments,
+      uri: gherkinDocument.uri,
+    })
   }
 
   protected walkFeature(
