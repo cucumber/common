@@ -9,16 +9,22 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
-* Add `Attachment#url`. This makes it possible to "detach" attachments so the main stream
-  gets smaller and the attachments can be processed/downloaded separately with more ease.
-  ([#1183](https://github.com/cucumber/cucumber/pull/1183)
-   [aslakhellesoy])
-
 ### Changed
 
 ### Deprecated
 
 ### Removed
+
+### Fixed
+
+## [13.1.0] - 2020-09-14
+
+### Added
+
+* Add `Attachment#url`. This makes it possible to "detach" attachments so the main stream
+  gets smaller and the attachments can be processed/downloaded separately with more ease.
+  ([#1183](https://github.com/cucumber/cucumber/pull/1183)
+   [aslakhellesoy])
 
 ### Fixed
 
@@ -419,7 +425,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Protobuf messages for Go, Java, JavaScript, TypeScript and Ruby
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/messages/v13.0.1...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/messages/v13.1.0...master
+[13.1.0]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v13.0.1...messages/v13.1.0
 [13.0.1]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v13.0.0...messages/v13.0.1
 [13.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v12.4.0...messages/v13.0.0
 [12.4.0]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v12.3.2...messages/v12.4.0
