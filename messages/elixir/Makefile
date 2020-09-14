@@ -24,7 +24,7 @@ pre-release: update-version update-dependencies clean default
 
 update-version:
 ifdef NEW_VERSION
-	sed 's/@vsn ".\..\.."/@vsn "'"$NEW_VERSION"'"/' mix.exs
+	sed -i 's/@vsn ".\..\.."/@vsn "'"$NEW_VERSION"'"/' mix.exs
 else
 	@echo -e "\033[0;31mNEW_VERSION is not defined. Can't update version :-(\033[0m"
 	exit 1
