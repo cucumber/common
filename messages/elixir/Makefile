@@ -15,8 +15,7 @@ mix.lock: mix.exs
 	mix deps.get
 
 update-dependencies:
-	@echo "TODO: Find a way to update mix.exs with the latest version numbers"
-	exit 1
+	mix deps.unlock --all && mix deps.update --all
 .PHONY: update-dependencies
 
 pre-release: update-version update-dependencies clean default
@@ -25,8 +24,7 @@ pre-release: update-version update-dependencies clean default
 
 update-version:
 ifdef NEW_VERSION
-	@echo "TODO: Use mix or sed to update the version number in mix.exs"
-	exit 1
+	sed 's/@vsn ".\..\.."/@vsn "'"$NEW_VERSION"'"/' mix.exs
 else
 	@echo -e "\033[0;31mNEW_VERSION is not defined. Can't update version :-(\033[0m"
 	exit 1
@@ -34,8 +32,13 @@ endif
 .PHONY: update-version
 
 publish: .deps
-	@echo "TODO: mix release something something. Credentials will be in $HEX_USER and $HEX_PASSWORD from secrets"
+ifdef HEX_API_KEY
+	mix hex.publish --yes 
+else
+	@echo -e "\033[0;31mHEX_API_KEY is not defined. Can't update version :-(\033[0m"
 	exit 1
+endif
+
 .PHONY: publish
 
 post-release:
