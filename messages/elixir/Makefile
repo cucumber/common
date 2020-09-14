@@ -15,7 +15,8 @@ mix.lock: mix.exs
 	mix deps.get
 
 update-dependencies:
-	mix deps.unlock --all && mix deps.update --all
+	@echo -e "\033[0;31mPlease update dependencies for elixir manually in mix.exs!! Check https://hex.pm/ for the latest version.\033[0m"
+	@echo -e "\033[0;31mSome packages require some options (such as ex_doc), check the package its readme / hexdocs.\033[0m"
 .PHONY: update-dependencies
 
 pre-release: update-version update-dependencies clean default
