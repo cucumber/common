@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+* Add `Attachment#url`. This makes it possible to "detach" attachments so the main stream
+  gets smaller and the attachments can be processed/downloaded separately with more ease.
+  ([#1183](https://github.com/cucumber/cucumber/pull/1183)
+   [aslakhellesoy])
+
 ### Changed
 
 ### Deprecated
@@ -16,6 +21,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Removed
 
 ### Fixed
+
+* Ignore empty lines rather than throwing an error.
 
 ## [13.0.1] - 2020-08-07
 
