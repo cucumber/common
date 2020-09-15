@@ -10,6 +10,7 @@ import EnvelopesQueryContext, {
 } from './contexts/EnvelopesQueryContext'
 import { IAttachmentProps } from './components/gherkin/Attachment'
 import MessageToComponentMappingContext from './contexts/MessageToComponentMappingContext'
+import { IAttachmentsProps } from './components/gherkin/Attachments'
 
 export {
   GherkinDocumentList,
@@ -23,4 +24,5 @@ export {
   filterByStatus,
   MessageToComponentMappingContext,
   IAttachmentProps,
+  IAttachmentsProps
 }
