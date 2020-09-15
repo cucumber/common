@@ -25,7 +25,7 @@ pre-release: update-version update-dependencies clean default
 
 update-version:
 ifdef NEW_VERSION
-	sed -i 's/@vsn ".\..\.."/@vsn "'"$NEW_VERSION"'"/' mix.exs
+	sed -Ei 's/@vsn "[^"]+"/@vsn "$(NEW_VERSION)"/' mix.exs
 else
 	@echo -e "\033[0;31mNEW_VERSION is not defined. Can't update version :-(\033[0m"
 	exit 1
@@ -34,7 +34,7 @@ endif
 
 publish: .deps
 ifdef HEX_API_KEY
-	mix hex.publish --yes 
+	mix hex.publish --yes
 else
 	@echo -e "\033[0;31mHEX_API_KEY is not defined. Can't update version :-(\033[0m"
 	exit 1
