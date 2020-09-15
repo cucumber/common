@@ -8,7 +8,7 @@ import GherkinQueryContext from '../../contexts/GherkinQueryContext'
 import ErrorMessage from './ErrorMessage'
 import StepContainer from './StepContainer'
 import HighLight from '../app/HighLight'
-import Attachments from './Attachments'
+import CustomizableAttachments from '../customizable/CustomizableAttachments'
 
 interface IProps {
   step: messages.GherkinDocument.Feature.IStep
@@ -116,7 +116,7 @@ const Step: React.FunctionComponent<IProps> = ({
         <ErrorMessage message={testStepResult.message} />
       )}
       <div className="cucumber-attachments">
-        <Attachments attachments={attachments} />
+        <CustomizableAttachments attachments={attachments} />
       </div>
     </StepContainer>
   )

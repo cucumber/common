@@ -2,12 +2,14 @@ import React from 'react'
 import { storiesOf } from "@storybook/react";
 import { messages } from '@cucumber/messages';
 import { IAttachmentProps } from '../src/components/gherkin/Attachment';
+import CustomizableAttachments from '../src/components/customizable/CustomizableAttachments';
 import CustomizableAttachment from '../src/components/customizable/CustomizableAttachment';
 import CustomizableImageAttachment from '../src/components/customizable/CustomizableImageAttachment';
 import MessageToComponentMappingContext, { defaultMessageToComponentMapping } from '../src/contexts/MessageToComponentMappingContext';
 
 // @ts-ignore
 import pngBase64 from '../testdata/images/cucumber-base64.txt'
+import { IAttachmentsProps } from '../src/components/gherkin/Attachments';
 
 const textAttachment = messages.Attachment.create({
   body: "This is a logged string",
@@ -17,9 +19,37 @@ const textAttachment = messages.Attachment.create({
 
 const imageAttachment = messages.Attachment.create({
   body: pngBase64,
-  mediaType: 'iamge/png',
+  mediaType: 'image/png',
   contentEncoding: messages.Attachment.ContentEncoding.BASE64
 })
+
+storiesOf('CustomizableAttachments', module)
+  .add('Uses @cucumber/react/components/gherkin/Attachments by default', () => {
+    return (
+      <MessageToComponentMappingContext.Provider value={defaultMessageToComponentMapping}>
+        <CustomizableAttachments attachments={[textAttachment, imageAttachment]} />
+      </MessageToComponentMappingContext.Provider>
+    )
+  })
+  .add('Can be overriden to use a custom component', () => {
+
+    const CountAttachments: React.FunctionComponent<IAttachmentsProps> = ({
+      attachments,
+    }) => {
+      return <div>Found {attachments.length} attachments</div>
+    }
+
+    const overridenComponents = {
+      ...defaultMessageToComponentMapping,
+      ...{attachments: CountAttachments}
+    }
+
+    return (
+      <MessageToComponentMappingContext.Provider value={overridenComponents}>
+        <CustomizableAttachments attachments={[textAttachment, imageAttachment]} />
+      </MessageToComponentMappingContext.Provider>
+    )
+  })
 
 storiesOf('CustomizableAttachment', module)
   .add('Uses @cucumber/react/components/gherkin/Attachment by default', () => {
@@ -49,7 +79,7 @@ storiesOf('CustomizableAttachment', module)
     )
   })
 
-  storiesOf('CustomizableImageAttachment', module)
+storiesOf('CustomizableImageAttachment', module)
   .add('Uses @cucumber/react/components/gherkin/ImageAttachment by default', () => {
     return (
       <MessageToComponentMappingContext.Provider value={defaultMessageToComponentMapping}>

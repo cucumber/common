@@ -3,7 +3,7 @@ import { messages } from '@cucumber/messages'
 import CucumberQueryContext from '../../contexts/CucumberQueryContext'
 import ErrorMessage from './ErrorMessage'
 import StepContainer from './StepContainer'
-import Attachments from './Attachments'
+import CustomizableAttachments from '../customizable/CustomizableAttachments'
 
 interface IProps {
   step: messages.TestCase.ITestStep
@@ -33,7 +33,7 @@ const HookStep: React.FunctionComponent<IProps> = ({ step }) => {
       <StepContainer status={stepResult.status}>
         <h3>Hook failed: {location}</h3>
         {stepResult.message && <ErrorMessage message={stepResult.message} />}
-        <Attachments attachments={attachments} />
+        <CustomizableAttachments attachments={attachments} />
       </StepContainer>
     )
   }
@@ -41,7 +41,7 @@ const HookStep: React.FunctionComponent<IProps> = ({ step }) => {
   if (attachments) {
     return (
       <li className="cucumber-step">
-        <Attachments attachments={attachments} />
+        <CustomizableAttachments attachments={attachments} />
       </li>
     )
   }
