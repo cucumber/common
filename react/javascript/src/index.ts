@@ -24,5 +24,5 @@ export {
   filterByStatus,
   MessageToComponentMappingContext,
   IAttachmentProps,
-  IAttachmentsProps
+  IAttachmentsProps,
 }
