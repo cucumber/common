@@ -32,7 +32,10 @@ public class NdjsonToMessageIterable implements Iterable<Messages.Envelope> {
             public boolean hasNext() {
                 try {
                     String line = input.readLine();
-                    if(line == null) return false;
+                    if (line == null) return false;
+                    if (line.trim().equals("")) {
+                        return hasNext();
+                    }
                     Messages.Envelope.Builder builder = Messages.Envelope.newBuilder();
                     JSON_PARSER.merge(line, builder);
                     next = builder.build();
