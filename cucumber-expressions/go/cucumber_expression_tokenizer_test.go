@@ -17,18 +17,17 @@ type expectation struct {
 
 func TestCucumberExpressionTokenizer(t *testing.T) {
 
-	//var assertContains = func(t *testing.T, expression string, expected []token) {
-	//	tokens, err := tokenize(expression)
-	//	require.NoError(t, err)
-	//	require.Equal(t, expected, tokens)
-	//}
+	var assertContains = func(t *testing.T, expression string, expected []token) {
+		tokens, err := tokenize(expression)
+		require.NoError(t, err)
+		require.Equal(t, expected, tokens)
+	}
 
-	//t.Run("empty string", func(t *testing.T) {
-	//	assertContains(t, "", []token{
-	//		{"", startOfLine, 0, 0},
-	//		{"", endOfLine, 0, 0},
-	//	})
-	//})
+	var assertThrows = func(t *testing.T, expression string, expected string) {
+		_, err := tokenize(expression)
+		require.Error(t, err)
+		require.Equal(t, expected, err.Error())
+	}
 
 	directory := "../java/testdata/tokens/"
 	files, err := ioutil.ReadDir(directory)
@@ -41,10 +40,15 @@ func TestCucumberExpressionTokenizer(t *testing.T) {
 			var expectation expectation
 			err = yaml.Unmarshal(contents, &expectation)
 			require.NoError(t, err)
-			var token []token
-			err = json.Unmarshal([]byte(expectation.Expected), &token)
-			require.NoError(t, err)
 
+			if expectation.Exception == "" {
+				var token []token
+				err = json.Unmarshal([]byte(expectation.Expected), &token)
+				require.NoError(t, err)
+				assertContains(t, expectation.Expression, token)
+			} else {
+				assertThrows(t, expectation.Expression, expectation.Exception)
+			}
 		})
 	}
 }
