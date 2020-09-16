@@ -1,13 +1,16 @@
 package cucumberexpressions
 
-import "strings"
+import (
+	"strings"
+	"unicode"
+)
 
-const escapeCharacter = '\\'
-const alternationCharacter = '/'
-const beginParameterCharacter = '{'
-const endParameterCharacter = '}'
-const beginOptionalCharacter = '('
-const endOptionalCharacter = ')'
+const escapeCharacter rune = '\\'
+const alternationCharacter rune = '/'
+const beginParameterCharacter rune = '{'
+const endParameterCharacter rune = '}'
+const beginOptionalCharacter rune = '('
+const endOptionalCharacter rune = ')'
 
 type nodeType int
 
@@ -61,5 +64,45 @@ type token struct {
 var nullNode = node{textNode, -1, -1, "", []node{}}
 
 func isEscapeCharacter(r rune) bool {
+	return r == escapeCharacter
+}
+
+func canEscape(r rune) bool {
+	if unicode.Is(unicode.White_Space, r) {
+		return true
+	}
+	switch r {
+	case escapeCharacter:
+		return true
+	case alternationCharacter:
+		return true
+	case beginParameterCharacter:
+		return true
+	case endParameterCharacter:
+		return true
+	case beginOptionalCharacter:
+		return true
+	case endOptionalCharacter:
+		return true
+	}
 	return false
+}
+
+func typeOf(r rune) (tokenType, error) {
+	if unicode.Is(unicode.White_Space, r) {
+		return whiteSpace, nil
+	}
+	switch r {
+	case alternationCharacter:
+		return alternation, nil
+	case beginParameterCharacter:
+		return beginParameter, nil
+	case endParameterCharacter:
+		return endParameter, nil
+	case beginOptionalCharacter:
+		return beginOptional, nil
+	case endOptionalCharacter:
+		return endOptional, nil
+	}
+	return text, nil
 }

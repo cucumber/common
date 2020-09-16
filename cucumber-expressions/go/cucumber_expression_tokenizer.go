@@ -2,7 +2,6 @@ package cucumberexpressions
 
 import (
 	"errors"
-	"unicode"
 )
 
 func tokenize(expression string) ([]token, error) {
@@ -77,25 +76,4 @@ func tokenTypeOf(r rune, treatAsText bool) (tokenType, error) {
 	}
 	return startOfLine, errors.New("can't escape")
 
-}
-
-func canEscape(r rune) bool {
-	return false
-}
-
-func typeOf(r rune) (tokenType, error) {
-	if unicode.Is(unicode.White_Space, r) {
-		return whiteSpace, nil
-	}
-	switch r {
-	case alternationCharacter:
-		return alternation, nil
-	case beginParameterCharacter:
-		return beginParameter, nil
-	case beginOptionalCharacter:
-		return beginOptional, nil
-	case endOptionalCharacter:
-		return endOptional, nil
-	}
-	return text, nil
 }
