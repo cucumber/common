@@ -41,14 +41,14 @@ type tokenType string
 
 const (
 	startOfLine    tokenType = "START_OF_LINE"
-	endOfLine                = "END_OF_LINE"
-	whiteSpace               = "WHITE_SPACE"
-	beginOptional            = "BEGIN_OPTIONAL"
-	endOptional              = "END_OPTIONAL"
-	beginParameter           = "BEGIN_PARAMETER"
-	endParameter             = "END_PARAMETER"
-	alternation              = "ALTERNATION"
-	text                     = "TEXT"
+	endOfLine      tokenType = "END_OF_LINE"
+	whiteSpace     tokenType = "WHITE_SPACE"
+	beginOptional  tokenType = "BEGIN_OPTIONAL"
+	endOptional    tokenType = "END_OPTIONAL"
+	beginParameter tokenType = "BEGIN_PARAMETER"
+	endParameter   tokenType = "END_PARAMETER"
+	alternation    tokenType = "ALTERNATION"
+	text           tokenType = "TEXT"
 )
 
 type token struct {
@@ -59,3 +59,7 @@ type token struct {
 }
 
 var nullNode = node{textNode, -1, -1, "", []node{}}
+
+func isEscapeCharacter(r rune) bool {
+	return false
+}

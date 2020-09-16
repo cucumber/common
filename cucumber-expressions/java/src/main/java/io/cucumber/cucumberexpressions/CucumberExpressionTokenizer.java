@@ -30,7 +30,7 @@ final class CucumberExpressionTokenizer {
         private final OfInt codePoints;
 
         private StringBuilder buffer = new StringBuilder();
-        private Type previousTokenType;
+        private Type previousTokenType = null;
         private Type currentTokenType = Type.START_OF_LINE;
         private boolean treatAsText;
         private int index;
@@ -58,13 +58,13 @@ final class CucumberExpressionTokenizer {
             }
 
             while (codePoints.hasNext()) {
-                int token = codePoints.nextInt();
-                if (!treatAsText && Token.isEscapeCharacter(token)) {
+                int codePoint = codePoints.nextInt();
+                if (!treatAsText && Token.isEscapeCharacter(codePoint)) {
                     escaped++;
                     treatAsText = true;
                     continue;
                 }
-                currentTokenType = tokenTypeOf(token, treatAsText);
+                currentTokenType = tokenTypeOf(codePoint, treatAsText);
                 treatAsText = false;
 
                 if (previousTokenType != Type.START_OF_LINE
@@ -72,11 +72,11 @@ final class CucumberExpressionTokenizer {
                         || (currentTokenType != Type.WHITE_SPACE && currentTokenType != Type.TEXT))) {
                     Token t = convertBufferToToken(previousTokenType);
                     advanceTokenTypes();
-                    buffer.appendCodePoint(token);
+                    buffer.appendCodePoint(codePoint);
                     return t;
                 } else {
                     advanceTokenTypes();
-                    buffer.appendCodePoint(token);
+                    buffer.appendCodePoint(codePoint);
                 }
             }
 
@@ -100,14 +100,14 @@ final class CucumberExpressionTokenizer {
             currentTokenType = null;
         }
 
-        private Token convertBufferToToken(Type currentTokenType) {
+        private Token convertBufferToToken(Type tokenType) {
             int escapeTokens = 0;
-            if (currentTokenType == Type.TEXT) {
+            if (tokenType == Type.TEXT) {
                 escapeTokens = escaped;
                 escaped = 0;
             }
             int endIndex = index + buffer.codePointCount(0, buffer.length()) + escapeTokens;
-            Token t = new Token(buffer.toString(), currentTokenType, index, endIndex);
+            Token t = new Token(buffer.toString(), tokenType, index, endIndex);
             buffer = new StringBuilder();
             this.index = endIndex;
             return t;
