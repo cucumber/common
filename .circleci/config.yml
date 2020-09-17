@@ -1054,3 +1054,9 @@ workflows:
       - gherkin-c:
           requires:
             - checkout
+
+### Elixir
+
+      - messages-elixir:
+          requires:
+            - checkout
