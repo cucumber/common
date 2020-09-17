@@ -1,0 +1,5 @@
+expression: |-
+  {[string]}
+text: something
+exception: |-
+  Illegal character '[' in parameter name {[string]}.

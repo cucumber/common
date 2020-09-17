@@ -4,15 +4,16 @@ import java.util.Map;
 
 class Expectation {
     String expression;
+    String text;
     String expected;
     String exception;
 
-    Expectation(String expression, String expected, String exception) {
+    Expectation(String expression, String text, String expected, String exception) {
         this.expression = expression;
+        this.text = text;
         this.expected = expected;
         this.exception = exception;
     }
-
 
     public String getExpression() {
         return expression;
@@ -26,6 +27,7 @@ class Expectation {
     public static Expectation fromMap(Map<?, ?> map) {
         return new Expectation(
                 (String) map.get("expression"),
+                (String) map.get("text"),
                 (String) map.get("expected"),
                 (String) map.get("exception"));
     }
@@ -44,6 +46,14 @@ class Expectation {
 
     public void setExpected(String expected) {
         this.expected = expected;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
     }
 
 }
