@@ -3,7 +3,7 @@ package cucumberexpressions
 /*
  * text := token
  */
-var textParser = func(tokens []token, current int) (int, node, error) {
+var textParser = func(expression string, tokens []token, current int) (int, node, error) {
 	token := tokens[current]
 	return 1, node{textNode, token.Start, token.End, token.Text, nil}, nil
 }
@@ -31,7 +31,7 @@ var optionalParser = parseBetween(
 )
 
 // alternation := alternative* + ( '/' + alternative* )+
-var alternativeSeparatorParser = func(tokens []token, current int) (int, node, error) {
+var alternativeSeparatorParser = func(expression string, tokens []token, current int) (int, node, error) {
 	if !lookingAt(tokens, current, alternation) {
 		return 0, nullNode, nil
 	}
@@ -52,13 +52,13 @@ var alternativeParsers = []parser{
  * right-boundary := whitespace | { | $
  * alternative: = optional | parameter | text
  */
-var alternationParser = func(tokens []token, current int) (int, node, error) {
+var alternationParser = func(expression string, tokens []token, current int) (int, node, error) {
 	previous := current - 1
 	if !lookingAtAny(tokens, previous, startOfLine, whiteSpace, endParameter) {
 		return 0, nullNode, nil
 	}
 
-	consumed, subAst, err := parseTokensUntil(alternativeParsers, tokens, current, whiteSpace, endOfLine,  beginParameter)
+	consumed, subAst, err := parseTokensUntil(expression, alternativeParsers, tokens, current, whiteSpace, endOfLine, beginParameter)
 	if err != nil {
 		return 0, nullNode, err
 	}
@@ -100,7 +100,7 @@ func parse(expression string) (node, error) {
 	if err != nil {
 		return nullNode, err
 	}
-	consumed, ast, err := cucumberExpressionParser(tokens, 0)
+	consumed, ast, err := cucumberExpressionParser(expression, tokens, 0)
 	if err != nil {
 		return nullNode, err
 	}
@@ -111,16 +111,16 @@ func parse(expression string) (node, error) {
 	return ast, nil
 }
 
-type parser func(tokens []token, current int) (int, node, error)
+type parser func(expression string, tokens []token, current int) (int, node, error)
 
 func parseBetween(nodeType nodeType, beginToken tokenType, endToken tokenType, parsers ...parser) parser {
-	return func(tokens []token, current int) (int, node, error) {
+	return func(expression string, tokens []token, current int) (int, node, error) {
 		if !lookingAt(tokens, current, beginToken) {
 			return 0, nullNode, nil
 		}
 
 		subCurrent := current + 1
-		consumed, subAst, err := parseTokensUntil(parsers, tokens, subCurrent, endToken)
+		consumed, subAst, err := parseTokensUntil(expression, parsers, tokens, subCurrent, endToken)
 		if err != nil {
 			return 0, nullNode, err
 		}
@@ -128,7 +128,7 @@ func parseBetween(nodeType nodeType, beginToken tokenType, endToken tokenType, p
 
 		// endToken not found
 		if !lookingAt(tokens, subCurrent, endToken) {
-			return 0, nullNode, NewCucumberExpressionError("No end token")
+			return 0, nullNode, createMissingEndToken(expression, beginToken, endToken, tokens[current])
 		}
 		// consumes endToken
 		start := tokens[current].Start
@@ -137,17 +137,17 @@ func parseBetween(nodeType nodeType, beginToken tokenType, endToken tokenType, p
 	}
 }
 
-func parseTokensUntil(parsers []parser, expresion []token, startAt int, endTokens ...tokenType) (int, []node, error) {
+func parseTokensUntil(expresion string, parsers []parser, tokens []token, startAt int, endTokens ...tokenType) (int, []node, error) {
 	ast := make([]node, 0)
 	current := startAt
-	size := len(expresion)
+	size := len(tokens)
 	for current < size {
-		if lookingAtAny(expresion, current, endTokens...) {
+		if lookingAtAny(tokens, current, endTokens...) {
 			break
 		}
-		consumed, node, err := parseToken(parsers, expresion, current)
+		consumed, node, err := parseToken(expresion, parsers, tokens, current)
 		if err != nil {
-			return 0, nil, nil
+			return 0, nil, err
 		}
 		if consumed == 0 {
 			// If configured correctly this will never happen
@@ -161,9 +161,9 @@ func parseTokensUntil(parsers []parser, expresion []token, startAt int, endToken
 	return current - startAt, ast, nil
 }
 
-func parseToken(parsers []parser, expresion []token, startAt int) (int, node, error) {
+func parseToken(expression string, parsers []parser, tokens []token, startAt int) (int, node, error) {
 	for _, parser := range parsers {
-		consumed, node, err := parser(expresion, startAt)
+		consumed, node, err := parser(expression, tokens, startAt)
 		if err != nil {
 			return 0, nullNode, err
 		}

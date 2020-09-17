@@ -111,3 +111,37 @@ func typeOf(r rune) (tokenType, error) {
 	}
 	return text, nil
 }
+
+func symbol(tokenType tokenType) string {
+	switch tokenType {
+	case beginOptional:
+		return string(beginOptionalCharacter)
+	case endOptional:
+		return string(endOptionalCharacter)
+	case beginParameter:
+		return string(beginParameterCharacter)
+	case endParameter:
+		return string(endParameterCharacter)
+	case alternation:
+		return string(alternationCharacter)
+	}
+
+	return ""
+}
+
+func purpose(tokenType tokenType) string {
+	switch tokenType {
+	case beginOptional:
+		return "optional text"
+	case endOptional:
+		return "optional text"
+	case beginParameter:
+		return "a parameter"
+	case endParameter:
+		return "optional text"
+	case alternation:
+		return "alternation"
+	}
+
+	return ""
+}

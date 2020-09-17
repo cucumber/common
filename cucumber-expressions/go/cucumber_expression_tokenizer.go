@@ -25,6 +25,16 @@ func tokenize(expression string) ([]token, error) {
 		return t
 	}
 
+	tokenTypeOf := func(r rune, treatAsText bool) (tokenType, error) {
+		if !treatAsText {
+			return typeOf(r)
+		}
+		if canEscape(r) {
+			return text, nil
+		}
+		return startOfLine, createCantEscaped(expression, bufferStartIndex+len(buffer)+escaped)
+	}
+
 	tokens = append(tokens, token{"", startOfLine, 0, 0})
 
 	for _, r := range runes {
@@ -49,7 +59,6 @@ func tokenize(expression string) ([]token, error) {
 			previousTokenType = currentTokenType
 			buffer = append(buffer, r)
 		}
-
 	}
 
 	if len(buffer) > 0 {
@@ -58,20 +67,9 @@ func tokenize(expression string) ([]token, error) {
 	}
 
 	if treatAsText {
-		return nil, NewCucumberExpressionError("can't escape EOL")
+		return nil, createTheEndOfLineCanNotBeEscaped(expression)
 	}
 	token := token{"", endOfLine, len(runes), len(runes)}
 	tokens = append(tokens, token)
 	return tokens, nil
-}
-
-func tokenTypeOf(r rune, treatAsText bool) (tokenType, error) {
-	if !treatAsText {
-		return typeOf(r)
-	}
-	if canEscape(r) {
-		return text, nil
-	}
-	return startOfLine, NewCucumberExpressionError("can't escape")
-
 }
