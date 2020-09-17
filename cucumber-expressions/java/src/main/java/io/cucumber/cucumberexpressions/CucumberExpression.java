@@ -16,6 +16,7 @@ import static io.cucumber.cucumberexpressions.CucumberExpressionException.create
 import static io.cucumber.cucumberexpressions.CucumberExpressionException.createInvalidParameterTypeName;
 import static io.cucumber.cucumberexpressions.CucumberExpressionException.createOptionalMayNotBeEmpty;
 import static io.cucumber.cucumberexpressions.CucumberExpressionException.createParameterIsNotAllowedInOptional;
+import static io.cucumber.cucumberexpressions.UndefinedParameterTypeException.createUndefinedParameterType;
 import static java.util.stream.Collectors.joining;
 
 @API(status = API.Status.STABLE)
@@ -92,7 +93,7 @@ public final class CucumberExpression implements Expression {
         String name = assertValidParameterTypeName(node, astNode -> createInvalidParameterTypeName(astNode, source));
         ParameterType<?> parameterType = parameterTypeRegistry.lookupByTypeName(name);
         if (parameterType == null) {
-            throw new UndefinedParameterTypeException(name);
+            throw createUndefinedParameterType(node, source, name);
         }
         parameterTypes.add(parameterType);
         List<String> regexps = parameterType.getRegexps();

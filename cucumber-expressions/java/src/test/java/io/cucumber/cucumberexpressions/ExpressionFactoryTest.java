@@ -72,13 +72,6 @@ public class ExpressionFactoryTest {
         assertThat("Unexpected message", thrownException.getMessage(), is(equalTo("You cannot use anchors (^ or $) in Cucumber Expressions. Please remove them from ^the seller has {int} strike(s)$")));
     }
 
-    @Test
-    public void explains_undefined_parameter_types() {
-        final Executable testMethod = () -> createExpression("{x}");
-        final CucumberExpressionException thrownException = assertThrows(CucumberExpressionException.class, testMethod);
-        assertThat("Unexpected message", thrownException.getMessage(), is(equalTo("Undefined parameter type {x}. Please register a ParameterType for {x}.")));
-    }
-
     private void assertRegularExpression(String expressionString) {
         assertRegularExpression(expressionString, expressionString);
     }

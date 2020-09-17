@@ -109,7 +109,7 @@ public class CucumberExpressionException extends RuntimeException {
                 "Did you mean to use a regular expression?"));
     }
 
-    private static String message(int index, String expression, StringBuilder pointer, String problem,
+    static String message(int index, String expression, StringBuilder pointer, String problem,
             String solution) {
         return thisCucumberExpressionHasAProblemAt(index) +
                 "\n" +
@@ -119,7 +119,7 @@ public class CucumberExpressionException extends RuntimeException {
                 solution;
     }
 
-    private static StringBuilder pointAt(Located node) {
+    static StringBuilder pointAt(Located node) {
         StringBuilder pointer = pointAt(node.start());
         if (node.start() + 1 < node.end()) {
             for (int i = node.start() + 1; i < node.end() - 1; i++) {
