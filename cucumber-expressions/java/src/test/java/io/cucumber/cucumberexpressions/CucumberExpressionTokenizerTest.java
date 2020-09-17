@@ -43,7 +43,7 @@ class CucumberExpressionTokenizerTest {
             CucumberExpressionException exception = assertThrows(
                     CucumberExpressionException.class,
                     () -> tokenizer.tokenize(expectation.getExpression()));
-            assertThat(exception.getMessage(), is(exception.getMessage()));
+            assertThat(exception.getMessage(), is(expectation.getException()));
         }
     }
 

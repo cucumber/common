@@ -4,5 +4,5 @@ exception: |-
 
   three blind\ mice/rats(
                         ^
-  The "(" does not have a matching ")".
-  If you did not intend to use optional text you can use "\(" to escape the optional text
+  The '(' does not have a matching ')'.
+  If you did not intend to use optional text you can use '\(' to escape the optional text

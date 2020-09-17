@@ -10,7 +10,7 @@ import java.util.NoSuchElementException;
 import java.util.PrimitiveIterator.OfInt;
 
 import static io.cucumber.cucumberexpressions.CucumberExpressionException.createCantEscape;
-import static io.cucumber.cucumberexpressions.CucumberExpressionException.createTheEndOfLineCanNotBeEscapedException;
+import static io.cucumber.cucumberexpressions.CucumberExpressionException.createTheEndOfLineCanNotBeEscaped;
 
 final class CucumberExpressionTokenizer {
 
@@ -87,7 +87,7 @@ final class CucumberExpressionTokenizer {
 
             currentTokenType = Type.END_OF_LINE;
             if (treatAsText) {
-                throw createTheEndOfLineCanNotBeEscapedException(expression);
+                throw createTheEndOfLineCanNotBeEscaped(expression);
             }
             Token token = convertBufferToToken(currentTokenType);
             advanceTokenTypes();
@@ -119,7 +119,6 @@ final class CucumberExpressionTokenizer {
             if (Token.canEscape(token)) {
                 return Type.TEXT;
             }
-            // Buffer always start at
             throw createCantEscape(expression, bufferStartIndex + buffer.codePointCount(0, buffer.length()) + escaped);
         }
 

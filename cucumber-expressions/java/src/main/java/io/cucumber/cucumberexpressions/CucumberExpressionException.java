@@ -1,7 +1,7 @@
 package io.cucumber.cucumberexpressions;
 
-import io.cucumber.cucumberexpressions.Ast.Node;
 import io.cucumber.cucumberexpressions.Ast.Located;
+import io.cucumber.cucumberexpressions.Ast.Node;
 import io.cucumber.cucumberexpressions.Ast.Token;
 import io.cucumber.cucumberexpressions.Ast.Token.Type;
 import org.apiguardian.api.API;
@@ -17,7 +17,7 @@ public class CucumberExpressionException extends RuntimeException {
         super(message, cause);
     }
 
-    static CucumberExpressionException createMissingEndTokenException(String expression, Type beginToken, Type endToken,
+    static CucumberExpressionException createMissingEndToken(String expression, Type beginToken, Type endToken,
             Token current) {
         return new CucumberExpressionException(message(
                 current.start(),
@@ -28,11 +28,12 @@ public class CucumberExpressionException extends RuntimeException {
                         .symbol() + "' to escape the " + beginToken.purpose()));
     }
 
-    static CucumberExpressionException createTheEndOfLineCanNotBeEscapedException(String expression) {
+    static CucumberExpressionException createTheEndOfLineCanNotBeEscaped(String expression) {
+        int index = expression.codePointCount(0, expression.length()) - 1;
         return new CucumberExpressionException(message(
-                expression.length(),
+                index,
                 expression,
-                pointAt(expression.length()),
+                pointAt(index),
                 "The end of line can not be escaped",
                 "You can use '\\\\' to escape the the '\\'"
         ));

@@ -22,7 +22,7 @@ import static io.cucumber.cucumberexpressions.Ast.Token.Type.END_OPTIONAL;
 import static io.cucumber.cucumberexpressions.Ast.Token.Type.END_PARAMETER;
 import static io.cucumber.cucumberexpressions.Ast.Token.Type.START_OF_LINE;
 import static io.cucumber.cucumberexpressions.Ast.Token.Type.WHITE_SPACE;
-import static io.cucumber.cucumberexpressions.CucumberExpressionException.createMissingEndTokenException;
+import static io.cucumber.cucumberexpressions.CucumberExpressionException.createMissingEndToken;
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 
@@ -155,7 +155,7 @@ final class CucumberExpressionParser {
 
             // endToken not found
             if (!lookingAt(tokens, subCurrent, endToken)) {
-                throw createMissingEndTokenException(expression, beginToken, endToken, tokens.get(current));
+                throw createMissingEndToken(expression, beginToken, endToken, tokens.get(current));
             }
             // consumes endToken
             int start = tokens.get(current).start();

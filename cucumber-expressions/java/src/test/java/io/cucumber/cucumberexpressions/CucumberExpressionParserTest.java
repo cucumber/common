@@ -38,7 +38,7 @@ class CucumberExpressionParserTest {
             CucumberExpressionException exception = assertThrows(
                     CucumberExpressionException.class,
                     () -> parser.parse(expectation.getExpression()));
-            assertThat(exception.getMessage(), is(exception.getMessage()));
+            assertThat(exception.getMessage(), is(expectation.getException()));
         }
     }
 

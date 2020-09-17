@@ -4,5 +4,5 @@ exception: |-
 
   {string
   ^
-  The "{" does not have a matching "}".
-  If you did not intend to use a parameter you can use "\{" to escape the a parameter
+  The '{' does not have a matching '}'.
+  If you did not intend to use a parameter you can use '\{' to escape the a parameter
