@@ -12,29 +12,34 @@ const endParameterCharacter rune = '}'
 const beginOptionalCharacter rune = '('
 const endOptionalCharacter rune = ')'
 
-type nodeType int
+type nodeType string
 
 const (
-	textNode nodeType = iota
-	optionalNode
-	alternationNode
-	alternativeNode
-	parameterNode
-	expressionNode
+	textNode        nodeType = "TEXT_NODE"
+	optionalNode    nodeType = "OPTIONAL_NODE"
+	alternationNode nodeType = "ALTERNATION_NODE"
+	alternativeNode nodeType = "ALTERNATIVE_NODE"
+	parameterNode   nodeType = "PARAMETER_NODE"
+	expressionNode  nodeType = "EXPRESSION_NODE"
 )
 
 type node struct {
-	nodeType nodeType
-	start    int
-	end      int
-	token    string
-	nodes    []node
+	NodeType nodeType `json:"type"`
+	Start    int      `json:"start"`
+	End      int      `json:"end"`
+	Token    string   `json:"token"`
+	Nodes    []node   `json:"nodes"`
 }
 
 func (node node) text() string {
 	builder := strings.Builder{}
-	builder.WriteString(node.token)
-	for _, c := range node.nodes {
+	builder.WriteString(node.Token)
+
+	if node.Nodes == nil {
+		return builder.String()
+	}
+
+	for _, c := range node.Nodes {
 		builder.WriteString(c.text())
 	}
 	return builder.String()
@@ -61,7 +66,7 @@ type token struct {
 	End       int       `json:"end"`
 }
 
-var nullNode = node{textNode, -1, -1, "", []node{}}
+var nullNode = node{textNode, -1, -1, "", nil}
 
 func isEscapeCharacter(r rune) bool {
 	return r == escapeCharacter

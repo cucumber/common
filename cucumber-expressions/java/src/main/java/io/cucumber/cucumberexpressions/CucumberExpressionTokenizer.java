@@ -33,7 +33,7 @@ final class CucumberExpressionTokenizer {
         private Type previousTokenType = null;
         private Type currentTokenType = Type.START_OF_LINE;
         private boolean treatAsText;
-        private int index;
+        private int bufferStartIndex;
         private int escaped;
 
         TokenIterator(String expression) {
@@ -67,16 +67,15 @@ final class CucumberExpressionTokenizer {
                 currentTokenType = tokenTypeOf(codePoint, treatAsText);
                 treatAsText = false;
 
-                if (previousTokenType != Type.START_OF_LINE
-                        && (currentTokenType != previousTokenType
-                        || (currentTokenType != Type.WHITE_SPACE && currentTokenType != Type.TEXT))) {
+                if (previousTokenType == Type.START_OF_LINE || (currentTokenType == previousTokenType
+                        && (currentTokenType == Type.WHITE_SPACE || currentTokenType == Type.TEXT))) {
+                            advanceTokenTypes();
+                            buffer.appendCodePoint(codePoint);
+                        } else {
                     Token t = convertBufferToToken(previousTokenType);
                     advanceTokenTypes();
                     buffer.appendCodePoint(codePoint);
                     return t;
-                } else {
-                    advanceTokenTypes();
-                    buffer.appendCodePoint(codePoint);
                 }
             }
 
@@ -106,10 +105,10 @@ final class CucumberExpressionTokenizer {
                 escapeTokens = escaped;
                 escaped = 0;
             }
-            int endIndex = index + buffer.codePointCount(0, buffer.length()) + escapeTokens;
-            Token t = new Token(buffer.toString(), tokenType, index, endIndex);
+            int consumedIndex = bufferStartIndex + buffer.codePointCount(0, buffer.length()) + escapeTokens;
+            Token t = new Token(buffer.toString(), tokenType, bufferStartIndex, consumedIndex);
             buffer = new StringBuilder();
-            this.index = endIndex;
+            this.bufferStartIndex = consumedIndex;
             return t;
         }
 
@@ -120,7 +119,8 @@ final class CucumberExpressionTokenizer {
             if (Token.canEscape(token)) {
                 return Type.TEXT;
             }
-            throw createCantEscape(expression, index + escaped);
+            // Buffer always start at
+            throw createCantEscape(expression, bufferStartIndex + buffer.codePointCount(0, buffer.length()) + escaped);
         }
 
     }

@@ -40,9 +40,9 @@ func NewCucumberExpression(expression string, parameterTypeRegistry *ParameterTy
 }
 
 func (c *CucumberExpression) rewriteNodeToRegex(node node) (string, error) {
-	switch node.nodeType {
+	switch node.NodeType {
 	case textNode:
-		return c.processEscapes(node.token), nil
+		return c.processEscapes(node.Token), nil
 	case optionalNode:
 		return c.rewriteOptional(node)
 	case alternationNode:
@@ -71,13 +71,13 @@ func (c *CucumberExpression) rewriteOptional(node node) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	return c.rewriteNodesToRegex(node.nodes, "", "(?:", ")?")
+	return c.rewriteNodesToRegex(node.Nodes, "", "(?:", ")?")
 }
 
 func (c *CucumberExpression) rewriteAlternation(node node) (string, error) {
 	// Make sure the alternative parts aren't empty and don't contain parameter types
-	for _, alternative := range node.nodes {
-		if len(alternative.nodes) == 0 {
+	for _, alternative := range node.Nodes {
+		if len(alternative.Nodes) == 0 {
 			return "", NewCucumberExpressionError(fmt.Sprintf(alternativesMayNotBeEmpty, c.source))
 		}
 		err := c.assertNoParameters(alternative, parameterTypesCanNotBeAlternative)
@@ -89,11 +89,11 @@ func (c *CucumberExpression) rewriteAlternation(node node) (string, error) {
 			return "", err
 		}
 	}
-	return c.rewriteNodesToRegex(node.nodes, "|", "(?:", ")")
+	return c.rewriteNodesToRegex(node.Nodes, "|", "(?:", ")")
 }
 
 func (c *CucumberExpression) rewriteAlternative(node node) (string, error) {
-	return c.rewriteNodesToRegex(node.nodes, "", "", "")
+	return c.rewriteNodesToRegex(node.Nodes, "", "", "")
 }
 
 func (c *CucumberExpression) rewriteParameter(node node) (string, error) {
@@ -125,7 +125,7 @@ func (c *CucumberExpression) rewriteParameter(node node) (string, error) {
 }
 
 func (c *CucumberExpression) rewriteExpression(node node) (string, error) {
-	return c.rewriteNodesToRegex(node.nodes, "", "^", "$")
+	return c.rewriteNodesToRegex(node.Nodes, "", "^", "$")
 }
 
 func (c *CucumberExpression) rewriteNodesToRegex(nodes []node, delimiter string, prefix string, suffix string) (string, error) {
@@ -146,8 +146,8 @@ func (c *CucumberExpression) rewriteNodesToRegex(nodes []node, delimiter string,
 }
 
 func (c *CucumberExpression) assertNotEmpty(node node, message string) error {
-	for _, node := range node.nodes {
-		if node.nodeType == textNode {
+	for _, node := range node.Nodes {
+		if node.NodeType == textNode {
 			return nil
 		}
 	}
@@ -155,8 +155,8 @@ func (c *CucumberExpression) assertNotEmpty(node node, message string) error {
 }
 
 func (c *CucumberExpression) assertNoParameters(node node, message string) error {
-	for _, node := range node.nodes {
-		if node.nodeType == parameterNode {
+	for _, node := range node.Nodes {
+		if node.NodeType == parameterNode {
 			return NewCucumberExpressionError(fmt.Sprintf(message, c.source))
 		}
 	}

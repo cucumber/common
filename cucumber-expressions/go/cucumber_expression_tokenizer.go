@@ -14,22 +14,24 @@ func tokenize(expression string) ([]token, error) {
 	previousTokenType := startOfLine
 	treatAsText := false
 	escaped := 0
+	bufferStartIndex := 0
 
-	convertBufferToToken := func(tokenType tokenType, index int) token {
+	convertBufferToToken := func(tokenType tokenType) token {
 		escapeTokens := 0
 		if tokenType == text {
 			escapeTokens = escaped
 			escaped = 0
 		}
-		startIndex := index - len(buffer) - escapeTokens
-		t := token{string(buffer), tokenType, startIndex, index}
+		consumedIndex := bufferStartIndex + len(buffer) + escapeTokens
+		t := token{string(buffer), tokenType, bufferStartIndex, consumedIndex}
 		buffer = []rune{}
+		bufferStartIndex = consumedIndex
 		return t
 	}
 
 	tokens = append(tokens, token{"", startOfLine, 0, 0})
 
-	for index, r := range runes {
+	for _, r := range runes {
 		if !treatAsText && isEscapeCharacter(r) {
 			escaped++
 			treatAsText = true
@@ -43,7 +45,7 @@ func tokenize(expression string) ([]token, error) {
 		treatAsText = false
 
 		if previousTokenType != startOfLine && (currentTokenType != previousTokenType || (currentTokenType != whiteSpace && currentTokenType != text)) {
-			token := convertBufferToToken(previousTokenType, index)
+			token := convertBufferToToken(previousTokenType)
 			previousTokenType = currentTokenType
 			buffer = append(buffer, r)
 			tokens = append(tokens, token)
@@ -55,7 +57,7 @@ func tokenize(expression string) ([]token, error) {
 	}
 
 	if len(buffer) > 0 {
-		token := convertBufferToToken(previousTokenType, len(runes))
+		token := convertBufferToToken(previousTokenType)
 		tokens = append(tokens, token)
 	}
 

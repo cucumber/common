@@ -1,7 +1,11 @@
 package cucumberexpressions
 
 import (
+	"encoding/json"
+	"fmt"
 	"github.com/stretchr/testify/require"
+	"gopkg.in/yaml.v3"
+	"io/ioutil"
 	"testing"
 )
 
@@ -10,324 +14,35 @@ func TestCucumberExpressionParser(t *testing.T) {
 		ast, err := parse(expression)
 		require.NoError(t, err)
 		require.Equal(t, expected, ast)
+		require.Equal(t, expected, ast)
+	}
+	var assertThrows = func(t *testing.T, expression string, expected string) {
+		_, err := parse(expression)
+		require.Error(t, err)
+		require.Equal(t, expected, err.Error())
 	}
 
-	t.Run("empty string", func(t *testing.T) {
-		assertAst(t, "", node{
-			expressionNode, -1, -1, "",
-			[]node{},
+	directory := "../java/testdata/ast/"
+	files, err := ioutil.ReadDir(directory)
+	require.NoError(t, err)
+
+	for _, file := range files {
+		contents, err := ioutil.ReadFile(directory + file.Name())
+		require.NoError(t, err)
+		t.Run(fmt.Sprintf("%s", file.Name()), func(t *testing.T) {
+			var expectation expectation
+			err = yaml.Unmarshal(contents, &expectation)
+			require.NoError(t, err)
+
+			if expectation.Exception == "" {
+				var node node
+				err = json.Unmarshal([]byte(expectation.Expected), &node)
+				require.NoError(t, err)
+				assertAst(t, expectation.Expression, node)
+			} else {
+				assertThrows(t, expectation.Expression, expectation.Exception)
+			}
 		})
-	})
-
-	t.Run("phrase", func(t *testing.T) {
-		assertAst(t, "three blind mice", node{
-			expressionNode, -1, -1, "",
-			[]node{
-				{textNode, -1, -1, "three", []node{}},
-				{textNode, -1, -1, " ", []node{}},
-				{textNode, -1, -1, "blind", []node{}},
-				{textNode, -1, -1, " ", []node{}},
-				{textNode, -1, -1, "mice", []node{}},
-			},
-		})
-	})
-
-	t.Run("optional", func(t *testing.T) {
-		assertAst(t, "(blind)", node{
-			expressionNode, -1, -1, "",
-			[]node{
-				{optionalNode,
-					-1,
-					-1,
-					"",
-					[]node{
-						{textNode, -1, -1, "blind", []node{}},
-					},
-				},
-			},
-		})
-	})
-
-	t.Run("parameter", func(t *testing.T) {
-		assertAst(t, "{string}", node{
-			expressionNode, -1, -1, "",
-			[]node{
-				{parameterNode, -1, -1,
-					"",
-					[]node{
-						{textNode, -1, -1, "string", []node{}},
-					},
-				},
-			},
-		})
-	})
-
-	t.Run("anonymous parameter", func(t *testing.T) {
-		assertAst(t, "{}", node{
-			expressionNode, -1, -1, "",
-			[]node{
-				{parameterNode, -1, -1, "", []node{}},
-			},
-		})
-	})
-
-	t.Run("optional phrase", func(t *testing.T) {
-		assertAst(t, "three (blind) mice", node{
-			expressionNode, -1, -1, "",
-			[]node{
-				{textNode, -1, -1, "three", []node{}},
-				{textNode, -1, -1, " ", []node{}},
-				{optionalNode, -1, -1, "", []node{
-					{textNode, -1, -1, "blind", []node{}},
-				}},
-				{textNode, -1, -1, " ", []node{}},
-				{textNode, -1, -1, "mice", []node{}},
-			},
-		})
-	})
-
-	t.Run("slash", func(t *testing.T) {
-		assertAst(t, "\\", node{
-			expressionNode, -1, -1, "",
-			[]node{
-				{textNode, -1, -1, "\\", []node{}},
-			},
-		})
-	})
-
-	t.Run("opening brace", func(t *testing.T) {
-		assertAst(t, "{", node{
-			expressionNode, -1, -1, "",
-			[]node{
-				{textNode, -1, -1, "{", []node{}},
-			},
-		})
-	})
-
-	t.Run("unfinished parameter", func(t *testing.T) {
-		assertAst(t, "{string", node{
-			expressionNode, -1, -1, "",
-			[]node{
-				{textNode, -1, -1, "{", []node{}},
-				{textNode, -1, -1, "string", []node{}},
-			},
-		})
-	})
-
-	t.Run("opening parenthesis", func(t *testing.T) {
-		assertAst(t, "(", node{
-			expressionNode, -1, -1, "",
-			[]node{
-				{textNode, -1, -1, "(", []node{}},
-			},
-		})
-	})
-
-	t.Run("escaped opening parenthesis", func(t *testing.T) {
-		assertAst(t, "\\(", node{
-			expressionNode, -1, -1, "",
-			[]node{
-				{textNode, -1, -1, "(", []node{}},
-			},
-		})
-	})
-
-	t.Run("escaped optional phrase", func(t *testing.T) {
-		assertAst(t, "three \\(blind) mice", node{
-			expressionNode, -1, -1, "",
-			[]node{
-				{textNode, -1, -1, "three", []node{}},
-				{textNode, -1, -1, " ", []node{}},
-				{textNode, -1, -1, "(", []node{}},
-				{textNode, -1, -1, "blind", []node{}},
-				{textNode, -1, -1, ")", []node{}},
-				{textNode, -1, -1, " ", []node{}},
-				{textNode, -1, -1, "mice", []node{}},
-			},
-		})
-	})
-
-	t.Run("escaped optional followed by optional", func(t *testing.T) {
-		assertAst(t, "three \\((very) blind) mice", node{
-			expressionNode, -1, -1, "",
-
-			[]node{
-				{textNode, -1, -1, "three", []node{}},
-				{textNode, -1, -1, " ", []node{}},
-				{textNode, -1, -1, "(", []node{}},
-				{optionalNode, -1, -1, "", []node{
-					{textNode, -1, -1, "very", []node{}},
-				}},
-				{textNode, -1, -1, " ", []node{}},
-				{textNode, -1, -1, "blind", []node{}},
-				{textNode, -1, -1, ")", []node{}},
-				{textNode, -1, -1, " ", []node{}},
-				{textNode, -1, -1, "mice", []node{}},
-			},
-		})
-	})
-
-	t.Run("optional containing escaped optional", func(t *testing.T) {
-		assertAst(t, "three ((very\\) blind) mice", node{
-			expressionNode, -1, -1, "",
-
-			[]node{
-				{textNode, -1, -1, "three", []node{}},
-				{textNode, -1, -1, " ", []node{}},
-				{optionalNode, -1, -1, "", []node{
-					{textNode, -1, -1, "(", []node{}},
-					{textNode, -1, -1, "very", []node{}},
-					{textNode, -1, -1, ")", []node{}},
-					{textNode, -1, -1, " ", []node{}},
-					{textNode, -1, -1, "blind", []node{}},
-				}},
-				{textNode, -1, -1, " ", []node{}},
-				{textNode, -1, -1, "mice", []node{}},
-			},
-		})
-	})
-
-	t.Run("alternation", func(t *testing.T) {
-		assertAst(t, "mice/rats", node{
-			expressionNode, -1, -1, "",
-
-			[]node{
-				{alternationNode, -1, -1, "",
-					[]node{
-						{alternativeNode, -1, -1, "", []node{
-							{textNode, -1, -1, "mice", []node{}},
-						}},
-						{alternativeNode, -1, -1, "", []node{
-							{textNode, -1, -1, "rats", []node{}},
-						}},
-					},
-				},
-			},
-		})
-	})
-
-	t.Run("escaped alternation", func(t *testing.T) {
-		assertAst(t, "mice\\/rats", node{
-			expressionNode, -1, -1, "",
-
-			[]node{
-				{textNode, -1, -1, "mice", []node{}},
-				{textNode, -1, -1, "/", []node{}},
-				{textNode, -1, -1, "rats", []node{}},
-			},
-		})
-	})
-
-	t.Run("alternation phrase", func(t *testing.T) {
-		assertAst(t, "three hungry/blind mice", node{
-			expressionNode, -1, -1, "",
-
-			[]node{
-				{textNode, -1, -1, "three", []node{}},
-				{textNode, -1, -1, " ", []node{}},
-				{alternationNode, -1, -1, "", []node{
-					{alternativeNode, -1, -1, "", []node{
-						{textNode, -1, -1, "hungry", []node{}},
-					}},
-					{alternativeNode, -1, -1, "", []node{
-						{textNode, -1, -1, "blind", []node{}},
-					}},
-				}},
-				{textNode, -1, -1, " ", []node{}},
-				{textNode, -1, -1, "mice", []node{}},
-			},
-		})
-	})
-
-	t.Run("alternation with whitespace", func(t *testing.T) {
-		assertAst(t, "\\ three\\ hungry/blind\\ mice\\ ", node{
-			expressionNode, -1, -1, "",
-
-			[]node{
-				{alternationNode, -1, -1, "", []node{
-					{alternativeNode, -1, -1, "", []node{
-						{textNode, -1, -1, " ", []node{}},
-						{textNode, -1, -1, "three", []node{}},
-						{textNode, -1, -1, " ", []node{}},
-						{textNode, -1, -1, "hungry", []node{}},
-					}},
-					{alternativeNode, -1, -1, "", []node{
-						{textNode, -1, -1, "blind", []node{}},
-						{textNode, -1, -1, " ", []node{}},
-						{textNode, -1, -1, "mice", []node{}},
-						{textNode, -1, -1, " ", []node{}},
-					}},
-				}},
-			},
-		})
-	})
-
-	t.Run("alternation with unused end optional", func(t *testing.T) {
-		assertAst(t, "three )blind\\ mice/rats", node{
-			expressionNode, -1, -1, "",
-
-			[]node{
-				{textNode, -1, -1, "three", []node{}},
-				{textNode, -1, -1, " ", []node{}},
-				{alternationNode, -1, -1, "", []node{
-					{alternativeNode, -1, -1, "", []node{
-						{textNode, -1, -1, ")", []node{}},
-						{textNode, -1, -1, "blind", []node{}},
-						{textNode, -1, -1, " ", []node{}},
-						{textNode, -1, -1, "mice", []node{}},
-					}},
-					{alternativeNode, -1, -1, "", []node{
-						{textNode, -1, -1, "rats", []node{}},
-					}},
-				}},
-			},
-		})
-	})
-
-	t.Run("alternation with unused start optional", func(t *testing.T) {
-		assertAst(t, "three blind\\ mice/rats(", node{
-			expressionNode, -1, -1, "",
-
-			[]node{
-				{textNode, -1, -1, "three", []node{}},
-				{textNode, -1, -1, " ", []node{}},
-				{alternationNode, -1, -1, "", []node{
-					{alternativeNode, -1, -1, "", []node{
-						{textNode, -1, -1, "blind", []node{}},
-						{textNode, -1, -1, " ", []node{}},
-						{textNode, -1, -1, "mice", []node{}},
-					}},
-					{alternativeNode, -1, -1, "", []node{
-						{textNode, -1, -1, "rats", []node{}},
-						{textNode, -1, -1, "(", []node{}},
-					}},
-				}},
-			},
-		})
-	})
-
-	t.Run("alternation with unused start optional", func(t *testing.T) {
-		assertAst(t, "three blind\\ rat/cat(s)", node{
-			expressionNode, -1, -1, "",
-
-			[]node{
-				{textNode, -1, -1, "three", []node{}},
-				{textNode, -1, -1, " ", []node{}},
-				{alternationNode, -1, -1, "", []node{
-					{alternativeNode, -1, -1, "", []node{
-						{textNode, -1, -1, "blind", []node{}},
-						{textNode, -1, -1, " ", []node{}},
-						{textNode, -1, -1, "rat", []node{}},
-					}},
-					{alternativeNode, -1, -1, "", []node{
-						{textNode, -1, -1, "cat", []node{}},
-						{optionalNode, -1, -1, "", []node{
-							{textNode, -1, -1, "s", []node{}},
-						}},
-					}},
-				}},
-			},
-		})
-	})
+	}
 
 }

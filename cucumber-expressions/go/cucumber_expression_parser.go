@@ -5,7 +5,7 @@ package cucumberexpressions
  */
 var textParser = func(tokens []token, current int) (int, node) {
 	token := tokens[current]
-	return 1, node{textNode, token.Start, token.End, token.Text, []node{}}
+	return 1, node{textNode, token.Start, token.End, token.Text, nil}
 }
 
 /*
@@ -36,7 +36,7 @@ var alternativeSeparatorParser = func(tokens []token, current int) (int, node) {
 		return 0, nullNode
 	}
 	token := tokens[current]
-	return 1, node{alternativeNode, token.Start, token.End, token.Text, []node{}}
+	return 1, node{alternativeNode, token.Start, token.End, token.Text, nil}
 }
 
 var alternativeParsers = []parser{
@@ -60,7 +60,7 @@ var alternationParser = func(tokens []token, current int) (int, node) {
 	consumed, subAst := parseTokensUntil(alternativeParsers, tokens, current, whiteSpace, endOfLine)
 	var contains = func(s []node, nodeType nodeType) bool {
 		for _, a := range s {
-			if a.nodeType == nodeType {
+			if a.NodeType == nodeType {
 				return true
 			}
 		}
@@ -73,7 +73,7 @@ var alternationParser = func(tokens []token, current int) (int, node) {
 
 	// Does not consume right hand boundary token
 	start := tokens[current].Start
-	end := tokens[subCurrent].End
+	end := tokens[subCurrent].Start
 	return consumed, node{alternationNode, start, end, "", splitAlternatives(start, end, subAst)}
 }
 
@@ -183,7 +183,7 @@ func splitAlternatives(start int, end int, alternation []node) []node {
 	alternatives := make([][]node, 0)
 	alternative := make([]node, 0)
 	for _, n := range alternation {
-		if n.nodeType == alternativeNode {
+		if n.NodeType == alternativeNode {
 			separators = append(separators, n)
 			alternatives = append(alternatives, alternative)
 			alternative = make([]node, 0)
@@ -201,14 +201,14 @@ func createAlternativeNodes(start int, end int, separators []node, alternatives 
 	for i, n := range alternatives {
 		if i == 0 {
 			rightSeparator := separators[i]
-			nodes = append(nodes, node{alternativeNode, start, rightSeparator.start, "", n})
+			nodes = append(nodes, node{alternativeNode, start, rightSeparator.Start, "", n})
 		} else if i == len(alternatives)-1 {
 			leftSeparator := separators[i-1]
-			nodes = append(nodes, node{alternativeNode, leftSeparator.end, end, "", n})
+			nodes = append(nodes, node{alternativeNode, leftSeparator.End, end, "", n})
 		} else {
-			rightSeparator := separators[i-1]
-			leftSeparator := separators[i]
-			nodes = append(nodes, node{alternativeNode, leftSeparator.end, rightSeparator.start, "", n})
+			leftSeparator := separators[i-1]
+			rightSeparator := separators[i]
+			nodes = append(nodes, node{alternativeNode, leftSeparator.End, rightSeparator.Start, "", n})
 		}
 	}
 	return nodes

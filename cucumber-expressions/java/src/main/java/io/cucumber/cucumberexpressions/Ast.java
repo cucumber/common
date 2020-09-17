@@ -36,10 +36,6 @@ final class Ast {
             this(type, start, end, null, token);
         }
 
-        Node(Type type, int start, int end, Node... nodes) {
-            this(type, start, end, asList(nodes));
-        }
-
         Node(Type type, int start, int end, List<Node> nodes) {
             this(type, start, end, nodes, null);
         }
@@ -105,11 +101,12 @@ final class Ast {
                     .append(end);
 
             if (token != null) {
-                sb.append(", \"token\": \"").append(token).append("\"");
+                sb.append(", \"token\": \"").append(token.replaceAll("\\\\", "\\\\\\\\")).append("\"");
             }
 
-            if (nodes != null && !nodes.isEmpty()) {
+            if (nodes != null) {
                 sb.append(", \"nodes\": ");
+                if (!nodes.isEmpty()) {
                 StringBuilder padding = new StringBuilder();
                 for (int i = 0; i < depth; i++) {
                     padding.append("  ");
@@ -117,6 +114,10 @@ final class Ast {
                 sb.append(nodes.stream()
                         .map(node -> node.toString(depth + 1))
                         .collect(joining(",\n", "[\n", "\n" +padding + "]")));
+
+                } else {
+                    sb.append("[]");
+                }
             }
             sb.append("}");
             return sb;
