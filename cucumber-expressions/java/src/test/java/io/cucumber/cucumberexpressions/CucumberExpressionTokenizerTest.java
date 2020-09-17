@@ -6,9 +6,11 @@ import org.junit.jupiter.params.converter.ConvertWith;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import java.io.IOException;
-import java.nio.file.DirectoryStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import static java.nio.file.Files.newDirectoryStream;
@@ -20,8 +22,11 @@ class CucumberExpressionTokenizerTest {
 
     private final CucumberExpressionTokenizer tokenizer = new CucumberExpressionTokenizer();
 
-    private static DirectoryStream<Path> test() throws IOException {
-        return newDirectoryStream(Paths.get("testdata", "tokens")) ;
+    private static List<Path> test() throws IOException {
+        List<Path> paths = new ArrayList<>();
+        newDirectoryStream(Paths.get("testdata", "tokens")).forEach(paths::add);
+        paths.sort(Comparator.naturalOrder());
+        return paths;
     }
 
     @ParameterizedTest

@@ -360,20 +360,6 @@ func TestCucumberExpression(t *testing.T) {
 		)
 	})
 
-	t.Run("does not allow text/parameter type alternation", func(t *testing.T) {
-		parameterTypeRegistry := NewParameterTypeRegistry()
-		_, err := NewCucumberExpression("x/{int}", parameterTypeRegistry)
-		require.Error(t, err)
-		require.Equal(t, "Parameter types cannot be alternative: x/{int}", err.Error())
-	})
-
-	t.Run("does not allow parameter type/text alternation", func(t *testing.T) {
-		parameterTypeRegistry := NewParameterTypeRegistry()
-		_, err := NewCucumberExpression("{int}/x", parameterTypeRegistry)
-		require.Error(t, err)
-		require.Equal(t, "Parameter types cannot be alternative: {int}/x", err.Error())
-	})
-
 	t.Run("returns UndefinedParameterTypeExpression for unknown parameter", func(t *testing.T) {
 		parameterTypeRegistry := NewParameterTypeRegistry()
 		_, err := NewCucumberExpression("{unknown}", parameterTypeRegistry)

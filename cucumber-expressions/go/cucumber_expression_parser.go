@@ -47,17 +47,18 @@ var alternativeParsers = []parser{
 }
 
 /*
- * alternation := (?<=boundary) + alternative* + ( '/' + alternative* )+ + (?=boundary)
- * boundary := whitespace | ^ | $
+ * alternation := (?<=left-boundary) + alternative* + ( '/' + alternative* )+ + (?=right-boundary)
+ * left-boundary := whitespace | } | ^
+ * right-boundary := whitespace | { | $
  * alternative: = optional | parameter | text
  */
 var alternationParser = func(tokens []token, current int) (int, node, error) {
 	previous := current - 1
-	if !lookingAtAny(tokens, previous, startOfLine, whiteSpace) {
+	if !lookingAtAny(tokens, previous, startOfLine, whiteSpace, endParameter) {
 		return 0, nullNode, nil
 	}
 
-	consumed, subAst, err := parseTokensUntil(alternativeParsers, tokens, current, whiteSpace, endOfLine)
+	consumed, subAst, err := parseTokensUntil(alternativeParsers, tokens, current, whiteSpace, endOfLine,  beginParameter)
 	if err != nil {
 		return 0, nullNode, err
 	}
