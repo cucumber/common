@@ -59,3 +59,6 @@ other BDD tools, such as [Turnip](https://github.com/jnicklas/turnip),
 Big thanks to Jonas Nicklas, Konstantin Kudryashov and Jens Engel for
 implementing those libraries.
 
+The [Tiny-Compiler-Parser tutorial](https://blog.klipse.tech/javascript/2017/02/08/tiny-compiler-parser.html)
+by [Yehonathan Sharvit](https://github.com/viebel) inspired the design of the
+Cucumber expression parser. 
