@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+* Elixir implementation
+  ([#1175](https://github.com/cucumber/cucumber/pull/1175)
+   [WannesFransen1994])
+
 ### Changed
 
 ### Deprecated
