@@ -389,7 +389,7 @@ func TestCucumberExpression(t *testing.T) {
 	})
 
 	t.Run("escapes special characters", func(t *testing.T) {
-		for _, char := range []string{"\\", "[", "]", "^", "$", ".", "|", "?", "*", "+"} {
+		for _, char := range []string{"[", "]", "^", "$", ".", "|", "?", "*", "+"} {
 			t.Run(fmt.Sprintf("escapes %s", char), func(t *testing.T) {
 				require.Equal(
 					t,
@@ -401,6 +401,18 @@ func TestCucumberExpression(t *testing.T) {
 					[]interface{}{800},
 				)
 			})
+			t.Run("escapes \\", func(t *testing.T) {
+				require.Equal(
+					t,
+					MatchCucumberExpression(
+						t,
+						"I have {int} cuke(s) and \\\\",
+						"I have 800 cukes and \\",
+					),
+					[]interface{}{800},
+				)
+			})
+
 		}
 
 		t.Run("escapes .", func(t *testing.T) {
