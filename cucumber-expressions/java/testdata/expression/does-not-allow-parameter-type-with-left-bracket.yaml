@@ -2,4 +2,9 @@ expression: |-
   {[string]}
 text: something
 exception: |-
-  Illegal character '[' in parameter name {[string]}.
+  This Cucumber Expression has a problem at column 1:
+
+  {[string]}
+  ^--------^
+  Parameter names may not contain '[]()$.|?*+'.
+  Did you mean to use a regular expression?

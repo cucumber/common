@@ -13,6 +13,7 @@ import static io.cucumber.cucumberexpressions.Ast.Node.Type.PARAMETER_NODE;
 import static io.cucumber.cucumberexpressions.Ast.Node.Type.TEXT_NODE;
 import static io.cucumber.cucumberexpressions.CucumberExpressionException.createAlternativeIsEmpty;
 import static io.cucumber.cucumberexpressions.CucumberExpressionException.createAlternativeMayExclusivelyContainOptionals;
+import static io.cucumber.cucumberexpressions.CucumberExpressionException.createInvalidParameterTypeName;
 import static io.cucumber.cucumberexpressions.CucumberExpressionException.createOptionalMayNotBeEmpty;
 import static io.cucumber.cucumberexpressions.CucumberExpressionException.createParameterIsNotAllowedInOptional;
 import static java.util.stream.Collectors.joining;
@@ -88,8 +89,7 @@ public final class CucumberExpression implements Expression {
     }
 
     private String rewriteParameter(Node node) {
-        String name = node.text();
-        ParameterType.checkParameterTypeName(name);
+        String name = assertValidParameterTypeName(node, astNode -> createInvalidParameterTypeName(astNode, source));
         ParameterType<?> parameterType = parameterTypeRegistry.lookupByTypeName(name);
         if (parameterType == null) {
             throw new UndefinedParameterTypeException(name);
@@ -103,10 +103,19 @@ public final class CucumberExpression implements Expression {
                 .collect(joining(")|(?:", "((?:", "))"));
     }
 
+
     private String rewriteExpression(Node node) {
         return node.nodes().stream()
                 .map(this::rewriteToRegex)
                 .collect(joining("", "^", "$"));
+    }
+
+    private String assertValidParameterTypeName(Node node, Function<Node, CucumberExpressionException> createParameterTypeWasNotValidException) {
+        String name  = node.text();
+        if (!ParameterType.isValidParameterTypeName(name)) {
+            throw createParameterTypeWasNotValidException.apply(node);
+        }
+        return name;
     }
 
     private void assertNotEmpty(Node node,

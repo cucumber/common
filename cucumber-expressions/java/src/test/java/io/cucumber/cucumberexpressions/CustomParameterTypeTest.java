@@ -75,7 +75,7 @@ public class CustomParameterTypeTest {
         );
 
         final CucumberExpressionException thrownException = assertThrows(CucumberExpressionException.class, testMethod);
-        assertThat("Unexpected message", thrownException.getMessage(), is(equalTo("Illegal character '[' in parameter name {[string]}.")));
+        assertThat(thrownException.getMessage(), is(equalTo("Illegal character in parameter name {[string]}. Parameter names may not contain '[]()$.|?*+'")));
     }
 
     @Test

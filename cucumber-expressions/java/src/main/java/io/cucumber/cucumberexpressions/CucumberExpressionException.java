@@ -89,6 +89,21 @@ public class CucumberExpressionException extends RuntimeException {
                 "If you did mean to use an '\\' you can use '\\\\' to escape it"));
     }
 
+    static CucumberExpressionException createInvalidParameterTypeName(String name) {
+        return new CucumberExpressionException(
+                "Illegal character in parameter name {" + name + "}. Parameter names may not contain '[]()$.|?*+'");
+    }
+
+    static CucumberExpressionException createInvalidParameterTypeName(Node node, String expression) {
+        return new CucumberExpressionException(message(
+                node.start(),
+                expression,
+                pointAt(node),
+                "Parameter names may not contain '[]()$.|?*+'",
+                "Did you mean to use a regular expression?"));
+    }
+
+
     private static String message(int index, String expression, StringBuilder pointer, String problem,
             String solution) {
         return thisCucumberExpressionHasAProblemAt(index) +
@@ -118,5 +133,7 @@ public class CucumberExpressionException extends RuntimeException {
         pointer.append("^");
         return pointer;
     }
+
+
 
 }
