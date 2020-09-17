@@ -3,9 +3,9 @@ package cucumberexpressions
 /*
  * text := token
  */
-var textParser = func(tokens []token, current int) (int, node) {
+var textParser = func(tokens []token, current int) (int, node, error) {
 	token := tokens[current]
-	return 1, node{textNode, token.Start, token.End, token.Text, nil}
+	return 1, node{textNode, token.Start, token.End, token.Text, nil}, nil
 }
 
 /*
@@ -31,12 +31,12 @@ var optionalParser = parseBetween(
 )
 
 // alternation := alternative* + ( '/' + alternative* )+
-var alternativeSeparatorParser = func(tokens []token, current int) (int, node) {
+var alternativeSeparatorParser = func(tokens []token, current int) (int, node, error) {
 	if !lookingAt(tokens, current, alternation) {
-		return 0, nullNode
+		return 0, nullNode, nil
 	}
 	token := tokens[current]
-	return 1, node{alternativeNode, token.Start, token.End, token.Text, nil}
+	return 1, node{alternativeNode, token.Start, token.End, token.Text, nil}, nil
 }
 
 var alternativeParsers = []parser{
@@ -51,13 +51,17 @@ var alternativeParsers = []parser{
  * boundary := whitespace | ^ | $
  * alternative: = optional | parameter | text
  */
-var alternationParser = func(tokens []token, current int) (int, node) {
+var alternationParser = func(tokens []token, current int) (int, node, error) {
 	previous := current - 1
 	if !lookingAtAny(tokens, previous, startOfLine, whiteSpace) {
-		return 0, nullNode
+		return 0, nullNode, nil
 	}
 
-	consumed, subAst := parseTokensUntil(alternativeParsers, tokens, current, whiteSpace, endOfLine)
+	consumed, subAst, err := parseTokensUntil(alternativeParsers, tokens, current, whiteSpace, endOfLine)
+	if err != nil {
+		return 0, nullNode, err
+	}
+
 	var contains = func(s []node, nodeType nodeType) bool {
 		for _, a := range s {
 			if a.NodeType == nodeType {
@@ -68,13 +72,13 @@ var alternationParser = func(tokens []token, current int) (int, node) {
 	}
 	subCurrent := current + consumed
 	if !contains(subAst, alternativeNode) {
-		return 0, nullNode
+		return 0, nullNode, nil
 	}
 
 	// Does not consume right hand boundary token
 	start := tokens[current].Start
 	end := tokens[subCurrent].Start
-	return consumed, node{alternationNode, start, end, "", splitAlternatives(start, end, subAst)}
+	return consumed, node{alternationNode, start, end, "", splitAlternatives(start, end, subAst)}, nil
 }
 
 /*
@@ -95,7 +99,10 @@ func parse(expression string) (node, error) {
 	if err != nil {
 		return nullNode, err
 	}
-	consumed, ast := cucumberExpressionParser(tokens, 0)
+	consumed, ast, err := cucumberExpressionParser(tokens, 0)
+	if err != nil {
+		return nullNode, err
+	}
 	if consumed != len(tokens) {
 		// Can't happen if configured properly
 		return nullNode, NewCucumberExpressionError("Could not parse" + expression)
@@ -103,30 +110,33 @@ func parse(expression string) (node, error) {
 	return ast, nil
 }
 
-type parser func(tokens []token, current int) (int, node)
+type parser func(tokens []token, current int) (int, node, error)
 
 func parseBetween(nodeType nodeType, beginToken tokenType, endToken tokenType, parsers ...parser) parser {
-	return func(tokens []token, current int) (int, node) {
+	return func(tokens []token, current int) (int, node, error) {
 		if !lookingAt(tokens, current, beginToken) {
-			return 0, nullNode
+			return 0, nullNode, nil
 		}
 
 		subCurrent := current + 1
-		consumed, subAst := parseTokensUntil(parsers, tokens, subCurrent, endToken)
+		consumed, subAst, err := parseTokensUntil(parsers, tokens, subCurrent, endToken)
+		if err != nil {
+			return 0, nullNode, err
+		}
 		subCurrent += consumed
 
 		// endToken not found
 		if !lookingAt(tokens, subCurrent, endToken) {
-			return 0, nullNode
+			return 0, nullNode, NewCucumberExpressionError("No end token")
 		}
 		// consumes endToken
 		start := tokens[current].Start
 		end := tokens[subCurrent].End
-		return subCurrent + 1 - current, node{nodeType, start, end, "", subAst}
+		return subCurrent + 1 - current, node{nodeType, start, end, "", subAst}, nil
 	}
 }
 
-func parseTokensUntil(parsers []parser, expresion []token, startAt int, endTokens ...tokenType) (int, []node) {
+func parseTokensUntil(parsers []parser, expresion []token, startAt int, endTokens ...tokenType) (int, []node, error) {
 	ast := make([]node, 0)
 	current := startAt
 	size := len(expresion)
@@ -134,28 +144,34 @@ func parseTokensUntil(parsers []parser, expresion []token, startAt int, endToken
 		if lookingAtAny(expresion, current, endTokens...) {
 			break
 		}
-		consumed, node := parseToken(parsers, expresion, current)
+		consumed, node, err := parseToken(parsers, expresion, current)
+		if err != nil {
+			return 0, nil, nil
+		}
 		if consumed == 0 {
 			// If configured correctly this will never happen
 			// Keep to avoid infinite loops
-			break
+			return 0, nil, NewCucumberExpressionError("No eligible parsers")
 		}
 		current += consumed
 		ast = append(ast, node)
 	}
 
-	return current - startAt, ast
+	return current - startAt, ast, nil
 }
 
-func parseToken(parsers []parser, expresion []token, startAt int) (int, node) {
+func parseToken(parsers []parser, expresion []token, startAt int) (int, node, error) {
 	for _, parser := range parsers {
-		consumed, node := parser(expresion, startAt)
+		consumed, node, err := parser(expresion, startAt)
+		if err != nil {
+			return 0, nullNode, err
+		}
 		if consumed != 0 {
-			return consumed, node
+			return consumed, node, nil
 		}
 	}
 	// If configured correctly this will never happen
-	return 0, nullNode
+	return 0, nullNode, NewCucumberExpressionError("No eligible parsers")
 }
 
 func lookingAtAny(tokens []token, at int, tokenTypes ...tokenType) bool {

@@ -1,9 +1,5 @@
 package cucumberexpressions
 
-import (
-	"errors"
-)
-
 func tokenize(expression string) ([]token, error) {
 
 	tokens := make([]token, 0)
@@ -62,7 +58,7 @@ func tokenize(expression string) ([]token, error) {
 	}
 
 	if treatAsText {
-		return nil, errors.New("can't escape EOL")
+		return nil, NewCucumberExpressionError("can't escape EOL")
 	}
 	token := token{"", endOfLine, len(runes), len(runes)}
 	tokens = append(tokens, token)
@@ -76,6 +72,6 @@ func tokenTypeOf(r rune, treatAsText bool) (tokenType, error) {
 	if canEscape(r) {
 		return text, nil
 	}
-	return startOfLine, errors.New("can't escape")
+	return startOfLine, NewCucumberExpressionError("can't escape")
 
 }
