@@ -27,14 +27,14 @@ func tokenize(expression string) ([]token, error) {
 
 	tokens = append(tokens, token{"", startOfLine, 0, 0})
 
-	for _, rune := range runes {
-		if !treatAsText && isEscapeCharacter(rune) {
+	for _, r := range runes {
+		if !treatAsText && isEscapeCharacter(r) {
 			escaped++
 			treatAsText = true
 			continue
 		}
 
-		currentTokenType, err := tokenTypeOf(rune, treatAsText)
+		currentTokenType, err := tokenTypeOf(r, treatAsText)
 		if err != nil {
 			return nil, err
 		}
@@ -43,11 +43,11 @@ func tokenize(expression string) ([]token, error) {
 		if previousTokenType != startOfLine && (currentTokenType != previousTokenType || (currentTokenType != whiteSpace && currentTokenType != text)) {
 			token := convertBufferToToken(previousTokenType)
 			previousTokenType = currentTokenType
-			buffer = append(buffer, rune)
+			buffer = append(buffer, r)
 			tokens = append(tokens, token)
 		} else {
 			previousTokenType = currentTokenType
-			buffer = append(buffer, rune)
+			buffer = append(buffer, r)
 		}
 
 	}
