@@ -94,6 +94,12 @@ public class CucumberExpressionException extends RuntimeException {
                 "Illegal character in parameter name {" + name + "}. Parameter names may not contain '[]()$.|?*+'");
     }
 
+    /**
+     * Not very clear, but this message has to be language independent
+     * Other languages have dedicated syntax for writing down regular expressions
+     *
+     * @see ExpressionFactory
+     */
     static CucumberExpressionException createInvalidParameterTypeName(Node node, String expression) {
         return new CucumberExpressionException(message(
                 node.start(),
@@ -102,7 +108,6 @@ public class CucumberExpressionException extends RuntimeException {
                 "Parameter names may not contain '[]()$.|?*+'",
                 "Did you mean to use a regular expression?"));
     }
-
 
     private static String message(int index, String expression, StringBuilder pointer, String problem,
             String solution) {
@@ -133,7 +138,5 @@ public class CucumberExpressionException extends RuntimeException {
         pointer.append("^");
         return pointer;
     }
-
-
 
 }

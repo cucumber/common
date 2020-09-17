@@ -10,6 +10,9 @@ import java.util.regex.PatternSyntaxException;
  * Creates a {@link CucumberExpression} or {@link RegularExpression} from a {@link String}
  * using heuristics. This is particularly useful for languages that don't have a
  * literal syntax for regular expressions. In Java, a regular expression has to be represented as a String.
+ *
+ *  A string that starts with `^` and/or ends with `$` is considered a regular expression.
+ *  Everything else is considered a Cucumber expression.
  */
 @API(status = API.Status.STABLE)
 public final class ExpressionFactory {
