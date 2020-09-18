@@ -31,7 +31,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class CucumberExpressionTest {
     private final ParameterTypeRegistry parameterTypeRegistry = new ParameterTypeRegistry(Locale.ENGLISH);
 
-    private static List<Path> test() throws IOException {
+    private static List<Path> acceptance_tests_pass() throws IOException {
         List<Path> paths = new ArrayList<>();
         newDirectoryStream(Paths.get("testdata", "expression")).forEach(paths::add);
         paths.sort(Comparator.naturalOrder());
@@ -40,7 +40,7 @@ class CucumberExpressionTest {
 
     @ParameterizedTest
     @MethodSource
-    void test(@ConvertWith(FileToExpectationConverter.class) Expectation expectation) {
+    void acceptance_tests_pass(@ConvertWith(FileToExpectationConverter.class) Expectation expectation) {
         if (expectation.getException() == null) {
             CucumberExpression expression = new CucumberExpression(expectation.getExpression(), parameterTypeRegistry);
             List<Argument<?>> match = expression.match(expectation.getText());

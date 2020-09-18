@@ -10,13 +10,13 @@ import (
 )
 
 func TestCucumberExpressionParser(t *testing.T) {
-	var assertAst = func(t *testing.T, expression string, expected node) {
+	var assertAst = func(t *testing.T, expected node, expression string) {
 		ast, err := parse(expression)
 		require.NoError(t, err)
 		require.Equal(t, expected, ast)
 		require.Equal(t, expected, ast)
 	}
-	var assertThrows = func(t *testing.T, expression string, expected string) {
+	var assertThrows = func(t *testing.T, expected string, expression string) {
 		_, err := parse(expression)
 		require.Error(t, err)
 		require.Equal(t, expected, err.Error())
@@ -38,9 +38,9 @@ func TestCucumberExpressionParser(t *testing.T) {
 				var node node
 				err = json.Unmarshal([]byte(expectation.Expected), &node)
 				require.NoError(t, err)
-				assertAst(t, expectation.Expression, node)
+				assertAst(t, node, expectation.Expression)
 			} else {
-				assertThrows(t, expectation.Expression, expectation.Exception)
+				assertThrows(t, expectation.Exception, expectation.Expression)
 			}
 		})
 	}

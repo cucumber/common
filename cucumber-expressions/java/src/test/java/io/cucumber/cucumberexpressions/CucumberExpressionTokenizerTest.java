@@ -22,7 +22,7 @@ class CucumberExpressionTokenizerTest {
 
     private final CucumberExpressionTokenizer tokenizer = new CucumberExpressionTokenizer();
 
-    private static List<Path> test() throws IOException {
+    private static List<Path> acceptance_tests_pass() throws IOException {
         List<Path> paths = new ArrayList<>();
         newDirectoryStream(Paths.get("testdata", "tokens")).forEach(paths::add);
         paths.sort(Comparator.naturalOrder());
@@ -31,7 +31,7 @@ class CucumberExpressionTokenizerTest {
 
     @ParameterizedTest
     @MethodSource
-    void test(@ConvertWith(FileToExpectationConverter.class) Expectation expectation) {
+    void acceptance_tests_pass(@ConvertWith(FileToExpectationConverter.class) Expectation expectation) {
         if (expectation.getException() == null) {
             String tokens = tokenizer
                     .tokenize(expectation.getExpression())
