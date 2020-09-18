@@ -7,7 +7,7 @@ PATH := $(PATH):$(GOPATH)/bin
 GO_SOURCE_FILES := $(shell find . -name "*.go" | sort)
 LIBNAME := $(shell basename $$(dirname $$(pwd)))
 EXE_BASE_NAME := cucumber-$(LIBNAME)
-GOX_LDFLAGS := "-X main.version=${NEW_VERSION}"
+LDFLAGS := "-X main.version=${NEW_VERSION}"
 EXES := $(shell find dist -name '$(EXE_BASE_NAME)-*')
 UPX_EXES = $(patsubst dist/$(EXE_BASE_NAME)-%,dist_compressed/$(EXE_BASE_NAME)-%,$(EXES))
 # Determine if we're on linux or osx (ignoring other OSes as we're not building on them)
@@ -42,7 +42,7 @@ endif
 .deps:
 	touch $@
 
-dist: $(EXE) 
+dist: $(EXE)
 ifndef NO_UPX_COMPRESSION
 	make .dist-compressed
 endif
@@ -57,14 +57,14 @@ $(EXE): $(PLATFORMS)
 else
 $(EXE): .deps $(GO_SOURCE_FILES)
 	# Compile executable for the local platform only
-	go build -ldflags $(GOX_LDFLAGS) -o $@ ./cmd
+	go build -ldflags $(LDFLAGS) -o $@ ./cmd
 endif
 
 $(PLATFORMS): .deps $(GO_SOURCE_FILES) supported-go-version
 	mkdir -p dist
 	# Cross-compile executable for many platforms
 	echo "Building $(X-OS)-$(X-ARCH)"
-	GOOS=$(X-OS) GOARCH=$(X-ARCH) go build -buildmode=exe -ldflags $(GOX_LDFLAGS) -o "dist/$(EXE_BASE_NAME)-$(X-OS)-$(X-ARCH)" -a ./cmd
+	GOOS=$(X-OS) GOARCH=$(X-ARCH) go build -buildmode=exe -ldflags $(LDFLAGS) -o "dist/$(EXE_BASE_NAME)-$(X-OS)-$(X-ARCH)" -a ./cmd
 .PHONY: $(PLATFORMS)
 
 supported-go-version: #Determine if we're on a supported go platform
