@@ -1,5 +1,3 @@
-github.com/aslakhellesoy/gox v1.0.100 h1:IP+x+v9Wya7OHP1OmaetTFZkL4OYY2/9t+7Ndc61mMo=
-github.com/aslakhellesoy/gox v1.0.100/go.mod h1:AJl542QsKKG96COVsv0N74HHzVQgDIQPceVUh1aeU2M=
 github.com/creack/pty v1.1.9/go.mod h1:oKZEueFk5CKHvIhNR5MUki03XCEU+Q6VDXinZuGJ33E=
 github.com/cucumber/messages-go/v13 v13.0.1 h1:SrZtMiFicWs/7QbhP1hM1bDOzVgIlvlzr+gCIjGt9ho=
 github.com/cucumber/messages-go/v13 v13.0.1/go.mod h1:znIU7rwJ8qsulb0jQkv6utAHEPR6CFUFM6//UQp1crQ=
