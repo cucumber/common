@@ -7,13 +7,6 @@ import (
 	"strings"
 )
 
-const alternativesMayNotBeEmpty = "Alternative may not be empty: %s"
-const parameterTypesCanNotBeAlternative = "Parameter types cannot be alternative: %s"
-const parameterTypesCanNotBeOptional = "Parameter types cannot be optional: %s"
-const alternativeMayNotExclusivelyContainOptionals = "Alternative may not exclusively contain optionals: %s"
-const couldNotRewrite = "Could not rewrite %s"
-const optionalMayNotBeEmpty = "Optional may not be empty: %s"
-
 var escapeRegexp = regexp.MustCompile(`([\\^\[({$.|?*+})\]])`)
 
 type CucumberExpression struct {
@@ -54,7 +47,8 @@ func (c *CucumberExpression) rewriteNodeToRegex(node node) (string, error) {
 	case expressionNode:
 		return c.rewriteExpression(node)
 	default:
-		return "", NewCucumberExpressionError(fmt.Sprintf(couldNotRewrite, c.source))
+		// Can't happen as long as the switch case is exhaustive
+		return "", NewCucumberExpressionError(fmt.Sprintf("Could not rewrite %s", c.source))
 	}
 }
 
@@ -63,33 +57,47 @@ func (c *CucumberExpression) processEscapes(expression string) string {
 }
 
 func (c *CucumberExpression) rewriteOptional(node node) (string, error) {
-	err := c.assertNoParameters(node, parameterTypesCanNotBeOptional)
+	err := c.assertNoParameters(node, c.createParameterIsNotAllowedInOptional())
 	if err != nil {
 		return "", err
 	}
-	err = c.assertNotEmpty(node, optionalMayNotBeEmpty)
+	err = c.assertNotEmpty(node, c.createOptionalMayNotBeEmpty())
 	if err != nil {
 		return "", err
 	}
 	return c.rewriteNodesToRegex(node.Nodes, "", "(?:", ")?")
 }
 
+func (c *CucumberExpression) createParameterIsNotAllowedInOptional() func(node) error {
+	return func(node node) error {
+		return createParameterIsNotAllowedInOptional(node, c.source)
+	}
+}
+
+func (c *CucumberExpression) createOptionalMayNotBeEmpty() func(node) error {
+	return func(node node) error {
+		return createOptionalMayNotBeEmpty(node, c.source)
+	}
+}
+
 func (c *CucumberExpression) rewriteAlternation(node node) (string, error) {
 	// Make sure the alternative parts aren't empty and don't contain parameter types
 	for _, alternative := range node.Nodes {
 		if len(alternative.Nodes) == 0 {
-			return "", NewCucumberExpressionError(fmt.Sprintf(alternativesMayNotBeEmpty, c.source))
+			return "", createAlternativeMayNotBeEmpty(alternative, c.source)
 		}
-		err := c.assertNoParameters(alternative, parameterTypesCanNotBeAlternative)
-		if err != nil {
-			return "", err
-		}
-		err = c.assertNotEmpty(alternative, alternativeMayNotExclusivelyContainOptionals)
+		err := c.assertNotEmpty(alternative, c.createAlternativeMayNotExclusivelyContainOptionals())
 		if err != nil {
 			return "", err
 		}
 	}
 	return c.rewriteNodesToRegex(node.Nodes, "|", "(?:", ")")
+}
+
+func (c *CucumberExpression) createAlternativeMayNotExclusivelyContainOptionals() func(node) error {
+	return func(node node) error {
+		return createAlternativeMayNotExclusivelyContainOptionals(node, c.source)
+	}
 }
 
 func (c *CucumberExpression) rewriteAlternative(node node) (string, error) {
@@ -109,16 +117,13 @@ func (c *CucumberExpression) rewriteParameter(node node) (string, error) {
 
 		return fmt.Sprintf("(%s)", strings.Join(captureGroups, "|"))
 	}
-
 	typeName := node.text()
-	err := CheckParameterTypeName(typeName)
-	if err != nil {
-		return "", err
+	if isValidParameterTypeName(typeName) {
+		return "", createInvalidParameterTypeNameInNode(node, c.source)
 	}
 	parameterType := c.parameterTypeRegistry.LookupByTypeName(typeName)
 	if parameterType == nil {
-		err = NewUndefinedParameterTypeError(typeName)
-		return "", err
+		return "", createUndefinedParameterType(node, c.source, typeName)
 	}
 	c.parameterTypes = append(c.parameterTypes, parameterType)
 	return buildCaptureRegexp(parameterType.regexps), nil
@@ -145,19 +150,19 @@ func (c *CucumberExpression) rewriteNodesToRegex(nodes []node, delimiter string,
 	return builder.String(), nil
 }
 
-func (c *CucumberExpression) assertNotEmpty(node node, message string) error {
+func (c *CucumberExpression) assertNotEmpty(node node, createNodeWasNotEmptyError func(node) error) error {
 	for _, node := range node.Nodes {
 		if node.NodeType == textNode {
 			return nil
 		}
 	}
-	return NewCucumberExpressionError(fmt.Sprintf(message, c.source))
+	return createNodeWasNotEmptyError(node)
 }
 
-func (c *CucumberExpression) assertNoParameters(node node, message string) error {
+func (c *CucumberExpression) assertNoParameters(node node, createParameterIsNotAllowedInOptionalError func(node) error) error {
 	for _, node := range node.Nodes {
 		if node.NodeType == parameterNode {
-			return NewCucumberExpressionError(fmt.Sprintf(message, c.source))
+			return createParameterIsNotAllowedInOptionalError(node)
 		}
 	}
 	return nil

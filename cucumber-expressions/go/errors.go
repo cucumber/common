@@ -39,6 +39,44 @@ func createTheEndOfLineCanNotBeEscaped(expression string) error {
 	))
 }
 
+func createOptionalMayNotBeEmpty(node node, expression string) error {
+	return NewCucumberExpressionError(message(
+		node.Start,
+		expression,
+		pointAtNode(node),
+		"An optional must contain some text",
+		"If you did not mean to use an optional you can use '\\(' to escape the the '('",
+	))
+}
+func createParameterIsNotAllowedInOptional(node node, expression string) error {
+	return NewCucumberExpressionError(message(
+		node.Start,
+		expression,
+		pointAtNode(node),
+		"An optional may not contain a parameter type",
+		"If you did not mean to use an parameter type you can use '\\{' to escape the the '{'",
+	))
+}
+
+func createAlternativeMayNotBeEmpty(node node, expression string) error {
+	return NewCucumberExpressionError(message(
+		node.Start,
+		expression,
+		pointAtNode(node),
+		"Alternative may not be empty",
+		"If you did not mean to use an alternative you can use '\\/' to escape the the '/'",
+	))
+}
+func createAlternativeMayNotExclusivelyContainOptionals(node node, expression string) error {
+	return NewCucumberExpressionError(message(
+		node.Start,
+		expression,
+		pointAtNode(node),
+		"An alternative may not exclusively contain optionals",
+		"If you did not mean to use an optional you can use '\\(' to escape the the '('",
+	))
+}
+
 func createCantEscaped(expression string, index int) error {
 	return NewCucumberExpressionError(message(
 		index,
@@ -49,31 +87,59 @@ func createCantEscaped(expression string, index int) error {
 	))
 }
 
-func pointAt(index int) strings.Builder {
+func createInvalidParameterTypeName(typeName string) error {
+	return NewCucumberExpressionError("Illegal character in parameter name {" + typeName + "}. Parameter names may not contain '[]()$.|?*+'")
+}
+
+//  Not very clear, but this message has to be language independent
+func createInvalidParameterTypeNameInNode(node node, expression string) error {
+	return NewCucumberExpressionError(message(
+		node.Start,
+		expression,
+		pointAtNode(node),
+		"Parameter names may not contain '[]()$.|?*+'",
+		"Did you mean to use a regular expression?",
+	))
+}
+
+func pointAt(index int) string {
 	pointer := strings.Builder{}
 	for i := 0; i < index; i++ {
 		pointer.WriteString(" ")
 	}
 	pointer.WriteString("^")
-	return pointer
+	return pointer.String()
 }
 
-func pointAtToken(node token) strings.Builder {
-	pointer := pointAt(node.Start)
+func pointAtToken(node token) string {
+	pointer := strings.Builder{}
+	pointer.WriteString(pointAt(node.Start))
 	if node.Start+1 < node.End {
 		for i := node.Start + 1; i < node.End-1; i++ {
 			pointer.WriteString("-")
 		}
 		pointer.WriteString("^")
 	}
-	return pointer
+	return pointer.String()
 }
 
-func message(index int, expression string, pointer strings.Builder, problem string, solution string) string {
+func pointAtNode(node node) string {
+	pointer := strings.Builder{}
+	pointer.WriteString(pointAt(node.Start))
+	if node.Start+1 < node.End {
+		for i := node.Start + 1; i < node.End-1; i++ {
+			pointer.WriteString("-")
+		}
+		pointer.WriteString("^")
+	}
+	return pointer.String()
+}
+
+func message(index int, expression string, pointer string, problem string, solution string) string {
 	return thisCucumberExpressionHasAProblemAt(index) +
 		"\n" +
 		expression + "\n" +
-		pointer.String() + "\n" +
+		pointer + "\n" +
 		problem + ".\n" +
 		solution
 }
@@ -125,10 +191,19 @@ type UndefinedParameterTypeError struct {
 	s string
 }
 
-func NewUndefinedParameterTypeError(typeName string) error {
-	return &UndefinedParameterTypeError{s: fmt.Sprintf("Undefined parameter type {%s}", typeName)}
+func NewUndefinedParameterTypeError(message string) error {
+	return &UndefinedParameterTypeError{s: message}
 }
 
 func (e *UndefinedParameterTypeError) Error() string {
 	return e.s
+}
+
+func createUndefinedParameterType(node node, expression string, undefinedParameterTypeName string) error {
+	return NewUndefinedParameterTypeError(message(
+		node.Start,
+		expression,
+		pointAtNode(node),
+		"Undefined parameter type '"+undefinedParameterTypeName+"'",
+		"Please register a ParameterType for '"+undefinedParameterTypeName+"'"))
 }

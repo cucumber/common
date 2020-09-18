@@ -55,7 +55,7 @@ func TestCucumberExpression(t *testing.T) {
 				if expectation.Exception == "" {
 					assertMatches(t, expectation.Expected, expectation.Expression, expectation.Text)
 				} else {
-					assertThrows(t, expectation.Expected, expectation.Expression, expectation.Text)
+					assertThrows(t, expectation.Exception, expectation.Expression, expectation.Text)
 				}
 			})
 		}

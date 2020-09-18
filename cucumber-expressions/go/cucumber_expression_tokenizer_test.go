@@ -36,7 +36,7 @@ func TestCucumberExpressionTokenizer(t *testing.T) {
 				require.NoError(t, err)
 				assertTokenizes(t, token, expectation.Expression)
 			} else {
-				assertThrows(t, expectation.Expression, expectation.Exception)
+				assertThrows(t, expectation.Exception, expectation.Expression)
 			}
 		})
 	}

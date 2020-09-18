@@ -11,11 +11,12 @@ import java.util.regex.Pattern;
 
 import static io.cucumber.cucumberexpressions.Ast.Node.Type.PARAMETER_NODE;
 import static io.cucumber.cucumberexpressions.Ast.Node.Type.TEXT_NODE;
-import static io.cucumber.cucumberexpressions.CucumberExpressionException.createAlternativeIsEmpty;
-import static io.cucumber.cucumberexpressions.CucumberExpressionException.createAlternativeMayExclusivelyContainOptionals;
+import static io.cucumber.cucumberexpressions.CucumberExpressionException.createAlternativeMayNotBeEmpty;
+import static io.cucumber.cucumberexpressions.CucumberExpressionException.createAlternativeMayNotExclusivelyContainOptionals;
 import static io.cucumber.cucumberexpressions.CucumberExpressionException.createInvalidParameterTypeName;
 import static io.cucumber.cucumberexpressions.CucumberExpressionException.createOptionalMayNotBeEmpty;
 import static io.cucumber.cucumberexpressions.CucumberExpressionException.createParameterIsNotAllowedInOptional;
+import static io.cucumber.cucumberexpressions.ParameterType.isValidParameterTypeName;
 import static io.cucumber.cucumberexpressions.UndefinedParameterTypeException.createUndefinedParameterType;
 import static java.util.stream.Collectors.joining;
 
@@ -73,9 +74,9 @@ public final class CucumberExpression implements Expression {
         // Make sure the alternative parts aren't empty and don't contain parameter types
         for (Node alternative : node.nodes()) {
             if (alternative.nodes().isEmpty()) {
-                throw createAlternativeIsEmpty(alternative, source);
+                throw createAlternativeMayNotBeEmpty(alternative, source);
             }
-            assertNotEmpty(alternative, astNode -> createAlternativeMayExclusivelyContainOptionals(astNode, source));
+            assertNotEmpty(alternative, astNode -> createAlternativeMayNotExclusivelyContainOptionals(astNode, source));
         }
         return node.nodes()
                 .stream()
@@ -90,7 +91,10 @@ public final class CucumberExpression implements Expression {
     }
 
     private String rewriteParameter(Node node) {
-        String name = assertValidParameterTypeName(node, astNode -> createInvalidParameterTypeName(astNode, source));
+        String name = node.text();
+        if (!isValidParameterTypeName(name)) {
+            throw createInvalidParameterTypeName(node ,source);
+        }
         ParameterType<?> parameterType = parameterTypeRegistry.lookupByTypeName(name);
         if (parameterType == null) {
             throw createUndefinedParameterType(node, source, name);
@@ -109,14 +113,6 @@ public final class CucumberExpression implements Expression {
         return node.nodes().stream()
                 .map(this::rewriteToRegex)
                 .collect(joining("", "^", "$"));
-    }
-
-    private String assertValidParameterTypeName(Node node, Function<Node, CucumberExpressionException> createParameterTypeWasNotValidException) {
-        String name  = node.text();
-        if (!ParameterType.isValidParameterTypeName(name)) {
-            throw createParameterTypeWasNotValidException.apply(node);
-        }
-        return name;
     }
 
     private void assertNotEmpty(Node node,

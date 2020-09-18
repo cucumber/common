@@ -39,7 +39,7 @@ public class CucumberExpressionException extends RuntimeException {
         ));
     }
 
-    static CucumberExpressionException createAlternativeIsEmpty(Node node, String expression) {
+    static CucumberExpressionException createAlternativeMayNotBeEmpty(Node node, String expression) {
         return new CucumberExpressionException(message(
                 node.start(),
                 expression,
@@ -66,7 +66,7 @@ public class CucumberExpressionException extends RuntimeException {
                 "If you did not mean to use an optional you can use '\\(' to escape the the '('"));
     }
 
-    static CucumberExpressionException createAlternativeMayExclusivelyContainOptionals(Node node,
+    static CucumberExpressionException createAlternativeMayNotExclusivelyContainOptionals(Node node,
             String expression) {
         return new CucumberExpressionException(message(
                 node.start(),
@@ -109,7 +109,7 @@ public class CucumberExpressionException extends RuntimeException {
                 "Did you mean to use a regular expression?"));
     }
 
-    static String message(int index, String expression, StringBuilder pointer, String problem,
+    static String message(int index, String expression, String pointer, String problem,
             String solution) {
         return thisCucumberExpressionHasAProblemAt(index) +
                 "\n" +
@@ -119,24 +119,24 @@ public class CucumberExpressionException extends RuntimeException {
                 solution;
     }
 
-    static StringBuilder pointAt(Located node) {
-        StringBuilder pointer = pointAt(node.start());
+    static String pointAt(Located node) {
+        StringBuilder pointer = new StringBuilder(pointAt(node.start()));
         if (node.start() + 1 < node.end()) {
             for (int i = node.start() + 1; i < node.end() - 1; i++) {
                 pointer.append("-");
             }
             pointer.append("^");
         }
-        return pointer;
+        return pointer.toString();
     }
 
-    private static StringBuilder pointAt(int index) {
+    private static String pointAt(int index) {
         StringBuilder pointer = new StringBuilder();
         for (int i = 0; i < index; i++) {
             pointer.append(" ");
         }
         pointer.append("^");
-        return pointer;
+        return pointer.toString();
     }
 
 }
