@@ -60,6 +60,11 @@ executors:
     docker:
       - image: circleci/python:3.8.5
     working_directory: ~/cucumber
+  # Elixir
+  docker-circleci-elixir:
+    docker:
+      - image: circleci/elixir:1.10.4
+    working_directory: ~/cucumber
 
 ###
 ### Jobs ###
@@ -805,6 +810,19 @@ jobs:
             cd gherkin/c
             make
 
+### Elixir
+
+  messages-elixir:
+    executor: docker-circleci-elixir
+    steps:
+      - attach_workspace:
+          at: "~/cucumber"
+      - run:
+          name: messages/elixir
+          command: |
+            cd messages/elixir
+            make
+
 ###
 ### Workflows ###
 ###
@@ -1034,5 +1052,11 @@ workflows:
 ### C
 
       - gherkin-c:
+          requires:
+            - checkout
+
+### Elixir
+
+      - messages-elixir:
           requires:
             - checkout
