@@ -11,9 +11,7 @@ import GherkinQueryContext from '../../../src/contexts/GherkinQueryContext'
 import { Query as GherkinQuery } from '@cucumber/gherkin'
 import CucumberQueryContext from '../../../src/contexts/CucumberQueryContext'
 import { IAttachmentProps } from '../../../src/components/gherkin/Attachment'
-import MessageToComponentMappingContext, {
-  defaultMessageToComponentMapping,
-} from '../../../src/contexts/MessageToComponentMappingContext'
+import MessageToComponentMappingContext from '../../../src/contexts/MessageToComponentMappingContext'
 
 describe('<Step>', () => {
   const dom = new JSDOM(
@@ -96,10 +94,7 @@ describe('<Step>', () => {
     }) => {
       return <div>{attachment.body.toUpperCase()}</div>
     }
-    const messageToComponentMapping = {
-      ...defaultMessageToComponentMapping,
-      ...{ attachment: CapitalizedAttachment },
-    }
+    const messageToComponentMapping = { attachment: CapitalizedAttachment }
 
     const app = (
       <GherkinQueryContext.Provider value={new StubGherkinQuery()}>

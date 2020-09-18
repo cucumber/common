@@ -5,6 +5,7 @@ import { faPaperclip } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 // @ts-ignore
 import Convert from 'ansi-to-html'
+import CustomizableImageAttachment from '../customizable/CustomizableImageAttachment'
 
 export interface IAttachmentProps {
   attachment: messages.IAttachment
@@ -14,7 +15,7 @@ const Attachment: React.FunctionComponent<IAttachmentProps> = ({
   attachment,
 }) => {
   if (attachment.mediaType.match(/^image\//)) {
-    return <ImageAttachment attachment={attachment} />
+    return <CustomizableImageAttachment attachment={attachment} />
   } else if (attachment.mediaType.match(/^video\//)) {
     return video(attachment)
   } else if (attachment.mediaType == 'text/x.cucumber.log+plain') {

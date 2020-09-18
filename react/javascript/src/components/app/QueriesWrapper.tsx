@@ -8,7 +8,7 @@ import EnvelopesQueryContext, {
   EnvelopesQuery,
 } from '../../contexts/EnvelopesQueryContext'
 import MessageToComponentMappingContext, {
-  defaultMessageToComponentMapping,
+  IMessageToComponent,
 } from '../../contexts/MessageToComponentMappingContext'
 
 interface IProps {
@@ -16,6 +16,7 @@ interface IProps {
   gherkinQuery: GherkinQuery
   envelopesQuery: EnvelopesQuery
   query?: string
+  messageToComponentMapping?: IMessageToComponent
 }
 
 const QueriesWrapper: React.FunctionComponent<IProps> = ({
@@ -23,6 +24,7 @@ const QueriesWrapper: React.FunctionComponent<IProps> = ({
   cucumberQuery,
   envelopesQuery,
   query,
+  messageToComponentMapping,
   children,
 }) => {
   const searchQuery = { query: query }
@@ -34,7 +36,7 @@ const QueriesWrapper: React.FunctionComponent<IProps> = ({
           <SearchQueryContext.Provider value={searchQuery}>
             <EnvelopesQueryContext.Provider value={envelopesQuery}>
               <MessageToComponentMappingContext.Provider
-                value={defaultMessageToComponentMapping}
+                value={messageToComponentMapping}
               >
                 {children}
               </MessageToComponentMappingContext.Provider>
