@@ -5,6 +5,7 @@ import (
 	"reflect"
 	"regexp"
 	"sort"
+	"strings"
 )
 
 var INTEGER_REGEXPS = []*regexp.Regexp{
@@ -98,14 +99,19 @@ func NewParameterTypeRegistry() *ParameterTypeRegistry {
 		STRING_REGEXPS,
 		"string",
 		func(args ...*string) interface{} {
-			if args[0] == nil && args[1] != nil {
-				i, err := transformer.Transform(*args[1], reflect.String)
-				if err != nil {
-					panic(err)
+			matched := func(args []*string) string {
+				var value string
+				if args[0] == nil && args[1] != nil {
+					value = *args[1]
+				} else {
+					value = *args[0]
 				}
-				return i
+				return value
 			}
-			i, err := transformer.Transform(*args[0], reflect.String)
+			value := matched(args)
+			value = strings.ReplaceAll(value, "\\\"", "\"")
+			value = strings.ReplaceAll(value, "\\'", "'")
+			i, err := transformer.Transform(value, reflect.String)
 			if err != nil {
 				panic(err)
 			}

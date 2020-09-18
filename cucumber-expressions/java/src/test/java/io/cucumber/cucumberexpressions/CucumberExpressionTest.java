@@ -1,6 +1,9 @@
 package io.cucumber.cucumberexpressions;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.ExclusionStrategy;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
@@ -47,7 +50,12 @@ class CucumberExpressionTest {
             List<?> values = match == null ? null : match.stream()
                     .map(Argument::getValue)
                     .collect(Collectors.toList());
-            assertEquals(expectation.getExpected(), new Gson().toJson(values));
+
+            Gson gson = new GsonBuilder()
+                    .disableHtmlEscaping()
+                    .create();
+
+            assertEquals(expectation.getExpected(), gson.toJson(values));
         } else {
             Executable executable = () -> {
                 String expr = expectation.getExpression();

@@ -8,6 +8,7 @@ import (
 	"io/ioutil"
 	"reflect"
 	"regexp"
+	"strings"
 	"testing"
 )
 
@@ -21,9 +22,13 @@ func TestCucumberExpression(t *testing.T) {
 			require.NoError(t, err)
 			args, err := expression.Match(text)
 			require.NoError(t, err)
-			values, err := json.Marshal(argumentValues(args))
+
+			values := strings.Builder{}
+			encoder := json.NewEncoder(&values)
+			encoder.SetEscapeHTML(false)
+			err = encoder.Encode(argumentValues(args))
 			require.NoError(t, err)
-			require.Equal(t, expected, string(values))
+			require.Equal(t, expected, strings.TrimSuffix(values.String(), "\n"))
 		}
 
 		assertThrows := func(t *testing.T, expected string, expr string, text string) {
@@ -51,7 +56,6 @@ func TestCucumberExpression(t *testing.T) {
 				var expectation expectation
 				err = yaml.Unmarshal(contents, &expectation)
 				require.NoError(t, err)
-
 				if expectation.Exception == "" {
 					assertMatches(t, expectation.Expected, expectation.Expression, expectation.Text)
 				} else {
