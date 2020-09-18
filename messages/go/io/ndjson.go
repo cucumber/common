@@ -74,7 +74,11 @@ type ndjsonReader struct {
 
 func (this *ndjsonReader) ReadMsg(msg proto.Message) error {
 	if this.scanner.Scan() {
-		return this.unmarshaler.Unmarshal(strings.NewReader(this.scanner.Text()), msg)
+		line := this.scanner.Text()
+		if len(strings.TrimSpace(line)) == 0 {
+			return this.ReadMsg(msg)
+		}
+		return this.unmarshaler.Unmarshal(strings.NewReader(line), msg)
 	}
 	return io.EOF
 }

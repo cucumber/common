@@ -17,6 +17,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+* [JavaScript] Fix CSS resolution when installed locally [#1180](https://github.com/cucumber/cucumber/pull/1180)
+
 ## [9.0.0] - 2020-08-08
 
 ### Changed

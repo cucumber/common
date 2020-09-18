@@ -25,7 +25,9 @@ export default class NdjsonToMessageStream<T> extends Transform {
     const lines = this.buffer.split('\n')
     this.buffer = lines.pop()
     for (const line of lines) {
-      this.push(this.fromObject(JSON.parse(line)))
+      if (line.trim().length > 0) {
+        this.push(this.fromObject(JSON.parse(line)))
+      }
     }
     callback()
   }

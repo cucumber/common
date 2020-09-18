@@ -125,4 +125,18 @@ describe('NdjsonStream', () => {
 
     assert.deepStrictEqual(incomingMessages, [messages.Envelope.create({})])
   })
+
+  it('ignores empty lines', async () => {
+    const toMessageStream = makeToMessageStream()
+    toMessageStream.write('{}\n{}\n\n{}\n')
+    toMessageStream.end()
+
+    const incomingMessages = await toArray(toMessageStream)
+
+    assert.deepStrictEqual(incomingMessages, [
+      messages.Envelope.create({}),
+      messages.Envelope.create({}),
+      messages.Envelope.create({}),
+    ])
+  })
 })
