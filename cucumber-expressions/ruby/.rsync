@@ -2,4 +2,4 @@
 ../../.templates/github/ .github/
 ../../.templates/ruby/ .
 ../examples.txt examples.txt
-../testdata testdata
+../testdata .

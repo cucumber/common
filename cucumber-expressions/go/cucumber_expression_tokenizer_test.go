@@ -18,7 +18,7 @@ type expectation struct {
 
 func TestCucumberExpressionTokenizer(t *testing.T) {
 
-	directory := "../java/testdata/tokens/"
+	directory := "testdata/tokens/"
 	files, err := ioutil.ReadDir(directory)
 	require.NoError(t, err)
 

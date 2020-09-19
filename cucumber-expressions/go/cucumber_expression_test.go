@@ -45,7 +45,7 @@ func TestCucumberExpression(t *testing.T) {
 			}
 		}
 
-		directory := "../java/testdata/expression/"
+		directory := "testdata/expression/"
 		files, err := ioutil.ReadDir(directory)
 		require.NoError(t, err)
 

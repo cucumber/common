@@ -22,7 +22,7 @@ func TestCucumberExpressionParser(t *testing.T) {
 		require.Equal(t, expected, err.Error())
 	}
 
-	directory := "../java/testdata/ast/"
+	directory := "testdata/ast/"
 	files, err := ioutil.ReadDir(directory)
 	require.NoError(t, err)
 
