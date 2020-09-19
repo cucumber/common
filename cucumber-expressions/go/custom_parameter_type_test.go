@@ -53,7 +53,7 @@ func TestCustomParameterTypes(t *testing.T) {
 			false,
 		)
 		require.Error(t, err)
-		require.Equal(t, "illegal character '[' in parameter name {[string]}", err.Error())
+		require.Equal(t, "Illegal character in parameter name {[string]}. Parameter names may not contain '[]()$.|?*+'", err.Error())
 	})
 
 	t.Run("CucumberExpression", func(t *testing.T) {
