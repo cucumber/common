@@ -1,0 +1,10 @@
+expression: |-
+  {[string]}
+text: something
+exception: |-
+  This Cucumber Expression has a problem at column 1:
+
+  {[string]}
+  ^--------^
+  Parameter names may not contain '[]()$.|?*+'.
+  Did you mean to use a regular expression?
