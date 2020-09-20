@@ -61,6 +61,8 @@ class DataTableTypeRegistryTableConverterTest {
     }.getType();
     private static final Type OPTIONAL_STRING = new TypeReference<Optional<String>>() {
     }.getType();
+    private static final Type OPTIONAL_INTEGER = new TypeReference<Optional<Integer>>() {
+    }.getType();
     private static final Type OPTIONAL_DOUBLE = new TypeReference<Optional<Double>>() {
     }.getType();
     private static final Type OPTIONAL_FLOAT = new TypeReference<Optional<Float>>() {
@@ -239,6 +241,18 @@ class DataTableTypeRegistryTableConverterTest {
     }
 
     @Test
+    void convert_to_optional_integer_list() {
+        DataTable table = parse(
+                "| 2 |",
+                "| |",
+                "| 325 |"
+        );
+
+        List<Optional<Integer>> expected = asList(Optional.of(2), Optional.empty(), Optional.of(325));
+        assertEquals(expected, converter.toList(table, OPTIONAL_INTEGER));
+    }
+
+    @Test
     void convert_to_optional_double_list() {
         DataTable table = parse(
                 "| 3.14 |",
@@ -354,6 +368,22 @@ class DataTableTypeRegistryTableConverterTest {
         List<Map<String, Optional<String>>> expected = singletonList(expectedMap);
 
         assertEquals(expected, converter.toMaps(table, String.class, OPTIONAL_STRING));
+    }
+
+    @Test
+    void convert_to_maps_of_integer_optional() {
+        DataTable table = parse("",
+                "| header1   | header2   |",
+                "| 2         | 325       |"
+        );
+
+        Map<String, Optional<Integer>> expectedMap = new HashMap() {{
+            put("header1", Optional.of(2));
+            put("header2", Optional.of(325));
+        }};
+        List<Map<String, Optional<Integer>>> expected = singletonList(expectedMap);
+
+        assertEquals(expected, converter.toMaps(table, String.class, OPTIONAL_INTEGER));
     }
 
     @Test
