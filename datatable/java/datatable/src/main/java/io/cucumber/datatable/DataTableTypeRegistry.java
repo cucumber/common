@@ -81,8 +81,10 @@ public final class DataTableTypeRegistry {
             ));
         }
         tableTypeByType.put(dataTableType.getTargetType(), dataTableType);
-        DataTableType optionalDataTableType = dataTableType.asOptional();
-        tableTypeByType.put(optionalDataTableType.getTargetType(), optionalDataTableType);
+        if(dataTableType.getTransformerType().equals(TableCellTransformer.class)) {
+            DataTableType optionalDataTableType = dataTableType.asOptional();
+            tableTypeByType.put(optionalDataTableType.getTargetType(), optionalDataTableType);
+        }
     }
 
     DataTableType lookupTableTypeByType(final Type tableType) {

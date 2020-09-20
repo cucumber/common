@@ -35,27 +35,12 @@ public final class DataTableType {
 
     private DataTableType(Type type, RawTableTransformer<?> transformer, boolean replaceable) {
         if (type == null)
-            throw new NullPointerException("targetType cannot be null");
+            throw new NullPointerException("type cannot be null");
         if (transformer == null)
             throw new NullPointerException("transformer cannot be null");
         this.elementType = type;
         this.transformer = transformer;
         this.replaceable = replaceable;
-    }
-
-    @Override public String toString() {
-        return new StringJoiner(", ", DataTableType.class.getSimpleName() + "[", "]")
-                .add("targetType=" + this.toCanonical())
-                .add("replaceable=" + replaceable)
-                .toString();
-    }
-
-    DataTableType asOptional() {
-        return new DataTableType(
-                elementType,
-                transformer.asOptional(),
-                replaceable
-        );
     }
 
     /**
@@ -182,8 +167,24 @@ public final class DataTableType {
         return transformer.getOriginalTransformerType();
     }
 
-    public boolean isReplaceable() {
+    boolean isReplaceable() {
         return replaceable;
+    }
+
+    DataTableType asOptional() {
+        return new DataTableType(
+                elementType,
+                transformer.asOptional(),
+                replaceable
+        );
+    }
+
+    @Override
+    public String toString() {
+        return new StringJoiner(", ", DataTableType.class.getSimpleName() + "[", "]")
+                .add("targetType=" + this.toCanonical())
+                .add("replaceable=" + replaceable)
+                .toString();
     }
 
     @Override
@@ -252,7 +253,7 @@ public final class DataTableType {
         public RawTableTransformer<?> asOptional() {
             return new TableCellTransformerAdaptor<Object>(
                     optionalOf(elementType),
-                    cell -> cell == null ? Optional.empty() : Optional.ofNullable(transformer.transform(cell))
+                    cell -> cell == null || cell.isEmpty() ? Optional.empty() : Optional.ofNullable(transformer.transform(cell))
             );
         }
 
@@ -294,10 +295,7 @@ public final class DataTableType {
 
         @Override
         public RawTableTransformer<?> asOptional() {
-            return new TableRowTransformerAdaptor<Object>(
-                    optionalOf(targetType.getElementType()),
-                    cell -> cell == null ? Optional.empty() : Optional.ofNullable(transformer.transform(cell))
-            );
+            throw new UnsupportedOperationException();
         }
 
         @Override
@@ -339,10 +337,7 @@ public final class DataTableType {
 
         @Override
         public RawTableTransformer<?> asOptional() {
-            return new TableEntryTransformerAdaptor<Object>(
-                    optionalOf(targetType.getElementType()),
-                    cell -> cell == null ? Optional.empty() : Optional.ofNullable(transformer.transform(cell))
-            );
+            throw new UnsupportedOperationException();
         }
 
         @Override
@@ -377,10 +372,7 @@ public final class DataTableType {
 
         @Override
         public RawTableTransformer<?> asOptional() {
-            return new TableTransformerAdaptor<Object>(
-                    optionalOf(targetType),
-                    cell -> cell == null ? Optional.empty() : Optional.ofNullable(transformer.transform(cell))
-            );
+            throw new UnsupportedOperationException();
         }
 
         @Override
