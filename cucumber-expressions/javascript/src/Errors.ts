@@ -6,11 +6,52 @@ class CucumberExpressionError extends Error {}
 function createTheEndOfLIneCanNotBeEscaped(
   expression: string
 ): CucumberExpressionError {
-  return new CucumberExpressionError(expression)
+  const index = Array.from(expression).length - 1
+  return new CucumberExpressionError(
+    message(
+      index,
+      expression,
+      pointAt(index),
+      'The end of line can not be escaped',
+      "You can use '\\\\' to escape the the '\\'"
+    )
+  )
 }
 
-function createCantEscaped(expression: string, number: number) {
-  return new CucumberExpressionError(expression)
+function createCantEscaped(expression: string, index: number) {
+  return new CucumberExpressionError(
+    message(
+      index,
+      expression,
+      pointAt(index),
+      "Only the characters '{', '}', '(', ')', '\\', '/' and whitespace can be escaped",
+      "If you did mean to use an '\\' you can use '\\\\' to escape it"
+    )
+  )
+}
+
+function message(
+  index: number,
+  expression: string,
+  pointer: any,
+  problem: string,
+  solution: string
+): string {
+  return `This Cucumber Expression has a problem at column ${index + 1}:
+
+${expression}
+${pointer}
+${problem}.
+${solution}`
+}
+
+function pointAt(index: number): string {
+  const pointer: Array<string> = []
+  for (let i = 0; i < index; i++) {
+    pointer.push(' ')
+  }
+  pointer.push('^')
+  return pointer.join('')
 }
 
 class AmbiguousParameterTypeError extends CucumberExpressionError {
