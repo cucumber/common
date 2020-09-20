@@ -35,6 +35,13 @@ func tokenize(expression string) ([]token, error) {
 		return startOfLine, createCantEscaped(expression, bufferStartIndex+len(buffer)+escaped)
 	}
 
+	shouldCreateNewToken := func(currentTokenType tokenType, previousTokenType tokenType) bool {
+		if currentTokenType != previousTokenType {
+			return true
+		}
+		return currentTokenType != whiteSpace && currentTokenType != text
+	}
+
 	tokens = append(tokens, token{"", startOfLine, 0, 0})
 
 	for _, r := range runes {
@@ -50,7 +57,7 @@ func tokenize(expression string) ([]token, error) {
 		}
 		treatAsText = false
 
-		if previousTokenType != startOfLine && (currentTokenType != previousTokenType || (currentTokenType != whiteSpace && currentTokenType != text)) {
+		if previousTokenType != startOfLine && shouldCreateNewToken(currentTokenType, previousTokenType) {
 			token := convertBufferToToken(previousTokenType)
 			previousTokenType = currentTokenType
 			buffer = append(buffer, r)
@@ -73,3 +80,4 @@ func tokenize(expression string) ([]token, error) {
 	tokens = append(tokens, token)
 	return tokens, nil
 }
+

@@ -41,6 +41,40 @@ final class CucumberExpressionTokenizer {
             this.codePoints = expression.codePoints().iterator();
         }
 
+        private Token convertBufferToToken(Type tokenType) {
+            int escapeTokens = 0;
+            if (tokenType == Type.TEXT) {
+                escapeTokens = escaped;
+                escaped = 0;
+            }
+            int consumedIndex = bufferStartIndex + buffer.codePointCount(0, buffer.length()) + escapeTokens;
+            Token t = new Token(buffer.toString(), tokenType, bufferStartIndex, consumedIndex);
+            buffer = new StringBuilder();
+            this.bufferStartIndex = consumedIndex;
+            return t;
+        }
+
+        private void advanceTokenTypes() {
+            previousTokenType = currentTokenType;
+            currentTokenType = null;
+        }
+
+        private Type tokenTypeOf(Integer token, boolean treatAsText) {
+            if (!treatAsText) {
+                return Token.typeOf(token);
+            }
+            if (Token.canEscape(token)) {
+                return Type.TEXT;
+            }
+            throw createCantEscape(expression, bufferStartIndex + buffer.codePointCount(0, buffer.length()) + escaped);
+        }
+
+        private boolean shouldContinueTokenType(Type previousTokenType,
+                Type currentTokenType) {
+            return currentTokenType == previousTokenType
+                    && (currentTokenType == Type.WHITE_SPACE || currentTokenType == Type.TEXT);
+        }
+
         @Override
         public boolean hasNext() {
             return previousTokenType != Type.END_OF_LINE;
@@ -67,11 +101,11 @@ final class CucumberExpressionTokenizer {
                 currentTokenType = tokenTypeOf(codePoint, treatAsText);
                 treatAsText = false;
 
-                if (previousTokenType == Type.START_OF_LINE || (currentTokenType == previousTokenType
-                        && (currentTokenType == Type.WHITE_SPACE || currentTokenType == Type.TEXT))) {
-                            advanceTokenTypes();
-                            buffer.appendCodePoint(codePoint);
-                        } else {
+                if (previousTokenType == Type.START_OF_LINE ||
+                        shouldContinueTokenType(previousTokenType, currentTokenType)) {
+                    advanceTokenTypes();
+                    buffer.appendCodePoint(codePoint);
+                } else {
                     Token t = convertBufferToToken(previousTokenType);
                     advanceTokenTypes();
                     buffer.appendCodePoint(codePoint);
@@ -92,34 +126,6 @@ final class CucumberExpressionTokenizer {
             Token token = convertBufferToToken(currentTokenType);
             advanceTokenTypes();
             return token;
-        }
-
-        private void advanceTokenTypes() {
-            previousTokenType = currentTokenType;
-            currentTokenType = null;
-        }
-
-        private Token convertBufferToToken(Type tokenType) {
-            int escapeTokens = 0;
-            if (tokenType == Type.TEXT) {
-                escapeTokens = escaped;
-                escaped = 0;
-            }
-            int consumedIndex = bufferStartIndex + buffer.codePointCount(0, buffer.length()) + escapeTokens;
-            Token t = new Token(buffer.toString(), tokenType, bufferStartIndex, consumedIndex);
-            buffer = new StringBuilder();
-            this.bufferStartIndex = consumedIndex;
-            return t;
-        }
-
-        private Type tokenTypeOf(Integer token, boolean treatAsText) {
-            if (!treatAsText) {
-                return Token.typeOf(token);
-            }
-            if (Token.canEscape(token)) {
-                return Type.TEXT;
-            }
-            throw createCantEscape(expression, bufferStartIndex + buffer.codePointCount(0, buffer.length()) + escaped);
         }
 
     }

@@ -43,6 +43,19 @@ export default class CucumberExpressionTokenizer {
       )
     }
 
+    function shouldCreateNewToken(
+      previousTokenType: TokenType,
+      currentTokenType: TokenType
+    ) {
+      if (currentTokenType != previousTokenType) {
+        return true
+      }
+      return (
+        currentTokenType != TokenType.whiteSpace &&
+        currentTokenType != TokenType.text
+      )
+    }
+
     tokens.push(new Token(TokenType.startOfLine, '', 0, 0))
 
     codePoints.forEach((codePoint) => {
@@ -53,11 +66,10 @@ export default class CucumberExpressionTokenizer {
       }
       const currentTokenType = tokenTypeOf(codePoint, treatAsText)
       treatAsText = false
+
       if (
         previousTokenType != TokenType.startOfLine &&
-        (currentTokenType != previousTokenType ||
-          (currentTokenType != TokenType.whiteSpace &&
-            currentTokenType != TokenType.text))
+        shouldCreateNewToken(previousTokenType, currentTokenType)
       ) {
         const token = convertBufferToToken(previousTokenType)
         previousTokenType = currentTokenType
