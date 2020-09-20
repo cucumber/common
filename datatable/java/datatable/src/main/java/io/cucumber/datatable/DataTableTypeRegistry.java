@@ -59,47 +59,36 @@ public final class DataTableTypeRegistry {
         defineDataTableType(new DataTableType(Double.class, doubleTableCellTransformer));
         defineDataTableType(new DataTableType(double.class, doubleTableCellTransformer));
 
-        TableCellTransformer<Optional<Object>> optionalTableCellTransformer =
-                (String s) -> s == null || s.isEmpty() ? Optional.empty() : Optional.of(s);
-        defineDataTableType(new DataTableType(Optional.class, optionalTableCellTransformer));
+        defineDataTableType(new DataTableType(Optional.class, transformAsOptional(objectTableCellTransformer)));
 
         Type optionalString = new TypeReference<Optional<String>>() { }.getType();
-        defineDataTableType(new DataTableType(optionalString, optionalTableCellTransformer));
+        defineDataTableType(new DataTableType(optionalString, transformAsOptional(objectTableCellTransformer)));
 
         Type optionalDouble = new TypeReference<Optional<Double>>() { }.getType();
-        TableCellTransformer<Optional<Double>> optionalDoubleTableCellTransformer =
-                (String s) -> s == null || s.isEmpty() ? Optional.empty() : Optional.of(numberParser.parseDouble(s));
-        defineDataTableType(new DataTableType(optionalDouble, optionalDoubleTableCellTransformer));
+        defineDataTableType(new DataTableType(optionalDouble, transformAsOptional(doubleTableCellTransformer)));
 
         Type optionalFloat = new TypeReference<Optional<Float>>() { }.getType();
-        TableCellTransformer<Optional<Float>> optionalFloatTableCellTransformer =
-                (String s) -> s == null || s.isEmpty() ? Optional.empty() : Optional.of(numberParser.parseFloat(s));
-        defineDataTableType(new DataTableType(optionalFloat, optionalFloatTableCellTransformer));
+        defineDataTableType(new DataTableType(optionalFloat, transformAsOptional(floatTableCellTransformer)));
 
         Type optionalLong = new TypeReference<Optional<Long>>() { }.getType();
-        TableCellTransformer<Optional<Long>> optionalLongTableCellTransformer =
-                (String s) -> s == null || s.isEmpty() ? Optional.empty() : Optional.of(Long.decode(s));
-        defineDataTableType(new DataTableType(optionalLong, optionalLongTableCellTransformer));
+        defineDataTableType(new DataTableType(optionalLong, transformAsOptional(longTableCellTransformer)));
 
         Type optionalByte = new TypeReference<Optional<Byte>>() { }.getType();
-        TableCellTransformer<Optional<Byte>> optionalByteTableCellTransformer =
-                (String s) -> s == null || s.isEmpty() ? Optional.empty() : Optional.of(Byte.decode(s));
-        defineDataTableType(new DataTableType(optionalByte, optionalByteTableCellTransformer));
+        defineDataTableType(new DataTableType(optionalByte, transformAsOptional(byteTableCellTransformer)));
 
         Type optionalBigDecimal = new TypeReference<Optional<BigDecimal>>() { }.getType();
-        TableCellTransformer<Optional<BigDecimal>> optionalBigDecimalTableCellTransformer =
-                (String s) -> s == null || s.isEmpty() ? Optional.empty() : Optional.of(numberParser.parseBigDecimal(s));
-        defineDataTableType(new DataTableType(optionalBigDecimal, optionalBigDecimalTableCellTransformer));
+        defineDataTableType(new DataTableType(optionalBigDecimal, transformAsOptional(bigDecimalTableCellTransformer)));
 
-
-        Type optionalBigInt = new TypeReference<Optional<BigInteger>>() { }.getType();
-        TableCellTransformer<Optional<BigInteger>> optionalBigIntTableCellTransformer =
-                (String s) -> s == null || s.isEmpty() ? Optional.empty() : Optional.of(new BigInteger(s));
-        defineDataTableType(new DataTableType(optionalBigInt, optionalBigIntTableCellTransformer));
+        Type optionalBigInteger = new TypeReference<Optional<BigInteger>>() { }.getType();
+        defineDataTableType(new DataTableType(optionalBigInteger, transformAsOptional(bigIntegerTableCellTransformer)));
     }
 
     private static <R> TableCellTransformer<R> applyIfPresent(Function<String, R> f) {
         return s -> s == null ? null : f.apply(s);
+    }
+
+    private static <T> TableCellTransformer<Optional<T>> transformAsOptional(TableCellTransformer<T> tableCellTransformer) {
+        return s -> s == null || s.isEmpty() ? Optional.empty() : Optional.of(tableCellTransformer.transform(s));
     }
 
     public void defineDataTableType(DataTableType dataTableType) {
