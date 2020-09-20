@@ -29,67 +29,67 @@ public final class DataTableTypeRegistry {
         {
             TableCellTransformer<Object> objectTableCellTransformer = applyIfPresent(s -> s);
             defineDataTableType(new DataTableType(Object.class, objectTableCellTransformer, true));
-            defineDataTableType(new DataTableType(Optional.class, optionalIfAbsent(objectTableCellTransformer), true));
+            defineDataTableType(new DataTableType(Optional.class, emptyIfAbsent(objectTableCellTransformer), true));
         }
         {
             TableCellTransformer<Object> stringTableCellTransformer = applyIfPresent(s -> s);
             defineDataTableType(new DataTableType(String.class, stringTableCellTransformer, true));
             Type optionalString = new TypeReference<Optional<String>>() {}.getType();
-            defineDataTableType(new DataTableType(optionalString, optionalIfAbsent(stringTableCellTransformer), true));
+            defineDataTableType(new DataTableType(optionalString, emptyIfAbsent(stringTableCellTransformer), true));
         }
         {
             TableCellTransformer<BigInteger> bigIntegerTableCellTransformer = applyIfPresent(BigInteger::new);
             defineDataTableType(new DataTableType(BigInteger.class, bigIntegerTableCellTransformer));
             Type optionalBigInteger = new TypeReference<Optional<BigInteger>>() {}.getType();
-            defineDataTableType(new DataTableType(optionalBigInteger, optionalIfAbsent(bigIntegerTableCellTransformer)));
+            defineDataTableType(new DataTableType(optionalBigInteger, emptyIfAbsent(bigIntegerTableCellTransformer)));
         }
         {
             TableCellTransformer<BigDecimal> bigDecimalTableCellTransformer = applyIfPresent(numberParser::parseBigDecimal);
             defineDataTableType(new DataTableType(BigDecimal.class, bigDecimalTableCellTransformer));
             Type optionalBigDecimal = new TypeReference<Optional<BigDecimal>>() {}.getType();
-            defineDataTableType(new DataTableType(optionalBigDecimal, optionalIfAbsent(bigDecimalTableCellTransformer)));
+            defineDataTableType(new DataTableType(optionalBigDecimal, emptyIfAbsent(bigDecimalTableCellTransformer)));
         }
         {
             TableCellTransformer<Byte> byteTableCellTransformer = applyIfPresent(Byte::decode);
             defineDataTableType(new DataTableType(Byte.class, byteTableCellTransformer));
             defineDataTableType(new DataTableType(byte.class, byteTableCellTransformer));
             Type optionalByte = new TypeReference<Optional<Byte>>() {}.getType();
-            defineDataTableType(new DataTableType(optionalByte, optionalIfAbsent(byteTableCellTransformer)));
+            defineDataTableType(new DataTableType(optionalByte, emptyIfAbsent(byteTableCellTransformer)));
         }
         {
             TableCellTransformer<Short> shortTableCellTransformer = applyIfPresent(Short::decode);
             defineDataTableType(new DataTableType(Short.class, shortTableCellTransformer));
             defineDataTableType(new DataTableType(short.class, shortTableCellTransformer));
             Type optionalShort = new TypeReference<Optional<Short>>() {}.getType();
-            defineDataTableType(new DataTableType(optionalShort, optionalIfAbsent(shortTableCellTransformer)));
+            defineDataTableType(new DataTableType(optionalShort, emptyIfAbsent(shortTableCellTransformer)));
         }
         {
             TableCellTransformer<Integer> integerTableCellTransformer = applyIfPresent(Integer::decode);
             defineDataTableType(new DataTableType(Integer.class, integerTableCellTransformer));
             defineDataTableType(new DataTableType(int.class, integerTableCellTransformer));
             Type optionalInteger = new TypeReference<Optional<Integer>>() {}.getType();
-            defineDataTableType(new DataTableType(optionalInteger, optionalIfAbsent(integerTableCellTransformer)));
+            defineDataTableType(new DataTableType(optionalInteger, emptyIfAbsent(integerTableCellTransformer)));
         }
         {
             TableCellTransformer<Long> longTableCellTransformer = applyIfPresent(Long::decode);
             defineDataTableType(new DataTableType(Long.class, longTableCellTransformer));
             defineDataTableType(new DataTableType(long.class, longTableCellTransformer));
             Type optionalLong = new TypeReference<Optional<Long>>() {}.getType();
-            defineDataTableType(new DataTableType(optionalLong, optionalIfAbsent(longTableCellTransformer)));
+            defineDataTableType(new DataTableType(optionalLong, emptyIfAbsent(longTableCellTransformer)));
         }
         {
             TableCellTransformer<Float> floatTableCellTransformer = applyIfPresent(numberParser::parseFloat);
             defineDataTableType(new DataTableType(Float.class, floatTableCellTransformer));
             defineDataTableType(new DataTableType(float.class, floatTableCellTransformer));
             Type optionalFloat = new TypeReference<Optional<Float>>() {}.getType();
-            defineDataTableType(new DataTableType(optionalFloat, optionalIfAbsent(floatTableCellTransformer)));
+            defineDataTableType(new DataTableType(optionalFloat, emptyIfAbsent(floatTableCellTransformer)));
         }
         {
             TableCellTransformer<Double> doubleTableCellTransformer = applyIfPresent(numberParser::parseDouble);
             defineDataTableType(new DataTableType(Double.class, doubleTableCellTransformer));
             defineDataTableType(new DataTableType(double.class, doubleTableCellTransformer));
             Type optionalDouble = new TypeReference<Optional<Double>>() {}.getType();
-            defineDataTableType(new DataTableType(optionalDouble, optionalIfAbsent(doubleTableCellTransformer)));
+            defineDataTableType(new DataTableType(optionalDouble, emptyIfAbsent(doubleTableCellTransformer)));
         }
     }
 
@@ -97,7 +97,7 @@ public final class DataTableTypeRegistry {
         return s -> s == null ? null : f.apply(s);
     }
 
-    private static <R> TableCellTransformer<Optional<R>> optionalIfAbsent(TableCellTransformer<R> t) {
+    private static <R> TableCellTransformer<Optional<R>> emptyIfAbsent(TableCellTransformer<R> t) {
         return s -> s == null || s.isEmpty() ? Optional.empty() : Optional.ofNullable(t.transform(s));
     }
 
