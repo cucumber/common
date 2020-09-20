@@ -3,6 +3,16 @@ import GeneratedExpression from './GeneratedExpression'
 
 class CucumberExpressionError extends Error {}
 
+function createTheEndOfLIneCanNotBeEscaped(
+  expression: string
+): CucumberExpressionError {
+  return new CucumberExpressionError(expression)
+}
+
+function createCantEscaped(expression: string, number: number) {
+  return new CucumberExpressionError(expression)
+}
+
 class AmbiguousParameterTypeError extends CucumberExpressionError {
   public static forConstructor(
     keyName: string,
@@ -59,4 +69,6 @@ export {
   AmbiguousParameterTypeError,
   UndefinedParameterTypeError,
   CucumberExpressionError,
+  createTheEndOfLIneCanNotBeEscaped,
+  createCantEscaped,
 }

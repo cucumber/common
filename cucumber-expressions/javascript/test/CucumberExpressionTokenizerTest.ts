@@ -3,6 +3,7 @@ import fs from 'fs'
 import yaml from 'js-yaml' // why?
 import CucumberExpressionTokenizer from '../src/CucumberExpressionTokenizer'
 import assert from 'assert'
+import { CucumberExpressionError } from '../src/Errors'
 
 interface Expectation {
   expression: string
@@ -25,7 +26,7 @@ describe('Cucumber expression tokenizer', () => {
       } else {
         assert.throws(() => {
           tokenizer.tokenize(expectation.expression)
-        }, expectation.exception)
+        }, new CucumberExpressionError(expectation.exception))
       }
     })
   })
