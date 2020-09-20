@@ -83,6 +83,7 @@ public final class DataTableTypeRegistry {
         tableTypeByType.put(dataTableType.getTargetType(), dataTableType);
         if(dataTableType.getTransformerType().equals(TableCellTransformer.class)) {
             DataTableType optionalDataTableType = dataTableType.asOptional();
+            // TODO: Don't replace unreplacable existing
             tableTypeByType.put(optionalDataTableType.getTargetType(), optionalDataTableType);
         }
     }
