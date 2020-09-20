@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+#
+# This script uploads a Cucumber Message stream to the Cucumber Reports service
+# and prints the URL where the report can be viewed.
+#
+# It works in the same way as the built-in --publish option in Cucumber Open.
+#
+# Usage: upload-cucumber-report path/to/messages.ndjson
+#
+set -o errexit
+
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+NC='\033[0m'
+
+if [[ -z "$1" ]]; then
+  echo -e "${RED}ERROR: No message file supplied${NC}"
+  echo
+  echo -e "${RED}Usage $0 path/to/messages.ndjson${NC}"
+  echo
+  exit 1
+fi
+
+response=$(curl -si 'https://messages.cucumber.io/api/reports')
+
+upload_url=$(echo "${response}" | grep 'location:' | awk '{print $2}' | tr -d "\r")
+curl -X PUT "${upload_url}" --upload-file "$1"
+# Only print the banner which starts with a "┌" character
+echo "${response}" | sed -n '/┌/,$p'

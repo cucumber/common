@@ -1,4 +1,5 @@
 import os from 'os'
+import { parse as parseUrl, format as formatUrl } from 'url'
 import { messages, version as protocolVersion } from '@cucumber/messages'
 import defaultCiDict from './ciDict.json'
 
@@ -62,6 +63,14 @@ export function detectCI(
   return detected[0]
 }
 
+export function removeUserInfoFromUrl(value: string): string {
+  if (!value) return value
+  const url = parseUrl(value)
+  if (url.auth === null) return value
+  url.auth = null
+  return formatUrl(url)
+}
+
 function createCi(
   ciName: string,
   ciSystem: CiSystem,
@@ -78,7 +87,7 @@ function createCi(
     url,
     name: ciName,
     git: {
-      remote: evaluate(ciSystem.git.remote, envDict),
+      remote: removeUserInfoFromUrl(evaluate(ciSystem.git.remote, envDict)),
       revision: evaluate(ciSystem.git.revision, envDict),
       branch: evaluate(ciSystem.git.branch, envDict),
       tag: evaluate(ciSystem.git.tag, envDict),
