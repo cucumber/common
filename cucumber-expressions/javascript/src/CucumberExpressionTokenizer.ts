@@ -1,4 +1,4 @@
-import Token from './Ast'
+import { Token, TokenType } from './Ast'
 
 export default class CucumberExpressionTokenizer {
   constructor() {
@@ -6,6 +6,9 @@ export default class CucumberExpressionTokenizer {
   }
 
   tokenize(expression: string): ReadonlyArray<Token> {
-    return []
+    return [
+      new Token(TokenType.startOfLine, '', 0, 0),
+      new Token(TokenType.endOfLine, '', 0, 0),
+    ]
   }
 }

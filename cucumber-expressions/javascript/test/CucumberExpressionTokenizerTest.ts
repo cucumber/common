@@ -18,7 +18,10 @@ describe('Cucumber expression tokenizer', () => {
       const tokenizer = new CucumberExpressionTokenizer()
       if (expectation.exception == undefined) {
         const tokens = tokenizer.tokenize(expectation.expression)
-        assert.deepStrictEqual(tokens, JSON.parse(expectation.expected))
+        assert.deepStrictEqual(
+          JSON.parse(JSON.stringify(tokens)), // Removes type information.
+          JSON.parse(expectation.expected)
+        )
       } else {
         assert.throws(() => {
           tokenizer.tokenize(expectation.expression)
