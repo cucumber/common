@@ -12,10 +12,9 @@ interface Expectation {
 
 describe('Cucumber expression tokenizer', () => {
   fs.readdirSync('testdata/tokens').forEach((testcase) => {
+    const testCaseData = fs.readFileSync(`testdata/tokens/${testcase}`, 'utf-8')
+    const expectation = yaml.safeLoad(testCaseData) as Expectation
     it(`${testcase}`, () => {
-      const expectation = yaml.safeLoad(
-        fs.readFileSync(`testdata/tokens/${testcase}`, 'utf-8')
-      ) as Expectation
       const tokenizer = new CucumberExpressionTokenizer()
       if (expectation.exception == undefined) {
         const tokens = tokenizer.tokenize(expectation.expression)
