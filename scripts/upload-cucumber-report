@@ -5,6 +5,9 @@
 #
 # It works in the same way as the built-in --publish option in Cucumber Open.
 #
+# The following environment variables override the default settings:
+#    - CUCUMBER_PUBLISH_URL: the publication service url
+#
 # Usage: upload-cucumber-report path/to/messages.ndjson
 #
 set -o errexit
@@ -21,7 +24,9 @@ if [[ -z "$1" ]]; then
   exit 1
 fi
 
-response=$(curl -si 'https://messages.cucumber.io/api/reports')
+CUCUMBER_PUBLISH_URL=${CUCUMBER_PUBLISH_URL:-'https://messages.cucumber.io/api/reports'}
+
+response=$(curl -si ${CUCUMBER_PUBLISH_URL})
 
 upload_url=$(echo "${response}" | grep 'location:' | awk '{print $2}' | tr -d "\r")
 curl -X PUT "${upload_url}" --upload-file "$1"
