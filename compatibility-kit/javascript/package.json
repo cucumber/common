@@ -18,8 +18,8 @@
   "devDependencies": {
     "@cucumber/fake-cucumber": "file:../../fake-cucumber/javascript",
     "@types/stream-buffers": "^3.0.3",
-    "@typescript-eslint/eslint-plugin": "^3.9.0",
-    "@typescript-eslint/parser": "^3.9.0",
+    "@typescript-eslint/eslint-plugin": "^4.0.0",
+    "@typescript-eslint/parser": "^4.0.0",
     "eslint": "^7.6.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-node": "^11.1.0",
