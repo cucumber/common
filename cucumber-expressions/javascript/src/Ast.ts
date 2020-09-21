@@ -5,6 +5,43 @@ const endParameterCharacter = '}'
 const beginOptionalCharacter = '('
 const endOptionalCharacter = ')'
 
+export class Node {
+  readonly type: NodeType
+  readonly nodes?: ReadonlyArray<Node> | undefined
+  readonly token?: string | undefined
+  private start: number
+  private end: number
+
+  constructor(
+    type: NodeType,
+    nodes: ReadonlyArray<Node> = undefined,
+    token: string = undefined,
+    start: number,
+    end: number
+  ) {
+    if (nodes === undefined && token === undefined) {
+      throw new Error('Either nodes or token must be defined')
+    }
+    if (nodes === null || token === null) {
+      throw new Error('Either nodes or token may not be null')
+    }
+    this.type = type
+    this.nodes = nodes
+    this.token = token
+    this.start = start
+    this.end = end
+  }
+}
+
+export enum NodeType {
+  textNode = 'TEXT_NODE',
+  optionalNode = 'OPTIONAL_NODE',
+  alternationNode = 'ALTERNATION_NODE',
+  alternativeNode = 'ALTERNATIVE_NODE',
+  parameterNode = 'PARAMETER_NODE',
+  expressionNode = 'EXPRESSION_NODE',
+}
+
 export class Token {
   readonly type: TokenType
   readonly text: string
