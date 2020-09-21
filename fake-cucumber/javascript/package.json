@@ -58,7 +58,7 @@
     "source-map-support": "^0.5.19",
     "stack-utils": "^2.0.2",
     "ts-node": "^9.0.0",
-    "typescript": "^3.9.7"
+    "typescript": "^4.0.0"
   },
   "directories": {
     "test": "test"
