@@ -16,10 +16,14 @@ RED='\033[0;31m'
 GREEN='\033[0;32m'
 NC='\033[0m'
 
+function echo_error() {
+  echo -e "${RED}$*${NC}"
+}
+
 if [[ -z "$1" ]]; then
-  echo -e "${RED}ERROR: No message file supplied${NC}"
+  echo_error "ERROR: No message file supplied"
   echo
-  echo -e "${RED}Usage $0 path/to/messages.ndjson${NC}"
+  echo_error "Usage $0 path/to/messages.ndjson"
   echo
   exit 1
 fi
@@ -28,7 +32,13 @@ CUCUMBER_PUBLISH_URL=${CUCUMBER_PUBLISH_URL:-'https://messages.cucumber.io/api/r
 
 response=$(curl -si ${CUCUMBER_PUBLISH_URL})
 
-upload_url=$(echo "${response}" | grep 'location:' | awk '{print $2}' | tr -d "\r")
+upload_url=$(echo "${response}" | grep -i 'Location:' | awk '{print $2}' | tr -d "\r")
+if [ -z "${upload_url}" ]; then
+  echo "${response}"
+  echo
+  echo_error "Error: could not find the location header in the response"
+  exit 1
+fi
 curl -X PUT "${upload_url}" --upload-file "$1"
 # Only print the banner which starts with a "┌" character
 echo "${response}" | sed -n '/┌/,$p'
