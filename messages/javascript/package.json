@@ -40,7 +40,8 @@
     "nyc": "^15.1.0",
     "prettier": "^2.1.1",
     "ts-node": "^9.0.0",
-    "typescript": "^4.0.2"
+    "typescript": "^4.0.2",
+    "core-js": "^3.6.5"
   },
   "bugs": {
     "url": "https://github.com/cucumber/messages-javascript/issues"

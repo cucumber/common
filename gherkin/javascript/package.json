@@ -43,7 +43,8 @@
     "nyc": "^15.1.0",
     "prettier": "^2.0.5",
     "ts-node": "^9.0.0",
-    "typescript": "^3.9.7"
+    "typescript": "^3.9.7",
+    "core-js": "^3.6.5"
   },
   "dependencies": {
     "@cucumber/messages": "file:../../messages/javascript",

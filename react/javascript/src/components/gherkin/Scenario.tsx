@@ -5,7 +5,6 @@ import Examples from './Examples'
 import { messages } from '@cucumber/messages'
 import StepList from './StepList'
 import HookList from './HookList'
-import IScenario = messages.GherkinDocument.Feature.IScenario
 import IdGenerator from '../../IdGenerator'
 import ScenarioTitle from './ScenarioTitle'
 import CucumberQueryContext from '../../CucumberQueryContext'
@@ -13,7 +12,7 @@ import GherkinQueryContext from '../../GherkinQueryContext'
 import UriContext from '../../UriContext'
 
 interface IProps {
-  scenario: IScenario
+  scenario: messages.GherkinDocument.Feature.IScenario
 }
 
 const generator = new IdGenerator()

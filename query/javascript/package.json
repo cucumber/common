@@ -42,7 +42,8 @@
     "source-map-support": "^0.5.19",
     "ts-loader": "^8.0.2",
     "ts-node": "^9.0.0",
-    "typescript": "^3.9.7"
+    "typescript": "^3.9.7",
+    "core-js": "^3.6.5"
   },
   "files": [
     "*"
