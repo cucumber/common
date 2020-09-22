@@ -29,7 +29,7 @@
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>messages</artifactId>
-            <version>[13.0.1,14.0.0)</version>
+            <version>[13.2.0,14.0.0)</version>
         </dependency>
         <dependency>
             <groupId>org.hamcrest</groupId>
