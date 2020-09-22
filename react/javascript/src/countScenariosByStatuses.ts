@@ -4,7 +4,7 @@ import { messages } from '@cucumber/messages'
 import { GherkinDocumentWalker } from '@cucumber/gherkin-utils'
 
 export default function countScenariosByStatuses(
-  gherkinDocuments: ReadonlyArray<messages.IGherkinDocument>,
+  gherkinDocuments: readonly messages.IGherkinDocument[],
   gherkinQuery: GherkinQuery,
   cucumberQuery: CucumberQuery
 ): Map<messages.TestStepFinished.TestStepResult.Status, number> {
