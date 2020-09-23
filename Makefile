@@ -58,8 +58,9 @@ push_subrepos:
 docker-run:
 	docker pull cucumber/cucumber-build:latest
 	docker run \
+	  --publish "6006:6006" \
 	  --volume "${shell pwd}":/app \
-	  --volume "${HOME}/.m2"/repository:/home/cukebot/.m2/repository \
+	  --volume "${HOME}/.m2/repository":/home/cukebot/.m2/repository \
 	  --volume "${HOME}/.gitconfig":/home/cukebot/.gitconfig \
 	  --user 1000 \
 	  --rm \
@@ -73,13 +74,14 @@ docker-run-with-secrets:
 	../secrets/update_permissions
 	docker pull cucumber/cucumber-build:latest
 	docker run \
+	  --publish "6006:6006" \
 	  --volume "${shell pwd}":/app \
 	  --volume "${shell pwd}/../secrets/import-gpg-key.sh":/home/cukebot/import-gpg-key.sh \
 	  --volume "${shell pwd}/../secrets/codesigning.key":/home/cukebot/codesigning.key \
 	  --volume "${shell pwd}/../secrets/.ssh":/home/cukebot/.ssh \
 	  --volume "${shell pwd}/../secrets/.gem":/home/cukebot/.gem \
 	  --volume "${shell pwd}/../secrets/.npmrc":/home/cukebot/.npmrc \
-	  --volume "${HOME}/.m2"/repository:/home/cukebot/.m2/repository \
+	  --volume "${HOME}/.m2/repository":/home/cukebot/.m2/repository \
 	  --volume "${HOME}/.gitconfig":/home/cukebot/.gitconfig \
 	  --env-file ../secrets/secrets.list \
 	  --user 1000 \

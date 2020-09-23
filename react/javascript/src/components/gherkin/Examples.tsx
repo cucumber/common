@@ -4,10 +4,9 @@ import ExamplesTable from './ExamplesTable'
 import { messages } from '@cucumber/messages'
 import Tags from './Tags'
 import Description from './Description'
-import IExamples = messages.GherkinDocument.Feature.Scenario.IExamples
 
 interface IExamplesProps {
-  examples: IExamples
+  examples: messages.GherkinDocument.Feature.Scenario.IExamples
 }
 
 const Examples: React.FunctionComponent<IExamplesProps> = ({ examples }) => {

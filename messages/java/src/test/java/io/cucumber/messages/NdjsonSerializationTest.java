@@ -34,4 +34,16 @@ class NdjsonSerializationTest extends MessageSerializationContract {
         assertFalse(iterator.hasNext());
     }
 
+    @Test
+    void ignores_empty_lines() {
+        InputStream input = new ByteArrayInputStream("{}\n{}\n\n{}\n".getBytes(UTF_8));
+        Iterable<Messages.Envelope> incomingMessages = makeMessageIterable(input);
+        Iterator<Messages.Envelope> iterator = incomingMessages.iterator();
+        for(int i = 0; i < 3; i++) {
+            assertTrue(iterator.hasNext());
+            Messages.Envelope envelope = iterator.next();
+            assertEquals(Messages.Envelope.newBuilder().build(), envelope);
+        }
+        assertFalse(iterator.hasNext());
+    }
 }
