@@ -1,10 +1,9 @@
 import React from 'react'
 import { messages } from '@cucumber/messages'
-import ITag = messages.GherkinDocument.Feature.ITag
 import HighLight from '../app/HighLight'
 
 interface IProps {
-  tags: ITag[]
+  tags: messages.GherkinDocument.Feature.ITag[]
 }
 
 const Tags: React.FunctionComponent<IProps> = ({ tags }) => {
