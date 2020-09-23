@@ -6,7 +6,7 @@ import fs from 'fs'
 
 import getFeatureStatus from '../src/getFeatureStatus'
 
-function pathToEnvelopes(path: string): messages.IEnvelope[] {
+function envelopesFrom(path: string): messages.IEnvelope[] {
   return fs
     .readFileSync(__dirname + '/' + path)
     .toString()
@@ -38,22 +38,26 @@ describe('getFeatureStatus', () => {
   }
 
   it('returns PASSED for a feature where all scenarios passed', () => {
-    const envelopes = pathToEnvelopes('../testdata/parameter_types.ndjson')
+    const envelopes = envelopesFrom(
+      '../../../compatibility-kit/javascript/features/minimal/minimal.ndjson'
+    )
     const document = getGherkinDocument(envelopes)
     readEnvelopes(envelopes)
 
-    assert.equal(
+    assert.strictEqual(
       getFeatureStatus(document, testResultsQuery, gherkinQuery),
       messages.TestStepFinished.TestStepResult.Status.PASSED
     )
   })
 
   it('returns the worst status for a feature with multiple scenarios', () => {
-    const envelopes = pathToEnvelopes('../testdata/statuses.ndjson')
+    const envelopes = envelopesFrom(
+      '../../../compatibility-kit/javascript/features/stack-traces/stack-traces.ndjson'
+    )
     const document = getGherkinDocument(envelopes)
     readEnvelopes(envelopes)
 
-    assert.equal(
+    assert.strictEqual(
       getFeatureStatus(document, testResultsQuery, gherkinQuery),
       messages.TestStepFinished.TestStepResult.Status.FAILED
     )
