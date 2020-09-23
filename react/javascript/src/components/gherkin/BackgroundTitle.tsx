@@ -1,13 +1,12 @@
 import React from 'react'
 import { messages } from '@cucumber/messages'
-import IBackground = messages.GherkinDocument.Feature.IBackground
 import Keyword from './Keyword'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLink } from '@fortawesome/free-solid-svg-icons'
 
 interface IProps {
   id: string
-  background: IBackground
+  background: messages.GherkinDocument.Feature.IBackground
 }
 
 const BackgroundTitle: React.FunctionComponent<IProps> = ({

@@ -1,10 +1,9 @@
 import React from 'react'
 import { messages } from '@cucumber/messages'
-import IDocString = messages.GherkinDocument.Feature.Step.IDocString
 import HighLight from '../app/HighLight'
 
 interface IProps {
-  docString: IDocString
+  docString: messages.GherkinDocument.Feature.Step.IDocString
 }
 
 const DocString: React.FunctionComponent<IProps> = ({ docString }) => {
