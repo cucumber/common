@@ -7,6 +7,7 @@
 #
 # The following environment variables override the default settings:
 #    - CUCUMBER_PUBLISH_URL: the publication service url
+#    - CUCUMBER_PUBLISH_TOKEN: the publication token  (optional)
 #
 # Usage: upload-cucumber-report path/to/messages.ndjson
 #
@@ -30,7 +31,11 @@ fi
 
 CUCUMBER_PUBLISH_URL=${CUCUMBER_PUBLISH_URL:-'https://messages.cucumber.io/api/reports'}
 
-response=$(curl -si ${CUCUMBER_PUBLISH_URL})
+if [ "${CUCUMBER_PUBLISH_TOKEN}" ]; then
+  response=$(curl -v -si "${CUCUMBER_PUBLISH_URL}" -H "Authorization: Bearer ${CUCUMBER_PUBLISH_TOKEN}")
+else
+  response=$(curl -v -si "${CUCUMBER_PUBLISH_URL}")
+fi
 
 upload_url=$(echo "${response}" | grep -i 'Location:' | awk '{print $2}' | tr -d "\r")
 if [ -z "${upload_url}" ]; then
