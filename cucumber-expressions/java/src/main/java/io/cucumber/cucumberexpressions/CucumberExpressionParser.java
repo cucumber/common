@@ -57,7 +57,9 @@ final class CucumberExpressionParser {
             asList(parameterParser, textParser)
     );
 
-    // alternation := alternative* + ( '/' + alternative* )+
+    /*
+     * alternation := alternative* + ( '/' + alternative* )+
+     */
     private static final Parser alternativeSeparator = (expression, tokens, current) -> {
         if (!lookingAt(tokens, current, ALTERNATION)) {
             return new Result(0);

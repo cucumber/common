@@ -9,8 +9,8 @@ export class Node {
   readonly type: NodeType
   readonly nodes?: ReadonlyArray<Node> | undefined
   readonly token?: string | undefined
-  private start: number
-  private end: number
+  readonly start: number
+  readonly end: number
 
   constructor(
     type: NodeType,
@@ -34,12 +34,12 @@ export class Node {
 }
 
 export enum NodeType {
-  textNode = 'TEXT_NODE',
-  optionalNode = 'OPTIONAL_NODE',
-  alternationNode = 'ALTERNATION_NODE',
-  alternativeNode = 'ALTERNATIVE_NODE',
-  parameterNode = 'PARAMETER_NODE',
-  expressionNode = 'EXPRESSION_NODE',
+  text = 'TEXT_NODE',
+  optional = 'OPTIONAL_NODE',
+  alternation = 'ALTERNATION_NODE',
+  alternative = 'ALTERNATIVE_NODE',
+  parameter = 'PARAMETER_NODE',
+  expression = 'EXPRESSION_NODE',
 }
 
 export class Token {
