@@ -6,11 +6,10 @@ import Scenario from './Scenario'
 import { messages } from '@cucumber/messages'
 import Rule from './Rule'
 import Background from './Background'
-import IFeature = messages.GherkinDocument.IFeature
 import FeatureTitle from './FeatureTitle'
 
 interface IProps {
-  feature: IFeature
+  feature: messages.GherkinDocument.IFeature
 }
 
 const generator = new IdGenerator()

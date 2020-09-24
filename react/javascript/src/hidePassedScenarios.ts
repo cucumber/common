@@ -5,10 +5,10 @@ import { Query as GherkinQuery } from '@cucumber/gherkin'
 import getFeatureStatus from './getFeatureStatus'
 
 export default function hidePassedScenarios(
-  documents: IGherkinDocument[],
+  documents: readonly IGherkinDocument[],
   cucumberQuery: CucumberQuery,
   gherkinQuery: GherkinQuery
-): IGherkinDocument[] {
+): readonly IGherkinDocument[] {
   return documents.filter(
     (document) =>
       getFeatureStatus(document, cucumberQuery, gherkinQuery) !=

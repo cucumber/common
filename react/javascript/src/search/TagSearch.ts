@@ -15,7 +15,11 @@ export default class TagSearch {
   >()
   private gherkinDocuments: messages.IGherkinDocument[] = []
 
-  constructor(private readonly gherkinQuery: GherkinQuery) {}
+  constructor(private readonly gherkinQuery: GherkinQuery) {
+    if(!gherkinQuery) {
+      throw new Error('No gherkinQuery')
+    }
+  }
 
   public search(query: string): messages.IGherkinDocument[] {
     const expressionNode = parse(query)

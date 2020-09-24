@@ -9,14 +9,14 @@ describe('ciCommitLink(ci)', () => {
         name: 'GitHub Actions',
         url: 'http://anywhere',
         git: messages.Meta.CI.Git.create({
-          remote: 'http://github.example.com/company/repo.git',
+          remote: 'git@github.example.com:company/repo.git',
           revision: 'some-sha',
         }),
       })
 
       assert.strictEqual(
         ciCommitLink(ci),
-        'http://github.example.com/company/repo/commit/some-sha'
+        'https://github.example.com/company/repo/commit/some-sha'
       )
     })
   })
@@ -43,7 +43,7 @@ describe('ciCommitLink(ci)', () => {
     it('returns undefined', () => {
       const ci = messages.Meta.CI.create()
 
-      assert.strictEqual(ciCommitLink(ci), undefined)
+      assert.strictEqual(ciCommitLink(ci), null)
     })
   })
 })

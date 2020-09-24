@@ -4,10 +4,9 @@ import { messages } from '@cucumber/messages'
 import StepList from './StepList'
 import IdGenerator from '../../IdGenerator'
 import BackgroundTitle from './BackgroundTitle'
-import IBackground = messages.GherkinDocument.Feature.IBackground
 
 interface IProps {
-  background: IBackground
+  background: messages.GherkinDocument.Feature.IBackground
 }
 
 const generator = new IdGenerator()
