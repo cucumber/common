@@ -5,6 +5,41 @@ const endParameterCharacter = '}'
 const beginOptionalCharacter = '('
 const endOptionalCharacter = ')'
 
+export function symbolOf(token: TokenType): string {
+  switch (token) {
+    case TokenType.beginOptional:
+      return beginOptionalCharacter
+    case TokenType.endOptional:
+      return endOptionalCharacter
+    case TokenType.beginParameter:
+      return beginParameterCharacter
+    case TokenType.endParameter:
+      return endParameterCharacter
+    case TokenType.alternation:
+      return alternationCharacter
+  }
+  return ''
+}
+
+export function purposeOf(token: TokenType): string {
+  switch (token) {
+    case TokenType.beginOptional:
+    case TokenType.endOptional:
+      return 'optional text'
+    case TokenType.beginParameter:
+    case TokenType.endParameter:
+      return 'a parameter'
+    case TokenType.alternation:
+      return 'alternation'
+  }
+  return ''
+}
+
+export interface Located {
+  readonly start: number
+  readonly end: number
+}
+
 export class Node {
   readonly type: NodeType
   readonly nodes?: ReadonlyArray<Node> | undefined

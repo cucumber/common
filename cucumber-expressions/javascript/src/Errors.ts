@@ -1,9 +1,10 @@
 import ParameterType from './ParameterType'
 import GeneratedExpression from './GeneratedExpression'
+import { Located, purposeOf, symbolOf, Token, TokenType } from './Ast'
 
-class CucumberExpressionError extends Error {}
+export class CucumberExpressionError extends Error {}
 
-function createTheEndOfLIneCanNotBeEscaped(
+export function createTheEndOfLIneCanNotBeEscaped(
   expression: string
 ): CucumberExpressionError {
   const index = Array.from(expression).length - 1
@@ -18,7 +19,27 @@ function createTheEndOfLIneCanNotBeEscaped(
   )
 }
 
-function createCantEscaped(expression: string, index: number) {
+export function createMissingEndToken(
+  expression: string,
+  beginToken: TokenType,
+  endToken: TokenType,
+  current: Token
+) {
+  const beginSymbol = symbolOf(beginToken)
+  const endSymbol = symbolOf(endToken)
+  const purpose = purposeOf(beginToken)
+  return new CucumberExpressionError(
+    message(
+      current.start,
+      expression,
+      pointAtLocated(current),
+      `The '${beginSymbol}' does not have a matching '${endSymbol}'`,
+      `If you did not intend to use ${purpose} you can use '\\${beginSymbol}' to escape the ${purpose}`
+    )
+  )
+}
+
+export function createCantEscaped(expression: string, index: number) {
   return new CucumberExpressionError(
     message(
       index,
@@ -54,7 +75,18 @@ function pointAt(index: number): string {
   return pointer.join('')
 }
 
-class AmbiguousParameterTypeError extends CucumberExpressionError {
+function pointAtLocated(node: Located): string {
+  const pointer = [pointAt(node.start)]
+  if (node.start + 1 < node.end) {
+    for (let i = node.start + 1; i < node.end - 1; i++) {
+      pointer.push('-')
+    }
+    pointer.push('^')
+  }
+  return pointer.join('')
+}
+
+export class AmbiguousParameterTypeError extends CucumberExpressionError {
   public static forConstructor(
     keyName: string,
     keyValue: string,
@@ -100,16 +132,8 @@ I couldn't decide which one to use. You have two options:
   }
 }
 
-class UndefinedParameterTypeError extends CucumberExpressionError {
+export class UndefinedParameterTypeError extends CucumberExpressionError {
   constructor(public readonly undefinedParameterTypeName: string) {
     super(`Undefined parameter type {${undefinedParameterTypeName}}`)
   }
-}
-
-export {
-  AmbiguousParameterTypeError,
-  UndefinedParameterTypeError,
-  CucumberExpressionError,
-  createTheEndOfLIneCanNotBeEscaped,
-  createCantEscaped,
 }

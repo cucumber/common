@@ -1,5 +1,6 @@
 import { Node, NodeType, Token, TokenType } from './Ast'
 import CucumberExpressionTokenizer from './CucumberExpressionTokenizer'
+import { createMissingEndToken } from './Errors'
 
 /*
  * text := token
@@ -165,13 +166,12 @@ function parseBetween(
 
     // endToken not found
     if (!lookingAt(tokens, subCurrent, endToken)) {
-      // throw createMissingEndToken(
-      //   expression,
-      //   beginToken,
-      //   endToken,
-      //   tokens[current]
-      // )
-      throw new Error('TODO: createMissingEndToken')
+      throw createMissingEndToken(
+        expression,
+        beginToken,
+        endToken,
+        tokens[current]
+      )
     }
     // consumes endToken
     const start = tokens[current].start
