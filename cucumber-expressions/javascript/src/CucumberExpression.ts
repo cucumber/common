@@ -3,13 +3,13 @@ import ParameterType from './ParameterType'
 import TreeRegexp from './TreeRegexp'
 import Argument from './Argument'
 import {
-  CucumberExpressionError,
-  createOptionalMayNotBeEmpty,
-  createParameterIsNotAllowedInOptional,
   createAlternativeMayNotBeEmpty,
   createAlternativeMayNotExclusivelyContainOptionals,
   createInvalidParameterTypeName,
+  createOptionalMayNotBeEmpty,
+  createParameterIsNotAllowedInOptional,
   createUndefinedParameterType,
+  CucumberExpressionError,
 } from './Errors'
 import Expression from './Expression'
 import CucumberExpressionParser from './CucumberExpressionParser'
@@ -105,10 +105,7 @@ export default class CucumberExpression implements Expression {
     if (regexps.length == 1) {
       return `(${regexps[0]})`
     }
-    const regex = node.nodes
-      .map((node) => this.rewriteToRegex(node))
-      .join(')|(?:')
-    return `((?::${regex}))`
+    return `((?:${regexps.join(')|(?:')}))`
   }
 
   private rewriteExpression(node: Node) {

@@ -4,7 +4,6 @@ import ParameterTypeRegistry from '../src/ParameterTypeRegistry'
 import ParameterType from '../src/ParameterType'
 import fs from 'fs'
 import yaml from 'js-yaml'
-import CucumberExpressionTokenizer from '../src/CucumberExpressionTokenizer'
 import { CucumberExpressionError } from '../src/Errors'
 
 interface Expectation {
@@ -17,7 +16,7 @@ interface Expectation {
 describe('CucumberExpression', () => {
   fs.readdirSync('testdata/expression').forEach((testcase) => {
     const testCaseData = fs.readFileSync(
-      `testdata/expression/${testcase}`,
+      `testdata/expression/matches-int.yaml`,
       'utf-8'
     )
     const expectation = yaml.safeLoad(testCaseData) as Expectation
@@ -168,7 +167,7 @@ describe('CucumberExpression', () => {
   })
 
   describe('escapes special characters', () => {
-    const special = ['\\', '[', ']', '^', '$', '.', '|', '?', '*', '+']
+    const special = ['[', ']', '^', '$', '.', '|', '?', '*', '+']
     special.forEach((character) => {
       it(`escapes ${character}`, () => {
         const expr = `I have {int} cuke(s) and ${character}`
@@ -189,6 +188,17 @@ describe('CucumberExpression', () => {
       )
       assert.strictEqual(expression.match(`I have 800 cukes and 3`), null)
       const arg1 = expression.match(`I have 800 cukes and .`)[0]
+      assert.strictEqual(arg1.getValue(null), 800)
+    })
+
+    it(`escapes \\`, () => {
+      const expr = `I have {int} cuke(s) and \\\\`
+      const expression = new CucumberExpression(
+        expr,
+        new ParameterTypeRegistry()
+      )
+      assert.strictEqual(expression.match(`I have 800 cukes and 3`), null)
+      const arg1 = expression.match(`I have 800 cukes and \\`)[0]
       assert.strictEqual(arg1.getValue(null), 800)
     })
 

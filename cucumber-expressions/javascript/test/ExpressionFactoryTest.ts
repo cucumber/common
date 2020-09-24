@@ -23,10 +23,4 @@ describe('ExpressionFactory', () => {
       CucumberExpression
     )
   })
-
-  it('creates an UndefinedParameterTypeExpression', () => {
-    assert.throws(() => expressionFactory.createExpression('{x}'), {
-      message: 'Undefined parameter type {x}',
-    })
-  })
 })
