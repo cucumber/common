@@ -66,6 +66,13 @@ export class Node {
     this.start = start
     this.end = end
   }
+
+  text(): string {
+    if (this.nodes) {
+      return this.nodes.map((value) => value.text()).join('')
+    }
+    return this.token
+  }
 }
 
 export enum NodeType {

@@ -2,24 +2,20 @@ import ParameterTypeRegistry from './ParameterTypeRegistry'
 import ParameterType from './ParameterType'
 import TreeRegexp from './TreeRegexp'
 import Argument from './Argument'
-import { CucumberExpressionError, UndefinedParameterTypeError } from './Errors'
+import {
+  CucumberExpressionError,
+  createOptionalMayNotBeEmpty,
+  createParameterIsNotAllowedInOptional,
+  createAlternativeMayNotBeEmpty,
+  createAlternativeMayNotExclusivelyContainOptionals,
+  createInvalidParameterTypeName,
+  createUndefinedParameterType,
+} from './Errors'
 import Expression from './Expression'
+import CucumberExpressionParser from './CucumberExpressionParser'
+import { Node, NodeType } from './Ast'
 
-// RegExps with the g flag are stateful in JavaScript. In order to be able
-// to reuse them we have to wrap them in a function.
-// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/test
-
-// Does not include (){} characters because they have special meaning
-const ESCAPE_REGEXP = () => /([\\^[$.|?*+])/g
-const PARAMETER_REGEXP = () => /(\\\\)?{([^}]*)}/g
-const OPTIONAL_REGEXP = () => /(\\\\)?\(([^)]+)\)/g
-const ALTERNATIVE_NON_WHITESPACE_TEXT_REGEXP = () =>
-  /([^\s^/]+)((\/[^\s^/]+)+)/g
-const DOUBLE_ESCAPE = '\\\\'
-const PARAMETER_TYPES_CANNOT_BE_ALTERNATIVE =
-  'Parameter types cannot be alternative: '
-const PARAMETER_TYPES_CANNOT_BE_OPTIONAL =
-  'Parameter types cannot be optional: '
+const ESCAPE_PATTERN = () => /([\\^[({$.|?*+})\]])/g
 
 export default class CucumberExpression implements Expression {
   private readonly parameterTypes: Array<ParameterType<any>> = []
@@ -33,69 +29,118 @@ export default class CucumberExpression implements Expression {
     private readonly expression: string,
     private readonly parameterTypeRegistry: ParameterTypeRegistry
   ) {
-    let expr = this.processEscapes(expression)
-    expr = this.processOptional(expr)
-    expr = this.processAlternation(expr)
-    expr = this.processParameters(expr, parameterTypeRegistry)
-    expr = `^${expr}$`
-
-    this.treeRegexp = new TreeRegexp(expr)
+    const parser = new CucumberExpressionParser()
+    const ast = parser.parse(expression)
+    const pattern = this.rewriteToRegex(ast)
+    this.treeRegexp = new TreeRegexp(pattern)
   }
 
-  private processEscapes(expression: string) {
-    return expression.replace(ESCAPE_REGEXP(), '\\$1')
+  private rewriteToRegex(node: Node): string {
+    switch (node.type) {
+      case NodeType.text:
+        return CucumberExpression.escapeRegex(node.text())
+      case NodeType.optional:
+        return this.rewriteOptional(node)
+      case NodeType.alternation:
+        return this.rewriteAlternation(node)
+      case NodeType.alternative:
+        return this.rewriteAlternative(node)
+      case NodeType.parameter:
+        return this.rewriteParameter(node)
+      case NodeType.expression:
+        return this.rewriteExpression(node)
+      default:
+        throw new Error(node.type)
+    }
   }
 
-  private processOptional(expression: string) {
-    return expression.replace(OPTIONAL_REGEXP(), (match, p1, p2) => {
-      if (p1 === DOUBLE_ESCAPE) {
-        return `\\(${p2}\\)`
-      }
-      this.checkNoParameterType(p2, PARAMETER_TYPES_CANNOT_BE_OPTIONAL)
-      return `(?:${p2})?`
-    })
+  private static escapeRegex(expression: string) {
+    return expression.replace(ESCAPE_PATTERN(), '\\$1')
   }
 
-  private processAlternation(expression: string) {
-    return expression.replace(
-      ALTERNATIVE_NON_WHITESPACE_TEXT_REGEXP(),
-      (match) => {
-        // replace \/ with /
-        // replace / with |
-        const replacement = match.replace(/\//g, '|').replace(/\\\|/g, '/')
-        if (replacement.indexOf('|') !== -1) {
-          for (const part of replacement.split(/\|/)) {
-            this.checkNoParameterType(
-              part,
-              PARAMETER_TYPES_CANNOT_BE_ALTERNATIVE
-            )
-          }
-          return `(?:${replacement})`
-        } else {
-          return replacement
-        }
-      }
+  private rewriteOptional(node: Node): string {
+    this.assertNoParameters(node, (astNode) =>
+      createParameterIsNotAllowedInOptional(astNode, this.expression)
     )
+    this.assertNotEmpty(node, (astNode) =>
+      createOptionalMayNotBeEmpty(astNode, this.expression)
+    )
+    const regex = node.nodes.map((node) => this.rewriteToRegex(node)).join('')
+    return `(?:${regex})?`
   }
 
-  private processParameters(
-    expression: string,
-    parameterTypeRegistry: ParameterTypeRegistry
-  ) {
-    return expression.replace(PARAMETER_REGEXP(), (match, p1, p2) => {
-      if (p1 === DOUBLE_ESCAPE) {
-        return `\\{${p2}\\}`
+  private rewriteAlternation(node: Node) {
+    // Make sure the alternative parts aren't empty and don't contain parameter types
+    node.nodes.forEach((alternative) => {
+      if (alternative.nodes.length == 0) {
+        throw createAlternativeMayNotBeEmpty(alternative, this.expression)
       }
-
-      const typeName = p2
-      ParameterType.checkParameterTypeName(typeName)
-      const parameterType = parameterTypeRegistry.lookupByTypeName(typeName)
-      if (!parameterType) {
-        throw new UndefinedParameterTypeError(typeName)
-      }
-      this.parameterTypes.push(parameterType)
-      return buildCaptureRegexp(parameterType.regexpStrings)
+      this.assertNotEmpty(alternative, (astNode) =>
+        createAlternativeMayNotExclusivelyContainOptionals(
+          astNode,
+          this.expression
+        )
+      )
     })
+    const regex = node.nodes.map((node) => this.rewriteToRegex(node)).join('|')
+    return `(?:${regex})`
+  }
+
+  private rewriteAlternative(node: Node) {
+    return node.nodes.map((lastNode) => this.rewriteToRegex(lastNode)).join('')
+  }
+
+  private rewriteParameter(node: Node) {
+    const name = node.text()
+    if (!ParameterType.isValidParameterTypeName(name)) {
+      throw createInvalidParameterTypeName(name)
+    }
+
+    const parameterType = this.parameterTypeRegistry.lookupByTypeName(name)
+    if (!parameterType) {
+      throw createUndefinedParameterType(node, this.expression, name)
+    }
+    this.parameterTypes.push(parameterType)
+    const regexps = parameterType.regexpStrings
+    if (regexps.length == 1) {
+      return `(${regexps[0]})`
+    }
+    const regex = node.nodes
+      .map((node) => this.rewriteToRegex(node))
+      .join(')|(?:')
+    return `((?::${regex}))`
+  }
+
+  private rewriteExpression(node: Node) {
+    const regex = node.nodes.map((node) => this.rewriteToRegex(node)).join('')
+    return `^${regex}$`
+  }
+
+  private assertNotEmpty(
+    node: Node,
+    createNodeWasNotEmptyException: (astNode: Node) => CucumberExpressionError
+  ) {
+    const textNodes = node.nodes.filter(
+      (astNode) => NodeType.text == astNode.type
+    )
+
+    if (textNodes.length == 0) {
+      throw createNodeWasNotEmptyException(node)
+    }
+  }
+
+  private assertNoParameters(
+    node: Node,
+    createNodeContainedAParameterError: (
+      astNode: Node
+    ) => CucumberExpressionError
+  ) {
+    const parameterNodes = node.nodes.filter(
+      (astNode) => NodeType.parameter == astNode.type
+    )
+    if (parameterNodes.length > 0) {
+      throw createNodeContainedAParameterError(node)
+    }
   }
 
   public match(text: string): ReadonlyArray<Argument<any>> {
@@ -109,22 +154,4 @@ export default class CucumberExpression implements Expression {
   get source(): string {
     return this.expression
   }
-
-  private checkNoParameterType(s: string, message: string) {
-    if (s.match(PARAMETER_REGEXP())) {
-      throw new CucumberExpressionError(message + this.source)
-    }
-  }
-}
-
-function buildCaptureRegexp(regexps: ReadonlyArray<string>) {
-  if (regexps.length === 1) {
-    return `(${regexps[0]})`
-  }
-
-  const captureGroups = regexps.map((group) => {
-    return `(?:${group})`
-  })
-
-  return `(${captureGroups.join('|')})`
 }

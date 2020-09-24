@@ -1,8 +1,65 @@
 import ParameterType from './ParameterType'
 import GeneratedExpression from './GeneratedExpression'
-import { Located, purposeOf, symbolOf, Token, TokenType } from './Ast'
+import { Located, Node, purposeOf, symbolOf, Token, TokenType } from './Ast'
 
 export class CucumberExpressionError extends Error {}
+
+export function createAlternativeMayNotExclusivelyContainOptionals(
+  node: Node,
+  expression: string
+): CucumberExpressionError {
+  return new CucumberExpressionError(
+    message(
+      node.start,
+      expression,
+      pointAtLocated(node),
+      'An alternative may not exclusively contain optionals',
+      "If you did not mean to use an optional you can use '\\(' to escape the the '('"
+    )
+  )
+}
+export function createAlternativeMayNotBeEmpty(
+  node: Node,
+  expression: string
+): CucumberExpressionError {
+  return new CucumberExpressionError(
+    message(
+      node.start,
+      expression,
+      pointAtLocated(node),
+      'Alternative may not be empty',
+      "If you did not mean to use an alternative you can use '\\/' to escape the the '/'"
+    )
+  )
+}
+export function createOptionalMayNotBeEmpty(
+  node: Node,
+  expression: string
+): CucumberExpressionError {
+  return new CucumberExpressionError(
+    message(
+      node.start,
+      expression,
+      pointAtLocated(node),
+      'An optional must contain some text',
+      "If you did not mean to use an optional you can use '\\(' to escape the the '('"
+    )
+  )
+}
+export function createParameterIsNotAllowedInOptional(
+  node: Node,
+  expression: string
+): CucumberExpressionError {
+  return new CucumberExpressionError(
+    message(
+      node.start,
+      expression,
+      pointAtLocated(node),
+      'An optional may not contain a parameter type',
+      "If you did not mean to use an parameter type you can use '\\{' to escape the the '{'"
+    )
+  )
+}
 
 export function createTheEndOfLIneCanNotBeEscaped(
   expression: string
@@ -48,6 +105,14 @@ export function createCantEscaped(expression: string, index: number) {
       "Only the characters '{', '}', '(', ')', '\\', '/' and whitespace can be escaped",
       "If you did mean to use an '\\' you can use '\\\\' to escape it"
     )
+  )
+}
+
+export function createInvalidParameterTypeName(name: string) {
+  return new CucumberExpressionError(
+    'Illegal character in parameter name {' +
+      name +
+      "}. Parameter names may not contain '[]()$.|?*+'"
   )
 }
 
@@ -133,7 +198,23 @@ I couldn't decide which one to use. You have two options:
 }
 
 export class UndefinedParameterTypeError extends CucumberExpressionError {
-  constructor(public readonly undefinedParameterTypeName: string) {
-    super(`Undefined parameter type {${undefinedParameterTypeName}}`)
+  constructor(public readonly message: string) {
+    super(message)
   }
+}
+
+export function createUndefinedParameterType(
+  node: Node,
+  expression: string,
+  undefinedParameterTypeName: string
+) {
+  return new UndefinedParameterTypeError(
+    message(
+      node.start,
+      expression,
+      pointAtLocated(node),
+      `Undefined parameter type '${undefinedParameterTypeName}'`,
+      `Please register a ParameterType for '${undefinedParameterTypeName}'`
+    )
+  )
 }

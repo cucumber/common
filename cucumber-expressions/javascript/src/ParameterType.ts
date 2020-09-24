@@ -1,4 +1,7 @@
-import { CucumberExpressionError } from './Errors'
+import {
+  createInvalidParameterTypeName,
+  CucumberExpressionError,
+} from './Errors'
 
 const ILLEGAL_PARAMETER_NAME_PATTERN = /([[\]()$.|?*+])/
 const UNESCAPE_PATTERN = () => /(\\([[$.|?*+\]]))/g
@@ -17,13 +20,14 @@ export default class ParameterType<T> {
   }
 
   public static checkParameterTypeName(typeName: string) {
-    const unescapedTypeName = typeName.replace(UNESCAPE_PATTERN(), '$2')
-    const match = unescapedTypeName.match(ILLEGAL_PARAMETER_NAME_PATTERN)
-    if (match) {
-      throw new CucumberExpressionError(
-        `Illegal character '${match[1]}' in parameter name {${unescapedTypeName}}`
-      )
+    if (!this.isValidParameterTypeName(typeName)) {
+      throw createInvalidParameterTypeName(typeName)
     }
+  }
+
+  public static isValidParameterTypeName(typeName: string) {
+    const unescapedTypeName = typeName.replace(UNESCAPE_PATTERN(), '$2')
+    return !unescapedTypeName.match(ILLEGAL_PARAMETER_NAME_PATTERN)
   }
 
   public regexpStrings: ReadonlyArray<string>
