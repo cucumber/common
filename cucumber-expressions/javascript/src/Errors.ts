@@ -198,7 +198,10 @@ I couldn't decide which one to use. You have two options:
 }
 
 export class UndefinedParameterTypeError extends CucumberExpressionError {
-  constructor(public readonly message: string) {
+  constructor(
+    public readonly undefinedParameterTypeName: string,
+    message: string
+  ) {
     super(message)
   }
 }
@@ -209,6 +212,7 @@ export function createUndefinedParameterType(
   undefinedParameterTypeName: string
 ) {
   return new UndefinedParameterTypeError(
+    undefinedParameterTypeName,
     message(
       node.start,
       expression,
