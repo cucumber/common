@@ -1,15 +1,16 @@
 import { messages } from '@cucumber/messages'
-import Status = messages.TestStepFinished.TestStepResult.Status
 
-export default (status: Status): string => {
+export default (
+  status: messages.TestStepFinished.TestStepResult.Status
+): string => {
   return {
     // Keep the same order as in messages.proto - for readability's sake
-    [Status.PASSED]: 'passed',
-    [Status.SKIPPED]: 'skipped',
-    [Status.PENDING]: 'pending',
-    [Status.UNDEFINED]: 'undefined',
-    [Status.AMBIGUOUS]: 'ambiguous',
-    [Status.FAILED]: 'failed',
-    [Status.UNKNOWN]: 'unknown',
+    [messages.TestStepFinished.TestStepResult.Status.PASSED]: 'passed',
+    [messages.TestStepFinished.TestStepResult.Status.SKIPPED]: 'skipped',
+    [messages.TestStepFinished.TestStepResult.Status.PENDING]: 'pending',
+    [messages.TestStepFinished.TestStepResult.Status.UNDEFINED]: 'undefined',
+    [messages.TestStepFinished.TestStepResult.Status.AMBIGUOUS]: 'ambiguous',
+    [messages.TestStepFinished.TestStepResult.Status.FAILED]: 'failed',
+    [messages.TestStepFinished.TestStepResult.Status.UNKNOWN]: 'unknown',
   }[status]
 }

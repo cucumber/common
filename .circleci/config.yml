@@ -917,7 +917,6 @@ workflows:
             - messages-javascript
             - gherkin-javascript
             - gherkin-utils-javascript
-            - fake-cucumber-javascript
             - query-javascript
       - html-formatter-javascript:
           requires:

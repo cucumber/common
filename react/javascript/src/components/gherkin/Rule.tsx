@@ -4,11 +4,10 @@ import Description from './Description'
 import Scenario from './Scenario'
 import { messages } from '@cucumber/messages'
 import Background from './Background'
-import IRule = messages.GherkinDocument.Feature.FeatureChild.IRule
 import RuleTitle from './RuleTitle'
 
 interface IProps {
-  rule: IRule
+  rule: messages.GherkinDocument.Feature.FeatureChild.IRule
 }
 
 const generator = new IdGenerator()

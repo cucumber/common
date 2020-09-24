@@ -1,11 +1,10 @@
 import React from 'react'
 import { messages } from '@cucumber/messages'
 import ExamplesTableBody from './ExamplesTableBody'
-import ITableRow = messages.GherkinDocument.Feature.ITableRow
 
 interface IProps {
-  tableHeader: ITableRow
-  tableBody: ITableRow[]
+  tableHeader: messages.GherkinDocument.Feature.ITableRow
+  tableBody: messages.GherkinDocument.Feature.ITableRow[]
 }
 
 const ExamplesTable: React.FunctionComponent<IProps> = ({

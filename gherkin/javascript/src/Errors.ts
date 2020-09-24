@@ -20,7 +20,7 @@ class GherkinException extends Error {
     }
   }
 
-  protected static _create<T>(message: string, location?: messages.ILocation) {
+  protected static _create(message: string, location?: messages.ILocation) {
     const column = location != null ? location.column || 0 : -1
     const line = location != null ? location.line || 0 : -1
     const m = `(${line}:${column}): ${message}`
