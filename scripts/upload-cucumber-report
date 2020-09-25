@@ -32,9 +32,9 @@ fi
 CUCUMBER_PUBLISH_URL=${CUCUMBER_PUBLISH_URL:-'https://messages.cucumber.io/api/reports'}
 
 if [ "${CUCUMBER_PUBLISH_TOKEN}" ]; then
-  response=$(curl -si "${CUCUMBER_PUBLISH_URL}" -H "Authorization: Bearer ${CUCUMBER_PUBLISH_TOKEN}")
+  response=$(curl --silent --include --show-error "${CUCUMBER_PUBLISH_URL}" -H "Authorization: Bearer ${CUCUMBER_PUBLISH_TOKEN}")
 else
-  response=$(curl -si "${CUCUMBER_PUBLISH_URL}")
+  response=$(curl --silent --include --show-error "${CUCUMBER_PUBLISH_URL}")
 fi
 
 upload_url=$(echo "${response}" | grep -i 'Location:' | awk '{print $2}' | tr -d "\r")
