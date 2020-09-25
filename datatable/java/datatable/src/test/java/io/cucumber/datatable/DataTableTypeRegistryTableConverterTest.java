@@ -207,9 +207,13 @@ class DataTableTypeRegistryTableConverterTest {
 
     @Test
     void convert_to_optional_list() {
-        DataTable table = parse("",
-                "| 11.22   |",
-                "| 255.999 |"
+        DataTable table = DataTable.create(
+                asList(
+                        singletonList("11.22"),
+                        singletonList("255.999"),
+                        singletonList(null)
+                ),
+                converter
         );
 
         List<Optional<BigDecimal>> expected = asList(
@@ -1087,13 +1091,13 @@ class DataTableTypeRegistryTableConverterTest {
                 () -> converter.convert(table, OPTIONAL_CHESS_BOARD_TYPE)
         );
         assertThat(exception.getMessage(), is("" +
-                "Can't convert DataTable to java.util.Optional<io.cucumber.datatable.DataTableTypeRegistryTableConverterTest$ChessBoard>.\n" +
+                "Can't convert DataTable to io.cucumber.datatable.DataTableTypeRegistryTableConverterTest$ChessBoard.\n" +
                 "Please review these problems:\n" +
                 "\n" +
-                " - There was no table entry or table row transformer registered for java.util.Optional<io.cucumber.datatable.DataTableTypeRegistryTableConverterTest$ChessBoard>.\n" +
+                " - There was no table entry or table row transformer registered for io.cucumber.datatable.DataTableTypeRegistryTableConverterTest$ChessBoard.\n" +
                 "   Please consider registering a table entry or row transformer.\n" +
                 "\n" +
-                " - There was no default table entry transformer registered to transform java.util.Optional<io.cucumber.datatable.DataTableTypeRegistryTableConverterTest$ChessBoard>.\n" +
+                " - There was no default table entry transformer registered to transform io.cucumber.datatable.DataTableTypeRegistryTableConverterTest$ChessBoard.\n" +
                 "   Please consider registering a default table entry transformer.\n" +
                 "\n" +
                 "Note: Usually solving one is enough"));

@@ -81,7 +81,13 @@ public final class DataTableTypeRegistryTableConverter implements TableConverter
             return (T) toMap(dataTable, mapType.getKeyType(), mapType.getValueType());
         }
 
-        if (javaType instanceof OtherType || javaType instanceof OptionalType) {
+        if (javaType instanceof OptionalType) {
+            OptionalType optionalType = (OptionalType) javaType;
+            Object singleton = toSingleton(dataTable, optionalType.getElementType());
+            return (T) Optional.ofNullable(singleton);
+        }
+
+        if (javaType instanceof OtherType) {
             return toSingleton(dataTable, javaType);
         }
 
