@@ -5,6 +5,10 @@
 #
 # It works in the same way as the built-in --publish option in Cucumber Open.
 #
+# The following environment variables override the default settings:
+#    - CUCUMBER_PUBLISH_URL: the publication service url
+#    - CUCUMBER_PUBLISH_TOKEN: the publication token  (optional)
+#
 # Usage: upload-cucumber-report path/to/messages.ndjson
 #
 set -o errexit
@@ -13,17 +17,33 @@ RED='\033[0;31m'
 GREEN='\033[0;32m'
 NC='\033[0m'
 
+function echo_error() {
+  echo -e "${RED}$*${NC}"
+}
+
 if [[ -z "$1" ]]; then
-  echo -e "${RED}ERROR: No message file supplied${NC}"
+  echo_error "ERROR: No message file supplied"
   echo
-  echo -e "${RED}Usage $0 path/to/messages.ndjson${NC}"
+  echo_error "Usage $0 path/to/messages.ndjson"
   echo
   exit 1
 fi
 
-response=$(curl -si 'https://messages.cucumber.io/api/reports')
+CUCUMBER_PUBLISH_URL=${CUCUMBER_PUBLISH_URL:-'https://messages.cucumber.io/api/reports'}
 
-upload_url=$(echo "${response}" | grep 'location:' | awk '{print $2}' | tr -d "\r")
+if [ "${CUCUMBER_PUBLISH_TOKEN}" ]; then
+  response=$(curl --silent --include --show-error "${CUCUMBER_PUBLISH_URL}" -H "Authorization: Bearer ${CUCUMBER_PUBLISH_TOKEN}")
+else
+  response=$(curl --silent --include --show-error "${CUCUMBER_PUBLISH_URL}")
+fi
+
+upload_url=$(echo "${response}" | grep -i 'Location:' | awk '{print $2}' | tr -d "\r")
+if [ -z "${upload_url}" ]; then
+  echo "${response}"
+  echo
+  echo_error "Error: could not find the location header in the response"
+  exit 1
+fi
 curl -X PUT "${upload_url}" --upload-file "$1"
 # Only print the banner which starts with a "┌" character
 echo "${response}" | sed -n '/┌/,$p'

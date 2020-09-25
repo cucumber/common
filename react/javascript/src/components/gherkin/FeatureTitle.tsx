@@ -1,6 +1,5 @@
 import React from 'react'
 import { messages } from '@cucumber/messages'
-import IFeature = messages.GherkinDocument.IFeature
 import Keyword from './Keyword'
 import HighLight from '../app/HighLight'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -8,7 +7,7 @@ import { faLink } from '@fortawesome/free-solid-svg-icons'
 
 interface IProps {
   id: string
-  feature: IFeature
+  feature: messages.GherkinDocument.IFeature
 }
 
 const FeatureTitle: React.FunctionComponent<IProps> = ({ id, feature }) => {

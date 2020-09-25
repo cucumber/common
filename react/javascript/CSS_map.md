@@ -13,10 +13,10 @@ Some CSS classes can be applied to multiple places:
  * `cucumber-title`: title for a `Feature`, `Scenario`, `Background` or `Rule`
  * `cucumber-title__keyword`: the keyword of a title
  * `cucumber-title__text`: the text of a title
- * `cucumber-descrition`: description for the same elements
+ * `cucumber-description`: description for the same elements
  * `cucumber-tags`: list of element tags
  * `cucumber-tag`: single tag
- * `cucumber-children`: list of childrens for a `Feature` or a `Rule`
+ * `cucumber-children`: list of children for a `Feature` or a `Rule`
  * `cucumber-steps`: list of steps
  * `cucumber-step`: single step
  * `cucumber-step__status`: the status of the step
