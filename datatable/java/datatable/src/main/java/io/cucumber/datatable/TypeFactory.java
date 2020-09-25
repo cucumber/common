@@ -1,6 +1,5 @@
 package io.cucumber.datatable;
 
-
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
@@ -38,7 +37,7 @@ final class TypeFactory {
             return (JavaType) type;
         }
 
-        if (Optional.class.equals(type)){
+        if (Optional.class.equals(type)) {
             return new OptionalType(type, Optional.class, constructType(Object.class));
         }
 
@@ -159,6 +158,11 @@ final class TypeFactory {
         public Type getOriginal() {
             return original;
         }
+
+        @Override
+        public String toString() {
+            return getTypeName();
+        }
     }
 
     static class Parameterized implements JavaType {
@@ -200,6 +204,11 @@ final class TypeFactory {
         @Override
         public String getTypeName() {
             return original.getTypeName();
+        }
+
+        @Override
+        public String toString() {
+            return getTypeName();
         }
     }
 
@@ -247,6 +256,11 @@ final class TypeFactory {
         public Type getOriginal() {
             return original;
         }
+
+        @Override
+        public String toString() {
+            return getTypeName();
+        }
     }
 
     static final class OptionalType implements JavaType {
@@ -292,6 +306,11 @@ final class TypeFactory {
         @Override
         public Type getOriginal() {
             return original;
+        }
+
+        @Override
+        public String toString() {
+            return getTypeName();
         }
     }
 
@@ -341,5 +360,11 @@ final class TypeFactory {
         public Type getOriginal() {
             return original;
         }
+
+        @Override
+        public String toString() {
+            return getTypeName();
+        }
+
     }
 }

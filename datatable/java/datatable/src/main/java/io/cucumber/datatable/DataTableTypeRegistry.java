@@ -86,18 +86,18 @@ public final class DataTableTypeRegistry {
     }
 
     DataTableType lookupTableTypeByType(final Type type) {
-        return lookupTableType(type, Function.identity());
+        return lookupTableTypeByType(type, Function.identity());
     }
 
     DataTableType lookupTableRowByType(final Type type) {
-        return lookupTableType(type, TypeFactory::aListOf);
+        return lookupTableTypeByType(type, TypeFactory::aListOf);
     }
 
     DataTableType lookupTableCellByType(final Type type) {
-        return lookupTableType(type, javaType -> aListOf(aListOf(javaType)));
+        return lookupTableTypeByType(type, javaType -> aListOf(aListOf(javaType)));
     }
 
-    private DataTableType lookupTableType(Type type, Function<JavaType, JavaType> toTableType) {
+    private DataTableType lookupTableTypeByType(Type type, Function<JavaType, JavaType> toTableType) {
         JavaType javaElementType = constructType(type);
         JavaType javaTableType = toTableType.apply(javaElementType);
         DataTableType tableType = tableTypeByType.get(javaTableType);

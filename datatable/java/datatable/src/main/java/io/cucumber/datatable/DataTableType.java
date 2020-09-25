@@ -270,8 +270,7 @@ public final class DataTableType {
         private final ListType targetType;
         private final TableRowTransformer<T> transformer;
 
-        TableRowTransformerAdaptor(Type targetType,
-                TableRowTransformer<T> transformer) {
+        TableRowTransformerAdaptor(Type targetType, TableRowTransformer<T> transformer) {
             if (targetType == null)
                 throw new NullPointerException("targetType cannot be null");
             this.targetType = aListOf(targetType);
@@ -311,8 +310,7 @@ public final class DataTableType {
         private final ListType targetType;
         private final TableEntryTransformer<T> transformer;
 
-        TableEntryTransformerAdaptor(Type targetType,
-                TableEntryTransformer<T> transformer) {
+        TableEntryTransformerAdaptor(Type targetType, TableEntryTransformer<T> transformer) {
             if (targetType == null)
                 throw new NullPointerException("targetType cannot be null");
             this.targetType = aListOf(targetType);
