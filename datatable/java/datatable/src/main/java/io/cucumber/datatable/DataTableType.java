@@ -95,7 +95,7 @@ public final class DataTableType {
      * @param <T>         see <code>type</code>
      */
     <T> DataTableType(Type type, TableCellTransformer<T> transformer, boolean replaceable) {
-        this(type, new TableCellTransformerAdaptor<T>(type, transformer), replaceable);
+        this(type, new TableCellTransformerAdaptor<>(type, transformer), replaceable);
     }
 
     /**
@@ -132,11 +132,10 @@ public final class DataTableType {
      *                                    {@code List<T>}
      * @param defaultDataTableTransformer default entry transformer registered
      *                                    in {@link DataTableTypeRegistry#setDefaultDataTableEntryTransformer(TableEntryByTypeTransformer)}
-     * @param <T>                         see {@code entryType}
      * @return new DataTableType witch transforms {@code List<List<String>>} to
      * {@code List<T>}
      */
-    static <T> DataTableType defaultEntry(Type entryType, TableEntryByTypeTransformer defaultDataTableTransformer,
+    static DataTableType defaultEntry(Type entryType, TableEntryByTypeTransformer defaultDataTableTransformer,
             TableCellByTypeTransformer tableCellByTypeTransformer) {
         return new DataTableType(entryType, (Map<String, String> entry) -> defaultDataTableTransformer
                 .transform(entry, entryType, tableCellByTypeTransformer));
@@ -251,10 +250,7 @@ public final class DataTableType {
 
         @Override
         public RawTableTransformer<?> asOptional() {
-            return new TableCellTransformerAdaptor<Object>(
-                    optionalOf(elementType),
-                    cell -> cell == null || cell.isEmpty() ? Optional.empty() : Optional.ofNullable(transformer.transform(cell))
-            );
+            return new TableCellTransformerAdaptor<>(optionalOf(elementType), new OptionalTableCellTransformer());
         }
 
         @Override
@@ -262,6 +258,12 @@ public final class DataTableType {
             return targetType;
         }
 
+        private class OptionalTableCellTransformer implements TableCellTransformer<Object> {
+            @Override
+            public Object transform(String cell) throws Throwable {
+                return cell == null ? Optional.empty() : Optional.ofNullable(transformer.transform(cell));
+            }
+        }
     }
 
     private static class TableRowTransformerAdaptor<T> implements RawTableTransformer<List<T>> {

@@ -1,6 +1,7 @@
 package io.cucumber.datatable;
 
 import io.cucumber.datatable.TypeFactory.JavaType;
+import io.cucumber.datatable.TypeFactory.OptionalType;
 import org.apiguardian.api.API;
 
 import java.lang.reflect.Type;
@@ -11,6 +12,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.function.Function;
 
+import static io.cucumber.datatable.TypeFactory.aListOf;
 import static io.cucumber.datatable.TypeFactory.constructType;
 import static java.lang.String.format;
 
@@ -81,16 +83,38 @@ public final class DataTableTypeRegistry {
             ));
         }
         tableTypeByType.put(dataTableType.getTargetType(), dataTableType);
-        if(dataTableType.getTransformerType().equals(TableCellTransformer.class)) {
-            DataTableType optionalDataTableType = dataTableType.asOptional();
-            // TODO: Don't replace unreplacable existing
-            tableTypeByType.put(optionalDataTableType.getTargetType(), optionalDataTableType);
-        }
     }
 
-    DataTableType lookupTableTypeByType(final Type tableType) {
-        JavaType targetType = constructType(tableType);
-        return tableTypeByType.get(targetType);
+    DataTableType lookupTableTypeByType(final Type type) {
+        return lookupTableType(type, Function.identity());
+    }
+
+    DataTableType lookupTableRowByType(final Type type) {
+        return lookupTableType(type, TypeFactory::aListOf);
+    }
+
+    DataTableType lookupTableCellByType(final Type type) {
+        return lookupTableType(type, javaType -> aListOf(aListOf(javaType)));
+    }
+
+    private DataTableType lookupTableType(Type type, Function<JavaType, JavaType> toTableType) {
+        JavaType javaElementType = constructType(type);
+        JavaType javaTableType = toTableType.apply(javaElementType);
+        DataTableType tableType = tableTypeByType.get(javaTableType);
+        if (tableType != null) {
+            return tableType;
+        }
+        if (!(javaElementType instanceof OptionalType)) {
+            return null;
+        }
+        OptionalType optionalType = (OptionalType) javaElementType;
+        DataTableType nonOptionalType = tableTypeByType.get(toTableType.apply(optionalType.getElementType()));
+        if (nonOptionalType != null) {
+            if (TableCellTransformer.class.equals(nonOptionalType.getTransformerType())) {
+                return nonOptionalType.asOptional();
+            }
+        }
+        return null;
     }
 
     DataTableType getDefaultTableCellTransformer(Type tableType) {

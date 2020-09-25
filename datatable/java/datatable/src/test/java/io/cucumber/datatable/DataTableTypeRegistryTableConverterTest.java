@@ -57,20 +57,6 @@ class DataTableTypeRegistryTableConverterTest {
     }.getType();
     private static final Type LIST_OF_INT = new TypeReference<List<Integer>>() {
     }.getType();
-    private static final Type LIST_OF_RAW_OPTIONAL = new TypeReference<List<Optional>>() {
-    }.getType();
-    private static final Type OPTIONAL_STRING = new TypeReference<Optional<String>>() {
-    }.getType();
-    private static final Type OPTIONAL_INTEGER = new TypeReference<Optional<Integer>>() {
-    }.getType();
-    private static final Type OPTIONAL_DOUBLE = new TypeReference<Optional<Double>>() {
-    }.getType();
-    private static final Type OPTIONAL_FLOAT = new TypeReference<Optional<Float>>() {
-    }.getType();
-    private static final Type OPTIONAL_LONG = new TypeReference<Optional<Long>>() {
-    }.getType();
-    private static final Type OPTIONAL_BYTE = new TypeReference<Optional<Byte>>() {
-    }.getType();
     private static final Type OPTIONAL_BIG_DECIMAL = new TypeReference<Optional<BigDecimal>>() {
     }.getType();
     private static final Type OPTIONAL_BIG_INTEGER = new TypeReference<Optional<BigInteger>>() {
@@ -99,8 +85,6 @@ class DataTableTypeRegistryTableConverterTest {
     private static final Type MAP_OF_STRING_TO_STRING = new TypeReference<Map<String, String>>() {
     }.getType();
     private static final Type LIST_OF_DOUBLE = new TypeReference<List<Double>>() {
-    }.getType();
-    private static final Type LIST_OF_DATE = new TypeReference<List<Date>>() {
     }.getType();
     private static final Type MAP_OF_STRING_TO_MAP_OF_INTEGER_TO_PIECE = new TypeReference<Map<String, Map<Integer, Piece>>>() {
     }.getType();
@@ -131,13 +115,13 @@ class DataTableTypeRegistryTableConverterTest {
             (entry, type, cellTransformer) -> objectMapper.convertValue(entry, objectMapper.constructType(type));
     private static final TableCellByTypeTransformer JACKSON_TABLE_CELL_BY_TYPE_CONVERTER =
             (value, cellType) -> objectMapper.convertValue(value, objectMapper.constructType(cellType));
-    private static DataTableType DATE_TABLE_CELL_TRANSFORMER = new DataTableType(Date.class, (TableCellTransformer<Date>) SIMPLE_DATE_FORMAT::parse);
+    private static final DataTableType DATE_TABLE_CELL_TRANSFORMER = new DataTableType(Date.class, (TableCellTransformer<Date>) SIMPLE_DATE_FORMAT::parse);
 
     static {
         SIMPLE_DATE_FORMAT.setTimeZone(TimeZone.getTimeZone("UTC"));
     }
 
-    private DataTableTypeRegistry registry = new DataTableTypeRegistry(ENGLISH);
+    private final DataTableTypeRegistry registry = new DataTableTypeRegistry(ENGLISH);
     private final TableConverter converter = new DataTableTypeRegistryTableConverter(registry);
 
     @Test
@@ -216,258 +200,21 @@ class DataTableTypeRegistryTableConverterTest {
     }
 
     @Test
-    void convert_to_raw_optional_list() {
-        DataTable table = parse(
-                "| value |",
-                "| |",
-                "| something |"
+    void convert_to_optional_list() {
+        DataTable table = DataTable.create(asList(
+                        singletonList("11.22"),
+                        singletonList("255.999"),
+                        singletonList(null)
+                ),
+                converter
         );
 
-        List<Optional> expected = asList(Optional.of("value"), Optional.empty(), Optional.of("something"));
-        assertEquals(expected, converter.convert(table, LIST_OF_RAW_OPTIONAL));
-        assertEquals(expected, converter.toList(table, Optional.class));
-    }
-
-    @Test
-    void convert_to_optional_string_list() {
-        DataTable table = parse(
-                "| value |",
-                "| |",
-                "| something |"
+        List<Optional<BigDecimal>> expected = asList(
+                Optional.of(new BigDecimal("11.22")),
+                Optional.of(new BigDecimal("255.999")),
+                Optional.empty()
         );
-
-        List<Optional<String>> expected = asList(Optional.of("value"), Optional.empty(), Optional.of("something"));
-        assertEquals(expected, converter.toList(table, OPTIONAL_STRING));
-    }
-
-    @Test
-    void convert_to_optional_integer_list() {
-        DataTable table = parse(
-                "| 2 |",
-                "| |",
-                "| 325 |"
-        );
-
-        List<Optional<Integer>> expected = asList(Optional.of(2), Optional.empty(), Optional.of(325));
-        assertEquals(expected, converter.toList(table, OPTIONAL_INTEGER));
-    }
-
-    @Test
-    void convert_to_optional_double_list() {
-        DataTable table = parse(
-                "| 3.14 |",
-                "| 2.55 |",
-                "| |"
-        );
-
-        List<Optional<Double>> expected = asList(Optional.of(3.14d), Optional.of(2.55d), Optional.empty());
-        assertEquals(expected, converter.toList(table, OPTIONAL_DOUBLE));
-    }
-
-    @Test
-    void convert_to_optional_float_list() {
-        DataTable table = parse(
-                "| 3.14 |",
-                "| 2.55 |",
-                "| |"
-        );
-
-        List<Optional<Float>> expected = asList(Optional.of(3.14f), Optional.of(2.55f), Optional.empty());
-        assertEquals(expected, converter.toList(table, OPTIONAL_FLOAT));
-    }
-
-    @Test
-    void convert_to_optional_long_list() {
-        DataTable table = parse(
-                "| 3142 |",
-                "| 255 |",
-                "| " + Long.MAX_VALUE + " |",
-                "| |"
-        );
-
-        List<Optional<Long>> expected = asList(Optional.of(3142L), Optional.of(255L), Optional.of(Long.MAX_VALUE), Optional.empty());
-        assertEquals(expected, converter.toList(table, OPTIONAL_LONG));
-    }
-
-    @Test
-    void convert_to_optional_byte_list() {
-        DataTable table = parse(
-                "| 2 |",
-                "| 25 |",
-                "| " + Byte.MAX_VALUE + " |",
-                "| |"
-        );
-
-        byte first = 2;
-        byte second = 25;
-        byte third = Byte.MAX_VALUE;
-
-        List<Optional<Byte>> expected = asList(Optional.of(first), Optional.of(second), Optional.of(third), Optional.empty());
-        assertEquals(expected, converter.toList(table, OPTIONAL_BYTE));
-    }
-
-    @Test
-    void convert_to_optional_big_decimal_list() {
-        BigDecimal first = new BigDecimal("11.22");
-        BigDecimal second = new BigDecimal("255.999");
-        BigDecimal third = new BigDecimal(String.format("%d.%d", Integer.MAX_VALUE, Integer.MAX_VALUE));
-        DataTable table = parse(
-                "|" + first + "|",
-                "|" + second + "|",
-                "|" + third + "|",
-                "| |"
-        );
-
-        List<Optional<BigDecimal>> expected = asList(Optional.of(first), Optional.of(second), Optional.of(third), Optional.empty());
         assertEquals(expected, converter.toList(table, OPTIONAL_BIG_DECIMAL));
-    }
-
-    @Test
-    void convert_to_optional_big_int_list() {
-        BigInteger first = new BigInteger("1122");
-        BigInteger second = new BigInteger("255999");
-        BigInteger third = new BigInteger(String.format("%d%d", Integer.MAX_VALUE, 255));
-        DataTable table = parse(
-                "|" + first + "|",
-                "|" + second + "|",
-                "|" + third + "|",
-                "| |"
-        );
-
-        List<Optional<BigInteger>> expected = asList(Optional.of(first), Optional.of(second), Optional.of(third), Optional.empty());
-        assertEquals(expected, converter.toList(table, OPTIONAL_BIG_INTEGER));
-    }
-
-    @Test
-    void convert_to_maps_of_raw_optional() {
-        DataTable table = parse("",
-                "| header1   | header2   |",
-                "| value1    | value2 |"
-        );
-
-        Map<String, Optional> expectedMap = new HashMap<String, Optional>() {{
-            put("header1", Optional.of("value1"));
-            put("header2", Optional.of("value2"));
-        }};
-        List<Map<String, Optional>> expected = singletonList(expectedMap);
-
-        assertEquals(expected, converter.toMaps(table, String.class, Optional.class));
-    }
-
-    @Test
-    void convert_to_maps_of_string_optional() {
-        DataTable table = parse("",
-                "| header1   | header2   |",
-                "| value1    | value2 |"
-        );
-
-        Map<String, Optional<String>> expectedMap = new HashMap() {{
-            put("header1", Optional.of("value1"));
-            put("header2", Optional.of("value2"));
-        }};
-        List<Map<String, Optional<String>>> expected = singletonList(expectedMap);
-
-        assertEquals(expected, converter.toMaps(table, String.class, OPTIONAL_STRING));
-    }
-
-    @Test
-    void convert_to_maps_of_integer_optional() {
-        DataTable table = parse("",
-                "| header1   | header2   |",
-                "| 2         | 325       |"
-        );
-
-        Map<String, Optional<Integer>> expectedMap = new HashMap() {{
-            put("header1", Optional.of(2));
-            put("header2", Optional.of(325));
-        }};
-        List<Map<String, Optional<Integer>>> expected = singletonList(expectedMap);
-
-        assertEquals(expected, converter.toMaps(table, String.class, OPTIONAL_INTEGER));
-    }
-
-    @Test
-    void convert_to_maps_of_double_optional() {
-        DataTable table = parse("",
-                "| header1   | header2   |",
-                "| 3.14      | 1.22 |"
-        );
-
-        Map<String, Optional<Double>> expectedMap = new HashMap() {{
-            put("header1", Optional.of(3.14d));
-            put("header2", Optional.of(1.22d));
-        }};
-        List<Map<String, Optional<Double>>> expected = singletonList(expectedMap);
-
-        assertEquals(expected, converter.toMaps(table, String.class, OPTIONAL_DOUBLE));
-    }
-
-    @Test
-    void convert_to_maps_of_float_optional() {
-        DataTable table = parse("",
-                "| header1   | header2   |",
-                "| 3.14      | 1.22 |"
-        );
-
-        Map<String, Optional<Float>> expectedMap = new HashMap() {{
-            put("header1", Optional.of(3.14f));
-            put("header2", Optional.of(1.22f));
-        }};
-        List<Map<String, Optional<Float>>> expected = singletonList(expectedMap);
-
-        assertEquals(expected, converter.toMaps(table, String.class, OPTIONAL_FLOAT));
-    }
-
-    @Test
-    void convert_to_maps_of_long_optional() {
-        DataTable table = parse("",
-                "| header1   | header2   |",
-                "| 314      | 122 |"
-        );
-
-        Map<String, Optional<Long>> expectedMap = new HashMap() {{
-            put("header1", Optional.of(314L));
-            put("header2", Optional.of(122L));
-        }};
-        List<Map<String, Optional<Long>>> expected = singletonList(expectedMap);
-
-        assertEquals(expected, converter.toMaps(table, String.class, OPTIONAL_LONG));
-    }
-
-    @Test
-    void convert_to_maps_of_byte_optional() {
-        DataTable table = parse("",
-                "| header1   | header2   |",
-                "| 3         | 122       |"
-        );
-
-        byte first = 3;
-        byte second = 122;
-        Map<String, Optional<Byte>> expectedMap = new HashMap() {{
-            put("header1", Optional.of(first));
-            put("header2", Optional.of(second));
-        }};
-        List<Map<String, Optional<Byte>>> expected = singletonList(expectedMap);
-
-        assertEquals(expected, converter.toMaps(table, String.class, OPTIONAL_BYTE));
-    }
-
-    @Test
-    void convert_to_maps_of_big_decimal_optional() {
-        DataTable table = parse("",
-                "| header1   | header2   |",
-                "| 3.11         | 122.99       |"
-        );
-
-        BigDecimal first = new BigDecimal("3.11");
-        BigDecimal second = new BigDecimal("122.99");
-        Map<String, Optional<BigDecimal>> expectedMap = new HashMap() {{
-            put("header1", Optional.of(first));
-            put("header2", Optional.of(second));
-        }};
-        List<Map<String, Optional<BigDecimal>>> expected = singletonList(expectedMap);
-
-        assertEquals(expected, converter.toMaps(table, String.class, OPTIONAL_BIG_DECIMAL));
     }
 
     @Test
@@ -479,7 +226,7 @@ class DataTableTypeRegistryTableConverterTest {
 
         BigInteger first = new BigInteger("311");
         BigInteger second = new BigInteger("12299");
-        Map<String, Optional<BigInteger>> expectedMap = new HashMap() {{
+        Map<String, Optional<BigInteger>> expectedMap = new HashMap<String, Optional<BigInteger>>() {{
             put("header1", Optional.of(first));
             put("header2", Optional.of(second));
         }};
@@ -1935,7 +1682,6 @@ class DataTableTypeRegistryTableConverterTest {
         }
     }
 
-    @SuppressWarnings("unused")
     public static final class AirPortCode {
         private final String code;
 

@@ -39,7 +39,7 @@ final class TypeFactory {
         }
 
         if (Optional.class.equals(type)){
-            return new OptionalType(type, Optional.class, constructType(Objects.class));
+            return new OptionalType(type, Optional.class, constructType(Object.class));
         }
 
         if (List.class.equals(type)) {
