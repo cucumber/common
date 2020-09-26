@@ -207,13 +207,10 @@ class DataTableTypeRegistryTableConverterTest {
 
     @Test
     void convert_to_optional_list() {
-        DataTable table = DataTable.create(
-                asList(
-                        singletonList("11.22"),
-                        singletonList("255.999"),
-                        singletonList(null)
-                ),
-                converter
+        DataTable table = parse("",
+                "| 11.22   |",
+                "| 255.999 |",
+                "|         |"
         );
 
         List<Optional<BigDecimal>> expected = asList(
@@ -461,7 +458,9 @@ class DataTableTypeRegistryTableConverterTest {
 
     @Test
     void convert_null_cells_to_null() {
-        DataTable table = DataTable.create(singletonList(singletonList(null)));
+        DataTable table = parse("",
+                "|   |"
+        );
 
         List<Integer> expected = singletonList(null);
 
@@ -471,7 +470,9 @@ class DataTableTypeRegistryTableConverterTest {
 
     @Test
     void convert_null_cells_to_empty() {
-        DataTable table = DataTable.create(singletonList(singletonList(null)));
+        DataTable table = parse("",
+                "|   |"
+        );
 
         List<Optional<String>> expected = singletonList(Optional.empty());
 
@@ -1054,10 +1055,10 @@ class DataTableTypeRegistryTableConverterTest {
 
     @Test
     void convert_to_maps_of_integer_to_null() {
-        DataTable table = DataTable.create(asList(
-                asList("1", "2"),
-                asList(null, null)
-        ));
+        DataTable table = parse("",
+                "| 1 | 2 |",
+                "|   |   |"
+        );
 
         List<HashMap<Integer, Integer>> expected = singletonList(
                 new HashMap<Integer, Integer>() {{
@@ -1652,10 +1653,10 @@ class DataTableTypeRegistryTableConverterTest {
 
     @Test
     void to_maps_cant_convert_table_with_duplicate_null_keys() {
-        DataTable table = DataTable.create(asList(
-                asList(null, null),
-                asList("1", "2")
-        ));
+        DataTable table = parse("",
+                "|   |   |",
+                "| 1 | 2 |"
+        );
 
         CucumberDataTableException exception = assertThrows(
                 CucumberDataTableException.class,
