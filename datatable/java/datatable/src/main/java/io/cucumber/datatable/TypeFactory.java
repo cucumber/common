@@ -1,6 +1,5 @@
 package io.cucumber.datatable;
 
-
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
@@ -9,6 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 
 final class TypeFactory {
 
@@ -16,8 +16,12 @@ final class TypeFactory {
 
     }
 
-    static JavaType aListOf(Type type) {
+    static ListType aListOf(Type type) {
         return new ListType(null, List.class, constructType(type));
+    }
+
+    static OptionalType optionalOf(Type type) {
+        return new OptionalType(null, Optional.class, constructType(type));
     }
 
     static JavaType constructType(Type type) {
@@ -31,6 +35,10 @@ final class TypeFactory {
     private static JavaType constructTypeInner(Type type) {
         if (type instanceof JavaType) {
             return (JavaType) type;
+        }
+
+        if (Optional.class.equals(type)) {
+            return new OptionalType(type, Optional.class, constructType(Object.class));
         }
 
         if (List.class.equals(type)) {
@@ -87,6 +95,10 @@ final class TypeFactory {
         // Must always be a class here
         Class<?> rawType = (Class<?>) type.getRawType();
         JavaType[] deconstructedTypeArguments = deConstructTypeArguments(type);
+
+        if (Optional.class.equals(rawType)) {
+            return new OptionalType(type, Optional.class, deconstructedTypeArguments[0]);
+        }
 
         if (List.class.equals(rawType)) {
             return new ListType(type, List.class, deconstructedTypeArguments[0]);
@@ -146,6 +158,11 @@ final class TypeFactory {
         public Type getOriginal() {
             return original;
         }
+
+        @Override
+        public String toString() {
+            return getTypeName();
+        }
     }
 
     static class Parameterized implements JavaType {
@@ -187,6 +204,11 @@ final class TypeFactory {
         @Override
         public String getTypeName() {
             return original.getTypeName();
+        }
+
+        @Override
+        public String toString() {
+            return getTypeName();
         }
     }
 
@@ -233,6 +255,62 @@ final class TypeFactory {
         @Override
         public Type getOriginal() {
             return original;
+        }
+
+        @Override
+        public String toString() {
+            return getTypeName();
+        }
+    }
+
+    static final class OptionalType implements JavaType {
+
+        private final Type original;
+        private final Class<?> rawClass;
+        private final JavaType elementType;
+
+        OptionalType(Type original, Class<?> rawClass, JavaType elementType) {
+            this.original = original;
+            this.rawClass = rawClass;
+            this.elementType = elementType;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            OptionalType listType = (OptionalType) o;
+            return rawClass.equals(listType.rawClass) &&
+                    elementType.equals(listType.elementType);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(rawClass, elementType);
+        }
+
+        @Override
+        public String getTypeName() {
+            if (original != null) {
+                return original.getTypeName();
+            }
+
+            // E.g. constructed optionals
+            return rawClass.getTypeName() + "<" + elementType.getTypeName() + ">";
+        }
+
+        JavaType getElementType() {
+            return elementType;
+        }
+
+        @Override
+        public Type getOriginal() {
+            return original;
+        }
+
+        @Override
+        public String toString() {
+            return getTypeName();
         }
     }
 
@@ -282,5 +360,11 @@ final class TypeFactory {
         public Type getOriginal() {
             return original;
         }
+
+        @Override
+        public String toString() {
+            return getTypeName();
+        }
+
     }
 }
