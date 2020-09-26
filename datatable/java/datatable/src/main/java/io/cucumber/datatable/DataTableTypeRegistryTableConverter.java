@@ -154,14 +154,14 @@ public final class DataTableTypeRegistryTableConverter implements TableConverter
         boolean singleColumn = dataTable.width() == 1;
         boolean mayHaveHeader = dataTable.height() > 1;
 
-        DataTableType entryOrRowValueType = registry.lookupTableRowByType(itemType);
+        DataTableType entryOrRowValueType = registry.lookupRowTypeByType(itemType);
         if (entryOrRowValueType != null) {
             return ListOrProblems.list((List<T>) entryOrRowValueType.transform(cells));
         } else {
             problems.add(problemNoTableEntryOrTableRowTransformer(itemType));
         }
 
-        DataTableType cellValueType = registry.lookupTableCellByType(itemType);
+        DataTableType cellValueType = registry.lookupCellTypeByType(itemType);
         if (cellValueType != null) {
             if (singleColumn) {
                 return ListOrProblems.list(unpack((List<List<T>>) cellValueType.transform(cells)));
@@ -241,7 +241,7 @@ public final class DataTableTypeRegistryTableConverter implements TableConverter
 
         List<String> problems = new ArrayList<>();
 
-        DataTableType tableType = registry.lookupTableCellByType(itemType);
+        DataTableType tableType = registry.lookupCellTypeByType(itemType);
         if (tableType != null) {
             return unmodifiableList((List<List<T>>) tableType.transform(dataTable.cells()));
         } else {
@@ -322,7 +322,7 @@ public final class DataTableTypeRegistryTableConverter implements TableConverter
     private <K> List<K> convertEntryKeyColumnRows(Type keyType, Type valueType, DataTable keyColumnRows) {
         List<String> problems = new ArrayList<>(2);
 
-        DataTableType keyConverter = registry.lookupTableCellByType(keyType);
+        DataTableType keyConverter = registry.lookupCellTypeByType(keyType);
         if (keyConverter != null) {
             return unpack((List<List<K>>) keyConverter.transform(keyColumnRows.cells()));
         } else {
@@ -373,7 +373,7 @@ public final class DataTableTypeRegistryTableConverter implements TableConverter
         if (javaType instanceof ListType) {
             ListType listType = (ListType) javaType;
             // Table cell types take priority over default converters
-            DataTableType cellValueConverter = registry.lookupTableCellByType(listType.getElementType());
+            DataTableType cellValueConverter = registry.lookupCellTypeByType(listType.getElementType());
             if (cellValueConverter == null) {
                 problems.add(problemNoTableCellTransformer(listType.getElementType()));
                 cellValueConverter = registry.getDefaultTableCellTransformer(listType.getElementType());
@@ -394,7 +394,7 @@ public final class DataTableTypeRegistryTableConverter implements TableConverter
         // Try to handle case #3.
         // We check this regardless of the keys. They may not imply that this is a table entry.
         // But this type was registered as such.
-        DataTableType entryValueConverter = registry.lookupTableRowByType(valueType);
+        DataTableType entryValueConverter = registry.lookupRowTypeByType(valueType);
         if (entryValueConverter != null) {
             return (List<V>) entryValueConverter.transform(dataTable.cells());
         } else {
@@ -438,14 +438,13 @@ public final class DataTableTypeRegistryTableConverter implements TableConverter
             return emptyList();
         }
 
-        DataTableType keyConverter = registry.lookupTableCellByType(keyType);
-        DataTableType valueConverter = registry.lookupTableCellByType(valueType);
+        DataTableType keyConverter = registry.lookupCellTypeByType(keyType);
+        DataTableType valueConverter = registry.lookupCellTypeByType(valueType);
 
         List<String> problems = new ArrayList<>();
         if (keyConverter == null) {
             problems.add(problemNoTableCellTransformer(keyType));
         }
-
         if (valueConverter == null) {
             problems.add(problemNoTableCellTransformer(valueType));
         }

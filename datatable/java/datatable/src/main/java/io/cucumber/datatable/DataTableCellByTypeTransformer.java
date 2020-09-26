@@ -14,11 +14,14 @@ final class DataTableCellByTypeTransformer implements TableCellByTypeTransformer
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public Object transform(String cellValue, Type toValueType) {
-        DataTableType typeByType = dataTableTypeRegistry.lookupTableCellByType(toValueType);
+        DataTableType typeByType = dataTableTypeRegistry.lookupCellTypeByType(toValueType);
         if (typeByType == null) {
             throw new CucumberDataTableException("There is no DataTableType registered for cell type " + toValueType);
         }
-        return ((List<List<Object>>) typeByType.transform(singletonList(singletonList(cellValue)))).get(0).get(0);
+        List<List<String>> rawTable = singletonList(singletonList(cellValue));
+        List<List<Object>> transformed = (List<List<Object>>) typeByType.transform(rawTable);
+        return transformed.get(0).get(0);
     }
 }

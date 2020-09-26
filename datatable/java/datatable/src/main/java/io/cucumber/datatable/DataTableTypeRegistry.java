@@ -85,34 +85,41 @@ public final class DataTableTypeRegistry {
         tableTypeByType.put(dataTableType.getTargetType(), dataTableType);
     }
 
-    DataTableType lookupTableTypeByType(final Type type) {
-        return lookupTableTypeByType(type, Function.identity());
-    }
-
-    DataTableType lookupTableRowByType(final Type type) {
-        return lookupTableTypeByType(type, TypeFactory::aListOf);
-    }
-
-    DataTableType lookupTableCellByType(final Type type) {
+    DataTableType lookupCellTypeByType(Type type) {
         return lookupTableTypeByType(type, javaType -> aListOf(aListOf(javaType)));
     }
 
+    DataTableType lookupRowTypeByType(Type type) {
+        return lookupTableTypeByType(type, TypeFactory::aListOf);
+    }
+
+    DataTableType lookupTableTypeByType(Type type) {
+        return lookupTableTypeByType(type, Function.identity());
+    }
+
     private DataTableType lookupTableTypeByType(Type type, Function<JavaType, JavaType> toTableType) {
-        JavaType javaElementType = constructType(type);
-        JavaType javaTableType = toTableType.apply(javaElementType);
-        DataTableType tableType = tableTypeByType.get(javaTableType);
-        if (tableType != null) {
-            return tableType;
+        JavaType elementType = constructType(type);
+        JavaType tableType = toTableType.apply(elementType);
+        DataTableType dataTableType = tableTypeByType.get(tableType);
+        if (dataTableType != null) {
+            return dataTableType;
         }
-        if (!(javaElementType instanceof OptionalType)) {
+        if (elementType instanceof OptionalType) {
+            OptionalType optionalType = (OptionalType) elementType;
+            return lookupTableTypeAsOptionalByType(optionalType, toTableType);
+        }
+        return null;
+    }
+
+    private DataTableType lookupTableTypeAsOptionalByType(OptionalType elementType, Function<JavaType, JavaType> toTableType) {
+        JavaType requiredType = elementType.getElementType();
+        DataTableType dataTableType = tableTypeByType.get(toTableType.apply(requiredType));
+        if (dataTableType == null) {
             return null;
         }
-        OptionalType optionalType = (OptionalType) javaElementType;
-        DataTableType nonOptionalType = tableTypeByType.get(toTableType.apply(optionalType.getElementType()));
-        if (nonOptionalType != null) {
-            if (TableCellTransformer.class.equals(nonOptionalType.getTransformerType())) {
-                return nonOptionalType.asOptional();
-            }
+        Class<?> transformerType = dataTableType.getTransformerType();
+        if (TableCellTransformer.class.equals(transformerType)) {
+            return dataTableType.asOptional();
         }
         return null;
     }
