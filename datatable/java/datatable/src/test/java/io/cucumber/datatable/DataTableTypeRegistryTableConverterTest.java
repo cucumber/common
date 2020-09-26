@@ -480,6 +480,19 @@ class DataTableTypeRegistryTableConverterTest {
     }
 
     @Test
+    void convert_to_optional_uses_pre_registered_converter_if_available() {
+        DataTable table = DataTable.create(singletonList(singletonList("Hello")));
+
+        List<Optional<String>> expected = singletonList(Optional.of("Goodbye"));
+
+        registry.defineDataTableType(new DataTableType(OPTIONAL_STRING, (String cell) -> Optional.of("Goodbye")));
+
+
+        assertEquals(expected, converter.toList(table, OPTIONAL_STRING));
+        assertEquals(expected, converter.convert(table, LIST_OF_OPTIONAL_STRING));
+    }
+
+    @Test
     void convert_to_list_of_unknown_type__throws_exception__register_transformer() {
         DataTable table = parse("",
                 " | firstName   | lastName | birthDate  |",
