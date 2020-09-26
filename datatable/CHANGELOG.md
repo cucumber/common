@@ -8,10 +8,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 
 ### Added
- * [Java] Support for Optional<T>
-    ([1091](https://github.com/cucumber/cucumber/pull/1091)
-    [1182](https://github.com/cucumber/cucumber/pull/1182)
-      [mpkorstanje], [rasklaad])
 
 ### Changed
 
@@ -20,6 +16,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Removed
 
 ### Fixed
+
+## [3.5.0] - 2020-09-26
+
+### Added
+ * [Java] Support for Optional<T>
+    ([1091](https://github.com/cucumber/cucumber/pull/1091)
+    [1182](https://github.com/cucumber/cucumber/pull/1182)
+      [mpkorstanje], [rasklaad])
 
 ## [3.4.0] - 2020-08-08
 
@@ -175,7 +179,8 @@ There are no (1.1.0 and 1.1.1 releases).
 * java: OSGI fixes
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/datatable/v3.4.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/datatable/v3.5.0...master
+[3.5.0]:      https://github.com/cucumber/cucumber/compare/datatable/v3.4.0...datatable/v3.5.0
 [3.4.0]:      https://github.com/cucumber/cucumber/compare/datatable/v3.3.1...datatable/v3.4.0
 [3.3.1]:      https://github.com/cucumber/cucumber/compare/datatable/v3.3.0...datatable/v3.3.1
 [3.3.0]:      https://github.com/cucumber/cucumber/compare/datatable/v3.2.1...datatable/v3.3.0
