@@ -9,7 +9,7 @@
 #    - CUCUMBER_PUBLISH_URL: the publication service url
 #    - CUCUMBER_PUBLISH_TOKEN: the publication token  (optional)
 #
-# Usage: upload-cucumber-report path/to/messages.ndjson
+# Usage: publish-cucumber-report path/to/messages.ndjson
 #
 set -o errexit
 
