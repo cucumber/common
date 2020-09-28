@@ -144,7 +144,8 @@ The built-in transformations support:
 * Strings, for example `bangers` or `mash`.
 
 On the JVM, there is additional support for `BigInteger`, `BigDecimal`,
-`Byte`, `Short`, `Long` and `Double`.
+`Byte`, `Short`, `Long` and `Double`. There is also support for `Optional<T>`
+where `T` is any type for which a table cell transformer has been registered.
 
 ### Custom Table Types
 

@@ -31,8 +31,8 @@ export default class ScenarioSearch {
   public search(query: string): messages.GherkinDocument.Feature.IScenario[] {
     const results = this.index.search(query, {
       fields: {
-        name: { bool: 'OR', expand: true, boost: 1 },
-        description: { bool: 'OR', expand: true, boost: 1 },
+        name: { bool: 'OR', boost: 1 },
+        description: { bool: 'OR', boost: 1 },
       },
     })
 
