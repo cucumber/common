@@ -4,5 +4,5 @@ source "https://rubygems.org"
 
 git_source(:github) {|repo_name| "https://github.com/#{repo_name}" }
 
-gem 'cucumber', '~> 4.1.0'
+gem 'cucumber', '~> 5.1.0'
 gem "rspec"
