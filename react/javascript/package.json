@@ -38,7 +38,7 @@
     "git-url-parse": "^11.2.0",
     "marked": "^1.1.1",
     "react-accessible-accordion": "^3.3.3",
-    "sanitize-html": "^1.27.4"
+    "sanitize-html": "^2.0.0"
   },
   "peerDependencies": {
     "react": "^16.13.1",
