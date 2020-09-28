@@ -3,7 +3,7 @@ import { Meta, Story } from '@storybook/react'
 
 import { messages } from '@cucumber/messages'
 import { Query as CucumberQuery } from '@cucumber/query'
-import { Query as GherkinQuery } from '@cucumber/gherkin'
+import { Query as GherkinQuery } from '@cucumber/gherkin-utils'
 import GherkinDocumentList from '../components/app/GherkinDocumentList'
 import QueriesWrapper from '../components/app/QueriesWrapper'
 import { EnvelopesQuery } from '../EnvelopesQueryContext'
@@ -37,7 +37,7 @@ type Props = {
 }
 type TemplateArgs = { envelopes: readonly messages.IEnvelope[] }
 
-const Template: Story<TemplateArgs> = ({ envelopes }) => {
+const Template: Story<TemplateArgs> = ({envelopes}) => {
   return (
     <QueriesWrapper {...props(envelopes)}>
       <GherkinDocumentList />

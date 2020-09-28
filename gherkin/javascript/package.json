@@ -34,6 +34,7 @@
     "@types/node": "^14.11.2",
     "@typescript-eslint/eslint-plugin": "^4.2.0",
     "@typescript-eslint/parser": "^4.2.0",
+    "core-js": "^3.6.5",
     "eslint": "^7.9.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-node": "^11.1.0",
@@ -43,12 +44,10 @@
     "nyc": "^15.1.0",
     "prettier": "^2.1.2",
     "ts-node": "^9.0.0",
-    "typescript": "^4.0.3",
-    "core-js": "^3.6.5"
+    "typescript": "^4.0.3"
   },
   "dependencies": {
     "@cucumber/messages": "file:../../messages/javascript",
-    "@teppeis/multimaps": "^1.1.0",
     "commander": "^6.1.0",
     "source-map-support": "^0.5.19"
   },

@@ -1,4 +1,4 @@
-import { Query as GherkinQuery } from '@cucumber/gherkin'
+import { Query as GherkinQuery } from '@cucumber/gherkin-utils'
 import SupportCode from './SupportCode'
 import TestPlan from './TestPlan'
 import makePickleTestStep from './makePickleTestStep'

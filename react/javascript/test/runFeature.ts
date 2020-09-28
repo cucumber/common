@@ -4,7 +4,8 @@ import {
   IHook,
   ISupportCodeExecutor,
 } from '@cucumber/fake-cucumber'
-import { Query as GherkinQuery, GherkinStreams } from '@cucumber/gherkin'
+import { GherkinStreams } from '@cucumber/gherkin'
+import { Query as GherkinQuery } from '@cucumber/gherkin-utils'
 import { Writable } from 'stream'
 import { messages, IdGenerator } from '@cucumber/messages'
 import makeSourceEnvelope from '@cucumber/gherkin/dist/src/stream/makeSourceEnvelope'

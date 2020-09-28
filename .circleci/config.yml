@@ -907,6 +907,7 @@ workflows:
             - messages-javascript
             - create-meta-javascript
             - gherkin-javascript
+            - gherkin-utils-javascript
             - cucumber-expressions-javascript-node-12
             - tag-expressions-javascript
       - compatibility-kit-javascript:
@@ -922,6 +923,7 @@ workflows:
           requires:
             - react-javascript
             - messages-javascript
+            - gherkin-utils-javascript
             - compatibility-kit-javascript
       - json-formatter-javascript-testdata:
           requires:
@@ -932,6 +934,7 @@ workflows:
             - messages-javascript
             - fake-cucumber-javascript
             - gherkin-javascript
+            - gherkin-utils-javascript
       - json-to-messages-javascript-testdata:
           requires:
             - checkout
