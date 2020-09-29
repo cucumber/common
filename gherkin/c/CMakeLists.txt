@@ -67,7 +67,11 @@ LIST(APPEND GHERKIN_CLI
 
 
 add_library(gherkin ${GHERKIN_SRS})
-target_link_libraries(gherkin PRIVATE m)
+include(CheckLibraryExists)
+CHECK_LIBRARY_EXISTS(m log10 "" HAVE_LIB_M)   
+if (HAVE_LIB_M)  
+    target_link_libraries(gherkin PRIVATE m)
+endif (HAVE_LIB_M)
 target_include_directories(gherkin PUBLIC
     "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include;${CMAKE_CURRENT_SOURCE_DIR}/src>")
 
