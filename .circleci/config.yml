@@ -899,6 +899,7 @@ workflows:
       - gherkin-utils-javascript:
           requires:
             - gherkin-javascript
+            - messages-javascript
       - tag-expressions-javascript:
           requires:
             - checkout
