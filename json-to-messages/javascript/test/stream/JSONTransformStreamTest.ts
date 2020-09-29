@@ -19,4 +19,26 @@ describe('JSONReportStream', () => {
     await asyncPipeline(readableStream, new JSONTransformStream(), sink)
     assert.deepStrictEqual(sink.object, data)
   })
+
+  it('handles non-json data gracefully', async () => {
+    const data = '# this is not json'
+
+    const readableStream = new Stream.Readable({
+      read() {
+        this.push(data)
+        this.push(null)
+      },
+    })
+    const sink = new SingleObjectWritableStream<Array<any>>()
+    let f = (): null => null
+    try {
+      await asyncPipeline(readableStream, new JSONTransformStream(), sink)
+    } catch (e) {
+      f = () => {
+        throw e
+      }
+    } finally {
+      assert.throws(f, /SyntaxError.+JSON/)
+    }
+  })
 })

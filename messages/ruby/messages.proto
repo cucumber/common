@@ -19,7 +19,7 @@ message Envelope {
     // Compiler(s)
     Pickle pickle = 3;
 
-    // 
+    //
     StepDefinition step_definition = 4;
     Hook hook = 5;
     ParameterType parameter_type = 6;
@@ -37,7 +37,7 @@ message Envelope {
 
     // Parsing
     ParseError parse_error = 16;
-    
+
     Meta meta = 17;
   }
 }
@@ -63,13 +63,35 @@ message Meta {
 
   // 386, arm, amd64 etc
   Product cpu = 5;
-  
+
+  // CI environment
+  CI ci = 6;
+
   // A product has a name and a version
   message Product {
     // The product name
     string name = 1;
     // The product version
     string version = 2;
+  }
+
+  message CI {
+    // Name of the CI product, e.g. "Jenkins", "CircleCI" etc.
+    string name = 1;
+
+    // Link to the build
+    string url = 2;
+
+    // Information about Git, provided by the Build/CI server as environment
+    // variables.
+    Git git = 3;
+
+    message Git {
+      string remote = 1;
+      string revision = 2;
+      string branch = 3;
+      string tag = 4;
+    }
   }
 }
 
@@ -115,14 +137,30 @@ message Location {
  * [Location](#io.cucumber.messages.Location) within that file.
  */
 message SourceReference {
-  string uri = 1;
+  oneof reference {
+    string uri = 1;
+    JavaMethod java_method = 3;
+    JavaStackTraceElement java_stack_trace_element = 4;
+  }
   Location location = 2;
+
+  message JavaMethod {
+    string class_name = 1;
+    string method_name = 2;
+    repeated string method_parameter_types = 3;
+  }
+
+  message JavaStackTraceElement {
+    string class_name = 1;
+    string method_name = 2;
+    string file_name = 3;
+  }
 }
 
 ////// Source
 
 /**
- * A source file, typically a Gherkin document
+ * A source file, typically a Gherkin document or Java/Ruby/JavaScript source code
  */
 message Source {
   /**
@@ -323,7 +361,14 @@ message Attachment {
   SourceReference source = 1;
   string test_step_id = 2;
   string test_case_started_id = 3;
+
+  /**
+   * The body of the attachment. If `content_encoding` is `IDENTITY`, the attachment
+   * is simply the string. If it's `BASE64`, the string should be Base64 decoded to
+   * obtain the attachment.
+   */
   string body = 4;
+
   /**
    * The media type of the data. This can be any valid
    * [IANA Media Type](https://www.iana.org/assignments/media-types/media-types.xhtml)
@@ -331,7 +376,10 @@ message Attachment {
    * and `text/x.cucumber.stacktrace+plain`
    */
   string media_type = 5;
+
   /**
+   * Whether to interpret `body` "as-is" (IDENTITY) or if it needs to be Base64-decoded (BASE64).
+   *
    * Content encoding is *not* determined by the media type, but rather by the type
    * of the object being attached:
    *
@@ -340,7 +388,27 @@ message Attachment {
    * - stream => BASE64
    */
   ContentEncoding content_encoding = 6;
-  
+
+  /**
+   * Suggested file name of the attachment. (Provided by the user as an argument to `attach`)
+   */
+  string file_name = 7;
+
+  /**
+   * A URL where the attachment can be retrieved. This field should not be set by Cucumber.
+   * It should be set by a program that reads a message stream and does the following for
+   * each Attachment message:
+   *
+   * - Writes the body (after base64 decoding if necessary) to a new file.
+   * - Sets `body` and `content_encoding` to `null`
+   * - Writes out the new attachment message
+   *
+   * This will result in a smaller message stream, which can improve performance and
+   * reduce bandwidth of message consumers. It also makes it easier to process and download attachments
+   * separately from reports.
+   */
+  string url = 8;
+
   enum ContentEncoding {
     IDENTITY = 0;
     // When this is used, the data field is a single line base64 string
@@ -535,7 +603,7 @@ message TestStepFinished {
   string test_step_id = 3;
   string test_case_started_id = 4;
 
-  
+
   message TestStepResult {
     Status status = 1;
     string message = 2;
@@ -580,9 +648,9 @@ message TestRunFinished {
   // Timestamp when the TestRun is finished
   Timestamp timestamp = 2;
   // Error message. Can be a stack trace from a failed `BeforeAll` or `AfterAll`.
-  // If there are undefined parameter types, the message is simply 
-  // "The following parameter type(s() are not defined: xxx, yyy". 
-  // The independent `UndefinedParameterType` messages can be used to generate 
+  // If there are undefined parameter types, the message is simply
+  // "The following parameter type(s() are not defined: xxx, yyy".
+  // The independent `UndefinedParameterType` messages can be used to generate
   // snippets for those parameter types.
   string message = 3;
 }

@@ -3,7 +3,6 @@ package io.cucumber.datatable;
 import java.lang.reflect.Type;
 import java.util.List;
 
-import static io.cucumber.datatable.TypeFactory.aListOf;
 import static java.util.Collections.singletonList;
 
 final class DataTableCellByTypeTransformer implements TableCellByTypeTransformer {
@@ -15,11 +14,14 @@ final class DataTableCellByTypeTransformer implements TableCellByTypeTransformer
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public Object transform(String cellValue, Type toValueType) {
-        DataTableType typeByType = dataTableTypeRegistry.lookupTableTypeByType(aListOf(aListOf(toValueType)));
+        DataTableType typeByType = dataTableTypeRegistry.lookupCellTypeByType(toValueType);
         if (typeByType == null) {
             throw new CucumberDataTableException("There is no DataTableType registered for cell type " + toValueType);
         }
-        return ((List<List<Object>>) typeByType.transform(singletonList(singletonList(cellValue)))).get(0).get(0);
+        List<List<String>> rawTable = singletonList(singletonList(cellValue));
+        List<List<Object>> transformed = (List<List<Object>>) typeByType.transform(rawTable);
+        return transformed.get(0).get(0);
     }
 }

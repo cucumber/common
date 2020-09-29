@@ -1,0 +1,54 @@
+{
+  "name": "@cucumber/gherkin-utils",
+  "version": "2.0.1",
+  "description": "Various Gherkin utilities",
+  "main": "dist/src/index.js",
+  "types": "dist/src/index.d.ts",
+  "bin": {},
+  "scripts": {
+    "test": "mocha",
+    "lint": "eslint --ext ts --max-warnings 0 src test",
+    "lint-fix": "eslint --ext ts --max-warnings 0 --fix src test",
+    "coverage": "nyc --reporter=html --reporter=text mocha",
+    "build": "tsc",
+    "prepublishOnly": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/cucumber/cucumber.git"
+  },
+  "keywords": [
+    "cucumber"
+  ],
+  "author": "Cucumber Limited <cukes@googlegroups.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cucumber/cucumber/issues"
+  },
+  "homepage": "https://github.com/cucumber/cucumber",
+  "devDependencies": {
+    "@cucumber/gherkin": "file:../../gherkin/javascript",
+    "@types/glob": "^7.1.3",
+    "@types/mocha": "^8.0.3",
+    "@types/node": "^14.11.2",
+    "@typescript-eslint/eslint-plugin": "^4.2.0",
+    "@typescript-eslint/parser": "^4.2.0",
+    "eslint": "^7.9.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-react": "^7.20.6",
+    "glob": "^7.1.6",
+    "mocha": "^8.1.3",
+    "nyc": "^15.1.0",
+    "prettier": "^2.1.2",
+    "ts-node": "^9.0.0",
+    "typescript": "^4.0.3"
+  },
+  "dependencies": {
+    "@cucumber/messages": "file:../../messages/javascript"
+  },
+  "directories": {
+    "test": "test"
+  }
+}

@@ -1,7 +1,7 @@
 package json
 
 import (
-	"github.com/cucumber/messages-go/v12"
+	"github.com/cucumber/messages-go/v13"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 )
@@ -572,7 +572,9 @@ var _ = Describe("TestCaseToJSON", func() {
 				{
 					Hook: &messages.Hook{
 						SourceReference: &messages.SourceReference{
-							Uri: "some_hooks.rb",
+							Reference: &messages.SourceReference_Uri{
+								Uri: "some_hooks.rb",
+							},
 							Location: &messages.Location{
 								Line: 5,
 							},
@@ -602,7 +604,9 @@ var _ = Describe("TestCaseToJSON", func() {
 			testCase.Steps = append(testCase.Steps, &TestStep{
 				Hook: &messages.Hook{
 					SourceReference: &messages.SourceReference{
-						Uri: "some_hooks.rb",
+						Reference: &messages.SourceReference_Uri{
+							Uri: "some_hooks.rb",
+						},
 						Location: &messages.Location{
 							Line: 12,
 						},

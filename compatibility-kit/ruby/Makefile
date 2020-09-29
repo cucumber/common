@@ -2,9 +2,6 @@ include default.mk
 
 CCK_PATH = ..
 
-# https://stackoverflow.com/questions/2483182/recursive-wildcards-in-gnu-make
-rwildcard=$(foreach d,$(wildcard $(1:=/*)),$(call rwildcard,$d,$2) $(filter $(subst *,%,$2),$d))
-
 CCK_FEATURES=$(call rwildcard,$(CCK_PATH)/javascript/features,*.feature)
 FEATURES=$(patsubst $(CCK_PATH)/javascript/%,%,$(CCK_FEATURES))
 NDJSON=$(patsubst %.feature,%.ndjson,$(FEATURES))
@@ -75,7 +72,7 @@ self_tested: $(SELF_TESTED)
 		scripts/neutralize-json > $@
 
 %-golden.json: %.feature %_steps.rb Gemfile.lock $(RUBY_FILES) scripts/neutralize-json
-	-bundle exec cucumber $< --require $(patsubst %-golden.json,%_steps.rb,$@) --format=json  | \
+	-source ../ci_env && bundle exec cucumber $< --require $(patsubst %-golden.json,%_steps.rb,$@) --format=json  | \
 		jq --sort-keys "." | \
 		scripts/neutralize-json > $@
 
@@ -84,7 +81,7 @@ self_tested: $(SELF_TESTED)
 ###############################################################################
 
 %.ndjson: %.feature %_steps.rb Gemfile.lock $(RUBY_FILES)
-	-bundle exec cucumber $< --require $(patsubst %.ndjson,%_steps.rb,$@) --format=message > $@
+	-source ../ci_env && bundle exec cucumber $< --require $(patsubst %.ndjson,%_steps.rb,$@) --format=message > $@
 
 %.feature:
 	mkdir -p $(@D)

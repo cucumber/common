@@ -42,7 +42,7 @@ export default class TestCase implements ITestCase {
           attempt,
           testCaseId: this.id,
           id: testCaseStartedId,
-          timestamp: millisecondsSinceEpochToTimestamp(this.clock.now()),
+          timestamp: millisecondsSinceEpochToTimestamp(this.clock.clockNow()),
         }),
       })
     )
@@ -78,7 +78,7 @@ export default class TestCase implements ITestCase {
       new messages.Envelope({
         testCaseFinished: new messages.TestCaseFinished({
           testCaseStartedId,
-          timestamp: millisecondsSinceEpochToTimestamp(this.clock.now()),
+          timestamp: millisecondsSinceEpochToTimestamp(this.clock.clockNow()),
         }),
       })
     )

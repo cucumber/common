@@ -4,6 +4,9 @@ SLN_FILES = $(shell find . -name "*.sln")
 CSPROJ_FILES = $(shell find . -name "*.csproj")
 CSHARP_SOURCE_FILES = $(shell find . -name "*.cs")
 
+# https://stackoverflow.com/questions/2483182/recursive-wildcards-in-gnu-make
+rwildcard=$(foreach d,$(wildcard $(1:=/*)),$(call rwildcard,$d,$2) $(filter $(subst *,%,$2),$d))
+
 default: .packed
 .PHONY: default
 

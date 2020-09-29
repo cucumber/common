@@ -1,12 +1,12 @@
 import React from 'react'
 import { messages } from '@cucumber/messages'
 import CucumberQueryContext from '../../CucumberQueryContext'
-import UriContext from '../../UriContext'
 import isNumber from './isNumber'
 import GherkinQueryContext from '../../GherkinQueryContext'
 import ErrorMessage from './ErrorMessage'
 import statusName from './statusName'
 import StatusIcon from './StatusIcon'
+import UriContext from '../../UriContext'
 
 interface IProps {
   rows: messages.GherkinDocument.Feature.ITableRow[]
@@ -33,17 +33,18 @@ const RowOrRows: React.FunctionComponent<IRowOrRows> = ({ row }) => {
 
   const testStepResult = cucumberQuery.getWorstTestStepResult(
     cucumberQuery.getPickleTestStepResults(
-      gherkinQuery.getPickleIds(uri, row.location.line)
+      gherkinQuery.getPickleIds(uri, row.id)
     )
   )
   return (
     <>
-      <tr className={`status-${statusName(testStepResult.status)}`}>
-        <td>
+      <tr className={`cucumber-status--${statusName(testStepResult.status)}`}>
+        <td className="cucumber-table__cell">
           <StatusIcon status={testStepResult.status} />
         </td>
         {row.cells.map((cell, j) => (
           <td
+            className="cucumber-table__cell"
             key={j}
             style={{ textAlign: isNumber(cell.value) ? 'right' : 'left' }}
           >
@@ -71,7 +72,11 @@ const ErrorMessageRow: React.FunctionComponent<IErrorMessageRowProps> = ({
 }) => {
   if (!testStepResult.message) return null
   return (
-    <tr className={`status-${statusName(testStepResult.status)}`}>
+    <tr
+      className={`cucumber-status--${statusName(
+        testStepResult.status
+      )} cucumber-table__cell`}
+    >
       <td>&nbsp;</td>
       <td colSpan={colSpan}>
         <ErrorMessage message={testStepResult.message} />

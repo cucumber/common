@@ -34,6 +34,9 @@ import TestStep from './TestStep'
 import ITestCase from './ITestCase'
 import ITestPlan from './ITestPlan'
 import IClock from './IClock'
+import DateClock from './DateClock'
+import IStopwatch from './IStopwatch'
+import PerfHooksStopwatch from './PerfHooksStopwatch'
 
 export {
   Given,
@@ -65,5 +68,8 @@ export {
   ITestCase,
   ITestPlan,
   IClock,
+  DateClock,
+  IStopwatch,
+  PerfHooksStopwatch,
   EnvelopeListener,
 }

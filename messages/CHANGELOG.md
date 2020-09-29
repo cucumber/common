@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+* Elixir implementation
+  ([#1175](https://github.com/cucumber/cucumber/pull/1175)
+   [WannesFransen1994])
+
 ### Changed
 
 ### Deprecated
@@ -16,6 +20,66 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Removed
 
 ### Fixed
+
+## [13.1.0] - 2020-09-14
+
+### Added
+
+* Add `Attachment#url`. This makes it possible to "detach" attachments so the main stream
+  gets smaller and the attachments can be processed/downloaded separately with more ease.
+  ([#1183](https://github.com/cucumber/cucumber/pull/1183)
+   [aslakhellesoy])
+
+### Fixed
+
+* Ignore empty lines rather than throwing an error.
+
+## [13.0.1] - 2020-08-07
+
+### Fixed
+
+* Release again since the 13.0.0 release didn't fully sync to subrepos
+
+## [13.0.0] - 2020-08-07
+
+### Changed
+
+* Move `JavaMethod` and `JavaStackTraceElement` to be children of `SourceReference`
+
+## [12.4.0] - 2020-07-31
+
+### Added
+
+* Suggested file name to the Attachment messages ([#1128](https://github.com/cucumber/cucumber/pull/1128))
+* Added ProtocolVersion to access messages version reliably ([#1127](https://github.com/cucumber/cucumber/pull/1127) [mpkorstanje])
+
+## [12.3.2] - 2020-07-29
+
+### Fixed
+
+* Release process for 12.3.1 failed
+
+## [12.3.1] - 2020-07-29
+
+### Fixed
+
+* Release process for 12.3.0 failed
+
+## [12.3.0] - 2020-07-29
+
+### Added
+
+* Add `JavaMethod` and `JavaStackTraceElement` as `SourceReference` ([#1120](https://github.com/cucumber/cucumber/pull/1120))
+
+### Fixed
+
+* [Ruby] Fix computing of Timestamp (see [cucumber-ruby#1438](https://github.com/cucumber/cucumber-ruby/issues/1438))
+
+## [12.2.0] - 2020-06-26
+
+### Added
+
+* Added field `ci` to `Meta` message.
 
 ## [12.1.1] - 2020-04-21
 
@@ -33,7 +97,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
   * JavaScript: `import { version } from '@cucumber/messages'`
 * Add `Meta` message
   ([#976](https://github.com/cucumber/cucumber/pull/976)
-   [aslakhellesoy]) 
+   [aslakhellesoy])
 * [Java] Upgrade to `cucumber-parent:2.1.0` (needed to expose library version)
  ([#976](https://github.com/cucumber/cucumber/pull/976)
   [aslakhellesoy])
@@ -365,7 +429,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Protobuf messages for Go, Java, JavaScript, TypeScript and Ruby
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/messages/v12.1.1...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/messages/v13.1.0...master
+[13.1.0]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v13.0.1...messages/v13.1.0
+[13.0.1]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v13.0.0...messages/v13.0.1
+[13.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v12.4.0...messages/v13.0.0
+[12.4.0]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v12.3.2...messages/v12.4.0
+[12.3.2]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v12.3.1...messages/v12.3.2
+[12.3.1]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v12.3.0...messages/v12.3.1
+[12.3.0]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v12.2.0...messages/v12.3.0
+[12.2.0]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v12.1.1...messages/v12.2.0
 [12.1.1]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v12.1.0...messages/v12.1.1
 [12.1.0]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v12.0.0...messages/v12.1.0
 [12.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v11.1.1...messages/v12.0.0

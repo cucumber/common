@@ -3,7 +3,7 @@ import IClock from './IClock'
 export default class IncrementClock implements IClock {
   private time = 0
 
-  public now(): number {
+  public clockNow(): number {
     return this.time++
   }
 }

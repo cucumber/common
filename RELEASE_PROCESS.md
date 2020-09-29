@@ -9,33 +9,26 @@ Go and JavaScript implementations of that library, with the same version number.
 You *must* be on the `master` branch when you make a release. The steps below
 outline the process:
 
-* Decrypt credentials
+* Start the docker container with secrets
 * Update dependencies
 * Update changelog
 * Release packages
 
-The release commands will be done from a shell session in the Docker container.
+The release commands will be done from a terminal session in the Docker container.
 This ensures a consistent release environment.
-## Decrypt credentials
 
-The credentials for the various package managers are stored in the `/secrets`
-directory. They are encrypted with [git-crypt](https://www.agwa.name/projects/git-crypt/).
+## Get the secrets
 
-You need to decrypt these files with `git-crypt` before you can make a release.
-Here is how you do it:
+In order to publish packages several secrets are required. Members of the core
+team can install keybase and join the `cucumberbdd` team to access these secrets.
 
-    ./scripts/docker-run Dockerfile
-    # Find GIT_CRYPT_KEY_BASE64 in Keybase
-    # Sign up for a free 1Password account and ping someone in the Slack #committers channel
-    # to request access.
-    GIT_CRYPT_KEY_BASE64="..." source ./scripts/prepare_release_env.sh
+## Start the Cucumber docker container
 
-The files under `/secrets` are now decrypted, and will be used later when we
-publish packages.
+All commands should be made from the Cucumber docker container. Start it:
 
-*IMPORTANT:* You should also install `git-crypt` on your host OS, even if the
-releases are made from the Docker container. If you don't, you'll get an error
-when you run certain `git` commands on your host OS later.
+    make docker-run-with-secrets
+
+You're now ready to make a release.
 
 ## Update changelog
 
@@ -44,10 +37,19 @@ Open `CHANGELOG.md` and remove any `###` headers without content. Do not commit.
 No further edits should be made. The markdown headers and links will be updated
 automatically in the next step.
 
-## Prepare the release
+## Decide what the next version should be
 
-Before you make a major release, you should consider updating the package's dependencies to the latest
-available stable versions.
+This depends on what's changed (see `CHANGELOG.md`):
+
+* Bump `MAJOR` if:
+  * There are `Changed` or `Removed` entries
+  * A cucumber library dependency upgrade was major
+* Bump `MINOR` if:
+  * There are `Added` entries
+* Bump `PATCH` if:
+  * There are `Fixed` or `Deprecated` entries
+
+## Prepare the release
 
     cd thepackage
 

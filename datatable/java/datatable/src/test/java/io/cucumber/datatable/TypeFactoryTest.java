@@ -8,6 +8,7 @@ import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Supplier;
 
 import static io.cucumber.datatable.TypeFactory.aListOf;
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -29,7 +30,9 @@ class TypeFactoryTest {
     }.getType();
     private static final Type OPTIONAL_NUMBER = new TypeReference<Optional<Number>>() {
     }.getType();
-    private static final Type OPTIONAL_WILD_CARD_NUMBER = new TypeReference<Optional<? extends Number>>() {
+    private static final Type SUPPLIER_NUMBER = new TypeReference<Supplier<Number>>() {
+    }.getType();
+    private static final Type SUPPLIER_WILD_CARD_NUMBER = new TypeReference<Supplier<? extends Number>>() {
     }.getType();
     private static final Type UNKNOWN_TYPE = new Type() {
     };
@@ -119,10 +122,17 @@ class TypeFactoryTest {
     }
 
     @Test
-    void other_generic_types_are_parameterized_type() {
+    void optional_is_optional_type() {
         JavaType javaType = TypeFactory.constructType(OPTIONAL_NUMBER);
-        assertThat(javaType.getClass(), equalTo(TypeFactory.Parameterized.class));
+        assertThat(javaType.getClass(), equalTo(TypeFactory.OptionalType.class));
         assertThat(javaType.getOriginal(), is(OPTIONAL_NUMBER));
+    }
+
+    @Test
+    void other_generic_types_are_parameterized_type() {
+        JavaType javaType = TypeFactory.constructType(SUPPLIER_NUMBER);
+        assertThat(javaType.getClass(), equalTo(TypeFactory.Parameterized.class));
+        assertThat(javaType.getOriginal(), is(SUPPLIER_NUMBER));
     }
 
     @Test
@@ -168,8 +178,8 @@ class TypeFactoryTest {
 
     @Test
     void wild_card_parameterized_types_use_upper_bound_in_equality() {
-        JavaType javaType = TypeFactory.constructType(OPTIONAL_WILD_CARD_NUMBER);
-        JavaType other = TypeFactory.constructType(OPTIONAL_NUMBER);
+        JavaType javaType = TypeFactory.constructType(SUPPLIER_WILD_CARD_NUMBER);
+        JavaType other = TypeFactory.constructType(SUPPLIER_NUMBER);
         assertThat(javaType, equalTo(other));
         TypeFactory.Parameterized parameterized = (TypeFactory.Parameterized) javaType;
         JavaType elementType = parameterized.getElementTypes()[0];
@@ -178,7 +188,7 @@ class TypeFactoryTest {
 
     @Test
     void upper_bound_of_wild_card_parameterized_type_replaces_wild_card_type() {
-        JavaType javaType = TypeFactory.constructType(OPTIONAL_WILD_CARD_NUMBER);
+        JavaType javaType = TypeFactory.constructType(SUPPLIER_WILD_CARD_NUMBER);
         TypeFactory.Parameterized parameterized = (TypeFactory.Parameterized) javaType;
         JavaType elementType = parameterized.getElementTypes()[0];
         assertThat(elementType.getOriginal(), equalTo(Number.class));

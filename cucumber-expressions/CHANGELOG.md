@@ -9,10 +9,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
-* [Java] Enable consumers to find our version at runtime using `clazz.getPackage().getImplementationVersion()` by upgrading to `cucumber-parent:2.1.0`
-  ([#976](https://github.com/cucumber/cucumber/pull/976)
-   [aslakhellesoy])
-
 ### Changed
 
 ### Deprecated
@@ -21,11 +17,45 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [10.3.0] - 2020-08-07
+
+### Added
+
+* [JavaScript] export `GeneratedExpression`
+
+## [10.2.2] - 2020-07-30
+
+### Fixed
+* Use Unicode symbols as a parameter boundary in snippets
+    ([#1108](https://github.com/cucumber/cucumber/pull/1108)
+ [mpkorstanje])
+
+## [10.2.1] - 2020-06-23
+
+### Fixed
+* [Java, Go, Ruby, JavaScript] Parse all group variants
+    ([#1069](https://github.com/cucumber/cucumber/pull/1069)
+ [mpkorstanje])
+* [Java, Go, Ruby, JavaScript] Retain position of optional groups
+  ([#1076](https://github.com/cucumber/cucumber/pull/1076)
+   [mpkorstanje])
+
+## [10.2.0] - 2020-05-28
+
+### Added
+* [Java] Add support for Optional
+  ([#1006](https://github.com/cucumber/cucumber/pull/1006)
+   [gaeljw], [mpkorstanje])
+
+* [Java] Enable consumers to find our version at runtime using `clazz.getPackage().getImplementationVersion()` by upgrading to `cucumber-parent:2.1.0`
+  ([#976](https://github.com/cucumber/cucumber/pull/976)
+   [aslakhellesoy])
+
 ## [10.1.0] - 2020-04-14
 
 ### Changed
 
-* [Java] `CucumberExpression` and `RegularExpression` are now public.  
+* [Java] `CucumberExpression` and `RegularExpression` are now public.
 
 ### Fixed
 
@@ -233,7 +263,7 @@ Same as 6.1.1 - just fixed a mistake made during the 6.1.1 release.
   to work around a limitation on Android (and other platforms).
   ([#494](https://github.com/cucumber/cucumber/issues/494)
    [#498](https://github.com/cucumber/cucumber/pull/498)
-   [lsuski])  
+   [lsuski])
 
 ## [6.1.0] - 2018-09-23
 
@@ -675,7 +705,12 @@ N/A
 * First stable release!
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions/v10.1.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions/v10.3.0...master
+[10.3.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v10.2.2...cucumber-expressions/v10.3.0
+[10.2.2]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v0.0.0...cucumber-expressions/v10.2.2
+[0.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v10.2.1...cucumber-expressions/v0.0.0
+[10.2.1]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v10.2.0...cucumber-expressions/v10.2.1
+[10.2.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v10.1.0...cucumber-expressions/v10.2.0
 [10.1.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v10.0.0...cucumber-expressions/v10.1.0
 [10.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v9.0.0...cucumber-expressions/v10.0.0
 [9.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v8.3.1...cucumber-expressions/v9.0.0
@@ -735,6 +770,7 @@ N/A
 [charlierudolph]:   https://github.com/charlierudolph
 [davidjgoss]:       https://github.com/davidjgoss
 [dmeehan1968]:      https://github.com/dmeehan1968
+[gaeljw]:          https://github.com/gaeljw
 [gpichot]:          https://github.com/gpichot
 [jamis]:            https://github.com/jamis
 [jaysonesmith]:     https://github.com/jaysonesmith

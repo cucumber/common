@@ -19,6 +19,22 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Fixed
 
+## [6.0.0] - 2020-08-07
+
+### Changed
+
+* Update `messages` to 13.0.1
+* Handle the `JavaMethod` and `JavaStackTraceElement` fields in `SourceReference`:
+  - outputs `<className>.<methodName>(<parameter1>,<parameter2>, etc)` for `JavaMethod`
+  - outputs `<fileName>:<line?>` for `JavaStackTraceElement`
+
+## [5.1.0] - 2020-06-29
+
+### Changed
+
+* Upgrade to messages 12.2.0
+* Upgrade to gherkin 14.0.2
+
 ## [5.0.0] - 2020-04-14
 
 ### Added
@@ -89,7 +105,9 @@ Upgrade messages
 * Initial release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/json-formatter/v5.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/json-formatter/v6.0.0...master
+[6.0.0]:      https://github.com/cucumber/cucumber/compare/json-formatter/v5.1.0...json-formatter/v6.0.0
+[5.1.0]:      https://github.com/cucumber/cucumber/compare/json-formatter/v5.0.0...json-formatter/v5.1.0
 [5.0.0]:      https://github.com/cucumber/cucumber/compare/json-formatter/v4.0.0...json-formatter/v5.0.0
 [4.0.0]:      https://github.com/cucumber/cucumber/compare/json-formatter/v3.1.1...json-formatter/v4.0.0
 [3.1.1]:      https://github.com/cucumber/cucumber/compare/json-formatter/v3.1.0...json-formatter/v3.1.1

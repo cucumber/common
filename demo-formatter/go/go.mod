@@ -1,11 +1,11 @@
 module github.com/cucumber/demo-formatter-go
 
 require (
-	github.com/cucumber/messages-go/v12 v12.0.0
+	github.com/cucumber/messages-go/v13 v13.1.0
 	github.com/gogo/protobuf v1.3.1
-	github.com/stretchr/testify v1.5.1
+	github.com/stretchr/testify v1.6.1
 )
 
-replace github.com/cucumber/messages-go/v12 => ../../messages/go
+replace github.com/cucumber/messages-go/v13 => ../../messages/go
 
 go 1.13

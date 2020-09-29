@@ -4,25 +4,18 @@ import { messages } from '@cucumber/messages'
 import compile from '../pickles/compile'
 import AstBuilder from '../AstBuilder'
 import IGherkinOptions from '../IGherkinOptions'
+import makeSourceEnvelope from './makeSourceEnvelope'
 
 export default function generateMessages(
   data: string,
   uri: string,
   options: IGherkinOptions
-) {
+): readonly messages.IEnvelope[] {
   const result = []
 
   try {
     if (options.includeSource) {
-      result.push(
-        new messages.Envelope({
-          source: {
-            uri,
-            data,
-            mediaType: 'text/x.cucumber.gherkin+plain',
-          },
-        })
-      )
+      result.push(makeSourceEnvelope(data, uri))
     }
 
     if (!options.includeGherkinDocument && !options.includePickles) {

@@ -13,6 +13,9 @@ used by Cucumber, such as:
 * The Cucumber Protocol messages
 * ...and a few more bits and bobs.
 
+Each top level directory is the name of a cucumber *package*, and each directory
+underneath is an implementation *language* for that package.
+
 The Cucumber implementations themselves live in separate Git repositories:
 
 * [cucumber-jvm](https://github.com/cucumber/cucumber-jvm)
@@ -31,11 +34,11 @@ You have a few options for building this repo as outlined below.
 ### Building on Docker
 
 You need a lot of various tools to build this repo, and to make this easy we have
-created a [docker](https://www.docker.com/) image with all the required build tools
+created a [docker image](https://github.com/cucumber/cucumber-build) with all the required build tools
 installed. To use this you need Docker installed, and a bash shell on your host OS:
 
 ```
-./scripts/docker-run Dockerfile
+make docker-run
 make clean
 NO_CROSS_COMPILE=1 make
 ```
@@ -79,15 +82,39 @@ than a local build.
 
 ### Building a subset
 
+Package names are the top level directory names, and language names are the
+directory names underneath. For instance, `html-formatter` package has
+implementations for `java`, `javascript`, and `ruby` languages.
+
 Define `PACKAGES` and/or `LANGUAGES` to only build a subset of packages / languages.
 
-Examples:
+To build `html-formatter` package for `javascript` language:
+
+```
+PACKAGES=html-formatter LANGUAGES=javascript make
+```
+
+To build `html-formatter` package for `javascript` and `ruby` languages:
+
+```
+PACKAGES=html-formatter LANGUAGES="javascript ruby" make
+```
+
+To build all packages for `javascript` language:
 
 ```
 LANGUAGES=javascript make
-LANGUAGES="javascript ruby" make
+```
+
+To build `messages` and `gherkin` packages for all languages:
+
+```
 PACKAGES="messages gherkin" make
 ```
+
+Packages have to be built in a particular order. This order is defined in
+`Makefile`. If you set `PACKAGES` when running `make`, be careful at keeping
+that order to prevent any build error.
 
 ### Using yarn instead of npm
 
@@ -107,11 +134,3 @@ try building the module with yarn (`NPM=yarn` - see above).
 If you're still experiencing errors or timeouts, try replacing `file:../..` dependencies
 in `package.json` with the latest release of the package. If you do, please do not
 commit that change.
-
-## Encrypted secrets
-
-Some files in the repo are encrypted [git-crypt](https://www.agwa.name/projects/git-crypt/).
-Look inside `/.gitattributes` to find out which ones.
-
-Releases can only be made when these files are decrypted. See
-[RELEASE_PROCESS.md](./RELEASE_PROCESS.md) for details.

@@ -9,10 +9,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
-* [Java] Enable consumers to find our version at runtime using `clazz.getPackage().getImplementationVersion()` by upgrading to `cucumber-parent:2.1.0`
-  ([#976](https://github.com/cucumber/cucumber/pull/976)
-   [aslakhellesoy])
-
 ### Changed
 
 ### Deprecated
@@ -21,12 +17,28 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [3.5.0] - 2020-09-26
+
+### Added
+ * [Java] Support for Optional<T>
+    ([1091](https://github.com/cucumber/cucumber/pull/1091)
+    [1182](https://github.com/cucumber/cucumber/pull/1182)
+      [mpkorstanje], [rasklaad])
+
+## [3.4.0] - 2020-08-08
+
+### Added
+
+* [Java] Enable consumers to find our version at runtime using `clazz.getPackage().getImplementationVersion()` by upgrading to `cucumber-parent:2.1.0`
+  ([#976](https://github.com/cucumber/cucumber/pull/976)
+   [aslakhellesoy])
+
 ## [3.3.1] - 2020-03-28
 
 ### Fixed
  * [Java] Improve error messages
     ([#944](https://github.com/cucumber/cucumber/pull/944)
-      [mpkorstanje])     
+      [mpkorstanje])
       - `table.asList(String.class)` throw an exception rather then return an empty list   
 
 ## [3.3.0] - 2020-02-06
@@ -167,7 +179,9 @@ There are no (1.1.0 and 1.1.1 releases).
 * java: OSGI fixes
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/datatable/v3.3.1...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/datatable/v3.5.0...master
+[3.5.0]:      https://github.com/cucumber/cucumber/compare/datatable/v3.4.0...datatable/v3.5.0
+[3.4.0]:      https://github.com/cucumber/cucumber/compare/datatable/v3.3.1...datatable/v3.4.0
 [3.3.1]:      https://github.com/cucumber/cucumber/compare/datatable/v3.3.0...datatable/v3.3.1
 [3.3.0]:      https://github.com/cucumber/cucumber/compare/datatable/v3.2.1...datatable/v3.3.0
 [3.2.1]:      https://github.com/cucumber/cucumber/compare/datatable/v3.2.0...datatable/v3.2.1
@@ -189,3 +203,4 @@ There are no (1.1.0 and 1.1.1 releases).
 [kuehl]:            https://github.com/kuehl
 [lsuski]:           https://github.com/lsuski
 [mpkorstanje]:      https://github.com/mpkorstanje
+[rasklaad]:         https://github.com/rasklaad

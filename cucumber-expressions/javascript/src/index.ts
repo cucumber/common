@@ -7,6 +7,7 @@ import ExpressionFactory from './ExpressionFactory'
 import CucumberExpressionGenerator from './CucumberExpressionGenerator'
 import ParameterTypeRegistry from './ParameterTypeRegistry'
 import ParameterType from './ParameterType'
+import GeneratedExpression from './GeneratedExpression'
 
 export {
   Argument,
@@ -16,6 +17,7 @@ export {
   RegularExpression,
   ExpressionFactory,
   CucumberExpressionGenerator,
+  GeneratedExpression,
   ParameterTypeRegistry,
   ParameterType,
 }

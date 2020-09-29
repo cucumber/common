@@ -120,10 +120,11 @@ public final class ParameterTypeRegistry {
                 return (String) internalParameterTransformer.transform(arg, String.class);
             }
         }, false, false, false));
-        defineParameterType(new ParameterType<>("string", STRING_REGEXPS, String.class, new Transformer<String>() {
+        defineParameterType(new ParameterType<>("string", STRING_REGEXPS, String.class, new CaptureGroupTransformer<String>() {
             @Override
-            public String transform(String arg) throws Throwable {
-                return arg == null ? null : (String) internalParameterTransformer.transform(arg
+            public String transform(String... args) throws Throwable {
+                String arg = args[0] != null ? args[0] : args[1];
+                return (String) internalParameterTransformer.transform(arg
                                 .replaceAll("\\\\\"", "\"")
                                 .replaceAll("\\\\'", "'"),
                         String.class);

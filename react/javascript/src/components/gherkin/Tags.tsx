@@ -1,9 +1,9 @@
 import React from 'react'
 import { messages } from '@cucumber/messages'
-import ITag = messages.GherkinDocument.Feature.ITag
+import HighLight from '../app/HighLight'
 
 interface IProps {
-  tags: ITag[]
+  tags: messages.GherkinDocument.Feature.ITag[]
 }
 
 const Tags: React.FunctionComponent<IProps> = ({ tags }) => {
@@ -11,10 +11,10 @@ const Tags: React.FunctionComponent<IProps> = ({ tags }) => {
     return null
   }
   return (
-    <ul className="tag-list">
+    <ul className="cucumber-tags">
       {tags.map((tag, index) => (
-        <li className="tag" key={index}>
-          {tag.name}
+        <li className="cucumber-tag" key={index}>
+          <HighLight text={tag.name} />
         </li>
       ))}
     </ul>

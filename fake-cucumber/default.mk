@@ -7,6 +7,9 @@ ALPINE = $(shell which apk 2> /dev/null)
 LIBNAME = $(shell basename $$(pwd))
 LANGUAGES ?= $(wildcard */)
 
+# https://stackoverflow.com/questions/2483182/recursive-wildcards-in-gnu-make
+rwildcard=$(foreach d,$(wildcard $(1:=/*)),$(call rwildcard,$d,$2) $(filter $(subst *,%,$2),$d))
+
 default: $(patsubst %,default-%,$(LANGUAGES))
 .PHONY: default
 
@@ -52,6 +55,7 @@ publish-%: %
 .PHONY: publish-%
 
 create-and-push-release-tag:
+	[ -f '/home/cukebot/import-gpg-key.sh' ] && /home/cukebot/import-gpg-key.sh
 	git commit -am "Release $(LIBNAME) v$(NEW_VERSION)"
 	git tag -s "$(LIBNAME)/v$(NEW_VERSION)" -m "Release $(LIBNAME) v$(NEW_VERSION)"
 	git push --tags

@@ -10,7 +10,7 @@ elif [ $1 = "netcoreapp2.0" ]; then
     starter="dotnet"
     ext="dll"
 else
-    echo "afdjaölsdk architecture"
+    echo "Unsupported architecture"
     exit 1
 fi
 

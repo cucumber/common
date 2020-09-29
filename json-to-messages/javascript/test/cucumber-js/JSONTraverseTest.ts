@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/camelcase */
-
 import assert from 'assert'
 import { IStep, IDocString, IElement } from '../../src/cucumber-js/JSONSchema'
 import { stubInterface } from 'ts-sinon'

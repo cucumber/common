@@ -52,7 +52,7 @@ export default class ParameterTypeRegistry {
         'string',
         ParameterTypeRegistry.STRING_REGEXP,
         String,
-        (s) => (s || '').replace(/\\"/g, '"').replace(/\\'/g, "'"),
+        (s1, s2) => (s1 || s2 || '').replace(/\\"/g, '"').replace(/\\'/g, "'"),
         true,
         false
       )

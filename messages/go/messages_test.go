@@ -2,7 +2,7 @@ package messages
 
 import (
 	"bytes"
-	messagesio "github.com/cucumber/messages-go/v12/io"
+	messagesio "github.com/cucumber/messages-go/v13/io"
 	gogoio "github.com/gogo/protobuf/io"
 	"github.com/stretchr/testify/require"
 	"math"
@@ -87,11 +87,21 @@ func TestMessages(t *testing.T) {
 		require.Equal(t, s, decoded.GetBody())
 	})
 
-	t.Run("reads an attachment with a tiny string as NDJSON", func(t *testing.T) {
+	t.Run("ignores missing fields", func(t *testing.T) {
 		b := &bytes.Buffer{}
 		b.WriteString("{\"unused\": 99}\n")
 		r := messagesio.NewNdjsonReader(b)
 		var decoded Envelope
+		require.NoError(t, r.ReadMsg(&decoded))
+	})
+
+	t.Run("ignores empty lines", func(t *testing.T) {
+		b := &bytes.Buffer{}
+		b.WriteString("{}\n{}\n\n{}\n")
+		r := messagesio.NewNdjsonReader(b)
+		var decoded Envelope
+		require.NoError(t, r.ReadMsg(&decoded))
+		require.NoError(t, r.ReadMsg(&decoded))
 		require.NoError(t, r.ReadMsg(&decoded))
 	})
 }

@@ -8,12 +8,15 @@ import org.junit.jupiter.api.Test;
 
 import java.beans.ConstructorProperties;
 import java.lang.reflect.Type;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.TimeZone;
 
 import static io.cucumber.datatable.DataTable.emptyDataTable;
@@ -54,6 +57,14 @@ class DataTableTypeRegistryTableConverterTest {
     }.getType();
     private static final Type LIST_OF_INT = new TypeReference<List<Integer>>() {
     }.getType();
+    private static final Type OPTIONAL_BIG_DECIMAL = new TypeReference<Optional<BigDecimal>>() {
+    }.getType();
+    private static final Type OPTIONAL_STRING = new TypeReference<Optional<String>>() {
+    }.getType();
+    private static final Type LIST_OF_OPTIONAL_STRING = new TypeReference<List<Optional<String>>>() {
+    }.getType();
+    private static final Type OPTIONAL_BIG_INTEGER = new TypeReference<Optional<BigInteger>>() {
+    }.getType();
     private static final Type MAP_OF_INT_TO_INT = new TypeReference<Map<Integer, Integer>>() {
     }.getType();
     @SuppressWarnings("rawtypes")
@@ -79,9 +90,9 @@ class DataTableTypeRegistryTableConverterTest {
     }.getType();
     private static final Type LIST_OF_DOUBLE = new TypeReference<List<Double>>() {
     }.getType();
-    private static final Type LIST_OF_DATE = new TypeReference<List<Date>>() {
-    }.getType();
     private static final Type MAP_OF_STRING_TO_MAP_OF_INTEGER_TO_PIECE = new TypeReference<Map<String, Map<Integer, Piece>>>() {
+    }.getType();
+    public static final Type OPTIONAL_CHESS_BOARD_TYPE = new TypeReference<Optional<ChessBoard>>() {
     }.getType();
     private static final TableTransformer<ChessBoard> CHESS_BOARD_TABLE_TRANSFORMER = table -> new ChessBoard(table.subTable(1, 1).asList());
     private static final TableCellTransformer<Piece> PIECE_TABLE_CELL_TRANSFORMER = Piece::fromString;
@@ -110,13 +121,13 @@ class DataTableTypeRegistryTableConverterTest {
             (entry, type, cellTransformer) -> objectMapper.convertValue(entry, objectMapper.constructType(type));
     private static final TableCellByTypeTransformer JACKSON_TABLE_CELL_BY_TYPE_CONVERTER =
             (value, cellType) -> objectMapper.convertValue(value, objectMapper.constructType(cellType));
-    private static DataTableType DATE_TABLE_CELL_TRANSFORMER = new DataTableType(Date.class, (TableCellTransformer<Date>) SIMPLE_DATE_FORMAT::parse);
+    private static final DataTableType DATE_TABLE_CELL_TRANSFORMER = new DataTableType(Date.class, (TableCellTransformer<Date>) SIMPLE_DATE_FORMAT::parse);
 
     static {
         SIMPLE_DATE_FORMAT.setTimeZone(TimeZone.getTimeZone("UTC"));
     }
 
-    private DataTableTypeRegistry registry = new DataTableTypeRegistry(ENGLISH);
+    private final DataTableTypeRegistry registry = new DataTableTypeRegistry(ENGLISH);
     private final TableConverter converter = new DataTableTypeRegistryTableConverter(registry);
 
     @Test
@@ -192,6 +203,37 @@ class DataTableTypeRegistryTableConverterTest {
 
         assertEquals(expected, converter.toList(table, String.class));
         assertEquals(expected, converter.convert(table, List.class));
+    }
+
+    @Test
+    void convert_to_optional_list() {
+        DataTable table = parse("",
+                "| 11.22   |",
+                "| 255.999 |",
+                "|         |"
+        );
+
+        List<Optional<BigDecimal>> expected = asList(
+                Optional.of(new BigDecimal("11.22")),
+                Optional.of(new BigDecimal("255.999")),
+                Optional.empty()
+        );
+        assertEquals(expected, converter.toList(table, OPTIONAL_BIG_DECIMAL));
+    }
+
+    @Test
+    void convert_to_maps_of_optional() {
+        DataTable table = parse("",
+                "| header1   | header2   |",
+                "| 311       | 12299     |"
+        );
+
+        Map<Optional<String>, Optional<BigInteger>> expectedMap = new HashMap<Optional<String>, Optional<BigInteger>>() {{
+            put(Optional.of("header1"), Optional.of(new BigInteger("311")));
+            put(Optional.of("header2"), Optional.of(new BigInteger("12299")));
+        }};
+        List<Map<Optional<String>, Optional<BigInteger>>> expected = singletonList(expectedMap);
+        assertEquals(expected, converter.toMaps(table, OPTIONAL_STRING, OPTIONAL_BIG_INTEGER));
     }
 
     @Test
@@ -416,12 +458,39 @@ class DataTableTypeRegistryTableConverterTest {
 
     @Test
     void convert_null_cells_to_null() {
-        DataTable table = DataTable.create(singletonList(singletonList(null)));
+        DataTable table = parse("",
+                "|   |"
+        );
 
         List<Integer> expected = singletonList(null);
 
         assertEquals(expected, converter.toList(table, Integer.class));
         assertEquals(expected, converter.convert(table, LIST_OF_INT));
+    }
+
+    @Test
+    void convert_null_cells_to_empty() {
+        DataTable table = parse("",
+                "|   |"
+        );
+
+        List<Optional<String>> expected = singletonList(Optional.empty());
+
+        assertEquals(expected, converter.toList(table, OPTIONAL_STRING));
+        assertEquals(expected, converter.convert(table, LIST_OF_OPTIONAL_STRING));
+    }
+
+    @Test
+    void convert_to_optional_uses_pre_registered_converter_if_available() {
+        DataTable table = DataTable.create(singletonList(singletonList("Hello")));
+
+        List<Optional<String>> expected = singletonList(Optional.of("Goodbye"));
+
+        registry.defineDataTableType(new DataTableType(OPTIONAL_STRING, (String cell) -> Optional.of("Goodbye")));
+
+
+        assertEquals(expected, converter.toList(table, OPTIONAL_STRING));
+        assertEquals(expected, converter.convert(table, LIST_OF_OPTIONAL_STRING));
     }
 
     @Test
@@ -986,10 +1055,10 @@ class DataTableTypeRegistryTableConverterTest {
 
     @Test
     void convert_to_maps_of_integer_to_null() {
-        DataTable table = DataTable.create(asList(
-                asList("1", "2"),
-                asList(null, null)
-        ));
+        DataTable table = parse("",
+                "| 1 | 2 |",
+                "|   |   |"
+        );
 
         List<HashMap<Integer, Integer>> expected = singletonList(
                 new HashMap<Integer, Integer>() {{
@@ -1018,6 +1087,45 @@ class DataTableTypeRegistryTableConverterTest {
         ChessBoard expected = new ChessBoard(asList("♘", "♝", "♝"));
 
         assertEquals(expected, converter.convert(table, ChessBoard.class));
+    }
+
+    @Test
+    void convert_to_optional_of_object__must_have_optional_converter() {
+        DataTable table = parse("",
+                "  |   | 1 | 2 | 3 |",
+                "  | A | ♘ |   | ♝ |",
+                "  | B |   |   |   |",
+                "  | C |   | ♝ |   |"
+        );
+
+        registry.defineDataTableType(new DataTableType(ChessBoard.class, CHESS_BOARD_TABLE_TRANSFORMER));
+
+        UndefinedDataTableTypeException exception = assertThrows(
+                UndefinedDataTableTypeException.class,
+                () -> converter.convert(table, OPTIONAL_CHESS_BOARD_TYPE)
+        );
+        assertThat(exception.getMessage(), is("" +
+                "Can't convert DataTable to io.cucumber.datatable.DataTableTypeRegistryTableConverterTest$ChessBoard.\n" +
+                "Please review these problems:\n" +
+                "\n" +
+                " - There was no table entry or table row transformer registered for io.cucumber.datatable.DataTableTypeRegistryTableConverterTest$ChessBoard.\n" +
+                "   Please consider registering a table entry or row transformer.\n" +
+                "\n" +
+                " - There was no default table entry transformer registered to transform io.cucumber.datatable.DataTableTypeRegistryTableConverterTest$ChessBoard.\n" +
+                "   Please consider registering a default table entry transformer.\n" +
+                "\n" +
+                "Note: Usually solving one is enough"));
+    }
+
+    @Test
+    void convert_to_empty_optional_object() {
+        registry.setDefaultDataTableEntryTransformer(TABLE_ENTRY_BY_TYPE_CONVERTER_SHOULD_NOT_BE_USED);
+        registry.setDefaultDataTableCellTransformer(TABLE_CELL_BY_TYPE_CONVERTER_SHOULD_NOT_BE_USED);
+
+        DataTable table = parse("");
+
+        registry.defineDataTableType(new DataTableType(ChessBoard.class, CHESS_BOARD_TABLE_TRANSFORMER));
+        assertEquals(Optional.empty(), converter.convert(table, OPTIONAL_CHESS_BOARD_TYPE));
     }
 
     @Test
@@ -1545,10 +1653,10 @@ class DataTableTypeRegistryTableConverterTest {
 
     @Test
     void to_maps_cant_convert_table_with_duplicate_null_keys() {
-        DataTable table = DataTable.create(asList(
-                asList(null, null),
-                asList("1", "2")
-        ));
+        DataTable table = parse("",
+                "|   |   |",
+                "| 1 | 2 |"
+        );
 
         CucumberDataTableException exception = assertThrows(
                 CucumberDataTableException.class,
@@ -1641,7 +1749,6 @@ class DataTableTypeRegistryTableConverterTest {
         }
     }
 
-    @SuppressWarnings("unused")
     public static final class AirPortCode {
         private final String code;
 

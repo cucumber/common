@@ -1,29 +1,28 @@
 import React from 'react'
-import Keyword from './Keyword'
 import Description from './Description'
 import { messages } from '@cucumber/messages'
 import StepList from './StepList'
-import IBackground = messages.GherkinDocument.Feature.IBackground
+import IdGenerator from '../../IdGenerator'
+import BackgroundTitle from './BackgroundTitle'
 
 interface IProps {
-  background: IBackground
+  background: messages.GherkinDocument.Feature.IBackground
 }
 
+const generator = new IdGenerator()
+
 const Background: React.FunctionComponent<IProps> = ({ background }) => {
+  const idGenerated = generator.generate(background.name)
+
   return (
-    <section>
-      <h2>
-        <Keyword>{background.keyword}:</Keyword>{' '}
-        <span className="step-text">{background.name}</span>
-      </h2>
-      <div className="indent">
-        <Description description={background.description} />
-        <StepList
-          steps={background.steps || []}
-          renderStepMatchArguments={true}
-          renderMessage={true}
-        />
-      </div>
+    <section className="cucumber-background">
+      <BackgroundTitle id={idGenerated} background={background} />
+      <Description description={background.description} />
+      <StepList
+        steps={background.steps || []}
+        renderStepMatchArguments={true}
+        renderMessage={true}
+      />
     </section>
   )
 }

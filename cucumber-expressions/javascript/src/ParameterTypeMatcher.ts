@@ -52,14 +52,16 @@ export default class ParameterTypeMatcher {
   }
 
   get matchStartWord() {
-    return this.start === 0 || this.text[this.start - 1].match(/\s|\p{P}/u)
+    return (
+      this.start === 0 || this.text[this.start - 1].match(/\p{Z}|\p{P}|\p{S}/u)
+    )
   }
 
   get matchEndWord() {
     const nextCharacterIndex = this.start + this.group.length
     return (
       nextCharacterIndex === this.text.length ||
-      this.text[nextCharacterIndex].match(/\s|\p{P}/u)
+      this.text[nextCharacterIndex].match(/\p{Z}|\p{P}|\p{S}/u)
     )
   }
 

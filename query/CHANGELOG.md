@@ -17,6 +17,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [7.0.0] - 2020-08-07
+
+### Changed
+
+* Update `messages` to 13.0.1
+
+## [6.1.0] - 2020-06-29
+
+### Added
+
+* Add `getBeforeHookSteps` and `getAfterHookSteps`
+* Add `getTestStepResults`
+* Add `getHook`
+
 ## [6.0.0] - 2020-04-14
 
 ### Changed
@@ -74,7 +88,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First JavaScript implementation
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/query/v6.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/query/v7.0.0...master
+[7.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-query/v6.1.0...query/v7.0.0
+[6.1.0]:      https://github.com/cucumber/cucumber/compare/cucumber-query/v6.0.0...query/v6.1.0
 [6.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-query/v5.0.0...query/v6.0.0
 [5.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-query/v4.0.0...query/v5.0.0
 [4.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-query/v3.0.0...query/v4.0.0

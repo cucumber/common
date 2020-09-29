@@ -7,13 +7,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class TagExpressionParser {
-    private static Map<String, Assoc> ASSOC = new HashMap<String, Assoc>() {{
+public final class TagExpressionParser {
+    private static final Map<String, Assoc> ASSOC = new HashMap<String, Assoc>() {{
         put("or", Assoc.LEFT);
         put("and", Assoc.LEFT);
         put("not", Assoc.RIGHT);
     }};
-    private static Map<String, Integer> PREC = new HashMap<String, Integer>() {{
+    private static final Map<String, Integer> PREC = new HashMap<String, Integer>() {{
         put("(", -2);
         put(")", -1);
         put("or", 0);
@@ -21,13 +21,22 @@ public class TagExpressionParser {
         put("not", 2);
     }};
     private static final char ESCAPING_CHAR = '\\';
+    private final String infix;
 
-    public Expression parse(String infix) {
-        final List<String> tokens = tokenize(infix);
+    public static Expression parse(String infix) {
+	return new TagExpressionParser(infix).parse();
+    }
+
+    private TagExpressionParser(String infix) {
+	this.infix = infix;
+    }
+    
+    private Expression parse() {	
+        List<String> tokens = tokenize(infix);
         if(tokens.isEmpty()) return new True();
 
-        final Deque<String> operators = new ArrayDeque<>();
-        final Deque<Expression> expressions = new ArrayDeque<>();
+        Deque<String> operators = new ArrayDeque<>();
+        Deque<Expression> expressions = new ArrayDeque<>();
         TokenType expectedTokenType = TokenType.OPERAND;
         for (String token : tokens) {
             if (isUnary(token)) {
@@ -55,7 +64,7 @@ public class TagExpressionParser {
                     pushExpr(pop(operators), expressions);
                 }
                 if (operators.size() == 0) {
-                    throw new TagExpressionException("Syntax error. Unmatched )");
+                    throw new TagExpressionException("Tag expression '%s' could not be parsed because of syntax error: unmatched )", this.infix);
                 }
                 if ("(".equals(operators.peek())) {
                     pop(operators);
@@ -70,7 +79,7 @@ public class TagExpressionParser {
 
         while (operators.size() > 0) {
             if ("(".equals(operators.peek())) {
-                throw new TagExpressionException("Syntax error. Unmatched (");
+                throw new TagExpressionException("Tag expression '%s' could not be parsed because of syntax error: unmatched (", infix);
             }
             pushExpr(pop(operators), expressions);
         }
@@ -124,12 +133,12 @@ public class TagExpressionParser {
 
     private void check(TokenType expectedTokenType, TokenType tokenType) {
         if (expectedTokenType != tokenType) {
-            throw new TagExpressionException("Syntax error. Expected %s", expectedTokenType.toString().toLowerCase());
+            throw new TagExpressionException("Tag expression '%s' could not be parsed because of syntax error: expected %s", infix, expectedTokenType.toString().toLowerCase());
         }
     }
 
     private <T> T pop(Deque<T> stack) {
-        if (stack.isEmpty()) throw new TagExpressionException("empty stack");
+        if (stack.isEmpty()) throw new TagExpressionException("Tag expression '%s' could not be parsed because of an empty stack", infix);
         return stack.pop();
     }
 

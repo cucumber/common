@@ -1,13 +1,11 @@
 package io.cucumber.messages;
 
-import com.google.protobuf.Message;
 import com.google.protobuf.util.JsonFormat;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 
@@ -34,7 +32,10 @@ public class NdjsonToMessageIterable implements Iterable<Messages.Envelope> {
             public boolean hasNext() {
                 try {
                     String line = input.readLine();
-                    if(line == null) return false;
+                    if (line == null) return false;
+                    if (line.trim().equals("")) {
+                        return hasNext();
+                    }
                     Messages.Envelope.Builder builder = Messages.Envelope.newBuilder();
                     JSON_PARSER.merge(line, builder);
                     next = builder.build();

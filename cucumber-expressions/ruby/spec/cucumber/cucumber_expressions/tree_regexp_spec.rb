@@ -22,6 +22,7 @@ module Cucumber
         group = tr.match('abc')
         expect(group.value).to eq('abc')
         expect(group.children.length).to eq 1
+        expect(group.children[0].value).to eq('c')
       end
 
       it 'ignores `?!` as a non-capturing group' do
@@ -53,6 +54,28 @@ module Cucumber
         expect(group.value).to eq('abc')
         expect(group.children[0].value).to eq('bc')
         expect(group.children.length).to eq 1
+      end
+
+      it 'ignores `?<!` as a non-capturing group' do
+        tr = TreeRegexp.new(/a(.+)(?<!b)$/)
+        group = tr.match('abc')
+        expect(group.value).to eq('abc')
+        expect(group.children[0].value).to eq('bc')
+        expect(group.children.length).to eq 1
+      end
+
+      it 'ignores `?>` as a non-capturing group' do
+        tr = TreeRegexp.new(/a(?>b)c/)
+        group = tr.match('abc')
+        expect(group.value).to eq('abc')
+        expect(group.children.length).to eq 0
+      end
+
+      it 'throws an error when there are named capture groups because they are buggy in Ruby' do
+        # https://github.com/cucumber/cucumber/issues/329
+        expect {
+          TreeRegexp.new(/^I am a person( named "(?<first_name>.+) (?<last_name>.+)")?$/)
+        }.to raise_error(/Named capture groups are not supported/)
       end
 
       it 'matches optional group' do
@@ -122,12 +145,42 @@ module Cucumber
         expect(group.children.length).to eq(1)
       end
 
-      it 'throws an error when there are named capture groups because they are buggy in Ruby' do
-        # https://github.com/cucumber/cucumber/issues/329
-        expect {
-          TreeRegexp.new(/^I am a person( named "(?<first_name>.+) (?<last_name>.+)")?$/)
-        }.to raise_error(/Named capture groups are not supported/)
+      it 'works with inline flags' do
+        tr = TreeRegexp.new(/(?i)HELLO/)
+        group = tr.match('hello')
+        expect(group.value).to eq('hello')
+        expect(group.children.length).to eq 0
       end
+
+      it 'works with non capturing inline flags' do
+        tr = TreeRegexp.new(/(?i:HELLO)/)
+        group = tr.match('hello')
+        expect(group.value).to eq('hello')
+        expect(group.children.length).to eq 0
+      end
+
+      it 'works with empty capturing group' do
+        tr = TreeRegexp.new(/()/)
+        group = tr.match('')
+        expect(group.value).to eq('')
+        expect(group.children[0].value).to eq('')
+        expect(group.children.length).to eq 1
+      end
+
+      it 'works with empty non-capturing group' do
+        tr = TreeRegexp.new(/(?:)/)
+        group = tr.match('')
+        expect(group.value).to eq('')
+        expect(group.children.length).to eq 0
+      end
+
+      it 'works with empty non-look ahead' do
+        tr = TreeRegexp.new(/(?<=)/)
+        group = tr.match('')
+        expect(group.value).to eq('')
+        expect(group.children.length).to eq 0
+      end
+
     end
   end
 end

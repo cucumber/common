@@ -11,20 +11,101 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Added
 
-* [Java] Enable consumers to find our version at runtime using `clazz.getPackage().getImplementationVersion()` by upgrading to `cucumber-parent:2.1.0`
-  ([#976](https://github.com/cucumber/cucumber/pull/976)
-   [aslakhellesoy])
-
 ### Changed
-
-* Fixed Estonian translation of "Rule" ([#973](https://github.com/cucumber/cucumber/pull/973) [ookull])  
-* Fixed Estonian translation of "Scenario Outline" ([#972](https://github.com/cucumber/cucumber/pull/972) [ookull]) 
 
 ### Deprecated
 
 ### Removed
 
 ### Fixed
+
+## [15.0.2] - 2020-08-17
+
+### Fixed
+
+* Revert removal of Gherkin keywords from 15.0.1
+
+## [15.0.1] - 2020-08-12
+
+Do not use this release. The removal of Gherkin keywords breaks backwards compatibility for Creole and French,
+and this should have been released as a major release. The keywords are restored in 15.0.2, and we'll remove them
+again in a future major release.
+
+### Removed
+
+* Remove keyword aliases that only differ by letter case (French, Creole).
+  The reason for this is that Cucumber-JVM generates annotation classes for each
+  step keyword, and some file systems are case insensitive. This led to inconsistencies
+  in the classes that were generated during the build. Removing these keywords fixes
+  this problem. Theoretically this should trigger a new major release, but because the
+  change is so minor and will affect very few users we've made this a patch release.
+
+## [15.0.0] - 2020-08-07
+
+### Changed
+
+* Update `messages` to 13.0.1
+
+## [14.2.0] - 2020-07-31
+
+### Changed
+
+* Update `messages` to 12.4.0
+
+## [14.1.0] - 2020-07-29
+
+### Changed
+
+* Update `messages` to 12.3.2
+
+## [14.0.2] - 2020-06-29
+
+### Fixed
+* [JavaScript] Actually merge #1094 - it wasn't done in 14.0.1
+* [JavaScript] Throw NoSuchLanguageException when language is unknown #1102
+  ([#1102](https://github.com/cucumber/cucumber/pull/1102/)
+   [mpkorstanje])
+## [14.0.1] - 2020-06-29
+
+### Fixed
+
+* [JavaScript] Remove test code from exports
+  ([#1094](https://github.com/cucumber/cucumber/pull/1094/)
+   [aslakhellesoy])
+
+## [14.0.0] - 2020-06-27
+
+### Added
+
+* [Java] Enable consumers to find our version at runtime using `clazz.getPackage().getImplementationVersion()` by upgrading to `cucumber-parent:2.1.0`
+  ([#976](https://github.com/cucumber/cucumber/pull/976)
+   [aslakhellesoy])
+* [Java/Ruby/Go/Javascript] Add tests to ensure we do not delete whitespace inside a table cell
+  ([#769](https://github.com/cucumber/cucumber/pull/769)
+   [mpkorstanje]
+   [vincent-psarga])
+
+### Changed
+
+* Upgrade to messages 12.2.0
+* [Ruby] gherkin-query: if a feature file is empty, do not update anything.
+  ([cucumber-ruby#1427](https://github.com/cucumber/cucumber-ruby/issues/1427)
+   [vincent-psarga])
+* [JavaScript] Change gherkinQuery API:
+  * `getPickleIds`: now takes a URI and an `astNodeId` to find the pickle ids instead of a line number
+  * `getPickleStepIds`: now takes an `astNodeId` parameter instead of a URL and a line number to locate the pickle step id
+  * expose `parse` and `parseAndCompile` utilities
+* Fixed Estonian translation of "Rule" ([#973](https://github.com/cucumber/cucumber/pull/973) [ookull])
+* Fixed Estonian translation of "Scenario Outline" ([#972](https://github.com/cucumber/cucumber/pull/972) [ookull])
+
+### Fixed
+
+* [JavaScript] Update `gherkin-languages.json`, which hadn't been updated for a few versions (not sure for how long!)
+* [Ruby] Fix the default constructor of `Gherkin::Parser`
+  ([#1074](https://github.com/cucumber/cucumber/issues/1074)
+   [aslakhellesoy])
+* [Ruby] Use `require_relative` for internal requires ([#1010](https://github.com/cucumber/cucumber/pull/1010) [deivid-rodriguez])
+* [Javascript] Escape regex characters in table header ([#1077](https://github.com/cucumber/cucumber/pull/1077) [mpkorstanje])
 
 ## [13.0.0] - 2020-04-14
 
@@ -36,7 +117,7 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Added
 
-* [JavaScript] New exports: 
+* [JavaScript] New exports:
   * `Parser`
   * `compile`
   ([#924](https://github.com/cucumber/cucumber/pull/924)
@@ -727,7 +808,16 @@ to Gherkin 2.
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v13.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v15.0.2...master
+[15.0.2]:     https://github.com/cucumber/cucumber/compare/gherkin/v15.0.1...gherkin/v15.0.2
+[15.0.1]:     https://github.com/cucumber/cucumber/compare/gherkin/v15.0.0...gherkin/v15.0.1
+[15.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v14.2.0...gherkin/v15.0.0
+[14.2.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v14.1.0...gherkin/v14.2.0
+[14.1.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v14.0.2...gherkin/v14.1.0
+[14.0.2]:     https://github.com/cucumber/cucumber/compare/gherkin/v14.0.1...gherkin/v14.0.2
+[14.0.1]:     https://github.com/cucumber/cucumber/compare/gherkin/v12.2.1...gherkin/v14.0.1
+[12.2.1]:     https://github.com/cucumber/cucumber/compare/gherkin/v14.0.0...gherkin/v12.2.1
+[14.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v13.0.0...gherkin/v14.0.0
 [13.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v12.0.0...gherkin/v13.0.0
 [12.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v11.0.0...gherkin/v12.0.0
 [11.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v10.0.0...gherkin/v11.0.0
@@ -773,6 +863,7 @@ to Gherkin 2.
 [cyocum]:           https://github.com/cyocum
 [danilat]:          https://github.com/danilat
 [davidjgoss]:       https://github.com/davidjgoss
+[deivid-rodriguez]  https://github.com/deivid-rodriguez
 [dobiedad]:         https://github.com/dobiedad
 [ehpc]:             https://github.com/ehpc
 [enkessler]:        https://github.com/enkessler
@@ -789,6 +880,7 @@ to Gherkin 2.
 [mauriciotogneri]:  https://github.com/mauriciotogneri
 [maximeg]:          https://github.com/maximeg
 [maxmeyer]:         https://github.com/maxmeyer
+[mpkorstanje]:         https://github.com/mpkorstanje
 [merrua]:           https://github.com/merrua
 [milhcbt]:          https://github.com/milhcbt
 [moreau-nicolas]:   https://github.com/moreau-nicolas
