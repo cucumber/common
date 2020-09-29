@@ -34,6 +34,7 @@ class TableParser {
                 continue;
             }
             String trimmed = s.trim();
+            trimmed =  trimmed.isEmpty() ? null : trimmed;
             row.add(trimmed);
         }
         return row;
