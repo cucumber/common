@@ -944,6 +944,8 @@ workflows:
             - json-to-messages-javascript-testdata
             - create-meta-javascript
             - fake-cucumber-javascript
+            - gherkin-javascript
+            - gherkin-utils-javascript
             - html-formatter-javascript
 
 ### Ruby

@@ -48,8 +48,9 @@
     "ts-sinon": "^2.0.1"
   },
   "dependencies": {
-    "@cucumber/fake-cucumber": "file:../../fake-cucumber/javascript",
     "@cucumber/create-meta": "file:../../create-meta/javascript",
+    "@cucumber/fake-cucumber": "file:../../fake-cucumber/javascript",
+    "@cucumber/gherkin": "file:../../gherkin/javascript",
     "@cucumber/gherkin-utils": "file:../../gherkin-utils/javascript",
     "@cucumber/messages": "file:../../messages/javascript",
     "@types/diff-match-patch": "^1.0.32",
