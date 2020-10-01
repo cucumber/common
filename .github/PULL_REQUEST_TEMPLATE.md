@@ -47,4 +47,5 @@
 - [ ] My change requires a change to the documentation.
 - [ ] I have updated the documentation accordingly.
 - [ ] I have updated the CHANGELOG accordingly.
+- [ ] I have updated the dependencies for the packages (`cd <package>/<language> && make update-dependencies`)
 
