@@ -82,4 +82,3 @@ func tokenize(expression string) ([]token, error) {
 	tokens = append(tokens, token)
 	return tokens, nil
 }
-
