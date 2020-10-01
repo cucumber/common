@@ -1,6 +1,7 @@
 package io.cucumber.datatable;
 
 import io.cucumber.datatable.TypeFactory.JavaType;
+import io.cucumber.datatable.TypeFactory.OptionalType;
 import org.apiguardian.api.API;
 
 import java.lang.reflect.Type;
@@ -11,6 +12,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.function.Function;
 
+import static io.cucumber.datatable.TypeFactory.aListOf;
 import static io.cucumber.datatable.TypeFactory.constructType;
 import static java.lang.String.format;
 
@@ -27,13 +29,16 @@ public final class DataTableTypeRegistry {
 
         TableCellTransformer<Object> objectTableCellTransformer = applyIfPresent(s -> s);
         defineDataTableType(new DataTableType(Object.class, objectTableCellTransformer, true));
-        defineDataTableType(new DataTableType(String.class, objectTableCellTransformer, true));
+
+        TableCellTransformer<Object> stringTableCellTransformer = applyIfPresent(s -> s);
+        defineDataTableType(new DataTableType(String.class, stringTableCellTransformer, true));
 
         TableCellTransformer<BigInteger> bigIntegerTableCellTransformer = applyIfPresent(BigInteger::new);
         defineDataTableType(new DataTableType(BigInteger.class, bigIntegerTableCellTransformer));
 
         TableCellTransformer<BigDecimal> bigDecimalTableCellTransformer = applyIfPresent(numberParser::parseBigDecimal);
         defineDataTableType(new DataTableType(BigDecimal.class, bigDecimalTableCellTransformer));
+
         TableCellTransformer<Byte> byteTableCellTransformer = applyIfPresent(Byte::decode);
         defineDataTableType(new DataTableType(Byte.class, byteTableCellTransformer));
         defineDataTableType(new DataTableType(byte.class, byteTableCellTransformer));
@@ -78,12 +83,45 @@ public final class DataTableTypeRegistry {
             ));
         }
         tableTypeByType.put(dataTableType.getTargetType(), dataTableType);
-
     }
 
-    DataTableType lookupTableTypeByType(final Type tableType) {
-        JavaType targetType = constructType(tableType);
-        return tableTypeByType.get(targetType);
+    DataTableType lookupCellTypeByType(Type type) {
+        return lookupTableTypeByType(type, javaType -> aListOf(aListOf(javaType)));
+    }
+
+    DataTableType lookupRowTypeByType(Type type) {
+        return lookupTableTypeByType(type, TypeFactory::aListOf);
+    }
+
+    DataTableType lookupTableTypeByType(Type type) {
+        return lookupTableTypeByType(type, Function.identity());
+    }
+
+    private DataTableType lookupTableTypeByType(Type type, Function<JavaType, JavaType> toTableType) {
+        JavaType elementType = constructType(type);
+        JavaType tableType = toTableType.apply(elementType);
+        DataTableType dataTableType = tableTypeByType.get(tableType);
+        if (dataTableType != null) {
+            return dataTableType;
+        }
+        if (elementType instanceof OptionalType) {
+            OptionalType optionalType = (OptionalType) elementType;
+            return lookupTableTypeAsOptionalByType(optionalType, toTableType);
+        }
+        return null;
+    }
+
+    private DataTableType lookupTableTypeAsOptionalByType(OptionalType elementType, Function<JavaType, JavaType> toTableType) {
+        JavaType requiredType = elementType.getElementType();
+        DataTableType dataTableType = tableTypeByType.get(toTableType.apply(requiredType));
+        if (dataTableType == null) {
+            return null;
+        }
+        Class<?> transformerType = dataTableType.getTransformerType();
+        if (TableCellTransformer.class.equals(transformerType)) {
+            return dataTableType.asOptional();
+        }
+        return null;
     }
 
     DataTableType getDefaultTableCellTransformer(Type tableType) {
@@ -126,6 +164,7 @@ public final class DataTableTypeRegistry {
     public void setDefaultDataTableCellTransformer(TableCellByTypeTransformer defaultDataTableCellTransformer) {
         this.defaultDataTableCellTransformer = defaultDataTableCellTransformer;
     }
+
 }
 
 

@@ -36,10 +36,10 @@ export default class StepSearch {
   public search(query: string): messages.GherkinDocument.Feature.IStep[] {
     const results = this.index.search(query, {
       fields: {
-        keyword: { bool: 'OR', expand: true, boost: 1 },
-        text: { bool: 'OR', expand: true, boost: 2 },
-        docString: { bool: 'OR', expand: true, boost: 1 },
-        dataTable: { bool: 'OR', expand: true, boost: 1 },
+        keyword: { bool: 'OR', boost: 1 },
+        text: { bool: 'OR', boost: 2 },
+        docString: { bool: 'OR', boost: 1 },
+        dataTable: { bool: 'OR', boost: 1 },
       },
     })
 

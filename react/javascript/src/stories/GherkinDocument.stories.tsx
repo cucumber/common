@@ -37,7 +37,7 @@ type Props = {
 }
 type TemplateArgs = { envelopes: readonly messages.IEnvelope[] }
 
-const Template: Story<TemplateArgs> = ({envelopes}) => {
+const Template: Story<TemplateArgs> = ({ envelopes }) => {
   return (
     <QueriesWrapper {...props(envelopes)}>
       <GherkinDocumentList />

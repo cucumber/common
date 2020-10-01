@@ -58,12 +58,7 @@ executors:
   # Python
   docker-circleci-python:
     docker:
-      - image: circleci/python:3.8.5
-    working_directory: ~/cucumber
-  # Elixir
-  docker-circleci-elixir:
-    docker:
-      - image: circleci/elixir:1.10.4
+      - image: circleci/python:3.8.6
     working_directory: ~/cucumber
 
 ###
@@ -813,7 +808,7 @@ jobs:
 ### Elixir
 
   messages-elixir:
-    executor: docker-circleci-elixir
+    executor: docker-cucumber-build
     steps:
       - attach_workspace:
           at: "~/cucumber"
