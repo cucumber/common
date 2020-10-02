@@ -88,3 +88,7 @@ docker-run-with-secrets:
 	  --rm \
 	  -it cucumber/cucumber-build:latest \
 	  bash
+
+unpin-dependencies:
+	rm */ruby/Gemfile.lock
+.PHONY: unpin-dependencies

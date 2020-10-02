@@ -80,6 +80,20 @@ jobs:
           command: |
             make clean && make ci
 
+  unpinned-deps-serial:
+    executor: docker-cucumber-build
+    environment:
+      # Override CI=true to false because CI=true causes
+      # tag-expressions/python/Makefile to use sudo, which we don't want
+      # because the cucumber-build docker image doesn't have sudo installed
+      CI: false
+    steps:
+      - checkout
+      - run:
+          name: everything
+          command: |
+            make clean && make unpin-dependencies && make
+
   checkout:
     executor: docker-circleci-ruby-26
     steps:
@@ -836,6 +850,18 @@ workflows:
 
     jobs:
       - build-serial
+
+  monorepo-nightly-with-unpinned-deps:
+    triggers:
+      - schedule:
+          cron: "0 5 * * *"
+          filters:
+            branches:
+              only:
+                - master
+
+    jobs:
+      - unpinned-deps-serial
 
   monorepo-serial:
     jobs:
