@@ -17,6 +17,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+* [Go] Support for Go 1.15
+
 ## [10.3.0] - 2020-08-07
 
 ### Added
