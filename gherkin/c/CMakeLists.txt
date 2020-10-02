@@ -135,11 +135,3 @@ install(
     EXPORT "${targets_export_name}"
     NAMESPACE "${namespace}"
     DESTINATION "${config_install_dir}")
-
-# I don't believe this target actually does anything, but keeping except for ninja just in case
-if(NOT ${CMAKE_GENERATOR} STREQUAL "Ninja")
-    add_custom_target(install_${PROJECT_NAME}
-            $(MAKE) install
-            DEPENDS gherkin
-            COMMENT "Installing ${PROJECT_NAME}")
-endif()
