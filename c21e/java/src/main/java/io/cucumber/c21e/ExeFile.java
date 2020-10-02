@@ -102,22 +102,22 @@ public class ExeFile {
             return "386";
         }
         if (value.matches("^(ia64w?|itanium64)$")) {
-            return "itanium_64"; // TODO - not supported by https://github.com/mitchellh/gox ?
+            return "itanium_64"; // TODO - not included within go build target ./templates/go/default.mk ?
         }
         if ("ia64n".equals(value)) {
-            return "itanium_32"; // TODO - not supported by https://github.com/mitchellh/gox ?
+            return "itanium_32"; // TODO - not included within go build target ./templates/go/default.mk ?
         }
         if (value.matches("^(sparc|sparc32)$")) {
-            return "sparc_32"; // TODO - not supported by https://github.com/mitchellh/gox ?
+            return "sparc_32"; // TODO - not included within go build target ./templates/go/default.mk ?
         }
         if (value.matches("^(sparcv9|sparc64)$")) {
-            return "sparc_64"; // TODO - not supported by https://github.com/mitchellh/gox ?
+            return "sparc_64"; // TODO - not included within go build target ./templates/go/default.mk ?
         }
         if (value.matches("^(arm|arm32)$")) {
             return "arm";
         }
         if ("aarch64".equals(value)) {
-            return "aarch_64"; // TODO - not supported by https://github.com/mitchellh/gox ?
+            return "aarch_64"; // TODO - not included within go build target ./templates/go/default.mk ?
         }
         if (value.matches("^(mips|mips32)$")) {
             return "mips";
@@ -132,19 +132,19 @@ public class ExeFile {
             return "mips64le";
         }
         if (value.matches("^(ppc|ppc32)$")) {
-            return "ppc_32"; // TODO - not supported by https://github.com/mitchellh/gox ?
+            return "ppc_32"; // TODO - not included within go build target ./templates/go/default.mk ?
         }
         if (value.matches("^(ppcle|ppc32le)$")) {
-            return "ppcle_32"; // TODO - not supported by https://github.com/mitchellh/gox ?
+            return "ppcle_32"; // TODO - not included within go build target ./templates/go/default.mk ?
         }
         if ("ppc64".equals(value)) {
-            return "ppc_64"; // TODO - not supported by https://github.com/mitchellh/gox ?
+            return "ppc_64"; // TODO - not included within go build target ./templates/go/default.mk ?
         }
         if ("ppc64le".equals(value)) {
-            return "ppcle_64"; // TODO - not supported by https://github.com/mitchellh/gox ?
+            return "ppcle_64"; // TODO - not included within go build target ./templates/go/default.mk ?
         }
         if ("s390".equals(value)) {
-            return "s390_32"; // TODO - not supported by https://github.com/mitchellh/gox ?
+            return "s390_32"; // TODO - not included within go build target ./templates/go/default.mk ?
         }
         if ("s390x".equals(value)) {
             return "s390x";
@@ -156,15 +156,15 @@ public class ExeFile {
     private static String normalizeOs(String value) {
         value = normalize(value);
         if (value.startsWith("aix")) {
-            return "aix"; // TODO - not supported by https://github.com/mitchellh/gox ?
+            return "aix"; // TODO - not included within go build target ./templates/go/default.mk ?
         }
         if (value.startsWith("hpux")) {
-            return "hpux"; // TODO - not supported by https://github.com/mitchellh/gox ?
+            return "hpux"; // TODO - not included within go build target ./templates/go/default.mk ?
         }
         if (value.startsWith("os400")) {
             // Avoid the names such as os4000
             if (value.length() <= 5 || !Character.isDigit(value.charAt(5))) {
-                return "os400"; // TODO - not supported by https://github.com/mitchellh/gox ?
+                return "os400"; // TODO - not included within go build target ./templates/go/default.mk ?
             }
         }
         if (value.startsWith("linux")) {
