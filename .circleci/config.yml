@@ -22,7 +22,7 @@ executors:
   # Go
   docker-circleci-golang:
     docker:
-      - image: circleci/golang:1.14
+      - image: circleci/golang:1.15
     working_directory: ~/cucumber
   # Node.js
   docker-circleci-node-10:

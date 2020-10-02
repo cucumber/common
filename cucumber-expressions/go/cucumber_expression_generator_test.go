@@ -1,6 +1,7 @@
 package cucumberexpressions
 
 import (
+	"fmt"
 	"regexp"
 	"testing"
 
@@ -248,7 +249,7 @@ func TestCucumberExpressionGeneratory(t *testing.T) {
 		parameterTypeRegistry := NewParameterTypeRegistry()
 		for i := 1; i <= 4; i++ {
 			myType, err := NewParameterType(
-				"my-type-"+string(i),
+				fmt.Sprintf("my-type-%d", i),
 				[]*regexp.Regexp{regexp.MustCompile("([a-z] )*?[a-z]")},
 				"string",
 				nil,
