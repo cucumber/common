@@ -139,8 +139,3 @@ install(
     EXPORT "${targets_export_name}"
     NAMESPACE "${namespace}"
     DESTINATION "${config_install_dir}")
-
-add_custom_target(install_${PROJECT_NAME}
-        $(MAKE) install
-        DEPENDS gherkin
-        COMMENT "Installing ${PROJECT_NAME}")
