@@ -2,11 +2,8 @@ import { Command } from 'commander'
 import packageJson from '../package.json'
 import loadSupportCode from './loadSupportCode'
 import runCucumber from './runCucumber'
-import {
-  GherkinStreams,
-  IGherkinOptions,
-  Query as GherkinQuery,
-} from '@cucumber/gherkin'
+import { GherkinStreams, IGherkinOptions } from '@cucumber/gherkin'
+import { Query as GherkinQuery } from '@cucumber/gherkin-utils'
 import fs from 'fs'
 import makeFormatStream from './makeFormatStream'
 import { version } from '../package.json'

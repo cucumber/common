@@ -1,4 +1,4 @@
-import { Query as GherkinQuery } from '@cucumber/gherkin'
+import { Query as GherkinQuery } from '@cucumber/gherkin-utils'
 import { makeTestPlan, ITestPlan, SupportCode } from '@cucumber/fake-cucumber'
 import makePredictableTestCase from './makePredictableTestCase'
 
