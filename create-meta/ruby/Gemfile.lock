@@ -1,0 +1,67 @@
+PATH
+  remote: .
+  specs:
+    cucumber-create-meta (2.0.2)
+      cucumber-messages (~> 13.1, >= 13.1.0)
+      sys-uname (~> 1.2, >= 1.2.1)
+
+PATH
+  remote: /Users/vincent.pretre/dev/open-source/cucumber/messages/ruby
+  specs:
+    cucumber-messages (13.1.0)
+      protobuf-cucumber (~> 3.10, >= 3.10.8)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    activesupport (6.0.3.3)
+      concurrent-ruby (~> 1.0, >= 1.0.2)
+      i18n (>= 0.7, < 2)
+      minitest (~> 5.1)
+      tzinfo (~> 1.1)
+      zeitwerk (~> 2.2, >= 2.2.2)
+    concurrent-ruby (1.1.7)
+    diff-lcs (1.4.4)
+    ffi (1.13.1)
+    i18n (1.8.5)
+      concurrent-ruby (~> 1.0)
+    middleware (0.1.0)
+    minitest (5.14.2)
+    protobuf-cucumber (3.10.8)
+      activesupport (>= 3.2)
+      middleware
+      thor
+      thread_safe
+    rake (13.0.1)
+    rspec (3.9.0)
+      rspec-core (~> 3.9.0)
+      rspec-expectations (~> 3.9.0)
+      rspec-mocks (~> 3.9.0)
+    rspec-core (3.9.2)
+      rspec-support (~> 3.9.3)
+    rspec-expectations (3.9.2)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.9.0)
+    rspec-mocks (3.9.1)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.9.0)
+    rspec-support (3.9.3)
+    sys-uname (1.2.1)
+      ffi (>= 1.0.0)
+    thor (1.0.1)
+    thread_safe (0.3.6)
+    tzinfo (1.2.7)
+      thread_safe (~> 0.1)
+    zeitwerk (2.4.0)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  cucumber-create-meta!
+  cucumber-messages!
+  rake (~> 13.0, >= 13.0.1)
+  rspec (~> 3.9, >= 3.9.0)
+
+BUNDLED WITH
+   2.1.4

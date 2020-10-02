@@ -1,0 +1,101 @@
+GIT
+  remote: https://github.com/cucumber/cucumber-ruby-core.git
+  revision: 98cae27ef69dc599239e0dc9a1325284c293ba36
+  specs:
+    cucumber-core (7.1.0)
+      cucumber-gherkin (~> 14.1, >= 14.1.0)
+      cucumber-messages (~> 12.3, >= 12.3.2)
+      cucumber-tag-expressions (~> 2.0, >= 2.0.4)
+
+GIT
+  remote: https://github.com/cucumber/cucumber-ruby-wire.git
+  revision: 0ba2adb06a11eeeefbc012321bdc3a1e469ad25b
+  specs:
+    cucumber-wire (3.1.0)
+      cucumber-core (~> 7.1, >= 7.1.0)
+      cucumber-cucumber-expressions (~> 10.2, >= 10.2.2)
+      cucumber-messages (~> 12.3, >= 12.3.2)
+
+GIT
+  remote: https://github.com/cucumber/cucumber-ruby.git
+  revision: 13543c53d5783d15297a42cbde13c781ad221745
+  specs:
+    cucumber (4.1.0)
+      builder (~> 3.2, >= 3.2.3)
+      cucumber-core (~> 7.1, >= 7.1.0)
+      cucumber-create-meta (~> 1.0.0, >= 1.0.0)
+      cucumber-cucumber-expressions (~> 10.2, >= 10.2.2)
+      cucumber-gherkin (~> 14.1, >= 14.1.0)
+      cucumber-html-formatter (~> 7.1, >= 7.1.0)
+      cucumber-messages (~> 12.3, >= 12.3.2)
+      cucumber-wire (~> 3.1, >= 3.1.0)
+      diff-lcs (~> 1.3, >= 1.3)
+      multi_test (~> 0.1, >= 0.1.2)
+      sys-uname (~> 1.0, >= 1.0.2)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    activesupport (6.0.3.2)
+      concurrent-ruby (~> 1.0, >= 1.0.2)
+      i18n (>= 0.7, < 2)
+      minitest (~> 5.1)
+      tzinfo (~> 1.1)
+      zeitwerk (~> 2.2, >= 2.2.2)
+    builder (3.2.4)
+    concurrent-ruby (1.1.6)
+    cucumber-create-meta (1.0.0)
+      cucumber-messages (~> 12.2, >= 12.2.0)
+      sys-uname (~> 1.2, >= 1.2.1)
+    cucumber-cucumber-expressions (10.2.2)
+    cucumber-gherkin (14.2.0)
+      cucumber-messages (~> 12.4, >= 12.4.0)
+    cucumber-html-formatter (7.2.0)
+      cucumber-messages (~> 12.4, >= 12.4.0)
+    cucumber-messages (12.4.0)
+      protobuf-cucumber (~> 3.10, >= 3.10.8)
+    cucumber-tag-expressions (2.0.4)
+    diff-lcs (1.4.4)
+    ffi (1.13.1)
+    i18n (1.8.5)
+      concurrent-ruby (~> 1.0)
+    middleware (0.1.0)
+    minitest (5.14.1)
+    multi_test (0.1.2)
+    protobuf-cucumber (3.10.8)
+      activesupport (>= 3.2)
+      middleware
+      thor
+      thread_safe
+    rspec (3.9.0)
+      rspec-core (~> 3.9.0)
+      rspec-expectations (~> 3.9.0)
+      rspec-mocks (~> 3.9.0)
+    rspec-core (3.9.2)
+      rspec-support (~> 3.9.3)
+    rspec-expectations (3.9.2)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.9.0)
+    rspec-mocks (3.9.1)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.9.0)
+    rspec-support (3.9.3)
+    sys-uname (1.2.1)
+      ffi (>= 1.0.0)
+    thor (1.0.1)
+    thread_safe (0.3.6)
+    tzinfo (1.2.7)
+      thread_safe (~> 0.1)
+    zeitwerk (2.4.0)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  cucumber!
+  cucumber-core!
+  cucumber-wire!
+  rspec
+
+BUNDLED WITH
+   2.1.4
