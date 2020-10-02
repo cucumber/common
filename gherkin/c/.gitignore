@@ -5,3 +5,6 @@ acceptance/
 .built
 .compared
 .run
+.vs/
+out/
+build/

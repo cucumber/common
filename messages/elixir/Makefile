@@ -7,12 +7,10 @@ default: .tested
 	mix test
 	touch $@
 
-.deps: mix.lock
-	touch $@
-
-mix.lock: mix.exs
+.deps:
 	mix local.hex --force
 	mix deps.get
+	touch $@
 
 update-dependencies:
 	@echo -e "\033[0;31mPlease update dependencies for elixir manually in mix.exs!! Check https://hex.pm/ for the latest version.\033[0m"
@@ -47,4 +45,4 @@ post-release:
 .PHONY: post-release
 
 clean:
-	rm -rf _build deps .tested .deps mix.lock
+	rm -rf _build deps .tested .deps
