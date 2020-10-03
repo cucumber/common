@@ -1,9 +1,9 @@
 import assert from 'assert'
 
 import { IdGenerator } from '@cucumber/messages'
-import { generateMessages, Query as GherkinQuery } from '@cucumber/gherkin'
+import { generateMessages } from '@cucumber/gherkin'
 import Search from '../../src/search/Search'
-import { pretty } from '@cucumber/gherkin-utils'
+import { pretty, Query as GherkinQuery } from '@cucumber/gherkin-utils'
 
 describe('Search', () => {
   let search: Search

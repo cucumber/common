@@ -17,6 +17,8 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Removed
 
+* [JavaScript] The `Query` class has been removed from this library, and has been added to `@cucumber/gherkin-utils`
+
 ### Fixed
 
 ## [15.0.2] - 2020-08-17

@@ -21,7 +21,7 @@
     "build": "tsc && webpack-cli src/main.tsx && cp src/index.mustache.html dist/src"
   },
   "dependencies": {
-    "@cucumber/gherkin": "file:../../gherkin/javascript",
+    "@cucumber/gherkin-utils": "file:../../gherkin-utils/javascript",
     "@cucumber/messages": "file:../../messages/javascript",
     "@cucumber/query": "file:../../query/javascript",
     "@cucumber/react": "file:../../react/javascript",

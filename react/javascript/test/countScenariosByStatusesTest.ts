@@ -1,4 +1,4 @@
-import { Query as GherkinQuery } from '@cucumber/gherkin'
+import { Query as GherkinQuery } from '@cucumber/gherkin-utils'
 import { Query as CucumberQuery } from '@cucumber/query'
 import { messages } from '@cucumber/messages'
 import { SupportCode } from '@cucumber/fake-cucumber'

@@ -1,5 +1,5 @@
 import { messages } from '@cucumber/messages'
-import { Query as GherkinQuery } from '@cucumber/gherkin'
+import { Query as GherkinQuery } from '@cucumber/gherkin-utils'
 import { ArrayMultimap } from '@teppeis/multimaps'
 import parse from '@cucumber/tag-expressions'
 import {
