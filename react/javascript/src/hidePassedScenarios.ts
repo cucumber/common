@@ -1,7 +1,7 @@
 import { messages } from '@cucumber/messages'
 import IGherkinDocument = messages.IGherkinDocument
 import { Query as CucumberQuery } from '@cucumber/query'
-import { Query as GherkinQuery } from '@cucumber/gherkin'
+import { Query as GherkinQuery } from '@cucumber/gherkin-utils'
 import getFeatureStatus from './getFeatureStatus'
 
 export default function hidePassedScenarios(

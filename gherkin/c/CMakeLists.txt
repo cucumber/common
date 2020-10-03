@@ -1,5 +1,7 @@
 PROJECT(gherkin C)
 cmake_minimum_required(VERSION 3.0)
+enable_testing()
+
 # Install library & headers in your directory
 #SET(CMAKE_INSTALL_PREFIX  "")
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
@@ -67,7 +69,11 @@ LIST(APPEND GHERKIN_CLI
 
 
 add_library(gherkin ${GHERKIN_SRS})
-target_link_libraries(gherkin PRIVATE m)
+include(CheckLibraryExists)
+CHECK_LIBRARY_EXISTS(m log10 "" HAVE_LIB_M)   
+if (HAVE_LIB_M)  
+    target_link_libraries(gherkin PRIVATE m)
+endif (HAVE_LIB_M)
 target_include_directories(gherkin PUBLIC
     "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include;${CMAKE_CURRENT_SOURCE_DIR}/src>")
 
@@ -87,13 +93,17 @@ file(GLOB BAD_FEATURE_FILES
 add_custom_target(invo DEPENDS invo)
 add_dependencies(invo gherkinexe)
 FOREACH(ENTITY ${GOOD_FEATURE_FILES})
-    add_custom_command(
-            TARGET gherkinexe
-            POST_BUILD
-            COMMAND gherkinexe  ${ENTITY}
-            DEPENDS invo
+    string(REPLACE "${PROJECT_SOURCE_DIR}" "" TEST_NAME "${ENTITY}")
+    add_test(NAME "${TEST_NAME}"
+        COMMAND gherkinexe  ${ENTITY}
     )
 ENDFOREACH()
+add_custom_command(
+    TARGET gherkinexe
+    COMMENT "Run tests"
+    POST_BUILD
+    COMMAND ${CMAKE_CTEST_COMMAND} -C $<CONFIGURATION>
+)
 ############ Installation section ############
 set(include_install_dir "include")
 set(lib_install_dir "lib/")
@@ -129,8 +139,3 @@ install(
     EXPORT "${targets_export_name}"
     NAMESPACE "${namespace}"
     DESTINATION "${config_install_dir}")
-
-add_custom_target(install_${PROJECT_NAME}
-        $(MAKE) install
-        DEPENDS gherkin
-        COMMENT "Installing ${PROJECT_NAME}")
