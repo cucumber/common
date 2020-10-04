@@ -53,25 +53,33 @@ public class Gherkin {
     }
 
     public static Envelope makeSourceEnvelope(String data, String uri) {
+        String mediaType = null;
+        if(uri.endsWith(".feature")) {
+            mediaType = "text/x.cucumber.gherkin+plain";
+        } else if(uri.endsWith(".md")) {
+            mediaType = "text/markdown";
+        } else {
+            throw new GherkinException(String.format("Unsupported file type: %s. Supported extensions: .feature and .md", uri));
+        }
         return Envelope.newBuilder().setSource(Messages.Source
                 .newBuilder()
                 .setData(data)
                 .setUri(uri)
-                .setMediaType("text/x.cucumber.gherkin+plain")
+                .setMediaType(mediaType)
         ).build();
     }
 
     public Stream<Envelope> messages() {
-        Stream<Envelope> envelopeStream = envelopes != null ? envelopes.stream() : envelopeStreamFromPaths(paths);
+        Stream<Envelope> envelopeStream = envelopes != null ? envelopes.stream() : sourceEnvelopeStreamFromPaths(paths);
         return envelopeStream
                 .flatMap((Function<Envelope, Stream<Envelope>>) envelope -> parserMessageStream(envelope, includeSource, includeAst, includePickles));
     }
 
-    private Stream<Envelope> envelopeStreamFromPaths(List<String> paths) {
-        return paths.stream().map(this::envelopeFromPath);
+    private Stream<Envelope> sourceEnvelopeStreamFromPaths(List<String> paths) {
+        return paths.stream().map(this::sourceEnvelopeFromPath);
     }
 
-    private Envelope envelopeFromPath(String path) {
+    private Envelope sourceEnvelopeFromPath(String path) {
         try {
             String data = read(new InputStreamReader(new FileInputStream(path), StandardCharsets.UTF_8));
             return makeSourceEnvelope(data, path);
@@ -105,12 +113,13 @@ public class Gherkin {
             Messages.Source source = envelope.getSource();
             String uri = source.getUri();
             String data = source.getData();
+            Parser.ITokenMatcher tokenMatcher = uri.endsWith(".md") ? new TokenMatcher("md") : new TokenMatcher();
 
             try {
                 Messages.GherkinDocument gherkinDocument = null;
 
                 if (includeGherkinDocument) {
-                    gherkinDocument = parser.parse(data).setUri(uri).build();
+                    gherkinDocument = parser.parse(data, tokenMatcher).setUri(uri).build();
                     messages.add(Envelope.newBuilder().setGherkinDocument(gherkinDocument).build());
                 }
                 if (includePickles) {

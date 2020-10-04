@@ -9,7 +9,7 @@ import java.util.List;
 
 public class GherkinDialect {
     private final JsonObject keywords;
-    private String language;
+    private final String language;
 
     public GherkinDialect(String language, JsonObject keywords) {
         this.language = language;
@@ -34,6 +34,14 @@ public class GherkinDialect {
 
     public String getNativeName() {
         return keywords.getString("native", null);
+    }
+
+    public String getCommentPrefix() {
+        return keywords.getString("commentPrefix", "#");
+    }
+
+    public String getTitleKeywordSeparator() {
+        return keywords.getString("titleKeywordSeparator", ":");
     }
 
     public List<String> getRuleKeywords() {

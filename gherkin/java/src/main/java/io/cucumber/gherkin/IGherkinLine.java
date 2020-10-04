@@ -15,9 +15,9 @@ public interface IGherkinLine {
 
     String getRestTrimmed(int length);
 
-    List<GherkinLineSpan> getTags();
+    List<GherkinLineSpan> getTags(String commentPrefix);
 
-    boolean startsWithTitleKeyword(String keyword);
+    boolean startsWithTitleKeyword(String keyword, String titleKeywordSeparator);
 
     List<GherkinLineSpan> getTableCells();
 }

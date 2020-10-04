@@ -1,0 +1,1 @@
+{"parseError":{"message":"(5:1): expected: #EOF, #Language, #TagLine, #FeatureLine, #Comment, #Empty, got '* the minimalism'","source":{"location":{"column":1,"line":5},"uri":"testdata/good/minimal.md"}}}

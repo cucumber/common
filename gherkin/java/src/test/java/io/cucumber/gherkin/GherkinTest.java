@@ -51,6 +51,25 @@ public class GherkinTest {
     }
 
     @Test
+    public void provides_access_to_the_markdown_ast() {
+        List<String> paths = singletonList("testdata/good/minimal.md");
+        boolean includeSource = false;
+        boolean includeAst = true;
+        boolean includePickles = false;
+        List<Envelope> envelopes = Gherkin.fromPaths(paths, includeSource, includeAst, includePickles, idGenerator).collect(Collectors.toList());
+
+        // Get the AST
+        GherkinDocument gherkinDocument = envelopes.get(0).getGherkinDocument();
+
+        // Get the Feature node of the AST
+        GherkinDocument.Feature feature = gherkinDocument.getFeature();
+        assertEquals("Minimal", feature.getName());
+
+        // Get the first Scenario node of the Feature node
+        GherkinDocument.Feature.Scenario scenario = feature.getChildren(0).getScenario();
+        assertEquals("minimalistic", scenario.getName());
+    }
+    @Test
     public void provides_access_to_pickles_which_are_compiled_from_the_ast() {
         List<Envelope> envelopes = Gherkin.fromPaths(singletonList("testdata/good/scenario_outline.feature"), false, false, true, idGenerator).collect(Collectors.toList());
 
