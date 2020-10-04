@@ -1,4 +1,4 @@
-package gherkin.utils.walker.model;
+package io.cucumber.gherkin.utils;
 
 import io.cucumber.messages.Messages;
 

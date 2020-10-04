@@ -1,4 +1,5 @@
-package gherkin.utils;
+package io.cucumber.gherkin.utils;
+
 
 import io.cucumber.gherkin.GherkinDocumentBuilder;
 import io.cucumber.gherkin.Parser;

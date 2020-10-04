@@ -1,10 +1,10 @@
-package gherkin.utils.formatter.model;
+package io.cucumber.gherkin.utils;
 
 import io.cucumber.messages.Messages;
 
 import java.util.List;
 
-public class ScenarioStepContainer implements IStepContainer {
+final class ScenarioStepContainer implements StepContainer {
     private Messages.GherkinDocument.Feature.Scenario scenario;
 
     public ScenarioStepContainer (Messages.GherkinDocument.Feature.Scenario scenario) {

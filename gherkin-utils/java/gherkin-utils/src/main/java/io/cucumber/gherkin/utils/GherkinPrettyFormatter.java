@@ -1,15 +1,12 @@
-package gherkin.utils.formatter;
+package io.cucumber.gherkin.utils;
 
-import gherkin.utils.formatter.model.BackgroundStepContainer;
-import gherkin.utils.formatter.model.IStepContainer;
-import gherkin.utils.formatter.model.ScenarioStepContainer;
 import io.cucumber.messages.Messages.GherkinDocument;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class GherkinPrettyFormatter {
-    public static String pretty(GherkinDocument gherkinDocument) {
+public final class GherkinPrettyFormatter {
+    public String format(GherkinDocument gherkinDocument) {
 
         GherkinDocument.Feature feature = gherkinDocument.getFeature();
         String featureData = prettyTags(feature.getTagsList(), "");
@@ -46,14 +43,14 @@ public class GherkinPrettyFormatter {
         return featureData;
     }
 
-    public static String prettyTags(List<GherkinDocument.Feature.Tag> tags, String indent) {
+    private String prettyTags(List<GherkinDocument.Feature.Tag> tags, String indent) {
         if (tags == null || tags.size() == 0)
             return "";
 
         return indent + tags.stream().map(tag -> tag.getName()).collect(Collectors.joining(" ")) + "\n";
     }
 
-    public static String prettyStepContainer(IStepContainer stepContainer, String indent) {
+    private String prettyStepContainer(StepContainer stepContainer, String indent) {
         String stepContainerString = "\n" + prettyTags(stepContainer.getTagsList(), indent)
                 + indent + stepContainer.getKeyword() + ": " + stepContainer.getName() + "\n";
 
@@ -76,7 +73,7 @@ public class GherkinPrettyFormatter {
         return stepContainerString;
     }
 
-    public static String prettyExample(GherkinDocument.Feature.Scenario.Examples example, String indent) {
+    private String prettyExample(GherkinDocument.Feature.Scenario.Examples example, String indent) {
         String exampleString = "\n" + indent + "Examples: " + example.getName() + "\n";
 
         exampleString += prettyTableRow(example.getTableHeader(), indent + "  ");
@@ -89,7 +86,7 @@ public class GherkinPrettyFormatter {
         return exampleString;
     }
 
-    public static String prettyTableRow(GherkinDocument.Feature.TableRow row, String indent) {
+    private String prettyTableRow(GherkinDocument.Feature.TableRow row, String indent) {
         return indent +
                 "| " +
                 row.getCellsList()

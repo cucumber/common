@@ -1,7 +1,5 @@
-package gherkin.utils.walker;
+package io.cucumber.gherkin.utils;
 
-import gherkin.utils.walker.model.DefaultFilters;
-import gherkin.utils.walker.model.DefaultHandlers;
 import io.cucumber.messages.Messages.GherkinDocument;
 
 import java.util.ArrayList;
@@ -10,13 +8,13 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 
-public class GherkinDocumentWalker {
+public final class GherkinDocumentWalker {
     private final DefaultFilters filters;
     private final DefaultHandlers handlers;
 
-    public GherkinDocumentWalker(DefaultFilters iFilters, DefaultHandlers iHandlers) {
-        this.filters = iFilters;
-        this.handlers = iHandlers;
+    public GherkinDocumentWalker(DefaultFilters filters, DefaultHandlers handlers) {
+        this.filters = filters;
+        this.handlers = handlers;
     }
 
     public GherkinDocument walkGherkinDocument(GherkinDocument gherkinDocument) {

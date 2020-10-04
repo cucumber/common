@@ -1,25 +1,25 @@
-package gherkin.utils.walker.model;
+package io.cucumber.gherkin.utils;
 
 import io.cucumber.messages.Messages;
 
-public abstract class DefaultFilters {
+public abstract class RejectAllFilters extends DefaultFilters {
     public boolean acceptScenario(Messages.GherkinDocument.Feature.Scenario scenario) {
-        return true;
+        return false;
     }
 
     public boolean acceptStep(Messages.GherkinDocument.Feature.Step step) {
-        return true;
+        return false;
     }
 
     public boolean acceptBackground(Messages.GherkinDocument.Feature.Background background) {
-        return true;
+        return false;
     }
 
     public boolean acceptRule(Messages.GherkinDocument.Feature.FeatureChild.Rule rule) {
-        return true;
+        return false;
     }
 
     public boolean acceptFeature(Messages.GherkinDocument.Feature feature) {
-        return true;
+        return false;
     }
 }

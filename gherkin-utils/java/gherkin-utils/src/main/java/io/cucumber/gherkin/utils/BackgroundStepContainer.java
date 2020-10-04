@@ -1,10 +1,10 @@
-package gherkin.utils.formatter.model;
+package io.cucumber.gherkin.utils;
 
 import io.cucumber.messages.Messages;
 
 import java.util.List;
 
-public class BackgroundStepContainer implements IStepContainer {
+final class BackgroundStepContainer implements StepContainer {
 
     private Messages.GherkinDocument.Feature.Background background;
 

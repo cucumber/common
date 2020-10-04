@@ -1,14 +1,9 @@
-package gherkin.utils;
+package io.cucumber.gherkin.utils;
 
-import gherkin.utils.formatter.GherkinPrettyFormatter;
-import gherkin.utils.walker.GherkinDocumentWalker;
-import gherkin.utils.walker.model.DefaultFilters;
-import gherkin.utils.walker.model.DefaultHandlers;
-import gherkin.utils.walker.model.RejectAllFilters;
 import io.cucumber.messages.Messages;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,8 +13,8 @@ import java.util.stream.Collectors;
 public class GherkinDocumentWalkerTest {
 
     public void assertCopy(Object copy, Object source) {
-        Assert.assertFalse(copy == source);
-        Assert.assertEquals(copy, source);
+        Assertions.assertFalse(copy == source);
+        Assertions.assertEquals(copy, source);
     }
 
     @Test
@@ -87,13 +82,13 @@ public class GherkinDocumentWalkerTest {
         }, new DefaultHandlers() {
         });
         Messages.GherkinDocument newGherkinDocument = walker.walkGherkinDocument(gherkinDocument);
-        String newSource = GherkinPrettyFormatter.pretty(newGherkinDocument);
+        String newSource = new GherkinPrettyFormatter().format(newGherkinDocument);
         String expectedNewSource = "Feature: Solar System\n" +
                 "\n" +
                 "  Scenario: Earth\n" +
                 "    Given is a planet with liquid water\n";
 
-        Assert.assertEquals(newSource, expectedNewSource);
+        Assertions.assertEquals(newSource, expectedNewSource);
     }
 
     @Test
@@ -116,13 +111,13 @@ public class GherkinDocumentWalkerTest {
         }, new DefaultHandlers() {
         });
         Messages.GherkinDocument newGherkinDocument = walker.walkGherkinDocument(gherkinDocument);
-        String newSource = GherkinPrettyFormatter.pretty(newGherkinDocument);
+        String newSource = new GherkinPrettyFormatter().format(newGherkinDocument);
         String expectedNewSource = "Feature: Solar System\n" +
                 "\n" +
                 "  Scenario: Earth\n" +
                 "    Given is a planet with liquid water\n";
 
-        Assert.assertEquals(newSource, expectedNewSource);
+        Assertions.assertEquals(newSource, expectedNewSource);
     }
 
     @Test
@@ -146,7 +141,7 @@ public class GherkinDocumentWalkerTest {
         });
         Messages.GherkinDocument newGherkinDocument = walker.walkGherkinDocument(gherkinDocument);
 
-        Assert.assertEquals(newGherkinDocument
+        Assertions.assertEquals(newGherkinDocument
                         .getFeature()
                         .getChildrenList()
                         .stream()
@@ -175,13 +170,13 @@ public class GherkinDocumentWalkerTest {
         }, new DefaultHandlers() {
         });
         Messages.GherkinDocument newGherkinDocument = walker.walkGherkinDocument(gherkinDocument);
-        String newSource = GherkinPrettyFormatter.pretty(newGherkinDocument);
+        String newSource = new GherkinPrettyFormatter().format(newGherkinDocument);
         String expectedNewSource = "Feature: Solar System\n" +
                 "\n" +
                 "  Scenario: Saturn\n" +
                 "    Given is the sixth planet from the Sun\n";
 
-        Assert.assertEquals(newSource, expectedNewSource);
+        Assertions.assertEquals(newSource, expectedNewSource);
     }
 
     @Test
@@ -209,7 +204,7 @@ public class GherkinDocumentWalkerTest {
         }, new DefaultHandlers() {
         });
         Messages.GherkinDocument newGherkinDocument = walker.walkGherkinDocument(gherkinDocument);
-        String newSource = GherkinPrettyFormatter.pretty(newGherkinDocument);
+        String newSource = new GherkinPrettyFormatter().format(newGherkinDocument);
         String expectedNewSource = "Feature: Solar System\n" +
                 "\n" +
                 "  Background: Space\n" +
@@ -220,7 +215,7 @@ public class GherkinDocumentWalkerTest {
                 "    Background: Milky Way\n" +
                 "      Given it contains our system\n";
 
-        Assert.assertEquals(newSource, expectedNewSource);
+        Assertions.assertEquals(newSource, expectedNewSource);
     }
 
     @Test
@@ -248,7 +243,7 @@ public class GherkinDocumentWalkerTest {
         }, new DefaultHandlers() {
         });
         Messages.GherkinDocument newGherkinDocument = walker.walkGherkinDocument(gherkinDocument);
-        String newSource = GherkinPrettyFormatter.pretty(newGherkinDocument);
+        String newSource = new GherkinPrettyFormatter().format(newGherkinDocument);
         String expectedNewSource = "Feature: Solar System\n" +
                 "\n" +
                 "  Background: Space\n" +
@@ -264,7 +259,7 @@ public class GherkinDocumentWalkerTest {
                 "    Background: TON 618\n" +
                 "      Given it exists\n";
 
-        Assert.assertEquals(newSource, expectedNewSource);
+        Assertions.assertEquals(newSource, expectedNewSource);
     }
 
     @Test
@@ -292,7 +287,7 @@ public class GherkinDocumentWalkerTest {
         }, new DefaultHandlers() {
         });
         Messages.GherkinDocument newGherkinDocument = walker.walkGherkinDocument(gherkinDocument);
-        String newSource = GherkinPrettyFormatter.pretty(newGherkinDocument);
+        String newSource = new GherkinPrettyFormatter().format(newGherkinDocument);
         String expectedNewSource = "Feature: Solar System\n" +
                 "\n" +
                 "  Rule: Galaxy\n" +
@@ -303,7 +298,7 @@ public class GherkinDocumentWalkerTest {
                 "    Scenario: Andromeda\n" +
                 "      Given it exists\n";
 
-        Assert.assertEquals(newSource, expectedNewSource);
+        Assertions.assertEquals(newSource, expectedNewSource);
     }
 
     @Test
@@ -331,7 +326,7 @@ public class GherkinDocumentWalkerTest {
         }, new DefaultHandlers() {
         });
         Messages.GherkinDocument newGherkinDocument = walker.walkGherkinDocument(gherkinDocument);
-        String newSource = GherkinPrettyFormatter.pretty(newGherkinDocument);
+        String newSource = new GherkinPrettyFormatter().format(newGherkinDocument);
         String expectedNewSource = "Feature: Solar System\n" +
                 "\n" +
                 "  Rule: Galaxy\n" +
@@ -345,7 +340,7 @@ public class GherkinDocumentWalkerTest {
                 "    Scenario: Andromeda\n" +
                 "      Given it exists\n";
 
-        Assert.assertEquals(newSource, expectedNewSource);
+        Assertions.assertEquals(newSource, expectedNewSource);
     }
 
     @Test
@@ -370,7 +365,7 @@ public class GherkinDocumentWalkerTest {
         }, new DefaultHandlers() {
         });
         Messages.GherkinDocument newGherkinDocument = walker.walkGherkinDocument(gherkinDocument);
-        String newSource = GherkinPrettyFormatter.pretty(newGherkinDocument);
+        String newSource = new GherkinPrettyFormatter().format(newGherkinDocument);
         String expectedNewSource = "Feature: Solar System\n" +
                 "\n" +
                 "  Rule: Galaxy\n" +
@@ -378,7 +373,7 @@ public class GherkinDocumentWalkerTest {
                 "    Scenario: Andromeda\n" +
                 "      Given it exists\n";
 
-        Assert.assertEquals(newSource, expectedNewSource);
+        Assertions.assertEquals(newSource, expectedNewSource);
     }
 
     @Test
@@ -401,7 +396,7 @@ public class GherkinDocumentWalkerTest {
         }, new DefaultHandlers() {
         });
         Messages.GherkinDocument newGherkinDocument = walker.walkGherkinDocument(gherkinDocument);
-        String newSource = GherkinPrettyFormatter.pretty(newGherkinDocument);
+        String newSource = new GherkinPrettyFormatter().format(newGherkinDocument);
         String expectedNewSource = "Feature: Solar System\n" +
                 "\n" +
                 "  Scenario: Saturn\n" +
@@ -410,7 +405,7 @@ public class GherkinDocumentWalkerTest {
                 "  Scenario: Earth\n" +
                 "    Given is a planet with liquid water\n";
 
-        Assert.assertEquals(newSource, expectedNewSource);
+        Assertions.assertEquals(newSource, expectedNewSource);
     }
 
     @Test
@@ -430,7 +425,7 @@ public class GherkinDocumentWalkerTest {
         });
         Messages.GherkinDocument newGherkinDocument = walker.walkGherkinDocument(gherkinDocument);
 
-        Assert.assertEquals(newGherkinDocument, null);
+        Assertions.assertEquals(newGherkinDocument, null);
     }
 
     @Test
@@ -453,7 +448,7 @@ public class GherkinDocumentWalkerTest {
                 });
         astWalker.walkGherkinDocument(gherkinDocument);
 
-        Assert.assertEquals(stepText, Arrays.asList("it is a planet"));
+        Assertions.assertEquals(stepText, Arrays.asList("it is a planet"));
     }
 
     @Test
@@ -479,7 +474,7 @@ public class GherkinDocumentWalkerTest {
                 });
         astWalker.walkGherkinDocument(gherkinDocument);
 
-        Assert.assertEquals(scenarioName, Arrays.asList("Earth", "Saturn"));
+        Assertions.assertEquals(scenarioName, Arrays.asList("Earth", "Saturn"));
     }
 
     @Test
@@ -503,7 +498,7 @@ public class GherkinDocumentWalkerTest {
                 });
         astWalker.walkGherkinDocument(gherkinDocument);
 
-        Assert.assertEquals(backgroundName, Arrays.asList("Milky Way"));
+        Assertions.assertEquals(backgroundName, Arrays.asList("Milky Way"));
     }
 
     @Test
@@ -531,7 +526,7 @@ public class GherkinDocumentWalkerTest {
                 });
         astWalker.walkGherkinDocument(gherkinDocument);
 
-        Assert.assertEquals(ruleName, Arrays.asList("On a planet", "On an exoplanet"));
+        Assertions.assertEquals(ruleName, Arrays.asList("On a planet", "On an exoplanet"));
     }
 
     @Test
@@ -559,7 +554,7 @@ public class GherkinDocumentWalkerTest {
                 });
         astWalker.walkGherkinDocument(gherkinDocument);
 
-        Assert.assertEquals(featureName, Arrays.asList("Solar System"));
+        Assertions.assertEquals(featureName, Arrays.asList("Solar System"));
     }
 
     @Test

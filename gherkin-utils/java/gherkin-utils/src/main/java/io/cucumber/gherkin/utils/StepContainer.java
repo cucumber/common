@@ -1,10 +1,10 @@
-package gherkin.utils.formatter.model;
+package io.cucumber.gherkin.utils;
 
 import java.util.List;
 
 import static io.cucumber.messages.Messages.GherkinDocument.Feature;
 
-public interface IStepContainer {
+public interface StepContainer {
 
     List<Feature.Tag> getTagsList();
 
