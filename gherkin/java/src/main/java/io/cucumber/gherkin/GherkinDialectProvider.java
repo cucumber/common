@@ -42,12 +42,13 @@ public class GherkinDialectProvider implements IGherkinDialectProvider {
 
     @Override
     public GherkinDialect getDialect(String language, Location location) {
+        if(language.equals("md")) return new MarkdownGherkinDialect();
         JsonValue languageObject = DIALECTS.get(language);
         if (languageObject == null) {
             throw new ParserException.NoSuchLanguageException(language, location);
         }
 
-        return new GherkinDialect(language, languageObject.asObject());
+        return new DictionaryGherkinDialect(language, languageObject.asObject());
     }
 
     @Override

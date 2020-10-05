@@ -53,7 +53,7 @@ public class Gherkin {
     }
 
     public static Envelope makeSourceEnvelope(String data, String uri) {
-        String mediaType = null;
+        String mediaType;
         if(uri.endsWith(".feature")) {
             mediaType = "text/x.cucumber.gherkin+plain";
         } else if(uri.endsWith(".md")) {
