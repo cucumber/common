@@ -1,5 +1,5 @@
 import { messages } from '@cucumber/messages'
-import { Query as GherkinQuery } from '@cucumber/gherkin'
+import { Query as GherkinQuery } from '@cucumber/gherkin-utils'
 import { ArrayMultimap } from '@teppeis/multimaps'
 import parse from '@cucumber/tag-expressions'
 import {
@@ -16,7 +16,7 @@ export default class TagSearch {
   private gherkinDocuments: messages.IGherkinDocument[] = []
 
   constructor(private readonly gherkinQuery: GherkinQuery) {
-    if(!gherkinQuery) {
+    if (!gherkinQuery) {
       throw new Error('No gherkinQuery')
     }
   }

@@ -1,7 +1,7 @@
 import assert from 'assert'
 import { messages } from '@cucumber/messages'
 import { Query } from '@cucumber/query'
-import { Query as GherkinQuery } from '@cucumber/gherkin'
+import { Query as GherkinQuery } from '@cucumber/gherkin-utils'
 import fs from 'fs'
 
 import getFeatureStatus from '../src/getFeatureStatus'

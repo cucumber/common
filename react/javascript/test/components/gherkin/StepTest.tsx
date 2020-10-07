@@ -8,7 +8,7 @@ import { JSDOM } from 'jsdom'
 
 import UriContext from '../../../src/UriContext'
 import GherkinQueryContext from '../../../src/contexts/GherkinQueryContext'
-import { Query as GherkinQuery } from '@cucumber/gherkin'
+import { Query as GherkinQuery } from '@cucumber/gherkin-utils'
 import CucumberQueryContext from '../../../src/contexts/CucumberQueryContext'
 import { IAttachmentProps } from '../../../src/components/gherkin/Attachment'
 import MessageToComponentMappingContext from '../../../src/contexts/MessageToComponentMappingContext'

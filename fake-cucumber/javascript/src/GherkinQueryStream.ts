@@ -1,5 +1,5 @@
 import { Transform, TransformCallback } from 'stream'
-import { Query } from '@cucumber/gherkin'
+import { Query } from '@cucumber/gherkin-utils'
 import { messages } from '@cucumber/messages'
 
 export default class GherkinQueryStream extends Transform {

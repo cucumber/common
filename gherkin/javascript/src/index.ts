@@ -2,7 +2,6 @@ import GherkinStreams from './stream/GherkinStreams'
 import generateMessages from './stream/generateMessages'
 import makeSourceEnvelope from './stream/makeSourceEnvelope'
 import IGherkinOptions from './IGherkinOptions'
-import Query from './Query'
 import Dialect from './Dialect'
 import Parser from './Parser'
 import AstBuilder from './AstBuilder'
@@ -17,7 +16,6 @@ export {
   generateMessages,
   makeSourceEnvelope,
   IGherkinOptions,
-  Query,
   dialects,
   Dialect,
   Parser,

@@ -2,7 +2,7 @@ import React from 'react'
 import GherkinQueryContext from '../../contexts/GherkinQueryContext'
 import CucumberQueryContext from '../../contexts/CucumberQueryContext'
 import SearchQueryContext from '../../contexts/SearchQueryContext'
-import { Query as GherkinQuery } from '@cucumber/gherkin'
+import { Query as GherkinQuery } from '@cucumber/gherkin-utils'
 import { Query as CucumberQuery } from '@cucumber/query'
 import EnvelopesQueryContext, {
   EnvelopesQuery,

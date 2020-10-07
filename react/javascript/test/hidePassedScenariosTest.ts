@@ -7,7 +7,8 @@ import {
   Query,
   QueryStream as CucumberQueryStream,
 } from '@cucumber/query'
-import { GherkinStreams, Query as GherkinQuery } from '@cucumber/gherkin'
+import { GherkinStreams } from '@cucumber/gherkin'
+import { Query as GherkinQuery } from '@cucumber/gherkin-utils'
 import fs from 'fs'
 
 import hidePassedScenarios from '../src/hidePassedScenarios'

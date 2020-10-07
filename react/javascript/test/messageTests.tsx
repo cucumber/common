@@ -1,6 +1,6 @@
 import fs from 'fs'
 import { messages, NdjsonToMessageStream } from '@cucumber/messages'
-import { Query as GherkinQuery } from '@cucumber/gherkin'
+import { Query as GherkinQuery } from '@cucumber/gherkin-utils'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { JSDOM } from 'jsdom'
