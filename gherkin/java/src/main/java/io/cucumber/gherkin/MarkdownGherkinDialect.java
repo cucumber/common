@@ -1,23 +1,29 @@
 package io.cucumber.gherkin;
 
 import com.eclipsesource.json.JsonArray;
-import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonValue;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 
 public class MarkdownGherkinDialect implements GherkinDialect {
 
-    public MarkdownGherkinDialect() {
+    private final GherkinDialect dialect;
+
+    public MarkdownGherkinDialect(GherkinDialect dialect) {
+        this.dialect = dialect;
     }
 
     public List<String> getFeatureKeywords() {
-        return singletonList("# ");
+        return dialect.getFeatureKeywords()
+                .stream()
+                .map(keyword -> "# " + keyword)
+                .collect(Collectors.toList());
     }
 
     private static List<String> toStringList(JsonArray array) {
@@ -29,11 +35,11 @@ public class MarkdownGherkinDialect implements GherkinDialect {
     }
 
     public String getName() {
-        return "Markdown";
+        return String.format("Markdown (%s)", dialect.getName());
     }
 
     public String getNativeName() {
-        return "Markdown";
+        return String.format("Markdown (%s)", dialect.getName());
     }
 
     public String getCommentPrefix() {
@@ -41,19 +47,28 @@ public class MarkdownGherkinDialect implements GherkinDialect {
     }
 
     public String getTitleKeywordSeparator() {
-        return "";
+        return ":";
     }
 
     public List<String> getRuleKeywords() {
-        return singletonList("## ");
+        return dialect.getRuleKeywords()
+                .stream()
+                .map(keyword -> "# " + keyword)
+                .collect(Collectors.toList());
     }
 
     public List<String> getScenarioKeywords() {
-        return asList("## ", "### ");
+        return dialect.getScenarioKeywords()
+                .stream()
+                .flatMap(keyword -> Stream.of("## ", "### ").map(prefix -> prefix + keyword))
+                .collect(Collectors.toList());
     }
 
     public List<String> getScenarioOutlineKeywords() {
-        return asList("## ", "### ");
+        return dialect.getScenarioOutlineKeywords()
+                .stream()
+                .flatMap(keyword -> Stream.of("## ", "### ").map(prefix -> prefix + keyword))
+                .collect(Collectors.toList());
     }
 
     public List<String> getStepKeywords() {
@@ -75,27 +90,56 @@ public class MarkdownGherkinDialect implements GherkinDialect {
     }
 
     public List<String> getGivenKeywords() {
-        return singletonList("* ");
+        return dialect.getGivenKeywords()
+                .stream()
+                .filter(keyword -> !"* ".equals(keyword))
+                .map(keyword -> "* " + keyword)
+                .collect(Collectors.toList());
     }
 
     public List<String> getWhenKeywords() {
-        return singletonList("* ");
+        return dialect.getWhenKeywords()
+                .stream()
+                .filter(keyword -> !"* ".equals(keyword))
+                .map(keyword -> "* " + keyword)
+                .collect(Collectors.toList());
     }
 
     public List<String> getThenKeywords() {
-        return singletonList("* ");
+        return dialect.getThenKeywords()
+                .stream()
+                .filter(keyword -> !"* ".equals(keyword))
+                .map(keyword -> "* " + keyword)
+                .collect(Collectors.toList());
+
     }
 
     public List<String> getAndKeywords() {
-        return singletonList("* ");
+        return dialect.getAndKeywords()
+                .stream()
+                .filter(keyword -> !"* ".equals(keyword))
+                .map(keyword -> "* " + keyword)
+                .collect(Collectors.toList());
     }
 
     public List<String> getButKeywords() {
-        return singletonList("* ");
+        return dialect.getButKeywords()
+                .stream()
+                .filter(keyword -> !"* ".equals(keyword))
+                .map(keyword -> "* " + keyword)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public boolean isEmpty(Token token) {
+        return !token.line.startsWith("#") &&
+                !token.line.startsWith("*") &&
+                !token.line.startsWith("|") &&
+                !token.line.startsWith("```");
     }
 
     public String getLanguage() {
-        return "md";
+        return "md-" + dialect.getLanguage();
     }
 }
 

@@ -68,7 +68,7 @@ public class TokenMatcher implements ITokenMatcher {
 
     @Override
     public boolean match_Empty(Token token) {
-        if (token.line.isEmpty()) {
+        if (currentDialect.isEmpty(token)) {
             setTokenMatched(token, TokenType.Empty, null, null, null, null);
             return true;
         }

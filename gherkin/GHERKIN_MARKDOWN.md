@@ -1,9 +1,11 @@
 # Gherkin Markdown
 
-Gherkin Markdown is not a Markdown dialect per se, but rather a set of rules for
-extracting scenarios from Markdown documents.
+Gherkin Markdown lets you write Cucumber scenarios in Markdown. Plain and simple.
 
-The rules are as follows:
+Gherkin Markdown is not a Markdown dialect per se, but rather a set of rules for
+parsing scenarios from any Markdown document.
+
+The parsing rules are as follows:
 
 - `#` - Feature
 - `##` - Scenario, Background or Rule, depending on context
@@ -13,6 +15,8 @@ The rules are as follows:
 - `|` - Tables (DataTable and ExamplesTable)
 - `\`\`\`` - DocString
 - `>` - prefix for @tags
+
+Any other lines are ignored.
 
 Here are some example documents:
 

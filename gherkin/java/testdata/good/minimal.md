@@ -1,5 +1,5 @@
-# Minimal
+# Feature: Minimal
 
-## minimalistic
+## Scenario: minimalistic
 
 * the minimalism

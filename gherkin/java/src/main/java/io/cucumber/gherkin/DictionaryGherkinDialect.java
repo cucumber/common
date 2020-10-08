@@ -94,6 +94,11 @@ public class DictionaryGherkinDialect implements GherkinDialect {
         return toStringList(keywords.get("but").asArray());
     }
 
+    @Override
+    public boolean isEmpty(Token token) {
+        return token.line.isEmpty();
+    }
+
     public String getLanguage() {
         return language;
     }

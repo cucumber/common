@@ -9,13 +9,15 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Collections.sort;
 import static java.util.Collections.unmodifiableList;
 
 public class GherkinDialectProvider implements IGherkinDialectProvider {
-    private static JsonObject DIALECTS;
+    private final static JsonObject DIALECTS;
     private final String defaultDialectName;
 
     public static final String JSON_PATH = "/io/cucumber/gherkin/gherkin-languages.json";
@@ -42,7 +44,14 @@ public class GherkinDialectProvider implements IGherkinDialectProvider {
 
     @Override
     public GherkinDialect getDialect(String language, Location location) {
-        if(language.equals("md")) return new MarkdownGherkinDialect();
+        Matcher matcher = Pattern.compile("md-(.*)").matcher(language);
+        if(matcher.matches()) {
+            return new MarkdownGherkinDialect(getDictionaryGherkinDialect(language, location));
+        }
+        return getDictionaryGherkinDialect(language, location);
+    }
+
+    private DictionaryGherkinDialect getDictionaryGherkinDialect(String language, Location location) {
         JsonValue languageObject = DIALECTS.get(language);
         if (languageObject == null) {
             throw new ParserException.NoSuchLanguageException(language, location);

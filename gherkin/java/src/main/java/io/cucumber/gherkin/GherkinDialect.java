@@ -36,4 +36,6 @@ public interface GherkinDialect {
     List<String> getAndKeywords();
 
     List<String> getButKeywords();
+
+    boolean isEmpty(Token token);
 }
