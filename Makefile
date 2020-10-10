@@ -61,7 +61,6 @@ docker-run:
 	  --publish "6006:6006" \
 	  --volume "${shell pwd}":/app \
 	  --volume "${HOME}/.m2/repository":/home/cukebot/.m2/repository \
-	  --volume "${HOME}/.gitconfig":/home/cukebot/.gitconfig \
 	  --user 1000 \
 	  --rm \
 	  -it cucumber/cucumber-build:latest \
@@ -82,7 +81,7 @@ docker-run-with-secrets:
 	  --volume "${shell pwd}/../secrets/.gem":/home/cukebot/.gem \
 	  --volume "${shell pwd}/../secrets/.npmrc":/home/cukebot/.npmrc \
 	  --volume "${HOME}/.m2/repository":/home/cukebot/.m2/repository \
-	  --volume "${HOME}/.gitconfig":/home/cukebot/.gitconfig \
+	  --volume "${HOME}/.gitconfig":/home/cukebot/.gitconfig.original \
 	  --env-file ../secrets/secrets.list \
 	  --user 1000 \
 	  --rm \
