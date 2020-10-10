@@ -1,13 +1,13 @@
 package io.cucumber.gherkin.utils;
 
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 public class GherkinPrettyFormatterTest {
 
     public void assertPrettyIdentical(String source) {
-        Assert.assertEquals(new GherkinPrettyFormatter().format(GherkinParser.parse(source)), source);
+        Assertions.assertEquals(new GherkinPrettyFormatter().format(GherkinParser.parse(source)), source);
     }
 
     @Test
