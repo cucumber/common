@@ -718,7 +718,6 @@ jobs:
           paths:
             - "io/cucumber/config"
 
-
   html-formatter-java:
     executor: docker-circleci-openjdk
     steps:
@@ -751,6 +750,22 @@ jobs:
           paths:
             - json-to-messages/java-testdata/acceptance
 
+  gherkin-utils-java:
+    executor: docker-circleci-openjdk
+    steps:
+      - attach_workspace:
+          at: "~/cucumber"
+      - attach_workspace:
+          at: "~/.m2/repository"
+      - run:
+          name: gherkin-utils/java
+          command: |
+            cd gherkin-utils/java
+            make
+      - persist_to_workspace:
+          root: "~/.m2/repository"
+          paths:
+            - "io/cucumber/gherkin-utils"
 
 ### .NET
 
@@ -1030,6 +1045,10 @@ workflows:
           requires:
             - checkout
             - json-to-messages-ruby-testdata
+      - gherkin-utils-java:
+          requires:
+            - gherkin-java
+            - messages-java
 
 ### .NET
 
