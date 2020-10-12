@@ -10,16 +10,16 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class GherkinDocumentWalkerTest {
+class GherkinDocumentWalkerTest {
 
-    public void assertCopy(Object copy, Object source) {
-        Assertions.assertFalse(copy == source);
+    void assertCopy(Object copy, Object source) {
+        Assertions.assertNotSame(copy, source);
         Assertions.assertEquals(copy, source);
     }
 
     @Test
     @DisplayName("returns a deep copy")
-    public void returnsADeepCopy() {
+    void returnsADeepCopy() {
 
         String source = "@featureTag\n" +
                 "Feature: hello\n" +
@@ -40,8 +40,8 @@ public class GherkinDocumentWalkerTest {
                 "    Scenario: pouet\n";
 
         Messages.GherkinDocument gherkinDocument = GherkinParser.parse(source);
-        GherkinDocumentWalker walker = new GherkinDocumentWalker(new DefaultFilters() {
-        }, new DefaultHandlers() {
+        GherkinDocumentWalker walker = new GherkinDocumentWalker(new AcceptAllFilter() {
+        }, new Handler() {
         });
         Messages.GherkinDocument newGherkinDocument = walker.walkGherkinDocument(gherkinDocument);
 
@@ -64,7 +64,7 @@ public class GherkinDocumentWalkerTest {
 
     @Test
     @DisplayName("filtering objects")
-    public void filteringObjects() {
+    void filteringObjects() {
         String source = "Feature: Solar System\n" +
                 "\n" +
                 "  Scenario: Saturn\n" +
@@ -74,12 +74,12 @@ public class GherkinDocumentWalkerTest {
                 "    Given is a planet with liquid water\n";
 
         Messages.GherkinDocument gherkinDocument = GherkinParser.parse(source);
-        GherkinDocumentWalker walker = new GherkinDocumentWalker(new RejectAllFilters() {
+        GherkinDocumentWalker walker = new GherkinDocumentWalker(new RejectAllFilter() {
             @Override
             public boolean acceptScenario(Messages.GherkinDocument.Feature.Scenario scenario) {
                 return scenario.getName().equals("Earth");
             }
-        }, new DefaultHandlers() {
+        }, new Handler() {
         });
         Messages.GherkinDocument newGherkinDocument = walker.walkGherkinDocument(gherkinDocument);
         String newSource = new GherkinPrettyFormatter().format(newGherkinDocument);
@@ -93,7 +93,7 @@ public class GherkinDocumentWalkerTest {
 
     @Test
     @DisplayName("keeps scenario with search hit in step")
-    public void keepsScenarioWithSearchHitInStep() {
+    void keepsScenarioWithSearchHitInStep() {
         String source = "Feature: Solar System\n" +
                 "\n" +
                 "  Scenario: Saturn\n" +
@@ -103,12 +103,12 @@ public class GherkinDocumentWalkerTest {
                 "    Given is a planet with liquid water\n";
 
         Messages.GherkinDocument gherkinDocument = GherkinParser.parse(source);
-        GherkinDocumentWalker walker = new GherkinDocumentWalker(new RejectAllFilters() {
+        GherkinDocumentWalker walker = new GherkinDocumentWalker(new RejectAllFilter() {
             @Override
             public boolean acceptStep(Messages.GherkinDocument.Feature.Step step) {
                 return step.getText().contains("liquid");
             }
-        }, new DefaultHandlers() {
+        }, new Handler() {
         });
         Messages.GherkinDocument newGherkinDocument = walker.walkGherkinDocument(gherkinDocument);
         String newSource = new GherkinPrettyFormatter().format(newGherkinDocument);
@@ -122,7 +122,7 @@ public class GherkinDocumentWalkerTest {
 
     @Test
     @DisplayName("does not leave null object as a feature child")
-    public void doesNotLeaveNullObjectAsAFeatureChild() {
+    void doesNotLeaveNullObjectAsAFeatureChild() {
         String source = "Feature: Solar System\n" +
                 "\n" +
                 "  Scenario: Saturn\n" +
@@ -132,12 +132,12 @@ public class GherkinDocumentWalkerTest {
                 "    Given is a planet with liquid water\n";
 
         Messages.GherkinDocument gherkinDocument = GherkinParser.parse(source);
-        GherkinDocumentWalker walker = new GherkinDocumentWalker(new RejectAllFilters() {
+        GherkinDocumentWalker walker = new GherkinDocumentWalker(new RejectAllFilter() {
             @Override
             public boolean acceptScenario(Messages.GherkinDocument.Feature.Scenario scenario) {
                 return scenario.getName().equals("Earth");
             }
-        }, new DefaultHandlers() {
+        }, new Handler() {
         });
         Messages.GherkinDocument newGherkinDocument = walker.walkGherkinDocument(gherkinDocument);
 
@@ -152,7 +152,7 @@ public class GherkinDocumentWalkerTest {
 
     @Test
     @DisplayName("keeps a hit scenario even when no steps match")
-    public void keepsAHitScenarioEvenWhenNoStepsMatch() {
+    void keepsAHitScenarioEvenWhenNoStepsMatch() {
         String source = "Feature: Solar System\n" +
                 "\n" +
                 "  Scenario: Saturn\n" +
@@ -162,12 +162,12 @@ public class GherkinDocumentWalkerTest {
                 "    Given is a planet with liquid water\n";
 
         Messages.GherkinDocument gherkinDocument = GherkinParser.parse(source);
-        GherkinDocumentWalker walker = new GherkinDocumentWalker(new RejectAllFilters() {
+        GherkinDocumentWalker walker = new GherkinDocumentWalker(new RejectAllFilter() {
             @Override
             public boolean acceptScenario(Messages.GherkinDocument.Feature.Scenario scenario) {
                 return scenario.getName().equals("Saturn");
             }
-        }, new DefaultHandlers() {
+        }, new Handler() {
         });
         Messages.GherkinDocument newGherkinDocument = walker.walkGherkinDocument(gherkinDocument);
         String newSource = new GherkinPrettyFormatter().format(newGherkinDocument);
@@ -181,7 +181,7 @@ public class GherkinDocumentWalkerTest {
 
     @Test
     @DisplayName("keeps a hit background")
-    public void keepsAHitBackground() {
+    void keepsAHitBackground() {
         String source = "Feature: Solar System\n" +
                 "\n" +
                 "  Background: Space\n" +
@@ -196,12 +196,12 @@ public class GherkinDocumentWalkerTest {
                 "      Given it exists\n";
 
         Messages.GherkinDocument gherkinDocument = GherkinParser.parse(source);
-        GherkinDocumentWalker walker = new GherkinDocumentWalker(new RejectAllFilters() {
+        GherkinDocumentWalker walker = new GherkinDocumentWalker(new RejectAllFilter() {
             @Override
             public boolean acceptBackground(Messages.GherkinDocument.Feature.Background background) {
                 return background.getName().equals("Milky Way");
             }
-        }, new DefaultHandlers() {
+        }, new Handler() {
         });
         Messages.GherkinDocument newGherkinDocument = walker.walkGherkinDocument(gherkinDocument);
         String newSource = new GherkinPrettyFormatter().format(newGherkinDocument);
@@ -220,7 +220,7 @@ public class GherkinDocumentWalkerTest {
 
     @Test
     @DisplayName("keeps a hit in background step")
-    public void keepsAHitInBackgroundStep() {
+    void keepsAHitInBackgroundStep() {
         String source = "Feature: Solar System\n" +
                 "\n" +
                 "  Background: Space\n" +
@@ -235,12 +235,12 @@ public class GherkinDocumentWalkerTest {
                 "      Given it exists\n";
 
         Messages.GherkinDocument gherkinDocument = GherkinParser.parse(source);
-        GherkinDocumentWalker walker = new GherkinDocumentWalker(new RejectAllFilters() {
+        GherkinDocumentWalker walker = new GherkinDocumentWalker(new RejectAllFilter() {
             @Override
             public boolean acceptStep(Messages.GherkinDocument.Feature.Step step) {
                 return step.getText().contains("space");
             }
-        }, new DefaultHandlers() {
+        }, new Handler() {
         });
         Messages.GherkinDocument newGherkinDocument = walker.walkGherkinDocument(gherkinDocument);
         String newSource = new GherkinPrettyFormatter().format(newGherkinDocument);
@@ -264,7 +264,7 @@ public class GherkinDocumentWalkerTest {
 
     @Test
     @DisplayName("keeps scenario in rule")
-    public void keepsScenarioInRule() {
+    void keepsScenarioInRule() {
         String source = "Feature: Solar System\n" +
                 "\n" +
                 "  Rule: Galaxy\n" +
@@ -279,12 +279,12 @@ public class GherkinDocumentWalkerTest {
                 "      Given it exists\n";
 
         Messages.GherkinDocument gherkinDocument = GherkinParser.parse(source);
-        GherkinDocumentWalker walker = new GherkinDocumentWalker(new RejectAllFilters() {
+        GherkinDocumentWalker walker = new GherkinDocumentWalker(new RejectAllFilter() {
             @Override
             public boolean acceptScenario(Messages.GherkinDocument.Feature.Scenario scenario) {
                 return scenario.getName().equals("Andromeda");
             }
-        }, new DefaultHandlers() {
+        }, new Handler() {
         });
         Messages.GherkinDocument newGherkinDocument = walker.walkGherkinDocument(gherkinDocument);
         String newSource = new GherkinPrettyFormatter().format(newGherkinDocument);
@@ -303,7 +303,7 @@ public class GherkinDocumentWalkerTest {
 
     @Test
     @DisplayName("keeps scenario and background in rule")
-    public void keepsScenarioAndBackgroundInRule() {
+    void keepsScenarioAndBackgroundInRule() {
         String source = "Feature: Solar System\n" +
                 "\n" +
                 "  Rule: Galaxy\n" +
@@ -318,12 +318,12 @@ public class GherkinDocumentWalkerTest {
                 "      Given it exists\n";
 
         Messages.GherkinDocument gherkinDocument = GherkinParser.parse(source);
-        GherkinDocumentWalker walker = new GherkinDocumentWalker(new RejectAllFilters() {
+        GherkinDocumentWalker walker = new GherkinDocumentWalker(new RejectAllFilter() {
             @Override
             public boolean acceptRule(Messages.GherkinDocument.Feature.FeatureChild.Rule rule) {
                 return rule.getName().equals("Galaxy");
             }
-        }, new DefaultHandlers() {
+        }, new Handler() {
         });
         Messages.GherkinDocument newGherkinDocument = walker.walkGherkinDocument(gherkinDocument);
         String newSource = new GherkinPrettyFormatter().format(newGherkinDocument);
@@ -345,7 +345,7 @@ public class GherkinDocumentWalkerTest {
 
     @Test
     @DisplayName("only keeps rule and its content")
-    public void onlyKeepsRuleAndItsContent() {
+    void onlyKeepsRuleAndItsContent() {
         String source = "Feature: Solar System\n" +
                 "\n" +
                 "  Scenario: Milky Way\n" +
@@ -357,12 +357,12 @@ public class GherkinDocumentWalkerTest {
                 "      Given it exists\n";
 
         Messages.GherkinDocument gherkinDocument = GherkinParser.parse(source);
-        GherkinDocumentWalker walker = new GherkinDocumentWalker(new RejectAllFilters() {
+        GherkinDocumentWalker walker = new GherkinDocumentWalker(new RejectAllFilter() {
             @Override
             public boolean acceptRule(Messages.GherkinDocument.Feature.FeatureChild.Rule rule) {
                 return true;
             }
-        }, new DefaultHandlers() {
+        }, new Handler() {
         });
         Messages.GherkinDocument newGherkinDocument = walker.walkGherkinDocument(gherkinDocument);
         String newSource = new GherkinPrettyFormatter().format(newGherkinDocument);
@@ -378,7 +378,7 @@ public class GherkinDocumentWalkerTest {
 
     @Test
     @DisplayName("return a feature and keep scenario")
-    public void returnAFeatureAndKeepScenario() {
+    void returnAFeatureAndKeepScenario() {
         String source = "Feature: Solar System\n" +
                 "\n" +
                 "  Scenario: Saturn\n" +
@@ -388,12 +388,12 @@ public class GherkinDocumentWalkerTest {
                 "    Given is a planet with liquid water\n";
 
         Messages.GherkinDocument gherkinDocument = GherkinParser.parse(source);
-        GherkinDocumentWalker walker = new GherkinDocumentWalker(new RejectAllFilters() {
+        GherkinDocumentWalker walker = new GherkinDocumentWalker(new RejectAllFilter() {
             @Override
             public boolean acceptFeature(Messages.GherkinDocument.Feature feature) {
                 return feature.getName().equals("Solar System");
             }
-        }, new DefaultHandlers() {
+        }, new Handler() {
         });
         Messages.GherkinDocument newGherkinDocument = walker.walkGherkinDocument(gherkinDocument);
         String newSource = new GherkinPrettyFormatter().format(newGherkinDocument);
@@ -410,7 +410,7 @@ public class GherkinDocumentWalkerTest {
 
     @Test
     @DisplayName("returns null when no hit found")
-    public void returnsNullWhenNoHitFound() {
+    void returnsNullWhenNoHitFound() {
         String source = "Feature: Solar System\n" +
                 "\n" +
                 "  Scenario: Saturn\n" +
@@ -420,8 +420,8 @@ public class GherkinDocumentWalkerTest {
                 "    Given is a planet with liquid water\n";
 
         Messages.GherkinDocument gherkinDocument = GherkinParser.parse(source);
-        GherkinDocumentWalker walker = new GherkinDocumentWalker(new RejectAllFilters() {
-        }, new DefaultHandlers() {
+        GherkinDocumentWalker walker = new GherkinDocumentWalker(new RejectAllFilter() {
+        }, new Handler() {
         });
         Messages.GherkinDocument newGherkinDocument = walker.walkGherkinDocument(gherkinDocument);
 
@@ -430,7 +430,7 @@ public class GherkinDocumentWalkerTest {
 
     @Test
     @DisplayName("is called for each steps")
-    public void isCalledForEachSteps() {
+    void isCalledForEachSteps() {
         String source = "Feature: Solar System\n" +
                 "\n" +
                 "        Scenario: Earth\n" +
@@ -438,14 +438,13 @@ public class GherkinDocumentWalkerTest {
 
         Messages.GherkinDocument gherkinDocument = GherkinParser.parse(source);
         List<String> stepText = new ArrayList<>();
-        GherkinDocumentWalker astWalker = new GherkinDocumentWalker(new DefaultFilters() {
-        },
-                new DefaultHandlers() {
-                    @Override
-                    public void handleStep(Messages.GherkinDocument.Feature.Step step) {
-                        stepText.add(step.getText());
-                    }
-                });
+        GherkinDocumentWalker astWalker = new GherkinDocumentWalker(new AcceptAllFilter() {
+        }, new Handler() {
+            @Override
+            public void handleStep(Messages.GherkinDocument.Feature.Step step) {
+                stepText.add(step.getText());
+            }
+        });
         astWalker.walkGherkinDocument(gherkinDocument);
 
         Assertions.assertEquals(stepText, Arrays.asList("it is a planet"));
@@ -453,7 +452,7 @@ public class GherkinDocumentWalkerTest {
 
     @Test
     @DisplayName("is called for each scenarios")
-    public void isCalledForEachScenarios() {
+    void isCalledForEachScenarios() {
         String source = "Feature: Solar System\n" +
                 "\n" +
                 "        Scenario: Earth\n" +
@@ -464,14 +463,13 @@ public class GherkinDocumentWalkerTest {
 
         Messages.GherkinDocument gherkinDocument = GherkinParser.parse(source);
         List<String> scenarioName = new ArrayList<>();
-        GherkinDocumentWalker astWalker = new GherkinDocumentWalker(new DefaultFilters() {
-        },
-                new DefaultHandlers() {
-                    @Override
-                    public void handleScenario(Messages.GherkinDocument.Feature.Scenario scenario) {
-                        scenarioName.add(scenario.getName());
-                    }
-                });
+        GherkinDocumentWalker astWalker = new GherkinDocumentWalker(new AcceptAllFilter() {
+        }, new Handler() {
+            @Override
+            public void handleScenario(Messages.GherkinDocument.Feature.Scenario scenario) {
+                scenarioName.add(scenario.getName());
+            }
+        });
         astWalker.walkGherkinDocument(gherkinDocument);
 
         Assertions.assertEquals(scenarioName, Arrays.asList("Earth", "Saturn"));
@@ -479,7 +477,7 @@ public class GherkinDocumentWalkerTest {
 
     @Test
     @DisplayName("is called for each backgrounds")
-    public void isCalledForEachBackgrounds() {
+    void isCalledForEachBackgrounds() {
         String source = "Feature: Solar System\n" +
                 "\n" +
                 "        Background: Milky Way\n" +
@@ -488,14 +486,13 @@ public class GherkinDocumentWalkerTest {
 
         Messages.GherkinDocument gherkinDocument = GherkinParser.parse(source);
         List<String> backgroundName = new ArrayList<>();
-        GherkinDocumentWalker astWalker = new GherkinDocumentWalker(new DefaultFilters() {
-        },
-                new DefaultHandlers() {
-                    @Override
-                    public void handleBackground(Messages.GherkinDocument.Feature.Background background) {
-                        backgroundName.add(background.getName());
-                    }
-                });
+        GherkinDocumentWalker astWalker = new GherkinDocumentWalker(new AcceptAllFilter() {
+        }, new Handler() {
+            @Override
+            public void handleBackground(Messages.GherkinDocument.Feature.Background background) {
+                backgroundName.add(background.getName());
+            }
+        });
         astWalker.walkGherkinDocument(gherkinDocument);
 
         Assertions.assertEquals(backgroundName, Arrays.asList("Milky Way"));
@@ -503,7 +500,7 @@ public class GherkinDocumentWalkerTest {
 
     @Test
     @DisplayName("is called for each rules")
-    public void isCalledForEachRules() {
+    void isCalledForEachRules() {
         String source = "Feature: Solar System\n" +
                 "\n" +
                 "        Rule: On a planet\n" +
@@ -516,14 +513,13 @@ public class GherkinDocumentWalkerTest {
 
         Messages.GherkinDocument gherkinDocument = GherkinParser.parse(source);
         List<String> ruleName = new ArrayList<>();
-        GherkinDocumentWalker astWalker = new GherkinDocumentWalker(new DefaultFilters() {
-        },
-                new DefaultHandlers() {
-                    @Override
-                    public void handleRule(Messages.GherkinDocument.Feature.FeatureChild.Rule rule) {
-                        ruleName.add(rule.getName());
-                    }
-                });
+        GherkinDocumentWalker astWalker = new GherkinDocumentWalker(new AcceptAllFilter() {
+        }, new Handler() {
+            @Override
+            public void handleRule(Messages.GherkinDocument.Feature.FeatureChild.Rule rule) {
+                ruleName.add(rule.getName());
+            }
+        });
         astWalker.walkGherkinDocument(gherkinDocument);
 
         Assertions.assertEquals(ruleName, Arrays.asList("On a planet", "On an exoplanet"));
@@ -531,7 +527,7 @@ public class GherkinDocumentWalkerTest {
 
     @Test
     @DisplayName("is called for each features")
-    public void isCalledForEachFeatures() {
+    void isCalledForEachFeatures() {
         String source = "Feature: Solar System\n" +
                 "\n" +
                 "        Rule: On a planet\n" +
@@ -544,14 +540,13 @@ public class GherkinDocumentWalkerTest {
 
         Messages.GherkinDocument gherkinDocument = GherkinParser.parse(source);
         List<String> featureName = new ArrayList<>();
-        GherkinDocumentWalker astWalker = new GherkinDocumentWalker(new DefaultFilters() {
-        },
-                new DefaultHandlers() {
-                    @Override
-                    public void handleFeature(Messages.GherkinDocument.Feature feature) {
-                        featureName.add(feature.getName());
-                    }
-                });
+        GherkinDocumentWalker astWalker = new GherkinDocumentWalker(new AcceptAllFilter() {
+        }, new Handler() {
+            @Override
+            public void handleFeature(Messages.GherkinDocument.Feature feature) {
+                featureName.add(feature.getName());
+            }
+        });
         astWalker.walkGherkinDocument(gherkinDocument);
 
         Assertions.assertEquals(featureName, Arrays.asList("Solar System"));
@@ -559,12 +554,12 @@ public class GherkinDocumentWalkerTest {
 
     @Test
     @DisplayName("does not fail with empty/commented documents")
-    public void doesNotFailWithEmptyOrCommentedDocuments() {
+    void doesNotFailWithEmptyOrCommentedDocuments() {
         String source = "# Feature: Solar System";
 
         Messages.GherkinDocument gherkinDocument = GherkinParser.parse(source);
-        GherkinDocumentWalker astWalker = new GherkinDocumentWalker(new DefaultFilters() {
-        }, new DefaultHandlers() {
+        GherkinDocumentWalker astWalker = new GherkinDocumentWalker(new AcceptAllFilter() {
+        }, new Handler() {
         });
         astWalker.walkGherkinDocument(gherkinDocument);
     }

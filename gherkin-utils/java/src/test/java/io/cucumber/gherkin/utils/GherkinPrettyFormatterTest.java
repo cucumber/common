@@ -1,24 +1,26 @@
 package io.cucumber.gherkin.utils;
 
+import io.cucumber.messages.Messages;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-public class GherkinPrettyFormatterTest {
+class GherkinPrettyFormatterTest {
 
-    public void assertPrettyIdentical(String source) {
-        Assertions.assertEquals(new GherkinPrettyFormatter().format(GherkinParser.parse(source)), source);
+    void assertPrettyIdentical(String source) {
+        Messages.GherkinDocument gherkinDocument = GherkinParser.parse(source);
+        Assertions.assertEquals(new GherkinPrettyFormatter().format(gherkinDocument), source);
     }
 
     @Test
     @DisplayName("Renders a feature with no scenarios")
-    public void renderAFeatureWithNoScenario() {
+    void renderAFeatureWithNoScenario() {
         assertPrettyIdentical("Feature: hello\n");
     }
 
     @Test
     @DisplayName("Renders a feature with two scenarios")
-    public void renderAFeatureWithTwoScenarios() {
+    void renderAFeatureWithTwoScenarios() {
         String source = "Feature: hello\n" +
                 "\n" +
                 "  Scenario: one\n" +
@@ -31,7 +33,7 @@ public class GherkinPrettyFormatterTest {
 
     @Test
     @DisplayName("Renders a feature with two scenarios in a rule")
-    public void renderAFeatureWithTwoScenariosInARule() {
+    void renderAFeatureWithTwoScenariosInARule() {
         String source = "Feature: hello\n" +
                 "\n" +
                 "  Rule: ok\n" +
@@ -46,7 +48,7 @@ public class GherkinPrettyFormatterTest {
 
     @Test
     @DisplayName("Renders a feature with background and scenario")
-    public void renderAFeatureWithBackgroundAndScenario() {
+    void renderAFeatureWithBackgroundAndScenario() {
         String source = "Feature: hello\n" +
                 "\n" +
                 "  Background: bbb\n" +
@@ -59,7 +61,7 @@ public class GherkinPrettyFormatterTest {
 
     @Test
     @DisplayName("Renders a rule with background and scenario")
-    public void renderARuleWithBackgroundAndScenario() {
+    void renderARuleWithBackgroundAndScenario() {
         String source = "Feature: hello\n" +
                 "\n" +
                 "  Rule: machin\n" +
@@ -74,7 +76,7 @@ public class GherkinPrettyFormatterTest {
 
     @Test
     @DisplayName("Renders tags when set")
-    public void renderTagsWhenSet() {
+    void renderTagsWhenSet() {
         String source = "@featureTag\n" +
                 "Feature: hello\n" +
                 "\n" +
@@ -91,7 +93,7 @@ public class GherkinPrettyFormatterTest {
 
     @Test
     @DisplayName("Renders descriptions when set")
-    public void renderDescriptionsWhenSet() {
+    void renderDescriptionsWhenSet() {
         String source = "Feature: hello\n" +
                 "  So this is a feature\n" +
                 "\n" +

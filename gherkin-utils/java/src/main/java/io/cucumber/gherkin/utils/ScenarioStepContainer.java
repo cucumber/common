@@ -7,7 +7,7 @@ import java.util.List;
 final class ScenarioStepContainer implements StepContainer {
     private Messages.GherkinDocument.Feature.Scenario scenario;
 
-    public ScenarioStepContainer (Messages.GherkinDocument.Feature.Scenario scenario) {
+    public ScenarioStepContainer(Messages.GherkinDocument.Feature.Scenario scenario) {
         this.scenario = scenario;
     }
 

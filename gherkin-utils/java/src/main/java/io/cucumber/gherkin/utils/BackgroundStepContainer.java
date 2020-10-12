@@ -51,4 +51,5 @@ final class BackgroundStepContainer implements StepContainer {
     public boolean hasExamples() {
         return false;
     }
+
 }

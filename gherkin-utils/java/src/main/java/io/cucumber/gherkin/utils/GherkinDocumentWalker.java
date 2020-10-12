@@ -9,12 +9,12 @@ import java.util.stream.Collectors;
 
 
 public final class GherkinDocumentWalker {
-    private final DefaultFilters filters;
-    private final DefaultHandlers handlers;
+    private final Filter filter;
+    private final Handler handler;
 
-    public GherkinDocumentWalker(DefaultFilters filters, DefaultHandlers handlers) {
-        this.filters = filters;
-        this.handlers = handlers;
+    public GherkinDocumentWalker(Filter filters, Handler handler) {
+        this.filter = filters;
+        this.handler = handler;
     }
 
     public GherkinDocument walkGherkinDocument(GherkinDocument gherkinDocument) {
@@ -39,13 +39,13 @@ public final class GherkinDocumentWalker {
     private GherkinDocument.Feature walkFeature(GherkinDocument.Feature feature) {
         List<GherkinDocument.Feature.FeatureChild> keptChildren = walkFeatureChildren(feature.getChildrenList());
 
-        handlers.handleFeature(feature);
+        handler.handleFeature(feature);
 
         boolean backgroundKept = keptChildren
                 .stream()
                 .anyMatch(featureChild -> featureChild.hasBackground());
 
-        if (filters.acceptFeature(feature) || backgroundKept) {
+        if (filter.acceptFeature(feature) || backgroundKept) {
             return copyFeature(feature,
                     feature.getChildrenList()
                             .stream()
@@ -204,7 +204,7 @@ public final class GherkinDocumentWalker {
     private GherkinDocument.Feature.FeatureChild.Rule walkRule(GherkinDocument.Feature.FeatureChild.Rule rule) {
         List<GherkinDocument.Feature.FeatureChild.RuleChild> children = walkRuleChildren(rule.getChildrenList());
 
-        handlers.handleRule(rule);
+        handler.handleRule(rule);
 
         boolean backgroundKept =
                 children
@@ -217,7 +217,7 @@ public final class GherkinDocumentWalker {
                         .filter(child -> child != null && child.hasScenario())
                         .collect(Collectors.toList());
 
-        if (filters.acceptRule(rule) || backgroundKept) {
+        if (filter.acceptRule(rule) || backgroundKept) {
             return copyRule(rule, rule.getChildrenList());
         }
 
@@ -297,9 +297,9 @@ public final class GherkinDocumentWalker {
 
     private GherkinDocument.Feature.Background walkBackground(GherkinDocument.Feature.Background background) {
         List<GherkinDocument.Feature.Step> steps = walkAllSteps(background.getStepsList());
-        handlers.handleBackground(background);
+        handler.handleBackground(background);
 
-        if (filters.acceptBackground(background) ||
+        if (filter.acceptBackground(background) ||
                 steps.stream().anyMatch(step -> step != null)
         ) {
             return copyBackground(background);
@@ -327,9 +327,9 @@ public final class GherkinDocumentWalker {
 
     private GherkinDocument.Feature.Scenario walkScenario(GherkinDocument.Feature.Scenario scenario) {
         List<GherkinDocument.Feature.Step> steps = walkAllSteps(scenario.getStepsList());
-        handlers.handleScenario(scenario);
+        handler.handleScenario(scenario);
 
-        if (filters.acceptScenario(scenario) ||
+        if (filter.acceptScenario(scenario) ||
                 steps.stream().anyMatch(step -> step != null)
         ) {
             return copyScenario(scenario);
@@ -365,9 +365,9 @@ public final class GherkinDocumentWalker {
     }
 
     private GherkinDocument.Feature.Step walkStep(GherkinDocument.Feature.Step step) {
-        handlers.handleStep(step);
+        handler.handleStep(step);
 
-        if (!filters.acceptStep(step)) {
+        if (!filter.acceptStep(step)) {
             return null;
         }
 

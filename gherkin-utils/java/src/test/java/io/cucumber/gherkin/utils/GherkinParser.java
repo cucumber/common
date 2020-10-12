@@ -17,7 +17,7 @@ public class GherkinParser {
                 .fromSources(singletonList(envelope), false, true, false, new IdGenerator.Incrementing())
                 .collect(Collectors.toList());
 
-        GherkinDocument gherkinDocument =  envelopes.get(0).getGherkinDocument();
+        GherkinDocument gherkinDocument = envelopes.get(0).getGherkinDocument();
 
         return gherkinDocument;
     }
