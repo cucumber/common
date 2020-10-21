@@ -8,7 +8,7 @@ export default class Search {
   private readonly tagSearch: TagSearch
   private readonly textSearch = new TextSearch()
 
-  constructor(private readonly gherkinQuery: GherkinQuery) {
+  constructor(gherkinQuery: GherkinQuery) {
     this.tagSearch = new TagSearch(gherkinQuery)
   }
 

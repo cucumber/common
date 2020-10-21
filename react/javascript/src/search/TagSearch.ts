@@ -14,8 +14,11 @@ export default class TagSearch {
     messages.IPickle
   >()
   private gherkinDocuments: messages.IGherkinDocument[] = []
+  private readonly gherkinQuery: GherkinQuery
 
-  constructor(private readonly gherkinQuery: GherkinQuery) {}
+  constructor(gherkinQuery: GherkinQuery) {
+    this.gherkinQuery = gherkinQuery
+  }
 
   public search(query: string): messages.IGherkinDocument[] {
     const expressionNode = parse(query)

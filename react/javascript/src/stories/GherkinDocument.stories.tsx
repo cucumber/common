@@ -38,7 +38,7 @@ export type Props = {
 }
 type TemplateArgs = { envelopes: readonly messages.IEnvelope[] }
 
-const Template: Story<TemplateArgs> = ({envelopes}) => {
+const Template: Story<TemplateArgs> = ({ envelopes }) => {
   return (
     <QueriesWrapper {...queries(envelopes)}>
       <GherkinDocumentList />
@@ -90,5 +90,3 @@ export const UnknownParameterTypes = Template.bind({})
 UnknownParameterTypes.args = {
   envelopes: unknownParameterTypes,
 }
-
-
