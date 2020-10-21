@@ -21,6 +21,7 @@ import parameterTypes from '../../acceptance/parameter-types/parameter-types'
 import rules from '../../acceptance/rules/rules'
 import stacktTraces from '../../acceptance/stack-traces/stack-traces'
 import unknownParameterTypes from '../../acceptance/unknown-parameter-type/unknown-parameter-type'
+import queries from './queries'
 
 export default {
   title: 'GherkinDocument',
@@ -30,7 +31,7 @@ export default {
   },
 } as Meta
 
-type Props = {
+export type Props = {
   gherkinQuery: GherkinQuery
   cucumberQuery: CucumberQuery
   envelopesQuery: EnvelopesQuery
@@ -39,7 +40,7 @@ type TemplateArgs = { envelopes: readonly messages.IEnvelope[] }
 
 const Template: Story<TemplateArgs> = ({envelopes}) => {
   return (
-    <QueriesWrapper {...props(envelopes)}>
+    <QueriesWrapper {...queries(envelopes)}>
       <GherkinDocumentList />
     </QueriesWrapper>
   )
@@ -90,14 +91,4 @@ UnknownParameterTypes.args = {
   envelopes: unknownParameterTypes,
 }
 
-function props(envelopes: readonly messages.IEnvelope[]): Props {
-  const gherkinQuery = new GherkinQuery()
-  const cucumberQuery = new CucumberQuery()
-  const envelopesQuery = new EnvelopesQuery()
-  for (const envelope of envelopes) {
-    gherkinQuery.update(envelope)
-    cucumberQuery.update(envelope)
-    envelopesQuery.update(envelope)
-  }
-  return { gherkinQuery, cucumberQuery, envelopesQuery }
-}
+
