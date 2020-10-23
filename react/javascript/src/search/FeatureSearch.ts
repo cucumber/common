@@ -20,6 +20,8 @@ export default class FeatureSearch {
   })
 
   public add(gherkinDocument: messages.IGherkinDocument) {
+    if (gherkinDocument.feature === undefined) return
+
     this.featuresByUri.set(gherkinDocument.uri, gherkinDocument.feature)
 
     this.index.addDoc({
