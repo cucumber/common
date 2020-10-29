@@ -7,13 +7,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ----
 ## [Unreleased]
 
-### Fixed
- * Broken 2.0.3 release
+### Added
 
-## [2.0.3] - 2020-10-29
+### Changed
+
+### Deprecated
+
+### Removed
 
 ### Fixed
- * Java: Handle null values in ci dict  [#1229](https://github.com/cucumber/cucumber/pull/1229)
 
 ## [2.0.2] - 2020-09-03
 
@@ -58,8 +60,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/create-meta/v2.0.3...master
-[2.0.3]:      https://github.com/cucumber/cucumber/releases/tag/create-meta/v2.0.2
+[Unreleased]: https://github.com/cucumber/cucumber/compare/create-meta/v2.0.2...master
 [2.0.2]:      https://github.com/cucumber/cucumber/releases/tag/create-meta/v2.0.1
 [2.0.1]:      https://github.com/cucumber/cucumber/releases/tag/create-meta/v2.0.0
 [2.0.0]:      https://github.com/cucumber/cucumber/releases/tag/create-meta/v1.2.0
@@ -70,4 +71,3 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 <!-- Contributors in alphabetical order -->
 [aslakhellesoy]:    https://github.com/aslakhellesoy
 [vincent-psarga]:   https://github.com/vincent-psarga
-[kgeilmann]:        https://github.com/kgeilmann
