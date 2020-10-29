@@ -56,4 +56,21 @@ class CreateMetaTest {
                 meta.getCi());
     }
 
+    @Test
+    void can_handle_CIs_with_null_in_ciDict() {
+        // choose gocd as example, which has null everywhere except for url and revision
+        HashMap<String, String> env = new HashMap<String, String>() {{
+            put("GO_SERVER_URL", "https://<cihost>/buildurl");
+            put("GO_REVISION", "the-revision");
+        }};
+        Messages.Meta meta = CreateMeta.createMeta("cucumber-jvm", "3.2.1", env);
+        assertEquals(Messages.Meta.CI.newBuilder()
+                        .setName("GoCD")
+                        .setUrl("https://<cihost>/buildurl/???")
+                        .setGit(Messages.Meta.CI.Git.newBuilder()
+                                .setRevision("the-revision")
+                        )
+                        .build(),
+                meta.getCi());
+    }
 }

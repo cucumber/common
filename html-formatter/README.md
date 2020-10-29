@@ -29,4 +29,4 @@ Using Docker:
 
 ## Obtaining `cucumber-messages.ndjson`
 
-If you're using a Cucumber version with a `message` formatter, pass `--format messages:cucumber-messages.ndjson` to it.
+If you're using a Cucumber version with a `message` formatter, pass `--format message:cucumber-messages.ndjson` to it.

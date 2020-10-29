@@ -38,12 +38,8 @@ else
 fi
 
 upload_url=$(echo "${response}" | grep -i 'Location:' | awk '{print $2}' | tr -d "\r")
-if [ -z "${upload_url}" ]; then
-  echo "${response}"
-  echo
-  echo_error "Error: could not find the location header in the response"
-  exit 1
+if [ ! -z "${upload_url}" ]; then
+  curl -X PUT "${upload_url}" --upload-file "$1"
 fi
-curl -X PUT "${upload_url}" --upload-file "$1"
 # Only print the banner which starts with a "┌" character
 echo "${response}" | sed -n '/┌/,$p'
