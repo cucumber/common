@@ -46,8 +46,8 @@
     "typescript": "^4.0.5"
   },
   "dependencies": {
-    "@cucumber/gherkin": "^15.0.2",
-    "@cucumber/messages": "^13.1.0",
+    "@cucumber/gherkin": "file:../../gherkin/javascript",
+    "@cucumber/messages": "file:../../messages/javascript",
     "@teppeis/multimaps": "^1.1.0"
   },
   "directories": {
