@@ -47,12 +47,12 @@
     "stream-buffers": "^3.0.2"
   },
   "dependencies": {
-    "@cucumber/cucumber-expressions": "^10.3.0",
-    "@cucumber/create-meta": "^2.0.4",
-    "@cucumber/gherkin": "^15.0.2",
-    "@cucumber/gherkin-utils": "^2.1.0",
-    "@cucumber/messages": "^13.1.0",
-    "@cucumber/tag-expressions": "^2.0.4",
+    "@cucumber/cucumber-expressions": "file:../../cucumber-expressions/javascript",
+    "@cucumber/create-meta": "file:../../create-meta/javascript",
+    "@cucumber/gherkin": "file:../../gherkin/javascript",
+    "@cucumber/gherkin-utils": "file:../../gherkin-utils/javascript",
+    "@cucumber/messages": "file:../../messages/javascript",
+    "@cucumber/tag-expressions": "file:../../tag-expressions/javascript",
     "commander": "^6.2.0",
     "glob": "^7.1.6",
     "source-map-support": "^0.5.19",
