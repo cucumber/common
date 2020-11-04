@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+* Upgrade to React 17
+* Upgrade to `@cucumber/gherkin-utils 2.1.0`
+* Upgrade to `@cucumber/messages 13.1.0`
+* Upgrade to `@cucumber/tag-expressions 3.0.0`
+* Upgrade to Storybook 6.0.0
+
 ### Changed
 
 ### Deprecated
@@ -16,6 +22,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Removed
 
 ### Fixed
+
+* Fixed typos in some CSS class names
 
 ## [10.0.1] - 2020-09-02
 
@@ -252,7 +260,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/react/v10.0.1...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/react/v10.1.0...master
+[10.1.0]:      https://github.com/cucumber/cucumber/compare/react/v10.0.1...react/v10.1.0
 [10.0.1]:      https://github.com/cucumber/cucumber/compare/react/v10.0.0...react/v10.0.1
 [10.0.0]:      https://github.com/cucumber/cucumber/compare/react/v9.0.0...react/v10.0.0
 [9.0.0]:      https://github.com/cucumber/cucumber/compare/react/v8.2.0...react/v9.0.0
