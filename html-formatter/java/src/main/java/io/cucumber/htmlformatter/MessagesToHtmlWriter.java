@@ -70,6 +70,15 @@ public class MessagesToHtmlWriter implements AutoCloseable {
             writer.write(",");
         }
 
+        // Optimization Reduce the size of the file by not including unused messages
+        if (envelope.hasStepDefinition() ||
+                envelope.hasHook() ||
+                envelope.hasParameterType() ||
+                envelope.hasUndefinedParameterType()
+        ) {
+            return;
+        }
+
         writer.write(jsonPrinter.print(envelope));
     }
 
