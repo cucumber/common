@@ -17,6 +17,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [10.1.1] - 2020-11-06
+
+### Fixed
+
 * Replaced `git-url-parse` with our own simpler implementation that doesn't need a browser polyfill.
 
 ## [10.1.0] - 2020-11-04
@@ -268,8 +272,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/react/v10.1.0...master
-[10.1.0]:      https://github.com/cucumber/cucumber/compare/react/v10.1.0...react/v10.1.0
+[Unreleased]: https://github.com/cucumber/cucumber/compare/react/v10.1.1...master
+[10.1.1]:      https://github.com/cucumber/cucumber/compare/react/v10.1.0...react/v10.1.1
 [10.1.0]:      https://github.com/cucumber/cucumber/compare/react/v10.0.1...react/v10.1.0
 [10.0.1]:      https://github.com/cucumber/cucumber/compare/react/v10.0.0...react/v10.0.1
 [10.0.0]:      https://github.com/cucumber/cucumber/compare/react/v9.0.0...react/v10.0.0
