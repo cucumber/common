@@ -17,6 +17,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+* Replaced `git-url-parse` with our own simpler implementation that doesn't need a browser polyfill.
+
 ## [10.1.0] - 2020-11-04
 
 ### Added
