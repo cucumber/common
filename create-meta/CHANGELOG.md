@@ -19,15 +19,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [2.0.4] - 2020-10-29
 
-### Added
-
-### Changed
-
-### Deprecated
-
-### Removed
-
 ### Fixed
+
+* Handle null values in ci dict
+  ([#1228](https://github.com/cucumber/cucumber/issues/1228)
+   [#1229](https://github.com/cucumber/cucumber/pull/1229)
+   [kgeilmann])
 
 ## [2.0.2] - 2020-09-03
 
@@ -73,14 +70,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 <!-- Releases -->
 [Unreleased]: https://github.com/cucumber/cucumber/compare/create-meta/v2.0.4...master
-[2.0.4]:      https://github.com/cucumber/cucumber/releases/tag/create-meta/v2.0.2
-[2.0.2]:      https://github.com/cucumber/cucumber/releases/tag/create-meta/v2.0.1
-[2.0.1]:      https://github.com/cucumber/cucumber/releases/tag/create-meta/v2.0.0
-[2.0.0]:      https://github.com/cucumber/cucumber/releases/tag/create-meta/v1.2.0
-[1.2.0]:      https://github.com/cucumber/cucumber/releases/tag/create-meta/v1.1.0
-[1.1.0]:      https://github.com/cucumber/cucumber/releases/tag/create-meta/v1.0.0
+[2.0.4]:      https://github.com/cucumber/cucumber/compare/create-meta/v2.0.2...create-meta/v2.0.4
+[2.0.2]:      https://github.com/cucumber/cucumber/compare/create-meta/v2.0.1...create-meta/v2.0.2
+[2.0.1]:      https://github.com/cucumber/cucumber/compare/create-meta/v2.0.0...create-meta/v2.0.1
+[2.0.0]:      https://github.com/cucumber/cucumber/compare/create-meta/v1.2.0...create-meta/v2.0.0
+[1.2.0]:      https://github.com/cucumber/cucumber/compare/create-meta/v1.1.0...create-meta/v1.2.0
+[1.1.0]:      https://github.com/cucumber/cucumber/compare/create-meta/v1.0.0...create-meta/v1.1.0
 [1.0.0]:      https://github.com/cucumber/cucumber/releases/tag/create-meta/v1.0.0
 
 <!-- Contributors in alphabetical order -->
 [aslakhellesoy]:    https://github.com/aslakhellesoy
+[kgeilmann]:        https://github.com/kgeilmann
 [vincent-psarga]:   https://github.com/vincent-psarga

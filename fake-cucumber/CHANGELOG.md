@@ -17,6 +17,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [9.0.0] - 2020-11-04
+
+### Changed
+
+* Upgrade internal dependencies
+
 ## [8.0.0] - 2020-08-07
 
 ### Added
@@ -187,7 +193,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/fake-cucumber/v8.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/fake-cucumber/v9.0.0...master
+[9.0.0]:      https://github.com/cucumber/cucumber/compare/fake-cucumber/v8.0.0...fake-cucumber/v9.0.0
 [8.0.0]:      https://github.com/cucumber/cucumber/compare/fake-cucumber/v7.1.0...fake-cucumber/v8.0.0
 [7.1.0]:      https://github.com/cucumber/cucumber/compare/fake-cucumber/v7.0.0...fake-cucumber/v7.1.0
 [7.0.0]:      https://github.com/cucumber/cucumber/compare/fake-cucumber/v6.0.0...fake-cucumber/v7.0.0

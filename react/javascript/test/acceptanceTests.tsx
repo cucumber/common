@@ -7,13 +7,12 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { JSDOM } from 'jsdom'
 import { runCucumber, SupportCode } from '@cucumber/fake-cucumber'
-import { QueriesWrapper } from '../src'
+import { QueriesWrapper, EnvelopesQuery } from '../src'
 import {
   Query as CucumberQuery,
   QueryStream as CucumberQueryStream,
 } from '@cucumber/query'
 import GherkinDocumentList from '../src/components/app/GherkinDocumentList'
-import { EnvelopesQuery } from '../src/EnvelopesQueryContext'
 
 describe('App', () => {
   const dir = __dirname + '/../../../gherkin/testdata/good'
