@@ -3,12 +3,6 @@ require 'json'
 require 'cucumber/cucumber_expressions/cucumber_expression_tokenizer'
 require 'cucumber/cucumber_expressions/errors'
 
-# Plan:
-# - tokenizer tests
-# - parser test
-# - cucumber expressions compiler
-# - phrases
-
 module Cucumber
   module CucumberExpressions
     describe 'Cucumber expression tokenizer' do
