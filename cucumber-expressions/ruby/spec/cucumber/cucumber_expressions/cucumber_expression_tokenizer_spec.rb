@@ -15,7 +15,6 @@ module Cucumber
             token_hashes = tokens.map{|token| token.to_hash}
             expect(token_hashes).to eq(JSON.parse(expectation['expected']))
           else
-            # tokenizer.tokenize(expectation['expression'])
             expect { tokenizer.tokenize(expectation['expression']) }.to raise_error(expectation['exception'])
           end
         end

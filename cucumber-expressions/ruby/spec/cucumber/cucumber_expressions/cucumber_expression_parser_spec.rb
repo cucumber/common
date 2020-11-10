@@ -15,7 +15,6 @@ module Cucumber
             node_hash = node.to_hash
             expect(node_hash).to eq(JSON.parse(expectation['expected']))
           else
-            # tokenizer.tokenize(expectation['expression'])
             expect { parser.parse(expectation['expression']) }.to raise_error(expectation['exception'])
           end
         end
