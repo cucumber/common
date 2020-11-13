@@ -26,8 +26,8 @@
     "@cucumber/query": "file:../../query/javascript",
     "@cucumber/react": "file:../../react/javascript",
     "commander": "^6.1.0",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
+    "react": "^17.0.0",
+    "react-dom": "^17.0.0",
     "resolve-pkg": "^2.0.0",
     "source-map-support": "^0.5.19"
   },
