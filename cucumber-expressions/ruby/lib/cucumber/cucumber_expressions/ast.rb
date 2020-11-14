@@ -42,54 +42,65 @@ module Cucumber
     #   readonly end: number
     # }
     #
-    # export class Node {
-    #   readonly type: NodeType
-    #   readonly nodes?: ReadonlyArray<Node> | undefined
-    #   readonly token?: string | undefined
-    #   readonly start: number
-    #   readonly end: number
-    #
-    #   constructor(
-    #     type: NodeType,
-    #     nodes: ReadonlyArray<Node> = undefined,
-    #     token: string = undefined,
-    #     start: number,
-    #     end: number
-    #   ) {
-    #     if (nodes === undefined && token === undefined) {
-    #       throw new Error('Either nodes or token must be defined')
-    #     }
-    #     if (nodes === null || token === null) {
-    #       throw new Error('Either nodes or token may not be null')
-    #     }
-    #     this.type = type
-    #     this.nodes = nodes
-    #     this.token = token
-    #     this.start = start
-    #     this.end = end
-    #   }
-    #
-    #   text(): string {
-    #     if (this.nodes) {
-    #       return this.nodes.map((value) => value.text()).join('')
-    #     }
-    #     return this.token
-    #   }
-    # }
-    #
-    # export enum NodeType {
-    #   text = 'TEXT_NODE',
-    #   optional = 'OPTIONAL_NODE',
-    #   alternation = 'ALTERNATION_NODE',
-    #   alternative = 'ALTERNATIVE_NODE',
-    #   parameter = 'PARAMETER_NODE',
-    #   expression = 'EXPRESSION_NODE',
-    # }
-    #
+    class Node
+      def initialize(type, nodes, token, start, _end)
+        if nodes.nil? && token.nil?
+          raise 'Either nodes or token must be defined'
+        end
+        @type = type
+        @nodes = nodes
+        @token = token
+        @start = start
+        @end = _end
+      end
+
+      def text
+        if @token.nil?
+          return @nodes.map { |value| value.text }.join('')
+        end
+        return @token
+      end
+
+      def to_hash
+        {
+            "type" => @type,
+            "nodes" => @nodes.nil? ? @nodes : @nodes.map { |node| node.to_hash },
+            "token" => @token,
+            "start" => @start,
+            "end" => @end
+        }
+      end
+    end
+
+    module NodeType
+      Text = 'TEXT_NODE'
+      Optional = 'OPTIONAL_NODE'
+      Alternation = 'ALTERNATION_NODE'
+      Alternative = 'ALTERNATIVE_NODE'
+      Parameter = 'PARAMETER_NODE'
+      Expression = 'EXPRESSION_NODE'
+    end
+
 
     class Token
       def initialize(type, text, start, _end)
         @type, @text, @start, @end = type, text, start, _end
+      end
+
+      def type
+        @type
+      end
+
+      def text
+        @text
+      end
+
+      def start
+        @start
+      end
+
+      def end
+        @end
       end
 
       def self.isEscapeCharacter(codepoint)
@@ -144,10 +155,10 @@ module Cucumber
 
       def to_hash
         {
-          "type" => @type,
-          "text" => @text,
-          "start" => @start,
-          "end" => @end
+            "type" => @type,
+            "text" => @text,
+            "start" => @start,
+            "end" => @end
         }
       end
     end
