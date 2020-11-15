@@ -54,6 +54,26 @@ module Cucumber
         @end = _end
       end
 
+      def type
+        @type
+      end
+
+      def nodes
+        @nodes
+      end
+
+      def token
+        @token
+      end
+
+      def start
+        @start
+      end
+
+      def end
+        @end
+      end
+
       def text
         if @token.nil?
           return @nodes.map { |value| value.text }.join('')
@@ -62,13 +82,17 @@ module Cucumber
       end
 
       def to_hash
-        {
-            "type" => @type,
-            "nodes" => @nodes.nil? ? @nodes : @nodes.map { |node| node.to_hash },
-            "token" => @token,
-            "start" => @start,
-            "end" => @end
-        }
+        hash = Hash.new
+        hash["type"] = @type
+        unless @nodes.nil?
+          hash["nodes"] = @nodes.map { |node| node.to_hash }
+        end
+        unless @token.nil?
+          hash["token"] = @token
+        end
+        hash["start"] = @start
+        hash["end"] = @end
+        hash
       end
     end
 
