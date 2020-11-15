@@ -184,9 +184,8 @@ module Cucumber
 
       def createAlternativeNodes(start, _end, separators, alternatives)
         nodes = []
-        for i in 0..alternatives.length - 1
-          n = alternatives[i]
-          if (i == 0)
+        alternatives.each_with_index do |n, i|
+          if i == 0
             rightSeparator = separators[i]
             nodes.push(Node.new(NodeType::Alternative, n, nil, start, rightSeparator.start))
           elsif i == alternatives.length - 1
