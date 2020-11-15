@@ -4,7 +4,6 @@ require 'cucumber/cucumber_expressions/errors'
 
 module Cucumber
   module CucumberExpressions
-
     class CucumberExpressionParser
       def parse(expression)
         # text := token
@@ -167,8 +166,39 @@ module Cucumber
       end
 
       def splitAlternatives(start, _end, alternation)
-        #TODO
-        []
+        separators = []
+        alternatives = []
+        alternative = []
+        alternation.each { |n|
+          if NodeType::Alternative == n.type
+            separators.push(n)
+            alternatives.push(alternative)
+            alternative = []
+          else
+            alternative.push(n)
+          end
+        }
+        alternatives.push(alternative)
+        return createAlternativeNodes(start, _end, separators, alternatives)
+      end
+
+      def createAlternativeNodes(start, _end, separators, alternatives)
+        nodes = []
+        for i in 0..alternatives.length - 1
+          n = alternatives[i]
+          if (i == 0)
+            rightSeparator = separators[i]
+            nodes.push(Node.new(NodeType::Alternative, n, nil, start, rightSeparator.start))
+          elsif i == alternatives.length - 1
+            leftSeparator = separators[i - 1]
+            nodes.push(Node.new(NodeType::Alternative, n, nil, leftSeparator.end, _end))
+          else
+            leftSeparator = separators[i - 1]
+            rightSeparator = separators[i]
+            nodes.push(Node.new(NodeType::Alternative, n, nil, leftSeparator.end, rightSeparator.start))
+          end
+        end
+        return nodes
       end
     end
   end
