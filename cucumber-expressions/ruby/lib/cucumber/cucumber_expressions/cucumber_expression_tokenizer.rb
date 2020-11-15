@@ -54,6 +54,9 @@ module Cucumber
         tokens
       end
 
+      private
+      # TODO: Make these lambdas
+
       def convertBufferToToken(tokenType)
         escapeTokens = 0
         if (tokenType == TokenType::Text)
