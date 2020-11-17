@@ -26,7 +26,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'cucumber-messages', '~> 13.1', '>= 13.1.0'
 
   s.add_development_dependency 'rake', '~> 13.0', '>= 13.0.1'
-  s.add_development_dependency 'rspec', '~> 3.9', '>= 3.9.0'
+  s.add_development_dependency 'rspec', '~> 3.10', '>= 3.10.0'
 
   s.executables      = ['cucumber-html-formatter']
   s.rubygems_version = ">= 1.6.1", '~> 0.8'

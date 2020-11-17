@@ -3,6 +3,8 @@ include default.mk
 CCK_NDJSONS = $(shell find ../../compatibility-kit/javascript/features -name "*.ndjson")
 HTML_REPORTS = $(patsubst ../../compatibility-kit/javascript/features/%.ndjson,acceptance/%.html,$(CCK_NDJSONS))
 
+.built: webpack.config.js
+
 .tested: $(HTML_REPORTS)
 
 acceptance/%.html: ../../compatibility-kit/javascript/features/%.ndjson .built
