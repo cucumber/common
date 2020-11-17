@@ -1,4 +1,4 @@
-﻿#import "GHAstBuilder.h"
+#import "GHAstBuilder.h"
 
 #import "GHTag.h"
 #import "GHToken.h"
@@ -230,6 +230,8 @@
 
           return [[GHGherkinDocument alloc] init: feature comments: comments];
         }
+        default:
+            break;
     }
 
     return theNode;

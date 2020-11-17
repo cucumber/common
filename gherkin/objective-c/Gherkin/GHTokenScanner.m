@@ -1,4 +1,4 @@
-﻿#import <Foundation/Foundation.h>
+#import <Foundation/Foundation.h>
 #import "GHTokenScanner.h"
 
 #import "GHToken.h"
@@ -9,7 +9,6 @@
 @implementation GHTokenScanner
 {
     NSUInteger                  lineNumber;
-//    NSArray<NSString *> * lines;
     NSMutableArray<NSString *>  * lines;
     NSMutableString             * fileContent;
 }
@@ -23,7 +22,7 @@
         {
             lines = [[NSMutableArray<NSString *> alloc] init];
             [theFileContent enumerateLinesUsingBlock:^(NSString * _Nonnull line, BOOL * _Nonnull stop) {
-                [lines addObject: line];
+                [self->lines addObject: line];
             }];
         }
     }
