@@ -1,22 +1,24 @@
+require 'cucumber/cucumber_expressions/ast'
+
 module Cucumber
   module CucumberExpressions
     class CucumberExpressionError < StandardError
 
       def build_message(
-        index,
-        expression,
-        pointer,
-        problem,
-        solution
+          index,
+          expression,
+          pointer,
+          problem,
+          solution
       )
-m = <<-EOF
+        m = <<-EOF
 This Cucumber Expression has a problem at column #{index + 1}:
 
 #{expression}
 #{pointer}
 #{problem}.
 #{solution}
-EOF
+        EOF
         m.strip
       end
 
@@ -24,17 +26,28 @@ EOF
         ' ' * index + '^'
       end
 
+      def pointAtLocated(node)
+        pointer = [pointAt(node.start)]
+        if node.start + 1 < node.end
+          for _ in node.start + 1...node.end - 2
+            pointer.push('-')
+          end
+          pointer.push('^')
+        end
+        pointer.join('')
+      end
+
     end
 
     class CantEscape < CucumberExpressionError
       def initialize(expression, index)
         super(build_message(
-          index,
-          expression,
-          pointAt(index),
-          "Only the characters '{', '}', '(', ')', '\\', '/' and whitespace can be escaped",
-          "If you did mean to use an '\\' you can use '\\\\' to escape it"
-        ))
+                  index,
+                  expression,
+                  pointAt(index),
+                  "Only the characters '{', '}', '(', ')', '\\', '/' and whitespace can be escaped",
+                  "If you did mean to use an '\\' you can use '\\\\' to escape it"
+              ))
       end
     end
 
@@ -42,12 +55,27 @@ EOF
       def initialize(expression)
         index = expression.codepoints.length - 1
         super(build_message(
-          index,
-          expression,
-          pointAt(index),
-          'The end of line can not be escaped',
-          "You can use '\\\\' to escape the the '\\'"
-        ))
+                  index,
+                  expression,
+                  pointAt(index),
+                  'The end of line can not be escaped',
+                  "You can use '\\\\' to escape the the '\\'"
+              ))
+      end
+    end
+
+    class MissingEndToken < CucumberExpressionError
+      def initialize(expression, beginToken, endToken, current)
+        beginSymbol = Token::symbolOf(beginToken)
+        endSymbol = Token::symbolOf(endToken)
+        purpose = Token::purposeOf(beginToken)
+        super(build_message(
+                  current.start,
+                  expression,
+                  pointAtLocated(current),
+                  "The '#{beginSymbol}' does not have a matching '#{endSymbol}'",
+                  "If you did not intend to use #{purpose} you can use '\\#{beginSymbol}' to escape the #{purpose}"
+              ))
       end
     end
 
@@ -77,11 +105,11 @@ I couldn't decide which one to use. You have two options:
       private
 
       def parameter_type_names(parameter_types)
-        parameter_types.map{|p| "{#{p.name}}"}.join("\n   ")
+        parameter_types.map { |p| "{#{p.name}}" }.join("\n   ")
       end
 
       def expressions(generated_expressions)
-        generated_expressions.map{|ge| ge.source}.join("\n   ")
+        generated_expressions.map { |ge| ge.source }.join("\n   ")
       end
     end
   end

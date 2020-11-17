@@ -7,41 +7,6 @@ module Cucumber
     BeginOptionalCharacter = '('
     EndOptionalCharacter = ')'
 
-    # export function symbolOf(token: TokenType): string {
-    #   switch (token) {
-    #     case TokenType.beginOptional:
-    #       return BeginOptionalCharacter
-    #     case TokenType.endOptional:
-    #       return EndOptionalCharacter
-    #     case TokenType.beginParameter:
-    #       return BeginParameterCharacter
-    #     case TokenType.endParameter:
-    #       return EndParameterCharacter
-    #     case TokenType.alternation:
-    #       return AlternationCharacter
-    #   }
-    #   return ''
-    # }
-    #
-    # export function purposeOf(token: TokenType): string {
-    #   switch (token) {
-    #     case TokenType.beginOptional:
-    #     case TokenType.endOptional:
-    #       return 'optional text'
-    #     case TokenType.beginParameter:
-    #     case TokenType.endParameter:
-    #       return 'a parameter'
-    #     case TokenType.alternation:
-    #       return 'alternation'
-    #   }
-    #   return ''
-    # }
-    #
-    # export interface Located {
-    #   readonly start: number
-    #   readonly end: number
-    # }
-    #
     class Node
       def initialize(type, nodes, token, start, _end)
         if nodes.nil? && token.nil?
@@ -174,6 +139,40 @@ module Cucumber
           TokenType::EndOptional
         else
           TokenType::Text
+        end
+      end
+
+      def self.symbolOf(token)
+        case token
+        when TokenType::BeginOptional
+          return BeginOptionalCharacter
+        when TokenType::EndOptional
+          return EndOptionalCharacter
+        when TokenType::BeginParameter
+          return BeginParameterCharacter
+        when TokenType::EndParameter
+          return EndParameterCharacter
+        when TokenType::Alternation
+          return AlternationCharacter
+        else
+          return ''
+        end
+      end
+
+      def self.purposeOf(token)
+        case token
+        when TokenType::BeginOptional
+          return 'optional text'
+        when TokenType::EndOptional
+          return 'optional text'
+        when TokenType::BeginParameter
+          return 'a parameter'
+        when TokenType::EndParameter
+          return 'a parameter'
+        when TokenType::Alternation
+          return 'alternation'
+        else
+          return ''
         end
       end
 

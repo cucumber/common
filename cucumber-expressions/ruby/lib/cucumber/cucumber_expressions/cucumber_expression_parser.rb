@@ -96,13 +96,7 @@ module Cucumber
 
           # endToken not found
           unless lookingAt(tokens, subCurrent, endToken)
-            raise "createMissingEndToken"
-            # throw createMissingEndToken(
-            #           expression,
-            #           beginToken,
-            #           endToken,
-            #           tokens[current]
-            #       )
+            raise MissingEndToken.new(expression, beginToken, endToken, tokens[current])
           end
           # consumes endToken
           start = tokens[current].start
