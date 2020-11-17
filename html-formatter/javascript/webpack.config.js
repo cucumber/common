@@ -1,22 +1,19 @@
 const path = require('path')
 
 module.exports = {
+  entry: './src/main.tsx',
+  module: {
+    rules: [
+      {test: /\.tsx?$/, use: 'ts-loader'}
+    ]
+  },
   resolve: {
-    extensions: ['.ts', '.tsx', '.js', '.json'],
+    fallback: {
+      stream: false,
+      path: false
+    },
     alias: {
       react: path.resolve('./node_modules/react')
     }
-  },
-  optimization: {
-    minimize: true,
-  },
-  devtool: 'source-map',
-  module: {
-    rules: [
-      {
-        test: /\.tsx?$/,
-        loader: 'awesome-typescript-loader',
-      },
-    ],
-  },
-}
+  }
+};
