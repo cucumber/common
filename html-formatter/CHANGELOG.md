@@ -17,6 +17,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [10.0.0] - 2020-11-04
+
+### Changed
+
+* Upgrade `@cucumber/react`
+
+### Fixed
+
 * [JavaScript] Fix CSS resolution when installed locally [#1180](https://github.com/cucumber/cucumber/pull/1180)
 
 ## [9.0.0] - 2020-08-08
@@ -237,7 +245,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/html-formatter/v9.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/html-formatter/v10.0.0...master
+[10.0.0]:      https://github.com/cucumber/cucumber/compare/html-formatter/v9.0.0...html-formatter/v10.0.0
 [9.0.0]:      https://github.com/cucumber/cucumber/compare/html-formatter/v8.0.0...html-formatter/v9.0.0
 [8.0.0]:      https://github.com/cucumber/cucumber/compare/html-formatter/v7.2.0...html-formatter/v8.0.0
 [7.2.0]:      https://github.com/cucumber/cucumber/compare/html-formatter/v7.1.0...html-formatter/v7.2.0

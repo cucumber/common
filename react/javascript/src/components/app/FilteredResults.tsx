@@ -3,7 +3,7 @@ import GherkinQueryContext from '../../GherkinQueryContext'
 import CucumberQueryContext from '../../CucumberQueryContext'
 
 import SearchBar from './SearchBar'
-import { GherkinDocumentList } from '../..'
+import { GherkinDocumentList } from '../../index'
 
 import NoMatchResult from './NoMatchResult'
 import Search from '../../search/Search'

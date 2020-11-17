@@ -9,8 +9,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
-* [JavaScript] The `Query` class has been added to this library, moved from `@cucumber/gherkin`
-
 ### Changed
 
 ### Deprecated
@@ -18,6 +16,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Removed
 
 ### Fixed
+
+## [2.1.0] - 2020-11-03
+
+### Added
+
+* [JavaScript] The `Query` class has been added to this library, moved from `@cucumber/gherkin`
 
 ## [2.0.1] - 2020-09-02
 
@@ -48,7 +52,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin-utils/v2.0.1...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin-utils/v2.1.0...master
+[2.1.0]:      https://github.com/cucumber/cucumber/compare/gherkin-utils/v2.0.1...gherkin-utils/v2.1.0
 [2.0.1]:      https://github.com/cucumber/cucumber/compare/gherkin-utils/v2.0.0...gherkin-utils/v2.0.1
 [2.0.0]:      https://github.com/cucumber/cucumber/compare/gherkin-utils/v1.0.1...gherkin-utils/v2.0.0
 [1.0.1]:      https://github.com/cucumber/cucumber/compare/gherkin-utils/v1.0.0...gherkin-utils/v1.0.1
