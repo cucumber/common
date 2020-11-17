@@ -15,6 +15,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Removed
 
+* [JavaScript] Removed webpacked JavaScript from distribution
+
 ### Fixed
 
 * [Go] Support for Go 1.15
