@@ -2,4 +2,4 @@
 
 ## Credits
 
-This library is originally funded by [UCLL](www.ucll.be) its "First Time Right" research project.
+This library is originally funded by [UCLL](https://www.ucll.be) its "First Time Right" research project.
