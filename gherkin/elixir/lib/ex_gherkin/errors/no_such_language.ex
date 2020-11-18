@@ -1,8 +1,8 @@
-defmodule ExGherkin.NoSuchLanguageError do
+defmodule Gherkin.NoSuchLanguageError do
   @moduledoc false
   defstruct [:language, :location]
 
-  defimpl ExGherkin.ParserException do
+  defimpl Gherkin.ParserException do
     def get_message(%{language: lang, location: l}),
       do: "(#{l.line}:#{l.column}): Language not supported: #{lang}"
 

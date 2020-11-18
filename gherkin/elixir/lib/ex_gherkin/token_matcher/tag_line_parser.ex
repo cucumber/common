@@ -1,4 +1,4 @@
-defmodule ExGherkin.TokenMatcher.TagLineParser do
+defmodule Gherkin.TokenMatcher.TagLineParser do
   @moduledoc false
   @constants %{
     tag: "@",
@@ -9,7 +9,7 @@ defmodule ExGherkin.TokenMatcher.TagLineParser do
     docstring_alt_sep: "```"
   }
 
-  alias ExGherkin.{Line, Token, InvalidTagError, ParserException}
+  alias Gherkin.{Line, Token, InvalidTagError, ParserException}
   alias CucumberMessages.Location
 
   def parse(TagLine, %Line{content: c} = l, context) do
@@ -43,7 +43,7 @@ defmodule ExGherkin.TokenMatcher.TagLineParser do
     new_token =
       struct!(Token, line: l, indent: new_indent, matched_type: TagLine, items: unfiltered_tags)
 
-    ExGherkin.TokenMatcher.finalize_parse(updated_context, new_token)
+    Gherkin.TokenMatcher.finalize_parse(updated_context, new_token)
   end
 
   defp tags_contain_whitespaces?(tags, line, context) do

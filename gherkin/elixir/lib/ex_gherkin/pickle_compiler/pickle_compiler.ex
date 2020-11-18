@@ -1,4 +1,4 @@
-defmodule ExGherkin.PickleCompiler do
+defmodule Gherkin.PickleCompiler do
   @moduledoc false
   defstruct id_gen: nil, pickles: [], language: nil, uri: nil
 
@@ -23,7 +23,7 @@ defmodule ExGherkin.PickleCompiler do
 
   @me __MODULE__
 
-  def compile(%ExGherkin.AstBuilder{gherkin_doc: gherkin_doc, id_gen: id_generator}, uri) do
+  def compile(%Gherkin.AstBuilder{gherkin_doc: gherkin_doc, id_gen: id_generator}, uri) do
     me = %@me{id_gen: id_generator, uri: uri}
 
     case compile_feature(gherkin_doc.feature, me) do
@@ -267,7 +267,7 @@ defmodule ExGherkin.PickleCompiler do
   end
 
   defp get_id_and_update_compiler_acc(%@me{id_gen: gen} = compiler_acc) do
-    {id, updated_generator} = ExGherkin.IdGenerator.get_id(gen)
+    {id, updated_generator} = Gherkin.IdGenerator.get_id(gen)
     updated_acc = %{compiler_acc | id_gen: updated_generator}
     {id, updated_acc}
   end

@@ -1,4 +1,4 @@
-defmodule ExGherkin.TokenMatcher do
+defmodule Gherkin.TokenMatcher do
   @moduledoc false
   @constants %{
     tag: "@",
@@ -11,10 +11,9 @@ defmodule ExGherkin.TokenMatcher do
 
   @language_regex ~r/^\s*#\s*language\s*:\s*(?<lang>[a-zA-Z\-_]+)\s*$/
 
-  require IEx
-  alias ExGherkin.{Token, Line, NoSuchLanguageError}
-  alias ExGherkin.ParserContext, as: PC
-  alias ExGherkin.Gherkin.Lexicon
+  alias Gherkin.{Token, Line, NoSuchLanguageError}
+  alias Gherkin.ParserContext, as: PC
+  alias Gherkin.Lexicon
 
   # ############# #
   # Match section #
@@ -182,7 +181,7 @@ defmodule ExGherkin.TokenMatcher do
     i = String.length(c) - String.length(String.trim_leading(c)) + 1
     token = struct!(Token, line: l, matched_type: Language, matched_text: lang, indent: i)
 
-    case ExGherkin.Gherkin.Lexicon.load_lang(lang) do
+    case Gherkin.Lexicon.load_lang(lang) do
       {:ok, new_lexicon} ->
         %{context | language: lang} |> update_lexicon(new_lexicon)
 

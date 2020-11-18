@@ -1,9 +1,9 @@
-defmodule ExGherkin.AstNode do
+defmodule Gherkin.AstNode do
   @moduledoc false
   @me __MODULE__
   defstruct rule_type: nil, subitems: %{}
 
-  alias ExGherkin.{AstNode, RuleTypes}
+  alias Gherkin.{AstNode, RuleTypes}
 
   def add_subitem(%@me{subitems: subitems} = node, ruletype, token_or_node) do
     new_subitems =
@@ -35,7 +35,7 @@ defmodule ExGherkin.AstNode do
   def get_token(%AstNode{} = node, token_type) do
     # Is this necessary? Rule types obtained by following func will always be the same as token type?
     rule_type = RuleTypes.get_ruletype_for_tokentype(token_type)
-    get_single(node, rule_type, %ExGherkin.Token{})
+    get_single(node, rule_type, %Gherkin.Token{})
   end
 
   def get_tokens(%AstNode{} = node, token_type) do

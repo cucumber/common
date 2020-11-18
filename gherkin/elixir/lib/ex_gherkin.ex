@@ -1,11 +1,11 @@
-defmodule ExGherkin do
+defmodule Gherkin do
   alias CucumberMessages.{Envelope, Source}
-  alias ExGherkin.{Parser, ParserContext, TokenWriter}
+  alias Gherkin.{Parser, ParserContext, TokenWriter}
 
   @moduledoc """
-  `ExGherkin` allows you to parse Gherkin files to pickles (or tokens). These pickles can be used in a cucumber implementation.
+  `Gherkin` allows you to parse Gherkin files to pickles (or tokens). These pickles can be used in a cucumber implementation.
 
-  The ExCucumberMessages library is used in almost every step of building the pickles and envelopes.
+  The CucumberMessages library is used in almost every step of building the pickles and envelopes.
 
   Testdata is used from the Cucumber repository.
   """
@@ -38,7 +38,7 @@ defmodule ExGherkin do
 
   ## Examples
 
-      iex> ExGherkin.parse_path("testdata/good/background.feature", [:no_ast, :no_pickles])
+      iex> Gherkin.parse_path("testdata/good/background.feature", [:no_ast, :no_pickles])
       [
         %CucumberMessages.Envelope{
           __uf__: [],
@@ -58,19 +58,19 @@ defmodule ExGherkin do
   end
 
   @doc """
-  Rely on ExCucumberMessages printer to print the envelopes to the specified format. Currently only `:ndjson` is supported.
+  Rely on CucumberMessages printer to print the envelopes to the specified format. Currently only `:ndjson` is supported.
 
   It is likely that Elixir projects won't directly use this as they can use the unformatted protobuf message version in Cucumber as well.
 
   ## Examples
 
-      iex> ExGherkin.parse_path("testdata/good/background.feature", []) |> ExGherkin.print_messages(:ndjson) |> IO.puts
+      iex> Gherkin.parse_path("testdata/good/background.feature", []) |> Gherkin.print_messages(:ndjson) |> IO.puts
       {"source":{"data": .......... }}
       {"gherkinDocument":{"feature": ........... }}
       {"pickle":{ .......... }}
       {"pickle":{ .......... }}
   """
-  defdelegate print_messages(envelopes, type), to: ExCucumberMessages, as: :convert_envelopes_to
+  defdelegate print_messages(envelopes, type), to: CucumberMessages, as: :convert_envelopes_to
 
   ####################
   # HELPER FUNCTIONS #
@@ -133,8 +133,8 @@ defmodule ExGherkin do
   defp get_ast_builder(%ParserContext{errors: errors}, uri) do
     result =
       Enum.map(errors, fn error ->
-        message = ExGherkin.ParserException.get_message(error)
-        location = ExGherkin.ParserException.get_location(error)
+        message = Gherkin.ParserException.get_message(error)
+        location = Gherkin.ParserException.get_location(error)
         source_ref = %CucumberMessages.SourceReference{location: location, uri: uri}
         to_be_wrapped = %CucumberMessages.ParseError{message: message, source: source_ref}
         put_msg_envelope(:parse_error, to_be_wrapped)
@@ -162,7 +162,7 @@ defmodule ExGherkin do
 
       false ->
         messages =
-          ExGherkin.PickleCompiler.compile(builder, meta.source.uri)
+          Gherkin.PickleCompiler.compile(builder, meta.source.uri)
           |> Enum.map(&put_msg_envelope(:pickle, &1))
 
         %{meta | messages: List.flatten([messages | meta.messages])}

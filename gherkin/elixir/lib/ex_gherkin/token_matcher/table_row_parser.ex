@@ -1,6 +1,6 @@
-defmodule ExGherkin.TokenMatcher.TableRowParser do
+defmodule Gherkin.TokenMatcher.TableRowParser do
   @moduledoc false
-  alias ExGherkin.{Line, Token}
+  alias Gherkin.{Line, Token}
 
   def parse(TableRow, %Line{content: line_content} = l, context) do
     default_meta_info = %{
@@ -18,7 +18,7 @@ defmodule ExGherkin.TokenMatcher.TableRowParser do
     new_token =
       struct!(Token, matched_type: TableRow, line: l, items: acc, indent: meta.token_col)
 
-    ExGherkin.TokenMatcher.finalize_parse(context, new_token)
+    Gherkin.TokenMatcher.finalize_parse(context, new_token)
   end
 
   # line has ended

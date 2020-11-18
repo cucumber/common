@@ -1,6 +1,6 @@
-defmodule ExGherkin.AstBuilder do
+defmodule Gherkin.AstBuilder do
   @moduledoc false
-  alias ExGherkin.{ParserContext, AstNode, Token, AstBuilderError, ParserException}
+  alias Gherkin.{ParserContext, AstNode, Token, AstBuilderError, ParserException}
   alias CucumberMessages.GherkinDocument.Comment, as: CommentMessage
   alias CucumberMessages.GherkinDocument.Feature.Tag, as: MessageTag
   alias CucumberMessages.GherkinDocument.Feature.Scenario, as: MessageScenario
@@ -26,8 +26,8 @@ defmodule ExGherkin.AstBuilder do
 
     gen =
       case :predictable_ids in opts do
-        true -> %ExGherkin.IdGenerator.PredictableGen{}
-        false -> %ExGherkin.IdGenerator.UUIDGen{}
+        true -> %Gherkin.IdGenerator.PredictableGen{}
+        false -> %Gherkin.IdGenerator.UUIDGen{}
       end
 
     %@me{stack: default_stack, id_gen: gen}
@@ -309,7 +309,7 @@ defmodule ExGherkin.AstBuilder do
   end
 
   defp get_table_rows(%AstNode{} = node, context) do
-    tokens = ExGherkin.AstNode.get_tokens(node, TableRow)
+    tokens = Gherkin.AstNode.get_tokens(node, TableRow)
 
     {reverse_result, updated_context} =
       Enum.reduce(tokens, {[], context}, fn %Token{} = t, {message_acc, context_acc} ->
@@ -425,7 +425,7 @@ defmodule ExGherkin.AstBuilder do
   defp match_empty(_str), do: false
 
   defp get_id_and_update_context(context) do
-    {id, updated_generator} = ExGherkin.IdGenerator.get_id(context.ast_builder.id_gen)
+    {id, updated_generator} = Gherkin.IdGenerator.get_id(context.ast_builder.id_gen)
     updated_context = %{context | ast_builder: %{context.ast_builder | id_gen: updated_generator}}
     {id, updated_context}
   end

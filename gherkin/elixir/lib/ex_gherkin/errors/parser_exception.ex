@@ -1,4 +1,4 @@
-defprotocol ExGherkin.ParserException do
+defprotocol Gherkin.ParserException do
   @moduledoc false
   def get_message(error)
   def generate_message(error)

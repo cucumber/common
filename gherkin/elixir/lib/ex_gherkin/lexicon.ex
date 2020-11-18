@@ -1,4 +1,4 @@
-defmodule ExGherkin.Gherkin.Lexicon do
+defmodule Gherkin.Lexicon do
   @moduledoc false
   @default_lexicon_path [File.cwd!(), "resources", "gherkin_languages.json"] |> Path.join()
   @feature_keywords ["feature"]

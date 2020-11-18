@@ -1,10 +1,10 @@
-defmodule ExGherkin.UnexpectedTokenError do
+defmodule Gherkin.UnexpectedTokenError do
   @moduledoc false
   defstruct [:line, :expected_tokens, :comment]
 
-  defimpl ExGherkin.ParserException do
+  defimpl Gherkin.ParserException do
     def get_message(%{} = me) do
-      location = struct!(ExGherkin.Token, line: me.line) |> ExGherkin.Token.get_location()
+      location = struct!(Gherkin.Token, line: me.line) |> Gherkin.Token.get_location()
       expected_string = Enum.join(me.expected_tokens, ", ")
       base = "(#{location.line}:#{location.column}): "
       base <> "expected: #{expected_string}, got '#{me.line.content}'"
@@ -13,6 +13,6 @@ defmodule ExGherkin.UnexpectedTokenError do
     def generate_message(%{} = error), do: %{error | message: get_message(error)}
 
     def get_location(%{} = me),
-      do: struct!(ExGherkin.Token, line: me.line) |> ExGherkin.Token.get_location()
+      do: struct!(Gherkin.Token, line: me.line) |> Gherkin.Token.get_location()
   end
 end

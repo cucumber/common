@@ -1,4 +1,4 @@
-defmodule ExGherkin.MixProject do
+defmodule Gherkin.MixProject do
   use Mix.Project
 
   @vsn "0.2.0"
@@ -7,7 +7,7 @@ defmodule ExGherkin.MixProject do
 
   def project do
     [
-      app: :ex_gherkin,
+      app: :gherkin,
       version: @vsn,
       name: @name,
       description: description(),
@@ -30,7 +30,7 @@ defmodule ExGherkin.MixProject do
     [
       {:elixir_uuid, "~> 1.2"},
       {:cucumber_messages, "~> 13.2"},
-      {:ex_doc, "~> 0.14", only: :dev, runtime: false}
+      {:ex_doc, "~> 0.23", only: :dev, runtime: false}
     ]
   end
 

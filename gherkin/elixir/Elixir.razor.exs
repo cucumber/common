@@ -35,8 +35,8 @@
 @helper matchToken(TokenType tokenType)
 {<text>match_@(tokenType)(context, token)</text>}
 
-defmodule ExGherkin.TokenTypes do
-  @moduledoc false
+defmodule Gherkin.TokenTypes do
+  @@moduledoc false
   @@token_types [
     None,
     @foreach(var rule in Model.RuleSet.TokenRules){
@@ -46,8 +46,8 @@ defmodule ExGherkin.TokenTypes do
   def get_ordinal(type), do: Enum.find_index @@token_types, &( &1 == type )
 end
 
-defmodule ExGherkin.RuleTypes do
-  @moduledoc false
+defmodule Gherkin.RuleTypes do
+  @@moduledoc false
   @@rule_types [
     None,
     @foreach(var rule in Model.RuleSet.Where(r => !r.TempRule)){
@@ -56,14 +56,14 @@ defmodule ExGherkin.RuleTypes do
   ]
 
   def get_ruletype_for_tokentype(type) do
-    index = ExGherkin.TokenTypes.get_ordinal type
+    index = Gherkin.TokenTypes.get_ordinal type
     Enum.at(@@rule_types, index)
   end
 end
 
 
 
-defmodule ExGherkin.ParserContext do
+defmodule Gherkin.ParserContext do
   @@enforce_keys [:lines, :lexicon]
   defstruct [
     :ast_builder,
@@ -81,14 +81,14 @@ defmodule ExGherkin.ParserContext do
   ]
 end
 
-defmodule ExGherkin.@Model.ParserClassName do
-  @moduledoc false
-  alias ExGherkin.{ParserContext, TokenMatcher, Token, Line, AstBuilder}
+defmodule Gherkin.@Model.ParserClassName do
+  @@moduledoc false
+  alias Gherkin.{ParserContext, TokenMatcher, Token, Line, AstBuilder}
 
   def parse(text, opts) when is_binary(text), do: text |> String.split(~r/\R/) |> parse(opts)
 
   def parse(lines, opts) when is_list(lines) do
-    {:ok, default_lexicon} = ExGherkin.Gherkin.Lexicon.load_lang("en")
+    {:ok, default_lexicon} = Gherkin.Lexicon.load_lang("en")
 
     lines_structs =
       Enum.with_index(lines, 1)
@@ -195,8 +195,8 @@ defmodule ExGherkin.@Model.ParserClassName do
     general_opts = [line: line, expected_tokens: expected_tokens, comment: state_comment]
 
     error = case TokenMatcher.match?(EOF, line, context) do
-      true -> struct!(ExGherkin.UnexpectedEOFError, general_opts)
-      false -> struct!(ExGherkin.UnexpectedTokenError, general_opts)
+      true -> struct!(Gherkin.UnexpectedEOFError, general_opts)
+      false -> struct!(Gherkin.UnexpectedTokenError, general_opts)
     end
     new_errors = context.errors ++ [error]
     %{context | errors: new_errors}
