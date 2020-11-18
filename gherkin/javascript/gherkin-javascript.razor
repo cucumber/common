@@ -41,6 +41,7 @@ import AstBuilder from './AstBuilder'
 import Token from './Token'
 import TokenScanner from './TokenScanner'
 import TokenMatcher from './TokenMatcher'
+import ITokenMatcher from './ITokenMatcher'
 
 export enum TokenType {
   None,
@@ -58,7 +59,7 @@ export enum RuleType {
 
 interface Context {
   tokenScanner: TokenScanner
-  tokenMatcher: TokenMatcher
+  tokenMatcher: ITokenMatcher
   tokenQueue: Token[]
   errors: Error[]
 }
@@ -70,7 +71,7 @@ export default class Parser {
   constructor(private readonly builder: AstBuilder) {
   }
 
-  public parse(gherkinSource: string, tokenMatcher: TokenMatcher = new TokenMatcher()): messages.IGherkinDocument {
+  public parse(gherkinSource: string, tokenMatcher: ITokenMatcher = new TokenMatcher()): messages.IGherkinDocument {
     const tokenScanner = new TokenScanner(gherkinSource);
     this.builder.reset();
     tokenMatcher.reset();
