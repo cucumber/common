@@ -20,6 +20,7 @@ export default class ParserMessageStream extends Transform {
       const messageList = generateMessages(
         envelope.source.data,
         envelope.source.uri,
+        envelope.source.mediaType,
         this.options
       )
       for (const message of messageList) {

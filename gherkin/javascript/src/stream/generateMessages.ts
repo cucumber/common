@@ -9,8 +9,20 @@ import makeSourceEnvelope from './makeSourceEnvelope'
 export default function generateMessages(
   data: string,
   uri: string,
+  mediaType: string,
   options: IGherkinOptions
 ): readonly messages.IEnvelope[] {
+  let tokenMatcher: TokenMatcher
+  switch (mediaType) {
+    case 'text/x.cucumber.gherkin+plain':
+      tokenMatcher = new TokenMatcher(options.defaultDialect)
+      break
+    case 'text/x.cucumber.gherkin+markdown':
+      throw new Error('Markdown tokenizer not yet implemented')
+    default:
+      throw new Error(`Unsupported media type: ${mediaType}`)
+  }
+
   const result = []
 
   try {
@@ -24,10 +36,8 @@ export default function generateMessages(
 
     const parser = new Parser(new AstBuilder(options.newId))
     parser.stopAtFirstError = false
-    const gherkinDocument = parser.parse(
-      data,
-      new TokenMatcher(options.defaultDialect)
-    )
+
+    const gherkinDocument = parser.parse(data, tokenMatcher)
 
     if (options.includeGherkinDocument) {
       result.push(

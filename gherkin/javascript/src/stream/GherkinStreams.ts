@@ -14,7 +14,7 @@ function fromStream(stream: Readable, options: IGherkinOptions) {
 }
 
 function fromPaths(
-  paths: ReadonlyArray<string>,
+  paths: readonly string[],
   options: IGherkinOptions
 ): Readable {
   const pathsCopy = paths.slice()

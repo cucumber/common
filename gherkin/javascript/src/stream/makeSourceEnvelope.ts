@@ -8,7 +8,9 @@ export default function makeSourceEnvelope(
     source: new messages.Source({
       data,
       uri,
-      mediaType: 'text/x.cucumber.gherkin+plain',
+      mediaType: uri.endsWith('.feature')
+        ? 'text/x.cucumber.gherkin+plain'
+        : 'text/x.cucumber.gherkin+markdown',
     }),
   })
 }

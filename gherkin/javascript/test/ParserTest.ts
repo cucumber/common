@@ -132,6 +132,7 @@ describe('Parser', function () {
         '    | is (not) triggered | value |\n' +
         '    | is triggered       | foo   |\n ',
       '',
+      'text/x.cucumber.gherkin+plain',
       { includePickles: true, newId: IdGenerator.incrementing() }
     )
 
