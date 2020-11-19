@@ -153,7 +153,7 @@ export default class TokenMatcher implements ITokenMatcher {
       )
   }
 
-  public _match_DocStringSeparator(
+  private _match_DocStringSeparator(
     token: Token,
     separator: string,
     isOpen: boolean

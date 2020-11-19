@@ -25,6 +25,10 @@ export default class GherkinLine {
     return this.startsWith(keyword + ':') // The C# impl is more complicated. Find out why.
   }
 
+  public match(regexp: RegExp) {
+    return this.trimmedLineText.match(regexp)
+  }
+
   public getLineText(indentToRemove: number) {
     if (indentToRemove < 0 || indentToRemove > this.indent) {
       return this.trimmedLineText

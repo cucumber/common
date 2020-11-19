@@ -1,6 +1,6 @@
 include default.mk
 
-GOOD_FEATURE_FILES = $(shell find testdata/good -name "*.feature")
+GOOD_FEATURE_FILES = $(shell find testdata/good -name "*.md")
 BAD_FEATURE_FILES  = $(shell find testdata/bad -name "*.feature")
 
 ASTS         = $(patsubst testdata/%,acceptance/testdata/%.ast.ndjson,$(GOOD_FEATURE_FILES))

@@ -5,6 +5,8 @@ import compile from '../pickles/compile'
 import AstBuilder from '../AstBuilder'
 import IGherkinOptions from '../IGherkinOptions'
 import makeSourceEnvelope from './makeSourceEnvelope'
+import ITokenMatcher from '../ITokenMatcher'
+import MarkdownTokenMatcher from '../MarkdownTokenMatcher'
 
 export default function generateMessages(
   data: string,
@@ -12,13 +14,14 @@ export default function generateMessages(
   mediaType: string,
   options: IGherkinOptions
 ): readonly messages.IEnvelope[] {
-  let tokenMatcher: TokenMatcher
+  let tokenMatcher: ITokenMatcher
   switch (mediaType) {
     case 'text/x.cucumber.gherkin+plain':
       tokenMatcher = new TokenMatcher(options.defaultDialect)
       break
     case 'text/x.cucumber.gherkin+markdown':
-      throw new Error('Markdown tokenizer not yet implemented')
+      tokenMatcher = new MarkdownTokenMatcher(options.defaultDialect)
+      break
     default:
       throw new Error(`Unsupported media type: ${mediaType}`)
   }
