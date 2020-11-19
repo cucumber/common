@@ -41,7 +41,7 @@ public class NdjsonToMessageIterable implements Iterable<Messages.Envelope> {
                     try {
                         JSON_PARSER.merge(line, builder);
                     } catch(InvalidProtocolBufferException e) {
-                        throw new RuntimeException(String.format("Not JSON: %s", line));
+                        throw new RuntimeException(String.format("Not JSON: %s", line), e);
                     }
                     next = builder.build();
                     return true;
