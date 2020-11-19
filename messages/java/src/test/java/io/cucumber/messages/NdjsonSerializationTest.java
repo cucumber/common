@@ -10,6 +10,7 @@ import java.util.Iterator;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class NdjsonSerializationTest extends MessageSerializationContract {
@@ -45,5 +46,15 @@ class NdjsonSerializationTest extends MessageSerializationContract {
             assertEquals(Messages.Envelope.newBuilder().build(), envelope);
         }
         assertFalse(iterator.hasNext());
+    }
+
+    @Test
+    void includes_offending_line_in_error_message() {
+        InputStream input = new ByteArrayInputStream("BLA BLA".getBytes(UTF_8));
+        Iterable<Messages.Envelope> incomingMessages = makeMessageIterable(input);
+        Iterator<Messages.Envelope> iterator = incomingMessages.iterator();
+
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> assertTrue(iterator.hasNext()));
+        assertEquals(exception.getMessage(), "Not JSON: BLA BLA");
     }
 }
