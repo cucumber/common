@@ -74,6 +74,8 @@
     "nyc": "^15.1.0",
     "prettier": "^2.1.2",
     "raw-loader": "^4.0.2",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
     "react-is": "^17.0.1",
     "sass": "^1.29.0",
     "sass-loader": "^10.0.5",
