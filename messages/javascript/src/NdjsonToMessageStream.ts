@@ -30,7 +30,7 @@ export default class NdjsonToMessageStream<T> extends Transform {
           const object = JSON.parse(line)
           this.push(this.fromObject(object))
         } catch (err) {
-          return callback(err)
+          return callback(new Error(`Not JSON: ${line}`))
         }
       }
     }
@@ -43,7 +43,7 @@ export default class NdjsonToMessageStream<T> extends Transform {
         const object = JSON.parse(this.buffer)
         this.push(this.fromObject(object))
       } catch (err) {
-        return callback(err)
+        return callback(new Error(`Not JSONs: ${this.buffer}`))
       }
     }
     callback()
