@@ -26,7 +26,12 @@ export default class NdjsonToMessageStream<T> extends Transform {
     this.buffer = lines.pop()
     for (const line of lines) {
       if (line.trim().length > 0) {
-        this.push(this.fromObject(JSON.parse(line)))
+        try {
+          const object = JSON.parse(line)
+          this.push(this.fromObject(object))
+        } catch (err) {
+          return callback(err)
+        }
       }
     }
     callback()
@@ -34,7 +39,12 @@ export default class NdjsonToMessageStream<T> extends Transform {
 
   public _flush(callback: TransformCallback): void {
     if (this.buffer) {
-      this.push(this.fromObject(JSON.parse(this.buffer)))
+      try {
+        const object = JSON.parse(this.buffer)
+        this.push(this.fromObject(object))
+      } catch (err) {
+        return callback(err)
+      }
     }
     callback()
   }
