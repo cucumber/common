@@ -8,51 +8,39 @@ const DIALECT_DICT: { [key: string]: Dialect } = DIALECTS
 
 export default class MarkdownTokenMatcher implements ITokenMatcher {
   private readonly dialect: Dialect
+  private readonly nonStarStepKeywords: string[]
+  private readonly stepRegexp: RegExp
+  private readonly headerRegexp: RegExp
 
   constructor(defaultDialectName = 'en') {
     this.dialect = DIALECT_DICT[defaultDialectName]
-  }
+    this.nonStarStepKeywords = []
+      .concat(this.dialect.given)
+      .concat(this.dialect.when)
+      .concat(this.dialect.then)
+      .concat(this.dialect.and)
+      .concat(this.dialect.but)
+      .filter(
+        (value, index, self) => value !== '* ' && self.indexOf(value) === index
+      )
 
-  match_BackgroundLine(token: Token): boolean {
-    return matchTitleLine(
-      this.dialect.background,
-      ':',
-      token,
-      TokenType.BackgroundLine
+    this.stepRegexp = new RegExp(
+      `${KeywordPrefix.BULLET}(${this.nonStarStepKeywords
+        .map(escapeRegExp)
+        .join('|')})`
     )
-  }
 
-  match_Comment(token: Token): boolean {
-    return false
-  }
+    const headerKeywords = []
+      .concat(this.dialect.feature)
+      .concat(this.dialect.background)
+      .concat(this.dialect.rule)
+      .concat(this.dialect.scenarioOutline)
+      .concat(this.dialect.scenario)
+      .concat(this.dialect.examples)
+      .filter((value, index, self) => self.indexOf(value) === index)
 
-  match_DocStringSeparator(token: Token): boolean {
-    return false
-  }
-
-  match_EOF(token: Token): boolean {
-    return false
-  }
-
-  match_Empty(token: Token): boolean {
-    return false
-  }
-
-  match_ExamplesLine(token: Token): boolean {
-    return matchTitleLine(
-      this.dialect.examples,
-      ':',
-      token,
-      TokenType.ExamplesLine
-    )
-  }
-
-  match_FeatureLine(token: Token): boolean {
-    return matchTitleLine(
-      this.dialect.feature,
-      ':',
-      token,
-      TokenType.FeatureLine
+    this.headerRegexp = new RegExp(
+      `${KeywordPrefix.HEADER}(${headerKeywords.map(escapeRegExp).join('|')})`
     )
   }
 
@@ -64,19 +52,73 @@ export default class MarkdownTokenMatcher implements ITokenMatcher {
     return false
   }
 
+  match_Comment(token: Token): boolean {
+    return false
+  }
+
+  match_DocStringSeparator(token: Token): boolean {
+    return false
+  }
+
+  match_EOF(token: Token): boolean {
+    if (token.isEof) {
+      token.matchedType = TokenType.EOF
+      return true
+    }
+    return false
+  }
+
+  match_Empty(token: Token): boolean {
+    const startsWithStepBullet = token.line.match(this.stepRegexp)
+    const startsWithHeader = token.line.match(this.headerRegexp)
+    if (token.line.isEmpty || !(startsWithStepBullet || startsWithHeader)) {
+      token.matchedType = TokenType.Empty
+      return true
+    }
+    return false
+  }
+
+  match_FeatureLine(token: Token): boolean {
+    return matchTitleLine(
+      KeywordPrefix.HEADER,
+      this.dialect.feature,
+      ':',
+      token,
+      TokenType.FeatureLine
+    )
+  }
+
+  match_BackgroundLine(token: Token): boolean {
+    return matchTitleLine(
+      KeywordPrefix.HEADER,
+      this.dialect.background,
+      ':',
+      token,
+      TokenType.BackgroundLine
+    )
+  }
+
   match_RuleLine(token: Token): boolean {
-    return matchTitleLine(this.dialect.rule, ':', token, TokenType.RuleLine)
+    return matchTitleLine(
+      KeywordPrefix.HEADER,
+      this.dialect.rule,
+      ':',
+      token,
+      TokenType.RuleLine
+    )
   }
 
   match_ScenarioLine(token: Token): boolean {
     return (
       matchTitleLine(
+        KeywordPrefix.HEADER,
         this.dialect.scenario,
         ':',
         token,
         TokenType.ScenarioLine
       ) ||
       matchTitleLine(
+        KeywordPrefix.HEADER,
         this.dialect.scenarioOutline,
         ':',
         token,
@@ -85,14 +127,24 @@ export default class MarkdownTokenMatcher implements ITokenMatcher {
     )
   }
 
+  match_ExamplesLine(token: Token): boolean {
+    return matchTitleLine(
+      KeywordPrefix.HEADER,
+      this.dialect.examples,
+      ':',
+      token,
+      TokenType.ExamplesLine
+    )
+  }
+
   match_StepLine(token: Token): boolean {
-    const keywords = []
-      .concat(this.dialect.given)
-      .concat(this.dialect.when)
-      .concat(this.dialect.then)
-      .concat(this.dialect.and)
-      .concat(this.dialect.but)
-    return matchTitleLine(keywords, '', token, TokenType.StepLine)
+    return matchTitleLine(
+      KeywordPrefix.BULLET,
+      this.nonStarStepKeywords,
+      '',
+      token,
+      TokenType.StepLine
+    )
   }
 
   match_TableRow(token: Token): boolean {
@@ -108,14 +160,20 @@ export default class MarkdownTokenMatcher implements ITokenMatcher {
   }
 }
 
+enum KeywordPrefix {
+  BULLET = '^(\\s*\\*\\s*)',
+  HEADER = '^(##?#?#?) ',
+}
+
 function matchTitleLine(
+  prefix: KeywordPrefix,
   keywords: readonly string[],
   keywordSuffix: string,
   token: Token,
   matchedType: TokenType
 ) {
   const regexp = new RegExp(
-    `(##?#?#?) (${keywords.map(escapeRegExp).join('|')})${keywordSuffix}(.*)`
+    `${prefix}(${keywords.map(escapeRegExp).join('|')})${keywordSuffix}(.*)`
   )
   const match = token.line.match(regexp)
   if (!match) return false
