@@ -93,11 +93,11 @@ module Cucumber
       end
 
       def self.isEscapeCharacter(codepoint)
-        codepoint.chr == EscapeCharacter
+        codepoint.chr(Encoding::UTF_8) == EscapeCharacter
       end
 
       def self.canEscape(codepoint)
-        c = codepoint.chr
+        c = codepoint.chr(Encoding::UTF_8)
         if c == ' '
           # TODO: Unicode whitespace?
           return true
@@ -121,7 +121,7 @@ module Cucumber
       end
 
       def self.typeOf(codepoint)
-        c = codepoint.chr
+        c = codepoint.chr(Encoding::UTF_8)
         if c == ' '
           # TODO: Unicode whitespace?
           return TokenType::WhiteSpace

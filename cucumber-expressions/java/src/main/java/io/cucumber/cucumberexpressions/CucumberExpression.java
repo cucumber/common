@@ -54,6 +54,7 @@ public final class CucumberExpression implements Expression {
             case EXPRESSION_NODE:
                 return rewriteExpression(node);
             default:
+                // Can't happen as long as the switch case is exhaustive
                 throw new IllegalArgumentException(node.type().name());
         }
     }

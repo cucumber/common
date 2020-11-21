@@ -50,6 +50,7 @@ export default class CucumberExpression implements Expression {
       case NodeType.expression:
         return this.rewriteExpression(node)
       default:
+        // Can't happen as long as the switch case is exhaustive
         throw new Error(node.type)
     }
   }

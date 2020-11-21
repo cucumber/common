@@ -67,7 +67,7 @@ module Cucumber
         consumedIndex = @bufferStartIndex + @buffer.length + escapeTokens
         t = Token.new(
           tokenType,
-          @buffer.map{|codepoint| codepoint.chr}.join(''),
+          @buffer.map{|codepoint| codepoint.chr(Encoding::UTF_8)}.join(''),
           @bufferStartIndex,
           consumedIndex
         )
