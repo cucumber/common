@@ -8,10 +8,10 @@ module Cucumber
         @expression = expression
         tokens = []
         @buffer = []
-        previousTokenType = TokenType::StartOfLine
-        treatAsText = false
+        previous_token_type = TokenType::StartOfLine
+        treat_as_text = false
         @escaped = 0
-        @bufferStartIndex = 0
+        @buffer_start_index = 0
 
         codepoints = expression.codepoints
 
@@ -20,83 +20,79 @@ module Cucumber
         end
 
         codepoints.each do |codepoint|
-          if !treatAsText && Token.isEscapeCharacter(codepoint)
+          if !treat_as_text && Token.isEscapeCharacter(codepoint)
             @escaped += 1
-            treatAsText = true
+            treat_as_text = true
             next
           end
-          currentTokenType = tokenTypeOf(codepoint, treatAsText)
-          treatAsText = false
+          current_token_type = token_type_of(codepoint, treat_as_text)
+          treat_as_text = false
 
-          if shouldCreateNewToken(previousTokenType, currentTokenType)
-            token = convertBufferToToken(previousTokenType)
-            previousTokenType = currentTokenType
+          if should_create_new_token(previous_token_type, current_token_type)
+            token = convert_buffer_to_token(previous_token_type)
+            previous_token_type = current_token_type
             @buffer.push(codepoint)
             tokens.push(token)
           else
-            previousTokenType = currentTokenType
+            previous_token_type = current_token_type
             @buffer.push(codepoint)
           end
         end
 
         if @buffer.length > 0
-          token = convertBufferToToken(previousTokenType)
+          token = convert_buffer_to_token(previous_token_type)
           tokens.push(token)
         end
 
-        if (treatAsText)
+        if treat_as_text
           raise TheEndOfLineCannotBeEscaped.new(expression)
         end
 
         tokens.push(
-          Token.new(TokenType::EndOfLine, '', codepoints.length, codepoints.length)
+            Token.new(TokenType::EndOfLine, '', codepoints.length, codepoints.length)
         )
         tokens
       end
 
       private
+
       # TODO: Make these lambdas
 
-      def convertBufferToToken(tokenType)
-        escapeTokens = 0
-        if (tokenType == TokenType::Text)
-          escapeTokens = @escaped
+      def convert_buffer_to_token(token_type)
+        escape_tokens = 0
+        if token_type == TokenType::Text
+          escape_tokens = @escaped
           @escaped = 0
         end
 
-        consumedIndex = @bufferStartIndex + @buffer.length + escapeTokens
+        consumed_index = @buffer_start_index + @buffer.length + escape_tokens
         t = Token.new(
-          tokenType,
-          @buffer.map{|codepoint| codepoint.chr(Encoding::UTF_8)}.join(''),
-          @bufferStartIndex,
-          consumedIndex
+            token_type,
+            @buffer.map { |codepoint| codepoint.chr(Encoding::UTF_8) }.join(''),
+            @buffer_start_index,
+            consumed_index
         )
         @buffer = []
-        @bufferStartIndex = consumedIndex
-        return t
+        @buffer_start_index = consumed_index
+        t
       end
 
-      def tokenTypeOf(codepoint, treatAsText)
-        if !treatAsText
+      def token_type_of(codepoint, treat_as_text)
+        unless treat_as_text
           return Token.typeOf(codepoint)
         end
         if Token.canEscape(codepoint)
           return TokenType::Text
         end
         raise CantEscape.new(
-          @expression,
-          @bufferStartIndex + @buffer.length + @escaped
+            @expression,
+            @buffer_start_index + @buffer.length + @escaped
         )
       end
 
-      def shouldCreateNewToken(previousTokenType, currentTokenType)
-        if (currentTokenType != previousTokenType)
-          return true
-        end
-        return (
-          currentTokenType != TokenType::WhiteSpace &&
-          currentTokenType != TokenType::Text
-        )
+      def should_create_new_token(previous_token_type, current_token_type)
+        current_token_type != previous_token_type ||
+            (current_token_type != TokenType::WhiteSpace && current_token_type != TokenType::Text)
       end
     end
   end
