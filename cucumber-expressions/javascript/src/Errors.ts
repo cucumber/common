@@ -108,11 +108,15 @@ export function createCantEscaped(expression: string, index: number) {
   )
 }
 
-export function createInvalidParameterTypeName(name: string) {
+export function createInvalidParameterTypeName(node: Node, expression: string) {
   return new CucumberExpressionError(
-    'Illegal character in parameter name {' +
-      name +
-      "}. Parameter names may not contain '[]()$.|?*+'"
+    message(
+      node.start,
+      expression,
+      pointAtLocated(node),
+      "Parameter names may not contain '[]()$.|?*+'",
+      'Did you mean to use a regular expression?'
+    )
   )
 }
 

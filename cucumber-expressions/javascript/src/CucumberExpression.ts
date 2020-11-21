@@ -94,7 +94,7 @@ export default class CucumberExpression implements Expression {
   private rewriteParameter(node: Node) {
     const name = node.text()
     if (!ParameterType.isValidParameterTypeName(name)) {
-      throw createInvalidParameterTypeName(name)
+      throw createInvalidParameterTypeName(node, this.expression)
     }
 
     const parameterType = this.parameterTypeRegistry.lookupByTypeName(name)

@@ -1,7 +1,4 @@
-import {
-  createInvalidParameterTypeName,
-  CucumberExpressionError,
-} from './Errors'
+import { CucumberExpressionError } from './Errors'
 
 const ILLEGAL_PARAMETER_NAME_PATTERN = /([[\]()$.|?*+])/
 const UNESCAPE_PATTERN = () => /(\\([[$.|?*+\]]))/g
@@ -21,7 +18,9 @@ export default class ParameterType<T> {
 
   public static checkParameterTypeName(typeName: string) {
     if (!this.isValidParameterTypeName(typeName)) {
-      throw createInvalidParameterTypeName(typeName)
+      throw new CucumberExpressionError(
+        `Illegal character in parameter name {${typeName}}. Parameter names may not contain '[]()$.|?*+'`
+      )
     }
   }
 
@@ -75,6 +74,7 @@ function stringArray(
   regexps: ReadonlyArray<RegExp> | ReadonlyArray<string> | RegExp | string
 ): string[] {
   const array = Array.isArray(regexps) ? regexps : [regexps]
+  // @ts-ignore this is actually correct
   return array.map((r: RegExp | string) =>
     r instanceof RegExp ? regexpSource(r) : r
   )
