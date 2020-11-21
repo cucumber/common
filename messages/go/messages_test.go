@@ -104,4 +104,14 @@ func TestMessages(t *testing.T) {
 		require.NoError(t, r.ReadMsg(&decoded))
 		require.NoError(t, r.ReadMsg(&decoded))
 	})
+
+	t.Run("includes offending line in error message", func(t *testing.T) {
+		b := &bytes.Buffer{}
+		b.WriteString("BLA BLA")
+		r := messagesio.NewNdjsonReader(b)
+		var decoded Envelope
+		err := r.ReadMsg(&decoded)
+		require.Error(t, err)
+		require.Equal(t, "Not JSON: BLA BLA", err.Error())
+	})
 }

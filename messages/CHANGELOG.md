@@ -17,6 +17,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+* In case a line cannot be parsed as JSON, throw an error
+  with the offending line in the exception message.
+
 ## [13.2.0] - 2020-11-12
 
 ### Added
