@@ -1,5 +1,6 @@
 require 'cucumber/cucumber_expressions/ast'
 require 'cucumber/cucumber_expressions/errors'
+require 'cucumber/cucumber_expressions/cucumber_expression_tokenizer'
 
 
 module Cucumber

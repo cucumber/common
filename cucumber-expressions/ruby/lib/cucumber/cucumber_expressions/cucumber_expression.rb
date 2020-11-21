@@ -1,6 +1,7 @@
 require 'cucumber/cucumber_expressions/argument'
 require 'cucumber/cucumber_expressions/tree_regexp'
 require 'cucumber/cucumber_expressions/errors'
+require 'cucumber/cucumber_expressions/cucumber_expression_parser'
 
 module Cucumber
   module CucumberExpressions
@@ -85,9 +86,9 @@ module Cucumber
 
       def rewriteParameter(node)
         name = node.text
-        # if (!ParameterType.isValidParameterTypeName(name)) {
-        #     throw createInvalidParameterTypeName(name)
-        # }
+        unless ParameterType::is_valid_parameter_type_name(name)
+          raise InvalidParameterTypeName.new(node, @expression)
+        end
 
         parameterType = @parameter_type_registry.lookup_by_type_name(name)
         if parameterType.nil?
@@ -116,7 +117,7 @@ module Cucumber
       def assertNoParameters(node, createNodeContainedAParameterError)
         parameterNodes = node.nodes.filter { |astNode| NodeType::Parameter == astNode.type }
         if parameterNodes.length > 0
-          raise createNodeContainedAParameterError.call(node)
+          raise createNodeContainedAParameterError.call(parameterNodes[0])
         end
       end
     end

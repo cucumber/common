@@ -36,7 +36,6 @@ This Cucumber Expression has a problem at column #{index + 1}:
         end
         pointer.join('')
       end
-
     end
 
     class AlternativeMayNotExclusivelyContainOptionals < CucumberExpressionError
@@ -123,6 +122,19 @@ This Cucumber Expression has a problem at column #{index + 1}:
                   pointAtLocated(current),
                   "The '#{beginSymbol}' does not have a matching '#{endSymbol}'",
                   "If you did not intend to use #{purpose} you can use '\\#{beginSymbol}' to escape the #{purpose}"
+              ))
+      end
+    end
+
+
+    class InvalidParameterTypeName < CucumberExpressionError
+      def initialize(node, expression)
+        super(build_message(
+                  node.start,
+                  expression,
+                  pointAtLocated(node),
+                  "Parameter names may not contain '[]()$.|?*+'",
+                  "Did you mean to use a regular expression?"
               ))
       end
     end

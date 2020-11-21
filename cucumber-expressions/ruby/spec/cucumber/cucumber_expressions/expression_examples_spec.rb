@@ -7,7 +7,7 @@ module Cucumber
   module CucumberExpressions
     describe 'examples.txt' do
       def match(expression_text, text)
-        expression = expression_text =~ /\/(.*)\// ?
+        expression = expression_text =~ /^\/(.*)\/$/ ?
           RegularExpression.new(Regexp.new($1), ParameterTypeRegistry.new) :
           CucumberExpression.new(expression_text, ParameterTypeRegistry.new)
 

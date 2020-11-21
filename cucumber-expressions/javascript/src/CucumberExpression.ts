@@ -137,7 +137,7 @@ export default class CucumberExpression implements Expression {
       (astNode) => NodeType.parameter == astNode.type
     )
     if (parameterNodes.length > 0) {
-      throw createNodeContainedAParameterError(node)
+      throw createNodeContainedAParameterError(parameterNodes[0])
     }
   }
 
