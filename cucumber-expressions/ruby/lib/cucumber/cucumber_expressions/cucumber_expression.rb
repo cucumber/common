@@ -9,7 +9,7 @@ module Cucumber
       ESCAPE_PATTERN = /([\\^\[({$.|?*+})\]])/
 
       def initialize(expression, parameter_type_registry)
-        @source = expression
+        @expression = expression
         @parameter_types = []
         @parameter_type_registry = parameter_type_registry
         parser = CucumberExpressionParser.new
@@ -23,7 +23,7 @@ module Cucumber
       end
 
       def source
-        @source
+        @expression
       end
 
       def regexp
@@ -61,33 +61,23 @@ module Cucumber
       end
 
       def rewriteOptional(node)
-        # this.assertNoParameters(node, (astNode) =>
-        #     createParameterIsNotAllowedInOptional(astNode, this.expression)
-        # )
-        # this.assertNotEmpty(node, (astNode) =>
-        #     createOptionalMayNotBeEmpty(astNode, this.expression)
-        # )
+        assertNoParameters(node, lambda { |astNode| ParameterIsNotAllowedInOptional.new(astNode, @expression) })
+        assertNotEmpty(node, lambda { |astNode| OptionalMayNotBeEmpty.new(astNode, @expression) })
         regex = node.nodes.map { |n| rewriteToRegex(n) }.join('')
         "(?:#{regex})?"
       end
 
       def rewriteAlternation(node)
-        # // Make sure the alternative parts aren't empty and don't contain parameter types
-        # node.nodes.forEach((alternative) => {
-        #     if (alternative.nodes.length == 0) {
-        #         throw createAlternativeMayNotBeEmpty(alternative, this.expression)
-        #     }
-        #     this.assertNotEmpty(alternative, (astNode) =>
-        #         createAlternativeMayNotExclusivelyContainOptionals(
-        #             astNode,
-        #             this.expression
-        #         )
-        #     )
-        #     })
+        # Make sure the alternative parts aren't empty and don't contain parameter types
+        node.nodes.each { |alternative|
+          if alternative.nodes.length == 0
+            raise AlternativeMayNotBeEmpty.new(alternative, @expression)
+          end
+          assertNotEmpty(alternative, lambda {|astNode|  AlternativeMayNotExclusivelyContainOptionals.new(astNode, @expression)})
+        }
         regex = node.nodes.map { |n| rewriteToRegex(n) }.join('|')
         "(?:#{regex})"
       end
-
 
       def rewriteAlternative(node)
         node.nodes.map { |lastNode| rewriteToRegex(lastNode) }.join('')
@@ -101,19 +91,33 @@ module Cucumber
 
         parameterType = @parameter_type_registry.lookup_by_type_name(name)
         if parameterType.nil?
-          raise UndefinedParameterTypeError.new(name)
+          raise UndefinedParameterTypeError.new(node, @expression, name)
         end
         @parameter_types.push(parameterType)
         regexps = parameterType.regexps
         if regexps.length == 1
           return "(#{regexps[0]})"
         end
-        return "((?:#{regexps.join(')|(?:')}))"
+        "((?:#{regexps.join(')|(?:')}))"
       end
 
       def rewriteExpression(node)
         regex = node.nodes.map { |n| rewriteToRegex(n) }.join('')
         "^#{regex}$"
+      end
+
+      def assertNotEmpty(node, createNodeWasNotEmptyException)
+        textNodes = node.nodes.filter { |astNode| NodeType::Text == astNode.type }
+        if textNodes.length == 0
+          raise createNodeWasNotEmptyException.call(node)
+        end
+      end
+
+      def assertNoParameters(node, createNodeContainedAParameterError)
+        parameterNodes = node.nodes.filter { |astNode| NodeType::Parameter == astNode.type }
+        if parameterNodes.length > 0
+          raise createNodeContainedAParameterError.call(node)
+        end
       end
     end
   end

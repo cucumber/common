@@ -29,7 +29,7 @@ This Cucumber Expression has a problem at column #{index + 1}:
       def pointAtLocated(node)
         pointer = [pointAt(node.start)]
         if node.start + 1 < node.end
-          for _ in node.start + 1...node.end - 2
+          for _ in node.start + 1...node.end - 1
             pointer.push('-')
           end
           pointer.push('^')
@@ -37,6 +37,30 @@ This Cucumber Expression has a problem at column #{index + 1}:
         pointer.join('')
       end
 
+    end
+
+    class AlternativeMayNotExclusivelyContainOptionals < CucumberExpressionError
+      def initialize(node, expression)
+        super(build_message(
+                  node.start,
+                  expression,
+                  pointAtLocated(node),
+                  'An alternative may not exclusively contain optionals',
+                  "If you did not mean to use an optional you can use '\\(' to escape the the '('"
+              ))
+      end
+    end
+
+    class AlternativeMayNotBeEmpty < CucumberExpressionError
+      def initialize(node, expression)
+        super(build_message(
+                  node.start,
+                  expression,
+                  pointAtLocated(node),
+                  'Alternative may not be empty',
+                  "If you did not mean to use an alternative you can use '\\/' to escape the the '/'"
+              ))
+      end
     end
 
     class CantEscape < CucumberExpressionError
@@ -47,6 +71,30 @@ This Cucumber Expression has a problem at column #{index + 1}:
                   pointAt(index),
                   "Only the characters '{', '}', '(', ')', '\\', '/' and whitespace can be escaped",
                   "If you did mean to use an '\\' you can use '\\\\' to escape it"
+              ))
+      end
+    end
+
+    class OptionalMayNotBeEmpty < CucumberExpressionError
+      def initialize(node, expression)
+        super(build_message(
+                  node.start,
+                  expression,
+                  pointAtLocated(node),
+                  'An optional must contain some text',
+                  "If you did not mean to use an optional you can use '\\(' to escape the the '('"
+              ))
+      end
+    end
+
+    class ParameterIsNotAllowedInOptional < CucumberExpressionError
+      def initialize(node, expression)
+        super(build_message(
+                  node.start,
+                  expression,
+                  pointAtLocated(node),
+                  'An optional may not contain a parameter type',
+                  "If you did not mean to use an parameter type you can use '\\{' to escape the the '{'"
               ))
       end
     end
@@ -80,8 +128,12 @@ This Cucumber Expression has a problem at column #{index + 1}:
     end
 
     class UndefinedParameterTypeError < CucumberExpressionError
-      def initialize(type_name)
-        super("Undefined parameter type {#{type_name}}")
+      def initialize(node, expression, parameter_type_name)
+        super(build_message(node.start,
+                            expression,
+                            pointAtLocated(node),
+                            "Undefined parameter type '#{parameter_type_name}'",
+                            "Please register a ParameterType for '#{parameter_type_name}'"))
       end
     end
 
