@@ -16,7 +16,7 @@ option := parameter | text
 parameter := '{' + text* + '}'
 text := token
 
-token := '\' | whitespace | '(' | ')' | '{' | '}' | '/' | .
+token := '\' | whitespace | '(' | ')' | '{' | '}' | '/' | any other text
 ```
 
 Note:
@@ -29,7 +29,7 @@ Note:
 
 ### Production Rules
 
-The AST can be rewritten into a a regular expression by the following production
+The AST can be rewritten into a regular expression by the following production
 rules:
 
 ```
@@ -43,8 +43,7 @@ parameter -> {
     '((?:' + parameter_pattern[0] + ')|(?:' ... + ')|(?:' + parameter_pattern[n-1] +  '))'
 } 
 text -> {
- escape_regex := escape '^', `\`, `[` ,`(`, `{`, `$`, `.`, `|`, `?`, `*`, `+`,
-                        `}`, `)` and `]`
+ escape_regex := escape '^', `$`, `[`, `]`, `(`, `)` `\`, `{`, `}`,  `.`, `|`, `?`, `*`, `+`
  escape_regex(token.text)
 }
 ```
