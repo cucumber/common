@@ -17,7 +17,7 @@ interface Expectation {
 describe('CucumberExpression', () => {
   fs.readdirSync('testdata/expression').forEach((testcase) => {
     const testCaseData = fs.readFileSync(
-      `testdata/expression/matches-int.yaml`,
+      `testdata/expression/${testcase}`,
       'utf-8'
     )
     const expectation = yaml.safeLoad(testCaseData) as Expectation
@@ -31,7 +31,9 @@ describe('CucumberExpression', () => {
         const matches = expression.match(expectation.text)
         assert.deepStrictEqual(
           JSON.parse(
-            JSON.stringify(matches.map((value) => value.getValue(null)))
+            JSON.stringify(
+              matches ? matches.map((value) => value.getValue(null)) : null
+            )
           ), // Removes type information.
           JSON.parse(expectation.expected)
         )
@@ -44,6 +46,19 @@ describe('CucumberExpression', () => {
           expression.match(expectation.text)
         }, new CucumberExpressionError(expectation.exception))
       }
+    })
+  })
+
+  fs.readdirSync('testdata/regex').forEach((testcase) => {
+    const testCaseData = fs.readFileSync(`testdata/regex/${testcase}`, 'utf-8')
+    const expectation = yaml.safeLoad(testCaseData) as Expectation
+    it(`${testcase}`, () => {
+      const parameterTypeRegistry = new ParameterTypeRegistry()
+      const expression = new CucumberExpression(
+        expectation.expression,
+        parameterTypeRegistry
+      )
+      assert.deepStrictEqual(expression.regexp.source, expectation.expected)
     })
   })
 
@@ -165,55 +180,6 @@ describe('CucumberExpression', () => {
 
     const args = expression.match(`I have a bolt`)
     assert.strictEqual(args[0].getValue(world), 'widget:bolt')
-  })
-
-  describe('escapes special characters', () => {
-    const special = ['[', ']', '^', '$', '.', '|', '?', '*', '+']
-    special.forEach((character) => {
-      it(`escapes ${character}`, () => {
-        const expr = `I have {int} cuke(s) and ${character}`
-        const expression = new CucumberExpression(
-          expr,
-          new ParameterTypeRegistry()
-        )
-        const arg1 = expression.match(`I have 800 cukes and ${character}`)[0]
-        assert.strictEqual(arg1.getValue(null), 800)
-      })
-    })
-
-    it(`escapes .`, () => {
-      const expr = `I have {int} cuke(s) and .`
-      const expression = new CucumberExpression(
-        expr,
-        new ParameterTypeRegistry()
-      )
-      assert.strictEqual(expression.match(`I have 800 cukes and 3`), null)
-      const arg1 = expression.match(`I have 800 cukes and .`)[0]
-      assert.strictEqual(arg1.getValue(null), 800)
-    })
-
-    it(`escapes \\`, () => {
-      const expr = `I have {int} cuke(s) and \\\\`
-      const expression = new CucumberExpression(
-        expr,
-        new ParameterTypeRegistry()
-      )
-      assert.strictEqual(expression.match(`I have 800 cukes and 3`), null)
-      const arg1 = expression.match(`I have 800 cukes and \\`)[0]
-      assert.strictEqual(arg1.getValue(null), 800)
-    })
-
-    it(`escapes |`, () => {
-      const expr = `I have {int} cuke(s) and a|b`
-      const expression = new CucumberExpression(
-        expr,
-        new ParameterTypeRegistry()
-      )
-      assert.strictEqual(expression.match(`I have 800 cukes and a`), null)
-      assert.strictEqual(expression.match(`I have 800 cukes and b`), null)
-      const arg1 = expression.match(`I have 800 cukes and a|b`)[0]
-      assert.strictEqual(arg1.getValue(null), 800)
-    })
   })
 })
 

@@ -23,6 +23,7 @@ import java.util.stream.Collectors;
 
 import static java.nio.file.Files.newDirectoryStream;
 import static java.util.Arrays.asList;
+import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
@@ -32,16 +33,23 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class CucumberExpressionTest {
     private final ParameterTypeRegistry parameterTypeRegistry = new ParameterTypeRegistry(Locale.ENGLISH);
 
-    private static List<Path> acceptance_tests_pass() throws IOException {
+    private static List<Path> expression_acceptance_tests_pass() throws IOException {
         List<Path> paths = new ArrayList<>();
         newDirectoryStream(Paths.get("testdata", "expression")).forEach(paths::add);
         paths.sort(Comparator.naturalOrder());
         return paths;
     }
 
+    private static List<Path> regex_acceptance_tests_pass() throws IOException {
+        List<Path> paths = new ArrayList<>();
+        newDirectoryStream(Paths.get("testdata", "regex")).forEach(paths::add);
+        paths.sort(Comparator.naturalOrder());
+        return paths;
+    }
+
     @ParameterizedTest
     @MethodSource
-    void acceptance_tests_pass(@ConvertWith(FileToExpectationConverter.class) Expectation expectation) {
+    void expression_acceptance_tests_pass(@ConvertWith(FileToExpectationConverter.class) Expectation expectation) {
         if (expectation.getException() == null) {
             CucumberExpression expression = new CucumberExpression(expectation.getExpression(), parameterTypeRegistry);
             List<Argument<?>> match = expression.match(expectation.getText());
@@ -63,6 +71,13 @@ class CucumberExpressionTest {
             CucumberExpressionException exception = assertThrows(CucumberExpressionException.class, executable);
             assertThat(exception.getMessage(), Matchers.is(expectation.getException()));
         }
+    }
+
+    @ParameterizedTest
+    @MethodSource
+    void regex_acceptance_tests_pass(@ConvertWith(FileToExpectationConverter.class) Expectation expectation) {
+        CucumberExpression expression = new CucumberExpression(expectation.getExpression(), parameterTypeRegistry);
+        assertEquals(expectation.getExpected(), expression.getRegexp().pattern());
     }
 
     // Misc tests

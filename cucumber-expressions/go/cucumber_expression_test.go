@@ -63,6 +63,28 @@ func TestCucumberExpression(t *testing.T) {
 				}
 			})
 		}
+
+		assertRegex := func(t *testing.T, expected string, expr string) {
+			parameterTypeRegistry := NewParameterTypeRegistry()
+			expression, err := NewCucumberExpression(expr, parameterTypeRegistry)
+			require.NoError(t, err)
+			require.Equal(t, expected, expression.Regexp().String())
+		}
+
+		directory = "testdata/regex/"
+		files, err = ioutil.ReadDir(directory)
+		require.NoError(t, err)
+
+		for _, file := range files {
+			contents, err := ioutil.ReadFile(directory + file.Name())
+			require.NoError(t, err)
+			t.Run(fmt.Sprintf("%s", file.Name()), func(t *testing.T) {
+				var expectation expectation
+				err = yaml.Unmarshal(contents, &expectation)
+				require.NoError(t, err)
+				assertRegex(t, expectation.Expected, expectation.Expression)
+			})
+		}
 	})
 
 	t.Run("documents expression generation", func(t *testing.T) {
@@ -145,63 +167,6 @@ func TestCucumberExpression(t *testing.T) {
 		expression, err := NewCucumberExpression(expr, parameterTypeRegistry)
 		require.NoError(t, err)
 		require.Equal(t, expression.Source(), expr)
-	})
-
-	t.Run("escapes special characters", func(t *testing.T) {
-		for _, char := range []string{"[", "]", "^", "$", ".", "|", "?", "*", "+"} {
-			t.Run(fmt.Sprintf("escapes %s", char), func(t *testing.T) {
-				require.Equal(
-					t,
-					MatchCucumberExpression(
-						t,
-						fmt.Sprintf("I have {int} cuke(s) and %s", char),
-						fmt.Sprintf("I have 800 cukes and %s", char),
-					),
-					[]interface{}{800},
-				)
-			})
-			t.Run("escapes \\", func(t *testing.T) {
-				require.Equal(
-					t,
-					MatchCucumberExpression(
-						t,
-						"I have {int} cuke(s) and \\\\",
-						"I have 800 cukes and \\",
-					),
-					[]interface{}{800},
-				)
-			})
-
-		}
-
-		t.Run("escapes .", func(t *testing.T) {
-			expr := "I have {int} cuke(s) and ."
-			parameterTypeRegistry := NewParameterTypeRegistry()
-			expression, err := NewCucumberExpression(expr, parameterTypeRegistry)
-			require.NoError(t, err)
-			args, err := expression.Match("I have 800 cukes and 3")
-			require.NoError(t, err)
-			require.Nil(t, args)
-			args, err = expression.Match("I have 800 cukes and .")
-			require.NoError(t, err)
-			require.NotNil(t, args)
-		})
-
-		t.Run("escapes |", func(t *testing.T) {
-			expr := "I have {int} cuke(s) and a|b"
-			parameterTypeRegistry := NewParameterTypeRegistry()
-			expression, err := NewCucumberExpression(expr, parameterTypeRegistry)
-			require.NoError(t, err)
-			args, err := expression.Match("I have 800 cukes and a")
-			require.NoError(t, err)
-			require.Nil(t, args)
-			args, err = expression.Match("I have 800 cukes and b")
-			require.NoError(t, err)
-			require.Nil(t, args)
-			args, err = expression.Match("I have 800 cukes and a|b")
-			require.NoError(t, err)
-			require.NotNil(t, args)
-		})
 	})
 
 	t.Run("unmatched optional groups have nil values", func(t *testing.T) {
