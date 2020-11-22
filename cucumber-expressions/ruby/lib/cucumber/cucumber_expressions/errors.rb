@@ -22,12 +22,12 @@ This Cucumber Expression has a problem at column #{index + 1}:
         m.strip
       end
 
-      def pointAt(index)
+      def point_at(index)
         ' ' * index + '^'
       end
 
-      def pointAtLocated(node)
-        pointer = [pointAt(node.start)]
+      def point_at_located(node)
+        pointer = [point_at(node.start)]
         if node.start + 1 < node.end
           for _ in node.start + 1...node.end - 1
             pointer.push('-')
@@ -43,7 +43,7 @@ This Cucumber Expression has a problem at column #{index + 1}:
         super(build_message(
                   node.start,
                   expression,
-                  pointAtLocated(node),
+                  point_at_located(node),
                   'An alternative may not exclusively contain optionals',
                   "If you did not mean to use an optional you can use '\\(' to escape the the '('"
               ))
@@ -55,7 +55,7 @@ This Cucumber Expression has a problem at column #{index + 1}:
         super(build_message(
                   node.start,
                   expression,
-                  pointAtLocated(node),
+                  point_at_located(node),
                   'Alternative may not be empty',
                   "If you did not mean to use an alternative you can use '\\/' to escape the the '/'"
               ))
@@ -67,7 +67,7 @@ This Cucumber Expression has a problem at column #{index + 1}:
         super(build_message(
                   index,
                   expression,
-                  pointAt(index),
+                  point_at(index),
                   "Only the characters '{', '}', '(', ')', '\\', '/' and whitespace can be escaped",
                   "If you did mean to use an '\\' you can use '\\\\' to escape it"
               ))
@@ -79,7 +79,7 @@ This Cucumber Expression has a problem at column #{index + 1}:
         super(build_message(
                   node.start,
                   expression,
-                  pointAtLocated(node),
+                  point_at_located(node),
                   'An optional must contain some text',
                   "If you did not mean to use an optional you can use '\\(' to escape the the '('"
               ))
@@ -91,7 +91,7 @@ This Cucumber Expression has a problem at column #{index + 1}:
         super(build_message(
                   node.start,
                   expression,
-                  pointAtLocated(node),
+                  point_at_located(node),
                   'An optional may not contain a parameter type',
                   "If you did not mean to use an parameter type you can use '\\{' to escape the the '{'"
               ))
@@ -104,7 +104,7 @@ This Cucumber Expression has a problem at column #{index + 1}:
         super(build_message(
                   index,
                   expression,
-                  pointAt(index),
+                  point_at(index),
                   'The end of line can not be escaped',
                   "You can use '\\\\' to escape the the '\\'"
               ))
@@ -112,16 +112,16 @@ This Cucumber Expression has a problem at column #{index + 1}:
     end
 
     class MissingEndToken < CucumberExpressionError
-      def initialize(expression, beginToken, endToken, current)
-        beginSymbol = Token::symbolOf(beginToken)
-        endSymbol = Token::symbolOf(endToken)
-        purpose = Token::purposeOf(beginToken)
+      def initialize(expression, begin_token, end_token, current)
+        begin_symbol = Token::symbol_of(begin_token)
+        end_symbol = Token::symbol_of(end_token)
+        purpose = Token::purpose_of(begin_token)
         super(build_message(
                   current.start,
                   expression,
-                  pointAtLocated(current),
-                  "The '#{beginSymbol}' does not have a matching '#{endSymbol}'",
-                  "If you did not intend to use #{purpose} you can use '\\#{beginSymbol}' to escape the #{purpose}"
+                  point_at_located(current),
+                  "The '#{begin_symbol}' does not have a matching '#{end_symbol}'",
+                  "If you did not intend to use #{purpose} you can use '\\#{begin_symbol}' to escape the #{purpose}"
               ))
       end
     end
@@ -132,7 +132,7 @@ This Cucumber Expression has a problem at column #{index + 1}:
         super(build_message(
                   node.start,
                   expression,
-                  pointAtLocated(node),
+                  point_at_located(node),
                   "Parameter names may not contain '[]()$.|?*+'",
                   "Did you mean to use a regular expression?"
               ))
@@ -143,7 +143,7 @@ This Cucumber Expression has a problem at column #{index + 1}:
       def initialize(node, expression, parameter_type_name)
         super(build_message(node.start,
                             expression,
-                            pointAtLocated(node),
+                            point_at_located(node),
                             "Undefined parameter type '#{parameter_type_name}'",
                             "Please register a ParameterType for '#{parameter_type_name}'"))
       end

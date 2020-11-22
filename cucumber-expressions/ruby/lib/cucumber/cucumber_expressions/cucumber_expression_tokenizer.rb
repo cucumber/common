@@ -8,7 +8,7 @@ module Cucumber
         @expression = expression
         tokens = []
         @buffer = []
-        previous_token_type = TokenType::StartOfLine
+        previous_token_type = TokenType::START_OF_LINE
         treat_as_text = false
         @escaped = 0
         @buffer_start_index = 0
@@ -16,11 +16,11 @@ module Cucumber
         codepoints = expression.codepoints
 
         if codepoints.empty?
-          tokens.push(Token.new(TokenType::StartOfLine, '', 0, 0))
+          tokens.push(Token.new(TokenType::START_OF_LINE, '', 0, 0))
         end
 
         codepoints.each do |codepoint|
-          if !treat_as_text && Token.isEscapeCharacter(codepoint)
+          if !treat_as_text && Token.is_escape_character(codepoint)
             @escaped += 1
             treat_as_text = true
             next
@@ -49,7 +49,7 @@ module Cucumber
         end
 
         tokens.push(
-            Token.new(TokenType::EndOfLine, '', codepoints.length, codepoints.length)
+            Token.new(TokenType::END_OF_LINE, '', codepoints.length, codepoints.length)
         )
         tokens
       end
@@ -60,7 +60,7 @@ module Cucumber
 
       def convert_buffer_to_token(token_type)
         escape_tokens = 0
-        if token_type == TokenType::Text
+        if token_type == TokenType::TEXT
           escape_tokens = @escaped
           @escaped = 0
         end
@@ -79,10 +79,10 @@ module Cucumber
 
       def token_type_of(codepoint, treat_as_text)
         unless treat_as_text
-          return Token.typeOf(codepoint)
+          return Token.type_of(codepoint)
         end
-        if Token.canEscape(codepoint)
-          return TokenType::Text
+        if Token.can_escape(codepoint)
+          return TokenType::TEXT
         end
         raise CantEscape.new(
             @expression,
@@ -92,7 +92,7 @@ module Cucumber
 
       def should_create_new_token(previous_token_type, current_token_type)
         current_token_type != previous_token_type ||
-            (current_token_type != TokenType::WhiteSpace && current_token_type != TokenType::Text)
+            (current_token_type != TokenType::WHITE_SPACE && current_token_type != TokenType::TEXT)
       end
     end
   end

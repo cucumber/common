@@ -39,17 +39,17 @@ module Cucumber
 
       def rewrite_to_regex(node)
         case node.type
-        when NodeType::Text
+        when NodeType::TEXT
           return escape_regex(node.text)
-        when NodeType::Optional
+        when NodeType::OPTIONAL
           return rewrite_optional(node)
-        when NodeType::Alternation
+        when NodeType::ALTERNATION
           return rewrite_alternation(node)
-        when NodeType::Alternative
+        when NodeType::ALTERNATIVE
           return rewrite_alternative(node)
-        when NodeType::Parameter
+        when NodeType::PARAMETER
           return rewrite_parameter(node)
-        when NodeType::Expression
+        when NodeType::EXPRESSION
           return rewrite_expression(node)
         else
           # Can't happen as long as the switch case is exhaustive
@@ -108,14 +108,14 @@ module Cucumber
       end
 
       def assert_not_empty(node, create_node_was_not_empty_error)
-        text_nodes = node.nodes.filter { |astNode| NodeType::Text == astNode.type }
+        text_nodes = node.nodes.filter { |astNode| NodeType::TEXT == astNode.type }
         if text_nodes.length == 0
           raise create_node_was_not_empty_error.call(node)
         end
       end
 
       def assert_no_parameters(node, create_node_contained_a_parameter_error)
-        parameter_nodes = node.nodes.filter { |astNode| NodeType::Parameter == astNode.type }
+        parameter_nodes = node.nodes.filter { |astNode| NodeType::PARAMETER == astNode.type }
         if parameter_nodes.length > 0
           raise create_node_contained_a_parameter_error.call(parameter_nodes[0])
         end

@@ -8,35 +8,35 @@ module Cucumber
     class CucumberExpressionParser
       def parse(expression)
         # text := token
-        parse_text = lambda do |expression, tokens, current|
+        parse_text = lambda do |_, tokens, current|
           token = tokens[current]
-          return 1, [Node.new(NodeType::Text, nil, token.text, token.start, token.end)]
+          return 1, [Node.new(NodeType::TEXT, nil, token.text, token.start, token.end)]
         end
 
         # parameter := '{' + text* + '}'
         parse_parameter = parse_between(
-            NodeType::Parameter,
-            TokenType::BeginParameter,
-            TokenType::EndParameter,
+            NodeType::PARAMETER,
+            TokenType::BEGIN_PARAMETER,
+            TokenType::END_PARAMETER,
             [parse_text]
         )
 
         # optional := '(' + option* + ')'
         # option := parameter | text
         parse_optional = parse_between(
-            NodeType::Optional,
-            TokenType::BeginOptional,
-            TokenType::EndOptional,
+            NodeType::OPTIONAL,
+            TokenType::BEGIN_OPTIONAL,
+            TokenType::END_OPTIONAL,
             [parse_parameter, parse_text]
         )
 
         # alternation := alternative* + ( '/' + alternative* )+
-        parse_alternative_separator = lambda do |expression, tokens, current|
-          unless looking_at(tokens, current, TokenType::Alternation)
+        parse_alternative_separator = lambda do |_, tokens, current|
+          unless looking_at(tokens, current, TokenType::ALTERNATION)
             return 0, nil
           end
           token = tokens[current]
-          return 1, [Node.new(NodeType::Alternative, nil, token.text, token.start, token.end)]
+          return 1, [Node.new(NodeType::ALTERNATIVE, nil, token.text, token.start, token.end)]
         end
 
         alternative_parsers = [
@@ -52,29 +52,29 @@ module Cucumber
         # alternative: = optional | parameter | text
         parse_alternation = lambda do |expression, tokens, current|
           previous = current - 1
-          unless looking_at_any(tokens, previous, [TokenType::StartOfLine, TokenType::WhiteSpace, TokenType::EndParameter])
+          unless looking_at_any(tokens, previous, [TokenType::START_OF_LINE, TokenType::WHITE_SPACE, TokenType::END_PARAMETER])
             return 0, nil
           end
 
-          consumed, ast = parse_tokens_until(expression, alternative_parsers, tokens, current, [TokenType::WhiteSpace, TokenType::EndOfLine, TokenType::BeginParameter])
+          consumed, ast = parse_tokens_until(expression, alternative_parsers, tokens, current, [TokenType::WHITE_SPACE, TokenType::END_OF_LINE, TokenType::BEGIN_PARAMETER])
           sub_current = current + consumed
-          unless ast.map { |astNode| astNode.type }.include? NodeType::Alternative
+          unless ast.map { |astNode| astNode.type }.include? NodeType::ALTERNATIVE
             return 0, nil
           end
 
           start = tokens[current].start
           _end = tokens[sub_current].start
           # Does not consume right hand boundary token
-          return consumed, [Node.new(NodeType::Alternation, split_alternatives(start, _end, ast), nil, start, _end)]
+          return consumed, [Node.new(NodeType::ALTERNATION, split_alternatives(start, _end, ast), nil, start, _end)]
         end
 
         #
         # cucumber-expression :=  ( alternation | optional | parameter | text )*
         #
         parse_cucumber_expression = parse_between(
-            NodeType::Expression,
-            TokenType::StartOfLine,
-            TokenType::EndOfLine,
+            NodeType::EXPRESSION,
+            TokenType::START_OF_LINE,
+            TokenType::END_OF_LINE,
             [parse_alternation, parse_optional, parse_parameter, parse_text]
         )
 
@@ -152,10 +152,10 @@ module Cucumber
         if at < 0
           # If configured correctly this will never happen
           # Keep for completeness
-          return token == TokenType::StartOfLine
+          return token == TokenType::START_OF_LINE
         end
         if at >= tokens.length
-          return token == TokenType::EndOfLine
+          return token == TokenType::END_OF_LINE
         end
         tokens[at].type == token
       end
@@ -165,7 +165,7 @@ module Cucumber
         alternatives = []
         alternative = []
         alternation.each { |n|
-          if NodeType::Alternative == n.type
+          if NodeType::ALTERNATIVE == n.type
             separators.push(n)
             alternatives.push(alternative)
             alternative = []
@@ -182,14 +182,14 @@ module Cucumber
         alternatives.each_with_index do |n, i|
           if i == 0
             right_separator = separators[i]
-            nodes.push(Node.new(NodeType::Alternative, n, nil, start, right_separator.start))
+            nodes.push(Node.new(NodeType::ALTERNATIVE, n, nil, start, right_separator.start))
           elsif i == alternatives.length - 1
             left_separator = separators[i - 1]
-            nodes.push(Node.new(NodeType::Alternative, n, nil, left_separator.end, _end))
+            nodes.push(Node.new(NodeType::ALTERNATIVE, n, nil, left_separator.end, _end))
           else
             left_separator = separators[i - 1]
             right_separator = separators[i]
-            nodes.push(Node.new(NodeType::Alternative, n, nil, left_separator.end, right_separator.start))
+            nodes.push(Node.new(NodeType::ALTERNATIVE, n, nil, left_separator.end, right_separator.start))
           end
         end
         nodes
