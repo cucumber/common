@@ -819,15 +819,15 @@ jobs:
             make
 
   gherkin-elixir:
-  executor: docker-cucumber-build
-  steps:
-    - attach_workspace:
-        at: "~/cucumber"
-    - run:
-        name: gherkin/elixir
-        command: |
-          cd gherkin/elixir
-          make
+    executor: docker-cucumber-build
+    steps:
+      - attach_workspace:
+          at: "~/cucumber"
+      - run:
+          name: gherkin/elixir
+          command: |
+            cd gherkin/elixir
+            make
 
 ###
 ### Workflows ###
