@@ -9,11 +9,13 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.regex.Pattern;
 
+import static io.cucumber.cucumberexpressions.Ast.Node.Type.OPTIONAL_NODE;
 import static io.cucumber.cucumberexpressions.Ast.Node.Type.PARAMETER_NODE;
 import static io.cucumber.cucumberexpressions.Ast.Node.Type.TEXT_NODE;
 import static io.cucumber.cucumberexpressions.CucumberExpressionException.createAlternativeMayNotBeEmpty;
 import static io.cucumber.cucumberexpressions.CucumberExpressionException.createAlternativeMayNotExclusivelyContainOptionals;
 import static io.cucumber.cucumberexpressions.CucumberExpressionException.createInvalidParameterTypeName;
+import static io.cucumber.cucumberexpressions.CucumberExpressionException.createOptionalIsNotAllowedInOptional;
 import static io.cucumber.cucumberexpressions.CucumberExpressionException.createOptionalMayNotBeEmpty;
 import static io.cucumber.cucumberexpressions.CucumberExpressionException.createParameterIsNotAllowedInOptional;
 import static io.cucumber.cucumberexpressions.ParameterType.isValidParameterTypeName;
@@ -65,6 +67,7 @@ public final class CucumberExpression implements Expression {
 
     private String rewriteOptional(Node node) {
         assertNoParameters(node, astNode -> createParameterIsNotAllowedInOptional(astNode, source));
+        assertNoOptionals(node, astNode -> createOptionalIsNotAllowedInOptional(astNode, source));
         assertNotEmpty(node, astNode -> createOptionalMayNotBeEmpty(astNode, source));
         return node.nodes().stream()
                 .map(this::rewriteToRegex)
@@ -93,9 +96,6 @@ public final class CucumberExpression implements Expression {
 
     private String rewriteParameter(Node node) {
         String name = node.text();
-        if (!isValidParameterTypeName(name)) {
-            throw createInvalidParameterTypeName(node ,source);
-        }
         ParameterType<?> parameterType = parameterTypeRegistry.lookupByTypeName(name);
         if (parameterType == null) {
             throw createUndefinedParameterType(node, source, name);
@@ -127,15 +127,26 @@ public final class CucumberExpression implements Expression {
 
     private void assertNoParameters(Node node,
             Function<Node, CucumberExpressionException> createNodeContainedAParameterException) {
+        assertNoNodeOfType(PARAMETER_NODE, node, createNodeContainedAParameterException);
+    }
+
+    private void assertNoOptionals(Node node,
+            Function<Node, CucumberExpressionException> createNodeContainedAnOptionalException) {
+        assertNoNodeOfType(OPTIONAL_NODE, node, createNodeContainedAnOptionalException);
+    }
+
+    private void assertNoNodeOfType(Node.Type nodeType, Node node,
+            Function<Node, CucumberExpressionException> createException) {
         node.nodes()
                 .stream()
-                .filter(astNode -> PARAMETER_NODE.equals(astNode.type()))
-                .map(createNodeContainedAParameterException)
+                .filter(astNode -> nodeType.equals(astNode.type()))
+                .map(createException)
                 .findFirst()
-                .ifPresent(nodeContainedAParameterException -> {
-                    throw nodeContainedAParameterException;
+                .ifPresent(exception -> {
+                    throw exception;
                 });
     }
+
 
     @Override
     public List<Argument<?>> match(String text, Type... typeHints) {

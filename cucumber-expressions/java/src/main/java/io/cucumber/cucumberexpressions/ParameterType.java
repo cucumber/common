@@ -12,7 +12,7 @@ import static java.util.Collections.singletonList;
 @API(status = API.Status.STABLE)
 public final class ParameterType<T> implements Comparable<ParameterType<?>> {
     @SuppressWarnings("RegExpRedundantEscape") // Android can't parse unescaped braces
-    private static final Pattern ILLEGAL_PARAMETER_NAME_PATTERN = Pattern.compile("([\\[\\]()$.|?*+])");
+    private static final Pattern ILLEGAL_PARAMETER_NAME_PATTERN = Pattern.compile("([{}()\\\\/])");
     private static final Pattern UNESCAPE_PATTERN = Pattern.compile("(\\\\([\\[$.|?*+\\]]))");
 
     private final String name;

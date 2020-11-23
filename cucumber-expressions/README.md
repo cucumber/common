@@ -12,16 +12,24 @@ left-boundary := whitespace | } | ^
 right-boundary := whitespace | { | $
 alternative: = optional | parameter | text 
 optional := '(' + option* + ')'
-option := parameter | text
-parameter := '{' + text* + '}'
-text := token
+option := optional | parameter | text
+parameter := '{' + name* + '}'
+name := whitespace | .
+text := whitespace | ')' | '}' | .
+```
 
-token := '\' | whitespace | '(' | ')' | '{' | '}' | '/' | any other text
+The AST is constructed from the following tokens:
+```
+escape := '\'
+token := whitespace | '(' | ')' | '{' | '}' | '/' | .
+. := any non-reserved codepoint
 ```
 
 Note:
  * While `parameter` is allowed to appear as part of `alternative` and 
-`option` in the AST, such an AST is not a valid a Cucumber Expression.
+  `option` in the AST, such an AST is not a valid a Cucumber Expression.
+ * While `optional` is allowed to appear as part of `option` in the AST,
+   such an AST is not a valid a Cucumber Expression.
  * ASTs with empty alternatives or alternatives that only
    contain an optional are valid ASTs but invalid Cucumber Expressions.
  * All escaped tokens (tokens starting with a backslash) are rewritten to their

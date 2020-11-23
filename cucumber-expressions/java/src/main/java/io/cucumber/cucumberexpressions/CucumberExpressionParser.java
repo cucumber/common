@@ -22,6 +22,8 @@ import static io.cucumber.cucumberexpressions.Ast.Token.Type.END_OPTIONAL;
 import static io.cucumber.cucumberexpressions.Ast.Token.Type.END_PARAMETER;
 import static io.cucumber.cucumberexpressions.Ast.Token.Type.START_OF_LINE;
 import static io.cucumber.cucumberexpressions.Ast.Token.Type.WHITE_SPACE;
+import static io.cucumber.cucumberexpressions.CucumberExpressionException.createAlternationNotAllowedInOptional;
+import static io.cucumber.cucumberexpressions.CucumberExpressionException.createInvalidParameterTypeName;
 import static io.cucumber.cucumberexpressions.CucumberExpressionException.createMissingEndToken;
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
@@ -29,33 +31,76 @@ import static java.util.Collections.singletonList;
 final class CucumberExpressionParser {
 
     /*
-     * text := token
+     * text := whitespace | ')' | '}' | .
      */
     private static final Parser textParser = (expression, tokens, current) -> {
         Token token = tokens.get(current);
-        return new Result(1, new Node(TEXT_NODE, token.start(), token.end(), token.text));
+        switch (token.type) {
+            case WHITE_SPACE:
+            case TEXT:
+            case END_PARAMETER:
+            case END_OPTIONAL:
+                return new Result(1, new Node(TEXT_NODE, token.start(), token.end(), token.text));
+            case ALTERNATION:
+                throw createAlternationNotAllowedInOptional(expression, token);
+            case BEGIN_PARAMETER:
+            case START_OF_LINE:
+            case END_OF_LINE:
+            case BEGIN_OPTIONAL:
+            default:
+                // If configured correctly this will never happen
+                return new Result(0);
+        }
     };
 
     /*
-     * parameter := '{' + text* + '}'
+     * name := whitespace | .
+     */
+    private static final Parser nameParser = (expression, tokens, current) -> {
+        Token token = tokens.get(current);
+        switch (token.type) {
+            case WHITE_SPACE:
+            case TEXT:
+                return new Result(1, new Node(TEXT_NODE, token.start(), token.end(), token.text));
+            case BEGIN_OPTIONAL:
+            case END_OPTIONAL:
+            case BEGIN_PARAMETER:
+            case END_PARAMETER:
+            case ALTERNATION:
+                throw createInvalidParameterTypeName(token, expression);
+            case START_OF_LINE:
+            case END_OF_LINE:
+            default:
+                // If configured correctly this will never happen
+                return new Result(0);
+        }
+    };
+
+    /*
+     * parameter := '{' + name* + '}'
      */
     private static final Parser parameterParser = parseBetween(
             PARAMETER_NODE,
             BEGIN_PARAMETER,
             END_PARAMETER,
-            singletonList(textParser)
+            singletonList(nameParser)
     );
 
     /*
      * optional := '(' + option* + ')'
      * option := parameter | text
      */
-    private static final Parser optionalParser = parseBetween(
-            OPTIONAL_NODE,
-            BEGIN_OPTIONAL,
-            END_OPTIONAL,
-            asList(parameterParser, textParser)
-    );
+    private static final Parser optionalParser;
+    static {
+        List<Parser> parsers = new ArrayList<>();
+        optionalParser = parseBetween(
+                OPTIONAL_NODE,
+                BEGIN_OPTIONAL,
+                END_OPTIONAL,
+                parsers
+        );
+        parsers.addAll(asList(optionalParser, parameterParser, textParser));
+    }
 
     /*
      * alternation := alternative* + ( '/' + alternative* )+
@@ -152,7 +197,7 @@ final class CucumberExpressionParser {
                 return new Result(0);
             }
             int subCurrent = current + 1;
-            Result result = parseTokensUntil(expression, parsers, tokens, subCurrent, endToken);
+            Result result = parseTokensUntil(expression, parsers, tokens, subCurrent, endToken, END_OF_LINE);
             subCurrent += result.consumed;
 
             // endToken not found

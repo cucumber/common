@@ -26,6 +26,7 @@ import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.core.Is.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -69,7 +70,7 @@ class CucumberExpressionTest {
                 expression.match(expectation.getText());
             };
             CucumberExpressionException exception = assertThrows(CucumberExpressionException.class, executable);
-            assertThat(exception.getMessage(), Matchers.is(expectation.getException()));
+            assertThat(exception.getMessage(), equalTo(expectation.getException()));
         }
     }
 
@@ -81,22 +82,6 @@ class CucumberExpressionTest {
     }
 
     // Misc tests
-
-    @Test
-    void alternation_separator_can_be_used_in_parameter() {
-        parameterTypeRegistry
-                .defineParameterType(new ParameterType<>("a/b", "(.*)", String.class, (String arg) -> arg));
-        assertEquals(singletonList("three mice"),
-                match("{a/b}", "three mice"));
-    }
-
-    @Test
-    void matches_escaped_parenthesis_4() {
-        parameterTypeRegistry
-                .defineParameterType(new ParameterType<>("{string}", "\"(.*)\"", String.class, (String arg) -> arg));
-        assertEquals(singletonList("blind"),
-                match("three ((exceptionally\\)) {{string\\}} mice", "three (exceptionally) \"blind\" mice"));
-    }
 
     @Test
     void exposes_source() {

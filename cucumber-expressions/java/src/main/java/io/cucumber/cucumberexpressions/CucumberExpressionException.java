@@ -28,6 +28,16 @@ public class CucumberExpressionException extends RuntimeException {
                         .symbol() + "' to escape the " + beginToken.purpose()));
     }
 
+    static CucumberExpressionException createAlternationNotAllowedInOptional(String expression, Token current) {
+        return new CucumberExpressionException(message(
+                current.start,
+                expression,
+                pointAt(current),
+                "An alternation can not be used inside an optional",
+                "You can use '\\/' to escape the the '/'"
+        ));
+    }
+
     static CucumberExpressionException createTheEndOfLineCanNotBeEscaped(String expression) {
         int index = expression.codePointCount(0, expression.length()) - 1;
         return new CucumberExpressionException(message(
@@ -55,6 +65,14 @@ public class CucumberExpressionException extends RuntimeException {
                 pointAt(node),
                 "An optional may not contain a parameter type",
                 "If you did not mean to use an parameter type you can use '\\{' to escape the the '{'"));
+    }
+    static CucumberExpressionException createOptionalIsNotAllowedInOptional(Node node, String expression) {
+        return new CucumberExpressionException(message(
+                node.start(),
+                expression,
+                pointAt(node),
+                "An optional may not contain an other optional",
+                "If you did not mean to use an optional type you can use '\\(' to escape the the '('. For more complicated expressions consider using a regular expression instead."));
     }
 
     static CucumberExpressionException createOptionalMayNotBeEmpty(Node node, String expression) {
@@ -91,21 +109,24 @@ public class CucumberExpressionException extends RuntimeException {
 
     static CucumberExpressionException createInvalidParameterTypeName(String name) {
         return new CucumberExpressionException(
-                "Illegal character in parameter name {" + name + "}. Parameter names may not contain '[]()$.|?*+'");
+                "Illegal character in parameter name {" + name + "}. Parameter names may not contain '{', '}', '(', ')', '\\' or '/'");
     }
 
     /**
      * Not very clear, but this message has to be language independent
      * Other languages have dedicated syntax for writing down regular expressions
+     * <p>
+     * In java a regular expression has to start with {@code ^} and end with
+     * {@code $} to be recognized as one by Cucumber.
      *
      * @see ExpressionFactory
      */
-    static CucumberExpressionException createInvalidParameterTypeName(Node node, String expression) {
+    static CucumberExpressionException createInvalidParameterTypeName(Token token, String expression) {
         return new CucumberExpressionException(message(
-                node.start(),
+                token.start(),
                 expression,
-                pointAt(node),
-                "Parameter names may not contain '[]()$.|?*+'",
+                pointAt(token),
+                "Parameter names may not contain '{', '}', '(', ')', '\\' or '/'",
                 "Did you mean to use a regular expression?"));
     }
 
