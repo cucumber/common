@@ -7,12 +7,12 @@ default: .tested
 	mix test
 	touch $@
 
-.deps: lib/ex_gherkin/parser.ex
+.deps: lib/gherkin/parser.ex
 	mix local.hex --force
 	mix deps.get
 	touch $@
 
-lib/ex_gherkin/parser.ex: resources/gherkin.berp gherkin-elixir.razor
+lib/gherkin/parser.ex: resources/gherkin.berp gherkin-elixir.razor
 	mono  /var/lib/berp/1.1.1/tools/net471/Berp.exe -g resources/gherkin.berp -t gherkin-elixir.razor -o $@
 	# Remove BOM
 	awk 'NR==1{sub(/^\xef\xbb\xbf/,"")}{print}' < $@ > $@.nobom
@@ -54,4 +54,4 @@ clean:
 	rm -rf _build deps .tested .deps
 
 clobber: clean
-	rm -f lib/ex_gherkin/parser.ex
+	rm -f lib/gherkin/parser.ex
