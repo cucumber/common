@@ -36,7 +36,7 @@ defmodule GherkinGoodTestdataTest do
     total_result_boolean = Enum.all?(results, fn {_path, result} -> result end)
 
     results
-    |> construct_info_message("AST TESTDATA (GOOD)")
+    |> construct_info_message("SOURCE TESTDATA (GOOD)")
     |> report_to_logger(total_result_boolean)
 
     assert total_result_boolean
