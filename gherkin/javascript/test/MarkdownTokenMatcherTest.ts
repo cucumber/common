@@ -63,4 +63,6 @@ describe('TokenMatcher', function () {
     assert(tm.match_Empty(token))
     assert.strictEqual(token.matchedType, TokenType.Empty)
   })
+
+  it('matches docstring separator')
 })
