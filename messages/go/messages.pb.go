@@ -1520,8 +1520,7 @@ type GherkinDocument_Feature_FeatureChild_Scenario struct {
 func (*GherkinDocument_Feature_FeatureChild_Rule_) isGherkinDocument_Feature_FeatureChild_Value() {}
 func (*GherkinDocument_Feature_FeatureChild_Background) isGherkinDocument_Feature_FeatureChild_Value() {
 }
-func (*GherkinDocument_Feature_FeatureChild_Scenario) isGherkinDocument_Feature_FeatureChild_Value() {
-}
+func (*GherkinDocument_Feature_FeatureChild_Scenario) isGherkinDocument_Feature_FeatureChild_Value() {}
 
 func (m *GherkinDocument_Feature_FeatureChild) GetValue() isGherkinDocument_Feature_FeatureChild_Value {
 	if m != nil {
@@ -1575,10 +1574,8 @@ type GherkinDocument_Feature_FeatureChild_Rule struct {
 func (m *GherkinDocument_Feature_FeatureChild_Rule) Reset() {
 	*m = GherkinDocument_Feature_FeatureChild_Rule{}
 }
-func (m *GherkinDocument_Feature_FeatureChild_Rule) String() string {
-	return proto.CompactTextString(m)
-}
-func (*GherkinDocument_Feature_FeatureChild_Rule) ProtoMessage() {}
+func (m *GherkinDocument_Feature_FeatureChild_Rule) String() string { return proto.CompactTextString(m) }
+func (*GherkinDocument_Feature_FeatureChild_Rule) ProtoMessage()    {}
 func (*GherkinDocument_Feature_FeatureChild_Rule) Descriptor() ([]byte, []int) {
 	return fileDescriptor_4dc296cbfe5ffcd5, []int{7, 1, 1, 0}
 }
@@ -1943,10 +1940,8 @@ type GherkinDocument_Feature_Scenario_Examples struct {
 func (m *GherkinDocument_Feature_Scenario_Examples) Reset() {
 	*m = GherkinDocument_Feature_Scenario_Examples{}
 }
-func (m *GherkinDocument_Feature_Scenario_Examples) String() string {
-	return proto.CompactTextString(m)
-}
-func (*GherkinDocument_Feature_Scenario_Examples) ProtoMessage() {}
+func (m *GherkinDocument_Feature_Scenario_Examples) String() string { return proto.CompactTextString(m) }
+func (*GherkinDocument_Feature_Scenario_Examples) ProtoMessage()    {}
 func (*GherkinDocument_Feature_Scenario_Examples) Descriptor() ([]byte, []int) {
 	return fileDescriptor_4dc296cbfe5ffcd5, []int{7, 1, 3, 0}
 }
