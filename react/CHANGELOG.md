@@ -11,11 +11,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
+* Make image and video attachments collapsible; show collapsed by default.
+
 ### Deprecated
 
 ### Removed
 
 ### Fixed
+
+* Prevent images from growing wider than their container.
 
 ## [10.1.2] - 2020-12-13
 
