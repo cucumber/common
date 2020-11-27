@@ -7,7 +7,7 @@ import (
 )
 
 var HAS_FLAG_REGEXP = regexp.MustCompile(`\(\?[imsU-]+(:.*)?\)`)
-var ILLEGAL_PARAMETER_NAME_REGEXP = regexp.MustCompile(`([\[\]()$.|?*+])`)
+var ILLEGAL_PARAMETER_NAME_REGEXP = regexp.MustCompile(`([{}()\\/])`)
 
 type ParameterType struct {
 	name                           string
@@ -20,14 +20,14 @@ type ParameterType struct {
 }
 
 func CheckParameterTypeName(typeName string) error {
-	if isValidParameterTypeName(typeName) {
+	if !isValidParameterTypeName(typeName) {
 		return createInvalidParameterTypeName(typeName)
 	}
 	return nil
 }
 
 func isValidParameterTypeName(typeName string) bool {
-	return ILLEGAL_PARAMETER_NAME_REGEXP.MatchString(typeName)
+	return !ILLEGAL_PARAMETER_NAME_REGEXP.MatchString(typeName)
 }
 
 func NewParameterType(name string, regexps []*regexp.Regexp, type1 string, transform func(...*string) interface{}, useForSnippets bool, preferForRegexpMatch bool, useRegexpMatchAsStrongTypeHint bool) (*ParameterType, error) {

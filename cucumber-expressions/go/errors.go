@@ -28,6 +28,16 @@ func createMissingEndToken(expression string, beginToken tokenType, endToken tok
 	))
 }
 
+func createAlternationNotAllowedInOptional(expression string, current token) error {
+	return NewCucumberExpressionError(message(
+		current.Start,
+		expression,
+		pointAtToken(current),
+		"An alternation can not be used inside an optional",
+		"You can use '\\/' to escape the the '/'",
+	))
+}
+
 func createTheEndOfLineCanNotBeEscaped(expression string) error {
 	index := utf8.RuneCountInString(expression) - 1
 	return NewCucumberExpressionError(message(
@@ -57,7 +67,15 @@ func createParameterIsNotAllowedInOptional(node node, expression string) error {
 		"If you did not mean to use an parameter type you can use '\\{' to escape the the '{'",
 	))
 }
-
+func createOptionalIsNotAllowedInOptional(node node, expression string) error {
+	return NewCucumberExpressionError(message(
+		node.Start,
+		expression,
+		pointAtNode(node),
+		"An optional may not contain an other optional",
+		"If you did not mean to use an optional type you can use '\\(' to escape the the '('. For more complicated expressions consider using a regular expression instead.",
+	))
+}
 func createAlternativeMayNotBeEmpty(node node, expression string) error {
 	return NewCucumberExpressionError(message(
 		node.Start,
@@ -88,16 +106,16 @@ func createCantEscaped(expression string, index int) error {
 }
 
 func createInvalidParameterTypeName(typeName string) error {
-	return NewCucumberExpressionError("Illegal character in parameter name {" + typeName + "}. Parameter names may not contain '[]()$.|?*+'")
+	return NewCucumberExpressionError("Illegal character in parameter name {" + typeName + "}. Parameter names may not contain '{', '}', '(', ')', '\\' or '/'")
 }
 
 //  Not very clear, but this message has to be language independent
-func createInvalidParameterTypeNameInNode(node node, expression string) error {
+func createInvalidParameterTypeNameInNode(token token, expression string) error {
 	return NewCucumberExpressionError(message(
-		node.Start,
+		token.Start,
 		expression,
-		pointAtNode(node),
-		"Parameter names may not contain '[]()$.|?*+'",
+		pointAtToken(token),
+		"Parameter names may not contain '{', '}', '(', ')', '\\' or '/'",
 		"Did you mean to use a regular expression?",
 	))
 }

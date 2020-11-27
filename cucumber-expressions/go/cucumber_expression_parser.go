@@ -1,34 +1,95 @@
 package cucumberexpressions
 
 /*
- * text := token
+ * text := whitespace | ')' | '}' | .
  */
 var textParser = func(expression string, tokens []token, current int) (int, node, error) {
 	token := tokens[current]
-	return 1, node{textNode, token.Start, token.End, token.Text, nil}, nil
+	switch token.TokenType {
+	case whiteSpace:
+		fallthrough
+	case text:
+		fallthrough
+	case endParameter:
+		fallthrough
+	case endOptional:
+		return 1, node{textNode, token.Start, token.End, token.Text, nil}, nil
+	case alternation:
+		return 0, nullNode, createAlternationNotAllowedInOptional(expression, token)
+	case beginParameter:
+		fallthrough
+	case startOfLine:
+		fallthrough
+	case endOfLine:
+		fallthrough
+	case beginOptional:
+		fallthrough
+	default:
+		// If configured correctly this will never happen
+		return 0, nullNode, nil
+	}
 }
 
 /*
- * parameter := '{' + text* + '}'
+ * name := whitespace | .
+ */
+var nameParser = func(expression string, tokens []token, current int) (int, node, error) {
+	token := tokens[current]
+	switch token.TokenType {
+	case whiteSpace:
+		fallthrough
+	case text:
+		return 1, node{textNode, token.Start, token.End, token.Text, nil}, nil
+	case beginParameter:
+		fallthrough
+	case endParameter:
+		fallthrough
+	case beginOptional:
+		fallthrough
+	case endOptional:
+		fallthrough
+	case alternation:
+		return 0, nullNode, createInvalidParameterTypeNameInNode(token, expression)
+	case startOfLine:
+		fallthrough
+	case endOfLine:
+		fallthrough
+	default:
+		// If configured correctly this will never happen
+		return 0, nullNode, nil
+	}
+}
+
+/*
+ * parameter := '{' + name* + '}'
  */
 var parameterParser = parseBetween(
 	parameterNode,
 	beginParameter,
 	endParameter,
-	textParser,
+	[]parser{nameParser},
 )
 
 /*
  * optional := '(' + option* + ')'
- * option := parameter | text
+ * option := optional | parameter | text
  */
+var optionalSubParsers = make([]parser, 3)
 var optionalParser = parseBetween(
 	optionalNode,
 	beginOptional,
 	endOptional,
-	parameterParser,
-	textParser,
+	optionalSubParsers,
 )
+
+func setParsers(parsers []parser, toSet ...parser) []parser {
+	for i, p := range toSet {
+		parsers[i] = p
+	}
+	return parsers
+}
+
+var _ = setParsers(optionalSubParsers, optionalParser, parameterParser, textParser)
 
 // alternation := alternative* + ( '/' + alternative* )+
 var alternativeSeparatorParser = func(expression string, tokens []token, current int) (int, node, error) {
@@ -89,10 +150,7 @@ var cucumberExpressionParser = parseBetween(
 	expressionNode,
 	startOfLine,
 	endOfLine,
-	alternationParser,
-	optionalParser,
-	parameterParser,
-	textParser,
+	[]parser{alternationParser, optionalParser, parameterParser, textParser},
 )
 
 func parse(expression string) (node, error) {
@@ -113,14 +171,14 @@ func parse(expression string) (node, error) {
 
 type parser func(expression string, tokens []token, current int) (int, node, error)
 
-func parseBetween(nodeType nodeType, beginToken tokenType, endToken tokenType, parsers ...parser) parser {
+func parseBetween(nodeType nodeType, beginToken tokenType, endToken tokenType, parsers []parser) parser {
 	return func(expression string, tokens []token, current int) (int, node, error) {
 		if !lookingAt(tokens, current, beginToken) {
 			return 0, nullNode, nil
 		}
 
 		subCurrent := current + 1
-		consumed, subAst, err := parseTokensUntil(expression, parsers, tokens, subCurrent, endToken)
+		consumed, subAst, err := parseTokensUntil(expression, parsers, tokens, subCurrent, endToken, endOfLine)
 		if err != nil {
 			return 0, nullNode, err
 		}

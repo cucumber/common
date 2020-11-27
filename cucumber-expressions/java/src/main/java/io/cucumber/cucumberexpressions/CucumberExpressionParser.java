@@ -88,7 +88,7 @@ final class CucumberExpressionParser {
 
     /*
      * optional := '(' + option* + ')'
-     * option := parameter | text
+     * option := optional | parameter | text
      */
     private static final Parser optionalParser;
     static {

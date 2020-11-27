@@ -61,6 +61,10 @@ func (c *CucumberExpression) rewriteOptional(node node) (string, error) {
 	if err != nil {
 		return "", err
 	}
+	err = c.assertNoOptionals(node, c.createOptionalIsNotAllowedInOptional())
+	if err != nil {
+		return "", err
+	}
 	err = c.assertNotEmpty(node, c.createOptionalMayNotBeEmpty())
 	if err != nil {
 		return "", err
@@ -71,6 +75,12 @@ func (c *CucumberExpression) rewriteOptional(node node) (string, error) {
 func (c *CucumberExpression) createParameterIsNotAllowedInOptional() func(node) error {
 	return func(node node) error {
 		return createParameterIsNotAllowedInOptional(node, c.source)
+	}
+}
+
+func (c *CucumberExpression) createOptionalIsNotAllowedInOptional() func(node) error {
+	return func(node node) error {
+		return createOptionalIsNotAllowedInOptional(node, c.source)
 	}
 }
 
@@ -118,9 +128,6 @@ func (c *CucumberExpression) rewriteParameter(node node) (string, error) {
 		return fmt.Sprintf("(%s)", strings.Join(captureGroups, "|"))
 	}
 	typeName := node.text()
-	if isValidParameterTypeName(typeName) {
-		return "", createInvalidParameterTypeNameInNode(node, c.source)
-	}
 	parameterType := c.parameterTypeRegistry.LookupByTypeName(typeName)
 	if parameterType == nil {
 		return "", createUndefinedParameterType(node, c.source, typeName)
@@ -163,6 +170,15 @@ func (c *CucumberExpression) assertNoParameters(node node, createParameterIsNotA
 	for _, node := range node.Nodes {
 		if node.NodeType == parameterNode {
 			return createParameterIsNotAllowedInOptionalError(node)
+		}
+	}
+	return nil
+}
+
+func (c *CucumberExpression) assertNoOptionals(node node, createOptionalIsNotAllowedInOptionalError func(node) error) error {
+	for _, node := range node.Nodes {
+		if node.NodeType == optionalNode {
+			return createOptionalIsNotAllowedInOptionalError(node)
 		}
 	}
 	return nil

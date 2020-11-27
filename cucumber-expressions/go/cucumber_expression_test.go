@@ -203,17 +203,6 @@ func TestCucumberExpression(t *testing.T) {
 
 func MatchCucumberExpression(t *testing.T, expr string, text string, typeHints ...reflect.Type) []interface{} {
 	parameterTypeRegistry := NewParameterTypeRegistry()
-	parameterType1, err := NewParameterType(
-		"{string}",
-		[]*regexp.Regexp{regexp.MustCompile(`".*"`)},
-		"string",
-		nil,
-		true,
-		false,
-		false,
-	)
-	require.NoError(t, err)
-	require.NoError(t, parameterTypeRegistry.DefineParameterType(parameterType1))
 	expression, err := NewCucumberExpression(expr, parameterTypeRegistry)
 	require.NoError(t, err)
 	args, err := expression.Match(text, typeHints...)
