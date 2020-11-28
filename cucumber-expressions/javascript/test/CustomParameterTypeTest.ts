@@ -44,7 +44,7 @@ describe('Custom parameter type', () => {
           new ParameterType('[string]', /.*/, String, (s) => s, false, true),
         {
           message:
-            "Illegal character in parameter name {[string]}. Parameter names may not contain '[]()$.|?*+'",
+            "Illegal character in parameter name {[string]}. Parameter names may not contain '{', '}', '(', ')', '\\' or '/'",
         }
       )
     })

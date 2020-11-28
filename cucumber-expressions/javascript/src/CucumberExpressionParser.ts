@@ -1,9 +1,13 @@
 import { Node, NodeType, Token, TokenType } from './Ast'
 import CucumberExpressionTokenizer from './CucumberExpressionTokenizer'
-import { createMissingEndToken } from './Errors'
+import {
+  createAlternationNotAllowedInOptional,
+  createInvalidParameterTypeNameInNode,
+  createMissingEndToken,
+} from './Errors'
 
 /*
- * text := token
+ * text := whitespace | ')' | '}' | .
  */
 function parseText(
   expression: string,
@@ -11,11 +15,70 @@ function parseText(
   current: number
 ) {
   const token = tokens[current]
-  return {
-    consumed: 1,
-    ast: [
-      new Node(NodeType.text, undefined, token.text, token.start, token.end),
-    ],
+  switch (token.type) {
+    case TokenType.whiteSpace:
+    case TokenType.text:
+    case TokenType.endParameter:
+    case TokenType.endOptional:
+      return {
+        consumed: 1,
+        ast: [
+          new Node(
+            NodeType.text,
+            undefined,
+            token.text,
+            token.start,
+            token.end
+          ),
+        ],
+      }
+    case TokenType.alternation:
+      throw createAlternationNotAllowedInOptional(expression, token)
+    case TokenType.startOfLine:
+    case TokenType.endOfLine:
+    case TokenType.beginOptional:
+    case TokenType.beginParameter:
+    default:
+      // If configured correctly this will never happen
+      return { consumed: 0 }
+  }
+}
+
+/*
+ * parameter := '{' + name* + '}'
+ */
+function parseName(
+  expression: string,
+  tokens: ReadonlyArray<Token>,
+  current: number
+) {
+  const token = tokens[current]
+  switch (token.type) {
+    case TokenType.whiteSpace:
+    case TokenType.text:
+      return {
+        consumed: 1,
+        ast: [
+          new Node(
+            NodeType.text,
+            undefined,
+            token.text,
+            token.start,
+            token.end
+          ),
+        ],
+      }
+    case TokenType.beginOptional:
+    case TokenType.endOptional:
+    case TokenType.beginParameter:
+    case TokenType.endParameter:
+    case TokenType.alternation:
+      throw createInvalidParameterTypeNameInNode(token, expression)
+    case TokenType.startOfLine:
+    case TokenType.endOfLine:
+    default:
+      // If configured correctly this will never happen
+      return { consumed: 0 }
   }
 }
 
@@ -26,19 +89,21 @@ const parseParameter = parseBetween(
   NodeType.parameter,
   TokenType.beginParameter,
   TokenType.endParameter,
-  [parseText]
+  [parseName]
 )
 
 /*
  * optional := '(' + option* + ')'
- * option := parameter | text
+ * option := optional | parameter | text
  */
+const optionalSubParsers: Array<Parser> = []
 const parseOptional = parseBetween(
   NodeType.optional,
   TokenType.beginOptional,
   TokenType.endOptional,
-  [parseParameter, parseText]
+  optionalSubParsers
 )
+optionalSubParsers.push(parseOptional, parseParameter, parseText)
 
 /*
  * alternation := alternative* + ( '/' + alternative* )+
@@ -152,7 +217,7 @@ function parseBetween(
   type: NodeType,
   beginToken: TokenType,
   endToken: TokenType,
-  parsers: ReadonlyArray<Parser>
+  parsers: Array<Parser>
 ): Parser {
   return (expression, tokens, current) => {
     if (!lookingAt(tokens, current, beginToken)) {
@@ -161,6 +226,7 @@ function parseBetween(
     let subCurrent = current + 1
     const result = parseTokensUntil(expression, parsers, tokens, subCurrent, [
       endToken,
+      TokenType.endOfLine,
     ])
     subCurrent += result.consumed
 

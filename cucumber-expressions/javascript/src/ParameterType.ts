@@ -1,4 +1,7 @@
-import { CucumberExpressionError } from './Errors'
+import {
+  createInvalidParameterTypeName,
+  CucumberExpressionError,
+} from './Errors'
 
 const ILLEGAL_PARAMETER_NAME_PATTERN = /([[\]()$.|?*+])/
 const UNESCAPE_PATTERN = () => /(\\([[$.|?*+\]]))/g
@@ -18,9 +21,7 @@ export default class ParameterType<T> {
 
   public static checkParameterTypeName(typeName: string) {
     if (!this.isValidParameterTypeName(typeName)) {
-      throw new CucumberExpressionError(
-        `Illegal character in parameter name {${typeName}}. Parameter names may not contain '[]()$.|?*+'`
-      )
+      throw createInvalidParameterTypeName(typeName)
     }
   }
 

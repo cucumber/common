@@ -61,6 +61,21 @@ export function createParameterIsNotAllowedInOptional(
   )
 }
 
+export function createOptionalIsNotAllowedInOptional(
+  node: Node,
+  expression: string
+): CucumberExpressionError {
+  return new CucumberExpressionError(
+    message(
+      node.start,
+      expression,
+      pointAtLocated(node),
+      'An optional may not contain an other optional',
+      "If you did not mean to use an optional type you can use '\\(' to escape the the '('. For more complicated expressions consider using a regular expression instead."
+    )
+  )
+}
+
 export function createTheEndOfLIneCanNotBeEscaped(
   expression: string
 ): CucumberExpressionError {
@@ -96,6 +111,21 @@ export function createMissingEndToken(
   )
 }
 
+export function createAlternationNotAllowedInOptional(
+  expression: string,
+  current: Token
+) {
+  return new CucumberExpressionError(
+    message(
+      current.start,
+      expression,
+      pointAtLocated(current),
+      'An alternation can not be used inside an optional',
+      "You can use '\\/' to escape the the '/'"
+    )
+  )
+}
+
 export function createCantEscaped(expression: string, index: number) {
   return new CucumberExpressionError(
     message(
@@ -108,13 +138,22 @@ export function createCantEscaped(expression: string, index: number) {
   )
 }
 
-export function createInvalidParameterTypeName(node: Node, expression: string) {
+export function createInvalidParameterTypeName(typeName: string) {
+  return new CucumberExpressionError(
+    `Illegal character in parameter name {${typeName}}. Parameter names may not contain '{', '}', '(', ')', '\\' or '/'`
+  )
+}
+
+export function createInvalidParameterTypeNameInNode(
+  token: Token,
+  expression: string
+) {
   return new CucumberExpressionError(
     message(
-      node.start,
+      token.start,
       expression,
-      pointAtLocated(node),
-      "Parameter names may not contain '[]()$.|?*+'",
+      pointAtLocated(token),
+      "Parameter names may not contain '{', '}', '(', ')', '\\' or '/'",
       'Did you mean to use a regular expression?'
     )
   )

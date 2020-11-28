@@ -5,7 +5,7 @@ import Argument from './Argument'
 import {
   createAlternativeMayNotBeEmpty,
   createAlternativeMayNotExclusivelyContainOptionals,
-  createInvalidParameterTypeName,
+  createOptionalIsNotAllowedInOptional,
   createOptionalMayNotBeEmpty,
   createParameterIsNotAllowedInOptional,
   createUndefinedParameterType,
@@ -63,6 +63,9 @@ export default class CucumberExpression implements Expression {
     this.assertNoParameters(node, (astNode) =>
       createParameterIsNotAllowedInOptional(astNode, this.expression)
     )
+    this.assertNoOptionals(node, (astNode) =>
+      createOptionalIsNotAllowedInOptional(astNode, this.expression)
+    )
     this.assertNotEmpty(node, (astNode) =>
       createOptionalMayNotBeEmpty(astNode, this.expression)
     )
@@ -93,10 +96,6 @@ export default class CucumberExpression implements Expression {
 
   private rewriteParameter(node: Node) {
     const name = node.text()
-    if (!ParameterType.isValidParameterTypeName(name)) {
-      throw createInvalidParameterTypeName(node, this.expression)
-    }
-
     const parameterType = this.parameterTypeRegistry.lookupByTypeName(name)
     if (!parameterType) {
       throw createUndefinedParameterType(node, this.expression, name)
@@ -138,6 +137,20 @@ export default class CucumberExpression implements Expression {
     )
     if (parameterNodes.length > 0) {
       throw createNodeContainedAParameterError(parameterNodes[0])
+    }
+  }
+
+  private assertNoOptionals(
+    node: Node,
+    createNodeContainedAnOptionalError: (
+      astNode: Node
+    ) => CucumberExpressionError
+  ) {
+    const parameterNodes = node.nodes.filter(
+      (astNode) => NodeType.optional == astNode.type
+    )
+    if (parameterNodes.length > 0) {
+      throw createNodeContainedAnOptionalError(parameterNodes[0])
     }
   }
 
