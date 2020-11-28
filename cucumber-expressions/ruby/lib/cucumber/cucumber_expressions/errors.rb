@@ -98,6 +98,18 @@ This Cucumber Expression has a problem at column #{index + 1}:
       end
     end
 
+    class OptionalIsNotAllowedInOptional < CucumberExpressionError
+      def initialize(node, expression)
+        super(build_message(
+                  node.start,
+                  expression,
+                  point_at_located(node),
+                  'An optional may not contain an other optional',
+                  "If you did not mean to use an optional type you can use '\\(' to escape the the '('. For more complicated expressions consider using a regular expression instead."
+              ))
+      end
+    end
+
     class TheEndOfLineCannotBeEscaped < CucumberExpressionError
       def initialize(expression)
         index = expression.codepoints.length - 1
@@ -126,14 +138,33 @@ This Cucumber Expression has a problem at column #{index + 1}:
       end
     end
 
+    class AlternationNotAllowedInOptional < CucumberExpressionError
+      def initialize(expression, current)
+        super(build_message(
+                  current.start,
+                  expression,
+                  point_at_located(current),
+                  "An alternation can not be used inside an optional",
+                  "You can use '\\/' to escape the the '/'"
+              ))
+      end
+    end
 
     class InvalidParameterTypeName < CucumberExpressionError
-      def initialize(node, expression)
+      def initialize(type_name)
+        super("Illegal character in parameter name {#{type_name}}. " +
+                  "Parameter names may not contain '{', '}', '(', ')', '\\' or '/'")
+      end
+    end
+
+
+    class InvalidParameterTypeNameInNode < CucumberExpressionError
+      def initialize(expression, token)
         super(build_message(
-                  node.start,
+                  token.start,
                   expression,
-                  point_at_located(node),
-                  "Parameter names may not contain '[]()$.|?*+'",
+                  point_at_located(token),
+                  "Parameter names may not contain '{', '}', '(', ')', '\\' or '/'",
                   "Did you mean to use a regular expression?"
               ))
       end

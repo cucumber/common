@@ -63,6 +63,7 @@ module Cucumber
 
       def rewrite_optional(node)
         assert_no_parameters(node, lambda { |astNode| ParameterIsNotAllowedInOptional.new(astNode, @expression) })
+        assert_no_optionals(node, lambda { |astNode| OptionalIsNotAllowedInOptional.new(astNode, @expression) })
         assert_not_empty(node, lambda { |astNode| OptionalMayNotBeEmpty.new(astNode, @expression) })
         regex = node.nodes.map { |n| rewrite_to_regex(n) }.join('')
         "(?:#{regex})?"
@@ -86,10 +87,6 @@ module Cucumber
 
       def rewrite_parameter(node)
         name = node.text
-        unless ParameterType::is_valid_parameter_type_name(name)
-          raise InvalidParameterTypeName.new(node, @expression)
-        end
-
         parameter_type = @parameter_type_registry.lookup_by_type_name(name)
         if parameter_type.nil?
           raise UndefinedParameterTypeError.new(node, @expression, name)
@@ -115,9 +112,16 @@ module Cucumber
       end
 
       def assert_no_parameters(node, create_node_contained_a_parameter_error)
-        parameter_nodes = node.nodes.filter { |astNode| NodeType::PARAMETER == astNode.type }
-        if parameter_nodes.length > 0
-          raise create_node_contained_a_parameter_error.call(parameter_nodes[0])
+        nodes = node.nodes.filter { |astNode| NodeType::PARAMETER == astNode.type }
+        if nodes.length > 0
+          raise create_node_contained_a_parameter_error.call(nodes[0])
+        end
+      end
+
+      def assert_no_optionals(node, create_node_contained_an_optional_error)
+        nodes = node.nodes.filter { |astNode| NodeType::OPTIONAL == astNode.type }
+        if nodes.length > 0
+          raise create_node_contained_an_optional_error.call(nodes[0])
         end
       end
     end

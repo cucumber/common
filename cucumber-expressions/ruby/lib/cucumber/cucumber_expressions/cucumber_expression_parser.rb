@@ -7,28 +7,58 @@ module Cucumber
   module CucumberExpressions
     class CucumberExpressionParser
       def parse(expression)
-        # text := token
+        # text := whitespace | ')' | '}' | .
         parse_text = lambda do |_, tokens, current|
           token = tokens[current]
-          return 1, [Node.new(NodeType::TEXT, nil, token.text, token.start, token.end)]
+          case token.type
+          when TokenType::WHITE_SPACE, TokenType::TEXT, TokenType::END_PARAMETER, TokenType::END_OPTIONAL
+            return 1, [Node.new(NodeType::TEXT, nil, token.text, token.start, token.end)]
+          when TokenType::ALTERNATION
+            raise AlternationNotAllowedInOptional.new(expression, token)
+          when TokenType::BEGIN_PARAMETER, TokenType::START_OF_LINE, TokenType::END_OF_LINE, TokenType::BEGIN_OPTIONAL
+          else
+            # If configured correctly this will never happen
+            return 0, nil
+          end
+          # If configured correctly this will never happen
+          return 0, nil
         end
 
-        # parameter := '{' + text* + '}'
+        # name := whitespace | .
+        parse_name = lambda do |_, tokens, current|
+          token = tokens[current]
+          case token.type
+          when TokenType::WHITE_SPACE, TokenType::TEXT
+            return 1, [Node.new(NodeType::TEXT, nil, token.text, token.start, token.end)]
+          when TokenType::BEGIN_PARAMETER, TokenType::END_PARAMETER, TokenType::BEGIN_OPTIONAL, TokenType::END_OPTIONAL, TokenType::ALTERNATION
+            raise InvalidParameterTypeNameInNode.new(expression, token)
+          when TokenType::START_OF_LINE, TokenType::END_OF_LINE
+            # If configured correctly this will never happen
+            return 0, nil
+          else
+            # If configured correctly this will never happen
+            return 0, nil
+          end
+        end
+
+        # parameter := '{' + name* + '}'
         parse_parameter = parse_between(
             NodeType::PARAMETER,
             TokenType::BEGIN_PARAMETER,
             TokenType::END_PARAMETER,
-            [parse_text]
+            [parse_name]
         )
 
         # optional := '(' + option* + ')'
-        # option := parameter | text
+        # option := optional | parameter | text
+        optional_sub_parsers = []
         parse_optional = parse_between(
             NodeType::OPTIONAL,
             TokenType::BEGIN_OPTIONAL,
             TokenType::END_OPTIONAL,
-            [parse_parameter, parse_text]
+            optional_sub_parsers
         )
+        optional_sub_parsers << parse_optional << parse_parameter << parse_text
 
         # alternation := alternative* + ( '/' + alternative* )+
         parse_alternative_separator = lambda do |_, tokens, current|
@@ -92,7 +122,7 @@ module Cucumber
             return 0, nil
           end
           sub_current = current + 1
-          consumed, ast = parse_tokens_until(expression, parsers, tokens, sub_current, [end_token])
+          consumed, ast = parse_tokens_until(expression, parsers, tokens, sub_current, [end_token, TokenType::END_OF_LINE])
           sub_current += consumed
 
           # endToken not found
