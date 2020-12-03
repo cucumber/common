@@ -40,7 +40,7 @@ defmodule CucumberGherkin.AstBuilder do
   end
 
   def end_rule(%ParserContext{ast_builder: %@me{stack: s}} = context, _type) do
-    # TODO: We gebruiken type niet? Ik denk dat dat wel moet?
+    # TODO: Type isn't used? I think we should?
     {%AstNode{} = to_be_transformed, %Stack{} = stack} = Stack.pop(s)
     {transformed_node, transformed_context} = transform_node(to_be_transformed, context)
     {%AstNode{} = current_node, %Stack{} = new_stack} = Stack.pop(stack)
@@ -248,7 +248,7 @@ defmodule CucumberGherkin.AstBuilder do
       |> add_rule_children_to(rule_items)
       |> tuplize(semi_updated_context)
 
-      # This almost never occurrs
+      # This (almost) never occurrs. IF this is possible, a test to illustrate what the expected output should be would be nice.
       # else
       #   {:header?, _} -> IEx.pry()
       #   {:feature_l?, _} -> IEx.pry()
