@@ -1,20 +1,20 @@
-defmodule Gherkin.IdGenerator.PredictableGen do
+defmodule CucumberGherkin.IdGenerator.PredictableGen do
   @moduledoc false
   defstruct count: 0
 end
 
-defmodule Gherkin.IdGenerator.UUIDGen do
+defmodule CucumberGherkin.IdGenerator.UUIDGen do
   @moduledoc false
   defstruct []
 end
 
-defprotocol Gherkin.IdGenerator do
+defprotocol CucumberGherkin.IdGenerator do
   @moduledoc false
   def get_id(possible_state)
 end
 
-alias Gherkin.IdGenerator
-alias Gherkin.IdGenerator.{PredictableGen, UUIDGen}
+alias CucumberGherkin.IdGenerator
+alias CucumberGherkin.IdGenerator.{PredictableGen, UUIDGen}
 
 defimpl IdGenerator, for: PredictableGen do
   def get_id(%PredictableGen{count: c} = me), do: {"#{c}", %{me | count: c + 1}}

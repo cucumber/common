@@ -1,4 +1,4 @@
-defmodule GherkinBadTestdataTest do
+defmodule CucumberGherkinBadTestdataTest do
   use ExUnit.Case
   require Logger
 
@@ -15,7 +15,7 @@ defmodule GherkinBadTestdataTest do
     results =
       Enum.map(@files, fn path ->
         correct_output = File.read!(path <> ".errors.ndjson")
-        result = Gherkin.parse_path(path, opts) |> Gherkin.print_messages(:ndjson)
+        result = CucumberGherkin.parse_path(path, opts) |> CucumberGherkin.print_messages(:ndjson)
 
         {path, correct_output == result}
       end)

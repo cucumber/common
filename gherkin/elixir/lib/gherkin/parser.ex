@@ -6,7 +6,7 @@
 
 
 
-defmodule Gherkin.TokenTypes do
+defmodule CucumberGherkin.TokenTypes do
   @moduledoc false
   @token_types [
     None,
@@ -28,7 +28,7 @@ defmodule Gherkin.TokenTypes do
   def get_ordinal(type), do: Enum.find_index @token_types, &( &1 == type )
 end
 
-defmodule Gherkin.RuleTypes do
+defmodule CucumberGherkin.RuleTypes do
   @moduledoc false
   @rule_types [
     None,
@@ -67,14 +67,14 @@ defmodule Gherkin.RuleTypes do
   ]
 
   def get_ruletype_for_tokentype(type) do
-    index = Gherkin.TokenTypes.get_ordinal type
+    index = CucumberGherkin.TokenTypes.get_ordinal type
     Enum.at(@rule_types, index)
   end
 end
 
 
 
-defmodule Gherkin.ParserContext do
+defmodule CucumberGherkin.ParserContext do
   @enforce_keys [:lines, :lexicon]
   defstruct [
     :ast_builder,
@@ -92,14 +92,14 @@ defmodule Gherkin.ParserContext do
   ]
 end
 
-defmodule Gherkin.Parser do
+defmodule CucumberGherkin.Parser do
   @moduledoc false
-  alias Gherkin.{ParserContext, TokenMatcher, Token, Line, AstBuilder}
+  alias CucumberGherkin.{ParserContext, TokenMatcher, Token, Line, AstBuilder}
 
   def parse(text, opts) when is_binary(text), do: text |> String.split(~r/\R/) |> parse(opts)
 
   def parse(lines, opts) when is_list(lines) do
-    {:ok, default_lexicon} = Gherkin.Lexicon.load_lang("en")
+    {:ok, default_lexicon} = CucumberGherkin.Lexicon.load_lang("en")
 
     lines_structs =
       Enum.with_index(lines, 1)
@@ -4793,8 +4793,8 @@ defmodule Gherkin.Parser do
     general_opts = [line: line, expected_tokens: expected_tokens, comment: state_comment]
 
     error = case TokenMatcher.match?(EOF, line, context) do
-      true -> struct!(Gherkin.UnexpectedEOFError, general_opts)
-      false -> struct!(Gherkin.UnexpectedTokenError, general_opts)
+      true -> struct!(CucumberGherkin.UnexpectedEOFError, general_opts)
+      false -> struct!(CucumberGherkin.UnexpectedTokenError, general_opts)
     end
     new_errors = context.errors ++ [error]
     %{context | errors: new_errors}

@@ -1,9 +1,9 @@
-defmodule Gherkin do
+defmodule CucumberGherkin do
   alias CucumberMessages.{Envelope, Source}
-  alias Gherkin.{Parser, ParserContext, TokenWriter}
+  alias CucumberGherkin.{Parser, ParserContext, TokenWriter}
 
   @moduledoc """
-  `Gherkin` allows you to parse Gherkin files to pickles (or tokens). These pickles can be used in a cucumber implementation.
+  `CucumberGherkin` allows you to parse Gherkin files to pickles (or tokens). These pickles can be used in a cucumber implementation.
 
   The CucumberMessages library is used in almost every step of building the pickles and envelopes.
 
@@ -38,7 +38,7 @@ defmodule Gherkin do
 
   ## Examples
 
-      iex> Gherkin.parse_path("testdata/good/background.feature", [:no_ast, :no_pickles])
+      iex> CucumberGherkin.parse_path("testdata/good/background.feature", [:no_ast, :no_pickles])
       [
         %CucumberMessages.Envelope{
           __uf__: [],
@@ -64,7 +64,7 @@ defmodule Gherkin do
 
   ## Examples
 
-      iex> Gherkin.parse_path("testdata/good/background.feature", []) |> Gherkin.print_messages(:ndjson) |> IO.puts
+      iex> CucumberGherkin.parse_path("testdata/good/background.feature", []) |> CucumberGherkin.print_messages(:ndjson) |> IO.puts
       {"source":{"data": .......... }}
       {"gherkinDocument":{"feature": ........... }}
       {"pickle":{ .......... }}
@@ -133,8 +133,8 @@ defmodule Gherkin do
   defp get_ast_builder(%ParserContext{errors: errors}, uri) do
     result =
       Enum.map(errors, fn error ->
-        message = Gherkin.ParserException.get_message(error)
-        location = Gherkin.ParserException.get_location(error)
+        message = CucumberGherkin.ParserException.get_message(error)
+        location = CucumberGherkin.ParserException.get_location(error)
         source_ref = %CucumberMessages.SourceReference{location: location, uri: uri}
         to_be_wrapped = %CucumberMessages.ParseError{message: message, source: source_ref}
         put_msg_envelope(:parse_error, to_be_wrapped)
@@ -162,7 +162,7 @@ defmodule Gherkin do
 
       false ->
         messages =
-          Gherkin.PickleCompiler.compile(builder, meta.source.uri)
+          CucumberGherkin.PickleCompiler.compile(builder, meta.source.uri)
           |> Enum.map(&put_msg_envelope(:pickle, &1))
 
         %{meta | messages: List.flatten([messages | meta.messages])}

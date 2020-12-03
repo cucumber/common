@@ -1,4 +1,4 @@
-defmodule Gherkin.Token do
+defmodule CucumberGherkin.Token do
   @moduledoc false
   @me __MODULE__
   alias CucumberMessages.Location
@@ -16,7 +16,7 @@ defmodule Gherkin.Token do
   def get_location(%@me{line: l, indent: i}), do: %Location{column: i, line: l.index}
 end
 
-defmodule Gherkin.Line do
+defmodule CucumberGherkin.Line do
   @enforce_keys [:content, :index]
   defstruct [:content, :index]
 end

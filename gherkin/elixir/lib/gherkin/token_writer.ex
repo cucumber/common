@@ -1,6 +1,6 @@
-defmodule Gherkin.TokenWriter do
+defmodule CucumberGherkin.TokenWriter do
   @moduledoc false
-  alias Gherkin.{ParserContext, Token}
+  alias CucumberGherkin.{ParserContext, Token}
 
   def write_tokens(%ParserContext{tokens: t}) do
     Enum.map(t, &write_token/1) |> Enum.join("\n")

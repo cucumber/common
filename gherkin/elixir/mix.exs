@@ -1,13 +1,13 @@
-defmodule Gherkin.MixProject do
+defmodule CucumberGherkin.MixProject do
   use Mix.Project
 
   @vsn "0.2.0"
   @github "https://github.com/cucumber/cucumber/tree/master/gherkin/elixir"
-  @name "Gherkin"
+  @name "CucumberGherkin"
 
   def project do
     [
-      app: :gherkin,
+      app: :cucumber_gherkin,
       version: @vsn,
       name: @name,
       description: description(),

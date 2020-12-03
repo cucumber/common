@@ -1,4 +1,4 @@
-defmodule GherkinGoodTestdataTest do
+defmodule CucumberGherkinGoodTestdataTest do
   use ExUnit.Case
   require Logger
 
@@ -14,7 +14,7 @@ defmodule GherkinGoodTestdataTest do
     results =
       Enum.map(@files, fn path ->
         correct_output = File.read!(path <> ".tokens")
-        tokenized_output = Gherkin.tokenize(path)
+        tokenized_output = CucumberGherkin.tokenize(path)
         {path, correct_output == tokenized_output}
       end)
 
@@ -74,7 +74,7 @@ defmodule GherkinGoodTestdataTest do
   defp test_files_that_end_with(extension, opts) do
     Enum.map(@files, fn path ->
       correct_output = File.read!(path <> extension)
-      result = Gherkin.parse_path(path, opts) |> Gherkin.print_messages(:ndjson)
+      result = CucumberGherkin.parse_path(path, opts) |> CucumberGherkin.print_messages(:ndjson)
       {path, correct_output == result}
     end)
   end

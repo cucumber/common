@@ -1,6 +1,6 @@
-defmodule Gherkin.TokenMatcher.TableRowParser do
+defmodule CucumberGherkin.TokenMatcher.TableRowParser do
   @moduledoc false
-  alias Gherkin.{Line, Token}
+  alias CucumberGherkin.{Line, Token}
 
   def parse(TableRow, %Line{content: line_content} = l, context) do
     default_meta_info = %{
@@ -18,7 +18,7 @@ defmodule Gherkin.TokenMatcher.TableRowParser do
     new_token =
       struct!(Token, matched_type: TableRow, line: l, items: acc, indent: meta.token_col)
 
-    Gherkin.TokenMatcher.finalize_parse(context, new_token)
+    CucumberGherkin.TokenMatcher.finalize_parse(context, new_token)
   end
 
   # line has ended

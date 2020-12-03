@@ -1,8 +1,8 @@
-defmodule Gherkin.InvalidTagError do
+defmodule CucumberGherkin.InvalidTagError do
   @moduledoc false
   defstruct [:message, :location]
 
-  defimpl Gherkin.ParserException do
+  defimpl CucumberGherkin.ParserException do
     def get_message(%{location: l}),
       do: "(#{l.line}:#{l.column}): A tag may not contain whitespace"
 

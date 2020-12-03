@@ -1,8 +1,8 @@
-defmodule Gherkin.AstBuilderError do
+defmodule CucumberGherkin.AstBuilderError do
   @moduledoc false
   defstruct [:message, :location]
 
-  defimpl Gherkin.ParserException do
+  defimpl CucumberGherkin.ParserException do
     def get_message(%{location: l}),
       do: "(#{l.line}:#{l.column}): inconsistent cell count within the table"
 
