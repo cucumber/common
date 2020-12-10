@@ -1,6 +1,6 @@
 
-# Created by https://www.toptal.com/developers/gitignore/api/elixir
-# Edit at https://www.toptal.com/developers/gitignore?templates=elixir
+# Created by https://www.toptal.com/developers/gitignore/api/elixir,vscode
+# Edit at https://www.toptal.com/developers/gitignore?templates=elixir,vscode
 
 ### Elixir ###
 /_build
@@ -16,7 +16,15 @@ erl_crash.dump
 
 ### Elixir Patch ###
 
-# End of https://www.toptal.com/developers/gitignore/api/elixir
+### vscode ###
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+
+# End of https://www.toptal.com/developers/gitignore/api/elixir,vscode
 
 .deps
 .tested
