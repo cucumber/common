@@ -11,8 +11,8 @@ module Cucumber
 
       def initialize(expression, parameter_type_registry)
         @expression = expression
-        @parameter_types = []
         @parameter_type_registry = parameter_type_registry
+        @parameter_types = []
         parser = CucumberExpressionParser.new
         ast = parser.parse(expression)
         pattern = rewrite_to_regex(ast)
@@ -62,9 +62,9 @@ module Cucumber
       end
 
       def rewrite_optional(node)
-        assert_no_parameters(node, lambda { |astNode| ParameterIsNotAllowedInOptional.new(astNode, @expression) })
-        assert_no_optionals(node, lambda { |astNode| OptionalIsNotAllowedInOptional.new(astNode, @expression) })
-        assert_not_empty(node, lambda { |astNode| OptionalMayNotBeEmpty.new(astNode, @expression) })
+        assert_no_parameters(node) { |astNode| raise ParameterIsNotAllowedInOptional.new(astNode, @expression) }
+        assert_no_optionals(node) { |astNode| raise OptionalIsNotAllowedInOptional.new(astNode, @expression) }
+        assert_not_empty(node) { |astNode| raise OptionalMayNotBeEmpty.new(astNode, @expression) }
         regex = node.nodes.map { |n| rewrite_to_regex(n) }.join('')
         "(?:#{regex})?"
       end
@@ -75,7 +75,7 @@ module Cucumber
           if alternative.nodes.length == 0
             raise AlternativeMayNotBeEmpty.new(alternative, @expression)
           end
-          assert_not_empty(alternative, lambda {|astNode|  AlternativeMayNotExclusivelyContainOptionals.new(astNode, @expression)})
+          assert_not_empty(alternative) { |astNode| raise AlternativeMayNotExclusivelyContainOptionals.new(astNode, @expression) }
         }
         regex = node.nodes.map { |n| rewrite_to_regex(n) }.join('|')
         "(?:#{regex})"
@@ -104,24 +104,24 @@ module Cucumber
         "^#{regex}$"
       end
 
-      def assert_not_empty(node, create_node_was_not_empty_error)
+      def assert_not_empty(node, &raise_error)
         text_nodes = node.nodes.filter { |astNode| NodeType::TEXT == astNode.type }
         if text_nodes.length == 0
-          raise create_node_was_not_empty_error.call(node)
+          raise_error.call(node)
         end
       end
 
-      def assert_no_parameters(node, create_node_contained_a_parameter_error)
+      def assert_no_parameters(node, &raise_error)
         nodes = node.nodes.filter { |astNode| NodeType::PARAMETER == astNode.type }
         if nodes.length > 0
-          raise create_node_contained_a_parameter_error.call(nodes[0])
+          raise_error.call(nodes[0])
         end
       end
 
-      def assert_no_optionals(node, create_node_contained_an_optional_error)
+      def assert_no_optionals(node, &raise_error)
         nodes = node.nodes.filter { |astNode| NodeType::OPTIONAL == astNode.type }
         if nodes.length > 0
-          raise create_node_contained_an_optional_error.call(nodes[0])
+          raise_error.call(nodes[0])
         end
       end
     end
