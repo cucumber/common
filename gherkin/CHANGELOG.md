@@ -11,6 +11,18 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Added
 
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+## [16.0.0] - 2020-12-10
+
+### Added
+
 * [Elixir] New implementation!
   ([#1251](https://github.com/cucumber/cucumber/pull/1251)
    [WannesFransen1994])
@@ -817,7 +829,8 @@ to Gherkin 2.
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v15.0.2...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v16.0.0...master
+[16.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v15.0.2...gherkin/v16.0.0
 [15.0.2]:     https://github.com/cucumber/cucumber/compare/gherkin/v15.0.1...gherkin/v15.0.2
 [15.0.1]:     https://github.com/cucumber/cucumber/compare/gherkin/v15.0.0...gherkin/v15.0.1
 [15.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v14.2.0...gherkin/v15.0.0
