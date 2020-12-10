@@ -2,10 +2,10 @@ package io.cucumber.cucumberexpressions;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
+import static java.util.Collections.singletonList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ArgumentTest {
@@ -15,9 +15,9 @@ public class ArgumentTest {
         ParameterTypeRegistry parameterTypeRegistry = new ParameterTypeRegistry(Locale.ENGLISH);
         List<Argument<?>> arguments = Argument.build(
                 treeRegexp.match("three blind mice"),
-                treeRegexp,
-                Collections.singletonList(parameterTypeRegistry.lookupByTypeName("string")));
+                singletonList(parameterTypeRegistry.lookupByTypeName("string")));
         Argument<?> argument = arguments.get(0);
         assertEquals("string", argument.getParameterType().getName());
     }
+
 }

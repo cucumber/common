@@ -7,11 +7,24 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ----
 ## [Unreleased]
 
+This is a major release of Cucumber Expressions.
+Cucumber Expressions now has a formal grammar.
+
+This grammar is implemented in a hand-written recursive-descent parser.
+The new grammar and parser handles edge cases better.
+
+Most existing expressions should still parse in the same way, but you may
+come across edge cases where the expressions are parsed differently.
+
+This work was a heroic effort by @mpkorstanje who has been working on and off
+on this for over a year!!
+
 ### Added
 
 ### Changed
 
-### Deprecated
+* Some expressions that were valid in previous versions may now be invalid
+* Some expressions that were invalid in previous versions may now be valid
 
 ### Removed
 
@@ -19,6 +32,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+* [Go, Java, JavaScript, Ruby] New handwritten parser, which fixes several long-standing bugs.
+  ([#601](https://github.com/cucumber/cucumber/issues/601)
+   [#726](https://github.com/cucumber/cucumber/issues/726)
+   [#767](https://github.com/cucumber/cucumber/issues/767)
+   [#770](https://github.com/cucumber/cucumber/issues/770)
+   [#771](https://github.com/cucumber/cucumber/pull/771)
+   [mpkorstanje])
 * [Go] Support for Go 1.15
 
 ## [10.3.0] - 2020-08-07

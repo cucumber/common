@@ -85,17 +85,6 @@ public final class CucumberExpressionGenerator {
                 .replaceAll("/", "\\\\/");
     }
 
-    /**
-     * @param text the text (step) to generate an expression for
-     * @return the first of the generated expressions
-     * @deprecated use {@link #generateExpressions(String)}
-     */
-    @Deprecated
-    public GeneratedExpression generateExpression(String text) {
-        List<GeneratedExpression> generatedExpressions = generateExpressions(text);
-        return generatedExpressions.get(0);
-    }
-
     private List<ParameterTypeMatcher> createParameterTypeMatchers(String text) {
         Collection<ParameterType<?>> parameterTypes = parameterTypeRegistry.getParameterTypes();
         List<ParameterTypeMatcher> parameterTypeMatchers = new ArrayList<>();
