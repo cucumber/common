@@ -9,12 +9,16 @@ module Cucumber
       attr_reader :name, :type, :regexps
 
       def self.check_parameter_type_name(type_name)
+        unless is_valid_parameter_type_name(type_name)
+          raise CucumberExpressionError.new("Illegal character in parameter name {#{type_name}}. Parameter names may not contain '[]()$.|?*+'")
+        end
+      end
+
+      def self.is_valid_parameter_type_name(type_name)
         unescaped_type_name = type_name.gsub(UNESCAPE_PATTERN) do
           $2
         end
-        if ILLEGAL_PARAMETER_NAME_PATTERN =~ unescaped_type_name
-          raise CucumberExpressionError.new("Illegal character '#{$1}' in parameter name {#{unescaped_type_name}}")
-        end
+        !(ILLEGAL_PARAMETER_NAME_PATTERN =~ unescaped_type_name)
       end
 
       def prefer_for_regexp_match?
@@ -58,16 +62,17 @@ module Cucumber
 
       private
 
+
       def string_array(regexps)
         array = regexps.is_a?(Array) ? regexps : [regexps]
-        array.map {|regexp| regexp.is_a?(String) ? regexp : regexp_source(regexp)}
+        array.map { |regexp| regexp.is_a?(String) ? regexp : regexp_source(regexp) }
       end
 
       def regexp_source(regexp)
         [
-          'EXTENDED',
-          'IGNORECASE',
-          'MULTILINE'
+            'EXTENDED',
+            'IGNORECASE',
+            'MULTILINE'
         ].each do |option_name|
           option = Regexp.const_get(option_name)
           if regexp.options & option != 0
