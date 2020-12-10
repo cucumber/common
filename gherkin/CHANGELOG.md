@@ -17,7 +17,10 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Changed
 
-### Deprecated
+* Telugu now uses the correct 639-1 code - `te` instead of `tl`.
+  ([#1238](https://github.com/cucumber/cucumber/pull/1238)
+   [#1221](https://github.com/cucumber/cucumber/issues/1221)
+   [nvmkpk])
 
 ### Removed
 
@@ -891,6 +894,7 @@ to Gherkin 2.
 [milhcbt]:           https://github.com/milhcbt
 [moreau-nicolas]:    https://github.com/moreau-nicolas
 [mpkorstanje]:       https://github.com/mpkorstanje
+[nvmkpk]:            https://github.com/nvmkpk
 [ookull]:            https://github.com/ookull
 [nalekberov]:        https://github.com/nalekberov
 [nixel2007]:         https://github.com/nixel2007
