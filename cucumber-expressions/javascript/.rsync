@@ -2,3 +2,4 @@
 ../../.templates/github/ .github/
 ../../.templates/javascript/ .
 ../examples.txt examples.txt
+../testdata .

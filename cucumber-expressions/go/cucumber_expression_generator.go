@@ -16,6 +16,13 @@ func NewCucumberExpressionGenerator(parameterTypeRegistry *ParameterTypeRegistry
 }
 
 func (c *CucumberExpressionGenerator) GenerateExpressions(text string) []*GeneratedExpression {
+	escape := func(s string) string {
+		result := strings.Replace(s, "%", "%%", -1)
+		result = strings.Replace(result, `(`, `\(`, -1)
+		result = strings.Replace(result, `{`, `\{`, -1)
+		return strings.Replace(result, `/`, `\/`, -1)
+	}
+
 	parameterTypeCombinations := [][]*ParameterType{}
 	parameterTypeMatchers := c.createParameterTypeMatchers(text)
 	expressionTemplate := ""
@@ -92,11 +99,4 @@ func (c *CucumberExpressionGenerator) createParameterTypeMatchers2(parameterType
 		result[i] = NewParameterTypeMatcher(parameterType, r, text, 0)
 	}
 	return result
-}
-
-func escape(s string) string {
-	result := strings.Replace(s, "%", "%%", -1)
-	result = strings.Replace(result, `(`, `\(`, -1)
-	result = strings.Replace(result, `{`, `\{`, -1)
-	return strings.Replace(result, `/`, `\/`, -1)
 }

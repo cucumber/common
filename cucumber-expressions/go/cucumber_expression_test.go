@@ -1,14 +1,92 @@
 package cucumberexpressions
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/stretchr/testify/require"
+	"gopkg.in/yaml.v3"
+	"io/ioutil"
 	"reflect"
 	"regexp"
+	"strings"
 	"testing"
 )
 
 func TestCucumberExpression(t *testing.T) {
+
+	t.Run("acceptance tests pass", func(t *testing.T) {
+
+		assertMatches := func(t *testing.T, expected string, expr string, text string) {
+			parameterTypeRegistry := NewParameterTypeRegistry()
+			expression, err := NewCucumberExpression(expr, parameterTypeRegistry)
+			require.NoError(t, err)
+			args, err := expression.Match(text)
+			require.NoError(t, err)
+
+			values := strings.Builder{}
+			encoder := json.NewEncoder(&values)
+			encoder.SetEscapeHTML(false)
+			err = encoder.Encode(argumentValues(args))
+			require.NoError(t, err)
+			require.Equal(t, expected, strings.TrimSuffix(values.String(), "\n"))
+		}
+
+		assertThrows := func(t *testing.T, expected string, expr string, text string) {
+			parameterTypeRegistry := NewParameterTypeRegistry()
+			expression, err := NewCucumberExpression(expr, parameterTypeRegistry)
+
+			if err != nil {
+				require.Error(t, err)
+				require.Equal(t, expected, err.Error())
+			} else {
+				_, err = expression.Match(text)
+				require.Error(t, err)
+				require.Equal(t, expected, err.Error())
+			}
+		}
+
+		directory := "testdata/expression/"
+		files, err := ioutil.ReadDir(directory)
+		require.NoError(t, err)
+
+		for _, file := range files {
+			contents, err := ioutil.ReadFile(directory + file.Name())
+			require.NoError(t, err)
+			t.Run(fmt.Sprintf("%s", file.Name()), func(t *testing.T) {
+				var expectation expectation
+				err = yaml.Unmarshal(contents, &expectation)
+				require.NoError(t, err)
+				if expectation.Exception == "" {
+					assertMatches(t, expectation.Expected, expectation.Expression, expectation.Text)
+				} else {
+					assertThrows(t, expectation.Exception, expectation.Expression, expectation.Text)
+				}
+			})
+		}
+
+		assertRegex := func(t *testing.T, expected string, expr string) {
+			parameterTypeRegistry := NewParameterTypeRegistry()
+			expression, err := NewCucumberExpression(expr, parameterTypeRegistry)
+			require.NoError(t, err)
+			require.Equal(t, expected, expression.Regexp().String())
+		}
+
+		directory = "testdata/regex/"
+		files, err = ioutil.ReadDir(directory)
+		require.NoError(t, err)
+
+		for _, file := range files {
+			contents, err := ioutil.ReadFile(directory + file.Name())
+			require.NoError(t, err)
+			t.Run(fmt.Sprintf("%s", file.Name()), func(t *testing.T) {
+				var expectation expectation
+				err = yaml.Unmarshal(contents, &expectation)
+				require.NoError(t, err)
+				assertRegex(t, expectation.Expected, expectation.Expression)
+			})
+		}
+	})
+
 	t.Run("documents expression generation", func(t *testing.T) {
 		parameterTypeRegistry := NewParameterTypeRegistry()
 
@@ -20,148 +98,6 @@ func TestCucumberExpression(t *testing.T) {
 		require.NoError(t, err)
 		require.Equal(t, args[0].GetValue(), 7)
 		/// [capture-match-arguments]
-	})
-
-	t.Run("matches word", func(t *testing.T) {
-		require.Equal(
-			t,
-			MatchCucumberExpression(t, "three {word} mice", "three blind mice"),
-			[]interface{}{"blind"},
-		)
-	})
-
-	t.Run("matches double quoted string", func(t *testing.T) {
-		require.Equal(
-			t,
-			MatchCucumberExpression(t, "three {string} mice", `three "blind" mice`),
-			[]interface{}{"blind"},
-		)
-	})
-
-	t.Run("matches multiple double quoted strings", func(t *testing.T) {
-		require.Equal(
-			t,
-			MatchCucumberExpression(t, "three {string} and {string} mice", `three "blind" and "crippled" mice`),
-			[]interface{}{"blind", "crippled"},
-		)
-	})
-
-	t.Run("matches single quoted string", func(t *testing.T) {
-		require.Equal(
-			t,
-			MatchCucumberExpression(t, "three {string} mice", `three 'blind' mice`),
-			[]interface{}{"blind"},
-		)
-	})
-
-	t.Run("matches multiple single quoted strings", func(t *testing.T) {
-		require.Equal(
-			t,
-			MatchCucumberExpression(t, "three {string} and {string} mice", `three 'blind' and 'crippled' mice`),
-			[]interface{}{"blind", "crippled"},
-		)
-	})
-
-	t.Run("does not match misquoted string", func(t *testing.T) {
-		require.Nil(
-			t,
-			MatchCucumberExpression(t, "three {string} mice", `three "blind' mice`),
-		)
-	})
-
-	t.Run("matches single quoted strings with double quotes", func(t *testing.T) {
-		require.Equal(
-			t,
-			MatchCucumberExpression(t, "three {string} mice", `three '"blind"' mice`),
-			[]interface{}{`"blind"`},
-		)
-	})
-
-	t.Run("matches double quoted strings with single quotes", func(t *testing.T) {
-		require.Equal(
-			t,
-			MatchCucumberExpression(t, "three {string} mice", `three "'blind'" mice`),
-			[]interface{}{`'blind'`},
-		)
-	})
-
-	t.Run("matches double quoted string with escaped double quote", func(t *testing.T) {
-		require.Equal(
-			t,
-			MatchCucumberExpression(t, "three {string} mice", `three "bl\"nd" mice`),
-			[]interface{}{`bl\"nd`},
-		)
-	})
-
-	t.Run("matches single quoted string with escaped single quote", func(t *testing.T) {
-		require.Equal(
-			t,
-			MatchCucumberExpression(t, "three {string} mice", `three 'bl\'nd' mice`),
-			[]interface{}{`bl\'nd`},
-		)
-	})
-
-	t.Run("matches single quoted empty string as empty string", func(t *testing.T) {
-		require.Equal(
-			t,
-			MatchCucumberExpression(t, "three {string} mice", `three '' mice`),
-			[]interface{}{""},
-		)
-	})
-
-	t.Run("matches double quoted empty string as empty string", func(t *testing.T) {
-		require.Equal(
-			t,
-			MatchCucumberExpression(t, "three {string} mice", `three "" mice`),
-			[]interface{}{""},
-		)
-	})
-
-	t.Run("matches single quoted empty string as empty string along with other strings", func(t *testing.T) {
-		require.Equal(
-			t,
-			MatchCucumberExpression(t, "three {string} and {string} mice", `three '' and 'handsome' mice`),
-			[]interface{}{"", "handsome"},
-		)
-	})
-
-	t.Run("matches double quoted empty string as empty string along with other strings", func(t *testing.T) {
-		require.Equal(
-			t,
-			MatchCucumberExpression(t, "three {string} and {string} mice", `three "" and "handsome" mice`),
-			[]interface{}{"", "handsome"},
-		)
-	})
-
-	t.Run("matches escaped parenthesis", func(t *testing.T) {
-		require.Equal(
-			t,
-			MatchCucumberExpression(t, "three \\\\(exceptionally) {string} mice", `three (exceptionally) "blind" mice`),
-			[]interface{}{"blind"},
-		)
-	})
-
-	t.Run("matches escaped slash", func(t *testing.T) {
-		require.Equal(
-			t,
-			MatchCucumberExpression(t, "12\\\\/2020", `12/2020`),
-			[]interface{}{},
-		)
-	})
-
-	t.Run("matches int", func(t *testing.T) {
-		require.Equal(
-			t,
-			MatchCucumberExpression(t, "{int}", "22"),
-			[]interface{}{22},
-		)
-	})
-
-	t.Run("doesn't match float as int", func(t *testing.T) {
-		require.Nil(
-			t,
-			MatchCucumberExpression(t, "{int}", "1.22"),
-		)
 	})
 
 	t.Run("matches float", func(t *testing.T) {
@@ -225,99 +161,12 @@ func TestCucumberExpression(t *testing.T) {
 		)
 	})
 
-	t.Run("does not allow parameter type with left bracket", func(t *testing.T) {
-		parameterTypeRegistry := NewParameterTypeRegistry()
-		_, err := NewCucumberExpression("{[string]}", parameterTypeRegistry)
-		require.Error(t, err)
-		require.Equal(t, err.Error(), "illegal character '[' in parameter name {[string]}")
-	})
-
-	t.Run("does not allow optional parameter types", func(t *testing.T) {
-		parameterTypeRegistry := NewParameterTypeRegistry()
-		_, err := NewCucumberExpression("({int})", parameterTypeRegistry)
-		require.Error(t, err)
-		require.Equal(t, "Parameter types cannot be optional: ({int})", err.Error())
-	})
-
-	t.Run("allows escaped optional parameters", func(t *testing.T) {
-		require.Equal(
-			t,
-			MatchCucumberExpression(t, "\\\\({int})", `(3)`),
-			[]interface{}{3},
-		)
-	})
-
-	t.Run("does not allow text/parameter type alternation", func(t *testing.T) {
-		parameterTypeRegistry := NewParameterTypeRegistry()
-		_, err := NewCucumberExpression("x/{int}", parameterTypeRegistry)
-		require.Error(t, err)
-		require.Equal(t, "Parameter types cannot be alternative: x/{int}", err.Error())
-	})
-
-	t.Run("does not allow parameter type/text alternation", func(t *testing.T) {
-		parameterTypeRegistry := NewParameterTypeRegistry()
-		_, err := NewCucumberExpression("{int}/x", parameterTypeRegistry)
-		require.Error(t, err)
-		require.Equal(t, "Parameter types cannot be alternative: {int}/x", err.Error())
-	})
-
-	t.Run("returns UndefinedParameterTypeExpression for unknown parameter", func(t *testing.T) {
-		parameterTypeRegistry := NewParameterTypeRegistry()
-		_, err := NewCucumberExpression("{unknown}", parameterTypeRegistry)
-		require.Error(t, err)
-	})
-
 	t.Run("exposes source", func(t *testing.T) {
 		expr := "I have {int} cuke(s)"
 		parameterTypeRegistry := NewParameterTypeRegistry()
 		expression, err := NewCucumberExpression(expr, parameterTypeRegistry)
 		require.NoError(t, err)
 		require.Equal(t, expression.Source(), expr)
-	})
-
-	t.Run("escapes special characters", func(t *testing.T) {
-		for _, char := range []string{"\\", "[", "]", "^", "$", ".", "|", "?", "*", "+"} {
-			t.Run(fmt.Sprintf("escapes %s", char), func(t *testing.T) {
-				require.Equal(
-					t,
-					MatchCucumberExpression(
-						t,
-						fmt.Sprintf("I have {int} cuke(s) and %s", char),
-						fmt.Sprintf("I have 800 cukes and %s", char),
-					),
-					[]interface{}{800},
-				)
-			})
-		}
-
-		t.Run("escapes .", func(t *testing.T) {
-			expr := "I have {int} cuke(s) and ."
-			parameterTypeRegistry := NewParameterTypeRegistry()
-			expression, err := NewCucumberExpression(expr, parameterTypeRegistry)
-			require.NoError(t, err)
-			args, err := expression.Match("I have 800 cukes and 3")
-			require.NoError(t, err)
-			require.Nil(t, args)
-			args, err = expression.Match("I have 800 cukes and .")
-			require.NoError(t, err)
-			require.NotNil(t, args)
-		})
-
-		t.Run("escapes |", func(t *testing.T) {
-			expr := "I have {int} cuke(s) and a|b"
-			parameterTypeRegistry := NewParameterTypeRegistry()
-			expression, err := NewCucumberExpression(expr, parameterTypeRegistry)
-			require.NoError(t, err)
-			args, err := expression.Match("I have 800 cukes and a")
-			require.NoError(t, err)
-			require.Nil(t, args)
-			args, err = expression.Match("I have 800 cukes and b")
-			require.NoError(t, err)
-			require.Nil(t, args)
-			args, err = expression.Match("I have 800 cukes and a|b")
-			require.NoError(t, err)
-			require.NotNil(t, args)
-		})
 	})
 
 	t.Run("unmatched optional groups have nil values", func(t *testing.T) {
@@ -358,6 +207,10 @@ func MatchCucumberExpression(t *testing.T, expr string, text string, typeHints .
 	require.NoError(t, err)
 	args, err := expression.Match(text, typeHints...)
 	require.NoError(t, err)
+	return argumentValues(args)
+}
+
+func argumentValues(args []*Argument) []interface{} {
 	if args == nil {
 		return nil
 	}

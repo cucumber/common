@@ -6,7 +6,7 @@ import ParameterTypeRegistry from '../src/ParameterTypeRegistry'
 
 describe('examples.txt', () => {
   const match = (expressionText: string, text: string) => {
-    const m = /\/(.*)\//.exec(expressionText)
+    const m = /^\/(.*)\/$/.exec(expressionText)
     const expression = m
       ? new RegularExpression(new RegExp(m[1]), new ParameterTypeRegistry())
       : new CucumberExpression(expressionText, new ParameterTypeRegistry())

@@ -42,7 +42,10 @@ describe('Custom parameter type', () => {
       assert.throws(
         () =>
           new ParameterType('[string]', /.*/, String, (s) => s, false, true),
-        { message: "Illegal character '[' in parameter name {[string]}" }
+        {
+          message:
+            "Illegal character in parameter name {[string]}. Parameter names may not contain '{', '}', '(', ')', '\\' or '/'",
+        }
       )
     })
 

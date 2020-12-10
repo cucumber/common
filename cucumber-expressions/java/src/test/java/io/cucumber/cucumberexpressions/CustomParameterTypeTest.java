@@ -66,7 +66,7 @@ public class CustomParameterTypeTest {
     public void throws_exception_for_illegal_character_in_parameter_name() {
 
         final Executable testMethod = () -> new ParameterType<>(
-                "[string]",
+                "(string)",
                 ".*",
                 String.class,
                 (Transformer<String>) s -> s,
@@ -75,7 +75,7 @@ public class CustomParameterTypeTest {
         );
 
         final CucumberExpressionException thrownException = assertThrows(CucumberExpressionException.class, testMethod);
-        assertThat("Unexpected message", thrownException.getMessage(), is(equalTo("Illegal character '[' in parameter name {[string]}.")));
+        assertThat(thrownException.getMessage(), is(equalTo("Illegal character in parameter name {(string)}. Parameter names may not contain '{', '}', '(', ')', '\\' or '/'")));
     }
 
     @Test
