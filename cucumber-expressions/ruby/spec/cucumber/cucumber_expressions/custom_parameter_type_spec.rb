@@ -69,7 +69,7 @@ module Cucumber
               true,
               false
           )
-        end.to raise_error("Illegal character '[' in parameter name {[string]}")
+        end.to raise_error("Illegal character in parameter name {[string]}. Parameter names may not contain '[]()$.|?*+'")
       end
 
       describe CucumberExpression do
