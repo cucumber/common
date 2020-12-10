@@ -106,23 +106,17 @@ module Cucumber
 
       def assert_not_empty(node, &raise_error)
         text_nodes = node.nodes.filter { |astNode| NodeType::TEXT == astNode.type }
-        if text_nodes.length == 0
-          raise_error.call(node)
-        end
+        raise_error.call(node) if text_nodes.length == 0
       end
 
       def assert_no_parameters(node, &raise_error)
         nodes = node.nodes.filter { |astNode| NodeType::PARAMETER == astNode.type }
-        if nodes.length > 0
-          raise_error.call(nodes[0])
-        end
+        raise_error.call(nodes[0]) if nodes.length > 0
       end
 
       def assert_no_optionals(node, &raise_error)
         nodes = node.nodes.filter { |astNode| NodeType::OPTIONAL == astNode.type }
-        if nodes.length > 0
-          raise_error.call(nodes[0])
-        end
+        raise_error.call(nodes[0]) if nodes.length > 0
       end
     end
   end

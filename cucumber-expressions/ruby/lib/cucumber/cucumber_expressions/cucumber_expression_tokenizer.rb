@@ -28,7 +28,7 @@ module Cucumber
           current_token_type = token_type_of(codepoint, treat_as_text)
           treat_as_text = false
 
-          if should_create_new_token(previous_token_type, current_token_type)
+          if should_create_new_token?(previous_token_type, current_token_type)
             token = convert_buffer_to_token(previous_token_type)
             previous_token_type = current_token_type
             @buffer.push(codepoint)
@@ -44,13 +44,9 @@ module Cucumber
           tokens.push(token)
         end
 
-        if treat_as_text
-          raise TheEndOfLineCannotBeEscaped.new(expression)
-        end
+        raise TheEndOfLineCannotBeEscaped.new(expression) if treat_as_text
 
-        tokens.push(
-            Token.new(TokenType::END_OF_LINE, '', codepoints.length, codepoints.length)
-        )
+        tokens.push(Token.new(TokenType::END_OF_LINE, '', codepoints.length, codepoints.length))
         tokens
       end
 
@@ -90,7 +86,7 @@ module Cucumber
         )
       end
 
-      def should_create_new_token(previous_token_type, current_token_type)
+      def should_create_new_token?(previous_token_type, current_token_type)
         current_token_type != previous_token_type ||
             (current_token_type != TokenType::WHITE_SPACE && current_token_type != TokenType::TEXT)
       end
