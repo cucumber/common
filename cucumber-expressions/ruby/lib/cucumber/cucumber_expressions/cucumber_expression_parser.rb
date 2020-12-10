@@ -2,7 +2,6 @@ require 'cucumber/cucumber_expressions/ast'
 require 'cucumber/cucumber_expressions/errors'
 require 'cucumber/cucumber_expressions/cucumber_expression_tokenizer'
 
-
 module Cucumber
   module CucumberExpressions
     class CucumberExpressionParser
@@ -80,13 +79,13 @@ module Cucumber
         # left-boundary := whitespace | } | ^
         # right-boundary := whitespace | { | $
         # alternative: = optional | parameter | text
-        parse_alternation = lambda do |expression, tokens, current|
+        parse_alternation = lambda do |expr, tokens, current|
           previous = current - 1
           unless looking_at_any(tokens, previous, [TokenType::START_OF_LINE, TokenType::WHITE_SPACE, TokenType::END_PARAMETER])
             return 0, nil
           end
 
-          consumed, ast = parse_tokens_until(expression, alternative_parsers, tokens, current, [TokenType::WHITE_SPACE, TokenType::END_OF_LINE, TokenType::BEGIN_PARAMETER])
+          consumed, ast = parse_tokens_until(expr, alternative_parsers, tokens, current, [TokenType::WHITE_SPACE, TokenType::END_OF_LINE, TokenType::BEGIN_PARAMETER])
           sub_current = current + consumed
           unless ast.map { |astNode| astNode.type }.include? NodeType::ALTERNATIVE
             return 0, nil
@@ -139,11 +138,9 @@ module Cucumber
       end
 
       def parse_token(expression, parsers, tokens, start_at)
-        for parser in parsers do
+        parsers.each do |parser|
           consumed, ast = parser.call(expression, tokens, start_at)
-          unless consumed == 0
-            return consumed, ast
-          end
+          return consumed, ast unless consumed == 0
         end
         # If configured correctly this will never happen
         raise 'No eligible parsers for ' + tokens
@@ -170,12 +167,7 @@ module Cucumber
       end
 
       def looking_at_any(tokens, at, token_types)
-        for token_type in token_types
-          if looking_at(tokens, at, token_type)
-            return true
-          end
-        end
-        false
+        token_types.detect { |token_type| looking_at(tokens, at, token_type) }
       end
 
       def looking_at(tokens, at, token)
@@ -208,21 +200,19 @@ module Cucumber
       end
 
       def create_alternative_nodes(start, _end, separators, alternatives)
-        nodes = []
-        alternatives.each_with_index do |n, i|
+        alternatives.each_with_index.map do |n, i|
           if i == 0
             right_separator = separators[i]
-            nodes.push(Node.new(NodeType::ALTERNATIVE, n, nil, start, right_separator.start))
+            Node.new(NodeType::ALTERNATIVE, n, nil, start, right_separator.start)
           elsif i == alternatives.length - 1
             left_separator = separators[i - 1]
-            nodes.push(Node.new(NodeType::ALTERNATIVE, n, nil, left_separator.end, _end))
+            Node.new(NodeType::ALTERNATIVE, n, nil, left_separator.end, _end)
           else
             left_separator = separators[i - 1]
             right_separator = separators[i]
-            nodes.push(Node.new(NodeType::ALTERNATIVE, n, nil, left_separator.end, right_separator.start))
+            Node.new(NodeType::ALTERNATIVE, n, nil, left_separator.end, right_separator.start)
           end
         end
-        nodes
       end
     end
   end
