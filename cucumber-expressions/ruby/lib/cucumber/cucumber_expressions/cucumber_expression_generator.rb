@@ -59,9 +59,7 @@ module Cucumber
             break
           end
 
-          if pos >= text.length
-            break
-          end
+          break if pos >= text.length
         end
 
         expression_template += escape(text.slice(pos..-1))
@@ -85,19 +83,17 @@ module Cucumber
       end
 
       def create_parameter_type_matchers2(parameter_type, text)
-        result = []
         regexps = parameter_type.regexps
-        regexps.each do |regexp|
+        regexps.map do |regexp|
           regexp = Regexp.new("(#{regexp})")
-          result.push(ParameterTypeMatcher.new(parameter_type, regexp, text, 0))
+          ParameterTypeMatcher.new(parameter_type, regexp, text, 0)
         end
-        result
       end
 
       def escape(s)
         s.gsub(/%/, '%%')
         .gsub(/\(/, '\\(')
-        .gsub(/\{/, '\\{')
+        .gsub(/{/, '\\{')
         .gsub(/\//, '\\/')
       end
     end
