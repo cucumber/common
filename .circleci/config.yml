@@ -818,6 +818,17 @@ jobs:
             cd messages/elixir
             make
 
+  gherkin-elixir:
+    executor: docker-cucumber-build
+    steps:
+      - attach_workspace:
+          at: "~/cucumber"
+      - run:
+          name: gherkin/elixir
+          command: |
+            cd gherkin/elixir
+            make
+
 ###
 ### Workflows ###
 ###
@@ -1058,5 +1069,9 @@ workflows:
 ### Elixir
 
       - messages-elixir:
+          requires:
+            - checkout
+      
+      - gherkin-elixir:
           requires:
             - checkout
