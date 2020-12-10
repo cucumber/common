@@ -46,7 +46,7 @@ public class ExpressionFactoryTest {
 
     @Test
     public void creates_cucumber_expression_for_parenthesis_with_regex_symbols() {
-        assertCucumberExpression("the temperature is (\\+){int} degrees celsius");
+        assertCucumberExpression("the temperature is (+){int} degrees celsius");
     }
 
     @Test
@@ -70,13 +70,6 @@ public class ExpressionFactoryTest {
 
         final CucumberExpressionException thrownException = assertThrows(CucumberExpressionException.class, testMethod);
         assertThat("Unexpected message", thrownException.getMessage(), is(equalTo("You cannot use anchors (^ or $) in Cucumber Expressions. Please remove them from ^the seller has {int} strike(s)$")));
-    }
-
-    @Test
-    public void explains_undefined_parameter_types() {
-        final Executable testMethod = () -> createExpression("{x}");
-        final CucumberExpressionException thrownException = assertThrows(CucumberExpressionException.class, testMethod);
-        assertThat("Unexpected message", thrownException.getMessage(), is(equalTo("Undefined parameter type {x}. Please register a ParameterType for {x}.")));
     }
 
     private void assertRegularExpression(String expressionString) {

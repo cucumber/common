@@ -2,8 +2,66 @@ import assert from 'assert'
 import CucumberExpression from '../src/CucumberExpression'
 import ParameterTypeRegistry from '../src/ParameterTypeRegistry'
 import ParameterType from '../src/ParameterType'
+import fs from 'fs'
+// eslint-disable-next-line node/no-extraneous-import
+import yaml from 'js-yaml' // why?
+import { CucumberExpressionError } from '../src/Errors'
+
+interface Expectation {
+  expression: string
+  text: string
+  expected?: string
+  exception?: string
+}
 
 describe('CucumberExpression', () => {
+  fs.readdirSync('testdata/expression').forEach((testcase) => {
+    const testCaseData = fs.readFileSync(
+      `testdata/expression/${testcase}`,
+      'utf-8'
+    )
+    const expectation = yaml.safeLoad(testCaseData) as Expectation
+    it(`${testcase}`, () => {
+      const parameterTypeRegistry = new ParameterTypeRegistry()
+      if (expectation.exception == undefined) {
+        const expression = new CucumberExpression(
+          expectation.expression,
+          parameterTypeRegistry
+        )
+        const matches = expression.match(expectation.text)
+        assert.deepStrictEqual(
+          JSON.parse(
+            JSON.stringify(
+              matches ? matches.map((value) => value.getValue(null)) : null
+            )
+          ), // Removes type information.
+          JSON.parse(expectation.expected)
+        )
+      } else {
+        assert.throws(() => {
+          const expression = new CucumberExpression(
+            expectation.expression,
+            parameterTypeRegistry
+          )
+          expression.match(expectation.text)
+        }, new CucumberExpressionError(expectation.exception))
+      }
+    })
+  })
+
+  fs.readdirSync('testdata/regex').forEach((testcase) => {
+    const testCaseData = fs.readFileSync(`testdata/regex/${testcase}`, 'utf-8')
+    const expectation = yaml.safeLoad(testCaseData) as Expectation
+    it(`${testcase}`, () => {
+      const parameterTypeRegistry = new ParameterTypeRegistry()
+      const expression = new CucumberExpression(
+        expectation.expression,
+        parameterTypeRegistry
+      )
+      assert.deepStrictEqual(expression.regexp.source, expectation.expected)
+    })
+  })
+
   it('documents match arguments', () => {
     const parameterTypeRegistry = new ParameterTypeRegistry()
 
@@ -13,130 +71,6 @@ describe('CucumberExpression', () => {
     const args = expression.match('I have 7 cukes')
     assert.strictEqual(7, args[0].getValue(null))
     /// [capture-match-arguments]
-  })
-
-  it('matches word', () => {
-    assert.deepStrictEqual(match('three {word} mice', 'three blind mice'), [
-      'blind',
-    ])
-  })
-
-  it('matches double quoted string', () => {
-    assert.deepStrictEqual(match('three {string} mice', 'three "blind" mice'), [
-      'blind',
-    ])
-  })
-
-  it('matches multiple double quoted strings', () => {
-    assert.deepStrictEqual(
-      match(
-        'three {string} and {string} mice',
-        'three "blind" and "crippled" mice'
-      ),
-      ['blind', 'crippled']
-    )
-  })
-
-  it('matches single quoted string', () => {
-    assert.deepStrictEqual(match('three {string} mice', "three 'blind' mice"), [
-      'blind',
-    ])
-  })
-
-  it('matches multiple single quoted strings', () => {
-    assert.deepStrictEqual(
-      match(
-        'three {string} and {string} mice',
-        "three 'blind' and 'crippled' mice"
-      ),
-      ['blind', 'crippled']
-    )
-  })
-
-  it('does not match misquoted string', () => {
-    assert.deepStrictEqual(
-      match('three {string} mice', 'three "blind\' mice'),
-      null
-    )
-  })
-
-  it('matches single quoted string with double quotes', () => {
-    assert.deepStrictEqual(
-      match('three {string} mice', 'three \'"blind"\' mice'),
-      ['"blind"']
-    )
-  })
-
-  it('matches double quoted string with single quotes', () => {
-    assert.deepStrictEqual(
-      match('three {string} mice', 'three "\'blind\'" mice'),
-      ["'blind'"]
-    )
-  })
-
-  it('matches double quoted string with escaped double quote', () => {
-    assert.deepStrictEqual(
-      match('three {string} mice', 'three "bl\\"nd" mice'),
-      ['bl"nd']
-    )
-  })
-
-  it('matches single quoted string with escaped single quote', () => {
-    assert.deepStrictEqual(
-      match('three {string} mice', "three 'bl\\'nd' mice"),
-      ["bl'nd"]
-    )
-  })
-
-  it('matches single quoted string with escaped single quote', () => {
-    assert.deepStrictEqual(
-      match('three {string} mice', "three 'bl\\'nd' mice"),
-      ["bl'nd"]
-    )
-  })
-
-  it('matches single quoted empty string as empty string', () => {
-    assert.deepStrictEqual(match('three {string} mice', "three '' mice"), [''])
-  })
-
-  it('matches double quoted empty string as empty string ', () => {
-    assert.deepStrictEqual(match('three {string} mice', 'three "" mice'), [''])
-  })
-
-  it('matches single quoted empty string as empty string, along with other strings', () => {
-    assert.deepStrictEqual(
-      match('three {string} and {string} mice', "three '' and 'handsome' mice"),
-      ['', 'handsome']
-    )
-  })
-
-  it('matches double quoted empty string as empty string, along with other strings', () => {
-    assert.deepStrictEqual(
-      match('three {string} and {string} mice', 'three "" and "handsome" mice'),
-      ['', 'handsome']
-    )
-  })
-
-  it('matches escaped parenthesis', () => {
-    assert.deepStrictEqual(
-      match(
-        'three \\(exceptionally) {string} mice',
-        'three (exceptionally) "blind" mice'
-      ),
-      ['blind']
-    )
-  })
-
-  it('matches escaped slash', () => {
-    assert.deepStrictEqual(match('12\\/2020', '12/2020'), [])
-  })
-
-  it('matches int', () => {
-    assert.deepStrictEqual(match('{int}', '22'), [22])
-  })
-
-  it("doesn't match float as int", () => {
-    assert.deepStrictEqual(match('{int}', '1.22'), null)
   })
 
   it('matches float', () => {
@@ -177,73 +111,6 @@ describe('CucumberExpression', () => {
   it('matches float with zero', () => {
     assert.deepEqual(match('{float}', '0'), [0])
   })
-
-  it('matches anonymous', () => {
-    assert.deepStrictEqual(match('{}', '0.22'), ['0.22'])
-  })
-
-  it('throws unknown parameter type', () => {
-    try {
-      match('{unknown}', 'something')
-      assert.fail()
-    } catch (expected) {
-      assert.strictEqual(expected.message, 'Undefined parameter type {unknown}')
-    }
-  })
-
-  it('does not allow optional parameter types', () => {
-    try {
-      match('({int})', '3')
-      assert.fail()
-    } catch (expected) {
-      assert.strictEqual(
-        expected.message,
-        'Parameter types cannot be optional: ({int})'
-      )
-    }
-  })
-
-  it('allows escaped optional parameter types', () => {
-    assert.deepStrictEqual(match('\\({int})', '(3)'), [3])
-  })
-
-  it('does not allow text/parameter type alternation', () => {
-    try {
-      match('x/{int}', '3')
-      assert.fail()
-    } catch (expected) {
-      assert.strictEqual(
-        expected.message,
-        'Parameter types cannot be alternative: x/{int}'
-      )
-    }
-  })
-
-  it('does not allow parameter type/text alternation', () => {
-    try {
-      match('{int}/x', '3')
-      assert.fail()
-    } catch (expected) {
-      assert.strictEqual(
-        expected.message,
-        'Parameter types cannot be alternative: {int}/x'
-      )
-    }
-  })
-
-  for (const c of '[]()$.|?*+'.split('')) {
-    it(`does not allow parameter type with ${c}`, () => {
-      try {
-        match(`{${c}string}`, 'something')
-        assert.fail()
-      } catch (expected) {
-        assert.strictEqual(
-          expected.message,
-          `Illegal character '${c}' in parameter name {${c}string}`
-        )
-      }
-    })
-  }
 
   it('exposes source', () => {
     const expr = 'I have {int} cuke(s)'
@@ -313,44 +180,6 @@ describe('CucumberExpression', () => {
 
     const args = expression.match(`I have a bolt`)
     assert.strictEqual(args[0].getValue(world), 'widget:bolt')
-  })
-
-  describe('escapes special characters', () => {
-    const special = ['\\', '[', ']', '^', '$', '.', '|', '?', '*', '+']
-    special.forEach((character) => {
-      it(`escapes ${character}`, () => {
-        const expr = `I have {int} cuke(s) and ${character}`
-        const expression = new CucumberExpression(
-          expr,
-          new ParameterTypeRegistry()
-        )
-        const arg1 = expression.match(`I have 800 cukes and ${character}`)[0]
-        assert.strictEqual(arg1.getValue(null), 800)
-      })
-    })
-
-    it(`escapes .`, () => {
-      const expr = `I have {int} cuke(s) and .`
-      const expression = new CucumberExpression(
-        expr,
-        new ParameterTypeRegistry()
-      )
-      assert.strictEqual(expression.match(`I have 800 cukes and 3`), null)
-      const arg1 = expression.match(`I have 800 cukes and .`)[0]
-      assert.strictEqual(arg1.getValue(null), 800)
-    })
-
-    it(`escapes |`, () => {
-      const expr = `I have {int} cuke(s) and a|b`
-      const expression = new CucumberExpression(
-        expr,
-        new ParameterTypeRegistry()
-      )
-      assert.strictEqual(expression.match(`I have 800 cukes and a`), null)
-      assert.strictEqual(expression.match(`I have 800 cukes and b`), null)
-      const arg1 = expression.match(`I have 800 cukes and a|b`)[0]
-      assert.strictEqual(arg1.getValue(null), 800)
-    })
   })
 })
 

@@ -69,7 +69,7 @@ public final class RegularExpression implements Expression {
             parameterTypes.add(parameterType);
         }
 
-        return Argument.build(group, treeRegexp, parameterTypes);
+        return Argument.build(group, parameterTypes);
     }
 
     @Override
