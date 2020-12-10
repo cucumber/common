@@ -28,7 +28,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'protobuf-cucumber', '~> 3.10', '>= 3.10.8'
 
   s.add_development_dependency 'rake', '~> 13.0', '>= 13.0.1'
-  s.add_development_dependency 'rspec', '~> 3.9', '>= 3.9.0'
+  s.add_development_dependency 'rspec', '~> 3.10', '>= 3.10.0'
 
   s.rubygems_version = ">= 1.6.1"
   s.files            = Dir[

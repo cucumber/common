@@ -139,4 +139,18 @@ describe('NdjsonStream', () => {
       messages.Envelope.create({}),
     ])
   })
+
+  it('includes offending line in error message', async () => {
+    const toMessageStream = makeToMessageStream()
+    await assert.rejects(
+      async () => {
+        toMessageStream.write('{}\nBLA BLA\n\n{}\n')
+        toMessageStream.end()
+        await toArray(toMessageStream)
+      },
+      {
+        message: 'Not JSON: BLA BLA',
+      }
+    )
+  })
 })

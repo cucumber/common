@@ -9,10 +9,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
-* Elixir implementation
-  ([#1175](https://github.com/cucumber/cucumber/pull/1175)
-   [WannesFransen1994])
-
 ### Changed
 
 ### Deprecated
@@ -20,6 +16,21 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Removed
 
 ### Fixed
+
+## [13.2.1] - 2020-11-19
+
+### Fixed
+
+* In case a line cannot be parsed as JSON, throw an error
+  with the offending line in the exception message.
+
+## [13.2.0] - 2020-11-12
+
+### Added
+
+* Elixir implementation
+  ([#1175](https://github.com/cucumber/cucumber/pull/1175)
+   [WannesFransen1994])
 
 ## [13.1.0] - 2020-09-14
 
@@ -429,7 +440,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Protobuf messages for Go, Java, JavaScript, TypeScript and Ruby
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/messages/v13.1.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/messages/v13.2.1...master
+[13.2.1]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v13.2.0...messages/v13.2.1
+[13.2.0]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v13.1.0...messages/v13.2.0
 [13.1.0]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v13.0.1...messages/v13.1.0
 [13.0.1]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v13.0.0...messages/v13.0.1
 [13.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v12.4.0...messages/v13.0.0

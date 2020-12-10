@@ -13,5 +13,6 @@
 @property (nonatomic, strong) NSArray<NSString *> * then;
 @property (nonatomic, strong) NSArray<NSString *> * and;
 @property (nonatomic, strong) NSArray<NSString *> * but;
+@property (nonatomic, strong) NSArray<NSString *> * rule;
 
 @end

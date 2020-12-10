@@ -1,7 +1,7 @@
 module github.com/cucumber/gherkin-go/v15
 
 require (
-	github.com/cucumber/messages-go/v13 v13.1.0
+	github.com/cucumber/messages-go/v13 v13.2.1
 	github.com/gogo/protobuf v1.3.1
 	github.com/stretchr/testify v1.6.1
 )

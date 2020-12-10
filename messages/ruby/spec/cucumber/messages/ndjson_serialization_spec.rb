@@ -95,6 +95,16 @@ module Cucumber
         expect(incoming_messages.to_a).to(eq([Envelope.new]))
       end
 
+      it "includes offending line in error message" do
+        io = StringIO.new
+        io.puts('BLA BLA')
+
+        io.rewind
+        incoming_messages = NdjsonToMessageEnumerator.new(io)
+
+        expect { incoming_messages.to_a }.to(raise_error('Not JSON: BLA BLA'))
+      end
+
       def write_outgoing_messages(messages, out)
         messages.each do |message|
           message.write_ndjson_to(out)
