@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ----
 ## [Unreleased]
 
+### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+## [11.0.0] - 2020-12-10
+
 This is a major release of Cucumber Expressions.
 Cucumber Expressions now has a formal grammar.
 
@@ -729,7 +741,8 @@ N/A
 * First stable release!
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions/v10.3.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions/v11.0.0...master
+[11.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v10.3.0...cucumber-expressions/v11.0.0
 [10.3.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v10.2.2...cucumber-expressions/v10.3.0
 [10.2.2]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v0.0.0...cucumber-expressions/v10.2.2
 [0.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v10.2.1...cucumber-expressions/v0.0.0
