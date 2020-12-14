@@ -87,8 +87,6 @@ describe('HighLight', () => {
       document.querySelectorAll('#content mark')
     ).map((span) => span.textContent)
 
-    console.log(document.body.innerHTML)
-
     assert.deepStrictEqual(highlighted, ['bullet'])
   })
 })
