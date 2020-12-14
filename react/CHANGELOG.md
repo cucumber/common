@@ -17,6 +17,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+* Improve HTML Sanitization. See https://medium.com/javascript-security/avoiding-xss-via-markdown-in-react-91665479900
+  * Smaller
+  * Safer
+
 ## [10.1.2] - 2020-12-13
 
 ### Fixed
