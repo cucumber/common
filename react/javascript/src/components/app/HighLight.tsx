@@ -2,7 +2,7 @@ import React from 'react'
 import SearchQueryContext from '../../SearchQueryContext'
 import elasticlunr from 'elasticlunr'
 import highlightWords from 'highlight-words'
-import ReactMarkdown from 'react-markdown'
+import ReactMarkdown from "react-markdown";
 // @ts-ignore
 import htmlParser from 'react-markdown/plugins/html-parser'
 
@@ -24,45 +24,34 @@ const allQueryWords = (queryWords: string[]): string[] => {
   }, [] as string[])
 }
 
-// We'll escape *any* HTML tag the user puts in their markdown. The only tag we allow is <mark>,
-// which is added by the highlighting code.
-const parseHtml = htmlParser({
-  isValidNode: (node: { type: string; name: string }) =>
-    node.type === 'tag' && node.name === 'mark',
-})
-
+const parseHtml = htmlParser()
 const HighLight: React.FunctionComponent<IProps> = ({
-  text,
-  markdown = false,
-  className = '',
-}) => {
+                                                      text,
+                                                      markdown = false,
+                                                      className = '',
+                                                    }) => {
   const searchQueryContext = React.useContext(SearchQueryContext)
   const query = allQueryWords(
     searchQueryContext.query ? searchQueryContext.query.split(' ') : []
   ).join(' ')
   const appliedClassName = className ? `highlight ${className}` : 'highlight'
 
-  const chunks = highlightWords({ text, query })
+  const chunks = highlightWords({text, query})
 
   if (markdown) {
-    const highlightedText = chunks
-      .map(({ text, match }) => (match ? `<mark>${text}</mark>` : text))
-      .join('')
+    const highlightedText = chunks.map(({text, match}) => match ? `<mark>${text}</mark>` : text).join('')
     return (
-      <div className={appliedClassName}>
-        <ReactMarkdown astPlugins={[parseHtml]} allowDangerousHtml>
-          {highlightedText}
-        </ReactMarkdown>
+      <div
+        className={appliedClassName}
+      >
+        <ReactMarkdown astPlugins={[parseHtml]} allowDangerousHtml>{highlightedText}</ReactMarkdown>
       </div>
     )
   }
 
   return (
-    <span className={appliedClassName}>
-      {chunks.map(({ text, match, key }) =>
-        match ? <mark key={key}>{text}</mark> : text
-      )}
-    </span>
+    <span className={appliedClassName}>{chunks.map(({text, match, key}) => match ?
+      <mark key={key}>{text}</mark> : text)}</span>
   )
 }
 
