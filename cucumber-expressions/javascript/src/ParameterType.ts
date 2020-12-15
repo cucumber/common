@@ -1,10 +1,13 @@
-import { CucumberExpressionError } from './Errors'
+import {
+  createInvalidParameterTypeName,
+  CucumberExpressionError,
+} from './Errors'
 
 const ILLEGAL_PARAMETER_NAME_PATTERN = /([[\]()$.|?*+])/
 const UNESCAPE_PATTERN = () => /(\\([[$.|?*+\]]))/g
 
 export default class ParameterType<T> {
-  private transformFn: (...match: ReadonlyArray<string>) => T
+  private transformFn: (...match: readonly string[]) => T
 
   public static compare(pt1: ParameterType<any>, pt2: ParameterType<any>) {
     if (pt1.preferForRegexpMatch && !pt2.preferForRegexpMatch) {
@@ -17,13 +20,14 @@ export default class ParameterType<T> {
   }
 
   public static checkParameterTypeName(typeName: string) {
-    const unescapedTypeName = typeName.replace(UNESCAPE_PATTERN(), '$2')
-    const match = unescapedTypeName.match(ILLEGAL_PARAMETER_NAME_PATTERN)
-    if (match) {
-      throw new CucumberExpressionError(
-        `Illegal character '${match[1]}' in parameter name {${unescapedTypeName}}`
-      )
+    if (!this.isValidParameterTypeName(typeName)) {
+      throw createInvalidParameterTypeName(typeName)
     }
+  }
+
+  public static isValidParameterTypeName(typeName: string) {
+    const unescapedTypeName = typeName.replace(UNESCAPE_PATTERN(), '$2')
+    return !unescapedTypeName.match(ILLEGAL_PARAMETER_NAME_PATTERN)
   }
 
   public regexpStrings: ReadonlyArray<string>
@@ -67,13 +71,14 @@ export default class ParameterType<T> {
   }
 }
 
+type StringOrRegexp = string | RegExp
+
 function stringArray(
-  regexps: ReadonlyArray<RegExp> | ReadonlyArray<string> | RegExp | string
+  regexps: readonly StringOrRegexp[] | StringOrRegexp
 ): string[] {
-  const array = Array.isArray(regexps) ? regexps : [regexps]
-  return array.map((r: RegExp | string) =>
-    r instanceof RegExp ? regexpSource(r) : r
-  )
+  // @ts-ignore
+  const array: StringOrRegexp[] = Array.isArray(regexps) ? regexps : [regexps]
+  return array.map((r) => (r instanceof RegExp ? regexpSource(r) : r))
 }
 
 function regexpSource(regexp: RegExp): string {

@@ -11,13 +11,14 @@
 
 @implementation GHGherkinTokenizationTest
 
+/* TODO: Complete this test with an actual test file
 - (void)testSuccessfulParsing
 {
     GHParser * parser = [[GHParser alloc] init];
     id parsingResult = [parser parse: theTestFeatureFile];
     XCTAssertNotNil(parsingResult);
 }
-
+*/
 
 - (void)testMultipleFeatures
 {

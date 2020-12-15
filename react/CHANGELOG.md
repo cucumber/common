@@ -17,6 +17,32 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [10.1.2] - 2020-12-13
+
+### Fixed
+
+* Allow `react` and `react-dom` peer dependencies to be `^16 | ^17`.
+
+## [10.1.1] - 2020-11-06
+
+### Fixed
+
+* Replaced `git-url-parse` with our own simpler implementation that doesn't need a browser polyfill.
+
+## [10.1.0] - 2020-11-04
+
+### Added
+
+* Upgrade to React 17
+* Upgrade to `@cucumber/gherkin-utils 2.1.0`
+* Upgrade to `@cucumber/messages 13.1.0`
+* Upgrade to `@cucumber/tag-expressions 3.0.0`
+* Upgrade to Storybook 6.0.0
+
+### Fixed
+
+* Fixed typos in some CSS class names
+
 ## [10.0.1] - 2020-09-02
 
 ### Fixed
@@ -252,7 +278,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/react/v10.0.1...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/react/v10.1.2...master
+[10.1.2]:      https://github.com/cucumber/cucumber/compare/react/v10.1.1...react/v10.1.2
+[10.1.1]:      https://github.com/cucumber/cucumber/compare/react/v10.1.0...react/v10.1.1
+[10.1.0]:      https://github.com/cucumber/cucumber/compare/react/v10.0.1...react/v10.1.0
 [10.0.1]:      https://github.com/cucumber/cucumber/compare/react/v10.0.0...react/v10.0.1
 [10.0.0]:      https://github.com/cucumber/cucumber/compare/react/v9.0.0...react/v10.0.0
 [9.0.0]:      https://github.com/cucumber/cucumber/compare/react/v8.2.0...react/v9.0.0

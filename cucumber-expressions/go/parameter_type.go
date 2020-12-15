@@ -2,14 +2,12 @@ package cucumberexpressions
 
 import (
 	"errors"
-	"fmt"
 	"reflect"
 	"regexp"
 )
 
 var HAS_FLAG_REGEXP = regexp.MustCompile(`\(\?[imsU-]+(:.*)?\)`)
-var UNESCAPE_REGEXP = regexp.MustCompile(`(\\([\[$.|?*+\]]))`)
-var ILLEGAL_PARAMETER_NAME_REGEXP = regexp.MustCompile(`([\[\]()$.|?*+])`)
+var ILLEGAL_PARAMETER_NAME_REGEXP = regexp.MustCompile(`([{}()\\/])`)
 
 type ParameterType struct {
 	name                           string
@@ -22,12 +20,14 @@ type ParameterType struct {
 }
 
 func CheckParameterTypeName(typeName string) error {
-	unescapedTypeName := UNESCAPE_REGEXP.ReplaceAllString(typeName, "$2")
-	if ILLEGAL_PARAMETER_NAME_REGEXP.MatchString(typeName) {
-		c := ILLEGAL_PARAMETER_NAME_REGEXP.FindStringSubmatch(typeName)[0]
-		return fmt.Errorf("illegal character '%s' in parameter name {%s}", c, unescapedTypeName)
+	if !isValidParameterTypeName(typeName) {
+		return createInvalidParameterTypeName(typeName)
 	}
 	return nil
+}
+
+func isValidParameterTypeName(typeName string) bool {
+	return !ILLEGAL_PARAMETER_NAME_REGEXP.MatchString(typeName)
 }
 
 func NewParameterType(name string, regexps []*regexp.Regexp, type1 string, transform func(...*string) interface{}, useForSnippets bool, preferForRegexpMatch bool, useRegexpMatchAsStrongTypeHint bool) (*ParameterType, error) {

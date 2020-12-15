@@ -14,10 +14,6 @@ module Cucumber
       it 'creates a CucumberExpression' do
         expect(@expression_factory.create_expression('{int}').class).to eq(CucumberExpression)
       end
-
-      it 'creates a XXXRegularExpression' do
-        expect {@expression_factory.create_expression('hello {x}')}.to raise_error("Undefined parameter type {x}")
-      end
     end
   end
 end

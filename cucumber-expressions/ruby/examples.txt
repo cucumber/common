@@ -2,7 +2,7 @@ I have {int} cuke(s)
 I have 22 cukes
 [22]
 ---
-I have {int} cuke(s) and some \[]^$.|?*+
+I have {int} cuke(s) and some \\[]^$.|?*+
 I have 1 cuke and some \[]^$.|?*+
 [1]
 ---
@@ -37,3 +37,7 @@ a purchase for $33
 Some ${float} of cukes at {int}° Celsius
 Some $3.50 of cukes at 42° Celsius
 [3.5,42]
+---
+I select the {int}st/nd/rd/th Cucumber
+I select the 3rd Cucumber
+[3]

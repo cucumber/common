@@ -2,7 +2,7 @@ defmodule CucumberMessages.MixProject do
   @moduledoc false
   use Mix.Project
 
-  @vsn "0.1.0"
+  @vsn "13.2.1"
   @github "https://github.com/cucumber/cucumber/tree/master/messages/elixir"
   @name "CucumberMessages"
 
@@ -27,9 +27,9 @@ defmodule CucumberMessages.MixProject do
 
   defp deps do
     [
-      {:protox, "~> 1.0.0"},
+      {:protox, "~> 1.2.0"},
       {:jason, "~> 1.2"},
-      {:ex_doc, "~> 0.22", only: :dev, runtime: false}
+      {:ex_doc, "~> 0.23", only: :dev, runtime: false}
     ]
   end
 
