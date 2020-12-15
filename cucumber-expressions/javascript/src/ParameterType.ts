@@ -76,7 +76,8 @@ type StringOrRegexp = string | RegExp
 function stringArray(
   regexps: readonly StringOrRegexp[] | StringOrRegexp
 ): string[] {
-  const array = Array.isArray(regexps) ? regexps : [regexps]
+  // @ts-ignore
+  const array: StringOrRegexp[] = Array.isArray(regexps) ? regexps : [regexps]
   return array.map((r) => (r instanceof RegExp ? regexpSource(r) : r))
 }
 

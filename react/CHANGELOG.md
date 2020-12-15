@@ -17,6 +17,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [10.1.2] - 2020-12-13
+
+### Fixed
+
+* Allow `react` and `react-dom` peer dependencies to be `^16 | ^17`.
+
 ## [10.1.1] - 2020-11-06
 
 ### Fixed
@@ -272,7 +278,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/react/v10.1.1...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/react/v10.1.2...master
+[10.1.2]:      https://github.com/cucumber/cucumber/compare/react/v10.1.1...react/v10.1.2
 [10.1.1]:      https://github.com/cucumber/cucumber/compare/react/v10.1.0...react/v10.1.1
 [10.1.0]:      https://github.com/cucumber/cucumber/compare/react/v10.0.1...react/v10.1.0
 [10.0.1]:      https://github.com/cucumber/cucumber/compare/react/v10.0.0...react/v10.0.1
