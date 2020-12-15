@@ -1,5 +1,6 @@
 package io.cucumber.datatable;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Multiset;
@@ -1779,6 +1780,7 @@ class DataTableTypeRegistryTableConverterTest {
                     '}';
         }
 
+        @JsonCreator
         public static AirPortCode fromString(String code) {
             return new AirPortCode(code);
         }
