@@ -110,4 +110,14 @@ describe('HighLight', () => {
     const html = document.querySelector('#content').innerHTML
     assert.deepStrictEqual(html, '<div class="highlight"><p>We <em>like</em> other HTML tags:</p><section>hello</section></div>')
   })
+
+  it('does not render JavaScript event handlers on tags in markdown', () => {
+    const document = renderHighlight(
+      `Failed XSS: <small onclick="alert('hello')" class="supersmall">hello</small>`,
+      null,
+      true
+    )
+    const html = document.querySelector('#content').innerHTML
+    assert.deepStrictEqual(html, '<div class="highlight"><p>Failed XSS: <small class="supersmall">hello</small></p></div>')
+  })
 })
