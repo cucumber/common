@@ -11,14 +11,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
-* Make image and video attachments collapsible; show collapsed by default.
-
 ### Deprecated
 
 ### Removed
 
 ### Fixed
 
+## [11.0.0] - 2020-12-17
+
+### Fixed
+
+* Make image and video attachments collapsible; show collapsed by default.
 * Prevent images from growing wider than their container.
   ([#1220](https://github.com/cucumber/cucumber/issues/1220)
    [#1205](https://github.com/cucumber/cucumber/issues/1205)
@@ -291,7 +294,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/react/v10.1.2...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/react/v11.0.0...master
+[11.0.0]:      https://github.com/cucumber/cucumber/compare/react/v10.1.2...react/v11.0.0
 [10.1.2]:      https://github.com/cucumber/cucumber/compare/react/v10.1.1...react/v10.1.2
 [10.1.1]:      https://github.com/cucumber/cucumber/compare/react/v10.1.0...react/v10.1.1
 [10.1.0]:      https://github.com/cucumber/cucumber/compare/react/v10.0.1...react/v10.1.0

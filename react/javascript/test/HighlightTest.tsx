@@ -98,7 +98,10 @@ describe('HighLight', () => {
     )
     const html = document.querySelector('#content').innerHTML
     // Script tags will be removed (rather than escaped). Ideally we'd *escape* them to &lt;script&gt;.
-    assert.deepStrictEqual(html, '<div class="highlight"><p>Failed XSS: <mark>alert</mark>("<mark>hello</mark>")</p></div>')
+    assert.deepStrictEqual(
+      html,
+      '<div class="highlight"><p>Failed XSS: <mark>alert</mark>("<mark>hello</mark>")</p></div>'
+    )
   })
 
   it('renders <section> tags in markdown', () => {
@@ -108,7 +111,10 @@ describe('HighLight', () => {
       true
     )
     const html = document.querySelector('#content').innerHTML
-    assert.deepStrictEqual(html, '<div class="highlight"><p>We <em>like</em> other HTML tags:</p><section>hello</section></div>')
+    assert.deepStrictEqual(
+      html,
+      '<div class="highlight"><p>We <em>like</em> other HTML tags:</p><section>hello</section></div>'
+    )
   })
 
   it('does not render JavaScript event handlers on tags in markdown', () => {
@@ -118,6 +124,9 @@ describe('HighLight', () => {
       true
     )
     const html = document.querySelector('#content').innerHTML
-    assert.deepStrictEqual(html, '<div class="highlight"><p>Failed XSS: <small class="supersmall">hello</small></p></div>')
+    assert.deepStrictEqual(
+      html,
+      '<div class="highlight"><p>Failed XSS: <small class="supersmall">hello</small></p></div>'
+    )
   })
 })
