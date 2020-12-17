@@ -17,6 +17,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [11.0.0] - 2020-12-17
+
+* Upgrade `@cucumber/react`
+
 ## [10.0.0] - 2020-11-04
 
 ### Changed
@@ -245,7 +249,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/html-formatter/v10.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/html-formatter/v11.0.0...master
+[11.0.0]:      https://github.com/cucumber/cucumber/compare/html-formatter/v10.0.0...html-formatter/v11.0.0
 [10.0.0]:      https://github.com/cucumber/cucumber/compare/html-formatter/v9.0.0...html-formatter/v10.0.0
 [9.0.0]:      https://github.com/cucumber/cucumber/compare/html-formatter/v8.0.0...html-formatter/v9.0.0
 [8.0.0]:      https://github.com/cucumber/cucumber/compare/html-formatter/v7.2.0...html-formatter/v8.0.0
