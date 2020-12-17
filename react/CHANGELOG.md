@@ -11,12 +11,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
+* Make image and video attachments collapsible; show collapsed by default.
+
 ### Deprecated
 
 ### Removed
 
 ### Fixed
 
+* Prevent images from growing wider than their container.
+  ([#1220](https://github.com/cucumber/cucumber/issues/1220)
+   [#1205](https://github.com/cucumber/cucumber/issues/1205)
+   [#1260](https://github.com/cucumber/cucumber/pull/1260)
+   [davidjgoss])
 * Markdown rendering of `description` fields are now done with `react-markdown` instead of `marked`.
   This is a more secure [protection agains XSS](https://medium.com/javascript-security/avoiding-xss-via-markdown-in-react-91665479900)
   ([#1275](https://github.com/cucumber/cucumber/issues/1275)
@@ -315,4 +322,5 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 [aslakhellesoy]:    https://github.com/aslakhellesoy
 [cbliard]:          https://github.com/cbliard
 [codemrkay]:        https://github.com/codemrkay
+[davidjgoss]:       https://github.com/davidjgoss
 [sebrose]:          https://github.com/sebrose
