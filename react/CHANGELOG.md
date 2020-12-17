@@ -17,6 +17,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [11.0.2] - 2020-12-17
+
+### Fixed
+
+* Upgraded `@cucumber/query` (only change is the dropped dependency on `@cucumber/gherkin`)
+
 ## [11.0.1] - 2020-12-17
 
 ### Fixed
@@ -300,7 +306,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/react/v11.0.1...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/react/v11.0.2...master
+[11.0.2]:      https://github.com/cucumber/cucumber/compare/react/v11.0.1...react/v11.0.2
 [11.0.1]:      https://github.com/cucumber/cucumber/compare/react/v11.0.0...react/v11.0.1
 [11.0.0]:      https://github.com/cucumber/cucumber/compare/react/v10.1.2...react/v11.0.0
 [10.1.2]:      https://github.com/cucumber/cucumber/compare/react/v10.1.1...react/v10.1.2
