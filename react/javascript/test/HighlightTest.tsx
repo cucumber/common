@@ -9,7 +9,7 @@ describe('HighLight', () => {
   function renderHighlight(
     text: string,
     query: string,
-    htmlText = false
+    markdown: boolean
   ): Document {
     const dom = new JSDOM(
       '<html lang="en"><body><div id="content"></div></body></html>'
@@ -21,17 +21,18 @@ describe('HighLight', () => {
 
     const app = (
       <SearchQueryContext.Provider value={{ query: query }}>
-        <HighLight text={text} htmlText={htmlText} />
+        <HighLight text={text} markdown={markdown} />
       </SearchQueryContext.Provider>
     )
     ReactDOM.render(app, document.getElementById('content'))
     return document
   }
 
-  it('renders', () => {
+  it('puts <mark> around exact matches', () => {
     const document = renderHighlight(
       'Some text with a keyword inside',
-      'keyword'
+      'keyword',
+      false
     )
     const highlighted = Array.from(
       document.querySelectorAll('#content mark')
@@ -40,25 +41,27 @@ describe('HighLight', () => {
     assert.deepStrictEqual(highlighted, ['keyword'])
   })
 
-  it('highlights the stemmed query words', () => {
+  it('puts <mark> around stemmed query words', () => {
     const document = renderHighlight(
-      'This step has failed when a failure occured (so it fails)',
-      'failed'
+      'This step has failed when a failure occurred (so it fails)',
+      'failed',
+      false
     )
     const highlighted = Array.from(
       document.querySelectorAll('#content mark')
     ).map((span) => span.textContent)
 
     // The first one is the exact match.
-    // The second one correponds to the "failure" word, which stem is "fail"
+    // The second one corresponds to the "failure" word, which stem is "fail"
     // The third one corresponds to the "fails" word
     assert.deepStrictEqual(highlighted, ['failed', 'fail', 'fail'])
   })
 
-  it('may highlight multiple words and stems', () => {
+  it('puts <mark> around multiple words and stems', () => {
     const document = renderHighlight(
       'Given a passed step\nWhen a failed step\nThen a skipped step',
-      'step fail pass skipped'
+      'step fail pass skipped',
+      false
     )
     const highlighted = Array.from(
       document.querySelectorAll('#content mark')
@@ -74,74 +77,47 @@ describe('HighLight', () => {
     ])
   })
 
-  context('when htmlContent is not set', () => {
-    it('escapes HTML characters', () => {
-      const document = renderHighlight(
-        '<span>Given</span> a passed step',
-        'step'
-      )
-      const highlighted = Array.from(
-        document.querySelectorAll('#content .highlight')
-      )
-        .map((span) => span.innerHTML)
-        .join('')
+  it('puts <mark> around matches in markdown', () => {
+    const document = renderHighlight(
+      '* This is\n* a bullet list',
+      'bullet',
+      true
+    )
+    const highlighted = Array.from(
+      document.querySelectorAll('#content mark')
+    ).map((span) => span.textContent)
 
-      assert.equal(
-        highlighted,
-        '<span>&lt;span&gt;Given&lt;/span&gt; a passed </span><mark>step</mark>'
-      )
-    })
-
-    it('also highlight the tags', () => {
-      const document = renderHighlight(
-        '<strong>Given</strong> a strong step',
-        'strong'
-      )
-      const highlighted = Array.from(
-        document.querySelectorAll('#content .highlight')
-      )
-        .map((span) => span.innerHTML)
-        .join('')
-
-      assert.equal(
-        highlighted,
-        '<span>&lt;</span><mark>strong</mark><span>&gt;Given&lt;/</span><mark>strong</mark><span>&gt; a </span><mark>strong</mark><span> step</span>'
-      )
-    })
+    assert.deepStrictEqual(highlighted, ['bullet'])
   })
 
-  context('when htmlContent is set to true', () => {
-    it('keeps the HTML content', () => {
-      const document = renderHighlight(
-        '<em>Given</em> a passed step',
-        'step',
-        true
-      )
-      const highlighted = Array.from(
-        document.querySelectorAll('#content .highlight')
-      )
-        .map((span) => span.innerHTML)
-        .join('')
+  it('does not render <script> tags in markdown', () => {
+    const document = renderHighlight(
+      'Failed XSS: <script>alert("hello")</script>',
+      'alert hello',
+      true
+    )
+    const html = document.querySelector('#content').innerHTML
+    // Script tags will be removed (rather than escaped). Ideally we'd *escape* them to &lt;script&gt;.
+    assert.deepStrictEqual(html, '<div class="highlight"><p>Failed XSS: <mark>alert</mark>("<mark>hello</mark>")</p></div>')
+  })
 
-      assert.equal(highlighted, '<em>Given</em> a passed <mark>step</mark>')
-    })
+  it('renders <section> tags in markdown', () => {
+    const document = renderHighlight(
+      'We *like* other HTML tags:\n\n<section>hello</section>',
+      null,
+      true
+    )
+    const html = document.querySelector('#content').innerHTML
+    assert.deepStrictEqual(html, '<div class="highlight"><p>We <em>like</em> other HTML tags:</p><section>hello</section></div>')
+  })
 
-    it('does not highlight the tags', () => {
-      const document = renderHighlight(
-        '<strong>Given</strong> a strong step',
-        'strong',
-        true
-      )
-      const highlighted = Array.from(
-        document.querySelectorAll('#content .highlight')
-      )
-        .map((span) => span.innerHTML)
-        .join('')
-
-      assert.equal(
-        highlighted,
-        '<strong>Given</strong> a <mark>strong</mark> step'
-      )
-    })
+  it('does not render JavaScript event handlers on tags in markdown', () => {
+    const document = renderHighlight(
+      `Failed XSS: <small onclick="alert('hello')" class="supersmall">hello</small>`,
+      null,
+      true
+    )
+    const html = document.querySelector('#content').innerHTML
+    assert.deepStrictEqual(html, '<div class="highlight"><p>Failed XSS: <small class="supersmall">hello</small></p></div>')
   })
 })

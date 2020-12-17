@@ -1,11 +1,14 @@
 import React from 'react'
-import { findAll, Chunk } from '../highlight-words'
 import SearchQueryContext from '../../SearchQueryContext'
 import elasticlunr from 'elasticlunr'
+import highlightWords from 'highlight-words'
+import ReactMarkdown from "react-markdown";
+// @ts-ignore
+import htmlParser from 'react-markdown/plugins/html-parser'
 
 interface IProps {
   text: string
-  htmlText?: boolean
+  markdown?: boolean
   className?: string
 }
 
@@ -18,61 +21,37 @@ const allQueryWords = (queryWords: string[]): string[] => {
       allWords.push(stem)
     }
     return allWords
-  }, [])
+  }, [] as string[])
 }
 
-const highlightText = (text: string, chunks: Chunk[]): string => {
-  return chunks.reduce((highlighted, chunk) => {
-    const chunkText = text.slice(chunk.start, chunk.end)
-    if (chunk.highlight) {
-      return `${highlighted}<mark>${chunkText}</mark>`
-    }
-    return `${highlighted}${chunkText}`
-  }, '')
-}
-
-const highlightElements = (text: string, chunks: Chunk[]): JSX.Element[] => {
-  let highlightIndex = -1
-  return chunks.reduce((elements: JSX.Element[], chunk) => {
-    const chunkText = text.slice(chunk.start, chunk.end)
-    highlightIndex += 1
-    if (chunk.highlight) {
-      elements.push(<mark key={highlightIndex}>{chunkText}</mark>)
-    } else {
-      elements.push(<span key={highlightIndex}>{chunkText}</span>)
-    }
-    return elements
-  }, [])
-}
-
+const parseHtml = htmlParser()
 const HighLight: React.FunctionComponent<IProps> = ({
-  text,
-  htmlText = false,
-  className = '',
-}) => {
+                                                      text,
+                                                      markdown = false,
+                                                      className = '',
+                                                    }) => {
   const searchQueryContext = React.useContext(SearchQueryContext)
-  const queryWords = allQueryWords(
+  const query = allQueryWords(
     searchQueryContext.query ? searchQueryContext.query.split(' ') : []
-  )
-  const chunks = findAll({
-    searchWords: queryWords,
-    textToHighlight: text,
-    htmlText,
-  })
-
+  ).join(' ')
   const appliedClassName = className ? `highlight ${className}` : 'highlight'
 
-  if (htmlText) {
+  const chunks = highlightWords({text, query})
+
+  if (markdown) {
+    const highlightedText = chunks.map(({text, match}) => match ? `<mark>${text}</mark>` : text).join('')
     return (
       <div
         className={appliedClassName}
-        dangerouslySetInnerHTML={{ __html: highlightText(text, chunks) }}
-      />
+      >
+        <ReactMarkdown astPlugins={[parseHtml]} allowDangerousHtml>{highlightedText}</ReactMarkdown>
+      </div>
     )
   }
 
   return (
-    <span className={appliedClassName}>{highlightElements(text, chunks)}</span>
+    <span className={appliedClassName}>{chunks.map(({text, match, key}) => match ?
+      <mark key={key}>{text}</mark> : text)}</span>
   )
 }
 
