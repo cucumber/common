@@ -17,6 +17,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+* Markdown rendering of `description` fields are now done with `react-markdown` instead of `marked`.
+  This is a more secure [protection agains XSS](https://medium.com/javascript-security/avoiding-xss-via-markdown-in-react-91665479900)
+  ([#1275](https://github.com/cucumber/cucumber/issues/1275)
+   [#1276](https://github.com/cucumber/cucumber/pull/1276)
+   [aslakhellesoy])
+
 ## [10.1.2] - 2020-12-13
 
 ### Fixed
