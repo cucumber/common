@@ -26,9 +26,9 @@
   },
   "homepage": "https://github.com/cucumber/cucumber#readme",
   "devDependencies": {
-    "@cucumber/fake-cucumber": "^9.0.0",
-    "@cucumber/gherkin": "^16.0.0",
-    "@cucumber/gherkin-utils": "^2.1.1",
+    "@cucumber/fake-cucumber": "file:../../fake-cucumber/javascript",
+    "@cucumber/gherkin": "file:../../gherkin/javascript",
+    "@cucumber/gherkin-utils": "file:../../gherkin-utils/javascript",
     "@types/mocha": "^8.2.0",
     "@types/node": "^14.14.14",
     "@typescript-eslint/eslint-plugin": "^4.10.0",
@@ -51,7 +51,7 @@
     "*"
   ],
   "dependencies": {
-    "@cucumber/messages": "^13.2.1",
+    "@cucumber/messages": "file:../../messages/javascript",
     "@teppeis/multimaps": "^1.1.0"
   },
   "directories": {
