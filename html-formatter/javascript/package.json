@@ -1,6 +1,6 @@
 {
   "name": "@cucumber/html-formatter",
-  "version": "11.0.3",
+  "version": "11.0.4",
   "description": "HTML formatter for Cucumber",
   "bin": {
     "cucumber-html-formatter": "bin/cucumber-html-formatter.js"

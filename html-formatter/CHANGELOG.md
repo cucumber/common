@@ -17,6 +17,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [11.0.4] - 2020-12-18
+
+### Fixed
+
+* Fix Java release
+
 ## [11.0.3] - 2020-12-18
 
 ### Fixed
@@ -267,7 +273,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/html-formatter/v11.0.3...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/html-formatter/v11.0.4...master
+[11.0.4]:      https://github.com/cucumber/cucumber/compare/html-formatter/v11.0.3...html-formatter/v11.0.4
 [11.0.3]:      https://github.com/cucumber/cucumber/compare/html-formatter/v11.0.2...html-formatter/v11.0.3
 [11.0.2]:      https://github.com/cucumber/cucumber/compare/html-formatter/v11.0.1...html-formatter/v11.0.2
 [11.0.1]:      https://github.com/cucumber/cucumber/compare/html-formatter/v11.0.0...html-formatter/v11.0.1
