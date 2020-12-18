@@ -60,11 +60,6 @@ executors:
     docker:
       - image: circleci/python:3.9.1
     working_directory: ~/cucumber
-  # Puppeteer
-  docker-circleci-browsers:
-    docker:
-      - image: circleci/node:latest-browsers
-    working_directory: ~/cucumber
 ###
 ### Jobs ###
 ###
@@ -344,7 +339,7 @@ jobs:
             - react/javascript/node_modules
 
   html-formatter-javascript:
-    executor: docker-circleci-browsers
+    executor: docker-cucumber-build
     steps:
       - attach_workspace:
           at: "~/cucumber"

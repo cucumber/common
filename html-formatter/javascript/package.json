@@ -1,6 +1,6 @@
 {
   "name": "@cucumber/html-formatter",
-  "version": "11.0.2",
+  "version": "11.0.3",
   "description": "HTML formatter for Cucumber",
   "bin": {
     "cucumber-html-formatter": "bin/cucumber-html-formatter.js"
@@ -21,10 +21,10 @@
     "build": "tsc && webpack-cli && cp src/index.mustache.html dist/src"
   },
   "dependencies": {
-    "@cucumber/gherkin-utils": "file:../../gherkin-utils/javascript",
-    "@cucumber/messages": "file:../../messages/javascript",
-    "@cucumber/query": "file:../../query/javascript",
-    "@cucumber/react": "file:../../react/javascript",
+    "@cucumber/gherkin-utils": "^2.1.1",
+    "@cucumber/messages": "^13.2.1",
+    "@cucumber/query": "^7.0.1",
+    "@cucumber/react": "^11.0.2",
     "commander": "^6.2.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
