@@ -6,7 +6,7 @@ HTML_REPORT_CHECKS = $(patsubst acceptance/%.html,acceptance/%.html.checked,$(HT
 
 .built: webpack.config.js
 
-ifdef NEW_VERSION
+ifdef CHECK_INTEGRITY
 # We only check integrity of generated HTML reports when we're making a release.
 # The integrity check only passes when package.json *doesn't* refer to modules
 # using file:..

@@ -17,6 +17,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [11.0.3] - 2020-12-18
+
+### Fixed
+
+* Downgrade to Webpack 4.44.2 since the Webpack 5 build fails to load in browsers.
+
 ## [11.0.2] - 2020-12-17
 
 ### Fixed
@@ -261,7 +267,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/html-formatter/v11.0.2...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/html-formatter/v11.0.3...master
+[11.0.3]:      https://github.com/cucumber/cucumber/compare/html-formatter/v11.0.2...html-formatter/v11.0.3
 [11.0.2]:      https://github.com/cucumber/cucumber/compare/html-formatter/v11.0.1...html-formatter/v11.0.2
 [11.0.1]:      https://github.com/cucumber/cucumber/compare/html-formatter/v11.0.0...html-formatter/v11.0.1
 [11.0.0]:      https://github.com/cucumber/cucumber/compare/html-formatter/v10.0.0...html-formatter/v11.0.0
