@@ -7,7 +7,6 @@ async function check() {
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
   await page.setContent(html)
-  await page.pdf({path: 'hn.pdf', format: 'A4'});
   const dynamicHTML = await page.evaluate(() => {
     const content = document.querySelector('.cucumber-react')
     return content && content.innerHTML
