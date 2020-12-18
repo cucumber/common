@@ -4,7 +4,7 @@ const html = fs.readFileSync(path, 'utf-8')
 const puppeteer = require('puppeteer');
 
 async function check() {
-  const browser = await puppeteer.launch();
+  const browser = await puppeteer.launch({args: ['--no-sandbox', '--disable-setuid-sandbox']});
   const page = await browser.newPage();
   await page.setContent(html)
   const dynamicHTML = await page.evaluate(() => {
