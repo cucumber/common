@@ -1,6 +1,6 @@
 defmodule CucumberGherkin.Lexicon do
   @moduledoc false
-  @default_lexicon_path [File.cwd!(), "resources", "gherkin_languages.json"] |> Path.join()
+  @default_lexicon_path Path.join(__DIR__, "../../resources/gherkin_languages.json")
   @feature_keywords ["feature"]
   @scens_both ["scenario", "scenarioOutline"]
   @step_keywords ["given", "when", "then", "and", "but"]
@@ -8,8 +8,11 @@ defmodule CucumberGherkin.Lexicon do
   @rule_keywords ["rule"]
   @examples_keywords ["examples"]
 
-  def load!(), do: @default_lexicon_path |> File.read!() |> Jason.decode!()
-  def load_lang(lang) when is_binary(lang), do: load!() |> Map.fetch(lang)
+  @external_resource @default_lexicon_path
+
+  @lexicon @default_lexicon_path |> File.read!() |> Jason.decode!()
+
+  def load_lang(lang) when is_binary(lang), do: Map.fetch(@lexicon, lang)
 
   def load_keywords(FeatureLine, lex), do: fetch_and_flatten(@feature_keywords, lex)
   def load_keywords(ScenarioLine, lex), do: fetch_and_flatten(@scens_both, lex)
