@@ -42,7 +42,8 @@ defmodule CucumberGherkin.MixProject do
     [
       licenses: ["MIT"],
       source_url: @github,
-      links: %{"GitHub" => @github}
+      links: %{"GitHub" => @github},
+      files: ~w(LICENSE README.md lib mix.exs resources)
     ]
   end
 end
