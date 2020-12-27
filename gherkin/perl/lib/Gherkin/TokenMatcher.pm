@@ -36,16 +36,20 @@ sub match_FeatureLine {
     $self->_match_title_line( $token, FeatureLine => $self->dialect->Feature );
 }
 
-sub match_ScenarioLine {
+sub match_RuleLine {
     my ( $self, $token ) = @_;
     $self->_match_title_line( $token,
-        ScenarioLine => $self->dialect->Scenario );
+        RuleLine => $self->dialect->Rule );
 }
 
-sub match_ScenarioOutlineLine {
+sub match_ScenarioLine {
     my ( $self, $token ) = @_;
-    $self->_match_title_line( $token,
-        ScenarioOutlineLine => $self->dialect->ScenarioOutline );
+    $self->_match_title_line(
+        $token,
+        ScenarioLine => $self->dialect->Scenario )
+        or $self->_match_title_line(
+            $token,
+            ScenarioLine => $self->dialect->ScenarioOutline );;
 }
 
 sub match_BackgroundLine {
