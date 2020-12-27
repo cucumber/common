@@ -167,6 +167,7 @@ sub _unescaped_docstring {
     my ( $self, $text ) = @_;
     if ( $self->_active_doc_string_separator ) {
         $text =~ s!\\"\\"\\"!"""!;
+        $text =~ s!\\`\\`\\`!```!;
         return $text;
     } else {
         return $text;
@@ -214,7 +215,7 @@ sub _match_DocStringSeparator {
     }
 
     $self->_set_token_matched( $token,
-        DocStringSeparator => { text => $content_type } );
+        DocStringSeparator => { text => $content_type, keyword => $separator } );
 }
 
 sub match_TableRow {
