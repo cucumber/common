@@ -95,19 +95,18 @@ our %states_to_match_names = (
 );
 
 sub parse {
-    my ( $self, $token_scanner, $token_matcher ) = @_;
+    my ( $self, $token_scanner, $uri ) = @_;
 
-    $token_matcher ||= Gherkin::TokenMatcher->new();
     $token_scanner = Gherkin::TokenScanner->new($token_scanner)
       unless ref $token_scanner && (ref $token_scanner ne 'SCALAR');
 
-    $self->ast_builder->reset();
-    $token_matcher->reset();
+    $self->ast_builder->reset($uri);
+    $self->token_matcher->reset();
 
     my $context = Gherkin::ParserContext->new(
         {
             token_scanner => $token_scanner,
-            token_matcher => $token_matcher,
+            token_matcher => $self->token_matcher,
         }
     );
 

@@ -9,10 +9,13 @@ use Gherkin::AstNode;
 
 sub new {
     my $class = shift;
+    my ($id_generator) = @_;
+
     my $self  = bless {
-        stack    => [],
-        comments => [],
-        id       => 0,
+        stack         => [],
+        comments      => [],
+        id_generator  => $id_generator,
+        uri           => '',
     }, $class;
     $self->reset;
     return $self;
@@ -22,10 +25,11 @@ sub new {
 sub ast_node { Gherkin::AstNode->new( $_[0] ) }
 
 sub reset {
-    my $self = shift;
+    my $self  = shift;
+    my ($uri) = @_;
     $self->{'stack'}    = [ ast_node('None') ];
     $self->{'comments'} = [];
-    $self->{'id'}       = 0;
+    $self->{'uri'}      = $uri;
 }
 
 sub current_node {
@@ -189,8 +193,7 @@ sub reject_nones {
 
 sub next_id {
     my $self = shift;
-    my $id = $self->{'id'}++;
-    return "$id";
+    return $self->{'id_generator'}->();
 }
 
 sub transform_node {
@@ -383,12 +386,14 @@ sub transform_node {
     } elsif ( $node->rule_type eq 'GherkinDocument' ) {
          my $feature = $node->get_single('Feature');
 
-         return $self->reject_nones(
-             {
-                 feature             => $feature,
-                 comments            => $self->{'comments'},
-             }
-         );
+         return {
+             gherkinDocument => $self->reject_nones(
+                 {
+                     uri                 => $self->{'uri'},
+                     feature             => $feature,
+                     comments            => $self->{'comments'},
+                 })
+         };
     } else {
         return $node;
     }
