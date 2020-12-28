@@ -2,26 +2,36 @@ package Gherkin::Pickles::Compiler;
 
 use strict;
 use warnings;
+use Scalar::Util qw(reftype);
 
 sub compile {
-    my ( $class, $gherkin_document ) = @_;
+    my ( $class, $gherkin_document, $id_generator ) = @_;
     my @pickles;
 
-    my $feature = $gherkin_document->{'feature'};
+    my $feature = $gherkin_document->{'gherkinDocument'}->{'feature'};
     my $language         = $feature->{'language'};
     my $feature_tags     = $feature->{'tags'};
     my $background_steps = [];
 
-    for my $scenario_definition ( @{ $feature->{'children'} } ) {
-        my @args = (
-            $feature_tags, $background_steps, $scenario_definition, $language, \@pickles
-        );
-        if ( $scenario_definition->{'type'} eq 'Background' ) {
-            $background_steps = $class->_pickle_steps($scenario_definition)
-        } elsif ( $scenario_definition->{'type'} eq 'Scenario' ) {
-            $class->_compile_scenario(@args);
+    for my $child ( @{ $feature->{'children'} } ) {
+        if ( $child->{'background'} ) {
+            $background_steps = $child->{'background'}->{'steps'};
+        } elsif ( $child->{'scenario'} ) {
+            $class->_compile_scenario(
+                $gherkin_document->{'gherkinDocument'}->{'uri'},
+                $feature_tags, $background_steps,
+                $child->{'scenario'}, $language, $id_generator,
+                \@pickles
+                );
+        } elsif ( $child->{'rule'} ) {
+            $class->_compile_rule(
+                $gherkin_document->{'gherkinDocument'}->{'uri'},
+                $feature_tags, $background_steps,
+                $child->{'rule'}, $language, $id_generator,
+                \@pickles
+                );
         } else {
-            $class->_compile_scenario_outline(@args);
+            ...;
         }
     }
 
@@ -29,156 +39,169 @@ sub compile {
 }
 
 sub _pickle_steps {
-    my ( $class, $scenario_definition ) = @_;
-    my @steps = map { $class->_pickle_step( $_ ) }
-      @{ $scenario_definition->{'steps'} };
-    return \@steps;
+    my ( $class, $steps, $id_generator ) = @_;
+    return [ map { $class->_pickle_step( $_, $id_generator ) } @$steps ];
+}
+
+sub reject_nones {
+    my ( $values ) = @_;
+
+    return [ grep { defined $_ } @$values ]
+        if reftype $values eq 'ARRAY';
+
+    my $defined_only = {};
+    for my $key ( keys %$values ) {
+        my $value = $values->{$key};
+        if (defined $value) {
+            if (ref $value) {
+                if (reftype $value eq 'ARRAY') {
+                    $defined_only->{$key} = $value
+                        if (scalar(@$value) > 0);
+                }
+                else {
+                    $defined_only->{$key} = $value;
+                }
+            }
+            elsif (not ref $value) {
+                $defined_only->{$key} = $value
+                    unless "$value" eq '';
+            }
+        }
+    }
+
+    return $defined_only;
 }
 
 sub _compile_scenario {
-    my ( $class, $feature_tags, $background_steps, $scenario, $language, $pickles )
-      = @_;
+    my ( $class, $uri, $feature_tags, $background_steps,
+         $scenario, $language, $id_generator, $pickles )
+        = @_;
 
-    my $array_reference = $scenario->{'steps'};
-    my @actual_array = @$array_reference;
-    my $array_size = @actual_array;
-
-    my @tags = ( @$feature_tags, @{ $scenario->{'tags'} || [] } );
-
-    my @steps;
-    if ($array_size > 0) {
-        @steps = (
-            @$background_steps,
-            map { $class->_pickle_step( $_ ) }
-            @{ $scenario->{'steps'} || [] }
-        );
-    }
-
-    push(
-        @$pickles,
-        {
-            tags => $class->_pickle_tags( \@tags ),
-            language => $language,
-            name => $scenario->{'name'},
-            locations =>
-              [ $class->_pickle_location( $scenario->{'location'} ) ],
-            steps => \@steps,
-        }
-    );
-}
-
-sub _compile_scenario_outline {
-    my ( $class, $feature_tags, $background_steps, $scenario_outline, $language, $pickles )
-      = @_;
-
-    my $array_reference = $scenario_outline->{'steps'};
-    my @actual_array = @$array_reference;
-    my $array_size = @actual_array;
-
-    for my $examples ( @{ $scenario_outline->{'examples'} || [] } ) {
+    for my $examples ( @{ $scenario->{'examples'} ||
+                              [ { tableHeader => {},
+                                  tableBody   => [ { cells => [] } ]} ] } ) {
         my $variable_cells = $examples->{'tableHeader'}->{'cells'};
 
         for my $values ( @{ $examples->{'tableBody'} || [] } ) {
             my $value_cells = $values->{'cells'};
             my @tags        = (
-                @$feature_tags,
-                @{ $scenario_outline->{'tags'} || [] },
+                @{ $feature_tags || [] },
+                @{ $scenario->{'tags'} || [] },
                 @{ $examples->{'tags'} || [] }
             );
             my @steps;
-            if ($array_size > 0) {
-                @steps = @$background_steps;
-            }
-
-            for my $scenario_outline_step ( @{ $scenario_outline->{'steps'} } )
-            {
-                my $step_text =
-                  $class->_interpolate( $scenario_outline_step->{'text'},
-                    $variable_cells, $value_cells, );
-                my $arguments =
-                  $class->_create_pickle_arguments(
-                    $scenario_outline_step->{'argument'},
-                    $variable_cells, $value_cells, );
-                push(
-                    @steps,
-                    {
-                        text      => $step_text,
-                        arguments => $arguments,
-                        locations => [
-                            $class->_pickle_location(
-                                $values->{'location'}
-                            ),
-                            $class->_pickle_step_location(
-                                $scenario_outline_step
-                            ),
-                        ]
-                    }
-                );
+            if ($scenario->{'steps'} and @{ $scenario->{'steps'} }) {
+                @steps = @{ $class->_pickle_steps($background_steps,
+                                                  $id_generator) };
+                for my $step (@{ $scenario->{'steps'} } )
+                {
+                    my $step_text =
+                        $class->_interpolate( $step->{'text'},
+                                              $variable_cells, $value_cells, );
+                    my $arguments =
+                        $class->_create_pickle_arguments(
+                            $step,
+                            $variable_cells, $value_cells, );
+                    push(
+                        @steps,
+                        reject_nones(
+                            {
+                                id         => $id_generator->(),
+                                text       => $step_text,
+                                argument   => $arguments,
+                                astNodeIds => reject_nones(
+                                    [
+                                     $step->{'id'},
+                                     $values->{'id'}
+                                    ]),
+                            })
+                        );
+                }
             }
 
             push(
                 @$pickles,
                 {
-                    name =>
-                        $class->_interpolate(
-                            $scenario_outline->{'name'}, $variable_cells,
-                            $value_cells,
-                        ),
-                    language  => $language,
-                    steps     => \@steps,
-                    tags      => $class->_pickle_tags( \@tags ),
-                    locations => [
-                        $class->_pickle_location(
-                            $values->{'location'}
-                        ),
-                        $class->_pickle_location(
-                            $scenario_outline->{'location'}
-                        ),
-                    ],
+                    pickle =>
+                        reject_nones(
+                            {
+                                id   => $id_generator->(),
+                                name =>
+                                    $class->_interpolate(
+                                        $scenario->{'name'}, $variable_cells,
+                                        $value_cells,
+                                    ),
+                                language  => $language,
+                                steps     => \@steps,
+                                tags      => $class->_pickle_tags( \@tags ),
+                                uri       => $uri,
+                                astNodeIds=> reject_nones(
+                                    [
+                                     $scenario->{'id'},
+                                     $values->{'id'}
+                                    ])
+                            })
                 }
             );
+        }
+    }
+}
+
+sub _compile_rule {
+    my ( $class, $uri, $feature_tags, $feature_background_steps,
+         $rule_definition, $language, $id_generator, $pickles )
+        = @_;
+    my $background_steps = $feature_background_steps;
+
+    for my $child ( @{ $rule_definition->{'children'} } ) {
+        if ( $child->{'background'} ) {
+            $background_steps =
+                [ @$feature_background_steps,
+                  @{ $child->{'background'}->{'steps'} } ];
+        } elsif ( $child->{'scenario'} ) {
+            $class->_compile_scenario(
+                $uri, $feature_tags, $background_steps,
+                $child->{'scenario'}, $language, $id_generator,
+                $pickles
+                );
+        } else {
+            ...;
         }
     }
 }
 
 sub _create_pickle_arguments {
     my ( $class, $argument, $variables, $values ) = @_;
-    my $result = [];
 
-    return $result unless $argument;
-
-    if ( $argument->{'type'} eq 'DataTable' ) {
+    if ( $argument->{'dataTable'} ) {
+        my $data = $argument->{'dataTable'};
         my $table = { rows => [] };
-        for my $row ( @{ $argument->{'rows'} || [] } ) {
+        for my $row ( @{ $data->{'rows'} || [] } ) {
             my @cells = map {
-                {
-                    location =>
-                      $class->_pickle_location( $_->{'location'} ),
-                    value => $class->_interpolate(
-                        $_->{'value'}, $variables, $values
-                    )
-                }
+                reject_nones(
+                    {
+                        value => $class->_interpolate($_->{'value'},
+                                                      $variables, $values)
+                    })
             } @{ $row->{'cells'} || [] };
             push( @{ $table->{'rows'} }, { cells => \@cells } );
         }
-        push( @$result, $table );
-    } elsif ( $argument->{'type'} eq 'DocString' ) {
-        my $docstring = {
-            location => $class->_pickle_location( $argument->{'location'} ),
-            content => $class->_interpolate($argument->{'content'}, $variables, $values),
+        return {
+            dataTable => $table
         };
-        if(defined $argument->{'contentType'}){
-            $docstring->{'contentType'} = $class->_interpolate($argument->{'contentType'}, $variables, $values)
-        }
-        push(
-            @$result,
-            $docstring
-        );
-    } else {
-        die "Internal error";
+    } elsif ( $argument->{'docString'} ) {
+        my $docstring = $argument->{'docString'};
+        return {
+            docString => reject_nones({
+                mediaType => $class->_interpolate($docstring->{'mediaType'},
+                                                  $variables, $values),
+                content   => $class->_interpolate($docstring->{'content'},
+                                                  $variables, $values)
+            })
+        };
     }
 
-    return $result;
+    return undef;
 }
 
 sub _interpolate {
@@ -187,38 +210,24 @@ sub _interpolate {
     for my $variable_cell ( @{ $variable_cells || [] } ) {
         my $from = '<' . $variable_cell->{'value'} . '>';
         my $to   = $value_cells->[ $n++ ]->{'value'};
-        $name =~ s/$from/$to/g;
+        $name =~ s/$from/$to/g if $name;
     }
     return $name;
 }
 
 sub _pickle_step {
-    my ( $class, $step ) = @_;
+    my ( $class, $step, $id_generator ) = @_;
 
-    return {
+    return reject_nones({
         text => $step->{'text'},
-        arguments =>
+        id   => $id_generator->(),
+        astNodeIds => [
+            $step->{'id'}
+            ],
+        argument =>
           $class->_create_pickle_arguments( $step->{'argument'}, [], [],
           ),
-        locations => [ $class->_pickle_step_location( $step ) ],
-    };
-}
-
-sub _pickle_step_location {
-    my ( $class, $step ) = @_;
-    return {
-        line   => $step->{'location'}->{'line'},
-        column => $step->{'location'}->{'column'} +
-          length( $step->{'keyword'} ),
-    };
-}
-
-sub _pickle_location {
-    my ( $class, $location ) = @_;
-    return {
-        line   => $location->{'line'},
-        column => $location->{'column'},
-    };
+    });
 }
 
 sub _pickle_tags {
@@ -229,8 +238,8 @@ sub _pickle_tags {
 sub _pickle_tag {
     my ( $class, $tag ) = @_;
     return {
-        name     => $tag->{'name'},
-        location => $class->_pickle_location( $tag->{'location'} )
+        name      => $tag->{'name'},
+        astNodeId => $tag->{'id'}
     };
 }
 

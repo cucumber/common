@@ -30,10 +30,7 @@ sub run {
             $parser->parse($file, $file), $id_generator
         );
         for my $pickle (@$pickles) {
-            my $event = {
-              pickle => $pickle
-            };
-            print $fh $json->encode($event);
+            print $fh $json->encode($pickle);
             print "\n"
         }
     }
