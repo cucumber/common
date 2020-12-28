@@ -19,7 +19,7 @@ default: .compared
 	touch $@
 
 .cpanfile_dependencies:
-	cpanm --installdeps --notest .
+	carton install
 	touch $@
 
 .built: .cpanfile_dependencies lib/Gherkin/Generated/Parser.pm lib/Gherkin/Generated/Languages.pm $(PERL_FILES) bin/gherkin-generate-tokens bin/gherkin-generate-ast LICENSE.txt
@@ -33,22 +33,22 @@ show-version-info:
 
 acceptance/testdata/%.feature.tokens: testdata/%.feature testdata/%.feature.tokens .built
 	mkdir -p $(@D)
-	bin/gherkin-generate-tokens $< > $@
+	carton exec bin/gherkin-generate-tokens $< > $@
 	diff --unified $<.tokens $@
 
 acceptance/testdata/%.feature.ast.ndjson: testdata/%.feature testdata/%.feature.ast.ndjson .built
 	mkdir -p $(@D)
-	bin/gherkin-generate-ast $< > $@
+	carton exec bin/gherkin-generate-ast $< > $@
 	diff --unified <(jq "." $<.ast.ndjson) <(jq "." $@)
 
 acceptance/testdata/%.feature.pickles.ndjson: testdata/%.feature testdata/%.feature.pickles.ndjson .built
 	mkdir -p $(@D)
-	bin/gherkin-generate-pickles $< > $@
+	carton exec bin/gherkin-generate-pickles $< > $@
 	diff --unified <(jq "." $<.pickles.ndjson) <(jq "." $@)
 
 acceptance/testdata/%.feature.errors.ndjson: testdata/%.feature testdata/%.feature.errors.ndjson .built
 	mkdir -p $(@D)
-	bin/gherkin-generate-ast $< > $@
+	carton exec bin/gherkin-generate-ast $< > $@
 	diff --unified <(jq "." $<.errors.ndjson) <(jq "." $@)
 
 # Get to a point where dzil can be run
