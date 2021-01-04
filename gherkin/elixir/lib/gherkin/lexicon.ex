@@ -1,6 +1,6 @@
 defmodule CucumberGherkin.Lexicon do
   @moduledoc false
-  @default_lexicon_path [File.cwd!(), "resources", "gherkin_languages.json"] |> Path.join()
+  @default_lexicon_path [File.cwd!(), "priv", "gherkin_languages.json"] |> Path.join()
   @feature_keywords ["feature"]
   @scens_both ["scenario", "scenarioOutline"]
   @step_keywords ["given", "when", "then", "and", "but"]
