@@ -11,19 +11,32 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Added
 
-* [Elixir] New implementation!
-  ([#1251](https://github.com/cucumber/cucumber/pull/1251)
-   [WannesFransen1994])
-
 ### Changed
 
 ### Deprecated
 
 ### Removed
 
-* [JavaScript] The `Query` class has been removed from this library, and has been added to `@cucumber/gherkin-utils`
-
 ### Fixed
+
+## [16.0.0] - 2020-12-10
+
+### Added
+
+* [Elixir] New implementation!
+  ([#1251](https://github.com/cucumber/cucumber/pull/1251)
+   [WannesFransen1994])
+
+### Changed
+
+* Telugu now uses the correct 639-1 code - `te` instead of `tl`.
+  ([#1238](https://github.com/cucumber/cucumber/pull/1238)
+   [#1221](https://github.com/cucumber/cucumber/issues/1221)
+   [nvmkpk])
+
+### Removed
+
+* [JavaScript] The `Query` class has been removed from this library, and has been added to `@cucumber/gherkin-utils`
 
 ## [15.0.2] - 2020-08-17
 
@@ -814,7 +827,8 @@ to Gherkin 2.
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v15.0.2...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v16.0.0...master
+[16.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v15.0.2...gherkin/v16.0.0
 [15.0.2]:     https://github.com/cucumber/cucumber/compare/gherkin/v15.0.1...gherkin/v15.0.2
 [15.0.1]:     https://github.com/cucumber/cucumber/compare/gherkin/v15.0.0...gherkin/v15.0.1
 [15.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v14.2.0...gherkin/v15.0.0
@@ -891,6 +905,7 @@ to Gherkin 2.
 [milhcbt]:           https://github.com/milhcbt
 [moreau-nicolas]:    https://github.com/moreau-nicolas
 [mpkorstanje]:       https://github.com/mpkorstanje
+[nvmkpk]:            https://github.com/nvmkpk
 [ookull]:            https://github.com/ookull
 [nalekberov]:        https://github.com/nalekberov
 [nixel2007]:         https://github.com/nixel2007

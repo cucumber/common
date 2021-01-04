@@ -29,11 +29,11 @@ Then('the sale should not happen', function () {
   // TODO: implement this
 })
 
-Then("the customer's change should be {int} {float} coin(s)", function (
-  count,
-  denomination
-) {
-  // TODO: implement this
-  assert(count)
-  assert(denomination)
-})
+Then(
+  "the customer's change should be {int} {float} coin(s)",
+  function (count, denomination) {
+    // TODO: implement this
+    assert(count)
+    assert(denomination)
+  }
+)

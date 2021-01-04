@@ -160,15 +160,18 @@ $statusColors:
   }
 
   .cucumber-attachment {
-    background-color: rgb(235, 235, 235);
-    padding: 0.5em;
-
     &__icon {
       margin-right: 0.5em;
     }
 
     &__image {
+      max-width: 100%;
       margin-top: 1em;
+    }
+
+    &__text {
+      background-color: rgb(235, 235, 235);
+      padding: 0.5em;
     }
   }
 
