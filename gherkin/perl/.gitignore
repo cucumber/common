@@ -1,6 +1,8 @@
 acceptance/
+local/
 .build/
 .built
 .cpanfile_dependencies
+cpanfile.snapshot
 .compared
 Gherkin-*
