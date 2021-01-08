@@ -7,7 +7,6 @@ import SearchQueryContext from '../src/SearchQueryContext'
 import { messages } from '@cucumber/messages'
 
 describe('SearchBar', () => {
-
   function renderSearchBar(
     query?: string,
     queryUpdated?: (query: string) => any
@@ -20,7 +19,9 @@ describe('SearchBar', () => {
     // global.navigator = dom.window.navigator
     const document = dom.window.document
 
-    const statusesUpdated = () => {/*Do nothing*/}
+    const statusesUpdated = () => {
+      /*Do nothing*/
+    }
     const enabledStatuses: messages.TestStepFinished.TestStepResult.Status[] = []
     const scenarioCountByStatus = new Map<
       messages.TestStepFinished.TestStepResult.Status,
@@ -31,7 +32,11 @@ describe('SearchBar', () => {
       <SearchQueryContext.Provider
         value={{
           query: query,
-          updateQuery: queryUpdated || (() => {/*Do nothing*/}),
+          updateQuery:
+            queryUpdated ||
+            (() => {
+              /*Do nothing*/
+            }),
         }}
       >
         <SearchBar
@@ -47,7 +52,7 @@ describe('SearchBar', () => {
 
   it('puts the context query as the initial search text', () => {
     const document = renderSearchBar('keyword')
-    const searchTextElems = document.getElementsByName("query")
+    const searchTextElems = document.getElementsByName('query')
 
     assert.strictEqual(searchTextElems.length, 1)
 
@@ -56,36 +61,47 @@ describe('SearchBar', () => {
   })
 
   it('updates the context when the form is submitted', () => {
-    var capture: string = '';
+    let capture = ''
 
-    const document = renderSearchBar(null, query => {capture=query})
+    const document = renderSearchBar(null, (query) => {
+      capture = query
+    })
 
-    const searchTextElem = document.getElementsByName("query")[0] as HTMLInputElement
+    const searchTextElem = document.getElementsByName(
+      'query'
+    )[0] as HTMLInputElement
     searchTextElem.value = 'search text'
 
-    const searchForm = document.querySelector(".cucumber-search-bar-search") as HTMLFormElement
-    searchForm.submit();
+    const searchForm = document.querySelector(
+      '.cucumber-search-bar-search'
+    ) as HTMLFormElement
+    searchForm.submit()
 
     assert.strictEqual(capture, 'search text')
   })
 
   it('updates the context when the search button is clicked', () => {
-    var capture: string = '';
+    let capture = ''
 
-    const document = renderSearchBar(null, query => {capture=query})
+    const document = renderSearchBar(null, (query) => {
+      capture = query
+    })
 
-    const searchTextElem = document.getElementsByName("query")[0] as HTMLInputElement
+    const searchTextElem = document.getElementsByName(
+      'query'
+    )[0] as HTMLInputElement
     searchTextElem.value = 'search text'
 
-    const searchButton = document.querySelector(".cucumber-search-bar-search button") as HTMLButtonElement
-    searchButton.click();
+    const searchButton = document.querySelector(
+      '.cucumber-search-bar-search button'
+    ) as HTMLButtonElement
+    searchButton.click()
 
     assert.strictEqual(capture, 'search text')
   })
 
   it("doesn't perform the default form action when submitting", () => {
-    var capture: Event = null
-    var capturePrevented: boolean = false;
+    let capture: Event = null
 
     const document = renderSearchBar('keyword')
 
@@ -93,10 +109,15 @@ describe('SearchBar', () => {
       capture = event
     })
 
-    const searchForm = document.querySelector(".cucumber-search-bar-search") as HTMLFormElement
-    searchForm.submit();
+    const searchForm = document.querySelector(
+      '.cucumber-search-bar-search'
+    ) as HTMLFormElement
+    searchForm.submit()
 
-    assert.strictEqual(capture.defaultPrevented, true, "Form submit action was not prevented.")
+    assert.strictEqual(
+      capture.defaultPrevented,
+      true,
+      'Form submit action was not prevented.'
+    )
   })
-
 })
