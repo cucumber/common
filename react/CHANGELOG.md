@@ -17,6 +17,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+* Fixed search button
+  ([#1298](https://github.com/cucumber/cucumber/issues/1298)
+   [#1299](https://github.com/cucumber/cucumber/issues/1299)
+   [@hWorblehat])
+
 ## [11.0.2] - 2020-12-17
 
 ### Fixed
