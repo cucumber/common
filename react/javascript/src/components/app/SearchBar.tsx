@@ -39,7 +39,7 @@ const SearchBar: React.FunctionComponent<IProps> = ({
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    const formData = new FormData(event.currentTarget)
+    const formData = new window.FormData(event.currentTarget)
     searchQueryContext.updateQuery(formData.get('query').toString())
   }
 
