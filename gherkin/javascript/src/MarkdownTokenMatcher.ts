@@ -3,6 +3,7 @@ import Dialect from './Dialect'
 import Token from './Token'
 import { TokenType } from './Parser'
 import DIALECTS from './gherkin-languages.json'
+import assert from 'assert'
 
 const DIALECT_DICT: { [key: string]: Dialect } = DIALECTS
 
@@ -45,18 +46,22 @@ export default class MarkdownTokenMatcher implements ITokenMatcher {
   }
 
   match_Language(token: Token): boolean {
+    assert(token)
     return false
   }
 
   match_Other(token: Token): boolean {
+    assert(token)
     return false
   }
 
   match_Comment(token: Token): boolean {
+    assert(token)
     return false
   }
 
   match_DocStringSeparator(token: Token): boolean {
+    assert(token)
     return false
   }
 
@@ -148,10 +153,12 @@ export default class MarkdownTokenMatcher implements ITokenMatcher {
   }
 
   match_TableRow(token: Token): boolean {
+    assert(token)
     return false
   }
 
   match_TagLine(token: Token): boolean {
+    assert(token)
     return false
   }
 
