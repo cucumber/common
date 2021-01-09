@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+* Allow searching in HTML report via URL search param
+  ([#1302](https://github.com/cucumber/cucumber/pull/1302))
+
 ### Changed
 
 ### Deprecated
