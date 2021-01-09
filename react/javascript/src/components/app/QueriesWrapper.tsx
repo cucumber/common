@@ -1,7 +1,11 @@
 import React, { useState } from 'react'
 import GherkinQueryContext from '../../GherkinQueryContext'
 import CucumberQueryContext from '../../CucumberQueryContext'
-import SearchQueryContext, { SearchQuery } from '../../SearchQueryContext'
+import SearchQueryContext, {
+  SearchQuery,
+  NavigatingSearchOpts,
+  createNavigatingSearchQuery,
+} from '../../SearchQueryContext'
 import { Query as GherkinQuery } from '@cucumber/gherkin-utils'
 import { Query as CucumberQuery } from '@cucumber/query'
 import EnvelopesQueryContext, {
@@ -12,7 +16,7 @@ interface IProps {
   cucumberQuery: CucumberQuery
   gherkinQuery: GherkinQuery
   envelopesQuery: EnvelopesQuery
-  query?: string
+  query?: string | NavigatingSearchOpts
 }
 
 const QueriesWrapper: React.FunctionComponent<IProps> = ({
@@ -22,11 +26,17 @@ const QueriesWrapper: React.FunctionComponent<IProps> = ({
   query,
   children,
 }) => {
-  const [currentQuery, setCurrentQuery] = useState(query)
+  let searchQuery: SearchQuery
 
-  const searchQuery: SearchQuery = {
-    query: currentQuery,
-    updateQuery: setCurrentQuery,
+  if (query == null || typeof query === 'string') {
+    const [currentQuery, setCurrentQuery] = useState(query as string)
+
+    searchQuery = {
+      query: currentQuery,
+      updateQuery: setCurrentQuery,
+    }
+  } else {
+    searchQuery = createNavigatingSearchQuery(query)
   }
 
   return (

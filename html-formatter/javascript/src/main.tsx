@@ -3,6 +3,7 @@ import {
   QueriesWrapper,
   EnvelopesQuery,
   FilteredResults,
+  NavigatingSearchOpts,
 } from '@cucumber/react'
 import { Query as GherkinQuery } from '@cucumber/gherkin-utils'
 import { Query as CucumberQuery } from '@cucumber/query'
@@ -31,6 +32,7 @@ const app = (
     gherkinQuery={gherkinQuery}
     cucumberQuery={cucumberQuery}
     envelopesQuery={envelopesQuery}
+    query={new NavigatingSearchOpts()}
   >
     <FilteredResults />
   </QueriesWrapper>

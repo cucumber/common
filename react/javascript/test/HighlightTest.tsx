@@ -3,7 +3,9 @@ import ReactDOM from 'react-dom'
 import React from 'react'
 import HighLight from '../src/components/app/HighLight'
 import { JSDOM } from 'jsdom'
-import SearchQueryContext from '../src/SearchQueryContext'
+import SearchQueryContext, {
+  createConstSearchQuery,
+} from '../src/SearchQueryContext'
 
 describe('HighLight', () => {
   function renderHighlight(
@@ -20,14 +22,7 @@ describe('HighLight', () => {
     const document = dom.window.document
 
     const app = (
-      <SearchQueryContext.Provider
-        value={{
-          query: query,
-          updateQuery: () => {
-            /*Do nothing*/
-          },
-        }}
-      >
+      <SearchQueryContext.Provider value={createConstSearchQuery(query)}>
         <HighLight text={text} markdown={markdown} />
       </SearchQueryContext.Provider>
     )
