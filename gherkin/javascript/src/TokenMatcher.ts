@@ -2,7 +2,7 @@ import DIALECTS from './gherkin-languages.json'
 import Dialect from './Dialect'
 import {NoSuchLanguageException} from './Errors'
 import {messages} from '@cucumber/messages'
-import Token from './Token'
+import Token, {Item} from './Token'
 import {TokenType} from './Parser'
 import ITokenMatcher from "./ITokenMatcher";
 
@@ -233,7 +233,7 @@ export default class TokenMatcher implements ITokenMatcher {
     text?: string,
     keyword?: string,
     indent?: number,
-    items?: any[]
+    items?: readonly Item[]
   ) {
     token.matchedType = matchedType
     token.matchedText = text

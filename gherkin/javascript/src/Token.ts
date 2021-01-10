@@ -2,11 +2,17 @@ import { messages } from '@cucumber/messages'
 import GherkinLine from './GherkinLine'
 import { TokenType } from './Parser'
 
+// Represents tags or table cells
+export type Item = {
+  column: number
+  text: string
+}
+
 export default class Token {
   public isEof: boolean
   public matchedText?: string
   public matchedType: TokenType
-  public matchedItems: GherkinLine[]
+  public matchedItems: readonly Item[]
   public matchedKeyword: string
   public matchedIndent: number
   public matchedGherkinDialect: string

@@ -1,6 +1,6 @@
 import ITokenMatcher from './ITokenMatcher'
 import Dialect from './Dialect'
-import Token from './Token'
+import Token, { Item } from './Token'
 import { TokenType } from './Parser'
 import DIALECTS from './gherkin-languages.json'
 import assert from 'assert'
@@ -64,7 +64,10 @@ export default class MarkdownTokenMatcher implements ITokenMatcher {
   }
 
   match_Comment(token: Token): boolean {
-    assert(token)
+    if (token.line.startsWith('|')) {
+      const tableCells = token.line.getTableCells()
+      if (this.match_GfmTableSeparator(tableCells)) return true
+    }
     return false
   }
 
@@ -178,8 +181,23 @@ export default class MarkdownTokenMatcher implements ITokenMatcher {
   }
 
   match_TableRow(token: Token): boolean {
-    assert(token)
+    if (token.line.startsWith('|')) {
+      const tableCells = token.line.getTableCells()
+      if (this.match_GfmTableSeparator(tableCells)) return false
+
+      token.matchedKeyword = '|'
+      token.matchedType = TokenType.TableRow
+      token.matchedItems = tableCells
+      return true
+    }
     return false
+  }
+
+  private match_GfmTableSeparator(tableCells: readonly Item[]): boolean {
+    const separatorValues = tableCells
+      .map((item) => item.text)
+      .filter((value) => value.match(/^:?-+:?$/))
+    return separatorValues.length > 0
   }
 
   match_TagLine(token: Token): boolean {

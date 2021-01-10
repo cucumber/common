@@ -1,5 +1,6 @@
 import countSymbols from './countSymbols'
 import { ParserException } from './Errors'
+import { Item } from './Token'
 
 export default class GherkinLine {
   public trimmedLineText: string
@@ -41,7 +42,7 @@ export default class GherkinLine {
     return this.trimmedLineText.substring(length).trim()
   }
 
-  public getTableCells() {
+  public getTableCells(): readonly Item[] {
     const cells = []
     let col = 0
     let startCol = col + 1
@@ -87,7 +88,7 @@ export default class GherkinLine {
     return cells
   }
 
-  public getTags() {
+  public getTags(): readonly Item[] {
     const uncommentedLine = this.trimmedLineText.split(/\s#/g, 2)[0]
     let column = this.indent + 1
     const items = uncommentedLine.split('@')

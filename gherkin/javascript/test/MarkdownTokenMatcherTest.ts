@@ -1,12 +1,12 @@
 import assert from 'assert'
 import GherkinLine from '../src/GherkinLine'
 import { messages } from '@cucumber/messages'
-import Token from '../src/Token'
+import Token, { Item } from '../src/Token'
 import { TokenType } from '../src/Parser'
 import MarkdownTokenMatcher from '../src/MarkdownTokenMatcher'
 import ITokenMatcher from '../src/ITokenMatcher'
 
-describe('TokenMatcher', function () {
+describe('MarkdownTokenMatcher', function () {
   let tm: ITokenMatcher
   let location: messages.ILocation
 
@@ -91,5 +91,32 @@ describe('TokenMatcher', function () {
     assert.strictEqual(t3.matchedType, TokenType.DocStringSeparator)
     assert.strictEqual(t3.matchedKeyword, '````')
     assert.strictEqual(t3.matchedText, '')
+  })
+
+  it('matches table cells', () => {
+    const t = new Token(new GherkinLine('  |foo|bar|', location.line), location)
+    assert(tm.match_TableRow(t))
+    assert.strictEqual(t.matchedType, TokenType.TableRow)
+    assert.strictEqual(t.matchedKeyword, '|')
+    const expectedSpans: Item[] = [
+      { column: 4, text: 'foo' },
+      { column: 8, text: 'bar' },
+    ]
+    assert.deepStrictEqual(t.matchedItems, expectedSpans)
+  })
+
+  it('matches table separator row as comment', () => {
+    assert(
+      tm.match_TableRow(
+        new Token(new GherkinLine('  | h1 | h2 |', location.line), location)
+      )
+    )
+
+    const t2 = new Token(
+      new GherkinLine('  | --- | --- |', location.line),
+      location
+    )
+    assert(!tm.match_TableRow(t2))
+    assert(tm.match_Comment(t2))
   })
 })
