@@ -38,6 +38,7 @@ sub change_dialect {
 }
 
 sub Feature    { $_[0]->dictionary->{ $_[0]->dialect }->{'feature'}; }
+sub Rule       { $_[0]->dictionary->{ $_[0]->dialect }->{'rule'}; }
 sub Scenario   { $_[0]->dictionary->{ $_[0]->dialect }->{'scenario'}; }
 sub Background { $_[0]->dictionary->{ $_[0]->dialect }->{'background'}; }
 sub Examples   { $_[0]->dictionary->{ $_[0]->dialect }->{'examples'}; }
