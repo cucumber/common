@@ -1,4 +1,5 @@
 import { messages } from '@cucumber/messages'
+import { GHERKIN_MEDIA_TYPE, MARKDOWN_MEDIA_TYPE } from './generateMessages'
 
 export default function makeSourceEnvelope(
   data: string,
@@ -9,8 +10,8 @@ export default function makeSourceEnvelope(
       data,
       uri,
       mediaType: uri.endsWith('.feature')
-        ? 'text/x.cucumber.gherkin+plain'
-        : 'text/x.cucumber.gherkin+markdown',
+        ? GHERKIN_MEDIA_TYPE
+        : MARKDOWN_MEDIA_TYPE,
     }),
   })
 }

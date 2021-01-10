@@ -3,7 +3,9 @@ import { messages, IdGenerator } from '@cucumber/messages'
 import AstBuilder from '../src/AstBuilder'
 import Parser from '../src/Parser'
 import TokenMatcher from '../src/TokenMatcher'
-import generateMessages from '../src/stream/generateMessages'
+import generateMessages, {
+  MARKDOWN_MEDIA_TYPE,
+} from '../src/stream/generateMessages'
 
 describe('Parser', function () {
   it('parses a simple feature', function () {
@@ -123,7 +125,7 @@ describe('Parser', function () {
     )
   })
 
-  it('it interpolates data tables', function () {
+  it('interpolates data tables', function () {
     const envelopes = generateMessages(
       'Feature: Foo\n' +
         '  Scenario Outline: Parenthesis\n' +
@@ -161,6 +163,34 @@ describe('Parser', function () {
         },
         comments: [],
       })
+    )
+  })
+
+  it('parses markdown with docstring', function () {
+    const markdown = `
+## Feature: DocString variations
+### Scenario: minimalistic
+* And a DocString with an escaped alternative separator inside
+\`\`\`\`
+\`\`\`what
+\`\`\`\`
+`
+    const envelopes = generateMessages(
+      markdown,
+      'test.md',
+      MARKDOWN_MEDIA_TYPE,
+      {
+        includePickles: true,
+        includeGherkinDocument: true,
+        newId: IdGenerator.incrementing(),
+      }
+    )
+
+    const pickle = envelopes.find((envelope) => envelope.pickle).pickle
+
+    assert.strictEqual(
+      pickle.steps[0].text,
+      'a DocString with an escaped alternative separator inside'
     )
   })
 })

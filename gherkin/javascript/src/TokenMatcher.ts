@@ -169,8 +169,7 @@ export default class TokenMatcher implements ITokenMatcher {
         this.indentToRemove = 0
       }
 
-      // TODO: Use the separator as keyword. That's needed for pretty printing.
-      this.setTokenMatched(token, TokenType.DocStringSeparator, mediaType)
+      this.setTokenMatched(token, TokenType.DocStringSeparator, mediaType, separator)
       return true
     }
     return false

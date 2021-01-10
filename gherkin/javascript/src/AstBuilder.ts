@@ -154,7 +154,7 @@ export default class AstBuilder {
         const result = messages.GherkinDocument.Feature.Step.DocString.create({
           location: this.getLocation(separatorToken),
           content,
-          delimiter: separatorToken.line.trimmedLineText.substring(0, 3),
+          delimiter: separatorToken.matchedKeyword,
         })
         // conditionally add this like this (needed to make tests pass on node 0.10 as well as 4.0)
         if (mediaType) {

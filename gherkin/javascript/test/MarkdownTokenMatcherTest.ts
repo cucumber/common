@@ -64,5 +64,32 @@ describe('TokenMatcher', function () {
     assert.strictEqual(token.matchedType, TokenType.Empty)
   })
 
-  it('matches docstring separator')
+  it('matches ``` docstring separator', () => {
+    const line = new GherkinLine('  ```somefink', location.line)
+    const token = new Token(line, location)
+    assert(tm.match_DocStringSeparator(token))
+    assert.strictEqual(token.matchedType, TokenType.DocStringSeparator)
+    assert.strictEqual(token.matchedKeyword, '```')
+    assert.strictEqual(token.matchedText, 'somefink')
+  })
+
+  it('matches ```` docstring separator', () => {
+    const t1 = new Token(new GherkinLine('  ````', location.line), location)
+    assert(tm.match_DocStringSeparator(t1))
+    assert.strictEqual(t1.matchedType, TokenType.DocStringSeparator)
+    assert.strictEqual(t1.matchedKeyword, '````')
+    assert.strictEqual(t1.matchedText, '')
+
+    const t2 = new Token(new GherkinLine('  ```', location.line), location)
+    assert(tm.match_Other(t2))
+    assert.strictEqual(t2.matchedType, TokenType.Other)
+    assert.strictEqual(t2.matchedKeyword, undefined)
+    assert.strictEqual(t2.matchedText, '  ```')
+
+    const t3 = new Token(new GherkinLine('  ````', location.line), location)
+    assert(tm.match_DocStringSeparator(t3))
+    assert.strictEqual(t3.matchedType, TokenType.DocStringSeparator)
+    assert.strictEqual(t3.matchedKeyword, '````')
+    assert.strictEqual(t3.matchedText, '')
+  })
 })

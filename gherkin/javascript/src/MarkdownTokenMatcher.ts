@@ -6,12 +6,15 @@ import DIALECTS from './gherkin-languages.json'
 import assert from 'assert'
 
 const DIALECT_DICT: { [key: string]: Dialect } = DIALECTS
+const DEFAULT_DOC_STRING_SEPARATOR = /^(```[`]*)(.*)/
 
 export default class MarkdownTokenMatcher implements ITokenMatcher {
   private readonly dialect: Dialect
   private readonly nonStarStepKeywords: string[]
   private readonly stepRegexp: RegExp
   private readonly headerRegexp: RegExp
+  private activeDocStringSeparator: RegExp
+  private indentToRemove: number
 
   constructor(defaultDialectName = 'en') {
     this.dialect = DIALECT_DICT[defaultDialectName]
@@ -43,6 +46,8 @@ export default class MarkdownTokenMatcher implements ITokenMatcher {
     this.headerRegexp = new RegExp(
       `${KeywordPrefix.HEADER}(${headerKeywords.map(escapeRegExp).join('|')})`
     )
+
+    this.reset()
   }
 
   match_Language(token: Token): boolean {
@@ -51,8 +56,11 @@ export default class MarkdownTokenMatcher implements ITokenMatcher {
   }
 
   match_Other(token: Token): boolean {
-    assert(token)
-    return false
+    const text = token.line.getLineText(this.indentToRemove) // take the entire line, except removing DocString indents
+    token.matchedType = TokenType.Other
+    token.matchedText = text
+    token.matchedIndent = 0
+    return true
   }
 
   match_Comment(token: Token): boolean {
@@ -60,8 +68,25 @@ export default class MarkdownTokenMatcher implements ITokenMatcher {
     return false
   }
 
-  match_DocStringSeparator(token: Token): boolean {
-    assert(token)
+  match_DocStringSeparator(token: Token) {
+    const match = token.line.trimmedLineText.match(
+      this.activeDocStringSeparator
+    )
+    const [, newSeparator, mediaType] = match || []
+    if (newSeparator) {
+      if (this.activeDocStringSeparator === DEFAULT_DOC_STRING_SEPARATOR) {
+        this.activeDocStringSeparator = new RegExp(`^(${newSeparator})$`)
+        this.indentToRemove = 0
+      } else {
+        this.activeDocStringSeparator = DEFAULT_DOC_STRING_SEPARATOR
+      }
+
+      token.matchedKeyword = newSeparator
+      token.matchedType = TokenType.DocStringSeparator
+      token.matchedText = mediaType || ''
+
+      return true
+    }
     return false
   }
 
@@ -163,7 +188,7 @@ export default class MarkdownTokenMatcher implements ITokenMatcher {
   }
 
   reset(): void {
-    return undefined
+    this.activeDocStringSeparator = DEFAULT_DOC_STRING_SEPARATOR
   }
 }
 
