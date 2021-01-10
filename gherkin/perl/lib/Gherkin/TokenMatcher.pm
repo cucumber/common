@@ -36,16 +36,20 @@ sub match_FeatureLine {
     $self->_match_title_line( $token, FeatureLine => $self->dialect->Feature );
 }
 
-sub match_ScenarioLine {
+sub match_RuleLine {
     my ( $self, $token ) = @_;
     $self->_match_title_line( $token,
-        ScenarioLine => $self->dialect->Scenario );
+        RuleLine => $self->dialect->Rule );
 }
 
-sub match_ScenarioOutlineLine {
+sub match_ScenarioLine {
     my ( $self, $token ) = @_;
-    $self->_match_title_line( $token,
-        ScenarioOutlineLine => $self->dialect->ScenarioOutline );
+    $self->_match_title_line(
+        $token,
+        ScenarioLine => $self->dialect->Scenario )
+        or $self->_match_title_line(
+            $token,
+            ScenarioLine => $self->dialect->ScenarioOutline );;
 }
 
 sub match_BackgroundLine {
@@ -163,6 +167,7 @@ sub _unescaped_docstring {
     my ( $self, $text ) = @_;
     if ( $self->_active_doc_string_separator ) {
         $text =~ s!\\"\\"\\"!"""!;
+        $text =~ s!\\`\\`\\`!```!;
         return $text;
     } else {
         return $text;
@@ -210,7 +215,7 @@ sub _match_DocStringSeparator {
     }
 
     $self->_set_token_matched( $token,
-        DocStringSeparator => { text => $content_type } );
+        DocStringSeparator => { text => $content_type, keyword => $separator } );
 }
 
 sub match_TableRow {
