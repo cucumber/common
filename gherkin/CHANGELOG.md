@@ -886,7 +886,7 @@ to Gherkin 2.
 [cyocum]:            https://github.com/cyocum
 [danilat]:           https://github.com/danilat
 [davidjgoss]:        https://github.com/davidjgoss
-[deivid-rodriguez]   https://github.com/deivid-rodriguez
+[deivid-rodriguez]:  https://github.com/deivid-rodriguez
 [dobiedad]:          https://github.com/dobiedad
 [ehpc]:              https://github.com/ehpc
 [enkessler]:         https://github.com/enkessler
