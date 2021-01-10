@@ -86,15 +86,7 @@ sub _split_table_cells_iterator {
             } elsif ( $char eq "\\" ) {
                 $row =~ s/^(.)// || die "Unpossible";
                 $col += 1;
-                $char = $1;
-                if ( $char eq 'n' ) {
-                    $cell .= "\n";
-                } else {
-                    if ( $char ne '|' && $char ne '\\' ) {
-                        $cell .= '\\';
-                    }
-                    $cell .= $char;
-                }
+                $cell .= '\\' . $1;
             } elsif ( defined $char ) {
                 $cell .= $char;
             } else {
@@ -103,6 +95,8 @@ sub _split_table_cells_iterator {
         }
       }
 }
+
+my %unescape_map = ( '\\\\' => '\\', '\\|' => '|', '\\n' => "\n" );
 
 sub table_cells {
     my ($self) = @_;
@@ -119,7 +113,8 @@ sub table_cells {
         my $stripped_cell = $cell;
         $stripped_cell =~ s/^\s+//;
         my $cell_indent = length($cell) - length($stripped_cell);
-        $stripped_cell =~ s/\s*$//;
+        $stripped_cell =~ s/\s+$//;
+        $stripped_cell =~ s/(\\\\|\\\||\\n)/$unescape_map{$1}/g;
         push(
             @$cells,
             {
@@ -136,7 +131,7 @@ sub tags {
     my $self       = shift;
     my $column     = $self->indent + 1;
     my $items_line = $self->_trimmed_line_text;
-    $items_line =~ s/\s+$//;
+    $items_line =~ s/\s+(#.*)?$//;
 
     my @tags;
     my @items = split( /@/, $items_line );
