@@ -1,1 +1,1 @@
-{"parseError":{"message":"(5:1): expected: #EOF, #Language, #TagLine, #FeatureLine, #Comment, #Empty, got '* the minimalism'","source":{"location":{"column":1,"line":5},"uri":"testdata/good/minimal.md"}}}
+{"pickle":{"astNodeIds":["1"],"id":"3","name":"minimalistic","steps":[{"astNodeIds":["0"],"id":"2","text":"the minimalism"}],"uri":"testdata/good/minimal.md"}}
