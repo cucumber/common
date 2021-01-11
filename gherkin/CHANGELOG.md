@@ -18,6 +18,9 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 ### Removed
 
 ### Fixed
+* Use Swedish translation for the "Rule" keyword
+  ([#1297](https://github.com/cucumber/cucumber/pull/1297)
+   [johnknoop])
 
 ## [16.0.0] - 2020-12-10
 
@@ -883,7 +886,7 @@ to Gherkin 2.
 [cyocum]:            https://github.com/cyocum
 [danilat]:           https://github.com/danilat
 [davidjgoss]:        https://github.com/davidjgoss
-[deivid-rodriguez]   https://github.com/deivid-rodriguez
+[deivid-rodriguez]:  https://github.com/deivid-rodriguez
 [dobiedad]:          https://github.com/dobiedad
 [ehpc]:              https://github.com/ehpc
 [enkessler]:         https://github.com/enkessler
@@ -892,6 +895,7 @@ to Gherkin 2.
 [jargalan]:          https://github.com/jargalan
 [jmezach]:           https://github.com/jmezach
 [joscha]:            https://github.com/joscha
+[johnknoop]:         https://github.com/johnknoop
 [koterpillar]:       https://github.com/koterpillar
 [KniveX]:            https://github.com/KniveX
 [l3pp4rd]:           https://github.com/l3pp4rd
