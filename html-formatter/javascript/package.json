@@ -21,18 +21,15 @@
     "build": "tsc && webpack-cli && cp src/index.mustache.html dist/src"
   },
   "dependencies": {
-    "@cucumber/gherkin-utils": "file:../../gherkin-utils/javascript",
     "@cucumber/messages": "file:../../messages/javascript",
-    "@cucumber/query": "file:../../query/javascript",
-    "@cucumber/react": "file:../../react/javascript",
     "commander": "^6.2.1",
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1",
-    "resolve-pkg": "^2.0.0",
-    "source-map-support": "^0.5.19"
+    "resolve-pkg": "^2.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.10",
+    "@cucumber/gherkin-utils": "file:../../gherkin-utils/javascript",
+    "@cucumber/query": "file:../../query/javascript",
+    "@cucumber/react": "file:../../react/javascript",
     "@types/jsdom": "^16.2.5",
     "@types/mocha": "^8.2.0",
     "@types/node": "^14.14.14",
@@ -52,6 +49,9 @@
     "nyc": "^15.1.0",
     "prettier": "^2.2.1",
     "puppeteer": "^5.5.0",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "source-map-support": "^0.5.19",
     "ts-loader": "^8.0.12",
     "ts-node": "^9.1.1",
     "typescript": "^4.1.3",
