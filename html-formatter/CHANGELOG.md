@@ -17,6 +17,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+* Reclassified bundled dependencies as `devDependencies` only ([#1308](https://github.com/cucumber/cucumber/pull/1308))
+
 ## [11.0.4] - 2020-12-18
 
 ### Fixed
