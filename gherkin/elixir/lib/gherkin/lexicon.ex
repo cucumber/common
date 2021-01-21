@@ -8,8 +8,12 @@ defmodule CucumberGherkin.Lexicon do
   @rule_keywords ["rule"]
   @examples_keywords ["examples"]
 
-  def load!(), do: @default_lexicon_path |> File.read!() |> Jason.decode!()
-  def load_lang(lang) when is_binary(lang), do: load!() |> Map.fetch(lang)
+  # Credit goes to Alvivi for loading the resource at compile time.
+  @external_resource @default_lexicon_path
+
+  @lexicon @default_lexicon_path |> File.read!() |> Jason.decode!()
+
+  def load_lang(lang) when is_binary(lang), do: Map.fetch(@lexicon, lang)
 
   def load_keywords(FeatureLine, lex), do: fetch_and_flatten(@feature_keywords, lex)
   def load_keywords(ScenarioLine, lex), do: fetch_and_flatten(@scens_both, lex)
