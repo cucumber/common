@@ -1,2 +1,2 @@
-LANGUAGES ?= go javascript ruby java elixir
+LANGUAGES ?= perl go javascript ruby java elixir
 include default.mk
