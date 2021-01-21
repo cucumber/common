@@ -19,7 +19,7 @@ default: .compared
 	touch $@
 
 .cpanfile_dependencies:
-	carton install
+	cpanm --notest --local-lib ./perl5 --installdeps .
 	touch $@
 
 .built: .cpanfile_dependencies lib/Gherkin/Generated/Parser.pm lib/Gherkin/Generated/Languages.pm $(PERL_FILES) bin/gherkin-generate-tokens bin/gherkin-generate-ast LICENSE.txt
@@ -33,27 +33,28 @@ show-version-info:
 
 acceptance/testdata/%.feature.tokens: testdata/%.feature testdata/%.feature.tokens .built
 	mkdir -p $(@D)
-	carton exec bin/gherkin-generate-tokens $< > $@
+	PERL5LIB=./perl5/lib/perl5 bin/gherkin-generate-tokens $< > $@
 	diff --unified $<.tokens $@
 
 acceptance/testdata/%.feature.ast.ndjson: testdata/%.feature testdata/%.feature.ast.ndjson .built
 	mkdir -p $(@D)
-	carton exec bin/gherkin-generate-ast $< > $@
+	PERL5LIB=./perl5/lib/perl5 bin/gherkin-generate-ast $< > $@
 	diff --unified <(jq "." $<.ast.ndjson) <(jq "." $@)
 
 acceptance/testdata/%.feature.pickles.ndjson: testdata/%.feature testdata/%.feature.pickles.ndjson .built
 	mkdir -p $(@D)
-	carton exec bin/gherkin-generate-pickles $< > $@
+	PERL5LIB=./perl5/lib/perl5 bin/gherkin-generate-pickles $< > $@
 	diff --unified <(jq "." $<.pickles.ndjson) <(jq "." $@)
 
 acceptance/testdata/%.feature.errors.ndjson: testdata/%.feature testdata/%.feature.errors.ndjson .built
 	mkdir -p $(@D)
-	carton exec bin/gherkin-generate-ast $< > $@
+	PERL5LIB=./perl5/lib/perl5 bin/gherkin-generate-ast $< > $@
 	diff --unified <(jq "." $<.errors.ndjson) <(jq "." $@)
 
 # Get to a point where dzil can be run
 predistribution: .compared CHANGES
-	cpanm --installdeps --with-develop .
+# --notest to keep the number of dependencies low
+	cpanm --notest --installdeps --with-develop .
 	dzil clean
 	@(git status --porcelain 2>/dev/null | grep "^??" | perl -ne\
 	    'die "The `release` target includes all files in the working directory. Please remove [$$_], or add it to .gitignore if it should be included\n" if s!.+ perl/(.+?)\n!$$1!')
