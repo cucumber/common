@@ -88,8 +88,8 @@ clobber: clean
 lib/Gherkin/Generated:
 	mkdir -p $@
 
-lib/Gherkin/Generated/Languages.pm: gherkin-languages.json
-	perl helper-scripts/build_languages.pl < $< > $@
+lib/Gherkin/Generated/Languages.pm: gherkin-languages.json .cpanfile_dependencies
+	PERL5LIB=./perl5/lib/perl5 perl helper-scripts/build_languages.pl < $< > $@
 
 lib/Gherkin/Generated/Parser.pm: gherkin.berp gherkin-perl.razor
 	mono  /var/lib/berp/1.1.1/tools/net471/Berp.exe -g gherkin.berp -t gherkin-perl.razor -o $@
