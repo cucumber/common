@@ -1,5 +1,5 @@
 acceptance/
-local/
+perl5/
 .build/
 .built
 .cpanfile_dependencies
