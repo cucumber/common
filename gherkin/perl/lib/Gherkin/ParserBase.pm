@@ -16,7 +16,7 @@ use Gherkin::TokenScanner;
 sub new {
     my ( $class, $ast_builder, $token_matcher ) = @_;
     bless {
-        ast_builder         => $ast_builder,
+        ast_builder         => $ast_builder || Gherkin::AstBuilder->new(),
         token_matcher       => $token_matcher || Gherkin::TokenMatcher->new(),
         stop_at_first_error => 0,
         max_errors          => 10,
