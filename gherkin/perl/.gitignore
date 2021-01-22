@@ -4,5 +4,4 @@ perl5/
 .built
 .cpanfile_dependencies
 cpanfile.snapshot
-.compared
 Gherkin-*

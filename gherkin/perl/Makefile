@@ -11,12 +11,11 @@ PERL_FILES = $(shell find . -name "*.pm")
 
 .DELETE_ON_ERROR:
 
-default: .compared
+default: test
 .PHONY: all
 
-#.compared: .built $(TOKENS) $(ASTS) $(PICKLES) $(ERRORS)
-.compared: .built $(TOKENS) $(ASTS) $(PICKLES)
-	touch $@
+test: .built $(TOKENS) $(ASTS) $(PICKLES)
+	PERL5LIB=./perl5/lib/perl5 prove -l
 
 .cpanfile_dependencies:
 	cpanm --notest --local-lib ./perl5 --installdeps .
@@ -52,7 +51,7 @@ acceptance/testdata/%.feature.errors.ndjson: testdata/%.feature testdata/%.featu
 	diff --unified <(jq "." $<.errors.ndjson) <(jq "." $@)
 
 # Get to a point where dzil can be run
-predistribution: .compared CHANGES
+predistribution: test CHANGES
 # --notest to keep the number of dependencies low
 	cpanm --notest --installdeps --with-develop .
 	dzil clean
@@ -66,7 +65,7 @@ release: predistribution
 	dzil release
 
 clean:
-	rm -rf Gherkin-* .compared .cpanfile_dependencies .built acceptance
+	rm -rf Gherkin-* .cpanfile_dependencies .built acceptance CHANGES
 .PHONY: clean
 
 clobber: clean
