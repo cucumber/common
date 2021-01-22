@@ -68,6 +68,15 @@ distribution: predistribution
 release: predistribution
 	PERL5LIB=./perl5/lib/perl5 PATH=$$PATH:./perl5/bin dzil release
 
+update-version:
+ifdef NEW_VERSION
+	echo $(NEW_VERSION) > VERSION
+else
+	@echo -e "\033[0;31mNEW_VERSION is not defined. Can't update version :-(\033[0m"
+	exit 1
+endif
+.PHONY: update-version
+
 clean:
 	rm -rf Gherkin-* .cpanfile_dependencies .built acceptance CHANGES
 .PHONY: clean
