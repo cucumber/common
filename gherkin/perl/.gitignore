@@ -5,3 +5,4 @@ perl5/
 .cpanfile_dependencies
 cpanfile.snapshot
 Gherkin-*
+CHANGES

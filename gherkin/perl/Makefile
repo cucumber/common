@@ -50,6 +50,9 @@ acceptance/testdata/%.feature.errors.ndjson: testdata/%.feature testdata/%.featu
 	PERL5LIB=./perl5/lib/perl5 bin/gherkin-generate-ast $< > $@
 	diff --unified <(jq "." $<.errors.ndjson) <(jq "." $@)
 
+CHANGES:
+	cp ../CHANGELOG.md CHANGES
+
 # Get to a point where dzil can be run
 predistribution: test CHANGES
 # --notest to keep the number of dependencies low
