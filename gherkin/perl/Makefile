@@ -55,17 +55,18 @@ CHANGES:
 
 # Get to a point where dzil can be run
 predistribution: test CHANGES
-# --notest to keep the number of dependencies low
-	cpanm --notest --installdeps --with-develop .
-	dzil clean
+# --notest to keep the number of dependencies low: it doesn't install the
+# testing dependencies of the dependencies.
+	cpanm --notest --local-lib ./perl5 --installdeps --with-develop .
+	PERL5LIB=./perl5/lib/perl5 PATH=$$PATH:./perl5/bin dzil clean
 	@(git status --porcelain 2>/dev/null | grep "^??" | perl -ne\
 	    'die "The `release` target includes all files in the working directory. Please remove [$$_], or add it to .gitignore if it should be included\n" if s!.+ perl/(.+?)\n!$$1!')
 
 distribution: predistribution
-	dzil test --release && dzil build
+	PERL5LIB=./perl5/lib/perl5 PATH=$$PATH:./perl5/bin dzil test --release && PERL5LIB=./perl5/lib/perl5 PATH=$$PATH:./perl5/bin dzil build
 
 release: predistribution
-	dzil release
+	PERL5LIB=./perl5/lib/perl5 PATH=$$PATH:./perl5/bin dzil release
 
 clean:
 	rm -rf Gherkin-* .cpanfile_dependencies .built acceptance CHANGES
