@@ -895,6 +895,7 @@ to Gherkin 2.
 [deivid-rodriguez]:  https://github.com/deivid-rodriguez
 [dobiedad]:          https://github.com/dobiedad
 [ehpc]:              https://github.com/ehpc
+[ehuelsmann]:        https://github.com/ehuelsmann
 [enkessler]:         https://github.com/enkessler
 [gabanz]:            https://github.com/gabanz
 [Haukinger]:         https://github.com/Haukinger
