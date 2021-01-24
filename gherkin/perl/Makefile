@@ -11,12 +11,11 @@ PERL_FILES = $(shell find . -name "*.pm")
 
 .DELETE_ON_ERROR:
 
-default: .compared
+default: test
 .PHONY: all
 
-#.compared: .built $(TOKENS) $(ASTS) $(PICKLES) $(ERRORS)
-.compared: .built $(TOKENS) $(ASTS) $(PICKLES)
-	touch $@
+test: .built $(TOKENS) $(ASTS) $(PICKLES)
+	PERL5LIB=./perl5/lib/perl5 prove -l
 
 .cpanfile_dependencies:
 	cpanm --notest --local-lib ./perl5 --installdeps .
@@ -51,22 +50,35 @@ acceptance/testdata/%.feature.errors.ndjson: testdata/%.feature testdata/%.featu
 	PERL5LIB=./perl5/lib/perl5 bin/gherkin-generate-ast $< > $@
 	diff --unified <(jq "." $<.errors.ndjson) <(jq "." $@)
 
+CHANGES:
+	cp ../CHANGELOG.md CHANGES
+
 # Get to a point where dzil can be run
-predistribution: .compared CHANGES
-# --notest to keep the number of dependencies low
-	cpanm --notest --installdeps --with-develop .
-	dzil clean
+predistribution: test CHANGES
+# --notest to keep the number of dependencies low: it doesn't install the
+# testing dependencies of the dependencies.
+	cpanm --notest --local-lib ./perl5 --installdeps --with-develop .
+	PERL5LIB=./perl5/lib/perl5 PATH=$$PATH:./perl5/bin dzil clean
 	@(git status --porcelain 2>/dev/null | grep "^??" | perl -ne\
 	    'die "The `release` target includes all files in the working directory. Please remove [$$_], or add it to .gitignore if it should be included\n" if s!.+ perl/(.+?)\n!$$1!')
 
 distribution: predistribution
-	dzil test --release && dzil build
+	PERL5LIB=./perl5/lib/perl5 PATH=$$PATH:./perl5/bin dzil test --release && PERL5LIB=./perl5/lib/perl5 PATH=$$PATH:./perl5/bin dzil build
 
 release: predistribution
-	dzil release
+	PERL5LIB=./perl5/lib/perl5 PATH=$$PATH:./perl5/bin dzil release
+
+update-version:
+ifdef NEW_VERSION
+	echo $(NEW_VERSION) > VERSION
+else
+	@echo -e "\033[0;31mNEW_VERSION is not defined. Can't update version :-(\033[0m"
+	exit 1
+endif
+.PHONY: update-version
 
 clean:
-	rm -rf Gherkin-* .compared .cpanfile_dependencies .built acceptance
+	rm -rf Gherkin-* .cpanfile_dependencies .built acceptance CHANGES
 .PHONY: clean
 
 clobber: clean
@@ -76,8 +88,8 @@ clobber: clean
 lib/Gherkin/Generated:
 	mkdir -p $@
 
-lib/Gherkin/Generated/Languages.pm: gherkin-languages.json
-	perl helper-scripts/build_languages.pl < $< > $@
+lib/Gherkin/Generated/Languages.pm: gherkin-languages.json .cpanfile_dependencies
+	PERL5LIB=./perl5/lib/perl5 perl helper-scripts/build_languages.pl < $< > $@
 
 lib/Gherkin/Generated/Parser.pm: gherkin.berp gherkin-perl.razor
 	mono  /var/lib/berp/1.1.1/tools/net471/Berp.exe -g gherkin.berp -t gherkin-perl.razor -o $@

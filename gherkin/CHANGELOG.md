@@ -12,6 +12,9 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 ### Added
 
 ### Changed
+* [Perl] Fully overhauled implementation, moving it up from 4.0.0
+  ([#711](https://github.com/cucumber/cucumber/pull/711),
+   [#1286](https://github.com/cucumber/cucumber/pull/1286)) [ehuelsmann]
 
 ### Deprecated
 
