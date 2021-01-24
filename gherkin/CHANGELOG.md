@@ -910,6 +910,7 @@ to Gherkin 2.
 [mauriciotogneri]:   https://github.com/mauriciotogneri
 [maximeg]:           https://github.com/maximeg
 [maxmeyer]:          https://github.com/maxmeyer
+[mgiustiniani]:      https://github.com/mgiustiniani
 [mpkorstanje]:       https://github.com/mpkorstanje
 [merrua]:            https://github.com/merrua
 [milhcbt]:           https://github.com/milhcbt
@@ -934,3 +935,4 @@ to Gherkin 2.
 [zbmott]:            https://github.com/zbmott
 [Zearin]:            https://github.com/Zearin
 [WannesFransen1994]: https://github.com/WannesFransen1994
+
