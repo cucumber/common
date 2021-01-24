@@ -21,6 +21,9 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 ### Removed
 
 ### Fixed
+* Use Italian translation for the "Rule" keyword and for the "Feature" synonym keywords
+  ([#1318](https://github.com/cucumber/cucumber/pull/1318)
+   [mgiustiniani])
 * Use Swedish translation for the "Rule" keyword
   ([#1297](https://github.com/cucumber/cucumber/pull/1297)
    [johnknoop])
