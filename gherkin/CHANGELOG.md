@@ -12,12 +12,18 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 ### Added
 
 ### Changed
+* [Perl] Fully overhauled implementation, moving it up from 4.0.0
+  ([#711](https://github.com/cucumber/cucumber/pull/711),
+   [#1286](https://github.com/cucumber/cucumber/pull/1286)) [ehuelsmann]
 
 ### Deprecated
 
 ### Removed
 
 ### Fixed
+* Use Italian translation for the "Rule" keyword and for the "Feature" synonym keywords
+  ([#1318](https://github.com/cucumber/cucumber/pull/1318)
+   [mgiustiniani])
 * Use Swedish translation for the "Rule" keyword
   ([#1297](https://github.com/cucumber/cucumber/pull/1297)
    [johnknoop])
@@ -889,6 +895,7 @@ to Gherkin 2.
 [deivid-rodriguez]:  https://github.com/deivid-rodriguez
 [dobiedad]:          https://github.com/dobiedad
 [ehpc]:              https://github.com/ehpc
+[ehuelsmann]:        https://github.com/ehuelsmann
 [enkessler]:         https://github.com/enkessler
 [gabanz]:            https://github.com/gabanz
 [Haukinger]:         https://github.com/Haukinger
@@ -904,6 +911,7 @@ to Gherkin 2.
 [mauriciotogneri]:   https://github.com/mauriciotogneri
 [maximeg]:           https://github.com/maximeg
 [maxmeyer]:          https://github.com/maxmeyer
+[mgiustiniani]:      https://github.com/mgiustiniani
 [mpkorstanje]:       https://github.com/mpkorstanje
 [merrua]:            https://github.com/merrua
 [milhcbt]:           https://github.com/milhcbt
@@ -928,3 +936,4 @@ to Gherkin 2.
 [zbmott]:            https://github.com/zbmott
 [Zearin]:            https://github.com/Zearin
 [WannesFransen1994]: https://github.com/WannesFransen1994
+

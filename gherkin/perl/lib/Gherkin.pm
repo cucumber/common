@@ -48,7 +48,8 @@ Please see the included LICENSE.txt for the canonical version. In summary:
 
 The MIT License (MIT)
 
-Copyright (c) 2016 Peter Sergeant
+Copyright (c) 2020-2021 Erik Huelsmann
+Copyright (c) 2016      Peter Sergeant
 
 This work is a derivative of work that is:
 Copyright (c) 2014-2016 Cucumber Ltd, Gaspar Nagy

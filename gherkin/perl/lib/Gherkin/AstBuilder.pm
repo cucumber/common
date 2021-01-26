@@ -11,10 +11,13 @@ sub new {
     my $class = shift;
     my ($id_generator) = @_;
 
+    my $id_counter = 0;
     my $self  = bless {
         stack         => [],
         comments      => [],
-        id_generator  => $id_generator,
+        id_generator  => $id_generator // sub {
+            return $id_counter++;
+        },
         uri           => '',
     }, $class;
     $self->reset;
