@@ -27,6 +27,9 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 * Use Swedish translation for the "Rule" keyword
   ([#1297](https://github.com/cucumber/cucumber/pull/1297)
    [johnknoop])
+* Elixir implementation - make sure the gherkin_languages.json is added with the release package.
+  ([#1293](https://github.com/cucumber/cucumber/pull/1293)
+   [WannesFransen1994])
 
 ## [16.0.0] - 2020-12-10
 
