@@ -61,7 +61,6 @@ const SearchBar: React.FunctionComponent<IProps> = ({
         <button type="submit" value="search">
           <FontAwesomeIcon icon={faSearch} />
         </button>
-        <input type="submit" style={{ display: 'none' }} />
       </form>
       <p className="help">
         <FontAwesomeIcon icon={faQuestionCircle} />
