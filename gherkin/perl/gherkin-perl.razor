@@ -65,7 +65,7 @@ sub parse {
       unless ref $token_scanner && (ref $token_scanner ne 'SCALAR');
 
     $self->ast_builder->reset($uri);
-    $token_matcher->reset();
+    $self->token_matcher->reset();
 
     my $context = Gherkin::ParserContext->new(
         {
