@@ -346,4 +346,5 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 [cbliard]:          https://github.com/cbliard
 [codemrkay]:        https://github.com/codemrkay
 [davidjgoss]:       https://github.com/davidjgoss
+[hWorblehat]:       https://github.com/hWorblehat
 [sebrose]:          https://github.com/sebrose
