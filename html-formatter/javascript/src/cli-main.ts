@@ -30,8 +30,7 @@ pipeline(
   process.stdin,
   toMessageStream,
   new CucumberHtmlStream(
-    resolvePkg('@cucumber/react', { cwd: __dirname }) +
-      '/dist/src/styles/cucumber-react.css',
+    __dirname + '/../../dist/cucumber-react.css',
     __dirname + '/../../dist/main.js'
   ),
   process.stdout,
