@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
 import GherkinQueryContext from '../../GherkinQueryContext'
 import CucumberQueryContext from '../../CucumberQueryContext'
-import SearchQueryContext from '../../SearchQueryContext'
+import SearchQueryContext, { SearchQuery } from '../../SearchQueryContext'
 import { Query as GherkinQuery } from '@cucumber/gherkin-utils'
 import { Query as CucumberQuery } from '@cucumber/query'
 import EnvelopesQueryContext, {
@@ -22,7 +22,12 @@ const QueriesWrapper: React.FunctionComponent<IProps> = ({
   query,
   children,
 }) => {
-  const searchQuery = { query: query }
+  const [currentQuery, setCurrentQuery] = useState(query)
+
+  const searchQuery: SearchQuery = {
+    query: currentQuery,
+    updateQuery: setCurrentQuery,
+  }
 
   return (
     <div className="cucumber-react">
