@@ -1,13 +1,13 @@
 package io.cucumber.cucumberexpressions;
 
-import org.apiguardian.api.API;
+import static io.cucumber.cucumberexpressions.ParameterType.createAnonymousParameterType;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import static io.cucumber.cucumberexpressions.ParameterType.createAnonymousParameterType;
+import org.apiguardian.api.API;
 
 @API(status = API.Status.STABLE)
 public final class RegularExpression implements Expression {
@@ -81,4 +81,9 @@ public final class RegularExpression implements Expression {
     public String getSource() {
         return expressionRegexp.pattern();
     }
+
+	@Override
+	public ExpressionType getType() {
+		return ExpressionType.REGULAR;
+	}
 }

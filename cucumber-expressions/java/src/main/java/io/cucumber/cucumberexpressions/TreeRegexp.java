@@ -1,20 +1,22 @@
 package io.cucumber.cucumberexpressions;
 
+import static java.util.Collections.singleton;
+
 import java.util.ArrayDeque;
-import java.util.Collections;
 import java.util.Deque;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.IntStream;
 
-import static java.util.Collections.singleton;
+import org.apiguardian.api.API;
 
 /**
  * TreeRegexp represents matches as a tree of {@link Group}
  * reflecting the nested structure of capture groups in the original
  * regexp.
  */
-final class TreeRegexp {
+@API(status = API.Status.INTERNAL)
+public final class TreeRegexp {
     private final Pattern pattern;
     private final GroupBuilder groupBuilder;
 
@@ -24,13 +26,11 @@ final class TreeRegexp {
 
     TreeRegexp(Pattern pattern) {
         this.pattern = pattern;
-        this.groupBuilder = createGroupBuilder(pattern);
+		this.groupBuilder = createGroupBuilder(pattern.pattern());
     }
 
-    private static GroupBuilder createGroupBuilder(Pattern pattern) {
-        String source = pattern.pattern();
-        Deque<GroupBuilder> stack = new ArrayDeque<>(singleton(new GroupBuilder()));
-        Deque<Integer> groupStartStack = new ArrayDeque<>();
+	public static GroupBuilder createGroupBuilder(String source) {
+		Deque<GroupBuilder> stack = new ArrayDeque<>(singleton(new GroupBuilder(0, false)));
         boolean escaping = false;
         boolean charClass = false;
 
@@ -41,18 +41,13 @@ final class TreeRegexp {
             } else if (c == ']' && !escaping) {
                 charClass = false;
             } else if (c == '(' && !escaping && !charClass) {
-                groupStartStack.push(i);
-                boolean nonCapturing = isNonCapturingGroup(source, i);
-                GroupBuilder groupBuilder = new GroupBuilder();
-                if (nonCapturing) {
-                    groupBuilder.setNonCapturing();
-                }
+				GroupBuilder groupBuilder = new GroupBuilder(i, !isNonCapturingGroup(source, i));
                 stack.push(groupBuilder);
             } else if (c == ')' && !escaping && !charClass) {
                 GroupBuilder gb = stack.pop();
-                int groupStart = groupStartStack.pop();
+				gb.setEndIndex(i);
                 if (gb.isCapturing()) {
-                    gb.setSource(source.substring(groupStart + 1, i));
+					gb.setSource(source.substring(gb.getStartIndex() + 1, i));
                     stack.peek().add(gb);
                 } else {
                     gb.moveChildrenTo(stack.peek());

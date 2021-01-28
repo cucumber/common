@@ -1,7 +1,15 @@
 package io.cucumber.cucumberexpressions;
 
-import io.cucumber.cucumberexpressions.Ast.Node;
-import org.apiguardian.api.API;
+import static io.cucumber.cucumberexpressions.Ast.Node.Type.OPTIONAL_NODE;
+import static io.cucumber.cucumberexpressions.Ast.Node.Type.PARAMETER_NODE;
+import static io.cucumber.cucumberexpressions.Ast.Node.Type.TEXT_NODE;
+import static io.cucumber.cucumberexpressions.CucumberExpressionException.createAlternativeMayNotBeEmpty;
+import static io.cucumber.cucumberexpressions.CucumberExpressionException.createAlternativeMayNotExclusivelyContainOptionals;
+import static io.cucumber.cucumberexpressions.CucumberExpressionException.createOptionalIsNotAllowedInOptional;
+import static io.cucumber.cucumberexpressions.CucumberExpressionException.createOptionalMayNotBeEmpty;
+import static io.cucumber.cucumberexpressions.CucumberExpressionException.createParameterIsNotAllowedInOptional;
+import static io.cucumber.cucumberexpressions.UndefinedParameterTypeException.createUndefinedParameterType;
+import static java.util.stream.Collectors.joining;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -9,18 +17,9 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.regex.Pattern;
 
-import static io.cucumber.cucumberexpressions.Ast.Node.Type.OPTIONAL_NODE;
-import static io.cucumber.cucumberexpressions.Ast.Node.Type.PARAMETER_NODE;
-import static io.cucumber.cucumberexpressions.Ast.Node.Type.TEXT_NODE;
-import static io.cucumber.cucumberexpressions.CucumberExpressionException.createAlternativeMayNotBeEmpty;
-import static io.cucumber.cucumberexpressions.CucumberExpressionException.createAlternativeMayNotExclusivelyContainOptionals;
-import static io.cucumber.cucumberexpressions.CucumberExpressionException.createInvalidParameterTypeName;
-import static io.cucumber.cucumberexpressions.CucumberExpressionException.createOptionalIsNotAllowedInOptional;
-import static io.cucumber.cucumberexpressions.CucumberExpressionException.createOptionalMayNotBeEmpty;
-import static io.cucumber.cucumberexpressions.CucumberExpressionException.createParameterIsNotAllowedInOptional;
-import static io.cucumber.cucumberexpressions.ParameterType.isValidParameterTypeName;
-import static io.cucumber.cucumberexpressions.UndefinedParameterTypeException.createUndefinedParameterType;
-import static java.util.stream.Collectors.joining;
+import org.apiguardian.api.API;
+
+import io.cucumber.cucumberexpressions.Ast.Node;
 
 @API(status = API.Status.STABLE)
 public final class CucumberExpression implements Expression {
@@ -177,5 +176,10 @@ public final class CucumberExpression implements Expression {
     public Pattern getRegexp() {
         return treeRegexp.pattern();
     }
+
+	@Override
+	public ExpressionType getType() {
+		return ExpressionType.CUCUMBER;
+	}
 
 }

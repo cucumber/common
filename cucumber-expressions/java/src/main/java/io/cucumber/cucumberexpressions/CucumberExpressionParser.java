@@ -1,13 +1,5 @@
 package io.cucumber.cucumberexpressions;
 
-import io.cucumber.cucumberexpressions.Ast.Node;
-import io.cucumber.cucumberexpressions.Ast.Token;
-import io.cucumber.cucumberexpressions.Ast.Token.Type;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import static io.cucumber.cucumberexpressions.Ast.Node.Type.ALTERNATION_NODE;
 import static io.cucumber.cucumberexpressions.Ast.Node.Type.ALTERNATIVE_NODE;
 import static io.cucumber.cucumberexpressions.Ast.Node.Type.EXPRESSION_NODE;
@@ -28,7 +20,18 @@ import static io.cucumber.cucumberexpressions.CucumberExpressionException.create
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 
-final class CucumberExpressionParser {
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import org.apiguardian.api.API;
+
+import io.cucumber.cucumberexpressions.Ast.Node;
+import io.cucumber.cucumberexpressions.Ast.Token;
+import io.cucumber.cucumberexpressions.Ast.Token.Type;
+
+@API(status = API.Status.INTERNAL)
+public final class CucumberExpressionParser {
 
     /*
      * text := whitespace | ')' | '}' | .
@@ -160,7 +163,7 @@ final class CucumberExpressionParser {
             )
     );
 
-    Node parse(String expression) {
+	public Node parse(String expression) {
         CucumberExpressionTokenizer tokenizer = new CucumberExpressionTokenizer();
         List<Token> tokens = tokenizer.tokenize(expression);
         Result result = cucumberExpressionParser.parse(expression, tokens, 0);

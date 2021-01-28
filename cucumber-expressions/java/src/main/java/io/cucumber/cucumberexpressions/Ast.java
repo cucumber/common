@@ -1,14 +1,17 @@
 package io.cucumber.cucumberexpressions;
 
+import static java.util.Objects.requireNonNull;
+import static java.util.stream.Collectors.joining;
+
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.StringJoiner;
 
-import static java.util.Arrays.asList;
-import static java.util.Objects.requireNonNull;
-import static java.util.stream.Collectors.joining;
+import org.apiguardian.api.API;
 
-final class Ast {
+@API(status = API.Status.INTERNAL)
+public final class Ast {
 
     private static final char escapeCharacter = '\\';
     private static final char alternationCharacter = '/';
@@ -17,14 +20,14 @@ final class Ast {
     private static final char beginOptionalCharacter = '(';
     private static final char endOptionalCharacter = ')';
 
-    interface Located {
+	public interface Located {
         int start();
 
         int end();
 
     }
 
-    static final class Node implements Located {
+	public static final class Node implements Located {
 
         private final Type type;
         private final List<Node> nodes;
@@ -33,7 +36,7 @@ final class Ast {
         private final int end;
 
         Node(Type type, int start, int end, String token) {
-            this(type, start, end, null, token);
+			this(type, start, end, Collections.emptyList(), token);
         }
 
         Node(Type type, int start, int end, List<Node> nodes) {
@@ -42,14 +45,14 @@ final class Ast {
 
         private Node(Type type, int start, int end, List<Node> nodes, String token) {
             this.type = requireNonNull(type);
-            this.nodes = nodes;
+			this.nodes = Collections.unmodifiableList(nodes);
             this.token = token;
             this.start = start;
             this.end = end;
 
         }
 
-        enum Type {
+		public enum Type {
             TEXT_NODE,
             OPTIONAL_NODE,
             ALTERNATION_NODE,
@@ -66,15 +69,15 @@ final class Ast {
             return end;
         }
 
-        List<Node> nodes() {
+		public List<Node> nodes() {
             return nodes;
         }
 
-        Type type() {
+		public Type type() {
             return type;
         }
 
-        String text() {
+		public String text() {
             if (nodes == null)
                 return token;
 
@@ -144,7 +147,7 @@ final class Ast {
 
     }
 
-    static final class Token implements Located {
+	static final class Token implements Located {
 
         final String text;
         final Token.Type type;
@@ -161,7 +164,7 @@ final class Ast {
         static boolean canEscape(Integer token) {
             if (Character.isWhitespace(token)) {
                 return true;
-            }
+            } 
             switch (token) {
                 case (int) escapeCharacter:
                 case (int) alternationCharacter:
@@ -233,7 +236,7 @@ final class Ast {
                     .toString();
         }
 
-        enum Type {
+		enum Type {
             START_OF_LINE,
             END_OF_LINE,
             WHITE_SPACE,

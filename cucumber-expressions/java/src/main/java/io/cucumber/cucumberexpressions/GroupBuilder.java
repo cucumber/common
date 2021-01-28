@@ -1,14 +1,25 @@
 package io.cucumber.cucumberexpressions;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Matcher;
 
-final class GroupBuilder {
+import org.apiguardian.api.API;
+
+@API(status = API.Status.INTERNAL)
+public final class GroupBuilder {
     private final List<GroupBuilder> groupBuilders = new ArrayList<>();
-    private boolean capturing = true;
+	private final boolean capturing;
+	private final int startIndex;
     private String source;
+	private int endIndex;
+
+	GroupBuilder(int startIndex, boolean capturing) {
+		this.startIndex = startIndex;
+		this.capturing = capturing;
+	}
 
     void add(GroupBuilder groupBuilder) {
         groupBuilders.add(groupBuilder);
@@ -23,22 +34,18 @@ final class GroupBuilder {
         return new Group(matcher.group(groupIndex), matcher.start(groupIndex), matcher.end(groupIndex), children);
     }
 
-    void setNonCapturing() {
-        this.capturing = false;
-    }
-
-    boolean isCapturing() {
+	public boolean isCapturing() {
         return capturing;
     }
 
-    public void moveChildrenTo(GroupBuilder groupBuilder) {
+	void moveChildrenTo(GroupBuilder groupBuilder) {
         for (GroupBuilder child : groupBuilders) {
             groupBuilder.add(child);
         }
     }
 
     public List<GroupBuilder> getChildren() {
-        return groupBuilders;
+		return Collections.unmodifiableList(groupBuilders);
     }
 
     public String getSource() {
@@ -48,4 +55,23 @@ final class GroupBuilder {
     void setSource(String source) {
         this.source = source;
     }
+
+	/**
+	 * @return the start index of the group in the original regular expression
+	 *         string
+	 */
+	public int getStartIndex() {
+		return startIndex;
+	}
+
+	/**
+	 * @return the end index of the group in the original regular expression string
+	 */
+	public int getEndIndex() {
+		return endIndex;
+	}
+
+	void setEndIndex(int endIndex) {
+		this.endIndex = endIndex;
+	}
 }

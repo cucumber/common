@@ -1,10 +1,12 @@
 package io.cucumber.cucumberexpressions;
 
-import org.apiguardian.api.API;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
+
+import org.apiguardian.api.API;
+
+import io.cucumber.cucumberexpressions.Expression.ExpressionType;
 
 /**
  * Creates a {@link CucumberExpression} or {@link RegularExpression} from a {@link String}
@@ -41,7 +43,7 @@ public final class ExpressionFactory {
 
     private RegularExpression createRegularExpressionWithAnchors(String expressionString) {
         try {
-            return new RegularExpression(Pattern.compile(expressionString), parameterTypeRegistry);
+			return new RegularExpression(Pattern.compile(expressionString), parameterTypeRegistry);
         } catch (PatternSyntaxException e) {
             if (PARAMETER_PATTERN.matcher(expressionString).find()) {
                 throw new CucumberExpressionException("You cannot use anchors (^ or $) in Cucumber Expressions. Please remove them from " + expressionString, e);
@@ -49,4 +51,12 @@ public final class ExpressionFactory {
             throw e;
         }
     }
+
+	public static ExpressionType detectExpressionType(String expressionString) {
+		if (BEGIN_ANCHOR.matcher(expressionString).find() || END_ANCHOR.matcher(expressionString).find()
+				|| SCRIPT_STYLE_REGEXP.matcher(expressionString).find()) {
+			return ExpressionType.REGULAR;
+		}
+		return ExpressionType.CUCUMBER;
+	}
 }
