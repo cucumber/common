@@ -1,45 +1,34 @@
-import React, { useState } from 'react'
+import React from 'react'
 import GherkinQueryContext from '../../GherkinQueryContext'
 import CucumberQueryContext from '../../CucumberQueryContext'
-import SearchQueryContext from '../../SearchQueryContext'
+import SearchQueryContext, {RenderSearchURLFn} from '../../SearchQueryContext'
+import statusName, {allStatuses} from '../gherkin/statusName'
 
 import SearchBar from './SearchBar'
 import { GherkinDocumentList } from '../../index'
 
 import NoMatchResult from './NoMatchResult'
 import Search from '../../search/Search'
-import { messages } from '@cucumber/messages'
 import filterByStatus from '../../filter/filterByStatus'
 import StatusesSummary from './StatusesSummary'
 import countScenariosByStatuses from '../../countScenariosByStatuses'
 import ExecutionSummary from './ExecutionSummary'
 import EnvelopesQueryContext from '../../EnvelopesQueryContext'
 
-const defaultDisplayedResults = [
-  messages.TestStepFinished.TestStepResult.Status.AMBIGUOUS,
-  messages.TestStepFinished.TestStepResult.Status.FAILED,
-  messages.TestStepFinished.TestStepResult.Status.PASSED,
-  messages.TestStepFinished.TestStepResult.Status.PENDING,
-  messages.TestStepFinished.TestStepResult.Status.SKIPPED,
-  messages.TestStepFinished.TestStepResult.Status.UNDEFINED,
-]
+interface IProps {
+  renderSearchURL?: RenderSearchURLFn
+}
 
-const FilteredResults: React.FunctionComponent = () => {
+const FilteredResults: React.FunctionComponent<IProps> = ({renderSearchURL}) => {
   const gherkinQuery = React.useContext(GherkinQueryContext)
   const cucumberQuery = React.useContext(CucumberQueryContext)
-  const { query } = React.useContext(SearchQueryContext)
+  const { query, hiddenStatuses } = React.useContext(SearchQueryContext)
   const allDocuments = gherkinQuery.getGherkinDocuments()
 
   const scenarioCountByStatus = countScenariosByStatuses(
     allDocuments,
     gherkinQuery,
     cucumberQuery
-  )
-
-  const [displayedStatuses, setDisplayedStatuses] = useState(
-    defaultDisplayedResults.filter((status) =>
-      scenarioCountByStatus.get(status)
-    )
   )
 
   const search = new Search(gherkinQuery)
@@ -51,23 +40,22 @@ const FilteredResults: React.FunctionComponent = () => {
   const matches = query ? search.search(query) : allDocuments
   const filtered = matches
     .map((document) =>
-      filterByStatus(document, gherkinQuery, cucumberQuery, displayedStatuses)
+      filterByStatus(document, gherkinQuery, cucumberQuery, allStatuses.filter((status) =>
+        !hiddenStatuses.includes(statusName(status))
+      ))
     )
     .filter((document) => document !== null)
 
   const envelopesQuery = React.useContext(EnvelopesQueryContext)
   const meta = envelopesQuery.find((envelope) => envelope.meta !== null).meta
+  const statusesWithScenarios = [...scenarioCountByStatus.keys()].map(statusName)
 
   return (
     <div className="cucumber-filtered-results">
       <div className="cucumber-report-header">
-        <StatusesSummary scenarioCountByStatus={scenarioCountByStatus} />
+        <StatusesSummary scenarioCountByStatus={scenarioCountByStatus}/>
         <ExecutionSummary meta={meta} />
-        <SearchBar
-          statusesUpdated={(statuses) => setDisplayedStatuses(statuses)}
-          enabledStatuses={displayedStatuses}
-          scenarioCountByStatus={scenarioCountByStatus}
-        />
+        <SearchBar statusesWithScenarios={statusesWithScenarios} renderSearchURL={renderSearchURL}/>
       </div>
       <GherkinDocumentList gherkinDocuments={filtered} />
       <NoMatchResult query={query} matches={filtered} />

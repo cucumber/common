@@ -1,15 +1,19 @@
-import assert from 'assert'
+import assert, { match } from 'assert'
 import ReactDOM from 'react-dom'
 import React from 'react'
 import SearchBar from '../src/components/app/SearchBar'
 import { JSDOM } from 'jsdom'
-import SearchQueryContext from '../src/SearchQueryContext'
-import { messages } from '@cucumber/messages'
+import SearchQueryContext, {
+  SearchQueryProps,
+  SearchQueryCtx,
+  SearchQuery
+} from '../src/SearchQueryContext'
+import sinon from 'sinon'
 
 describe('SearchBar', () => {
   function renderSearchBar(
-    query?: string,
-    queryUpdated?: (query: string) => any
+    searchQuery: SearchQueryProps = {},
+    setSearchQuery?: (searchQuery: SearchQuery) => void
   ): Document {
     const dom = new JSDOM(
       '<html lang="en"><body><div id="content"></div></body></html>'
@@ -19,31 +23,11 @@ describe('SearchBar', () => {
     // global.navigator = dom.window.navigator
     const document = dom.window.document
 
-    const statusesUpdated = () => {
-      /*Do nothing*/
-    }
-    const enabledStatuses: messages.TestStepFinished.TestStepResult.Status[] = []
-    const scenarioCountByStatus = new Map<
-      messages.TestStepFinished.TestStepResult.Status,
-      number
-    >()
+    const statusesWithScenarios: string[] = []
 
     const app = (
-      <SearchQueryContext.Provider
-        value={{
-          query: query,
-          updateQuery:
-            queryUpdated ||
-            (() => {
-              /*Do nothing*/
-            }),
-        }}
-      >
-        <SearchBar
-          statusesUpdated={statusesUpdated}
-          enabledStatuses={enabledStatuses}
-          scenarioCountByStatus={scenarioCountByStatus}
-        />
+      <SearchQueryContext.Provider value={new SearchQueryCtx(searchQuery, setSearchQuery)}>
+        <SearchBar statusesWithScenarios={statusesWithScenarios}/>
       </SearchQueryContext.Provider>
     )
     ReactDOM.render(app, document.getElementById('content'))
@@ -51,7 +35,7 @@ describe('SearchBar', () => {
   }
 
   it('puts the context query as the initial search text', () => {
-    const document = renderSearchBar('keyword')
+    const document = renderSearchBar({query: 'keyword'})
     const searchTextElems = document.getElementsByName('query')
 
     assert.strictEqual(searchTextElems.length, 1)
@@ -61,11 +45,9 @@ describe('SearchBar', () => {
   })
 
   it('updates the context when the form is submitted', () => {
-    let capture = ''
+    const onSearchQueryUpdated = sinon.spy()
 
-    const document = renderSearchBar(null, (query) => {
-      capture = query
-    })
+    const document = renderSearchBar({}, onSearchQueryUpdated)
 
     const searchTextElem = document.getElementsByName(
       'query'
@@ -77,15 +59,16 @@ describe('SearchBar', () => {
     ) as HTMLFormElement
     searchForm.submit()
 
-    assert.strictEqual(capture, 'search text')
+    sinon.assert.calledOnce(onSearchQueryUpdated)
+    sinon.assert.calledWith(onSearchQueryUpdated, sinon.match({
+      query: 'search text'
+    }))
   })
 
   it('updates the context when the search button is clicked', () => {
-    let capture = ''
+    const onSearchQueryUpdated = sinon.spy()
 
-    const document = renderSearchBar(null, (query) => {
-      capture = query
-    })
+    const document = renderSearchBar({}, onSearchQueryUpdated)
 
     const searchTextElem = document.getElementsByName(
       'query'
@@ -97,27 +80,47 @@ describe('SearchBar', () => {
     ) as HTMLButtonElement
     searchButton.click()
 
-    assert.strictEqual(capture, 'search text')
+    sinon.assert.calledOnce(onSearchQueryUpdated)
+    sinon.assert.calledWith(onSearchQueryUpdated, sinon.match({
+      query: 'search text'
+    }))
   })
 
   it("doesn't perform the default form action when submitting", () => {
-    let capture: Event = null
+    const document = renderSearchBar({query: 'keyword'})
 
-    const document = renderSearchBar('keyword')
-
-    document.addEventListener('submit', (event) => {
-      capture = event
-    })
+    const eventListener = sinon.spy()
+    document.addEventListener('submit', eventListener)
 
     const searchForm = document.querySelector(
       '.cucumber-search-bar-search'
     ) as HTMLFormElement
     searchForm.submit()
 
-    assert.strictEqual(
-      capture.defaultPrevented,
-      true,
-      'Form submit action was not prevented.'
-    )
+    sinon.assert.calledOnce(eventListener)
+    sinon.assert.calledWith(eventListener, sinon.match({
+      defaultPrevented: true
+    }))
+  })
+
+  it('updates the context when a blank search is submitted', () => {
+    const onSearchQueryUpdated = sinon.spy()
+
+    const document = renderSearchBar({query: 'foo'}, onSearchQueryUpdated)
+
+    const searchTextElem = document.getElementsByName(
+      'query'
+    )[0] as HTMLInputElement
+    searchTextElem.value = ''
+
+    const searchForm = document.querySelector(
+      '.cucumber-search-bar-search'
+    ) as HTMLFormElement
+    searchForm.submit()
+
+    sinon.assert.calledOnce(onSearchQueryUpdated)
+    sinon.assert.calledWith(onSearchQueryUpdated, sinon.match({
+      query: ''
+    }))
   })
 })

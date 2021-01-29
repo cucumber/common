@@ -4,7 +4,10 @@ import QueriesWrapper from './components/app/QueriesWrapper'
 import filterByStatus from './filter/filterByStatus'
 import GherkinQueryContext from './GherkinQueryContext'
 import CucumberQueryContext from './CucumberQueryContext'
-import SearchQueryContext, { NavigatingSearchOpts } from './SearchQueryContext'
+import SearchQueryContext, {
+  RenderSearchURLFn,
+  searchFromURLParams
+} from './SearchQueryContext'
 import EnvelopesQueryContext, { EnvelopesQuery } from './EnvelopesQueryContext'
 
 export {
@@ -12,10 +15,11 @@ export {
   QueriesWrapper,
   GherkinQueryContext,
   CucumberQueryContext,
-  SearchQueryContext,
   EnvelopesQueryContext,
   EnvelopesQuery,
   FilteredResults,
   filterByStatus,
-  NavigatingSearchOpts,
+  SearchQueryContext,
+  searchFromURLParams,
+  RenderSearchURLFn
 }

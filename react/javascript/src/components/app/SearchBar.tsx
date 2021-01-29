@@ -3,51 +3,46 @@ import {
   faSearch,
   faQuestionCircle,
   faFilter,
+  faShare
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import SearchQueryContext from '../../SearchQueryContext'
-import { messages } from '@cucumber/messages'
-import statusName from '../gherkin/statusName'
+import SearchQueryContext, {RenderSearchURLFn} from '../../SearchQueryContext'
+import statusName, {allStatuses} from '../gherkin/statusName'
+
+const statuses = allStatuses.map(statusName).sort()
 
 interface IProps {
-  statusesUpdated: (
-    statuses: messages.TestStepFinished.TestStepResult.Status[]
-  ) => any
-  enabledStatuses: messages.TestStepFinished.TestStepResult.Status[]
-  scenarioCountByStatus: Map<
-    messages.TestStepFinished.TestStepResult.Status,
-    number
-  >
+  statusesWithScenarios: string[],
+  renderSearchURL?: RenderSearchURLFn
 }
 
 const SearchBar: React.FunctionComponent<IProps> = ({
-  statusesUpdated,
-  enabledStatuses,
-  scenarioCountByStatus,
+  statusesWithScenarios,
+  renderSearchURL
 }) => {
   const searchQueryContext = React.useContext(SearchQueryContext)
-
-  const statuses = [
-    messages.TestStepFinished.TestStepResult.Status.AMBIGUOUS,
-    messages.TestStepFinished.TestStepResult.Status.FAILED,
-    messages.TestStepFinished.TestStepResult.Status.PASSED,
-    messages.TestStepFinished.TestStepResult.Status.PENDING,
-    messages.TestStepFinished.TestStepResult.Status.SKIPPED,
-    messages.TestStepFinished.TestStepResult.Status.UNDEFINED,
-    messages.TestStepFinished.TestStepResult.Status.UNKNOWN,
-  ]
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const formData = new window.FormData(event.currentTarget)
-    searchQueryContext.updateQuery(formData.get('query').toString())
+    searchQueryContext.update({
+      query: formData.get('query').toString()
+    })
   }
 
   const showFilters =
-    scenarioCountByStatus.size > 1 ||
-    scenarioCountByStatus.has(
-      messages.TestStepFinished.TestStepResult.Status.UNKNOWN
+    statusesWithScenarios.length > 1 ||
+    statusesWithScenarios.find(n => searchQueryContext.hiddenStatuses.includes(n))
+
+  let link = null
+  if(renderSearchURL) {
+    const href = renderSearchURL(searchQueryContext)
+    link = (
+      <p className="help">
+        <FontAwesomeIcon icon={faShare}/> &nbsp; Link to this search: <a href={href}>{href}</a>
+      </p>
     )
+  }
 
   return (
     <div className="cucumber-search-bar">
@@ -76,14 +71,14 @@ const SearchBar: React.FunctionComponent<IProps> = ({
             <FontAwesomeIcon icon={faFilter} /> Filter by scenario status:
           </span>
           <ul>
-            {statuses.map((status, index) => {
-              const name = statusName(status)
-              const enabled = enabledStatuses.includes(status)
-              const inputId = `filter-status-${name}`
+            {statuses.map((name, index) => {
 
-              if (scenarioCountByStatus.get(status) === undefined) {
+              if (!statusesWithScenarios.includes(name)) {
                 return
               }
+
+              const enabled = !searchQueryContext.hiddenStatuses.includes(name)
+              const inputId = `filter-status-${name}`
 
               return (
                 <li key={index}>
@@ -91,14 +86,13 @@ const SearchBar: React.FunctionComponent<IProps> = ({
                     id={inputId}
                     type="checkbox"
                     defaultChecked={enabled}
-                    onChange={() => {
-                      if (enabledStatuses.includes(status)) {
-                        statusesUpdated(
-                          enabledStatuses.filter((s) => s !== status)
+                    onChange={(evt) => {
+                      searchQueryContext.update({
+                        hiddenStatuses: (evt.target.checked
+                          ? searchQueryContext.hiddenStatuses.filter(n => n !== name)
+                          : searchQueryContext.hiddenStatuses.concat(name)
                         )
-                      } else {
-                        statusesUpdated([status].concat(enabledStatuses))
-                      }
+                      })
                     }}
                   />
                   <label htmlFor={inputId}>{name}</label>
@@ -108,6 +102,7 @@ const SearchBar: React.FunctionComponent<IProps> = ({
           </ul>
         </form>
       )}
+      {link}
     </div>
   )
 }

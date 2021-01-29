@@ -2,9 +2,8 @@ import React, { useState } from 'react'
 import GherkinQueryContext from '../../GherkinQueryContext'
 import CucumberQueryContext from '../../CucumberQueryContext'
 import SearchQueryContext, {
-  SearchQuery,
-  NavigatingSearchOpts,
-  createNavigatingSearchQuery,
+  SearchQueryProps,
+  SearchQueryCtx,
 } from '../../SearchQueryContext'
 import { Query as GherkinQuery } from '@cucumber/gherkin-utils'
 import { Query as CucumberQuery } from '@cucumber/query'
@@ -12,40 +11,26 @@ import EnvelopesQueryContext, {
   EnvelopesQuery,
 } from '../../EnvelopesQueryContext'
 
-interface IProps {
+export interface IProps extends SearchQueryProps {
   cucumberQuery: CucumberQuery
   gherkinQuery: GherkinQuery
-  envelopesQuery: EnvelopesQuery
-  query?: string | NavigatingSearchOpts
+  envelopesQuery: EnvelopesQuery,
 }
 
-const QueriesWrapper: React.FunctionComponent<IProps> = ({
-  gherkinQuery,
-  cucumberQuery,
-  envelopesQuery,
-  query,
-  children,
-}) => {
-  let searchQuery: SearchQuery
-
-  if (query == null || typeof query === 'string') {
-    const [currentQuery, setCurrentQuery] = useState(query as string)
-
-    searchQuery = {
-      query: currentQuery,
-      updateQuery: setCurrentQuery,
-    }
-  } else {
-    searchQuery = createNavigatingSearchQuery(query)
-  }
+const QueriesWrapper: React.FunctionComponent<IProps> = (props) => {
+  
+  const [searchQuery, setSearchQuery] = useState({
+    query: props.query,
+    hiddenStatuses: props.hiddenStatuses,
+  })
 
   return (
     <div className="cucumber-react">
-      <CucumberQueryContext.Provider value={cucumberQuery}>
-        <GherkinQueryContext.Provider value={gherkinQuery}>
-          <SearchQueryContext.Provider value={searchQuery}>
-            <EnvelopesQueryContext.Provider value={envelopesQuery}>
-              {children}
+      <CucumberQueryContext.Provider value={props.cucumberQuery}>
+        <GherkinQueryContext.Provider value={props.gherkinQuery}>
+          <SearchQueryContext.Provider value={new SearchQueryCtx(searchQuery, setSearchQuery)}>
+            <EnvelopesQueryContext.Provider value={props.envelopesQuery}>
+              {props.children}
             </EnvelopesQueryContext.Provider>
           </SearchQueryContext.Provider>
         </GherkinQueryContext.Provider>

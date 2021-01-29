@@ -1,72 +1,111 @@
 import {
-  createConstSearchQuery,
-  createNavigatingSearchQuery,
-  NavigatingSearchOpts,
+  SearchQueryCtx,
+  searchFromURLParams
 } from '../src/SearchQueryContext'
 import assert from 'assert'
+import sinon from 'sinon'
 
-describe('Const search query', () => {
-  it('uses the given string as its initial value', () => {
-    const sq = createConstSearchQuery('foo bar')
+describe('SearchQueryCtx', () => {
+  it('uses the given values its initial value', () => {
+    const sq = new SearchQueryCtx({
+      query: 'foo bar',
+      hiddenStatuses: ['passed']
+    })
 
     assert.strictEqual(sq.query, 'foo bar')
+    assert.deepStrictEqual(sq.hiddenStatuses, ['passed'])
   })
 
-  it('has a blank initial value by default', () => {
-    const sq = createConstSearchQuery()
+  it('has a blank initial query by default', () => {
+    const sq = new SearchQueryCtx({})
 
-    assert.notStrictEqual(sq.query, null)
+    assert.strictEqual(sq.query, '')
   })
 
-  it('does not change its value on update', () => {
-    const sq = createConstSearchQuery('foo')
+  it('hides unknown statuses by default', () => {
+    const sq = new SearchQueryCtx({})
 
-    sq.updateQuery('bar')
+    assert.deepStrictEqual(sq.hiddenStatuses, ['unknown'])
+  })
+
+  it('does not change its value on update by default', () => {
+    const sq = new SearchQueryCtx({query: 'foo'})
+
+    sq.update({
+      query: 'bar',
+      hiddenStatuses: ['passed']
+    })
 
     assert.strictEqual(sq.query, 'foo')
+    assert.deepStrictEqual(sq.hiddenStatuses, ['unknown'])
+  })
+
+  it("notifies its listener when it's updated", () => {
+    const onSearchQueryUpdated = sinon.spy()
+
+    const sq = new SearchQueryCtx({}, onSearchQueryUpdated)
+
+    sq.update({query: 'foo'})
+
+    sinon.assert.calledOnceWithMatch(onSearchQueryUpdated, {
+      query: 'foo',
+      hiddenStatuses: sinon.match(s => s.length === 1 && s[0] === 'unknown')
+    })
+  })
+
+  it("notifies its listener when it's updated with blank values", () => {
+    const onSearchQueryUpdated = sinon.spy()
+
+    const sq = new SearchQueryCtx({}, onSearchQueryUpdated)
+
+    sq.update({query: '', hiddenStatuses: []})
+
+    sinon.assert.calledOnceWithMatch(onSearchQueryUpdated, {
+      query: '',
+      hiddenStatuses: sinon.match(s => s.length === 0)
+    })
   })
 })
 
-describe('Navigating search query', () => {
-  function fakeLocation(): Location {
-    return { search: null } as Location
-  }
+describe('searchFromURLParams()', () => {
 
-  it('changes the given Location on update', () => {
-    const location = fakeLocation()
-    const sq = createNavigatingSearchQuery(
-      new NavigatingSearchOpts('foo', location)
+  it("uses the search parameters from the given URL as its initial value", () => {
+    const ret = searchFromURLParams(
+      'foo', 'bar', () => 'http://example.org?foo=search%20text&bar=passed&bar=failed'
     )
 
-    sq.updateQuery('bar')
-
-    assert.match(location.search, /\??foo=bar/)
+    assert.strictEqual(ret.searchQuery.query, 'search text')
+    assert.deepStrictEqual(ret.searchQuery.hiddenStatuses, ['passed', 'failed'])
   })
 
-  it("uses the given Location's search part for its initial value", () => {
-    const location = fakeLocation()
-    location.search = 'baz=quux&apples=oranges'
-
-    const sq = createNavigatingSearchQuery(
-      new NavigatingSearchOpts('baz', location)
+  it("uses null values when no search parameters are present", () => {
+    const ret = searchFromURLParams(
+      'search', 'hidden', () => 'http://example.org'
     )
 
-    assert.strictEqual(sq.query, 'quux')
+    assert.strictEqual(ret.searchQuery.query, null)
+    assert.deepStrictEqual(ret.searchQuery.hiddenStatuses, null)
   })
 
-  it('leaves other search parameters intact', () => {
-    const location = fakeLocation()
-    location.search = '?baz=quux&apples=oranges'
-
-    const sq = createNavigatingSearchQuery(
-      new NavigatingSearchOpts('baz', location)
+  it("creates a renderer function that adds parameters to the given URL", () => {
+    const ret = searchFromURLParams(
+      'foo', 'bar',
+      () => 'http://example.org?foo=search%20text&baz=sausage',
     )
 
-    sq.updateQuery('foo')
+    const urlString = ret.renderSearchURL({
+      query: '@slow',
+      hiddenStatuses: ['failed', 'pending']
+    })
 
-    const searchParams = new URLSearchParams(location.search)
-
-    assert.strictEqual(searchParams.get('baz'), 'foo')
-    assert.strictEqual(searchParams.get('apples'), 'oranges')
+    const url = new URL(urlString)
+    const hidden = url.searchParams.getAll('bar')
+    assert.strictEqual(url.host, 'example.org')
+    assert.strictEqual(url.searchParams.get('foo'), '@slow')
+    assert.strictEqual(url.searchParams.get('baz'), 'sausage')
+    assert.strictEqual(hidden.length, 2)
+    assert.strictEqual(hidden.includes('failed'), true)
+    assert.strictEqual(hidden.includes('pending'), true)
   })
+
 })

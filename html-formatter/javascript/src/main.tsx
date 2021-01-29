@@ -3,7 +3,7 @@ import {
   QueriesWrapper,
   EnvelopesQuery,
   FilteredResults,
-  NavigatingSearchOpts,
+  searchFromURLParams,
 } from '@cucumber/react'
 import { Query as GherkinQuery } from '@cucumber/gherkin-utils'
 import { Query as CucumberQuery } from '@cucumber/query'
@@ -27,14 +27,16 @@ for (const envelopeObject of window.CUCUMBER_MESSAGES) {
   envelopesQuery.update(envelope)
 }
 
+const searchFromUrl = searchFromURLParams()
+
 const app = (
   <QueriesWrapper
     gherkinQuery={gherkinQuery}
     cucumberQuery={cucumberQuery}
     envelopesQuery={envelopesQuery}
-    query={new NavigatingSearchOpts()}
+    {...searchFromUrl.searchQuery}
   >
-    <FilteredResults />
+    <FilteredResults renderSearchURL={searchFromUrl.renderSearchURL} />
   </QueriesWrapper>
 )
 

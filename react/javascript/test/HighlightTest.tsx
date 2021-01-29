@@ -4,7 +4,7 @@ import React from 'react'
 import HighLight from '../src/components/app/HighLight'
 import { JSDOM } from 'jsdom'
 import SearchQueryContext, {
-  createConstSearchQuery,
+  SearchQueryCtx,
 } from '../src/SearchQueryContext'
 
 describe('HighLight', () => {
@@ -22,7 +22,7 @@ describe('HighLight', () => {
     const document = dom.window.document
 
     const app = (
-      <SearchQueryContext.Provider value={createConstSearchQuery(query)}>
+      <SearchQueryContext.Provider value={new SearchQueryCtx({query})}>
         <HighLight text={text} markdown={markdown} />
       </SearchQueryContext.Provider>
     )
