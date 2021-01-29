@@ -11,7 +11,7 @@ import EnvelopesQueryContext, {
   EnvelopesQuery,
 } from '../../EnvelopesQueryContext'
 
-export interface IProps extends SearchQueryProps {
+interface IProps extends SearchQueryProps {
   cucumberQuery: CucumberQuery
   gherkinQuery: GherkinQuery
   envelopesQuery: EnvelopesQuery
