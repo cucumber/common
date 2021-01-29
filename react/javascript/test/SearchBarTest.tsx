@@ -1,4 +1,4 @@
-import assert, { match } from 'assert'
+import assert from 'assert'
 import ReactDOM from 'react-dom'
 import React from 'react'
 import SearchBar from '../src/components/app/SearchBar'
@@ -6,7 +6,7 @@ import { JSDOM } from 'jsdom'
 import SearchQueryContext, {
   SearchQueryProps,
   SearchQueryCtx,
-  SearchQuery
+  SearchQuery,
 } from '../src/SearchQueryContext'
 import sinon from 'sinon'
 
@@ -26,8 +26,10 @@ describe('SearchBar', () => {
     const statusesWithScenarios: string[] = []
 
     const app = (
-      <SearchQueryContext.Provider value={new SearchQueryCtx(searchQuery, setSearchQuery)}>
-        <SearchBar statusesWithScenarios={statusesWithScenarios}/>
+      <SearchQueryContext.Provider
+        value={new SearchQueryCtx(searchQuery, setSearchQuery)}
+      >
+        <SearchBar statusesWithScenarios={statusesWithScenarios} />
       </SearchQueryContext.Provider>
     )
     ReactDOM.render(app, document.getElementById('content'))
@@ -35,7 +37,7 @@ describe('SearchBar', () => {
   }
 
   it('puts the context query as the initial search text', () => {
-    const document = renderSearchBar({query: 'keyword'})
+    const document = renderSearchBar({ query: 'keyword' })
     const searchTextElems = document.getElementsByName('query')
 
     assert.strictEqual(searchTextElems.length, 1)
@@ -60,9 +62,12 @@ describe('SearchBar', () => {
     searchForm.submit()
 
     sinon.assert.calledOnce(onSearchQueryUpdated)
-    sinon.assert.calledWith(onSearchQueryUpdated, sinon.match({
-      query: 'search text'
-    }))
+    sinon.assert.calledWith(
+      onSearchQueryUpdated,
+      sinon.match({
+        query: 'search text',
+      })
+    )
   })
 
   it('updates the context when the search button is clicked', () => {
@@ -81,13 +86,16 @@ describe('SearchBar', () => {
     searchButton.click()
 
     sinon.assert.calledOnce(onSearchQueryUpdated)
-    sinon.assert.calledWith(onSearchQueryUpdated, sinon.match({
-      query: 'search text'
-    }))
+    sinon.assert.calledWith(
+      onSearchQueryUpdated,
+      sinon.match({
+        query: 'search text',
+      })
+    )
   })
 
   it("doesn't perform the default form action when submitting", () => {
-    const document = renderSearchBar({query: 'keyword'})
+    const document = renderSearchBar({ query: 'keyword' })
 
     const eventListener = sinon.spy()
     document.addEventListener('submit', eventListener)
@@ -98,15 +106,18 @@ describe('SearchBar', () => {
     searchForm.submit()
 
     sinon.assert.calledOnce(eventListener)
-    sinon.assert.calledWith(eventListener, sinon.match({
-      defaultPrevented: true
-    }))
+    sinon.assert.calledWith(
+      eventListener,
+      sinon.match({
+        defaultPrevented: true,
+      })
+    )
   })
 
   it('updates the context when a blank search is submitted', () => {
     const onSearchQueryUpdated = sinon.spy()
 
-    const document = renderSearchBar({query: 'foo'}, onSearchQueryUpdated)
+    const document = renderSearchBar({ query: 'foo' }, onSearchQueryUpdated)
 
     const searchTextElem = document.getElementsByName(
       'query'
@@ -119,8 +130,11 @@ describe('SearchBar', () => {
     searchForm.submit()
 
     sinon.assert.calledOnce(onSearchQueryUpdated)
-    sinon.assert.calledWith(onSearchQueryUpdated, sinon.match({
-      query: ''
-    }))
+    sinon.assert.calledWith(
+      onSearchQueryUpdated,
+      sinon.match({
+        query: '',
+      })
+    )
   })
 })

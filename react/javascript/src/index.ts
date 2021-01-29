@@ -6,7 +6,7 @@ import GherkinQueryContext from './GherkinQueryContext'
 import CucumberQueryContext from './CucumberQueryContext'
 import SearchQueryContext, {
   RenderSearchURLFn,
-  searchFromURLParams
+  searchFromURLParams,
 } from './SearchQueryContext'
 import EnvelopesQueryContext, { EnvelopesQuery } from './EnvelopesQueryContext'
 
@@ -21,5 +21,5 @@ export {
   filterByStatus,
   SearchQueryContext,
   searchFromURLParams,
-  RenderSearchURLFn
+  RenderSearchURLFn,
 }

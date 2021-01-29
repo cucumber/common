@@ -3,22 +3,22 @@ import {
   faSearch,
   faQuestionCircle,
   faFilter,
-  faShare
+  faShare,
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import SearchQueryContext, {RenderSearchURLFn} from '../../SearchQueryContext'
-import statusName, {allStatuses} from '../gherkin/statusName'
+import SearchQueryContext, { RenderSearchURLFn } from '../../SearchQueryContext'
+import statusName, { allStatuses } from '../gherkin/statusName'
 
 const statuses = allStatuses.map(statusName).sort()
 
 interface IProps {
-  statusesWithScenarios: string[],
+  statusesWithScenarios: string[]
   renderSearchURL?: RenderSearchURLFn
 }
 
 const SearchBar: React.FunctionComponent<IProps> = ({
   statusesWithScenarios,
-  renderSearchURL
+  renderSearchURL,
 }) => {
   const searchQueryContext = React.useContext(SearchQueryContext)
 
@@ -26,20 +26,23 @@ const SearchBar: React.FunctionComponent<IProps> = ({
     event.preventDefault()
     const formData = new window.FormData(event.currentTarget)
     searchQueryContext.update({
-      query: formData.get('query').toString()
+      query: formData.get('query').toString(),
     })
   }
 
   const showFilters =
     statusesWithScenarios.length > 1 ||
-    statusesWithScenarios.find(n => searchQueryContext.hiddenStatuses.includes(n))
+    statusesWithScenarios.find((n) =>
+      searchQueryContext.hiddenStatuses.includes(n)
+    )
 
   let link = null
-  if(renderSearchURL) {
+  if (renderSearchURL) {
     const href = renderSearchURL(searchQueryContext)
     link = (
       <p className="help">
-        <FontAwesomeIcon icon={faShare}/> &nbsp; Link to this search: <a href={href}>{href}</a>
+        <FontAwesomeIcon icon={faShare} /> &nbsp; Link to this search:{' '}
+        <a href={href}>{href}</a>
       </p>
     )
   }
@@ -72,7 +75,6 @@ const SearchBar: React.FunctionComponent<IProps> = ({
           </span>
           <ul>
             {statuses.map((name, index) => {
-
               if (!statusesWithScenarios.includes(name)) {
                 return
               }
@@ -88,10 +90,11 @@ const SearchBar: React.FunctionComponent<IProps> = ({
                     defaultChecked={enabled}
                     onChange={(evt) => {
                       searchQueryContext.update({
-                        hiddenStatuses: (evt.target.checked
-                          ? searchQueryContext.hiddenStatuses.filter(n => n !== name)
-                          : searchQueryContext.hiddenStatuses.concat(name)
-                        )
+                        hiddenStatuses: evt.target.checked
+                          ? searchQueryContext.hiddenStatuses.filter(
+                              (n) => n !== name
+                            )
+                          : searchQueryContext.hiddenStatuses.concat(name),
                       })
                     }}
                   />

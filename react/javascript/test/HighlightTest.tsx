@@ -3,9 +3,7 @@ import ReactDOM from 'react-dom'
 import React from 'react'
 import HighLight from '../src/components/app/HighLight'
 import { JSDOM } from 'jsdom'
-import SearchQueryContext, {
-  SearchQueryCtx,
-} from '../src/SearchQueryContext'
+import SearchQueryContext, { SearchQueryCtx } from '../src/SearchQueryContext'
 
 describe('HighLight', () => {
   function renderHighlight(
@@ -22,7 +20,7 @@ describe('HighLight', () => {
     const document = dom.window.document
 
     const app = (
-      <SearchQueryContext.Provider value={new SearchQueryCtx({query})}>
+      <SearchQueryContext.Provider value={new SearchQueryCtx({ query })}>
         <HighLight text={text} markdown={markdown} />
       </SearchQueryContext.Provider>
     )

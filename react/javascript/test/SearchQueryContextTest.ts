@@ -1,7 +1,4 @@
-import {
-  SearchQueryCtx,
-  searchFromURLParams
-} from '../src/SearchQueryContext'
+import { SearchQueryCtx, searchFromURLParams } from '../src/SearchQueryContext'
 import assert from 'assert'
 import sinon from 'sinon'
 
@@ -9,7 +6,7 @@ describe('SearchQueryCtx', () => {
   it('uses the given values its initial value', () => {
     const sq = new SearchQueryCtx({
       query: 'foo bar',
-      hiddenStatuses: ['passed']
+      hiddenStatuses: ['passed'],
     })
 
     assert.strictEqual(sq.query, 'foo bar')
@@ -29,11 +26,11 @@ describe('SearchQueryCtx', () => {
   })
 
   it('does not change its value on update by default', () => {
-    const sq = new SearchQueryCtx({query: 'foo'})
+    const sq = new SearchQueryCtx({ query: 'foo' })
 
     sq.update({
       query: 'bar',
-      hiddenStatuses: ['passed']
+      hiddenStatuses: ['passed'],
     })
 
     assert.strictEqual(sq.query, 'foo')
@@ -45,11 +42,11 @@ describe('SearchQueryCtx', () => {
 
     const sq = new SearchQueryCtx({}, onSearchQueryUpdated)
 
-    sq.update({query: 'foo'})
+    sq.update({ query: 'foo' })
 
     sinon.assert.calledOnceWithMatch(onSearchQueryUpdated, {
       query: 'foo',
-      hiddenStatuses: sinon.match(s => s.length === 1 && s[0] === 'unknown')
+      hiddenStatuses: sinon.match((s) => s.length === 1 && s[0] === 'unknown'),
     })
   })
 
@@ -58,44 +55,48 @@ describe('SearchQueryCtx', () => {
 
     const sq = new SearchQueryCtx({}, onSearchQueryUpdated)
 
-    sq.update({query: '', hiddenStatuses: []})
+    sq.update({ query: '', hiddenStatuses: [] })
 
     sinon.assert.calledOnceWithMatch(onSearchQueryUpdated, {
       query: '',
-      hiddenStatuses: sinon.match(s => s.length === 0)
+      hiddenStatuses: sinon.match((s) => s.length === 0),
     })
   })
 })
 
 describe('searchFromURLParams()', () => {
-
-  it("uses the search parameters from the given URL as its initial value", () => {
+  it('uses the search parameters from the given URL as its initial value', () => {
     const ret = searchFromURLParams(
-      'foo', 'bar', () => 'http://example.org?foo=search%20text&bar=passed&bar=failed'
+      'foo',
+      'bar',
+      () => 'http://example.org?foo=search%20text&bar=passed&bar=failed'
     )
 
     assert.strictEqual(ret.searchQuery.query, 'search text')
     assert.deepStrictEqual(ret.searchQuery.hiddenStatuses, ['passed', 'failed'])
   })
 
-  it("uses null values when no search parameters are present", () => {
+  it('uses null values when no search parameters are present', () => {
     const ret = searchFromURLParams(
-      'search', 'hidden', () => 'http://example.org'
+      'search',
+      'hidden',
+      () => 'http://example.org'
     )
 
     assert.strictEqual(ret.searchQuery.query, null)
     assert.deepStrictEqual(ret.searchQuery.hiddenStatuses, null)
   })
 
-  it("creates a renderer function that adds parameters to the given URL", () => {
+  it('creates a renderer function that adds parameters to the given URL', () => {
     const ret = searchFromURLParams(
-      'foo', 'bar',
-      () => 'http://example.org?foo=search%20text&baz=sausage',
+      'foo',
+      'bar',
+      () => 'http://example.org?foo=search%20text&baz=sausage'
     )
 
     const urlString = ret.renderSearchURL({
       query: '@slow',
-      hiddenStatuses: ['failed', 'pending']
+      hiddenStatuses: ['failed', 'pending'],
     })
 
     const url = new URL(urlString)
@@ -107,5 +108,4 @@ describe('searchFromURLParams()', () => {
     assert.strictEqual(hidden.includes('failed'), true)
     assert.strictEqual(hidden.includes('pending'), true)
   })
-
 })

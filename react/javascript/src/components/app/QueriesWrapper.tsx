@@ -14,11 +14,10 @@ import EnvelopesQueryContext, {
 export interface IProps extends SearchQueryProps {
   cucumberQuery: CucumberQuery
   gherkinQuery: GherkinQuery
-  envelopesQuery: EnvelopesQuery,
+  envelopesQuery: EnvelopesQuery
 }
 
 const QueriesWrapper: React.FunctionComponent<IProps> = (props) => {
-  
   const [searchQuery, setSearchQuery] = useState({
     query: props.query,
     hiddenStatuses: props.hiddenStatuses,
@@ -28,7 +27,9 @@ const QueriesWrapper: React.FunctionComponent<IProps> = (props) => {
     <div className="cucumber-react">
       <CucumberQueryContext.Provider value={props.cucumberQuery}>
         <GherkinQueryContext.Provider value={props.gherkinQuery}>
-          <SearchQueryContext.Provider value={new SearchQueryCtx(searchQuery, setSearchQuery)}>
+          <SearchQueryContext.Provider
+            value={new SearchQueryCtx(searchQuery, setSearchQuery)}
+          >
             <EnvelopesQueryContext.Provider value={props.envelopesQuery}>
               {props.children}
             </EnvelopesQueryContext.Provider>

@@ -13,11 +13,13 @@ import { EnvelopesQuery } from '../src/EnvelopesQueryContext'
 import sinon from 'sinon'
 
 describe('QueriesWrapper', () => {
-  function renderQueriesWrapper(opts?: {
-    gherkinQuery?: GherkinQuery
-    cucumberQuery?: CucumberQuery
-    envelopesQuery?: EnvelopesQuery
-  } & SearchQueryProps): {
+  function renderQueriesWrapper(
+    opts?: {
+      gherkinQuery?: GherkinQuery
+      cucumberQuery?: CucumberQuery
+      envelopesQuery?: EnvelopesQuery
+    } & SearchQueryProps
+  ): {
     document: Document
     searchQueryCapture: sinon.SinonSpy<SearchQueryCtx[], any>
   } {
@@ -62,7 +64,7 @@ describe('QueriesWrapper', () => {
     searchQueryCapture.resetHistory()
 
     // When the query is updated
-    sq1.update({query: 'foo'})
+    sq1.update({ query: 'foo' })
 
     // Then...
     sinon.assert.calledOnce(searchQueryCapture)
@@ -78,11 +80,10 @@ describe('QueriesWrapper', () => {
     assert.strictEqual(sq1.query, 'foo')
 
     // When the query is updated
-    sq1.update({query: 'bar'})
+    sq1.update({ query: 'bar' })
 
     // Then...
     sinon.assert.calledOnce(searchQueryCapture)
     sinon.assert.calledWith(searchQueryCapture, sinon.match.has('query', 'bar'))
   })
-
 })
