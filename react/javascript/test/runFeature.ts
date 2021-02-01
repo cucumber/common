@@ -60,7 +60,7 @@ export default async function runFeature(
   })
 
   const gherkinEnvelopeStream = GherkinStreams.fromSources(
-    [makeSourceEnvelope(feature, '')],
+    [makeSourceEnvelope(feature, 'test.feature')],
     { newId: IdGenerator.incrementing() }
   )
 

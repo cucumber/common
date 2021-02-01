@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+* Added `Query#getSources(): readonly messages.ISource[]`
+
 ### Changed
 
 ### Deprecated

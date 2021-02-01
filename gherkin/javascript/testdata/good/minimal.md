@@ -2,4 +2,4 @@
 
 ## Scenario: minimalistic
 
-* Given the minimalism
+  *  Given the minimalism

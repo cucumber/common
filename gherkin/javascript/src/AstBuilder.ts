@@ -133,9 +133,10 @@ export default class AstBuilder {
         const dataTable = node.getSingle(RuleType.DataTable)
         const docString = node.getSingle(RuleType.DocString)
 
+        const location = this.getLocation(stepLine)
         return messages.GherkinDocument.Feature.Step.create({
           id: this.newId(),
-          location: this.getLocation(stepLine),
+          location,
           keyword: stepLine.matchedKeyword,
           text: stepLine.matchedText,
           dataTable,

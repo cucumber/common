@@ -218,7 +218,7 @@ enum KeywordPrefix {
 function matchTitleLine(
   prefix: KeywordPrefix,
   keywords: readonly string[],
-  keywordSuffix: string,
+  keywordSuffix: ':' | '',
   token: Token,
   matchedType: TokenType
 ) {
@@ -230,6 +230,8 @@ function matchTitleLine(
   token.matchedType = matchedType
   token.matchedKeyword = match[2]
   token.matchedText = match[3].trim()
+  token.matchedIndent = token.line.indent + match[1].length
+  token.location.column = token.matchedIndent + 1
   return true
 }
 

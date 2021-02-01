@@ -1,4 +1,4 @@
-import generateMessages from './generateMessages'
+import generateMessages, { GherkinMediaType } from './generateMessages'
 import { Transform, TransformCallback } from 'stream'
 import { messages } from '@cucumber/messages'
 import IGherkinOptions from '../IGherkinOptions'
@@ -20,7 +20,7 @@ export default class ParserMessageStream extends Transform {
       const messageList = generateMessages(
         envelope.source.data,
         envelope.source.uri,
-        envelope.source.mediaType,
+        envelope.source.mediaType as GherkinMediaType,
         this.options
       )
       for (const message of messageList) {

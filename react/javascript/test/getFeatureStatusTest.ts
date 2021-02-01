@@ -39,7 +39,7 @@ describe('getFeatureStatus', () => {
 
   it('returns PASSED for a feature where all scenarios passed', () => {
     const envelopes = envelopesFrom(
-      '../../../compatibility-kit/javascript/features/minimal/minimal.ndjson'
+      '../../../compatibility-kit/javascript/features/minimal/minimal.feature.ndjson'
     )
     const document = getGherkinDocument(envelopes)
     readEnvelopes(envelopes)
@@ -52,7 +52,7 @@ describe('getFeatureStatus', () => {
 
   it('returns the worst status for a feature with multiple scenarios', () => {
     const envelopes = envelopesFrom(
-      '../../../compatibility-kit/javascript/features/stack-traces/stack-traces.ndjson'
+      '../../../compatibility-kit/javascript/features/stack-traces/stack-traces.feature.ndjson'
     )
     const document = getGherkinDocument(envelopes)
     readEnvelopes(envelopes)

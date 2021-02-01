@@ -34,6 +34,7 @@
     "elasticlunr": "^0.9.5",
     "highlight-words": "^1.0.6",
     "react-markdown": "^5.0.3",
+    "remark-gfm": "^1.0.0",
     "react-accessible-accordion": "^3.3.3"
   },
   "peerDependencies": {

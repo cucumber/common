@@ -35,12 +35,13 @@ describe('MarkdownTokenMatcher', function () {
   })
 
   it('matches Step', () => {
-    const line = new GherkinLine('* Given I have 3 cukes', location.line)
+    const line = new GherkinLine('  *  Given I have 3 cukes', location.line)
     const token = new Token(line, location)
     assert(tm.match_StepLine(token))
     assert.strictEqual(token.matchedType, TokenType.StepLine)
     assert.strictEqual(token.matchedKeyword, 'Given ')
     assert.strictEqual(token.matchedText, 'I have 3 cukes')
+    assert.strictEqual(token.location.column, 6)
   })
 
   it('matches a non-keyword line as empty', () => {

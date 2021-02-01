@@ -4,7 +4,7 @@ import AstBuilder from '../src/AstBuilder'
 import Parser from '../src/Parser'
 import TokenMatcher from '../src/TokenMatcher'
 import generateMessages, {
-  MARKDOWN_MEDIA_TYPE,
+  GherkinMediaType,
 } from '../src/stream/generateMessages'
 
 describe('Parser', function () {
@@ -134,7 +134,7 @@ describe('Parser', function () {
         '    | is (not) triggered | value |\n' +
         '    | is triggered       | foo   |\n ',
       '',
-      'text/x.cucumber.gherkin+plain',
+      GherkinMediaType.PLAIN,
       { includePickles: true, newId: IdGenerator.incrementing() }
     )
 
@@ -178,7 +178,7 @@ describe('Parser', function () {
     const envelopes = generateMessages(
       markdown,
       'test.md',
-      MARKDOWN_MEDIA_TYPE,
+      GherkinMediaType.MARKDOWN,
       {
         includePickles: true,
         includeGherkinDocument: true,

@@ -12,15 +12,17 @@ import GherkinDocument from '../components/gherkin/GherkinDocument'
 import '../styles/react-accessible-accordion.css'
 import '../styles/styles.scss'
 
-import attachments from '../../acceptance/attachments/attachments'
-import dataTables from '../../acceptance/data-tables/data-tables'
-import examplesTables from '../../acceptance/examples-tables/examples-tables'
-import hooks from '../../acceptance/hooks/hooks'
-import minimal from '../../acceptance/minimal/minimal'
-import parameterTypes from '../../acceptance/parameter-types/parameter-types'
-import rules from '../../acceptance/rules/rules'
-import stacktTraces from '../../acceptance/stack-traces/stack-traces'
-import unknownParameterTypes from '../../acceptance/unknown-parameter-type/unknown-parameter-type'
+import attachments from '../../acceptance/attachments/attachments.feature'
+import dataTables from '../../acceptance/data-tables/data-tables.feature'
+import examplesTables from '../../acceptance/examples-tables/examples-tables.feature'
+import hooks from '../../acceptance/hooks/hooks.feature'
+import markdown from '../../acceptance/markdown/markdown.md'
+import minimal from '../../acceptance/minimal/minimal.feature'
+import parameterTypes from '../../acceptance/parameter-types/parameter-types.feature'
+import rules from '../../acceptance/rules/rules.feature'
+import stackTraces from '../../acceptance/stack-traces/stack-traces.feature'
+import unknownParameterTypes from '../../acceptance/unknown-parameter-type/unknown-parameter-type.feature'
+import MarkdownDocumentList from '../components/app/MarkdownDocumentList'
 
 export default {
   title: 'GherkinDocument',
@@ -37,7 +39,7 @@ type Props = {
 }
 type TemplateArgs = { envelopes: readonly messages.IEnvelope[] }
 
-const Template: Story<TemplateArgs> = ({ envelopes }) => {
+const PlainTemplate: Story<TemplateArgs> = ({ envelopes }) => {
   return (
     <QueriesWrapper {...props(envelopes)}>
       <GherkinDocumentList />
@@ -45,47 +47,65 @@ const Template: Story<TemplateArgs> = ({ envelopes }) => {
   )
 }
 
-export const Attachments = Template.bind({})
+const MarkdownTemplate: Story<TemplateArgs> = ({ envelopes }) => {
+  return (
+    <QueriesWrapper {...props(envelopes)}>
+      <MarkdownDocumentList />
+    </QueriesWrapper>
+  )
+}
+
+export const Attachments = PlainTemplate.bind({})
 Attachments.args = {
   envelopes: attachments,
 }
 
-export const DataTables = Template.bind({})
+export const DataTables = PlainTemplate.bind({})
 DataTables.args = {
   envelopes: dataTables,
 }
 
-export const ExamplesTables = Template.bind({})
+export const ExamplesTables = PlainTemplate.bind({})
 ExamplesTables.args = {
   envelopes: examplesTables,
 }
 
-export const Hooks = Template.bind({})
+export const Hooks = PlainTemplate.bind({})
 Hooks.args = {
   envelopes: hooks,
 }
 
-export const Minimal = Template.bind({})
+export const MarkdownPlain = PlainTemplate.bind({})
+MarkdownPlain.args = {
+  envelopes: markdown,
+}
+
+export const Markdown = MarkdownTemplate.bind({})
+Markdown.args = {
+  envelopes: markdown,
+}
+
+export const Minimal = PlainTemplate.bind({})
 Minimal.args = {
   envelopes: minimal,
 }
 
-export const ParameterTypes = Template.bind({})
+export const ParameterTypes = PlainTemplate.bind({})
 ParameterTypes.args = {
   envelopes: parameterTypes,
 }
 
-export const Rules = Template.bind({})
+export const Rules = PlainTemplate.bind({})
 Rules.args = {
   envelopes: rules,
 }
 
-export const StackTraces = Template.bind({})
+export const StackTraces = PlainTemplate.bind({})
 StackTraces.args = {
-  envelopes: stacktTraces,
+  envelopes: stackTraces,
 }
 
-export const UnknownParameterTypes = Template.bind({})
+export const UnknownParameterTypes = PlainTemplate.bind({})
 UnknownParameterTypes.args = {
   envelopes: unknownParameterTypes,
 }

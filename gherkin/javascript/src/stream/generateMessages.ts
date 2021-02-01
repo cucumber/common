@@ -8,23 +8,25 @@ import makeSourceEnvelope from './makeSourceEnvelope'
 import ITokenMatcher from '../ITokenMatcher'
 import MarkdownTokenMatcher from '../MarkdownTokenMatcher'
 
-const GHERKIN_MEDIA_TYPE = 'text/x.cucumber.gherkin+plain'
-const MARKDOWN_MEDIA_TYPE = 'text/x.cucumber.gherkin+markdown'
+enum GherkinMediaType {
+  PLAIN = 'text/x.cucumber.gherkin+plain',
+  MARKDOWN = 'text/x.cucumber.gherkin+markdown',
+}
 
-export { GHERKIN_MEDIA_TYPE, MARKDOWN_MEDIA_TYPE }
+export { GherkinMediaType }
 
 export default function generateMessages(
   data: string,
   uri: string,
-  mediaType: string,
+  mediaType: GherkinMediaType,
   options: IGherkinOptions
 ): readonly messages.IEnvelope[] {
   let tokenMatcher: ITokenMatcher
   switch (mediaType) {
-    case GHERKIN_MEDIA_TYPE:
+    case GherkinMediaType.PLAIN:
       tokenMatcher = new TokenMatcher(options.defaultDialect)
       break
-    case MARKDOWN_MEDIA_TYPE:
+    case GherkinMediaType.MARKDOWN:
       tokenMatcher = new MarkdownTokenMatcher(options.defaultDialect)
       break
     default:

@@ -7,19 +7,15 @@ interface IProps {
   status: messages.TestStepFinished.TestStepResult.Status
 }
 
-const StepContainer: React.FunctionComponent<IProps> = ({
-  status,
-  children,
-}) => {
-  // @ts-ignore
+const IconStep: React.FunctionComponent<IProps> = ({ status, children }) => {
   return (
-    <li className="cucumber-step">
+    <>
       <span className="cucumber-step__status">
         <StatusIcon status={status} />
       </span>
       <div className="cucumber-step__content">{children}</div>
-    </li>
+    </>
   )
 }
 
-export default StepContainer
+export default IconStep

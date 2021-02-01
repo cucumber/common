@@ -14,14 +14,16 @@ import statusName from './statusName'
 
 interface IProps {
   status: messages.TestStepFinished.TestStepResult.Status
+  listItem?: boolean
 }
 
-const StatusIcon: React.FunctionComponent<IProps> = ({ status }) => {
+const StatusIcon: React.FunctionComponent<IProps> = ({ status, listItem }) => {
   return (
     <FontAwesomeIcon
       icon={statusIcon(status)}
       size="1x"
       className={`cucumber-status--${statusName(status)}`}
+      listItem={listItem}
     />
   )
 }
