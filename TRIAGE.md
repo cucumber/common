@@ -44,15 +44,11 @@ What gets pulled into `Next` is decided based on the following guidelines:
   * If you think the oldest work items should not be worked on, consider labelling it accordingly,
     perhaps even close with a `wontfix`.
 
-With this in mind, pull into `Next` from the top of the following lists:
+With this in mind, pull into `Next` from the following lists. They oldest issues are at the top,
+and they contain both PRs and issues.
 
-* [cucumber/cucumber issues](https://github.com/cucumber/cucumber/issues?q=is%3Aopen+sort%3Acreated-asc)
-* [cucumber/cucumber PRs](https://github.com/cucumber/cucumber/pulls?q=is%3Aopen+sort%3Acreated-asc+)
-* [cucumber/cucumber-jvm issues](https://github.com/cucumber/cucumber-jvm/issues?q=is%3Aopen+sort%3Acreated-asc)
-* [cucumber/cucumber-jvm PRs](https://github.com/cucumber/cucumber-jvm/pulls?q=is%3Aopen+sort%3Acreated-asc+)
-* [cucumber/cucumber-ruby issues](https://github.com/cucumber/cucumber-ruby/issues?q=is%3Aopen+sort%3Acreated-asc)
-* [cucumber/cucumber-ruby PRs](https://github.com/cucumber/cucumber-ruby/pulls?q=is%3Aopen+sort%3Acreated-asc+)
-* [cucumber/cucumber-js issues](https://github.com/cucumber/cucumber-js/issues?q=is%3Aopen+sort%3Acreated-asc)
-* [cucumber/cucumber-js PRs](https://github.com/cucumber/cucumber-js/pulls?q=is%3Aopen+sort%3Acreated-asc+)
-* [cucumber/godog issues](https://github.com/cucumber/godog/issues?q=is%3Aopen+sort%3Acreated-asc)
-* [cucumber/godog PRs](https://github.com/cucumber/godog/pulls?q=is%3Aopen+sort%3Acreated-asc+)
+* [cucumber/cucumber](https://github.com/cucumber/cucumber/issues?q=is%3Aopen+sort%3Acreated-asc)
+* [cucumber/cucumber-jvm](https://github.com/cucumber/cucumber-jvm/issues?q=is%3Aopen+sort%3Acreated-asc)
+* [cucumber/cucumber-ruby](https://github.com/cucumber/cucumber-ruby/issues?q=is%3Aopen+sort%3Acreated-asc)
+* [cucumber/cucumber-js](https://github.com/cucumber/cucumber-js/issues?q=is%3Aopen+sort%3Acreated-asc)
+* [cucumber/godog](https://github.com/cucumber/godog/issues?q=is%3Aopen+sort%3Acreated-asc)
