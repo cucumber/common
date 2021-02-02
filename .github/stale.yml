@@ -4,7 +4,7 @@ daysUntilStale: 90
 daysUntilClose: 30
 # Issues with these labels will never be considered stale
 exemptLabels:
-  - ":snail: slow burner"
+  - ":safety_pin: pinned"
 # Label to use when marking an issue as stale
 staleLabel: ":hourglass: stale"
 # Comment to post when marking an issue as stale. Set to `false` to disable
