@@ -3,7 +3,7 @@
 This document describes how issues and pull requests (work items) are triaged across
 the Cucumber GitHub organisation.
 
-The purpose of a triage process is to make it easier for regular contributors
+The purpose of a triage process is to make it easier for *regular* contributors
 to decide what to work on next.
 
 Triage should ideally happen whenever a new work item is submitted, but for practical
@@ -32,9 +32,27 @@ pick up something new to work on.
 
 ### Pull priority
 
+When pulling from `Next` to `In Progress` - pull the top work item if you can.
+When pulling new work items into `Next` - put them at the bottom.
+
 What gets pulled into `Next` is decided based on the following guidelines:
 
-* There should ideally be two Java, Ruby, JavaScript and Go work items in Next at all times
+* The Next column should ideally have a mix of issues and pull requests
+* A mix of `bug` and `enhancement` work items
+* A mix of programming languages
 * The oldest work items have the highest priority to be pulled into Next (FIFO policy)
-  * If you find an old work item you don't want to pull, label it accordingly
-* Maintain ca 50/50 of issues and pull requests
+  * If you think the oldest work items should not be worked on, consider labelling it accordingly,
+    perhaps even close with a `wontfix`.
+
+With this in mind, pull into `Next` from the top of the following lists:
+
+* [cucumber/cucumber issues](https://github.com/cucumber/cucumber/issues?q=is%3Aopen+sort%3Acreated-asc)
+* [cucumber/cucumber PRs](https://github.com/cucumber/cucumber/pulls?q=is%3Aopen+sort%3Acreated-asc+)
+* [cucumber/cucumber-jvm issues](https://github.com/cucumber/cucumber-jvm/issues?q=is%3Aopen+sort%3Acreated-asc)
+* [cucumber/cucumber-jvm PRs](https://github.com/cucumber/cucumber-jvm/pulls?q=is%3Aopen+sort%3Acreated-asc+)
+* [cucumber/cucumber-ruby issues](https://github.com/cucumber/cucumber-ruby/issues?q=is%3Aopen+sort%3Acreated-asc)
+* [cucumber/cucumber-ruby PRs](https://github.com/cucumber/cucumber-ruby/pulls?q=is%3Aopen+sort%3Acreated-asc+)
+* [cucumber/cucumber-js issues](https://github.com/cucumber/cucumber-js/issues?q=is%3Aopen+sort%3Acreated-asc)
+* [cucumber/cucumber-js PRs](https://github.com/cucumber/cucumber-js/pulls?q=is%3Aopen+sort%3Acreated-asc+)
+* [cucumber/godog issues](https://github.com/cucumber/godog/issues?q=is%3Aopen+sort%3Acreated-asc)
+* [cucumber/godog PRs](https://github.com/cucumber/godog/pulls?q=is%3Aopen+sort%3Acreated-asc+)
