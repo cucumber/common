@@ -31,8 +31,6 @@ function update_label()
          '{"color":$color, "description":$description}'
   )
 
-  echo "DATA: ${data}"
-
   curl -X PATCH \
        -H "Authorization: Bearer ${GITHUB_TOKEN}" \
        -H "Accept: application/vnd.github.v3+json" \
@@ -77,13 +75,13 @@ function ensure_label()
 csvjson scripts/labels.csv | jq -r '.[]|[.name, .description, .color] | @tsv' |
   while IFS=$'\t' read -r name description color; do
     ensure_label "cucumber" "label-demo" "${name}" "${color}" "${description}"
-#    ensure_label "cucumber" "cucumber" "${name}" "${color}" "${description}"
-#    ensure_label "cucumber" "cucumber-js" "${name}" "${color}" "${description}"
-#    ensure_label "cucumber" "cucumber-jvm" "${name}" "${color}" "${description}"
-#    ensure_label "cucumber" "cucumber-ruby" "${name}" "${color}" "${description}"
-#    ensure_label "cucumber" "cucumber-ruby-core" "${name}" "${color}" "${description}"
-#    ensure_label "cucumber" "cucumber-electron" "${name}" "${color}" "${description}"
-#    ensure_label "cucumber" "godog" "${name}" "${color}" "${description}"
-#    ensure_label "cucumber" "cucumber-jvm-scala" "${name}" "${color}" "${description}"
-#    ensure_label "cucumber" "cucumber-eclipse" "${name}" "${color}" "${description}"
+    ensure_label "cucumber" "cucumber" "${name}" "${color}" "${description}"
+    ensure_label "cucumber" "cucumber-js" "${name}" "${color}" "${description}"
+    ensure_label "cucumber" "cucumber-jvm" "${name}" "${color}" "${description}"
+    ensure_label "cucumber" "cucumber-ruby" "${name}" "${color}" "${description}"
+    ensure_label "cucumber" "cucumber-ruby-core" "${name}" "${color}" "${description}"
+    ensure_label "cucumber" "cucumber-electron" "${name}" "${color}" "${description}"
+    ensure_label "cucumber" "godog" "${name}" "${color}" "${description}"
+    ensure_label "cucumber" "cucumber-jvm-scala" "${name}" "${color}" "${description}"
+    ensure_label "cucumber" "cucumber-eclipse" "${name}" "${color}" "${description}"
   done
