@@ -1,0 +1,6 @@
+../LICENSE LICENSE
+../../.templates/github/ .github/
+../../.templates/elixir/ .
+../testdata/ testdata/
+../gherkin.berp resources/gherkin.berp
+../gherkin-languages.json priv/gherkin_languages.json

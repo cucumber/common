@@ -1,6 +1,7 @@
 #!/usr/bin/env perl
 use strict;
 use warnings;
+use utf8;
 
 use Cpanel::JSON::XS;
 use Data::Dumper;
@@ -14,6 +15,7 @@ my $input = join '', (<$fh>);
 close $fh;
 
 $Data::Dumper::Sortkeys = 1;
+$Data::Dumper::Indent = 0;
 my $output = Data::Dumper->Dump( [ $json->decode($input) ], ['$data'] );
 
 my $template = join '', (<DATA>);

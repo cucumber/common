@@ -15,19 +15,22 @@ sub run {
     my ( $class, $fh, @file_list ) = @_;
     my $json = Cpanel::JSON::XS->new->utf8->canonical;
 
-    my $parser = Gherkin::Parser->new();
+    my $next_id = 0;
+    my $id_generator =
+        sub {
+            my $id = $next_id++;
+            return "$id";
+    };
+    my $parser = Gherkin::Parser->new(
+        Gherkin::AstBuilder->new($id_generator)
+        );
 
     for my $file (@file_list) {
         my $pickles = Gherkin::Pickles::Compiler->compile(
-            $parser->parse($file)
+            $parser->parse($file, $file), $id_generator
         );
         for my $pickle (@$pickles) {
-            my $event = {
-              type => 'pickle',
-              uri => $file,
-              pickle => $pickle
-            };
-            print $fh $json->encode($event);
+            print $fh $json->encode($pickle);
             print "\n"
         }
     }

@@ -1,6 +1,6 @@
 import { messages, IdGenerator } from '@cucumber/messages'
 import IHook from './IHook'
-import { Query } from '@cucumber/gherkin'
+import { Query } from '@cucumber/gherkin-utils'
 import IClock from './IClock'
 import ITestStep from './ITestStep'
 import HookTestStep from './HookTestStep'

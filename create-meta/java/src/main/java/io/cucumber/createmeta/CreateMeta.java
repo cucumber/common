@@ -2,6 +2,7 @@ package io.cucumber.createmeta;
 
 import com.eclipsesource.json.Json;
 import com.eclipsesource.json.JsonObject;
+import com.eclipsesource.json.JsonValue;
 import io.cucumber.messages.Messages;
 import io.cucumber.messages.ProtocolVersion;
 
@@ -81,13 +82,13 @@ public class CreateMeta {
     }
 
     private static Messages.Meta.CI createCi(String name, JsonObject ciSystem, Map<String, String> env) {
-        String url = evaluate(ciSystem.getString("url", null), env);
+        String url = evaluate(getString(ciSystem, "url"), env);
         if (url == null) return null;
         JsonObject git = ciSystem.get("git").asObject();
-        String remote = removeUserInfoFromUrl(evaluate(git.getString("remote", null), env));
-        String revision = evaluate(git.getString("revision", null), env);
-        String branch = evaluate(git.getString("branch", null), env);
-        String tag = evaluate(git.getString("tag", null), env);
+        String remote = removeUserInfoFromUrl(evaluate(getString(git, "remote"), env));
+        String revision = evaluate(getString(git, "revision"), env);
+        String branch = evaluate(getString(git, "branch"), env);
+        String tag = evaluate(getString(git, "tag"), env);
 
         Messages.Meta.CI.Builder ciBuilder = Messages.Meta.CI.newBuilder()
                 .setName(name)
@@ -143,5 +144,10 @@ public class CreateMeta {
             return g1;
         }
         return matcher.find() ? matcher.group(1) : null;
+    }
+
+    private static String getString(JsonObject json, String name) {
+        JsonValue val = json.get(name);
+        return val.isNull() ? null : val.asString();
     }
 }

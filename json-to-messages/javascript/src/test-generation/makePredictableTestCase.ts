@@ -1,5 +1,5 @@
 import { messages, IdGenerator } from '@cucumber/messages'
-import { Query as GherkinQuery } from '@cucumber/gherkin'
+import { Query as GherkinQuery } from '@cucumber/gherkin-utils'
 import {
   makeTestCase,
   MakeErrorMessage,

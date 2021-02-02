@@ -12,12 +12,43 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 ### Added
 
 ### Changed
+* [Perl] Fully overhauled implementation, moving it up from 4.0.0
+  ([#711](https://github.com/cucumber/cucumber/pull/711),
+   [#1286](https://github.com/cucumber/cucumber/pull/1286)) [ehuelsmann]
 
 ### Deprecated
 
 ### Removed
 
 ### Fixed
+* Use Italian translation for the "Rule" keyword and for the "Feature" synonym keywords
+  ([#1318](https://github.com/cucumber/cucumber/pull/1318)
+   [mgiustiniani])
+* Use Swedish translation for the "Rule" keyword
+  ([#1297](https://github.com/cucumber/cucumber/pull/1297)
+   [johnknoop])
+* Elixir implementation - make sure the gherkin_languages.json is added with the release package.
+  ([#1293](https://github.com/cucumber/cucumber/pull/1293)
+   [WannesFransen1994])
+
+## [16.0.0] - 2020-12-10
+
+### Added
+
+* [Elixir] New implementation!
+  ([#1251](https://github.com/cucumber/cucumber/pull/1251)
+   [WannesFransen1994])
+
+### Changed
+
+* Telugu now uses the correct 639-1 code - `te` instead of `tl`.
+  ([#1238](https://github.com/cucumber/cucumber/pull/1238)
+   [#1221](https://github.com/cucumber/cucumber/issues/1221)
+   [nvmkpk])
+
+### Removed
+
+* [JavaScript] The `Query` class has been removed from this library, and has been added to `@cucumber/gherkin-utils`
 
 ## [15.0.2] - 2020-08-17
 
@@ -808,7 +839,8 @@ to Gherkin 2.
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v15.0.2...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v16.0.0...master
+[16.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v15.0.2...gherkin/v16.0.0
 [15.0.2]:     https://github.com/cucumber/cucumber/compare/gherkin/v15.0.1...gherkin/v15.0.2
 [15.0.1]:     https://github.com/cucumber/cucumber/compare/gherkin/v15.0.0...gherkin/v15.0.1
 [15.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v14.2.0...gherkin/v15.0.0
@@ -852,53 +884,59 @@ to Gherkin 2.
 [3.1.0]:      https://github.com/cucumber/gherkin/compare/v3.0.0...v3.1.0
 
 <!-- Contributors -->
-[Ahmed-Ali]:        https://github.com/Ahmed-Ali
-[ankitpokhrel]:     https://github.com/ankitpokhrel
-[ajspadial]:        https://github.com/ajspadial
-[aslakhellesoy]:    https://github.com/aslakhellesoy
-[badeball]:         https://github.com/badeball
-[brasmusson]:       https://github.com/brasmusson
-[charlierudolph]:   https://github.com/charlierudolph
-[coderbyheart]:     https://github.com/coderbyheart
-[cyocum]:           https://github.com/cyocum
-[danilat]:          https://github.com/danilat
-[davidjgoss]:       https://github.com/davidjgoss
-[deivid-rodriguez]  https://github.com/deivid-rodriguez
-[dobiedad]:         https://github.com/dobiedad
-[ehpc]:             https://github.com/ehpc
-[enkessler]:        https://github.com/enkessler
-[gabanz]:           https://github.com/gabanz
-[Haukinger]:        https://github.com/Haukinger
-[jargalan]:         https://github.com/jargalan
-[jmezach]:          https://github.com/jmezach
-[joscha]:           https://github.com/joscha
-[koterpillar]:      https://github.com/koterpillar
-[KniveX]:           https://github.com/KniveX
-[l3pp4rd]:          https://github.com/l3pp4rd
-[LiohAu]:           https://github.com/LiohAu
-[mattwynne]:        https://github.com/mattwynne
-[mauriciotogneri]:  https://github.com/mauriciotogneri
-[maximeg]:          https://github.com/maximeg
-[maxmeyer]:         https://github.com/maxmeyer
-[mpkorstanje]:         https://github.com/mpkorstanje
-[merrua]:           https://github.com/merrua
-[milhcbt]:          https://github.com/milhcbt
-[moreau-nicolas]:   https://github.com/moreau-nicolas
-[mpkorstanje]:      https://github.com/mpkorstanje
-[ookull]:           https://github.com/ookull
-[nalekberov]:       https://github.com/nalekberov
-[nixel2007]:        https://github.com/nixel2007
-[nikolovski]:       https://github.com/nikolovski
-[noisygerman]:      https://github.com/noisygerman
-[paigehf]:          https://github.com/paigehf
-[pjlsergeant]:      https://github.com/pjlsergeant
-[pmatsinopoulos]:   https://github.com/pmatsinopoulos
-[rjwittams]:        https://github.com/rjwittams
-[Pr-Mex]:           https://github.com/Pr-Mex
-[Pwera]:            https://github.com/Pwera
-[SabotageAndi]:     https://github.com/SabotageAndi
-[tsundberg]:        https://github.com/tsundberg
-[upgundecha]:       https://github.com/upgundecha
-[vincent-psarga]:   https://github.com/vincent-psarga
-[zbmott]:           https://github.com/zbmott
-[Zearin]:           https://github.com/Zearin
+[Ahmed-Ali]:         https://github.com/Ahmed-Ali
+[ankitpokhrel]:      https://github.com/ankitpokhrel
+[ajspadial]:         https://github.com/ajspadial
+[aslakhellesoy]:     https://github.com/aslakhellesoy
+[badeball]:          https://github.com/badeball
+[brasmusson]:        https://github.com/brasmusson
+[charlierudolph]:    https://github.com/charlierudolph
+[coderbyheart]:      https://github.com/coderbyheart
+[cyocum]:            https://github.com/cyocum
+[danilat]:           https://github.com/danilat
+[davidjgoss]:        https://github.com/davidjgoss
+[deivid-rodriguez]:  https://github.com/deivid-rodriguez
+[dobiedad]:          https://github.com/dobiedad
+[ehpc]:              https://github.com/ehpc
+[ehuelsmann]:        https://github.com/ehuelsmann
+[enkessler]:         https://github.com/enkessler
+[gabanz]:            https://github.com/gabanz
+[Haukinger]:         https://github.com/Haukinger
+[jargalan]:          https://github.com/jargalan
+[jmezach]:           https://github.com/jmezach
+[joscha]:            https://github.com/joscha
+[johnknoop]:         https://github.com/johnknoop
+[koterpillar]:       https://github.com/koterpillar
+[KniveX]:            https://github.com/KniveX
+[l3pp4rd]:           https://github.com/l3pp4rd
+[LiohAu]:            https://github.com/LiohAu
+[mattwynne]:         https://github.com/mattwynne
+[mauriciotogneri]:   https://github.com/mauriciotogneri
+[maximeg]:           https://github.com/maximeg
+[maxmeyer]:          https://github.com/maxmeyer
+[mgiustiniani]:      https://github.com/mgiustiniani
+[mpkorstanje]:       https://github.com/mpkorstanje
+[merrua]:            https://github.com/merrua
+[milhcbt]:           https://github.com/milhcbt
+[moreau-nicolas]:    https://github.com/moreau-nicolas
+[mpkorstanje]:       https://github.com/mpkorstanje
+[nvmkpk]:            https://github.com/nvmkpk
+[ookull]:            https://github.com/ookull
+[nalekberov]:        https://github.com/nalekberov
+[nixel2007]:         https://github.com/nixel2007
+[nikolovski]:        https://github.com/nikolovski
+[noisygerman]:       https://github.com/noisygerman
+[paigehf]:           https://github.com/paigehf
+[pjlsergeant]:       https://github.com/pjlsergeant
+[pmatsinopoulos]:    https://github.com/pmatsinopoulos
+[rjwittams]:         https://github.com/rjwittams
+[Pr-Mex]:            https://github.com/Pr-Mex
+[Pwera]:             https://github.com/Pwera
+[SabotageAndi]:      https://github.com/SabotageAndi
+[tsundberg]:         https://github.com/tsundberg
+[upgundecha]:        https://github.com/upgundecha
+[vincent-psarga]:    https://github.com/vincent-psarga
+[zbmott]:            https://github.com/zbmott
+[Zearin]:            https://github.com/Zearin
+[WannesFransen1994]: https://github.com/WannesFransen1994
+

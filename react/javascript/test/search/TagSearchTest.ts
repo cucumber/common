@@ -1,7 +1,7 @@
 import { IdGenerator } from '@cucumber/messages'
 import assert from 'assert'
-import { generateMessages, Query as GherkinQuery } from '@cucumber/gherkin'
-import { pretty } from '@cucumber/gherkin-utils'
+import { generateMessages } from '@cucumber/gherkin'
+import { pretty, Query as GherkinQuery } from '@cucumber/gherkin-utils'
 import TagSearch from '../../src/search/TagSearch'
 
 describe('TagSearchTest', () => {

@@ -2,6 +2,7 @@ package io
 
 import (
 	"bufio"
+	"errors"
 	gogoio "github.com/gogo/protobuf/io"
 	"github.com/gogo/protobuf/jsonpb"
 	"github.com/gogo/protobuf/proto"
@@ -74,11 +75,15 @@ type ndjsonReader struct {
 
 func (this *ndjsonReader) ReadMsg(msg proto.Message) error {
 	if this.scanner.Scan() {
-		line := this.scanner.Text()
-		if len(strings.TrimSpace(line)) == 0 {
+		line := strings.TrimSpace(this.scanner.Text())
+		if len(line) == 0 {
 			return this.ReadMsg(msg)
 		}
-		return this.unmarshaler.Unmarshal(strings.NewReader(line), msg)
+		err := this.unmarshaler.Unmarshal(strings.NewReader(line), msg)
+		if err != nil {
+			return errors.New("Not JSON: " + line)
+		}
+		return nil
 	}
 	return io.EOF
 }

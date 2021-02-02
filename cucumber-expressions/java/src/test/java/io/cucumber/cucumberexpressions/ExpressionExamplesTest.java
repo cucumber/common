@@ -6,7 +6,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import java.io.IOException;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -27,7 +27,7 @@ public class ExpressionExamplesTest {
 
         final Collection<Arguments> data = new ArrayList<>();
 
-        String s = new String(readAllBytes(get("examples.txt")), Charset.forName("UTF-8"));
+        String s = new String(readAllBytes(get("examples.txt")), StandardCharsets.UTF_8);
         String[] chunks = s.split("---");
         for (String chunk : chunks) {
             chunk = chunk.trim();

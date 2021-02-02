@@ -1,20 +1,41 @@
+# Please update /.templates/go/default.mk and sync:
+#  source /scripts/functions.sh && rsync_files
+
 SHELL := /usr/bin/env bash
 GOPATH := $(shell go env GOPATH)
 PATH := $(PATH):$(GOPATH)/bin
 GO_SOURCE_FILES := $(shell find . -name "*.go" | sort)
 LIBNAME := $(shell basename $$(dirname $$(pwd)))
 EXE_BASE_NAME := cucumber-$(LIBNAME)
-GOX_LDFLAGS := "-X main.version=${NEW_VERSION}"
-EXES := $(shell find dist -name '$(EXE_BASE_NAME)-*')
-UPX_EXES = $(patsubst dist/$(EXE_BASE_NAME)-%,dist_compressed/$(EXE_BASE_NAME)-%,$(EXES))
+LDFLAGS := "-X main.version=${NEW_VERSION}"
+
+# Enumerating Cross compilation targets
+PLATFORMS = darwin-amd64 linux-386 linux-amd64 linux-arm freebsd-386 freebsd-amd64 openbsd-386 openbsd-amd64 windows-386 windows-amd64 freebsd-arm netbsd-386 netbsd-amd64 netbsd-arm
+PLATFORM = $(patsubst dist/$(EXE_BASE_NAME)-%,%,$@)
+OS_ARCH = $(subst -, ,$(PLATFORM))
+X-OS = $(word 1, $(OS_ARCH))
+X-ARCH = $(word 2, $(OS_ARCH))
+
 # Determine if we're on linux or osx (ignoring other OSes as we're not building on them)
 OS := $(shell [[ "$$(uname)" == "Darwin" ]] && echo "darwin" || echo "linux")
 # Determine if we're on 386 or amd64 (ignoring other processors as we're not building on them)
 ARCH := $(shell [[ "$$(uname -m)" == "x86_64" ]] && echo "amd64" || echo "386")
-EXE = dist/$(EXE_BASE_NAME)-$(OS)-$(ARCH)
-REPLACEMENTS := $(shell sed -n "/^\s*github.com\/cucumber/p" go.mod | perl -wpe 's/\s*(github.com\/cucumber\/(.*)-go\/v\d+).*/q{replace } . $$1 . q{ => ..\/..\/} . $$2 . q{\/go}/eg')
+EXE := dist/$(EXE_BASE_NAME)-$(OS)-$(ARCH)
+
+ifndef NO_CROSS_COMPILE
+EXES = $(patsubst %,dist/$(EXE_BASE_NAME)-%,$(PLATFORMS))
+else
+EXES = $(EXE)
+endif
+
+GO_REPLACEMENTS := $(shell sed -n "/^\s*github.com\/cucumber/p" go.mod | perl -wpe 's/\s*(github.com\/cucumber\/(.*)-go\/v\d+).*/q{replace } . $$1 . q{ => ..\/..\/} . $$2 . q{\/go}/eg')
 CURRENT_MAJOR := $(shell sed -n "/^module/p" go.mod | awk '{ print $$0 "/v1" }' | cut -d'/' -f4 | cut -d'v' -f2)
 NEW_MAJOR := $(shell echo ${NEW_VERSION} | awk -F'.' '{print $$1}')
+
+GO_MAJOR_V = $(shell go version | cut -c 14- | cut -d' ' -f1 | cut -d'.' -f1)
+GO_MINOR_V = $(shell go version | cut -c 14- | cut -d' ' -f1 | cut -d'.' -f2)
+MIN_SUPPORTED_GO_MAJOR_V = 1
+MIN_SUPPORTED_GO_MINOR_V = 13
 
 # https://stackoverflow.com/questions/2483182/recursive-wildcards-in-gnu-make
 rwildcard=$(foreach d,$(wildcard $(1:=/*)),$(call rwildcard,$d,$2) $(filter $(subst *,%,$2),$d))
@@ -30,25 +51,33 @@ endif
 .deps:
 	touch $@
 
-dist: $(EXE)
-ifndef NO_UPX_COMPRESSION
-	make .dist-compressed
-endif
-	touch $@
+dist: $(EXES)
 
-$(EXE): .deps $(GO_SOURCE_FILES)
+dist/$(EXE_BASE_NAME)-%: .deps $(GO_SOURCE_FILES)
 	mkdir -p dist
-ifndef NO_CROSS_COMPILE
-	# Cross-compile executable for many platforms
-	go get github.com/aslakhellesoy/gox
-	gox -buildmode=exe -ldflags $(GOX_LDFLAGS) -output "dist/$(EXE_BASE_NAME)-{{.OS}}-{{.Arch}}" -rebuild ./cmd
-else
-	# Compile executable for the local platform only
-	go build -ldflags $(GOX_LDFLAGS) -o $@ ./cmd
-endif
+	echo "EXES=$(EXES)"
+	echo "Building $@"
 
-.dist-compressed: $(UPX_EXES)
-	touch $@
+	# Determine if we're on a supported go platform
+	@if [ $(GO_MAJOR_V) -gt $(MIN_SUPPORTED_GO_MAJOR_V) ]; then \
+		exit 0 ;\
+	elif [ $(GO_MAJOR_V) -lt $(MIN_SUPPORTED_GO_MAJOR_V) ]; then \
+		echo '$(GO_MAJOR_V).$(GO_MINOR_V) is not a supported version, $(MIN_SUPPORTED_GO_MAJOR_V).$(MIN_SUPPORTED_GO_MINOR_V) is required';\
+		exit 1; \
+	elif [ $(GO_MINOR_V) -lt $(MIN_SUPPORTED_GO_MINOR_V) ] ; then \
+		echo '$(GO_MAJOR_V).$(GO_MINOR_V) is not a supported version, $(MIN_SUPPORTED_GO_MAJOR_V).$(MIN_SUPPORTED_GO_MINOR_V) is required';\
+		exit 1; \
+	fi
+
+	GOOS=$(X-OS) GOARCH=$(X-ARCH) go build -buildmode=exe -ldflags $(LDFLAGS) -o $@ -a ./cmd
+ifndef NO_UPX_COMPRESSION
+	# requires upx in PATH to compress supported binaries
+	# may produce an error ARCH not supported
+	-upx $@ -o $@.upx
+
+	# Remove the compressed file if it doesn't pass the integrity test
+	if [ -f "$@.upx" ]; then upx -t $@.upx && mv $@.upx $@ || rm $@; fi
+endif
 
 update-dependencies:
 	go get -u && go mod tidy
@@ -75,15 +104,6 @@ publish:
 endif
 .PHONY: publish
 
-dist_compressed/$(EXE_BASE_NAME)-%: dist/$(EXE_BASE_NAME)-%
-	mkdir -p dist_compressed
-	# requires upx in PATH to compress supported binaries
-	# may produce an error ARCH not supported
-	-upx $< -o $@
-
-	# Test the integrity
-	if [ -f "$@" ]; then upx -t $@ && cp $@ $< || rm $@; fi
-
 .linted: $(GO_SOURCE_FILES)
 	gofmt -w $^
 	touch $@
@@ -99,7 +119,7 @@ clean: clean-go
 .PHONY: clean
 
 clean-go:
-	rm -rf .deps .tested* .linted dist/ .dist-compressed dist_compressed/ acceptance/
+	rm -rf .deps .tested* .linted dist/ acceptance/
 .PHONY: clean-go
 
 remove-replaces:
@@ -111,7 +131,7 @@ add-replaces:
 ifeq ($(shell sed -n "/^\s*github.com\/cucumber/p" go.mod | wc -l), 0)
 	# No replacements here
 else
-	sed -i '/^go .*/i $(REPLACEMENTS)\n' go.mod
+	sed -i '/^go .*/i $(GO_REPLACEMENTS)\n' go.mod
 endif
 .PHONY: add-replaces
 

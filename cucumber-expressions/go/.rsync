@@ -2,3 +2,4 @@
 ../../.templates/github/ .github/
 ../../.templates/go/ .
 ../examples.txt examples.txt
+../testdata .

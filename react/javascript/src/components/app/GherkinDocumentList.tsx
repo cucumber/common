@@ -28,10 +28,9 @@ const GherkinDocumentList: React.FunctionComponent<IProps> = ({
       ? gherkinQuery.getGherkinDocuments()
       : gherkinDocuments
 
-  const entries: Array<[
-    string,
-    messages.TestStepFinished.TestStepResult.Status
-  ]> = gherkinDocs.map((gherkinDocument) => {
+  const entries: Array<
+    [string, messages.TestStepFinished.TestStepResult.Status]
+  > = gherkinDocs.map((gherkinDocument) => {
     const gherkinDocumentStatus = gherkinDocument.feature
       ? cucumberQuery.getWorstTestStepResult(
           cucumberQuery.getPickleTestStepResults(

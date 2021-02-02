@@ -1,5 +1,6 @@
 package io.cucumber.messages;
 
+import com.google.protobuf.InvalidProtocolBufferException;
 import com.google.protobuf.util.JsonFormat;
 
 import java.io.BufferedReader;
@@ -37,7 +38,11 @@ public class NdjsonToMessageIterable implements Iterable<Messages.Envelope> {
                         return hasNext();
                     }
                     Messages.Envelope.Builder builder = Messages.Envelope.newBuilder();
-                    JSON_PARSER.merge(line, builder);
+                    try {
+                        JSON_PARSER.merge(line, builder);
+                    } catch(InvalidProtocolBufferException e) {
+                        throw new RuntimeException(String.format("Not JSON: %s", line), e);
+                    }
                     next = builder.build();
                     return true;
                 } catch (IOException e) {

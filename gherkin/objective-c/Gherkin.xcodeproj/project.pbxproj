@@ -132,6 +132,10 @@
 		5BAA18A71BCFF8BB00D59664 /* GHGherkinTokenizationTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BAA17DD1BCED40600D59664 /* GHGherkinTokenizationTest.m */; };
 		5BAA18A81BCFFBB700D59664 /* GHLineEndingHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BAA17EF1BCEF81100D59664 /* GHLineEndingHelper.m */; };
 		5BAA18A91BCFFBB800D59664 /* GHLineEndingHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BAA17EF1BCEF81100D59664 /* GHLineEndingHelper.m */; };
+		C990E5592559C8D800A025EE /* gherkin-languages.json in Resources */ = {isa = PBXBuildFile; fileRef = 5BAA17FE1BCEFEC200D59664 /* gherkin-languages.json */; };
+		C990E5682559D15C00A025EE /* NSObject+Dictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BAA18901BCF923700D59664 /* NSObject+Dictionary.m */; };
+		C990E5702559D27400A025EE /* NSString+Trim.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B18C89B1BCD747D00D16073 /* NSString+Trim.m */; };
+		C990E5782559D34800A025EE /* NSString+Trim.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B18C89B1BCD747D00D16073 /* NSString+Trim.m */; };
 		DC83A4721CB7EC8400B0F0C7 /* GHGherkinDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = DC83A4711CB7EC8400B0F0C7 /* GHGherkinDocument.h */; };
 		DC83A4741CB7EE0A00B0F0C7 /* GHGherkinDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = DC83A4731CB7EE0A00B0F0C7 /* GHGherkinDocument.m */; };
 /* End PBXBuildFile section */
@@ -717,7 +721,7 @@
 		5B18C8371BCD0BD400D16073 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0700;
+				LastUpgradeCheck = 1210;
 				ORGANIZATIONNAME = Gherkin;
 				TargetAttributes = {
 					5B18C83E1BCD0BD400D16073 = {
@@ -742,10 +746,11 @@
 			};
 			buildConfigurationList = 5B18C83A1BCD0BD400D16073 /* Build configuration list for PBXProject "Gherkin" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = 5B18C8361BCD0BD400D16073;
 			productRefGroup = 5B18C8401BCD0BD400D16073 /* Products */;
@@ -799,6 +804,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C990E5592559C8D800A025EE /* gherkin-languages.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -848,6 +854,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5BAA18A91BCFFBB800D59664 /* GHLineEndingHelper.m in Sources */,
+				C990E5782559D34800A025EE /* NSString+Trim.m in Sources */,
 				5BAA17DE1BCED40600D59664 /* GHGherkinTokenizationTest.m in Sources */,
 				5B18C8B61BCDBF8A00D16073 /* GHGherkinLineTest.m in Sources */,
 			);
@@ -929,6 +936,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				5BAA18A81BCFFBB700D59664 /* GHLineEndingHelper.m in Sources */,
+				C990E5682559D15C00A025EE /* NSObject+Dictionary.m in Sources */,
+				C990E5702559D27400A025EE /* NSString+Trim.m in Sources */,
 				5BAA18A61BCFF8BB00D59664 /* GHGherkinLineTest.m in Sources */,
 				5BAA18A71BCFF8BB00D59664 /* GHGherkinTokenizationTest.m in Sources */,
 			);
@@ -974,17 +983,29 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
@@ -1005,7 +1026,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -1016,17 +1037,29 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
@@ -1041,7 +1074,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;

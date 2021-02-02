@@ -11,17 +11,13 @@ public final class Argument<T> {
     private final ParameterType<T> parameterType;
     private final Group group;
 
-    static List<Argument<?>> build(Group group, TreeRegexp treeRegexp, List<ParameterType<?>> parameterTypes) {
+    static List<Argument<?>> build(Group group, List<ParameterType<?>> parameterTypes) {
         List<Group> argGroups = group.getChildren();
 
         if (argGroups.size() != parameterTypes.size()) {
-            throw new CucumberExpressionException(String.format("Expression /%s/ has %s capture groups (%s), but there were %s parameter types (%s)",
-                    treeRegexp.pattern().pattern(),
-                    argGroups.size(),
-                    getGroupValues(argGroups),
-                    parameterTypes.size(),
-                    getParameterTypeNames(parameterTypes)
-            ));
+            // This requires regex injection through a Cucumber expression.
+            // Regex injection should be be possible any more.
+            throw new IllegalArgumentException(String.format("Group has %s capture groups, but there were %s parameter types", argGroups.size(), parameterTypes.size()));
         }
         List<Argument<?>> args = new ArrayList<>(argGroups.size());
         for (int i = 0; i < parameterTypes.size(); i++) {
@@ -31,24 +27,6 @@ public final class Argument<T> {
         }
 
         return args;
-    }
-
-    private static List<String> getParameterTypeNames(List<ParameterType<?>> parameterTypes) {
-        List<String> list = new ArrayList<>();
-        for (ParameterType<?> type : parameterTypes) {
-            String name = type.getName();
-            list.add(name);
-        }
-        return list;
-    }
-
-    private static List<Object> getGroupValues(List<Group> argGroups) {
-        List<Object> list = new ArrayList<>();
-        for (Group argGroup : argGroups) {
-            String value = argGroup.getValue();
-            list.add(value);
-        }
-        return list;
     }
 
     private Argument(Group group, ParameterType<T> parameterType) {
