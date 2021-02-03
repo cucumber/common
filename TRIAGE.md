@@ -41,8 +41,10 @@ What gets pulled into `Next` is decided based on the following guidelines:
 * A mix of `bug` and `enhancement` work items
 * A mix of programming languages
 * The oldest work items have the highest priority to be pulled into Next (FIFO policy)
-  * If you think the oldest work items should not be worked on, consider labelling it accordingly,
-    perhaps even close with a `wontfix`.
+  * If you think the oldest work items should not be worked on, label it with `help wanted` and
+    one of the `bounty` labels ($ value at your discretion).
+  * Alternatively, close it with a `wontfix` with an explanation of why it was closed,
+    typically because it doesn't seem important enough since nobody has fixed it.
 
 With this in mind, pull into `Next` from the following lists. They oldest issues are at the top,
 and they contain both PRs and issues.
