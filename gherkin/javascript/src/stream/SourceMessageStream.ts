@@ -1,5 +1,5 @@
 import { Transform, TransformCallback } from 'stream'
-import makeSourceEnvelope from './makeSourceEnvelope'
+import makeSourceEnvelope from '../makeSourceEnvelope'
 
 /**
  * Stream that reads a string and writes a single Source message.

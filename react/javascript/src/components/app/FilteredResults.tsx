@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import GherkinQueryContext from '../../GherkinQueryContext'
 import CucumberQueryContext from '../../CucumberQueryContext'
+import SearchQueryContext from '../../SearchQueryContext'
 
 import SearchBar from './SearchBar'
 import { GherkinDocumentList } from '../../index'
@@ -26,9 +27,9 @@ const defaultDisplayedResults = [
 const FilteredResults: React.FunctionComponent = () => {
   const gherkinQuery = React.useContext(GherkinQueryContext)
   const cucumberQuery = React.useContext(CucumberQueryContext)
+  const { query } = React.useContext(SearchQueryContext)
   const allDocuments = gherkinQuery.getGherkinDocuments()
 
-  const [query, setQuery] = useState('')
   const scenarioCountByStatus = countScenariosByStatuses(
     allDocuments,
     gherkinQuery,
@@ -47,7 +48,7 @@ const FilteredResults: React.FunctionComponent = () => {
     search.add(gherkinDocument)
   }
 
-  const matches = query === '' ? allDocuments : search.search(query)
+  const matches = query ? search.search(query) : allDocuments
   const filtered = matches
     .map((document) =>
       filterByStatus(document, gherkinQuery, cucumberQuery, displayedStatuses)
@@ -63,7 +64,6 @@ const FilteredResults: React.FunctionComponent = () => {
         <StatusesSummary scenarioCountByStatus={scenarioCountByStatus} />
         <ExecutionSummary meta={meta} />
         <SearchBar
-          queryUpdated={(query) => setQuery(query)}
           statusesUpdated={(statuses) => setDisplayedStatuses(statuses)}
           enabledStatuses={displayedStatuses}
           scenarioCountByStatus={scenarioCountByStatus}

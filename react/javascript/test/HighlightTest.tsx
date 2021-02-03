@@ -20,7 +20,14 @@ describe('HighLight', () => {
     const document = dom.window.document
 
     const app = (
-      <SearchQueryContext.Provider value={{ query: query }}>
+      <SearchQueryContext.Provider
+        value={{
+          query: query,
+          updateQuery: () => {
+            /*Do nothing*/
+          },
+        }}
+      >
         <HighLight text={text} markdown={markdown} />
       </SearchQueryContext.Provider>
     )

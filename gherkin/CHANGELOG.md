@@ -12,6 +12,9 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 ### Added
 
 ### Changed
+* [JavaScript] the `GherkinStreams` object is not longer loaded by default.
+  This makes it possible to use the library in a browser without a polyfill.
+  To upgrade, use `import GherkinStreams from '@cucumber/gherkin/dist/src/stream/GherkinStreams'` instead of `import { GherkinStreams } from 'gherkin'`.
 * [Perl] Fully overhauled implementation, moving it up from 4.0.0
   ([#711](https://github.com/cucumber/cucumber/pull/711),
    [#1286](https://github.com/cucumber/cucumber/pull/1286)) [ehuelsmann]
@@ -27,6 +30,9 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 * Use Swedish translation for the "Rule" keyword
   ([#1297](https://github.com/cucumber/cucumber/pull/1297)
    [johnknoop])
+* Elixir implementation - make sure the gherkin_languages.json is added with the release package.
+  ([#1293](https://github.com/cucumber/cucumber/pull/1293)
+   [WannesFransen1994])
 
 ## [16.0.0] - 2020-12-10
 
@@ -936,4 +942,3 @@ to Gherkin 2.
 [zbmott]:            https://github.com/zbmott
 [Zearin]:            https://github.com/Zearin
 [WannesFransen1994]: https://github.com/WannesFransen1994
-
