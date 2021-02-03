@@ -3,9 +3,8 @@ import CucumberExpression from '../src/CucumberExpression'
 import ParameterTypeRegistry from '../src/ParameterTypeRegistry'
 import ParameterType from '../src/ParameterType'
 import fs from 'fs'
-// eslint-disable-next-line node/no-extraneous-import
-import yaml from 'js-yaml' // why?
-import { CucumberExpressionError } from '../src/Errors'
+import yaml from 'js-yaml'
+import CucumberExpressionError from '../src/CucumberExpressionError'
 
 interface Expectation {
   expression: string

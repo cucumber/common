@@ -39,12 +39,16 @@ describe('CucumberExpressionGenerator', () => {
 
   beforeEach(() => {
     parameterTypeRegistry = new ParameterTypeRegistry()
-    generator = new CucumberExpressionGenerator(parameterTypeRegistry)
+    generator = new CucumberExpressionGenerator(
+      parameterTypeRegistry.parameterTypes
+    )
   })
 
   it('documents expression generation', () => {
     parameterTypeRegistry = new ParameterTypeRegistry()
-    generator = new CucumberExpressionGenerator(parameterTypeRegistry)
+    generator = new CucumberExpressionGenerator(
+      parameterTypeRegistry.parameterTypes
+    )
     const undefinedStepText = 'I have 2 cucumbers and 1.5 tomato'
     const generatedExpression = generator.generateExpressions(
       undefinedStepText

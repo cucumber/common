@@ -2,8 +2,8 @@ import fs from 'fs'
 // eslint-disable-next-line node/no-extraneous-import
 import yaml from 'js-yaml' // why?
 import assert from 'assert'
-import { CucumberExpressionError } from '../src/Errors'
 import CucumberExpressionParser from '../src/CucumberExpressionParser'
+import CucumberExpressionError from '../src/CucumberExpressionError'
 
 interface Expectation {
   expression: string

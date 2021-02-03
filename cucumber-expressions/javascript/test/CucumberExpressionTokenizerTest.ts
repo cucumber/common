@@ -3,7 +3,7 @@ import fs from 'fs'
 import yaml from 'js-yaml' // why?
 import CucumberExpressionTokenizer from '../src/CucumberExpressionTokenizer'
 import assert from 'assert'
-import { CucumberExpressionError } from '../src/Errors'
+import CucumberExpressionError from '../src/CucumberExpressionError'
 
 interface Expectation {
   expression: string

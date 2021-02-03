@@ -1,7 +1,8 @@
 import ParameterType from './ParameterType'
 
 import CucumberExpressionGenerator from './CucumberExpressionGenerator'
-import { AmbiguousParameterTypeError, CucumberExpressionError } from './Errors'
+import { AmbiguousParameterTypeError } from './Errors'
+import CucumberExpressionError from './CucumberExpressionError'
 
 export default class ParameterTypeRegistry {
   public static readonly INTEGER_REGEXPS = [/-?\d+/, /\d+/]
