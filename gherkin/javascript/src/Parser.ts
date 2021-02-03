@@ -1,18 +1,38 @@
 // This file is generated. Do not edit! Edit gherkin-javascript.razor instead.
 
-import { messages } from '@cucumber/messages'
-import {
-  ParserException,
-  CompositeParserException,
-  UnexpectedTokenException,
-  UnexpectedEOFException,
-  AstBuilderException,
-  NoSuchLanguageException
-} from './Errors'
-import AstBuilder from './AstBuilder'
-import Token from './Token'
+import { messages} from '@cucumber/messages'
+import {AstBuilderException, CompositeParserException, NoSuchLanguageException, ParserException} from './Errors'
+import {UnexpectedEOFException, UnexpectedTokenException,} from './TokenExceptions'
 import TokenScanner from './TokenScanner'
 import TokenMatcher from './TokenMatcher'
+import GherkinLine from "./GherkinLine";
+import IToken from "./IToken";
+import {IAstBuilder} from "./IAstBuilder";
+
+export class Token implements IToken<TokenType> {
+  public isEof: boolean
+  public matchedText?: string
+  public matchedType: TokenType
+  public matchedItems: GherkinLine[]
+  public matchedKeyword: string
+  public matchedIndent: number
+  public matchedGherkinDialect: string
+
+  constructor(
+    public readonly line: GherkinLine,
+    public readonly location: messages.ILocation
+  ) {
+    this.isEof = line == null
+  }
+
+  public getTokenValue(): string {
+    return this.isEof ? 'EOF' : this.line.getLineText(-1)
+  }
+
+  public detach() {
+    // TODO: Detach line, but is this really needed?
+  }
+}
 
 export enum TokenType {
   None,
@@ -69,21 +89,21 @@ export enum RuleType {
 }
 
 interface Context {
-  tokenScanner: TokenScanner
+  tokenScanner: TokenScanner<TokenType>
   tokenMatcher: TokenMatcher
   tokenQueue: Token[]
   errors: Error[]
 }
 
-export default class Parser {
+export default class Parser<AstNode> {
   public stopAtFirstError: boolean = false
   private context: Context
 
-  constructor(private readonly builder: AstBuilder) {
+  constructor(private readonly builder: IAstBuilder<AstNode, TokenType, RuleType>) {
   }
 
   public parse(gherkinSource: string, tokenMatcher: TokenMatcher = new TokenMatcher()): messages.IGherkinDocument {
-    const tokenScanner = new TokenScanner(gherkinSource);
+    const tokenScanner = new TokenScanner(gherkinSource, (line: string, location: messages.ILocation) => new Token(new GherkinLine(line, location.line), location));
     this.builder.reset();
     tokenMatcher.reset();
     this.context = {
@@ -94,9 +114,9 @@ export default class Parser {
     };
     this.startRule(this.context, RuleType.GherkinDocument);
     let state = 0;
-    let token = null;
+    let token: Token = null;
     while(true) {
-      token = this.readToken(this.context);
+      token = this.readToken(this.context) as Token;
       state = this.matchToken(state, token, this.context);
       if(token.isEof) break;
     }
@@ -3513,11 +3533,11 @@ export default class Parser {
 
   private lookahead_0(context: Context, currentToken: Token) {
     currentToken.detach();
-    let token;
+    let token: Token;
     const queue: Token[] = [];
     let match = false;
     do {
-      token = this.readToken(this.context);
+      token = this.readToken(this.context) as Token;
       token.detach();
       queue.push(token);
 

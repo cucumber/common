@@ -1,8 +1,7 @@
 import { messages } from '@cucumber/messages'
-import Token from './Token'
 import createLocation from './cli/createLocation'
 
-class GherkinException extends Error {
+export class GherkinException extends Error {
   public errors: Error[]
   public location: messages.ILocation
 
@@ -47,29 +46,6 @@ export class CompositeParserException extends GherkinException {
   }
 }
 
-export class UnexpectedTokenException extends GherkinException {
-  public static create(token: Token, expectedTokenTypes: string[]) {
-    const message = `expected: ${expectedTokenTypes.join(
-      ', '
-    )}, got '${token.getTokenValue().trim()}'`
-
-    const location = tokenLocation(token)
-
-    return this._create(message, location)
-  }
-}
-
-export class UnexpectedEOFException extends GherkinException {
-  public static create(token: Token, expectedTokenTypes: string[]) {
-    const message = `unexpected end of file, expected: ${expectedTokenTypes.join(
-      ', '
-    )}`
-    const location = tokenLocation(token)
-
-    return this._create(message, location)
-  }
-}
-
 export class AstBuilderException extends GherkinException {
   public static create(message: string, location: messages.ILocation) {
     return this._create(message, location)
@@ -81,16 +57,4 @@ export class NoSuchLanguageException extends GherkinException {
     const message = 'Language not supported: ' + language
     return this._create(message, location)
   }
-}
-
-function tokenLocation(token: Token) {
-  return token.location &&
-    token.location.line &&
-    token.line &&
-    token.line.indent !== undefined
-    ? createLocation({
-        line: token.location.line,
-        column: token.line.indent + 1,
-      })
-    : token.location
 }
