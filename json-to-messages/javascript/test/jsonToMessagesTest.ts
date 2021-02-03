@@ -2,9 +2,11 @@ import { Readable } from 'stream'
 import { jsonToMessages } from '../src'
 import {
   messages,
-  NdjsonToMessageStream,
   version as messagesVersion,
 } from '@cucumber/messages'
+import {
+  NdjsonToMessageStream,
+} from '@cucumber/messages/dist/src/stream'
 import assert from 'assert'
 import { version } from '../package.json'
 
