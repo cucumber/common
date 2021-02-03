@@ -1,7 +1,7 @@
 import path from 'path'
 import fs from 'fs'
 import { IdGenerator } from '@cucumber/messages'
-import { GherkinStreams } from '@cucumber/gherkin'
+import GherkinStreams from '@cucumber/gherkin/dist/src/stream/GherkinStreams'
 import { Query as GherkinQuery } from '@cucumber/gherkin-utils'
 import React from 'react'
 import ReactDOM from 'react-dom'
