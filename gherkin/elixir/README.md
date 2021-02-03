@@ -86,19 +86,19 @@ CucumberGherkin.parse_path("testdata/good/background.feature", []) |> CucumberGh
 ## Installation
 
 If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `gherkin` to your list of dependencies in `mix.exs`:
+by adding `cucumber_gherkin` to your list of dependencies in `mix.exs`:
 
 ```elixir
 def deps do
   [
-    {:cucumber_gherkin, "~> 0.1.0"}
+    {:cucumber_gherkin, "~>"}
   ]
 end
 ```
 
 Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
 and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at [https://hexdocs.pm/gherkin](https://hexdocs.pm/gherkin).
+be found at [https://hexdocs.pm/cucumber_gherkin](https://hexdocs.pm/cucumber_gherkin).
 
 ## Extra info
 

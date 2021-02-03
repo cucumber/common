@@ -4,11 +4,11 @@ import {
   IHook,
   ISupportCodeExecutor,
 } from '@cucumber/fake-cucumber'
-import { GherkinStreams } from '@cucumber/gherkin'
+import GherkinStreams from '@cucumber/gherkin/dist/src/stream/GherkinStreams'
 import { Query as GherkinQuery } from '@cucumber/gherkin-utils'
 import { Writable } from 'stream'
 import { messages, IdGenerator } from '@cucumber/messages'
-import makeSourceEnvelope from '@cucumber/gherkin/dist/src/stream/makeSourceEnvelope'
+import { makeSourceEnvelope } from '@cucumber/gherkin'
 
 export class FailingCodeSupport implements ISupportCodeExecutor {
   constructor(readonly stepDefinitionId: string) {}

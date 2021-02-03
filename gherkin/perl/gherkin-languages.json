@@ -1804,7 +1804,9 @@
       "Esempi"
     ],
     "feature": [
-      "Funzionalità"
+      "Funzionalità",
+      "Esigenza di Business",
+      "Abilità"
     ],
     "given": [
       "* ",
@@ -1816,7 +1818,7 @@
     "name": "Italian",
     "native": "italiano",
     "rule": [
-      "Rule"
+      "Regola"
     ],
     "scenario": [
       "Esempio",

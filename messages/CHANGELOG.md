@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
+- In JavaScript, Int64 fields are now typed as `number`, rather than `number|Long`
+
 ### Deprecated
 
 ### Removed

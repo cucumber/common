@@ -3,7 +3,7 @@ import { messages, IdGenerator } from '@cucumber/messages'
 import AstBuilder from '../src/AstBuilder'
 import Parser from '../src/Parser'
 import TokenMatcher from '../src/TokenMatcher'
-import generateMessages from '../src/stream/generateMessages'
+import generateMessages from '../src/generateMessages'
 
 describe('Parser', function () {
   it('parses a simple feature', function () {
