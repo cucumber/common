@@ -1,4 +1,3 @@
-import ParameterTypeRegistry from './ParameterTypeRegistry'
 import ParameterTypeMatcher from './ParameterTypeMatcher'
 import ParameterType from './ParameterType'
 
@@ -7,7 +6,9 @@ import CombinatorialGeneratedExpressionFactory from './CombinatorialGeneratedExp
 import GeneratedExpression from './GeneratedExpression'
 
 export default class CucumberExpressionGenerator {
-  constructor(private readonly parameterTypeRegistry: ParameterTypeRegistry) {}
+  constructor(
+    private readonly parameterTypes: IterableIterator<ParameterType<any>>
+  ) {}
 
   public generateExpressions(text: string): ReadonlyArray<GeneratedExpression> {
     const parameterTypeCombinations: Array<Array<ParameterType<any>>> = []
@@ -90,7 +91,7 @@ export default class CucumberExpressionGenerator {
 
   private createParameterTypeMatchers(text: string): ParameterTypeMatcher[] {
     let parameterMatchers: ParameterTypeMatcher[] = []
-    for (const parameterType of this.parameterTypeRegistry.parameterTypes) {
+    for (const parameterType of this.parameterTypes) {
       if (parameterType.useForSnippets) {
         parameterMatchers = parameterMatchers.concat(
           CucumberExpressionGenerator.createParameterTypeMatchers2(
