@@ -52,6 +52,7 @@ This depends on what's changed (see `CHANGELOG.md`):
 ## Prepare the release
 
     cd thepackage
+    make clean
 
 Run the `pre-release` target:
 
