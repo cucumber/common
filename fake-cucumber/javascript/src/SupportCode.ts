@@ -4,10 +4,8 @@ import {
   ParameterTypeRegistry,
 } from '@cucumber/cucumber-expressions'
 import { IdGenerator, messages } from '@cucumber/messages'
-import { AnyBody } from './types'
+import { IHook, AnyBody, IStepDefinition } from './types'
 import ExpressionStepDefinition from './ExpressionStepDefinition'
-import IStepDefinition from './IStepDefinition'
-import IHook from './IHook'
 import Hook from './Hook'
 import IClock from './IClock'
 import { MakeErrorMessage, withFullStackTrace } from './ErrorMessageGenerator'

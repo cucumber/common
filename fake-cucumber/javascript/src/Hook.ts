@@ -1,9 +1,7 @@
-import IHook from './IHook'
 import parseTagExpression from '@cucumber/tag-expressions'
 import { messages } from '@cucumber/messages'
-import ISupportCodeExecutor from './ISupportCodeExecutor'
 import SupportCodeExecutor from './SupportCodeExecutor'
-import { AnyBody } from './types'
+import { IHook, AnyBody, ISupportCodeExecutor } from './types'
 
 export default class Hook implements IHook {
   constructor(

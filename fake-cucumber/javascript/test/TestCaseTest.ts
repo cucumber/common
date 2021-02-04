@@ -2,10 +2,12 @@ import { messages, TimeConversion } from '@cucumber/messages'
 import assert from 'assert'
 import TestStep from '../src/TestStep'
 import TestCase from '../src/TestCase'
-import { EnvelopeListener } from '../src/types'
-import IWorld from '../src/IWorld'
+import {
+  EnvelopeListener,
+  IWorld,
+  withSourceFramesOnlyStackTrace,
+} from '../src'
 import IncrementClock from '../src/IncrementClock'
-import { withSourceFramesOnlyStackTrace } from '../src/ErrorMessageGenerator'
 import IncrementStopwatch from '../src/IncrementStopwatch'
 
 const { millisecondsToDuration } = TimeConversion
