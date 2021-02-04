@@ -96,3 +96,6 @@ lib/Gherkin/Generated/Parser.pm: gherkin.berp gherkin-perl.razor
 	# Remove BOM
 	awk 'NR==1{sub(/^\xef\xbb\xbf/,"")}{print}' < $@ > $@.nobom
 	mv $@.nobom $@
+
+pre-release: update-version
+.PHONY: pre-release
