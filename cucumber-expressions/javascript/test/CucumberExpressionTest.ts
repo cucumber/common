@@ -19,7 +19,7 @@ describe('CucumberExpression', () => {
       `testdata/expression/${testcase}`,
       'utf-8'
     )
-    const expectation = yaml.safeLoad(testCaseData) as Expectation
+    const expectation = yaml.load(testCaseData) as Expectation
     it(`${testcase}`, () => {
       const parameterTypeRegistry = new ParameterTypeRegistry()
       if (expectation.exception == undefined) {
@@ -50,7 +50,7 @@ describe('CucumberExpression', () => {
 
   fs.readdirSync('testdata/regex').forEach((testcase) => {
     const testCaseData = fs.readFileSync(`testdata/regex/${testcase}`, 'utf-8')
-    const expectation = yaml.safeLoad(testCaseData) as Expectation
+    const expectation = yaml.load(testCaseData) as Expectation
     it(`${testcase}`, () => {
       const parameterTypeRegistry = new ParameterTypeRegistry()
       const expression = new CucumberExpression(
