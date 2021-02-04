@@ -17,6 +17,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+* Fixed inability to scroll horizontally in long text attachments
+
 ## [11.0.2] - 2020-12-17
 
 ### Fixed
