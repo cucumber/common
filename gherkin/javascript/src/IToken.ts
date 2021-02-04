@@ -13,4 +13,5 @@ export default interface IToken<TokenType> {
   matchedIndent: number
   matchedGherkinDialect: string
   getTokenValue(): string
+  detach(): void
 }

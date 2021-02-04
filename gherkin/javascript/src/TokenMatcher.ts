@@ -8,7 +8,7 @@ import {TokenType} from './Parser'
 const DIALECT_DICT: { [key: string]: Dialect } = DIALECTS
 const LANGUAGE_PATTERN = /^\s*#\s*language\s*:\s*([a-zA-Z\-_]+)\s*$/
 
-export default class ITokenMatcher {
+export default class TokenMatcher {
   private dialect: Dialect
   private dialectName: string
   private activeDocStringSeparator: string
