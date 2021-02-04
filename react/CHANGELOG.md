@@ -17,6 +17,39 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+* Fixed search button
+  ([#1298](https://github.com/cucumber/cucumber/issues/1298)
+   [#1299](https://github.com/cucumber/cucumber/issues/1299)
+   [hWorblehat])
+
+## [11.0.2] - 2020-12-17
+
+### Fixed
+
+* Upgraded `@cucumber/query` (only change is the dropped dependency on `@cucumber/gherkin`)
+
+## [11.0.1] - 2020-12-17
+
+### Fixed
+
+* Fixed `react` and `react-dom` peerDependencies version range from `^16 | ^17` (incorrect) to `~16 || ~17`
+
+## [11.0.0] - 2020-12-17
+
+### Fixed
+
+* Make image and video attachments collapsible; show collapsed by default.
+* Prevent images from growing wider than their container.
+  ([#1220](https://github.com/cucumber/cucumber/issues/1220)
+   [#1205](https://github.com/cucumber/cucumber/issues/1205)
+   [#1260](https://github.com/cucumber/cucumber/pull/1260)
+   [davidjgoss])
+* Markdown rendering of `description` fields are now done with `react-markdown` instead of `marked`.
+  This is a more secure [protection agains XSS](https://medium.com/javascript-security/avoiding-xss-via-markdown-in-react-91665479900)
+  ([#1275](https://github.com/cucumber/cucumber/issues/1275)
+   [#1276](https://github.com/cucumber/cucumber/pull/1276)
+   [aslakhellesoy])
+
 ## [10.1.2] - 2020-12-13
 
 ### Fixed
@@ -278,7 +311,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/react/v10.1.2...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/react/v11.0.2...master
+[11.0.2]:      https://github.com/cucumber/cucumber/compare/react/v11.0.1...react/v11.0.2
+[11.0.1]:      https://github.com/cucumber/cucumber/compare/react/v11.0.0...react/v11.0.1
+[11.0.0]:      https://github.com/cucumber/cucumber/compare/react/v10.1.2...react/v11.0.0
 [10.1.2]:      https://github.com/cucumber/cucumber/compare/react/v10.1.1...react/v10.1.2
 [10.1.1]:      https://github.com/cucumber/cucumber/compare/react/v10.1.0...react/v10.1.1
 [10.1.0]:      https://github.com/cucumber/cucumber/compare/react/v10.0.1...react/v10.1.0
@@ -309,4 +345,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 [aslakhellesoy]:    https://github.com/aslakhellesoy
 [cbliard]:          https://github.com/cbliard
 [codemrkay]:        https://github.com/codemrkay
+[davidjgoss]:       https://github.com/davidjgoss
+[hWorblehat]:       https://github.com/hWorblehat
 [sebrose]:          https://github.com/sebrose

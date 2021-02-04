@@ -2,11 +2,11 @@ import fs from 'fs'
 import { Command } from 'commander'
 import packageJson from '../../package.json'
 import Gherkin from '../stream/GherkinStreams'
+import { IdGenerator } from '@cucumber/messages'
 import {
   MessageToBinaryStream,
   MessageToNdjsonStream,
-  IdGenerator,
-} from '@cucumber/messages'
+} from '@cucumber/messages/dist/src/stream'
 import { Readable, Transform } from 'stream'
 import IGherkinOptions from '../IGherkinOptions'
 

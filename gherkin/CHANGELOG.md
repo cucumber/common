@@ -12,12 +12,27 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 ### Added
 
 ### Changed
+* [JavaScript] the `GherkinStreams` object is not longer loaded by default.
+  This makes it possible to use the library in a browser without a polyfill.
+  To upgrade, use `import GherkinStreams from '@cucumber/gherkin/dist/src/stream/GherkinStreams'` instead of `import { GherkinStreams } from 'gherkin'`.
+* [Perl] Fully overhauled implementation, moving it up from 4.0.0
+  ([#711](https://github.com/cucumber/cucumber/pull/711),
+   [#1286](https://github.com/cucumber/cucumber/pull/1286)) [ehuelsmann]
 
 ### Deprecated
 
 ### Removed
 
 ### Fixed
+* Use Italian translation for the "Rule" keyword and for the "Feature" synonym keywords
+  ([#1318](https://github.com/cucumber/cucumber/pull/1318)
+   [mgiustiniani])
+* Use Swedish translation for the "Rule" keyword
+  ([#1297](https://github.com/cucumber/cucumber/pull/1297)
+   [johnknoop])
+* Elixir implementation - make sure the gherkin_languages.json is added with the release package.
+  ([#1293](https://github.com/cucumber/cucumber/pull/1293)
+   [WannesFransen1994])
 
 ## [16.0.0] - 2020-12-10
 
@@ -883,15 +898,17 @@ to Gherkin 2.
 [cyocum]:            https://github.com/cyocum
 [danilat]:           https://github.com/danilat
 [davidjgoss]:        https://github.com/davidjgoss
-[deivid-rodriguez]   https://github.com/deivid-rodriguez
+[deivid-rodriguez]:  https://github.com/deivid-rodriguez
 [dobiedad]:          https://github.com/dobiedad
 [ehpc]:              https://github.com/ehpc
+[ehuelsmann]:        https://github.com/ehuelsmann
 [enkessler]:         https://github.com/enkessler
 [gabanz]:            https://github.com/gabanz
 [Haukinger]:         https://github.com/Haukinger
 [jargalan]:          https://github.com/jargalan
 [jmezach]:           https://github.com/jmezach
 [joscha]:            https://github.com/joscha
+[johnknoop]:         https://github.com/johnknoop
 [koterpillar]:       https://github.com/koterpillar
 [KniveX]:            https://github.com/KniveX
 [l3pp4rd]:           https://github.com/l3pp4rd
@@ -900,6 +917,7 @@ to Gherkin 2.
 [mauriciotogneri]:   https://github.com/mauriciotogneri
 [maximeg]:           https://github.com/maximeg
 [maxmeyer]:          https://github.com/maxmeyer
+[mgiustiniani]:      https://github.com/mgiustiniani
 [mpkorstanje]:       https://github.com/mpkorstanje
 [merrua]:            https://github.com/merrua
 [milhcbt]:           https://github.com/milhcbt

@@ -17,6 +17,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [7.0.1] - 2020-12-17
+
+### Fixed
+
+* Removed unneeded `@cucumber/gherkin` dependency
+
 ## [7.0.0] - 2020-08-07
 
 ### Changed
@@ -88,7 +94,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First JavaScript implementation
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/query/v7.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/query/v7.0.1...master
+[7.0.1]:      https://github.com/cucumber/cucumber/compare/cucumber-query/v7.0.0...query/v7.0.1
 [7.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-query/v6.1.0...query/v7.0.0
 [6.1.0]:      https://github.com/cucumber/cucumber/compare/cucumber-query/v6.0.0...query/v6.1.0
 [6.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-query/v5.0.0...query/v6.0.0

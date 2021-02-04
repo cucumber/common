@@ -60,7 +60,6 @@ executors:
     docker:
       - image: circleci/python:3.9.1
     working_directory: ~/cucumber
-
 ###
 ### Jobs ###
 ###
@@ -1097,7 +1096,7 @@ workflows:
       - messages-elixir:
           requires:
             - checkout
-      
+
       - gherkin-elixir:
           requires:
             - checkout

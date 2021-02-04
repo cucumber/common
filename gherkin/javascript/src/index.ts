@@ -1,6 +1,5 @@
-import GherkinStreams from './stream/GherkinStreams'
-import generateMessages from './stream/generateMessages'
-import makeSourceEnvelope from './stream/makeSourceEnvelope'
+import generateMessages from './generateMessages'
+import makeSourceEnvelope from './makeSourceEnvelope'
 import IGherkinOptions from './IGherkinOptions'
 import Dialect from './Dialect'
 import Parser from './Parser'
@@ -12,7 +11,6 @@ import DIALECTS from './gherkin-languages.json'
 const dialects = DIALECTS as Readonly<{ [key: string]: Dialect }>
 
 export {
-  GherkinStreams,
   generateMessages,
   makeSourceEnvelope,
   IGherkinOptions,

@@ -2,7 +2,7 @@ import assert from 'assert'
 import { Readable } from 'stream'
 import { messages } from '@cucumber/messages'
 import Gherkin from '../src/stream/GherkinStreams'
-import makeSourceEnvelope from '../src/stream/makeSourceEnvelope'
+import makeSourceEnvelope from '../src/makeSourceEnvelope'
 import fs from 'fs'
 import { IGherkinOptions, dialects } from '../src'
 

@@ -15,7 +15,7 @@
     "lint": "eslint --ext ts --max-warnings 0 src test",
     "lint-fix": "eslint --ext ts --max-warnings 0 --fix src test",
     "coverage": "nyc --reporter=html --reporter=text mocha",
-    "pbjs": "pbjs --target static-module --wrap commonjs messages.proto --out src/messages.js",
+    "pbjs": "pbjs --force-number --target static-module --wrap commonjs messages.proto --out src/messages.js",
     "pbts": "pbts src/messages.js > src/messages.d.ts",
     "build": "tsc && make src/messages.js && make src/messages.d.ts && copyfiles src/messages.js src/messages.d.ts dist",
     "prepublishOnly": "npm run build"
