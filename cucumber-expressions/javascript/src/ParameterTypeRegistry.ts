@@ -92,7 +92,7 @@ export default class ParameterTypeRegistry {
       // ambiguity when we look up by Regexp. Users of CucumberExpression should
       // not be restricted.
       const generatedExpressions = new CucumberExpressionGenerator(
-        this.parameterTypes
+        () => this.parameterTypes
       ).generateExpressions(text)
       throw AmbiguousParameterTypeError.forRegExp(
         parameterTypeRegexp,

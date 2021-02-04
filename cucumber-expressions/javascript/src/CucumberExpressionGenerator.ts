@@ -7,7 +7,7 @@ import GeneratedExpression from './GeneratedExpression'
 
 export default class CucumberExpressionGenerator {
   constructor(
-    private readonly parameterTypes: IterableIterator<ParameterType<any>>
+    private readonly parameterTypes: () => Iterable<ParameterType<any>>
   ) {}
 
   public generateExpressions(text: string): ReadonlyArray<GeneratedExpression> {
@@ -91,7 +91,7 @@ export default class CucumberExpressionGenerator {
 
   private createParameterTypeMatchers(text: string): ParameterTypeMatcher[] {
     let parameterMatchers: ParameterTypeMatcher[] = []
-    for (const parameterType of this.parameterTypes) {
+    for (const parameterType of this.parameterTypes()) {
       if (parameterType.useForSnippets) {
         parameterMatchers = parameterMatchers.concat(
           CucumberExpressionGenerator.createParameterTypeMatchers2(
