@@ -10,21 +10,25 @@ describe('GherkinLine', () => {
     }
 
     it('trims white spaces before cell content', () => {
-      assert.deepEqual(getCellsText('|   \t spaces before|'), ['spaces before'])
+      assert.deepStrictEqual(getCellsText('|   \t spaces before|'), [
+        'spaces before',
+      ])
     })
 
     it('trims white spaces after cell content', () => {
-      assert.deepEqual(getCellsText('|spaces after   |'), ['spaces after'])
+      assert.deepStrictEqual(getCellsText('|spaces after   |'), [
+        'spaces after',
+      ])
     })
 
     it('trims white spaces around cell content', () => {
-      assert.deepEqual(getCellsText('|   \t spaces everywhere   \t|'), [
+      assert.deepStrictEqual(getCellsText('|   \t spaces everywhere   \t|'), [
         'spaces everywhere',
       ])
     })
 
     it('does not delete white spaces inside a cell', () => {
-      assert.deepEqual(getCellsText('| foo()\n  bar\nbaz |'), [
+      assert.deepStrictEqual(getCellsText('| foo()\n  bar\nbaz |'), [
         'foo()\n  bar\nbaz',
       ])
     })

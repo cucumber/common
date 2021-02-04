@@ -38,7 +38,7 @@ export default class ITokenMatcher {
 
   public match_TagLine(token: IToken<TokenType>) {
     if (token.line.startsWith('@')) {
-      this.setITokenMatched(
+      this.setTokenMatched(
         token,
         TokenType.TagLine,
         null,
@@ -97,7 +97,7 @@ export default class ITokenMatcher {
   public match_TableRow(token: IToken<TokenType>) {
     if (token.line.startsWith('|')) {
       // TODO: indent
-      this.setITokenMatched(
+      this.setTokenMatched(
         token,
         TokenType.TableRow,
         null,
@@ -112,7 +112,7 @@ export default class ITokenMatcher {
 
   public match_Empty(token: IToken<TokenType>) {
     if (token.line.isEmpty) {
-      this.setITokenMatched(token, TokenType.Empty, null, null, 0)
+      this.setTokenMatched(token, TokenType.Empty, null, null, 0)
       return true
     }
     return false
@@ -121,7 +121,7 @@ export default class ITokenMatcher {
   public match_Comment(token: IToken<TokenType>) {
     if (token.line.startsWith('#')) {
       const text = token.line.getLineText(0) // take the entire line, including leading space
-      this.setITokenMatched(token, TokenType.Comment, text, null, 0)
+      this.setTokenMatched(token, TokenType.Comment, text, null, 0)
       return true
     }
     return false
@@ -131,7 +131,7 @@ export default class ITokenMatcher {
     const match = token.line.trimmedLineText.match(LANGUAGE_PATTERN)
     if (match) {
       const newDialectName = match[1]
-      this.setITokenMatched(token, TokenType.Language, newDialectName)
+      this.setTokenMatched(token, TokenType.Language, newDialectName)
 
       this.changeDialect(newDialectName, token.location)
       return true
@@ -169,7 +169,7 @@ export default class ITokenMatcher {
       }
 
       // TODO: Use the separator as keyword. That's needed for pretty printing.
-      this.setITokenMatched(token, TokenType.DocStringSeparator, mediaType)
+      this.setTokenMatched(token, TokenType.DocStringSeparator, mediaType)
       return true
     }
     return false
@@ -177,7 +177,7 @@ export default class ITokenMatcher {
 
   public match_EOF(token: IToken<TokenType>) {
     if (token.isEof) {
-      this.setITokenMatched(token, TokenType.EOF)
+      this.setTokenMatched(token, TokenType.EOF)
       return true
     }
     return false
@@ -193,7 +193,7 @@ export default class ITokenMatcher {
     for (const keyword of keywords) {
       if (token.line.startsWith(keyword)) {
         const title = token.line.getRestTrimmed(keyword.length)
-        this.setITokenMatched(token, TokenType.StepLine, title, keyword)
+        this.setTokenMatched(token, TokenType.StepLine, title, keyword)
         return true
       }
     }
@@ -202,7 +202,7 @@ export default class ITokenMatcher {
 
   public match_Other(token: IToken<TokenType>) {
     const text = token.line.getLineText(this.indentToRemove) // take the entire line, except removing DocString indents
-    this.setITokenMatched(
+    this.setTokenMatched(
       token,
       TokenType.Other,
       this.unescapeDocString(text),
@@ -220,14 +220,14 @@ export default class ITokenMatcher {
     for (const keyword of keywords) {
       if (token.line.startsWithTitleKeyword(keyword)) {
         const title = token.line.getRestTrimmed(keyword.length + ':'.length)
-        this.setITokenMatched(token, tokenType, title, keyword)
+        this.setTokenMatched(token, tokenType, title, keyword)
         return true
       }
     }
     return false
   }
 
-  private setITokenMatched(
+  private setTokenMatched(
     token: IToken<TokenType>,
     matchedType: TokenType,
     text?: string,

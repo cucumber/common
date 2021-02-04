@@ -22,7 +22,7 @@ export class Token implements IToken<TokenType> {
     public readonly line: GherkinLine,
     public readonly location: messages.ILocation
   ) {
-    this.isEof = line == null
+    this.isEof = !line
   }
 
   public getTokenValue(): string {
@@ -103,7 +103,10 @@ export default class Parser<AstNode> {
   }
 
   public parse(gherkinSource: string, tokenMatcher: TokenMatcher = new TokenMatcher()): messages.IGherkinDocument {
-    const tokenScanner = new TokenScanner(gherkinSource, (line: string, location: messages.ILocation) => new Token(new GherkinLine(line, location.line), location));
+    const tokenScanner = new TokenScanner(gherkinSource, (line: string, location: messages.ILocation) => {
+      const gherkinLine = (line === null || line === undefined) ? null : new GherkinLine(line, location.line)
+      return new Token(gherkinLine, location)
+    });
     this.builder.reset();
     tokenMatcher.reset();
     this.context = {
