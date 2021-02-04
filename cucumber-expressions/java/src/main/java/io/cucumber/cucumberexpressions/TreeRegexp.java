@@ -27,7 +27,7 @@ final class TreeRegexp {
         this.groupBuilder = createGroupBuilder(pattern);
     }
 
-    private static GroupBuilder createGroupBuilder(Pattern pattern) {
+    static GroupBuilder createGroupBuilder(Pattern pattern) {
         String source = pattern.pattern();
         Deque<GroupBuilder> stack = new ArrayDeque<>(singleton(new GroupBuilder(0)));
         boolean escaping = false;
@@ -54,6 +54,7 @@ final class TreeRegexp {
                 } else {
                     gb.moveChildrenTo(stack.peek());
                 }
+                gb.setEndIndex(i);
             }
             escaping = c == '\\' && !escaping;
         }

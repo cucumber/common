@@ -10,6 +10,7 @@ final class GroupBuilder {
     private boolean capturing = true;
     private String source;
     private int startIndex;
+    private int endIndex;
 
     GroupBuilder(int startIndex) {
         this.startIndex = startIndex;
@@ -56,5 +57,13 @@ final class GroupBuilder {
 
     int getStartIndex() {
         return startIndex;
+    }
+
+    int getEndIndex() {
+        return endIndex;
+    }
+
+    void setEndIndex(int endIndex) {
+        this.endIndex = endIndex;
     }
 }
