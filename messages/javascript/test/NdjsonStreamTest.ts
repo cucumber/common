@@ -1,4 +1,5 @@
-import { messages, MessageToNdjsonStream } from '../src'
+import { messages } from '../src'
+import { MessageToNdjsonStream } from '../src/stream'
 import assert from 'assert'
 import NdjsonToMessageStream from '../src/NdjsonToMessageStream'
 import verifyStreamContract from './verifyStreamContract'
