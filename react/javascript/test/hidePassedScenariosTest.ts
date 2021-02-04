@@ -7,7 +7,7 @@ import {
   Query,
   QueryStream as CucumberQueryStream,
 } from '@cucumber/query'
-import { GherkinStreams } from '@cucumber/gherkin'
+import GherkinStreams from '@cucumber/gherkin/dist/src/stream/GherkinStreams'
 import { Query as GherkinQuery } from '@cucumber/gherkin-utils'
 import fs from 'fs'
 

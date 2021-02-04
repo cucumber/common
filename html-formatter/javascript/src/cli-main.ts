@@ -1,8 +1,8 @@
+import { messages } from '@cucumber/messages'
 import {
   BinaryToMessageStream,
-  messages,
   NdjsonToMessageStream,
-} from '@cucumber/messages'
+} from '@cucumber/messages/dist/src/stream'
 import program from 'commander'
 import p from '../package.json'
 import { pipeline } from 'stream'

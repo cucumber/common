@@ -52,7 +52,7 @@
   ],
   "dependencies": {
     "@cucumber/messages": "file:../../messages/javascript",
-    "@teppeis/multimaps": "^1.1.0"
+    "@teppeis/multimaps": "^2.0.0"
   },
   "directories": {
     "test": "test"
