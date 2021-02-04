@@ -11,6 +11,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
+* [JavaScript] The stream classes have to be imported separately:
+  `import { MessageToBinaryStream, MessageToNdjsonStream, BinaryToMessageStream, NdjsonToMessageStream} from '@cucumber/messages/dist/src/stream'`
+  ([#1331](https://github.com/cucumber/cucumber/issues/1331))
+* In JavaScript, Int64 fields are now typed as `number`, rather than `number|Long`
+
 ### Deprecated
 
 ### Removed

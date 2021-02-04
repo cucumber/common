@@ -10,7 +10,6 @@ import { messages } from '@cucumber/messages'
 import statusName from '../gherkin/statusName'
 
 interface IProps {
-  queryUpdated: (query: string) => any
   statusesUpdated: (
     statuses: messages.TestStepFinished.TestStepResult.Status[]
   ) => any
@@ -22,12 +21,12 @@ interface IProps {
 }
 
 const SearchBar: React.FunctionComponent<IProps> = ({
-  queryUpdated,
   statusesUpdated,
   enabledStatuses,
   scenarioCountByStatus,
 }) => {
   const searchQueryContext = React.useContext(SearchQueryContext)
+
   const statuses = [
     messages.TestStepFinished.TestStepResult.Status.AMBIGUOUS,
     messages.TestStepFinished.TestStepResult.Status.FAILED,
@@ -38,11 +37,10 @@ const SearchBar: React.FunctionComponent<IProps> = ({
     messages.TestStepFinished.TestStepResult.Status.UNKNOWN,
   ]
 
-  const updateQueryOnEnter = (event: React.KeyboardEvent) => {
-    if (event.key === 'Enter') {
-      queryUpdated(searchQueryContext.query)
-      event.preventDefault()
-    }
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    const formData = new window.FormData(event.currentTarget)
+    searchQueryContext.updateQuery(formData.get('query').toString())
   }
 
   const showFilters =
@@ -53,18 +51,14 @@ const SearchBar: React.FunctionComponent<IProps> = ({
 
   return (
     <div className="cucumber-search-bar">
-      <form className="cucumber-search-bar-search">
+      <form className="cucumber-search-bar-search" onSubmit={handleSubmit}>
         <input
           type="text"
+          name="query"
           placeholder="Some text or @tags"
-          onKeyPress={updateQueryOnEnter}
-          onChange={(event) => (searchQueryContext.query = event.target.value)}
+          defaultValue={searchQueryContext.query}
         />
-        <button
-          type="submit"
-          onClick={() => queryUpdated(searchQueryContext.query)}
-          value="search"
-        >
+        <button type="submit" value="search">
           <FontAwesomeIcon icon={faSearch} />
         </button>
       </form>

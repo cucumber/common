@@ -1,9 +1,9 @@
-import Parser from '../Parser'
-import TokenMatcher from '../TokenMatcher'
+import Parser from './Parser'
+import TokenMatcher from './TokenMatcher'
 import { messages } from '@cucumber/messages'
-import compile from '../pickles/compile'
-import AstBuilder from '../AstBuilder'
-import IGherkinOptions from '../IGherkinOptions'
+import compile from './pickles/compile'
+import AstBuilder from './AstBuilder'
+import IGherkinOptions from './IGherkinOptions'
 import makeSourceEnvelope from './makeSourceEnvelope'
 
 export default function generateMessages(
