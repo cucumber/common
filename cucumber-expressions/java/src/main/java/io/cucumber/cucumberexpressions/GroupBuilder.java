@@ -9,6 +9,11 @@ final class GroupBuilder {
     private final List<GroupBuilder> groupBuilders = new ArrayList<>();
     private boolean capturing = true;
     private String source;
+    private int startIndex;
+
+    GroupBuilder(int startIndex) {
+        this.startIndex = startIndex;
+    }
 
     void add(GroupBuilder groupBuilder) {
         groupBuilders.add(groupBuilder);
@@ -31,21 +36,25 @@ final class GroupBuilder {
         return capturing;
     }
 
-    public void moveChildrenTo(GroupBuilder groupBuilder) {
+    void moveChildrenTo(GroupBuilder groupBuilder) {
         for (GroupBuilder child : groupBuilders) {
             groupBuilder.add(child);
         }
     }
 
-    public List<GroupBuilder> getChildren() {
+    List<GroupBuilder> getChildren() {
         return groupBuilders;
     }
 
-    public String getSource() {
+    String getSource() {
         return source;
     }
 
     void setSource(String source) {
         this.source = source;
+    }
+
+    int getStartIndex() {
+        return startIndex;
     }
 }
