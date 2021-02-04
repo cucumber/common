@@ -4,7 +4,6 @@ import CucumberQueryContext from '../../CucumberQueryContext'
 import SearchQueryContext from '../../SearchQueryContext'
 
 import SearchBar from './SearchBar'
-import { GherkinDocumentList } from '../../index'
 
 import NoMatchResult from './NoMatchResult'
 import Search from '../../search/Search'
@@ -14,6 +13,7 @@ import StatusesSummary from './StatusesSummary'
 import countScenariosByStatuses from '../../countScenariosByStatuses'
 import ExecutionSummary from './ExecutionSummary'
 import EnvelopesQueryContext from '../../EnvelopesQueryContext'
+import GherkinDocumentList from './GherkinDocumentList'
 
 const defaultDisplayedResults = [
   messages.TestStepFinished.TestStepResult.Status.AMBIGUOUS,
