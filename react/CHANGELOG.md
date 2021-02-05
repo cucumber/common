@@ -17,6 +17,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+* [JavaScript] removed circular dependencies.
+  ([#1292](https://github.com/cucumber/cucumber/pull/1292)
+   [davidjgoss]
+   [aslakhellesoy])
 * Fixed search button
   ([#1298](https://github.com/cucumber/cucumber/issues/1298)
    [#1299](https://github.com/cucumber/cucumber/issues/1299)

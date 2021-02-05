@@ -17,6 +17,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+* [JavaScript] removed circular dependencies.
+  ([#1292](https://github.com/cucumber/cucumber/pull/1292)
+   [davidjgoss]
+   [aslakhellesoy])
+
 ## [9.0.0] - 2020-11-04
 
 ### Changed
@@ -216,5 +221,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 [1.0.0]:      https://github.com/cucumber/cucumber/releases/tag/fake-cucumber/v1.0.0
 
 <!-- Contributors in alphabetical order -->
-[aslakhellesoy]:    https://github.com/aslakhellesoy
+[aslakhellesoy]:     https://github.com/aslakhellesoy
+[davidjgoss]:        https://github.com/davidjgoss
 [vincent-psarga]:    https://github.com/vincent-psarga

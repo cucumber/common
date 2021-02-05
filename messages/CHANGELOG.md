@@ -22,7 +22,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
-* Remove circular import issues in JavaScript ([#1292](https://github.com/cucumber/cucumber/pull/1292))
+* [JavaScript] removed circular dependencies.
+  ([#1292](https://github.com/cucumber/cucumber/pull/1292)
+   [davidjgoss]
+   [aslakhellesoy])
 
 ## [13.2.1] - 2020-11-19
 
