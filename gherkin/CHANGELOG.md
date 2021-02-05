@@ -33,6 +33,10 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 * Elixir implementation - make sure the gherkin_languages.json is added with the release package.
   ([#1293](https://github.com/cucumber/cucumber/pull/1293)
    [WannesFransen1994])
+* [JavaScript] removed circular dependencies.
+  ([#1292](https://github.com/cucumber/cucumber/pull/1292)
+   [davidjgoss]
+   [aslakhellesoy])
 
 ## [16.0.0] - 2020-12-10
 
