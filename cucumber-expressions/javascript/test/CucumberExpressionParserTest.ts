@@ -1,9 +1,8 @@
 import fs from 'fs'
-// eslint-disable-next-line node/no-extraneous-import
-import yaml from 'js-yaml' // why?
+import yaml from 'js-yaml'
 import assert from 'assert'
-import { CucumberExpressionError } from '../src/Errors'
 import CucumberExpressionParser from '../src/CucumberExpressionParser'
+import CucumberExpressionError from '../src/CucumberExpressionError'
 
 interface Expectation {
   expression: string
@@ -14,7 +13,7 @@ interface Expectation {
 describe('Cucumber expression parser', () => {
   fs.readdirSync('testdata/ast').forEach((testcase) => {
     const testCaseData = fs.readFileSync(`testdata/ast/${testcase}`, 'utf-8')
-    const expectation = yaml.safeLoad(testCaseData) as Expectation
+    const expectation = yaml.load(testCaseData) as Expectation
     it(`${testcase}`, () => {
       const parser = new CucumberExpressionParser()
       if (expectation.exception == undefined) {

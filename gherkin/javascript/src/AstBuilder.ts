@@ -1,14 +1,16 @@
 import AstNode from './AstNode'
-import { messages, IdGenerator } from '@cucumber/messages'
+import { IdGenerator, messages } from '@cucumber/messages'
 import { RuleType, TokenType } from './Parser'
-import Token from './Token'
 import { AstBuilderException } from './Errors'
 import createLocation from './cli/createLocation'
+import IToken from './IToken'
+import { IAstBuilder } from './IAstBuilder'
 
-export default class AstBuilder {
-  private stack: AstNode[]
-  private comments: messages.GherkinDocument.IComment[]
-  private readonly newId: IdGenerator.NewId
+export default class AstBuilder
+  implements IAstBuilder<AstNode, TokenType, RuleType> {
+  stack: AstNode[]
+  comments: messages.GherkinDocument.IComment[]
+  readonly newId: IdGenerator.NewId
 
   constructor(newId: IdGenerator.NewId) {
     this.newId = newId
@@ -18,22 +20,22 @@ export default class AstBuilder {
     this.reset()
   }
 
-  public reset() {
+  reset() {
     this.stack = [new AstNode(RuleType.None)]
     this.comments = []
   }
 
-  public startRule(ruleType: RuleType) {
+  startRule(ruleType: RuleType) {
     this.stack.push(new AstNode(ruleType))
   }
 
-  public endRule() {
+  endRule() {
     const node = this.stack.pop()
     const transformedNode = this.transformNode(node)
     this.currentNode().add(node.ruleType, transformedNode)
   }
 
-  public build(token: Token) {
+  build(token: IToken<TokenType>) {
     if (token.matchedType === TokenType.Comment) {
       this.comments.push(
         messages.GherkinDocument.Comment.create({
@@ -46,21 +48,21 @@ export default class AstBuilder {
     }
   }
 
-  public getResult() {
+  getResult() {
     return this.currentNode().getSingle(RuleType.GherkinDocument)
   }
 
-  public currentNode() {
+  currentNode() {
     return this.stack[this.stack.length - 1]
   }
 
-  public getLocation(token: Token, column?: number): messages.ILocation {
+  getLocation(token: IToken<TokenType>, column?: number): messages.ILocation {
     return !column
       ? token.location
       : createLocation({ line: token.location.line, column })
   }
 
-  public getTags(node: AstNode) {
+  getTags(node: AstNode) {
     const tags: messages.GherkinDocument.Feature.ITag[] = []
     const tagsNode = node.getSingle(RuleType.Tags)
     if (!tagsNode) {
@@ -81,7 +83,7 @@ export default class AstBuilder {
     return tags
   }
 
-  public getCells(tableRowToken: Token) {
+  getCells(tableRowToken: IToken<TokenType>) {
     return tableRowToken.matchedItems.map((cellItem) =>
       messages.GherkinDocument.Feature.TableRow.TableCell.create({
         location: this.getLocation(tableRowToken, cellItem.column),
@@ -90,15 +92,15 @@ export default class AstBuilder {
     )
   }
 
-  public getDescription(node: AstNode) {
+  getDescription(node: AstNode) {
     return node.getSingle(RuleType.Description)
   }
 
-  public getSteps(node: AstNode) {
+  getSteps(node: AstNode) {
     return node.getItems(RuleType.Step)
   }
 
-  public getTableRows(node: AstNode) {
+  getTableRows(node: AstNode) {
     const rows = node.getTokens(TokenType.TableRow).map((token) =>
       messages.GherkinDocument.Feature.TableRow.create({
         id: this.newId(),
@@ -110,7 +112,7 @@ export default class AstBuilder {
     return rows
   }
 
-  public ensureCellCount(rows: messages.GherkinDocument.Feature.TableRow[]) {
+  ensureCellCount(rows: messages.GherkinDocument.Feature.TableRow[]) {
     if (rows.length === 0) {
       return
     }
@@ -126,7 +128,7 @@ export default class AstBuilder {
     })
   }
 
-  public transformNode(node: AstNode) {
+  transformNode(node: AstNode) {
     switch (node.ruleType) {
       case RuleType.Step: {
         const stepLine = node.getToken(TokenType.StepLine)

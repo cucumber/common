@@ -1,13 +1,16 @@
 import { IdGenerator, messages } from '@cucumber/messages'
 import { Query } from '@cucumber/gherkin-utils'
 import TestCase from './TestCase'
-import IStepDefinition from './IStepDefinition'
-import IHook from './IHook'
-import ITestStep from './ITestStep'
 import IClock from './IClock'
 import { MakeErrorMessage } from './ErrorMessageGenerator'
 import EmptyPickleTestStep from './EmptyPickleTestStep'
-import { MakePickleTestStep, MakeHookTestStep } from './types'
+import {
+  MakePickleTestStep,
+  MakeHookTestStep,
+  IStepDefinition,
+  IHook,
+  ITestStep,
+} from './types'
 import IStopwatch from './IStopwatch'
 
 export default function makeTestCase(

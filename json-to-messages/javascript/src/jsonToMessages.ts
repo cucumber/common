@@ -1,6 +1,5 @@
 import { PassThrough, pipeline, Readable, Writable } from 'stream'
 import SingleObjectWritableStream from './stream/SingleObjectWritableStream'
-import { IFeature } from './cucumber-generic/JSONSchema'
 import JSONTransformStream from './stream/JSONTransformStream'
 import { runCucumber, SupportCode } from '@cucumber/fake-cucumber'
 import PredictableSupportCode from './PredictableSupportCode'
@@ -34,7 +33,7 @@ export default async function main(
   implementation?: Implementation
 ) {
   const singleObjectWritable = new SingleObjectWritableStream<
-    ReadonlyArray<IFeature>
+    readonly unknown[]
   >()
   await asyncPipeline(
     jsonReadable,

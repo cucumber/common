@@ -1,4 +1,4 @@
-import { IResult, IMatch, ITag } from '../cucumber-generic/JSONSchema'
+import { IMatch, IResult, ITag } from '../types'
 
 export interface IElement {
   line: number

@@ -12,7 +12,7 @@ import { Implementation } from './types'
 
 export default function traverseFeature(
   implementation: Implementation,
-  feature: IFeature | IBehaveFeature,
+  feature: unknown,
   astMaker: IAstMaker,
   newId: IdGenerator.NewId,
   predictableSupportCode: IPredictableSupportCode

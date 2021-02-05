@@ -1,9 +1,8 @@
 import fs from 'fs'
-// eslint-disable-next-line node/no-extraneous-import
-import yaml from 'js-yaml' // why?
+import yaml from 'js-yaml'
 import CucumberExpressionTokenizer from '../src/CucumberExpressionTokenizer'
 import assert from 'assert'
-import { CucumberExpressionError } from '../src/Errors'
+import CucumberExpressionError from '../src/CucumberExpressionError'
 
 interface Expectation {
   expression: string
@@ -14,7 +13,7 @@ interface Expectation {
 describe('Cucumber expression tokenizer', () => {
   fs.readdirSync('testdata/tokens').forEach((testcase) => {
     const testCaseData = fs.readFileSync(`testdata/tokens/${testcase}`, 'utf-8')
-    const expectation = yaml.safeLoad(testCaseData) as Expectation
+    const expectation = yaml.load(testCaseData) as Expectation
     it(`${testcase}`, () => {
       const tokenizer = new CucumberExpressionTokenizer()
       if (expectation.exception == undefined) {
