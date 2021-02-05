@@ -75,7 +75,12 @@ docker-run-with-secrets:
 	docker run \
 	  --volume "${shell pwd}":/app \
 	  --volume "${HOME}/.m2/repository":/home/cukebot/.m2/repository \
-	  --volume "${shell pwd}/../secrets":/home/cukebot \
+	  --volume "${shell pwd}/../secrets/.gem":/home/cukebot/.gem \
+	  --volume "${shell pwd}/../secrets/.ssh":/home/cukebot/.ssh \
+	  --volume "${shell pwd}/../secrets/.npmrc":/home/cukebot/.npmrc \
+	  --volume "${shell pwd}/../secrets/configure":/home/cukebot/configure \
+	  --volume "${shell pwd}/../secrets/codesigning.key":/home/cukebot/codesigning.key \
+	  --volume "${shell pwd}/../secrets/gpg-with-passphrase":/home/cukebot/gpg-with-passphrase \
 	  --env-file ../secrets/secrets.list \
 	  --user 1000 \
 	  --rm \

@@ -11,14 +11,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
+### Deprecated
+
+### Removed
+
+### Fixed
+
+## [14.0.0] - 2021-02-05
+
+### Changed
+
 * [JavaScript] The stream classes have to be imported separately:
   `import { MessageToBinaryStream, MessageToNdjsonStream, BinaryToMessageStream, NdjsonToMessageStream} from '@cucumber/messages/dist/src/stream'`
   ([#1331](https://github.com/cucumber/cucumber/issues/1331))
 * In JavaScript, Int64 fields are now typed as `number`, rather than `number|Long`
-
-### Deprecated
-
-### Removed
 
 ### Fixed
 
@@ -450,7 +456,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Protobuf messages for Go, Java, JavaScript, TypeScript and Ruby
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/messages/v13.2.1...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/messages/v14.0.0...master
+[14.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v13.2.1...messages/v14.0.0
 [13.2.1]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v13.2.0...messages/v13.2.1
 [13.2.0]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v13.1.0...messages/v13.2.0
 [13.1.0]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v13.0.1...messages/v13.1.0
