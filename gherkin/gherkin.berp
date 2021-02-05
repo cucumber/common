@@ -10,7 +10,7 @@ Feature! := FeatureHeader Background? ScenarioDefinition* Rule*
 FeatureHeader! := #Language? Tags? #FeatureLine DescriptionHelper
 
 Rule! := RuleHeader Background? ScenarioDefinition*
-RuleHeader! := #RuleLine DescriptionHelper
+RuleHeader! [#Empty|#Comment|#TagLine->#RuleLine]:= #RuleLine DescriptionHelper
 
 Background! := #BackgroundLine DescriptionHelper Step*
 
