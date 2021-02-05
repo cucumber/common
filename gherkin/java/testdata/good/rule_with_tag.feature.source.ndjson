@@ -1,0 +1,7 @@
+{
+  "source": {
+    "data": "@tag_feature\nFeature: Some tagged rules\n\n  Rule: A\n  The rule A description\n\n    Example: Example A\n      Given a\n\n  @tag_b\n  Rule: B\n  The rule B description\n\n    Example: Example B1\n      Given b\n\n    @tag_b2\n    Example: Example B2\n      Given b\n",
+    "mediaType": "text/x.cucumber.gherkin+plain",
+    "uri": "testdata/good/rule_with_tag.feature"
+  }
+}

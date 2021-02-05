@@ -1,0 +1,20 @@
+(1:1)TagLine://1:@tag_feature
+(2:1)FeatureLine:Feature/Some tagged rules/
+(3:1)Empty://
+(4:3)RuleLine:Rule/A/
+(5:1)Other:/  The rule A description/
+(6:1)Other://
+(7:5)ScenarioLine:Example/Example A/
+(8:7)StepLine:Given /a/
+(9:1)Empty://
+(10:3)TagLine://3:@tag_b
+(11:3)RuleLine:Rule/B/
+(12:1)Other:/  The rule B description/
+(13:1)Other://
+(14:5)ScenarioLine:Example/Example B1/
+(15:7)StepLine:Given /b/
+(16:1)Empty://
+(17:5)TagLine://5:@tag_b2
+(18:5)ScenarioLine:Example/Example B2/
+(19:7)StepLine:Given /b/
+EOF
