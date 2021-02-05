@@ -54,7 +54,7 @@
     "@cucumber/gherkin-utils": "file:../../gherkin-utils/javascript",
     "@cucumber/messages": "file:../../messages/javascript",
     "@cucumber/tag-expressions": "file:../../tag-expressions/javascript",
-    "commander": "^6.2.0",
+    "commander": "^7.0.0",
     "glob": "^7.1.6",
     "source-map-support": "^0.5.19",
     "stack-utils": "^2.0.2",

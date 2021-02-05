@@ -49,7 +49,7 @@
   },
   "dependencies": {
     "@cucumber/messages": "file:../../messages/javascript",
-    "commander": "^6.2.0",
+    "commander": "^7.0.0",
     "source-map-support": "^0.5.19"
   },
   "directories": {

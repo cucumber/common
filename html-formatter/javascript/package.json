@@ -25,7 +25,7 @@
     "@cucumber/messages": "file:../../messages/javascript",
     "@cucumber/query": "file:../../query/javascript",
     "@cucumber/react": "file:../../react/javascript",
-    "commander": "^6.2.1",
+    "commander": "^7.0.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "resolve-pkg": "^2.0.0",
