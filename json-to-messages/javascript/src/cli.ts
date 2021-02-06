@@ -13,7 +13,7 @@ program.option(
 program.option('-d, --detect', 'Output detected language from JSON report', '')
 
 program.parse(process.argv)
-const { lang, detect } = program
+const { lang, detect } = program.opts()
 
 if (detect) {
   detectImplementations(process.stdin)

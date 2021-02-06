@@ -77,6 +77,10 @@ else
 endif
 .PHONY: update-version
 
+update-dependencies:
+	@echo -e "\033[0;31mPlease update dependencies for perl manually!!\033[0m"
+.PHONY: update-dependencies
+
 clean:
 	rm -rf Gherkin-* .cpanfile_dependencies .built acceptance CHANGES
 .PHONY: clean

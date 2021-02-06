@@ -1,5 +1,5 @@
 import { Writable } from 'stream'
-import Query from './Query'
+import { Query } from '@cucumber/query'
 import { messages } from '@cucumber/messages'
 
 export default class QueryStream extends Writable {

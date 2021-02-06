@@ -23,10 +23,10 @@ program.option(
 
 async function main() {
   program.parse(process.argv)
-  const { predictableIds, format } = program
+  const { predictableIds, format, require } = program.opts()
 
   const paths = program.args
-  const requirePaths = program.require ? program.require.split(':') : paths
+  const requirePaths = require ? require.split(':') : paths
 
   const supportCode = await loadSupportCode(predictableIds, requirePaths)
 
