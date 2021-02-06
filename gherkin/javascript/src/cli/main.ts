@@ -26,10 +26,10 @@ const paths = program.args
 
 const options: IGherkinOptions = {
   defaultDialect: 'en',
-  includeSource: program.source,
-  includeGherkinDocument: program.ast,
-  includePickles: program.pickles,
-  newId: program.predictableIds
+  includeSource: program.opts().source,
+  includeGherkinDocument: program.opts().ast,
+  includePickles: program.opts().pickles,
+  newId: program.opts().predictableIds
     ? IdGenerator.incrementing()
     : IdGenerator.uuid(),
   createReadStream: (path: string) =>
@@ -42,7 +42,7 @@ const messageStream =
     : Gherkin.fromPaths(paths, options)
 
 let encodedStream: Transform
-switch (program.format) {
+switch (program.opts().format) {
   case 'ndjson':
     encodedStream = new MessageToNdjsonStream()
     break
@@ -50,7 +50,7 @@ switch (program.format) {
     encodedStream = new MessageToBinaryStream()
     break
   default:
-    throw new Error(`Unsupported format: ${program.format}`)
+    throw new Error(`Unsupported format: ${program.opts().format}`)
 }
 
 messageStream.pipe(encodedStream).pipe(process.stdout)

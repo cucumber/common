@@ -18,7 +18,7 @@ program.option(
 program.parse(process.argv)
 
 const toMessageStream =
-  program.format === 'ndjson'
+  program.opts().format === 'ndjson'
     ? new NdjsonToMessageStream(
         messages.Envelope.fromObject.bind(messages.Envelope)
       )
