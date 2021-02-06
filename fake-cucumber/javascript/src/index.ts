@@ -9,16 +9,19 @@ import {
 } from './dsl'
 import runCucumber from './runCucumber'
 import SupportCode from './SupportCode'
-import IStepDefinition from './IStepDefinition'
-import ISupportCodeExecutor from './ISupportCodeExecutor'
-import IWorld from './IWorld'
-import IHook from './IHook'
 import {
+  IHook,
+  IWorld,
   MakePickleTestStep,
   MakeTestCase,
   MakeTestPlan,
   MakeHookTestStep,
   EnvelopeListener,
+  ITestCase,
+  IStepDefinition,
+  ISupportCodeExecutor,
+  ITestPlan,
+  ITestStep,
 } from './types'
 import {
   MakeErrorMessage,
@@ -29,10 +32,7 @@ import makePickleTestStep from './makePickleTestStep'
 import makeTestCase from './makeTestCase'
 import makeTestPlan from './makeTestPlan'
 import makeHookTestStep from './makeHookTestStep'
-import ITestStep from './ITestStep'
 import TestStep from './TestStep'
-import ITestCase from './ITestCase'
-import ITestPlan from './ITestPlan'
 import IClock from './IClock'
 import DateClock from './DateClock'
 import IStopwatch from './IStopwatch'

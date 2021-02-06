@@ -1,5 +1,5 @@
 import { RuleType, TokenType } from './Parser'
-import Token from './Token'
+import IToken from './IToken'
 
 export default class AstNode {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -29,7 +29,7 @@ export default class AstNode {
     return (this.subItems.get(tokenType) || [])[0]
   }
 
-  public getTokens(tokenType: TokenType): Token[] {
+  public getTokens(tokenType: TokenType): IToken<TokenType>[] {
     return this.subItems.get(tokenType) || []
   }
 }

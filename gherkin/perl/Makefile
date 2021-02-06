@@ -77,6 +77,10 @@ else
 endif
 .PHONY: update-version
 
+update-dependencies:
+	@echo -e "\033[0;31mPlease update dependencies for perl manually!!\033[0m"
+.PHONY: update-dependencies
+
 clean:
 	rm -rf Gherkin-* .cpanfile_dependencies .built acceptance CHANGES
 .PHONY: clean
@@ -96,3 +100,6 @@ lib/Gherkin/Generated/Parser.pm: gherkin.berp gherkin-perl.razor
 	# Remove BOM
 	awk 'NR==1{sub(/^\xef\xbb\xbf/,"")}{print}' < $@ > $@.nobom
 	mv $@.nobom $@
+
+pre-release: update-version
+.PHONY: pre-release

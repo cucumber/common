@@ -1,18 +1,18 @@
-import { IFeature } from './cucumber-generic/JSONSchema'
 import { IFeature as IBehaveFeature } from './behave/JSONSchema'
 import { IStep as IJSStep } from './cucumber-js/JSONSchema'
 import { Implementation } from './types'
+import { IFeature } from './cucumber-generic/JSONSchema'
 
-export default function detectImplementation(
-  feature: IFeature | IBehaveFeature
-): Implementation {
-  const featureAsBehave = feature as IBehaveFeature
+export default function detectImplementation(feature: unknown): Implementation {
+  const behaveFeature = feature as IBehaveFeature
 
-  if (featureAsBehave.status || featureAsBehave.location) {
+  if (behaveFeature.status || behaveFeature.location) {
     return 'behave'
   }
 
-  for (const element of feature.elements || []) {
+  const genericFeature = feature as IFeature
+
+  for (const element of genericFeature.elements || []) {
     for (const step of element.steps || []) {
       const stepAsJS = step as IJSStep
       if (stepAsJS.hidden) {

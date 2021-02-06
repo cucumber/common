@@ -9,11 +9,11 @@ import {
   createOptionalMayNotBeEmpty,
   createParameterIsNotAllowedInOptional,
   createUndefinedParameterType,
-  CucumberExpressionError,
 } from './Errors'
 import Expression from './Expression'
 import CucumberExpressionParser from './CucumberExpressionParser'
 import { Node, NodeType } from './Ast'
+import CucumberExpressionError from './CucumberExpressionError'
 
 const ESCAPE_PATTERN = () => /([\\^[({$.|?*+})\]])/g
 

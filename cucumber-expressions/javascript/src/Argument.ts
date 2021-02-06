@@ -1,7 +1,7 @@
 import TreeRegexp from './TreeRegexp'
 import ParameterType from './ParameterType'
 import Group from './Group'
-import { CucumberExpressionError } from './Errors'
+import CucumberExpressionError from './CucumberExpressionError'
 
 export default class Argument<T> {
   public static build(

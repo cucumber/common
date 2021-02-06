@@ -1,16 +1,15 @@
 import { messages } from '@cucumber/messages'
-import IStepDefinition from './IStepDefinition'
 import PickleTestStep from './PickleTestStep'
-import ITestStep from './ITestStep'
 import IClock from './IClock'
 import { MakeErrorMessage } from './ErrorMessageGenerator'
 import IStopwatch from '../src/IStopwatch'
+import { IStepDefinition, ITestStep } from './types'
 
 export default function makePickleTestStep(
   testStepId: string,
   pickleStep: messages.Pickle.IPickleStep,
-  stepDefinitions: ReadonlyArray<IStepDefinition>,
-  sourceFrames: ReadonlyArray<string>,
+  stepDefinitions: readonly IStepDefinition[],
+  sourceFrames: readonly string[],
   clock: IClock,
   stopwatch: IStopwatch,
   makeErrorMessage: MakeErrorMessage

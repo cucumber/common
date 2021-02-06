@@ -27,10 +27,9 @@ final class TreeRegexp {
         this.groupBuilder = createGroupBuilder(pattern);
     }
 
-    private static GroupBuilder createGroupBuilder(Pattern pattern) {
+    static GroupBuilder createGroupBuilder(Pattern pattern) {
         String source = pattern.pattern();
-        Deque<GroupBuilder> stack = new ArrayDeque<>(singleton(new GroupBuilder()));
-        Deque<Integer> groupStartStack = new ArrayDeque<>();
+        Deque<GroupBuilder> stack = new ArrayDeque<>(singleton(new GroupBuilder(0)));
         boolean escaping = false;
         boolean charClass = false;
 
@@ -41,22 +40,21 @@ final class TreeRegexp {
             } else if (c == ']' && !escaping) {
                 charClass = false;
             } else if (c == '(' && !escaping && !charClass) {
-                groupStartStack.push(i);
                 boolean nonCapturing = isNonCapturingGroup(source, i);
-                GroupBuilder groupBuilder = new GroupBuilder();
+                GroupBuilder groupBuilder = new GroupBuilder(i);
                 if (nonCapturing) {
                     groupBuilder.setNonCapturing();
                 }
                 stack.push(groupBuilder);
             } else if (c == ')' && !escaping && !charClass) {
                 GroupBuilder gb = stack.pop();
-                int groupStart = groupStartStack.pop();
                 if (gb.isCapturing()) {
-                    gb.setSource(source.substring(groupStart + 1, i));
+                    gb.setSource(source.substring(gb.getStartIndex() + 1, i));
                     stack.peek().add(gb);
                 } else {
                     gb.moveChildrenTo(stack.peek());
                 }
+                gb.setEndIndex(i);
             }
             escaping = c == '\\' && !escaping;
         }

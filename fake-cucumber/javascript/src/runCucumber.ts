@@ -11,7 +11,7 @@ export default async function runCucumber(
   gherkinEnvelopeStream: Readable,
   gherkinQuery: GherkinQuery,
   envelopeOutputStream: Writable,
-  makeTestPlanFn: MakeTestPlan = makeTestPlan
+  makeTestPlanFn: MakeTestPlan<SupportCode> = makeTestPlan
 ) {
   const gherkinQueryStream = new GherkinQueryStream(gherkinQuery)
   gherkinEnvelopeStream
