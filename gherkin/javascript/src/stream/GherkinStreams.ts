@@ -5,7 +5,7 @@ import ParserMessageStream from './ParserMessageStream'
 import SourceMessageStream from './SourceMessageStream'
 import IGherkinOptions from '../IGherkinOptions'
 import makeGherkinOptions from '../makeGherkinOptions'
-import * as fs from 'fs'
+import fs from 'fs'
 
 function fromStream(stream: Readable, options: IGherkinOptions) {
   return pipeline(

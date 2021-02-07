@@ -24,7 +24,7 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Removed
 * [JavaScript] remove `IGherkinOptions#createReadStream`. This function was introduced in `9.1.0`
-  in order to decouple this lib from the Node.js `fs` library. This decoupling was inmproved in
+  in order to decouple this lib from the Node.js `fs` library. This decoupling was improved in
   [#1333](https://github.com/cucumber/cucumber/pull/1333) which made it obsolete.  
   (Fixes [#1284](https://github.com/cucumber/cucumber/issues/1284)
 
