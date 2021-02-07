@@ -7,13 +7,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ----
 ## [Unreleased]
 
-### Added
-
 ### Changed
 
-### Deprecated
-
-### Removed
+* Upgrade to gherkin 17.0.0
+* Upgrade to messages 14.0.0
+* Upgrade to query 8.0.0
 
 ### Fixed
 
