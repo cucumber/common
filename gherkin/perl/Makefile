@@ -65,7 +65,7 @@ predistribution: test CHANGES
 distribution: predistribution
 	PERL5LIB=./perl5/lib/perl5 PATH=$$PATH:./perl5/bin dzil test --release && PERL5LIB=./perl5/lib/perl5 PATH=$$PATH:./perl5/bin dzil build
 
-release: predistribution
+publish: predistribution
 	PERL5LIB=./perl5/lib/perl5 PATH=$$PATH:./perl5/bin dzil release
 
 update-version:

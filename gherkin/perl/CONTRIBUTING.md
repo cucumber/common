@@ -20,7 +20,7 @@ Just run `make` from this directory.
     # Assuming you have a PAUSE (CPAN) account which is authorized to make
     # releases, and they're in a ~/.pause file, you can also upload your release
     # directly to CPAN with:
-    make release
+    make publish
 
 ## Trial releases...
 
