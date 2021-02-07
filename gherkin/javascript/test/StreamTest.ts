@@ -3,13 +3,9 @@ import { Readable } from 'stream'
 import { messages } from '@cucumber/messages'
 import Gherkin from '../src/stream/GherkinStreams'
 import makeSourceEnvelope from '../src/makeSourceEnvelope'
-import fs from 'fs'
 import { IGherkinOptions, dialects } from '../src'
 
-const defaultOptions: IGherkinOptions = {
-  createReadStream: (path: string) =>
-    fs.createReadStream(path, { encoding: 'utf-8' }),
-}
+const defaultOptions: IGherkinOptions = {}
 
 describe('gherkin', () => {
   it('parses gherkin from the file system', async () => {

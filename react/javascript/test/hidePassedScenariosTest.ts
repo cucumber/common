@@ -79,10 +79,7 @@ describe('hidePassedScenarios', () => {
       .sync('../../compatibility-kit/javascript/features/**/*.feature')
       .sort()
     const gherkinStream = GherkinStreams.fromPaths(featureFiles, {
-      newId: IdGenerator.incrementing(),
-      createReadStream(filePath: string) {
-        return fs.createReadStream(filePath, { encoding: 'utf-8' })
-      },
+      newId: IdGenerator.incrementing()
     })
     const gherkinQuery = new GherkinQuery()
     const cucumberQuery = new CucumberQuery()

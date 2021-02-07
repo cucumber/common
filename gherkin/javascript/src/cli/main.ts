@@ -32,8 +32,6 @@ const options: IGherkinOptions = {
   newId: program.opts().predictableIds
     ? IdGenerator.incrementing()
     : IdGenerator.uuid(),
-  createReadStream: (path: string) =>
-    fs.createReadStream(path, { encoding: 'utf-8' }),
 }
 
 const messageStream =

@@ -15,6 +15,7 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 * [JavaScript] the `GherkinStreams` object is not longer loaded by default.
   This makes it possible to use the library in a browser without a polyfill.
   To upgrade, use `import GherkinStreams from '@cucumber/gherkin/dist/src/stream/GherkinStreams'` instead of `import { GherkinStreams } from 'gherkin'`.
+  ([#1333](https://github.com/cucumber/cucumber/pull/1333))
 * [Perl] Fully overhauled implementation, moving it up from 4.0.0
   ([#711](https://github.com/cucumber/cucumber/pull/711),
    [#1286](https://github.com/cucumber/cucumber/pull/1286)) [ehuelsmann]
@@ -22,6 +23,10 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 ### Deprecated
 
 ### Removed
+* [JavaScript] remove `IGherkinOptions#createReadStream`. This function was introduced in `9.1.0`
+  in order to decouple this lib from the Node.js `fs` library. This decoupling was inmproved in
+  [#1333](https://github.com/cucumber/cucumber/pull/1333) which made it obsolete.  
+  (Fixes [#1284](https://github.com/cucumber/cucumber/issues/1284)
 
 ### Fixed
 * Use Italian translation for the "Rule" keyword and for the "Feature" synonym keywords
