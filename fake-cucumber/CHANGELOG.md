@@ -17,6 +17,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [10.0.0] - 2021-02-07
+
+### Changed
+
+* Upgrade togherkin 17.0.0
+* Upgrade to messages 14.0.0
+
+### Fixed
+
 * [JavaScript] removed circular dependencies.
   ([#1292](https://github.com/cucumber/cucumber/pull/1292)
    [davidjgoss]
@@ -198,7 +207,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/fake-cucumber/v9.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/fake-cucumber/v10.0.0...master
+[10.0.0]:      https://github.com/cucumber/cucumber/compare/fake-cucumber/v9.0.0...fake-cucumber/v10.0.0
 [9.0.0]:      https://github.com/cucumber/cucumber/compare/fake-cucumber/v8.0.0...fake-cucumber/v9.0.0
 [8.0.0]:      https://github.com/cucumber/cucumber/compare/fake-cucumber/v7.1.0...fake-cucumber/v8.0.0
 [7.1.0]:      https://github.com/cucumber/cucumber/compare/fake-cucumber/v7.0.0...fake-cucumber/v7.1.0

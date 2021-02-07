@@ -31,7 +31,7 @@ async function main() {
 
   const gherkinOptions: IGherkinOptions = {
     defaultDialect: 'en',
-    newId: supportCode.newId
+    newId: supportCode.newId,
   }
   const gherkinEnvelopeStream = GherkinStreams.fromPaths(paths, gherkinOptions)
 
