@@ -33,13 +33,15 @@ const Scenario: React.FunctionComponent<IProps> = ({ scenario }) => {
       <Tags tags={scenario.tags} />
       <ScenarioTitle id={idGenerated} scenario={scenario} />
       <Description description={scenario.description} />
-      <HookList hookSteps={beforeHooks} />
-      <StepList
-        steps={scenario.steps || []}
-        renderStepMatchArguments={!hasExamples}
-        renderMessage={!hasExamples}
-      />
-      <HookList hookSteps={afterHooks} />
+      <ol className="cucumber-steps">
+        <HookList hookSteps={beforeHooks} />
+        <StepList
+          steps={scenario.steps || []}
+          renderStepMatchArguments={!hasExamples}
+          renderMessage={!hasExamples}
+        />
+        <HookList hookSteps={afterHooks} />
+      </ol>
 
       {examplesList.map((examples, index) => (
         <Examples key={index} examples={examples} />
