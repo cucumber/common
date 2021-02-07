@@ -5,7 +5,6 @@ import runCucumber from './runCucumber'
 import { IGherkinOptions } from '@cucumber/gherkin'
 import GherkinStreams from '@cucumber/gherkin/dist/src/stream/GherkinStreams'
 import { Query as GherkinQuery } from '@cucumber/gherkin-utils'
-import fs from 'fs'
 import makeFormatStream from './makeFormatStream'
 import { version } from '../package.json'
 import { messages } from '@cucumber/messages'
@@ -32,9 +31,7 @@ async function main() {
 
   const gherkinOptions: IGherkinOptions = {
     defaultDialect: 'en',
-    newId: supportCode.newId,
-    createReadStream: (path: string) =>
-      fs.createReadStream(path, { encoding: 'utf-8' }),
+    newId: supportCode.newId
   }
   const gherkinEnvelopeStream = GherkinStreams.fromPaths(paths, gherkinOptions)
 

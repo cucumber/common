@@ -5,7 +5,6 @@ import GherkinDocument = messages.GherkinDocument
 import { Query as CucumberQuery, Query } from '@cucumber/query'
 import GherkinStreams from '@cucumber/gherkin/dist/src/stream/GherkinStreams'
 import { Query as GherkinQuery } from '@cucumber/gherkin-utils'
-import fs from 'fs'
 
 import hidePassedScenarios from '../src/hidePassedScenarios'
 import { runCucumber, SupportCode } from '@cucumber/fake-cucumber'
@@ -79,10 +78,7 @@ describe('hidePassedScenarios', () => {
       .sync('../../compatibility-kit/javascript/features/**/*.feature')
       .sort()
     const gherkinStream = GherkinStreams.fromPaths(featureFiles, {
-      newId: IdGenerator.incrementing(),
-      createReadStream(filePath: string) {
-        return fs.createReadStream(filePath, { encoding: 'utf-8' })
-      },
+      newId: IdGenerator.incrementing()
     })
     const gherkinQuery = new GherkinQuery()
     const cucumberQuery = new CucumberQuery()
