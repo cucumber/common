@@ -7,15 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ----
 ## [Unreleased]
 
-### Added
-
 ### Changed
 
-### Deprecated
-
-### Removed
-
-### Fixed
+* Upgrade to messages 14.0.0
 
 ## [7.0.1] - 2020-12-17
 

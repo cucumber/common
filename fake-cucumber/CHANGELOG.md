@@ -21,7 +21,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
-* Upgrade togherkin 17.0.0
+* Upgrade to gherkin 17.0.0
 * Upgrade to messages 14.0.0
 
 ### Fixed
