@@ -68,6 +68,9 @@ distribution: predistribution
 publish: predistribution
 	PERL5LIB=./perl5/lib/perl5 PATH=$$PATH:./perl5/bin dzil release
 
+post-release:
+.PHONY: post-release
+
 update-version:
 ifdef NEW_VERSION
 	echo $(NEW_VERSION) > VERSION
