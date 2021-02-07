@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ----
 ## [Unreleased]
 
+### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+## [3.0.0] - 2021-02-07
+
 ### Changed
 
 * Upgrade to gherkin 17.0.0
@@ -25,7 +37,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/compatibility-kit/v2.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/compatibility-kit/v3.0.0...master
+[3.0.0]:      https://github.com/cucumber/cucumber/releases/tag/compatibility-kit/v2.0.0
 [2.0.0]:      https://github.com/cucumber/cucumber/releases/tag/compatibility-kit/v1.0.0
 [1.0.0]:      https://github.com/cucumber/cucumber/releases/tag/compatibility-kit/v1.0.0
 
