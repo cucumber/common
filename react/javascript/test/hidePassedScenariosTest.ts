@@ -5,7 +5,6 @@ import GherkinDocument = messages.GherkinDocument
 import { Query as CucumberQuery, Query } from '@cucumber/query'
 import GherkinStreams from '@cucumber/gherkin/dist/src/stream/GherkinStreams'
 import { Query as GherkinQuery } from '@cucumber/gherkin-utils'
-import fs from 'fs'
 
 import hidePassedScenarios from '../src/hidePassedScenarios'
 import { runCucumber, SupportCode } from '@cucumber/fake-cucumber'
