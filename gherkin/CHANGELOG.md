@@ -12,6 +12,16 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 ### Added
 
 ### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+## [17.0.0] - 2021-02-07
+
+### Changed
 * [JavaScript] the `GherkinStreams` object is not longer loaded by default.
   This makes it possible to use the library in a browser without a polyfill.
   To upgrade, use `import GherkinStreams from '@cucumber/gherkin/dist/src/stream/GherkinStreams'` instead of `import { GherkinStreams } from 'gherkin'`.
@@ -19,8 +29,6 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 * [Perl] Fully overhauled implementation, moving it up from 4.0.0
   ([#711](https://github.com/cucumber/cucumber/pull/711),
    [#1286](https://github.com/cucumber/cucumber/pull/1286)) [ehuelsmann]
-
-### Deprecated
 
 ### Removed
 * [JavaScript] remove `IGherkinOptions#createReadStream`. This function was introduced in `9.1.0`
@@ -851,7 +859,8 @@ to Gherkin 2.
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v16.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v17.0.0...master
+[17.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v16.0.0...gherkin/v17.0.0
 [16.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v15.0.2...gherkin/v16.0.0
 [15.0.2]:     https://github.com/cucumber/cucumber/compare/gherkin/v15.0.1...gherkin/v15.0.2
 [15.0.1]:     https://github.com/cucumber/cucumber/compare/gherkin/v15.0.0...gherkin/v15.0.1
