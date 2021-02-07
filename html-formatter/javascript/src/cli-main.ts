@@ -5,7 +5,6 @@ import {
 } from '@cucumber/messages/dist/src/stream'
 import program from 'commander'
 import p from '../package.json'
-import resolvePkg from 'resolve-pkg'
 import { pipeline } from 'stream'
 import CucumberHtmlStream from './CucumberHtmlStream'
 
@@ -30,8 +29,7 @@ pipeline(
   process.stdin,
   toMessageStream,
   new CucumberHtmlStream(
-    resolvePkg('@cucumber/react', { cwd: __dirname }) +
-      '/dist/src/styles/cucumber-react.css',
+    __dirname + '/../../dist/cucumber-react.css',
     __dirname + '/../../dist/main.js'
   ),
   process.stdout,
