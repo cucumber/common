@@ -19,6 +19,11 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Fixed
 
+* Fix building of MacOS (darwin) executables.
+  ([#1347](https://github.com/cucumber/cucumber/issues/1347)
+   [aslakhellesoy]
+   [ciaranmcnulty])
+
 ## [17.0.0] - 2021-02-07
 
 ### Changed
@@ -912,6 +917,7 @@ to Gherkin 2.
 [badeball]:          https://github.com/badeball
 [brasmusson]:        https://github.com/brasmusson
 [charlierudolph]:    https://github.com/charlierudolph
+[ciaranmcnulty]:     https://github.com/ciaranmcnulty
 [coderbyheart]:      https://github.com/coderbyheart
 [cyocum]:            https://github.com/cyocum
 [danilat]:           https://github.com/danilat
