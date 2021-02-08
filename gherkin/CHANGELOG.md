@@ -19,8 +19,13 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Fixed
 
+## [17.0.1] - 2021-02-08
+
+### Fixed
+
 * Fix building of MacOS (darwin) executables.
   ([#1347](https://github.com/cucumber/cucumber/issues/1347)
+   [#1348](https://github.com/cucumber/cucumber/pull/1348)
    [aslakhellesoy]
    [ciaranmcnulty])
 
@@ -864,7 +869,8 @@ to Gherkin 2.
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v17.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v17.0.1...master
+[17.0.1]:     https://github.com/cucumber/cucumber/compare/gherkin/v17.0.0...gherkin/v17.0.1
 [17.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v16.0.0...gherkin/v17.0.0
 [16.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v15.0.2...gherkin/v16.0.0
 [15.0.2]:     https://github.com/cucumber/cucumber/compare/gherkin/v15.0.1...gherkin/v15.0.2
