@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ----
 ## [Unreleased]
 
+### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+## [12.0.0] - 2021-02-07
+
 ### Changed
 
 * Upgrade to gherkin 17.0.0
@@ -314,7 +326,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/react/v11.0.2...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/react/v12.0.0...master
+[12.0.0]:      https://github.com/cucumber/cucumber/compare/react/v11.0.2...react/v12.0.0
 [11.0.2]:      https://github.com/cucumber/cucumber/compare/react/v11.0.1...react/v11.0.2
 [11.0.1]:      https://github.com/cucumber/cucumber/compare/react/v11.0.0...react/v11.0.1
 [11.0.0]:      https://github.com/cucumber/cucumber/compare/react/v10.1.2...react/v11.0.0

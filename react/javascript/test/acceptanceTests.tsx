@@ -30,7 +30,7 @@ describe('App', () => {
         const supportCode = new SupportCode()
         const p = path.join(dir, file)
         const gherkinStream = GherkinStreams.fromPaths([p], {
-          newId: IdGenerator.incrementing()
+          newId: IdGenerator.incrementing(),
         })
         const gherkinQuery = new GherkinQuery()
         const cucumberQuery = new CucumberQuery()
