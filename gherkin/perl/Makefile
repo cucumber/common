@@ -50,11 +50,11 @@ acceptance/testdata/%.feature.errors.ndjson: testdata/%.feature testdata/%.featu
 	PERL5LIB=./perl5/lib/perl5 bin/gherkin-generate-ast $< > $@
 	diff --unified <(jq "." $<.errors.ndjson) <(jq "." $@)
 
-CHANGES:
-	cp ../CHANGELOG.md CHANGES
+CHANGELOG.md: ../CHANGELOG.md
+	cp ../CHANGELOG.md CHANGELOG.md
 
 # Get to a point where dzil can be run
-predistribution: test CHANGES
+predistribution: test CHANGELOG.md
 # --notest to keep the number of dependencies low: it doesn't install the
 # testing dependencies of the dependencies.
 	cpanm --notest --local-lib ./perl5 --installdeps --with-develop .
