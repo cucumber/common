@@ -75,6 +75,7 @@ docker-run-with-secrets:
 	docker run \
 	  --volume "${shell pwd}":/app \
 	  --volume "${HOME}/.m2/repository":/home/cukebot/.m2/repository \
+	  --volume "${shell pwd}/../secrets/.pause":/home/cukebot/.pause \
 	  --volume "${shell pwd}/../secrets/.gem":/home/cukebot/.gem \
 	  --volume "${shell pwd}/../secrets/.ssh":/home/cukebot/.ssh \
 	  --volume "${shell pwd}/../secrets/.npmrc":/home/cukebot/.npmrc \
