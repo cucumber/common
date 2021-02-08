@@ -12,8 +12,5 @@ on 'test' => sub {
 };
 
 on 'develop' => sub {
-    requires "Dist::Zilla";
-    requires "Dist::Zilla::Plugin::Hook";
-    requires "Dist::Zilla::Plugin::Prereqs::FromCPANfile";
-    requires "Dist::Zilla::Plugin::Test::UseAllModules";
+   # there are no specific development dependencies...
 };
