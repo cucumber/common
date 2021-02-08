@@ -20,19 +20,19 @@ export function millisecondsToDuration(
 export function timestampToMillisecondsSinceEpoch(
   timestamp: messages.ITimestamp
 ): number {
-  const { nanos, seconds } = timestamp
+  const { seconds, nanos } = timestamp
   return toMillis(seconds, nanos)
 }
 
 export function durationToMilliseconds(duration: messages.IDuration) {
-  const { nanos, seconds } = duration
+  const { seconds, nanos } = duration
   return toMillis(seconds, nanos)
 }
 
 export function addDurations(
   durationA: messages.IDuration,
   durationB: messages.IDuration
-) {
+): messages.IDuration {
   let seconds = durationA.seconds + durationB.seconds
   let nanos = durationA.nanos + durationB.nanos
   if (nanos >= NANOSECONDS_PER_SECOND) {

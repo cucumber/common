@@ -17,6 +17,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+* [JavaScript] Remove `Long` from function signatures in `TimeConversion`
+
 ## [14.0.0] - 2021-02-05
 
 ### Changed
