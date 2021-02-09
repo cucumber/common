@@ -1,8 +1,8 @@
 import countSymbols from './countSymbols'
 import { ParserException } from './Errors'
-import { Item } from './Parser'
+import { IGherkinLine, Item } from './IToken'
 
-export default class GherkinLine {
+export default class GherkinLine implements IGherkinLine {
   public trimmedLineText: string
   public isEmpty: boolean
   public indent: number

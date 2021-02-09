@@ -1,8 +1,9 @@
 import ITokenMatcher from './ITokenMatcher'
 import Dialect from './Dialect'
-import { Item, Token, TokenType } from './Parser'
+import { Token, TokenType } from './Parser'
 import DIALECTS from './gherkin-languages.json'
 import assert from 'assert'
+import { Item } from './IToken'
 
 const DIALECT_DICT: { [key: string]: Dialect } = DIALECTS
 const DEFAULT_DOC_STRING_SEPARATOR = /^(```[`]*)(.*)/

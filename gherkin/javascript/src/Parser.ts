@@ -15,14 +15,8 @@ import TokenScanner from './TokenScanner'
 import TokenMatcher from './TokenMatcher'
 import ITokenMatcher from './ITokenMatcher'
 import GherkinLine from './GherkinLine'
-import IToken from './IToken'
+import IToken, { Item } from './IToken'
 import { IAstBuilder } from './IAstBuilder'
-
-// Represents tags or table cells
-export type Item = {
-  column: number
-  text: string
-}
 
 export class Token implements IToken<TokenType> {
   public isEof: boolean
@@ -106,7 +100,7 @@ export enum RuleType {
 interface Context {
   tokenScanner: TokenScanner<TokenType>
   tokenMatcher: ITokenMatcher<TokenType>
-  tokenQueue: Token[]
+  tokenQueue: IToken<TokenType>[]
   errors: Error[]
 }
 
