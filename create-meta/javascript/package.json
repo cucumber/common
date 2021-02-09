@@ -1,6 +1,6 @@
 {
   "name": "@cucumber/create-meta",
-  "version": "2.0.4",
+  "version": "3.0.0",
   "description": "Produce the meta message for Cucumber JavaScript",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
@@ -32,8 +32,8 @@
     "@types/node": "^14.14.25",
     "@types/stack-utils": "^2.0.0",
     "@types/stream-buffers": "^3.0.3",
-    "@typescript-eslint/eslint-plugin": "^4.14.2",
-    "@typescript-eslint/parser": "^4.14.2",
+    "@typescript-eslint/eslint-plugin": "^4.15.0",
+    "@typescript-eslint/parser": "^4.15.0",
     "eslint": "^7.19.0",
     "eslint-config-prettier": "^7.2.0",
     "eslint-plugin-import": "^2.22.1",
@@ -48,7 +48,7 @@
     "ts-sinon": "^2.0.1"
   },
   "dependencies": {
-    "@cucumber/messages": "file:../../messages/javascript",
+    "@cucumber/messages": "^14.0.1",
     "ts-node": "^9.1.1",
     "typescript": "^4.1.3"
   },
