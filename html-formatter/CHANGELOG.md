@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+* Add inline emoji icon to page
+
 ### Changed
 
 ### Deprecated
