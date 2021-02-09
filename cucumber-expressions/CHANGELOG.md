@@ -17,6 +17,22 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [11.0.2] - 2021-02-09
+
+### Fixed
+
+* [JavaScript] revert breaking changes in 11.0.1
+  ([#1352](https://github.com/cucumber/cucumber/issues/1352))
+
+## [11.0.1] - 2021-02-07
+
+### Fixed
+
+* [JavaScript] removed circular dependencies.
+  ([#1292](https://github.com/cucumber/cucumber/pull/1292)
+   [davidjgoss]
+   [aslakhellesoy])
+
 ## [11.0.0] - 2020-12-10
 
 This is a major release of Cucumber Expressions.
@@ -741,7 +757,8 @@ N/A
 * First stable release!
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions/v11.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions/v11.0.2...master
+[11.0.2]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v11.0.0...cucumber-expressions/v11.0.2
 [11.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v10.3.0...cucumber-expressions/v11.0.0
 [10.3.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v10.2.2...cucumber-expressions/v10.3.0
 [10.2.2]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v0.0.0...cucumber-expressions/v10.2.2
