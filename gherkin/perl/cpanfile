@@ -1,3 +1,5 @@
+
+requires "perl", "5.10.1";
 requires "Cpanel::JSON::XS";
 requires "Class::XSAccessor";
 requires "IO::Scalar";

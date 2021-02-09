@@ -1,4 +1,5 @@
-import { BinaryToMessageStream, messages, MessageToBinaryStream } from '../src'
+import { messages } from '../src'
+import { BinaryToMessageStream, MessageToBinaryStream } from '../src/stream'
 import verifyStreamContract from './verifyStreamContract'
 
 describe('BinaryStream', () => {

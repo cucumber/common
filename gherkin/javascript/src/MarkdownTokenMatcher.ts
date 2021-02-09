@@ -1,14 +1,13 @@
 import ITokenMatcher from './ITokenMatcher'
 import Dialect from './Dialect'
-import Token, { Item } from './Token'
-import { TokenType } from './Parser'
+import { Item, Token, TokenType } from './Parser'
 import DIALECTS from './gherkin-languages.json'
 import assert from 'assert'
 
 const DIALECT_DICT: { [key: string]: Dialect } = DIALECTS
 const DEFAULT_DOC_STRING_SEPARATOR = /^(```[`]*)(.*)/
 
-export default class MarkdownTokenMatcher implements ITokenMatcher {
+export default class MarkdownTokenMatcher implements ITokenMatcher<TokenType> {
   private readonly dialect: Dialect
   private readonly nonStarStepKeywords: string[]
   private readonly stepRegexp: RegExp

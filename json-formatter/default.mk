@@ -55,10 +55,7 @@ publish-%: %
 .PHONY: publish-%
 
 create-and-push-release-tag:
-	[ -f '/home/cukebot/import-gpg-key.sh' ] && /home/cukebot/import-gpg-key.sh
-	# Make a copy of the host user's .gitconfig and modify it to use our gpg script
-	cp /home/cukebot/.gitconfig.original /home/cukebot/.gitconfig
-	git config --global gpg.program /app/scripts/gpg-with-passphrase
+	[ -f '/home/cukebot/configure' ] && /home/cukebot/configure
 	git commit -am "Release $(LIBNAME) v$(NEW_VERSION)"
 	git tag -s "$(LIBNAME)/v$(NEW_VERSION)" -m "Release $(LIBNAME) v$(NEW_VERSION)"
 	git push --tags

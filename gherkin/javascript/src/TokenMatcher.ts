@@ -2,14 +2,14 @@ import DIALECTS from './gherkin-languages.json'
 import Dialect from './Dialect'
 import {NoSuchLanguageException} from './Errors'
 import {messages} from '@cucumber/messages'
-import Token, {Item} from './Token'
-import {TokenType} from './Parser'
+import IToken from './IToken'
+import {Item, TokenType} from './Parser'
 import ITokenMatcher from "./ITokenMatcher";
 
 const DIALECT_DICT: { [key: string]: Dialect } = DIALECTS
 const LANGUAGE_PATTERN = /^\s*#\s*language\s*:\s*([a-zA-Z\-_]+)\s*$/
 
-export default class TokenMatcher implements ITokenMatcher {
+export default class TokenMatcher implements ITokenMatcher<TokenType> {
   private dialect: Dialect
   private dialectName: string
   private activeDocStringSeparator: string
@@ -37,7 +37,7 @@ export default class TokenMatcher implements ITokenMatcher {
     this.indentToRemove = 0
   }
 
-  match_TagLine(token: Token) {
+  public match_TagLine(token: IToken<TokenType>) {
     if (token.line.startsWith('@')) {
       this.setTokenMatched(
         token,
@@ -52,7 +52,7 @@ export default class TokenMatcher implements ITokenMatcher {
     return false
   }
 
-  match_FeatureLine(token: Token) {
+  public match_FeatureLine(token: IToken<TokenType>) {
     return this.matchTitleLine(
       token,
       TokenType.FeatureLine,
@@ -60,7 +60,7 @@ export default class TokenMatcher implements ITokenMatcher {
     )
   }
 
-  match_ScenarioLine(token: Token) {
+  public match_ScenarioLine(token: IToken<TokenType>) {
     return (
       this.matchTitleLine(
         token,
@@ -75,7 +75,7 @@ export default class TokenMatcher implements ITokenMatcher {
     )
   }
 
-  match_BackgroundLine(token: Token) {
+  public match_BackgroundLine(token: IToken<TokenType>) {
     return this.matchTitleLine(
       token,
       TokenType.BackgroundLine,
@@ -83,7 +83,7 @@ export default class TokenMatcher implements ITokenMatcher {
     )
   }
 
-  match_ExamplesLine(token: Token) {
+  public match_ExamplesLine(token: IToken<TokenType>) {
     return this.matchTitleLine(
       token,
       TokenType.ExamplesLine,
@@ -91,11 +91,11 @@ export default class TokenMatcher implements ITokenMatcher {
     )
   }
 
-  match_RuleLine(token: Token) {
+  public match_RuleLine(token: IToken<TokenType>) {
     return this.matchTitleLine(token, TokenType.RuleLine, this.dialect.rule)
   }
 
-  match_TableRow(token: Token) {
+  public match_TableRow(token: IToken<TokenType>) {
     if (token.line.startsWith('|')) {
       // TODO: indent
       this.setTokenMatched(
@@ -111,7 +111,7 @@ export default class TokenMatcher implements ITokenMatcher {
     return false
   }
 
-  match_Empty(token: Token) {
+  public match_Empty(token: IToken<TokenType>) {
     if (token.line.isEmpty) {
       this.setTokenMatched(token, TokenType.Empty, null, null, 0)
       return true
@@ -119,7 +119,7 @@ export default class TokenMatcher implements ITokenMatcher {
     return false
   }
 
-  match_Comment(token: Token) {
+  public match_Comment(token: IToken<TokenType>) {
     if (token.line.startsWith('#')) {
       const text = token.line.getLineText(0) // take the entire line, including leading space
       this.setTokenMatched(token, TokenType.Comment, text, null, 0)
@@ -128,7 +128,7 @@ export default class TokenMatcher implements ITokenMatcher {
     return false
   }
 
-  match_Language(token: Token) {
+  public match_Language(token: IToken<TokenType>) {
     const match = token.line.trimmedLineText.match(LANGUAGE_PATTERN)
     if (match) {
       const newDialectName = match[1]
@@ -140,7 +140,7 @@ export default class TokenMatcher implements ITokenMatcher {
     return false
   }
 
-  match_DocStringSeparator(token: Token) {
+  public match_DocStringSeparator(token: IToken<TokenType>) {
     return this.activeDocStringSeparator == null
       ? // open
       this._match_DocStringSeparator(token, '"""', true) ||
@@ -153,8 +153,8 @@ export default class TokenMatcher implements ITokenMatcher {
       )
   }
 
-  private _match_DocStringSeparator(
-    token: Token,
+  public _match_DocStringSeparator(
+    token: IToken<TokenType>,
     separator: string,
     isOpen: boolean
   ) {
@@ -175,7 +175,7 @@ export default class TokenMatcher implements ITokenMatcher {
     return false
   }
 
-  match_EOF(token: Token) {
+  public match_EOF(token: IToken<TokenType>) {
     if (token.isEof) {
       this.setTokenMatched(token, TokenType.EOF)
       return true
@@ -183,7 +183,7 @@ export default class TokenMatcher implements ITokenMatcher {
     return false
   }
 
-  match_StepLine(token: Token) {
+  public match_StepLine(token: IToken<TokenType>) {
     const keywords = []
       .concat(this.dialect.given)
       .concat(this.dialect.when)
@@ -200,7 +200,7 @@ export default class TokenMatcher implements ITokenMatcher {
     return false
   }
 
-  match_Other(token: Token) {
+  public match_Other(token: IToken<TokenType>) {
     const text = token.line.getLineText(this.indentToRemove) // take the entire line, except removing DocString indents
     this.setTokenMatched(
       token,
@@ -212,8 +212,8 @@ export default class TokenMatcher implements ITokenMatcher {
     return true
   }
 
-  matchTitleLine(
-    token: Token,
+  private matchTitleLine(
+    token: IToken<TokenType>,
     tokenType: TokenType,
     keywords: readonly string[]
   ): boolean {
@@ -227,8 +227,8 @@ export default class TokenMatcher implements ITokenMatcher {
     return false
   }
 
-  setTokenMatched(
-    token: Token,
+  private setTokenMatched(
+    token: IToken<TokenType>,
     matchedType: TokenType,
     text?: string,
     keyword?: string,

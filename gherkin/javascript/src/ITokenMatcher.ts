@@ -1,33 +1,33 @@
-import Token from './Token'
+import IToken from './IToken'
 
-export default interface ITokenMatcher {
+export default interface ITokenMatcher<TokenType> {
   reset(): void
 
-  match_TagLine(token: Token): boolean
+  match_TagLine(token: IToken<TokenType>): boolean
 
-  match_FeatureLine(token: Token): boolean
+  match_FeatureLine(token: IToken<TokenType>): boolean
 
-  match_ScenarioLine(token: Token): boolean
+  match_ScenarioLine(token: IToken<TokenType>): boolean
 
-  match_BackgroundLine(token: Token): boolean
+  match_BackgroundLine(token: IToken<TokenType>): boolean
 
-  match_ExamplesLine(token: Token): boolean
+  match_ExamplesLine(token: IToken<TokenType>): boolean
 
-  match_RuleLine(token: Token): boolean
+  match_RuleLine(token: IToken<TokenType>): boolean
 
-  match_TableRow(token: Token): boolean
+  match_TableRow(token: IToken<TokenType>): boolean
 
-  match_Empty(token: Token): boolean
+  match_Empty(token: IToken<TokenType>): boolean
 
-  match_Comment(token: Token): boolean
+  match_Comment(token: IToken<TokenType>): boolean
 
-  match_Language(token: Token): boolean
+  match_Language(token: IToken<TokenType>): boolean
 
-  match_DocStringSeparator(token: Token): boolean
+  match_DocStringSeparator(token: IToken<TokenType>): boolean
 
-  match_EOF(token: Token): boolean
+  match_EOF(token: IToken<TokenType>): boolean
 
-  match_StepLine(token: Token): boolean
+  match_StepLine(token: IToken<TokenType>): boolean
 
-  match_Other(token: Token): boolean
+  match_Other(token: IToken<TokenType>): boolean
 }

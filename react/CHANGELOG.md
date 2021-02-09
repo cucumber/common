@@ -17,6 +17,26 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [12.0.0] - 2021-02-07
+
+### Changed
+
+* Upgrade to gherkin 17.0.0
+* Upgrade to messages 14.0.0
+* Upgrade to query 8.0.0
+
+### Fixed
+
+* [JavaScript] removed circular dependencies.
+  ([#1292](https://github.com/cucumber/cucumber/pull/1292)
+   [davidjgoss]
+   [aslakhellesoy])
+* Fixed search button
+  ([#1298](https://github.com/cucumber/cucumber/issues/1298)
+   [#1299](https://github.com/cucumber/cucumber/issues/1299)
+   [hWorblehat])
+* Fixed inability to scroll horizontally in long text attachments
+
 ## [11.0.2] - 2020-12-17
 
 ### Fixed
@@ -306,7 +326,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/react/v11.0.2...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/react/v12.0.0...master
+[12.0.0]:      https://github.com/cucumber/cucumber/compare/react/v11.0.2...react/v12.0.0
 [11.0.2]:      https://github.com/cucumber/cucumber/compare/react/v11.0.1...react/v11.0.2
 [11.0.1]:      https://github.com/cucumber/cucumber/compare/react/v11.0.0...react/v11.0.1
 [11.0.0]:      https://github.com/cucumber/cucumber/compare/react/v10.1.2...react/v11.0.0
@@ -341,4 +362,5 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 [cbliard]:          https://github.com/cbliard
 [codemrkay]:        https://github.com/codemrkay
 [davidjgoss]:       https://github.com/davidjgoss
+[hWorblehat]:       https://github.com/hWorblehat
 [sebrose]:          https://github.com/sebrose

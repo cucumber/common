@@ -14,7 +14,7 @@ const StepList: React.FunctionComponent<IProps> = ({
   renderMessage,
 }) => {
   return (
-    <ol className="cucumber-steps">
+    <>
       {steps.map((step, index) => (
         <li key={index} className="cucumber-step">
           <Step
@@ -24,7 +24,7 @@ const StepList: React.FunctionComponent<IProps> = ({
           />
         </li>
       ))}
-    </ol>
+    </>
   )
 }
 

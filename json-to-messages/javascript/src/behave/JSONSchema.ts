@@ -1,4 +1,4 @@
-import { IMatch, IResult } from '../cucumber-generic/JSONSchema'
+import { IMatch, IResult } from '../types'
 
 export interface IFeature {
   location: string

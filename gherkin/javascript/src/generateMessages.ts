@@ -1,19 +1,13 @@
-import Parser from '../Parser'
-import TokenMatcher from '../TokenMatcher'
+import Parser, { TokenType } from './Parser'
+import TokenMatcher from './TokenMatcher'
 import { messages } from '@cucumber/messages'
-import compile from '../pickles/compile'
-import AstBuilder from '../AstBuilder'
-import IGherkinOptions from '../IGherkinOptions'
+import compile from './pickles/compile'
+import AstBuilder from './AstBuilder'
+import IGherkinOptions from './IGherkinOptions'
 import makeSourceEnvelope from './makeSourceEnvelope'
-import ITokenMatcher from '../ITokenMatcher'
-import MarkdownTokenMatcher from '../MarkdownTokenMatcher'
-
-enum GherkinMediaType {
-  PLAIN = 'text/x.cucumber.gherkin+plain',
-  MARKDOWN = 'text/x.cucumber.gherkin+markdown',
-}
-
-export { GherkinMediaType }
+import ITokenMatcher from './ITokenMatcher'
+import MarkdownTokenMatcher from './MarkdownTokenMatcher'
+import GherkinMediaType from './GherkinMediaType'
 
 export default function generateMessages(
   data: string,
@@ -21,7 +15,7 @@ export default function generateMessages(
   mediaType: GherkinMediaType,
   options: IGherkinOptions
 ): readonly messages.IEnvelope[] {
-  let tokenMatcher: ITokenMatcher
+  let tokenMatcher: ITokenMatcher<TokenType>
   switch (mediaType) {
     case GherkinMediaType.PLAIN:
       tokenMatcher = new TokenMatcher(options.defaultDialect)

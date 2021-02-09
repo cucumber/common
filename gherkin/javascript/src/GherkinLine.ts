@@ -1,6 +1,6 @@
 import countSymbols from './countSymbols'
 import { ParserException } from './Errors'
-import { Item } from './Token'
+import { Item } from './Parser'
 
 export default class GherkinLine {
   public trimmedLineText: string

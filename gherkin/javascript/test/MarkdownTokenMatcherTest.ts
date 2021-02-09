@@ -1,13 +1,12 @@
 import assert from 'assert'
 import GherkinLine from '../src/GherkinLine'
 import { messages } from '@cucumber/messages'
-import Token, { Item } from '../src/Token'
-import { TokenType } from '../src/Parser'
+import { Item, Token, TokenType } from '../src/Parser'
 import MarkdownTokenMatcher from '../src/MarkdownTokenMatcher'
 import ITokenMatcher from '../src/ITokenMatcher'
 
 describe('MarkdownTokenMatcher', function () {
-  let tm: ITokenMatcher
+  let tm: ITokenMatcher<TokenType>
   let location: messages.ILocation
 
   beforeEach(() => {

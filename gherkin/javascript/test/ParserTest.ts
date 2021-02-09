@@ -3,13 +3,15 @@ import { messages, IdGenerator } from '@cucumber/messages'
 import AstBuilder from '../src/AstBuilder'
 import Parser from '../src/Parser'
 import TokenMatcher from '../src/TokenMatcher'
-import generateMessages, {
-  GherkinMediaType,
-} from '../src/stream/generateMessages'
+import AstNode from '../src/AstNode'
+import generateMessages from '../src/generateMessages'
+import { GherkinMediaType } from '../src'
 
 describe('Parser', function () {
   it('parses a simple feature', function () {
-    const parser = new Parser(new AstBuilder(IdGenerator.incrementing()))
+    const parser = new Parser<AstNode>(
+      new AstBuilder(IdGenerator.incrementing())
+    )
     const ast = parser.parse('Feature: hello')
     assert.deepStrictEqual(
       ast,

@@ -3,4 +3,4 @@
 ../../.templates/elixir/ .
 ../testdata/ testdata/
 ../gherkin.berp resources/gherkin.berp
-../gherkin-languages.json resources/gherkin_languages.json
+../gherkin-languages.json priv/gherkin_languages.json

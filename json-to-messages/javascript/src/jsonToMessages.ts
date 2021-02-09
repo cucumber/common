@@ -1,13 +1,13 @@
 import { PassThrough, pipeline, Readable, Writable } from 'stream'
 import SingleObjectWritableStream from './stream/SingleObjectWritableStream'
-import { IFeature } from './cucumber-generic/JSONSchema'
 import JSONTransformStream from './stream/JSONTransformStream'
 import { runCucumber, SupportCode } from '@cucumber/fake-cucumber'
 import PredictableSupportCode from './PredictableSupportCode'
 import { compile } from '@cucumber/gherkin'
 import { Query as GherkinQuery } from '@cucumber/gherkin-utils'
 import createMeta from '@cucumber/create-meta'
-import { messages, MessageToNdjsonStream } from '@cucumber/messages'
+import { messages } from '@cucumber/messages'
+import { MessageToNdjsonStream } from '@cucumber/messages/dist/src/stream'
 import AstMaker from './AstMaker'
 import detectImplementation from './detectImplementation'
 import traverseFeature from './JSONTraverse'
@@ -33,7 +33,7 @@ export default async function main(
   implementation?: Implementation
 ) {
   const singleObjectWritable = new SingleObjectWritableStream<
-    ReadonlyArray<IFeature>
+    readonly unknown[]
   >()
   await asyncPipeline(
     jsonReadable,

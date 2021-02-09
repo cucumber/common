@@ -1,4 +1,5 @@
-import { NdjsonToMessageStream, messages } from '@cucumber/messages'
+import { messages } from '@cucumber/messages'
+import { NdjsonToMessageStream } from '@cucumber/messages/dist/src/stream'
 import { Writable, pipeline } from 'stream'
 
 import { GherkinDocumentWalker } from '../src'

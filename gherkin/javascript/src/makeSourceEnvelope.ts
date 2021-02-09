@@ -1,5 +1,5 @@
 import { messages } from '@cucumber/messages'
-import { GherkinMediaType } from './generateMessages'
+import GherkinMediaType from './GherkinMediaType'
 
 export default function makeSourceEnvelope(
   data: string,

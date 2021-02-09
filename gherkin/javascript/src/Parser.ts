@@ -2,18 +2,52 @@
 
 import { messages } from '@cucumber/messages'
 import {
-  ParserException,
-  CompositeParserException,
-  UnexpectedTokenException,
-  UnexpectedEOFException,
   AstBuilderException,
-  NoSuchLanguageException
+  CompositeParserException,
+  NoSuchLanguageException,
+  ParserException,
 } from './Errors'
-import AstBuilder from './AstBuilder'
-import Token from './Token'
+import {
+  UnexpectedEOFException,
+  UnexpectedTokenException,
+} from './TokenExceptions'
 import TokenScanner from './TokenScanner'
 import TokenMatcher from './TokenMatcher'
 import ITokenMatcher from './ITokenMatcher'
+import GherkinLine from './GherkinLine'
+import IToken from './IToken'
+import { IAstBuilder } from './IAstBuilder'
+
+// Represents tags or table cells
+export type Item = {
+  column: number
+  text: string
+}
+
+export class Token implements IToken<TokenType> {
+  public isEof: boolean
+  public matchedText?: string
+  public matchedType: TokenType
+  public matchedItems: readonly Item[]
+  public matchedKeyword: string
+  public matchedIndent: number
+  public matchedGherkinDialect: string
+
+  constructor(
+    public readonly line: GherkinLine,
+    public readonly location: messages.ILocation
+  ) {
+    this.isEof = !line
+  }
+
+  public getTokenValue(): string {
+    return this.isEof ? 'EOF' : this.line.getLineText(-1)
+  }
+
+  public detach() {
+    // TODO: Detach line, but is this really needed?
+  }
+}
 
 export enum TokenType {
   None,
@@ -70,81 +104,98 @@ export enum RuleType {
 }
 
 interface Context {
-  tokenScanner: TokenScanner
-  tokenMatcher: ITokenMatcher
+  tokenScanner: TokenScanner<TokenType>
+  tokenMatcher: ITokenMatcher<TokenType>
   tokenQueue: Token[]
   errors: Error[]
 }
 
-export default class Parser {
-  public stopAtFirstError: boolean = false
+export default class Parser<AstNode> {
+  public stopAtFirstError = false
   private context: Context
 
-  constructor(private readonly builder: AstBuilder) {
-  }
+  constructor(
+    private readonly builder: IAstBuilder<AstNode, TokenType, RuleType>
+  ) {}
 
-  public parse(gherkinSource: string, tokenMatcher: ITokenMatcher = new TokenMatcher()): messages.IGherkinDocument {
-    const tokenScanner = new TokenScanner(gherkinSource);
-    this.builder.reset();
-    tokenMatcher.reset();
+  public parse(
+    gherkinSource: string,
+    tokenMatcher: ITokenMatcher<TokenType> = new TokenMatcher()
+  ): messages.IGherkinDocument {
+    const tokenScanner = new TokenScanner(
+      gherkinSource,
+      (line: string, location: messages.ILocation) => {
+        const gherkinLine =
+          line === null || line === undefined
+            ? null
+            : new GherkinLine(line, location.line)
+        return new Token(gherkinLine, location)
+      }
+    )
+    this.builder.reset()
+    tokenMatcher.reset()
     this.context = {
       tokenScanner,
       tokenMatcher,
       tokenQueue: [],
-      errors: []
-    };
-    this.startRule(this.context, RuleType.GherkinDocument);
-    let state = 0;
-    let token = null;
-    while(true) {
-      token = this.readToken(this.context);
-      state = this.matchToken(state, token, this.context);
-      if(token.isEof) break;
+      errors: [],
+    }
+    this.startRule(this.context, RuleType.GherkinDocument)
+    let state = 0
+    let token: IToken<TokenType> = null
+    while (true) {
+      token = this.readToken(this.context) as Token
+      state = this.matchToken(state, token, this.context)
+      if (token.isEof) break
     }
 
-    this.endRule(this.context);
+    this.endRule(this.context)
 
-    if(this.context.errors.length > 0) {
-      throw CompositeParserException.create(this.context.errors);
+    if (this.context.errors.length > 0) {
+      throw CompositeParserException.create(this.context.errors)
     }
 
-    return this.getResult();
+    return this.getResult()
   }
 
   private addError(context: Context, error: Error) {
-    context.errors.push(error);
+    context.errors.push(error)
     if (context.errors.length > 10)
-      throw CompositeParserException.create(context.errors);
+      throw CompositeParserException.create(context.errors)
   }
 
   private startRule(context: Context, ruleType: RuleType) {
-    this.handleAstError(context, () => this.builder.startRule(ruleType));
+    this.handleAstError(context, () => this.builder.startRule(ruleType))
   }
 
   private endRule(context: Context) {
-    this.handleAstError(context, () => this.builder.endRule());
+    this.handleAstError(context, () => this.builder.endRule())
   }
 
-  private build(context: Context, token: Token) {
-    this.handleAstError(context, () => this.builder.build(token));
+  private build(context: Context, token: IToken<TokenType>) {
+    this.handleAstError(context, () => this.builder.build(token))
   }
 
   private getResult() {
-    return this.builder.getResult();
+    return this.builder.getResult()
   }
 
   private handleAstError(context: Context, action: () => any) {
     this.handleExternalError(context, true, action)
   }
 
-  private handleExternalError<T>(context: Context, defaultValue: T, action: () => T) {
-    if(this.stopAtFirstError) return action()
+  private handleExternalError<T>(
+    context: Context,
+    defaultValue: T,
+    action: () => T
+  ) {
+    if (this.stopAtFirstError) return action()
     try {
       return action()
     } catch (e) {
-      if(e instanceof CompositeParserException) {
+      if (e instanceof CompositeParserException) {
         e.errors.forEach((error: Error) => this.addError(context, error))
-      } else if(
+      } else if (
         e instanceof ParserException ||
         e instanceof AstBuilderException ||
         e instanceof UnexpectedTokenException ||
@@ -152,19 +203,19 @@ export default class Parser {
       ) {
         this.addError(context, e)
       } else {
-        throw e;
+        throw e
       }
     }
-    return defaultValue;
+    return defaultValue
   }
 
   private readToken(context: Context) {
-    return context.tokenQueue.length > 0 ?
-      context.tokenQueue.shift() :
-      context.tokenScanner.read();
+    return context.tokenQueue.length > 0
+      ? context.tokenQueue.shift()
+      : context.tokenScanner.read()
   }
 
-  private matchToken(state: number, token: Token, context: Context) {
+  private matchToken(state: number, token: IToken<TokenType>, context: Context) {
     switch(state) {
     case 0:
       return this.matchTokenAt_0(token, context);
@@ -271,7 +322,7 @@ export default class Parser {
 
 
   // Start
-  private matchTokenAt_0(token: Token, context: Context) {
+  private matchTokenAt_0(token: IToken<TokenType>, context: Context) {
     if(this.match_EOF(context, token)) {
       this.build(context, token);
       return 41;
@@ -316,7 +367,7 @@ export default class Parser {
 
 
   // GherkinDocument:0>Feature:0>FeatureHeader:0>#Language:0
-  private matchTokenAt_1(token: Token, context: Context) {
+  private matchTokenAt_1(token: IToken<TokenType>, context: Context) {
     if(this.match_TagLine(context, token)) {
       this.startRule(context, RuleType.Tags);
       this.build(context, token);
@@ -347,7 +398,7 @@ export default class Parser {
 
 
   // GherkinDocument:0>Feature:0>FeatureHeader:1>Tags:0>#TagLine:0
-  private matchTokenAt_2(token: Token, context: Context) {
+  private matchTokenAt_2(token: IToken<TokenType>, context: Context) {
     if(this.match_TagLine(context, token)) {
       this.build(context, token);
       return 2;
@@ -378,7 +429,7 @@ export default class Parser {
 
 
   // GherkinDocument:0>Feature:0>FeatureHeader:2>#FeatureLine:0
-  private matchTokenAt_3(token: Token, context: Context) {
+  private matchTokenAt_3(token: IToken<TokenType>, context: Context) {
     if(this.match_EOF(context, token)) {
       this.endRule(context);
       this.endRule(context);
@@ -438,7 +489,7 @@ export default class Parser {
 
 
   // GherkinDocument:0>Feature:0>FeatureHeader:3>DescriptionHelper:1>Description:0>#Other:0
-  private matchTokenAt_4(token: Token, context: Context) {
+  private matchTokenAt_4(token: IToken<TokenType>, context: Context) {
     if(this.match_EOF(context, token)) {
       this.endRule(context);
       this.endRule(context);
@@ -499,7 +550,7 @@ export default class Parser {
 
 
   // GherkinDocument:0>Feature:0>FeatureHeader:3>DescriptionHelper:2>#Comment:0
-  private matchTokenAt_5(token: Token, context: Context) {
+  private matchTokenAt_5(token: IToken<TokenType>, context: Context) {
     if(this.match_EOF(context, token)) {
       this.endRule(context);
       this.endRule(context);
@@ -554,7 +605,7 @@ export default class Parser {
 
 
   // GherkinDocument:0>Feature:1>Background:0>#BackgroundLine:0
-  private matchTokenAt_6(token: Token, context: Context) {
+  private matchTokenAt_6(token: IToken<TokenType>, context: Context) {
     if(this.match_EOF(context, token)) {
       this.endRule(context);
       this.endRule(context);
@@ -613,7 +664,7 @@ export default class Parser {
 
 
   // GherkinDocument:0>Feature:1>Background:1>DescriptionHelper:1>Description:0>#Other:0
-  private matchTokenAt_7(token: Token, context: Context) {
+  private matchTokenAt_7(token: IToken<TokenType>, context: Context) {
     if(this.match_EOF(context, token)) {
       this.endRule(context);
       this.endRule(context);
@@ -673,7 +724,7 @@ export default class Parser {
 
 
   // GherkinDocument:0>Feature:1>Background:1>DescriptionHelper:2>#Comment:0
-  private matchTokenAt_8(token: Token, context: Context) {
+  private matchTokenAt_8(token: IToken<TokenType>, context: Context) {
     if(this.match_EOF(context, token)) {
       this.endRule(context);
       this.endRule(context);
@@ -727,7 +778,7 @@ export default class Parser {
 
 
   // GherkinDocument:0>Feature:1>Background:2>Step:0>#StepLine:0
-  private matchTokenAt_9(token: Token, context: Context) {
+  private matchTokenAt_9(token: IToken<TokenType>, context: Context) {
     if(this.match_EOF(context, token)) {
       this.endRule(context);
       this.endRule(context);
@@ -796,7 +847,7 @@ export default class Parser {
 
 
   // GherkinDocument:0>Feature:1>Background:2>Step:1>StepArg:0>__alt0:0>DataTable:0>#TableRow:0
-  private matchTokenAt_10(token: Token, context: Context) {
+  private matchTokenAt_10(token: IToken<TokenType>, context: Context) {
     if(this.match_EOF(context, token)) {
       this.endRule(context);
       this.endRule(context);
@@ -864,7 +915,7 @@ export default class Parser {
 
 
   // GherkinDocument:0>Feature:2>ScenarioDefinition:0>Tags:0>#TagLine:0
-  private matchTokenAt_11(token: Token, context: Context) {
+  private matchTokenAt_11(token: IToken<TokenType>, context: Context) {
     if(this.match_TagLine(context, token)) {
       this.build(context, token);
       return 11;
@@ -896,7 +947,7 @@ export default class Parser {
 
 
   // GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:0>#ScenarioLine:0
-  private matchTokenAt_12(token: Token, context: Context) {
+  private matchTokenAt_12(token: IToken<TokenType>, context: Context) {
     if(this.match_EOF(context, token)) {
       this.endRule(context);
       this.endRule(context);
@@ -973,7 +1024,7 @@ export default class Parser {
 
 
   // GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:1>DescriptionHelper:1>Description:0>#Other:0
-  private matchTokenAt_13(token: Token, context: Context) {
+  private matchTokenAt_13(token: IToken<TokenType>, context: Context) {
     if(this.match_EOF(context, token)) {
       this.endRule(context);
       this.endRule(context);
@@ -1053,7 +1104,7 @@ export default class Parser {
 
 
   // GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:1>DescriptionHelper:2>#Comment:0
-  private matchTokenAt_14(token: Token, context: Context) {
+  private matchTokenAt_14(token: IToken<TokenType>, context: Context) {
     if(this.match_EOF(context, token)) {
       this.endRule(context);
       this.endRule(context);
@@ -1125,7 +1176,7 @@ export default class Parser {
 
 
   // GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:2>Step:0>#StepLine:0
-  private matchTokenAt_15(token: Token, context: Context) {
+  private matchTokenAt_15(token: IToken<TokenType>, context: Context) {
     if(this.match_EOF(context, token)) {
       this.endRule(context);
       this.endRule(context);
@@ -1214,7 +1265,7 @@ export default class Parser {
 
 
   // GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:2>Step:1>StepArg:0>__alt0:0>DataTable:0>#TableRow:0
-  private matchTokenAt_16(token: Token, context: Context) {
+  private matchTokenAt_16(token: IToken<TokenType>, context: Context) {
     if(this.match_EOF(context, token)) {
       this.endRule(context);
       this.endRule(context);
@@ -1304,7 +1355,7 @@ export default class Parser {
 
 
   // GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:0>Tags:0>#TagLine:0
-  private matchTokenAt_17(token: Token, context: Context) {
+  private matchTokenAt_17(token: IToken<TokenType>, context: Context) {
     if(this.match_TagLine(context, token)) {
       this.build(context, token);
       return 17;
@@ -1336,7 +1387,7 @@ export default class Parser {
 
 
   // GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:1>Examples:0>#ExamplesLine:0
-  private matchTokenAt_18(token: Token, context: Context) {
+  private matchTokenAt_18(token: IToken<TokenType>, context: Context) {
     if(this.match_EOF(context, token)) {
       this.endRule(context);
       this.endRule(context);
@@ -1425,7 +1476,7 @@ export default class Parser {
 
 
   // GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:1>Examples:1>DescriptionHelper:1>Description:0>#Other:0
-  private matchTokenAt_19(token: Token, context: Context) {
+  private matchTokenAt_19(token: IToken<TokenType>, context: Context) {
     if(this.match_EOF(context, token)) {
       this.endRule(context);
       this.endRule(context);
@@ -1517,7 +1568,7 @@ export default class Parser {
 
 
   // GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:1>Examples:1>DescriptionHelper:2>#Comment:0
-  private matchTokenAt_20(token: Token, context: Context) {
+  private matchTokenAt_20(token: IToken<TokenType>, context: Context) {
     if(this.match_EOF(context, token)) {
       this.endRule(context);
       this.endRule(context);
@@ -1601,7 +1652,7 @@ export default class Parser {
 
 
   // GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:1>Examples:2>ExamplesTable:0>#TableRow:0
-  private matchTokenAt_21(token: Token, context: Context) {
+  private matchTokenAt_21(token: IToken<TokenType>, context: Context) {
     if(this.match_EOF(context, token)) {
       this.endRule(context);
       this.endRule(context);
@@ -1690,7 +1741,7 @@ export default class Parser {
 
 
   // GherkinDocument:0>Feature:3>Rule:0>RuleHeader:0>#RuleLine:0
-  private matchTokenAt_22(token: Token, context: Context) {
+  private matchTokenAt_22(token: IToken<TokenType>, context: Context) {
     if(this.match_EOF(context, token)) {
       this.endRule(context);
       this.endRule(context);
@@ -1752,7 +1803,7 @@ export default class Parser {
 
 
   // GherkinDocument:0>Feature:3>Rule:0>RuleHeader:1>DescriptionHelper:1>Description:0>#Other:0
-  private matchTokenAt_23(token: Token, context: Context) {
+  private matchTokenAt_23(token: IToken<TokenType>, context: Context) {
     if(this.match_EOF(context, token)) {
       this.endRule(context);
       this.endRule(context);
@@ -1815,7 +1866,7 @@ export default class Parser {
 
 
   // GherkinDocument:0>Feature:3>Rule:0>RuleHeader:1>DescriptionHelper:2>#Comment:0
-  private matchTokenAt_24(token: Token, context: Context) {
+  private matchTokenAt_24(token: IToken<TokenType>, context: Context) {
     if(this.match_EOF(context, token)) {
       this.endRule(context);
       this.endRule(context);
@@ -1872,7 +1923,7 @@ export default class Parser {
 
 
   // GherkinDocument:0>Feature:3>Rule:1>Background:0>#BackgroundLine:0
-  private matchTokenAt_25(token: Token, context: Context) {
+  private matchTokenAt_25(token: IToken<TokenType>, context: Context) {
     if(this.match_EOF(context, token)) {
       this.endRule(context);
       this.endRule(context);
@@ -1933,7 +1984,7 @@ export default class Parser {
 
 
   // GherkinDocument:0>Feature:3>Rule:1>Background:1>DescriptionHelper:1>Description:0>#Other:0
-  private matchTokenAt_26(token: Token, context: Context) {
+  private matchTokenAt_26(token: IToken<TokenType>, context: Context) {
     if(this.match_EOF(context, token)) {
       this.endRule(context);
       this.endRule(context);
@@ -1995,7 +2046,7 @@ export default class Parser {
 
 
   // GherkinDocument:0>Feature:3>Rule:1>Background:1>DescriptionHelper:2>#Comment:0
-  private matchTokenAt_27(token: Token, context: Context) {
+  private matchTokenAt_27(token: IToken<TokenType>, context: Context) {
     if(this.match_EOF(context, token)) {
       this.endRule(context);
       this.endRule(context);
@@ -2051,7 +2102,7 @@ export default class Parser {
 
 
   // GherkinDocument:0>Feature:3>Rule:1>Background:2>Step:0>#StepLine:0
-  private matchTokenAt_28(token: Token, context: Context) {
+  private matchTokenAt_28(token: IToken<TokenType>, context: Context) {
     if(this.match_EOF(context, token)) {
       this.endRule(context);
       this.endRule(context);
@@ -2122,7 +2173,7 @@ export default class Parser {
 
 
   // GherkinDocument:0>Feature:3>Rule:1>Background:2>Step:1>StepArg:0>__alt0:0>DataTable:0>#TableRow:0
-  private matchTokenAt_29(token: Token, context: Context) {
+  private matchTokenAt_29(token: IToken<TokenType>, context: Context) {
     if(this.match_EOF(context, token)) {
       this.endRule(context);
       this.endRule(context);
@@ -2192,7 +2243,7 @@ export default class Parser {
 
 
   // GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:0>Tags:0>#TagLine:0
-  private matchTokenAt_30(token: Token, context: Context) {
+  private matchTokenAt_30(token: IToken<TokenType>, context: Context) {
     if(this.match_TagLine(context, token)) {
       this.build(context, token);
       return 30;
@@ -2224,7 +2275,7 @@ export default class Parser {
 
 
   // GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:0>#ScenarioLine:0
-  private matchTokenAt_31(token: Token, context: Context) {
+  private matchTokenAt_31(token: IToken<TokenType>, context: Context) {
     if(this.match_EOF(context, token)) {
       this.endRule(context);
       this.endRule(context);
@@ -2303,7 +2354,7 @@ export default class Parser {
 
 
   // GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:1>DescriptionHelper:1>Description:0>#Other:0
-  private matchTokenAt_32(token: Token, context: Context) {
+  private matchTokenAt_32(token: IToken<TokenType>, context: Context) {
     if(this.match_EOF(context, token)) {
       this.endRule(context);
       this.endRule(context);
@@ -2385,7 +2436,7 @@ export default class Parser {
 
 
   // GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:1>DescriptionHelper:2>#Comment:0
-  private matchTokenAt_33(token: Token, context: Context) {
+  private matchTokenAt_33(token: IToken<TokenType>, context: Context) {
     if(this.match_EOF(context, token)) {
       this.endRule(context);
       this.endRule(context);
@@ -2459,7 +2510,7 @@ export default class Parser {
 
 
   // GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:2>Step:0>#StepLine:0
-  private matchTokenAt_34(token: Token, context: Context) {
+  private matchTokenAt_34(token: IToken<TokenType>, context: Context) {
     if(this.match_EOF(context, token)) {
       this.endRule(context);
       this.endRule(context);
@@ -2550,7 +2601,7 @@ export default class Parser {
 
 
   // GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:2>Step:1>StepArg:0>__alt0:0>DataTable:0>#TableRow:0
-  private matchTokenAt_35(token: Token, context: Context) {
+  private matchTokenAt_35(token: IToken<TokenType>, context: Context) {
     if(this.match_EOF(context, token)) {
       this.endRule(context);
       this.endRule(context);
@@ -2642,7 +2693,7 @@ export default class Parser {
 
 
   // GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:0>Tags:0>#TagLine:0
-  private matchTokenAt_36(token: Token, context: Context) {
+  private matchTokenAt_36(token: IToken<TokenType>, context: Context) {
     if(this.match_TagLine(context, token)) {
       this.build(context, token);
       return 36;
@@ -2674,7 +2725,7 @@ export default class Parser {
 
 
   // GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:1>Examples:0>#ExamplesLine:0
-  private matchTokenAt_37(token: Token, context: Context) {
+  private matchTokenAt_37(token: IToken<TokenType>, context: Context) {
     if(this.match_EOF(context, token)) {
       this.endRule(context);
       this.endRule(context);
@@ -2765,7 +2816,7 @@ export default class Parser {
 
 
   // GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:1>Examples:1>DescriptionHelper:1>Description:0>#Other:0
-  private matchTokenAt_38(token: Token, context: Context) {
+  private matchTokenAt_38(token: IToken<TokenType>, context: Context) {
     if(this.match_EOF(context, token)) {
       this.endRule(context);
       this.endRule(context);
@@ -2859,7 +2910,7 @@ export default class Parser {
 
 
   // GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:1>Examples:1>DescriptionHelper:2>#Comment:0
-  private matchTokenAt_39(token: Token, context: Context) {
+  private matchTokenAt_39(token: IToken<TokenType>, context: Context) {
     if(this.match_EOF(context, token)) {
       this.endRule(context);
       this.endRule(context);
@@ -2945,7 +2996,7 @@ export default class Parser {
 
 
   // GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:1>Examples:2>ExamplesTable:0>#TableRow:0
-  private matchTokenAt_40(token: Token, context: Context) {
+  private matchTokenAt_40(token: IToken<TokenType>, context: Context) {
     if(this.match_EOF(context, token)) {
       this.endRule(context);
       this.endRule(context);
@@ -3036,7 +3087,7 @@ export default class Parser {
 
 
   // GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:2>Step:1>StepArg:0>__alt0:1>DocString:0>#DocStringSeparator:0
-  private matchTokenAt_42(token: Token, context: Context) {
+  private matchTokenAt_42(token: IToken<TokenType>, context: Context) {
     if(this.match_DocStringSeparator(context, token)) {
       this.build(context, token);
       return 43;
@@ -3058,7 +3109,7 @@ export default class Parser {
 
 
   // GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:2>Step:1>StepArg:0>__alt0:1>DocString:2>#DocStringSeparator:0
-  private matchTokenAt_43(token: Token, context: Context) {
+  private matchTokenAt_43(token: IToken<TokenType>, context: Context) {
     if(this.match_EOF(context, token)) {
       this.endRule(context);
       this.endRule(context);
@@ -3146,7 +3197,7 @@ export default class Parser {
 
 
   // GherkinDocument:0>Feature:3>Rule:1>Background:2>Step:1>StepArg:0>__alt0:1>DocString:0>#DocStringSeparator:0
-  private matchTokenAt_44(token: Token, context: Context) {
+  private matchTokenAt_44(token: IToken<TokenType>, context: Context) {
     if(this.match_DocStringSeparator(context, token)) {
       this.build(context, token);
       return 45;
@@ -3168,7 +3219,7 @@ export default class Parser {
 
 
   // GherkinDocument:0>Feature:3>Rule:1>Background:2>Step:1>StepArg:0>__alt0:1>DocString:2>#DocStringSeparator:0
-  private matchTokenAt_45(token: Token, context: Context) {
+  private matchTokenAt_45(token: IToken<TokenType>, context: Context) {
     if(this.match_EOF(context, token)) {
       this.endRule(context);
       this.endRule(context);
@@ -3234,7 +3285,7 @@ export default class Parser {
 
 
   // GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:2>Step:1>StepArg:0>__alt0:1>DocString:0>#DocStringSeparator:0
-  private matchTokenAt_46(token: Token, context: Context) {
+  private matchTokenAt_46(token: IToken<TokenType>, context: Context) {
     if(this.match_DocStringSeparator(context, token)) {
       this.build(context, token);
       return 47;
@@ -3256,7 +3307,7 @@ export default class Parser {
 
 
   // GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:2>Step:1>StepArg:0>__alt0:1>DocString:2>#DocStringSeparator:0
-  private matchTokenAt_47(token: Token, context: Context) {
+  private matchTokenAt_47(token: IToken<TokenType>, context: Context) {
     if(this.match_EOF(context, token)) {
       this.endRule(context);
       this.endRule(context);
@@ -3342,7 +3393,7 @@ export default class Parser {
 
 
   // GherkinDocument:0>Feature:1>Background:2>Step:1>StepArg:0>__alt0:1>DocString:0>#DocStringSeparator:0
-  private matchTokenAt_48(token: Token, context: Context) {
+  private matchTokenAt_48(token: IToken<TokenType>, context: Context) {
     if(this.match_DocStringSeparator(context, token)) {
       this.build(context, token);
       return 49;
@@ -3364,7 +3415,7 @@ export default class Parser {
 
 
   // GherkinDocument:0>Feature:1>Background:2>Step:1>StepArg:0>__alt0:1>DocString:2>#DocStringSeparator:0
-  private matchTokenAt_49(token: Token, context: Context) {
+  private matchTokenAt_49(token: IToken<TokenType>, context: Context) {
     if(this.match_EOF(context, token)) {
       this.endRule(context);
       this.endRule(context);
@@ -3428,94 +3479,94 @@ export default class Parser {
 
 
 
-  private match_EOF(context: Context, token: Token) {
+  private match_EOF(context: Context, token: IToken<TokenType>) {
     return this.handleExternalError(context, false, () => context.tokenMatcher.match_EOF(token));
   }
 
 
-  private match_Empty(context: Context, token: Token) {
+  private match_Empty(context: Context, token: IToken<TokenType>) {
     if(token.isEof) return false;
     return this.handleExternalError(context, false, () => context.tokenMatcher.match_Empty(token));
   }
 
 
-  private match_Comment(context: Context, token: Token) {
+  private match_Comment(context: Context, token: IToken<TokenType>) {
     if(token.isEof) return false;
     return this.handleExternalError(context, false, () => context.tokenMatcher.match_Comment(token));
   }
 
 
-  private match_TagLine(context: Context, token: Token) {
+  private match_TagLine(context: Context, token: IToken<TokenType>) {
     if(token.isEof) return false;
     return this.handleExternalError(context, false, () => context.tokenMatcher.match_TagLine(token));
   }
 
 
-  private match_FeatureLine(context: Context, token: Token) {
+  private match_FeatureLine(context: Context, token: IToken<TokenType>) {
     if(token.isEof) return false;
     return this.handleExternalError(context, false, () => context.tokenMatcher.match_FeatureLine(token));
   }
 
 
-  private match_RuleLine(context: Context, token: Token) {
+  private match_RuleLine(context: Context, token: IToken<TokenType>) {
     if(token.isEof) return false;
     return this.handleExternalError(context, false, () => context.tokenMatcher.match_RuleLine(token));
   }
 
 
-  private match_BackgroundLine(context: Context, token: Token) {
+  private match_BackgroundLine(context: Context, token: IToken<TokenType>) {
     if(token.isEof) return false;
     return this.handleExternalError(context, false, () => context.tokenMatcher.match_BackgroundLine(token));
   }
 
 
-  private match_ScenarioLine(context: Context, token: Token) {
+  private match_ScenarioLine(context: Context, token: IToken<TokenType>) {
     if(token.isEof) return false;
     return this.handleExternalError(context, false, () => context.tokenMatcher.match_ScenarioLine(token));
   }
 
 
-  private match_ExamplesLine(context: Context, token: Token) {
+  private match_ExamplesLine(context: Context, token: IToken<TokenType>) {
     if(token.isEof) return false;
     return this.handleExternalError(context, false, () => context.tokenMatcher.match_ExamplesLine(token));
   }
 
 
-  private match_StepLine(context: Context, token: Token) {
+  private match_StepLine(context: Context, token: IToken<TokenType>) {
     if(token.isEof) return false;
     return this.handleExternalError(context, false, () => context.tokenMatcher.match_StepLine(token));
   }
 
 
-  private match_DocStringSeparator(context: Context, token: Token) {
+  private match_DocStringSeparator(context: Context, token: IToken<TokenType>) {
     if(token.isEof) return false;
     return this.handleExternalError(context, false, () => context.tokenMatcher.match_DocStringSeparator(token));
   }
 
 
-  private match_TableRow(context: Context, token: Token) {
+  private match_TableRow(context: Context, token: IToken<TokenType>) {
     if(token.isEof) return false;
     return this.handleExternalError(context, false, () => context.tokenMatcher.match_TableRow(token));
   }
 
 
-  private match_Language(context: Context, token: Token) {
+  private match_Language(context: Context, token: IToken<TokenType>) {
     if(token.isEof) return false;
     return this.handleExternalError(context, false, () => context.tokenMatcher.match_Language(token));
   }
 
 
-  private match_Other(context: Context, token: Token) {
+  private match_Other(context: Context, token: IToken<TokenType>) {
     if(token.isEof) return false;
     return this.handleExternalError(context, false, () => context.tokenMatcher.match_Other(token));
   }
 
 
 
-  private lookahead_0(context: Context, currentToken: Token) {
+  private lookahead_0(context: Context, currentToken: IToken<TokenType>) {
     currentToken.detach();
     let token;
-    const queue: Token[] = [];
+    const queue: IToken<TokenType>[] = [];
     let match = false;
     do {
       token = this.readToken(this.context);

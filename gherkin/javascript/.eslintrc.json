@@ -10,17 +10,20 @@
   },
   "plugins": [
     "react",
+    "import",
     "node",
     "@typescript-eslint"
   ],
   "extends": [
     "eslint:recommended",
     "plugin:react/recommended",
+    "plugin:import/typescript",
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:prettier/recommended"
   ],
   "rules": {
+    "import/no-cycle": "error",
     "node/no-extraneous-import": "error",
     "@typescript-eslint/ban-ts-ignore": "off",
     "@typescript-eslint/ban-ts-comment": "off",

@@ -17,6 +17,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [12.0.0] - 2021-02-08
+
+### Changed
+
+* Upgrade to gherkin 17.0.0
+* Upgrade to messages 14.0.0
+* Upgrade to query 8.0.0
+
+### Fixed
+
+* Reclassified bundled dependencies as `devDependencies` only ([#1308](https://github.com/cucumber/cucumber/pull/1308))
+
 ## [11.0.4] - 2020-12-18
 
 ### Fixed
@@ -273,7 +285,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/html-formatter/v11.0.4...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/html-formatter/v12.0.0...master
+[12.0.0]:      https://github.com/cucumber/cucumber/compare/html-formatter/v11.0.4...html-formatter/v12.0.0
 [11.0.4]:      https://github.com/cucumber/cucumber/compare/html-formatter/v11.0.3...html-formatter/v11.0.4
 [11.0.3]:      https://github.com/cucumber/cucumber/compare/html-formatter/v11.0.2...html-formatter/v11.0.3
 [11.0.2]:      https://github.com/cucumber/cucumber/compare/html-formatter/v11.0.1...html-formatter/v11.0.2

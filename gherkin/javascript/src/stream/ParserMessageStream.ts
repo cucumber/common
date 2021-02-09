@@ -1,7 +1,8 @@
-import generateMessages, { GherkinMediaType } from './generateMessages'
 import { Transform, TransformCallback } from 'stream'
 import { messages } from '@cucumber/messages'
 import IGherkinOptions from '../IGherkinOptions'
+import generateMessages from '../generateMessages'
+import GherkinMediaType from '../GherkinMediaType'
 
 /**
  * Stream that reads Source messages and writes GherkinDocument and Pickle messages.
