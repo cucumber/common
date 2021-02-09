@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
-* Add inline emoji icon to page
+* Add inline logo icon to page
 
 ### Changed
 
