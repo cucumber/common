@@ -45,7 +45,8 @@ const MarkdownDocument: React.FunctionComponent<{
   return (
     <SourceContext.Provider value={source}>
       <ReactMarkdown
-        astPlugins={[parseHtml, gfm]}
+        astPlugins={[parseHtml]}
+        plugins={[gfm]}
         allowDangerousHtml
         rawSourcePos={true}
         renderers={renderers}
