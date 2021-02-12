@@ -57,6 +57,7 @@ push_subrepos:
 
 docker-run:
 	docker pull cucumber/cucumber-build:latest
+	[ -d "${HOME}/.m2/repository" ] || mkdir -p "${HOME}/.m2/repository"
 	docker run \
 	  --publish "6006:6006" \
 	  --volume "${shell pwd}":/app \
@@ -72,6 +73,7 @@ docker-run-with-secrets:
 	git -C ../secrets pull
 	../secrets/update_permissions
 	docker pull cucumber/cucumber-build:latest
+	[ -d "${HOME}/.m2/repository" ] || mkdir -p "${HOME}/.m2/repository"
 	docker run \
 	  --volume "${shell pwd}":/app \
 	  --volume "${HOME}/.m2/repository":/home/cukebot/.m2/repository \
