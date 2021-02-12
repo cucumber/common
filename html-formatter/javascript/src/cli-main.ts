@@ -5,7 +5,6 @@ import {
 } from '@cucumber/messages/dist/src/stream'
 import program from 'commander'
 import p from '../package.json'
-import resolvePkg from 'resolve-pkg'
 import { pipeline } from 'stream'
 import CucumberHtmlStream from './CucumberHtmlStream'
 
@@ -18,7 +17,7 @@ program.option(
 program.parse(process.argv)
 
 const toMessageStream =
-  program.format === 'ndjson'
+  program.opts().format === 'ndjson'
     ? new NdjsonToMessageStream(
         messages.Envelope.fromObject.bind(messages.Envelope)
       )
@@ -30,8 +29,7 @@ pipeline(
   process.stdin,
   toMessageStream,
   new CucumberHtmlStream(
-    resolvePkg('@cucumber/react', { cwd: __dirname }) +
-      '/dist/src/styles/cucumber-react.css',
+    __dirname + '/../../dist/cucumber-react.css',
     __dirname + '/../../dist/main.js'
   ),
   process.stdout,

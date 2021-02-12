@@ -50,11 +50,11 @@ acceptance/testdata/%.feature.errors.ndjson: testdata/%.feature testdata/%.featu
 	PERL5LIB=./perl5/lib/perl5 bin/gherkin-generate-ast $< > $@
 	diff --unified <(jq "." $<.errors.ndjson) <(jq "." $@)
 
-CHANGES:
-	cp ../CHANGELOG.md CHANGES
+CHANGELOG.md: ../CHANGELOG.md
+	cp ../CHANGELOG.md CHANGELOG.md
 
 # Get to a point where dzil can be run
-predistribution: test CHANGES
+predistribution: test CHANGELOG.md
 # --notest to keep the number of dependencies low: it doesn't install the
 # testing dependencies of the dependencies.
 	cpanm --notest --local-lib ./perl5 --installdeps --with-develop .
@@ -65,8 +65,11 @@ predistribution: test CHANGES
 distribution: predistribution
 	PERL5LIB=./perl5/lib/perl5 PATH=$$PATH:./perl5/bin dzil test --release && PERL5LIB=./perl5/lib/perl5 PATH=$$PATH:./perl5/bin dzil build
 
-release: predistribution
+publish: predistribution
 	PERL5LIB=./perl5/lib/perl5 PATH=$$PATH:./perl5/bin dzil release
+
+post-release:
+.PHONY: post-release
 
 update-version:
 ifdef NEW_VERSION
@@ -76,6 +79,10 @@ else
 	exit 1
 endif
 .PHONY: update-version
+
+update-dependencies:
+	@echo -e "\033[0;31mPlease update dependencies for perl manually!!\033[0m"
+.PHONY: update-dependencies
 
 clean:
 	rm -rf Gherkin-* .cpanfile_dependencies .built acceptance CHANGES

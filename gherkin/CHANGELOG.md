@@ -12,16 +12,39 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 ### Added
 
 ### Changed
-* [JavaScript] the `GherkinStreams` object is not longer loaded by default.
-  This makes it possible to use the library in a browser without a polyfill.
-  To upgrade, use `import GherkinStreams from '@cucumber/gherkin/dist/src/stream/GherkinStreams'` instead of `import { GherkinStreams } from 'gherkin'`.
-* [Perl] Fully overhauled implementation, moving it up from 4.0.0
-  ([#711](https://github.com/cucumber/cucumber/pull/711),
-   [#1286](https://github.com/cucumber/cucumber/pull/1286)) [ehuelsmann]
 
 ### Deprecated
 
 ### Removed
+
+### Fixed
+
+## [17.0.1] - 2021-02-08
+
+### Fixed
+
+* Fix building of MacOS (darwin) executables.
+  ([#1347](https://github.com/cucumber/cucumber/issues/1347)
+   [#1348](https://github.com/cucumber/cucumber/pull/1348)
+   [aslakhellesoy]
+   [ciaranmcnulty])
+
+## [17.0.0] - 2021-02-07
+
+### Changed
+* [JavaScript] the `GherkinStreams` object is not longer loaded by default.
+  This makes it possible to use the library in a browser without a polyfill.
+  To upgrade, use `import GherkinStreams from '@cucumber/gherkin/dist/src/stream/GherkinStreams'` instead of `import { GherkinStreams } from 'gherkin'`.
+  ([#1333](https://github.com/cucumber/cucumber/pull/1333))
+* [Perl] Fully overhauled implementation, moving it up from 4.0.0
+  ([#711](https://github.com/cucumber/cucumber/pull/711),
+   [#1286](https://github.com/cucumber/cucumber/pull/1286)) [ehuelsmann]
+
+### Removed
+* [JavaScript] remove `IGherkinOptions#createReadStream`. This function was introduced in `9.1.0`
+  in order to decouple this lib from the Node.js `fs` library. This decoupling was improved in
+  [#1333](https://github.com/cucumber/cucumber/pull/1333) which made it obsolete.  
+  (Fixes [#1284](https://github.com/cucumber/cucumber/issues/1284)
 
 ### Fixed
 * Use Italian translation for the "Rule" keyword and for the "Feature" synonym keywords
@@ -846,7 +869,9 @@ to Gherkin 2.
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v16.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v17.0.1...master
+[17.0.1]:     https://github.com/cucumber/cucumber/compare/gherkin/v17.0.0...gherkin/v17.0.1
+[17.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v16.0.0...gherkin/v17.0.0
 [16.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v15.0.2...gherkin/v16.0.0
 [15.0.2]:     https://github.com/cucumber/cucumber/compare/gherkin/v15.0.1...gherkin/v15.0.2
 [15.0.1]:     https://github.com/cucumber/cucumber/compare/gherkin/v15.0.0...gherkin/v15.0.1
@@ -898,6 +923,7 @@ to Gherkin 2.
 [badeball]:          https://github.com/badeball
 [brasmusson]:        https://github.com/brasmusson
 [charlierudolph]:    https://github.com/charlierudolph
+[ciaranmcnulty]:     https://github.com/ciaranmcnulty
 [coderbyheart]:      https://github.com/coderbyheart
 [cyocum]:            https://github.com/cyocum
 [danilat]:           https://github.com/danilat
