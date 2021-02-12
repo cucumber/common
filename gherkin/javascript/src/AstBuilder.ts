@@ -294,6 +294,7 @@ export default class AstBuilder {
         if (!ruleLine) {
           return null
         }
+        const tags = this.getTags(header)
         const children = []
         const background = node.getSingle(RuleType.Background)
         if (background) {
@@ -319,6 +320,7 @@ export default class AstBuilder {
           name: ruleLine.matchedText,
           description,
           children,
+          tags,
         })
       }
       case RuleType.GherkinDocument: {

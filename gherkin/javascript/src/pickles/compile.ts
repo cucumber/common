@@ -66,6 +66,8 @@ function compileRule(
 ) {
   let ruleBackgroundSteps = [].concat(featureBackgroundSteps)
 
+  const tags = [].concat(featureTags).concat(rule.tags)
+
   rule.children.forEach((stepsContainer) => {
     if (stepsContainer.background) {
       ruleBackgroundSteps = ruleBackgroundSteps.concat(
@@ -73,7 +75,7 @@ function compileRule(
       )
     } else if (stepsContainer.scenario.examples.length === 0) {
       compileScenario(
-        featureTags,
+        tags,
         ruleBackgroundSteps,
         stepsContainer.scenario,
         language,
@@ -96,7 +98,7 @@ function compileRule(
 }
 
 function compileScenario(
-  featureTags: messages.GherkinDocument.Feature.ITag[],
+  inheritedTags: messages.GherkinDocument.Feature.ITag[],
   backgroundSteps: messages.GherkinDocument.Feature.IStep[],
   scenario: messages.GherkinDocument.Feature.IScenario,
   language: string,
@@ -109,7 +111,7 @@ function compileScenario(
       ? []
       : backgroundSteps.map((step) => pickleStep(step, [], null, newId))
 
-  const tags = [].concat(featureTags).concat(scenario.tags)
+  const tags = [].concat(inheritedTags).concat(scenario.tags)
 
   scenario.steps.forEach((step) =>
     steps.push(pickleStep(step, [], null, newId))
@@ -128,7 +130,7 @@ function compileScenario(
 }
 
 function compileScenarioOutline(
-  featureTags: messages.GherkinDocument.Feature.ITag[],
+  inheritedTags: messages.GherkinDocument.Feature.ITag[],
   backgroundSteps: messages.GherkinDocument.Feature.IStep[],
   scenario: messages.GherkinDocument.Feature.IScenario,
   language: string,
@@ -146,7 +148,7 @@ function compileScenarioOutline(
             ? []
             : backgroundSteps.map((step) => pickleStep(step, [], null, newId))
         const tags = []
-          .concat(featureTags)
+          .concat(inheritedTags)
           .concat(scenario.tags)
           .concat(examples.tags)
 
