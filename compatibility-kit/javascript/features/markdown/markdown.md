@@ -33,7 +33,7 @@ your programming language.
 
 Here is an example of what it looks like:
 
-* This is a typical table:
+* Given this is a typical table:
 
 | name | age |
 | ---- | --: |
