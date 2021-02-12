@@ -1078,7 +1078,10 @@
       "Ejemplos"
     ],
     "feature": [
-      "Característica"
+      "Característica",
+      "Necesidad del negocio",
+      "Necesidad",
+      "Requisito"
     ],
     "given": [
       "* ",
@@ -1090,7 +1093,8 @@
     "name": "Spanish",
     "native": "español",
     "rule": [
-      "Regla"
+      "Regla",
+      "Regla de negocio"
     ],
     "scenario": [
       "Ejemplo",
