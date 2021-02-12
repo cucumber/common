@@ -21,7 +21,7 @@ test: .built $(TOKENS) $(ASTS) $(PICKLES)
 	cpanm --notest --local-lib ./perl5 --installdeps .
 	touch $@
 
-.built: .cpanfile_dependencies lib/Gherkin/Generated/Parser.pm lib/Gherkin/Generated/Languages.pm $(PERL_FILES) bin/gherkin-generate-tokens bin/gherkin-generate-ast LICENSE.txt
+.built: .cpanfile_dependencies lib/Gherkin/Generated/Parser.pm lib/Gherkin/Generated/Languages.pm $(PERL_FILES) bin/gherkin-generate-tokens LICENSE.txt
 	@$(MAKE) --no-print-directory show-version-info
 	# add Perl-level unit tests
 	touch $@
@@ -37,17 +37,17 @@ acceptance/testdata/%.feature.tokens: testdata/%.feature testdata/%.feature.toke
 
 acceptance/testdata/%.feature.ast.ndjson: testdata/%.feature testdata/%.feature.ast.ndjson .built
 	mkdir -p $(@D)
-	PERL5LIB=./perl5/lib/perl5 bin/gherkin-generate-ast $< > $@
+	PERL5LIB=./perl5/lib/perl5 bin/gherkin --predictable-ids --no-source --no-pickles $< > $@
 	diff --unified <(jq "." $<.ast.ndjson) <(jq "." $@)
 
 acceptance/testdata/%.feature.pickles.ndjson: testdata/%.feature testdata/%.feature.pickles.ndjson .built
 	mkdir -p $(@D)
-	PERL5LIB=./perl5/lib/perl5 bin/gherkin-generate-pickles $< > $@
+	PERL5LIB=./perl5/lib/perl5 bin/gherkin --predictable-ids --no-source --no-ast $< > $@
 	diff --unified <(jq "." $<.pickles.ndjson) <(jq "." $@)
 
 acceptance/testdata/%.feature.errors.ndjson: testdata/%.feature testdata/%.feature.errors.ndjson .built
 	mkdir -p $(@D)
-	PERL5LIB=./perl5/lib/perl5 bin/gherkin-generate-ast $< > $@
+	PERL5LIB=./perl5/lib/perl5 bin/gherkin --predictable-ids --no-source --no-pickles $< > $@
 	diff --unified <(jq "." $<.errors.ndjson) <(jq "." $@)
 
 CHANGELOG.md: ../CHANGELOG.md
