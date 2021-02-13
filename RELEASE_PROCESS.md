@@ -52,6 +52,7 @@ This depends on what's changed (see `CHANGELOG.md`):
 ## Prepare the release
 
     cd thepackage
+    make clean
 
 Run the `pre-release` target:
 
@@ -68,6 +69,14 @@ Inspect the diff, and undo any changes that you think shouldn't have been made.
 Make sure the package still builds, and that the tests are still passing:
 
     make clean && make
+
+** Special note for html-formatter **
+
+We need to verify that the webpacked JavaScript runs in the browser.
+Run the following on your host OS (it won't work in Docker):
+
+    make clean
+    CHECK_INTEGRITY=1 make
 
 If all is good, proceed to the next step. Otherwise, make the necessary edits
 until the build passes.

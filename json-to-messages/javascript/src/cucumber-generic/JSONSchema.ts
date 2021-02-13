@@ -1,6 +1,7 @@
 import { IElement as IRubyElement } from '../cucumber-ruby/JSONSchema'
 import { IElement as IJSElement } from '../cucumber-js/JSONSchema'
 import { IElement as IBehaveElement } from '../behave/JSONSchema'
+import { ITag } from '../types'
 
 type IElement = IRubyElement | IJSElement | IBehaveElement
 
@@ -13,19 +14,4 @@ export interface IFeature {
   description: string
   elements: ReadonlyArray<IElement>
   tags?: ReadonlyArray<ITag>
-}
-
-export interface IMatch {
-  location: string
-}
-
-export interface IResult {
-  duration?: number
-  status: string
-  error_message?: string
-}
-
-export interface ITag {
-  name: string
-  line?: number
 }

@@ -3,14 +3,12 @@ import { ITable, IStep, IElement, IFeature } from './JSONSchema'
 import IAstMaker from '../IAstMaker'
 import IPredictableSupportCode from '../IPredictableSupportCode'
 
-import {
-  IFeature as IGenericFeature,
-  ITag,
-} from '../cucumber-generic/JSONSchema'
+import { IFeature as IGenericFeature } from '../cucumber-generic/JSONSchema'
 import {
   traverseFeature as traverseGenericFeature,
   traverseTag,
 } from '../cucumber-generic/JSONTraverse'
+import { ITag } from '../types'
 
 function makeTags(tags: ReadonlyArray<string>): ITag[] {
   return tags

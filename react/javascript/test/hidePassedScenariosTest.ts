@@ -2,18 +2,14 @@ import assert from 'assert'
 import { stubObject } from 'ts-sinon'
 import { IdGenerator, messages } from '@cucumber/messages'
 import GherkinDocument = messages.GherkinDocument
-import {
-  Query as CucumberQuery,
-  Query,
-  QueryStream as CucumberQueryStream,
-} from '@cucumber/query'
-import { GherkinStreams } from '@cucumber/gherkin'
+import { Query as CucumberQuery, Query } from '@cucumber/query'
+import GherkinStreams from '@cucumber/gherkin/dist/src/stream/GherkinStreams'
 import { Query as GherkinQuery } from '@cucumber/gherkin-utils'
-import fs from 'fs'
 
 import hidePassedScenarios from '../src/hidePassedScenarios'
 import { runCucumber, SupportCode } from '@cucumber/fake-cucumber'
 import { glob } from 'glob'
+import CucumberQueryStream from './CucumberQueryStream'
 
 describe('hidePassedScenarios', () => {
   it('returns an empty array if no documents are provided', () => {
@@ -83,9 +79,6 @@ describe('hidePassedScenarios', () => {
       .sort()
     const gherkinStream = GherkinStreams.fromPaths(featureFiles, {
       newId: IdGenerator.incrementing(),
-      createReadStream(filePath: string) {
-        return fs.createReadStream(filePath, { encoding: 'utf-8' })
-      },
     })
     const gherkinQuery = new GherkinQuery()
     const cucumberQuery = new CucumberQuery()

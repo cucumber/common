@@ -1,12 +1,11 @@
-import fs from 'fs'
 import { Command } from 'commander'
 import packageJson from '../../package.json'
 import Gherkin from '../stream/GherkinStreams'
+import { IdGenerator } from '@cucumber/messages'
 import {
   MessageToBinaryStream,
   MessageToNdjsonStream,
-  IdGenerator,
-} from '@cucumber/messages'
+} from '@cucumber/messages/dist/src/stream'
 import { Readable, Transform } from 'stream'
 import IGherkinOptions from '../IGherkinOptions'
 
@@ -26,14 +25,12 @@ const paths = program.args
 
 const options: IGherkinOptions = {
   defaultDialect: 'en',
-  includeSource: program.source,
-  includeGherkinDocument: program.ast,
-  includePickles: program.pickles,
-  newId: program.predictableIds
+  includeSource: program.opts().source,
+  includeGherkinDocument: program.opts().ast,
+  includePickles: program.opts().pickles,
+  newId: program.opts().predictableIds
     ? IdGenerator.incrementing()
     : IdGenerator.uuid(),
-  createReadStream: (path: string) =>
-    fs.createReadStream(path, { encoding: 'utf-8' }),
 }
 
 const messageStream =
@@ -42,7 +39,7 @@ const messageStream =
     : Gherkin.fromPaths(paths, options)
 
 let encodedStream: Transform
-switch (program.format) {
+switch (program.opts().format) {
   case 'ndjson':
     encodedStream = new MessageToNdjsonStream()
     break
@@ -50,7 +47,7 @@ switch (program.format) {
     encodedStream = new MessageToBinaryStream()
     break
   default:
-    throw new Error(`Unsupported format: ${program.format}`)
+    throw new Error(`Unsupported format: ${program.opts().format}`)
 }
 
 messageStream.pipe(encodedStream).pipe(process.stdout)

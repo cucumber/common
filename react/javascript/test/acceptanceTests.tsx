@@ -1,18 +1,16 @@
 import path from 'path'
 import fs from 'fs'
 import { IdGenerator } from '@cucumber/messages'
-import { GherkinStreams } from '@cucumber/gherkin'
+import GherkinStreams from '@cucumber/gherkin/dist/src/stream/GherkinStreams'
 import { Query as GherkinQuery } from '@cucumber/gherkin-utils'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { JSDOM } from 'jsdom'
 import { runCucumber, SupportCode } from '@cucumber/fake-cucumber'
 import { QueriesWrapper, EnvelopesQuery } from '../src'
-import {
-  Query as CucumberQuery,
-  QueryStream as CucumberQueryStream,
-} from '@cucumber/query'
+import { Query as CucumberQuery } from '@cucumber/query'
 import GherkinDocumentList from '../src/components/app/GherkinDocumentList'
+import CucumberQueryStream from './CucumberQueryStream'
 
 describe('App', () => {
   const dir = __dirname + '/../../../gherkin/testdata/good'
@@ -33,9 +31,6 @@ describe('App', () => {
         const p = path.join(dir, file)
         const gherkinStream = GherkinStreams.fromPaths([p], {
           newId: IdGenerator.incrementing(),
-          createReadStream(filePath: string) {
-            return fs.createReadStream(filePath, { encoding: 'utf-8' })
-          },
         })
         const gherkinQuery = new GherkinQuery()
         const cucumberQuery = new CucumberQuery()

@@ -1,5 +1,6 @@
 import { Transform, TransformCallback } from 'stream'
-import { messages } from './index'
+import { io } from './messages'
+import messages = io.cucumber.messages
 
 /**
  * Transforms a stream of message objects to binary

@@ -1,8 +1,7 @@
 import ParameterType from './ParameterType'
 import GeneratedExpression from './GeneratedExpression'
 import { Located, Node, purposeOf, symbolOf, Token, TokenType } from './Ast'
-
-export class CucumberExpressionError extends Error {}
+import CucumberExpressionError from './CucumberExpressionError'
 
 export function createAlternativeMayNotExclusivelyContainOptionals(
   node: Node,
@@ -135,12 +134,6 @@ export function createCantEscaped(expression: string, index: number) {
       "Only the characters '{', '}', '(', ')', '\\', '/' and whitespace can be escaped",
       "If you did mean to use an '\\' you can use '\\\\' to escape it"
     )
-  )
-}
-
-export function createInvalidParameterTypeName(typeName: string) {
-  return new CucumberExpressionError(
-    `Illegal character in parameter name {${typeName}}. Parameter names may not contain '{', '}', '(', ')', '\\' or '/'`
   )
 }
 

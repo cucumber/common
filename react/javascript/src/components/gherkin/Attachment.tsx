@@ -42,11 +42,14 @@ function image(attachment: messages.IAttachment) {
     )
   }
   return (
-    <img
-      alt="Embedded Image"
-      src={`data:${attachment.mediaType};base64,${attachment.body}`}
-      className="cucumber-attachment cucumber-attachment__image"
-    />
+    <details>
+      <summary>Attached Image</summary>
+      <img
+        alt="Embedded Image"
+        src={`data:${attachment.mediaType};base64,${attachment.body}`}
+        className="cucumber-attachment cucumber-attachment__image"
+      />
+    </details>
   )
 }
 
@@ -62,10 +65,15 @@ function video(attachment: messages.IAttachment) {
     )
   }
   return (
-    <video controls>
-      <source src={`data:${attachment.mediaType};base64,${attachment.body}`} />
-      Your browser is unable to display video
-    </video>
+    <details>
+      <summary>Attached Video</summary>
+      <video controls>
+        <source
+          src={`data:${attachment.mediaType};base64,${attachment.body}`}
+        />
+        Your browser is unable to display video
+      </video>
+    </details>
   )
 }
 

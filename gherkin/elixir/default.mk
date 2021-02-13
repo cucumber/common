@@ -18,7 +18,6 @@ update-dependencies:
 .PHONY: update-dependencies
 
 pre-release: update-version update-dependencies clean default
-	[ -f '/home/cukebot/import-gpg-key.sh' ] && /home/cukebot/import-gpg-key.sh
 .PHONY: pre-release
 
 update-version:

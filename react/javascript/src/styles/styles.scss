@@ -103,6 +103,8 @@ $statusColors:
 
       &__content {
         flex-grow: 1;
+        // don't grow wider than container (less icon) width
+        max-width: calc(100% - 1.5em);
       }
 
       &__keyword {
@@ -152,7 +154,7 @@ $statusColors:
   .cucumber-error {
     padding: 0.5em;
     margin: 0;
-    overflow: scroll;
+    overflow-x: auto;
   }
 
   .cucumber-no-documents {
@@ -160,15 +162,19 @@ $statusColors:
   }
 
   .cucumber-attachment {
-    background-color: rgb(235, 235, 235);
-    padding: 0.5em;
-
     &__icon {
       margin-right: 0.5em;
     }
 
     &__image {
+      max-width: 100%;
       margin-top: 1em;
+    }
+
+    &__text {
+      background-color: rgb(235, 235, 235);
+      padding: 0.5em;
+      overflow-x: auto;
     }
   }
 

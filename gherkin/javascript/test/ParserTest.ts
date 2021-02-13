@@ -3,11 +3,14 @@ import { messages, IdGenerator } from '@cucumber/messages'
 import AstBuilder from '../src/AstBuilder'
 import Parser from '../src/Parser'
 import TokenMatcher from '../src/TokenMatcher'
-import generateMessages from '../src/stream/generateMessages'
+import generateMessages from '../src/generateMessages'
+import AstNode from '../src/AstNode'
 
 describe('Parser', function () {
   it('parses a simple feature', function () {
-    const parser = new Parser(new AstBuilder(IdGenerator.incrementing()))
+    const parser = new Parser<AstNode>(
+      new AstBuilder(IdGenerator.incrementing())
+    )
     const ast = parser.parse('Feature: hello')
     assert.deepStrictEqual(
       ast,

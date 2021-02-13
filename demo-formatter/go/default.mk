@@ -75,8 +75,10 @@ ifndef NO_UPX_COMPRESSION
 	# may produce an error ARCH not supported
 	-upx $@ -o $@.upx
 
-	# Remove the compressed file if it doesn't pass the integrity test
-	if [ -f "$@.upx" ]; then upx -t $@.upx && mv $@.upx $@ || rm $@; fi
+	# If the compressed file passes the integrity test, replace the original
+	# file with the compressed file. Otherwise, preserve the original file
+	# and remove the compressed file.
+	if [ -f "$@.upx" ]; then upx -t $@.upx && mv $@.upx $@ || rm -f $@.upx; fi
 endif
 
 update-dependencies:

@@ -1,8 +1,10 @@
 import { messages, TimeConversion } from '@cucumber/messages'
-import ISupportCodeExecutor from './ISupportCodeExecutor'
-import { EnvelopeListener } from './types'
-import ITestStep from './ITestStep'
-import IWorld from './IWorld'
+import {
+  EnvelopeListener,
+  ISupportCodeExecutor,
+  ITestStep,
+  IWorld,
+} from './types'
 import makeAttach from './makeAttach'
 import IClock from './IClock'
 import IStopwatch from './IStopwatch'
@@ -18,8 +20,8 @@ export default abstract class TestStep implements ITestStep {
     public readonly id: string,
     public readonly sourceId: string,
     public readonly alwaysExecute: boolean,
-    protected readonly supportCodeExecutors: ReadonlyArray<ISupportCodeExecutor>,
-    private readonly sourceFrames: ReadonlyArray<string>,
+    protected readonly supportCodeExecutors: readonly ISupportCodeExecutor[],
+    private readonly sourceFrames: readonly string[],
     private readonly clock: IClock,
     private readonly stopwatch: IStopwatch,
     private readonly makeErrorMessage: MakeErrorMessage

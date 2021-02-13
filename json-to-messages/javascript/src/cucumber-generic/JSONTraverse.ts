@@ -1,10 +1,11 @@
 import { IdGenerator, messages } from '@cucumber/messages'
-import { IFeature, ITag } from './JSONSchema'
+import { IFeature } from './JSONSchema'
 import IAstMaker from '../IAstMaker'
 import IPredictableSupportCode from '../IPredictableSupportCode'
 import { IElement as IRubyElement } from '../cucumber-ruby/JSONSchema'
 import { IElement as IJSElement } from '../cucumber-js/JSONSchema'
 import { IElement as IBehaveElement } from '../behave/JSONSchema'
+import { ITag } from '../types'
 
 type traverseElementType = (
   element: IRubyElement | IJSElement | IBehaveElement,

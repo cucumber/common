@@ -2,17 +2,45 @@
 
 import { messages } from '@cucumber/messages'
 import {
-  ParserException,
-  CompositeParserException,
-  UnexpectedTokenException,
-  UnexpectedEOFException,
   AstBuilderException,
-  NoSuchLanguageException
+  CompositeParserException,
+  NoSuchLanguageException,
+  ParserException,
 } from './Errors'
-import AstBuilder from './AstBuilder'
-import Token from './Token'
+import {
+  UnexpectedEOFException,
+  UnexpectedTokenException,
+} from './TokenExceptions'
 import TokenScanner from './TokenScanner'
 import TokenMatcher from './TokenMatcher'
+import GherkinLine from './GherkinLine'
+import IToken from './IToken'
+import { IAstBuilder } from './IAstBuilder'
+
+export class Token implements IToken<TokenType> {
+  public isEof: boolean
+  public matchedText?: string
+  public matchedType: TokenType
+  public matchedItems: GherkinLine[]
+  public matchedKeyword: string
+  public matchedIndent: number
+  public matchedGherkinDialect: string
+
+  constructor(
+    public readonly line: GherkinLine,
+    public readonly location: messages.ILocation
+  ) {
+    this.isEof = !line
+  }
+
+  public getTokenValue(): string {
+    return this.isEof ? 'EOF' : this.line.getLineText(-1)
+  }
+
+  public detach() {
+    // TODO: Detach line, but is this really needed?
+  }
+}
 
 export enum TokenType {
   None,
@@ -69,81 +97,98 @@ export enum RuleType {
 }
 
 interface Context {
-  tokenScanner: TokenScanner
+  tokenScanner: TokenScanner<TokenType>
   tokenMatcher: TokenMatcher
   tokenQueue: Token[]
   errors: Error[]
 }
 
-export default class Parser {
-  public stopAtFirstError: boolean = false
+export default class Parser<AstNode> {
+  public stopAtFirstError = false
   private context: Context
 
-  constructor(private readonly builder: AstBuilder) {
-  }
+  constructor(
+    private readonly builder: IAstBuilder<AstNode, TokenType, RuleType>
+  ) {}
 
-  public parse(gherkinSource: string, tokenMatcher: TokenMatcher = new TokenMatcher()): messages.IGherkinDocument {
-    const tokenScanner = new TokenScanner(gherkinSource);
-    this.builder.reset();
-    tokenMatcher.reset();
+  public parse(
+    gherkinSource: string,
+    tokenMatcher: TokenMatcher = new TokenMatcher()
+  ): messages.IGherkinDocument {
+    const tokenScanner = new TokenScanner(
+      gherkinSource,
+      (line: string, location: messages.ILocation) => {
+        const gherkinLine =
+          line === null || line === undefined
+            ? null
+            : new GherkinLine(line, location.line)
+        return new Token(gherkinLine, location)
+      }
+    )
+    this.builder.reset()
+    tokenMatcher.reset()
     this.context = {
       tokenScanner,
       tokenMatcher,
       tokenQueue: [],
-      errors: []
-    };
-    this.startRule(this.context, RuleType.GherkinDocument);
-    let state = 0;
-    let token = null;
-    while(true) {
-      token = this.readToken(this.context);
-      state = this.matchToken(state, token, this.context);
-      if(token.isEof) break;
+      errors: [],
+    }
+    this.startRule(this.context, RuleType.GherkinDocument)
+    let state = 0
+    let token: Token = null
+    while (true) {
+      token = this.readToken(this.context) as Token
+      state = this.matchToken(state, token, this.context)
+      if (token.isEof) break
     }
 
-    this.endRule(this.context);
+    this.endRule(this.context)
 
-    if(this.context.errors.length > 0) {
-      throw CompositeParserException.create(this.context.errors);
+    if (this.context.errors.length > 0) {
+      throw CompositeParserException.create(this.context.errors)
     }
 
-    return this.getResult();
+    return this.getResult()
   }
 
   private addError(context: Context, error: Error) {
-    context.errors.push(error);
+    context.errors.push(error)
     if (context.errors.length > 10)
-      throw CompositeParserException.create(context.errors);
+      throw CompositeParserException.create(context.errors)
   }
 
   private startRule(context: Context, ruleType: RuleType) {
-    this.handleAstError(context, () => this.builder.startRule(ruleType));
+    this.handleAstError(context, () => this.builder.startRule(ruleType))
   }
 
   private endRule(context: Context) {
-    this.handleAstError(context, () => this.builder.endRule());
+    this.handleAstError(context, () => this.builder.endRule())
   }
 
   private build(context: Context, token: Token) {
-    this.handleAstError(context, () => this.builder.build(token));
+    this.handleAstError(context, () => this.builder.build(token))
   }
 
   private getResult() {
-    return this.builder.getResult();
+    return this.builder.getResult()
   }
 
   private handleAstError(context: Context, action: () => any) {
     this.handleExternalError(context, true, action)
   }
 
-  private handleExternalError<T>(context: Context, defaultValue: T, action: () => T) {
-    if(this.stopAtFirstError) return action()
+  private handleExternalError<T>(
+    context: Context,
+    defaultValue: T,
+    action: () => T
+  ) {
+    if (this.stopAtFirstError) return action()
     try {
       return action()
     } catch (e) {
-      if(e instanceof CompositeParserException) {
+      if (e instanceof CompositeParserException) {
         e.errors.forEach((error: Error) => this.addError(context, error))
-      } else if(
+      } else if (
         e instanceof ParserException ||
         e instanceof AstBuilderException ||
         e instanceof UnexpectedTokenException ||
@@ -151,16 +196,16 @@ export default class Parser {
       ) {
         this.addError(context, e)
       } else {
-        throw e;
+        throw e
       }
     }
-    return defaultValue;
+    return defaultValue
   }
 
   private readToken(context: Context) {
-    return context.tokenQueue.length > 0 ?
-      context.tokenQueue.shift() :
-      context.tokenScanner.read();
+    return context.tokenQueue.length > 0
+      ? context.tokenQueue.shift()
+      : context.tokenScanner.read()
   }
 
   private matchToken(state: number, token: Token, context: Context) {
@@ -302,7 +347,7 @@ export default class Parser {
       this.build(context, token);
       return 0;
     }
-
+    
     token.detach();
     const expectedTokens = ["#EOF", "#Language", "#TagLine", "#FeatureLine", "#Comment", "#Empty"];
     const error = token.isEof ?
@@ -333,7 +378,7 @@ export default class Parser {
       this.build(context, token);
       return 1;
     }
-
+    
     token.detach();
     const expectedTokens = ["#TagLine", "#FeatureLine", "#Comment", "#Empty"];
     const error = token.isEof ?
@@ -364,7 +409,7 @@ export default class Parser {
       this.build(context, token);
       return 2;
     }
-
+    
     token.detach();
     const expectedTokens = ["#TagLine", "#FeatureLine", "#Comment", "#Empty"];
     const error = token.isEof ?
@@ -424,7 +469,7 @@ export default class Parser {
       this.build(context, token);
       return 4;
     }
-
+    
     token.detach();
     const expectedTokens = ["#EOF", "#Empty", "#Comment", "#BackgroundLine", "#TagLine", "#ScenarioLine", "#RuleLine", "#Other"];
     const error = token.isEof ?
@@ -485,7 +530,7 @@ export default class Parser {
       this.build(context, token);
       return 4;
     }
-
+    
     token.detach();
     const expectedTokens = ["#EOF", "#Comment", "#BackgroundLine", "#TagLine", "#ScenarioLine", "#RuleLine", "#Other"];
     const error = token.isEof ?
@@ -540,7 +585,7 @@ export default class Parser {
       this.build(context, token);
       return 5;
     }
-
+    
     token.detach();
     const expectedTokens = ["#EOF", "#Comment", "#BackgroundLine", "#TagLine", "#ScenarioLine", "#RuleLine", "#Empty"];
     const error = token.isEof ?
@@ -599,7 +644,7 @@ export default class Parser {
       this.build(context, token);
       return 7;
     }
-
+    
     token.detach();
     const expectedTokens = ["#EOF", "#Empty", "#Comment", "#StepLine", "#TagLine", "#ScenarioLine", "#RuleLine", "#Other"];
     const error = token.isEof ?
@@ -659,7 +704,7 @@ export default class Parser {
       this.build(context, token);
       return 7;
     }
-
+    
     token.detach();
     const expectedTokens = ["#EOF", "#Comment", "#StepLine", "#TagLine", "#ScenarioLine", "#RuleLine", "#Other"];
     const error = token.isEof ?
@@ -713,7 +758,7 @@ export default class Parser {
       this.build(context, token);
       return 8;
     }
-
+    
     token.detach();
     const expectedTokens = ["#EOF", "#Comment", "#StepLine", "#TagLine", "#ScenarioLine", "#RuleLine", "#Empty"];
     const error = token.isEof ?
@@ -782,7 +827,7 @@ export default class Parser {
       this.build(context, token);
       return 9;
     }
-
+    
     token.detach();
     const expectedTokens = ["#EOF", "#TableRow", "#DocStringSeparator", "#StepLine", "#TagLine", "#ScenarioLine", "#RuleLine", "#Comment", "#Empty"];
     const error = token.isEof ?
@@ -850,7 +895,7 @@ export default class Parser {
       this.build(context, token);
       return 10;
     }
-
+    
     token.detach();
     const expectedTokens = ["#EOF", "#TableRow", "#StepLine", "#TagLine", "#ScenarioLine", "#RuleLine", "#Comment", "#Empty"];
     const error = token.isEof ?
@@ -882,7 +927,7 @@ export default class Parser {
       this.build(context, token);
       return 11;
     }
-
+    
     token.detach();
     const expectedTokens = ["#TagLine", "#ScenarioLine", "#Comment", "#Empty"];
     const error = token.isEof ?
@@ -959,7 +1004,7 @@ export default class Parser {
       this.build(context, token);
       return 13;
     }
-
+    
     token.detach();
     const expectedTokens = ["#EOF", "#Empty", "#Comment", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Other"];
     const error = token.isEof ?
@@ -1039,7 +1084,7 @@ export default class Parser {
       this.build(context, token);
       return 13;
     }
-
+    
     token.detach();
     const expectedTokens = ["#EOF", "#Comment", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Other"];
     const error = token.isEof ?
@@ -1111,7 +1156,7 @@ export default class Parser {
       this.build(context, token);
       return 14;
     }
-
+    
     token.detach();
     const expectedTokens = ["#EOF", "#Comment", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Empty"];
     const error = token.isEof ?
@@ -1200,7 +1245,7 @@ export default class Parser {
       this.build(context, token);
       return 15;
     }
-
+    
     token.detach();
     const expectedTokens = ["#EOF", "#TableRow", "#DocStringSeparator", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Comment", "#Empty"];
     const error = token.isEof ?
@@ -1290,7 +1335,7 @@ export default class Parser {
       this.build(context, token);
       return 16;
     }
-
+    
     token.detach();
     const expectedTokens = ["#EOF", "#TableRow", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Comment", "#Empty"];
     const error = token.isEof ?
@@ -1322,7 +1367,7 @@ export default class Parser {
       this.build(context, token);
       return 17;
     }
-
+    
     token.detach();
     const expectedTokens = ["#TagLine", "#ExamplesLine", "#Comment", "#Empty"];
     const error = token.isEof ?
@@ -1411,7 +1456,7 @@ export default class Parser {
       this.build(context, token);
       return 19;
     }
-
+    
     token.detach();
     const expectedTokens = ["#EOF", "#Empty", "#Comment", "#TableRow", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Other"];
     const error = token.isEof ?
@@ -1503,7 +1548,7 @@ export default class Parser {
       this.build(context, token);
       return 19;
     }
-
+    
     token.detach();
     const expectedTokens = ["#EOF", "#Comment", "#TableRow", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Other"];
     const error = token.isEof ?
@@ -1587,7 +1632,7 @@ export default class Parser {
       this.build(context, token);
       return 20;
     }
-
+    
     token.detach();
     const expectedTokens = ["#EOF", "#Comment", "#TableRow", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Empty"];
     const error = token.isEof ?
@@ -1676,7 +1721,7 @@ export default class Parser {
       this.build(context, token);
       return 21;
     }
-
+    
     token.detach();
     const expectedTokens = ["#EOF", "#TableRow", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Comment", "#Empty"];
     const error = token.isEof ?
@@ -1738,7 +1783,7 @@ export default class Parser {
       this.build(context, token);
       return 23;
     }
-
+    
     token.detach();
     const expectedTokens = ["#EOF", "#Empty", "#Comment", "#BackgroundLine", "#TagLine", "#ScenarioLine", "#RuleLine", "#Other"];
     const error = token.isEof ?
@@ -1801,7 +1846,7 @@ export default class Parser {
       this.build(context, token);
       return 23;
     }
-
+    
     token.detach();
     const expectedTokens = ["#EOF", "#Comment", "#BackgroundLine", "#TagLine", "#ScenarioLine", "#RuleLine", "#Other"];
     const error = token.isEof ?
@@ -1858,7 +1903,7 @@ export default class Parser {
       this.build(context, token);
       return 24;
     }
-
+    
     token.detach();
     const expectedTokens = ["#EOF", "#Comment", "#BackgroundLine", "#TagLine", "#ScenarioLine", "#RuleLine", "#Empty"];
     const error = token.isEof ?
@@ -1919,7 +1964,7 @@ export default class Parser {
       this.build(context, token);
       return 26;
     }
-
+    
     token.detach();
     const expectedTokens = ["#EOF", "#Empty", "#Comment", "#StepLine", "#TagLine", "#ScenarioLine", "#RuleLine", "#Other"];
     const error = token.isEof ?
@@ -1981,7 +2026,7 @@ export default class Parser {
       this.build(context, token);
       return 26;
     }
-
+    
     token.detach();
     const expectedTokens = ["#EOF", "#Comment", "#StepLine", "#TagLine", "#ScenarioLine", "#RuleLine", "#Other"];
     const error = token.isEof ?
@@ -2037,7 +2082,7 @@ export default class Parser {
       this.build(context, token);
       return 27;
     }
-
+    
     token.detach();
     const expectedTokens = ["#EOF", "#Comment", "#StepLine", "#TagLine", "#ScenarioLine", "#RuleLine", "#Empty"];
     const error = token.isEof ?
@@ -2108,7 +2153,7 @@ export default class Parser {
       this.build(context, token);
       return 28;
     }
-
+    
     token.detach();
     const expectedTokens = ["#EOF", "#TableRow", "#DocStringSeparator", "#StepLine", "#TagLine", "#ScenarioLine", "#RuleLine", "#Comment", "#Empty"];
     const error = token.isEof ?
@@ -2178,7 +2223,7 @@ export default class Parser {
       this.build(context, token);
       return 29;
     }
-
+    
     token.detach();
     const expectedTokens = ["#EOF", "#TableRow", "#StepLine", "#TagLine", "#ScenarioLine", "#RuleLine", "#Comment", "#Empty"];
     const error = token.isEof ?
@@ -2210,7 +2255,7 @@ export default class Parser {
       this.build(context, token);
       return 30;
     }
-
+    
     token.detach();
     const expectedTokens = ["#TagLine", "#ScenarioLine", "#Comment", "#Empty"];
     const error = token.isEof ?
@@ -2289,7 +2334,7 @@ export default class Parser {
       this.build(context, token);
       return 32;
     }
-
+    
     token.detach();
     const expectedTokens = ["#EOF", "#Empty", "#Comment", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Other"];
     const error = token.isEof ?
@@ -2371,7 +2416,7 @@ export default class Parser {
       this.build(context, token);
       return 32;
     }
-
+    
     token.detach();
     const expectedTokens = ["#EOF", "#Comment", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Other"];
     const error = token.isEof ?
@@ -2445,7 +2490,7 @@ export default class Parser {
       this.build(context, token);
       return 33;
     }
-
+    
     token.detach();
     const expectedTokens = ["#EOF", "#Comment", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Empty"];
     const error = token.isEof ?
@@ -2536,7 +2581,7 @@ export default class Parser {
       this.build(context, token);
       return 34;
     }
-
+    
     token.detach();
     const expectedTokens = ["#EOF", "#TableRow", "#DocStringSeparator", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Comment", "#Empty"];
     const error = token.isEof ?
@@ -2628,7 +2673,7 @@ export default class Parser {
       this.build(context, token);
       return 35;
     }
-
+    
     token.detach();
     const expectedTokens = ["#EOF", "#TableRow", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Comment", "#Empty"];
     const error = token.isEof ?
@@ -2660,7 +2705,7 @@ export default class Parser {
       this.build(context, token);
       return 36;
     }
-
+    
     token.detach();
     const expectedTokens = ["#TagLine", "#ExamplesLine", "#Comment", "#Empty"];
     const error = token.isEof ?
@@ -2751,7 +2796,7 @@ export default class Parser {
       this.build(context, token);
       return 38;
     }
-
+    
     token.detach();
     const expectedTokens = ["#EOF", "#Empty", "#Comment", "#TableRow", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Other"];
     const error = token.isEof ?
@@ -2845,7 +2890,7 @@ export default class Parser {
       this.build(context, token);
       return 38;
     }
-
+    
     token.detach();
     const expectedTokens = ["#EOF", "#Comment", "#TableRow", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Other"];
     const error = token.isEof ?
@@ -2931,7 +2976,7 @@ export default class Parser {
       this.build(context, token);
       return 39;
     }
-
+    
     token.detach();
     const expectedTokens = ["#EOF", "#Comment", "#TableRow", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Empty"];
     const error = token.isEof ?
@@ -3022,7 +3067,7 @@ export default class Parser {
       this.build(context, token);
       return 40;
     }
-
+    
     token.detach();
     const expectedTokens = ["#EOF", "#TableRow", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Comment", "#Empty"];
     const error = token.isEof ?
@@ -3044,7 +3089,7 @@ export default class Parser {
       this.build(context, token);
       return 42;
     }
-
+    
     token.detach();
     const expectedTokens = ["#DocStringSeparator", "#Other"];
     const error = token.isEof ?
@@ -3132,7 +3177,7 @@ export default class Parser {
       this.build(context, token);
       return 43;
     }
-
+    
     token.detach();
     const expectedTokens = ["#EOF", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Comment", "#Empty"];
     const error = token.isEof ?
@@ -3154,7 +3199,7 @@ export default class Parser {
       this.build(context, token);
       return 44;
     }
-
+    
     token.detach();
     const expectedTokens = ["#DocStringSeparator", "#Other"];
     const error = token.isEof ?
@@ -3220,7 +3265,7 @@ export default class Parser {
       this.build(context, token);
       return 45;
     }
-
+    
     token.detach();
     const expectedTokens = ["#EOF", "#StepLine", "#TagLine", "#ScenarioLine", "#RuleLine", "#Comment", "#Empty"];
     const error = token.isEof ?
@@ -3242,7 +3287,7 @@ export default class Parser {
       this.build(context, token);
       return 46;
     }
-
+    
     token.detach();
     const expectedTokens = ["#DocStringSeparator", "#Other"];
     const error = token.isEof ?
@@ -3328,7 +3373,7 @@ export default class Parser {
       this.build(context, token);
       return 47;
     }
-
+    
     token.detach();
     const expectedTokens = ["#EOF", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Comment", "#Empty"];
     const error = token.isEof ?
@@ -3350,7 +3395,7 @@ export default class Parser {
       this.build(context, token);
       return 48;
     }
-
+    
     token.detach();
     const expectedTokens = ["#DocStringSeparator", "#Other"];
     const error = token.isEof ?
@@ -3414,7 +3459,7 @@ export default class Parser {
       this.build(context, token);
       return 49;
     }
-
+    
     token.detach();
     const expectedTokens = ["#EOF", "#StepLine", "#TagLine", "#ScenarioLine", "#RuleLine", "#Comment", "#Empty"];
     const error = token.isEof ?

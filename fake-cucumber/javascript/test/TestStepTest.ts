@@ -1,14 +1,13 @@
 import assert from 'assert'
 import { messages } from '@cucumber/messages'
-import ITestStep from '../src/ITestStep'
 import makePickleTestStep from '../src/makePickleTestStep'
-import IWorld from '../src/IWorld'
 import TestWorld from './TestWorld'
 import IncrementClock from '../src/IncrementClock'
 import {
   withSourceFramesOnlyStackTrace,
   withFullStackTrace,
-} from '../src/ErrorMessageGenerator'
+  IWorld,
+} from '../src'
 import ExpressionStepDefinition from '../src/ExpressionStepDefinition'
 import {
   CucumberExpression,
@@ -16,6 +15,7 @@ import {
   RegularExpression,
 } from '@cucumber/cucumber-expressions'
 import IncrementStopwatch from '../src/IncrementStopwatch'
+import { ITestStep } from '../src/types'
 
 describe('TestStep', () => {
   let world: IWorld

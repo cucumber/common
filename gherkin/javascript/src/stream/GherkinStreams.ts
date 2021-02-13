@@ -1,9 +1,11 @@
 import { PassThrough, pipeline, Readable } from 'stream'
-import { BinaryToMessageStream, messages } from '@cucumber/messages'
+import { messages } from '@cucumber/messages'
+import { BinaryToMessageStream } from '@cucumber/messages/dist/src/stream'
 import ParserMessageStream from './ParserMessageStream'
 import SourceMessageStream from './SourceMessageStream'
 import IGherkinOptions from '../IGherkinOptions'
 import makeGherkinOptions from '../makeGherkinOptions'
+import fs from 'fs'
 
 function fromStream(stream: Readable, options: IGherkinOptions) {
   return pipeline(
@@ -35,8 +37,7 @@ function fromPaths(
       const end = pathsCopy.length === 0
       // Can't use pipeline here because of the { end } argument,
       // so we have to manually propagate errors.
-      options
-        .createReadStream(path)
+      fs.createReadStream(path, { encoding: 'utf-8' })
         .on('error', (err) => combinedMessageStream.emit('error', err))
         .pipe(new SourceMessageStream(path))
         .on('error', (err) => combinedMessageStream.emit('error', err))
