@@ -148,6 +148,12 @@ public class Parser<T> {
     }
 
     private void addError(ParserContext context, ParserException error) {
+        String newErrorMessage = error.getMessage();
+        for (ParserException e : context.errors) {
+            if (e.getMessage().equals(newErrorMessage)) {
+                return;
+            }
+        }
         context.errors.add(error);
         if (context.errors.size() > 10)
             throw new ParserException.CompositeParserException(context.errors);
