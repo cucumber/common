@@ -65,11 +65,11 @@ predistribution: test CHANGELOG.md
 	    'die "The `release` target includes all files in the working directory. Please remove [$$_], or add it to .gitignore if it should be included\n" if s!.+ perl/(.+?)\n!$$1!')
 
 distribution: predistribution
-	PERL5LIB=./perl5/lib/perl5 PATH=$$PATH:./perl5/bin dzil test --release
-	PERL5LIB=./perl5/lib/perl5 PATH=$$PATH:./perl5/bin dzil build
+	PERL5LIB=$$PWD/perl5/lib/perl5 PATH=$$PATH:$$PWD/perl5/bin dzil test --release
+	PERL5LIB=$$PWD/perl5/lib/perl5 PATH=$$PATH:$$PWD/perl5/bin dzil build
 
 publish: predistribution
-	PERL5LIB=./perl5/lib/perl5 PATH=$$PATH:./perl5/bin dzil release
+	PERL5LIB=$$PWD/perl5/lib/perl5 PATH=$$PATH:$$PWD/perl5/bin dzil release
 
 post-release:
 .PHONY: post-release
