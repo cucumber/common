@@ -6,6 +6,8 @@ namespace Gherkin
 {
     public class GherkinLine : IGherkinLine
     {
+        static private char[] inlineWhitespaceChars = new char[] { ' ', '\t', '\u00A0'};
+
         private readonly string lineText;
         private readonly string trimmedLineText;
         public int LineNumber { get; private set; }
@@ -65,11 +67,17 @@ namespace Gherkin
         public IEnumerable<GherkinLineSpan> GetTags()
         {
             int position = Indent;
-            foreach (string item in trimmedLineText.Split())
+            foreach (string item in trimmedLineText.Split('@'))
             {
                 if (item.Length > 0)
                 {
-                    yield return new GherkinLineSpan(position + 1, item);
+                    var tagName = '@' + Trim(item, out var tagNameStart);
+
+                    var hashMatch = System.Text.RegularExpressions.Regex.Match(tagName, @"\s+#");
+                    if (hashMatch.Success)
+                        tagName = tagName.Substring(0, hashMatch.Index);
+
+                    yield return new GherkinLineSpan(position + tagNameStart, tagName);
                     position += item.Length;
                 }
                 position++; // separator
@@ -130,14 +138,13 @@ namespace Gherkin
             yield return Tuple.Create(cell, startPos);
         }
 
-        static private char[] trimmedChars = new char[] { ' ', '\t', '\u00A0'};
         private string Trim(string s, out int trimmedStart)
         {
             trimmedStart = 0;
-            while (trimmedStart < s.Length && trimmedChars.Contains(s[trimmedStart]))
+            while (trimmedStart < s.Length && inlineWhitespaceChars.Contains(s[trimmedStart]))
                 trimmedStart++;
 
-            return s.Trim(trimmedChars);
+            return s.Trim(inlineWhitespaceChars);
         }
     }
 }
