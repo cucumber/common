@@ -9,6 +9,7 @@ namespace Gherkin.Events.Args.Ast
         {
             Children = new List<Children>();
             Id = IdGenerator.GetNextId();
+            Tags = new List<Tag>();
         }
 
         [DataMember(Name = "id")]
@@ -24,5 +25,8 @@ namespace Gherkin.Events.Args.Ast
         public Location Location { get; set; }
         [DataMember(Name = "children")]
         public IReadOnlyCollection<Children> Children { get; set; }
+
+        [DataMember(Name = "tags")]
+        public IReadOnlyCollection<Tag> Tags { get; set; }
     }
 }

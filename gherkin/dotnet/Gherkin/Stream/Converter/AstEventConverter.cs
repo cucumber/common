@@ -104,6 +104,7 @@ namespace Gherkin.Stream.Converter
                 case Ast.Rule rule:
                     {
                         var ruleChildren = rule.Children.Select(ConvertToChildren).ToReadOnlyCollection();
+                        var ruleTags = rule.Tags.Select(ConvertTag).ToReadOnlyCollection();
                         return new Children()
                         {
                             Rule = new Rule()
@@ -112,7 +113,8 @@ namespace Gherkin.Stream.Converter
                                 Description = rule.Description == string.Empty ? null : rule.Description,
                                 Keyword = rule.Keyword,
                                 Children = ruleChildren,
-                                Location = ConvertLocation(rule.Location)
+                                Location = ConvertLocation(rule.Location),
+                                Tags = ruleTags
                             }
                         };
                     }

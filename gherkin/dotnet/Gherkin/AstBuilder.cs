@@ -148,7 +148,8 @@ namespace Gherkin
                 {
                     var header = node.GetSingle<AstNode>(RuleType.RuleHeader);
                     if (header == null) return null;
-                        var ruleLine = header.GetToken(TokenType.RuleLine);
+                    var tags = GetTags(header);
+                    var ruleLine = header.GetToken(TokenType.RuleLine);
                     if (ruleLine == null) return null;
                     var children = new List<IHasLocation>();
                     var background = node.GetSingle<Background>(RuleType.Background);
@@ -161,7 +162,7 @@ namespace Gherkin
                     if (ruleLine.MatchedGherkinDialect == null) return null;
                     var language = ruleLine.MatchedGherkinDialect.Language;
 
-                    return CreateRule(GetLocation(ruleLine), ruleLine.MatchedKeyword, ruleLine.MatchedText, description, childrenEnumerable.ToArray(), node);
+                    return CreateRule(tags, GetLocation(ruleLine), ruleLine.MatchedKeyword, ruleLine.MatchedText, description, childrenEnumerable.ToArray(), node);
                 }
                 case RuleType.GherkinDocument:
                 {
@@ -218,9 +219,9 @@ namespace Gherkin
             return new Feature(tags, location, language, keyword, name, description, children);
         }
 
-        protected virtual Rule CreateRule(Ast.Location location, string keyword, string name, string description, IHasLocation[] children, AstNode node)
+        protected virtual Rule CreateRule(Tag[] tags, Ast.Location location, string keyword, string name, string description, IHasLocation[] children, AstNode node)
         {
-            return new Rule(location, keyword, name, description, children);
+            return new Rule(tags, location, keyword, name, description, children);
         }
 
         protected virtual Tag CreateTag(Ast.Location location, string name, AstNode node)
