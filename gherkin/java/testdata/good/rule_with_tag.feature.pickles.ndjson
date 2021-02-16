@@ -3,21 +3,21 @@
     "astNodeIds": [
       "1"
     ],
-    "id": "11",
+    "id": "12",
     "language": "en",
-    "name": "Example A",
+    "name": "Scenario with only a feature tag",
     "steps": [
       {
         "astNodeIds": [
           "0"
         ],
-        "id": "10",
+        "id": "11",
         "text": "a"
       }
     ],
     "tags": [
       {
-        "astNodeId": "9",
+        "astNodeId": "10",
         "name": "@tag_feature"
       }
     ],
@@ -29,22 +29,26 @@
     "astNodeIds": [
       "4"
     ],
-    "id": "13",
+    "id": "14",
     "language": "en",
-    "name": "Example B1",
+    "name": "Scenario with feature and rule tags",
     "steps": [
       {
         "astNodeIds": [
           "3"
         ],
-        "id": "12",
+        "id": "13",
         "text": "b"
       }
     ],
     "tags": [
       {
-        "astNodeId": "9",
+        "astNodeId": "10",
         "name": "@tag_feature"
+      },
+      {
+        "astNodeId": "8",
+        "name": "@tag_rule"
       }
     ],
     "uri": "testdata/good/rule_with_tag.feature"
@@ -55,26 +59,30 @@
     "astNodeIds": [
       "7"
     ],
-    "id": "15",
+    "id": "16",
     "language": "en",
-    "name": "Example B2",
+    "name": "Scenario with feature, rule and scenario tags",
     "steps": [
       {
         "astNodeIds": [
           "5"
         ],
-        "id": "14",
+        "id": "15",
         "text": "b"
       }
     ],
     "tags": [
       {
-        "astNodeId": "9",
+        "astNodeId": "10",
         "name": "@tag_feature"
       },
       {
+        "astNodeId": "8",
+        "name": "@tag_rule"
+      },
+      {
         "astNodeId": "6",
-        "name": "@tag_b2"
+        "name": "@tag_scenario"
       }
     ],
     "uri": "testdata/good/rule_with_tag.feature"
