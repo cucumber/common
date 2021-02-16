@@ -10,6 +10,7 @@ using Location = Gherkin.Events.Args.Ast.Location;
 using Rule = Gherkin.Events.Args.Ast.Rule;
 using Step = Gherkin.Events.Args.Ast.Step;
 using StepsContainer = Gherkin.Events.Args.Ast.StepsContainer;
+using DataTable = Gherkin.Events.Args.Ast.DataTable;
 
 namespace Gherkin.Stream.Converter
 {
@@ -133,7 +134,12 @@ namespace Gherkin.Stream.Converter
             if (examples.TableBody == null)
                 return new List<TableBody>();
 
-            return examples.TableBody.Select(b =>
+            return ConvertToTableRow(examples.TableBody);
+        }
+
+        private IReadOnlyCollection<TableBody> ConvertToTableRow(IEnumerable<Gherkin.Ast.TableRow> rows)
+        {
+            return rows.Select(b =>
                 new TableBody()
                 {
                     Location = ConvertLocation(b.Location),
@@ -157,17 +163,28 @@ namespace Gherkin.Stream.Converter
         {
             return new Cell()
             {
-                Value = c.Value,
+                Value = c.Value == string.Empty ? null : c.Value,
                 Location = ConvertLocation(c.Location)
             };
         }
 
         private Step ConvertStep(Ast.Step step)
         {
+            DataTable dataTable = null;
+            if (step.Argument is Gherkin.Ast.DataTable astDataTable) 
+            {
+                var rows = ConvertToTableRow(astDataTable.Rows);
+                dataTable = new DataTable
+                {
+                    Rows = rows,
+                    Location = ConvertLocation(astDataTable.Location)
+                };
+            }
             return new Step()
             {
                 Keyword = step.Keyword,
                 Text = step.Text,
+                DataTable = dataTable,
                 Location = ConvertLocation(step.Location)
             };
         }

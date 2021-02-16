@@ -18,5 +18,7 @@ namespace Gherkin.Events.Args.Ast
         public Location Location { get; set; }
         [DataMember(Name = "text")]
         public string Text { get; set; }
+        [DataMember(Name = "dataTable")]
+        public DataTable DataTable { get; set; }
     }
 }
