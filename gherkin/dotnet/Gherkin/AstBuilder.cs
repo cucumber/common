@@ -70,8 +70,9 @@ namespace Gherkin
                     var contentType = separatorToken.MatchedText.Length == 0 ? null : separatorToken.MatchedText;
                     var lineTokens = node.GetTokens(TokenType.Other);
                     var content = string.Join(Environment.NewLine, lineTokens.Select(lt => lt.MatchedText));
+                    var delimiter = separatorToken.MatchedKeyword.Length == 0 ? null : separatorToken.MatchedKeyword;
 
-                    return CreateDocString(GetLocation(separatorToken), contentType, content, node);
+                    return CreateDocString(GetLocation(separatorToken), contentType, content, delimiter, node);
                 }
                 case RuleType.DataTable:
                 {
@@ -198,9 +199,9 @@ namespace Gherkin
             return new Scenario(tags, location, keyword, name, description, steps, examples);
         }
 
-        protected virtual DocString CreateDocString(Ast.Location location, string contentType, string content, AstNode node)
+        protected virtual DocString CreateDocString(Ast.Location location, string contentType, string content, string delimiter, AstNode node)
         {
-            return new DocString(location, contentType, content);
+            return new DocString(location, contentType, content, delimiter);
         }
 
         protected virtual Step CreateStep(Ast.Location location, string keyword, string text, StepArgument argument, AstNode node)

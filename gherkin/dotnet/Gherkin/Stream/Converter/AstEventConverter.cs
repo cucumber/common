@@ -191,7 +191,7 @@ namespace Gherkin.Stream.Converter
                 {
                     Content = astDocString.Content,
                     MediaType = astDocString.ContentType,
-                    Delimiter = "\"\"\"", //TODO: store DocString delimiter in Gherkin AST
+                    Delimiter = astDocString.Delimiter ?? "\"\"\"", //TODO: store DocString delimiter in Gherkin AST
                     Location = ConvertLocation(astDocString.Location)
                 };
             }
