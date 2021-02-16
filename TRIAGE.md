@@ -53,4 +53,3 @@ and they contain both PRs and issues.
 * [cucumber/cucumber-jvm](https://github.com/cucumber/cucumber-jvm/issues?q=is%3Aopen+sort%3Acreated-asc)
 * [cucumber/cucumber-ruby](https://github.com/cucumber/cucumber-ruby/issues?q=is%3Aopen+sort%3Acreated-asc)
 * [cucumber/cucumber-js](https://github.com/cucumber/cucumber-js/issues?q=is%3Aopen+sort%3Acreated-asc)
-* [cucumber/godog](https://github.com/cucumber/godog/issues?q=is%3Aopen+sort%3Acreated-asc)
