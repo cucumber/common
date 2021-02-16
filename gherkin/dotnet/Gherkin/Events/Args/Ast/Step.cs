@@ -20,5 +20,7 @@ namespace Gherkin.Events.Args.Ast
         public string Text { get; set; }
         [DataMember(Name = "dataTable")]
         public DataTable DataTable { get; set; }
+        [DataMember(Name = "docString")]
+        public DocString DocString { get; set; }
     }
 }

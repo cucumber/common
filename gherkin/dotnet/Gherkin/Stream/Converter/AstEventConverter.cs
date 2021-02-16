@@ -11,6 +11,7 @@ using Rule = Gherkin.Events.Args.Ast.Rule;
 using Step = Gherkin.Events.Args.Ast.Step;
 using StepsContainer = Gherkin.Events.Args.Ast.StepsContainer;
 using DataTable = Gherkin.Events.Args.Ast.DataTable;
+using DocString = Gherkin.Events.Args.Ast.DocString;
 
 namespace Gherkin.Stream.Converter
 {
@@ -182,11 +183,25 @@ namespace Gherkin.Stream.Converter
                     Location = ConvertLocation(astDataTable.Location)
                 };
             }
+
+            DocString docString = null;
+           if (step.Argument is Gherkin.Ast.DocString astDocString) 
+            {
+                docString = new DocString
+                {
+                    Content = astDocString.Content,
+                    MediaType = astDocString.ContentType,
+                    Delimiter = "\"\"\"", //TODO: store DocString delimiter in Gherkin AST
+                    Location = ConvertLocation(astDocString.Location)
+                };
+            }
+
             return new Step()
             {
                 Keyword = step.Keyword,
                 Text = step.Text,
                 DataTable = dataTable,
+                DocString = docString,
                 Location = ConvertLocation(step.Location)
             };
         }
