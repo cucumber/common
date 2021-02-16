@@ -238,6 +238,7 @@ message GherkinDocument {
         string description = 4;
         repeated RuleChild children = 5;
         string id = 6;
+        repeated Tag tags = 7;
       }
 
       message RuleChild {
