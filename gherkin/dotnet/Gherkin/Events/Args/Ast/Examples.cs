@@ -8,7 +8,11 @@ namespace Gherkin.Events.Args.Ast
         public Examples()
         {
             TableBody = new List<TableBody>();
+            Id = IdGenerator.GetNextId();
         }
+
+        [DataMember(Name = "id")]
+        public string Id { get; set; }
 
         [DataMember(Name = "description")]
         public string Description { get; set; }

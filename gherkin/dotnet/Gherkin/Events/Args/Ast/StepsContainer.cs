@@ -9,7 +9,11 @@ namespace Gherkin.Events.Args.Ast
         {
             Steps = new List<Step>();
             Examples = new List<Examples>();
+            Id = IdGenerator.GetNextId();
         }
+
+        [DataMember(Name = "id")]
+        public string Id { get; set; }
 
         [DataMember(Name = "keyword")]
         public string Keyword { get; set; }
