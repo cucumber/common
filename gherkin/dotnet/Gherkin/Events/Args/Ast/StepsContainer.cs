@@ -21,6 +21,8 @@ namespace Gherkin.Events.Args.Ast
         public Location Location { get; set; }
         [DataMember(Name = "name")]
         public string Name { get; set; }
+        [DataMember(Name = "description")]
+        public string Description { get; set; }
         [DataMember(Name = "steps")]
         public IReadOnlyCollection<Step> Steps { get; set; }
 

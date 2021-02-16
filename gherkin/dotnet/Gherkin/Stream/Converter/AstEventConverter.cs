@@ -73,6 +73,7 @@ namespace Gherkin.Stream.Converter
                         {
                             Location = ConvertLocation(background.Location),
                             Name = background.Name == string.Empty ? null : background.Name,
+                            Description = background.Description,
                             Keyword = background.Keyword,
                             Steps = backgroundSteps
                         }
@@ -87,6 +88,7 @@ namespace Gherkin.Stream.Converter
                             Keyword = scenario.Keyword,
                             Location = ConvertLocation(scenario.Location),
                             Name = scenario.Name == string.Empty ? null : scenario.Name,
+                            Description = scenario.Description,
                             Steps = steps,
                             Examples = examples,
                         }
