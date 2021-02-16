@@ -65,7 +65,7 @@ defmodule CucumberGherkin.PickleCompiler do
         %{m_acc | rule_backgr_steps: m_acc.rule_backgr_steps ++ bg.steps}
 
       %FeatureChildMessage{value: {:scenario, s}}, m_acc ->
-        compile_scenario(m_acc, s, :rule_backgr_steps)
+        %{m_acc | feature_tags: m_acc.feature_tags ++ r.tags} |> compile_scenario(s, :rule_backgr_steps)
     end)
   end
 
