@@ -109,6 +109,7 @@ namespace Gherkin.Stream.Converter
                             Rule = new Rule()
                             {
                                 Name = rule.Name == string.Empty ? null : rule.Name,
+                                Description = rule.Description == string.Empty ? null : rule.Description,
                                 Keyword = rule.Keyword,
                                 Children = ruleChildren,
                                 Location = ConvertLocation(rule.Location)
