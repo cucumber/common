@@ -130,13 +130,14 @@ namespace Gherkin
             yield return Tuple.Create(cell, startPos);
         }
 
+        static private char[] trimmedChars = new char[] { ' ', '\t', '\u00A0'};
         private string Trim(string s, out int trimmedStart)
         {
             trimmedStart = 0;
-            while (trimmedStart < s.Length && char.IsWhiteSpace(s[trimmedStart]))
+            while (trimmedStart < s.Length && trimmedChars.Contains(s[trimmedStart]))
                 trimmedStart++;
 
-            return s.Trim();
+            return s.Trim(trimmedChars);
         }
     }
 }
