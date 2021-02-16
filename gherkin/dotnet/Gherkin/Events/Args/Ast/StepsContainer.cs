@@ -9,6 +9,7 @@ namespace Gherkin.Events.Args.Ast
         {
             Steps = new List<Step>();
             Examples = new List<Examples>();
+            Tags = new List<Tag>();
             Id = IdGenerator.GetNextId();
         }
 
@@ -28,5 +29,8 @@ namespace Gherkin.Events.Args.Ast
 
         [DataMember(Name = "examples")]
         public IReadOnlyCollection<Examples> Examples { get; set; }
+
+        [DataMember(Name = "tags")]
+        public IReadOnlyCollection<Tag> Tags { get; set; }
     }
 }

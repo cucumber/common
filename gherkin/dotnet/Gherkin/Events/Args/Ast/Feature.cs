@@ -8,6 +8,7 @@ namespace Gherkin.Events.Args.Ast
         public Feature()
         {
             Children = new List<Children>();
+            Tags = new List<Tag>();
         }
 
         [DataMember(Name = "name")]
@@ -22,5 +23,8 @@ namespace Gherkin.Events.Args.Ast
         public Location Location { get; set; }
         [DataMember(Name = "children")]
         public IReadOnlyCollection<Children> Children { get; set; }
+
+        [DataMember(Name = "tags")]
+        public IReadOnlyCollection<Tag> Tags { get; set; }
     }
 }

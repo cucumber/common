@@ -12,6 +12,7 @@ using Step = Gherkin.Events.Args.Ast.Step;
 using StepsContainer = Gherkin.Events.Args.Ast.StepsContainer;
 using DataTable = Gherkin.Events.Args.Ast.DataTable;
 using DocString = Gherkin.Events.Args.Ast.DocString;
+using Tag = Gherkin.Events.Args.Ast.Tag;
 
 namespace Gherkin.Stream.Converter
 {
@@ -45,6 +46,9 @@ namespace Gherkin.Stream.Converter
                 return null;
             }
 
+            var children = feature.Children.Select(ConvertToChildren).ToReadOnlyCollection();
+            var tags = feature.Tags.Select(ConvertTag).ToReadOnlyCollection();
+
             return new Feature()
             {
                 Name = feature.Name == string.Empty ? null : feature.Name,
@@ -52,7 +56,8 @@ namespace Gherkin.Stream.Converter
                 Keyword = feature.Keyword,
                 Language = feature.Language,
                 Location = ConvertLocation(feature.Location),
-                Children = feature.Children.Select(ConvertToChildren).ToReadOnlyCollection()
+                Children = children,
+                Tags = tags
             };
         }
 
@@ -82,6 +87,7 @@ namespace Gherkin.Stream.Converter
                 case Scenario scenario:
                     var steps = scenario.Steps.Select(s => ConvertStep(s)).ToList();
                     var examples = scenario.Examples.Select(ConvertExamples).ToReadOnlyCollection();
+                    var tags = scenario.Tags.Select(ConvertTag).ToReadOnlyCollection();
                     return new Children()
                     {
                         Scenario = new StepsContainer()
@@ -92,6 +98,7 @@ namespace Gherkin.Stream.Converter
                             Description = scenario.Description,
                             Steps = steps,
                             Examples = examples,
+                            Tags = tags
                         }
                     };
                 case Ast.Rule rule:
@@ -121,6 +128,7 @@ namespace Gherkin.Stream.Converter
         {
             var header = ConvertTableHeader(examples);
             var body = ConvertToTableBody(examples);
+            var tags = examples.Tags.Select(ConvertTag).ToReadOnlyCollection();
             return new Examples()
             {
                 Name = examples.Name == string.Empty ? null : examples.Name,
@@ -128,7 +136,8 @@ namespace Gherkin.Stream.Converter
                 Description = examples.Description,
                 Location = ConvertLocation(examples.Location),
                 TableHeader = header,
-                TableBody = body
+                TableBody = body,
+                Tags = tags
             };
         }
 
@@ -159,6 +168,15 @@ namespace Gherkin.Stream.Converter
             {
                 Location = ConvertLocation(examples.TableHeader.Location),
                 Cells = examples.TableHeader.Cells.Select(ConvertCell).ToReadOnlyCollection()
+            };
+        }
+
+        private Tag ConvertTag(Ast.Tag tag)
+        {
+            return new Tag()
+            {
+                Location = ConvertLocation(tag.Location),
+                Name = tag.Name
             };
         }
 
