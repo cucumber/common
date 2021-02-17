@@ -23,17 +23,17 @@ Sometimes a bit of discussion in the ticket is needed before we can label them c
 * Coding :-)
 * Label unlabelled issues:
   * Exactly one of the following:
-    * `:white_check_mark: accepted` to indicate that we'd welcome a PR for this
-    * `:no_good: wont fix` for issues we won't fix
+    * :white_check_mark: `accepted` to indicate that we'd welcome a PR for this
+    * :no_good: `wont fix` for issues we won't fix
       * Also close these issues
   * Optionally any of these:
-    * `:cucumber: core team` these are issues that the core team will give priority to
-    * `:pray: help wanted` for accepted issues, but not a priority to the core team
-    * `:dollar: bounty` if we want to draw extra attention to an issue
-    * `:fire: critical` for issues that make it onto the [Cucumber Board]
+    * :cucumber: `core team` these are issues that the core team will give priority to
+    * :pray: `help wanted` for accepted issues, but not a priority to the core team
+    * :dollar: `bounty` if we want to draw extra attention to an issue
+    * :fire: `critical` for issues that make it onto the [Cucumber Board]
   * And one of these:
-    * `:bug: bug`
-    * `:zap: enhancement`
+    * :bug: `bug`
+    * :zap: `enhancement`
 * Reply to new issues
 * Engage in Slack conversations
 * Merge Renovate bot pull requests
@@ -54,18 +54,19 @@ pick up something new to work on.
 
 ### Pull priority
 
-Pull requests and issues tagged with `:fire: critical` *always* have higher priority than regular issues.
-In other words, the [Cucumber Open] board should *only* have pull requests and `:fire: critical` issues.
+Pull requests and issues tagged with :fire: `critical` *always* have higher priority than regular issues.
+In other words, the [Cucumber Open] board should *only* have pull requests and :fire: `critical` issues.
 
-The reason for this is to nurture a culture of nurturing new contributors and placing a higher value
-on contributions.
+The reason for this is to build a culture that:
+* nurtures new contributors
+* places a higher value on "work done" (pull requests) than "work requested" (issues).
 
-When pulling from `Next` to `In Progress` - pull the top work item if you can.
-When pulling new work items into `Next` - put them at the bottom.
+When pulling from `Next` to `In Progress` - pull the *top* work item if you can.
+When adding new work items into `Next` - put them at the bottom.
 
 What gets pulled into `Next` is decided based on the following guidelines:
 
-* The `Next` column should ideally have a mix of pull requests and `:fire: critical` issues
+* The `Next` column should ideally have a mix of pull requests and :fire: `critical` issues
 * A mix of repositories:
   * [cucumber/cucumber](https://github.com/cucumber/cucumber/issues?q=is%3Aopen+sort%3Acreated-asc)
   * [cucumber/cucumber-jvm](https://github.com/cucumber/cucumber-jvm/issues?q=is%3Aopen+sort%3Acreated-asc)
