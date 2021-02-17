@@ -12,7 +12,7 @@ Triage should ideally happen whenever a new work item is submitted, but for prac
 reasons the triage may happen at less frequent intervals (ideally at least a couple of
 times a week).
 
-## Daily triage routine
+## Daily routine
 
 The first step of the triage process is to assign relevant labels to new issues and
 pull requests. We maintain a [consistent set of labels](https://github.com/cucumber/cucumber/pull/1326)
@@ -30,7 +30,7 @@ Sometimes a bit of discussion in the ticket is needed before we can label them c
     * :cucumber: `core team` these are issues that the core team will give priority to
     * :pray: `help wanted` for accepted issues, but not a priority to the core team
     * :dollar: `bounty` if we want to draw extra attention to an issue
-    * :fire: `critical` for issues that make it onto the [Cucumber Board]
+    * :fire: `critical` for issues that make it onto the [Cucumber Open board]
   * And one of these:
     * :bug: `bug`
     * :zap: `enhancement`
@@ -42,7 +42,7 @@ Sometimes a bit of discussion in the ticket is needed before we can label them c
 
 * Community Zoom meetings
 * Make Releases
-* Adding new work items to the [Cucumber Board]
+* Adding new work items to the [Cucumber Open board]
   * Partly informed by the weekly Zoom call
   * Partly informed by the labels
 
@@ -55,7 +55,7 @@ pick up something new to work on.
 ### Pull priority
 
 Pull requests and issues tagged with :fire: `critical` *always* have higher priority than regular issues.
-In other words, the [Cucumber Open] board should *only* have pull requests and :fire: `critical` issues.
+In other words, the [Cucumber Open board] should *only* have pull requests and :fire: `critical` issues.
 
 The reason for this is to build a culture that:
 * nurtures new contributors
@@ -76,4 +76,4 @@ What gets pulled into `Next` is decided based on the following guidelines:
 * The oldest work items have the highest priority to be pulled into Next (FIFO policy)
 
 <!-- links -->
-[Cucumber Open]: https://github.com/orgs/cucumber/projects/8
+[Cucumber Open board]: https://github.com/orgs/cucumber/projects/8
