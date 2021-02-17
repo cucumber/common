@@ -20,7 +20,6 @@ across repositories to make this simpler.
 
 Sometimes a bit of discussion in the ticket is needed before we can label them correctly.
 
-* Coding :-)
 * Label unlabelled issues:
   * Exactly one of the following:
     * :white_check_mark: `accepted` to indicate that we'd welcome a PR for this
