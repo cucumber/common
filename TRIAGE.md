@@ -26,7 +26,7 @@ Sometimes a bit of discussion in the ticket is needed before we can label them c
     * :white_check_mark: `accepted` to indicate that we'd welcome a PR for this
     * :no_good: `wont fix` for issues we won't fix
       * Also close these issues
-  * Optionally any of these:
+  * At least of these:
     * :cucumber: `core team` these are issues that the core team will give priority to
     * :pray: `help wanted` for accepted issues, but not a priority to the core team
     * :dollar: `bounty` if we want to draw extra attention to an issue
