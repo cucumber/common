@@ -84,4 +84,5 @@ csvjson scripts/labels.csv | jq -r '.[]|[.name, .description, .color] | @tsv' |
     ensure_label "cucumber" "godog" "${name}" "${color}" "${description}"
     ensure_label "cucumber" "cucumber-jvm-scala" "${name}" "${color}" "${description}"
     ensure_label "cucumber" "cucumber-eclipse" "${name}" "${color}" "${description}"
+    ensure_label "cucumber" "docs.cucumber.io" "${name}" "${color}" "${description}"
   done
