@@ -20,13 +20,12 @@ across repositories to make this simpler.
 
 Sometimes a bit of discussion in the ticket is needed before we can label them correctly.
 
-* Coding :-)
 * Label unlabelled issues:
   * Exactly one of the following:
     * :white_check_mark: `accepted` to indicate that we'd welcome a PR for this
-    * :no_good: `wont fix` for issues we won't fix
+    * :no_good: `wont fix` for issues we won't fix (or don't want a fix for)
       * Also close these issues
-  * At least of these:
+  * At least one of these:
     * :cucumber: `core team` these are issues that the core team will give priority to
     * :pray: `help wanted` for accepted issues, but not a priority to the core team
     * :dollar: `bounty` if we want to draw extra attention to an issue
@@ -72,6 +71,7 @@ What gets pulled into `Next` is decided based on the following guidelines:
   * [cucumber/cucumber-jvm](https://github.com/cucumber/cucumber-jvm/issues?q=is%3Aopen+sort%3Acreated-asc)
   * [cucumber/cucumber-ruby](https://github.com/cucumber/cucumber-ruby/issues?q=is%3Aopen+sort%3Acreated-asc)
   * [cucumber/cucumber-js](https://github.com/cucumber/cucumber-js/issues?q=is%3Aopen+sort%3Acreated-asc)
+  * [cucumber/cucumber-rails](https://github.com/cucumber/cucumber-rails/issues?q=is%3Aopen+sort%3Acreated-asc)
   * [cucumber/docs.cucumber.io](https://github.com/cucumber/docs.cucumber.io/issues?q=is%3Aopen+sort%3Acreated-asc)
 * The oldest work items have the highest priority to be pulled into Next (FIFO policy)
 
