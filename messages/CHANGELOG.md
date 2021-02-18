@@ -17,6 +17,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+* [Elixir] Make sure messages.proto is updated with ../messages.proto
+
 ## [14.0.1] - 2021-02-08
 
 ### Fixed
