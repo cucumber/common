@@ -11,7 +11,8 @@
     "tag-expressions/javascript",
     "create-meta/javascript",
     "fake-cucumber/javascript",
-    "query/javascript"
+    "query/javascript",
+    "compatibility-kit/javascript"
   ],
   "scripts": {
     "build": "tsc --build tsconfig.build.json",

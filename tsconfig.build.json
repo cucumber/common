@@ -33,6 +33,9 @@
     },
     {
       "path": "./query/javascript/tsconfig.build.json"
+    },
+    {
+      "path": "./compatibility-kit/javascript/tsconfig.build.json"
     }
   ]
 }
