@@ -11,6 +11,7 @@
   "author": "Cucumber Limited <cukes@googlegroups.com>",
   "license": "MIT",
   "scripts": {
+    "prepare": "npm run pbjs && npm run pbts",
     "test": "mocha",
     "lint": "eslint --ext ts --max-warnings 0 src test",
     "lint-fix": "eslint --ext ts --max-warnings 0 --fix src test",
