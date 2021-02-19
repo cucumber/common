@@ -52,6 +52,7 @@ This depends on what's changed (see `CHANGELOG.md`):
 ## Prepare the release
 
     cd thepackage
+    make clean
 
 Run the `pre-release` target:
 
@@ -71,8 +72,8 @@ Make sure the package still builds, and that the tests are still passing:
 
 ** Special note for html-formatter **
 
-Manually revert the webpack version to `^4.44.2` and run the following on your
-host OS (it won't work in Docker):
+We need to verify that the webpacked JavaScript runs in the browser.
+Run the following on your host OS (it won't work in Docker):
 
     make clean
     CHECK_INTEGRITY=1 make

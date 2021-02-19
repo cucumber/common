@@ -2,7 +2,7 @@ package gherkin
 
 import (
 	"bytes"
-	"github.com/cucumber/messages-go/v13"
+	"github.com/cucumber/messages-go/v14"
 	gio "github.com/gogo/protobuf/io"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"

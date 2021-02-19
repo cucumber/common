@@ -1,0 +1,89 @@
+#!/usr/bin/env bash
+#
+# This script harmonizes labels across multiple existing GitHub repos:
+#
+# - Creates labels if they don't exist
+# - Updates color/description of existing labels
+#
+# Before running this script, the following should be done manually in each repo:
+#
+# - Rename existing labels (to preserve existing issue labels and avoid duplicates)
+# - Remove unused/obsolete labels (optional, but keeps things tidy)
+#
+# We are using this script to manage labels instead of GitHub's default
+# repository labels: https://github.com/organizations/cucumber/settings/repository-defaults
+#
+# This is because this scripts allows us to modify labels for existing repositories,
+# while GitHub's default repository labels only apply to new repositories.
+
+function update_label()
+{
+  owner=$1
+  repo=$2
+  name=$3
+  color=$4
+  description=$5
+
+  data=$(jq -n \
+         --arg new_name "${new_name}" \
+         --arg color "${color}" \
+         --arg description "${description}" \
+         '{"color":$color, "description":$description}'
+  )
+
+  curl -X PATCH \
+       -H "Authorization: Bearer ${GITHUB_TOKEN}" \
+       -H "Accept: application/vnd.github.v3+json" \
+       $(echo "https://api.github.com/repos/${owner}/${repo}/labels/${name}" | sed 's/ /%20/g') \
+       -d "${data}"
+}
+
+function create_label()
+{
+  owner=$1
+  repo=$2
+  name=$3
+  color=$4
+  description=$5
+
+  data=$(jq -n \
+         --arg name "${name}" \
+         --arg color "${color}" \
+         --arg description "${description}" \
+         '{"name":$name, "color":$color, "description":$description}'
+  )
+
+  curl -X POST \
+       -H "Authorization: Bearer ${GITHUB_TOKEN}" \
+       -H "Accept: application/vnd.github.v3+json" \
+       $(echo "https://api.github.com/repos/${owner}/${repo}/labels" | sed 's/ /%20/g') \
+       -d "${data}"
+}
+
+function ensure_label()
+{
+  owner=$1
+  repo=$2
+  name=$3
+  color=$4
+  description=$5
+
+  update_label "${owner}" "${repo}" "${name}" "${color}" "${description}"
+  create_label "${owner}" "${repo}" "${name}" "${color}" "${description}"
+}
+
+csvjson scripts/labels.csv | jq -r '.[]|[.name, .description, .color] | @tsv' |
+  while IFS=$'\t' read -r name description color; do
+    ensure_label "cucumber" "label-demo" "${name}" "${color}" "${description}"
+    ensure_label "cucumber" "cucumber" "${name}" "${color}" "${description}"
+    ensure_label "cucumber" "cucumber-js" "${name}" "${color}" "${description}"
+    ensure_label "cucumber" "cucumber-jvm" "${name}" "${color}" "${description}"
+    ensure_label "cucumber" "cucumber-rails" "${name}" "${color}" "${description}"
+    ensure_label "cucumber" "cucumber-ruby" "${name}" "${color}" "${description}"
+    ensure_label "cucumber" "cucumber-ruby-core" "${name}" "${color}" "${description}"
+    ensure_label "cucumber" "cucumber-electron" "${name}" "${color}" "${description}"
+    ensure_label "cucumber" "godog" "${name}" "${color}" "${description}"
+    ensure_label "cucumber" "cucumber-jvm-scala" "${name}" "${color}" "${description}"
+    ensure_label "cucumber" "cucumber-eclipse" "${name}" "${color}" "${description}"
+    ensure_label "cucumber" "docs.cucumber.io" "${name}" "${color}" "${description}"
+  done

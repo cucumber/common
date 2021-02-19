@@ -5,7 +5,6 @@ import SearchQueryContext, { RenderSearchURLFn } from '../../SearchQueryContext'
 import statusName, { allStatuses } from '../gherkin/statusName'
 
 import SearchBar from './SearchBar'
-import { GherkinDocumentList } from '../../index'
 
 import NoMatchResult from './NoMatchResult'
 import Search from '../../search/Search'
@@ -14,6 +13,7 @@ import StatusesSummary from './StatusesSummary'
 import countScenariosByStatuses from '../../countScenariosByStatuses'
 import ExecutionSummary from './ExecutionSummary'
 import EnvelopesQueryContext from '../../EnvelopesQueryContext'
+import GherkinDocumentList from './GherkinDocumentList'
 
 interface IProps {
   renderSearchURL?: RenderSearchURLFn

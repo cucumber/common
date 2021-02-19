@@ -1,107 +1,136 @@
-# Cucumber Community Contributing Guide 1.0
+# Contributing to Cucumber
 
-This document describes a very simple process suitable the projects
-in the Cucumber ecosystem.
+First off - thank you for contributing to Cucumber!
 
-The goal of this document is to create a contribution process that:
+## Overview
 
-* Encourages new contributions.
-* Encourages contributors to remain involved.
-* Avoids unnecessary processes and bureaucracy whenever possible.
-* Creates a transparent decision making process which makes it clear how
-contributors can be involved in decision making.
+This [monorepo](https://gomonorepo.org/) contains various components (libraries)
+used by Cucumber, such as:
 
-Also see [guidelines for documentation contributions](https://cucumber.io/docs/community/contributing-to-documentation/)
+* The Gherkin parser
+* The Cucumber Expressions engine
+* The Tag Expressions parser
+* The Cucumber Protocol messages
+* ...and a few more bits and bobs.
 
-This document is based on the [Node.js Community Contributing Guide](https://github.com/nodejs/TSC/blob/master/BasePolicies/CONTRIBUTING.md).
+Each top level directory is the name of a cucumber *package*, and each directory
+underneath is an implementation *language* for that package.
 
-## Newcomers
+The Cucumber implementations themselves live in separate Git repositories:
 
-Committers maintain a list of
-[newcomer friendly issues](https://github.com/cucumber/cucumber/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22+no%3Aassignee+)
-that are suitable for aspiring contributors.
+* [cucumber-jvm](https://github.com/cucumber/cucumber-jvm)
+* [cucumber-ruby](https://github.com/cucumber/cucumber-ruby)
+* [cucumber-js](https://github.com/cucumber/cucumber-js)
+* [SpecFlow](https://github.com/techtalk/SpecFlow)
+* And various [other](https://cucumber.io/docs/installation/) implementations
 
-## Vocabulary
+The libraries in this monorepo are implemented in many different languages
+(Java, TypeScript, Ruby, C# and a few more).
 
-* A **Contributor** is any individual creating or commenting on an issue or pull request.
-* A **Committer** is a subset of contributors who have been given write access to the repository.
-* A **TC (Technical Committee)** is a group of committers representing the required technical
-expertise to resolve rare disputes.
+## Building
 
-# Logging Issues
+You have a few options for building this repo as outlined below.
 
-Log an issue for any question or problem you might have. When in doubt, log an issue,
-any additional policies about what to include will be provided in the responses.
+### Building on Docker
 
-Committers may direct you to another repository, ask for additional clarifications, and
-add appropriate metadata before the issue is addressed.
+You need a lot of various tools to build this repo, and to make this easy we have
+created a [docker image](https://github.com/cucumber/cucumber-build) with all the required build tools
+installed. To use this you need Docker installed, and a bash shell on your host OS:
 
-Please be courteous, respectful, and every participant is expected to follow the
-[Code of Conduct](CODE_OF_CONDUCT.md).
+```
+make docker-run
+make clean
+NO_CROSS_COMPILE=1 make
+```
 
-GitHub issues should always be logged in the [Cucumber monorepo](https://github.com/cucumber/cucumber/issues).
+You can leave out `NO_CROSS_COMPILE=1` to cross-compile go executables, but this
+will slow down your build.
 
-# Contributions
+The build will take a while the first time you run it, but subsequent calls to `make`
+should be a lot faster because downloaded files will be cached, and `make` will
+only rebuild packages that you have changed.
 
-Any change to resources in this repository must be through pull requests. This applies to all changes
-to documentation, code, binary files, etc. Even long term committers and TC members must use
-pull requests, except for trivial changes.
+The git repo is mounted as a volume in the running Docker container, so you can
+edit files with your favourite IDE/editor on the host OS.
 
-GitHub pull requests should usually be submitted against the monorepo here. The main exception to
-this is for the main cucumber program; which should be submitted to the subrepos (i.e. `cucumber-ruby`).
+If you are only making changes to a particular package, you can build just that
+package by changing into the relevant directory and running `make`.
 
-Pull requests should be independent so they can be merged/rejected independently of other
-pull requests. Every pull request must be made on a separate branch, branched off from the HEAD
-of the master branch. No pull requests should depend on other pull requests or be branched off
-from non-master branches. Where a Pull request requires changes in multiple languages, assistance
-can be sought from others (If you're not comfortable in multiple languages), who can either
-raise another pull request for the separate implementation or commit to yours (Whichever is easier).
+The benefit of building in Docker is that you don't need to install anything
+(except for Docker). The downside is that the build is slower than running on
+your host OS.
 
-No pull request can be merged without being reviewed.
+### Building on MacOS/Linux
 
-For non-trivial contributions, pull requests should sit for at least 36 hours to ensure that
-contributors in other timezones have time to review. Consideration should also be given to
-weekends and other holiday periods to ensure active committers all have reasonable time to
-become involved in the discussion and review process if they wish.
+If you contribute regularly to Cucumber we recommend installing all the required
+tools on your host OS. You can find a list of those tools by looking at `Dockerfile`.
 
-The default for each contribution is that it is accepted once no committer has an objection.
-During the review process committers may also request that a specific contributor who is most
-versed in a particular area gives a "LGTM" before the PR can be merged. There is no additional
-"sign off" process for contributions to land. Once all issues brought by committers are
-addressed it can be merged in by any committer.
+The build process is the same as within Docker, except that you run your commands
+on the host OS.
 
-In the case of an objection being raised in a pull request by another committer, all involved
-committers should seek to arrive at a consensus by way of addressing concerns being expressed
-by discussion, compromise on the proposed change, or withdrawal of the proposed change.
+```
+make clean
+make
+```
 
-If a contribution is controversial and committers cannot agree about how to get it to land
-or if it should land then it should be escalated to the TC. TC members should regularly
-discuss pending contributions in order to find a resolution. It is expected that only a
-small minority of issues be brought to the TC for resolution and that discussion and
-compromise among committers be the default resolution mechanism.
+### Building on CircleCI
 
-# Becoming a Committer
+Whenever you push code to this repo, or create a [pull request](https://help.github.com/en/articles/about-pull-requests), CircleCI will build your code.
 
-All contributors who land a non-trivial contribution will be on-boarded in a timely manner,
-and added as a committer, and be given write access to the repository.
+CircleCI will build the packages in parallel, so a full build will complete a lot faster
+than a local build.
 
-Committers are expected to follow this policy and continue to send pull requests, go through
-the proper review process, and have other committers merge their pull requests.
+### Building a subset
 
-# TC Process
+Package names are the top level directory names, and language names are the
+directory names underneath. For instance, `html-formatter` package has
+implementations for `java`, `javascript`, and `ruby` languages.
 
-The TC uses a "consensus seeking" process for issues that are escalated to the TC.
-The group tries to find a resolution that has no open objections among TC members.
-If a consensus cannot be reached that has no objections then a majority wins vote
-is called. It is also expected that the majority of decisions made by the TC are via
-a consensus seeking process and that voting is only used as a last-resort.
+Define `PACKAGES` and/or `LANGUAGES` to only build a subset of packages / languages.
 
-Resolution may involve returning the issue to committers with suggestions on how to
-move forward towards a consensus. It is not expected that a meeting of the TC
-will resolve all issues on its agenda during that meeting and may prefer to continue
-the discussion happening among the committers.
+To build `html-formatter` package for `javascript` language:
 
-Members can be added to the TC at any time. Any committer can nominate another committer
-to the TC and the TC uses its standard consensus seeking process to evaluate whether or
-not to add this new member. Members who do not participate consistently at the level of
-a majority of the other members are expected to resign.
+```
+PACKAGES=html-formatter LANGUAGES=javascript make
+```
+
+To build `html-formatter` package for `javascript` and `ruby` languages:
+
+```
+PACKAGES=html-formatter LANGUAGES="javascript ruby" make
+```
+
+To build all packages for `javascript` language:
+
+```
+LANGUAGES=javascript make
+```
+
+To build `messages` and `gherkin` packages for all languages:
+
+```
+PACKAGES="messages gherkin" make
+```
+
+Packages have to be built in a particular order. This order is defined in
+`Makefile`. If you set `PACKAGES` when running `make`, be careful at keeping
+that order to prevent any build error.
+
+### Using yarn instead of npm
+
+If you prefer to use yarn instead of npm:
+
+```
+NPM=yarn LANGUAGES=javascript make
+```
+
+## Troubleshooting
+
+### Errors during Node builds
+
+You may encounter timeouts or errors when building some npm modules. If this happens,
+try building the module with yarn (`NPM=yarn` - see above).
+
+If you're still experiencing errors or timeouts, try replacing `file:../..` dependencies
+in `package.json` with the latest release of the package. If you do, please do not
+commit that change.

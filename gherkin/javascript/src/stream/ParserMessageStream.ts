@@ -1,4 +1,4 @@
-import generateMessages from './generateMessages'
+import generateMessages from '../generateMessages'
 import { Transform, TransformCallback } from 'stream'
 import { messages } from '@cucumber/messages'
 import IGherkinOptions from '../IGherkinOptions'

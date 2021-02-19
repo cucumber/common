@@ -1,6 +1,6 @@
 import { Readable } from 'stream'
 import { IdGenerator, messages } from '@cucumber/messages'
-import { GherkinStreams } from '@cucumber/gherkin'
+import GherkinStreams from '@cucumber/gherkin/dist/src/stream/GherkinStreams'
 
 export function gherkinMessages(gherkinSource: string, uri: string): Readable {
   const source = messages.Envelope.fromObject({

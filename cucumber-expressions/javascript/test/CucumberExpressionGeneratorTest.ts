@@ -39,12 +39,16 @@ describe('CucumberExpressionGenerator', () => {
 
   beforeEach(() => {
     parameterTypeRegistry = new ParameterTypeRegistry()
-    generator = new CucumberExpressionGenerator(parameterTypeRegistry)
+    generator = new CucumberExpressionGenerator(
+      () => parameterTypeRegistry.parameterTypes
+    )
   })
 
   it('documents expression generation', () => {
     parameterTypeRegistry = new ParameterTypeRegistry()
-    generator = new CucumberExpressionGenerator(parameterTypeRegistry)
+    generator = new CucumberExpressionGenerator(
+      () => parameterTypeRegistry.parameterTypes
+    )
     const undefinedStepText = 'I have 2 cucumbers and 1.5 tomato'
     const generatedExpression = generator.generateExpressions(
       undefinedStepText
@@ -267,7 +271,7 @@ describe('CucumberExpressionGenerator', () => {
 
     const expressions = generator.generateExpressions('I download a picture')
     assert.strictEqual(expressions.length, 1)
-    assert.notEqual(expressions[0].source, 'I {direction}load a picture')
+    assert.notStrictEqual(expressions[0].source, 'I {direction}load a picture')
     assert.strictEqual(expressions[0].source, 'I download a picture')
   })
 
@@ -278,7 +282,10 @@ describe('CucumberExpressionGenerator', () => {
 
     const expressions = generator.generateExpressions('I watch the muppet show')
     assert.strictEqual(expressions.length, 1)
-    assert.notEqual(expressions[0].source, 'I watch the m{direction}pet show')
+    assert.notStrictEqual(
+      expressions[0].source,
+      'I watch the m{direction}pet show'
+    )
     assert.strictEqual(expressions[0].source, 'I watch the muppet show')
   })
 
@@ -289,7 +296,7 @@ describe('CucumberExpressionGenerator', () => {
 
     const expressions = generator.generateExpressions('I create a group')
     assert.strictEqual(expressions.length, 1)
-    assert.notEqual(expressions[0].source, 'I create a gro{direction}')
+    assert.notStrictEqual(expressions[0].source, 'I create a gro{direction}')
     assert.strictEqual(expressions[0].source, 'I create a group')
   })
 

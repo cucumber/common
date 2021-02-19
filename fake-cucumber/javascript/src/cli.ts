@@ -2,9 +2,9 @@ import { Command } from 'commander'
 import packageJson from '../package.json'
 import loadSupportCode from './loadSupportCode'
 import runCucumber from './runCucumber'
-import { GherkinStreams, IGherkinOptions } from '@cucumber/gherkin'
+import { IGherkinOptions } from '@cucumber/gherkin'
+import GherkinStreams from '@cucumber/gherkin/dist/src/stream/GherkinStreams'
 import { Query as GherkinQuery } from '@cucumber/gherkin-utils'
-import fs from 'fs'
 import makeFormatStream from './makeFormatStream'
 import { version } from '../package.json'
 import { messages } from '@cucumber/messages'
@@ -22,18 +22,16 @@ program.option(
 
 async function main() {
   program.parse(process.argv)
-  const { predictableIds, format } = program
+  const { predictableIds, format, require } = program.opts()
 
   const paths = program.args
-  const requirePaths = program.require ? program.require.split(':') : paths
+  const requirePaths = require ? require.split(':') : paths
 
   const supportCode = await loadSupportCode(predictableIds, requirePaths)
 
   const gherkinOptions: IGherkinOptions = {
     defaultDialect: 'en',
     newId: supportCode.newId,
-    createReadStream: (path: string) =>
-      fs.createReadStream(path, { encoding: 'utf-8' }),
   }
   const gherkinEnvelopeStream = GherkinStreams.fromPaths(paths, gherkinOptions)
 

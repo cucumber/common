@@ -1,4 +1,5 @@
-import { messages } from './index'
+import { io } from './messages'
+import messages = io.cucumber.messages
 
 const MILLISECONDS_PER_SECOND = 1e3
 const NANOSECONDS_PER_MILLISECOND = 1e6
@@ -19,30 +20,26 @@ export function millisecondsToDuration(
 export function timestampToMillisecondsSinceEpoch(
   timestamp: messages.ITimestamp
 ): number {
-  const { nanos, seconds } = timestamp
+  const { seconds, nanos } = timestamp
   return toMillis(seconds, nanos)
 }
 
 export function durationToMilliseconds(duration: messages.IDuration) {
-  const { nanos, seconds } = duration
+  const { seconds, nanos } = duration
   return toMillis(seconds, nanos)
 }
 
 export function addDurations(
   durationA: messages.IDuration,
   durationB: messages.IDuration
-) {
-  let seconds = toNumber(durationA.seconds) + toNumber(durationB.seconds)
+): messages.IDuration {
+  let seconds = durationA.seconds + durationB.seconds
   let nanos = durationA.nanos + durationB.nanos
   if (nanos >= NANOSECONDS_PER_SECOND) {
     seconds += 1
     nanos -= NANOSECONDS_PER_SECOND
   }
   return new messages.Duration({ seconds, nanos })
-}
-
-function toNumber(x: number | Long): number {
-  return typeof x === 'number' ? x : x.toNumber()
 }
 
 function toSecondsAndNanos(milliseconds: number) {
@@ -53,8 +50,8 @@ function toSecondsAndNanos(milliseconds: number) {
   return { seconds, nanos }
 }
 
-function toMillis(seconds: number | Long, nanos: number) {
-  const secondMillis = toNumber(seconds) * MILLISECONDS_PER_SECOND
+function toMillis(seconds: number, nanos: number): number {
+  const secondMillis = seconds * MILLISECONDS_PER_SECOND
   const nanoMillis = nanos / NANOSECONDS_PER_MILLISECOND
   return secondMillis + nanoMillis
 }
