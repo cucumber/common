@@ -3,5 +3,10 @@
   "compilerOptions": {
     "rootDir": ".",
     "outDir": "dist"
-  }
+  },
+  "include": [
+    "package.json",
+    "src",
+    "test"
+  ]
 }

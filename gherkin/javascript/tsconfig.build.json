@@ -3,5 +3,11 @@
   "compilerOptions": {
     "rootDir": ".",
     "outDir": "dist"
-  }
+  },
+  "include": [
+    "package.json",
+    "src/gherkin-languages.json",
+    "src",
+    "test"
+  ]
 }
