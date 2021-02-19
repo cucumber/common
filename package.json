@@ -11,7 +11,8 @@
   ],
   "scripts": {
     "build": "tsc --build tsconfig.build.json",
-    "test": "./scripts/foreach-workspace npm test",
+    "clean": "./scripts/npm-each make clean",
+    "test": "./scripts/npm-each npm test",
     "eslint": "eslint --ext ts,tsx --max-warnings 0 packages/*/src packages/*/test",
     "eslint-fix": "eslint --ext ts,tsx --max-warnings 0 --fix packages/*/src packages/*/test"
   },
