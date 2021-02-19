@@ -6,19 +6,10 @@ PRIVATE = $(shell node -e "console.log(require('./package.json').private)")
 NPM ?= npm
 IS_TESTDATA = $(findstring -testdata,${CURDIR})
 
-ifeq (yarn,$(NPM))
-LOCKFILE = yarn.lock
-else
-LOCKFILE = package-lock.json
-endif
-
 default: .tested .built .linted
 .PHONY: default
 
-.deps: $(LOCKFILE)
-	touch $@
-
-.codegen: .deps
+.codegen:
 	touch $@
 
 .built: .codegen $(TYPESCRIPT_SOURCE_FILES)
@@ -33,10 +24,6 @@ default: .tested .built .linted
 
 .linted: $(TYPESCRIPT_SOURCE_FILES) .built
 	$(NPM) run lint-fix
-	touch $@
-
-$(LOCKFILE): package.json
-	$(NPM) install
 	touch $@
 
 update-dependencies:

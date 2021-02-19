@@ -1,0 +1,37 @@
+{
+    "name": "@cucumber/cucumber-monorepo",
+    "private": true,
+    "version": "0.0.0",
+    "license": "MIT",
+    "workspaces": [
+        "messages/javascript",
+        "gherkin/javascript"
+    ],
+    "scripts": {
+        "build": "tsc --build tsconfig.build.json",
+        "test": "./scripts/foreach-workspace npm test",
+        "eslint": "eslint --ext ts,tsx --max-warnings 0 packages/*/src packages/*/test",
+        "eslint-fix": "eslint --ext ts,tsx --max-warnings 0 --fix packages/*/src packages/*/test"
+    },
+    "devDependencies": {
+        "@typescript-eslint/eslint-plugin": "4.15.1",
+        "@typescript-eslint/parser": "4.15.1",
+        "eslint": "7.20.0",
+        "eslint-config-prettier": "7.2.0",
+        "eslint-plugin-node": "11.1.0",
+        "eslint-plugin-prettier": "3.3.1",
+        "eslint-plugin-react": "7.22.0",
+        "eslint-plugin-react-hooks": "4.2.0",
+        "eslint-plugin-simple-import-sort": "7.0.0",
+        "prettier": "2.2.1",
+        "pretty-quick": "3.1.0",
+        "tsconfig-paths": "3.9.0",
+        "typescript": "4.1.5"
+    },
+    "prettier": {
+        "trailingComma": "es5",
+        "semi": false,
+        "singleQuote": true,
+        "printWidth": 100
+    }
+}
