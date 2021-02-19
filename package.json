@@ -10,7 +10,8 @@
     "cucumber-expressions/javascript",
     "tag-expressions/javascript",
     "create-meta/javascript",
-    "fake-cucumber/javascript"
+    "fake-cucumber/javascript",
+    "query/javascript"
   ],
   "scripts": {
     "build": "tsc --build tsconfig.build.json",

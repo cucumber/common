@@ -30,6 +30,9 @@
     },
     {
       "path": "./fake-cucumber/javascript/tsconfig.build.json"
+    },
+    {
+      "path": "./query/javascript/tsconfig.build.json"
     }
   ]
 }
