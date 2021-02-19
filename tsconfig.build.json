@@ -21,6 +21,9 @@
     },
     {
       "path": "./cucumber-expressions/javascript/tsconfig.build.json"
+    },
+    {
+      "path": "./tag-expressions/javascript/tsconfig.build.json"
     }
   ]
 }
