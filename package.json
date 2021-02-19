@@ -5,7 +5,9 @@
   "license": "MIT",
   "workspaces": [
     "messages/javascript",
-    "gherkin/javascript"
+    "gherkin/javascript",
+    "gherkin-utils/javascript",
+    "cucumber-expressions/javascript"
   ],
   "scripts": {
     "build": "tsc --build tsconfig.build.json",

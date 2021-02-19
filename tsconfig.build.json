@@ -1,0 +1,23 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "composite": true,
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "target": "es6",
+    "module": "commonjs"
+  },
+  "files": [],
+  "references": [
+    {
+      "path": "./messages/javascript/tsconfig.build.json"
+    },
+    {
+      "path": "./gherkin/javascript/tsconfig.build.json"
+    },
+    {
+      "path": "./gherkin-utils/javascript/tsconfig.build.json"
+    },
+  ]
+}
