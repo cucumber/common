@@ -8,7 +8,8 @@
     "gherkin/javascript",
     "gherkin-utils/javascript",
     "cucumber-expressions/javascript",
-    "tag-expressions/javascript"
+    "tag-expressions/javascript",
+    "create-meta/javascript"
   ],
   "scripts": {
     "build": "tsc --build tsconfig.build.json",
