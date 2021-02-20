@@ -13,6 +13,7 @@ $statusColors:
 
 $keywordColor: darkblue;
 $parameterColor: blue;
+$docStringColor: seagreen;
 
 @mixin padding-table-cell {
   padding: .3em;
@@ -148,6 +149,19 @@ $parameterColor: blue;
       &__step {
         flex-grow: 1;
       }
+    }
+  }
+
+  .cucumber-docstring {
+    color: $docStringColor;
+    overflow-x: auto;
+
+    &::before,
+    &::after {
+      content: '"""';
+      display: block;
+      // adjust so quote marks sit consistent distance from content at both ends
+      transform: translateY(0.25em);
     }
   }
 
