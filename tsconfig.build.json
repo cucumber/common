@@ -36,6 +36,9 @@
     },
     {
       "path": "./compatibility-kit/javascript/tsconfig.build.json"
+    },
+    {
+      "path": "./react/javascript/tsconfig.build.json"
     }
   ]
 }
