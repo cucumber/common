@@ -71,6 +71,7 @@ What gets pulled into `Next` is decided based on the following guidelines:
   * [cucumber/cucumber-jvm](https://github.com/cucumber/cucumber-jvm/issues?q=is%3Aopen+sort%3Acreated-asc)
   * [cucumber/cucumber-ruby](https://github.com/cucumber/cucumber-ruby/issues?q=is%3Aopen+sort%3Acreated-asc)
   * [cucumber/cucumber-js](https://github.com/cucumber/cucumber-js/issues?q=is%3Aopen+sort%3Acreated-asc)
+  * [cucumber/cucumber-rails](https://github.com/cucumber/cucumber-rails/issues?q=is%3Aopen+sort%3Acreated-asc)
   * [cucumber/docs.cucumber.io](https://github.com/cucumber/docs.cucumber.io/issues?q=is%3Aopen+sort%3Acreated-asc)
 * The oldest work items have the highest priority to be pulled into Next (FIFO policy)
 
