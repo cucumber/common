@@ -14,6 +14,7 @@ $statusColors:
 $keywordColor: #000080;
 $parameterColor: #297bde;
 $docStringColor: #008080;
+$tagColor: #808000;
 
 @mixin padding-table-cell {
   padding: .3em;
@@ -68,10 +69,12 @@ $docStringColor: #008080;
     .cucumber-tag {
       display: inline;
       list-style-type: none;
-      padding: 4px 8px 4px 8px;
-      margin-right: 6px;
-      background-color: #FFFFFF;
-      border-radius: 6px;
+      padding: 8px 0;
+      color: $tagColor;
+
+      &:not(:last-child) {
+        margin-right: 10px;
+      }
     }
   }
 
