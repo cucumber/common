@@ -152,6 +152,21 @@ $docStringColor: #008080;
     }
   }
 
+  .cucumber-datatable {
+    tr + tr {
+      border-top: 4px solid white;
+    }
+
+    .cucumber-table__cell {
+      padding: 0.4em 0.6em;
+      border-top: none;
+      border-bottom: none;
+      border-width: 2px;
+      border-color: $keywordColor;
+      color: $parameterColor;
+    }
+  }
+
   .cucumber-docstring {
     color: $docStringColor;
     overflow-x: auto;
