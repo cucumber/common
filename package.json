@@ -7,6 +7,7 @@
     "messages/javascript",
     "message-streams/javascript",
     "gherkin/javascript",
+    "gherkin-streams/javascript",
     "gherkin-utils/javascript",
     "cucumber-expressions/javascript",
     "tag-expressions/javascript",
@@ -14,7 +15,8 @@
     "fake-cucumber/javascript",
     "query/javascript",
     "compatibility-kit/javascript",
-    "react/javascript"
+    "react/javascript",
+    "html-formatter/javascript"
   ],
   "scripts": {
     "build": "tsc --build tsconfig.build.json",
