@@ -11,9 +11,9 @@ $statusColors:
   "failed" #BB0000,
   "unknown" #B6BECB;
 
-$keywordColor: darkblue;
-$parameterColor: blue;
-$docStringColor: seagreen;
+$keywordColor: #000080;
+$parameterColor: #297bde;
+$docStringColor: #008080;
 
 @mixin padding-table-cell {
   padding: .3em;
