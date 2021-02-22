@@ -49,6 +49,7 @@
   },
   "dependencies": {
     "@cucumber/messages": "^14.0.1",
+    "@cucumber/message-streams": "^1.0.0",
     "commander": "^7.1.0",
     "source-map-support": "^0.5.19"
   },

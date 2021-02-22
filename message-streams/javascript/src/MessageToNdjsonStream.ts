@@ -1,6 +1,5 @@
 import { Transform, TransformCallback } from 'stream'
-import { io } from './messages'
-import messages = io.cucumber.messages
+import { messages } from '@cucumber/messages'
 
 /**
  * Transforms a stream of message objects to NDJSON

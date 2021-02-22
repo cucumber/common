@@ -1,0 +1,11 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@cucumber/messages": ["messages/javascript/src/index.ts"],
+      "@cucumber/message-streams": ["message-streams/javascript/src/index.ts"],
+    },
+    "noEmit": true
+  }
+}

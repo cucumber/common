@@ -12,10 +12,6 @@ default: .tested .built .linted
 .codegen:
 	touch $@
 
-.built: .codegen $(TYPESCRIPT_SOURCE_FILES)
-	$(NPM) run build
-	touch $@
-
 .tested: .tested-npm
 
 .tested-npm: .built $(TYPESCRIPT_SOURCE_FILES)
