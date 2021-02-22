@@ -2,7 +2,7 @@ import AstNode from './AstNode'
 import { IdGenerator, messages } from '@cucumber/messages'
 import { RuleType, TokenType } from './Parser'
 import { AstBuilderException } from './Errors'
-import createLocation from './cli/createLocation'
+import createLocation from './createLocation'
 import IToken from './IToken'
 import { IAstBuilder } from './IAstBuilder'
 

@@ -1,23 +1,22 @@
 import assert from 'assert'
 import { Readable } from 'stream'
 import { messages } from '@cucumber/messages'
-import Gherkin from '../src/stream/GherkinStreams'
-import makeSourceEnvelope from '../src/makeSourceEnvelope'
-import { IGherkinOptions, dialects } from '../src'
+import {dialects, IGherkinOptions, makeSourceEnvelope } from '@cucumber/gherkin'
+import {GherkinStreams} from "../src";
 
 const defaultOptions: IGherkinOptions = {}
 
 describe('gherkin', () => {
   it('parses gherkin from the file system', async () => {
     const envelopes = await streamToArray(
-      Gherkin.fromPaths(['testdata/good/minimal.feature'], defaultOptions)
+      GherkinStreams.fromPaths(['testdata/good/minimal.feature'], defaultOptions)
     )
     assert.strictEqual(envelopes.length, 3)
   })
 
   it('throws an error when the path is a directory', async () => {
     assert.rejects(async () =>
-      streamToArray(Gherkin.fromPaths(['testdata/good'], defaultOptions))
+      streamToArray(GherkinStreams.fromPaths(['testdata/good'], defaultOptions))
     )
   })
 
@@ -32,7 +31,7 @@ describe('gherkin', () => {
     )
 
     const envelopes = await streamToArray(
-      Gherkin.fromSources([source], defaultOptions)
+      GherkinStreams.fromSources([source], defaultOptions)
     )
     assert.strictEqual(envelopes.length, 3)
   })
@@ -46,7 +45,7 @@ describe('gherkin', () => {
       'test.feature'
     )
     const envelopes = await streamToArray(
-      Gherkin.fromSources([source], { defaultDialect: 'fr' })
+      GherkinStreams.fromSources([source], { defaultDialect: 'fr' })
     )
     assert.strictEqual(envelopes.length, 3)
   })

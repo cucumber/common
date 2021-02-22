@@ -1,5 +1,5 @@
 import IToken from './IToken'
-import createLocation from './cli/createLocation'
+import createLocation from './createLocation'
 import { GherkinException } from './Errors'
 
 export class UnexpectedTokenException extends GherkinException {

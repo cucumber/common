@@ -3,9 +3,9 @@ import { messages } from '@cucumber/messages'
 import { BinaryToMessageStream } from '@cucumber/message-streams'
 import ParserMessageStream from './ParserMessageStream'
 import SourceMessageStream from './SourceMessageStream'
-import IGherkinOptions from '../IGherkinOptions'
-import makeGherkinOptions from '../makeGherkinOptions'
 import fs from 'fs'
+import { IGherkinOptions } from '@cucumber/gherkin'
+import makeGherkinOptions from './makeGherkinOptions'
 
 function fromStream(stream: Readable, options: IGherkinOptions) {
   return pipeline(

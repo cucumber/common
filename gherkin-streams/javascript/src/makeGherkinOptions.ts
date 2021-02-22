@@ -1,5 +1,5 @@
+import { IGherkinOptions } from '@cucumber/gherkin'
 import { IdGenerator } from '@cucumber/messages'
-import IGherkinOptions from './IGherkinOptions'
 
 const defaultOptions: IGherkinOptions = {
   defaultDialect: 'en',

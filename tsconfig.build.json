@@ -20,6 +20,9 @@
       "path": "./gherkin/javascript/tsconfig.build.json"
     },
     {
+      "path": "./gherkin-streams/javascript/tsconfig.build.json"
+    },
+    {
       "path": "./gherkin-utils/javascript/tsconfig.build.json"
     },
     {

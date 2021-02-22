@@ -1,13 +1,13 @@
 import { Command } from 'commander'
 import packageJson from '../../package.json'
-import Gherkin from '../stream/GherkinStreams'
+import GherkinStreams from '../GherkinStreams'
 import { IdGenerator } from '@cucumber/messages'
 import {
   MessageToBinaryStream,
   MessageToNdjsonStream,
-} from '@cucumber/messages/dist/src/stream'
+} from '@cucumber/message-streams'
 import { Readable, Transform } from 'stream'
-import IGherkinOptions from '../IGherkinOptions'
+import { IGherkinOptions } from '@cucumber/gherkin'
 
 const program = new Command()
 program.version(packageJson.version)
@@ -35,8 +35,8 @@ const options: IGherkinOptions = {
 
 const messageStream =
   paths.length === 0
-    ? Gherkin.fromStream((process.stdin as unknown) as Readable, options)
-    : Gherkin.fromPaths(paths, options)
+    ? GherkinStreams.fromStream((process.stdin as unknown) as Readable, options)
+    : GherkinStreams.fromPaths(paths, options)
 
 let encodedStream: Transform
 switch (program.opts().format) {
