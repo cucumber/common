@@ -1,5 +1,7 @@
 # CucumberMessages
 
+This package is released at [hex.pm](https://hex.pm/packages/cucumber_messages).
+
 ## Updating the generated files
 
 If you want to update the generated files, execute this command while in the elixir messages folder:
