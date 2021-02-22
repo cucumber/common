@@ -16,7 +16,8 @@
     "query/javascript",
     "compatibility-kit/javascript",
     "react/javascript",
-    "html-formatter/javascript"
+    "html-formatter/javascript",
+    "json-to-messages/javascript"
   ],
   "scripts": {
     "build": "tsc --build tsconfig.build.json",
@@ -29,7 +30,7 @@
     "@typescript-eslint/eslint-plugin": "4.15.1",
     "@typescript-eslint/parser": "4.15.1",
     "eslint": "7.20.0",
-    "eslint-config-prettier": "7.2.0",
+    "eslint-config-prettier": "^8.0.0",
     "eslint-plugin-node": "11.1.0",
     "eslint-plugin-prettier": "3.3.1",
     "eslint-plugin-react": "7.22.0",
