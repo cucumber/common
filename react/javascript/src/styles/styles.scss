@@ -40,10 +40,15 @@ $tagColor: #808000;
 
 
   .gherkin-document-list {
-    font: 14px 'Open Sans', sans-serif;
+    font-size: 14px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
     color: #161C24;
     background: #fff;
     overflow-x: hidden;
+
+    pre {
+      font-family: inherit;
+    }
   }
 
   .cucumber-title {
@@ -180,6 +185,14 @@ $tagColor: #808000;
       display: block;
       // adjust so quote marks sit consistent distance from content at both ends
       transform: translateY(0.25em);
+    }
+
+    &::before {
+      padding-bottom: 0.25em;
+    }
+
+    &::after {
+      padding-top: 0.25em;
     }
   }
 
