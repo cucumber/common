@@ -11,6 +11,7 @@
   "author": "Aslak Hellesøy",
   "license": "MIT",
   "scripts": {
+    "prepare": "make .codegen",
     "nyc": "nyc --reporter=html --reporter=text mocha",
     "test": "mocha",
     "lint": "eslint --ext ts,tsx --max-warnings 0 src test",
