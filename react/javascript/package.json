@@ -60,7 +60,7 @@
     "babel-loader": "^8.2.2",
     "core-js": "^3.8.3",
     "eslint": "^7.19.0",
-    "eslint-config-prettier": "^7.2.0",
+    "eslint-config-prettier": "^8.0.0",
     "eslint-config-react": "^1.1.7",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-node": "^11.1.0",
