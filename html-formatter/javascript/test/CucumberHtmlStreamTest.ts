@@ -6,7 +6,7 @@ import assert from 'assert'
 async function renderAsHtml(
   ...envelopes: messages.IEnvelope[]
 ): Promise<string> {
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     let html = ''
     const sink: Writable = new Writable({
       write(
@@ -20,10 +20,10 @@ async function renderAsHtml(
     })
     sink.on('finish', () => resolve(html))
     const cucumberHtmlStream = new CucumberHtmlStream(
-      __dirname +
-        '/../node_modules/@cucumber/react/dist/src/styles/cucumber-react.css',
-      __dirname + '/../dist/main.js'
+      `${__dirname}/dummy.css`,
+      `${__dirname}/dummy.js`
     )
+    cucumberHtmlStream.on('error', reject)
     cucumberHtmlStream.pipe(sink)
 
     for (const envelope of envelopes) {
