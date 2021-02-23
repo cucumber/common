@@ -11,10 +11,8 @@ export default class CucumberHtmlStream extends Transform {
    * @param cssPath
    * @param jsPath
    */
-  constructor(cssPath: string, jsPath: string) {
+  constructor(private readonly cssPath: string, private readonly jsPath: string) {
     super({ objectMode: true })
-    this.cssPath = cssPath
-    this.jsPath = jsPath
   }
 
   public _transform(
@@ -37,8 +35,6 @@ export default class CucumberHtmlStream extends Transform {
     this.writePostMessage(callback)
   }
 
-  private cssPath: string
-
   private writePreMessageUnlessAlreadyWritten(callback: TransformCallback) {
     if (this.preMessageWritten) {
       return callback()
@@ -56,8 +52,6 @@ export default class CucumberHtmlStream extends Transform {
       })
     })
   }
-
-  private jsPath: string
 
   private writePostMessage(callback: TransformCallback) {
     this.writePreMessageUnlessAlreadyWritten((err) => {

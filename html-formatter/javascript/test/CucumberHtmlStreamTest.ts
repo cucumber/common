@@ -51,7 +51,7 @@ describe('CucumberHtmlStream', () => {
     )
   })
 
-  it('writes one message to html', async () => {
+  it('writes two messages to html', async () => {
     const e1 = messages.Envelope.create({
       testRunStarted: messages.TestRunStarted.create({}),
     })
