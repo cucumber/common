@@ -44,6 +44,8 @@
     "@babel/core": "^7.13.1",
     "@cucumber/fake-cucumber": "^10.0.0",
     "@cucumber/gherkin": "^17.0.2",
+    "@cucumber/gherkin-streams": "^1.0.0",
+    "@cucumber/message-streams": "^1.0.0",
     "@storybook/addon-actions": "^6.1.19",
     "@storybook/addon-essentials": "^6.1.19",
     "@storybook/addon-links": "^6.1.19",
