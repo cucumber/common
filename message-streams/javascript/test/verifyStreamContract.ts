@@ -1,4 +1,4 @@
-import { messages } from '../src'
+import { messages } from '@cucumber/messages'
 import { Transform } from 'stream'
 import toArray from './toArray'
 import assert = require('assert')

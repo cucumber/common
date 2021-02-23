@@ -1,5 +1,5 @@
-import { messages } from '../src'
-import { MessageToNdjsonStream } from '../src/stream'
+import { messages } from '@cucumber/messages'
+import { MessageToNdjsonStream } from '../src'
 import assert from 'assert'
 import NdjsonToMessageStream from '../src/NdjsonToMessageStream'
 import verifyStreamContract from './verifyStreamContract'

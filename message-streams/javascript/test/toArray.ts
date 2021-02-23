@@ -1,5 +1,5 @@
 import { Readable } from 'stream'
-import { messages } from '../src'
+import { messages } from '@cucumber/messages'
 
 export default function toArray(
   input: Readable

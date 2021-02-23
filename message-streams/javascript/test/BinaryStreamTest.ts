@@ -1,5 +1,5 @@
-import { messages } from '../src'
-import { BinaryToMessageStream, MessageToBinaryStream } from '../src/stream'
+import { messages } from '@cucumber/messages'
+import { BinaryToMessageStream, MessageToBinaryStream } from '../src'
 import verifyStreamContract from './verifyStreamContract'
 
 describe('BinaryStream', () => {
