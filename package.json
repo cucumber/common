@@ -21,7 +21,7 @@
   ],
   "scripts": {
     "build": "tsc --build tsconfig.build.json",
-    "clean": "./scripts/npm-each make clean && rm -rf node_modules package-lock.json",
+    "clean": "./scripts/npm-each rm -rf dist acceptance && rm -rf node_modules package-lock.json",
     "test": "./scripts/npm-each npm test",
     "eslint": "eslint --ext ts,tsx --max-warnings 0 packages/*/src packages/*/test",
     "eslint-fix": "eslint --ext ts,tsx --max-warnings 0 --fix packages/*/src packages/*/test"
