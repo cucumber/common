@@ -1,11 +1,11 @@
 import { Readable } from 'stream'
 import { jsonToMessages } from '../src'
 import { messages, version as messagesVersion } from '@cucumber/messages'
-import { NdjsonToMessageStream } from '@cucumber/messages/dist/src/stream'
 import assert from 'assert'
 import { version } from '../package.json'
+import { NdjsonToMessageStream } from '@cucumber/message-streams'
 
-describe('jsonToMesssages', () => {
+describe('jsonToMessages', () => {
   it('emits a Source message for every Gherkin document', async () => {
     const emitted = await produceMessages([
       JSON.stringify([

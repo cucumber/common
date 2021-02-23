@@ -52,6 +52,7 @@
     "@cucumber/create-meta": "^3.0.0",
     "@cucumber/fake-cucumber": "^10.0.0",
     "@cucumber/gherkin": "^17.0.2",
+    "@cucumber/gherkin-streams": "^1.0.0",
     "@cucumber/gherkin-utils": "^3.0.0",
     "@cucumber/messages": "^14.0.1",
     "@types/diff-match-patch": "^1.0.32",
