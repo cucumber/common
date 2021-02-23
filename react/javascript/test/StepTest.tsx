@@ -13,9 +13,7 @@ import CucumberQueryContext from '../src/CucumberQueryContext'
 
 describe('<Step>', () => {
   it('renders', () => {
-    const dom = new JSDOM(
-      '<html lang="en"><body><div id="content"></div></body></html>'
-    )
+    const dom = new JSDOM('<html lang="en"><body><div id="content"></div></body></html>')
     // @ts-ignore
     global.window = dom.window
     // global.navigator = dom.window.navigator
@@ -32,17 +30,15 @@ describe('<Step>', () => {
         return [
           new messages.TestCase.TestStep.StepMatchArgumentsList({
             stepMatchArguments: [
-              new messages.TestCase.TestStep.StepMatchArgumentsList.StepMatchArgument(
-                {
-                  group: new messages.TestCase.TestStep.StepMatchArgumentsList.StepMatchArgument.Group(
-                    {
-                      start: 4,
-                      value: '48',
-                      children: [],
-                    }
-                  ),
-                }
-              ),
+              new messages.TestCase.TestStep.StepMatchArgumentsList.StepMatchArgument({
+                group: new messages.TestCase.TestStep.StepMatchArgumentsList.StepMatchArgument.Group(
+                  {
+                    start: 4,
+                    value: '48',
+                    children: [],
+                  }
+                ),
+              }),
             ],
           }),
         ]
@@ -59,11 +55,7 @@ describe('<Step>', () => {
       <GherkinQueryContext.Provider value={new StubGherkinQuery()}>
         <UriContext.Provider value={'some.feature'}>
           <CucumberQueryContext.Provider value={new StubCucumberQuery()}>
-            <Step
-              step={step}
-              renderStepMatchArguments={true}
-              renderMessage={true}
-            />
+            <Step step={step} renderStepMatchArguments={true} renderMessage={true} />
           </CucumberQueryContext.Provider>
         </UriContext.Provider>
       </GherkinQueryContext.Provider>

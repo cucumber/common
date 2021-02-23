@@ -335,10 +335,13 @@ describe('traversing elements', () => {
 
       traverseStep(simpleStep, astMaker, () => 'the-id', supportCode)
 
-      assert.deepEqual(
-        supportCode.addPredictableStepDefinition.getCall(0).args,
-        ['whatever.go:123', 'a-random-step-id', 'failed', 0.456, undefined]
-      )
+      assert.deepEqual(supportCode.addPredictableStepDefinition.getCall(0).args, [
+        'whatever.go:123',
+        'a-random-step-id',
+        'failed',
+        0.456,
+        undefined,
+      ])
     })
   })
 
@@ -352,10 +355,7 @@ describe('traversing elements', () => {
       const astMaker = stubInterface<IAstMaker>()
 
       traverseDocString(docString, astMaker)
-      assert.deepEqual(astMaker.makeDocstring.getCall(0).args, [
-        null,
-        '  This is some content',
-      ])
+      assert.deepEqual(astMaker.makeDocstring.getCall(0).args, [null, '  This is some content'])
     })
   })
 })

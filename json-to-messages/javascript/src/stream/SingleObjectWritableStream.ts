@@ -10,15 +10,9 @@ export default class SingleObjectWritableStream<T> extends Writable {
     return this.o
   }
 
-  _write(
-    object: T,
-    encoding: string,
-    callback: (error?: Error | null) => void
-  ): void {
+  _write(object: T, encoding: string, callback: (error?: Error | null) => void): void {
     if (this.o) {
-      return callback(
-        new Error(`Can only write one object to SingleObjectWritable`)
-      )
+      return callback(new Error(`Can only write one object to SingleObjectWritable`))
     }
     this.o = object
     callback()

@@ -1,3 +1,5 @@
 messages/javascript/src/messages.js
 messages/javascript/src/messages.d.ts
+messages/javascript/dist/src/messages.js
+messages/javascript/dist/src/messages.d.ts
 gherkin/javascript/src/Parser.ts

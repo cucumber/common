@@ -1,12 +1,7 @@
 import { Transform } from 'stream'
-import {
-  MessageToBinaryStream,
-  MessageToNdjsonStream,
-} from '@cucumber/message-streams'
+import { MessageToBinaryStream, MessageToNdjsonStream } from '@cucumber/message-streams'
 
-export default function makeFormatStream(
-  format: 'ndjson' | 'protobuf'
-): Transform {
+export default function makeFormatStream(format: 'ndjson' | 'protobuf'): Transform {
   switch (format) {
     case 'ndjson':
       return new MessageToNdjsonStream()

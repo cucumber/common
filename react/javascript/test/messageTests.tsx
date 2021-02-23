@@ -23,9 +23,7 @@ describe('App with messages', () => {
 
   for (const messageFile of messageFiles) {
     it(`can render ${messageFile}`, async () => {
-      const dom = new JSDOM(
-        '<html lang="en"><body><div id="content"></div></body></html>'
-      )
+      const dom = new JSDOM('<html lang="en"><body><div id="content"></div></body></html>')
       // @ts-ignore
       global.window = dom.window
       // global.navigator = dom.window.navigator
@@ -63,9 +61,7 @@ describe('App with messages', () => {
           cucumberQuery={cucumberQuery}
           envelopesQuery={envelopesQuery}
         >
-          <GherkinDocumentList
-            gherkinDocuments={gherkinQuery.getGherkinDocuments()}
-          />
+          <GherkinDocumentList gherkinDocuments={gherkinQuery.getGherkinDocuments()} />
         </QueriesWrapper>
       )
       ReactDOM.render(app, document.getElementById('content'))

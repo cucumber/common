@@ -30,10 +30,7 @@ describe('Parser', function () {
   })
 
   it('parses multiple features', function () {
-    const parser = new Parser(
-      new AstBuilder(IdGenerator.incrementing()),
-      new TokenMatcher()
-    )
+    const parser = new Parser(new AstBuilder(IdGenerator.incrementing()), new TokenMatcher())
     const ast1 = parser.parse('Feature: hello')
     const ast2 = parser.parse('Feature: hello again')
 
@@ -68,10 +65,7 @@ describe('Parser', function () {
   })
 
   it('parses feature after parse error', function () {
-    const parser = new Parser(
-      new AstBuilder(IdGenerator.incrementing()),
-      new TokenMatcher()
-    )
+    const parser = new Parser(new AstBuilder(IdGenerator.incrementing()), new TokenMatcher())
     let ast: messages.IGherkinDocument
     try {
       parser.parse(
@@ -147,18 +141,12 @@ describe('Parser', function () {
 
     const pickle = envelopes.find((envelope) => envelope.pickle).pickle
 
-    assert.strictEqual(
-      pickle.steps[0].text,
-      'the thing is triggered and has foo'
-    )
+    assert.strictEqual(pickle.steps[0].text, 'the thing is triggered and has foo')
   })
 
   it('can change the default language', function () {
     const matcher = new TokenMatcher('no')
-    const parser = new Parser(
-      new AstBuilder(IdGenerator.incrementing()),
-      matcher
-    )
+    const parser = new Parser(new AstBuilder(IdGenerator.incrementing()), matcher)
     const ast = parser.parse('Egenskap: i18n support')
     assert.deepStrictEqual(
       ast,

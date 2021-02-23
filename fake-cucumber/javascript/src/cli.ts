@@ -14,11 +14,7 @@ const program = new Command()
 program.version(packageJson.version)
 program.option('-r, --require <path>', 'override require path')
 program.option('--predictable-ids', 'Use predictable ids', false)
-program.option(
-  '-f, --format <format>',
-  'output format: ndjson|protobuf',
-  'protobuf'
-)
+program.option('-f, --format <format>', 'output format: ndjson|protobuf', 'protobuf')
 
 async function main() {
   program.parse(process.argv)
@@ -46,12 +42,7 @@ async function main() {
 
   const gherkinQuery = new GherkinQuery()
 
-  await runCucumber(
-    supportCode,
-    gherkinEnvelopeStream,
-    gherkinQuery,
-    envelopeOutputStream
-  )
+  await runCucumber(supportCode, gherkinEnvelopeStream, gherkinQuery, envelopeOutputStream)
 }
 
 main().catch((err) => {

@@ -5,10 +5,7 @@ interface IProps {
   className?: string
 }
 
-const ErrorMessage: React.FunctionComponent<IProps> = ({
-  message,
-  className = '',
-}) => {
+const ErrorMessage: React.FunctionComponent<IProps> = ({ message, className = '' }) => {
   return <pre className={`cucumber-error ${className}`}>{message}</pre>
 }
 

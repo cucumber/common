@@ -1,4 +1,3 @@
-import 'source-map-support/register'
 import { GherkinStreams } from '@cucumber/gherkin-streams'
 import { Query as GherkinQuery } from '@cucumber/gherkin-utils'
 import { IdGenerator, messages } from '@cucumber/messages'
@@ -39,10 +38,7 @@ describe('Query', () => {
           status: messages.TestStepFinished.TestStepResult.Status.PASSED,
         }),
       ])
-      assert.strictEqual(
-        result.status,
-        messages.TestStepFinished.TestStepResult.Status.FAILED
-      )
+      assert.strictEqual(result.status, messages.TestStepFinished.TestStepResult.Status.FAILED)
     })
   })
 
@@ -71,9 +67,7 @@ describe('Query', () => {
       const pickleStepIds = gherkinQuery.getPickleStepIds(scenario.steps[0].id)
       assert.strictEqual(pickleStepIds.length, 1)
 
-      const testStepResults = cucumberQuery.getPickleStepTestStepResults(
-        pickleStepIds
-      )
+      const testStepResults = cucumberQuery.getPickleStepTestStepResults(pickleStepIds)
       assert.strictEqual(testStepResults.length, 1)
 
       assert.strictEqual(
@@ -100,14 +94,10 @@ describe('Query', () => {
       )
 
       const background = findBackground(envelopes)
-      const pickleStepIds = gherkinQuery.getPickleStepIds(
-        background.steps[0].id
-      )
+      const pickleStepIds = gherkinQuery.getPickleStepIds(background.steps[0].id)
       assert.strictEqual(pickleStepIds.length, 2)
 
-      const testStepResults = cucumberQuery.getPickleStepTestStepResults(
-        pickleStepIds
-      )
+      const testStepResults = cucumberQuery.getPickleStepTestStepResults(pickleStepIds)
 
       assert.deepStrictEqual(
         testStepResults.map((r) => r.status),
@@ -134,14 +124,10 @@ describe('Query', () => {
       )
 
       const background = findBackground(envelopes)
-      const pickleStepIds = gherkinQuery.getPickleStepIds(
-        background.steps[0].id
-      )
+      const pickleStepIds = gherkinQuery.getPickleStepIds(background.steps[0].id)
       assert.strictEqual(pickleStepIds.length, 0)
 
-      const testStepResults = cucumberQuery.getPickleStepTestStepResults(
-        pickleStepIds
-      )
+      const testStepResults = cucumberQuery.getPickleStepTestStepResults(pickleStepIds)
       assert.strictEqual(testStepResults.length, 1)
 
       assert.strictEqual(
@@ -231,9 +217,7 @@ describe('Query', () => {
 
       assert.deepStrictEqual(
         cucumberQuery
-          .getPickleTestStepResults(
-            gherkinQuery.getPickleIds('test.feature', exampleIds[0])
-          )
+          .getPickleTestStepResults(gherkinQuery.getPickleIds('test.feature', exampleIds[0]))
           .map((r) => r.status),
         [
           messages.TestStepFinished.TestStepResult.Status.PASSED,
@@ -243,9 +227,7 @@ describe('Query', () => {
 
       assert.deepStrictEqual(
         cucumberQuery
-          .getPickleTestStepResults(
-            gherkinQuery.getPickleIds('test.feature', exampleIds[1])
-          )
+          .getPickleTestStepResults(gherkinQuery.getPickleIds('test.feature', exampleIds[1]))
           .map((r) => r.status),
         [
           messages.TestStepFinished.TestStepResult.Status.PASSED,
@@ -293,23 +275,15 @@ describe('Query', () => {
 
       assert.deepStrictEqual(
         cucumberQuery
-          .getStepMatchArgumentsLists(
-            gherkinQuery.getPickleStepIds(scenario.steps[0].id)[0]
-          )
-          .map((sal) =>
-            sal.stepMatchArguments.map((arg) => arg.parameterTypeName)
-          ),
+          .getStepMatchArgumentsLists(gherkinQuery.getPickleStepIds(scenario.steps[0].id)[0])
+          .map((sal) => sal.stepMatchArguments.map((arg) => arg.parameterTypeName)),
         [[]]
       )
 
       assert.deepStrictEqual(
         cucumberQuery
-          .getStepMatchArgumentsLists(
-            gherkinQuery.getPickleStepIds(scenario.steps[1].id)[0]
-          )
-          .map((sal) =>
-            sal.stepMatchArguments.map((arg) => arg.parameterTypeName)
-          ),
+          .getStepMatchArgumentsLists(gherkinQuery.getPickleStepIds(scenario.steps[1].id)[0])
+          .map((sal) => sal.stepMatchArguments.map((arg) => arg.parameterTypeName)),
         [['int', 'word']]
       )
     })
@@ -325,10 +299,7 @@ describe('Query', () => {
           (envelope) => envelopes.push(envelope)
         )
         const scenarioId = findScenario(envelopes).id
-        const pickleId = gherkinQuery.getPickleIds(
-          'test.feature',
-          scenarioId
-        )[0]
+        const pickleId = gherkinQuery.getPickleIds('test.feature', scenarioId)[0]
 
         assert.deepStrictEqual(cucumberQuery.getBeforeHookSteps(pickleId), [])
       })
@@ -344,10 +315,7 @@ describe('Query', () => {
           (envelope) => envelopes.push(envelope)
         )
         const scenarioId = findScenario(envelopes).id
-        const pickleId = gherkinQuery.getPickleIds(
-          'test.feature',
-          scenarioId
-        )[0]
+        const pickleId = gherkinQuery.getPickleIds('test.feature', scenarioId)[0]
 
         assert.strictEqual(cucumberQuery.getBeforeHookSteps(pickleId).length, 1)
       })
@@ -363,10 +331,7 @@ describe('Query', () => {
           (envelope) => envelopes.push(envelope)
         )
         const scenarioId = findScenario(envelopes).id
-        const pickleId = gherkinQuery.getPickleIds(
-          'test.feature',
-          scenarioId
-        )[0]
+        const pickleId = gherkinQuery.getPickleIds('test.feature', scenarioId)[0]
 
         assert.deepStrictEqual(cucumberQuery.getBeforeHookSteps(pickleId), [])
       })
@@ -383,10 +348,7 @@ describe('Query', () => {
           (envelope) => envelopes.push(envelope)
         )
         const scenarioId = findScenario(envelopes).id
-        const pickleId = gherkinQuery.getPickleIds(
-          'test.feature',
-          scenarioId
-        )[0]
+        const pickleId = gherkinQuery.getPickleIds('test.feature', scenarioId)[0]
 
         assert.deepStrictEqual(cucumberQuery.getAfterHookSteps(pickleId), [])
       })
@@ -402,10 +364,7 @@ describe('Query', () => {
           (envelope) => envelopes.push(envelope)
         )
         const scenarioId = findScenario(envelopes).id
-        const pickleId = gherkinQuery.getPickleIds(
-          'test.feature',
-          scenarioId
-        )[0]
+        const pickleId = gherkinQuery.getPickleIds('test.feature', scenarioId)[0]
 
         assert.strictEqual(cucumberQuery.getAfterHookSteps(pickleId).length, 1)
       })
@@ -421,10 +380,7 @@ describe('Query', () => {
           (envelope) => envelopes.push(envelope)
         )
         const scenarioId = findScenario(envelopes).id
-        const pickleId = gherkinQuery.getPickleIds(
-          'test.feature',
-          scenarioId
-        )[0]
+        const pickleId = gherkinQuery.getPickleIds('test.feature', scenarioId)[0]
 
         assert.deepStrictEqual(cucumberQuery.getAfterHookSteps(pickleId), [])
       })
@@ -440,8 +396,7 @@ describe('Query', () => {
   `,
           (message) => emittedMessages.push(message)
         )
-        const testCase = emittedMessages.find((child) => child.testCase)
-          .testCase
+        const testCase = emittedMessages.find((child) => child.testCase).testCase
         const testStep = testCase.testSteps[0]
         const results = cucumberQuery.getTestStepResults(testStep.id)
 
@@ -462,8 +417,7 @@ describe('Query', () => {
   `,
           (message) => emittedMessages.push(message)
         )
-        const testCase = emittedMessages.find((child) => child.testCase)
-          .testCase
+        const testCase = emittedMessages.find((child) => child.testCase).testCase
         const testStep = testCase.testSteps[0]
         const results = cucumberQuery.getTestStepResults(testStep.id)
 
@@ -509,9 +463,7 @@ describe('Query', () => {
           }
         )
 
-        const attachments = cucumberQuery.getTestStepsAttachments([
-          testCases[0].testSteps[0].id,
-        ])
+        const attachments = cucumberQuery.getTestStepsAttachments([testCases[0].testSteps[0].id])
         assert.strictEqual(attachments.length, 1)
 
         assert.strictEqual(attachments[0].body, 'Hello')
@@ -527,12 +479,7 @@ describe('Query', () => {
     const clock = new IncrementClock()
     const stopwatch = new IncrementStopwatch()
     const makeErrorMessage = withFullStackTrace()
-    const supportCode = new SupportCode(
-      newId,
-      clock,
-      stopwatch,
-      makeErrorMessage
-    )
+    const supportCode = new SupportCode(newId, clock, stopwatch, makeErrorMessage)
     supportCode.defineBeforeHook(null, '@beforeHook', () => {
       // no-op
     })
@@ -542,23 +489,15 @@ describe('Query', () => {
     supportCode.defineStepDefinition(null, 'a passed step', () => {
       // no-op
     })
-    supportCode.defineStepDefinition(
-      null,
-      'a passed step with attachment',
-      function () {
-        this.attach('Hello', 'text/plain')
-      }
-    )
+    supportCode.defineStepDefinition(null, 'a passed step with attachment', function () {
+      this.attach('Hello', 'text/plain')
+    })
     supportCode.defineStepDefinition(null, 'a failed step', () => {
       throw new Error(`This step failed.`)
     })
-    supportCode.defineStepDefinition(
-      null,
-      'I have {int} cukes in my {word}',
-      (cukes: number) => {
-        assert.ok(cukes)
-      }
-    )
+    supportCode.defineStepDefinition(null, 'I have {int} cukes in my {word}', (cukes: number) => {
+      assert.ok(cukes)
+    })
 
     const queryUpdateStream = new Writable({
       objectMode: true,
@@ -577,10 +516,7 @@ describe('Query', () => {
         }
       },
     })
-    await pipelinePromise(
-      gherkinMessages(gherkinSource, 'test.feature', newId),
-      queryUpdateStream
-    )
+    await pipelinePromise(gherkinMessages(gherkinSource, 'test.feature', newId), queryUpdateStream)
 
     const testPlan = makeTestPlan(gherkinQuery, supportCode, makeTestCase)
     await testPlan.execute((envelope: messages.IEnvelope) => {
@@ -589,11 +525,7 @@ describe('Query', () => {
     })
   }
 
-  function gherkinMessages(
-    gherkinSource: string,
-    uri: string,
-    newId: IdGenerator.NewId
-  ): Readable {
+  function gherkinMessages(gherkinSource: string, uri: string, newId: IdGenerator.NewId): Readable {
     const source = messages.Envelope.fromObject({
       source: {
         uri,
@@ -607,20 +539,14 @@ describe('Query', () => {
   function findScenario(
     envelopes: messages.IEnvelope[]
   ): messages.GherkinDocument.Feature.IScenario {
-    const gherkinDocument = envelopes.find(
-      (envelope) => envelope.gherkinDocument
-    ).gherkinDocument
-    return gherkinDocument.feature.children.find((child) => child.scenario)
-      .scenario
+    const gherkinDocument = envelopes.find((envelope) => envelope.gherkinDocument).gherkinDocument
+    return gherkinDocument.feature.children.find((child) => child.scenario).scenario
   }
 
   function findBackground(
     envelopes: messages.IEnvelope[]
   ): messages.GherkinDocument.Feature.IBackground {
-    const gherkinDocument = envelopes.find(
-      (envelope) => envelope.gherkinDocument
-    ).gherkinDocument
-    return gherkinDocument.feature.children.find((child) => child.background)
-      .background
+    const gherkinDocument = envelopes.find((envelope) => envelope.gherkinDocument).gherkinDocument
+    return gherkinDocument.feature.children.find((child) => child.background).background
   }
 })

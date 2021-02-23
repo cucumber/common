@@ -5,10 +5,7 @@ interface IProps {
   className?: string
 }
 
-const Keyword: React.FunctionComponent<IProps> = ({
-  children,
-  className = '',
-}) => {
+const Keyword: React.FunctionComponent<IProps> = ({ children, className = '' }) => {
   return <span className={className}>{children}</span>
 }
 

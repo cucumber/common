@@ -7,11 +7,7 @@ export default class GherkinQueryStream extends Transform {
     super({ readableObjectMode: true, writableObjectMode: true })
   }
 
-  _transform(
-    envelope: messages.IEnvelope,
-    encoding: string,
-    callback: TransformCallback
-  ): void {
+  _transform(envelope: messages.IEnvelope, encoding: string, callback: TransformCallback): void {
     this.gherkinQuery.update(envelope)
     callback(null, envelope)
   }

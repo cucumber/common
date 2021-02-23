@@ -1,11 +1,7 @@
 import assert from 'assert'
 import { IFeature } from '../src/cucumber-generic/JSONSchema'
 import { IFeature as IBehaveFeature } from '../src/behave/JSONSchema'
-import {
-  IElement,
-  IStep as IJSStep,
-  IDocString,
-} from '../src/cucumber-js/JSONSchema'
+import { IElement, IStep as IJSStep, IDocString } from '../src/cucumber-js/JSONSchema'
 import detectImplementation from '../src/detectImplementation'
 
 describe('detectImplementation', () => {

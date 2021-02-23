@@ -4,9 +4,7 @@ import RegularExpression from './RegularExpression'
 import ParameterTypeRegistry from './ParameterTypeRegistry'
 
 export default class ExpressionFactory {
-  public constructor(
-    private readonly parameterTypeRegistry: ParameterTypeRegistry
-  ) {}
+  public constructor(private readonly parameterTypeRegistry: ParameterTypeRegistry) {}
 
   public createExpression(expression: string | RegExp): Expression {
     return typeof expression === 'string'

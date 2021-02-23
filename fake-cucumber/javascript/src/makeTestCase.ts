@@ -4,13 +4,7 @@ import TestCase from './TestCase'
 import IClock from './IClock'
 import { MakeErrorMessage } from './ErrorMessageGenerator'
 import EmptyPickleTestStep from './EmptyPickleTestStep'
-import {
-  MakePickleTestStep,
-  MakeHookTestStep,
-  IStepDefinition,
-  IHook,
-  ITestStep,
-} from './types'
+import { MakePickleTestStep, MakeHookTestStep, IStepDefinition, IHook, ITestStep } from './types'
 import IStopwatch from './IStopwatch'
 
 export default function makeTestCase(

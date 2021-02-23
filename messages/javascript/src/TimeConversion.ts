@@ -11,15 +11,11 @@ export function millisecondsSinceEpochToTimestamp(
   return new messages.Timestamp(toSecondsAndNanos(millisecondsSinceEpoch))
 }
 
-export function millisecondsToDuration(
-  durationInMilliseconds: number
-): messages.IDuration {
+export function millisecondsToDuration(durationInMilliseconds: number): messages.IDuration {
   return new messages.Duration(toSecondsAndNanos(durationInMilliseconds))
 }
 
-export function timestampToMillisecondsSinceEpoch(
-  timestamp: messages.ITimestamp
-): number {
+export function timestampToMillisecondsSinceEpoch(timestamp: messages.ITimestamp): number {
   const { seconds, nanos } = timestamp
   return toMillis(seconds, nanos)
 }
@@ -44,9 +40,7 @@ export function addDurations(
 
 function toSecondsAndNanos(milliseconds: number) {
   const seconds = Math.floor(milliseconds / MILLISECONDS_PER_SECOND)
-  const nanos = Math.floor(
-    (milliseconds % MILLISECONDS_PER_SECOND) * NANOSECONDS_PER_MILLISECOND
-  )
+  const nanos = Math.floor((milliseconds % MILLISECONDS_PER_SECOND) * NANOSECONDS_PER_MILLISECOND)
   return { seconds, nanos }
 }
 

@@ -39,56 +39,29 @@ export default class TokenMatcher implements ITokenMatcher<TokenType> {
 
   match_TagLine(token: IToken<TokenType>) {
     if (token.line.startsWith('@')) {
-      this.setTokenMatched(
-        token,
-        TokenType.TagLine,
-        null,
-        null,
-        null,
-        token.line.getTags()
-      )
+      this.setTokenMatched(token, TokenType.TagLine, null, null, null, token.line.getTags())
       return true
     }
     return false
   }
 
   match_FeatureLine(token: IToken<TokenType>) {
-    return this.matchTitleLine(
-      token,
-      TokenType.FeatureLine,
-      this.dialect.feature
-    )
+    return this.matchTitleLine(token, TokenType.FeatureLine, this.dialect.feature)
   }
 
   match_ScenarioLine(token: IToken<TokenType>) {
     return (
-      this.matchTitleLine(
-        token,
-        TokenType.ScenarioLine,
-        this.dialect.scenario
-      ) ||
-      this.matchTitleLine(
-        token,
-        TokenType.ScenarioLine,
-        this.dialect.scenarioOutline
-      )
+      this.matchTitleLine(token, TokenType.ScenarioLine, this.dialect.scenario) ||
+      this.matchTitleLine(token, TokenType.ScenarioLine, this.dialect.scenarioOutline)
     )
   }
 
   match_BackgroundLine(token: IToken<TokenType>) {
-    return this.matchTitleLine(
-      token,
-      TokenType.BackgroundLine,
-      this.dialect.background
-    )
+    return this.matchTitleLine(token, TokenType.BackgroundLine, this.dialect.background)
   }
 
   match_ExamplesLine(token: IToken<TokenType>) {
-    return this.matchTitleLine(
-      token,
-      TokenType.ExamplesLine,
-      this.dialect.examples
-    )
+    return this.matchTitleLine(token, TokenType.ExamplesLine, this.dialect.examples)
   }
 
   match_RuleLine(token: IToken<TokenType>) {
@@ -98,14 +71,7 @@ export default class TokenMatcher implements ITokenMatcher<TokenType> {
   match_TableRow(token: IToken<TokenType>) {
     if (token.line.startsWith('|')) {
       // TODO: indent
-      this.setTokenMatched(
-        token,
-        TokenType.TableRow,
-        null,
-        null,
-        null,
-        token.line.getTableCells()
-      )
+      this.setTokenMatched(token, TokenType.TableRow, null, null, null, token.line.getTableCells())
       return true
     }
     return false
@@ -146,18 +112,10 @@ export default class TokenMatcher implements ITokenMatcher<TokenType> {
         this._match_DocStringSeparator(token, '"""', true) ||
           this._match_DocStringSeparator(token, '```', true)
       : // close
-        this._match_DocStringSeparator(
-          token,
-          this.activeDocStringSeparator,
-          false
-        )
+        this._match_DocStringSeparator(token, this.activeDocStringSeparator, false)
   }
 
-  public _match_DocStringSeparator(
-    token: IToken<TokenType>,
-    separator: string,
-    isOpen: boolean
-  ) {
+  public _match_DocStringSeparator(token: IToken<TokenType>, separator: string, isOpen: boolean) {
     if (token.line.startsWith(separator)) {
       let mediaType = null
       if (isOpen) {
@@ -203,21 +161,11 @@ export default class TokenMatcher implements ITokenMatcher<TokenType> {
 
   match_Other(token: IToken<TokenType>) {
     const text = token.line.getLineText(this.indentToRemove) // take the entire line, except removing DocString indents
-    this.setTokenMatched(
-      token,
-      TokenType.Other,
-      this.unescapeDocString(text),
-      null,
-      0
-    )
+    this.setTokenMatched(token, TokenType.Other, this.unescapeDocString(text), null, 0)
     return true
   }
 
-  matchTitleLine(
-    token: IToken<TokenType>,
-    tokenType: TokenType,
-    keywords: readonly string[]
-  ) {
+  matchTitleLine(token: IToken<TokenType>, tokenType: TokenType, keywords: readonly string[]) {
     for (const keyword of keywords) {
       if (token.line.startsWithTitleKeyword(keyword)) {
         const title = token.line.getRestTrimmed(keyword.length + ':'.length)
@@ -240,11 +188,7 @@ export default class TokenMatcher implements ITokenMatcher<TokenType> {
     token.matchedText = text
     token.matchedKeyword = keyword
     token.matchedIndent =
-      typeof indent === 'number'
-        ? indent
-        : token.line == null
-        ? 0
-        : token.line.indent
+      typeof indent === 'number' ? indent : token.line == null ? 0 : token.line.indent
     token.matchedItems = items || []
 
     token.location.column = token.matchedIndent + 1

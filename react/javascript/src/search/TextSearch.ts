@@ -24,8 +24,7 @@ export default class TextSearch {
     const walker = new GherkinDocumentWalker({
       acceptStep: (step) => matchingSteps.includes(step),
       acceptScenario: (scenario) => matchingScenarios.includes(scenario),
-      acceptBackground: (background) =>
-        matchingBackgrounds.includes(background),
+      acceptBackground: (background) => matchingBackgrounds.includes(background),
       acceptRule: (rule) => matchingRules.includes(rule),
       acceptFeature: (feature) => matchingFeatures.includes(feature),
     })

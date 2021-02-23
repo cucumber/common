@@ -51,9 +51,7 @@ async function produceMessages(jsons: string[]): Promise<messages.IEnvelope[]> {
   })
 
   const emitted: messages.IEnvelope[] = []
-  const out = new NdjsonToMessageStream(
-    messages.Envelope.fromObject.bind(messages.Envelope)
-  )
+  const out = new NdjsonToMessageStream(messages.Envelope.fromObject.bind(messages.Envelope))
   out.on('data', (message) => emitted.push(message))
   await jsonToMessages(inputStream, out)
 

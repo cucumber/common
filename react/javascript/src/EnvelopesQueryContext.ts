@@ -8,15 +8,11 @@ export class EnvelopesQuery {
     this.envelopes.push(envelope)
   }
 
-  public find(
-    predicate: (envelope: messages.IEnvelope) => boolean
-  ): messages.IEnvelope {
+  public find(predicate: (envelope: messages.IEnvelope) => boolean): messages.IEnvelope {
     return this.envelopes.find(predicate)
   }
 
-  public filter(
-    predicate: (envelope: messages.IEnvelope) => boolean
-  ): messages.IEnvelope[] {
+  public filter(predicate: (envelope: messages.IEnvelope) => boolean): messages.IEnvelope[] {
     return this.envelopes.filter(predicate)
   }
 }
