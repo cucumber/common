@@ -11,7 +11,10 @@ export default class CucumberHtmlStream extends Transform {
    * @param cssPath
    * @param jsPath
    */
-  constructor(private readonly cssPath: string, private readonly jsPath: string) {
+  constructor(
+    private readonly cssPath: string,
+    private readonly jsPath: string
+  ) {
     super({ objectMode: true })
   }
 

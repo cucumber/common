@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@cucumber/messages": "^14.0.1",
+    "commander": "^7.1.0",
     "protobufjs": "^6.10.2"
   },
   "devDependencies": {

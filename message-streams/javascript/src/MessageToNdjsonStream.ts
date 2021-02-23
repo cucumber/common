@@ -9,11 +9,7 @@ export default class MessageToNdjsonStream extends Transform {
     super({ writableObjectMode: true, readableObjectMode: false })
   }
 
-  public _transform(
-    message: messages.Envelope,
-    encoding: string,
-    callback: TransformCallback
-  ) {
+  public _transform(message: messages.Envelope, encoding: string, callback: TransformCallback) {
     const object = message.toJSON()
 
     // This reviver omits printing fields with empty values

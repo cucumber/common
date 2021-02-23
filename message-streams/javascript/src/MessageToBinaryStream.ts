@@ -9,11 +9,7 @@ export default class MessageToBinaryStream extends Transform {
     super({ writableObjectMode: true, readableObjectMode: false })
   }
 
-  public _transform(
-    message: messages.Envelope,
-    encoding: string,
-    callback: TransformCallback
-  ) {
+  public _transform(message: messages.Envelope, encoding: string, callback: TransformCallback) {
     const chunk = messages.Envelope.encodeDelimited(message).finish()
     this.push(chunk)
     callback()

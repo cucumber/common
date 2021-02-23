@@ -1,14 +1,15 @@
 import DIALECTS from './gherkin-languages.json'
 import Dialect from './Dialect'
-import {NoSuchLanguageException} from './Errors'
-import {messages} from '@cucumber/messages'
+import { NoSuchLanguageException } from './Errors'
+import { messages } from '@cucumber/messages'
 import IToken from './IToken'
-import {TokenType} from './Parser'
+import { TokenType } from './Parser'
+import ITokenMatcher from './ITokenMatcher'
 
 const DIALECT_DICT: { [key: string]: Dialect } = DIALECTS
 const LANGUAGE_PATTERN = /^\s*#\s*language\s*:\s*([a-zA-Z\-_]+)\s*$/
 
-export default class TokenMatcher {
+export default class TokenMatcher implements ITokenMatcher<TokenType> {
   private dialect: Dialect
   private dialectName: string
   private activeDocStringSeparator: string
@@ -18,7 +19,7 @@ export default class TokenMatcher {
     this.reset()
   }
 
-  public changeDialect(newDialectName: string, location?: messages.ILocation) {
+  changeDialect(newDialectName: string, location?: messages.ILocation) {
     const newDialect = DIALECT_DICT[newDialectName]
     if (!newDialect) {
       throw NoSuchLanguageException.create(newDialectName, location)
@@ -28,7 +29,7 @@ export default class TokenMatcher {
     this.dialect = newDialect
   }
 
-  public reset() {
+  reset() {
     if (this.dialectName !== this.defaultDialectName) {
       this.changeDialect(this.defaultDialectName)
     }
@@ -36,7 +37,7 @@ export default class TokenMatcher {
     this.indentToRemove = 0
   }
 
-  public match_TagLine(token: IToken<TokenType>) {
+  match_TagLine(token: IToken<TokenType>) {
     if (token.line.startsWith('@')) {
       this.setTokenMatched(
         token,
@@ -51,7 +52,7 @@ export default class TokenMatcher {
     return false
   }
 
-  public match_FeatureLine(token: IToken<TokenType>) {
+  match_FeatureLine(token: IToken<TokenType>) {
     return this.matchTitleLine(
       token,
       TokenType.FeatureLine,
@@ -59,7 +60,7 @@ export default class TokenMatcher {
     )
   }
 
-  public match_ScenarioLine(token: IToken<TokenType>) {
+  match_ScenarioLine(token: IToken<TokenType>) {
     return (
       this.matchTitleLine(
         token,
@@ -74,7 +75,7 @@ export default class TokenMatcher {
     )
   }
 
-  public match_BackgroundLine(token: IToken<TokenType>) {
+  match_BackgroundLine(token: IToken<TokenType>) {
     return this.matchTitleLine(
       token,
       TokenType.BackgroundLine,
@@ -82,7 +83,7 @@ export default class TokenMatcher {
     )
   }
 
-  public match_ExamplesLine(token: IToken<TokenType>) {
+  match_ExamplesLine(token: IToken<TokenType>) {
     return this.matchTitleLine(
       token,
       TokenType.ExamplesLine,
@@ -90,11 +91,11 @@ export default class TokenMatcher {
     )
   }
 
-  public match_RuleLine(token: IToken<TokenType>) {
+  match_RuleLine(token: IToken<TokenType>) {
     return this.matchTitleLine(token, TokenType.RuleLine, this.dialect.rule)
   }
 
-  public match_TableRow(token: IToken<TokenType>) {
+  match_TableRow(token: IToken<TokenType>) {
     if (token.line.startsWith('|')) {
       // TODO: indent
       this.setTokenMatched(
@@ -110,7 +111,7 @@ export default class TokenMatcher {
     return false
   }
 
-  public match_Empty(token: IToken<TokenType>) {
+  match_Empty(token: IToken<TokenType>) {
     if (token.line.isEmpty) {
       this.setTokenMatched(token, TokenType.Empty, null, null, 0)
       return true
@@ -118,7 +119,7 @@ export default class TokenMatcher {
     return false
   }
 
-  public match_Comment(token: IToken<TokenType>) {
+  match_Comment(token: IToken<TokenType>) {
     if (token.line.startsWith('#')) {
       const text = token.line.getLineText(0) // take the entire line, including leading space
       this.setTokenMatched(token, TokenType.Comment, text, null, 0)
@@ -127,7 +128,7 @@ export default class TokenMatcher {
     return false
   }
 
-  public match_Language(token: IToken<TokenType>) {
+  match_Language(token: IToken<TokenType>) {
     const match = token.line.trimmedLineText.match(LANGUAGE_PATTERN)
     if (match) {
       const newDialectName = match[1]
@@ -139,17 +140,17 @@ export default class TokenMatcher {
     return false
   }
 
-  public match_DocStringSeparator(token: IToken<TokenType>) {
+  match_DocStringSeparator(token: IToken<TokenType>) {
     return this.activeDocStringSeparator == null
       ? // open
-      this._match_DocStringSeparator(token, '"""', true) ||
-      this._match_DocStringSeparator(token, '```', true)
+        this._match_DocStringSeparator(token, '"""', true) ||
+          this._match_DocStringSeparator(token, '```', true)
       : // close
-      this._match_DocStringSeparator(
-        token,
-        this.activeDocStringSeparator,
-        false
-      )
+        this._match_DocStringSeparator(
+          token,
+          this.activeDocStringSeparator,
+          false
+        )
   }
 
   public _match_DocStringSeparator(
@@ -175,7 +176,7 @@ export default class TokenMatcher {
     return false
   }
 
-  public match_EOF(token: IToken<TokenType>) {
+  match_EOF(token: IToken<TokenType>) {
     if (token.isEof) {
       this.setTokenMatched(token, TokenType.EOF)
       return true
@@ -183,7 +184,7 @@ export default class TokenMatcher {
     return false
   }
 
-  public match_StepLine(token: IToken<TokenType>) {
+  match_StepLine(token: IToken<TokenType>) {
     const keywords = []
       .concat(this.dialect.given)
       .concat(this.dialect.when)
@@ -200,7 +201,7 @@ export default class TokenMatcher {
     return false
   }
 
-  public match_Other(token: IToken<TokenType>) {
+  match_Other(token: IToken<TokenType>) {
     const text = token.line.getLineText(this.indentToRemove) // take the entire line, except removing DocString indents
     this.setTokenMatched(
       token,
@@ -212,7 +213,7 @@ export default class TokenMatcher {
     return true
   }
 
-  private matchTitleLine(
+  matchTitleLine(
     token: IToken<TokenType>,
     tokenType: TokenType,
     keywords: readonly string[]
@@ -251,10 +252,10 @@ export default class TokenMatcher {
   }
 
   private unescapeDocString(text: string) {
-    if (this.activeDocStringSeparator === "\"\"\"") {
+    if (this.activeDocStringSeparator === '"""') {
       return text.replace('\\"\\"\\"', '"""')
     }
-    if (this.activeDocStringSeparator === "```") {
+    if (this.activeDocStringSeparator === '```') {
       return text.replace('\\`\\`\\`', '```')
     }
     return text

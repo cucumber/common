@@ -13,11 +13,7 @@ export default class NdjsonToMessageStream<T> extends Transform {
     super({ writableObjectMode: false, readableObjectMode: true })
   }
 
-  public _transform(
-    chunk: string,
-    encoding: string,
-    callback: TransformCallback
-  ): void {
+  public _transform(chunk: string, encoding: string, callback: TransformCallback): void {
     if (this.buffer === undefined) {
       this.buffer = ''
     }

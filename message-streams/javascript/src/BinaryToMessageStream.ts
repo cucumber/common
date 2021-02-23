@@ -7,17 +7,11 @@ import { Reader } from 'protobufjs'
 export default class BinaryToMessageStream<T> extends Transform {
   private buffer = Buffer.alloc(0)
 
-  constructor(
-    private readonly decodeDelimited: (reader: Reader | Uint8Array) => T
-  ) {
+  constructor(private readonly decodeDelimited: (reader: Reader | Uint8Array) => T) {
     super({ writableObjectMode: false, readableObjectMode: true })
   }
 
-  public _transform(
-    chunk: Buffer,
-    encoding: string,
-    callback: TransformCallback
-  ): void {
+  public _transform(chunk: Buffer, encoding: string, callback: TransformCallback): void {
     this.buffer = Buffer.concat([this.buffer, chunk])
     let finished = false
     do {

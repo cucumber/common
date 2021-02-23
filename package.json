@@ -24,8 +24,7 @@
     "clean": "./scripts/npm-each rm -rf dist acceptance && rm -rf node_modules package-lock.json",
     "test": "./scripts/npm-each npm test",
     "upgrade": "npm-check-updates --upgrade && ./scripts/npm-each npm-check-updates --upgrade",
-    "eslint": "eslint --ext ts,tsx --max-warnings 0 packages/*/src packages/*/test",
-    "eslint-fix": "eslint --ext ts,tsx --max-warnings 0 --fix packages/*/src packages/*/test"
+    "eslint-fix": "eslint --ext ts,tsx --max-warnings 0 --fix */javascript/src */javascript/test"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "4.15.2",

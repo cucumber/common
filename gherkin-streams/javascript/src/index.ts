@@ -1,5 +1,3 @@
 import GherkinStreams from './GherkinStreams'
 
-export {
-  GherkinStreams,
-}
+export { GherkinStreams }

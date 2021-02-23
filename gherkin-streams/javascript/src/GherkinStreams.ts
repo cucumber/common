@@ -15,10 +15,7 @@ function fromStream(stream: Readable, options: IGherkinOptions) {
   )
 }
 
-function fromPaths(
-  paths: ReadonlyArray<string>,
-  options: IGherkinOptions
-): Readable {
+function fromPaths(paths: ReadonlyArray<string>, options: IGherkinOptions): Readable {
   const pathsCopy = paths.slice()
   options = makeGherkinOptions(options)
   const combinedMessageStream = new PassThrough({

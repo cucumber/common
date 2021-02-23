@@ -7,9 +7,7 @@ import toArray from './toArray'
 
 describe('NdjsonStream', () => {
   const makeToMessageStream = () =>
-    new NdjsonToMessageStream(
-      messages.Envelope.fromObject.bind(messages.Envelope)
-    )
+    new NdjsonToMessageStream(messages.Envelope.fromObject.bind(messages.Envelope))
   const makeFromMessageStream = () => new MessageToNdjsonStream()
   verifyStreamContract(makeFromMessageStream, makeToMessageStream)
 

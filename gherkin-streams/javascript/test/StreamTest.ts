@@ -1,8 +1,8 @@
 import assert from 'assert'
 import { Readable } from 'stream'
 import { messages } from '@cucumber/messages'
-import {dialects, IGherkinOptions, makeSourceEnvelope } from '@cucumber/gherkin'
-import {GherkinStreams} from "../src";
+import { dialects, IGherkinOptions, makeSourceEnvelope } from '@cucumber/gherkin'
+import { GherkinStreams } from '../src'
 
 const defaultOptions: IGherkinOptions = {}
 
@@ -30,9 +30,7 @@ describe('gherkin', () => {
       'test.feature'
     )
 
-    const envelopes = await streamToArray(
-      GherkinStreams.fromSources([source], defaultOptions)
-    )
+    const envelopes = await streamToArray(GherkinStreams.fromSources([source], defaultOptions))
     assert.strictEqual(envelopes.length, 3)
   })
 
@@ -55,14 +53,9 @@ describe('gherkin', () => {
   })
 })
 
-async function streamToArray(
-  readableStream: Readable
-): Promise<messages.IEnvelope[]> {
+async function streamToArray(readableStream: Readable): Promise<messages.IEnvelope[]> {
   return new Promise<messages.IEnvelope[]>(
-    (
-      resolve: (wrappers: messages.IEnvelope[]) => void,
-      reject: (err: Error) => void
-    ) => {
+    (resolve: (wrappers: messages.IEnvelope[]) => void, reject: (err: Error) => void) => {
       const items: messages.IEnvelope[] = []
       readableStream.on('data', items.push.bind(items))
       readableStream.on('error', (err: Error) => reject(err))

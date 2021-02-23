@@ -11,11 +11,7 @@ export default class SourceMessageStream extends Transform {
     super({ readableObjectMode: true, writableObjectMode: false })
   }
 
-  public _transform(
-    chunk: Buffer,
-    encoding: string,
-    callback: TransformCallback
-  ) {
+  public _transform(chunk: Buffer, encoding: string, callback: TransformCallback) {
     this.buffer = Buffer.concat([this.buffer, chunk])
     callback()
   }

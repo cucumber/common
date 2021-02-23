@@ -4,7 +4,14 @@ import { Query as GherkinQuery } from '@cucumber/gherkin-utils'
 import { IdGenerator, messages } from '@cucumber/messages'
 import { pipeline, Readable, Writable } from 'stream'
 import assert from 'assert'
-import { SupportCode, withFullStackTrace, makeTestPlan, makeTestCase, IncrementClock, IncrementStopwatch } from '@cucumber/fake-cucumber'
+import {
+  SupportCode,
+  withFullStackTrace,
+  makeTestPlan,
+  makeTestCase,
+  IncrementClock,
+  IncrementStopwatch,
+} from '@cucumber/fake-cucumber'
 
 import { promisify } from 'util'
 import Query from '../src/Query'
