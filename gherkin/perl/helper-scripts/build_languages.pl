@@ -52,6 +52,8 @@ print $template;
 __DATA__
 package Gherkin::Generated::Languages;
 
+use strict;
+use warnings;
 use utf8;
 our DATA
 1;
