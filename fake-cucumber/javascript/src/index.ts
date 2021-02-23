@@ -39,6 +39,8 @@ import IncrementStopwatch from './IncrementStopwatch'
 import DateClock from './DateClock'
 import IStopwatch from './IStopwatch'
 import PerfHooksStopwatch from './PerfHooksStopwatch'
+import IncrementClock from './IncrementClock'
+import IncrementStopwatch from './IncrementStopwatch'
 
 export {
   Given,
@@ -76,4 +78,6 @@ export {
   IStopwatch,
   PerfHooksStopwatch,
   EnvelopeListener,
+  IncrementClock,
+  IncrementStopwatch
 }

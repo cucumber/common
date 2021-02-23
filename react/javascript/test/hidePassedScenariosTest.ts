@@ -3,7 +3,7 @@ import { stubObject } from 'ts-sinon'
 import { IdGenerator, messages } from '@cucumber/messages'
 import GherkinDocument = messages.GherkinDocument
 import { Query as CucumberQuery, Query } from '@cucumber/query'
-import GherkinStreams from '@cucumber/gherkin/dist/src/stream/GherkinStreams'
+import { GherkinStreams } from '@cucumber/gherkin-streams'
 import { Query as GherkinQuery } from '@cucumber/gherkin-utils'
 
 import hidePassedScenarios from '../src/hidePassedScenarios'
