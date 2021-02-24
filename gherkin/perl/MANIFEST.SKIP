@@ -2,7 +2,6 @@
 ^gherkin-
 ^gherkin.berp
 ^helper-scripts/
-^testdata/
 ^acceptance/
 ^perl5/
 ^Makefile$
