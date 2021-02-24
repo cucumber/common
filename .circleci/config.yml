@@ -96,7 +96,9 @@ jobs:
   npm-install:
     executor: docker-circleci-node-15
     steps:
-      - npm install
+      - run:
+          name: npm install
+          command: npm install
       - persist_to_workspace:
           root: ~/cucumber
           paths:
