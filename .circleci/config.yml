@@ -195,11 +195,6 @@ jobs:
             sudo npm install --global npm@7
             cd c21e/javascript
             make
-      - persist_to_workspace:
-          root: ~/cucumber
-          paths:
-            - c21e/javascript/dist
-            - c21e/javascript/node_modules
 
   cucumber-expressions-javascript-node-10:
     executor: docker-circleci-node-10
@@ -224,11 +219,6 @@ jobs:
             sudo npm install --global npm@7
             cd cucumber-expressions/javascript
             make
-      - persist_to_workspace:
-          root: ~/cucumber
-          paths:
-            - cucumber-expressions/javascript/dist
-            - cucumber-expressions/javascript/node_modules
 
   messages-javascript:
     executor: docker-circleci-node-12
@@ -244,8 +234,7 @@ jobs:
       - persist_to_workspace:
           root: ~/cucumber
           paths:
-            - messages/javascript/dist
-            - messages/javascript/node_modules
+            - messages/javascript/src
 
   create-meta-javascript:
     executor: docker-circleci-node-12
@@ -258,12 +247,6 @@ jobs:
             sudo npm install --global npm@7
             cd create-meta/javascript
             make
-      - persist_to_workspace:
-          root: ~/cucumber
-          paths:
-            - create-meta/javascript/dist
-            - create-meta/javascript/node_modules
-
 
   gherkin-javascript:
     executor: docker-circleci-node-12
@@ -276,11 +259,6 @@ jobs:
             sudo npm install --global npm@7
             cd gherkin/javascript
             make
-      - persist_to_workspace:
-          root: ~/cucumber
-          paths:
-            - gherkin/javascript/dist
-            - gherkin/javascript/node_modules
 
   gherkin-utils-javascript:
     executor: docker-circleci-node-12
@@ -293,11 +271,6 @@ jobs:
             sudo npm install --global npm@7
             cd gherkin-utils/javascript
             make
-      - persist_to_workspace:
-          root: ~/cucumber
-          paths:
-            - gherkin-utils/javascript/dist
-            - gherkin-utils/javascript/node_modules
 
   tag-expressions-javascript:
     executor: docker-circleci-node-12
@@ -310,11 +283,6 @@ jobs:
             sudo npm install --global npm@7
             cd tag-expressions/javascript
             make
-      - persist_to_workspace:
-          root: ~/cucumber
-          paths:
-            - tag-expressions/javascript/dist
-            - tag-expressions/javascript/node_modules
 
   fake-cucumber-javascript:
     executor: docker-circleci-node-12
@@ -327,11 +295,6 @@ jobs:
             sudo npm install --global npm@7
             cd fake-cucumber/javascript
             make
-      - persist_to_workspace:
-          root: ~/cucumber
-          paths:
-            - fake-cucumber/javascript/dist
-            - fake-cucumber/javascript/node_modules
 
   compatibility-kit-javascript:
     executor: docker-circleci-node-12
@@ -344,11 +307,6 @@ jobs:
             sudo npm install --global npm@7
             cd compatibility-kit/javascript
             make
-      - persist_to_workspace:
-          root: ~/cucumber
-          paths:
-            - compatibility-kit/javascript/dist
-            - compatibility-kit/javascript/node_modules
 
   react-javascript:
     executor: docker-circleci-node-12
@@ -361,11 +319,6 @@ jobs:
             sudo npm install --global npm@7
             cd react/javascript
             make
-      - persist_to_workspace:
-          root: ~/cucumber
-          paths:
-            - react/javascript/dist
-            - react/javascript/node_modules
 
   html-formatter-javascript:
     executor: docker-cucumber-build
@@ -378,10 +331,6 @@ jobs:
             sudo npm install --global npm@7
             cd html-formatter/javascript
             make
-      - persist_to_workspace:
-          root: ~/cucumber
-          paths:
-            - html-formatter/javascript/dist
 
   json-formatter-javascript-testdata:
     executor: docker-circleci-node-12
@@ -438,11 +387,6 @@ jobs:
             sudo npm install --global npm@7
             cd query/javascript
             make
-      - persist_to_workspace:
-          root: ~/cucumber
-          paths:
-            - query/javascript/dist
-            - query/javascript/node_modules
 
 ### Ruby
 
