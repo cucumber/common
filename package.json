@@ -21,10 +21,11 @@
   ],
   "scripts": {
     "build": "tsc --build tsconfig.build.json",
-    "clean": "./scripts/npm-each rm -rf dist acceptance && rm -rf node_modules package-lock.json",
+    "clean": "./scripts/npm-each rm -rf dist acceptance && rm -rf node_modules",
     "test": "./scripts/npm-each npm test",
     "upgrade": "npm-check-updates --upgrade && ./scripts/npm-each npm-check-updates --upgrade",
-    "eslint-fix": "eslint --ext ts,tsx --max-warnings 0 --fix */javascript"
+    "eslint-fix": "eslint --ext ts,tsx --max-warnings 0 --fix */javascript",
+    "prepare": "./scripts/npm-each npm run prepare --if-present"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "4.15.2",
