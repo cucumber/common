@@ -33,7 +33,7 @@ executors:
     docker:
       - image: circleci/node:12
     working_directory: ~/cucumber
-  docker-cirecleci-node-15:
+  docker-circleci-node-15:
     docker:
       - image: circleci/node:15
     working_directory: ~/cucumber
