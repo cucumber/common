@@ -99,8 +99,8 @@ jobs:
       - attach_workspace:
           at: "~/cucumber"
       - run:
-          name: npm install
-          command: npm install
+          name: npm ci
+          command: npm ci
       - persist_to_workspace:
           root: ~/cucumber
           paths:
@@ -192,6 +192,7 @@ jobs:
       - run:
           name: c21e/javascript
           command: |
+            sudo npm install --global npm@7
             cd c21e/javascript
             make
       - persist_to_workspace:
@@ -237,6 +238,7 @@ jobs:
       - run:
           name: messages/javascript
           command: |
+            sudo npm install --global npm@7
             cd messages/javascript
             make
       - persist_to_workspace:
@@ -253,6 +255,7 @@ jobs:
       - run:
           name: create-meta/javascript
           command: |
+            sudo npm install --global npm@7
             cd create-meta/javascript
             make
       - persist_to_workspace:
@@ -270,6 +273,7 @@ jobs:
       - run:
           name: gherkin/javascript
           command: |
+            sudo npm install --global npm@7
             cd gherkin/javascript
             make
       - persist_to_workspace:
@@ -286,6 +290,7 @@ jobs:
       - run:
           name: gherkin-utils/javascript
           command: |
+            sudo npm install --global npm@7
             cd gherkin-utils/javascript
             make
       - persist_to_workspace:
@@ -302,6 +307,7 @@ jobs:
       - run:
           name: tag-expressions/javascript
           command: |
+            sudo npm install --global npm@7
             cd tag-expressions/javascript
             make
       - persist_to_workspace:
@@ -318,6 +324,7 @@ jobs:
       - run:
           name: fake-cucumber/javascript
           command: |
+            sudo npm install --global npm@7
             cd fake-cucumber/javascript
             make
       - persist_to_workspace:
@@ -334,6 +341,7 @@ jobs:
       - run:
           name: compatibility-kit/javascript
           command: |
+            sudo npm install --global npm@7
             cd compatibility-kit/javascript
             make
       - persist_to_workspace:
@@ -350,6 +358,7 @@ jobs:
       - run:
           name: react/javascript
           command: |
+            sudo npm install --global npm@7
             cd react/javascript
             make
       - persist_to_workspace:
@@ -366,6 +375,7 @@ jobs:
       - run:
           name: html-formatter/javascript
           command: |
+            sudo npm install --global npm@7
             cd html-formatter/javascript
             make
       - persist_to_workspace:
@@ -381,6 +391,7 @@ jobs:
       - run:
           name: json-formatter/javascript-testdata
           command: |
+            sudo npm install --global npm@7
             cd json-formatter/javascript-testdata
             make
       - persist_to_workspace:
@@ -396,6 +407,7 @@ jobs:
       - run:
           name: json-to-messages/javascript
           command: |
+            sudo npm install --global npm@7
             cd json-to-messages/javascript
             make
 
@@ -407,6 +419,7 @@ jobs:
       - run:
           name: json-to-messages/javascript-testdata
           command: |
+            sudo npm install --global npm@7
             cd json-to-messages/javascript-testdata
             make
       - persist_to_workspace:
@@ -422,6 +435,7 @@ jobs:
       - run:
           name: query/javascript
           command: |
+            sudo npm install --global npm@7
             cd query/javascript
             make
       - persist_to_workspace:
@@ -910,7 +924,7 @@ workflows:
 
       - c21e-javascript:
           requires:
-            - checkout
+            - npm-install
       - cucumber-expressions-javascript-node-10:
           requires:
             - npm-install
@@ -919,7 +933,7 @@ workflows:
             - npm-install
       - messages-javascript:
           requires:
-            - checkout
+            - npm-install
       - create-meta-javascript:
           requires:
             - messages-javascript
@@ -932,7 +946,7 @@ workflows:
             - messages-javascript
       - tag-expressions-javascript:
           requires:
-            - checkout
+            - npm-install
       - fake-cucumber-javascript:
           requires:
             - messages-javascript
@@ -968,11 +982,11 @@ workflows:
             - gherkin-utils-javascript
       - json-to-messages-javascript-testdata:
           requires:
-            - checkout
+            - npm-install
             - json-to-messages-ruby-testdata
       - json-to-messages-javascript:
           requires:
-            - checkout
+            - npm-install
             - json-to-messages-ruby-testdata
             - json-to-messages-java-testdata
             - json-to-messages-python-testdata
