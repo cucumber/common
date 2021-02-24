@@ -208,6 +208,7 @@ jobs:
       - run:
           name: cucumber-expressions/javascript
           command: |
+            sudo npm install --global npm@7
             cd cucumber-expressions/javascript
             make
 
@@ -219,6 +220,7 @@ jobs:
       - run:
           name: cucumber-expressions/javascript
           command: |
+            sudo npm install --global npm@7
             cd cucumber-expressions/javascript
             make
       - persist_to_workspace:
