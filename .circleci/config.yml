@@ -33,6 +33,11 @@ executors:
     docker:
       - image: circleci/node:12
     working_directory: ~/cucumber
+  docker-cirecleci-node-15:
+    docker:
+      - image: circleci/node:15
+    working_directory: ~/cucumber
+
   # Ruby
   docker-circleci-ruby-23:
     docker:
@@ -83,6 +88,15 @@ jobs:
     executor: docker-circleci-ruby-26
     steps:
       - checkout
+      - persist_to_workspace:
+          root: ~/cucumber
+          paths:
+            - "*"
+
+  npm-install:
+    executor: docker-circleci-node-15
+    steps:
+      - npm install
       - persist_to_workspace:
           root: ~/cucumber
           paths:
@@ -858,6 +872,7 @@ workflows:
   monorepo-parallel:
     jobs:
       - checkout
+
 ### Go
 
       - cucumber-expressions-go:
@@ -883,15 +898,19 @@ workflows:
 
 ### JavaScript
 
+      - npm-install:
+          requires:
+            - checkout
+
       - c21e-javascript:
           requires:
             - checkout
       - cucumber-expressions-javascript-node-10:
           requires:
-            - checkout
+            - npm-install
       - cucumber-expressions-javascript-node-12:
           requires:
-            - checkout
+            - npm-install
       - messages-javascript:
           requires:
             - checkout

@@ -6,40 +6,19 @@ PRIVATE = $(shell node -e "console.log(require('./package.json').private)")
 NPM ?= npm
 IS_TESTDATA = $(findstring -testdata,${CURDIR})
 
-default: .tested .built .linted
+default: .tested
 .PHONY: default
 
 .codegen:
 	touch $@
 
-.built: .codegen $(TYPESCRIPT_SOURCE_FILES)
-	$(NPM) run build
-	touch $@
-
 .tested: .tested-npm
 
-.tested-npm: .built $(TYPESCRIPT_SOURCE_FILES)
-	TS_NODE_TRANSPILE_ONLY=1 $(NPM) run test
+.tested-npm: $(TYPESCRIPT_SOURCE_FILES)
+	$(NPM) run test
 	touch $@
 
-.linted: $(TYPESCRIPT_SOURCE_FILES) .built
-	$(NPM) run lint-fix
-	touch $@
-
-update-dependencies:
-	npx npm-check-updates --upgrade
-.PHONY: update-dependencies
-
-remove-local-dependencies:
-ifeq ($(IS_TESTDATA),-testdata)
-	# no-op
-else
-	cat package.json | sed 's/"@cucumber\/\(.*\)": "file:..\/..\/.*"/"@cucumber\/\1": "^0.0.0"/' > package.json.tmp
-	mv package.json.tmp package.json
-endif
-.PHONY: remove-local-dependencies
-
-pre-release: remove-local-dependencies update-version update-dependencies clean default
+pre-release: update-version update-dependencies clean default
 .PHONY: pre-release
 
 update-version:
@@ -68,17 +47,11 @@ endif
 .PHONY: publish
 
 post-release:
-ifeq ($(IS_TESTDATA),-testdata)
-	# no-op
-else
-	cat package.json | sed 's/"@cucumber\/\(.*\)": .*"/"@cucumber\/\1": "file:..\/..\/\1\/javascript"/' > package.json.tmp
-	mv package.json.tmp package.json
-endif
 .PHONY: post-release
 
 clean: clean-javascript
 .PHONY: clean
 
 clean-javascript:
-	rm -rf .deps .codegen .built* .tested* .linted package-lock.json yarn.lock node_modules coverage dist acceptance
+	rm -rf .deps .codegen .tested* node_modules coverage dist acceptance
 .PHONY: clean-javascript

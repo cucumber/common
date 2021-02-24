@@ -1,26 +1,3 @@
 {
-  "compilerOptions": {
-    "declaration": true,
-    "target": "es5",
-    "lib": [
-      "es2019",
-      "dom"
-    ],
-    "sourceMap": true,
-    "allowJs": false,
-    "jsx": "react",
-    "resolveJsonModule": true,
-    "module": "commonjs",
-    "esModuleInterop": true,
-    "noImplicitAny": true,
-    "moduleResolution": "node",
-    "outDir": "dist",
-    "downlevelIteration": true,
-    "skipLibCheck": true
-  },
-  "include": [
-    "src/**/*",
-    "test/**/*",
-    "features/**/*"
-  ]
+  "extends": "../../tsconfig.json"
 }
