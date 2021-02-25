@@ -7,7 +7,8 @@
   "bin": {},
   "scripts": {
     "test": "mocha",
-    "prepublishOnly": "tsc"
+    "prepublishOnly": "tsc",
+    "build": "tsc --build tsconfig.build.json"
   },
   "repository": {
     "type": "git",
