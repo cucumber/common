@@ -14,7 +14,7 @@ CIS               = $(patsubst ../testdata/%.txt,acceptance/%.txt.json,$(ENVIRON
 	touch $@
 
 .built: .codegen $(TYPESCRIPT_SOURCE_FILES)
-	$(NPM) run build
+	cd ../.. && $(NPM) run build
 	touch $@
 
 acceptance/%.txt.json: ../testdata/%.txt ../testdata/%.txt.json
