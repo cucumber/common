@@ -231,10 +231,6 @@ jobs:
             sudo npm install --global npm@7
             cd messages/javascript
             make
-      - persist_to_workspace:
-          root: ~/cucumber
-          paths:
-            - messages/javascript/src
 
   create-meta-javascript:
     executor: docker-circleci-node-12
