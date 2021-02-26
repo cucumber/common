@@ -4,6 +4,9 @@
   "description": "Streams for reading Gherkin parser output",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
+  "bin": {
+    "gherkin-javascript": "bin/gherkin"
+  },
   "repository": {
     "type": "git",
     "url": "git://github.com/cucumber/cucumber.git"
