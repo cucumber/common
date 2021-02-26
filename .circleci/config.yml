@@ -930,15 +930,10 @@ workflows:
             - npm-install
       - fake-cucumber-javascript:
           requires:
-            - messages-javascript
-            - create-meta-javascript
-            - gherkin-javascript
-            - gherkin-utils-javascript
-            - cucumber-expressions-javascript-node-12
-            - tag-expressions-javascript
+            - npm-build
       - compatibility-kit-javascript:
           requires:
-            - fake-cucumber-javascript
+            - npm-build
       - react-javascript:
           requires:
             - messages-javascript
