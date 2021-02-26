@@ -8,7 +8,7 @@ PICKLES      = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.pickl
 SOURCES      = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.source.ndjson,$(GOOD_FEATURE_FILES))
 ERRORS       = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.errors.ndjson,$(BAD_FEATURE_FILES))
 
-GHERKIN = ../../gherkin-streams/javascript/bin/gherkin
+GHERKIN = scripts/gherkin.sh
 
 .DELETE_ON_ERROR:
 
