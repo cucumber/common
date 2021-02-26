@@ -93,19 +93,6 @@ jobs:
           paths:
             - "*"
 
-  npm-install:
-    executor: docker-circleci-node-15
-    steps:
-      - attach_workspace:
-          at: "~/cucumber"
-      - run:
-          name: npm ci
-          command: npm ci
-      - persist_to_workspace:
-          root: ~/cucumber
-          paths:
-            - "*"
-
 ### Go
 
   cucumber-expressions-go:
@@ -183,6 +170,19 @@ jobs:
             - json-formatter/go/dist
 
 ### JavaScript
+
+  npm-install:
+    executor: docker-circleci-node-15
+    steps:
+      - attach_workspace:
+          at: "~/cucumber"
+      - run:
+          name: npm ci
+          command: npm ci
+      - persist_to_workspace:
+          root: ~/cucumber
+          paths:
+            - "*"
 
   c21e-javascript:
     executor: docker-circleci-node-12

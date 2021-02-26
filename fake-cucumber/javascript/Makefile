@@ -5,6 +5,6 @@ MESSAGES = $(patsubst features/%.feature,features/%.ndjson,$(FEATURE_FILES))
 
 .tested: $(MESSAGES)
 
-features/%.ndjson: features/%.feature .built
+features/%.ndjson: features/%.feature
 	mkdir -p $(@D)
 	./bin/fake-cucumber --format ndjson $< > $@
