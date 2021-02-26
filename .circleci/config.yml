@@ -196,36 +196,6 @@ jobs:
             cd c21e/javascript
             make
 
-  npm-build-node-10:
-    executor: docker-circleci-node-10
-    steps:
-      - attach_workspace:
-          at: "~/cucumber"
-      - run:
-          name: npm run build
-          command: |
-            sudo npm install --global npm@7
-            npm run build
-      - persist_to_workspace:
-          root: ~/cucumber
-          paths:
-            - "*"
-
-  npm-build:
-    executor: docker-circleci-node-12
-    steps:
-      - attach_workspace:
-          at: "~/cucumber"
-      - run:
-          name: npm run build
-          command: |
-            sudo npm install --global npm@7
-            npm run build
-      - persist_to_workspace:
-          root: ~/cucumber
-          paths:
-            - "*"
-
   cucumber-expressions-javascript-node-10:
     executor: docker-circleci-node-10
     steps:
@@ -896,14 +866,6 @@ workflows:
           requires:
             - checkout
 
-      - npm-build-node-10:
-          requires:
-            - npm-install
-
-      - npm-build:
-          requires:
-            - npm-install
-
       - c21e-javascript:
           requires:
             - npm-install
@@ -918,22 +880,22 @@ workflows:
             - npm-install
       - create-meta-javascript:
           requires:
-            - npm-build
+            - npm-install
       - gherkin-javascript:
           requires:
             - messages-javascript
       - gherkin-utils-javascript:
           requires:
-            - npm-build
+            - npm-install
       - tag-expressions-javascript:
           requires:
             - npm-install
       - fake-cucumber-javascript:
           requires:
-            - npm-build
+            - npm-install
       - compatibility-kit-javascript:
           requires:
-            - npm-build
+            - npm-install
       - react-javascript:
           requires:
             - messages-javascript
