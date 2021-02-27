@@ -127,10 +127,6 @@ jobs:
           command: |
             cd gherkin/go
             make
-      - persist_to_workspace:
-          root: ~/cucumber
-          paths:
-            - gherkin/go/dist
 
   tag-expressions-go:
     executor: docker-circleci-golang
@@ -164,10 +160,6 @@ jobs:
           command: |
             cd json-formatter/go
             make
-      - persist_to_workspace:
-          root: ~/cucumber
-          paths:
-            - json-formatter/go/dist
 
 ### JavaScript
 
@@ -966,9 +958,6 @@ workflows:
       - json-formatter-ruby-testdata:
           requires:
             - checkout
-      # - compatibility-kit-ruby:
-      #     requires:
-      #       - compatibility-kit-javascript
       - html-formatter-ruby:
           requires:
             - html-formatter-javascript
