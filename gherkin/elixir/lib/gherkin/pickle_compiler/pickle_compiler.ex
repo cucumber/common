@@ -59,13 +59,14 @@ defmodule CucumberGherkin.PickleCompiler do
 
   defp compile_rule(meta_info, %RuleMessage{} = r) do
     resetted_meta_info = %{meta_info | rule_backgr_steps: meta_info.feature_backgr_steps}
+    rule_tags = meta_info.feature_tags ++ r.tags
 
     Enum.reduce(r.children, resetted_meta_info, fn
       %FeatureChildMessage{value: {:background, bg}}, m_acc ->
         %{m_acc | rule_backgr_steps: m_acc.rule_backgr_steps ++ bg.steps}
 
       %FeatureChildMessage{value: {:scenario, s}}, m_acc ->
-        %{m_acc | feature_tags: m_acc.feature_tags ++ r.tags} |> compile_scenario(s, :rule_backgr_steps)
+        %{m_acc | feature_tags: rule_tags} |> compile_scenario(s, :rule_backgr_steps)
     end)
   end
 
