@@ -170,7 +170,12 @@ jobs:
           at: "~/cucumber"
       - run:
           name: npm ci
-          command: npm ci
+          # We run `npm run build` (`tsc`) as well because it is needed to
+          # make storybook work. Our storybook setup is not (yet) able to
+          # pick up .ts files - all code needs to be transpiled first.
+          command: |
+            npm ci
+            npm run build
       - persist_to_workspace:
           root: ~/cucumber
           paths:
