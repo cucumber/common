@@ -2,6 +2,8 @@
 requires "perl", "5.10.1";
 requires "Cpanel::JSON::XS";
 requires "Class::XSAccessor";
+requires "Data::UUID";
+requires "Getopt::Long", "2.36";
 requires "IO::Scalar";
 
 on 'test' => sub {
@@ -12,8 +14,5 @@ on 'test' => sub {
 };
 
 on 'develop' => sub {
-    requires "Dist::Zilla";
-    requires "Dist::Zilla::Plugin::Hook";
-    requires "Dist::Zilla::Plugin::Prereqs::FromCPANfile";
-    requires "Dist::Zilla::Plugin::Test::UseAllModules";
+   # there are no specific development dependencies...
 };
