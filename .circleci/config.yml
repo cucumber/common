@@ -496,10 +496,10 @@ jobs:
           command: |
             cd json-formatter/ruby-testdata
             make
-      - persist_to_workspace:
-          root: ~/cucumber
-          paths:
-            - json-formatter/ruby-testdata
+      # - persist_to_workspace:
+      #     root: ~/cucumber
+      #     paths:
+      #       - json-formatter/ruby-testdata
 
   compatibility-kit-ruby:
     executor: docker-cucumber-build
