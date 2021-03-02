@@ -17,8 +17,8 @@ features/unknown-parameter-type/unknown-parameter-type.ndjson:
 	mkdir -p $(@D)
 	echo "" > $@
 
-features/%.ndjson: features/%.feature features/%.ts .deps
-	./node_modules/@cucumber/fake-cucumber/bin/fake-cucumber \
+features/%.ndjson: features/%.feature features/%.ts
+	../../fake-cucumber/javascript/scripts/fake-cucumber.sh \
 		--format ndjson \
 		--predictable-ids \
 		$< > $@

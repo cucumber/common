@@ -15,6 +15,7 @@
     "fake-cucumber/javascript",
     "query/javascript",
     "compatibility-kit/javascript",
+    "json-formatter/javascript-testdata",
     "react/javascript",
     "html-formatter/javascript",
     "json-to-messages/javascript"

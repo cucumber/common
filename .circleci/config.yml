@@ -293,7 +293,7 @@ jobs:
             make
 
   html-formatter-javascript:
-    executor: docker-cucumber-build
+    executor: docker-circleci-node-15
     steps:
       - attach_workspace:
           at: "~/cucumber"
