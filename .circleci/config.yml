@@ -84,10 +84,18 @@ jobs:
           command: |
             make clean && make ci
 
-  checkout:
-    executor: docker-circleci-ruby-26
+  prepare-parallel:
+    executor: docker-cucumber-build
     steps:
       - checkout
+      - run:
+          name: npm ci
+          # We run `npm run build` (`tsc`) as well because it is needed to
+          # make storybook work. Our storybook setup is not (yet) able to
+          # pick up .ts files - all code needs to be transpiled first.
+          command: |
+            npm ci
+            npm run build
       - persist_to_workspace:
           root: ~/cucumber
           paths:
@@ -162,24 +170,6 @@ jobs:
             make
 
 ### JavaScript
-
-  npm-install:
-    executor: docker-circleci-node-15
-    steps:
-      - attach_workspace:
-          at: "~/cucumber"
-      - run:
-          name: npm ci
-          # We run `npm run build` (`tsc`) as well because it is needed to
-          # make storybook work. Our storybook setup is not (yet) able to
-          # pick up .ts files - all code needs to be transpiled first.
-          command: |
-            npm ci
-            npm run build
-      - persist_to_workspace:
-          root: ~/cucumber
-          paths:
-            - "*"
 
   c21e-javascript:
     executor: docker-circleci-node-12
@@ -496,10 +486,10 @@ jobs:
           command: |
             cd json-formatter/ruby-testdata
             make
-      # - persist_to_workspace:
-      #     root: ~/cucumber
-      #     paths:
-      #       - json-formatter/ruby-testdata
+      - persist_to_workspace:
+          root: ~/cucumber
+          paths:
+            - json-formatter/ruby-testdata
 
   compatibility-kit-ruby:
     executor: docker-cucumber-build
@@ -548,11 +538,11 @@ jobs:
           command: |
             cd json-to-messages/ruby-testdata
             make
-      # - persist_to_workspace:
-      #     root: ~/cucumber
-      #     paths:
-      #       - json-to-messages/ruby-testdata/features
-      #       - json-to-messages/ruby-testdata/acceptance
+      - persist_to_workspace:
+          root: ~/cucumber
+          paths:
+            - json-to-messages/ruby-testdata/features
+            - json-to-messages/ruby-testdata/acceptance
 
 ### Java
 
@@ -828,22 +818,22 @@ workflows:
 
   monorepo-parallel:
     jobs:
-      - checkout
+      - prepare-parallel
 
 ### Go
 
       - cucumber-expressions-go:
           requires:
-            - checkout
+            - prepare-parallel
       - messages-go:
           requires:
-            - checkout
+            - prepare-parallel
       - gherkin-go:
           requires:
             - messages-go
       - tag-expressions-go:
           requires:
-            - checkout
+            - prepare-parallel
       - demo-formatter-go:
           requires:
             - messages-go
@@ -855,40 +845,36 @@ workflows:
 
 ### JavaScript
 
-      - npm-install:
-          requires:
-            - checkout
-
       - c21e-javascript:
           requires:
-            - npm-install
+            - prepare-parallel
       - cucumber-expressions-javascript-node-10:
           requires:
-            - npm-install
+            - prepare-parallel
       - cucumber-expressions-javascript-node-12:
           requires:
-            - npm-install
+            - prepare-parallel
       - messages-javascript:
           requires:
-            - npm-install
+            - prepare-parallel
       - create-meta-javascript:
           requires:
-            - npm-install
+            - prepare-parallel
       - gherkin-javascript:
           requires:
             - messages-javascript
       - gherkin-utils-javascript:
           requires:
-            - npm-install
+            - prepare-parallel
       - tag-expressions-javascript:
           requires:
-            - npm-install
+            - prepare-parallel
       - fake-cucumber-javascript:
           requires:
-            - npm-install
+            - prepare-parallel
       - compatibility-kit-javascript:
           requires:
-            - npm-install
+            - prepare-parallel
       - react-javascript:
           requires:
             - messages-javascript
@@ -913,11 +899,11 @@ workflows:
             - gherkin-utils-javascript
       - json-to-messages-javascript-testdata:
           requires:
-            - npm-install
+            - prepare-parallel
             - json-to-messages-ruby-testdata
       - json-to-messages-javascript:
           requires:
-            - npm-install
+            - prepare-parallel
             - json-to-messages-ruby-testdata
             - json-to-messages-java-testdata
             - json-to-messages-python-testdata
@@ -932,13 +918,13 @@ workflows:
 
       - c21e-ruby:
           requires:
-            - checkout
+            - prepare-parallel
       - cucumber-expressions-ruby:
           requires:
-            - checkout
+            - prepare-parallel
       - messages-ruby:
           requires:
-            - checkout
+            - prepare-parallel
       - create-meta-ruby:
           requires:
             - messages-ruby
@@ -956,13 +942,13 @@ workflows:
             - messages-ruby
       - tag-expressions-ruby:
           requires:
-            - checkout
+            - prepare-parallel
       - demo-formatter-ruby:
           requires:
             - messages-ruby
       - json-formatter-ruby-testdata:
           requires:
-            - checkout
+            - prepare-parallel
       - html-formatter-ruby:
           requires:
             - html-formatter-javascript
@@ -970,19 +956,19 @@ workflows:
             - compatibility-kit-javascript
       - json-to-messages-ruby-testdata:
           requires:
-            - checkout
+            - prepare-parallel
 
 ### Java
 
       - c21e-java:
           requires:
-            - checkout
+            - prepare-parallel
       - cucumber-expressions-java:
           requires:
-            - checkout
+            - prepare-parallel
       - messages-java:
           requires:
-            - checkout
+            - prepare-parallel
       - create-meta-java:
           requires:
             - messages-java
@@ -991,13 +977,13 @@ workflows:
             - messages-java
       - tag-expressions-java:
           requires:
-            - checkout
+            - prepare-parallel
       - datatable-java:
           requires:
-            - checkout
+            - prepare-parallel
       - config-java:
           requires:
-            - checkout
+            - prepare-parallel
       - html-formatter-java:
           requires:
             - html-formatter-javascript
@@ -1005,24 +991,24 @@ workflows:
             - compatibility-kit-javascript
       - json-to-messages-java-testdata:
           requires:
-            - checkout
+            - prepare-parallel
             - json-to-messages-ruby-testdata
 
 ### .NET
 
       - messages-dotnet:
           requires:
-            - checkout
+            - prepare-parallel
 
 ## Python
 
       - tag-expressions-python:
           requires:
-            - checkout
+            - prepare-parallel
 
       - json-to-messages-python-testdata:
           requires:
-            - checkout
+            - prepare-parallel
             - json-to-messages-ruby-testdata
 
 
@@ -1030,14 +1016,14 @@ workflows:
 
       - gherkin-c:
           requires:
-            - checkout
+            - prepare-parallel
 
 ### Elixir
 
       - messages-elixir:
           requires:
-            - checkout
+            - prepare-parallel
 
       - gherkin-elixir:
           requires:
-            - checkout
+            - prepare-parallel
