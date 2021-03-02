@@ -11,7 +11,16 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Added
 
+* [Perl] New APIs to spawn message streams: `Gherkin->from_paths` and
+    `Gherkin->from_source`
+    ([#1359](https://github.com/cucumber/cucumber/pull/1359))
+
 ### Changed
+
+* [Perl] Release engineering changes to make it non-interactive, update
+    CHANGELOG.md correctly
+    ([#1350](https://github.com/cucumber/cucumber/pull/1350))
+    [ehuelsmann]
 
 ### Deprecated
 
