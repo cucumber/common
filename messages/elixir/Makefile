@@ -4,6 +4,7 @@ include default.mk
 	touch .deps
 
 .compile_messages: .setup_mix_and_get_dependencies
+	mkdir -p lib/cucumber_messages/generated
 	MIX_ENV=prod mix protox.generate --multiple-files --output-path=lib/cucumber_messages/generated --namespace=CucumberMessages messages.proto
 	touch .compile_messages
 
