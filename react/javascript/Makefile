@@ -21,7 +21,7 @@ acceptance/%.ts: ../../compatibility-kit/javascript/features/%.ndjson
 .tested: .tested-storybook
 
 .tested-storybook: $(TYPESCRIPT_SOURCE_FILES)
-	../../node_modules/.bin/build-storybook
+	node_modules/.bin/build-storybook
 	touch $@
 
 clean:
