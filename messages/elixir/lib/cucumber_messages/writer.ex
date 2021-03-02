@@ -2,11 +2,11 @@ defmodule CucumberMessages.Writer do
   @moduledoc false
   # This is a temporary writer up until Protox supports json encoding
 
-  alias Io.Cucumber.Messages.Envelope
-  alias Io.Cucumber.Messages.Location
-  alias Io.Cucumber.Messages.Pickle.PickleStep
-  alias Io.Cucumber.Messages.GherkinDocument.Feature.FeatureChild
-  alias Io.Cucumber.Messages.PickleStepArgument.{PickleDocString, PickleTable}
+  alias CucumberMessages.Io.Cucumber.Messages.Envelope
+  alias CucumberMessages.Io.Cucumber.Messages.Location
+  alias CucumberMessages.Io.Cucumber.Messages.Pickle.PickleStep
+  alias CucumberMessages.Io.Cucumber.Messages.GherkinDocument.Feature.FeatureChild
+  alias CucumberMessages.Io.Cucumber.Messages.PickleStepArgument.{PickleDocString, PickleTable}
 
   defp unstruct(%Location{column: 0} = map, acc) do
     map |> Map.from_struct() |> Map.delete(:column) |> unstruct(acc)
