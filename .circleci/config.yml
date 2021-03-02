@@ -548,11 +548,11 @@ jobs:
           command: |
             cd json-to-messages/ruby-testdata
             make
-      - persist_to_workspace:
-          root: ~/cucumber
-          paths:
-            - json-to-messages/ruby-testdata/features
-            - json-to-messages/ruby-testdata/acceptance
+      # - persist_to_workspace:
+      #     root: ~/cucumber
+      #     paths:
+      #       - json-to-messages/ruby-testdata/features
+      #       - json-to-messages/ruby-testdata/acceptance
 
 ### Java
 
