@@ -172,18 +172,6 @@ jobs:
 
 ### JavaScript
 
-  c21e-javascript:
-    executor: docker-circleci-node-12
-    steps:
-      - attach_workspace:
-          at: "~/cucumber"
-      - run:
-          name: c21e/javascript
-          command: |
-            sudo npm install --global npm@7
-            cd c21e/javascript
-            make
-
   cucumber-expressions-javascript-node-10:
     executor: docker-circleci-node-10
     steps:
@@ -374,17 +362,6 @@ jobs:
 
 ### Ruby
 
-  c21e-ruby:
-    executor: docker-circleci-ruby-26
-    steps:
-      - attach_workspace:
-          at: "~/cucumber"
-      - run:
-          name: c21e/ruby
-          command: |
-            cd c21e/ruby
-            make
-
   cucumber-expressions-ruby:
     executor: docker-circleci-ruby-26
     steps:
@@ -546,23 +523,6 @@ jobs:
             - json-to-messages/ruby-testdata/acceptance
 
 ### Java
-
-  c21e-java:
-    executor: docker-circleci-openjdk
-    steps:
-      - attach_workspace:
-          at: "~/cucumber"
-      - attach_workspace:
-          at: "~/.m2/repository"
-      - run:
-          name: c21e/java
-          command: |
-            cd c21e/java
-            make
-      - persist_to_workspace:
-          root: "~/.m2/repository"
-          paths:
-            - "io/cucumber/c21e"
 
   cucumber-expressions-java:
     executor: docker-circleci-openjdk
@@ -846,9 +806,6 @@ workflows:
 
 ### JavaScript
 
-      - c21e-javascript:
-          requires:
-            - prepare-parallel
       - cucumber-expressions-javascript-node-10:
           requires:
             - prepare-parallel
@@ -917,9 +874,6 @@ workflows:
 
 ### Ruby
 
-      - c21e-ruby:
-          requires:
-            - prepare-parallel
       - cucumber-expressions-ruby:
           requires:
             - prepare-parallel
@@ -961,9 +915,6 @@ workflows:
 
 ### Java
 
-      - c21e-java:
-          requires:
-            - prepare-parallel
       - cucumber-expressions-java:
           requires:
             - prepare-parallel

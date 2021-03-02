@@ -1,6 +1,5 @@
 SHELL := /usr/bin/env bash
-PACKAGES ?= c21e \
-	messages \
+PACKAGES ?= messages \
 	gherkin \
 	gherkin-utils \
 	cucumber-expressions \
