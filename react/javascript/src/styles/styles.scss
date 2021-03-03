@@ -13,7 +13,6 @@ $statusColors:
 
 $keywordColor: #000080;
 $parameterColor: #297bde;
-$docStringColor: #008080;
 $tagColor: #808000;
 
 @mixin padding-table-cell {
@@ -172,27 +171,6 @@ $tagColor: #808000;
       border-width: 2px;
       border-color: $keywordColor;
       color: $parameterColor;
-    }
-  }
-
-  .cucumber-docstring {
-    color: $docStringColor;
-    overflow-x: auto;
-
-    &::before,
-    &::after {
-      content: '"""';
-      display: block;
-      // adjust so quote marks sit consistent distance from content at both ends
-      transform: translateY(0.25em);
-    }
-
-    &::before {
-      padding-bottom: 0.25em;
-    }
-
-    &::after {
-      padding-top: 0.25em;
     }
   }
 
