@@ -33,7 +33,7 @@
         <dependency>
             <groupId>com.google.protobuf</groupId>
             <artifactId>protobuf-java-util</artifactId>
-            <version>3.15.3</version>
+            <version>3.15.4</version>
         </dependency>
 
         <dependency>
