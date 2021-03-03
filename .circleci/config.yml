@@ -82,7 +82,11 @@ jobs:
       - run:
           name: everything
           command: |
-            make clean && make ci
+            make clean 
+            npm install --global npm@7
+            npm ci
+            npm run build
+            make ci
 
   prepare-parallel:
     executor: docker-circleci-node-15
