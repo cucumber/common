@@ -35,7 +35,7 @@
                                         "type": "string"
                                     }
                                 },
-                                "additionalProperties": true,
+                                "additionalProperties": false,
                                 "type": "object"
                             },
                             "data_table": {
@@ -52,23 +52,23 @@
                                                                 "type": "string"
                                                             }
                                                         },
-                                                        "additionalProperties": true,
+                                                        "additionalProperties": false,
                                                         "type": "object"
                                                     },
                                                     "type": "array"
                                                 }
                                             },
-                                            "additionalProperties": true,
+                                            "additionalProperties": false,
                                             "type": "object"
                                         },
                                         "type": "array"
                                     }
                                 },
-                                "additionalProperties": true,
+                                "additionalProperties": false,
                                 "type": "object"
                             }
                         },
-                        "additionalProperties": true,
+                        "additionalProperties": false,
                         "type": "object",
                         "description": "An optional argument"
                     },
@@ -84,7 +84,7 @@
                         "description": "References the IDs of the source of the step. For Gherkin, this can be\n the ID of a Step, and possibly also the ID of a TableRow"
                     }
                 },
-                "additionalProperties": true,
+                "additionalProperties": false,
                 "type": "object",
                 "description": "*\n An executable step"
             },
@@ -103,7 +103,7 @@
                         "description": "Points to the AST node this was created from"
                     }
                 },
-                "additionalProperties": true,
+                "additionalProperties": false,
                 "type": "object",
                 "description": "*\n A tag"
             },
@@ -118,7 +118,7 @@
             "description": "*\n Points to the AST node locations of the pickle. The last one represents the unique\n id of the pickle. A pickle constructed from `Examples` will have the first\n id originating from the `Scenario` AST node, and the second from the `TableRow` AST node."
         }
     },
-    "additionalProperties": true,
+    "additionalProperties": false,
     "type": "object",
     "description": "//// Pickles\n\n*\n A `Pickle` represents a template for a `TestCase`. It is typically derived\n from another format, such as [GherkinDocument](#io.cucumber.messages.GherkinDocument).\n In the future a `Pickle` may be derived from other formats such as Markdown or\n Excel files.\n\n By making `Pickle` the main data structure Cucumber uses for execution, the\n implementation of Cucumber itself becomes simpler, as it doesn't have to deal\n with the complex structure of a [GherkinDocument](#io.cucumber.messages.GherkinDocument).\n\n Each `PickleStep` of a `Pickle` is matched with a `StepDefinition` to create a `TestCase`"
 }

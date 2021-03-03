@@ -8,14 +8,14 @@
         "feature": {
             "properties": {
                 "location": {
-                    "$ref": "io.cucumber.messages.Location",
-                    "additionalProperties": true,
+                    "$ref": "#/definitions/io.cucumber.messages.Location",
+                    "additionalProperties": false,
                     "description": "The location of the `Feature` keyword"
                 },
                 "tags": {
                     "items": {
                         "$schema": "http://json-schema.org/draft-04/schema#",
-                        "$ref": "io.cucumber.messages.GherkinDocument.Feature.Tag"
+                        "$ref": "#/definitions/io.cucumber.messages.GherkinDocument.Feature.Tag"
                     },
                     "type": "array",
                     "description": "All the tags placed above the `Feature` keyword"
@@ -43,8 +43,8 @@
                             "rule": {
                                 "properties": {
                                     "location": {
-                                        "$ref": "io.cucumber.messages.Location",
-                                        "additionalProperties": true,
+                                        "$ref": "#/definitions/io.cucumber.messages.Location",
+                                        "additionalProperties": false,
                                         "description": "The location of the `Rule` keyword"
                                     },
                                     "keyword": {
@@ -61,15 +61,15 @@
                                             "$schema": "http://json-schema.org/draft-04/schema#",
                                             "properties": {
                                                 "background": {
-                                                    "$ref": "io.cucumber.messages.GherkinDocument.Feature.Background",
-                                                    "additionalProperties": true
+                                                    "$ref": "#/definitions/io.cucumber.messages.GherkinDocument.Feature.Background",
+                                                    "additionalProperties": false
                                                 },
                                                 "scenario": {
-                                                    "$ref": "io.cucumber.messages.GherkinDocument.Feature.Scenario",
-                                                    "additionalProperties": true
+                                                    "$ref": "#/definitions/io.cucumber.messages.GherkinDocument.Feature.Scenario",
+                                                    "additionalProperties": false
                                                 }
                                             },
-                                            "additionalProperties": true,
+                                            "additionalProperties": false,
                                             "type": "object"
                                         },
                                         "type": "array"
@@ -78,19 +78,19 @@
                                         "type": "string"
                                     }
                                 },
-                                "additionalProperties": true,
+                                "additionalProperties": false,
                                 "type": "object"
                             },
                             "background": {
-                                "$ref": "io.cucumber.messages.GherkinDocument.Feature.Background",
-                                "additionalProperties": true
+                                "$ref": "#/definitions/io.cucumber.messages.GherkinDocument.Feature.Background",
+                                "additionalProperties": false
                             },
                             "scenario": {
-                                "$ref": "io.cucumber.messages.GherkinDocument.Feature.Scenario",
-                                "additionalProperties": true
+                                "$ref": "#/definitions/io.cucumber.messages.GherkinDocument.Feature.Scenario",
+                                "additionalProperties": false
                             }
                         },
-                        "additionalProperties": true,
+                        "additionalProperties": false,
                         "type": "object",
                         "description": "*\n A child node of a `Feature` node"
                     },
@@ -98,7 +98,7 @@
                     "description": "Zero or more children"
                 }
             },
-            "additionalProperties": true,
+            "additionalProperties": false,
             "type": "object"
         },
         "comments": {
@@ -106,8 +106,8 @@
                 "$schema": "http://json-schema.org/draft-04/schema#",
                 "properties": {
                     "location": {
-                        "$ref": "io.cucumber.messages.Location",
-                        "additionalProperties": true,
+                        "$ref": "#/definitions/io.cucumber.messages.Location",
+                        "additionalProperties": false,
                         "description": "The location of the comment"
                     },
                     "text": {
@@ -115,7 +115,7 @@
                         "description": "The text of the comment"
                     }
                 },
-                "additionalProperties": true,
+                "additionalProperties": false,
                 "type": "object",
                 "description": "*\n A comment in a Gherkin document"
             },
@@ -123,7 +123,7 @@
             "description": "All the comments in the Gherkin document"
         }
     },
-    "additionalProperties": true,
+    "additionalProperties": false,
     "type": "object",
     "description": "*\n The [AST](https://en.wikipedia.org/wiki/Abstract_syntax_tree) of a Gherkin document.\n Cucumber implementations should *not* depend on `GherkinDocument` or any of its\n children for execution - use [Pickle](#io.cucumber.messages.Pickle) instead.\n\n The only consumers of `GherkinDocument` should only be formatters that produce\n \"rich\" output, resembling the original Gherkin document.",
     "definitions": {
@@ -131,8 +131,8 @@
             "$schema": "http://json-schema.org/draft-04/schema#",
             "properties": {
                 "location": {
-                    "$ref": "io.cucumber.messages.Location",
-                    "additionalProperties": true,
+                    "$ref": "#/definitions/io.cucumber.messages.Location",
+                    "additionalProperties": false,
                     "description": "The location of the `Background` keyword"
                 },
                 "keyword": {
@@ -147,7 +147,7 @@
                 "steps": {
                     "items": {
                         "$schema": "http://json-schema.org/draft-04/schema#",
-                        "$ref": "io.cucumber.messages.GherkinDocument.Feature.Step"
+                        "$ref": "#/definitions/io.cucumber.messages.GherkinDocument.Feature.Step"
                     },
                     "type": "array"
                 },
@@ -155,7 +155,7 @@
                     "type": "string"
                 }
             },
-            "additionalProperties": true,
+            "additionalProperties": false,
             "type": "object",
             "id": "io.cucumber.messages.GherkinDocument.Feature.Background"
         },
@@ -163,14 +163,14 @@
             "$schema": "http://json-schema.org/draft-04/schema#",
             "properties": {
                 "location": {
-                    "$ref": "io.cucumber.messages.Location",
-                    "additionalProperties": true,
+                    "$ref": "#/definitions/io.cucumber.messages.Location",
+                    "additionalProperties": false,
                     "description": "The location of the `Scenario` keyword"
                 },
                 "tags": {
                     "items": {
                         "$schema": "http://json-schema.org/draft-04/schema#",
-                        "$ref": "io.cucumber.messages.GherkinDocument.Feature.Tag"
+                        "$ref": "#/definitions/io.cucumber.messages.GherkinDocument.Feature.Tag"
                     },
                     "type": "array"
                 },
@@ -186,7 +186,7 @@
                 "steps": {
                     "items": {
                         "$schema": "http://json-schema.org/draft-04/schema#",
-                        "$ref": "io.cucumber.messages.GherkinDocument.Feature.Step"
+                        "$ref": "#/definitions/io.cucumber.messages.GherkinDocument.Feature.Step"
                     },
                     "type": "array"
                 },
@@ -195,14 +195,14 @@
                         "$schema": "http://json-schema.org/draft-04/schema#",
                         "properties": {
                             "location": {
-                                "$ref": "io.cucumber.messages.Location",
-                                "additionalProperties": true,
+                                "$ref": "#/definitions/io.cucumber.messages.Location",
+                                "additionalProperties": false,
                                 "description": "The location of the `Examples` keyword"
                             },
                             "tags": {
                                 "items": {
                                     "$schema": "http://json-schema.org/draft-04/schema#",
-                                    "$ref": "io.cucumber.messages.GherkinDocument.Feature.Tag"
+                                    "$ref": "#/definitions/io.cucumber.messages.GherkinDocument.Feature.Tag"
                                 },
                                 "type": "array"
                             },
@@ -216,13 +216,13 @@
                                 "type": "string"
                             },
                             "table_header": {
-                                "$ref": "io.cucumber.messages.GherkinDocument.Feature.TableRow",
-                                "additionalProperties": true
+                                "$ref": "#/definitions/io.cucumber.messages.GherkinDocument.Feature.TableRow",
+                                "additionalProperties": false
                             },
                             "table_body": {
                                 "items": {
                                     "$schema": "http://json-schema.org/draft-04/schema#",
-                                    "$ref": "io.cucumber.messages.GherkinDocument.Feature.TableRow"
+                                    "$ref": "#/definitions/io.cucumber.messages.GherkinDocument.Feature.TableRow"
                                 },
                                 "type": "array"
                             },
@@ -230,7 +230,7 @@
                                 "type": "string"
                             }
                         },
-                        "additionalProperties": true,
+                        "additionalProperties": false,
                         "type": "object"
                     },
                     "type": "array"
@@ -239,7 +239,7 @@
                     "type": "string"
                 }
             },
-            "additionalProperties": true,
+            "additionalProperties": false,
             "type": "object",
             "id": "io.cucumber.messages.GherkinDocument.Feature.Scenario"
         },
@@ -247,8 +247,8 @@
             "$schema": "http://json-schema.org/draft-04/schema#",
             "properties": {
                 "location": {
-                    "$ref": "io.cucumber.messages.Location",
-                    "additionalProperties": true,
+                    "$ref": "#/definitions/io.cucumber.messages.Location",
+                    "additionalProperties": false,
                     "description": "The location of the steps' `keyword`"
                 },
                 "keyword": {
@@ -260,8 +260,8 @@
                 "doc_string": {
                     "properties": {
                         "location": {
-                            "$ref": "io.cucumber.messages.Location",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/io.cucumber.messages.Location",
+                            "additionalProperties": false
                         },
                         "media_type": {
                             "type": "string"
@@ -273,24 +273,24 @@
                             "type": "string"
                         }
                     },
-                    "additionalProperties": true,
+                    "additionalProperties": false,
                     "type": "object"
                 },
                 "data_table": {
                     "properties": {
                         "location": {
-                            "$ref": "io.cucumber.messages.Location",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/io.cucumber.messages.Location",
+                            "additionalProperties": false
                         },
                         "rows": {
                             "items": {
                                 "$schema": "http://json-schema.org/draft-04/schema#",
-                                "$ref": "io.cucumber.messages.GherkinDocument.Feature.TableRow"
+                                "$ref": "#/definitions/io.cucumber.messages.GherkinDocument.Feature.TableRow"
                             },
                             "type": "array"
                         }
                     },
-                    "additionalProperties": true,
+                    "additionalProperties": false,
                     "type": "object"
                 },
                 "id": {
@@ -298,7 +298,7 @@
                     "description": "Unique ID to be able to reference the Step from PickleStep"
                 }
             },
-            "additionalProperties": true,
+            "additionalProperties": false,
             "type": "object",
             "description": "A step",
             "id": "io.cucumber.messages.GherkinDocument.Feature.Step"
@@ -307,8 +307,8 @@
             "$schema": "http://json-schema.org/draft-04/schema#",
             "properties": {
                 "location": {
-                    "$ref": "io.cucumber.messages.Location",
-                    "additionalProperties": true,
+                    "$ref": "#/definitions/io.cucumber.messages.Location",
+                    "additionalProperties": false,
                     "description": "The location of the first cell in the row"
                 },
                 "cells": {
@@ -316,8 +316,8 @@
                         "$schema": "http://json-schema.org/draft-04/schema#",
                         "properties": {
                             "location": {
-                                "$ref": "io.cucumber.messages.Location",
-                                "additionalProperties": true,
+                                "$ref": "#/definitions/io.cucumber.messages.Location",
+                                "additionalProperties": false,
                                 "description": "The location of the cell"
                             },
                             "value": {
@@ -325,7 +325,7 @@
                                 "description": "The value of the cell"
                             }
                         },
-                        "additionalProperties": true,
+                        "additionalProperties": false,
                         "type": "object",
                         "description": "A cell in a `TableRow`"
                     },
@@ -336,7 +336,7 @@
                     "type": "string"
                 }
             },
-            "additionalProperties": true,
+            "additionalProperties": false,
             "type": "object",
             "description": "A row in a table",
             "id": "io.cucumber.messages.GherkinDocument.Feature.TableRow"
@@ -345,8 +345,8 @@
             "$schema": "http://json-schema.org/draft-04/schema#",
             "properties": {
                 "location": {
-                    "$ref": "io.cucumber.messages.Location",
-                    "additionalProperties": true,
+                    "$ref": "#/definitions/io.cucumber.messages.Location",
+                    "additionalProperties": false,
                     "description": "Location of the tag"
                 },
                 "name": {
@@ -358,7 +358,7 @@
                     "description": "Unique ID to be able to reference the Tag from PickleTag"
                 }
             },
-            "additionalProperties": true,
+            "additionalProperties": false,
             "type": "object",
             "description": "*\n A tag",
             "id": "io.cucumber.messages.GherkinDocument.Feature.Tag"
@@ -373,7 +373,7 @@
                     "type": "integer"
                 }
             },
-            "additionalProperties": true,
+            "additionalProperties": false,
             "type": "object",
             "description": "*\n Points to a line and a column in a text file",
             "id": "io.cucumber.messages.Location"

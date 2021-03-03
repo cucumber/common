@@ -8,7 +8,7 @@
             "type": "integer"
         }
     },
-    "additionalProperties": true,
+    "additionalProperties": false,
     "type": "object",
     "description": "*\n Points to a line and a column in a text file"
 }

@@ -27,7 +27,7 @@
                             "type": "array"
                         }
                     },
-                    "additionalProperties": true,
+                    "additionalProperties": false,
                     "type": "object"
                 },
                 "java_stack_trace_element": {
@@ -42,7 +42,7 @@
                             "type": "string"
                         }
                     },
-                    "additionalProperties": true,
+                    "additionalProperties": false,
                     "type": "object"
                 },
                 "location": {
@@ -54,14 +54,14 @@
                             "type": "integer"
                         }
                     },
-                    "additionalProperties": true,
+                    "additionalProperties": false,
                     "type": "object"
                 }
             },
-            "additionalProperties": true,
+            "additionalProperties": false,
             "type": "object"
         }
     },
-    "additionalProperties": true,
+    "additionalProperties": false,
     "type": "object"
 }

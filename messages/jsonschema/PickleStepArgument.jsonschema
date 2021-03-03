@@ -10,7 +10,7 @@
                     "type": "string"
                 }
             },
-            "additionalProperties": true,
+            "additionalProperties": false,
             "type": "object"
         },
         "data_table": {
@@ -27,23 +27,23 @@
                                             "type": "string"
                                         }
                                     },
-                                    "additionalProperties": true,
+                                    "additionalProperties": false,
                                     "type": "object"
                                 },
                                 "type": "array"
                             }
                         },
-                        "additionalProperties": true,
+                        "additionalProperties": false,
                         "type": "object"
                     },
                     "type": "array"
                 }
             },
-            "additionalProperties": true,
+            "additionalProperties": false,
             "type": "object"
         }
     },
-    "additionalProperties": true,
+    "additionalProperties": false,
     "type": "object",
     "description": "*\n A wrapper for either a doc string or a table."
 }

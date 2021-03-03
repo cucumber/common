@@ -21,7 +21,7 @@
                             "type": "array"
                         }
                     },
-                    "additionalProperties": true,
+                    "additionalProperties": false,
                     "type": "object"
                 },
                 "java_stack_trace_element": {
@@ -36,7 +36,7 @@
                             "type": "string"
                         }
                     },
-                    "additionalProperties": true,
+                    "additionalProperties": false,
                     "type": "object"
                 },
                 "location": {
@@ -48,11 +48,11 @@
                             "type": "integer"
                         }
                     },
-                    "additionalProperties": true,
+                    "additionalProperties": false,
                     "type": "object"
                 }
             },
-            "additionalProperties": true,
+            "additionalProperties": false,
             "type": "object"
         },
         "test_step_id": {
@@ -95,7 +95,7 @@
             "description": "*\n A URL where the attachment can be retrieved. This field should not be set by Cucumber.\n It should be set by a program that reads a message stream and does the following for\n each Attachment message:\n\n - Writes the body (after base64 decoding if necessary) to a new file.\n - Sets `body` and `content_encoding` to `null`\n - Writes out the new attachment message\n\n This will result in a smaller message stream, which can improve performance and\n reduce bandwidth of message consumers. It also makes it easier to process and download attachments\n separately from reports."
         }
     },
-    "additionalProperties": true,
+    "additionalProperties": false,
     "type": "object",
     "description": "//// Attachments (parse errors, execution errors, screenshots, links...)\n\n*\n An attachment represents any kind of data associated with a line in a\n [Source](#io.cucumber.messages.Source) file. It can be used for:\n\n * Syntax errors during parse time\n * Screenshots captured and attached during execution\n * Logs captured and attached during execution\n\n It is not to be used for runtime errors raised/thrown during execution. This\n is captured in `TestResult`."
 }

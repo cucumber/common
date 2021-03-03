@@ -14,7 +14,7 @@
             "description": "The media type of the file. Can be used to specify custom types, such as\n text/x.cucumber.gherkin+plain"
         }
     },
-    "additionalProperties": true,
+    "additionalProperties": false,
     "type": "object",
     "description": "//// Source\n\n*\n A source file, typically a Gherkin document or Java/Ruby/JavaScript source code"
 }

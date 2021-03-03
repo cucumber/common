@@ -6,23 +6,23 @@
             "description": "*\n The [SEMVER](https://semver.org/) version number of the protocol"
         },
         "implementation": {
-            "$ref": "io.cucumber.messages.Meta.Product",
-            "additionalProperties": true,
+            "$ref": "#/definitions/io.cucumber.messages.Meta.Product",
+            "additionalProperties": false,
             "description": "SpecFlow, Cucumber-JVM, Cucumber.js, Cucumber-Ruby, Behat etc."
         },
         "runtime": {
-            "$ref": "io.cucumber.messages.Meta.Product",
-            "additionalProperties": true,
+            "$ref": "#/definitions/io.cucumber.messages.Meta.Product",
+            "additionalProperties": false,
             "description": "Java, Ruby, Node.js etc"
         },
         "os": {
-            "$ref": "io.cucumber.messages.Meta.Product",
-            "additionalProperties": true,
+            "$ref": "#/definitions/io.cucumber.messages.Meta.Product",
+            "additionalProperties": false,
             "description": "Windows, Linux, MacOS etc"
         },
         "cpu": {
-            "$ref": "io.cucumber.messages.Meta.Product",
-            "additionalProperties": true,
+            "$ref": "#/definitions/io.cucumber.messages.Meta.Product",
+            "additionalProperties": false,
             "description": "386, arm, amd64 etc"
         },
         "ci": {
@@ -50,17 +50,17 @@
                             "type": "string"
                         }
                     },
-                    "additionalProperties": true,
+                    "additionalProperties": false,
                     "type": "object",
                     "description": "Information about Git, provided by the Build/CI server as environment\n variables."
                 }
             },
-            "additionalProperties": true,
+            "additionalProperties": false,
             "type": "object",
             "description": "CI environment"
         }
     },
-    "additionalProperties": true,
+    "additionalProperties": false,
     "type": "object",
     "description": "*\n This message contains meta information about the environment. Consumers can use\n this for various purposes.",
     "definitions": {
@@ -76,7 +76,7 @@
                     "description": "The product version"
                 }
             },
-            "additionalProperties": true,
+            "additionalProperties": false,
             "type": "object",
             "description": "A product has a name and a version",
             "id": "io.cucumber.messages.Meta.Product"

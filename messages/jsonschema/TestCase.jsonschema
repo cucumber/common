@@ -38,19 +38,19 @@
                                                 "type": "string"
                                             },
                                             "group": {
-                                                "$ref": "io.cucumber.messages.TestCase.TestStep.StepMatchArgumentsList.StepMatchArgument.Group",
-                                                "additionalProperties": true,
+                                                "$ref": "#/definitions/io.cucumber.messages.TestCase.TestStep.StepMatchArgumentsList.StepMatchArgument.Group",
+                                                "additionalProperties": false,
                                                 "description": "*\n Represents the outermost capture group of an argument. This message closely matches the\n `Group` class in the `cucumber-expressions` library."
                                             }
                                         },
-                                        "additionalProperties": true,
+                                        "additionalProperties": false,
                                         "type": "object",
                                         "description": "*\n Represents a single argument extracted from a step match and passed to a step definition.\n This is used for the following purposes:\n - Construct an argument to pass to a step definition (possibly through a parameter type transform)\n - Highlight the matched parameter in rich formatters such as the HTML formatter\n\n This message closely matches the `Argument` class in the `cucumber-expressions` library."
                                     },
                                     "type": "array"
                                 }
                             },
-                            "additionalProperties": true,
+                            "additionalProperties": false,
                             "type": "object"
                         },
                         "type": "array",
@@ -61,14 +61,14 @@
                         "description": "Pointer to the `Hook` (if derived from a Hook)"
                     }
                 },
-                "additionalProperties": true,
+                "additionalProperties": false,
                 "type": "object",
                 "description": "*\n A `TestStep` is derived from either a `PickleStep`\n combined with a `StepDefinition`, or from a `Hook`."
             },
             "type": "array"
         }
     },
-    "additionalProperties": true,
+    "additionalProperties": false,
     "type": "object",
     "description": "//// TestCases\n\n*\n A `TestCase` contains a sequence of `TestStep`s.",
     "definitions": {
@@ -84,12 +84,12 @@
                 "children": {
                     "items": {
                         "$schema": "http://json-schema.org/draft-04/schema#",
-                        "$ref": "io.cucumber.messages.TestCase.TestStep.StepMatchArgumentsList.StepMatchArgument.Group"
+                        "$ref": "#/definitions/io.cucumber.messages.TestCase.TestStep.StepMatchArgumentsList.StepMatchArgument.Group"
                     },
                     "type": "array"
                 }
             },
-            "additionalProperties": true,
+            "additionalProperties": false,
             "type": "object",
             "id": "io.cucumber.messages.TestCase.TestStep.StepMatchArgumentsList.StepMatchArgument.Group"
         }

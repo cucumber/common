@@ -16,7 +16,7 @@
                     "description": "The media type of the file. Can be used to specify custom types, such as\n text/x.cucumber.gherkin+plain"
                 }
             },
-            "additionalProperties": true,
+            "additionalProperties": false,
             "type": "object",
             "description": "Gherkin"
         },
@@ -29,14 +29,14 @@
                 "feature": {
                     "properties": {
                         "location": {
-                            "$ref": "io.cucumber.messages.Location",
-                            "additionalProperties": true,
+                            "$ref": "#/definitions/io.cucumber.messages.Location",
+                            "additionalProperties": false,
                             "description": "The location of the `Feature` keyword"
                         },
                         "tags": {
                             "items": {
                                 "$schema": "http://json-schema.org/draft-04/schema#",
-                                "$ref": "io.cucumber.messages.GherkinDocument.Feature.Tag"
+                                "$ref": "#/definitions/io.cucumber.messages.GherkinDocument.Feature.Tag"
                             },
                             "type": "array",
                             "description": "All the tags placed above the `Feature` keyword"
@@ -64,8 +64,8 @@
                                     "rule": {
                                         "properties": {
                                             "location": {
-                                                "$ref": "io.cucumber.messages.Location",
-                                                "additionalProperties": true,
+                                                "$ref": "#/definitions/io.cucumber.messages.Location",
+                                                "additionalProperties": false,
                                                 "description": "The location of the `Rule` keyword"
                                             },
                                             "keyword": {
@@ -82,15 +82,15 @@
                                                     "$schema": "http://json-schema.org/draft-04/schema#",
                                                     "properties": {
                                                         "background": {
-                                                            "$ref": "io.cucumber.messages.GherkinDocument.Feature.Background",
-                                                            "additionalProperties": true
+                                                            "$ref": "#/definitions/io.cucumber.messages.GherkinDocument.Feature.Background",
+                                                            "additionalProperties": false
                                                         },
                                                         "scenario": {
-                                                            "$ref": "io.cucumber.messages.GherkinDocument.Feature.Scenario",
-                                                            "additionalProperties": true
+                                                            "$ref": "#/definitions/io.cucumber.messages.GherkinDocument.Feature.Scenario",
+                                                            "additionalProperties": false
                                                         }
                                                     },
-                                                    "additionalProperties": true,
+                                                    "additionalProperties": false,
                                                     "type": "object"
                                                 },
                                                 "type": "array"
@@ -99,19 +99,19 @@
                                                 "type": "string"
                                             }
                                         },
-                                        "additionalProperties": true,
+                                        "additionalProperties": false,
                                         "type": "object"
                                     },
                                     "background": {
-                                        "$ref": "io.cucumber.messages.GherkinDocument.Feature.Background",
-                                        "additionalProperties": true
+                                        "$ref": "#/definitions/io.cucumber.messages.GherkinDocument.Feature.Background",
+                                        "additionalProperties": false
                                     },
                                     "scenario": {
-                                        "$ref": "io.cucumber.messages.GherkinDocument.Feature.Scenario",
-                                        "additionalProperties": true
+                                        "$ref": "#/definitions/io.cucumber.messages.GherkinDocument.Feature.Scenario",
+                                        "additionalProperties": false
                                     }
                                 },
-                                "additionalProperties": true,
+                                "additionalProperties": false,
                                 "type": "object",
                                 "description": "*\n A child node of a `Feature` node"
                             },
@@ -119,7 +119,7 @@
                             "description": "Zero or more children"
                         }
                     },
-                    "additionalProperties": true,
+                    "additionalProperties": false,
                     "type": "object"
                 },
                 "comments": {
@@ -127,8 +127,8 @@
                         "$schema": "http://json-schema.org/draft-04/schema#",
                         "properties": {
                             "location": {
-                                "$ref": "io.cucumber.messages.Location",
-                                "additionalProperties": true,
+                                "$ref": "#/definitions/io.cucumber.messages.Location",
+                                "additionalProperties": false,
                                 "description": "The location of the comment"
                             },
                             "text": {
@@ -136,7 +136,7 @@
                                 "description": "The text of the comment"
                             }
                         },
-                        "additionalProperties": true,
+                        "additionalProperties": false,
                         "type": "object",
                         "description": "*\n A comment in a Gherkin document"
                     },
@@ -144,7 +144,7 @@
                     "description": "All the comments in the Gherkin document"
                 }
             },
-            "additionalProperties": true,
+            "additionalProperties": false,
             "type": "object"
         },
         "pickle": {
@@ -183,7 +183,7 @@
                                                 "type": "string"
                                             }
                                         },
-                                        "additionalProperties": true,
+                                        "additionalProperties": false,
                                         "type": "object"
                                     },
                                     "data_table": {
@@ -200,23 +200,23 @@
                                                                         "type": "string"
                                                                     }
                                                                 },
-                                                                "additionalProperties": true,
+                                                                "additionalProperties": false,
                                                                 "type": "object"
                                                             },
                                                             "type": "array"
                                                         }
                                                     },
-                                                    "additionalProperties": true,
+                                                    "additionalProperties": false,
                                                     "type": "object"
                                                 },
                                                 "type": "array"
                                             }
                                         },
-                                        "additionalProperties": true,
+                                        "additionalProperties": false,
                                         "type": "object"
                                     }
                                 },
-                                "additionalProperties": true,
+                                "additionalProperties": false,
                                 "type": "object",
                                 "description": "An optional argument"
                             },
@@ -232,7 +232,7 @@
                                 "description": "References the IDs of the source of the step. For Gherkin, this can be\n the ID of a Step, and possibly also the ID of a TableRow"
                             }
                         },
-                        "additionalProperties": true,
+                        "additionalProperties": false,
                         "type": "object",
                         "description": "*\n An executable step"
                     },
@@ -251,7 +251,7 @@
                                 "description": "Points to the AST node this was created from"
                             }
                         },
-                        "additionalProperties": true,
+                        "additionalProperties": false,
                         "type": "object",
                         "description": "*\n A tag"
                     },
@@ -266,7 +266,7 @@
                     "description": "*\n Points to the AST node locations of the pickle. The last one represents the unique\n id of the pickle. A pickle constructed from `Examples` will have the first\n id originating from the `Scenario` AST node, and the second from the `TableRow` AST node."
                 }
             },
-            "additionalProperties": true,
+            "additionalProperties": false,
             "type": "object",
             "description": "Compiler(s)"
         },
@@ -297,15 +297,15 @@
                             ]
                         }
                     },
-                    "additionalProperties": true,
+                    "additionalProperties": false,
                     "type": "object"
                 },
                 "source_reference": {
-                    "$ref": "io.cucumber.messages.SourceReference",
-                    "additionalProperties": true
+                    "$ref": "#/definitions/io.cucumber.messages.SourceReference",
+                    "additionalProperties": false
                 }
             },
-            "additionalProperties": true,
+            "additionalProperties": false,
             "type": "object"
         },
         "hook": {
@@ -317,11 +317,11 @@
                     "type": "string"
                 },
                 "source_reference": {
-                    "$ref": "io.cucumber.messages.SourceReference",
-                    "additionalProperties": true
+                    "$ref": "#/definitions/io.cucumber.messages.SourceReference",
+                    "additionalProperties": false
                 }
             },
-            "additionalProperties": true,
+            "additionalProperties": false,
             "type": "object"
         },
         "parameter_type": {
@@ -346,7 +346,7 @@
                     "type": "string"
                 }
             },
-            "additionalProperties": true,
+            "additionalProperties": false,
             "type": "object"
         },
         "test_case": {
@@ -388,19 +388,19 @@
                                                         "type": "string"
                                                     },
                                                     "group": {
-                                                        "$ref": "io.cucumber.messages.TestCase.TestStep.StepMatchArgumentsList.StepMatchArgument.Group",
-                                                        "additionalProperties": true,
+                                                        "$ref": "#/definitions/io.cucumber.messages.TestCase.TestStep.StepMatchArgumentsList.StepMatchArgument.Group",
+                                                        "additionalProperties": false,
                                                         "description": "*\n Represents the outermost capture group of an argument. This message closely matches the\n `Group` class in the `cucumber-expressions` library."
                                                     }
                                                 },
-                                                "additionalProperties": true,
+                                                "additionalProperties": false,
                                                 "type": "object",
                                                 "description": "*\n Represents a single argument extracted from a step match and passed to a step definition.\n This is used for the following purposes:\n - Construct an argument to pass to a step definition (possibly through a parameter type transform)\n - Highlight the matched parameter in rich formatters such as the HTML formatter\n\n This message closely matches the `Argument` class in the `cucumber-expressions` library."
                                             },
                                             "type": "array"
                                         }
                                     },
-                                    "additionalProperties": true,
+                                    "additionalProperties": false,
                                     "type": "object"
                                 },
                                 "type": "array",
@@ -411,14 +411,14 @@
                                 "description": "Pointer to the `Hook` (if derived from a Hook)"
                             }
                         },
-                        "additionalProperties": true,
+                        "additionalProperties": false,
                         "type": "object",
                         "description": "*\n A `TestStep` is derived from either a `PickleStep`\n combined with a `StepDefinition`, or from a `Hook`."
                     },
                     "type": "array"
                 }
             },
-            "additionalProperties": true,
+            "additionalProperties": false,
             "type": "object"
         },
         "undefined_parameter_type": {
@@ -430,25 +430,25 @@
                     "type": "string"
                 }
             },
-            "additionalProperties": true,
+            "additionalProperties": false,
             "type": "object"
         },
         "test_run_started": {
             "properties": {
                 "timestamp": {
-                    "$ref": "io.cucumber.messages.Timestamp",
-                    "additionalProperties": true
+                    "$ref": "#/definitions/io.cucumber.messages.Timestamp",
+                    "additionalProperties": false
                 }
             },
-            "additionalProperties": true,
+            "additionalProperties": false,
             "type": "object",
             "description": "Execution"
         },
         "test_case_started": {
             "properties": {
                 "timestamp": {
-                    "$ref": "io.cucumber.messages.Timestamp",
-                    "additionalProperties": true
+                    "$ref": "#/definitions/io.cucumber.messages.Timestamp",
+                    "additionalProperties": false
                 },
                 "attempt": {
                     "type": "integer",
@@ -462,14 +462,14 @@
                     "description": "*\n Because a `TestCase` can be run multiple times (in case of a retry),\n we use this field to group messages relating to the same attempt."
                 }
             },
-            "additionalProperties": true,
+            "additionalProperties": false,
             "type": "object"
         },
         "test_step_started": {
             "properties": {
                 "timestamp": {
-                    "$ref": "io.cucumber.messages.Timestamp",
-                    "additionalProperties": true
+                    "$ref": "#/definitions/io.cucumber.messages.Timestamp",
+                    "additionalProperties": false
                 },
                 "test_step_id": {
                     "type": "string"
@@ -478,14 +478,14 @@
                     "type": "string"
                 }
             },
-            "additionalProperties": true,
+            "additionalProperties": false,
             "type": "object"
         },
         "attachment": {
             "properties": {
                 "source": {
-                    "$ref": "io.cucumber.messages.SourceReference",
-                    "additionalProperties": true
+                    "$ref": "#/definitions/io.cucumber.messages.SourceReference",
+                    "additionalProperties": false
                 },
                 "test_step_id": {
                     "type": "string"
@@ -527,7 +527,7 @@
                     "description": "*\n A URL where the attachment can be retrieved. This field should not be set by Cucumber.\n It should be set by a program that reads a message stream and does the following for\n each Attachment message:\n\n - Writes the body (after base64 decoding if necessary) to a new file.\n - Sets `body` and `content_encoding` to `null`\n - Writes out the new attachment message\n\n This will result in a smaller message stream, which can improve performance and\n reduce bandwidth of message consumers. It also makes it easier to process and download attachments\n separately from reports."
                 }
             },
-            "additionalProperties": true,
+            "additionalProperties": false,
             "type": "object"
         },
         "test_step_finished": {
@@ -573,19 +573,19 @@
                                     "description": "Non-negative fractions of a second at nanosecond resolution. Negative\n second values with fractions must still have non-negative nanos values\n that count forward in time. Must be from 0 to 999,999,999\n inclusive."
                                 }
                             },
-                            "additionalProperties": true,
+                            "additionalProperties": false,
                             "type": "object"
                         },
                         "will_be_retried": {
                             "type": "boolean"
                         }
                     },
-                    "additionalProperties": true,
+                    "additionalProperties": false,
                     "type": "object"
                 },
                 "timestamp": {
-                    "$ref": "io.cucumber.messages.Timestamp",
-                    "additionalProperties": true
+                    "$ref": "#/definitions/io.cucumber.messages.Timestamp",
+                    "additionalProperties": false
                 },
                 "test_step_id": {
                     "type": "string"
@@ -594,20 +594,20 @@
                     "type": "string"
                 }
             },
-            "additionalProperties": true,
+            "additionalProperties": false,
             "type": "object"
         },
         "test_case_finished": {
             "properties": {
                 "timestamp": {
-                    "$ref": "io.cucumber.messages.Timestamp",
-                    "additionalProperties": true
+                    "$ref": "#/definitions/io.cucumber.messages.Timestamp",
+                    "additionalProperties": false
                 },
                 "test_case_started_id": {
                     "type": "string"
                 }
             },
-            "additionalProperties": true,
+            "additionalProperties": false,
             "type": "object"
         },
         "test_run_finished": {
@@ -617,8 +617,8 @@
                     "description": "success = StrictModeEnabled ? (failed_count == 0 \u0026\u0026 ambiguous_count == 0 \u0026\u0026 undefined_count == 0 \u0026\u0026 pending_count == 0) : (failed_count == 0 \u0026\u0026 ambiguous_count == 0)"
                 },
                 "timestamp": {
-                    "$ref": "io.cucumber.messages.Timestamp",
-                    "additionalProperties": true,
+                    "$ref": "#/definitions/io.cucumber.messages.Timestamp",
+                    "additionalProperties": false,
                     "description": "Timestamp when the TestRun is finished"
                 },
                 "message": {
@@ -626,20 +626,20 @@
                     "description": "Error message. Can be a stack trace from a failed `BeforeAll` or `AfterAll`.\n If there are undefined parameter types, the message is simply\n \"The following parameter type(s() are not defined: xxx, yyy\".\n The independent `UndefinedParameterType` messages can be used to generate\n snippets for those parameter types."
                 }
             },
-            "additionalProperties": true,
+            "additionalProperties": false,
             "type": "object"
         },
         "parse_error": {
             "properties": {
                 "source": {
-                    "$ref": "io.cucumber.messages.SourceReference",
-                    "additionalProperties": true
+                    "$ref": "#/definitions/io.cucumber.messages.SourceReference",
+                    "additionalProperties": false
                 },
                 "message": {
                     "type": "string"
                 }
             },
-            "additionalProperties": true,
+            "additionalProperties": false,
             "type": "object",
             "description": "Parsing"
         },
@@ -650,23 +650,23 @@
                     "description": "*\n The [SEMVER](https://semver.org/) version number of the protocol"
                 },
                 "implementation": {
-                    "$ref": "io.cucumber.messages.Meta.Product",
-                    "additionalProperties": true,
+                    "$ref": "#/definitions/io.cucumber.messages.Meta.Product",
+                    "additionalProperties": false,
                     "description": "SpecFlow, Cucumber-JVM, Cucumber.js, Cucumber-Ruby, Behat etc."
                 },
                 "runtime": {
-                    "$ref": "io.cucumber.messages.Meta.Product",
-                    "additionalProperties": true,
+                    "$ref": "#/definitions/io.cucumber.messages.Meta.Product",
+                    "additionalProperties": false,
                     "description": "Java, Ruby, Node.js etc"
                 },
                 "os": {
-                    "$ref": "io.cucumber.messages.Meta.Product",
-                    "additionalProperties": true,
+                    "$ref": "#/definitions/io.cucumber.messages.Meta.Product",
+                    "additionalProperties": false,
                     "description": "Windows, Linux, MacOS etc"
                 },
                 "cpu": {
-                    "$ref": "io.cucumber.messages.Meta.Product",
-                    "additionalProperties": true,
+                    "$ref": "#/definitions/io.cucumber.messages.Meta.Product",
+                    "additionalProperties": false,
                     "description": "386, arm, amd64 etc"
                 },
                 "ci": {
@@ -694,21 +694,21 @@
                                     "type": "string"
                                 }
                             },
-                            "additionalProperties": true,
+                            "additionalProperties": false,
                             "type": "object",
                             "description": "Information about Git, provided by the Build/CI server as environment\n variables."
                         }
                     },
-                    "additionalProperties": true,
+                    "additionalProperties": false,
                     "type": "object",
                     "description": "CI environment"
                 }
             },
-            "additionalProperties": true,
+            "additionalProperties": false,
             "type": "object"
         }
     },
-    "additionalProperties": true,
+    "additionalProperties": false,
     "type": "object",
     "description": "When removing a field, replace it with reserved, rather than deleting the line.\n When adding a field, add it to the end and increment the number by one.\n See https://developers.google.com/protocol-buffers/docs/proto#updating for details\n\n*\n All the messages that are passed between different components/processes are Envelope\n messages.",
     "definitions": {
@@ -716,8 +716,8 @@
             "$schema": "http://json-schema.org/draft-04/schema#",
             "properties": {
                 "location": {
-                    "$ref": "io.cucumber.messages.Location",
-                    "additionalProperties": true,
+                    "$ref": "#/definitions/io.cucumber.messages.Location",
+                    "additionalProperties": false,
                     "description": "The location of the `Background` keyword"
                 },
                 "keyword": {
@@ -732,7 +732,7 @@
                 "steps": {
                     "items": {
                         "$schema": "http://json-schema.org/draft-04/schema#",
-                        "$ref": "io.cucumber.messages.GherkinDocument.Feature.Step"
+                        "$ref": "#/definitions/io.cucumber.messages.GherkinDocument.Feature.Step"
                     },
                     "type": "array"
                 },
@@ -740,7 +740,7 @@
                     "type": "string"
                 }
             },
-            "additionalProperties": true,
+            "additionalProperties": false,
             "type": "object",
             "id": "io.cucumber.messages.GherkinDocument.Feature.Background"
         },
@@ -748,14 +748,14 @@
             "$schema": "http://json-schema.org/draft-04/schema#",
             "properties": {
                 "location": {
-                    "$ref": "io.cucumber.messages.Location",
-                    "additionalProperties": true,
+                    "$ref": "#/definitions/io.cucumber.messages.Location",
+                    "additionalProperties": false,
                     "description": "The location of the `Scenario` keyword"
                 },
                 "tags": {
                     "items": {
                         "$schema": "http://json-schema.org/draft-04/schema#",
-                        "$ref": "io.cucumber.messages.GherkinDocument.Feature.Tag"
+                        "$ref": "#/definitions/io.cucumber.messages.GherkinDocument.Feature.Tag"
                     },
                     "type": "array"
                 },
@@ -771,7 +771,7 @@
                 "steps": {
                     "items": {
                         "$schema": "http://json-schema.org/draft-04/schema#",
-                        "$ref": "io.cucumber.messages.GherkinDocument.Feature.Step"
+                        "$ref": "#/definitions/io.cucumber.messages.GherkinDocument.Feature.Step"
                     },
                     "type": "array"
                 },
@@ -780,14 +780,14 @@
                         "$schema": "http://json-schema.org/draft-04/schema#",
                         "properties": {
                             "location": {
-                                "$ref": "io.cucumber.messages.Location",
-                                "additionalProperties": true,
+                                "$ref": "#/definitions/io.cucumber.messages.Location",
+                                "additionalProperties": false,
                                 "description": "The location of the `Examples` keyword"
                             },
                             "tags": {
                                 "items": {
                                     "$schema": "http://json-schema.org/draft-04/schema#",
-                                    "$ref": "io.cucumber.messages.GherkinDocument.Feature.Tag"
+                                    "$ref": "#/definitions/io.cucumber.messages.GherkinDocument.Feature.Tag"
                                 },
                                 "type": "array"
                             },
@@ -801,13 +801,13 @@
                                 "type": "string"
                             },
                             "table_header": {
-                                "$ref": "io.cucumber.messages.GherkinDocument.Feature.TableRow",
-                                "additionalProperties": true
+                                "$ref": "#/definitions/io.cucumber.messages.GherkinDocument.Feature.TableRow",
+                                "additionalProperties": false
                             },
                             "table_body": {
                                 "items": {
                                     "$schema": "http://json-schema.org/draft-04/schema#",
-                                    "$ref": "io.cucumber.messages.GherkinDocument.Feature.TableRow"
+                                    "$ref": "#/definitions/io.cucumber.messages.GherkinDocument.Feature.TableRow"
                                 },
                                 "type": "array"
                             },
@@ -815,7 +815,7 @@
                                 "type": "string"
                             }
                         },
-                        "additionalProperties": true,
+                        "additionalProperties": false,
                         "type": "object"
                     },
                     "type": "array"
@@ -824,7 +824,7 @@
                     "type": "string"
                 }
             },
-            "additionalProperties": true,
+            "additionalProperties": false,
             "type": "object",
             "id": "io.cucumber.messages.GherkinDocument.Feature.Scenario"
         },
@@ -832,8 +832,8 @@
             "$schema": "http://json-schema.org/draft-04/schema#",
             "properties": {
                 "location": {
-                    "$ref": "io.cucumber.messages.Location",
-                    "additionalProperties": true,
+                    "$ref": "#/definitions/io.cucumber.messages.Location",
+                    "additionalProperties": false,
                     "description": "The location of the steps' `keyword`"
                 },
                 "keyword": {
@@ -845,8 +845,8 @@
                 "doc_string": {
                     "properties": {
                         "location": {
-                            "$ref": "io.cucumber.messages.Location",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/io.cucumber.messages.Location",
+                            "additionalProperties": false
                         },
                         "media_type": {
                             "type": "string"
@@ -858,24 +858,24 @@
                             "type": "string"
                         }
                     },
-                    "additionalProperties": true,
+                    "additionalProperties": false,
                     "type": "object"
                 },
                 "data_table": {
                     "properties": {
                         "location": {
-                            "$ref": "io.cucumber.messages.Location",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/io.cucumber.messages.Location",
+                            "additionalProperties": false
                         },
                         "rows": {
                             "items": {
                                 "$schema": "http://json-schema.org/draft-04/schema#",
-                                "$ref": "io.cucumber.messages.GherkinDocument.Feature.TableRow"
+                                "$ref": "#/definitions/io.cucumber.messages.GherkinDocument.Feature.TableRow"
                             },
                             "type": "array"
                         }
                     },
-                    "additionalProperties": true,
+                    "additionalProperties": false,
                     "type": "object"
                 },
                 "id": {
@@ -883,7 +883,7 @@
                     "description": "Unique ID to be able to reference the Step from PickleStep"
                 }
             },
-            "additionalProperties": true,
+            "additionalProperties": false,
             "type": "object",
             "description": "A step",
             "id": "io.cucumber.messages.GherkinDocument.Feature.Step"
@@ -892,8 +892,8 @@
             "$schema": "http://json-schema.org/draft-04/schema#",
             "properties": {
                 "location": {
-                    "$ref": "io.cucumber.messages.Location",
-                    "additionalProperties": true,
+                    "$ref": "#/definitions/io.cucumber.messages.Location",
+                    "additionalProperties": false,
                     "description": "The location of the first cell in the row"
                 },
                 "cells": {
@@ -901,8 +901,8 @@
                         "$schema": "http://json-schema.org/draft-04/schema#",
                         "properties": {
                             "location": {
-                                "$ref": "io.cucumber.messages.Location",
-                                "additionalProperties": true,
+                                "$ref": "#/definitions/io.cucumber.messages.Location",
+                                "additionalProperties": false,
                                 "description": "The location of the cell"
                             },
                             "value": {
@@ -910,7 +910,7 @@
                                 "description": "The value of the cell"
                             }
                         },
-                        "additionalProperties": true,
+                        "additionalProperties": false,
                         "type": "object",
                         "description": "A cell in a `TableRow`"
                     },
@@ -921,7 +921,7 @@
                     "type": "string"
                 }
             },
-            "additionalProperties": true,
+            "additionalProperties": false,
             "type": "object",
             "description": "A row in a table",
             "id": "io.cucumber.messages.GherkinDocument.Feature.TableRow"
@@ -930,8 +930,8 @@
             "$schema": "http://json-schema.org/draft-04/schema#",
             "properties": {
                 "location": {
-                    "$ref": "io.cucumber.messages.Location",
-                    "additionalProperties": true,
+                    "$ref": "#/definitions/io.cucumber.messages.Location",
+                    "additionalProperties": false,
                     "description": "Location of the tag"
                 },
                 "name": {
@@ -943,7 +943,7 @@
                     "description": "Unique ID to be able to reference the Tag from PickleTag"
                 }
             },
-            "additionalProperties": true,
+            "additionalProperties": false,
             "type": "object",
             "description": "*\n A tag",
             "id": "io.cucumber.messages.GherkinDocument.Feature.Tag"
@@ -958,7 +958,7 @@
                     "type": "integer"
                 }
             },
-            "additionalProperties": true,
+            "additionalProperties": false,
             "type": "object",
             "description": "*\n Points to a line and a column in a text file",
             "id": "io.cucumber.messages.Location"
@@ -975,7 +975,7 @@
                     "description": "The product version"
                 }
             },
-            "additionalProperties": true,
+            "additionalProperties": false,
             "type": "object",
             "description": "A product has a name and a version",
             "id": "io.cucumber.messages.Meta.Product"
@@ -1001,7 +1001,7 @@
                             "type": "array"
                         }
                     },
-                    "additionalProperties": true,
+                    "additionalProperties": false,
                     "type": "object"
                 },
                 "java_stack_trace_element": {
@@ -1016,15 +1016,15 @@
                             "type": "string"
                         }
                     },
-                    "additionalProperties": true,
+                    "additionalProperties": false,
                     "type": "object"
                 },
                 "location": {
-                    "$ref": "io.cucumber.messages.Location",
-                    "additionalProperties": true
+                    "$ref": "#/definitions/io.cucumber.messages.Location",
+                    "additionalProperties": false
                 }
             },
-            "additionalProperties": true,
+            "additionalProperties": false,
             "type": "object",
             "description": "*\n Points to a [Source](#io.cucumber.messages.Source) identified by `uri` and a\n [Location](#io.cucumber.messages.Location) within that file.",
             "id": "io.cucumber.messages.SourceReference"
@@ -1041,12 +1041,12 @@
                 "children": {
                     "items": {
                         "$schema": "http://json-schema.org/draft-04/schema#",
-                        "$ref": "io.cucumber.messages.TestCase.TestStep.StepMatchArgumentsList.StepMatchArgument.Group"
+                        "$ref": "#/definitions/io.cucumber.messages.TestCase.TestStep.StepMatchArgumentsList.StepMatchArgument.Group"
                     },
                     "type": "array"
                 }
             },
-            "additionalProperties": true,
+            "additionalProperties": false,
             "type": "object",
             "id": "io.cucumber.messages.TestCase.TestStep.StepMatchArgumentsList.StepMatchArgument.Group"
         },
@@ -1062,7 +1062,7 @@
                     "description": "Non-negative fractions of a second at nanosecond resolution. Negative\n second values with fractions must still have non-negative nanos values\n that count forward in time. Must be from 0 to 999,999,999\n inclusive."
                 }
             },
-            "additionalProperties": true,
+            "additionalProperties": false,
             "type": "object",
             "description": "//// Common types\n\nFrom https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/timestamp.proto",
             "id": "io.cucumber.messages.Timestamp"

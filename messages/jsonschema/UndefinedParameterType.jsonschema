@@ -8,6 +8,6 @@
             "type": "string"
         }
     },
-    "additionalProperties": true,
+    "additionalProperties": false,
     "type": "object"
 }

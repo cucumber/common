@@ -16,7 +16,7 @@
                     "description": "Non-negative fractions of a second at nanosecond resolution. Negative\n second values with fractions must still have non-negative nanos values\n that count forward in time. Must be from 0 to 999,999,999\n inclusive."
                 }
             },
-            "additionalProperties": true,
+            "additionalProperties": false,
             "type": "object",
             "description": "Timestamp when the TestRun is finished"
         },
@@ -25,6 +25,6 @@
             "description": "Error message. Can be a stack trace from a failed `BeforeAll` or `AfterAll`.\n If there are undefined parameter types, the message is simply\n \"The following parameter type(s() are not defined: xxx, yyy\".\n The independent `UndefinedParameterType` messages can be used to generate\n snippets for those parameter types."
         }
     },
-    "additionalProperties": true,
+    "additionalProperties": false,
     "type": "object"
 }
