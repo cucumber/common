@@ -1,0 +1,97 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "properties": {
+        "id": {
+            "type": "string"
+        },
+        "pickle_id": {
+            "type": "string",
+            "description": "The ID of the `Pickle` this `TestCase` is derived from."
+        },
+        "test_steps": {
+            "items": {
+                "$schema": "http://json-schema.org/draft-04/schema#",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "pickle_step_id": {
+                        "type": "string",
+                        "description": "Pointer to the `PickleStep` (if derived from a PickleStep)"
+                    },
+                    "step_definition_ids": {
+                        "items": {
+                            "type": "string"
+                        },
+                        "type": "array",
+                        "description": "Pointer to all the matching `StepDefinition`s (if derived from a PickleStep)"
+                    },
+                    "step_match_arguments_lists": {
+                        "items": {
+                            "$schema": "http://json-schema.org/draft-04/schema#",
+                            "properties": {
+                                "step_match_arguments": {
+                                    "items": {
+                                        "$schema": "http://json-schema.org/draft-04/schema#",
+                                        "properties": {
+                                            "parameter_type_name": {
+                                                "type": "string"
+                                            },
+                                            "group": {
+                                                "$ref": "io.cucumber.messages.TestCase.TestStep.StepMatchArgumentsList.StepMatchArgument.Group",
+                                                "additionalProperties": true,
+                                                "description": "*\n Represents the outermost capture group of an argument. This message closely matches the\n `Group` class in the `cucumber-expressions` library."
+                                            }
+                                        },
+                                        "additionalProperties": true,
+                                        "type": "object",
+                                        "description": "*\n Represents a single argument extracted from a step match and passed to a step definition.\n This is used for the following purposes:\n - Construct an argument to pass to a step definition (possibly through a parameter type transform)\n - Highlight the matched parameter in rich formatters such as the HTML formatter\n\n This message closely matches the `Argument` class in the `cucumber-expressions` library."
+                                    },
+                                    "type": "array"
+                                }
+                            },
+                            "additionalProperties": true,
+                            "type": "object"
+                        },
+                        "type": "array",
+                        "description": "A list of list of StepMatchArgument (if derived from a `StepDefinition`).\n Each element represents a matching step definition. A size of 0 means `UNDEFINED`,\n and a size of 2+ means `AMBIGUOUS`"
+                    },
+                    "hook_id": {
+                        "type": "string",
+                        "description": "Pointer to the `Hook` (if derived from a Hook)"
+                    }
+                },
+                "additionalProperties": true,
+                "type": "object",
+                "description": "*\n A `TestStep` is derived from either a `PickleStep`\n combined with a `StepDefinition`, or from a `Hook`."
+            },
+            "type": "array"
+        }
+    },
+    "additionalProperties": true,
+    "type": "object",
+    "description": "//// TestCases\n\n*\n A `TestCase` contains a sequence of `TestStep`s.",
+    "definitions": {
+        "io.cucumber.messages.TestCase.TestStep.StepMatchArgumentsList.StepMatchArgument.Group": {
+            "$schema": "http://json-schema.org/draft-04/schema#",
+            "properties": {
+                "start": {
+                    "type": "integer"
+                },
+                "value": {
+                    "type": "string"
+                },
+                "children": {
+                    "items": {
+                        "$schema": "http://json-schema.org/draft-04/schema#",
+                        "$ref": "io.cucumber.messages.TestCase.TestStep.StepMatchArgumentsList.StepMatchArgument.Group"
+                    },
+                    "type": "array"
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "id": "io.cucumber.messages.TestCase.TestStep.StepMatchArgumentsList.StepMatchArgument.Group"
+        }
+    }
+}

@@ -1,0 +1,85 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "properties": {
+        "protocol_version": {
+            "type": "string",
+            "description": "*\n The [SEMVER](https://semver.org/) version number of the protocol"
+        },
+        "implementation": {
+            "$ref": "io.cucumber.messages.Meta.Product",
+            "additionalProperties": true,
+            "description": "SpecFlow, Cucumber-JVM, Cucumber.js, Cucumber-Ruby, Behat etc."
+        },
+        "runtime": {
+            "$ref": "io.cucumber.messages.Meta.Product",
+            "additionalProperties": true,
+            "description": "Java, Ruby, Node.js etc"
+        },
+        "os": {
+            "$ref": "io.cucumber.messages.Meta.Product",
+            "additionalProperties": true,
+            "description": "Windows, Linux, MacOS etc"
+        },
+        "cpu": {
+            "$ref": "io.cucumber.messages.Meta.Product",
+            "additionalProperties": true,
+            "description": "386, arm, amd64 etc"
+        },
+        "ci": {
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "Name of the CI product, e.g. \"Jenkins\", \"CircleCI\" etc."
+                },
+                "url": {
+                    "type": "string",
+                    "description": "Link to the build"
+                },
+                "git": {
+                    "properties": {
+                        "remote": {
+                            "type": "string"
+                        },
+                        "revision": {
+                            "type": "string"
+                        },
+                        "branch": {
+                            "type": "string"
+                        },
+                        "tag": {
+                            "type": "string"
+                        }
+                    },
+                    "additionalProperties": true,
+                    "type": "object",
+                    "description": "Information about Git, provided by the Build/CI server as environment\n variables."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "CI environment"
+        }
+    },
+    "additionalProperties": true,
+    "type": "object",
+    "description": "*\n This message contains meta information about the environment. Consumers can use\n this for various purposes.",
+    "definitions": {
+        "io.cucumber.messages.Meta.Product": {
+            "$schema": "http://json-schema.org/draft-04/schema#",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "The product name"
+                },
+                "version": {
+                    "type": "string",
+                    "description": "The product version"
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "A product has a name and a version",
+            "id": "io.cucumber.messages.Meta.Product"
+        }
+    }
+}

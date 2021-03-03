@@ -1,0 +1,26 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "properties": {
+        "name": {
+            "type": "string",
+            "description": "The name is unique, so we don't need an id."
+        },
+        "regular_expressions": {
+            "items": {
+                "type": "string"
+            },
+            "type": "array"
+        },
+        "prefer_for_regular_expression_match": {
+            "type": "boolean"
+        },
+        "use_for_snippets": {
+            "type": "boolean"
+        },
+        "id": {
+            "type": "string"
+        }
+    },
+    "additionalProperties": true,
+    "type": "object"
+}

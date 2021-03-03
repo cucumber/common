@@ -1,0 +1,56 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "properties": {
+        "uri": {
+            "type": "string"
+        },
+        "java_method": {
+            "properties": {
+                "class_name": {
+                    "type": "string"
+                },
+                "method_name": {
+                    "type": "string"
+                },
+                "method_parameter_types": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                }
+            },
+            "additionalProperties": true,
+            "type": "object"
+        },
+        "java_stack_trace_element": {
+            "properties": {
+                "class_name": {
+                    "type": "string"
+                },
+                "method_name": {
+                    "type": "string"
+                },
+                "file_name": {
+                    "type": "string"
+                }
+            },
+            "additionalProperties": true,
+            "type": "object"
+        },
+        "location": {
+            "properties": {
+                "line": {
+                    "type": "integer"
+                },
+                "column": {
+                    "type": "integer"
+                }
+            },
+            "additionalProperties": true,
+            "type": "object"
+        }
+    },
+    "additionalProperties": true,
+    "type": "object",
+    "description": "*\n Points to a [Source](#io.cucumber.messages.Source) identified by `uri` and a\n [Location](#io.cucumber.messages.Location) within that file."
+}

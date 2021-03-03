@@ -1,0 +1,101 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "properties": {
+        "source": {
+            "properties": {
+                "uri": {
+                    "type": "string"
+                },
+                "java_method": {
+                    "properties": {
+                        "class_name": {
+                            "type": "string"
+                        },
+                        "method_name": {
+                            "type": "string"
+                        },
+                        "method_parameter_types": {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        }
+                    },
+                    "additionalProperties": true,
+                    "type": "object"
+                },
+                "java_stack_trace_element": {
+                    "properties": {
+                        "class_name": {
+                            "type": "string"
+                        },
+                        "method_name": {
+                            "type": "string"
+                        },
+                        "file_name": {
+                            "type": "string"
+                        }
+                    },
+                    "additionalProperties": true,
+                    "type": "object"
+                },
+                "location": {
+                    "properties": {
+                        "line": {
+                            "type": "integer"
+                        },
+                        "column": {
+                            "type": "integer"
+                        }
+                    },
+                    "additionalProperties": true,
+                    "type": "object"
+                }
+            },
+            "additionalProperties": true,
+            "type": "object"
+        },
+        "test_step_id": {
+            "type": "string"
+        },
+        "test_case_started_id": {
+            "type": "string"
+        },
+        "body": {
+            "type": "string",
+            "description": "*\n The body of the attachment. If `content_encoding` is `IDENTITY`, the attachment\n is simply the string. If it's `BASE64`, the string should be Base64 decoded to\n obtain the attachment."
+        },
+        "media_type": {
+            "type": "string",
+            "description": "*\n The media type of the data. This can be any valid\n [IANA Media Type](https://www.iana.org/assignments/media-types/media-types.xhtml)\n as well as Cucumber-specific media types such as `text/x.cucumber.gherkin+plain`\n and `text/x.cucumber.stacktrace+plain`"
+        },
+        "content_encoding": {
+            "enum": [
+                "IDENTITY",
+                0,
+                "BASE64",
+                1
+            ],
+            "oneOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "integer"
+                }
+            ],
+            "description": "*\n Whether to interpret `body` \"as-is\" (IDENTITY) or if it needs to be Base64-decoded (BASE64).\n\n Content encoding is *not* determined by the media type, but rather by the type\n of the object being attached:\n\n - string =\u003e IDENTITY\n - byte array =\u003e BASE64\n - stream =\u003e BASE64"
+        },
+        "file_name": {
+            "type": "string",
+            "description": "*\n Suggested file name of the attachment. (Provided by the user as an argument to `attach`)"
+        },
+        "url": {
+            "type": "string",
+            "description": "*\n A URL where the attachment can be retrieved. This field should not be set by Cucumber.\n It should be set by a program that reads a message stream and does the following for\n each Attachment message:\n\n - Writes the body (after base64 decoding if necessary) to a new file.\n - Sets `body` and `content_encoding` to `null`\n - Writes out the new attachment message\n\n This will result in a smaller message stream, which can improve performance and\n reduce bandwidth of message consumers. It also makes it easier to process and download attachments\n separately from reports."
+        }
+    },
+    "additionalProperties": true,
+    "type": "object",
+    "description": "//// Attachments (parse errors, execution errors, screenshots, links...)\n\n*\n An attachment represents any kind of data associated with a line in a\n [Source](#io.cucumber.messages.Source) file. It can be used for:\n\n * Syntax errors during parse time\n * Screenshots captured and attached during execution\n * Logs captured and attached during execution\n\n It is not to be used for runtime errors raised/thrown during execution. This\n is captured in `TestResult`."
+}

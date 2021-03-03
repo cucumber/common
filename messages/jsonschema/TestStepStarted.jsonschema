@@ -1,0 +1,27 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "properties": {
+        "timestamp": {
+            "properties": {
+                "seconds": {
+                    "type": "string",
+                    "description": "Represents seconds of UTC time since Unix epoch\n 1970-01-01T00:00:00Z. Must be from 0001-01-01T00:00:00Z to\n 9999-12-31T23:59:59Z inclusive."
+                },
+                "nanos": {
+                    "type": "integer",
+                    "description": "Non-negative fractions of a second at nanosecond resolution. Negative\n second values with fractions must still have non-negative nanos values\n that count forward in time. Must be from 0 to 999,999,999\n inclusive."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object"
+        },
+        "test_step_id": {
+            "type": "string"
+        },
+        "test_case_started_id": {
+            "type": "string"
+        }
+    },
+    "additionalProperties": true,
+    "type": "object"
+}
