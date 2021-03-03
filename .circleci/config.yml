@@ -293,14 +293,14 @@ jobs:
             make
 
   html-formatter-javascript:
-    executor: docker-circleci-node-15
+    executor: docker-cucumber-build
     steps:
       - attach_workspace:
           at: "~/cucumber"
       - run:
           name: html-formatter/javascript
           command: |
-            sudo npm install --global npm@7
+            npm install --global npm@7
             cd html-formatter/javascript
             make
 
