@@ -312,6 +312,10 @@ jobs:
             sudo npm install --global npm@7
             cd html-formatter/javascript
             make
+      - persist_to_workspace:
+          root: ~/cucumber
+          paths:
+            - html-formatter/javascript/dist
 
   json-formatter-javascript-testdata:
     executor: docker-circleci-node-12
