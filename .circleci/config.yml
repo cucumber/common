@@ -355,6 +355,7 @@ jobs:
           command: |
             sudo npm install --global npm@7
             cd json-to-messages/javascript-testdata
+            npm install
             make
       - persist_to_workspace:
           root: ~/cucumber
