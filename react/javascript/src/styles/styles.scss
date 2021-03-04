@@ -1,3 +1,5 @@
+@import './theming';
+
 $border-color: #4B5662;
 $white: #F0EFFB;
 $summary-border-color: rgba(0, 0, 0, 0.1);
@@ -10,10 +12,6 @@ $statusColors:
   "ambiguous" #F4EBFD,
   "failed" #BB0000,
   "unknown" #B6BECB;
-
-$keywordColor: #000080;
-$parameterColor: #297bde;
-$tagColor: #808000;
 
 @mixin padding-table-cell {
   padding: .3em;
@@ -41,8 +39,8 @@ $tagColor: #808000;
   .gherkin-document-list {
     font-size: 14px;
     font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
-    color: #161C24;
-    background: #fff;
+    color: $textColor;
+    background: $backgroundColor;
     overflow-x: hidden;
 
     pre {

@@ -1,5 +1,7 @@
+@import '../../styles/theming';
+
 .docstring {
-    color: var(--cucumber-doc-string-color, #008080);
+    color: $docstringColor;
     overflow-x: auto;
 
     &::before,
