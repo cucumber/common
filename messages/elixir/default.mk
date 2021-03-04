@@ -17,7 +17,12 @@ update-dependencies:
 	@echo -e "\033[0;31mSome packages require some options (such as ex_doc), check the package its readme / hexdocs.\033[0m"
 .PHONY: update-dependencies
 
-pre-release: update-version update-dependencies clean default
+remove-local-dependencies:
+	cat mix.exs | sed 's|{:cucumber_messages, "\([^"]*\)", path: "../../messages/elixir"}|{:cucumber_messages, "\1"}|' > mix.exs.tmp
+	mv mix.exs.tmp mix.exs
+.PHONY: remove-local-dependencies
+
+pre-release: remove-local-dependencies update-version update-dependencies clean default
 	[ -f '/home/cukebot/import-gpg-key.sh' ] && /home/cukebot/import-gpg-key.sh
 .PHONY: pre-release
 
@@ -41,7 +46,8 @@ endif
 .PHONY: publish
 
 post-release:
-	@echo "No post-release for elixir projects (yet)"
+	cat mix.exs | sed 's|{:cucumber_messages, "\([^"]*\)"}|{:cucumber_messages, "\1", path: "../../messages/elixir"}|' > mix.exs.tmp
+	mv mix.exs.tmp mix.exs
 .PHONY: post-release
 
 clean:
