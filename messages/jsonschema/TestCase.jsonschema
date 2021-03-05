@@ -38,7 +38,7 @@
                                                 "type": "string"
                                             },
                                             "group": {
-                                                "$ref": "#/definitions/io.cucumber.messages.TestCase.TestStep.StepMatchArgumentsList.StepMatchArgument.Group",
+                                                "$ref": "#/definitions/Group",
                                                 "additionalProperties": false,
                                                 "description": "*\n Represents the outermost capture group of an argument. This message closely matches the\n `Group` class in the `cucumber-expressions` library."
                                             }
@@ -72,7 +72,7 @@
     "type": "object",
     "description": "//// TestCases\n\n*\n A `TestCase` contains a sequence of `TestStep`s.",
     "definitions": {
-        "io.cucumber.messages.TestCase.TestStep.StepMatchArgumentsList.StepMatchArgument.Group": {
+        "Group": {
             "$schema": "http://json-schema.org/draft-04/schema#",
             "properties": {
                 "start": {
@@ -84,14 +84,14 @@
                 "children": {
                     "items": {
                         "$schema": "http://json-schema.org/draft-04/schema#",
-                        "$ref": "#/definitions/io.cucumber.messages.TestCase.TestStep.StepMatchArgumentsList.StepMatchArgument.Group"
+                        "$ref": "#/definitions/Group"
                     },
                     "type": "array"
                 }
             },
             "additionalProperties": false,
             "type": "object",
-            "id": "io.cucumber.messages.TestCase.TestStep.StepMatchArgumentsList.StepMatchArgument.Group"
+            "id": "Group"
         }
     }
 }

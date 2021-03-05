@@ -6,22 +6,22 @@
             "description": "*\n The [SEMVER](https://semver.org/) version number of the protocol"
         },
         "implementation": {
-            "$ref": "#/definitions/io.cucumber.messages.Meta.Product",
+            "$ref": "#/definitions/Product",
             "additionalProperties": false,
             "description": "SpecFlow, Cucumber-JVM, Cucumber.js, Cucumber-Ruby, Behat etc."
         },
         "runtime": {
-            "$ref": "#/definitions/io.cucumber.messages.Meta.Product",
+            "$ref": "#/definitions/Product",
             "additionalProperties": false,
             "description": "Java, Ruby, Node.js etc"
         },
         "os": {
-            "$ref": "#/definitions/io.cucumber.messages.Meta.Product",
+            "$ref": "#/definitions/Product",
             "additionalProperties": false,
             "description": "Windows, Linux, MacOS etc"
         },
         "cpu": {
-            "$ref": "#/definitions/io.cucumber.messages.Meta.Product",
+            "$ref": "#/definitions/Product",
             "additionalProperties": false,
             "description": "386, arm, amd64 etc"
         },
@@ -64,7 +64,7 @@
     "type": "object",
     "description": "*\n This message contains meta information about the environment. Consumers can use\n this for various purposes.",
     "definitions": {
-        "io.cucumber.messages.Meta.Product": {
+        "Product": {
             "$schema": "http://json-schema.org/draft-04/schema#",
             "properties": {
                 "name": {
@@ -79,7 +79,7 @@
             "additionalProperties": false,
             "type": "object",
             "description": "A product has a name and a version",
-            "id": "io.cucumber.messages.Meta.Product"
+            "id": "Product"
         }
     }
 }

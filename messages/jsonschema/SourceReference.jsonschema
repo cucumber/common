@@ -38,14 +38,7 @@
             "type": "object"
         },
         "location": {
-            "properties": {
-                "line": {
-                    "type": "integer"
-                },
-                "column": {
-                    "type": "integer"
-                }
-            },
+            "$ref": "./Location.jsonschema",
             "additionalProperties": false,
             "type": "object"
         }

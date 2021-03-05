@@ -30,58 +30,7 @@
             "type": "object"
         },
         "source_reference": {
-            "properties": {
-                "uri": {
-                    "type": "string"
-                },
-                "java_method": {
-                    "properties": {
-                        "class_name": {
-                            "type": "string"
-                        },
-                        "method_name": {
-                            "type": "string"
-                        },
-                        "method_parameter_types": {
-                            "items": {
-                                "type": "string"
-                            },
-                            "type": "array"
-                        }
-                    },
-                    "additionalProperties": false,
-                    "type": "object"
-                },
-                "java_stack_trace_element": {
-                    "properties": {
-                        "class_name": {
-                            "type": "string"
-                        },
-                        "method_name": {
-                            "type": "string"
-                        },
-                        "file_name": {
-                            "type": "string"
-                        }
-                    },
-                    "additionalProperties": false,
-                    "type": "object"
-                },
-                "location": {
-                    "properties": {
-                        "line": {
-                            "type": "integer"
-                        },
-                        "column": {
-                            "type": "integer"
-                        }
-                    },
-                    "additionalProperties": false,
-                    "type": "object"
-                }
-            },
-            "additionalProperties": false,
-            "type": "object"
+            "$ref": "./SourceReference.jsonschema"
         }
     },
     "additionalProperties": false,
