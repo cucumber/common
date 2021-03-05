@@ -28,3 +28,5 @@ erl_crash.dump
 
 .deps
 .tested
+.compile_messages
+.setup_mix_and_get_dependencies
