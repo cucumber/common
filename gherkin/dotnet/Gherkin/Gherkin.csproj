@@ -16,7 +16,7 @@
      <PackageTags>specflow gherkin cucumber</PackageTags>
      <PackageProjectUrl>https://github.com/cucumber/cucumber/tree/master/gherkin</PackageProjectUrl>
      <PackageIconUrl>https://cucumber.io/images/cucumber-mark-32x32.png</PackageIconUrl>
-     <PackageLicenseUrl>https://github.com/cucumber/cucumber/blob/master/gherkin/LICENSE</PackageLicenseUrl>
+     <PackageLicense>MIT</PackageLicense>
      <Version>6.0.0</Version>
      <GeneratePackageOnBuild>true</GeneratePackageOnBuild>     
   </PropertyGroup>

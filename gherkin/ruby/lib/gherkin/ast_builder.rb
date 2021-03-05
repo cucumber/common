@@ -230,6 +230,7 @@ module Gherkin
         return unless header
         rule_line = header.get_token(:RuleLine)
         return unless rule_line
+        tags = get_tags(header)
         children = []
         background = node.get_single(:Background)
         children.push(Cucumber::Messages::GherkinDocument::Feature::FeatureChild::RuleChild.new(background: background)) if background
@@ -240,6 +241,7 @@ module Gherkin
 
         Cucumber::Messages::GherkinDocument::Feature::FeatureChild::Rule.new(
           id: @id_generator.new_id,
+          tags: tags,
           location: get_location(rule_line, 0),
           keyword: rule_line.matched_keyword,
           name: rule_line.matched_text,

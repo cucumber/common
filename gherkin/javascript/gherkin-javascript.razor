@@ -140,9 +140,11 @@ export default class Parser<AstNode> {
   }
 
   private addError(context: Context, error: Error) {
-    context.errors.push(error)
-    if (context.errors.length > 10)
-      throw CompositeParserException.create(context.errors)
+    if (!context.errors.map(e => { return e.message }).includes(error.message)) {
+      context.errors.push(error)
+      if (context.errors.length > 10)
+        throw CompositeParserException.create(context.errors)
+    }
   }
 
   private startRule(context: Context, ruleType: RuleType) {
