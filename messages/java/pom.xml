@@ -67,7 +67,6 @@
                 <version>1.0.2</version>
                 <configuration>
                     <sourceDirectory>${basedir}/../jsonschema</sourceDirectory>
-                    <includes>TestCaseFinished*</includes>
                     <annotationStyle>none</annotationStyle>
                     <includeConstructors>true</includeConstructors>
                     <targetPackage>io.cucumber.messages.types</targetPackage>

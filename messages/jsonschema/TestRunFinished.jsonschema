@@ -6,7 +6,7 @@
             "description": "success = StrictModeEnabled ? (failed_count == 0 \u0026\u0026 ambiguous_count == 0 \u0026\u0026 undefined_count == 0 \u0026\u0026 pending_count == 0) : (failed_count == 0 \u0026\u0026 ambiguous_count == 0)"
         },
         "timestamp": {
-           "$ref": "./Timestamp.jsonschema",
+            "$ref": "./Timestamp.jsonschema",
             "additionalProperties": false,
             "type": "object",
             "description": "Timestamp when the TestRun is finished"
