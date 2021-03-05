@@ -102,6 +102,25 @@ public class BuiltInParameterTransformerTest {
     }
 
     @Test
+    public void should_throw_exception_for_empty_and_nonsingelchar_string() {
+        final Executable testMethod1 = () -> objectMapper.transform("", Character.class);
+
+        final IllegalArgumentException thrownException1 = assertThrows(IllegalArgumentException.class, testMethod1);
+        assertThat("Unexpected message", thrownException1.getMessage(), is(equalTo(
+                "Can't transform '' to class java.lang.Character\nBuiltInParameterTransformer only supports a limited number of class types\n" +
+                        "Consider using a different object mapper or register a parameter type for class java.lang.Character"
+        )));
+
+        Executable testMethod2 = () -> objectMapper.transform("ab", Character.class);
+
+        final IllegalArgumentException thrownException2 = assertThrows(IllegalArgumentException.class, testMethod2);
+        assertThat("Unexpected message", thrownException2.getMessage(), is(equalTo(
+                "Can't transform 'ab' to class java.lang.Character\nBuiltInParameterTransformer only supports a limited number of class types\n" +
+                        "Consider using a different object mapper or register a parameter type for class java.lang.Character"
+        )));
+    }
+
+    @Test
     public void should_transform_optional() {
         assertThat(objectMapper.transform("abc", Optional.class), is(equalTo(Optional.of("abc"))));
         assertThat(objectMapper.transform("", Optional.class), is(equalTo(Optional.of(""))));

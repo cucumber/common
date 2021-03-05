@@ -42,8 +42,8 @@ final class BuiltInParameterTransformer implements ParameterByTypeTransformer {
             return fromValue;
         }
 
-        if (Character.class.equals(toValueClass) || char.class.equals(toValueClass)) {
-            return fromValue.toCharArray()[0];
+        if ((Character.class.equals(toValueClass) || char.class.equals(toValueClass)) && fromValue.length() == 1) {
+                return fromValue.toCharArray()[0];
         }
 
         if (BigInteger.class.equals(toValueClass)) {
