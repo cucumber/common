@@ -96,6 +96,12 @@ public class BuiltInParameterTransformerTest {
     }
 
     @Test
+    public void should_transform_char() {
+        assertThat(objectMapper.transform("A", char.class), is(equalTo('A')));
+        assertThat(objectMapper.transform("b", Character.class), is(equalTo('b')));
+    }
+
+    @Test
     public void should_transform_optional() {
         assertThat(objectMapper.transform("abc", Optional.class), is(equalTo(Optional.of("abc"))));
         assertThat(objectMapper.transform("", Optional.class), is(equalTo(Optional.of(""))));
