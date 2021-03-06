@@ -135,7 +135,7 @@ defmodule CucumberGherkin do
       Enum.map(errors, fn error ->
         message = CucumberGherkin.ParserException.get_message(error)
         location = CucumberGherkin.ParserException.get_location(error)
-        source_ref = %CucumberMessages.SourceReference{location: location, uri: uri}
+        source_ref = %CucumberMessages.SourceReference{location: location, reference: {:uri, uri}}
         to_be_wrapped = %CucumberMessages.ParseError{message: message, source: source_ref}
         put_msg_envelope(:parse_error, to_be_wrapped)
       end)
