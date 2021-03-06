@@ -21,12 +21,19 @@ import parameterTypes from '../../acceptance/parameter-types/parameter-types'
 import rules from '../../acceptance/rules/rules'
 import stacktTraces from '../../acceptance/stack-traces/stack-traces'
 import unknownParameterTypes from '../../acceptance/unknown-parameter-type/unknown-parameter-type'
+import CucumberTheme, { Theme } from '../components/app/CucumberTheme'
 
 export default {
   title: 'GherkinDocument',
   component: GherkinDocument,
   argTypes: {
-    backgroundColor: { control: 'color' },
+    theme: {
+      control: {
+        type: 'inline-radio',
+        options: ['default', 'dark'],
+      },
+      defaultValue: 'default',
+    },
   },
 } as Meta
 
@@ -35,13 +42,18 @@ type Props = {
   cucumberQuery: CucumberQuery
   envelopesQuery: EnvelopesQuery
 }
-type TemplateArgs = { envelopes: readonly messages.IEnvelope[] }
+type TemplateArgs = {
+  envelopes: readonly messages.IEnvelope[]
+  theme?: Theme
+}
 
-const Template: Story<TemplateArgs> = ({ envelopes }) => {
+const Template: Story<TemplateArgs> = ({ envelopes, theme }) => {
   return (
-    <QueriesWrapper {...props(envelopes)}>
-      <GherkinDocumentList />
-    </QueriesWrapper>
+    <CucumberTheme theme={theme}>
+      <QueriesWrapper {...props(envelopes)}>
+        <GherkinDocumentList />
+      </QueriesWrapper>
+    </CucumberTheme>
   )
 }
 
