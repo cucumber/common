@@ -21,7 +21,7 @@ import parameterTypes from '../../acceptance/parameter-types/parameter-types'
 import rules from '../../acceptance/rules/rules'
 import stacktTraces from '../../acceptance/stack-traces/stack-traces'
 import unknownParameterTypes from '../../acceptance/unknown-parameter-type/unknown-parameter-type'
-import Theme, { IncludedTheme } from '../components/theming/Theme'
+import Theme, { IncludedTheme } from '../components/customise/Theme'
 
 export default {
   title: 'GherkinDocument',
