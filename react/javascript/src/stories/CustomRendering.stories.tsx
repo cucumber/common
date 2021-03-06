@@ -10,10 +10,12 @@ import { EnvelopesQuery } from '../EnvelopesQueryContext'
 
 import '../styles/react-accessible-accordion.css'
 import '../styles/styles.scss'
+import './custom-classes.scss'
 
 import attachments from '../../acceptance/attachments/attachments'
 import CustomRendering, {
   CustomRenderingSupport,
+  DocStringProps,
 } from '../components/customise/CustomRendering'
 
 export default {
@@ -56,7 +58,12 @@ Components.args = {
   envelopes: attachments,
   support: {
     // eslint-disable-next-line react/display-name
-    DocString: () => <>Hello world</>,
+    DocString: (props: DocStringProps) => (
+      <>
+        <p>I am going to render this doc string in a textarea:</p>
+        <textarea>{props.docString.content}</textarea>
+      </>
+    ),
   },
 }
 
