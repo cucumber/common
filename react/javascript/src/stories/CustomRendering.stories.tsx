@@ -12,7 +12,9 @@ import '../styles/react-accessible-accordion.css'
 import '../styles/styles.scss'
 
 import attachments from '../../acceptance/attachments/attachments'
-import CustomRendering from '../components/customise/CustomRendering'
+import CustomRendering, {
+  CustomRenderingSupport,
+} from '../components/customise/CustomRendering'
 
 export default {
   title: 'CustomRendering',
@@ -26,17 +28,12 @@ type Props = {
 }
 type TemplateArgs = {
   envelopes: readonly messages.IEnvelope[]
+  support: CustomRenderingSupport
 }
 
-const Template: Story<TemplateArgs> = ({ envelopes }) => {
+const Template: Story<TemplateArgs> = ({ envelopes, support }) => {
   return (
-    <CustomRendering
-      support={{
-        DocString: {
-          docstring: 'custom-docstring',
-        },
-      }}
-    >
+    <CustomRendering support={support}>
       <QueriesWrapper {...props(envelopes)}>
         <GherkinDocumentList />
       </QueriesWrapper>
@@ -47,6 +44,20 @@ const Template: Story<TemplateArgs> = ({ envelopes }) => {
 export const Classes = Template.bind({})
 Classes.args = {
   envelopes: attachments,
+  support: {
+    DocString: {
+      docstring: 'custom-docstring',
+    },
+  },
+}
+
+export const Components = Template.bind({})
+Components.args = {
+  envelopes: attachments,
+  support: {
+    // eslint-disable-next-line react/display-name
+    DocString: () => <>Hello world</>,
+  },
 }
 
 function props(envelopes: readonly messages.IEnvelope[]): Props {
