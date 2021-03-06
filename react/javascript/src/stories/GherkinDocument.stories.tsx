@@ -21,7 +21,7 @@ import parameterTypes from '../../acceptance/parameter-types/parameter-types'
 import rules from '../../acceptance/rules/rules'
 import stacktTraces from '../../acceptance/stack-traces/stack-traces'
 import unknownParameterTypes from '../../acceptance/unknown-parameter-type/unknown-parameter-type'
-import CucumberTheme, { Theme } from '../components/app/CucumberTheme'
+import Theme, { IncludedTheme } from '../components/theming/Theme'
 
 export default {
   title: 'GherkinDocument',
@@ -44,16 +44,16 @@ type Props = {
 }
 type TemplateArgs = {
   envelopes: readonly messages.IEnvelope[]
-  theme?: Theme
+  theme?: IncludedTheme
 }
 
 const Template: Story<TemplateArgs> = ({ envelopes, theme }) => {
   return (
-    <CucumberTheme theme={theme}>
+    <Theme theme={theme}>
       <QueriesWrapper {...props(envelopes)}>
         <GherkinDocumentList />
       </QueriesWrapper>
-    </CucumberTheme>
+    </Theme>
   )
 }
 
