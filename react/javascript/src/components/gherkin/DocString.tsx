@@ -7,12 +7,12 @@ import {
 } from '../customise/CustomRendering'
 
 const DocString: React.FunctionComponent<DocStringProps> = ({ docString }) => {
-  const { DocString } = useContext(CustomRenderingContext)
-  if (typeof DocString === 'function') {
-    return <DocString docString={docString} />
+  const { DocString: Custom } = useContext(CustomRenderingContext)
+  if (typeof Custom === 'function') {
+    return <Custom docString={docString} />
   }
   return (
-    <pre className={(DocString ?? styles).docstring}>
+    <pre className={(Custom ?? styles).docstring}>
       <HighLight text={docString.content} />
     </pre>
   )
