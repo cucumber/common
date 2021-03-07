@@ -6,7 +6,7 @@ TS_TYPE_FILES = $(patsubst ../jsonschema/%.jsonschema,src/types/%.d.ts,$(JSONSCH
 .codegen: src/messages.d.ts $(TS_TYPE_FILES)
 
 src/types/%.d.ts: ../jsonschema/%.jsonschema
-	node_modules/.bin/json2ts --input $< --output $@
+	node_modules/.bin/json2ts --cwd ../jsonschema --input $< --output $@
 
 src/messages.js: messages.proto
 	npm run pbjs

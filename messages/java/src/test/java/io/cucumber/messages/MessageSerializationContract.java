@@ -1,5 +1,8 @@
 package io.cucumber.messages;
 
+import io.cucumber.messages.types.Attachment;
+import io.cucumber.messages.types.Envelope;
+import io.cucumber.messages.types.Source;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
@@ -16,36 +19,42 @@ abstract class MessageSerializationContract {
 
     @Test
     void can_serialise_messages_over_a_stream() throws IOException {
-        List<Messages.Envelope> outgoingMessages = createOutgoingMessages();
+        List<Envelope> outgoingMessages = createOutgoingMessages();
 
         ByteArrayOutputStream output = new ByteArrayOutputStream();
         MessageWriter messageWriter = makeMessageWriter(output);
         writeOutgoingMessages(outgoingMessages, messageWriter);
 
         InputStream input = new ByteArrayInputStream(output.toByteArray());
-        Iterable<Messages.Envelope> incomingMessages = makeMessageIterable(input);
+        Iterable<Envelope> incomingMessages = makeMessageIterable(input);
 
         assertEquals(outgoingMessages, toList(incomingMessages));
     }
 
     protected abstract MessageWriter makeMessageWriter(OutputStream output);
 
-    protected abstract Iterable<Messages.Envelope> makeMessageIterable(InputStream input);
+    protected abstract Iterable<Envelope> makeMessageIterable(InputStream input);
 
-    private List<Messages.Envelope> createOutgoingMessages() {
-        List<Messages.Envelope> outgoingMessages = new ArrayList<>();
-        outgoingMessages.add(Messages.Envelope.newBuilder()
-                .setSource(Messages.Source.newBuilder()
-                        .setData("Feature: Hello")).build());
-        outgoingMessages.add(Messages.Envelope.newBuilder()
-                .setAttachment(Messages.Attachment.newBuilder()
-                        .setBody("the body")).build());
+    private List<Envelope> createOutgoingMessages() {
+        List<Envelope> outgoingMessages = new ArrayList<>();
+        {
+            Envelope envelope = new Envelope();
+            envelope.setSource(new Source(null, "Feature: Hello", null));
+            outgoingMessages.add(envelope);
+        }
+        {
+            Envelope envelope = new Envelope();
+            Attachment attachment = new Attachment();
+            attachment.setBody("the body");
+            envelope.setAttachment(attachment);
+            outgoingMessages.add(envelope);
+        }
         return outgoingMessages;
     }
 
-    private void writeOutgoingMessages(List<Messages.Envelope> messages, MessageWriter messageWriter)
+    private void writeOutgoingMessages(List<Envelope> messages, MessageWriter messageWriter)
             throws IOException {
-        for (Messages.Envelope writtenMessage : messages) {
+        for (Envelope writtenMessage : messages) {
             messageWriter.write(writtenMessage);
         }
     }

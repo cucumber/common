@@ -1,124 +1,147 @@
 {
-    "$schema": "http://json-schema.org/draft-04/schema#",
-    "properties": {
-        "id": {
-            "type": "string",
-            "description": "*\n A unique id for the pickle. This is a [SHA1](https://en.wikipedia.org/wiki/SHA-1) hash\n from the source data and the `locations` of the pickle.\n This ID will change if source the file is modified."
-        },
-        "uri": {
-            "type": "string",
-            "description": "The uri of the source file"
-        },
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "*\n A unique id for the pickle. This is a [SHA1](https://en.wikipedia.org/wiki/SHA-1) hash\n from the source data and the `locations` of the pickle.\n This ID will change if source the file is modified."
+    },
+    "uri": {
+      "type": "string",
+      "description": "The uri of the source file"
+    },
+    "name": {
+      "type": "string",
+      "description": "The name of the pickle"
+    },
+    "language": {
+      "type": "string",
+      "description": "The language of the pickle"
+    },
+    "steps": {
+      "items": {
+        "$ref": "#/definitions/PickleStep"
+      },
+      "type": "array",
+      "description": "One or more steps"
+    },
+    "tags": {
+      "items": {
+        "$ref": "#/definitions/PickleTag"
+      },
+      "type": "array",
+      "description": "*\n One or more tags. If this pickle is constructed from a Gherkin document,\n It includes inherited tags from the `Feature` as well."
+    },
+    "ast_node_ids": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "description": "*\n Points to the AST node locations of the pickle. The last one represents the unique\n id of the pickle. A pickle constructed from `Examples` will have the first\n id originating from the `Scenario` AST node, and the second from the `TableRow` AST node."
+    }
+  },
+  "additionalProperties": false,
+  "type": "object",
+  "description": "//// Pickles\n\n*\n A `Pickle` represents a template for a `TestCase`. It is typically derived\n from another format, such as [GherkinDocument](#io.cucumber.messages.GherkinDocument).\n In the future a `Pickle` may be derived from other formats such as Markdown or\n Excel files.\n\n By making `Pickle` the main data structure Cucumber uses for execution, the\n implementation of Cucumber itself becomes simpler, as it doesn't have to deal\n with the complex structure of a [GherkinDocument](#io.cucumber.messages.GherkinDocument).\n\n Each `PickleStep` of a `Pickle` is matched with a `StepDefinition` to create a `TestCase`",
+  "definitions": {
+    "PickleTag": {
+      "$schema": "http://json-schema.org/draft-04/schema#",
+      "properties": {
         "name": {
-            "type": "string",
-            "description": "The name of the pickle"
+          "type": "string"
         },
-        "language": {
-            "type": "string",
-            "description": "The language of the pickle"
+        "ast_node_id": {
+          "type": "string",
+          "description": "Points to the AST node this was created from"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "description": "*\n A tag"
+    },
+    "PickleDocString": {
+      "properties": {
+        "media_type": {
+          "type": "string"
         },
-        "steps": {
-            "items": {
-                "$schema": "http://json-schema.org/draft-04/schema#",
-                "properties": {
-                    "text": {
-                        "type": "string"
-                    },
-                    "argument": {
-                        "properties": {
-                            "doc_string": {
-                                "properties": {
-                                    "media_type": {
-                                        "type": "string"
-                                    },
-                                    "content": {
-                                        "type": "string"
-                                    }
-                                },
-                                "additionalProperties": false,
-                                "type": "object"
-                            },
-                            "data_table": {
-                                "properties": {
-                                    "rows": {
-                                        "items": {
-                                            "$schema": "http://json-schema.org/draft-04/schema#",
-                                            "properties": {
-                                                "cells": {
-                                                    "items": {
-                                                        "$schema": "http://json-schema.org/draft-04/schema#",
-                                                        "properties": {
-                                                            "value": {
-                                                                "type": "string"
-                                                            }
-                                                        },
-                                                        "additionalProperties": false,
-                                                        "type": "object"
-                                                    },
-                                                    "type": "array"
-                                                }
-                                            },
-                                            "additionalProperties": false,
-                                            "type": "object"
-                                        },
-                                        "type": "array"
-                                    }
-                                },
-                                "additionalProperties": false,
-                                "type": "object"
-                            }
-                        },
-                        "additionalProperties": false,
-                        "type": "object",
-                        "description": "An optional argument"
-                    },
-                    "id": {
-                        "type": "string",
-                        "description": "A unique ID for the PickleStep"
-                    },
-                    "ast_node_ids": {
-                        "items": {
-                            "type": "string"
-                        },
-                        "type": "array",
-                        "description": "References the IDs of the source of the step. For Gherkin, this can be\n the ID of a Step, and possibly also the ID of a TableRow"
-                    }
-                },
-                "additionalProperties": false,
-                "type": "object",
-                "description": "*\n An executable step"
-            },
-            "type": "array",
-            "description": "One or more steps"
+        "content": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "PickleTableCell": {
+      "$schema": "http://json-schema.org/draft-04/schema#",
+      "properties": {
+        "value": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "PickleTableRow": {
+      "$schema": "http://json-schema.org/draft-04/schema#",
+      "properties": {
+        "cells": {
+          "items": {
+            "$ref": "#/definitions/PickleTableCell"
+          },
+          "type": "array"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "PickleTable": {
+      "properties": {
+        "rows": {
+          "items": {
+            "$ref": "#/definitions/PickleTableRow"
+          },
+          "type": "array"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "PickleStepArgument": {
+      "properties": {
+        "doc_string": {
+          "$ref": "#/definitions/PickleDocString"
         },
-        "tags": {
-            "items": {
-                "$schema": "http://json-schema.org/draft-04/schema#",
-                "properties": {
-                    "name": {
-                        "type": "string"
-                    },
-                    "ast_node_id": {
-                        "type": "string",
-                        "description": "Points to the AST node this was created from"
-                    }
-                },
-                "additionalProperties": false,
-                "type": "object",
-                "description": "*\n A tag"
-            },
-            "type": "array",
-            "description": "*\n One or more tags. If this pickle is constructed from a Gherkin document,\n It includes inherited tags from the `Feature` as well."
+        "data_table": {
+          "$ref": "#/definitions/PickleTable"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "description": "An optional argument"
+    },
+    "PickleStep": {
+      "$schema": "http://json-schema.org/draft-04/schema#",
+      "properties": {
+        "text": {
+          "type": "string"
+        },
+        "argument": {
+          "$ref": "#/definitions/PickleStepArgument"
+        },
+        "id": {
+          "type": "string",
+          "description": "A unique ID for the PickleStep"
         },
         "ast_node_ids": {
-            "items": {
-                "type": "string"
-            },
-            "type": "array",
-            "description": "*\n Points to the AST node locations of the pickle. The last one represents the unique\n id of the pickle. A pickle constructed from `Examples` will have the first\n id originating from the `Scenario` AST node, and the second from the `TableRow` AST node."
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "References the IDs of the source of the step. For Gherkin, this can be\n the ID of a Step, and possibly also the ID of a TableRow"
         }
-    },
-    "additionalProperties": false,
-    "type": "object",
-    "description": "//// Pickles\n\n*\n A `Pickle` represents a template for a `TestCase`. It is typically derived\n from another format, such as [GherkinDocument](#io.cucumber.messages.GherkinDocument).\n In the future a `Pickle` may be derived from other formats such as Markdown or\n Excel files.\n\n By making `Pickle` the main data structure Cucumber uses for execution, the\n implementation of Cucumber itself becomes simpler, as it doesn't have to deal\n with the complex structure of a [GherkinDocument](#io.cucumber.messages.GherkinDocument).\n\n Each `PickleStep` of a `Pickle` is matched with a `StepDefinition` to create a `TestCase`"
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "description": "*\n An executable step"
+    }
+  }
 }

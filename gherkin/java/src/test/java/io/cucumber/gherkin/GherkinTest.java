@@ -1,9 +1,12 @@
 package io.cucumber.gherkin;
 
 import io.cucumber.messages.IdGenerator;
-import io.cucumber.messages.Messages.Envelope;
-import io.cucumber.messages.Messages.GherkinDocument;
-import io.cucumber.messages.Messages.Pickle;
+import io.cucumber.messages.types.Envelope;
+import io.cucumber.messages.types.Feature;
+import io.cucumber.messages.types.GherkinDocument;
+import io.cucumber.messages.types.Pickle;
+import io.cucumber.messages.types.PickleStep;
+import io.cucumber.messages.types.Scenario;
 import org.junit.Test;
 
 import java.util.List;
@@ -15,7 +18,7 @@ import static java.util.Collections.singletonList;
 import static org.junit.Assert.assertEquals;
 
 public class GherkinTest {
-    private IdGenerator idGenerator = new IdGenerator.Incrementing();
+    private final IdGenerator idGenerator = new IdGenerator.Incrementing();
 
     @Test
     public void use_this_in_readme() {
@@ -24,7 +27,7 @@ public class GherkinTest {
         boolean includeAst = true;
         boolean includePickles = true;
         Stream<Envelope> envelopeStream = Gherkin.fromPaths(paths, includeSource, includeAst, includePickles, idGenerator);
-        Stream<Envelope> pickleStream = envelopeStream.filter(Envelope::hasPickle);
+        Stream<Envelope> pickleStream = envelopeStream.filter(envelope -> envelope.getPickle() != null);
 
         assertEquals("minimalistic", pickleStream.collect(Collectors.toList()).get(0).getPickle().getName());
     }
@@ -42,11 +45,11 @@ public class GherkinTest {
         GherkinDocument gherkinDocument = envelopes.get(0).getGherkinDocument();
 
         // Get the Feature node of the AST
-        GherkinDocument.Feature feature = gherkinDocument.getFeature();
+        Feature feature = gherkinDocument.getFeature();
         assertEquals("Minimal", feature.getName());
 
         // Get the first Scenario node of the Feature node
-        GherkinDocument.Feature.Scenario scenario = feature.getChildren(0).getScenario();
+        Scenario scenario = feature.getChildren().get(0).getScenario();
         assertEquals("minimalistic", scenario.getName());
     }
 
@@ -58,7 +61,7 @@ public class GherkinTest {
         Pickle pickle = envelopes.get(0).getPickle();
 
         // Get the first step of the pickle
-        Pickle.PickleStep step = pickle.getSteps(0);
+        PickleStep step = pickle.getSteps().get(0);
         assertEquals("the minimalism", step.getText());
     }
 
@@ -71,7 +74,7 @@ public class GherkinTest {
         List<Envelope> envelopes = Gherkin.fromSources(singletonList(envelope), false, true, false, idGenerator).collect(Collectors.toList());
 
         GherkinDocument gherkinDocument = envelopes.get(0).getGherkinDocument();
-        GherkinDocument.Feature feature = gherkinDocument.getFeature();
+        Feature feature = gherkinDocument.getFeature();
         assertEquals("Minimal", feature.getName());
     }
 }

@@ -16,7 +16,7 @@
 
     <properties>
         <project.Automatic-Module-Name>io.cucumber.messages</project.Automatic-Module-Name>
-        <protobuf.version>3.15.5</protobuf.version>
+        <jackson-databind.version>2.11.3</jackson-databind.version>
     </properties>
 
     <scm>
@@ -27,14 +27,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.google.protobuf</groupId>
-            <artifactId>protobuf-java</artifactId>
-            <version>${protobuf.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.google.protobuf</groupId>
-            <artifactId>protobuf-java-util</artifactId>
-            <version>${protobuf.version}</version>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson-databind.version}</version>
         </dependency>
 
         <dependency>
@@ -68,6 +63,7 @@
                 <configuration>
                     <sourceDirectory>${basedir}/../jsonschema</sourceDirectory>
                     <annotationStyle>none</annotationStyle>
+                    <useLongIntegers>true</useLongIntegers>
                     <includeConstructors>true</includeConstructors>
                     <targetPackage>io.cucumber.messages.types</targetPackage>
                 </configuration>
@@ -91,46 +87,20 @@
                         <configuration>
                             <artifactSet>
                                 <includes>
-                                    <include>com.google.protobuf:protobuf-java</include>
-                                    <include>com.google.protobuf:protobuf-java-util</include>
-                                    <include>com.google.code.gson:gson</include>
-                                    <include>com.google.guava:guava</include>
+                                    <include>com.fasterxml.jackson.core:jackson-databind</include>
+                                    <include>com.fasterxml.jackson.core:jackson-core</include>
+                                    <include>com.fasterxml.jackson.core:jackson-annotations</include>
                                 </includes>
                             </artifactSet>
                             <relocations>
                                 <relocation>
-                                    <pattern>google.protobuf</pattern>
-                                    <shadedPattern>io.cucumber.messages.internal.google.protobuf</shadedPattern>
-                                </relocation>
-                                <relocation>
-                                    <pattern>com.google</pattern>
-                                    <shadedPattern>io.cucumber.messages.internal.com.google</shadedPattern>
+                                    <pattern>com.fasterxml</pattern>
+                                    <shadedPattern>io.cucumber.messages.internal.com.fasterxml</shadedPattern>
                                 </relocation>
                             </relocations>
                             <filters>
                                 <filter>
-                                    <artifact>com.google.protobuf:protobuf-java</artifact>
-                                    <excludes>
-                                        <exclude>module-info.class</exclude>
-                                        <exclude>META-INF/MANIFEST.MF</exclude>
-                                    </excludes>
-                                </filter>
-                                <filter>
-                                    <artifact>com.google.protobuf:protobuf-java-util</artifact>
-                                    <excludes>
-                                        <exclude>module-info.class</exclude>
-                                        <exclude>META-INF/MANIFEST.MF</exclude>
-                                    </excludes>
-                                </filter>
-                                <filter>
-                                    <artifact>com.google.code.gson:gson</artifact>
-                                    <excludes>
-                                        <exclude>module-info.class</exclude>
-                                        <exclude>META-INF/MANIFEST.MF</exclude>
-                                    </excludes>
-                                </filter>
-                                <filter>
-                                    <artifact>com.google.guava:guava</artifact>
+                                    <artifact>com.fasterxml.jackson.core:jackson-databind</artifact>
                                     <excludes>
                                         <exclude>module-info.class</exclude>
                                         <exclude>META-INF/MANIFEST.MF</exclude>

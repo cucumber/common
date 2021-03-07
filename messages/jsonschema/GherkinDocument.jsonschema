@@ -38,61 +38,7 @@
                 },
                 "children": {
                     "items": {
-                        "$schema": "http://json-schema.org/draft-04/schema#",
-                        "properties": {
-                            "rule": {
-                                "properties": {
-                                    "location": {
-                                        "$ref": "./Location.jsonschema",
-                                        "additionalProperties": false,
-                                        "description": "The location of the `Rule` keyword"
-                                    },
-                                    "keyword": {
-                                        "type": "string"
-                                    },
-                                    "name": {
-                                        "type": "string"
-                                    },
-                                    "description": {
-                                        "type": "string"
-                                    },
-                                    "children": {
-                                        "items": {
-                                            "$schema": "http://json-schema.org/draft-04/schema#",
-                                            "properties": {
-                                                "background": {
-                                                    "$ref": "#/definitions/Background",
-                                                    "additionalProperties": false
-                                                },
-                                                "scenario": {
-                                                    "$ref": "#/definitions/Scenario",
-                                                    "additionalProperties": false
-                                                }
-                                            },
-                                            "additionalProperties": false,
-                                            "type": "object"
-                                        },
-                                        "type": "array"
-                                    },
-                                    "id": {
-                                        "type": "string"
-                                    }
-                                },
-                                "additionalProperties": false,
-                                "type": "object"
-                            },
-                            "background": {
-                                "$ref": "#/definitions/Background",
-                                "additionalProperties": false
-                            },
-                            "scenario": {
-                                "$ref": "#/definitions/Scenario",
-                                "additionalProperties": false
-                            }
-                        },
-                        "additionalProperties": false,
-                        "type": "object",
-                        "description": "*\n A child node of a `Feature` node"
+                        "$ref": "#/definitions/FeatureChild"
                     },
                     "type": "array",
                     "description": "Zero or more children"
@@ -127,6 +73,71 @@
     "type": "object",
     "description": "*\n The [AST](https://en.wikipedia.org/wiki/Abstract_syntax_tree) of a Gherkin document.\n Cucumber implementations should *not* depend on `GherkinDocument` or any of its\n children for execution - use [Pickle](#io.cucumber.messages.Pickle) instead.\n\n The only consumers of `GherkinDocument` should only be formatters that produce\n \"rich\" output, resembling the original Gherkin document.",
     "definitions": {
+        "FeatureChild": {
+            "$schema": "http://json-schema.org/draft-04/schema#",
+            "properties": {
+                "rule": {
+                  "$ref": "#/definitions/Rule",
+                  "additionalProperties": false
+                },
+                "background": {
+                    "$ref": "#/definitions/Background",
+                    "additionalProperties": false
+                },
+                "scenario": {
+                    "$ref": "#/definitions/Scenario",
+                    "additionalProperties": false
+                }
+            },
+            "additionalProperties": false,
+            "type": "object",
+            "description": "*\n A child node of a `Feature` node"
+        },
+        "Rule": {
+            "properties": {
+                "location": {
+                    "$ref": "./Location.jsonschema",
+                    "additionalProperties": false,
+                    "description": "The location of the `Rule` keyword"
+                },
+                "keyword": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "children": {
+                    "items": {
+                        "$ref": "#/definitions/RuleChild"
+                    },
+                    "type": "array"
+                },
+                "id": {
+                    "type": "string"
+                }
+            },
+            "additionalProperties": false,
+            "type": "object"
+        },
+        "RuleChild": {
+            "$schema": "http://json-schema.org/draft-04/schema#",
+            "properties": {
+                "background": {
+                    "$ref": "#/definitions/Background",
+                    "additionalProperties": false
+                },
+                "scenario": {
+                    "$ref": "#/definitions/Scenario",
+                    "additionalProperties": false
+                }
+            },
+            "additionalProperties": false,
+            "type": "object",
+            "description": "*\n A child node of a `Rule` node"
+        },
         "Background": {
             "$schema": "http://json-schema.org/draft-04/schema#",
             "properties": {
@@ -193,45 +204,7 @@
                 "examples": {
                     "items": {
                         "$schema": "http://json-schema.org/draft-04/schema#",
-                        "properties": {
-                            "location": {
-                                "$ref": "./Location.jsonschema",
-                                "additionalProperties": false,
-                                "description": "The location of the `Examples` keyword"
-                            },
-                            "tags": {
-                                "items": {
-                                    "$schema": "http://json-schema.org/draft-04/schema#",
-                                    "$ref": "#/definitions/Tag"
-                                },
-                                "type": "array"
-                            },
-                            "keyword": {
-                                "type": "string"
-                            },
-                            "name": {
-                                "type": "string"
-                            },
-                            "description": {
-                                "type": "string"
-                            },
-                            "table_header": {
-                                "$ref": "#/definitions/TableRow",
-                                "additionalProperties": false
-                            },
-                            "table_body": {
-                                "items": {
-                                    "$schema": "http://json-schema.org/draft-04/schema#",
-                                    "$ref": "#/definitions/TableRow"
-                                },
-                                "type": "array"
-                            },
-                            "id": {
-                                "type": "string"
-                            }
-                        },
-                        "additionalProperties": false,
-                        "type": "object"
+                        "$ref": "#/definitions/Examples"
                     },
                     "type": "array"
                 },
@@ -242,6 +215,47 @@
             "additionalProperties": false,
             "type": "object",
             "id": "Scenario"
+        },
+        "Examples": {
+            "properties": {
+                "location": {
+                    "$ref": "./Location.jsonschema",
+                    "additionalProperties": false,
+                    "description": "The location of the `Examples` keyword"
+                },
+                "tags": {
+                    "items": {
+                        "$schema": "http://json-schema.org/draft-04/schema#",
+                        "$ref": "#/definitions/Tag"
+                    },
+                    "type": "array"
+                },
+                "keyword": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "table_header": {
+                    "$ref": "#/definitions/TableRow",
+                    "additionalProperties": false
+                },
+                "table_body": {
+                    "items": {
+                        "$schema": "http://json-schema.org/draft-04/schema#",
+                        "$ref": "#/definitions/TableRow"
+                    },
+                    "type": "array"
+                },
+                "id": {
+                    "type": "string"
+                }
+            },
+            "additionalProperties": false,
+            "type": "object"
         },
         "Step": {
             "$schema": "http://json-schema.org/draft-04/schema#",
@@ -314,20 +328,7 @@
                 "cells": {
                     "items": {
                         "$schema": "http://json-schema.org/draft-04/schema#",
-                        "properties": {
-                            "location": {
-                                "$ref": "./Location.jsonschema",
-                                "additionalProperties": false,
-                                "description": "The location of the cell"
-                            },
-                            "value": {
-                                "type": "string",
-                                "description": "The value of the cell"
-                            }
-                        },
-                        "additionalProperties": false,
-                        "type": "object",
-                        "description": "A cell in a `TableRow`"
+                        "$ref": "#/definitions/TableCell"
                     },
                     "type": "array",
                     "description": "Cells in the row"
@@ -340,6 +341,23 @@
             "type": "object",
             "description": "A row in a table",
             "id": "TableRow"
+        },
+        "TableCell": {
+            "$schema": "http://json-schema.org/draft-04/schema#",
+            "properties": {
+                "location": {
+                    "$ref": "./Location.jsonschema",
+                    "additionalProperties": false,
+                    "description": "The location of the cell"
+                },
+                "value": {
+                    "type": "string",
+                    "description": "The value of the cell"
+                }
+            },
+            "additionalProperties": false,
+            "type": "object",
+            "description": "A cell in a `TableRow`"
         },
         "Tag": {
             "$schema": "http://json-schema.org/draft-04/schema#",

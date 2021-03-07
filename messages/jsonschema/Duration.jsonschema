@@ -2,7 +2,7 @@
     "$schema": "http://json-schema.org/draft-04/schema#",
     "properties": {
         "seconds": {
-            "type": "string"
+            "type": "integer"
         },
         "nanos": {
             "type": "integer",
