@@ -1,12 +1,6 @@
 defmodule CucumberMessages do
   @moduledoc """
   This small library its sole purpose is to convert the protobuf schema to Elixir code. In order to use this library, you do not need protoc installed at all!
-
-  If you want to contribute to this library (or just update the protobuf schema and code), make sure you have `protoc` installed and run:
-
-  `MIX_ENV=prod mix protox.generate --output-path=lib/cucumber_messages/messages.ex messages.proto`
-
-  If you want to contribute, please be so kind to run `mix format` as well (this can take a while with an unformatted `messages.ex` file).
   """
 
   @doc """
