@@ -224,6 +224,18 @@ jobs:
             cd create-meta/javascript
             make
 
+  gherkin-streams-javascript:
+    executor: docker-circleci-node-12
+    steps:
+      - attach_workspace:
+          at: "~/cucumber"
+      - run:
+          name: gherkin-streams/javascript
+          command: |
+            sudo npm install --global npm@7
+            cd gherkin-streams/javascript
+            make
+
   gherkin-javascript:
     executor: docker-circleci-node-12
     steps:
@@ -834,6 +846,9 @@ workflows:
           requires:
             - prepare-parallel
       - create-meta-javascript:
+          requires:
+            - prepare-parallel
+      - gherkin-streams-javascript:
           requires:
             - prepare-parallel
       - gherkin-javascript:
