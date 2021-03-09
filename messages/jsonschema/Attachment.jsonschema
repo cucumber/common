@@ -23,18 +23,9 @@
         "content_encoding": {
             "enum": [
                 "IDENTITY",
-                0,
-                "BASE64",
-                1
+                "BASE64"
             ],
-            "oneOf": [
-                {
-                    "type": "string"
-                },
-                {
-                    "type": "integer"
-                }
-            ],
+            "type": "string",
             "description": "*\n Whether to interpret `body` \"as-is\" (IDENTITY) or if it needs to be Base64-decoded (BASE64).\n\n Content encoding is *not* determined by the media type, but rather by the type\n of the object being attached:\n\n - string =\u003e IDENTITY\n - byte array =\u003e BASE64\n - stream =\u003e BASE64"
         },
         "file_name": {

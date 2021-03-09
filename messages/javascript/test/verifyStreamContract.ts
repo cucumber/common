@@ -14,15 +14,15 @@ export default function verifyStreamContract(
 
       fromMessageStream.pipe(toMessageStream)
 
-      const outgoingMessages: messages.IEnvelope[] = [
-        messages.Envelope.create({
-          source: messages.Source.create({ data: 'Feature: Hello' }),
-        }),
-        messages.Envelope.create({
-          attachment: messages.Attachment.create({
+      const outgoingMessages: messages.Envelope[] = [
+        {
+          source: { data: 'Feature: Hello' },
+        },
+        {
+          attachment: {
             body: 'hello',
-          }),
-        }),
+          },
+        },
       ]
 
       for (const outgoingMessage of outgoingMessages) {

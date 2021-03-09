@@ -2,32 +2,36 @@
     "$schema": "http://json-schema.org/draft-04/schema#",
     "properties": {
         "test_step_result": {
+            "$ref": "#/definitions/TestStepResult.jsonschema"
+        },
+        "timestamp": {
+           "$ref": "./Timestamp.jsonschema",
+            "additionalProperties": false,
+            "type": "object"
+        },
+        "test_step_id": {
+            "type": "string"
+        },
+        "test_case_started_id": {
+            "type": "string"
+        }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "definitions": {
+        "TestStepResult": {
             "properties": {
                 "status": {
                     "enum": [
                         "UNKNOWN",
-                        0,
                         "PASSED",
-                        1,
                         "SKIPPED",
-                        2,
                         "PENDING",
-                        3,
                         "UNDEFINED",
-                        4,
                         "AMBIGUOUS",
-                        5,
-                        "FAILED",
-                        6
+                        "FAILED"
                     ],
-                    "oneOf": [
-                        {
-                            "type": "string"
-                        },
-                        {
-                            "type": "integer"
-                        }
-                    ]
+                    "type": "string"
                 },
                 "message": {
                     "type": "string"
@@ -43,19 +47,6 @@
             },
             "additionalProperties": false,
             "type": "object"
-        },
-        "timestamp": {
-           "$ref": "./Timestamp.jsonschema",
-            "additionalProperties": false,
-            "type": "object"
-        },
-        "test_step_id": {
-            "type": "string"
-        },
-        "test_case_started_id": {
-            "type": "string"
         }
-    },
-    "additionalProperties": false,
-    "type": "object"
+    }
 }

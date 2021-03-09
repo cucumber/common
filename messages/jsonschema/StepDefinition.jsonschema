@@ -5,6 +5,16 @@
             "type": "string"
         },
         "pattern": {
+            "$ref": "#/defintions/StepDefinitionPattern"
+        },
+        "source_reference": {
+            "$ref": "./SourceReference.jsonschema"
+        }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "definitions": {
+        "StepDefinitionPattern": {
             "properties": {
                 "source": {
                     "type": "string"
@@ -12,27 +22,13 @@
                 "type": {
                     "enum": [
                         "CUCUMBER_EXPRESSION",
-                        0,
-                        "REGULAR_EXPRESSION",
-                        1
+                        "REGULAR_EXPRESSION"
                     ],
-                    "oneOf": [
-                        {
-                            "type": "string"
-                        },
-                        {
-                            "type": "integer"
-                        }
-                    ]
+                    "type": "string"
                 }
             },
             "additionalProperties": false,
             "type": "object"
-        },
-        "source_reference": {
-            "$ref": "./SourceReference.jsonschema"
         }
-    },
-    "additionalProperties": false,
-    "type": "object"
+    }
 }

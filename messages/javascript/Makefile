@@ -1,18 +1,13 @@
 include default.mk
 
 JSONSCHEMAS = $(shell find ../jsonschema -name "*.jsonschema")
-TS_TYPE_FILES = $(patsubst ../jsonschema/%.jsonschema,src/types/%.d.ts,$(JSONSCHEMAS))
+TS_TYPE_FILES = $(patsubst ../jsonschema/%.jsonschema,src/types/%.ts,$(JSONSCHEMAS))
 
-.codegen: src/messages.d.ts $(TS_TYPE_FILES)
+.codegen: $(TS_TYPE_FILES)
 
-src/types/%.d.ts: ../jsonschema/%.jsonschema
-	node_modules/.bin/json2ts --cwd ../jsonschema --input $< --output $@
-
-src/messages.js: messages.proto
-	npm run pbjs
-
-src/messages.d.ts: src/messages.js
-	npm run pbts
+src/types/%.ts: ../jsonschema/%.jsonschema
+	node_modules/.bin/quicktype --src-lang schema $< --out $@ --just-types --no-combine-classes
+#	node_modules/.bin/json2ts --no-declareExternallyReferenced --cwd ../jsonschema --input $< --output $@
 
 clean:
-	rm -rf dist src/messages.js src/messages.d.ts
+	rm -rf dist src/types/*.ts

@@ -1,6 +1,5 @@
 import { Transform, TransformCallback } from 'stream'
-import { io } from './messages'
-import messages = io.cucumber.messages
+import * as messages from './messages'
 
 /**
  * Transforms a stream of message objects to NDJSON
@@ -15,12 +14,10 @@ export default class MessageToNdjsonStream extends Transform {
     encoding: string,
     callback: TransformCallback
   ) {
-    const object = message.toJSON()
-
     // This reviver omits printing fields with empty values
     // This is to make it behave the same as Golang's protobuf->JSON converter
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const json = JSON.stringify(object, (key: string, value: any) => {
+    const json = JSON.stringify(message, (key: string, value: any) => {
       return value === '' ? undefined : value
     })
     this.push(json + '\n')

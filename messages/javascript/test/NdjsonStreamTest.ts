@@ -4,27 +4,25 @@ import assert from 'assert'
 import NdjsonToMessageStream from '../src/NdjsonToMessageStream'
 import verifyStreamContract from './verifyStreamContract'
 import toArray from './toArray'
+import { Envelope } from '../src/types/Envelope'
 
 describe('NdjsonStream', () => {
-  const makeToMessageStream = () =>
-    new NdjsonToMessageStream(
-      messages.Envelope.fromObject.bind(messages.Envelope)
-    )
+  const makeToMessageStream = () => new NdjsonToMessageStream()
   const makeFromMessageStream = () => new MessageToNdjsonStream()
   verifyStreamContract(makeFromMessageStream, makeToMessageStream)
 
   it('converts a buffer stream written byte by byte', (cb) => {
     const stream = makeToMessageStream()
-    const envelope = messages.Envelope.create({
-      testStepFinished: messages.TestStepFinished.create({
-        testStepResult: messages.TestStepFinished.TestStepResult.create({
-          status: messages.TestStepFinished.TestStepResult.Status.UNKNOWN,
-        }),
-      }),
-    })
-    const json = JSON.stringify(envelope.toJSON())
+    const envelope: messages.Envelope = {
+      test_step_finished: {
+        test_step_result: {
+          status: 'UNKNOWN',
+        },
+      },
+    }
+    const json = JSON.stringify(envelope)
     stream.on('error', cb)
-    stream.on('data', (receivedEnvelope: messages.IEnvelope) => {
+    stream.on('data', (receivedEnvelope: messages.Envelope) => {
       assert.deepStrictEqual(envelope, receivedEnvelope)
       cb()
     })
@@ -40,23 +38,23 @@ describe('NdjsonStream', () => {
     stream.on('data', (json: string) => {
       const ob = JSON.parse(json)
       assert.deepStrictEqual(ob, {
-        testStepFinished: {
-          testStepResult: {
+        test_step_finished: {
+          test_step_result: {
             status: 'UNKNOWN',
           },
         },
       })
       cb()
     })
-    stream.write(
-      messages.Envelope.create({
-        testStepFinished: messages.TestStepFinished.create({
-          testStepResult: messages.TestStepFinished.TestStepResult.create({
-            status: messages.TestStepFinished.TestStepResult.Status.UNKNOWN,
-          }),
-        }),
-      })
-    )
+    const envelope: messages.Envelope = {
+      test_step_finished: {
+        test_step_result: {
+          status: 'UNKNOWN',
+        },
+      },
+    }
+
+    stream.write(envelope)
   })
 
   it('converts messages to JSON with undefined arrays omitted', (cb) => {
@@ -66,13 +64,12 @@ describe('NdjsonStream', () => {
       assert.deepStrictEqual(ob, { testCase: { pickleId: '123' } })
       cb()
     })
-    stream.write(
-      messages.Envelope.create({
-        testCase: messages.TestCase.create({
-          pickleId: '123',
-        }),
-      })
-    )
+    const envelope: Envelope = {
+      test_case: {
+        pickle_id: '123',
+      },
+    }
+    stream.write(envelope)
   })
 
   it('converts messages to JSON with undefined strings omitted', (cb) => {
@@ -82,39 +79,42 @@ describe('NdjsonStream', () => {
       assert.deepStrictEqual(ob, { testCase: {} })
       cb()
     })
-    stream.write(
-      messages.Envelope.create({
-        testCase: messages.TestCase.create({ pickleId: '' }),
-      })
-    )
+    const envelope: Envelope = {
+      test_case: {
+        pickle_id: '',
+      },
+    }
+    stream.write(envelope)
   })
 
   it('converts messages to JSON with undefined numbers omitted', (cb) => {
     const stream = new MessageToNdjsonStream()
     stream.on('data', (json: string) => {
-      const ob = JSON.parse(json)
-      assert.deepStrictEqual(ob, {
-        gherkinDocument: {
+      const ob: Envelope = JSON.parse(json)
+      const expected: Envelope = {
+        gherkin_document: {
           feature: {
             location: {
               column: 1,
             },
           },
         },
-      })
+      }
+      assert.deepStrictEqual(ob, expected)
       cb()
     })
-    stream.write(
-      messages.Envelope.create({
-        gherkinDocument: messages.GherkinDocument.create({
-          feature: messages.GherkinDocument.Feature.create({
-            location: messages.Location.create({
-              column: 1,
-            }),
-          }),
-        }),
-      })
-    )
+
+    const envelope: Envelope = {
+      gherkin_document: {
+        feature: {
+          location: {
+            column: 1,
+          },
+        },
+      },
+    }
+
+    stream.write(envelope)
   })
 
   it('ignores missing fields', async () => {
@@ -124,7 +124,7 @@ describe('NdjsonStream', () => {
 
     const incomingMessages = await toArray(toMessageStream)
 
-    assert.deepStrictEqual(incomingMessages, [messages.Envelope.create({})])
+    assert.deepStrictEqual(incomingMessages, [{}])
   })
 
   it('ignores empty lines', async () => {
@@ -134,11 +134,7 @@ describe('NdjsonStream', () => {
 
     const incomingMessages = await toArray(toMessageStream)
 
-    assert.deepStrictEqual(incomingMessages, [
-      messages.Envelope.create({}),
-      messages.Envelope.create({}),
-      messages.Envelope.create({}),
-    ])
+    assert.deepStrictEqual(incomingMessages, [{}, {}, {}])
   })
 
   it('includes offending line in error message', async () => {

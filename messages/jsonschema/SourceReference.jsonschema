@@ -5,6 +5,17 @@
             "type": "string"
         },
         "java_method": {
+            "$ref": "./JavaMethod.jsonschema"
+        },
+        "java_stack_trace_element": {
+            "$ref": "./JavaStackTraceElement.jsonschema"
+        }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "description": "*\n Points to a [Source](#io.cucumber.messages.Source) identified by `uri` and a\n [Location](#io.cucumber.messages.Location) within that file.",
+    "definitions": {
+        "JavaMethod": {
             "properties": {
                 "class_name": {
                     "type": "string"
@@ -22,7 +33,7 @@
             "additionalProperties": false,
             "type": "object"
         },
-        "java_stack_trace_element": {
+        "JavaStackTraceElement": {
             "properties": {
                 "class_name": {
                     "type": "string"
@@ -36,14 +47,6 @@
             },
             "additionalProperties": false,
             "type": "object"
-        },
-        "location": {
-            "$ref": "./Location.jsonschema",
-            "additionalProperties": false,
-            "type": "object"
         }
-    },
-    "additionalProperties": false,
-    "type": "object",
-    "description": "*\n Points to a [Source](#io.cucumber.messages.Source) identified by `uri` and a\n [Location](#io.cucumber.messages.Location) within that file."
+    }
 }

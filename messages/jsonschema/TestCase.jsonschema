@@ -10,60 +10,7 @@
         },
         "test_steps": {
             "items": {
-                "$schema": "http://json-schema.org/draft-04/schema#",
-                "properties": {
-                    "id": {
-                        "type": "string"
-                    },
-                    "pickle_step_id": {
-                        "type": "string",
-                        "description": "Pointer to the `PickleStep` (if derived from a PickleStep)"
-                    },
-                    "step_definition_ids": {
-                        "items": {
-                            "type": "string"
-                        },
-                        "type": "array",
-                        "description": "Pointer to all the matching `StepDefinition`s (if derived from a PickleStep)"
-                    },
-                    "step_match_arguments_lists": {
-                        "items": {
-                            "$schema": "http://json-schema.org/draft-04/schema#",
-                            "properties": {
-                                "step_match_arguments": {
-                                    "items": {
-                                        "$schema": "http://json-schema.org/draft-04/schema#",
-                                        "properties": {
-                                            "parameter_type_name": {
-                                                "type": "string"
-                                            },
-                                            "group": {
-                                                "$ref": "#/definitions/Group",
-                                                "additionalProperties": false,
-                                                "description": "*\n Represents the outermost capture group of an argument. This message closely matches the\n `Group` class in the `cucumber-expressions` library."
-                                            }
-                                        },
-                                        "additionalProperties": false,
-                                        "type": "object",
-                                        "description": "*\n Represents a single argument extracted from a step match and passed to a step definition.\n This is used for the following purposes:\n - Construct an argument to pass to a step definition (possibly through a parameter type transform)\n - Highlight the matched parameter in rich formatters such as the HTML formatter\n\n This message closely matches the `Argument` class in the `cucumber-expressions` library."
-                                    },
-                                    "type": "array"
-                                }
-                            },
-                            "additionalProperties": false,
-                            "type": "object"
-                        },
-                        "type": "array",
-                        "description": "A list of list of StepMatchArgument (if derived from a `StepDefinition`).\n Each element represents a matching step definition. A size of 0 means `UNDEFINED`,\n and a size of 2+ means `AMBIGUOUS`"
-                    },
-                    "hook_id": {
-                        "type": "string",
-                        "description": "Pointer to the `Hook` (if derived from a Hook)"
-                    }
-                },
-                "additionalProperties": false,
-                "type": "object",
-                "description": "*\n A `TestStep` is derived from either a `PickleStep`\n combined with a `StepDefinition`, or from a `Hook`."
+                "$ref": "#/definitions/TestStep"
             },
             "type": "array"
         }
@@ -72,6 +19,68 @@
     "type": "object",
     "description": "//// TestCases\n\n*\n A `TestCase` contains a sequence of `TestStep`s.",
     "definitions": {
+        "TestStep": {
+            "$schema": "http://json-schema.org/draft-04/schema#",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "pickle_step_id": {
+                    "type": "string",
+                    "description": "Pointer to the `PickleStep` (if derived from a PickleStep)"
+                },
+                "step_definition_ids": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array",
+                    "description": "Pointer to all the matching `StepDefinition`s (if derived from a PickleStep)"
+                },
+                "step_match_arguments_lists": {
+                    "items": {
+                        "$ref": "#/definitions/StepMatchArgumentsList"
+                    },
+                    "type": "array",
+                    "description": "A list of list of StepMatchArgument (if derived from a `StepDefinition`).\n Each element represents a matching step definition. A size of 0 means `UNDEFINED`,\n and a size of 2+ means `AMBIGUOUS`"
+                },
+                "hook_id": {
+                    "type": "string",
+                    "description": "Pointer to the `Hook` (if derived from a Hook)"
+                }
+            },
+            "additionalProperties": false,
+            "type": "object",
+            "description": "*\n A `TestStep` is derived from either a `PickleStep`\n combined with a `StepDefinition`, or from a `Hook`."
+        },
+        "StepMatchArgumentsList": {
+            "$schema": "http://json-schema.org/draft-04/schema#",
+            "properties": {
+                "step_match_arguments": {
+                    "items": {
+                        "$ref": "#/definitions/StepMatchArgument"
+                    },
+                    "type": "array"
+                }
+            },
+            "additionalProperties": false,
+            "type": "object"
+        },
+        "StepMatchArgument": {
+            "$schema": "http://json-schema.org/draft-04/schema#",
+            "properties": {
+                "parameter_type_name": {
+                    "type": "string"
+                },
+                "group": {
+                    "$ref": "#/definitions/Group",
+                    "additionalProperties": false,
+                    "description": "*\n Represents the outermost capture group of an argument. This message closely matches the\n `Group` class in the `cucumber-expressions` library."
+                }
+            },
+            "additionalProperties": false,
+            "type": "object",
+            "description": "*\n Represents a single argument extracted from a step match and passed to a step definition.\n This is used for the following purposes:\n - Construct an argument to pass to a step definition (possibly through a parameter type transform)\n - Highlight the matched parameter in rich formatters such as the HTML formatter\n\n This message closely matches the `Argument` class in the `cucumber-expressions` library."
+        },
         "Group": {
             "$schema": "http://json-schema.org/draft-04/schema#",
             "properties": {

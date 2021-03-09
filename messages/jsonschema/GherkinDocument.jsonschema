@@ -6,6 +6,38 @@
             "description": "*\n The [URI](https://en.wikipedia.org/wiki/Uniform_Resource_Identifier)\n of the source, typically a file path relative to the root directory"
         },
         "feature": {
+            "$ref": "#/definitions/Feature"
+        },
+        "comments": {
+            "items": {
+              "$ref": "#/definitions/Comment"
+            },
+            "type": "array",
+            "description": "All the comments in the Gherkin document"
+        }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "description": "*\n The [AST](https://en.wikipedia.org/wiki/Abstract_syntax_tree) of a Gherkin document.\n Cucumber implementations should *not* depend on `GherkinDocument` or any of its\n children for execution - use [Pickle](#io.cucumber.messages.Pickle) instead.\n\n The only consumers of `GherkinDocument` should only be formatters that produce\n \"rich\" output, resembling the original Gherkin document.",
+    "definitions": {
+        "Comment": {
+            "$schema": "http://json-schema.org/draft-04/schema#",
+            "properties": {
+                "location": {
+                    "$ref": "./Location.jsonschema",
+                    "additionalProperties": false,
+                    "description": "The location of the comment"
+                },
+                "text": {
+                    "type": "string",
+                    "description": "The text of the comment"
+                }
+            },
+            "additionalProperties": false,
+            "type": "object",
+            "description": "*\n A comment in a Gherkin document"
+        },
+        "Feature": {
             "properties": {
                 "location": {
                     "$ref": "./Location.jsonschema",
@@ -47,32 +79,6 @@
             "additionalProperties": false,
             "type": "object"
         },
-        "comments": {
-            "items": {
-                "$schema": "http://json-schema.org/draft-04/schema#",
-                "properties": {
-                    "location": {
-                        "$ref": "./Location.jsonschema",
-                        "additionalProperties": false,
-                        "description": "The location of the comment"
-                    },
-                    "text": {
-                        "type": "string",
-                        "description": "The text of the comment"
-                    }
-                },
-                "additionalProperties": false,
-                "type": "object",
-                "description": "*\n A comment in a Gherkin document"
-            },
-            "type": "array",
-            "description": "All the comments in the Gherkin document"
-        }
-    },
-    "additionalProperties": false,
-    "type": "object",
-    "description": "*\n The [AST](https://en.wikipedia.org/wiki/Abstract_syntax_tree) of a Gherkin document.\n Cucumber implementations should *not* depend on `GherkinDocument` or any of its\n children for execution - use [Pickle](#io.cucumber.messages.Pickle) instead.\n\n The only consumers of `GherkinDocument` should only be formatters that produce\n \"rich\" output, resembling the original Gherkin document.",
-    "definitions": {
         "FeatureChild": {
             "$schema": "http://json-schema.org/draft-04/schema#",
             "properties": {
@@ -272,40 +278,10 @@
                     "type": "string"
                 },
                 "doc_string": {
-                    "properties": {
-                        "location": {
-                            "$ref": "./Location.jsonschema",
-                            "additionalProperties": false
-                        },
-                        "media_type": {
-                            "type": "string"
-                        },
-                        "content": {
-                            "type": "string"
-                        },
-                        "delimiter": {
-                            "type": "string"
-                        }
-                    },
-                    "additionalProperties": false,
-                    "type": "object"
+                    "$ref": "#/definitions/DocString"
                 },
                 "data_table": {
-                    "properties": {
-                        "location": {
-                            "$ref": "./Location.jsonschema",
-                            "additionalProperties": false
-                        },
-                        "rows": {
-                            "items": {
-                                "$schema": "http://json-schema.org/draft-04/schema#",
-                                "$ref": "#/definitions/TableRow"
-                            },
-                            "type": "array"
-                        }
-                    },
-                    "additionalProperties": false,
-                    "type": "object"
+                    "$ref": "#/definitions/DataTable"
                 },
                 "id": {
                     "type": "string",
@@ -316,6 +292,42 @@
             "type": "object",
             "description": "A step",
             "id": "Step"
+        },
+        "DocString": {
+            "properties": {
+                "location": {
+                    "$ref": "./Location.jsonschema",
+                    "additionalProperties": false
+                },
+                "media_type": {
+                    "type": "string"
+                },
+                "content": {
+                    "type": "string"
+                },
+                "delimiter": {
+                    "type": "string"
+                }
+            },
+            "additionalProperties": false,
+            "type": "object"
+        },
+        "DataTable": {
+            "properties": {
+                "location": {
+                    "$ref": "./Location.jsonschema",
+                    "additionalProperties": false
+                },
+                "rows": {
+                    "items": {
+                        "$schema": "http://json-schema.org/draft-04/schema#",
+                        "$ref": "#/definitions/TableRow"
+                    },
+                    "type": "array"
+                }
+            },
+            "additionalProperties": false,
+            "type": "object"
         },
         "TableRow": {
             "$schema": "http://json-schema.org/draft-04/schema#",
