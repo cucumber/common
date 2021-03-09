@@ -64,23 +64,6 @@ $statusColors:
     }
   }
 
-
-  .cucumber-tags {
-    padding: 0;
-    margin-bottom: 0;
-
-    .cucumber-tag {
-      display: inline;
-      list-style-type: none;
-      padding: 8px 0;
-      color: $tagColor;
-
-      &:not(:last-child) {
-        margin-right: 10px;
-      }
-    }
-  }
-
   .cucumber-feature__icon {
     padding-top: 0.35em;
     padding-right: 0.5em;

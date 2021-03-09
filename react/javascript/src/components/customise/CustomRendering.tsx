@@ -11,8 +11,18 @@ export interface DocStringClasses {
   docstring: string
 }
 
+export interface TagsProps {
+  tags: messages.GherkinDocument.Feature.ITag[]
+}
+
+export interface TagsClasses {
+  tags: string
+  tag: string
+}
+
 export interface CustomRenderingSupport {
   DocString?: CustomRenderer<DocStringProps, DocStringClasses>
+  Tags?: CustomRenderer<TagsProps, TagsClasses>
 }
 
 export const CustomRenderingContext = React.createContext<CustomRenderingSupport>(
