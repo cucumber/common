@@ -71,6 +71,9 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
   (Fixes [#1284](https://github.com/cucumber/cucumber/issues/1284)
 
 ### Fixed
+* Use Spanish translation for the "Rule" keyword and for the "Feature" synonym keywords
+  ([#1360](https://github.com/cucumber/cucumber/pull/1360)
+   [sergioforerogomez])
 * Use Italian translation for the "Rule" keyword and for the "Feature" synonym keywords
   ([#1318](https://github.com/cucumber/cucumber/pull/1318)
    [mgiustiniani])
@@ -991,6 +994,7 @@ to Gherkin 2.
 [Pr-Mex]:            https://github.com/Pr-Mex
 [Pwera]:             https://github.com/Pwera
 [SabotageAndi]:      https://github.com/SabotageAndi
+[sergioforerogomez]: https://github.com/sergioforerogomez
 [tsundberg]:         https://github.com/tsundberg
 [upgundecha]:        https://github.com/upgundecha
 [vincent-psarga]:    https://github.com/vincent-psarga
