@@ -853,7 +853,7 @@ workflows:
             - prepare-parallel
       - gherkin-javascript:
           requires:
-            - messages-javascript
+            - prepare-parallel
       - gherkin-utils-javascript:
           requires:
             - prepare-parallel
@@ -868,10 +868,7 @@ workflows:
             - prepare-parallel
       - react-javascript:
           requires:
-            - messages-javascript
-            - gherkin-javascript
-            - gherkin-utils-javascript
-            - query-javascript
+            - prepare-parallel
       - html-formatter-javascript:
           requires:
             - react-javascript
@@ -884,10 +881,7 @@ workflows:
             - fake-cucumber-javascript
       - query-javascript:
           requires:
-            - messages-javascript
-            - fake-cucumber-javascript
-            - gherkin-javascript
-            - gherkin-utils-javascript
+            - prepare-parallel
       - json-to-messages-javascript-testdata:
           requires:
             - prepare-parallel
