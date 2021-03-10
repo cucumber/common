@@ -41,7 +41,3 @@ Some $3.50 of cukes at 42° Celsius
 I select the {int}st/nd/rd/th Cucumber
 I select the 3rd Cucumber
 [3]
----
-/^I am agent ([ABJ])$/
-I am agent J
-["J"]
