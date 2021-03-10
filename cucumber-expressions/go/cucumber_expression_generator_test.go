@@ -295,7 +295,7 @@ func TestCucumberExpressionGeneratory(t *testing.T) {
 
 		generatedExpressions := generator.GenerateExpressions("a simple step")
 		require.Equal(t, 2, len(generatedExpressions))
-		require.Equal(t,"{exactly-one} {zero-or-more} {zero-or-more}", generatedExpressions[0].Source())
+		require.Equal(t, "{exactly-one} {zero-or-more} {zero-or-more}", generatedExpressions[0].Source())
 		require.Equal(t, "{zero-or-more} {zero-or-more} {zero-or-more}", generatedExpressions[1].Source())
 	})
 

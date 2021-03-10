@@ -81,12 +81,7 @@ jobs:
       - checkout
       - run:
           name: everything
-          command: |
-            make clean 
-            npm install --global npm@7
-            npm ci
-            npm run build
-            make ci
+          command: make ci
 
   prepare-parallel:
     executor: docker-circleci-node-15

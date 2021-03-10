@@ -16,8 +16,13 @@ PACKAGES ?= messages \
 	demo-formatter \
 	json-to-messages
 
-default: .rsynced $(patsubst %,default-%,$(PACKAGES))
+default: .rsynced .typescript-built $(patsubst %,default-%,$(PACKAGES))
 .PHONY: default
+
+.typescript-built:
+	npm ci
+	npm run build
+.PHONY: .typescript-built
 
 default-%: %
 	cd $< && make default
