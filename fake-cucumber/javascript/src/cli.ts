@@ -3,7 +3,7 @@ import packageJson from '../package.json'
 import loadSupportCode from './loadSupportCode'
 import runCucumber from './runCucumber'
 import { IGherkinOptions } from '@cucumber/gherkin'
-import GherkinStreams from '@cucumber/gherkin/dist/src/stream/GherkinStreams'
+import { GherkinStreams } from '@cucumber/gherkin-streams'
 import { Query as GherkinQuery } from '@cucumber/gherkin-utils'
 import makeFormatStream from './makeFormatStream'
 import { version } from '../package.json'
@@ -14,11 +14,7 @@ const program = new Command()
 program.version(packageJson.version)
 program.option('-r, --require <path>', 'override require path')
 program.option('--predictable-ids', 'Use predictable ids', false)
-program.option(
-  '-f, --format <format>',
-  'output format: ndjson|protobuf',
-  'protobuf'
-)
+program.option('-f, --format <format>', 'output format: ndjson|protobuf', 'protobuf')
 
 async function main() {
   program.parse(process.argv)
@@ -46,12 +42,7 @@ async function main() {
 
   const gherkinQuery = new GherkinQuery()
 
-  await runCucumber(
-    supportCode,
-    gherkinEnvelopeStream,
-    gherkinQuery,
-    envelopeOutputStream
-  )
+  await runCucumber(supportCode, gherkinEnvelopeStream, gherkinQuery, envelopeOutputStream)
 }
 
 main().catch((err) => {

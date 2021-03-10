@@ -75,8 +75,7 @@ describe('createMeta', () => {
       meta.ci,
       messages.Meta.CI.create({
         name: 'GitHub Actions',
-        url:
-          'https://github.company.com/cucumber/cucumber-ruby/actions/runs/140170388',
+        url: 'https://github.company.com/cucumber/cucumber-ruby/actions/runs/140170388',
         git: {
           remote: 'https://github.company.com/cucumber/cucumber-ruby.git',
           branch: 'the-branch',

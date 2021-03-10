@@ -25,17 +25,12 @@ export default class AstMaker implements IAstMaker {
       keyword,
       name,
       description,
-      children: children.map(
-        (child: messages.GherkinDocument.Feature.FeatureChild) => child
-      ),
+      children: children.map((child: messages.GherkinDocument.Feature.FeatureChild) => child),
       tags: tags ? tags.map((tag) => tag) : undefined,
     })
   }
 
-  public makeTag(
-    name: string,
-    line: number
-  ): messages.GherkinDocument.Feature.ITag {
+  public makeTag(name: string, line: number): messages.GherkinDocument.Feature.ITag {
     return messages.GherkinDocument.Feature.Tag.create({
       name,
       location: messages.Location.create({ line }),

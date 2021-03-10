@@ -18,13 +18,7 @@ export function traverseFeature(
   newId: IdGenerator.NewId,
   predictableSupportCode: IPredictableSupportCode
 ): messages.IGherkinDocument {
-  return genericTraverseFeature(
-    feature,
-    astMaker,
-    newId,
-    predictableSupportCode,
-    traverseElement
-  )
+  return genericTraverseFeature(feature, astMaker, newId, predictableSupportCode, traverseElement)
 }
 
 export function traverseElement(
@@ -42,24 +36,18 @@ export function traverseElement(
         element.keyword,
         element.name,
         element.description,
-        element.steps.map((step) =>
-          traverseStep(step, astMaker, newId, predictableSupportCode)
-        )
+        element.steps.map((step) => traverseStep(step, astMaker, newId, predictableSupportCode))
       )
       break
     case 'scenario': {
-      const tags = element.tags
-        ? element.tags.map((tag) => traverseTag(tag, astMaker))
-        : undefined
+      const tags = element.tags ? element.tags.map((tag) => traverseTag(tag, astMaker)) : undefined
       child = astMaker.makeScenarioFeatureChild(
         newId(),
         element.line,
         element.keyword,
         element.name,
         element.description,
-        element.steps.map((step) =>
-          traverseStep(step, astMaker, newId, predictableSupportCode)
-        ),
+        element.steps.map((step) => traverseStep(step, astMaker, newId, predictableSupportCode)),
         tags
       )
       break
@@ -101,9 +89,7 @@ export function traverseStep(
   newId: IdGenerator.NewId,
   predictableSupportCode: IPredictableSupportCode
 ): messages.GherkinDocument.Feature.IStep {
-  const docString = step.doc_string
-    ? traverseDocString(step.doc_string, astMaker)
-    : null
+  const docString = step.doc_string ? traverseDocString(step.doc_string, astMaker) : null
   const dataTable = step.rows ? traverseDataTable(step.rows, astMaker) : null
   const gherkinStep = astMaker.makeStep(
     newId(),

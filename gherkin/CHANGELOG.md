@@ -26,6 +26,8 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Removed
 
+* [JavaScript] the `gherkin-javascript` executable has moved to the new `@cucumber/gherkin-streams` npm module
+
 ### Fixed
 
 ## [17.0.2] - 2021-02-16

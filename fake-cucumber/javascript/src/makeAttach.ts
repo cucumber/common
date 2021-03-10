@@ -53,8 +53,7 @@ export default function makeAttach(
         })
         stream.on('end', () => {
           attachment.body = buf.toString('base64')
-          attachment.contentEncoding =
-            messages.Attachment.ContentEncoding.BASE64
+          attachment.contentEncoding = messages.Attachment.ContentEncoding.BASE64
           listener(
             new messages.Envelope({
               attachment,

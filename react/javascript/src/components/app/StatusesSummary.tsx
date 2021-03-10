@@ -4,10 +4,7 @@ import statusName from '../gherkin/statusName'
 import StatusIcon from '../gherkin/StatusIcon'
 
 interface IProps {
-  scenarioCountByStatus: Map<
-    messages.TestStepFinished.TestStepResult.Status,
-    number
-  >
+  scenarioCountByStatus: Map<messages.TestStepFinished.TestStepResult.Status, number>
 }
 
 const StatusesSummary: React.FunctionComponent<IProps> = ({

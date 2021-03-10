@@ -1,9 +1,5 @@
 import SupportCodeExecutor from './SupportCodeExecutor'
-import {
-  CucumberExpression,
-  Expression,
-  RegularExpression,
-} from '@cucumber/cucumber-expressions'
+import { CucumberExpression, Expression, RegularExpression } from '@cucumber/cucumber-expressions'
 import { messages } from '@cucumber/messages'
 import { AnyBody, IStepDefinition, ISupportCodeExecutor } from './types'
 
@@ -15,9 +11,7 @@ export default class ExpressionStepDefinition implements IStepDefinition {
     private readonly body: AnyBody
   ) {}
 
-  public match(
-    pickleStep: messages.Pickle.IPickleStep
-  ): ISupportCodeExecutor | null {
+  public match(pickleStep: messages.Pickle.IPickleStep): ISupportCodeExecutor | null {
     const expressionArgs = this.expression.match(pickleStep.text)
     return expressionArgs === null
       ? null
@@ -45,15 +39,13 @@ export default class ExpressionStepDefinition implements IStepDefinition {
 
   private expressionType(): messages.StepDefinition.StepDefinitionPattern.StepDefinitionPatternType {
     if (this.expression instanceof CucumberExpression) {
-      return messages.StepDefinition.StepDefinitionPattern
-        .StepDefinitionPatternType.CUCUMBER_EXPRESSION
+      return messages.StepDefinition.StepDefinitionPattern.StepDefinitionPatternType
+        .CUCUMBER_EXPRESSION
     } else if (this.expression instanceof RegularExpression) {
-      return messages.StepDefinition.StepDefinitionPattern
-        .StepDefinitionPatternType.REGULAR_EXPRESSION
+      return messages.StepDefinition.StepDefinitionPattern.StepDefinitionPatternType
+        .REGULAR_EXPRESSION
     } else {
-      throw new Error(
-        `Unknown expression type: ${this.expression.constructor.name}`
-      )
+      throw new Error(`Unknown expression type: ${this.expression.constructor.name}`)
     }
   }
 }

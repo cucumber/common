@@ -15,33 +15,20 @@ interface Expectation {
 
 describe('CucumberExpression', () => {
   fs.readdirSync('testdata/expression').forEach((testcase) => {
-    const testCaseData = fs.readFileSync(
-      `testdata/expression/${testcase}`,
-      'utf-8'
-    )
+    const testCaseData = fs.readFileSync(`testdata/expression/${testcase}`, 'utf-8')
     const expectation = yaml.load(testCaseData) as Expectation
     it(`${testcase}`, () => {
       const parameterTypeRegistry = new ParameterTypeRegistry()
       if (expectation.exception == undefined) {
-        const expression = new CucumberExpression(
-          expectation.expression,
-          parameterTypeRegistry
-        )
+        const expression = new CucumberExpression(expectation.expression, parameterTypeRegistry)
         const matches = expression.match(expectation.text)
         assert.deepStrictEqual(
-          JSON.parse(
-            JSON.stringify(
-              matches ? matches.map((value) => value.getValue(null)) : null
-            )
-          ), // Removes type information.
+          JSON.parse(JSON.stringify(matches ? matches.map((value) => value.getValue(null)) : null)), // Removes type information.
           JSON.parse(expectation.expected)
         )
       } else {
         assert.throws(() => {
-          const expression = new CucumberExpression(
-            expectation.expression,
-            parameterTypeRegistry
-          )
+          const expression = new CucumberExpression(expectation.expression, parameterTypeRegistry)
           expression.match(expectation.text)
         }, new CucumberExpressionError(expectation.exception))
       }
@@ -53,10 +40,7 @@ describe('CucumberExpression', () => {
     const expectation = yaml.load(testCaseData) as Expectation
     it(`${testcase}`, () => {
       const parameterTypeRegistry = new ParameterTypeRegistry()
-      const expression = new CucumberExpression(
-        expectation.expression,
-        parameterTypeRegistry
-      )
+      const expression = new CucumberExpression(expectation.expression, parameterTypeRegistry)
       assert.deepStrictEqual(expression.regexp.source, expectation.expected)
     })
   })
@@ -113,10 +97,7 @@ describe('CucumberExpression', () => {
 
   it('exposes source', () => {
     const expr = 'I have {int} cuke(s)'
-    assert.strictEqual(
-      new CucumberExpression(expr, new ParameterTypeRegistry()).source,
-      expr
-    )
+    assert.strictEqual(new CucumberExpression(expr, new ParameterTypeRegistry()).source, expr)
   })
 
   it('unmatched optional groups have undefined values', () => {
@@ -133,21 +114,12 @@ describe('CucumberExpression', () => {
         true
       )
     )
-    const expression = new CucumberExpression(
-      '{textAndOrNumber}',
-      parameterTypeRegistry
-    )
+    const expression = new CucumberExpression('{textAndOrNumber}', parameterTypeRegistry)
 
     const world = {}
 
-    assert.deepStrictEqual(expression.match(`TLA`)[0].getValue(world), [
-      'TLA',
-      undefined,
-    ])
-    assert.deepStrictEqual(expression.match(`123`)[0].getValue(world), [
-      undefined,
-      '123',
-    ])
+    assert.deepStrictEqual(expression.match(`TLA`)[0].getValue(world), ['TLA', undefined])
+    assert.deepStrictEqual(expression.match(`123`)[0].getValue(world), [undefined, '123'])
   })
 
   // JavaScript-specific
@@ -166,10 +138,7 @@ describe('CucumberExpression', () => {
         true
       )
     )
-    const expression = new CucumberExpression(
-      'I have a {widget}',
-      parameterTypeRegistry
-    )
+    const expression = new CucumberExpression('I have a {widget}', parameterTypeRegistry)
 
     const world = {
       createWidget(s: string) {
@@ -183,10 +152,7 @@ describe('CucumberExpression', () => {
 })
 
 const match = (expression: string, text: string) => {
-  const cucumberExpression = new CucumberExpression(
-    expression,
-    new ParameterTypeRegistry()
-  )
+  const cucumberExpression = new CucumberExpression(expression, new ParameterTypeRegistry())
   const args = cucumberExpression.match(text)
   if (!args) {
     return null

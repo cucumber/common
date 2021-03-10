@@ -1,5 +1,5 @@
 import { Given, After, Before, ParameterType } from '../src/dsl'
-import * as assert from 'assert'
+import assert from 'assert'
 
 Before('@before-passed', () => {
   // no-op
@@ -23,6 +23,7 @@ Given('a passed step', () => {
 
 Given('I have {int} cukes', (cukes: number) => {
   // no-op
+  assert.notStrictEqual(cukes, undefined)
 })
 
 class Flight {

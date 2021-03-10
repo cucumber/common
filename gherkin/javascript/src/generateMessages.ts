@@ -22,12 +22,12 @@ export default function generateMessages(
       return result
     }
 
-    const parser = new Parser(new AstBuilder(options.newId))
-    parser.stopAtFirstError = false
-    const gherkinDocument = parser.parse(
-      data,
+    const parser = new Parser(
+      new AstBuilder(options.newId),
       new TokenMatcher(options.defaultDialect)
     )
+    parser.stopAtFirstError = false
+    const gherkinDocument = parser.parse(data)
 
     if (options.includeGherkinDocument) {
       result.push(
