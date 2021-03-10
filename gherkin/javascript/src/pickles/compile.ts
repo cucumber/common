@@ -143,10 +143,7 @@ function compileScenarioOutline(
           scenario.steps.length === 0
             ? []
             : backgroundSteps.map((step) => pickleStep(step, [], null, newId))
-        const tags = []
-          .concat(inheritedTags)
-          .concat(scenario.tags)
-          .concat(examples.tags)
+        const tags = [].concat(inheritedTags).concat(scenario.tags).concat(examples.tags)
 
         scenario.steps.forEach((scenarioOutlineStep) => {
           const step = pickleStep(scenarioOutlineStep, variableCells, valuesRow, newId)
