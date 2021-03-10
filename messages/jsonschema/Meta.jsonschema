@@ -6,19 +6,19 @@
             "description": "*\n The [SEMVER](https://semver.org/) version number of the protocol"
         },
         "implementation": {
-            "$ref": "./Product.jsonschema",
+            "$ref": "#/definitions/Product",
             "description": "SpecFlow, Cucumber-JVM, Cucumber.js, Cucumber-Ruby, Behat etc."
         },
         "runtime": {
-            "$ref": "./Product.jsonschema",
+            "$ref": "#/definitions/Product",
             "description": "Java, Ruby, Node.js etc"
         },
         "os": {
-            "$ref": "./Product.jsonschema",
+            "$ref": "#/definitions/Product",
             "description": "Windows, Linux, MacOS etc"
         },
         "cpu": {
-            "$ref": "./Product.jsonschema",
+            "$ref": "#/definitions/Product",
             "description": "386, arm, amd64 etc"
         },
         "ci": {
@@ -40,7 +40,7 @@
                     "description": "Link to the build"
                 },
                 "git": {
-                  "$ref": "#/definitions/Ci"
+                  "$ref": "#/definitions/Git"
                 }
             },
             "additionalProperties": false,

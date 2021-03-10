@@ -8,6 +8,8 @@ class Codegen
     @types = types
 
     @schemas = {}
+    @references = Hash.new { |hash, key| hash[key] = [] }
+
     @paths.each do |path|
       expanded_path = File.expand_path(path)
       schema = JSON.parse(File.read(path))
@@ -15,11 +17,17 @@ class Codegen
     end
   end
 
-  def generate
+  def generate(destination)
     @schemas.each do |key, schema|
       typename = File.basename(key, '.jsonschema')
-      puts "# #{typename}"
-      puts @template.result(binding)
+
+      referenced_types = @references[key]
+
+      File.open("#{destination}/#{typename}.ts", 'wb') do |io|
+        io.write @template.result(binding)
+      end
+      # puts "# #{typename}"
+      # puts @template.result(binding)
     end
   end
 
@@ -28,6 +36,10 @@ class Codegen
     (schema['definitions'] || {}).each do |name, subschema|
       subkey = "#{key}/#{name}"
       add_schema(subkey, subschema)
+    end
+
+    (schema['properties'] || {}).each do |name, subschema|
+      @references[key] << name
     end
   end
 
@@ -56,6 +68,9 @@ class Codegen
 end
 
 template = <<-EOF
+<% referenced_types.each do |referenced_type| %>
+import <%= referenced_type %> from "./<%= referenced_type %>"
+<% end %>
 export interface <%= typename %> {
   <% schema['properties'].each do |name, value| %>
     <%= name %>?: <%= type_for(value, name) %>
@@ -70,5 +85,6 @@ types = {
 }
 path = ARGV[0]
 paths = File.file?(path) ? [path] : Dir["#{ARGV[0]}/*.jsonschema"]
+destination = ARGV[1]
 codegen = Codegen.new(paths, template, types)
-codegen.generate
+codegen.generate(destination)
