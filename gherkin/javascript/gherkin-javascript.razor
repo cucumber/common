@@ -40,10 +40,10 @@ import {
   UnexpectedTokenException,
 } from './TokenExceptions'
 import TokenScanner from './TokenScanner'
-import TokenMatcher from './TokenMatcher'
 import GherkinLine from './GherkinLine'
 import IToken from './IToken'
 import { IAstBuilder } from './IAstBuilder'
+import ITokenMatcher from './ITokenMatcher'
 
 export class Token implements IToken<TokenType> {
   public isEof: boolean
@@ -86,7 +86,6 @@ export enum RuleType {
 
 interface Context {
   tokenScanner: TokenScanner<TokenType>
-  tokenMatcher: TokenMatcher
   tokenQueue: Token[]
   errors: Error[]
 }
@@ -96,13 +95,11 @@ export default class Parser<AstNode> {
   private context: Context
 
   constructor(
-    private readonly builder: IAstBuilder<AstNode, TokenType, RuleType>
+    private readonly builder: IAstBuilder<AstNode, TokenType, RuleType>,
+    private readonly tokenMatcher: ITokenMatcher<TokenType>
   ) {}
 
-  public parse(
-    gherkinSource: string,
-    tokenMatcher: TokenMatcher = new TokenMatcher()
-  ): messages.IGherkinDocument {
+  public parse(gherkinSource: string): messages.IGherkinDocument {
     const tokenScanner = new TokenScanner(
       gherkinSource,
       (line: string, location: messages.ILocation) => {
@@ -114,10 +111,9 @@ export default class Parser<AstNode> {
       }
     )
     this.builder.reset()
-    tokenMatcher.reset()
+    this.tokenMatcher.reset()
     this.context = {
       tokenScanner,
-      tokenMatcher,
       tokenQueue: [],
       errors: [],
     }
@@ -246,7 +242,7 @@ export default class Parser<AstNode> {
     {
     @:if(token.isEof) return false;
     }
-    return this.handleExternalError(context, false, () => context.tokenMatcher.match_@(rule.Name.Replace("#", ""))(token));
+    return this.handleExternalError(context, false, () => this.tokenMatcher.match_@(rule.Name.Replace("#", ""))(token));
   }
 </text>
 }

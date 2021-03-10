@@ -70,9 +70,7 @@ function compileRule(
 
   rule.children.forEach((stepsContainer) => {
     if (stepsContainer.background) {
-      ruleBackgroundSteps = ruleBackgroundSteps.concat(
-        stepsContainer.background.steps
-      )
+      ruleBackgroundSteps = ruleBackgroundSteps.concat(stepsContainer.background.steps)
     } else if (stepsContainer.scenario.examples.length === 0) {
       compileScenario(
         tags,
@@ -113,9 +111,7 @@ function compileScenario(
 
   const tags = [].concat(inheritedTags).concat(scenario.tags)
 
-  scenario.steps.forEach((step) =>
-    steps.push(pickleStep(step, [], null, newId))
-  )
+  scenario.steps.forEach((step) => steps.push(pickleStep(step, [], null, newId)))
 
   const pickle = messages.Pickle.create({
     id: newId(),
@@ -153,12 +149,7 @@ function compileScenarioOutline(
           .concat(examples.tags)
 
         scenario.steps.forEach((scenarioOutlineStep) => {
-          const step = pickleStep(
-            scenarioOutlineStep,
-            variableCells,
-            valuesRow,
-            newId
-          )
+          const step = pickleStep(scenarioOutlineStep, variableCells, valuesRow, newId)
           steps.push(step)
         })
 
@@ -205,11 +196,7 @@ function createPickleArguments(
       content: interpolate(argument.content, variableCells, valueCells),
     })
     if (argument.mediaType) {
-      docString.mediaType = interpolate(
-        argument.mediaType,
-        variableCells,
-        valueCells
-      )
+      docString.mediaType = interpolate(argument.mediaType, variableCells, valueCells)
     }
     return {
       docString,

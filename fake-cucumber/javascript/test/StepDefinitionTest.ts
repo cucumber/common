@@ -11,16 +11,8 @@ import TestWorld from './TestWorld'
 describe('StepDefinition', () => {
   describe('#match', () => {
     it('returns null when there is no match', () => {
-      const expression = new CucumberExpression(
-        'banana',
-        new ParameterTypeRegistry()
-      )
-      const stepdef = new ExpressionStepDefinition(
-        'stepdef-id',
-        expression,
-        null,
-        () => null
-      )
+      const expression = new CucumberExpression('banana', new ParameterTypeRegistry())
+      const stepdef = new ExpressionStepDefinition('stepdef-id', expression, null, () => null)
       const pickleStep = messages.Pickle.PickleStep.create({
         text: 'apple',
       })
@@ -29,10 +21,7 @@ describe('StepDefinition', () => {
     })
 
     it('returns a SupportCodeExecutor object when there is a match', () => {
-      const expression = new CucumberExpression(
-        'I have {int} cukes',
-        new ParameterTypeRegistry()
-      )
+      const expression = new CucumberExpression('I have {int} cukes', new ParameterTypeRegistry())
       const stepdef = new ExpressionStepDefinition(
         'stepdef-id',
         expression,
@@ -49,42 +38,24 @@ describe('StepDefinition', () => {
 
   describe('#toMessage', () => {
     it('generates a StepDefinition object for RegularExpression', () => {
-      const expression = new RegularExpression(
-        /banana/,
-        new ParameterTypeRegistry()
-      )
-      const stepdef = new ExpressionStepDefinition(
-        'stepdef-id',
-        expression,
-        null,
-        () => null
-      )
+      const expression = new RegularExpression(/banana/, new ParameterTypeRegistry())
+      const stepdef = new ExpressionStepDefinition('stepdef-id', expression, null, () => null)
       const message = stepdef.toMessage()
 
       assert.strictEqual(
         message.stepDefinition.pattern.type,
-        messages.StepDefinition.StepDefinitionPattern.StepDefinitionPatternType
-          .REGULAR_EXPRESSION
+        messages.StepDefinition.StepDefinitionPattern.StepDefinitionPatternType.REGULAR_EXPRESSION
       )
     })
 
     it('generates a StepDefinition object for CucumberExpression', () => {
-      const expression = new CucumberExpression(
-        'banana',
-        new ParameterTypeRegistry()
-      )
-      const stepdef = new ExpressionStepDefinition(
-        'stepdef-id',
-        expression,
-        null,
-        () => null
-      )
+      const expression = new CucumberExpression('banana', new ParameterTypeRegistry())
+      const stepdef = new ExpressionStepDefinition('stepdef-id', expression, null, () => null)
       const message = stepdef.toMessage()
 
       assert.strictEqual(
         message.stepDefinition.pattern.type,
-        messages.StepDefinition.StepDefinitionPattern.StepDefinitionPatternType
-          .CUCUMBER_EXPRESSION
+        messages.StepDefinition.StepDefinitionPattern.StepDefinitionPatternType.CUCUMBER_EXPRESSION
       )
     })
   })

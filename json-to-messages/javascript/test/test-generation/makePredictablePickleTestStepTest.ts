@@ -13,10 +13,7 @@ describe('makePredictablePickleTestStep', () => {
     )
     const result = await step.execute(null, 'some-id', () => null)
 
-    assert.equal(
-      result.status,
-      messages.TestStepFinished.TestStepResult.Status.UNDEFINED
-    )
+    assert.equal(result.status, messages.TestStepFinished.TestStepResult.Status.UNDEFINED)
     assert.equal(result.duration.seconds, 0)
     assert.equal(result.duration.nanos, 0)
   })
@@ -39,10 +36,7 @@ describe('makePredictablePickleTestStep', () => {
     )
     const result = await step.execute(null, 'some-id', () => null)
 
-    assert.equal(
-      result.status,
-      messages.TestStepFinished.TestStepResult.Status.SKIPPED
-    )
+    assert.equal(result.status, messages.TestStepFinished.TestStepResult.Status.SKIPPED)
     assert.equal(result.duration.seconds, 987)
     assert.equal(result.duration.nanos, 654000000)
   })

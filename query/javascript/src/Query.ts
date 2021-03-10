@@ -18,16 +18,10 @@ export default class Query {
     string,
     messages.TestStepFinished.ITestStepResult
   >()
-  private readonly testStepIdsByPickleStepId = new ArrayMultimap<
-    string,
-    string
-  >()
+  private readonly testStepIdsByPickleStepId = new ArrayMultimap<string, string>()
   private readonly hooksById = new Map<string, messages.IHook>()
 
-  private readonly attachmentsByTestStepId = new ArrayMultimap<
-    string,
-    messages.IAttachment
-  >()
+  private readonly attachmentsByTestStepId = new ArrayMultimap<string, messages.IAttachment>()
 
   private readonly stepMatchArgumentsListsByPickleStepId = new Map<
     string,
@@ -50,25 +44,15 @@ export default class Query {
     }
 
     if (envelope.testStepFinished) {
-      const pickleId = this.pickleIdByTestStepId.get(
-        envelope.testStepFinished.testStepId
-      )
-      this.testStepResultByPickleId.put(
-        pickleId,
-        envelope.testStepFinished.testStepResult
-      )
+      const pickleId = this.pickleIdByTestStepId.get(envelope.testStepFinished.testStepId)
+      this.testStepResultByPickleId.put(pickleId, envelope.testStepFinished.testStepResult)
 
-      const testStep = this.testStepById.get(
-        envelope.testStepFinished.testStepId
-      )
+      const testStep = this.testStepById.get(envelope.testStepFinished.testStepId)
       this.testStepResultsByPickleStepId.put(
         testStep.pickleStepId,
         envelope.testStepFinished.testStepResult
       )
-      this.testStepResultsbyTestStepId.put(
-        testStep.id,
-        envelope.testStepFinished.testStepResult
-      )
+      this.testStepResultsbyTestStepId.put(testStep.id, envelope.testStepFinished.testStepResult)
     }
 
     if (envelope.hook) {
@@ -76,10 +60,7 @@ export default class Query {
     }
 
     if (envelope.attachment) {
-      this.attachmentsByTestStepId.put(
-        envelope.attachment.testStepId,
-        envelope.attachment
-      )
+      this.attachmentsByTestStepId.put(envelope.attachment.testStepId, envelope.attachment)
     }
   }
 
@@ -99,13 +80,8 @@ export default class Query {
       ]
     }
     return pickleStepIds.reduce(
-      (
-        testStepResults: messages.TestStepFinished.ITestStepResult[],
-        pickleId
-      ) => {
-        return testStepResults.concat(
-          this.testStepResultsByPickleStepId.get(pickleId)
-        )
+      (testStepResults: messages.TestStepFinished.ITestStepResult[], pickleId) => {
+        return testStepResults.concat(this.testStepResultsByPickleStepId.get(pickleId))
       },
       []
     )
@@ -127,13 +103,8 @@ export default class Query {
       ]
     }
     return pickleIds.reduce(
-      (
-        testStepResults: messages.TestStepFinished.ITestStepResult[],
-        pickleId
-      ) => {
-        return testStepResults.concat(
-          this.testStepResultByPickleId.get(pickleId)
-        )
+      (testStepResults: messages.TestStepFinished.ITestStepResult[], pickleId) => {
+        return testStepResults.concat(this.testStepResultByPickleId.get(pickleId))
       },
       []
     )
@@ -164,9 +135,7 @@ export default class Query {
   ): ReadonlyArray<messages.IAttachment> {
     return this.getTestStepsAttachments(
       pickleStepIds.reduce((testStepIds: string[], pickleStepId: string) => {
-        return testStepIds.concat(
-          this.testStepIdsByPickleStepId.get(pickleStepId)
-        )
+        return testStepIds.concat(this.testStepIdsByPickleStepId.get(pickleStepId))
       }, [])
     )
   }
@@ -174,12 +143,9 @@ export default class Query {
   public getTestStepsAttachments(
     testStepIds: ReadonlyArray<string>
   ): ReadonlyArray<messages.IAttachment> {
-    return testStepIds.reduce(
-      (attachments: messages.IAttachment[], testStepId) => {
-        return attachments.concat(this.attachmentsByTestStepId.get(testStepId))
-      },
-      []
-    )
+    return testStepIds.reduce((attachments: messages.IAttachment[], testStepId) => {
+      return attachments.concat(this.attachmentsByTestStepId.get(testStepId))
+    }, [])
   }
 
   /**
@@ -188,9 +154,7 @@ export default class Query {
    */
   public getStepMatchArgumentsLists(
     pickleStepId: string
-  ):
-    | ReadonlyArray<messages.TestCase.TestStep.IStepMatchArgumentsList>
-    | undefined {
+  ): ReadonlyArray<messages.TestCase.TestStep.IStepMatchArgumentsList> | undefined {
     return this.stepMatchArgumentsListsByPickleStepId.get(pickleStepId)
   }
 
@@ -198,9 +162,7 @@ export default class Query {
     return this.hooksById.get(hookId)
   }
 
-  public getBeforeHookSteps(
-    pickleId: string
-  ): ReadonlyArray<messages.TestCase.ITestStep> {
+  public getBeforeHookSteps(pickleId: string): ReadonlyArray<messages.TestCase.ITestStep> {
     const hookSteps: messages.TestCase.ITestStep[] = []
 
     this.identifyHookSteps(
@@ -211,9 +173,7 @@ export default class Query {
     return hookSteps
   }
 
-  public getAfterHookSteps(
-    pickleId: string
-  ): ReadonlyArray<messages.TestCase.ITestStep> {
+  public getAfterHookSteps(pickleId: string): ReadonlyArray<messages.TestCase.ITestStep> {
     const hookSteps: messages.TestCase.ITestStep[] = []
 
     this.identifyHookSteps(
@@ -246,9 +206,7 @@ export default class Query {
     }
   }
 
-  public getTestStepResults(
-    testStepId: string
-  ): messages.TestStepFinished.ITestStepResult[] {
+  public getTestStepResults(testStepId: string): messages.TestStepFinished.ITestStepResult[] {
     return this.testStepResultsbyTestStepId.get(testStepId)
   }
 }

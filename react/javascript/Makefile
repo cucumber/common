@@ -7,7 +7,7 @@ TS_MESSAGE_FILES = $(patsubst ../../compatibility-kit/javascript/features/%.ndjs
 
 dist/src/styles/cucumber-react.css: src/styles/styles.scss src/styles/react-accessible-accordion.css
 	mkdir -p $(@D)
-	./node_modules/.bin/sass $< > $@
+	npx sass $< > $@
 	cat src/styles/react-accessible-accordion.css >> $@
 
 # Convert an .ndjson file to a .ts file with Envelope objects that can be imported
@@ -21,7 +21,7 @@ acceptance/%.ts: ../../compatibility-kit/javascript/features/%.ndjson
 .tested: .tested-storybook
 
 .tested-storybook: $(TYPESCRIPT_SOURCE_FILES)
-	./node_modules/.bin/build-storybook
+	npm run build-storybook
 	touch $@
 
 clean:

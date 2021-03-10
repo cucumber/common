@@ -14,9 +14,7 @@ export default class Hook implements IHook {
   public match(pickle: messages.IPickle): ISupportCodeExecutor | null {
     const matches = this.tagExpression === null || this.matchesPickle(pickle)
 
-    return matches
-      ? new SupportCodeExecutor(this.id, this.body, [], null, null)
-      : null
+    return matches ? new SupportCodeExecutor(this.id, this.body, [], null, null) : null
   }
 
   public toMessage(): messages.IEnvelope {

@@ -11,14 +11,11 @@
   "author": "Cucumber Limited <cukes@googlegroups.com>",
   "license": "MIT",
   "scripts": {
+    "prepare": "npm run pbjs && npm run pbts && copyfiles src/messages.js src/messages.d.ts dist",
     "test": "mocha",
-    "lint": "eslint --ext ts --max-warnings 0 src test",
-    "lint-fix": "eslint --ext ts --max-warnings 0 --fix src test",
-    "coverage": "nyc --reporter=html --reporter=text mocha",
     "pbjs": "pbjs --force-number --target static-module --wrap commonjs messages.proto --out src/messages.js",
     "pbts": "pbts src/messages.js > src/messages.d.ts",
-    "build": "tsc && make src/messages.js && make src/messages.d.ts && copyfiles src/messages.js src/messages.d.ts dist",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "tsc"
   },
   "dependencies": {
     "@types/uuid": "^8.3.0",
@@ -26,23 +23,12 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "@types/mocha": "^8.2.0",
-    "@types/node": "^14.14.25",
-    "@typescript-eslint/eslint-plugin": "^4.14.2",
-    "@typescript-eslint/parser": "^4.14.2",
+    "@types/mocha": "^8.2.1",
+    "@types/node": "^14.14.31",
     "copyfiles": "^2.4.1",
-    "core-js": "^3.8.3",
-    "eslint": "^7.19.0",
-    "eslint-config-prettier": "^8.0.0",
-    "eslint-plugin-import": "^2.22.1",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-prettier": "^3.3.1",
-    "eslint-plugin-react": "^7.22.0",
-    "mocha": "^8.2.1",
-    "nyc": "^15.1.0",
-    "prettier": "^2.2.1",
+    "mocha": "^8.3.0",
     "ts-node": "^9.1.1",
-    "typescript": "^4.1.3"
+    "typescript": "^4.2.2"
   },
   "bugs": {
     "url": "https://github.com/cucumber/messages-javascript/issues"

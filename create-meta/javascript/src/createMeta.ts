@@ -46,10 +46,7 @@ export default function createMeta(
   })
 }
 
-export function detectCI(
-  ciDict: CiDict,
-  envDict: EnvDict
-): messages.Meta.CI | undefined {
+export function detectCI(ciDict: CiDict, envDict: EnvDict): messages.Meta.CI | undefined {
   const detected: messages.Meta.CI[] = []
   for (const [ciName, ciSystem] of Object.entries(ciDict)) {
     const ci = createCi(ciName, ciSystem, envDict)

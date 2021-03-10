@@ -7,13 +7,8 @@ import SearchQueryContext from '../src/SearchQueryContext'
 import { messages } from '@cucumber/messages'
 
 describe('SearchBar', () => {
-  function renderSearchBar(
-    query?: string,
-    queryUpdated?: (query: string) => any
-  ): Document {
-    const dom = new JSDOM(
-      '<html lang="en"><body><div id="content"></div></body></html>'
-    )
+  function renderSearchBar(query?: string, queryUpdated?: (query: string) => any): Document {
+    const dom = new JSDOM('<html lang="en"><body><div id="content"></div></body></html>')
     // @ts-ignore
     global.window = dom.window
     // global.navigator = dom.window.navigator
@@ -23,10 +18,7 @@ describe('SearchBar', () => {
       /*Do nothing*/
     }
     const enabledStatuses: messages.TestStepFinished.TestStepResult.Status[] = []
-    const scenarioCountByStatus = new Map<
-      messages.TestStepFinished.TestStepResult.Status,
-      number
-    >()
+    const scenarioCountByStatus = new Map<messages.TestStepFinished.TestStepResult.Status, number>()
 
     const app = (
       <SearchQueryContext.Provider
@@ -67,14 +59,10 @@ describe('SearchBar', () => {
       capture = query
     })
 
-    const searchTextElem = document.getElementsByName(
-      'query'
-    )[0] as HTMLInputElement
+    const searchTextElem = document.getElementsByName('query')[0] as HTMLInputElement
     searchTextElem.value = 'search text'
 
-    const searchForm = document.querySelector(
-      '.cucumber-search-bar-search'
-    ) as HTMLFormElement
+    const searchForm = document.querySelector('.cucumber-search-bar-search') as HTMLFormElement
     searchForm.submit()
 
     assert.strictEqual(capture, 'search text')
@@ -87,9 +75,7 @@ describe('SearchBar', () => {
       capture = query
     })
 
-    const searchTextElem = document.getElementsByName(
-      'query'
-    )[0] as HTMLInputElement
+    const searchTextElem = document.getElementsByName('query')[0] as HTMLInputElement
     searchTextElem.value = 'search text'
 
     const searchButton = document.querySelector(
@@ -109,15 +95,9 @@ describe('SearchBar', () => {
       capture = event
     })
 
-    const searchForm = document.querySelector(
-      '.cucumber-search-bar-search'
-    ) as HTMLFormElement
+    const searchForm = document.querySelector('.cucumber-search-bar-search') as HTMLFormElement
     searchForm.submit()
 
-    assert.strictEqual(
-      capture.defaultPrevented,
-      true,
-      'Form submit action was not prevented.'
-    )
+    assert.strictEqual(capture.defaultPrevented, true, 'Form submit action was not prevented.')
   })
 })

@@ -10,8 +10,6 @@ export default function getFeatureStatus(
   gherkinQuery: GherkinQuery
 ): messages.TestStepFinished.TestStepResult.Status {
   return cucumberQuery.getWorstTestStepResult(
-    cucumberQuery.getPickleTestStepResults(
-      gherkinQuery.getPickleIds(document.uri)
-    )
+    cucumberQuery.getPickleTestStepResults(gherkinQuery.getPickleIds(document.uri))
   ).status
 }

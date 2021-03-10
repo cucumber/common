@@ -2,3 +2,4 @@
 .rsynced
 .idea/
 executables
+node_modules

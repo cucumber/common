@@ -12,10 +12,10 @@ import {
   UnexpectedTokenException,
 } from './TokenExceptions'
 import TokenScanner from './TokenScanner'
-import TokenMatcher from './TokenMatcher'
 import GherkinLine from './GherkinLine'
 import IToken from './IToken'
 import { IAstBuilder } from './IAstBuilder'
+import ITokenMatcher from './ITokenMatcher'
 
 export class Token implements IToken<TokenType> {
   public isEof: boolean
@@ -98,7 +98,6 @@ export enum RuleType {
 
 interface Context {
   tokenScanner: TokenScanner<TokenType>
-  tokenMatcher: TokenMatcher
   tokenQueue: Token[]
   errors: Error[]
 }
@@ -108,13 +107,11 @@ export default class Parser<AstNode> {
   private context: Context
 
   constructor(
-    private readonly builder: IAstBuilder<AstNode, TokenType, RuleType>
+    private readonly builder: IAstBuilder<AstNode, TokenType, RuleType>,
+    private readonly tokenMatcher: ITokenMatcher<TokenType>
   ) {}
 
-  public parse(
-    gherkinSource: string,
-    tokenMatcher: TokenMatcher = new TokenMatcher()
-  ): messages.IGherkinDocument {
+  public parse(gherkinSource: string): messages.IGherkinDocument {
     const tokenScanner = new TokenScanner(
       gherkinSource,
       (line: string, location: messages.ILocation) => {
@@ -126,10 +123,9 @@ export default class Parser<AstNode> {
       }
     )
     this.builder.reset()
-    tokenMatcher.reset()
+    this.tokenMatcher.reset()
     this.context = {
       tokenScanner,
-      tokenMatcher,
       tokenQueue: [],
       errors: [],
     }
@@ -3973,85 +3969,85 @@ export default class Parser<AstNode> {
 
 
   private match_EOF(context: Context, token: Token) {
-    return this.handleExternalError(context, false, () => context.tokenMatcher.match_EOF(token));
+    return this.handleExternalError(context, false, () => this.tokenMatcher.match_EOF(token));
   }
 
 
   private match_Empty(context: Context, token: Token) {
     if(token.isEof) return false;
-    return this.handleExternalError(context, false, () => context.tokenMatcher.match_Empty(token));
+    return this.handleExternalError(context, false, () => this.tokenMatcher.match_Empty(token));
   }
 
 
   private match_Comment(context: Context, token: Token) {
     if(token.isEof) return false;
-    return this.handleExternalError(context, false, () => context.tokenMatcher.match_Comment(token));
+    return this.handleExternalError(context, false, () => this.tokenMatcher.match_Comment(token));
   }
 
 
   private match_TagLine(context: Context, token: Token) {
     if(token.isEof) return false;
-    return this.handleExternalError(context, false, () => context.tokenMatcher.match_TagLine(token));
+    return this.handleExternalError(context, false, () => this.tokenMatcher.match_TagLine(token));
   }
 
 
   private match_FeatureLine(context: Context, token: Token) {
     if(token.isEof) return false;
-    return this.handleExternalError(context, false, () => context.tokenMatcher.match_FeatureLine(token));
+    return this.handleExternalError(context, false, () => this.tokenMatcher.match_FeatureLine(token));
   }
 
 
   private match_RuleLine(context: Context, token: Token) {
     if(token.isEof) return false;
-    return this.handleExternalError(context, false, () => context.tokenMatcher.match_RuleLine(token));
+    return this.handleExternalError(context, false, () => this.tokenMatcher.match_RuleLine(token));
   }
 
 
   private match_BackgroundLine(context: Context, token: Token) {
     if(token.isEof) return false;
-    return this.handleExternalError(context, false, () => context.tokenMatcher.match_BackgroundLine(token));
+    return this.handleExternalError(context, false, () => this.tokenMatcher.match_BackgroundLine(token));
   }
 
 
   private match_ScenarioLine(context: Context, token: Token) {
     if(token.isEof) return false;
-    return this.handleExternalError(context, false, () => context.tokenMatcher.match_ScenarioLine(token));
+    return this.handleExternalError(context, false, () => this.tokenMatcher.match_ScenarioLine(token));
   }
 
 
   private match_ExamplesLine(context: Context, token: Token) {
     if(token.isEof) return false;
-    return this.handleExternalError(context, false, () => context.tokenMatcher.match_ExamplesLine(token));
+    return this.handleExternalError(context, false, () => this.tokenMatcher.match_ExamplesLine(token));
   }
 
 
   private match_StepLine(context: Context, token: Token) {
     if(token.isEof) return false;
-    return this.handleExternalError(context, false, () => context.tokenMatcher.match_StepLine(token));
+    return this.handleExternalError(context, false, () => this.tokenMatcher.match_StepLine(token));
   }
 
 
   private match_DocStringSeparator(context: Context, token: Token) {
     if(token.isEof) return false;
-    return this.handleExternalError(context, false, () => context.tokenMatcher.match_DocStringSeparator(token));
+    return this.handleExternalError(context, false, () => this.tokenMatcher.match_DocStringSeparator(token));
   }
 
 
   private match_TableRow(context: Context, token: Token) {
     if(token.isEof) return false;
-    return this.handleExternalError(context, false, () => context.tokenMatcher.match_TableRow(token));
+    return this.handleExternalError(context, false, () => this.tokenMatcher.match_TableRow(token));
   }
 
 
   private match_Language(context: Context, token: Token) {
     if(token.isEof) return false;
-    return this.handleExternalError(context, false, () => context.tokenMatcher.match_Language(token));
+    return this.handleExternalError(context, false, () => this.tokenMatcher.match_Language(token));
   }
 
 
   private match_Other(context: Context, token: Token) {
     if(token.isEof) return false;
-    return this.handleExternalError(context, false, () => context.tokenMatcher.match_Other(token));
+    return this.handleExternalError(context, false, () => this.tokenMatcher.match_Other(token));
   }
 
 

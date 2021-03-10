@@ -25,11 +25,7 @@ const allQueryWords = (queryWords: string[]): string[] => {
 }
 
 const parseHtml = htmlParser()
-const HighLight: React.FunctionComponent<IProps> = ({
-  text,
-  markdown = false,
-  className = '',
-}) => {
+const HighLight: React.FunctionComponent<IProps> = ({ text, markdown = false, className = '' }) => {
   const searchQueryContext = React.useContext(SearchQueryContext)
   const query = allQueryWords(
     searchQueryContext.query ? searchQueryContext.query.split(' ') : []
@@ -53,9 +49,7 @@ const HighLight: React.FunctionComponent<IProps> = ({
 
   return (
     <span className={appliedClassName}>
-      {chunks.map(({ text, match, key }) =>
-        match ? <mark key={key}>{text}</mark> : text
-      )}
+      {chunks.map(({ text, match, key }) => (match ? <mark key={key}>{text}</mark> : text))}
     </span>
   )
 }

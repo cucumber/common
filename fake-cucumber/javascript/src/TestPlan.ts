@@ -3,10 +3,7 @@ import { messages, TimeConversion } from '@cucumber/messages'
 import SupportCode from './SupportCode'
 
 export default class TestPlan implements ITestPlan {
-  constructor(
-    private readonly testCases: ITestCase[],
-    private readonly supportCode: SupportCode
-  ) {}
+  constructor(private readonly testCases: ITestCase[], private readonly supportCode: SupportCode) {}
 
   public async execute(listener: EnvelopeListener): Promise<void> {
     for (const parameterTypeMessage of this.supportCode.parameterTypeMessages) {
@@ -15,8 +12,7 @@ export default class TestPlan implements ITestPlan {
     for (const stepDefinition of this.supportCode.stepDefinitions) {
       listener(stepDefinition.toMessage())
     }
-    for (const undefinedParameterType of this.supportCode
-      .undefinedParameterTypeMessages) {
+    for (const undefinedParameterType of this.supportCode.undefinedParameterTypeMessages) {
       listener(undefinedParameterType)
     }
     for (const hook of this.supportCode.beforeHooks) {

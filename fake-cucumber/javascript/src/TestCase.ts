@@ -58,14 +58,9 @@ export default class TestCase implements ITestCase {
       let testStepResult: messages.TestStepFinished.ITestStepResult
       // TODO: Also ask testStep if it should always execute (true for After steps)
       if (executeNext || testStep.alwaysExecute) {
-        testStepResult = await testStep.execute(
-          world,
-          testCaseStartedId,
-          listener
-        )
+        testStepResult = await testStep.execute(world, testCaseStartedId, listener)
         executeNext =
-          testStepResult.status ===
-          messages.TestStepFinished.TestStepResult.Status.PASSED
+          testStepResult.status === messages.TestStepFinished.TestStepResult.Status.PASSED
       } else {
         testStepResult = testStep.skip(listener, testCaseStartedId)
       }
