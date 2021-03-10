@@ -1,4 +1,4 @@
-import { Given, Before, After } from '@cucumber/cucumber'
+import { Given, Before, After } from 'cucumber'
 
 Before(() => {
   //no-op

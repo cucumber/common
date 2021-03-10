@@ -1,5 +1,5 @@
 import assert from 'assert'
-import { Given, When, Then, setWorldConstructor } from '@cucumber/cucumber'
+import { Given, When, Then, setWorldConstructor } from 'cucumber'
 
 function CustomWorld() {
   this.cucumbers = 0
