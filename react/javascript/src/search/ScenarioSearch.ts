@@ -14,10 +14,7 @@ export default class ScenarioSearch {
     ctx.addField('description')
     ctx.saveDocument(true)
   })
-  private scenarioById = new Map<
-    string,
-    messages.GherkinDocument.Feature.IScenario
-  >()
+  private scenarioById = new Map<string, messages.GherkinDocument.Feature.IScenario>()
 
   public add(scenario: messages.GherkinDocument.Feature.IScenario): void {
     this.index.addDoc({

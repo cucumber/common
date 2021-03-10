@@ -8,20 +8,14 @@ export default function countScenariosByStatuses(
   gherkinQuery: GherkinQuery,
   cucumberQuery: CucumberQuery
 ): Map<messages.TestStepFinished.TestStepResult.Status, number> {
-  const statuses = new Map<
-    messages.TestStepFinished.TestStepResult.Status,
-    number
-  >()
+  const statuses = new Map<messages.TestStepFinished.TestStepResult.Status, number>()
 
   for (const gherkinDocument of gherkinDocuments) {
     const counter = new GherkinDocumentWalker(
       {},
       {
         handleScenario: (scenario) => {
-          const pickleIds = gherkinQuery.getPickleIds(
-            gherkinDocument.uri,
-            scenario.id
-          )
+          const pickleIds = gherkinQuery.getPickleIds(gherkinDocument.uri, scenario.id)
 
           pickleIds.forEach((pickleId) => {
             const status = cucumberQuery.getWorstTestStepResult(

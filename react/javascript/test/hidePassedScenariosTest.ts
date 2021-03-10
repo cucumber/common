@@ -3,7 +3,7 @@ import { stubObject } from 'ts-sinon'
 import { IdGenerator, messages } from '@cucumber/messages'
 import GherkinDocument = messages.GherkinDocument
 import { Query as CucumberQuery, Query } from '@cucumber/query'
-import GherkinStreams from '@cucumber/gherkin/dist/src/stream/GherkinStreams'
+import { GherkinStreams } from '@cucumber/gherkin-streams'
 import { Query as GherkinQuery } from '@cucumber/gherkin-utils'
 
 import hidePassedScenarios from '../src/hidePassedScenarios'
@@ -16,10 +16,7 @@ describe('hidePassedScenarios', () => {
     const testResultsQuery = new Query()
     const gherkinQuery = new GherkinQuery()
 
-    assert.deepStrictEqual(
-      hidePassedScenarios([], testResultsQuery, gherkinQuery),
-      []
-    )
+    assert.deepStrictEqual(hidePassedScenarios([], testResultsQuery, gherkinQuery), [])
   })
 
   it('keeps documents which do not have a passed status', () => {
@@ -35,10 +32,9 @@ describe('hidePassedScenarios', () => {
     const gherkinQuery = stubObject<GherkinQuery>(new GherkinQuery())
     gherkinQuery.getPickleIds.returns([])
 
-    assert.deepStrictEqual(
-      hidePassedScenarios([document], testResultsQuery, gherkinQuery),
-      [document]
-    )
+    assert.deepStrictEqual(hidePassedScenarios([document], testResultsQuery, gherkinQuery), [
+      document,
+    ])
   })
 
   it('removes documents which do have a passed status', () => {
@@ -54,10 +50,7 @@ describe('hidePassedScenarios', () => {
     const gherkinQuery = stubObject<GherkinQuery>(new GherkinQuery())
     gherkinQuery.getPickleIds.returns([])
 
-    assert.deepStrictEqual(
-      hidePassedScenarios([document], testResultsQuery, gherkinQuery),
-      []
-    )
+    assert.deepStrictEqual(hidePassedScenarios([document], testResultsQuery, gherkinQuery), [])
   })
 
   it('can process multiple documents and statuses', async () => {
@@ -84,19 +77,12 @@ describe('hidePassedScenarios', () => {
     const cucumberQuery = new CucumberQuery()
 
     const cucumberQueryStream = new CucumberQueryStream(cucumberQuery)
-    await runCucumber(
-      supportCode,
-      gherkinStream,
-      gherkinQuery,
-      cucumberQueryStream
-    )
+    await runCucumber(supportCode, gherkinStream, gherkinQuery, cucumberQueryStream)
 
     const gherkinDocuments = gherkinQuery.getGherkinDocuments()
 
     const expectedFeatureFiles = featureFiles.filter(
-      (path) =>
-        path !==
-        '../../compatibility-kit/javascript/features/minimal/minimal.feature'
+      (path) => path !== '../../compatibility-kit/javascript/features/minimal/minimal.feature'
     )
     assert.notDeepStrictEqual(featureFiles, expectedFeatureFiles)
     assert.deepStrictEqual(

@@ -3,27 +3,21 @@ import CucumberHtmlStream from '../src/CucumberHtmlStream'
 import { Writable } from 'stream'
 import assert from 'assert'
 
-async function renderAsHtml(
-  ...envelopes: messages.IEnvelope[]
-): Promise<string> {
-  return new Promise((resolve) => {
+async function renderAsHtml(...envelopes: messages.IEnvelope[]): Promise<string> {
+  return new Promise((resolve, reject) => {
     let html = ''
     const sink: Writable = new Writable({
-      write(
-        chunk: any,
-        encoding: string,
-        callback: (error?: Error | null) => void
-      ): void {
+      write(chunk: any, encoding: string, callback: (error?: Error | null) => void): void {
         html += chunk
         callback()
       },
     })
     sink.on('finish', () => resolve(html))
     const cucumberHtmlStream = new CucumberHtmlStream(
-      __dirname +
-        '/../node_modules/@cucumber/react/dist/src/styles/cucumber-react.css',
-      __dirname + '/../dist/main.js'
+      `${__dirname}/dummy.css`,
+      `${__dirname}/dummy.js`
     )
+    cucumberHtmlStream.on('error', reject)
     cucumberHtmlStream.pipe(sink)
 
     for (const envelope of envelopes) {
@@ -44,14 +38,10 @@ describe('CucumberHtmlStream', () => {
       testRunStarted: messages.TestRunStarted.create({}),
     })
     const html = await renderAsHtml(e1)
-    assert(
-      html.indexOf(
-        `window.CUCUMBER_MESSAGES = [${JSON.stringify(e1.toJSON())}]`
-      ) >= 0
-    )
+    assert(html.indexOf(`window.CUCUMBER_MESSAGES = [${JSON.stringify(e1.toJSON())}]`) >= 0)
   })
 
-  it('writes one message to html', async () => {
+  it('writes two messages to html', async () => {
     const e1 = messages.Envelope.create({
       testRunStarted: messages.TestRunStarted.create({}),
     })
@@ -61,9 +51,7 @@ describe('CucumberHtmlStream', () => {
     const html = await renderAsHtml(e1, e2)
     assert(
       html.indexOf(
-        `window.CUCUMBER_MESSAGES = [${JSON.stringify(
-          e1.toJSON()
-        )},${JSON.stringify(e2.toJSON())}]`
+        `window.CUCUMBER_MESSAGES = [${JSON.stringify(e1.toJSON())},${JSON.stringify(e2.toJSON())}]`
       ) >= 0
     )
   })

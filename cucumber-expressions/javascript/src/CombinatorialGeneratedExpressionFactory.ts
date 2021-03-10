@@ -43,11 +43,7 @@ export default class CombinatorialGeneratedExpressionFactory {
 
       const newCurrentParameterTypes = currentParameterTypes.slice() // clone
       newCurrentParameterTypes.push(this.parameterTypeCombinations[depth][i])
-      this.generatePermutations(
-        generatedExpressions,
-        depth + 1,
-        newCurrentParameterTypes
-      )
+      this.generatePermutations(generatedExpressions, depth + 1, newCurrentParameterTypes)
     }
   }
 }

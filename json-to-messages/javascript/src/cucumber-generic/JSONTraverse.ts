@@ -23,17 +23,13 @@ export function traverseFeature(
 ): messages.IGherkinDocument {
   const children: messages.GherkinDocument.Feature.IFeatureChild[] = []
   let backgroundFound = false
-  const tags = feature.tags
-    ? feature.tags.map((tag) => traverseTag(tag, astMaker))
-    : undefined
+  const tags = feature.tags ? feature.tags.map((tag) => traverseTag(tag, astMaker)) : undefined
 
   for (const element of feature.elements) {
     const isBackground = element.type === 'background'
 
     if (!isBackground || !backgroundFound) {
-      children.push(
-        traverseElement(element, astMaker, newId, predictableSupportCode)
-      )
+      children.push(traverseElement(element, astMaker, newId, predictableSupportCode))
     }
     backgroundFound = backgroundFound || isBackground
   }
@@ -50,9 +46,6 @@ export function traverseFeature(
   return astMaker.makeGherkinDocument(feature.uri, gherkinFeature)
 }
 
-export function traverseTag(
-  tag: ITag,
-  astMaker: IAstMaker
-): messages.GherkinDocument.Feature.ITag {
+export function traverseTag(tag: ITag, astMaker: IAstMaker): messages.GherkinDocument.Feature.ITag {
   return astMaker.makeTag(tag.name, tag.line)
 }

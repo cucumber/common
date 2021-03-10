@@ -1,10 +1,5 @@
-import {
-  runCucumber,
-  SupportCode,
-  IHook,
-  ISupportCodeExecutor,
-} from '@cucumber/fake-cucumber'
-import GherkinStreams from '@cucumber/gherkin/dist/src/stream/GherkinStreams'
+import { runCucumber, SupportCode, IHook, ISupportCodeExecutor } from '@cucumber/fake-cucumber'
+import { GherkinStreams } from '@cucumber/gherkin-streams'
 import { Query as GherkinQuery } from '@cucumber/gherkin-utils'
 import { Writable } from 'stream'
 import { messages, IdGenerator } from '@cucumber/messages'
@@ -59,10 +54,9 @@ export default async function runFeature(
     },
   })
 
-  const gherkinEnvelopeStream = GherkinStreams.fromSources(
-    [makeSourceEnvelope(feature, '')],
-    { newId: IdGenerator.incrementing() }
-  )
+  const gherkinEnvelopeStream = GherkinStreams.fromSources([makeSourceEnvelope(feature, '')], {
+    newId: IdGenerator.incrementing(),
+  })
 
   await runCucumber(supportCode, gherkinEnvelopeStream, gherkinQuery, out)
   return emitted

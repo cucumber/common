@@ -3,11 +3,7 @@ import { messages } from '@cucumber/messages'
 import makePickleTestStep from '../src/makePickleTestStep'
 import TestWorld from './TestWorld'
 import IncrementClock from '../src/IncrementClock'
-import {
-  withSourceFramesOnlyStackTrace,
-  withFullStackTrace,
-  IWorld,
-} from '../src'
+import { withSourceFramesOnlyStackTrace, withFullStackTrace, IWorld } from '../src'
 import ExpressionStepDefinition from '../src/ExpressionStepDefinition'
 import {
   CucumberExpression,
@@ -21,9 +17,7 @@ describe('TestStep', () => {
   let world: IWorld
   beforeEach(() => (world = new TestWorld()))
 
-  async function execute(
-    testStep: ITestStep
-  ): Promise<messages.ITestStepFinished> {
+  async function execute(testStep: ITestStep): Promise<messages.ITestStepFinished> {
     const receivedMessages: messages.IEnvelope[] = []
     await testStep.execute(world, 'some-testCaseStartedId', (message) =>
       receivedMessages.push(message)
@@ -59,10 +53,7 @@ describe('TestStep', () => {
     it('emits a TestStepFinished with status AMBIGUOUS when there are multiple matching step definitions', async () => {
       const stepDefinition = new ExpressionStepDefinition(
         'an-id',
-        new CucumberExpression(
-          'an ambiguous step',
-          new ParameterTypeRegistry()
-        ),
+        new CucumberExpression('an ambiguous step', new ParameterTypeRegistry()),
         null,
         () => {
           throw new Error('Should now be run')
@@ -103,15 +94,8 @@ describe('TestStep', () => {
         withSourceFramesOnlyStackTrace()
       )
 
-      const result = await testStep.execute(
-        world,
-        'some-testCaseStartedId',
-        () => null
-      )
-      assert.strictEqual(
-        result.status,
-        messages.TestStepFinished.TestStepResult.Status.UNDEFINED
-      )
+      const result = await testStep.execute(world, 'some-testCaseStartedId', () => null)
+      assert.strictEqual(result.status, messages.TestStepFinished.TestStepResult.Status.UNDEFINED)
     })
 
     it('computes the execution duration', async () => {
@@ -124,10 +108,7 @@ describe('TestStep', () => {
         [
           new ExpressionStepDefinition(
             'an-id',
-            new CucumberExpression(
-              'a passed step',
-              new ParameterTypeRegistry()
-            ),
+            new CucumberExpression('a passed step', new ParameterTypeRegistry()),
             null,
             () => null
           ),
@@ -137,11 +118,8 @@ describe('TestStep', () => {
         new IncrementStopwatch(),
         withSourceFramesOnlyStackTrace()
       )
-      await testStep.execute(world, 'some-id', (message) =>
-        emitted.push(message)
-      )
-      const result = emitted.find((m) => m.testStepFinished).testStepFinished
-        .testStepResult
+      await testStep.execute(world, 'some-id', (message) => emitted.push(message))
+      const result = emitted.find((m) => m.testStepFinished).testStepFinished.testStepResult
 
       assert.strictEqual(result.duration.seconds, 0)
     })
@@ -156,10 +134,7 @@ describe('TestStep', () => {
           [
             new ExpressionStepDefinition(
               'an-id',
-              new CucumberExpression(
-                'a passed step',
-                new ParameterTypeRegistry()
-              ),
+              new CucumberExpression('a passed step', new ParameterTypeRegistry()),
               null,
               () => null
             ),
@@ -188,10 +163,7 @@ describe('TestStep', () => {
           [
             new ExpressionStepDefinition(
               'an-id',
-              new CucumberExpression(
-                'a pending step',
-                new ParameterTypeRegistry()
-              ),
+              new CucumberExpression('a pending step', new ParameterTypeRegistry()),
               null,
               () => 'pending'
             ),
@@ -219,10 +191,7 @@ describe('TestStep', () => {
           [
             new ExpressionStepDefinition(
               'an-id',
-              new CucumberExpression(
-                'a failed step',
-                new ParameterTypeRegistry()
-              ),
+              new CucumberExpression('a failed step', new ParameterTypeRegistry()),
               null,
               () => {
                 throw new Error('This step has failed')
@@ -252,10 +221,7 @@ describe('TestStep', () => {
           [
             new ExpressionStepDefinition(
               'an-id',
-              new CucumberExpression(
-                'a failed step',
-                new ParameterTypeRegistry()
-              ),
+              new CucumberExpression('a failed step', new ParameterTypeRegistry()),
               null,
               () => {
                 throw new Error('Something went wrong')
@@ -269,16 +235,8 @@ describe('TestStep', () => {
         )
 
         const testStepFinished = await execute(testStep)
-        assert.ok(
-          testStepFinished.testStepResult.message.includes(
-            'Something went wrong'
-          )
-        )
-        assert.ok(
-          testStepFinished.testStepResult.message.includes(
-            'at some.feature:123'
-          )
-        )
+        assert.ok(testStepFinished.testStepResult.message.includes('Something went wrong'))
+        assert.ok(testStepFinished.testStepResult.message.includes('at some.feature:123'))
       })
 
       it('emits a TestStepFinished with error message from docstring', async () => {
@@ -310,9 +268,7 @@ describe('TestStep', () => {
         )
 
         const testStepFinished = await execute(testStep)
-        assert.ok(
-          testStepFinished.testStepResult.message.includes('error from hello')
-        )
+        assert.ok(testStepFinished.testStepResult.message.includes('error from hello'))
         assert.strictEqual(testStepFinished.testStepId, testStep.id)
       })
     })
@@ -339,36 +295,24 @@ describe('TestStep', () => {
     })
 
     it('emits a TestStepStarted message', () => {
-      testStep.skip(
-        (message) => receivedMessages.push(message),
-        'test-case-started-id'
-      )
+      testStep.skip((message) => receivedMessages.push(message), 'test-case-started-id')
 
-      const testStepStarted = receivedMessages.find((m) => m.testStepStarted)
-        .testStepStarted
+      const testStepStarted = receivedMessages.find((m) => m.testStepStarted).testStepStarted
       assert.strictEqual(testStepStarted.testStepId, testStep.id)
     })
 
     it('emits a TestStepFinished message with a duration of 0', () => {
-      testStep.skip(
-        (message) => receivedMessages.push(message),
-        'test-case-started-id'
-      )
+      testStep.skip((message) => receivedMessages.push(message), 'test-case-started-id')
 
-      const testStepFinished = receivedMessages.find((m) => m.testStepFinished)
-        .testStepFinished
+      const testStepFinished = receivedMessages.find((m) => m.testStepFinished).testStepFinished
       assert.strictEqual(testStepFinished.testStepResult.duration.seconds, 0)
       assert.strictEqual(testStepFinished.testStepResult.duration.nanos, 0)
     })
 
     it('emits a TestStepFinished message with a result SKIPPED', () => {
-      testStep.skip(
-        (message) => receivedMessages.push(message),
-        'test-case-started-id'
-      )
+      testStep.skip((message) => receivedMessages.push(message), 'test-case-started-id')
 
-      const testStepFinished = receivedMessages.find((m) => m.testStepFinished)
-        .testStepFinished
+      const testStepFinished = receivedMessages.find((m) => m.testStepFinished).testStepFinished
       assert.strictEqual(
         testStepFinished.testStepResult.status,
         messages.TestStepFinished.TestStepResult.Status.SKIPPED

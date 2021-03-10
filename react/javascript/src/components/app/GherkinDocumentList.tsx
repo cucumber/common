@@ -17,29 +17,23 @@ interface IProps {
   gherkinDocuments?: ReadonlyArray<messages.IGherkinDocument>
 }
 
-const GherkinDocumentList: React.FunctionComponent<IProps> = ({
-  gherkinDocuments,
-}) => {
+const GherkinDocumentList: React.FunctionComponent<IProps> = ({ gherkinDocuments }) => {
   const gherkinQuery = React.useContext(GherkinQueryContext)
   const cucumberQuery = React.useContext(CucumberQueryContext)
 
   const gherkinDocs =
-    gherkinDocuments === undefined
-      ? gherkinQuery.getGherkinDocuments()
-      : gherkinDocuments
+    gherkinDocuments === undefined ? gherkinQuery.getGherkinDocuments() : gherkinDocuments
 
-  const entries: Array<
-    [string, messages.TestStepFinished.TestStepResult.Status]
-  > = gherkinDocs.map((gherkinDocument) => {
-    const gherkinDocumentStatus = gherkinDocument.feature
-      ? cucumberQuery.getWorstTestStepResult(
-          cucumberQuery.getPickleTestStepResults(
-            gherkinQuery.getPickleIds(gherkinDocument.uri)
-          )
-        ).status
-      : messages.TestStepFinished.TestStepResult.Status.UNDEFINED
-    return [gherkinDocument.uri, gherkinDocumentStatus]
-  })
+  const entries: Array<[string, messages.TestStepFinished.TestStepResult.Status]> = gherkinDocs.map(
+    (gherkinDocument) => {
+      const gherkinDocumentStatus = gherkinDocument.feature
+        ? cucumberQuery.getWorstTestStepResult(
+            cucumberQuery.getPickleTestStepResults(gherkinQuery.getPickleIds(gherkinDocument.uri))
+          ).status
+        : messages.TestStepFinished.TestStepResult.Status.UNDEFINED
+      return [gherkinDocument.uri, gherkinDocumentStatus]
+    }
+  )
   const gherkinDocumentStatusByUri = new Map(entries)
 
   // Pre-expand any document that is *not* passed - assuming this is what people want to look at first
@@ -52,11 +46,7 @@ const GherkinDocumentList: React.FunctionComponent<IProps> = ({
     .map((doc) => doc.uri)
   return (
     <div className="gherkin-document-list">
-      <Accordion
-        allowMultipleExpanded={true}
-        allowZeroExpanded={true}
-        preExpanded={preExpanded}
-      >
+      <Accordion allowMultipleExpanded={true} allowZeroExpanded={true} preExpanded={preExpanded}>
         {gherkinDocs.map((doc) => {
           const gherkinDocumentStatus = gherkinDocumentStatusByUri.get(doc.uri)
 

@@ -12,9 +12,7 @@ export default class GroupBuilder {
 
   public build(match: RegexExecArray, nextGroupIndex: () => number): Group {
     const groupIndex = nextGroupIndex()
-    const children = this.groupBuilders.map((gb) =>
-      gb.build(match, nextGroupIndex)
-    )
+    const children = this.groupBuilders.map((gb) => gb.build(match, nextGroupIndex))
     return new Group(
       match[groupIndex] || undefined,
       match.index[groupIndex],

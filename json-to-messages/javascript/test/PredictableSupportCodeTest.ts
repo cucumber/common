@@ -15,11 +15,7 @@ describe('PredictableSupportCode', () => {
     })
 
     beforeEach(() => {
-      predictableSupportCode.addPredictableBeforeHook(
-        'some/where:7',
-        scenarioId,
-        'passed'
-      )
+      predictableSupportCode.addPredictableBeforeHook('some/where:7', scenarioId, 'passed')
     })
 
     it('adds a beforeHook', () => {
@@ -47,10 +43,7 @@ describe('PredictableSupportCode', () => {
 
     it('adds a hook with a passed status when status is "passed"', () => {
       const hook = supportCode.beforeHooks[0] as PredictableHook
-      assert.equal(
-        hook.status,
-        messages.TestStepFinished.TestStepResult.Status.PASSED
-      )
+      assert.equal(hook.status, messages.TestStepFinished.TestStepResult.Status.PASSED)
     })
 
     it('adds a hook with a failed status when status is "failed"', () => {
@@ -65,10 +58,7 @@ describe('PredictableSupportCode', () => {
       )
       const hook = supportCode.beforeHooks[0] as PredictableHook
 
-      assert.equal(
-        hook.status,
-        messages.TestStepFinished.TestStepResult.Status.FAILED
-      )
+      assert.equal(hook.status, messages.TestStepFinished.TestStepResult.Status.FAILED)
       assert.equal(hook.errorMessage, 'BOOM !!')
       assert.equal(hook.duration, 0.01)
     })
@@ -83,11 +73,7 @@ describe('PredictableSupportCode', () => {
     })
 
     beforeEach(() => {
-      predictableSupportCode2.addPredictableAfterHook(
-        'some/where:7',
-        scenarioId,
-        'passed'
-      )
+      predictableSupportCode2.addPredictableAfterHook('some/where:7', scenarioId, 'passed')
     })
 
     it('adds a beforeHook', () => {
@@ -116,10 +102,7 @@ describe('PredictableSupportCode', () => {
     it('adds a hook with a passed status when status is "passed"', () => {
       const hook = supportCode.afterHooks[0] as PredictableHook
 
-      assert.equal(
-        hook.status,
-        messages.TestStepFinished.TestStepResult.Status.PASSED
-      )
+      assert.equal(hook.status, messages.TestStepFinished.TestStepResult.Status.PASSED)
     })
 
     it('adds a hook with a failed status when status is "failed"', () => {
@@ -134,10 +117,7 @@ describe('PredictableSupportCode', () => {
       )
       const hook = supportCode.afterHooks[0] as PredictableHook
 
-      assert.equal(
-        hook.status,
-        messages.TestStepFinished.TestStepResult.Status.FAILED
-      )
+      assert.equal(hook.status, messages.TestStepFinished.TestStepResult.Status.FAILED)
       assert.equal(hook.errorMessage, 'BOOM !!')
       assert.equal(hook.duration, 0.12)
     })
@@ -193,12 +173,8 @@ describe('PredictableSupportCode', () => {
           'passed'
         )
 
-        const stepDefinition = supportCode
-          .stepDefinitions[0] as PredictableStepDefinition
-        assert.equal(
-          stepDefinition.status,
-          messages.TestStepFinished.TestStepResult.Status.PASSED
-        )
+        const stepDefinition = supportCode.stepDefinitions[0] as PredictableStepDefinition
+        assert.equal(stepDefinition.status, messages.TestStepFinished.TestStepResult.Status.PASSED)
       })
 
       it('creates a StepDefinition with status pending for "pending"', () => {
@@ -211,12 +187,8 @@ describe('PredictableSupportCode', () => {
           'pending'
         )
 
-        const stepDefinition = supportCode
-          .stepDefinitions[0] as PredictableStepDefinition
-        assert.equal(
-          stepDefinition.status,
-          messages.TestStepFinished.TestStepResult.Status.PENDING
-        )
+        const stepDefinition = supportCode.stepDefinitions[0] as PredictableStepDefinition
+        assert.equal(stepDefinition.status, messages.TestStepFinished.TestStepResult.Status.PENDING)
       })
 
       it('creates a StepDefinition with status failed for "failed"', () => {
@@ -231,12 +203,8 @@ describe('PredictableSupportCode', () => {
           'something wrong happened'
         )
 
-        const stepDefinition = supportCode
-          .stepDefinitions[0] as PredictableStepDefinition
-        assert.equal(
-          stepDefinition.status,
-          messages.TestStepFinished.TestStepResult.Status.FAILED
-        )
+        const stepDefinition = supportCode.stepDefinitions[0] as PredictableStepDefinition
+        assert.equal(stepDefinition.status, messages.TestStepFinished.TestStepResult.Status.FAILED)
         assert.equal(stepDefinition.duration, 1.23)
       })
     })

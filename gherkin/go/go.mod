@@ -8,6 +8,4 @@ require (
 
 replace github.com/cucumber/messages-go/v14 => ../../messages/go
 
-replace github.com/cucumber/messages-go/v14 => ../../messages/go
-
 go 1.13

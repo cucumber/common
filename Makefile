@@ -1,6 +1,5 @@
 SHELL := /usr/bin/env bash
-PACKAGES ?= c21e \
-	messages \
+PACKAGES ?= messages \
 	gherkin \
 	gherkin-utils \
 	cucumber-expressions \
@@ -17,8 +16,13 @@ PACKAGES ?= c21e \
 	demo-formatter \
 	json-to-messages
 
-default: .rsynced $(patsubst %,default-%,$(PACKAGES))
+default: .rsynced .typescript-built $(patsubst %,default-%,$(PACKAGES))
 .PHONY: default
+
+.typescript-built:
+	npm ci
+	npm run build
+.PHONY: .typescript-built
 
 default-%: %
 	cd $< && make default

@@ -5,14 +5,8 @@ export default class Query {
   private readonly gherkinDocuments: messages.IGherkinDocument[] = []
   private readonly pickles: messages.IPickle[] = []
   private readonly locationByAstNodeId = new Map<string, messages.ILocation>()
-  private readonly gherkinStepById = new Map<
-    string,
-    messages.GherkinDocument.Feature.IStep
-  >()
-  private readonly pickleIdsMapByUri = new Map<
-    string,
-    ArrayMultimap<string, string>
-  >()
+  private readonly gherkinStepById = new Map<string, messages.GherkinDocument.Feature.IStep>()
+  private readonly pickleIdsMapByUri = new Map<string, ArrayMultimap<string, string>>()
 
   private readonly pickleIdsByAstNodeId = new Map<string, string[]>()
 
@@ -55,10 +49,7 @@ export default class Query {
       this.gherkinDocuments.push(message.gherkinDocument)
 
       if (message.gherkinDocument.feature) {
-        this.pickleIdsMapByUri.set(
-          message.gherkinDocument.uri,
-          new ArrayMultimap<string, string>()
-        )
+        this.pickleIdsMapByUri.set(message.gherkinDocument.uri, new ArrayMultimap<string, string>())
 
         for (const featureChild of message.gherkinDocument.feature.children) {
           if (featureChild.background) {
@@ -93,17 +84,13 @@ export default class Query {
     return this
   }
 
-  private updateGherkinBackground(
-    background: messages.GherkinDocument.Feature.IBackground
-  ) {
+  private updateGherkinBackground(background: messages.GherkinDocument.Feature.IBackground) {
     for (const step of background.steps) {
       this.updateGherkinStep(step)
     }
   }
 
-  private updateGherkinScenario(
-    scenario: messages.GherkinDocument.Feature.IScenario
-  ) {
+  private updateGherkinScenario(scenario: messages.GherkinDocument.Feature.IScenario) {
     this.locationByAstNodeId.set(scenario.id, scenario.location)
     for (const step of scenario.steps) {
       this.updateGherkinStep(step)

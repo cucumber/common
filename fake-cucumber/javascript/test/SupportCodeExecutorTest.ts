@@ -8,13 +8,7 @@ describe('SupportCodeExecutor', () => {
       return Promise.resolve('hello')
     }
 
-    const executor = new SupportCodeExecutor(
-      'step-definition-id',
-      body,
-      [],
-      null,
-      null
-    )
+    const executor = new SupportCodeExecutor('step-definition-id', body, [], null, null)
 
     const result = await executor.execute(new TestWorld())
     assert.strictEqual(result, 'hello')
