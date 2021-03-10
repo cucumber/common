@@ -60,10 +60,8 @@ describe('TestPlan', () => {
       },
     })
 
-    supportCode.defineStepDefinition(
-      null,
-      'flight {flight}',
-      (flight: Flight) => assert.strictEqual(flight.name, 'LHR-CDG')
+    supportCode.defineStepDefinition(null, 'flight {flight}', (flight: Flight) =>
+      assert.strictEqual(flight.name, 'LHR-CDG')
     )
 
     const gherkinSource = `Feature: test
@@ -82,9 +80,7 @@ describe('TestPlan', () => {
       testStepFinisheds[0].testStepResult.status,
       messages.TestStepFinished.TestStepResult.Status.PASSED
     )
-    const parameterTypes = envelopes
-      .filter((m) => m.parameterType)
-      .map((m) => m.parameterType)
+    const parameterTypes = envelopes.filter((m) => m.parameterType).map((m) => m.parameterType)
     assert.deepStrictEqual(parameterTypes.length, 1)
     assert.strictEqual(parameterTypes[0].name, 'flight')
   })
@@ -103,21 +99,14 @@ describe('TestPlan', () => {
     const listener: EnvelopeListener = (envelope) => envelopes.push(envelope)
     await testPlan.execute(listener)
 
-    const attachments = envelopes
-      .filter((m) => m.attachment)
-      .map((m) => m.attachment)
+    const attachments = envelopes.filter((m) => m.attachment).map((m) => m.attachment)
     assert.deepStrictEqual(attachments.length, 1)
     assert.strictEqual(attachments[0].body, 'hello world')
   })
 })
 
-async function makeTestPlan(
-  gherkinSource: string,
-  supportCode: SupportCode
-): Promise<TestPlan> {
-  const gherkinEnvelopes = await streamToArray(
-    gherkinMessages(gherkinSource, 'test.feature')
-  )
+async function makeTestPlan(gherkinSource: string, supportCode: SupportCode): Promise<TestPlan> {
+  const gherkinEnvelopes = await streamToArray(gherkinMessages(gherkinSource, 'test.feature'))
   const gherkinQuery = new Query()
   for (const gherkinEnvelope of gherkinEnvelopes) {
     gherkinQuery.update(gherkinEnvelope)

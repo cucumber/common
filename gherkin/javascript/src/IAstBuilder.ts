@@ -30,13 +30,9 @@ export interface IAstBuilder<AstNode, TokenType, RuleType> {
 
   getSteps(node: AstNode): any[]
 
-  getTableRows(
-    node: AstNode
-  ): readonly messages.GherkinDocument.Feature.ITableRow[]
+  getTableRows(node: AstNode): readonly messages.GherkinDocument.Feature.ITableRow[]
 
-  ensureCellCount(
-    rows: readonly messages.GherkinDocument.Feature.ITableRow[]
-  ): void
+  ensureCellCount(rows: readonly messages.GherkinDocument.Feature.ITableRow[]): void
 
   transformNode(node: AstNode): any
 }

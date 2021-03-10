@@ -18,29 +18,14 @@ export default function traverseFeature(
   predictableSupportCode: IPredictableSupportCode
 ): messages.IGherkinDocument {
   if (implementation === 'cucumber-js') {
-    return traverseJS(
-      feature as IFeature,
-      astMaker,
-      newId,
-      predictableSupportCode
-    )
+    return traverseJS(feature as IFeature, astMaker, newId, predictableSupportCode)
   }
 
   if (implementation === 'behave') {
-    return traverseBehave(
-      feature as IBehaveFeature,
-      astMaker,
-      newId,
-      predictableSupportCode
-    )
+    return traverseBehave(feature as IBehaveFeature, astMaker, newId, predictableSupportCode)
   }
 
-  return traverseRuby(
-    feature as IFeature,
-    astMaker,
-    newId,
-    predictableSupportCode
-  )
+  return traverseRuby(feature as IFeature, astMaker, newId, predictableSupportCode)
 }
 
 function traverseJS(

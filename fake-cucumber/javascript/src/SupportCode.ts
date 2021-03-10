@@ -29,9 +29,7 @@ export default class SupportCode {
   public readonly afterHooks: IHook[] = []
 
   private readonly parameterTypeRegistry = new ParameterTypeRegistry()
-  private readonly expressionFactory = new ExpressionFactory(
-    this.parameterTypeRegistry
-  )
+  private readonly expressionFactory = new ExpressionFactory(this.parameterTypeRegistry)
   public readonly undefinedParameterTypeMessages: messages.IEnvelope[] = []
 
   constructor(
@@ -41,9 +39,7 @@ export default class SupportCode {
     public readonly makeErrorMessage: MakeErrorMessage = withFullStackTrace()
   ) {}
 
-  public defineParameterType(
-    parameterTypeDefinition: IParameterTypeDefinition
-  ) {
+  public defineParameterType(parameterTypeDefinition: IParameterTypeDefinition) {
     const parameterType = new ParameterType<any>(
       parameterTypeDefinition.name,
       parameterTypeDefinition.regexp,
@@ -74,12 +70,7 @@ export default class SupportCode {
   ): void {
     try {
       const expr = this.expressionFactory.createExpression(expression)
-      const stepDefinition = new ExpressionStepDefinition(
-        this.newId(),
-        expr,
-        sourceReference,
-        body
-      )
+      const stepDefinition = new ExpressionStepDefinition(this.newId(), expr, sourceReference, body)
       this.registerStepDefinition(stepDefinition)
     } catch (e) {
       if (e.undefinedParameterTypeName) {
@@ -106,9 +97,7 @@ export default class SupportCode {
     tagExpressionOrBody: string | AnyBody,
     body?: AnyBody
   ) {
-    this.registerBeforeHook(
-      this.makeHook(sourceReference, tagExpressionOrBody, body)
-    )
+    this.registerBeforeHook(this.makeHook(sourceReference, tagExpressionOrBody, body))
   }
 
   public registerBeforeHook(hook: IHook) {
@@ -120,9 +109,7 @@ export default class SupportCode {
     tagExpressionOrBody: string | AnyBody,
     body?: AnyBody
   ) {
-    this.registerAfterHook(
-      this.makeHook(sourceReference, tagExpressionOrBody, body)
-    )
+    this.registerAfterHook(this.makeHook(sourceReference, tagExpressionOrBody, body))
   }
 
   public registerAfterHook(hook: IHook) {
@@ -134,8 +121,7 @@ export default class SupportCode {
     tagExpressionOrBody: string | AnyBody,
     body?: AnyBody
   ) {
-    const tagExpression =
-      typeof tagExpressionOrBody === 'string' ? tagExpressionOrBody : null
+    const tagExpression = typeof tagExpressionOrBody === 'string' ? tagExpressionOrBody : null
     body = typeof tagExpressionOrBody !== 'string' ? tagExpressionOrBody : body
     return new Hook(this.newId(), tagExpression, sourceReference, body)
   }

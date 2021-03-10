@@ -9,19 +9,14 @@ interface IProps {
   background: messages.GherkinDocument.Feature.IBackground
 }
 
-const BackgroundTitle: React.FunctionComponent<IProps> = ({
-  id,
-  background,
-}) => {
+const BackgroundTitle: React.FunctionComponent<IProps> = ({ id, background }) => {
   return (
     <div className="cucumber-anchor cucumber-title">
       <a href={'#' + id} className="cucumber-anchor__link">
         <FontAwesomeIcon icon={faLink} className="cucumber-anchor__icon" />
       </a>
       <h2 id={id}>
-        <Keyword className="cucumber-title__keyword">
-          {background.keyword}:
-        </Keyword>{' '}
+        <Keyword className="cucumber-title__keyword">{background.keyword}:</Keyword>{' '}
         <span className="cucumber-title__text">{background.name}</span>
       </h2>
     </div>

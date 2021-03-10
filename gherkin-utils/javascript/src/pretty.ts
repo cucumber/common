@@ -1,8 +1,6 @@
 import { messages } from '@cucumber/messages'
 
-export default function pretty(
-  gherkinDocument: messages.IGherkinDocument
-): string {
+export default function pretty(gherkinDocument: messages.IGherkinDocument): string {
   const feature = gherkinDocument.feature
   let s = prettyTags(feature.tags)
 
@@ -37,9 +35,9 @@ function prettyStepContainer(
   stepContainer: messages.GherkinDocument.Feature.IScenario,
   indent: string
 ): string {
-  let s = `\n${prettyTags(stepContainer.tags, indent)}${indent}${
-    stepContainer.keyword
-  }: ${stepContainer.name}\n`
+  let s = `\n${prettyTags(stepContainer.tags, indent)}${indent}${stepContainer.keyword}: ${
+    stepContainer.name
+  }\n`
   if (stepContainer.description) {
     s += stepContainer.description + '\n\n'
   }
@@ -70,10 +68,7 @@ function prettyExample(
   return s
 }
 
-function prettyTableRow(
-  row: messages.GherkinDocument.Feature.ITableRow,
-  indent: string
-): string {
+function prettyTableRow(row: messages.GherkinDocument.Feature.ITableRow, indent: string): string {
   return `${indent}| ${row.cells.map((cell) => cell.value).join(' | ')} |\n`
 }
 

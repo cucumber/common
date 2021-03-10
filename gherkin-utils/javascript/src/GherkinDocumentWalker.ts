@@ -1,30 +1,18 @@
 import { messages } from '@cucumber/messages'
 
 export interface IFilters {
-  acceptScenario?: (
-    scenario: messages.GherkinDocument.Feature.IScenario
-  ) => boolean
+  acceptScenario?: (scenario: messages.GherkinDocument.Feature.IScenario) => boolean
   acceptStep?: (step: messages.GherkinDocument.Feature.IStep) => boolean
-  acceptBackground?: (
-    background: messages.GherkinDocument.Feature.IBackground
-  ) => boolean
-  acceptRule?: (
-    rule: messages.GherkinDocument.Feature.FeatureChild.IRule
-  ) => boolean
+  acceptBackground?: (background: messages.GherkinDocument.Feature.IBackground) => boolean
+  acceptRule?: (rule: messages.GherkinDocument.Feature.FeatureChild.IRule) => boolean
   acceptFeature?: (feature: messages.GherkinDocument.IFeature) => boolean
 }
 
 export interface IHandlers {
   handleStep?: (step: messages.GherkinDocument.Feature.IStep) => void
-  handleScenario?: (
-    scenario: messages.GherkinDocument.Feature.IScenario
-  ) => void
-  handleBackground?: (
-    background: messages.GherkinDocument.Feature.IBackground
-  ) => void
-  handleRule?: (
-    rule: messages.GherkinDocument.Feature.FeatureChild.IRule
-  ) => void
+  handleScenario?: (scenario: messages.GherkinDocument.Feature.IScenario) => void
+  handleBackground?: (background: messages.GherkinDocument.Feature.IBackground) => void
+  handleRule?: (rule: messages.GherkinDocument.Feature.FeatureChild.IRule) => void
   handleFeature?: (feature: messages.GherkinDocument.IFeature) => void
 }
 
@@ -152,15 +140,11 @@ export default class GherkinDocumentWalker {
     const copyChildren: messages.GherkinDocument.Feature.IFeatureChild[] = []
 
     const scenariosKeptById = new Map(
-      children
-        .filter((child) => child.scenario)
-        .map((child) => [child.scenario.id, child])
+      children.filter((child) => child.scenario).map((child) => [child.scenario.id, child])
     )
 
     const ruleKeptById = new Map(
-      children
-        .filter((child) => child.rule)
-        .map((child) => [child.rule.id, child])
+      children.filter((child) => child.rule).map((child) => [child.rule.id, child])
     )
 
     for (const child of feature.children) {
@@ -230,12 +214,8 @@ export default class GherkinDocumentWalker {
 
     this.handlers.handleRule(rule)
 
-    const backgroundKept = children.find(
-      (child) => child !== null && child.background !== null
-    )
-    const scenariosKept = children.filter(
-      (child) => child !== null && child.scenario !== null
-    )
+    const backgroundKept = children.find((child) => child !== null && child.background !== null)
+    const scenariosKept = children.filter((child) => child !== null && child.scenario !== null)
 
     if (this.filters.acceptRule(rule) || backgroundKept) {
       return this.copyRule(rule, rule.children)
@@ -318,10 +298,7 @@ export default class GherkinDocumentWalker {
     const steps = this.walkAllSteps(background.steps)
     this.handlers.handleBackground(background)
 
-    if (
-      this.filters.acceptBackground(background) ||
-      steps.find((step) => step !== null)
-    ) {
+    if (this.filters.acceptBackground(background) || steps.find((step) => step !== null)) {
       return this.copyBackground(background)
     }
   }
@@ -345,10 +322,7 @@ export default class GherkinDocumentWalker {
     const steps = this.walkAllSteps(scenario.steps)
     this.handlers.handleScenario(scenario)
 
-    if (
-      this.filters.acceptScenario(scenario) ||
-      steps.find((step) => step !== null)
-    ) {
+    if (this.filters.acceptScenario(scenario) || steps.find((step) => step !== null)) {
       return this.copyScenario(scenario)
     }
   }

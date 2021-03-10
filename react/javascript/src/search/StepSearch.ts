@@ -46,19 +46,13 @@ export default class StepSearch {
     return results.map((result) => this.stepById.get(result.ref))
   }
 
-  private docStringToString(
-    step: messages.GherkinDocument.Feature.IStep
-  ): string {
+  private docStringToString(step: messages.GherkinDocument.Feature.IStep): string {
     return step.docString ? step.docString.content : ''
   }
 
-  private dataTableToString(
-    step: messages.GherkinDocument.Feature.IStep
-  ): string {
+  private dataTableToString(step: messages.GherkinDocument.Feature.IStep): string {
     return step.dataTable
-      ? step.dataTable.rows
-          .map((row) => row.cells.map((cell) => cell.value).join(' '))
-          .join(' ')
+      ? step.dataTable.rows.map((row) => row.cells.map((cell) => cell.value).join(' ')).join(' ')
       : undefined
   }
 }

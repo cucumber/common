@@ -14,11 +14,7 @@ export default class ParameterTypeMatcher {
   }
 
   public advanceTo(newMatchPosition: number) {
-    for (
-      let advancedPos = newMatchPosition;
-      advancedPos < this.text.length;
-      advancedPos++
-    ) {
+    for (let advancedPos = newMatchPosition; advancedPos < this.text.length; advancedPos++) {
       const matcher = new ParameterTypeMatcher(
         this.parameterType,
         this.regexpString,
@@ -52,9 +48,7 @@ export default class ParameterTypeMatcher {
   }
 
   get matchStartWord() {
-    return (
-      this.start === 0 || this.text[this.start - 1].match(/\p{Z}|\p{P}|\p{S}/u)
-    )
+    return this.start === 0 || this.text[this.start - 1].match(/\p{Z}|\p{P}|\p{S}/u)
   }
 
   get matchEndWord() {

@@ -17,9 +17,7 @@ const ScenarioTitle: React.FunctionComponent<IProps> = ({ id, scenario }) => {
         <FontAwesomeIcon icon={faLink} className="cucumber-anchor__icon" />
       </a>
       <h2 id={id}>
-        <Keyword className="cucumber-title__keyword">
-          {scenario.keyword}:
-        </Keyword>{' '}
+        <Keyword className="cucumber-title__keyword">{scenario.keyword}:</Keyword>{' '}
         <HighLight className="cucumber-title__text" text={scenario.name} />
       </h2>
     </div>

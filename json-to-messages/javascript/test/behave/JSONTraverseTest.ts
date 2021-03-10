@@ -86,12 +86,7 @@ describe('traverse elements', () => {
         })
         astMaker.makeStep.returns(step)
 
-        traverseElement(
-          scenario,
-          astMaker,
-          () => 'new-id',
-          predictableSupportCode
-        )
+        traverseElement(scenario, astMaker, () => 'new-id', predictableSupportCode)
 
         assert.deepEqual(astMaker.makeScenarioFeatureChild.getCall(0).args, [
           'new-id',
@@ -160,12 +155,7 @@ describe('traverse elements', () => {
       const astMaker = stubInterface<IAstMaker>()
       const predictableSupportCode = stubInterface<IPredictableSupportCode>()
 
-      traverseStep(
-        simpleStep,
-        astMaker,
-        () => 'some-id',
-        predictableSupportCode
-      )
+      traverseStep(simpleStep, astMaker, () => 'some-id', predictableSupportCode)
 
       assert.deepEqual(astMaker.makeStep.getCall(0).args, [
         'some-id',
@@ -183,12 +173,7 @@ describe('traverse elements', () => {
       const docstring = messages.GherkinDocument.Feature.Step.DocString.create()
       astMaker.makeDocstring.returns(docstring)
 
-      traverseStep(
-        docStringStep,
-        astMaker,
-        () => 'some-id',
-        predictableSupportCode
-      )
+      traverseStep(docStringStep, astMaker, () => 'some-id', predictableSupportCode)
 
       assert.deepEqual(astMaker.makeStep.getCall(0).args, [
         'some-id',
@@ -206,12 +191,7 @@ describe('traverse elements', () => {
       const datatable = messages.GherkinDocument.Feature.Step.DataTable.create()
       astMaker.makeDataTable.returns(datatable)
 
-      traverseStep(
-        datatableStep,
-        astMaker,
-        () => 'some-id',
-        predictableSupportCode
-      )
+      traverseStep(datatableStep, astMaker, () => 'some-id', predictableSupportCode)
 
       assert.deepEqual(astMaker.makeStep.getCall(0).args, [
         'some-id',
@@ -232,23 +212,15 @@ describe('traverse elements', () => {
         })
       )
 
-      traverseStep(
-        simpleStep,
-        astMaker,
-        () => 'some-id',
-        predictableSupportCode
-      )
+      traverseStep(simpleStep, astMaker, () => 'some-id', predictableSupportCode)
 
-      assert.deepEqual(
-        predictableSupportCode.addPredictableStepDefinition.getCall(0).args,
-        [
-          'steps/some.py:5',
-          'some-id',
-          'failed',
-          0.16,
-          'Oups, that did not work',
-        ]
-      )
+      assert.deepEqual(predictableSupportCode.addPredictableStepDefinition.getCall(0).args, [
+        'steps/some.py:5',
+        'some-id',
+        'failed',
+        0.16,
+        'Oups, that did not work',
+      ])
     })
   })
 
@@ -258,10 +230,7 @@ describe('traverse elements', () => {
 
       traverseDocstring('This is a doc string', astMaker)
 
-      assert.deepEqual(astMaker.makeDocstring.getCall(0).args, [
-        null,
-        'This is a doc string',
-      ])
+      assert.deepEqual(astMaker.makeDocstring.getCall(0).args, [null, 'This is a doc string'])
     })
   })
 

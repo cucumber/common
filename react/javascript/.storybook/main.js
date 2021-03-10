@@ -8,10 +8,14 @@ module.exports = {
     "@storybook/addon-essentials"
   ],
   webpackFinal: async (config, { configType }) => {
+    config.resolve.fallback = { "assert": false }
     config.module.rules.push({
       test: /\.scss$/,
       use: ['style-loader', 'css-loader', 'sass-loader'],
     })
     return config
+  },
+  core: {
+    builder: "webpack5",
   },
 }

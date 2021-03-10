@@ -12,10 +12,7 @@ export default class ParameterTypeRegistry {
   public static readonly ANONYMOUS_REGEXP = /.*/
 
   private readonly parameterTypeByName = new Map<string, ParameterType<any>>()
-  private readonly parameterTypesByRegexp = new Map<
-    string,
-    Array<ParameterType<any>>
-  >()
+  private readonly parameterTypesByRegexp = new Map<string, Array<ParameterType<any>>>()
 
   constructor() {
     this.defineParameterType(
@@ -39,14 +36,7 @@ export default class ParameterTypeRegistry {
       )
     )
     this.defineParameterType(
-      new ParameterType(
-        'word',
-        ParameterTypeRegistry.WORD_REGEXP,
-        String,
-        (s) => s,
-        false,
-        false
-      )
+      new ParameterType('word', ParameterTypeRegistry.WORD_REGEXP, String, (s) => s, false, false)
     )
     this.defineParameterType(
       new ParameterType(
@@ -59,14 +49,7 @@ export default class ParameterTypeRegistry {
       )
     )
     this.defineParameterType(
-      new ParameterType(
-        '',
-        ParameterTypeRegistry.ANONYMOUS_REGEXP,
-        String,
-        (s) => s,
-        false,
-        true
-      )
+      new ParameterType('', ParameterTypeRegistry.ANONYMOUS_REGEXP, String, (s) => s, false, true)
     )
   }
 
@@ -108,13 +91,9 @@ export default class ParameterTypeRegistry {
     if (parameterType.name !== undefined) {
       if (this.parameterTypeByName.has(parameterType.name)) {
         if (parameterType.name.length === 0) {
-          throw new Error(
-            `The anonymous parameter type has already been defined`
-          )
+          throw new Error(`The anonymous parameter type has already been defined`)
         } else {
-          throw new Error(
-            `There is already a parameter type with name ${parameterType.name}`
-          )
+          throw new Error(`There is already a parameter type with name ${parameterType.name}`)
         }
       }
       this.parameterTypeByName.set(parameterType.name, parameterType)
@@ -124,9 +103,7 @@ export default class ParameterTypeRegistry {
       if (!this.parameterTypesByRegexp.has(parameterTypeRegexp)) {
         this.parameterTypesByRegexp.set(parameterTypeRegexp, [])
       }
-      const parameterTypes = this.parameterTypesByRegexp.get(
-        parameterTypeRegexp
-      )
+      const parameterTypes = this.parameterTypesByRegexp.get(parameterTypeRegexp)
       const existingParameterType = parameterTypes[0]
       if (
         parameterTypes.length > 0 &&

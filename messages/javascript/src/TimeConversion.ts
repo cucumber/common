@@ -43,9 +43,7 @@ export function addDurations(
 
 function toSecondsAndNanos(milliseconds: number) {
   const seconds = Math.floor(milliseconds / MILLISECONDS_PER_SECOND)
-  const nanos = Math.floor(
-    (milliseconds % MILLISECONDS_PER_SECOND) * NANOSECONDS_PER_MILLISECOND
-  )
+  const nanos = Math.floor((milliseconds % MILLISECONDS_PER_SECOND) * NANOSECONDS_PER_MILLISECOND)
   return { seconds, nanos }
 }
 

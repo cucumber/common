@@ -19,12 +19,7 @@ export default class CucumberExpressionTokenizer {
       }
 
       const consumedIndex = bufferStartIndex + buffer.length + escapeTokens
-      const t = new Token(
-        tokenType,
-        buffer.join(''),
-        bufferStartIndex,
-        consumedIndex
-      )
+      const t = new Token(tokenType, buffer.join(''), bufferStartIndex, consumedIndex)
       buffer = []
       bufferStartIndex = consumedIndex
       return t
@@ -37,23 +32,14 @@ export default class CucumberExpressionTokenizer {
       if (Token.canEscape(codePoint)) {
         return TokenType.text
       }
-      throw createCantEscaped(
-        expression,
-        bufferStartIndex + buffer.length + escaped
-      )
+      throw createCantEscaped(expression, bufferStartIndex + buffer.length + escaped)
     }
 
-    function shouldCreateNewToken(
-      previousTokenType: TokenType,
-      currentTokenType: TokenType
-    ) {
+    function shouldCreateNewToken(previousTokenType: TokenType, currentTokenType: TokenType) {
       if (currentTokenType != previousTokenType) {
         return true
       }
-      return (
-        currentTokenType != TokenType.whiteSpace &&
-        currentTokenType != TokenType.text
-      )
+      return currentTokenType != TokenType.whiteSpace && currentTokenType != TokenType.text
     }
 
     if (codePoints.length == 0) {
@@ -89,9 +75,7 @@ export default class CucumberExpressionTokenizer {
       throw createTheEndOfLIneCanNotBeEscaped(expression)
     }
 
-    tokens.push(
-      new Token(TokenType.endOfLine, '', codePoints.length, codePoints.length)
-    )
+    tokens.push(new Token(TokenType.endOfLine, '', codePoints.length, codePoints.length))
     return tokens
   }
 }

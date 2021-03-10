@@ -1,6 +1,6 @@
 import { Readable } from 'stream'
 import { IdGenerator, messages } from '@cucumber/messages'
-import GherkinStreams from '@cucumber/gherkin/dist/src/stream/GherkinStreams'
+import { GherkinStreams } from '@cucumber/gherkin-streams'
 
 export function gherkinMessages(gherkinSource: string, uri: string): Readable {
   const source = messages.Envelope.fromObject({
@@ -16,14 +16,9 @@ export function gherkinMessages(gherkinSource: string, uri: string): Readable {
   })
 }
 
-export async function streamToArray(
-  readableStream: Readable
-): Promise<messages.IEnvelope[]> {
+export async function streamToArray(readableStream: Readable): Promise<messages.IEnvelope[]> {
   return new Promise<messages.IEnvelope[]>(
-    (
-      resolve: (wrappers: messages.IEnvelope[]) => void,
-      reject: (err: Error) => void
-    ) => {
+    (resolve: (wrappers: messages.IEnvelope[]) => void, reject: (err: Error) => void) => {
       const items: messages.IEnvelope[] = []
       readableStream.on('data', items.push.bind(items))
       readableStream.on('error', (err: Error) => reject(err))

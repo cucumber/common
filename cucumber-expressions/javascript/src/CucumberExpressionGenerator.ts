@@ -6,9 +6,7 @@ import CombinatorialGeneratedExpressionFactory from './CombinatorialGeneratedExp
 import GeneratedExpression from './GeneratedExpression'
 
 export default class CucumberExpressionGenerator {
-  constructor(
-    private readonly parameterTypes: () => Iterable<ParameterType<any>>
-  ) {}
+  constructor(private readonly parameterTypes: () => Iterable<ParameterType<any>>) {}
 
   public generateExpressions(text: string): ReadonlyArray<GeneratedExpression> {
     const parameterTypeCombinations: Array<Array<ParameterType<any>>> = []
@@ -46,9 +44,7 @@ export default class CucumberExpressionGenerator {
         // Users are most likely to want these, so they should be listed at the top.
         let parameterTypes = []
         for (const parameterTypeMatcher of bestParameterTypeMatchers) {
-          if (
-            parameterTypes.indexOf(parameterTypeMatcher.parameterType) === -1
-          ) {
+          if (parameterTypes.indexOf(parameterTypeMatcher.parameterType) === -1) {
             parameterTypes.push(parameterTypeMatcher.parameterType)
           }
         }
@@ -56,13 +52,10 @@ export default class CucumberExpressionGenerator {
 
         parameterTypeCombinations.push(parameterTypes)
 
-        expressionTemplate += escape(
-          text.slice(pos, bestParameterTypeMatcher.start)
-        )
+        expressionTemplate += escape(text.slice(pos, bestParameterTypeMatcher.start))
         expressionTemplate += '{%s}'
 
-        pos =
-          bestParameterTypeMatcher.start + bestParameterTypeMatcher.group.length
+        pos = bestParameterTypeMatcher.start + bestParameterTypeMatcher.group.length
       } else {
         break
       }
@@ -94,10 +87,7 @@ export default class CucumberExpressionGenerator {
     for (const parameterType of this.parameterTypes()) {
       if (parameterType.useForSnippets) {
         parameterMatchers = parameterMatchers.concat(
-          CucumberExpressionGenerator.createParameterTypeMatchers2(
-            parameterType,
-            text
-          )
+          CucumberExpressionGenerator.createParameterTypeMatchers2(parameterType, text)
         )
       }
     }

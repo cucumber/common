@@ -1,4 +1,4 @@
-import createLocation from './cli/createLocation'
+import createLocation from './createLocation'
 import IToken from './IToken'
 import { messages } from '@cucumber/messages'
 
@@ -15,16 +15,10 @@ export default class TokenScanner<TokenType> {
 
   constructor(
     source: string,
-    private readonly makeToken: (
-      line: string,
-      location: messages.ILocation
-    ) => IToken<TokenType>
+    private readonly makeToken: (line: string, location: messages.ILocation) => IToken<TokenType>
   ) {
     this.lines = source.split(/\r?\n/)
-    if (
-      this.lines.length > 0 &&
-      this.lines[this.lines.length - 1].trim() === ''
-    ) {
+    if (this.lines.length > 0 && this.lines[this.lines.length - 1].trim() === '') {
       this.lines.pop()
     }
   }

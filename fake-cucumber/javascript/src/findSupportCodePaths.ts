@@ -32,9 +32,7 @@ export default async function findSupportCodePaths(
         }
       }
     } else {
-      throw new Error(
-        `Can't load ${path} - it is not a regular file or directory`
-      )
+      throw new Error(`Can't load ${path} - it is not a regular file or directory`)
     }
   }
   return Array.from(files).sort()
