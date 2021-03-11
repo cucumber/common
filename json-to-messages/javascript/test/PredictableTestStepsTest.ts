@@ -10,21 +10,18 @@ describe('PredictablePickleTestStep', () => {
         'source-id',
         true,
         'step-definition-id',
-        messages.TestStepFinished.TestStepResult.Status.PASSED,
+        'PASSED',
         123456
       )
       const emitted: messages.Envelope[] = []
       await step.execute(null, 'test-case-started-id', (envelope) => {
         emitted.push(envelope)
       })
-      const testStepFinished = emitted[1].testStepFinished
+      const testStepFinished = emitted[1].test_step_finished
 
-      assert.strictEqual(
-        testStepFinished.testStepResult.status,
-        messages.TestStepFinished.TestStepResult.Status.PASSED
-      )
-      assert.strictEqual(testStepFinished.testStepResult.duration.seconds, 123)
-      assert.strictEqual(testStepFinished.testStepResult.duration.nanos, 456000000)
+      assert.strictEqual(testStepFinished.test_step_result.status, 'PASSED')
+      assert.strictEqual(testStepFinished.test_step_result.duration.seconds, 123)
+      assert.strictEqual(testStepFinished.test_step_result.duration.nanos, 456000000)
     })
   })
 })

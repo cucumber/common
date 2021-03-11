@@ -18,7 +18,7 @@ export type Attachment = {
   
     media_type?: string
   
-    content_encoding?: string
+    content_encoding?: "IDENTITY" | "BASE64"
   
     file_name?: string
   
@@ -55,6 +55,8 @@ export type SourceReference = {
     java_method?: JavaMethod
   
     java_stack_trace_element?: JavaStackTraceElement
+  
+    location?: Location
   
 }
 
@@ -478,7 +480,7 @@ export type TestStepFinished = {
 
 export type TestStepResult = {
   
-    status?: string
+    status?: "UNKNOWN" | "PASSED" | "SKIPPED" | "PENDING" | "UNDEFINED" | "AMBIGUOUS" | "FAILED"
   
     message?: string
   
@@ -502,7 +504,7 @@ export type StepDefinitionPattern = {
   
     source?: string
   
-    type?: string
+    type?: "CUCUMBER_EXPRESSION" | "REGULAR_EXPRESSION"
   
 }
 

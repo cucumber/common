@@ -1,4 +1,4 @@
-import { IdGenerator, messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import { IFeature } from './JSONSchema'
 import IAstMaker from '../IAstMaker'
 import IPredictableSupportCode from '../IPredictableSupportCode'
@@ -10,14 +10,14 @@ import { ITag } from '../types'
 type traverseElementType = (
   element: IRubyElement | IJSElement | IBehaveElement,
   astMaker: IAstMaker,
-  newId: IdGenerator.NewId,
+  newId: messages.IdGenerator.NewId,
   predictableSupportCode: IPredictableSupportCode
 ) => messages.FeatureChild
 
 export function traverseFeature(
   feature: IFeature,
   astMaker: IAstMaker,
-  newId: IdGenerator.NewId,
+  newId: messages.IdGenerator.NewId,
   predictableSupportCode: IPredictableSupportCode,
   traverseElement: traverseElementType
 ): messages.GherkinDocument {

@@ -1,6 +1,6 @@
 import { Readable } from 'stream'
 import { jsonToMessages } from '../src'
-import { messages, version as messagesVersion } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import assert from 'assert'
 import { version } from '../package.json'
 import { NdjsonToMessageStream } from '@cucumber/message-streams'
@@ -24,7 +24,7 @@ describe('jsonToMessages', () => {
   })
 
   context('a meta Message is emitted at the beginning', () => {
-    let meta: messages.IMeta
+    let meta: messages.Meta
 
     before(async () => {
       const emitted = await produceMessages(['[]'])
@@ -32,7 +32,7 @@ describe('jsonToMessages', () => {
     })
 
     it('contains the @cucumber-messages version', () => {
-      assert.strictEqual(meta.protocolVersion, messagesVersion)
+      assert.strictEqual(meta.protocol_version, messages.version)
     })
 
     it('does not provide any information about the original producer of the JSON', () => {
@@ -51,7 +51,7 @@ async function produceMessages(jsons: string[]): Promise<messages.Envelope[]> {
   })
 
   const emitted: messages.Envelope[] = []
-  const out = new NdjsonToMessageStream(messages.Envelope.fromObject.bind(messages.Envelope))
+  const out = new NdjsonToMessageStream()
   out.on('data', (message) => emitted.push(message))
   await jsonToMessages(inputStream, out)
 

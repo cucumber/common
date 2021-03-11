@@ -9,6 +9,9 @@
         },
         "java_stack_trace_element": {
             "$ref": "./JavaStackTraceElement.jsonschema"
+        },
+        "location": {
+            "$ref": "./Location.jsonschema"
         }
     },
     "additionalProperties": false,

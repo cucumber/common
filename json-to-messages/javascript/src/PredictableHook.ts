@@ -7,13 +7,20 @@ export default class PredictableHook implements IHook {
     public readonly id: string,
     private readonly scenarioId: string,
     private readonly location: string,
-    public readonly status: messages.TestStepFinished.TestStepResult.Status,
+    public readonly status:
+      | 'UNKNOWN'
+      | 'PASSED'
+      | 'SKIPPED'
+      | 'PENDING'
+      | 'UNDEFINED'
+      | 'AMBIGUOUS'
+      | 'FAILED',
     public readonly duration: number,
     public readonly errorMessage?: string
   ) {}
 
   match(pickle: messages.Pickle): ISupportCodeExecutor {
-    if (!pickle.astNodeIds.includes(this.scenarioId)) {
+    if (!pickle.ast_node_ids.includes(this.scenarioId)) {
       return null
     }
     return new NilCodeExecutor(null)
@@ -22,16 +29,16 @@ export default class PredictableHook implements IHook {
   toMessage(): messages.Envelope {
     const locationChunks = this.location.split(':')
 
-    return messages.Envelope.create({
-      hook: messages.Hook.create({
+    return {
+      hook: {
         id: this.id,
-        sourceReference: messages.SourceReference.create({
+        source_reference: {
           uri: locationChunks[0],
-          location: messages.Location.create({
+          location: {
             line: parseInt(locationChunks[1]),
-          }),
-        }),
-      }),
-    })
+          },
+        },
+      },
+    }
   }
 }

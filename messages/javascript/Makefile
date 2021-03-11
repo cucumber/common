@@ -4,7 +4,7 @@ JSONSCHEMAS = $(shell find ../jsonschema -name "*.jsonschema")
 
 .codegen: src/messages.ts
 
-src/messages.ts: $(JSONSCHEMAS)
+src/messages.ts: $(JSONSCHEMAS) scripts/codegen.rb
 	ruby scripts/codegen.rb ../jsonschema > $@
 
 clean:

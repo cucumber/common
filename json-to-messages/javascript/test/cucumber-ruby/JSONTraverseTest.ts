@@ -337,9 +337,9 @@ describe('traversing elements', () => {
     })
 
     it('does not register stepDefinition when a step has no match', () => {
-      const step = messages.GherkinDocument.Feature.Step.create({
+      const step: messages.Step = {
         id: 'some-step-id',
-      })
+      }
       const supportCode = stubInterface<IPredictableSupportCode>()
       const astMaker = stubInterface<IAstMaker>()
       astMaker.makeStep.returns(step)
@@ -362,9 +362,9 @@ describe('traversing elements', () => {
     })
 
     it('does not register stepDefinition when a step has an empty match', () => {
-      const step = messages.GherkinDocument.Feature.Step.create({
+      const step: messages.Step = {
         id: 'some-step-id',
-      })
+      }
       const supportCode = stubInterface<IPredictableSupportCode>()
       const astMaker = stubInterface<IAstMaker>()
       astMaker.makeStep.returns(step)
