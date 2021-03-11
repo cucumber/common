@@ -1,14 +1,15 @@
 require 'json'
 require 'erb'
+require 'set'
 
 class Codegen
-  def initialize(paths, template, types)
+  def initialize(paths, template, language_type_by_schema_type)
     @paths = paths
     @template = ERB.new(template)
-    @types = types
+    @language_type_by_schema_type = language_type_by_schema_type
 
     @schemas = {}
-    @references = Hash.new { |hash, key| hash[key] = [] }
+    @references = Hash.new { |hash, key| hash[key] = Set.new }
 
     @paths.each do |path|
       expanded_path = File.expand_path(path)
@@ -26,8 +27,6 @@ class Codegen
       File.open("#{destination}/#{typename}.ts", 'wb') do |io|
         io.write @template.result(binding)
       end
-      # puts "# #{typename}"
-      # puts @template.result(binding)
     end
   end
 
@@ -39,22 +38,48 @@ class Codegen
     end
 
     (schema['properties'] || {}).each do |name, subschema|
-      @references[key] << name
+      referenced_type = reference_type_for(subschema, name)
+      unless native_type?(referenced_type)
+        @references[key] << referenced_type
+      end
     end
   end
 
-  def type_for(value, name)
-    type = value['type']
-    items = value['items']
-    ref = value['$ref']
+  def native_type?(type_name)
+    @language_type_by_schema_type.values.include?(type_name)
+  end
+
+  def type_for(schema, name)
+    type = schema['type']
+    items = schema['items']
+    ref = schema['$ref']
     if ref
-      File.basename(value['$ref'], '.jsonschema')
+      File.basename(schema['$ref'], '.jsonschema')
     elsif type
       if type == 'array'
         array_type_for(type_for(items, nil))
       else
-        raise "No type mapping for JSONSchema type #{type}. Schema:\n#{JSON.pretty_generate(value)}" unless @types[type]
-        @types[type]
+        raise "No type mapping for JSONSchema type #{type}. Schema:\n#{JSON.pretty_generate(schema)}" unless @language_type_by_schema_type[type]
+        @language_type_by_schema_type[type]
+      end
+    else
+      # Inline schema (not supported)
+      raise "Property #{name} did not define 'type' or '$ref'"
+    end
+  end
+
+  def reference_type_for(schema, name)
+    type = schema['type']
+    items = schema['items']
+    ref = schema['$ref']
+    if ref
+      File.basename(schema['$ref'], '.jsonschema')
+    elsif type
+      if type == 'array'
+        type_for(items, nil)
+      else
+        raise "No type mapping for JSONSchema type #{type}. Schema:\n#{JSON.pretty_generate(schema)}" unless @language_type_by_schema_type[type]
+        @language_type_by_schema_type[type]
       end
     else
       # Inline schema (not supported)
@@ -69,16 +94,16 @@ end
 
 template = <<-EOF
 <% referenced_types.each do |referenced_type| %>
-import <%= referenced_type %> from "./<%= referenced_type %>"
+import { <%= referenced_type %> } from "./<%= referenced_type %>"
 <% end %>
 export interface <%= typename %> {
-  <% schema['properties'].each do |name, value| %>
-    <%= name %>?: <%= type_for(value, name) %>
+  <% schema['properties'].each do |name, subschema| %>
+    <%= name %>?: <%= type_for(subschema, name) %>
   <% end %>
 }
 EOF
 
-types = {
+language_type_by_schema_type = {
   'integer' => 'number',
   'string' => 'string',
   'boolean' => 'boolean',
@@ -86,5 +111,5 @@ types = {
 path = ARGV[0]
 paths = File.file?(path) ? [path] : Dir["#{ARGV[0]}/*.jsonschema"]
 destination = ARGV[1]
-codegen = Codegen.new(paths, template, types)
+codegen = Codegen.new(paths, template, language_type_by_schema_type)
 codegen.generate(destination)
