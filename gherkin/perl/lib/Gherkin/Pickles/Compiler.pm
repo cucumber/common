@@ -151,6 +151,10 @@ sub _compile_rule {
          $rule_definition, $language, $id_generator, $pickle_sink )
         = @_;
     my $background_steps = $feature_background_steps;
+    my @tags = (
+        @{ $feature_tags || [] },
+        @{ $rule_definition->{'tags'} || []}
+    );
 
     for my $child ( @{ $rule_definition->{'children'} } ) {
         if ( $child->{'background'} ) {
@@ -159,7 +163,7 @@ sub _compile_rule {
                   @{ $child->{'background'}->{'steps'} } ];
         } elsif ( $child->{'scenario'} ) {
             $class->_compile_scenario(
-                $uri, $feature_tags, $background_steps,
+                $uri, \@tags, $background_steps,
                 $child->{'scenario'}, $language, $id_generator,
                 $pickle_sink
                 );

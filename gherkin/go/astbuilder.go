@@ -313,6 +313,7 @@ func (t *astBuilder) transformNode(node *astNode) (interface{}, error) {
 			return nil, nil
 		}
 
+		tags := astTags(header, t.newId)
 		var children []*messages.GherkinDocument_Feature_FeatureChild_RuleChild
 		background, _ := node.getSingle(RuleTypeBackground).(*messages.GherkinDocument_Feature_Background)
 
@@ -338,6 +339,7 @@ func (t *astBuilder) transformNode(node *astNode) (interface{}, error) {
 			Name:        ruleLine.Text,
 			Description: description,
 			Children:    children,
+			Tags:        tags,
 		}
 		return rule, nil
 

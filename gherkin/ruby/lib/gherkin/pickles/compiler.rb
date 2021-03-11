@@ -37,7 +37,9 @@ module Gherkin
         end
       end
 
-      def compile_rule(pickles, language, tags, feature_background_steps, rule, source)
+      def compile_rule(pickles, language, feature_tags, feature_background_steps, rule, source)
+        tags = [].concat(feature_tags).concat(rule.tags)
+
         rule_background_steps = feature_background_steps.dup
         rule.children.each do |child|
           if child.background
@@ -53,10 +55,10 @@ module Gherkin
         end
       end
 
-      def compile_scenario(feature_tags, background_steps, scenario, language, pickles, source)
+      def compile_scenario(inherited_tags, background_steps, scenario, language, pickles, source)
         steps = scenario.steps.empty? ? [] : [].concat(pickle_steps(background_steps))
 
-        tags = [].concat(feature_tags).concat(scenario.tags)
+        tags = [].concat(inherited_tags).concat(scenario.tags)
 
         scenario.steps.each do |step|
           steps.push(pickle_step(step))
@@ -74,13 +76,13 @@ module Gherkin
         pickles.push(pickle)
       end
 
-      def compile_scenario_outline(feature_tags, background_steps, scenario, language, pickles, source)
+      def compile_scenario_outline(inherited_tags, background_steps, scenario, language, pickles, source)
         scenario.examples.reject { |examples| examples.table_header.nil? }.each do |examples|
           variable_cells = examples.table_header.cells
           examples.table_body.each do |values_row|
             value_cells = values_row.cells
             steps = scenario.steps.empty? ? [] : [].concat(pickle_steps(background_steps))
-            tags = [].concat(feature_tags).concat(scenario.tags).concat(examples.tags)
+            tags = [].concat(inherited_tags).concat(scenario.tags).concat(examples.tags)
 
             scenario.steps.each do |scenario_outline_step|
               step_props = pickle_step_props(scenario_outline_step, variable_cells, values_row)

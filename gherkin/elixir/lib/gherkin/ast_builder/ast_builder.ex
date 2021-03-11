@@ -259,10 +259,11 @@ defmodule CucumberGherkin.AstBuilder do
   defp transform_node(%AstNode{rule_type: Rule} = node, context) do
     header_func = &AstNode.get_single(&1, RuleHeader, %AstNode{rule_type: RuleHeader})
     rule_line_func = &AstNode.get_token(&1, RuleLine)
-    {id, updated_context} = get_id_and_update_context(context)
 
     with {:header?, %AstNode{} = header} <- {:header?, header_func.(node)},
          {:rule_line?, %Token{} = rule_line} <- {:rule_line?, rule_line_func.(header)} do
+      {tags, semi_updated_context} = get_tags(header, context)
+      {id, updated_context} = get_id_and_update_context(semi_updated_context)
       description = get_description(header)
       background = AstNode.get_single(node, Background, nil)
       scenarios = AstNode.get_items(node, ScenarioDefinition)
@@ -272,16 +273,18 @@ defmodule CucumberGherkin.AstBuilder do
         id: id,
         location: loc,
         keyword: rule_line.matched_keyword,
-        name: rule_line.matched_text
+        name: rule_line.matched_text,
+        tags: tags
       }
       |> add_description_to(description)
       |> add_background_to(background)
       |> add_scen_def_children_to(scenarios)
+      |> tuplize(updated_context)
     else
       {:header?, _} -> nil
       {:rule_line?, _} -> nil
+      |> tuplize(context)
     end
-    |> tuplize(updated_context)
   end
 
   defp transform_node(%AstNode{rule_type: GherkinDocument} = n, %ParserContext{} = context) do

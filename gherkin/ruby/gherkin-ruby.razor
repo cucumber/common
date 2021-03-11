@@ -92,7 +92,7 @@ module Gherkin
     end
 
     def add_error(context, error)
-      context.errors.push(error)
+      context.errors.push(error) unless context.errors.map { |e| e.message }.include?(error.message)
       raise CompositeParserException, context.errors if context.errors.length > 10
     end
 

@@ -8,7 +8,12 @@ namespace Gherkin.Events.Args.Ast
         public Examples()
         {
             TableBody = new List<TableBody>();
+            Tags = new List<Tag>();
+            Id = IdGenerator.GetNextId();
         }
+
+        [DataMember(Name = "id")]
+        public string Id { get; set; }
 
         [DataMember(Name = "description")]
         public string Description { get; set; }
@@ -26,5 +31,8 @@ namespace Gherkin.Events.Args.Ast
 
         [DataMember(Name = "tableHeader")]
         public TableHeader TableHeader { get; set; }
+
+        [DataMember(Name = "tags")]
+        public IReadOnlyCollection<Tag> Tags { get; set; }
     }
 }

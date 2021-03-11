@@ -70,8 +70,9 @@ namespace Gherkin
                     var contentType = separatorToken.MatchedText.Length == 0 ? null : separatorToken.MatchedText;
                     var lineTokens = node.GetTokens(TokenType.Other);
                     var content = string.Join(Environment.NewLine, lineTokens.Select(lt => lt.MatchedText));
+                    var delimiter = separatorToken.MatchedKeyword.Length == 0 ? null : separatorToken.MatchedKeyword;
 
-                    return CreateDocString(GetLocation(separatorToken), contentType, content, node);
+                    return CreateDocString(GetLocation(separatorToken), contentType, content, delimiter, node);
                 }
                 case RuleType.DataTable:
                 {
@@ -147,7 +148,8 @@ namespace Gherkin
                 {
                     var header = node.GetSingle<AstNode>(RuleType.RuleHeader);
                     if (header == null) return null;
-                        var ruleLine = header.GetToken(TokenType.RuleLine);
+                    var tags = GetTags(header);
+                    var ruleLine = header.GetToken(TokenType.RuleLine);
                     if (ruleLine == null) return null;
                     var children = new List<IHasLocation>();
                     var background = node.GetSingle<Background>(RuleType.Background);
@@ -160,7 +162,7 @@ namespace Gherkin
                     if (ruleLine.MatchedGherkinDialect == null) return null;
                     var language = ruleLine.MatchedGherkinDialect.Language;
 
-                    return CreateRule(GetLocation(ruleLine), ruleLine.MatchedKeyword, ruleLine.MatchedText, description, childrenEnumerable.ToArray(), node);
+                    return CreateRule(tags, GetLocation(ruleLine), ruleLine.MatchedKeyword, ruleLine.MatchedText, description, childrenEnumerable.ToArray(), node);
                 }
                 case RuleType.GherkinDocument:
                 {
@@ -198,9 +200,9 @@ namespace Gherkin
             return new Scenario(tags, location, keyword, name, description, steps, examples);
         }
 
-        protected virtual DocString CreateDocString(Ast.Location location, string contentType, string content, AstNode node)
+        protected virtual DocString CreateDocString(Ast.Location location, string contentType, string content, string delimiter, AstNode node)
         {
-            return new DocString(location, contentType, content);
+            return new DocString(location, contentType, content, delimiter);
         }
 
         protected virtual Step CreateStep(Ast.Location location, string keyword, string text, StepArgument argument, AstNode node)
@@ -217,9 +219,9 @@ namespace Gherkin
             return new Feature(tags, location, language, keyword, name, description, children);
         }
 
-        protected virtual Rule CreateRule(Ast.Location location, string keyword, string name, string description, IHasLocation[] children, AstNode node)
+        protected virtual Rule CreateRule(Tag[] tags, Ast.Location location, string keyword, string name, string description, IHasLocation[] children, AstNode node)
         {
-            return new Rule(location, keyword, name, description, children);
+            return new Rule(tags, location, keyword, name, description, children);
         }
 
         protected virtual Tag CreateTag(Ast.Location location, string name, AstNode node)
