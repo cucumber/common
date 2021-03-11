@@ -1,4 +1,4 @@
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import { Query as GherkinQuery } from '@cucumber/gherkin-utils'
 import TagSearch from '../../src/search/TagSearch'
 import TextSearch from '../../src/search/TextSearch'

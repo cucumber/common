@@ -1,4 +1,4 @@
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import TestStep from './TestStep'
 
 export default class EmptyPickleTestStep extends TestStep {

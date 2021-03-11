@@ -1,7 +1,7 @@
 import assert from 'assert'
 import ReactDOM from 'react-dom'
 import React from 'react'
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import { Query as CucumberQuery } from '@cucumber/query'
 import Step from '../src/components/gherkin/Step'
 import { JSDOM } from 'jsdom'

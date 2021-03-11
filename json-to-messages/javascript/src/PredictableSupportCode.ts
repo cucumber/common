@@ -2,7 +2,7 @@ import { SupportCode } from '@cucumber/fake-cucumber'
 import IPredictableSupportCode from './IPredictableSupportCode'
 
 import PredictableHook from './PredictableHook'
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import PredictableStepDefinition from './PredictableStepDefinition'
 
 export default class PredictableSupportCode implements IPredictableSupportCode {

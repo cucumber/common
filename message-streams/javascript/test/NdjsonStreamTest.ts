@@ -1,10 +1,9 @@
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import { MessageToNdjsonStream } from '../src'
 import assert from 'assert'
 import NdjsonToMessageStream from '../src/NdjsonToMessageStream'
 import verifyStreamContract from './verifyStreamContract'
 import toArray from './toArray'
-import { Envelope } from '../src/types/Envelope'
 
 describe('NdjsonStream', () => {
   const makeToMessageStream = () => new NdjsonToMessageStream()
@@ -64,7 +63,7 @@ describe('NdjsonStream', () => {
       assert.deepStrictEqual(ob, { testCase: { pickleId: '123' } })
       cb()
     })
-    const envelope: Envelope = {
+    const envelope: messages.Envelope = {
       test_case: {
         pickle_id: '123',
       },
@@ -79,7 +78,7 @@ describe('NdjsonStream', () => {
       assert.deepStrictEqual(ob, { testCase: {} })
       cb()
     })
-    const envelope: Envelope = {
+    const envelope: messages.Envelope = {
       test_case: {
         pickle_id: '',
       },
@@ -90,8 +89,8 @@ describe('NdjsonStream', () => {
   it('converts messages to JSON with undefined numbers omitted', (cb) => {
     const stream = new MessageToNdjsonStream()
     stream.on('data', (json: string) => {
-      const ob: Envelope = JSON.parse(json)
-      const expected: Envelope = {
+      const ob: messages.Envelope = JSON.parse(json)
+      const expected: messages.Envelope = {
         gherkin_document: {
           feature: {
             location: {
@@ -104,7 +103,7 @@ describe('NdjsonStream', () => {
       cb()
     })
 
-    const envelope: Envelope = {
+    const envelope: messages.Envelope = {
       gherkin_document: {
         feature: {
           location: {

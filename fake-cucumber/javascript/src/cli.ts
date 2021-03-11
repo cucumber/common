@@ -7,7 +7,7 @@ import { GherkinStreams } from '@cucumber/gherkin-streams'
 import { Query as GherkinQuery } from '@cucumber/gherkin-utils'
 import makeFormatStream from './makeFormatStream'
 import { version } from '../package.json'
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import createMeta from '@cucumber/create-meta'
 
 const program = new Command()

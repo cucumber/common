@@ -1,5 +1,5 @@
 import { EnvelopesQuery } from '../src/EnvelopesQueryContext'
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import assert from 'assert'
 
 describe('EnvelopesQuery', () => {

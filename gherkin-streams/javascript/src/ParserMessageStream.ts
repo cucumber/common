@@ -1,5 +1,5 @@
 import { Transform, TransformCallback } from 'stream'
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import { generateMessages, IGherkinOptions } from '@cucumber/gherkin'
 
 /**

@@ -7,7 +7,7 @@ import SearchBar from './SearchBar'
 
 import NoMatchResult from './NoMatchResult'
 import Search from '../../search/Search'
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import filterByStatus from '../../filter/filterByStatus'
 import StatusesSummary from './StatusesSummary'
 import countScenariosByStatuses from '../../countScenariosByStatuses'

@@ -1,7 +1,7 @@
 import createMeta from '../src/createMeta'
 import assert from 'assert'
 import ciDict from '../src/ciDict.json'
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 
 describe('createMeta', () => {
   it('defines the implementation product', () => {

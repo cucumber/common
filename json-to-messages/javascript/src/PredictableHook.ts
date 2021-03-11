@@ -1,5 +1,5 @@
 import { IHook, ISupportCodeExecutor } from '@cucumber/fake-cucumber'
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import { NilCodeExecutor } from './SupportCodeExecutor'
 
 export default class PredictableHook implements IHook {

@@ -1,12 +1,11 @@
 include default.mk
 
 JSONSCHEMAS = $(shell find ../jsonschema -name "*.jsonschema")
-TS_TYPE_FILES = $(patsubst ../jsonschema/%.jsonschema,src/types/%.ts,$(JSONSCHEMAS))
 
-.codegen: $(TS_TYPE_FILES)
+.codegen: src/messages.ts
 
-src/types/%.ts: ../jsonschema/%.jsonschema
-	ruby scripts/codegen.rb $< src/types
+src/messages.ts: $(JSONSCHEMAS)
+	ruby scripts/codegen.rb ../jsonschema > $@
 
 clean:
 	rm -rf dist src/types/*.ts

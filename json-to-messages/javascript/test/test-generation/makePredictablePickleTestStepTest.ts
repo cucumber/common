@@ -1,7 +1,7 @@
 import assert from 'assert'
 import makePredictablePickleTestStep from '../../src/test-generation/makePredictablePickleTestStep'
 
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import PredictableStepDefinition from '../../src/PredictableStepDefinition'
 
 describe('makePredictablePickleTestStep', () => {

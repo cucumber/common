@@ -1,4 +1,4 @@
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import toRepositoryId from './toRepositoryId'
 
 export default function ciCommitLink(ci: messages.Meta.ICI): string | null {

@@ -1,4 +1,4 @@
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import FeatureSearch from './FeatureSearch'
 import ScenarioSearch from './ScenarioSearch'
 import StepSearch from './StepSearch'

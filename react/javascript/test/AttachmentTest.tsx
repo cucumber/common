@@ -2,7 +2,7 @@ import { JSDOM } from 'jsdom'
 import ReactDOM from 'react-dom'
 import React from 'react'
 import Attachment from '../src/components/gherkin/Attachment'
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import assert from 'assert'
 
 describe('<Attachment>', () => {

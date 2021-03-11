@@ -1,5 +1,5 @@
 import { Readable } from 'stream'
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 
 export default function toArray(input: Readable): Promise<messages.Envelope[]> {
   return new Promise((resolve, reject) => {

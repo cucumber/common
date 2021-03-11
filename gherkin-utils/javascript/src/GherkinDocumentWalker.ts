@@ -1,4 +1,4 @@
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 
 export interface IFilters {
   acceptScenario?: (scenario: messages.GherkinDocument.Feature.IScenario) => boolean

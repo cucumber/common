@@ -1,6 +1,6 @@
 import SupportCode from './SupportCode'
 import { AnyBody } from './types'
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import StackUtils from 'stack-utils'
 import IParameterTypeDefinition from './IParameterTypeDefinition'
 import { deprecate } from 'util'

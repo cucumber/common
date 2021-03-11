@@ -1,4 +1,4 @@
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import { ITestStep } from '@cucumber/fake-cucumber'
 import { PredictablePickleTestStep } from '../PredictableTestSteps'
 import PredictableStepDefinition from '../PredictableStepDefinition'

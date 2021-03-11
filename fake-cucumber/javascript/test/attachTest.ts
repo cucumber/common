@@ -1,7 +1,7 @@
 import assert from 'assert'
 import makeAttach from '../src/makeAttach'
 import { EnvelopeListener } from '../src/types'
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import fs from 'fs'
 
 describe('#attach', () => {

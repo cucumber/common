@@ -1,4 +1,4 @@
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import IGherkinDocument = messages.IGherkinDocument
 
 import { Query as CucumberQuery } from '@cucumber/query'

@@ -1,4 +1,4 @@
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import assert from 'assert'
 import getDurationsMillis from '../src/getDurationMillis'
 

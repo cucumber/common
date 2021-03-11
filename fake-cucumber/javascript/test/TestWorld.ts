@@ -1,4 +1,4 @@
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import { IWorld } from '../src'
 
 export default class TestWorld implements IWorld {

@@ -1,6 +1,6 @@
 import { Query as GherkinQuery } from '@cucumber/gherkin-utils'
 import { Query as CucumberQuery } from '@cucumber/query'
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import { GherkinDocumentWalker } from '@cucumber/gherkin-utils'
 
 export default function countScenariosByStatuses(

@@ -1,6 +1,6 @@
 import assert from 'assert'
 import PredictableSupportCode from '../src/PredictableSupportCode'
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import { SupportCode } from '@cucumber/fake-cucumber'
 import PredictableHook from '../src/PredictableHook'
 import PredictableStepDefinition from '../src/PredictableStepDefinition'

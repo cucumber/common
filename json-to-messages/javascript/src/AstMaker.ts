@@ -1,4 +1,4 @@
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import IAstMaker from './IAstMaker'
 
 export default class AstMaker implements IAstMaker {

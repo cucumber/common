@@ -1,6 +1,6 @@
 // This file is generated. Do not edit! Edit gherkin-javascript.razor instead.
 
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import {
   AstBuilderException,
   CompositeParserException,

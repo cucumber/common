@@ -1,4 +1,4 @@
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import CucumberHtmlStream from '../src/CucumberHtmlStream'
 import { Writable } from 'stream'
 import assert from 'assert'

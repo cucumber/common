@@ -10,7 +10,7 @@ import {
   traverseElement,
 } from '../../src/cucumber-js/JSONTraverse'
 import IPredictableSupportCode from '../../src/IPredictableSupportCode'
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 
 describe('traversing elements', () => {
   context('traverseFeature', () => {

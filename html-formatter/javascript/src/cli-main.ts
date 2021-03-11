@@ -1,4 +1,4 @@
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import { BinaryToMessageStream, NdjsonToMessageStream } from '@cucumber/message-streams'
 import program from 'commander'
 import p from '../package.json'

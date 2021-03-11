@@ -3,7 +3,7 @@ import { Transform, TransformCallback } from 'stream'
 /**
  * Transforms an NDJSON stream to a stream of message objects
  */
-export default class NdjsonToMessageStream<T> extends Transform {
+export default class NdjsonToMessageStream extends Transform {
   private buffer: string
 
   constructor() {

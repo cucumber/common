@@ -1,6 +1,6 @@
 import SupportCodeExecutor from './SupportCodeExecutor'
 import { CucumberExpression, Expression, RegularExpression } from '@cucumber/cucumber-expressions'
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import { AnyBody, IStepDefinition, ISupportCodeExecutor } from './types'
 
 export default class ExpressionStepDefinition implements IStepDefinition {

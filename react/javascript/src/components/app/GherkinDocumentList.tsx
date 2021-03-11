@@ -1,6 +1,6 @@
 import React from 'react'
 import GherkinDocument from '../gherkin/GherkinDocument'
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import {
   Accordion,
   AccordionItem,

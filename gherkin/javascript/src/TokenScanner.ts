@@ -1,6 +1,6 @@
 import createLocation from './createLocation'
 import IToken from './IToken'
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 
 /**
  * The scanner reads a gherkin doc (typically read from a .feature file) and creates a token for each line.

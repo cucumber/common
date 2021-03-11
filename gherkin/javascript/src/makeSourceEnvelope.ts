@@ -1,4 +1,4 @@
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 
 export default function makeSourceEnvelope(data: string, uri: string): messages.IEnvelope {
   return new messages.Envelope({

@@ -1,5 +1,5 @@
 import assert from 'assert'
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import ExpressionStepDefinition from '../src/ExpressionStepDefinition'
 import {
   CucumberExpression,

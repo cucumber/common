@@ -1,5 +1,5 @@
 import parseTagExpression from '@cucumber/tag-expressions'
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import SupportCodeExecutor from './SupportCodeExecutor'
 import { IHook, AnyBody, ISupportCodeExecutor } from './types'
 

@@ -13,7 +13,7 @@ dist/src/styles/cucumber-react.css: src/styles/styles.scss src/styles/react-acce
 # Convert an .ndjson file to a .ts file with Envelope objects that can be imported
 acceptance/%.ts: ../../compatibility-kit/javascript/features/%.ndjson
 	mkdir -p $(@D)
-	echo "import { messages } from '@cucumber/messages'" > $@
+	echo "import * as messages from '@cucumber/messages'" > $@
 	echo "export default [" >> $@
 	cat $< | sed "s/$$/,/" >> $@
 	echo "].map(ob => messages.Envelope.fromObject(ob))" >> $@

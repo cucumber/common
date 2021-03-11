@@ -1,5 +1,5 @@
 import { ISupportCodeExecutor } from '@cucumber/fake-cucumber'
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 
 class SupportCodeExecutor implements ISupportCodeExecutor {
   constructor(public readonly stepDefinitionId: string) {}

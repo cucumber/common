@@ -1,4 +1,4 @@
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import IToken from './IToken'
 
 export default interface ITokenMatcher<TokenType> {

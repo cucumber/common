@@ -1,5 +1,5 @@
 import assert from 'assert'
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import makePickleTestStep from '../src/makePickleTestStep'
 import TestWorld from './TestWorld'
 import IncrementClock from '../src/IncrementClock'

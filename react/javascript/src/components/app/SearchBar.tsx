@@ -2,7 +2,7 @@ import React from 'react'
 import { faSearch, faQuestionCircle, faFilter } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import SearchQueryContext from '../../SearchQueryContext'
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import statusName from '../gherkin/statusName'
 
 interface IProps {

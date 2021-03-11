@@ -1,5 +1,5 @@
 import assert from 'assert'
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import { Query } from '@cucumber/query'
 import { Query as GherkinQuery } from '@cucumber/gherkin-utils'
 import fs from 'fs'

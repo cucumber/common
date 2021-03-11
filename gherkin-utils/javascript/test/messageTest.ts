@@ -1,4 +1,4 @@
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import { NdjsonToMessageStream } from '@cucumber/message-streams'
 import { Writable, pipeline } from 'stream'
 
