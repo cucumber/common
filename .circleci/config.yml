@@ -774,6 +774,10 @@ jobs:
           command: |
             cd messages/elixir
             make
+      - persist_to_workspace:
+          root: ~/cucumber
+          paths:
+            - messages/elixir/lib/cucumber_messages/generated/
 
   gherkin-elixir:
     executor: docker-cucumber-build
@@ -1014,4 +1018,4 @@ workflows:
 
       - gherkin-elixir:
           requires:
-            - prepare-parallel
+            - messages-elixir
