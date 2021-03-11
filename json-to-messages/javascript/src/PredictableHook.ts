@@ -12,14 +12,14 @@ export default class PredictableHook implements IHook {
     public readonly errorMessage?: string
   ) {}
 
-  match(pickle: messages.IPickle): ISupportCodeExecutor {
+  match(pickle: messages.Pickle): ISupportCodeExecutor {
     if (!pickle.astNodeIds.includes(this.scenarioId)) {
       return null
     }
     return new NilCodeExecutor(null)
   }
 
-  toMessage(): messages.IEnvelope {
+  toMessage(): messages.Envelope {
     const locationChunks = this.location.split(':')
 
     return messages.Envelope.create({

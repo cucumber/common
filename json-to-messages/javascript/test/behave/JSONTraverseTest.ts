@@ -51,7 +51,7 @@ describe('traverse elements', () => {
           predictableSupportCode
         )
 
-        assert.equal(astMaker.makeBackgroundFeatureChild.callCount, 0)
+        assert.strictEqual(astMaker.makeBackgroundFeatureChild.callCount, 0)
         assert.ok(isNullOrUndefined(backgroundMsg))
       })
     })

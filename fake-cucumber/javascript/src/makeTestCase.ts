@@ -8,7 +8,7 @@ import { MakePickleTestStep, MakeHookTestStep, IStepDefinition, IHook, ITestStep
 import IStopwatch from './IStopwatch'
 
 export default function makeTestCase(
-  pickle: messages.IPickle,
+  pickle: messages.Pickle,
   stepDefinitions: ReadonlyArray<IStepDefinition>,
   beforeHooks: ReadonlyArray<IHook>,
   afterHooks: ReadonlyArray<IHook>,
@@ -80,7 +80,7 @@ export default function makeTestCase(
 }
 
 function makeHookSteps(
-  pickle: messages.IPickle,
+  pickle: messages.Pickle,
   hooks: ReadonlyArray<IHook>,
   alwaysExecute: boolean,
   gherkinQuery: Query,

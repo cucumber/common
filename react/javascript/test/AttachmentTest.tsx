@@ -65,7 +65,7 @@ describe('<Attachment>', () => {
     const attachment = messages.Attachment.create({
       mediaType: 'text/x.cucumber.log+plain',
       body: '\x1b[30mblack\x1b[37mwhite',
-      contentEncoding: messages.Attachment.ContentEncoding.IDENTITY,
+      contentEncoding: messages.TY,
     })
     const attachmentElement = <Attachment attachment={attachment} />
     ReactDOM.render(attachmentElement, document.getElementById('content'))

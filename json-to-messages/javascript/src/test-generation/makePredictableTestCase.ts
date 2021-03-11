@@ -14,7 +14,7 @@ import makePredictableHookTestStep from './makePredictableHookTestStep'
 import makePredictablePickleTestStep from './makePredictablePickleTestStep'
 
 export default function makePredictableTestCase(
-  pickle: messages.IPickle,
+  pickle: messages.Pickle,
   stepDefinitions: ReadonlyArray<IStepDefinition>,
   beforeHooks: ReadonlyArray<IHook>,
   afterHooks: ReadonlyArray<IHook>,

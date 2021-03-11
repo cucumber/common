@@ -89,7 +89,7 @@ function text(
   dangerouslySetInnerHTML: boolean
 ) {
   const body =
-    attachment.contentEncoding === messages.Attachment.ContentEncoding.IDENTITY
+    attachment.contentEncoding === messages.TY
       ? attachment.body
       : base64Decode(attachment.body)
 

@@ -5,7 +5,7 @@ import { makeScenario } from './utils'
 
 describe('ScenarioSearch', () => {
   let scenarioSearch: ScenarioSearch
-  let scenarios: messages.GherkinDocument.Feature.IScenario[]
+  let scenarios: messages.Scenario[]
 
   beforeEach(() => {
     scenarioSearch = new ScenarioSearch()

@@ -6,7 +6,7 @@ import Tags from './Tags'
 import Description from './Description'
 
 interface IExamplesProps {
-  examples: messages.GherkinDocument.Feature.Scenario.IExamples
+  examples: messages.Examples
 }
 
 const Examples: React.FunctionComponent<IExamplesProps> = ({ examples }) => {

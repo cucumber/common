@@ -4,7 +4,7 @@ This library is a set of utilities to work with Gherkin documents and AST. It do
 
 It provides two main utilities, `pretty` and `gherkinDocumentWalker`.
 
-# pretty(gherkinDocument: messages.IGherkinDocument)
+# pretty(gherkinDocument: messages.GherkinDocument)
 
 This function takes a IGherkinDocument as input and produce the text version of it. The main goal it to use it in tests.
 

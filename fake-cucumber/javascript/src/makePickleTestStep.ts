@@ -7,7 +7,7 @@ import { IStepDefinition, ITestStep } from './types'
 
 export default function makePickleTestStep(
   testStepId: string,
-  pickleStep: messages.Pickle.IPickleStep,
+  pickleStep: messages.PickleStep,
   stepDefinitions: readonly IStepDefinition[],
   sourceFrames: readonly string[],
   clock: IClock,

@@ -9,7 +9,7 @@ import StatusIcon from './StatusIcon'
 import UriContext from '../../UriContext'
 
 interface IProps {
-  rows: messages.GherkinDocument.Feature.ITableRow[]
+  rows: messages.TableRow[]
 }
 
 const ExamplesTableBody: React.FunctionComponent<IProps> = ({ rows }) => {
@@ -23,7 +23,7 @@ const ExamplesTableBody: React.FunctionComponent<IProps> = ({ rows }) => {
 }
 
 interface IRowOrRows {
-  row: messages.GherkinDocument.Feature.ITableRow
+  row: messages.TableRow
 }
 
 const RowOrRows: React.FunctionComponent<IRowOrRows> = ({ row }) => {
@@ -56,7 +56,7 @@ const RowOrRows: React.FunctionComponent<IRowOrRows> = ({ row }) => {
 }
 
 interface IErrorMessageRowProps {
-  testStepResult: messages.TestStepFinished.ITestStepResult
+  testStepResult: messages.TestStepResult
   colSpan: number
 }
 

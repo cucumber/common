@@ -12,7 +12,7 @@ type traverseElementType = (
   astMaker: IAstMaker,
   newId: IdGenerator.NewId,
   predictableSupportCode: IPredictableSupportCode
-) => messages.GherkinDocument.Feature.IFeatureChild
+) => messages.FeatureChild
 
 export function traverseFeature(
   feature: IFeature,
@@ -20,8 +20,8 @@ export function traverseFeature(
   newId: IdGenerator.NewId,
   predictableSupportCode: IPredictableSupportCode,
   traverseElement: traverseElementType
-): messages.IGherkinDocument {
-  const children: messages.GherkinDocument.Feature.IFeatureChild[] = []
+): messages.GherkinDocument {
+  const children: messages.FeatureChild[] = []
   let backgroundFound = false
   const tags = feature.tags ? feature.tags.map((tag) => traverseTag(tag, astMaker)) : undefined
 
@@ -46,6 +46,6 @@ export function traverseFeature(
   return astMaker.makeGherkinDocument(feature.uri, gherkinFeature)
 }
 
-export function traverseTag(tag: ITag, astMaker: IAstMaker): messages.GherkinDocument.Feature.ITag {
+export function traverseTag(tag: ITag, astMaker: IAstMaker): messages.Tag {
   return astMaker.makeTag(tag.name, tag.line)
 }

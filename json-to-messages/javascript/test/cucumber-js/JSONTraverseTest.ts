@@ -121,7 +121,7 @@ describe('traversing elements', () => {
       )
 
       traverseElement(hookedScenario, astMaker, () => 'new-id', supportCode)
-      assert.equal(astMaker.makeStep.callCount, 1)
+      assert.strictEqual(astMaker.makeStep.callCount, 1)
     })
 
     it('correctly registers beforeHooks', () => {

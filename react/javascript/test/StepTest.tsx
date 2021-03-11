@@ -26,7 +26,7 @@ describe('<Step>', () => {
     })
 
     class StubCucumberQuery extends CucumberQuery {
-      public getStepMatchArgumentsLists(): messages.TestCase.TestStep.IStepMatchArgumentsList[] {
+      public getStepMatchArgumentsLists(): messages.StepMatchArgumentsList[] {
         return [
           new messages.TestCase.TestStep.StepMatchArgumentsList({
             stepMatchArguments: [

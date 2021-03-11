@@ -7,7 +7,7 @@ import ReactDOM from 'react-dom'
 
 declare global {
   interface Window {
-    CUCUMBER_MESSAGES: messages.IEnvelope[]
+    CUCUMBER_MESSAGES: messages.Envelope[]
   }
 }
 

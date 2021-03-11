@@ -8,7 +8,7 @@ import { faLink } from '@fortawesome/free-solid-svg-icons'
 
 interface IProps {
   id: string
-  rule: messages.GherkinDocument.Feature.FeatureChild.IRule
+  rule: messages.Rule
 }
 
 const RuleTitle: React.FunctionComponent<IProps> = ({ id, rule }) => {

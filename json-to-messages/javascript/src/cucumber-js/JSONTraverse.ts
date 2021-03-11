@@ -18,7 +18,7 @@ export function traverseFeature(
   astMaker: IAstMaker,
   newId: IdGenerator.NewId,
   predictableSupportCode: IPredictableSupportCode
-): messages.IGherkinDocument {
+): messages.GherkinDocument {
   return genericTraverseFeature(feature, astMaker, newId, predictableSupportCode, traverseElement)
 }
 
@@ -27,7 +27,7 @@ export function traverseElement(
   astMaker: IAstMaker,
   newId: IdGenerator.NewId,
   predictableSupportCode: IPredictableSupportCode
-): messages.GherkinDocument.Feature.IFeatureChild {
+): messages.FeatureChild {
   const beforeHooks: IStep[] = []
   const scenarioSteps: IStep[] = []
   const afterHooks: IStep[] = []
@@ -81,7 +81,7 @@ export function traverseElement(
 
 export function traverseBeforeHook(
   step: IStep,
-  scenario: messages.GherkinDocument.Feature.IScenario,
+  scenario: messages.Scenario,
   predictableSupportCode: IPredictableSupportCode
 ): void {
   predictableSupportCode.addPredictableBeforeHook(
@@ -95,7 +95,7 @@ export function traverseBeforeHook(
 
 export function traverseAfterHook(
   step: IStep,
-  scenario: messages.GherkinDocument.Feature.IScenario,
+  scenario: messages.Scenario,
   predictableSupportCode: IPredictableSupportCode
 ): void {
   predictableSupportCode.addPredictableAfterHook(
@@ -112,7 +112,7 @@ export function traverseStep(
   astMaker: IAstMaker,
   newId: IdGenerator.NewId,
   predictableSupportCode: IPredictableSupportCode
-): messages.GherkinDocument.Feature.IStep {
+): messages.Step {
   const stepArguments = step.arguments || []
   const docStringArgument = stepArguments.find((arg: IDocString) => arg.content) as IDocString
   const docString = docStringArgument ? traverseDocString(docStringArgument, astMaker) : null
@@ -145,6 +145,6 @@ export function traverseStep(
 export function traverseDocString(
   docString: IDocString,
   astMaker: IAstMaker
-): messages.GherkinDocument.Feature.Step.IDocString {
+): messages.DocString {
   return astMaker.makeDocstring(null, docString.content)
 }

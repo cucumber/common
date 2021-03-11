@@ -20,7 +20,7 @@ export default function makeAttach(
 
     if (typeof data === 'string') {
       attachment.body = data
-      attachment.contentEncoding = messages.Attachment.ContentEncoding.IDENTITY
+      attachment.contentEncoding = messages.TY
       listener(
         new messages.Envelope({
           attachment,

@@ -20,7 +20,7 @@ describe('jsonToMessages', () => {
       ]),
     ])
 
-    assert.equal(emitted.filter((envelope) => envelope.source).length, 1)
+    assert.strictEqual(emitted.filter((envelope) => envelope.source).length, 1)
   })
 
   context('a meta Message is emitted at the beginning', () => {
@@ -32,17 +32,17 @@ describe('jsonToMessages', () => {
     })
 
     it('contains the @cucumber-messages version', () => {
-      assert.equal(meta.protocolVersion, messagesVersion)
+      assert.strictEqual(meta.protocolVersion, messagesVersion)
     })
 
     it('does not provide any information about the original producer of the JSON', () => {
-      assert.equal(meta.implementation.name, '@cucumber/json-to-messages')
-      assert.equal(meta.implementation.version, version)
+      assert.strictEqual(meta.implementation.name, '@cucumber/json-to-messages')
+      assert.strictEqual(meta.implementation.version, version)
     })
   })
 })
 
-async function produceMessages(jsons: string[]): Promise<messages.IEnvelope[]> {
+async function produceMessages(jsons: string[]): Promise<messages.Envelope[]> {
   const inputStream = new Readable({
     read() {
       this.push(jsons.join(''))
@@ -50,7 +50,7 @@ async function produceMessages(jsons: string[]): Promise<messages.IEnvelope[]> {
     },
   })
 
-  const emitted: messages.IEnvelope[] = []
+  const emitted: messages.Envelope[] = []
   const out = new NdjsonToMessageStream(messages.Envelope.fromObject.bind(messages.Envelope))
   out.on('data', (message) => emitted.push(message))
   await jsonToMessages(inputStream, out)

@@ -17,7 +17,7 @@ export function traverseFeature(
   astMaker: IAstMaker,
   newId: IdGenerator.NewId,
   predictableSupportCode: IPredictableSupportCode
-): messages.IGherkinDocument {
+): messages.GherkinDocument {
   return genericTraverseFeature(feature, astMaker, newId, predictableSupportCode, traverseElement)
 }
 
@@ -26,8 +26,8 @@ export function traverseElement(
   astMaker: IAstMaker,
   newId: IdGenerator.NewId,
   predictableSupportCode: IPredictableSupportCode
-): messages.GherkinDocument.Feature.IFeatureChild {
-  let child: messages.GherkinDocument.Feature.IFeatureChild
+): messages.FeatureChild {
+  let child: messages.FeatureChild
 
   switch (element.type) {
     case 'background':
@@ -88,7 +88,7 @@ export function traverseStep(
   astMaker: IAstMaker,
   newId: IdGenerator.NewId,
   predictableSupportCode: IPredictableSupportCode
-): messages.GherkinDocument.Feature.IStep {
+): messages.Step {
   const docString = step.doc_string ? traverseDocString(step.doc_string, astMaker) : null
   const dataTable = step.rows ? traverseDataTable(step.rows, astMaker) : null
   const gherkinStep = astMaker.makeStep(
@@ -116,13 +116,13 @@ export function traverseStep(
 export function traverseDocString(
   docString: IDocString,
   astMaker: IAstMaker
-): messages.GherkinDocument.Feature.Step.IDocString {
+): messages.DocString {
   return astMaker.makeDocstring(docString.content_type, docString.value)
 }
 
 export function traverseDataTable(
   rows: ReadonlyArray<IDataTableRow>,
   astMaker: IAstMaker
-): messages.GherkinDocument.Feature.Step.IDataTable {
+): messages.DataTable {
   return astMaker.makeDataTable(rows.map((row) => row.cells))
 }

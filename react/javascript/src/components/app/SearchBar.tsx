@@ -19,12 +19,12 @@ const SearchBar: React.FunctionComponent<IProps> = ({
   const searchQueryContext = React.useContext(SearchQueryContext)
 
   const statuses = [
-    messages.TestStepFinished.TestStepResult.Status.AMBIGUOUS,
-    messages.TestStepFinished.TestStepResult.Status.FAILED,
+    messages.GUOUS,
+    messages.LED,
     messages.TestStepFinished.TestStepResult.Status.PASSED,
-    messages.TestStepFinished.TestStepResult.Status.PENDING,
-    messages.TestStepFinished.TestStepResult.Status.SKIPPED,
-    messages.TestStepFinished.TestStepResult.Status.UNDEFINED,
+    messages.NG,
+    messages.PPED,
+    messages.NED,
     messages.TestStepFinished.TestStepResult.Status.UNKNOWN,
   ]
 

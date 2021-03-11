@@ -3,7 +3,7 @@ import React from 'react'
 import HookStep from './HookStep'
 
 interface IProps {
-  hookSteps: ReadonlyArray<messages.TestCase.ITestStep>
+  hookSteps: ReadonlyArray<messages.TestStep>
 }
 
 const HookList: React.FunctionComponent<IProps> = ({ hookSteps }) => {

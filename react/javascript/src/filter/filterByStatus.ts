@@ -4,13 +4,13 @@ import * as messages from '@cucumber/messages'
 import { GherkinDocumentWalker, rejectAllFilters } from '@cucumber/gherkin-utils'
 
 export default function filterByStatus(
-  gherkinDocument: messages.IGherkinDocument,
+  gherkinDocument: messages.GherkinDocument,
   gherkinQuery: GherkinQuery,
   cucumberQuery: CucumberQuery,
   statuses: messages.TestStepFinished.TestStepResult.Status[]
-): messages.IGherkinDocument | null {
+): messages.GherkinDocument | null {
   const filters = {
-    acceptScenario: (scenario: messages.GherkinDocument.Feature.IScenario) => {
+    acceptScenario: (scenario: messages.Scenario) => {
       const pickleIds = gherkinQuery.getPickleIds(gherkinDocument.uri, scenario.id)
 
       return pickleIds

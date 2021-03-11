@@ -14,7 +14,7 @@ describe('Hook', () => {
       })
       const executor = hook.match(pickle)
 
-      assert.equal(executor, null)
+      assert.strictEqual(executor, null)
     })
 
     it("returns a SupportCodeExecutor if the hook's tag expression matches", () => {

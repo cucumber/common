@@ -13,18 +13,18 @@ describe('PredictablePickleTestStep', () => {
         messages.TestStepFinished.TestStepResult.Status.PASSED,
         123456
       )
-      const emitted: messages.IEnvelope[] = []
+      const emitted: messages.Envelope[] = []
       await step.execute(null, 'test-case-started-id', (envelope) => {
         emitted.push(envelope)
       })
       const testStepFinished = emitted[1].testStepFinished
 
-      assert.equal(
+      assert.strictEqual(
         testStepFinished.testStepResult.status,
         messages.TestStepFinished.TestStepResult.Status.PASSED
       )
-      assert.equal(testStepFinished.testStepResult.duration.seconds, 123)
-      assert.equal(testStepFinished.testStepResult.duration.nanos, 456000000)
+      assert.strictEqual(testStepFinished.testStepResult.duration.seconds, 123)
+      assert.strictEqual(testStepFinished.testStepResult.duration.nanos, 456000000)
     })
   })
 })

@@ -5,8 +5,8 @@ import PredictableStepDefinition from '../PredictableStepDefinition'
 
 export default function makePredictablePickleTestStep(
   testStepId: string,
-  pickleStep: messages.Pickle.IPickleStep,
-  stepDefinitions: ReadonlyArray<PredictableStepDefinition>
+  pickleStep: messages.PickleStep,
+  stepDefinitions: readonly PredictableStepDefinition[]
 ): ITestStep {
   const matching = stepDefinitions.filter((stepDefinition) => stepDefinition.match(pickleStep))
 
@@ -26,7 +26,7 @@ export default function makePredictablePickleTestStep(
       pickleStep.id,
       false,
       null,
-      messages.TestStepFinished.TestStepResult.Status.UNDEFINED,
+      'UNDEFINED',
       0,
       null
     )

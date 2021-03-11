@@ -26,7 +26,7 @@ class StubTestStep extends TestStep {
     )
   }
 
-  public toMessage(): messages.TestCase.ITestStep {
+  public toMessage(): messages.TestStep {
     return new messages.TestCase.TestStep()
   }
 
@@ -34,7 +34,7 @@ class StubTestStep extends TestStep {
     world: IWorld,
     testCaseStartedId: string,
     listener: EnvelopeListener
-  ): Promise<messages.TestStepFinished.ITestStepResult> {
+  ): Promise<messages.TestStepResult> {
     const testStepResult = this.emitTestStepFinished(
       testCaseStartedId,
       new messages.TestStepFinished.TestStepResult({
@@ -51,7 +51,7 @@ class StubTestStep extends TestStep {
 describe('TestCase', () => {
   describe('#execute', () => {
     it('executes all passing steps', async () => {
-      const emitted: messages.IEnvelope[] = []
+      const emitted: messages.Envelope[] = []
       const testSteps: TestStep[] = [
         new StubTestStep(false, messages.TestStepFinished.TestStepResult.Status.PASSED),
         new StubTestStep(false, messages.TestStepFinished.TestStepResult.Status.PASSED),
@@ -63,7 +63,7 @@ describe('TestCase', () => {
         new IncrementClock()
       )
       await testCase.execute(
-        (message: messages.IEnvelope) => emitted.push(message),
+        (message: messages.Envelope) => emitted.push(message),
         0,
         'test-case-started-id'
       )
@@ -78,9 +78,9 @@ describe('TestCase', () => {
     })
 
     it('skips steps after a failed step', async () => {
-      const emitted: messages.IEnvelope[] = []
+      const emitted: messages.Envelope[] = []
       const testSteps: TestStep[] = [
-        new StubTestStep(false, messages.TestStepFinished.TestStepResult.Status.FAILED),
+        new StubTestStep(false, messages.LED),
         new StubTestStep(false, messages.TestStepFinished.TestStepResult.Status.PASSED),
       ]
       const testCase = new TestCase(
@@ -90,7 +90,7 @@ describe('TestCase', () => {
         new IncrementClock()
       )
       await testCase.execute(
-        (message: messages.IEnvelope) => emitted.push(message),
+        (message: messages.Envelope) => emitted.push(message),
         0,
         'test-case-started-id'
       )
@@ -98,16 +98,16 @@ describe('TestCase', () => {
         .filter((m) => m.testStepFinished)
         .map((m) => m.testStepFinished.testStepResult.status)
       assert.deepStrictEqual(testStepStatuses, [
-        messages.TestStepFinished.TestStepResult.Status.FAILED,
-        messages.TestStepFinished.TestStepResult.Status.SKIPPED,
+        messages.LED,
+        messages.PPED,
       ])
     })
 
     it('always runs after steps regardless of previous steps status', async () => {
-      const emitted: messages.IEnvelope[] = []
+      const emitted: messages.Envelope[] = []
       const testSteps: TestStep[] = [
-        new StubTestStep(true, messages.TestStepFinished.TestStepResult.Status.FAILED),
-        new StubTestStep(true, messages.TestStepFinished.TestStepResult.Status.FAILED),
+        new StubTestStep(true, messages.LED),
+        new StubTestStep(true, messages.LED),
       ]
       const testCase = new TestCase(
         'some-test-case-id',
@@ -116,7 +116,7 @@ describe('TestCase', () => {
         new IncrementClock()
       )
       await testCase.execute(
-        (message: messages.IEnvelope) => emitted.push(message),
+        (message: messages.Envelope) => emitted.push(message),
         0,
         'test-case-started-id'
       )
@@ -124,13 +124,13 @@ describe('TestCase', () => {
         .filter((m) => m.testStepFinished)
         .map((m) => m.testStepFinished.testStepResult.status)
       assert.deepStrictEqual(testStepStatuses, [
-        messages.TestStepFinished.TestStepResult.Status.FAILED,
-        messages.TestStepFinished.TestStepResult.Status.FAILED,
+        messages.LED,
+        messages.LED,
       ])
     })
 
     it('emits TestCaseStarted and TestCaseFinished messages', async () => {
-      const emitted: messages.IEnvelope[] = []
+      const emitted: messages.Envelope[] = []
       const testSteps: TestStep[] = [
         new StubTestStep(false, messages.TestStepFinished.TestStepResult.Status.PASSED),
       ]
@@ -141,7 +141,7 @@ describe('TestCase', () => {
         new IncrementClock()
       )
       await testCase.execute(
-        (message: messages.IEnvelope) => emitted.push(message),
+        (message: messages.Envelope) => emitted.push(message),
         0,
         'test-case-started-id'
       )

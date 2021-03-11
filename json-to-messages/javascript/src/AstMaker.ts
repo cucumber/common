@@ -4,8 +4,8 @@ import IAstMaker from './IAstMaker'
 export default class AstMaker implements IAstMaker {
   public makeGherkinDocument(
     uri: string,
-    feature: messages.GherkinDocument.IFeature
-  ): messages.IGherkinDocument {
+    feature: messages.Feature
+  ): messages.GherkinDocument {
     return messages.GherkinDocument.create({
       uri,
       feature,
@@ -17,9 +17,9 @@ export default class AstMaker implements IAstMaker {
     keyword: string,
     name: string,
     description: string,
-    children: ReadonlyArray<messages.GherkinDocument.Feature.IFeatureChild>,
-    tags?: ReadonlyArray<messages.GherkinDocument.Feature.ITag>
-  ): messages.GherkinDocument.IFeature {
+    children: ReadonlyArray<messages.FeatureChild>,
+    tags?: ReadonlyArray<messages.Tag>
+  ): messages.Feature {
     return messages.GherkinDocument.Feature.create({
       location: messages.Location.create({ line }),
       keyword,
@@ -30,7 +30,7 @@ export default class AstMaker implements IAstMaker {
     })
   }
 
-  public makeTag(name: string, line: number): messages.GherkinDocument.Feature.ITag {
+  public makeTag(name: string, line: number): messages.Tag {
     return messages.GherkinDocument.Feature.Tag.create({
       name,
       location: messages.Location.create({ line }),
@@ -43,8 +43,8 @@ export default class AstMaker implements IAstMaker {
     keyword: string,
     name: string,
     description: string,
-    steps: ReadonlyArray<messages.GherkinDocument.Feature.IStep>,
-    tags?: ReadonlyArray<messages.GherkinDocument.Feature.ITag>
+    steps: ReadonlyArray<messages.Step>,
+    tags?: ReadonlyArray<messages.Tag>
   ) {
     return messages.GherkinDocument.Feature.FeatureChild.create({
       scenario: messages.GherkinDocument.Feature.Scenario.create({
@@ -64,7 +64,7 @@ export default class AstMaker implements IAstMaker {
     keyword: string,
     name: string,
     description: string,
-    steps: ReadonlyArray<messages.GherkinDocument.Feature.IStep>
+    steps: ReadonlyArray<messages.Step>
   ) {
     return messages.GherkinDocument.Feature.FeatureChild.create({
       background: messages.GherkinDocument.Feature.Background.create({
@@ -82,9 +82,9 @@ export default class AstMaker implements IAstMaker {
     line: number,
     keyword: string,
     text: string,
-    docString?: messages.GherkinDocument.Feature.Step.IDocString,
-    dataTable?: messages.GherkinDocument.Feature.Step.IDataTable
-  ): messages.GherkinDocument.Feature.IStep {
+    docString?: messages.DocString,
+    dataTable?: messages.DataTable
+  ): messages.Step {
     return messages.GherkinDocument.Feature.Step.create({
       id,
       location: messages.Location.create({ line }),
@@ -98,7 +98,7 @@ export default class AstMaker implements IAstMaker {
   public makeDocstring(
     mediaType: string,
     content: string
-  ): messages.GherkinDocument.Feature.Step.IDocString {
+  ): messages.DocString {
     return messages.GherkinDocument.Feature.Step.DocString.create({
       mediaType,
       content,
@@ -107,7 +107,7 @@ export default class AstMaker implements IAstMaker {
 
   public makeDataTable(
     cells: ReadonlyArray<ReadonlyArray<string>>
-  ): messages.GherkinDocument.Feature.Step.IDataTable {
+  ): messages.DataTable {
     return messages.GherkinDocument.Feature.Step.DataTable.create({
       rows: cells.map((row) =>
         messages.GherkinDocument.Feature.TableRow.create({

@@ -6,7 +6,7 @@ import StepContainer from './StepContainer'
 import Attachment from './Attachment'
 
 interface IProps {
-  step: messages.TestCase.ITestStep
+  step: messages.TestStep
 }
 
 const HookStep: React.FunctionComponent<IProps> = ({ step }) => {
@@ -17,7 +17,7 @@ const HookStep: React.FunctionComponent<IProps> = ({ step }) => {
   const hook = cucumberQuery.getHook(step.hookId)
   const attachments = cucumberQuery.getTestStepsAttachments([step.id])
 
-  if (stepResult.status === messages.TestStepFinished.TestStepResult.Status.FAILED) {
+  if (stepResult.status === messages.LED) {
     const location = hook.sourceReference.location
       ? hook.sourceReference.uri + ':' + hook.sourceReference.location.line
       : hook.sourceReference.javaMethod

@@ -6,8 +6,8 @@ import fs from 'fs'
 
 describe('#attach', () => {
   it('can attach a string', () => {
-    const envelopes: messages.IEnvelope[] = []
-    const listener: EnvelopeListener = (envelope: messages.IEnvelope) => envelopes.push(envelope)
+    const envelopes: messages.Envelope[] = []
+    const listener: EnvelopeListener = (envelope: messages.Envelope) => envelopes.push(envelope)
 
     const attach = makeAttach('the-test-step-id', 'the-test-case-started-id', listener)
 
@@ -18,7 +18,7 @@ describe('#attach', () => {
       new messages.Envelope({
         attachment: new messages.Attachment({
           mediaType: 'text/plain',
-          contentEncoding: messages.Attachment.ContentEncoding.IDENTITY,
+          contentEncoding: messages.TY,
           testCaseStartedId: 'the-test-case-started-id',
           testStepId: 'the-test-step-id',
           body: 'hello',
@@ -28,8 +28,8 @@ describe('#attach', () => {
   })
 
   it('can attach a buffer', () => {
-    const envelopes: messages.IEnvelope[] = []
-    const listener: EnvelopeListener = (envelope: messages.IEnvelope) => envelopes.push(envelope)
+    const envelopes: messages.Envelope[] = []
+    const listener: EnvelopeListener = (envelope: messages.Envelope) => envelopes.push(envelope)
 
     const attach = makeAttach('the-test-step-id', 'the-test-case-started-id', listener)
 
@@ -51,8 +51,8 @@ describe('#attach', () => {
   })
 
   it('can attach a readable stream', async () => {
-    const envelopes: messages.IEnvelope[] = []
-    const listener: EnvelopeListener = (envelope: messages.IEnvelope) => envelopes.push(envelope)
+    const envelopes: messages.Envelope[] = []
+    const listener: EnvelopeListener = (envelope: messages.Envelope) => envelopes.push(envelope)
 
     const attach = makeAttach('the-test-step-id', 'the-test-case-started-id', listener)
 
@@ -62,6 +62,6 @@ describe('#attach', () => {
 
     const expectedLength = 851133 // wc -c < ./attachments/cucumber-growing-on-vine.jpg
     const buffer = Buffer.from(envelopes[0].attachment.body, 'base64')
-    assert.equal(buffer.length, expectedLength)
+    assert.strictEqual(buffer.length, expectedLength)
   })
 })

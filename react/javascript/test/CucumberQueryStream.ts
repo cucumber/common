@@ -8,7 +8,7 @@ export default class QueryStream extends Writable {
   }
 
   _write(
-    envelope: messages.IEnvelope,
+    envelope: messages.Envelope,
     encoding: string,
     callback: (error?: Error | null) => void
   ): void {

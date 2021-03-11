@@ -3,7 +3,7 @@ import CucumberHtmlStream from '../src/CucumberHtmlStream'
 import { Writable } from 'stream'
 import assert from 'assert'
 
-async function renderAsHtml(...envelopes: messages.IEnvelope[]): Promise<string> {
+async function renderAsHtml(...envelopes: messages.Envelope[]): Promise<string> {
   return new Promise((resolve, reject) => {
     let html = ''
     const sink: Writable = new Writable({

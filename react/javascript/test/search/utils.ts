@@ -3,8 +3,8 @@ import { IdGenerator, messages } from '@cucumber/messages'
 function makeFeature(
   name: string,
   description: string,
-  scenarios: messages.GherkinDocument.Feature.IScenario[]
-): messages.GherkinDocument.IFeature {
+  scenarios: messages.Scenario[]
+): messages.Feature {
   return messages.GherkinDocument.Feature.create({
     name: name,
     description: description,
@@ -19,8 +19,8 @@ function makeFeature(
 function makeRule(
   name: string,
   description: string,
-  scenarios: messages.GherkinDocument.Feature.IScenario[]
-): messages.GherkinDocument.Feature.FeatureChild.IRule {
+  scenarios: messages.Scenario[]
+): messages.Rule {
   const idGenerator = IdGenerator.uuid()
 
   return messages.GherkinDocument.Feature.FeatureChild.Rule.create({
@@ -38,8 +38,8 @@ function makeRule(
 function makeScenario(
   name: string,
   description: string,
-  steps: messages.GherkinDocument.Feature.IStep[]
-): messages.GherkinDocument.Feature.IScenario {
+  steps: messages.Step[]
+): messages.Scenario {
   const idGenerator = IdGenerator.uuid()
 
   return messages.GherkinDocument.Feature.Scenario.create({
@@ -55,7 +55,7 @@ function makeStep(
   text: string,
   docstring = '',
   datatable: ReadonlyArray<ReadonlyArray<string>> = []
-): messages.GherkinDocument.Feature.IStep {
+): messages.Step {
   const idGenerator = IdGenerator.uuid()
   const docStringParam = docstring
     ? messages.GherkinDocument.Feature.Step.DocString.create({

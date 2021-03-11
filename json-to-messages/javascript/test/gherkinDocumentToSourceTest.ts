@@ -10,13 +10,13 @@ describe('gherkinDocumentToSource', () => {
       })
     )
 
-    assert.equal(source.uri, 'path/to/file.feature')
+    assert.strictEqual(source.uri, 'path/to/file.feature')
   })
 
   it('provides the correct media type', () => {
     const source = gherkinDocumentToSource(messages.GherkinDocument.create())
 
-    assert.equal(source.mediaType, 'text/x.cucumber.gherkin+plain')
+    assert.strictEqual(source.mediaType, 'text/x.cucumber.gherkin+plain')
   })
 
   xit('it produces the Gherkin original document', () => {
@@ -30,6 +30,6 @@ describe('gherkinDocumentToSource', () => {
       })
     )
 
-    assert.equal(source.data, 'Feature: My feature\n')
+    assert.strictEqual(source.data, 'Feature: My feature\n')
   })
 })

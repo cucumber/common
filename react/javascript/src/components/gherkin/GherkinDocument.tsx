@@ -3,7 +3,7 @@ import React from 'react'
 import Feature from './Feature'
 
 interface IProps {
-  gherkinDocument: messages.IGherkinDocument
+  gherkinDocument: messages.GherkinDocument
 }
 
 const GherkinDocument: React.FunctionComponent<IProps> = ({ gherkinDocument }) => {

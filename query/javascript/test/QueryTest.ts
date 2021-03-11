@@ -32,13 +32,13 @@ describe('Query', () => {
           status: messages.TestStepFinished.TestStepResult.Status.PASSED,
         }),
         new messages.TestStepFinished.TestStepResult({
-          status: messages.TestStepFinished.TestStepResult.Status.FAILED,
+          status: messages.LED,
         }),
         new messages.TestStepFinished.TestStepResult({
           status: messages.TestStepFinished.TestStepResult.Status.PASSED,
         }),
       ])
-      assert.strictEqual(result.status, messages.TestStepFinished.TestStepResult.Status.FAILED)
+      assert.strictEqual(result.status, messages.LED)
     })
   })
 
@@ -52,7 +52,7 @@ describe('Query', () => {
     })
 
     it('looks up results for scenario steps', async () => {
-      const envelopes: messages.IEnvelope[] = []
+      const envelopes: messages.Envelope[] = []
 
       await execute(
         `Feature: hello
@@ -77,7 +77,7 @@ describe('Query', () => {
     })
 
     it('looks up results for background steps', async () => {
-      const envelopes: messages.IEnvelope[] = []
+      const envelopes: messages.Envelope[] = []
 
       await execute(
         `Feature: hello
@@ -109,7 +109,7 @@ describe('Query', () => {
     })
 
     it('looks up results for background steps when scenarios are empty', async () => {
-      const envelopes: messages.IEnvelope[] = []
+      const envelopes: messages.Envelope[] = []
 
       await execute(
         `Feature: hello
@@ -139,7 +139,7 @@ describe('Query', () => {
 
   describe('#getPickleTestStepResults(pickleIds)', () => {
     it('looks up results for scenarios', async () => {
-      const envelopes: messages.IEnvelope[] = []
+      const envelopes: messages.Envelope[] = []
       await execute(
         `Feature: hello
   Scenario: ko
@@ -159,13 +159,13 @@ describe('Query', () => {
         testStepResults.map((r) => r.status),
         [
           messages.TestStepFinished.TestStepResult.Status.PASSED,
-          messages.TestStepFinished.TestStepResult.Status.FAILED,
+          messages.LED,
         ]
       )
     })
 
     it('looks up results for scenario outlines', async () => {
-      const envelopes: messages.IEnvelope[] = []
+      const envelopes: messages.Envelope[] = []
       await execute(
         `Feature: hello
   Scenario: hi <status1> and <status2>
@@ -190,13 +190,13 @@ describe('Query', () => {
           messages.TestStepFinished.TestStepResult.Status.PASSED,
           messages.TestStepFinished.TestStepResult.Status.PASSED,
           messages.TestStepFinished.TestStepResult.Status.PASSED,
-          messages.TestStepFinished.TestStepResult.Status.FAILED,
+          messages.LED,
         ]
       )
     })
 
     it('looks up results for examples rows outlines', async () => {
-      const envelopes: messages.IEnvelope[] = []
+      const envelopes: messages.Envelope[] = []
 
       await execute(
         `Feature: hello
@@ -231,7 +231,7 @@ describe('Query', () => {
           .map((r) => r.status),
         [
           messages.TestStepFinished.TestStepResult.Status.PASSED,
-          messages.TestStepFinished.TestStepResult.Status.FAILED,
+          messages.LED,
         ]
       )
     })
@@ -239,7 +239,7 @@ describe('Query', () => {
 
   describe('#getPickleStepAttachments(pickleIds)', () => {
     it('looks up attachments', async () => {
-      const envelopes: messages.IEnvelope[] = []
+      const envelopes: messages.Envelope[] = []
       await execute(
         `Feature: hello
   Scenario: ok
@@ -261,7 +261,7 @@ describe('Query', () => {
 
   describe('#getStepMatchArguments(uri, lineNumber)', () => {
     it("looks up result for step's uri and line", async () => {
-      const envelopes: messages.IEnvelope[] = []
+      const envelopes: messages.Envelope[] = []
       await execute(
         `Feature: hello
   Scenario: ok
@@ -290,7 +290,7 @@ describe('Query', () => {
 
     describe('#getBeforeHookSteps(pickleId: string)', () => {
       it('returns an empty list when there is no hooks', async () => {
-        const envelopes: messages.IEnvelope[] = []
+        const envelopes: messages.Envelope[] = []
         await execute(
           `Feature: hello
     Scenario: hi
@@ -305,7 +305,7 @@ describe('Query', () => {
       })
 
       it('returns one before hook step', async () => {
-        const envelopes: messages.IEnvelope[] = []
+        const envelopes: messages.Envelope[] = []
         await execute(
           `Feature: hello
     @beforeHook
@@ -321,7 +321,7 @@ describe('Query', () => {
       })
 
       it('does not return after hook steps', async () => {
-        const envelopes: messages.IEnvelope[] = []
+        const envelopes: messages.Envelope[] = []
         await execute(
           `Feature: hello
     @afterHook
@@ -339,7 +339,7 @@ describe('Query', () => {
 
     describe('#getAfterHookSteps(pickleId: string)', () => {
       it('returns an empty list when there is no hooks', async () => {
-        const envelopes: messages.IEnvelope[] = []
+        const envelopes: messages.Envelope[] = []
         await execute(
           `Feature: hello
     Scenario: hi
@@ -354,7 +354,7 @@ describe('Query', () => {
       })
 
       it('returns one after hook step', async () => {
-        const envelopes: messages.IEnvelope[] = []
+        const envelopes: messages.Envelope[] = []
         await execute(
           `Feature: hello
     @afterHook
@@ -370,7 +370,7 @@ describe('Query', () => {
       })
 
       it('does not return before hook steps', async () => {
-        const envelopes: messages.IEnvelope[] = []
+        const envelopes: messages.Envelope[] = []
         await execute(
           `Feature: hello
     @beforeHook
@@ -388,7 +388,7 @@ describe('Query', () => {
 
     describe('#getTestStepResult', () => {
       it('returns one test step result', async () => {
-        const emittedMessages: Array<messages.IEnvelope> = []
+        const emittedMessages: Array<messages.Envelope> = []
         await execute(
           `Feature: hello
     Scenario: hi
@@ -408,7 +408,7 @@ describe('Query', () => {
       })
 
       it('returns a result for hook step', async () => {
-        const emittedMessages: Array<messages.IEnvelope> = []
+        const emittedMessages: Array<messages.Envelope> = []
         await execute(
           `Feature: hello
     @beforeHook
@@ -473,7 +473,7 @@ describe('Query', () => {
 
   async function execute(
     gherkinSource: string,
-    messagesHandler: (envelope: messages.IEnvelope) => void = () => null
+    messagesHandler: (envelope: messages.Envelope) => void = () => null
   ): Promise<void> {
     const newId = IdGenerator.incrementing()
     const clock = new IncrementClock()
@@ -502,7 +502,7 @@ describe('Query', () => {
     const queryUpdateStream = new Writable({
       objectMode: true,
       write(
-        envelope: messages.IEnvelope,
+        envelope: messages.Envelope,
         encoding: string,
         callback: (error?: Error | null) => void
       ): void {
@@ -519,7 +519,7 @@ describe('Query', () => {
     await pipelinePromise(gherkinMessages(gherkinSource, 'test.feature', newId), queryUpdateStream)
 
     const testPlan = makeTestPlan(gherkinQuery, supportCode, makeTestCase)
-    await testPlan.execute((envelope: messages.IEnvelope) => {
+    await testPlan.execute((envelope: messages.Envelope) => {
       messagesHandler(envelope)
       cucumberQuery.update(envelope)
     })
@@ -537,15 +537,15 @@ describe('Query', () => {
   }
 
   function findScenario(
-    envelopes: messages.IEnvelope[]
-  ): messages.GherkinDocument.Feature.IScenario {
+    envelopes: messages.Envelope[]
+  ): messages.Scenario {
     const gherkinDocument = envelopes.find((envelope) => envelope.gherkinDocument).gherkinDocument
     return gherkinDocument.feature.children.find((child) => child.scenario).scenario
   }
 
   function findBackground(
-    envelopes: messages.IEnvelope[]
-  ): messages.GherkinDocument.Feature.IBackground {
+    envelopes: messages.Envelope[]
+  ): messages.Background {
     const gherkinDocument = envelopes.find((envelope) => envelope.gherkinDocument).gherkinDocument
     return gherkinDocument.feature.children.find((child) => child.background).background
   }

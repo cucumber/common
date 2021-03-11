@@ -14,7 +14,7 @@ import CucumberQueryContext from '../../CucumberQueryContext'
 import StatusIcon from '../gherkin/StatusIcon'
 
 interface IProps {
-  gherkinDocuments?: ReadonlyArray<messages.IGherkinDocument>
+  gherkinDocuments?: ReadonlyArray<messages.GherkinDocument>
 }
 
 const GherkinDocumentList: React.FunctionComponent<IProps> = ({ gherkinDocuments }) => {
@@ -30,7 +30,7 @@ const GherkinDocumentList: React.FunctionComponent<IProps> = ({ gherkinDocuments
         ? cucumberQuery.getWorstTestStepResult(
             cucumberQuery.getPickleTestStepResults(gherkinQuery.getPickleIds(gherkinDocument.uri))
           ).status
-        : messages.TestStepFinished.TestStepResult.Status.UNDEFINED
+        : messages.NED
       return [gherkinDocument.uri, gherkinDocumentStatus]
     }
   )

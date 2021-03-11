@@ -6,7 +6,7 @@ import IdGenerator from '../../IdGenerator'
 import BackgroundTitle from './BackgroundTitle'
 
 interface IProps {
-  background: messages.GherkinDocument.Feature.IBackground
+  background: messages.Background
 }
 
 const generator = new IdGenerator()

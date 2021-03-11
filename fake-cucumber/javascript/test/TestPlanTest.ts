@@ -31,7 +31,7 @@ describe('TestPlan', () => {
     Given a passed step
 `
     const testPlan = await makeTestPlan(gherkinSource, supportCode)
-    const envelopes: messages.IEnvelope[] = []
+    const envelopes: messages.Envelope[] = []
     const listener: EnvelopeListener = (envelope) => {
       if (!envelope) throw new Error('Envelope was null or undefined')
       envelopes.push(envelope)
@@ -69,7 +69,7 @@ describe('TestPlan', () => {
     Given flight LHR-CDG
 `
     const testPlan = await makeTestPlan(gherkinSource, supportCode)
-    const envelopes: messages.IEnvelope[] = []
+    const envelopes: messages.Envelope[] = []
     const listener: EnvelopeListener = (envelope) => envelopes.push(envelope)
     await testPlan.execute(listener)
     const testStepFinisheds = envelopes
@@ -95,7 +95,7 @@ describe('TestPlan', () => {
     Given a passed step
 `
     const testPlan = await makeTestPlan(gherkinSource, supportCode)
-    const envelopes: messages.IEnvelope[] = []
+    const envelopes: messages.Envelope[] = []
     const listener: EnvelopeListener = (envelope) => envelopes.push(envelope)
     await testPlan.execute(listener)
 

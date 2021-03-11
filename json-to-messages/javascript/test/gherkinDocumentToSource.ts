@@ -1,7 +1,7 @@
 import * as messages from '@cucumber/messages'
 
 export default function gherkinDocumentToSource(
-  gherkinDocument: messages.IGherkinDocument
+  gherkinDocument: messages.GherkinDocument
 ): messages.ISource {
   return messages.Source.create({
     uri: gherkinDocument.uri,

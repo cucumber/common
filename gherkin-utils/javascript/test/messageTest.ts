@@ -28,7 +28,7 @@ describe('Walking with messages', () => {
         new Writable({
           objectMode: true,
           write(
-            envelope: messages.IEnvelope,
+            envelope: messages.Envelope,
             _encoding: string,
             callback: (error?: Error | null) => void
           ) {

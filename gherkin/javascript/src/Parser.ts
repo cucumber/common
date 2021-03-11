@@ -28,7 +28,7 @@ export class Token implements IToken<TokenType> {
 
   constructor(
     public readonly line: GherkinLine,
-    public readonly location: messages.ILocation
+    public readonly location:  messages.Location
   ) {
     this.isEof = !line
   }
@@ -111,10 +111,10 @@ export default class Parser<AstNode> {
     private readonly tokenMatcher: ITokenMatcher<TokenType>
   ) {}
 
-  public parse(gherkinSource: string): messages.IGherkinDocument {
+  public parse(gherkinSource: string): messages.GherkinDocument {
     const tokenScanner = new TokenScanner(
       gherkinSource,
-      (line: string, location: messages.ILocation) => {
+      (line: string, location:  messages.Location) => {
         const gherkinLine =
           line === null || line === undefined
             ? null

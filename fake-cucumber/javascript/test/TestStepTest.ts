@@ -18,7 +18,7 @@ describe('TestStep', () => {
   beforeEach(() => (world = new TestWorld()))
 
   async function execute(testStep: ITestStep): Promise<messages.ITestStepFinished> {
-    const receivedMessages: messages.IEnvelope[] = []
+    const receivedMessages: messages.Envelope[] = []
     await testStep.execute(world, 'some-testCaseStartedId', (message) =>
       receivedMessages.push(message)
     )
@@ -43,7 +43,7 @@ describe('TestStep', () => {
 
       assert.strictEqual(
         testStepFinished.testStepResult.status,
-        messages.TestStepFinished.TestStepResult.Status.UNDEFINED
+        messages.NED
       )
       assert.notEqual(testStepFinished.testStepResult.duration, null)
 
@@ -74,7 +74,7 @@ describe('TestStep', () => {
       const testStepFinished = await execute(testStep)
       assert.strictEqual(
         testStepFinished.testStepResult.status,
-        messages.TestStepFinished.TestStepResult.Status.AMBIGUOUS
+        messages.GUOUS
       )
       assert.notEqual(testStepFinished.testStepResult.duration, null)
 
@@ -95,11 +95,11 @@ describe('TestStep', () => {
       )
 
       const result = await testStep.execute(world, 'some-testCaseStartedId', () => null)
-      assert.strictEqual(result.status, messages.TestStepFinished.TestStepResult.Status.UNDEFINED)
+      assert.strictEqual(result.status, messages.NED)
     })
 
     it('computes the execution duration', async () => {
-      const emitted: messages.IEnvelope[] = []
+      const emitted: messages.Envelope[] = []
       const testStep = makePickleTestStep(
         'some-test-step-id',
         messages.Pickle.PickleStep.create({
@@ -177,7 +177,7 @@ describe('TestStep', () => {
 
         assert.strictEqual(
           testStepFinished.testStepResult.status,
-          messages.TestStepFinished.TestStepResult.Status.PENDING
+          messages.NG
         )
         assert.strictEqual(testStepFinished.testStepId, testStep.id)
       })
@@ -207,7 +207,7 @@ describe('TestStep', () => {
         const testStepFinished = await execute(testStep)
         assert.strictEqual(
           testStepFinished.testStepResult.status,
-          messages.TestStepFinished.TestStepResult.Status.FAILED
+          messages.LED
         )
         assert.strictEqual(testStepFinished.testStepId, testStep.id)
       })
@@ -276,7 +276,7 @@ describe('TestStep', () => {
 
   describe('#skip', () => {
     let testStep: ITestStep
-    let receivedMessages: messages.IEnvelope[]
+    let receivedMessages: messages.Envelope[]
 
     beforeEach(() => {
       testStep = makePickleTestStep(
@@ -315,7 +315,7 @@ describe('TestStep', () => {
       const testStepFinished = receivedMessages.find((m) => m.testStepFinished).testStepFinished
       assert.strictEqual(
         testStepFinished.testStepResult.status,
-        messages.TestStepFinished.TestStepResult.Status.SKIPPED
+        messages.PPED
       )
     })
   })

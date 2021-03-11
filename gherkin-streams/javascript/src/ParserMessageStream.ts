@@ -10,7 +10,7 @@ export default class ParserMessageStream extends Transform {
     super({ writableObjectMode: true, readableObjectMode: true })
   }
 
-  public _transform(envelope: messages.IEnvelope, encoding: string, callback: TransformCallback) {
+  public _transform(envelope: messages.Envelope, encoding: string, callback: TransformCallback) {
     if (envelope.source) {
       const messageList = generateMessages(envelope.source.data, envelope.source.uri, this.options)
       for (const message of messageList) {

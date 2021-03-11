@@ -9,7 +9,7 @@ import Background from './Background'
 import FeatureTitle from './FeatureTitle'
 
 interface IProps {
-  feature: messages.GherkinDocument.IFeature
+  feature: messages.Feature
 }
 
 const generator = new IdGenerator()

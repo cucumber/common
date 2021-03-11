@@ -137,7 +137,7 @@ describe('TextSearch', () => {
   })
 })
 
-function parse(source: string): messages.IGherkinDocument {
+function parse(source: string): messages.GherkinDocument {
   const newId = IdGenerator.uuid()
   const parser = new Parser(new AstBuilder(newId), new TokenMatcher())
   const gherkinDocument = parser.parse(source)

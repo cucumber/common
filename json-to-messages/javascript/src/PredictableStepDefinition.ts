@@ -12,14 +12,14 @@ export default class PredictableStepDefinition implements IStepDefinition {
     public readonly errorMessage?: string
   ) {}
 
-  match(pickleStep: messages.Pickle.IPickleStep): ISupportCodeExecutor | null {
+  match(pickleStep: messages.PickleStep): ISupportCodeExecutor | null {
     if (pickleStep.astNodeIds.includes(this.stepId)) {
       return new NilCodeExecutor(this.id)
     }
     return null
   }
 
-  toMessage(): messages.IEnvelope {
+  toMessage(): messages.Envelope {
     const locationChunks = this.location.split(':')
 
     return messages.Envelope.create({

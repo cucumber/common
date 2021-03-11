@@ -5,7 +5,7 @@ import { makeStep } from './utils'
 
 describe('StepSearch', () => {
   let stepSearch: StepSearch
-  let steps: messages.GherkinDocument.Feature.IStep[]
+  let steps: messages.Step[]
 
   beforeEach(() => {
     stepSearch = new StepSearch()

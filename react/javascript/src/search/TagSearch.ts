@@ -5,16 +5,16 @@ import parse from '@cucumber/tag-expressions'
 import { GherkinDocumentWalker, rejectAllFilters } from '@cucumber/gherkin-utils'
 
 export default class TagSearch {
-  private readonly pickleById = new Map<string, messages.IPickle>()
-  private readonly picklesByScenarioId = new ArrayMultimap<string, messages.IPickle>()
-  private gherkinDocuments: messages.IGherkinDocument[] = []
+  private readonly pickleById = new Map<string, messages.Pickle>()
+  private readonly picklesByScenarioId = new ArrayMultimap<string, messages.Pickle>()
+  private gherkinDocuments: messages.GherkinDocument[] = []
 
   constructor(private readonly gherkinQuery: GherkinQuery) {}
 
-  public search(query: string): messages.IGherkinDocument[] {
+  public search(query: string): messages.GherkinDocument[] {
     const expressionNode = parse(query)
     const tagFilters = {
-      acceptScenario: (scenario: messages.GherkinDocument.Feature.IScenario) => {
+      acceptScenario: (scenario: messages.Scenario) => {
         const pickles = this.picklesByScenarioId.get(scenario.id)
 
         for (const pickle of pickles) {
@@ -35,7 +35,7 @@ export default class TagSearch {
       .filter((gherkinDocument) => gherkinDocument !== null)
   }
 
-  public add(gherkinDocument: messages.IGherkinDocument) {
+  public add(gherkinDocument: messages.GherkinDocument) {
     this.gherkinDocuments.push(gherkinDocument)
     const pickles = this.gherkinQuery.getPickles()
     pickles.forEach((pickle) => this.pickleById.set(pickle.id, pickle))

@@ -19,7 +19,7 @@ describe('PredictableSupportCode', () => {
     })
 
     it('adds a beforeHook', () => {
-      assert.equal(supportCode.beforeHooks.length, 1)
+      assert.strictEqual(supportCode.beforeHooks.length, 1)
     })
 
     it('adds a beforeHook that matches the pickle from the scenario', () => {
@@ -43,7 +43,7 @@ describe('PredictableSupportCode', () => {
 
     it('adds a hook with a passed status when status is "passed"', () => {
       const hook = supportCode.beforeHooks[0] as PredictableHook
-      assert.equal(hook.status, messages.TestStepFinished.TestStepResult.Status.PASSED)
+      assert.strictEqual(hook.status, messages.TestStepFinished.TestStepResult.Status.PASSED)
     })
 
     it('adds a hook with a failed status when status is "failed"', () => {
@@ -58,9 +58,9 @@ describe('PredictableSupportCode', () => {
       )
       const hook = supportCode.beforeHooks[0] as PredictableHook
 
-      assert.equal(hook.status, messages.TestStepFinished.TestStepResult.Status.FAILED)
-      assert.equal(hook.errorMessage, 'BOOM !!')
-      assert.equal(hook.duration, 0.01)
+      assert.strictEqual(hook.status, messages.LED)
+      assert.strictEqual(hook.errorMessage, 'BOOM !!')
+      assert.strictEqual(hook.duration, 0.01)
     })
   })
 
@@ -77,7 +77,7 @@ describe('PredictableSupportCode', () => {
     })
 
     it('adds a beforeHook', () => {
-      assert.equal(supportCode.afterHooks.length, 1)
+      assert.strictEqual(supportCode.afterHooks.length, 1)
     })
 
     it('adds a beforeHook that matches the pickle from the scenario', () => {
@@ -102,7 +102,7 @@ describe('PredictableSupportCode', () => {
     it('adds a hook with a passed status when status is "passed"', () => {
       const hook = supportCode.afterHooks[0] as PredictableHook
 
-      assert.equal(hook.status, messages.TestStepFinished.TestStepResult.Status.PASSED)
+      assert.strictEqual(hook.status, messages.TestStepFinished.TestStepResult.Status.PASSED)
     })
 
     it('adds a hook with a failed status when status is "failed"', () => {
@@ -117,9 +117,9 @@ describe('PredictableSupportCode', () => {
       )
       const hook = supportCode.afterHooks[0] as PredictableHook
 
-      assert.equal(hook.status, messages.TestStepFinished.TestStepResult.Status.FAILED)
-      assert.equal(hook.errorMessage, 'BOOM !!')
-      assert.equal(hook.duration, 0.12)
+      assert.strictEqual(hook.status, messages.LED)
+      assert.strictEqual(hook.errorMessage, 'BOOM !!')
+      assert.strictEqual(hook.duration, 0.12)
     })
   })
 
@@ -140,7 +140,7 @@ describe('PredictableSupportCode', () => {
     })
 
     it('registers the step definition', () => {
-      assert.equal(supportCode.stepDefinitions.length, 1)
+      assert.strictEqual(supportCode.stepDefinitions.length, 1)
     })
 
     it('creates a stepDefinition that matches the step id', () => {
@@ -174,7 +174,7 @@ describe('PredictableSupportCode', () => {
         )
 
         const stepDefinition = supportCode.stepDefinitions[0] as PredictableStepDefinition
-        assert.equal(stepDefinition.status, messages.TestStepFinished.TestStepResult.Status.PASSED)
+        assert.strictEqual(stepDefinition.status, messages.TestStepFinished.TestStepResult.Status.PASSED)
       })
 
       it('creates a StepDefinition with status pending for "pending"', () => {
@@ -188,7 +188,7 @@ describe('PredictableSupportCode', () => {
         )
 
         const stepDefinition = supportCode.stepDefinitions[0] as PredictableStepDefinition
-        assert.equal(stepDefinition.status, messages.TestStepFinished.TestStepResult.Status.PENDING)
+        assert.strictEqual(stepDefinition.status, messages.NG)
       })
 
       it('creates a StepDefinition with status failed for "failed"', () => {
@@ -204,8 +204,8 @@ describe('PredictableSupportCode', () => {
         )
 
         const stepDefinition = supportCode.stepDefinitions[0] as PredictableStepDefinition
-        assert.equal(stepDefinition.status, messages.TestStepFinished.TestStepResult.Status.FAILED)
-        assert.equal(stepDefinition.duration, 1.23)
+        assert.strictEqual(stepDefinition.status, messages.LED)
+        assert.strictEqual(stepDefinition.duration, 1.23)
       })
     })
   })

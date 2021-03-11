@@ -7,7 +7,7 @@ import IStopwatch from './IStopwatch'
 import { IHook, ITestStep } from './types'
 
 export default function makeHookTestStep(
-  pickle: messages.IPickle,
+  pickle: messages.Pickle,
   hook: IHook,
   alwaysExecute: boolean,
   gherkinQuery: Query,

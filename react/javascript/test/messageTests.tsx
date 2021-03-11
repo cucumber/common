@@ -43,7 +43,7 @@ describe('App with messages', () => {
         new Writable({
           objectMode: true,
           write(
-            envelope: messages.IEnvelope,
+            envelope: messages.Envelope,
             encoding: string,
             callback: (error?: Error | null) => void
           ) {

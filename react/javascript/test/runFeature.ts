@@ -11,7 +11,7 @@ export class FailingCodeSupport implements ISupportCodeExecutor {
   public execute() {
     throw new Error('Woops ...')
   }
-  public argsToMessages(): messages.TestCase.TestStep.StepMatchArgumentsList.IStepMatchArgument[] {
+  public argsToMessages(): messages.StepMatchArgument[] {
     return []
   }
 }
@@ -23,7 +23,7 @@ export class FailingHook implements IHook {
     return new FailingCodeSupport('')
   }
 
-  toMessage(): messages.IEnvelope {
+  toMessage(): messages.Envelope {
     return messages.Envelope.create({
       hook: messages.Hook.create({
         id: this.id,
@@ -36,12 +36,12 @@ export default async function runFeature(
   feature: string,
   gherkinQuery: GherkinQuery,
   supportCode: SupportCode = new SupportCode()
-): Promise<messages.IEnvelope[]> {
-  const emitted: messages.IEnvelope[] = []
+): Promise<messages.Envelope[]> {
+  const emitted: messages.Envelope[] = []
   const out = new Writable({
     objectMode: true,
     write(
-      envelope: messages.IEnvelope,
+      envelope: messages.Envelope,
       encoding: string,
       callback: (error?: Error | null) => void
     ): void {

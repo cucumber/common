@@ -7,7 +7,7 @@ import Background from './Background'
 import RuleTitle from './RuleTitle'
 
 interface IProps {
-  rule: messages.GherkinDocument.Feature.FeatureChild.IRule
+  rule: messages.Rule
 }
 
 const generator = new IdGenerator()

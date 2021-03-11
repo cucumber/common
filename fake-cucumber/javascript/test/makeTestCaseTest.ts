@@ -58,10 +58,10 @@ describe('makeTestCase', () => {
         makeHookTestStep
       )
 
-      const messageList: messages.IEnvelope[] = []
-      const listener: EnvelopeListener = (message: messages.IEnvelope) => messageList.push(message)
+      const messageList: messages.Envelope[] = []
+      const listener: EnvelopeListener = (message: messages.Envelope) => messageList.push(message)
       await testCase.execute(listener, 0, 'some-test-case-started-id')
-      assert.equal(messageList.length, 4)
+      assert.strictEqual(messageList.length, 4)
     })
   })
 

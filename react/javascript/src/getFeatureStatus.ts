@@ -1,5 +1,5 @@
 import * as messages from '@cucumber/messages'
-import IGherkinDocument = messages.IGherkinDocument
+import IGherkinDocument = messages.GherkinDocument
 
 import { Query as CucumberQuery } from '@cucumber/query'
 import { Query as GherkinQuery } from '@cucumber/gherkin-utils'

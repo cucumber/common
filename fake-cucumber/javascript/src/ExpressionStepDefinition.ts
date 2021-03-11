@@ -11,7 +11,7 @@ export default class ExpressionStepDefinition implements IStepDefinition {
     private readonly body: AnyBody
   ) {}
 
-  public match(pickleStep: messages.Pickle.IPickleStep): ISupportCodeExecutor | null {
+  public match(pickleStep: messages.PickleStep): ISupportCodeExecutor | null {
     const expressionArgs = this.expression.match(pickleStep.text)
     return expressionArgs === null
       ? null
@@ -24,7 +24,7 @@ export default class ExpressionStepDefinition implements IStepDefinition {
         )
   }
 
-  public toMessage(): messages.IEnvelope {
+  public toMessage(): messages.Envelope {
     return new messages.Envelope({
       stepDefinition: new messages.StepDefinition({
         id: this.id,

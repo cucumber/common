@@ -6,7 +6,7 @@ import { faLink } from '@fortawesome/free-solid-svg-icons'
 
 interface IProps {
   id: string
-  background: messages.GherkinDocument.Feature.IBackground
+  background: messages.Background
 }
 
 const BackgroundTitle: React.FunctionComponent<IProps> = ({ id, background }) => {

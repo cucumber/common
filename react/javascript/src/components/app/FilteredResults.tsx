@@ -16,12 +16,12 @@ import EnvelopesQueryContext from '../../EnvelopesQueryContext'
 import GherkinDocumentList from './GherkinDocumentList'
 
 const defaultDisplayedResults = [
-  messages.TestStepFinished.TestStepResult.Status.AMBIGUOUS,
-  messages.TestStepFinished.TestStepResult.Status.FAILED,
+  messages.GUOUS,
+  messages.LED,
   messages.TestStepFinished.TestStepResult.Status.PASSED,
-  messages.TestStepFinished.TestStepResult.Status.PENDING,
-  messages.TestStepFinished.TestStepResult.Status.SKIPPED,
-  messages.TestStepFinished.TestStepResult.Status.UNDEFINED,
+  messages.NG,
+  messages.PPED,
+  messages.NED,
 ]
 
 const FilteredResults: React.FunctionComponent = () => {

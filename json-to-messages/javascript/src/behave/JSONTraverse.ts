@@ -47,7 +47,7 @@ export function traverseFeature(
   astMaker: IAstMaker,
   newId: IdGenerator.NewId,
   predictableSupportCode: IPredictableSupportCode
-): messages.IGherkinDocument {
+): messages.GherkinDocument {
   return traverseGenericFeature(
     makeGenericFeature(feature),
     astMaker,
@@ -62,7 +62,7 @@ export function traverseElement(
   astMaker: IAstMaker,
   newId: IdGenerator.NewId,
   predictableSupportCode: IPredictableSupportCode
-): messages.GherkinDocument.Feature.IFeatureChild {
+): messages.FeatureChild {
   if (element.type === 'background') {
     return
   }
@@ -86,7 +86,7 @@ export function traverseStep(
   astMaker: IAstMaker,
   newId: IdGenerator.NewId,
   predictableSupportCode: IPredictableSupportCode
-): messages.GherkinDocument.Feature.IStep {
+): messages.Step {
   const line = makeLine(step.location)
   const docstring = step.text ? traverseDocstring(step.text, astMaker) : null
   const datatable = step.table ? traverseTable(step.table, astMaker) : null
@@ -116,14 +116,14 @@ export function traverseStep(
 export function traverseDocstring(
   text: string,
   astMaker: IAstMaker
-): messages.GherkinDocument.Feature.Step.IDocString {
+): messages.DocString {
   return astMaker.makeDocstring(null, text)
 }
 
 export function traverseTable(
   table: ITable,
   astMaker: IAstMaker
-): messages.GherkinDocument.Feature.Step.IDataTable {
+): messages.DataTable {
   const cells: string[][] = [table.headings.map((head) => head)]
   for (const row of table.rows) {
     cells.push(row.map((cell) => cell))

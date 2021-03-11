@@ -19,7 +19,7 @@ export default class TokenMatcher implements ITokenMatcher<TokenType> {
     this.reset()
   }
 
-  changeDialect(newDialectName: string, location?: messages.ILocation) {
+  changeDialect(newDialectName: string, location?: messages.Location) {
     const newDialect = DIALECT_DICT[newDialectName]
     if (!newDialect) {
       throw NoSuchLanguageException.create(newDialectName, location)

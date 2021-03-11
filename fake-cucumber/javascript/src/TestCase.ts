@@ -18,7 +18,7 @@ export default class TestCase implements ITestCase {
     })
   }
 
-  public toMessage(): messages.IEnvelope {
+  public toMessage(): messages.Envelope {
     return new messages.Envelope({
       testCase: new messages.TestCase({
         id: this.id,
@@ -55,7 +55,7 @@ export default class TestCase implements ITestCase {
 
     let executeNext = true
     for (const testStep of this.testSteps) {
-      let testStepResult: messages.TestStepFinished.ITestStepResult
+      let testStepResult: messages.TestStepResult
       // TODO: Also ask testStep if it should always execute (true for After steps)
       if (executeNext || testStep.alwaysExecute) {
         testStepResult = await testStep.execute(world, testCaseStartedId, listener)

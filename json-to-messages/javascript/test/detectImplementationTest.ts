@@ -8,7 +8,7 @@ describe('detectImplementation', () => {
   it('defaults to "ruby"', () => {
     const feature = {} as IFeature
 
-    assert.equal(detectImplementation(feature), 'cucumber-ruby')
+    assert.strictEqual(detectImplementation(feature), 'cucumber-ruby')
   })
 
   context('when the feature has a status field', () => {
@@ -17,7 +17,7 @@ describe('detectImplementation', () => {
         status: 'passed',
       } as IBehaveFeature
 
-      assert.equal(detectImplementation(feature), 'behave')
+      assert.strictEqual(detectImplementation(feature), 'behave')
     })
   })
 
@@ -27,7 +27,7 @@ describe('detectImplementation', () => {
         location: 'my/wonderful.feature:3',
       } as IBehaveFeature
 
-      assert.equal(detectImplementation(feature), 'behave')
+      assert.strictEqual(detectImplementation(feature), 'behave')
     })
   })
 
@@ -50,7 +50,7 @@ describe('detectImplementation', () => {
         elements,
       } as IFeature
 
-      assert.equal(detectImplementation(feature), 'cucumber-js')
+      assert.strictEqual(detectImplementation(feature), 'cucumber-js')
     })
   })
 
@@ -74,7 +74,7 @@ describe('detectImplementation', () => {
         elements,
       } as IFeature
 
-      assert.equal(detectImplementation(feature), 'cucumber-js')
+      assert.strictEqual(detectImplementation(feature), 'cucumber-js')
     })
   })
 })

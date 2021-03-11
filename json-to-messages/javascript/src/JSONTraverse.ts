@@ -16,7 +16,7 @@ export default function traverseFeature(
   astMaker: IAstMaker,
   newId: IdGenerator.NewId,
   predictableSupportCode: IPredictableSupportCode
-): messages.IGherkinDocument {
+): messages.GherkinDocument {
   if (implementation === 'cucumber-js') {
     return traverseJS(feature as IFeature, astMaker, newId, predictableSupportCode)
   }
@@ -33,7 +33,7 @@ function traverseJS(
   astMaker: IAstMaker,
   newId: IdGenerator.NewId,
   predictableSupportCode: IPredictableSupportCode
-): messages.IGherkinDocument {
+): messages.GherkinDocument {
   return traverseJSFeature(feature, astMaker, newId, predictableSupportCode)
 }
 
@@ -42,7 +42,7 @@ function traverseRuby(
   astMaker: IAstMaker,
   newId: IdGenerator.NewId,
   predictableSupportCode: IPredictableSupportCode
-): messages.IGherkinDocument {
+): messages.GherkinDocument {
   return traverseRubyFeature(feature, astMaker, newId, predictableSupportCode)
 }
 
@@ -51,6 +51,6 @@ function traverseBehave(
   astMaker: IAstMaker,
   newId: IdGenerator.NewId,
   predictableSupportCode: IPredictableSupportCode
-): messages.IGherkinDocument {
+): messages.GherkinDocument {
   return traverseBehaveFeature(feature, astMaker, newId, predictableSupportCode)
 }

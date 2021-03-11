@@ -7,7 +7,7 @@ import { faLink } from '@fortawesome/free-solid-svg-icons'
 
 interface IProps {
   id: string
-  scenario: messages.GherkinDocument.Feature.IScenario
+  scenario: messages.Scenario
 }
 
 const ScenarioTitle: React.FunctionComponent<IProps> = ({ id, scenario }) => {

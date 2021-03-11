@@ -5,7 +5,7 @@ import { makeRule } from './utils'
 
 describe('RuleSearch', () => {
   let ruleSearch: RuleSearch
-  let rules: messages.GherkinDocument.Feature.FeatureChild.IRule[]
+  let rules: messages.Rule[]
 
   beforeEach(() => {
     ruleSearch = new RuleSearch()

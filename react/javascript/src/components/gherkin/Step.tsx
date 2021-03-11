@@ -11,7 +11,7 @@ import Attachment from './Attachment'
 import HighLight from '../app/HighLight'
 
 interface IProps {
-  step: messages.GherkinDocument.Feature.IStep
+  step: messages.Step
   renderStepMatchArguments: boolean
   renderMessage: boolean
 }

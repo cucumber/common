@@ -7,7 +7,7 @@ import Duration from './Duration'
 
 interface IProductProps {
   name: string
-  product: messages.Meta.IProduct
+  product: messages.Product
 }
 
 const Product: React.FunctionComponent<IProductProps> = ({ name: name, product: product }) => {

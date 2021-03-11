@@ -12,7 +12,7 @@ import GherkinQueryContext from '../../GherkinQueryContext'
 import UriContext from '../../UriContext'
 
 interface IProps {
-  scenario: messages.GherkinDocument.Feature.IScenario
+  scenario: messages.Scenario
 }
 
 const generator = new IdGenerator()

@@ -3,7 +3,7 @@ import * as messages from '@cucumber/messages'
 import ciCommitLink from '../../ciCommitLink'
 
 interface IProps {
-  ci: messages.Meta.ICI
+  ci: messages.CI
 }
 
 const CICommitLink: React.FunctionComponent<IProps> = ({ ci: ci }) => {

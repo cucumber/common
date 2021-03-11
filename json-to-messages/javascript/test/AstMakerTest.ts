@@ -8,7 +8,7 @@ describe('AstMaker', () => {
     it('transforms the line to a Location object', () => {
       const feature = astMaker.makeFeature(12, '', '', '', [])
 
-      assert.equal(feature.location.line, 12)
+      assert.strictEqual(feature.location.line, 12)
     })
   })
 
@@ -20,11 +20,11 @@ describe('AstMaker', () => {
     })
 
     it('return a child without scenario', () => {
-      assert.equal(child.scenario, null)
+      assert.strictEqual(child.scenario, null)
     })
 
     it('return a child without rule', () => {
-      assert.equal(child.rule, null)
+      assert.strictEqual(child.rule, null)
     })
   })
 
@@ -32,7 +32,7 @@ describe('AstMaker', () => {
     const child = astMaker.makeScenarioFeatureChild('id', 1, '', '', '', [])
 
     it('returns a child without background', () => {
-      assert.equal(child.background, null)
+      assert.strictEqual(child.background, null)
     })
 
     it('return a child with a scenario', () => {
@@ -40,12 +40,12 @@ describe('AstMaker', () => {
     })
 
     it('return a child without rule', () => {
-      assert.equal(child.rule, null)
+      assert.strictEqual(child.rule, null)
     })
 
     it('creates an ID for the scenario', () => {
       const child = astMaker.makeScenarioFeatureChild('id', 1, '', '', '', [])
-      assert.equal(child.scenario.id, 'id')
+      assert.strictEqual(child.scenario.id, 'id')
     })
   })
 
@@ -53,7 +53,7 @@ describe('AstMaker', () => {
     it('generate an ID for the step', () => {
       const step = astMaker.makeStep('id', 10, 'Given ', 'some context')
 
-      assert.equal(step.id, 'id')
+      assert.strictEqual(step.id, 'id')
     })
   })
 })

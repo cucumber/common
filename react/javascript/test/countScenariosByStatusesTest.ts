@@ -46,8 +46,8 @@ Feature: statuses
     const statuses = countScenariosByStatuses(gherkinDocuments, gherkinQuery, cucumberQuery)
 
     assert.strictEqual(statuses.get(messages.TestStepFinished.TestStepResult.Status.PASSED), 2)
-    assert.strictEqual(statuses.get(messages.TestStepFinished.TestStepResult.Status.FAILED), 1)
-    assert.strictEqual(statuses.get(messages.TestStepFinished.TestStepResult.Status.UNDEFINED), 1)
+    assert.strictEqual(statuses.get(messages.LED), 1)
+    assert.strictEqual(statuses.get(messages.NED), 1)
   })
 
   it('counts different statuses with example tables', async () => {
@@ -73,7 +73,7 @@ Feature: statuses
     const statuses = countScenariosByStatuses(gherkinDocuments, gherkinQuery, cucumberQuery)
 
     assert.strictEqual(statuses.get(messages.TestStepFinished.TestStepResult.Status.PASSED), 1)
-    assert.strictEqual(statuses.get(messages.TestStepFinished.TestStepResult.Status.FAILED), 1)
-    assert.strictEqual(statuses.get(messages.TestStepFinished.TestStepResult.Status.UNDEFINED), 1)
+    assert.strictEqual(statuses.get(messages.LED), 1)
+    assert.strictEqual(statuses.get(messages.NED), 1)
   })
 })

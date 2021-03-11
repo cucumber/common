@@ -1,6 +1,6 @@
 import * as messages from '@cucumber/messages'
 
-export default function pretty(gherkinDocument: messages.IGherkinDocument): string {
+export default function pretty(gherkinDocument: messages.GherkinDocument): string {
   const feature = gherkinDocument.feature
   let s = prettyTags(feature.tags)
 
@@ -31,10 +31,7 @@ export default function pretty(gherkinDocument: messages.IGherkinDocument): stri
   return s
 }
 
-function prettyStepContainer(
-  stepContainer: messages.GherkinDocument.Feature.IScenario,
-  indent: string
-): string {
+function prettyStepContainer(stepContainer: messages.Scenario, indent: string): string {
   let s = `\n${prettyTags(stepContainer.tags, indent)}${indent}${stepContainer.keyword}: ${
     stepContainer.name
   }\n`
@@ -54,28 +51,22 @@ function prettyStepContainer(
   return s
 }
 
-function prettyExample(
-  example: messages.GherkinDocument.Feature.Scenario.IExamples,
-  indent: string
-): string {
+function prettyExample(example: messages.Examples, indent: string): string {
   let s = `\n${indent}Examples: ${example.name}\n`
 
-  s += prettyTableRow(example.tableHeader, `${indent}  `)
-  for (const row of example.tableBody) {
+  s += prettyTableRow(example.table_header, `${indent}  `)
+  for (const row of example.table_body) {
     s += prettyTableRow(row, `${indent}  `)
   }
 
   return s
 }
 
-function prettyTableRow(row: messages.GherkinDocument.Feature.ITableRow, indent: string): string {
+function prettyTableRow(row: messages.TableRow, indent: string): string {
   return `${indent}| ${row.cells.map((cell) => cell.value).join(' | ')} |\n`
 }
 
-function prettyTags(
-  tags: ReadonlyArray<messages.GherkinDocument.Feature.ITag>,
-  indent = ''
-): string {
+function prettyTags(tags: readonly messages.Tag[], indent = ''): string {
   if (tags === undefined || tags.length == 0) {
     return ''
   }

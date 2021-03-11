@@ -14,9 +14,9 @@ export default class RuleSearch {
     ctx.addField('description')
     ctx.saveDocument(true)
   })
-  private ruleById = new Map<string, messages.GherkinDocument.Feature.FeatureChild.IRule>()
+  private ruleById = new Map<string, messages.Rule>()
 
-  public add(rule: messages.GherkinDocument.Feature.FeatureChild.IRule): void {
+  public add(rule: messages.Rule): void {
     this.index.addDoc({
       id: rule.id,
       name: rule.name,
@@ -25,7 +25,7 @@ export default class RuleSearch {
     this.ruleById.set(rule.id, rule)
   }
 
-  public search(query: string): messages.GherkinDocument.Feature.FeatureChild.IRule[] {
+  public search(query: string): messages.Rule[] {
     const results = this.index.search(query, {
       fields: {
         name: { bool: 'OR', boost: 1 },

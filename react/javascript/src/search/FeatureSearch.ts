@@ -8,7 +8,7 @@ interface SearchableFeature {
 }
 
 export default class FeatureSearch {
-  private readonly featuresByUri = new Map<string, messages.GherkinDocument.IFeature>()
+  private readonly featuresByUri = new Map<string, messages.Feature>()
   private readonly index = elasticlunr<SearchableFeature>((ctx) => {
     ctx.setRef('uri')
     ctx.addField('name')
@@ -16,7 +16,7 @@ export default class FeatureSearch {
     ctx.saveDocument(true)
   })
 
-  public add(gherkinDocument: messages.IGherkinDocument) {
+  public add(gherkinDocument: messages.GherkinDocument) {
     this.featuresByUri.set(gherkinDocument.uri, gherkinDocument.feature)
 
     this.index.addDoc({
@@ -26,7 +26,7 @@ export default class FeatureSearch {
     })
   }
 
-  public search(query: string): messages.GherkinDocument.IFeature[] {
+  public search(query: string): messages.Feature[] {
     const searchResultsList = this.index.search(query, {
       fields: {
         name: { bool: 'OR', boost: 1 },

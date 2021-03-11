@@ -6,7 +6,7 @@ import fs from 'fs'
 
 import getFeatureStatus from '../src/getFeatureStatus'
 
-function envelopesFrom(path: string): messages.IEnvelope[] {
+function envelopesFrom(path: string): messages.Envelope[] {
   return fs
     .readFileSync(__dirname + '/' + path)
     .toString()
@@ -15,7 +15,7 @@ function envelopesFrom(path: string): messages.IEnvelope[] {
     .map((json: string) => messages.Envelope.fromObject(JSON.parse(json)))
 }
 
-function getGherkinDocument(envelopes: messages.IEnvelope[]): messages.IGherkinDocument {
+function getGherkinDocument(envelopes: messages.Envelope[]): messages.GherkinDocument {
   return envelopes.find((envelope) => envelope.gherkinDocument).gherkinDocument
 }
 
@@ -28,7 +28,7 @@ describe('getFeatureStatus', () => {
     gherkinQuery = new GherkinQuery()
   })
 
-  function readEnvelopes(envelopes: messages.IEnvelope[]): void {
+  function readEnvelopes(envelopes: messages.Envelope[]): void {
     envelopes.map((envelope) => {
       gherkinQuery.update(envelope)
       testResultsQuery.update(envelope)
@@ -57,7 +57,7 @@ describe('getFeatureStatus', () => {
 
     assert.strictEqual(
       getFeatureStatus(document, testResultsQuery, gherkinQuery),
-      messages.TestStepFinished.TestStepResult.Status.FAILED
+      messages.LED
     )
   })
 })

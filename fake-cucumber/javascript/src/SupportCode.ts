@@ -23,14 +23,14 @@ function defaultTransformer(...args: string[]) {
  */
 export default class SupportCode {
   public readonly parameterTypes: Array<ParameterType<any>> = []
-  public readonly parameterTypeMessages: Array<messages.IEnvelope> = []
+  public readonly parameterTypeMessages: Array<messages.Envelope> = []
   public readonly stepDefinitions: IStepDefinition[] = []
   public readonly beforeHooks: IHook[] = []
   public readonly afterHooks: IHook[] = []
 
   private readonly parameterTypeRegistry = new ParameterTypeRegistry()
   private readonly expressionFactory = new ExpressionFactory(this.parameterTypeRegistry)
-  public readonly undefinedParameterTypeMessages: messages.IEnvelope[] = []
+  public readonly undefinedParameterTypeMessages: messages.Envelope[] = []
 
   constructor(
     public readonly newId: IdGenerator.NewId = IdGenerator.uuid(),

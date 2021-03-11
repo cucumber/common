@@ -20,7 +20,7 @@ describe('PredictableHook', () => {
         123
       )
 
-      assert.equal(hook.match(pickle), null)
+      assert.strictEqual(hook.match(pickle), null)
     })
 
     it('returns a NilCodeExecutor when there is a match', () => {
@@ -47,8 +47,8 @@ describe('PredictableHook', () => {
       )
       const message = hook.toMessage().hook
 
-      assert.equal(message.sourceReference.uri, 'path/to/steps.go')
-      assert.equal(message.sourceReference.location.line, 13)
+      assert.strictEqual(message.sourceReference.uri, 'path/to/steps.go')
+      assert.strictEqual(message.sourceReference.location.line, 13)
     })
   })
 })

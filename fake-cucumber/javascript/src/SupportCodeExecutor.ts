@@ -8,8 +8,8 @@ export default class SupportCodeExecutor implements ISupportCodeExecutor {
     public readonly stepDefinitionId: string,
     private readonly body: AnyBody,
     private readonly args: ReadonlyArray<Argument<any>>,
-    private readonly docString: messages.PickleStepArgument.IPickleDocString,
-    private readonly dataTable: messages.PickleStepArgument.IPickleTable
+    private readonly docString: messages.PickleDocString,
+    private readonly dataTable: messages.PickleTable
   ) {}
 
   public execute(thisObj: IWorld): any {
@@ -24,7 +24,7 @@ export default class SupportCodeExecutor implements ISupportCodeExecutor {
     return this.body.apply(thisObj, argArray)
   }
 
-  public argsToMessages(): messages.TestCase.TestStep.StepMatchArgumentsList.IStepMatchArgument[] {
+  public argsToMessages(): messages.StepMatchArgument[] {
     return this.args.map((arg) => {
       return new messages.TestCase.TestStep.StepMatchArgumentsList.StepMatchArgument({
         group: toMessageGroup(arg.group),
@@ -36,7 +36,7 @@ export default class SupportCodeExecutor implements ISupportCodeExecutor {
 
 function toMessageGroup(
   group: Group
-): messages.TestCase.TestStep.StepMatchArgumentsList.StepMatchArgument.IGroup {
+): messages.Group {
   return new messages.TestCase.TestStep.StepMatchArgumentsList.StepMatchArgument.Group({
     value: group.value,
     start: group.start,

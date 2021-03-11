@@ -24,7 +24,7 @@ describe('hidePassedScenarios', () => {
     const testResultsQuery = stubObject<Query>(new Query())
     testResultsQuery.getWorstTestStepResult.returns(
       new messages.TestStepFinished.TestStepResult({
-        status: messages.TestStepFinished.TestStepResult.Status.FAILED,
+        status: messages.LED,
       })
     )
     testResultsQuery.getPickleTestStepResults.returns([])

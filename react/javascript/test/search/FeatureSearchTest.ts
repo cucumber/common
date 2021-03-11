@@ -5,7 +5,7 @@ import { makeFeature } from './utils'
 
 describe('FeatureSearch', () => {
   let featureSearch: FeatureSearch
-  let gherkinDocument: messages.IGherkinDocument
+  let gherkinDocument: messages.GherkinDocument
 
   beforeEach(() => {
     featureSearch = new FeatureSearch()

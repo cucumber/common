@@ -12,9 +12,9 @@ export default class TextSearch {
   private readonly stepSearch = new StepSearch()
   private readonly ruleSearch = new RuleSearch()
 
-  private readonly gherkinDocuments: messages.IGherkinDocument[] = []
+  private readonly gherkinDocuments: messages.GherkinDocument[] = []
 
-  public search(query: string): messages.IGherkinDocument[] {
+  public search(query: string): messages.GherkinDocument[] {
     const matchingSteps = this.stepSearch.search(query)
     const matchingBackgrounds = this.backgroundSearch.search(query)
     const matchingScenarios = this.scenarioSearch.search(query)
@@ -34,7 +34,7 @@ export default class TextSearch {
       .filter((gherkinDocument) => gherkinDocument !== null)
   }
 
-  public add(gherkinDocument: messages.IGherkinDocument) {
+  public add(gherkinDocument: messages.GherkinDocument) {
     this.gherkinDocuments.push(gherkinDocument)
     const walker = new GherkinDocumentWalker(
       {},
