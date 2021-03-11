@@ -32,10 +32,7 @@ describe('ciCommitLink(ci)', () => {
         }),
       })
 
-      assert.strictEqual(
-        ciCommitLink(ci),
-        'https://github.com/company/repo/commit/some-sha'
-      )
+      assert.strictEqual(ciCommitLink(ci), 'https://github.com/company/repo/commit/some-sha')
     })
   })
 

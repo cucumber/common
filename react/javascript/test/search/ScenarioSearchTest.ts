@@ -12,11 +12,7 @@ describe('ScenarioSearch', () => {
 
     scenarios = [
       makeScenario('a passed scenario', 'a little description', []),
-      makeScenario(
-        'another passed scenario',
-        'a long description of the scenario',
-        []
-      ),
+      makeScenario('another passed scenario', 'a long description of the scenario', []),
       makeScenario('a failed scenario', 'description', []),
     ]
 

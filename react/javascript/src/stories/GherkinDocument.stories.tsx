@@ -25,9 +25,6 @@ import unknownParameterTypes from '../../acceptance/unknown-parameter-type/unkno
 export default {
   title: 'GherkinDocument',
   component: GherkinDocument,
-  argTypes: {
-    backgroundColor: { control: 'color' },
-  },
 } as Meta
 
 type Props = {

@@ -72,9 +72,7 @@ export default class ParameterType<T> {
 
 type StringOrRegexp = string | RegExp
 
-function stringArray(
-  regexps: readonly StringOrRegexp[] | StringOrRegexp
-): string[] {
+function stringArray(regexps: readonly StringOrRegexp[] | StringOrRegexp): string[] {
   // @ts-ignore
   const array: StringOrRegexp[] = Array.isArray(regexps) ? regexps : [regexps]
   return array.map((r) => (r instanceof RegExp ? regexpSource(r) : r))
@@ -85,9 +83,7 @@ function regexpSource(regexp: RegExp): string {
 
   for (const flag of ['g', 'i', 'm', 'y']) {
     if (flags.indexOf(flag) !== -1) {
-      throw new CucumberExpressionError(
-        `ParameterType Regexps can't use flag '${flag}'`
-      )
+      throw new CucumberExpressionError(`ParameterType Regexps can't use flag '${flag}'`)
     }
   }
   return regexp.source

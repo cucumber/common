@@ -1,23 +1,14 @@
 import React from 'react'
-import {
-  faSearch,
-  faQuestionCircle,
-  faFilter,
-} from '@fortawesome/free-solid-svg-icons'
+import { faSearch, faQuestionCircle, faFilter } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import SearchQueryContext from '../../SearchQueryContext'
 import { messages } from '@cucumber/messages'
 import statusName from '../gherkin/statusName'
 
 interface IProps {
-  statusesUpdated: (
-    statuses: messages.TestStepFinished.TestStepResult.Status[]
-  ) => any
+  statusesUpdated: (statuses: messages.TestStepFinished.TestStepResult.Status[]) => any
   enabledStatuses: messages.TestStepFinished.TestStepResult.Status[]
-  scenarioCountByStatus: Map<
-    messages.TestStepFinished.TestStepResult.Status,
-    number
-  >
+  scenarioCountByStatus: Map<messages.TestStepFinished.TestStepResult.Status, number>
 }
 
 const SearchBar: React.FunctionComponent<IProps> = ({
@@ -45,9 +36,7 @@ const SearchBar: React.FunctionComponent<IProps> = ({
 
   const showFilters =
     scenarioCountByStatus.size > 1 ||
-    scenarioCountByStatus.has(
-      messages.TestStepFinished.TestStepResult.Status.UNKNOWN
-    )
+    scenarioCountByStatus.has(messages.TestStepFinished.TestStepResult.Status.UNKNOWN)
 
   return (
     <div className="cucumber-search-bar">
@@ -93,9 +82,7 @@ const SearchBar: React.FunctionComponent<IProps> = ({
                     defaultChecked={enabled}
                     onChange={() => {
                       if (enabledStatuses.includes(status)) {
-                        statusesUpdated(
-                          enabledStatuses.filter((s) => s !== status)
-                        )
+                        statusesUpdated(enabledStatuses.filter((s) => s !== status))
                       } else {
                         statusesUpdated([status].concat(enabledStatuses))
                       }

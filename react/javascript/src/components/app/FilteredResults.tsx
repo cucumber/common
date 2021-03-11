@@ -30,16 +30,10 @@ const FilteredResults: React.FunctionComponent = () => {
   const { query } = React.useContext(SearchQueryContext)
   const allDocuments = gherkinQuery.getGherkinDocuments()
 
-  const scenarioCountByStatus = countScenariosByStatuses(
-    allDocuments,
-    gherkinQuery,
-    cucumberQuery
-  )
+  const scenarioCountByStatus = countScenariosByStatuses(allDocuments, gherkinQuery, cucumberQuery)
 
   const [displayedStatuses, setDisplayedStatuses] = useState(
-    defaultDisplayedResults.filter((status) =>
-      scenarioCountByStatus.get(status)
-    )
+    defaultDisplayedResults.filter((status) => scenarioCountByStatus.get(status))
   )
 
   const search = new Search(gherkinQuery)
@@ -50,9 +44,7 @@ const FilteredResults: React.FunctionComponent = () => {
 
   const matches = query ? search.search(query) : allDocuments
   const filtered = matches
-    .map((document) =>
-      filterByStatus(document, gherkinQuery, cucumberQuery, displayedStatuses)
-    )
+    .map((document) => filterByStatus(document, gherkinQuery, cucumberQuery, displayedStatuses))
     .filter((document) => document !== null)
 
   const envelopesQuery = React.useContext(EnvelopesQueryContext)

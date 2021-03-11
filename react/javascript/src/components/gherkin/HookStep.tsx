@@ -12,22 +12,16 @@ interface IProps {
 const HookStep: React.FunctionComponent<IProps> = ({ step }) => {
   const cucumberQuery = React.useContext(CucumberQueryContext)
 
-  const stepResult = cucumberQuery.getWorstTestStepResult(
-    cucumberQuery.getTestStepResults(step.id)
-  )
+  const stepResult = cucumberQuery.getWorstTestStepResult(cucumberQuery.getTestStepResults(step.id))
 
   const hook = cucumberQuery.getHook(step.hookId)
   const attachments = cucumberQuery.getTestStepsAttachments([step.id])
 
-  if (
-    stepResult.status === messages.TestStepFinished.TestStepResult.Status.FAILED
-  ) {
+  if (stepResult.status === messages.TestStepFinished.TestStepResult.Status.FAILED) {
     const location = hook.sourceReference.location
       ? hook.sourceReference.uri + ':' + hook.sourceReference.location.line
       : hook.sourceReference.javaMethod
-      ? hook.sourceReference.javaMethod.className +
-        '.' +
-        hook.sourceReference.javaMethod.methodName
+      ? hook.sourceReference.javaMethod.className + '.' + hook.sourceReference.javaMethod.methodName
       : 'Unknown location'
     return (
       <StepContainer status={stepResult.status}>

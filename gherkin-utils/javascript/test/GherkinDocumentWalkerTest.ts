@@ -1,7 +1,5 @@
 import assert from 'assert'
-import GherkinDocumentWalker, {
-  rejectAllFilters,
-} from '../src/GherkinDocumentWalker'
+import GherkinDocumentWalker, { rejectAllFilters } from '../src/GherkinDocumentWalker'
 import pretty from '../src/pretty'
 import parse from './parse'
 
@@ -432,8 +430,7 @@ Feature: hello
         const astWalker = new GherkinDocumentWalker(
           {},
           {
-            handleBackground: (background) =>
-              backgroundName.push(background.name),
+            handleBackground: (background) => backgroundName.push(background.name),
           }
         )
         astWalker.walkGherkinDocument(source)

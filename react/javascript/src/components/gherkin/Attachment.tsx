@@ -31,9 +31,7 @@ const Attachment: React.FunctionComponent<IProps> = ({ attachment }) => {
 }
 
 function image(attachment: messages.IAttachment) {
-  if (
-    attachment.contentEncoding !== messages.Attachment.ContentEncoding.BASE64
-  ) {
+  if (attachment.contentEncoding !== messages.Attachment.ContentEncoding.BASE64) {
     return (
       <ErrorMessage
         className="cucumber-attachment"
@@ -54,9 +52,7 @@ function image(attachment: messages.IAttachment) {
 }
 
 function video(attachment: messages.IAttachment) {
-  if (
-    attachment.contentEncoding !== messages.Attachment.ContentEncoding.BASE64
-  ) {
+  if (attachment.contentEncoding !== messages.Attachment.ContentEncoding.BASE64) {
     return (
       <ErrorMessage
         className="cucumber-attachment"
@@ -68,9 +64,7 @@ function video(attachment: messages.IAttachment) {
     <details>
       <summary>Attached Video</summary>
       <video controls>
-        <source
-          src={`data:${attachment.mediaType};base64,${attachment.body}`}
-        />
+        <source src={`data:${attachment.mediaType};base64,${attachment.body}`} />
         Your browser is unable to display video
       </video>
     </details>
@@ -102,20 +96,14 @@ function text(
   if (dangerouslySetInnerHTML) {
     return (
       <pre className="cucumber-attachment cucumber-attachment__text">
-        <FontAwesomeIcon
-          icon={faPaperclip}
-          className="cucumber-attachment__icon"
-        />
+        <FontAwesomeIcon icon={faPaperclip} className="cucumber-attachment__icon" />
         <span dangerouslySetInnerHTML={{ __html: prettify(body) }} />
       </pre>
     )
   }
   return (
     <pre className="cucumber-attachment cucumber-attachment__text">
-      <FontAwesomeIcon
-        icon={faPaperclip}
-        className="cucumber-attachment__icon"
-      />
+      <FontAwesomeIcon icon={faPaperclip} className="cucumber-attachment__icon" />
       {prettify(body)}
     </pre>
   )

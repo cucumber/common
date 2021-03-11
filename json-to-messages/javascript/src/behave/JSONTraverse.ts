@@ -76,9 +76,7 @@ export function traverseElement(
     element.keyword,
     element.name,
     element.description,
-    element.steps.map((step) =>
-      traverseStep(step, astMaker, newId, predictableSupportCode)
-    ),
+    element.steps.map((step) => traverseStep(step, astMaker, newId, predictableSupportCode)),
     tags
   )
 }

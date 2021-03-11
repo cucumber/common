@@ -19,17 +19,10 @@ function setSupportCode(setSupportCode: SupportCode) {
 }
 
 function defineStepDefinition(expression: string | RegExp, body: AnyBody) {
-  global.supportCode.defineStepDefinition(
-    getSourceReference(new Error().stack),
-    expression,
-    body
-  )
+  global.supportCode.defineStepDefinition(getSourceReference(new Error().stack), expression, body)
 }
 
-function defineBeforeHook(
-  tagExpressionOrBody: string | AnyBody,
-  body?: AnyBody
-) {
+function defineBeforeHook(tagExpressionOrBody: string | AnyBody, body?: AnyBody) {
   global.supportCode.defineBeforeHook(
     getSourceReference(new Error().stack),
     tagExpressionOrBody,
@@ -37,10 +30,7 @@ function defineBeforeHook(
   )
 }
 
-function defineAfterHook(
-  tagExpressionOrBody: string | AnyBody,
-  body?: AnyBody
-) {
+function defineAfterHook(tagExpressionOrBody: string | AnyBody, body?: AnyBody) {
   global.supportCode.defineAfterHook(
     getSourceReference(new Error().stack),
     tagExpressionOrBody,
@@ -48,9 +38,7 @@ function defineAfterHook(
   )
 }
 
-function defineParameterType0(
-  parameterTypeDefinition: IParameterTypeDefinition
-) {
+function defineParameterType0(parameterTypeDefinition: IParameterTypeDefinition) {
   global.supportCode.defineParameterType(parameterTypeDefinition)
 }
 
@@ -77,18 +65,6 @@ const Then = defineStepDefinition
 const Before = defineBeforeHook
 const After = defineAfterHook
 const ParameterType = defineParameterType0
-const defineParameterType = deprecate(
-  defineParameterType0,
-  'Please use ParameterType instead'
-)
+const defineParameterType = deprecate(defineParameterType0, 'Please use ParameterType instead')
 
-export {
-  Given,
-  When,
-  Then,
-  Before,
-  After,
-  ParameterType,
-  defineParameterType,
-  setSupportCode,
-}
+export { Given, When, Then, Before, After, ParameterType, defineParameterType, setSupportCode }

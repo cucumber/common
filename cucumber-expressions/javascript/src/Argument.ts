@@ -18,23 +18,18 @@ export default class Argument<T> {
 
     if (argGroups.length !== parameterTypes.length) {
       throw new CucumberExpressionError(
-        `Expression ${treeRegexp.regexp} has ${
-          argGroups.length
-        } capture groups (${argGroups.map((g) => g.value)}), but there were ${
-          parameterTypes.length
-        } parameter types (${parameterTypes.map((p) => p.name)})`
+        `Expression ${treeRegexp.regexp} has ${argGroups.length} capture groups (${argGroups.map(
+          (g) => g.value
+        )}), but there were ${parameterTypes.length} parameter types (${parameterTypes.map(
+          (p) => p.name
+        )})`
       )
     }
 
-    return parameterTypes.map(
-      (parameterType, i) => new Argument(argGroups[i], parameterType)
-    )
+    return parameterTypes.map((parameterType, i) => new Argument(argGroups[i], parameterType))
   }
 
-  constructor(
-    public readonly group: Group,
-    public readonly parameterType: ParameterType<T>
-  ) {
+  constructor(public readonly group: Group, public readonly parameterType: ParameterType<T>) {
     this.group = group
     this.parameterType = parameterType
   }

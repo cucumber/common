@@ -27,10 +27,7 @@ describe('<Attachment>', () => {
     ReactDOM.render(attachmentElement, document.getElementById('content'))
 
     const img = document.querySelector('#content img')
-    assert.strictEqual(
-      img.getAttribute('src'),
-      'data:image/png;base64,fake-base64'
-    )
+    assert.strictEqual(img.getAttribute('src'), 'data:image/png;base64,fake-base64')
   })
 
   it('renders base64 encoded plaintext', () => {

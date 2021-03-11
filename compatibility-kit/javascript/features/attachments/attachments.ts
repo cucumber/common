@@ -5,12 +5,9 @@ import fs from 'fs'
 // Cucumber-JVM needs to use a Before hook in order to create attachments
 Before(() => undefined)
 
-When(
-  'the string {string} is attached as {string}',
-  function (text: string, mediaType: string) {
-    this.attach(text, mediaType)
-  }
-)
+When('the string {string} is attached as {string}', function (text: string, mediaType: string) {
+  this.attach(text, mediaType)
+})
 
 When('the string {string} is logged', function (text: string) {
   this.log(text)
@@ -22,12 +19,9 @@ When('text with ANSI escapes is logged', function () {
   )
 })
 
-When(
-  'the following string is attached as {string}:',
-  function (mediaType: string, text: string) {
-    this.attach(text, mediaType)
-  }
-)
+When('the following string is attached as {string}:', function (mediaType: string, text: string) {
+  this.attach(text, mediaType)
+})
 
 When(
   'an array with {int} bytes is attached as {string}',
@@ -52,8 +46,5 @@ When(
 )
 
 When('a JPEG image is attached', async function () {
-  await this.attach(
-    fs.createReadStream(__dirname + '/cucumber-growing-on-vine.jpg'),
-    'image/jpg'
-  )
+  await this.attach(fs.createReadStream(__dirname + '/cucumber-growing-on-vine.jpg'), 'image/jpg')
 })

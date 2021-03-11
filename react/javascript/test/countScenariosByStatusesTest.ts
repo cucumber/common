@@ -43,24 +43,11 @@ Feature: statuses
       .filter((message) => message.gherkinDocument)
       .map((message) => message.gherkinDocument)
 
-    const statuses = countScenariosByStatuses(
-      gherkinDocuments,
-      gherkinQuery,
-      cucumberQuery
-    )
+    const statuses = countScenariosByStatuses(gherkinDocuments, gherkinQuery, cucumberQuery)
 
-    assert.strictEqual(
-      statuses.get(messages.TestStepFinished.TestStepResult.Status.PASSED),
-      2
-    )
-    assert.strictEqual(
-      statuses.get(messages.TestStepFinished.TestStepResult.Status.FAILED),
-      1
-    )
-    assert.strictEqual(
-      statuses.get(messages.TestStepFinished.TestStepResult.Status.UNDEFINED),
-      1
-    )
+    assert.strictEqual(statuses.get(messages.TestStepFinished.TestStepResult.Status.PASSED), 2)
+    assert.strictEqual(statuses.get(messages.TestStepFinished.TestStepResult.Status.FAILED), 1)
+    assert.strictEqual(statuses.get(messages.TestStepFinished.TestStepResult.Status.UNDEFINED), 1)
   })
 
   it('counts different statuses with example tables', async () => {
@@ -83,23 +70,10 @@ Feature: statuses
       .filter((message) => message.gherkinDocument)
       .map((message) => message.gherkinDocument)
 
-    const statuses = countScenariosByStatuses(
-      gherkinDocuments,
-      gherkinQuery,
-      cucumberQuery
-    )
+    const statuses = countScenariosByStatuses(gherkinDocuments, gherkinQuery, cucumberQuery)
 
-    assert.strictEqual(
-      statuses.get(messages.TestStepFinished.TestStepResult.Status.PASSED),
-      1
-    )
-    assert.strictEqual(
-      statuses.get(messages.TestStepFinished.TestStepResult.Status.FAILED),
-      1
-    )
-    assert.strictEqual(
-      statuses.get(messages.TestStepFinished.TestStepResult.Status.UNDEFINED),
-      1
-    )
+    assert.strictEqual(statuses.get(messages.TestStepFinished.TestStepResult.Status.PASSED), 1)
+    assert.strictEqual(statuses.get(messages.TestStepFinished.TestStepResult.Status.FAILED), 1)
+    assert.strictEqual(statuses.get(messages.TestStepFinished.TestStepResult.Status.UNDEFINED), 1)
   })
 })

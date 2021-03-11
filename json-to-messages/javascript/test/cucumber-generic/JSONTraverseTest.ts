@@ -6,10 +6,7 @@ import { traverseElement } from '../../src/cucumber-ruby/JSONTraverse'
 
 import IAstMaker from '../../src/IAstMaker'
 
-import {
-  traverseFeature,
-  traverseTag,
-} from '../../src/cucumber-generic/JSONTraverse'
+import { traverseFeature, traverseTag } from '../../src/cucumber-generic/JSONTraverse'
 import { IFeature } from '../../src/cucumber-generic/JSONSchema'
 
 import IPredictableSupportCode from '../../src/IPredictableSupportCode'
@@ -102,24 +99,16 @@ describe('traversing elements', () => {
     })
 
     it('uses the result of AtMaker.makeFeatureChild to populate the children', () => {
-      const gherkinScenario = messages.GherkinDocument.Feature.FeatureChild.create(
-        {
-          scenario: messages.GherkinDocument.Feature.Scenario.create({
-            id: 'whatever-scenario-id',
-          }),
-        }
-      )
+      const gherkinScenario = messages.GherkinDocument.Feature.FeatureChild.create({
+        scenario: messages.GherkinDocument.Feature.Scenario.create({
+          id: 'whatever-scenario-id',
+        }),
+      })
       const supportCode = stubInterface<IPredictableSupportCode>()
       const astMaker = stubInterface<IAstMaker>()
       astMaker.makeScenarioFeatureChild.returns(gherkinScenario)
 
-      traverseFeature(
-        feature,
-        astMaker,
-        IdGenerator.incrementing(),
-        supportCode,
-        traverseElement
-      )
+      traverseFeature(feature, astMaker, IdGenerator.incrementing(), supportCode, traverseElement)
 
       assert.deepEqual(astMaker.makeFeature.getCall(0).args, [
         2,
@@ -139,13 +128,7 @@ describe('traversing elements', () => {
       const astMaker = stubInterface<IAstMaker>()
       astMaker.makeFeature.returns(gherkinFeature)
 
-      traverseFeature(
-        feature,
-        astMaker,
-        IdGenerator.incrementing(),
-        supportCode,
-        traverseElement
-      )
+      traverseFeature(feature, astMaker, IdGenerator.incrementing(), supportCode, traverseElement)
 
       assert.deepStrictEqual(astMaker.makeGherkinDocument.getCall(0).args, [
         'path/to/some.feature',

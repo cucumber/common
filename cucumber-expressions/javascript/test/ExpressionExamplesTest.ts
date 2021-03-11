@@ -22,10 +22,7 @@ describe('examples.txt', () => {
   for (const chunk of chunks) {
     const [expressionText, text, expectedArgs] = chunk.trim().split(/\n/m)
     it(`Works with: ${expressionText}`, () => {
-      assert.deepStrictEqual(
-        JSON.stringify(match(expressionText, text)),
-        expectedArgs
-      )
+      assert.deepStrictEqual(JSON.stringify(match(expressionText, text)), expectedArgs)
     })
   }
 })
