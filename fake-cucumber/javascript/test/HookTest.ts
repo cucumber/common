@@ -9,9 +9,9 @@ describe('Hook', () => {
       const hook = new Hook('hook-id', 'not @foo', null, () => {
         throw new Error('unexpected')
       })
-      const pickle = new messages.Pickle({
-        tags: [new messages.Pickle.PickleTag({ name: '@foo' })],
-      })
+      const pickle: messages.Pickle = {
+        tags: [{ name: '@foo' }],
+      }
       const executor = hook.match(pickle)
 
       assert.strictEqual(executor, null)
@@ -21,9 +21,9 @@ describe('Hook', () => {
       const hook = new Hook('hook-id', 'not @foo', null, () => {
         return 'something'
       })
-      const pickle = new messages.Pickle({
-        tags: [new messages.Pickle.PickleTag({ name: '@bar' })],
-      })
+      const pickle: messages.Pickle = {
+        tags: [{ name: '@bar' }],
+      }
       const executor = hook.match(pickle)
 
       assert.strictEqual(executor.execute(new TestWorld()), 'something')
@@ -33,9 +33,9 @@ describe('Hook', () => {
       const hook = new Hook('hook-id', null, null, () => {
         return 'something'
       })
-      const pickle = new messages.Pickle({
-        tags: [new messages.Pickle.PickleTag({ name: '@bar' })],
-      })
+      const pickle: messages.Pickle = {
+        tags: [{ name: '@bar' }],
+      }
       const executor = hook.match(pickle)
 
       assert.strictEqual(executor.execute(new TestWorld()), 'something')

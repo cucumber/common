@@ -26,20 +26,18 @@ export default class SupportCodeExecutor implements ISupportCodeExecutor {
 
   public argsToMessages(): messages.StepMatchArgument[] {
     return this.args.map((arg) => {
-      return new messages.TestCase.TestStep.StepMatchArgumentsList.StepMatchArgument({
+      return {
         group: toMessageGroup(arg.group),
-        parameterTypeName: arg.parameterType.name,
-      })
+        parameter_type_name: arg.parameterType.name,
+      }
     })
   }
 }
 
-function toMessageGroup(
-  group: Group
-): messages.Group {
-  return new messages.TestCase.TestStep.StepMatchArgumentsList.StepMatchArgument.Group({
+function toMessageGroup(group: Group): messages.Group {
+  return {
     value: group.value,
     start: group.start,
     children: group.children.map((g) => toMessageGroup(g)),
-  })
+  }
 }

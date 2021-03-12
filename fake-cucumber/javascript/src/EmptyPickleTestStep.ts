@@ -3,8 +3,8 @@ import TestStep from './TestStep'
 
 export default class EmptyPickleTestStep extends TestStep {
   public toMessage(): messages.TestStep {
-    return new messages.TestCase.TestStep({
+    return {
       id: this.id,
-    })
+    }
   }
 }

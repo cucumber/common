@@ -3,7 +3,7 @@ import {
   ParameterType,
   ParameterTypeRegistry,
 } from '@cucumber/cucumber-expressions'
-import { IdGenerator, messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import { IHook, AnyBody, IStepDefinition } from './types'
 import ExpressionStepDefinition from './ExpressionStepDefinition'
 import Hook from './Hook'
@@ -33,7 +33,7 @@ export default class SupportCode {
   public readonly undefinedParameterTypeMessages: messages.Envelope[] = []
 
   constructor(
-    public readonly newId: IdGenerator.NewId = IdGenerator.uuid(),
+    public readonly newId: messages.IdGenerator.NewId = messages.IdGenerator.uuid(),
     public readonly clock: IClock = new DateClock(),
     public readonly stopwatch: IStopwatch = new PerfHooksStopwatch(),
     public readonly makeErrorMessage: MakeErrorMessage = withFullStackTrace()
@@ -50,21 +50,19 @@ export default class SupportCode {
     )
     this.parameterTypeRegistry.defineParameterType(parameterType)
     this.parameterTypes.push(parameterType)
-    this.parameterTypeMessages.push(
-      new messages.Envelope({
-        parameterType: new messages.ParameterType({
-          id: this.newId(),
-          name: parameterType.name,
-          regularExpressions: parameterType.regexpStrings.slice(),
-          preferForRegularExpressionMatch: parameterType.preferForRegexpMatch,
-          useForSnippets: parameterType.useForSnippets,
-        }),
-      })
-    )
+    this.parameterTypeMessages.push({
+      parameter_type: {
+        id: this.newId(),
+        name: parameterType.name,
+        regular_expressions: parameterType.regexpStrings.slice(),
+        prefer_for_regular_expression_match: parameterType.preferForRegexpMatch,
+        use_for_snippets: parameterType.useForSnippets,
+      },
+    })
   }
 
   public defineStepDefinition(
-    sourceReference: messages.ISourceReference,
+    sourceReference: messages.SourceReference,
     expression: string | RegExp,
     body: AnyBody
   ): void {
@@ -74,14 +72,12 @@ export default class SupportCode {
       this.registerStepDefinition(stepDefinition)
     } catch (e) {
       if (e.undefinedParameterTypeName) {
-        this.undefinedParameterTypeMessages.push(
-          new messages.Envelope({
-            undefinedParameterType: new messages.UndefinedParameterType({
-              expression: expression.toString(),
-              name: e.undefinedParameterTypeName,
-            }),
-          })
-        )
+        this.undefinedParameterTypeMessages.push({
+          undefined_parameter_type: {
+            expression: expression.toString(),
+            name: e.undefinedParameterTypeName,
+          },
+        })
       } else {
         throw e
       }
@@ -93,7 +89,7 @@ export default class SupportCode {
   }
 
   public defineBeforeHook(
-    sourceReference: messages.ISourceReference,
+    sourceReference: messages.SourceReference,
     tagExpressionOrBody: string | AnyBody,
     body?: AnyBody
   ) {
@@ -105,7 +101,7 @@ export default class SupportCode {
   }
 
   public defineAfterHook(
-    sourceReference: messages.ISourceReference,
+    sourceReference: messages.SourceReference,
     tagExpressionOrBody: string | AnyBody,
     body?: AnyBody
   ) {
@@ -117,7 +113,7 @@ export default class SupportCode {
   }
 
   private makeHook(
-    sourceReference: messages.ISourceReference,
+    sourceReference: messages.SourceReference,
     tagExpressionOrBody: string | AnyBody,
     body?: AnyBody
   ) {

@@ -1,4 +1,4 @@
-import { IdGenerator, messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import { Query } from '@cucumber/gherkin-utils'
 import TestCase from './TestCase'
 import IClock from './IClock'
@@ -13,7 +13,7 @@ export default function makeTestCase(
   beforeHooks: ReadonlyArray<IHook>,
   afterHooks: ReadonlyArray<IHook>,
   gherkinQuery: Query,
-  newId: IdGenerator.NewId,
+  newId: messages.IdGenerator.NewId,
   clock: IClock,
   stopwatch: IStopwatch,
   makeErrorMessage: MakeErrorMessage,
@@ -47,7 +47,7 @@ export default function makeTestCase(
     makeHookStep
   )
   const pickleTestSteps = pickle.steps.map((pickleStep) => {
-    const sourceFrames = pickleStep.astNodeIds.map(
+    const sourceFrames = pickleStep.ast_node_ids.map(
       (astNodeId) => `${pickle.uri}:${gherkinQuery.getLocation(astNodeId).line}`
     )
     return makePickleTestStep(
@@ -84,7 +84,7 @@ function makeHookSteps(
   hooks: ReadonlyArray<IHook>,
   alwaysExecute: boolean,
   gherkinQuery: Query,
-  newId: IdGenerator.NewId,
+  newId: messages.IdGenerator.NewId,
   clock: IClock,
   stopwatch: IStopwatch,
   makeErrorMessage: MakeErrorMessage,

@@ -10,10 +10,10 @@ export default class TestWorld implements IWorld {
     if (typeof data !== 'string') {
       throw new Error('Can only attach strings')
     }
-    const attachment = new messages.Attachment({
+    const attachment: messages.Attachment = {
       body: data,
-      mediaType: 'text/plain',
-    })
+      media_type: 'text/plain',
+    }
     this.attachments.push(attachment)
   }
 

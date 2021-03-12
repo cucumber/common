@@ -7,7 +7,7 @@ export default class ExpressionStepDefinition implements IStepDefinition {
   constructor(
     private readonly id: string,
     private readonly expression: Expression,
-    private readonly sourceReference: messages.ISourceReference,
+    private readonly sourceReference: messages.SourceReference,
     private readonly body: AnyBody
   ) {}
 
@@ -19,31 +19,29 @@ export default class ExpressionStepDefinition implements IStepDefinition {
           this.id,
           this.body,
           expressionArgs,
-          pickleStep.argument && pickleStep.argument.docString,
-          pickleStep.argument && pickleStep.argument.dataTable
+          pickleStep.argument && pickleStep.argument.doc_string,
+          pickleStep.argument && pickleStep.argument.data_table
         )
   }
 
   public toMessage(): messages.Envelope {
-    return new messages.Envelope({
-      stepDefinition: new messages.StepDefinition({
+    return {
+      step_definition: {
         id: this.id,
-        pattern: new messages.StepDefinition.StepDefinitionPattern({
+        pattern: {
           type: this.expressionType(),
           source: this.expression.source,
-        }),
-        sourceReference: this.sourceReference,
-      }),
-    })
+        },
+        source_reference: this.sourceReference,
+      },
+    }
   }
 
-  private expressionType(): messages.StepDefinition.StepDefinitionPattern.StepDefinitionPatternType {
+  private expressionType(): 'CUCUMBER_EXPRESSION' | 'REGULAR_EXPRESSION' {
     if (this.expression instanceof CucumberExpression) {
-      return messages.StepDefinition.StepDefinitionPattern.StepDefinitionPatternType
-        .CUCUMBER_EXPRESSION
+      return 'CUCUMBER_EXPRESSION'
     } else if (this.expression instanceof RegularExpression) {
-      return messages.StepDefinition.StepDefinitionPattern.StepDefinitionPatternType
-        .REGULAR_EXPRESSION
+      return 'REGULAR_EXPRESSION'
     } else {
       throw new Error(`Unknown expression type: ${this.expression.constructor.name}`)
     }

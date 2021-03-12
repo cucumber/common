@@ -13,9 +13,9 @@ describe('StepDefinition', () => {
     it('returns null when there is no match', () => {
       const expression = new CucumberExpression('banana', new ParameterTypeRegistry())
       const stepdef = new ExpressionStepDefinition('stepdef-id', expression, null, () => null)
-      const pickleStep = messages.Pickle.PickleStep.create({
+      const pickleStep: messages.PickleStep = {
         text: 'apple',
-      })
+      }
       const match = stepdef.match(pickleStep)
       assert.strictEqual(match, null)
     })
@@ -28,9 +28,9 @@ describe('StepDefinition', () => {
         null,
         (cukeCount: number) => cukeCount
       )
-      const pickleStep = messages.Pickle.PickleStep.create({
+      const pickleStep: messages.PickleStep = {
         text: 'I have 7 cukes',
-      })
+      }
       const executor = stepdef.match(pickleStep)
       assert.strictEqual(executor.execute(new TestWorld()), 7)
     })
@@ -42,10 +42,7 @@ describe('StepDefinition', () => {
       const stepdef = new ExpressionStepDefinition('stepdef-id', expression, null, () => null)
       const message = stepdef.toMessage()
 
-      assert.strictEqual(
-        message.stepDefinition.pattern.type,
-        messages.StepDefinition.StepDefinitionPattern.StepDefinitionPatternType.REGULAR_EXPRESSION
-      )
+      assert.strictEqual(message.step_definition.pattern.type, 'REGULAR_EXPRESSION')
     })
 
     it('generates a StepDefinition object for CucumberExpression', () => {
@@ -53,10 +50,7 @@ describe('StepDefinition', () => {
       const stepdef = new ExpressionStepDefinition('stepdef-id', expression, null, () => null)
       const message = stepdef.toMessage()
 
-      assert.strictEqual(
-        message.stepDefinition.pattern.type,
-        messages.StepDefinition.StepDefinitionPattern.StepDefinitionPatternType.CUCUMBER_EXPRESSION
-      )
+      assert.strictEqual(message.step_definition.pattern.type, 'CUCUMBER_EXPRESSION')
     })
   })
 })

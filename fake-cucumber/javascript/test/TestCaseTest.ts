@@ -1,4 +1,4 @@
-import { messages, TimeConversion } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import assert from 'assert'
 import TestStep from '../src/TestStep'
 import TestCase from '../src/TestCase'
@@ -6,7 +6,7 @@ import { EnvelopeListener, IWorld, withSourceFramesOnlyStackTrace } from '../src
 import IncrementClock from '../src/IncrementClock'
 import IncrementStopwatch from '../src/IncrementStopwatch'
 
-const { millisecondsToDuration } = TimeConversion
+const { millisecondsToDuration } = messages.TimeConversion
 
 class StubTestStep extends TestStep {
   public constructor(

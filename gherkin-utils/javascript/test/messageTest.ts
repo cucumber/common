@@ -18,9 +18,7 @@ describe('Walking with messages', () => {
 
   for (const messageFile of messageFiles) {
     it(`can walk through GherkinDocuments in ${messageFile}`, async () => {
-      const messageStream = new NdjsonToMessageStream(
-        messages.Envelope.fromObject.bind(messages.Envelope)
-      )
+      const messageStream = new NdjsonToMessageStream()
 
       await asyncPipeline(
         fs.createReadStream(messageFile, 'utf-8'),
@@ -33,13 +31,13 @@ describe('Walking with messages', () => {
             callback: (error?: Error | null) => void
           ) {
             try {
-              if (envelope.gherkinDocument) {
+              if (envelope.gherkin_document) {
                 const walker = new GherkinDocumentWalker()
-                walker.walkGherkinDocument(envelope.gherkinDocument)
+                walker.walkGherkinDocument(envelope.gherkin_document)
               }
               callback()
             } catch (error) {
-              error.message += `\n${envelope.gherkinDocument.uri}\n`
+              error.message += `\n${envelope.gherkin_document.uri}\n`
               callback(error)
             }
           },

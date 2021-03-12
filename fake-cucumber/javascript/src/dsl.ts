@@ -42,7 +42,7 @@ function defineParameterType0(parameterTypeDefinition: IParameterTypeDefinition)
   global.supportCode.defineParameterType(parameterTypeDefinition)
 }
 
-function getSourceReference(stackTrace: string): messages.ISourceReference {
+function getSourceReference(stackTrace: string): messages.SourceReference {
   const stack = new StackUtils({
     cwd: process.cwd(),
     internals: StackUtils.nodeInternals(),
@@ -50,12 +50,12 @@ function getSourceReference(stackTrace: string): messages.ISourceReference {
   const trace = stack.clean(stackTrace)
   const callSite = stack.parseLine(trace.split('\n')[1])
   const { file: uri, line } = callSite
-  return new messages.SourceReference({
+  return {
     uri,
-    location: new messages.Location({
+    location: {
       line,
-    }),
-  })
+    },
+  }
 }
 
 const Given = defineStepDefinition

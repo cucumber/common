@@ -7,7 +7,7 @@ export default class Hook implements IHook {
   constructor(
     public readonly id: string,
     private readonly tagExpression: string | null,
-    private readonly sourceReference: messages.ISourceReference,
+    private readonly sourceReference: messages.SourceReference,
     private readonly body: AnyBody
   ) {}
 
@@ -18,13 +18,13 @@ export default class Hook implements IHook {
   }
 
   public toMessage(): messages.Envelope {
-    return new messages.Envelope({
-      hook: new messages.Hook({
+    return {
+      hook: {
         id: this.id,
-        tagExpression: this.tagExpression,
-        sourceReference: this.sourceReference,
-      }),
-    })
+        tag_expression: this.tagExpression,
+        source_reference: this.sourceReference,
+      },
+    }
   }
 
   private matchesPickle(pickle: messages.Pickle): boolean {
