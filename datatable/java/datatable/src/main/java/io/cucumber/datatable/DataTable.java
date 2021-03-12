@@ -166,8 +166,20 @@ public final class DataTable {
      *
      * @return the cells of the table
      */
-    public List<String> asList() {
+    List<String> toList() {
         return new ListView();
+    }
+
+    /**
+     * Converts the table to a list of {@code String}s. Contains the cells
+     * ordered from left to right, top to bottom starting at the top left.
+     *
+     * @return a list of strings
+     *
+     * @see TableConverter#toList(DataTable, Type)
+     */
+    public List<String> asList() {
+        return asList(String.class);
     }
 
     /**
@@ -175,7 +187,9 @@ public final class DataTable {
      *
      * @param itemType the type of the list items
      * @param <T>      the type of the list items
-     * @return a List of objects
+     * @return a list of objects
+     *
+     * @see TableConverter#toList(DataTable, Type)
      */
     public <T> List<T> asList(Type itemType) {
         return tableConverter.toList(this, itemType);
@@ -186,7 +200,7 @@ public final class DataTable {
      *
      * @return the cells of the table
      */
-    public List<List<String>> asLists() {
+    List<List<String>> toLists() {
         return cells();
     }
 
@@ -195,8 +209,8 @@ public final class DataTable {
      *
      * @return the cells of the table
      */
-    public List<List<String>> cells() {
-        return raw;
+    public List<List<String>> asLists() {
+        return asLists(String.class);
     }
 
     /**
@@ -227,14 +241,7 @@ public final class DataTable {
         return tableConverter.toMap(this, keyType, valueType);
     }
 
-    /**
-     * Converts the table to a list of maps of strings. For each row in the body
-     * of the table a map is created containing a mapping of column headers to
-     * the column cell of that row.
-     *
-     * @return a list of maps
-     */
-    public List<Map<String, String>> asMaps() {
+    List<Map<String, String>> toMaps() {
         if (raw.isEmpty()) return emptyList();
 
         List<String> headers = raw.get(0);
@@ -259,6 +266,20 @@ public final class DataTable {
     }
 
     /**
+     * Converts the table to a list of maps of strings. For each row in the body
+     * of the table a map is created containing a mapping of column headers to
+     * the column cell of that row.
+     *
+     * @return a list of maps
+     */
+    public List<Map<String, String>> asMaps() {
+        if (!hasConverter()) {
+            return toMaps();
+        }
+        return asMaps(String.class, String.class);
+    }
+
+    /**
      * Converts the table to a list of maps of {@code keyType} to {@code valueType}.
      * For each row in the body of the table a map is created containing a mapping
      * of column headers to the column cell of that row.
@@ -271,6 +292,19 @@ public final class DataTable {
      */
     public <K, V> List<Map<K, V>> asMaps(Type keyType, Type valueType) {
         return tableConverter.toMaps(this, keyType, valueType);
+    }
+
+    private boolean hasConverter() {
+        return !(tableConverter instanceof NoConverterDefined);
+    }
+
+    /**
+     * Returns the cells of the table.
+     *
+     * @return the cells of the table
+     */
+    public List<List<String>> cells() {
+        return raw;
     }
 
     /**

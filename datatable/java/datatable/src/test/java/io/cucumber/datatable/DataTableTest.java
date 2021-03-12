@@ -313,7 +313,7 @@ class DataTableTest {
     void as_lists_should_equal_raw() {
         List<List<String>> raw = asList(asList("hundred", "100"), asList("thousand", "1000"));
         DataTable table = DataTable.create(raw);
-        assertEquals(raw, table.asLists());
+        assertEquals(raw, table.toLists());
     }
 
     @Test
@@ -414,7 +414,7 @@ class DataTableTest {
                 asList("2", "1000")
         );
         DataTable table = DataTable.create(raw);
-        assertEquals(asList("1", "100", "2", "1000"), table.asList());
+        assertEquals(asList("1", "100", "2", "1000"), table.toList());
     }
 
     @Test
@@ -424,7 +424,7 @@ class DataTableTest {
                 asList("2", "1000")
         );
         DataTable table = DataTable.create(raw);
-        assertThrows(IndexOutOfBoundsException.class, () -> table.asList().get(5));
+        assertThrows(IndexOutOfBoundsException.class, () -> table.toList().get(5));
     }
 
     @Test
@@ -434,7 +434,7 @@ class DataTableTest {
                 asList("2", "1000")
         );
         DataTable table = DataTable.create(raw);
-        assertThrows(IndexOutOfBoundsException.class, () -> table.asList().get(-1));
+        assertThrows(IndexOutOfBoundsException.class, () -> table.toList().get(-1));
     }
 
     @Test
@@ -458,7 +458,7 @@ class DataTableTest {
                 asList("2", "1000")
         );
         DataTable table = DataTable.create(raw);
-        assertEquals(raw, table.asLists());
+        assertEquals(raw, table.toLists());
     }
 
     @Test
@@ -477,7 +477,7 @@ class DataTableTest {
             put("100", "1000");
         }};
 
-        assertEquals(singletonList(expected), table.asMaps());
+        assertEquals(singletonList(expected), table.toMaps());
     }
 
     @Test
@@ -492,7 +492,7 @@ class DataTableTest {
             put("2", null);
         }};
 
-        assertEquals(singletonList(expected), table.asMaps());
+        assertEquals(singletonList(expected), table.toMaps());
     }
 
     @Test
@@ -505,7 +505,7 @@ class DataTableTest {
 
         CucumberDataTableException exception = assertThrows(
                 CucumberDataTableException.class,
-                table::asMaps
+                table::toMaps
         );
 
         assertThat(exception.getMessage(), is(format("" +
@@ -523,7 +523,7 @@ class DataTableTest {
 
         CucumberDataTableException exception = assertThrows(
                 CucumberDataTableException.class,
-                table::asMaps
+                table::toMaps
         );
         assertThat(exception.getMessage(), is(format("" +
                         "Can't convert DataTable to Map<%s, %s>.\n" +
@@ -538,7 +538,7 @@ class DataTableTest {
             put(null, null);
         }};
 
-        assertEquals(singletonList(expected), table.asMaps());
+        assertEquals(singletonList(expected), table.toMaps());
     }
 
     @Test
