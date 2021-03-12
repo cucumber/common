@@ -74,17 +74,22 @@ public class PickleCompiler {
         }
     }
 
-    private void compileRule(List<Pickle> pickles, Rule rule, List<Tag> tags, List<Step> featureBackgroundSteps, String language, String uri) {
+    private void compileRule(List<Pickle> pickles, Rule rule, List<Tag> parentTags, List<Step> featureBackgroundSteps, String language, String uri) {
         List<Step> ruleBackgroundSteps = new ArrayList<>(featureBackgroundSteps);
+
+        List<Tag> ruleTags = new ArrayList<>();
+        ruleTags.addAll(parentTags);
+        ruleTags.addAll(rule.getTags());
+
         for (RuleChild ruleChild : rule.getChildren()) {
             if (ruleChild.getBackground() != null) {
                 ruleBackgroundSteps.addAll(ruleChild.getBackground().getSteps());
             } else {
                 Scenario scenario = ruleChild.getScenario();
                 if (scenario.getExamples().isEmpty()) {
-                    compileScenario(pickles, scenario, tags, ruleBackgroundSteps, language, uri);
+                    compileScenario(pickles, scenario, ruleTags, ruleBackgroundSteps, language, uri);
                 } else {
-                    compileScenarioOutline(pickles, scenario, tags, ruleBackgroundSteps, language, uri);
+                    compileScenarioOutline(pickles, scenario, ruleTags, ruleBackgroundSteps, language, uri);
                 }
             }
         }

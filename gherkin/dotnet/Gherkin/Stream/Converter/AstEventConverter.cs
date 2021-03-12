@@ -10,6 +10,9 @@ using Location = Gherkin.Events.Args.Ast.Location;
 using Rule = Gherkin.Events.Args.Ast.Rule;
 using Step = Gherkin.Events.Args.Ast.Step;
 using StepsContainer = Gherkin.Events.Args.Ast.StepsContainer;
+using DataTable = Gherkin.Events.Args.Ast.DataTable;
+using DocString = Gherkin.Events.Args.Ast.DocString;
+using Tag = Gherkin.Events.Args.Ast.Tag;
 
 namespace Gherkin.Stream.Converter
 {
@@ -43,13 +46,18 @@ namespace Gherkin.Stream.Converter
                 return null;
             }
 
+            var children = feature.Children.Select(ConvertToChildren).ToReadOnlyCollection();
+            var tags = feature.Tags.Select(ConvertTag).ToReadOnlyCollection();
+
             return new Feature()
             {
                 Name = feature.Name == string.Empty ? null : feature.Name,
+                Description = feature.Description == string.Empty ? null : feature.Description,
                 Keyword = feature.Keyword,
                 Language = feature.Language,
                 Location = ConvertLocation(feature.Location),
-                Children = feature.Children.Select(ConvertToChildren).ToReadOnlyCollection()
+                Children = children,
+                Tags = tags
             };
         }
 
@@ -64,17 +72,22 @@ namespace Gherkin.Stream.Converter
             switch (hasLocation)
             {
                 case Background background:
+                    var backgroundSteps = background.Steps.Select(s => ConvertStep(s)).ToList();
                     return new Children()
                     {
                         Background = new StepsContainer()
                         {
                             Location = ConvertLocation(background.Location),
                             Name = background.Name == string.Empty ? null : background.Name,
+                            Description = background.Description,
                             Keyword = background.Keyword,
-                            Steps = background.Steps.Select(s => ConvertStep(s)).ToList()
+                            Steps = backgroundSteps
                         }
                     };
                 case Scenario scenario:
+                    var steps = scenario.Steps.Select(s => ConvertStep(s)).ToList();
+                    var examples = scenario.Examples.Select(ConvertExamples).ToReadOnlyCollection();
+                    var tags = scenario.Tags.Select(ConvertTag).ToReadOnlyCollection();
                     return new Children()
                     {
                         Scenario = new StepsContainer()
@@ -82,20 +95,26 @@ namespace Gherkin.Stream.Converter
                             Keyword = scenario.Keyword,
                             Location = ConvertLocation(scenario.Location),
                             Name = scenario.Name == string.Empty ? null : scenario.Name,
-                            Steps = scenario.Steps.Select(s => ConvertStep(s)).ToList(),
-                            Examples = scenario.Examples.Select(ConvertExamples).ToReadOnlyCollection(),
+                            Description = scenario.Description,
+                            Steps = steps,
+                            Examples = examples,
+                            Tags = tags
                         }
                     };
                 case Ast.Rule rule:
                     {
+                        var ruleChildren = rule.Children.Select(ConvertToChildren).ToReadOnlyCollection();
+                        var ruleTags = rule.Tags.Select(ConvertTag).ToReadOnlyCollection();
                         return new Children()
                         {
                             Rule = new Rule()
                             {
                                 Name = rule.Name == string.Empty ? null : rule.Name,
+                                Description = rule.Description == string.Empty ? null : rule.Description,
                                 Keyword = rule.Keyword,
-                                Children = rule.Children.Select(ConvertToChildren).ToReadOnlyCollection(),
-                                Location = ConvertLocation(rule.Location)
+                                Children = ruleChildren,
+                                Location = ConvertLocation(rule.Location),
+                                Tags = ruleTags
                             }
                         };
                     }
@@ -110,15 +129,18 @@ namespace Gherkin.Stream.Converter
 
         private Examples ConvertExamples(Ast.Examples examples)
         {
+            var header = ConvertTableHeader(examples);
+            var body = ConvertToTableBody(examples);
+            var tags = examples.Tags.Select(ConvertTag).ToReadOnlyCollection();
             return new Examples()
             {
                 Name = examples.Name == string.Empty ? null : examples.Name,
                 Keyword = examples.Keyword,
                 Description = examples.Description,
                 Location = ConvertLocation(examples.Location),
-                TableHeader = ConvertTableHeader(examples),
-                TableBody = ConvertToTableBody(examples)
-
+                TableHeader = header,
+                TableBody = body,
+                Tags = tags
             };
         }
 
@@ -127,7 +149,12 @@ namespace Gherkin.Stream.Converter
             if (examples.TableBody == null)
                 return new List<TableBody>();
 
-            return examples.TableBody.Select(b =>
+            return ConvertToTableRow(examples.TableBody);
+        }
+
+        private IReadOnlyCollection<TableBody> ConvertToTableRow(IEnumerable<Gherkin.Ast.TableRow> rows)
+        {
+            return rows.Select(b =>
                 new TableBody()
                 {
                     Location = ConvertLocation(b.Location),
@@ -147,21 +174,55 @@ namespace Gherkin.Stream.Converter
             };
         }
 
+        private Tag ConvertTag(Ast.Tag tag)
+        {
+            return new Tag()
+            {
+                Location = ConvertLocation(tag.Location),
+                Name = tag.Name
+            };
+        }
+
         private Cell ConvertCell(TableCell c)
         {
             return new Cell()
             {
-                Value = c.Value,
+                Value = c.Value == string.Empty ? null : c.Value,
                 Location = ConvertLocation(c.Location)
             };
         }
 
         private Step ConvertStep(Ast.Step step)
         {
+            DataTable dataTable = null;
+            if (step.Argument is Gherkin.Ast.DataTable astDataTable) 
+            {
+                var rows = ConvertToTableRow(astDataTable.Rows);
+                dataTable = new DataTable
+                {
+                    Rows = rows,
+                    Location = ConvertLocation(astDataTable.Location)
+                };
+            }
+
+            DocString docString = null;
+           if (step.Argument is Gherkin.Ast.DocString astDocString) 
+            {
+                docString = new DocString
+                {
+                    Content = astDocString.Content,
+                    MediaType = astDocString.ContentType,
+                    Delimiter = astDocString.Delimiter ?? "\"\"\"", //TODO: store DocString delimiter in Gherkin AST
+                    Location = ConvertLocation(astDocString.Location)
+                };
+            }
+
             return new Step()
             {
                 Keyword = step.Keyword,
                 Text = step.Text,
+                DataTable = dataTable,
+                DocString = docString,
                 Location = ConvertLocation(step.Location)
             };
         }

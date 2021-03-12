@@ -106,6 +106,14 @@
                     "additionalProperties": false,
                     "description": "The location of the `Rule` keyword"
                 },
+                "tags": {
+                    "items": {
+                        "$schema": "http://json-schema.org/draft-04/schema#",
+                        "$ref": "#/definitions/Tag"
+                    },
+                    "type": "array",
+                    "description": "All the tags placed above the `Rule` keyword"
+                },
                 "keyword": {
                     "type": "string"
                 },

@@ -277,6 +277,7 @@ export default class AstBuilder implements IAstBuilder<AstNode, TokenType, RuleT
         if (!ruleLine) {
           return null
         }
+        const tags = this.getTags(header)
         const children: messages.RuleChild[] = []
         const background = node.getSingle(RuleType.Background)
         if (background) {
@@ -298,6 +299,7 @@ export default class AstBuilder implements IAstBuilder<AstNode, TokenType, RuleT
           name: ruleLine.matchedText,
           description,
           children,
+          tags,
         }
         return rule
       }

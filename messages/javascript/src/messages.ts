@@ -326,6 +326,8 @@ export type Rule = {
   
     location?: Location
   
+    tags?: readonly Tag[]
+  
     keyword?: string
   
     name?: string

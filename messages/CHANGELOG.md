@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+* [All] Added tags to Rule node 
+    ([#1356](https://github.com/cucumber/cucumber/pull/1356) [sebrose], [gasparnagy], [brasmusson], [WannesFransen1994])
+
 ### Changed
 
 ### Deprecated

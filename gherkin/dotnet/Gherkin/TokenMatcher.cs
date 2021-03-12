@@ -227,7 +227,7 @@ namespace Gherkin
 
         private string UnescapeDocString(string text)
         {
-            return activeDocStringSeparator != null ? text.Replace("\\\"\\\"\\\"", "\"\"\"") : text;
+            return activeDocStringSeparator != null ? text.Replace("\\\"\\\"\\\"", "\"\"\"").Replace("\\`\\`\\`", "```") : text;
         }
     }
 }

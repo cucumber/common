@@ -66,12 +66,14 @@ function compileRule(
 ) {
   let ruleBackgroundSteps = [].concat(featureBackgroundSteps)
 
+  const tags = [].concat(featureTags).concat(rule.tags)
+
   rule.children.forEach((stepsContainer) => {
     if (stepsContainer.background) {
       ruleBackgroundSteps = ruleBackgroundSteps.concat(stepsContainer.background.steps)
     } else if (stepsContainer.scenario.examples.length === 0) {
       compileScenario(
-        featureTags,
+        tags,
         ruleBackgroundSteps,
         stepsContainer.scenario,
         language,
@@ -94,7 +96,7 @@ function compileRule(
 }
 
 function compileScenario(
-  featureTags: readonly messages.Tag[],
+  inheritedTags: readonly messages.Tag[],
   backgroundSteps: readonly messages.Step[],
   scenario: messages.Scenario,
   language: string,
@@ -107,7 +109,7 @@ function compileScenario(
       ? []
       : backgroundSteps.map((step) => pickleStep(step, [], null, newId))
 
-  const tags = [].concat(featureTags).concat(scenario.tags)
+  const tags = [].concat(inheritedTags).concat(scenario.tags)
 
   scenario.steps.forEach((step) => steps.push(pickleStep(step, [], null, newId)))
 
@@ -124,7 +126,7 @@ function compileScenario(
 }
 
 function compileScenarioOutline(
-  featureTags: readonly messages.Tag[],
+  inheritedTags: readonly messages.Tag[],
   backgroundSteps: readonly messages.Step[],
   scenario: messages.Scenario,
   language: string,
@@ -141,7 +143,7 @@ function compileScenarioOutline(
           scenario.steps.length === 0
             ? []
             : backgroundSteps.map((step) => pickleStep(step, [], null, newId))
-        const tags = [].concat(featureTags).concat(scenario.tags).concat(examples.tags)
+        const tags = [].concat(inheritedTags).concat(scenario.tags).concat(examples.tags)
 
         scenario.steps.forEach((scenarioOutlineStep) => {
           const step = pickleStep(scenarioOutlineStep, variableCells, valuesRow, newId)

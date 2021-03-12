@@ -209,6 +209,7 @@ public class GherkinDocumentBuilder implements Builder<GherkinDocument> {
                 if (ruleLine == null) return null;
 
                 List<RuleChild> children = new ArrayList<>();
+                List<Tag> tags = getTags(header);
 
                 Background background = node.getSingle(RuleType.Background, null);
                 if (background != null) {
@@ -221,6 +222,7 @@ public class GherkinDocumentBuilder implements Builder<GherkinDocument> {
 
                 return new Rule(
                         getLocation(ruleLine, 0),
+                        tags,
                         ruleLine.matchedKeyword,
                         ruleLine.matchedText,
                         getDescription(header),

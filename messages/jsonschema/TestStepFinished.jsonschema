@@ -2,7 +2,7 @@
     "$schema": "http://json-schema.org/draft-04/schema#",
     "properties": {
         "test_step_result": {
-            "$ref": "#/definitions/TestStepResult.jsonschema"
+            "$ref": "#/definitions/TestStepResult"
         },
         "timestamp": {
            "$ref": "./Timestamp.jsonschema",

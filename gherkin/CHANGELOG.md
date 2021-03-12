@@ -14,6 +14,8 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 * [Perl] New APIs to spawn message streams: `Gherkin->from_paths` and
     `Gherkin->from_source`
     ([#1359](https://github.com/cucumber/cucumber/pull/1359))
+* [All] Rules can be tagged. Scenarios that belong to the rule "inherit" the rule tags.
+    ([#1356](https://github.com/cucumber/cucumber/pull/1356) [sebrose], [gasparnagy], [brasmusson], [WannesFransen1994])
 
 ### Changed
 

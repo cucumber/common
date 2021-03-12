@@ -5,10 +5,10 @@
             "type": "string"
         },
         "java_method": {
-            "$ref": "./JavaMethod.jsonschema"
+            "$ref": "#/definitions/JavaMethod"
         },
         "java_stack_trace_element": {
-            "$ref": "./JavaStackTraceElement.jsonschema"
+            "$ref": "#/definitions/JavaStackTraceElement"
         },
         "location": {
             "$ref": "./Location.jsonschema"

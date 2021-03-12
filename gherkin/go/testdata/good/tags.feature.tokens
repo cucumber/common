@@ -32,7 +32,10 @@
 (32:1)ScenarioLine:Scenario/hash in tags/
 (33:3)StepLine:Given /a comment is preceded by a space/
 (34:1)Empty://
-(35:1)TagLine://1:@joined_tag3,13:@joined_tag4
-(36:1)ScenarioLine:Scenario/joined tags/
-(37:3)StepLine:Given /the @delimits tags/
+(35:1)TagLine://1:@rule_tag
+(36:1)RuleLine:Rule//
+(37:1)Empty://
+(38:1)TagLine://1:@joined_tag3,13:@joined_tag4
+(39:1)ScenarioLine:Scenario/joined tags/
+(40:3)StepLine:Given /the @delimits tags/
 EOF
