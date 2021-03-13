@@ -1,5 +1,5 @@
 import { gherkinMessages, streamToArray } from './TestHelpers'
-import { IdGenerator, messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import { EnvelopeListener } from '../src/types'
 import assert from 'assert'
 import TestPlan from '../src/TestPlan'
@@ -16,7 +16,7 @@ describe('TestPlan', () => {
   let supportCode: SupportCode
   beforeEach(() => {
     supportCode = new SupportCode(
-      IdGenerator.incrementing(),
+      messages.IdGenerator.incrementing(),
       new IncrementClock(),
       new IncrementStopwatch(),
       withSourceFramesOnlyStackTrace()
@@ -38,13 +38,10 @@ describe('TestPlan', () => {
     }
     await testPlan.execute(listener)
     const testStepFinisheds = envelopes
-      .filter((m) => m.testStepFinished)
-      .map((m) => m.testStepFinished)
+      .filter((m) => m.test_step_finished)
+      .map((m) => m.test_step_finished)
     assert.deepStrictEqual(testStepFinisheds.length, 1)
-    assert.strictEqual(
-      testStepFinisheds[0].testStepResult.status,
-      messages.TestStepFinished.TestStepResult.Status.PASSED
-    )
+    assert.strictEqual(testStepFinisheds[0].test_step_result.status, 'PASSED')
   })
 
   class Flight {
@@ -73,14 +70,11 @@ describe('TestPlan', () => {
     const listener: EnvelopeListener = (envelope) => envelopes.push(envelope)
     await testPlan.execute(listener)
     const testStepFinisheds = envelopes
-      .filter((m) => m.testStepFinished)
-      .map((m) => m.testStepFinished)
+      .filter((m) => m.test_step_finished)
+      .map((m) => m.test_step_finished)
     assert.deepStrictEqual(testStepFinisheds.length, 1)
-    assert.strictEqual(
-      testStepFinisheds[0].testStepResult.status,
-      messages.TestStepFinished.TestStepResult.Status.PASSED
-    )
-    const parameterTypes = envelopes.filter((m) => m.parameterType).map((m) => m.parameterType)
+    assert.strictEqual(testStepFinisheds[0].test_step_result.status, 'PASSED')
+    const parameterTypes = envelopes.filter((m) => m.parameter_type).map((m) => m.parameter_type)
     assert.deepStrictEqual(parameterTypes.length, 1)
     assert.strictEqual(parameterTypes[0].name, 'flight')
   })

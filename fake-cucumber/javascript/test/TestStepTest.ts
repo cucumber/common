@@ -17,21 +17,21 @@ describe('TestStep', () => {
   let world: IWorld
   beforeEach(() => (world = new TestWorld()))
 
-  async function execute(testStep: ITestStep): Promise<messages.ITestStepFinished> {
+  async function execute(testStep: ITestStep): Promise<messages.TestStepFinished> {
     const receivedMessages: messages.Envelope[] = []
     await testStep.execute(world, 'some-testCaseStartedId', (message) =>
       receivedMessages.push(message)
     )
-    return receivedMessages.pop().testStepFinished
+    return receivedMessages.pop().test_step_finished
   }
 
   describe('#execute', () => {
     it('emits a TestStepFinished with status UNDEFINED when there are no matching step definitions', async () => {
       const testStep = makePickleTestStep(
         'some-test-step-id',
-        messages.Pickle.PickleStep.create({
+        {
           text: 'an undefined step',
-        }),
+        },
         [],
         ['some.feature:123'],
         new IncrementClock(),
@@ -41,13 +41,10 @@ describe('TestStep', () => {
 
       const testStepFinished = await execute(testStep)
 
-      assert.strictEqual(
-        testStepFinished.testStepResult.status,
-        messages.NED
-      )
-      assert.notEqual(testStepFinished.testStepResult.duration, null)
+      assert.strictEqual(testStepFinished.test_step_result.status, 'UNDEFINED')
+      assert.notEqual(testStepFinished.test_step_result.duration, null)
 
-      assert.strictEqual(testStepFinished.testStepId, testStep.id)
+      assert.strictEqual(testStepFinished.test_step_id, testStep.id)
     })
 
     it('emits a TestStepFinished with status AMBIGUOUS when there are multiple matching step definitions', async () => {
@@ -61,9 +58,9 @@ describe('TestStep', () => {
       )
       const testStep = makePickleTestStep(
         'some-test-step-id',
-        messages.Pickle.PickleStep.create({
+        {
           text: 'an ambiguous step',
-        }),
+        },
         [stepDefinition, stepDefinition],
         ['some.feature:123'],
         new IncrementClock(),
@@ -72,21 +69,18 @@ describe('TestStep', () => {
       )
 
       const testStepFinished = await execute(testStep)
-      assert.strictEqual(
-        testStepFinished.testStepResult.status,
-        messages.GUOUS
-      )
-      assert.notEqual(testStepFinished.testStepResult.duration, null)
+      assert.strictEqual(testStepFinished.test_step_result.status, 'AMBIGUOUS')
+      assert.notEqual(testStepFinished.test_step_result.duration, null)
 
-      assert.strictEqual(testStepFinished.testStepId, testStep.id)
+      assert.strictEqual(testStepFinished.test_step_id, testStep.id)
     })
 
     it('returns a TestStepResult object with the status', async () => {
       const testStep = makePickleTestStep(
         'some-test-step-id',
-        messages.Pickle.PickleStep.create({
+        {
           text: 'an undefined step',
-        }),
+        },
         [],
         ['some.feature:123'],
         new IncrementClock(),
@@ -95,16 +89,16 @@ describe('TestStep', () => {
       )
 
       const result = await testStep.execute(world, 'some-testCaseStartedId', () => null)
-      assert.strictEqual(result.status, messages.NED)
+      assert.strictEqual(result.status, 'UNDEFINED')
     })
 
     it('computes the execution duration', async () => {
       const emitted: messages.Envelope[] = []
       const testStep = makePickleTestStep(
         'some-test-step-id',
-        messages.Pickle.PickleStep.create({
+        {
           text: 'a passed step',
-        }),
+        },
         [
           new ExpressionStepDefinition(
             'an-id',
@@ -119,7 +113,7 @@ describe('TestStep', () => {
         withSourceFramesOnlyStackTrace()
       )
       await testStep.execute(world, 'some-id', (message) => emitted.push(message))
-      const result = emitted.find((m) => m.testStepFinished).testStepFinished.testStepResult
+      const result = emitted.find((m) => m.test_step_finished).test_step_finished.test_step_result
 
       assert.strictEqual(result.duration.seconds, 0)
     })
@@ -128,9 +122,9 @@ describe('TestStep', () => {
       it('emits a TestStepFinished with status PASSED when no exception is raised', async () => {
         const testStep = makePickleTestStep(
           'some-test-step-id',
-          messages.Pickle.PickleStep.create({
+          {
             text: 'a passed step',
-          }),
+          },
           [
             new ExpressionStepDefinition(
               'an-id',
@@ -147,19 +141,16 @@ describe('TestStep', () => {
 
         const testStepFinished = await execute(testStep)
 
-        assert.strictEqual(
-          testStepFinished.testStepResult.status,
-          messages.TestStepFinished.TestStepResult.Status.PASSED
-        )
-        assert.strictEqual(testStepFinished.testStepId, testStep.id)
+        assert.strictEqual(testStepFinished.test_step_result.status, 'PASSED')
+        assert.strictEqual(testStepFinished.test_step_id, testStep.id)
       })
 
       it('emits a TestStepFinished with status PENDING when the string "pending" is returned', async () => {
         const testStep = makePickleTestStep(
           'some-test-step-id',
-          messages.Pickle.PickleStep.create({
+          {
             text: 'a pending step',
-          }),
+          },
           [
             new ExpressionStepDefinition(
               'an-id',
@@ -175,19 +166,16 @@ describe('TestStep', () => {
         )
         const testStepFinished = await execute(testStep)
 
-        assert.strictEqual(
-          testStepFinished.testStepResult.status,
-          messages.NG
-        )
-        assert.strictEqual(testStepFinished.testStepId, testStep.id)
+        assert.strictEqual(testStepFinished.test_step_result.status, 'PENDING')
+        assert.strictEqual(testStepFinished.test_step_id, testStep.id)
       })
 
       it('emits a TestStepFinished with status FAILED when an exception is raised', async () => {
         const testStep = makePickleTestStep(
           'some-test-step-id',
-          messages.Pickle.PickleStep.create({
+          {
             text: 'a failed step',
-          }),
+          },
           [
             new ExpressionStepDefinition(
               'an-id',
@@ -205,19 +193,16 @@ describe('TestStep', () => {
         )
 
         const testStepFinished = await execute(testStep)
-        assert.strictEqual(
-          testStepFinished.testStepResult.status,
-          messages.LED
-        )
-        assert.strictEqual(testStepFinished.testStepId, testStep.id)
+        assert.strictEqual(testStepFinished.test_step_result.status, 'FAILED')
+        assert.strictEqual(testStepFinished.test_step_id, testStep.id)
       })
 
       it('adds the exception stack trace to the result', async () => {
         const testStep = makePickleTestStep(
           'some-test-step-id',
-          messages.Pickle.PickleStep.create({
+          {
             text: 'a failed step',
-          }),
+          },
           [
             new ExpressionStepDefinition(
               'an-id',
@@ -235,22 +220,22 @@ describe('TestStep', () => {
         )
 
         const testStepFinished = await execute(testStep)
-        assert.ok(testStepFinished.testStepResult.message.includes('Something went wrong'))
-        assert.ok(testStepFinished.testStepResult.message.includes('at some.feature:123'))
+        assert.ok(testStepFinished.test_step_result.message.includes('Something went wrong'))
+        assert.ok(testStepFinished.test_step_result.message.includes('at some.feature:123'))
       })
 
       it('emits a TestStepFinished with error message from docstring', async () => {
-        const docString = new messages.PickleStepArgument.PickleDocString({
+        const docString: messages.PickleDocString = {
           content: 'hello',
-        })
+        }
         const testStep = makePickleTestStep(
           'some-test-step-id',
-          messages.Pickle.PickleStep.create({
+          {
             text: 'a passed step',
-            argument: new messages.PickleStepArgument({
-              docString,
-            }),
-          }),
+            argument: {
+              doc_string: docString,
+            },
+          },
           [
             new ExpressionStepDefinition(
               'an-id',
@@ -268,8 +253,8 @@ describe('TestStep', () => {
         )
 
         const testStepFinished = await execute(testStep)
-        assert.ok(testStepFinished.testStepResult.message.includes('error from hello'))
-        assert.strictEqual(testStepFinished.testStepId, testStep.id)
+        assert.ok(testStepFinished.test_step_result.message.includes('error from hello'))
+        assert.strictEqual(testStepFinished.test_step_id, testStep.id)
       })
     })
   })
@@ -281,9 +266,9 @@ describe('TestStep', () => {
     beforeEach(() => {
       testStep = makePickleTestStep(
         'some-test-step-id',
-        messages.Pickle.PickleStep.create({
+        {
           text: 'an undefined step',
-        }),
+        },
         [],
         ['some.feature:123'],
         new IncrementClock(),
@@ -297,26 +282,23 @@ describe('TestStep', () => {
     it('emits a TestStepStarted message', () => {
       testStep.skip((message) => receivedMessages.push(message), 'test-case-started-id')
 
-      const testStepStarted = receivedMessages.find((m) => m.testStepStarted).testStepStarted
-      assert.strictEqual(testStepStarted.testStepId, testStep.id)
+      const testStepStarted = receivedMessages.find((m) => m.test_step_started).test_step_started
+      assert.strictEqual(testStepStarted.test_step_id, testStep.id)
     })
 
     it('emits a TestStepFinished message with a duration of 0', () => {
       testStep.skip((message) => receivedMessages.push(message), 'test-case-started-id')
 
-      const testStepFinished = receivedMessages.find((m) => m.testStepFinished).testStepFinished
-      assert.strictEqual(testStepFinished.testStepResult.duration.seconds, 0)
-      assert.strictEqual(testStepFinished.testStepResult.duration.nanos, 0)
+      const testStepFinished = receivedMessages.find((m) => m.test_step_finished).test_step_finished
+      assert.strictEqual(testStepFinished.test_step_result.duration.seconds, 0)
+      assert.strictEqual(testStepFinished.test_step_result.duration.nanos, 0)
     })
 
     it('emits a TestStepFinished message with a result SKIPPED', () => {
       testStep.skip((message) => receivedMessages.push(message), 'test-case-started-id')
 
-      const testStepFinished = receivedMessages.find((m) => m.testStepFinished).testStepFinished
-      assert.strictEqual(
-        testStepFinished.testStepResult.status,
-        messages.PPED
-      )
+      const testStepFinished = receivedMessages.find((m) => m.test_step_finished).test_step_finished
+      assert.strictEqual(testStepFinished.test_step_result.status, 'SKIPPED')
     })
   })
 })

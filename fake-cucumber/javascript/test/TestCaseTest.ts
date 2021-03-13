@@ -11,7 +11,14 @@ const { millisecondsToDuration } = messages.TimeConversion
 class StubTestStep extends TestStep {
   public constructor(
     alwaysExecute: boolean,
-    private readonly status: messages.TestStepFinished.TestStepResult.Status,
+    private readonly status:
+      | 'UNKNOWN'
+      | 'PASSED'
+      | 'SKIPPED'
+      | 'PENDING'
+      | 'UNDEFINED'
+      | 'AMBIGUOUS'
+      | 'FAILED',
     private readonly message?: string
   ) {
     super(
@@ -27,7 +34,7 @@ class StubTestStep extends TestStep {
   }
 
   public toMessage(): messages.TestStep {
-    return new messages.TestCase.TestStep()
+    return {}
   }
 
   public async execute(
@@ -37,11 +44,11 @@ class StubTestStep extends TestStep {
   ): Promise<messages.TestStepResult> {
     const testStepResult = this.emitTestStepFinished(
       testCaseStartedId,
-      new messages.TestStepFinished.TestStepResult({
+      {
         status: this.status,
         duration: millisecondsToDuration(1005),
         message: this.message,
-      }),
+      },
       listener
     )
     return Promise.resolve(testStepResult)
@@ -53,8 +60,8 @@ describe('TestCase', () => {
     it('executes all passing steps', async () => {
       const emitted: messages.Envelope[] = []
       const testSteps: TestStep[] = [
-        new StubTestStep(false, messages.TestStepFinished.TestStepResult.Status.PASSED),
-        new StubTestStep(false, messages.TestStepFinished.TestStepResult.Status.PASSED),
+        new StubTestStep(false, 'PASSED'),
+        new StubTestStep(false, 'PASSED'),
       ]
       const testCase = new TestCase(
         'some-test-case-id',
@@ -68,20 +75,17 @@ describe('TestCase', () => {
         'test-case-started-id'
       )
       const testStepStatuses = emitted
-        .filter((m) => m.testStepFinished)
-        .map((m) => m.testStepFinished.testStepResult.status)
+        .filter((m) => m.test_step_finished)
+        .map((m) => m.test_step_finished.test_step_result.status)
 
-      assert.deepStrictEqual(testStepStatuses, [
-        messages.TestStepFinished.TestStepResult.Status.PASSED,
-        messages.TestStepFinished.TestStepResult.Status.PASSED,
-      ])
+      assert.deepStrictEqual(testStepStatuses, ['PASSED', 'PASSED'])
     })
 
     it('skips steps after a failed step', async () => {
       const emitted: messages.Envelope[] = []
       const testSteps: TestStep[] = [
-        new StubTestStep(false, messages.LED),
-        new StubTestStep(false, messages.TestStepFinished.TestStepResult.Status.PASSED),
+        new StubTestStep(false, 'FAILED'),
+        new StubTestStep(false, 'PASSED'),
       ]
       const testCase = new TestCase(
         'some-test-case-id',
@@ -95,19 +99,16 @@ describe('TestCase', () => {
         'test-case-started-id'
       )
       const testStepStatuses = emitted
-        .filter((m) => m.testStepFinished)
-        .map((m) => m.testStepFinished.testStepResult.status)
-      assert.deepStrictEqual(testStepStatuses, [
-        messages.LED,
-        messages.PPED,
-      ])
+        .filter((m) => m.test_step_finished)
+        .map((m) => m.test_step_finished.test_step_result.status)
+      assert.deepStrictEqual(testStepStatuses, ['FAILED', 'SKIPPED'])
     })
 
     it('always runs after steps regardless of previous steps status', async () => {
       const emitted: messages.Envelope[] = []
       const testSteps: TestStep[] = [
-        new StubTestStep(true, messages.LED),
-        new StubTestStep(true, messages.LED),
+        new StubTestStep(true, 'FAILED'),
+        new StubTestStep(true, 'FAILED'),
       ]
       const testCase = new TestCase(
         'some-test-case-id',
@@ -121,19 +122,14 @@ describe('TestCase', () => {
         'test-case-started-id'
       )
       const testStepStatuses = emitted
-        .filter((m) => m.testStepFinished)
-        .map((m) => m.testStepFinished.testStepResult.status)
-      assert.deepStrictEqual(testStepStatuses, [
-        messages.LED,
-        messages.LED,
-      ])
+        .filter((m) => m.test_step_finished)
+        .map((m) => m.test_step_finished.test_step_result.status)
+      assert.deepStrictEqual(testStepStatuses, ['FAILED', 'FAILED'])
     })
 
     it('emits TestCaseStarted and TestCaseFinished messages', async () => {
       const emitted: messages.Envelope[] = []
-      const testSteps: TestStep[] = [
-        new StubTestStep(false, messages.TestStepFinished.TestStepResult.Status.PASSED),
-      ]
+      const testSteps: TestStep[] = [new StubTestStep(false, 'PASSED')]
       const testCase = new TestCase(
         'some-test-case-id',
         testSteps,
@@ -146,11 +142,11 @@ describe('TestCase', () => {
         'test-case-started-id'
       )
 
-      const testCaseStarted = emitted[0].testCaseStarted
-      const testCaseFinished = emitted.find((m) => m.testCaseFinished).testCaseFinished
+      const testCaseStarted = emitted[0].test_case_started
+      const testCaseFinished = emitted.find((m) => m.test_case_finished).test_case_finished
 
-      assert.strictEqual(testCaseStarted.testCaseId, testCase.id)
-      assert.strictEqual(testCaseFinished.testCaseStartedId, testCaseStarted.id)
+      assert.strictEqual(testCaseStarted.test_case_id, testCase.id)
+      assert.strictEqual(testCaseFinished.test_case_started_id, testCaseStarted.id)
     })
   })
 })
