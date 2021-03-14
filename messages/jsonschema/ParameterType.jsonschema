@@ -1,26 +1,26 @@
 {
-    "$schema": "http://json-schema.org/draft-04/schema#",
-    "properties": {
-        "name": {
-            "type": "string",
-            "description": "The name is unique, so we don't need an id."
-        },
-        "regularExpressions": {
-            "items": {
-                "type": "string"
-            },
-            "type": "array"
-        },
-        "preferForRegularExpressionMatch": {
-            "type": "boolean"
-        },
-        "useForSnippets": {
-            "type": "boolean"
-        },
-        "id": {
-            "type": "string"
-        }
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string"
     },
-    "additionalProperties": false,
-    "type": "object"
+    "name": {
+      "description": "The name is unique, so we don't need an id.",
+      "type": "string"
+    },
+    "preferForRegularExpressionMatch": {
+      "type": "boolean"
+    },
+    "regularExpressions": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "useForSnippets": {
+      "type": "boolean"
+    }
+  },
+  "type": "object"
 }

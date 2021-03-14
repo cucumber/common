@@ -1,55 +1,55 @@
 {
-    "$schema": "http://json-schema.org/draft-04/schema#",
-    "properties": {
-        "uri": {
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "additionalProperties": false,
+  "definitions": {
+    "JavaMethod": {
+      "additionalProperties": false,
+      "properties": {
+        "className": {
+          "type": "string"
+        },
+        "methodName": {
+          "type": "string"
+        },
+        "methodParameterTypes": {
+          "items": {
             "type": "string"
-        },
-        "javaMethod": {
-            "$ref": "#/definitions/JavaMethod"
-        },
-        "javaStackTraceElement": {
-            "$ref": "#/definitions/JavaStackTraceElement"
-        },
-        "location": {
-            "$ref": "./Location.jsonschema"
+          },
+          "type": "array"
         }
+      },
+      "type": "object"
     },
-    "additionalProperties": false,
-    "type": "object",
-    "description": "*\n Points to a [Source](#io.cucumber.messages.Source) identified by `uri` and a\n [Location](#io.cucumber.messages.Location) within that file.",
-    "definitions": {
-        "JavaMethod": {
-            "properties": {
-                "className": {
-                    "type": "string"
-                },
-                "methodName": {
-                    "type": "string"
-                },
-                "methodParameterTypes": {
-                    "items": {
-                        "type": "string"
-                    },
-                    "type": "array"
-                }
-            },
-            "additionalProperties": false,
-            "type": "object"
+    "JavaStackTraceElement": {
+      "additionalProperties": false,
+      "properties": {
+        "className": {
+          "type": "string"
         },
-        "JavaStackTraceElement": {
-            "properties": {
-                "className": {
-                    "type": "string"
-                },
-                "methodName": {
-                    "type": "string"
-                },
-                "fileName": {
-                    "type": "string"
-                }
-            },
-            "additionalProperties": false,
-            "type": "object"
+        "fileName": {
+          "type": "string"
+        },
+        "methodName": {
+          "type": "string"
         }
+      },
+      "type": "object"
     }
+  },
+  "description": "*\n Points to a [Source](#io.cucumber.messages.Source) identified by `uri` and a\n [Location](#io.cucumber.messages.Location) within that file.",
+  "properties": {
+    "javaMethod": {
+      "$ref": "#/definitions/JavaMethod"
+    },
+    "javaStackTraceElement": {
+      "$ref": "#/definitions/JavaStackTraceElement"
+    },
+    "location": {
+      "$ref": "./Location.jsonschema"
+    },
+    "uri": {
+      "type": "string"
+    }
+  },
+  "type": "object"
 }

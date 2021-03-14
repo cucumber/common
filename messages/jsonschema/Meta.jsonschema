@@ -1,87 +1,87 @@
 {
-    "$schema": "http://json-schema.org/draft-04/schema#",
-    "properties": {
-        "protocol_version": {
-            "type": "string",
-            "description": "*\n The [SEMVER](https://semver.org/) version number of the protocol"
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "additionalProperties": false,
+  "definitions": {
+    "Ci": {
+      "additionalProperties": false,
+      "description": "CI environment",
+      "properties": {
+        "git": {
+          "$ref": "#/definitions/Git"
         },
-        "implementation": {
-            "$ref": "#/definitions/Product",
-            "description": "SpecFlow, Cucumber-JVM, Cucumber.js, Cucumber-Ruby, Behat etc."
+        "name": {
+          "description": "Name of the CI product, e.g. \"Jenkins\", \"CircleCI\" etc.",
+          "type": "string"
         },
-        "runtime": {
-            "$ref": "#/definitions/Product",
-            "description": "Java, Ruby, Node.js etc"
-        },
-        "os": {
-            "$ref": "#/definitions/Product",
-            "description": "Windows, Linux, MacOS etc"
-        },
-        "cpu": {
-            "$ref": "#/definitions/Product",
-            "description": "386, arm, amd64 etc"
-        },
-        "ci": {
-            "$ref": "#/definitions/Ci"
+        "url": {
+          "description": "Link to the build",
+          "type": "string"
         }
+      },
+      "type": "object"
     },
-    "additionalProperties": false,
-    "type": "object",
-    "description": "*\n This message contains meta information about the environment. Consumers can use\n this for various purposes.",
-    "definitions": {
-        "Ci": {
-            "properties": {
-                "name": {
-                    "type": "string",
-                    "description": "Name of the CI product, e.g. \"Jenkins\", \"CircleCI\" etc."
-                },
-                "url": {
-                    "type": "string",
-                    "description": "Link to the build"
-                },
-                "git": {
-                  "$ref": "#/definitions/Git"
-                }
-            },
-            "additionalProperties": false,
-            "type": "object",
-            "description": "CI environment"
+    "Git": {
+      "additionalProperties": false,
+      "description": "Information about Git, provided by the Build/CI server as environment\n variables.",
+      "properties": {
+        "branch": {
+          "type": "string"
         },
-        "Git": {
-            "properties": {
-                "remote": {
-                    "type": "string"
-                },
-                "revision": {
-                    "type": "string"
-                },
-                "branch": {
-                    "type": "string"
-                },
-                "tag": {
-                    "type": "string"
-                }
-            },
-            "additionalProperties": false,
-            "type": "object",
-            "description": "Information about Git, provided by the Build/CI server as environment\n variables."
+        "remote": {
+          "type": "string"
         },
-        "Product": {
-            "$schema": "http://json-schema.org/draft-04/schema#",
-            "properties": {
-                "name": {
-                    "type": "string",
-                    "description": "The product name"
-                },
-                "version": {
-                    "type": "string",
-                    "description": "The product version"
-                }
-            },
-            "additionalProperties": false,
-            "type": "object",
-            "description": "Used to describe various properties of Meta",
-            "id": "Product"
+        "revision": {
+          "type": "string"
+        },
+        "tag": {
+          "type": "string"
         }
+      },
+      "type": "object"
+    },
+    "Product": {
+      "$schema": "http://json-schema.org/draft-04/schema#",
+      "additionalProperties": false,
+      "description": "Used to describe various properties of Meta",
+      "id": "Product",
+      "properties": {
+        "name": {
+          "description": "The product name",
+          "type": "string"
+        },
+        "version": {
+          "description": "The product version",
+          "type": "string"
+        }
+      },
+      "type": "object"
     }
+  },
+  "description": "*\n This message contains meta information about the environment. Consumers can use\n this for various purposes.",
+  "properties": {
+    "ci": {
+      "$ref": "#/definitions/Ci"
+    },
+    "cpu": {
+      "$ref": "#/definitions/Product",
+      "description": "386, arm, amd64 etc"
+    },
+    "implementation": {
+      "$ref": "#/definitions/Product",
+      "description": "SpecFlow, Cucumber-JVM, Cucumber.js, Cucumber-Ruby, Behat etc."
+    },
+    "os": {
+      "$ref": "#/definitions/Product",
+      "description": "Windows, Linux, MacOS etc"
+    },
+    "protocol_version": {
+      "description": "*\n The [SEMVER](https://semver.org/) version number of the protocol",
+      "type": "string"
+    },
+    "runtime": {
+      "$ref": "#/definitions/Product",
+      "description": "Java, Ruby, Node.js etc"
+    }
+  },
+  "type": "object"
 }

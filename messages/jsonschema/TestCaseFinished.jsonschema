@@ -1,15 +1,15 @@
 {
-    "$schema": "http://json-schema.org/draft-04/schema#",
-    "properties": {
-        "timestamp": {
-            "$ref": "./Timestamp.jsonschema",
-            "additionalProperties": false,
-            "type": "object"
-        },
-        "testCaseStartedId": {
-            "type": "string"
-        }
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "additionalProperties": false,
+  "properties": {
+    "testCaseStartedId": {
+      "type": "string"
     },
-    "additionalProperties": false,
-    "type": "object"
+    "timestamp": {
+      "$ref": "./Timestamp.jsonschema",
+      "additionalProperties": false,
+      "type": "object"
+    }
+  },
+  "type": "object"
 }

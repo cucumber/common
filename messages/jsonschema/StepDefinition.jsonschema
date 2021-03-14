@@ -1,34 +1,34 @@
 {
-    "$schema": "http://json-schema.org/draft-04/schema#",
-    "properties": {
-        "id": {
-            "type": "string"
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "additionalProperties": false,
+  "definitions": {
+    "StepDefinitionPattern": {
+      "additionalProperties": false,
+      "properties": {
+        "source": {
+          "type": "string"
         },
-        "pattern": {
-            "$ref": "#/definitions/StepDefinitionPattern"
-        },
-        "sourceReference": {
-            "$ref": "./SourceReference.jsonschema"
+        "type": {
+          "enum": [
+            "CUCUMBER_EXPRESSION",
+            "REGULAR_EXPRESSION"
+          ],
+          "type": "string"
         }
-    },
-    "additionalProperties": false,
-    "type": "object",
-    "definitions": {
-        "StepDefinitionPattern": {
-            "properties": {
-                "source": {
-                    "type": "string"
-                },
-                "type": {
-                    "enum": [
-                        "CUCUMBER_EXPRESSION",
-                        "REGULAR_EXPRESSION"
-                    ],
-                    "type": "string"
-                }
-            },
-            "additionalProperties": false,
-            "type": "object"
-        }
+      },
+      "type": "object"
     }
+  },
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "pattern": {
+      "$ref": "#/definitions/StepDefinitionPattern"
+    },
+    "sourceReference": {
+      "$ref": "./SourceReference.jsonschema"
+    }
+  },
+  "type": "object"
 }

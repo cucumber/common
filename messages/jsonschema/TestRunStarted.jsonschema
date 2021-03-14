@@ -1,12 +1,12 @@
 {
-    "$schema": "http://json-schema.org/draft-04/schema#",
-    "properties": {
-        "timestamp": {
-          "$ref": "./Timestamp.jsonschema",
-          "additionalProperties": false,
-            "type": "object"
-        }
-    },
-    "additionalProperties": false,
-    "type": "object"
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "additionalProperties": false,
+  "properties": {
+    "timestamp": {
+      "$ref": "./Timestamp.jsonschema",
+      "additionalProperties": false,
+      "type": "object"
+    }
+  },
+  "type": "object"
 }

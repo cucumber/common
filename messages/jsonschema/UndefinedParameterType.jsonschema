@@ -1,13 +1,13 @@
 {
-    "$schema": "http://json-schema.org/draft-04/schema#",
-    "properties": {
-        "name": {
-            "type": "string"
-        },
-        "expression": {
-            "type": "string"
-        }
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "additionalProperties": false,
+  "properties": {
+    "expression": {
+      "type": "string"
     },
-    "additionalProperties": false,
-    "type": "object"
+    "name": {
+      "type": "string"
+    }
+  },
+  "type": "object"
 }

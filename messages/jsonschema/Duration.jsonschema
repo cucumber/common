@@ -1,15 +1,15 @@
 {
-    "$schema": "http://json-schema.org/draft-04/schema#",
-    "properties": {
-        "seconds": {
-            "type": "integer"
-        },
-        "nanos": {
-            "type": "integer",
-            "description": "Non-negative fractions of a second at nanosecond resolution. Negative\n second values with fractions must still have non-negative nanos values\n that count forward in time. Must be from 0 to 999,999,999\n inclusive."
-        }
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "additionalProperties": false,
+  "description": "The structure is pretty close of the Timestamp one. For clarity, a second type\n of message is used.",
+  "properties": {
+    "nanos": {
+      "description": "Non-negative fractions of a second at nanosecond resolution. Negative\n second values with fractions must still have non-negative nanos values\n that count forward in time. Must be from 0 to 999,999,999\n inclusive.",
+      "type": "integer"
     },
-    "additionalProperties": false,
-    "type": "object",
-    "description": "The structure is pretty close of the Timestamp one. For clarity, a second type\n of message is used."
+    "seconds": {
+      "type": "integer"
+    }
+  },
+  "type": "object"
 }

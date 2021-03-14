@@ -1,13 +1,13 @@
 {
-    "$schema": "http://json-schema.org/draft-04/schema#",
-    "properties": {
-        "source": {
-          "$ref": "./SourceReference.jsonschema"
-        },
-        "message": {
-            "type": "string"
-        }
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "additionalProperties": false,
+  "properties": {
+    "message": {
+      "type": "string"
     },
-    "additionalProperties": false,
-    "type": "object"
+    "source": {
+      "$ref": "./SourceReference.jsonschema"
+    }
+  },
+  "type": "object"
 }

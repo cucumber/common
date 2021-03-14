@@ -1,52 +1,52 @@
 {
-    "$schema": "http://json-schema.org/draft-04/schema#",
-    "properties": {
-        "test_step_result": {
-            "$ref": "#/definitions/TestStepResult"
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "additionalProperties": false,
+  "definitions": {
+    "TestStepResult": {
+      "additionalProperties": false,
+      "properties": {
+        "duration": {
+          "$ref": "./Duration.jsonschema",
+          "additionalProperties": false,
+          "type": "object"
         },
-        "timestamp": {
-           "$ref": "./Timestamp.jsonschema",
-            "additionalProperties": false,
-            "type": "object"
+        "message": {
+          "type": "string"
         },
-        "testStepId": {
-            "type": "string"
+        "status": {
+          "enum": [
+            "UNKNOWN",
+            "PASSED",
+            "SKIPPED",
+            "PENDING",
+            "UNDEFINED",
+            "AMBIGUOUS",
+            "FAILED"
+          ],
+          "type": "string"
         },
-        "testCaseStartedId": {
-            "type": "string"
+        "will_be_retried": {
+          "type": "boolean"
         }
-    },
-    "additionalProperties": false,
-    "type": "object",
-    "definitions": {
-        "TestStepResult": {
-            "properties": {
-                "status": {
-                    "enum": [
-                        "UNKNOWN",
-                        "PASSED",
-                        "SKIPPED",
-                        "PENDING",
-                        "UNDEFINED",
-                        "AMBIGUOUS",
-                        "FAILED"
-                    ],
-                    "type": "string"
-                },
-                "message": {
-                    "type": "string"
-                },
-                "duration": {
-                    "$ref": "./Duration.jsonschema",
-                    "additionalProperties": false,
-                    "type": "object"
-                },
-                "will_be_retried": {
-                    "type": "boolean"
-                }
-            },
-            "additionalProperties": false,
-            "type": "object"
-        }
+      },
+      "type": "object"
     }
+  },
+  "properties": {
+    "testCaseStartedId": {
+      "type": "string"
+    },
+    "testStepId": {
+      "type": "string"
+    },
+    "test_step_result": {
+      "$ref": "#/definitions/TestStepResult"
+    },
+    "timestamp": {
+      "$ref": "./Timestamp.jsonschema",
+      "additionalProperties": false,
+      "type": "object"
+    }
+  },
+  "type": "object"
 }

@@ -1,96 +1,96 @@
 {
-    "$schema": "http://json-schema.org/draft-04/schema#",
-    "properties": {
-        "source": {
-            "$ref": "./Source.jsonschema",
-            "additionalProperties": false,
-            "type": "object"
-        },
-        "gherkinDocument": {
-            "$ref": "./GherkinDocument.jsonschema",
-            "additionalProperties": false,
-            "type": "object"
-        },
-        "pickle": {
-            "$ref": "./Pickle.jsonschema",
-            "additionalProperties": false,
-            "type": "object",
-            "description": "Compiler(s)"
-        },
-        "stepDefinition": {
-            "$ref": "./StepDefinition.jsonschema",
-            "additionalProperties": false,
-            "type": "object"
-        },
-        "hook": {
-            "$ref": "./Hook.jsonschema",
-            "additionalProperties": false,
-            "type": "object"
-        },
-        "parameterType": {
-            "$ref": "./ParameterType.jsonschema",
-            "additionalProperties": false,
-            "type": "object"
-        },
-        "testCase": {
-            "$ref": "./TestCase.jsonschema",
-            "additionalProperties": false,
-            "type": "object"
-        },
-        "undefinedParameterType": {
-            "$ref": "./UndefinedParameterType.jsonschema",
-            "additionalProperties": false,
-            "type": "object"
-        },
-        "testRunStarted": {
-            "$ref": "./TestRunStarted.jsonschema",
-            "additionalProperties": false,
-            "type": "object",
-            "description": "Execution"
-        },
-        "testCaseStarted": {
-            "$ref": "./TestCaseStarted.jsonschema",
-            "additionalProperties": false,
-            "type": "object"
-        },
-        "testStepStarted": {
-            "$ref": "./TestStepStarted.jsonschema",
-            "additionalProperties": false,
-            "type": "object"
-        },
-        "attachment": {
-            "$ref": "./Attachment.jsonschema",
-            "additionalProperties": false,
-            "type": "object"
-        },
-        "testStepFinished": {
-            "$ref": "./TestStepFinished.jsonschema",
-            "additionalProperties": false,
-            "type": "object"
-        },
-        "testCaseFinished": {
-            "$ref": "./TestCaseFinished.jsonschema",
-            "additionalProperties": false,
-            "type": "object"
-        },
-        "testRunFinished": {
-            "$ref": "./TestRunFinished.jsonschema",
-            "additionalProperties": false,
-            "type": "object"
-        },
-        "parseError": {
-            "$ref": "./ParseError.jsonschema",
-            "additionalProperties": false,
-            "type": "object",
-            "description": "Parsing"
-        },
-        "meta": {
-            "$ref": "./Meta.jsonschema",
-            "additionalProperties": false,
-            "type": "object"
-        }
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "additionalProperties": false,
+  "description": "When removing a field, replace it with reserved, rather than deleting the line.\n When adding a field, add it to the end and increment the number by one.\n See https://developers.google.com/protocol-buffers/docs/proto#updating for details\n\n*\n All the messages that are passed between different components/processes are Envelope\n messages.",
+  "properties": {
+    "attachment": {
+      "$ref": "./Attachment.jsonschema",
+      "additionalProperties": false,
+      "type": "object"
     },
-    "additionalProperties": false,
-    "type": "object",
-    "description": "When removing a field, replace it with reserved, rather than deleting the line.\n When adding a field, add it to the end and increment the number by one.\n See https://developers.google.com/protocol-buffers/docs/proto#updating for details\n\n*\n All the messages that are passed between different components/processes are Envelope\n messages."
+    "gherkinDocument": {
+      "$ref": "./GherkinDocument.jsonschema",
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "hook": {
+      "$ref": "./Hook.jsonschema",
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "meta": {
+      "$ref": "./Meta.jsonschema",
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "parameterType": {
+      "$ref": "./ParameterType.jsonschema",
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "parseError": {
+      "$ref": "./ParseError.jsonschema",
+      "additionalProperties": false,
+      "description": "Parsing",
+      "type": "object"
+    },
+    "pickle": {
+      "$ref": "./Pickle.jsonschema",
+      "additionalProperties": false,
+      "description": "Compiler(s)",
+      "type": "object"
+    },
+    "source": {
+      "$ref": "./Source.jsonschema",
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "stepDefinition": {
+      "$ref": "./StepDefinition.jsonschema",
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "testCase": {
+      "$ref": "./TestCase.jsonschema",
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "testCaseFinished": {
+      "$ref": "./TestCaseFinished.jsonschema",
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "testCaseStarted": {
+      "$ref": "./TestCaseStarted.jsonschema",
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "testRunFinished": {
+      "$ref": "./TestRunFinished.jsonschema",
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "testRunStarted": {
+      "$ref": "./TestRunStarted.jsonschema",
+      "additionalProperties": false,
+      "description": "Execution",
+      "type": "object"
+    },
+    "testStepFinished": {
+      "$ref": "./TestStepFinished.jsonschema",
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "testStepStarted": {
+      "$ref": "./TestStepStarted.jsonschema",
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "undefinedParameterType": {
+      "$ref": "./UndefinedParameterType.jsonschema",
+      "additionalProperties": false,
+      "type": "object"
+    }
+  },
+  "type": "object"
 }
