@@ -11,7 +11,7 @@ describe('PredictableSupportCode', () => {
     const predictableSupportCode = new PredictableSupportCode(supportCode)
     const scenarioId = 'some-scenario-id'
     const pickle: messages.Pickle = {
-      ast_node_ids: [scenarioId],
+      astNodeIds: [scenarioId],
     }
 
     beforeEach(() => {
@@ -33,7 +33,7 @@ describe('PredictableSupportCode', () => {
       const expected: messages.SourceReference = {
         uri: 'some/where',
       }
-      assert.deepStrictEqual(hook.toMessage().hook.source_reference, expected)
+      assert.deepStrictEqual(hook.toMessage().hook.sourceReference, expected)
     })
 
     it('adds a hook with a passed status when status is "passed"', () => {
@@ -64,7 +64,7 @@ describe('PredictableSupportCode', () => {
     const predictableSupportCode2 = new PredictableSupportCode(supportCode)
     const scenarioId = 'some-scenario-id'
     const pickle: messages.Pickle = {
-      ast_node_ids: [scenarioId],
+      astNodeIds: [scenarioId],
     }
 
     beforeEach(() => {
@@ -89,7 +89,7 @@ describe('PredictableSupportCode', () => {
           line: 7,
         },
       }
-      assert.deepStrictEqual(hook.toMessage().hook.source_reference, sourceReference)
+      assert.deepStrictEqual(hook.toMessage().hook.sourceReference, sourceReference)
     })
 
     it('adds a hook with a passed status when status is "passed"', () => {
@@ -121,7 +121,7 @@ describe('PredictableSupportCode', () => {
     const predictableSupportCode = new PredictableSupportCode(supportCode)
     const stepId = 'some-step-id'
     const picklestep: messages.PickleStep = {
-      ast_node_ids: [stepId],
+      astNodeIds: [stepId],
     }
 
     beforeEach(() => {
@@ -151,7 +151,7 @@ describe('PredictableSupportCode', () => {
         },
       }
       assert.deepStrictEqual(
-        stepDefinition.toMessage().step_definition.source_reference,
+        stepDefinition.toMessage().stepDefinition.sourceReference,
         sourceReference
       )
     })

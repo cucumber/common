@@ -14,7 +14,8 @@ export default class MessageToNdjsonStream extends Transform {
     // This is to make it behave the same as Golang's protobuf->JSON converter
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const json = JSON.stringify(envelope, (key: string, value: any) => {
-      return value === '' ? undefined : value
+      const empty = value === '' || (Array.isArray(value) && value.length === 0)
+      return empty ? undefined : value
     })
     this.push(json + '\n')
     callback()

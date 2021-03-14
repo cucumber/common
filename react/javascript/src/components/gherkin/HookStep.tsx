@@ -14,16 +14,14 @@ const HookStep: React.FunctionComponent<IProps> = ({ step }) => {
 
   const stepResult = cucumberQuery.getWorstTestStepResult(cucumberQuery.getTestStepResults(step.id))
 
-  const hook = cucumberQuery.getHook(step.hook_id)
+  const hook = cucumberQuery.getHook(step.hookId)
   const attachments = cucumberQuery.getTestStepsAttachments([step.id])
 
   if (stepResult.status === 'FAILED') {
-    const location = hook.source_reference.location
-      ? hook.source_reference.uri + ':' + hook.source_reference.location.line
-      : hook.source_reference.java_method
-      ? hook.source_reference.java_method.class_name +
-        '.' +
-        hook.source_reference.java_method.method_name
+    const location = hook.sourceReference.location
+      ? hook.sourceReference.uri + ':' + hook.sourceReference.location.line
+      : hook.sourceReference.javaMethod
+      ? hook.sourceReference.javaMethod.className + '.' + hook.sourceReference.javaMethod.methodName
       : 'Unknown location'
     return (
       <StepContainer status={stepResult.status}>

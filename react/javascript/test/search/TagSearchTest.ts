@@ -35,8 +35,8 @@ Feature: Solar System
       gherkinQuery.update(envelope)
     }
     for (const envelope of envelopes) {
-      if (envelope.gherkin_document) {
-        tagSearch.add(envelope.gherkin_document)
+      if (envelope.gherkinDocument) {
+        tagSearch.add(envelope.gherkinDocument)
       }
     }
     return pretty(tagSearch.search(query)[0])

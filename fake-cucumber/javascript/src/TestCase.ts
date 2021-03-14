@@ -20,10 +20,10 @@ export default class TestCase implements ITestCase {
 
   public toMessage(): messages.Envelope {
     return {
-      test_case: {
+      testCase: {
         id: this.id,
-        pickle_id: this.pickleId,
-        test_steps: this.testSteps.map((step) => step.toMessage()),
+        pickleId: this.pickleId,
+        testSteps: this.testSteps.map((step) => step.toMessage()),
       },
     }
   }
@@ -34,9 +34,9 @@ export default class TestCase implements ITestCase {
     testCaseStartedId: string
   ): Promise<void> {
     listener({
-      test_case_started: {
+      testCaseStarted: {
         attempt,
-        test_case_id: this.id,
+        testCaseId: this.id,
         id: testCaseStartedId,
         timestamp: millisecondsSinceEpochToTimestamp(this.clock.clockNow()),
       },
@@ -64,8 +64,8 @@ export default class TestCase implements ITestCase {
     }
 
     listener({
-      test_case_finished: {
-        test_case_started_id: testCaseStartedId,
+      testCaseFinished: {
+        testCaseStartedId: testCaseStartedId,
         timestamp: millisecondsSinceEpochToTimestamp(this.clock.clockNow()),
       },
     })

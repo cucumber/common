@@ -11,31 +11,31 @@ interface IProps {
 }
 
 const Attachment: React.FunctionComponent<IProps> = ({ attachment }) => {
-  if (attachment.media_type.match(/^image\//)) {
+  if (attachment.mediaType.match(/^image\//)) {
     return image(attachment)
-  } else if (attachment.media_type.match(/^video\//)) {
+  } else if (attachment.mediaType.match(/^video\//)) {
     return video(attachment)
-  } else if (attachment.media_type == 'text/x.cucumber.log+plain') {
+  } else if (attachment.mediaType == 'text/x.cucumber.log+plain') {
     return text(attachment, prettyANSI, true)
-  } else if (attachment.media_type.match(/^text\//)) {
+  } else if (attachment.mediaType.match(/^text\//)) {
     return text(attachment, (s) => s, false)
-  } else if (attachment.media_type.match(/^application\/json/)) {
+  } else if (attachment.mediaType.match(/^application\/json/)) {
     return text(attachment, prettyJSON, false)
   } else {
     return (
       <ErrorMessage
-        message={`Couldn't display ${attachment.media_type} attachment because the media type is unsupported. Please submit a feature request at https://github.com/cucumber/cucumber/issues`}
+        message={`Couldn't display ${attachment.mediaType} attachment because the media type is unsupported. Please submit a feature request at https://github.com/cucumber/cucumber/issues`}
       />
     )
   }
 }
 
 function image(attachment: messages.Attachment) {
-  if (attachment.content_encoding !== 'BASE64') {
+  if (attachment.contentEncoding !== 'BASE64') {
     return (
       <ErrorMessage
         className="cucumber-attachment"
-        message={`Couldn't display ${attachment.media_type} image because it wasn't base64 encoded`}
+        message={`Couldn't display ${attachment.mediaType} image because it wasn't base64 encoded`}
       />
     )
   }
@@ -44,7 +44,7 @@ function image(attachment: messages.Attachment) {
       <summary>Attached Image</summary>
       <img
         alt="Embedded Image"
-        src={`data:${attachment.media_type};base64,${attachment.body}`}
+        src={`data:${attachment.mediaType};base64,${attachment.body}`}
         className="cucumber-attachment cucumber-attachment__image"
       />
     </details>
@@ -52,11 +52,11 @@ function image(attachment: messages.Attachment) {
 }
 
 function video(attachment: messages.Attachment) {
-  if (attachment.content_encoding !== 'BASE64') {
+  if (attachment.contentEncoding !== 'BASE64') {
     return (
       <ErrorMessage
         className="cucumber-attachment"
-        message={`Couldn't display ${attachment.media_type} video because it wasn't base64 encoded`}
+        message={`Couldn't display ${attachment.mediaType} video because it wasn't base64 encoded`}
       />
     )
   }
@@ -64,7 +64,7 @@ function video(attachment: messages.Attachment) {
     <details>
       <summary>Attached Video</summary>
       <video controls>
-        <source src={`data:${attachment.media_type};base64,${attachment.body}`} />
+        <source src={`data:${attachment.mediaType};base64,${attachment.body}`} />
         Your browser is unable to display video
       </video>
     </details>
@@ -89,7 +89,7 @@ function text(
   dangerouslySetInnerHTML: boolean
 ) {
   const body =
-    attachment.content_encoding === 'IDENTITY' ? attachment.body : base64Decode(attachment.body)
+    attachment.contentEncoding === 'IDENTITY' ? attachment.body : base64Decode(attachment.body)
 
   if (dangerouslySetInnerHTML) {
     return (

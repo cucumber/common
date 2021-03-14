@@ -23,7 +23,7 @@ export default class TestPlan implements ITestPlan {
     }
 
     listener({
-      test_run_started: {
+      testRunStarted: {
         timestamp: messages.TimeConversion.millisecondsSinceEpochToTimestamp(
           this.supportCode.clock.clockNow()
         ),
@@ -37,7 +37,7 @@ export default class TestPlan implements ITestPlan {
       await testCase.execute(listener, 0, this.supportCode.newId())
     }
     listener({
-      test_run_finished: {
+      testRunFinished: {
         timestamp: messages.TimeConversion.millisecondsSinceEpochToTimestamp(
           this.supportCode.clock.clockNow()
         ),

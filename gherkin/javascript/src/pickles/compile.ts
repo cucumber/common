@@ -116,7 +116,7 @@ function compileScenario(
   const pickle: messages.Pickle = {
     id: newId(),
     uri,
-    ast_node_ids: [scenario.id],
+    astNodeIds: [scenario.id],
     tags: pickleTags(tags),
     name: scenario.name,
     language,
@@ -135,10 +135,10 @@ function compileScenarioOutline(
   newId: messages.IdGenerator.NewId
 ) {
   scenario.examples
-    .filter((e) => e.table_header !== null)
+    .filter((e) => e.tableHeader !== null)
     .forEach((examples) => {
-      const variableCells = examples.table_header.cells
-      examples.table_body.forEach((valuesRow) => {
+      const variableCells = examples.tableHeader.cells
+      examples.tableBody.forEach((valuesRow) => {
         const steps =
           scenario.steps.length === 0
             ? []
@@ -153,7 +153,7 @@ function compileScenarioOutline(
         pickles.push({
           id: newId(),
           uri,
-          ast_node_ids: [scenario.id, valuesRow.id],
+          astNodeIds: [scenario.id, valuesRow.id],
           name: interpolate(scenario.name, variableCells, valuesRow.cells),
           language,
           steps,
@@ -168,8 +168,8 @@ function createPickleArguments(
   variableCells: readonly messages.TableCell[],
   valueCells: readonly messages.TableCell[]
 ): messages.PickleStepArgument | undefined {
-  if (step.data_table) {
-    const argument = step.data_table
+  if (step.dataTable) {
+    const argument = step.dataTable
     const table: messages.PickleTable = {
       rows: argument.rows.map((row) => {
         return {
@@ -182,16 +182,16 @@ function createPickleArguments(
         }
       }),
     }
-    return { data_table: table }
-  } else if (step.doc_string) {
-    const argument = step.doc_string
+    return { dataTable: table }
+  } else if (step.docString) {
+    const argument = step.docString
     const docString: messages.PickleDocString = {
       content: interpolate(argument.content, variableCells, valueCells),
     }
-    if (argument.media_type) {
-      docString.media_type = interpolate(argument.media_type, variableCells, valueCells)
+    if (argument.mediaType) {
+      docString.mediaType = interpolate(argument.mediaType, variableCells, valueCells)
     }
-    return { doc_string: docString }
+    return { docString: docString }
   }
 }
 
@@ -229,7 +229,7 @@ function pickleStep(
     id: newId(),
     text: interpolate(step.text, variableCells, valueCells),
     argument: createPickleArguments(step, variableCells, valueCells),
-    ast_node_ids: astNodeIds,
+    astNodeIds: astNodeIds,
   }
 }
 
@@ -240,6 +240,6 @@ function pickleTags(tags: messages.Tag[]): readonly messages.PickleTag[] {
 function pickleTag(tag: messages.Tag): messages.PickleTag {
   return {
     name: tag.name,
-    ast_node_id: tag.id,
+    astNodeId: tag.id,
   }
 }

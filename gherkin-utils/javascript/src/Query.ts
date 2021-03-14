@@ -45,16 +45,13 @@ export default class Query {
   }
 
   public update(message: messages.Envelope): Query {
-    if (message.gherkin_document) {
-      this.gherkinDocuments.push(message.gherkin_document)
+    if (message.gherkinDocument) {
+      this.gherkinDocuments.push(message.gherkinDocument)
 
-      if (message.gherkin_document.feature) {
-        this.pickleIdsMapByUri.set(
-          message.gherkin_document.uri,
-          new ArrayMultimap<string, string>()
-        )
+      if (message.gherkinDocument.feature) {
+        this.pickleIdsMapByUri.set(message.gherkinDocument.uri, new ArrayMultimap<string, string>())
 
-        for (const featureChild of message.gherkin_document.feature.children) {
+        for (const featureChild of message.gherkinDocument.feature.children) {
           if (featureChild.background) {
             this.updateGherkinBackground(featureChild.background)
           }
@@ -100,7 +97,7 @@ export default class Query {
     }
 
     for (const examples of scenario.examples) {
-      for (const tableRow of examples.table_body) {
+      for (const tableRow of examples.tableBody) {
         this.locationByAstNodeId.set(tableRow.id, tableRow.location)
       }
     }
@@ -114,13 +111,13 @@ export default class Query {
   private updatePickle(pickle: messages.Pickle) {
     const pickleIdsByLineNumber = this.pickleIdsMapByUri.get(pickle.uri)
 
-    for (const astNodeId of pickle.ast_node_ids) {
+    for (const astNodeId of pickle.astNodeIds) {
       pickleIdsByLineNumber.put(astNodeId, pickle.id)
     }
     this.updatePickleSteps(pickle)
     this.pickles.push(pickle)
 
-    for (const astNodeId of pickle.ast_node_ids) {
+    for (const astNodeId of pickle.astNodeIds) {
       if (!this.pickleIdsByAstNodeId.has(astNodeId)) {
         this.pickleIdsByAstNodeId.set(astNodeId, [])
       }
@@ -131,7 +128,7 @@ export default class Query {
   private updatePickleSteps(pickle: messages.Pickle) {
     const pickleSteps = pickle.steps
     for (const pickleStep of pickleSteps) {
-      for (const astNodeId of pickleStep.ast_node_ids) {
+      for (const astNodeId of pickleStep.astNodeIds) {
         if (!this.pickleStepIdsByAstNodeId.has(astNodeId)) {
           this.pickleStepIdsByAstNodeId.set(astNodeId, [])
         }

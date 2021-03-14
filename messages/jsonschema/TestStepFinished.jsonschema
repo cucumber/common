@@ -9,10 +9,10 @@
             "additionalProperties": false,
             "type": "object"
         },
-        "test_step_id": {
+        "testStepId": {
             "type": "string"
         },
-        "test_case_started_id": {
+        "testCaseStartedId": {
             "type": "string"
         }
     },

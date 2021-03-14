@@ -24,7 +24,7 @@ export interface IStep {
   match?: IMatch
   name: string
   result: IResult
-  doc_string?: IDocString
+  docString?: IDocString
   rows?: readonly IDataTableRow[]
 }
 

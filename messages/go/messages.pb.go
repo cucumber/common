@@ -2414,7 +2414,7 @@ func (m *GherkinDocument_Feature_Step_DocString) GetDelimiter() string {
 // is captured in `TestResult`.
 type Attachment struct {
 	Source            *SourceReference `protobuf:"bytes,1,opt,name=source,proto3" json:"source,omitempty"`
-	TestStepId        string           `protobuf:"bytes,2,opt,name=test_step_id,json=testStepId,proto3" json:"test_step_id,omitempty"`
+	TestStepId        string           `protobuf:"bytes,2,opt,name=testStepId,json=testStepId,proto3" json:"testStepId,omitempty"`
 	TestCaseStartedId string           `protobuf:"bytes,3,opt,name=test_case_started_id,json=testCaseStartedId,proto3" json:"test_case_started_id,omitempty"`
 	//*
 	// The body of the attachment. If `content_encoding` is `IDENTITY`, the attachment
@@ -3566,7 +3566,7 @@ func (m *TestCaseFinished) GetTestCaseStartedId() string {
 
 type TestStepStarted struct {
 	Timestamp         *Timestamp `protobuf:"bytes,1,opt,name=timestamp,proto3" json:"timestamp,omitempty"`
-	TestStepId        string     `protobuf:"bytes,2,opt,name=test_step_id,json=testStepId,proto3" json:"test_step_id,omitempty"`
+	TestStepId        string     `protobuf:"bytes,2,opt,name=testStepId,json=testStepId,proto3" json:"testStepId,omitempty"`
 	TestCaseStartedId string     `protobuf:"bytes,3,opt,name=test_case_started_id,json=testCaseStartedId,proto3" json:"test_case_started_id,omitempty"`
 }
 
@@ -3627,7 +3627,7 @@ func (m *TestStepStarted) GetTestCaseStartedId() string {
 type TestStepFinished struct {
 	TestStepResult    *TestStepFinished_TestStepResult `protobuf:"bytes,1,opt,name=test_step_result,json=testStepResult,proto3" json:"test_step_result,omitempty"`
 	Timestamp         *Timestamp                       `protobuf:"bytes,2,opt,name=timestamp,proto3" json:"timestamp,omitempty"`
-	TestStepId        string                           `protobuf:"bytes,3,opt,name=test_step_id,json=testStepId,proto3" json:"test_step_id,omitempty"`
+	TestStepId        string                           `protobuf:"bytes,3,opt,name=testStepId,json=testStepId,proto3" json:"testStepId,omitempty"`
 	TestCaseStartedId string                           `protobuf:"bytes,4,opt,name=test_case_started_id,json=testCaseStartedId,proto3" json:"test_case_started_id,omitempty"`
 }
 

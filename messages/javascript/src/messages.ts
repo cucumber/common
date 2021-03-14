@@ -7,17 +7,17 @@ export type UndefinedParameterType = {
 export type Attachment = {
   source?: Source
 
-  test_step_id?: string
+  testStepId?: string
 
-  test_case_started_id?: string
+  testCaseStartedId?: string
 
   body?: string
 
-  media_type?: string
+  mediaType?: string
 
-  content_encoding?: 'IDENTITY' | 'BASE64'
+  contentEncoding?: 'IDENTITY' | 'BASE64'
 
-  file_name?: string
+  fileName?: string
 
   url?: string
 }
@@ -27,7 +27,7 @@ export type TestCaseStarted = {
 
   attempt?: number
 
-  test_case_id?: string
+  testCaseId?: string
 
   id?: string
 }
@@ -35,35 +35,35 @@ export type TestCaseStarted = {
 export type TestStepStarted = {
   timestamp?: Timestamp
 
-  test_step_id?: string
+  testStepId?: string
 
-  test_case_started_id?: string
+  testCaseStartedId?: string
 }
 
 export type SourceReference = {
   uri?: string
 
-  java_method?: JavaMethod
+  javaMethod?: JavaMethod
 
-  java_stack_trace_element?: JavaStackTraceElement
+  javaStackTraceElement?: JavaStackTraceElement
 
   location?: Location
 }
 
 export type JavaMethod = {
-  class_name?: string
+  className?: string
 
-  method_name?: string
+  methodName?: string
 
-  method_parameter_types?: readonly string[]
+  methodParameterTypes?: readonly string[]
 }
 
 export type JavaStackTraceElement = {
-  class_name?: string
+  className?: string
 
-  method_name?: string
+  methodName?: string
 
-  file_name?: string
+  fileName?: string
 }
 
 export type Timestamp = {
@@ -77,35 +77,35 @@ export type Source = {
 
   data?: string
 
-  media_type?: string
+  mediaType?: string
 }
 
 export type TestCase = {
   id?: string
 
-  pickle_id?: string
+  pickleId?: string
 
-  test_steps?: readonly TestStep[]
+  testSteps?: readonly TestStep[]
 }
 
 export type TestStep = {
   id?: string
 
-  pickle_step_id?: string
+  pickleStepId?: string
 
-  step_definition_ids?: readonly string[]
+  stepDefinitionIds?: readonly string[]
 
-  step_match_arguments_lists?: readonly StepMatchArgumentsList[]
+  stepMatchArgumentsLists?: readonly StepMatchArgumentsList[]
 
-  hook_id?: string
+  hookId?: string
 }
 
 export type StepMatchArgumentsList = {
-  step_match_arguments?: readonly StepMatchArgument[]
+  stepMatchArguments?: readonly StepMatchArgument[]
 }
 
 export type StepMatchArgument = {
-  parameter_type_name?: string
+  parameterTypeName?: string
 
   group?: Group
 }
@@ -127,9 +127,9 @@ export type Location = {
 export type Hook = {
   id?: string
 
-  tag_expression?: string
+  tagExpression?: string
 
-  source_reference?: SourceReference
+  sourceReference?: SourceReference
 }
 
 export type TestRunFinished = {
@@ -159,17 +159,17 @@ export type Pickle = {
 
   tags?: readonly PickleTag[]
 
-  ast_node_ids?: readonly string[]
+  astNodeIds?: readonly string[]
 }
 
 export type PickleTag = {
   name?: string
 
-  ast_node_id?: string
+  astNodeId?: string
 }
 
 export type PickleDocString = {
-  media_type?: string
+  mediaType?: string
 
   content?: string
 }
@@ -187,9 +187,9 @@ export type PickleTable = {
 }
 
 export type PickleStepArgument = {
-  doc_string?: PickleDocString
+  docString?: PickleDocString
 
-  data_table?: PickleTable
+  dataTable?: PickleTable
 }
 
 export type PickleStep = {
@@ -199,7 +199,7 @@ export type PickleStep = {
 
   id?: string
 
-  ast_node_ids?: readonly string[]
+  astNodeIds?: readonly string[]
 }
 
 export type Duration = {
@@ -211,11 +211,11 @@ export type Duration = {
 export type ParameterType = {
   name?: string
 
-  regular_expressions?: readonly string[]
+  regularExpressions?: readonly string[]
 
-  prefer_for_regular_expression_match?: boolean
+  preferForRegularExpressionMatch?: boolean
 
-  use_for_snippets?: boolean
+  useForSnippets?: boolean
 
   id?: string
 }
@@ -323,9 +323,9 @@ export type Examples = {
 
   description?: string
 
-  table_header?: TableRow
+  tableHeader?: TableRow
 
-  table_body?: readonly TableRow[]
+  tableBody?: readonly TableRow[]
 
   id?: string
 }
@@ -337,9 +337,9 @@ export type Step = {
 
   text?: string
 
-  doc_string?: DocString
+  docString?: DocString
 
-  data_table?: DataTable
+  dataTable?: DataTable
 
   id?: string
 }
@@ -347,7 +347,7 @@ export type Step = {
 export type DocString = {
   location?: Location
 
-  media_type?: string
+  mediaType?: string
 
   content?: string
 
@@ -387,9 +387,9 @@ export type TestStepFinished = {
 
   timestamp?: Timestamp
 
-  test_step_id?: string
+  testStepId?: string
 
-  test_case_started_id?: string
+  testCaseStartedId?: string
 }
 
 export type TestStepResult = {
@@ -407,7 +407,7 @@ export type StepDefinition = {
 
   pattern?: StepDefinitionPattern
 
-  source_reference?: SourceReference
+  sourceReference?: SourceReference
 }
 
 export type StepDefinitionPattern = {
@@ -419,35 +419,35 @@ export type StepDefinitionPattern = {
 export type Envelope = {
   source?: Source
 
-  gherkin_document?: GherkinDocument
+  gherkinDocument?: GherkinDocument
 
   pickle?: Pickle
 
-  step_definition?: StepDefinition
+  stepDefinition?: StepDefinition
 
   hook?: Hook
 
-  parameter_type?: ParameterType
+  parameterType?: ParameterType
 
-  test_case?: TestCase
+  testCase?: TestCase
 
-  undefined_parameter_type?: UndefinedParameterType
+  undefinedParameterType?: UndefinedParameterType
 
-  test_run_started?: TestRunStarted
+  testRunStarted?: TestRunStarted
 
-  test_case_started?: TestCaseStarted
+  testCaseStarted?: TestCaseStarted
 
-  test_step_started?: TestStepStarted
+  testStepStarted?: TestStepStarted
 
   attachment?: Attachment
 
-  test_step_finished?: TestStepFinished
+  testStepFinished?: TestStepFinished
 
-  test_case_finished?: TestCaseFinished
+  testCaseFinished?: TestCaseFinished
 
-  test_run_finished?: TestRunFinished
+  testRunFinished?: TestRunFinished
 
-  parse_error?: ParseError
+  parseError?: ParseError
 
   meta?: Meta
 }
@@ -455,7 +455,7 @@ export type Envelope = {
 export type TestCaseFinished = {
   timestamp?: Timestamp
 
-  test_case_started_id?: string
+  testCaseStartedId?: string
 }
 
 export type Meta = {

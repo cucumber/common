@@ -9,7 +9,7 @@
             "type": "string",
             "description": "The contents of the file"
         },
-        "media_type": {
+        "mediaType": {
             "type": "string",
             "description": "The media type of the file. Can be used to specify custom types, such as\n text/x.cucumber.gherkin+plain"
         }

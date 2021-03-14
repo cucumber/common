@@ -104,9 +104,9 @@ export default abstract class TestStep implements ITestStep {
 
   protected emitTestStepStarted(testCaseStartedId: string, listener: EnvelopeListener) {
     listener({
-      test_step_started: {
-        test_case_started_id: testCaseStartedId,
-        test_step_id: this.id,
+      testStepStarted: {
+        testCaseStartedId: testCaseStartedId,
+        testStepId: this.id,
         timestamp: millisecondsSinceEpochToTimestamp(this.clock.clockNow()),
       },
     })
@@ -118,9 +118,9 @@ export default abstract class TestStep implements ITestStep {
     listener: EnvelopeListener
   ): messages.TestStepResult {
     listener({
-      test_step_finished: {
-        test_case_started_id: testCaseStartedId,
-        test_step_id: this.id,
+      testStepFinished: {
+        testCaseStartedId: testCaseStartedId,
+        testStepId: this.id,
         test_step_result: testStepResult,
         timestamp: millisecondsSinceEpochToTimestamp(this.clock.clockNow()),
       },

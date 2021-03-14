@@ -51,12 +51,12 @@ export default class SupportCode {
     this.parameterTypeRegistry.defineParameterType(parameterType)
     this.parameterTypes.push(parameterType)
     this.parameterTypeMessages.push({
-      parameter_type: {
+      parameterType: {
         id: this.newId(),
         name: parameterType.name,
-        regular_expressions: parameterType.regexpStrings.slice(),
-        prefer_for_regular_expression_match: parameterType.preferForRegexpMatch,
-        use_for_snippets: parameterType.useForSnippets,
+        regularExpressions: parameterType.regexpStrings.slice(),
+        preferForRegularExpressionMatch: parameterType.preferForRegexpMatch,
+        useForSnippets: parameterType.useForSnippets,
       },
     })
   }
@@ -73,7 +73,7 @@ export default class SupportCode {
     } catch (e) {
       if (e.undefinedParameterTypeName) {
         this.undefinedParameterTypeMessages.push({
-          undefined_parameter_type: {
+          undefinedParameterType: {
             expression: expression.toString(),
             name: e.undefinedParameterTypeName,
           },

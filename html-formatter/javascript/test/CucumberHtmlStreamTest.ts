@@ -35,7 +35,7 @@ describe('CucumberHtmlStream', () => {
 
   it('writes one message to html', async () => {
     const e1: messages.Envelope = {
-      test_run_started: {},
+      testRunStarted: {},
     }
     const html = await renderAsHtml(e1)
     assert(html.indexOf(`window.CUCUMBER_MESSAGES = [${JSON.stringify(e1)}]`) >= 0)
@@ -43,10 +43,10 @@ describe('CucumberHtmlStream', () => {
 
   it('writes two messages to html', async () => {
     const e1: messages.Envelope = {
-      test_run_started: {},
+      testRunStarted: {},
     }
     const e2: messages.Envelope = {
-      test_run_finished: {},
+      testRunFinished: {},
     }
     const html = await renderAsHtml(e1, e2)
     assert(

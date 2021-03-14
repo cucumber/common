@@ -21,8 +21,8 @@ export default class Hook implements IHook {
     return {
       hook: {
         id: this.id,
-        tag_expression: this.tagExpression,
-        source_reference: this.sourceReference,
+        tagExpression: this.tagExpression,
+        sourceReference: this.sourceReference,
       },
     }
   }

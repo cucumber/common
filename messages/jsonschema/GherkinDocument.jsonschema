@@ -253,11 +253,11 @@
                 "description": {
                     "type": "string"
                 },
-                "table_header": {
+                "tableHeader": {
                     "$ref": "#/definitions/TableRow",
                     "additionalProperties": false
                 },
-                "table_body": {
+                "tableBody": {
                     "items": {
                         "$schema": "http://json-schema.org/draft-04/schema#",
                         "$ref": "#/definitions/TableRow"
@@ -285,10 +285,10 @@
                 "text": {
                     "type": "string"
                 },
-                "doc_string": {
+                "docString": {
                     "$ref": "#/definitions/DocString"
                 },
-                "data_table": {
+                "dataTable": {
                     "$ref": "#/definitions/DataTable"
                 },
                 "id": {
@@ -307,7 +307,7 @@
                     "$ref": "./Location.jsonschema",
                     "additionalProperties": false
                 },
-                "media_type": {
+                "mediaType": {
                     "type": "string"
                 },
                 "content": {

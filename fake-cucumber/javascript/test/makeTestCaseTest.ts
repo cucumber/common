@@ -31,7 +31,7 @@ describe('makeTestCase', () => {
     )
 
     assert.deepStrictEqual(
-      testCase.toMessage().test_case.test_steps.map((s) => s.pickle_step_id),
+      testCase.toMessage().testCase.testSteps.map((s) => s.pickleStepId),
       ['step-1', 'step-2']
     )
   })
@@ -86,11 +86,11 @@ describe('makeTestCase', () => {
         )
 
         assert.deepStrictEqual(
-          testCase.toMessage().test_case.test_steps.map((s) => s.pickle_step_id),
+          testCase.toMessage().testCase.testSteps.map((s) => s.pickleStepId),
           [undefined, 'step-1', 'step-2']
         )
         assert.strictEqual(
-          testCase.toMessage().test_case.test_steps[0].hook_id,
+          testCase.toMessage().testCase.testSteps[0].hookId,
           beforeHooks[0].toMessage().hook.id
         )
       })
@@ -117,11 +117,11 @@ describe('makeTestCase', () => {
       )
 
       assert.deepStrictEqual(
-        testCase.toMessage().test_case.test_steps.map((s) => s.pickle_step_id),
+        testCase.toMessage().testCase.testSteps.map((s) => s.pickleStepId),
         ['step-1', 'step-2', undefined]
       )
       assert.strictEqual(
-        testCase.toMessage().test_case.test_steps[2].hook_id,
+        testCase.toMessage().testCase.testSteps[2].hookId,
         afterHooks[0].toMessage().hook.id
       )
     })

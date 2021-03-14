@@ -18,8 +18,8 @@ const Examples: React.FunctionComponent<IExamplesProps> = ({ examples }) => {
         <span className="cucumber-title__text">{examples.name}</span>
       </h2>
       <Description description={examples.description} />
-      {examples.table_header && (
-        <ExamplesTable tableHeader={examples.table_header} tableBody={examples.table_body} />
+      {examples.tableHeader && (
+        <ExamplesTable tableHeader={examples.tableHeader} tableBody={examples.tableBody} />
       )}
     </section>
   )

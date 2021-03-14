@@ -7,7 +7,7 @@ describe('PredictableHook', () => {
   const scenarioId = 'some-scenario-id'
   const pickle: messages.Pickle = {
     id: 'some-pickle-id',
-    ast_node_ids: [scenarioId],
+    astNodeIds: [scenarioId],
   }
 
   context('.match', () => {
@@ -41,8 +41,8 @@ describe('PredictableHook', () => {
       )
       const message = hook.toMessage().hook
 
-      assert.strictEqual(message.source_reference.uri, 'path/to/steps.go')
-      assert.strictEqual(message.source_reference.location.line, 13)
+      assert.strictEqual(message.sourceReference.uri, 'path/to/steps.go')
+      assert.strictEqual(message.sourceReference.location.line, 13)
     })
   })
 })

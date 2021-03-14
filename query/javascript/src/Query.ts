@@ -26,33 +26,30 @@ export default class Query {
   >()
 
   public update(envelope: messages.Envelope) {
-    if (envelope.test_case) {
-      this.testCaseByPickleId.set(envelope.test_case.pickle_id, envelope.test_case)
-      for (const testStep of envelope.test_case.test_steps) {
+    if (envelope.testCase) {
+      this.testCaseByPickleId.set(envelope.testCase.pickleId, envelope.testCase)
+      for (const testStep of envelope.testCase.testSteps) {
         this.testStepById.set(testStep.id, testStep)
-        this.pickleIdByTestStepId.set(testStep.id, envelope.test_case.pickle_id)
-        this.pickleStepIdByTestStepId.set(testStep.id, testStep.pickle_step_id)
-        this.testStepIdsByPickleStepId.put(testStep.pickle_step_id, testStep.id)
+        this.pickleIdByTestStepId.set(testStep.id, envelope.testCase.pickleId)
+        this.pickleStepIdByTestStepId.set(testStep.id, testStep.pickleStepId)
+        this.testStepIdsByPickleStepId.put(testStep.pickleStepId, testStep.id)
         this.stepMatchArgumentsListsByPickleStepId.set(
-          testStep.pickle_step_id,
-          testStep.step_match_arguments_lists
+          testStep.pickleStepId,
+          testStep.stepMatchArgumentsLists
         )
       }
     }
 
-    if (envelope.test_step_finished) {
-      const pickleId = this.pickleIdByTestStepId.get(envelope.test_step_finished.test_step_id)
-      this.testStepResultByPickleId.put(pickleId, envelope.test_step_finished.test_step_result)
+    if (envelope.testStepFinished) {
+      const pickleId = this.pickleIdByTestStepId.get(envelope.testStepFinished.testStepId)
+      this.testStepResultByPickleId.put(pickleId, envelope.testStepFinished.test_step_result)
 
-      const testStep = this.testStepById.get(envelope.test_step_finished.test_step_id)
+      const testStep = this.testStepById.get(envelope.testStepFinished.testStepId)
       this.testStepResultsByPickleStepId.put(
-        testStep.pickle_step_id,
-        envelope.test_step_finished.test_step_result
+        testStep.pickleStepId,
+        envelope.testStepFinished.test_step_result
       )
-      this.testStepResultsbyTestStepId.put(
-        testStep.id,
-        envelope.test_step_finished.test_step_result
-      )
+      this.testStepResultsbyTestStepId.put(testStep.id, envelope.testStepFinished.test_step_result)
     }
 
     if (envelope.hook) {
@@ -60,7 +57,7 @@ export default class Query {
     }
 
     if (envelope.attachment) {
-      this.attachmentsByTestStepId.put(envelope.attachment.test_step_id, envelope.attachment)
+      this.attachmentsByTestStepId.put(envelope.attachment.testStepId, envelope.attachment)
     }
   }
 
@@ -189,8 +186,8 @@ export default class Query {
 
     let pickleStepFound = false
 
-    for (const step of testCase.test_steps) {
-      if (step.hook_id) {
+    for (const step of testCase.testSteps) {
+      if (step.hookId) {
         pickleStepFound ? onAfterHookFound(step) : onBeforeHookFound(step)
       } else {
         pickleStepFound = true

@@ -13,7 +13,7 @@ describe('gherkinDocumentToSource', () => {
   it('provides the correct media type', () => {
     const source = gherkinDocumentToSource({})
 
-    assert.strictEqual(source.media_type, 'text/x.cucumber.gherkin+plain')
+    assert.strictEqual(source.mediaType, 'text/x.cucumber.gherkin+plain')
   })
 
   xit('it produces the Gherkin original document', () => {

@@ -53,12 +53,12 @@ function makeStep(
   datatable: readonly ReadonlyArray<string>[] = []
 ): messages.Step {
   const idGenerator = messages.IdGenerator.uuid()
-  const doc_string: messages.DocString = docstring
+  const docString: messages.DocString = docstring
     ? {
         content: docstring,
       }
     : undefined
-  const data_table: messages.DataTable =
+  const dataTable: messages.DataTable =
     datatable.length > 0
       ? {
           rows: datatable.map((row) => ({
@@ -73,8 +73,8 @@ function makeStep(
     id: idGenerator(),
     keyword: keyword,
     text: text,
-    doc_string,
-    data_table,
+    docString,
+    dataTable,
   }
 }
 

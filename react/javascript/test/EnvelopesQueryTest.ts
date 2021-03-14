@@ -11,8 +11,8 @@ describe('EnvelopesQuery', () => {
       },
     },
     {
-      gherkin_document: {
-        uri: 'some/gherkin_document',
+      gherkinDocument: {
+        uri: 'some/gherkinDocument',
       },
     },
     {

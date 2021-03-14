@@ -16,7 +16,7 @@ function envelopesFrom(path: string): messages.Envelope[] {
 }
 
 function getGherkinDocument(envelopes: messages.Envelope[]): messages.GherkinDocument {
-  return envelopes.find((envelope) => envelope.gherkin_document).gherkin_document
+  return envelopes.find((envelope) => envelope.gherkinDocument).gherkinDocument
 }
 
 describe('getFeatureStatus', () => {

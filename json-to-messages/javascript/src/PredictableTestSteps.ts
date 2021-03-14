@@ -65,8 +65,8 @@ export class PredictablePickleTestStep extends PredictableTestStep {
 
     return {
       id: this.id,
-      pickle_step_id: this.sourceId,
-      step_definition_ids: stepDefinitionIds,
+      pickleStepId: this.sourceId,
+      stepDefinitionIds: stepDefinitionIds,
     }
   }
 }
@@ -75,7 +75,7 @@ export class PredictableHookTestStep extends PredictableTestStep {
   public toMessage(): messages.TestStep {
     return {
       id: this.id,
-      hook_id: this.sourceId,
+      hookId: this.sourceId,
     }
   }
 }

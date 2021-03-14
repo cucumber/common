@@ -126,8 +126,8 @@ export default class AstBuilder implements IAstBuilder<AstNode, TokenType, RuleT
           location: this.getLocation(stepLine),
           keyword: stepLine.matchedKeyword,
           text: stepLine.matchedText,
-          data_table: dataTable,
-          doc_string: docString,
+          dataTable: dataTable,
+          docString: docString,
         }
         return step
       }
@@ -145,7 +145,7 @@ export default class AstBuilder implements IAstBuilder<AstNode, TokenType, RuleT
         }
         // conditionally add this like this (needed to make tests pass on node 0.10 as well as 4.0)
         if (mediaType) {
-          result.media_type = mediaType
+          result.mediaType = mediaType
         }
         return result
       }
@@ -205,8 +205,8 @@ export default class AstBuilder implements IAstBuilder<AstNode, TokenType, RuleT
           keyword: examplesLine.matchedKeyword,
           name: examplesLine.matchedText,
           description,
-          table_header: exampleTable !== undefined ? exampleTable[0] : undefined,
-          table_body: exampleTable !== undefined ? exampleTable.slice(1) : undefined,
+          tableHeader: exampleTable !== undefined ? exampleTable[0] : undefined,
+          tableBody: exampleTable !== undefined ? exampleTable.slice(1) : undefined,
         }
         return examples
       }

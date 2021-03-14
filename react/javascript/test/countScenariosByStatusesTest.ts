@@ -39,8 +39,8 @@ Feature: statuses
     const emitted = await runFeature(feature, gherkinQuery, supportCode)
     emitted.map((message) => cucumberQuery.update(message))
     const gherkinDocuments = emitted
-      .filter((message) => message.gherkin_document)
-      .map((message) => message.gherkin_document)
+      .filter((message) => message.gherkinDocument)
+      .map((message) => message.gherkinDocument)
 
     const statuses = countScenariosByStatuses(gherkinDocuments, gherkinQuery, cucumberQuery)
 
@@ -66,8 +66,8 @@ Feature: statuses
     const emitted = await runFeature(feature, gherkinQuery, supportCode)
     emitted.map((message) => cucumberQuery.update(message))
     const gherkinDocuments = emitted
-      .filter((message) => message.gherkin_document)
-      .map((message) => message.gherkin_document)
+      .filter((message) => message.gherkinDocument)
+      .map((message) => message.gherkinDocument)
 
     const statuses = countScenariosByStatuses(gherkinDocuments, gherkinQuery, cucumberQuery)
 

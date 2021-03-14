@@ -10,7 +10,7 @@
             "type": "integer",
             "description": "*\n The first attempt should have value 0, and for each retry the value\n should increase by 1."
         },
-        "test_case_id": {
+        "testCaseId": {
             "type": "string"
         },
         "id": {

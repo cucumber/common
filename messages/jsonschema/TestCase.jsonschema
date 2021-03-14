@@ -4,11 +4,11 @@
         "id": {
             "type": "string"
         },
-        "pickle_id": {
+        "pickleId": {
             "type": "string",
             "description": "The ID of the `Pickle` this `TestCase` is derived from."
         },
-        "test_steps": {
+        "testSteps": {
             "items": {
                 "$ref": "#/definitions/TestStep"
             },
@@ -25,25 +25,25 @@
                 "id": {
                     "type": "string"
                 },
-                "pickle_step_id": {
+                "pickleStepId": {
                     "type": "string",
                     "description": "Pointer to the `PickleStep` (if derived from a PickleStep)"
                 },
-                "step_definition_ids": {
+                "stepDefinitionIds": {
                     "items": {
                         "type": "string"
                     },
                     "type": "array",
                     "description": "Pointer to all the matching `StepDefinition`s (if derived from a PickleStep)"
                 },
-                "step_match_arguments_lists": {
+                "stepMatchArgumentsLists": {
                     "items": {
                         "$ref": "#/definitions/StepMatchArgumentsList"
                     },
                     "type": "array",
                     "description": "A list of list of StepMatchArgument (if derived from a `StepDefinition`).\n Each element represents a matching step definition. A size of 0 means `UNDEFINED`,\n and a size of 2+ means `AMBIGUOUS`"
                 },
-                "hook_id": {
+                "hookId": {
                     "type": "string",
                     "description": "Pointer to the `Hook` (if derived from a Hook)"
                 }
@@ -55,7 +55,7 @@
         "StepMatchArgumentsList": {
             "$schema": "http://json-schema.org/draft-04/schema#",
             "properties": {
-                "step_match_arguments": {
+                "stepMatchArguments": {
                     "items": {
                         "$ref": "#/definitions/StepMatchArgument"
                     },
@@ -68,7 +68,7 @@
         "StepMatchArgument": {
             "$schema": "http://json-schema.org/draft-04/schema#",
             "properties": {
-                "parameter_type_name": {
+                "parameterTypeName": {
                     "type": "string"
                 },
                 "group": {

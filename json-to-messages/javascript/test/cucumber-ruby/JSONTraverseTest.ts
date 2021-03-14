@@ -259,7 +259,7 @@ describe('traversing elements', () => {
         duration: 123,
         status: 'whatever',
       },
-      doc_string: {
+      docString: {
         content_type: 'text/markdown',
         value: '# This is a title',
       },

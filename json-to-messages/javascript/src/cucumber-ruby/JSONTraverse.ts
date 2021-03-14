@@ -89,7 +89,7 @@ export function traverseStep(
   newId: messages.IdGenerator.NewId,
   predictableSupportCode: IPredictableSupportCode
 ): messages.Step {
-  const docString = step.doc_string ? traverseDocString(step.doc_string, astMaker) : null
+  const docString = step.docString ? traverseDocString(step.docString, astMaker) : null
   const dataTable = step.rows ? traverseDataTable(step.rows, astMaker) : null
   const gherkinStep = astMaker.makeStep(
     newId(),

@@ -31,13 +31,13 @@ describe('Walking with messages', () => {
             callback: (error?: Error | null) => void
           ) {
             try {
-              if (envelope.gherkin_document) {
+              if (envelope.gherkinDocument) {
                 const walker = new GherkinDocumentWalker()
-                walker.walkGherkinDocument(envelope.gherkin_document)
+                walker.walkGherkinDocument(envelope.gherkinDocument)
               }
               callback()
             } catch (error) {
-              error.message += `\n${envelope.gherkin_document.uri}\n`
+              error.message += `\n${envelope.gherkinDocument.uri}\n`
               callback(error)
             }
           },

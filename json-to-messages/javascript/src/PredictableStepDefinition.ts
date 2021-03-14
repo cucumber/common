@@ -20,7 +20,7 @@ export default class PredictableStepDefinition implements IStepDefinition {
   ) {}
 
   match(pickleStep: messages.PickleStep): ISupportCodeExecutor | null {
-    if (pickleStep.ast_node_ids.includes(this.stepId)) {
+    if (pickleStep.astNodeIds.includes(this.stepId)) {
       return new NilCodeExecutor(this.id)
     }
     return null
@@ -30,9 +30,9 @@ export default class PredictableStepDefinition implements IStepDefinition {
     const locationChunks = this.location.split(':')
 
     return {
-      step_definition: {
+      stepDefinition: {
         id: this.id,
-        source_reference: {
+        sourceReference: {
           uri: locationChunks[0],
           location: {
             line: parseInt(locationChunks[1]),

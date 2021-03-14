@@ -17,7 +17,7 @@ describe('makePredictablePickleTestStep', () => {
     const step = makePredictablePickleTestStep(
       'test-step-id',
       {
-        ast_node_ids: ['some-step-id'],
+        astNodeIds: ['some-step-id'],
       },
       [new PredictableStepDefinition('some-id', 'some-step-id', 'somewhere', 'SKIPPED', 987654)]
     )
@@ -32,7 +32,7 @@ describe('makePredictablePickleTestStep', () => {
     const step = makePredictablePickleTestStep(
       'test-step-id',
       {
-        ast_node_ids: ['some-step-id'],
+        astNodeIds: ['some-step-id'],
       },
       [
         new PredictableStepDefinition(

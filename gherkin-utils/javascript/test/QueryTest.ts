@@ -24,7 +24,7 @@ describe('Query', () => {
 `
       )
       const pickle = envelopes.find((e) => e.pickle).pickle
-      const gherkinScenarioId = pickle.ast_node_ids[0]
+      const gherkinScenarioId = pickle.astNodeIds[0]
       const location = gherkinQuery.getLocation(gherkinScenarioId)
       assert.deepStrictEqual(location.line, 2)
     })
@@ -37,7 +37,7 @@ describe('Query', () => {
 `
       )
       const pickleStep = envelopes.find((e) => e.pickle).pickle.steps[0]
-      const gherkinStepId = pickleStep.ast_node_ids[0]
+      const gherkinStepId = pickleStep.astNodeIds[0]
       const location = gherkinQuery.getLocation(gherkinStepId)
       assert.deepStrictEqual(location.line, 3)
     })
@@ -55,8 +55,7 @@ describe('Query', () => {
 `
       )
 
-      const gherkinDocument = envelopes.find((envelope) => envelope.gherkin_document)
-        .gherkin_document
+      const gherkinDocument = envelopes.find((envelope) => envelope.gherkinDocument).gherkinDocument
       const scenario = gherkinDocument.feature.children.find((child) => child.scenario).scenario
 
       const pickleId = envelopes.find((e) => e.pickle).pickle.id
@@ -140,8 +139,8 @@ describe('Query', () => {
         .find((envelope) => envelope.pickle)
         .pickle.steps.map((pickleStep) => pickleStep.id)
 
-      const stepId = envelopes.find((envelope) => envelope.gherkin_document).gherkin_document
-        .feature.children[0].scenario.steps[0].id
+      const stepId = envelopes.find((envelope) => envelope.gherkinDocument).gherkinDocument.feature
+        .children[0].scenario.steps[0].id
 
       assert.deepEqual(gherkinQuery.getPickleStepIds(stepId), pickleStepIds)
     })
@@ -161,8 +160,8 @@ describe('Query', () => {
   `
         )
 
-        const backgroundStepId = envelopes.find((envelope) => envelope.gherkin_document)
-          .gherkin_document.feature.children[0].background.steps[0].id
+        const backgroundStepId = envelopes.find((envelope) => envelope.gherkinDocument)
+          .gherkinDocument.feature.children[0].background.steps[0].id
 
         const pickleStepIds = envelopes
           .filter((envelope) => envelope.pickle)
@@ -185,8 +184,8 @@ describe('Query', () => {
 `
         )
 
-        const scenarioStepId = envelopes.find((envelope) => envelope.gherkin_document)
-          .gherkin_document.feature.children[0].scenario.steps[1].id
+        const scenarioStepId = envelopes.find((envelope) => envelope.gherkinDocument)
+          .gherkinDocument.feature.children[0].scenario.steps[1].id
 
         const pickleStepIds = envelopes
           .filter((envelope) => envelope.pickle)
@@ -222,7 +221,7 @@ describe('Query', () => {
       source: {
         uri,
         data: gherkinSource,
-        media_type: 'text/x.cucumber.gherkin+plain',
+        mediaType: 'text/x.cucumber.gherkin+plain',
       },
     }
 

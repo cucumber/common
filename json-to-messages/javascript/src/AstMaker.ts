@@ -79,22 +79,22 @@ export default class AstMaker implements IAstMaker {
     line: number,
     keyword: string,
     text: string,
-    doc_string?: messages.DocString,
-    data_table?: messages.DataTable
+    docString?: messages.DocString,
+    dataTable?: messages.DataTable
   ): messages.Step {
     return {
       id,
       location: { line },
       keyword,
       text,
-      doc_string,
-      data_table,
+      docString,
+      dataTable,
     }
   }
 
-  public makeDocstring(media_type: string, content: string): messages.DocString {
+  public makeDocstring(mediaType: string, content: string): messages.DocString {
     return {
-      media_type,
+      mediaType,
       content,
     }
   }

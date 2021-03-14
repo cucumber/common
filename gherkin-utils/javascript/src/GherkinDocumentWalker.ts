@@ -217,6 +217,7 @@ export default class GherkinDocumentWalker {
       location: rule.location,
       keyword: rule.keyword,
       children: this.filterRuleChildren(rule.children, children),
+      tags: this.copyTags(rule.tags),
     }
   }
 
@@ -323,8 +324,8 @@ export default class GherkinDocumentWalker {
       keyword: step.keyword,
       location: step.location,
       text: step.text,
-      data_table: step.data_table,
-      doc_string: step.doc_string,
+      dataTable: step.dataTable,
+      docString: step.docString,
     }
   }
 }

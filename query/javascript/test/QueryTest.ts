@@ -196,7 +196,7 @@ describe('Query', () => {
       )
 
       const scenario = findScenario(envelopes)
-      const exampleIds = scenario.examples[0].table_body.map((row) => row.id)
+      const exampleIds = scenario.examples[0].tableBody.map((row) => row.id)
 
       assert.deepStrictEqual(
         cucumberQuery
@@ -253,14 +253,14 @@ describe('Query', () => {
       assert.deepStrictEqual(
         cucumberQuery
           .getStepMatchArgumentsLists(gherkinQuery.getPickleStepIds(scenario.steps[0].id)[0])
-          .map((sal) => sal.step_match_arguments.map((arg) => arg.parameter_type_name)),
+          .map((sal) => sal.stepMatchArguments.map((arg) => arg.parameterTypeName)),
         [[]]
       )
 
       assert.deepStrictEqual(
         cucumberQuery
           .getStepMatchArgumentsLists(gherkinQuery.getPickleStepIds(scenario.steps[1].id)[0])
-          .map((sal) => sal.step_match_arguments.map((arg) => arg.parameter_type_name)),
+          .map((sal) => sal.stepMatchArguments.map((arg) => arg.parameterTypeName)),
         [['int', 'word']]
       )
     })
@@ -373,8 +373,8 @@ describe('Query', () => {
   `,
           (message) => emittedMessages.push(message)
         )
-        const testCase = emittedMessages.find((child) => child.test_case).test_case
-        const testStep = testCase.test_steps[0]
+        const testCase = emittedMessages.find((child) => child.testCase).testCase
+        const testStep = testCase.testSteps[0]
         const results = cucumberQuery.getTestStepResults(testStep.id)
 
         assert.deepStrictEqual(results.length, 1)
@@ -391,8 +391,8 @@ describe('Query', () => {
   `,
           (message) => emittedMessages.push(message)
         )
-        const testCase = emittedMessages.find((child) => child.test_case).test_case
-        const testStep = testCase.test_steps[0]
+        const testCase = emittedMessages.find((child) => child.testCase).testCase
+        const testStep = testCase.testSteps[0]
         const results = cucumberQuery.getTestStepResults(testStep.id)
 
         assert.deepStrictEqual(results.length, 1)
@@ -428,13 +428,13 @@ describe('Query', () => {
       Given a passed step with attachment
   `,
           (envelope) => {
-            if (envelope.test_case) {
-              testCases.push(envelope.test_case)
+            if (envelope.testCase) {
+              testCases.push(envelope.testCase)
             }
           }
         )
 
-        const attachments = cucumberQuery.getTestStepsAttachments([testCases[0].test_steps[0].id])
+        const attachments = cucumberQuery.getTestStepsAttachments([testCases[0].testSteps[0].id])
         assert.strictEqual(attachments.length, 1)
 
         assert.strictEqual(attachments[0].body, 'Hello')
@@ -505,19 +505,19 @@ describe('Query', () => {
       source: {
         uri,
         data: gherkinSource,
-        media_type: 'text/x.cucumber.gherkin+plain',
+        mediaType: 'text/x.cucumber.gherkin+plain',
       },
     }
     return GherkinStreams.fromSources([source], { newId })
   }
 
   function findScenario(envelopes: messages.Envelope[]): messages.Scenario {
-    const gherkinDocument = envelopes.find((envelope) => envelope.gherkin_document).gherkin_document
+    const gherkinDocument = envelopes.find((envelope) => envelope.gherkinDocument).gherkinDocument
     return gherkinDocument.feature.children.find((child) => child.scenario).scenario
   }
 
   function findBackground(envelopes: messages.Envelope[]): messages.Background {
-    const gherkinDocument = envelopes.find((envelope) => envelope.gherkin_document).gherkin_document
+    const gherkinDocument = envelopes.find((envelope) => envelope.gherkinDocument).gherkinDocument
     return gherkinDocument.feature.children.find((child) => child.background).background
   }
 })

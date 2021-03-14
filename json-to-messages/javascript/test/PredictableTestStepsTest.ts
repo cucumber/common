@@ -17,7 +17,7 @@ describe('PredictablePickleTestStep', () => {
       await step.execute(null, 'test-case-started-id', (envelope) => {
         emitted.push(envelope)
       })
-      const testStepFinished = emitted[1].test_step_finished
+      const testStepFinished = emitted[1].testStepFinished
 
       assert.strictEqual(testStepFinished.test_step_result.status, 'PASSED')
       assert.strictEqual(testStepFinished.test_step_result.duration.seconds, 123)

@@ -5,7 +5,7 @@ export default function makeSourceEnvelope(data: string, uri: string): messages.
     source: {
       data,
       uri,
-      media_type: 'text/x.cucumber.gherkin+plain',
+      mediaType: 'text/x.cucumber.gherkin+plain',
     },
   }
 }

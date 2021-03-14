@@ -42,7 +42,7 @@ describe('StepDefinition', () => {
       const stepdef = new ExpressionStepDefinition('stepdef-id', expression, null, () => null)
       const message = stepdef.toMessage()
 
-      assert.strictEqual(message.step_definition.pattern.type, 'REGULAR_EXPRESSION')
+      assert.strictEqual(message.stepDefinition.pattern.type, 'REGULAR_EXPRESSION')
     })
 
     it('generates a StepDefinition object for CucumberExpression', () => {
@@ -50,7 +50,7 @@ describe('StepDefinition', () => {
       const stepdef = new ExpressionStepDefinition('stepdef-id', expression, null, () => null)
       const message = stepdef.toMessage()
 
-      assert.strictEqual(message.step_definition.pattern.type, 'CUCUMBER_EXPRESSION')
+      assert.strictEqual(message.stepDefinition.pattern.type, 'CUCUMBER_EXPRESSION')
     })
   })
 })

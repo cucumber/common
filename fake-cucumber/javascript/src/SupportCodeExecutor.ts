@@ -28,7 +28,7 @@ export default class SupportCodeExecutor implements ISupportCodeExecutor {
     return this.args.map((arg) => {
       return {
         group: toMessageGroup(arg.group),
-        parameter_type_name: arg.parameterType.name,
+        parameterTypeName: arg.parameterType.name,
       }
     })
   }

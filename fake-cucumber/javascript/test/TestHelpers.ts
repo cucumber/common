@@ -7,7 +7,7 @@ export function gherkinMessages(gherkinSource: string, uri: string): Readable {
     source: {
       uri,
       data: gherkinSource,
-      media_type: 'text/x.cucumber.gherkin+plain',
+      mediaType: 'text/x.cucumber.gherkin+plain',
     },
   }
 

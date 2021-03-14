@@ -6,7 +6,7 @@
             "additionalProperties": false,
             "type": "object"
         },
-        "gherkin_document": {
+        "gherkinDocument": {
             "$ref": "./GherkinDocument.jsonschema",
             "additionalProperties": false,
             "type": "object"
@@ -17,7 +17,7 @@
             "type": "object",
             "description": "Compiler(s)"
         },
-        "step_definition": {
+        "stepDefinition": {
             "$ref": "./StepDefinition.jsonschema",
             "additionalProperties": false,
             "type": "object"
@@ -27,33 +27,33 @@
             "additionalProperties": false,
             "type": "object"
         },
-        "parameter_type": {
+        "parameterType": {
             "$ref": "./ParameterType.jsonschema",
             "additionalProperties": false,
             "type": "object"
         },
-        "test_case": {
+        "testCase": {
             "$ref": "./TestCase.jsonschema",
             "additionalProperties": false,
             "type": "object"
         },
-        "undefined_parameter_type": {
+        "undefinedParameterType": {
             "$ref": "./UndefinedParameterType.jsonschema",
             "additionalProperties": false,
             "type": "object"
         },
-        "test_run_started": {
+        "testRunStarted": {
             "$ref": "./TestRunStarted.jsonschema",
             "additionalProperties": false,
             "type": "object",
             "description": "Execution"
         },
-        "test_case_started": {
+        "testCaseStarted": {
             "$ref": "./TestCaseStarted.jsonschema",
             "additionalProperties": false,
             "type": "object"
         },
-        "test_step_started": {
+        "testStepStarted": {
             "$ref": "./TestStepStarted.jsonschema",
             "additionalProperties": false,
             "type": "object"
@@ -63,22 +63,22 @@
             "additionalProperties": false,
             "type": "object"
         },
-        "test_step_finished": {
+        "testStepFinished": {
             "$ref": "./TestStepFinished.jsonschema",
             "additionalProperties": false,
             "type": "object"
         },
-        "test_case_finished": {
+        "testCaseFinished": {
             "$ref": "./TestCaseFinished.jsonschema",
             "additionalProperties": false,
             "type": "object"
         },
-        "test_run_finished": {
+        "testRunFinished": {
             "$ref": "./TestRunFinished.jsonschema",
             "additionalProperties": false,
             "type": "object"
         },
-        "parse_error": {
+        "parseError": {
             "$ref": "./ParseError.jsonschema",
             "additionalProperties": false,
             "type": "object",

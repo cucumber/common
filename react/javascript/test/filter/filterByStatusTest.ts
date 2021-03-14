@@ -47,7 +47,7 @@ Feature: statuses
 
   it('only accepts scenarios having one of the expected results', async () => {
     const emitted = await runFeature(feature, gherkinQuery, supportCode)
-    const gherkinDocument = emitted.find((envelope) => envelope.gherkin_document).gherkin_document
+    const gherkinDocument = emitted.find((envelope) => envelope.gherkinDocument).gherkinDocument
     emitted.map((message) => cucumberQuery.update(message))
 
     const passedScenarios = filterByStatus(gherkinDocument, gherkinQuery, cucumberQuery, ['PASSED'])
@@ -65,7 +65,7 @@ Feature: statuses
 
   it('can filter with multiple statuses', async () => {
     const emitted = await runFeature(feature, gherkinQuery, supportCode)
-    const gherkinDocument = emitted.find((envelope) => envelope.gherkin_document).gherkin_document
+    const gherkinDocument = emitted.find((envelope) => envelope.gherkinDocument).gherkinDocument
     emitted.map((message) => cucumberQuery.update(message))
 
     const passedAndFailedScenarios = filterByStatus(gherkinDocument, gherkinQuery, cucumberQuery, [
@@ -88,7 +88,7 @@ Feature: statuses
 `
     it('does not keep scenarios when no result matches', async () => {
       const emitted = await runFeature(featureWithExamples, gherkinQuery, supportCode)
-      const gherkinDocument = emitted.find((envelope) => envelope.gherkin_document).gherkin_document
+      const gherkinDocument = emitted.find((envelope) => envelope.gherkinDocument).gherkinDocument
       emitted.map((message) => cucumberQuery.update(message))
 
       const pendingScenarios = filterByStatus(gherkinDocument, gherkinQuery, cucumberQuery, [
@@ -101,7 +101,7 @@ Feature: statuses
     it('does not drop the lines of Example tables with the incorrect status', async () => {
       const emitted = await runFeature(featureWithExamples, gherkinQuery, supportCode)
 
-      const gherkinDocument = emitted.find((envelope) => envelope.gherkin_document).gherkin_document
+      const gherkinDocument = emitted.find((envelope) => envelope.gherkinDocument).gherkinDocument
       emitted.map((message) => cucumberQuery.update(message))
 
       const onlyPassedScenarios = filterByStatus(gherkinDocument, gherkinQuery, cucumberQuery, [
@@ -117,7 +117,7 @@ Feature: statuses
       supportCode.registerBeforeHook(new FailingHook('1234-5678'))
 
       const emitted = await runFeature(feature, gherkinQuery, supportCode)
-      const gherkinDocument = emitted.find((envelope) => envelope.gherkin_document).gherkin_document
+      const gherkinDocument = emitted.find((envelope) => envelope.gherkinDocument).gherkinDocument
       emitted.map((message) => cucumberQuery.update(message))
 
       const onlyFailedScenarios = filterByStatus(gherkinDocument, gherkinQuery, cucumberQuery, [
@@ -133,7 +133,7 @@ Feature: statuses
       supportCode.registerAfterHook(new FailingHook('1234-5678'))
 
       const emitted = await runFeature(feature, gherkinQuery, supportCode)
-      const gherkinDocument = emitted.find((envelope) => envelope.gherkin_document).gherkin_document
+      const gherkinDocument = emitted.find((envelope) => envelope.gherkinDocument).gherkinDocument
       emitted.map((message) => cucumberQuery.update(message))
 
       const onlyFailedScenarios = filterByStatus(gherkinDocument, gherkinQuery, cucumberQuery, [

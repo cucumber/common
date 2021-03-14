@@ -6,7 +6,7 @@
             "additionalProperties": false,
             "type": "object"
         },
-        "test_case_started_id": {
+        "testCaseStartedId": {
             "type": "string"
         }
     },

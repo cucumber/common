@@ -13,7 +13,7 @@ describe('NdjsonStream', () => {
   it('converts a buffer stream written byte by byte', (cb) => {
     const stream = makeToMessageStream()
     const envelope: messages.Envelope = {
-      test_step_finished: {
+      testStepFinished: {
         test_step_result: {
           status: 'UNKNOWN',
         },
@@ -37,7 +37,7 @@ describe('NdjsonStream', () => {
     stream.on('data', (json: string) => {
       const ob = JSON.parse(json)
       assert.deepStrictEqual(ob, {
-        test_step_finished: {
+        testStepFinished: {
           test_step_result: {
             status: 'UNKNOWN',
           },
@@ -46,7 +46,7 @@ describe('NdjsonStream', () => {
       cb()
     })
     const envelope: messages.Envelope = {
-      test_step_finished: {
+      testStepFinished: {
         test_step_result: {
           status: 'UNKNOWN',
         },
@@ -64,8 +64,8 @@ describe('NdjsonStream', () => {
       cb()
     })
     const envelope: messages.Envelope = {
-      test_case: {
-        pickle_id: '123',
+      testCase: {
+        pickleId: '123',
       },
     }
     stream.write(envelope)
@@ -79,8 +79,8 @@ describe('NdjsonStream', () => {
       cb()
     })
     const envelope: messages.Envelope = {
-      test_case: {
-        pickle_id: '',
+      testCase: {
+        pickleId: '',
       },
     }
     stream.write(envelope)
@@ -91,7 +91,7 @@ describe('NdjsonStream', () => {
     stream.on('data', (json: string) => {
       const ob: messages.Envelope = JSON.parse(json)
       const expected: messages.Envelope = {
-        gherkin_document: {
+        gherkinDocument: {
           feature: {
             location: {
               column: 1,
@@ -104,7 +104,7 @@ describe('NdjsonStream', () => {
     })
 
     const envelope: messages.Envelope = {
-      gherkin_document: {
+      gherkinDocument: {
         feature: {
           location: {
             column: 1,

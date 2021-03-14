@@ -36,8 +36,8 @@ describe('Search', () => {
       gherkinQuery.update(envelope)
     }
     for (const envelope of envelopes) {
-      if (envelope.gherkin_document) {
-        search.add(envelope.gherkin_document)
+      if (envelope.gherkinDocument) {
+        search.add(envelope.gherkinDocument)
       }
     }
     return pretty(search.search(query)[0])

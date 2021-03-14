@@ -5,16 +5,16 @@
             "type": "string",
             "description": "The name is unique, so we don't need an id."
         },
-        "regular_expressions": {
+        "regularExpressions": {
             "items": {
                 "type": "string"
             },
             "type": "array"
         },
-        "prefer_for_regular_expression_match": {
+        "preferForRegularExpressionMatch": {
             "type": "boolean"
         },
-        "use_for_snippets": {
+        "useForSnippets": {
             "type": "boolean"
         },
         "id": {

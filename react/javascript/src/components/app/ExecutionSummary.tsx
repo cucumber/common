@@ -24,13 +24,13 @@ const Product: React.FunctionComponent<IProductProps> = ({ name: name, product: 
 }
 
 function findTestRunStarted(envelopesQuery: EnvelopesQuery): messages.TestRunStarted {
-  const testRunStarted = envelopesQuery.find((envelope) => envelope.test_run_started !== null)
-  return testRunStarted ? testRunStarted.test_run_started : undefined
+  const testRunStarted = envelopesQuery.find((envelope) => envelope.testRunStarted !== null)
+  return testRunStarted ? testRunStarted.testRunStarted : undefined
 }
 
 function findTestRunFinished(envelopesQuery: EnvelopesQuery): messages.TestRunFinished {
-  const testRunFinished = envelopesQuery.find((envelope) => envelope.test_run_finished !== null)
-  return testRunFinished ? testRunFinished.test_run_finished : undefined
+  const testRunFinished = envelopesQuery.find((envelope) => envelope.testRunFinished !== null)
+  return testRunFinished ? testRunFinished.testRunFinished : undefined
 }
 
 interface IProps {

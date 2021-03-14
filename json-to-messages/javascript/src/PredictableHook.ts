@@ -20,7 +20,7 @@ export default class PredictableHook implements IHook {
   ) {}
 
   match(pickle: messages.Pickle): ISupportCodeExecutor {
-    if (!pickle.ast_node_ids.includes(this.scenarioId)) {
+    if (!pickle.astNodeIds.includes(this.scenarioId)) {
       return null
     }
     return new NilCodeExecutor(null)
@@ -32,7 +32,7 @@ export default class PredictableHook implements IHook {
     return {
       hook: {
         id: this.id,
-        source_reference: {
+        sourceReference: {
           uri: locationChunks[0],
           location: {
             line: parseInt(locationChunks[1]),

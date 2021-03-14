@@ -47,7 +47,7 @@ export default function makeTestCase(
     makeHookStep
   )
   const pickleTestSteps = pickle.steps.map((pickleStep) => {
-    const sourceFrames = pickleStep.ast_node_ids.map(
+    const sourceFrames = (pickleStep.astNodeIds || []).map(
       (astNodeId) => `${pickle.uri}:${gherkinQuery.getLocation(astNodeId).line}`
     )
     return makePickleTestStep(

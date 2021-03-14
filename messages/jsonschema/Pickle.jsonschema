@@ -31,7 +31,7 @@
       "type": "array",
       "description": "*\n One or more tags. If this pickle is constructed from a Gherkin document,\n It includes inherited tags from the `Feature` as well."
     },
-    "ast_node_ids": {
+    "astNodeIds": {
       "items": {
         "type": "string"
       },
@@ -49,7 +49,7 @@
         "name": {
           "type": "string"
         },
-        "ast_node_id": {
+        "astNodeId": {
           "type": "string",
           "description": "Points to the AST node this was created from"
         }
@@ -60,7 +60,7 @@
     },
     "PickleDocString": {
       "properties": {
-        "media_type": {
+        "mediaType": {
           "type": "string"
         },
         "content": {
@@ -107,10 +107,10 @@
     },
     "PickleStepArgument": {
       "properties": {
-        "doc_string": {
+        "docString": {
           "$ref": "#/definitions/PickleDocString"
         },
-        "data_table": {
+        "dataTable": {
           "$ref": "#/definitions/PickleTable"
         }
       },
@@ -131,7 +131,7 @@
           "type": "string",
           "description": "A unique ID for the PickleStep"
         },
-        "ast_node_ids": {
+        "astNodeIds": {
           "items": {
             "type": "string"
           },

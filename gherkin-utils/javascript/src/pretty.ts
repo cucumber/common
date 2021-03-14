@@ -54,8 +54,8 @@ function prettyStepContainer(stepContainer: messages.Scenario, indent: string): 
 function prettyExample(example: messages.Examples, indent: string): string {
   let s = `\n${indent}Examples: ${example.name}\n`
 
-  s += prettyTableRow(example.table_header, `${indent}  `)
-  for (const row of example.table_body) {
+  s += prettyTableRow(example.tableHeader, `${indent}  `)
+  for (const row of example.tableBody) {
     s += prettyTableRow(row, `${indent}  `)
   }
 

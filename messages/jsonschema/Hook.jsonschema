@@ -4,10 +4,10 @@
         "id": {
             "type": "string"
         },
-        "tag_expression": {
+        "tagExpression": {
             "type": "string"
         },
-        "source_reference": {
+        "sourceReference": {
             "$ref": "./SourceReference.jsonschema",
             "additionalProperties": false,
             "type": "object"

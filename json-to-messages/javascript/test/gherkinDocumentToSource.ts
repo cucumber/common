@@ -5,6 +5,6 @@ export default function gherkinDocumentToSource(
 ): messages.Source {
   return {
     uri: gherkinDocument.uri,
-    media_type: 'text/x.cucumber.gherkin+plain',
+    mediaType: 'text/x.cucumber.gherkin+plain',
   }
 }

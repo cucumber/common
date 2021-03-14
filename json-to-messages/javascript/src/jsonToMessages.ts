@@ -62,7 +62,7 @@ export default async function main(
       source: gherkinDocumentToSource(gherkinDocument),
     }
     gherkinEnvelopeStream.write(sourceEnvelope)
-    const gherkinDocumentEnvelope: messages.Envelope = { gherkin_document: gherkinDocument }
+    const gherkinDocumentEnvelope: messages.Envelope = { gherkinDocument: gherkinDocument }
     gherkinEnvelopeStream.write(gherkinDocumentEnvelope)
     const pickles = compile(gherkinDocument, gherkinDocument.uri, supportCode.newId)
     for (const pickle of pickles) {

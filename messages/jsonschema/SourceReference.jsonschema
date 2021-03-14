@@ -4,10 +4,10 @@
         "uri": {
             "type": "string"
         },
-        "java_method": {
+        "javaMethod": {
             "$ref": "#/definitions/JavaMethod"
         },
-        "java_stack_trace_element": {
+        "javaStackTraceElement": {
             "$ref": "#/definitions/JavaStackTraceElement"
         },
         "location": {
@@ -20,13 +20,13 @@
     "definitions": {
         "JavaMethod": {
             "properties": {
-                "class_name": {
+                "className": {
                     "type": "string"
                 },
-                "method_name": {
+                "methodName": {
                     "type": "string"
                 },
-                "method_parameter_types": {
+                "methodParameterTypes": {
                     "items": {
                         "type": "string"
                     },
@@ -38,13 +38,13 @@
         },
         "JavaStackTraceElement": {
             "properties": {
-                "class_name": {
+                "className": {
                     "type": "string"
                 },
-                "method_name": {
+                "methodName": {
                     "type": "string"
                 },
-                "file_name": {
+                "fileName": {
                     "type": "string"
                 }
             },

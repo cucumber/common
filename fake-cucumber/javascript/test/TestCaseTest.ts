@@ -75,8 +75,8 @@ describe('TestCase', () => {
         'test-case-started-id'
       )
       const testStepStatuses = emitted
-        .filter((m) => m.test_step_finished)
-        .map((m) => m.test_step_finished.test_step_result.status)
+        .filter((m) => m.testStepFinished)
+        .map((m) => m.testStepFinished.test_step_result.status)
 
       assert.deepStrictEqual(testStepStatuses, ['PASSED', 'PASSED'])
     })
@@ -99,8 +99,8 @@ describe('TestCase', () => {
         'test-case-started-id'
       )
       const testStepStatuses = emitted
-        .filter((m) => m.test_step_finished)
-        .map((m) => m.test_step_finished.test_step_result.status)
+        .filter((m) => m.testStepFinished)
+        .map((m) => m.testStepFinished.test_step_result.status)
       assert.deepStrictEqual(testStepStatuses, ['FAILED', 'SKIPPED'])
     })
 
@@ -122,8 +122,8 @@ describe('TestCase', () => {
         'test-case-started-id'
       )
       const testStepStatuses = emitted
-        .filter((m) => m.test_step_finished)
-        .map((m) => m.test_step_finished.test_step_result.status)
+        .filter((m) => m.testStepFinished)
+        .map((m) => m.testStepFinished.test_step_result.status)
       assert.deepStrictEqual(testStepStatuses, ['FAILED', 'FAILED'])
     })
 
@@ -142,11 +142,11 @@ describe('TestCase', () => {
         'test-case-started-id'
       )
 
-      const testCaseStarted = emitted[0].test_case_started
-      const testCaseFinished = emitted.find((m) => m.test_case_finished).test_case_finished
+      const testCaseStarted = emitted[0].testCaseStarted
+      const testCaseFinished = emitted.find((m) => m.testCaseFinished).testCaseFinished
 
-      assert.strictEqual(testCaseStarted.test_case_id, testCase.id)
-      assert.strictEqual(testCaseFinished.test_case_started_id, testCaseStarted.id)
+      assert.strictEqual(testCaseStarted.testCaseId, testCase.id)
+      assert.strictEqual(testCaseFinished.testCaseStartedId, testCaseStarted.id)
     })
   })
 })

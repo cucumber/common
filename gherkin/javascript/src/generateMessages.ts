@@ -31,7 +31,7 @@ export default function generateMessages(
 
     if (options.includeGherkinDocument) {
       result.push({
-        gherkin_document: { ...gherkinDocument, uri },
+        gherkinDocument: { ...gherkinDocument, uri },
       })
     }
 
@@ -51,7 +51,7 @@ export default function generateMessages(
         throw error
       }
       result.push({
-        parse_error: {
+        parseError: {
           source: {
             uri,
             location: {

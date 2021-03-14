@@ -29,7 +29,7 @@ describe('<Step>', () => {
       public getStepMatchArgumentsLists(): messages.StepMatchArgumentsList[] {
         return [
           {
-            step_match_arguments: [
+            stepMatchArguments: [
               {
                 group: {
                   start: 4,

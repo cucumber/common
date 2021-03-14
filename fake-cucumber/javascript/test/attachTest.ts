@@ -15,10 +15,10 @@ describe('#attach', () => {
 
     const expected: messages.Envelope = {
       attachment: {
-        media_type: 'text/plain',
-        content_encoding: 'IDENTITY',
-        test_case_started_id: 'the-test-case-started-id',
-        test_step_id: 'the-test-step-id',
+        mediaType: 'text/plain',
+        contentEncoding: 'IDENTITY',
+        testCaseStartedId: 'the-test-case-started-id',
+        testStepId: 'the-test-step-id',
         body: 'hello',
       },
     }
@@ -36,11 +36,11 @@ describe('#attach', () => {
 
     const expected: messages.Envelope = {
       attachment: {
-        media_type: 'application/octet-stream',
-        test_case_started_id: 'the-test-case-started-id',
-        test_step_id: 'the-test-step-id',
+        mediaType: 'application/octet-stream',
+        testCaseStartedId: 'the-test-case-started-id',
+        testStepId: 'the-test-step-id',
         body: buffer.toString('base64'),
-        content_encoding: 'BASE64',
+        contentEncoding: 'BASE64',
       },
     }
     assert.deepStrictEqual(envelopes[0], expected)

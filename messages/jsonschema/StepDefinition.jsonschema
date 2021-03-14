@@ -7,7 +7,7 @@
         "pattern": {
             "$ref": "#/definitions/StepDefinitionPattern"
         },
-        "source_reference": {
+        "sourceReference": {
             "$ref": "./SourceReference.jsonschema"
         }
     },

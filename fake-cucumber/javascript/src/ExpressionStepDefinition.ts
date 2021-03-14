@@ -19,20 +19,20 @@ export default class ExpressionStepDefinition implements IStepDefinition {
           this.id,
           this.body,
           expressionArgs,
-          pickleStep.argument && pickleStep.argument.doc_string,
-          pickleStep.argument && pickleStep.argument.data_table
+          pickleStep.argument && pickleStep.argument.docString,
+          pickleStep.argument && pickleStep.argument.dataTable
         )
   }
 
   public toMessage(): messages.Envelope {
     return {
-      step_definition: {
+      stepDefinition: {
         id: this.id,
         pattern: {
           type: this.expressionType(),
           source: this.expression.source,
         },
-        source_reference: this.sourceReference,
+        sourceReference: this.sourceReference,
       },
     }
   }

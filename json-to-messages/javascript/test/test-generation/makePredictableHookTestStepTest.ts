@@ -14,7 +14,7 @@ describe('makePredictableHookTestStep', () => {
 
   it('returns undefined when the Hook does not match', () => {
     const pickle: messages.Pickle = {
-      ast_node_ids: ['another-scenario-id'],
+      astNodeIds: ['another-scenario-id'],
     }
     const step = makePredictableHookTestStep(
       pickle,
@@ -29,7 +29,7 @@ describe('makePredictableHookTestStep', () => {
 
   it('creates a PredictableHookTestStep', async () => {
     const pickle: messages.Pickle = {
-      ast_node_ids: ['scenario-id'],
+      astNodeIds: ['scenario-id'],
     }
     const step = makePredictableHookTestStep(
       pickle,
