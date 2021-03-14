@@ -12,11 +12,11 @@ function envelopesFrom(path: string): messages.Envelope[] {
     .toString()
     .trim()
     .split('\n')
-    .map((json: string) => messages.Envelope.fromObject(JSON.parse(json)))
+    .map((json: string) => JSON.parse(json))
 }
 
 function getGherkinDocument(envelopes: messages.Envelope[]): messages.GherkinDocument {
-  return envelopes.find((envelope) => envelope.gherkinDocument).gherkinDocument
+  return envelopes.find((envelope) => envelope.gherkin_document).gherkin_document
 }
 
 describe('getFeatureStatus', () => {
@@ -42,10 +42,7 @@ describe('getFeatureStatus', () => {
     const document = getGherkinDocument(envelopes)
     readEnvelopes(envelopes)
 
-    assert.strictEqual(
-      getFeatureStatus(document, testResultsQuery, gherkinQuery),
-      messages.TestStepFinished.TestStepResult.Status.PASSED
-    )
+    assert.strictEqual(getFeatureStatus(document, testResultsQuery, gherkinQuery), 'PASSED')
   })
 
   it('returns the worst status for a feature with multiple scenarios', () => {
@@ -55,9 +52,6 @@ describe('getFeatureStatus', () => {
     const document = getGherkinDocument(envelopes)
     readEnvelopes(envelopes)
 
-    assert.strictEqual(
-      getFeatureStatus(document, testResultsQuery, gherkinQuery),
-      messages.LED
-    )
+    assert.strictEqual(getFeatureStatus(document, testResultsQuery, gherkinQuery), 'FAILED')
   })
 })

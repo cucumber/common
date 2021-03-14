@@ -13,18 +13,16 @@ describe('#attach', () => {
 
     attach('hello', 'text/plain')
 
-    assert.deepStrictEqual(
-      envelopes[0],
-      new messages.Envelope({
-        attachment: new messages.Attachment({
-          mediaType: 'text/plain',
-          contentEncoding: messages.TY,
-          testCaseStartedId: 'the-test-case-started-id',
-          testStepId: 'the-test-step-id',
-          body: 'hello',
-        }),
-      })
-    )
+    const expected: messages.Envelope = {
+      attachment: {
+        media_type: 'text/plain',
+        content_encoding: 'IDENTITY',
+        test_case_started_id: 'the-test-case-started-id',
+        test_step_id: 'the-test-step-id',
+        body: 'hello',
+      },
+    }
+    assert.deepStrictEqual(envelopes[0], expected)
   })
 
   it('can attach a buffer', () => {
@@ -36,18 +34,16 @@ describe('#attach', () => {
     const buffer = Buffer.from([...Array(4).keys()])
     attach(buffer, 'application/octet-stream')
 
-    assert.deepStrictEqual(
-      envelopes[0],
-      new messages.Envelope({
-        attachment: new messages.Attachment({
-          mediaType: 'application/octet-stream',
-          testCaseStartedId: 'the-test-case-started-id',
-          testStepId: 'the-test-step-id',
-          body: buffer.toString('base64'),
-          contentEncoding: messages.Attachment.ContentEncoding.BASE64,
-        }),
-      })
-    )
+    const expected: messages.Envelope = {
+      attachment: {
+        media_type: 'application/octet-stream',
+        test_case_started_id: 'the-test-case-started-id',
+        test_step_id: 'the-test-step-id',
+        body: buffer.toString('base64'),
+        content_encoding: 'BASE64',
+      },
+    }
+    assert.deepStrictEqual(envelopes[0], expected)
   })
 
   it('can attach a readable stream', async () => {

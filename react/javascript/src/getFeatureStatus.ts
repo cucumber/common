@@ -8,7 +8,7 @@ export default function getFeatureStatus(
   document: IGherkinDocument,
   cucumberQuery: CucumberQuery,
   gherkinQuery: GherkinQuery
-): messages.TestStepFinished.TestStepResult.Status {
+): 'UNKNOWN' | 'PASSED' | 'SKIPPED' | 'PENDING' | 'UNDEFINED' | 'AMBIGUOUS' | 'FAILED' {
   return cucumberQuery.getWorstTestStepResult(
     cucumberQuery.getPickleTestStepResults(gherkinQuery.getPickleIds(document.uri))
   ).status

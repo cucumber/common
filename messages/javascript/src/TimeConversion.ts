@@ -10,15 +10,11 @@ export function millisecondsSinceEpochToTimestamp(
   return toSecondsAndNanos(millisecondsSinceEpoch)
 }
 
-export function millisecondsToDuration(
-  durationInMilliseconds: number
-): messages.Duration {
+export function millisecondsToDuration(durationInMilliseconds: number): messages.Duration {
   return toSecondsAndNanos(durationInMilliseconds)
 }
 
-export function timestampToMillisecondsSinceEpoch(
-  timestamp: messages.Timestamp
-): number {
+export function timestampToMillisecondsSinceEpoch(timestamp: messages.Timestamp): number {
   const { seconds, nanos } = timestamp
   return toMillis(seconds, nanos)
 }

@@ -14,8 +14,10 @@ import CucumberQueryContext from '../../CucumberQueryContext'
 import StatusIcon from '../gherkin/StatusIcon'
 
 interface IProps {
-  gherkinDocuments?: ReadonlyArray<messages.GherkinDocument>
+  gherkinDocuments?: readonly messages.GherkinDocument[]
 }
+
+type Status = 'UNKNOWN' | 'PASSED' | 'SKIPPED' | 'PENDING' | 'UNDEFINED' | 'AMBIGUOUS' | 'FAILED'
 
 const GherkinDocumentList: React.FunctionComponent<IProps> = ({ gherkinDocuments }) => {
   const gherkinQuery = React.useContext(GherkinQueryContext)
@@ -24,25 +26,19 @@ const GherkinDocumentList: React.FunctionComponent<IProps> = ({ gherkinDocuments
   const gherkinDocs =
     gherkinDocuments === undefined ? gherkinQuery.getGherkinDocuments() : gherkinDocuments
 
-  const entries: Array<[string, messages.TestStepFinished.TestStepResult.Status]> = gherkinDocs.map(
-    (gherkinDocument) => {
-      const gherkinDocumentStatus = gherkinDocument.feature
-        ? cucumberQuery.getWorstTestStepResult(
-            cucumberQuery.getPickleTestStepResults(gherkinQuery.getPickleIds(gherkinDocument.uri))
-          ).status
-        : messages.NED
-      return [gherkinDocument.uri, gherkinDocumentStatus]
-    }
-  )
+  const entries: Array<[string, Status]> = gherkinDocs.map((gherkinDocument) => {
+    const gherkinDocumentStatus = gherkinDocument.feature
+      ? cucumberQuery.getWorstTestStepResult(
+          cucumberQuery.getPickleTestStepResults(gherkinQuery.getPickleIds(gherkinDocument.uri))
+        ).status
+      : 'UNDEFINED'
+    return [gherkinDocument.uri, gherkinDocumentStatus]
+  })
   const gherkinDocumentStatusByUri = new Map(entries)
 
   // Pre-expand any document that is *not* passed - assuming this is what people want to look at first
   const preExpanded = gherkinDocs
-    .filter(
-      (doc) =>
-        gherkinDocumentStatusByUri.get(doc.uri) !==
-        messages.TestStepFinished.TestStepResult.Status.PASSED
-    )
+    .filter((doc) => gherkinDocumentStatusByUri.get(doc.uri) !== 'PASSED')
     .map((doc) => doc.uri)
   return (
     <div className="gherkin-document-list">

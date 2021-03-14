@@ -2,7 +2,7 @@ import { runCucumber, SupportCode, IHook, ISupportCodeExecutor } from '@cucumber
 import { GherkinStreams } from '@cucumber/gherkin-streams'
 import { Query as GherkinQuery } from '@cucumber/gherkin-utils'
 import { Writable } from 'stream'
-import { messages, IdGenerator } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import { makeSourceEnvelope } from '@cucumber/gherkin'
 
 export class FailingCodeSupport implements ISupportCodeExecutor {
@@ -24,11 +24,11 @@ export class FailingHook implements IHook {
   }
 
   toMessage(): messages.Envelope {
-    return messages.Envelope.create({
-      hook: messages.Hook.create({
+    return {
+      hook: {
         id: this.id,
-      }),
-    })
+      },
+    }
   }
 }
 
@@ -55,7 +55,7 @@ export default async function runFeature(
   })
 
   const gherkinEnvelopeStream = GherkinStreams.fromSources([makeSourceEnvelope(feature, '')], {
-    newId: IdGenerator.incrementing(),
+    newId: messages.IdGenerator.incrementing(),
   })
 
   await runCucumber(supportCode, gherkinEnvelopeStream, gherkinQuery, out)

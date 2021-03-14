@@ -1,4 +1,4 @@
-import { messages, IdGenerator } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import { ITable, IStep, IElement, IFeature } from './JSONSchema'
 import IAstMaker from '../IAstMaker'
 import IPredictableSupportCode from '../IPredictableSupportCode'
@@ -10,7 +10,7 @@ import {
 } from '../cucumber-generic/JSONTraverse'
 import { ITag } from '../types'
 
-function makeTags(tags: ReadonlyArray<string>): ITag[] {
+function makeTags(tags: readonly string[]): ITag[] {
   return tags
     ? tags.map((tag) => {
         return { name: `@${tag}` }
@@ -45,7 +45,7 @@ function makeGenericFeature(source: IFeature): IGenericFeature {
 export function traverseFeature(
   feature: IFeature,
   astMaker: IAstMaker,
-  newId: IdGenerator.NewId,
+  newId: messages.IdGenerator.NewId,
   predictableSupportCode: IPredictableSupportCode
 ): messages.GherkinDocument {
   return traverseGenericFeature(
@@ -60,7 +60,7 @@ export function traverseFeature(
 export function traverseElement(
   element: IElement,
   astMaker: IAstMaker,
-  newId: IdGenerator.NewId,
+  newId: messages.IdGenerator.NewId,
   predictableSupportCode: IPredictableSupportCode
 ): messages.FeatureChild {
   if (element.type === 'background') {
@@ -84,7 +84,7 @@ export function traverseElement(
 export function traverseStep(
   step: IStep,
   astMaker: IAstMaker,
-  newId: IdGenerator.NewId,
+  newId: messages.IdGenerator.NewId,
   predictableSupportCode: IPredictableSupportCode
 ): messages.Step {
   const line = makeLine(step.location)
@@ -113,17 +113,11 @@ export function traverseStep(
   return gherkinStep
 }
 
-export function traverseDocstring(
-  text: string,
-  astMaker: IAstMaker
-): messages.DocString {
+export function traverseDocstring(text: string, astMaker: IAstMaker): messages.DocString {
   return astMaker.makeDocstring(null, text)
 }
 
-export function traverseTable(
-  table: ITable,
-  astMaker: IAstMaker
-): messages.DataTable {
+export function traverseTable(table: ITable, astMaker: IAstMaker): messages.DataTable {
   const cells: string[][] = [table.headings.map((head) => head)]
   for (const row of table.rows) {
     cells.push(row.map((cell) => cell))

@@ -1,24 +1,26 @@
 import React from 'react'
-import * as messages from '@cucumber/messages'
 import statusName from '../gherkin/statusName'
 import StatusIcon from '../gherkin/StatusIcon'
 
 interface IProps {
-  scenarioCountByStatus: Map<messages.TestStepFinished.TestStepResult.Status, number>
+  scenarioCountByStatus: Map<
+    'UNKNOWN' | 'PASSED' | 'SKIPPED' | 'PENDING' | 'UNDEFINED' | 'AMBIGUOUS' | 'FAILED',
+    number
+  >
 }
 
 const StatusesSummary: React.FunctionComponent<IProps> = ({
   scenarioCountByStatus: scenarioCountByStatus,
 }) => {
-  const statuses = [
-    messages.GUOUS,
-    messages.LED,
-    messages.TestStepFinished.TestStepResult.Status.PASSED,
-    messages.NG,
-    messages.PPED,
-    messages.NED,
-    messages.TestStepFinished.TestStepResult.Status.UNKNOWN,
-  ]
+  const statuses: (
+    | 'UNKNOWN'
+    | 'PASSED'
+    | 'SKIPPED'
+    | 'PENDING'
+    | 'UNDEFINED'
+    | 'AMBIGUOUS'
+    | 'FAILED'
+  )[] = ['AMBIGUOUS', 'FAILED', 'PASSED', 'PENDING', 'SKIPPED', 'UNDEFINED', 'UNKNOWN']
 
   return (
     <div className="cucumber-status-filter">

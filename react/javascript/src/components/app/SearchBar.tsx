@@ -2,13 +2,33 @@ import React from 'react'
 import { faSearch, faQuestionCircle, faFilter } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import SearchQueryContext from '../../SearchQueryContext'
-import * as messages from '@cucumber/messages'
 import statusName from '../gherkin/statusName'
 
 interface IProps {
-  statusesUpdated: (statuses: messages.TestStepFinished.TestStepResult.Status[]) => any
-  enabledStatuses: messages.TestStepFinished.TestStepResult.Status[]
-  scenarioCountByStatus: Map<messages.TestStepFinished.TestStepResult.Status, number>
+  statusesUpdated: (
+    statuses: (
+      | 'UNKNOWN'
+      | 'PASSED'
+      | 'SKIPPED'
+      | 'PENDING'
+      | 'UNDEFINED'
+      | 'AMBIGUOUS'
+      | 'FAILED'
+    )[]
+  ) => any
+  enabledStatuses: (
+    | 'UNKNOWN'
+    | 'PASSED'
+    | 'SKIPPED'
+    | 'PENDING'
+    | 'UNDEFINED'
+    | 'AMBIGUOUS'
+    | 'FAILED'
+  )[]
+  scenarioCountByStatus: Map<
+    'UNKNOWN' | 'PASSED' | 'SKIPPED' | 'PENDING' | 'UNDEFINED' | 'AMBIGUOUS' | 'FAILED',
+    number
+  >
 }
 
 const SearchBar: React.FunctionComponent<IProps> = ({
@@ -18,15 +38,15 @@ const SearchBar: React.FunctionComponent<IProps> = ({
 }) => {
   const searchQueryContext = React.useContext(SearchQueryContext)
 
-  const statuses = [
-    messages.GUOUS,
-    messages.LED,
-    messages.TestStepFinished.TestStepResult.Status.PASSED,
-    messages.NG,
-    messages.PPED,
-    messages.NED,
-    messages.TestStepFinished.TestStepResult.Status.UNKNOWN,
-  ]
+  const statuses: (
+    | 'UNKNOWN'
+    | 'PASSED'
+    | 'SKIPPED'
+    | 'PENDING'
+    | 'UNDEFINED'
+    | 'AMBIGUOUS'
+    | 'FAILED'
+  )[] = ['AMBIGUOUS', 'FAILED', 'PASSED', 'PENDING', 'SKIPPED', 'UNDEFINED', 'UNKNOWN']
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -34,9 +54,7 @@ const SearchBar: React.FunctionComponent<IProps> = ({
     searchQueryContext.updateQuery(formData.get('query').toString())
   }
 
-  const showFilters =
-    scenarioCountByStatus.size > 1 ||
-    scenarioCountByStatus.has(messages.TestStepFinished.TestStepResult.Status.UNKNOWN)
+  const showFilters = scenarioCountByStatus.size > 1 || scenarioCountByStatus.has('UNKNOWN')
 
   return (
     <div className="cucumber-search-bar">

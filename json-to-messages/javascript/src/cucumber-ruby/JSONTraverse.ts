@@ -1,4 +1,4 @@
-import { IdGenerator, messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import { IStep, IDocString, IDataTableRow, IElement } from './JSONSchema'
 import IAstMaker from '../IAstMaker'
 import IPredictableSupportCode from '../IPredictableSupportCode'
@@ -15,7 +15,7 @@ function durationToMillis(duration: number) {
 export function traverseFeature(
   feature: IFeature,
   astMaker: IAstMaker,
-  newId: IdGenerator.NewId,
+  newId: messages.IdGenerator.NewId,
   predictableSupportCode: IPredictableSupportCode
 ): messages.GherkinDocument {
   return genericTraverseFeature(feature, astMaker, newId, predictableSupportCode, traverseElement)
@@ -24,7 +24,7 @@ export function traverseFeature(
 export function traverseElement(
   element: IElement,
   astMaker: IAstMaker,
-  newId: IdGenerator.NewId,
+  newId: messages.IdGenerator.NewId,
   predictableSupportCode: IPredictableSupportCode
 ): messages.FeatureChild {
   let child: messages.FeatureChild
@@ -86,7 +86,7 @@ export function traverseElement(
 export function traverseStep(
   step: IStep,
   astMaker: IAstMaker,
-  newId: IdGenerator.NewId,
+  newId: messages.IdGenerator.NewId,
   predictableSupportCode: IPredictableSupportCode
 ): messages.Step {
   const docString = step.doc_string ? traverseDocString(step.doc_string, astMaker) : null
@@ -113,15 +113,12 @@ export function traverseStep(
   return gherkinStep
 }
 
-export function traverseDocString(
-  docString: IDocString,
-  astMaker: IAstMaker
-): messages.DocString {
+export function traverseDocString(docString: IDocString, astMaker: IAstMaker): messages.DocString {
   return astMaker.makeDocstring(docString.content_type, docString.value)
 }
 
 export function traverseDataTable(
-  rows: ReadonlyArray<IDataTableRow>,
+  rows: readonly IDataTableRow[],
   astMaker: IAstMaker
 ): messages.DataTable {
   return astMaker.makeDataTable(rows.map((row) => row.cells))

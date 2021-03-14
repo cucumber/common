@@ -4,7 +4,7 @@ import isNumber from './isNumber'
 import HighLight from '../app/HighLight'
 
 interface IProps {
-  rows: messages.TableRow[]
+  rows: readonly messages.TableRow[]
 }
 
 const TableBody: React.FunctionComponent<IProps> = ({ rows }) => {

@@ -1,10 +1,9 @@
 import React from 'react'
-import * as messages from '@cucumber/messages'
 
 import StatusIcon from './StatusIcon'
 
 interface IProps {
-  status: messages.TestStepFinished.TestStepResult.Status
+  status: 'UNKNOWN' | 'PASSED' | 'SKIPPED' | 'PENDING' | 'UNDEFINED' | 'AMBIGUOUS' | 'FAILED'
 }
 
 const StepContainer: React.FunctionComponent<IProps> = ({ status, children }) => {

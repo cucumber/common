@@ -7,8 +7,14 @@ export default function countScenariosByStatuses(
   gherkinDocuments: readonly messages.GherkinDocument[],
   gherkinQuery: GherkinQuery,
   cucumberQuery: CucumberQuery
-): Map<messages.TestStepFinished.TestStepResult.Status, number> {
-  const statuses = new Map<messages.TestStepFinished.TestStepResult.Status, number>()
+): Map<
+  'UNKNOWN' | 'PASSED' | 'SKIPPED' | 'PENDING' | 'UNDEFINED' | 'AMBIGUOUS' | 'FAILED',
+  number
+> {
+  const statuses = new Map<
+    'UNKNOWN' | 'PASSED' | 'SKIPPED' | 'PENDING' | 'UNDEFINED' | 'AMBIGUOUS' | 'FAILED',
+    number
+  >()
 
   for (const gherkinDocument of gherkinDocuments) {
     const counter = new GherkinDocumentWalker(

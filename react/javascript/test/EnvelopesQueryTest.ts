@@ -4,32 +4,32 @@ import assert from 'assert'
 
 describe('EnvelopesQuery', () => {
   let query: EnvelopesQuery
-  const envelopes = [
-    messages.Envelope.create({
-      meta: messages.Meta.create({
-        protocolVersion: 'X.Y.Z',
-      }),
-    }),
-    messages.Envelope.create({
-      gherkinDocument: messages.GherkinDocument.create({
+  const envelopes: messages.Envelope[] = [
+    {
+      meta: {
+        protocol_version: 'X.Y.Z',
+      },
+    },
+    {
+      gherkin_document: {
         uri: 'some/gherkin_document',
-      }),
-    }),
-    messages.Envelope.create({
-      pickle: messages.Pickle.create({
+      },
+    },
+    {
+      pickle: {
         id: '1',
-      }),
-    }),
-    messages.Envelope.create({
-      pickle: messages.Pickle.create({
+      },
+    },
+    {
+      pickle: {
         id: '2',
-      }),
-    }),
-    messages.Envelope.create({
-      pickle: messages.Pickle.create({
+      },
+    },
+    {
+      pickle: {
         id: '3',
-      }),
-    }),
+      },
+    },
   ]
 
   beforeEach(() => {

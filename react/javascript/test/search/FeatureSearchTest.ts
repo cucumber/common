@@ -9,10 +9,10 @@ describe('FeatureSearch', () => {
 
   beforeEach(() => {
     featureSearch = new FeatureSearch()
-    gherkinDocument = messages.GherkinDocument.create({
+    gherkinDocument = {
       uri: 'some/feature.file',
       feature: makeFeature('this exists', 'description feature', []),
-    })
+    }
 
     featureSearch.add(gherkinDocument)
   })

@@ -59,15 +59,15 @@ export interface ITestCase {
 }
 
 export type EnvelopeListener = (envelope: messages.Envelope) => void
-export type AnyBody = (...args: ReadonlyArray<any>) => any
+export type AnyBody = (...args: readonly unknown[]) => unknown
 export type Attach = (data: string | Buffer | Readable, mediaType: string) => void | Promise<void>
 export type Log = (text: string) => void | Promise<void>
 
 export type MakePickleTestStep = (
   testStepId: string,
   pickleStep: messages.PickleStep,
-  stepDefinitions: ReadonlyArray<IStepDefinition>,
-  sourceFrames: ReadonlyArray<string>,
+  stepDefinitions: readonly IStepDefinition[],
+  sourceFrames: readonly string[],
   clock: IClock,
   stopwatch: IStopwatch,
   makeErrorMessage: MakeErrorMessage
@@ -86,9 +86,9 @@ export type MakeHookTestStep = (
 
 export type MakeTestCase = (
   pickle: messages.Pickle,
-  stepDefinitions: ReadonlyArray<IStepDefinition>,
-  beforeHooks: ReadonlyArray<IHook>,
-  afterHooks: ReadonlyArray<IHook>,
+  stepDefinitions: readonly IStepDefinition[],
+  beforeHooks: readonly IHook[],
+  afterHooks: readonly IHook[],
   gherkinQuery: Query,
   newId: messages.IdGenerator.NewId,
   clock: IClock,

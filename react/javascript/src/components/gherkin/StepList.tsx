@@ -3,7 +3,7 @@ import React from 'react'
 import Step from './Step'
 
 interface IProps {
-  steps: messages.Step[]
+  steps: readonly messages.Step[]
   renderStepMatchArguments: boolean
   renderMessage: boolean
 }

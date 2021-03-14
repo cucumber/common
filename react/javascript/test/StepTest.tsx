@@ -19,28 +19,26 @@ describe('<Step>', () => {
     // global.navigator = dom.window.navigator
     const document = dom.window.document
 
-    const step = new messages.GherkinDocument.Feature.Step({
+    const step: messages.Step = {
       keyword: 'Given',
       text: 'the 48 pixies',
-      location: new messages.Location({ column: 1, line: 1 }),
-    })
+      location: { column: 1, line: 1 },
+    }
 
     class StubCucumberQuery extends CucumberQuery {
       public getStepMatchArgumentsLists(): messages.StepMatchArgumentsList[] {
         return [
-          new messages.TestCase.TestStep.StepMatchArgumentsList({
-            stepMatchArguments: [
-              new messages.TestCase.TestStep.StepMatchArgumentsList.StepMatchArgument({
-                group: new messages.TestCase.TestStep.StepMatchArgumentsList.StepMatchArgument.Group(
-                  {
-                    start: 4,
-                    value: '48',
-                    children: [],
-                  }
-                ),
-              }),
+          {
+            step_match_arguments: [
+              {
+                group: {
+                  start: 4,
+                  value: '48',
+                  children: [],
+                },
+              },
             ],
-          }),
+          },
         ]
       }
     }

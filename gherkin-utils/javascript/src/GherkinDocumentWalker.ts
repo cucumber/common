@@ -117,7 +117,7 @@ export default class GherkinDocumentWalker {
     }
   }
 
-  private copyTags(tags: ReadonlyArray<messages.Tag>): messages.Tag[] {
+  private copyTags(tags: readonly messages.Tag[]): messages.Tag[] {
     return tags.map((tag) => ({
       name: tag.name,
       id: tag.id,

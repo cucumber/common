@@ -3,7 +3,7 @@ import * as messages from '@cucumber/messages'
 
 interface IProps {
   query: string
-  matches: ReadonlyArray<messages.GherkinDocument>
+  matches: readonly messages.GherkinDocument[]
 }
 
 const NoMatchResult: React.FunctionComponent<IProps> = ({ query, matches }) => {

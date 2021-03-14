@@ -23,18 +23,18 @@ const Product: React.FunctionComponent<IProductProps> = ({ name: name, product: 
   )
 }
 
-function findTestRunStarted(envelopesQuery: EnvelopesQuery): messages.ITestRunStarted {
-  const testRunStarted = envelopesQuery.find((envelope) => envelope.testRunStarted !== null)
-  return testRunStarted ? testRunStarted.testRunStarted : undefined
+function findTestRunStarted(envelopesQuery: EnvelopesQuery): messages.TestRunStarted {
+  const testRunStarted = envelopesQuery.find((envelope) => envelope.test_run_started !== null)
+  return testRunStarted ? testRunStarted.test_run_started : undefined
 }
 
-function findTestRunFinished(envelopesQuery: EnvelopesQuery): messages.ITestRunFinished {
-  const testRunFinished = envelopesQuery.find((envelope) => envelope.testRunFinished !== null)
-  return testRunFinished ? testRunFinished.testRunFinished : undefined
+function findTestRunFinished(envelopesQuery: EnvelopesQuery): messages.TestRunFinished {
+  const testRunFinished = envelopesQuery.find((envelope) => envelope.test_run_finished !== null)
+  return testRunFinished ? testRunFinished.test_run_finished : undefined
 }
 
 interface IProps {
-  meta: messages.IMeta
+  meta: messages.Meta
 }
 
 const ExecutionSummary: React.FunctionComponent<IProps> = ({ meta: meta }) => {

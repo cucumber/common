@@ -1,18 +1,15 @@
 import * as messages from '@cucumber/messages'
 
 export default interface IAstMaker {
-  makeGherkinDocument(
-    uri: string,
-    feature: messages.Feature
-  ): messages.GherkinDocument
+  makeGherkinDocument(uri: string, feature: messages.Feature): messages.GherkinDocument
 
   makeFeature(
     line: number,
     keyword: string,
     name: string,
     description: string,
-    children: ReadonlyArray<messages.FeatureChild>,
-    tags?: ReadonlyArray<messages.Tag>
+    children: readonly messages.FeatureChild[],
+    tags?: readonly messages.Tag[]
   ): messages.Feature
 
   makeTag(name: string, line: number): messages.Tag
@@ -23,8 +20,8 @@ export default interface IAstMaker {
     keyword: string,
     name: string,
     description: string,
-    steps: ReadonlyArray<messages.Step>,
-    tags?: ReadonlyArray<messages.Tag>
+    steps: readonly messages.Step[],
+    tags?: readonly messages.Tag[]
   ): messages.FeatureChild
 
   makeBackgroundFeatureChild(
@@ -32,8 +29,8 @@ export default interface IAstMaker {
     keyword: string,
     name: string,
     description: string,
-    steps: ReadonlyArray<messages.Step>,
-    tags?: ReadonlyArray<messages.Tag>
+    steps: readonly messages.Step[],
+    tags?: readonly messages.Tag[]
   ): messages.FeatureChild
 
   makeStep(
@@ -45,12 +42,7 @@ export default interface IAstMaker {
     dataTable?: messages.DataTable
   ): messages.Step
 
-  makeDocstring(
-    mediaType: string,
-    content: string
-  ): messages.DocString
+  makeDocstring(mediaType: string, content: string): messages.DocString
 
-  makeDataTable(
-    cells: ReadonlyArray<ReadonlyArray<string>>
-  ): messages.DataTable
+  makeDataTable(cells: readonly ReadonlyArray<string>[]): messages.DataTable
 }

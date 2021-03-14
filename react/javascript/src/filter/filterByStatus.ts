@@ -7,7 +7,15 @@ export default function filterByStatus(
   gherkinDocument: messages.GherkinDocument,
   gherkinQuery: GherkinQuery,
   cucumberQuery: CucumberQuery,
-  statuses: messages.TestStepFinished.TestStepResult.Status[]
+  statuses: readonly (
+    | 'UNKNOWN'
+    | 'PASSED'
+    | 'SKIPPED'
+    | 'PENDING'
+    | 'UNDEFINED'
+    | 'AMBIGUOUS'
+    | 'FAILED'
+  )[]
 ): messages.GherkinDocument | null {
   const filters = {
     acceptScenario: (scenario: messages.Scenario) => {

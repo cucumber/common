@@ -1,6 +1,5 @@
 import { Query as GherkinQuery } from '@cucumber/gherkin-utils'
 import { Query as CucumberQuery } from '@cucumber/query'
-import * as messages from '@cucumber/messages'
 import { SupportCode } from '@cucumber/fake-cucumber'
 import runFeature from './runFeature'
 import assert from 'assert'
@@ -40,14 +39,14 @@ Feature: statuses
     const emitted = await runFeature(feature, gherkinQuery, supportCode)
     emitted.map((message) => cucumberQuery.update(message))
     const gherkinDocuments = emitted
-      .filter((message) => message.gherkinDocument)
-      .map((message) => message.gherkinDocument)
+      .filter((message) => message.gherkin_document)
+      .map((message) => message.gherkin_document)
 
     const statuses = countScenariosByStatuses(gherkinDocuments, gherkinQuery, cucumberQuery)
 
-    assert.strictEqual(statuses.get(messages.TestStepFinished.TestStepResult.Status.PASSED), 2)
-    assert.strictEqual(statuses.get(messages.LED), 1)
-    assert.strictEqual(statuses.get(messages.NED), 1)
+    assert.strictEqual(statuses.get('PASSED'), 2)
+    assert.strictEqual(statuses.get('FAILED'), 1)
+    assert.strictEqual(statuses.get('UNDEFINED'), 1)
   })
 
   it('counts different statuses with example tables', async () => {
@@ -67,13 +66,13 @@ Feature: statuses
     const emitted = await runFeature(feature, gherkinQuery, supportCode)
     emitted.map((message) => cucumberQuery.update(message))
     const gherkinDocuments = emitted
-      .filter((message) => message.gherkinDocument)
-      .map((message) => message.gherkinDocument)
+      .filter((message) => message.gherkin_document)
+      .map((message) => message.gherkin_document)
 
     const statuses = countScenariosByStatuses(gherkinDocuments, gherkinQuery, cucumberQuery)
 
-    assert.strictEqual(statuses.get(messages.TestStepFinished.TestStepResult.Status.PASSED), 1)
-    assert.strictEqual(statuses.get(messages.LED), 1)
-    assert.strictEqual(statuses.get(messages.NED), 1)
+    assert.strictEqual(statuses.get('PASSED'), 1)
+    assert.strictEqual(statuses.get('FAILED'), 1)
+    assert.strictEqual(statuses.get('UNDEFINED'), 1)
   })
 })

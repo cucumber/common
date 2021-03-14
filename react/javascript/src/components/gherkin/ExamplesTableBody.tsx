@@ -9,7 +9,7 @@ import StatusIcon from './StatusIcon'
 import UriContext from '../../UriContext'
 
 interface IProps {
-  rows: messages.TableRow[]
+  rows: readonly messages.TableRow[]
 }
 
 const ExamplesTableBody: React.FunctionComponent<IProps> = ({ rows }) => {

@@ -18,11 +18,11 @@ describe('<Attachment>', () => {
 
     const binary = new Uint8Array(10)
     binary.fill(255, 0, binary.length)
-    const attachment = messages.Attachment.create({
-      mediaType: 'image/png',
+    const attachment: messages.Attachment = {
+      media_type: 'image/png',
       body: 'fake-base64',
-      contentEncoding: messages.Attachment.ContentEncoding.BASE64,
-    })
+      content_encoding: 'BASE64',
+    }
     const attachmentElement = <Attachment attachment={attachment} />
     ReactDOM.render(attachmentElement, document.getElementById('content'))
 
@@ -40,11 +40,11 @@ describe('<Attachment>', () => {
 
     const document = dom.window.document
 
-    const attachment = messages.Attachment.create({
-      mediaType: 'text/plain',
+    const attachment: messages.Attachment = {
+      media_type: 'text/plain',
       body: Buffer.from('hello').toString('base64'),
-      contentEncoding: messages.Attachment.ContentEncoding.BASE64,
-    })
+      content_encoding: 'BASE64',
+    }
     const attachmentElement = <Attachment attachment={attachment} />
     ReactDOM.render(attachmentElement, document.getElementById('content'))
 
@@ -62,11 +62,11 @@ describe('<Attachment>', () => {
 
     const document = dom.window.document
 
-    const attachment = messages.Attachment.create({
-      mediaType: 'text/x.cucumber.log+plain',
+    const attachment: messages.Attachment = {
+      media_type: 'text/x.cucumber.log+plain',
       body: '\x1b[30mblack\x1b[37mwhite',
-      contentEncoding: messages.TY,
-    })
+      content_encoding: 'IDENTITY',
+    }
     const attachmentElement = <Attachment attachment={attachment} />
     ReactDOM.render(attachmentElement, document.getElementById('content'))
 

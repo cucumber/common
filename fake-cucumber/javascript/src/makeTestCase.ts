@@ -9,9 +9,9 @@ import IStopwatch from './IStopwatch'
 
 export default function makeTestCase(
   pickle: messages.Pickle,
-  stepDefinitions: ReadonlyArray<IStepDefinition>,
-  beforeHooks: ReadonlyArray<IHook>,
-  afterHooks: ReadonlyArray<IHook>,
+  stepDefinitions: readonly IStepDefinition[],
+  beforeHooks: readonly IHook[],
+  afterHooks: readonly IHook[],
   gherkinQuery: Query,
   newId: messages.IdGenerator.NewId,
   clock: IClock,
@@ -81,7 +81,7 @@ export default function makeTestCase(
 
 function makeHookSteps(
   pickle: messages.Pickle,
-  hooks: ReadonlyArray<IHook>,
+  hooks: readonly IHook[],
   alwaysExecute: boolean,
   gherkinQuery: Query,
   newId: messages.IdGenerator.NewId,

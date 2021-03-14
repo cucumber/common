@@ -6,7 +6,7 @@ import fs from 'fs'
 import { IGherkinOptions } from '@cucumber/gherkin'
 import makeGherkinOptions from './makeGherkinOptions'
 
-function fromPaths(paths: ReadonlyArray<string>, options: IGherkinOptions): Readable {
+function fromPaths(paths: readonly string[], options: IGherkinOptions): Readable {
   const pathsCopy = paths.slice()
   options = makeGherkinOptions(options)
   const combinedMessageStream = new PassThrough({
@@ -38,10 +38,7 @@ function fromPaths(paths: ReadonlyArray<string>, options: IGherkinOptions): Read
   return combinedMessageStream
 }
 
-function fromSources(
-  envelopes: ReadonlyArray<messages.Envelope>,
-  options: IGherkinOptions
-): Readable {
+function fromSources(envelopes: readonly messages.Envelope[], options: IGherkinOptions): Readable {
   const envelopesCopy = envelopes.slice()
   options = makeGherkinOptions(options)
   const combinedMessageStream = new PassThrough({

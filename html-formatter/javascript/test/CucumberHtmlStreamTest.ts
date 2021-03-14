@@ -34,25 +34,23 @@ describe('CucumberHtmlStream', () => {
   })
 
   it('writes one message to html', async () => {
-    const e1 = messages.Envelope.create({
-      testRunStarted: messages.TestRunStarted.create({}),
-    })
+    const e1: messages.Envelope = {
+      test_run_started: {},
+    }
     const html = await renderAsHtml(e1)
-    assert(html.indexOf(`window.CUCUMBER_MESSAGES = [${JSON.stringify(e1.toJSON())}]`) >= 0)
+    assert(html.indexOf(`window.CUCUMBER_MESSAGES = [${JSON.stringify(e1)}]`) >= 0)
   })
 
   it('writes two messages to html', async () => {
-    const e1 = messages.Envelope.create({
-      testRunStarted: messages.TestRunStarted.create({}),
-    })
-    const e2 = messages.Envelope.create({
-      testRunFinished: messages.TestRunFinished.create({}),
-    })
+    const e1: messages.Envelope = {
+      test_run_started: {},
+    }
+    const e2: messages.Envelope = {
+      test_run_finished: {},
+    }
     const html = await renderAsHtml(e1, e2)
     assert(
-      html.indexOf(
-        `window.CUCUMBER_MESSAGES = [${JSON.stringify(e1.toJSON())},${JSON.stringify(e2.toJSON())}]`
-      ) >= 0
+      html.indexOf(`window.CUCUMBER_MESSAGES = [${JSON.stringify(e1)},${JSON.stringify(e2)}]`) >= 0
     )
   })
 })

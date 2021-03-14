@@ -1,6 +1,6 @@
 import { IDocString, IStep, IDataTable, IElement } from './JSONSchema'
 import IAstMaker from '../IAstMaker'
-import { messages, IdGenerator } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import IPredictableSupportCode from '../IPredictableSupportCode'
 import { traverseDataTable } from '../cucumber-ruby/JSONTraverse'
 import {
@@ -16,7 +16,7 @@ function durationToMillis(duration: number): number {
 export function traverseFeature(
   feature: IFeature,
   astMaker: IAstMaker,
-  newId: IdGenerator.NewId,
+  newId: messages.IdGenerator.NewId,
   predictableSupportCode: IPredictableSupportCode
 ): messages.GherkinDocument {
   return genericTraverseFeature(feature, astMaker, newId, predictableSupportCode, traverseElement)
@@ -25,7 +25,7 @@ export function traverseFeature(
 export function traverseElement(
   element: IElement,
   astMaker: IAstMaker,
-  newId: IdGenerator.NewId,
+  newId: messages.IdGenerator.NewId,
   predictableSupportCode: IPredictableSupportCode
 ): messages.FeatureChild {
   const beforeHooks: IStep[] = []
@@ -110,7 +110,7 @@ export function traverseAfterHook(
 export function traverseStep(
   step: IStep,
   astMaker: IAstMaker,
-  newId: IdGenerator.NewId,
+  newId: messages.IdGenerator.NewId,
   predictableSupportCode: IPredictableSupportCode
 ): messages.Step {
   const stepArguments = step.arguments || []
@@ -142,9 +142,6 @@ export function traverseStep(
   return gherkinStep
 }
 
-export function traverseDocString(
-  docString: IDocString,
-  astMaker: IAstMaker
-): messages.DocString {
+export function traverseDocString(docString: IDocString, astMaker: IAstMaker): messages.DocString {
   return astMaker.makeDocstring(null, docString.content)
 }

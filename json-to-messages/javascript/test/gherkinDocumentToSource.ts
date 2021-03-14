@@ -2,9 +2,9 @@ import * as messages from '@cucumber/messages'
 
 export default function gherkinDocumentToSource(
   gherkinDocument: messages.GherkinDocument
-): messages.ISource {
-  return messages.Source.create({
+): messages.Source {
+  return {
     uri: gherkinDocument.uri,
-    mediaType: 'text/x.cucumber.gherkin+plain',
-  })
+    media_type: 'text/x.cucumber.gherkin+plain',
+  }
 }

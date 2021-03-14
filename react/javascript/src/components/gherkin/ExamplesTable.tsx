@@ -4,7 +4,7 @@ import ExamplesTableBody from './ExamplesTableBody'
 
 interface IProps {
   tableHeader: messages.TableRow
-  tableBody: messages.TableRow[]
+  tableBody: readonly messages.TableRow[]
 }
 
 const ExamplesTable: React.FunctionComponent<IProps> = ({ tableHeader, tableBody }) => {

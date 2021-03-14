@@ -52,22 +52,22 @@ export default async function main(
     )
   )
 
-  gherkinEnvelopeStream.write(
-    messages.Envelope.create({
-      meta: createMeta('@cucumber/json-to-messages', version, process.env),
-    })
-  )
+  const metaEnvelope: messages.Envelope = {
+    meta: createMeta('@cucumber/json-to-messages', version, process.env),
+  }
+  gherkinEnvelopeStream.write(metaEnvelope)
 
   for (const gherkinDocument of gherkinDocuments) {
-    gherkinEnvelopeStream.write(
-      messages.Envelope.create({
-        source: gherkinDocumentToSource(gherkinDocument),
-      })
-    )
-    gherkinEnvelopeStream.write(messages.Envelope.create({ gherkinDocument }))
+    const sourceEnvelope: messages.Envelope = {
+      source: gherkinDocumentToSource(gherkinDocument),
+    }
+    gherkinEnvelopeStream.write(sourceEnvelope)
+    const gherkinDocumentEnvelope: messages.Envelope = { gherkin_document: gherkinDocument }
+    gherkinEnvelopeStream.write(gherkinDocumentEnvelope)
     const pickles = compile(gherkinDocument, gherkinDocument.uri, supportCode.newId)
     for (const pickle of pickles) {
-      gherkinEnvelopeStream.write(messages.Envelope.create({ pickle }))
+      const pickleEnvelope: messages.Envelope = { pickle }
+      gherkinEnvelopeStream.write(pickleEnvelope)
     }
   }
   gherkinEnvelopeStream.end()

@@ -7,7 +7,6 @@ import SearchBar from './SearchBar'
 
 import NoMatchResult from './NoMatchResult'
 import Search from '../../search/Search'
-import * as messages from '@cucumber/messages'
 import filterByStatus from '../../filter/filterByStatus'
 import StatusesSummary from './StatusesSummary'
 import countScenariosByStatuses from '../../countScenariosByStatuses'
@@ -15,14 +14,15 @@ import ExecutionSummary from './ExecutionSummary'
 import EnvelopesQueryContext from '../../EnvelopesQueryContext'
 import GherkinDocumentList from './GherkinDocumentList'
 
-const defaultDisplayedResults = [
-  messages.GUOUS,
-  messages.LED,
-  messages.TestStepFinished.TestStepResult.Status.PASSED,
-  messages.NG,
-  messages.PPED,
-  messages.NED,
-]
+const defaultDisplayedResults: (
+  | 'UNKNOWN'
+  | 'PASSED'
+  | 'SKIPPED'
+  | 'PENDING'
+  | 'UNDEFINED'
+  | 'AMBIGUOUS'
+  | 'FAILED'
+)[] = ['AMBIGUOUS', 'FAILED', 'PASSED', 'PENDING', 'SKIPPED', 'UNDEFINED']
 
 const FilteredResults: React.FunctionComponent = () => {
   const gherkinQuery = React.useContext(GherkinQueryContext)

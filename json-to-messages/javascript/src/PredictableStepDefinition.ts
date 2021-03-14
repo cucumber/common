@@ -7,13 +7,20 @@ export default class PredictableStepDefinition implements IStepDefinition {
     public readonly id: string,
     private readonly stepId: string,
     private readonly location: string,
-    public readonly status: messages.TestStepFinished.TestStepResult.Status,
+    public readonly status:
+      | 'UNKNOWN'
+      | 'PASSED'
+      | 'SKIPPED'
+      | 'PENDING'
+      | 'UNDEFINED'
+      | 'AMBIGUOUS'
+      | 'FAILED',
     public readonly duration: number,
     public readonly errorMessage?: string
   ) {}
 
   match(pickleStep: messages.PickleStep): ISupportCodeExecutor | null {
-    if (pickleStep.astNodeIds.includes(this.stepId)) {
+    if (pickleStep.ast_node_ids.includes(this.stepId)) {
       return new NilCodeExecutor(this.id)
     }
     return null
@@ -22,16 +29,16 @@ export default class PredictableStepDefinition implements IStepDefinition {
   toMessage(): messages.Envelope {
     const locationChunks = this.location.split(':')
 
-    return messages.Envelope.create({
-      stepDefinition: messages.StepDefinition.create({
+    return {
+      step_definition: {
         id: this.id,
-        sourceReference: messages.SourceReference.create({
+        source_reference: {
           uri: locationChunks[0],
-          location: messages.Location.create({
+          location: {
             line: parseInt(locationChunks[1]),
-          }),
-        }),
-      }),
-    })
+          },
+        },
+      },
+    }
   }
 }

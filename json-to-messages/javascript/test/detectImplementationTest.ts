@@ -33,14 +33,14 @@ describe('detectImplementation', () => {
 
   context('when a step has an "hidden" field', () => {
     it('returns "javascript"', () => {
-      const steps: ReadonlyArray<IJSStep> = [
+      const steps: readonly IJSStep[] = [
         {} as IJSStep,
         {
           hidden: true,
         } as IJSStep,
       ]
 
-      const elements: ReadonlyArray<IElement> = [
+      const elements: readonly IElement[] = [
         {
           steps,
         } as IElement,
@@ -56,15 +56,15 @@ describe('detectImplementation', () => {
 
   context('when a step has an "arguments" field', () => {
     it('returns "javascript"', () => {
-      const args: ReadonlyArray<IDocString> = []
-      const steps: ReadonlyArray<IJSStep> = [
+      const args: readonly IDocString[] = []
+      const steps: readonly IJSStep[] = [
         {} as IJSStep,
         {
           arguments: args,
         } as IJSStep,
       ]
 
-      const elements: ReadonlyArray<IElement> = [
+      const elements: readonly IElement[] = [
         {
           steps,
         } as IElement,

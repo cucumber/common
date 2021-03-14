@@ -7,35 +7,35 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Convert from 'ansi-to-html'
 
 interface IProps {
-  attachment: messages.IAttachment
+  attachment: messages.Attachment
 }
 
 const Attachment: React.FunctionComponent<IProps> = ({ attachment }) => {
-  if (attachment.mediaType.match(/^image\//)) {
+  if (attachment.media_type.match(/^image\//)) {
     return image(attachment)
-  } else if (attachment.mediaType.match(/^video\//)) {
+  } else if (attachment.media_type.match(/^video\//)) {
     return video(attachment)
-  } else if (attachment.mediaType == 'text/x.cucumber.log+plain') {
+  } else if (attachment.media_type == 'text/x.cucumber.log+plain') {
     return text(attachment, prettyANSI, true)
-  } else if (attachment.mediaType.match(/^text\//)) {
+  } else if (attachment.media_type.match(/^text\//)) {
     return text(attachment, (s) => s, false)
-  } else if (attachment.mediaType.match(/^application\/json/)) {
+  } else if (attachment.media_type.match(/^application\/json/)) {
     return text(attachment, prettyJSON, false)
   } else {
     return (
       <ErrorMessage
-        message={`Couldn't display ${attachment.mediaType} attachment because the media type is unsupported. Please submit a feature request at https://github.com/cucumber/cucumber/issues`}
+        message={`Couldn't display ${attachment.media_type} attachment because the media type is unsupported. Please submit a feature request at https://github.com/cucumber/cucumber/issues`}
       />
     )
   }
 }
 
-function image(attachment: messages.IAttachment) {
-  if (attachment.contentEncoding !== messages.Attachment.ContentEncoding.BASE64) {
+function image(attachment: messages.Attachment) {
+  if (attachment.content_encoding !== 'BASE64') {
     return (
       <ErrorMessage
         className="cucumber-attachment"
-        message={`Couldn't display ${attachment.mediaType} image because it wasn't base64 encoded`}
+        message={`Couldn't display ${attachment.media_type} image because it wasn't base64 encoded`}
       />
     )
   }
@@ -44,19 +44,19 @@ function image(attachment: messages.IAttachment) {
       <summary>Attached Image</summary>
       <img
         alt="Embedded Image"
-        src={`data:${attachment.mediaType};base64,${attachment.body}`}
+        src={`data:${attachment.media_type};base64,${attachment.body}`}
         className="cucumber-attachment cucumber-attachment__image"
       />
     </details>
   )
 }
 
-function video(attachment: messages.IAttachment) {
-  if (attachment.contentEncoding !== messages.Attachment.ContentEncoding.BASE64) {
+function video(attachment: messages.Attachment) {
+  if (attachment.content_encoding !== 'BASE64') {
     return (
       <ErrorMessage
         className="cucumber-attachment"
-        message={`Couldn't display ${attachment.mediaType} video because it wasn't base64 encoded`}
+        message={`Couldn't display ${attachment.media_type} video because it wasn't base64 encoded`}
       />
     )
   }
@@ -64,7 +64,7 @@ function video(attachment: messages.IAttachment) {
     <details>
       <summary>Attached Video</summary>
       <video controls>
-        <source src={`data:${attachment.mediaType};base64,${attachment.body}`} />
+        <source src={`data:${attachment.media_type};base64,${attachment.body}`} />
         Your browser is unable to display video
       </video>
     </details>
@@ -84,14 +84,12 @@ function base64Decode(body: string) {
 }
 
 function text(
-  attachment: messages.IAttachment,
+  attachment: messages.Attachment,
   prettify: (body: string) => string,
   dangerouslySetInnerHTML: boolean
 ) {
   const body =
-    attachment.contentEncoding === messages.TY
-      ? attachment.body
-      : base64Decode(attachment.body)
+    attachment.content_encoding === 'IDENTITY' ? attachment.body : base64Decode(attachment.body)
 
   if (dangerouslySetInnerHTML) {
     return (

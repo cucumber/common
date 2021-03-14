@@ -1,5 +1,5 @@
 import assert from 'assert'
-import { IdGenerator, messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import makeTestCase from '../src/makeTestCase'
 import ExpressionStepDefinition from '../src/ExpressionStepDefinition'
 import Hook from '../src/Hook'
@@ -22,7 +22,7 @@ describe('makeTestCase', () => {
       [],
       [],
       new GherkinQuery(),
-      IdGenerator.incrementing(),
+      messages.IdGenerator.incrementing(),
       new IncrementClock(),
       new IncrementStopwatch(),
       withSourceFramesOnlyStackTrace(),
@@ -31,7 +31,7 @@ describe('makeTestCase', () => {
     )
 
     assert.deepStrictEqual(
-      testCase.toMessage().testCase.testSteps.map((s) => s.pickleStepId),
+      testCase.toMessage().test_case.test_steps.map((s) => s.pickle_step_id),
       ['step-1', 'step-2']
     )
   })
@@ -39,18 +39,18 @@ describe('makeTestCase', () => {
   context('when the pickle has no steps', () => {
     it('generates a synthetic undefined test step', async () => {
       // See https://github.com/cucumber/cucumber/issues/249
-      const pickle = new messages.Pickle({
+      const pickle: messages.Pickle = {
         id: 'some-id',
         name: 'some name',
         steps: [],
-      })
+      }
       const testCase = makeTestCase(
         pickle,
         [],
         [],
         [],
         new GherkinQuery(),
-        IdGenerator.incrementing(),
+        messages.IdGenerator.incrementing(),
         new IncrementClock(),
         new IncrementStopwatch(),
         withSourceFramesOnlyStackTrace(),
@@ -77,7 +77,7 @@ describe('makeTestCase', () => {
           beforeHooks,
           [],
           new GherkinQuery(),
-          IdGenerator.incrementing(),
+          messages.IdGenerator.incrementing(),
           new IncrementClock(),
           new IncrementStopwatch(),
           withSourceFramesOnlyStackTrace(),
@@ -86,11 +86,11 @@ describe('makeTestCase', () => {
         )
 
         assert.deepStrictEqual(
-          testCase.toMessage().testCase.testSteps.map((s) => s.pickleStepId),
+          testCase.toMessage().test_case.test_steps.map((s) => s.pickle_step_id),
           [undefined, 'step-1', 'step-2']
         )
         assert.strictEqual(
-          testCase.toMessage().testCase.testSteps[0].hookId,
+          testCase.toMessage().test_case.test_steps[0].hook_id,
           beforeHooks[0].toMessage().hook.id
         )
       })
@@ -108,7 +108,7 @@ describe('makeTestCase', () => {
         [],
         afterHooks,
         new GherkinQuery(),
-        IdGenerator.incrementing(),
+        messages.IdGenerator.incrementing(),
         new IncrementClock(),
         new IncrementStopwatch(),
         withSourceFramesOnlyStackTrace(),
@@ -117,31 +117,31 @@ describe('makeTestCase', () => {
       )
 
       assert.deepStrictEqual(
-        testCase.toMessage().testCase.testSteps.map((s) => s.pickleStepId),
+        testCase.toMessage().test_case.test_steps.map((s) => s.pickle_step_id),
         ['step-1', 'step-2', undefined]
       )
       assert.strictEqual(
-        testCase.toMessage().testCase.testSteps[2].hookId,
+        testCase.toMessage().test_case.test_steps[2].hook_id,
         afterHooks[0].toMessage().hook.id
       )
     })
   })
 
-  function makePickleWithTwoSteps() {
-    return new messages.Pickle({
+  function makePickleWithTwoSteps(): messages.Pickle {
+    return {
       id: 'some-id',
       name: 'some name',
       steps: [
-        new messages.Pickle.PickleStep({
+        {
           id: 'step-1',
           text: 'a passed step',
-        }),
-        new messages.Pickle.PickleStep({
+        },
+        {
           id: 'step-2',
           text: 'a failed step',
-        }),
+        },
       ],
-    })
+    }
   }
 
   function makeStepDefinitions() {

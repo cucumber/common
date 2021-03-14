@@ -47,12 +47,12 @@ export default class StepSearch {
   }
 
   private docStringToString(step: messages.Step): string {
-    return step.docString ? step.docString.content : ''
+    return step.doc_string ? step.doc_string.content : ''
   }
 
   private dataTableToString(step: messages.Step): string {
-    return step.dataTable
-      ? step.dataTable.rows.map((row) => row.cells.map((cell) => cell.value).join(' ')).join(' ')
+    return step.data_table
+      ? step.data_table.rows.map((row) => row.cells.map((cell) => cell.value).join(' ')).join(' ')
       : undefined
   }
 }

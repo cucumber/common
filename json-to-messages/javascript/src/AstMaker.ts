@@ -2,14 +2,11 @@ import * as messages from '@cucumber/messages'
 import IAstMaker from './IAstMaker'
 
 export default class AstMaker implements IAstMaker {
-  public makeGherkinDocument(
-    uri: string,
-    feature: messages.Feature
-  ): messages.GherkinDocument {
-    return messages.GherkinDocument.create({
+  public makeGherkinDocument(uri: string, feature: messages.Feature): messages.GherkinDocument {
+    return {
       uri,
       feature,
-    })
+    }
   }
 
   public makeFeature(
@@ -17,24 +14,24 @@ export default class AstMaker implements IAstMaker {
     keyword: string,
     name: string,
     description: string,
-    children: ReadonlyArray<messages.FeatureChild>,
-    tags?: ReadonlyArray<messages.Tag>
+    children: readonly messages.FeatureChild[],
+    tags?: readonly messages.Tag[]
   ): messages.Feature {
-    return messages.GherkinDocument.Feature.create({
-      location: messages.Location.create({ line }),
+    return {
+      location: { line },
       keyword,
       name,
       description,
-      children: children.map((child: messages.GherkinDocument.Feature.FeatureChild) => child),
-      tags: tags ? tags.map((tag) => tag) : undefined,
-    })
+      children: children.slice(),
+      tags: tags ? tags.slice() : undefined,
+    }
   }
 
   public makeTag(name: string, line: number): messages.Tag {
-    return messages.GherkinDocument.Feature.Tag.create({
+    return {
       name,
-      location: messages.Location.create({ line }),
-    })
+      location: { line },
+    }
   }
 
   public makeScenarioFeatureChild(
@@ -43,20 +40,20 @@ export default class AstMaker implements IAstMaker {
     keyword: string,
     name: string,
     description: string,
-    steps: ReadonlyArray<messages.Step>,
-    tags?: ReadonlyArray<messages.Tag>
-  ) {
-    return messages.GherkinDocument.Feature.FeatureChild.create({
-      scenario: messages.GherkinDocument.Feature.Scenario.create({
+    steps: readonly messages.Step[],
+    tags?: readonly messages.Tag[]
+  ): messages.FeatureChild {
+    return {
+      scenario: {
         id,
-        location: messages.Location.create({ line }),
+        location: { line },
         keyword,
         name,
         description,
         steps: steps.map((step) => step),
         tags: tags ? tags.map((tag) => tag) : undefined,
-      }),
-    })
+      },
+    }
   }
 
   public makeBackgroundFeatureChild(
@@ -64,17 +61,17 @@ export default class AstMaker implements IAstMaker {
     keyword: string,
     name: string,
     description: string,
-    steps: ReadonlyArray<messages.Step>
-  ) {
-    return messages.GherkinDocument.Feature.FeatureChild.create({
-      background: messages.GherkinDocument.Feature.Background.create({
-        location: messages.Location.create({ line }),
+    steps: readonly messages.Step[]
+  ): messages.FeatureChild {
+    return {
+      background: {
+        location: { line },
         keyword,
         name,
         description,
         steps: steps.map((step) => step),
-      }),
-    })
+      },
+    }
   }
 
   public makeStep(
@@ -82,42 +79,33 @@ export default class AstMaker implements IAstMaker {
     line: number,
     keyword: string,
     text: string,
-    docString?: messages.DocString,
-    dataTable?: messages.DataTable
+    doc_string?: messages.DocString,
+    data_table?: messages.DataTable
   ): messages.Step {
-    return messages.GherkinDocument.Feature.Step.create({
+    return {
       id,
-      location: messages.Location.create({ line }),
+      location: { line },
       keyword,
       text,
-      docString,
-      dataTable,
-    })
+      doc_string,
+      data_table,
+    }
   }
 
-  public makeDocstring(
-    mediaType: string,
-    content: string
-  ): messages.DocString {
-    return messages.GherkinDocument.Feature.Step.DocString.create({
-      mediaType,
+  public makeDocstring(media_type: string, content: string): messages.DocString {
+    return {
+      media_type,
       content,
-    })
+    }
   }
 
-  public makeDataTable(
-    cells: ReadonlyArray<ReadonlyArray<string>>
-  ): messages.DataTable {
-    return messages.GherkinDocument.Feature.Step.DataTable.create({
-      rows: cells.map((row) =>
-        messages.GherkinDocument.Feature.TableRow.create({
-          cells: row.map((cell) =>
-            messages.GherkinDocument.Feature.TableRow.TableCell.create({
-              value: cell,
-            })
-          ),
-        })
-      ),
-    })
+  public makeDataTable(cells: readonly ReadonlyArray<string>[]): messages.DataTable {
+    return {
+      rows: cells.map((row) => ({
+        cells: row.map((cell) => ({
+          value: cell,
+        })),
+      })),
+    }
   }
 }

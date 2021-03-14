@@ -15,8 +15,7 @@ const gherkinQuery = new GherkinQuery()
 const cucumberQuery = new CucumberQuery()
 const envelopesQuery = new EnvelopesQuery()
 
-for (const envelopeObject of window.CUCUMBER_MESSAGES) {
-  const envelope = messages.Envelope.fromObject(envelopeObject)
+for (const envelope of window.CUCUMBER_MESSAGES as messages.Envelope[]) {
   gherkinQuery.update(envelope)
   cucumberQuery.update(envelope)
   envelopesQuery.update(envelope)

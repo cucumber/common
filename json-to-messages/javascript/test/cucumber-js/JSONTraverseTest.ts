@@ -339,7 +339,10 @@ describe('traversing elements', () => {
       const astMaker = stubInterface<IAstMaker>()
 
       traverseDocString(docString, astMaker)
-      assert.deepStrictEqual(astMaker.makeDocstring.getCall(0).args, [null, '  This is some content'])
+      assert.deepStrictEqual(astMaker.makeDocstring.getCall(0).args, [
+        null,
+        '  This is some content',
+      ])
     })
   })
 })

@@ -1,6 +1,6 @@
 import assert from 'assert'
 import { stubObject } from 'ts-sinon'
-import { IdGenerator, messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import GherkinDocument = messages.GherkinDocument
 import { Query as CucumberQuery, Query } from '@cucumber/query'
 import { GherkinStreams } from '@cucumber/gherkin-streams'
@@ -20,13 +20,11 @@ describe('hidePassedScenarios', () => {
   })
 
   it('keeps documents which do not have a passed status', () => {
-    const document = new GherkinDocument()
+    const document: GherkinDocument = {}
     const testResultsQuery = stubObject<Query>(new Query())
-    testResultsQuery.getWorstTestStepResult.returns(
-      new messages.TestStepFinished.TestStepResult({
-        status: messages.LED,
-      })
-    )
+    testResultsQuery.getWorstTestStepResult.returns({
+      status: 'FAILED',
+    })
     testResultsQuery.getPickleTestStepResults.returns([])
 
     const gherkinQuery = stubObject<GherkinQuery>(new GherkinQuery())
@@ -38,13 +36,11 @@ describe('hidePassedScenarios', () => {
   })
 
   it('removes documents which do have a passed status', () => {
-    const document = new GherkinDocument()
+    const document: GherkinDocument = {}
     const testResultsQuery = stubObject<Query>(new Query())
-    testResultsQuery.getWorstTestStepResult.returns(
-      new messages.TestStepFinished.TestStepResult({
-        status: messages.TestStepFinished.TestStepResult.Status.PASSED,
-      })
-    )
+    testResultsQuery.getWorstTestStepResult.returns({
+      status: 'PASSED',
+    })
     testResultsQuery.getPickleTestStepResults.returns([])
 
     const gherkinQuery = stubObject<GherkinQuery>(new GherkinQuery())
@@ -57,10 +53,10 @@ describe('hidePassedScenarios', () => {
     const supportCode = new SupportCode()
     // Make one of the scenarios pass so it's filtered out
     supportCode.defineStepDefinition(
-      messages.SourceReference.create({
+      {
         uri: __filename,
         location: { column: 1, line: 1 },
-      }),
+      },
       'I have {int} cukes in my belly',
       function (cukeCount: number) {
         assert(cukeCount)
@@ -71,7 +67,7 @@ describe('hidePassedScenarios', () => {
       .sync('../../compatibility-kit/javascript/features/**/*.feature')
       .sort()
     const gherkinStream = GherkinStreams.fromPaths(featureFiles, {
-      newId: IdGenerator.incrementing(),
+      newId: messages.IdGenerator.incrementing(),
     })
     const gherkinQuery = new GherkinQuery()
     const cucumberQuery = new CucumberQuery()

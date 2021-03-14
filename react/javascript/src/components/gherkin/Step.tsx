@@ -42,7 +42,7 @@ const Step: React.FunctionComponent<IProps> = ({
         : cucumberQuery.getStepMatchArgumentsLists(pickleStepIds[0]) || []
     if (stepMatchArgumentsLists.length === 1) {
       // Step is defined
-      const stepMatchArguments = stepMatchArgumentsLists[0].stepMatchArguments
+      const stepMatchArguments = stepMatchArgumentsLists[0].step_match_arguments
       let offset = 0
       let plain: string
       stepMatchArguments.forEach((argument, index) => {
@@ -60,7 +60,7 @@ const Step: React.FunctionComponent<IProps> = ({
             <a
               className="cucumber-step__param"
               key={`bold-${index}`}
-              title={argument.parameterTypeName}
+              title={argument.parameter_type_name}
             >
               <HighLight text={arg} />
             </a>
@@ -106,8 +106,8 @@ const Step: React.FunctionComponent<IProps> = ({
         <Keyword className="cucumber-step__keyword">{step.keyword}</Keyword>
         {stepTextElements}
       </h3>
-      {step.dataTable && <DataTable dataTable={step.dataTable} />}
-      {step.docString && <DocString docString={step.docString} />}
+      {step.data_table && <DataTable dataTable={step.data_table} />}
+      {step.doc_string && <DocString docString={step.doc_string} />}
       {renderMessage && testStepResult.message && <ErrorMessage message={testStepResult.message} />}
       <div className="cucumber-attachments">
         {attachments.map((attachment, i) => (

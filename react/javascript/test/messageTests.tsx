@@ -33,9 +33,7 @@ describe('App with messages', () => {
       const cucumberQuery = new CucumberQuery()
       const envelopesQuery = new EnvelopesQuery()
 
-      const messageStream = new NdjsonToMessageStream(
-        messages.Envelope.fromObject.bind(messages.Envelope)
-      )
+      const messageStream = new NdjsonToMessageStream()
 
       await asyncPipeline(
         fs.createReadStream(messageFile, 'utf-8'),

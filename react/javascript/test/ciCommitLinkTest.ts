@@ -5,14 +5,14 @@ import ciCommitLink from '../src/ciCommitLink'
 describe('ciCommitLink(ci)', () => {
   context('when executed on GitHubAction', () => {
     it('returns a link to the commit view on GitHub', () => {
-      const ci = messages.Meta.CI.create({
+      const ci: messages.Ci = {
         name: 'GitHub Actions',
         url: 'http://anywhere',
-        git: messages.Meta.CI.Git.create({
+        git: {
           remote: 'git@github.example.com:company/repo.git',
           revision: 'some-sha',
-        }),
-      })
+        },
+      }
 
       assert.strictEqual(
         ciCommitLink(ci),
@@ -23,14 +23,14 @@ describe('ciCommitLink(ci)', () => {
 
   context('when remote startss with github.com', () => {
     it('returns a link to the commit view on GitHub', () => {
-      const ci = messages.Meta.CI.create({
+      const ci: messages.Ci = {
         name: 'CircleCI',
         url: 'http://anywhere',
-        git: messages.Meta.CI.Git.create({
+        git: {
           remote: 'https://github.com/company/repo.git',
           revision: 'some-sha',
-        }),
-      })
+        },
+      }
 
       assert.strictEqual(ciCommitLink(ci), 'https://github.com/company/repo/commit/some-sha')
     })
@@ -38,7 +38,7 @@ describe('ciCommitLink(ci)', () => {
 
   context('when git is not specified', () => {
     it('returns undefined', () => {
-      const ci = messages.Meta.CI.create()
+      const ci: messages.Ci = {}
 
       assert.strictEqual(ciCommitLink(ci), null)
     })

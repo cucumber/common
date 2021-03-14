@@ -3,7 +3,7 @@ import * as messages from '@cucumber/messages'
 import HighLight from '../app/HighLight'
 
 interface IProps {
-  tags: messages.Tag[]
+  tags: readonly messages.Tag[]
 }
 
 const Tags: React.FunctionComponent<IProps> = ({ tags }) => {

@@ -33,14 +33,14 @@ export default class Query {
    * @param uri - the URI of the document
    * @param astNodeId - optionally restrict results to a particular AST Node
    */
-  public getPickleIds(uri: string, astNodeId?: string): ReadonlyArray<string> {
+  public getPickleIds(uri: string, astNodeId?: string): readonly string[] {
     const pickleIdsByAstNodeId = this.pickleIdsMapByUri.get(uri)
     return astNodeId === undefined
       ? Array.from(new Set(pickleIdsByAstNodeId.values()))
       : pickleIdsByAstNodeId.get(astNodeId)
   }
 
-  public getPickleStepIds(astNodeId: string): ReadonlyArray<string> {
+  public getPickleStepIds(astNodeId: string): readonly string[] {
     return this.pickleStepIdsByAstNodeId.get(astNodeId) || []
   }
 
