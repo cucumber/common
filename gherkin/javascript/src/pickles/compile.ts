@@ -135,7 +135,7 @@ function compileScenarioOutline(
   newId: messages.IdGenerator.NewId
 ) {
   scenario.examples
-    .filter((e) => e.tableHeader !== null)
+    .filter((e) => e.tableHeader)
     .forEach((examples) => {
       const variableCells = examples.tableHeader.cells
       examples.tableBody.forEach((valuesRow) => {
@@ -175,7 +175,6 @@ function createPickleArguments(
         return {
           cells: row.cells.map((cell) => {
             return {
-              location: cell.location,
               value: interpolate(cell.value, variableCells, valueCells),
             }
           }),
@@ -191,7 +190,7 @@ function createPickleArguments(
     if (argument.mediaType) {
       docString.mediaType = interpolate(argument.mediaType, variableCells, valueCells)
     }
-    return { docString: docString }
+    return { docString }
   }
 }
 
