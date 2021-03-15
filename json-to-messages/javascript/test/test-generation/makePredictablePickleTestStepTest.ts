@@ -5,7 +5,15 @@ import PredictableStepDefinition from '../../src/PredictableStepDefinition'
 
 describe('makePredictablePickleTestStep', () => {
   it('returns a TestStep with status Undefined when there is no matching step', async () => {
-    const step = makePredictablePickleTestStep('test-step-id', {}, [])
+    const step = makePredictablePickleTestStep(
+      'test-step-id',
+      {
+        astNodeIds: [],
+        id: '1',
+        text: 'hello',
+      },
+      []
+    )
     const result = await step.execute(null, 'some-id', () => null)
 
     assert.strictEqual(result.status, 'UNDEFINED')
@@ -18,6 +26,8 @@ describe('makePredictablePickleTestStep', () => {
       'test-step-id',
       {
         astNodeIds: ['some-step-id'],
+        id: '1',
+        text: 'hello',
       },
       [new PredictableStepDefinition('some-id', 'some-step-id', 'somewhere', 'SKIPPED', 987654)]
     )
@@ -33,6 +43,8 @@ describe('makePredictablePickleTestStep', () => {
       'test-step-id',
       {
         astNodeIds: ['some-step-id'],
+        id: '1',
+        text: 'hello',
       },
       [
         new PredictableStepDefinition(

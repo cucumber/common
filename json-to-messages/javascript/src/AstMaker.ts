@@ -6,6 +6,7 @@ export default class AstMaker implements IAstMaker {
     return {
       uri,
       feature,
+      comments: [],
     }
   }
 
@@ -18,6 +19,7 @@ export default class AstMaker implements IAstMaker {
     tags?: readonly messages.Tag[]
   ): messages.Feature {
     return {
+      language: 'en',
       location: { line },
       keyword,
       name,
@@ -29,6 +31,7 @@ export default class AstMaker implements IAstMaker {
 
   public makeTag(name: string, line: number): messages.Tag {
     return {
+      id: '123',
       name,
       location: { line },
     }
@@ -50,8 +53,9 @@ export default class AstMaker implements IAstMaker {
         keyword,
         name,
         description,
-        steps: steps.map((step) => step),
-        tags: tags ? tags.map((tag) => tag) : undefined,
+        steps: steps.slice(),
+        tags: tags.slice(),
+        examples: [],
       },
     }
   }
@@ -65,6 +69,7 @@ export default class AstMaker implements IAstMaker {
   ): messages.FeatureChild {
     return {
       background: {
+        id: 'id',
         location: { line },
         keyword,
         name,
@@ -96,13 +101,19 @@ export default class AstMaker implements IAstMaker {
     return {
       mediaType,
       content,
+      delimiter: '"""',
+      location: { line: 0, column: 0 },
     }
   }
 
   public makeDataTable(cells: readonly ReadonlyArray<string>[]): messages.DataTable {
     return {
+      location: { line: 0, column: 0 },
       rows: cells.map((row) => ({
+        id: 'id',
+        location: { line: 0, column: 0 },
         cells: row.map((cell) => ({
+          location: { line: 0, column: 0 },
           value: cell,
         })),
       })),

@@ -6,6 +6,7 @@
       "additionalProperties": false,
       "properties": {
         "source": {
+          "required": true,
           "type": "string"
         },
         "type": {
@@ -13,6 +14,7 @@
             "CUCUMBER_EXPRESSION",
             "REGULAR_EXPRESSION"
           ],
+          "required": true,
           "type": "string"
         }
       },
@@ -21,13 +23,16 @@
   },
   "properties": {
     "id": {
+      "required": true,
       "type": "string"
     },
     "pattern": {
-      "$ref": "#/definitions/StepDefinitionPattern"
+      "$ref": "#/definitions/StepDefinitionPattern",
+      "required": true
     },
     "sourceReference": {
-      "$ref": "./SourceReference.jsonschema"
+      "$ref": "./SourceReference.jsonschema",
+      "required": true
     }
   },
   "type": "object"

@@ -38,6 +38,7 @@ abstract class PredictableTestStep extends TestStep implements ITestStep {
     return this.emitTestStepFinished(
       testCaseStartedId,
       {
+        willBeRetried: false,
         duration: messages.TimeConversion.millisecondsToDuration(this.duration),
         status: this.status,
         message: this.errorMessage,

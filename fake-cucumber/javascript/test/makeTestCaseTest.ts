@@ -43,6 +43,10 @@ describe('makeTestCase', () => {
         id: 'some-id',
         name: 'some name',
         steps: [],
+        astNodeIds: [],
+        tags: [],
+        language: 'en',
+        uri: 'uri',
       }
       const testCase = makeTestCase(
         pickle,
@@ -135,12 +139,18 @@ describe('makeTestCase', () => {
         {
           id: 'step-1',
           text: 'a passed step',
+          astNodeIds: [],
         },
         {
           id: 'step-2',
           text: 'a failed step',
+          astNodeIds: [],
         },
       ],
+      astNodeIds: [],
+      tags: [],
+      language: 'en',
+      uri: 'uri',
     }
   }
 

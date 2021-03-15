@@ -19,9 +19,9 @@ describe('PredictablePickleTestStep', () => {
       })
       const testStepFinished = emitted[1].testStepFinished
 
-      assert.strictEqual(testStepFinished.test_step_result.status, 'PASSED')
-      assert.strictEqual(testStepFinished.test_step_result.duration.seconds, 123)
-      assert.strictEqual(testStepFinished.test_step_result.duration.nanos, 456000000)
+      assert.strictEqual(testStepFinished.testStepResult.status, 'PASSED')
+      assert.strictEqual(testStepFinished.testStepResult.duration.seconds, 123)
+      assert.strictEqual(testStepFinished.testStepResult.duration.nanos, 456000000)
     })
   })
 })

@@ -5,6 +5,7 @@
     "timestamp": {
       "$ref": "./Timestamp.jsonschema",
       "additionalProperties": false,
+      "required": true,
       "type": "object"
     }
   },

@@ -38,6 +38,10 @@ export default class PredictableStepDefinition implements IStepDefinition {
             line: parseInt(locationChunks[1]),
           },
         },
+        pattern: {
+          source: '[unknown regexp source]',
+          type: 'REGULAR_EXPRESSION',
+        },
       },
     }
   }

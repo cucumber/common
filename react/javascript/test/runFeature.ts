@@ -27,6 +27,9 @@ export class FailingHook implements IHook {
     return {
       hook: {
         id: this.id,
+        sourceReference: {
+          uri: __dirname,
+        },
       },
     }
   }

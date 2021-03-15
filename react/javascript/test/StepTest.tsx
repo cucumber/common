@@ -23,6 +23,7 @@ describe('<Step>', () => {
       keyword: 'Given',
       text: 'the 48 pixies',
       location: { column: 1, line: 1 },
+      id: '123',
     }
 
     class StubCucumberQuery extends CucumberQuery {

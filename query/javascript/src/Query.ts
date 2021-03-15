@@ -42,14 +42,14 @@ export default class Query {
 
     if (envelope.testStepFinished) {
       const pickleId = this.pickleIdByTestStepId.get(envelope.testStepFinished.testStepId)
-      this.testStepResultByPickleId.put(pickleId, envelope.testStepFinished.test_step_result)
+      this.testStepResultByPickleId.put(pickleId, envelope.testStepFinished.testStepResult)
 
       const testStep = this.testStepById.get(envelope.testStepFinished.testStepId)
       this.testStepResultsByPickleStepId.put(
         testStep.pickleStepId,
-        envelope.testStepFinished.test_step_result
+        envelope.testStepFinished.testStepResult
       )
-      this.testStepResultsbyTestStepId.put(testStep.id, envelope.testStepFinished.test_step_result)
+      this.testStepResultsbyTestStepId.put(testStep.id, envelope.testStepFinished.testStepResult)
     }
 
     if (envelope.hook) {
@@ -73,6 +73,7 @@ export default class Query {
         {
           status: 'UNKNOWN',
           duration: messages.TimeConversion.millisecondsToDuration(0),
+          willBeRetried: false,
         },
       ]
     }
@@ -93,6 +94,7 @@ export default class Query {
         {
           status: 'UNKNOWN',
           duration: messages.TimeConversion.millisecondsToDuration(0),
+          willBeRetried: false,
         },
       ]
     }

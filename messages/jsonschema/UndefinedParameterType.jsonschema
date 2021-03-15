@@ -3,9 +3,11 @@
   "additionalProperties": false,
   "properties": {
     "expression": {
+      "required": true,
       "type": "string"
     },
     "name": {
+      "required": true,
       "type": "string"
     }
   },

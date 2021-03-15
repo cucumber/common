@@ -6,6 +6,7 @@
       "additionalProperties": false,
       "properties": {
         "content": {
+          "required": true,
           "type": "string"
         },
         "mediaType": {
@@ -27,13 +28,16 @@
           "items": {
             "type": "string"
           },
+          "required": true,
           "type": "array"
         },
         "id": {
           "description": "A unique ID for the PickleStep",
+          "required": true,
           "type": "string"
         },
         "text": {
+          "required": true,
           "type": "string"
         }
       },
@@ -59,6 +63,7 @@
           "items": {
             "$ref": "#/definitions/PickleTableRow"
           },
+          "required": true,
           "type": "array"
         }
       },
@@ -69,6 +74,7 @@
       "additionalProperties": false,
       "properties": {
         "value": {
+          "required": true,
           "type": "string"
         }
       },
@@ -82,6 +88,7 @@
           "items": {
             "$ref": "#/definitions/PickleTableCell"
           },
+          "required": true,
           "type": "array"
         }
       },
@@ -94,9 +101,11 @@
       "properties": {
         "astNodeId": {
           "description": "Points to the AST node this was created from",
+          "required": true,
           "type": "string"
         },
         "name": {
+          "required": true,
           "type": "string"
         }
       },
@@ -110,18 +119,22 @@
       "items": {
         "type": "string"
       },
+      "required": true,
       "type": "array"
     },
     "id": {
       "description": "*\n A unique id for the pickle. This is a [SHA1](https://en.wikipedia.org/wiki/SHA-1) hash\n from the source data and the `locations` of the pickle.\n This ID will change if source the file is modified.",
+      "required": true,
       "type": "string"
     },
     "language": {
       "description": "The language of the pickle",
+      "required": true,
       "type": "string"
     },
     "name": {
       "description": "The name of the pickle",
+      "required": true,
       "type": "string"
     },
     "steps": {
@@ -129,6 +142,7 @@
       "items": {
         "$ref": "#/definitions/PickleStep"
       },
+      "required": true,
       "type": "array"
     },
     "tags": {
@@ -136,10 +150,12 @@
       "items": {
         "$ref": "#/definitions/PickleTag"
       },
+      "required": true,
       "type": "array"
     },
     "uri": {
       "description": "The uri of the source file",
+      "required": true,
       "type": "string"
     }
   },

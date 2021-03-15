@@ -1,4 +1,3 @@
-import * as messages from '@cucumber/messages'
 import { EventEmitter } from 'events'
 import { Readable } from 'stream'
 import { Attach, EnvelopeListener } from './types'
@@ -12,23 +11,32 @@ export default function makeAttach(
     data: string | Buffer | Readable,
     mediaType: string
   ): void | Promise<void> {
-    const attachment: messages.Attachment = {
-      testStepId,
-      testCaseStartedId,
-      mediaType,
-    }
+    let body: string
+    let contentEncoding: 'IDENTITY' | 'BASE64'
 
     if (typeof data === 'string') {
-      attachment.body = data
-      attachment.contentEncoding = 'IDENTITY'
+      body = data
+      contentEncoding = 'IDENTITY'
       listener({
-        attachment,
+        attachment: {
+          testStepId,
+          testCaseStartedId,
+          mediaType,
+          body,
+          contentEncoding,
+        },
       })
     } else if (Buffer.isBuffer(data)) {
-      attachment.body = (data as Buffer).toString('base64')
-      attachment.contentEncoding = 'BASE64'
+      body = (data as Buffer).toString('base64')
+      contentEncoding = 'BASE64'
       listener({
-        attachment,
+        attachment: {
+          testStepId,
+          testCaseStartedId,
+          mediaType,
+          body,
+          contentEncoding,
+        },
       })
     } else if (
       data instanceof EventEmitter &&
@@ -48,10 +56,16 @@ export default function makeAttach(
           buf = Buffer.concat([buf, chunk])
         })
         stream.on('end', () => {
-          attachment.body = buf.toString('base64')
-          attachment.contentEncoding = 'BASE64'
+          body = buf.toString('base64')
+          contentEncoding = 'BASE64'
           listener({
-            attachment,
+            attachment: {
+              testStepId,
+              testCaseStartedId,
+              mediaType,
+              body,
+              contentEncoding,
+            },
           })
           resolve()
         })

@@ -11,6 +11,7 @@ describe('FeatureSearch', () => {
     featureSearch = new FeatureSearch()
     gherkinDocument = {
       uri: 'some/feature.file',
+      comments: [],
       feature: makeFeature('this exists', 'description feature', []),
     }
 

@@ -8,6 +8,7 @@
         "duration": {
           "$ref": "./Duration.jsonschema",
           "additionalProperties": false,
+          "required": true,
           "type": "object"
         },
         "message": {
@@ -23,9 +24,11 @@
             "AMBIGUOUS",
             "FAILED"
           ],
+          "required": true,
           "type": "string"
         },
-        "will_be_retried": {
+        "willBeRetried": {
+          "required": true,
           "type": "boolean"
         }
       },
@@ -34,17 +37,21 @@
   },
   "properties": {
     "testCaseStartedId": {
+      "required": true,
       "type": "string"
     },
     "testStepId": {
+      "required": true,
       "type": "string"
     },
-    "test_step_result": {
-      "$ref": "#/definitions/TestStepResult"
+    "testStepResult": {
+      "$ref": "#/definitions/TestStepResult",
+      "required": true
     },
     "timestamp": {
       "$ref": "./Timestamp.jsonschema",
       "additionalProperties": false,
+      "required": true,
       "type": "object"
     }
   },

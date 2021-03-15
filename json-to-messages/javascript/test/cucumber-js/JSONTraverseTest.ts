@@ -93,12 +93,17 @@ describe('traversing elements', () => {
     it('creates a Scenario using the AstMaker', () => {
       const astMaker = stubInterface<IAstMaker>()
       const supportCode = stubInterface<IPredictableSupportCode>()
-      const step: messages.Step = {}
+      const step: messages.Step = {
+        id: 'step-id',
+        text: 'hello',
+        location: { line: 0, column: 0 },
+        keyword: 'Given ',
+      }
       astMaker.makeStep.returns(step)
 
       traverseElement(simpleScenario, astMaker, () => 'new-id', supportCode)
 
-      assert.deepEqual(astMaker.makeScenarioFeatureChild.getCall(0).args, [
+      assert.deepStrictEqual(astMaker.makeScenarioFeatureChild.getCall(0).args, [
         'new-id',
         3,
         'scenario',
@@ -115,6 +120,13 @@ describe('traversing elements', () => {
       astMaker.makeScenarioFeatureChild.returns({
         scenario: {
           id: 'scenario-id',
+          examples: [],
+          location: { column: 0, line: 0 },
+          name: 'Name',
+          steps: [],
+          tags: [],
+          keyword: 'Scenario',
+          description: '',
         },
       })
 
@@ -128,6 +140,13 @@ describe('traversing elements', () => {
       astMaker.makeScenarioFeatureChild.returns({
         scenario: {
           id: 'scenario-id',
+          examples: [],
+          location: { column: 0, line: 0 },
+          name: 'Name',
+          steps: [],
+          tags: [],
+          keyword: 'Scenario',
+          description: '',
         },
       })
 
@@ -148,12 +167,19 @@ describe('traversing elements', () => {
       astMaker.makeScenarioFeatureChild.returns({
         scenario: {
           id: 'scenario-id',
+          examples: [],
+          location: { column: 0, line: 0 },
+          name: 'Name',
+          steps: [],
+          tags: [],
+          keyword: 'Scenario',
+          description: '',
         },
       })
 
       traverseElement(hookedScenario, astMaker, () => 'new-id', supportCode)
 
-      assert.deepEqual(supportCode.addPredictableAfterHook.getCall(0).args, [
+      assert.deepStrictEqual(supportCode.addPredictableAfterHook.getCall(0).args, [
         'whatever.go:456',
         'scenario-id',
         'failed',
@@ -180,7 +206,20 @@ describe('traversing elements', () => {
 
     it('registers the before Hook with the correct data', () => {
       const supportCode = stubInterface<IPredictableSupportCode>()
-      traverseBeforeHook(beforeHook, { id: 'scenario-id' }, supportCode)
+      traverseBeforeHook(
+        beforeHook,
+        {
+          id: 'scenario-id',
+          examples: [],
+          location: { column: 0, line: 0 },
+          name: 'Name',
+          steps: [],
+          tags: [],
+          keyword: 'Scenario',
+          description: '',
+        },
+        supportCode
+      )
 
       assert.deepStrictEqual(supportCode.addPredictableBeforeHook.getCall(0).args, [
         'whatever.go:123',
@@ -209,7 +248,20 @@ describe('traversing elements', () => {
 
     it('registers the after Hook with the correct data', () => {
       const supportCode = stubInterface<IPredictableSupportCode>()
-      traverseAfterHook(beforeHook, { id: 'scenario-id' }, supportCode)
+      traverseAfterHook(
+        beforeHook,
+        {
+          id: 'scenario-id',
+          examples: [],
+          location: { column: 0, line: 0 },
+          name: 'Name',
+          steps: [],
+          tags: [],
+          keyword: 'Scenario',
+          description: '',
+        },
+        supportCode
+      )
 
       assert.deepStrictEqual(supportCode.addPredictableAfterHook.getCall(0).args, [
         'whatever.go:123',
@@ -277,12 +329,16 @@ describe('traversing elements', () => {
     it('builds the doctring using the AstMaker', () => {
       const astMaker = stubInterface<IAstMaker>()
       const supportCode = stubInterface<IPredictableSupportCode>()
-      const docString: messages.DocString = {}
+      const docString: messages.DocString = {
+        content: 'hello',
+        delimiter: '"""',
+        location: { line: 0, column: 0 },
+      }
       astMaker.makeDocstring.returns(docString)
 
       traverseStep(docStringStep, astMaker, () => 'the-id', supportCode)
 
-      assert.deepEqual(astMaker.makeStep.getCall(0).args, [
+      assert.deepStrictEqual(astMaker.makeStep.getCall(0).args, [
         'the-id',
         15,
         'Given ',
@@ -295,12 +351,15 @@ describe('traversing elements', () => {
     it('builds the datatable using the astMaker', () => {
       const astMaker = stubInterface<IAstMaker>()
       const supportCode = stubInterface<IPredictableSupportCode>()
-      const datatable: messages.DataTable = {}
+      const datatable: messages.DataTable = {
+        location: { line: 0, column: 0 },
+        rows: [],
+      }
       astMaker.makeDataTable.returns(datatable)
 
       traverseStep(datatableStep, astMaker, () => 'the-id', supportCode)
 
-      assert.deepEqual(astMaker.makeStep.getCall(0).args, [
+      assert.deepStrictEqual(astMaker.makeStep.getCall(0).args, [
         'the-id',
         15,
         'Given ',
@@ -315,6 +374,9 @@ describe('traversing elements', () => {
       const supportCode = stubInterface<IPredictableSupportCode>()
       astMaker.makeStep.returns({
         id: 'a-random-step-id',
+        text: 'hello',
+        location: { line: 0, column: 0 },
+        keyword: 'Given ',
       })
 
       traverseStep(simpleStep, astMaker, () => 'the-id', supportCode)

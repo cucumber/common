@@ -38,6 +38,7 @@ export default abstract class TestStep implements ITestStep {
         {
           duration: duration,
           status: 'UNDEFINED',
+          willBeRetried: false,
         },
         listener
       )
@@ -51,6 +52,7 @@ export default abstract class TestStep implements ITestStep {
         {
           duration: duration,
           status: 'AMBIGUOUS',
+          willBeRetried: false,
         },
         listener
       )
@@ -70,6 +72,7 @@ export default abstract class TestStep implements ITestStep {
         {
           duration,
           status: result === 'pending' ? 'PENDING' : 'PASSED',
+          willBeRetried: false,
         },
         listener
       )
@@ -83,6 +86,7 @@ export default abstract class TestStep implements ITestStep {
         {
           duration,
           status: 'FAILED',
+          willBeRetried: false,
           message,
         },
         listener
@@ -97,6 +101,7 @@ export default abstract class TestStep implements ITestStep {
       {
         duration: millisecondsToDuration(0),
         status: 'SKIPPED',
+        willBeRetried: false,
       },
       listener
     )
@@ -121,7 +126,7 @@ export default abstract class TestStep implements ITestStep {
       testStepFinished: {
         testCaseStartedId: testCaseStartedId,
         testStepId: this.id,
-        test_step_result: testStepResult,
+        testStepResult: testStepResult,
         timestamp: millisecondsSinceEpochToTimestamp(this.clock.clockNow()),
       },
     })

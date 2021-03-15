@@ -41,7 +41,7 @@ describe('TestPlan', () => {
       .filter((m) => m.testStepFinished)
       .map((m) => m.testStepFinished)
     assert.deepStrictEqual(testStepFinisheds.length, 1)
-    assert.strictEqual(testStepFinisheds[0].test_step_result.status, 'PASSED')
+    assert.strictEqual(testStepFinisheds[0].testStepResult.status, 'PASSED')
   })
 
   class Flight {
@@ -73,7 +73,7 @@ describe('TestPlan', () => {
       .filter((m) => m.testStepFinished)
       .map((m) => m.testStepFinished)
     assert.deepStrictEqual(testStepFinisheds.length, 1)
-    assert.strictEqual(testStepFinisheds[0].test_step_result.status, 'PASSED')
+    assert.strictEqual(testStepFinisheds[0].testStepResult.status, 'PASSED')
     const parameterTypes = envelopes.filter((m) => m.parameterType).map((m) => m.parameterType)
     assert.deepStrictEqual(parameterTypes.length, 1)
     assert.strictEqual(parameterTypes[0].name, 'flight')

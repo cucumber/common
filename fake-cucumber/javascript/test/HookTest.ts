@@ -10,7 +10,13 @@ describe('Hook', () => {
         throw new Error('unexpected')
       })
       const pickle: messages.Pickle = {
-        tags: [{ name: '@foo' }],
+        tags: [{ name: '@foo', astNodeId: '1' }],
+        astNodeIds: [],
+        id: '1',
+        language: 'en',
+        name: 'Test',
+        steps: [],
+        uri: 'uri',
       }
       const executor = hook.match(pickle)
 
@@ -22,7 +28,13 @@ describe('Hook', () => {
         return 'something'
       })
       const pickle: messages.Pickle = {
-        tags: [{ name: '@bar' }],
+        tags: [{ name: '@bar', astNodeId: '1' }],
+        astNodeIds: [],
+        id: '1',
+        language: 'en',
+        name: 'Test',
+        steps: [],
+        uri: 'uri',
       }
       const executor = hook.match(pickle)
 
@@ -34,7 +46,13 @@ describe('Hook', () => {
         return 'something'
       })
       const pickle: messages.Pickle = {
-        tags: [{ name: '@bar' }],
+        tags: [{ name: '@bar', astNodeId: '1' }],
+        astNodeIds: [],
+        id: '1',
+        language: 'en',
+        name: 'Test',
+        steps: [],
+        uri: 'uri',
       }
       const executor = hook.match(pickle)
 

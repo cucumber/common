@@ -15,6 +15,8 @@ describe('StepDefinition', () => {
       const stepdef = new ExpressionStepDefinition('stepdef-id', expression, null, () => null)
       const pickleStep: messages.PickleStep = {
         text: 'apple',
+        astNodeIds: [],
+        id: '1',
       }
       const match = stepdef.match(pickleStep)
       assert.strictEqual(match, null)
@@ -30,6 +32,8 @@ describe('StepDefinition', () => {
       )
       const pickleStep: messages.PickleStep = {
         text: 'I have 7 cukes',
+        astNodeIds: [],
+        id: '1',
       }
       const executor = stepdef.match(pickleStep)
       assert.strictEqual(executor.execute(new TestWorld()), 7)

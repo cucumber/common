@@ -10,12 +10,10 @@ NDJSON_FILES = $(patsubst features/%.feature,features/%.ndjson,$(FEATURE_FILES))
 ndjson_files: $(NDJSON_FILES)
 .PHONY: ndjson_files
 
-features/%.ndjson: features/%.feature features/%.ts .deps
+features/%.ndjson: features/%.feature features/%.ts
 ifdef GOLDEN
-  source ../ci_env
-	./node_modules/@cucumber/fake-cucumber/bin/fake-cucumber \
-		--format ndjson \
-		$< > $@
+	source ../ci_env
+	../../fake-cucumber/javascript/scripts/fake-cucumber.sh $< > $@
 else
   # no-op: run with GOLDEN=1
 endif

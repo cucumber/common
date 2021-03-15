@@ -8,12 +8,14 @@
     },
     "success": {
       "description": "success = StrictModeEnabled ? (failed_count == 0 && ambiguous_count == 0 && undefined_count == 0 && pending_count == 0) : (failed_count == 0 && ambiguous_count == 0)",
+      "required": true,
       "type": "boolean"
     },
     "timestamp": {
       "$ref": "./Timestamp.jsonschema",
       "additionalProperties": false,
       "description": "Timestamp when the TestRun is finished",
+      "required": true,
       "type": "object"
     }
   },

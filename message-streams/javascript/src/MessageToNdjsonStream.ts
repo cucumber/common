@@ -10,13 +10,7 @@ export default class MessageToNdjsonStream extends Transform {
   }
 
   public _transform(envelope: messages.Envelope, encoding: string, callback: TransformCallback) {
-    // This reviver omits printing fields with empty values
-    // This is to make it behave the same as Golang's protobuf->JSON converter
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const json = JSON.stringify(envelope, (key: string, value: any) => {
-      const empty = value === '' || (Array.isArray(value) && value.length === 0)
-      return empty ? undefined : value
-    })
+    const json = JSON.stringify(envelope)
     this.push(json + '\n')
     callback()
   }

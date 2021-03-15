@@ -16,11 +16,13 @@ export default function verifyStreamContract(
 
       const outgoingMessages: messages.Envelope[] = [
         {
-          source: { data: 'Feature: Hello' },
+          source: { data: 'Feature: Hello', uri: 'hello.feature', mediaType: 'whatever' },
         },
         {
           attachment: {
             body: 'hello',
+            contentEncoding: 'IDENTITY',
+            mediaType: 'text/plain',
           },
         },
       ]

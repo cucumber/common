@@ -41,6 +41,8 @@ export default class TestPlan implements ITestPlan {
         timestamp: messages.TimeConversion.millisecondsSinceEpochToTimestamp(
           this.supportCode.clock.clockNow()
         ),
+        // TODO: capture success from execution
+        success: true,
       },
     })
   }

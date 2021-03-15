@@ -3,11 +3,13 @@
   "additionalProperties": false,
   "properties": {
     "testCaseStartedId": {
+      "required": true,
       "type": "string"
     },
     "timestamp": {
       "$ref": "./Timestamp.jsonschema",
       "additionalProperties": false,
+      "required": true,
       "type": "object"
     }
   },

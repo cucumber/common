@@ -3,7 +3,7 @@ import { GherkinDocument } from '../src/index'
 
 describe('messages', () => {
   it('can be imported', () => {
-    const gherkinDocument: GherkinDocument = { uri: 'blablabla' }
+    const gherkinDocument: GherkinDocument = { uri: 'blablabla', comments: [] }
     assert(gherkinDocument)
   })
 })

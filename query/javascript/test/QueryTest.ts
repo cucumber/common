@@ -30,12 +30,18 @@ describe('Query', () => {
       const result = cucumberQuery.getWorstTestStepResult([
         {
           status: 'PASSED',
+          duration: { seconds: 0, nanos: 0 },
+          willBeRetried: false,
         },
         {
           status: 'FAILED',
+          duration: { seconds: 0, nanos: 0 },
+          willBeRetried: false,
         },
         {
           status: 'PASSED',
+          duration: { seconds: 0, nanos: 0 },
+          willBeRetried: false,
         },
       ])
       assert.strictEqual(result.status, 'FAILED')
@@ -408,6 +414,7 @@ describe('Query', () => {
       it('returns the matching hook', () => {
         const hook: messages.Hook = {
           id: 'tralala',
+          sourceReference: {},
         }
         const envelope: messages.Envelope = {
           hook,

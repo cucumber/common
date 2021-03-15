@@ -6,5 +6,6 @@ export default function gherkinDocumentToSource(
   return {
     uri: gherkinDocument.uri,
     mediaType: 'text/x.cucumber.gherkin+plain',
+    data: '[No source available]',
   }
 }

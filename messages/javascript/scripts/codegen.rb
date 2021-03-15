@@ -72,7 +72,7 @@ end
 template = <<-EOF
 export type <%= typename %> = {
   <% schema['properties'].each do |name, property| %>
-    <%= name %>?: <%= type_for(property, name) %>
+    <%= name %><%= property['required'] ? '' : '?' %>: <%= type_for(property, name) %>
   <% end %>
 }
 

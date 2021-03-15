@@ -24,7 +24,10 @@ export default class TextSearch {
     const walker = new GherkinDocumentWalker({
       acceptStep: (step) => matchingSteps.includes(step),
       acceptScenario: (scenario) => matchingScenarios.includes(scenario),
-      acceptBackground: (background) => matchingBackgrounds.includes(background),
+      // TODO: This is an ugly hack to work around the fact that Scenario and Background are no longer interchangeable,
+      // because tags is now mandatory.
+      acceptBackground: (background) =>
+        matchingBackgrounds.includes(background as messages.Scenario),
       acceptRule: (rule) => matchingRules.includes(rule),
       acceptFeature: (feature) => matchingFeatures.includes(feature),
     })
@@ -41,7 +44,8 @@ export default class TextSearch {
       {
         handleStep: (step) => this.stepSearch.add(step),
         handleScenario: (scenario) => this.scenarioSearch.add(scenario),
-        handleBackground: (background) => this.backgroundSearch.add(background),
+        handleBackground: (background) =>
+          this.backgroundSearch.add(background as messages.Scenario),
         handleRule: (rule) => this.ruleSearch.add(rule),
       }
     )

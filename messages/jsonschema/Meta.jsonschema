@@ -11,6 +11,7 @@
         },
         "name": {
           "description": "Name of the CI product, e.g. \"Jenkins\", \"CircleCI\" etc.",
+          "required": true,
           "type": "string"
         },
         "url": {
@@ -28,9 +29,11 @@
           "type": "string"
         },
         "remote": {
+          "required": true,
           "type": "string"
         },
         "revision": {
+          "required": true,
           "type": "string"
         },
         "tag": {
@@ -47,6 +50,7 @@
       "properties": {
         "name": {
           "description": "The product name",
+          "required": true,
           "type": "string"
         },
         "version": {
@@ -64,23 +68,28 @@
     },
     "cpu": {
       "$ref": "#/definitions/Product",
-      "description": "386, arm, amd64 etc"
+      "description": "386, arm, amd64 etc",
+      "required": true
     },
     "implementation": {
       "$ref": "#/definitions/Product",
-      "description": "SpecFlow, Cucumber-JVM, Cucumber.js, Cucumber-Ruby, Behat etc."
+      "description": "SpecFlow, Cucumber-JVM, Cucumber.js, Cucumber-Ruby, Behat etc.",
+      "required": true
     },
     "os": {
       "$ref": "#/definitions/Product",
-      "description": "Windows, Linux, MacOS etc"
+      "description": "Windows, Linux, MacOS etc",
+      "required": true
     },
     "protocol_version": {
       "description": "*\n The [SEMVER](https://semver.org/) version number of the protocol",
+      "required": true,
       "type": "string"
     },
     "runtime": {
       "$ref": "#/definitions/Product",
-      "description": "Java, Ruby, Node.js etc"
+      "description": "Java, Ruby, Node.js etc",
+      "required": true
     }
   },
   "type": "object"

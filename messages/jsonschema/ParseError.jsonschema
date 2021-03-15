@@ -3,10 +3,12 @@
   "additionalProperties": false,
   "properties": {
     "message": {
+      "required": true,
       "type": "string"
     },
     "source": {
-      "$ref": "./SourceReference.jsonschema"
+      "$ref": "./SourceReference.jsonschema",
+      "required": true
     }
   },
   "type": "object"

@@ -12,12 +12,15 @@
             "$ref": "#/definitions/Group",
             "$schema": "http://json-schema.org/draft-04/schema#"
           },
+          "required": true,
           "type": "array"
         },
         "start": {
+          "required": true,
           "type": "integer"
         },
         "value": {
+          "required": true,
           "type": "string"
         }
       },
@@ -31,7 +34,8 @@
         "group": {
           "$ref": "#/definitions/Group",
           "additionalProperties": false,
-          "description": "*\n Represents the outermost capture group of an argument. This message closely matches the\n `Group` class in the `cucumber-expressions` library."
+          "description": "*\n Represents the outermost capture group of an argument. This message closely matches the\n `Group` class in the `cucumber-expressions` library.",
+          "required": true
         },
         "parameterTypeName": {
           "type": "string"
@@ -47,6 +51,7 @@
           "items": {
             "$ref": "#/definitions/StepMatchArgument"
           },
+          "required": true,
           "type": "array"
         }
       },
@@ -62,21 +67,22 @@
           "type": "string"
         },
         "id": {
+          "required": true,
           "type": "string"
         },
         "pickleStepId": {
-          "description": "Pointer to the `PickleStep` (if derived from a PickleStep)",
+          "description": "Pointer to the `PickleStep` (if derived from a `PickleStep`)",
           "type": "string"
         },
         "stepDefinitionIds": {
-          "description": "Pointer to all the matching `StepDefinition`s (if derived from a PickleStep)",
+          "description": "Pointer to all the matching `StepDefinition`s (if derived from a `PickleStep`)",
           "items": {
             "type": "string"
           },
           "type": "array"
         },
         "stepMatchArgumentsLists": {
-          "description": "A list of list of StepMatchArgument (if derived from a `StepDefinition`).\n Each element represents a matching step definition. A size of 0 means `UNDEFINED`,\n and a size of 2+ means `AMBIGUOUS`",
+          "description": "A list of list of StepMatchArgument (if derived from a `PickleStep`).\n Each element represents a matching step definition. A size of 0 means `UNDEFINED`,\n and a size of 2+ means `AMBIGUOUS`",
           "items": {
             "$ref": "#/definitions/StepMatchArgumentsList"
           },
@@ -89,16 +95,19 @@
   "description": "//// TestCases\n\n*\n A `TestCase` contains a sequence of `TestStep`s.",
   "properties": {
     "id": {
+      "required": true,
       "type": "string"
     },
     "pickleId": {
       "description": "The ID of the `Pickle` this `TestCase` is derived from.",
+      "required": true,
       "type": "string"
     },
     "testSteps": {
       "items": {
         "$ref": "#/definitions/TestStep"
       },
+      "required": true,
       "type": "array"
     }
   },

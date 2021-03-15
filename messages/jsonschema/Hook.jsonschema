@@ -3,11 +3,13 @@
   "additionalProperties": false,
   "properties": {
     "id": {
+      "required": true,
       "type": "string"
     },
     "sourceReference": {
       "$ref": "./SourceReference.jsonschema",
       "additionalProperties": false,
+      "required": true,
       "type": "object"
     },
     "tagExpression": {

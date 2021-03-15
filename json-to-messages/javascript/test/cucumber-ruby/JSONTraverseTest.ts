@@ -103,6 +103,13 @@ describe('traversing elements', () => {
       const gherkinScenario: messages.FeatureChild = {
         scenario: {
           id: 'whatever-scenario-id',
+          description: '',
+          examples: [],
+          keyword: 'Scenario',
+          location: { line: 1 },
+          name: 'Whatever',
+          steps: [],
+          tags: [],
         },
       }
       const supportCode = stubInterface<IPredictableSupportCode>()
@@ -124,6 +131,12 @@ describe('traversing elements', () => {
     it('calls AstMaker.makeGherkinDocument with the generated feature', () => {
       const gherkinFeature: messages.Feature = {
         name: 'My awesome feature',
+        keyword: 'Feature',
+        children: [],
+        description: '',
+        language: 'en',
+        location: { line: 1 },
+        tags: [],
       }
       const supportCode = stubInterface<IPredictableSupportCode>()
       const astMaker = stubInterface<IAstMaker>()
@@ -159,7 +172,7 @@ describe('traversing elements', () => {
 
       traverseElement(background, astMaker, messages.IdGenerator.incrementing(), supportCode)
 
-      assert.deepEqual(astMaker.makeBackgroundFeatureChild.getCall(0).args, [
+      assert.deepStrictEqual(astMaker.makeBackgroundFeatureChild.getCall(0).args, [
         3,
         'Background',
         '',
@@ -171,6 +184,9 @@ describe('traversing elements', () => {
     it('steps are created when intanciating the FeatureElement', () => {
       const step: messages.Step = {
         id: 'whatever-id',
+        keyword: 'Given ',
+        location: { line: 1 },
+        text: 'whatever',
       }
       const supportCode = stubInterface<IPredictableSupportCode>()
       const astMaker = stubInterface<IAstMaker>()
@@ -185,6 +201,13 @@ describe('traversing elements', () => {
       const child: messages.FeatureChild = {
         scenario: {
           id: 'some-scenario-id',
+          description: '',
+          examples: [],
+          keyword: 'Scenario',
+          location: { line: 1 },
+          name: 'Whatever',
+          steps: [],
+          tags: [],
         },
       }
       const supportCode = stubInterface<IPredictableSupportCode>()
@@ -320,6 +343,9 @@ describe('traversing elements', () => {
     it('registers a stepDefinition using supportCode', () => {
       const step: messages.Step = {
         id: 'some-step-id',
+        keyword: 'Given ',
+        location: { line: 1 },
+        text: 'whatever',
       }
       const supportCode = stubInterface<IPredictableSupportCode>()
       const astMaker = stubInterface<IAstMaker>()
@@ -327,7 +353,7 @@ describe('traversing elements', () => {
 
       traverseStep(simpleStep, astMaker, messages.IdGenerator.incrementing(), supportCode)
 
-      assert.deepEqual(supportCode.addPredictableStepDefinition.getCall(0).args, [
+      assert.deepStrictEqual(supportCode.addPredictableStepDefinition.getCall(0).args, [
         'some/steps.rb:11',
         step.id,
         'passed',
@@ -339,6 +365,9 @@ describe('traversing elements', () => {
     it('does not register stepDefinition when a step has no match', () => {
       const step: messages.Step = {
         id: 'some-step-id',
+        keyword: 'Given ',
+        location: { line: 1 },
+        text: 'whatever',
       }
       const supportCode = stubInterface<IPredictableSupportCode>()
       const astMaker = stubInterface<IAstMaker>()
@@ -364,6 +393,9 @@ describe('traversing elements', () => {
     it('does not register stepDefinition when a step has an empty match', () => {
       const step: messages.Step = {
         id: 'some-step-id',
+        keyword: 'Given ',
+        location: { line: 1 },
+        text: 'whatever',
       }
       const supportCode = stubInterface<IPredictableSupportCode>()
       const astMaker = stubInterface<IAstMaker>()

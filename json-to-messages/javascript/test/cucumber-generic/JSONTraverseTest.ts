@@ -102,6 +102,13 @@ describe('traversing elements', () => {
       const featureChild: messages.FeatureChild = {
         scenario: {
           id: 'whatever-scenario-id',
+          description: '',
+          keyword: 'Scenario',
+          tags: [],
+          steps: [],
+          name: 'Hello',
+          location: { line: 0, column: 0 },
+          examples: [],
         },
       }
       const supportCode = stubInterface<IPredictableSupportCode>()
@@ -129,6 +136,12 @@ describe('traversing elements', () => {
     it('calls AstMaker.makeGherkinDocument with the generated feature', () => {
       const gherkinFeature: messages.Feature = {
         name: 'My awesome feature',
+        description: '',
+        keyword: 'Feature',
+        tags: [],
+        location: { line: 0, column: 0 },
+        language: 'en',
+        children: [],
       }
       const supportCode = stubInterface<IPredictableSupportCode>()
       const astMaker = stubInterface<IAstMaker>()

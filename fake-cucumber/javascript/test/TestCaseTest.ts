@@ -34,7 +34,9 @@ class StubTestStep extends TestStep {
   }
 
   public toMessage(): messages.TestStep {
-    return {}
+    return {
+      id: '2',
+    }
   }
 
   public async execute(
@@ -48,6 +50,7 @@ class StubTestStep extends TestStep {
         status: this.status,
         duration: millisecondsToDuration(1005),
         message: this.message,
+        willBeRetried: false,
       },
       listener
     )
@@ -76,7 +79,7 @@ describe('TestCase', () => {
       )
       const testStepStatuses = emitted
         .filter((m) => m.testStepFinished)
-        .map((m) => m.testStepFinished.test_step_result.status)
+        .map((m) => m.testStepFinished.testStepResult.status)
 
       assert.deepStrictEqual(testStepStatuses, ['PASSED', 'PASSED'])
     })
@@ -100,7 +103,7 @@ describe('TestCase', () => {
       )
       const testStepStatuses = emitted
         .filter((m) => m.testStepFinished)
-        .map((m) => m.testStepFinished.test_step_result.status)
+        .map((m) => m.testStepFinished.testStepResult.status)
       assert.deepStrictEqual(testStepStatuses, ['FAILED', 'SKIPPED'])
     })
 
@@ -123,7 +126,7 @@ describe('TestCase', () => {
       )
       const testStepStatuses = emitted
         .filter((m) => m.testStepFinished)
-        .map((m) => m.testStepFinished.test_step_result.status)
+        .map((m) => m.testStepFinished.testStepResult.status)
       assert.deepStrictEqual(testStepStatuses, ['FAILED', 'FAILED'])
     })
 

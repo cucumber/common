@@ -38,7 +38,9 @@ describe('ciCommitLink(ci)', () => {
 
   context('when git is not specified', () => {
     it('returns undefined', () => {
-      const ci: messages.Ci = {}
+      const ci: messages.Ci = {
+        name: 'SuperCI',
+      }
 
       assert.strictEqual(ciCommitLink(ci), null)
     })

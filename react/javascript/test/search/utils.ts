@@ -6,8 +6,12 @@ function makeFeature(
   scenarios: messages.Scenario[]
 ): messages.Feature {
   return {
-    name: name,
-    description: description,
+    keyword: 'Feature',
+    language: 'en',
+    location: { line: 1 },
+    tags: [],
+    name,
+    description,
     children: scenarios.map((scenario) => ({
       scenario,
     })),
@@ -23,10 +27,13 @@ function makeRule(
 
   return {
     id: idGenerator(),
-    name: name,
-    description: description,
+    keyword: 'Rule',
+    location: { line: 1 },
+    tags: [],
+    name,
+    description,
     children: scenarios.map((scenario) => ({
-      scenario: scenario,
+      scenario,
     })),
   }
 }
@@ -40,6 +47,10 @@ function makeScenario(
 
   return {
     id: idGenerator(),
+    keyword: 'Scenario',
+    location: { line: 1 },
+    tags: [],
+    examples: [],
     name: name,
     description: description,
     steps: steps,
@@ -56,14 +67,20 @@ function makeStep(
   const docString: messages.DocString = docstring
     ? {
         content: docstring,
+        delimiter: '"""',
+        location: { line: 1 },
       }
     : undefined
   const dataTable: messages.DataTable =
     datatable.length > 0
       ? {
+          location: { line: 1 },
           rows: datatable.map((row) => ({
+            location: { line: 1 },
+            id: '123',
             cells: row.map((cell) => ({
               value: cell,
+              location: { line: 1 },
             })),
           })),
         }
@@ -71,6 +88,7 @@ function makeStep(
 
   return {
     id: idGenerator(),
+    location: { line: 1 },
     keyword: keyword,
     text: text,
     docString,

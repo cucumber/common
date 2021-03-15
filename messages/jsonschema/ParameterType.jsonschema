@@ -3,22 +3,27 @@
   "additionalProperties": false,
   "properties": {
     "id": {
+      "required": true,
       "type": "string"
     },
     "name": {
       "description": "The name is unique, so we don't need an id.",
+      "required": true,
       "type": "string"
     },
     "preferForRegularExpressionMatch": {
+      "required": true,
       "type": "boolean"
     },
     "regularExpressions": {
       "items": {
         "type": "string"
       },
+      "required": true,
       "type": "array"
     },
     "useForSnippets": {
+      "required": true,
       "type": "boolean"
     }
   },

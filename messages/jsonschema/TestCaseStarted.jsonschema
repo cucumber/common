@@ -4,18 +4,22 @@
   "properties": {
     "attempt": {
       "description": "*\n The first attempt should have value 0, and for each retry the value\n should increase by 1.",
+      "required": true,
       "type": "integer"
     },
     "id": {
       "description": "*\n Because a `TestCase` can be run multiple times (in case of a retry),\n we use this field to group messages relating to the same attempt.",
+      "required": true,
       "type": "string"
     },
     "testCaseId": {
+      "required": true,
       "type": "string"
     },
     "timestamp": {
       "$ref": "./Timestamp.jsonschema",
       "additionalProperties": false,
+      "required": true,
       "type": "object"
     }
   },

@@ -6,15 +6,18 @@
       "additionalProperties": false,
       "properties": {
         "className": {
+          "required": true,
           "type": "string"
         },
         "methodName": {
+          "required": true,
           "type": "string"
         },
         "methodParameterTypes": {
           "items": {
             "type": "string"
           },
+          "required": true,
           "type": "array"
         }
       },
@@ -24,12 +27,15 @@
       "additionalProperties": false,
       "properties": {
         "className": {
+          "required": true,
           "type": "string"
         },
         "fileName": {
+          "required": true,
           "type": "string"
         },
         "methodName": {
+          "required": true,
           "type": "string"
         }
       },

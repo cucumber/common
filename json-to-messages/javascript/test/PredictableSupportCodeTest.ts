@@ -12,6 +12,12 @@ describe('PredictableSupportCode', () => {
     const scenarioId = 'some-scenario-id'
     const pickle: messages.Pickle = {
       astNodeIds: [scenarioId],
+      id: 'some-pickle-id',
+      language: 'en',
+      tags: [],
+      steps: [],
+      uri: 'some-uri',
+      name: 'Some Name',
     }
 
     beforeEach(() => {
@@ -65,6 +71,12 @@ describe('PredictableSupportCode', () => {
     const scenarioId = 'some-scenario-id'
     const pickle: messages.Pickle = {
       astNodeIds: [scenarioId],
+      id: 'some-pickle-id',
+      language: 'en',
+      tags: [],
+      steps: [],
+      uri: 'some-uri',
+      name: 'Some Name',
     }
 
     beforeEach(() => {
@@ -122,6 +134,8 @@ describe('PredictableSupportCode', () => {
     const stepId = 'some-step-id'
     const picklestep: messages.PickleStep = {
       astNodeIds: [stepId],
+      text: 'hello',
+      id: 'step-id',
     }
 
     beforeEach(() => {

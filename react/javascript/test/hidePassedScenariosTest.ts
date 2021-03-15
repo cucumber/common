@@ -20,10 +20,12 @@ describe('hidePassedScenarios', () => {
   })
 
   it('keeps documents which do not have a passed status', () => {
-    const document: GherkinDocument = {}
+    const document: GherkinDocument = { comments: [] }
     const testResultsQuery = stubObject<Query>(new Query())
     testResultsQuery.getWorstTestStepResult.returns({
       status: 'FAILED',
+      willBeRetried: false,
+      duration: { seconds: 0, nanos: 0 },
     })
     testResultsQuery.getPickleTestStepResults.returns([])
 
@@ -36,10 +38,12 @@ describe('hidePassedScenarios', () => {
   })
 
   it('removes documents which do have a passed status', () => {
-    const document: GherkinDocument = {}
+    const document: GherkinDocument = { comments: [] }
     const testResultsQuery = stubObject<Query>(new Query())
     testResultsQuery.getWorstTestStepResult.returns({
       status: 'PASSED',
+      willBeRetried: false,
+      duration: { seconds: 0, nanos: 0 },
     })
     testResultsQuery.getPickleTestStepResults.returns([])
 

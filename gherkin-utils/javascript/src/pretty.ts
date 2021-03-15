@@ -31,10 +31,13 @@ export default function pretty(gherkinDocument: messages.GherkinDocument): strin
   return s
 }
 
-function prettyStepContainer(stepContainer: messages.Scenario, indent: string): string {
-  let s = `\n${prettyTags(stepContainer.tags, indent)}${indent}${stepContainer.keyword}: ${
-    stepContainer.name
-  }\n`
+function prettyStepContainer(
+  stepContainer: messages.Scenario | messages.Background,
+  indent: string
+): string {
+  const scenario: messages.Scenario = 'tags' in stepContainer ? stepContainer : null
+  const tags: readonly messages.Tag[] = scenario?.tags || []
+  let s = `\n${prettyTags(tags, indent)}${indent}${stepContainer.keyword}: ${stepContainer.name}\n`
   if (stepContainer.description) {
     s += stepContainer.description + '\n\n'
   }
@@ -43,8 +46,8 @@ function prettyStepContainer(stepContainer: messages.Scenario, indent: string): 
     s += `${indent}  ${step.keyword}${step.text}\n`
   }
 
-  if (stepContainer.examples) {
-    for (const example of stepContainer.examples) {
+  if (scenario) {
+    for (const example of scenario.examples) {
       s += prettyExample(example, `${indent}  `)
     }
   }

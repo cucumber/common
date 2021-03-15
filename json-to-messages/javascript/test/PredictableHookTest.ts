@@ -7,6 +7,11 @@ describe('PredictableHook', () => {
   const scenarioId = 'some-scenario-id'
   const pickle: messages.Pickle = {
     id: 'some-pickle-id',
+    language: 'en',
+    tags: [],
+    steps: [],
+    uri: 'some-uri',
+    name: 'Some Name',
     astNodeIds: [scenarioId],
   }
 

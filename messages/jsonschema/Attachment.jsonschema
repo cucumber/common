@@ -5,6 +5,7 @@
   "properties": {
     "body": {
       "description": "*\n The body of the attachment. If `contentEncoding` is `IDENTITY`, the attachment\n is simply the string. If it's `BASE64`, the string should be Base64 decoded to\n obtain the attachment.",
+      "required": true,
       "type": "string"
     },
     "contentEncoding": {
@@ -13,6 +14,7 @@
         "IDENTITY",
         "BASE64"
       ],
+      "required": true,
       "type": "string"
     },
     "fileName": {
@@ -21,6 +23,7 @@
     },
     "mediaType": {
       "description": "*\n The media type of the data. This can be any valid\n [IANA Media Type](https://www.iana.org/assignments/media-types/media-types.xhtml)\n as well as Cucumber-specific media types such as `text/x.cucumber.gherkin+plain`\n and `text/x.cucumber.stacktrace+plain`",
+      "required": true,
       "type": "string"
     },
     "source": {

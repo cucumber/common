@@ -5,14 +5,17 @@
   "properties": {
     "data": {
       "description": "The contents of the file",
+      "required": true,
       "type": "string"
     },
     "mediaType": {
       "description": "The media type of the file. Can be used to specify custom types, such as\n text/x.cucumber.gherkin+plain",
+      "required": true,
       "type": "string"
     },
     "uri": {
       "description": "*\n The [URI](https://en.wikipedia.org/wiki/Uniform_Resource_Identifier)\n of the source, typically a file path relative to the root directory",
+      "required": true,
       "type": "string"
     }
   },
