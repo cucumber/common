@@ -38,6 +38,7 @@ describe('PredictableSupportCode', () => {
 
       const expected: messages.SourceReference = {
         uri: 'some/where',
+        location: { line: 7 },
       }
       assert.deepStrictEqual(hook.toMessage().hook.sourceReference, expected)
     })

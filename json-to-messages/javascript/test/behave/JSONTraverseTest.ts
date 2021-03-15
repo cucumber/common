@@ -93,7 +93,7 @@ describe('traverse elements', () => {
 
         traverseElement(scenario, astMaker, () => 'new-id', predictableSupportCode)
 
-        assert.deepEqual(astMaker.makeScenarioFeatureChild.getCall(0).args, [
+        assert.deepStrictEqual(astMaker.makeScenarioFeatureChild.getCall(0).args, [
           'new-id',
           9,
           'Scenario',
@@ -162,7 +162,7 @@ describe('traverse elements', () => {
 
       traverseStep(simpleStep, astMaker, () => 'some-id', predictableSupportCode)
 
-      assert.deepEqual(astMaker.makeStep.getCall(0).args, [
+      assert.deepStrictEqual(astMaker.makeStep.getCall(0).args, [
         'some-id',
         3,
         'Given ',

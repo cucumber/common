@@ -49,7 +49,9 @@ export default class GherkinDocumentWalker {
     this.handlers = { ...defaultHandlers, ...handlers }
   }
 
-  public walkGherkinDocument(gherkinDocument: messages.GherkinDocument): messages.GherkinDocument {
+  public walkGherkinDocument(
+    gherkinDocument: messages.GherkinDocument
+  ): messages.GherkinDocument | null {
     if (!gherkinDocument.feature) {
       return null
     }
@@ -61,7 +63,7 @@ export default class GherkinDocumentWalker {
     }
 
     return {
-      feature: feature,
+      feature,
       comments: gherkinDocument.comments,
       uri: gherkinDocument.uri,
     }

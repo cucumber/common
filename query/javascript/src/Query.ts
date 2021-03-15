@@ -1,6 +1,14 @@
 import * as messages from '@cucumber/messages'
 import { ArrayMultimap } from '@teppeis/multimaps'
 
+function ordinal(
+  status: 'UNKNOWN' | 'PASSED' | 'SKIPPED' | 'PENDING' | 'UNDEFINED' | 'AMBIGUOUS' | 'FAILED'
+) {
+  return ['UNKNOWN', 'PASSED', 'SKIPPED', 'PENDING', 'UNDEFINED', 'AMBIGUOUS', 'FAILED'].indexOf(
+    status
+  )
+}
+
 export default class Query {
   private readonly testStepResultByPickleId = new ArrayMultimap<string, messages.TestStepResult>()
   private readonly testStepResultsByPickleStepId = new ArrayMultimap<
@@ -110,13 +118,14 @@ export default class Query {
   public getWorstTestStepResult(
     testStepResults: readonly messages.TestStepResult[]
   ): messages.TestStepResult {
-    throw new Error('Uncomment code below and fix it')
-    // return (
-    //   testStepResults.slice().sort((r1, r2) => r2.status - r1.status)[0] || {
-    //     status: 'UNKNOWN',
-    //     duration: messages.TimeConversion.millisecondsToDuration(0),
-    //   }
-    // )
+    // throw new Error('Uncomment code below and fix it')
+    return (
+      testStepResults.slice().sort((r1, r2) => ordinal(r2.status) - ordinal(r1.status))[0] || {
+        status: 'UNKNOWN',
+        duration: messages.TimeConversion.millisecondsToDuration(0),
+        willBeRetried: false,
+      }
+    )
   }
 
   /**

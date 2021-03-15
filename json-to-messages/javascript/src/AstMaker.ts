@@ -44,7 +44,7 @@ export default class AstMaker implements IAstMaker {
     name: string,
     description: string,
     steps: readonly messages.Step[],
-    tags?: readonly messages.Tag[]
+    tags: readonly messages.Tag[]
   ): messages.FeatureChild {
     return {
       scenario: {

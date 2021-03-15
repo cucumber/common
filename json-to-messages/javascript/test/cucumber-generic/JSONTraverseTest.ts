@@ -157,7 +157,7 @@ describe('traversing elements', () => {
 
       assert.deepStrictEqual(astMaker.makeGherkinDocument.getCall(0).args, [
         'path/to/some.feature',
-        feature,
+        gherkinFeature,
       ])
     })
 
