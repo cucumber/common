@@ -11,7 +11,7 @@
   "author": "Cucumber Limited <cukes@googlegroups.com>",
   "license": "MIT",
   "scripts": {
-    "prepare": "npm run pbjs && npm run pbts && copyfiles src/messages.js src/messages.d.ts dist",
+    "prepare": "make src/messages.ts",
     "test": "mocha",
     "build": "tsc",
     "prepublishOnly": "npm run build"

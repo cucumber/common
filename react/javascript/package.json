@@ -58,6 +58,7 @@
     "babel-loader": "^8.2.2",
     "core-js": "^3.9.1",
     "glob": "^7.1.6",
+    "html-webpack-plugin": "4.5.2",
     "jsdom": "^16.4.0",
     "mocha": "^8.3.0",
     "node-sass": "5.0.0",
@@ -73,7 +74,8 @@
     "style-loader": "2.0.0",
     "ts-node": "^9.1.1",
     "ts-sinon": "^2.0.1",
-    "typescript": "^4.2.2"
+    "typescript": "^4.2.2",
+    "webpack": "4.46.0"
   },
   "bugs": {
     "url": "https://github.com/cucumber/cucumber/issues"
