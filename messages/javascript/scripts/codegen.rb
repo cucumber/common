@@ -5,7 +5,7 @@ require 'set'
 class Codegen
   def initialize(paths, template, language_type_by_schema_type)
     @paths = paths
-    @template = ERB.new(template)
+    @template = ERB.new(template, nil, '-')
     @language_type_by_schema_type = language_type_by_schema_type
 
     @schemas = {}
@@ -18,10 +18,7 @@ class Codegen
   end
 
   def generate
-    @schemas.each do |key, schema|
-      typename = File.basename(key, '.jsonschema')
-      STDOUT.write @template.result(binding)
-    end
+    STDOUT.write @template.result(binding)
   end
 
   def add_schema(key, schema)
@@ -34,6 +31,27 @@ class Codegen
 
   def native_type?(type_name)
     @language_type_by_schema_type.values.include?(type_name)
+  end
+
+  def default_value(property)
+    if property['items']
+      '[]'
+    elsif property['type'] == 'string'
+      if property['enum']
+        "'#{property['enum'][0]}'"
+      else
+        "''"
+      end
+    elsif property['type'] == 'integer'
+      "0"
+    elsif property['type'] == 'boolean'
+      "false"
+    elsif property['$ref']
+      type = type_for(property, '???')
+      "new #{type}Impl()"
+    else
+      raise "Cannot create default value for #{property.to_json}"
+    end
   end
 
   def type_for(property, name)
@@ -61,7 +79,7 @@ class Codegen
   end
 
   def enum_type_for(enum)
-    enum.map { |value| %Q{"#{value}"} }.join(' | ')
+    enum.map { |value| "'#{value}'" }.join(' | ')
   end
 
   def array_type_for(type)
@@ -70,12 +88,31 @@ class Codegen
 end
 
 template = <<-EOF
-export type <%= typename %> = {
-  <% schema['properties'].each do |name, property| %>
-    <%= name %><%= property['required'] ? '' : '?' %>: <%= type_for(property, name) %>
-  <% end %>
+import { Type } from 'class-transformer'
+import 'reflect-metadata'
+
+<% @schemas.each do |key, schema| -%>
+export type <%= File.basename(key, '.jsonschema') %> = {
+<% schema['properties'].each do |name, property| -%>
+  <%= name %><%= property['required'] ? '' : '?' %>: <%= type_for(property, name) %>
+<% end -%>
 }
 
+export class <%= File.basename(key, '.jsonschema') %>Impl implements <%= File.basename(key, '.jsonschema') %> {
+<% schema['properties'].each do |name, property| -%>
+<% ref = property['$ref'] || property['items'] && property['items']['$ref'] %>
+<% if ref -%>
+  @Type(() => <%= File.basename(ref, '.jsonschema') %>Impl)
+<% end -%>
+<% if property['required'] -%>
+  <%= name %>: <%= type_for(property, name) %> = <%= default_value(property) %>
+<% else -%>
+  <%= name %>?: <%= type_for(property, name) %>
+<% end -%>
+<% end -%>
+}
+
+<% end -%>
 EOF
 
 language_type_by_schema_type = {

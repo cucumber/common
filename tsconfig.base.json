@@ -17,6 +17,7 @@
     "outDir": "dist",
     "downlevelIteration": true,
     "skipLibCheck": true,
-    "strictNullChecks": false
+    "strictNullChecks": false,
+    "experimentalDecorators": true
   }
 }

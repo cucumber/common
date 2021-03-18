@@ -34,7 +34,10 @@ export default function verifyStreamContract(
 
       const incomingMessages = await toArray(toMessageStream)
 
-      assert.deepStrictEqual(incomingMessages, outgoingMessages)
+      assert.deepStrictEqual(
+        JSON.parse(JSON.stringify(incomingMessages)),
+        JSON.parse(JSON.stringify(outgoingMessages))
+      )
     })
   })
 }

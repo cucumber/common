@@ -4,6 +4,7 @@ import assert from 'assert'
 import NdjsonToMessageStream from '../src/NdjsonToMessageStream'
 import verifyStreamContract from './verifyStreamContract'
 import toArray from './toArray'
+import { EnvelopeImpl } from '@cucumber/messages'
 
 describe('NdjsonStream', () => {
   const makeToMessageStream = () => new NdjsonToMessageStream()
@@ -88,7 +89,11 @@ describe('NdjsonStream', () => {
 
     const incomingMessages = await toArray(toMessageStream)
 
-    assert.deepStrictEqual(incomingMessages, [{}, {}, {}])
+    assert.deepStrictEqual(incomingMessages, [
+      new EnvelopeImpl(),
+      new EnvelopeImpl(),
+      new EnvelopeImpl(),
+    ])
   })
 
   it('includes offending line in error message', async () => {

@@ -12,7 +12,7 @@ default: .tested
 .codegen:
 	touch $@
 
-.tested: .codegen .tested-npm
+.tested: .tested-npm
 
 .tested-npm: $(TYPESCRIPT_SOURCE_FILES)
 	$(NPM) run test
