@@ -21,6 +21,10 @@ default: .tested
 pre-release: update-version update-dependencies clean default
 .PHONY: pre-release
 
+update-dependencies:
+	cd ../.. && npx npm-check-updates
+.PHONY: update-dependencies
+
 update-version:
 ifeq ($(IS_TESTDATA),-testdata)
 	# no-op
