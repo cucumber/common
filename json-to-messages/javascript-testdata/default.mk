@@ -22,7 +22,10 @@ pre-release: update-version update-dependencies clean default
 .PHONY: pre-release
 
 update-dependencies:
-	cd ../.. && npx npm-check-updates
+	../../node_modules/.bin/npm-check-updates --upgrade && \
+	pushd ../.. && \
+	npm install && \
+	popd
 .PHONY: update-dependencies
 
 update-version:
