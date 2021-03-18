@@ -21,6 +21,13 @@ default: .tested
 pre-release: update-version update-dependencies clean default
 .PHONY: pre-release
 
+update-dependencies:
+	../../node_modules/.bin/npm-check-updates --upgrade && \
+	pushd ../.. && \
+	npm install && \
+	popd
+.PHONY: update-dependencies
+
 update-version:
 ifeq ($(IS_TESTDATA),-testdata)
 	# no-op
