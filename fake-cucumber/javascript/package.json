@@ -12,8 +12,8 @@
     "lint": "eslint --ext ts --max-warnings 0 src test",
     "lint-fix": "eslint --ext ts --max-warnings 0 --fix src test",
     "coverage": "nyc --reporter=html --reporter=text mocha",
-    "build": "tsc",
-    "prepublishOnly": "tsc"
+    "build": "tsc --build tsconfig.build.json",
+    "prepublishOnly": "tsc --build tsconfig.build.json"
   },
   "repository": {
     "type": "git",

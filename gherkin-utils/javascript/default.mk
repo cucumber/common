@@ -46,6 +46,9 @@ ifeq ($(IS_TESTDATA),-testdata)
 	# no-op
 else
 ifneq (true,$(PRIVATE))
+	pushd ../.. && \
+	$(NPM) run build && \
+	popd
 	$(NPM) publish --access public
 else
 	@echo "Not publishing private npm module"
