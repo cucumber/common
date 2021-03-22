@@ -17,6 +17,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [14.1.1] - 2021-03-22
+
+### Fixed
+
+* The 14.1.0 release failed half way through due to build script problems.
+
 ## [14.1.0] - 2021-03-22
 
 ### Added
@@ -474,7 +480,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Protobuf messages for Go, Java, JavaScript, TypeScript and Ruby
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/messages/v14.1.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/messages/v14.1.1...master
+[14.1.1]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v14.1.0...messages/v14.1.1
 [14.1.0]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v14.0.1...messages/v14.1.0
 [14.0.1]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v14.0.0...messages/v14.0.1
 [14.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v13.2.1...messages/v14.0.0

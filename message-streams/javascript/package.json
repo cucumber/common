@@ -15,7 +15,7 @@
     "prepublishOnly": "tsc --build tsconfig.build.json"
   },
   "dependencies": {
-    "@cucumber/messages": "^14.1.0",
+    "@cucumber/messages": "^14.1.1",
     "protobufjs": "^6.10.2"
   },
   "devDependencies": {
