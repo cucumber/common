@@ -8,5 +8,5 @@ require (
 	github.com/cucumber/messages-go/v14 v14.0.1
 	github.com/gogo/protobuf v1.3.2
 	github.com/onsi/ginkgo v1.15.2
-	github.com/onsi/gomega v1.10.5
+	github.com/onsi/gomega v1.11.0
 )
