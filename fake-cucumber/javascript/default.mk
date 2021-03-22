@@ -14,7 +14,7 @@ default: .tested
 
 .tested: .tested-npm
 
-.tested-npm: $(TYPESCRIPT_SOURCE_FILES)
+.tested-npm: $(TYPESCRIPT_SOURCE_FILES) .codegen
 	$(NPM) run test
 	touch $@
 

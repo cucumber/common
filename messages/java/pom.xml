@@ -8,7 +8,7 @@
         <version>2.1.2</version>
     </parent>
     <artifactId>messages</artifactId>
-    <version>14.0.2-SNAPSHOT</version>
+    <version>14.1.0</version>
     <packaging>jar</packaging>
     <name>Cucumber Messages</name>
     <description>Protocol Buffer messages for Cucumber's inter-process communication</description>
