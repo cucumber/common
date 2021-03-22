@@ -3,8 +3,8 @@ SHELL := /usr/bin/env bash
 rwildcard=$(foreach d,$(wildcard $(1:=/*)),$(call rwildcard,$d,$2) $(filter $(subst *,%,$2),$d))
 TYPESCRIPT_SOURCE_FILES = $(sort $(call rwildcard,src test,*.ts *.tsx))
 PRIVATE = $(shell node -e "console.log(require('./package.json').private)")
-NPM ?= npm
 IS_TESTDATA = $(findstring -testdata,${CURDIR})
+NPM_MODULE = $(shell cat package.json | jq .name --raw-output)
 
 default: .tested
 .PHONY: default
@@ -15,7 +15,7 @@ default: .tested
 .tested: .tested-npm
 
 .tested-npm: $(TYPESCRIPT_SOURCE_FILES) .codegen
-	$(NPM) run test
+	npm run test
 	touch $@
 
 pre-release: update-version update-dependencies clean default
@@ -25,6 +25,7 @@ update-dependencies:
 	../../node_modules/.bin/npm-check-updates --upgrade && \
 	pushd ../.. && \
 	npm install && \
+	npm run build && \
 	popd
 .PHONY: update-dependencies
 
@@ -33,7 +34,11 @@ ifeq ($(IS_TESTDATA),-testdata)
 	# no-op
 else
 ifdef NEW_VERSION
-	$(NPM) --no-git-tag-version --allow-same-version version "$(NEW_VERSION)"
+	npm --no-git-tag-version --allow-same-version version "$(NEW_VERSION)"
+	# Update all npm packages that depend on us
+	pushd ../.. && \
+		./scripts/npm-each update_npm_dependency_if_exists package.json "$(NPM_MODULE)" "^$(NEW_VERSION)"
+		# npm install
 else
 	@echo -e "\033[0;31mNEW_VERSION is not defined. Can't update version :-(\033[0m"
 	exit 1
@@ -46,10 +51,7 @@ ifeq ($(IS_TESTDATA),-testdata)
 	# no-op
 else
 ifneq (true,$(PRIVATE))
-	pushd ../.. && \
-	$(NPM) run build && \
-	popd
-	$(NPM) publish --access public
+	npm publish --access public
 else
 	@echo "Not publishing private npm module"
 endif

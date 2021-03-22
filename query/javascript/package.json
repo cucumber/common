@@ -36,7 +36,7 @@
     "*"
   ],
   "dependencies": {
-    "@cucumber/messages": "^14.0.1",
+    "@cucumber/messages": "^14.1.0",
     "@teppeis/multimaps": "^2.0.0"
   },
   "directories": {
