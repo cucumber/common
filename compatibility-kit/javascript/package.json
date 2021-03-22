@@ -11,7 +11,7 @@
   "license": "MIT",
   "scripts": {
     "test": "echo 'no tests'",
-    "prepublishOnly": "tsc"
+    "prepublishOnly": "tsc --build tsconfig.build.json"
   },
   "devDependencies": {
     "@cucumber/fake-cucumber": "^10.0.0",

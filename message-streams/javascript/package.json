@@ -12,7 +12,7 @@
   "license": "MIT",
   "scripts": {
     "test": "mocha",
-    "prepublishOnly": "tsc"
+    "prepublishOnly": "tsc --build tsconfig.build.json"
   },
   "dependencies": {
     "@cucumber/messages": "^14.0.1",

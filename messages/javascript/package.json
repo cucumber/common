@@ -15,7 +15,7 @@
     "test": "mocha",
     "pbjs": "pbjs --force-number --target static-module --wrap commonjs messages.proto --out src/messages.js",
     "pbts": "pbts src/messages.js > src/messages.d.ts",
-    "prepublishOnly": "tsc"
+    "prepublishOnly": "tsc --build tsconfig.build.json"
   },
   "dependencies": {
     "@types/uuid": "^8.3.0",
