@@ -37,6 +37,15 @@ Open `CHANGELOG.md` and remove any `###` headers without content. Do not commit.
 No further edits should be made. The markdown headers and links will be updated
 automatically in the next step.
 
+## Build all TypeScript code
+
+Before you can make a release, the TypeScript code has to be built.
+This is because compiling TypeScript is done at the root directory
+using npm workspaces, and not in individual module directories.
+
+    cd /app
+    make .typescript-built
+
 ## Decide what the next version should be
 
 This depends on what's changed (see `CHANGELOG.md`):
@@ -48,15 +57,6 @@ This depends on what's changed (see `CHANGELOG.md`):
   * There are `Added` entries
 * Bump `PATCH` if:
   * There are `Fixed` or `Deprecated` entries
-
-## Build all TypeScript code
-
-Before you can make a release, the TypeScript code has to be built.
-This is because compiling TypeScript is done at the root directory
-using npm workspaces, and not in individual module directories.
-
-    cd /app
-    make .typescript-built
 
 ## Prepare the release
 

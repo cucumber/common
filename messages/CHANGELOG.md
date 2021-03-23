@@ -17,6 +17,22 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [15.0.0] - 2021-03-23
+
+### Added
+
+* [All] Added tags to Rule node
+    ([#1356](https://github.com/cucumber/cucumber/pull/1356) [sebrose], [gasparnagy], [brasmusson], [WannesFransen1994])
+
+### Removed
+
+* [JavaScript] moved code that depends on Node.js stream APIs to `@cucumber/message-streams`
+
+### Fixed
+
+* [Elixir] Make sure messages.proto is updated with ../messages.proto
+* [Elixir] Generated new message modules based on the new messages.proto file
+
 ## [14.1.2] - 2021-03-23
 
 ### Fixed
@@ -487,7 +503,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Protobuf messages for Go, Java, JavaScript, TypeScript and Ruby
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/messages/v14.1.2...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/messages/v15.0.0...master
+[15.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v14.1.2...messages/v15.0.0
 [14.1.2]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v14.0.1...messages/v14.1.2
 [14.1.1]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v14.1.0...messages/v14.1.1
 [14.1.0]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v14.0.1...messages/v14.1.0
