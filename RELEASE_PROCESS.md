@@ -118,3 +118,5 @@ libraries using it:
 
     # Run this in the root directory
     source scripts/functions.sh && update_go_library_version libraryName X.Y.Z
+
+For the time being you have to do the same for Java (`pom.xml`) manually.
