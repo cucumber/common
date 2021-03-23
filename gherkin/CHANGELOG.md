@@ -29,6 +29,7 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Removed
 
+* [JavaScript] the `GherkinStreams` export has moved from `@cucumber/gherkin` to `@cucumber/gherkin-streams`
 * [JavaScript] the `gherkin-javascript` executable has moved to the new `@cucumber/gherkin-streams` npm module
 
 ### Fixed
