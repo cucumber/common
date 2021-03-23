@@ -26,11 +26,11 @@
     "@cucumber/gherkin": "^17.0.2",
     "@cucumber/gherkin-streams": "^1.0.0",
     "@cucumber/gherkin-utils": "^3.0.0",
-    "@types/mocha": "^8.2.1",
-    "@types/node": "^14.14.31",
-    "mocha": "^8.3.0",
+    "@types/mocha": "^8.2.2",
+    "@types/node": "^14.14.35",
+    "mocha": "^8.3.2",
     "ts-node": "^9.1.1",
-    "typescript": "^4.2.2"
+    "typescript": "^4.2.3"
   },
   "files": [
     "*"
