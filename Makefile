@@ -1,6 +1,8 @@
 SHELL := /usr/bin/env bash
 PACKAGES ?= messages \
+	message-streams \
 	gherkin \
+	gherkin-streams \
 	gherkin-utils \
 	cucumber-expressions \
 	tag-expressions \

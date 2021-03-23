@@ -18,7 +18,7 @@ default: .tested
 	npm run test
 	touch $@
 
-pre-release: update-version update-dependencies clean default
+pre-release: clean update-version update-dependencies default
 .PHONY: pre-release
 
 update-dependencies:

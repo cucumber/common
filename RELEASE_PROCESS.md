@@ -49,6 +49,15 @@ This depends on what's changed (see `CHANGELOG.md`):
 * Bump `PATCH` if:
   * There are `Fixed` or `Deprecated` entries
 
+## Build all TypeScript code
+
+Before you can make a release, the TypeScript code has to be built.
+This is because compiling TypeScript is done at the root directory
+using npm workspaces, and not in individual module directories.
+
+    cd /app
+    make .typescript-built
+
 ## Prepare the release
 
     cd thepackage
