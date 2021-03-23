@@ -17,6 +17,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [14.1.2] - 2021-03-23
+
+### Fixed
+
+* [JavaScript] revert breaking changes in 14.1.1
+  ([#1437](https://github.com/cucumber/cucumber/issues/1437))
+
 ## [14.0.1] - 2021-02-08
 
 ### Fixed
@@ -462,7 +469,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Protobuf messages for Go, Java, JavaScript, TypeScript and Ruby
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/messages/v14.0.1...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/messages/v14.1.2...master
+[14.1.2]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v14.0.1...messages/v14.1.2
 [14.0.1]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v14.0.0...messages/v14.0.1
 [14.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v13.2.1...messages/v14.0.0
 [13.2.1]:      https://github.com/cucumber/cucumber/compare/cucumber-messages/v13.2.0...messages/v13.2.1
