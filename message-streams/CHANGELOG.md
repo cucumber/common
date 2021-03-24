@@ -22,7 +22,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/messages/v1.0.0...master
-[1.0.0]:      https://github.com/cucumber/cucumber/releases/tag/cucumber-message-streams-v1.0.0
+[Unreleased]: https://github.com/cucumber/cucumber/compare/message-streams/v1.0.0...master
+[1.0.0]:      https://github.com/cucumber/cucumber/releases/tag/message-streams/v1.0.0
 
 <!-- Contributors in alphabetical order -->
