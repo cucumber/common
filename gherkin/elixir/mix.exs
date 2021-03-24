@@ -1,7 +1,7 @@
 defmodule CucumberGherkin.MixProject do
   use Mix.Project
 
-  @vsn "17.0.2"
+  @vsn "18.0.0"
   @github "https://github.com/cucumber/cucumber/tree/master/gherkin/elixir"
   @name "CucumberGherkin"
 
@@ -29,8 +29,8 @@ defmodule CucumberGherkin.MixProject do
   defp deps do
     [
       {:elixir_uuid, "~> 1.2"},
-      # {:cucumber_messages, "~> 15.0"},
-      {:cucumber_messages, path: "../../messages/elixir"},
+      {:cucumber_messages, "~> 15.0"},
+      # {:cucumber_messages, path: "../../messages/elixir"},
       {:ex_doc, "~> 0.23", only: :dev, runtime: false}
     ]
   end

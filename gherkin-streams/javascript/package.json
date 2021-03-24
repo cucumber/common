@@ -20,7 +20,7 @@
   "dependencies": {
     "@cucumber/messages": "^15.0.0",
     "@cucumber/message-streams": "^1.0.0",
-    "@cucumber/gherkin": "^17.0.2",
+    "@cucumber/gherkin": "^18.0.0",
     "commander": "^7.2.0",
     "protobufjs": "^6.10.2",
     "source-map-support": "^0.5.19"
