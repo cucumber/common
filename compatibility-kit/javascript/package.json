@@ -1,6 +1,6 @@
 {
   "name": "@cucumber/compatibility-kit",
-  "version": "3.0.0",
+  "version": "4.0.0",
   "private": true,
   "description": "Test data used to validate a Cucumber implementation",
   "repository": {
@@ -18,6 +18,5 @@
     "@types/stream-buffers": "^3.0.3",
     "stream-buffers": "^3.0.2",
     "typescript": "^4.2.3"
-  },
-  "dependencies": {}
+  }
 }
