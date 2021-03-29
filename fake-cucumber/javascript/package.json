@@ -1,6 +1,6 @@
 {
   "name": "@cucumber/fake-cucumber",
-  "version": "10.0.0",
+  "version": "11.0.0",
   "description": "Fake Cucumber generates fake results",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
@@ -31,7 +31,7 @@
   "devDependencies": {
     "@types/glob": "^7.1.3",
     "@types/mocha": "^8.2.2",
-    "@types/node": "^14.14.35",
+    "@types/node": "^14.14.37",
     "@types/stream-buffers": "^3.0.3",
     "mocha": "^8.3.2",
     "source-map-support": "^0.5.19",

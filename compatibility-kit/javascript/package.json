@@ -14,7 +14,7 @@
     "prepublishOnly": "tsc --build tsconfig.build.json"
   },
   "devDependencies": {
-    "@cucumber/fake-cucumber": "^10.0.0",
+    "@cucumber/fake-cucumber": "^11.0.0",
     "@types/stream-buffers": "^3.0.3",
     "stream-buffers": "^3.0.2",
     "typescript": "^4.2.3"
