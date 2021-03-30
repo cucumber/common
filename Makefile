@@ -1,6 +1,8 @@
 SHELL := /usr/bin/env bash
 PACKAGES ?= messages \
+	message-streams \
 	gherkin \
+	gherkin-streams \
 	gherkin-utils \
 	cucumber-expressions \
 	tag-expressions \
@@ -79,6 +81,7 @@ docker-run-with-secrets:
 	docker pull cucumber/cucumber-build:latest
 	[ -d "${HOME}/.m2/repository" ] || mkdir -p "${HOME}/.m2/repository"
 	docker run \
+	  --publish "6006:6006" \
 	  --volume "${shell pwd}":/app \
 	  --volume "${HOME}/.m2/repository":/home/cukebot/.m2/repository \
 	  --volume "${shell pwd}/../secrets/.pause":/home/cukebot/.pause \

@@ -17,6 +17,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [9.0.0] - 2021-03-29
+
+### Changed
+
+* Upgrade to messages 15.0.0
+
 ## [8.0.0] - 2021-02-07
 
 ### Changed
@@ -100,7 +106,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First JavaScript implementation
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/query/v8.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/query/v9.0.0...master
+[9.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-query/v8.0.0...query/v9.0.0
 [8.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-query/v7.0.1...query/v8.0.0
 [7.0.1]:      https://github.com/cucumber/cucumber/compare/cucumber-query/v7.0.0...query/v7.0.1
 [7.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-query/v6.1.0...query/v7.0.0

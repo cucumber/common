@@ -1,7 +1,7 @@
 package gherkin
 
 import (
-	messages "github.com/cucumber/messages-go/v14"
+	messages "github.com/cucumber/messages-go/v15"
 	"strings"
 	"testing"
 )

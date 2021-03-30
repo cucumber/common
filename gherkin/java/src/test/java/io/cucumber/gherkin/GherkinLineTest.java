@@ -15,6 +15,18 @@ public class GherkinLineTest {
     private final int line = 12;
 
     @Test
+    public void allows_any_non_space_characters_in_a_tag() {
+        GherkinLine gherkinLine = new GherkinLine("   @foo:bar  @zap\uD83E\uDD52yo", line);
+        List<GherkinLineSpan> gherkinLineSpans = gherkinLine.getTags();
+
+        assertEquals(asList(
+                new GherkinLineSpan(4, "@foo:bar"),
+                new GherkinLineSpan(14, "@zap\uD83E\uDD52yo")
+        ), gherkinLineSpans);
+    }
+
+
+    @Test
     public void finds_tags() {
         GherkinLine gherkinLine = new GherkinLine("@this @is @a @tag", line);
         List<GherkinLineSpan> gherkinLineSpans = gherkinLine.getTags();
