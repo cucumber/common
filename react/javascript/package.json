@@ -12,7 +12,7 @@
   "license": "MIT",
   "scripts": {
     "prepare": "make .codegen",
-    "test": "mocha",
+    "test": "mocha --require ignore-styles",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },
