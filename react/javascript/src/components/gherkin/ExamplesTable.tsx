@@ -7,10 +7,7 @@ interface IProps {
   tableBody: messages.GherkinDocument.Feature.ITableRow[]
 }
 
-const ExamplesTable: React.FunctionComponent<IProps> = ({
-  tableHeader,
-  tableBody,
-}) => {
+const ExamplesTable: React.FunctionComponent<IProps> = ({ tableHeader, tableBody }) => {
   return (
     <table className="cucumber-table cucumber-examples-table">
       <thead>

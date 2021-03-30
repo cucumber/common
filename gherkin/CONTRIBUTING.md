@@ -31,6 +31,7 @@ Prerequisites:
 * `jq` (>= 1.4 for `--sort-keys` option)
 * `diff`
 * `git`
+* Build the `messages` project (at minimum for the language(s) that you'll be working on in the `gherkin` project)
 
 With all this installed, just run `make` from the root directory.
 
@@ -196,13 +197,36 @@ With the parser:
 
     [LANGUAGE]/bin/gherkin-generate-ast `find ../cucumber-ruby/examples -name "*.feature"`
 
-## Adding new good testdata
+## Adding or changing good testdata
 
-1) Add a `.feature` file to `testdata/good`
+* The top-level `cucumber/`Makefile` copies `cucumber/gherkin/testdata` to every `cucumber/gherkin/<lang>/testdata`.
+    * To force `make` to copy files, delete file `cucumber/.rsynced` if it exists
+* Once the top level testdata has been edited & rsynced to the `gherkin` project, check all the copied testdata into the repo along with `cucumber/gherkin/testdata`    
+
+### Approach 1
+
+1) Work in a specific `gherkin/<lang>` folder
+1) Create empty testdata `ndjson`/`tokens` files (or delete the contents if you are updating existing tests)
+    * `<test>.feature.ast.ndjson`
+   * `<test>.feature.pickles.ndjson`
+   * `<test>.feature.source.ndjson`
+   * `<test>.feature.tokens`
+1) Run `make` and watch it fail
+1) Inspect the diff error to approve the output
+    * Copy approved output to the matching, empty `ndjson`/`tokens` file
+    * Repeat until the build succeeds
+1) Copy new/modified testdata files to `cucumber/gherkin/testdata/good`
+1) Run `cucumber/make` (after deleting `.rsynced`) to rsync the testdata to every `gherkin/<lang>` folder
+    * If you don't run a full build, ensure you at least build the `gherkin` project to verify that all parsers still parse it ok
+
+### Approach 2 
+
+1) Add/edit a `.feature` file in `testdata/good`
 
 2) Generate the tokens:
 
-    # For example
+    *For example:*
+   
     cd [LANGUAGE]
     bin/gherkin-generate-tokens \
     ../testdata/good/new_file.feature > \

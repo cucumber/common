@@ -16,13 +16,7 @@ describe('makePredictableHookTestStep', () => {
     const pickle = messages.Pickle.create({
       astNodeIds: ['another-scenario-id'],
     })
-    const step = makePredictableHookTestStep(
-      pickle,
-      passedHook,
-      true,
-      null,
-      IdGenerator.uuid()
-    )
+    const step = makePredictableHookTestStep(pickle, passedHook, true, null, IdGenerator.uuid())
 
     assert.equal(step, undefined)
   })
@@ -31,19 +25,10 @@ describe('makePredictableHookTestStep', () => {
     const pickle = messages.Pickle.create({
       astNodeIds: ['scenario-id'],
     })
-    const step = makePredictableHookTestStep(
-      pickle,
-      passedHook,
-      true,
-      null,
-      IdGenerator.uuid()
-    )
+    const step = makePredictableHookTestStep(pickle, passedHook, true, null, IdGenerator.uuid())
     const testResult = await step.execute(null, '', () => null)
 
-    assert.equal(
-      testResult.status,
-      messages.TestStepFinished.TestStepResult.Status.PASSED
-    )
+    assert.equal(testResult.status, messages.TestStepFinished.TestStepResult.Status.PASSED)
     assert.equal(testResult.duration.seconds, 123)
   })
 })

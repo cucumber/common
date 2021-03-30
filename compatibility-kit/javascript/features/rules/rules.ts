@@ -16,24 +16,18 @@ Given('there are {int} chocolates inside', function (chocolateCount) {
   assert(chocolateCount)
 })
 
-When(
-  'the customer tries to buy a {float} chocolate with a {float} coin',
-  function (price, paid) {
-    // TODO: implement this
-    assert(price)
-    assert(paid)
-  }
-)
+When('the customer tries to buy a {float} chocolate with a {float} coin', function (price, paid) {
+  // TODO: implement this
+  assert(price)
+  assert(paid)
+})
 
 Then('the sale should not happen', function () {
   // TODO: implement this
 })
 
-Then(
-  "the customer's change should be {int} {float} coin(s)",
-  function (count, denomination) {
-    // TODO: implement this
-    assert(count)
-    assert(denomination)
-  }
-)
+Then("the customer's change should be {int} {float} coin(s)", function (count, denomination) {
+  // TODO: implement this
+  assert(count)
+  assert(denomination)
+})

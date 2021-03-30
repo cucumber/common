@@ -13,11 +13,8 @@ ParameterType({
   },
 })
 
-Given(
-  '{flight} has been delayed {int} minutes',
-  function (flight: Flight, delay: number) {
-    assert.equal(flight.from, 'LHR')
-    assert.equal(flight.to, 'CDG')
-    assert.equal(delay, 45)
-  }
-)
+Given('{flight} has been delayed {int} minutes', function (flight: Flight, delay: number) {
+  assert.equal(flight.from, 'LHR')
+  assert.equal(flight.to, 'CDG')
+  assert.equal(delay, 45)
+})

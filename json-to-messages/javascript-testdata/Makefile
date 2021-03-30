@@ -8,7 +8,7 @@ JSONS=$(patsubst features/%.feature,acceptance/%.json,$(FEATURES))
 
 acceptance/%.json: features/%.feature
 	mkdir -p $(@D)
-	-./node_modules/cucumber/bin/cucumber-js $^ -r $(patsubst features/%.feature,dist/features/%_steps.js,$<) --format json | jq -S > $@
+	-../../node_modules/.bin/cucumber-js $^ -r $(patsubst features/%.feature,dist/features/%_steps.js,$<) --format json | jq -S > $@
 
 features/%.feature: ../ruby-testdata/features/%.feature
 	mkdir -p $(@D)

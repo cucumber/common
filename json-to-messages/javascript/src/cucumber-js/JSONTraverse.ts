@@ -19,13 +19,7 @@ export function traverseFeature(
   newId: IdGenerator.NewId,
   predictableSupportCode: IPredictableSupportCode
 ): messages.IGherkinDocument {
-  return genericTraverseFeature(
-    feature,
-    astMaker,
-    newId,
-    predictableSupportCode,
-    traverseElement
-  )
+  return genericTraverseFeature(feature, astMaker, newId, predictableSupportCode, traverseElement)
 }
 
 export function traverseElement(
@@ -62,9 +56,7 @@ export function traverseElement(
       }
     }
   }
-  const tags = element.tags
-    ? element.tags.map((tag) => traverseTag(tag, astMaker))
-    : undefined
+  const tags = element.tags ? element.tags.map((tag) => traverseTag(tag, astMaker)) : undefined
 
   const featureChild = astMaker.makeScenarioFeatureChild(
     newId(),
@@ -72,9 +64,7 @@ export function traverseElement(
     element.keyword,
     element.name,
     element.description,
-    scenarioSteps.map((step) =>
-      traverseStep(step, astMaker, newId, predictableSupportCode)
-    ),
+    scenarioSteps.map((step) => traverseStep(step, astMaker, newId, predictableSupportCode)),
     tags
   )
 
@@ -124,19 +114,11 @@ export function traverseStep(
   predictableSupportCode: IPredictableSupportCode
 ): messages.GherkinDocument.Feature.IStep {
   const stepArguments = step.arguments || []
-  const docStringArgument = stepArguments.find(
-    (arg: IDocString) => arg.content
-  ) as IDocString
-  const docString = docStringArgument
-    ? traverseDocString(docStringArgument, astMaker)
-    : null
+  const docStringArgument = stepArguments.find((arg: IDocString) => arg.content) as IDocString
+  const docString = docStringArgument ? traverseDocString(docStringArgument, astMaker) : null
 
-  const datatableArgument = stepArguments.find(
-    (arg: IDataTable) => arg.rows
-  ) as IDataTable
-  const datatable = datatableArgument
-    ? traverseDataTable(datatableArgument.rows, astMaker)
-    : null
+  const datatableArgument = stepArguments.find((arg: IDataTable) => arg.rows) as IDataTable
+  const datatable = datatableArgument ? traverseDataTable(datatableArgument.rows, astMaker) : null
 
   const gherkinStep = astMaker.makeStep(
     newId(),

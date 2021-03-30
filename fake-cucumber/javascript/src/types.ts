@@ -58,19 +58,12 @@ export interface IHook {
 export interface ITestCase {
   toMessage(): messages.IEnvelope
 
-  execute(
-    listener: EnvelopeListener,
-    attempt: number,
-    testCaseStartedId: string
-  ): Promise<void>
+  execute(listener: EnvelopeListener, attempt: number, testCaseStartedId: string): Promise<void>
 }
 
 export type EnvelopeListener = (envelope: messages.IEnvelope) => void
 export type AnyBody = (...args: ReadonlyArray<any>) => any
-export type Attach = (
-  data: string | Buffer | Readable,
-  mediaType: string
-) => void | Promise<void>
+export type Attach = (data: string | Buffer | Readable, mediaType: string) => void | Promise<void>
 export type Log = (text: string) => void | Promise<void>
 
 export type MakePickleTestStep = (

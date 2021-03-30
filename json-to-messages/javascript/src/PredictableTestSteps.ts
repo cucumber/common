@@ -1,11 +1,5 @@
 import { messages, TimeConversion } from '@cucumber/messages'
-import {
-  ITestStep,
-  TestStep,
-  IWorld,
-  EnvelopeListener,
-  DateClock,
-} from '@cucumber/fake-cucumber'
+import { ITestStep, TestStep, IWorld, EnvelopeListener, DateClock } from '@cucumber/fake-cucumber'
 import { PerfHooksStopwatch } from '@cucumber/fake-cucumber'
 
 abstract class PredictableTestStep extends TestStep implements ITestStep {
@@ -19,16 +13,7 @@ abstract class PredictableTestStep extends TestStep implements ITestStep {
   ) {
     // TODO: Rather than injecting a PerfHooksStopwatch here we should inject one that uses duration.
     // That will also require a different API for measuring duration...
-    super(
-      id,
-      sourceId,
-      alwaysExecute,
-      [],
-      [],
-      new DateClock(),
-      new PerfHooksStopwatch(),
-      null
-    )
+    super(id, sourceId, alwaysExecute, [], [], new DateClock(), new PerfHooksStopwatch(), null)
   }
 
   public async execute(
@@ -63,9 +48,7 @@ export class PredictablePickleTestStep extends PredictableTestStep {
   }
 
   public toMessage(): messages.TestCase.ITestStep {
-    const stepDefinitionIds = this.stepDefinitionId
-      ? [this.stepDefinitionId]
-      : []
+    const stepDefinitionIds = this.stepDefinitionId ? [this.stepDefinitionId] : []
 
     return new messages.TestCase.TestStep({
       id: this.id,

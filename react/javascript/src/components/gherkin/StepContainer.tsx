@@ -7,10 +7,7 @@ interface IProps {
   status: messages.TestStepFinished.TestStepResult.Status
 }
 
-const StepContainer: React.FunctionComponent<IProps> = ({
-  status,
-  children,
-}) => {
+const StepContainer: React.FunctionComponent<IProps> = ({ status, children }) => {
   // @ts-ignore
   return (
     <li className="cucumber-step">

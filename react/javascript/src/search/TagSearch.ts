@@ -2,17 +2,11 @@ import { messages } from '@cucumber/messages'
 import { Query as GherkinQuery } from '@cucumber/gherkin-utils'
 import { ArrayMultimap } from '@teppeis/multimaps'
 import parse from '@cucumber/tag-expressions'
-import {
-  GherkinDocumentWalker,
-  rejectAllFilters,
-} from '@cucumber/gherkin-utils'
+import { GherkinDocumentWalker, rejectAllFilters } from '@cucumber/gherkin-utils'
 
 export default class TagSearch {
   private readonly pickleById = new Map<string, messages.IPickle>()
-  private readonly picklesByScenarioId = new ArrayMultimap<
-    string,
-    messages.IPickle
-  >()
+  private readonly picklesByScenarioId = new ArrayMultimap<string, messages.IPickle>()
   private gherkinDocuments: messages.IGherkinDocument[] = []
 
   constructor(private readonly gherkinQuery: GherkinQuery) {}
@@ -20,9 +14,7 @@ export default class TagSearch {
   public search(query: string): messages.IGherkinDocument[] {
     const expressionNode = parse(query)
     const tagFilters = {
-      acceptScenario: (
-        scenario: messages.GherkinDocument.Feature.IScenario
-      ) => {
+      acceptScenario: (scenario: messages.GherkinDocument.Feature.IScenario) => {
         const pickles = this.picklesByScenarioId.get(scenario.id)
 
         for (const pickle of pickles) {
@@ -52,16 +44,10 @@ export default class TagSearch {
       {},
       {
         handleScenario: (scenario) => {
-          const pickleIds = this.gherkinQuery.getPickleIds(
-            gherkinDocument.uri,
-            scenario.id
-          )
+          const pickleIds = this.gherkinQuery.getPickleIds(gherkinDocument.uri, scenario.id)
 
           pickleIds.map((pickleId) =>
-            this.picklesByScenarioId.put(
-              scenario.id,
-              this.pickleById.get(pickleId)
-            )
+            this.picklesByScenarioId.put(scenario.id, this.pickleById.get(pickleId))
           )
         },
       }

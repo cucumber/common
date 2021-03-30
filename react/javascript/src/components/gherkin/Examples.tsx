@@ -14,17 +14,12 @@ const Examples: React.FunctionComponent<IExamplesProps> = ({ examples }) => {
     <section className="cucumber-examples">
       <Tags tags={examples.tags} />
       <h2 className="cucumber-title">
-        <Keyword className="cucumber-title__keyword">
-          {examples.keyword}:
-        </Keyword>{' '}
+        <Keyword className="cucumber-title__keyword">{examples.keyword}:</Keyword>{' '}
         <span className="cucumber-title__text">{examples.name}</span>
       </h2>
       <Description description={examples.description} />
       {examples.tableHeader && (
-        <ExamplesTable
-          tableHeader={examples.tableHeader}
-          tableBody={examples.tableBody}
-        />
+        <ExamplesTable tableHeader={examples.tableHeader} tableBody={examples.tableBody} />
       )}
     </section>
   )

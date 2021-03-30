@@ -8,10 +8,7 @@ export default class GherkinLine {
   public column: number
   public text: string
 
-  constructor(
-    private readonly lineText: string,
-    private readonly lineNumber: number
-  ) {
+  constructor(private readonly lineText: string, private readonly lineNumber: number) {
     this.trimmedLineText = lineText.replace(/^\s+/g, '') // ltrim
     this.isEmpty = this.trimmedLineText.length === 0
     this.indent = countSymbols(lineText) - countSymbols(this.trimmedLineText)
@@ -94,11 +91,7 @@ export default class GherkinLine {
         continue
       }
       if (!item.match(/^\S+$/)) {
-        throw ParserException.create(
-          'A tag may not contain whitespace',
-          this.lineNumber,
-          column
-        )
+        throw ParserException.create('A tag may not contain whitespace', this.lineNumber, column)
       }
       const span = { column, text: '@' + item }
       tags.push(span)

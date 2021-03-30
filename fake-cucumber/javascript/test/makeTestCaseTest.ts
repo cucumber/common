@@ -3,10 +3,7 @@ import { IdGenerator, messages } from '@cucumber/messages'
 import makeTestCase from '../src/makeTestCase'
 import ExpressionStepDefinition from '../src/ExpressionStepDefinition'
 import Hook from '../src/Hook'
-import {
-  CucumberExpression,
-  ParameterTypeRegistry,
-} from '@cucumber/cucumber-expressions'
+import { CucumberExpression, ParameterTypeRegistry } from '@cucumber/cucumber-expressions'
 import { Query as GherkinQuery } from '@cucumber/gherkin-utils'
 import IncrementClock from '../src/IncrementClock'
 import { withSourceFramesOnlyStackTrace } from '../src/ErrorMessageGenerator'
@@ -62,8 +59,7 @@ describe('makeTestCase', () => {
       )
 
       const messageList: messages.IEnvelope[] = []
-      const listener: EnvelopeListener = (message: messages.IEnvelope) =>
-        messageList.push(message)
+      const listener: EnvelopeListener = (message: messages.IEnvelope) => messageList.push(message)
       await testCase.execute(listener, 0, 'some-test-case-started-id')
       assert.equal(messageList.length, 4)
     })

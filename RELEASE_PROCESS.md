@@ -37,6 +37,15 @@ Open `CHANGELOG.md` and remove any `###` headers without content. Do not commit.
 No further edits should be made. The markdown headers and links will be updated
 automatically in the next step.
 
+## Build all TypeScript code
+
+Before you can make a release, the TypeScript code has to be built.
+This is because compiling TypeScript is done at the root directory
+using npm workspaces, and not in individual module directories.
+
+    cd /app
+    make .typescript-built
+
 ## Decide what the next version should be
 
 This depends on what's changed (see `CHANGELOG.md`):
@@ -69,14 +78,6 @@ Inspect the diff, and undo any changes that you think shouldn't have been made.
 Make sure the package still builds, and that the tests are still passing:
 
     make clean && make
-
-** Special note for html-formatter **
-
-We need to verify that the webpacked JavaScript runs in the browser.
-Run the following on your host OS (it won't work in Docker):
-
-    make clean
-    CHECK_INTEGRITY=1 make
 
 If all is good, proceed to the next step. Otherwise, make the necessary edits
 until the build passes.
@@ -117,3 +118,5 @@ libraries using it:
 
     # Run this in the root directory
     source scripts/functions.sh && update_go_library_version libraryName X.Y.Z
+
+For the time being you have to do the same for Java (`pom.xml`) manually.

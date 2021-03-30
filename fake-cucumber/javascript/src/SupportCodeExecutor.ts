@@ -19,23 +19,17 @@ export default class SupportCodeExecutor implements ISupportCodeExecutor {
       argArray.push(this.docString.content)
     }
     if (this.dataTable) {
-      argArray.push(
-        new DataTable(
-          this.dataTable.rows.map((r) => r.cells.map((c) => c.value))
-        )
-      )
+      argArray.push(new DataTable(this.dataTable.rows.map((r) => r.cells.map((c) => c.value))))
     }
     return this.body.apply(thisObj, argArray)
   }
 
   public argsToMessages(): messages.TestCase.TestStep.StepMatchArgumentsList.IStepMatchArgument[] {
     return this.args.map((arg) => {
-      return new messages.TestCase.TestStep.StepMatchArgumentsList.StepMatchArgument(
-        {
-          group: toMessageGroup(arg.group),
-          parameterTypeName: arg.parameterType.name,
-        }
-      )
+      return new messages.TestCase.TestStep.StepMatchArgumentsList.StepMatchArgument({
+        group: toMessageGroup(arg.group),
+        parameterTypeName: arg.parameterType.name,
+      })
     })
   }
 }
@@ -43,11 +37,9 @@ export default class SupportCodeExecutor implements ISupportCodeExecutor {
 function toMessageGroup(
   group: Group
 ): messages.TestCase.TestStep.StepMatchArgumentsList.StepMatchArgument.IGroup {
-  return new messages.TestCase.TestStep.StepMatchArgumentsList.StepMatchArgument.Group(
-    {
-      value: group.value,
-      start: group.start,
-      children: group.children.map((g) => toMessageGroup(g)),
-    }
-  )
+  return new messages.TestCase.TestStep.StepMatchArgumentsList.StepMatchArgument.Group({
+    value: group.value,
+    start: group.start,
+    children: group.children.map((g) => toMessageGroup(g)),
+  })
 }

@@ -17,6 +17,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [4.0.0] - 2021-03-29
+
+### Changed
+
+* Upgrade to gherkin 18.0.0
+* Upgrade to messages 15.0.0
+
 ## [3.0.0] - 2021-02-07
 
 ### Changed
@@ -37,7 +44,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/compatibility-kit/v3.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/compatibility-kit/v4.0.0...master
+[4.0.0]:      https://github.com/cucumber/cucumber/releases/tag/compatibility-kit/v3.0.0
 [3.0.0]:      https://github.com/cucumber/cucumber/releases/tag/compatibility-kit/v2.0.0
 [2.0.0]:      https://github.com/cucumber/cucumber/releases/tag/compatibility-kit/v1.0.0
 [1.0.0]:      https://github.com/cucumber/cucumber/releases/tag/compatibility-kit/v1.0.0

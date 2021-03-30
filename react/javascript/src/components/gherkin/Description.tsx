@@ -6,13 +6,7 @@ interface IProps {
 }
 
 const Description: React.FunctionComponent<IProps> = ({ description }) => {
-  return (
-    <HighLight
-      className="cucumber-description"
-      text={description}
-      markdown={true}
-    />
-  )
+  return <HighLight className="cucumber-description" text={description} markdown={true} />
 }
 
 export default Description

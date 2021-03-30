@@ -37,7 +37,7 @@ defmodule CucumberMessages.Writer do
       {_k, []}, acc ->
         acc
 
-      {_k, {new_key, v}}, acc when is_map(v) or is_list(v) ->
+      {_k, {new_key, v}}, acc when is_map(v) or is_list(v) or new_key == :uri ->
         Map.put(acc, lower_camelcase(new_key), unstruct(v, %{}))
 
       {k, v}, acc when is_map(v) or is_list(v) ->

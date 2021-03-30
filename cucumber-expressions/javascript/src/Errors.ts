@@ -75,9 +75,7 @@ export function createOptionalIsNotAllowedInOptional(
   )
 }
 
-export function createTheEndOfLIneCanNotBeEscaped(
-  expression: string
-): CucumberExpressionError {
+export function createTheEndOfLIneCanNotBeEscaped(expression: string): CucumberExpressionError {
   const index = Array.from(expression).length - 1
   return new CucumberExpressionError(
     message(
@@ -110,10 +108,7 @@ export function createMissingEndToken(
   )
 }
 
-export function createAlternationNotAllowedInOptional(
-  expression: string,
-  current: Token
-) {
+export function createAlternationNotAllowedInOptional(expression: string, current: Token) {
   return new CucumberExpressionError(
     message(
       current.start,
@@ -137,10 +132,7 @@ export function createCantEscaped(expression: string, index: number) {
   )
 }
 
-export function createInvalidParameterTypeNameInNode(
-  token: Token,
-  expression: string
-) {
+export function createInvalidParameterTypeNameInNode(token: Token, expression: string) {
   return new CucumberExpressionError(
     message(
       token.start,
@@ -220,24 +212,17 @@ I couldn't decide which one to use. You have two options:
     )
   }
 
-  public static _parameterTypeNames(
-    parameterTypes: ReadonlyArray<ParameterType<any>>
-  ) {
+  public static _parameterTypeNames(parameterTypes: ReadonlyArray<ParameterType<any>>) {
     return parameterTypes.map((p) => `{${p.name}}`).join('\n   ')
   }
 
-  public static _expressions(
-    generatedExpressions: ReadonlyArray<GeneratedExpression>
-  ) {
+  public static _expressions(generatedExpressions: ReadonlyArray<GeneratedExpression>) {
     return generatedExpressions.map((e) => e.source).join('\n   ')
   }
 }
 
 export class UndefinedParameterTypeError extends CucumberExpressionError {
-  constructor(
-    public readonly undefinedParameterTypeName: string,
-    message: string
-  ) {
+  constructor(public readonly undefinedParameterTypeName: string, message: string) {
     super(message)
   }
 }

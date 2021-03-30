@@ -1,5 +1,5 @@
 import { messages } from '@cucumber/messages'
-import createLocation from './cli/createLocation'
+import createLocation from './createLocation'
 
 export class GherkinException extends Error {
   public errors: Error[]

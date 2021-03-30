@@ -1,19 +1,11 @@
 import { messages, TimeConversion } from '@cucumber/messages'
-import {
-  EnvelopeListener,
-  ISupportCodeExecutor,
-  ITestStep,
-  IWorld,
-} from './types'
+import { EnvelopeListener, ISupportCodeExecutor, ITestStep, IWorld } from './types'
 import makeAttach from './makeAttach'
 import IClock from './IClock'
 import IStopwatch from './IStopwatch'
 import { MakeErrorMessage } from './ErrorMessageGenerator'
 
-const {
-  millisecondsToDuration,
-  millisecondsSinceEpochToTimestamp,
-} = TimeConversion
+const { millisecondsToDuration, millisecondsSinceEpochToTimestamp } = TimeConversion
 
 export default abstract class TestStep implements ITestStep {
   constructor(
@@ -116,10 +108,7 @@ export default abstract class TestStep implements ITestStep {
     )
   }
 
-  protected emitTestStepStarted(
-    testCaseStartedId: string,
-    listener: EnvelopeListener
-  ) {
+  protected emitTestStepStarted(testCaseStartedId: string, listener: EnvelopeListener) {
     listener(
       new messages.Envelope({
         testStepStarted: new messages.TestStepStarted({
