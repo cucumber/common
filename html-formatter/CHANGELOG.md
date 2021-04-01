@@ -12,7 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Add inline logo icon to page
 
 ### Changed
-
+ * Upgrade to messages 15.0.0
 ### Deprecated
 
 ### Removed
