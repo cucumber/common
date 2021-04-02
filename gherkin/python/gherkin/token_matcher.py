@@ -20,12 +20,13 @@ class TokenMatcher(object):
     def match_FeatureLine(self, token):
         return self._match_title_line(token, 'FeatureLine', self.dialect.feature_keywords)
 
-    def match_ScenarioLine(self, token):
-        return self._match_title_line(token, 'ScenarioLine', self.dialect.scenario_keywords)
+    def match_RuleLine(self, token):
+        return self._match_title_line(token, 'RuleLine', self.dialect.rule_keywords)
 
-    def match_ScenarioOutlineLine(self, token):
-        return self._match_title_line(token, 'ScenarioOutlineLine',
-                                      self.dialect.scenario_outline_keywords)
+    def match_ScenarioLine(self, token):
+        return (self._match_title_line(token, 'ScenarioLine', self.dialect.scenario_keywords) or
+                self._match_title_line(token, 'ScenarioLine',
+                                       self.dialect.scenario_outline_keywords))
 
     def match_BackgroundLine(self, token):
         return self._match_title_line(token, 'BackgroundLine', self.dialect.background_keywords)
@@ -108,7 +109,7 @@ class TokenMatcher(object):
             self._indent_to_remove = 0
 
         # TODO: Use the separator as keyword. That's needed for pretty printing.
-        self._set_token_matched(token, 'DocStringSeparator', content_type)
+        self._set_token_matched(token, 'DocStringSeparator', content_type, separator)
         return True
 
     def match_Other(self, token):
@@ -157,4 +158,9 @@ class TokenMatcher(object):
         self.dialect = dialect
 
     def _unescaped_docstring(self, text):
-        return text.replace('\\"\\"\\"', '"""') if self._active_doc_string_separator else text
+        if self._active_doc_string_separator == '"""':
+            return text.replace('\\"\\"\\"', '"""')
+        elif self._active_doc_string_separator == '```':
+            return text.replace('\\`\\`\\`', '```')
+        else:
+            return text
