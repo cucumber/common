@@ -33,7 +33,8 @@
     "typescript": "^4.2.3"
   },
   "files": [
-    "*"
+    "src/",
+    "dist/src/"
   ],
   "dependencies": {
     "@cucumber/messages": "^15.0.0",
