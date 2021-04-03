@@ -17,6 +17,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+* Fix issue with compiled files not appearing in published package
+
 ## [9.0.1] - 2021-04-03
 
 ### Added
