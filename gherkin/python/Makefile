@@ -19,7 +19,9 @@ default: .compared
 	touch $@
 
 .built: gherkin/parser.py gherkin/gherkin-languages.json $(PYTHON_FILES) bin/gherkin .pipped
-	nosetests
+	# nosetest most likely installed in $(HOME)/.local/bin since normal
+	# site-packages most likely is not writeable
+	PATH=$(PATH):$(HOME)/.local/bin nosetests
 	touch $@
 
 .pipped:

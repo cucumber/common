@@ -13,7 +13,8 @@ ndjson_files: $(NDJSON_FILES)
 features/%.ndjson: features/%.feature features/%.ts
 ifdef GOLDEN
 	source ../ci_env
-	../../fake-cucumber/javascript/scripts/fake-cucumber.sh $< > $@
+	../../node_modules/@cucumber/fake-cucumber/bin/fake-cucumber \
+		$< > $@
 else
   # no-op: run with GOLDEN=1
 endif

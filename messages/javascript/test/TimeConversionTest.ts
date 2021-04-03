@@ -42,7 +42,7 @@ describe('TimeConversion', () => {
     assert.deepStrictEqual(sumDuration, { seconds: 0, nanos: 3e8 })
   })
 
-  it('adds durations (nanos only)', () => {
+  it('adds durations (seconds only)', () => {
     const durationA = millisecondsToDuration(1000)
     const durationB = millisecondsToDuration(2000)
     const sumDuration = addDurations(durationA, durationB)

@@ -17,9 +17,9 @@ def test_parser():
             'location': {'column': 1, 'line': 1},
             'name': u'Foo',
             'children': [],
-            'tags': [],
-            'type': 'Feature'},
-        'type': 'GherkinDocument'}
+            'tags': []
+        },
+    }
 
     assert_equals(expected, feature_file)
 
@@ -48,21 +48,22 @@ def test_parse_feature_after_parser_error():
                                              '      """\n'
                                              '      closed docstring\n'
                                              '      """\n'))
-    expected = [{
+    expected = [{'scenario': {
+        'id': '1',
         'name': u'Bar',
         'keyword': u'Scenario',
         'tags': [],
         'steps': [{
+            'id': '0',
             'text': u'x',
-            'type': 'Step',
             'location': {'column': 5, 'line': 3},
             'keyword': u'Given ',
-            'argument': {
+            'docString': {
                 'content': u'closed docstring',
-                'type': 'DocString',
+                'delimiter': '"""',
                 'location': {'column': 7, 'line': 4}}}],
         'location': {'column': 3, 'line': 2},
-        'type': 'Scenario'}]
+        'examples': []}}]
 
     assert_equals(expected, feature_file['feature']['children'])
 
@@ -79,8 +80,8 @@ def test_change_the_default_language():
             'location': {'column': 1, 'line': 1},
             'name': u'i18n support - åæø',
             'children': [],
-            'tags': [],
-            'type': 'Feature'},
-        'type': 'GherkinDocument'}
+            'tags': []
+        },
+    }
 
     assert_equals(expected, feature_file)

@@ -271,6 +271,7 @@ A `Rule` node
 | description | [string](#string) |  |  |
 | children | [GherkinDocument.Feature.FeatureChild.RuleChild](#io.cucumber.messages.GherkinDocument.Feature.FeatureChild.RuleChild) | repeated |  |
 | id | [string](#string) |  |  |
+| tags | [GherkinDocument.Feature.Tag](#io.cucumber.messages.GherkinDocument.Feature.Tag) | repeated |  |
 
 
 

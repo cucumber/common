@@ -3,7 +3,7 @@
 
   <PropertyGroup>
     <TargetFrameworks>net45;netstandard2.0</TargetFrameworks>
-    <VersionNumber>14.0.1</VersionNumber>
+    <VersionNumber>15.0.0</VersionNumber>
     <Version Condition="'$(SnapshotSuffix)' != ''">$(VersionNumber)-$(SnapshotSuffix)</Version>
     <Version Condition="'$(SnapshotSuffix)' == ''">$(VersionNumber)</Version>
     <SignAssembly>true</SignAssembly>
@@ -29,8 +29,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Google.Protobuf" Version="3.15.6"/>
-    <PackageReference Include="Grpc.Tools" Version="2.36.1">
+    <PackageReference Include="Google.Protobuf" Version="3.15.7"/>
+    <PackageReference Include="Grpc.Tools" Version="2.36.4">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>

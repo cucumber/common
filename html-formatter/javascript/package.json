@@ -15,34 +15,34 @@
   "license": "MIT",
   "scripts": {
     "test": "mocha",
-    "prepublishOnly": "tsc && webpack-cli && cp src/index.mustache.html dist/src && cp node_modules/@cucumber/react/dist/src/styles/cucumber-react.css dist"
+    "prepublishOnly": "tsc --build tsconfig.build.json"
   },
   "dependencies": {
-    "@cucumber/messages": "^14.0.1",
-    "commander": "^7.1.0",
+    "@cucumber/messages": "^15.0.0",
+    "commander": "^7.2.0",
     "source-map-support": "^0.5.19"
   },
   "devDependencies": {
-    "@babel/core": "^7.13.8",
-    "@cucumber/gherkin-utils": "^3.0.0",
-    "@cucumber/query": "^8.0.0",
+    "@babel/core": "^7.13.14",
+    "@cucumber/gherkin-utils": "^4.0.0",
+    "@cucumber/query": "^9.0.1",
     "@cucumber/react": "^12.0.0",
     "@cucumber/gherkin-streams": "^1.0.0",
     "@cucumber/message-streams": "^1.0.0",
-    "@types/mocha": "^8.2.1",
-    "@types/node": "^14.14.31",
-    "@types/react": "^17.0.2",
-    "@types/react-dom": "^17.0.1",
+    "@types/mocha": "^8.2.2",
+    "@types/node": "^14.14.37",
+    "@types/react": "^17.0.3",
+    "@types/react-dom": "^17.0.3",
     "babel-loader": "^8.2.2",
-    "mocha": "^8.3.0",
+    "mocha": "^8.3.2",
     "puppeteer": "^8.0.0",
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1",
-    "ts-loader": "^8.0.17",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "ts-loader": "^8.1.0",
     "ts-node": "^9.1.1",
-    "typescript": "^4.2.2",
-    "webpack": "^5.24.2",
-    "webpack-cli": "^4.5.0"
+    "typescript": "^4.2.3",
+    "webpack": "^5.30.0",
+    "webpack-cli": "^4.6.0"
   },
   "bugs": {
     "url": "https://github.com/cucumber/cucumber/issues"
