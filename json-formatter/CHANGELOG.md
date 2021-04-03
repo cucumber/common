@@ -19,6 +19,12 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Fixed
 
+## [7.0.0] - 2021-03-29
+
+### Changed
+
+* Update `messages` to 15.0.0
+
 ## [6.0.0] - 2020-08-07
 
 ### Changed
@@ -105,7 +111,8 @@ Upgrade messages
 * Initial release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/json-formatter/v6.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/json-formatter/v7.0.0...master
+[7.0.0]:      https://github.com/cucumber/cucumber/compare/json-formatter/v6.0.0...json-formatter/v7.0.0
 [6.0.0]:      https://github.com/cucumber/cucumber/compare/json-formatter/v5.1.0...json-formatter/v6.0.0
 [5.1.0]:      https://github.com/cucumber/cucumber/compare/json-formatter/v5.0.0...json-formatter/v5.1.0
 [5.0.0]:      https://github.com/cucumber/cucumber/compare/json-formatter/v4.0.0...json-formatter/v5.0.0
