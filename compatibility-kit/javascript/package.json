@@ -1,7 +1,6 @@
 {
   "name": "@cucumber/compatibility-kit",
   "version": "4.0.0",
-  "private": true,
   "description": "Test data used to validate a Cucumber implementation",
   "repository": {
     "type": "git",
