@@ -17,12 +17,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
-## [12.0.0] - 2021-03-05
 ### Fixed
 
 * [Java] Support character in BuiltInParameterTransformer.
   ([#1405](https://github.com/cucumber/cucumber/issues/1405))
-  
+
 ## [12.0.0] - 2021-02-09
 
 ### Changed

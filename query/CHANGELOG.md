@@ -17,6 +17,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [9.0.1] - 2021-04-03
+
+### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+* Fixed a snafu with the 9.0.0 release
+
 ## [9.0.0] - 2021-03-29
 
 ### Changed
@@ -106,7 +120,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First JavaScript implementation
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/query/v9.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/query/v9.0.1...master
+[9.0.1]:      https://github.com/cucumber/cucumber/compare/cucumber-query/v9.0.0...query/v9.0.1
 [9.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-query/v8.0.0...query/v9.0.0
 [8.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-query/v7.0.1...query/v8.0.0
 [7.0.1]:      https://github.com/cucumber/cucumber/compare/cucumber-query/v7.0.0...query/v7.0.1
