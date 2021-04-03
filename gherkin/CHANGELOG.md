@@ -19,6 +19,10 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Fixed
 
+* Update translation of `Rule` in Czech.
+  ([#1442](https://github.com/cucumber/cucumber/pull/1442)
+   [plavcik])
+
 ## [18.0.0] - 2021-03-24
 
 ### Added
@@ -1004,6 +1008,7 @@ to Gherkin 2.
 [noisygerman]:       https://github.com/noisygerman
 [paigehf]:           https://github.com/paigehf
 [pjlsergeant]:       https://github.com/pjlsergeant
+[plavcik]:           https://github.com/plavcik
 [pmatsinopoulos]:    https://github.com/pmatsinopoulos
 [rjwittams]:         https://github.com/rjwittams
 [Pr-Mex]:            https://github.com/Pr-Mex
