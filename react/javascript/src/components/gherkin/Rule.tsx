@@ -5,6 +5,7 @@ import Scenario from './Scenario'
 import { messages } from '@cucumber/messages'
 import Background from './Background'
 import RuleTitle from './RuleTitle'
+import Tags from "./Tags";
 
 interface IProps {
   rule: messages.GherkinDocument.Feature.FeatureChild.IRule
@@ -17,6 +18,7 @@ const Rule: React.FunctionComponent<IProps> = ({ rule }) => {
 
   return (
     <section className="cucumber-rule">
+      <Tags tags={rule.tags} />
       <RuleTitle id={idGenerated} rule={rule} />
       <div className="cucumber-children">
         <Description description={rule.description} />

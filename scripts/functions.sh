@@ -149,3 +149,15 @@ function update_go_library_version()
     popd
   fi
 }
+
+function update_npm_dependency_if_exists() {
+  package_json=$1
+  module_name=$2
+  module_version=$3
+
+  cat "${package_json}" | \
+    jq "if .[\"dependencies\"][\"${module_name}\"]? then .[\"dependencies\"][\"${module_name}\"] = \"${module_version}\" else . end" | \
+    jq "if .[\"devDependencies\"][\"${module_name}\"]? then .[\"devDependencies\"][\"${module_name}\"] = \"${module_version}\" else . end" > \
+    "${package_json}".tmp
+  mv "${package_json}".tmp "${package_json}"
+}

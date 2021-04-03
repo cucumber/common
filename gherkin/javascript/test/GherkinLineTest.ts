@@ -2,6 +2,19 @@ import * as assert from 'assert'
 import GherkinLine from '../src/GherkinLine'
 
 describe('GherkinLine', () => {
+  describe('#getTags', () => {
+    function getTags(line: string) {
+      const gl = new GherkinLine(line, 1)
+
+      return gl.getTags().map((span) => span.text)
+    }
+
+    it('allows any non-space characters in a tag', () => {
+      assert.deepStrictEqual(getTags('   @foo:bar  @zap🥒yo'), ['@foo:bar', '@zap🥒yo'])
+    })
+
+  })
+
   describe('#getTableCells', () => {
     function getCellsText(line: string) {
       const gl = new GherkinLine(line, 1)

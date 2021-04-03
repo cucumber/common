@@ -11,11 +11,32 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Added
 
+* Python implementation re-enabled, with support for `Rule` keyword.
+  ([#1449](https://github.com/cucumber/cucumber/pull/1449)
+   [brasmusson])
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+* Update translation of `Rule` in Czech.
+  ([#1442](https://github.com/cucumber/cucumber/pull/1442)
+   [plavcik])
+
+## [18.0.0] - 2021-03-24
+
+### Added
+
 * [Perl] New APIs to spawn message streams: `Gherkin->from_paths` and
     `Gherkin->from_source`
-    ([#1359](https://github.com/cucumber/cucumber/pull/1359))
+    ([#1359](https://github.com/cucumber/cucumber/pull/1359) [ehuelsmann])
 * [All] Rules can be tagged. Scenarios that belong to the rule "inherit" the rule tags.
     ([#1356](https://github.com/cucumber/cucumber/pull/1356) [sebrose], [gasparnagy], [brasmusson], [WannesFransen1994])
+* [Perl] DOS line endings support on all platforms (not just DOS/Windows) ([ehuelsmann])
 
 ### Changed
 
@@ -24,13 +45,10 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
     ([#1350](https://github.com/cucumber/cucumber/pull/1350))
     [ehuelsmann]
 
-### Deprecated
-
 ### Removed
 
+* [JavaScript] the `GherkinStreams` export has moved from `@cucumber/gherkin` to `@cucumber/gherkin-streams`
 * [JavaScript] the `gherkin-javascript` executable has moved to the new `@cucumber/gherkin-streams` npm module
-
-### Fixed
 
 ## [17.0.2] - 2021-02-16
 
@@ -900,7 +918,8 @@ to Gherkin 2.
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v17.0.2...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v18.0.0...master
+[18.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v17.0.2...gherkin/v18.0.0
 [17.0.2]:     https://github.com/cucumber/cucumber/compare/gherkin/v17.0.1...gherkin/v17.0.2
 [17.0.1]:     https://github.com/cucumber/cucumber/compare/gherkin/v17.0.0...gherkin/v17.0.1
 [17.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v16.0.0...gherkin/v17.0.0
@@ -993,6 +1012,7 @@ to Gherkin 2.
 [noisygerman]:       https://github.com/noisygerman
 [paigehf]:           https://github.com/paigehf
 [pjlsergeant]:       https://github.com/pjlsergeant
+[plavcik]:           https://github.com/plavcik
 [pmatsinopoulos]:    https://github.com/pmatsinopoulos
 [rjwittams]:         https://github.com/rjwittams
 [Pr-Mex]:            https://github.com/Pr-Mex

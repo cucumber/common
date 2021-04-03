@@ -1,12 +1,12 @@
 {
   "name": "@cucumber/gherkin",
-  "version": "17.0.2",
+  "version": "18.0.0",
   "description": "Gherkin parser",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
   "scripts": {
     "test": "mocha",
-    "prepublishOnly": "tsc"
+    "prepublishOnly": "tsc --build tsconfig.build.json"
   },
   "repository": {
     "type": "git",
@@ -23,15 +23,15 @@
   },
   "homepage": "https://github.com/cucumber/gherkin-javascript",
   "devDependencies": {
-    "@types/mocha": "^8.2.1",
-    "@types/node": "^14.14.31",
-    "core-js": "^3.9.1",
-    "mocha": "^8.3.0",
+    "@types/mocha": "^8.2.2",
+    "@types/node": "^14.14.37",
+    "core-js": "^3.10.0",
+    "mocha": "^8.3.2",
     "ts-node": "^9.1.1",
-    "typescript": "^4.2.2"
+    "typescript": "^4.2.3"
   },
   "dependencies": {
-    "@cucumber/messages": "^14.0.1",
+    "@cucumber/messages": "^15.0.0",
     "@cucumber/message-streams": "^1.0.0"
   },
   "directories": {
