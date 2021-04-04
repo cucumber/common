@@ -401,7 +401,7 @@ class DataTableTest {
     }
 
     @Test
-    void cellList_returns_raw_rows_in_order() {
+    void values_returns_raw_rows_in_order() {
         List<List<String>> raw = asList(
                 asList("1", "100"),
                 asList("2", "1000")
@@ -411,7 +411,7 @@ class DataTableTest {
     }
 
     @Test
-    void cellList_throws_for_large_index() {
+    void values_throws_for_large_index() {
         List<List<String>> raw = asList(
                 asList("1", "100"),
                 asList("2", "1000")
@@ -421,7 +421,7 @@ class DataTableTest {
     }
 
     @Test
-    void cellList_throws_for_negative_index() {
+    void values_throws_for_negative_index() {
         List<List<String>> raw = asList(
                 asList("1", "100"),
                 asList("2", "1000")
