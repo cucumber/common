@@ -214,9 +214,10 @@ public final class DataTable {
     }
 
     /**
-     * Returns the cells of the table.
+     * Converts the table to a list of lists of {@code String}s.
      *
-     * @return the cells of the table
+     * @return a list of list of strings
+     * @see TableConverter#toLists(DataTable, Type)
      */
     public List<List<String>> asLists() {
         return asLists(String.class);
@@ -228,6 +229,7 @@ public final class DataTable {
      * @param itemType the type of the list items
      * @param <T>      the type of the list items
      * @return a list of list of objects
+     * @see TableConverter#toLists(DataTable, Type)
      */
     public <T> List<List<T>> asLists(Class<T> itemType) {
         return tableConverter.toLists(this, itemType);
@@ -239,9 +241,25 @@ public final class DataTable {
      * @param itemType the type of the list items
      * @param <T>      the type of the list items
      * @return a list of list of objects
+     * @see TableConverter#toLists(DataTable, Type)
      */
     public <T> List<List<T>> asLists(Type itemType) {
         return tableConverter.toLists(this, itemType);
+    }
+
+
+    /**
+     * Converts the table to a single map of {@code String} to {@code String}.
+     * <p>
+     * For each row the first cell is used to create the key value. The
+     * remaining cells are used to create the value. If the table only has a single
+     * column that value is null.
+     *
+     * @return a map
+     * @see TableConverter#toMap(DataTable, Type, Type)
+     */
+    public Map<String, String> asMap() {
+        return asMap(String.class, String.class);
     }
 
     /**
@@ -256,6 +274,7 @@ public final class DataTable {
      * @param keyType   key type
      * @param valueType value type
      * @return a map
+     * @see TableConverter#toMap(DataTable, Type, Type)
      */
     public <K, V> Map<K, V> asMap(Class<K> keyType, Class<V> valueType) {
         return tableConverter.toMap(this, keyType, valueType);
@@ -273,11 +292,11 @@ public final class DataTable {
      * @param keyType   key type
      * @param valueType value type
      * @return a map
+     * @see TableConverter#toMap(DataTable, Type, Type)
      */
     public <K, V> Map<K, V> asMap(Type keyType, Type valueType) {
         return tableConverter.toMap(this, keyType, valueType);
     }
-
 
     /**
      * Returns a view of the entries in a table.
@@ -317,6 +336,7 @@ public final class DataTable {
      * the column cell of that row.
      *
      * @return a list of maps
+     * @see TableConverter#toMaps(DataTable, Type, Type)
      */
     public List<Map<String, String>> asMaps() {
         return asMaps(String.class, String.class);
@@ -332,11 +352,24 @@ public final class DataTable {
      * @param keyType   key type
      * @param valueType value type
      * @return a list of maps
+     * @see TableConverter#toMaps(DataTable, Type, Type)
      */
     public <K, V> List<Map<K, V>> asMaps(Type keyType, Type valueType) {
         return tableConverter.toMaps(this, keyType, valueType);
     }
 
+    /**
+     * Converts the table to a list of maps of {@code keyType} to {@code valueType}.
+     * For each row in the body of the table a map is created containing a mapping
+     * of column headers to the column cell of that row.
+     *
+     * @param <K>       key type
+     * @param <V>       value type
+     * @param keyType   key type
+     * @param valueType value type
+     * @return a list of maps
+     * @see TableConverter#toMaps(DataTable, Type, Type)
+     */
     public <K, V> List<Map<K, V>> asMaps(Class<K> keyType, Class<V> valueType) {
         return tableConverter.toMaps(this, keyType, valueType);
     }

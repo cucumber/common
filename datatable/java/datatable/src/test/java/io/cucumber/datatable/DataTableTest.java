@@ -300,7 +300,7 @@ class DataTableTest {
     }
 
     @Test
-    void as_lists_should_equal_raw() {
+    void asLists_should_equal_raw() {
         List<List<String>> raw = asList(asList("hundred", "100"), asList("thousand", "1000"));
         DataTable table = DataTable.create(raw, tableConverter);
         assertEquals(raw, table.asLists());
@@ -431,10 +431,16 @@ class DataTableTest {
     }
 
     @Test
-    void asList_of_type_delegates_to_converter() {
+    void asList_delegates_to_converter() {
         DataTable table = createSingleColumnNumberTable();
         assertEquals(asList(1L, 2L), table.asList(Long.class));
         assertEquals(asList(1L, 2L), table.asList((Type)Long.class));
+    }
+
+    @Test
+    void asList_returns_list_of_raw() {
+        DataTable table = createSingleColumnNumberTable();
+        assertEquals(asList("1", "2"), table.asList());
     }
 
     @Test
@@ -462,7 +468,6 @@ class DataTableTest {
             put("hundred", 100L);
             put("thousand", 1000L);
         }});
-
         assertEquals(expected, table.asMaps(String.class, Long.class));
         assertEquals(expected, table.asMaps((Type)String.class, (Type)Long.class));
     }
@@ -474,7 +479,6 @@ class DataTableTest {
             put("1", "2");
             put("100", "1000");
         }};
-
         assertEquals(singletonList(expected), table.asMaps());
     }
 
@@ -543,6 +547,13 @@ class DataTableTest {
     }
 
     @Test
+    void asMaps_with_default_converter_equals_entries() {
+        List<List<String>> table1 = asList(asList("hundred", "100"), asList("thousand", "1000"));
+        DataTable table = DataTable.create(table1, tableConverter);
+        assertEquals(table.entries(), table.asMaps());
+    }
+
+    @Test
     void asMap_delegates_to_converter() {
         List<List<String>> table1 = asList(asList("hundred", "100"), asList("thousand", "1000"));
         DataTable table = DataTable.create(table1, tableConverter);
@@ -552,6 +563,17 @@ class DataTableTest {
         }};
         assertEquals(expected, table.asMap(String.class, Long.class));
         assertEquals(expected, table.asMap((Type)String.class, (Type)Long.class));
+    }
+
+    @Test
+    void asMap_returns_map_of_raw() {
+        List<List<String>> table1 = asList(asList("hundred", "100"), asList("thousand", "1000"));
+        DataTable table = DataTable.create(table1, tableConverter);
+        Map<String, String> expected = new HashMap<String, String>() {{
+            put("hundred", "100");
+            put("thousand", "1000");
+        }};
+        assertEquals(expected, table.asMap());
     }
 
     @Test
