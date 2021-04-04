@@ -17,6 +17,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [4.0.0] - 2021-03-29
+
+### Changed
+
+* Upgrade messages to 15.0.0
+
 ## [3.0.0] - 2021-02-09
 
 ### Changed
@@ -75,7 +81,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/create-meta/v3.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/create-meta/v4.0.0...master
+[4.0.0]:      https://github.com/cucumber/cucumber/compare/create-meta/v3.0.0...create-meta/v4.0.0
 [3.0.0]:      https://github.com/cucumber/cucumber/compare/create-meta/v2.0.4...create-meta/v3.0.0
 [2.0.4]:      https://github.com/cucumber/cucumber/compare/create-meta/v2.0.2...create-meta/v2.0.4
 [2.0.2]:      https://github.com/cucumber/cucumber/compare/create-meta/v2.0.1...create-meta/v2.0.2

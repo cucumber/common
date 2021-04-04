@@ -10,10 +10,7 @@ interface IProps {
   renderStepMatchArguments: boolean
 }
 
-const StepLine: React.FunctionComponent<IProps> = ({
-  step,
-  renderStepMatchArguments,
-}) => {
+const StepLine: React.FunctionComponent<IProps> = ({ step, renderStepMatchArguments }) => {
   const gherkinQuery = React.useContext(GherkinQueryContext)
   const cucumberQuery = React.useContext(CucumberQueryContext)
 

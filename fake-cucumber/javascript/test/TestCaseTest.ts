@@ -2,11 +2,7 @@ import { messages, TimeConversion } from '@cucumber/messages'
 import assert from 'assert'
 import TestStep from '../src/TestStep'
 import TestCase from '../src/TestCase'
-import {
-  EnvelopeListener,
-  IWorld,
-  withSourceFramesOnlyStackTrace,
-} from '../src'
+import { EnvelopeListener, IWorld, withSourceFramesOnlyStackTrace } from '../src'
 import IncrementClock from '../src/IncrementClock'
 import IncrementStopwatch from '../src/IncrementStopwatch'
 
@@ -57,14 +53,8 @@ describe('TestCase', () => {
     it('executes all passing steps', async () => {
       const emitted: messages.IEnvelope[] = []
       const testSteps: TestStep[] = [
-        new StubTestStep(
-          false,
-          messages.TestStepFinished.TestStepResult.Status.PASSED
-        ),
-        new StubTestStep(
-          false,
-          messages.TestStepFinished.TestStepResult.Status.PASSED
-        ),
+        new StubTestStep(false, messages.TestStepFinished.TestStepResult.Status.PASSED),
+        new StubTestStep(false, messages.TestStepFinished.TestStepResult.Status.PASSED),
       ]
       const testCase = new TestCase(
         'some-test-case-id',
@@ -90,14 +80,8 @@ describe('TestCase', () => {
     it('skips steps after a failed step', async () => {
       const emitted: messages.IEnvelope[] = []
       const testSteps: TestStep[] = [
-        new StubTestStep(
-          false,
-          messages.TestStepFinished.TestStepResult.Status.FAILED
-        ),
-        new StubTestStep(
-          false,
-          messages.TestStepFinished.TestStepResult.Status.PASSED
-        ),
+        new StubTestStep(false, messages.TestStepFinished.TestStepResult.Status.FAILED),
+        new StubTestStep(false, messages.TestStepFinished.TestStepResult.Status.PASSED),
       ]
       const testCase = new TestCase(
         'some-test-case-id',
@@ -122,14 +106,8 @@ describe('TestCase', () => {
     it('always runs after steps regardless of previous steps status', async () => {
       const emitted: messages.IEnvelope[] = []
       const testSteps: TestStep[] = [
-        new StubTestStep(
-          true,
-          messages.TestStepFinished.TestStepResult.Status.FAILED
-        ),
-        new StubTestStep(
-          true,
-          messages.TestStepFinished.TestStepResult.Status.FAILED
-        ),
+        new StubTestStep(true, messages.TestStepFinished.TestStepResult.Status.FAILED),
+        new StubTestStep(true, messages.TestStepFinished.TestStepResult.Status.FAILED),
       ]
       const testCase = new TestCase(
         'some-test-case-id',
@@ -154,10 +132,7 @@ describe('TestCase', () => {
     it('emits TestCaseStarted and TestCaseFinished messages', async () => {
       const emitted: messages.IEnvelope[] = []
       const testSteps: TestStep[] = [
-        new StubTestStep(
-          false,
-          messages.TestStepFinished.TestStepResult.Status.PASSED
-        ),
+        new StubTestStep(false, messages.TestStepFinished.TestStepResult.Status.PASSED),
       ]
       const testCase = new TestCase(
         'some-test-case-id',
@@ -172,8 +147,7 @@ describe('TestCase', () => {
       )
 
       const testCaseStarted = emitted[0].testCaseStarted
-      const testCaseFinished = emitted.find((m) => m.testCaseFinished)
-        .testCaseFinished
+      const testCaseFinished = emitted.find((m) => m.testCaseFinished).testCaseFinished
 
       assert.strictEqual(testCaseStarted.testCaseId, testCase.id)
       assert.strictEqual(testCaseFinished.testCaseStartedId, testCaseStarted.id)

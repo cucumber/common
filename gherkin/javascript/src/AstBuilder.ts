@@ -2,12 +2,11 @@ import AstNode from './AstNode'
 import { IdGenerator, messages } from '@cucumber/messages'
 import { RuleType, TokenType } from './Parser'
 import { AstBuilderException } from './Errors'
-import createLocation from './cli/createLocation'
+import createLocation from './createLocation'
 import IToken from './IToken'
 import { IAstBuilder } from './IAstBuilder'
 
-export default class AstBuilder
-  implements IAstBuilder<AstNode, TokenType, RuleType> {
+export default class AstBuilder implements IAstBuilder<AstNode, TokenType, RuleType> {
   stack: AstNode[]
   comments: messages.GherkinDocument.IComment[]
   readonly newId: IdGenerator.NewId
@@ -57,9 +56,7 @@ export default class AstBuilder
   }
 
   getLocation(token: IToken<TokenType>, column?: number): messages.ILocation {
-    return !column
-      ? token.location
-      : createLocation({ line: token.location.line, column })
+    return !column ? token.location : createLocation({ line: token.location.line, column })
   }
 
   getTags(node: AstNode) {
@@ -120,10 +117,7 @@ export default class AstBuilder
 
     rows.forEach((row) => {
       if (row.cells.length !== cellCount) {
-        throw AstBuilderException.create(
-          'inconsistent cell count within the table',
-          row.location
-        )
+        throw AstBuilderException.create('inconsistent cell count within the table', row.location)
       }
     })
   }
@@ -148,9 +142,7 @@ export default class AstBuilder
       case RuleType.DocString: {
         const separatorToken = node.getTokens(TokenType.DocStringSeparator)[0]
         const mediaType =
-          separatorToken.matchedText.length > 0
-            ? separatorToken.matchedText
-            : undefined
+          separatorToken.matchedText.length > 0 ? separatorToken.matchedText : undefined
         const lineTokens = node.getTokens(TokenType.Other)
         const content = lineTokens.map((t) => t.matchedText).join('\n')
 
@@ -221,8 +213,7 @@ export default class AstBuilder
           name: examplesLine.matchedText,
           description,
           tableHeader: exampleTable !== undefined ? exampleTable[0] : undefined,
-          tableBody:
-            exampleTable !== undefined ? exampleTable.slice(1) : undefined,
+          tableBody: exampleTable !== undefined ? exampleTable.slice(1) : undefined,
         })
       }
       case RuleType.ExamplesTable: {
@@ -297,6 +288,7 @@ export default class AstBuilder
         if (!ruleLine) {
           return null
         }
+        const tags = this.getTags(header)
         const children = []
         const background = node.getSingle(RuleType.Background)
         if (background) {
@@ -322,6 +314,7 @@ export default class AstBuilder
           name: ruleLine.matchedText,
           description,
           children,
+          tags,
         })
       }
       case RuleType.GherkinDocument: {

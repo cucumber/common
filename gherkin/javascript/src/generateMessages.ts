@@ -38,10 +38,10 @@ export default function generateMessages(
       return result
     }
 
-    const parser = new Parser(new AstBuilder(options.newId))
+    const parser = new Parser(new AstBuilder(options.newId), tokenMatcher)
     parser.stopAtFirstError = false
 
-    const gherkinDocument = parser.parse(data, tokenMatcher)
+    const gherkinDocument = parser.parse(data)
 
     if (options.includeGherkinDocument) {
       result.push(

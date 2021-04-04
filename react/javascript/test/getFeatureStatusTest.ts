@@ -15,9 +15,7 @@ function envelopesFrom(path: string): messages.IEnvelope[] {
     .map((json: string) => messages.Envelope.fromObject(JSON.parse(json)))
 }
 
-function getGherkinDocument(
-  envelopes: messages.IEnvelope[]
-): messages.IGherkinDocument {
+function getGherkinDocument(envelopes: messages.IEnvelope[]): messages.IGherkinDocument {
   return envelopes.find((envelope) => envelope.gherkinDocument).gherkinDocument
 }
 

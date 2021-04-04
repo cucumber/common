@@ -11,6 +11,10 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Added
 
+* Python implementation re-enabled, with support for `Rule` keyword.
+  ([#1449](https://github.com/cucumber/cucumber/pull/1449)
+   [brasmusson])
+
 ### Changed
 
 ### Deprecated
@@ -18,6 +22,48 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 ### Removed
 
 ### Fixed
+
+* Update translation of `Rule` in Czech.
+  ([#1442](https://github.com/cucumber/cucumber/pull/1442)
+   [plavcik])
+
+## [18.0.0] - 2021-03-24
+
+### Added
+
+* [Perl] New APIs to spawn message streams: `Gherkin->from_paths` and
+    `Gherkin->from_source`
+    ([#1359](https://github.com/cucumber/cucumber/pull/1359) [ehuelsmann])
+* [All] Rules can be tagged. Scenarios that belong to the rule "inherit" the rule tags.
+    ([#1356](https://github.com/cucumber/cucumber/pull/1356) [sebrose], [gasparnagy], [brasmusson], [WannesFransen1994])
+* [Perl] DOS line endings support on all platforms (not just DOS/Windows) ([ehuelsmann])
+
+### Changed
+
+* [Perl] Release engineering changes to make it non-interactive, update
+    CHANGELOG.md correctly
+    ([#1350](https://github.com/cucumber/cucumber/pull/1350))
+    [ehuelsmann]
+
+### Removed
+
+* [JavaScript] the `GherkinStreams` export has moved from `@cucumber/gherkin` to `@cucumber/gherkin-streams`
+* [JavaScript] the `gherkin-javascript` executable has moved to the new `@cucumber/gherkin-streams` npm module
+
+## [17.0.2] - 2021-02-16
+
+### Fixed
+
+* [Perl] Release archive too large (8MB -> <100kB)
+    ([#1350](https://github.com/cucumber/cucumber/pull/1350))
+    [ehuelsmann]
+* [Perl] Minimum Perl version (5.10.1) incorrectly declared, leading
+    to CPANTESTERS failures
+    ([#1350](https://github.com/cucumber/cucumber/pull/1350))
+    [ehuelsmann]
+* [Perl] Kwalitee (Perl release quality checker) complaints/errors
+    ([#1350](https://github.com/cucumber/cucumber/pull/1350))
+    [ehuelsmann]
 
 ## [17.0.1] - 2021-02-08
 
@@ -47,6 +93,9 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
   (Fixes [#1284](https://github.com/cucumber/cucumber/issues/1284)
 
 ### Fixed
+* Use Spanish translation for the "Rule" keyword and for the "Feature" synonym keywords
+  ([#1360](https://github.com/cucumber/cucumber/pull/1360)
+   [sergioforerogomez])
 * Use Italian translation for the "Rule" keyword and for the "Feature" synonym keywords
   ([#1318](https://github.com/cucumber/cucumber/pull/1318)
    [mgiustiniani])
@@ -869,7 +918,9 @@ to Gherkin 2.
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v17.0.1...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v18.0.0...master
+[18.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v17.0.2...gherkin/v18.0.0
+[17.0.2]:     https://github.com/cucumber/cucumber/compare/gherkin/v17.0.1...gherkin/v17.0.2
 [17.0.1]:     https://github.com/cucumber/cucumber/compare/gherkin/v17.0.0...gherkin/v17.0.1
 [17.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v16.0.0...gherkin/v17.0.0
 [16.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v15.0.2...gherkin/v16.0.0
@@ -961,11 +1012,13 @@ to Gherkin 2.
 [noisygerman]:       https://github.com/noisygerman
 [paigehf]:           https://github.com/paigehf
 [pjlsergeant]:       https://github.com/pjlsergeant
+[plavcik]:           https://github.com/plavcik
 [pmatsinopoulos]:    https://github.com/pmatsinopoulos
 [rjwittams]:         https://github.com/rjwittams
 [Pr-Mex]:            https://github.com/Pr-Mex
 [Pwera]:             https://github.com/Pwera
 [SabotageAndi]:      https://github.com/SabotageAndi
+[sergioforerogomez]: https://github.com/sergioforerogomez
 [tsundberg]:         https://github.com/tsundberg
 [upgundecha]:        https://github.com/upgundecha
 [vincent-psarga]:    https://github.com/vincent-psarga

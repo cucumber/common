@@ -1,7 +1,8 @@
 SHELL := /usr/bin/env bash
-PACKAGES ?= c21e \
-	messages \
+PACKAGES ?= messages \
+	message-streams \
 	gherkin \
+	gherkin-streams \
 	gherkin-utils \
 	cucumber-expressions \
 	tag-expressions \
@@ -17,8 +18,13 @@ PACKAGES ?= c21e \
 	demo-formatter \
 	json-to-messages
 
-default: .rsynced $(patsubst %,default-%,$(PACKAGES))
+default: .rsynced .typescript-built $(patsubst %,default-%,$(PACKAGES))
 .PHONY: default
+
+.typescript-built:
+	npm ci
+	npm run build
+.PHONY: .typescript-built
 
 default-%: %
 	cd $< && make default
@@ -56,14 +62,16 @@ push_subrepos:
 	touch $@
 
 docker-run:
-	docker pull cucumber/cucumber-build:latest
+	[ -d "${HOME}/.m2/repository" ] || mkdir -p "${HOME}/.m2/repository"
 	docker run \
 	  --publish "6006:6006" \
 	  --volume "${shell pwd}":/app \
 	  --volume "${HOME}/.m2/repository":/home/cukebot/.m2/repository \
 	  --user 1000 \
 	  --rm \
-	  -it cucumber/cucumber-build:latest \
+	  --interactive \
+	  --tty \
+	  cucumber/cucumber-build:0.1.0 \
 	  bash
 .PHONY:
 
@@ -71,7 +79,7 @@ docker-run-with-secrets:
 	[ -d '../secrets' ] || git clone keybase://team/cucumberbdd/secrets ../secrets
 	git -C ../secrets pull
 	../secrets/update_permissions
-	docker pull cucumber/cucumber-build:latest
+	[ -d "${HOME}/.m2/repository" ] || mkdir -p "${HOME}/.m2/repository"
 	docker run \
 	  --publish "6006:6006" \
 	  --volume "${shell pwd}":/app \
@@ -86,5 +94,7 @@ docker-run-with-secrets:
 	  --env-file ../secrets/secrets.list \
 	  --user 1000 \
 	  --rm \
-	  -it cucumber/cucumber-build:latest \
+	  --interactive \
+	  --tty \
+	  cucumber/cucumber-build:0.1.0 \
 	  bash

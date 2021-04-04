@@ -14,9 +14,7 @@ export default async function runCucumber(
   makeTestPlanFn: MakeTestPlan<SupportCode> = makeTestPlan
 ) {
   const gherkinQueryStream = new GherkinQueryStream(gherkinQuery)
-  gherkinEnvelopeStream
-    .pipe(gherkinQueryStream)
-    .pipe(envelopeOutputStream, { end: false })
+  gherkinEnvelopeStream.pipe(gherkinQueryStream).pipe(envelopeOutputStream, { end: false })
 
   await new Promise((resolve, reject) => {
     gherkinQueryStream.on('end', resolve)

@@ -1,8 +1,6 @@
 import { messages } from '@cucumber/messages'
 
-export default (
-  status: messages.TestStepFinished.TestStepResult.Status
-): string => {
+export default (status: messages.TestStepFinished.TestStepResult.Status): string => {
   return {
     // Keep the same order as in messages.proto - for readability's sake
     [messages.TestStepFinished.TestStepResult.Status.PASSED]: 'passed',

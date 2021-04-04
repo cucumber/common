@@ -66,14 +66,14 @@ function compileRule(
 ) {
   let ruleBackgroundSteps = [].concat(featureBackgroundSteps)
 
+  const tags = [].concat(featureTags).concat(rule.tags)
+
   rule.children.forEach((stepsContainer) => {
     if (stepsContainer.background) {
-      ruleBackgroundSteps = ruleBackgroundSteps.concat(
-        stepsContainer.background.steps
-      )
+      ruleBackgroundSteps = ruleBackgroundSteps.concat(stepsContainer.background.steps)
     } else if (stepsContainer.scenario.examples.length === 0) {
       compileScenario(
-        featureTags,
+        tags,
         ruleBackgroundSteps,
         stepsContainer.scenario,
         language,
@@ -96,7 +96,7 @@ function compileRule(
 }
 
 function compileScenario(
-  featureTags: messages.GherkinDocument.Feature.ITag[],
+  inheritedTags: messages.GherkinDocument.Feature.ITag[],
   backgroundSteps: messages.GherkinDocument.Feature.IStep[],
   scenario: messages.GherkinDocument.Feature.IScenario,
   language: string,
@@ -109,11 +109,9 @@ function compileScenario(
       ? []
       : backgroundSteps.map((step) => pickleStep(step, [], null, newId))
 
-  const tags = [].concat(featureTags).concat(scenario.tags)
+  const tags = [].concat(inheritedTags).concat(scenario.tags)
 
-  scenario.steps.forEach((step) =>
-    steps.push(pickleStep(step, [], null, newId))
-  )
+  scenario.steps.forEach((step) => steps.push(pickleStep(step, [], null, newId)))
 
   const pickle = messages.Pickle.create({
     id: newId(),
@@ -128,7 +126,7 @@ function compileScenario(
 }
 
 function compileScenarioOutline(
-  featureTags: messages.GherkinDocument.Feature.ITag[],
+  inheritedTags: messages.GherkinDocument.Feature.ITag[],
   backgroundSteps: messages.GherkinDocument.Feature.IStep[],
   scenario: messages.GherkinDocument.Feature.IScenario,
   language: string,
@@ -145,18 +143,10 @@ function compileScenarioOutline(
           scenario.steps.length === 0
             ? []
             : backgroundSteps.map((step) => pickleStep(step, [], null, newId))
-        const tags = []
-          .concat(featureTags)
-          .concat(scenario.tags)
-          .concat(examples.tags)
+        const tags = [].concat(inheritedTags).concat(scenario.tags).concat(examples.tags)
 
         scenario.steps.forEach((scenarioOutlineStep) => {
-          const step = pickleStep(
-            scenarioOutlineStep,
-            variableCells,
-            valuesRow,
-            newId
-          )
+          const step = pickleStep(scenarioOutlineStep, variableCells, valuesRow, newId)
           steps.push(step)
         })
 
@@ -203,11 +193,7 @@ function createPickleArguments(
       content: interpolate(argument.content, variableCells, valueCells),
     })
     if (argument.mediaType) {
-      docString.mediaType = interpolate(
-        argument.mediaType,
-        variableCells,
-        valueCells
-      )
+      docString.mediaType = interpolate(argument.mediaType, variableCells, valueCells)
     }
     return {
       docString,

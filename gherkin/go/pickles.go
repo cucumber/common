@@ -2,7 +2,7 @@ package gherkin
 
 import (
 	"fmt"
-	"github.com/cucumber/messages-go/v14"
+	"github.com/cucumber/messages-go/v15"
 	"strings"
 )
 
@@ -43,7 +43,7 @@ func compileFeature(pickles []*messages.Pickle, feature messages.GherkinDocument
 func compileRule(
 	pickles []*messages.Pickle,
 	rule *messages.GherkinDocument_Feature_FeatureChild_Rule,
-	tags []*messages.GherkinDocument_Feature_Tag,
+	featureTags []*messages.GherkinDocument_Feature_Tag,
 	featureBackgroundSteps []*messages.GherkinDocument_Feature_Step,
 	uri string,
 	language string,
@@ -51,6 +51,7 @@ func compileRule(
 ) []*messages.Pickle {
 	ruleBackgroundSteps := make([]*messages.GherkinDocument_Feature_Step, 0)
 	ruleBackgroundSteps = append(ruleBackgroundSteps, featureBackgroundSteps...)
+	tags := append(featureTags, rule.Tags...)
 
 	for _, child := range rule.Children {
 		switch t := child.Value.(type) {
@@ -74,7 +75,7 @@ func compileRule(
 func compileScenarioOutline(
 	pickles []*messages.Pickle,
 	scenario *messages.GherkinDocument_Feature_Scenario,
-	featureTags []*messages.GherkinDocument_Feature_Tag,
+	inheritedTags []*messages.GherkinDocument_Feature_Tag,
 	backgroundSteps []*messages.GherkinDocument_Feature_Step,
 	uri string,
 	language string,
@@ -87,7 +88,7 @@ func compileScenarioOutline(
 		variableCells := examples.TableHeader.Cells
 		for _, valuesRow := range examples.TableBody {
 			valueCells := valuesRow.Cells
-			tags := pickleTags(append(featureTags, append(scenario.Tags, examples.Tags...)...))
+			tags := pickleTags(append(inheritedTags, append(scenario.Tags, examples.Tags...)...))
 
 			computedPickleSteps := make([]*messages.Pickle_PickleStep, 0)
 			pickleBackgroundSteps := make([]*messages.Pickle_PickleStep, 0)
@@ -135,7 +136,7 @@ func compileScenario(
 	pickles []*messages.Pickle,
 	backgroundSteps []*messages.GherkinDocument_Feature_Step,
 	scenario *messages.GherkinDocument_Feature_Scenario,
-	featureTags []*messages.GherkinDocument_Feature_Tag,
+	inheritedTags []*messages.GherkinDocument_Feature_Tag,
 	uri string,
 	language string,
 	newId func() string,
@@ -145,7 +146,7 @@ func compileScenario(
 		pickleBackgroundSteps := pickleSteps(backgroundSteps, newId)
 		steps = append(pickleBackgroundSteps, pickleSteps(scenario.Steps, newId)...)
 	}
-	tags := pickleTags(append(featureTags, scenario.Tags...))
+	tags := pickleTags(append(inheritedTags, scenario.Tags...))
 	pickles = append(pickles, &messages.Pickle{
 		Id:         newId(),
 		Uri:        uri,

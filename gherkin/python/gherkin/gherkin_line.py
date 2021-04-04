@@ -1,3 +1,7 @@
+import re
+from .errors import ParserException
+
+
 class GherkinLine(object):
     def __init__(self, line_text, line_number):
         self._line_text = line_text
@@ -27,8 +31,9 @@ class GherkinLine(object):
     def table_cells(self):
         cells = []
         for cell, col in self.split_table_cells(self._trimmed_line_text.strip()):
-            cell_indent = len(cell) - len(cell.lstrip())
-            cells.append({'column': col + self.indent + cell_indent, 'text': cell.strip()})
+            lstripped_cell = re.sub(r"^[^\S\n]*", "" , cell, flags=re.U)
+            cell_indent = len(cell) - len(lstripped_cell)
+            cells.append({'column': col + self.indent + cell_indent, 'text': re.sub(r"[^\S\n]*$", "", lstripped_cell, flags=re.U)})
         return cells
 
     def split_table_cells(self, row):
@@ -71,9 +76,15 @@ class GherkinLine(object):
     @property
     def tags(self):
         column = self.indent + 1
-        items = self._trimmed_line_text.strip().split('@')
+        uncommented_line = re.split(r"\s#", self._trimmed_line_text.strip(), 2)[0]
+        items = uncommented_line.strip().split('@')
         tags = []
         for item in items[1:]:
-            tags.append({'column': column, 'text': '@' + item.strip()})
+            tag_value = '@' + item.strip()
+            if re.search(r"[^\S+]", tag_value) is not None:
+                location = {'line': self._line_number, 'column': column}
+                raise ParserException('A tag may not contain whitespace', location)
+
+            tags.append({'column': column, 'text': tag_value})
             column += len(item) + 1
         return tags

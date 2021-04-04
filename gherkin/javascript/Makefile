@@ -8,6 +8,8 @@ PICKLES      = $(patsubst testdata/%,acceptance/testdata/%.pickles.ndjson,$(GOOD
 SOURCES      = $(patsubst testdata/%,acceptance/testdata/%.source.ndjson,$(GOOD_FEATURE_FILES))
 ERRORS       = $(patsubst testdata/%,acceptance/testdata/%.errors.ndjson,$(BAD_FEATURE_FILES))
 
+GHERKIN = scripts/gherkin.sh
+
 .DELETE_ON_ERROR:
 
 .codegen: src/Parser.ts
@@ -23,24 +25,24 @@ src/Parser.ts: gherkin.berp gherkin-javascript.razor
 .compared: $(ASTS) $(PICKLES) $(ERRORS) $(SOURCES)
 	touch $@
 
-acceptance/testdata/%.ast.ndjson: testdata/% testdata/%.ast.ndjson .built
+acceptance/testdata/%.ast.ndjson: testdata/% testdata/%.ast.ndjson
 	mkdir -p $(@D)
-	bin/gherkin --no-source --no-pickles --format ndjson --predictable-ids $< | jq --sort-keys --compact-output "." > $@
+	$(GHERKIN) --no-source --no-pickles --format ndjson --predictable-ids $< | jq --sort-keys --compact-output "." > $@
 	diff --unified <(jq "." $<.ast.ndjson) <(jq "." $@)
 
-acceptance/testdata/%.pickles.ndjson: testdata/% testdata/%.pickles.ndjson .built
+acceptance/testdata/%.pickles.ndjson: testdata/% testdata/%.pickles.ndjson
 	mkdir -p $(@D)
-	bin/gherkin --no-source --no-ast --format ndjson --predictable-ids $< | jq --sort-keys --compact-output "." > $@
+	$(GHERKIN) --no-source --no-ast --format ndjson --predictable-ids $< | jq --sort-keys --compact-output "." > $@
 	diff --unified <(jq "." $<.pickles.ndjson) <(jq "." $@)
 
-acceptance/testdata/%.source.ndjson: testdata/% testdata/%.source.ndjson .built
+acceptance/testdata/%.source.ndjson: testdata/% testdata/%.source.ndjson
 	mkdir -p $(@D)
-	bin/gherkin --no-ast --no-pickles --format ndjson --predictable-ids $< | jq --sort-keys --compact-output "." > $@
+	$(GHERKIN) --no-ast --no-pickles --format ndjson --predictable-ids $< | jq --sort-keys --compact-output "." > $@
 	diff --unified <(jq "." $<.source.ndjson) <(jq "." $@)
 
-acceptance/testdata/%.errors.ndjson: testdata/% testdata/%.errors.ndjson .built
+acceptance/testdata/%.errors.ndjson: testdata/% testdata/%.errors.ndjson
 	mkdir -p $(@D)
-	bin/gherkin --no-source --format ndjson --predictable-ids $< | jq --sort-keys --compact-output "." > $@
+	$(GHERKIN) --no-source --format ndjson --predictable-ids $< | jq --sort-keys --compact-output "." > $@
 	diff --unified <(jq "." $<.errors.ndjson) <(jq "." $@)
 
 clean:

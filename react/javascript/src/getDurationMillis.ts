@@ -9,9 +9,7 @@ export default function getDurationsMillis(
   }
 
   return (
-    TimeConversion.timestampToMillisecondsSinceEpoch(
-      testRunFinished.timestamp
-    ) -
+    TimeConversion.timestampToMillisecondsSinceEpoch(testRunFinished.timestamp) -
     TimeConversion.timestampToMillisecondsSinceEpoch(testRunStarted.timestamp)
   )
 }

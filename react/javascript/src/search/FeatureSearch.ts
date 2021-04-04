@@ -8,10 +8,7 @@ interface SearchableFeature {
 }
 
 export default class FeatureSearch {
-  private readonly featuresByUri = new Map<
-    string,
-    messages.GherkinDocument.IFeature
-  >()
+  private readonly featuresByUri = new Map<string, messages.GherkinDocument.IFeature>()
   private readonly index = elasticlunr<SearchableFeature>((ctx) => {
     ctx.setRef('uri')
     ctx.addField('name')

@@ -1086,9 +1086,12 @@ var buildinDialects = gherkinDialectMap{
 		"es", "Spanish", "español", map[string][]string{
 			feature: []string{
 				"Característica",
+				"Necesidad del negocio",
+				"Requisito",
 			},
 			rule: []string{
 				"Regla",
+				"Regla de negocio",
 			},
 			background: []string{
 				"Antecedentes",
@@ -1813,9 +1816,11 @@ var buildinDialects = gherkinDialectMap{
 		"it", "Italian", "italiano", map[string][]string{
 			feature: []string{
 				"Funzionalità",
+				"Esigenza di Business",
+				"Abilità",
 			},
 			rule: []string{
-				"Rule",
+				"Regola",
 			},
 			background: []string{
 				"Contesto",
@@ -3036,7 +3041,7 @@ var buildinDialects = gherkinDialectMap{
 				"Egenskap",
 			},
 			rule: []string{
-				"Rule",
+				"Regel",
 			},
 			background: []string{
 				"Bakgrund",

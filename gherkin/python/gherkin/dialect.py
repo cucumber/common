@@ -25,6 +25,10 @@ class Dialect(object):
         return self.spec['feature']
 
     @property
+    def rule_keywords(self):
+        return self.spec['rule']
+
+    @property
     def scenario_keywords(self):
         return self.spec['scenario']
 

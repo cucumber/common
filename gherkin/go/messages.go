@@ -2,7 +2,7 @@ package gherkin
 
 import (
 	"fmt"
-	"github.com/cucumber/messages-go/v14"
+	"github.com/cucumber/messages-go/v15"
 	gio "github.com/gogo/protobuf/io"
 	"io"
 	"io/ioutil"

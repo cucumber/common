@@ -10,6 +10,4 @@ export async function main(envPath: string, stdout: Writable) {
   const ci = detectCI(ciDict, env)
   stdout.write(JSON.stringify(ci.toJSON(), null, 2) + '\n')
 }
-main(process.argv[2], process.stdout).catch((err) =>
-  console.error(err.backtrace)
-)
+main(process.argv[2], process.stdout).catch((err) => console.error(err.backtrace))

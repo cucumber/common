@@ -40,7 +40,6 @@ import {
   UnexpectedTokenException,
 } from './TokenExceptions'
 import TokenScanner from './TokenScanner'
-import TokenMatcher from './TokenMatcher'
 import ITokenMatcher from './ITokenMatcher'
 import GherkinLine from './GherkinLine'
 import IToken, { Item } from './IToken'
@@ -87,7 +86,6 @@ export enum RuleType {
 
 interface Context {
   tokenScanner: TokenScanner<TokenType>
-  tokenMatcher: ITokenMatcher<TokenType>
   tokenQueue: IToken<TokenType>[]
   errors: Error[]
 }
@@ -97,13 +95,11 @@ export default class Parser<AstNode> {
   private context: Context
 
   constructor(
-    private readonly builder: IAstBuilder<AstNode, TokenType, RuleType>
+    private readonly builder: IAstBuilder<AstNode, TokenType, RuleType>,
+    private readonly tokenMatcher: ITokenMatcher<TokenType>
   ) {}
 
-  public parse(
-    gherkinSource: string,
-    tokenMatcher: ITokenMatcher<TokenType> = new TokenMatcher()
-  ): messages.IGherkinDocument {
+  public parse(gherkinSource: string): messages.IGherkinDocument {
     const tokenScanner = new TokenScanner(
       gherkinSource,
       (line: string, location: messages.ILocation) => {
@@ -115,10 +111,9 @@ export default class Parser<AstNode> {
       }
     )
     this.builder.reset()
-    tokenMatcher.reset()
+    this.tokenMatcher.reset()
     this.context = {
       tokenScanner,
-      tokenMatcher,
       tokenQueue: [],
       errors: [],
     }
@@ -141,9 +136,11 @@ export default class Parser<AstNode> {
   }
 
   private addError(context: Context, error: Error) {
-    context.errors.push(error)
-    if (context.errors.length > 10)
-      throw CompositeParserException.create(context.errors)
+    if (!context.errors.map(e => { return e.message }).includes(error.message)) {
+      context.errors.push(error)
+      if (context.errors.length > 10)
+        throw CompositeParserException.create(context.errors)
+    }
   }
 
   private startRule(context: Context, ruleType: RuleType) {
@@ -245,7 +242,7 @@ export default class Parser<AstNode> {
     {
     @:if(token.isEof) return false;
     }
-    return this.handleExternalError(context, false, () => context.tokenMatcher.match_@(rule.Name.Replace("#", ""))(token));
+    return this.handleExternalError(context, false, () => this.tokenMatcher.match_@(rule.Name.Replace("#", ""))(token));
   }
 </text>
 }

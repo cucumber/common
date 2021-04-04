@@ -26,17 +26,12 @@ describe('Search', () => {
   })
 
   function prettyResults(feature: string, query: string): string {
-    const envelopes = generateMessages(
-      feature,
-      'test.feature',
-      GherkinMediaType.PLAIN,
-      {
-        includeGherkinDocument: true,
-        includePickles: true,
-        includeSource: true,
-        newId: IdGenerator.incrementing(),
-      }
-    )
+    const envelopes = generateMessages(feature, 'test.feature', GherkinMediaType.PLAIN, {
+      includeGherkinDocument: true,
+      includePickles: true,
+      includeSource: true,
+      newId: IdGenerator.incrementing(),
+    })
     for (const envelope of envelopes) {
       gherkinQuery.update(envelope)
     }

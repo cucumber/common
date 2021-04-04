@@ -1,60 +1,53 @@
+from gherkin.ast_builder import AstBuilder
 from gherkin.parser import Parser
-from gherkin.pickles.compiler import compile
+from gherkin.pickles.compiler import Compiler
 from gherkin.errors import ParserError, CompositeParserException
+from gherkin.stream.id_generator import IdGenerator
 
-def add_errors(events, errors, uri):
+def create_errors(errors, uri):
     for error in errors:
-        events.append({
-            'type': 'attachment',
+        yield {
+            'parseError': {
             'source': {
                 'uri': uri,
-                'start': {
-                    'line': error.location['line'],
-                    'column': error.location['column']
-                }
+                'location': error.location
             },
-            'data': str(error),
-            'media': {
-                'encoding': 'utf-8',
-                'type': 'text/x.cucumber.stacktrace+plain'
-            }
-        })
+            'message': str(error),
+        }}
+
 
 class GherkinEvents:
     def __init__(self, options):
         self.options = options
-        self.parser = Parser()
+        self.id_generator = IdGenerator()
+        self.parser = Parser(ast_builder=AstBuilder(self.id_generator))
+        self.compiler = Compiler(self.id_generator)
 
     def enum(self, source_event):
-        uri = source_event['uri']
-        source = source_event['data']
-
-        events = []
+        uri = source_event['source']['uri']
+        source = source_event['source']['data']
 
         try:
             gherkin_document = self.parser.parse(source)
+            gherkin_document['uri'] = uri
 
             if (self.options.print_source):
-                events.append(source_event)
+                yield source_event
 
             if (self.options.print_ast):
-                events.append({
-                    'type': 'gherkin-document',
-                    'uri': uri,
-                    'document': gherkin_document
-                })
+                yield {
+                    'gherkinDocument': gherkin_document
+                }
 
             if (self.options.print_pickles):
-                pickles = compile(gherkin_document)
+                pickles = self.compiler.compile(gherkin_document)
                 for pickle in pickles:
-                    events.append({
-                        'type': 'pickle',
-                        'uri': uri,
+                    yield {
                         'pickle': pickle
-                    })
+                    }
         except CompositeParserException as e:
-            add_errors(events, e.errors, uri)
+            for event in create_errors(e.errors, uri):
+                yield event
         except ParserError as e:
-            add_errors(events, [e], uri)
-
-        return events
+            for event in create_errors([e], uri):
+                yield event

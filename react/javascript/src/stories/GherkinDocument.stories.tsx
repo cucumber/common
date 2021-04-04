@@ -27,9 +27,6 @@ import MarkdownDocumentList from '../components/app/MarkdownDocumentList'
 export default {
   title: 'GherkinDocument',
   component: GherkinDocument,
-  argTypes: {
-    backgroundColor: { control: 'color' },
-  },
 } as Meta
 
 type Props = {

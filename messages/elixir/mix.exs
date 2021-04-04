@@ -2,7 +2,7 @@ defmodule CucumberMessages.MixProject do
   @moduledoc false
   use Mix.Project
 
-  @vsn "14.0.1"
+  @vsn "15.0.0"
   @github "https://github.com/cucumber/cucumber/tree/master/messages/elixir"
   @name "CucumberMessages"
 

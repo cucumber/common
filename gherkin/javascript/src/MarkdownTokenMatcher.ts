@@ -4,19 +4,22 @@ import { Token, TokenType } from './Parser'
 import DIALECTS from './gherkin-languages.json'
 import assert from 'assert'
 import { Item } from './IToken'
+import {messages} from "@cucumber/messages";
+import {NoSuchLanguageException} from "./Errors";
 
 const DIALECT_DICT: { [key: string]: Dialect } = DIALECTS
 const DEFAULT_DOC_STRING_SEPARATOR = /^(```[`]*)(.*)/
 
 export default class MarkdownTokenMatcher implements ITokenMatcher<TokenType> {
-  private readonly dialect: Dialect
+  private dialect: Dialect
+  private dialectName: string
   private readonly nonStarStepKeywords: string[]
   private readonly stepRegexp: RegExp
   private readonly headerRegexp: RegExp
   private activeDocStringSeparator: RegExp
   private indentToRemove: number
 
-  constructor(defaultDialectName = 'en') {
+  constructor(private readonly defaultDialectName: string = 'en') {
     this.dialect = DIALECT_DICT[defaultDialectName]
     this.nonStarStepKeywords = []
       .concat(this.dialect.given)
@@ -24,14 +27,10 @@ export default class MarkdownTokenMatcher implements ITokenMatcher<TokenType> {
       .concat(this.dialect.then)
       .concat(this.dialect.and)
       .concat(this.dialect.but)
-      .filter(
-        (value, index, self) => value !== '* ' && self.indexOf(value) === index
-      )
+      .filter((value, index, self) => value !== '* ' && self.indexOf(value) === index)
 
     this.stepRegexp = new RegExp(
-      `${KeywordPrefix.BULLET}(${this.nonStarStepKeywords
-        .map(escapeRegExp)
-        .join('|')})`
+      `${KeywordPrefix.BULLET}(${this.nonStarStepKeywords.map(escapeRegExp).join('|')})`
     )
 
     const headerKeywords = []
@@ -49,6 +48,17 @@ export default class MarkdownTokenMatcher implements ITokenMatcher<TokenType> {
 
     this.reset()
   }
+
+  changeDialect(newDialectName: string, location?: messages.ILocation) {
+    const newDialect = DIALECT_DICT[newDialectName]
+    if (!newDialect) {
+      throw NoSuchLanguageException.create(newDialectName, location)
+    }
+
+    this.dialectName = newDialectName
+    this.dialect = newDialect
+  }
+
 
   match_Language(token: Token): boolean {
     assert(token)
@@ -72,9 +82,7 @@ export default class MarkdownTokenMatcher implements ITokenMatcher<TokenType> {
   }
 
   match_DocStringSeparator(token: Token) {
-    const match = token.line.trimmedLineText.match(
-      this.activeDocStringSeparator
-    )
+    const match = token.line.trimmedLineText.match(this.activeDocStringSeparator)
     const [, newSeparator, mediaType] = match || []
     if (newSeparator) {
       if (this.activeDocStringSeparator === DEFAULT_DOC_STRING_SEPARATOR) {
@@ -132,13 +140,7 @@ export default class MarkdownTokenMatcher implements ITokenMatcher<TokenType> {
   }
 
   match_RuleLine(token: Token): boolean {
-    return matchTitleLine(
-      KeywordPrefix.HEADER,
-      this.dialect.rule,
-      ':',
-      token,
-      TokenType.RuleLine
-    )
+    return matchTitleLine(KeywordPrefix.HEADER, this.dialect.rule, ':', token, TokenType.RuleLine)
   }
 
   match_ScenarioLine(token: Token): boolean {
@@ -206,6 +208,9 @@ export default class MarkdownTokenMatcher implements ITokenMatcher<TokenType> {
   }
 
   reset(): void {
+    if (this.dialectName !== this.defaultDialectName) {
+      this.changeDialect(this.defaultDialectName)
+    }
     this.activeDocStringSeparator = DEFAULT_DOC_STRING_SEPARATOR
   }
 }

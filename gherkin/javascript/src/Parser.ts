@@ -12,7 +12,6 @@ import {
   UnexpectedTokenException,
 } from './TokenExceptions'
 import TokenScanner from './TokenScanner'
-import TokenMatcher from './TokenMatcher'
 import ITokenMatcher from './ITokenMatcher'
 import GherkinLine from './GherkinLine'
 import IToken, { Item } from './IToken'
@@ -81,9 +80,9 @@ export enum RuleType {
   Feature, // Feature! := FeatureHeader Background? ScenarioDefinition* Rule*
   FeatureHeader, // FeatureHeader! := #Language? Tags? #FeatureLine DescriptionHelper
   Rule, // Rule! := RuleHeader Background? ScenarioDefinition*
-  RuleHeader, // RuleHeader! := #RuleLine DescriptionHelper
+  RuleHeader, // RuleHeader! := Tags? #RuleLine DescriptionHelper
   Background, // Background! := #BackgroundLine DescriptionHelper Step*
-  ScenarioDefinition, // ScenarioDefinition! := Tags? Scenario
+  ScenarioDefinition, // ScenarioDefinition! [#Empty|#Comment|#TagLine-&gt;#ScenarioLine] := Tags? Scenario
   Scenario, // Scenario! := #ScenarioLine DescriptionHelper Step* ExamplesDefinition*
   ExamplesDefinition, // ExamplesDefinition! [#Empty|#Comment|#TagLine-&gt;#ExamplesLine] := Tags? Examples
   Examples, // Examples! := #ExamplesLine DescriptionHelper ExamplesTable?
@@ -99,7 +98,6 @@ export enum RuleType {
 
 interface Context {
   tokenScanner: TokenScanner<TokenType>
-  tokenMatcher: ITokenMatcher<TokenType>
   tokenQueue: IToken<TokenType>[]
   errors: Error[]
 }
@@ -109,13 +107,11 @@ export default class Parser<AstNode> {
   private context: Context
 
   constructor(
-    private readonly builder: IAstBuilder<AstNode, TokenType, RuleType>
+    private readonly builder: IAstBuilder<AstNode, TokenType, RuleType>,
+    private readonly tokenMatcher: ITokenMatcher<TokenType>
   ) {}
 
-  public parse(
-    gherkinSource: string,
-    tokenMatcher: ITokenMatcher<TokenType> = new TokenMatcher()
-  ): messages.IGherkinDocument {
+  public parse(gherkinSource: string): messages.IGherkinDocument {
     const tokenScanner = new TokenScanner(
       gherkinSource,
       (line: string, location: messages.ILocation) => {
@@ -127,10 +123,9 @@ export default class Parser<AstNode> {
       }
     )
     this.builder.reset()
-    tokenMatcher.reset()
+    this.tokenMatcher.reset()
     this.context = {
       tokenScanner,
-      tokenMatcher,
       tokenQueue: [],
       errors: [],
     }
@@ -153,9 +148,11 @@ export default class Parser<AstNode> {
   }
 
   private addError(context: Context, error: Error) {
-    context.errors.push(error)
-    if (context.errors.length > 10)
-      throw CompositeParserException.create(context.errors)
+    if (!context.errors.map(e => { return e.message }).includes(error.message)) {
+      context.errors.push(error)
+      if (context.errors.length > 10)
+        throw CompositeParserException.create(context.errors)
+    }
   }
 
   private startRule(context: Context, ruleType: RuleType) {
@@ -293,8 +290,8 @@ export default class Parser<AstNode> {
       return this.matchTokenAt_39(token, context);
     case 40:
       return this.matchTokenAt_40(token, context);
-    case 42:
-      return this.matchTokenAt_42(token, context);
+    case 41:
+      return this.matchTokenAt_41(token, context);
     case 43:
       return this.matchTokenAt_43(token, context);
     case 44:
@@ -309,6 +306,8 @@ export default class Parser<AstNode> {
       return this.matchTokenAt_48(token, context);
     case 49:
       return this.matchTokenAt_49(token, context);
+    case 50:
+      return this.matchTokenAt_50(token, context);
     default:
       throw new Error("Unknown state: " + state);
     }
@@ -319,7 +318,7 @@ export default class Parser<AstNode> {
   private matchTokenAt_0(token: IToken<TokenType>, context: Context) {
     if(this.match_EOF(context, token)) {
       this.build(context, token);
-      return 41;
+      return 42;
     }
     if(this.match_Language(context, token)) {
       this.startRule(context, RuleType.Feature);
@@ -428,7 +427,7 @@ export default class Parser<AstNode> {
       this.endRule(context);
       this.endRule(context);
       this.build(context, token);
-      return 41;
+      return 42;
     }
     if(this.match_Empty(context, token)) {
       this.build(context, token);
@@ -445,11 +444,21 @@ export default class Parser<AstNode> {
       return 6;
     }
     if(this.match_TagLine(context, token)) {
+      if(this.lookahead_0(context, token)) {
       this.endRule(context);
       this.startRule(context, RuleType.ScenarioDefinition);
       this.startRule(context, RuleType.Tags);
       this.build(context, token);
       return 11;
+      }
+    }
+    if(this.match_TagLine(context, token)) {
+      this.endRule(context);
+      this.startRule(context, RuleType.Rule);
+      this.startRule(context, RuleType.RuleHeader);
+      this.startRule(context, RuleType.Tags);
+      this.build(context, token);
+      return 22;
     }
     if(this.match_ScenarioLine(context, token)) {
       this.endRule(context);
@@ -463,7 +472,7 @@ export default class Parser<AstNode> {
       this.startRule(context, RuleType.Rule);
       this.startRule(context, RuleType.RuleHeader);
       this.build(context, token);
-      return 22;
+      return 23;
     }
     if(this.match_Other(context, token)) {
       this.startRule(context, RuleType.Description);
@@ -489,7 +498,7 @@ export default class Parser<AstNode> {
       this.endRule(context);
       this.endRule(context);
       this.build(context, token);
-      return 41;
+      return 42;
     }
     if(this.match_Comment(context, token)) {
       this.endRule(context);
@@ -504,12 +513,23 @@ export default class Parser<AstNode> {
       return 6;
     }
     if(this.match_TagLine(context, token)) {
+      if(this.lookahead_0(context, token)) {
       this.endRule(context);
       this.endRule(context);
       this.startRule(context, RuleType.ScenarioDefinition);
       this.startRule(context, RuleType.Tags);
       this.build(context, token);
       return 11;
+      }
+    }
+    if(this.match_TagLine(context, token)) {
+      this.endRule(context);
+      this.endRule(context);
+      this.startRule(context, RuleType.Rule);
+      this.startRule(context, RuleType.RuleHeader);
+      this.startRule(context, RuleType.Tags);
+      this.build(context, token);
+      return 22;
     }
     if(this.match_ScenarioLine(context, token)) {
       this.endRule(context);
@@ -525,7 +545,7 @@ export default class Parser<AstNode> {
       this.startRule(context, RuleType.Rule);
       this.startRule(context, RuleType.RuleHeader);
       this.build(context, token);
-      return 22;
+      return 23;
     }
     if(this.match_Other(context, token)) {
       this.build(context, token);
@@ -549,7 +569,7 @@ export default class Parser<AstNode> {
       this.endRule(context);
       this.endRule(context);
       this.build(context, token);
-      return 41;
+      return 42;
     }
     if(this.match_Comment(context, token)) {
       this.build(context, token);
@@ -562,11 +582,21 @@ export default class Parser<AstNode> {
       return 6;
     }
     if(this.match_TagLine(context, token)) {
+      if(this.lookahead_0(context, token)) {
       this.endRule(context);
       this.startRule(context, RuleType.ScenarioDefinition);
       this.startRule(context, RuleType.Tags);
       this.build(context, token);
       return 11;
+      }
+    }
+    if(this.match_TagLine(context, token)) {
+      this.endRule(context);
+      this.startRule(context, RuleType.Rule);
+      this.startRule(context, RuleType.RuleHeader);
+      this.startRule(context, RuleType.Tags);
+      this.build(context, token);
+      return 22;
     }
     if(this.match_ScenarioLine(context, token)) {
       this.endRule(context);
@@ -580,7 +610,7 @@ export default class Parser<AstNode> {
       this.startRule(context, RuleType.Rule);
       this.startRule(context, RuleType.RuleHeader);
       this.build(context, token);
-      return 22;
+      return 23;
     }
     if(this.match_Empty(context, token)) {
       this.build(context, token);
@@ -604,7 +634,7 @@ export default class Parser<AstNode> {
       this.endRule(context);
       this.endRule(context);
       this.build(context, token);
-      return 41;
+      return 42;
     }
     if(this.match_Empty(context, token)) {
       this.build(context, token);
@@ -620,11 +650,21 @@ export default class Parser<AstNode> {
       return 9;
     }
     if(this.match_TagLine(context, token)) {
+      if(this.lookahead_0(context, token)) {
       this.endRule(context);
       this.startRule(context, RuleType.ScenarioDefinition);
       this.startRule(context, RuleType.Tags);
       this.build(context, token);
       return 11;
+      }
+    }
+    if(this.match_TagLine(context, token)) {
+      this.endRule(context);
+      this.startRule(context, RuleType.Rule);
+      this.startRule(context, RuleType.RuleHeader);
+      this.startRule(context, RuleType.Tags);
+      this.build(context, token);
+      return 22;
     }
     if(this.match_ScenarioLine(context, token)) {
       this.endRule(context);
@@ -638,7 +678,7 @@ export default class Parser<AstNode> {
       this.startRule(context, RuleType.Rule);
       this.startRule(context, RuleType.RuleHeader);
       this.build(context, token);
-      return 22;
+      return 23;
     }
     if(this.match_Other(context, token)) {
       this.startRule(context, RuleType.Description);
@@ -664,7 +704,7 @@ export default class Parser<AstNode> {
       this.endRule(context);
       this.endRule(context);
       this.build(context, token);
-      return 41;
+      return 42;
     }
     if(this.match_Comment(context, token)) {
       this.endRule(context);
@@ -678,12 +718,23 @@ export default class Parser<AstNode> {
       return 9;
     }
     if(this.match_TagLine(context, token)) {
+      if(this.lookahead_0(context, token)) {
       this.endRule(context);
       this.endRule(context);
       this.startRule(context, RuleType.ScenarioDefinition);
       this.startRule(context, RuleType.Tags);
       this.build(context, token);
       return 11;
+      }
+    }
+    if(this.match_TagLine(context, token)) {
+      this.endRule(context);
+      this.endRule(context);
+      this.startRule(context, RuleType.Rule);
+      this.startRule(context, RuleType.RuleHeader);
+      this.startRule(context, RuleType.Tags);
+      this.build(context, token);
+      return 22;
     }
     if(this.match_ScenarioLine(context, token)) {
       this.endRule(context);
@@ -699,7 +750,7 @@ export default class Parser<AstNode> {
       this.startRule(context, RuleType.Rule);
       this.startRule(context, RuleType.RuleHeader);
       this.build(context, token);
-      return 22;
+      return 23;
     }
     if(this.match_Other(context, token)) {
       this.build(context, token);
@@ -723,7 +774,7 @@ export default class Parser<AstNode> {
       this.endRule(context);
       this.endRule(context);
       this.build(context, token);
-      return 41;
+      return 42;
     }
     if(this.match_Comment(context, token)) {
       this.build(context, token);
@@ -735,11 +786,21 @@ export default class Parser<AstNode> {
       return 9;
     }
     if(this.match_TagLine(context, token)) {
+      if(this.lookahead_0(context, token)) {
       this.endRule(context);
       this.startRule(context, RuleType.ScenarioDefinition);
       this.startRule(context, RuleType.Tags);
       this.build(context, token);
       return 11;
+      }
+    }
+    if(this.match_TagLine(context, token)) {
+      this.endRule(context);
+      this.startRule(context, RuleType.Rule);
+      this.startRule(context, RuleType.RuleHeader);
+      this.startRule(context, RuleType.Tags);
+      this.build(context, token);
+      return 22;
     }
     if(this.match_ScenarioLine(context, token)) {
       this.endRule(context);
@@ -753,7 +814,7 @@ export default class Parser<AstNode> {
       this.startRule(context, RuleType.Rule);
       this.startRule(context, RuleType.RuleHeader);
       this.build(context, token);
-      return 22;
+      return 23;
     }
     if(this.match_Empty(context, token)) {
       this.build(context, token);
@@ -778,7 +839,7 @@ export default class Parser<AstNode> {
       this.endRule(context);
       this.endRule(context);
       this.build(context, token);
-      return 41;
+      return 42;
     }
     if(this.match_TableRow(context, token)) {
       this.startRule(context, RuleType.DataTable);
@@ -788,7 +849,7 @@ export default class Parser<AstNode> {
     if(this.match_DocStringSeparator(context, token)) {
       this.startRule(context, RuleType.DocString);
       this.build(context, token);
-      return 48;
+      return 49;
     }
     if(this.match_StepLine(context, token)) {
       this.endRule(context);
@@ -797,12 +858,23 @@ export default class Parser<AstNode> {
       return 9;
     }
     if(this.match_TagLine(context, token)) {
+      if(this.lookahead_0(context, token)) {
       this.endRule(context);
       this.endRule(context);
       this.startRule(context, RuleType.ScenarioDefinition);
       this.startRule(context, RuleType.Tags);
       this.build(context, token);
       return 11;
+      }
+    }
+    if(this.match_TagLine(context, token)) {
+      this.endRule(context);
+      this.endRule(context);
+      this.startRule(context, RuleType.Rule);
+      this.startRule(context, RuleType.RuleHeader);
+      this.startRule(context, RuleType.Tags);
+      this.build(context, token);
+      return 22;
     }
     if(this.match_ScenarioLine(context, token)) {
       this.endRule(context);
@@ -818,7 +890,7 @@ export default class Parser<AstNode> {
       this.startRule(context, RuleType.Rule);
       this.startRule(context, RuleType.RuleHeader);
       this.build(context, token);
-      return 22;
+      return 23;
     }
     if(this.match_Comment(context, token)) {
       this.build(context, token);
@@ -848,7 +920,7 @@ export default class Parser<AstNode> {
       this.endRule(context);
       this.endRule(context);
       this.build(context, token);
-      return 41;
+      return 42;
     }
     if(this.match_TableRow(context, token)) {
       this.build(context, token);
@@ -862,6 +934,7 @@ export default class Parser<AstNode> {
       return 9;
     }
     if(this.match_TagLine(context, token)) {
+      if(this.lookahead_0(context, token)) {
       this.endRule(context);
       this.endRule(context);
       this.endRule(context);
@@ -869,6 +942,17 @@ export default class Parser<AstNode> {
       this.startRule(context, RuleType.Tags);
       this.build(context, token);
       return 11;
+      }
+    }
+    if(this.match_TagLine(context, token)) {
+      this.endRule(context);
+      this.endRule(context);
+      this.endRule(context);
+      this.startRule(context, RuleType.Rule);
+      this.startRule(context, RuleType.RuleHeader);
+      this.startRule(context, RuleType.Tags);
+      this.build(context, token);
+      return 22;
     }
     if(this.match_ScenarioLine(context, token)) {
       this.endRule(context);
@@ -886,7 +970,7 @@ export default class Parser<AstNode> {
       this.startRule(context, RuleType.Rule);
       this.startRule(context, RuleType.RuleHeader);
       this.build(context, token);
-      return 22;
+      return 23;
     }
     if(this.match_Comment(context, token)) {
       this.build(context, token);
@@ -947,7 +1031,7 @@ export default class Parser<AstNode> {
       this.endRule(context);
       this.endRule(context);
       this.build(context, token);
-      return 41;
+      return 42;
     }
     if(this.match_Empty(context, token)) {
       this.build(context, token);
@@ -963,7 +1047,7 @@ export default class Parser<AstNode> {
       return 15;
     }
     if(this.match_TagLine(context, token)) {
-      if(this.lookahead_0(context, token)) {
+      if(this.lookahead_1(context, token)) {
       this.startRule(context, RuleType.ExamplesDefinition);
       this.startRule(context, RuleType.Tags);
       this.build(context, token);
@@ -971,12 +1055,23 @@ export default class Parser<AstNode> {
       }
     }
     if(this.match_TagLine(context, token)) {
+      if(this.lookahead_0(context, token)) {
       this.endRule(context);
       this.endRule(context);
       this.startRule(context, RuleType.ScenarioDefinition);
       this.startRule(context, RuleType.Tags);
       this.build(context, token);
       return 11;
+      }
+    }
+    if(this.match_TagLine(context, token)) {
+      this.endRule(context);
+      this.endRule(context);
+      this.startRule(context, RuleType.Rule);
+      this.startRule(context, RuleType.RuleHeader);
+      this.startRule(context, RuleType.Tags);
+      this.build(context, token);
+      return 22;
     }
     if(this.match_ExamplesLine(context, token)) {
       this.startRule(context, RuleType.ExamplesDefinition);
@@ -998,7 +1093,7 @@ export default class Parser<AstNode> {
       this.startRule(context, RuleType.Rule);
       this.startRule(context, RuleType.RuleHeader);
       this.build(context, token);
-      return 22;
+      return 23;
     }
     if(this.match_Other(context, token)) {
       this.startRule(context, RuleType.Description);
@@ -1025,7 +1120,7 @@ export default class Parser<AstNode> {
       this.endRule(context);
       this.endRule(context);
       this.build(context, token);
-      return 41;
+      return 42;
     }
     if(this.match_Comment(context, token)) {
       this.endRule(context);
@@ -1039,7 +1134,7 @@ export default class Parser<AstNode> {
       return 15;
     }
     if(this.match_TagLine(context, token)) {
-      if(this.lookahead_0(context, token)) {
+      if(this.lookahead_1(context, token)) {
       this.endRule(context);
       this.startRule(context, RuleType.ExamplesDefinition);
       this.startRule(context, RuleType.Tags);
@@ -1048,6 +1143,7 @@ export default class Parser<AstNode> {
       }
     }
     if(this.match_TagLine(context, token)) {
+      if(this.lookahead_0(context, token)) {
       this.endRule(context);
       this.endRule(context);
       this.endRule(context);
@@ -1055,6 +1151,17 @@ export default class Parser<AstNode> {
       this.startRule(context, RuleType.Tags);
       this.build(context, token);
       return 11;
+      }
+    }
+    if(this.match_TagLine(context, token)) {
+      this.endRule(context);
+      this.endRule(context);
+      this.endRule(context);
+      this.startRule(context, RuleType.Rule);
+      this.startRule(context, RuleType.RuleHeader);
+      this.startRule(context, RuleType.Tags);
+      this.build(context, token);
+      return 22;
     }
     if(this.match_ExamplesLine(context, token)) {
       this.endRule(context);
@@ -1079,7 +1186,7 @@ export default class Parser<AstNode> {
       this.startRule(context, RuleType.Rule);
       this.startRule(context, RuleType.RuleHeader);
       this.build(context, token);
-      return 22;
+      return 23;
     }
     if(this.match_Other(context, token)) {
       this.build(context, token);
@@ -1104,7 +1211,7 @@ export default class Parser<AstNode> {
       this.endRule(context);
       this.endRule(context);
       this.build(context, token);
-      return 41;
+      return 42;
     }
     if(this.match_Comment(context, token)) {
       this.build(context, token);
@@ -1116,7 +1223,7 @@ export default class Parser<AstNode> {
       return 15;
     }
     if(this.match_TagLine(context, token)) {
-      if(this.lookahead_0(context, token)) {
+      if(this.lookahead_1(context, token)) {
       this.startRule(context, RuleType.ExamplesDefinition);
       this.startRule(context, RuleType.Tags);
       this.build(context, token);
@@ -1124,12 +1231,23 @@ export default class Parser<AstNode> {
       }
     }
     if(this.match_TagLine(context, token)) {
+      if(this.lookahead_0(context, token)) {
       this.endRule(context);
       this.endRule(context);
       this.startRule(context, RuleType.ScenarioDefinition);
       this.startRule(context, RuleType.Tags);
       this.build(context, token);
       return 11;
+      }
+    }
+    if(this.match_TagLine(context, token)) {
+      this.endRule(context);
+      this.endRule(context);
+      this.startRule(context, RuleType.Rule);
+      this.startRule(context, RuleType.RuleHeader);
+      this.startRule(context, RuleType.Tags);
+      this.build(context, token);
+      return 22;
     }
     if(this.match_ExamplesLine(context, token)) {
       this.startRule(context, RuleType.ExamplesDefinition);
@@ -1151,7 +1269,7 @@ export default class Parser<AstNode> {
       this.startRule(context, RuleType.Rule);
       this.startRule(context, RuleType.RuleHeader);
       this.build(context, token);
-      return 22;
+      return 23;
     }
     if(this.match_Empty(context, token)) {
       this.build(context, token);
@@ -1177,7 +1295,7 @@ export default class Parser<AstNode> {
       this.endRule(context);
       this.endRule(context);
       this.build(context, token);
-      return 41;
+      return 42;
     }
     if(this.match_TableRow(context, token)) {
       this.startRule(context, RuleType.DataTable);
@@ -1187,7 +1305,7 @@ export default class Parser<AstNode> {
     if(this.match_DocStringSeparator(context, token)) {
       this.startRule(context, RuleType.DocString);
       this.build(context, token);
-      return 46;
+      return 47;
     }
     if(this.match_StepLine(context, token)) {
       this.endRule(context);
@@ -1196,7 +1314,7 @@ export default class Parser<AstNode> {
       return 15;
     }
     if(this.match_TagLine(context, token)) {
-      if(this.lookahead_0(context, token)) {
+      if(this.lookahead_1(context, token)) {
       this.endRule(context);
       this.startRule(context, RuleType.ExamplesDefinition);
       this.startRule(context, RuleType.Tags);
@@ -1205,6 +1323,7 @@ export default class Parser<AstNode> {
       }
     }
     if(this.match_TagLine(context, token)) {
+      if(this.lookahead_0(context, token)) {
       this.endRule(context);
       this.endRule(context);
       this.endRule(context);
@@ -1212,6 +1331,17 @@ export default class Parser<AstNode> {
       this.startRule(context, RuleType.Tags);
       this.build(context, token);
       return 11;
+      }
+    }
+    if(this.match_TagLine(context, token)) {
+      this.endRule(context);
+      this.endRule(context);
+      this.endRule(context);
+      this.startRule(context, RuleType.Rule);
+      this.startRule(context, RuleType.RuleHeader);
+      this.startRule(context, RuleType.Tags);
+      this.build(context, token);
+      return 22;
     }
     if(this.match_ExamplesLine(context, token)) {
       this.endRule(context);
@@ -1236,7 +1366,7 @@ export default class Parser<AstNode> {
       this.startRule(context, RuleType.Rule);
       this.startRule(context, RuleType.RuleHeader);
       this.build(context, token);
-      return 22;
+      return 23;
     }
     if(this.match_Comment(context, token)) {
       this.build(context, token);
@@ -1267,7 +1397,7 @@ export default class Parser<AstNode> {
       this.endRule(context);
       this.endRule(context);
       this.build(context, token);
-      return 41;
+      return 42;
     }
     if(this.match_TableRow(context, token)) {
       this.build(context, token);
@@ -1281,7 +1411,7 @@ export default class Parser<AstNode> {
       return 15;
     }
     if(this.match_TagLine(context, token)) {
-      if(this.lookahead_0(context, token)) {
+      if(this.lookahead_1(context, token)) {
       this.endRule(context);
       this.endRule(context);
       this.startRule(context, RuleType.ExamplesDefinition);
@@ -1291,6 +1421,7 @@ export default class Parser<AstNode> {
       }
     }
     if(this.match_TagLine(context, token)) {
+      if(this.lookahead_0(context, token)) {
       this.endRule(context);
       this.endRule(context);
       this.endRule(context);
@@ -1299,6 +1430,18 @@ export default class Parser<AstNode> {
       this.startRule(context, RuleType.Tags);
       this.build(context, token);
       return 11;
+      }
+    }
+    if(this.match_TagLine(context, token)) {
+      this.endRule(context);
+      this.endRule(context);
+      this.endRule(context);
+      this.endRule(context);
+      this.startRule(context, RuleType.Rule);
+      this.startRule(context, RuleType.RuleHeader);
+      this.startRule(context, RuleType.Tags);
+      this.build(context, token);
+      return 22;
     }
     if(this.match_ExamplesLine(context, token)) {
       this.endRule(context);
@@ -1326,7 +1469,7 @@ export default class Parser<AstNode> {
       this.startRule(context, RuleType.Rule);
       this.startRule(context, RuleType.RuleHeader);
       this.build(context, token);
-      return 22;
+      return 23;
     }
     if(this.match_Comment(context, token)) {
       this.build(context, token);
@@ -1389,7 +1532,7 @@ export default class Parser<AstNode> {
       this.endRule(context);
       this.endRule(context);
       this.build(context, token);
-      return 41;
+      return 42;
     }
     if(this.match_Empty(context, token)) {
       this.build(context, token);
@@ -1405,7 +1548,7 @@ export default class Parser<AstNode> {
       return 21;
     }
     if(this.match_TagLine(context, token)) {
-      if(this.lookahead_0(context, token)) {
+      if(this.lookahead_1(context, token)) {
       this.endRule(context);
       this.endRule(context);
       this.startRule(context, RuleType.ExamplesDefinition);
@@ -1415,6 +1558,7 @@ export default class Parser<AstNode> {
       }
     }
     if(this.match_TagLine(context, token)) {
+      if(this.lookahead_0(context, token)) {
       this.endRule(context);
       this.endRule(context);
       this.endRule(context);
@@ -1423,6 +1567,18 @@ export default class Parser<AstNode> {
       this.startRule(context, RuleType.Tags);
       this.build(context, token);
       return 11;
+      }
+    }
+    if(this.match_TagLine(context, token)) {
+      this.endRule(context);
+      this.endRule(context);
+      this.endRule(context);
+      this.endRule(context);
+      this.startRule(context, RuleType.Rule);
+      this.startRule(context, RuleType.RuleHeader);
+      this.startRule(context, RuleType.Tags);
+      this.build(context, token);
+      return 22;
     }
     if(this.match_ExamplesLine(context, token)) {
       this.endRule(context);
@@ -1450,7 +1606,7 @@ export default class Parser<AstNode> {
       this.startRule(context, RuleType.Rule);
       this.startRule(context, RuleType.RuleHeader);
       this.build(context, token);
-      return 22;
+      return 23;
     }
     if(this.match_Other(context, token)) {
       this.startRule(context, RuleType.Description);
@@ -1479,7 +1635,7 @@ export default class Parser<AstNode> {
       this.endRule(context);
       this.endRule(context);
       this.build(context, token);
-      return 41;
+      return 42;
     }
     if(this.match_Comment(context, token)) {
       this.endRule(context);
@@ -1493,7 +1649,7 @@ export default class Parser<AstNode> {
       return 21;
     }
     if(this.match_TagLine(context, token)) {
-      if(this.lookahead_0(context, token)) {
+      if(this.lookahead_1(context, token)) {
       this.endRule(context);
       this.endRule(context);
       this.endRule(context);
@@ -1504,6 +1660,7 @@ export default class Parser<AstNode> {
       }
     }
     if(this.match_TagLine(context, token)) {
+      if(this.lookahead_0(context, token)) {
       this.endRule(context);
       this.endRule(context);
       this.endRule(context);
@@ -1513,6 +1670,19 @@ export default class Parser<AstNode> {
       this.startRule(context, RuleType.Tags);
       this.build(context, token);
       return 11;
+      }
+    }
+    if(this.match_TagLine(context, token)) {
+      this.endRule(context);
+      this.endRule(context);
+      this.endRule(context);
+      this.endRule(context);
+      this.endRule(context);
+      this.startRule(context, RuleType.Rule);
+      this.startRule(context, RuleType.RuleHeader);
+      this.startRule(context, RuleType.Tags);
+      this.build(context, token);
+      return 22;
     }
     if(this.match_ExamplesLine(context, token)) {
       this.endRule(context);
@@ -1543,7 +1713,7 @@ export default class Parser<AstNode> {
       this.startRule(context, RuleType.Rule);
       this.startRule(context, RuleType.RuleHeader);
       this.build(context, token);
-      return 22;
+      return 23;
     }
     if(this.match_Other(context, token)) {
       this.build(context, token);
@@ -1570,7 +1740,7 @@ export default class Parser<AstNode> {
       this.endRule(context);
       this.endRule(context);
       this.build(context, token);
-      return 41;
+      return 42;
     }
     if(this.match_Comment(context, token)) {
       this.build(context, token);
@@ -1582,7 +1752,7 @@ export default class Parser<AstNode> {
       return 21;
     }
     if(this.match_TagLine(context, token)) {
-      if(this.lookahead_0(context, token)) {
+      if(this.lookahead_1(context, token)) {
       this.endRule(context);
       this.endRule(context);
       this.startRule(context, RuleType.ExamplesDefinition);
@@ -1592,6 +1762,7 @@ export default class Parser<AstNode> {
       }
     }
     if(this.match_TagLine(context, token)) {
+      if(this.lookahead_0(context, token)) {
       this.endRule(context);
       this.endRule(context);
       this.endRule(context);
@@ -1600,6 +1771,18 @@ export default class Parser<AstNode> {
       this.startRule(context, RuleType.Tags);
       this.build(context, token);
       return 11;
+      }
+    }
+    if(this.match_TagLine(context, token)) {
+      this.endRule(context);
+      this.endRule(context);
+      this.endRule(context);
+      this.endRule(context);
+      this.startRule(context, RuleType.Rule);
+      this.startRule(context, RuleType.RuleHeader);
+      this.startRule(context, RuleType.Tags);
+      this.build(context, token);
+      return 22;
     }
     if(this.match_ExamplesLine(context, token)) {
       this.endRule(context);
@@ -1627,7 +1810,7 @@ export default class Parser<AstNode> {
       this.startRule(context, RuleType.Rule);
       this.startRule(context, RuleType.RuleHeader);
       this.build(context, token);
-      return 22;
+      return 23;
     }
     if(this.match_Empty(context, token)) {
       this.build(context, token);
@@ -1655,14 +1838,14 @@ export default class Parser<AstNode> {
       this.endRule(context);
       this.endRule(context);
       this.build(context, token);
-      return 41;
+      return 42;
     }
     if(this.match_TableRow(context, token)) {
       this.build(context, token);
       return 21;
     }
     if(this.match_TagLine(context, token)) {
-      if(this.lookahead_0(context, token)) {
+      if(this.lookahead_1(context, token)) {
       this.endRule(context);
       this.endRule(context);
       this.endRule(context);
@@ -1673,6 +1856,7 @@ export default class Parser<AstNode> {
       }
     }
     if(this.match_TagLine(context, token)) {
+      if(this.lookahead_0(context, token)) {
       this.endRule(context);
       this.endRule(context);
       this.endRule(context);
@@ -1682,6 +1866,19 @@ export default class Parser<AstNode> {
       this.startRule(context, RuleType.Tags);
       this.build(context, token);
       return 11;
+      }
+    }
+    if(this.match_TagLine(context, token)) {
+      this.endRule(context);
+      this.endRule(context);
+      this.endRule(context);
+      this.endRule(context);
+      this.endRule(context);
+      this.startRule(context, RuleType.Rule);
+      this.startRule(context, RuleType.RuleHeader);
+      this.startRule(context, RuleType.Tags);
+      this.build(context, token);
+      return 22;
     }
     if(this.match_ExamplesLine(context, token)) {
       this.endRule(context);
@@ -1712,7 +1909,7 @@ export default class Parser<AstNode> {
       this.startRule(context, RuleType.Rule);
       this.startRule(context, RuleType.RuleHeader);
       this.build(context, token);
-      return 22;
+      return 23;
     }
     if(this.match_Comment(context, token)) {
       this.build(context, token);
@@ -1734,59 +1931,28 @@ export default class Parser<AstNode> {
   }
 
 
-  // GherkinDocument:0>Feature:3>Rule:0>RuleHeader:0>#RuleLine:0
+  // GherkinDocument:0>Feature:3>Rule:0>RuleHeader:0>Tags:0>#TagLine:0
   private matchTokenAt_22(token: IToken<TokenType>, context: Context) {
-    if(this.match_EOF(context, token)) {
-      this.endRule(context);
-      this.endRule(context);
+    if(this.match_TagLine(context, token)) {
+      this.build(context, token);
+      return 22;
+    }
+    if(this.match_RuleLine(context, token)) {
       this.endRule(context);
       this.build(context, token);
-      return 41;
+      return 23;
+    }
+    if(this.match_Comment(context, token)) {
+      this.build(context, token);
+      return 22;
     }
     if(this.match_Empty(context, token)) {
       this.build(context, token);
       return 22;
     }
-    if(this.match_Comment(context, token)) {
-      this.build(context, token);
-      return 24;
-    }
-    if(this.match_BackgroundLine(context, token)) {
-      this.endRule(context);
-      this.startRule(context, RuleType.Background);
-      this.build(context, token);
-      return 25;
-    }
-    if(this.match_TagLine(context, token)) {
-      this.endRule(context);
-      this.startRule(context, RuleType.ScenarioDefinition);
-      this.startRule(context, RuleType.Tags);
-      this.build(context, token);
-      return 30;
-    }
-    if(this.match_ScenarioLine(context, token)) {
-      this.endRule(context);
-      this.startRule(context, RuleType.ScenarioDefinition);
-      this.startRule(context, RuleType.Scenario);
-      this.build(context, token);
-      return 31;
-    }
-    if(this.match_RuleLine(context, token)) {
-      this.endRule(context);
-      this.endRule(context);
-      this.startRule(context, RuleType.Rule);
-      this.startRule(context, RuleType.RuleHeader);
-      this.build(context, token);
-      return 22;
-    }
-    if(this.match_Other(context, token)) {
-      this.startRule(context, RuleType.Description);
-      this.build(context, token);
-      return 23;
-    }
     
     token.detach();
-    const expectedTokens = ["#EOF", "#Empty", "#Comment", "#BackgroundLine", "#TagLine", "#ScenarioLine", "#RuleLine", "#Other"];
+    const expectedTokens = ["#TagLine", "#RuleLine", "#Comment", "#Empty"];
     const error = token.isEof ?
       UnexpectedEOFException.create(token, expectedTokens) :
       UnexpectedTokenException.create(token, expectedTokens);
@@ -1796,60 +1962,70 @@ export default class Parser<AstNode> {
   }
 
 
-  // GherkinDocument:0>Feature:3>Rule:0>RuleHeader:1>DescriptionHelper:1>Description:0>#Other:0
+  // GherkinDocument:0>Feature:3>Rule:0>RuleHeader:1>#RuleLine:0
   private matchTokenAt_23(token: IToken<TokenType>, context: Context) {
     if(this.match_EOF(context, token)) {
       this.endRule(context);
       this.endRule(context);
       this.endRule(context);
-      this.endRule(context);
       this.build(context, token);
-      return 41;
+      return 42;
+    }
+    if(this.match_Empty(context, token)) {
+      this.build(context, token);
+      return 23;
     }
     if(this.match_Comment(context, token)) {
-      this.endRule(context);
-      this.build(context, token);
-      return 24;
-    }
-    if(this.match_BackgroundLine(context, token)) {
-      this.endRule(context);
-      this.endRule(context);
-      this.startRule(context, RuleType.Background);
       this.build(context, token);
       return 25;
     }
-    if(this.match_TagLine(context, token)) {
+    if(this.match_BackgroundLine(context, token)) {
       this.endRule(context);
+      this.startRule(context, RuleType.Background);
+      this.build(context, token);
+      return 26;
+    }
+    if(this.match_TagLine(context, token)) {
+      if(this.lookahead_0(context, token)) {
       this.endRule(context);
       this.startRule(context, RuleType.ScenarioDefinition);
       this.startRule(context, RuleType.Tags);
       this.build(context, token);
-      return 30;
+      return 31;
+      }
+    }
+    if(this.match_TagLine(context, token)) {
+      this.endRule(context);
+      this.endRule(context);
+      this.startRule(context, RuleType.Rule);
+      this.startRule(context, RuleType.RuleHeader);
+      this.startRule(context, RuleType.Tags);
+      this.build(context, token);
+      return 22;
     }
     if(this.match_ScenarioLine(context, token)) {
-      this.endRule(context);
       this.endRule(context);
       this.startRule(context, RuleType.ScenarioDefinition);
       this.startRule(context, RuleType.Scenario);
       this.build(context, token);
-      return 31;
+      return 32;
     }
     if(this.match_RuleLine(context, token)) {
-      this.endRule(context);
       this.endRule(context);
       this.endRule(context);
       this.startRule(context, RuleType.Rule);
       this.startRule(context, RuleType.RuleHeader);
       this.build(context, token);
-      return 22;
+      return 23;
     }
     if(this.match_Other(context, token)) {
+      this.startRule(context, RuleType.Description);
       this.build(context, token);
-      return 23;
+      return 24;
     }
     
     token.detach();
-    const expectedTokens = ["#EOF", "#Comment", "#BackgroundLine", "#TagLine", "#ScenarioLine", "#RuleLine", "#Other"];
+    const expectedTokens = ["#EOF", "#Empty", "#Comment", "#BackgroundLine", "#TagLine", "#ScenarioLine", "#RuleLine", "#Other"];
     const error = token.isEof ?
       UnexpectedEOFException.create(token, expectedTokens) :
       UnexpectedTokenException.create(token, expectedTokens);
@@ -1859,54 +2035,72 @@ export default class Parser<AstNode> {
   }
 
 
-  // GherkinDocument:0>Feature:3>Rule:0>RuleHeader:1>DescriptionHelper:2>#Comment:0
+  // GherkinDocument:0>Feature:3>Rule:0>RuleHeader:2>DescriptionHelper:1>Description:0>#Other:0
   private matchTokenAt_24(token: IToken<TokenType>, context: Context) {
     if(this.match_EOF(context, token)) {
       this.endRule(context);
       this.endRule(context);
       this.endRule(context);
+      this.endRule(context);
       this.build(context, token);
-      return 41;
+      return 42;
     }
     if(this.match_Comment(context, token)) {
-      this.build(context, token);
-      return 24;
-    }
-    if(this.match_BackgroundLine(context, token)) {
       this.endRule(context);
-      this.startRule(context, RuleType.Background);
       this.build(context, token);
       return 25;
     }
+    if(this.match_BackgroundLine(context, token)) {
+      this.endRule(context);
+      this.endRule(context);
+      this.startRule(context, RuleType.Background);
+      this.build(context, token);
+      return 26;
+    }
     if(this.match_TagLine(context, token)) {
+      if(this.lookahead_0(context, token)) {
+      this.endRule(context);
       this.endRule(context);
       this.startRule(context, RuleType.ScenarioDefinition);
       this.startRule(context, RuleType.Tags);
       this.build(context, token);
-      return 30;
+      return 31;
+      }
+    }
+    if(this.match_TagLine(context, token)) {
+      this.endRule(context);
+      this.endRule(context);
+      this.endRule(context);
+      this.startRule(context, RuleType.Rule);
+      this.startRule(context, RuleType.RuleHeader);
+      this.startRule(context, RuleType.Tags);
+      this.build(context, token);
+      return 22;
     }
     if(this.match_ScenarioLine(context, token)) {
+      this.endRule(context);
       this.endRule(context);
       this.startRule(context, RuleType.ScenarioDefinition);
       this.startRule(context, RuleType.Scenario);
       this.build(context, token);
-      return 31;
+      return 32;
     }
     if(this.match_RuleLine(context, token)) {
+      this.endRule(context);
       this.endRule(context);
       this.endRule(context);
       this.startRule(context, RuleType.Rule);
       this.startRule(context, RuleType.RuleHeader);
       this.build(context, token);
-      return 22;
+      return 23;
     }
-    if(this.match_Empty(context, token)) {
+    if(this.match_Other(context, token)) {
       this.build(context, token);
       return 24;
     }
     
     token.detach();
-    const expectedTokens = ["#EOF", "#Comment", "#BackgroundLine", "#TagLine", "#ScenarioLine", "#RuleLine", "#Empty"];
+    const expectedTokens = ["#EOF", "#Comment", "#BackgroundLine", "#TagLine", "#ScenarioLine", "#RuleLine", "#Other"];
     const error = token.isEof ?
       UnexpectedEOFException.create(token, expectedTokens) :
       UnexpectedTokenException.create(token, expectedTokens);
@@ -1916,41 +2110,49 @@ export default class Parser<AstNode> {
   }
 
 
-  // GherkinDocument:0>Feature:3>Rule:1>Background:0>#BackgroundLine:0
+  // GherkinDocument:0>Feature:3>Rule:0>RuleHeader:2>DescriptionHelper:2>#Comment:0
   private matchTokenAt_25(token: IToken<TokenType>, context: Context) {
     if(this.match_EOF(context, token)) {
       this.endRule(context);
       this.endRule(context);
       this.endRule(context);
       this.build(context, token);
-      return 41;
-    }
-    if(this.match_Empty(context, token)) {
-      this.build(context, token);
-      return 25;
+      return 42;
     }
     if(this.match_Comment(context, token)) {
       this.build(context, token);
-      return 27;
+      return 25;
     }
-    if(this.match_StepLine(context, token)) {
-      this.startRule(context, RuleType.Step);
+    if(this.match_BackgroundLine(context, token)) {
+      this.endRule(context);
+      this.startRule(context, RuleType.Background);
       this.build(context, token);
-      return 28;
+      return 26;
     }
     if(this.match_TagLine(context, token)) {
+      if(this.lookahead_0(context, token)) {
       this.endRule(context);
       this.startRule(context, RuleType.ScenarioDefinition);
       this.startRule(context, RuleType.Tags);
       this.build(context, token);
-      return 30;
+      return 31;
+      }
+    }
+    if(this.match_TagLine(context, token)) {
+      this.endRule(context);
+      this.endRule(context);
+      this.startRule(context, RuleType.Rule);
+      this.startRule(context, RuleType.RuleHeader);
+      this.startRule(context, RuleType.Tags);
+      this.build(context, token);
+      return 22;
     }
     if(this.match_ScenarioLine(context, token)) {
       this.endRule(context);
       this.startRule(context, RuleType.ScenarioDefinition);
       this.startRule(context, RuleType.Scenario);
       this.build(context, token);
-      return 31;
+      return 32;
     }
     if(this.match_RuleLine(context, token)) {
       this.endRule(context);
@@ -1958,16 +2160,15 @@ export default class Parser<AstNode> {
       this.startRule(context, RuleType.Rule);
       this.startRule(context, RuleType.RuleHeader);
       this.build(context, token);
-      return 22;
+      return 23;
     }
-    if(this.match_Other(context, token)) {
-      this.startRule(context, RuleType.Description);
+    if(this.match_Empty(context, token)) {
       this.build(context, token);
-      return 26;
+      return 25;
     }
     
     token.detach();
-    const expectedTokens = ["#EOF", "#Empty", "#Comment", "#StepLine", "#TagLine", "#ScenarioLine", "#RuleLine", "#Other"];
+    const expectedTokens = ["#EOF", "#Comment", "#BackgroundLine", "#TagLine", "#ScenarioLine", "#RuleLine", "#Empty"];
     const error = token.isEof ?
       UnexpectedEOFException.create(token, expectedTokens) :
       UnexpectedTokenException.create(token, expectedTokens);
@@ -1977,59 +2178,69 @@ export default class Parser<AstNode> {
   }
 
 
-  // GherkinDocument:0>Feature:3>Rule:1>Background:1>DescriptionHelper:1>Description:0>#Other:0
+  // GherkinDocument:0>Feature:3>Rule:1>Background:0>#BackgroundLine:0
   private matchTokenAt_26(token: IToken<TokenType>, context: Context) {
     if(this.match_EOF(context, token)) {
       this.endRule(context);
       this.endRule(context);
       this.endRule(context);
-      this.endRule(context);
       this.build(context, token);
-      return 41;
+      return 42;
+    }
+    if(this.match_Empty(context, token)) {
+      this.build(context, token);
+      return 26;
     }
     if(this.match_Comment(context, token)) {
-      this.endRule(context);
-      this.build(context, token);
-      return 27;
-    }
-    if(this.match_StepLine(context, token)) {
-      this.endRule(context);
-      this.startRule(context, RuleType.Step);
       this.build(context, token);
       return 28;
     }
+    if(this.match_StepLine(context, token)) {
+      this.startRule(context, RuleType.Step);
+      this.build(context, token);
+      return 29;
+    }
     if(this.match_TagLine(context, token)) {
-      this.endRule(context);
+      if(this.lookahead_0(context, token)) {
       this.endRule(context);
       this.startRule(context, RuleType.ScenarioDefinition);
       this.startRule(context, RuleType.Tags);
       this.build(context, token);
-      return 30;
+      return 31;
+      }
+    }
+    if(this.match_TagLine(context, token)) {
+      this.endRule(context);
+      this.endRule(context);
+      this.startRule(context, RuleType.Rule);
+      this.startRule(context, RuleType.RuleHeader);
+      this.startRule(context, RuleType.Tags);
+      this.build(context, token);
+      return 22;
     }
     if(this.match_ScenarioLine(context, token)) {
-      this.endRule(context);
       this.endRule(context);
       this.startRule(context, RuleType.ScenarioDefinition);
       this.startRule(context, RuleType.Scenario);
       this.build(context, token);
-      return 31;
+      return 32;
     }
     if(this.match_RuleLine(context, token)) {
-      this.endRule(context);
       this.endRule(context);
       this.endRule(context);
       this.startRule(context, RuleType.Rule);
       this.startRule(context, RuleType.RuleHeader);
       this.build(context, token);
-      return 22;
+      return 23;
     }
     if(this.match_Other(context, token)) {
+      this.startRule(context, RuleType.Description);
       this.build(context, token);
-      return 26;
+      return 27;
     }
     
     token.detach();
-    const expectedTokens = ["#EOF", "#Comment", "#StepLine", "#TagLine", "#ScenarioLine", "#RuleLine", "#Other"];
+    const expectedTokens = ["#EOF", "#Empty", "#Comment", "#StepLine", "#TagLine", "#ScenarioLine", "#RuleLine", "#Other"];
     const error = token.isEof ?
       UnexpectedEOFException.create(token, expectedTokens) :
       UnexpectedTokenException.create(token, expectedTokens);
@@ -2039,53 +2250,71 @@ export default class Parser<AstNode> {
   }
 
 
-  // GherkinDocument:0>Feature:3>Rule:1>Background:1>DescriptionHelper:2>#Comment:0
+  // GherkinDocument:0>Feature:3>Rule:1>Background:1>DescriptionHelper:1>Description:0>#Other:0
   private matchTokenAt_27(token: IToken<TokenType>, context: Context) {
     if(this.match_EOF(context, token)) {
       this.endRule(context);
       this.endRule(context);
       this.endRule(context);
+      this.endRule(context);
       this.build(context, token);
-      return 41;
+      return 42;
     }
     if(this.match_Comment(context, token)) {
-      this.build(context, token);
-      return 27;
-    }
-    if(this.match_StepLine(context, token)) {
-      this.startRule(context, RuleType.Step);
+      this.endRule(context);
       this.build(context, token);
       return 28;
     }
+    if(this.match_StepLine(context, token)) {
+      this.endRule(context);
+      this.startRule(context, RuleType.Step);
+      this.build(context, token);
+      return 29;
+    }
     if(this.match_TagLine(context, token)) {
+      if(this.lookahead_0(context, token)) {
+      this.endRule(context);
       this.endRule(context);
       this.startRule(context, RuleType.ScenarioDefinition);
       this.startRule(context, RuleType.Tags);
       this.build(context, token);
-      return 30;
+      return 31;
+      }
+    }
+    if(this.match_TagLine(context, token)) {
+      this.endRule(context);
+      this.endRule(context);
+      this.endRule(context);
+      this.startRule(context, RuleType.Rule);
+      this.startRule(context, RuleType.RuleHeader);
+      this.startRule(context, RuleType.Tags);
+      this.build(context, token);
+      return 22;
     }
     if(this.match_ScenarioLine(context, token)) {
+      this.endRule(context);
       this.endRule(context);
       this.startRule(context, RuleType.ScenarioDefinition);
       this.startRule(context, RuleType.Scenario);
       this.build(context, token);
-      return 31;
+      return 32;
     }
     if(this.match_RuleLine(context, token)) {
+      this.endRule(context);
       this.endRule(context);
       this.endRule(context);
       this.startRule(context, RuleType.Rule);
       this.startRule(context, RuleType.RuleHeader);
       this.build(context, token);
-      return 22;
+      return 23;
     }
-    if(this.match_Empty(context, token)) {
+    if(this.match_Other(context, token)) {
       this.build(context, token);
       return 27;
     }
     
     token.detach();
-    const expectedTokens = ["#EOF", "#Comment", "#StepLine", "#TagLine", "#ScenarioLine", "#RuleLine", "#Empty"];
+    const expectedTokens = ["#EOF", "#Comment", "#StepLine", "#TagLine", "#ScenarioLine", "#RuleLine", "#Other"];
     const error = token.isEof ?
       UnexpectedEOFException.create(token, expectedTokens) :
       UnexpectedTokenException.create(token, expectedTokens);
@@ -2095,60 +2324,56 @@ export default class Parser<AstNode> {
   }
 
 
-  // GherkinDocument:0>Feature:3>Rule:1>Background:2>Step:0>#StepLine:0
+  // GherkinDocument:0>Feature:3>Rule:1>Background:1>DescriptionHelper:2>#Comment:0
   private matchTokenAt_28(token: IToken<TokenType>, context: Context) {
     if(this.match_EOF(context, token)) {
       this.endRule(context);
       this.endRule(context);
       this.endRule(context);
-      this.endRule(context);
       this.build(context, token);
-      return 41;
+      return 42;
     }
-    if(this.match_TableRow(context, token)) {
-      this.startRule(context, RuleType.DataTable);
-      this.build(context, token);
-      return 29;
-    }
-    if(this.match_DocStringSeparator(context, token)) {
-      this.startRule(context, RuleType.DocString);
-      this.build(context, token);
-      return 44;
-    }
-    if(this.match_StepLine(context, token)) {
-      this.endRule(context);
-      this.startRule(context, RuleType.Step);
+    if(this.match_Comment(context, token)) {
       this.build(context, token);
       return 28;
     }
+    if(this.match_StepLine(context, token)) {
+      this.startRule(context, RuleType.Step);
+      this.build(context, token);
+      return 29;
+    }
     if(this.match_TagLine(context, token)) {
-      this.endRule(context);
+      if(this.lookahead_0(context, token)) {
       this.endRule(context);
       this.startRule(context, RuleType.ScenarioDefinition);
       this.startRule(context, RuleType.Tags);
       this.build(context, token);
-      return 30;
+      return 31;
+      }
+    }
+    if(this.match_TagLine(context, token)) {
+      this.endRule(context);
+      this.endRule(context);
+      this.startRule(context, RuleType.Rule);
+      this.startRule(context, RuleType.RuleHeader);
+      this.startRule(context, RuleType.Tags);
+      this.build(context, token);
+      return 22;
     }
     if(this.match_ScenarioLine(context, token)) {
-      this.endRule(context);
       this.endRule(context);
       this.startRule(context, RuleType.ScenarioDefinition);
       this.startRule(context, RuleType.Scenario);
       this.build(context, token);
-      return 31;
+      return 32;
     }
     if(this.match_RuleLine(context, token)) {
-      this.endRule(context);
       this.endRule(context);
       this.endRule(context);
       this.startRule(context, RuleType.Rule);
       this.startRule(context, RuleType.RuleHeader);
       this.build(context, token);
-      return 22;
-    }
-    if(this.match_Comment(context, token)) {
-      this.build(context, token);
-      return 28;
+      return 23;
     }
     if(this.match_Empty(context, token)) {
       this.build(context, token);
@@ -2156,7 +2381,7 @@ export default class Parser<AstNode> {
     }
     
     token.detach();
-    const expectedTokens = ["#EOF", "#TableRow", "#DocStringSeparator", "#StepLine", "#TagLine", "#ScenarioLine", "#RuleLine", "#Comment", "#Empty"];
+    const expectedTokens = ["#EOF", "#Comment", "#StepLine", "#TagLine", "#ScenarioLine", "#RuleLine", "#Empty"];
     const error = token.isEof ?
       UnexpectedEOFException.create(token, expectedTokens) :
       UnexpectedTokenException.create(token, expectedTokens);
@@ -2166,55 +2391,68 @@ export default class Parser<AstNode> {
   }
 
 
-  // GherkinDocument:0>Feature:3>Rule:1>Background:2>Step:1>StepArg:0>__alt0:0>DataTable:0>#TableRow:0
+  // GherkinDocument:0>Feature:3>Rule:1>Background:2>Step:0>#StepLine:0
   private matchTokenAt_29(token: IToken<TokenType>, context: Context) {
     if(this.match_EOF(context, token)) {
       this.endRule(context);
       this.endRule(context);
       this.endRule(context);
       this.endRule(context);
-      this.endRule(context);
       this.build(context, token);
-      return 41;
+      return 42;
     }
     if(this.match_TableRow(context, token)) {
+      this.startRule(context, RuleType.DataTable);
       this.build(context, token);
-      return 29;
+      return 30;
+    }
+    if(this.match_DocStringSeparator(context, token)) {
+      this.startRule(context, RuleType.DocString);
+      this.build(context, token);
+      return 45;
     }
     if(this.match_StepLine(context, token)) {
       this.endRule(context);
-      this.endRule(context);
       this.startRule(context, RuleType.Step);
       this.build(context, token);
-      return 28;
+      return 29;
     }
     if(this.match_TagLine(context, token)) {
-      this.endRule(context);
+      if(this.lookahead_0(context, token)) {
       this.endRule(context);
       this.endRule(context);
       this.startRule(context, RuleType.ScenarioDefinition);
       this.startRule(context, RuleType.Tags);
       this.build(context, token);
-      return 30;
+      return 31;
+      }
+    }
+    if(this.match_TagLine(context, token)) {
+      this.endRule(context);
+      this.endRule(context);
+      this.endRule(context);
+      this.startRule(context, RuleType.Rule);
+      this.startRule(context, RuleType.RuleHeader);
+      this.startRule(context, RuleType.Tags);
+      this.build(context, token);
+      return 22;
     }
     if(this.match_ScenarioLine(context, token)) {
-      this.endRule(context);
       this.endRule(context);
       this.endRule(context);
       this.startRule(context, RuleType.ScenarioDefinition);
       this.startRule(context, RuleType.Scenario);
       this.build(context, token);
-      return 31;
+      return 32;
     }
     if(this.match_RuleLine(context, token)) {
-      this.endRule(context);
       this.endRule(context);
       this.endRule(context);
       this.endRule(context);
       this.startRule(context, RuleType.Rule);
       this.startRule(context, RuleType.RuleHeader);
       this.build(context, token);
-      return 22;
+      return 23;
     }
     if(this.match_Comment(context, token)) {
       this.build(context, token);
@@ -2226,7 +2464,7 @@ export default class Parser<AstNode> {
     }
     
     token.detach();
-    const expectedTokens = ["#EOF", "#TableRow", "#StepLine", "#TagLine", "#ScenarioLine", "#RuleLine", "#Comment", "#Empty"];
+    const expectedTokens = ["#EOF", "#TableRow", "#DocStringSeparator", "#StepLine", "#TagLine", "#ScenarioLine", "#RuleLine", "#Comment", "#Empty"];
     const error = token.isEof ?
       UnexpectedEOFException.create(token, expectedTokens) :
       UnexpectedTokenException.create(token, expectedTokens);
@@ -2236,17 +2474,68 @@ export default class Parser<AstNode> {
   }
 
 
-  // GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:0>Tags:0>#TagLine:0
+  // GherkinDocument:0>Feature:3>Rule:1>Background:2>Step:1>StepArg:0>__alt0:0>DataTable:0>#TableRow:0
   private matchTokenAt_30(token: IToken<TokenType>, context: Context) {
-    if(this.match_TagLine(context, token)) {
+    if(this.match_EOF(context, token)) {
+      this.endRule(context);
+      this.endRule(context);
+      this.endRule(context);
+      this.endRule(context);
+      this.endRule(context);
+      this.build(context, token);
+      return 42;
+    }
+    if(this.match_TableRow(context, token)) {
       this.build(context, token);
       return 30;
     }
-    if(this.match_ScenarioLine(context, token)) {
+    if(this.match_StepLine(context, token)) {
       this.endRule(context);
-      this.startRule(context, RuleType.Scenario);
+      this.endRule(context);
+      this.startRule(context, RuleType.Step);
+      this.build(context, token);
+      return 29;
+    }
+    if(this.match_TagLine(context, token)) {
+      if(this.lookahead_0(context, token)) {
+      this.endRule(context);
+      this.endRule(context);
+      this.endRule(context);
+      this.startRule(context, RuleType.ScenarioDefinition);
+      this.startRule(context, RuleType.Tags);
       this.build(context, token);
       return 31;
+      }
+    }
+    if(this.match_TagLine(context, token)) {
+      this.endRule(context);
+      this.endRule(context);
+      this.endRule(context);
+      this.endRule(context);
+      this.startRule(context, RuleType.Rule);
+      this.startRule(context, RuleType.RuleHeader);
+      this.startRule(context, RuleType.Tags);
+      this.build(context, token);
+      return 22;
+    }
+    if(this.match_ScenarioLine(context, token)) {
+      this.endRule(context);
+      this.endRule(context);
+      this.endRule(context);
+      this.startRule(context, RuleType.ScenarioDefinition);
+      this.startRule(context, RuleType.Scenario);
+      this.build(context, token);
+      return 32;
+    }
+    if(this.match_RuleLine(context, token)) {
+      this.endRule(context);
+      this.endRule(context);
+      this.endRule(context);
+      this.endRule(context);
+      this.startRule(context, RuleType.Rule);
+      this.startRule(context, RuleType.RuleHeader);
+      this.build(context, token);
+      return 23;
     }
     if(this.match_Comment(context, token)) {
       this.build(context, token);
@@ -2258,7 +2547,7 @@ export default class Parser<AstNode> {
     }
     
     token.detach();
-    const expectedTokens = ["#TagLine", "#ScenarioLine", "#Comment", "#Empty"];
+    const expectedTokens = ["#EOF", "#TableRow", "#StepLine", "#TagLine", "#ScenarioLine", "#RuleLine", "#Comment", "#Empty"];
     const error = token.isEof ?
       UnexpectedEOFException.create(token, expectedTokens) :
       UnexpectedTokenException.create(token, expectedTokens);
@@ -2268,76 +2557,29 @@ export default class Parser<AstNode> {
   }
 
 
-  // GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:0>#ScenarioLine:0
+  // GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:0>Tags:0>#TagLine:0
   private matchTokenAt_31(token: IToken<TokenType>, context: Context) {
-    if(this.match_EOF(context, token)) {
-      this.endRule(context);
-      this.endRule(context);
-      this.endRule(context);
-      this.endRule(context);
+    if(this.match_TagLine(context, token)) {
       this.build(context, token);
-      return 41;
+      return 31;
+    }
+    if(this.match_ScenarioLine(context, token)) {
+      this.endRule(context);
+      this.startRule(context, RuleType.Scenario);
+      this.build(context, token);
+      return 32;
+    }
+    if(this.match_Comment(context, token)) {
+      this.build(context, token);
+      return 31;
     }
     if(this.match_Empty(context, token)) {
       this.build(context, token);
       return 31;
     }
-    if(this.match_Comment(context, token)) {
-      this.build(context, token);
-      return 33;
-    }
-    if(this.match_StepLine(context, token)) {
-      this.startRule(context, RuleType.Step);
-      this.build(context, token);
-      return 34;
-    }
-    if(this.match_TagLine(context, token)) {
-      if(this.lookahead_0(context, token)) {
-      this.startRule(context, RuleType.ExamplesDefinition);
-      this.startRule(context, RuleType.Tags);
-      this.build(context, token);
-      return 36;
-      }
-    }
-    if(this.match_TagLine(context, token)) {
-      this.endRule(context);
-      this.endRule(context);
-      this.startRule(context, RuleType.ScenarioDefinition);
-      this.startRule(context, RuleType.Tags);
-      this.build(context, token);
-      return 30;
-    }
-    if(this.match_ExamplesLine(context, token)) {
-      this.startRule(context, RuleType.ExamplesDefinition);
-      this.startRule(context, RuleType.Examples);
-      this.build(context, token);
-      return 37;
-    }
-    if(this.match_ScenarioLine(context, token)) {
-      this.endRule(context);
-      this.endRule(context);
-      this.startRule(context, RuleType.ScenarioDefinition);
-      this.startRule(context, RuleType.Scenario);
-      this.build(context, token);
-      return 31;
-    }
-    if(this.match_RuleLine(context, token)) {
-      this.endRule(context);
-      this.endRule(context);
-      this.endRule(context);
-      this.startRule(context, RuleType.Rule);
-      this.startRule(context, RuleType.RuleHeader);
-      this.build(context, token);
-      return 22;
-    }
-    if(this.match_Other(context, token)) {
-      this.startRule(context, RuleType.Description);
-      this.build(context, token);
-      return 32;
-    }
     
     token.detach();
-    const expectedTokens = ["#EOF", "#Empty", "#Comment", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Other"];
+    const expectedTokens = ["#TagLine", "#ScenarioLine", "#Comment", "#Empty"];
     const error = token.isEof ?
       UnexpectedEOFException.create(token, expectedTokens) :
       UnexpectedTokenException.create(token, expectedTokens);
@@ -2347,79 +2589,88 @@ export default class Parser<AstNode> {
   }
 
 
-  // GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:1>DescriptionHelper:1>Description:0>#Other:0
+  // GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:0>#ScenarioLine:0
   private matchTokenAt_32(token: IToken<TokenType>, context: Context) {
     if(this.match_EOF(context, token)) {
       this.endRule(context);
       this.endRule(context);
       this.endRule(context);
       this.endRule(context);
-      this.endRule(context);
       this.build(context, token);
-      return 41;
+      return 42;
+    }
+    if(this.match_Empty(context, token)) {
+      this.build(context, token);
+      return 32;
     }
     if(this.match_Comment(context, token)) {
-      this.endRule(context);
-      this.build(context, token);
-      return 33;
-    }
-    if(this.match_StepLine(context, token)) {
-      this.endRule(context);
-      this.startRule(context, RuleType.Step);
       this.build(context, token);
       return 34;
+    }
+    if(this.match_StepLine(context, token)) {
+      this.startRule(context, RuleType.Step);
+      this.build(context, token);
+      return 35;
+    }
+    if(this.match_TagLine(context, token)) {
+      if(this.lookahead_1(context, token)) {
+      this.startRule(context, RuleType.ExamplesDefinition);
+      this.startRule(context, RuleType.Tags);
+      this.build(context, token);
+      return 37;
+      }
     }
     if(this.match_TagLine(context, token)) {
       if(this.lookahead_0(context, token)) {
       this.endRule(context);
-      this.startRule(context, RuleType.ExamplesDefinition);
+      this.endRule(context);
+      this.startRule(context, RuleType.ScenarioDefinition);
       this.startRule(context, RuleType.Tags);
       this.build(context, token);
-      return 36;
+      return 31;
       }
     }
     if(this.match_TagLine(context, token)) {
       this.endRule(context);
       this.endRule(context);
       this.endRule(context);
-      this.startRule(context, RuleType.ScenarioDefinition);
+      this.startRule(context, RuleType.Rule);
+      this.startRule(context, RuleType.RuleHeader);
       this.startRule(context, RuleType.Tags);
       this.build(context, token);
-      return 30;
+      return 22;
     }
     if(this.match_ExamplesLine(context, token)) {
-      this.endRule(context);
       this.startRule(context, RuleType.ExamplesDefinition);
       this.startRule(context, RuleType.Examples);
       this.build(context, token);
-      return 37;
+      return 38;
     }
     if(this.match_ScenarioLine(context, token)) {
-      this.endRule(context);
       this.endRule(context);
       this.endRule(context);
       this.startRule(context, RuleType.ScenarioDefinition);
       this.startRule(context, RuleType.Scenario);
       this.build(context, token);
-      return 31;
+      return 32;
     }
     if(this.match_RuleLine(context, token)) {
-      this.endRule(context);
       this.endRule(context);
       this.endRule(context);
       this.endRule(context);
       this.startRule(context, RuleType.Rule);
       this.startRule(context, RuleType.RuleHeader);
       this.build(context, token);
-      return 22;
+      return 23;
     }
     if(this.match_Other(context, token)) {
+      this.startRule(context, RuleType.Description);
       this.build(context, token);
-      return 32;
+      return 33;
     }
     
     token.detach();
-    const expectedTokens = ["#EOF", "#Comment", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Other"];
+    const expectedTokens = ["#EOF", "#Empty", "#Comment", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Other"];
     const error = token.isEof ?
       UnexpectedEOFException.create(token, expectedTokens) :
       UnexpectedTokenException.create(token, expectedTokens);
@@ -2429,71 +2680,92 @@ export default class Parser<AstNode> {
   }
 
 
-  // GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:1>DescriptionHelper:2>#Comment:0
+  // GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:1>DescriptionHelper:1>Description:0>#Other:0
   private matchTokenAt_33(token: IToken<TokenType>, context: Context) {
     if(this.match_EOF(context, token)) {
       this.endRule(context);
       this.endRule(context);
       this.endRule(context);
       this.endRule(context);
+      this.endRule(context);
       this.build(context, token);
-      return 41;
+      return 42;
     }
     if(this.match_Comment(context, token)) {
-      this.build(context, token);
-      return 33;
-    }
-    if(this.match_StepLine(context, token)) {
-      this.startRule(context, RuleType.Step);
+      this.endRule(context);
       this.build(context, token);
       return 34;
     }
+    if(this.match_StepLine(context, token)) {
+      this.endRule(context);
+      this.startRule(context, RuleType.Step);
+      this.build(context, token);
+      return 35;
+    }
     if(this.match_TagLine(context, token)) {
-      if(this.lookahead_0(context, token)) {
+      if(this.lookahead_1(context, token)) {
+      this.endRule(context);
       this.startRule(context, RuleType.ExamplesDefinition);
       this.startRule(context, RuleType.Tags);
       this.build(context, token);
-      return 36;
+      return 37;
+      }
+    }
+    if(this.match_TagLine(context, token)) {
+      if(this.lookahead_0(context, token)) {
+      this.endRule(context);
+      this.endRule(context);
+      this.endRule(context);
+      this.startRule(context, RuleType.ScenarioDefinition);
+      this.startRule(context, RuleType.Tags);
+      this.build(context, token);
+      return 31;
       }
     }
     if(this.match_TagLine(context, token)) {
       this.endRule(context);
       this.endRule(context);
-      this.startRule(context, RuleType.ScenarioDefinition);
+      this.endRule(context);
+      this.endRule(context);
+      this.startRule(context, RuleType.Rule);
+      this.startRule(context, RuleType.RuleHeader);
       this.startRule(context, RuleType.Tags);
       this.build(context, token);
-      return 30;
+      return 22;
     }
     if(this.match_ExamplesLine(context, token)) {
+      this.endRule(context);
       this.startRule(context, RuleType.ExamplesDefinition);
       this.startRule(context, RuleType.Examples);
       this.build(context, token);
-      return 37;
+      return 38;
     }
     if(this.match_ScenarioLine(context, token)) {
+      this.endRule(context);
       this.endRule(context);
       this.endRule(context);
       this.startRule(context, RuleType.ScenarioDefinition);
       this.startRule(context, RuleType.Scenario);
       this.build(context, token);
-      return 31;
+      return 32;
     }
     if(this.match_RuleLine(context, token)) {
+      this.endRule(context);
       this.endRule(context);
       this.endRule(context);
       this.endRule(context);
       this.startRule(context, RuleType.Rule);
       this.startRule(context, RuleType.RuleHeader);
       this.build(context, token);
-      return 22;
+      return 23;
     }
-    if(this.match_Empty(context, token)) {
+    if(this.match_Other(context, token)) {
       this.build(context, token);
       return 33;
     }
     
     token.detach();
-    const expectedTokens = ["#EOF", "#Comment", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Empty"];
+    const expectedTokens = ["#EOF", "#Comment", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Other"];
     const error = token.isEof ?
       UnexpectedEOFException.create(token, expectedTokens) :
       UnexpectedTokenException.create(token, expectedTokens);
@@ -2503,80 +2775,75 @@ export default class Parser<AstNode> {
   }
 
 
-  // GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:2>Step:0>#StepLine:0
+  // GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:1>DescriptionHelper:2>#Comment:0
   private matchTokenAt_34(token: IToken<TokenType>, context: Context) {
     if(this.match_EOF(context, token)) {
       this.endRule(context);
       this.endRule(context);
       this.endRule(context);
       this.endRule(context);
-      this.endRule(context);
-      this.build(context, token);
-      return 41;
-    }
-    if(this.match_TableRow(context, token)) {
-      this.startRule(context, RuleType.DataTable);
-      this.build(context, token);
-      return 35;
-    }
-    if(this.match_DocStringSeparator(context, token)) {
-      this.startRule(context, RuleType.DocString);
       this.build(context, token);
       return 42;
     }
-    if(this.match_StepLine(context, token)) {
-      this.endRule(context);
-      this.startRule(context, RuleType.Step);
+    if(this.match_Comment(context, token)) {
       this.build(context, token);
       return 34;
+    }
+    if(this.match_StepLine(context, token)) {
+      this.startRule(context, RuleType.Step);
+      this.build(context, token);
+      return 35;
+    }
+    if(this.match_TagLine(context, token)) {
+      if(this.lookahead_1(context, token)) {
+      this.startRule(context, RuleType.ExamplesDefinition);
+      this.startRule(context, RuleType.Tags);
+      this.build(context, token);
+      return 37;
+      }
     }
     if(this.match_TagLine(context, token)) {
       if(this.lookahead_0(context, token)) {
       this.endRule(context);
-      this.startRule(context, RuleType.ExamplesDefinition);
+      this.endRule(context);
+      this.startRule(context, RuleType.ScenarioDefinition);
       this.startRule(context, RuleType.Tags);
       this.build(context, token);
-      return 36;
+      return 31;
       }
     }
     if(this.match_TagLine(context, token)) {
       this.endRule(context);
       this.endRule(context);
       this.endRule(context);
-      this.startRule(context, RuleType.ScenarioDefinition);
+      this.startRule(context, RuleType.Rule);
+      this.startRule(context, RuleType.RuleHeader);
       this.startRule(context, RuleType.Tags);
       this.build(context, token);
-      return 30;
+      return 22;
     }
     if(this.match_ExamplesLine(context, token)) {
-      this.endRule(context);
       this.startRule(context, RuleType.ExamplesDefinition);
       this.startRule(context, RuleType.Examples);
       this.build(context, token);
-      return 37;
+      return 38;
     }
     if(this.match_ScenarioLine(context, token)) {
-      this.endRule(context);
       this.endRule(context);
       this.endRule(context);
       this.startRule(context, RuleType.ScenarioDefinition);
       this.startRule(context, RuleType.Scenario);
       this.build(context, token);
-      return 31;
+      return 32;
     }
     if(this.match_RuleLine(context, token)) {
-      this.endRule(context);
       this.endRule(context);
       this.endRule(context);
       this.endRule(context);
       this.startRule(context, RuleType.Rule);
       this.startRule(context, RuleType.RuleHeader);
       this.build(context, token);
-      return 22;
-    }
-    if(this.match_Comment(context, token)) {
-      this.build(context, token);
-      return 34;
+      return 23;
     }
     if(this.match_Empty(context, token)) {
       this.build(context, token);
@@ -2584,7 +2851,7 @@ export default class Parser<AstNode> {
     }
     
     token.detach();
-    const expectedTokens = ["#EOF", "#TableRow", "#DocStringSeparator", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Comment", "#Empty"];
+    const expectedTokens = ["#EOF", "#Comment", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Empty"];
     const error = token.isEof ?
       UnexpectedEOFException.create(token, expectedTokens) :
       UnexpectedTokenException.create(token, expectedTokens);
@@ -2594,7 +2861,7 @@ export default class Parser<AstNode> {
   }
 
 
-  // GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:2>Step:1>StepArg:0>__alt0:0>DataTable:0>#TableRow:0
+  // GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:2>Step:0>#StepLine:0
   private matchTokenAt_35(token: IToken<TokenType>, context: Context) {
     if(this.match_EOF(context, token)) {
       this.endRule(context);
@@ -2602,29 +2869,43 @@ export default class Parser<AstNode> {
       this.endRule(context);
       this.endRule(context);
       this.endRule(context);
-      this.endRule(context);
       this.build(context, token);
-      return 41;
+      return 42;
     }
     if(this.match_TableRow(context, token)) {
+      this.startRule(context, RuleType.DataTable);
       this.build(context, token);
-      return 35;
+      return 36;
+    }
+    if(this.match_DocStringSeparator(context, token)) {
+      this.startRule(context, RuleType.DocString);
+      this.build(context, token);
+      return 43;
     }
     if(this.match_StepLine(context, token)) {
       this.endRule(context);
-      this.endRule(context);
       this.startRule(context, RuleType.Step);
       this.build(context, token);
-      return 34;
+      return 35;
+    }
+    if(this.match_TagLine(context, token)) {
+      if(this.lookahead_1(context, token)) {
+      this.endRule(context);
+      this.startRule(context, RuleType.ExamplesDefinition);
+      this.startRule(context, RuleType.Tags);
+      this.build(context, token);
+      return 37;
+      }
     }
     if(this.match_TagLine(context, token)) {
       if(this.lookahead_0(context, token)) {
       this.endRule(context);
       this.endRule(context);
-      this.startRule(context, RuleType.ExamplesDefinition);
+      this.endRule(context);
+      this.startRule(context, RuleType.ScenarioDefinition);
       this.startRule(context, RuleType.Tags);
       this.build(context, token);
-      return 36;
+      return 31;
       }
     }
     if(this.match_TagLine(context, token)) {
@@ -2632,31 +2913,29 @@ export default class Parser<AstNode> {
       this.endRule(context);
       this.endRule(context);
       this.endRule(context);
-      this.startRule(context, RuleType.ScenarioDefinition);
+      this.startRule(context, RuleType.Rule);
+      this.startRule(context, RuleType.RuleHeader);
       this.startRule(context, RuleType.Tags);
       this.build(context, token);
-      return 30;
+      return 22;
     }
     if(this.match_ExamplesLine(context, token)) {
-      this.endRule(context);
       this.endRule(context);
       this.startRule(context, RuleType.ExamplesDefinition);
       this.startRule(context, RuleType.Examples);
       this.build(context, token);
-      return 37;
+      return 38;
     }
     if(this.match_ScenarioLine(context, token)) {
-      this.endRule(context);
       this.endRule(context);
       this.endRule(context);
       this.endRule(context);
       this.startRule(context, RuleType.ScenarioDefinition);
       this.startRule(context, RuleType.Scenario);
       this.build(context, token);
-      return 31;
+      return 32;
     }
     if(this.match_RuleLine(context, token)) {
-      this.endRule(context);
       this.endRule(context);
       this.endRule(context);
       this.endRule(context);
@@ -2664,7 +2943,7 @@ export default class Parser<AstNode> {
       this.startRule(context, RuleType.Rule);
       this.startRule(context, RuleType.RuleHeader);
       this.build(context, token);
-      return 22;
+      return 23;
     }
     if(this.match_Comment(context, token)) {
       this.build(context, token);
@@ -2676,7 +2955,7 @@ export default class Parser<AstNode> {
     }
     
     token.detach();
-    const expectedTokens = ["#EOF", "#TableRow", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Comment", "#Empty"];
+    const expectedTokens = ["#EOF", "#TableRow", "#DocStringSeparator", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Comment", "#Empty"];
     const error = token.isEof ?
       UnexpectedEOFException.create(token, expectedTokens) :
       UnexpectedTokenException.create(token, expectedTokens);
@@ -2686,17 +2965,91 @@ export default class Parser<AstNode> {
   }
 
 
-  // GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:0>Tags:0>#TagLine:0
+  // GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:2>Step:1>StepArg:0>__alt0:0>DataTable:0>#TableRow:0
   private matchTokenAt_36(token: IToken<TokenType>, context: Context) {
-    if(this.match_TagLine(context, token)) {
+    if(this.match_EOF(context, token)) {
+      this.endRule(context);
+      this.endRule(context);
+      this.endRule(context);
+      this.endRule(context);
+      this.endRule(context);
+      this.endRule(context);
+      this.build(context, token);
+      return 42;
+    }
+    if(this.match_TableRow(context, token)) {
       this.build(context, token);
       return 36;
     }
-    if(this.match_ExamplesLine(context, token)) {
+    if(this.match_StepLine(context, token)) {
       this.endRule(context);
-      this.startRule(context, RuleType.Examples);
+      this.endRule(context);
+      this.startRule(context, RuleType.Step);
+      this.build(context, token);
+      return 35;
+    }
+    if(this.match_TagLine(context, token)) {
+      if(this.lookahead_1(context, token)) {
+      this.endRule(context);
+      this.endRule(context);
+      this.startRule(context, RuleType.ExamplesDefinition);
+      this.startRule(context, RuleType.Tags);
       this.build(context, token);
       return 37;
+      }
+    }
+    if(this.match_TagLine(context, token)) {
+      if(this.lookahead_0(context, token)) {
+      this.endRule(context);
+      this.endRule(context);
+      this.endRule(context);
+      this.endRule(context);
+      this.startRule(context, RuleType.ScenarioDefinition);
+      this.startRule(context, RuleType.Tags);
+      this.build(context, token);
+      return 31;
+      }
+    }
+    if(this.match_TagLine(context, token)) {
+      this.endRule(context);
+      this.endRule(context);
+      this.endRule(context);
+      this.endRule(context);
+      this.endRule(context);
+      this.startRule(context, RuleType.Rule);
+      this.startRule(context, RuleType.RuleHeader);
+      this.startRule(context, RuleType.Tags);
+      this.build(context, token);
+      return 22;
+    }
+    if(this.match_ExamplesLine(context, token)) {
+      this.endRule(context);
+      this.endRule(context);
+      this.startRule(context, RuleType.ExamplesDefinition);
+      this.startRule(context, RuleType.Examples);
+      this.build(context, token);
+      return 38;
+    }
+    if(this.match_ScenarioLine(context, token)) {
+      this.endRule(context);
+      this.endRule(context);
+      this.endRule(context);
+      this.endRule(context);
+      this.startRule(context, RuleType.ScenarioDefinition);
+      this.startRule(context, RuleType.Scenario);
+      this.build(context, token);
+      return 32;
+    }
+    if(this.match_RuleLine(context, token)) {
+      this.endRule(context);
+      this.endRule(context);
+      this.endRule(context);
+      this.endRule(context);
+      this.endRule(context);
+      this.startRule(context, RuleType.Rule);
+      this.startRule(context, RuleType.RuleHeader);
+      this.build(context, token);
+      return 23;
     }
     if(this.match_Comment(context, token)) {
       this.build(context, token);
@@ -2708,7 +3061,7 @@ export default class Parser<AstNode> {
     }
     
     token.detach();
-    const expectedTokens = ["#TagLine", "#ExamplesLine", "#Comment", "#Empty"];
+    const expectedTokens = ["#EOF", "#TableRow", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Comment", "#Empty"];
     const error = token.isEof ?
       UnexpectedEOFException.create(token, expectedTokens) :
       UnexpectedTokenException.create(token, expectedTokens);
@@ -2718,88 +3071,29 @@ export default class Parser<AstNode> {
   }
 
 
-  // GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:1>Examples:0>#ExamplesLine:0
+  // GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:0>Tags:0>#TagLine:0
   private matchTokenAt_37(token: IToken<TokenType>, context: Context) {
-    if(this.match_EOF(context, token)) {
-      this.endRule(context);
-      this.endRule(context);
-      this.endRule(context);
-      this.endRule(context);
-      this.endRule(context);
-      this.endRule(context);
+    if(this.match_TagLine(context, token)) {
       this.build(context, token);
-      return 41;
+      return 37;
+    }
+    if(this.match_ExamplesLine(context, token)) {
+      this.endRule(context);
+      this.startRule(context, RuleType.Examples);
+      this.build(context, token);
+      return 38;
+    }
+    if(this.match_Comment(context, token)) {
+      this.build(context, token);
+      return 37;
     }
     if(this.match_Empty(context, token)) {
       this.build(context, token);
       return 37;
     }
-    if(this.match_Comment(context, token)) {
-      this.build(context, token);
-      return 39;
-    }
-    if(this.match_TableRow(context, token)) {
-      this.startRule(context, RuleType.ExamplesTable);
-      this.build(context, token);
-      return 40;
-    }
-    if(this.match_TagLine(context, token)) {
-      if(this.lookahead_0(context, token)) {
-      this.endRule(context);
-      this.endRule(context);
-      this.startRule(context, RuleType.ExamplesDefinition);
-      this.startRule(context, RuleType.Tags);
-      this.build(context, token);
-      return 36;
-      }
-    }
-    if(this.match_TagLine(context, token)) {
-      this.endRule(context);
-      this.endRule(context);
-      this.endRule(context);
-      this.endRule(context);
-      this.startRule(context, RuleType.ScenarioDefinition);
-      this.startRule(context, RuleType.Tags);
-      this.build(context, token);
-      return 30;
-    }
-    if(this.match_ExamplesLine(context, token)) {
-      this.endRule(context);
-      this.endRule(context);
-      this.startRule(context, RuleType.ExamplesDefinition);
-      this.startRule(context, RuleType.Examples);
-      this.build(context, token);
-      return 37;
-    }
-    if(this.match_ScenarioLine(context, token)) {
-      this.endRule(context);
-      this.endRule(context);
-      this.endRule(context);
-      this.endRule(context);
-      this.startRule(context, RuleType.ScenarioDefinition);
-      this.startRule(context, RuleType.Scenario);
-      this.build(context, token);
-      return 31;
-    }
-    if(this.match_RuleLine(context, token)) {
-      this.endRule(context);
-      this.endRule(context);
-      this.endRule(context);
-      this.endRule(context);
-      this.endRule(context);
-      this.startRule(context, RuleType.Rule);
-      this.startRule(context, RuleType.RuleHeader);
-      this.build(context, token);
-      return 22;
-    }
-    if(this.match_Other(context, token)) {
-      this.startRule(context, RuleType.Description);
-      this.build(context, token);
-      return 38;
-    }
     
     token.detach();
-    const expectedTokens = ["#EOF", "#Empty", "#Comment", "#TableRow", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Other"];
+    const expectedTokens = ["#TagLine", "#ExamplesLine", "#Comment", "#Empty"];
     const error = token.isEof ?
       UnexpectedEOFException.create(token, expectedTokens) :
       UnexpectedTokenException.create(token, expectedTokens);
@@ -2809,7 +3103,7 @@ export default class Parser<AstNode> {
   }
 
 
-  // GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:1>Examples:1>DescriptionHelper:1>Description:0>#Other:0
+  // GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:1>Examples:0>#ExamplesLine:0
   private matchTokenAt_38(token: IToken<TokenType>, context: Context) {
     if(this.match_EOF(context, token)) {
       this.endRule(context);
@@ -2818,30 +3112,42 @@ export default class Parser<AstNode> {
       this.endRule(context);
       this.endRule(context);
       this.endRule(context);
-      this.endRule(context);
+      this.build(context, token);
+      return 42;
+    }
+    if(this.match_Empty(context, token)) {
+      this.build(context, token);
+      return 38;
+    }
+    if(this.match_Comment(context, token)) {
+      this.build(context, token);
+      return 40;
+    }
+    if(this.match_TableRow(context, token)) {
+      this.startRule(context, RuleType.ExamplesTable);
       this.build(context, token);
       return 41;
     }
-    if(this.match_Comment(context, token)) {
+    if(this.match_TagLine(context, token)) {
+      if(this.lookahead_1(context, token)) {
       this.endRule(context);
-      this.build(context, token);
-      return 39;
-    }
-    if(this.match_TableRow(context, token)) {
       this.endRule(context);
-      this.startRule(context, RuleType.ExamplesTable);
+      this.startRule(context, RuleType.ExamplesDefinition);
+      this.startRule(context, RuleType.Tags);
       this.build(context, token);
-      return 40;
+      return 37;
+      }
     }
     if(this.match_TagLine(context, token)) {
       if(this.lookahead_0(context, token)) {
       this.endRule(context);
       this.endRule(context);
       this.endRule(context);
-      this.startRule(context, RuleType.ExamplesDefinition);
+      this.endRule(context);
+      this.startRule(context, RuleType.ScenarioDefinition);
       this.startRule(context, RuleType.Tags);
       this.build(context, token);
-      return 36;
+      return 31;
       }
     }
     if(this.match_TagLine(context, token)) {
@@ -2850,22 +3156,21 @@ export default class Parser<AstNode> {
       this.endRule(context);
       this.endRule(context);
       this.endRule(context);
-      this.startRule(context, RuleType.ScenarioDefinition);
+      this.startRule(context, RuleType.Rule);
+      this.startRule(context, RuleType.RuleHeader);
       this.startRule(context, RuleType.Tags);
       this.build(context, token);
-      return 30;
+      return 22;
     }
     if(this.match_ExamplesLine(context, token)) {
-      this.endRule(context);
       this.endRule(context);
       this.endRule(context);
       this.startRule(context, RuleType.ExamplesDefinition);
       this.startRule(context, RuleType.Examples);
       this.build(context, token);
-      return 37;
+      return 38;
     }
     if(this.match_ScenarioLine(context, token)) {
-      this.endRule(context);
       this.endRule(context);
       this.endRule(context);
       this.endRule(context);
@@ -2873,10 +3178,9 @@ export default class Parser<AstNode> {
       this.startRule(context, RuleType.ScenarioDefinition);
       this.startRule(context, RuleType.Scenario);
       this.build(context, token);
-      return 31;
+      return 32;
     }
     if(this.match_RuleLine(context, token)) {
-      this.endRule(context);
       this.endRule(context);
       this.endRule(context);
       this.endRule(context);
@@ -2885,15 +3189,16 @@ export default class Parser<AstNode> {
       this.startRule(context, RuleType.Rule);
       this.startRule(context, RuleType.RuleHeader);
       this.build(context, token);
-      return 22;
+      return 23;
     }
     if(this.match_Other(context, token)) {
+      this.startRule(context, RuleType.Description);
       this.build(context, token);
-      return 38;
+      return 39;
     }
     
     token.detach();
-    const expectedTokens = ["#EOF", "#Comment", "#TableRow", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Other"];
+    const expectedTokens = ["#EOF", "#Empty", "#Comment", "#TableRow", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Other"];
     const error = token.isEof ?
       UnexpectedEOFException.create(token, expectedTokens) :
       UnexpectedTokenException.create(token, expectedTokens);
@@ -2903,7 +3208,7 @@ export default class Parser<AstNode> {
   }
 
 
-  // GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:1>Examples:1>DescriptionHelper:2>#Comment:0
+  // GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:1>Examples:1>DescriptionHelper:1>Description:0>#Other:0
   private matchTokenAt_39(token: IToken<TokenType>, context: Context) {
     if(this.match_EOF(context, token)) {
       this.endRule(context);
@@ -2912,26 +3217,43 @@ export default class Parser<AstNode> {
       this.endRule(context);
       this.endRule(context);
       this.endRule(context);
+      this.endRule(context);
       this.build(context, token);
-      return 41;
+      return 42;
     }
     if(this.match_Comment(context, token)) {
-      this.build(context, token);
-      return 39;
-    }
-    if(this.match_TableRow(context, token)) {
-      this.startRule(context, RuleType.ExamplesTable);
+      this.endRule(context);
       this.build(context, token);
       return 40;
     }
+    if(this.match_TableRow(context, token)) {
+      this.endRule(context);
+      this.startRule(context, RuleType.ExamplesTable);
+      this.build(context, token);
+      return 41;
+    }
     if(this.match_TagLine(context, token)) {
-      if(this.lookahead_0(context, token)) {
+      if(this.lookahead_1(context, token)) {
+      this.endRule(context);
       this.endRule(context);
       this.endRule(context);
       this.startRule(context, RuleType.ExamplesDefinition);
       this.startRule(context, RuleType.Tags);
       this.build(context, token);
-      return 36;
+      return 37;
+      }
+    }
+    if(this.match_TagLine(context, token)) {
+      if(this.lookahead_0(context, token)) {
+      this.endRule(context);
+      this.endRule(context);
+      this.endRule(context);
+      this.endRule(context);
+      this.endRule(context);
+      this.startRule(context, RuleType.ScenarioDefinition);
+      this.startRule(context, RuleType.Tags);
+      this.build(context, token);
+      return 31;
       }
     }
     if(this.match_TagLine(context, token)) {
@@ -2939,20 +3261,25 @@ export default class Parser<AstNode> {
       this.endRule(context);
       this.endRule(context);
       this.endRule(context);
-      this.startRule(context, RuleType.ScenarioDefinition);
+      this.endRule(context);
+      this.endRule(context);
+      this.startRule(context, RuleType.Rule);
+      this.startRule(context, RuleType.RuleHeader);
       this.startRule(context, RuleType.Tags);
       this.build(context, token);
-      return 30;
+      return 22;
     }
     if(this.match_ExamplesLine(context, token)) {
+      this.endRule(context);
       this.endRule(context);
       this.endRule(context);
       this.startRule(context, RuleType.ExamplesDefinition);
       this.startRule(context, RuleType.Examples);
       this.build(context, token);
-      return 37;
+      return 38;
     }
     if(this.match_ScenarioLine(context, token)) {
+      this.endRule(context);
       this.endRule(context);
       this.endRule(context);
       this.endRule(context);
@@ -2960,9 +3287,10 @@ export default class Parser<AstNode> {
       this.startRule(context, RuleType.ScenarioDefinition);
       this.startRule(context, RuleType.Scenario);
       this.build(context, token);
-      return 31;
+      return 32;
     }
     if(this.match_RuleLine(context, token)) {
+      this.endRule(context);
       this.endRule(context);
       this.endRule(context);
       this.endRule(context);
@@ -2971,15 +3299,15 @@ export default class Parser<AstNode> {
       this.startRule(context, RuleType.Rule);
       this.startRule(context, RuleType.RuleHeader);
       this.build(context, token);
-      return 22;
+      return 23;
     }
-    if(this.match_Empty(context, token)) {
+    if(this.match_Other(context, token)) {
       this.build(context, token);
       return 39;
     }
     
     token.detach();
-    const expectedTokens = ["#EOF", "#Comment", "#TableRow", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Empty"];
+    const expectedTokens = ["#EOF", "#Comment", "#TableRow", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Other"];
     const error = token.isEof ?
       UnexpectedEOFException.create(token, expectedTokens) :
       UnexpectedTokenException.create(token, expectedTokens);
@@ -2989,7 +3317,7 @@ export default class Parser<AstNode> {
   }
 
 
-  // GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:1>Examples:2>ExamplesTable:0>#TableRow:0
+  // GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:1>Examples:1>DescriptionHelper:2>#Comment:0
   private matchTokenAt_40(token: IToken<TokenType>, context: Context) {
     if(this.match_EOF(context, token)) {
       this.endRule(context);
@@ -2998,23 +3326,38 @@ export default class Parser<AstNode> {
       this.endRule(context);
       this.endRule(context);
       this.endRule(context);
-      this.endRule(context);
+      this.build(context, token);
+      return 42;
+    }
+    if(this.match_Comment(context, token)) {
+      this.build(context, token);
+      return 40;
+    }
+    if(this.match_TableRow(context, token)) {
+      this.startRule(context, RuleType.ExamplesTable);
       this.build(context, token);
       return 41;
     }
-    if(this.match_TableRow(context, token)) {
+    if(this.match_TagLine(context, token)) {
+      if(this.lookahead_1(context, token)) {
+      this.endRule(context);
+      this.endRule(context);
+      this.startRule(context, RuleType.ExamplesDefinition);
+      this.startRule(context, RuleType.Tags);
       this.build(context, token);
-      return 40;
+      return 37;
+      }
     }
     if(this.match_TagLine(context, token)) {
       if(this.lookahead_0(context, token)) {
       this.endRule(context);
       this.endRule(context);
       this.endRule(context);
-      this.startRule(context, RuleType.ExamplesDefinition);
+      this.endRule(context);
+      this.startRule(context, RuleType.ScenarioDefinition);
       this.startRule(context, RuleType.Tags);
       this.build(context, token);
-      return 36;
+      return 31;
       }
     }
     if(this.match_TagLine(context, token)) {
@@ -3023,22 +3366,21 @@ export default class Parser<AstNode> {
       this.endRule(context);
       this.endRule(context);
       this.endRule(context);
-      this.startRule(context, RuleType.ScenarioDefinition);
+      this.startRule(context, RuleType.Rule);
+      this.startRule(context, RuleType.RuleHeader);
       this.startRule(context, RuleType.Tags);
       this.build(context, token);
-      return 30;
+      return 22;
     }
     if(this.match_ExamplesLine(context, token)) {
-      this.endRule(context);
       this.endRule(context);
       this.endRule(context);
       this.startRule(context, RuleType.ExamplesDefinition);
       this.startRule(context, RuleType.Examples);
       this.build(context, token);
-      return 37;
+      return 38;
     }
     if(this.match_ScenarioLine(context, token)) {
-      this.endRule(context);
       this.endRule(context);
       this.endRule(context);
       this.endRule(context);
@@ -3046,10 +3388,9 @@ export default class Parser<AstNode> {
       this.startRule(context, RuleType.ScenarioDefinition);
       this.startRule(context, RuleType.Scenario);
       this.build(context, token);
-      return 31;
+      return 32;
     }
     if(this.match_RuleLine(context, token)) {
-      this.endRule(context);
       this.endRule(context);
       this.endRule(context);
       this.endRule(context);
@@ -3058,11 +3399,7 @@ export default class Parser<AstNode> {
       this.startRule(context, RuleType.Rule);
       this.startRule(context, RuleType.RuleHeader);
       this.build(context, token);
-      return 22;
-    }
-    if(this.match_Comment(context, token)) {
-      this.build(context, token);
-      return 40;
+      return 23;
     }
     if(this.match_Empty(context, token)) {
       this.build(context, token);
@@ -3070,7 +3407,7 @@ export default class Parser<AstNode> {
     }
     
     token.detach();
-    const expectedTokens = ["#EOF", "#TableRow", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Comment", "#Empty"];
+    const expectedTokens = ["#EOF", "#Comment", "#TableRow", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Empty"];
     const error = token.isEof ?
       UnexpectedEOFException.create(token, expectedTokens) :
       UnexpectedTokenException.create(token, expectedTokens);
@@ -3080,30 +3417,8 @@ export default class Parser<AstNode> {
   }
 
 
-  // GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:2>Step:1>StepArg:0>__alt0:1>DocString:0>#DocStringSeparator:0
-  private matchTokenAt_42(token: IToken<TokenType>, context: Context) {
-    if(this.match_DocStringSeparator(context, token)) {
-      this.build(context, token);
-      return 43;
-    }
-    if(this.match_Other(context, token)) {
-      this.build(context, token);
-      return 42;
-    }
-    
-    token.detach();
-    const expectedTokens = ["#DocStringSeparator", "#Other"];
-    const error = token.isEof ?
-      UnexpectedEOFException.create(token, expectedTokens) :
-      UnexpectedTokenException.create(token, expectedTokens);
-    if (this.stopAtFirstError) throw error;
-    this.addError(context, error);
-    return 42;
-  }
-
-
-  // GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:2>Step:1>StepArg:0>__alt0:1>DocString:2>#DocStringSeparator:0
-  private matchTokenAt_43(token: IToken<TokenType>, context: Context) {
+  // GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:1>Examples:2>ExamplesTable:0>#TableRow:0
+  private matchTokenAt_41(token: IToken<TokenType>, context: Context) {
     if(this.match_EOF(context, token)) {
       this.endRule(context);
       this.endRule(context);
@@ -3111,24 +3426,36 @@ export default class Parser<AstNode> {
       this.endRule(context);
       this.endRule(context);
       this.endRule(context);
+      this.endRule(context);
+      this.build(context, token);
+      return 42;
+    }
+    if(this.match_TableRow(context, token)) {
       this.build(context, token);
       return 41;
     }
-    if(this.match_StepLine(context, token)) {
-      this.endRule(context);
-      this.endRule(context);
-      this.startRule(context, RuleType.Step);
-      this.build(context, token);
-      return 34;
-    }
     if(this.match_TagLine(context, token)) {
-      if(this.lookahead_0(context, token)) {
+      if(this.lookahead_1(context, token)) {
+      this.endRule(context);
       this.endRule(context);
       this.endRule(context);
       this.startRule(context, RuleType.ExamplesDefinition);
       this.startRule(context, RuleType.Tags);
       this.build(context, token);
-      return 36;
+      return 37;
+      }
+    }
+    if(this.match_TagLine(context, token)) {
+      if(this.lookahead_0(context, token)) {
+      this.endRule(context);
+      this.endRule(context);
+      this.endRule(context);
+      this.endRule(context);
+      this.endRule(context);
+      this.startRule(context, RuleType.ScenarioDefinition);
+      this.startRule(context, RuleType.Tags);
+      this.build(context, token);
+      return 31;
       }
     }
     if(this.match_TagLine(context, token)) {
@@ -3136,20 +3463,25 @@ export default class Parser<AstNode> {
       this.endRule(context);
       this.endRule(context);
       this.endRule(context);
-      this.startRule(context, RuleType.ScenarioDefinition);
+      this.endRule(context);
+      this.endRule(context);
+      this.startRule(context, RuleType.Rule);
+      this.startRule(context, RuleType.RuleHeader);
       this.startRule(context, RuleType.Tags);
       this.build(context, token);
-      return 30;
+      return 22;
     }
     if(this.match_ExamplesLine(context, token)) {
+      this.endRule(context);
       this.endRule(context);
       this.endRule(context);
       this.startRule(context, RuleType.ExamplesDefinition);
       this.startRule(context, RuleType.Examples);
       this.build(context, token);
-      return 37;
+      return 38;
     }
     if(this.match_ScenarioLine(context, token)) {
+      this.endRule(context);
       this.endRule(context);
       this.endRule(context);
       this.endRule(context);
@@ -3157,9 +3489,10 @@ export default class Parser<AstNode> {
       this.startRule(context, RuleType.ScenarioDefinition);
       this.startRule(context, RuleType.Scenario);
       this.build(context, token);
-      return 31;
+      return 32;
     }
     if(this.match_RuleLine(context, token)) {
+      this.endRule(context);
       this.endRule(context);
       this.endRule(context);
       this.endRule(context);
@@ -3168,19 +3501,41 @@ export default class Parser<AstNode> {
       this.startRule(context, RuleType.Rule);
       this.startRule(context, RuleType.RuleHeader);
       this.build(context, token);
-      return 22;
+      return 23;
     }
     if(this.match_Comment(context, token)) {
       this.build(context, token);
-      return 43;
+      return 41;
     }
     if(this.match_Empty(context, token)) {
+      this.build(context, token);
+      return 41;
+    }
+    
+    token.detach();
+    const expectedTokens = ["#EOF", "#TableRow", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Comment", "#Empty"];
+    const error = token.isEof ?
+      UnexpectedEOFException.create(token, expectedTokens) :
+      UnexpectedTokenException.create(token, expectedTokens);
+    if (this.stopAtFirstError) throw error;
+    this.addError(context, error);
+    return 41;
+  }
+
+
+  // GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:2>Step:1>StepArg:0>__alt0:1>DocString:0>#DocStringSeparator:0
+  private matchTokenAt_43(token: IToken<TokenType>, context: Context) {
+    if(this.match_DocStringSeparator(context, token)) {
+      this.build(context, token);
+      return 44;
+    }
+    if(this.match_Other(context, token)) {
       this.build(context, token);
       return 43;
     }
     
     token.detach();
-    const expectedTokens = ["#EOF", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Comment", "#Empty"];
+    const expectedTokens = ["#DocStringSeparator", "#Other"];
     const error = token.isEof ?
       UnexpectedEOFException.create(token, expectedTokens) :
       UnexpectedTokenException.create(token, expectedTokens);
@@ -3190,19 +3545,99 @@ export default class Parser<AstNode> {
   }
 
 
-  // GherkinDocument:0>Feature:3>Rule:1>Background:2>Step:1>StepArg:0>__alt0:1>DocString:0>#DocStringSeparator:0
+  // GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:2>Step:1>StepArg:0>__alt0:1>DocString:2>#DocStringSeparator:0
   private matchTokenAt_44(token: IToken<TokenType>, context: Context) {
-    if(this.match_DocStringSeparator(context, token)) {
+    if(this.match_EOF(context, token)) {
+      this.endRule(context);
+      this.endRule(context);
+      this.endRule(context);
+      this.endRule(context);
+      this.endRule(context);
+      this.endRule(context);
       this.build(context, token);
-      return 45;
+      return 42;
     }
-    if(this.match_Other(context, token)) {
+    if(this.match_StepLine(context, token)) {
+      this.endRule(context);
+      this.endRule(context);
+      this.startRule(context, RuleType.Step);
+      this.build(context, token);
+      return 35;
+    }
+    if(this.match_TagLine(context, token)) {
+      if(this.lookahead_1(context, token)) {
+      this.endRule(context);
+      this.endRule(context);
+      this.startRule(context, RuleType.ExamplesDefinition);
+      this.startRule(context, RuleType.Tags);
+      this.build(context, token);
+      return 37;
+      }
+    }
+    if(this.match_TagLine(context, token)) {
+      if(this.lookahead_0(context, token)) {
+      this.endRule(context);
+      this.endRule(context);
+      this.endRule(context);
+      this.endRule(context);
+      this.startRule(context, RuleType.ScenarioDefinition);
+      this.startRule(context, RuleType.Tags);
+      this.build(context, token);
+      return 31;
+      }
+    }
+    if(this.match_TagLine(context, token)) {
+      this.endRule(context);
+      this.endRule(context);
+      this.endRule(context);
+      this.endRule(context);
+      this.endRule(context);
+      this.startRule(context, RuleType.Rule);
+      this.startRule(context, RuleType.RuleHeader);
+      this.startRule(context, RuleType.Tags);
+      this.build(context, token);
+      return 22;
+    }
+    if(this.match_ExamplesLine(context, token)) {
+      this.endRule(context);
+      this.endRule(context);
+      this.startRule(context, RuleType.ExamplesDefinition);
+      this.startRule(context, RuleType.Examples);
+      this.build(context, token);
+      return 38;
+    }
+    if(this.match_ScenarioLine(context, token)) {
+      this.endRule(context);
+      this.endRule(context);
+      this.endRule(context);
+      this.endRule(context);
+      this.startRule(context, RuleType.ScenarioDefinition);
+      this.startRule(context, RuleType.Scenario);
+      this.build(context, token);
+      return 32;
+    }
+    if(this.match_RuleLine(context, token)) {
+      this.endRule(context);
+      this.endRule(context);
+      this.endRule(context);
+      this.endRule(context);
+      this.endRule(context);
+      this.startRule(context, RuleType.Rule);
+      this.startRule(context, RuleType.RuleHeader);
+      this.build(context, token);
+      return 23;
+    }
+    if(this.match_Comment(context, token)) {
+      this.build(context, token);
+      return 44;
+    }
+    if(this.match_Empty(context, token)) {
       this.build(context, token);
       return 44;
     }
     
     token.detach();
-    const expectedTokens = ["#DocStringSeparator", "#Other"];
+    const expectedTokens = ["#EOF", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Comment", "#Empty"];
     const error = token.isEof ?
       UnexpectedEOFException.create(token, expectedTokens) :
       UnexpectedTokenException.create(token, expectedTokens);
@@ -3212,81 +3647,15 @@ export default class Parser<AstNode> {
   }
 
 
-  // GherkinDocument:0>Feature:3>Rule:1>Background:2>Step:1>StepArg:0>__alt0:1>DocString:2>#DocStringSeparator:0
+  // GherkinDocument:0>Feature:3>Rule:1>Background:2>Step:1>StepArg:0>__alt0:1>DocString:0>#DocStringSeparator:0
   private matchTokenAt_45(token: IToken<TokenType>, context: Context) {
-    if(this.match_EOF(context, token)) {
-      this.endRule(context);
-      this.endRule(context);
-      this.endRule(context);
-      this.endRule(context);
-      this.endRule(context);
-      this.build(context, token);
-      return 41;
-    }
-    if(this.match_StepLine(context, token)) {
-      this.endRule(context);
-      this.endRule(context);
-      this.startRule(context, RuleType.Step);
-      this.build(context, token);
-      return 28;
-    }
-    if(this.match_TagLine(context, token)) {
-      this.endRule(context);
-      this.endRule(context);
-      this.endRule(context);
-      this.startRule(context, RuleType.ScenarioDefinition);
-      this.startRule(context, RuleType.Tags);
-      this.build(context, token);
-      return 30;
-    }
-    if(this.match_ScenarioLine(context, token)) {
-      this.endRule(context);
-      this.endRule(context);
-      this.endRule(context);
-      this.startRule(context, RuleType.ScenarioDefinition);
-      this.startRule(context, RuleType.Scenario);
-      this.build(context, token);
-      return 31;
-    }
-    if(this.match_RuleLine(context, token)) {
-      this.endRule(context);
-      this.endRule(context);
-      this.endRule(context);
-      this.endRule(context);
-      this.startRule(context, RuleType.Rule);
-      this.startRule(context, RuleType.RuleHeader);
-      this.build(context, token);
-      return 22;
-    }
-    if(this.match_Comment(context, token)) {
-      this.build(context, token);
-      return 45;
-    }
-    if(this.match_Empty(context, token)) {
-      this.build(context, token);
-      return 45;
-    }
-    
-    token.detach();
-    const expectedTokens = ["#EOF", "#StepLine", "#TagLine", "#ScenarioLine", "#RuleLine", "#Comment", "#Empty"];
-    const error = token.isEof ?
-      UnexpectedEOFException.create(token, expectedTokens) :
-      UnexpectedTokenException.create(token, expectedTokens);
-    if (this.stopAtFirstError) throw error;
-    this.addError(context, error);
-    return 45;
-  }
-
-
-  // GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:2>Step:1>StepArg:0>__alt0:1>DocString:0>#DocStringSeparator:0
-  private matchTokenAt_46(token: IToken<TokenType>, context: Context) {
     if(this.match_DocStringSeparator(context, token)) {
       this.build(context, token);
-      return 47;
+      return 46;
     }
     if(this.match_Other(context, token)) {
       this.build(context, token);
-      return 46;
+      return 45;
     }
     
     token.detach();
@@ -3296,12 +3665,12 @@ export default class Parser<AstNode> {
       UnexpectedTokenException.create(token, expectedTokens);
     if (this.stopAtFirstError) throw error;
     this.addError(context, error);
-    return 46;
+    return 45;
   }
 
 
-  // GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:2>Step:1>StepArg:0>__alt0:1>DocString:2>#DocStringSeparator:0
-  private matchTokenAt_47(token: IToken<TokenType>, context: Context) {
+  // GherkinDocument:0>Feature:3>Rule:1>Background:2>Step:1>StepArg:0>__alt0:1>DocString:2>#DocStringSeparator:0
+  private matchTokenAt_46(token: IToken<TokenType>, context: Context) {
     if(this.match_EOF(context, token)) {
       this.endRule(context);
       this.endRule(context);
@@ -3309,7 +3678,108 @@ export default class Parser<AstNode> {
       this.endRule(context);
       this.endRule(context);
       this.build(context, token);
-      return 41;
+      return 42;
+    }
+    if(this.match_StepLine(context, token)) {
+      this.endRule(context);
+      this.endRule(context);
+      this.startRule(context, RuleType.Step);
+      this.build(context, token);
+      return 29;
+    }
+    if(this.match_TagLine(context, token)) {
+      if(this.lookahead_0(context, token)) {
+      this.endRule(context);
+      this.endRule(context);
+      this.endRule(context);
+      this.startRule(context, RuleType.ScenarioDefinition);
+      this.startRule(context, RuleType.Tags);
+      this.build(context, token);
+      return 31;
+      }
+    }
+    if(this.match_TagLine(context, token)) {
+      this.endRule(context);
+      this.endRule(context);
+      this.endRule(context);
+      this.endRule(context);
+      this.startRule(context, RuleType.Rule);
+      this.startRule(context, RuleType.RuleHeader);
+      this.startRule(context, RuleType.Tags);
+      this.build(context, token);
+      return 22;
+    }
+    if(this.match_ScenarioLine(context, token)) {
+      this.endRule(context);
+      this.endRule(context);
+      this.endRule(context);
+      this.startRule(context, RuleType.ScenarioDefinition);
+      this.startRule(context, RuleType.Scenario);
+      this.build(context, token);
+      return 32;
+    }
+    if(this.match_RuleLine(context, token)) {
+      this.endRule(context);
+      this.endRule(context);
+      this.endRule(context);
+      this.endRule(context);
+      this.startRule(context, RuleType.Rule);
+      this.startRule(context, RuleType.RuleHeader);
+      this.build(context, token);
+      return 23;
+    }
+    if(this.match_Comment(context, token)) {
+      this.build(context, token);
+      return 46;
+    }
+    if(this.match_Empty(context, token)) {
+      this.build(context, token);
+      return 46;
+    }
+    
+    token.detach();
+    const expectedTokens = ["#EOF", "#StepLine", "#TagLine", "#ScenarioLine", "#RuleLine", "#Comment", "#Empty"];
+    const error = token.isEof ?
+      UnexpectedEOFException.create(token, expectedTokens) :
+      UnexpectedTokenException.create(token, expectedTokens);
+    if (this.stopAtFirstError) throw error;
+    this.addError(context, error);
+    return 46;
+  }
+
+
+  // GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:2>Step:1>StepArg:0>__alt0:1>DocString:0>#DocStringSeparator:0
+  private matchTokenAt_47(token: IToken<TokenType>, context: Context) {
+    if(this.match_DocStringSeparator(context, token)) {
+      this.build(context, token);
+      return 48;
+    }
+    if(this.match_Other(context, token)) {
+      this.build(context, token);
+      return 47;
+    }
+    
+    token.detach();
+    const expectedTokens = ["#DocStringSeparator", "#Other"];
+    const error = token.isEof ?
+      UnexpectedEOFException.create(token, expectedTokens) :
+      UnexpectedTokenException.create(token, expectedTokens);
+    if (this.stopAtFirstError) throw error;
+    this.addError(context, error);
+    return 47;
+  }
+
+
+  // GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:2>Step:1>StepArg:0>__alt0:1>DocString:2>#DocStringSeparator:0
+  private matchTokenAt_48(token: IToken<TokenType>, context: Context) {
+    if(this.match_EOF(context, token)) {
+      this.endRule(context);
+      this.endRule(context);
+      this.endRule(context);
+      this.endRule(context);
+      this.endRule(context);
+      this.build(context, token);
+      return 42;
     }
     if(this.match_StepLine(context, token)) {
       this.endRule(context);
@@ -3319,7 +3789,7 @@ export default class Parser<AstNode> {
       return 15;
     }
     if(this.match_TagLine(context, token)) {
-      if(this.lookahead_0(context, token)) {
+      if(this.lookahead_1(context, token)) {
       this.endRule(context);
       this.endRule(context);
       this.startRule(context, RuleType.ExamplesDefinition);
@@ -3329,6 +3799,7 @@ export default class Parser<AstNode> {
       }
     }
     if(this.match_TagLine(context, token)) {
+      if(this.lookahead_0(context, token)) {
       this.endRule(context);
       this.endRule(context);
       this.endRule(context);
@@ -3337,6 +3808,18 @@ export default class Parser<AstNode> {
       this.startRule(context, RuleType.Tags);
       this.build(context, token);
       return 11;
+      }
+    }
+    if(this.match_TagLine(context, token)) {
+      this.endRule(context);
+      this.endRule(context);
+      this.endRule(context);
+      this.endRule(context);
+      this.startRule(context, RuleType.Rule);
+      this.startRule(context, RuleType.RuleHeader);
+      this.startRule(context, RuleType.Tags);
+      this.build(context, token);
+      return 22;
     }
     if(this.match_ExamplesLine(context, token)) {
       this.endRule(context);
@@ -3364,15 +3847,15 @@ export default class Parser<AstNode> {
       this.startRule(context, RuleType.Rule);
       this.startRule(context, RuleType.RuleHeader);
       this.build(context, token);
-      return 22;
+      return 23;
     }
     if(this.match_Comment(context, token)) {
       this.build(context, token);
-      return 47;
+      return 48;
     }
     if(this.match_Empty(context, token)) {
       this.build(context, token);
-      return 47;
+      return 48;
     }
     
     token.detach();
@@ -3382,19 +3865,19 @@ export default class Parser<AstNode> {
       UnexpectedTokenException.create(token, expectedTokens);
     if (this.stopAtFirstError) throw error;
     this.addError(context, error);
-    return 47;
+    return 48;
   }
 
 
   // GherkinDocument:0>Feature:1>Background:2>Step:1>StepArg:0>__alt0:1>DocString:0>#DocStringSeparator:0
-  private matchTokenAt_48(token: IToken<TokenType>, context: Context) {
+  private matchTokenAt_49(token: IToken<TokenType>, context: Context) {
     if(this.match_DocStringSeparator(context, token)) {
       this.build(context, token);
-      return 49;
+      return 50;
     }
     if(this.match_Other(context, token)) {
       this.build(context, token);
-      return 48;
+      return 49;
     }
     
     token.detach();
@@ -3404,19 +3887,19 @@ export default class Parser<AstNode> {
       UnexpectedTokenException.create(token, expectedTokens);
     if (this.stopAtFirstError) throw error;
     this.addError(context, error);
-    return 48;
+    return 49;
   }
 
 
   // GherkinDocument:0>Feature:1>Background:2>Step:1>StepArg:0>__alt0:1>DocString:2>#DocStringSeparator:0
-  private matchTokenAt_49(token: IToken<TokenType>, context: Context) {
+  private matchTokenAt_50(token: IToken<TokenType>, context: Context) {
     if(this.match_EOF(context, token)) {
       this.endRule(context);
       this.endRule(context);
       this.endRule(context);
       this.endRule(context);
       this.build(context, token);
-      return 41;
+      return 42;
     }
     if(this.match_StepLine(context, token)) {
       this.endRule(context);
@@ -3426,6 +3909,7 @@ export default class Parser<AstNode> {
       return 9;
     }
     if(this.match_TagLine(context, token)) {
+      if(this.lookahead_0(context, token)) {
       this.endRule(context);
       this.endRule(context);
       this.endRule(context);
@@ -3433,6 +3917,17 @@ export default class Parser<AstNode> {
       this.startRule(context, RuleType.Tags);
       this.build(context, token);
       return 11;
+      }
+    }
+    if(this.match_TagLine(context, token)) {
+      this.endRule(context);
+      this.endRule(context);
+      this.endRule(context);
+      this.startRule(context, RuleType.Rule);
+      this.startRule(context, RuleType.RuleHeader);
+      this.startRule(context, RuleType.Tags);
+      this.build(context, token);
+      return 22;
     }
     if(this.match_ScenarioLine(context, token)) {
       this.endRule(context);
@@ -3450,15 +3945,15 @@ export default class Parser<AstNode> {
       this.startRule(context, RuleType.Rule);
       this.startRule(context, RuleType.RuleHeader);
       this.build(context, token);
-      return 22;
+      return 23;
     }
     if(this.match_Comment(context, token)) {
       this.build(context, token);
-      return 49;
+      return 50;
     }
     if(this.match_Empty(context, token)) {
       this.build(context, token);
-      return 49;
+      return 50;
     }
     
     token.detach();
@@ -3468,96 +3963,118 @@ export default class Parser<AstNode> {
       UnexpectedTokenException.create(token, expectedTokens);
     if (this.stopAtFirstError) throw error;
     this.addError(context, error);
-    return 49;
+    return 50;
   }
 
 
 
   private match_EOF(context: Context, token: IToken<TokenType>) {
-    return this.handleExternalError(context, false, () => context.tokenMatcher.match_EOF(token));
+    return this.handleExternalError(context, false, () => this.tokenMatcher.match_EOF(token));
   }
 
 
   private match_Empty(context: Context, token: IToken<TokenType>) {
     if(token.isEof) return false;
-    return this.handleExternalError(context, false, () => context.tokenMatcher.match_Empty(token));
+    return this.handleExternalError(context, false, () => this.tokenMatcher.match_Empty(token));
   }
 
 
   private match_Comment(context: Context, token: IToken<TokenType>) {
     if(token.isEof) return false;
-    return this.handleExternalError(context, false, () => context.tokenMatcher.match_Comment(token));
+    return this.handleExternalError(context, false, () => this.tokenMatcher.match_Comment(token));
   }
 
 
   private match_TagLine(context: Context, token: IToken<TokenType>) {
     if(token.isEof) return false;
-    return this.handleExternalError(context, false, () => context.tokenMatcher.match_TagLine(token));
+    return this.handleExternalError(context, false, () => this.tokenMatcher.match_TagLine(token));
   }
 
 
   private match_FeatureLine(context: Context, token: IToken<TokenType>) {
     if(token.isEof) return false;
-    return this.handleExternalError(context, false, () => context.tokenMatcher.match_FeatureLine(token));
+    return this.handleExternalError(context, false, () => this.tokenMatcher.match_FeatureLine(token));
   }
 
 
   private match_RuleLine(context: Context, token: IToken<TokenType>) {
     if(token.isEof) return false;
-    return this.handleExternalError(context, false, () => context.tokenMatcher.match_RuleLine(token));
+    return this.handleExternalError(context, false, () => this.tokenMatcher.match_RuleLine(token));
   }
 
 
   private match_BackgroundLine(context: Context, token: IToken<TokenType>) {
     if(token.isEof) return false;
-    return this.handleExternalError(context, false, () => context.tokenMatcher.match_BackgroundLine(token));
+    return this.handleExternalError(context, false, () => this.tokenMatcher.match_BackgroundLine(token));
   }
 
 
   private match_ScenarioLine(context: Context, token: IToken<TokenType>) {
     if(token.isEof) return false;
-    return this.handleExternalError(context, false, () => context.tokenMatcher.match_ScenarioLine(token));
+    return this.handleExternalError(context, false, () => this.tokenMatcher.match_ScenarioLine(token));
   }
 
 
   private match_ExamplesLine(context: Context, token: IToken<TokenType>) {
     if(token.isEof) return false;
-    return this.handleExternalError(context, false, () => context.tokenMatcher.match_ExamplesLine(token));
+    return this.handleExternalError(context, false, () => this.tokenMatcher.match_ExamplesLine(token));
   }
 
 
   private match_StepLine(context: Context, token: IToken<TokenType>) {
     if(token.isEof) return false;
-    return this.handleExternalError(context, false, () => context.tokenMatcher.match_StepLine(token));
+    return this.handleExternalError(context, false, () => this.tokenMatcher.match_StepLine(token));
   }
 
 
   private match_DocStringSeparator(context: Context, token: IToken<TokenType>) {
     if(token.isEof) return false;
-    return this.handleExternalError(context, false, () => context.tokenMatcher.match_DocStringSeparator(token));
+    return this.handleExternalError(context, false, () => this.tokenMatcher.match_DocStringSeparator(token));
   }
 
 
   private match_TableRow(context: Context, token: IToken<TokenType>) {
     if(token.isEof) return false;
-    return this.handleExternalError(context, false, () => context.tokenMatcher.match_TableRow(token));
+    return this.handleExternalError(context, false, () => this.tokenMatcher.match_TableRow(token));
   }
 
 
   private match_Language(context: Context, token: IToken<TokenType>) {
     if(token.isEof) return false;
-    return this.handleExternalError(context, false, () => context.tokenMatcher.match_Language(token));
+    return this.handleExternalError(context, false, () => this.tokenMatcher.match_Language(token));
   }
 
 
   private match_Other(context: Context, token: IToken<TokenType>) {
     if(token.isEof) return false;
-    return this.handleExternalError(context, false, () => context.tokenMatcher.match_Other(token));
+    return this.handleExternalError(context, false, () => this.tokenMatcher.match_Other(token));
   }
 
 
 
   private lookahead_0(context: Context, currentToken: IToken<TokenType>) {
+    currentToken.detach();
+    let token;
+    const queue: IToken<TokenType>[] = [];
+    let match = false;
+    do {
+      token = this.readToken(this.context);
+      token.detach();
+      queue.push(token);
+
+      if (false  || this.match_ScenarioLine(context, token)) {
+        match = true;
+        break;
+      }
+    } while(false  || this.match_Empty(context, token) || this.match_Comment(context, token) || this.match_TagLine(context, token));
+
+    context.tokenQueue = context.tokenQueue.concat(queue);
+
+    return match;
+  }
+
+
+  private lookahead_1(context: Context, currentToken: IToken<TokenType>) {
     currentToken.detach();
     let token;
     const queue: IToken<TokenType>[] = [];

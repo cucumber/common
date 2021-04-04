@@ -156,6 +156,12 @@ defmodule CucumberGherkin.@Model.ParserClassName do
 
 
   defp lookahead?(0, _line, %ParserContext{} = ctext) do
+    expected_tokens = [ScenarioLine]
+    skip_tokens = [Empty,Comment,TagLine]
+    look_helper(expected_tokens, skip_tokens, %{context: ctext, match?: false, stop?: false})
+  end
+
+  defp lookahead?(1, _line, %ParserContext{} = ctext) do
     expected_tokens = [ExamplesLine]
     skip_tokens = [Empty,Comment,TagLine]
     look_helper(expected_tokens, skip_tokens, %{context: ctext, match?: false, stop?: false})

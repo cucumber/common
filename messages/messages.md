@@ -23,8 +23,6 @@
     - [GherkinDocument.Feature.TableRow.TableCell](#io.cucumber.messages.GherkinDocument.Feature.TableRow.TableCell)
     - [GherkinDocument.Feature.Tag](#io.cucumber.messages.GherkinDocument.Feature.Tag)
     - [Hook](#io.cucumber.messages.Hook)
-    - [JavaMethod](#io.cucumber.messages.JavaMethod)
-    - [JavaStackTraceElement](#io.cucumber.messages.JavaStackTraceElement)
     - [Location](#io.cucumber.messages.Location)
     - [Meta](#io.cucumber.messages.Meta)
     - [Meta.CI](#io.cucumber.messages.Meta.CI)
@@ -95,12 +93,19 @@ is captured in `TestResult`.
 | source | [SourceReference](#io.cucumber.messages.SourceReference) |  |  |
 | test_step_id | [string](#string) |  |  |
 | test_case_started_id | [string](#string) |  |  |
-| body | [string](#string) |  |  |
+| body | [string](#string) |  | The body of the attachment. If `content_encoding` is `IDENTITY`, the attachment is simply the string. If it&#39;s `BASE64`, the string should be Base64 decoded to obtain the attachment. |
 | media_type | [string](#string) |  | The media type of the data. This can be any valid [IANA Media Type](https://www.iana.org/assignments/media-types/media-types.xhtml) as well as Cucumber-specific media types such as `text/x.cucumber.gherkin&#43;plain` and `text/x.cucumber.stacktrace&#43;plain` |
-| content_encoding | [Attachment.ContentEncoding](#io.cucumber.messages.Attachment.ContentEncoding) |  | Content encoding is *not* determined by the media type, but rather by the type of the object being attached:
+| content_encoding | [Attachment.ContentEncoding](#io.cucumber.messages.Attachment.ContentEncoding) |  | Whether to interpret `body` &#34;as-is&#34; (IDENTITY) or if it needs to be Base64-decoded (BASE64).
+
+Content encoding is *not* determined by the media type, but rather by the type of the object being attached:
 
 - string =&gt; IDENTITY - byte array =&gt; BASE64 - stream =&gt; BASE64 |
-| file_name | [string](#string) |  | Suggested file name of the attachment. |
+| file_name | [string](#string) |  | Suggested file name of the attachment. (Provided by the user as an argument to `attach`) |
+| url | [string](#string) |  | A URL where the attachment can be retrieved. This field should not be set by Cucumber. It should be set by a program that reads a message stream and does the following for each Attachment message:
+
+- Writes the body (after base64 decoding if necessary) to a new file. - Sets `body` and `content_encoding` to `null` - Writes out the new attachment message
+
+This will result in a smaller message stream, which can improve performance and reduce bandwidth of message consumers. It also makes it easier to process and download attachments separately from reports. |
 
 
 
@@ -266,6 +271,7 @@ A `Rule` node
 | description | [string](#string) |  |  |
 | children | [GherkinDocument.Feature.FeatureChild.RuleChild](#io.cucumber.messages.GherkinDocument.Feature.FeatureChild.RuleChild) | repeated |  |
 | id | [string](#string) |  |  |
+| tags | [GherkinDocument.Feature.Tag](#io.cucumber.messages.GherkinDocument.Feature.Tag) | repeated |  |
 
 
 
@@ -447,40 +453,6 @@ A tag
 | id | [string](#string) |  |  |
 | tag_expression | [string](#string) |  |  |
 | source_reference | [SourceReference](#io.cucumber.messages.SourceReference) |  |  |
-
-
-
-
-
-
-<a name="io.cucumber.messages.JavaMethod"></a>
-
-### JavaMethod
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| class_name | [string](#string) |  |  |
-| method_name | [string](#string) |  |  |
-| method_parameter_types | [string](#string) | repeated |  |
-
-
-
-
-
-
-<a name="io.cucumber.messages.JavaStackTraceElement"></a>
-
-### JavaStackTraceElement
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| class_name | [string](#string) |  |  |
-| method_name | [string](#string) |  |  |
-| file_name | [string](#string) |  |  |
 
 
 
@@ -778,13 +750,8 @@ Points to a [Source](#io.cucumber.messages.Source) identified by `uri` and a
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | uri | [string](#string) |  |  |
-<<<<<<< HEAD
-| java_method | [JavaMethod](#io.cucumber.messages.JavaMethod) |  |  |
-| java_stack_trace_element | [JavaStackTraceElement](#io.cucumber.messages.JavaStackTraceElement) |  |  |
-=======
 | java_method | [SourceReference.JavaMethod](#io.cucumber.messages.SourceReference.JavaMethod) |  |  |
 | java_stack_trace_element | [SourceReference.JavaStackTraceElement](#io.cucumber.messages.SourceReference.JavaStackTraceElement) |  |  |
->>>>>>> ad5c939f... Include parameter types in location (and move Java protobuf messages into narrower scope)
 | location | [Location](#io.cucumber.messages.Location) |  |  |
 
 

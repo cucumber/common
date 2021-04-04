@@ -7,14 +7,9 @@ import fs from 'fs'
 describe('#attach', () => {
   it('can attach a string', () => {
     const envelopes: messages.IEnvelope[] = []
-    const listener: EnvelopeListener = (envelope: messages.IEnvelope) =>
-      envelopes.push(envelope)
+    const listener: EnvelopeListener = (envelope: messages.IEnvelope) => envelopes.push(envelope)
 
-    const attach = makeAttach(
-      'the-test-step-id',
-      'the-test-case-started-id',
-      listener
-    )
+    const attach = makeAttach('the-test-step-id', 'the-test-case-started-id', listener)
 
     attach('hello', 'text/plain')
 
@@ -34,14 +29,9 @@ describe('#attach', () => {
 
   it('can attach a buffer', () => {
     const envelopes: messages.IEnvelope[] = []
-    const listener: EnvelopeListener = (envelope: messages.IEnvelope) =>
-      envelopes.push(envelope)
+    const listener: EnvelopeListener = (envelope: messages.IEnvelope) => envelopes.push(envelope)
 
-    const attach = makeAttach(
-      'the-test-step-id',
-      'the-test-case-started-id',
-      listener
-    )
+    const attach = makeAttach('the-test-step-id', 'the-test-case-started-id', listener)
 
     const buffer = Buffer.from([...Array(4).keys()])
     attach(buffer, 'application/octet-stream')
@@ -62,18 +52,11 @@ describe('#attach', () => {
 
   it('can attach a readable stream', async () => {
     const envelopes: messages.IEnvelope[] = []
-    const listener: EnvelopeListener = (envelope: messages.IEnvelope) =>
-      envelopes.push(envelope)
+    const listener: EnvelopeListener = (envelope: messages.IEnvelope) => envelopes.push(envelope)
 
-    const attach = makeAttach(
-      'the-test-step-id',
-      'the-test-case-started-id',
-      listener
-    )
+    const attach = makeAttach('the-test-step-id', 'the-test-case-started-id', listener)
 
-    const stream = fs.createReadStream(
-      __dirname + '/cucumber-growing-on-vine.jpg'
-    )
+    const stream = fs.createReadStream(__dirname + '/cucumber-growing-on-vine.jpg')
 
     await attach(stream, 'image/jpg')
 

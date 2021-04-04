@@ -242,6 +242,7 @@ public class GherkinDocumentBuilder implements Builder<GherkinDocument.Builder> 
                 Token ruleLine = header.getToken(TokenType.RuleLine);
                 if (ruleLine == null) return null;
 
+                List<Tag> tags = getTags(header);
                 String description = getDescription(header);
                 if (description != null)
                     builder.setDescription(description);
@@ -259,6 +260,7 @@ public class GherkinDocumentBuilder implements Builder<GherkinDocument.Builder> 
                         .setLocation(getLocation(ruleLine, 0))
                         .setKeyword(ruleLine.matchedKeyword)
                         .setName(ruleLine.matchedText)
+                        .addAllTags(tags)
                         .build();
 
             }

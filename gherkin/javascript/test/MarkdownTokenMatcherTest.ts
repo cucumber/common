@@ -107,16 +107,9 @@ describe('MarkdownTokenMatcher', function () {
   })
 
   it('matches table separator row as comment', () => {
-    assert(
-      tm.match_TableRow(
-        new Token(new GherkinLine('  | h1 | h2 |', location.line), location)
-      )
-    )
+    assert(tm.match_TableRow(new Token(new GherkinLine('  | h1 | h2 |', location.line), location)))
 
-    const t2 = new Token(
-      new GherkinLine('  | --- | --- |', location.line),
-      location
-    )
+    const t2 = new Token(new GherkinLine('  | --- | --- |', location.line), location)
     assert(!tm.match_TableRow(t2))
     assert(tm.match_Comment(t2))
   })

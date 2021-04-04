@@ -10,19 +10,13 @@ export default class Query {
     string,
     messages.GherkinDocument.Feature.IStep
   >()
-  private readonly pickleIdsMapByUri = new Map<
-    string,
-    ArrayMultimap<string, string>
-  >()
+  private readonly pickleIdsMapByUri = new Map<string, ArrayMultimap<string, string>>()
 
   private readonly pickleIdsByAstNodeId = new Map<string, string[]>()
 
   private readonly pickleStepIdsByAstNodeId = new Map<string, string[]>()
 
-  private readonly stepByUriLocation = new Map<
-    string,
-    messages.GherkinDocument.Feature.IStep
-  >()
+  private readonly stepByUriLocation = new Map<string, messages.GherkinDocument.Feature.IStep>()
 
   /**
    * Gets the location (line and column) of an AST node.
@@ -44,10 +38,7 @@ export default class Query {
     return this.pickles
   }
 
-  public getStep(
-    uri: string,
-    line: number
-  ): messages.GherkinDocument.Feature.IStep | undefined {
+  public getStep(uri: string, line: number): messages.GherkinDocument.Feature.IStep | undefined {
     return this.stepByUriLocation.get([uri, line].join(':'))
   }
 
@@ -76,41 +67,26 @@ export default class Query {
       this.gherkinDocuments.push(message.gherkinDocument)
 
       if (message.gherkinDocument.feature) {
-        this.pickleIdsMapByUri.set(
-          message.gherkinDocument.uri,
-          new ArrayMultimap<string, string>()
-        )
+        this.pickleIdsMapByUri.set(message.gherkinDocument.uri, new ArrayMultimap<string, string>())
 
         for (const featureChild of message.gherkinDocument.feature.children) {
           if (featureChild.background) {
-            this.updateGherkinBackground(
-              message.gherkinDocument.uri,
-              featureChild.background
-            )
+            this.updateGherkinBackground(message.gherkinDocument.uri, featureChild.background)
           }
 
           if (featureChild.scenario) {
-            this.updateGherkinScenario(
-              message.gherkinDocument.uri,
-              featureChild.scenario
-            )
+            this.updateGherkinScenario(message.gherkinDocument.uri, featureChild.scenario)
           }
 
           if (featureChild.rule) {
             const ruleChildren = featureChild.rule.children
             for (const ruleChild of ruleChildren) {
               if (ruleChild.background) {
-                this.updateGherkinBackground(
-                  message.gherkinDocument.uri,
-                  ruleChild.background
-                )
+                this.updateGherkinBackground(message.gherkinDocument.uri, ruleChild.background)
               }
 
               if (ruleChild.scenario) {
-                this.updateGherkinScenario(
-                  message.gherkinDocument.uri,
-                  ruleChild.scenario
-                )
+                this.updateGherkinScenario(message.gherkinDocument.uri, ruleChild.scenario)
               }
             }
           }
@@ -135,10 +111,7 @@ export default class Query {
     }
   }
 
-  private updateGherkinScenario(
-    uri: string,
-    scenario: messages.GherkinDocument.Feature.IScenario
-  ) {
+  private updateGherkinScenario(uri: string, scenario: messages.GherkinDocument.Feature.IScenario) {
     this.locationByAstNodeId.set(scenario.id, scenario.location)
     for (const step of scenario.steps) {
       this.updateGherkinStep(uri, step)
@@ -151,10 +124,7 @@ export default class Query {
     }
   }
 
-  private updateGherkinStep(
-    uri: string,
-    step: messages.GherkinDocument.Feature.IStep
-  ) {
+  private updateGherkinStep(uri: string, step: messages.GherkinDocument.Feature.IStep) {
     this.locationByAstNodeId.set(step.id, step.location)
     this.gherkinStepByAstNodeId.set(step.id, step)
     const uriLocation = [uri, step.location.line].join(':')

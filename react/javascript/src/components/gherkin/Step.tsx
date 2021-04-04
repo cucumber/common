@@ -23,27 +23,18 @@ const Step: React.FunctionComponent<IProps> = ({
   const cucumberQuery = React.useContext(CucumberQueryContext)
 
   const pickleStepIds = gherkinQuery.getPickleStepIds(step.id)
-  const pickleStepTestStepResults = cucumberQuery.getPickleStepTestStepResults(
-    pickleStepIds
-  )
-  const testStepResult = cucumberQuery.getWorstTestStepResult(
-    pickleStepTestStepResults
-  )
+  const pickleStepTestStepResults = cucumberQuery.getPickleStepTestStepResults(pickleStepIds)
+  const testStepResult = cucumberQuery.getWorstTestStepResult(pickleStepTestStepResults)
   const attachments = cucumberQuery.getPickleStepAttachments(pickleStepIds)
 
   return (
     <>
       <div className="cucumber-step__title">
-        <StepLine
-          step={step}
-          renderStepMatchArguments={renderStepMatchArguments}
-        />
+        <StepLine step={step} renderStepMatchArguments={renderStepMatchArguments} />
       </div>
       {step.dataTable && <DataTable dataTable={step.dataTable} />}
       {step.docString && <DocString docString={step.docString} />}
-      {renderMessage && testStepResult.message && (
-        <ErrorMessage message={testStepResult.message} />
-      )}
+      {renderMessage && testStepResult.message && <ErrorMessage message={testStepResult.message} />}
       <div className="cucumber-attachments">
         {attachments.map((attachment, i) => (
           <Attachment key={i} attachment={attachment} />

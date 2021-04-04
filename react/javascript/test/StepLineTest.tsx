@@ -13,9 +13,7 @@ import StepLine from '../src/components/gherkin/StepLine'
 
 describe('<StepLine>', () => {
   it('renders', () => {
-    const dom = new JSDOM(
-      '<html lang="en"><body><div id="content"></div></body></html>'
-    )
+    const dom = new JSDOM('<html lang="en"><body><div id="content"></div></body></html>')
     // @ts-ignore
     global.window = dom.window
     // global.navigator = dom.window.navigator
@@ -32,17 +30,15 @@ describe('<StepLine>', () => {
         return [
           new messages.TestCase.TestStep.StepMatchArgumentsList({
             stepMatchArguments: [
-              new messages.TestCase.TestStep.StepMatchArgumentsList.StepMatchArgument(
-                {
-                  group: new messages.TestCase.TestStep.StepMatchArgumentsList.StepMatchArgument.Group(
-                    {
-                      start: 4,
-                      value: '48',
-                      children: [],
-                    }
-                  ),
-                }
-              ),
+              new messages.TestCase.TestStep.StepMatchArgumentsList.StepMatchArgument({
+                group: new messages.TestCase.TestStep.StepMatchArgumentsList.StepMatchArgument.Group(
+                  {
+                    start: 4,
+                    value: '48',
+                    children: [],
+                  }
+                ),
+              }),
             ],
           }),
         ]
@@ -71,9 +67,9 @@ describe('<StepLine>', () => {
     ).map((span) => span.textContent)
     assert.deepStrictEqual(plainTexts, ['Given', 'the ', ' pixies'])
 
-    const paramTexts = Array.from(
-      document.querySelectorAll('.cucumber-step__param')
-    ).map((a) => a.textContent)
+    const paramTexts = Array.from(document.querySelectorAll('.cucumber-step__param')).map(
+      (a) => a.textContent
+    )
     assert.deepStrictEqual(paramTexts, ['48'])
   })
 })

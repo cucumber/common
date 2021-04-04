@@ -65,10 +65,7 @@ const Text: React.FunctionComponent<{
   const { sourcePosition } = props
   const { line } = sourcePosition.start
 
-  const step: messages.GherkinDocument.Feature.IStep = gherkinQuery.getStep(
-    source.uri,
-    line
-  )
+  const step: messages.GherkinDocument.Feature.IStep = gherkinQuery.getStep(source.uri, line)
   if (!step) {
     // @ts-ignore
     return ReactMarkdown.renderers.text(props)
@@ -85,10 +82,7 @@ const ListItem: React.FunctionComponent<{
   const gherkinQuery = React.useContext(GherkinQueryContext)
   const cucumberQuery = React.useContext(CucumberQueryContext)
   const { line } = sourcePosition.start
-  const step: messages.GherkinDocument.Feature.IStep = gherkinQuery.getStep(
-    source.uri,
-    line
-  )
+  const step: messages.GherkinDocument.Feature.IStep = gherkinQuery.getStep(source.uri, line)
   if (!step) {
     // @ts-ignore
     return ReactMarkdown.renderers.listItem(props)
@@ -99,12 +93,8 @@ const ListItem: React.FunctionComponent<{
   // DocumentQuery#getStatuses(scenarios) where scenarios is just a list of scenarios with step ids
   // Later we can use a HTTP based one that uses a backend with a database
   const pickleStepIds = gherkinQuery.getPickleStepIds(step.id)
-  const pickleStepTestStepResults = cucumberQuery.getPickleStepTestStepResults(
-    pickleStepIds
-  )
-  const testStepResult = cucumberQuery.getWorstTestStepResult(
-    pickleStepTestStepResults
-  )
+  const pickleStepTestStepResults = cucumberQuery.getPickleStepTestStepResults(pickleStepIds)
+  const testStepResult = cucumberQuery.getWorstTestStepResult(pickleStepTestStepResults)
 
   return (
     <li>

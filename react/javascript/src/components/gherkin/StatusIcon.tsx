@@ -30,16 +30,13 @@ const StatusIcon: React.FunctionComponent<IProps> = ({ status, listItem }) => {
 
 export default StatusIcon
 
-const statusIcon = (
-  status: messages.TestStepFinished.TestStepResult.Status
-): IconDefinition => {
+const statusIcon = (status: messages.TestStepFinished.TestStepResult.Status): IconDefinition => {
   return {
     // Keep the same order as in messages.proto - for readability's sake
     [messages.TestStepFinished.TestStepResult.Status.PASSED]: faCheckCircle,
     [messages.TestStepFinished.TestStepResult.Status.SKIPPED]: faStopCircle,
     [messages.TestStepFinished.TestStepResult.Status.PENDING]: faPauseCircle,
-    [messages.TestStepFinished.TestStepResult.Status
-      .UNDEFINED]: faQuestionCircle,
+    [messages.TestStepFinished.TestStepResult.Status.UNDEFINED]: faQuestionCircle,
     [messages.TestStepFinished.TestStepResult.Status.AMBIGUOUS]: faInfoCircle,
     [messages.TestStepFinished.TestStepResult.Status.FAILED]: faTimesCircle,
     [messages.TestStepFinished.TestStepResult.Status.UNKNOWN]: faQuestionCircle,

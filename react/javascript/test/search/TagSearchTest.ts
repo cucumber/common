@@ -26,16 +26,11 @@ Feature: Solar System
   })
 
   function prettyResults(feature: string, query: string): string {
-    const envelopes = generateMessages(
-      feature,
-      'test.feature',
-      GherkinMediaType.PLAIN,
-      {
-        includePickles: true,
-        includeGherkinDocument: true,
-        newId: IdGenerator.incrementing(),
-      }
-    )
+    const envelopes = generateMessages(feature, 'test.feature', GherkinMediaType.PLAIN, {
+      includePickles: true,
+      includeGherkinDocument: true,
+      newId: IdGenerator.incrementing(),
+    })
     for (const envelope of envelopes) {
       gherkinQuery.update(envelope)
     }
