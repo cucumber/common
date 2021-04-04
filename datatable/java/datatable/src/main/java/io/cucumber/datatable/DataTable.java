@@ -26,7 +26,7 @@ import static java.util.Collections.unmodifiableMap;
  * | c92 | Roald       | Dahl     | 1916-09-13 |
  * </pre>
  * <p>
- * A table is either empty or contains one or more cells. As
+ * A table is either empty or contains one or more values. As
  * such if a table has zero height it must have zero width and
  * vice versa.
  * <p>
@@ -38,6 +38,10 @@ import static java.util.Collections.unmodifiableMap;
  * a table converter will throw a {@link NoConverterDefined}
  * exception when doing so.
  * <p>
+ * Several methods are provided to convert tables to common data
+ * structures such as lists, maps, ect. These methods have the form
+ * {@code asX} and will use the provided data table converter.
+ *
  * A DataTable is immutable and thread safe.
  */
 @API(status = API.Status.STABLE)
@@ -161,18 +165,19 @@ public final class DataTable {
     }
 
     /**
-     * Returns a list view on the table. Contains the cells ordered from
-     * left to right, top to bottom starting at the top left.
+     * Returns the values in the table as a single list.
      *
-     * @return the cells of the table
+     * Contains the cells ordered from left to right, top to bottom, starting
+     * at the top left.
+     *
+     * @return the values of the table
      */
-    List<String> toList() {
+    public List<String> values() {
         return new ListView();
     }
 
     /**
-     * Converts the table to a list of {@code String}s. Contains the cells
-     * ordered from left to right, top to bottom starting at the top left.
+     * Converts the table to a list of {@code String}s.
      *
      * @return a list of strings
      *
@@ -180,6 +185,19 @@ public final class DataTable {
      */
     public List<String> asList() {
         return asList(String.class);
+    }
+
+    /**
+     * Converts the table to a list of {@code itemType}.
+     *
+     * @param itemType the type of the list items
+     * @param <T>      the type of the list items
+     * @return a list of objects
+     *
+     * @see TableConverter#toList(DataTable, Type)
+     */
+    public <T> List<T> asList(Class<T> itemType) {
+        return tableConverter.toList(this, itemType);
     }
 
     /**
@@ -200,17 +218,19 @@ public final class DataTable {
      *
      * @return the cells of the table
      */
-    List<List<String>> toLists() {
-        return cells();
+    public List<List<String>> asLists() {
+        return asLists(String.class);
     }
 
     /**
-     * Returns the cells of the table.
+     * Converts the table to a list of lists of {@code itemType}.
      *
-     * @return the cells of the table
+     * @param itemType the type of the list items
+     * @param <T>      the type of the list items
+     * @return a list of list of objects
      */
-    public List<List<String>> asLists() {
-        return asLists(String.class);
+    public <T> List<List<T>> asLists(Class<T> itemType) {
+        return tableConverter.toLists(this, itemType);
     }
 
     /**
@@ -237,11 +257,37 @@ public final class DataTable {
      * @param valueType value type
      * @return a map
      */
+    public <K, V> Map<K, V> asMap(Class<K> keyType, Class<V> valueType) {
+        return tableConverter.toMap(this, keyType, valueType);
+    }
+
+    /**
+     * Converts the table to a single map of {@code keyType} to {@code valueType}.
+     * <p>
+     * For each row the first cell is used to create the key value. The
+     * remaining cells are used to create the value. If the table only has a single
+     * column that value is null.
+     *
+     * @param <K>       key type
+     * @param <V>       value type
+     * @param keyType   key type
+     * @param valueType value type
+     * @return a map
+     */
     public <K, V> Map<K, V> asMap(Type keyType, Type valueType) {
         return tableConverter.toMap(this, keyType, valueType);
     }
 
-    List<Map<String, String>> toMaps() {
+
+    /**
+     * Returns a view of the entries in a table.
+     *
+     * An entry is a map of the header values to the corresponding values in a
+     * row in the body of the table.
+     *
+     * @return a view of the entries in a table.
+     */
+    public List<Map<String, String>> entries() {
         if (raw.isEmpty()) return emptyList();
 
         List<String> headers = raw.get(0);
@@ -273,9 +319,6 @@ public final class DataTable {
      * @return a list of maps
      */
     public List<Map<String, String>> asMaps() {
-        if (!hasConverter()) {
-            return toMaps();
-        }
         return asMaps(String.class, String.class);
     }
 
@@ -294,8 +337,8 @@ public final class DataTable {
         return tableConverter.toMaps(this, keyType, valueType);
     }
 
-    private boolean hasConverter() {
-        return !(tableConverter instanceof NoConverterDefined);
+    public <K, V> List<Map<K, V>> asMaps(Class<K> keyType, Class<V> valueType) {
+        return tableConverter.toMaps(this, keyType, valueType);
     }
 
     /**
@@ -380,6 +423,18 @@ public final class DataTable {
      */
     public DataTable columns(final int fromColumn, final int toColumn) {
         return subTable(0, fromColumn, height(), toColumn);
+    }
+
+    /**
+     * Converts a table to {@code type}.
+     *
+     * @param type       the desired type
+     * @param transposed transpose the table before transformation
+     * @param <T>        the desired type
+     * @return an instance of {@code type}
+     */
+    public <T> T convert(Class<T> type, boolean transposed) {
+        return tableConverter.convert(this, type, transposed);
     }
 
     /**

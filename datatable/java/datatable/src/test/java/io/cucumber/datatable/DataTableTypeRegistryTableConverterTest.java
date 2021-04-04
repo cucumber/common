@@ -95,7 +95,7 @@ class DataTableTypeRegistryTableConverterTest {
     }.getType();
     public static final Type OPTIONAL_CHESS_BOARD_TYPE = new TypeReference<Optional<ChessBoard>>() {
     }.getType();
-    private static final TableTransformer<ChessBoard> CHESS_BOARD_TABLE_TRANSFORMER = table -> new ChessBoard(table.subTable(1, 1).toList());
+    private static final TableTransformer<ChessBoard> CHESS_BOARD_TABLE_TRANSFORMER = table -> new ChessBoard(table.subTable(1, 1).asList());
     private static final TableCellTransformer<Piece> PIECE_TABLE_CELL_TRANSFORMER = Piece::fromString;
     private static final TableCellTransformer<AirPortCode> AIR_PORT_CODE_TABLE_CELL_TRANSFORMER = AirPortCode::new;
     private static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
