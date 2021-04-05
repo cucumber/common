@@ -4,8 +4,8 @@ import { Token, TokenType } from './Parser'
 import DIALECTS from './gherkin-languages.json'
 import assert from 'assert'
 import { Item } from './IToken'
-import {messages} from "@cucumber/messages";
-import {NoSuchLanguageException} from "./Errors";
+import { messages } from '@cucumber/messages'
+import { NoSuchLanguageException } from './Errors'
 
 const DIALECT_DICT: { [key: string]: Dialect } = DIALECTS
 const DEFAULT_DOC_STRING_SEPARATOR = /^(```[`]*)(.*)/
@@ -58,7 +58,6 @@ export default class MarkdownTokenMatcher implements ITokenMatcher<TokenType> {
     this.dialectName = newDialectName
     this.dialect = newDialect
   }
-
 
   match_Language(token: Token): boolean {
     assert(token)
