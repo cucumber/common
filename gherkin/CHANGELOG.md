@@ -11,15 +11,21 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Added
 
-* Python implementation re-enabled, with support for `Rule` keyword.
-  ([#1449](https://github.com/cucumber/cucumber/pull/1449)
-   [brasmusson])
-
 ### Changed
 
 ### Deprecated
 
 ### Removed
+
+### Fixed
+
+## [18.1.0] - 2021-04-06
+
+### Added
+
+* Python implementation re-enabled, with support for `Rule` keyword.
+  ([#1449](https://github.com/cucumber/cucumber/pull/1449)
+   [brasmusson])
 
 ### Fixed
 
@@ -918,7 +924,8 @@ to Gherkin 2.
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v18.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v18.1.0...master
+[18.1.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v18.0.0...gherkin/v18.1.0
 [18.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v17.0.2...gherkin/v18.0.0
 [17.0.2]:     https://github.com/cucumber/cucumber/compare/gherkin/v17.0.1...gherkin/v17.0.2
 [17.0.1]:     https://github.com/cucumber/cucumber/compare/gherkin/v17.0.0...gherkin/v17.0.1
