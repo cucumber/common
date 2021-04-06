@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+* [Ruby] The generated code is added to Git.
+  ([#1461](https://github.com/cucumber/cucumber/pull/1461)
+   [aslakhellesoy])
+
 ### Changed
 
 ### Deprecated
