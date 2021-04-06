@@ -171,12 +171,15 @@ This Cucumber Expression has a problem at column #{index + 1}:
     end
 
     class UndefinedParameterTypeError < CucumberExpressionError
-      def initialize(node, expression, parameter_type_name)
+      attr_reader :undefined_parameter_type_name
+
+      def initialize(node, expression, undefined_parameter_type_name)
         super(build_message(node.start,
                             expression,
                             point_at_located(node),
-                            "Undefined parameter type '#{parameter_type_name}'",
-                            "Please register a ParameterType for '#{parameter_type_name}'"))
+                            "Undefined parameter type '#{undefined_parameter_type_name}'",
+                            "Please register a ParameterType for '#{undefined_parameter_type_name}'"))
+        @undefined_parameter_type_name = undefined_parameter_type_name
       end
     end
 
