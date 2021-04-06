@@ -9,10 +9,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
-* [Ruby] Add `UndefinedParameterTypeError#undefined_parameter_type_name`
-  ([#1460](https://github.com/cucumber/cucumber/pull/1460)
-   [aslakhellesoy])
-
 ### Changed
 
 ### Deprecated
@@ -20,6 +16,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Removed
 
 ### Fixed
+
+## [12.1.0] - 2021-04-06
+
+### Added
+
+* [Ruby] Add `UndefinedParameterTypeError#undefined_parameter_type_name`
+  ([#1460](https://github.com/cucumber/cucumber/pull/1460)
+   [aslakhellesoy])
 
 ## [12.0.1] - 2021-04-06
 
@@ -779,7 +783,8 @@ N/A
 * First stable release!
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions/v12.0.1...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions/v12.1.0...master
+[12.1.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v12.0.1...cucumber-expressions/v12.1.0
 [12.0.1]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v12.0.0...cucumber-expressions/v12.0.1
 [12.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v11.0.1...cucumber-expressions/v12.0.0
 [11.0.1]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v11.0.0...cucumber-expressions/v11.0.1
