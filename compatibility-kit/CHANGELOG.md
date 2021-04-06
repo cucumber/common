@@ -17,6 +17,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [4.0.1] - 2021-04-06
+
+### Fixed
+
+* Make the package public again
+  ([#1454](https://github.com/cucumber/cucumber/pull/1454))
+
 ## [4.0.0] - 2021-03-29
 
 ### Changed
@@ -44,7 +51,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/compatibility-kit/v4.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/compatibility-kit/v4.0.1...master
+[4.0.1]:      https://github.com/cucumber/cucumber/releases/tag/compatibility-kit/v4.0.0
 [4.0.0]:      https://github.com/cucumber/cucumber/releases/tag/compatibility-kit/v3.0.0
 [3.0.0]:      https://github.com/cucumber/cucumber/releases/tag/compatibility-kit/v2.0.0
 [2.0.0]:      https://github.com/cucumber/cucumber/releases/tag/compatibility-kit/v1.0.0
