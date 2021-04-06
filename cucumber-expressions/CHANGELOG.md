@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 
 * [Ruby] Add `UndefinedParameterTypeError#undefined_parameter_type_name`
+  ([#1460](https://github.com/cucumber/cucumber/pull/1460)
+   [aslakhellesoy])
 
 ### Changed
 
