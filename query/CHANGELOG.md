@@ -17,7 +17,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
-* Fix issue with compiled files not appearing in published package
+* [JavaScript] Fix issue with compiled files not appearing in published package
+  ([#1452](https://github.com/cucumber/cucumber/pull/1452))
 
 ## [9.0.1] - 2021-04-03
 
