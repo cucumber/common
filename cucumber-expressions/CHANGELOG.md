@@ -17,6 +17,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+* [Ruby] use `Array#select` instead of `Array#filter`. The latter is an alias that
+  was introduced in Ruby [2.6.0](https://github.com/ruby/ruby/blob/v2_6_0/NEWS#core-classes-updates-outstanding-ones-only-).
+  ([aslakhellesoy])
+
 ## [12.1.0] - 2021-04-06
 
 ### Added
