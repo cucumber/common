@@ -17,6 +17,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [12.1.1] - 2021-04-06
+
+### Fixed
+
 * [Ruby] use `Array#select` instead of `Array#filter`. The latter is an alias that
   was introduced in Ruby [2.6.0](https://github.com/ruby/ruby/blob/v2_6_0/NEWS#core-classes-updates-outstanding-ones-only-).
   ([aslakhellesoy])
@@ -787,7 +791,8 @@ N/A
 * First stable release!
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions/v12.1.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions/v12.1.1...master
+[12.1.1]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v12.1.0...cucumber-expressions/v12.1.1
 [12.1.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v12.0.1...cucumber-expressions/v12.1.0
 [12.0.1]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v12.0.0...cucumber-expressions/v12.0.1
 [12.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v11.0.1...cucumber-expressions/v12.0.0
