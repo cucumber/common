@@ -4,7 +4,7 @@
 
     <groupId>cucumber</groupId>
     <artifactId>cucumber-java-json</artifactId>
-    <version>7.0.0</version>
+    <version>7.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>Cucumber-Java json</name>
 
