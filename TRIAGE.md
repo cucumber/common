@@ -33,7 +33,7 @@ Sometimes a bit of discussion in the ticket is needed before we can label them c
   * And one of these:
     * :bug: `bug`
     * :zap: `enhancement`
-* Reply to new issues
+* Engage in discussions on [new/active issues and pull requests](https://github.com/orgs/cucumber/dashboard)
 * Engage in Slack conversations
 * Merge Renovate bot pull requests
 
