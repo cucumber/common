@@ -29,7 +29,7 @@ Sometimes a bit of discussion in the ticket is needed before we can label them c
     * :cucumber: `core team` these are issues that the core team will give priority to
     * :pray: `help wanted` for accepted issues, but not a priority to the core team
     * :dollar: `bounty` if we want to draw extra attention to an issue
-    * :fire: `critical` for issues that make it onto the [Cucumber Open board]
+    * :fire: `critical` for urgent issues that are preventing users from using Cucumber
   * And one of these:
     * :bug: `bug`
     * :zap: `enhancement`
