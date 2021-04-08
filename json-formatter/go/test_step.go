@@ -102,6 +102,7 @@ func TestStepToJSON(step *TestStep) *jsonStep {
 				ErrorMessage: step.Result.Message,
 				Duration:     duration,
 			},
+			Embeddings: makeEmbeddings(step.Attachments),
 		}
 	}
 
