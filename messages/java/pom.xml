@@ -16,7 +16,7 @@
 
     <properties>
         <project.Automatic-Module-Name>io.cucumber.messages</project.Automatic-Module-Name>
-        <protobuf.version>3.15.7</protobuf.version>
+        <protobuf.version>3.15.8</protobuf.version>
     </properties>
 
     <scm>
