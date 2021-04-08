@@ -328,7 +328,7 @@ public final class DataTableType {
         public List<T> transform(List<List<String>> raw) throws Throwable {
             DataTable table = DataTable.create(raw, CONVERSION_REQUIRED);
             List<T> list = new ArrayList<>();
-            for (Map<String, String> entry : table.asMaps()) {
+            for (Map<String, String> entry : table.entries()) {
                 list.add(transformer.transform(entry));
             }
 
