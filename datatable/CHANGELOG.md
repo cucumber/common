@@ -14,10 +14,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
     ([cucumber-jvm/2262](https://github.com/cucumber/cucumber-jvm/issues/2262)
     [1419](https://github.com/cucumber/cucumber/pull/1419)
       [mpkorstanje])
-  - To retain the old behaviour:
-    - Replace `DataTable.asList()` with -> `DataTable.values()`
-    - Replace `DataTable.asLists()` with -> `DataTable.cells()`
-    - Replace `DataTable.asMaps()` with -> `DataTable.entries()`
+    - To retain the old behaviour:
+      - Replace `DataTable.asList()` with -> `DataTable.values()`
+      - Replace `DataTable.asLists()` with -> `DataTable.cells()`
+      - Replace `DataTable.asMaps()` with -> `DataTable.entries()`
       
 ### Deprecated
 
