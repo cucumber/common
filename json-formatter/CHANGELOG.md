@@ -19,6 +19,10 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Fixed
 
+## [7.0.1] - 2021-04-09
+
+### Fixed
+
 * Handle embeddings when step is issued from a hook
   ([#1466](https://github.com/cucumber/cucumber/pull/1466)
    [#1172](https://github.com/cucumber/cucumber/issues/1172)
@@ -116,7 +120,8 @@ Upgrade messages
 * Initial release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/json-formatter/v7.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/json-formatter/v7.0.1...master
+[7.0.1]:      https://github.com/cucumber/cucumber/compare/json-formatter/v7.0.0...json-formatter/v7.0.1
 [7.0.0]:      https://github.com/cucumber/cucumber/compare/json-formatter/v6.0.0...json-formatter/v7.0.0
 [6.0.0]:      https://github.com/cucumber/cucumber/compare/json-formatter/v5.1.0...json-formatter/v6.0.0
 [5.1.0]:      https://github.com/cucumber/cucumber/compare/json-formatter/v5.0.0...json-formatter/v5.1.0
