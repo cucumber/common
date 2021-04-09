@@ -19,6 +19,11 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Fixed
 
+* Handle embeddings when step is issued from a hook
+  ([#1466](https://github.com/cucumber/cucumber/pull/1466)
+   [#1172](https://github.com/cucumber/cucumber/issues/1172)
+   [aurelien-reeves])
+
 ## [7.0.0] - 2021-03-29
 
 ### Changed
@@ -127,3 +132,4 @@ Upgrade messages
 
 <!-- Contributors -->
 [aslakhellesoy]:    https://github.com/aslakhellesoy
+[aurelien-reeves]:  https://github.com/aurelien-reeves

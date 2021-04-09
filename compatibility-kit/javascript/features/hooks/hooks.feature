@@ -14,3 +14,7 @@ Feature: Hooks
   @some-tag
   Scenario: with a tag, passed step
     When a step passes
+
+  @with-attachment
+  Scenario: with an attachment in the hook
+    When a step passes
