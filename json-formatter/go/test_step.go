@@ -45,9 +45,10 @@ func ProcessTestStepFinished(testStepFinished *messages.TestStepFinished, lookup
 		}
 
 		return nil, &TestStep{
-			TestCaseID: testCase.Id,
-			Hook:       hook,
-			Result:     testStepFinished.TestStepResult,
+			TestCaseID:  testCase.Id,
+			Hook:        hook,
+			Result:      testStepFinished.TestStepResult,
+			Attachments: lookup.LookupAttachments(testStepFinished.TestStepId),
 		}
 	}
 
