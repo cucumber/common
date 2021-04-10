@@ -12,7 +12,7 @@ executors:
   # the build nodes (faster builds).
   docker-cucumber-build:
     docker:
-      - image: cucumber/cucumber-build:latest
+      - image: cucumber/cucumber-build:0.1.0
     working_directory: ~/cucumber
     environment:
       # nvm, node and npm are installed locally rather globally.
@@ -63,7 +63,7 @@ executors:
   # Python
   docker-circleci-python:
     docker:
-      - image: circleci/python:3.9.2
+      - image: circleci/python:3.9.4
     working_directory: ~/cucumber
 ###
 ### Jobs ###
@@ -159,7 +159,7 @@ jobs:
             make
 
   json-formatter-go:
-    executor: docker-circleci-golang
+    executor: docker-cucumber-build
     steps:
       - attach_workspace:
           at: "~/cucumber"
@@ -749,6 +749,29 @@ jobs:
           root: ~/cucumber
           paths:
             - json-to-messages/python-testdata/acceptance
+
+  gherkin-python-2:
+    executor: docker-circleci-python
+    steps:
+      - attach_workspace:
+          at: "~/cucumber"
+      - run:
+          name: gherkin/python
+          command: |
+            cd gherkin/python
+            make GHERKIN_PYTHON_VERSION=python2
+
+  gherkin-python-3:
+    executor: docker-circleci-python
+    steps:
+      - attach_workspace:
+          at: "~/cucumber"
+      - run:
+          name: gherkin/python
+          command: |
+            cd gherkin/python
+            make
+
 ### C
 
   gherkin-c:
@@ -1002,6 +1025,14 @@ workflows:
           requires:
             - prepare-parallel
             - json-to-messages-ruby-testdata
+
+      - gherkin-python-2:
+          requires:
+            - prepare-parallel
+
+      - gherkin-python-3:
+          requires:
+            - prepare-parallel
 
 
 ### C

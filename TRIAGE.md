@@ -29,11 +29,11 @@ Sometimes a bit of discussion in the ticket is needed before we can label them c
     * :cucumber: `core team` these are issues that the core team will give priority to
     * :pray: `help wanted` for accepted issues, but not a priority to the core team
     * :dollar: `bounty` if we want to draw extra attention to an issue
-    * :fire: `critical` for issues that make it onto the [Cucumber Open board]
+    * :fire: `critical` for urgent issues that are preventing users from using Cucumber
   * And one of these:
     * :bug: `bug`
     * :zap: `enhancement`
-* Reply to new issues
+* Engage in discussions on [new/active issues and pull requests](https://github.com/orgs/cucumber/dashboard)
 * Engage in Slack conversations
 * Merge Renovate bot pull requests
 
@@ -66,6 +66,8 @@ When adding new work items into `Next` - put them at the bottom.
 What gets pulled into `Next` is decided based on the following guidelines:
 
 * The `Next` column should ideally have a mix of pull requests and :fire: `critical` issues
+  * Ideally we'd always work on the oldest pull requests (FIFO policy)
+  * In practice, we also need to prioritise new pull requests while they are "hot"
 * A mix of repositories:
   * [cucumber/cucumber](https://github.com/cucumber/cucumber/issues?q=is%3Aopen+sort%3Acreated-asc)
     * [unlabelled](https://github.com/cucumber/cucumber/issues?q=is%3Aopen+sort%3Acreated-asc+no%3Alabel)
@@ -83,8 +85,6 @@ What gets pulled into `Next` is decided based on the following guidelines:
     * [unlabelled](https://github.com/cucumber/microdata/issues?q=is%3Aopen+sort%3Acreated-asc+no%3A)
   * [cucumber/cucumber-rails](https://github.com/cucumber/cucumber-rails/issues?q=is%3Aopen+sort%3Acreated-asc)
     * [unlabelled](https://github.com/cucumber/cucumber-rails/issues?q=is%3Aopen+sort%3Acreated-asc+no%3A)
-
-* The oldest work items have the highest priority to be pulled into Next (FIFO policy)
 
 <!-- links -->
 [Cucumber Open board]: https://github.com/orgs/cucumber/projects/8

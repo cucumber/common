@@ -150,6 +150,19 @@ module Cucumber
         expect(args[0].value(World.new)).to eq('widget:bolt')
       end
 
+      it "reports undefined parameter type name" do
+        parameter_type_registry = ParameterTypeRegistry.new
+
+        begin
+          CucumberExpression.new(
+              'I have {int} {widget}(s) in {word}',
+              parameter_type_registry
+          )
+        rescue UndefinedParameterTypeError => e
+          expect(e.undefined_parameter_type_name).to eq('widget')
+        end
+      end
+
       def match(expression, text)
         cucumber_expression = CucumberExpression.new(expression, ParameterTypeRegistry.new)
         args = cucumber_expression.match(text)

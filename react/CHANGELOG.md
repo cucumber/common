@@ -17,6 +17,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [13.0.0] - 2021-04-06
+
+### Changed
+
+* Upgrade dependencies including `@cucumber/gherkin` ^18.0.0, 
+  `@cucumber/messages` ^15.0.0 and `@cucumber/query` ^9.0.2
+
 ## [12.0.0] - 2021-02-07
 
 ### Changed
@@ -326,7 +333,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/react/v12.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/react/v13.0.0...master
+[13.0.0]:      https://github.com/cucumber/cucumber/compare/react/v12.0.0...react/v13.0.0
 [12.0.0]:      https://github.com/cucumber/cucumber/compare/react/v11.0.2...react/v12.0.0
 [11.0.2]:      https://github.com/cucumber/cucumber/compare/react/v11.0.1...react/v11.0.2
 [11.0.1]:      https://github.com/cucumber/cucumber/compare/react/v11.0.0...react/v11.0.1

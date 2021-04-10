@@ -2,18 +2,16 @@ package io.cucumber.datatable;
 
 import io.cucumber.datatable.DataTable.TableConverter;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 import static io.cucumber.datatable.DataTable.emptyDataTable;
-import static io.cucumber.datatable.TableParser.parse;
 import static io.cucumber.datatable.TypeFactory.typeName;
 import static java.lang.String.format;
 import static java.util.Arrays.asList;
@@ -26,13 +24,11 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.verify;
 
-@ExtendWith(MockitoExtension.class)
 class DataTableTest {
 
-    @Mock
-    private TableConverter tableConverter;
+    private final DataTableTypeRegistry registry = new DataTableTypeRegistry(Locale.ENGLISH);
+    private final TableConverter tableConverter = new DataTableTypeRegistryTableConverter(registry);
 
     @Test
     void empty_table_is_empty() {
@@ -86,7 +82,6 @@ class DataTableTest {
         assertEquals(raw.get(1).get(0), table.cell(1, 0));
         assertEquals(raw.get(1).get(1), table.cell(1, 1));
     }
-
 
     @Test
     void subTable_should_view_sub_set_of_cells() {
@@ -168,7 +163,6 @@ class DataTableTest {
 
     }
 
-
     @Test
     void subTable_throws_for_large_row() {
         DataTable table = createSimpleTable();
@@ -214,7 +208,6 @@ class DataTableTest {
         assertEquals(raw.get(2), table.row(2));
     }
 
-
     @Test
     void rows_should_view_sub_set_of_rows() {
         List<List<String>> raw = asList(
@@ -238,7 +231,6 @@ class DataTableTest {
                 table.rows(1, 2));
     }
 
-
     @Test
     void column_should_view_single_column() {
         List<List<String>> raw = asList(
@@ -257,7 +249,6 @@ class DataTableTest {
         assertThrows(IndexOutOfBoundsException.class, () -> createSimpleTable().column(-1));
     }
 
-
     @Test
     void column_should_throw_for_negative_row_value() {
         assertThrows(IndexOutOfBoundsException.class, () -> createSimpleTable().column(0).get(-1));
@@ -272,7 +263,6 @@ class DataTableTest {
     void column_should_throw_for_large_row_value() {
         assertThrows(IndexOutOfBoundsException.class, () -> createSimpleTable().column(0).get(4));
     }
-
 
     @Test
     void transposedColumn_should_view_single_row() {
@@ -310,9 +300,9 @@ class DataTableTest {
     }
 
     @Test
-    void as_lists_should_equal_raw() {
+    void asLists_should_equal_raw() {
         List<List<String>> raw = asList(asList("hundred", "100"), asList("thousand", "1000"));
-        DataTable table = DataTable.create(raw);
+        DataTable table = DataTable.create(raw, tableConverter);
         assertEquals(raw, table.asLists());
     }
 
@@ -402,53 +392,62 @@ class DataTableTest {
 
     @Test
     void convert_delegates_to_converter() {
-        DataTable table = createSimpleNumberTable();
-        table.convert(Long.class, false);
-        verify(tableConverter).convert(table, Long.class, false);
+        List<List<String>> raw = singletonList(
+                singletonList("1")
+        );
+        DataTable table = DataTable.create(raw, tableConverter);
+        assertEquals(1L, table.convert(Long.class, false));
+        assertEquals(1L, table.<Long>convert((Type) Long.class, false));
     }
 
     @Test
-    void asLists_returns_raw_rows_in_order() {
+    void values_returns_raw_rows_in_order() {
         List<List<String>> raw = asList(
                 asList("1", "100"),
                 asList("2", "1000")
         );
         DataTable table = DataTable.create(raw);
-        assertEquals(asList("1", "100", "2", "1000"), table.asList());
+        assertEquals(asList("1", "100", "2", "1000"), table.values());
     }
 
     @Test
-    void asLists_throws_for_large_index() {
+    void values_throws_for_large_index() {
         List<List<String>> raw = asList(
                 asList("1", "100"),
                 asList("2", "1000")
         );
         DataTable table = DataTable.create(raw);
-        assertThrows(IndexOutOfBoundsException.class, () -> table.asList().get(5));
+        assertThrows(IndexOutOfBoundsException.class, () -> table.values().get(5));
     }
 
     @Test
-    void asLists_throws_for_negative_index() {
+    void values_throws_for_negative_index() {
         List<List<String>> raw = asList(
                 asList("1", "100"),
                 asList("2", "1000")
         );
         DataTable table = DataTable.create(raw);
-        assertThrows(IndexOutOfBoundsException.class, () -> table.asList().get(-1));
+        assertThrows(IndexOutOfBoundsException.class, () -> table.values().get(-1));
     }
 
     @Test
     void asList_delegates_to_converter() {
-        DataTable table = createSimpleNumberTable();
-        table.asList(Long.class);
-        verify(tableConverter).toList(table, Long.class);
+        DataTable table = createSingleColumnNumberTable();
+        assertEquals(asList(1L, 2L), table.asList(Long.class));
+        assertEquals(asList(1L, 2L), table.asList((Type)Long.class));
+    }
+
+    @Test
+    void asList_returns_list_of_raw() {
+        DataTable table = createSingleColumnNumberTable();
+        assertEquals(asList("1", "2"), table.asList());
     }
 
     @Test
     void asLists_delegates_to_converter() {
         DataTable table = createSimpleNumberTable();
-        table.asLists(Long.class);
-        verify(tableConverter).toLists(table, Long.class);
+        assertEquals(asList(asList(1L, 100L), asList(2L, 1000L)), table.asLists(Long.class));
+        assertEquals(asList(asList(1L, 100L), asList(2L, 1000L)), table.asLists((Type)Long.class));
     }
 
     @Test
@@ -457,16 +456,20 @@ class DataTableTest {
                 asList("1", "100"),
                 asList("2", "1000")
         );
-        DataTable table = DataTable.create(raw);
+        DataTable table = DataTable.create(raw, tableConverter);
         assertEquals(raw, table.asLists());
     }
 
     @Test
     void asMaps_delegates_to_converter() {
-        List<List<String>> table1 = asList(asList("hundred", "100"), asList("thousand", "1000"));
-        DataTable table = DataTable.create(table1, tableConverter);
-        table.asMaps(String.class, Long.class);
-        verify(tableConverter).toMaps(table, String.class, Long.class);
+        List<List<String>> raw = asList(asList("hundred", "thousand"), asList("100", "1000"));
+        DataTable table = DataTable.create(raw, tableConverter);
+        List<Map<String, Long>> expected = singletonList(new HashMap<String, Long>() {{
+            put("hundred", 100L);
+            put("thousand", 1000L);
+        }});
+        assertEquals(expected, table.asMaps(String.class, Long.class));
+        assertEquals(expected, table.asMaps((Type)String.class, (Type)Long.class));
     }
 
     @Test
@@ -476,7 +479,6 @@ class DataTableTest {
             put("1", "2");
             put("100", "1000");
         }};
-
         assertEquals(singletonList(expected), table.asMaps());
     }
 
@@ -485,7 +487,7 @@ class DataTableTest {
         DataTable table = DataTable.create(asList(
                 asList("1", "2"),
                 asList(null, null)
-        ));
+        ), tableConverter);
 
         Map<String, String> expected = new HashMap<String, String>() {{
             put("1", null);
@@ -497,11 +499,12 @@ class DataTableTest {
 
     @Test
     void asMaps_cant_convert_table_with_duplicate_keys() {
-        DataTable table = parse("",
-                "| 1 | 1 | 1 |",
-                "| 4 | 5 | 6 |",
-                "| 7 | 8 | 9 |"
+        List<List<String>> raw = asList(
+                asList("1", "1", "1"),
+                asList("4", "5", "6"),
+                asList("7", "8", "9")
         );
+        DataTable table = DataTable.create(raw, tableConverter);
 
         CucumberDataTableException exception = assertThrows(
                 CucumberDataTableException.class,
@@ -516,10 +519,11 @@ class DataTableTest {
 
     @Test
     void asMaps_cant_convert_table_with_duplicate_null_keys() {
-        DataTable table = DataTable.create(asList(
+        List<List<String>> raw = asList(
                 asList(null, null),
                 asList("1", "2")
-        ));
+        );
+        DataTable table = DataTable.create(raw, tableConverter);
 
         CucumberDataTableException exception = assertThrows(
                 CucumberDataTableException.class,
@@ -533,7 +537,8 @@ class DataTableTest {
 
     @Test
     void asMaps_with_nulls_returns_maps_of_raw() {
-        DataTable table = DataTable.create(asList(singletonList(null), singletonList(null)));
+        List<List<String>> raw = asList(singletonList(null), singletonList(null));
+        DataTable table = DataTable.create(raw, tableConverter);
         Map<String, String> expected = new HashMap<String, String>() {{
             put(null, null);
         }};
@@ -542,11 +547,33 @@ class DataTableTest {
     }
 
     @Test
+    void asMaps_with_default_converter_equals_entries() {
+        List<List<String>> table1 = asList(asList("hundred", "100"), asList("thousand", "1000"));
+        DataTable table = DataTable.create(table1, tableConverter);
+        assertEquals(table.entries(), table.asMaps());
+    }
+
+    @Test
     void asMap_delegates_to_converter() {
         List<List<String>> table1 = asList(asList("hundred", "100"), asList("thousand", "1000"));
         DataTable table = DataTable.create(table1, tableConverter);
-        table.asMap(String.class, Long.class);
-        verify(tableConverter).toMap(table, String.class, Long.class);
+        Map<String, Long> expected = new HashMap<String, Long>() {{
+            put("hundred", 100L);
+            put("thousand", 1000L);
+        }};
+        assertEquals(expected, table.asMap(String.class, Long.class));
+        assertEquals(expected, table.asMap((Type)String.class, (Type)Long.class));
+    }
+
+    @Test
+    void asMap_returns_map_of_raw() {
+        List<List<String>> table1 = asList(asList("hundred", "100"), asList("thousand", "1000"));
+        DataTable table = DataTable.create(table1, tableConverter);
+        Map<String, String> expected = new HashMap<String, String>() {{
+            put("hundred", "100");
+            put("thousand", "1000");
+        }};
+        assertEquals(expected, table.asMap());
     }
 
     @Test
@@ -617,5 +644,12 @@ class DataTableTest {
         return DataTable.create(raw, tableConverter);
     }
 
+    private DataTable createSingleColumnNumberTable() {
+        List<List<String>> raw = asList(
+                singletonList("1"),
+                singletonList("2")
+        );
+        return DataTable.create(raw, tableConverter);
+    }
 
 }

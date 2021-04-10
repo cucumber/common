@@ -2,12 +2,10 @@ import io
 
 def source_event(path):
     event = {
-        'type': 'source',
-        'uri': path,
-        'data': io.open(path, 'rU', encoding='utf8', newline='').read(),
-        'media': {
-            'encoding': 'utf-8',
-            'type': 'text/x.cucumber.gherkin+plain'
+        'source': {
+            'uri': path,
+            'data': io.open(path, 'rU', encoding='utf8', newline='').read(),
+            'mediaType': 'text/x.cucumber.gherkin+plain'
         }
     }
     return event

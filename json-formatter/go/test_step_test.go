@@ -324,7 +324,15 @@ var _ = Describe("TestStepToJSON", func() {
 						Nanos:   456,
 					},
 				},
+				Attachments: make([]*messages.Attachment, 0),
 			}
+
+			step.Attachments = append(step.Attachments, &messages.Attachment{
+				Body:            "Hello",
+				MediaType:       "text/plain",
+				ContentEncoding: messages.Attachment_BASE64,
+			})
+
 			jsonStep = TestStepToJSON(step)
 		})
 
@@ -338,6 +346,12 @@ var _ = Describe("TestStepToJSON", func() {
 
 		It("Has a Duration", func() {
 			Expect(jsonStep.Result.Duration).To(Equal(uint64(123000000456)))
+		})
+
+		It("has an Embedding", func() {
+			Expect(len(jsonStep.Embeddings)).To(Equal(1))
+			Expect(jsonStep.Embeddings[0].MimeType).To(Equal("text/plain"))
+			Expect(jsonStep.Embeddings[0].Data).To(Equal("Hello"))
 		})
 	})
 
@@ -365,7 +379,15 @@ var _ = Describe("TestStepToJSON", func() {
 						Nanos:   456,
 					},
 				},
+				Attachments: make([]*messages.Attachment, 0),
 			}
+
+			step.Attachments = append(step.Attachments, &messages.Attachment{
+				Body:            "Hello",
+				MediaType:       "text/plain",
+				ContentEncoding: messages.Attachment_BASE64,
+			})
+
 			jsonStep = TestStepToJSON(step)
 		})
 
@@ -387,6 +409,12 @@ var _ = Describe("TestStepToJSON", func() {
 
 		It("has a Line", func() {
 			Expect(jsonStep.Line).To(Equal(uint32(5)))
+		})
+
+		It("has an Embedding", func() {
+			Expect(len(jsonStep.Embeddings)).To(Equal(1))
+			Expect(jsonStep.Embeddings[0].MimeType).To(Equal("text/plain"))
+			Expect(jsonStep.Embeddings[0].Data).To(Equal("Hello"))
 		})
 
 		Context("When it does not have a StepDefinition", func() {

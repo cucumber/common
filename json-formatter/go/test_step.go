@@ -45,9 +45,10 @@ func ProcessTestStepFinished(testStepFinished *messages.TestStepFinished, lookup
 		}
 
 		return nil, &TestStep{
-			TestCaseID: testCase.Id,
-			Hook:       hook,
-			Result:     testStepFinished.TestStepResult,
+			TestCaseID:  testCase.Id,
+			Hook:        hook,
+			Result:      testStepFinished.TestStepResult,
+			Attachments: lookup.LookupAttachments(testStepFinished.TestStepId),
 		}
 	}
 
@@ -102,6 +103,7 @@ func TestStepToJSON(step *TestStep) *jsonStep {
 				ErrorMessage: step.Result.Message,
 				Duration:     duration,
 			},
+			Embeddings: makeEmbeddings(step.Attachments),
 		}
 	}
 

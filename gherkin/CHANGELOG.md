@@ -19,6 +19,20 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Fixed
 
+## [18.1.0] - 2021-04-06
+
+### Added
+
+* Python implementation re-enabled, with support for `Rule` keyword.
+  ([#1449](https://github.com/cucumber/cucumber/pull/1449)
+   [brasmusson])
+
+### Fixed
+
+* Update translation of `Rule` in Czech.
+  ([#1442](https://github.com/cucumber/cucumber/pull/1442)
+   [plavcik])
+
 ## [18.0.0] - 2021-03-24
 
 ### Added
@@ -910,7 +924,8 @@ to Gherkin 2.
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v18.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v18.1.0...master
+[18.1.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v18.0.0...gherkin/v18.1.0
 [18.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v17.0.2...gherkin/v18.0.0
 [17.0.2]:     https://github.com/cucumber/cucumber/compare/gherkin/v17.0.1...gherkin/v17.0.2
 [17.0.1]:     https://github.com/cucumber/cucumber/compare/gherkin/v17.0.0...gherkin/v17.0.1
@@ -1004,6 +1019,7 @@ to Gherkin 2.
 [noisygerman]:       https://github.com/noisygerman
 [paigehf]:           https://github.com/paigehf
 [pjlsergeant]:       https://github.com/pjlsergeant
+[plavcik]:           https://github.com/plavcik
 [pmatsinopoulos]:    https://github.com/pmatsinopoulos
 [rjwittams]:         https://github.com/rjwittams
 [Pr-Mex]:            https://github.com/Pr-Mex
