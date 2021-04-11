@@ -1,4 +1,5 @@
 import { When, Before, After } from '@cucumber/fake-cucumber'
+import fs from 'fs'
 
 Before(function () {
   // no-op
@@ -18,4 +19,8 @@ After(function () {
 
 After('@some-tag or @some-other-tag', function () {
   throw new Error('Exception in conditional hook')
+})
+
+After('@with-attachment', async function () {
+  await this.attach(fs.createReadStream(__dirname + '/cucumber.svg'), 'image/svg+xml')
 })

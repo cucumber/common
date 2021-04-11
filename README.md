@@ -1,5 +1,8 @@
 [![CircleCI](https://circleci.com/gh/cucumber/cucumber.svg?style=svg)](https://circleci.com/gh/cucumber/cucumber)
 [![OpenCollective](https://opencollective.com/cucumber/backers/badge.svg)](#backers) [![OpenCollective](https://opencollective.com/cucumber/sponsors/badge.svg)](#sponsors)
+[![pull requests](https://www.oselvar.com/api/badge?label=pull+requests&csvUrl=https%3A%2F%2Fraw.githubusercontent.com%2Fcucumber%2Foselvar-github-metrics%2Fmain%2Fdata%2Fcucumber%2Fcucumber%2FpullRequests.csv)](https://www.oselvar.com/github/cucumber/oselvar-github-metrics/main/cucumber/cucumber)
+[![issues](https://www.oselvar.com/api/badge?label=issues&csvUrl=https%3A%2F%2Fraw.githubusercontent.com%2Fcucumber%2Foselvar-github-metrics%2Fmain%2Fdata%2Fcucumber%2Fcucumber%2Fissues.csv)](https://www.oselvar.com/github/cucumber/oselvar-github-metrics/main/cucumber/cucumber)
+
 
 # ![Cucumber Logo](https://github.com/cucumber-ltd/brand/raw/master/images/png/notm/cucumber-black/cucumber-black-128.png)
 
