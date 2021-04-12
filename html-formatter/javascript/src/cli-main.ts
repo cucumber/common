@@ -17,10 +17,7 @@ const toMessageStream =
 pipeline(
   process.stdin,
   toMessageStream,
-  new CucumberHtmlStream(
-    __dirname + '/../../dist/cucumber-react.css',
-    __dirname + '/../../dist/main.js'
-  ),
+  new CucumberHtmlStream(__dirname + '/../../dist/main.css', __dirname + '/../../dist/main.js'),
   process.stdout,
   (err: any) => {
     if (err) {

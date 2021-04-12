@@ -8,7 +8,7 @@ import GherkinDocumentList from '../components/app/GherkinDocumentList'
 import QueriesWrapper from '../components/app/QueriesWrapper'
 import { EnvelopesQuery } from '../EnvelopesQueryContext'
 
-import '../styles/react-accessible-accordion.css'
+import '../styles/react-accessible-accordion.scss'
 import '../styles/styles.scss'
 import './custom-classes.scss'
 

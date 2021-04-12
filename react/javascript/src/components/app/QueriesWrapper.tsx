@@ -6,6 +6,10 @@ import { Query as GherkinQuery } from '@cucumber/gherkin-utils'
 import { Query as CucumberQuery } from '@cucumber/query'
 import EnvelopesQueryContext, { EnvelopesQuery } from '../../EnvelopesQueryContext'
 
+// temporary until we get all(?) styles into css modules
+import '../../styles/styles.scss'
+import '../../styles/react-accessible-accordion.scss'
+
 interface IProps {
   cucumberQuery: CucumberQuery
   gherkinQuery: GherkinQuery

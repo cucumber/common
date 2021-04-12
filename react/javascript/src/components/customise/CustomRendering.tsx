@@ -25,9 +25,7 @@ export interface CustomRenderingSupport {
   Tags?: CustomRenderer<TagsProps, TagsClasses>
 }
 
-export const CustomRenderingContext = React.createContext<CustomRenderingSupport>(
-  {}
-)
+export const CustomRenderingContext = React.createContext<CustomRenderingSupport>({})
 
 const CustomRendering: React.FunctionComponent<{
   support: CustomRenderingSupport
