@@ -11,7 +11,7 @@ acceptance/%.html: ../../compatibility-kit/javascript/features/%.ndjson
 
 .deps: assets/cucumber-react.css assets/cucumber-html.js assets/index.mustache.html
 
-assets/cucumber-react.css: ../../react/javascript/dist/src/styles/cucumber-react.css
+assets/cucumber-html.css: ../javascript/dist/main.css
 	mkdir -p $(@D)
 	cp $< $@
 
