@@ -5,7 +5,7 @@ import { JSDOM } from 'jsdom'
 import Tags from '../src/components/gherkin/Tags'
 import CustomRendering from '../src/components/customise/CustomRendering'
 
-describe('theming', () => {
+describe('custom rendering and theming', () => {
   it('uses the generated class names from built-in styles by default', () => {
     const dom = new JSDOM('<html lang="en"><body><div id="content"></div></body></html>')
     // @ts-ignore
@@ -85,5 +85,36 @@ describe('theming', () => {
 
     assert.equal(document.querySelector('ul').className, 'custom-list-class')
     assert.equal(document.querySelector('ul > li').className, 'tag__generated')
+  })
+
+  it('uses a custom component implementation where provided', () => {
+    const dom = new JSDOM('<html lang="en"><body><div id="content"></div></body></html>')
+    // @ts-ignore
+    global.window = dom.window
+    // global.navigator = dom.window.navigator
+    const document = dom.window.document
+
+    const tags = [
+      {
+        name: 'sometag',
+      },
+    ]
+
+    const CustomComponent = () => {
+      return <p>Totally custom!</p>
+    }
+
+    const app = (
+      <CustomRendering
+        support={{
+          Tags: CustomComponent,
+        }}
+      >
+        <Tags tags={tags} />
+      </CustomRendering>
+    )
+    ReactDOM.render(app, document.getElementById('content'))
+
+    assert.equal(document.getElementById('content').innerHTML, '<p>Totally custom!</p>')
   })
 })
