@@ -16,7 +16,7 @@ describe('theming', () => {
     const tags = [
       {
         name: 'sometag',
-      }
+      },
     ]
 
     const app = <Tags tags={tags} />
@@ -36,20 +36,54 @@ describe('theming', () => {
     const tags = [
       {
         name: 'sometag',
-      }
+      },
     ]
 
-    const app = <CustomRendering support={{
-      Tags: {
-        tags: 'custom-list-class',
-        tag: 'custom-item-class'
-      }
-    }}>
-      <Tags tags={tags} />
-    </CustomRendering>
+    const app = (
+      <CustomRendering
+        support={{
+          Tags: {
+            tags: 'custom-list-class',
+            tag: 'custom-item-class',
+          },
+        }}
+      >
+        <Tags tags={tags} />
+      </CustomRendering>
+    )
     ReactDOM.render(app, document.getElementById('content'))
 
     assert.equal(document.querySelector('ul').className, 'custom-list-class')
     assert.equal(document.querySelector('ul > li').className, 'custom-item-class')
+  })
+
+  it('uses a partial of custom classes and falls back to built-in styles where omitted', () => {
+    const dom = new JSDOM('<html lang="en"><body><div id="content"></div></body></html>')
+    // @ts-ignore
+    global.window = dom.window
+    // global.navigator = dom.window.navigator
+    const document = dom.window.document
+
+    const tags = [
+      {
+        name: 'sometag',
+      },
+    ]
+
+    const app = (
+      <CustomRendering
+        support={{
+          Tags: {
+            tags: 'custom-list-class',
+          },
+        }}
+      >
+        <Tags tags={tags} />
+      </CustomRendering>
+    )
+    ReactDOM.render(app, document.getElementById('content'))
+
+    assert.equal(document.querySelector('ul').className, 'custom-list-class')
+    assert.equal(document.querySelector('ul > li').className, 'tag__generated')
   })
 })

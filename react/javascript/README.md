@@ -105,6 +105,8 @@ Then, you can wrap your usage in the `CustomRendering` component and provide an 
 </CustomRendering>
 ```
 
+Some components have multiple styling hooks - e.g. the `<Tags>` component has the `tags` class name for the list, and the `tag` class name for each item. In these cases, you can provide custom class names for just the ones you want to change, and any you omit will pick up the built-in styling like normal.
+
 ### Custom rendering
 
 To change the rendering of some components entirely, you can selectively provide your own component implementations to be used instead of the built-in ones.

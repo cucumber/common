@@ -1,7 +1,23 @@
 import React from 'react'
 import { messages } from '@cucumber/messages'
 
-export declare type CustomRenderer<R, C> = React.FunctionComponent<R> | C
+export function mixinStyles(
+  builtIn: Record<string, string>,
+  custom?: Record<string, string>
+): Record<string, string> {
+  const mixed: Record<string, string> = {}
+  Object.keys(builtIn).forEach((key) => {
+    if (builtIn[key]) {
+      mixed[key] = builtIn[key]
+    }
+    if (custom && custom[key]) {
+      mixed[key] = custom[key]
+    }
+  })
+  return mixed
+}
+
+export declare type CustomRenderer<R, C> = React.FunctionComponent<R> | Partial<C>
 
 export interface DocStringProps {
   docString: messages.GherkinDocument.Feature.Step.IDocString
