@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+ * [JavaScript] Export `StatusIcon` component.
+  ([TDB](to-be-defined)
+   [@vincent-psarga])
+
 ### Changed
 
 ### Deprecated
@@ -21,7 +25,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
-* Upgrade dependencies including `@cucumber/gherkin` ^18.0.0, 
+* Upgrade dependencies including `@cucumber/gherkin` ^18.0.0,
   `@cucumber/messages` ^15.0.0 and `@cucumber/query` ^9.0.2
 
 ## [12.0.0] - 2021-02-07
@@ -372,3 +376,4 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 [davidjgoss]:       https://github.com/davidjgoss
 [hWorblehat]:       https://github.com/hWorblehat
 [sebrose]:          https://github.com/sebrose
+[vincent-psarga]:   https://github.com/vincent-psarga
