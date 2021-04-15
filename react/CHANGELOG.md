@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 
  * [JavaScript] Export `StatusIcon` component.
-  ([TDB](to-be-defined)
+  ([#1478](https://github.com/cucumber/cucumber/pull/1478)
    [@vincent-psarga])
 
 ### Changed
