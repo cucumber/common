@@ -2,7 +2,7 @@
 # Use "make GHERKIN_PYTHON_VERSION=python2 ..." to use python2
 if [ -z "$GHERKIN_PYTHON_VERSION" ];
 then
-    python3 `dirname $0`/gherkin.py $@;
+    python3 `dirname $0`/../gherkin/gherkin.py $@;
 else
-    $GHERKIN_PYTHON_VERSION `dirname $0`/gherkin.py $@;
+    $GHERKIN_PYTHON_VERSION `dirname $0`/../gherkin/gherkin.py $@;
 fi
