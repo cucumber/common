@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import GherkinDocument from '../gherkin/GherkinDocument'
 import { messages } from '@cucumber/messages'
 import {
@@ -12,12 +12,22 @@ import UriContext from '../../UriContext'
 import GherkinQueryContext from '../../GherkinQueryContext'
 import CucumberQueryContext from '../../CucumberQueryContext'
 import StatusIcon from '../gherkin/StatusIcon'
+import {
+  CustomRenderingContext,
+  GherkinDocumentListProps,
+  mixinStyles,
+} from '../customise/CustomRendering'
+import styles from './GherkinDocumentList.module.scss'
 
-interface IProps {
-  gherkinDocuments?: ReadonlyArray<messages.IGherkinDocument>
-}
+const GherkinDocumentList: React.FunctionComponent<GherkinDocumentListProps> = ({
+  gherkinDocuments,
+}) => {
+  const { GherkinDocumentList: Custom } = useContext(CustomRenderingContext)
+  if (typeof Custom === 'function') {
+    return <Custom gherkinDocuments={gherkinDocuments} />
+  }
+  const composedStyles = mixinStyles(styles, Custom)
 
-const GherkinDocumentList: React.FunctionComponent<IProps> = ({ gherkinDocuments }) => {
   const gherkinQuery = React.useContext(GherkinQueryContext)
   const cucumberQuery = React.useContext(CucumberQueryContext)
 
@@ -44,23 +54,29 @@ const GherkinDocumentList: React.FunctionComponent<IProps> = ({ gherkinDocuments
         messages.TestStepFinished.TestStepResult.Status.PASSED
     )
     .map((doc) => doc.uri)
+
   return (
-    <div className="gherkin-document-list">
-      <Accordion allowMultipleExpanded={true} allowZeroExpanded={true} preExpanded={preExpanded}>
+    <div className={composedStyles.list}>
+      <Accordion
+        allowMultipleExpanded={true}
+        allowZeroExpanded={true}
+        preExpanded={preExpanded}
+        className={composedStyles.accordion}
+      >
         {gherkinDocs.map((doc) => {
           const gherkinDocumentStatus = gherkinDocumentStatusByUri.get(doc.uri)
 
           return (
-            <AccordionItem key={doc.uri} uuid={doc.uri}>
+            <AccordionItem key={doc.uri} uuid={doc.uri} className={composedStyles.accordionItem}>
               <AccordionItemHeading>
-                <AccordionItemButton>
-                  <span className="cucumber-feature__icon">
+                <AccordionItemButton className={composedStyles.accordionButton}>
+                  <span className={composedStyles.icon}>
                     <StatusIcon status={gherkinDocumentStatus} />
                   </span>
                   <span>{doc.uri}</span>
                 </AccordionItemButton>
               </AccordionItemHeading>
-              <AccordionItemPanel>
+              <AccordionItemPanel className={composedStyles.accordionPanel}>
                 <UriContext.Provider value={doc.uri}>
                   <GherkinDocument gherkinDocument={doc} />
                 </UriContext.Provider>

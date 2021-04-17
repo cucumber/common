@@ -36,9 +36,22 @@ export interface TagsClasses {
   tag: string
 }
 
+export interface GherkinDocumentListProps {
+  gherkinDocuments?: ReadonlyArray<messages.IGherkinDocument>
+}
+
+export interface GherkinDocumentListClasses {
+  list: string
+  accordion: string
+  accordionItem: string
+  accordionButton: string
+  accordionPanel: string
+}
+
 export interface CustomRenderingSupport {
   DocString?: CustomRenderer<DocStringProps, DocStringClasses>
   Tags?: CustomRenderer<TagsProps, TagsClasses>
+  GherkinDocumentList?: CustomRenderer<GherkinDocumentListProps, GherkinDocumentListClasses>
 }
 
 export const CustomRenderingContext = React.createContext<CustomRenderingSupport>({})

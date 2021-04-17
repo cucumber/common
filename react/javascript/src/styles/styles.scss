@@ -36,19 +36,6 @@ $statusColors:
   }
   a { color: inherit; }
 
-
-  .gherkin-document-list {
-    font-size: 14px;
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
-    color: $textColor;
-    background: $backgroundColor;
-    overflow-x: hidden;
-
-    pre {
-      font-family: inherit;
-    }
-  }
-
   .cucumber-title {
     margin-top: 0.3em;
     margin-bottom: 0;
@@ -62,11 +49,6 @@ $statusColors:
     &__text {
       font-weight: normal;
     }
-  }
-
-  .cucumber-feature__icon {
-    padding-top: 0.35em;
-    padding-right: 0.5em;
   }
 
   // Indentation inside feature and rules

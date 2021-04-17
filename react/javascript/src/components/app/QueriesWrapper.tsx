@@ -8,7 +8,6 @@ import EnvelopesQueryContext, { EnvelopesQuery } from '../../EnvelopesQueryConte
 
 // temporary until we get all(?) styles into css modules
 import '../../styles/styles.scss'
-import '../../styles/react-accessible-accordion.scss'
 
 interface IProps {
   cucumberQuery: CucumberQuery

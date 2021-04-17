@@ -9,7 +9,6 @@ import QueriesWrapper from '../components/app/QueriesWrapper'
 import { EnvelopesQuery } from '../EnvelopesQueryContext'
 import GherkinDocument from '../components/gherkin/GherkinDocument'
 
-import '../styles/react-accessible-accordion.scss'
 import '../styles/styles.scss'
 
 import attachments from '../../acceptance/attachments/attachments'
