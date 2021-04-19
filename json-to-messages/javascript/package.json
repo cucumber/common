@@ -41,7 +41,7 @@
     "@cucumber/gherkin-utils": "^4.0.0",
     "@cucumber/messages": "^15.0.0",
     "@cucumber/message-streams": "^1.0.0",
-    "commander": "^7.2.0",
+    "commander": "^7.0.0",
     "glob": "^7.1.6",
     "source-map-support": "^0.5.19"
   },
