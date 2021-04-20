@@ -62,6 +62,7 @@
                 <version>1.0.2</version>
                 <configuration>
                     <sourceDirectory>${basedir}/../jsonschema</sourceDirectory>
+                    <includes>*.jsonschema</includes>
                     <annotationStyle>none</annotationStyle>
                     <useLongIntegers>true</useLongIntegers>
                     <includeConstructors>true</includeConstructors>
