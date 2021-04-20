@@ -1,30 +1,14 @@
 import { Type } from 'class-transformer'
 import 'reflect-metadata'
 
-export type UndefinedParameterType = {
-  expression: string
-  name: string
-}
-
-export class UndefinedParameterTypeImpl implements UndefinedParameterType {
+export class UndefinedParameterType {
 
   expression: string = ''
 
   name: string = ''
 }
 
-export type Attachment = {
-  body: string
-  contentEncoding: 'IDENTITY' | 'BASE64'
-  fileName?: string
-  mediaType: string
-  source?: Source
-  testCaseStartedId?: string
-  testStepId?: string
-  url?: string
-}
-
-export class AttachmentImpl implements Attachment {
+export class Attachment {
 
   body: string = ''
 
@@ -34,7 +18,7 @@ export class AttachmentImpl implements Attachment {
 
   mediaType: string = ''
 
-  @Type(() => SourceImpl)
+  @Type(() => Source)
   source?: Source
 
   testCaseStartedId?: string
@@ -44,14 +28,7 @@ export class AttachmentImpl implements Attachment {
   url?: string
 }
 
-export type TestCaseStarted = {
-  attempt: number
-  id: string
-  testCaseId: string
-  timestamp: Timestamp
-}
-
-export class TestCaseStartedImpl implements TestCaseStarted {
+export class TestCaseStarted {
 
   attempt: number = 0
 
@@ -59,54 +36,35 @@ export class TestCaseStartedImpl implements TestCaseStarted {
 
   testCaseId: string = ''
 
-  @Type(() => TimestampImpl)
-  timestamp: Timestamp = new TimestampImpl()
+  @Type(() => Timestamp)
+  timestamp: Timestamp = new Timestamp()
 }
 
-export type TestStepStarted = {
-  testCaseStartedId: string
-  testStepId: string
-  timestamp: Timestamp
-}
-
-export class TestStepStartedImpl implements TestStepStarted {
+export class TestStepStarted {
 
   testCaseStartedId: string = ''
 
   testStepId: string = ''
 
-  @Type(() => TimestampImpl)
-  timestamp: Timestamp = new TimestampImpl()
+  @Type(() => Timestamp)
+  timestamp: Timestamp = new Timestamp()
 }
 
-export type SourceReference = {
-  javaMethod?: JavaMethod
-  javaStackTraceElement?: JavaStackTraceElement
-  location?: Location
-  uri?: string
-}
+export class SourceReference {
 
-export class SourceReferenceImpl implements SourceReference {
-
-  @Type(() => JavaMethodImpl)
+  @Type(() => JavaMethod)
   javaMethod?: JavaMethod
 
-  @Type(() => JavaStackTraceElementImpl)
+  @Type(() => JavaStackTraceElement)
   javaStackTraceElement?: JavaStackTraceElement
 
-  @Type(() => LocationImpl)
+  @Type(() => Location)
   location?: Location
 
   uri?: string
 }
 
-export type JavaMethod = {
-  className: string
-  methodName: string
-  methodParameterTypes: readonly string[]
-}
-
-export class JavaMethodImpl implements JavaMethod {
+export class JavaMethod {
 
   className: string = ''
 
@@ -115,13 +73,7 @@ export class JavaMethodImpl implements JavaMethod {
   methodParameterTypes: readonly string[] = []
 }
 
-export type JavaStackTraceElement = {
-  className: string
-  fileName: string
-  methodName: string
-}
-
-export class JavaStackTraceElementImpl implements JavaStackTraceElement {
+export class JavaStackTraceElement {
 
   className: string = ''
 
@@ -130,25 +82,14 @@ export class JavaStackTraceElementImpl implements JavaStackTraceElement {
   methodName: string = ''
 }
 
-export type Timestamp = {
-  nanos: number
-  seconds: number
-}
-
-export class TimestampImpl implements Timestamp {
+export class Timestamp {
 
   nanos: number = 0
 
   seconds: number = 0
 }
 
-export type Source = {
-  data: string
-  mediaType: string
-  uri: string
-}
-
-export class SourceImpl implements Source {
+export class Source {
 
   data: string = ''
 
@@ -157,31 +98,19 @@ export class SourceImpl implements Source {
   uri: string = ''
 }
 
-export type TestCase = {
-  id: string
-  pickleId: string
-  testSteps: readonly TestStep[]
-}
-
-export class TestCaseImpl implements TestCase {
+export class TestCase {
 
   id: string = ''
 
   pickleId: string = ''
 
-  @Type(() => TestStepImpl)
+  @Type(() => TestStep)
   testSteps: readonly TestStep[] = []
 }
 
-export type Group = {
-  children: readonly Group[]
-  start: number
-  value: string
-}
+export class Group {
 
-export class GroupImpl implements Group {
-
-  @Type(() => GroupImpl)
+  @Type(() => Group)
   children: readonly Group[] = []
 
   start: number = 0
@@ -189,38 +118,21 @@ export class GroupImpl implements Group {
   value: string = ''
 }
 
-export type StepMatchArgument = {
-  group: Group
-  parameterTypeName?: string
-}
+export class StepMatchArgument {
 
-export class StepMatchArgumentImpl implements StepMatchArgument {
-
-  @Type(() => GroupImpl)
-  group: Group = new GroupImpl()
+  @Type(() => Group)
+  group: Group = new Group()
 
   parameterTypeName?: string
 }
 
-export type StepMatchArgumentsList = {
-  stepMatchArguments: readonly StepMatchArgument[]
-}
+export class StepMatchArgumentsList {
 
-export class StepMatchArgumentsListImpl implements StepMatchArgumentsList {
-
-  @Type(() => StepMatchArgumentImpl)
+  @Type(() => StepMatchArgument)
   stepMatchArguments: readonly StepMatchArgument[] = []
 }
 
-export type TestStep = {
-  hookId?: string
-  id: string
-  pickleStepId?: string
-  stepDefinitionIds?: readonly string[]
-  stepMatchArgumentsLists?: readonly StepMatchArgumentsList[]
-}
-
-export class TestStepImpl implements TestStep {
+export class TestStep {
 
   hookId?: string
 
@@ -230,78 +142,46 @@ export class TestStepImpl implements TestStep {
 
   stepDefinitionIds?: readonly string[]
 
-  @Type(() => StepMatchArgumentsListImpl)
+  @Type(() => StepMatchArgumentsList)
   stepMatchArgumentsLists?: readonly StepMatchArgumentsList[]
 }
 
-export type Location = {
-  column?: number
-  line: number
-}
-
-export class LocationImpl implements Location {
+export class Location {
 
   column?: number
 
   line: number = 0
 }
 
-export type Hook = {
-  id: string
-  sourceReference: SourceReference
-  tagExpression?: string
-}
-
-export class HookImpl implements Hook {
+export class Hook {
 
   id: string = ''
 
-  @Type(() => SourceReferenceImpl)
-  sourceReference: SourceReference = new SourceReferenceImpl()
+  @Type(() => SourceReference)
+  sourceReference: SourceReference = new SourceReference()
 
   tagExpression?: string
 }
 
-export type TestRunFinished = {
-  message?: string
-  success: boolean
-  timestamp: Timestamp
-}
-
-export class TestRunFinishedImpl implements TestRunFinished {
+export class TestRunFinished {
 
   message?: string
 
   success: boolean = false
 
-  @Type(() => TimestampImpl)
-  timestamp: Timestamp = new TimestampImpl()
+  @Type(() => Timestamp)
+  timestamp: Timestamp = new Timestamp()
 }
 
-export type ParseError = {
-  message: string
-  source: SourceReference
-}
-
-export class ParseErrorImpl implements ParseError {
+export class ParseError {
 
   message: string = ''
 
-  @Type(() => SourceReferenceImpl)
-  source: SourceReference = new SourceReferenceImpl()
+  @Type(() => SourceReference)
+  source: SourceReference = new SourceReference()
 }
 
-export type Pickle = {
-  astNodeIds: readonly string[]
-  id: string
-  language: string
-  name: string
-  steps: readonly PickleStep[]
-  tags: readonly PickleTag[]
-  uri: string
-}
-
-export class PickleImpl implements Pickle {
+export class Pickle {
 
   astNodeIds: readonly string[] = []
 
@@ -311,37 +191,25 @@ export class PickleImpl implements Pickle {
 
   name: string = ''
 
-  @Type(() => PickleStepImpl)
+  @Type(() => PickleStep)
   steps: readonly PickleStep[] = []
 
-  @Type(() => PickleTagImpl)
+  @Type(() => PickleTag)
   tags: readonly PickleTag[] = []
 
   uri: string = ''
 }
 
-export type PickleDocString = {
-  content: string
-  mediaType?: string
-}
-
-export class PickleDocStringImpl implements PickleDocString {
+export class PickleDocString {
 
   content: string = ''
 
   mediaType?: string
 }
 
-export type PickleStep = {
-  argument?: PickleStepArgument
-  astNodeIds: readonly string[]
-  id: string
-  text: string
-}
+export class PickleStep {
 
-export class PickleStepImpl implements PickleStep {
-
-  @Type(() => PickleStepArgumentImpl)
+  @Type(() => PickleStepArgument)
   argument?: PickleStepArgument
 
   astNodeIds: readonly string[] = []
@@ -351,82 +219,47 @@ export class PickleStepImpl implements PickleStep {
   text: string = ''
 }
 
-export type PickleStepArgument = {
+export class PickleStepArgument {
+
+  @Type(() => PickleTable)
   dataTable?: PickleTable
+
+  @Type(() => PickleDocString)
   docString?: PickleDocString
 }
 
-export class PickleStepArgumentImpl implements PickleStepArgument {
+export class PickleTable {
 
-  @Type(() => PickleTableImpl)
-  dataTable?: PickleTable
-
-  @Type(() => PickleDocStringImpl)
-  docString?: PickleDocString
-}
-
-export type PickleTable = {
-  rows: readonly PickleTableRow[]
-}
-
-export class PickleTableImpl implements PickleTable {
-
-  @Type(() => PickleTableRowImpl)
+  @Type(() => PickleTableRow)
   rows: readonly PickleTableRow[] = []
 }
 
-export type PickleTableCell = {
-  value: string
-}
-
-export class PickleTableCellImpl implements PickleTableCell {
+export class PickleTableCell {
 
   value: string = ''
 }
 
-export type PickleTableRow = {
-  cells: readonly PickleTableCell[]
-}
+export class PickleTableRow {
 
-export class PickleTableRowImpl implements PickleTableRow {
-
-  @Type(() => PickleTableCellImpl)
+  @Type(() => PickleTableCell)
   cells: readonly PickleTableCell[] = []
 }
 
-export type PickleTag = {
-  astNodeId: string
-  name: string
-}
-
-export class PickleTagImpl implements PickleTag {
+export class PickleTag {
 
   astNodeId: string = ''
 
   name: string = ''
 }
 
-export type Duration = {
-  nanos: number
-  seconds: number
-}
-
-export class DurationImpl implements Duration {
+export class Duration {
 
   nanos: number = 0
 
   seconds: number = 0
 }
 
-export type ParameterType = {
-  id: string
-  name: string
-  preferForRegularExpressionMatch: boolean
-  regularExpressions: readonly string[]
-  useForSnippets: boolean
-}
-
-export class ParameterTypeImpl implements ParameterType {
+export class ParameterType {
 
   id: string = ''
 
@@ -439,33 +272,18 @@ export class ParameterTypeImpl implements ParameterType {
   useForSnippets: boolean = false
 }
 
-export type GherkinDocument = {
-  comments: readonly Comment[]
-  feature?: Feature
-  uri?: string
-}
+export class GherkinDocument {
 
-export class GherkinDocumentImpl implements GherkinDocument {
-
-  @Type(() => CommentImpl)
+  @Type(() => Comment)
   comments: readonly Comment[] = []
 
-  @Type(() => FeatureImpl)
+  @Type(() => Feature)
   feature?: Feature
 
   uri?: string
 }
 
-export type Background = {
-  description: string
-  id: string
-  keyword: string
-  location: Location
-  name: string
-  steps: readonly Step[]
-}
-
-export class BackgroundImpl implements Background {
+export class Background {
 
   description: string = ''
 
@@ -473,73 +291,45 @@ export class BackgroundImpl implements Background {
 
   keyword: string = ''
 
-  @Type(() => LocationImpl)
-  location: Location = new LocationImpl()
+  @Type(() => Location)
+  location: Location = new Location()
 
   name: string = ''
 
-  @Type(() => StepImpl)
+  @Type(() => Step)
   steps: readonly Step[] = []
 }
 
-export type Comment = {
-  location: Location
-  text: string
-}
+export class Comment {
 
-export class CommentImpl implements Comment {
-
-  @Type(() => LocationImpl)
-  location: Location = new LocationImpl()
+  @Type(() => Location)
+  location: Location = new Location()
 
   text: string = ''
 }
 
-export type DataTable = {
-  location: Location
-  rows: readonly TableRow[]
-}
+export class DataTable {
 
-export class DataTableImpl implements DataTable {
+  @Type(() => Location)
+  location: Location = new Location()
 
-  @Type(() => LocationImpl)
-  location: Location = new LocationImpl()
-
-  @Type(() => TableRowImpl)
+  @Type(() => TableRow)
   rows: readonly TableRow[] = []
 }
 
-export type DocString = {
-  content: string
-  delimiter: string
-  location: Location
-  mediaType?: string
-}
-
-export class DocStringImpl implements DocString {
+export class DocString {
 
   content: string = ''
 
   delimiter: string = ''
 
-  @Type(() => LocationImpl)
-  location: Location = new LocationImpl()
+  @Type(() => Location)
+  location: Location = new Location()
 
   mediaType?: string
 }
 
-export type Examples = {
-  description: string
-  id: string
-  keyword: string
-  location: Location
-  name: string
-  tableBody: readonly TableRow[]
-  tableHeader: TableRow
-  tags: readonly Tag[]
-}
-
-export class ExamplesImpl implements Examples {
+export class Examples {
 
   description: string = ''
 
@@ -547,34 +337,24 @@ export class ExamplesImpl implements Examples {
 
   keyword: string = ''
 
-  @Type(() => LocationImpl)
-  location: Location = new LocationImpl()
+  @Type(() => Location)
+  location: Location = new Location()
 
   name: string = ''
 
-  @Type(() => TableRowImpl)
+  @Type(() => TableRow)
   tableBody: readonly TableRow[] = []
 
-  @Type(() => TableRowImpl)
-  tableHeader: TableRow = new TableRowImpl()
+  @Type(() => TableRow)
+  tableHeader: TableRow = new TableRow()
 
-  @Type(() => TagImpl)
+  @Type(() => Tag)
   tags: readonly Tag[] = []
 }
 
-export type Feature = {
-  children: readonly FeatureChild[]
-  description: string
-  keyword: string
-  language: string
-  location: Location
-  name: string
-  tags: readonly Tag[]
-}
+export class Feature {
 
-export class FeatureImpl implements Feature {
-
-  @Type(() => FeatureChildImpl)
+  @Type(() => FeatureChild)
   children: readonly FeatureChild[] = []
 
   description: string = ''
@@ -583,46 +363,30 @@ export class FeatureImpl implements Feature {
 
   language: string = ''
 
-  @Type(() => LocationImpl)
-  location: Location = new LocationImpl()
+  @Type(() => Location)
+  location: Location = new Location()
 
   name: string = ''
 
-  @Type(() => TagImpl)
+  @Type(() => Tag)
   tags: readonly Tag[] = []
 }
 
-export type FeatureChild = {
+export class FeatureChild {
+
+  @Type(() => Background)
   background?: Background
+
+  @Type(() => Rule)
   rule?: Rule
+
+  @Type(() => Scenario)
   scenario?: Scenario
 }
 
-export class FeatureChildImpl implements FeatureChild {
+export class Rule {
 
-  @Type(() => BackgroundImpl)
-  background?: Background
-
-  @Type(() => RuleImpl)
-  rule?: Rule
-
-  @Type(() => ScenarioImpl)
-  scenario?: Scenario
-}
-
-export type Rule = {
-  children: readonly RuleChild[]
-  description: string
-  id: string
-  keyword: string
-  location: Location
-  name: string
-  tags: readonly Tag[]
-}
-
-export class RuleImpl implements Rule {
-
-  @Type(() => RuleChildImpl)
+  @Type(() => RuleChild)
   children: readonly RuleChild[] = []
 
   description: string = ''
@@ -631,167 +395,111 @@ export class RuleImpl implements Rule {
 
   keyword: string = ''
 
-  @Type(() => LocationImpl)
-  location: Location = new LocationImpl()
+  @Type(() => Location)
+  location: Location = new Location()
 
   name: string = ''
 
-  @Type(() => TagImpl)
+  @Type(() => Tag)
   tags: readonly Tag[] = []
 }
 
-export type RuleChild = {
+export class RuleChild {
+
+  @Type(() => Background)
   background?: Background
+
+  @Type(() => Scenario)
   scenario?: Scenario
 }
 
-export class RuleChildImpl implements RuleChild {
-
-  @Type(() => BackgroundImpl)
-  background?: Background
-
-  @Type(() => ScenarioImpl)
-  scenario?: Scenario
-}
-
-export type Scenario = {
-  description: string
-  examples: readonly Examples[]
-  id: string
-  keyword: string
-  location: Location
-  name: string
-  steps: readonly Step[]
-  tags: readonly Tag[]
-}
-
-export class ScenarioImpl implements Scenario {
+export class Scenario {
 
   description: string = ''
 
-  @Type(() => ExamplesImpl)
+  @Type(() => Examples)
   examples: readonly Examples[] = []
 
   id: string = ''
 
   keyword: string = ''
 
-  @Type(() => LocationImpl)
-  location: Location = new LocationImpl()
+  @Type(() => Location)
+  location: Location = new Location()
 
   name: string = ''
 
-  @Type(() => StepImpl)
+  @Type(() => Step)
   steps: readonly Step[] = []
 
-  @Type(() => TagImpl)
+  @Type(() => Tag)
   tags: readonly Tag[] = []
 }
 
-export type Step = {
-  dataTable?: DataTable
-  docString?: DocString
-  id: string
-  keyword: string
-  location: Location
-  text: string
-}
+export class Step {
 
-export class StepImpl implements Step {
-
-  @Type(() => DataTableImpl)
+  @Type(() => DataTable)
   dataTable?: DataTable
 
-  @Type(() => DocStringImpl)
+  @Type(() => DocString)
   docString?: DocString
 
   id: string = ''
 
   keyword: string = ''
 
-  @Type(() => LocationImpl)
-  location: Location = new LocationImpl()
+  @Type(() => Location)
+  location: Location = new Location()
 
   text: string = ''
 }
 
-export type TableCell = {
-  location: Location
-  value: string
-}
+export class TableCell {
 
-export class TableCellImpl implements TableCell {
-
-  @Type(() => LocationImpl)
-  location: Location = new LocationImpl()
+  @Type(() => Location)
+  location: Location = new Location()
 
   value: string = ''
 }
 
-export type TableRow = {
-  cells: readonly TableCell[]
-  id: string
-  location: Location
-}
+export class TableRow {
 
-export class TableRowImpl implements TableRow {
-
-  @Type(() => TableCellImpl)
+  @Type(() => TableCell)
   cells: readonly TableCell[] = []
 
   id: string = ''
 
-  @Type(() => LocationImpl)
-  location: Location = new LocationImpl()
+  @Type(() => Location)
+  location: Location = new Location()
 }
 
-export type Tag = {
-  id: string
-  location: Location
-  name: string
-}
-
-export class TagImpl implements Tag {
+export class Tag {
 
   id: string = ''
 
-  @Type(() => LocationImpl)
-  location: Location = new LocationImpl()
+  @Type(() => Location)
+  location: Location = new Location()
 
   name: string = ''
 }
 
-export type TestStepFinished = {
-  testCaseStartedId: string
-  testStepId: string
-  testStepResult: TestStepResult
-  timestamp: Timestamp
-}
-
-export class TestStepFinishedImpl implements TestStepFinished {
+export class TestStepFinished {
 
   testCaseStartedId: string = ''
 
   testStepId: string = ''
 
-  @Type(() => TestStepResultImpl)
-  testStepResult: TestStepResult = new TestStepResultImpl()
+  @Type(() => TestStepResult)
+  testStepResult: TestStepResult = new TestStepResult()
 
-  @Type(() => TimestampImpl)
-  timestamp: Timestamp = new TimestampImpl()
+  @Type(() => Timestamp)
+  timestamp: Timestamp = new Timestamp()
 }
 
-export type TestStepResult = {
-  duration: Duration
-  message?: string
-  status: 'UNKNOWN' | 'PASSED' | 'SKIPPED' | 'PENDING' | 'UNDEFINED' | 'AMBIGUOUS' | 'FAILED'
-  willBeRetried: boolean
-}
+export class TestStepResult {
 
-export class TestStepResultImpl implements TestStepResult {
-
-  @Type(() => DurationImpl)
-  duration: Duration = new DurationImpl()
+  @Type(() => Duration)
+  duration: Duration = new Duration()
 
   message?: string
 
@@ -800,160 +508,109 @@ export class TestStepResultImpl implements TestStepResult {
   willBeRetried: boolean = false
 }
 
-export type StepDefinition = {
-  id: string
-  pattern: StepDefinitionPattern
-  sourceReference: SourceReference
-}
-
-export class StepDefinitionImpl implements StepDefinition {
+export class StepDefinition {
 
   id: string = ''
 
-  @Type(() => StepDefinitionPatternImpl)
-  pattern: StepDefinitionPattern = new StepDefinitionPatternImpl()
+  @Type(() => StepDefinitionPattern)
+  pattern: StepDefinitionPattern = new StepDefinitionPattern()
 
-  @Type(() => SourceReferenceImpl)
-  sourceReference: SourceReference = new SourceReferenceImpl()
+  @Type(() => SourceReference)
+  sourceReference: SourceReference = new SourceReference()
 }
 
-export type StepDefinitionPattern = {
-  source: string
-  type: 'CUCUMBER_EXPRESSION' | 'REGULAR_EXPRESSION'
-}
-
-export class StepDefinitionPatternImpl implements StepDefinitionPattern {
+export class StepDefinitionPattern {
 
   source: string = ''
 
   type: 'CUCUMBER_EXPRESSION' | 'REGULAR_EXPRESSION' = 'CUCUMBER_EXPRESSION'
 }
 
-export type Envelope = {
+export class Envelope {
+
+  @Type(() => Attachment)
   attachment?: Attachment
+
+  @Type(() => GherkinDocument)
   gherkinDocument?: GherkinDocument
+
+  @Type(() => Hook)
   hook?: Hook
+
+  @Type(() => Meta)
   meta?: Meta
+
+  @Type(() => ParameterType)
   parameterType?: ParameterType
+
+  @Type(() => ParseError)
   parseError?: ParseError
+
+  @Type(() => Pickle)
   pickle?: Pickle
+
+  @Type(() => Source)
   source?: Source
+
+  @Type(() => StepDefinition)
   stepDefinition?: StepDefinition
+
+  @Type(() => TestCase)
   testCase?: TestCase
+
+  @Type(() => TestCaseFinished)
   testCaseFinished?: TestCaseFinished
+
+  @Type(() => TestCaseStarted)
   testCaseStarted?: TestCaseStarted
+
+  @Type(() => TestRunFinished)
   testRunFinished?: TestRunFinished
+
+  @Type(() => TestRunStarted)
   testRunStarted?: TestRunStarted
+
+  @Type(() => TestStepFinished)
   testStepFinished?: TestStepFinished
+
+  @Type(() => TestStepStarted)
   testStepStarted?: TestStepStarted
+
+  @Type(() => UndefinedParameterType)
   undefinedParameterType?: UndefinedParameterType
 }
 
-export class EnvelopeImpl implements Envelope {
-
-  @Type(() => AttachmentImpl)
-  attachment?: Attachment
-
-  @Type(() => GherkinDocumentImpl)
-  gherkinDocument?: GherkinDocument
-
-  @Type(() => HookImpl)
-  hook?: Hook
-
-  @Type(() => MetaImpl)
-  meta?: Meta
-
-  @Type(() => ParameterTypeImpl)
-  parameterType?: ParameterType
-
-  @Type(() => ParseErrorImpl)
-  parseError?: ParseError
-
-  @Type(() => PickleImpl)
-  pickle?: Pickle
-
-  @Type(() => SourceImpl)
-  source?: Source
-
-  @Type(() => StepDefinitionImpl)
-  stepDefinition?: StepDefinition
-
-  @Type(() => TestCaseImpl)
-  testCase?: TestCase
-
-  @Type(() => TestCaseFinishedImpl)
-  testCaseFinished?: TestCaseFinished
-
-  @Type(() => TestCaseStartedImpl)
-  testCaseStarted?: TestCaseStarted
-
-  @Type(() => TestRunFinishedImpl)
-  testRunFinished?: TestRunFinished
-
-  @Type(() => TestRunStartedImpl)
-  testRunStarted?: TestRunStarted
-
-  @Type(() => TestStepFinishedImpl)
-  testStepFinished?: TestStepFinished
-
-  @Type(() => TestStepStartedImpl)
-  testStepStarted?: TestStepStarted
-
-  @Type(() => UndefinedParameterTypeImpl)
-  undefinedParameterType?: UndefinedParameterType
-}
-
-export type TestCaseFinished = {
-  testCaseStartedId: string
-  timestamp: Timestamp
-}
-
-export class TestCaseFinishedImpl implements TestCaseFinished {
+export class TestCaseFinished {
 
   testCaseStartedId: string = ''
 
-  @Type(() => TimestampImpl)
-  timestamp: Timestamp = new TimestampImpl()
+  @Type(() => Timestamp)
+  timestamp: Timestamp = new Timestamp()
 }
 
-export type Meta = {
-  ci?: Ci
-  cpu: Product
-  implementation: Product
-  os: Product
-  protocol_version: string
-  runtime: Product
-}
+export class Meta {
 
-export class MetaImpl implements Meta {
-
-  @Type(() => CiImpl)
+  @Type(() => Ci)
   ci?: Ci
 
-  @Type(() => ProductImpl)
-  cpu: Product = new ProductImpl()
+  @Type(() => Product)
+  cpu: Product = new Product()
 
-  @Type(() => ProductImpl)
-  implementation: Product = new ProductImpl()
+  @Type(() => Product)
+  implementation: Product = new Product()
 
-  @Type(() => ProductImpl)
-  os: Product = new ProductImpl()
+  @Type(() => Product)
+  os: Product = new Product()
 
   protocol_version: string = ''
 
-  @Type(() => ProductImpl)
-  runtime: Product = new ProductImpl()
+  @Type(() => Product)
+  runtime: Product = new Product()
 }
 
-export type Ci = {
-  git?: Git
-  name: string
-  url?: string
-}
+export class Ci {
 
-export class CiImpl implements Ci {
-
-  @Type(() => GitImpl)
+  @Type(() => Git)
   git?: Git
 
   name: string = ''
@@ -961,14 +618,7 @@ export class CiImpl implements Ci {
   url?: string
 }
 
-export type Git = {
-  branch?: string
-  remote: string
-  revision: string
-  tag?: string
-}
-
-export class GitImpl implements Git {
+export class Git {
 
   branch?: string
 
@@ -979,25 +629,16 @@ export class GitImpl implements Git {
   tag?: string
 }
 
-export type Product = {
-  name: string
-  version?: string
-}
-
-export class ProductImpl implements Product {
+export class Product {
 
   name: string = ''
 
   version?: string
 }
 
-export type TestRunStarted = {
-  timestamp: Timestamp
-}
+export class TestRunStarted {
 
-export class TestRunStartedImpl implements TestRunStarted {
-
-  @Type(() => TimestampImpl)
-  timestamp: Timestamp = new TimestampImpl()
+  @Type(() => Timestamp)
+  timestamp: Timestamp = new Timestamp()
 }
 

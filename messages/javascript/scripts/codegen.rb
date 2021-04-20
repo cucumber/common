@@ -48,7 +48,7 @@ class Codegen
       "false"
     elsif property['$ref']
       type = type_for(property, '???')
-      "new #{type}Impl()"
+      "new #{type}()"
     else
       raise "Cannot create default value for #{property.to_json}"
     end
@@ -92,17 +92,11 @@ import { Type } from 'class-transformer'
 import 'reflect-metadata'
 
 <% @schemas.each do |key, schema| -%>
-export type <%= File.basename(key, '.jsonschema') %> = {
-<% schema['properties'].each do |name, property| -%>
-  <%= name %><%= property['required'] ? '' : '?' %>: <%= type_for(property, name) %>
-<% end -%>
-}
-
-export class <%= File.basename(key, '.jsonschema') %>Impl implements <%= File.basename(key, '.jsonschema') %> {
+export class <%= File.basename(key, '.jsonschema') %> {
 <% schema['properties'].each do |name, property| -%>
 <% ref = property['$ref'] || property['items'] && property['items']['$ref'] %>
 <% if ref -%>
-  @Type(() => <%= File.basename(ref, '.jsonschema') %>Impl)
+  @Type(() => <%= File.basename(ref, '.jsonschema') %>)
 <% end -%>
 <% if property['required'] -%>
   <%= name %>: <%= type_for(property, name) %> = <%= default_value(property) %>

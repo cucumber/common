@@ -1,4 +1,4 @@
-import { Envelope, EnvelopeImpl } from './messages'
+import { Envelope } from './messages'
 import { plainToClass } from 'class-transformer'
 
 /**
@@ -8,5 +8,5 @@ import { plainToClass } from 'class-transformer'
  */
 export function parseEnvelope(json: string): Envelope {
   const plain = JSON.parse(json)
-  return plainToClass(EnvelopeImpl, plain)
+  return plainToClass(Envelope, plain)
 }
