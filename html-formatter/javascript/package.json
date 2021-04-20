@@ -1,6 +1,6 @@
 {
   "name": "@cucumber/html-formatter",
-  "version": "12.0.0",
+  "version": "13.0.0",
   "description": "HTML formatter for Cucumber",
   "bin": {
     "cucumber-html-formatter": "bin/cucumber-html-formatter.js"
@@ -25,8 +25,8 @@
   "devDependencies": {
     "@babel/core": "^7.13.14",
     "@cucumber/gherkin-utils": "^4.0.0",
-    "@cucumber/query": "^9.0.1",
-    "@cucumber/react": "^12.0.0",
+    "@cucumber/query": "^9.0.2",
+    "@cucumber/react": "^13.0.0",
     "@cucumber/gherkin-streams": "^1.0.0",
     "@cucumber/message-streams": "^1.0.0",
     "@types/mocha": "^8.2.2",

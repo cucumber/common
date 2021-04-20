@@ -493,7 +493,7 @@ var buildinDialects = gherkinDialectMap{
 				"Požadavek",
 			},
 			rule: []string{
-				"Rule",
+				"Pravidlo",
 			},
 			background: []string{
 				"Pozadí",

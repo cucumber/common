@@ -3,6 +3,7 @@ setup.cfg
 setup.py
 bin/gherkin
 gherkin/__init__.py
+gherkin/__main__.py
 gherkin/ast_builder.py
 gherkin/ast_node.py
 gherkin/count_symbols.py
@@ -22,4 +23,5 @@ gherkin/pickles/__init__.py
 gherkin/pickles/compiler.py
 gherkin/stream/__init__.py
 gherkin/stream/gherkin_events.py
+gherkin/stream/id_generator.py
 gherkin/stream/source_events.py

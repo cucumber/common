@@ -9,15 +9,25 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
-* Add inline logo icon to page
-
 ### Changed
- * Upgrade to messages 15.0.0
+
 ### Deprecated
 
 ### Removed
 
 ### Fixed
+
+## [13.0.0] - 2021-04-06
+
+### Added
+
+* Add inline logo icon to page
+
+### Changed
+
+* Upgrade dependencies including `@cucumber/gherkin` ^18.0.0, 
+  `@cucumber/messages` ^15.0.0, `@cucumber/query` ^9.0.2 and
+  `@cucumber/react` ^13.0.0
 
 ## [12.0.0] - 2021-02-08
 
@@ -287,7 +297,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/html-formatter/v12.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/html-formatter/v13.0.0...master
+[13.0.0]:      https://github.com/cucumber/cucumber/compare/html-formatter/v12.0.0...html-formatter/v13.0.0
 [12.0.0]:      https://github.com/cucumber/cucumber/compare/html-formatter/v11.0.4...html-formatter/v12.0.0
 [11.0.4]:      https://github.com/cucumber/cucumber/compare/html-formatter/v11.0.3...html-formatter/v11.0.4
 [11.0.3]:      https://github.com/cucumber/cucumber/compare/html-formatter/v11.0.2...html-formatter/v11.0.3

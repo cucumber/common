@@ -66,3 +66,5 @@ gherkin/parser.py: gherkin.berp gherkin-python.razor
 	# Remove BOM
 	awk 'NR==1{sub(/^\xef\xbb\xbf/,"")}{print}' < $@ > $@.nobom
 	mv $@.nobom $@
+
+include default.mk
