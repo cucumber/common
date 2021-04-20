@@ -1,5 +1,3 @@
-include default.mk
-
 SHELL := /usr/bin/env bash
 GOOD_FEATURE_FILES = $(shell find testdata/good -name "*.feature")
 BAD_FEATURE_FILES  = $(shell find testdata/bad -name "*.feature")
@@ -68,3 +66,5 @@ gherkin/parser.py: gherkin.berp gherkin-python.razor
 	# Remove BOM
 	awk 'NR==1{sub(/^\xef\xbb\xbf/,"")}{print}' < $@ > $@.nobom
 	mv $@.nobom $@
+
+include default.mk
