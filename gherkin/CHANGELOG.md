@@ -19,6 +19,11 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Fixed
 
+* [python] Run gherkin as a module.
+  ([#1480](https://github.com/cucumber/cucumber/pull/1480)
+   [#1475](https://github.com/cucumber/cucumber/issues/1475)
+   [brasmusson] [aurelien-reeves])
+
 ## [18.1.0] - 2021-04-06
 
 ### Added
