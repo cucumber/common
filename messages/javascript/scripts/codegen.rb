@@ -60,7 +60,7 @@ class Codegen
     items = property['items']
     enum = property['enum']
     if ref
-      File.basename(property['$ref'], '.jsonschema')
+      class_name(property['$ref'])
     elsif type
       if type == 'array'
         array_type_for(type_for(items, nil))
@@ -85,6 +85,10 @@ class Codegen
   def array_type_for(type)
     "readonly #{type}[]"
   end
+
+  def class_name(ref)
+    File.basename(ref, '.schema.json')
+  end
 end
 
 template = <<-EOF
@@ -92,11 +96,11 @@ import { Type } from 'class-transformer'
 import 'reflect-metadata'
 
 <% @schemas.sort.each do |key, schema| -%>
-export class <%= File.basename(key, '.jsonschema') %> {
+export class <%= class_name(key) %> {
 <% schema['properties'].each do |name, property| -%>
 <% ref = property['$ref'] || property['items'] && property['items']['$ref'] %>
 <% if ref -%>
-  @Type(() => <%= File.basename(ref, '.jsonschema') %>)
+  @Type(() => <%= class_name(ref) %>)
 <% end -%>
 <% if property['required'] -%>
   <%= name %>: <%= type_for(property, name) %> = <%= default_value(property) %>
@@ -115,7 +119,7 @@ language_type_by_schema_type = {
   'boolean' => 'boolean',
 }
 path = ARGV[0]
-paths = File.file?(path) ? [path] : Dir["#{ARGV[0]}/*.jsonschema"]
+paths = File.file?(path) ? [path] : Dir["#{ARGV[0]}/*.schema.json"]
 
 codegen = Codegen.new(paths, template, language_type_by_schema_type)
 codegen.generate

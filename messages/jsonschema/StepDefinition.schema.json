@@ -10,10 +10,7 @@
           "type": "string"
         },
         "type": {
-          "enum": [
-            "CUCUMBER_EXPRESSION",
-            "REGULAR_EXPRESSION"
-          ],
+          "enum": ["CUCUMBER_EXPRESSION", "REGULAR_EXPRESSION"],
           "required": true,
           "type": "string"
         }
@@ -31,7 +28,7 @@
       "required": true
     },
     "sourceReference": {
-      "$ref": "./SourceReference.jsonschema",
+      "$ref": "./SourceReference.schema.json",
       "required": true
     }
   },

@@ -2,18 +2,11 @@
   "$schema": "http://json-schema.org/draft-04/schema#",
   "additionalProperties": false,
   "properties": {
-    "id": {
-      "required": true,
-      "type": "string"
-    },
-    "sourceReference": {
-      "$ref": "./SourceReference.jsonschema",
+    "timestamp": {
+      "$ref": "./Timestamp.schema.json",
       "additionalProperties": false,
       "required": true,
       "type": "object"
-    },
-    "tagExpression": {
-      "type": "string"
     }
   },
   "type": "object"

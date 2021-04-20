@@ -51,7 +51,7 @@
       "$ref": "#/definitions/JavaStackTraceElement"
     },
     "location": {
-      "$ref": "./Location.jsonschema"
+      "$ref": "./Location.schema.json"
     },
     "uri": {
       "type": "string"

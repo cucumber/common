@@ -2,8 +2,12 @@
   "$schema": "http://json-schema.org/draft-04/schema#",
   "additionalProperties": false,
   "properties": {
+    "testCaseStartedId": {
+      "required": true,
+      "type": "string"
+    },
     "timestamp": {
-      "$ref": "./Timestamp.jsonschema",
+      "$ref": "./Timestamp.schema.json",
       "additionalProperties": false,
       "required": true,
       "type": "object"

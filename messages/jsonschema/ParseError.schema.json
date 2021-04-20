@@ -7,7 +7,7 @@
       "type": "string"
     },
     "source": {
-      "$ref": "./SourceReference.jsonschema",
+      "$ref": "./SourceReference.schema.json",
       "required": true
     }
   },

@@ -6,7 +6,7 @@
       "additionalProperties": false,
       "properties": {
         "duration": {
-          "$ref": "./Duration.jsonschema",
+          "$ref": "./Duration.schema.json",
           "additionalProperties": false,
           "required": true,
           "type": "object"
@@ -15,15 +15,7 @@
           "type": "string"
         },
         "status": {
-          "enum": [
-            "UNKNOWN",
-            "PASSED",
-            "SKIPPED",
-            "PENDING",
-            "UNDEFINED",
-            "AMBIGUOUS",
-            "FAILED"
-          ],
+          "enum": ["UNKNOWN", "PASSED", "SKIPPED", "PENDING", "UNDEFINED", "AMBIGUOUS", "FAILED"],
           "required": true,
           "type": "string"
         },
@@ -49,7 +41,7 @@
       "required": true
     },
     "timestamp": {
-      "$ref": "./Timestamp.jsonschema",
+      "$ref": "./Timestamp.schema.json",
       "additionalProperties": false,
       "required": true,
       "type": "object"
