@@ -91,7 +91,7 @@ template = <<-EOF
 import { Type } from 'class-transformer'
 import 'reflect-metadata'
 
-<% @schemas.each do |key, schema| -%>
+<% @schemas.sort.each do |key, schema| -%>
 export class <%= File.basename(key, '.jsonschema') %> {
 <% schema['properties'].each do |name, property| -%>
 <% ref = property['$ref'] || property['items'] && property['items']['$ref'] %>
