@@ -1,6 +1,6 @@
 include default.mk
 
-JSONSCHEMAS = $(shell find ../jsonschema -name "*.schema.json")
+JSONSCHEMAS = $(shell find ../jsonschema -name "*.json")
 
 .codegen: src/messages.ts
 

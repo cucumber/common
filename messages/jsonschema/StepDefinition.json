@@ -28,7 +28,7 @@
       "required": true
     },
     "sourceReference": {
-      "$ref": "./SourceReference.schema.json",
+      "$ref": "./SourceReference.json",
       "required": true
     }
   },

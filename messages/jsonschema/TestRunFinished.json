@@ -12,7 +12,7 @@
       "type": "boolean"
     },
     "timestamp": {
-      "$ref": "./Timestamp.schema.json",
+      "$ref": "./Timestamp.json",
       "additionalProperties": false,
       "description": "Timestamp when the TestRun is finished",
       "required": true,

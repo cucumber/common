@@ -20,7 +20,7 @@
           "type": "string"
         },
         "location": {
-          "$ref": "./Location.schema.json",
+          "$ref": "./Location.json",
           "additionalProperties": false,
           "description": "The location of the `Background` keyword",
           "required": true
@@ -46,7 +46,7 @@
       "description": "*\n A comment in a Gherkin document",
       "properties": {
         "location": {
-          "$ref": "./Location.schema.json",
+          "$ref": "./Location.json",
           "additionalProperties": false,
           "description": "The location of the comment",
           "required": true
@@ -63,7 +63,7 @@
       "additionalProperties": false,
       "properties": {
         "location": {
-          "$ref": "./Location.schema.json",
+          "$ref": "./Location.json",
           "additionalProperties": false,
           "required": true
         },
@@ -90,7 +90,7 @@
           "type": "string"
         },
         "location": {
-          "$ref": "./Location.schema.json",
+          "$ref": "./Location.json",
           "additionalProperties": false,
           "required": true
         },
@@ -116,7 +116,7 @@
           "type": "string"
         },
         "location": {
-          "$ref": "./Location.schema.json",
+          "$ref": "./Location.json",
           "additionalProperties": false,
           "description": "The location of the `Examples` keyword",
           "required": true
@@ -176,7 +176,7 @@
           "type": "string"
         },
         "location": {
-          "$ref": "./Location.schema.json",
+          "$ref": "./Location.json",
           "additionalProperties": false,
           "description": "The location of the `Feature` keyword",
           "required": true
@@ -241,7 +241,7 @@
           "type": "string"
         },
         "location": {
-          "$ref": "./Location.schema.json",
+          "$ref": "./Location.json",
           "additionalProperties": false,
           "description": "The location of the `Rule` keyword",
           "required": true
@@ -304,7 +304,7 @@
           "type": "string"
         },
         "location": {
-          "$ref": "./Location.schema.json",
+          "$ref": "./Location.json",
           "additionalProperties": false,
           "description": "The location of the `Scenario` keyword",
           "required": true
@@ -354,7 +354,7 @@
           "type": "string"
         },
         "location": {
-          "$ref": "./Location.schema.json",
+          "$ref": "./Location.json",
           "additionalProperties": false,
           "description": "The location of the steps' `keyword`",
           "required": true
@@ -372,7 +372,7 @@
       "description": "A cell in a `TableRow`",
       "properties": {
         "location": {
-          "$ref": "./Location.schema.json",
+          "$ref": "./Location.json",
           "additionalProperties": false,
           "description": "The location of the cell",
           "required": true
@@ -405,7 +405,7 @@
           "type": "string"
         },
         "location": {
-          "$ref": "./Location.schema.json",
+          "$ref": "./Location.json",
           "additionalProperties": false,
           "description": "The location of the first cell in the row",
           "required": true
@@ -425,7 +425,7 @@
           "type": "string"
         },
         "location": {
-          "$ref": "./Location.schema.json",
+          "$ref": "./Location.json",
           "additionalProperties": false,
           "description": "Location of the tag",
           "required": true

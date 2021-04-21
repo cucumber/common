@@ -87,7 +87,7 @@ class Codegen
   end
 
   def class_name(ref)
-    File.basename(ref, '.schema.json')
+    File.basename(ref, '.json')
   end
 end
 
@@ -119,7 +119,7 @@ language_type_by_schema_type = {
   'boolean' => 'boolean',
 }
 path = ARGV[0]
-paths = File.file?(path) ? [path] : Dir["#{ARGV[0]}/*.schema.json"]
+paths = File.file?(path) ? [path] : Dir["#{ARGV[0]}/*.json"]
 
 codegen = Codegen.new(paths, template, language_type_by_schema_type)
 codegen.generate

@@ -24,7 +24,7 @@
       "type": "string"
     },
     "source": {
-      "$ref": "./Source.schema.json",
+      "$ref": "./Source.json",
       "additionalProperties": false,
       "type": "object"
     },

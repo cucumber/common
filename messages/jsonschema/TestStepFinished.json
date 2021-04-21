@@ -6,7 +6,7 @@
       "additionalProperties": false,
       "properties": {
         "duration": {
-          "$ref": "./Duration.schema.json",
+          "$ref": "./Duration.json",
           "additionalProperties": false,
           "required": true,
           "type": "object"
@@ -41,7 +41,7 @@
       "required": true
     },
     "timestamp": {
-      "$ref": "./Timestamp.schema.json",
+      "$ref": "./Timestamp.json",
       "additionalProperties": false,
       "required": true,
       "type": "object"

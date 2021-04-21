@@ -17,7 +17,7 @@
       "type": "string"
     },
     "timestamp": {
-      "$ref": "./Timestamp.schema.json",
+      "$ref": "./Timestamp.json",
       "additionalProperties": false,
       "required": true,
       "type": "object"
