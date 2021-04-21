@@ -77,7 +77,7 @@ export default class Query {
     if (pickleStepIds.length === 0) {
       return [
         {
-          status: 'UNKNOWN',
+          status: messages.TestStepResultStatus.UNKNOWN,
           duration: messages.TimeConversion.millisecondsToDuration(0),
           willBeRetried: false,
         },
@@ -98,7 +98,7 @@ export default class Query {
     if (pickleIds.length === 0) {
       return [
         {
-          status: 'UNKNOWN',
+          status: messages.TestStepResultStatus.UNKNOWN,
           duration: messages.TimeConversion.millisecondsToDuration(0),
           willBeRetried: false,
         },
@@ -119,7 +119,7 @@ export default class Query {
     // throw new Error('Uncomment code below and fix it')
     return (
       testStepResults.slice().sort((r1, r2) => ordinal(r2.status) - ordinal(r1.status))[0] || {
-        status: 'UNKNOWN',
+        status: messages.TestStepResultStatus.UNKNOWN,
         duration: messages.TimeConversion.millisecondsToDuration(0),
         willBeRetried: false,
       }

@@ -29,22 +29,22 @@ describe('Query', () => {
     it('returns a FAILED result for PASSED,FAILED,PASSED', () => {
       const result = cucumberQuery.getWorstTestStepResult([
         {
-          status: 'PASSED',
+          status: messages.TestStepResultStatus.PASSED,
           duration: { seconds: 0, nanos: 0 },
           willBeRetried: false,
         },
         {
-          status: 'FAILED',
+          status: messages.TestStepResultStatus.FAILED,
           duration: { seconds: 0, nanos: 0 },
           willBeRetried: false,
         },
         {
-          status: 'PASSED',
+          status: messages.TestStepResultStatus.PASSED,
           duration: { seconds: 0, nanos: 0 },
           willBeRetried: false,
         },
       ])
-      assert.strictEqual(result.status, 'FAILED')
+      assert.strictEqual(result.status, messages.TestStepResultStatus.FAILED)
     })
   })
 

@@ -21,7 +21,7 @@ describe('<Attachment>', () => {
     const attachment: messages.Attachment = {
       mediaType: 'image/png',
       body: 'fake-base64',
-      contentEncoding: 'BASE64',
+      contentEncoding: messages.AttachmentContentEncoding.BASE64,
     }
     const attachmentElement = <Attachment attachment={attachment} />
     ReactDOM.render(attachmentElement, document.getElementById('content'))
@@ -43,7 +43,7 @@ describe('<Attachment>', () => {
     const attachment: messages.Attachment = {
       mediaType: 'text/plain',
       body: Buffer.from('hello').toString('base64'),
-      contentEncoding: 'BASE64',
+      contentEncoding: messages.AttachmentContentEncoding.BASE64,
     }
     const attachmentElement = <Attachment attachment={attachment} />
     ReactDOM.render(attachmentElement, document.getElementById('content'))
@@ -65,7 +65,7 @@ describe('<Attachment>', () => {
     const attachment: messages.Attachment = {
       mediaType: 'text/x.cucumber.log+plain',
       body: '\x1b[30mblack\x1b[37mwhite',
-      contentEncoding: 'IDENTITY',
+      contentEncoding: messages.AttachmentContentEncoding.IDENTITY,
     }
     const attachmentElement = <Attachment attachment={attachment} />
     ReactDOM.render(attachmentElement, document.getElementById('content'))

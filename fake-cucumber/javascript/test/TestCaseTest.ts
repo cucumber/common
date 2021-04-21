@@ -56,8 +56,8 @@ describe('TestCase', () => {
     it('executes all passing steps', async () => {
       const emitted: messages.Envelope[] = []
       const testSteps: TestStep[] = [
-        new StubTestStep(false, 'PASSED'),
-        new StubTestStep(false, 'PASSED'),
+        new StubTestStep(false, messages.TestStepResultStatus.PASSED),
+        new StubTestStep(false, messages.TestStepResultStatus.PASSED),
       ]
       const testCase = new TestCase(
         'some-test-case-id',
@@ -80,8 +80,8 @@ describe('TestCase', () => {
     it('skips steps after a failed step', async () => {
       const emitted: messages.Envelope[] = []
       const testSteps: TestStep[] = [
-        new StubTestStep(false, 'FAILED'),
-        new StubTestStep(false, 'PASSED'),
+        new StubTestStep(false, messages.TestStepResultStatus.FAILED),
+        new StubTestStep(false, messages.TestStepResultStatus.PASSED),
       ]
       const testCase = new TestCase(
         'some-test-case-id',
@@ -103,8 +103,8 @@ describe('TestCase', () => {
     it('always runs after steps regardless of previous steps status', async () => {
       const emitted: messages.Envelope[] = []
       const testSteps: TestStep[] = [
-        new StubTestStep(true, 'FAILED'),
-        new StubTestStep(true, 'FAILED'),
+        new StubTestStep(true, messages.TestStepResultStatus.FAILED),
+        new StubTestStep(true, messages.TestStepResultStatus.FAILED),
       ]
       const testCase = new TestCase(
         'some-test-case-id',
@@ -125,7 +125,7 @@ describe('TestCase', () => {
 
     it('emits TestCaseStarted and TestCaseFinished messages', async () => {
       const emitted: messages.Envelope[] = []
-      const testSteps: TestStep[] = [new StubTestStep(false, 'PASSED')]
+      const testSteps: TestStep[] = [new StubTestStep(false, messages.TestStepResultStatus.PASSED)]
       const testCase = new TestCase(
         'some-test-case-id',
         testSteps,

@@ -30,7 +30,7 @@ const GherkinDocumentList: React.FunctionComponent<IProps> = ({ gherkinDocuments
         ? cucumberQuery.getWorstTestStepResult(
             cucumberQuery.getPickleTestStepResults(gherkinQuery.getPickleIds(gherkinDocument.uri))
           ).status
-        : 'UNDEFINED'
+        : messages.TestStepResultStatus.UNDEFINED
       return [gherkinDocument.uri, gherkinDocumentStatus]
     }
   )

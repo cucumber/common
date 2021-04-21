@@ -25,7 +25,9 @@ const SearchBar: React.FunctionComponent<IProps> = ({
     searchQueryContext.updateQuery(formData.get('query').toString())
   }
 
-  const showFilters = scenarioCountByStatus.size > 1 || scenarioCountByStatus.has('UNKNOWN')
+  const showFilters =
+    scenarioCountByStatus.size > 1 ||
+    scenarioCountByStatus.has(messages.TestStepResultStatus.UNKNOWN)
 
   return (
     <div className="cucumber-search-bar">

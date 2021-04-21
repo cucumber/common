@@ -89,11 +89,7 @@ describe('NdjsonStream', () => {
 
     const incomingMessages = await toArray(toMessageStream)
 
-    assert.deepStrictEqual(incomingMessages, [
-      new Envelope(),
-      new Envelope(),
-      new Envelope(),
-    ])
+    assert.deepStrictEqual(incomingMessages, [new Envelope(), new Envelope(), new Envelope()])
   })
 
   it('includes offending line in error message', async () => {

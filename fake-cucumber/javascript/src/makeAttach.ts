@@ -1,6 +1,7 @@
 import { EventEmitter } from 'events'
 import { Readable } from 'stream'
 import { Attach, EnvelopeListener } from './types'
+import * as messages from '@cucumber/messages'
 
 export default function makeAttach(
   testStepId: string,
@@ -12,11 +13,11 @@ export default function makeAttach(
     mediaType: string
   ): void | Promise<void> {
     let body: string
-    let contentEncoding: 'IDENTITY' | 'BASE64'
+    let contentEncoding: messages.AttachmentContentEncoding
 
     if (typeof data === 'string') {
       body = data
-      contentEncoding = 'IDENTITY'
+      contentEncoding = messages.AttachmentContentEncoding.IDENTITY
       listener({
         attachment: {
           testStepId,
@@ -28,7 +29,7 @@ export default function makeAttach(
       })
     } else if (Buffer.isBuffer(data)) {
       body = (data as Buffer).toString('base64')
-      contentEncoding = 'BASE64'
+      contentEncoding = messages.AttachmentContentEncoding.BASE64
       listener({
         attachment: {
           testStepId,
@@ -57,7 +58,7 @@ export default function makeAttach(
         })
         stream.on('end', () => {
           body = buf.toString('base64')
-          contentEncoding = 'BASE64'
+          contentEncoding = messages.AttachmentContentEncoding.BASE64
           listener({
             attachment: {
               testStepId,

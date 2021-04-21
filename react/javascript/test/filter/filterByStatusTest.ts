@@ -50,15 +50,19 @@ Feature: statuses
     const gherkinDocument = emitted.find((envelope) => envelope.gherkinDocument).gherkinDocument
     emitted.map((message) => cucumberQuery.update(message))
 
-    const passedScenarios = filterByStatus(gherkinDocument, gherkinQuery, cucumberQuery, ['PASSED'])
+    const passedScenarios = filterByStatus(gherkinDocument, gherkinQuery, cucumberQuery, [
+      messages.TestStepResultStatus.PASSED,
+    ])
 
     assert.deepStrictEqual(scenarioNames(passedScenarios), ['passed'])
 
-    const failedScenarios = filterByStatus(gherkinDocument, gherkinQuery, cucumberQuery, ['FAILED'])
+    const failedScenarios = filterByStatus(gherkinDocument, gherkinQuery, cucumberQuery, [
+      messages.TestStepResultStatus.FAILED,
+    ])
     assert.deepStrictEqual(scenarioNames(failedScenarios), ['failed'])
 
     const undefinedScenarios = filterByStatus(gherkinDocument, gherkinQuery, cucumberQuery, [
-      'UNDEFINED',
+      messages.TestStepResultStatus.UNDEFINED,
     ])
     assert.deepStrictEqual(scenarioNames(undefinedScenarios), ['undefined'])
   })
@@ -69,8 +73,8 @@ Feature: statuses
     emitted.map((message) => cucumberQuery.update(message))
 
     const passedAndFailedScenarios = filterByStatus(gherkinDocument, gherkinQuery, cucumberQuery, [
-      'PASSED',
-      'FAILED',
+      messages.TestStepResultStatus.PASSED,
+      messages.TestStepResultStatus.FAILED,
     ])
     assert.deepStrictEqual(scenarioNames(passedAndFailedScenarios), ['passed', 'failed'])
   })
@@ -92,7 +96,7 @@ Feature: statuses
       emitted.map((message) => cucumberQuery.update(message))
 
       const pendingScenarios = filterByStatus(gherkinDocument, gherkinQuery, cucumberQuery, [
-        'PENDING',
+        messages.TestStepResultStatus.PENDING,
       ])
 
       assert.deepStrictEqual(scenarioNames(pendingScenarios), [])
@@ -105,7 +109,7 @@ Feature: statuses
       emitted.map((message) => cucumberQuery.update(message))
 
       const onlyPassedScenarios = filterByStatus(gherkinDocument, gherkinQuery, cucumberQuery, [
-        'PASSED',
+        messages.TestStepResultStatus.PASSED,
       ])
 
       assert.strictEqual(pretty(onlyPassedScenarios), featureWithExamples)
@@ -121,7 +125,7 @@ Feature: statuses
       emitted.map((message) => cucumberQuery.update(message))
 
       const onlyFailedScenarios = filterByStatus(gherkinDocument, gherkinQuery, cucumberQuery, [
-        'FAILED',
+        messages.TestStepResultStatus.FAILED,
       ])
 
       assert.deepStrictEqual(scenarioNames(onlyFailedScenarios), ['passed', 'failed', 'undefined'])
@@ -137,7 +141,7 @@ Feature: statuses
       emitted.map((message) => cucumberQuery.update(message))
 
       const onlyFailedScenarios = filterByStatus(gherkinDocument, gherkinQuery, cucumberQuery, [
-        'FAILED',
+        messages.TestStepResultStatus.FAILED,
       ])
 
       assert.deepStrictEqual(scenarioNames(onlyFailedScenarios), ['passed', 'failed', 'undefined'])

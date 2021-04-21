@@ -23,7 +23,7 @@ describe('hidePassedScenarios', () => {
     const document: GherkinDocument = { comments: [] }
     const testResultsQuery = stubObject<Query>(new Query())
     testResultsQuery.getWorstTestStepResult.returns({
-      status: 'FAILED',
+      status: messages.TestStepResultStatus.FAILED,
       willBeRetried: false,
       duration: { seconds: 0, nanos: 0 },
     })
@@ -41,7 +41,7 @@ describe('hidePassedScenarios', () => {
     const document: GherkinDocument = { comments: [] }
     const testResultsQuery = stubObject<Query>(new Query())
     testResultsQuery.getWorstTestStepResult.returns({
-      status: 'PASSED',
+      status: messages.TestStepResultStatus.PASSED,
       willBeRetried: false,
       duration: { seconds: 0, nanos: 0 },
     })

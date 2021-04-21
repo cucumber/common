@@ -37,11 +37,11 @@ export default class ExpressionStepDefinition implements IStepDefinition {
     }
   }
 
-  private expressionType(): 'CUCUMBER_EXPRESSION' | 'REGULAR_EXPRESSION' {
+  private expressionType(): messages.StepDefinitionPatternType {
     if (this.expression instanceof CucumberExpression) {
-      return 'CUCUMBER_EXPRESSION'
+      return messages.StepDefinitionPatternType.CUCUMBER_EXPRESSION
     } else if (this.expression instanceof RegularExpression) {
-      return 'REGULAR_EXPRESSION'
+      return messages.StepDefinitionPatternType.REGULAR_EXPRESSION
     } else {
       throw new Error(`Unknown expression type: ${this.expression.constructor.name}`)
     }

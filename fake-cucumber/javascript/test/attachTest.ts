@@ -16,7 +16,7 @@ describe('#attach', () => {
     const expected: messages.Envelope = {
       attachment: {
         mediaType: 'text/plain',
-        contentEncoding: 'IDENTITY',
+        contentEncoding: messages.AttachmentContentEncoding.IDENTITY,
         testCaseStartedId: 'the-test-case-started-id',
         testStepId: 'the-test-step-id',
         body: 'hello',
@@ -40,7 +40,7 @@ describe('#attach', () => {
         testCaseStartedId: 'the-test-case-started-id',
         testStepId: 'the-test-step-id',
         body: buffer.toString('base64'),
-        contentEncoding: 'BASE64',
+        contentEncoding: messages.AttachmentContentEncoding.BASE64,
       },
     }
     assert.deepStrictEqual(envelopes[0], expected)

@@ -13,7 +13,7 @@ export default class TestWorld implements IWorld {
     const attachment: messages.Attachment = {
       body: data,
       mediaType: 'text/plain',
-      contentEncoding: 'IDENTITY',
+      contentEncoding: messages.AttachmentContentEncoding.IDENTITY,
     }
     this.attachments.push(attachment)
   }
