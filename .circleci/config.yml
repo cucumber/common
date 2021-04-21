@@ -208,7 +208,7 @@ jobs:
             make
 
   messages-javascript:
-    executor: docker-circleci-node-12
+    executor: docker-cucumber-build
     steps:
       - attach_workspace:
           at: "~/cucumber"
