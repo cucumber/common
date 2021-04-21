@@ -1,5 +1,6 @@
 import assert from 'assert'
 import makePredictablePickleTestStep from '../../src/test-generation/makePredictablePickleTestStep'
+import * as messages from '@cucumber/messages'
 
 import PredictableStepDefinition from '../../src/PredictableStepDefinition'
 
@@ -29,11 +30,19 @@ describe('makePredictablePickleTestStep', () => {
         id: '1',
         text: 'hello',
       },
-      [new PredictableStepDefinition('some-id', 'some-step-id', 'somewhere', 'SKIPPED', 987654)]
+      [
+        new PredictableStepDefinition(
+          'some-id',
+          'some-step-id',
+          'somewhere',
+          messages.TestStepResultStatus.SKIPPED,
+          987654
+        ),
+      ]
     )
     const result = await step.execute(null, 'some-id', () => null)
 
-    assert.strictEqual(result.status, 'SKIPPED')
+    assert.strictEqual(result.status, messages.TestStepResultStatus.SKIPPED)
     assert.strictEqual(result.duration.seconds, 987)
     assert.strictEqual(result.duration.nanos, 654000000)
   })
@@ -51,7 +60,7 @@ describe('makePredictablePickleTestStep', () => {
           'some-id',
           'some-step-id',
           'somewhere',
-          'FAILED',
+          messages.TestStepResultStatus.FAILED,
           987654,
           'An error has been raised here'
         ),

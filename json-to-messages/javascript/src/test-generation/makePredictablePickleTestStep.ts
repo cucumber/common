@@ -26,7 +26,7 @@ export default function makePredictablePickleTestStep(
       pickleStep.id,
       false,
       null,
-      'UNDEFINED',
+      messages.TestStepResultStatus.UNDEFINED,
       0,
       null
     )

@@ -10,7 +10,7 @@ describe('PredictablePickleTestStep', () => {
         'source-id',
         true,
         'step-definition-id',
-        'PASSED',
+        messages.TestStepResultStatus.PASSED,
         123456
       )
       const emitted: messages.Envelope[] = []
@@ -19,7 +19,10 @@ describe('PredictablePickleTestStep', () => {
       })
       const testStepFinished = emitted[1].testStepFinished
 
-      assert.strictEqual(testStepFinished.testStepResult.status, 'PASSED')
+      assert.strictEqual(
+        testStepFinished.testStepResult.status,
+        messages.TestStepResultStatus.PASSED
+      )
       assert.strictEqual(testStepFinished.testStepResult.duration.seconds, 123)
       assert.strictEqual(testStepFinished.testStepResult.duration.nanos, 456000000)
     })

@@ -21,7 +21,7 @@ describe('PredictableHook', () => {
         'some-hook-id',
         'another-scenario',
         'whatever:1',
-        'PASSED',
+        messages.TestStepResultStatus.PASSED,
         123
       )
 
@@ -29,7 +29,13 @@ describe('PredictableHook', () => {
     })
 
     it('returns a NilCodeExecutor when there is a match', () => {
-      const hook = new PredictableHook('some-hook-id', scenarioId, 'whatever:1', 'PASSED', 123)
+      const hook = new PredictableHook(
+        'some-hook-id',
+        scenarioId,
+        'whatever:1',
+        messages.TestStepResultStatus.PASSED,
+        123
+      )
 
       assert.ok(hook.match(pickle) instanceof NilCodeExecutor)
     })
@@ -41,7 +47,7 @@ describe('PredictableHook', () => {
         'some-hook-id',
         'another-scenario',
         'path/to/steps.go:13',
-        'PASSED',
+        messages.TestStepResultStatus.PASSED,
         123
       )
       const message = hook.toMessage().hook

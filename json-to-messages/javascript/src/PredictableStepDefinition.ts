@@ -33,7 +33,7 @@ export default class PredictableStepDefinition implements IStepDefinition {
         },
         pattern: {
           source: '[unknown regexp source]',
-          type: 'REGULAR_EXPRESSION',
+          type: messages.StepDefinitionPatternType.REGULAR_EXPRESSION,
         },
       },
     }

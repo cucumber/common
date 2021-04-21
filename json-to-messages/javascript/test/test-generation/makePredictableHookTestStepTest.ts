@@ -8,7 +8,7 @@ describe('makePredictableHookTestStep', () => {
     'some-id',
     'scenario-id',
     'somewhere.rb:11',
-    'PASSED',
+    messages.TestStepResultStatus.PASSED,
     123456
   )
 
@@ -52,7 +52,7 @@ describe('makePredictableHookTestStep', () => {
     )
     const testResult = await step.execute(null, '', () => null)
 
-    assert.strictEqual(testResult.status, 'PASSED')
+    assert.strictEqual(testResult.status, messages.TestStepResultStatus.PASSED)
     assert.strictEqual(testResult.duration.seconds, 123)
   })
 })
