@@ -21,7 +21,7 @@ export default function verifyStreamContract(
         {
           attachment: {
             body: 'hello',
-            contentEncoding: 'IDENTITY',
+            contentEncoding: messages.AttachmentContentEncoding.IDENTITY,
             mediaType: 'text/plain',
           },
         },

@@ -16,7 +16,7 @@ describe('NdjsonStream', () => {
     const envelope: messages.Envelope = {
       testStepFinished: {
         testStepResult: {
-          status: 'UNKNOWN',
+          status: messages.TestStepResultStatus.UNKNOWN,
           duration: { nanos: 0, seconds: 0 },
           willBeRetried: false,
         },
@@ -48,7 +48,7 @@ describe('NdjsonStream', () => {
       const expected: messages.Envelope = {
         testStepFinished: {
           testStepResult: {
-            status: 'UNKNOWN',
+            status: messages.TestStepResultStatus.UNKNOWN,
             duration: { nanos: 0, seconds: 0 },
             willBeRetried: false,
           },
@@ -66,7 +66,7 @@ describe('NdjsonStream', () => {
     const envelope: messages.Envelope = {
       testStepFinished: {
         testStepResult: {
-          status: 'UNKNOWN',
+          status: messages.TestStepResultStatus.UNKNOWN,
           duration: { nanos: 0, seconds: 0 },
           willBeRetried: false,
         },
