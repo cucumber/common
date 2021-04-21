@@ -17,8 +17,6 @@ interface IProps {
   gherkinDocuments?: readonly messages.GherkinDocument[]
 }
 
-type Status = 'UNKNOWN' | 'PASSED' | 'SKIPPED' | 'PENDING' | 'UNDEFINED' | 'AMBIGUOUS' | 'FAILED'
-
 const GherkinDocumentList: React.FunctionComponent<IProps> = ({ gherkinDocuments }) => {
   const gherkinQuery = React.useContext(GherkinQueryContext)
   const cucumberQuery = React.useContext(CucumberQueryContext)
@@ -26,14 +24,16 @@ const GherkinDocumentList: React.FunctionComponent<IProps> = ({ gherkinDocuments
   const gherkinDocs =
     gherkinDocuments === undefined ? gherkinQuery.getGherkinDocuments() : gherkinDocuments
 
-  const entries: Array<[string, Status]> = gherkinDocs.map((gherkinDocument) => {
-    const gherkinDocumentStatus = gherkinDocument.feature
-      ? cucumberQuery.getWorstTestStepResult(
-          cucumberQuery.getPickleTestStepResults(gherkinQuery.getPickleIds(gherkinDocument.uri))
-        ).status
-      : 'UNDEFINED'
-    return [gherkinDocument.uri, gherkinDocumentStatus]
-  })
+  const entries: Array<[string, messages.TestStepResultStatus]> = gherkinDocs.map(
+    (gherkinDocument) => {
+      const gherkinDocumentStatus = gherkinDocument.feature
+        ? cucumberQuery.getWorstTestStepResult(
+            cucumberQuery.getPickleTestStepResults(gherkinQuery.getPickleIds(gherkinDocument.uri))
+          ).status
+        : 'UNDEFINED'
+      return [gherkinDocument.uri, gherkinDocumentStatus]
+    }
+  )
   const gherkinDocumentStatusByUri = new Map(entries)
 
   // Pre-expand any document that is *not* passed - assuming this is what people want to look at first

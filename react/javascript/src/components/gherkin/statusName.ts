@@ -1,5 +1,4 @@
-export default (
-  status: 'UNKNOWN' | 'PASSED' | 'SKIPPED' | 'PENDING' | 'UNDEFINED' | 'AMBIGUOUS' | 'FAILED'
-): string => {
+import * as messages from '@cucumber/messages'
+export default (status: messages.TestStepResultStatus): string => {
   return status.toLowerCase()
 }

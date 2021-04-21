@@ -7,14 +7,7 @@ export default class PredictableHook implements IHook {
     public readonly id: string,
     private readonly scenarioId: string,
     private readonly location: string,
-    public readonly status:
-      | 'UNKNOWN'
-      | 'PASSED'
-      | 'SKIPPED'
-      | 'PENDING'
-      | 'UNDEFINED'
-      | 'AMBIGUOUS'
-      | 'FAILED',
+    public readonly status: messages.TestStepResultStatus,
     public readonly duration: number,
     public readonly errorMessage?: string
   ) {}

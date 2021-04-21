@@ -2,14 +2,13 @@ import { Type } from 'class-transformer'
 import 'reflect-metadata'
 
 export class Attachment {
-
-  body: string = ''
+  body = ''
 
   contentEncoding: AttachmentContentEncoding = 'IDENTITY'
 
   fileName?: string
 
-  mediaType: string = ''
+  mediaType = ''
 
   @Type(() => Source)
   source?: Source
@@ -22,14 +21,12 @@ export class Attachment {
 }
 
 export class Duration {
+  seconds = 0
 
-  seconds: number = 0
-
-  nanos: number = 0
+  nanos = 0
 }
 
 export class Envelope {
-
   @Type(() => Attachment)
   attachment?: Attachment
 
@@ -83,7 +80,6 @@ export class Envelope {
 }
 
 export class GherkinDocument {
-
   @Type(() => Comment)
   comments: readonly Comment[] = []
 
@@ -94,32 +90,29 @@ export class GherkinDocument {
 }
 
 export class Background {
+  description = ''
 
-  description: string = ''
+  id = ''
 
-  id: string = ''
-
-  keyword: string = ''
+  keyword = ''
 
   @Type(() => Location)
   location: Location = new Location()
 
-  name: string = ''
+  name = ''
 
   @Type(() => Step)
   steps: readonly Step[] = []
 }
 
 export class Comment {
-
   @Type(() => Location)
   location: Location = new Location()
 
-  text: string = ''
+  text = ''
 }
 
 export class DataTable {
-
   @Type(() => Location)
   location: Location = new Location()
 
@@ -128,10 +121,9 @@ export class DataTable {
 }
 
 export class DocString {
+  content = ''
 
-  content: string = ''
-
-  delimiter: string = ''
+  delimiter = ''
 
   @Type(() => Location)
   location: Location = new Location()
@@ -140,17 +132,16 @@ export class DocString {
 }
 
 export class Examples {
+  description = ''
 
-  description: string = ''
+  id = ''
 
-  id: string = ''
-
-  keyword: string = ''
+  keyword = ''
 
   @Type(() => Location)
   location: Location = new Location()
 
-  name: string = ''
+  name = ''
 
   @Type(() => TableRow)
   tableBody: readonly TableRow[] = []
@@ -163,27 +154,25 @@ export class Examples {
 }
 
 export class Feature {
-
   @Type(() => FeatureChild)
   children: readonly FeatureChild[] = []
 
-  description: string = ''
+  description = ''
 
-  keyword: string = ''
+  keyword = ''
 
-  language: string = ''
+  language = ''
 
   @Type(() => Location)
   location: Location = new Location()
 
-  name: string = ''
+  name = ''
 
   @Type(() => Tag)
   tags: readonly Tag[] = []
 }
 
 export class FeatureChild {
-
   @Type(() => Background)
   background?: Background
 
@@ -195,27 +184,25 @@ export class FeatureChild {
 }
 
 export class Rule {
-
   @Type(() => RuleChild)
   children: readonly RuleChild[] = []
 
-  description: string = ''
+  description = ''
 
-  id: string = ''
+  id = ''
 
-  keyword: string = ''
+  keyword = ''
 
   @Type(() => Location)
   location: Location = new Location()
 
-  name: string = ''
+  name = ''
 
   @Type(() => Tag)
   tags: readonly Tag[] = []
 }
 
 export class RuleChild {
-
   @Type(() => Background)
   background?: Background
 
@@ -224,20 +211,19 @@ export class RuleChild {
 }
 
 export class Scenario {
-
-  description: string = ''
+  description = ''
 
   @Type(() => Examples)
   examples: readonly Examples[] = []
 
-  id: string = ''
+  id = ''
 
-  keyword: string = ''
+  keyword = ''
 
   @Type(() => Location)
   location: Location = new Location()
 
-  name: string = ''
+  name = ''
 
   @Type(() => Step)
   steps: readonly Step[] = []
@@ -247,55 +233,50 @@ export class Scenario {
 }
 
 export class Step {
-
   @Type(() => DataTable)
   dataTable?: DataTable
 
   @Type(() => DocString)
   docString?: DocString
 
-  id: string = ''
+  id = ''
 
-  keyword: string = ''
+  keyword = ''
 
   @Type(() => Location)
   location: Location = new Location()
 
-  text: string = ''
+  text = ''
 }
 
 export class TableCell {
-
   @Type(() => Location)
   location: Location = new Location()
 
-  value: string = ''
+  value = ''
 }
 
 export class TableRow {
-
   @Type(() => TableCell)
   cells: readonly TableCell[] = []
 
-  id: string = ''
+  id = ''
 
   @Type(() => Location)
   location: Location = new Location()
 }
 
 export class Tag {
-
-  id: string = ''
+  id = ''
 
   @Type(() => Location)
   location: Location = new Location()
 
-  name: string = ''
+  name = ''
 }
 
 export class Hook {
-
-  id: string = ''
+  id = ''
 
   @Type(() => SourceReference)
   sourceReference: SourceReference = new SourceReference()
@@ -304,14 +285,12 @@ export class Hook {
 }
 
 export class Location {
-
   column?: number
 
-  line: number = 0
+  line = 0
 }
 
 export class Meta {
-
   @Type(() => Ci)
   ci?: Ci
 
@@ -324,70 +303,64 @@ export class Meta {
   @Type(() => Product)
   os: Product = new Product()
 
-  protocol_version: string = ''
+  protocol_version = ''
 
   @Type(() => Product)
   runtime: Product = new Product()
 }
 
 export class Ci {
-
   @Type(() => Git)
   git?: Git
 
-  name: string = ''
+  name = ''
 
   url?: string
 }
 
 export class Git {
-
   branch?: string
 
-  remote: string = ''
+  remote = ''
 
-  revision: string = ''
+  revision = ''
 
   tag?: string
 }
 
 export class Product {
-
-  name: string = ''
+  name = ''
 
   version?: string
 }
 
 export class ParameterType {
+  id = ''
 
-  id: string = ''
+  name = ''
 
-  name: string = ''
-
-  preferForRegularExpressionMatch: boolean = false
+  preferForRegularExpressionMatch = false
 
   regularExpressions: readonly string[] = []
 
-  useForSnippets: boolean = false
+  useForSnippets = false
 }
 
 export class ParseError {
-
-  message: string = ''
+  message = ''
 
   @Type(() => SourceReference)
   source: SourceReference = new SourceReference()
 }
 
 export class Pickle {
-
   astNodeIds: readonly string[] = []
 
-  id: string = ''
+  id = ''
 
-  language: string = ''
+  language = ''
 
-  name: string = ''
+  name = ''
 
   @Type(() => PickleStep)
   steps: readonly PickleStep[] = []
@@ -395,30 +368,27 @@ export class Pickle {
   @Type(() => PickleTag)
   tags: readonly PickleTag[] = []
 
-  uri: string = ''
+  uri = ''
 }
 
 export class PickleDocString {
-
-  content: string = ''
+  content = ''
 
   mediaType?: string
 }
 
 export class PickleStep {
-
   @Type(() => PickleStepArgument)
   argument?: PickleStepArgument
 
   astNodeIds: readonly string[] = []
 
-  id: string = ''
+  id = ''
 
-  text: string = ''
+  text = ''
 }
 
 export class PickleStepArgument {
-
   @Type(() => PickleTable)
   dataTable?: PickleTable
 
@@ -427,40 +397,34 @@ export class PickleStepArgument {
 }
 
 export class PickleTable {
-
   @Type(() => PickleTableRow)
   rows: readonly PickleTableRow[] = []
 }
 
 export class PickleTableCell {
-
-  value: string = ''
+  value = ''
 }
 
 export class PickleTableRow {
-
   @Type(() => PickleTableCell)
   cells: readonly PickleTableCell[] = []
 }
 
 export class PickleTag {
+  astNodeId = ''
 
-  astNodeId: string = ''
-
-  name: string = ''
+  name = ''
 }
 
 export class Source {
+  data = ''
 
-  data: string = ''
+  mediaType = ''
 
-  mediaType: string = ''
-
-  uri: string = ''
+  uri = ''
 }
 
 export class SourceReference {
-
   @Type(() => JavaMethod)
   javaMethod?: JavaMethod
 
@@ -474,26 +438,23 @@ export class SourceReference {
 }
 
 export class JavaMethod {
+  className = ''
 
-  className: string = ''
-
-  methodName: string = ''
+  methodName = ''
 
   methodParameterTypes: readonly string[] = []
 }
 
 export class JavaStackTraceElement {
+  className = ''
 
-  className: string = ''
+  fileName = ''
 
-  fileName: string = ''
-
-  methodName: string = ''
+  methodName = ''
 }
 
 export class StepDefinition {
-
-  id: string = ''
+  id = ''
 
   @Type(() => StepDefinitionPattern)
   pattern: StepDefinitionPattern = new StepDefinitionPattern()
@@ -503,34 +464,30 @@ export class StepDefinition {
 }
 
 export class StepDefinitionPattern {
-
-  source: string = ''
+  source = ''
 
   type: StepDefinitionPatternType = 'CUCUMBER_EXPRESSION'
 }
 
 export class TestCase {
+  id = ''
 
-  id: string = ''
-
-  pickleId: string = ''
+  pickleId = ''
 
   @Type(() => TestStep)
   testSteps: readonly TestStep[] = []
 }
 
 export class Group {
-
   @Type(() => Group)
   children: readonly Group[] = []
 
-  start: number = 0
+  start = 0
 
-  value: string = ''
+  value = ''
 }
 
 export class StepMatchArgument {
-
   @Type(() => Group)
   group: Group = new Group()
 
@@ -538,16 +495,14 @@ export class StepMatchArgument {
 }
 
 export class StepMatchArgumentsList {
-
   @Type(() => StepMatchArgument)
   stepMatchArguments: readonly StepMatchArgument[] = []
 }
 
 export class TestStep {
-
   hookId?: string
 
-  id: string = ''
+  id = ''
 
   pickleStepId?: string
 
@@ -558,46 +513,41 @@ export class TestStep {
 }
 
 export class TestCaseFinished {
-
-  testCaseStartedId: string = ''
+  testCaseStartedId = ''
 
   @Type(() => Timestamp)
   timestamp: Timestamp = new Timestamp()
 }
 
 export class TestCaseStarted {
+  attempt = 0
 
-  attempt: number = 0
+  id = ''
 
-  id: string = ''
-
-  testCaseId: string = ''
+  testCaseId = ''
 
   @Type(() => Timestamp)
   timestamp: Timestamp = new Timestamp()
 }
 
 export class TestRunFinished {
-
   message?: string
 
-  success: boolean = false
+  success = false
 
   @Type(() => Timestamp)
   timestamp: Timestamp = new Timestamp()
 }
 
 export class TestRunStarted {
-
   @Type(() => Timestamp)
   timestamp: Timestamp = new Timestamp()
 }
 
 export class TestStepFinished {
+  testCaseStartedId = ''
 
-  testCaseStartedId: string = ''
-
-  testStepId: string = ''
+  testStepId = ''
 
   @Type(() => TestStepResult)
   testStepResult: TestStepResult = new TestStepResult()
@@ -607,7 +557,6 @@ export class TestStepFinished {
 }
 
 export class TestStepResult {
-
   @Type(() => Duration)
   duration: Duration = new Duration()
 
@@ -615,33 +564,37 @@ export class TestStepResult {
 
   status: TestStepResultStatus = 'UNKNOWN'
 
-  willBeRetried: boolean = false
+  willBeRetried = false
 }
 
 export class TestStepStarted {
+  testCaseStartedId = ''
 
-  testCaseStartedId: string = ''
-
-  testStepId: string = ''
+  testStepId = ''
 
   @Type(() => Timestamp)
   timestamp: Timestamp = new Timestamp()
 }
 
 export class Timestamp {
+  seconds = 0
 
-  seconds: number = 0
-
-  nanos: number = 0
+  nanos = 0
 }
 
 export class UndefinedParameterType {
+  expression = ''
 
-  expression: string = ''
-
-  name: string = ''
+  name = ''
 }
 
 export type AttachmentContentEncoding = 'IDENTITY' | 'BASE64'
 export type StepDefinitionPatternType = 'CUCUMBER_EXPRESSION' | 'REGULAR_EXPRESSION'
-export type TestStepResultStatus = 'UNKNOWN' | 'PASSED' | 'SKIPPED' | 'PENDING' | 'UNDEFINED' | 'AMBIGUOUS' | 'FAILED'
+export type TestStepResultStatus =
+  | 'UNKNOWN'
+  | 'PASSED'
+  | 'SKIPPED'
+  | 'PENDING'
+  | 'UNDEFINED'
+  | 'AMBIGUOUS'
+  | 'FAILED'

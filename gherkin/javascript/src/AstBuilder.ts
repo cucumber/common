@@ -205,7 +205,7 @@ export default class AstBuilder implements IAstBuilder<AstNode, TokenType, RuleT
           keyword: examplesLine.matchedKeyword,
           name: examplesLine.matchedText,
           description,
-          tableHeader: exampleTable !== undefined ? exampleTable[0] : new messages.TableRowImpl(),
+          tableHeader: exampleTable !== undefined ? exampleTable[0] : new messages.TableRow(),
           tableBody: exampleTable !== undefined ? exampleTable.slice(1) : [],
         }
         return examples

@@ -10,9 +10,10 @@ import {
 import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import statusName from './statusName'
+import * as messages from '@cucumber/messages'
 
 interface IProps {
-  status: 'UNKNOWN' | 'PASSED' | 'SKIPPED' | 'PENDING' | 'UNDEFINED' | 'AMBIGUOUS' | 'FAILED'
+  status: messages.TestStepResultStatus
 }
 
 const StatusIcon: React.FunctionComponent<IProps> = ({ status }) => {
@@ -27,11 +28,8 @@ const StatusIcon: React.FunctionComponent<IProps> = ({ status }) => {
 
 export default StatusIcon
 
-const statusIcon = (
-  status: 'UNKNOWN' | 'PASSED' | 'SKIPPED' | 'PENDING' | 'UNDEFINED' | 'AMBIGUOUS' | 'FAILED'
-): IconDefinition => {
+const statusIcon = (status: messages.TestStepResultStatus): IconDefinition => {
   return {
-    // Keep the same order as in messages.proto - for readability's sake
     ['PASSED']: faCheckCircle,
     ['SKIPPED']: faStopCircle,
     ['PENDING']: faPauseCircle,

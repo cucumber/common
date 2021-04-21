@@ -11,14 +11,7 @@ const { millisecondsToDuration } = messages.TimeConversion
 class StubTestStep extends TestStep {
   public constructor(
     alwaysExecute: boolean,
-    private readonly status:
-      | 'UNKNOWN'
-      | 'PASSED'
-      | 'SKIPPED'
-      | 'PENDING'
-      | 'UNDEFINED'
-      | 'AMBIGUOUS'
-      | 'FAILED',
+    private readonly status: messages.TestStepResultStatus,
     private readonly message?: string
   ) {
     super(

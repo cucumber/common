@@ -1,9 +1,7 @@
 import * as messages from '@cucumber/messages'
 import { ArrayMultimap } from '@teppeis/multimaps'
 
-function ordinal(
-  status: 'UNKNOWN' | 'PASSED' | 'SKIPPED' | 'PENDING' | 'UNDEFINED' | 'AMBIGUOUS' | 'FAILED'
-) {
+function ordinal(status: messages.TestStepResultStatus) {
   return ['UNKNOWN', 'PASSED', 'SKIPPED', 'PENDING', 'UNDEFINED', 'AMBIGUOUS', 'FAILED'].indexOf(
     status
   )

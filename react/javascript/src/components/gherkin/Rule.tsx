@@ -5,7 +5,7 @@ import Scenario from './Scenario'
 import * as messages from '@cucumber/messages'
 import Background from './Background'
 import RuleTitle from './RuleTitle'
-import Tags from "./Tags";
+import Tags from './Tags'
 
 interface IProps {
   rule: messages.Rule

@@ -13,14 +13,7 @@ abstract class PredictableTestStep extends TestStep implements ITestStep {
     public readonly id: string,
     public readonly sourceId: string,
     public readonly alwaysExecute: boolean,
-    private readonly status:
-      | 'UNKNOWN'
-      | 'PASSED'
-      | 'SKIPPED'
-      | 'PENDING'
-      | 'UNDEFINED'
-      | 'AMBIGUOUS'
-      | 'FAILED',
+    private readonly status: messages.TestStepResultStatus,
     private readonly duration: number,
     private readonly errorMessage?: string
   ) {
@@ -54,7 +47,7 @@ export class PredictablePickleTestStep extends PredictableTestStep {
     public readonly sourceId: string,
     public readonly alwaysExecute: boolean,
     private readonly stepDefinitionId: string,
-    status: 'UNKNOWN' | 'PASSED' | 'SKIPPED' | 'PENDING' | 'UNDEFINED' | 'AMBIGUOUS' | 'FAILED',
+    status: messages.TestStepResultStatus,
     duration: number,
     errorMessage?: string
   ) {

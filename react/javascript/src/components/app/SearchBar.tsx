@@ -3,32 +3,13 @@ import { faSearch, faQuestionCircle, faFilter } from '@fortawesome/free-solid-sv
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import SearchQueryContext from '../../SearchQueryContext'
 import statusName from '../gherkin/statusName'
+import * as messages from '@cucumber/messages'
+import statuses from './statuses'
 
 interface IProps {
-  statusesUpdated: (
-    statuses: (
-      | 'UNKNOWN'
-      | 'PASSED'
-      | 'SKIPPED'
-      | 'PENDING'
-      | 'UNDEFINED'
-      | 'AMBIGUOUS'
-      | 'FAILED'
-    )[]
-  ) => any
-  enabledStatuses: (
-    | 'UNKNOWN'
-    | 'PASSED'
-    | 'SKIPPED'
-    | 'PENDING'
-    | 'UNDEFINED'
-    | 'AMBIGUOUS'
-    | 'FAILED'
-  )[]
-  scenarioCountByStatus: Map<
-    'UNKNOWN' | 'PASSED' | 'SKIPPED' | 'PENDING' | 'UNDEFINED' | 'AMBIGUOUS' | 'FAILED',
-    number
-  >
+  statusesUpdated: (statuses: readonly messages.TestStepResultStatus[]) => any
+  enabledStatuses: readonly messages.TestStepResultStatus[]
+  scenarioCountByStatus: Map<messages.TestStepResultStatus, number>
 }
 
 const SearchBar: React.FunctionComponent<IProps> = ({
@@ -37,16 +18,6 @@ const SearchBar: React.FunctionComponent<IProps> = ({
   scenarioCountByStatus,
 }) => {
   const searchQueryContext = React.useContext(SearchQueryContext)
-
-  const statuses: (
-    | 'UNKNOWN'
-    | 'PASSED'
-    | 'SKIPPED'
-    | 'PENDING'
-    | 'UNDEFINED'
-    | 'AMBIGUOUS'
-    | 'FAILED'
-  )[] = ['AMBIGUOUS', 'FAILED', 'PASSED', 'PENDING', 'SKIPPED', 'UNDEFINED', 'UNKNOWN']
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()

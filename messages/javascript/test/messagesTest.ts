@@ -1,5 +1,5 @@
 import assert from 'assert'
-import {Envelope, parseEnvelope} from '../src/index'
+import { Envelope, parseEnvelope } from '../src/index'
 
 describe('messages', () => {
   it('defaults missing fields when deserialising from JSON', () => {
@@ -12,13 +12,13 @@ describe('messages', () => {
               scenario: {
                 id: '1',
                 keyword: 'Scenario',
-                location: {column: 3, line: 3},
+                location: { column: 3, line: 3 },
                 name: 'minimalistic',
                 steps: [
                   {
                     id: '0',
                     keyword: 'Given ',
-                    location: {column: 5, line: 4},
+                    location: { column: 5, line: 4 },
                     text: 'the minimalism',
                   },
                 ],
@@ -27,7 +27,7 @@ describe('messages', () => {
           ],
           keyword: 'Feature',
           language: 'en',
-          location: {column: 1, line: 1},
+          location: { column: 1, line: 1 },
           name: 'Minimal',
         },
         uri: 'testdata/good/minimal.feature',
@@ -55,13 +55,13 @@ describe('messages', () => {
                 tags: [],
                 id: '1',
                 keyword: 'Scenario',
-                location: {column: 3, line: 3},
+                location: { column: 3, line: 3 },
                 name: 'minimalistic',
                 steps: [
                   {
                     id: '0',
                     keyword: 'Given ',
-                    location: {column: 5, line: 4},
+                    location: { column: 5, line: 4 },
                     text: 'the minimalism',
                   },
                 ],
@@ -70,7 +70,7 @@ describe('messages', () => {
           ],
           keyword: 'Feature',
           language: 'en',
-          location: {column: 1, line: 1},
+          location: { column: 1, line: 1 },
           name: 'Minimal',
         },
         uri: 'testdata/good/minimal.feature',

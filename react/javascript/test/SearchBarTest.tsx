@@ -4,6 +4,7 @@ import React from 'react'
 import SearchBar from '../src/components/app/SearchBar'
 import { JSDOM } from 'jsdom'
 import SearchQueryContext from '../src/SearchQueryContext'
+import * as messages from '@cucumber/messages'
 
 describe('SearchBar', () => {
   function renderSearchBar(query?: string, queryUpdated?: (query: string) => any): Document {
@@ -16,19 +17,7 @@ describe('SearchBar', () => {
     const statusesUpdated = () => {
       /*Do nothing*/
     }
-    const enabledStatuses: (
-      | 'UNKNOWN'
-      | 'PASSED'
-      | 'SKIPPED'
-      | 'PENDING'
-      | 'UNDEFINED'
-      | 'AMBIGUOUS'
-      | 'FAILED'
-    )[] = []
-    const scenarioCountByStatus = new Map<
-      'UNKNOWN' | 'PASSED' | 'SKIPPED' | 'PENDING' | 'UNDEFINED' | 'AMBIGUOUS' | 'FAILED',
-      number
-    >()
+    const scenarioCountByStatus = new Map<messages.TestStepResultStatus, number>()
 
     const app = (
       <SearchQueryContext.Provider
@@ -43,7 +32,7 @@ describe('SearchBar', () => {
       >
         <SearchBar
           statusesUpdated={statusesUpdated}
-          enabledStatuses={enabledStatuses}
+          enabledStatuses={[]}
           scenarioCountByStatus={scenarioCountByStatus}
         />
       </SearchQueryContext.Provider>

@@ -1,4 +1,5 @@
 import { SupportCode } from '@cucumber/fake-cucumber'
+import * as messages from '@cucumber/messages'
 import IPredictableSupportCode from './IPredictableSupportCode'
 
 import PredictableHook from './PredictableHook'
@@ -68,9 +69,7 @@ export default class PredictableSupportCode implements IPredictableSupportCode {
     )
   }
 
-  private statusFromString(
-    status: string
-  ): 'UNKNOWN' | 'PASSED' | 'SKIPPED' | 'PENDING' | 'UNDEFINED' | 'AMBIGUOUS' | 'FAILED' {
+  private statusFromString(status: string): messages.TestStepResultStatus {
     // @ts-ignore
     return status.toUpperCase()
   }
