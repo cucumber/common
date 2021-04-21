@@ -16,11 +16,9 @@
           "type": "array"
         },
         "start": {
-          "required": true,
           "type": "integer"
         },
         "value": {
-          "required": true,
           "type": "string"
         }
       },

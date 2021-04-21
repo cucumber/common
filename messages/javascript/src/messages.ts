@@ -524,9 +524,9 @@ export class Group {
   @Type(() => Group)
   children: readonly Group[] = []
 
-  start: number = 0
+  start?: number
 
-  value: string = ''
+  value?: string
 }
 
 export class StepMatchArgument {
