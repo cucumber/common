@@ -19,6 +19,10 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Fixed
 
+* Handle tagged examples
+  ([1489](https://github.com/cucumber/cucumber/pull/1489)
+   [aurelien-reeves])
+
 ## [7.0.1] - 2021-04-09
 
 ### Fixed

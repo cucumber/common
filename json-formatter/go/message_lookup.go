@@ -134,6 +134,8 @@ func (self *MessageLookup) processScenario(scenario *messages.GherkinDocument_Fe
 		}
 
 		for _, example := range scenario.Examples {
+			self.processTags(example.Tags)
+
 			for _, row := range example.TableBody {
 				// TODO: we may also need to add IDs to the examples
 				self.exampleByRowID[row.Id] = example

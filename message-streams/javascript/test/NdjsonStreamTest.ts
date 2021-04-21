@@ -4,7 +4,7 @@ import assert from 'assert'
 import NdjsonToMessageStream from '../src/NdjsonToMessageStream'
 import verifyStreamContract from './verifyStreamContract'
 import toArray from './toArray'
-import { EnvelopeImpl } from '@cucumber/messages'
+import { Envelope } from '@cucumber/messages'
 
 describe('NdjsonStream', () => {
   const makeToMessageStream = () => new NdjsonToMessageStream()
@@ -90,9 +90,9 @@ describe('NdjsonStream', () => {
     const incomingMessages = await toArray(toMessageStream)
 
     assert.deepStrictEqual(incomingMessages, [
-      new EnvelopeImpl(),
-      new EnvelopeImpl(),
-      new EnvelopeImpl(),
+      new Envelope(),
+      new Envelope(),
+      new Envelope(),
     ])
   })
 
