@@ -3,9 +3,10 @@ require 'erb'
 require 'set'
 
 class Codegen
-  def initialize(paths, template, language_type_by_schema_type)
+  def initialize(paths, template, enum_template, language_type_by_schema_type)
     @paths = paths
     @template = ERB.new(template, nil, '-')
+    @enum_template = ERB.new(enum_template, nil, '-')
     @language_type_by_schema_type = language_type_by_schema_type
 
     @schemas = {}
@@ -20,8 +21,8 @@ class Codegen
 
   def generate
     STDOUT.write @template.result(binding)
-    @enums.to_a.sort.each do |enum_type|
-      STDOUT.write enum_type
+    @enums.to_a.sort{|a,b| a[:name] <=> b[:name]}.each do |enum|
+      STDOUT.write @enum_template.result(binding)
     end
   end
 
@@ -37,12 +38,13 @@ class Codegen
     @language_type_by_schema_type.values.include?(type_name)
   end
 
-  def default_value(parent_type_name, property)
+  def default_value(parent_type_name, property_name, property)
     if property['items']
       '[]'
     elsif property['type'] == 'string'
       if property['enum']
-        "'#{property['enum'][0]}'"
+        enum_type_name = type_for(parent_type_name, property_name, property)
+        "#{enum_type_name}.#{property['enum'][0]}"
       else
         "''"
       end
@@ -72,7 +74,7 @@ class Codegen
         raise "No type mapping for JSONSchema type #{type}. Schema:\n#{JSON.pretty_generate(property)}" unless @language_type_by_schema_type[type]
         if enum
           enum_type_name = "#{parent_type_name}#{property_name.sub(/./,&:upcase)}"
-          @enums.add("export type #{enum_type_name} = #{enum_values(property, enum)}\n")
+          @enums.add({ name: enum_type_name, values: enum })
           enum_type_name
         else
           @language_type_by_schema_type[type]
@@ -82,10 +84,6 @@ class Codegen
       # Inline schema (not supported)
       raise "Property #{name} did not define 'type' or '$ref'"
     end
-  end
-
-  def enum_values(property, enum)
-    enum.map { |value| "'#{value}'" }.join(' | ')
   end
 
   def array_type_for(type_name)
@@ -109,7 +107,7 @@ export class <%= class_name(key) %> {
   @Type(() => <%= class_name(ref) %>)
 <% end -%>
 <% if property['required'] -%>
-  <%= property_name %>: <%= type_for(class_name(key), property_name, property) %> = <%= default_value(class_name(key), property) %>
+  <%= property_name %>: <%= type_for(class_name(key), property_name, property) %> = <%= default_value(class_name(key), property_name, property) %>
 <% else -%>
   <%= property_name %>?: <%= type_for(class_name(key), property_name, property) %>
 <% end -%>
@@ -117,6 +115,15 @@ export class <%= class_name(key) %> {
 }
 
 <% end -%>
+EOF
+
+enum_template = <<-EOF
+export enum <%= enum[:name] %> {
+<% enum[:values].each do |value| %>
+  <%= value %> = '<%= value %>',
+<% end %>
+}
+
 EOF
 
 language_type_by_schema_type = {
@@ -127,5 +134,5 @@ language_type_by_schema_type = {
 path = ARGV[0]
 paths = File.file?(path) ? [path] : Dir["#{ARGV[0]}/*.json"]
 
-codegen = Codegen.new(paths, template, language_type_by_schema_type)
+codegen = Codegen.new(paths, template, enum_template, language_type_by_schema_type)
 codegen.generate
