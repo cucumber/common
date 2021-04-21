@@ -9,6 +9,7 @@ class Codegen
     @language_type_by_schema_type = language_type_by_schema_type
 
     @schemas = {}
+    @enums = Set.new
 
     @paths.each do |path|
       expanded_path = File.expand_path(path)
@@ -19,6 +20,9 @@ class Codegen
 
   def generate
     STDOUT.write @template.result(binding)
+    @enums.to_a.sort.each do |enum_type|
+      STDOUT.write enum_type
+    end
   end
 
   def add_schema(key, schema)
@@ -33,7 +37,7 @@ class Codegen
     @language_type_by_schema_type.values.include?(type_name)
   end
 
-  def default_value(property)
+  def default_value(parent_type_name, property)
     if property['items']
       '[]'
     elsif property['type'] == 'string'
@@ -47,14 +51,14 @@ class Codegen
     elsif property['type'] == 'boolean'
       "false"
     elsif property['$ref']
-      type = type_for(property, '???')
+      type = type_for(parent_type_name, nil, property)
       "new #{type}()"
     else
-      raise "Cannot create default value for #{property.to_json}"
+      raise "Cannot create default value for #{parent_type_name}##{property.to_json}"
     end
   end
 
-  def type_for(property, name)
+  def type_for(parent_type_name, property_name, property)
     ref = property['$ref']
     type = property['type']
     items = property['items']
@@ -63,11 +67,13 @@ class Codegen
       class_name(property['$ref'])
     elsif type
       if type == 'array'
-        array_type_for(type_for(items, nil))
+        array_type_for(type_for(parent_type_name, nil, items))
       else
         raise "No type mapping for JSONSchema type #{type}. Schema:\n#{JSON.pretty_generate(property)}" unless @language_type_by_schema_type[type]
         if enum
-          enum_type_for(enum)
+          enum_type_name = "#{parent_type_name}#{property_name.sub(/./,&:upcase)}"
+          @enums.add("export type #{enum_type_name} = #{enum_values(property, enum)}\n")
+          enum_type_name
         else
           @language_type_by_schema_type[type]
         end
@@ -78,12 +84,12 @@ class Codegen
     end
   end
 
-  def enum_type_for(enum)
+  def enum_values(property, enum)
     enum.map { |value| "'#{value}'" }.join(' | ')
   end
 
-  def array_type_for(type)
-    "readonly #{type}[]"
+  def array_type_for(type_name)
+    "readonly #{type_name}[]"
   end
 
   def class_name(ref)
@@ -97,15 +103,15 @@ import 'reflect-metadata'
 
 <% @schemas.sort.each do |key, schema| -%>
 export class <%= class_name(key) %> {
-<% schema['properties'].each do |name, property| -%>
+<% schema['properties'].each do |property_name, property| -%>
 <% ref = property['$ref'] || property['items'] && property['items']['$ref'] %>
 <% if ref -%>
   @Type(() => <%= class_name(ref) %>)
 <% end -%>
 <% if property['required'] -%>
-  <%= name %>: <%= type_for(property, name) %> = <%= default_value(property) %>
+  <%= property_name %>: <%= type_for(class_name(key), property_name, property) %> = <%= default_value(class_name(key), property) %>
 <% else -%>
-  <%= name %>?: <%= type_for(property, name) %>
+  <%= property_name %>?: <%= type_for(class_name(key), property_name, property) %>
 <% end -%>
 <% end -%>
 }

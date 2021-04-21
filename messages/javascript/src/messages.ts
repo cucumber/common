@@ -5,7 +5,7 @@ export class Attachment {
 
   body: string = ''
 
-  contentEncoding: 'IDENTITY' | 'BASE64' = 'IDENTITY'
+  contentEncoding: AttachmentContentEncoding = 'IDENTITY'
 
   fileName?: string
 
@@ -506,7 +506,7 @@ export class StepDefinitionPattern {
 
   source: string = ''
 
-  type: 'CUCUMBER_EXPRESSION' | 'REGULAR_EXPRESSION' = 'CUCUMBER_EXPRESSION'
+  type: StepDefinitionPatternType = 'CUCUMBER_EXPRESSION'
 }
 
 export class TestCase {
@@ -613,7 +613,7 @@ export class TestStepResult {
 
   message?: string
 
-  status: 'UNKNOWN' | 'PASSED' | 'SKIPPED' | 'PENDING' | 'UNDEFINED' | 'AMBIGUOUS' | 'FAILED' = 'UNKNOWN'
+  status: TestStepResultStatus = 'UNKNOWN'
 
   willBeRetried: boolean = false
 }
@@ -642,3 +642,6 @@ export class UndefinedParameterType {
   name: string = ''
 }
 
+export type AttachmentContentEncoding = 'IDENTITY' | 'BASE64'
+export type StepDefinitionPatternType = 'CUCUMBER_EXPRESSION' | 'REGULAR_EXPRESSION'
+export type TestStepResultStatus = 'UNKNOWN' | 'PASSED' | 'SKIPPED' | 'PENDING' | 'UNDEFINED' | 'AMBIGUOUS' | 'FAILED'
