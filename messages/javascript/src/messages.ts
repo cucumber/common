@@ -23,9 +23,9 @@ export class Attachment {
 
 export class Duration {
 
-  nanos: number = 0
-
   seconds: number = 0
+
+  nanos: number = 0
 }
 
 export class Envelope {
@@ -630,9 +630,9 @@ export class TestStepStarted {
 
 export class Timestamp {
 
-  nanos: number = 0
-
   seconds: number = 0
+
+  nanos: number = 0
 }
 
 export class UndefinedParameterType {
