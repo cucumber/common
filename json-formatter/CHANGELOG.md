@@ -19,6 +19,10 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Fixed
 
+## [17.0.2] - 2021-04-22
+
+### Fixed
+
 * Handle tagged examples
   ([1489](https://github.com/cucumber/cucumber/pull/1489)
    [aurelien-reeves])
@@ -124,7 +128,8 @@ Upgrade messages
 * Initial release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/json-formatter/v7.0.1...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/json-formatter/v17.0.2...master
+[17.0.2]:      https://github.com/cucumber/cucumber/compare/json-formatter/v7.0.1...json-formatter/v17.0.2
 [7.0.1]:      https://github.com/cucumber/cucumber/compare/json-formatter/v7.0.0...json-formatter/v7.0.1
 [7.0.0]:      https://github.com/cucumber/cucumber/compare/json-formatter/v6.0.0...json-formatter/v7.0.0
 [6.0.0]:      https://github.com/cucumber/cucumber/compare/json-formatter/v5.1.0...json-formatter/v6.0.0
