@@ -19,6 +19,10 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Fixed
 
+## [18.1.1] - 2021-04-22
+
+### Fixed
+
 * [python] Run gherkin as a module.
   ([#1480](https://github.com/cucumber/cucumber/pull/1480)
    [#1475](https://github.com/cucumber/cucumber/issues/1475)
@@ -929,7 +933,8 @@ to Gherkin 2.
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v18.1.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v18.1.1...master
+[18.1.1]:     https://github.com/cucumber/cucumber/compare/gherkin/v18.1.0...gherkin/v18.1.1
 [18.1.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v18.0.0...gherkin/v18.1.0
 [18.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v17.0.2...gherkin/v18.0.0
 [17.0.2]:     https://github.com/cucumber/cucumber/compare/gherkin/v17.0.1...gherkin/v17.0.2
