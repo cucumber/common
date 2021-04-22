@@ -1,6 +1,7 @@
 import GherkinDocumentList from './components/app/GherkinDocumentList'
 import FilteredResults from './components/app/FilteredResults'
 import QueriesWrapper from './components/app/QueriesWrapper'
+import StatusIcon from './components/gherkin/StatusIcon'
 import filterByStatus from './filter/filterByStatus'
 import GherkinQueryContext from './GherkinQueryContext'
 import CucumberQueryContext from './CucumberQueryContext'
@@ -13,6 +14,7 @@ export {
   GherkinQueryContext,
   CucumberQueryContext,
   SearchQueryContext,
+  StatusIcon,
   EnvelopesQueryContext,
   EnvelopesQuery,
   FilteredResults,

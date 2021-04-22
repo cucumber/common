@@ -4,8 +4,7 @@ module.exports = {
     "../src/stories/**/*.stories.@(js|jsx|ts|tsx)"
   ],
   "addons": [
-    "@storybook/addon-links",
-    "@storybook/addon-essentials"
+    "@storybook/addon-links"
   ],
   webpackFinal: async (config, { configType }) => {
     config.resolve.fallback = { "assert": false }
