@@ -28,7 +28,7 @@ export interface IAstBuilder<AstNode, TokenType, RuleType> {
 
   getSteps(node: AstNode): any[]
 
-  getTableRows(node: AstNode): readonly messages.TableRow[]
+  getTableRows(node: AstNode): readonly messages.TableRow[] | undefined
 
   ensureCellCount(rows: readonly messages.TableRow[]): void
 

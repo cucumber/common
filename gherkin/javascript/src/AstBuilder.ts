@@ -84,7 +84,7 @@ export default class AstBuilder implements IAstBuilder<AstNode, TokenType, RuleT
   }
 
   getDescription(node: AstNode) {
-    return node.getSingle(RuleType.Description)
+    return node.getSingle(RuleType.Description) || ''
   }
 
   getSteps(node: AstNode) {
@@ -98,7 +98,7 @@ export default class AstBuilder implements IAstBuilder<AstNode, TokenType, RuleT
       cells: this.getCells(token),
     }))
     this.ensureCellCount(rows)
-    return rows
+    return rows.length === 0 ? undefined : rows
   }
 
   ensureCellCount(rows: messages.TableRow[]) {
@@ -196,7 +196,7 @@ export default class AstBuilder implements IAstBuilder<AstNode, TokenType, RuleT
         const examplesNode = node.getSingle(RuleType.Examples)
         const examplesLine = examplesNode.getToken(TokenType.ExamplesLine)
         const description = this.getDescription(examplesNode)
-        const exampleTable: messages.TableRow[] = examplesNode.getSingle(RuleType.ExamplesTable)
+        const examplesTable: messages.TableRow[] = examplesNode.getSingle(RuleType.ExamplesTable)
 
         const examples: messages.Examples = {
           id: this.newId(),
@@ -205,8 +205,8 @@ export default class AstBuilder implements IAstBuilder<AstNode, TokenType, RuleT
           keyword: examplesLine.matchedKeyword,
           name: examplesLine.matchedText,
           description,
-          tableHeader: exampleTable !== undefined ? exampleTable[0] : new messages.TableRow(),
-          tableBody: exampleTable !== undefined ? exampleTable.slice(1) : [],
+          tableHeader: examplesTable ? examplesTable[0] : undefined,
+          tableBody: examplesTable ? examplesTable.slice(1) : undefined,
         }
         return examples
       }

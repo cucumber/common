@@ -153,10 +153,10 @@ export class Examples {
   name: string = ''
 
   @Type(() => TableRow)
-  tableBody: readonly TableRow[] = []
+  tableBody?: readonly TableRow[]
 
   @Type(() => TableRow)
-  tableHeader: TableRow = new TableRow()
+  tableHeader?: TableRow
 
   @Type(() => Tag)
   tags: readonly Tag[] = []

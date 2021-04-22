@@ -130,13 +130,11 @@
             "$ref": "#/definitions/TableRow",
             "$schema": "http://json-schema.org/draft-04/schema#"
           },
-          "required": true,
           "type": "array"
         },
         "tableHeader": {
           "$ref": "#/definitions/TableRow",
-          "additionalProperties": false,
-          "required": true
+          "additionalProperties": false
         },
         "tags": {
           "items": {

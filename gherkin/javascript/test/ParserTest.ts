@@ -15,7 +15,7 @@ describe('Parser', function () {
     const ast = parser.parse('Feature: hello')
     const gherkinDocument: messages.GherkinDocument = {
       feature: {
-        description: undefined,
+        description: '',
         tags: [],
         location: { line: 1, column: 1 },
         language: 'en',
@@ -39,7 +39,7 @@ describe('Parser', function () {
     const gherkinDocument1: messages.GherkinDocument = {
       feature: {
         tags: [],
-        description: undefined,
+        description: '',
         location: { line: 1, column: 1 },
         language: 'en',
         keyword: 'Feature',
@@ -52,7 +52,7 @@ describe('Parser', function () {
     const gherkinDocument2: messages.GherkinDocument = {
       feature: {
         tags: [],
-        description: undefined,
+        description: '',
         location: { line: 1, column: 1 },
         language: 'en',
         keyword: 'Feature',
@@ -93,7 +93,7 @@ describe('Parser', function () {
     const gherkinDocument: messages.GherkinDocument = {
       feature: {
         tags: [],
-        description: undefined,
+        description: '',
         location: { line: 1, column: 1 },
         language: 'en',
         keyword: 'Feature',
@@ -102,7 +102,7 @@ describe('Parser', function () {
           {
             scenario: {
               id: '1',
-              description: undefined,
+              description: '',
               examples: [],
               keyword: 'Scenario',
               location: { line: 2, column: 3 },
@@ -155,7 +155,7 @@ describe('Parser', function () {
     const gherkinDocument: messages.GherkinDocument = {
       feature: {
         tags: [],
-        description: undefined,
+        description: '',
         location: { line: 1, column: 1 },
         language: 'no',
         keyword: 'Egenskap',
