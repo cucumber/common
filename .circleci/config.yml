@@ -84,7 +84,7 @@ jobs:
           command: make ci
 
   prepare-parallel:
-    executor: docker-circleci-node-15
+    executor: docker-cucumber-build
     steps:
       - checkout
       - run:
