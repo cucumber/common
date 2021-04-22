@@ -5,11 +5,11 @@
     "PickleDocString": {
       "additionalProperties": false,
       "properties": {
-        "content": {
-          "required": true,
+        "mediaType": {
           "type": "string"
         },
-        "mediaType": {
+        "content": {
+          "required": true,
           "type": "string"
         }
       },
@@ -47,11 +47,11 @@
       "additionalProperties": false,
       "description": "An optional argument",
       "properties": {
-        "dataTable": {
-          "$ref": "#/definitions/PickleTable"
-        },
         "docString": {
           "$ref": "#/definitions/PickleDocString"
+        },
+        "dataTable": {
+          "$ref": "#/definitions/PickleTable"
         }
       },
       "type": "object"
@@ -99,12 +99,12 @@
       "additionalProperties": false,
       "description": "*\n A tag",
       "properties": {
-        "astNodeId": {
-          "description": "Points to the AST node this was created from",
+        "name": {
           "required": true,
           "type": "string"
         },
-        "name": {
+        "astNodeId": {
+          "description": "Points to the AST node this was created from",
           "required": true,
           "type": "string"
         }
@@ -114,26 +114,23 @@
   },
   "description": "//// Pickles\n\n*\n A `Pickle` represents a template for a `TestCase`. It is typically derived\n from another format, such as [GherkinDocument](#io.cucumber.messages.GherkinDocument).\n In the future a `Pickle` may be derived from other formats such as Markdown or\n Excel files.\n\n By making `Pickle` the main data structure Cucumber uses for execution, the\n implementation of Cucumber itself becomes simpler, as it doesn't have to deal\n with the complex structure of a [GherkinDocument](#io.cucumber.messages.GherkinDocument).\n\n Each `PickleStep` of a `Pickle` is matched with a `StepDefinition` to create a `TestCase`",
   "properties": {
-    "astNodeIds": {
-      "description": "*\n Points to the AST node locations of the pickle. The last one represents the unique\n id of the pickle. A pickle constructed from `Examples` will have the first\n id originating from the `Scenario` AST node, and the second from the `TableRow` AST node.",
-      "items": {
-        "type": "string"
-      },
-      "required": true,
-      "type": "array"
-    },
     "id": {
       "description": "*\n A unique id for the pickle. This is a [SHA1](https://en.wikipedia.org/wiki/SHA-1) hash\n from the source data and the `locations` of the pickle.\n This ID will change if source the file is modified.",
       "required": true,
       "type": "string"
     },
-    "language": {
-      "description": "The language of the pickle",
+    "uri": {
+      "description": "The uri of the source file",
       "required": true,
       "type": "string"
     },
     "name": {
       "description": "The name of the pickle",
+      "required": true,
+      "type": "string"
+    },
+    "language": {
+      "description": "The language of the pickle",
       "required": true,
       "type": "string"
     },
@@ -153,10 +150,13 @@
       "required": true,
       "type": "array"
     },
-    "uri": {
-      "description": "The uri of the source file",
+    "astNodeIds": {
+      "description": "*\n Points to the AST node locations of the pickle. The last one represents the unique\n id of the pickle. A pickle constructed from `Examples` will have the first\n id originating from the `Scenario` AST node, and the second from the `TableRow` AST node.",
+      "items": {
+        "type": "string"
+      },
       "required": true,
-      "type": "string"
+      "type": "array"
     }
   },
   "type": "object"

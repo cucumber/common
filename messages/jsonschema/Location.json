@@ -3,11 +3,11 @@
   "additionalProperties": false,
   "description": "*\n Points to a line and a column in a text file",
   "properties": {
-    "column": {
-      "type": "integer"
-    },
     "line": {
       "required": true,
+      "type": "integer"
+    },
+    "column": {
       "type": "integer"
     }
   },

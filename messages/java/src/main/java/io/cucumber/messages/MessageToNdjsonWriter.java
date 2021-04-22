@@ -11,7 +11,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class MessageToNdjsonWriter implements MessageWriter {
     private final Writer out;
-    private final ObjectMapper mapper = new ObjectMapper().setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
+    private final ObjectMapper mapper = new ObjectMapper().setSerializationInclusion(JsonInclude.Include.NON_NULL);
 
     public MessageToNdjsonWriter(OutputStream out) {
         this.out = new OutputStreamWriter(out, StandardCharsets.UTF_8);

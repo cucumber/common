@@ -46,13 +46,8 @@ public class Gherkin {
     }
 
     public static Stream<Envelope> fromSources(List<Envelope> envelopes, boolean includeSource, boolean includeAst, boolean includePickles, IdGenerator idGenerator) {
-        return new Gherkin(Collections.<String>emptyList(), envelopes, includeSource, includeAst, includePickles, idGenerator).messages();
+        return new Gherkin(Collections.emptyList(), envelopes, includeSource, includeAst, includePickles, idGenerator).messages();
     }
-
-//    public static Stream<Envelope> fromStream(InputStream in) {
-//        BinaryToMessageIterable envelopeIterable = new BinaryToMessageIterable(in);
-//        return StreamSupport.stream(envelopeIterable.spliterator(), false);
-//    }
 
     public static Envelope makeSourceEnvelope(String data, String uri) {
         Envelope envelope = new Envelope();
@@ -100,7 +95,7 @@ public class Gherkin {
         }
         if (envelope.getSource() != null) {
 
-            Parser<GherkinDocument> parser = new Parser<GherkinDocument>(new GherkinDocumentBuilder(idGenerator));
+            Parser<GherkinDocument> parser = new Parser<>(new GherkinDocumentBuilder(idGenerator));
             Source source = envelope.getSource();
             String uri = source.getUri();
             String data = source.getData();
@@ -129,10 +124,12 @@ public class Gherkin {
                     }
                 }
             } catch (ParserException.CompositeParserException e) {
+                e.printStackTrace();
                 for (ParserException error : e.errors) {
                     addParseError(messages, error, uri);
                 }
             } catch (ParserException e) {
+                e.printStackTrace();
                 addParseError(messages, e, uri);
             }
         }

@@ -84,30 +84,30 @@ export class Envelope {
 
 export class GherkinDocument {
 
-  @Type(() => Comment)
-  comments: readonly Comment[] = []
+  uri?: string
 
   @Type(() => Feature)
   feature?: Feature
 
-  uri?: string
+  @Type(() => Comment)
+  comments: readonly Comment[] = []
 }
 
 export class Background {
 
-  description: string = ''
-
-  id: string = ''
-
-  keyword: string = ''
-
   @Type(() => Location)
   location: Location = new Location()
 
+  keyword: string = ''
+
   name: string = ''
+
+  description: string = ''
 
   @Type(() => Step)
   steps: readonly Step[] = []
+
+  id: string = ''
 }
 
 export class Comment {
@@ -129,66 +129,66 @@ export class DataTable {
 
 export class DocString {
 
-  content: string = ''
-
-  delimiter: string = ''
-
   @Type(() => Location)
   location: Location = new Location()
 
   mediaType?: string
+
+  content: string = ''
+
+  delimiter: string = ''
 }
 
 export class Examples {
 
-  description: string = ''
-
-  id: string = ''
-
-  keyword: string = ''
-
   @Type(() => Location)
   location: Location = new Location()
 
+  @Type(() => Tag)
+  tags: readonly Tag[] = []
+
+  keyword: string = ''
+
   name: string = ''
 
-  @Type(() => TableRow)
-  tableBody?: readonly TableRow[]
+  description: string = ''
 
   @Type(() => TableRow)
   tableHeader?: TableRow
 
-  @Type(() => Tag)
-  tags: readonly Tag[] = []
+  @Type(() => TableRow)
+  tableBody?: readonly TableRow[]
+
+  id: string = ''
 }
 
 export class Feature {
 
-  @Type(() => FeatureChild)
-  children: readonly FeatureChild[] = []
-
-  description: string = ''
-
-  keyword: string = ''
-
-  language: string = ''
-
   @Type(() => Location)
   location: Location = new Location()
 
-  name: string = ''
-
   @Type(() => Tag)
   tags: readonly Tag[] = []
+
+  language: string = ''
+
+  keyword: string = ''
+
+  name: string = ''
+
+  description: string = ''
+
+  @Type(() => FeatureChild)
+  children: readonly FeatureChild[] = []
 }
 
 export class FeatureChild {
 
-  @Type(() => Background)
-  background?: Background
-
   @Type(() => Rule)
   rule?: Rule
+
+  @Type(() => Background)
+  background?: Background
 
   @Type(() => Scenario)
   scenario?: Scenario
@@ -196,22 +196,22 @@ export class FeatureChild {
 
 export class Rule {
 
-  @Type(() => RuleChild)
-  children: readonly RuleChild[] = []
-
-  description: string = ''
-
-  id: string = ''
-
-  keyword: string = ''
-
   @Type(() => Location)
   location: Location = new Location()
 
-  name: string = ''
-
   @Type(() => Tag)
   tags: readonly Tag[] = []
+
+  keyword: string = ''
+
+  name: string = ''
+
+  description: string = ''
+
+  @Type(() => RuleChild)
+  children: readonly RuleChild[] = []
+
+  id: string = ''
 }
 
 export class RuleChild {
@@ -225,43 +225,43 @@ export class RuleChild {
 
 export class Scenario {
 
+  @Type(() => Location)
+  location: Location = new Location()
+
+  @Type(() => Tag)
+  tags: readonly Tag[] = []
+
+  keyword: string = ''
+
+  name: string = ''
+
   description: string = ''
+
+  @Type(() => Step)
+  steps: readonly Step[] = []
 
   @Type(() => Examples)
   examples: readonly Examples[] = []
 
   id: string = ''
-
-  keyword: string = ''
-
-  @Type(() => Location)
-  location: Location = new Location()
-
-  name: string = ''
-
-  @Type(() => Step)
-  steps: readonly Step[] = []
-
-  @Type(() => Tag)
-  tags: readonly Tag[] = []
 }
 
 export class Step {
 
-  @Type(() => DataTable)
-  dataTable?: DataTable
+  @Type(() => Location)
+  location: Location = new Location()
+
+  keyword: string = ''
+
+  text: string = ''
 
   @Type(() => DocString)
   docString?: DocString
 
+  @Type(() => DataTable)
+  dataTable?: DataTable
+
   id: string = ''
-
-  keyword: string = ''
-
-  @Type(() => Location)
-  location: Location = new Location()
-
-  text: string = ''
 }
 
 export class TableCell {
@@ -274,23 +274,23 @@ export class TableCell {
 
 export class TableRow {
 
+  @Type(() => Location)
+  location: Location = new Location()
+
   @Type(() => TableCell)
   cells: readonly TableCell[] = []
 
   id: string = ''
-
-  @Type(() => Location)
-  location: Location = new Location()
 }
 
 export class Tag {
-
-  id: string = ''
 
   @Type(() => Location)
   location: Location = new Location()
 
   name: string = ''
+
+  id: string = ''
 }
 
 export class Hook {
@@ -305,9 +305,9 @@ export class Hook {
 
 export class Location {
 
-  column?: number
-
   line: number = 0
+
+  column?: number
 }
 
 export class Meta {
@@ -373,21 +373,21 @@ export class ParameterType {
 
 export class ParseError {
 
-  message: string = ''
-
   @Type(() => SourceReference)
   source: SourceReference = new SourceReference()
+
+  message: string = ''
 }
 
 export class Pickle {
 
-  astNodeIds: readonly string[] = []
-
   id: string = ''
 
-  language: string = ''
+  uri: string = ''
 
   name: string = ''
+
+  language: string = ''
 
   @Type(() => PickleStep)
   steps: readonly PickleStep[] = []
@@ -395,14 +395,14 @@ export class Pickle {
   @Type(() => PickleTag)
   tags: readonly PickleTag[] = []
 
-  uri: string = ''
+  astNodeIds: readonly string[] = []
 }
 
 export class PickleDocString {
 
-  content: string = ''
-
   mediaType?: string
+
+  content: string = ''
 }
 
 export class PickleStep {
@@ -419,11 +419,11 @@ export class PickleStep {
 
 export class PickleStepArgument {
 
-  @Type(() => PickleTable)
-  dataTable?: PickleTable
-
   @Type(() => PickleDocString)
   docString?: PickleDocString
+
+  @Type(() => PickleTable)
+  dataTable?: PickleTable
 }
 
 export class PickleTable {
@@ -445,21 +445,23 @@ export class PickleTableRow {
 
 export class PickleTag {
 
-  astNodeId: string = ''
-
   name: string = ''
+
+  astNodeId: string = ''
 }
 
 export class Source {
 
+  uri: string = ''
+
   data: string = ''
 
   mediaType: string = ''
-
-  uri: string = ''
 }
 
 export class SourceReference {
+
+  uri?: string
 
   @Type(() => JavaMethod)
   javaMethod?: JavaMethod
@@ -469,8 +471,6 @@ export class SourceReference {
 
   @Type(() => Location)
   location?: Location
-
-  uri?: string
 }
 
 export class JavaMethod {

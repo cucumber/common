@@ -292,7 +292,7 @@ public class GherkinDocumentBuilder implements Builder<GherkinDocument> {
     }
 
     private String getDescription(AstNode node) {
-        return node.getSingle(RuleType.Description, null);
+        return node.getSingle(RuleType.Description, "");
     }
 
     private List<Tag> getTags(AstNode node) {
