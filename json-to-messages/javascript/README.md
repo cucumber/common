@@ -22,13 +22,13 @@ npm install @cucumber/json-to-messages
 Send the content of your json file to the CLI:
 
 ```shell
-cat my_report.json | ./node_modules/.bin/json-to-features > my_report.messages
+cat my_report.json | ./node_modules/.bin/json-to-messages > my_report.messages
 ```
 
 By default, the tool will detect the cucumber implementation used to generate the report but you can specify it manually:
 
 ```shell
-cat my_report.json | ./node_modules/.bin/json-to-features --implementation cucumber-js > my_report.messages
+cat my_report.json | ./node_modules/.bin/json-to-messages --implementation cucumber-js > my_report.messages
 ```
 
 ## Using as a library
