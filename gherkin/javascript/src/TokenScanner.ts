@@ -1,4 +1,3 @@
-import createLocation from './createLocation'
 import IToken from './IToken'
 import * as messages from '@cucumber/messages'
 
@@ -25,10 +24,9 @@ export default class TokenScanner<TokenType> {
 
   public read(): IToken<TokenType> {
     const line = this.lines[this.lineNumber++]
-    const location = createLocation({
+    const location = {
       line: this.lineNumber,
-    })
-    location.column = undefined
+    }
     return this.makeToken(line, location)
   }
 }

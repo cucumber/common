@@ -57,7 +57,7 @@ module Gherkin
               location: {
                 line: err.location[:line],
                 column: err.location[:column]
-              }
+              }.compact
             },
             message: err.message
           }

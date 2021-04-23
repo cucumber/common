@@ -46,7 +46,7 @@ module Gherkin
       {
         line: token.location[:line],
         column: column
-      }
+      }.compact
     end
 
     def get_tags(node)

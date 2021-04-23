@@ -1,5 +1,4 @@
 import * as messages from '@cucumber/messages'
-import createLocation from './createLocation'
 
 export class GherkinException extends Error {
   public errors: Error[]
@@ -32,7 +31,7 @@ export class GherkinException extends Error {
 export class ParserException extends GherkinException {
   public static create(message: string, line: number, column: number) {
     const err = new this(`(${line}:${column}): ${message}`)
-    err.location = createLocation({ line, column })
+    err.location = { line, column }
     return err
   }
 }

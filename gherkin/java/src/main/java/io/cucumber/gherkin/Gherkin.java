@@ -124,12 +124,10 @@ public class Gherkin {
                     }
                 }
             } catch (ParserException.CompositeParserException e) {
-                e.printStackTrace();
                 for (ParserException error : e.errors) {
                     addParseError(messages, error, uri);
                 }
             } catch (ParserException e) {
-                e.printStackTrace();
                 addParseError(messages, e, uri);
             }
         }

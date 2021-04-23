@@ -2,7 +2,6 @@ import AstNode from './AstNode'
 import * as messages from '@cucumber/messages'
 import { RuleType, TokenType } from './Parser'
 import { AstBuilderException } from './Errors'
-import createLocation from './createLocation'
 import IToken from './IToken'
 import { IAstBuilder } from './IAstBuilder'
 
@@ -54,7 +53,7 @@ export default class AstBuilder implements IAstBuilder<AstNode, TokenType, RuleT
   }
 
   getLocation(token: IToken<TokenType>, column?: number): messages.Location {
-    return !column ? token.location : createLocation({ line: token.location.line, column })
+    return !column ? token.location : { line: token.location.line, column }
   }
 
   getTags(node: AstNode) {
