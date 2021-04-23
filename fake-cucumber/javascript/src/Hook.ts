@@ -18,12 +18,17 @@ export default class Hook implements IHook {
   }
 
   public toMessage(): messages.Envelope {
+    const hook: messages.Hook = {
+      id: this.id,
+      sourceReference: this.sourceReference,
+    }
+
+    if (this.tagExpression) {
+      hook.tagExpression = this.tagExpression
+    }
+
     return {
-      hook: {
-        id: this.id,
-        tagExpression: this.tagExpression,
-        sourceReference: this.sourceReference,
-      },
+      hook,
     }
   }
 
