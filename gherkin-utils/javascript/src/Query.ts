@@ -97,9 +97,7 @@ export default class Query {
     }
 
     for (const examples of scenario.examples) {
-      if (examples.tableBody === undefined) throw new Error('tableBody was undefined')
-      if (examples.tableBody === null) throw new Error('tableBody was null')
-      for (const tableRow of examples.tableBody) {
+      for (const tableRow of examples.tableBody || []) {
         this.locationByAstNodeId.set(tableRow.id, tableRow.location)
       }
     }

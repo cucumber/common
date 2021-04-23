@@ -114,7 +114,7 @@ export default class GherkinDocumentWalker {
       language: feature.language,
       keyword: feature.keyword,
       name: feature.name,
-      description: feature.description ? feature.description : undefined,
+      description: feature.description,
       tags: this.copyTags(feature.tags),
     }
   }
@@ -215,7 +215,7 @@ export default class GherkinDocumentWalker {
     return {
       id: rule.id,
       name: rule.name,
-      description: rule.description ? rule.description : undefined,
+      description: rule.description,
       location: rule.location,
       keyword: rule.keyword,
       children: this.filterRuleChildren(rule.children, children),
@@ -282,7 +282,7 @@ export default class GherkinDocumentWalker {
       location: background.location,
       keyword: background.keyword,
       steps: background.steps.map((step) => this.copyStep(step)),
-      description: background.description ? background.description : undefined,
+      description: background.description,
     }
   }
 
@@ -299,7 +299,7 @@ export default class GherkinDocumentWalker {
     return {
       id: scenario.id,
       name: scenario.name,
-      description: scenario.description ? scenario.description : undefined,
+      description: scenario.description,
       location: scenario.location,
       keyword: scenario.keyword,
       examples: scenario.examples,

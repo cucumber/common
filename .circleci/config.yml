@@ -215,7 +215,7 @@ jobs:
       - run:
           name: messages/javascript
           command: |
-            sudo npm install --global npm@7
+            npm install --global npm@7
             cd messages/javascript
             make
 
