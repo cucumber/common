@@ -1,6 +1,6 @@
 # cucumber/json-to-messages
 
-A library to tranlate legacy JSON output from various cucumber implementations to
+A library to translate legacy JSON output from various cucumber implementations to
 `cucumber-messages`.
 
 Currently supports output from:
@@ -9,7 +9,7 @@ Currently supports output from:
  * `cucumber-javascript`
  * `cucumber-ruby`
 
-## InstalLing
+## Installing
 
 You can install this tool using npm:
 
