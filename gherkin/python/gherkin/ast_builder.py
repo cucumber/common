@@ -77,7 +77,7 @@ class AstBuilder(object):
              'value': cell_item['text']}) for cell_item in table_row_token.matched_items]
 
     def get_description(self, node):
-        return node.get_single('Description')
+        return node.get_single('Description', '')
 
     def get_steps(self, node):
         return node.get_items('Step')

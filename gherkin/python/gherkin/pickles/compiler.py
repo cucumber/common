@@ -97,9 +97,11 @@ class Compiler(object):
                         _pickle_step = {
                             'astNodeIds': [outline_step['id'], values['id']],
                             'id': self.id_generator.get_next_id(),
-                            'text': step_text,
-                            'argument': argument
+                            'text': step_text
                         }
+                        if argument is not None:
+                            _pickle_step['argument'] = argument
+
                         steps.append(_pickle_step)
 
                 pickle = {
@@ -137,7 +139,7 @@ class Compiler(object):
                 docstring['mediaType'] = self._interpolate(argument['mediaType'], variables, values)
             return {'docString': docstring}
         else:
-            return {}
+            return None
 
     def _interpolate(self, name, variable_cells, value_cells):
         if name is None:
@@ -156,15 +158,18 @@ class Compiler(object):
         return [self._pickle_step(step)for step in steps]
 
     def _pickle_step(self, step):
-        return {
+        pickle_step = {
             'astNodeIds': [step['id']],
             'id': self.id_generator.get_next_id(),
             'text': step['text'],
-            'argument': self._create_pickle_arguments(
-                step,
-                [],
-                [])
         }
+        argument = self._create_pickle_arguments(
+            step,
+            [],
+            [])
+        if argument is not None:
+            pickle_step['argument'] = argument
+        return pickle_step
 
 
     def _pickle_tags(self, tags):
