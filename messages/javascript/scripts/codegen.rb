@@ -14,8 +14,13 @@ class Codegen
 
     @paths.each do |path|
       expanded_path = File.expand_path(path)
-      schema = JSON.parse(File.read(path))
-      add_schema(expanded_path, schema)
+      begin
+        schema = JSON.parse(File.read(path))
+        add_schema(expanded_path, schema)
+      rescue => e
+        e.message << "\npath: #{path}"
+        raise e
+      end
     end
   end
 
@@ -106,7 +111,7 @@ export class <%= class_name(key) %> {
 <% if ref -%>
   @Type(() => <%= class_name(ref) %>)
 <% end -%>
-<% if property['required'] -%>
+<% if (schema['required'] || []).index(property_name) -%>
   <%= property_name %>: <%= type_for(class_name(key), property_name, property) %> = <%= default_value(class_name(key), property_name, property) %>
 <% else -%>
   <%= property_name %>?: <%= type_for(class_name(key), property_name, property) %>

@@ -4,20 +4,20 @@
   "definitions": {
     "StepDefinitionPattern": {
       "additionalProperties": false,
+      "required": ["source", "type"],
       "properties": {
         "source": {
-          "required": true,
           "type": "string"
         },
         "type": {
           "enum": ["CUCUMBER_EXPRESSION", "REGULAR_EXPRESSION"],
-          "required": true,
           "type": "string"
         }
       },
       "type": "object"
     }
   },
+  "required": ["id", "pattern", "sourceReference"],
   "properties": {
     "id": {
       "required": true,

@@ -1,13 +1,12 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
   "additionalProperties": false,
+  "required": ["expression", "name"],
   "properties": {
     "expression": {
-      "required": true,
       "type": "string"
     },
     "name": {
-      "required": true,
       "type": "string"
     }
   },

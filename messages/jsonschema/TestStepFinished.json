@@ -4,11 +4,11 @@
   "definitions": {
     "TestStepResult": {
       "additionalProperties": false,
+      "required": ["duration", "status", "willBeRetried"],
       "properties": {
         "duration": {
           "$ref": "./Duration.json",
           "additionalProperties": false,
-          "required": true,
           "type": "object"
         },
         "message": {
@@ -16,34 +16,29 @@
         },
         "status": {
           "enum": ["UNKNOWN", "PASSED", "SKIPPED", "PENDING", "UNDEFINED", "AMBIGUOUS", "FAILED"],
-          "required": true,
           "type": "string"
         },
         "willBeRetried": {
-          "required": true,
           "type": "boolean"
         }
       },
       "type": "object"
     }
   },
+  "required": ["testCaseStartedId", "testStepId", "testStepResult", "timestamp"],
   "properties": {
     "testCaseStartedId": {
-      "required": true,
       "type": "string"
     },
     "testStepId": {
-      "required": true,
       "type": "string"
     },
     "testStepResult": {
-      "$ref": "#/definitions/TestStepResult",
-      "required": true
+      "$ref": "#/definitions/TestStepResult"
     },
     "timestamp": {
       "$ref": "./Timestamp.json",
       "additionalProperties": false,
-      "required": true,
       "type": "object"
     }
   },

@@ -312,7 +312,7 @@ export class Location {
 
 export class Meta {
 
-  protocol_version: string = ''
+  protocolVersion: string = ''
 
   @Type(() => Product)
   implementation: Product = new Product()
@@ -332,21 +332,21 @@ export class Meta {
 
 export class Ci {
 
-  @Type(() => Git)
-  git?: Git
-
   name: string = ''
 
   url?: string
+
+  @Type(() => Git)
+  git?: Git
 }
 
 export class Git {
 
-  branch?: string
-
   remote: string = ''
 
   revision: string = ''
+
+  branch?: string
 
   tag?: string
 }
@@ -360,15 +360,15 @@ export class Product {
 
 export class ParameterType {
 
-  id: string = ''
-
   name: string = ''
-
-  preferForRegularExpressionMatch: boolean = false
 
   regularExpressions: readonly string[] = []
 
+  preferForRegularExpressionMatch: boolean = false
+
   useForSnippets: boolean = false
+
+  id: string = ''
 }
 
 export class ParseError {

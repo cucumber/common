@@ -4,20 +4,18 @@
   "definitions": {
     "JavaMethod": {
       "additionalProperties": false,
+      "required": ["className", "methodName", "methodParameterTypes"],
       "properties": {
         "className": {
-          "required": true,
           "type": "string"
         },
         "methodName": {
-          "required": true,
           "type": "string"
         },
         "methodParameterTypes": {
           "items": {
             "type": "string"
           },
-          "required": true,
           "type": "array"
         }
       },
@@ -25,17 +23,15 @@
     },
     "JavaStackTraceElement": {
       "additionalProperties": false,
+      "required": ["className", "fileName", "methodName"],
       "properties": {
         "className": {
-          "required": true,
           "type": "string"
         },
         "fileName": {
-          "required": true,
           "type": "string"
         },
         "methodName": {
-          "required": true,
           "type": "string"
         }
       },

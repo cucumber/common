@@ -5,10 +5,10 @@
     "Ci": {
       "additionalProperties": false,
       "description": "CI environment",
+      "required": ["name"],
       "properties": {
         "name": {
           "description": "Name of the CI product, e.g. \"Jenkins\", \"CircleCI\" etc.",
-          "required": true,
           "type": "string"
         },
         "url": {
@@ -24,13 +24,12 @@
     "Git": {
       "additionalProperties": false,
       "description": "Information about Git, provided by the Build/CI server as environment\n variables.",
+      "required": ["remote", "revision"],
       "properties": {
         "remote": {
-          "required": true,
           "type": "string"
         },
         "revision": {
-          "required": true,
           "type": "string"
         },
         "branch": {
@@ -47,10 +46,10 @@
       "additionalProperties": false,
       "description": "Used to describe various properties of Meta",
       "id": "Product",
+      "required": ["name"],
       "properties": {
         "name": {
           "description": "The product name",
-          "required": true,
           "type": "string"
         },
         "version": {
@@ -62,31 +61,27 @@
     }
   },
   "description": "*\n This message contains meta information about the environment. Consumers can use\n this for various purposes.",
+  "required": ["protocolVersion", "implementation", "runtime", "os", "cpu"],
   "properties": {
-    "protocol_version": {
+    "protocolVersion": {
       "description": "*\n The [SEMVER](https://semver.org/) version number of the protocol",
-      "required": true,
       "type": "string"
     },
     "implementation": {
       "$ref": "#/definitions/Product",
-      "description": "SpecFlow, Cucumber-JVM, Cucumber.js, Cucumber-Ruby, Behat etc.",
-      "required": true
+      "description": "SpecFlow, Cucumber-JVM, Cucumber.js, Cucumber-Ruby, Behat etc."
     },
     "runtime": {
       "$ref": "#/definitions/Product",
-      "description": "Java, Ruby, Node.js etc",
-      "required": true
+      "description": "Java, Ruby, Node.js etc"
     },
     "os": {
       "$ref": "#/definitions/Product",
-      "description": "Windows, Linux, MacOS etc",
-      "required": true
+      "description": "Windows, Linux, MacOS etc"
     },
     "cpu": {
       "$ref": "#/definitions/Product",
-      "description": "386, arm, amd64 etc",
-      "required": true
+      "description": "386, arm, amd64 etc"
     },
     "ci": {
       "$ref": "#/definitions/Ci"

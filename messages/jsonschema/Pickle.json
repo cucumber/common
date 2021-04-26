@@ -4,12 +4,12 @@
   "definitions": {
     "PickleDocString": {
       "additionalProperties": false,
+      "required": ["content"],
       "properties": {
         "mediaType": {
           "type": "string"
         },
         "content": {
-          "required": true,
           "type": "string"
         }
       },
@@ -19,6 +19,7 @@
       "$schema": "http://json-schema.org/draft-04/schema#",
       "additionalProperties": false,
       "description": "*\n An executable step",
+      "required": ["astNodeIds", "id", "text"],
       "properties": {
         "argument": {
           "$ref": "#/definitions/PickleStepArgument"
@@ -28,16 +29,13 @@
           "items": {
             "type": "string"
           },
-          "required": true,
           "type": "array"
         },
         "id": {
           "description": "A unique ID for the PickleStep",
-          "required": true,
           "type": "string"
         },
         "text": {
-          "required": true,
           "type": "string"
         }
       },
@@ -58,12 +56,12 @@
     },
     "PickleTable": {
       "additionalProperties": false,
+      "required": ["rows"],
       "properties": {
         "rows": {
           "items": {
             "$ref": "#/definitions/PickleTableRow"
           },
-          "required": true,
           "type": "array"
         }
       },
@@ -72,9 +70,9 @@
     "PickleTableCell": {
       "$schema": "http://json-schema.org/draft-04/schema#",
       "additionalProperties": false,
+      "required": ["value"],
       "properties": {
         "value": {
-          "required": true,
           "type": "string"
         }
       },
@@ -83,12 +81,12 @@
     "PickleTableRow": {
       "$schema": "http://json-schema.org/draft-04/schema#",
       "additionalProperties": false,
+      "required": ["cells"],
       "properties": {
         "cells": {
           "items": {
             "$ref": "#/definitions/PickleTableCell"
           },
-          "required": true,
           "type": "array"
         }
       },
@@ -98,14 +96,13 @@
       "$schema": "http://json-schema.org/draft-04/schema#",
       "additionalProperties": false,
       "description": "*\n A tag",
+      "required": ["name", "astNodeId"],
       "properties": {
         "name": {
-          "required": true,
           "type": "string"
         },
         "astNodeId": {
           "description": "Points to the AST node this was created from",
-          "required": true,
           "type": "string"
         }
       },
@@ -113,25 +110,23 @@
     }
   },
   "description": "//// Pickles\n\n*\n A `Pickle` represents a template for a `TestCase`. It is typically derived\n from another format, such as [GherkinDocument](#io.cucumber.messages.GherkinDocument).\n In the future a `Pickle` may be derived from other formats such as Markdown or\n Excel files.\n\n By making `Pickle` the main data structure Cucumber uses for execution, the\n implementation of Cucumber itself becomes simpler, as it doesn't have to deal\n with the complex structure of a [GherkinDocument](#io.cucumber.messages.GherkinDocument).\n\n Each `PickleStep` of a `Pickle` is matched with a `StepDefinition` to create a `TestCase`",
+  "required": ["source", "message"],
+  "required": ["id", "uri", "name", "language", "steps", "tags", "astNodeIds"],
   "properties": {
     "id": {
       "description": "*\n A unique id for the pickle. This is a [SHA1](https://en.wikipedia.org/wiki/SHA-1) hash\n from the source data and the `locations` of the pickle.\n This ID will change if source the file is modified.",
-      "required": true,
       "type": "string"
     },
     "uri": {
       "description": "The uri of the source file",
-      "required": true,
       "type": "string"
     },
     "name": {
       "description": "The name of the pickle",
-      "required": true,
       "type": "string"
     },
     "language": {
       "description": "The language of the pickle",
-      "required": true,
       "type": "string"
     },
     "steps": {
@@ -139,7 +134,6 @@
       "items": {
         "$ref": "#/definitions/PickleStep"
       },
-      "required": true,
       "type": "array"
     },
     "tags": {
@@ -147,7 +141,6 @@
       "items": {
         "$ref": "#/definitions/PickleTag"
       },
-      "required": true,
       "type": "array"
     },
     "astNodeIds": {
@@ -155,7 +148,6 @@
       "items": {
         "type": "string"
       },
-      "required": true,
       "type": "array"
     }
   },

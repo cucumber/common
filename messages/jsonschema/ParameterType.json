@@ -1,30 +1,26 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
   "additionalProperties": false,
+  "required": ["name", "regularExpressions", "preferForRegularExpressionMatch", "useForSnippets", "id", "children", "id"],
   "properties": {
-    "id": {
-      "required": true,
-      "type": "string"
-    },
     "name": {
       "description": "The name is unique, so we don't need an id.",
-      "required": true,
       "type": "string"
-    },
-    "preferForRegularExpressionMatch": {
-      "required": true,
-      "type": "boolean"
     },
     "regularExpressions": {
       "items": {
         "type": "string"
       },
-      "required": true,
       "type": "array"
     },
-    "useForSnippets": {
-      "required": true,
+    "preferForRegularExpressionMatch": {
       "type": "boolean"
+    },
+    "useForSnippets": {
+      "type": "boolean"
+    },
+    "id": {
+      "type": "string"
     }
   },
   "type": "object"

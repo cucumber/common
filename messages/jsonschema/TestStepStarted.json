@@ -1,19 +1,17 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
   "additionalProperties": false,
+  "required": ["testCaseStartedId", "testStepId", "timestamp"],
   "properties": {
     "testCaseStartedId": {
-      "required": true,
       "type": "string"
     },
     "testStepId": {
-      "required": true,
       "type": "string"
     },
     "timestamp": {
       "$ref": "./Timestamp.json",
       "additionalProperties": false,
-      "required": true,
       "type": "object"
     }
   },

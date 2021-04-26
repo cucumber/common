@@ -6,23 +6,20 @@
       "$schema": "http://json-schema.org/draft-04/schema#",
       "additionalProperties": false,
       "id": "Background",
+      "required": ["location", "keyword", "name", "description", "steps", "id"],
       "properties": {
         "location": {
           "$ref": "./Location.json",
           "additionalProperties": false,
-          "description": "The location of the `Background` keyword",
-          "required": true
+          "description": "The location of the `Background` keyword"
         },
         "keyword": {
-          "required": true,
           "type": "string"
         },
         "name": {
-          "required": true,
           "type": "string"
         },
         "description": {
-          "required": true,
           "type": "string"
         },
         "steps": {
@@ -30,11 +27,9 @@
             "$ref": "#/definitions/Step",
             "$schema": "http://json-schema.org/draft-04/schema#"
           },
-          "required": true,
           "type": "array"
         },
         "id": {
-          "required": true,
           "type": "string"
         }
       },
@@ -44,16 +39,15 @@
       "$schema": "http://json-schema.org/draft-04/schema#",
       "additionalProperties": false,
       "description": "*\n A comment in a Gherkin document",
+      "required": ["location", "text"],
       "properties": {
         "location": {
           "$ref": "./Location.json",
           "additionalProperties": false,
-          "description": "The location of the comment",
-          "required": true
+          "description": "The location of the comment"
         },
         "text": {
           "description": "The text of the comment",
-          "required": true,
           "type": "string"
         }
       },
@@ -61,6 +55,7 @@
     },
     "DataTable": {
       "additionalProperties": false,
+      "required": ["location", "rows"],
       "properties": {
         "location": {
           "$ref": "./Location.json",
@@ -80,21 +75,19 @@
     },
     "DocString": {
       "additionalProperties": false,
+      "required": ["location", "content", "delimiter"],
       "properties": {
         "location": {
           "$ref": "./Location.json",
-          "additionalProperties": false,
-          "required": true
+          "additionalProperties": false
         },
         "mediaType": {
           "type": "string"
         },
         "content": {
-          "required": true,
           "type": "string"
         },
         "delimiter": {
-          "required": true,
           "type": "string"
         }
       },
@@ -102,31 +95,27 @@
     },
     "Examples": {
       "additionalProperties": false,
+      "required": ["location", "tags", "keyword", "name", "description", "id"],
       "properties": {
         "location": {
           "$ref": "./Location.json",
           "additionalProperties": false,
-          "description": "The location of the `Examples` keyword",
-          "required": true
+          "description": "The location of the `Examples` keyword"
         },
         "tags": {
           "items": {
             "$ref": "#/definitions/Tag",
             "$schema": "http://json-schema.org/draft-04/schema#"
           },
-          "required": true,
           "type": "array"
         },
         "keyword": {
-          "required": true,
           "type": "string"
         },
         "name": {
-          "required": true,
           "type": "string"
         },
         "description": {
-          "required": true,
           "type": "string"
         },
         "tableHeader": {
@@ -141,7 +130,6 @@
           "type": "array"
         },
         "id": {
-          "required": true,
           "type": "string"
         }
       },
@@ -149,12 +137,12 @@
     },
     "Feature": {
       "additionalProperties": false,
+      "required": ["location", "tags", "language", "keyword", "name", "description", "children"],
       "properties": {
         "location": {
           "$ref": "./Location.json",
           "additionalProperties": false,
-          "description": "The location of the `Feature` keyword",
-          "required": true
+          "description": "The location of the `Feature` keyword"
         },
         "tags": {
           "description": "All the tags placed above the `Feature` keyword",
@@ -162,27 +150,22 @@
             "$ref": "#/definitions/Tag",
             "$schema": "http://json-schema.org/draft-04/schema#"
           },
-          "required": true,
           "type": "array"
         },
         "language": {
           "description": "The [ISO 639-1](https://en.wikipedia.org/wiki/ISO_639-1) language code of the Gherkin document",
-          "required": true,
           "type": "string"
         },
         "keyword": {
           "description": "The text of the `Feature` keyword (in the language specified by `language`)",
-          "required": true,
           "type": "string"
         },
         "name": {
           "description": "The name of the feature (the text following the `keyword`)",
-          "required": true,
           "type": "string"
         },
         "description": {
           "description": "The line(s) underneath the line with the `keyword` that are used as description",
-          "required": true,
           "type": "string"
         },
         "children": {
@@ -190,7 +173,6 @@
           "items": {
             "$ref": "#/definitions/FeatureChild"
           },
-          "required": true,
           "type": "array"
         }
       },
@@ -218,12 +200,12 @@
     },
     "Rule": {
       "additionalProperties": false,
+      "required": ["location", "tags", "keyword", "name", "description", "children", "id"],
       "properties": {
         "location": {
           "$ref": "./Location.json",
           "additionalProperties": false,
-          "description": "The location of the `Rule` keyword",
-          "required": true
+          "description": "The location of the `Rule` keyword"
         },
         "tags": {
           "description": "All the tags placed above the `Rule` keyword",
@@ -231,30 +213,24 @@
             "$ref": "#/definitions/Tag",
             "$schema": "http://json-schema.org/draft-04/schema#"
           },
-          "required": true,
           "type": "array"
         },
         "keyword": {
-          "required": true,
           "type": "string"
         },
         "name": {
-          "required": true,
           "type": "string"
         },
         "description": {
-          "required": true,
           "type": "string"
         },
         "children": {
           "items": {
             "$ref": "#/definitions/RuleChild"
           },
-          "required": true,
           "type": "array"
         },
         "id": {
-          "required": true,
           "type": "string"
         }
       },
@@ -280,31 +256,27 @@
       "$schema": "http://json-schema.org/draft-04/schema#",
       "additionalProperties": false,
       "id": "Scenario",
+      "required": ["location", "tags", "keyword", "name", "description", "steps", "examples", "id"],
       "properties": {
         "location": {
           "$ref": "./Location.json",
           "additionalProperties": false,
-          "description": "The location of the `Scenario` keyword",
-          "required": true
+          "description": "The location of the `Scenario` keyword"
         },
         "tags": {
           "items": {
             "$ref": "#/definitions/Tag",
             "$schema": "http://json-schema.org/draft-04/schema#"
           },
-          "required": true,
           "type": "array"
         },
         "keyword": {
-          "required": true,
           "type": "string"
         },
         "name": {
-          "required": true,
           "type": "string"
         },
         "description": {
-          "required": true,
           "type": "string"
         },
         "steps": {
@@ -312,7 +284,6 @@
             "$ref": "#/definitions/Step",
             "$schema": "http://json-schema.org/draft-04/schema#"
           },
-          "required": true,
           "type": "array"
         },
         "examples": {
@@ -320,11 +291,9 @@
             "$ref": "#/definitions/Examples",
             "$schema": "http://json-schema.org/draft-04/schema#"
           },
-          "required": true,
           "type": "array"
         },
         "id": {
-          "required": true,
           "type": "string"
         }
       },
@@ -335,19 +304,17 @@
       "additionalProperties": false,
       "description": "A step",
       "id": "Step",
+      "required": ["location", "keyword", "text", "id"],
       "properties": {
         "location": {
           "$ref": "./Location.json",
           "additionalProperties": false,
-          "description": "The location of the steps' `keyword`",
-          "required": true
+          "description": "The location of the steps' `keyword`"
         },
         "keyword": {
-          "required": true,
           "type": "string"
         },
         "text": {
-          "required": true,
           "type": "string"
         },
         "docString": {
@@ -358,7 +325,6 @@
         },
         "id": {
           "description": "Unique ID to be able to reference the Step from PickleStep",
-          "required": true,
           "type": "string"
         }
       },
@@ -368,16 +334,15 @@
       "$schema": "http://json-schema.org/draft-04/schema#",
       "additionalProperties": false,
       "description": "A cell in a `TableRow`",
+      "required": ["location", "value"],
       "properties": {
         "location": {
           "$ref": "./Location.json",
           "additionalProperties": false,
-          "description": "The location of the cell",
-          "required": true
+          "description": "The location of the cell"
         },
         "value": {
           "description": "The value of the cell",
-          "required": true,
           "type": "string"
         }
       },
@@ -388,12 +353,12 @@
       "additionalProperties": false,
       "description": "A row in a table",
       "id": "TableRow",
+      "required": ["location", "cells", "id"],
       "properties": {
         "location": {
           "$ref": "./Location.json",
           "additionalProperties": false,
-          "description": "The location of the first cell in the row",
-          "required": true
+          "description": "The location of the first cell in the row"
         },
         "cells": {
           "description": "Cells in the row",
@@ -401,11 +366,9 @@
             "$ref": "#/definitions/TableCell",
             "$schema": "http://json-schema.org/draft-04/schema#"
           },
-          "required": true,
           "type": "array"
         },
         "id": {
-          "required": true,
           "type": "string"
         }
       },
@@ -416,21 +379,19 @@
       "additionalProperties": false,
       "description": "*\n A tag",
       "id": "Tag",
+      "required": ["location", "name", "id"],
       "properties": {
         "location": {
           "$ref": "./Location.json",
           "additionalProperties": false,
-          "description": "Location of the tag",
-          "required": true
+          "description": "Location of the tag"
         },
         "name": {
           "description": "The name of the tag (including the leading `@`)",
-          "required": true,
           "type": "string"
         },
         "id": {
           "description": "Unique ID to be able to reference the Tag from PickleTag",
-          "required": true,
           "type": "string"
         }
       },
@@ -438,6 +399,7 @@
     }
   },
   "description": "*\n The [AST](https://en.wikipedia.org/wiki/Abstract_syntax_tree) of a Gherkin document.\n Cucumber implementations should *not* depend on `GherkinDocument` or any of its\n children for execution - use [Pickle](#io.cucumber.messages.Pickle) instead.\n\n The only consumers of `GherkinDocument` should only be formatters that produce\n \"rich\" output, resembling the original Gherkin document.",
+  "required": ["comments"],
   "properties": {
     "uri": {
       "description": "*\n The [URI](https://en.wikipedia.org/wiki/Uniform_Resource_Identifier)\n of the source, typically a file path relative to the root directory",
@@ -451,7 +413,6 @@
       "items": {
         "$ref": "#/definitions/Comment"
       },
-      "required": true,
       "type": "array"
     }
   },

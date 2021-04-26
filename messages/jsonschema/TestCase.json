@@ -6,13 +6,13 @@
       "$schema": "http://json-schema.org/draft-04/schema#",
       "additionalProperties": false,
       "id": "Group",
+      "required": ["children"],
       "properties": {
         "children": {
           "items": {
             "$ref": "#/definitions/Group",
             "$schema": "http://json-schema.org/draft-04/schema#"
           },
-          "required": true,
           "type": "array"
         },
         "start": {
@@ -28,12 +28,12 @@
       "$schema": "http://json-schema.org/draft-04/schema#",
       "additionalProperties": false,
       "description": "*\n Represents a single argument extracted from a step match and passed to a step definition.\n This is used for the following purposes:\n - Construct an argument to pass to a step definition (possibly through a parameter type transform)\n - Highlight the matched parameter in rich formatters such as the HTML formatter\n\n This message closely matches the `Argument` class in the `cucumber-expressions` library.",
+      "required": ["group"],
       "properties": {
         "group": {
           "$ref": "#/definitions/Group",
           "additionalProperties": false,
-          "description": "*\n Represents the outermost capture group of an argument. This message closely matches the\n `Group` class in the `cucumber-expressions` library.",
-          "required": true
+          "description": "*\n Represents the outermost capture group of an argument. This message closely matches the\n `Group` class in the `cucumber-expressions` library."
         },
         "parameterTypeName": {
           "type": "string"
@@ -44,12 +44,12 @@
     "StepMatchArgumentsList": {
       "$schema": "http://json-schema.org/draft-04/schema#",
       "additionalProperties": false,
+      "required": ["stepMatchArguments"],
       "properties": {
         "stepMatchArguments": {
           "items": {
             "$ref": "#/definitions/StepMatchArgument"
           },
-          "required": true,
           "type": "array"
         }
       },
@@ -59,6 +59,7 @@
       "$schema": "http://json-schema.org/draft-04/schema#",
       "additionalProperties": false,
       "description": "*\n A `TestStep` is derived from either a `PickleStep`\n combined with a `StepDefinition`, or from a `Hook`.",
+      "required": ["id"],
       "properties": {
         "hookId": {
           "description": "Pointer to the `Hook` (if derived from a Hook)",
@@ -91,21 +92,19 @@
     }
   },
   "description": "//// TestCases\n\n*\n A `TestCase` contains a sequence of `TestStep`s.",
+  "required": ["id", "pickleId", "testSteps"],
   "properties": {
     "id": {
-      "required": true,
       "type": "string"
     },
     "pickleId": {
       "description": "The ID of the `Pickle` this `TestCase` is derived from.",
-      "required": true,
       "type": "string"
     },
     "testSteps": {
       "items": {
         "$ref": "#/definitions/TestStep"
       },
-      "required": true,
       "type": "array"
     }
   },

@@ -4,12 +4,12 @@
   "description": "*\n Points to a line and a column in a text file",
   "properties": {
     "line": {
-      "required": true,
       "type": "integer"
     },
     "column": {
       "type": "integer"
     }
   },
+  "required": ["line"],
   "type": "object"
 }

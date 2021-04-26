@@ -2,16 +2,15 @@
   "$schema": "http://json-schema.org/draft-04/schema#",
   "additionalProperties": false,
   "description": "//// Attachments (parse errors, execution errors, screenshots, links...)\n\n*\n An attachment represents any kind of data associated with a line in a\n [Source](#io.cucumber.messages.Source) file. It can be used for:\n\n * Syntax errors during parse time\n * Screenshots captured and attached during execution\n * Logs captured and attached during execution\n\n It is not to be used for runtime errors raised/thrown during execution. This\n is captured in `TestResult`.",
+  "required": ["body", "contentEncoding", "mediaType"],
   "properties": {
     "body": {
       "description": "*\n The body of the attachment. If `contentEncoding` is `IDENTITY`, the attachment\n is simply the string. If it's `BASE64`, the string should be Base64 decoded to\n obtain the attachment.",
-      "required": true,
       "type": "string"
     },
     "contentEncoding": {
       "description": "*\n Whether to interpret `body` \"as-is\" (IDENTITY) or if it needs to be Base64-decoded (BASE64).\n\n Content encoding is *not* determined by the media type, but rather by the type\n of the object being attached:\n\n - string => IDENTITY\n - byte array => BASE64\n - stream => BASE64",
       "enum": ["IDENTITY", "BASE64"],
-      "required": true,
       "type": "string"
     },
     "fileName": {
@@ -20,7 +19,6 @@
     },
     "mediaType": {
       "description": "*\n The media type of the data. This can be any valid\n [IANA Media Type](https://www.iana.org/assignments/media-types/media-types.xhtml)\n as well as Cucumber-specific media types such as `text/x.cucumber.gherkin+plain`\n and `text/x.cucumber.stacktrace+plain`",
-      "required": true,
       "type": "string"
     },
     "source": {
