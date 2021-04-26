@@ -157,7 +157,7 @@ type <%= class_name(key) %> struct {
 <%
 type_name = type_for(class_name(key), property_name, property)
 star = @language_type_by_schema_type.values.index(type_name) ? '' : '*'
-%>
+-%>
   <%= capitalize(property_name) %> <%= star %><%= type_name %> `json:"<%= property_name %>"`
 <% end -%>
 }
