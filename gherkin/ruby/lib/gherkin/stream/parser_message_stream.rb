@@ -57,7 +57,7 @@ module Gherkin
               location: {
                 line: err.location[:line],
                 column: err.location[:column]
-              }.compact
+              }.delete_if {|k,v| v.nil?}
             },
             message: err.message
           }

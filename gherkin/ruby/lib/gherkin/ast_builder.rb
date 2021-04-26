@@ -46,7 +46,7 @@ module Gherkin
       {
         line: token.location[:line],
         column: column
-      }.compact
+      }.delete_if {|k,v| v.nil?}
     end
 
     def get_tags(node)
@@ -120,7 +120,7 @@ module Gherkin
           dataTable: data_table,
           docString: doc_string,
           id: @id_generator.new_id
-        }.compact
+        }.delete_if {|k,v| v.nil?}
       when :DocString
         separator_token = node.get_tokens(:DocStringSeparator)[0]
         media_type = separator_token.matched_text == '' ? nil : separator_token.matched_text
@@ -132,13 +132,13 @@ module Gherkin
           content: content,
           delimiter: separator_token.matched_keyword,
           mediaType: media_type,
-        }.compact
+        }.delete_if {|k,v| v.nil?}
       when :DataTable
         rows = get_table_rows(node)
         {
           location: rows[0][:location],
           rows: rows,
-        }.compact
+        }.delete_if {|k,v| v.nil?}
       when :Background
         background_line = node.get_token(:BackgroundLine)
         description = get_description(node)
@@ -151,7 +151,7 @@ module Gherkin
           name: background_line.matched_text,
           description: description,
           steps: steps
-        }.compact
+        }.delete_if {|k,v| v.nil?}
       when :ScenarioDefinition
         tags = get_tags(node)
         scenario_node = node.get_single(:Scenario)
@@ -168,7 +168,7 @@ module Gherkin
           description: description,
           steps: steps,
           examples: examples
-        }.compact
+        }.delete_if {|k,v| v.nil?}
       when :ExamplesDefinition
         tags = get_tags(node)
         examples_node = node.get_single(:Examples)
@@ -188,7 +188,7 @@ module Gherkin
           description: description,
           tableHeader: table_header,
           tableBody: table_body,
-        }.compact
+        }.delete_if {|k,v| v.nil?}
       when :ExamplesTable
         get_table_rows(node)
       when :Description
@@ -223,7 +223,7 @@ module Gherkin
           name: feature_line.matched_text,
           description: description,
           children: children,
-        }.compact
+        }.delete_if {|k,v| v.nil?}
       when :Rule
         header = node.get_single(:RuleHeader)
         return unless header
@@ -246,13 +246,13 @@ module Gherkin
           name: rule_line.matched_text,
           description: description,
           children: children,
-        }.compact
+        }.delete_if {|k,v| v.nil?}
       when :GherkinDocument
         feature = node.get_single(:Feature)
         {
           comments: @comments,
           feature: feature
-        }.compact
+        }.delete_if {|k,v| v.nil?}
       else
         return node
       end
