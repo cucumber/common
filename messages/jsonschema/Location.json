@@ -10,6 +10,8 @@
       "type": "integer"
     }
   },
-  "required": ["line"],
+  "required": [
+    "line"
+  ],
   "type": "object"
 }

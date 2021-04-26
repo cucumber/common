@@ -1,7 +1,12 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
   "additionalProperties": false,
-  "required": ["attempt", "id", "testCaseId", "timestamp"],
+  "required": [
+    "attempt",
+    "id",
+    "testCaseId",
+    "timestamp"
+  ],
   "properties": {
     "attempt": {
       "description": "*\n The first attempt should have value 0, and for each retry the value\n should increase by 1.",

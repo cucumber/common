@@ -1,18 +1,21 @@
 include default.mk
 
-GOGO_PROTOBUF_VERSION=v1.3.1
+JSONSCHEMAS = $(shell find ../jsonschema -name "*.json")
+GOGO_PROTOBUF_VERSION=v0.8.0
 
-.deps: messages.pb.go
+.deps: messages.go
 
 .go-get:
-	go get github.com/gogo/protobuf/protoc-gen-gogofaster@$(GOGO_PROTOBUF_VERSION)
+	go get github.com/atombender/go-jsonschema@$(GOGO_PROTOBUF_VERSION)
 	touch $@
 
-messages.pb.go: messages.proto .go-get
-	protoc \
-		-I=. \
-		--gogofaster_out=Mgoogle/protobuf/timestamp.proto=github.com/gogo/protobuf/types:. \
-		$<
+# messages.go: $(JSONSCHEMAS) .go-get
+# 	pushd ../jsonschema && $(GOPATH)/bin/gojsonschema \
+# 		--schema-package=http://json-schema.org/draft-04/schema\#=tmp \
+# 		-p messages *.json > ../go/messages.go
+
+messages.go: $(JSONSCHEMAS) ../jsonschema/scripts/codegen.rb
+	ruby ../jsonschema/scripts/codegen.rb Go ../jsonschema > $@
 
 clean:
 	rm -f .go-get

@@ -1,7 +1,10 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
   "additionalProperties": false,
-  "required": ["success", "timestamp"],
+  "required": [
+    "success",
+    "timestamp"
+  ],
   "properties": {
     "message": {
       "description": "Error message. Can be a stack trace from a failed `BeforeAll` or `AfterAll`.\n If there are undefined parameter types, the message is simply\n \"The following parameter type(s() are not defined: xxx, yyy\".\n The independent `UndefinedParameterType` messages can be used to generate\n snippets for those parameter types.",

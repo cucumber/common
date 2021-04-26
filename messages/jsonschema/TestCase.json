@@ -6,7 +6,9 @@
       "$schema": "http://json-schema.org/draft-04/schema#",
       "additionalProperties": false,
       "id": "Group",
-      "required": ["children"],
+      "required": [
+        "children"
+      ],
       "properties": {
         "children": {
           "items": {
@@ -28,7 +30,9 @@
       "$schema": "http://json-schema.org/draft-04/schema#",
       "additionalProperties": false,
       "description": "*\n Represents a single argument extracted from a step match and passed to a step definition.\n This is used for the following purposes:\n - Construct an argument to pass to a step definition (possibly through a parameter type transform)\n - Highlight the matched parameter in rich formatters such as the HTML formatter\n\n This message closely matches the `Argument` class in the `cucumber-expressions` library.",
-      "required": ["group"],
+      "required": [
+        "group"
+      ],
       "properties": {
         "group": {
           "$ref": "#/definitions/Group",
@@ -44,7 +48,9 @@
     "StepMatchArgumentsList": {
       "$schema": "http://json-schema.org/draft-04/schema#",
       "additionalProperties": false,
-      "required": ["stepMatchArguments"],
+      "required": [
+        "stepMatchArguments"
+      ],
       "properties": {
         "stepMatchArguments": {
           "items": {
@@ -59,14 +65,15 @@
       "$schema": "http://json-schema.org/draft-04/schema#",
       "additionalProperties": false,
       "description": "*\n A `TestStep` is derived from either a `PickleStep`\n combined with a `StepDefinition`, or from a `Hook`.",
-      "required": ["id"],
+      "required": [
+        "id"
+      ],
       "properties": {
         "hookId": {
           "description": "Pointer to the `Hook` (if derived from a Hook)",
           "type": "string"
         },
         "id": {
-          "required": true,
           "type": "string"
         },
         "pickleStepId": {
@@ -92,7 +99,11 @@
     }
   },
   "description": "//// TestCases\n\n*\n A `TestCase` contains a sequence of `TestStep`s.",
-  "required": ["id", "pickleId", "testSteps"],
+  "required": [
+    "id",
+    "pickleId",
+    "testSteps"
+  ],
   "properties": {
     "id": {
       "type": "string"

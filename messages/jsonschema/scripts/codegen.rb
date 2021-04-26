@@ -78,7 +78,7 @@ class Codegen
       else
         raise "No type mapping for JSONSchema type #{type}. Schema:\n#{JSON.pretty_generate(property)}" unless @language_type_by_schema_type[type]
         if enum
-          enum_type_name = "#{parent_type_name}#{property_name.sub(/./,&:upcase)}"
+          enum_type_name = "#{parent_type_name}#{capitalize(property_name)}"
           @enums.add({ name: enum_type_name, values: enum })
           enum_type_name
         else
@@ -91,16 +91,18 @@ class Codegen
     end
   end
 
-  def array_type_for(type_name)
-    "readonly #{type_name}[]"
-  end
-
   def class_name(ref)
     File.basename(ref, '.json')
   end
+
+  def capitalize(s)
+    s.sub(/./,&:upcase)
+  end
 end
 
-template = <<-EOF
+class TypeScript < Codegen
+  def initialize(paths)
+    template = <<-EOF
 import { Type } from 'class-transformer'
 import 'reflect-metadata'
 
@@ -122,22 +124,72 @@ export class <%= class_name(key) %> {
 <% end -%>
 EOF
 
-enum_template = <<-EOF
+    enum_template = <<-EOF
 export enum <%= enum[:name] %> {
-<% enum[:values].each do |value| %>
+<% enum[:values].each do |value| -%>
   <%= value %> = '<%= value %>',
-<% end %>
+<% end -%>
 }
 
 EOF
 
-language_type_by_schema_type = {
-  'integer' => 'number',
-  'string' => 'string',
-  'boolean' => 'boolean',
-}
-path = ARGV[0]
-paths = File.file?(path) ? [path] : Dir["#{ARGV[0]}/*.json"]
+    language_type_by_schema_type = {
+      'integer' => 'number',
+      'string' => 'string',
+      'boolean' => 'boolean',
+    }
+    super(paths, template, enum_template, language_type_by_schema_type)
+  end
 
-codegen = Codegen.new(paths, template, enum_template, language_type_by_schema_type)
+  def array_type_for(type_name)
+    "readonly #{type_name}[]"
+  end
+end
+
+class Go < Codegen
+  def initialize(paths)
+    template = <<-EOF
+package messages
+
+<% @schemas.sort.each do |key, schema| -%>
+type <%= class_name(key) %> struct {
+<% schema['properties'].each do |property_name, property| -%>
+<%
+type_name = type_for(class_name(key), property_name, property)
+star = @language_type_by_schema_type.values.index(type_name) ? '' : '*'
+%>
+  <%= capitalize(property_name) %> <%= star %><%= type_name %> `json:"<%= property_name %>"`
+<% end -%>
+}
+
+<% end -%>
+EOF
+
+    enum_template = <<-EOF
+type <%= enum[:name] %> string
+const(
+<% enum[:values].each do |value| -%>
+  <%= value %> <%= enum[:name] %> = "<%= value %>"
+<% end -%>
+)
+
+EOF
+
+    language_type_by_schema_type = {
+      'integer' => 'int64',
+      'string' => 'string',
+      'boolean' => 'bool',
+    }
+    super(paths, template, enum_template, language_type_by_schema_type)
+  end
+
+  def array_type_for(type_name)
+    "[]#{type_name}"
+  end
+end
+
+clazz = Object.const_get(ARGV[0])
+path = ARGV[1]
+paths = File.file?(path) ? [path] : Dir["#{path}/*.json"]
+codegen = clazz.new(paths)
 codegen.generate

@@ -643,36 +643,22 @@ export class UndefinedParameterType {
 }
 
 export enum AttachmentContentEncoding {
-
   IDENTITY = 'IDENTITY',
-
   BASE64 = 'BASE64',
-
 }
 
 export enum StepDefinitionPatternType {
-
   CUCUMBER_EXPRESSION = 'CUCUMBER_EXPRESSION',
-
   REGULAR_EXPRESSION = 'REGULAR_EXPRESSION',
-
 }
 
 export enum TestStepResultStatus {
-
   UNKNOWN = 'UNKNOWN',
-
   PASSED = 'PASSED',
-
   SKIPPED = 'SKIPPED',
-
   PENDING = 'PENDING',
-
   UNDEFINED = 'UNDEFINED',
-
   AMBIGUOUS = 'AMBIGUOUS',
-
   FAILED = 'FAILED',
-
 }
 

@@ -2,7 +2,10 @@
   "$schema": "http://json-schema.org/draft-04/schema#",
   "additionalProperties": false,
   "description": "The structure is pretty close of the Timestamp one. For clarity, a second type\n of message is used.",
-  "required": ["seconds", "nanos"],
+  "required": [
+    "seconds",
+    "nanos"
+  ],
   "properties": {
     "seconds": {
       "type": "integer"

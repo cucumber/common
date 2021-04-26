@@ -4,32 +4,39 @@
   "definitions": {
     "StepDefinitionPattern": {
       "additionalProperties": false,
-      "required": ["source", "type"],
+      "required": [
+        "source",
+        "type"
+      ],
       "properties": {
         "source": {
           "type": "string"
         },
         "type": {
-          "enum": ["CUCUMBER_EXPRESSION", "REGULAR_EXPRESSION"],
+          "enum": [
+            "CUCUMBER_EXPRESSION",
+            "REGULAR_EXPRESSION"
+          ],
           "type": "string"
         }
       },
       "type": "object"
     }
   },
-  "required": ["id", "pattern", "sourceReference"],
+  "required": [
+    "id",
+    "pattern",
+    "sourceReference"
+  ],
   "properties": {
     "id": {
-      "required": true,
       "type": "string"
     },
     "pattern": {
-      "$ref": "#/definitions/StepDefinitionPattern",
-      "required": true
+      "$ref": "#/definitions/StepDefinitionPattern"
     },
     "sourceReference": {
-      "$ref": "./SourceReference.json",
-      "required": true
+      "$ref": "./SourceReference.json"
     }
   },
   "type": "object"

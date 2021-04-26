@@ -11,7 +11,7 @@ func DurationToGoDuration(duration Duration) time.Duration {
 
 func GoDurationToDuration(goDuration time.Duration) Duration {
 	seconds := int64(goDuration / nanosPerSecond)
-	nanos := int32(goDuration % nanosPerSecond)
+	nanos := int64(goDuration % nanosPerSecond)
 	return Duration{
 		Seconds: seconds,
 		Nanos:   nanos,
@@ -25,7 +25,7 @@ func TimestampToGoTime(timestamp Timestamp) time.Time {
 func GoTimeToTimestamp(t time.Time) Timestamp {
 	unixNanos := t.UnixNano()
 	seconds := unixNanos / nanosPerSecond
-	nanos := int32(unixNanos % nanosPerSecond)
+	nanos := int64(unixNanos % nanosPerSecond)
 
 	return Timestamp{
 		Seconds: seconds,

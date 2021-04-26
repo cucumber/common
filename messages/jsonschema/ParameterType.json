@@ -1,7 +1,15 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
   "additionalProperties": false,
-  "required": ["name", "regularExpressions", "preferForRegularExpressionMatch", "useForSnippets", "id", "children", "id"],
+  "required": [
+    "name",
+    "regularExpressions",
+    "preferForRegularExpressionMatch",
+    "useForSnippets",
+    "id",
+    "children",
+    "id"
+  ],
   "properties": {
     "name": {
       "description": "The name is unique, so we don't need an id.",

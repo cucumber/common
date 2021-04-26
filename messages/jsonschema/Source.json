@@ -2,7 +2,11 @@
   "$schema": "http://json-schema.org/draft-04/schema#",
   "additionalProperties": false,
   "description": "//// Source\n\n*\n A source file, typically a Gherkin document or Java/Ruby/JavaScript source code",
-  "required": ["uri", "data", "mediaType"],
+  "required": [
+    "uri",
+    "data",
+    "mediaType"
+  ],
   "properties": {
     "uri": {
       "description": "*\n The [URI](https://en.wikipedia.org/wiki/Uniform_Resource_Identifier)\n of the source, typically a file path relative to the root directory",

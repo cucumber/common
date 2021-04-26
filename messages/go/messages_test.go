@@ -11,7 +11,7 @@ import (
 
 func TestMessages(t *testing.T) {
 	t.Run("builds a pickle doc string", func(t *testing.T) {
-		pickleDocString := PickleStepArgument_PickleDocString{
+		pickleDocString := PickleDocString{
 			MediaType: "text/plain",
 			Content:   "some\ncontent\n",
 		}
@@ -21,13 +21,13 @@ func TestMessages(t *testing.T) {
 		require.NoError(t, writer.WriteMsg(&pickleDocString))
 
 		r := gogoio.NewDelimitedReader(b, math.MaxInt32)
-		var decoded PickleStepArgument_PickleDocString
+		var decoded PickleDocString
 		require.NoError(t, r.ReadMsg(&decoded))
 		require.Equal(t, "some\ncontent\n", decoded.Content)
 	})
 
 	t.Run("builds a step", func(t *testing.T) {
-		step := &GherkinDocument_Feature_Step{
+		step := &Step{
 			Keyword: "Given",
 			Text:    "the following message:",
 			Location: &Location{
@@ -35,13 +35,11 @@ func TestMessages(t *testing.T) {
 				Column: 4,
 			},
 
-			Argument: &GherkinDocument_Feature_Step_DocString_{
-				DocString: &GherkinDocument_Feature_Step_DocString{
-					Content: "Hello",
-					Location: &Location{
-						Line:   12,
-						Column: 6,
-					},
+			DocString: &DocString{
+				Content: "Hello",
+				Location: &Location{
+					Line:   12,
+					Column: 6,
 				},
 			},
 		}
@@ -51,9 +49,9 @@ func TestMessages(t *testing.T) {
 		require.NoError(t, writer.WriteMsg(step))
 
 		r := gogoio.NewDelimitedReader(b, 4096)
-		var decoded GherkinDocument_Feature_Step
+		var decoded Step
 		require.NoError(t, r.ReadMsg(&decoded))
-		require.Equal(t, "Hello", decoded.GetDocString().Content)
+		require.Equal(t, "Hello", decoded.DocString.Content)
 	})
 
 	t.Run("reads an attachment with a tiny string as NDJSON", func(t *testing.T) {
@@ -66,7 +64,7 @@ func TestMessages(t *testing.T) {
 		r := messagesio.NewNdjsonReader(b)
 		var decoded Attachment
 		require.NoError(t, r.ReadMsg(&decoded))
-		require.Equal(t, "Hello", decoded.GetBody())
+		require.Equal(t, "Hello", decoded.Body)
 	})
 
 	t.Run("reads an attachment with a 9Mb string as NDJSON", func(t *testing.T) {
@@ -84,7 +82,7 @@ func TestMessages(t *testing.T) {
 		r := messagesio.NewNdjsonReader(b)
 		var decoded Attachment
 		require.NoError(t, r.ReadMsg(&decoded))
-		require.Equal(t, s, decoded.GetBody())
+		require.Equal(t, s, decoded.Body)
 	})
 
 	t.Run("ignores missing fields", func(t *testing.T) {

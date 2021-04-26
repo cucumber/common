@@ -5,7 +5,9 @@
     "Ci": {
       "additionalProperties": false,
       "description": "CI environment",
-      "required": ["name"],
+      "required": [
+        "name"
+      ],
       "properties": {
         "name": {
           "description": "Name of the CI product, e.g. \"Jenkins\", \"CircleCI\" etc.",
@@ -24,7 +26,10 @@
     "Git": {
       "additionalProperties": false,
       "description": "Information about Git, provided by the Build/CI server as environment\n variables.",
-      "required": ["remote", "revision"],
+      "required": [
+        "remote",
+        "revision"
+      ],
       "properties": {
         "remote": {
           "type": "string"
@@ -46,7 +51,9 @@
       "additionalProperties": false,
       "description": "Used to describe various properties of Meta",
       "id": "Product",
-      "required": ["name"],
+      "required": [
+        "name"
+      ],
       "properties": {
         "name": {
           "description": "The product name",
@@ -61,7 +68,13 @@
     }
   },
   "description": "*\n This message contains meta information about the environment. Consumers can use\n this for various purposes.",
-  "required": ["protocolVersion", "implementation", "runtime", "os", "cpu"],
+  "required": [
+    "protocolVersion",
+    "implementation",
+    "runtime",
+    "os",
+    "cpu"
+  ],
   "properties": {
     "protocolVersion": {
       "description": "*\n The [SEMVER](https://semver.org/) version number of the protocol",

@@ -2,7 +2,10 @@
   "$schema": "http://json-schema.org/draft-04/schema#",
   "additionalProperties": false,
   "description": "//// Common types\n\nFrom https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/timestamp.proto",
-  "required": ["seconds", "nanos"],
+  "required": [
+    "seconds",
+    "nanos"
+  ],
   "properties": {
     "seconds": {
       "description": "Represents seconds of UTC time since Unix epoch\n 1970-01-01T00:00:00Z. Must be from 0001-01-01T00:00:00Z to\n 9999-12-31T23:59:59Z inclusive.",

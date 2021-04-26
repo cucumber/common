@@ -4,7 +4,11 @@
   "definitions": {
     "JavaMethod": {
       "additionalProperties": false,
-      "required": ["className", "methodName", "methodParameterTypes"],
+      "required": [
+        "className",
+        "methodName",
+        "methodParameterTypes"
+      ],
       "properties": {
         "className": {
           "type": "string"
@@ -23,7 +27,11 @@
     },
     "JavaStackTraceElement": {
       "additionalProperties": false,
-      "required": ["className", "fileName", "methodName"],
+      "required": [
+        "className",
+        "fileName",
+        "methodName"
+      ],
       "properties": {
         "className": {
           "type": "string"

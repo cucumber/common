@@ -1,7 +1,10 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
   "additionalProperties": false,
-  "required": ["expression", "name"],
+  "required": [
+    "expression",
+    "name"
+  ],
   "properties": {
     "expression": {
       "type": "string"

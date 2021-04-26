@@ -4,7 +4,9 @@
   "definitions": {
     "PickleDocString": {
       "additionalProperties": false,
-      "required": ["content"],
+      "required": [
+        "content"
+      ],
       "properties": {
         "mediaType": {
           "type": "string"
@@ -19,7 +21,11 @@
       "$schema": "http://json-schema.org/draft-04/schema#",
       "additionalProperties": false,
       "description": "*\n An executable step",
-      "required": ["astNodeIds", "id", "text"],
+      "required": [
+        "astNodeIds",
+        "id",
+        "text"
+      ],
       "properties": {
         "argument": {
           "$ref": "#/definitions/PickleStepArgument"
@@ -56,7 +62,9 @@
     },
     "PickleTable": {
       "additionalProperties": false,
-      "required": ["rows"],
+      "required": [
+        "rows"
+      ],
       "properties": {
         "rows": {
           "items": {
@@ -70,7 +78,9 @@
     "PickleTableCell": {
       "$schema": "http://json-schema.org/draft-04/schema#",
       "additionalProperties": false,
-      "required": ["value"],
+      "required": [
+        "value"
+      ],
       "properties": {
         "value": {
           "type": "string"
@@ -81,7 +91,9 @@
     "PickleTableRow": {
       "$schema": "http://json-schema.org/draft-04/schema#",
       "additionalProperties": false,
-      "required": ["cells"],
+      "required": [
+        "cells"
+      ],
       "properties": {
         "cells": {
           "items": {
@@ -96,7 +108,10 @@
       "$schema": "http://json-schema.org/draft-04/schema#",
       "additionalProperties": false,
       "description": "*\n A tag",
-      "required": ["name", "astNodeId"],
+      "required": [
+        "name",
+        "astNodeId"
+      ],
       "properties": {
         "name": {
           "type": "string"
@@ -110,8 +125,15 @@
     }
   },
   "description": "//// Pickles\n\n*\n A `Pickle` represents a template for a `TestCase`. It is typically derived\n from another format, such as [GherkinDocument](#io.cucumber.messages.GherkinDocument).\n In the future a `Pickle` may be derived from other formats such as Markdown or\n Excel files.\n\n By making `Pickle` the main data structure Cucumber uses for execution, the\n implementation of Cucumber itself becomes simpler, as it doesn't have to deal\n with the complex structure of a [GherkinDocument](#io.cucumber.messages.GherkinDocument).\n\n Each `PickleStep` of a `Pickle` is matched with a `StepDefinition` to create a `TestCase`",
-  "required": ["source", "message"],
-  "required": ["id", "uri", "name", "language", "steps", "tags", "astNodeIds"],
+  "required": [
+    "id",
+    "uri",
+    "name",
+    "language",
+    "steps",
+    "tags",
+    "astNodeIds"
+  ],
   "properties": {
     "id": {
       "description": "*\n A unique id for the pickle. This is a [SHA1](https://en.wikipedia.org/wiki/SHA-1) hash\n from the source data and the `locations` of the pickle.\n This ID will change if source the file is modified.",

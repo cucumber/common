@@ -4,92 +4,55 @@
   "description": "When removing a field, replace it with reserved, rather than deleting the line.\n When adding a field, add it to the end and increment the number by one.\n See https://developers.google.com/protocol-buffers/docs/proto#updating for details\n\n*\n All the messages that are passed between different components/processes are Envelope\n messages.",
   "properties": {
     "attachment": {
-      "$ref": "./Attachment.json",
-      "additionalProperties": false,
-      "type": "object"
+      "$ref": "./Attachment.json"
     },
     "gherkinDocument": {
-      "$ref": "./GherkinDocument.json",
-      "additionalProperties": false,
-      "type": "object"
+      "$ref": "./GherkinDocument.json"
     },
     "hook": {
-      "$ref": "./Hook.json",
-      "additionalProperties": false,
-      "type": "object"
+      "$ref": "./Hook.json"
     },
     "meta": {
-      "$ref": "./Meta.json",
-      "additionalProperties": false,
-      "type": "object"
+      "$ref": "./Meta.json"
     },
     "parameterType": {
-      "$ref": "./ParameterType.json",
-      "additionalProperties": false,
-      "type": "object"
+      "$ref": "./ParameterType.json"
     },
     "parseError": {
-      "$ref": "./ParseError.json",
-      "additionalProperties": false,
-      "description": "Parsing",
-      "type": "object"
+      "$ref": "./ParseError.json"
     },
     "pickle": {
-      "$ref": "./Pickle.json",
-      "additionalProperties": false,
-      "description": "Compiler(s)",
-      "type": "object"
+      "$ref": "./Pickle.json"
     },
     "source": {
-      "$ref": "./Source.json",
-      "additionalProperties": false,
-      "type": "object"
+      "$ref": "./Source.json"
     },
     "stepDefinition": {
-      "$ref": "./StepDefinition.json",
-      "additionalProperties": false,
-      "type": "object"
+      "$ref": "./StepDefinition.json"
     },
     "testCase": {
-      "$ref": "./TestCase.json",
-      "additionalProperties": false,
-      "type": "object"
+      "$ref": "./TestCase.json"
     },
     "testCaseFinished": {
-      "$ref": "./TestCaseFinished.json",
-      "additionalProperties": false,
-      "type": "object"
+      "$ref": "./TestCaseFinished.json"
     },
     "testCaseStarted": {
-      "$ref": "./TestCaseStarted.json",
-      "additionalProperties": false,
-      "type": "object"
+      "$ref": "./TestCaseStarted.json"
     },
     "testRunFinished": {
-      "$ref": "./TestRunFinished.json",
-      "additionalProperties": false,
-      "type": "object"
+      "$ref": "./TestRunFinished.json"
     },
     "testRunStarted": {
-      "$ref": "./TestRunStarted.json",
-      "additionalProperties": false,
-      "description": "Execution",
-      "type": "object"
+      "$ref": "./TestRunStarted.json"
     },
     "testStepFinished": {
-      "$ref": "./TestStepFinished.json",
-      "additionalProperties": false,
-      "type": "object"
+      "$ref": "./TestStepFinished.json"
     },
     "testStepStarted": {
-      "$ref": "./TestStepStarted.json",
-      "additionalProperties": false,
-      "type": "object"
+      "$ref": "./TestStepStarted.json"
     },
     "undefinedParameterType": {
-      "$ref": "./UndefinedParameterType.json",
-      "additionalProperties": false,
-      "type": "object"
+      "$ref": "./UndefinedParameterType.json"
     }
   },
   "type": "object"
