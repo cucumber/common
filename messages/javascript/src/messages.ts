@@ -312,22 +312,22 @@ export class Location {
 
 export class Meta {
 
-  @Type(() => Ci)
-  ci?: Ci
-
-  @Type(() => Product)
-  cpu: Product = new Product()
+  protocol_version: string = ''
 
   @Type(() => Product)
   implementation: Product = new Product()
 
   @Type(() => Product)
-  os: Product = new Product()
-
-  protocol_version: string = ''
+  runtime: Product = new Product()
 
   @Type(() => Product)
-  runtime: Product = new Product()
+  os: Product = new Product()
+
+  @Type(() => Product)
+  cpu: Product = new Product()
+
+  @Type(() => Ci)
+  ci?: Ci
 }
 
 export class Ci {

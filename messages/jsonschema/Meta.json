@@ -6,9 +6,6 @@
       "additionalProperties": false,
       "description": "CI environment",
       "properties": {
-        "git": {
-          "$ref": "#/definitions/Git"
-        },
         "name": {
           "description": "Name of the CI product, e.g. \"Jenkins\", \"CircleCI\" etc.",
           "required": true,
@@ -17,6 +14,9 @@
         "url": {
           "description": "Link to the build",
           "type": "string"
+        },
+        "git": {
+          "$ref": "#/definitions/Git"
         }
       },
       "type": "object"
@@ -25,15 +25,15 @@
       "additionalProperties": false,
       "description": "Information about Git, provided by the Build/CI server as environment\n variables.",
       "properties": {
-        "branch": {
-          "type": "string"
-        },
         "remote": {
           "required": true,
           "type": "string"
         },
         "revision": {
           "required": true,
+          "type": "string"
+        },
+        "branch": {
           "type": "string"
         },
         "tag": {
@@ -63,17 +63,19 @@
   },
   "description": "*\n This message contains meta information about the environment. Consumers can use\n this for various purposes.",
   "properties": {
-    "ci": {
-      "$ref": "#/definitions/Ci"
-    },
-    "cpu": {
-      "$ref": "#/definitions/Product",
-      "description": "386, arm, amd64 etc",
-      "required": true
+    "protocol_version": {
+      "description": "*\n The [SEMVER](https://semver.org/) version number of the protocol",
+      "required": true,
+      "type": "string"
     },
     "implementation": {
       "$ref": "#/definitions/Product",
       "description": "SpecFlow, Cucumber-JVM, Cucumber.js, Cucumber-Ruby, Behat etc.",
+      "required": true
+    },
+    "runtime": {
+      "$ref": "#/definitions/Product",
+      "description": "Java, Ruby, Node.js etc",
       "required": true
     },
     "os": {
@@ -81,15 +83,13 @@
       "description": "Windows, Linux, MacOS etc",
       "required": true
     },
-    "protocol_version": {
-      "description": "*\n The [SEMVER](https://semver.org/) version number of the protocol",
-      "required": true,
-      "type": "string"
-    },
-    "runtime": {
+    "cpu": {
       "$ref": "#/definitions/Product",
-      "description": "Java, Ruby, Node.js etc",
+      "description": "386, arm, amd64 etc",
       "required": true
+    },
+    "ci": {
+      "$ref": "#/definitions/Ci"
     }
   },
   "type": "object"

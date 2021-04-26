@@ -1,6 +1,8 @@
 package io.cucumber.createmeta;
 
-import io.cucumber.messages.Messages;
+import io.cucumber.messages.types.Ci;
+import io.cucumber.messages.types.Git;
+import io.cucumber.messages.types.Meta;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
@@ -12,25 +14,25 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class CreateMetaTest {
     @Test
     void it_provides_the_correct_tool_name() {
-        Messages.Meta meta = CreateMeta.createMeta("cucumber-jvm", "3.2.1", new HashMap<>());
+        Meta meta = CreateMeta.createMeta("cucumber-jvm", "3.2.1", new HashMap<>());
         assertEquals("cucumber-jvm", meta.getImplementation().getName());
     }
 
     @Test
     void it_provides_the_correct_tool_version() {
-        Messages.Meta meta = CreateMeta.createMeta("cucumber-jvm", "3.2.1", new HashMap<>());
+        Meta meta = CreateMeta.createMeta("cucumber-jvm", "3.2.1", new HashMap<>());
         assertEquals("3.2.1", meta.getImplementation().getVersion());
     }
 
     @Test
     void it_provides_the_correct_protocol_version() {
-        Messages.Meta meta = CreateMeta.createMeta("cucumber-jvm", "3.2.1", new HashMap<>());
+        Meta meta = CreateMeta.createMeta("cucumber-jvm", "3.2.1", new HashMap<>());
         assertThat(meta.getProtocolVersion(), matchesPattern("\\d+\\.\\d+\\.\\d+(-SNAPSHOT)?"));
     }
 
     @Test
     void it_provides_the_correct_jvm_version_and_name() {
-        Messages.Meta meta = CreateMeta.createMeta("cucumber-jvm", "3.2.1", new HashMap<>());
+        Meta meta = CreateMeta.createMeta("cucumber-jvm", "3.2.1", new HashMap<>());
         assertThat(meta.getRuntime().getName(), matchesPattern("(OpenJDK).*"));
     }
 
@@ -43,16 +45,18 @@ class CreateMetaTest {
             put("GITHUB_SHA", "the-revision");
             put("GITHUB_REF", "refs/tags/the-tag");
         }};
-        Messages.Meta meta = CreateMeta.createMeta("cucumber-jvm", "3.2.1", env);
-        assertEquals(Messages.Meta.CI.newBuilder()
-                        .setName("GitHub Actions")
-                        .setUrl("https://github.company.com/cucumber/cucumber-ruby/actions/runs/140170388")
-                        .setGit(Messages.Meta.CI.Git.newBuilder()
-                                .setRemote("https://github.company.com/cucumber/cucumber-ruby.git")
-                                .setRevision("the-revision")
-                                .setTag("the-tag")
+        Meta meta = CreateMeta.createMeta("cucumber-jvm", "3.2.1", env);
+
+        assertEquals(new Ci(
+                        "GitHub Actions",
+                        "https://github.company.com/cucumber/cucumber-ruby/actions/runs/140170388",
+                        new Git(
+                                "https://github.company.com/cucumber/cucumber-ruby.git",
+                                "the-revision",
+                                null,
+                                "the-tag"
                         )
-                        .build(),
+                ),
                 meta.getCi());
     }
 
@@ -63,14 +67,17 @@ class CreateMetaTest {
             put("GO_SERVER_URL", "https://<cihost>/buildurl");
             put("GO_REVISION", "the-revision");
         }};
-        Messages.Meta meta = CreateMeta.createMeta("cucumber-jvm", "3.2.1", env);
-        assertEquals(Messages.Meta.CI.newBuilder()
-                        .setName("GoCD")
-                        .setUrl("https://<cihost>/buildurl/???")
-                        .setGit(Messages.Meta.CI.Git.newBuilder()
-                                .setRevision("the-revision")
+        Meta meta = CreateMeta.createMeta("cucumber-jvm", "3.2.1", env);
+        assertEquals(new Ci(
+                        "GoCD",
+                        "https://<cihost>/buildurl/???",
+                        new Git(
+                                null,
+                                "the-revision",
+                                null,
+                                null
                         )
-                        .build(),
+                ),
                 meta.getCi());
     }
 }
