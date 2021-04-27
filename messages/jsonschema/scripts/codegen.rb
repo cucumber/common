@@ -173,7 +173,7 @@ EOF
 type <%= enum[:name] %> string
 const(
 <% enum[:values].each do |value| -%>
-  <%= value %> <%= enum[:name] %> = "<%= value %>"
+  <%= enum[:name] %>_<%= value %> <%= enum[:name] %> = "<%= value %>"
 <% end -%>
 )
 

@@ -362,25 +362,25 @@ type UndefinedParameterType struct {
 type AttachmentContentEncoding string
 
 const (
-	IDENTITY AttachmentContentEncoding = "IDENTITY"
-	BASE64   AttachmentContentEncoding = "BASE64"
+	AttachmentContentEncoding_IDENTITY AttachmentContentEncoding = "IDENTITY"
+	AttachmentContentEncoding_BASE64   AttachmentContentEncoding = "BASE64"
 )
 
 type StepDefinitionPatternType string
 
 const (
-	CUCUMBER_EXPRESSION StepDefinitionPatternType = "CUCUMBER_EXPRESSION"
-	REGULAR_EXPRESSION  StepDefinitionPatternType = "REGULAR_EXPRESSION"
+	StepDefinitionPatternType_CUCUMBER_EXPRESSION StepDefinitionPatternType = "CUCUMBER_EXPRESSION"
+	StepDefinitionPatternType_REGULAR_EXPRESSION  StepDefinitionPatternType = "REGULAR_EXPRESSION"
 )
 
 type TestStepResultStatus string
 
 const (
-	UNKNOWN   TestStepResultStatus = "UNKNOWN"
-	PASSED    TestStepResultStatus = "PASSED"
-	SKIPPED   TestStepResultStatus = "SKIPPED"
-	PENDING   TestStepResultStatus = "PENDING"
-	UNDEFINED TestStepResultStatus = "UNDEFINED"
-	AMBIGUOUS TestStepResultStatus = "AMBIGUOUS"
-	FAILED    TestStepResultStatus = "FAILED"
+	TestStepResultStatus_UNKNOWN   TestStepResultStatus = "UNKNOWN"
+	TestStepResultStatus_PASSED    TestStepResultStatus = "PASSED"
+	TestStepResultStatus_SKIPPED   TestStepResultStatus = "SKIPPED"
+	TestStepResultStatus_PENDING   TestStepResultStatus = "PENDING"
+	TestStepResultStatus_UNDEFINED TestStepResultStatus = "UNDEFINED"
+	TestStepResultStatus_AMBIGUOUS TestStepResultStatus = "AMBIGUOUS"
+	TestStepResultStatus_FAILED    TestStepResultStatus = "FAILED"
 )
