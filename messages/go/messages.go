@@ -366,12 +366,34 @@ const (
 	AttachmentContentEncoding_BASE64   AttachmentContentEncoding = "BASE64"
 )
 
+func (e AttachmentContentEncoding) String() string {
+	switch e {
+	case AttachmentContentEncoding_IDENTITY:
+		return "IDENTITY"
+	case AttachmentContentEncoding_BASE64:
+		return "BASE64"
+	default:
+		panic("Bad enum value for AttachmentContentEncoding")
+	}
+}
+
 type StepDefinitionPatternType string
 
 const (
 	StepDefinitionPatternType_CUCUMBER_EXPRESSION StepDefinitionPatternType = "CUCUMBER_EXPRESSION"
 	StepDefinitionPatternType_REGULAR_EXPRESSION  StepDefinitionPatternType = "REGULAR_EXPRESSION"
 )
+
+func (e StepDefinitionPatternType) String() string {
+	switch e {
+	case StepDefinitionPatternType_CUCUMBER_EXPRESSION:
+		return "CUCUMBER_EXPRESSION"
+	case StepDefinitionPatternType_REGULAR_EXPRESSION:
+		return "REGULAR_EXPRESSION"
+	default:
+		panic("Bad enum value for StepDefinitionPatternType")
+	}
+}
 
 type TestStepResultStatus string
 
@@ -384,3 +406,24 @@ const (
 	TestStepResultStatus_AMBIGUOUS TestStepResultStatus = "AMBIGUOUS"
 	TestStepResultStatus_FAILED    TestStepResultStatus = "FAILED"
 )
+
+func (e TestStepResultStatus) String() string {
+	switch e {
+	case TestStepResultStatus_UNKNOWN:
+		return "UNKNOWN"
+	case TestStepResultStatus_PASSED:
+		return "PASSED"
+	case TestStepResultStatus_SKIPPED:
+		return "SKIPPED"
+	case TestStepResultStatus_PENDING:
+		return "PENDING"
+	case TestStepResultStatus_UNDEFINED:
+		return "UNDEFINED"
+	case TestStepResultStatus_AMBIGUOUS:
+		return "AMBIGUOUS"
+	case TestStepResultStatus_FAILED:
+		return "FAILED"
+	default:
+		panic("Bad enum value for TestStepResultStatus")
+	}
+}

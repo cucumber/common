@@ -171,12 +171,23 @@ EOF
 
     enum_template = <<-EOF
 type <%= enum[:name] %> string
+
 const(
 <% enum[:values].each do |value| -%>
   <%= enum[:name] %>_<%= value %> <%= enum[:name] %> = "<%= value %>"
 <% end -%>
 )
 
+func (e <%= enum[:name] %>) String() string {
+	switch e {
+<% enum[:values].each do |value| -%>
+  case <%= enum[:name] %>_<%= value %>:
+    return "<%= value %>"
+<% end -%>
+	default:
+		panic("Bad enum value for <%= enum[:name] %>")
+	}
+}
 EOF
 
     language_type_by_schema_type = {
