@@ -1,0 +1,12 @@
+{"meta":{"protocolVersion":"15.0.0","implementation":{"name":"fake-cucumber","version":"11.0.0"},"runtime":{"name":"node.js","version":"15.10.0"},"os":{"name":"linux","version":"5.4.72-microsoft-standard-WSL2"},"cpu":{"name":"x64"}}}
+{"source":{"uri":"features/empty-scenario/empty-scenario.feature","data":"Feature: minimal\n  Scenario can be empty.\n  Background and hooks are not executed.\n  The state of the scenario is `undefined`\n  \n  Background:\n    Given a background step\n\n  Scenario: empty\n","mediaType":"text/x.cucumber.gherkin+plain"}}
+{"gherkinDocument":{"uri":"features/empty-scenario/empty-scenario.feature","feature":{"location":{"line":1,"column":1},"language":"en","keyword":"Feature","name":"minimal","description":"  Scenario can be empty.\n  Background and hooks are not executed.\n  The state of the scenario is `undefined`","children":[{"background":{"location":{"line":6,"column":3},"keyword":"Background","steps":[{"location":{"line":7,"column":5},"keyword":"Given ","text":"a background step","id":"00898b60-8f19-46fe-8ea9-e08b9789e2fe"}],"id":"c985f7db-4255-4f92-a207-31bf9463c66c"}},{"scenario":{"location":{"line":9,"column":3},"keyword":"Scenario","name":"empty","id":"d87ad9b8-3719-4c45-906d-62b2d0ae625d"}}]}}}
+{"pickle":{"id":"58e0a598-f76a-4d69-84bd-3a2fd5c2fb11","uri":"features/empty-scenario/empty-scenario.feature","name":"empty","language":"en","astNodeIds":["d87ad9b8-3719-4c45-906d-62b2d0ae625d"]}}
+{"stepDefinition":{"id":"284ea4cd-9d6d-43e7-82bd-9bb6bd3b0f28","pattern":{"source":"a background step","type":"CUCUMBER_EXPRESSION"},"sourceReference":{"uri":"features/empty-scenario/empty-scenario.ts","location":{"line":4}}}}
+{"hook":{"id":"dd463c6a-d003-4322-81cc-3b6324fde3b5","sourceReference":{"uri":"features/empty-scenario/empty-scenario.ts","location":{"line":8}}}}
+{"hook":{"id":"8ea07526-464d-4f7c-a18a-25da55f5d86b","sourceReference":{"uri":"features/empty-scenario/empty-scenario.ts","location":{"line":12}}}}
+{"testRunStarted":{"timestamp":{"seconds":"1619527369","nanos":268000000}}}
+{"testCase":{"id":"a3c98f91-7aeb-4de1-9fe1-65830b45421a","pickleId":"58e0a598-f76a-4d69-84bd-3a2fd5c2fb11"}}
+{"testCaseStarted":{"timestamp":{"seconds":"1619527369","nanos":269000000},"attempt":0,"testCaseId":"a3c98f91-7aeb-4de1-9fe1-65830b45421a","id":"14c00ea9-52f3-4d52-8ec7-ab14ed7e62a7"}}
+{"testCaseFinished":{"timestamp":{"seconds":"1619527369","nanos":269000000},"testCaseStartedId":"14c00ea9-52f3-4d52-8ec7-ab14ed7e62a7"}}
+{"testRunFinished":{"timestamp":{"seconds":"1619527369","nanos":270000000}}}
