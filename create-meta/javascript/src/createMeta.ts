@@ -26,7 +26,7 @@ export default function createMeta(
     ciDict = defaultCiDict
   }
   return {
-    protocol_version: messages.version,
+    protocolVersion: messages.version,
     implementation: {
       name: toolName,
       version: toolVersion,

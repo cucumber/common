@@ -71,7 +71,7 @@ class Codegen
     items = property['items']
     enum = property['enum']
     if ref
-      class_name(property['$ref'])
+      property_type_from_ref(property['$ref'])
     elsif type
       if type == 'array'
         array_type_for(type_for(parent_type_name, nil, items))
@@ -141,6 +141,10 @@ EOF
     super(paths, template, enum_template, language_type_by_schema_type)
   end
 
+  def property_type_from_ref(ref)
+    class_name(ref)
+  end
+
   def array_type_for(type_name)
     "readonly #{type_name}[]"
   end
@@ -156,9 +160,9 @@ type <%= class_name(key) %> struct {
 <% schema['properties'].each do |property_name, property| -%>
 <%
 type_name = type_for(class_name(key), property_name, property)
-star = @language_type_by_schema_type.values.index(type_name) ? '' : '*'
+required = (schema['required'] || []).index(property_name)
 -%>
-  <%= capitalize(property_name) %> <%= star %><%= type_name %> `json:"<%= property_name %>"`
+  <%= capitalize(property_name) %> <%= type_name %> `json:"<%= property_name %><%= required ? '' : ',omitempty' %>"`
 <% end -%>
 }
 
@@ -181,6 +185,10 @@ EOF
       'boolean' => 'bool',
     }
     super(paths, template, enum_template, language_type_by_schema_type)
+  end
+
+  def property_type_from_ref(ref)
+    "*#{class_name(ref)}"
   end
 
   def array_type_for(type_name)

@@ -143,21 +143,23 @@ function compileScenarioOutline(
           scenario.steps.length === 0
             ? []
             : backgroundSteps.map((step) => pickleStep(step, [], null, newId))
-        const tags = [].concat(inheritedTags).concat(scenario.tags).concat(examples.tags)
 
         scenario.steps.forEach((scenarioOutlineStep) => {
           const step = pickleStep(scenarioOutlineStep, variableCells, valuesRow, newId)
           steps.push(step)
         })
 
+        const id = newId()
+        const tags = pickleTags([].concat(inheritedTags).concat(scenario.tags).concat(examples.tags))
+
         pickles.push({
-          id: newId(),
+          id,
           uri,
           astNodeIds: [scenario.id, valuesRow.id],
           name: interpolate(scenario.name, variableCells, valuesRow.cells),
           language,
           steps,
-          tags: pickleTags(tags),
+          tags,
         })
       })
     })

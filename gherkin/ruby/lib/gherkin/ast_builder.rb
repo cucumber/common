@@ -177,7 +177,7 @@ module Gherkin
         rows = examples_node.get_single(:ExamplesTable)
 
         table_header = rows.nil? ? nil : rows.first
-        table_body = rows.nil? ? nil : rows[1..-1]
+        table_body = rows.nil? ? [] : rows[1..-1]
 
         {
           id: @id_generator.new_id,

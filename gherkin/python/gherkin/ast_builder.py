@@ -158,7 +158,7 @@ class AstBuilder(object):
             description = self.get_description(examples_node)
             examples_table_rows = examples_node.get_single('ExamplesTable')
             table_header = examples_table_rows[0] if examples_table_rows else None
-            table_body = examples_table_rows[1:] if examples_table_rows else None
+            table_body = examples_table_rows[1:] if examples_table_rows else []
 
             return self.reject_nones({
                 'id': self.id_generator.get_next_id(),

@@ -157,7 +157,7 @@ export class Examples {
   tableHeader?: TableRow
 
   @Type(() => TableRow)
-  tableBody?: readonly TableRow[]
+  tableBody: readonly TableRow[] = []
 
   id: string = ''
 }

@@ -97,7 +97,7 @@ export default class AstBuilder implements IAstBuilder<AstNode, TokenType, RuleT
       cells: this.getCells(token),
     }))
     this.ensureCellCount(rows)
-    return rows.length === 0 ? undefined : rows
+    return rows.length === 0 ? [] : rows
   }
 
   ensureCellCount(rows: messages.TableRow[]) {
@@ -205,7 +205,7 @@ export default class AstBuilder implements IAstBuilder<AstNode, TokenType, RuleT
           name: examplesLine.matchedText,
           description,
           tableHeader: examplesTable ? examplesTable[0] : undefined,
-          tableBody: examplesTable ? examplesTable.slice(1) : undefined,
+          tableBody: examplesTable ? examplesTable.slice(1) : [],
         }
         return examples
       }
