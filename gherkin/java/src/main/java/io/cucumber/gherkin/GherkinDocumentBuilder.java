@@ -19,6 +19,7 @@ import io.cucumber.messages.types.Tag;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Deque;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -140,7 +141,7 @@ public class GherkinDocumentBuilder implements Builder<GherkinDocument> {
                 Token examplesLine = examplesNode.getToken(TokenType.ExamplesLine);
                 List<TableRow> rows = examplesNode.getSingle(RuleType.ExamplesTable, null);
                 TableRow tableHeader = rows != null && !rows.isEmpty() ? rows.get(0) : null;
-                List<TableRow> tableBody = rows != null && !rows.isEmpty() ? rows.subList(1, rows.size()) : null;
+                List<TableRow> tableBody = rows != null && !rows.isEmpty() ? rows.subList(1, rows.size()) : Collections.emptyList();
 
                 return new Examples(
                         getLocation(examplesLine, 0),
