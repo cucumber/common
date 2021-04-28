@@ -59,8 +59,6 @@ export default async function main(
   gherkinEnvelopeStream.write(metaEnvelope)
 
   for (const gherkinDocument of gherkinDocuments) {
-    console.error(JSON.stringify(gherkinDocument, null, 2))
-
     const sourceEnvelope: messages.Envelope = {
       source: gherkinDocumentToSource(gherkinDocument),
     }
