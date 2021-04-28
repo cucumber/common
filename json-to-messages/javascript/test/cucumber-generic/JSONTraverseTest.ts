@@ -94,7 +94,7 @@ describe('traversing elements', () => {
         'An empty feature',
         'It does nothing',
         [],
-        undefined,
+        [],
       ])
     })
 
@@ -129,7 +129,7 @@ describe('traversing elements', () => {
         'My feature',
         'It does things and stuff',
         [featureChild],
-        undefined,
+        [],
       ])
     })
 

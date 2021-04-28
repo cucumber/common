@@ -7,6 +7,7 @@ import { compile } from '@cucumber/gherkin'
 import { Query as GherkinQuery } from '@cucumber/gherkin-utils'
 import createMeta from '@cucumber/create-meta'
 import * as messages from '@cucumber/messages'
+import { Feature } from '@cucumber/messages'
 import { MessageToNdjsonStream } from '@cucumber/message-streams'
 import AstMaker from './AstMaker'
 import detectImplementation from './detectImplementation'
@@ -32,7 +33,7 @@ export default async function main(
   messageWritable: Writable,
   implementation?: Implementation
 ) {
-  const singleObjectWritable = new SingleObjectWritableStream<readonly unknown[]>()
+  const singleObjectWritable = new SingleObjectWritableStream<readonly Feature[]>()
   await asyncPipeline(jsonReadable, new JSONTransformStream(), singleObjectWritable)
 
   const supportCode = new SupportCode()
@@ -58,6 +59,8 @@ export default async function main(
   gherkinEnvelopeStream.write(metaEnvelope)
 
   for (const gherkinDocument of gherkinDocuments) {
+    console.error(JSON.stringify(gherkinDocument, null, 2))
+
     const sourceEnvelope: messages.Envelope = {
       source: gherkinDocumentToSource(gherkinDocument),
     }

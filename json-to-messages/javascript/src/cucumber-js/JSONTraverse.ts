@@ -56,7 +56,7 @@ export function traverseElement(
       }
     }
   }
-  const tags = element.tags ? element.tags.map((tag) => traverseTag(tag, astMaker)) : undefined
+  const tags = element.tags ? element.tags.map((tag) => traverseTag(tag, astMaker)) : []
 
   const featureChild = astMaker.makeScenarioFeatureChild(
     newId(),

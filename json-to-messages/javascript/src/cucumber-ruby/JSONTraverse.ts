@@ -40,7 +40,7 @@ export function traverseElement(
       )
       break
     case 'scenario': {
-      const tags = element.tags ? element.tags.map((tag) => traverseTag(tag, astMaker)) : undefined
+      const tags = element.tags ? element.tags.map((tag) => traverseTag(tag, astMaker)) : []
       child = astMaker.makeScenarioFeatureChild(
         newId(),
         element.line,

@@ -15,7 +15,7 @@ function makeTags(tags: readonly string[]): ITag[] {
     ? tags.map((tag) => {
         return { name: `@${tag}` }
       })
-    : undefined
+    : []
 }
 
 function makeLine(location: string): number {

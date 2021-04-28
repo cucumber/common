@@ -23,7 +23,7 @@ export function traverseFeature(
 ): messages.GherkinDocument {
   const children: messages.FeatureChild[] = []
   let backgroundFound = false
-  const tags = feature.tags ? feature.tags.map((tag) => traverseTag(tag, astMaker)) : undefined
+  const tags = feature.tags ? feature.tags.map((tag) => traverseTag(tag, astMaker)) : []
 
   for (const element of feature.elements) {
     const isBackground = element.type === 'background'
