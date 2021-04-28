@@ -58,7 +58,7 @@
     "@types/react": "^17.0.4",
     "@types/react-dom": "^17.0.3",
     "babel-loader": "^8.2.2",
-    "core-js": "^3.11.0",
+    "core-js": "^3.11.1",
     "glob": "^7.1.6",
     "jsdom": "^16.5.3",
     "mocha": "^8.3.2",
