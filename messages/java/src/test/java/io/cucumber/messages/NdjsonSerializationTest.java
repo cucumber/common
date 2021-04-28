@@ -1,5 +1,6 @@
 package io.cucumber.messages;
 
+import io.cucumber.messages.types.Attachment;
 import io.cucumber.messages.types.Envelope;
 import org.junit.jupiter.api.Test;
 
@@ -41,11 +42,22 @@ class NdjsonSerializationTest extends MessageSerializationContract {
         InputStream input = new ByteArrayInputStream("{}\n{}\n\n{}\n".getBytes(UTF_8));
         Iterable<Envelope> incomingMessages = makeMessageIterable(input);
         Iterator<Envelope> iterator = incomingMessages.iterator();
-        for(int i = 0; i < 3; i++) {
+        for (int i = 0; i < 3; i++) {
             assertTrue(iterator.hasNext());
             Envelope envelope = iterator.next();
             assertEquals(new Envelope(), envelope);
         }
+        assertFalse(iterator.hasNext());
+    }
+
+    @Test
+    void handles_enums() {
+        InputStream input = new ByteArrayInputStream("{\"attachment\":{\"contentEncoding\":\"BASE64\"}}\n".getBytes(UTF_8));
+        Iterable<Envelope> incomingMessages = makeMessageIterable(input);
+        Iterator<Envelope> iterator = incomingMessages.iterator();
+        assertTrue(iterator.hasNext());
+        Envelope envelope = iterator.next();
+        assertEquals(Attachment.ContentEncoding.BASE_64, envelope.getAttachment().getContentEncoding());
         assertFalse(iterator.hasNext());
     }
 

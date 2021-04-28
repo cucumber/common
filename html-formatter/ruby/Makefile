@@ -7,7 +7,7 @@ HTML_REPORTS = $(patsubst ../../compatibility-kit/javascript/features/%.ndjson,a
 
 acceptance/%.html: ../../compatibility-kit/javascript/features/%.ndjson
 	mkdir -p $(@D)
-	cat $< | bundle exec bin/cucumber-html-formatter --format ndjson > $@
+	cat $< | bundle exec bin/cucumber-html-formatter > $@
 
 .deps: assets/cucumber-react.css assets/cucumber-html.js assets/index.mustache.html
 

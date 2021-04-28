@@ -9,6 +9,9 @@ HTML_REPORT_CHECKS = $(patsubst acceptance/%.html,acceptance/%.html.checked,$(HT
 dist/main.js: dist/src/main.js
 	../../node_modules/.bin/webpack-cli
 
+dist/src/main.js:
+	npm run prepublishOnly
+
 dist/src/index.mustache.html: src/index.mustache.html
 	cp $< $@
 

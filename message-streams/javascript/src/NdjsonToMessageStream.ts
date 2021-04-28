@@ -24,7 +24,10 @@ export default class NdjsonToMessageStream extends Transform {
           const envelope = parseEnvelope(line)
           this.push(envelope)
         } catch (err) {
-          return callback(new Error(`Not JSON: ${line}`))
+          err.message = err.message + `
+Not JSON: '${line}'
+`
+          return callback(err)
         }
       }
     }

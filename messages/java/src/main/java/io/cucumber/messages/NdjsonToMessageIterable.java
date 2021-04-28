@@ -18,7 +18,9 @@ import java.util.Iterator;
  * Tests can then use a {@code new ArrayList<Messages.Envelope>} which implements the same interface.
  */
 public class NdjsonToMessageIterable implements Iterable<Envelope> {
-    private final ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    private final ObjectMapper mapper = new ObjectMapper()
+            .enable(DeserializationFeature.READ_ENUMS_USING_TO_STRING)
+            .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     private final BufferedReader input;
     private Envelope next;
 

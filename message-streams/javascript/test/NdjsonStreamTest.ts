@@ -96,12 +96,12 @@ describe('NdjsonStream', () => {
     const toMessageStream = makeToMessageStream()
     await assert.rejects(
       async () => {
-        toMessageStream.write('{}\nBLA BLA\n\n{}\n')
+        toMessageStream.write('{}\n  BLA BLA\n\n{}\n')
         toMessageStream.end()
         await toArray(toMessageStream)
       },
       {
-        message: 'Not JSON: BLA BLA',
+        message: "Unexpected token B in JSON at position 2\nNot JSON: '  BLA BLA'\n",
       }
     )
   })

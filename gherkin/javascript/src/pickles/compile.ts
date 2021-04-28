@@ -150,7 +150,9 @@ function compileScenarioOutline(
         })
 
         const id = newId()
-        const tags = pickleTags([].concat(inheritedTags).concat(scenario.tags).concat(examples.tags))
+        const tags = pickleTags(
+          [].concat(inheritedTags).concat(scenario.tags).concat(examples.tags)
+        )
 
         pickles.push({
           id,

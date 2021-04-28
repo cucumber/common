@@ -12,7 +12,13 @@ default: .tested
 .codegen:
 	touch $@
 
-.tested: .tested-npm
+.tested: .tested-npm .built
+
+.built: $(TYPESCRIPT_SOURCE_FILES) .codegen
+	pushd ../.. && \
+	npm run build && \
+	popd && \
+	touch $@
 
 .tested-npm: $(TYPESCRIPT_SOURCE_FILES) .codegen
 	npm run test

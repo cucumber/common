@@ -17,7 +17,7 @@ target/classes/io/cucumber/htmlformatter/cucumber-react.css:
 
 target/classes/io/cucumber/htmlformatter/cucumber-html.js:
 	mkdir -p $(@D)
-	cp ../javascript/dist/main.js $@
+	cp ../javascript/dist/src/main.js $@
 
 target/classes/io/cucumber/htmlformatter/index.mustache.html:
 	mkdir -p $(@D)
