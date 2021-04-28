@@ -93,7 +93,7 @@ jobs:
           # make storybook work. Our storybook setup is not (yet) able to
           # pick up .ts files - all code needs to be transpiled first.
           command: |
-            sudo npm install --global npm@7
+            npm install --global npm@7
             npm ci
             npm run build
       - persist_to_workspace:
