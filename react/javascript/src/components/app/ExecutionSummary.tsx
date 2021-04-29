@@ -1,5 +1,5 @@
 import React from 'react'
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import EnvelopesQueryContext, { EnvelopesQuery } from '../../EnvelopesQueryContext'
 import CICommitLink from './CICommitLink'
 import getDurationsMillis from '../../getDurationMillis'
@@ -7,7 +7,7 @@ import Duration from './Duration'
 
 interface IProductProps {
   name: string
-  product: messages.Meta.IProduct
+  product: messages.Product
 }
 
 const Product: React.FunctionComponent<IProductProps> = ({ name: name, product: product }) => {
@@ -23,18 +23,18 @@ const Product: React.FunctionComponent<IProductProps> = ({ name: name, product: 
   )
 }
 
-function findTestRunStarted(envelopesQuery: EnvelopesQuery): messages.ITestRunStarted {
+function findTestRunStarted(envelopesQuery: EnvelopesQuery): messages.TestRunStarted {
   const testRunStarted = envelopesQuery.find((envelope) => envelope.testRunStarted !== null)
   return testRunStarted ? testRunStarted.testRunStarted : undefined
 }
 
-function findTestRunFinished(envelopesQuery: EnvelopesQuery): messages.ITestRunFinished {
+function findTestRunFinished(envelopesQuery: EnvelopesQuery): messages.TestRunFinished {
   const testRunFinished = envelopesQuery.find((envelope) => envelope.testRunFinished !== null)
   return testRunFinished ? testRunFinished.testRunFinished : undefined
 }
 
 interface IProps {
-  meta: messages.IMeta
+  meta: messages.Meta
 }
 
 const ExecutionSummary: React.FunctionComponent<IProps> = ({ meta: meta }) => {

@@ -84,7 +84,7 @@ jobs:
           command: make ci
 
   prepare-parallel:
-    executor: docker-circleci-node-15
+    executor: docker-cucumber-build
     steps:
       - checkout
       - run:
@@ -93,7 +93,7 @@ jobs:
           # make storybook work. Our storybook setup is not (yet) able to
           # pick up .ts files - all code needs to be transpiled first.
           command: |
-            sudo npm install --global npm@7
+            npm install --global npm@7
             npm ci
             npm run build
       - persist_to_workspace:
@@ -304,14 +304,13 @@ jobs:
             make
 
   react-javascript:
-    executor: docker-circleci-node-12
+    executor: docker-cucumber-build
     steps:
       - attach_workspace:
           at: "~/cucumber"
       - run:
           name: react/javascript
           command: |
-            sudo npm install --global npm@7
             cd react/javascript
             make
 
@@ -802,16 +801,16 @@ jobs:
           paths:
             - messages/elixir/lib/cucumber_messages/generated/
 
-  gherkin-elixir:
-    executor: docker-cucumber-build
-    steps:
-      - attach_workspace:
-          at: "~/cucumber"
-      - run:
-          name: gherkin/elixir
-          command: |
-            cd gherkin/elixir
-            make
+  # gherkin-elixir:
+  #   executor: docker-cucumber-build
+  #   steps:
+  #     - attach_workspace:
+  #         at: "~/cucumber"
+  #     - run:
+  #         name: gherkin/elixir
+  #         command: |
+  #           cd gherkin/elixir
+  #           make
 
 ###
 ### Workflows ###
@@ -1047,6 +1046,6 @@ workflows:
           requires:
             - prepare-parallel
 
-      - gherkin-elixir:
-          requires:
-            - messages-elixir
+      # - gherkin-elixir:
+      #     requires:
+      #       - messages-elixir

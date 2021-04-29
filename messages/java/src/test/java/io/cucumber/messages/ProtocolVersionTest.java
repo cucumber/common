@@ -9,7 +9,7 @@ class ProtocolVersionTest {
 
     @Test
     void should_have_a_resource_bundle_version() {
-        String version = ProtocolVersion.getVersion().get();
+        String version = ProtocolVersion.getVersion();
         assertThat(version, Matchers.matchesPattern("\\d+\\.\\d+\\.\\d+(-SNAPSHOT)?"));
     }
 

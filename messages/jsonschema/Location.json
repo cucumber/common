@@ -1,0 +1,17 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "additionalProperties": false,
+  "description": "*\n Points to a line and a column in a text file",
+  "properties": {
+    "line": {
+      "type": "integer"
+    },
+    "column": {
+      "type": "integer"
+    }
+  },
+  "required": [
+    "line"
+  ],
+  "type": "object"
+}

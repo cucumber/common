@@ -1,7 +1,7 @@
 import DIALECTS from './gherkin-languages.json'
 import Dialect from './Dialect'
 import { NoSuchLanguageException } from './Errors'
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import IToken from './IToken'
 import { TokenType } from './Parser'
 import ITokenMatcher from './ITokenMatcher'
@@ -19,7 +19,7 @@ export default class TokenMatcher implements ITokenMatcher<TokenType> {
     this.reset()
   }
 
-  changeDialect(newDialectName: string, location?: messages.ILocation) {
+  changeDialect(newDialectName: string, location?: messages.Location) {
     const newDialect = DIALECT_DICT[newDialectName]
     if (!newDialect) {
       throw NoSuchLanguageException.create(newDialectName, location)

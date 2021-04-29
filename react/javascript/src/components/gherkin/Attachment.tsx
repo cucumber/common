@@ -1,5 +1,5 @@
 import React from 'react'
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import ErrorMessage from './ErrorMessage'
 import { faPaperclip } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Convert from 'ansi-to-html'
 
 interface IProps {
-  attachment: messages.IAttachment
+  attachment: messages.Attachment
 }
 
 const Attachment: React.FunctionComponent<IProps> = ({ attachment }) => {
@@ -30,8 +30,8 @@ const Attachment: React.FunctionComponent<IProps> = ({ attachment }) => {
   }
 }
 
-function image(attachment: messages.IAttachment) {
-  if (attachment.contentEncoding !== messages.Attachment.ContentEncoding.BASE64) {
+function image(attachment: messages.Attachment) {
+  if (attachment.contentEncoding !== 'BASE64') {
     return (
       <ErrorMessage
         className="cucumber-attachment"
@@ -51,8 +51,8 @@ function image(attachment: messages.IAttachment) {
   )
 }
 
-function video(attachment: messages.IAttachment) {
-  if (attachment.contentEncoding !== messages.Attachment.ContentEncoding.BASE64) {
+function video(attachment: messages.Attachment) {
+  if (attachment.contentEncoding !== 'BASE64') {
     return (
       <ErrorMessage
         className="cucumber-attachment"
@@ -84,14 +84,12 @@ function base64Decode(body: string) {
 }
 
 function text(
-  attachment: messages.IAttachment,
+  attachment: messages.Attachment,
   prettify: (body: string) => string,
   dangerouslySetInnerHTML: boolean
 ) {
   const body =
-    attachment.contentEncoding === messages.Attachment.ContentEncoding.IDENTITY
-      ? attachment.body
-      : base64Decode(attachment.body)
+    attachment.contentEncoding === 'IDENTITY' ? attachment.body : base64Decode(attachment.body)
 
   if (dangerouslySetInnerHTML) {
     return (

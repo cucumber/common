@@ -2,13 +2,14 @@ import React from 'react'
 import { faSearch, faQuestionCircle, faFilter } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import SearchQueryContext from '../../SearchQueryContext'
-import { messages } from '@cucumber/messages'
 import statusName from '../gherkin/statusName'
+import * as messages from '@cucumber/messages'
+import statuses from './statuses'
 
 interface IProps {
-  statusesUpdated: (statuses: messages.TestStepFinished.TestStepResult.Status[]) => any
-  enabledStatuses: messages.TestStepFinished.TestStepResult.Status[]
-  scenarioCountByStatus: Map<messages.TestStepFinished.TestStepResult.Status, number>
+  statusesUpdated: (statuses: readonly messages.TestStepResultStatus[]) => any
+  enabledStatuses: readonly messages.TestStepResultStatus[]
+  scenarioCountByStatus: Map<messages.TestStepResultStatus, number>
 }
 
 const SearchBar: React.FunctionComponent<IProps> = ({
@@ -18,16 +19,6 @@ const SearchBar: React.FunctionComponent<IProps> = ({
 }) => {
   const searchQueryContext = React.useContext(SearchQueryContext)
 
-  const statuses = [
-    messages.TestStepFinished.TestStepResult.Status.AMBIGUOUS,
-    messages.TestStepFinished.TestStepResult.Status.FAILED,
-    messages.TestStepFinished.TestStepResult.Status.PASSED,
-    messages.TestStepFinished.TestStepResult.Status.PENDING,
-    messages.TestStepFinished.TestStepResult.Status.SKIPPED,
-    messages.TestStepFinished.TestStepResult.Status.UNDEFINED,
-    messages.TestStepFinished.TestStepResult.Status.UNKNOWN,
-  ]
-
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const formData = new window.FormData(event.currentTarget)
@@ -36,7 +27,7 @@ const SearchBar: React.FunctionComponent<IProps> = ({
 
   const showFilters =
     scenarioCountByStatus.size > 1 ||
-    scenarioCountByStatus.has(messages.TestStepFinished.TestStepResult.Status.UNKNOWN)
+    scenarioCountByStatus.has(messages.TestStepResultStatus.UNKNOWN)
 
   return (
     <div className="cucumber-search-bar">

@@ -1,6 +1,6 @@
 import { Query as GherkinQuery } from '@cucumber/gherkin-utils'
 import { Query as CucumberQuery } from '@cucumber/query'
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import { SupportCode } from '@cucumber/fake-cucumber'
 import runFeature from './runFeature'
 import assert from 'assert'
@@ -45,9 +45,9 @@ Feature: statuses
 
     const statuses = countScenariosByStatuses(gherkinDocuments, gherkinQuery, cucumberQuery)
 
-    assert.strictEqual(statuses.get(messages.TestStepFinished.TestStepResult.Status.PASSED), 2)
-    assert.strictEqual(statuses.get(messages.TestStepFinished.TestStepResult.Status.FAILED), 1)
-    assert.strictEqual(statuses.get(messages.TestStepFinished.TestStepResult.Status.UNDEFINED), 1)
+    assert.strictEqual(statuses.get(messages.TestStepResultStatus.PASSED), 2)
+    assert.strictEqual(statuses.get(messages.TestStepResultStatus.FAILED), 1)
+    assert.strictEqual(statuses.get(messages.TestStepResultStatus.UNDEFINED), 1)
   })
 
   it('counts different statuses with example tables', async () => {
@@ -72,8 +72,8 @@ Feature: statuses
 
     const statuses = countScenariosByStatuses(gherkinDocuments, gherkinQuery, cucumberQuery)
 
-    assert.strictEqual(statuses.get(messages.TestStepFinished.TestStepResult.Status.PASSED), 1)
-    assert.strictEqual(statuses.get(messages.TestStepFinished.TestStepResult.Status.FAILED), 1)
-    assert.strictEqual(statuses.get(messages.TestStepFinished.TestStepResult.Status.UNDEFINED), 1)
+    assert.strictEqual(statuses.get(messages.TestStepResultStatus.PASSED), 1)
+    assert.strictEqual(statuses.get(messages.TestStepResultStatus.FAILED), 1)
+    assert.strictEqual(statuses.get(messages.TestStepResultStatus.UNDEFINED), 1)
   })
 })

@@ -2,7 +2,7 @@ import { JSDOM } from 'jsdom'
 import ReactDOM from 'react-dom'
 import React from 'react'
 import Attachment from '../src/components/gherkin/Attachment'
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import assert from 'assert'
 
 describe('<Attachment>', () => {
@@ -18,11 +18,11 @@ describe('<Attachment>', () => {
 
     const binary = new Uint8Array(10)
     binary.fill(255, 0, binary.length)
-    const attachment = messages.Attachment.create({
+    const attachment: messages.Attachment = {
       mediaType: 'image/png',
       body: 'fake-base64',
-      contentEncoding: messages.Attachment.ContentEncoding.BASE64,
-    })
+      contentEncoding: messages.AttachmentContentEncoding.BASE64,
+    }
     const attachmentElement = <Attachment attachment={attachment} />
     ReactDOM.render(attachmentElement, document.getElementById('content'))
 
@@ -40,11 +40,11 @@ describe('<Attachment>', () => {
 
     const document = dom.window.document
 
-    const attachment = messages.Attachment.create({
+    const attachment: messages.Attachment = {
       mediaType: 'text/plain',
       body: Buffer.from('hello').toString('base64'),
-      contentEncoding: messages.Attachment.ContentEncoding.BASE64,
-    })
+      contentEncoding: messages.AttachmentContentEncoding.BASE64,
+    }
     const attachmentElement = <Attachment attachment={attachment} />
     ReactDOM.render(attachmentElement, document.getElementById('content'))
 
@@ -62,11 +62,11 @@ describe('<Attachment>', () => {
 
     const document = dom.window.document
 
-    const attachment = messages.Attachment.create({
+    const attachment: messages.Attachment = {
       mediaType: 'text/x.cucumber.log+plain',
       body: '\x1b[30mblack\x1b[37mwhite',
-      contentEncoding: messages.Attachment.ContentEncoding.IDENTITY,
-    })
+      contentEncoding: messages.AttachmentContentEncoding.IDENTITY,
+    }
     const attachmentElement = <Attachment attachment={attachment} />
     ReactDOM.render(attachmentElement, document.getElementById('content'))
 

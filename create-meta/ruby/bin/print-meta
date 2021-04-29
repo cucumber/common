@@ -7,5 +7,5 @@ env_data = IO.read(env_path)
 entries = env_data.split(/\n/).map{ |line| line.split(/=/) }
 env = Hash[entries]
 meta = Cucumber::CreateMeta.create_meta('cucumber-something', '1.2.3', env)
-ci = meta.ci
-puts ci.to_json(proto3: true)
+ci = meta[:ci].delete_if {|k,v| v.nil?}
+puts ci.to_json

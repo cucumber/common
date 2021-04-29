@@ -1,5 +1,5 @@
 import { gherkinMessages, streamToArray } from './TestHelpers'
-import { IdGenerator, messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import { EnvelopeListener } from '../src/types'
 import assert from 'assert'
 import TestPlan from '../src/TestPlan'
@@ -16,7 +16,7 @@ describe('TestPlan', () => {
   let supportCode: SupportCode
   beforeEach(() => {
     supportCode = new SupportCode(
-      IdGenerator.incrementing(),
+      messages.IdGenerator.incrementing(),
       new IncrementClock(),
       new IncrementStopwatch(),
       withSourceFramesOnlyStackTrace()
@@ -31,7 +31,7 @@ describe('TestPlan', () => {
     Given a passed step
 `
     const testPlan = await makeTestPlan(gherkinSource, supportCode)
-    const envelopes: messages.IEnvelope[] = []
+    const envelopes: messages.Envelope[] = []
     const listener: EnvelopeListener = (envelope) => {
       if (!envelope) throw new Error('Envelope was null or undefined')
       envelopes.push(envelope)
@@ -41,10 +41,7 @@ describe('TestPlan', () => {
       .filter((m) => m.testStepFinished)
       .map((m) => m.testStepFinished)
     assert.deepStrictEqual(testStepFinisheds.length, 1)
-    assert.strictEqual(
-      testStepFinisheds[0].testStepResult.status,
-      messages.TestStepFinished.TestStepResult.Status.PASSED
-    )
+    assert.strictEqual(testStepFinisheds[0].testStepResult.status, 'PASSED')
   })
 
   class Flight {
@@ -69,17 +66,14 @@ describe('TestPlan', () => {
     Given flight LHR-CDG
 `
     const testPlan = await makeTestPlan(gherkinSource, supportCode)
-    const envelopes: messages.IEnvelope[] = []
+    const envelopes: messages.Envelope[] = []
     const listener: EnvelopeListener = (envelope) => envelopes.push(envelope)
     await testPlan.execute(listener)
     const testStepFinisheds = envelopes
       .filter((m) => m.testStepFinished)
       .map((m) => m.testStepFinished)
     assert.deepStrictEqual(testStepFinisheds.length, 1)
-    assert.strictEqual(
-      testStepFinisheds[0].testStepResult.status,
-      messages.TestStepFinished.TestStepResult.Status.PASSED
-    )
+    assert.strictEqual(testStepFinisheds[0].testStepResult.status, 'PASSED')
     const parameterTypes = envelopes.filter((m) => m.parameterType).map((m) => m.parameterType)
     assert.deepStrictEqual(parameterTypes.length, 1)
     assert.strictEqual(parameterTypes[0].name, 'flight')
@@ -95,7 +89,7 @@ describe('TestPlan', () => {
     Given a passed step
 `
     const testPlan = await makeTestPlan(gherkinSource, supportCode)
-    const envelopes: messages.IEnvelope[] = []
+    const envelopes: messages.Envelope[] = []
     const listener: EnvelopeListener = (envelope) => envelopes.push(envelope)
     await testPlan.execute(listener)
 

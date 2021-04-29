@@ -1,8 +1,8 @@
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import GherkinLine from './GherkinLine'
 
 export default interface IToken<TokenType> {
-  location: messages.ILocation
+  location: messages.Location
   line: GherkinLine
 
   isEof: boolean

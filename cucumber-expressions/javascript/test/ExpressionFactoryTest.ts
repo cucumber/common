@@ -11,10 +11,10 @@ describe('ExpressionFactory', () => {
   })
 
   it('creates a RegularExpression', () => {
-    assert.equal(expressionFactory.createExpression(/x/).constructor, RegularExpression)
+    assert.strictEqual(expressionFactory.createExpression(/x/).constructor, RegularExpression)
   })
 
   it('creates a CucumberExpression', () => {
-    assert.equal(expressionFactory.createExpression('x').constructor, CucumberExpression)
+    assert.strictEqual(expressionFactory.createExpression('x').constructor, CucumberExpression)
   })
 })

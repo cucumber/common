@@ -7,26 +7,24 @@ package main
 
 import (
 	b64 "encoding/base64"
+	"encoding/json"
 	"flag"
 	"fmt"
 	"github.com/cucumber/gherkin-go/v18"
-	messages "github.com/cucumber/messages-go/v15"
-	fio "github.com/cucumber/messages-go/v15/io"
-	gio "github.com/gogo/protobuf/io"
+	"github.com/cucumber/messages-go/v15"
 	"os"
 )
 
 var noSource = flag.Bool("no-source", false, "Skip gherkin source events")
 var noAst = flag.Bool("no-ast", false, "Skip gherkin AST events")
 var noPickles = flag.Bool("no-pickles", false, "Skip gherkin Pickle events")
-var formatFlag = flag.String("format", "protobuf", "Output format")
 var predictableIds = flag.Bool("predictable-ids", false, "Generate incrementing ids rather than UUIDs")
 var versionFlag = flag.Bool("version", false, "print version")
 var dialectsFlag = flag.Bool("dialects", false, "print dialects as JSON")
 var defaultDialectFlag = flag.String("default-dialect", "en", "the default dialect")
 
 // Set during build with -ldflags
-var version string = "(unknown version)"
+var version = "(unknown version)"
 var gherkinDialects string
 
 func main() {
@@ -51,18 +49,17 @@ func main() {
 
 	paths := flag.Args()
 
-	var writer = newWriter()
-
-	defer writer.Close()
+	encoder := json.NewEncoder(os.Stdout)
+	decoder := json.NewDecoder(os.Stdin)
 
 	_, err := gherkin.Messages(
 		paths,
-		os.Stdin,
+		decoder,
 		*defaultDialectFlag,
 		!*noSource,
 		!*noAst,
 		!*noPickles,
-		writer,
+		encoder,
 		newId,
 	)
 	if err != nil {
@@ -71,18 +68,18 @@ func main() {
 	}
 }
 
-func newWriter() gio.WriteCloser {
-	var reader gio.WriteCloser
-	switch *formatFlag {
-	case "protobuf":
-		reader = gio.NewDelimitedWriter(os.Stdout)
-	case "ndjson":
-		reader = fio.NewNdjsonWriter(os.Stdout)
-	default:
-		_, err := fmt.Fprintf(os.Stderr, "Unsupported format: %s\n", *formatFlag)
-		if err != nil {
-			panic(err)
-		}
-	}
-	return reader
-}
+//func newWriter() gio.WriteCloser {
+//	var reader gio.WriteCloser
+//	switch *formatFlag {
+//	case "protobuf":
+//		reader = gio.NewDelimitedWriter(os.Stdout)
+//	case "ndjson":
+//		reader = fio.NewNdjsonWriter(os.Stdout)
+//	default:
+//		_, err := fmt.Fprintf(os.Stderr, "Unsupported format: %s\n", *formatFlag)
+//		if err != nil {
+//			panic(err)
+//		}
+//	}
+//	return reader
+//}

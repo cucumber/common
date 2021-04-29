@@ -9,6 +9,9 @@ HTML_REPORT_CHECKS = $(patsubst acceptance/%.html,acceptance/%.html.checked,$(HT
 dist/main.js: dist/src/main.js
 	../../node_modules/.bin/webpack-cli
 
+dist/src/main.js:
+	npm run prepublishOnly
+
 dist/src/index.mustache.html: src/index.mustache.html
 	cp $< $@
 
@@ -20,7 +23,7 @@ dist/cucumber-react.css: ../../node_modules/@cucumber/react/dist/src/styles/cucu
 .PRECIOUS: acceptance/%.html
 acceptance/%.html: ../../compatibility-kit/javascript/features/%.ndjson .built
 	mkdir -p $(@D)
-	cat $< | ./bin/cucumber-html-formatter.js --format ndjson > $@
+	cat $< | ./bin/cucumber-html-formatter.js > $@
 
 acceptance/%.html.checked: acceptance/%.html
 	node check.js $< > $@
