@@ -19,7 +19,6 @@ features/unknown-parameter-type/unknown-parameter-type.ndjson:
 
 features/%.ndjson: features/%.feature features/%.ts
 	../../fake-cucumber/javascript/scripts/fake-cucumber.sh \
-		--format ndjson \
 		--predictable-ids \
 		$< > $@
 

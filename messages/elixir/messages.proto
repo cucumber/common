@@ -360,7 +360,7 @@ message GherkinDocument {
  */
 message Attachment {
   SourceReference source = 1;
-  string test_step_id = 2;
+  string testStepId = 2;
   string test_case_started_id = 3;
 
   /**
@@ -594,14 +594,14 @@ message TestCaseFinished {
 
 message TestStepStarted {
   Timestamp timestamp = 1;
-  string test_step_id = 2;
+  string testStepId = 2;
   string test_case_started_id = 3;
 }
 
 message TestStepFinished {
   TestStepResult test_step_result = 1;
   Timestamp timestamp = 2;
-  string test_step_id = 3;
+  string testStepId = 3;
   string test_case_started_id = 4;
 
 

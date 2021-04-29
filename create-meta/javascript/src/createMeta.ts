@@ -1,6 +1,6 @@
 import os from 'os'
 import { parse as parseUrl, format as formatUrl } from 'url'
-import { messages, version as protocolVersion } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import defaultCiDict from './ciDict.json'
 
 export type CiDict = { [name: string]: CiSystem }
@@ -25,29 +25,29 @@ export default function createMeta(
   if (ciDict === undefined) {
     ciDict = defaultCiDict
   }
-  return new messages.Meta({
-    protocolVersion,
-    implementation: new messages.Meta.Product({
+  return {
+    protocolVersion: messages.version,
+    implementation: {
       name: toolName,
       version: toolVersion,
-    }),
-    cpu: new messages.Meta.Product({
+    },
+    cpu: {
       name: os.arch(),
-    }),
-    os: new messages.Meta.Product({
+    },
+    os: {
       name: os.platform(),
       version: os.release(),
-    }),
-    runtime: new messages.Meta.Product({
+    },
+    runtime: {
       name: 'node.js',
       version: process.versions.node,
-    }),
+    },
     ci: detectCI(ciDict, envDict),
-  })
+  }
 }
 
-export function detectCI(ciDict: CiDict, envDict: EnvDict): messages.Meta.CI | undefined {
-  const detected: messages.Meta.CI[] = []
+export function detectCI(ciDict: CiDict, envDict: EnvDict): messages.Ci | undefined {
+  const detected: messages.Ci[] = []
   for (const [ciName, ciSystem] of Object.entries(ciDict)) {
     const ci = createCi(ciName, ciSystem, envDict)
     if (ci) {
@@ -68,11 +68,7 @@ export function removeUserInfoFromUrl(value: string): string {
   return formatUrl(url)
 }
 
-function createCi(
-  ciName: string,
-  ciSystem: CiSystem,
-  envDict: EnvDict
-): messages.Meta.CI | undefined {
+function createCi(ciName: string, ciSystem: CiSystem, envDict: EnvDict): messages.Ci | undefined {
   const url = evaluate(ciSystem.url, envDict)
   if (url === undefined) {
     // The url is what consumers will use as the primary key for a build
@@ -80,7 +76,7 @@ function createCi(
     return undefined
   }
 
-  return messages.Meta.CI.create({
+  return {
     url,
     name: ciName,
     git: {
@@ -89,7 +85,7 @@ function createCi(
       branch: evaluate(ciSystem.git.branch, envDict),
       tag: evaluate(ciSystem.git.tag, envDict),
     },
-  })
+  }
 }
 
 /**

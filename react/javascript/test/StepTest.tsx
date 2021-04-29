@@ -1,7 +1,7 @@
 import assert from 'assert'
 import ReactDOM from 'react-dom'
 import React from 'react'
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import { Query as CucumberQuery } from '@cucumber/query'
 import Step from '../src/components/gherkin/Step'
 import { JSDOM } from 'jsdom'
@@ -19,28 +19,27 @@ describe('<Step>', () => {
     // global.navigator = dom.window.navigator
     const document = dom.window.document
 
-    const step = new messages.GherkinDocument.Feature.Step({
+    const step: messages.Step = {
       keyword: 'Given',
       text: 'the 48 pixies',
-      location: new messages.Location({ column: 1, line: 1 }),
-    })
+      location: { column: 1, line: 1 },
+      id: '123',
+    }
 
     class StubCucumberQuery extends CucumberQuery {
-      public getStepMatchArgumentsLists(): messages.TestCase.TestStep.IStepMatchArgumentsList[] {
+      public getStepMatchArgumentsLists(): messages.StepMatchArgumentsList[] {
         return [
-          new messages.TestCase.TestStep.StepMatchArgumentsList({
+          {
             stepMatchArguments: [
-              new messages.TestCase.TestStep.StepMatchArgumentsList.StepMatchArgument({
-                group: new messages.TestCase.TestStep.StepMatchArgumentsList.StepMatchArgument.Group(
-                  {
-                    start: 4,
-                    value: '48',
-                    children: [],
-                  }
-                ),
-              }),
+              {
+                group: {
+                  start: 4,
+                  value: '48',
+                  children: [],
+                },
+              },
             ],
-          }),
+          },
         ]
       }
     }

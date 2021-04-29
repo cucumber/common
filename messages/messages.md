@@ -91,7 +91,7 @@ is captured in `TestResult`.
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | source | [SourceReference](#io.cucumber.messages.SourceReference) |  |  |
-| test_step_id | [string](#string) |  |  |
+| testStepId | [string](#string) |  |  |
 | test_case_started_id | [string](#string) |  |  |
 | body | [string](#string) |  | The body of the attachment. If `content_encoding` is `IDENTITY`, the attachment is simply the string. If it&#39;s `BASE64`, the string should be Base64 decoded to obtain the attachment. |
 | media_type | [string](#string) |  | The media type of the data. This can be any valid [IANA Media Type](https://www.iana.org/assignments/media-types/media-types.xhtml) as well as Cucumber-specific media types such as `text/x.cucumber.gherkin&#43;plain` and `text/x.cucumber.stacktrace&#43;plain` |
@@ -992,7 +992,7 @@ This message closely matches the `Argument` class in the `cucumber-expressions` 
 | ----- | ---- | ----- | ----------- |
 | test_step_result | [TestStepFinished.TestStepResult](#io.cucumber.messages.TestStepFinished.TestStepResult) |  |  |
 | timestamp | [Timestamp](#io.cucumber.messages.Timestamp) |  |  |
-| test_step_id | [string](#string) |  |  |
+| testStepId | [string](#string) |  |  |
 | test_case_started_id | [string](#string) |  |  |
 
 
@@ -1027,7 +1027,7 @@ This message closely matches the `Argument` class in the `cucumber-expressions` 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | timestamp | [Timestamp](#io.cucumber.messages.Timestamp) |  |  |
-| test_step_id | [string](#string) |  |  |
+| testStepId | [string](#string) |  |  |
 | test_case_started_id | [string](#string) |  |  |
 
 

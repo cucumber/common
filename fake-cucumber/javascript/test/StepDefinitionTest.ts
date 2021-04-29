@@ -1,5 +1,5 @@
 import assert from 'assert'
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import ExpressionStepDefinition from '../src/ExpressionStepDefinition'
 import {
   CucumberExpression,
@@ -13,9 +13,11 @@ describe('StepDefinition', () => {
     it('returns null when there is no match', () => {
       const expression = new CucumberExpression('banana', new ParameterTypeRegistry())
       const stepdef = new ExpressionStepDefinition('stepdef-id', expression, null, () => null)
-      const pickleStep = messages.Pickle.PickleStep.create({
+      const pickleStep: messages.PickleStep = {
         text: 'apple',
-      })
+        astNodeIds: [],
+        id: '1',
+      }
       const match = stepdef.match(pickleStep)
       assert.strictEqual(match, null)
     })
@@ -28,9 +30,11 @@ describe('StepDefinition', () => {
         null,
         (cukeCount: number) => cukeCount
       )
-      const pickleStep = messages.Pickle.PickleStep.create({
+      const pickleStep: messages.PickleStep = {
         text: 'I have 7 cukes',
-      })
+        astNodeIds: [],
+        id: '1',
+      }
       const executor = stepdef.match(pickleStep)
       assert.strictEqual(executor.execute(new TestWorld()), 7)
     })
@@ -42,10 +46,7 @@ describe('StepDefinition', () => {
       const stepdef = new ExpressionStepDefinition('stepdef-id', expression, null, () => null)
       const message = stepdef.toMessage()
 
-      assert.strictEqual(
-        message.stepDefinition.pattern.type,
-        messages.StepDefinition.StepDefinitionPattern.StepDefinitionPatternType.REGULAR_EXPRESSION
-      )
+      assert.strictEqual(message.stepDefinition.pattern.type, 'REGULAR_EXPRESSION')
     })
 
     it('generates a StepDefinition object for CucumberExpression', () => {
@@ -53,10 +54,7 @@ describe('StepDefinition', () => {
       const stepdef = new ExpressionStepDefinition('stepdef-id', expression, null, () => null)
       const message = stepdef.toMessage()
 
-      assert.strictEqual(
-        message.stepDefinition.pattern.type,
-        messages.StepDefinition.StepDefinitionPattern.StepDefinitionPatternType.CUCUMBER_EXPRESSION
-      )
+      assert.strictEqual(message.stepDefinition.pattern.type, 'CUCUMBER_EXPRESSION')
     })
   })
 })

@@ -6,7 +6,8 @@ import PredictableSupportCode from './PredictableSupportCode'
 import { compile } from '@cucumber/gherkin'
 import { Query as GherkinQuery } from '@cucumber/gherkin-utils'
 import createMeta from '@cucumber/create-meta'
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
+import { Feature } from '@cucumber/messages'
 import { MessageToNdjsonStream } from '@cucumber/message-streams'
 import AstMaker from './AstMaker'
 import detectImplementation from './detectImplementation'
@@ -32,7 +33,7 @@ export default async function main(
   messageWritable: Writable,
   implementation?: Implementation
 ) {
-  const singleObjectWritable = new SingleObjectWritableStream<readonly unknown[]>()
+  const singleObjectWritable = new SingleObjectWritableStream<readonly Feature[]>()
   await asyncPipeline(jsonReadable, new JSONTransformStream(), singleObjectWritable)
 
   const supportCode = new SupportCode()
@@ -52,22 +53,22 @@ export default async function main(
     )
   )
 
-  gherkinEnvelopeStream.write(
-    messages.Envelope.create({
-      meta: createMeta('@cucumber/json-to-messages', version, process.env),
-    })
-  )
+  const metaEnvelope: messages.Envelope = {
+    meta: createMeta('@cucumber/json-to-messages', version, process.env),
+  }
+  gherkinEnvelopeStream.write(metaEnvelope)
 
   for (const gherkinDocument of gherkinDocuments) {
-    gherkinEnvelopeStream.write(
-      messages.Envelope.create({
-        source: gherkinDocumentToSource(gherkinDocument),
-      })
-    )
-    gherkinEnvelopeStream.write(messages.Envelope.create({ gherkinDocument }))
+    const sourceEnvelope: messages.Envelope = {
+      source: gherkinDocumentToSource(gherkinDocument),
+    }
+    gherkinEnvelopeStream.write(sourceEnvelope)
+    const gherkinDocumentEnvelope: messages.Envelope = { gherkinDocument: gherkinDocument }
+    gherkinEnvelopeStream.write(gherkinDocumentEnvelope)
     const pickles = compile(gherkinDocument, gherkinDocument.uri, supportCode.newId)
     for (const pickle of pickles) {
-      gherkinEnvelopeStream.write(messages.Envelope.create({ pickle }))
+      const pickleEnvelope: messages.Envelope = { pickle }
+      gherkinEnvelopeStream.write(pickleEnvelope)
     }
   }
   gherkinEnvelopeStream.end()

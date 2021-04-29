@@ -12,4 +12,4 @@ clean-messages:
 
 features/%.ndjson: features/%.feature
 	mkdir -p $(@D)
-	./scripts/fake-cucumber.sh --format ndjson $< > $@
+	./scripts/fake-cucumber.sh $< > $@

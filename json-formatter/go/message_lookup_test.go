@@ -16,26 +16,26 @@ var _ = Describe("MessageLookup", func() {
 	})
 
 	Context("MessageLookup.processScenario", func() {
-		var scenario messages.GherkinDocument_Feature_Scenario
+		var scenario messages.Scenario
 
 		BeforeEach(func() {
-			scenario = messages.GherkinDocument_Feature_Scenario{}
+			scenario = messages.Scenario{}
 		})
 
 		When("the scenario contains tagged examples", func() {
 			var (
-				tag     messages.GherkinDocument_Feature_Tag
-				example messages.GherkinDocument_Feature_Scenario_Examples
+				tag     messages.Tag
+				example messages.Examples
 			)
 
 			BeforeEach(func() {
-				tag = messages.GherkinDocument_Feature_Tag{
+				tag = messages.Tag{
 					Id:   "tag-id",
 					Name: "@the-tag",
 				}
 
-				example = messages.GherkinDocument_Feature_Scenario_Examples{
-					Tags: []*messages.GherkinDocument_Feature_Tag{
+				example = messages.Examples{
+					Tags: []*messages.Tag{
 						&tag,
 					},
 				}

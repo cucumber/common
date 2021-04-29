@@ -12,7 +12,6 @@ describe('GherkinLine', () => {
     it('allows any non-space characters in a tag', () => {
       assert.deepStrictEqual(getTags('   @foo:bar  @zap🥒yo'), ['@foo:bar', '@zap🥒yo'])
     })
-
   })
 
   describe('#getTableCells', () => {

@@ -1,5 +1,7 @@
 package io.cucumber.messages;
 
+import io.cucumber.messages.types.Attachment;
+import io.cucumber.messages.types.Envelope;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
@@ -20,39 +22,50 @@ class NdjsonSerializationTest extends MessageSerializationContract {
     }
 
     @Override
-    protected Iterable<Messages.Envelope> makeMessageIterable(InputStream input) {
+    protected Iterable<Envelope> makeMessageIterable(InputStream input) {
         return new NdjsonToMessageIterable(input);
     }
 
     @Test
     void ignores_missing_fields() {
         InputStream input = new ByteArrayInputStream("{\"unused\": 99}\n".getBytes(UTF_8));
-        Iterable<Messages.Envelope> incomingMessages = makeMessageIterable(input);
-        Iterator<Messages.Envelope> iterator = incomingMessages.iterator();
+        Iterable<Envelope> incomingMessages = makeMessageIterable(input);
+        Iterator<Envelope> iterator = incomingMessages.iterator();
         assertTrue(iterator.hasNext());
-        Messages.Envelope envelope = iterator.next();
-        assertEquals(Messages.Envelope.newBuilder().build(), envelope);
+        Envelope envelope = iterator.next();
+        assertEquals(new Envelope(), envelope);
         assertFalse(iterator.hasNext());
     }
 
     @Test
     void ignores_empty_lines() {
         InputStream input = new ByteArrayInputStream("{}\n{}\n\n{}\n".getBytes(UTF_8));
-        Iterable<Messages.Envelope> incomingMessages = makeMessageIterable(input);
-        Iterator<Messages.Envelope> iterator = incomingMessages.iterator();
-        for(int i = 0; i < 3; i++) {
+        Iterable<Envelope> incomingMessages = makeMessageIterable(input);
+        Iterator<Envelope> iterator = incomingMessages.iterator();
+        for (int i = 0; i < 3; i++) {
             assertTrue(iterator.hasNext());
-            Messages.Envelope envelope = iterator.next();
-            assertEquals(Messages.Envelope.newBuilder().build(), envelope);
+            Envelope envelope = iterator.next();
+            assertEquals(new Envelope(), envelope);
         }
+        assertFalse(iterator.hasNext());
+    }
+
+    @Test
+    void handles_enums() {
+        InputStream input = new ByteArrayInputStream("{\"attachment\":{\"contentEncoding\":\"BASE64\"}}\n".getBytes(UTF_8));
+        Iterable<Envelope> incomingMessages = makeMessageIterable(input);
+        Iterator<Envelope> iterator = incomingMessages.iterator();
+        assertTrue(iterator.hasNext());
+        Envelope envelope = iterator.next();
+        assertEquals(Attachment.ContentEncoding.BASE_64, envelope.getAttachment().getContentEncoding());
         assertFalse(iterator.hasNext());
     }
 
     @Test
     void includes_offending_line_in_error_message() {
         InputStream input = new ByteArrayInputStream("BLA BLA".getBytes(UTF_8));
-        Iterable<Messages.Envelope> incomingMessages = makeMessageIterable(input);
-        Iterator<Messages.Envelope> iterator = incomingMessages.iterator();
+        Iterable<Envelope> incomingMessages = makeMessageIterable(input);
+        Iterator<Envelope> iterator = incomingMessages.iterator();
 
         RuntimeException exception = assertThrows(RuntimeException.class, () -> assertTrue(iterator.hasNext()));
         assertEquals(exception.getMessage(), "Not JSON: BLA BLA");

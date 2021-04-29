@@ -1,4 +1,4 @@
-LANGUAGES ?= perl go javascript ruby java elixir python
+LANGUAGES ?= go javascript ruby java python
 include default.mk
 
 post-release: print-documentation-instructions

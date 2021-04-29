@@ -1,10 +1,10 @@
 import React from 'react'
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import isNumber from './isNumber'
 import HighLight from '../app/HighLight'
 
 interface IProps {
-  rows: messages.GherkinDocument.Feature.ITableRow[]
+  rows: readonly messages.TableRow[]
 }
 
 const TableBody: React.FunctionComponent<IProps> = ({ rows }) => {

@@ -1,5 +1,5 @@
 import { ISupportCodeExecutor } from '@cucumber/fake-cucumber'
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 
 class SupportCodeExecutor implements ISupportCodeExecutor {
   constructor(public readonly stepDefinitionId: string) {}
@@ -8,7 +8,7 @@ class SupportCodeExecutor implements ISupportCodeExecutor {
     // no-op
   }
 
-  argsToMessages(): messages.TestCase.TestStep.StepMatchArgumentsList.IStepMatchArgument[] {
+  argsToMessages(): messages.StepMatchArgument[] {
     return []
   }
 }

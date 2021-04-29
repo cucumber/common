@@ -9,7 +9,7 @@ import {
 /*
  * text := whitespace | ')' | '}' | .
  */
-function parseText(expression: string, tokens: ReadonlyArray<Token>, current: number) {
+function parseText(expression: string, tokens: readonly Token[], current: number) {
   const token = tokens[current]
   switch (token.type) {
     case TokenType.whiteSpace:
@@ -35,7 +35,7 @@ function parseText(expression: string, tokens: ReadonlyArray<Token>, current: nu
 /*
  * parameter := '{' + name* + '}'
  */
-function parseName(expression: string, tokens: ReadonlyArray<Token>, current: number) {
+function parseName(expression: string, tokens: readonly Token[], current: number) {
   const token = tokens[current]
   switch (token.type) {
     case TokenType.whiteSpace:
@@ -84,11 +84,7 @@ optionalSubParsers.push(parseOptional, parseParameter, parseText)
 /*
  * alternation := alternative* + ( '/' + alternative* )+
  */
-function parseAlternativeSeparator(
-  expression: string,
-  tokens: ReadonlyArray<Token>,
-  current: number
-) {
+function parseAlternativeSeparator(expression: string, tokens: readonly Token[], current: number) {
   if (!lookingAt(tokens, current, TokenType.alternation)) {
     return { consumed: 0 }
   }
@@ -99,7 +95,7 @@ function parseAlternativeSeparator(
   }
 }
 
-const alternativeParsers: ReadonlyArray<Parser> = [
+const alternativeParsers: readonly Parser[] = [
   parseAlternativeSeparator,
   parseOptional,
   parseParameter,
@@ -171,12 +167,12 @@ export default class CucumberExpressionParser {
 }
 
 interface Parser {
-  (expression: string, tokens: ReadonlyArray<Token>, current: number): Result
+  (expression: string, tokens: readonly Token[], current: number): Result
 }
 
 interface Result {
   readonly consumed: number
-  readonly ast?: ReadonlyArray<Node>
+  readonly ast?: readonly Node[]
 }
 
 function parseBetween(
@@ -211,8 +207,8 @@ function parseBetween(
 
 function parseToken(
   expression: string,
-  parsers: ReadonlyArray<Parser>,
-  tokens: ReadonlyArray<Token>,
+  parsers: readonly Parser[],
+  tokens: readonly Token[],
   startAt: number
 ): Result {
   for (let i = 0; i < parsers.length; i++) {
@@ -228,10 +224,10 @@ function parseToken(
 
 function parseTokensUntil(
   expression: string,
-  parsers: ReadonlyArray<Parser>,
-  tokens: ReadonlyArray<Token>,
+  parsers: readonly Parser[],
+  tokens: readonly Token[],
   startAt: number,
-  endTokens: ReadonlyArray<TokenType>
+  endTokens: readonly TokenType[]
 ): Result {
   let current = startAt
   const size = tokens.length
@@ -253,14 +249,14 @@ function parseTokensUntil(
 }
 
 function lookingAtAny(
-  tokens: ReadonlyArray<Token>,
+  tokens: readonly Token[],
   at: number,
-  tokenTypes: ReadonlyArray<TokenType>
+  tokenTypes: readonly TokenType[]
 ): boolean {
   return tokenTypes.some((tokenType) => lookingAt(tokens, at, tokenType))
 }
 
-function lookingAt(tokens: ReadonlyArray<Token>, at: number, token: TokenType): boolean {
+function lookingAt(tokens: readonly Token[], at: number, token: TokenType): boolean {
   if (at < 0) {
     // If configured correctly this will never happen
     // Keep for completeness
@@ -275,8 +271,8 @@ function lookingAt(tokens: ReadonlyArray<Token>, at: number, token: TokenType): 
 function splitAlternatives(
   start: number,
   end: number,
-  alternation: ReadonlyArray<Node>
-): ReadonlyArray<Node> {
+  alternation: readonly Node[]
+): readonly Node[] {
   const separators: Node[] = []
   const alternatives: Node[][] = []
   let alternative: Node[] = []
@@ -296,9 +292,9 @@ function splitAlternatives(
 function createAlternativeNodes(
   start: number,
   end: number,
-  separators: ReadonlyArray<Node>,
-  alternatives: ReadonlyArray<ReadonlyArray<Node>>
-): ReadonlyArray<Node> {
+  separators: readonly Node[],
+  alternatives: readonly ReadonlyArray<Node>[]
+): readonly Node[] {
   const nodes: Node[] = []
 
   for (let i = 0; i < alternatives.length; i++) {

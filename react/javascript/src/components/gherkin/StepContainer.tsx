@@ -1,10 +1,9 @@
 import React from 'react'
-import { messages } from '@cucumber/messages'
 
 import StatusIcon from './StatusIcon'
-
+import * as messages from '@cucumber/messages'
 interface IProps {
-  status: messages.TestStepFinished.TestStepResult.Status
+  status: messages.TestStepResultStatus
 }
 
 const StepContainer: React.FunctionComponent<IProps> = ({ status, children }) => {

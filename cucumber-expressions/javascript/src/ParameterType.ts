@@ -29,7 +29,7 @@ export default class ParameterType<T> {
     return !unescapedTypeName.match(ILLEGAL_PARAMETER_NAME_PATTERN)
   }
 
-  public regexpStrings: ReadonlyArray<string>
+  public regexpStrings: readonly string[]
 
   /**
    * @param name {String} the name of the type
@@ -41,7 +41,7 @@ export default class ParameterType<T> {
    */
   constructor(
     public readonly name: string,
-    regexps: ReadonlyArray<RegExp> | ReadonlyArray<string> | RegExp | string,
+    regexps: readonly RegExp[] | readonly string[] | RegExp | string,
     private readonly type: any,
     transform: (...match: string[]) => T,
     public readonly useForSnippets: boolean,
