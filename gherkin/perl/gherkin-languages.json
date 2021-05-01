@@ -2203,45 +2203,6 @@
       "Ja "
     ]
   },
-  "md": {
-    "and": [
-      "* "
-    ],
-    "background": [
-      "## Background: "
-    ],
-    "but": [
-      "* "
-    ],
-    "commentPrefix": "<!--",
-    "examples": [
-      "### "
-    ],
-    "feature": [
-      "# "
-    ],
-    "given": [
-      "* "
-    ],
-    "name": "Markdown",
-    "native": "Markdown",
-    "rule": [
-      "UNSUPPORTED"
-    ],
-    "scenario": [
-      "## "
-    ],
-    "scenarioOutline": [
-      "## "
-    ],
-    "then": [
-      "* "
-    ],
-    "titleKeywordSeparator": "",
-    "when": [
-      "* "
-    ]
-  },
   "mk-Cyrl": {
     "and": [
       "* ",
