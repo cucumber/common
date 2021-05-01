@@ -3,6 +3,9 @@ package io.cucumber.gherkin;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.PrimitiveIterator;
+import java.util.Scanner;
+
+import static io.cucumber.gherkin.GherkinLanguageConstants.COMMENT_PREFIX;
 import static io.cucumber.gherkin.GherkinLanguageConstants.TAG_PREFIX;
 import static io.cucumber.gherkin.StringUtils.ltrim;
 import static io.cucumber.gherkin.StringUtils.ltrimKeepNewLines;
@@ -59,9 +62,9 @@ public class GherkinLine implements IGherkinLine {
     }
 
     @Override
-    public List<GherkinLineSpan> getTags(String commentPrefix) {
+    public List<GherkinLineSpan> getTags() {
 
-        String uncommentedLine = trimmedLineText.split("\\s" + commentPrefix, 2)[0];
+        String uncommentedLine = trimmedLineText.split("\\s" + COMMENT_PREFIX, 2)[0];
         List<GherkinLineSpan> tags = new ArrayList<>();
         int indexInUncommentedLine = 0;
 
@@ -136,12 +139,12 @@ public class GherkinLine implements IGherkinLine {
     }
 
     @Override
-    public boolean startsWithTitleKeyword(String text, String titleKeywordSeparator) {
+    public boolean startsWithTitleKeyword(String text) {
         int textLength = text.length();
         return trimmedLineText.length() > textLength &&
                 trimmedLineText.startsWith(text) &&
-                trimmedLineText.substring(textLength, textLength + titleKeywordSeparator.length())
-                        .equals(titleKeywordSeparator);
+                trimmedLineText.substring(textLength, textLength + GherkinLanguageConstants.TITLE_KEYWORD_SEPARATOR.length())
+                        .equals(GherkinLanguageConstants.TITLE_KEYWORD_SEPARATOR);
     }
 
 }

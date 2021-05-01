@@ -13,7 +13,6 @@ import static org.junit.Assert.assertThrows;
 public class GherkinLineTest {
 
     private final int line = 12;
-    private final GherkinDialect dialect = new GherkinDialectProvider().getDefaultDialect();
 
     @Test
     public void allows_any_non_space_characters_in_a_tag() {
@@ -30,7 +29,7 @@ public class GherkinLineTest {
     @Test
     public void finds_tags() {
         GherkinLine gherkinLine = new GherkinLine("@this @is @a @tag", line);
-        List<GherkinLineSpan> gherkinLineSpans = gherkinLine.getTags(dialect.getCommentPrefix());
+        List<GherkinLineSpan> gherkinLineSpans = gherkinLine.getTags();
 
         assertEquals(asList(
                 new GherkinLineSpan(1, "@this"),
@@ -43,19 +42,19 @@ public class GherkinLineTest {
     @Test
     public void throws_on_tags_with_spaces() {
         GherkinLine gherkinLine = new GherkinLine("@this @is @a space separated @tag", line);
-        assertThrows(ParserException.class, () -> gherkinLine.getTags(dialect.getCommentPrefix()));
+        assertThrows(ParserException.class, gherkinLine::getTags);
     }
 
     @Test
     public void throws_on_tags_with_leading_spaces() {
         GherkinLine gherkinLine = new GherkinLine("@ leadingSpace", line);
-        assertThrows(ParserException.class, () -> gherkinLine.getTags(dialect.getCommentPrefix()));
+        assertThrows(ParserException.class, gherkinLine::getTags);
     }
 
     @Test
     public void ignores_empty_tag() {
         GherkinLine gherkinLine = new GherkinLine("@", line);
-        List<GherkinLineSpan> gherkinLineSpans = gherkinLine.getTags(dialect.getCommentPrefix());
+        List<GherkinLineSpan> gherkinLineSpans = gherkinLine.getTags();
 
         assertEquals(Collections.emptyList(), gherkinLineSpans);
     }
@@ -63,7 +62,7 @@ public class GherkinLineTest {
     @Test
     public void ignores_empty_tags() {
         GherkinLine gherkinLine = new GherkinLine("@@", line);
-        List<GherkinLineSpan> gherkinLineSpans = gherkinLine.getTags(dialect.getCommentPrefix());
+        List<GherkinLineSpan> gherkinLineSpans = gherkinLine.getTags();
 
         assertEquals(Collections.emptyList(), gherkinLineSpans);
     }
@@ -71,7 +70,7 @@ public class GherkinLineTest {
     @Test
     public void finds_tags__trim_whitespace() {
         GherkinLine gherkinLine = new GherkinLine("    @this @is  @a @tag  ", line);
-        List<GherkinLineSpan> gherkinLineSpans = gherkinLine.getTags(dialect.getCommentPrefix());
+        List<GherkinLineSpan> gherkinLineSpans = gherkinLine.getTags();
 
         assertEquals(asList(
                 new GherkinLineSpan(5, "@this"),
@@ -84,7 +83,7 @@ public class GherkinLineTest {
     @Test
     public void finds_tags__comment_inside_tag() {
         GherkinLine gherkinLine = new GherkinLine("@this @is #acomment  ", line);
-        List<GherkinLineSpan> gherkinLineSpans = gherkinLine.getTags(dialect.getCommentPrefix());
+        List<GherkinLineSpan> gherkinLineSpans = gherkinLine.getTags();
 
         assertEquals(asList(
                 new GherkinLineSpan(1, "@this"),
@@ -95,7 +94,7 @@ public class GherkinLineTest {
     @Test
     public void finds_tags__commented_before_tag() {
         GherkinLine gherkinLine = new GherkinLine("@this @is #@a commented tag", line);
-        List<GherkinLineSpan> gherkinLineSpans = gherkinLine.getTags(dialect.getCommentPrefix());
+        List<GherkinLineSpan> gherkinLineSpans = gherkinLine.getTags();
 
         assertEquals(asList(
                 new GherkinLineSpan(1, "@this"),
@@ -106,7 +105,7 @@ public class GherkinLineTest {
     @Test
     public void finds_tags__commented_multiple_tags() {
         GherkinLine gherkinLine = new GherkinLine("@this @is #@a @commented @sequence of tags", line);
-        List<GherkinLineSpan> gherkinLineSpans = gherkinLine.getTags(dialect.getCommentPrefix());
+        List<GherkinLineSpan> gherkinLineSpans = gherkinLine.getTags();
 
         assertEquals(asList(
                 new GherkinLineSpan(1, "@this"),

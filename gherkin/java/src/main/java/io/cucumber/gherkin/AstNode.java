@@ -18,7 +18,11 @@ public class AstNode {
     }
 
     public void add(RuleType ruleType, Object obj) {
-        List<Object> items = subItems.computeIfAbsent(ruleType, k -> new ArrayList<>());
+        List<Object> items = subItems.get(ruleType);
+        if (items == null) {
+            items = new ArrayList<Object>();
+            subItems.put(ruleType, items);
+        }
         items.add(obj);
     }
 
