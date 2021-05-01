@@ -1,7 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
   "additionalProperties": false,
-  "description": "//// Common types\n\nFrom https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/timestamp.proto",
   "required": [
     "seconds",
     "nanos"

@@ -13,7 +13,7 @@
   "scripts": {
     "prepare": "make src/messages.ts",
     "test": "mocha",
-    "prepublishOnly": "tsc --build tsconfig.build.json && copyfiles src/messages.js src/messages.d.ts dist"
+    "prepublishOnly": "tsc --build tsconfig.build.json"
   },
   "dependencies": {
     "@types/uuid": "^8.3.0",

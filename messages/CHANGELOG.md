@@ -15,6 +15,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
+* [Go, Java, JavaScript, Ruby] The library no longer depends on protocol buffers.
+  ([#1414](https://github.com/cucumber/cucumber/pull/1414)
+   [aslakhellesoy])
+
 ### Deprecated
 
 ### Removed
