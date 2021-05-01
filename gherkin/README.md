@@ -84,21 +84,19 @@ var gherkinDocument = parser.Parse(@"Drive:\PathToGherkinDocument\document.featu
 
 ```ruby
 # Ruby
-require 'cucumber/messages'
 require 'gherkin/parser'
 require 'gherkin/pickles/compiler'
 
-source = Cucumber::Messages::Source.new(
+source = {
   uri: 'uri_of_the_feature.feature',
-  data: "Feature: ...",
-  media_type: 'text/x.cucumber.gherkin+plain'
-)
+  data: 'Feature: ...',
+  mediaType: 'text/x.cucumber.gherkin+plain'
+}
 
-source_document = Gherkin::Parser.new.parse(source.data)
-gherkin_document = Cucumber::Messages::GherkinDocument.new(source_document)
+gherkin_document = Gherkin::Parser.new.parse(source[:data])
 id_generator = Cucumber::Messages::IdGenerator::UUID.new
 
-pickles = Gherkin::Pickles::Compiler.new(id_generator).compile(gherkin_document, source_document)
+pickles = Gherkin::Pickles::Compiler.new(id_generator).compile(gherkin_document, source)
 ```
 
 ```javascript
