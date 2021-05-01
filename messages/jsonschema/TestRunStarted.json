@@ -1,0 +1,15 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "additionalProperties": false,
+  "required": [
+    "timestamp"
+  ],
+  "properties": {
+    "timestamp": {
+      "$ref": "./Timestamp.json",
+      "additionalProperties": false,
+      "type": "object"
+    }
+  },
+  "type": "object"
+}

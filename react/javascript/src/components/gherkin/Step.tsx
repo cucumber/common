@@ -2,7 +2,7 @@ import React from 'react'
 import DataTable from './DataTable'
 import Keyword from './Keyword'
 import DocString from './DocString'
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import CucumberQueryContext from '../../CucumberQueryContext'
 import GherkinQueryContext from '../../GherkinQueryContext'
 import ErrorMessage from './ErrorMessage'
@@ -11,7 +11,7 @@ import Attachment from './Attachment'
 import HighLight from '../app/HighLight'
 
 interface IProps {
-  step: messages.GherkinDocument.Feature.IStep
+  step: messages.Step
   renderStepMatchArguments: boolean
   renderMessage: boolean
 }

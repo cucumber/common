@@ -1,3 +1,4 @@
+LANGUAGES ?= javascript go java ruby python
 include default.mk
 
 ifndef ALPINE

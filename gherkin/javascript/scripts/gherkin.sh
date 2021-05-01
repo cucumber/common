@@ -4,10 +4,10 @@
 # code has not been compiled. Used in acceptance tests for gherkin/javascript only
 #
 
-set -eu -o pipefail
+set -e -o pipefail
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
-if [[ -f "${DIR}/../../../gherkin-streams/javascript/dist/src/cli/main.js" ]]; then
+if [[ -f "${DIR}/../../../gherkin-streams/javascript/dist/src/cli/main.js" ]] && [[ -z ${GHERKIN_TYPESCRIPT} ]]; then
   ${DIR}/../../../gherkin-streams/javascript/bin/gherkin $*
 else
   echo -e "\033[0;31m*** TypeScript sources not compiled. Running with ts-node which is considerably slower. ***\033[0m" 1>&2

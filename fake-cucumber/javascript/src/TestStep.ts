@@ -1,11 +1,11 @@
-import { messages, TimeConversion } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import { EnvelopeListener, ISupportCodeExecutor, ITestStep, IWorld } from './types'
 import makeAttach from './makeAttach'
 import IClock from './IClock'
 import IStopwatch from './IStopwatch'
 import { MakeErrorMessage } from './ErrorMessageGenerator'
 
-const { millisecondsToDuration, millisecondsSinceEpochToTimestamp } = TimeConversion
+const { millisecondsToDuration, millisecondsSinceEpochToTimestamp } = messages.TimeConversion
 
 export default abstract class TestStep implements ITestStep {
   constructor(
@@ -19,13 +19,13 @@ export default abstract class TestStep implements ITestStep {
     private readonly makeErrorMessage: MakeErrorMessage
   ) {}
 
-  public abstract toMessage(): messages.TestCase.ITestStep
+  public abstract toMessage(): messages.TestStep
 
   public async execute(
     world: IWorld,
     testCaseStartedId: string,
     listener: EnvelopeListener
-  ): Promise<messages.TestStepFinished.ITestStepResult> {
+  ): Promise<messages.TestStepResult> {
     this.emitTestStepStarted(testCaseStartedId, listener)
 
     const start = this.stopwatch.stopwatchNow()
@@ -35,10 +35,11 @@ export default abstract class TestStep implements ITestStep {
 
       return this.emitTestStepFinished(
         testCaseStartedId,
-        new messages.TestStepFinished.TestStepResult({
+        {
           duration: duration,
-          status: messages.TestStepFinished.TestStepResult.Status.UNDEFINED,
-        }),
+          status: messages.TestStepResultStatus.UNDEFINED,
+          willBeRetried: false,
+        },
         listener
       )
     }
@@ -48,10 +49,11 @@ export default abstract class TestStep implements ITestStep {
 
       return this.emitTestStepFinished(
         testCaseStartedId,
-        new messages.TestStepFinished.TestStepResult({
+        {
           duration: duration,
-          status: messages.TestStepFinished.TestStepResult.Status.AMBIGUOUS,
-        }),
+          status: messages.TestStepResultStatus.AMBIGUOUS,
+          willBeRetried: false,
+        },
         listener
       )
     }
@@ -67,13 +69,14 @@ export default abstract class TestStep implements ITestStep {
       const duration = millisecondsToDuration(finish - start)
       return this.emitTestStepFinished(
         testCaseStartedId,
-        new messages.TestStepFinished.TestStepResult({
+        {
           duration,
           status:
             result === 'pending'
-              ? messages.TestStepFinished.TestStepResult.Status.PENDING
-              : messages.TestStepFinished.TestStepResult.Status.PASSED,
-        }),
+              ? messages.TestStepResultStatus.PENDING
+              : messages.TestStepResultStatus.PASSED,
+          willBeRetried: false,
+        },
         listener
       )
     } catch (error) {
@@ -83,58 +86,53 @@ export default abstract class TestStep implements ITestStep {
       const duration = millisecondsToDuration(finish - start)
       return this.emitTestStepFinished(
         testCaseStartedId,
-        new messages.TestStepFinished.TestStepResult({
+        {
           duration,
-          status: messages.TestStepFinished.TestStepResult.Status.FAILED,
+          status: messages.TestStepResultStatus.FAILED,
+          willBeRetried: false,
           message,
-        }),
+        },
         listener
       )
     }
   }
 
-  public skip(
-    listener: EnvelopeListener,
-    testCaseStartedId: string
-  ): messages.TestStepFinished.ITestStepResult {
+  public skip(listener: EnvelopeListener, testCaseStartedId: string): messages.TestStepResult {
     this.emitTestStepStarted(testCaseStartedId, listener)
     return this.emitTestStepFinished(
       testCaseStartedId,
-      new messages.TestStepFinished.TestStepResult({
+      {
         duration: millisecondsToDuration(0),
-        status: messages.TestStepFinished.TestStepResult.Status.SKIPPED,
-      }),
+        status: messages.TestStepResultStatus.SKIPPED,
+        willBeRetried: false,
+      },
       listener
     )
   }
 
   protected emitTestStepStarted(testCaseStartedId: string, listener: EnvelopeListener) {
-    listener(
-      new messages.Envelope({
-        testStepStarted: new messages.TestStepStarted({
-          testCaseStartedId,
-          testStepId: this.id,
-          timestamp: millisecondsSinceEpochToTimestamp(this.clock.clockNow()),
-        }),
-      })
-    )
+    listener({
+      testStepStarted: {
+        testCaseStartedId: testCaseStartedId,
+        testStepId: this.id,
+        timestamp: millisecondsSinceEpochToTimestamp(this.clock.clockNow()),
+      },
+    })
   }
 
   protected emitTestStepFinished(
     testCaseStartedId: string,
-    testStepResult: messages.TestStepFinished.ITestStepResult,
+    testStepResult: messages.TestStepResult,
     listener: EnvelopeListener
-  ): messages.TestStepFinished.ITestStepResult {
-    listener(
-      new messages.Envelope({
-        testStepFinished: new messages.TestStepFinished({
-          testCaseStartedId,
-          testStepId: this.id,
-          testStepResult,
-          timestamp: millisecondsSinceEpochToTimestamp(this.clock.clockNow()),
-        }),
-      })
-    )
+  ): messages.TestStepResult {
+    listener({
+      testStepFinished: {
+        testCaseStartedId: testCaseStartedId,
+        testStepId: this.id,
+        testStepResult: testStepResult,
+        timestamp: millisecondsSinceEpochToTimestamp(this.clock.clockNow()),
+      },
+    })
     return testStepResult
   }
 }

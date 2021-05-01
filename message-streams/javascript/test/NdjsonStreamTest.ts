@@ -1,28 +1,36 @@
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import { MessageToNdjsonStream } from '../src'
 import assert from 'assert'
 import NdjsonToMessageStream from '../src/NdjsonToMessageStream'
 import verifyStreamContract from './verifyStreamContract'
 import toArray from './toArray'
+import { Envelope } from '@cucumber/messages'
 
 describe('NdjsonStream', () => {
-  const makeToMessageStream = () =>
-    new NdjsonToMessageStream(messages.Envelope.fromObject.bind(messages.Envelope))
+  const makeToMessageStream = () => new NdjsonToMessageStream()
   const makeFromMessageStream = () => new MessageToNdjsonStream()
   verifyStreamContract(makeFromMessageStream, makeToMessageStream)
 
   it('converts a buffer stream written byte by byte', (cb) => {
     const stream = makeToMessageStream()
-    const envelope = messages.Envelope.create({
-      testStepFinished: messages.TestStepFinished.create({
-        testStepResult: messages.TestStepFinished.TestStepResult.create({
-          status: messages.TestStepFinished.TestStepResult.Status.UNKNOWN,
-        }),
-      }),
-    })
-    const json = JSON.stringify(envelope.toJSON())
+    const envelope: messages.Envelope = {
+      testStepFinished: {
+        testStepResult: {
+          status: messages.TestStepResultStatus.UNKNOWN,
+          duration: { nanos: 0, seconds: 0 },
+          willBeRetried: false,
+        },
+        testCaseStartedId: '1',
+        testStepId: '2',
+        timestamp: {
+          seconds: 0,
+          nanos: 0,
+        },
+      },
+    }
+    const json = JSON.stringify(envelope)
     stream.on('error', cb)
-    stream.on('data', (receivedEnvelope: messages.IEnvelope) => {
+    stream.on('data', (receivedEnvelope: messages.Envelope) => {
       assert.deepStrictEqual(envelope, receivedEnvelope)
       cb()
     })
@@ -37,92 +45,41 @@ describe('NdjsonStream', () => {
     const stream = new MessageToNdjsonStream()
     stream.on('data', (json: string) => {
       const ob = JSON.parse(json)
-      assert.deepStrictEqual(ob, {
+      const expected: messages.Envelope = {
         testStepFinished: {
           testStepResult: {
-            status: 'UNKNOWN',
+            status: messages.TestStepResultStatus.UNKNOWN,
+            duration: { nanos: 0, seconds: 0 },
+            willBeRetried: false,
+          },
+          testCaseStartedId: '1',
+          testStepId: '2',
+          timestamp: {
+            seconds: 0,
+            nanos: 0,
           },
         },
-      })
+      }
+      assert.deepStrictEqual(ob, expected)
       cb()
     })
-    stream.write(
-      messages.Envelope.create({
-        testStepFinished: messages.TestStepFinished.create({
-          testStepResult: messages.TestStepFinished.TestStepResult.create({
-            status: messages.TestStepFinished.TestStepResult.Status.UNKNOWN,
-          }),
-        }),
-      })
-    )
-  })
-
-  it('converts messages to JSON with undefined arrays omitted', (cb) => {
-    const stream = new MessageToNdjsonStream()
-    stream.on('data', (json: string) => {
-      const ob = JSON.parse(json)
-      assert.deepStrictEqual(ob, { testCase: { pickleId: '123' } })
-      cb()
-    })
-    stream.write(
-      messages.Envelope.create({
-        testCase: messages.TestCase.create({
-          pickleId: '123',
-        }),
-      })
-    )
-  })
-
-  it('converts messages to JSON with undefined strings omitted', (cb) => {
-    const stream = new MessageToNdjsonStream()
-    stream.on('data', (json: string) => {
-      const ob = JSON.parse(json)
-      assert.deepStrictEqual(ob, { testCase: {} })
-      cb()
-    })
-    stream.write(
-      messages.Envelope.create({
-        testCase: messages.TestCase.create({ pickleId: '' }),
-      })
-    )
-  })
-
-  it('converts messages to JSON with undefined numbers omitted', (cb) => {
-    const stream = new MessageToNdjsonStream()
-    stream.on('data', (json: string) => {
-      const ob = JSON.parse(json)
-      assert.deepStrictEqual(ob, {
-        gherkinDocument: {
-          feature: {
-            location: {
-              column: 1,
-            },
-          },
+    const envelope: messages.Envelope = {
+      testStepFinished: {
+        testStepResult: {
+          status: messages.TestStepResultStatus.UNKNOWN,
+          duration: { nanos: 0, seconds: 0 },
+          willBeRetried: false,
         },
-      })
-      cb()
-    })
-    stream.write(
-      messages.Envelope.create({
-        gherkinDocument: messages.GherkinDocument.create({
-          feature: messages.GherkinDocument.Feature.create({
-            location: messages.Location.create({
-              column: 1,
-            }),
-          }),
-        }),
-      })
-    )
-  })
+        testCaseStartedId: '1',
+        testStepId: '2',
+        timestamp: {
+          seconds: 0,
+          nanos: 0,
+        },
+      },
+    }
 
-  it('ignores missing fields', async () => {
-    const toMessageStream = makeToMessageStream()
-    toMessageStream.write('{"unused": 999}\n')
-    toMessageStream.end()
-
-    const incomingMessages = await toArray(toMessageStream)
-
-    assert.deepStrictEqual(incomingMessages, [messages.Envelope.create({})])
+    stream.write(envelope)
   })
 
   it('ignores empty lines', async () => {
@@ -132,23 +89,19 @@ describe('NdjsonStream', () => {
 
     const incomingMessages = await toArray(toMessageStream)
 
-    assert.deepStrictEqual(incomingMessages, [
-      messages.Envelope.create({}),
-      messages.Envelope.create({}),
-      messages.Envelope.create({}),
-    ])
+    assert.deepStrictEqual(incomingMessages, [new Envelope(), new Envelope(), new Envelope()])
   })
 
   it('includes offending line in error message', async () => {
     const toMessageStream = makeToMessageStream()
     await assert.rejects(
       async () => {
-        toMessageStream.write('{}\nBLA BLA\n\n{}\n')
+        toMessageStream.write('{}\n  BLA BLA\n\n{}\n')
         toMessageStream.end()
         await toArray(toMessageStream)
       },
       {
-        message: 'Not JSON: BLA BLA',
+        message: "Unexpected token B in JSON at position 2\nNot JSON: '  BLA BLA'\n",
       }
     )
   })

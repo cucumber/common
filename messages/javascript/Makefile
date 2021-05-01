@@ -1,13 +1,11 @@
 include default.mk
 
-.codegen: src/messages.d.ts
+JSONSCHEMAS = $(shell find ../jsonschema -name "*.json")
 
-src/messages.js: messages.proto
-	npm run pbjs
+.codegen: src/messages.ts
 
-src/messages.d.ts: src/messages.js
-	npm run pbts
+src/messages.ts: $(JSONSCHEMAS) ../jsonschema/scripts/codegen.rb
+	ruby ../jsonschema/scripts/codegen.rb TypeScript ../jsonschema > $@
 
 clean:
-	rm -rf dist src/messages.js src/messages.d.ts
-
+	rm -rf dist src/types/*.ts

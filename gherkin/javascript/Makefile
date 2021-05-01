@@ -27,23 +27,39 @@ src/Parser.ts: gherkin.berp gherkin-javascript.razor
 
 acceptance/testdata/%.feature.ast.ndjson: testdata/%.feature testdata/%.feature.ast.ndjson
 	mkdir -p $(@D)
-	$(GHERKIN) --no-source --no-pickles --format ndjson --predictable-ids $< | jq --sort-keys --compact-output "." > $@
+	$(GHERKIN) --no-source --no-pickles --predictable-ids $< | jq --sort-keys --compact-output "." > $@
+ifndef GOLDEN
 	diff --unified <(jq "." $<.ast.ndjson) <(jq "." $@)
+else
+	cp $@ $(word 2,$^)
+endif
 
 acceptance/testdata/%.feature.pickles.ndjson: testdata/%.feature testdata/%.feature.pickles.ndjson
 	mkdir -p $(@D)
-	$(GHERKIN) --no-source --no-ast --format ndjson --predictable-ids $< | jq --sort-keys --compact-output "." > $@
+	$(GHERKIN) --no-source --no-ast --predictable-ids $< | jq --sort-keys --compact-output "." > $@
+ifndef GOLDEN
 	diff --unified <(jq "." $<.pickles.ndjson) <(jq "." $@)
+else
+	cp $@ $(word 2,$^)
+endif
 
 acceptance/testdata/%.feature.source.ndjson: testdata/%.feature testdata/%.feature.source.ndjson
 	mkdir -p $(@D)
-	$(GHERKIN) --no-ast --no-pickles --format ndjson --predictable-ids $< | jq --sort-keys --compact-output "." > $@
+	$(GHERKIN) --no-ast --no-pickles --predictable-ids $< | jq --sort-keys --compact-output "." > $@
+ifndef GOLDEN
 	diff --unified <(jq "." $<.source.ndjson) <(jq "." $@)
+else
+	cp $@ $(word 2,$^)
+endif
 
 acceptance/testdata/%.feature.errors.ndjson: testdata/%.feature testdata/%.feature.errors.ndjson
 	mkdir -p $(@D)
-	$(GHERKIN) --no-source --format ndjson --predictable-ids $< | jq --sort-keys --compact-output "." > $@
+	$(GHERKIN) --no-source --predictable-ids $< | jq --sort-keys --compact-output "." > $@
+ifndef GOLDEN
 	diff --unified <(jq "." $<.errors.ndjson) <(jq "." $@)
+else
+	cp $@ $(word 2,$^)
+endif
 
 clean:
 	rm -rf acceptance

@@ -1,4 +1,4 @@
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import elasticlunr from 'elasticlunr'
 
 interface SearchableStep {
@@ -18,9 +18,9 @@ export default class StepSearch {
     ctx.setRef('id')
     ctx.saveDocument(true)
   })
-  private stepById = new Map<string, messages.GherkinDocument.Feature.IStep>()
+  private stepById = new Map<string, messages.Step>()
 
-  public add(step: messages.GherkinDocument.Feature.IStep): void {
+  public add(step: messages.Step): void {
     const doc = {
       id: step.id,
       keyword: step.keyword,
@@ -33,7 +33,7 @@ export default class StepSearch {
     this.stepById.set(step.id, step)
   }
 
-  public search(query: string): messages.GherkinDocument.Feature.IStep[] {
+  public search(query: string): messages.Step[] {
     const results = this.index.search(query, {
       fields: {
         keyword: { bool: 'OR', boost: 1 },
@@ -46,11 +46,11 @@ export default class StepSearch {
     return results.map((result) => this.stepById.get(result.ref))
   }
 
-  private docStringToString(step: messages.GherkinDocument.Feature.IStep): string {
+  private docStringToString(step: messages.Step): string {
     return step.docString ? step.docString.content : ''
   }
 
-  private dataTableToString(step: messages.GherkinDocument.Feature.IStep): string {
+  private dataTableToString(step: messages.Step): string {
     return step.dataTable
       ? step.dataTable.rows.map((row) => row.cells.map((cell) => cell.value).join(' ')).join(' ')
       : undefined

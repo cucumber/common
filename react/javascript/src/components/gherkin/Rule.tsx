@@ -2,13 +2,13 @@ import React from 'react'
 import IdGenerator from '../../IdGenerator'
 import Description from './Description'
 import Scenario from './Scenario'
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import Background from './Background'
 import RuleTitle from './RuleTitle'
-import Tags from "./Tags";
+import Tags from './Tags'
 
 interface IProps {
-  rule: messages.GherkinDocument.Feature.FeatureChild.IRule
+  rule: messages.Rule
 }
 
 const generator = new IdGenerator()

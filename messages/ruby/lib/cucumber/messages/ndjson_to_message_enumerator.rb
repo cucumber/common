@@ -1,4 +1,4 @@
-require 'cucumber/messages/varint'
+require 'json'
 
 module Cucumber
   module Messages
@@ -8,7 +8,7 @@ module Cucumber
           io.each_line do |line|
             next if line.strip.empty?
             begin
-              m = Cucumber::Messages::Envelope.from_json(line)
+              m = JSON.parse(line)
             rescue => e
               raise "Not JSON: #{line.strip}"
             end

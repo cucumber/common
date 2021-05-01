@@ -16,6 +16,8 @@
     "moduleResolution": "node",
     "outDir": "dist",
     "downlevelIteration": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "strictNullChecks": false,
+    "experimentalDecorators": true
   }
 }

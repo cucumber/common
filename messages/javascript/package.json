@@ -11,16 +11,15 @@
   "author": "Cucumber Limited <cukes@googlegroups.com>",
   "license": "MIT",
   "scripts": {
-    "prepare": "npm run pbjs && npm run pbts && copyfiles src/messages.js src/messages.d.ts dist",
+    "prepare": "make src/messages.ts",
     "test": "mocha",
-    "pbjs": "pbjs --force-number --target static-module --wrap commonjs messages.proto --out src/messages.js",
-    "pbts": "pbts src/messages.js > src/messages.d.ts",
     "prepublishOnly": "tsc --build tsconfig.build.json && copyfiles src/messages.js src/messages.d.ts dist"
   },
   "dependencies": {
     "@types/uuid": "^8.3.0",
-    "protobufjs": "^6.10.2",
-    "uuid": "^8.3.2"
+    "uuid": "^8.3.2",
+    "class-transformer": "^0.4.0",
+    "reflect-metadata": "^0.1.13"
   },
   "devDependencies": {
     "@types/mocha": "^8.2.2",

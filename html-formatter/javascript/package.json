@@ -24,11 +24,11 @@
   },
   "devDependencies": {
     "@babel/core": "^7.13.16",
+    "@cucumber/gherkin-streams": "^1.0.0",
     "@cucumber/gherkin-utils": "^4.0.0",
+    "@cucumber/message-streams": "^1.0.0",
     "@cucumber/query": "^9.0.2",
     "@cucumber/react": "^13.0.0",
-    "@cucumber/gherkin-streams": "^1.0.0",
-    "@cucumber/message-streams": "^1.0.0",
     "@types/mocha": "^8.2.2",
     "@types/node": "^15.0.1",
     "@types/react": "^17.0.4",

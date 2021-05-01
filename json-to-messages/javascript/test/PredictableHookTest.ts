@@ -1,14 +1,19 @@
 import assert from 'assert'
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import { NilCodeExecutor } from '../src/SupportCodeExecutor'
 import PredictableHook from '../src/PredictableHook'
 
 describe('PredictableHook', () => {
   const scenarioId = 'some-scenario-id'
-  const pickle = messages.Pickle.create({
+  const pickle: messages.Pickle = {
     id: 'some-pickle-id',
+    language: 'en',
+    tags: [],
+    steps: [],
+    uri: 'some-uri',
+    name: 'Some Name',
     astNodeIds: [scenarioId],
-  })
+  }
 
   context('.match', () => {
     it('returns null when the pickle doe not reference the scenario id', () => {
@@ -16,11 +21,11 @@ describe('PredictableHook', () => {
         'some-hook-id',
         'another-scenario',
         'whatever:1',
-        messages.TestStepFinished.TestStepResult.Status.PASSED,
+        messages.TestStepResultStatus.PASSED,
         123
       )
 
-      assert.equal(hook.match(pickle), null)
+      assert.strictEqual(hook.match(pickle), null)
     })
 
     it('returns a NilCodeExecutor when there is a match', () => {
@@ -28,7 +33,7 @@ describe('PredictableHook', () => {
         'some-hook-id',
         scenarioId,
         'whatever:1',
-        messages.TestStepFinished.TestStepResult.Status.PASSED,
+        messages.TestStepResultStatus.PASSED,
         123
       )
 
@@ -42,13 +47,13 @@ describe('PredictableHook', () => {
         'some-hook-id',
         'another-scenario',
         'path/to/steps.go:13',
-        messages.TestStepFinished.TestStepResult.Status.PASSED,
+        messages.TestStepResultStatus.PASSED,
         123
       )
       const message = hook.toMessage().hook
 
-      assert.equal(message.sourceReference.uri, 'path/to/steps.go')
-      assert.equal(message.sourceReference.location.line, 13)
+      assert.strictEqual(message.sourceReference.uri, 'path/to/steps.go')
+      assert.strictEqual(message.sourceReference.location.line, 13)
     })
   })
 })

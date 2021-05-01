@@ -1,28 +1,22 @@
 package io.cucumber.messages;
 
-import java.time.Duration;
-import java.time.Instant;
+import io.cucumber.messages.types.Duration;
+import io.cucumber.messages.types.Timestamp;
 
 public class TimeConversion {
-    public static Messages.Timestamp javaInstantToTimestamp(Instant instant) {
-        return Messages.Timestamp.newBuilder()
-                .setSeconds(instant.getEpochSecond())
-                .setNanos(instant.getNano())
-                .build();
+    public static Timestamp javaInstantToTimestamp(java.time.Instant instant) {
+        return new Timestamp(instant.getEpochSecond(), (long) instant.getNano());
     }
 
-    public static Messages.Duration javaDurationToDuration(Duration duration) {
-        return Messages.Duration.newBuilder()
-                .setSeconds(duration.getSeconds())
-                .setNanos(duration.getNano())
-                .build();
+    public static Duration javaDurationToDuration(java.time.Duration duration) {
+        return new Duration(duration.getSeconds(), (long) duration.getNano());
     }
 
-    public static Instant timestampToJavaInstant(Messages.Timestamp timestamp) {
-        return Instant.ofEpochSecond(timestamp.getSeconds(), timestamp.getNanos());
+    public static java.time.Instant timestampToJavaInstant(Timestamp timestamp) {
+        return java.time.Instant.ofEpochSecond(timestamp.getSeconds(), timestamp.getNanos());
     }
 
-    public static Duration durationToJavaDuration(Messages.Duration duration) {
-        return Duration.ofSeconds(duration.getSeconds(), duration.getNanos());
+    public static java.time.Duration durationToJavaDuration(Duration duration) {
+        return java.time.Duration.ofSeconds(duration.getSeconds(), duration.getNanos());
     }
 }

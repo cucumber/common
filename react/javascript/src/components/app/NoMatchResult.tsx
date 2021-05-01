@@ -1,9 +1,9 @@
 import React from 'react'
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 
 interface IProps {
   query: string
-  matches: ReadonlyArray<messages.IGherkinDocument>
+  matches: readonly messages.GherkinDocument[]
 }
 
 const NoMatchResult: React.FunctionComponent<IProps> = ({ query, matches }) => {

@@ -32,7 +32,7 @@ class TokenScanner(object):
 
     def read(self):
         self.line_number += 1
-        location = {'line': self.line_number, 'column': 0}
+        location = {'line': self.line_number}
         line = self.io.readline()
         return Token((GherkinLine(line, self.line_number) if line else line), location)
 

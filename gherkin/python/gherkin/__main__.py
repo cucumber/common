@@ -25,16 +25,6 @@ parser.add_option("--no-pickles", action="store_false", dest="print_pickles", de
 source_events = SourceEvents(args)
 gherkin_events = GherkinEvents(options)
 
-
-def reject_empty_values(data):
-    if isinstance(data, dict):
-        return {k: reject_empty_values(v) for k, v in data.items() if v}
-    if isinstance(data, list):
-        return [reject_empty_values(v) for v in data if v]
-    else:
-        return data
-
-
 for source_event in source_events.enum():
     for event in gherkin_events.enum(source_event):
-        print(json.dumps(reject_empty_values(event)))
+        print(json.dumps(event))

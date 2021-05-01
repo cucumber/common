@@ -8,7 +8,7 @@ import GeneratedExpression from './GeneratedExpression'
 export default class CucumberExpressionGenerator {
   constructor(private readonly parameterTypes: () => Iterable<ParameterType<any>>) {}
 
-  public generateExpressions(text: string): ReadonlyArray<GeneratedExpression> {
+  public generateExpressions(text: string): readonly GeneratedExpression[] {
     const parameterTypeCombinations: Array<Array<ParameterType<any>>> = []
     const parameterTypeMatchers = this.createParameterTypeMatchers(text)
     let expressionTemplate = ''

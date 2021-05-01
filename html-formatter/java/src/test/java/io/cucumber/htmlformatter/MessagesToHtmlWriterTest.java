@@ -1,42 +1,34 @@
 package io.cucumber.htmlformatter;
 
-import io.cucumber.messages.Messages.Envelope;
-import io.cucumber.messages.Messages.TestRunFinished;
-import io.cucumber.messages.Messages.TestRunStarted;
-import io.cucumber.messages.Messages.Timestamp;
-import org.hamcrest.CoreMatchers;
+import io.cucumber.messages.TimeConversion;
+import io.cucumber.messages.types.Envelope;
+import io.cucumber.messages.types.TestRunFinished;
+import io.cucumber.messages.types.TestRunStarted;
 import org.junit.jupiter.api.Test;
 
 import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.time.Instant;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class MessagesToHtmlWriterTest {
 
     @Test
     void it_writes_one_message_to_html() throws IOException {
-        String html = renderAsHtml(
-                Envelope.newBuilder()
-                        .setTestRunStarted(TestRunStarted.newBuilder()
-                                .setTimestamp(Timestamp.newBuilder()
-                                        .setSeconds(10)
-                                        .build())
-                                .build())
-                        .build()
-        );
+        Envelope envelope = new Envelope();
+        Instant timestamp = Instant.ofEpochSecond(10);
+        envelope.setTestRunStarted(new TestRunStarted(TimeConversion.javaInstantToTimestamp(timestamp)));
+        String html = renderAsHtml(envelope);
         assertThat(html, containsString("" +
-                "window.CUCUMBER_MESSAGES = [" +
-                "{\"testRunStarted\":{\"timestamp\":{\"seconds\":\"10\"}}}" +
-                "];"));
+                "window.CUCUMBER_MESSAGES = [{\"testRunStarted\":{\"timestamp\":{\"seconds\":10,\"nanos\":0}}}];"));
     }
 
     @Test
@@ -87,27 +79,16 @@ class MessagesToHtmlWriterTest {
 
     @Test
     void it_writes_two_messages_separated_by_a_comma() throws IOException {
-        String html = renderAsHtml(
-                Envelope.newBuilder()
-                        .setTestRunStarted(TestRunStarted.newBuilder()
-                                .setTimestamp(Timestamp.newBuilder()
-                                        .setSeconds(10)
-                                        .build())
-                                .build())
-                        .build(),
-                Envelope.newBuilder()
-                        .setTestRunFinished(TestRunFinished.newBuilder()
-                                .setTimestamp(Timestamp.newBuilder()
-                                        .setSeconds(15)
-                                        .build())
-                                .build())
-                        .build()
-        );
+        Envelope testRunStarted = new Envelope();
+        testRunStarted.setTestRunStarted(new TestRunStarted(TimeConversion.javaInstantToTimestamp(Instant.ofEpochSecond(10))));
+
+        Envelope testRunFinished = new Envelope();
+        testRunFinished.setTestRunFinished(new TestRunFinished(null, true, TimeConversion.javaInstantToTimestamp(Instant.ofEpochSecond(15))));
+
+        String html = renderAsHtml(testRunStarted, testRunFinished);
+
         assertThat(html, containsString("" +
-                "window.CUCUMBER_MESSAGES = [" +
-                "{\"testRunStarted\":{\"timestamp\":{\"seconds\":\"10\"}}}," +
-                "{\"testRunFinished\":{\"timestamp\":{\"seconds\":\"15\"}}}" +
-                "];"));
+                "window.CUCUMBER_MESSAGES = [{\"testRunStarted\":{\"timestamp\":{\"seconds\":10,\"nanos\":0}}},{\"testRunFinished\":{\"success\":true,\"timestamp\":{\"seconds\":15,\"nanos\":0}}}];"));
     }
 
     private static String renderAsHtml(Envelope... messages) throws IOException {

@@ -1,6 +1,6 @@
 import fs from 'fs'
 import { Readable, Transform, TransformCallback } from 'stream'
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 
 export default class CucumberHtmlStream extends Transform {
   private template: string | null = null
@@ -104,6 +104,6 @@ export default class CucumberHtmlStream extends Transform {
     } else {
       this.push(',')
     }
-    this.push(JSON.stringify(envelope.toJSON()))
+    this.push(JSON.stringify(envelope))
   }
 }

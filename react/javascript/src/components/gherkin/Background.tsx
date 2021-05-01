@@ -1,12 +1,12 @@
 import React from 'react'
 import Description from './Description'
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import StepList from './StepList'
 import IdGenerator from '../../IdGenerator'
 import BackgroundTitle from './BackgroundTitle'
 
 interface IProps {
-  background: messages.GherkinDocument.Feature.IBackground
+  background: messages.Background
 }
 
 const generator = new IdGenerator()

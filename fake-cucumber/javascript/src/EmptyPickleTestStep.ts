@@ -1,10 +1,10 @@
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import TestStep from './TestStep'
 
 export default class EmptyPickleTestStep extends TestStep {
-  public toMessage(): messages.TestCase.ITestStep {
-    return new messages.TestCase.TestStep({
+  public toMessage(): messages.TestStep {
+    return {
       id: this.id,
-    })
+    }
   }
 }

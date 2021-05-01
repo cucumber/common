@@ -1,5 +1,5 @@
 import fs from 'fs'
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import { NdjsonToMessageStream } from '@cucumber/message-streams'
 import { Query as GherkinQuery } from '@cucumber/gherkin-utils'
 import React from 'react'
@@ -33,9 +33,7 @@ describe('App with messages', () => {
       const cucumberQuery = new CucumberQuery()
       const envelopesQuery = new EnvelopesQuery()
 
-      const messageStream = new NdjsonToMessageStream(
-        messages.Envelope.fromObject.bind(messages.Envelope)
-      )
+      const messageStream = new NdjsonToMessageStream()
 
       await asyncPipeline(
         fs.createReadStream(messageFile, 'utf-8'),
@@ -43,7 +41,7 @@ describe('App with messages', () => {
         new Writable({
           objectMode: true,
           write(
-            envelope: messages.IEnvelope,
+            envelope: messages.Envelope,
             encoding: string,
             callback: (error?: Error | null) => void
           ) {
