@@ -17,6 +17,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [4.0.0] - 2021-04-11
+
+### Changed
+ * [Java] Use transformer for all `DataTable.asX` methods.
+    ([cucumber-jvm/2262](https://github.com/cucumber/cucumber-jvm/issues/2262)
+    [1419](https://github.com/cucumber/cucumber/pull/1419)
+      [mpkorstanje])
+    - To retain the old behaviour:
+      - Replace `DataTable.asList()` with -> `DataTable.values()`
+      - Replace `DataTable.asLists()` with -> `DataTable.cells()`
+      - Replace `DataTable.asMaps()` with -> `DataTable.entries()`
+
 ## [3.5.0] - 2020-09-26
 
 ### Added
@@ -39,7 +51,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
  * [Java] Improve error messages
     ([#944](https://github.com/cucumber/cucumber/pull/944)
       [mpkorstanje])
-      - `table.asList(String.class)` throw an exception rather then return an empty list   
+      - `table.asList(String.class)` throw an exception rather then return an empty list
 
 ## [3.3.0] - 2020-02-06
 
@@ -179,7 +191,8 @@ There are no (1.1.0 and 1.1.1 releases).
 * java: OSGI fixes
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/datatable/v3.5.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/datatable/v4.0.0...master
+[4.0.0]:      https://github.com/cucumber/cucumber/compare/datatable/v3.5.0...datatable/v4.0.0
 [3.5.0]:      https://github.com/cucumber/cucumber/compare/datatable/v3.4.0...datatable/v3.5.0
 [3.4.0]:      https://github.com/cucumber/cucumber/compare/datatable/v3.3.1...datatable/v3.4.0
 [3.3.1]:      https://github.com/cucumber/cucumber/compare/datatable/v3.3.0...datatable/v3.3.1

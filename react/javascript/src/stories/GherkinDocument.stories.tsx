@@ -1,12 +1,12 @@
 import React from 'react'
 import { Meta, Story } from '@storybook/react'
 
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import { Query as CucumberQuery } from '@cucumber/query'
 import { Query as GherkinQuery } from '@cucumber/gherkin-utils'
 import GherkinDocumentList from '../components/app/GherkinDocumentList'
 import QueriesWrapper from '../components/app/QueriesWrapper'
-import { EnvelopesQuery } from '../EnvelopesQueryContext'
+import { EnvelopesQuery } from '../../src'
 import GherkinDocument from '../components/gherkin/GherkinDocument'
 
 import '../styles/react-accessible-accordion.css'
@@ -34,7 +34,7 @@ type Props = {
   cucumberQuery: CucumberQuery
   envelopesQuery: EnvelopesQuery
 }
-type TemplateArgs = { envelopes: readonly messages.IEnvelope[] }
+type TemplateArgs = { envelopes: readonly messages.Envelope[] }
 
 const PlainTemplate: Story<TemplateArgs> = ({ envelopes }) => {
   return (
@@ -107,7 +107,7 @@ UnknownParameterTypes.args = {
   envelopes: unknownParameterTypes,
 }
 
-function props(envelopes: readonly messages.IEnvelope[]): Props {
+function props(envelopes: readonly messages.Envelope[]): Props {
   const gherkinQuery = new GherkinQuery()
   const cucumberQuery = new CucumberQuery()
   const envelopesQuery = new EnvelopesQuery()

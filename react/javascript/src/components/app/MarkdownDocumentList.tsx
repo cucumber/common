@@ -1,25 +1,23 @@
 import React, { ElementType, createElement } from 'react'
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import GherkinQueryContext from '../../GherkinQueryContext'
 import CucumberQueryContext from '../../CucumberQueryContext'
 import ReactMarkdown from 'react-markdown'
 import gfm from 'remark-gfm'
 
-// @ts-ignore
-import htmlParser from 'react-markdown/plugins/html-parser'
 import StatusIcon from '../gherkin/StatusIcon'
 import StepLine from '../gherkin/StepLine'
-
-const parseHtml = htmlParser()
+import rehypePlugins from './rehypePlugins'
+import { Position } from 'react-markdown/src/ast-to-react'
 
 interface IProps {
-  sources?: readonly messages.ISource[]
+  sources?: readonly messages.Source[]
 }
 
 const MarkdownDocumentList: React.FunctionComponent<IProps> = ({ sources }) => {
   const gherkinQuery = React.useContext(GherkinQueryContext)
 
-  const srcs: readonly messages.ISource[] = sources || gherkinQuery.getSources()
+  const srcs: readonly messages.Source[] = sources || gherkinQuery.getSources()
 
   return (
     <>
@@ -30,12 +28,12 @@ const MarkdownDocumentList: React.FunctionComponent<IProps> = ({ sources }) => {
   )
 }
 
-const SourceContext = React.createContext<messages.ISource>(null)
+const SourceContext = React.createContext<messages.Source>(null)
 
 const MarkdownDocument: React.FunctionComponent<{
-  source: messages.ISource
+  source: messages.Source
 }> = ({ source }) => {
-  const renderers: { [nodeType: string]: ElementType } = {
+  const components: { [nodeType: string]: ElementType } = {
     text: Text,
 
     listItem: ListItem,
@@ -45,11 +43,10 @@ const MarkdownDocument: React.FunctionComponent<{
   return (
     <SourceContext.Provider value={source}>
       <ReactMarkdown
-        astPlugins={[parseHtml]}
+        rehypePlugins={rehypePlugins}
         plugins={[gfm]}
-        allowDangerousHtml
         rawSourcePos={true}
-        renderers={renderers}
+        components={components}
       >
         {source.data}
       </ReactMarkdown>
@@ -58,14 +55,14 @@ const MarkdownDocument: React.FunctionComponent<{
 }
 
 const Text: React.FunctionComponent<{
-  sourcePosition: ReactMarkdown.Position
+  sourcePosition: Position
 }> = (props) => {
   const source = React.useContext(SourceContext)
   const gherkinQuery = React.useContext(GherkinQueryContext)
   const { sourcePosition } = props
   const { line } = sourcePosition.start
 
-  const step: messages.GherkinDocument.Feature.IStep = gherkinQuery.getStep(source.uri, line)
+  const step: messages.Step = gherkinQuery.getStep(source.uri, line)
   if (!step) {
     // @ts-ignore
     return ReactMarkdown.renderers.text(props)
@@ -75,14 +72,14 @@ const Text: React.FunctionComponent<{
 }
 
 const ListItem: React.FunctionComponent<{
-  sourcePosition: ReactMarkdown.Position
+  sourcePosition: Position
 }> = (props) => {
   const { children, sourcePosition } = props
   const source = React.useContext(SourceContext)
   const gherkinQuery = React.useContext(GherkinQueryContext)
   const cucumberQuery = React.useContext(CucumberQueryContext)
   const { line } = sourcePosition.start
-  const step: messages.GherkinDocument.Feature.IStep = gherkinQuery.getStep(source.uri, line)
+  const step: messages.Step = gherkinQuery.getStep(source.uri, line)
   if (!step) {
     // @ts-ignore
     return ReactMarkdown.renderers.listItem(props)

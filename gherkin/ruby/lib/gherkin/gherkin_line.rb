@@ -94,7 +94,7 @@ module Gherkin
         end
 
         unless item =~ /^\S+$/
-          location = {line: @line_number, column: column}
+          location = { line: @line_number, column: column }
           raise ParserException.new('A tag may not contain whitespace', location)
         end
 

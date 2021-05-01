@@ -1,6 +1,6 @@
 import React from 'react'
 import GherkinDocument from '../gherkin/GherkinDocument'
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import {
   Accordion,
   AccordionItem,
@@ -14,7 +14,7 @@ import CucumberQueryContext from '../../CucumberQueryContext'
 import StatusIcon from '../gherkin/StatusIcon'
 
 interface IProps {
-  gherkinDocuments?: ReadonlyArray<messages.IGherkinDocument>
+  gherkinDocuments?: readonly messages.GherkinDocument[]
 }
 
 const GherkinDocumentList: React.FunctionComponent<IProps> = ({ gherkinDocuments }) => {
@@ -24,13 +24,13 @@ const GherkinDocumentList: React.FunctionComponent<IProps> = ({ gherkinDocuments
   const gherkinDocs =
     gherkinDocuments === undefined ? gherkinQuery.getGherkinDocuments() : gherkinDocuments
 
-  const entries: Array<[string, messages.TestStepFinished.TestStepResult.Status]> = gherkinDocs.map(
+  const entries: Array<[string, messages.TestStepResultStatus]> = gherkinDocs.map(
     (gherkinDocument) => {
       const gherkinDocumentStatus = gherkinDocument.feature
         ? cucumberQuery.getWorstTestStepResult(
             cucumberQuery.getPickleTestStepResults(gherkinQuery.getPickleIds(gherkinDocument.uri))
           ).status
-        : messages.TestStepFinished.TestStepResult.Status.UNDEFINED
+        : messages.TestStepResultStatus.UNDEFINED
       return [gherkinDocument.uri, gherkinDocumentStatus]
     }
   )
@@ -38,11 +38,7 @@ const GherkinDocumentList: React.FunctionComponent<IProps> = ({ gherkinDocuments
 
   // Pre-expand any document that is *not* passed - assuming this is what people want to look at first
   const preExpanded = gherkinDocs
-    .filter(
-      (doc) =>
-        gherkinDocumentStatusByUri.get(doc.uri) !==
-        messages.TestStepFinished.TestStepResult.Status.PASSED
-    )
+    .filter((doc) => gherkinDocumentStatusByUri.get(doc.uri) !== 'PASSED')
     .map((doc) => doc.uri)
   return (
     <div className="gherkin-document-list">

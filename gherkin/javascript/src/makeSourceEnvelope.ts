@@ -1,7 +1,8 @@
-import { messages } from '@cucumber/messages'
 import GherkinMediaType from './GherkinMediaType'
 
-export default function makeSourceEnvelope(data: string, uri: string): messages.IEnvelope {
+import * as messages from '@cucumber/messages'
+
+export default function makeSourceEnvelope(data: string, uri: string): messages.Envelope {
   let mediaType: GherkinMediaType
   if (uri.endsWith('.feature')) {
     mediaType = GherkinMediaType.PLAIN
@@ -9,12 +10,11 @@ export default function makeSourceEnvelope(data: string, uri: string): messages.
     mediaType = GherkinMediaType.MARKDOWN
   }
   if (!mediaType) throw new Error(`The uri (${uri}) must end with .feature or .md`)
-
-  return new messages.Envelope({
-    source: new messages.Source({
+  return {
+    source: {
       data,
       uri,
-      mediaType,
-    }),
-  })
+      mediaType: 'text/x.cucumber.gherkin+plain',
+    },
+  }
 }

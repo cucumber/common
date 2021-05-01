@@ -1,19 +1,10 @@
-import { PassThrough, pipeline, Readable } from 'stream'
-import { messages } from '@cucumber/messages'
-import { BinaryToMessageStream } from '@cucumber/message-streams'
+import { PassThrough, Readable } from 'stream'
+import * as messages from '@cucumber/messages'
 import ParserMessageStream from './ParserMessageStream'
 import SourceMessageStream from './SourceMessageStream'
 import fs from 'fs'
 import { IGherkinOptions } from '@cucumber/gherkin'
 import makeGherkinOptions from './makeGherkinOptions'
-
-function fromStream(stream: Readable, options: IGherkinOptions) {
-  return pipeline(
-    stream,
-    new BinaryToMessageStream(messages.Envelope.decodeDelimited),
-    new ParserMessageStream(options)
-  )
-}
 
 function fromPaths(paths: readonly string[], options: IGherkinOptions): Readable {
   const pathsCopy = paths.slice()
@@ -47,10 +38,7 @@ function fromPaths(paths: readonly string[], options: IGherkinOptions): Readable
   return combinedMessageStream
 }
 
-function fromSources(
-  envelopes: ReadonlyArray<messages.IEnvelope>,
-  options: IGherkinOptions
-): Readable {
+function fromSources(envelopes: readonly messages.Envelope[], options: IGherkinOptions): Readable {
   const envelopesCopy = envelopes.slice()
   options = makeGherkinOptions(options)
   const combinedMessageStream = new PassThrough({
@@ -76,6 +64,5 @@ function fromSources(
 
 export default {
   fromPaths,
-  fromStream,
   fromSources,
 }

@@ -1,10 +1,10 @@
-import { IdGenerator, messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import IToken from './IToken'
 
 export interface IAstBuilder<AstNode, TokenType, RuleType> {
   stack: AstNode[]
-  comments: messages.GherkinDocument.IComment[]
-  newId: IdGenerator.NewId
+  comments: messages.Comment[]
+  newId: messages.IdGenerator.NewId
 
   reset(): void
 
@@ -18,21 +18,19 @@ export interface IAstBuilder<AstNode, TokenType, RuleType> {
 
   currentNode(): any
 
-  getLocation(token: IToken<TokenType>, column?: number): messages.ILocation
+  getLocation(token: IToken<TokenType>, column?: number): messages.Location
 
-  getTags(node: AstNode): readonly messages.GherkinDocument.Feature.ITag[]
+  getTags(node: AstNode): readonly messages.Tag[]
 
-  getCells(
-    tableRowToken: IToken<TokenType>
-  ): readonly messages.GherkinDocument.Feature.TableRow.ITableCell[]
+  getCells(tableRowToken: IToken<TokenType>): readonly messages.TableCell[]
 
   getDescription(node: AstNode): any
 
   getSteps(node: AstNode): any[]
 
-  getTableRows(node: AstNode): readonly messages.GherkinDocument.Feature.ITableRow[]
+  getTableRows(node: AstNode): readonly messages.TableRow[] | undefined
 
-  ensureCellCount(rows: readonly messages.GherkinDocument.Feature.ITableRow[]): void
+  ensureCellCount(rows: readonly messages.TableRow[]): void
 
   transformNode(node: AstNode): any
 }

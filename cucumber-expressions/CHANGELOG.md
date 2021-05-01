@@ -17,8 +17,28 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [12.1.1] - 2021-04-06
+
 ### Fixed
 
+* [Ruby] use `Array#select` instead of `Array#filter`. The latter is an alias that
+  was introduced in Ruby [2.6.0](https://github.com/ruby/ruby/blob/v2_6_0/NEWS#core-classes-updates-outstanding-ones-only-).
+  ([aslakhellesoy])
+
+## [12.1.0] - 2021-04-06
+
+### Added
+
+* [Ruby] Add `UndefinedParameterTypeError#undefined_parameter_type_name`
+  ([#1460](https://github.com/cucumber/cucumber/pull/1460)
+   [aslakhellesoy])
+
+## [12.0.1] - 2021-04-06
+
+### Fixed
+
+* [JavaScript] Fix issue with some files may not appear in published package
+  ([#1452](https://github.com/cucumber/cucumber/pull/1452))
 * [Java] Support character in BuiltInParameterTransformer.
   ([#1405](https://github.com/cucumber/cucumber/issues/1405))
 
@@ -771,7 +791,10 @@ N/A
 * First stable release!
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions/v12.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions/v12.1.1...master
+[12.1.1]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v12.1.0...cucumber-expressions/v12.1.1
+[12.1.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v12.0.1...cucumber-expressions/v12.1.0
+[12.0.1]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v12.0.0...cucumber-expressions/v12.0.1
 [12.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v11.0.1...cucumber-expressions/v12.0.0
 [11.0.1]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v11.0.0...cucumber-expressions/v11.0.1
 [11.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v10.3.0...cucumber-expressions/v11.0.0

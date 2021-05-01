@@ -11,11 +11,11 @@ module Gherkin
       }
 
       let(:source_feature) {
-        Cucumber::Messages::Source.new({
+        {
           uri: '//whatever/uri',
           data: feature_content,
-          media_type: 'text/x.cucumber.gherkin+plain'
-        })
+          mediaType: 'text/x.cucumber.gherkin+plain'
+        }
       }
 
       let(:options) {
@@ -25,10 +25,10 @@ module Gherkin
       }
 
       let(:gherkin_document) {
-        ParserMessageStream.new([], [source_feature], options).messages.first.gherkin_document
+        ParserMessageStream.new([], [source_feature], options).messages.first[:gherkinDocument]
       }
 
-      let(:scenario_id) { gherkin_document.feature.children.first.scenario.id }
+      let(:scenario_id) { gherkin_document[:feature][:children].first[:scenario][:id] }
 
       context '#messages' do
         it "raises an exception on second iteration" do

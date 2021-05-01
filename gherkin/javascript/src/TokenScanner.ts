@@ -1,6 +1,5 @@
-import createLocation from './createLocation'
 import IToken from './IToken'
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 
 /**
  * The scanner reads a gherkin doc (typically read from a .feature file) and creates a token for each line.
@@ -15,7 +14,7 @@ export default class TokenScanner<TokenType> {
 
   constructor(
     source: string,
-    private readonly makeToken: (line: string, location: messages.ILocation) => IToken<TokenType>
+    private readonly makeToken: (line: string, location: messages.Location) => IToken<TokenType>
   ) {
     this.lines = source.split(/\r?\n/)
     if (this.lines.length > 0 && this.lines[this.lines.length - 1].trim() === '') {
@@ -25,10 +24,9 @@ export default class TokenScanner<TokenType> {
 
   public read(): IToken<TokenType> {
     const line = this.lines[this.lineNumber++]
-    const location = createLocation({
+    const location = {
       line: this.lineNumber,
-    })
-    location.column = undefined
+    }
     return this.makeToken(line, location)
   }
 }

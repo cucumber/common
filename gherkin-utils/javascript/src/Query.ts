@@ -1,44 +1,38 @@
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import { ArrayMultimap } from '@teppeis/multimaps'
 
 export default class Query {
-  private readonly sources: messages.ISource[] = []
-  private readonly gherkinDocuments: messages.IGherkinDocument[] = []
-  private readonly pickles: messages.IPickle[] = []
-  private readonly locationByAstNodeId = new Map<string, messages.ILocation>()
-  private readonly gherkinStepByAstNodeId = new Map<
-    string,
-    messages.GherkinDocument.Feature.IStep
-  >()
+  private readonly sources: messages.Source[] = []
+  private readonly gherkinDocuments: messages.GherkinDocument[] = []
+  private readonly pickles: messages.Pickle[] = []
+  private readonly locationByAstNodeId = new Map<string, messages.Location>()
+  private readonly gherkinStepByAstNodeId = new Map<string, messages.Step>()
   private readonly pickleIdsMapByUri = new Map<string, ArrayMultimap<string, string>>()
-
   private readonly pickleIdsByAstNodeId = new Map<string, string[]>()
-
   private readonly pickleStepIdsByAstNodeId = new Map<string, string[]>()
-
-  private readonly stepByUriLocation = new Map<string, messages.GherkinDocument.Feature.IStep>()
+  private readonly stepByUriLocation = new Map<string, messages.Step>()
 
   /**
    * Gets the location (line and column) of an AST node.
    * @param astNodeId
    */
-  public getLocation(astNodeId: string): messages.ILocation {
+  public getLocation(astNodeId: string): messages.Location {
     return this.locationByAstNodeId.get(astNodeId)
   }
 
-  public getSources(): readonly messages.ISource[] {
+  public getSources(): readonly messages.Source[] {
     return this.sources
   }
 
-  public getGherkinDocuments(): readonly messages.IGherkinDocument[] {
+  public getGherkinDocuments(): readonly messages.GherkinDocument[] {
     return this.gherkinDocuments
   }
 
-  public getPickles(): readonly messages.IPickle[] {
+  public getPickles(): readonly messages.Pickle[] {
     return this.pickles
   }
 
-  public getStep(uri: string, line: number): messages.GherkinDocument.Feature.IStep | undefined {
+  public getStep(uri: string, line: number): messages.Step | undefined {
     return this.stepByUriLocation.get([uri, line].join(':'))
   }
 
@@ -58,7 +52,7 @@ export default class Query {
     return this.pickleStepIdsByAstNodeId.get(astNodeId) || []
   }
 
-  public update(message: messages.IEnvelope): Query {
+  public update(message: messages.Envelope): Query {
     if (message.source) {
       this.sources.push(message.source)
     }
@@ -102,36 +96,33 @@ export default class Query {
     return this
   }
 
-  private updateGherkinBackground(
-    uri: string,
-    background: messages.GherkinDocument.Feature.IBackground
-  ) {
+  private updateGherkinBackground(uri: string, background: messages.Background) {
     for (const step of background.steps) {
       this.updateGherkinStep(uri, step)
     }
   }
 
-  private updateGherkinScenario(uri: string, scenario: messages.GherkinDocument.Feature.IScenario) {
+  private updateGherkinScenario(uri: string, scenario: messages.Scenario) {
     this.locationByAstNodeId.set(scenario.id, scenario.location)
     for (const step of scenario.steps) {
       this.updateGherkinStep(uri, step)
     }
 
     for (const examples of scenario.examples) {
-      for (const tableRow of examples.tableBody) {
+      for (const tableRow of examples.tableBody || []) {
         this.locationByAstNodeId.set(tableRow.id, tableRow.location)
       }
     }
   }
 
-  private updateGherkinStep(uri: string, step: messages.GherkinDocument.Feature.IStep) {
+  private updateGherkinStep(uri: string, step: messages.Step) {
     this.locationByAstNodeId.set(step.id, step.location)
     this.gherkinStepByAstNodeId.set(step.id, step)
     const uriLocation = [uri, step.location.line].join(':')
     this.stepByUriLocation.set(uriLocation, step)
   }
 
-  private updatePickle(pickle: messages.IPickle) {
+  private updatePickle(pickle: messages.Pickle) {
     const pickleIdsByLineNumber = this.pickleIdsMapByUri.get(pickle.uri)
 
     for (const astNodeId of pickle.astNodeIds) {
@@ -148,7 +139,7 @@ export default class Query {
     }
   }
 
-  private updatePickleSteps(pickle: messages.IPickle) {
+  private updatePickleSteps(pickle: messages.Pickle) {
     const pickleSteps = pickle.steps
     for (const pickleStep of pickleSteps) {
       for (const astNodeId of pickleStep.astNodeIds) {

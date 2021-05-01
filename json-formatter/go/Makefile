@@ -10,7 +10,7 @@ GENERATED_JSONS = $(patsubst ../ruby-testdata/features/%.json,acceptance/%.json,
 acceptance/%.json: ../javascript-testdata/features/%.ndjson $(EXE) ../ruby-testdata/features/%.json
 	mkdir -p $(@D)
 	cat $< | \
-		$(EXE) --format ndjson | \
+		$(EXE) | \
 		../ruby-testdata/neutralize-json | \
 		jq --sort-keys "." > \
 		$@

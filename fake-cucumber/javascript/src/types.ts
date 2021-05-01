@@ -1,5 +1,5 @@
 import { Readable } from 'stream'
-import { IdGenerator, messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import IClock from './IClock'
 import { MakeErrorMessage } from './ErrorMessageGenerator'
 import { Query, Query as GherkinQuery } from '@cucumber/gherkin-utils'
@@ -19,18 +19,15 @@ export interface ITestStep {
   sourceId: string
   id: string
 
-  toMessage(): messages.TestCase.ITestStep
+  toMessage(): messages.TestStep
 
   execute(
     world: IWorld,
     testCaseStartedId: string,
     listener: EnvelopeListener
-  ): Promise<messages.TestStepFinished.ITestStepResult>
+  ): Promise<messages.TestStepResult>
 
-  skip(
-    listener: EnvelopeListener,
-    testCaseStartedId: string
-  ): messages.TestStepFinished.ITestStepResult
+  skip(listener: EnvelopeListener, testCaseStartedId: string): messages.TestStepResult
 }
 
 export interface ISupportCodeExecutor {
@@ -38,62 +35,62 @@ export interface ISupportCodeExecutor {
 
   execute(thisObj: IWorld): any
 
-  argsToMessages(): messages.TestCase.TestStep.StepMatchArgumentsList.IStepMatchArgument[]
+  argsToMessages(): messages.StepMatchArgument[]
 }
 
 export interface IStepDefinition {
-  match(pickleStep: messages.Pickle.IPickleStep): ISupportCodeExecutor | null
+  match(pickleStep: messages.PickleStep): ISupportCodeExecutor | null
 
-  toMessage(): messages.IEnvelope
+  toMessage(): messages.Envelope
 }
 
 export interface IHook {
   id: string
 
-  match(pickle: messages.IPickle): ISupportCodeExecutor | null
+  match(pickle: messages.Pickle): ISupportCodeExecutor | null
 
-  toMessage(): messages.IEnvelope
+  toMessage(): messages.Envelope
 }
 
 export interface ITestCase {
-  toMessage(): messages.IEnvelope
+  toMessage(): messages.Envelope
 
   execute(listener: EnvelopeListener, attempt: number, testCaseStartedId: string): Promise<void>
 }
 
-export type EnvelopeListener = (envelope: messages.IEnvelope) => void
-export type AnyBody = (...args: ReadonlyArray<any>) => any
+export type EnvelopeListener = (envelope: messages.Envelope) => void
+export type AnyBody = (...args: readonly unknown[]) => unknown
 export type Attach = (data: string | Buffer | Readable, mediaType: string) => void | Promise<void>
 export type Log = (text: string) => void | Promise<void>
 
 export type MakePickleTestStep = (
   testStepId: string,
-  pickleStep: messages.Pickle.IPickleStep,
-  stepDefinitions: ReadonlyArray<IStepDefinition>,
-  sourceFrames: ReadonlyArray<string>,
+  pickleStep: messages.PickleStep,
+  stepDefinitions: readonly IStepDefinition[],
+  sourceFrames: readonly string[],
   clock: IClock,
   stopwatch: IStopwatch,
   makeErrorMessage: MakeErrorMessage
 ) => ITestStep
 
 export type MakeHookTestStep = (
-  pickle: messages.IPickle,
+  pickle: messages.Pickle,
   hook: IHook,
   alwaysExecute: boolean,
   gherkinQuery: Query,
-  newId: IdGenerator.NewId,
+  newId: messages.IdGenerator.NewId,
   clock: IClock,
   stopwatch: IStopwatch,
   makeErrorMessage: MakeErrorMessage
 ) => ITestStep
 
 export type MakeTestCase = (
-  pickle: messages.IPickle,
-  stepDefinitions: ReadonlyArray<IStepDefinition>,
-  beforeHooks: ReadonlyArray<IHook>,
-  afterHooks: ReadonlyArray<IHook>,
+  pickle: messages.Pickle,
+  stepDefinitions: readonly IStepDefinition[],
+  beforeHooks: readonly IHook[],
+  afterHooks: readonly IHook[],
   gherkinQuery: Query,
-  newId: IdGenerator.NewId,
+  newId: messages.IdGenerator.NewId,
   clock: IClock,
   stopwatch: IStopwatch,
   makeErrorMessage: MakeErrorMessage,

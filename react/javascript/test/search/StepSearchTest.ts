@@ -1,11 +1,11 @@
 import assert from 'assert'
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import StepSearch from '../../src/search/StepSearch'
 import { makeStep } from './utils'
 
 describe('StepSearch', () => {
   let stepSearch: StepSearch
-  let steps: messages.GherkinDocument.Feature.IStep[]
+  let steps: messages.Step[]
 
   beforeEach(() => {
     stepSearch = new StepSearch()

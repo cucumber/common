@@ -14,7 +14,6 @@ features/%.ndjson: features/% features/%.ts
 ifdef GOLDEN
 	source ../ci_env
 	../../node_modules/@cucumber/fake-cucumber/bin/fake-cucumber \
-		--format ndjson \
 		$< > $@
 else
   # no-op: run with GOLDEN=1

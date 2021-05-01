@@ -3,8 +3,8 @@ import SearchQueryContext from '../../SearchQueryContext'
 import elasticlunr from 'elasticlunr'
 import highlightWords from 'highlight-words'
 import ReactMarkdown from 'react-markdown'
-// @ts-ignore
-import htmlParser from 'react-markdown/plugins/html-parser'
+import rehypePlugins from './rehypePlugins'
+import sanitizerGithubSchema from 'hast-util-sanitize/lib/github.json'
 
 interface IProps {
   text: string
@@ -24,7 +24,6 @@ const allQueryWords = (queryWords: string[]): string[] => {
   }, [] as string[])
 }
 
-const parseHtml = htmlParser()
 const HighLight: React.FunctionComponent<IProps> = ({ text, markdown = false, className = '' }) => {
   const searchQueryContext = React.useContext(SearchQueryContext)
   const query = allQueryWords(
@@ -38,11 +37,13 @@ const HighLight: React.FunctionComponent<IProps> = ({ text, markdown = false, cl
     const highlightedText = chunks
       .map(({ text, match }) => (match ? `<mark>${text}</mark>` : text))
       .join('')
+
+    sanitizerGithubSchema['tagNames'].push('section')
+    sanitizerGithubSchema['attributes']['*'].push('className')
+
     return (
       <div className={appliedClassName}>
-        <ReactMarkdown astPlugins={[parseHtml]} allowDangerousHtml>
-          {highlightedText}
-        </ReactMarkdown>
+        <ReactMarkdown rehypePlugins={rehypePlugins}>{highlightedText}</ReactMarkdown>
       </div>
     )
   }

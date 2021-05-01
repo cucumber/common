@@ -1,4 +1,4 @@
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 
 export interface IGherkinLine {
   isEmpty: boolean
@@ -25,7 +25,7 @@ export type Item = {
 }
 
 export default interface IToken<TokenType> {
-  location: messages.ILocation
+  location: messages.Location
   line: IGherkinLine
 
   isEof: boolean

@@ -1,14 +1,17 @@
 package io.cucumber.gherkin;
 
 import io.cucumber.gherkin.pickles.PickleCompiler;
-import io.cucumber.messages.BinaryToMessageIterable;
 import io.cucumber.messages.IdGenerator;
-import io.cucumber.messages.Messages;
-import io.cucumber.messages.Messages.Envelope;
+import io.cucumber.messages.types.Envelope;
+import io.cucumber.messages.types.GherkinDocument;
+import io.cucumber.messages.types.Location;
+import io.cucumber.messages.types.ParseError;
+import io.cucumber.messages.types.Pickle;
+import io.cucumber.messages.types.Source;
+import io.cucumber.messages.types.SourceReference;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.nio.charset.StandardCharsets;
@@ -17,7 +20,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
 
 /**
  * Main entry point for the Gherkin library
@@ -44,12 +46,7 @@ public class Gherkin {
     }
 
     public static Stream<Envelope> fromSources(List<Envelope> envelopes, boolean includeSource, boolean includeAst, boolean includePickles, IdGenerator idGenerator) {
-        return new Gherkin(Collections.<String>emptyList(), envelopes, includeSource, includeAst, includePickles, idGenerator).messages();
-    }
-
-    public static Stream<Envelope> fromStream(InputStream in) {
-        BinaryToMessageIterable envelopeIterable = new BinaryToMessageIterable(in);
-        return StreamSupport.stream(envelopeIterable.spliterator(), false);
+        return new Gherkin(Collections.emptyList(), envelopes, includeSource, includeAst, includePickles, idGenerator).messages();
     }
 
     public static Envelope makeSourceEnvelope(String data, String uri) {
@@ -61,12 +58,9 @@ public class Gherkin {
         } else {
             throw new GherkinException(String.format("Unsupported file type: %s. Supported extensions: .feature and .md", uri));
         }
-        return Envelope.newBuilder().setSource(Messages.Source
-                .newBuilder()
-                .setData(data)
-                .setUri(uri)
-                .setMediaType(mediaType)
-        ).build();
+        Envelope envelope = new Envelope();
+        envelope.setSource(new Source(uri, data, mediaType));
+        return envelope;
     }
 
     public Stream<Envelope> messages() {
@@ -107,29 +101,35 @@ public class Gherkin {
         if (includeSource) {
             messages.add(envelope);
         }
-        if (envelope.hasSource()) {
+        if (envelope.getSource() != null) {
 
-            Parser<Messages.GherkinDocument.Builder> parser = new Parser<>(new GherkinDocumentBuilder(idGenerator));
-            Messages.Source source = envelope.getSource();
+            Parser<GherkinDocument> parser = new Parser<>(new GherkinDocumentBuilder(idGenerator));
+            Source source = envelope.getSource();
             String uri = source.getUri();
             String data = source.getData();
             Parser.ITokenMatcher tokenMatcher = uri.endsWith(".md") ? new TokenMatcher("md") : new TokenMatcher();
 
             try {
-                Messages.GherkinDocument gherkinDocument = null;
+                GherkinDocument gherkinDocument = null;
 
                 if (includeGherkinDocument) {
-                    gherkinDocument = parser.parse(data, tokenMatcher).setUri(uri).build();
-                    messages.add(Envelope.newBuilder().setGherkinDocument(gherkinDocument).build());
+                    gherkinDocument = parser.parse(data);
+                    gherkinDocument.setUri(uri);
+                    Envelope gherkinDocumentEnvelope = new Envelope();
+                    gherkinDocumentEnvelope.setGherkinDocument(gherkinDocument);
+                    messages.add(gherkinDocumentEnvelope);
                 }
                 if (includePickles) {
                     if (gherkinDocument == null) {
-                        gherkinDocument = parser.parse(data).setUri(uri).build();
+                        gherkinDocument = parser.parse(data);
+                        gherkinDocument.setUri(uri);
                     }
                     PickleCompiler pickleCompiler = new PickleCompiler(idGenerator);
-                    List<Messages.Pickle> pickles = pickleCompiler.compile(gherkinDocument, uri);
-                    for (Messages.Pickle pickle : pickles) {
-                        messages.add(Envelope.newBuilder().setPickle(pickle).build());
+                    List<Pickle> pickles = pickleCompiler.compile(gherkinDocument, uri);
+                    for (Pickle pickle : pickles) {
+                        Envelope pickleEnvelope = new Envelope();
+                        pickleEnvelope.setPickle(pickle);
+                        messages.add(pickleEnvelope);
                     }
                 }
             } catch (ParserException.CompositeParserException e) {
@@ -144,18 +144,23 @@ public class Gherkin {
     }
 
     private void addParseError(List<Envelope> messages, ParserException e, String uri) {
-        Messages.ParseError parseError = Messages.ParseError.newBuilder()
-                .setSource(Messages.SourceReference.newBuilder()
-                        .setUri(uri)
-                        .setLocation(
-                                Messages.Location.newBuilder()
-                                        .setLine(e.location.getLine())
-                                        .setColumn(e.location.getColumn())
-                                        .build()
+        long line = e.location.getLine();
+        long column = e.location.getColumn();
+        ParseError parseError = new ParseError(
+                new SourceReference(
+                        uri,
+                        null, null,
+                        // We want 0 values not to be serialised, which is why we set them to null
+                        // This is a legacy requirement brought over from old protobuf behaviour
+                        new Location(
+                                line == 0 ? null : line,
+                                column == 0 ? null : column
                         )
-                        .build())
-                .setMessage(e.getMessage())
-                .build();
-        messages.add(Envelope.newBuilder().setParseError(parseError).build());
+                ),
+                e.getMessage()
+        );
+        Envelope envelope = new Envelope();
+        envelope.setParseError(parseError);
+        messages.add(envelope);
     }
 }

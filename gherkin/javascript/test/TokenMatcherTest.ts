@@ -1,7 +1,7 @@
 import assert from 'assert'
 import TokenMatcher from '../src/TokenMatcher'
 import { NoSuchLanguageException } from '../src/Errors'
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import GherkinLine from '../src/GherkinLine'
 import { Token, TokenType } from '../src/Parser'
 
@@ -12,7 +12,7 @@ describe('TokenMatcher', function () {
 
   it('tokenizes FeatureLine', () => {
     const tm = new TokenMatcher()
-    const location = messages.Location.create({ line: 1, column: 1 })
+    const location: messages.Location = { line: 1, column: 1 }
     const line = new GherkinLine('Feature: hello', location.line)
     const token = new Token(line, location)
     assert(tm.match_FeatureLine(token))

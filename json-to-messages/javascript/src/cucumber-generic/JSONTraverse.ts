@@ -1,4 +1,4 @@
-import { IdGenerator, messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import { IFeature } from './JSONSchema'
 import IAstMaker from '../IAstMaker'
 import IPredictableSupportCode from '../IPredictableSupportCode'
@@ -10,20 +10,20 @@ import { ITag } from '../types'
 type traverseElementType = (
   element: IRubyElement | IJSElement | IBehaveElement,
   astMaker: IAstMaker,
-  newId: IdGenerator.NewId,
+  newId: messages.IdGenerator.NewId,
   predictableSupportCode: IPredictableSupportCode
-) => messages.GherkinDocument.Feature.IFeatureChild
+) => messages.FeatureChild
 
 export function traverseFeature(
   feature: IFeature,
   astMaker: IAstMaker,
-  newId: IdGenerator.NewId,
+  newId: messages.IdGenerator.NewId,
   predictableSupportCode: IPredictableSupportCode,
   traverseElement: traverseElementType
-): messages.IGherkinDocument {
-  const children: messages.GherkinDocument.Feature.IFeatureChild[] = []
+): messages.GherkinDocument {
+  const children: messages.FeatureChild[] = []
   let backgroundFound = false
-  const tags = feature.tags ? feature.tags.map((tag) => traverseTag(tag, astMaker)) : undefined
+  const tags = feature.tags ? feature.tags.map((tag) => traverseTag(tag, astMaker)) : []
 
   for (const element of feature.elements) {
     const isBackground = element.type === 'background'
@@ -46,6 +46,6 @@ export function traverseFeature(
   return astMaker.makeGherkinDocument(feature.uri, gherkinFeature)
 }
 
-export function traverseTag(tag: ITag, astMaker: IAstMaker): messages.GherkinDocument.Feature.ITag {
+export function traverseTag(tag: ITag, astMaker: IAstMaker): messages.Tag {
   return astMaker.makeTag(tag.name, tag.line)
 }

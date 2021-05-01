@@ -17,17 +17,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
-* Fix issue with compiled files not appearing in published package
+## [9.0.2] - 2021-04-06
+
+### Fixed
+
+* [JavaScript] Fix issue with compiled files not appearing in published package
+  ([#1452](https://github.com/cucumber/cucumber/pull/1452))
 
 ## [9.0.1] - 2021-04-03
-
-### Added
-
-### Changed
-
-### Deprecated
-
-### Removed
 
 ### Fixed
 
@@ -122,7 +119,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First JavaScript implementation
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/query/v9.0.1...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/query/v9.0.2...master
+[9.0.2]:      https://github.com/cucumber/cucumber/compare/cucumber-query/v9.0.1...query/v9.0.2
 [9.0.1]:      https://github.com/cucumber/cucumber/compare/cucumber-query/v9.0.0...query/v9.0.1
 [9.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-query/v8.0.0...query/v9.0.0
 [8.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-query/v7.0.1...query/v8.0.0

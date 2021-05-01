@@ -31,22 +31,22 @@ acceptance/testdata/%.tokens: testdata/% testdata/%.tokens .built
 
 acceptance/testdata/%.ast.ndjson: testdata/% testdata/%.ast.ndjson .built
 	mkdir -p $(@D)
-	bin/gherkin --no-source --no-pickles --format ndjson --predictable-ids $< | jq --sort-keys --compact-output "." > $@
+	bin/gherkin --no-source --no-pickles --predictable-ids $< | jq --sort-keys --compact-output "." > $@
 	diff --unified <(jq "." $<.ast.ndjson) <(jq "." $@)
 
 acceptance/testdata/%.pickles.ndjson: testdata/% testdata/%.pickles.ndjson .built
 	mkdir -p $(@D)
-	bin/gherkin --no-source --no-ast --format ndjson --predictable-ids $< | jq --sort-keys --compact-output "." > $@
+	bin/gherkin --no-source --no-ast --predictable-ids $< | jq --sort-keys --compact-output "." > $@
 	diff --unified <(jq "." $<.pickles.ndjson) <(jq "." $@)
 
 acceptance/testdata/%.source.ndjson: testdata/% testdata/%.source.ndjson .built
 	mkdir -p $(@D)
-	bin/gherkin --no-ast --no-pickles --format ndjson --predictable-ids $< | jq --sort-keys --compact-output "." > $@
+	bin/gherkin --no-ast --no-pickles --predictable-ids $< | jq --sort-keys --compact-output "." > $@
 	diff --unified <(jq "." $<.source.ndjson) <(jq "." $@)
 
 acceptance/testdata/%.errors.ndjson: testdata/% testdata/%.errors.ndjson .built
 	mkdir -p $(@D)
-	bin/gherkin --no-source --format ndjson --predictable-ids $< | jq --sort-keys --compact-output "." > $@
+	bin/gherkin --no-source --predictable-ids $< | jq --sort-keys --compact-output "." > $@
 	diff --unified <(jq "." $<.errors.ndjson) <(jq "." $@)
 
 clean:

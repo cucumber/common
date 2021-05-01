@@ -1,9 +1,9 @@
 import React from 'react'
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import TableBody from './TableBody'
 
 interface IProps {
-  dataTable: messages.GherkinDocument.Feature.Step.IDataTable
+  dataTable: messages.DataTable
 }
 
 const DataTable: React.FunctionComponent<IProps> = ({ dataTable }) => {

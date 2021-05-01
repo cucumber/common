@@ -19,6 +19,23 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Fixed
 
+## [17.0.2] - 2021-04-22
+
+### Fixed
+
+* Handle tagged examples
+  ([1489](https://github.com/cucumber/cucumber/pull/1489)
+   [aurelien-reeves])
+
+## [7.0.1] - 2021-04-09
+
+### Fixed
+
+* Handle embeddings when step is issued from a hook
+  ([#1466](https://github.com/cucumber/cucumber/pull/1466)
+   [#1172](https://github.com/cucumber/cucumber/issues/1172)
+   [aurelien-reeves])
+
 ## [7.0.0] - 2021-03-29
 
 ### Changed
@@ -111,7 +128,9 @@ Upgrade messages
 * Initial release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/json-formatter/v7.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/json-formatter/v17.0.2...master
+[17.0.2]:      https://github.com/cucumber/cucumber/compare/json-formatter/v7.0.1...json-formatter/v17.0.2
+[7.0.1]:      https://github.com/cucumber/cucumber/compare/json-formatter/v7.0.0...json-formatter/v7.0.1
 [7.0.0]:      https://github.com/cucumber/cucumber/compare/json-formatter/v6.0.0...json-formatter/v7.0.0
 [6.0.0]:      https://github.com/cucumber/cucumber/compare/json-formatter/v5.1.0...json-formatter/v6.0.0
 [5.1.0]:      https://github.com/cucumber/cucumber/compare/json-formatter/v5.0.0...json-formatter/v5.1.0
@@ -127,3 +146,4 @@ Upgrade messages
 
 <!-- Contributors -->
 [aslakhellesoy]:    https://github.com/aslakhellesoy
+[aurelien-reeves]:  https://github.com/aurelien-reeves

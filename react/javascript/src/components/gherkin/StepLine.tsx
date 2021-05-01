@@ -1,12 +1,12 @@
 import React from 'react'
 import Keyword from './Keyword'
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import CucumberQueryContext from '../../CucumberQueryContext'
 import GherkinQueryContext from '../../GherkinQueryContext'
 import HighLight from '../app/HighLight'
 
 interface IProps {
-  step: messages.GherkinDocument.Feature.IStep
+  step: messages.Step
   renderStepMatchArguments: boolean
 }
 

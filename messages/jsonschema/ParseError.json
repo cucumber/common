@@ -1,0 +1,17 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "additionalProperties": false,
+  "required": [
+    "source",
+    "message"
+  ],
+  "properties": {
+    "source": {
+      "$ref": "./SourceReference.json"
+    },
+    "message": {
+      "type": "string"
+    }
+  },
+  "type": "object"
+}

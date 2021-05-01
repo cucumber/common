@@ -1,7 +1,8 @@
 package io.cucumber.htmlformatter;
 
-import io.cucumber.messages.Messages;
-import io.cucumber.messages.internal.com.google.protobuf.util.JsonFormat;
+import io.cucumber.messages.internal.com.fasterxml.jackson.annotation.JsonInclude;
+import io.cucumber.messages.internal.com.fasterxml.jackson.databind.json.JsonMapper;
+import io.cucumber.messages.types.Envelope;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -20,9 +21,7 @@ import static java.util.Objects.requireNonNull;
  */
 public class MessagesToHtmlWriter implements AutoCloseable {
 
-    private final JsonFormat.Printer jsonPrinter = JsonFormat
-            .printer()
-            .omittingInsignificantWhitespace();
+    private final JsonMapper jsonPrinter = JsonMapper.builder().serializationInclusion(JsonInclude.Include.NON_NULL).build();
     private final String template;
 
     private final Writer writer;
@@ -54,7 +53,7 @@ public class MessagesToHtmlWriter implements AutoCloseable {
      * @param envelope the message
      * @throws IOException if an IO error occurs
      */
-    public void write(Messages.Envelope envelope) throws IOException {
+    public void write(Envelope envelope) throws IOException {
         if (streamClosed) {
             throw new IOException("Stream closed");
         }
@@ -70,7 +69,7 @@ public class MessagesToHtmlWriter implements AutoCloseable {
             writer.write(",");
         }
 
-        writer.write(jsonPrinter.print(envelope));
+        writer.write(jsonPrinter.writeValueAsString(envelope));
     }
 
     /**

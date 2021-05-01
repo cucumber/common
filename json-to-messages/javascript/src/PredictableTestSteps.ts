@@ -1,13 +1,19 @@
-import { messages, TimeConversion } from '@cucumber/messages'
-import { ITestStep, TestStep, IWorld, EnvelopeListener, DateClock } from '@cucumber/fake-cucumber'
-import { PerfHooksStopwatch } from '@cucumber/fake-cucumber'
+import * as messages from '@cucumber/messages'
+import {
+  DateClock,
+  EnvelopeListener,
+  ITestStep,
+  IWorld,
+  PerfHooksStopwatch,
+  TestStep,
+} from '@cucumber/fake-cucumber'
 
 abstract class PredictableTestStep extends TestStep implements ITestStep {
   constructor(
     public readonly id: string,
     public readonly sourceId: string,
     public readonly alwaysExecute: boolean,
-    private readonly status: messages.TestStepFinished.TestStepResult.Status,
+    private readonly status: messages.TestStepResultStatus,
     private readonly duration: number,
     private readonly errorMessage?: string
   ) {
@@ -20,15 +26,16 @@ abstract class PredictableTestStep extends TestStep implements ITestStep {
     _: IWorld,
     testCaseStartedId: string,
     listener: EnvelopeListener
-  ): Promise<messages.TestStepFinished.ITestStepResult> {
+  ): Promise<messages.TestStepResult> {
     this.emitTestStepStarted(testCaseStartedId, listener)
     return this.emitTestStepFinished(
       testCaseStartedId,
-      new messages.TestStepFinished.TestStepResult({
-        duration: TimeConversion.millisecondsToDuration(this.duration),
+      {
+        willBeRetried: false,
+        duration: messages.TimeConversion.millisecondsToDuration(this.duration),
         status: this.status,
         message: this.errorMessage,
-      }),
+      },
       listener
     )
   }
@@ -40,31 +47,29 @@ export class PredictablePickleTestStep extends PredictableTestStep {
     public readonly sourceId: string,
     public readonly alwaysExecute: boolean,
     private readonly stepDefinitionId: string,
-    status: messages.TestStepFinished.TestStepResult.Status,
+    status: messages.TestStepResultStatus,
     duration: number,
     errorMessage?: string
   ) {
     super(id, sourceId, alwaysExecute, status, duration, errorMessage)
   }
 
-  public toMessage(): messages.TestCase.ITestStep {
+  public toMessage(): messages.TestStep {
     const stepDefinitionIds = this.stepDefinitionId ? [this.stepDefinitionId] : []
 
-    return new messages.TestCase.TestStep({
+    return {
       id: this.id,
       pickleStepId: this.sourceId,
-      stepDefinitionIds,
-    })
+      stepDefinitionIds: stepDefinitionIds,
+    }
   }
 }
 
 export class PredictableHookTestStep extends PredictableTestStep {
-  public toMessage(): messages.TestCase.ITestStep {
-    const testStep = new messages.TestCase.TestStep({
+  public toMessage(): messages.TestStep {
+    return {
       id: this.id,
       hookId: this.sourceId,
-    })
-    testStep.pickleStepId = undefined
-    return testStep
+    }
   }
 }

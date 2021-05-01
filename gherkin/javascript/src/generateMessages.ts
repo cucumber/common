@@ -1,6 +1,6 @@
 import Parser, { TokenType } from './Parser'
 import TokenMatcher from './TokenMatcher'
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import compile from './pickles/compile'
 import AstBuilder from './AstBuilder'
 import IGherkinOptions from './IGherkinOptions'
@@ -14,7 +14,7 @@ export default function generateMessages(
   uri: string,
   mediaType: GherkinMediaType,
   options: IGherkinOptions
-): readonly messages.IEnvelope[] {
+): readonly messages.Envelope[] {
   let tokenMatcher: ITokenMatcher<TokenType>
   switch (mediaType) {
     case GherkinMediaType.PLAIN:
@@ -44,21 +44,17 @@ export default function generateMessages(
     const gherkinDocument = parser.parse(data)
 
     if (options.includeGherkinDocument) {
-      result.push(
-        messages.Envelope.create({
-          gherkinDocument: { ...gherkinDocument, uri },
-        })
-      )
+      result.push({
+        gherkinDocument: { ...gherkinDocument, uri },
+      })
     }
 
     if (options.includePickles) {
       const pickles = compile(gherkinDocument, uri, options.newId)
       for (const pickle of pickles) {
-        result.push(
-          messages.Envelope.create({
-            pickle,
-          })
-        )
+        result.push({
+          pickle,
+        })
       }
     }
   } catch (err) {
@@ -68,20 +64,18 @@ export default function generateMessages(
         // It wasn't a parser error - throw it (this is unexpected)
         throw error
       }
-      result.push(
-        messages.Envelope.create({
-          parseError: {
-            source: {
-              uri,
-              location: {
-                line: error.location.line,
-                column: error.location.column,
-              },
+      result.push({
+        parseError: {
+          source: {
+            uri,
+            location: {
+              line: error.location.line,
+              column: error.location.column,
             },
-            message: error.message,
           },
-        })
-      )
+          message: error.message,
+        },
+      })
     }
   }
   return result

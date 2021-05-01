@@ -1,5 +1,5 @@
 import { Transform, TransformCallback } from 'stream'
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import { generateMessages, IGherkinOptions, GherkinMediaType } from '@cucumber/gherkin'
 
 /**
@@ -10,7 +10,7 @@ export default class ParserMessageStream extends Transform {
     super({ writableObjectMode: true, readableObjectMode: true })
   }
 
-  public _transform(envelope: messages.IEnvelope, encoding: string, callback: TransformCallback) {
+  public _transform(envelope: messages.Envelope, encoding: string, callback: TransformCallback) {
     if (envelope.source) {
       const messageList = generateMessages(
         envelope.source.data,
@@ -25,5 +25,3 @@ export default class ParserMessageStream extends Transform {
     callback()
   }
 }
-
-module.exports = ParserMessageStream

@@ -2,7 +2,7 @@ import { runCucumber, SupportCode, IHook, ISupportCodeExecutor } from '@cucumber
 import { GherkinStreams } from '@cucumber/gherkin-streams'
 import { Query as GherkinQuery } from '@cucumber/gherkin-utils'
 import { Writable } from 'stream'
-import { messages, IdGenerator } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import { makeSourceEnvelope } from '@cucumber/gherkin'
 
 export class FailingCodeSupport implements ISupportCodeExecutor {
@@ -11,7 +11,7 @@ export class FailingCodeSupport implements ISupportCodeExecutor {
   public execute() {
     throw new Error('Woops ...')
   }
-  public argsToMessages(): messages.TestCase.TestStep.StepMatchArgumentsList.IStepMatchArgument[] {
+  public argsToMessages(): messages.StepMatchArgument[] {
     return []
   }
 }
@@ -23,12 +23,15 @@ export class FailingHook implements IHook {
     return new FailingCodeSupport('')
   }
 
-  toMessage(): messages.IEnvelope {
-    return messages.Envelope.create({
-      hook: messages.Hook.create({
+  toMessage(): messages.Envelope {
+    return {
+      hook: {
         id: this.id,
-      }),
-    })
+        sourceReference: {
+          uri: __dirname,
+        },
+      },
+    }
   }
 }
 
@@ -36,12 +39,12 @@ export default async function runFeature(
   feature: string,
   gherkinQuery: GherkinQuery,
   supportCode: SupportCode = new SupportCode()
-): Promise<messages.IEnvelope[]> {
-  const emitted: messages.IEnvelope[] = []
+): Promise<messages.Envelope[]> {
+  const emitted: messages.Envelope[] = []
   const out = new Writable({
     objectMode: true,
     write(
-      envelope: messages.IEnvelope,
+      envelope: messages.Envelope,
       encoding: string,
       callback: (error?: Error | null) => void
     ): void {
@@ -57,7 +60,7 @@ export default async function runFeature(
   const gherkinEnvelopeStream = GherkinStreams.fromSources(
     [makeSourceEnvelope(feature, 'test.feature')],
     {
-      newId: IdGenerator.incrementing(),
+      newId: messages.IdGenerator.incrementing(),
     }
   )
 

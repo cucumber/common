@@ -8,7 +8,7 @@ Cucumber JSON format after native JSON formatters have been removed from Cucumbe
 ## Installation
 
 The Standalone JSON Formatter is a prebuilt executable. (It's written in Go).
-It can be downloaded from [GitHub Releases](https://github.com/cucumber/cucumber/releases/tag/cucumber-json-formatter%2Fv6.0.0)
+It can be downloaded from [GitHub Releases](https://github.com/cucumber/cucumber/releases/tag/cucumber-json-formatter%2Fv7.0.1)
 where you'll find executables for various operating systems and CPU architectures.
 
 ### MacOS

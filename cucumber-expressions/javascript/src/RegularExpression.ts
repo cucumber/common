@@ -14,7 +14,7 @@ export default class RegularExpression implements Expression {
     this.treeRegexp = new TreeRegexp(regexp)
   }
 
-  public match(text: string): ReadonlyArray<Argument<any>> {
+  public match(text: string): readonly Argument<any>[] {
     const parameterTypes = this.treeRegexp.groupBuilder.children.map((groupBuilder) => {
       const parameterTypeRegexp = groupBuilder.source
 

@@ -1,8 +1,8 @@
 export default interface IParameterTypeDefinition {
   name: string
-  regexp: RegExp | ReadonlyArray<RegExp> | string | ReadonlyArray<string>
+  regexp: RegExp | readonly RegExp[] | string | readonly string[]
   type?: any
-  transformer?: (...args: ReadonlyArray<string>) => any
+  transformer?: (...args: readonly string[]) => any
   preferForRegexpMatch?: boolean
   useForSnippets?: boolean
 }

@@ -1,6 +1,6 @@
 import assert from 'assert'
 import GherkinLine from '../src/GherkinLine'
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import { Token, TokenType } from '../src/Parser'
 import MarkdownTokenMatcher from '../src/MarkdownTokenMatcher'
 import ITokenMatcher from '../src/ITokenMatcher'
@@ -8,11 +8,11 @@ import { Item } from '../src/IToken'
 
 describe('MarkdownTokenMatcher', function () {
   let tm: ITokenMatcher<TokenType>
-  let location: messages.ILocation
+  let location: messages.Location
 
   beforeEach(() => {
     tm = new MarkdownTokenMatcher('en')
-    location = messages.Location.create({ line: 1, column: 1 })
+    location = { line: 1, column: 1 }
   })
 
   it('matches FeatureLine', () => {

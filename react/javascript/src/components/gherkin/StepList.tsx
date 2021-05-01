@@ -1,9 +1,9 @@
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import React from 'react'
 import Step from './Step'
 
 interface IProps {
-  steps: messages.GherkinDocument.Feature.IStep[]
+  steps: readonly messages.Step[]
   renderStepMatchArguments: boolean
   renderMessage: boolean
 }

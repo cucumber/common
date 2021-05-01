@@ -1,5 +1,5 @@
 import assert from 'assert'
-import { messages, IdGenerator } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import AstBuilder from '../src/AstBuilder'
 import Parser from '../src/Parser'
 import TokenMatcher from '../src/TokenMatcher'
@@ -10,64 +10,67 @@ import { GherkinMediaType } from '../src'
 describe('Parser', function () {
   it('parses a simple feature', function () {
     const parser = new Parser<AstNode>(
-      new AstBuilder(IdGenerator.incrementing()),
+      new AstBuilder(messages.IdGenerator.incrementing()),
       new TokenMatcher()
     )
     const ast = parser.parse('Feature: hello')
-    assert.deepStrictEqual(
-      ast,
-      messages.GherkinDocument.fromObject({
-        feature: {
-          tags: [],
-          location: { line: 1, column: 1 },
-          language: 'en',
-          keyword: 'Feature',
-          name: 'hello',
-          children: [],
-        },
-        comments: [],
-      })
-    )
+    const gherkinDocument: messages.GherkinDocument = {
+      feature: {
+        description: '',
+        tags: [],
+        location: { line: 1, column: 1 },
+        language: 'en',
+        keyword: 'Feature',
+        name: 'hello',
+        children: [],
+      },
+      comments: [],
+    }
+    assert.deepStrictEqual(ast, gherkinDocument)
   })
 
   it('parses multiple features', function () {
-    const parser = new Parser(new AstBuilder(IdGenerator.incrementing()), new TokenMatcher())
+    const parser = new Parser(
+      new AstBuilder(messages.IdGenerator.incrementing()),
+      new TokenMatcher()
+    )
     const ast1 = parser.parse('Feature: hello')
     const ast2 = parser.parse('Feature: hello again')
 
-    assert.deepStrictEqual(
-      ast1,
-      messages.GherkinDocument.fromObject({
-        feature: {
-          tags: [],
-          location: { line: 1, column: 1 },
-          language: 'en',
-          keyword: 'Feature',
-          name: 'hello',
-          children: [],
-        },
-        comments: [],
-      })
-    )
-    assert.deepStrictEqual(
-      ast2,
-      messages.GherkinDocument.fromObject({
-        feature: {
-          tags: [],
-          location: { line: 1, column: 1 },
-          language: 'en',
-          keyword: 'Feature',
-          name: 'hello again',
-          children: [],
-        },
-        comments: [],
-      })
-    )
+    const gherkinDocument1: messages.GherkinDocument = {
+      feature: {
+        tags: [],
+        description: '',
+        location: { line: 1, column: 1 },
+        language: 'en',
+        keyword: 'Feature',
+        name: 'hello',
+        children: [],
+      },
+      comments: [],
+    }
+    assert.deepStrictEqual(ast1, gherkinDocument1)
+    const gherkinDocument2: messages.GherkinDocument = {
+      feature: {
+        tags: [],
+        description: '',
+        location: { line: 1, column: 1 },
+        language: 'en',
+        keyword: 'Feature',
+        name: 'hello again',
+        children: [],
+      },
+      comments: [],
+    }
+    assert.deepStrictEqual(ast2, gherkinDocument2)
   })
 
   it('parses feature after parse error', function () {
-    const parser = new Parser(new AstBuilder(IdGenerator.incrementing()), new TokenMatcher())
-    let ast: messages.IGherkinDocument
+    const parser = new Parser(
+      new AstBuilder(messages.IdGenerator.incrementing()),
+      new TokenMatcher()
+    )
+    let ast: messages.GherkinDocument
     try {
       parser.parse(
         '# a comment\n' +
@@ -88,44 +91,45 @@ describe('Parser', function () {
       )
     }
 
-    assert.deepStrictEqual(
-      ast,
-      messages.GherkinDocument.fromObject({
-        feature: {
-          tags: [],
-          location: { line: 1, column: 1 },
-          language: 'en',
-          keyword: 'Feature',
-          name: 'Foo',
-          children: [
-            {
-              scenario: {
-                id: '1',
-                examples: [],
-                keyword: 'Scenario',
-                location: { line: 2, column: 3 },
-                name: 'Bar',
-                steps: [
-                  {
-                    id: '0',
-                    docString: {
-                      content: 'closed docstring',
-                      delimiter: '"""',
-                      location: { line: 4, column: 7 },
-                    },
-                    keyword: 'Given ',
-                    location: { line: 3, column: 5 },
-                    text: 'x',
+    const gherkinDocument: messages.GherkinDocument = {
+      feature: {
+        tags: [],
+        description: '',
+        location: { line: 1, column: 1 },
+        language: 'en',
+        keyword: 'Feature',
+        name: 'Foo',
+        children: [
+          {
+            scenario: {
+              id: '1',
+              description: '',
+              examples: [],
+              keyword: 'Scenario',
+              location: { line: 2, column: 3 },
+              name: 'Bar',
+              steps: [
+                {
+                  id: '0',
+                  dataTable: undefined,
+                  docString: {
+                    content: 'closed docstring',
+                    delimiter: '"""',
+                    location: { line: 4, column: 7 },
                   },
-                ],
-                tags: [],
-              },
+                  keyword: 'Given ',
+                  location: { line: 3, column: 5 },
+                  text: 'x',
+                },
+              ],
+              tags: [],
             },
-          ],
-        },
-        comments: [],
-      })
-    )
+          },
+        ],
+      },
+      comments: [],
+    }
+    assert.deepStrictEqual(ast, gherkinDocument)
   })
 
   it('interpolates data tables', function () {
@@ -138,7 +142,7 @@ describe('Parser', function () {
         '    | is triggered       | foo   |\n ',
       '',
       GherkinMediaType.PLAIN,
-      { includePickles: true, newId: IdGenerator.incrementing() }
+      { includePickles: true, newId: messages.IdGenerator.incrementing() }
     )
 
     const pickle = envelopes.find((envelope) => envelope.pickle).pickle
@@ -148,22 +152,21 @@ describe('Parser', function () {
 
   it('can change the default language', function () {
     const matcher = new TokenMatcher('no')
-    const parser = new Parser(new AstBuilder(IdGenerator.incrementing()), matcher)
+    const parser = new Parser(new AstBuilder(messages.IdGenerator.incrementing()), matcher)
     const ast = parser.parse('Egenskap: i18n support')
-    assert.deepStrictEqual(
-      ast,
-      messages.GherkinDocument.fromObject({
-        feature: {
-          tags: [],
-          location: { line: 1, column: 1 },
-          language: 'no',
-          keyword: 'Egenskap',
-          name: 'i18n support',
-          children: [],
-        },
-        comments: [],
-      })
-    )
+    const gherkinDocument: messages.GherkinDocument = {
+      feature: {
+        tags: [],
+        description: '',
+        location: { line: 1, column: 1 },
+        language: 'no',
+        keyword: 'Egenskap',
+        name: 'i18n support',
+        children: [],
+      },
+      comments: [],
+    }
+    assert.deepStrictEqual(ast, gherkinDocument)
   })
 
   it('parses markdown with docstring', function () {
@@ -178,7 +181,7 @@ describe('Parser', function () {
     const envelopes = generateMessages(markdown, 'test.md', GherkinMediaType.MARKDOWN, {
       includePickles: true,
       includeGherkinDocument: true,
-      newId: IdGenerator.incrementing(),
+      newId: messages.IdGenerator.incrementing(),
     })
 
     const pickle = envelopes.find((envelope) => envelope.pickle).pickle
