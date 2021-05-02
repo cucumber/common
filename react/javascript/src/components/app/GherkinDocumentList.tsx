@@ -48,9 +48,7 @@ const GherkinDocumentList: React.FunctionComponent<GherkinDocumentListProps> = (
 
   // Pre-expand any document that is *not* passed - assuming this is what people want to look at first
   const preExpanded = gherkinDocs
-    .filter(
-      (doc) => gherkinDocumentStatusByUri.get(doc.uri) !== 'PASSED'
-    )
+    .filter((doc) => gherkinDocumentStatusByUri.get(doc.uri) !== 'PASSED')
     .map((doc) => doc.uri)
 
   return (
