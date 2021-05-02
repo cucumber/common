@@ -32,7 +32,7 @@ sub compile {
                 $pickle_sink
                 );
         } else {
-            ...;
+            die "Unimplemented";
         }
     }
 
@@ -168,7 +168,7 @@ sub _compile_rule {
                 $pickle_sink
                 );
         } else {
-            ...;
+            die "Unimplemented";
         }
     }
 }

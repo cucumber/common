@@ -3,13 +3,13 @@ import Tags from './Tags'
 import IdGenerator from '../../IdGenerator'
 import Description from './Description'
 import Scenario from './Scenario'
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import Rule from './Rule'
 import Background from './Background'
 import FeatureTitle from './FeatureTitle'
 
 interface IProps {
-  feature: messages.GherkinDocument.IFeature
+  feature: messages.Feature
 }
 
 const generator = new IdGenerator()

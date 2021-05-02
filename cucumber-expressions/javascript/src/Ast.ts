@@ -42,14 +42,14 @@ export interface Located {
 
 export class Node {
   readonly type: NodeType
-  readonly nodes?: ReadonlyArray<Node> | undefined
+  readonly nodes?: readonly Node[] | undefined
   readonly token?: string | undefined
   readonly start: number
   readonly end: number
 
   constructor(
     type: NodeType,
-    nodes: ReadonlyArray<Node> = undefined,
+    nodes: readonly Node[] = undefined,
     token: string = undefined,
     start: number,
     end: number

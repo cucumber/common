@@ -1,6 +1,6 @@
 package io.cucumber.gherkin;
 
-import io.cucumber.messages.Messages;
+import io.cucumber.messages.types.Envelope;
 import org.junit.Test;
 
 import static org.junit.Assert.assertNotNull;
@@ -10,6 +10,6 @@ import static org.junit.Assert.assertNotNull;
 public class MessageVersionTest {
     @Test
     public void message_library_has_version() {
-        assertNotNull(Messages.Envelope.class.getPackage().getImplementationVersion());
+        assertNotNull(Envelope.class.getPackage().getImplementationVersion());
     }
 }

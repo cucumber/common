@@ -12,6 +12,6 @@ export interface IFeature {
   keyword: string
   name: string
   description: string
-  elements: ReadonlyArray<IElement>
-  tags?: ReadonlyArray<ITag>
+  elements: readonly IElement[]
+  tags?: readonly ITag[]
 }

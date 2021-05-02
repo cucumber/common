@@ -1,6 +1,6 @@
 import assert from 'assert'
 import Hook from '../src/Hook'
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import TestWorld from './TestWorld'
 
 describe('Hook', () => {
@@ -9,21 +9,33 @@ describe('Hook', () => {
       const hook = new Hook('hook-id', 'not @foo', null, () => {
         throw new Error('unexpected')
       })
-      const pickle = new messages.Pickle({
-        tags: [new messages.Pickle.PickleTag({ name: '@foo' })],
-      })
+      const pickle: messages.Pickle = {
+        tags: [{ name: '@foo', astNodeId: '1' }],
+        astNodeIds: [],
+        id: '1',
+        language: 'en',
+        name: 'Test',
+        steps: [],
+        uri: 'uri',
+      }
       const executor = hook.match(pickle)
 
-      assert.equal(executor, null)
+      assert.strictEqual(executor, null)
     })
 
     it("returns a SupportCodeExecutor if the hook's tag expression matches", () => {
       const hook = new Hook('hook-id', 'not @foo', null, () => {
         return 'something'
       })
-      const pickle = new messages.Pickle({
-        tags: [new messages.Pickle.PickleTag({ name: '@bar' })],
-      })
+      const pickle: messages.Pickle = {
+        tags: [{ name: '@bar', astNodeId: '1' }],
+        astNodeIds: [],
+        id: '1',
+        language: 'en',
+        name: 'Test',
+        steps: [],
+        uri: 'uri',
+      }
       const executor = hook.match(pickle)
 
       assert.strictEqual(executor.execute(new TestWorld()), 'something')
@@ -33,9 +45,15 @@ describe('Hook', () => {
       const hook = new Hook('hook-id', null, null, () => {
         return 'something'
       })
-      const pickle = new messages.Pickle({
-        tags: [new messages.Pickle.PickleTag({ name: '@bar' })],
-      })
+      const pickle: messages.Pickle = {
+        tags: [{ name: '@bar', astNodeId: '1' }],
+        astNodeIds: [],
+        id: '1',
+        language: 'en',
+        name: 'Test',
+        steps: [],
+        uri: 'uri',
+      }
       const executor = hook.match(pickle)
 
       assert.strictEqual(executor.execute(new TestWorld()), 'something')

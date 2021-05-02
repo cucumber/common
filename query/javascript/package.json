@@ -27,10 +27,10 @@
     "@cucumber/gherkin-streams": "^1.0.0",
     "@cucumber/gherkin-utils": "^4.0.0",
     "@types/mocha": "^8.2.2",
-    "@types/node": "^14.14.37",
+    "@types/node": "^15.0.1",
     "mocha": "^8.3.2",
     "ts-node": "^9.1.1",
-    "typescript": "^4.2.3"
+    "typescript": "^4.2.4"
   },
   "dependencies": {
     "@cucumber/messages": "^15.0.0",

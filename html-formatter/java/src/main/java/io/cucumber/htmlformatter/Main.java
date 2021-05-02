@@ -1,7 +1,7 @@
 package io.cucumber.htmlformatter;
 
-import io.cucumber.messages.Messages;
 import io.cucumber.messages.NdjsonToMessageIterable;
+import io.cucumber.messages.types.Envelope;
 
 import java.io.OutputStreamWriter;
 
@@ -12,7 +12,7 @@ public class Main {
         OutputStreamWriter writer = new OutputStreamWriter(System.out, UTF_8);
         NdjsonToMessageIterable envelopes = new NdjsonToMessageIterable(System.in);
         try (MessagesToHtmlWriter htmlWriter = new MessagesToHtmlWriter(writer)) {
-            for (Messages.Envelope envelope : envelopes) {
+            for (Envelope envelope : envelopes) {
                 htmlWriter.write(envelope);
             }
         } catch (Throwable e) {

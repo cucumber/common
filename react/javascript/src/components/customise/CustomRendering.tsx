@@ -1,5 +1,5 @@
 import React from 'react'
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 
 export function mixinStyles(
   builtIn: Record<string, string>,
@@ -20,7 +20,7 @@ export function mixinStyles(
 export declare type CustomRenderer<R, C> = React.FunctionComponent<R> | Partial<C>
 
 export interface DocStringProps {
-  docString: messages.GherkinDocument.Feature.Step.IDocString
+  docString: messages.DocString
 }
 
 export interface DocStringClasses {
@@ -28,7 +28,7 @@ export interface DocStringClasses {
 }
 
 export interface TagsProps {
-  tags: messages.GherkinDocument.Feature.ITag[]
+  tags: messages.Tag
 }
 
 export interface TagsClasses {
@@ -37,7 +37,7 @@ export interface TagsClasses {
 }
 
 export interface GherkinDocumentListProps {
-  gherkinDocuments?: ReadonlyArray<messages.IGherkinDocument>
+  gherkinDocuments?: ReadonlyArray<messages.GherkinDocument>
 }
 
 export interface GherkinDocumentListClasses {

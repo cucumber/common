@@ -8,7 +8,7 @@ describe('AstMaker', () => {
     it('transforms the line to a Location object', () => {
       const feature = astMaker.makeFeature(12, '', '', '', [])
 
-      assert.equal(feature.location.line, 12)
+      assert.strictEqual(feature.location.line, 12)
     })
   })
 
@@ -16,44 +16,44 @@ describe('AstMaker', () => {
     const child = astMaker.makeBackgroundFeatureChild(1, '', '', '', [])
 
     it('returns a child with a background', () => {
-      assert.notEqual(child.background, null)
+      assert(child.background)
     })
 
-    it('return a child without scenario', () => {
-      assert.equal(child.scenario, null)
+    it('returns a child without scenario', () => {
+      assert(!child.scenario)
     })
 
-    it('return a child without rule', () => {
-      assert.equal(child.rule, null)
+    it('returns a child without rule', () => {
+      assert(!child.rule)
     })
   })
 
   context('#makeScenarioFeatureChild', () => {
-    const child = astMaker.makeScenarioFeatureChild('id', 1, '', '', '', [])
+    const child = astMaker.makeScenarioFeatureChild('id', 1, '', '', '', [], [])
 
     it('returns a child without background', () => {
-      assert.equal(child.background, null)
+      assert(!child.background)
     })
 
-    it('return a child with a scenario', () => {
-      assert.notEqual(child.scenario, null)
+    it('returns a child with a scenario', () => {
+      assert(child.scenario)
     })
 
-    it('return a child without rule', () => {
-      assert.equal(child.rule, null)
+    it('returns a child without rule', () => {
+      assert(!child.rule)
     })
 
     it('creates an ID for the scenario', () => {
-      const child = astMaker.makeScenarioFeatureChild('id', 1, '', '', '', [])
-      assert.equal(child.scenario.id, 'id')
+      const child = astMaker.makeScenarioFeatureChild('id', 1, '', '', '', [], [])
+      assert.strictEqual(child.scenario.id, 'id')
     })
   })
 
   describe('makeStep', () => {
-    it('generate an ID for the step', () => {
+    it('generates an ID for the step', () => {
       const step = astMaker.makeStep('id', 10, 'Given ', 'some context')
 
-      assert.equal(step.id, 'id')
+      assert.strictEqual(step.id, 'id')
     })
   })
 })

@@ -2,7 +2,7 @@ import React from 'react'
 import Tags from './Tags'
 import Description from './Description'
 import Examples from './Examples'
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import StepList from './StepList'
 import HookList from './HookList'
 import IdGenerator from '../../IdGenerator'
@@ -12,7 +12,7 @@ import GherkinQueryContext from '../../GherkinQueryContext'
 import UriContext from '../../UriContext'
 
 interface IProps {
-  scenario: messages.GherkinDocument.Feature.IScenario
+  scenario: messages.Scenario
 }
 
 const generator = new IdGenerator()

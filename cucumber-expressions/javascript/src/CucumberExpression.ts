@@ -139,7 +139,7 @@ export default class CucumberExpression implements Expression {
     }
   }
 
-  public match(text: string): ReadonlyArray<Argument<any>> {
+  public match(text: string): readonly Argument<any>[] {
     return Argument.build(this.treeRegexp, text, this.parameterTypes)
   }
 

@@ -7,13 +7,13 @@ import {
   faInfoCircle,
   IconDefinition,
 } from '@fortawesome/free-solid-svg-icons'
-import { messages } from '@cucumber/messages'
 import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import statusName from './statusName'
+import * as messages from '@cucumber/messages'
 
 interface IProps {
-  status: messages.TestStepFinished.TestStepResult.Status
+  status: messages.TestStepResultStatus
 }
 
 const StatusIcon: React.FunctionComponent<IProps> = ({ status }) => {
@@ -28,15 +28,14 @@ const StatusIcon: React.FunctionComponent<IProps> = ({ status }) => {
 
 export default StatusIcon
 
-const statusIcon = (status: messages.TestStepFinished.TestStepResult.Status): IconDefinition => {
+const statusIcon = (status: messages.TestStepResultStatus): IconDefinition => {
   return {
-    // Keep the same order as in messages.proto - for readability's sake
-    [messages.TestStepFinished.TestStepResult.Status.PASSED]: faCheckCircle,
-    [messages.TestStepFinished.TestStepResult.Status.SKIPPED]: faStopCircle,
-    [messages.TestStepFinished.TestStepResult.Status.PENDING]: faPauseCircle,
-    [messages.TestStepFinished.TestStepResult.Status.UNDEFINED]: faQuestionCircle,
-    [messages.TestStepFinished.TestStepResult.Status.AMBIGUOUS]: faInfoCircle,
-    [messages.TestStepFinished.TestStepResult.Status.FAILED]: faTimesCircle,
-    [messages.TestStepFinished.TestStepResult.Status.UNKNOWN]: faQuestionCircle,
+    ['PASSED']: faCheckCircle,
+    ['SKIPPED']: faStopCircle,
+    ['PENDING']: faPauseCircle,
+    ['UNDEFINED']: faQuestionCircle,
+    ['AMBIGUOUS']: faInfoCircle,
+    ['FAILED']: faTimesCircle,
+    ['UNKNOWN']: faQuestionCircle,
   }[status]
 }

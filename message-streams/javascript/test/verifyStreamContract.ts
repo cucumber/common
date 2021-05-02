@@ -1,4 +1,4 @@
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import { Transform } from 'stream'
 import toArray from './toArray'
 import assert = require('assert')
@@ -14,15 +14,17 @@ export default function verifyStreamContract(
 
       fromMessageStream.pipe(toMessageStream)
 
-      const outgoingMessages: messages.IEnvelope[] = [
-        messages.Envelope.create({
-          source: messages.Source.create({ data: 'Feature: Hello' }),
-        }),
-        messages.Envelope.create({
-          attachment: messages.Attachment.create({
+      const outgoingMessages: messages.Envelope[] = [
+        {
+          source: { data: 'Feature: Hello', uri: 'hello.feature', mediaType: 'whatever' },
+        },
+        {
+          attachment: {
             body: 'hello',
-          }),
-        }),
+            contentEncoding: messages.AttachmentContentEncoding.IDENTITY,
+            mediaType: 'text/plain',
+          },
+        },
       ]
 
       for (const outgoingMessage of outgoingMessages) {
@@ -32,7 +34,10 @@ export default function verifyStreamContract(
 
       const incomingMessages = await toArray(toMessageStream)
 
-      assert.deepStrictEqual(incomingMessages, outgoingMessages)
+      assert.deepStrictEqual(
+        JSON.parse(JSON.stringify(incomingMessages)),
+        JSON.parse(JSON.stringify(outgoingMessages))
+      )
     })
   })
 }

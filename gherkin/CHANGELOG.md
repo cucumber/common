@@ -18,6 +18,10 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 ### Removed
 
 ### Fixed
+* [Perl] Reinstate Perl 5.10.1 compatibility.
+  ([#1495](https://github.com/cucumber/cucumber/pull/1495)
+   [#1494](https://github.com/cucumber/cucumber/issues/1494)
+   [ehuelsmann])
 
 ## [18.1.1] - 2021-04-22
 

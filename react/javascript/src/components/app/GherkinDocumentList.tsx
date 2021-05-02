@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import GherkinDocument from '../gherkin/GherkinDocument'
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import {
   Accordion,
   AccordionItem,
@@ -34,13 +34,13 @@ const GherkinDocumentList: React.FunctionComponent<GherkinDocumentListProps> = (
   const gherkinDocs =
     gherkinDocuments === undefined ? gherkinQuery.getGherkinDocuments() : gherkinDocuments
 
-  const entries: Array<[string, messages.TestStepFinished.TestStepResult.Status]> = gherkinDocs.map(
+  const entries: Array<[string, messages.TestStepResultStatus]> = gherkinDocs.map(
     (gherkinDocument) => {
       const gherkinDocumentStatus = gherkinDocument.feature
         ? cucumberQuery.getWorstTestStepResult(
             cucumberQuery.getPickleTestStepResults(gherkinQuery.getPickleIds(gherkinDocument.uri))
           ).status
-        : messages.TestStepFinished.TestStepResult.Status.UNDEFINED
+        : messages.TestStepResultStatus.UNDEFINED
       return [gherkinDocument.uri, gherkinDocumentStatus]
     }
   )
@@ -51,7 +51,7 @@ const GherkinDocumentList: React.FunctionComponent<GherkinDocumentListProps> = (
     .filter(
       (doc) =>
         gherkinDocumentStatusByUri.get(doc.uri) !==
-        messages.TestStepFinished.TestStepResult.Status.PASSED
+        messages.TestStepResultStatus.PASSED
     )
     .map((doc) => doc.uri)
 

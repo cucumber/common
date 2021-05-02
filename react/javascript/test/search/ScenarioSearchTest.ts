@@ -1,11 +1,11 @@
 import assert from 'assert'
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import ScenarioSearch from '../../src/search/ScenarioSearch'
 import { makeScenario } from './utils'
 
 describe('ScenarioSearch', () => {
   let scenarioSearch: ScenarioSearch
-  let scenarios: messages.GherkinDocument.Feature.IScenario[]
+  let scenarios: messages.Scenario[]
 
   beforeEach(() => {
     scenarioSearch = new ScenarioSearch()

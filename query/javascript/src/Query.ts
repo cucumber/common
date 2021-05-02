@@ -1,34 +1,37 @@
-import { messages, TimeConversion } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import { ArrayMultimap } from '@teppeis/multimaps'
 
+function ordinal(status: messages.TestStepResultStatus) {
+  return ['UNKNOWN', 'PASSED', 'SKIPPED', 'PENDING', 'UNDEFINED', 'AMBIGUOUS', 'FAILED'].indexOf(
+    status
+  )
+}
+
 export default class Query {
-  private readonly testStepResultByPickleId = new ArrayMultimap<
-    string,
-    messages.TestStepFinished.ITestStepResult
-  >()
+  private readonly testStepResultByPickleId = new ArrayMultimap<string, messages.TestStepResult>()
   private readonly testStepResultsByPickleStepId = new ArrayMultimap<
     string,
-    messages.TestStepFinished.ITestStepResult
+    messages.TestStepResult
   >()
-  private readonly testStepById = new Map<string, messages.TestCase.ITestStep>()
-  private readonly testCaseByPickleId = new Map<string, messages.ITestCase>()
+  private readonly testStepById = new Map<string, messages.TestStep>()
+  private readonly testCaseByPickleId = new Map<string, messages.TestCase>()
   private readonly pickleIdByTestStepId = new Map<string, string>()
   private readonly pickleStepIdByTestStepId = new Map<string, string>()
   private readonly testStepResultsbyTestStepId = new ArrayMultimap<
     string,
-    messages.TestStepFinished.ITestStepResult
+    messages.TestStepResult
   >()
   private readonly testStepIdsByPickleStepId = new ArrayMultimap<string, string>()
-  private readonly hooksById = new Map<string, messages.IHook>()
+  private readonly hooksById = new Map<string, messages.Hook>()
 
-  private readonly attachmentsByTestStepId = new ArrayMultimap<string, messages.IAttachment>()
+  private readonly attachmentsByTestStepId = new ArrayMultimap<string, messages.Attachment>()
 
   private readonly stepMatchArgumentsListsByPickleStepId = new Map<
     string,
-    messages.TestCase.TestStep.IStepMatchArgumentsList[]
+    readonly messages.StepMatchArgumentsList[]
   >()
 
-  public update(envelope: messages.IEnvelope) {
+  public update(envelope: messages.Envelope) {
     if (envelope.testCase) {
       this.testCaseByPickleId.set(envelope.testCase.pickleId, envelope.testCase)
       for (const testStep of envelope.testCase.testSteps) {
@@ -69,22 +72,20 @@ export default class Query {
    * @param pickleStepIds
    */
   public getPickleStepTestStepResults(
-    pickleStepIds: ReadonlyArray<string>
-  ): ReadonlyArray<messages.TestStepFinished.ITestStepResult> {
+    pickleStepIds: readonly string[]
+  ): readonly messages.TestStepResult[] {
     if (pickleStepIds.length === 0) {
       return [
-        new messages.TestStepFinished.TestStepResult({
-          status: messages.TestStepFinished.TestStepResult.Status.UNKNOWN,
-          duration: TimeConversion.millisecondsToDuration(0),
-        }),
+        {
+          status: messages.TestStepResultStatus.UNKNOWN,
+          duration: messages.TimeConversion.millisecondsToDuration(0),
+          willBeRetried: false,
+        },
       ]
     }
-    return pickleStepIds.reduce(
-      (testStepResults: messages.TestStepFinished.ITestStepResult[], pickleId) => {
-        return testStepResults.concat(this.testStepResultsByPickleStepId.get(pickleId))
-      },
-      []
-    )
+    return pickleStepIds.reduce((testStepResults: messages.TestStepResult[], pickleId) => {
+      return testStepResults.concat(this.testStepResultsByPickleStepId.get(pickleId))
+    }, [])
   }
 
   /**
@@ -92,22 +93,20 @@ export default class Query {
    * @param pickleIds
    */
   public getPickleTestStepResults(
-    pickleIds: ReadonlyArray<string>
-  ): ReadonlyArray<messages.TestStepFinished.ITestStepResult> {
+    pickleIds: readonly string[]
+  ): readonly messages.TestStepResult[] {
     if (pickleIds.length === 0) {
       return [
-        new messages.TestStepFinished.TestStepResult({
-          status: messages.TestStepFinished.TestStepResult.Status.UNKNOWN,
-          duration: TimeConversion.millisecondsToDuration(0),
-        }),
+        {
+          status: messages.TestStepResultStatus.UNKNOWN,
+          duration: messages.TimeConversion.millisecondsToDuration(0),
+          willBeRetried: false,
+        },
       ]
     }
-    return pickleIds.reduce(
-      (testStepResults: messages.TestStepFinished.ITestStepResult[], pickleId) => {
-        return testStepResults.concat(this.testStepResultByPickleId.get(pickleId))
-      },
-      []
-    )
+    return pickleIds.reduce((testStepResults: messages.TestStepResult[], pickleId) => {
+      return testStepResults.concat(this.testStepResultByPickleId.get(pickleId))
+    }, [])
   }
 
   /**
@@ -115,14 +114,15 @@ export default class Query {
    * @param testStepResults
    */
   public getWorstTestStepResult(
-    testStepResults: ReadonlyArray<messages.TestStepFinished.ITestStepResult>
-  ): messages.TestStepFinished.ITestStepResult {
+    testStepResults: readonly messages.TestStepResult[]
+  ): messages.TestStepResult {
+    // throw new Error('Uncomment code below and fix it')
     return (
-      testStepResults.slice().sort((r1, r2) => r2.status - r1.status)[0] ||
-      new messages.TestStepFinished.TestStepResult({
-        status: messages.TestStepFinished.TestStepResult.Status.UNKNOWN,
-        duration: TimeConversion.millisecondsToDuration(0),
-      })
+      testStepResults.slice().sort((r1, r2) => ordinal(r2.status) - ordinal(r1.status))[0] || {
+        status: messages.TestStepResultStatus.UNKNOWN,
+        duration: messages.TimeConversion.millisecondsToDuration(0),
+        willBeRetried: false,
+      }
     )
   }
 
@@ -131,8 +131,8 @@ export default class Query {
    * @param pickleStepIds
    */
   public getPickleStepAttachments(
-    pickleStepIds: ReadonlyArray<string>
-  ): ReadonlyArray<messages.IAttachment> {
+    pickleStepIds: readonly string[]
+  ): readonly messages.Attachment[] {
     return this.getTestStepsAttachments(
       pickleStepIds.reduce((testStepIds: string[], pickleStepId: string) => {
         return testStepIds.concat(this.testStepIdsByPickleStepId.get(pickleStepId))
@@ -140,10 +140,8 @@ export default class Query {
     )
   }
 
-  public getTestStepsAttachments(
-    testStepIds: ReadonlyArray<string>
-  ): ReadonlyArray<messages.IAttachment> {
-    return testStepIds.reduce((attachments: messages.IAttachment[], testStepId) => {
+  public getTestStepsAttachments(testStepIds: readonly string[]): readonly messages.Attachment[] {
+    return testStepIds.reduce((attachments: messages.Attachment[], testStepId) => {
       return attachments.concat(this.attachmentsByTestStepId.get(testStepId))
     }, [])
   }
@@ -154,16 +152,16 @@ export default class Query {
    */
   public getStepMatchArgumentsLists(
     pickleStepId: string
-  ): ReadonlyArray<messages.TestCase.TestStep.IStepMatchArgumentsList> | undefined {
+  ): readonly messages.StepMatchArgumentsList[] | undefined {
     return this.stepMatchArgumentsListsByPickleStepId.get(pickleStepId)
   }
 
-  public getHook(hookId: string): messages.IHook {
+  public getHook(hookId: string): messages.Hook {
     return this.hooksById.get(hookId)
   }
 
-  public getBeforeHookSteps(pickleId: string): ReadonlyArray<messages.TestCase.ITestStep> {
-    const hookSteps: messages.TestCase.ITestStep[] = []
+  public getBeforeHookSteps(pickleId: string): readonly messages.TestStep[] {
+    const hookSteps: messages.TestStep[] = []
 
     this.identifyHookSteps(
       pickleId,
@@ -173,8 +171,8 @@ export default class Query {
     return hookSteps
   }
 
-  public getAfterHookSteps(pickleId: string): ReadonlyArray<messages.TestCase.ITestStep> {
-    const hookSteps: messages.TestCase.ITestStep[] = []
+  public getAfterHookSteps(pickleId: string): readonly messages.TestStep[] {
+    const hookSteps: messages.TestStep[] = []
 
     this.identifyHookSteps(
       pickleId,
@@ -186,8 +184,8 @@ export default class Query {
 
   private identifyHookSteps(
     pickleId: string,
-    onBeforeHookFound: (hook: messages.TestCase.ITestStep) => void,
-    onAfterHookFound: (hook: messages.TestCase.ITestStep) => void
+    onBeforeHookFound: (hook: messages.TestStep) => void,
+    onAfterHookFound: (hook: messages.TestStep) => void
   ): void {
     const testCase = this.testCaseByPickleId.get(pickleId)
 
@@ -206,7 +204,7 @@ export default class Query {
     }
   }
 
-  public getTestStepResults(testStepId: string): messages.TestStepFinished.ITestStepResult[] {
+  public getTestStepResults(testStepId: string): messages.TestStepResult[] {
     return this.testStepResultsbyTestStepId.get(testStepId)
   }
 }

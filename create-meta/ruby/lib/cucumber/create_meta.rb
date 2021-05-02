@@ -8,25 +8,25 @@ module Cucumber
     CI_DICT = JSON.parse(IO.read(File.join(File.dirname(__FILE__), "ciDict.json")))
 
     def create_meta(tool_name, tool_version, env = ENV)
-      Cucumber::Messages::Meta.new(
+      {
           protocol_version: Cucumber::Messages::VERSION,
-          implementation: Cucumber::Messages::Meta::Product.new(
+          implementation: {
               name: tool_name,
               version: tool_version
-          ),
-          runtime: Cucumber::Messages::Meta::Product.new(
+          },
+          runtime: {
               name: RUBY_ENGINE,
               version: RUBY_VERSION
-          ),
-          os: Cucumber::Messages::Meta::Product.new(
+          },
+          os: {
               name: RbConfig::CONFIG['target_os'],
               version: Sys::Uname.uname.version
-          ),
-          cpu: Cucumber::Messages::Meta::Product.new(
+          },
+          cpu: {
               name: RbConfig::CONFIG['target_cpu']
-          ),
+          },
           ci: detect_ci(env)
-      )
+      }
     end
 
     def detect_ci(env)
@@ -41,16 +41,16 @@ module Cucumber
       url = evaluate(ci_system['url'], env)
       return nil if url.nil?
 
-      Cucumber::Messages::Meta::CI.new(
+      {
           url: url,
           name: ci_name,
-          git: Cucumber::Messages::Meta::CI::Git.new(
+          git: {
               remote: remove_userinfo_from_url(evaluate(ci_system['git']['remote'], env)),
               revision: evaluate(ci_system['git']['revision'], env),
               branch: evaluate(ci_system['git']['branch'], env),
               tag: evaluate(ci_system['git']['tag'], env),
-          )
-      )
+          }.delete_if {|k,v| v.nil?}
+      }
     end
 
     def evaluate(template, env)

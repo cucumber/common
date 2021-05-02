@@ -1,89 +1,99 @@
-import { IdGenerator, messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 
 function makeFeature(
   name: string,
   description: string,
-  scenarios: messages.GherkinDocument.Feature.IScenario[]
-): messages.GherkinDocument.IFeature {
-  return messages.GherkinDocument.Feature.create({
-    name: name,
-    description: description,
-    children: scenarios.map((scenario) =>
-      messages.GherkinDocument.Feature.FeatureChild.create({
-        scenario: scenario,
-      })
-    ),
-  })
+  scenarios: messages.Scenario[]
+): messages.Feature {
+  return {
+    keyword: 'Feature',
+    language: 'en',
+    location: { line: 1 },
+    tags: [],
+    name,
+    description,
+    children: scenarios.map((scenario) => ({
+      scenario,
+    })),
+  }
 }
 
 function makeRule(
   name: string,
   description: string,
-  scenarios: messages.GherkinDocument.Feature.IScenario[]
-): messages.GherkinDocument.Feature.FeatureChild.IRule {
-  const idGenerator = IdGenerator.uuid()
+  scenarios: messages.Scenario[]
+): messages.Rule {
+  const idGenerator = messages.IdGenerator.uuid()
 
-  return messages.GherkinDocument.Feature.FeatureChild.Rule.create({
+  return {
     id: idGenerator(),
-    name: name,
-    description: description,
-    children: scenarios.map((scenario) =>
-      messages.GherkinDocument.Feature.FeatureChild.RuleChild.create({
-        scenario: scenario,
-      })
-    ),
-  })
+    keyword: 'Rule',
+    location: { line: 1 },
+    tags: [],
+    name,
+    description,
+    children: scenarios.map((scenario) => ({
+      scenario,
+    })),
+  }
 }
 
 function makeScenario(
   name: string,
   description: string,
-  steps: messages.GherkinDocument.Feature.IStep[]
-): messages.GherkinDocument.Feature.IScenario {
-  const idGenerator = IdGenerator.uuid()
+  steps: messages.Step[]
+): messages.Scenario {
+  const idGenerator = messages.IdGenerator.uuid()
 
-  return messages.GherkinDocument.Feature.Scenario.create({
+  return {
     id: idGenerator(),
+    keyword: 'Scenario',
+    location: { line: 1 },
+    tags: [],
+    examples: [],
     name: name,
     description: description,
     steps: steps,
-  })
+  }
 }
 
 function makeStep(
   keyword: string,
   text: string,
   docstring = '',
-  datatable: ReadonlyArray<ReadonlyArray<string>> = []
-): messages.GherkinDocument.Feature.IStep {
-  const idGenerator = IdGenerator.uuid()
-  const docStringParam = docstring
-    ? messages.GherkinDocument.Feature.Step.DocString.create({
+  datatable: readonly ReadonlyArray<string>[] = []
+): messages.Step {
+  const idGenerator = messages.IdGenerator.uuid()
+  const docString: messages.DocString = docstring
+    ? {
         content: docstring,
-      })
+        delimiter: '"""',
+        location: { line: 1 },
+      }
     : undefined
-  const datatableParam =
+  const dataTable: messages.DataTable =
     datatable.length > 0
-      ? messages.GherkinDocument.Feature.Step.DataTable.create({
-          rows: datatable.map((row) =>
-            messages.GherkinDocument.Feature.TableRow.create({
-              cells: row.map((cell) =>
-                messages.GherkinDocument.Feature.TableRow.TableCell.create({
-                  value: cell,
-                })
-              ),
-            })
-          ),
-        })
+      ? {
+          location: { line: 1 },
+          rows: datatable.map((row) => ({
+            location: { line: 1 },
+            id: '123',
+            cells: row.map((cell) => ({
+              value: cell,
+              location: { line: 1 },
+            })),
+          })),
+        }
       : undefined
 
-  return messages.GherkinDocument.Feature.Step.create({
+  return {
     id: idGenerator(),
+    location: { line: 1 },
     keyword: keyword,
     text: text,
-    docString: docStringParam,
-    dataTable: datatableParam,
-  })
+    docString,
+    dataTable,
+  }
 }
 
 export { makeFeature, makeScenario, makeStep, makeRule }

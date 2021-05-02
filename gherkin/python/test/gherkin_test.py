@@ -16,6 +16,7 @@ def test_parser():
             'language': 'en',
             'location': {'column': 1, 'line': 1},
             'name': u'Foo',
+            'description': '',
             'children': [],
             'tags': []
         },
@@ -51,6 +52,7 @@ def test_parse_feature_after_parser_error():
     expected = [{'scenario': {
         'id': '1',
         'name': u'Bar',
+        'description': '',
         'keyword': u'Scenario',
         'tags': [],
         'steps': [{
@@ -79,6 +81,7 @@ def test_change_the_default_language():
             'language': 'no',
             'location': {'column': 1, 'line': 1},
             'name': u'i18n support - åæø',
+            'description': '',
             'children': [],
             'tags': []
         },

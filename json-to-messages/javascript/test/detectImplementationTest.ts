@@ -8,7 +8,7 @@ describe('detectImplementation', () => {
   it('defaults to "ruby"', () => {
     const feature = {} as IFeature
 
-    assert.equal(detectImplementation(feature), 'cucumber-ruby')
+    assert.strictEqual(detectImplementation(feature), 'cucumber-ruby')
   })
 
   context('when the feature has a status field', () => {
@@ -17,7 +17,7 @@ describe('detectImplementation', () => {
         status: 'passed',
       } as IBehaveFeature
 
-      assert.equal(detectImplementation(feature), 'behave')
+      assert.strictEqual(detectImplementation(feature), 'behave')
     })
   })
 
@@ -27,20 +27,20 @@ describe('detectImplementation', () => {
         location: 'my/wonderful.feature:3',
       } as IBehaveFeature
 
-      assert.equal(detectImplementation(feature), 'behave')
+      assert.strictEqual(detectImplementation(feature), 'behave')
     })
   })
 
   context('when a step has an "hidden" field', () => {
     it('returns "javascript"', () => {
-      const steps: ReadonlyArray<IJSStep> = [
+      const steps: readonly IJSStep[] = [
         {} as IJSStep,
         {
           hidden: true,
         } as IJSStep,
       ]
 
-      const elements: ReadonlyArray<IElement> = [
+      const elements: readonly IElement[] = [
         {
           steps,
         } as IElement,
@@ -50,21 +50,21 @@ describe('detectImplementation', () => {
         elements,
       } as IFeature
 
-      assert.equal(detectImplementation(feature), 'cucumber-js')
+      assert.strictEqual(detectImplementation(feature), 'cucumber-js')
     })
   })
 
   context('when a step has an "arguments" field', () => {
     it('returns "javascript"', () => {
-      const args: ReadonlyArray<IDocString> = []
-      const steps: ReadonlyArray<IJSStep> = [
+      const args: readonly IDocString[] = []
+      const steps: readonly IJSStep[] = [
         {} as IJSStep,
         {
           arguments: args,
         } as IJSStep,
       ]
 
-      const elements: ReadonlyArray<IElement> = [
+      const elements: readonly IElement[] = [
         {
           steps,
         } as IElement,
@@ -74,7 +74,7 @@ describe('detectImplementation', () => {
         elements,
       } as IFeature
 
-      assert.equal(detectImplementation(feature), 'cucumber-js')
+      assert.strictEqual(detectImplementation(feature), 'cucumber-js')
     })
   })
 })

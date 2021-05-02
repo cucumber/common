@@ -1,6 +1,6 @@
 import { GherkinStreams } from '@cucumber/gherkin-streams'
 import { Query as GherkinQuery } from '@cucumber/gherkin-utils'
-import { IdGenerator, messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import { pipeline, Readable, Writable } from 'stream'
 import assert from 'assert'
 import {
@@ -28,17 +28,23 @@ describe('Query', () => {
   describe('#getWorstTestStepResult(testStepResults)', () => {
     it('returns a FAILED result for PASSED,FAILED,PASSED', () => {
       const result = cucumberQuery.getWorstTestStepResult([
-        new messages.TestStepFinished.TestStepResult({
-          status: messages.TestStepFinished.TestStepResult.Status.PASSED,
-        }),
-        new messages.TestStepFinished.TestStepResult({
-          status: messages.TestStepFinished.TestStepResult.Status.FAILED,
-        }),
-        new messages.TestStepFinished.TestStepResult({
-          status: messages.TestStepFinished.TestStepResult.Status.PASSED,
-        }),
+        {
+          status: messages.TestStepResultStatus.PASSED,
+          duration: { seconds: 0, nanos: 0 },
+          willBeRetried: false,
+        },
+        {
+          status: messages.TestStepResultStatus.FAILED,
+          duration: { seconds: 0, nanos: 0 },
+          willBeRetried: false,
+        },
+        {
+          status: messages.TestStepResultStatus.PASSED,
+          duration: { seconds: 0, nanos: 0 },
+          willBeRetried: false,
+        },
       ])
-      assert.strictEqual(result.status, messages.TestStepFinished.TestStepResult.Status.FAILED)
+      assert.strictEqual(result.status, messages.TestStepResultStatus.FAILED)
     })
   })
 
@@ -47,12 +53,12 @@ describe('Query', () => {
       const results = cucumberQuery.getPickleTestStepResults([])
       assert.deepStrictEqual(
         results.map((r) => r.status),
-        [messages.TestStepFinished.TestStepResult.Status.UNKNOWN]
+        ['UNKNOWN']
       )
     })
 
     it('looks up results for scenario steps', async () => {
-      const envelopes: messages.IEnvelope[] = []
+      const envelopes: messages.Envelope[] = []
 
       await execute(
         `Feature: hello
@@ -70,14 +76,11 @@ describe('Query', () => {
       const testStepResults = cucumberQuery.getPickleStepTestStepResults(pickleStepIds)
       assert.strictEqual(testStepResults.length, 1)
 
-      assert.strictEqual(
-        testStepResults[0].status,
-        messages.TestStepFinished.TestStepResult.Status.PASSED
-      )
+      assert.strictEqual(testStepResults[0].status, 'PASSED')
     })
 
     it('looks up results for background steps', async () => {
-      const envelopes: messages.IEnvelope[] = []
+      const envelopes: messages.Envelope[] = []
 
       await execute(
         `Feature: hello
@@ -101,15 +104,12 @@ describe('Query', () => {
 
       assert.deepStrictEqual(
         testStepResults.map((r) => r.status),
-        [
-          messages.TestStepFinished.TestStepResult.Status.PASSED,
-          messages.TestStepFinished.TestStepResult.Status.PASSED,
-        ]
+        ['PASSED', 'PASSED']
       )
     })
 
     it('looks up results for background steps when scenarios are empty', async () => {
-      const envelopes: messages.IEnvelope[] = []
+      const envelopes: messages.Envelope[] = []
 
       await execute(
         `Feature: hello
@@ -130,16 +130,13 @@ describe('Query', () => {
       const testStepResults = cucumberQuery.getPickleStepTestStepResults(pickleStepIds)
       assert.strictEqual(testStepResults.length, 1)
 
-      assert.strictEqual(
-        testStepResults[0].status,
-        messages.TestStepFinished.TestStepResult.Status.UNKNOWN
-      )
+      assert.strictEqual(testStepResults[0].status, 'UNKNOWN')
     })
   })
 
   describe('#getPickleTestStepResults(pickleIds)', () => {
     it('looks up results for scenarios', async () => {
-      const envelopes: messages.IEnvelope[] = []
+      const envelopes: messages.Envelope[] = []
       await execute(
         `Feature: hello
   Scenario: ko
@@ -157,15 +154,12 @@ describe('Query', () => {
 
       assert.deepStrictEqual(
         testStepResults.map((r) => r.status),
-        [
-          messages.TestStepFinished.TestStepResult.Status.PASSED,
-          messages.TestStepFinished.TestStepResult.Status.FAILED,
-        ]
+        ['PASSED', 'FAILED']
       )
     })
 
     it('looks up results for scenario outlines', async () => {
-      const envelopes: messages.IEnvelope[] = []
+      const envelopes: messages.Envelope[] = []
       await execute(
         `Feature: hello
   Scenario: hi <status1> and <status2>
@@ -186,17 +180,12 @@ describe('Query', () => {
 
       assert.deepStrictEqual(
         cucumberQuery.getPickleTestStepResults(pickleIds).map((r) => r.status),
-        [
-          messages.TestStepFinished.TestStepResult.Status.PASSED,
-          messages.TestStepFinished.TestStepResult.Status.PASSED,
-          messages.TestStepFinished.TestStepResult.Status.PASSED,
-          messages.TestStepFinished.TestStepResult.Status.FAILED,
-        ]
+        ['PASSED', 'PASSED', 'PASSED', 'FAILED']
       )
     })
 
     it('looks up results for examples rows outlines', async () => {
-      const envelopes: messages.IEnvelope[] = []
+      const envelopes: messages.Envelope[] = []
 
       await execute(
         `Feature: hello
@@ -219,27 +208,21 @@ describe('Query', () => {
         cucumberQuery
           .getPickleTestStepResults(gherkinQuery.getPickleIds('test.feature', exampleIds[0]))
           .map((r) => r.status),
-        [
-          messages.TestStepFinished.TestStepResult.Status.PASSED,
-          messages.TestStepFinished.TestStepResult.Status.PASSED,
-        ]
+        ['PASSED', 'PASSED']
       )
 
       assert.deepStrictEqual(
         cucumberQuery
           .getPickleTestStepResults(gherkinQuery.getPickleIds('test.feature', exampleIds[1]))
           .map((r) => r.status),
-        [
-          messages.TestStepFinished.TestStepResult.Status.PASSED,
-          messages.TestStepFinished.TestStepResult.Status.FAILED,
-        ]
+        ['PASSED', 'FAILED']
       )
     })
   })
 
   describe('#getPickleStepAttachments(pickleIds)', () => {
     it('looks up attachments', async () => {
-      const envelopes: messages.IEnvelope[] = []
+      const envelopes: messages.Envelope[] = []
       await execute(
         `Feature: hello
   Scenario: ok
@@ -261,7 +244,7 @@ describe('Query', () => {
 
   describe('#getStepMatchArguments(uri, lineNumber)', () => {
     it("looks up result for step's uri and line", async () => {
-      const envelopes: messages.IEnvelope[] = []
+      const envelopes: messages.Envelope[] = []
       await execute(
         `Feature: hello
   Scenario: ok
@@ -290,7 +273,7 @@ describe('Query', () => {
 
     describe('#getBeforeHookSteps(pickleId: string)', () => {
       it('returns an empty list when there is no hooks', async () => {
-        const envelopes: messages.IEnvelope[] = []
+        const envelopes: messages.Envelope[] = []
         await execute(
           `Feature: hello
     Scenario: hi
@@ -305,7 +288,7 @@ describe('Query', () => {
       })
 
       it('returns one before hook step', async () => {
-        const envelopes: messages.IEnvelope[] = []
+        const envelopes: messages.Envelope[] = []
         await execute(
           `Feature: hello
     @beforeHook
@@ -321,7 +304,7 @@ describe('Query', () => {
       })
 
       it('does not return after hook steps', async () => {
-        const envelopes: messages.IEnvelope[] = []
+        const envelopes: messages.Envelope[] = []
         await execute(
           `Feature: hello
     @afterHook
@@ -339,7 +322,7 @@ describe('Query', () => {
 
     describe('#getAfterHookSteps(pickleId: string)', () => {
       it('returns an empty list when there is no hooks', async () => {
-        const envelopes: messages.IEnvelope[] = []
+        const envelopes: messages.Envelope[] = []
         await execute(
           `Feature: hello
     Scenario: hi
@@ -354,7 +337,7 @@ describe('Query', () => {
       })
 
       it('returns one after hook step', async () => {
-        const envelopes: messages.IEnvelope[] = []
+        const envelopes: messages.Envelope[] = []
         await execute(
           `Feature: hello
     @afterHook
@@ -370,7 +353,7 @@ describe('Query', () => {
       })
 
       it('does not return before hook steps', async () => {
-        const envelopes: messages.IEnvelope[] = []
+        const envelopes: messages.Envelope[] = []
         await execute(
           `Feature: hello
     @beforeHook
@@ -388,7 +371,7 @@ describe('Query', () => {
 
     describe('#getTestStepResult', () => {
       it('returns one test step result', async () => {
-        const emittedMessages: Array<messages.IEnvelope> = []
+        const emittedMessages: Array<messages.Envelope> = []
         await execute(
           `Feature: hello
     Scenario: hi
@@ -401,14 +384,11 @@ describe('Query', () => {
         const results = cucumberQuery.getTestStepResults(testStep.id)
 
         assert.deepStrictEqual(results.length, 1)
-        assert.deepStrictEqual(
-          results[0].status,
-          messages.TestStepFinished.TestStepResult.Status.PASSED
-        )
+        assert.deepStrictEqual(results[0].status, 'PASSED')
       })
 
       it('returns a result for hook step', async () => {
-        const emittedMessages: Array<messages.IEnvelope> = []
+        const emittedMessages: Array<messages.Envelope> = []
         await execute(
           `Feature: hello
     @beforeHook
@@ -422,10 +402,7 @@ describe('Query', () => {
         const results = cucumberQuery.getTestStepResults(testStep.id)
 
         assert.deepStrictEqual(results.length, 1)
-        assert.deepStrictEqual(
-          results[0].status,
-          messages.TestStepFinished.TestStepResult.Status.PASSED
-        )
+        assert.deepStrictEqual(results[0].status, 'PASSED')
       })
     })
 
@@ -435,12 +412,13 @@ describe('Query', () => {
       })
 
       it('returns the matching hook', () => {
-        const hook = messages.Hook.create({
+        const hook: messages.Hook = {
           id: 'tralala',
-        })
-        const envelope = messages.Envelope.create({
+          sourceReference: {},
+        }
+        const envelope: messages.Envelope = {
           hook,
-        })
+        }
 
         cucumberQuery.update(envelope)
 
@@ -450,7 +428,7 @@ describe('Query', () => {
 
     describe('#getAttachmentByTestStepId', () => {
       it('looks up attachments', async () => {
-        const testCases: messages.ITestCase[] = []
+        const testCases: messages.TestCase[] = []
         await execute(
           `Feature: hello
     Scenario: ok
@@ -473,9 +451,9 @@ describe('Query', () => {
 
   async function execute(
     gherkinSource: string,
-    messagesHandler: (envelope: messages.IEnvelope) => void = () => null
+    messagesHandler: (envelope: messages.Envelope) => void = () => null
   ): Promise<void> {
-    const newId = IdGenerator.incrementing()
+    const newId = messages.IdGenerator.incrementing()
     const clock = new IncrementClock()
     const stopwatch = new IncrementStopwatch()
     const makeErrorMessage = withFullStackTrace()
@@ -502,7 +480,7 @@ describe('Query', () => {
     const queryUpdateStream = new Writable({
       objectMode: true,
       write(
-        envelope: messages.IEnvelope,
+        envelope: messages.Envelope,
         encoding: string,
         callback: (error?: Error | null) => void
       ): void {
@@ -519,33 +497,33 @@ describe('Query', () => {
     await pipelinePromise(gherkinMessages(gherkinSource, 'test.feature', newId), queryUpdateStream)
 
     const testPlan = makeTestPlan(gherkinQuery, supportCode, makeTestCase)
-    await testPlan.execute((envelope: messages.IEnvelope) => {
+    await testPlan.execute((envelope: messages.Envelope) => {
       messagesHandler(envelope)
       cucumberQuery.update(envelope)
     })
   }
 
-  function gherkinMessages(gherkinSource: string, uri: string, newId: IdGenerator.NewId): Readable {
-    const source = messages.Envelope.fromObject({
+  function gherkinMessages(
+    gherkinSource: string,
+    uri: string,
+    newId: messages.IdGenerator.NewId
+  ): Readable {
+    const source: messages.Envelope = {
       source: {
         uri,
         data: gherkinSource,
         mediaType: 'text/x.cucumber.gherkin+plain',
       },
-    })
+    }
     return GherkinStreams.fromSources([source], { newId })
   }
 
-  function findScenario(
-    envelopes: messages.IEnvelope[]
-  ): messages.GherkinDocument.Feature.IScenario {
+  function findScenario(envelopes: messages.Envelope[]): messages.Scenario {
     const gherkinDocument = envelopes.find((envelope) => envelope.gherkinDocument).gherkinDocument
     return gherkinDocument.feature.children.find((child) => child.scenario).scenario
   }
 
-  function findBackground(
-    envelopes: messages.IEnvelope[]
-  ): messages.GherkinDocument.Feature.IBackground {
+  function findBackground(envelopes: messages.Envelope[]): messages.Background {
     const gherkinDocument = envelopes.find((envelope) => envelope.gherkinDocument).gherkinDocument
     return gherkinDocument.feature.children.find((child) => child.background).background
   }

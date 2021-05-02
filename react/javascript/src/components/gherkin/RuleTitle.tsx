@@ -1,5 +1,5 @@
 import React from 'react'
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 
 import Keyword from './Keyword'
 import HighLight from '../app/HighLight'
@@ -8,7 +8,7 @@ import { faLink } from '@fortawesome/free-solid-svg-icons'
 
 interface IProps {
   id: string
-  rule: messages.GherkinDocument.Feature.FeatureChild.IRule
+  rule: messages.Rule
 }
 
 const RuleTitle: React.FunctionComponent<IProps> = ({ id, rule }) => {
