@@ -1,7 +1,7 @@
 import React from 'react'
 import { Meta, Story } from '@storybook/react'
 
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import { Query as CucumberQuery } from '@cucumber/query'
 import { Query as GherkinQuery } from '@cucumber/gherkin-utils'
 import GherkinDocumentList from '../components/app/GherkinDocumentList'
@@ -28,7 +28,7 @@ type Props = {
   envelopesQuery: EnvelopesQuery
 }
 type TemplateArgs = {
-  envelopes: readonly messages.IEnvelope[]
+  envelopes: readonly messages.Envelope[]
   support: CustomRenderingSupport
 }
 
@@ -66,7 +66,7 @@ Components.args = {
   },
 }
 
-function props(envelopes: readonly messages.IEnvelope[]): Props {
+function props(envelopes: readonly messages.Envelope[]): Props {
   const gherkinQuery = new GherkinQuery()
   const cucumberQuery = new CucumberQuery()
   const envelopesQuery = new EnvelopesQuery()
