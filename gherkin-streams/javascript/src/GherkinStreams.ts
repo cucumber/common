@@ -31,7 +31,7 @@ function fromPaths(
       // so we have to manually propagate errors.
       fs.createReadStream(path, { encoding: 'utf-8' })
         .on('error', (err) => combinedMessageStream.emit('error', err))
-        .pipe(new SourceMessageStream(path))
+        .pipe(new SourceMessageStream(path, relativeTo))
         .on('error', (err) => combinedMessageStream.emit('error', err))
         .pipe(parserMessageStream)
         .on('error', (err) => combinedMessageStream.emit('error', err))
