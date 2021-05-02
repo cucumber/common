@@ -28,7 +28,7 @@ export interface DocStringClasses {
 }
 
 export interface TagsProps {
-  tags: messages.Tag
+  tags: readonly messages.Tag[]
 }
 
 export interface TagsClasses {

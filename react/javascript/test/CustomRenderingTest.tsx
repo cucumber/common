@@ -4,6 +4,7 @@ import React from 'react'
 import { JSDOM } from 'jsdom'
 import Tags from '../src/components/gherkin/Tags'
 import CustomRendering from '../src/components/customise/CustomRendering'
+import * as messages from '@cucumber/messages'
 
 describe('custom rendering and theming', () => {
   it('uses the generated class names from built-in styles by default', () => {
@@ -13,9 +14,14 @@ describe('custom rendering and theming', () => {
     // global.navigator = dom.window.navigator
     const document = dom.window.document
 
-    const tags = [
+    const tags: messages.Tag[] = [
       {
+        id: '123',
         name: 'sometag',
+        location: {
+          line: 1,
+          column: 1,
+        },
       },
     ]
 
@@ -33,9 +39,14 @@ describe('custom rendering and theming', () => {
     // global.navigator = dom.window.navigator
     const document = dom.window.document
 
-    const tags = [
+    const tags: messages.Tag[] = [
       {
+        id: '123',
         name: 'sometag',
+        location: {
+          line: 1,
+          column: 1,
+        },
       },
     ]
 
@@ -64,9 +75,14 @@ describe('custom rendering and theming', () => {
     // global.navigator = dom.window.navigator
     const document = dom.window.document
 
-    const tags = [
+    const tags: messages.Tag[] = [
       {
+        id: '123',
         name: 'sometag',
+        location: {
+          line: 1,
+          column: 1,
+        },
       },
     ]
 
@@ -94,9 +110,14 @@ describe('custom rendering and theming', () => {
     // global.navigator = dom.window.navigator
     const document = dom.window.document
 
-    const tags = [
+    const tags: messages.Tag[] = [
       {
+        id: '123',
         name: 'sometag',
+        location: {
+          line: 1,
+          column: 1,
+        },
       },
     ]
 
