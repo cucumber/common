@@ -22,7 +22,10 @@ describe('gherkin', () => {
 
   it('emits uris relative to a given path', async () => {
     const envelopes = await streamToArray(
-      GherkinStreams.fromPaths(['testdata/good/minimal.feature'], defaultOptions, 'testdata/good')
+      GherkinStreams.fromPaths(['testdata/good/minimal.feature'], {
+        ...defaultOptions,
+        relativeTo: 'testdata/good',
+      })
     )
     assert.strictEqual(envelopes.length, 3)
     assert.strictEqual(envelopes[0].source.uri, 'minimal.feature')
