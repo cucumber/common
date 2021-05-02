@@ -20,6 +20,16 @@ describe('gherkin', () => {
     )
   })
 
+  it('emits uris relative to a given path', async () => {
+    const envelopes = await streamToArray(
+      GherkinStreams.fromPaths(['testdata/good/minimal.feature'], defaultOptions, 'testdata/good')
+    )
+    assert.strictEqual(envelopes.length, 3)
+    assert.strictEqual(envelopes[0].source.uri, 'minimal.feature')
+    assert.strictEqual(envelopes[1].gherkinDocument.uri, 'minimal.feature')
+    assert.strictEqual(envelopes[2].pickle.uri, 'minimal.feature')
+  })
+
   it('parses gherkin from STDIN', async () => {
     const source = makeSourceEnvelope(
       `Feature: Minimal

@@ -6,7 +6,11 @@ import fs from 'fs'
 import { IGherkinOptions } from '@cucumber/gherkin'
 import makeGherkinOptions from './makeGherkinOptions'
 
-function fromPaths(paths: readonly string[], options: IGherkinOptions): Readable {
+function fromPaths(
+  paths: readonly string[],
+  options: IGherkinOptions,
+  relativeTo?: string
+): Readable {
   const pathsCopy = paths.slice()
   options = makeGherkinOptions(options)
   const combinedMessageStream = new PassThrough({
