@@ -4,16 +4,4 @@ Gherkin parser/compiler for JavaScript. Please see [Gherkin](https://github.com/
 
 ## Usage
 
-```javascript
-const gherkin = require('gherkin')
-
-const options = {
-  includeSource: true,
-  includeGherkinDocument: true,
-  includePickles: true,
-}
-const stream = gherkin.fromPaths(['features/hello.feature'])
-
-// Pipe the stream to another stream that can read messages.
-stream.pipe(...)
-```
+Typical usage is via [the `gherkin-streams` package](../../gherkin-streams/javascript).
