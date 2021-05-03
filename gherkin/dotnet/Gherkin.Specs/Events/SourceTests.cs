@@ -8,7 +8,7 @@ namespace Gherkin.Specs.Events
 {
     public class SourceTests : EventTestBase
     {
-        [Theory, MemberData(nameof(TestFileProvider.GetValidTestFiles), MemberType = typeof(TestFileProvider))]
+        [Theory(Skip = "Source support disabled temporarily"), MemberData(nameof(TestFileProvider.GetValidTestFiles), MemberType = typeof(TestFileProvider))]
         public void TestSuccessfulAstBuilding(string testFeatureFile)
         {
             var testFile = GetFullPathToTestFeatureFile(testFeatureFile, "good", ".source.ndjson");

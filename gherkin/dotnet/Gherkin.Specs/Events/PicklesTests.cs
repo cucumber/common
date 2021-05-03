@@ -8,7 +8,7 @@ namespace Gherkin.Specs.Events
 {
     public class PicklesTests : EventTestBase
     {
-        [Theory, MemberData(nameof(TestFileProvider.GetValidTestFiles), MemberType = typeof(TestFileProvider))]
+        [Theory(Skip = "Pickles support disabled temporarily"), MemberData(nameof(TestFileProvider.GetValidTestFiles), MemberType = typeof(TestFileProvider))]
         public void TestSuccessfulAstBuilding(string testFeatureFile)
         {
             var testFile = GetFullPathToTestFeatureFile(testFeatureFile, "good", ".pickles.ndjson");
@@ -24,7 +24,7 @@ namespace Gherkin.Specs.Events
             AssertEvents(testFeatureFile, raisedEvents.Cast<PickleEvent>().ToList(), expectedEvents, testFile);
         }
 
-        [Theory, MemberData(nameof(TestFileProvider.GetInvalidTestFiles), MemberType = typeof(TestFileProvider))]
+        [Theory(Skip = "Pickles support disabled temporarily"), MemberData(nameof(TestFileProvider.GetInvalidTestFiles), MemberType = typeof(TestFileProvider))]
         public void TestFailedAstBuilding(string testFeatureFile)
         {
             var testFile = GetFullPathToTestFeatureFile(testFeatureFile, "bad", ".errors.ndjson");
