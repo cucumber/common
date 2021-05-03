@@ -2,7 +2,7 @@
   <Import Project="../netfx.props" />
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFrameworks>netcoreapp2.1</TargetFrameworks>
+    <TargetFrameworks>net5.0</TargetFrameworks>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\Gherkin.TokensGeneratorLib\Gherkin.TokensGeneratorLib.csproj" />
