@@ -4,4 +4,4 @@ Gherkin parser/compiler for JavaScript. Please see [Gherkin](https://github.com/
 
 ## Usage
 
-Typical usage is via [the `gherkin-streams` package](https://www.npmjs.com/package/@cucumber/gherkin-streams).
+Typical usage is via [the `gherkin-streams` package](../../gherkin-streams/javascript).
