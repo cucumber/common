@@ -8,8 +8,6 @@ namespace Gherkin.Events.Args.Ast
         public StepsContainer()
         {
             Steps = new List<Step>();
-            Examples = new List<Examples>();
-            Tags = new List<Tag>();
             Id = IdGenerator.GetNextId();
         }
 

@@ -15,8 +15,11 @@ namespace Gherkin.Specs.Events
 
             var expectedAstContent = GetExpectedContent(testFile.ExpectedFileFullPath);
 
+            IdGenerator.Reset();
+
             var expectedGherkinDocumentEvent = NDJsonParser.Deserialize<GherkinDocumentEvent>(expectedAstContent);
 
+            IdGenerator.Reset();
             var raisedEvents = StartGherkinEventQueue(testFile.FullPath, false, true, false);
 
             raisedEvents.Should().AllBeOfType<GherkinDocumentEvent>();

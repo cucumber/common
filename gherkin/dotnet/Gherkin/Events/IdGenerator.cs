@@ -1,6 +1,6 @@
 namespace Gherkin.Events
 {
-  internal static class IdGenerator
+  public static class IdGenerator
   {
     private static int counter = 0;
 
@@ -8,6 +8,11 @@ namespace Gherkin.Events
     {
       var nextId = counter++;
       return nextId.ToString();
+    }
+
+    public static void Reset()
+    {
+        counter = 0;
     }
 
   }
