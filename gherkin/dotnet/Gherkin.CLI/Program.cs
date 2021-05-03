@@ -52,8 +52,6 @@ namespace Gherkin.CLI
             foreach (var sourceEventEvent in sourceEvents) {
                 foreach (IEvent evt in gherkinEvents.Iterable(sourceEventEvent)) {
                     var jsonString = Utf8Json.JsonSerializer.ToJsonString((object)evt, StandardResolver.ExcludeNullCamelCase);
-                    // manual way of ignoring empty arrays... This is not that easy with Utf8Json...
-                    jsonString = Regex.Replace(jsonString, @",?""\w+"":\s*\[\]", "");
                     Console.WriteLine(jsonString);
                 }
             }
