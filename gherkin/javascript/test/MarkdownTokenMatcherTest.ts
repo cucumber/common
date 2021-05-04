@@ -99,11 +99,11 @@ describe('MarkdownTokenMatcher', function () {
     assert(tm.match_TableRow(t))
     assert.strictEqual(t.matchedType, TokenType.TableRow)
     assert.strictEqual(t.matchedKeyword, '|')
-    const expectedSpans: Item[] = [
+    const expectedItems: Item[] = [
       { column: 4, text: 'foo' },
       { column: 8, text: 'bar' },
     ]
-    assert.deepStrictEqual(t.matchedItems, expectedSpans)
+    assert.deepStrictEqual(t.matchedItems, expectedItems)
   })
 
   it('matches table separator row as comment', () => {
@@ -112,5 +112,27 @@ describe('MarkdownTokenMatcher', function () {
     const t2 = new Token(new GherkinLine('  | --- | --- |', location.line), location)
     assert(!tm.match_TableRow(t2))
     assert(tm.match_Comment(t2))
+  })
+
+  it('matches indented tags', () => {
+    const t = new Token(new GherkinLine('  `@foo` `@bar`', location.line), location)
+    assert(tm.match_TagLine(t))
+    assert.strictEqual(t.matchedType, TokenType.TagLine)
+    const expectedItems: Item[] = [
+      { column: 4, text: '@foo' },
+      { column: 11, text: '@bar' },
+    ]
+    assert.deepStrictEqual(t.matchedItems, expectedItems)
+  })
+
+  it('matches unindented tags', () => {
+    const t = new Token(new GherkinLine('`@foo`   `@bar`', location.line), location)
+    assert(tm.match_TagLine(t))
+    assert.strictEqual(t.matchedType, TokenType.TagLine)
+    const expectedItems: Item[] = [
+      { column: 2, text: '@foo' },
+      { column: 11, text: '@bar' },
+    ]
+    assert.deepStrictEqual(t.matchedItems, expectedItems)
   })
 })
