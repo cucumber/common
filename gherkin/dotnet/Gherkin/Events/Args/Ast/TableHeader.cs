@@ -17,6 +17,6 @@ namespace Gherkin.Events.Args.Ast
         public IReadOnlyCollection<Cell> Cells { get; set; }
 
         [DataMember(Name = "location")]
-        public Location Location { get; set; }
+        public CucumberMessages.Types.Location Location { get; set; }
     }
 }

@@ -2,25 +2,28 @@
 using System.Collections.Generic;
 using System.Linq;
 using Gherkin.Ast;
+using Gherkin.CucumberMessages.Types;
+using Gherkin.Events;
 using Gherkin.Events.Args.Ast;
-using Comment = Gherkin.Events.Args.Ast.Comment;
-using Examples = Gherkin.Events.Args.Ast.Examples;
-using Feature = Gherkin.Events.Args.Ast.Feature;
-using Location = Gherkin.Events.Args.Ast.Location;
+using Comment = Gherkin.CucumberMessages.Types.Comment;
+using Examples = Gherkin.CucumberMessages.Types.Examples;
+using Feature = Gherkin.CucumberMessages.Types.Feature;
+using Location = Gherkin.CucumberMessages.Types.Location;
 using Rule = Gherkin.Events.Args.Ast.Rule;
 using Step = Gherkin.Events.Args.Ast.Step;
 using StepsContainer = Gherkin.Events.Args.Ast.StepsContainer;
-using DataTable = Gherkin.Events.Args.Ast.DataTable;
-using DocString = Gherkin.Events.Args.Ast.DocString;
+using DataTable = Gherkin.CucumberMessages.Types.DataTable;
+using DocString = Gherkin.CucumberMessages.Types.DocString;
+using GherkinDocument = Gherkin.CucumberMessages.Types.GherkinDocument;
 using Tag = Gherkin.Events.Args.Ast.Tag;
 
 namespace Gherkin.Stream.Converter
 {
     public class AstEventConverter
     {
-        public GherkinDocumentEventArgs ConvertGherkinDocumentToEventArgs(GherkinDocument gherkinDocument, string sourceEventUri)
+        public GherkinDocument ConvertGherkinDocumentToEventArgs(Ast.GherkinDocument gherkinDocument, string sourceEventUri)
         {
-            return new GherkinDocumentEventArgs()
+            return new GherkinDocument()
             {
                 Uri = sourceEventUri,
                 Feature = ConvertFeature(gherkinDocument),
@@ -28,7 +31,7 @@ namespace Gherkin.Stream.Converter
             };
         }
 
-        private IReadOnlyCollection<Comment> ConvertComments(GherkinDocument gherkinDocument)
+        private IReadOnlyCollection<Comment> ConvertComments(Ast.GherkinDocument gherkinDocument)
         {
             return gherkinDocument.Comments.Select(c =>
                 new Comment()
@@ -38,7 +41,7 @@ namespace Gherkin.Stream.Converter
                 }).ToReadOnlyCollection();
         }
 
-        private Feature ConvertFeature(GherkinDocument gherkinDocument)
+        private Feature ConvertFeature(Ast.GherkinDocument gherkinDocument)
         {
             var feature = gherkinDocument.Feature;
             if (feature == null)
@@ -67,13 +70,13 @@ namespace Gherkin.Stream.Converter
         }
 
 
-        private Children ConvertToChildren(IHasLocation hasLocation)
+        private FeatureChild ConvertToChildren(IHasLocation hasLocation)
         {
             switch (hasLocation)
             {
                 case Background background:
                     var backgroundSteps = background.Steps.Select(ConvertStep).ToList();
-                    return new Children()
+                    return new FeatureChild()
                     {
                         Background = new StepsContainer()
                         {
@@ -90,7 +93,7 @@ namespace Gherkin.Stream.Converter
                     var steps = scenario.Steps.Select(ConvertStep).ToList();
                     var examples = scenario.Examples.Select(ConvertExamples).ToReadOnlyCollection();
                     var tags = scenario.Tags.Select(ConvertTag).ToReadOnlyCollection();
-                    return new Children()
+                    return new FeatureChild()
                     {
                         Scenario = new StepsContainer()
                         {
@@ -107,7 +110,7 @@ namespace Gherkin.Stream.Converter
                     {
                         var ruleChildren = rule.Children.Select(ConvertToChildren).ToReadOnlyCollection();
                         var ruleTags = rule.Tags.Select(ConvertTag).ToReadOnlyCollection();
-                        return new Children()
+                        return new FeatureChild()
                         {
                             Rule = new Rule()
                             {
@@ -136,6 +139,7 @@ namespace Gherkin.Stream.Converter
             var tags = examples.Tags.Select(ConvertTag).ToReadOnlyCollection();
             return new Examples()
             {
+                Id = IdGenerator.GetNextId(),
                 Name = ConverterDefaults.UseDefault(examples.Name, ConverterDefaults.DefaultName),
                 Keyword = examples.Keyword,
                 Description = ConverterDefaults.UseDefault(examples.Description, ConverterDefaults.DefaultDescription),

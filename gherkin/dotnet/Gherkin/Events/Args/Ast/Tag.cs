@@ -16,6 +16,6 @@ namespace Gherkin.Events.Args.Ast
         public string Name { get; set; }
 
         [DataMember(Name = "location")]
-        public Location Location { get; set; }
+        public CucumberMessages.Types.Location Location { get; set; }
     }
 }

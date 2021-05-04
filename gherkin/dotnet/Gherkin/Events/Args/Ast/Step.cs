@@ -1,4 +1,5 @@
 ﻿using System.Runtime.Serialization;
+using Gherkin.CucumberMessages.Types;
 
 namespace Gherkin.Events.Args.Ast
 {
@@ -15,7 +16,7 @@ namespace Gherkin.Events.Args.Ast
         [DataMember(Name = "keyword")]
         public string Keyword { get; set; }
         [DataMember(Name = "location")]
-        public Location Location { get; set; }
+        public CucumberMessages.Types.Location Location { get; set; }
         [DataMember(Name = "text")]
         public string Text { get; set; }
         [DataMember(Name = "dataTable")]

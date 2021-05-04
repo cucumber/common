@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Gherkin.CucumberMessages.Types;
 using Gherkin.Events;
 using Gherkin.Events.Args.Ast;
 
@@ -10,7 +11,7 @@ namespace Gherkin.Pickles
 {
     public class Compiler
     {
-        public List<Pickle> Compile(GherkinDocumentEventArgs gherkinDocument)
+        public List<Pickle> Compile(GherkinDocument gherkinDocument)
         {
             var pickles = new List<Pickle>();
             var feature = gherkinDocument.Feature;
@@ -28,7 +29,7 @@ namespace Gherkin.Pickles
         }
 
         protected virtual void Build(List<Pickle> pickles, string language, IEnumerable<Tag> tags,
-            Func<IEnumerable<PickleStep>> parentBackgroundStepsFactory, IEnumerable<Children> children,
+            Func<IEnumerable<PickleStep>> parentBackgroundStepsFactory, IEnumerable<FeatureChild> children,
             string gherkinDocumentUri) 
         {
             if (children == null)

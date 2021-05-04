@@ -1,4 +1,5 @@
 ﻿using System.Runtime.Serialization;
+using Gherkin.CucumberMessages.Types;
 using Gherkin.Events.Args;
 
 namespace Gherkin.Events
@@ -6,6 +7,6 @@ namespace Gherkin.Events
     public class ParseErrorEvent : IEvent
     {
         [DataMember(Name = "parseError")]
-        public ParseErrorEventArgs EventArgs { get; set; }
+        public ParseError EventArgs { get; set; }
     }
 }

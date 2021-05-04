@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
+using Gherkin.CucumberMessages.Types;
 
 namespace Gherkin.Events.Args.Ast
 {
@@ -7,7 +8,7 @@ namespace Gherkin.Events.Args.Ast
     {
         public Rule()
         {
-            Children = new List<Children>();
+            Children = new List<FeatureChild>();
             Id = IdGenerator.GetNextId();
             Tags = new List<Tag>();
         }
@@ -22,9 +23,9 @@ namespace Gherkin.Events.Args.Ast
         [DataMember(Name = "keyword")]
         public string Keyword { get; set; }
         [DataMember(Name = "location")]
-        public Location Location { get; set; }
+        public CucumberMessages.Types.Location Location { get; set; }
         [DataMember(Name = "children")]
-        public IReadOnlyCollection<Children> Children { get; set; }
+        public IReadOnlyCollection<FeatureChild> Children { get; set; }
 
         [DataMember(Name = "tags")]
         public IReadOnlyCollection<Tag> Tags { get; set; }

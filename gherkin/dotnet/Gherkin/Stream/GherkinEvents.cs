@@ -1,11 +1,12 @@
-﻿using Gherkin.Ast;
-using Gherkin.Events;
+﻿using Gherkin.Events;
 using Gherkin.Pickles;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using Gherkin.CucumberMessages.Types;
 using Gherkin.Events.Args;
 using Gherkin.Stream.Converter;
+using GherkinDocument = Gherkin.Ast.GherkinDocument;
 using Location = Gherkin.Events.Args.Location;
 
 namespace Gherkin.Stream
@@ -72,7 +73,7 @@ namespace Gherkin.Stream
         {
             events.Add(new ParseErrorEvent()
             {
-                EventArgs = new ParseErrorEventArgs()
+                EventArgs = new ParseError()
                 {
                     Message = e.Message,
                     Source = new Source()

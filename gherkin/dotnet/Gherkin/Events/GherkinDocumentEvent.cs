@@ -1,4 +1,5 @@
 ﻿using System.Runtime.Serialization;
+using Gherkin.CucumberMessages.Types;
 using Gherkin.Events.Args;
 using Gherkin.Events.Args.Ast;
 
@@ -6,7 +7,7 @@ namespace Gherkin.Events
 {
 	public class GherkinDocumentEvent : IEvent
 	{
-	    public GherkinDocumentEvent(GherkinDocumentEventArgs eventArgs)
+	    public GherkinDocumentEvent(GherkinDocument eventArgs)
 	    {
 	        EventArgs = eventArgs;
 	    }
@@ -16,6 +17,6 @@ namespace Gherkin.Events
 	    }
 
 	    [DataMember(Name = "gherkinDocument")]
-	    public GherkinDocumentEventArgs EventArgs { get; set; }
+	    public GherkinDocument EventArgs { get; set; }
 	}
 }
