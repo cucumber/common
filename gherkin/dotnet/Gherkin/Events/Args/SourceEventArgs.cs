@@ -10,7 +10,7 @@ namespace Gherkin.Events.Args
         [DataMember(Name = "data")]
         public string Data { get; set; }
 
-        [DataMember(Name = "media")]
-        public Media Media { get; set; }
+        [DataMember(Name = "mediaType")]
+        public string MediaType { get; set; }
     }
 }

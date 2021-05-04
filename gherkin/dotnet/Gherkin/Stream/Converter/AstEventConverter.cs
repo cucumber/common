@@ -18,15 +18,6 @@ namespace Gherkin.Stream.Converter
 {
     public class AstEventConverter
     {
-        private const string DefaultDescription = "";
-        private const string DefaultName = "";
-        private const string DefaultCellValue = "";
-
-        private string UseDefault(string value, string defaultValue)
-        {
-            return string.IsNullOrEmpty(value) ? defaultValue : value;
-        }
-        
         public GherkinDocumentEventArgs ConvertGherkinDocumentToEventArgs(GherkinDocument gherkinDocument, string sourceEventUri)
         {
             return new GherkinDocumentEventArgs()
@@ -60,8 +51,8 @@ namespace Gherkin.Stream.Converter
 
             return new Feature()
             {
-                Name = UseDefault(feature.Name, DefaultName),
-                Description = UseDefault(feature.Description, DefaultDescription),
+                Name = ConverterDefaults.UseDefault(feature.Name, ConverterDefaults.DefaultName),
+                Description = ConverterDefaults.UseDefault(feature.Description, ConverterDefaults.DefaultDescription),
                 Keyword = feature.Keyword,
                 Language = feature.Language,
                 Location = ConvertLocation(feature.Location),
@@ -87,8 +78,8 @@ namespace Gherkin.Stream.Converter
                         Background = new StepsContainer()
                         {
                             Location = ConvertLocation(background.Location),
-                            Name = UseDefault(background.Name, DefaultName),
-                            Description = UseDefault(background.Description, DefaultDescription),
+                            Name = ConverterDefaults.UseDefault(background.Name, ConverterDefaults.DefaultName),
+                            Description = ConverterDefaults.UseDefault(background.Description, ConverterDefaults.DefaultDescription),
                             Keyword = background.Keyword,
                             Steps = backgroundSteps,
                             Examples = null,
@@ -105,8 +96,8 @@ namespace Gherkin.Stream.Converter
                         {
                             Keyword = scenario.Keyword,
                             Location = ConvertLocation(scenario.Location),
-                            Name = UseDefault(scenario.Name, DefaultName),
-                            Description = UseDefault(scenario.Description, DefaultDescription),
+                            Name = ConverterDefaults.UseDefault(scenario.Name, ConverterDefaults.DefaultName),
+                            Description = ConverterDefaults.UseDefault(scenario.Description, ConverterDefaults.DefaultDescription),
                             Steps = steps,
                             Examples = examples,
                             Tags = tags
@@ -120,8 +111,8 @@ namespace Gherkin.Stream.Converter
                         {
                             Rule = new Rule()
                             {
-                                Name = UseDefault(rule.Name, DefaultName),
-                                Description = UseDefault(rule.Description, DefaultDescription),
+                                Name = ConverterDefaults.UseDefault(rule.Name, ConverterDefaults.DefaultName),
+                                Description = ConverterDefaults.UseDefault(rule.Description, ConverterDefaults.DefaultDescription),
                                 Keyword = rule.Keyword,
                                 Children = ruleChildren,
                                 Location = ConvertLocation(rule.Location),
@@ -145,9 +136,9 @@ namespace Gherkin.Stream.Converter
             var tags = examples.Tags.Select(ConvertTag).ToReadOnlyCollection();
             return new Examples()
             {
-                Name = UseDefault(examples.Name, DefaultName),
+                Name = ConverterDefaults.UseDefault(examples.Name, ConverterDefaults.DefaultName),
                 Keyword = examples.Keyword,
-                Description = UseDefault(examples.Description, DefaultDescription),
+                Description = ConverterDefaults.UseDefault(examples.Description, ConverterDefaults.DefaultDescription),
                 Location = ConvertLocation(examples.Location),
                 TableHeader = header,
                 TableBody = body,
@@ -198,7 +189,7 @@ namespace Gherkin.Stream.Converter
         {
             return new Cell()
             {
-                Value = UseDefault(c.Value, DefaultCellValue),
+                Value = ConverterDefaults.UseDefault(c.Value, ConverterDefaults.DefaultCellValue),
                 Location = ConvertLocation(c.Location)
             };
         }

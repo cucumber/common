@@ -5,6 +5,8 @@ namespace Gherkin.Stream.Converter
 {
     public class SourceEventConverter
     {
+        private const string GherkinMediaType = "text/x.cucumber.gherkin+plain";
+
         public SourceEvent Convert(Sources sourceEvent)
         {
             return new SourceEvent()
@@ -12,8 +14,8 @@ namespace Gherkin.Stream.Converter
                 EventArgs = new SourceEventArgs()
                 {
                     Uri = sourceEvent.Uri,
-                    Data = sourceEvent.Data == string.Empty ? null : sourceEvent.Data,
-                    Media = new Media()
+                    Data = ConverterDefaults.UseDefault(sourceEvent.Data, ConverterDefaults.DefaultSourceData),
+                    MediaType = GherkinMediaType
                 }
             };
         }
