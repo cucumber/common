@@ -16,7 +16,7 @@ export default function verifyStreamContract(
 
       const outgoingMessages: messages.Envelope[] = [
         {
-          source: { data: 'Feature: Hello', uri: 'hello.feature', mediaType: 'whatever' },
+          source: { data: 'Feature: Hello', uri: 'hello.feature', mediaType: messages.SourceMediaType.TEXT_X_CUCUMBER_GHERKIN_PLAIN },
         },
         {
           attachment: {
