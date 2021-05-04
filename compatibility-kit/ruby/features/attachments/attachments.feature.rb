@@ -45,5 +45,3 @@ end
 When('a JPEG image is attached') do
   attach_or_embed(self, File.open("#{__dir__}/cucumber-growing-on-vine.jpg"), 'image/jpg')
 end
-
-
