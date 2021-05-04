@@ -8,19 +8,20 @@ namespace Gherkin.Specs.Events
 {
     public class AstBuildingTests : EventTestBase
     {
+        public AstBuildingTests()
+        {
+            IdGenerator.Reset();
+        }
+        
         [Theory, MemberData(nameof(TestFileProvider.GetValidTestFiles), MemberType = typeof(TestFileProvider))]
         public void TestSuccessfulAstBuilding(string testFeatureFile)
         {
             var testFile = GetFullPathToTestFeatureFile(testFeatureFile, "good", ".ast.ndjson");
-
             var expectedAstContent = GetExpectedContent(testFile.ExpectedFileFullPath);
-
-            IdGenerator.Reset();
 
             var expectedGherkinDocumentEvent = NDJsonParser.Deserialize<GherkinDocumentEvent>(expectedAstContent);
 
-            IdGenerator.Reset();
-            var raisedEvents = StartGherkinEventQueue(testFile.FullPath, false, true, false);
+            var raisedEvents = ProcessGherkinEvents(testFile.FullPath, false, true, false);
 
             raisedEvents.Should().AllBeOfType<GherkinDocumentEvent>();
 
@@ -36,7 +37,7 @@ namespace Gherkin.Specs.Events
 
             var expectedGherkinDocumentEvent = NDJsonParser.Deserialize<AttachmentEvent>(expectedAstContent);
 
-            var raisedEvents = StartGherkinEventQueue(testFile.FullPath, false, true, false);
+            var raisedEvents = ProcessGherkinEvents(testFile.FullPath, false, true, false);
 
             raisedEvents.Should().AllBeOfType<AttachmentEvent>();
 

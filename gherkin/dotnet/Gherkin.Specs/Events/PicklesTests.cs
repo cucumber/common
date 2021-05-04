@@ -17,7 +17,7 @@ namespace Gherkin.Specs.Events
 
             var expectedEvents = NDJsonParser.Deserialize<PickleEvent>(expectedContent);
 
-            var raisedEvents = StartGherkinEventQueue(testFile.FullPath, false, false, true);
+            var raisedEvents = ProcessGherkinEvents(testFile.FullPath, false, false, true);
 
             raisedEvents.Should().AllBeOfType<PickleEvent>();
 
@@ -33,7 +33,7 @@ namespace Gherkin.Specs.Events
 
             var expectedEvents = NDJsonParser.Deserialize<AttachmentEvent>(expectedContent);
 
-            var raisedEvents = StartGherkinEventQueue(testFile.FullPath, false, false, true);
+            var raisedEvents = ProcessGherkinEvents(testFile.FullPath, false, false, true);
 
             raisedEvents.Should().AllBeOfType<AttachmentEvent>();
 

@@ -15,15 +15,23 @@ namespace Gherkin.Specs.Events
         protected void AssertEvents<T>(string testFeatureFile, List<T> actualGherkinDocumentEvent, List<T> expectedGherkinDocumentEvent, TestFile testFile) where T : IEvent
         {
             actualGherkinDocumentEvent.Should().BeEquivalentTo(expectedGherkinDocumentEvent,
-                                                               config => config.Excluding(ghe => ghe.SelectedMemberPath.EndsWith("Uri"))
-                                                                               .Using<string>(ctx =>
-                                                                                                {
-                                                                                                    var replacedSubject = ctx.Subject?.Replace("\r\n", "\n")?.Replace("\n", Environment.NewLine);
-                                                                                                    var expectedSubject = ctx.Expectation?.Replace("\r\n", "\n")?.Replace("\n", Environment.NewLine);
+               config => config
+                   .AllowingInfiniteRecursion()
+                   .IgnoringCyclicReferences()
+                   .Excluding(ghe => ghe.SelectedMemberPath.EndsWith("Uri"))
+                   .Using<string>(ctx =>
+                                    {
+                                        var replacedSubject = NormalizeNewLines(ctx.Subject);
+                                        var expectedSubject = NormalizeNewLines(ctx.Expectation);
+                                        replacedSubject.Should().Be(expectedSubject);
+                                    })
+                   .WhenTypeIs<string>(),
+               $"{testFeatureFile} is not generating the same content as {testFile.ExpectedFileFullPath}");
+        }
 
-                                                                                                    replacedSubject.Should().Be(expectedSubject);
-                                                                                                }).WhenTypeIs<string>(),
-                                                               $"{testFeatureFile} is not generating the same content as {testFile.ExpectedFileFullPath}");
+        private string NormalizeNewLines(string value)
+        {
+            return value?.Replace("\r\n", "\n").Replace("\n", Environment.NewLine);
         }
 
         protected class TestFile
@@ -46,12 +54,13 @@ namespace Gherkin.Specs.Events
             };
         }
 
-
-        protected List<IEvent> StartGherkinEventQueue(string fullPathToTestFeatureFile, bool printSource, bool printAst, bool printPickles)
+        protected List<IEvent> ProcessGherkinEvents(string fullPathToTestFeatureFile, bool printSource, bool printAst, bool printPickles)
         {
+            IdGenerator.Reset();
+
             var raisedEvents = new List<IEvent>();
 
-            SourceEvents sourceEvents = new SourceEvents(new List<string>() { fullPathToTestFeatureFile });
+            SourceEvents sourceEvents = new SourceEvents(new List<string> { fullPathToTestFeatureFile });
             GherkinEvents gherkinEvents = new GherkinEvents(printSource, printAst, printPickles);
             foreach (var sourceEventEvent in sourceEvents)
             {
@@ -68,6 +77,5 @@ namespace Gherkin.Specs.Events
         {
             return File.ReadAllText(expectedAstFile, Encoding.UTF8);
         }
-
     }
 }
