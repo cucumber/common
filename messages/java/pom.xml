@@ -66,6 +66,7 @@
                     <annotationStyle>none</annotationStyle>
                     <useLongIntegers>true</useLongIntegers>
                     <includeConstructors>true</includeConstructors>
+                    <includeGeneratedAnnotation>false</includeGeneratedAnnotation>
                     <targetPackage>io.cucumber.messages.types</targetPackage>
                 </configuration>
                 <executions>
