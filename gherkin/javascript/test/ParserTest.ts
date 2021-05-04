@@ -5,7 +5,6 @@ import Parser from '../src/Parser'
 import TokenMatcher from '../src/TokenMatcher'
 import AstNode from '../src/AstNode'
 import generateMessages from '../src/generateMessages'
-import { GherkinMediaType } from '../src'
 
 describe('Parser', function () {
   it('parses a simple feature', function () {
@@ -141,7 +140,7 @@ describe('Parser', function () {
         '    | is (not) triggered | value |\n' +
         '    | is triggered       | foo   |\n ',
       '',
-      GherkinMediaType.PLAIN,
+      messages.SourceMediaType.TEXT_X_CUCUMBER_GHERKIN_PLAIN,
       { includePickles: true, newId: messages.IdGenerator.incrementing() }
     )
 
@@ -178,7 +177,7 @@ describe('Parser', function () {
 \`\`\`what
 \`\`\`\`
 `
-    const envelopes = generateMessages(markdown, 'test.md', GherkinMediaType.MARKDOWN, {
+    const envelopes = generateMessages(markdown, 'test.md', messages.SourceMediaType.TEXT_X_CUCUMBER_GHERKIN_MARKDOWN, {
       includePickles: true,
       includeGherkinDocument: true,
       newId: messages.IdGenerator.incrementing(),

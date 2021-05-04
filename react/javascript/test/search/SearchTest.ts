@@ -1,7 +1,7 @@
 import assert from 'assert'
 
-import { IdGenerator } from '@cucumber/messages'
-import { generateMessages, GherkinMediaType } from '@cucumber/gherkin'
+import * as messages from '@cucumber/messages'
+import { generateMessages } from '@cucumber/gherkin'
 import Search from '../../src/search/Search'
 import { pretty, Query as GherkinQuery } from '@cucumber/gherkin-utils'
 
@@ -26,11 +26,11 @@ describe('Search', () => {
   })
 
   function prettyResults(feature: string, query: string): string {
-    const envelopes = generateMessages(feature, 'test.feature', GherkinMediaType.PLAIN, {
+    const envelopes = generateMessages(feature, 'test.feature', messages.SourceMediaType.TEXT_X_CUCUMBER_GHERKIN_PLAIN, {
       includeGherkinDocument: true,
       includePickles: true,
       includeSource: true,
-      newId: IdGenerator.incrementing(),
+      newId: messages.IdGenerator.incrementing(),
     })
     for (const envelope of envelopes) {
       gherkinQuery.update(envelope)

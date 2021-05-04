@@ -1,4 +1,4 @@
-{"pickle":{"astNodeIds":["0"],"id":"4","name":"Something about math","uri":"testdata/good/misc.md"}}
-{"pickle":{"astNodeIds":["1"],"id":"5","name":"Something about gravity","uri":"testdata/good/misc.md"}}
-{"pickle":{"astNodeIds":["2"],"id":"6","name":"Something about chemistry","uri":"testdata/good/misc.md"}}
-{"pickle":{"astNodeIds":["3"],"id":"7","name":"Something about weather","uri":"testdata/good/misc.md"}}
+{"pickle":{"astNodeIds":["0"],"id":"4","name":"Something about math","steps":[],"tags":[],"uri":"testdata/good/misc.md"}}
+{"pickle":{"astNodeIds":["1"],"id":"5","name":"Something about gravity","steps":[],"tags":[],"uri":"testdata/good/misc.md"}}
+{"pickle":{"astNodeIds":["2"],"id":"6","name":"Something about chemistry","steps":[],"tags":[],"uri":"testdata/good/misc.md"}}
+{"pickle":{"astNodeIds":["3"],"id":"7","name":"Something about weather","steps":[],"tags":[],"uri":"testdata/good/misc.md"}}

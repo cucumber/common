@@ -1,4 +1,4 @@
-import React, { ElementType, createElement } from 'react'
+import React, { createElement } from 'react'
 import * as messages from '@cucumber/messages'
 import GherkinQueryContext from '../../GherkinQueryContext'
 import CucumberQueryContext from '../../CucumberQueryContext'
@@ -8,7 +8,7 @@ import gfm from 'remark-gfm'
 import StatusIcon from '../gherkin/StatusIcon'
 import StepLine from '../gherkin/StepLine'
 import rehypePlugins from './rehypePlugins'
-import { Position } from 'react-markdown/src/ast-to-react'
+import { Position, Components } from 'react-markdown/src/ast-to-react'
 
 interface IProps {
   sources?: readonly messages.Source[]
@@ -30,16 +30,24 @@ const MarkdownDocumentList: React.FunctionComponent<IProps> = ({ sources }) => {
 
 const SourceContext = React.createContext<messages.Source>(null)
 
+const components: Components = {
+  li({sourcePosition}) {
+    return <ListItem sourcePosition={sourcePosition}/>
+  },
+  ol({sourcePosition}) {
+    return <List ordered={true}/>
+  },
+  ul({sourcePosition}) {
+    return <List ordered={false}/>
+  },
+  text({sourcePosition}) {
+    return <Text sourcePosition={sourcePosition}/>
+  }
+}
+
 const MarkdownDocument: React.FunctionComponent<{
   source: messages.Source
 }> = ({ source }) => {
-  const components: { [nodeType: string]: ElementType } = {
-    text: Text,
-
-    listItem: ListItem,
-
-    list: List,
-  }
   return (
     <SourceContext.Provider value={source}>
       <ReactMarkdown
@@ -81,8 +89,7 @@ const ListItem: React.FunctionComponent<{
   const { line } = sourcePosition.start
   const step: messages.Step = gherkinQuery.getStep(source.uri, line)
   if (!step) {
-    // @ts-ignore
-    return ReactMarkdown.renderers.listItem(props)
+    return null
   }
 
   // Get the status. TODO: Decouple this both structurally and temporally.

@@ -56,9 +56,6 @@ describe CCK::KeysChecker do
     end
 
     context 'when default values are omitted' do
-      # Depending on protobuf implementations, some default values may be omitted
-      # on JSON generation. So for once, we'll check the values, just in case.
-
       let(:default_set) do
         Cucumber::Messages::Duration.new(
           seconds: 0,
