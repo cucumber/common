@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Gherkin.Ast;
 
 namespace Gherkin
 {
     public class GherkinLine : IGherkinLine
     {
-        static private char[] inlineWhitespaceChars = new char[] { ' ', '\t', '\u00A0'};
+        private static char[] inlineWhitespaceChars = new char[] { ' ', '\t', '\u00A0'};
 
         private readonly string lineText;
         private readonly string trimmedLineText;
@@ -76,6 +77,9 @@ namespace Gherkin
                     var hashMatch = System.Text.RegularExpressions.Regex.Match(tagName, @"\s+#");
                     if (hashMatch.Success)
                         tagName = tagName.Substring(0, hashMatch.Index);
+
+                    if (tagName.IndexOfAny(inlineWhitespaceChars) >= 0)
+                        throw new InvalidTagException("A tag may not contain whitespace", new Location(LineNumber, position));
 
                     yield return new GherkinLineSpan(position + tagNameStart, tagName);
                     position += item.Length;
