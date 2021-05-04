@@ -24,7 +24,6 @@ namespace Gherkin.Specs.Events
             var raisedEvents = ProcessGherkinEvents(testFile.FullPath, false, true, false);
 
             raisedEvents.Should().AllBeOfType<GherkinDocumentEvent>();
-
             AssertEvents(testFeatureFile, raisedEvents.Cast<GherkinDocumentEvent>().ToList(), expectedGherkinDocumentEvent, testFile);
         }
 
@@ -32,16 +31,14 @@ namespace Gherkin.Specs.Events
         public void TestFailedAstBuilding(string testFeatureFile)
         {
             var testFile = GetFullPathToTestFeatureFile(testFeatureFile, "bad", ".errors.ndjson");
-
             var expectedAstContent = GetExpectedContent(testFile.ExpectedFileFullPath);
 
-            var expectedGherkinDocumentEvent = NDJsonParser.Deserialize<AttachmentEvent>(expectedAstContent);
+            var expectedGherkinDocumentEvent = NDJsonParser.Deserialize<ParseErrorEvent>(expectedAstContent);
 
             var raisedEvents = ProcessGherkinEvents(testFile.FullPath, false, true, false);
 
-            raisedEvents.Should().AllBeOfType<AttachmentEvent>();
-
-            AssertEvents(testFeatureFile, raisedEvents.Cast<AttachmentEvent>().ToList(), expectedGherkinDocumentEvent, testFile);
+            raisedEvents.Should().AllBeOfType<ParseErrorEvent>();
+            AssertEvents(testFeatureFile, raisedEvents.Cast<ParseErrorEvent>().ToList(), expectedGherkinDocumentEvent, testFile);
         }
     }
 }

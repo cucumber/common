@@ -1,5 +1,5 @@
 ﻿using System.Runtime.Serialization;
-using Gherkin.Events.Args.Source;
+using Gherkin.Events.Args;
 
 namespace Gherkin.Events
 {

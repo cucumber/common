@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace Gherkin.Events.Args.Source
+namespace Gherkin.Events.Args
 {
     public class SourceEventArgs
     {

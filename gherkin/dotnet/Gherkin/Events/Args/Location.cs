@@ -1,12 +1,12 @@
 ﻿using System.Runtime.Serialization;
 
-namespace Gherkin.Events.Args.Attachment
+namespace Gherkin.Events.Args
 {
     public class Location
     {
         public Location(int column, int line)
         {
-            Column = column;
+            Column = column == 0 ? (int?)null : column;
             Line = line;
         }
 
@@ -15,7 +15,7 @@ namespace Gherkin.Events.Args.Attachment
         }
 
         [DataMember(Name = "column")]
-        public int Column { get; set; }
+        public int? Column { get; set; }
         [DataMember(Name = "line")]
         public int Line { get; set; }
     }

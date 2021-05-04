@@ -4,8 +4,9 @@ using Gherkin.Pickles;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using Gherkin.Events.Args.Attachment;
+using Gherkin.Events.Args;
 using Gherkin.Stream.Converter;
+using Location = Gherkin.Events.Args.Location;
 
 namespace Gherkin.Stream
 {
@@ -68,17 +69,16 @@ namespace Gherkin.Stream
         }
 
 
-
         private void addErrorAttachment(List<IEvent> events, ParserException e, String uri)
         {
-            events.Add(new AttachmentEvent()
+            events.Add(new ParseErrorEvent()
             {
-                EventArgs = new AttachmentEventArgs()
+                EventArgs = new ParseErrorEventArgs()
                 {
-                    Data = e.Message,
+                    Message = e.Message,
                     Source = new Source()
                     {
-                        Location = new Events.Args.Attachment.Location(e.Location.Column, e.Location.Line),
+                        Location = new Location(e.Location.Column, e.Location.Line),
                         Uri = uri
                     }
                 }

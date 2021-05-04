@@ -1,5 +1,5 @@
 ﻿using Gherkin.Events;
-using Gherkin.Events.Args.Source;
+using Gherkin.Events.Args;
 
 namespace Gherkin.Stream.Converter
 {

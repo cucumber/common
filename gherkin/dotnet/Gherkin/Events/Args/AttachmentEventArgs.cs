@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace Gherkin.Events.Args.Attachment
+namespace Gherkin.Events.Args
 {
     public class AttachmentEventArgs
     {
