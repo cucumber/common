@@ -15,7 +15,6 @@ namespace Gherkin.Stream
         private readonly Parser _parser = new Parser();
         private readonly Compiler _compiler = new Compiler();
         private readonly AstEventConverter _astEventConverter = new AstEventConverter();
-        private readonly PickleEventConverter _pickleEventConverter = new PickleEventConverter();
         private readonly SourceEventConverter _sourceEventConverter = new SourceEventConverter();
 
         readonly bool _printAst;
@@ -47,10 +46,10 @@ namespace Gherkin.Stream
                 }
                 if (_printPickles)
                 {
-                    List<Pickle> pickles = _compiler.Compile(gherkinDocument);
+                    List<Pickle> pickles = _compiler.Compile(_astEventConverter.ConvertGherkinDocumentToEventArgs(gherkinDocument, sourceEvent.Uri));
                     foreach (Pickle pickle in pickles)
                     {
-                        events.Add(new PickleEvent(_pickleEventConverter.Convert(pickle, sourceEvent.Uri)));
+                        events.Add(new PickleEvent(pickle));
                     }
                 }
             }

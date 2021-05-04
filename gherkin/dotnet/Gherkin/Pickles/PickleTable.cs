@@ -1,19 +1,21 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.Serialization;
 
 namespace Gherkin.Pickles
 {
-    public class PickleTable : Argument
+    public class PickleTable
     {
+        [DataMember(Name = "rows")]
         public IEnumerable<PickleRow> Rows { get; private set; }
 
+        public PickleTable()
+        {
+            
+        }
+        
         public PickleTable(IEnumerable<PickleRow> rows)
         {
             Rows = rows;
         }
-
-        [IgnoreDataMember]
-        public override PickleLocation Location { get { return Rows.First().Cells.First().Location; } }
     }
 }

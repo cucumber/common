@@ -1,14 +1,15 @@
 using Gherkin.Events.Args.Pickle;
 using System.Runtime.Serialization;
+using Gherkin.Pickles;
 
 namespace Gherkin.Events
 {
     public class PickleEvent : IEvent
     {
         [DataMember(Name = "pickle")]
-        public PickleEventArgs EventArgs { get; set; }
+        public Pickle EventArgs { get; set; }
 
-        public PickleEvent(PickleEventArgs eventArgs)
+        public PickleEvent(Pickle eventArgs)
         {
             EventArgs = eventArgs;
         }

@@ -47,7 +47,7 @@ acceptance/testdata/%.feature.ast.ndjson: testdata/%.feature testdata/%.feature.
 acceptance/testdata/%.feature.pickles.ndjson: testdata/%.feature testdata/%.feature.pickles.ndjson
 	mkdir -p $(@D)
 	bin/gherkin --no-source --no-ast $< | jq --sort-keys --compact-output "." > $@
-#	diff --unified <(jq "." $<.pickles.ndjson) <(jq "." $@)
+	diff --unified <(jq "." $<.pickles.ndjson) <(jq "." $@)
 
 acceptance/testdata/%.feature.source.ndjson: testdata/%.feature testdata/%.feature.source.ndjson
 	mkdir -p $(@D)

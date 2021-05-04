@@ -1,18 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Gherkin.Ast;
-using System.Globalization;
+using Gherkin.Events;
+using Gherkin.Events.Args.Ast;
+
 // ReSharper disable PossibleMultipleEnumeration
 
 namespace Gherkin.Pickles
 {
     public class Compiler
     {
-        public List<Pickle> Compile(GherkinDocument gherkinDocument)
+        public List<Pickle> Compile(GherkinDocumentEventArgs gherkinDocument)
         {
             var pickles = new List<Pickle>();
-            Feature feature = gherkinDocument.Feature;
+            var feature = gherkinDocument.Feature;
             if (feature == null)
             {
                 return pickles;
@@ -20,45 +21,55 @@ namespace Gherkin.Pickles
 
             var language = feature.Language;
             var tags = feature.Tags;
-            var backgroundSteps = new PickleStep[0];
 
-            Build(pickles, language, tags, backgroundSteps, feature);
+            Build(pickles, language, tags, Enumerable.Empty<PickleStep>, feature.Children, gherkinDocument.Uri);
 
             return pickles;
         }
 
-        protected virtual void Build(List<Pickle> pickles, string language, IEnumerable<Tag> tags, IEnumerable<PickleStep> parentBackgroundSteps, IHasChildren parent) {
-            IEnumerable<PickleStep> backgroundSteps = new List<PickleStep>(parentBackgroundSteps);
-            foreach (var child in parent.Children)
+        protected virtual void Build(List<Pickle> pickles, string language, IEnumerable<Tag> tags,
+            Func<IEnumerable<PickleStep>> parentBackgroundStepsFactory, IEnumerable<Children> children,
+            string gherkinDocumentUri) 
+        {
+            if (children == null)
+                return;
+
+            Func<IEnumerable<PickleStep>> backgroundStepsFactory = parentBackgroundStepsFactory;
+            foreach (var child in children)
             {
-                if (child is Background)
+                if (child.Background != null)
                 {
-                    backgroundSteps = backgroundSteps.Concat(PickleSteps((Background)child));
+                    var previousFactory = backgroundStepsFactory;
+                    backgroundStepsFactory = () =>
+                        previousFactory().Concat(PickleSteps(child.Background));
                 }
-                else if (child is Rule)
+                else if (child.Rule != null)
                 {
-                    Build(pickles, language, tags, backgroundSteps, (Rule)child);
+                    var mergedRuleTags = tags.Concat(child.Rule.Tags);
+                    Build(pickles, language, mergedRuleTags, backgroundStepsFactory, child.Rule.Children, gherkinDocumentUri);
                 }
-                else
+                else if (child.Scenario != null)
                 {
-                    var scenario = (Scenario)child;
+                    var scenario = child.Scenario;
                     if (!scenario.Examples.Any())
                     {
-                        CompileScenario(pickles, backgroundSteps, scenario, tags, language);
+                        CompileScenario(pickles, backgroundStepsFactory, scenario, tags, language, gherkinDocumentUri);
                     }
                     else
                     {
-                        CompileScenarioOutline(pickles, backgroundSteps, scenario, tags, language);
+                        CompileScenarioOutline(pickles, backgroundStepsFactory, scenario, tags, language, gherkinDocumentUri);
                     }
                 }
             }
         }
 
-        protected virtual void CompileScenario(List<Pickle> pickles, IEnumerable<PickleStep> backgroundSteps, Scenario scenario, IEnumerable<Tag> featureTags, string language)
+        protected virtual void CompileScenario(List<Pickle> pickles,
+            Func<IEnumerable<PickleStep>> backgroundStepsFactory, StepsContainer scenario, IEnumerable<Tag> featureTags,
+            string language, string gherkinDocumentUri)
         {
             var steps = new List<PickleStep>();
             if (scenario.Steps.Any())
-                steps.AddRange(backgroundSteps);
+                steps.AddRange(backgroundStepsFactory());
 
             var scenarioTags = new List<Tag>();
             scenarioTags.AddRange(featureTags);
@@ -67,21 +78,20 @@ namespace Gherkin.Pickles
             steps.AddRange(PickleSteps(scenario));
 
             Pickle pickle = new Pickle(
+                    IdGenerator.GetNextId(),
+                    gherkinDocumentUri,
                     scenario.Name,
                     language,
                     steps,
                     PickleTags(scenarioTags),
-                    SingletonList(PickleLocation(scenario.Location))
+                    new []{ scenario.Id }
             );
             pickles.Add(pickle);
         }
 
-        protected virtual IEnumerable<T> SingletonList<T>(T item)
-        {
-            return new[] { item };
-        }
-
-        protected virtual void CompileScenarioOutline(List<Pickle> pickles, IEnumerable<PickleStep> backgroundSteps, Scenario scenarioOutline, IEnumerable<Tag> featureTags, string language)
+        protected virtual void CompileScenarioOutline(List<Pickle> pickles,
+            Func<IEnumerable<PickleStep>> backgroundStepsFactory, StepsContainer scenarioOutline,
+            IEnumerable<Tag> featureTags, string language, string gherkinDocumentUri)
         {
             foreach (var examples in scenarioOutline.Examples)
             {
@@ -93,7 +103,7 @@ namespace Gherkin.Pickles
 
                     var steps = new List<PickleStep>();
                     if (scenarioOutline.Steps.Any())
-                        steps.AddRange(backgroundSteps);
+                        steps.AddRange(backgroundStepsFactory());
 
                     var tags = new List<Tag>();
                     tags.AddRange(featureTags);
@@ -104,31 +114,23 @@ namespace Gherkin.Pickles
                     {
                         string stepText = Interpolate(scenarioOutlineStep.Text, variableCells, valueCells);
 
-                        // TODO: Use an Array of location in DataTable/DocString as well.
-                        // If the Gherkin AST classes supported
-                        // a list of locations, we could just reuse the same classes
-
                         PickleStep pickleStep = CreatePickleStep(
                                 scenarioOutlineStep,
                                 stepText,
-                                CreatePickleArguments(scenarioOutlineStep.Argument, variableCells, valueCells),
-                                new[] {
-                                        PickleLocation(values.Location),
-                                        PickleStepLocation(scenarioOutlineStep)
-                                }
+                                CreatePickleArgument(scenarioOutlineStep, variableCells, valueCells),
+                                new[] { scenarioOutlineStep.Id, values.Id }
                         );
                         steps.Add(pickleStep);
                     }
 
                     Pickle pickle = new Pickle(
+                            IdGenerator.GetNextId(),
+                            gherkinDocumentUri,
                             Interpolate(scenarioOutline.Name, variableCells, valueCells),
                             language, 
                             steps,
                             PickleTags(tags),
-                            new[] {
-                                    PickleLocation(values.Location),
-                                    PickleLocation(scenarioOutline.Location)
-                            }
+                            new[] { scenarioOutline.Id, values.Id }
                     );
 
                     pickles.Add(pickle);
@@ -136,23 +138,21 @@ namespace Gherkin.Pickles
             }
         }
 
-        protected virtual PickleStep CreatePickleStep(Step step, string text, IEnumerable<Argument> arguments, IEnumerable<PickleLocation> locations)
+        protected virtual PickleStep CreatePickleStep(Step step, string text, PickleStepArgument argument, IEnumerable<string> astNodeIds)
         {
-            return new PickleStep(text, arguments, locations);
+            return new PickleStep(IdGenerator.GetNextId(), text, argument, astNodeIds);
         }
 
-        protected virtual List<Argument> CreatePickleArguments(StepArgument argument)
+        protected virtual PickleStepArgument CreatePickleArgument(Step argument)
         {
-            var noCells = Enumerable.Empty<TableCell>();
-            return CreatePickleArguments(argument, noCells, noCells);
+            var noCells = Enumerable.Empty<Cell>();
+            return CreatePickleArgument(argument, noCells, noCells);
         }
 
-        protected virtual List<Argument> CreatePickleArguments(StepArgument argument, IEnumerable<TableCell> variableCells, IEnumerable<TableCell> valueCells)
+        protected virtual PickleStepArgument CreatePickleArgument(Step step, IEnumerable<Cell> variableCells, IEnumerable<Cell> valueCells)
         {
-            var result = new List<Argument>();
-            if (argument == null) return result;
-            if (argument is DataTable) {
-                DataTable t = (DataTable)argument;
+            if (step.DataTable != null) {
+                var t = step.DataTable;
                 var rows = t.Rows;
                 var newRows = new List<PickleRow>(rows.Count());
                 foreach(var row in rows)
@@ -163,27 +163,30 @@ namespace Gherkin.Pickles
                     {
                         newCells.Add(
                                 new PickleCell(
-                                        PickleLocation(cell.Location),
                                         Interpolate(cell.Value, variableCells, valueCells)
                                 )
                         );
                     }
                     newRows.Add(new PickleRow(newCells));
                 }
-                result.Add(new PickleTable(newRows));
-            } else if (argument is DocString) {
-                DocString ds = (DocString)argument;
-                result.Add(
-                        new PickleString(
-                                PickleLocation(ds.Location),
-                                Interpolate(ds.Content, variableCells, valueCells),
-                                ds.ContentType == null ? null : Interpolate(ds.ContentType, variableCells, valueCells)
-                        )
-                );
-            } else {
-                throw new InvalidOperationException("Unexpected argument type: " + argument);
+                return new PickleStepArgument
+                    {
+                        DataTable = new PickleTable(newRows)
+                    };
             }
-            return result;
+
+            if (step.DocString != null) {
+                var ds = step.DocString;
+                return
+                    new PickleStepArgument
+                    {
+                        DocString = new PickleDocString(
+                            Interpolate(ds.Content, variableCells, valueCells),
+                            ds.MediaType == null ? null : Interpolate(ds.MediaType, variableCells, valueCells))
+                    };
+            } 
+            
+            return null;
         }
 
         protected virtual PickleStep[] PickleSteps(StepsContainer scenarioDefinition)
@@ -201,31 +204,22 @@ namespace Gherkin.Pickles
             return CreatePickleStep(
                     step,
                     step.Text,
-                    CreatePickleArguments(step.Argument),
-                    SingletonList(PickleStepLocation(step))
+                    CreatePickleArgument(step),
+                    new []{ step.Id }
             );
         }
 
-        protected virtual string Interpolate(string name, IEnumerable<TableCell> variableCells, IEnumerable<TableCell> valueCells)
+        protected virtual string Interpolate(string name, IEnumerable<Cell> variableCells, IEnumerable<Cell> valueCells)
         {
             int col = 0;
             foreach (var variableCell in variableCells)
             {
-                TableCell valueCell = valueCells.ElementAt(col++);
+                var valueCell = valueCells.ElementAt(col++);
                 string header = variableCell.Value;
                 string value = valueCell.Value;
                 name = name.Replace("<" + header + ">", value);
             }
             return name;
-        }
-
-        protected virtual PickleLocation PickleStepLocation(Step step)
-        {
-            int stepLength = new StringInfo(step.Keyword).LengthInTextElements;
-            return new PickleLocation(
-                    step.Location.Line,
-                    step.Location.Column + stepLength
-            );
         }
 
         protected virtual PickleLocation PickleLocation(Ast.Location location)
@@ -245,7 +239,7 @@ namespace Gherkin.Pickles
 
         protected virtual PickleTag PickleTag(Tag tag)
         {
-            return new PickleTag(PickleLocation(tag.Location), tag.Name);
+            return new PickleTag(tag.Id, tag.Name);
         }
     }
 }

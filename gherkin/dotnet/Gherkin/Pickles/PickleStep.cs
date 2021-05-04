@@ -1,18 +1,33 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.Serialization;
+using Gherkin.Stream;
 
 namespace Gherkin.Pickles
 {
     public class PickleStep
     {
-        public string Text { get; private set; }
-        public IEnumerable<Argument> Arguments { get; private set; }
-        public IEnumerable<PickleLocation> Locations { get; private set; }
+        [DataMember(Name = "id")]
+        public string Id { get; set; }
 
-        public PickleStep(string text, IEnumerable<Argument> arguments, IEnumerable<PickleLocation> locations)
+        [DataMember(Name = "text")]
+        public string Text { get; set; }
+
+        [DataMember(Name = "astNodeIds")]
+        public IReadOnlyCollection<string> AstNodeIds { get; set; }
+
+        [DataMember(Name = "argument")]
+        public PickleStepArgument Argument { get; set; }
+
+        public PickleStep()
         {
+        }
+        
+        public PickleStep(string id, string text, PickleStepArgument argument, IEnumerable<string> astNodeIds)
+        {
+            Id = id;
             Text = text;
-            Arguments = arguments;
-            Locations = locations;
+            Argument = argument;
+            AstNodeIds = astNodeIds.ToReadOnlyCollection();
         }
     }
 }

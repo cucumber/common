@@ -1,13 +1,14 @@
-﻿namespace Gherkin.Pickles
+﻿using System.Runtime.Serialization;
+
+namespace Gherkin.Pickles
 {
     public class PickleCell
     {
-        public PickleLocation Location { get; private set; }
+        [DataMember(Name = "value")]
         public string Value { get; private set; }
 
-        public PickleCell(PickleLocation location, string value)
+        public PickleCell(string value)
         {
-            Location = location;
             Value = value;
         }
     }

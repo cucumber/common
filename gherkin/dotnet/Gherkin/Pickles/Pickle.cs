@@ -1,22 +1,45 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.Serialization;
+using Gherkin.Stream;
 
 namespace Gherkin.Pickles
 {
     public class Pickle
     {
-        public string Name { get; private set; }
-        public string Language { get; private set; }
-        public IEnumerable<PickleStep> Steps { get; private set; }
-        public IEnumerable<PickleTag> Tags { get; private set; }
-        public IEnumerable<PickleLocation> Locations { get; private set; }
+        [DataMember(Name = "id")]
+        public string Id { get; set; }
 
-        public Pickle(string name, string language, IEnumerable<PickleStep> steps, IEnumerable<PickleTag> tags, IEnumerable<PickleLocation> locations)
+        [DataMember(Name = "uri")]
+        public string Uri { get; set; }
+
+        [DataMember(Name = "name")]
+        public string Name { get; set; }
+
+        [DataMember(Name = "language")]
+        public string Language { get; set; }
+
+        [DataMember(Name = "steps")]
+        public IReadOnlyCollection<PickleStep> Steps { get; set; }
+
+        [DataMember(Name = "tags")]
+        public IReadOnlyCollection<PickleTag> Tags { get; set; }
+
+        [DataMember(Name = "astNodeIds")]
+        public IReadOnlyCollection<string> AstNodeIds { get; set; }
+
+        public Pickle()
         {
+        }
+        
+        public Pickle(string id, string uri, string name, string language, IEnumerable<PickleStep> steps, IEnumerable<PickleTag> tags, IEnumerable<string> astNodeIds)
+        {
+            Id = id;
+            Uri = uri;
             Name = name;
             Language = language;
-            Steps = steps;
-            Tags = tags;
-            Locations = locations;
+            Steps = steps.ToReadOnlyCollection();
+            Tags = tags.ToReadOnlyCollection();
+            AstNodeIds = astNodeIds.ToReadOnlyCollection();
         }
     }
 }
