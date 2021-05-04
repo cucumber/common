@@ -512,7 +512,7 @@ describe('Query', () => {
       source: {
         uri,
         data: gherkinSource,
-        mediaType: 'text/x.cucumber.gherkin+plain',
+        mediaType: messages.SourceMediaType.TEXT_X_CUCUMBER_GHERKIN_PLAIN,
       },
     }
     return GherkinStreams.fromSources([source], { newId })

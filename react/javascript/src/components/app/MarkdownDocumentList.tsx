@@ -31,18 +31,18 @@ const MarkdownDocumentList: React.FunctionComponent<IProps> = ({ sources }) => {
 const SourceContext = React.createContext<messages.Source>(null)
 
 const components: Components = {
-  li({sourcePosition}) {
-    return <ListItem sourcePosition={sourcePosition}/>
+  li({ sourcePosition }) {
+    return <ListItem sourcePosition={sourcePosition} />
   },
-  ol({sourcePosition}) {
-    return <List ordered={true}/>
+  ol() {
+    return <List ordered={true} />
   },
-  ul({sourcePosition}) {
-    return <List ordered={false}/>
+  ul() {
+    return <List ordered={false} />
   },
-  text({sourcePosition}) {
-    return <Text sourcePosition={sourcePosition}/>
-  }
+  text({ sourcePosition }) {
+    return <Text sourcePosition={sourcePosition} />
+  },
 }
 
 const MarkdownDocument: React.FunctionComponent<{

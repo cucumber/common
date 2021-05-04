@@ -124,7 +124,7 @@ describe('Query', () => {
     it('returns an empty list when the ID is unknown', async () => {
       await parse('Feature: An empty feature')
 
-      assert.deepEqual(gherkinQuery.getPickleStepIds('whetever-id'), [])
+      assert.deepEqual(gherkinQuery.getPickleStepIds('whatever-id'), [])
     })
 
     it('returns the pickle step IDs corresponding the a scenario step', async () => {
@@ -221,7 +221,7 @@ describe('Query', () => {
       source: {
         uri,
         data: gherkinSource,
-        mediaType: 'text/x.cucumber.gherkin+plain',
+        mediaType: messages.SourceMediaType.TEXT_X_CUCUMBER_GHERKIN_PLAIN,
       },
     }
 

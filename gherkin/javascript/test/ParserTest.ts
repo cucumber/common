@@ -177,11 +177,16 @@ describe('Parser', function () {
 \`\`\`what
 \`\`\`\`
 `
-    const envelopes = generateMessages(markdown, 'test.md', messages.SourceMediaType.TEXT_X_CUCUMBER_GHERKIN_MARKDOWN, {
-      includePickles: true,
-      includeGherkinDocument: true,
-      newId: messages.IdGenerator.incrementing(),
-    })
+    const envelopes = generateMessages(
+      markdown,
+      'test.md',
+      messages.SourceMediaType.TEXT_X_CUCUMBER_GHERKIN_MARKDOWN,
+      {
+        includePickles: true,
+        includeGherkinDocument: true,
+        newId: messages.IdGenerator.incrementing(),
+      }
+    )
 
     const pickle = envelopes.find((envelope) => envelope.pickle).pickle
 
