@@ -2,41 +2,31 @@
 
 Gherkin Markdown lets you write Cucumber scenarios in Markdown. Plain and simple.
 
-Gherkin Markdown is not a Markdown dialect per se, but rather a set of rules for
-parsing scenarios from any Markdown document.
+The Gherkin Markdown parser looks for Gherkin keywords in the Markdown document and
+ignores lines that don't match the grammar.
 
 The parsing rules are as follows:
 
-- `#` - Feature
-- `##` - Scenario, Background or Rule, depending on context
-- `###` - Examples, Scenario or Background, depending on context
-- `####` - Examples
-- `* {Keyword}` - Given, When, Then, And and But
-- `|` - Tables (DataTable and ExamplesTable)
-- `\`\`\`` - DocString
-- `>` - prefix for @tags
-
-Any other lines are ignored.
-
-Here are some example documents:
-
-* TODO
-* TODO
+- The following keywords (and their translations) must be preceded by *one or more* `#` (Markdown header). Examples:
+  - `# Feature`
+  - `# Background`
+  - `# Rule`
+  - `# Scenario`
+  - `# Scenario Outline`
+  - `# Examples`
+- The following step keywords (and their translations) must be preceded by a `-` or `*` (Markdown list item). Examples:
+  - `* Given`
+  - `* When`
+  - `* Then`
+  - `* And`
+  - `* But`
+- Data Tables and `Examples` tables use the [GFM table](https://github.github.com/gfm/#tables-extension-) syntax.
+- Doc Strings use the [GFM fenced code blocks](https://github.github.com/gfm/#fenced-code-blocks) syntax.
+- Tags must be wrapped by single \` on each side, for example `` `@hello` ``
 
 ## HTML rendering
 
-Since Gherkin Markdown is just Markdown, any Markdown engine (such as GitHub where you are
-probably reading this) can turn it into HTML, which is handy.
+Gherkin Markdown is just [GFM](https://github.github.com/gfm/), so any Markdown engine with support for GFM can render it as HTML.
 
-Here is an actual example:
-
-* Given I have 5 apples
-* When I eat 1 apple
-* Then I should have 2 apples
-
-There is obviously an error here, but how obvious is it really? Wouldn't it
-be more obvious if the last step were red?
-
-With Cucumber Reports you can. Set `CUCUMBER_PUBLISH_ENABLED=1` in your terminal,
-run Cucumber and see your Markdown document rendered with colourful results,
-attachments ans more.
+The [@cucumber/react](../react/javascript) library as well as https://reports.cucumber.io will render
+Markdown documents as HTML too, but it will *also* render results.
