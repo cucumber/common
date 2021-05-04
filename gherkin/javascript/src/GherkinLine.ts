@@ -1,15 +1,14 @@
 import countSymbols from './countSymbols'
-import { ParserException } from './Errors'
 import { IGherkinLine, Item } from './IToken'
 
 export default class GherkinLine implements IGherkinLine {
   public trimmedLineText: string
   public isEmpty: boolean
-  public indent: number
+  public readonly indent: number
   public column: number
   public text: string
 
-  constructor(private readonly lineText: string, private readonly lineNumber: number) {
+  constructor(private readonly lineText: string, public readonly lineNumber: number) {
     this.trimmedLineText = lineText.replace(/^\s+/g, '') // ltrim
     this.isEmpty = this.trimmedLineText.length === 0
     this.indent = countSymbols(lineText) - countSymbols(this.trimmedLineText)
@@ -83,26 +82,6 @@ export default class GherkinLine implements IGherkinLine {
     }
 
     return cells
-  }
-
-  public getTags(): readonly Item[] {
-    const uncommentedLine = this.trimmedLineText.split(/\s#/g, 2)[0]
-    let column = this.indent + 1
-    const items = uncommentedLine.split('@')
-    const tags: any[] = []
-    for (let i = 0; i < items.length; i++) {
-      const item = items[i].trimRight()
-      if (item.length == 0) {
-        continue
-      }
-      if (!item.match(/^\S+$/)) {
-        throw ParserException.create('A tag may not contain whitespace', this.lineNumber, column)
-      }
-      const span = { column, text: '@' + item }
-      tags.push(span)
-      column += countSymbols(items[i]) + 1
-    }
-    return tags
   }
 }
 

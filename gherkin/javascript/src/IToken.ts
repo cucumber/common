@@ -1,15 +1,14 @@
 import * as messages from '@cucumber/messages'
 
 export interface IGherkinLine {
-  isEmpty: boolean
-  indent?: number
-  trimmedLineText: string
+  readonly lineNumber: number
+  readonly isEmpty: boolean
+  readonly indent?: number
+  readonly trimmedLineText: string
 
   getTableCells(): readonly Item[]
 
   startsWith(prefix: string): boolean
-
-  getTags(): readonly Item[]
 
   getRestTrimmed(length: number): string
 

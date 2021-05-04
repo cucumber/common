@@ -1,10 +1,12 @@
 import DIALECTS from './gherkin-languages.json'
 import Dialect from './Dialect'
-import { NoSuchLanguageException } from './Errors'
-import IToken, { Item } from './IToken'
+import {NoSuchLanguageException, ParserException} from './Errors'
+import IToken, {IGherkinLine, Item} from './IToken'
 import * as messages from '@cucumber/messages'
 import { TokenType } from './Parser'
 import ITokenMatcher from './ITokenMatcher'
+import countSymbols from "./countSymbols";
+import GherkinLine from "./GherkinLine";
 
 const DIALECT_DICT: { [key: string]: Dialect } = DIALECTS
 const LANGUAGE_PATTERN = /^\s*#\s*language\s*:\s*([a-zA-Z\-_]+)\s*$/
@@ -39,7 +41,7 @@ export default class TokenMatcher implements ITokenMatcher<TokenType> {
 
   match_TagLine(token: IToken<TokenType>) {
     if (token.line.startsWith('@')) {
-      this.setTokenMatched(token, TokenType.TagLine, null, null, null, token.line.getTags())
+      this.setTokenMatched(token, TokenType.TagLine, null, null, null, this.getTags(token.line))
       return true
     }
     return false
@@ -162,6 +164,26 @@ export default class TokenMatcher implements ITokenMatcher<TokenType> {
     const text = token.line.getLineText(this.indentToRemove) // take the entire line, except removing DocString indents
     this.setTokenMatched(token, TokenType.Other, this.unescapeDocString(text), null, 0)
     return true
+  }
+
+  getTags(line: IGherkinLine): readonly Item[] {
+    const uncommentedLine = line.trimmedLineText.split(/\s#/g, 2)[0]
+    let column = line.indent + 1
+    const items = uncommentedLine.split('@')
+    const tags: any[] = []
+    for (let i = 0; i < items.length; i++) {
+      const item = items[i].trimRight()
+      if (item.length == 0) {
+        continue
+      }
+      if (!item.match(/^\S+$/)) {
+        throw ParserException.create('A tag may not contain whitespace', line.lineNumber, column)
+      }
+      const span = { column, text: '@' + item }
+      tags.push(span)
+      column += countSymbols(items[i]) + 1
+    }
+    return tags
   }
 
   private matchTitleLine(
