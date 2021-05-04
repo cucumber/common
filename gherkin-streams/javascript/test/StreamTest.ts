@@ -12,12 +12,28 @@ describe('gherkin', () => {
       GherkinStreams.fromPaths(['testdata/good/minimal.feature'], defaultOptions)
     )
     assert.strictEqual(envelopes.length, 3)
+    assert.strictEqual(envelopes[0].source.uri, 'testdata/good/minimal.feature')
+    assert.strictEqual(envelopes[1].gherkinDocument.uri, 'testdata/good/minimal.feature')
+    assert.strictEqual(envelopes[2].pickle.uri, 'testdata/good/minimal.feature')
   })
 
   it('throws an error when the path is a directory', async () => {
     assert.rejects(async () =>
       streamToArray(GherkinStreams.fromPaths(['testdata/good'], defaultOptions))
     )
+  })
+
+  it('emits uris relative to a given path', async () => {
+    const envelopes = await streamToArray(
+      GherkinStreams.fromPaths(['testdata/good/minimal.feature'], {
+        ...defaultOptions,
+        relativeTo: 'testdata/good',
+      })
+    )
+    assert.strictEqual(envelopes.length, 3)
+    assert.strictEqual(envelopes[0].source.uri, 'minimal.feature')
+    assert.strictEqual(envelopes[1].gherkinDocument.uri, 'minimal.feature')
+    assert.strictEqual(envelopes[2].pickle.uri, 'minimal.feature')
   })
 
   it('parses gherkin from STDIN', async () => {
