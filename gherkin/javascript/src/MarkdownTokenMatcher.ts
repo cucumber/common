@@ -1,11 +1,11 @@
 import ITokenMatcher from './ITokenMatcher'
 import Dialect from './Dialect'
-import {Token, TokenType} from './Parser'
+import { Token, TokenType } from './Parser'
 import DIALECTS from './gherkin-languages.json'
 import assert from 'assert'
-import {Item} from './IToken'
+import { Item } from './IToken'
 import * as messages from '@cucumber/messages'
-import {NoSuchLanguageException} from './Errors'
+import { NoSuchLanguageException } from './Errors'
 
 const DIALECT_DICT: { [key: string]: Dialect } = DIALECTS
 const DEFAULT_DOC_STRING_SEPARATOR = /^(```[`]*)(.*)/
@@ -203,7 +203,7 @@ export default class MarkdownTokenMatcher implements ITokenMatcher<TokenType> {
 
   match_TagLine(token: Token): boolean {
     assert(token)
-    let tags: Item[] = []
+    const tags: Item[] = []
     let m: RegExpMatchArray
     const re = /`(@[^`]+)`/g
     do {
@@ -214,7 +214,7 @@ export default class MarkdownTokenMatcher implements ITokenMatcher<TokenType> {
           text: m[1],
         })
       }
-    } while (m);
+    } while (m)
 
     if (tags.length === 0) return false
     token.matchedType = TokenType.TagLine

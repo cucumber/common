@@ -1,12 +1,11 @@
 import DIALECTS from './gherkin-languages.json'
 import Dialect from './Dialect'
-import {NoSuchLanguageException, ParserException} from './Errors'
-import IToken, {IGherkinLine, Item} from './IToken'
+import { NoSuchLanguageException, ParserException } from './Errors'
+import IToken, { IGherkinLine, Item } from './IToken'
 import * as messages from '@cucumber/messages'
 import { TokenType } from './Parser'
 import ITokenMatcher from './ITokenMatcher'
-import countSymbols from "./countSymbols";
-import GherkinLine from "./GherkinLine";
+import countSymbols from './countSymbols'
 
 const DIALECT_DICT: { [key: string]: Dialect } = DIALECTS
 const LANGUAGE_PATTERN = /^\s*#\s*language\s*:\s*([a-zA-Z\-_]+)\s*$/

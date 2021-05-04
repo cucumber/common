@@ -23,7 +23,7 @@
     "source-map-support": "^0.5.19"
   },
   "devDependencies": {
-    "@babel/core": "^7.13.16",
+    "@babel/core": "^7.14.0",
     "@cucumber/gherkin-streams": "^1.0.0",
     "@cucumber/gherkin-utils": "^4.0.0",
     "@cucumber/message-streams": "^1.0.0",
@@ -35,13 +35,13 @@
     "@types/react-dom": "^17.0.3",
     "babel-loader": "^8.2.2",
     "mocha": "^8.3.2",
-    "puppeteer": "^9.0.0",
+    "puppeteer": "^9.1.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "ts-loader": "^9.1.1",
     "ts-node": "^9.1.1",
     "typescript": "^4.2.4",
-    "webpack": "^5.36.0",
+    "webpack": "^5.36.2",
     "webpack-cli": "^4.6.0"
   },
   "bugs": {

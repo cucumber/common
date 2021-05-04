@@ -1,9 +1,9 @@
 import assert from 'assert'
 import TokenMatcher from '../src/TokenMatcher'
-import {NoSuchLanguageException} from '../src/Errors'
+import { NoSuchLanguageException } from '../src/Errors'
 import * as messages from '@cucumber/messages'
 import GherkinLine from '../src/GherkinLine'
-import {Token, TokenType} from '../src/Parser'
+import { Token, TokenType } from '../src/Parser'
 
 describe('TokenMatcher', function () {
   it('throws for invalid languages', function () {
@@ -12,7 +12,7 @@ describe('TokenMatcher', function () {
 
   it('tokenizes FeatureLine', () => {
     const tm = new TokenMatcher()
-    const location: messages.Location = {line: 1, column: 1}
+    const location: messages.Location = { line: 1, column: 1 }
     const line = new GherkinLine('Feature: hello', location.line)
     const token = new Token(line, location)
     assert(tm.match_FeatureLine(token))
@@ -22,7 +22,9 @@ describe('TokenMatcher', function () {
   it('matches tags', () => {
     const tm = new TokenMatcher()
     const gl = new GherkinLine('   @foo:bar  @zap🥒yo', 1)
-    assert.deepStrictEqual(tm.getTags(gl), [{column: 4, text: '@foo:bar'}, {column: 14, text: '@zap🥒yo'}])
+    assert.deepStrictEqual(tm.getTags(gl), [
+      { column: 4, text: '@foo:bar' },
+      { column: 14, text: '@zap🥒yo' },
+    ])
   })
-
 })
