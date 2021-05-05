@@ -4,10 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using Gherkin.CucumberMessages.Types;
-using Gherkin.Events.Args;
 using Gherkin.Stream.Converter;
 using GherkinDocument = Gherkin.Ast.GherkinDocument;
-using Location = Gherkin.Events.Args.Location;
+using Location = Gherkin.CucumberMessages.Types.Location;
 
 namespace Gherkin.Stream
 {
@@ -76,7 +75,7 @@ namespace Gherkin.Stream
                 EventArgs = new ParseError()
                 {
                     Message = e.Message,
-                    Source = new Source()
+                    Source = new SourceReference()
                     {
                         Location = new Location(e.Location.Column, e.Location.Line),
                         Uri = uri

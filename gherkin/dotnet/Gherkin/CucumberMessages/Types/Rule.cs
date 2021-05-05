@@ -3,7 +3,7 @@ using System.Runtime.Serialization;
 
 namespace Gherkin.CucumberMessages.Types
 {
-    public class Examples
+    public class Rule
     {
         [DataMember(Name = "location")]
         public Location Location { get; set; }
@@ -20,11 +20,8 @@ namespace Gherkin.CucumberMessages.Types
         [DataMember(Name = "description")]
         public string Description { get; set; }
 
-        [DataMember(Name = "tableHeader")]
-        public TableRow TableHeader { get; set; }
-
-        [DataMember(Name = "tableBody")]
-        public IReadOnlyCollection<TableRow> TableBody { get; set; }
+        [DataMember(Name = "children")]
+        public IReadOnlyCollection<RuleChild> Children { get; set; }
 
         [DataMember(Name = "id")]
         public string Id { get; set; }

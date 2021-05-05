@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
-using Gherkin.Events.Args.Ast;
 
 namespace Gherkin.CucumberMessages.Types
 {

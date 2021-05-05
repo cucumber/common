@@ -1,6 +1,5 @@
-using Gherkin.Events.Args.Pickle;
 using System.Runtime.Serialization;
-using Gherkin.Pickles;
+using Gherkin.CucumberMessages.Types;
 
 namespace Gherkin.Events
 {

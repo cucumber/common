@@ -9,7 +9,7 @@ namespace Gherkin.Specs.Events
     public class PicklesTests : EventTestBase
     {
         [Theory, MemberData(nameof(TestFileProvider.GetValidTestFiles), MemberType = typeof(TestFileProvider))]
-        public void TestSuccessfulAstBuilding(string testFeatureFile)
+        public void TestPickleCompilation(string testFeatureFile)
         {
             var testFile = GetFullPathToTestFeatureFile(testFeatureFile, "good", ".pickles.ndjson");
 

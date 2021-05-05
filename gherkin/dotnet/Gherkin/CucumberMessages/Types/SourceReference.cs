@@ -1,8 +1,8 @@
 ﻿using System.Runtime.Serialization;
 
-namespace Gherkin.Events.Args
+namespace Gherkin.CucumberMessages.Types
 {
-    public class Source
+    public class SourceReference
     {
         [DataMember(Name = "location")]
         public Location Location { get; set; }
@@ -10,5 +10,6 @@ namespace Gherkin.Events.Args
         [DataMember(Name = "uri")]
         public string Uri { get; set; }
 
+        //TODO: javaMethod, javaStackTraceElement
     }
 }

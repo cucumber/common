@@ -1,28 +1,29 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
+using Gherkin.Pickles;
 using Gherkin.Stream;
 
-namespace Gherkin.Pickles
+namespace Gherkin.CucumberMessages.Types
 {
     public class PickleStep
     {
+        [DataMember(Name = "argument")]
+        public PickleStepArgument Argument { get; set; }
+
+        [DataMember(Name = "astNodeIds")]
+        public IReadOnlyCollection<string> AstNodeIds { get; set; }
+
         [DataMember(Name = "id")]
         public string Id { get; set; }
 
         [DataMember(Name = "text")]
         public string Text { get; set; }
 
-        [DataMember(Name = "astNodeIds")]
-        public IReadOnlyCollection<string> AstNodeIds { get; set; }
-
-        [DataMember(Name = "argument")]
-        public PickleStepArgument Argument { get; set; }
-
         public PickleStep()
         {
         }
         
-        public PickleStep(string id, string text, PickleStepArgument argument, IEnumerable<string> astNodeIds)
+        public PickleStep(PickleStepArgument argument, IEnumerable<string> astNodeIds, string id, string text)
         {
             Id = id;
             Text = text;

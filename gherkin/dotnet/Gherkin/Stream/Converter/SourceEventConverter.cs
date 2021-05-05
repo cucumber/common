@@ -1,5 +1,5 @@
-﻿using Gherkin.Events;
-using Gherkin.Events.Args;
+﻿using Gherkin.CucumberMessages.Types;
+using Gherkin.Events;
 
 namespace Gherkin.Stream.Converter
 {
@@ -11,7 +11,7 @@ namespace Gherkin.Stream.Converter
         {
             return new SourceEvent()
             {
-                EventArgs = new SourceEventArgs()
+                EventArgs = new Source()
                 {
                     Uri = sourceEvent.Uri,
                     Data = ConverterDefaults.UseDefault(sourceEvent.Data, ConverterDefaults.DefaultSourceData),

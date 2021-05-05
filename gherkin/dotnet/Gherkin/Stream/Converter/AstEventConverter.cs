@@ -4,18 +4,20 @@ using System.Linq;
 using Gherkin.Ast;
 using Gherkin.CucumberMessages.Types;
 using Gherkin.Events;
-using Gherkin.Events.Args.Ast;
+using Background = Gherkin.CucumberMessages.Types.Background;
 using Comment = Gherkin.CucumberMessages.Types.Comment;
 using Examples = Gherkin.CucumberMessages.Types.Examples;
 using Feature = Gherkin.CucumberMessages.Types.Feature;
 using Location = Gherkin.CucumberMessages.Types.Location;
-using Rule = Gherkin.Events.Args.Ast.Rule;
-using Step = Gherkin.Events.Args.Ast.Step;
-using StepsContainer = Gherkin.Events.Args.Ast.StepsContainer;
+using Rule = Gherkin.CucumberMessages.Types.Rule;
+using Step = Gherkin.CucumberMessages.Types.Step;
 using DataTable = Gherkin.CucumberMessages.Types.DataTable;
 using DocString = Gherkin.CucumberMessages.Types.DocString;
 using GherkinDocument = Gherkin.CucumberMessages.Types.GherkinDocument;
-using Tag = Gherkin.Events.Args.Ast.Tag;
+using Scenario = Gherkin.CucumberMessages.Types.Scenario;
+using TableCell = Gherkin.CucumberMessages.Types.TableCell;
+using TableRow = Gherkin.CucumberMessages.Types.TableRow;
+using Tag = Gherkin.CucumberMessages.Types.Tag;
 
 namespace Gherkin.Stream.Converter
 {
@@ -49,7 +51,7 @@ namespace Gherkin.Stream.Converter
                 return null;
             }
 
-            var children = feature.Children.Select(ConvertToChildren).ToReadOnlyCollection();
+            var children = feature.Children.Select(ConvertToFeatureChild).ToReadOnlyCollection();
             var tags = feature.Tags.Select(ConvertTag).ToReadOnlyCollection();
 
             return new Feature()
@@ -69,34 +71,40 @@ namespace Gherkin.Stream.Converter
             return new Location(location.Column, location.Line);
         }
 
-
-        private FeatureChild ConvertToChildren(IHasLocation hasLocation)
+        private FeatureChild ConvertToFeatureChild(IHasLocation hasLocation)
+        {
+            var tuple = ConvertToChild(hasLocation);
+            return new FeatureChild(tuple.Item3, tuple.Item1, tuple.Item2);
+        }
+        
+        private RuleChild ConvertToRuleChild(IHasLocation hasLocation)
+        {
+            var tuple = ConvertToChild(hasLocation);
+            return new RuleChild(tuple.Item1, tuple.Item3);
+        }
+        
+        private Tuple<Background, Rule, Scenario> ConvertToChild(IHasLocation hasLocation)
         {
             switch (hasLocation)
             {
-                case Background background:
+                case Gherkin.Ast.Background background:
                     var backgroundSteps = background.Steps.Select(ConvertStep).ToList();
-                    return new FeatureChild()
-                    {
-                        Background = new StepsContainer()
+                    return new Tuple<Background, Rule, Scenario>(new Background
                         {
+                            Id = IdGenerator.GetNextId(),
                             Location = ConvertLocation(background.Location),
                             Name = ConverterDefaults.UseDefault(background.Name, ConverterDefaults.DefaultName),
                             Description = ConverterDefaults.UseDefault(background.Description, ConverterDefaults.DefaultDescription),
                             Keyword = background.Keyword,
-                            Steps = backgroundSteps,
-                            Examples = null,
-                            Tags = null
-                        }
-                    };
-                case Scenario scenario:
+                            Steps = backgroundSteps
+                        }, null, null);
+                case Ast.Scenario scenario:
                     var steps = scenario.Steps.Select(ConvertStep).ToList();
                     var examples = scenario.Examples.Select(ConvertExamples).ToReadOnlyCollection();
                     var tags = scenario.Tags.Select(ConvertTag).ToReadOnlyCollection();
-                    return new FeatureChild()
-                    {
-                        Scenario = new StepsContainer()
+                    return new Tuple<Background, Rule, Scenario>(null, null, new Scenario()
                         {
+                            Id = IdGenerator.GetNextId(),
                             Keyword = scenario.Keyword,
                             Location = ConvertLocation(scenario.Location),
                             Name = ConverterDefaults.UseDefault(scenario.Name, ConverterDefaults.DefaultName),
@@ -104,24 +112,21 @@ namespace Gherkin.Stream.Converter
                             Steps = steps,
                             Examples = examples,
                             Tags = tags
-                        }
-                    };
+                        });
                 case Ast.Rule rule:
                     {
-                        var ruleChildren = rule.Children.Select(ConvertToChildren).ToReadOnlyCollection();
+                        var ruleChildren = rule.Children.Select(ConvertToRuleChild).ToReadOnlyCollection();
                         var ruleTags = rule.Tags.Select(ConvertTag).ToReadOnlyCollection();
-                        return new FeatureChild()
-                        {
-                            Rule = new Rule()
+                        return new Tuple<Background, Rule, Scenario>(null, new Rule
                             {
+                                Id = IdGenerator.GetNextId(),
                                 Name = ConverterDefaults.UseDefault(rule.Name, ConverterDefaults.DefaultName),
                                 Description = ConverterDefaults.UseDefault(rule.Description, ConverterDefaults.DefaultDescription),
                                 Keyword = rule.Keyword,
                                 Children = ruleChildren,
                                 Location = ConvertLocation(rule.Location),
                                 Tags = ruleTags
-                            }
-                        };
+                            }, null);
                     }
 
 
@@ -150,31 +155,33 @@ namespace Gherkin.Stream.Converter
             };
         }
 
-        private IReadOnlyCollection<TableBody> ConvertToTableBody(Ast.Examples examples)
+        private IReadOnlyCollection<TableRow> ConvertToTableBody(Ast.Examples examples)
         {
             if (examples.TableBody == null)
-                return new List<TableBody>();
+                return new List<TableRow>();
 
             return ConvertToTableRow(examples.TableBody);
         }
 
-        private IReadOnlyCollection<TableBody> ConvertToTableRow(IEnumerable<TableRow> rows)
+        private IReadOnlyCollection<TableRow> ConvertToTableRow(IEnumerable<Gherkin.Ast.TableRow> rows)
         {
             return rows.Select(b =>
-                new TableBody()
+                new TableRow
                 {
+                    Id = IdGenerator.GetNextId(),
                     Location = ConvertLocation(b.Location),
                     Cells = b.Cells.Select(ConvertCell).ToReadOnlyCollection()
                 }).ToReadOnlyCollection();
         }
 
-        private TableHeader ConvertTableHeader(Ast.Examples examples)
+        private TableRow ConvertTableHeader(Ast.Examples examples)
         {
             if (examples.TableHeader == null)
                 return null;
 
-            return new TableHeader()
+            return new TableRow
             {
+                Id = IdGenerator.GetNextId(),
                 Location = ConvertLocation(examples.TableHeader.Location),
                 Cells = examples.TableHeader.Cells.Select(ConvertCell).ToReadOnlyCollection()
             };
@@ -182,16 +189,17 @@ namespace Gherkin.Stream.Converter
 
         private Tag ConvertTag(Ast.Tag tag)
         {
-            return new Tag()
+            return new Tag
             {
+                Id = IdGenerator.GetNextId(),
                 Location = ConvertLocation(tag.Location),
                 Name = tag.Name
             };
         }
 
-        private Cell ConvertCell(TableCell c)
+        private TableCell ConvertCell(Ast.TableCell c)
         {
-            return new Cell()
+            return new TableCell()
             {
                 Value = ConverterDefaults.UseDefault(c.Value, ConverterDefaults.DefaultCellValue),
                 Location = ConvertLocation(c.Location)
@@ -225,6 +233,7 @@ namespace Gherkin.Stream.Converter
 
             return new Step()
             {
+                Id = IdGenerator.GetNextId(),
                 Keyword = step.Keyword,
                 Text = step.Text,
                 DataTable = dataTable,

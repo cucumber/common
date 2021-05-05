@@ -1,19 +1,18 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
 
-namespace Gherkin.Pickles
+namespace Gherkin.CucumberMessages.Types
 {
     public class PickleTable
     {
         [DataMember(Name = "rows")]
-        public IEnumerable<PickleRow> Rows { get; private set; }
+        public IEnumerable<PickleTableRow> Rows { get; set; }
 
         public PickleTable()
         {
-            
         }
         
-        public PickleTable(IEnumerable<PickleRow> rows)
+        public PickleTable(IEnumerable<PickleTableRow> rows)
         {
             Rows = rows;
         }

@@ -2,7 +2,7 @@
 using System.Runtime.Serialization;
 using Gherkin.Stream;
 
-namespace Gherkin.Pickles
+namespace Gherkin.CucumberMessages.Types
 {
     public class Pickle
     {

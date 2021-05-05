@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace Gherkin.Pickles
+namespace Gherkin.CucumberMessages.Types
 {
     public class PickleStepArgument
     {

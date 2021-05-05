@@ -1,11 +1,11 @@
 ﻿using System.Runtime.Serialization;
-using Gherkin.Events.Args;
+using Gherkin.CucumberMessages.Types;
 
 namespace Gherkin.Events
 {
     public class SourceEvent : IEvent
     {
         [DataMember(Name = "source")]
-        public SourceEventArgs EventArgs { get; set; }
+        public Source EventArgs { get; set; }
     }
 }

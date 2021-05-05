@@ -1,8 +1,8 @@
 ﻿using System.Runtime.Serialization;
 
-namespace Gherkin.Events.Args
+namespace Gherkin.CucumberMessages.Types
 {
-    public class SourceEventArgs
+    public class Source
     {
         [DataMember(Name = "uri")]
         public string Uri { get; set; }
