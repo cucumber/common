@@ -12,6 +12,9 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 ### Added
 
 ### Changed
+* [DotNet] Replaced Utf8Json with source-embedded TinyJson.
+  ([#511](https://github.com/cucumber/cucumber/pull/1511)
+   [gasparnagy])   
 
 ### Deprecated
 
@@ -22,6 +25,9 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
   ([#1495](https://github.com/cucumber/cucumber/pull/1495)
    [#1494](https://github.com/cucumber/cucumber/issues/1494)
    [ehuelsmann])
+* [DotNet] Fixed .NET Gherkin compatibility with other Gherkin implementations.
+  ([#511](https://github.com/cucumber/cucumber/pull/1511)
+   [gasparnagy])   
 
 ## [18.1.1] - 2021-04-22
 
