@@ -6,7 +6,11 @@ import fs from 'fs'
 import { IGherkinOptions } from '@cucumber/gherkin'
 import makeGherkinOptions from './makeGherkinOptions'
 
-function fromPaths(paths: readonly string[], options: IGherkinOptions): Readable {
+export interface IGherkinStreamOptions extends IGherkinOptions {
+  relativeTo?: string
+}
+
+function fromPaths(paths: readonly string[], options: IGherkinStreamOptions): Readable {
   const pathsCopy = paths.slice()
   options = makeGherkinOptions(options)
   const combinedMessageStream = new PassThrough({
@@ -27,7 +31,7 @@ function fromPaths(paths: readonly string[], options: IGherkinOptions): Readable
       // so we have to manually propagate errors.
       fs.createReadStream(path, { encoding: 'utf-8' })
         .on('error', (err) => combinedMessageStream.emit('error', err))
-        .pipe(new SourceMessageStream(path))
+        .pipe(new SourceMessageStream(path, options.relativeTo))
         .on('error', (err) => combinedMessageStream.emit('error', err))
         .pipe(parserMessageStream)
         .on('error', (err) => combinedMessageStream.emit('error', err))

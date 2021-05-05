@@ -1,3 +1,3 @@
-import GherkinStreams from './GherkinStreams'
+import GherkinStreams, { IGherkinStreamOptions } from './GherkinStreams'
 
-export { GherkinStreams }
+export { GherkinStreams, IGherkinStreamOptions }

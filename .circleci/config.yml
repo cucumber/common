@@ -6,7 +6,7 @@ version: 2.1
 
 executors:
   # This executor's Docker image contains all the tools required to build
-  # this repo (protoc, dotnet, openjdk, ruby, node etc). We use it for
+  # this repo (dotnet, openjdk, ruby, node etc). We use it for
   # jobs that require a combination of those tools. For other jobs we use
   # the circleci images, as they are typically cached more widely around
   # the build nodes (faster builds).
