@@ -9,12 +9,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gherkin.Specs", "Gherkin.Sp
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7083F2CC-7F1D-40A3-8DF4-D16C090FF977}"
 	ProjectSection(SolutionItems) = preProject
+		Directory.Build.props = Directory.Build.props
 		bin\gherkin = bin\gherkin
 		gherkin-csharp.razor = gherkin-csharp.razor
 		bin\gherkin-generate-tokens = bin\gherkin-generate-tokens
 		gherkin.berp = gherkin.berp
 		Makefile = Makefile
-		netfx.props = netfx.props
 	EndProjectSection
 EndProject
 Global
