@@ -1,11 +1,10 @@
 ﻿using System.Linq;
 using FluentAssertions;
-using Gherkin.CucumberMessages;
-using Gherkin.Events;
+using Gherkin.CucumberMessages.Types;
 using Gherkin.Specs.Helper;
 using Xunit;
 
-namespace Gherkin.Specs.Events
+namespace Gherkin.Specs
 {
     public class AstBuildingTests : EventTestBase
     {
@@ -15,12 +14,12 @@ namespace Gherkin.Specs.Events
             var testFile = GetFullPathToTestFeatureFile(testFeatureFile, "good", ".ast.ndjson");
             var expectedAstContent = GetExpectedContent(testFile.ExpectedFileFullPath);
 
-            var expectedGherkinDocumentEvent = NDJsonParser.Deserialize<GherkinDocumentEvent>(expectedAstContent);
+            var expectedGherkinDocumentEvent = NDJsonParser.Deserialize<Envelope>(expectedAstContent);
 
             var raisedEvents = ProcessGherkinEvents(testFile.FullPath, false, true, false);
 
-            raisedEvents.Should().AllBeOfType<GherkinDocumentEvent>();
-            AssertEvents(testFeatureFile, raisedEvents.Cast<GherkinDocumentEvent>().ToList(), expectedGherkinDocumentEvent, testFile);
+            raisedEvents.Should().Match(list => list.All(e => e.GherkinDocument != null));
+            AssertEvents(testFeatureFile, raisedEvents, expectedGherkinDocumentEvent, testFile);
         }
 
         [Theory, MemberData(nameof(TestFileProvider.GetInvalidTestFiles), MemberType = typeof(TestFileProvider))]
@@ -29,12 +28,12 @@ namespace Gherkin.Specs.Events
             var testFile = GetFullPathToTestFeatureFile(testFeatureFile, "bad", ".errors.ndjson");
             var expectedAstContent = GetExpectedContent(testFile.ExpectedFileFullPath);
 
-            var expectedGherkinDocumentEvent = NDJsonParser.Deserialize<ParseErrorEvent>(expectedAstContent);
+            var expectedGherkinDocumentEvent = NDJsonParser.Deserialize<Envelope>(expectedAstContent);
 
             var raisedEvents = ProcessGherkinEvents(testFile.FullPath, false, true, false);
 
-            raisedEvents.Should().AllBeOfType<ParseErrorEvent>();
-            AssertEvents(testFeatureFile, raisedEvents.Cast<ParseErrorEvent>().ToList(), expectedGherkinDocumentEvent, testFile);
+            raisedEvents.Should().Match(list => list.All(e => e.ParseError != null));
+            AssertEvents(testFeatureFile, raisedEvents, expectedGherkinDocumentEvent, testFile);
         }
     }
 }

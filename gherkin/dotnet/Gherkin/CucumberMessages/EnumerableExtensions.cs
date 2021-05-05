@@ -2,9 +2,9 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace Gherkin.Stream
+namespace Gherkin.CucumberMessages
 {
-    public static class EnumerableExtensions
+    internal static class EnumerableExtensions
     {
         public static ReadOnlyCollection<T> ToReadOnlyCollection<T>(this IEnumerable<T> enumerable)
         {

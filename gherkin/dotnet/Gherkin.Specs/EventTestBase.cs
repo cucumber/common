@@ -1,21 +1,21 @@
 ﻿using System;
-using FluentAssertions;
-using Gherkin.Specs.Helper;
-using Gherkin.Stream;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
+using FluentAssertions;
 using Gherkin.CucumberMessages;
-using Gherkin.Events;
+using Gherkin.CucumberMessages.Types;
+using Gherkin.Specs.EventStubs;
+using Gherkin.Specs.Helper;
 
-namespace Gherkin.Specs.Events
+namespace Gherkin.Specs
 {
     public class EventTestBase
     {
         protected readonly IncrementingIdGenerator idGenerator = new IncrementingIdGenerator();
         
-        protected void AssertEvents<T>(string testFeatureFile, List<T> actualGherkinDocumentEvent, List<T> expectedGherkinDocumentEvent, TestFile testFile) where T : IEvent
+        protected void AssertEvents(string testFeatureFile, List<Envelope> actualGherkinDocumentEvent, List<Envelope> expectedGherkinDocumentEvent, TestFile testFile)
         {
             actualGherkinDocumentEvent.Should().BeEquivalentTo(expectedGherkinDocumentEvent,
                config => config
@@ -57,15 +57,16 @@ namespace Gherkin.Specs.Events
             };
         }
 
-        protected List<IEvent> ProcessGherkinEvents(string fullPathToTestFeatureFile, bool printSource, bool printAst, bool printPickles)
+        protected List<Envelope> ProcessGherkinEvents(string fullPathToTestFeatureFile, bool printSource, bool printAst, bool printPickles)
         {
-            var raisedEvents = new List<IEvent>();
+            var raisedEvents = new List<Envelope>();
 
-            SourceEvents sourceEvents = new SourceEvents(new List<string> { fullPathToTestFeatureFile });
-            GherkinEvents gherkinEvents = new GherkinEvents(printSource, printAst, printPickles, idGenerator);
-            foreach (var sourceEventEvent in sourceEvents)
+            var sourceProvider = new SourceProvider();
+            var sources = sourceProvider.GetSources(new List<string> {fullPathToTestFeatureFile});
+            var gherkinEventsProvider = new GherkinEventsProvider(printSource, printAst, printPickles, idGenerator);
+            foreach (var source in sources)
             {
-                foreach (IEvent evt in gherkinEvents.Iterable(sourceEventEvent))
+                foreach (var evt in gherkinEventsProvider.GetEvents(source))
                 {
                     raisedEvents.Add(evt);
                 }

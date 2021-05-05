@@ -1,10 +1,10 @@
 ﻿using System.Linq;
 using FluentAssertions;
-using Gherkin.Events;
+using Gherkin.CucumberMessages.Types;
 using Gherkin.Specs.Helper;
 using Xunit;
 
-namespace Gherkin.Specs.Events
+namespace Gherkin.Specs
 {
     public class PicklesTests : EventTestBase
     {
@@ -15,13 +15,12 @@ namespace Gherkin.Specs.Events
 
             var expectedContent = GetExpectedContent(testFile.ExpectedFileFullPath);
 
-            var expectedEvents = NDJsonParser.Deserialize<PickleEvent>(expectedContent);
+            var expectedEvents = NDJsonParser.Deserialize<Envelope>(expectedContent);
 
             var raisedEvents = ProcessGherkinEvents(testFile.FullPath, false, false, true);
 
-            raisedEvents.Should().AllBeOfType<PickleEvent>();
-
-            AssertEvents(testFeatureFile, raisedEvents.Cast<PickleEvent>().ToList(), expectedEvents, testFile);
+            raisedEvents.Should().Match(list => list.All(e => e.Pickle != null));
+            AssertEvents(testFeatureFile, raisedEvents, expectedEvents, testFile);
         }
     }
 }

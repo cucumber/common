@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Gherkin.Ast;
 using Gherkin.CucumberMessages.Types;
-using Gherkin.Stream;
 using Background = Gherkin.CucumberMessages.Types.Background;
 using Comment = Gherkin.CucumberMessages.Types.Comment;
 using Examples = Gherkin.CucumberMessages.Types.Examples;

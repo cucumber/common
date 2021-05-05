@@ -8,7 +8,7 @@ namespace Gherkin.CucumberMessages.Types
         public int Line { get; set; }
 
         [DataMember(Name = "column")]
-        public int Column { get; set; }
+        public int? Column { get; set; }
 
         public Location()
         {
@@ -16,7 +16,7 @@ namespace Gherkin.CucumberMessages.Types
 
         public Location(int column, int line)
         {
-            Column = column;
+            Column = column == 0 ? (int?)null : column;
             Line = line;
         }
     }

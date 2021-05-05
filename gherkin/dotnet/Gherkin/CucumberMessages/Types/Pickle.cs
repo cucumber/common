@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
-using Gherkin.Stream;
 
 namespace Gherkin.CucumberMessages.Types
 {

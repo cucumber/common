@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using Gherkin.Events;
-using Gherkin.Stream;
 using Utf8Json;
 using Utf8Json.Resolvers;
 using System.Text.RegularExpressions;
 using Gherkin.CucumberMessages;
+using Gherkin.Specs.EventStubs;
 
 namespace Gherkin.CLI
 {
@@ -48,10 +47,11 @@ namespace Gherkin.CLI
                 new IJsonFormatterResolver[] { StandardResolver.ExcludeNullCamelCase }
             );
 
-            SourceEvents sourceEvents = new SourceEvents (paths);
-            GherkinEvents gherkinEvents = new GherkinEvents (printSource, printAst, printPickles, new IncrementingIdGenerator());
-            foreach (var sourceEventEvent in sourceEvents) {
-                foreach (IEvent evt in gherkinEvents.Iterable(sourceEventEvent)) {
+            var sourceProvider = new SourceProvider();
+            var sources = sourceProvider.GetSources(paths);
+            var gherkinEventsProvider = new GherkinEventsProvider(printSource, printAst, printPickles, new IncrementingIdGenerator());
+            foreach (var sourceEventEvent in sources) {
+                foreach (var evt in gherkinEventsProvider.GetEvents(sourceEventEvent)) {
                     var jsonString = Utf8Json.JsonSerializer.ToJsonString((object)evt, StandardResolver.ExcludeNullCamelCase);
                     Console.WriteLine(jsonString);
                 }

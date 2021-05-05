@@ -9,6 +9,7 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Gherkin.Specs\Gherkin.Specs.csproj" />
     <ProjectReference Include="..\Gherkin\Gherkin.csproj" />
   </ItemGroup>
 </Project>
