@@ -2,14 +2,20 @@
 using System.Collections.Generic;
 using System.Linq;
 using Gherkin.CucumberMessages.Types;
-using Gherkin.Events;
 
 // ReSharper disable PossibleMultipleEnumeration
 
-namespace Gherkin.Pickles
+namespace Gherkin.CucumberMessages.Pickles
 {
-    public class Compiler
+    public class PickleCompiler
     {
+        private readonly IIdGenerator _idGenerator;
+
+        public PickleCompiler(IIdGenerator idGenerator)
+        {
+            _idGenerator = idGenerator;
+        }
+
         public List<Pickle> Compile(GherkinDocument gherkinDocument)
         {
             var pickles = new List<Pickle>();
@@ -38,9 +44,7 @@ namespace Gherkin.Pickles
             {
                 if (child.Background != null)
                 {
-                    var previousFactory = backgroundStepsFactory;
-                    backgroundStepsFactory = () =>
-                        previousFactory().Concat(PickleSteps(child.Background.Steps));
+                    backgroundStepsFactory = BuildBackground(child.Background, backgroundStepsFactory);
                 }
                 else if (child.Rule != null)
                 {
@@ -65,15 +69,20 @@ namespace Gherkin.Pickles
             {
                 if (child.Background != null)
                 {
-                    var previousFactory = backgroundStepsFactory;
-                    backgroundStepsFactory = () =>
-                        previousFactory().Concat(PickleSteps(child.Background.Steps));
+                    backgroundStepsFactory = BuildBackground(child.Background, backgroundStepsFactory);
                 }
                 else if (child.Scenario != null)
                 {
                     BuildScenario(pickles, language, tags, backgroundStepsFactory, gherkinDocumentUri, child.Scenario);
                 }
             }
+        }
+
+        private Func<IEnumerable<PickleStep>> BuildBackground(Background background, Func<IEnumerable<PickleStep>> backgroundStepsFactory)
+        {
+            var previousFactory = backgroundStepsFactory;
+            backgroundStepsFactory = () => previousFactory().Concat(PickleSteps(background.Steps));
+            return backgroundStepsFactory;
         }
 
         private void BuildScenario(List<Pickle> pickles, string language, IEnumerable<Tag> tags, Func<IEnumerable<PickleStep>> backgroundStepsFactory, string gherkinDocumentUri, Scenario scenario)
@@ -103,7 +112,7 @@ namespace Gherkin.Pickles
             steps.AddRange(PickleSteps(scenario.Steps));
 
             Pickle pickle = new Pickle(
-                    IdGenerator.GetNextId(),
+                    _idGenerator.GetNewId(),
                     gherkinDocumentUri,
                     scenario.Name,
                     language,
@@ -149,7 +158,7 @@ namespace Gherkin.Pickles
                     }
 
                     Pickle pickle = new Pickle(
-                            IdGenerator.GetNextId(),
+                            _idGenerator.GetNewId(),
                             gherkinDocumentUri,
                             Interpolate(scenarioOutline.Name, variableCells, valueCells),
                             language, 
@@ -165,7 +174,7 @@ namespace Gherkin.Pickles
 
         protected virtual PickleStep CreatePickleStep(Step step, string text, PickleStepArgument argument, IEnumerable<string> astNodeIds)
         {
-            return new PickleStep(argument, astNodeIds, IdGenerator.GetNextId(), text);
+            return new PickleStep(argument, astNodeIds, _idGenerator.GetNewId(), text);
         }
 
         protected virtual PickleStepArgument CreatePickleArgument(Step argument)
@@ -245,11 +254,6 @@ namespace Gherkin.Pickles
                 name = name.Replace("<" + header + ">", value);
             }
             return name;
-        }
-
-        protected virtual PickleLocation PickleLocation(Ast.Location location)
-        {
-            return new PickleLocation(location.Line, location.Column);
         }
 
         protected virtual List<PickleTag> PickleTags(List<Tag> tags)

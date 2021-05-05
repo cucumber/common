@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Gherkin.Ast;
 using Gherkin.CucumberMessages.Types;
-using Gherkin.Events;
+using Gherkin.Stream;
 using Background = Gherkin.CucumberMessages.Types.Background;
 using Comment = Gherkin.CucumberMessages.Types.Comment;
 using Examples = Gherkin.CucumberMessages.Types.Examples;
@@ -19,10 +19,17 @@ using TableCell = Gherkin.CucumberMessages.Types.TableCell;
 using TableRow = Gherkin.CucumberMessages.Types.TableRow;
 using Tag = Gherkin.CucumberMessages.Types.Tag;
 
-namespace Gherkin.Stream.Converter
+namespace Gherkin.CucumberMessages
 {
-    public class AstEventConverter
+    public class AstMessagesConverter
     {
+        private readonly IIdGenerator _idGenerator;
+
+        public AstMessagesConverter(IIdGenerator idGenerator)
+        {
+            _idGenerator = idGenerator;
+        }
+
         public GherkinDocument ConvertGherkinDocumentToEventArgs(Ast.GherkinDocument gherkinDocument, string sourceEventUri)
         {
             return new GherkinDocument()
@@ -56,8 +63,8 @@ namespace Gherkin.Stream.Converter
 
             return new Feature()
             {
-                Name = ConverterDefaults.UseDefault(feature.Name, ConverterDefaults.DefaultName),
-                Description = ConverterDefaults.UseDefault(feature.Description, ConverterDefaults.DefaultDescription),
+                Name = CucumberMessagesDefaults.UseDefault(feature.Name, CucumberMessagesDefaults.DefaultName),
+                Description = CucumberMessagesDefaults.UseDefault(feature.Description, CucumberMessagesDefaults.DefaultDescription),
                 Keyword = feature.Keyword,
                 Language = feature.Language,
                 Location = ConvertLocation(feature.Location),
@@ -91,10 +98,10 @@ namespace Gherkin.Stream.Converter
                     var backgroundSteps = background.Steps.Select(ConvertStep).ToList();
                     return new Tuple<Background, Rule, Scenario>(new Background
                         {
-                            Id = IdGenerator.GetNextId(),
+                            Id = _idGenerator.GetNewId(),
                             Location = ConvertLocation(background.Location),
-                            Name = ConverterDefaults.UseDefault(background.Name, ConverterDefaults.DefaultName),
-                            Description = ConverterDefaults.UseDefault(background.Description, ConverterDefaults.DefaultDescription),
+                            Name = CucumberMessagesDefaults.UseDefault(background.Name, CucumberMessagesDefaults.DefaultName),
+                            Description = CucumberMessagesDefaults.UseDefault(background.Description, CucumberMessagesDefaults.DefaultDescription),
                             Keyword = background.Keyword,
                             Steps = backgroundSteps
                         }, null, null);
@@ -104,11 +111,11 @@ namespace Gherkin.Stream.Converter
                     var tags = scenario.Tags.Select(ConvertTag).ToReadOnlyCollection();
                     return new Tuple<Background, Rule, Scenario>(null, null, new Scenario()
                         {
-                            Id = IdGenerator.GetNextId(),
+                            Id = _idGenerator.GetNewId(),
                             Keyword = scenario.Keyword,
                             Location = ConvertLocation(scenario.Location),
-                            Name = ConverterDefaults.UseDefault(scenario.Name, ConverterDefaults.DefaultName),
-                            Description = ConverterDefaults.UseDefault(scenario.Description, ConverterDefaults.DefaultDescription),
+                            Name = CucumberMessagesDefaults.UseDefault(scenario.Name, CucumberMessagesDefaults.DefaultName),
+                            Description = CucumberMessagesDefaults.UseDefault(scenario.Description, CucumberMessagesDefaults.DefaultDescription),
                             Steps = steps,
                             Examples = examples,
                             Tags = tags
@@ -119,9 +126,9 @@ namespace Gherkin.Stream.Converter
                         var ruleTags = rule.Tags.Select(ConvertTag).ToReadOnlyCollection();
                         return new Tuple<Background, Rule, Scenario>(null, new Rule
                             {
-                                Id = IdGenerator.GetNextId(),
-                                Name = ConverterDefaults.UseDefault(rule.Name, ConverterDefaults.DefaultName),
-                                Description = ConverterDefaults.UseDefault(rule.Description, ConverterDefaults.DefaultDescription),
+                                Id = _idGenerator.GetNewId(),
+                                Name = CucumberMessagesDefaults.UseDefault(rule.Name, CucumberMessagesDefaults.DefaultName),
+                                Description = CucumberMessagesDefaults.UseDefault(rule.Description, CucumberMessagesDefaults.DefaultDescription),
                                 Keyword = rule.Keyword,
                                 Children = ruleChildren,
                                 Location = ConvertLocation(rule.Location),
@@ -144,10 +151,10 @@ namespace Gherkin.Stream.Converter
             var tags = examples.Tags.Select(ConvertTag).ToReadOnlyCollection();
             return new Examples()
             {
-                Id = IdGenerator.GetNextId(),
-                Name = ConverterDefaults.UseDefault(examples.Name, ConverterDefaults.DefaultName),
+                Id = _idGenerator.GetNewId(),
+                Name = CucumberMessagesDefaults.UseDefault(examples.Name, CucumberMessagesDefaults.DefaultName),
                 Keyword = examples.Keyword,
-                Description = ConverterDefaults.UseDefault(examples.Description, ConverterDefaults.DefaultDescription),
+                Description = CucumberMessagesDefaults.UseDefault(examples.Description, CucumberMessagesDefaults.DefaultDescription),
                 Location = ConvertLocation(examples.Location),
                 TableHeader = header,
                 TableBody = body,
@@ -168,7 +175,7 @@ namespace Gherkin.Stream.Converter
             return rows.Select(b =>
                 new TableRow
                 {
-                    Id = IdGenerator.GetNextId(),
+                    Id = _idGenerator.GetNewId(),
                     Location = ConvertLocation(b.Location),
                     Cells = b.Cells.Select(ConvertCell).ToReadOnlyCollection()
                 }).ToReadOnlyCollection();
@@ -181,7 +188,7 @@ namespace Gherkin.Stream.Converter
 
             return new TableRow
             {
-                Id = IdGenerator.GetNextId(),
+                Id = _idGenerator.GetNewId(),
                 Location = ConvertLocation(examples.TableHeader.Location),
                 Cells = examples.TableHeader.Cells.Select(ConvertCell).ToReadOnlyCollection()
             };
@@ -191,7 +198,7 @@ namespace Gherkin.Stream.Converter
         {
             return new Tag
             {
-                Id = IdGenerator.GetNextId(),
+                Id = _idGenerator.GetNewId(),
                 Location = ConvertLocation(tag.Location),
                 Name = tag.Name
             };
@@ -201,7 +208,7 @@ namespace Gherkin.Stream.Converter
         {
             return new TableCell()
             {
-                Value = ConverterDefaults.UseDefault(c.Value, ConverterDefaults.DefaultCellValue),
+                Value = CucumberMessagesDefaults.UseDefault(c.Value, CucumberMessagesDefaults.DefaultCellValue),
                 Location = ConvertLocation(c.Location)
             };
         }
@@ -233,7 +240,7 @@ namespace Gherkin.Stream.Converter
 
             return new Step()
             {
-                Id = IdGenerator.GetNextId(),
+                Id = _idGenerator.GetNewId(),
                 Keyword = step.Keyword,
                 Text = step.Text,
                 DataTable = dataTable,

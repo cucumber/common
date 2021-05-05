@@ -5,6 +5,7 @@ using Gherkin.Stream;
 using Utf8Json;
 using Utf8Json.Resolvers;
 using System.Text.RegularExpressions;
+using Gherkin.CucumberMessages;
 
 namespace Gherkin.CLI
 {
@@ -48,7 +49,7 @@ namespace Gherkin.CLI
             );
 
             SourceEvents sourceEvents = new SourceEvents (paths);
-            GherkinEvents gherkinEvents = new GherkinEvents (printSource, printAst, printPickles);
+            GherkinEvents gherkinEvents = new GherkinEvents (printSource, printAst, printPickles, new IncrementingIdGenerator());
             foreach (var sourceEventEvent in sourceEvents) {
                 foreach (IEvent evt in gherkinEvents.Iterable(sourceEventEvent)) {
                     var jsonString = Utf8Json.JsonSerializer.ToJsonString((object)evt, StandardResolver.ExcludeNullCamelCase);

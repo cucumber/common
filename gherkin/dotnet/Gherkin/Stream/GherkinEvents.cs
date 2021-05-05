@@ -1,8 +1,9 @@
 ﻿using Gherkin.Events;
-using Gherkin.Pickles;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using Gherkin.CucumberMessages;
+using Gherkin.CucumberMessages.Pickles;
 using Gherkin.CucumberMessages.Types;
 using Gherkin.Stream.Converter;
 using GherkinDocument = Gherkin.Ast.GherkinDocument;
@@ -13,17 +14,19 @@ namespace Gherkin.Stream
     public class GherkinEvents
     {
         private readonly Parser _parser = new Parser();
-        private readonly Compiler _compiler = new Compiler();
-        private readonly AstEventConverter _astEventConverter = new AstEventConverter();
+        private readonly PickleCompiler _pickleCompiler;
+        private readonly AstMessagesConverter _astMessagesConverter;
         private readonly SourceEventConverter _sourceEventConverter = new SourceEventConverter();
 
         readonly bool _printAst;
         readonly bool _printPickles;
         readonly bool _printSource;
 
-        public GherkinEvents(bool printSource, bool printAst, bool printPickles)
+        public GherkinEvents(bool printSource, bool printAst, bool printPickles, IIdGenerator idGenerator)
         {
             _printSource = printSource;
+            _astMessagesConverter = new AstMessagesConverter(idGenerator);
+            _pickleCompiler = new PickleCompiler(idGenerator);
             _printAst = printAst;
             _printPickles = printPickles;
         }
@@ -42,11 +45,11 @@ namespace Gherkin.Stream
                 }
                 if (_printAst)
                 {
-                    events.Add(new GherkinDocumentEvent(_astEventConverter.ConvertGherkinDocumentToEventArgs(gherkinDocument, sourceEvent.Uri)));
+                    events.Add(new GherkinDocumentEvent(_astMessagesConverter.ConvertGherkinDocumentToEventArgs(gherkinDocument, sourceEvent.Uri)));
                 }
                 if (_printPickles)
                 {
-                    List<Pickle> pickles = _compiler.Compile(_astEventConverter.ConvertGherkinDocumentToEventArgs(gherkinDocument, sourceEvent.Uri));
+                    List<Pickle> pickles = _pickleCompiler.Compile(_astMessagesConverter.ConvertGherkinDocumentToEventArgs(gherkinDocument, sourceEvent.Uri));
                     foreach (Pickle pickle in pickles)
                     {
                         events.Add(new PickleEvent(pickle));

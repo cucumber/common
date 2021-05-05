@@ -6,12 +6,15 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
+using Gherkin.CucumberMessages;
 using Gherkin.Events;
 
 namespace Gherkin.Specs.Events
 {
     public class EventTestBase
     {
+        protected readonly IncrementingIdGenerator idGenerator = new IncrementingIdGenerator();
+        
         protected void AssertEvents<T>(string testFeatureFile, List<T> actualGherkinDocumentEvent, List<T> expectedGherkinDocumentEvent, TestFile testFile) where T : IEvent
         {
             actualGherkinDocumentEvent.Should().BeEquivalentTo(expectedGherkinDocumentEvent,
@@ -56,12 +59,10 @@ namespace Gherkin.Specs.Events
 
         protected List<IEvent> ProcessGherkinEvents(string fullPathToTestFeatureFile, bool printSource, bool printAst, bool printPickles)
         {
-            IdGenerator.Reset();
-
             var raisedEvents = new List<IEvent>();
 
             SourceEvents sourceEvents = new SourceEvents(new List<string> { fullPathToTestFeatureFile });
-            GherkinEvents gherkinEvents = new GherkinEvents(printSource, printAst, printPickles);
+            GherkinEvents gherkinEvents = new GherkinEvents(printSource, printAst, printPickles, idGenerator);
             foreach (var sourceEventEvent in sourceEvents)
             {
                 foreach (IEvent evt in gherkinEvents.Iterable(sourceEventEvent))

@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using FluentAssertions;
+using Gherkin.CucumberMessages;
 using Gherkin.Events;
 using Gherkin.Specs.Helper;
 using Xunit;
@@ -8,11 +9,6 @@ namespace Gherkin.Specs.Events
 {
     public class AstBuildingTests : EventTestBase
     {
-        public AstBuildingTests()
-        {
-            IdGenerator.Reset();
-        }
-        
         [Theory, MemberData(nameof(TestFileProvider.GetValidTestFiles), MemberType = typeof(TestFileProvider))]
         public void TestSuccessfulAstBuilding(string testFeatureFile)
         {
