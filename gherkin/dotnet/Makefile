@@ -83,6 +83,5 @@ Gherkin/Parser.cs: gherkin.berp gherkin-csharp.razor
 
 .run_tests:
 
-	# removed tests (were failing, replaced by standard make-based comparisons)
-	#cd Gherkin.Specs; dotnet test
+	cd Gherkin.Specs; dotnet test
 	touch $@

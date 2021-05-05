@@ -1,9 +1,7 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
-using Gherkin;
 
-namespace Gherkin.TokensGenerator
+namespace Gherkin.Specs.Tokens
 {
     public class TokensGenerator
     {

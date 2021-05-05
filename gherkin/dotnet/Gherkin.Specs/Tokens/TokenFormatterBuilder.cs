@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Linq;
 using System.Text;
 
-namespace Gherkin.TokensGenerator
+namespace Gherkin.Specs.Tokens
 {
     class TokenFormatterBuilder : IAstBuilder<object>
     {
