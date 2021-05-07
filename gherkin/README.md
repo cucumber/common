@@ -21,38 +21,15 @@ Our wish-list is (in no particular order):
 - Rust
 - Elixir
 
+## Markdown with Gherkin
+
+See [Markdown with Gherkin](./MARKDOWN_WITH_GHERKIN).
+
 ## Usage
 
 Gherkin can be used either through its command line interface (CLI) or as a library.
 
-It is designed to be used in conjunction with other tools such as Cucumber or
-Gherkin-Lint, which consume the output from the CLI or library.
-
-Other tools should use the library if there is a Gherkin library in the same language
-as the tool itself. If not, use the CLI in one of the implementations.
-
-The Gherkin CLI makes it possible to implement Cucumber for a new language, say
-Rust or Elixir, without having to implement a Gherkin parser too.
-
-### CLI
-
-The Gherkin CLI `gherkin` reads Gherkin source files (`.feature` files) and outputs
-[ASTs](#ast) and [Pickles](#pickles).
-
-The `gherkin` program takes any number of files as arguments and prints the results
-to `STDOUT` as [Newline Delimited JSON](http://ndjson.org/).
-
-Each line is a JSON document that conforms to the [Cucumber Event Protocol](../messages).
-
-To try it out, just install Gherkin for your favourite language, and run it over the
-files in this repository:
-
-    gherkin testdata/**/*.feature
-
-Ndjson is easy to read for programs, but hard for people. To pretty print each JSON
-document you can pipe it to the [jq](https://stedolan.github.io/jq/) program:
-
-    gherkin testdata/**/*.feature | jq
+It is designed to be used in conjunction with other tools such as Cucumber which consumes the output from the CLI or library as [Cucumber Messages](../messages).
 
 ### Library
 
@@ -157,6 +134,26 @@ my $gherkin_document = $parser->parse("Feature: ...");
 my $pickles = Gherkin::Pickles::Compiler->compile($gherkin_document);
 ```
 
+### CLI
+
+The Gherkin CLI `gherkin` reads Gherkin source files (`.feature` files) and outputs
+[ASTs](#ast) and [Pickles](#pickles).
+
+The `gherkin` program takes any number of files as arguments and prints the results
+to `STDOUT` as [Newline Delimited JSON](http://ndjson.org/).
+
+Each line is a JSON document that conforms to the [Cucumber Event Protocol](../messages).
+
+To try it out, just install Gherkin for your favourite language, and run it over the
+files in this repository:
+
+    gherkin testdata/**/*.feature
+
+Ndjson is easy to read for programs, but hard for people. To pretty print each JSON
+document you can pipe it to the [jq](https://stedolan.github.io/jq/) program:
+
+    gherkin testdata/**/*.feature | jq
+
 ## Table cell escaping
 
 If you want to use a newline character in a table cell, you can write this
@@ -197,7 +194,7 @@ and outputs a parser in language _X_:
 Also see the [wiki](https://github.com/cucumber/gherkin/wiki) for some early
 design docs (which might be a little outdated, but mostly OK).
 
-### AST
+### Abstract Syntax Tree (AST)
 
 The AST produced by the parser can be described with the following class diagram:
 
@@ -411,6 +408,7 @@ See [`CONTRIBUTING.md`](CONTRIBUTING.md)
 
 ## Projects using Gherkin
 
+- [cucumber-jvm](https://github.com/cucumber/cucumber-jvm)
 - [cucumber-ruby](https://github.com/cucumber/cucumber-ruby)
 - [cucumber-js](https://github.com/cucumber/cucumber-js)
-- [godog](https://github.com/DATA-DOG/godog) - Cucumber like BDD framework for **go**
+- [godog](https://github.com/cucumber/godog)
