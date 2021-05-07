@@ -81,9 +81,9 @@ pickles = Gherkin::Pickles::Compiler.new(id_generator).compile(gherkin_document,
 var Gherkin = require("@cucumber/gherkin")
 var Messages = require("@cucumber/messages")
 
-var uuidFn = Messages.IdGenerator.uuid;
+var uuidFn = Messages.IdGenerator.uuid();
 var builder = new Gherkin.AstBuilder(uuidFn);
-var matcher = new Gherkin.TokenMatcher();
+var matcher = new Gherkin.GherkinClassicTokenMatcher(); // or Gherkin.GherkinInMarkdownTokenMatcher()
 
 var parser = new Gherkin.Parser(builder, matcher);
 var gherkinDocument = parser.parse("Feature: ...");

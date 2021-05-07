@@ -2,7 +2,7 @@ import assert from 'assert'
 import GherkinLine from '../src/GherkinLine'
 import * as messages from '@cucumber/messages'
 import { Token, TokenType } from '../src/Parser'
-import MarkdownTokenMatcher from '../src/MarkdownTokenMatcher'
+import GherkinInMarkdownTokenMatcher from '../src/GherkinInMarkdownTokenMatcher'
 import ITokenMatcher from '../src/ITokenMatcher'
 import { Item } from '../src/IToken'
 
@@ -11,7 +11,7 @@ describe('MarkdownTokenMatcher', function () {
   let location: messages.Location
 
   beforeEach(() => {
-    tm = new MarkdownTokenMatcher('en')
+    tm = new GherkinInMarkdownTokenMatcher('en')
     location = { line: 1, column: 1 }
   })
 
@@ -25,7 +25,7 @@ describe('MarkdownTokenMatcher', function () {
   })
 
   it('matches FeatureLine in French', () => {
-    tm = new MarkdownTokenMatcher('fr')
+    tm = new GherkinInMarkdownTokenMatcher('fr')
     const line = new GherkinLine('## Fonctionnalité: hello', location.line)
     const token = new Token(line, location)
     assert(tm.match_FeatureLine(token))

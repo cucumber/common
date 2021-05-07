@@ -10,7 +10,7 @@ import { NoSuchLanguageException } from './Errors'
 const DIALECT_DICT: { [key: string]: Dialect } = DIALECTS
 const DEFAULT_DOC_STRING_SEPARATOR = /^(```[`]*)(.*)/
 
-export default class MarkdownTokenMatcher implements ITokenMatcher<TokenType> {
+export default class GherkinInMarkdownTokenMatcher implements ITokenMatcher<TokenType> {
   private dialect: Dialect
   private dialectName: string
   private readonly nonStarStepKeywords: string[]

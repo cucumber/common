@@ -10,7 +10,7 @@ import countSymbols from './countSymbols'
 const DIALECT_DICT: { [key: string]: Dialect } = DIALECTS
 const LANGUAGE_PATTERN = /^\s*#\s*language\s*:\s*([a-zA-Z\-_]+)\s*$/
 
-export default class TokenMatcher implements ITokenMatcher<TokenType> {
+export default class GherkinClassicTokenMatcher implements ITokenMatcher<TokenType> {
   private dialect: Dialect
   private dialectName: string
   private activeDocStringSeparator: string

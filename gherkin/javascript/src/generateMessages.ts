@@ -1,12 +1,12 @@
 import Parser, { TokenType } from './Parser'
-import TokenMatcher from './TokenMatcher'
+import GherkinClassicTokenMatcher from './GherkinClassicTokenMatcher'
 import * as messages from '@cucumber/messages'
 import compile from './pickles/compile'
 import AstBuilder from './AstBuilder'
 import IGherkinOptions from './IGherkinOptions'
 import makeSourceEnvelope from './makeSourceEnvelope'
 import ITokenMatcher from './ITokenMatcher'
-import MarkdownTokenMatcher from './MarkdownTokenMatcher'
+import GherkinInMarkdownTokenMatcher from './GherkinInMarkdownTokenMatcher'
 
 export default function generateMessages(
   data: string,
@@ -17,10 +17,10 @@ export default function generateMessages(
   let tokenMatcher: ITokenMatcher<TokenType>
   switch (mediaType) {
     case messages.SourceMediaType.TEXT_X_CUCUMBER_GHERKIN_PLAIN:
-      tokenMatcher = new TokenMatcher(options.defaultDialect)
+      tokenMatcher = new GherkinClassicTokenMatcher(options.defaultDialect)
       break
     case messages.SourceMediaType.TEXT_X_CUCUMBER_GHERKIN_MARKDOWN:
-      tokenMatcher = new MarkdownTokenMatcher(options.defaultDialect)
+      tokenMatcher = new GherkinInMarkdownTokenMatcher(options.defaultDialect)
       break
     default:
       throw new Error(`Unsupported media type: ${mediaType}`)

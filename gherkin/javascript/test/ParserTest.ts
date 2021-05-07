@@ -2,7 +2,7 @@ import assert from 'assert'
 import * as messages from '@cucumber/messages'
 import AstBuilder from '../src/AstBuilder'
 import Parser from '../src/Parser'
-import TokenMatcher from '../src/TokenMatcher'
+import GherkinClassicTokenMatcher from '../src/GherkinClassicTokenMatcher'
 import AstNode from '../src/AstNode'
 import generateMessages from '../src/generateMessages'
 
@@ -10,7 +10,7 @@ describe('Parser', function () {
   it('parses a simple feature', function () {
     const parser = new Parser<AstNode>(
       new AstBuilder(messages.IdGenerator.incrementing()),
-      new TokenMatcher()
+      new GherkinClassicTokenMatcher()
     )
     const ast = parser.parse('Feature: hello')
     const gherkinDocument: messages.GherkinDocument = {
@@ -31,7 +31,7 @@ describe('Parser', function () {
   it('parses multiple features', function () {
     const parser = new Parser(
       new AstBuilder(messages.IdGenerator.incrementing()),
-      new TokenMatcher()
+      new GherkinClassicTokenMatcher()
     )
     const ast1 = parser.parse('Feature: hello')
     const ast2 = parser.parse('Feature: hello again')
@@ -67,7 +67,7 @@ describe('Parser', function () {
   it('parses feature after parse error', function () {
     const parser = new Parser(
       new AstBuilder(messages.IdGenerator.incrementing()),
-      new TokenMatcher()
+      new GherkinClassicTokenMatcher()
     )
     let ast: messages.GherkinDocument
     try {
@@ -150,7 +150,7 @@ describe('Parser', function () {
   })
 
   it('can change the default language', function () {
-    const matcher = new TokenMatcher('no')
+    const matcher = new GherkinClassicTokenMatcher('no')
     const parser = new Parser(new AstBuilder(messages.IdGenerator.incrementing()), matcher)
     const ast = parser.parse('Egenskap: i18n support')
     const gherkinDocument: messages.GherkinDocument = {

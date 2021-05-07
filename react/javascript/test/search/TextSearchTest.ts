@@ -2,7 +2,7 @@ import assert from 'assert'
 import TextSearch from '../../src/search/TextSearch'
 import { pretty } from '@cucumber/gherkin-utils'
 import * as messages from '@cucumber/messages'
-import { AstBuilder, Parser, TokenMatcher } from '@cucumber/gherkin'
+import { AstBuilder, Parser, GherkinClassicTokenMatcher } from '@cucumber/gherkin'
 
 describe('TextSearch', () => {
   let search: TextSearch
@@ -123,7 +123,7 @@ describe('TextSearch', () => {
 
 function parse(source: string): messages.GherkinDocument {
   const newId = messages.IdGenerator.uuid()
-  const parser = new Parser(new AstBuilder(newId), new TokenMatcher())
+  const parser = new Parser(new AstBuilder(newId), new GherkinClassicTokenMatcher())
   const gherkinDocument = parser.parse(source)
   gherkinDocument.uri = ''
   return gherkinDocument
