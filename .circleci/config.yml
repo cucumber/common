@@ -27,11 +27,11 @@ executors:
   # Node.js
   docker-circleci-node-10:
     docker:
-      - image: circleci/node:10
+      - image: circleci/node:15
     working_directory: ~/cucumber
   docker-circleci-node-12:
     docker:
-      - image: circleci/node:12
+      - image: circleci/node:15
     working_directory: ~/cucumber
   docker-circleci-node-15:
     docker:
