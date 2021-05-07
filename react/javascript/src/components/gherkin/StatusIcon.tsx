@@ -14,16 +14,14 @@ import * as messages from '@cucumber/messages'
 
 interface IProps {
   status: messages.TestStepResultStatus
-  listItem?: boolean
 }
 
-const StatusIcon: React.FunctionComponent<IProps> = ({ status, listItem }) => {
+const StatusIcon: React.FunctionComponent<IProps> = ({ status }) => {
   return (
     <FontAwesomeIcon
       icon={statusIcon(status)}
       size="1x"
       className={`cucumber-status--${statusName(status)}`}
-      listItem={listItem}
     />
   )
 }

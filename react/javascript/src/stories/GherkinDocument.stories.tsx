@@ -20,9 +20,8 @@ import markdown from '../../acceptance/markdown/markdown.md'
 import minimal from '../../acceptance/minimal/minimal.feature'
 import parameterTypes from '../../acceptance/parameter-types/parameter-types.feature'
 import rules from '../../acceptance/rules/rules.feature'
-import stackTraces from '../../acceptance/stack-traces/stack-traces.feature'
+import stacktTraces from '../../acceptance/stack-traces/stack-traces.feature'
 import unknownParameterTypes from '../../acceptance/unknown-parameter-type/unknown-parameter-type.feature'
-import MarkdownDocumentList from '../components/app/MarkdownDocumentList'
 
 export default {
   title: 'GherkinDocument',
@@ -36,7 +35,7 @@ type Props = {
 }
 type TemplateArgs = { envelopes: readonly messages.Envelope[] }
 
-const PlainTemplate: Story<TemplateArgs> = ({ envelopes }) => {
+const Template: Story<TemplateArgs> = ({ envelopes }) => {
   return (
     <QueriesWrapper {...props(envelopes)}>
       <GherkinDocumentList />
@@ -44,65 +43,52 @@ const PlainTemplate: Story<TemplateArgs> = ({ envelopes }) => {
   )
 }
 
-const MarkdownTemplate: Story<TemplateArgs> = ({ envelopes }) => {
-  return (
-    <QueriesWrapper {...props(envelopes)}>
-      <MarkdownDocumentList />
-    </QueriesWrapper>
-  )
-}
-
-export const Attachments = PlainTemplate.bind({})
+export const Attachments = Template.bind({})
 Attachments.args = {
   envelopes: attachments,
 }
 
-export const DataTables = PlainTemplate.bind({})
+export const DataTables = Template.bind({})
 DataTables.args = {
   envelopes: dataTables,
 }
 
-export const ExamplesTables = PlainTemplate.bind({})
+export const ExamplesTables = Template.bind({})
 ExamplesTables.args = {
   envelopes: examplesTables,
 }
 
-export const Hooks = PlainTemplate.bind({})
+export const Hooks = Template.bind({})
 Hooks.args = {
   envelopes: hooks,
 }
 
-export const MarkdownPlain = PlainTemplate.bind({})
-MarkdownPlain.args = {
-  envelopes: markdown,
-}
-
-export const Markdown = MarkdownTemplate.bind({})
+export const Markdown = Template.bind({})
 Markdown.args = {
   envelopes: markdown,
 }
 
-export const Minimal = PlainTemplate.bind({})
+export const Minimal = Template.bind({})
 Minimal.args = {
   envelopes: minimal,
 }
 
-export const ParameterTypes = PlainTemplate.bind({})
+export const ParameterTypes = Template.bind({})
 ParameterTypes.args = {
   envelopes: parameterTypes,
 }
 
-export const Rules = PlainTemplate.bind({})
+export const Rules = Template.bind({})
 Rules.args = {
   envelopes: rules,
 }
 
-export const StackTraces = PlainTemplate.bind({})
+export const StackTraces = Template.bind({})
 StackTraces.args = {
-  envelopes: stackTraces,
+  envelopes: stacktTraces,
 }
 
-export const UnknownParameterTypes = PlainTemplate.bind({})
+export const UnknownParameterTypes = Template.bind({})
 UnknownParameterTypes.args = {
   envelopes: unknownParameterTypes,
 }
