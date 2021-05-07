@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+* Add ability to specify a `relativeTo` path for cleaner emitted `uri`s [#1510](https://github.com/cucumber/cucumber/pull/1510)
+
 ### Changed
 
 ### Deprecated

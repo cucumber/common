@@ -13,6 +13,13 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Changed
 
+* Update Russian translation of the "Scenario Outline" keyword.
+  ([#1499](https://github.com/cucumber/cucumber/pull/1499)
+   [hkosova])
+* Update Hungarian translation of the "Rule" keyword.
+  ([#1518](https://github.com/cucumber/cucumber/pull/1518)
+   [gasparnagy])
+
 ### Deprecated
 
 ### Removed
@@ -1006,7 +1013,9 @@ to Gherkin 2.
 [ehuelsmann]:        https://github.com/ehuelsmann
 [enkessler]:         https://github.com/enkessler
 [gabanz]:            https://github.com/gabanz
+[gasparnagy]:        https://github.com/gasparnagy
 [Haukinger]:         https://github.com/Haukinger
+[hkosova]:           https://github.com/hkosova
 [jargalan]:          https://github.com/jargalan
 [jmezach]:           https://github.com/jmezach
 [joscha]:            https://github.com/joscha
