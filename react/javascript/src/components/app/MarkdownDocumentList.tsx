@@ -31,17 +31,21 @@ const MarkdownDocumentList: React.FunctionComponent<IProps> = ({ sources }) => {
 const SourceContext = React.createContext<messages.Source>(null)
 
 const components: Components = {
-  li({ sourcePosition }) {
-    return <ListItem sourcePosition={sourcePosition} />
+  li({ sourcePosition, children }) {
+    console.log('LI', sourcePosition)
+    return <ListItem sourcePosition={sourcePosition}>{children}</ListItem>
   },
-  ol() {
-    return <List ordered={true} />
+  ol({sourcePosition, children}) {
+    console.log('OL', sourcePosition)
+    return <List ordered={true}>{children}</List>
   },
-  ul() {
-    return <List ordered={false} />
+  ul({sourcePosition, children}) {
+    console.log('UL', sourcePosition)
+    return <List ordered={false}>{children}</List>
   },
-  text({ sourcePosition }) {
-    return <Text sourcePosition={sourcePosition} />
+  text({ sourcePosition, children }) {
+    console.log('TEXT', sourcePosition)
+    return <Text sourcePosition={sourcePosition}>{children}</Text>
   },
 }
 
@@ -52,7 +56,7 @@ const MarkdownDocument: React.FunctionComponent<{
     <SourceContext.Provider value={source}>
       <ReactMarkdown
         rehypePlugins={rehypePlugins}
-        plugins={[gfm]}
+        remarkPlugins={[gfm]}
         rawSourcePos={true}
         components={components}
       >
@@ -83,13 +87,16 @@ const ListItem: React.FunctionComponent<{
   sourcePosition: Position
 }> = (props) => {
   const { children, sourcePosition } = props
+  if (!sourcePosition) {
+    return <li>{children}</li>
+  }
   const source = React.useContext(SourceContext)
   const gherkinQuery = React.useContext(GherkinQueryContext)
   const cucumberQuery = React.useContext(CucumberQueryContext)
   const { line } = sourcePosition.start
   const step: messages.Step = gherkinQuery.getStep(source.uri, line)
   if (!step) {
-    return null
+    return <li>{children}</li>
   }
 
   // Get the status. TODO: Decouple this both structurally and temporally.

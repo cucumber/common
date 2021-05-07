@@ -4,7 +4,6 @@ import elasticlunr from 'elasticlunr'
 import highlightWords from 'highlight-words'
 import ReactMarkdown from 'react-markdown'
 import rehypePlugins from './rehypePlugins'
-import sanitizerGithubSchema from 'hast-util-sanitize/lib/github.json'
 
 interface IProps {
   text: string
@@ -37,9 +36,6 @@ const HighLight: React.FunctionComponent<IProps> = ({ text, markdown = false, cl
     const highlightedText = chunks
       .map(({ text, match }) => (match ? `<mark>${text}</mark>` : text))
       .join('')
-
-    sanitizerGithubSchema['tagNames'].push('section')
-    sanitizerGithubSchema['attributes']['*'].push('className')
 
     return (
       <div className={appliedClassName}>

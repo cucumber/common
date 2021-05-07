@@ -6,4 +6,5 @@ import rehypeSanitize from 'rehype-sanitize'
 sanitizerGithubSchema['tagNames'].push('section')
 sanitizerGithubSchema['attributes']['*'].push('className')
 
-export default [rehypeRaw, [rehypeSanitize, sanitizerGithubSchema]] as PluggableList
+const plugins: PluggableList = [rehypeRaw, [rehypeSanitize, sanitizerGithubSchema]]
+export default plugins

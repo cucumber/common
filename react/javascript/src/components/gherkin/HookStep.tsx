@@ -17,7 +17,7 @@ const HookStep: React.FunctionComponent<IProps> = ({ step }) => {
   const hook = cucumberQuery.getHook(step.hookId)
   const attachments = cucumberQuery.getTestStepsAttachments([step.id])
 
-  if (stepResult.status === 'FAILED') {
+  if (stepResult.status === messages.TestStepResultStatus.FAILED) {
     const location = hook.sourceReference.location
       ? hook.sourceReference.uri + ':' + hook.sourceReference.location.line
       : hook.sourceReference.javaMethod

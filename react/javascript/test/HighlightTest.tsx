@@ -16,7 +16,7 @@ describe('HighLight', () => {
     const app = (
       <SearchQueryContext.Provider
         value={{
-          query: query,
+          query,
           updateQuery: () => {
             /*Do nothing*/
           },
