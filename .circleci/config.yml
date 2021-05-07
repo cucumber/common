@@ -12,7 +12,7 @@ executors:
   # the build nodes (faster builds).
   docker-cucumber-build:
     docker:
-      - image: cucumber/cucumber-build:0.1.0
+      - image: cucumber/cucumber-build:0.2.0
     working_directory: ~/cucumber
     environment:
       # nvm, node and npm are installed locally rather globally.
