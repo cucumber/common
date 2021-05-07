@@ -2,7 +2,6 @@ import ITokenMatcher from './ITokenMatcher'
 import Dialect from './Dialect'
 import { Token, TokenType } from './Parser'
 import DIALECTS from './gherkin-languages.json'
-import assert from 'assert'
 import { Item } from './IToken'
 import * as messages from '@cucumber/messages'
 import { NoSuchLanguageException } from './Errors'
@@ -59,8 +58,10 @@ export default class GherkinInMarkdownTokenMatcher implements ITokenMatcher<Toke
     this.dialect = newDialect
   }
 
+  // We've made a deliberate choice not to support `# language: [ISO 639-1]` headers or similar
+  // in Markdown. Users should specify a language globally. This can be done in
+  // cucumber-js using the --language [ISO 639-1] option.
   match_Language(token: Token): boolean {
-    assert(token)
     return false
   }
 
@@ -202,7 +203,6 @@ export default class GherkinInMarkdownTokenMatcher implements ITokenMatcher<Toke
   }
 
   match_TagLine(token: Token): boolean {
-    assert(token)
     const tags: Item[] = []
     let m: RegExpMatchArray
     const re = /`(@[^`]+)`/g
