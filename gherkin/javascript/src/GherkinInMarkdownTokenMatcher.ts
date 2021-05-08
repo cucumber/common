@@ -62,7 +62,7 @@ export default class GherkinInMarkdownTokenMatcher implements ITokenMatcher<Toke
   // in Markdown. Users should specify a language globally. This can be done in
   // cucumber-js using the --language [ISO 639-1] option.
   match_Language(token: Token): boolean {
-    if(!token) throw new Error('no token')
+    if (!token) throw new Error('no token')
     return false
   }
 
@@ -150,7 +150,7 @@ export default class GherkinInMarkdownTokenMatcher implements ITokenMatcher<Toke
     // If we didn't match "# Feature: blah", we still match this line
     // as a FeatureLine.
     // The reason for this is that users may not want to be constrained by having this as their fist line.
-    if(!result) {
+    if (!result) {
       token.matchedType = TokenType.FeatureLine
       token.matchedText = token.line.trimmedLineText
       result = this.setTokenMatched(token, null, true)

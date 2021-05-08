@@ -10,10 +10,13 @@ import GherkinInMarkdownTokenMatcher from '../src/GherkinInMarkdownTokenMatcher'
 describe('Parser', function () {
   describe('with Gherkin Classic', () => {
     let parser: Parser<AstNode>
-    beforeEach(() => parser = new Parser<AstNode>(
-      new AstBuilder(messages.IdGenerator.incrementing()),
-      new GherkinClassicTokenMatcher()
-    ))
+    beforeEach(
+      () =>
+        (parser = new Parser<AstNode>(
+          new AstBuilder(messages.IdGenerator.incrementing()),
+          new GherkinClassicTokenMatcher()
+        ))
+    )
 
     it('parses a simple feature', function () {
       const ast = parser.parse('Feature: hello')
@@ -21,7 +24,7 @@ describe('Parser', function () {
         feature: {
           description: '',
           tags: [],
-          location: {line: 1, column: 1},
+          location: { line: 1, column: 1 },
           language: 'en',
           keyword: 'Feature',
           name: 'hello',
@@ -40,7 +43,7 @@ describe('Parser', function () {
         feature: {
           tags: [],
           description: '',
-          location: {line: 1, column: 1},
+          location: { line: 1, column: 1 },
           language: 'en',
           keyword: 'Feature',
           name: 'hello',
@@ -53,7 +56,7 @@ describe('Parser', function () {
         feature: {
           tags: [],
           description: '',
-          location: {line: 1, column: 1},
+          location: { line: 1, column: 1 },
           language: 'en',
           keyword: 'Feature',
           name: 'hello again',
@@ -74,7 +77,7 @@ describe('Parser', function () {
         feature: {
           tags: [],
           description: '  This is the\n  description',
-          location: {line: 1, column: 1},
+          location: { line: 1, column: 1 },
           language: 'en',
           keyword: 'Feature',
           name: 'hello',
@@ -90,20 +93,20 @@ describe('Parser', function () {
       try {
         parser.parse(
           '# a comment\n' +
-          'Feature: Foo\n' +
-          '  Scenario: Bar\n' +
-          '    Given x\n' +
-          '      ```\n' +
-          '      unclosed docstring\n'
+            'Feature: Foo\n' +
+            '  Scenario: Bar\n' +
+            '    Given x\n' +
+            '      ```\n' +
+            '      unclosed docstring\n'
         )
       } catch (expected) {
         ast = parser.parse(
           'Feature: Foo\n' +
-          '  Scenario: Bar\n' +
-          '    Given x\n' +
-          '      """\n' +
-          '      closed docstring\n' +
-          '      """'
+            '  Scenario: Bar\n' +
+            '    Given x\n' +
+            '      """\n' +
+            '      closed docstring\n' +
+            '      """'
         )
       }
 
@@ -111,7 +114,7 @@ describe('Parser', function () {
         feature: {
           tags: [],
           description: '',
-          location: {line: 1, column: 1},
+          location: { line: 1, column: 1 },
           language: 'en',
           keyword: 'Feature',
           name: 'Foo',
@@ -122,7 +125,7 @@ describe('Parser', function () {
                 description: '',
                 examples: [],
                 keyword: 'Scenario',
-                location: {line: 2, column: 3},
+                location: { line: 2, column: 3 },
                 name: 'Bar',
                 steps: [
                   {
@@ -131,10 +134,10 @@ describe('Parser', function () {
                     docString: {
                       content: 'closed docstring',
                       delimiter: '"""',
-                      location: {line: 4, column: 7},
+                      location: { line: 4, column: 7 },
                     },
                     keyword: 'Given ',
-                    location: {line: 3, column: 5},
+                    location: { line: 3, column: 5 },
                     text: 'x',
                   },
                 ],
@@ -151,14 +154,14 @@ describe('Parser', function () {
     it('interpolates data tables', function () {
       const envelopes = generateMessages(
         'Feature: Foo\n' +
-        '  Scenario Outline: Parenthesis\n' +
-        '    Given the thing <is (not) triggered> and has <value>\n' +
-        '  Examples:\n' +
-        '    | is (not) triggered | value |\n' +
-        '    | is triggered       | foo   |\n ',
+          '  Scenario Outline: Parenthesis\n' +
+          '    Given the thing <is (not) triggered> and has <value>\n' +
+          '  Examples:\n' +
+          '    | is (not) triggered | value |\n' +
+          '    | is triggered       | foo   |\n ',
         '',
         messages.SourceMediaType.TEXT_X_CUCUMBER_GHERKIN_PLAIN,
-        {includePickles: true, newId: messages.IdGenerator.incrementing()}
+        { includePickles: true, newId: messages.IdGenerator.incrementing() }
       )
 
       const pickle = envelopes.find((envelope) => envelope.pickle).pickle
@@ -174,7 +177,7 @@ describe('Parser', function () {
         feature: {
           tags: [],
           description: '',
-          location: {line: 1, column: 1},
+          location: { line: 1, column: 1 },
           language: 'no',
           keyword: 'Egenskap',
           name: 'i18n support',
@@ -188,10 +191,13 @@ describe('Parser', function () {
 
   describe('with Gherkin In Markdown', () => {
     let parser: Parser<AstNode>
-    beforeEach(() => parser = new Parser<AstNode>(
-      new AstBuilder(messages.IdGenerator.incrementing()),
-      new GherkinInMarkdownTokenMatcher()
-    ))
+    beforeEach(
+      () =>
+        (parser = new Parser<AstNode>(
+          new AstBuilder(messages.IdGenerator.incrementing()),
+          new GherkinInMarkdownTokenMatcher()
+        ))
+    )
 
     it('parses a feature description', function () {
       const ast = parser.parse(`# Feature: hello
@@ -203,7 +209,7 @@ description
         feature: {
           tags: [],
           description: 'This is the\ndescription',
-          location: {line: 1, column: 3},
+          location: { line: 1, column: 3 },
           language: 'en',
           keyword: 'Feature',
           name: 'hello',
@@ -226,26 +232,26 @@ description
         feature: {
           tags: [],
           description: 'This is the\ndescription',
-          location: {line: 1, column: 1},
+          location: { line: 1, column: 1 },
           language: 'en',
           keyword: undefined,
           name: '# Hello',
           children: [
             {
-              "scenario": {
-                "description": "",
-                "examples": [],
-                "id": "0",
-                "keyword": "Scenario",
-                "location": {
-                  "column": 4,
-                  "line": 5,
+              scenario: {
+                description: '',
+                examples: [],
+                id: '0',
+                keyword: 'Scenario',
+                location: {
+                  column: 4,
+                  line: 5,
                 },
-                "name": "",
-                "steps": [],
-                "tags": [],
-              }
-            }
+                name: '',
+                steps: [],
+                tags: [],
+              },
+            },
           ],
         },
         comments: [],
@@ -280,10 +286,7 @@ description
         'a DocString with an escaped alternative separator inside'
       )
 
-      assert.strictEqual(
-        pickle.steps[0].argument.docString.content,
-        '```what'
-      )
+      assert.strictEqual(pickle.steps[0].argument.docString.content, '```what')
     })
   })
 })

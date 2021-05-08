@@ -1,10 +1,10 @@
-import sanitizerGithubSchema from 'hast-util-sanitize/lib/github.json'
+import { defaultSchema } from 'hast-util-sanitize'
 import { PluggableList } from 'react-markdown'
 import rehypeRaw from 'rehype-raw'
 import rehypeSanitize from 'rehype-sanitize'
 
-sanitizerGithubSchema['tagNames'].push('section')
-sanitizerGithubSchema['attributes']['*'].push('className')
+defaultSchema['tagNames'].push('section')
+defaultSchema['attributes']['*'].push('className')
 
-const plugins: PluggableList = [rehypeRaw, [rehypeSanitize, sanitizerGithubSchema]]
+const plugins: PluggableList = [rehypeRaw, [rehypeSanitize, defaultSchema]]
 export default plugins
