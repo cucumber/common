@@ -62,28 +62,47 @@ export default class GherkinInMarkdownTokenMatcher implements ITokenMatcher<Toke
   // in Markdown. Users should specify a language globally. This can be done in
   // cucumber-js using the --language [ISO 639-1] option.
   match_Language(token: Token): boolean {
+    if(!token) throw new Error('no token')
     return false
   }
 
   match_Other(token: Token): boolean {
+    // if(
+    //   this.match_TagLine(token)||
+    //   this.match_FeatureLine(token)||
+    //   this.match_ScenarioLine(token)||
+    //   this.match_BackgroundLine(token)||
+    //   this.match_ExamplesLine(token)||
+    //   this.match_RuleLine(token)||
+    //   this.match_TableRow(token)||
+    //   this.match_Empty(token)||
+    //   this.match_Comment(token)||
+    //   this.match_Language(token)||
+    //   this.match_DocStringSeparator(token)||
+    //   this.match_EOF(token)||
+    //   this.match_StepLine(token)
+    // ) return this.setTokenMatched(token, null, false)
+    //
     const text = token.line.getLineText(this.indentToRemove) // take the entire line, except removing DocString indents
     token.matchedType = TokenType.Other
     token.matchedText = text
     token.matchedIndent = 0
-    return true
+    return this.setTokenMatched(token, null, true)
   }
 
   match_Comment(token: Token): boolean {
+    let result = false
     if (token.line.startsWith('|')) {
       const tableCells = token.line.getTableCells()
-      if (this.match_GfmTableSeparator(tableCells)) return true
+      if (this.match_GfmTableSeparator(tableCells)) result = true
     }
-    return false
+    return this.setTokenMatched(token, null, result)
   }
 
   match_DocStringSeparator(token: Token) {
     const match = token.line.trimmedLineText.match(this.activeDocStringSeparator)
     const [, newSeparator, mediaType] = match || []
+    let result = false
     if (newSeparator) {
       if (this.activeDocStringSeparator === DEFAULT_DOC_STRING_SEPARATOR) {
         this.activeDocStringSeparator = new RegExp(`^(${newSeparator})$`)
@@ -96,41 +115,51 @@ export default class GherkinInMarkdownTokenMatcher implements ITokenMatcher<Toke
       token.matchedType = TokenType.DocStringSeparator
       token.matchedText = mediaType || ''
 
-      return true
+      result = true
     }
-    return false
+    return this.setTokenMatched(token, null, result)
   }
 
   match_EOF(token: Token): boolean {
+    let result = false
     if (token.isEof) {
       token.matchedType = TokenType.EOF
-      return true
+      result = true
     }
-    return false
+    return this.setTokenMatched(token, null, result)
   }
 
   match_Empty(token: Token): boolean {
-    const startsWithStepBullet = token.line.match(this.stepRegexp)
-    const startsWithHeader = token.line.match(this.headerRegexp)
-    if (token.line.isEmpty || !(startsWithStepBullet || startsWithHeader)) {
+    let result = false
+    if (token.line.isEmpty) {
       token.matchedType = TokenType.Empty
-      return true
+      result = true
     }
-    return false
+    return this.setTokenMatched(token, null, result)
   }
 
   match_FeatureLine(token: Token): boolean {
-    return matchTitleLine(
+    // We first try to match "# Feature: blah"
+    let result = this.matchTitleLine(
       KeywordPrefix.HEADER,
       this.dialect.feature,
       ':',
       token,
       TokenType.FeatureLine
     )
+    // If we didn't match "# Feature: blah", we still match this line
+    // as a FeatureLine.
+    // The reason for this is that users may not want to be constrained by having this as their fist line.
+    if(!result) {
+      token.matchedType = TokenType.FeatureLine
+      token.matchedText = token.line.trimmedLineText
+      result = this.setTokenMatched(token, null, true)
+    }
+    return result
   }
 
   match_BackgroundLine(token: Token): boolean {
-    return matchTitleLine(
+    return this.matchTitleLine(
       KeywordPrefix.HEADER,
       this.dialect.background,
       ':',
@@ -140,19 +169,25 @@ export default class GherkinInMarkdownTokenMatcher implements ITokenMatcher<Toke
   }
 
   match_RuleLine(token: Token): boolean {
-    return matchTitleLine(KeywordPrefix.HEADER, this.dialect.rule, ':', token, TokenType.RuleLine)
+    return this.matchTitleLine(
+      KeywordPrefix.HEADER,
+      this.dialect.rule,
+      ':',
+      token,
+      TokenType.RuleLine
+    )
   }
 
   match_ScenarioLine(token: Token): boolean {
     return (
-      matchTitleLine(
+      this.matchTitleLine(
         KeywordPrefix.HEADER,
         this.dialect.scenario,
         ':',
         token,
         TokenType.ScenarioLine
       ) ||
-      matchTitleLine(
+      this.matchTitleLine(
         KeywordPrefix.HEADER,
         this.dialect.scenarioOutline,
         ':',
@@ -163,7 +198,7 @@ export default class GherkinInMarkdownTokenMatcher implements ITokenMatcher<Toke
   }
 
   match_ExamplesLine(token: Token): boolean {
-    return matchTitleLine(
+    return this.matchTitleLine(
       KeywordPrefix.HEADER,
       this.dialect.examples,
       ':',
@@ -173,13 +208,43 @@ export default class GherkinInMarkdownTokenMatcher implements ITokenMatcher<Toke
   }
 
   match_StepLine(token: Token): boolean {
-    return matchTitleLine(
+    return this.matchTitleLine(
       KeywordPrefix.BULLET,
       this.nonStarStepKeywords,
       '',
       token,
       TokenType.StepLine
     )
+  }
+
+  matchTitleLine(
+    prefix: KeywordPrefix,
+    keywords: readonly string[],
+    keywordSuffix: ':' | '',
+    token: Token,
+    matchedType: TokenType
+  ) {
+    const regexp = new RegExp(
+      `${prefix}(${keywords.map(escapeRegExp).join('|')})${keywordSuffix}(.*)`
+    )
+    const match = token.line.match(regexp)
+    let indent = token.line.indent
+    let result = false
+    if (match) {
+      token.matchedType = matchedType
+      token.matchedKeyword = match[2]
+      token.matchedText = match[3].trim()
+      indent += match[1].length
+      result = true
+    }
+    return this.setTokenMatched(token, indent, result)
+  }
+
+  setTokenMatched(token: Token, indent: number | null, matched: boolean) {
+    token.matchedGherkinDialect = this.dialectName
+    token.matchedIndent = indent !== null ? indent : token.line == null ? 0 : token.line.indent
+    token.location.column = token.matchedIndent + 1
+    return matched
   }
 
   match_TableRow(token: Token): boolean {
@@ -232,27 +297,7 @@ export default class GherkinInMarkdownTokenMatcher implements ITokenMatcher<Toke
 
 enum KeywordPrefix {
   BULLET = '^(\\s*\\*\\s*)',
-  HEADER = '^(##?#?#?) ',
-}
-
-function matchTitleLine(
-  prefix: KeywordPrefix,
-  keywords: readonly string[],
-  keywordSuffix: ':' | '',
-  token: Token,
-  matchedType: TokenType
-) {
-  const regexp = new RegExp(
-    `${prefix}(${keywords.map(escapeRegExp).join('|')})${keywordSuffix}(.*)`
-  )
-  const match = token.line.match(regexp)
-  if (!match) return false
-  token.matchedType = matchedType
-  token.matchedKeyword = match[2]
-  token.matchedText = match[3].trim()
-  token.matchedIndent = token.line.indent + match[1].length
-  token.location.column = token.matchedIndent + 1
-  return true
+  HEADER = '^(#{1,6}\\s)',
 }
 
 // https://stackoverflow.com/questions/3115150/how-to-escape-regular-expression-special-characters-using-javascript

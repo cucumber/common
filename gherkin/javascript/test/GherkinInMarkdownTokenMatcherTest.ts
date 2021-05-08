@@ -6,13 +6,20 @@ import GherkinInMarkdownTokenMatcher from '../src/GherkinInMarkdownTokenMatcher'
 import ITokenMatcher from '../src/ITokenMatcher'
 import { Item } from '../src/IToken'
 
-describe('MarkdownTokenMatcher', function () {
+describe('GherkinInMarkdownTokenMatcher', function () {
   let tm: ITokenMatcher<TokenType>
   let location: messages.Location
 
   beforeEach(() => {
     tm = new GherkinInMarkdownTokenMatcher('en')
     location = { line: 1, column: 1 }
+  })
+
+  it('matches arbitrary text as Other', () => {
+    const line = new GherkinLine('Whatever', location.line)
+    const token = new Token(line, location)
+    assert(tm.match_Other(token))
+    assert.strictEqual(token.matchedType, TokenType.Other)
   })
 
   it('matches FeatureLine', () => {
@@ -44,25 +51,25 @@ describe('MarkdownTokenMatcher', function () {
     assert.strictEqual(token.location.column, 6)
   })
 
-  it('matches a non-keyword line as empty', () => {
+  it('matches a non-keyword line as other', () => {
     const line = new GherkinLine('whatever Given', location.line)
     const token = new Token(line, location)
-    assert(tm.match_Empty(token))
-    assert.strictEqual(token.matchedType, TokenType.Empty)
+    assert(tm.match_Other(token))
+    assert.strictEqual(token.matchedType, TokenType.Other)
   })
 
-  it('matches a non-keyword bullet line as empty', () => {
+  it('matches a non-keyword bullet line as other', () => {
     const line = new GherkinLine('* whatever Given', location.line)
     const token = new Token(line, location)
-    assert(tm.match_Empty(token))
-    assert.strictEqual(token.matchedType, TokenType.Empty)
+    assert(tm.match_Other(token))
+    assert.strictEqual(token.matchedType, TokenType.Other)
   })
 
-  it('matches a non-keyword header line as empty', () => {
+  it('matches a non-keyword header line as other', () => {
     const line = new GherkinLine('## The world is wet', location.line)
     const token = new Token(line, location)
-    assert(tm.match_Empty(token))
-    assert.strictEqual(token.matchedType, TokenType.Empty)
+    assert(tm.match_Other(token))
+    assert.strictEqual(token.matchedType, TokenType.Other)
   })
 
   it('matches ``` docstring separator', () => {

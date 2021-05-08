@@ -7,7 +7,10 @@ import { Token, TokenType } from '../src/Parser'
 
 describe('TokenMatcher', function () {
   it('throws for invalid languages', function () {
-    assert.throws(() => new GherkinClassicTokenMatcher('en-US'), NoSuchLanguageException.create('en-US'))
+    assert.throws(
+      () => new GherkinClassicTokenMatcher('en-US'),
+      NoSuchLanguageException.create('en-US')
+    )
   })
 
   it('tokenizes FeatureLine', () => {

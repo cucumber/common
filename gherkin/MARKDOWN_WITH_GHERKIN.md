@@ -12,6 +12,8 @@ The parsing rules are as follows:
 
 - The following keywords (and their translations) must be preceded by *one or more* `#` (Markdown header). Examples:
   - `# Feature`
+    - The `# Feature` header is optional in MDG. If the document doesn't start with it,
+      the first line of the document will be used as the name of the feature.
   - `# Background`
   - `# Rule`
   - `# Scenario`
