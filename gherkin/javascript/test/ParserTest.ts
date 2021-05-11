@@ -6,6 +6,9 @@ import GherkinClassicTokenMatcher from '../src/GherkinClassicTokenMatcher'
 import AstNode from '../src/AstNode'
 import generateMessages from '../src/generateMessages'
 import GherkinInMarkdownTokenMatcher from '../src/GherkinInMarkdownTokenMatcher'
+import fs from 'fs'
+import { promisify } from 'util'
+const readFile = promisify(fs.readFile)
 
 describe('Parser', function () {
   describe('with Gherkin Classic', () => {
@@ -24,7 +27,7 @@ describe('Parser', function () {
         feature: {
           description: '',
           tags: [],
-          location: { line: 1, column: 1 },
+          location: {line: 1, column: 1},
           language: 'en',
           keyword: 'Feature',
           name: 'hello',
@@ -43,7 +46,7 @@ describe('Parser', function () {
         feature: {
           tags: [],
           description: '',
-          location: { line: 1, column: 1 },
+          location: {line: 1, column: 1},
           language: 'en',
           keyword: 'Feature',
           name: 'hello',
@@ -56,7 +59,7 @@ describe('Parser', function () {
         feature: {
           tags: [],
           description: '',
-          location: { line: 1, column: 1 },
+          location: {line: 1, column: 1},
           language: 'en',
           keyword: 'Feature',
           name: 'hello again',
@@ -77,7 +80,7 @@ describe('Parser', function () {
         feature: {
           tags: [],
           description: '  This is the\n  description',
-          location: { line: 1, column: 1 },
+          location: {line: 1, column: 1},
           language: 'en',
           keyword: 'Feature',
           name: 'hello',
@@ -93,20 +96,20 @@ describe('Parser', function () {
       try {
         parser.parse(
           '# a comment\n' +
-            'Feature: Foo\n' +
-            '  Scenario: Bar\n' +
-            '    Given x\n' +
-            '      ```\n' +
-            '      unclosed docstring\n'
+          'Feature: Foo\n' +
+          '  Scenario: Bar\n' +
+          '    Given x\n' +
+          '      ```\n' +
+          '      unclosed docstring\n'
         )
       } catch (expected) {
         ast = parser.parse(
           'Feature: Foo\n' +
-            '  Scenario: Bar\n' +
-            '    Given x\n' +
-            '      """\n' +
-            '      closed docstring\n' +
-            '      """'
+          '  Scenario: Bar\n' +
+          '    Given x\n' +
+          '      """\n' +
+          '      closed docstring\n' +
+          '      """'
         )
       }
 
@@ -114,7 +117,7 @@ describe('Parser', function () {
         feature: {
           tags: [],
           description: '',
-          location: { line: 1, column: 1 },
+          location: {line: 1, column: 1},
           language: 'en',
           keyword: 'Feature',
           name: 'Foo',
@@ -125,7 +128,7 @@ describe('Parser', function () {
                 description: '',
                 examples: [],
                 keyword: 'Scenario',
-                location: { line: 2, column: 3 },
+                location: {line: 2, column: 3},
                 name: 'Bar',
                 steps: [
                   {
@@ -134,10 +137,10 @@ describe('Parser', function () {
                     docString: {
                       content: 'closed docstring',
                       delimiter: '"""',
-                      location: { line: 4, column: 7 },
+                      location: {line: 4, column: 7},
                     },
                     keyword: 'Given ',
-                    location: { line: 3, column: 5 },
+                    location: {line: 3, column: 5},
                     text: 'x',
                   },
                 ],
@@ -154,14 +157,14 @@ describe('Parser', function () {
     it('interpolates data tables', function () {
       const envelopes = generateMessages(
         'Feature: Foo\n' +
-          '  Scenario Outline: Parenthesis\n' +
-          '    Given the thing <is (not) triggered> and has <value>\n' +
-          '  Examples:\n' +
-          '    | is (not) triggered | value |\n' +
-          '    | is triggered       | foo   |\n ',
+        '  Scenario Outline: Parenthesis\n' +
+        '    Given the thing <is (not) triggered> and has <value>\n' +
+        '  Examples:\n' +
+        '    | is (not) triggered | value |\n' +
+        '    | is triggered       | foo   |\n ',
         '',
         messages.SourceMediaType.TEXT_X_CUCUMBER_GHERKIN_PLAIN,
-        { includePickles: true, newId: messages.IdGenerator.incrementing() }
+        {includePickles: true, newId: messages.IdGenerator.incrementing()}
       )
 
       const pickle = envelopes.find((envelope) => envelope.pickle).pickle
@@ -177,7 +180,7 @@ describe('Parser', function () {
         feature: {
           tags: [],
           description: '',
-          location: { line: 1, column: 1 },
+          location: {line: 1, column: 1},
           language: 'no',
           keyword: 'Egenskap',
           name: 'i18n support',
@@ -199,7 +202,7 @@ describe('Parser', function () {
         ))
     )
 
-    it('parses a feature description', function () {
+    it('does not parse a feature description', function () {
       const ast = parser.parse(`# Feature: hello
 This is the
 description
@@ -208,8 +211,8 @@ description
       const gherkinDocument: messages.GherkinDocument = {
         feature: {
           tags: [],
-          description: 'This is the\ndescription',
-          location: { line: 1, column: 3 },
+          description: '',
+          location: {line: 1, column: 3},
           language: 'en',
           keyword: 'Feature',
           name: 'hello',
@@ -225,38 +228,62 @@ description
 This is the
 description
 
-## Scenario: 
+## Scenario: hello
++ Given a step
+
+## Some other header
 `)
 
       const gherkinDocument: messages.GherkinDocument = {
-        feature: {
-          tags: [],
-          description: 'This is the\ndescription',
-          location: { line: 1, column: 1 },
-          language: 'en',
-          keyword: undefined,
-          name: '# Hello',
-          children: [
+        "feature": {
+          "tags": [],
+          "location": {
+            "line": 1,
+            "column": 1
+          },
+          "language": "en",
+          "keyword": undefined,
+          "name": "# Hello",
+          "description": "",
+          "children": [
             {
-              scenario: {
-                description: '',
-                examples: [],
-                id: '0',
-                keyword: 'Scenario',
-                location: {
-                  column: 4,
-                  line: 5,
+              "scenario": {
+                "id": "1",
+                "tags": [],
+                "location": {
+                  "line": 5,
+                  "column": 4
                 },
-                name: '',
-                steps: [],
-                tags: [],
-              },
-            },
-          ],
+                "keyword": "Scenario",
+                "name": "hello",
+                "description": "",
+                "steps": [
+                  {
+                    "id": "0",
+                    "location": {
+                      "line": 6,
+                      "column": 3
+                    },
+                    "keyword": "Given ",
+                    "text": "a step",
+                    "dataTable": undefined,
+                    "docString": undefined,
+                  }
+                ],
+                "examples": []
+              }
+            }
+          ]
         },
-        comments: [],
+        "comments": []
       }
       assert.deepStrictEqual(ast, gherkinDocument)
+    })
+
+    it('parses misc.md', async () => {
+      const gherkinSource = await readFile(__dirname + '/../testdata/good/misc.md', 'utf-8')
+      const ast = parser.parse(gherkinSource)
+      console.log(JSON.stringify(ast, null, 2))
     })
 
     it('parses DocString', function () {

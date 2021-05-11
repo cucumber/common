@@ -15,13 +15,6 @@ describe('GherkinInMarkdownTokenMatcher', function () {
     location = { line: 1, column: 1 }
   })
 
-  it('matches arbitrary text as Other', () => {
-    const line = new GherkinLine('Whatever', location.line)
-    const token = new Token(line, location)
-    assert(tm.match_Other(token))
-    assert.strictEqual(token.matchedType, TokenType.Other)
-  })
-
   it('matches FeatureLine', () => {
     const line = new GherkinLine('## Feature: hello', location.line)
     const token = new Token(line, location)
@@ -41,7 +34,7 @@ describe('GherkinInMarkdownTokenMatcher', function () {
     assert.strictEqual(token.matchedText, 'hello')
   })
 
-  it('matches Step', () => {
+  it('matches bullet Step', () => {
     const line = new GherkinLine('  *  Given I have 3 cukes', location.line)
     const token = new Token(line, location)
     assert(tm.match_StepLine(token))
@@ -51,21 +44,48 @@ describe('GherkinInMarkdownTokenMatcher', function () {
     assert.strictEqual(token.location.column, 6)
   })
 
-  it('matches a non-keyword line as other', () => {
+  it('matches plus Step', () => {
+    const line = new GherkinLine('  +  Given I have 3 cukes', location.line)
+    const token = new Token(line, location)
+    assert(tm.match_StepLine(token))
+    assert.strictEqual(token.matchedType, TokenType.StepLine)
+    assert.strictEqual(token.matchedKeyword, 'Given ')
+    assert.strictEqual(token.matchedText, 'I have 3 cukes')
+    assert.strictEqual(token.location.column, 6)
+  })
+
+  it('matches hyphen Step', () => {
+    const line = new GherkinLine('  -  Given I have 3 cukes', location.line)
+    const token = new Token(line, location)
+    assert(tm.match_StepLine(token))
+    assert.strictEqual(token.matchedType, TokenType.StepLine)
+    assert.strictEqual(token.matchedKeyword, 'Given ')
+    assert.strictEqual(token.matchedText, 'I have 3 cukes')
+    assert.strictEqual(token.location.column, 6)
+  })
+
+  it('matches arbitrary text as Other', () => {
+    const line = new GherkinLine('Whatever', location.line)
+    const token = new Token(line, location)
+    assert(tm.match_Other(token))
+    assert.strictEqual(token.matchedType, TokenType.Other)
+  })
+
+  it('matches a non-keyword line as Other', () => {
     const line = new GherkinLine('whatever Given', location.line)
     const token = new Token(line, location)
     assert(tm.match_Other(token))
     assert.strictEqual(token.matchedType, TokenType.Other)
   })
 
-  it('matches a non-keyword bullet line as other', () => {
+  it('matches a non-keyword bullet line as Other', () => {
     const line = new GherkinLine('* whatever Given', location.line)
     const token = new Token(line, location)
     assert(tm.match_Other(token))
     assert.strictEqual(token.matchedType, TokenType.Other)
   })
 
-  it('matches a non-keyword header line as other', () => {
+  it('matches a non-keyword header line as Other', () => {
     const line = new GherkinLine('## The world is wet', location.line)
     const token = new Token(line, location)
     assert(tm.match_Other(token))

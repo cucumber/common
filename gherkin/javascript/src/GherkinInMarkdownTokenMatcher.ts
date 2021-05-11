@@ -1,10 +1,10 @@
 import ITokenMatcher from './ITokenMatcher'
 import Dialect from './Dialect'
-import { Token, TokenType } from './Parser'
+import {Token, TokenType} from './Parser'
 import DIALECTS from './gherkin-languages.json'
-import { Item } from './IToken'
+import {Item} from './IToken'
 import * as messages from '@cucumber/messages'
-import { NoSuchLanguageException } from './Errors'
+import {NoSuchLanguageException} from './Errors'
 
 const DIALECT_DICT: { [key: string]: Dialect } = DIALECTS
 const DEFAULT_DOC_STRING_SEPARATOR = /^(```[`]*)(.*)/
@@ -17,6 +17,7 @@ export default class GherkinInMarkdownTokenMatcher implements ITokenMatcher<Toke
   private readonly headerRegexp: RegExp
   private activeDocStringSeparator: RegExp
   private indentToRemove: number
+  private matchedFeatureLine: boolean;
 
   constructor(private readonly defaultDialectName: string = 'en') {
     this.dialect = DIALECT_DICT[defaultDialectName]
@@ -66,6 +67,35 @@ export default class GherkinInMarkdownTokenMatcher implements ITokenMatcher<Toke
     return false
   }
 
+  match_Empty(token: Token): boolean {
+    let result = false
+    if (token.line.isEmpty) {
+      result = true
+    }
+    if (
+      !this.match_TagLine(token) &&
+      !this.match_FeatureLine(token) &&
+      !this.match_ScenarioLine(token) &&
+      !this.match_BackgroundLine(token) &&
+      !this.match_ExamplesLine(token) &&
+      !this.match_RuleLine(token) &&
+      !this.match_TableRow(token) &&
+      !this.match_Comment(token) &&
+      !this.match_Language(token) &&
+      !this.match_DocStringSeparator(token) &&
+      !this.match_EOF(token) &&
+      !this.match_StepLine(token)
+    ) {
+      // neutered
+      result = true
+    }
+
+    if (result) {
+      token.matchedType = TokenType.Empty
+    }
+    return this.setTokenMatched(token, null, result)
+  }
+
   match_Other(token: Token): boolean {
     // if(
     //   this.match_TagLine(token)||
@@ -94,7 +124,7 @@ export default class GherkinInMarkdownTokenMatcher implements ITokenMatcher<Toke
     let result = false
     if (token.line.startsWith('|')) {
       const tableCells = token.line.getTableCells()
-      if (this.match_GfmTableSeparator(tableCells)) result = true
+      if (this.isGfmTableSeparator(tableCells)) result = true
     }
     return this.setTokenMatched(token, null, result)
   }
@@ -129,16 +159,10 @@ export default class GherkinInMarkdownTokenMatcher implements ITokenMatcher<Toke
     return this.setTokenMatched(token, null, result)
   }
 
-  match_Empty(token: Token): boolean {
-    let result = false
-    if (token.line.isEmpty) {
-      token.matchedType = TokenType.Empty
-      result = true
-    }
-    return this.setTokenMatched(token, null, result)
-  }
-
   match_FeatureLine(token: Token): boolean {
+    if (this.matchedFeatureLine) {
+      return this.setTokenMatched(token, null, false)
+    }
     // We first try to match "# Feature: blah"
     let result = this.matchTitleLine(
       KeywordPrefix.HEADER,
@@ -155,6 +179,7 @@ export default class GherkinInMarkdownTokenMatcher implements ITokenMatcher<Toke
       token.matchedText = token.line.trimmedLineText
       result = this.setTokenMatched(token, null, true)
     }
+    this.matchedFeatureLine = result
     return result
   }
 
@@ -250,7 +275,7 @@ export default class GherkinInMarkdownTokenMatcher implements ITokenMatcher<Toke
   match_TableRow(token: Token): boolean {
     if (token.line.startsWith('|')) {
       const tableCells = token.line.getTableCells()
-      if (this.match_GfmTableSeparator(tableCells)) return false
+      if (this.isGfmTableSeparator(tableCells)) return false
 
       token.matchedKeyword = '|'
       token.matchedType = TokenType.TableRow
@@ -260,7 +285,7 @@ export default class GherkinInMarkdownTokenMatcher implements ITokenMatcher<Toke
     return false
   }
 
-  private match_GfmTableSeparator(tableCells: readonly Item[]): boolean {
+  private isGfmTableSeparator(tableCells: readonly Item[]): boolean {
     const separatorValues = tableCells
       .map((item) => item.text)
       .filter((value) => value.match(/^:?-+:?$/))
@@ -296,7 +321,8 @@ export default class GherkinInMarkdownTokenMatcher implements ITokenMatcher<Toke
 }
 
 enum KeywordPrefix {
-  BULLET = '^(\\s*\\*\\s*)',
+  // https://spec.commonmark.org/0.29/#bullet-list-marker
+  BULLET = '^(\\s*[*+-]\\s*)',
   HEADER = '^(#{1,6}\\s)',
 }
 
