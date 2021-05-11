@@ -6,7 +6,7 @@ import { Query as CucumberQuery } from '@cucumber/query'
 import { Query as GherkinQuery } from '@cucumber/gherkin-utils'
 import GherkinDocumentList from '../components/app/GherkinDocumentList'
 import QueriesWrapper from '../components/app/QueriesWrapper'
-import { EnvelopesQuery } from '../EnvelopesQueryContext'
+import { EnvelopesQuery } from '../../src'
 import GherkinDocument from '../components/gherkin/GherkinDocument'
 
 import '../styles/react-accessible-accordion.css'
