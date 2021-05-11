@@ -9,18 +9,21 @@ NPM_MODULE = $(shell cat package.json | jq .name --raw-output)
 default: .tested
 .PHONY: default
 
+../../node_modules ../../package-lock.json: package.json
+	cd ../.. && npm install
+
 .codegen:
 	touch $@
 
 .tested: .tested-npm .built
 
-.built: $(TYPESCRIPT_SOURCE_FILES) .codegen
+.built: $(TYPESCRIPT_SOURCE_FILES) ../../node_modules ../../package-lock.json .codegen
 	pushd ../.. && \
 	npm run build && \
 	popd && \
 	touch $@
 
-.tested-npm: $(TYPESCRIPT_SOURCE_FILES) .codegen
+.tested-npm: $(TYPESCRIPT_SOURCE_FILES) ../../node_modules ../../package-lock.json .codegen
 	npm run test
 	touch $@
 
