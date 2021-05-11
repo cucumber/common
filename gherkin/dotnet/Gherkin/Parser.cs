@@ -9,6 +9,7 @@
 #region Designer generated code
 #pragma warning disable
 using System;
+using System.Linq;
 using System.Collections.Generic;
 namespace Gherkin
 {
@@ -132,6 +133,8 @@ namespace Gherkin
 
         private void AddError(ParserContext context, ParserException error)
         {
+            if (context.Errors.Any(e => e.Message == error.Message))
+                return;
             context.Errors.Add(error);
             if (context.Errors.Count > 10)
                 throw new CompositeParserException(context.Errors.ToArray());

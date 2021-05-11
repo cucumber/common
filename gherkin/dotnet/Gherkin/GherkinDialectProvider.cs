@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using Gherkin.Ast;
 using System.Reflection;
+using TinyJson;
 
 namespace Gherkin
 {
@@ -54,9 +55,10 @@ namespace Gherkin
             return ParseJsonContent(languagesFileContent);
         }
 
-        protected Dictionary<string, GherkinLanguageSetting> ParseJsonContent(string languagesFileContent)
+        protected virtual Dictionary<string, GherkinLanguageSetting> ParseJsonContent(string languagesFileContent)
         {
-            return Utf8Json.JsonSerializer.Deserialize<Dictionary<string, GherkinLanguageSetting>>(languagesFileContent);
+            // ReSharper disable once InvokeAsExtensionMethod
+            return JSONParser.FromJson<Dictionary<string, GherkinLanguageSetting>>(languagesFileContent);
         }
 
         protected virtual bool TryGetDialect(string language, Dictionary<string, GherkinLanguageSetting> gherkinLanguageSettings, Ast.Location location, out GherkinDialect dialect)
