@@ -74,5 +74,9 @@ clean: clean-javascript
 .PHONY: clean
 
 clean-javascript:
-	rm -rf .deps .codegen .tested* node_modules coverage dist acceptance
+	rm -rf .deps .codegen .tested* coverage dist acceptance
 .PHONY: clean-javascript
+
+clobber: clean
+	rm -rf node_modules ../../node_modules
+.PHONY: clobber
