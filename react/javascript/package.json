@@ -11,7 +11,7 @@
   "author": "Aslak Hellesøy",
   "license": "MIT",
   "scripts": {
-    "prepare": "make .codegen && npx -y cpy-cli '**/*.scss' '../dist/src' --cwd='src' --parents",
+    "prepare": "make .codegen && npx cpy-cli '**/*.scss' '../dist/src' --cwd='src' --parents",
     "test": "mocha",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
@@ -60,6 +60,7 @@
     "babel-loader": "8.2.2",
     "css-modules-require-hook": "4.2.3",
     "core-js": "3.12.1",
+    "cpy-cli": "^3.1.1",
     "glob": "7.1.7",
     "jsdom": "16.5.3",
     "mocha": "8.4.0",
