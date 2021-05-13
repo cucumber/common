@@ -10,6 +10,7 @@ import StepContainer from './StepContainer'
 import Attachment from './Attachment'
 import HighLight from '../app/HighLight'
 import { getWorstTestStepResult } from '@cucumber/messages'
+import Parameter from './Parameter'
 
 interface IProps {
   step: messages.Step
@@ -58,13 +59,9 @@ const Step: React.FunctionComponent<IProps> = ({
         const arg = argument.group.value
         if (arg.length > 0) {
           stepTextElements.push(
-            <a
-              className="cucumber-step__param"
-              key={`bold-${index}`}
-              title={argument.parameterTypeName}
-            >
+            <Parameter parameterTypeName={argument.parameterTypeName} key={`param-${index}`}>
               <HighLight text={arg} />
-            </a>
+            </Parameter>
           )
         }
         offset += plain.length + arg.length
@@ -104,7 +101,7 @@ const Step: React.FunctionComponent<IProps> = ({
   return (
     <StepContainer status={testStepResult.status}>
       <h3 className="cucumber-step__title">
-        <Keyword className="cucumber-step__keyword">{step.keyword}</Keyword>
+        <Keyword>{step.keyword}</Keyword>
         {stepTextElements}
       </h3>
       {step.dataTable && <DataTable dataTable={step.dataTable} />}

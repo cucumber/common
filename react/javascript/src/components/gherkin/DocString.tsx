@@ -4,6 +4,7 @@ import styles from './DocString.module.scss'
 import { CustomRenderingContext, DocStringProps, mixinStyles } from '../customise/CustomRendering'
 
 const DocString: React.FunctionComponent<DocStringProps> = ({ docString }) => {
+  // TODO add a hook for this to reduce boilerplate
   const { DocString: Custom } = useContext(CustomRenderingContext)
   if (typeof Custom === 'function') {
     return <Custom docString={docString} />

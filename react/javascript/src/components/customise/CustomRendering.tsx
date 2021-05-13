@@ -19,6 +19,18 @@ export function mixinStyles(
 
 export declare type CustomRenderer<R, C> = React.FunctionComponent<R> | Partial<C>
 
+export interface KeywordClasses {
+  keyword: string
+}
+
+export interface ParameterProps {
+  parameterTypeName: string;
+}
+
+export interface ParameterClasses {
+  parameter: string;
+}
+
 export interface DocStringProps {
   docString: messages.DocString
 }
@@ -49,6 +61,8 @@ export interface GherkinDocumentListClasses {
 }
 
 export interface CustomRenderingSupport {
+  Keyword?: CustomRenderer<{}, KeywordClasses>
+  Parameter?: CustomRenderer<ParameterProps, ParameterClasses>
   DocString?: CustomRenderer<DocStringProps, DocStringClasses>
   Tags?: CustomRenderer<TagsProps, TagsClasses>
   GherkinDocumentList?: CustomRenderer<GherkinDocumentListProps, GherkinDocumentListClasses>

@@ -18,7 +18,7 @@ const RuleTitle: React.FunctionComponent<IProps> = ({ id, rule }) => {
         <FontAwesomeIcon icon={faLink} className="cucumber-anchor__icon" />
       </a>
       <h2 id={id}>
-        <Keyword className="cucumber-title__keyword">{rule.keyword}:</Keyword>{' '}
+        <Keyword>{rule.keyword}:</Keyword>{' '}
         <HighLight className="cucumber-title__text" text={rule.name} />
       </h2>
     </div>

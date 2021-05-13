@@ -16,7 +16,7 @@ const BackgroundTitle: React.FunctionComponent<IProps> = ({ id, background }) =>
         <FontAwesomeIcon icon={faLink} className="cucumber-anchor__icon" />
       </a>
       <h2 id={id}>
-        <Keyword className="cucumber-title__keyword">{background.keyword}:</Keyword>{' '}
+        <Keyword>{background.keyword}:</Keyword>{' '}
         <span className="cucumber-title__text">{background.name}</span>
       </h2>
     </div>

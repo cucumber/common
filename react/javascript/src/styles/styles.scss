@@ -41,11 +41,6 @@ $statusColors:
     margin-bottom: 0;
     display: inline-block;
 
-    &__keyword {
-      font-weight: bold;
-      color: $keywordColor;
-    }
-
     &__text {
       font-weight: normal;
     }
@@ -83,18 +78,8 @@ $statusColors:
         max-width: calc(100% - 1.5em);
       }
 
-      &__keyword {
-        font-weight: bold;
-        color: $keywordColor;
-      }
-
       &__text {
         font-weight: normal;
-      }
-
-      &__param {
-        font-weight: normal;
-        color: $parameterColor;
       }
     }
   }

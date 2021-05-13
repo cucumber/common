@@ -17,7 +17,7 @@ const FeatureTitle: React.FunctionComponent<IProps> = ({ id, feature }) => {
         <FontAwesomeIcon icon={faLink} className="cucumber-anchor__icon" />
       </a>
       <h1 id={id}>
-        <Keyword className="cucumber-title__keyword">{feature.keyword}:</Keyword>{' '}
+        <Keyword>{feature.keyword}:</Keyword>{' '}
         <HighLight className="cucumber-title__text" text={feature.name} />
       </h1>
     </div>

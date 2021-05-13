@@ -1,12 +1,14 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import styles from './Keyword.module.scss'
+import { CustomRenderingContext, mixinStyles } from '../customise/CustomRendering'
 
-interface IProps {
-  children: any
-  className?: string
-}
-
-const Keyword: React.FunctionComponent<IProps> = ({ children, className = '' }) => {
-  return <span className={className}>{children}</span>
+const Keyword: React.FunctionComponent = ({ children }) => {
+  const { Keyword: Custom } = useContext(CustomRenderingContext)
+  if (typeof Custom === 'function') {
+    return <Custom>{children}</Custom>
+  }
+  const composedStyles = mixinStyles(styles, Custom)
+  return <span className={composedStyles.keyword}>{children}</span>
 }
 
 export default Keyword

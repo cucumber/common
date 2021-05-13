@@ -61,16 +61,12 @@ describe('<Step>', () => {
     )
     ReactDOM.render(app, document.getElementById('content'))
 
-    const plainTexts = Array.from(
+    // TODO a bit dom-specific - can we use snapshots to test this?
+    const texts = Array.from(
       document.querySelectorAll(
-        '#content h3 .cucumber-step__text, #content h3 .cucumber-step__keyword'
+        '#content h3 > *'
       )
     ).map((span) => span.textContent)
-    assert.deepStrictEqual(plainTexts, ['Given', 'the ', ' pixies'])
-
-    const paramTexts = Array.from(
-      document.querySelectorAll('#content h3 .cucumber-step__param')
-    ).map((a) => a.textContent)
-    assert.deepStrictEqual(paramTexts, ['48'])
+    assert.deepStrictEqual(texts, ['Given', 'the ', '48', ' pixies'])
   })
 })
