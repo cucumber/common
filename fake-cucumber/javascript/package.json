@@ -33,7 +33,7 @@
     "@types/mocha": "^8.2.2",
     "@types/node": "^15.0.1",
     "@types/stream-buffers": "^3.0.3",
-    "mocha": "^8.3.2",
+    "mocha": "8.3.2",
     "source-map-support": "^0.5.19",
     "stream-buffers": "^3.0.2",
     "ts-node": "^9.1.1",
