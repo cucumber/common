@@ -98,7 +98,7 @@ Then, you can wrap your usage in the `CustomRendering` component and provide an 
 ```jsx
 <CustomRendering support={{
   DocString: {
-    docstring: 'acme-docstring'
+    docString: 'acme-docstring'
   }
 }}>
   <GherkinDocument />

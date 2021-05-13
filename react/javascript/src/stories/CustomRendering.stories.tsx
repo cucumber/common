@@ -47,7 +47,7 @@ Classes.args = {
   envelopes: attachments,
   support: {
     DocString: {
-      docstring: 'custom-docstring',
+      docString: 'custom-docstring',
     },
   },
 }

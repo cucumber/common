@@ -24,7 +24,7 @@ export interface DocStringProps {
 }
 
 export interface DocStringClasses {
-  docstring: string
+  docString: string
 }
 
 export interface TagsProps {

@@ -10,7 +10,7 @@ const DocString: React.FunctionComponent<DocStringProps> = ({ docString }) => {
   }
   const composedStyles = mixinStyles(styles, Custom)
   return (
-    <pre className={composedStyles.docstring}>
+    <pre className={composedStyles.docString}>
       <HighLight text={docString.content} />
     </pre>
   )
