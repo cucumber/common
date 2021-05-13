@@ -1,5 +1,5 @@
 SHELL := /usr/bin/env bash
-BUILD_CONTAINER ?= cucumber/cucumber-build:pr-12
+BUILD_CONTAINER ?= cucumber/cucumber-build:pr-12.1
 PACKAGES ?= messages \
 	message-streams \
 	gherkin \
