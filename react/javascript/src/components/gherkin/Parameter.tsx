@@ -8,7 +8,11 @@ const Parameter: React.FunctionComponent<ParameterProps> = ({ parameterTypeName,
     return <Custom parameterTypeName={parameterTypeName}>{children}</Custom>
   }
   const composedStyles = mixinStyles(styles, Custom)
-  return <span title={parameterTypeName} className={composedStyles.parameter}>{children}</span>
+  return (
+    <span title={parameterTypeName} className={composedStyles.parameter}>
+      {children}
+    </span>
+  )
 }
 
 export default Parameter

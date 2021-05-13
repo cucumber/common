@@ -62,11 +62,9 @@ describe('<Step>', () => {
     ReactDOM.render(app, document.getElementById('content'))
 
     // TODO a bit dom-specific - can we use snapshots to test this?
-    const texts = Array.from(
-      document.querySelectorAll(
-        '#content h3 > *'
-      )
-    ).map((span) => span.textContent)
+    const texts = Array.from(document.querySelectorAll('#content h3 > *')).map(
+      (span) => span.textContent
+    )
     assert.deepStrictEqual(texts, ['Given', 'the ', '48', ' pixies'])
   })
 })

@@ -24,11 +24,11 @@ export interface KeywordClasses {
 }
 
 export interface ParameterProps {
-  parameterTypeName: string;
+  parameterTypeName: string
 }
 
 export interface ParameterClasses {
-  parameter: string;
+  parameter: string
 }
 
 export interface DocStringProps {
@@ -61,7 +61,7 @@ export interface GherkinDocumentListClasses {
 }
 
 export interface CustomRenderingSupport {
-  Keyword?: CustomRenderer<{}, KeywordClasses>
+  Keyword?: CustomRenderer<any, KeywordClasses>
   Parameter?: CustomRenderer<ParameterProps, ParameterClasses>
   DocString?: CustomRenderer<DocStringProps, DocStringClasses>
   Tags?: CustomRenderer<TagsProps, TagsClasses>
