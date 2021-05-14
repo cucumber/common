@@ -21,7 +21,7 @@ describe('countScenariosByStatuses', () => {
     })
   })
 
-  it('counts the number of sscenarios with a given status', async () => {
+  it('counts the number of scenarios with a given status', async () => {
     const feature = `
 Feature: statuses
 
@@ -37,11 +37,13 @@ Feature: statuses
   Scenario: undefined
     Given we have no clue how to handle this step
     `
-    const emitted = await runFeature(feature, gherkinQuery, supportCode)
-    emitted.map((message) => cucumberQuery.update(message))
-    const gherkinDocuments = emitted
-      .filter((message) => message.gherkinDocument)
-      .map((message) => message.gherkinDocument)
+    const envelopes = await runFeature(feature, gherkinQuery, supportCode)
+    for (const envelope of envelopes) {
+      cucumberQuery.update(envelope)
+    }
+    const gherkinDocuments = envelopes
+      .filter((envelope) => envelope.gherkinDocument)
+      .map((envelope) => envelope.gherkinDocument)
 
     const statuses = countScenariosByStatuses(gherkinDocuments, gherkinQuery, cucumberQuery)
 
@@ -64,11 +66,14 @@ Feature: statuses
     | undefined |
 
     `
-    const emitted = await runFeature(feature, gherkinQuery, supportCode)
-    emitted.map((message) => cucumberQuery.update(message))
-    const gherkinDocuments = emitted
-      .filter((message) => message.gherkinDocument)
-      .map((message) => message.gherkinDocument)
+    const envelopes = await runFeature(feature, gherkinQuery, supportCode)
+    for (const envelope of envelopes) {
+      cucumberQuery.update(envelope)
+    }
+
+    const gherkinDocuments = envelopes
+      .filter((envelope) => envelope.gherkinDocument)
+      .map((envelope) => envelope.gherkinDocument)
 
     const statuses = countScenariosByStatuses(gherkinDocuments, gherkinQuery, cucumberQuery)
 

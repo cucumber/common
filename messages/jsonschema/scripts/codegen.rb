@@ -49,7 +49,7 @@ class Codegen
     elsif property['type'] == 'string'
       if property['enum']
         enum_type_name = type_for(parent_type_name, property_name, property)
-        "#{enum_type_name}.#{property['enum'][0]}"
+        "#{enum_type_name}.#{enum_constant(property['enum'][0])}"
       else
         "''"
       end
@@ -63,6 +63,10 @@ class Codegen
     else
       raise "Cannot create default value for #{parent_type_name}##{property.to_json}"
     end
+  end
+
+  def enum_constant(value)
+    value.gsub(/[\.\/\+]/, '_').upcase
   end
 
   def type_for(parent_type_name, property_name, property)
@@ -127,7 +131,7 @@ EOF
     enum_template = <<-EOF
 export enum <%= enum[:name] %> {
 <% enum[:values].each do |value| -%>
-  <%= value %> = '<%= value %>',
+  <%= enum_constant(value) %> = '<%= value %>',
 <% end -%>
 }
 
@@ -174,14 +178,14 @@ type <%= enum[:name] %> string
 
 const(
 <% enum[:values].each do |value| -%>
-  <%= enum[:name] %>_<%= value %> <%= enum[:name] %> = "<%= value %>"
+  <%= enum[:name] %>_<%= enum_constant(value) %> <%= enum[:name] %> = "<%= value %>"
 <% end -%>
 )
 
 func (e <%= enum[:name] %>) String() string {
 	switch e {
 <% enum[:values].each do |value| -%>
-  case <%= enum[:name] %>_<%= value %>:
+  case <%= enum[:name] %>_<%= enum_constant(value) %>:
     return "<%= value %>"
 <% end -%>
 	default:

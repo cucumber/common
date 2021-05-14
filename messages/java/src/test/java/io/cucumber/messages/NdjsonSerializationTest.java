@@ -2,11 +2,15 @@ package io.cucumber.messages;
 
 import io.cucumber.messages.types.Attachment;
 import io.cucumber.messages.types.Envelope;
+import io.cucumber.messages.types.Source;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -24,6 +28,15 @@ class NdjsonSerializationTest extends MessageSerializationContract {
     @Override
     protected Iterable<Envelope> makeMessageIterable(InputStream input) {
         return new NdjsonToMessageIterable(input);
+    }
+
+    @Test
+    void writes_source_envelope() throws IOException {
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        MessageWriter writer = makeMessageWriter(output);
+        writer.write(new Source("uri", "data", Source.MediaType.TEXT_X_CUCUMBER_GHERKIN_PLAIN));
+        String json = new String(output.toByteArray(), StandardCharsets.UTF_8);
+        assertEquals("{\"uri\":\"uri\",\"data\":\"data\",\"mediaType\":\"text/x.cucumber.gherkin+plain\"}\n", json);
     }
 
     @Test
