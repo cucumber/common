@@ -1,9 +1,12 @@
 include default.mk
 
 # this will go to default.mk
+BERP_VERSION = 1.3.0-pre20210514-1
+
 .berp_restored:
-	dotnet tool install --global Berp --version 1.3.0-pre20210514-1
-	# export PATH="$(PATH):/home/cukebot/.dotnet/tools"
+ifeq ($(shell dotnet tool list --tool-path /usr/bin | grep "berp\s*$(BERP_VERSION)"),)
+	dotnet tool update Berp --version $(BERP_VERSION) --tool-path /usr/bin
+endif
 	touch $@
 
 GOOD_FEATURE_FILES = $(shell find testdata/good -name "*.feature")
@@ -22,7 +25,7 @@ default: .compared
 .deps: Gherkin/Parser.cs
 
 Gherkin/Parser.cs: .berp_restored gherkin.berp gherkin-csharp.razor
-	/home/cukebot/.dotnet/tools/berp -g gherkin.berp -t gherkin-csharp.razor -o $@
+	berp -g gherkin.berp -t gherkin-csharp.razor -o $@
 
 .compared: $(TOKENS) $(ASTS) $(PICKLES) $(SOURCES) $(ERRORS)
 	touch $@
