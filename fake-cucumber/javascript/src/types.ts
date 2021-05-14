@@ -55,7 +55,11 @@ export interface IHook {
 export interface ITestCase {
   toMessage(): messages.Envelope
 
-  execute(listener: EnvelopeListener, attempt: number, testCaseStartedId: string): Promise<messages.TestStepResultStatus>
+  execute(
+    listener: EnvelopeListener,
+    attempt: number,
+    testCaseStartedId: string
+  ): Promise<messages.TestStepResultStatus>
 }
 
 export type EnvelopeListener = (envelope: messages.Envelope) => void

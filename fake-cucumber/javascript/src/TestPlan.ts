@@ -1,4 +1,4 @@
-import {EnvelopeListener, ITestCase, ITestPlan} from './types'
+import { EnvelopeListener, ITestCase, ITestPlan } from './types'
 import * as messages from '@cucumber/messages'
 import SupportCode from './SupportCode'
 
@@ -18,7 +18,7 @@ export default class TestPlan implements ITestPlan {
     for (const hook of this.supportCode.beforeHooks) {
       listener(hook.toMessage())
     }
-    for (const hook of this.supportCode.afterHooks) {
+    for (const hook of this.supportCode.afterHooks.reverse()) {
       listener(hook.toMessage())
     }
 
@@ -36,7 +36,7 @@ export default class TestPlan implements ITestPlan {
     // TODO: By using Promise.all here we could execute in parallel
     for (const testCase of this.testCases) {
       const testStepResultStatus = await testCase.execute(listener, 0, this.supportCode.newId())
-      if(shouldCauseFailure(testStepResultStatus)) {
+      if (shouldCauseFailure(testStepResultStatus)) {
         success = false
       }
     }

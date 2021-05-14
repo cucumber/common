@@ -9,6 +9,7 @@ import ErrorMessage from './ErrorMessage'
 import StepContainer from './StepContainer'
 import Attachment from './Attachment'
 import HighLight from '../app/HighLight'
+import { getWorstTestStepResult } from '@cucumber/messages'
 
 interface IProps {
   step: messages.Step
@@ -26,7 +27,7 @@ const Step: React.FunctionComponent<IProps> = ({
 
   const pickleStepIds = gherkinQuery.getPickleStepIds(step.id)
   const pickleStepTestStepResults = cucumberQuery.getPickleStepTestStepResults(pickleStepIds)
-  const testStepResult = cucumberQuery.getWorstTestStepResult(pickleStepTestStepResults)
+  const testStepResult = getWorstTestStepResult(pickleStepTestStepResults)
   const attachments = cucumberQuery.getPickleStepAttachments(pickleStepIds)
 
   const stepTextElements: JSX.Element[] = []

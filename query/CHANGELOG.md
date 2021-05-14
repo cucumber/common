@@ -15,6 +15,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Removed
 
+* [JavaScript] Removed `Query#getWorstTestStepResult` method. Use `getWorstTestStepResult`
+  from `@cucumber/messages` instead.
+
 ### Fixed
 
 ## [9.0.2] - 2021-04-06

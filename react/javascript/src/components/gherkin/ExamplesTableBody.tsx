@@ -7,6 +7,7 @@ import ErrorMessage from './ErrorMessage'
 import statusName from './statusName'
 import StatusIcon from './StatusIcon'
 import UriContext from '../../UriContext'
+import { getWorstTestStepResult } from '@cucumber/messages'
 
 interface IProps {
   rows: readonly messages.TableRow[]
@@ -31,7 +32,7 @@ const RowOrRows: React.FunctionComponent<IRowOrRows> = ({ row }) => {
   const cucumberQuery = React.useContext(CucumberQueryContext)
   const uri = React.useContext(UriContext)
 
-  const testStepResult = cucumberQuery.getWorstTestStepResult(
+  const testStepResult = getWorstTestStepResult(
     cucumberQuery.getPickleTestStepResults(gherkinQuery.getPickleIds(uri, row.id))
   )
   return (

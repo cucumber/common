@@ -1,7 +1,7 @@
 import { EnvelopeListener, ITestCase, ITestStep, IWorld } from './types'
 import * as messages from '@cucumber/messages'
 import IClock from './IClock'
-import { Query } from '@cucumber/query'
+import { getWorstTestStepResult } from '@cucumber/messages'
 
 const { millisecondsSinceEpochToTimestamp } = messages.TimeConversion
 
@@ -52,7 +52,7 @@ export default class TestCase implements ITestCase {
       },
     }
 
-    let testStepResults: messages.TestStepResult[] = []
+    const testStepResults: messages.TestStepResult[] = []
     let executeNext = true
     for (const testStep of this.testSteps) {
       let testStepResult: messages.TestStepResult
@@ -73,7 +73,7 @@ export default class TestCase implements ITestCase {
       },
     })
 
-    const finalStepResult = new Query().getWorstTestStepResult(testStepResults)
+    const finalStepResult = getWorstTestStepResult(testStepResults)
     return finalStepResult.status
   }
 }
