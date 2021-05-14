@@ -2,6 +2,7 @@ import { Query as GherkinQuery } from '@cucumber/gherkin-utils'
 import { Query as CucumberQuery } from '@cucumber/query'
 import * as messages from '@cucumber/messages'
 import { GherkinDocumentWalker, rejectAllFilters } from '@cucumber/gherkin-utils'
+import { getWorstTestStepResult } from '@cucumber/messages'
 
 export default function filterByStatus(
   gherkinDocument: messages.GherkinDocument,
@@ -16,8 +17,7 @@ export default function filterByStatus(
       return pickleIds
         .map((pickleId) =>
           statuses.includes(
-            cucumberQuery.getWorstTestStepResult(cucumberQuery.getPickleTestStepResults([pickleId]))
-              .status
+            getWorstTestStepResult(cucumberQuery.getPickleTestStepResults([pickleId])).status
           )
         )
         .includes(true)

@@ -18,6 +18,7 @@ import {
   mixinStyles,
 } from '../customise/CustomRendering'
 import styles from './GherkinDocumentList.module.scss'
+import { getWorstTestStepResult } from '@cucumber/messages'
 
 const GherkinDocumentList: React.FunctionComponent<GherkinDocumentListProps> = ({
   gherkinDocuments,
@@ -37,7 +38,7 @@ const GherkinDocumentList: React.FunctionComponent<GherkinDocumentListProps> = (
   const entries: Array<[string, messages.TestStepResultStatus]> = gherkinDocs.map(
     (gherkinDocument) => {
       const gherkinDocumentStatus = gherkinDocument.feature
-        ? cucumberQuery.getWorstTestStepResult(
+        ? getWorstTestStepResult(
             cucumberQuery.getPickleTestStepResults(gherkinQuery.getPickleIds(gherkinDocument.uri))
           ).status
         : messages.TestStepResultStatus.UNDEFINED
