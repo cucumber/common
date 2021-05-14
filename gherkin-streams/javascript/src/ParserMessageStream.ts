@@ -12,7 +12,12 @@ export default class ParserMessageStream extends Transform {
 
   public _transform(envelope: messages.Envelope, encoding: string, callback: TransformCallback) {
     if (envelope.source) {
-      const messageList = generateMessages(envelope.source.data, envelope.source.uri, this.options)
+      const messageList = generateMessages(
+        envelope.source.data,
+        envelope.source.uri,
+        envelope.source.mediaType,
+        this.options
+      )
       for (const message of messageList) {
         this.push(message)
       }
@@ -20,5 +25,3 @@ export default class ParserMessageStream extends Transform {
     callback()
   }
 }
-
-module.exports = ParserMessageStream

@@ -57,9 +57,12 @@ export default async function runFeature(
     },
   })
 
-  const gherkinEnvelopeStream = GherkinStreams.fromSources([makeSourceEnvelope(feature, '')], {
-    newId: messages.IdGenerator.incrementing(),
-  })
+  const gherkinEnvelopeStream = GherkinStreams.fromSources(
+    [makeSourceEnvelope(feature, 'test.feature')],
+    {
+      newId: messages.IdGenerator.incrementing(),
+    }
+  )
 
   await runCucumber(supportCode, gherkinEnvelopeStream, gherkinQuery, out)
   return emitted

@@ -11,15 +11,16 @@ import GherkinDocument from '../components/gherkin/GherkinDocument'
 
 import '../styles/styles.scss'
 
-import attachments from '../../acceptance/attachments/attachments'
-import dataTables from '../../acceptance/data-tables/data-tables'
-import examplesTables from '../../acceptance/examples-tables/examples-tables'
-import hooks from '../../acceptance/hooks/hooks'
-import minimal from '../../acceptance/minimal/minimal'
-import parameterTypes from '../../acceptance/parameter-types/parameter-types'
-import rules from '../../acceptance/rules/rules'
-import stacktTraces from '../../acceptance/stack-traces/stack-traces'
-import unknownParameterTypes from '../../acceptance/unknown-parameter-type/unknown-parameter-type'
+import attachments from '../../acceptance/attachments/attachments.feature'
+import dataTables from '../../acceptance/data-tables/data-tables.feature'
+import examplesTables from '../../acceptance/examples-tables/examples-tables.feature'
+import hooks from '../../acceptance/hooks/hooks.feature'
+import markdown from '../../acceptance/markdown/markdown.md'
+import minimal from '../../acceptance/minimal/minimal.feature'
+import parameterTypes from '../../acceptance/parameter-types/parameter-types.feature'
+import rules from '../../acceptance/rules/rules.feature'
+import stacktTraces from '../../acceptance/stack-traces/stack-traces.feature'
+import unknownParameterTypes from '../../acceptance/unknown-parameter-type/unknown-parameter-type.feature'
 import Theme, { IncludedTheme } from '../components/customise/Theme'
 
 export default {
@@ -75,6 +76,11 @@ ExamplesTables.args = {
 export const Hooks = Template.bind({})
 Hooks.args = {
   envelopes: hooks,
+}
+
+export const Markdown = Template.bind({})
+Markdown.args = {
+  envelopes: markdown,
 }
 
 export const Minimal = Template.bind({})

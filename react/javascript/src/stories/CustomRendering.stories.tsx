@@ -11,7 +11,7 @@ import { EnvelopesQuery } from '../EnvelopesQueryContext'
 import '../styles/styles.scss'
 import './custom-classes.scss'
 
-import attachments from '../../acceptance/attachments/attachments'
+import attachments from '../../acceptance/attachments/attachments.feature'
 import CustomRendering, {
   CustomRenderingSupport,
   DocStringProps,

@@ -51,7 +51,7 @@ public class Gherkin {
 
     public static Envelope makeSourceEnvelope(String data, String uri) {
         Envelope envelope = new Envelope();
-        envelope.setSource(new Source(uri, data, "text/x.cucumber.gherkin+plain"));
+        envelope.setSource(new Source(uri, data, Source.MediaType.TEXT_X_CUCUMBER_GHERKIN_PLAIN));
         return envelope;
     }
 
