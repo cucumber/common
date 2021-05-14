@@ -15,13 +15,13 @@
     "prepublishOnly": "tsc --build tsconfig.build.json"
   },
   "dependencies": {
-    "@cucumber/messages": "^15.0.0"
+    "@cucumber/messages": "15.0.0"
   },
   "devDependencies": {
-    "@types/mocha": "^8.2.2",
-    "@types/node": "^15.0.2",
-    "mocha": "^8.4.0",
-    "typescript": "^4.2.4"
+    "@types/mocha": "8.2.2",
+    "@types/node": "15.0.3",
+    "mocha": "8.4.0",
+    "typescript": "4.2.4"
   },
   "bugs": {
     "url": "https://github.com/cucumber/cucumber/issues"

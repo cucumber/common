@@ -31,11 +31,7 @@ pre-release: clean update-version update-dependencies default
 .PHONY: pre-release
 
 update-dependencies:
-	../../node_modules/.bin/npm-check-updates --upgrade && \
-	pushd ../.. && \
-	npm install && \
-	npm run build && \
-	popd
+	../../node_modules/.bin/npm-check-updates --upgrade
 .PHONY: update-dependencies
 
 update-version:
