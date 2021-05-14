@@ -3,9 +3,9 @@ import { GherkinException } from './Errors'
 
 export class UnexpectedTokenException extends GherkinException {
   public static create<TokenType>(token: IToken<TokenType>, expectedTokenTypes: string[]) {
-    const message = `expected: ${expectedTokenTypes.join(
-      ', '
-    )}, got '${token.getTokenValue().trim()}'`
+    const message = `expected: ${expectedTokenTypes.join(', ')}, got '${token
+      .getTokenValue()
+      .trim()}'`
 
     const location = tokenLocation(token)
 
