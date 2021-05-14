@@ -25,29 +25,6 @@ describe('Query', () => {
     cucumberQuery = new Query()
   })
 
-  describe('#getWorstTestStepResult(testStepResults)', () => {
-    it('returns a FAILED result for PASSED,FAILED,PASSED', () => {
-      const result = cucumberQuery.getWorstTestStepResult([
-        {
-          status: messages.TestStepResultStatus.PASSED,
-          duration: { seconds: 0, nanos: 0 },
-          willBeRetried: false,
-        },
-        {
-          status: messages.TestStepResultStatus.FAILED,
-          duration: { seconds: 0, nanos: 0 },
-          willBeRetried: false,
-        },
-        {
-          status: messages.TestStepResultStatus.PASSED,
-          duration: { seconds: 0, nanos: 0 },
-          willBeRetried: false,
-        },
-      ])
-      assert.strictEqual(result.status, messages.TestStepResultStatus.FAILED)
-    })
-  })
-
   describe('#getPickleStepTestStepResults(pickleStepIds)', () => {
     it('returns a single UNKNOWN when the list is empty', () => {
       const results = cucumberQuery.getPickleTestStepResults([])

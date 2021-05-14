@@ -24,6 +24,7 @@
   "scripts": {
     "build": "tsc --build tsconfig.build.json",
     "clean": "./scripts/npm-each rm -rf node_modules dist acceptance && rm -rf node_modules",
+    "clean-tsc": "./scripts/npm-each rm -rf dist",
     "test": "./scripts/npm-each npm test",
     "upgrade": "npm-check-updates --upgrade && ./scripts/npm-each npm-check-updates --upgrade",
     "eslint-fix": "eslint --ext ts,tsx --max-warnings 0 --fix */javascript",
