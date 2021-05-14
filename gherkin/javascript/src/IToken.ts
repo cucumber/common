@@ -1,14 +1,36 @@
 import * as messages from '@cucumber/messages'
-import GherkinLine from './GherkinLine'
+
+export interface IGherkinLine {
+  readonly lineNumber: number
+  readonly isEmpty: boolean
+  readonly indent?: number
+  readonly trimmedLineText: string
+
+  getTableCells(): readonly Item[]
+
+  startsWith(prefix: string): boolean
+
+  getRestTrimmed(length: number): string
+
+  getLineText(number: number): string
+
+  startsWithTitleKeyword(keyword: string): boolean
+}
+
+// Represents tags or table cells
+export type Item = {
+  column: number
+  text: string
+}
 
 export default interface IToken<TokenType> {
   location: messages.Location
-  line: GherkinLine
+  line: IGherkinLine
 
   isEof: boolean
   matchedText?: string
   matchedType: TokenType
-  matchedItems: GherkinLine[]
+  matchedItems: readonly Item[]
   matchedKeyword: string
   matchedIndent: number
   matchedGherkinDialect: string

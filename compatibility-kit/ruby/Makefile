@@ -4,13 +4,13 @@ CCK_PATH = ..
 
 CCK_FEATURES=$(call rwildcard,$(CCK_PATH)/javascript/features,*.feature)
 FEATURES=$(patsubst $(CCK_PATH)/javascript/%,%,$(CCK_FEATURES))
-NDJSON=$(patsubst %.feature,%.ndjson,$(FEATURES))
-SPEC=$(patsubst %.feature,%_spec.rb,$(FEATURES))
+NDJSON=$(patsubst %,%.ndjson,$(FEATURES))
+SPEC=$(patsubst %,%.rb,$(FEATURES))
 RUBY_FILES=$(call rwildcard,../lib ../../cucumber-ruby-core/lib/,*.rb)
 
-SELF_TESTED = $(patsubst %.feature,%.json.tested,$(FEATURES))
-JSONS=$(patsubst %.feature,%.json,$(FEATURES))
-GOLDEN_JSONS=$(patsubst %.feature,%-golden.json,$(FEATURES))
+SELF_TESTED = $(patsubst %,%.tested,$(FEATURES))
+JSONS=$(patsubst %,%.json,$(FEATURES))
+GOLDEN_JSONS=$(patsubst %,%-golden.json,$(FEATURES))
 
 CCK_JSON_TESTED=$(patsubst %.feature,%-cck.json.tested,$(FEATURES))
 CCK_JSONS=$(patsubst %.feature,%-cck.json,$(FEATURES))
@@ -72,7 +72,7 @@ self_tested: $(SELF_TESTED)
 		scripts/neutralize-json > $@
 
 %-golden.json: %.feature %_steps.rb Gemfile.lock $(RUBY_FILES) scripts/neutralize-json
-	-source ../ci_env && bundle exec cucumber $< --require $(patsubst %-golden.json,%_steps.rb,$@) --format=json  | \
+	-source ../ci_env && bundle exec cucumber $< --require $(patsubst %-golden.json,%.rb,$@) --format=json  | \
 		jq --sort-keys "." | \
 		scripts/neutralize-json > $@
 
@@ -81,7 +81,7 @@ self_tested: $(SELF_TESTED)
 ###############################################################################
 
 %.ndjson: %.feature %_steps.rb Gemfile.lock $(RUBY_FILES)
-	-source ../ci_env && bundle exec cucumber $< --require $(patsubst %.ndjson,%_steps.rb,$@) --format=message > $@
+	-source ../ci_env && bundle exec cucumber $< --require $(patsubst %.ndjson,%.rb,$@) --format=message > $@
 
 %.feature:
 	mkdir -p $(@D)

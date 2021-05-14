@@ -42,4 +42,9 @@ if [ ! -z "${upload_url}" ]; then
   curl -X PUT "${upload_url}" --upload-file "$1"
 fi
 # Only print the banner which starts with a "┌" character
-echo "${response}" | sed -n '/┌/,$p'
+banner=$(echo "${response}" | sed -n '/┌/,$p')
+if [ -z "${banner}" ]; then
+  echo "${response}"
+else
+  echo "${banner}"
+fi

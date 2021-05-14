@@ -1,16 +1,31 @@
-import Parser from './Parser'
-import TokenMatcher from './TokenMatcher'
+import Parser, { TokenType } from './Parser'
+import GherkinClassicTokenMatcher from './GherkinClassicTokenMatcher'
 import * as messages from '@cucumber/messages'
 import compile from './pickles/compile'
 import AstBuilder from './AstBuilder'
 import IGherkinOptions from './IGherkinOptions'
 import makeSourceEnvelope from './makeSourceEnvelope'
+import ITokenMatcher from './ITokenMatcher'
+import GherkinInMarkdownTokenMatcher from './GherkinInMarkdownTokenMatcher'
 
 export default function generateMessages(
   data: string,
   uri: string,
+  mediaType: messages.SourceMediaType,
   options: IGherkinOptions
 ): readonly messages.Envelope[] {
+  let tokenMatcher: ITokenMatcher<TokenType>
+  switch (mediaType) {
+    case messages.SourceMediaType.TEXT_X_CUCUMBER_GHERKIN_PLAIN:
+      tokenMatcher = new GherkinClassicTokenMatcher(options.defaultDialect)
+      break
+    case messages.SourceMediaType.TEXT_X_CUCUMBER_GHERKIN_MARKDOWN:
+      tokenMatcher = new GherkinInMarkdownTokenMatcher(options.defaultDialect)
+      break
+    default:
+      throw new Error(`Unsupported media type: ${mediaType}`)
+  }
+
   const result = []
 
   try {
@@ -22,11 +37,9 @@ export default function generateMessages(
       return result
     }
 
-    const parser = new Parser(
-      new AstBuilder(options.newId),
-      new TokenMatcher(options.defaultDialect)
-    )
+    const parser = new Parser(new AstBuilder(options.newId), tokenMatcher)
     parser.stopAtFirstError = false
+
     const gherkinDocument = parser.parse(data)
 
     if (options.includeGherkinDocument) {
