@@ -10,6 +10,8 @@ export default function hidePassedScenarios(
   gherkinQuery: GherkinQuery
 ): readonly IGherkinDocument[] {
   return documents.filter(
-    (document) => getFeatureStatus(document, cucumberQuery, gherkinQuery) != 'PASSED'
+    (document) =>
+      getFeatureStatus(document, cucumberQuery, gherkinQuery) !=
+      messages.TestStepResultStatus.PASSED
   )
 }

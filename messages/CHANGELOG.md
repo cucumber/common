@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * [Ruby] The generated code is added to Git.
   ([#1461](https://github.com/cucumber/cucumber/pull/1461)
    [aslakhellesoy])
+* [JavaScript] Added `getWorstTestStepResult` function (moved from `@cucumber/query`)
 
 ### Changed
 
