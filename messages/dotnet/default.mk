@@ -1,3 +1,7 @@
+# Please update /.templates/dotnet/default.mk and sync:
+#
+#     source scripts/functions.sh && rsync_files
+#
 SHELL := /usr/bin/env bash
 ALPINE := $(shell which apk 2> /dev/null)
 SLN_FILES = $(shell find . -name "*.sln")
@@ -26,7 +30,7 @@ else
 endif
 
 .built: $(SLN_FILES) $(CSPROJ_FILES) $(CSHARP_SOURCE_FILES) .generated
-	dotnet build -bl -c Release -p:SnapshotSuffix="$(SNAPSHOT_SUFFIX)"
+	dotnet build -c Release -p:SnapshotSuffix="$(SNAPSHOT_SUFFIX)"
 	touch $@
 
 .generated:
@@ -37,14 +41,13 @@ endif
 	touch $@
 
 .packed: .tested
-	dotnet pack -c Release -p:SnapshotSuffix="$(SNAPSHOT_SUFFIX)"
 	touch $@
 
 # Define SNAPSHOT_SUFFIX to make pre-release: export SNAPSHOT_SUFFIX=beta-1 make publish
 publish: .packed
 ifdef NUGET_API_KEY
 	# https://circleci.com/gh/cucumber/cucumber/edit#env-vars
-	@dotnet nuget push --source https://api.nuget.org/v3/index.json --api-key "${NUGET_API_KEY}" $(shell find GeneratedNuGetPackages/Release -name "*.$(NEW_VERSION).nupkg")
+	@dotnet nuget push --source https://api.nuget.org/v3/index.json --api-key "${NUGET_API_KEY}" $(shell find */bin/Release/NuGet -name "*.$(NEW_VERSION).nupkg")
 else
 	@echo -e "\033[0;31mNUGET_API_KEY is not defined. Can't publish :-(\033[0m"
 	exit 1
@@ -59,4 +62,6 @@ clean: clean-dotnet
 
 clean-dotnet:
 	rm -rf .generated .tested .built .packed GeneratedNuGetPackages
+	rm -rf */bin
+	rm -rf */obj
 .PHONY: clean-dotnet
