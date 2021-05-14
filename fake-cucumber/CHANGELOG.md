@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 * The `TestRunFinished` message now has `success` set to `false` if there was a step with
   status `AMBIGUOUS`, `FAILED` or `UNDEFINED`.
+* After hooks are executed in reverse order of definition.
 
 ## [11.0.0] - 2021-03-29
 

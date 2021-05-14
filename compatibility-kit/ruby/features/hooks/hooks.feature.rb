@@ -15,14 +15,14 @@ When('a step throws an exception') do
   raise StandardError, 'Exception in step'
 end
 
-After('@with-attachment') do
-  attach_or_embed(self, File.open("#{__dir__}/cucumber.svg"), 'image/svg+xml')
-end
-
 After do
   raise StandardError, 'Exception in hook'
 end
 
 After('@some-tag or @some-other-tag') do
   raise StandardError, 'Exception in conditional hook'
+end
+
+After('@with-attachment') do
+  attach_or_embed(self, File.open("#{__dir__}/cucumber.svg"), 'image/svg+xml')
 end
