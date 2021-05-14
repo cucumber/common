@@ -1,6 +1,7 @@
 import { EnvelopeListener, ITestCase, ITestStep, IWorld } from './types'
 import * as messages from '@cucumber/messages'
 import IClock from './IClock'
+import { Query } from '@cucumber/query'
 
 const { millisecondsSinceEpochToTimestamp } = messages.TimeConversion
 
@@ -32,7 +33,7 @@ export default class TestCase implements ITestCase {
     listener: EnvelopeListener,
     attempt: number,
     testCaseStartedId: string
-  ): Promise<void> {
+  ): Promise<messages.TestStepResultStatus> {
     listener({
       testCaseStarted: {
         attempt,
@@ -51,16 +52,18 @@ export default class TestCase implements ITestCase {
       },
     }
 
+    let testStepResults: messages.TestStepResult[] = []
     let executeNext = true
     for (const testStep of this.testSteps) {
       let testStepResult: messages.TestStepResult
       // TODO: Also ask testStep if it should always execute (true for After steps)
       if (executeNext || testStep.alwaysExecute) {
         testStepResult = await testStep.execute(world, testCaseStartedId, listener)
-        executeNext = testStepResult.status === 'PASSED'
+        executeNext = testStepResult.status === messages.TestStepResultStatus.PASSED
       } else {
         testStepResult = testStep.skip(listener, testCaseStartedId)
       }
+      testStepResults.push(testStepResult)
     }
 
     listener({
@@ -69,5 +72,8 @@ export default class TestCase implements ITestCase {
         timestamp: millisecondsSinceEpochToTimestamp(this.clock.clockNow()),
       },
     })
+
+    const finalStepResult = new Query().getWorstTestStepResult(testStepResults)
+    return finalStepResult.status
   }
 }

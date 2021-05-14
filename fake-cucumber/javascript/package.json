@@ -48,6 +48,7 @@
     "@cucumber/messages": "15.0.0",
     "@cucumber/message-streams": "1.0.0",
     "@cucumber/tag-expressions": "3.0.1",
+    "@cucumber/query": "9.0.2",
     "@types/stack-utils": "2.0.0",
     "commander": "7.2.0",
     "glob": "7.1.7",

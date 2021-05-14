@@ -1,4 +1,4 @@
-import { EnvelopeListener, ITestCase, ITestPlan } from './types'
+import {EnvelopeListener, ITestCase, ITestPlan} from './types'
 import * as messages from '@cucumber/messages'
 import SupportCode from './SupportCode'
 
@@ -32,18 +32,30 @@ export default class TestPlan implements ITestPlan {
     for (const testCase of this.testCases) {
       listener(testCase.toMessage())
     }
+    let success = true
     // TODO: By using Promise.all here we could execute in parallel
     for (const testCase of this.testCases) {
-      await testCase.execute(listener, 0, this.supportCode.newId())
+      const testStepResultStatus = await testCase.execute(listener, 0, this.supportCode.newId())
+      if(shouldCauseFailure(testStepResultStatus)) {
+        success = false
+      }
     }
     listener({
       testRunFinished: {
         timestamp: messages.TimeConversion.millisecondsSinceEpochToTimestamp(
           this.supportCode.clock.clockNow()
         ),
-        // TODO: capture success from execution
-        success: true,
+        success,
       },
     })
   }
+}
+
+function shouldCauseFailure(status: messages.TestStepResultStatus): boolean {
+  const failureStatuses: messages.TestStepResultStatus[] = [
+    messages.TestStepResultStatus.AMBIGUOUS,
+    messages.TestStepResultStatus.FAILED,
+    messages.TestStepResultStatus.UNDEFINED,
+  ]
+  return failureStatuses.includes(status)
 }
