@@ -103,4 +103,16 @@ The rendered HTML contains the original contents from the Markdown file, with
 steps and scenarios coloured according to the results from the message stream.
 It also renders attachments from Cucumber (screenshots, videos, logs etc).
 
-[^1]: Support for MDG is currently only supported in the [@cucumber/gherkin](../gherkin/javascript) (the JavaScript implementation), version `19.0.0` and above. The Cucumber team will gather feedback from users of [@cucumber/cucumber](https://www.npmjs.com/package/@cucumber/cucumber) before porting mdg to other programming languages.
+## Some notes about parsing MDG
+
+The same `Parser` class is used to parse Gherkin Classic documents and MDG documents, but
+they use a different `TokenMatcher` (scanner/lexer).
+
+The `GherkinInMarkdownTokenMatcher` will consider *all* lines that aren't recognised as a
+special token as *Empty*. The reason for this is that Markdown documents will typically
+have lines that have nothing to do with Gherkin - they are just prose.
+
+For this reason, the `GherkinDocument` AST will have *empty description properties*. This means
+that the JSON formatter will not include a `description` property for scenarios.
+
+[^1]: Support for MDG is currently only supported in the [@cucumber/gherkin](../gherkin/javascript) (the JavaScript implementation), version `19.0.0` and above. The Cucumber team will gather feedback from users of [@cucumber/cucumber](https://www.npmjs.com/package/@cucumber/cucumber) before porting MDG to other programming languages.
