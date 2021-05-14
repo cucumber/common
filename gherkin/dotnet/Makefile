@@ -2,7 +2,7 @@ include default.mk
 
 # this will go to default.mk
 .berp_restored:
-	@echo "TODO: restoring berp"
+	dotnet tool install --global Berp --version 1.3.0-pre20210514-1
 	touch $@
 
 GOOD_FEATURE_FILES = $(shell find testdata/good -name "*.feature")
@@ -21,7 +21,7 @@ default: .compared
 .deps: Gherkin/Parser.cs
 
 Gherkin/Parser.cs: .berp_restored gherkin.berp gherkin-csharp.razor
-	dotnet /berp/Berp.dll -g gherkin.berp -t gherkin-csharp.razor -o $@
+	dotnet berp -g gherkin.berp -t gherkin-csharp.razor -o $@
 
 .compared: $(TOKENS) $(ASTS) $(PICKLES) $(SOURCES) $(ERRORS)
 	touch $@
