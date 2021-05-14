@@ -6,7 +6,6 @@ import { millisecondsToDuration } from './TimeConversion'
  * @param testStepResults
  */
 export function getWorstTestStepResult(testStepResults: readonly TestStepResult[]): TestStepResult {
-  // throw new Error('Uncomment code below and fix it')
   return (
     testStepResults.slice().sort((r1, r2) => ordinal(r2.status) - ordinal(r1.status))[0] || {
       status: TestStepResultStatus.UNKNOWN,

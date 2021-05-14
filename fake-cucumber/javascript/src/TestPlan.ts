@@ -18,7 +18,7 @@ export default class TestPlan implements ITestPlan {
     for (const hook of this.supportCode.beforeHooks) {
       listener(hook.toMessage())
     }
-    for (const hook of this.supportCode.afterHooks.reverse()) {
+    for (const hook of this.supportCode.afterHooks) {
       listener(hook.toMessage())
     }
 
