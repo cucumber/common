@@ -23,16 +23,16 @@
   },
   "homepage": "https://github.com/cucumber/gherkin-javascript",
   "devDependencies": {
-    "@types/mocha": "^8.2.2",
-    "@types/node": "^15.0.1",
-    "core-js": "^3.11.1",
+    "@types/mocha": "8.2.2",
+    "@types/node": "15.0.1",
+    "core-js": "3.11.1",
     "mocha": "8.3.2",
-    "ts-node": "^9.1.1",
-    "typescript": "^4.2.4"
+    "ts-node": "9.1.1",
+    "typescript": "4.2.4"
   },
   "dependencies": {
-    "@cucumber/messages": "^15.0.0",
-    "@cucumber/message-streams": "^1.0.0"
+    "@cucumber/messages": "15.0.0",
+    "@cucumber/message-streams": "1.0.0"
   },
   "directories": {
     "test": "test"
