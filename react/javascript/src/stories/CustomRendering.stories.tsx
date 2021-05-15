@@ -50,7 +50,7 @@ export const Themes = Template.bind({})
 Themes.args = {
   envelopes: attachments,
   support: {},
-  theme: 'dark'
+  theme: 'dark',
 }
 
 export const Classes = Template.bind({})

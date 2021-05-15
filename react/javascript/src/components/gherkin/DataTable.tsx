@@ -10,18 +10,15 @@ const TableBody: React.FunctionComponent<{
 }> = ({ rows }) => {
   return (
     <tbody>
-    {rows.map((row, i) => (
-      <tr key={i}>
-        {(row.cells || []).map((cell, j) => (
-          <td
-            key={j}
-            style={{ textAlign: isNumber(cell.value) ? 'right' : 'left' }}
-          >
-            <HighLight text={cell.value} />
-          </td>
-        ))}
-      </tr>
-    ))}
+      {rows.map((row, i) => (
+        <tr key={i}>
+          {(row.cells || []).map((cell, j) => (
+            <td key={j} style={{ textAlign: isNumber(cell.value) ? 'right' : 'left' }}>
+              <HighLight text={cell.value} />
+            </td>
+          ))}
+        </tr>
+      ))}
     </tbody>
   )
 }
@@ -29,7 +26,7 @@ const TableBody: React.FunctionComponent<{
 const DataTable: React.FunctionComponent<DataTableProps> = ({ dataTable }) => {
   const { DataTable: Custom } = useContext(CustomRenderingContext)
   if (typeof Custom === 'function') {
-    return <Custom dataTable={dataTable}/>
+    return <Custom dataTable={dataTable} />
   }
   const composedStyles = mixinStyles(styles, Custom)
   return (

@@ -8,27 +8,29 @@ import UriContext from '../../UriContext'
 import StatusIcon from './StatusIcon'
 import isNumber from './isNumber'
 import ErrorMessage from './ErrorMessage'
-import { CustomRenderingContext, ExamplesTableProps, mixinStyles } from '../customise/CustomRendering'
+import {
+  CustomRenderingContext,
+  ExamplesTableProps,
+  mixinStyles,
+} from '../customise/CustomRendering'
 
 const ExamplesTable: React.FunctionComponent<ExamplesTableProps> = ({ tableHeader, tableBody }) => {
   const { ExamplesTable: Custom } = useContext(CustomRenderingContext)
   if (typeof Custom === 'function') {
-    return <Custom tableHeader={tableHeader} tableBody={tableBody}/>
+    return <Custom tableHeader={tableHeader} tableBody={tableBody} />
   }
   const composedStyles = mixinStyles(styles, Custom)
   return (
     <table className={composedStyles.examplesTable}>
       <thead>
-      <tr>
-        <th>&nbsp;</th>
-        {tableHeader.cells.map((cell, j) => (
-          <th key={j}>
-            {cell.value}
-          </th>
-        ))}
-      </tr>
+        <tr>
+          <th>&nbsp;</th>
+          {tableHeader.cells.map((cell, j) => (
+            <th key={j}>{cell.value}</th>
+          ))}
+        </tr>
       </thead>
-      <ExamplesTableBody rows={tableBody || []} detailClass={composedStyles.detailRow}/>
+      <ExamplesTableBody rows={tableBody || []} detailClass={composedStyles.detailRow} />
     </table>
   )
 }
@@ -39,9 +41,9 @@ const ExamplesTableBody: React.FunctionComponent<{
 }> = ({ rows, detailClass }) => {
   return (
     <tbody>
-    {rows.map((row, i) => (
-      <RowOrRows row={row} key={i} detailClass={detailClass}/>
-    ))}
+      {rows.map((row, i) => (
+        <RowOrRows row={row} key={i} detailClass={detailClass} />
+      ))}
     </tbody>
   )
 }
@@ -55,7 +57,7 @@ const RowOrRows: React.FunctionComponent<{
   const uri = React.useContext(UriContext)
 
   const testStepResult = getWorstTestStepResult(
-    cucumberQuery.getPickleTestStepResults(gherkinQuery.getPickleIds(uri, row.id)),
+    cucumberQuery.getPickleTestStepResults(gherkinQuery.getPickleIds(uri, row.id))
   )
   return (
     <>
@@ -64,15 +66,17 @@ const RowOrRows: React.FunctionComponent<{
           <StatusIcon status={testStepResult.status} />
         </td>
         {row.cells.map((cell, j) => (
-          <td
-            key={j}
-            style={{ textAlign: isNumber(cell.value) ? 'right' : 'left' }}
-          >
+          <td key={j} style={{ textAlign: isNumber(cell.value) ? 'right' : 'left' }}>
             {cell.value}
           </td>
         ))}
       </tr>
-      <ErrorMessageRow key='row-error' className={detailClass} testStepResult={testStepResult} colSpan={row.cells.length} />
+      <ErrorMessageRow
+        key="row-error"
+        className={detailClass}
+        testStepResult={testStepResult}
+        colSpan={row.cells.length}
+      />
     </>
   )
 }

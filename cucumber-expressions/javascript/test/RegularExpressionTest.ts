@@ -60,8 +60,7 @@ describe('RegularExpression', () => {
   })
 
   it('matches capture group nested in optional one', () => {
-    const regexp =
-      /^a (pre-commercial transaction |pre buyer fee model )?purchase(?: for \$(\d+))?$/
+    const regexp = /^a (pre-commercial transaction |pre buyer fee model )?purchase(?: for \$(\d+))?$/
     assert.deepStrictEqual(match(regexp, 'a purchase'), [null, null])
     assert.deepStrictEqual(match(regexp, 'a purchase for $33'), [null, 33])
     assert.deepStrictEqual(match(regexp, 'a pre buyer fee model purchase'), [

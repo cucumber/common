@@ -1,6 +1,10 @@
 import React, { useContext } from 'react'
 import styles from './ErrorMessage.module.scss'
-import { CustomRenderingContext, ErrorMessageProps, mixinStyles } from '../customise/CustomRendering'
+import {
+  CustomRenderingContext,
+  ErrorMessageProps,
+  mixinStyles,
+} from '../customise/CustomRendering'
 
 const ErrorMessage: React.FunctionComponent<ErrorMessageProps> = ({ message }) => {
   // TODO add a hook for this to reduce boilerplate
