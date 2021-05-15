@@ -13,11 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
-### Deprecated
-
-### Removed
-
-### Fixed
+* Upgrade to messages 16.0.0
 
 ## [4.0.0] - 2021-03-29
 
