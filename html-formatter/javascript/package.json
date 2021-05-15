@@ -18,13 +18,13 @@
     "prepublishOnly": "tsc --build tsconfig.build.json"
   },
   "dependencies": {
-    "@cucumber/messages": "^16.0.0",
+    "@cucumber/messages": "16.0.0",
     "commander": "7.2.0",
     "source-map-support": "0.5.19"
   },
   "devDependencies": {
     "@babel/core": "7.14.2",
-    "@cucumber/gherkin-streams": "1.0.0",
+    "@cucumber/gherkin-streams": "2.0.0",
     "@cucumber/gherkin-utils": "4.0.0",
     "@cucumber/message-streams": "1.0.0",
     "@cucumber/query": "9.0.2",

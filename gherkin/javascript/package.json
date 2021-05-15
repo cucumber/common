@@ -31,7 +31,7 @@
     "typescript": "4.2.4"
   },
   "dependencies": {
-    "@cucumber/messages": "^16.0.0",
+    "@cucumber/messages": "16.0.0",
     "@cucumber/message-streams": "1.0.0"
   },
   "directories": {
