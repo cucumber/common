@@ -12,7 +12,7 @@ executors:
   # the build nodes (faster builds).
   docker-cucumber-build:
     docker:
-      - image: cucumber/cucumber-build:0.1.0
+      - image: cucumber/cucumber-build:0.3.0
     working_directory: ~/cucumber
     environment:
       # nvm, node and npm are installed locally rather globally.
@@ -88,7 +88,7 @@ jobs:
     steps:
       - checkout
       - run:
-          name: npm ci
+          name: npm ci && npm run build
           # We run `npm run build` (`tsc`) as well because it is needed to
           # make storybook work. Our storybook setup is not (yet) able to
           # pick up .ts files - all code needs to be transpiled first.
@@ -721,6 +721,17 @@ jobs:
             cd messages/dotnet
             make
 
+  gherkin-dotnet:
+    executor: docker-cucumber-build
+    steps:
+      - attach_workspace:
+          at: "~/cucumber"
+      - run:
+          name: gherkin/dotnet
+          command: |
+            cd gherkin/dotnet
+            make
+
 ### Python
 
   tag-expressions-python:
@@ -1011,6 +1022,10 @@ workflows:
 ### .NET
 
       - messages-dotnet:
+          requires:
+            - prepare-parallel
+
+      - gherkin-dotnet:
           requires:
             - prepare-parallel
 

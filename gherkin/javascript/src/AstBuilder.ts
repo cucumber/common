@@ -120,9 +120,10 @@ export default class AstBuilder implements IAstBuilder<AstNode, TokenType, RuleT
         const dataTable = node.getSingle(RuleType.DataTable)
         const docString = node.getSingle(RuleType.DocString)
 
+        const location = this.getLocation(stepLine)
         const step: messages.Step = {
           id: this.newId(),
-          location: this.getLocation(stepLine),
+          location,
           keyword: stepLine.matchedKeyword,
           text: stepLine.matchedText,
           dataTable: dataTable,
@@ -140,7 +141,7 @@ export default class AstBuilder implements IAstBuilder<AstNode, TokenType, RuleT
         const result: messages.DocString = {
           location: this.getLocation(separatorToken),
           content,
-          delimiter: separatorToken.line.trimmedLineText.substring(0, 3),
+          delimiter: separatorToken.matchedKeyword,
         }
         // conditionally add this like this (needed to make tests pass on node 0.10 as well as 4.0)
         if (mediaType) {

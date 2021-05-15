@@ -10,7 +10,7 @@ namespace Gherkin.Specs.Helper
         {
             get 
             { 
-                var inputFolder = Path.GetDirectoryName(new Uri(typeof(TestFolders).GetTypeInfo().Assembly.CodeBase).LocalPath);
+                var inputFolder = Path.GetDirectoryName(typeof(TestFolders).GetTypeInfo().Assembly.Location);
 
                 inputFolder = Path.Combine(inputFolder, "..");                
 

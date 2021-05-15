@@ -9,13 +9,15 @@ declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace NodeJS {
     interface Global {
+      // @ts-ignore
       supportCode: SupportCode
     }
   }
 }
 
-function setSupportCode(setSupportCode: SupportCode) {
-  global.supportCode = setSupportCode
+function setSupportCode(supportCode: SupportCode) {
+  // @ts-ignore
+  global.supportCode = supportCode
 }
 
 function defineStepDefinition(expression: string | RegExp, body: AnyBody) {

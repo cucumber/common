@@ -1675,7 +1675,7 @@
     "name": "Hungarian",
     "native": "magyar",
     "rule": [
-      "Rule"
+      "Szabály"
     ],
     "scenario": [
       "Példa",
@@ -2741,7 +2741,8 @@
       "Сценарий"
     ],
     "scenarioOutline": [
-      "Структура сценария"
+      "Структура сценария",
+      "Шаблон сценария"
     ],
     "then": [
       "* ",

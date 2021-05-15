@@ -1,5 +1,5 @@
 SHELL := /usr/bin/env bash
-BUILD_CONTAINER ?= cucumber/cucumber-build:0.1.0
+BUILD_CONTAINER ?= cucumber/cucumber-build:0.3.0
 PACKAGES ?= messages \
 	message-streams \
 	gherkin \
@@ -19,13 +19,8 @@ PACKAGES ?= messages \
 	demo-formatter \
 	json-to-messages
 
-default: .rsynced .typescript-built $(patsubst %,default-%,$(PACKAGES))
+default: .rsynced $(patsubst %,default-%,$(PACKAGES))
 .PHONY: default
-
-.typescript-built:
-	npm ci
-	npm run build
-.PHONY: .typescript-built
 
 default-%: %
 	cd $< && make default

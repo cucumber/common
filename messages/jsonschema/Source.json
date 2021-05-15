@@ -18,7 +18,11 @@
     },
     "mediaType": {
       "description": "The media type of the file. Can be used to specify custom types, such as\n text/x.cucumber.gherkin+plain",
-      "type": "string"
+      "type": "string",
+      "enum": [
+        "text/x.cucumber.gherkin+plain",
+        "text/x.cucumber.gherkin+markdown"
+      ]
     }
   },
   "type": "object"

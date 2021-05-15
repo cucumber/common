@@ -9,21 +9,28 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
-* [Ruby] The generated code is added to Git.
-  ([#1461](https://github.com/cucumber/cucumber/pull/1461)
-   [aslakhellesoy])
-
 ### Changed
-
-* [Go, Java, JavaScript, Ruby] The library no longer depends on protocol buffers.
-  ([#1414](https://github.com/cucumber/cucumber/pull/1414)
-   [aslakhellesoy])
 
 ### Deprecated
 
 ### Removed
 
 ### Fixed
+
+## [16.0.0] - 2021-05-15
+
+### Added
+
+* [Ruby] The generated code is added to Git.
+  ([#1461](https://github.com/cucumber/cucumber/pull/1461)
+   [aslakhellesoy])
+* [JavaScript] Added `getWorstTestStepResult` function (moved from `@cucumber/query`)
+
+### Changed
+
+* [Go, Java, JavaScript, Ruby] The library no longer depends on protocol buffers.
+  ([#1414](https://github.com/cucumber/cucumber/pull/1414)
+   [aslakhellesoy])
 
 ## [15.0.0] - 2021-03-23
 
@@ -511,7 +518,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Protobuf messages for Go, Java, JavaScript, TypeScript and Ruby
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/messages/v15.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/messages/v16.0.0...master
+[16.0.0]:      https://github.com/cucumber/cucumber/compare/messages/v15.0.0...messages/v16.0.0
 [15.0.0]:      https://github.com/cucumber/cucumber/compare/messages/v14.1.2...messages/v15.0.0
 [14.1.2]:      https://github.com/cucumber/cucumber/compare/messages/v14.0.1...messages/v14.1.2
 [14.1.1]:      https://github.com/cucumber/cucumber/compare/messages/v14.1.0...messages/v14.1.1

@@ -4,6 +4,7 @@ import CucumberQueryContext from '../../CucumberQueryContext'
 import ErrorMessage from './ErrorMessage'
 import StepContainer from './StepContainer'
 import Attachment from './Attachment'
+import { getWorstTestStepResult } from '@cucumber/messages'
 
 interface IProps {
   step: messages.TestStep
@@ -12,7 +13,7 @@ interface IProps {
 const HookStep: React.FunctionComponent<IProps> = ({ step }) => {
   const cucumberQuery = React.useContext(CucumberQueryContext)
 
-  const stepResult = cucumberQuery.getWorstTestStepResult(cucumberQuery.getTestStepResults(step.id))
+  const stepResult = getWorstTestStepResult(cucumberQuery.getTestStepResults(step.id))
 
   const hook = cucumberQuery.getHook(step.hookId)
   const attachments = cucumberQuery.getTestStepsAttachments([step.id])

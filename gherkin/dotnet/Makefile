@@ -44,20 +44,20 @@ acceptance/testdata/%.feature.ast.ndjson: testdata/%.feature testdata/%.feature.
 	bin/gherkin --no-source --no-pickles $< | jq --sort-keys --compact-output "." > $@
 	diff --unified <(jq "." $<.ast.ndjson) <(jq "." $@)
 
-#acceptance/testdata/%.feature.pickles.ndjson: testdata/%.feature testdata/%.feature.pickles.ndjson
-#	mkdir -p $(@D)
-#	bin/gherkin --no-source --no-ast $< | jq --sort-keys --compact-output "." > $@
-#	diff --unified <(jq "." $<.pickles.ndjson) <(jq "." $@)
+acceptance/testdata/%.feature.pickles.ndjson: testdata/%.feature testdata/%.feature.pickles.ndjson
+	mkdir -p $(@D)
+	bin/gherkin --no-source --no-ast $< | jq --sort-keys --compact-output "." > $@
+	diff --unified <(jq "." $<.pickles.ndjson) <(jq "." $@)
 
-#acceptance/testdata/%.feature.source.ndjson: testdata/%.feature testdata/%.feature.source.ndjson
-#	mkdir -p $(@D)
-#	bin/gherkin --no-ast --no-pickles $< | jq --sort-keys --compact-output "." > $@
-#	diff --unified <(jq "." $<.source.ndjson) <(jq "." $@)
+acceptance/testdata/%.feature.source.ndjson: testdata/%.feature testdata/%.feature.source.ndjson
+	mkdir -p $(@D)
+	bin/gherkin --no-ast --no-pickles $< | jq --sort-keys --compact-output "." > $@
+	diff --unified <(jq "." $<.source.ndjson) <(jq "." $@)
 
-#acceptance/testdata/%.feature.errors.ndjson: testdata/%.feature testdata/%.feature.errors.ndjson
-#	mkdir -p $(@D)
-#	bin/gherkin --no-source $< | jq --sort-keys --compact-output "." > $@
-#	diff --unified <(jq "." $<.errors.ndjson) <(jq "." $@)
+acceptance/testdata/%.feature.errors.ndjson: testdata/%.feature testdata/%.feature.errors.ndjson
+	mkdir -p $(@D)
+	bin/gherkin --no-source $< | jq --sort-keys --compact-output "." > $@
+	diff --unified <(jq "." $<.errors.ndjson) <(jq "." $@)
 
 clean:
 	rm -rf .compared .built .run_tests acceptance .sln_built_debug
@@ -83,6 +83,5 @@ Gherkin/Parser.cs: gherkin.berp gherkin-csharp.razor
 
 .run_tests:
 
-	# removed tests (were failing, replaced by standard make-based comparisons)
-	#cd Gherkin.Specs; dotnet test
+	cd Gherkin.Specs; dotnet test
 	touch $@
