@@ -16,9 +16,14 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
   ([#511](https://github.com/cucumber/cucumber/pull/1511)
    [gasparnagy])   
 
+* Update Dutch translation of the "Rule" keyword.
+  ([#1513](https://github.com/cucumber/common/pull/1513)
+   [OrhanTozan])
+
 * Update Russian translation of the "Scenario Outline" keyword.
   ([#1499](https://github.com/cucumber/cucumber/pull/1499)
    [hkosova])
+
 * Update Hungarian translation of the "Rule" keyword.
   ([#1518](https://github.com/cucumber/cucumber/pull/1518)
    [gasparnagy])
@@ -1041,11 +1046,12 @@ to Gherkin 2.
 [moreau-nicolas]:    https://github.com/moreau-nicolas
 [mpkorstanje]:       https://github.com/mpkorstanje
 [nvmkpk]:            https://github.com/nvmkpk
-[ookull]:            https://github.com/ookull
 [nalekberov]:        https://github.com/nalekberov
 [nixel2007]:         https://github.com/nixel2007
 [nikolovski]:        https://github.com/nikolovski
 [noisygerman]:       https://github.com/noisygerman
+[ookull]:            https://github.com/ookull
+[OrhanTozan]:        https://github.com/OrhanTozan
 [paigehf]:           https://github.com/paigehf
 [pjlsergeant]:       https://github.com/pjlsergeant
 [plavcik]:           https://github.com/plavcik
