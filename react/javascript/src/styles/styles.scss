@@ -14,14 +14,6 @@ $statusColors:
   "failed" #BB0000,
   "unknown" #B6BECB;
 
-@mixin padding-table-cell {
-  padding: .3em;
-}
-
-@mixin border-table-cell {
-  border: 1px solid $border-color;
-}
-
 .cucumber-react {
   @each $name, $color in $statusColors {
     .cucumber-status--#{$name} {
@@ -34,7 +26,6 @@ $statusColors:
     padding: 0;
     margin: 0;
   }
-  a { color: inherit; }
 
   .cucumber-title {
     margin-top: 0.3em;
@@ -87,12 +78,6 @@ $statusColors:
   .cucumber-code {
     padding: 0.25em;
     background-color: rgb(235, 235, 235);
-  }
-
-  .cucumber-error {
-    padding: 0.5em;
-    margin: 0;
-    overflow-x: auto;
   }
 
   .cucumber-no-documents {
