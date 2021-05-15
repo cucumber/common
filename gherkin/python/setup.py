@@ -2,7 +2,7 @@
 from distutils.core import setup
 setup(name="gherkin-official",
       packages=["gherkin", "gherkin.pickles", "gherkin.stream"],
-      version="18.1.1",
+      version="19.0.0",
       description="Gherkin parser (official, by Cucumber team)",
       long_description="Gherkin parser (official, by Cucumber team)",
       author="Cucumber Ltd and Björn Rasmusson",
