@@ -60,12 +60,21 @@ export interface GherkinDocumentListClasses {
   accordionPanel: string
 }
 
+export interface ErrorMessageProps {
+  message: string
+}
+
+export interface ErrorMessageClasses {
+  message: string
+}
+
 export interface CustomRenderingSupport {
   Keyword?: CustomRenderer<any, KeywordClasses>
   Parameter?: CustomRenderer<ParameterProps, ParameterClasses>
   DocString?: CustomRenderer<DocStringProps, DocStringClasses>
   Tags?: CustomRenderer<TagsProps, TagsClasses>
   GherkinDocumentList?: CustomRenderer<GherkinDocumentListProps, GherkinDocumentListClasses>
+  ErrorMessage?: CustomRenderer<ErrorMessageProps, ErrorMessageClasses>
 }
 
 export const CustomRenderingContext = React.createContext<CustomRenderingSupport>({})

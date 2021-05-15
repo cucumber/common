@@ -34,7 +34,6 @@ function image(attachment: messages.Attachment) {
   if (attachment.contentEncoding !== 'BASE64') {
     return (
       <ErrorMessage
-        className="cucumber-attachment"
         message={`Couldn't display ${attachment.mediaType} image because it wasn't base64 encoded`}
       />
     )
@@ -55,7 +54,6 @@ function video(attachment: messages.Attachment) {
   if (attachment.contentEncoding !== 'BASE64') {
     return (
       <ErrorMessage
-        className="cucumber-attachment"
         message={`Couldn't display ${attachment.mediaType} video because it wasn't base64 encoded`}
       />
     )
