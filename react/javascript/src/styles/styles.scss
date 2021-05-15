@@ -84,30 +84,6 @@ $statusColors:
     }
   }
 
-  .cucumber-table {
-    border-collapse: collapse;
-    margin-top: .5em;
-    margin-bottom: .5em;
-
-    &__header-cell {
-      @include border-table-cell;
-      @include padding-table-cell;
-    }
-
-    &__cell {
-      @include border-table-cell;
-      @include padding-table-cell;
-
-      &__status {
-        padding: 0.5em 3px 3px 3px;
-      }
-
-      &__step {
-        flex-grow: 1;
-      }
-    }
-  }
-
   .cucumber-code {
     padding: 0.25em;
     background-color: rgb(235, 235, 235);

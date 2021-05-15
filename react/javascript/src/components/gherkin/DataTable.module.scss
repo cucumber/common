@@ -1,13 +1,13 @@
 @import '../../styles/theming';
 
-.table {
+@mixin cucumber-table-style {
   border-collapse: collapse;
 
-  tr + tr {
-    border-top: 4px solid white;
+  tr {
+    border-top: 6px solid white;
   }
 
-  td {
+  th, td {
     padding: 0.4em 0.6em;
     border-width: 2px;
     border-style: solid;
@@ -17,3 +17,20 @@
     color: $parameterColor;
   }
 }
+
+.table {
+  @include cucumber-table-style;
+}
+
+.examplesTable {
+  @include cucumber-table-style;
+
+  th:first-child, td:first-child {
+    border-left: none;
+  }
+}
+
+.detailRow.detailRow {
+  border-top: none;
+}
+

@@ -47,6 +47,16 @@ export interface DataTableClasses {
   table: string
 }
 
+export interface ExamplesTableProps {
+  tableHeader: messages.TableRow
+  tableBody: readonly messages.TableRow[]
+}
+
+export interface ExamplesTableClasses {
+  examplesTable: string
+  exampleDetail: string
+}
+
 export interface TagsProps {
   tags: readonly messages.Tag[]
 }
@@ -80,7 +90,8 @@ export interface CustomRenderingSupport {
   Keyword?: CustomRenderer<any, KeywordClasses>
   Parameter?: CustomRenderer<ParameterProps, ParameterClasses>
   DocString?: CustomRenderer<DocStringProps, DocStringClasses>
-  DataTable?: CustomRenderer<any, any>
+  DataTable?: CustomRenderer<DataTableProps, DataTableClasses>
+  ExamplesTable?: CustomRenderer<ExamplesTableProps, ExamplesTableClasses>
   Tags?: CustomRenderer<TagsProps, TagsClasses>
   GherkinDocumentList?: CustomRenderer<GherkinDocumentListProps, GherkinDocumentListClasses>
   ErrorMessage?: CustomRenderer<ErrorMessageProps, ErrorMessageClasses>
