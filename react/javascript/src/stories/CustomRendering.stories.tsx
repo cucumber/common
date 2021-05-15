@@ -16,6 +16,7 @@ import CustomRendering, {
   CustomRenderingSupport,
   DocStringProps,
 } from '../components/customise/CustomRendering'
+import Theme from '../components/customise/Theme'
 
 export default {
   title: 'CustomRendering',
@@ -29,17 +30,27 @@ type Props = {
 }
 type TemplateArgs = {
   envelopes: readonly messages.Envelope[]
+  theme?: string
   support: CustomRenderingSupport
 }
 
-const Template: Story<TemplateArgs> = ({ envelopes, support }) => {
+const Template: Story<TemplateArgs> = ({ envelopes, theme, support }) => {
   return (
-    <CustomRendering support={support}>
-      <QueriesWrapper {...props(envelopes)}>
-        <GherkinDocumentList />
-      </QueriesWrapper>
-    </CustomRendering>
+    <Theme theme={theme}>
+      <CustomRendering support={support}>
+        <QueriesWrapper {...props(envelopes)}>
+          <GherkinDocumentList />
+        </QueriesWrapper>
+      </CustomRendering>
+    </Theme>
   )
+}
+
+export const Themes = Template.bind({})
+Themes.args = {
+  envelopes: attachments,
+  support: {},
+  theme: 'dark'
 }
 
 export const Classes = Template.bind({})

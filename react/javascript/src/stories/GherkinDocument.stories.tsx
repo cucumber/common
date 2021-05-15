@@ -21,20 +21,10 @@ import parameterTypes from '../../acceptance/parameter-types/parameter-types.fea
 import rules from '../../acceptance/rules/rules.feature'
 import stacktTraces from '../../acceptance/stack-traces/stack-traces.feature'
 import unknownParameterTypes from '../../acceptance/unknown-parameter-type/unknown-parameter-type.feature'
-import Theme, { IncludedTheme } from '../components/customise/Theme'
 
 export default {
   title: 'GherkinDocument',
   component: GherkinDocument,
-  argTypes: {
-    theme: {
-      control: {
-        type: 'inline-radio',
-        options: ['default', 'dark'],
-      },
-      defaultValue: 'default',
-    },
-  },
 } as Meta
 
 type Props = {
@@ -45,16 +35,13 @@ type Props = {
 
 type TemplateArgs = {
   envelopes: readonly messages.Envelope[]
-  theme?: IncludedTheme
 }
 
-const Template: Story<TemplateArgs> = ({ envelopes, theme }) => {
+const Template: Story<TemplateArgs> = ({ envelopes }) => {
   return (
-    <Theme theme={theme}>
-      <QueriesWrapper {...props(envelopes)}>
-        <GherkinDocumentList />
-      </QueriesWrapper>
-    </Theme>
+    <QueriesWrapper {...props(envelopes)}>
+      <GherkinDocumentList />
+    </QueriesWrapper>
   )
 }
 
