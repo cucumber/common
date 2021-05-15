@@ -108,21 +108,6 @@ $statusColors:
     }
   }
 
-  .cucumber-datatable {
-    tr + tr {
-      border-top: 4px solid white;
-    }
-
-    .cucumber-table__cell {
-      padding: 0.4em 0.6em;
-      border-top: none;
-      border-bottom: none;
-      border-width: 2px;
-      border-color: $keywordColor;
-      color: $parameterColor;
-    }
-  }
-
   .cucumber-code {
     padding: 0.25em;
     background-color: rgb(235, 235, 235);

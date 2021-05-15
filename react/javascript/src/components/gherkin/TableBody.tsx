@@ -14,7 +14,6 @@ const TableBody: React.FunctionComponent<IProps> = ({ rows }) => {
         <tr key={i}>
           {(row.cells || []).map((cell, j) => (
             <td
-              className="cucumber-table__cell"
               key={j}
               style={{ textAlign: isNumber(cell.value) ? 'right' : 'left' }}
             >

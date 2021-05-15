@@ -39,6 +39,14 @@ export interface DocStringClasses {
   docString: string
 }
 
+export interface DataTableProps {
+  dataTable: messages.DataTable
+}
+
+export interface DataTableClasses {
+  table: string
+}
+
 export interface TagsProps {
   tags: readonly messages.Tag[]
 }
@@ -72,6 +80,7 @@ export interface CustomRenderingSupport {
   Keyword?: CustomRenderer<any, KeywordClasses>
   Parameter?: CustomRenderer<ParameterProps, ParameterClasses>
   DocString?: CustomRenderer<DocStringProps, DocStringClasses>
+  DataTable?: CustomRenderer<any, any>
   Tags?: CustomRenderer<TagsProps, TagsClasses>
   GherkinDocumentList?: CustomRenderer<GherkinDocumentListProps, GherkinDocumentListClasses>
   ErrorMessage?: CustomRenderer<ErrorMessageProps, ErrorMessageClasses>

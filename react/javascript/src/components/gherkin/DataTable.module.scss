@@ -1,0 +1,19 @@
+@import '../../styles/theming';
+
+.table {
+  border-collapse: collapse;
+
+  tr + tr {
+    border-top: 4px solid white;
+  }
+
+  td {
+    padding: 0.4em 0.6em;
+    border-width: 2px;
+    border-style: solid;
+    border-top: none;
+    border-bottom: none;
+    border-color: $keywordColor;
+    color: $parameterColor;
+  }
+}
