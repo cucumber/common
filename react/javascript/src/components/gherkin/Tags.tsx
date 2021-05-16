@@ -1,16 +1,12 @@
 import React from 'react'
 import HighLight from '../app/HighLight'
-import {
-  TagsClasses,
-  TagsProps,
-  useCustomRendering,
-} from '../customise/CustomRendering'
+import { TagsClasses, TagsProps, useCustomRendering } from '../customise/CustomRendering'
 import styles from './Tags.module.scss'
 
 const Tags: React.FunctionComponent<TagsProps> = (props) => {
   const Customised = useCustomRendering<TagsProps, TagsClasses>('Tags', styles)
   if (typeof Customised === 'function') {
-    return <Customised {...props}/>
+    return <Customised {...props} />
   }
   return (
     <ul className={Customised.tags}>

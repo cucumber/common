@@ -17,9 +17,7 @@ import styles from './GherkinDocumentList.module.scss'
 
 const GherkinDocumentList: React.FunctionComponent<{
   gherkinDocuments?: ReadonlyArray<messages.GherkinDocument>
-}> = ({
-  gherkinDocuments,
-}) => {
+}> = ({ gherkinDocuments }) => {
   const gherkinQuery = React.useContext(GherkinQueryContext)
   const cucumberQuery = React.useContext(CucumberQueryContext)
 

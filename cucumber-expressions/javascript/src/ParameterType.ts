@@ -48,7 +48,7 @@ export default class ParameterType<T> {
     public readonly preferForRegexpMatch: boolean
   ) {
     if (transform === undefined) {
-      transform = (s) => (s as unknown) as T
+      transform = (s) => s as unknown as T
     }
     if (useForSnippets === undefined) {
       this.useForSnippets = true

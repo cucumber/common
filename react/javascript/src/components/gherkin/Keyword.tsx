@@ -1,9 +1,6 @@
 import React from 'react'
 import styles from './Keyword.module.scss'
-import {
-  KeywordClasses,
-  useCustomRendering,
-} from '../customise/CustomRendering'
+import { KeywordClasses, useCustomRendering } from '../customise/CustomRendering'
 
 const Keyword: React.FunctionComponent = ({ children }) => {
   const Customised = useCustomRendering<any, KeywordClasses>('Keyword', styles)

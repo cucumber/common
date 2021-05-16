@@ -15,9 +15,12 @@ import {
 } from '../customise/CustomRendering'
 
 const ExamplesTable: React.FunctionComponent<ExamplesTableProps> = (props) => {
-  const Customised = useCustomRendering<ExamplesTableProps, ExamplesTableClasses>('ExamplesTable', styles)
+  const Customised = useCustomRendering<ExamplesTableProps, ExamplesTableClasses>(
+    'ExamplesTable',
+    styles
+  )
   if (typeof Customised === 'function') {
-    return <Customised {...props}/>
+    return <Customised {...props} />
   }
   return (
     <table className={Customised.examplesTable}>

@@ -3,7 +3,7 @@ import * as messages from '@cucumber/messages'
 
 function mixinStyles<Classes>(
   builtIn: Record<string, string>,
-  custom?: Record<string, string>,
+  custom?: Record<string, string>
 ): Classes {
   const mixed: any = {}
   Object.keys(builtIn).forEach((key) => {
@@ -85,7 +85,7 @@ export interface ErrorMessageClasses {
 }
 
 export declare type CustomRenderable =
-  'Keyword'
+  | 'Keyword'
   | 'Parameter'
   | 'DocString'
   | 'DataTable'
@@ -105,7 +105,10 @@ export interface CustomRenderingSupport {
   ErrorMessage?: CustomRenderer<ErrorMessageProps, ErrorMessageClasses>
 }
 
-export function useCustomRendering<Props, Classes>(component: CustomRenderable, styles: Record<string, string>): CustomRenderer<Props, Classes> {
+export function useCustomRendering<Props, Classes>(
+  component: CustomRenderable,
+  styles: Record<string, string>
+): CustomRenderer<Props, Classes> {
   const { [component]: Custom } = useContext(CustomRenderingContext)
   if (typeof Custom === 'function') {
     return Custom as React.FunctionComponent<Props>
