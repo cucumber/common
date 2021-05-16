@@ -5,22 +5,7 @@ $border-color: #4B5662;
 $white: #F0EFFB;
 $summary-border-color: rgba(0, 0, 0, 0.1);
 
-$statusColors:
-  "passed" #2CB14A,
-  "skipped" #00A0CC,
-  "pending" #FFAD33,
-  "undefined" #FFAD33,
-  "ambiguous" #F4EBFD,
-  "failed" #BB0000,
-  "unknown" #B6BECB;
-
 .cucumber-react {
-  @each $name, $color in $statusColors {
-    .cucumber-status--#{$name} {
-      color: $color
-    }
-  }
-
   // Reset browser defaults.
   h1, h2, h3 {
     padding: 0;

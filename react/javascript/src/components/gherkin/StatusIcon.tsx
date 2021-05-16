@@ -7,21 +7,24 @@ import {
   faInfoCircle,
   IconDefinition,
 } from '@fortawesome/free-solid-svg-icons'
-import React from 'react'
+import React, { useContext } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import statusName from './statusName'
 import * as messages from '@cucumber/messages'
+import styles from './StatusIcon.module.scss'
+import { CustomRenderingContext, mixinStyles, StatusIconProps } from '../customise/CustomRendering'
 
-interface IProps {
-  status: messages.TestStepResultStatus
-}
-
-const StatusIcon: React.FunctionComponent<IProps> = ({ status }) => {
+const StatusIcon: React.FunctionComponent<StatusIconProps> = ({ status }) => {
+  const { StatusIcon: Custom } = useContext(CustomRenderingContext)
+  if (typeof Custom === 'function') {
+    return <Custom status={status} />
+  }
+  const composedStyles = mixinStyles(styles, Custom)
   return (
     <FontAwesomeIcon
       icon={statusIcon(status)}
       size="1x"
-      className={`cucumber-status--${statusName(status)}`}
+      className={composedStyles.icon}
+      data-status={status}
     />
   )
 }

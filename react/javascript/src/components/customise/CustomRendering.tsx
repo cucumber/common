@@ -78,6 +78,14 @@ export interface GherkinDocumentListClasses {
   accordionPanel: string
 }
 
+export interface StatusIconProps {
+  status: messages.TestStepResultStatus
+}
+
+export interface StatusIconClasses {
+  icon: string
+}
+
 export interface ErrorMessageProps {
   message: string
 }
@@ -94,6 +102,7 @@ export interface CustomRenderingSupport {
   ExamplesTable?: CustomRenderer<ExamplesTableProps, ExamplesTableClasses>
   Tags?: CustomRenderer<TagsProps, TagsClasses>
   GherkinDocumentList?: CustomRenderer<GherkinDocumentListProps, GherkinDocumentListClasses>
+  StatusIcon?: CustomRenderer<StatusIconProps, StatusIconClasses>
   ErrorMessage?: CustomRenderer<ErrorMessageProps, ErrorMessageClasses>
 }
 
