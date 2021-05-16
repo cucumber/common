@@ -1,4 +1,4 @@
-LANGUAGES ?= go javascript ruby java python dotnet
+LANGUAGES ?= go javascript ruby java perl python dotnet
 include default.mk
 
 post-release: print-documentation-instructions
