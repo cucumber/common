@@ -66,18 +66,6 @@ export interface TagsClasses {
   tag: string
 }
 
-export interface GherkinDocumentListProps {
-  gherkinDocuments?: ReadonlyArray<messages.GherkinDocument>
-}
-
-export interface GherkinDocumentListClasses {
-  list: string
-  accordion: string
-  accordionItem: string
-  accordionButton: string
-  accordionPanel: string
-}
-
 export interface StatusIconProps {
   status: messages.TestStepResultStatus
 }
@@ -101,7 +89,6 @@ export interface CustomRenderingSupport {
   DataTable?: CustomRenderer<DataTableProps, DataTableClasses>
   ExamplesTable?: CustomRenderer<ExamplesTableProps, ExamplesTableClasses>
   Tags?: CustomRenderer<TagsProps, TagsClasses>
-  GherkinDocumentList?: CustomRenderer<GherkinDocumentListProps, GherkinDocumentListClasses>
   StatusIcon?: CustomRenderer<StatusIconProps, StatusIconClasses>
   ErrorMessage?: CustomRenderer<ErrorMessageProps, ErrorMessageClasses>
 }
