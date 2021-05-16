@@ -1,21 +1,21 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import HighLight from '../app/HighLight'
-import { CustomRenderingContext, mixinStyles, TagsProps } from '../customise/CustomRendering'
+import {
+  TagsClasses,
+  TagsProps,
+  useCustomRendering,
+} from '../customise/CustomRendering'
 import styles from './Tags.module.scss'
 
-const Tags: React.FunctionComponent<TagsProps> = ({ tags }) => {
-  const { Tags: Custom } = useContext(CustomRenderingContext)
-  if (!tags) {
-    return null
+const Tags: React.FunctionComponent<TagsProps> = (props) => {
+  const Customised = useCustomRendering<TagsProps, TagsClasses>('Tags', styles)
+  if (typeof Customised === 'function') {
+    return <Customised {...props}/>
   }
-  if (typeof Custom === 'function') {
-    return <Custom tags={tags} />
-  }
-  const composedStyles = mixinStyles(styles, Custom)
   return (
-    <ul className={composedStyles.tags}>
-      {tags.map((tag, index) => (
-        <li className={composedStyles.tag} key={index}>
+    <ul className={Customised.tags}>
+      {props.tags.map((tag, index) => (
+        <li className={Customised.tag} key={index}>
           <HighLight text={tag.name} />
         </li>
       ))}

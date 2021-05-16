@@ -1,6 +1,10 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import styles from './DataTable.module.scss'
-import { CustomRenderingContext, DataTableProps, mixinStyles } from '../customise/CustomRendering'
+import {
+  DataTableClasses,
+  DataTableProps,
+  useCustomRendering,
+} from '../customise/CustomRendering'
 import * as messages from '@cucumber/messages'
 import isNumber from './isNumber'
 import HighLight from '../app/HighLight'
@@ -23,15 +27,14 @@ const TableBody: React.FunctionComponent<{
   )
 }
 
-const DataTable: React.FunctionComponent<DataTableProps> = ({ dataTable }) => {
-  const { DataTable: Custom } = useContext(CustomRenderingContext)
-  if (typeof Custom === 'function') {
-    return <Custom dataTable={dataTable} />
+const DataTable: React.FunctionComponent<DataTableProps> = (props) => {
+  const Customised = useCustomRendering<DataTableProps, DataTableClasses>('DataTable', styles)
+  if (typeof Customised === 'function') {
+    return <Customised {...props}/>
   }
-  const composedStyles = mixinStyles(styles, Custom)
   return (
-    <table className={composedStyles.table}>
-      <TableBody rows={dataTable.rows || []} />
+    <table className={Customised.table}>
+      <TableBody rows={props.dataTable.rows || []} />
     </table>
   )
 }

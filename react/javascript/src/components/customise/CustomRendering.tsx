@@ -1,11 +1,11 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import * as messages from '@cucumber/messages'
 
-export function mixinStyles(
+function mixinStyles<Classes>(
   builtIn: Record<string, string>,
-  custom?: Record<string, string>
-): Record<string, string> {
-  const mixed: Record<string, string> = {}
+  custom?: Record<string, string>,
+): Classes {
+  const mixed: any = {}
   Object.keys(builtIn).forEach((key) => {
     if (builtIn[key]) {
       mixed[key] = builtIn[key]
@@ -14,8 +14,10 @@ export function mixinStyles(
       mixed[key] = custom[key]
     }
   })
-  return mixed
+  return mixed as Classes
 }
+
+const CustomRenderingContext = React.createContext<CustomRenderingSupport>({})
 
 export declare type CustomRenderer<R, C> = React.FunctionComponent<R> | Partial<C>
 
@@ -82,6 +84,16 @@ export interface ErrorMessageClasses {
   message: string
 }
 
+export declare type CustomRenderable =
+  'Keyword'
+  | 'Parameter'
+  | 'DocString'
+  | 'DataTable'
+  | 'ExamplesTable'
+  | 'Tags'
+  | 'StatusIcon'
+  | 'ErrorMessage'
+
 export interface CustomRenderingSupport {
   Keyword?: CustomRenderer<any, KeywordClasses>
   Parameter?: CustomRenderer<ParameterProps, ParameterClasses>
@@ -93,7 +105,13 @@ export interface CustomRenderingSupport {
   ErrorMessage?: CustomRenderer<ErrorMessageProps, ErrorMessageClasses>
 }
 
-export const CustomRenderingContext = React.createContext<CustomRenderingSupport>({})
+export function useCustomRendering<Props, Classes>(component: CustomRenderable, styles: Record<string, string>): CustomRenderer<Props, Classes> {
+  const { [component]: Custom } = useContext(CustomRenderingContext)
+  if (typeof Custom === 'function') {
+    return Custom as React.FunctionComponent<Props>
+  }
+  return mixinStyles<Classes>(styles, Custom)
+}
 
 const CustomRendering: React.FunctionComponent<{
   support: CustomRenderingSupport

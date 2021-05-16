@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import * as messages from '@cucumber/messages'
 import { getWorstTestStepResult } from '@cucumber/messages'
 import styles from './DataTable.module.scss'
@@ -9,28 +9,27 @@ import StatusIcon from './StatusIcon'
 import isNumber from './isNumber'
 import ErrorMessage from './ErrorMessage'
 import {
-  CustomRenderingContext,
+  ExamplesTableClasses,
   ExamplesTableProps,
-  mixinStyles,
+  useCustomRendering,
 } from '../customise/CustomRendering'
 
-const ExamplesTable: React.FunctionComponent<ExamplesTableProps> = ({ tableHeader, tableBody }) => {
-  const { ExamplesTable: Custom } = useContext(CustomRenderingContext)
-  if (typeof Custom === 'function') {
-    return <Custom tableHeader={tableHeader} tableBody={tableBody} />
+const ExamplesTable: React.FunctionComponent<ExamplesTableProps> = (props) => {
+  const Customised = useCustomRendering<ExamplesTableProps, ExamplesTableClasses>('ExamplesTable', styles)
+  if (typeof Customised === 'function') {
+    return <Customised {...props}/>
   }
-  const composedStyles = mixinStyles(styles, Custom)
   return (
-    <table className={composedStyles.examplesTable}>
+    <table className={Customised.examplesTable}>
       <thead>
         <tr>
           <th>&nbsp;</th>
-          {tableHeader.cells.map((cell, j) => (
+          {props.tableHeader.cells.map((cell, j) => (
             <th key={j}>{cell.value}</th>
           ))}
         </tr>
       </thead>
-      <ExamplesTableBody rows={tableBody || []} detailClass={composedStyles.detailRow} />
+      <ExamplesTableBody rows={props.tableBody || []} detailClass={Customised.exampleDetail} />
     </table>
   )
 }

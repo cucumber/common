@@ -1,16 +1,19 @@
-import React, { useContext } from 'react'
-import { CustomRenderingContext, mixinStyles, ParameterProps } from '../customise/CustomRendering'
+import React from 'react'
+import {
+  ParameterClasses,
+  ParameterProps,
+  useCustomRendering,
+} from '../customise/CustomRendering'
 import styles from './Parameter.module.scss'
 
-const Parameter: React.FunctionComponent<ParameterProps> = ({ parameterTypeName, children }) => {
-  const { Parameter: Custom } = useContext(CustomRenderingContext)
-  if (typeof Custom === 'function') {
-    return <Custom parameterTypeName={parameterTypeName}>{children}</Custom>
+const Parameter: React.FunctionComponent<ParameterProps> = (props) => {
+  const Customised = useCustomRendering<ParameterProps, ParameterClasses>('Parameter', styles)
+  if (typeof Customised === 'function') {
+    return <Customised {...props}/>
   }
-  const composedStyles = mixinStyles(styles, Custom)
   return (
-    <span title={parameterTypeName} className={composedStyles.parameter}>
-      {children}
+    <span title={props.parameterTypeName} className={Customised.parameter}>
+      {props.children}
     </span>
   )
 }

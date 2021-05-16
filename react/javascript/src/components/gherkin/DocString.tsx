@@ -1,18 +1,20 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import HighLight from '../app/HighLight'
 import styles from './DocString.module.scss'
-import { CustomRenderingContext, DocStringProps, mixinStyles } from '../customise/CustomRendering'
+import {
+  DocStringClasses,
+  DocStringProps,
+  useCustomRendering,
+} from '../customise/CustomRendering'
 
-const DocString: React.FunctionComponent<DocStringProps> = ({ docString }) => {
-  // TODO add a hook for this to reduce boilerplate
-  const { DocString: Custom } = useContext(CustomRenderingContext)
-  if (typeof Custom === 'function') {
-    return <Custom docString={docString} />
+const DocString: React.FunctionComponent<DocStringProps> = (props) => {
+  const Customised = useCustomRendering<DocStringProps, DocStringClasses>('DocString', styles)
+  if (typeof Customised === 'function') {
+    return <Customised {...props}/>
   }
-  const composedStyles = mixinStyles(styles, Custom)
   return (
-    <pre className={composedStyles.docString}>
-      <HighLight text={docString.content} />
+    <pre className={Customised.docString}>
+      <HighLight text={props.docString.content} />
     </pre>
   )
 }
