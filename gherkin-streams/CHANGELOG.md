@@ -9,8 +9,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
-* Add ability to specify a `relativeTo` path for cleaner emitted `uri`s [#1510](https://github.com/cucumber/cucumber/pull/1510)
-
 ### Changed
 
 ### Deprecated
@@ -19,12 +17,23 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [2.0.0] - 2021-05-15
+
+### Added
+
+* Add ability to specify a `relativeTo` path for cleaner emitted `uri`s [#1510](https://github.com/cucumber/cucumber/pull/1510)
+
+### Changed
+
+* Upgrade to gherkin 19.0.0
+
 ## [1.0.0] - 2021-03-24
 
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin-streams/v1.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin-streams/v2.0.0...master
+[2.0.0]:      https://github.com/cucumber/cucumber/releases/tag/gherkin-streams/v1.0.0
 [1.0.0]:      https://github.com/cucumber/cucumber/releases/tag/gherkin-streams/v1.0.0
 
 <!-- Contributors in alphabetical order -->

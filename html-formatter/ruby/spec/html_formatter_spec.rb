@@ -40,15 +40,11 @@ describe Cucumber::HTMLFormatter::Formatter do
 
   context '.write_message' do
     let(:message) do
-      Cucumber::Messages::Envelope.new({
-        pickle: Cucumber::Messages::Pickle.new({
+      {
+        pickle: {
           id: 'some-random-uid'
-        })
-      })
-    end
-
-    it 'raises an exception if the message is not a Cucumber::Messages::Envelope instance' do
-      expect { subject.write_message('Ho hi !') }.to raise_exception(Cucumber::HTMLFormatter::MessageExpected)
+        }
+      }
     end
 
     it 'appends the message to out' do
@@ -73,11 +69,11 @@ describe Cucumber::HTMLFormatter::Formatter do
 
   context '.process_messages' do
     let(:message) do
-      Cucumber::Messages::Envelope.new({
-        pickle: Cucumber::Messages::Pickle.new({
+      {
+        pickle: {
           id: 'some-random-uid'
-        })
-      })
+        }
+      }
     end
 
     it 'produces the full html report' do

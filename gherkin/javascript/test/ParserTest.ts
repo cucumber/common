@@ -280,12 +280,6 @@ description
       assert.deepStrictEqual(ast, gherkinDocument)
     })
 
-    it('parses misc.md', async () => {
-      const gherkinSource = await readFile(__dirname + '/../testdata/good/misc.md', 'utf-8')
-      const ast = parser.parse(gherkinSource)
-      console.log(JSON.stringify(ast, null, 2))
-    })
-
     it('parses DocString', function () {
       const markdown = `
 # Feature: DocString variations
