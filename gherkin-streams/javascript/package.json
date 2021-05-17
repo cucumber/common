@@ -1,6 +1,6 @@
 {
   "name": "@cucumber/gherkin-streams",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Streams for reading Gherkin parser output",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
