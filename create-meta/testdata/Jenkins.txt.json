@@ -1,9 +1,9 @@
 {
   "git": {
     "branch": "main",
-    "remote": "https://github.com/owner/repo.git",
+    "remote": "https://scmhost.com/path/to/the/project",
     "revision": "decafbad"
   },
-  "name": "CodeShip",
+  "name": "Jenkins",
   "url": "https://cihost.com/path/to/the/build"
 }

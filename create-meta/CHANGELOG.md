@@ -9,13 +9,33 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+* Added support for [Jenkins](https://www.jenkins.io/) (via the [Git plugin](https://plugins.jenkins.io/git/))
+  ([#1253](https://github.com/cucumber/common/issues/1253)
+   [#1553](https://github.com/cucumber/common/pull/1553)
+   [aslakhellesoy])
+* Added support for [Bitrise](https://www.bitrise.io/)
+  ([#1490](https://github.com/cucumber/common/issues/1490)
+   [#1553](https://github.com/cucumber/common/pull/1553)
+   [aslakhellesoy])
+* Added support for [CodeFresh](https://codefresh.io/)
+  ([#1553](https://github.com/cucumber/common/pull/1553)
+   [aslakhellesoy])
+* Added support for [CodeShip](https://www.cloudbees.com/products/codeship)
+  ([#1553](https://github.com/cucumber/common/pull/1553)
+   [aslakhellesoy])
+
 ### Changed
+
+* Upgrade messages to 15.0.0
 
 ### Deprecated
 
 ### Removed
 
 ### Fixed
+
+* Fixed detection of Semaphore build url.
+* Fixed detection of GoCD build url.
 
 ## [4.0.0] - 2021-03-29
 

@@ -7,7 +7,7 @@
   "scripts": {
     "test": "mocha",
     "prepublishOnly": "tsc --build tsconfig.build.json",
-    "print-meta": "ts-node --require tsconfig-paths/register ./src/printMeta.ts"
+    "print-meta": "ts-node --require source-map-support/register --require tsconfig-paths/register ./src/printMeta.ts"
   },
   "repository": {
     "type": "git",
