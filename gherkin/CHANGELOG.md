@@ -18,6 +18,8 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 ### Removed
 
 ### Fixed
+* [Perl]   Updated to pass acceptance tests.
+  ([#1552](https://github.com/cucumber/common/pull/1552) [ehuelsmann])
 
 ## [19.0.0] - 2021-05-15
 

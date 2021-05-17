@@ -732,6 +732,19 @@ jobs:
             cd gherkin/dotnet
             make
 
+### Perl
+
+  gherkin-perl:
+    executor: docker-cucumber-build
+    steps:
+      - attach_workspace:
+          at: "~/cucumber"
+      - run:
+          name: gherkin/perl
+          command: |
+            cd gherkin/perl
+            make
+
 ### Python
 
   tag-expressions-python:
@@ -1026,6 +1039,12 @@ workflows:
             - prepare-parallel
 
       - gherkin-dotnet:
+          requires:
+            - prepare-parallel
+
+## Perl
+
+      - gherkin-perl:
           requires:
             - prepare-parallel
 
