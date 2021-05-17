@@ -1,13 +1,13 @@
 {
   "name": "@cucumber/create-meta",
-  "version": "4.0.0",
+  "version": "5.0.0",
   "description": "Produce the meta message for Cucumber JavaScript",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
   "scripts": {
     "test": "mocha",
     "prepublishOnly": "tsc --build tsconfig.build.json",
-    "print-meta": "ts-node --require tsconfig-paths/register ./src/printMeta.ts"
+    "print-meta": "ts-node --require source-map-support/register --require tsconfig-paths/register ./src/printMeta.ts"
   },
   "repository": {
     "type": "git",

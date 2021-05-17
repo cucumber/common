@@ -1,7 +1,9 @@
 {
   "git": {
+    "branch": "bug-fix-42",
+    "remote": "https://github.com/owner/repo.git",
     "revision": "decafbad"
   },
   "name": "GoCD",
-  "url": "https://cihost.com/path/to/the/build/???"
+  "url": "https://cihost.com/pipelines/my-pipeline-name/1234/my-stage-name/456"
 }
