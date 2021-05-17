@@ -22,9 +22,9 @@
   },
   "homepage": "https://github.com/cucumber/cucumber",
   "devDependencies": {
-    "@cucumber/gherkin": "19.0.0",
-    "@cucumber/gherkin-streams": "2.0.0",
-    "@cucumber/message-streams": "1.0.0",
+    "@cucumber/gherkin": "^19.0.0",
+    "@cucumber/gherkin-streams": "^2.0.0",
+    "@cucumber/message-streams": "^1.0.0",
     "@types/glob": "7.1.3",
     "@types/mocha": "8.2.2",
     "@types/node": "15.3.0",
@@ -34,7 +34,7 @@
     "typescript": "4.2.4"
   },
   "dependencies": {
-    "@cucumber/messages": "16.0.0",
+    "@cucumber/messages": "^16.0.0",
     "@teppeis/multimaps": "2.0.0"
   },
   "directories": {
