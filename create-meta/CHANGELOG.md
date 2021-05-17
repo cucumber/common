@@ -38,7 +38,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
-* Upgrade messages to 15.0.0
+* Upgrade messages to 16.0.0
 
 ### Fixed
 
