@@ -31,11 +31,7 @@ pre-release: clean update-version update-dependencies default
 .PHONY: pre-release
 
 update-dependencies:
-	../../node_modules/.bin/npm-check-updates --upgrade && \
-	pushd ../.. && \
-	npm install && \
-	npm run build && \
-	popd
+	../../node_modules/.bin/npm-check-updates --upgrade
 .PHONY: update-dependencies
 
 update-version:
@@ -46,7 +42,7 @@ ifdef NEW_VERSION
 	npm --no-git-tag-version --allow-same-version version "$(NEW_VERSION)"
 	# Update all npm packages that depend on us
 	pushd ../.. && \
-		./scripts/npm-each update_npm_dependency_if_exists package.json "$(NPM_MODULE)" "^$(NEW_VERSION)"
+		./scripts/npm-each update_npm_dependency_if_exists package.json "$(NPM_MODULE)" "$(NEW_VERSION)"
 		# npm install
 else
 	@echo -e "\033[0;31mNEW_VERSION is not defined. Can't update version :-(\033[0m"

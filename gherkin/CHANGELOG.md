@@ -12,26 +12,67 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 ### Added
 
 ### Changed
-* [DotNet] Replaced Utf8Json with source-embedded TinyJson.
-  ([#511](https://github.com/cucumber/cucumber/pull/1511)
-   [gasparnagy])   
-
-* Update Russian translation of the "Scenario Outline" keyword.
-  ([#1499](https://github.com/cucumber/cucumber/pull/1499)
-   [hkosova])
-* Update Hungarian translation of the "Rule" keyword.
-  ([#1518](https://github.com/cucumber/cucumber/pull/1518)
-   [gasparnagy])
 
 ### Deprecated
 
 ### Removed
 
 ### Fixed
+
+## [19.0.1] - 2021-05-17
+
+### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+* [Perl]   Updated to pass acceptance tests.
+  ([#1552](https://github.com/cucumber/common/pull/1552) [ehuelsmann])
+
+## [19.0.0] - 2021-05-15
+
+### Added
+
+* [JavaScript] Experimental support for Markdown. See [MARKDOWN_WITH_GHERKIN.md](./MARKDOWN_WITH_GHERKIN.md)
+  ([#1209](https://github.com/cucumber/common/pull/1209)
+   [aslakhellesoy])
+
+### Changed
+
+* [DotNet] Replaced Utf8Json with source-embedded TinyJson.
+  ([#511](https://github.com/cucumber/cucumber/pull/1511)
+   [gasparnagy])   
+
+* Update Dutch translation of the "Rule" keyword.
+  ([#1513](https://github.com/cucumber/common/pull/1513)
+   [OrhanTozan])
+
+* Update Russian translation of the "Scenario Outline" keyword.
+  ([#1499](https://github.com/cucumber/cucumber/pull/1499)
+   [hkosova])
+
+* Update Hungarian translation of the "Rule" keyword.
+  ([#1518](https://github.com/cucumber/cucumber/pull/1518)
+   [gasparnagy])
+
+* Upgrade to messages 16.0.0
+
+### Removed
+
+* [Elixir] The package was not released - it needs to be updated to pass acceptance tests.
+* [Perl]   The package was not released - it needs to be updated to pass acceptance tests.
+
+### Fixed
+
 * [Perl] Reinstate Perl 5.10.1 compatibility.
   ([#1495](https://github.com/cucumber/cucumber/pull/1495)
    [#1494](https://github.com/cucumber/cucumber/issues/1494)
    [ehuelsmann])
+
 * [DotNet] Fixed .NET Gherkin compatibility with other Gherkin implementations.
   ([#511](https://github.com/cucumber/cucumber/pull/1511)
    [gasparnagy])   
@@ -950,7 +991,9 @@ to Gherkin 2.
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v18.1.1...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v19.0.1...master
+[19.0.1]:     https://github.com/cucumber/cucumber/compare/gherkin/v19.0.0...gherkin/v19.0.1
+[19.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v18.1.1...gherkin/v19.0.0
 [18.1.1]:     https://github.com/cucumber/cucumber/compare/gherkin/v18.1.0...gherkin/v18.1.1
 [18.1.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v18.0.0...gherkin/v18.1.0
 [18.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v17.0.2...gherkin/v18.0.0
@@ -1041,11 +1084,12 @@ to Gherkin 2.
 [moreau-nicolas]:    https://github.com/moreau-nicolas
 [mpkorstanje]:       https://github.com/mpkorstanje
 [nvmkpk]:            https://github.com/nvmkpk
-[ookull]:            https://github.com/ookull
 [nalekberov]:        https://github.com/nalekberov
 [nixel2007]:         https://github.com/nixel2007
 [nikolovski]:        https://github.com/nikolovski
 [noisygerman]:       https://github.com/noisygerman
+[ookull]:            https://github.com/ookull
+[OrhanTozan]:        https://github.com/OrhanTozan
 [paigehf]:           https://github.com/paigehf
 [pjlsergeant]:       https://github.com/pjlsergeant
 [plavcik]:           https://github.com/plavcik

@@ -1,12 +1,6 @@
 import * as messages from '@cucumber/messages'
 import { ArrayMultimap } from '@teppeis/multimaps'
 
-function ordinal(status: messages.TestStepResultStatus) {
-  return ['UNKNOWN', 'PASSED', 'SKIPPED', 'PENDING', 'UNDEFINED', 'AMBIGUOUS', 'FAILED'].indexOf(
-    status
-  )
-}
-
 export default class Query {
   private readonly testStepResultByPickleId = new ArrayMultimap<string, messages.TestStepResult>()
   private readonly testStepResultsByPickleStepId = new ArrayMultimap<
@@ -107,23 +101,6 @@ export default class Query {
     return pickleIds.reduce((testStepResults: messages.TestStepResult[], pickleId) => {
       return testStepResults.concat(this.testStepResultByPickleId.get(pickleId))
     }, [])
-  }
-
-  /**
-   * Gets the worst result
-   * @param testStepResults
-   */
-  public getWorstTestStepResult(
-    testStepResults: readonly messages.TestStepResult[]
-  ): messages.TestStepResult {
-    // throw new Error('Uncomment code below and fix it')
-    return (
-      testStepResults.slice().sort((r1, r2) => ordinal(r2.status) - ordinal(r1.status))[0] || {
-        status: messages.TestStepResultStatus.UNKNOWN,
-        duration: messages.TimeConversion.millisecondsToDuration(0),
-        willBeRetried: false,
-      }
-    )
   }
 
   /**

@@ -8,5 +8,8 @@
     "src",
     "test",
     "acceptance"
+  ],
+  "exclude": [
+    "src/stories"
   ]
 }

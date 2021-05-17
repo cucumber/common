@@ -1,6 +1,6 @@
 require 'cucumber/create_meta'
 
-describe 'createMeta' do
+describe 'create_meta' do
   it 'generates a Meta message with platform information' do
     meta = Cucumber::CreateMeta.create_meta('cucumba-ruby', 'X.Y.Z')
 

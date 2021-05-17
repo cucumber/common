@@ -1,5 +1,4 @@
-SHELL := /usr/bin/env bash
-ALPINE := $(shell which apk 2> /dev/null)
+include default.mk
 UNAME := $(shell uname)
 ifeq ($(UNAME), Darwin)
 	dotnet_build_opts := --framework netcoreapp2.0

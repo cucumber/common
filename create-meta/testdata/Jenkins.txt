@@ -1,0 +1,4 @@
+BUILD_URL=https://cihost.com/path/to/the/build
+GIT_URL=https://scmhost.com/path/to/the/project
+GIT_LOCAL_BRANCH=main
+GIT_COMMIT=decafbad

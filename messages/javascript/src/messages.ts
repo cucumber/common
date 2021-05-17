@@ -456,7 +456,7 @@ export class Source {
 
   data: string = ''
 
-  mediaType: string = ''
+  mediaType: SourceMediaType = SourceMediaType.TEXT_X_CUCUMBER_GHERKIN_PLAIN
 }
 
 export class SourceReference {
@@ -645,6 +645,11 @@ export class UndefinedParameterType {
 export enum AttachmentContentEncoding {
   IDENTITY = 'IDENTITY',
   BASE64 = 'BASE64',
+}
+
+export enum SourceMediaType {
+  TEXT_X_CUCUMBER_GHERKIN_PLAIN = 'text/x.cucumber.gherkin+plain',
+  TEXT_X_CUCUMBER_GHERKIN_MARKDOWN = 'text/x.cucumber.gherkin+markdown',
 }
 
 export enum StepDefinitionPatternType {

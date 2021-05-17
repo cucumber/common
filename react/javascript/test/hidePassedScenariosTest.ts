@@ -1,7 +1,5 @@
 import assert from 'assert'
-import { stubObject } from 'ts-sinon'
 import * as messages from '@cucumber/messages'
-import GherkinDocument = messages.GherkinDocument
 import { Query as CucumberQuery, Query } from '@cucumber/query'
 import { GherkinStreams } from '@cucumber/gherkin-streams'
 import { Query as GherkinQuery } from '@cucumber/gherkin-utils'
@@ -17,40 +15,6 @@ describe('hidePassedScenarios', () => {
     const gherkinQuery = new GherkinQuery()
 
     assert.deepStrictEqual(hidePassedScenarios([], testResultsQuery, gherkinQuery), [])
-  })
-
-  it('keeps documents which do not have a passed status', () => {
-    const document: GherkinDocument = { comments: [] }
-    const testResultsQuery = stubObject<Query>(new Query())
-    testResultsQuery.getWorstTestStepResult.returns({
-      status: messages.TestStepResultStatus.FAILED,
-      willBeRetried: false,
-      duration: { seconds: 0, nanos: 0 },
-    })
-    testResultsQuery.getPickleTestStepResults.returns([])
-
-    const gherkinQuery = stubObject<GherkinQuery>(new GherkinQuery())
-    gherkinQuery.getPickleIds.returns([])
-
-    assert.deepStrictEqual(hidePassedScenarios([document], testResultsQuery, gherkinQuery), [
-      document,
-    ])
-  })
-
-  it('removes documents which do have a passed status', () => {
-    const document: GherkinDocument = { comments: [] }
-    const testResultsQuery = stubObject<Query>(new Query())
-    testResultsQuery.getWorstTestStepResult.returns({
-      status: messages.TestStepResultStatus.PASSED,
-      willBeRetried: false,
-      duration: { seconds: 0, nanos: 0 },
-    })
-    testResultsQuery.getPickleTestStepResults.returns([])
-
-    const gherkinQuery = stubObject<GherkinQuery>(new GherkinQuery())
-    gherkinQuery.getPickleIds.returns([])
-
-    assert.deepStrictEqual(hidePassedScenarios([document], testResultsQuery, gherkinQuery), [])
   })
 
   it('can process multiple documents and statuses', async () => {
