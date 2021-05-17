@@ -6,7 +6,7 @@
 
   <PropertyGroup>
     <PackageId>Gherkin</PackageId>
-    <VersionNumber>19.0.0</VersionNumber>
+    <VersionNumber>19.0.1</VersionNumber>
     <Version Condition="'$(SnapshotSuffix)' != ''">$(VersionNumber)-$(SnapshotSuffix)</Version>
     <Version Condition="'$(SnapshotSuffix)' == ''">$(VersionNumber)</Version>
     <Authors>Cucumber Ltd, Gaspar Nagy</Authors>

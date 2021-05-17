@@ -20,7 +20,7 @@
   "dependencies": {
     "@cucumber/messages": "^16.0.0",
     "@cucumber/message-streams": "^1.0.0",
-    "@cucumber/gherkin": "^19.0.0",
+    "@cucumber/gherkin": "^19.0.1",
     "commander": "7.2.0",
     "source-map-support": "0.5.19"
   },
