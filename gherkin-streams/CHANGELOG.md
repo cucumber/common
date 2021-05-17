@@ -17,6 +17,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [2.0.1] - 2021-05-17
+
+### Fixed
+
+* Use `^x.y.z` version for `@cucumber/*` dependencies, allowing minor and patch releases to be picked up.
+
 ## [2.0.0] - 2021-05-15
 
 ### Added
@@ -32,7 +38,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin-streams/v2.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin-streams/v2.0.1...master
+[2.0.1]:      https://github.com/cucumber/cucumber/releases/tag/gherkin-streams/v2.0.0
 [2.0.0]:      https://github.com/cucumber/cucumber/releases/tag/gherkin-streams/v1.0.0
 [1.0.0]:      https://github.com/cucumber/cucumber/releases/tag/gherkin-streams/v1.0.0
 

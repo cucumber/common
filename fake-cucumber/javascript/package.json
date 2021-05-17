@@ -43,7 +43,7 @@
     "@cucumber/cucumber-expressions": "^12.1.1",
     "@cucumber/create-meta": "^4.0.0",
     "@cucumber/gherkin": "^19.0.1",
-    "@cucumber/gherkin-streams": "^2.0.0",
+    "@cucumber/gherkin-streams": "^2.0.1",
     "@cucumber/gherkin-utils": "^5.0.0",
     "@cucumber/messages": "^16.0.0",
     "@cucumber/message-streams": "^1.0.0",
