@@ -25,7 +25,7 @@
     "@cucumber/fake-cucumber": "^12.0.0",
     "@cucumber/gherkin": "^19.0.1",
     "@cucumber/gherkin-streams": "^2.0.2",
-    "@cucumber/gherkin-utils": "^5.0.1",
+    "@cucumber/gherkin-utils": "^5.0.2",
     "@types/mocha": "8.2.2",
     "@types/node": "15.3.0",
     "mocha": "8.4.0",

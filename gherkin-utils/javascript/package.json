@@ -1,6 +1,6 @@
 {
   "name": "@cucumber/gherkin-utils",
-  "version": "5.0.1",
+  "version": "5.0.2",
   "description": "Various Gherkin utilities",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
