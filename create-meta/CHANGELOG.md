@@ -9,6 +9,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+## [5.0.0] - 2021-05-17
+
+### Added
+
 * Added support for [Jenkins](https://www.jenkins.io/) (via the [Git plugin](https://plugins.jenkins.io/git/))
   ([#1253](https://github.com/cucumber/common/issues/1253)
    [#1553](https://github.com/cucumber/common/pull/1553)
@@ -27,10 +39,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 
 * Upgrade messages to 15.0.0
-
-### Deprecated
-
-### Removed
 
 ### Fixed
 
@@ -101,7 +109,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/create-meta/v4.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/create-meta/v5.0.0...master
+[5.0.0]:      https://github.com/cucumber/cucumber/compare/create-meta/v4.0.0...create-meta/v5.0.0
 [4.0.0]:      https://github.com/cucumber/cucumber/compare/create-meta/v3.0.0...create-meta/v4.0.0
 [3.0.0]:      https://github.com/cucumber/cucumber/compare/create-meta/v2.0.4...create-meta/v3.0.0
 [2.0.4]:      https://github.com/cucumber/cucumber/compare/create-meta/v2.0.2...create-meta/v2.0.4
