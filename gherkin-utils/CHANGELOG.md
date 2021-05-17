@@ -17,6 +17,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [5.0.1] - 2021-05-17
+
+### Fixed
+
+* Use `^x.y.z` version for `@cucumber/*` dependencies, allowing minor and patch releases to be picked up.
+
 ## [5.0.0] - 2021-05-15
 
 ### Added
@@ -80,7 +86,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin-utils/v5.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin-utils/v5.0.1...master
+[5.0.1]:      https://github.com/cucumber/cucumber/compare/gherkin-utils/v5.0.0...gherkin-utils/v5.0.1
 [5.0.0]:      https://github.com/cucumber/cucumber/compare/gherkin-utils/v4.0.0...gherkin-utils/v5.0.0
 [4.0.0]:      https://github.com/cucumber/cucumber/compare/gherkin-utils/v3.0.0...gherkin-utils/v4.0.0
 [3.0.0]:      https://github.com/cucumber/cucumber/compare/gherkin-utils/v2.1.1...gherkin-utils/v3.0.0
