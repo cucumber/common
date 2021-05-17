@@ -17,6 +17,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [12.0.1] - 2021-05-17
+
+### Changed
+
+* Upgrade to `@cucumber/message-streams` `2.0.0`
+
 ## [12.0.0] - 2021-05-17
 
 ### Changed
@@ -226,7 +232,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/fake-cucumber/v12.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/fake-cucumber/v12.0.1...master
+[12.0.1]:      https://github.com/cucumber/cucumber/compare/fake-cucumber/v12.0.0...fake-cucumber/v12.0.1
 [12.0.0]:      https://github.com/cucumber/cucumber/compare/fake-cucumber/v11.0.0...fake-cucumber/v12.0.0
 [11.0.0]:      https://github.com/cucumber/cucumber/compare/fake-cucumber/v10.0.0...fake-cucumber/v11.0.0
 [10.0.0]:      https://github.com/cucumber/cucumber/compare/fake-cucumber/v9.0.0...fake-cucumber/v10.0.0
