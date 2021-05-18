@@ -14,8 +14,8 @@ GHERKIN = scripts/gherkin.sh
 
 .codegen: src/Parser.ts
 
-src/Parser.ts: .berp_restored gherkin.berp gherkin-javascript.razor
-	berp -g gherkin.berp -t gherkin-javascript.razor -o $@ --noBOM
+src/Parser.ts: gherkin-javascript.razor gherkin.berp
+	$(berp-generate-parser)
 
 .tested: .compared
 

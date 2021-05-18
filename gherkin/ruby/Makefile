@@ -51,5 +51,5 @@ clobber: clean
 	rm -rf lib/gherkin/parser.rb Gemfile.lock
 .PHONY: clobber
 
-lib/gherkin/parser.rb: .berp_restored gherkin.berp gherkin-ruby.razor
-	berp -g gherkin.berp -t gherkin-ruby.razor -o $@ --noBOM
+lib/gherkin/parser.rb: gherkin-ruby.razor gherkin.berp
+	$(berp-generate-parser)

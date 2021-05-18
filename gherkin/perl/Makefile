@@ -102,8 +102,8 @@ lib/Gherkin/Generated:
 lib/Gherkin/Generated/Languages.pm: gherkin-languages.json .cpanfile_dependencies
 	PERL5LIB=./perl5/lib/perl5 perl helper-scripts/build_languages.pl < $< > $@
 
-lib/Gherkin/Generated/Parser.pm: .berp_restored gherkin.berp gherkin-perl.razor
-	berp -g gherkin.berp -t gherkin-perl.razor -o $@ --noBOM
+lib/Gherkin/Generated/Parser.pm: gherkin-perl.razor gherkin.berp
+	$(berp-generate-parser)
 
 pre-release: update-version
 .PHONY: pre-release

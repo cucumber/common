@@ -90,8 +90,8 @@ acceptance/testdata/%.feature.pickles.ndjson: testdata/%.feature testdata/%.feat
 	$(EXE) --predictable-ids --no-source --no-ast $< | jq --sort-keys --compact-output > $@
 	diff --unified <(jq "." $<.pickles.ndjson) <(jq "." $@)
 
-parser.go: .berp_restored gherkin.berp parser.go.razor
-	berp -g gherkin.berp -t parser.go.razor -o $@ --noBOM
+parser.go: parser.go.razor gherkin.berp
+	$(berp-generate-parser)
 	gofmt -w $@
 
 dialects_builtin.go: gherkin-languages.json dialects_builtin.go.jq

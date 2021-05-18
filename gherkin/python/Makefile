@@ -61,7 +61,7 @@ clobber: clean
 	rm -rf gherkin/parser.py
 .PHONY: clobber
 
-gherkin/parser.py: .berp_restored gherkin.berp gherkin-python.razor
-	berp -g gherkin.berp -t gherkin-python.razor -o $@ --noBOM
+gherkin/parser.py: gherkin-python.razor gherkin.berp
+	$(berp-generate-parser)
 
 include default.mk

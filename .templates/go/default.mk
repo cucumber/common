@@ -151,8 +151,7 @@ endif
 
 BERP_VERSION = 1.3.0
 
-.berp_restored:
-ifeq ($(shell dotnet tool list --tool-path /usr/bin | grep "berp\s*$(BERP_VERSION)"),)
-	dotnet tool update Berp --version $(BERP_VERSION) --tool-path /usr/bin
-endif
-	touch $@
+define berp-generate-parser =
+-! dotnet tool list --tool-path /usr/bin | grep "berp\s*$(BERP_VERSION)" && dotnet tool update Berp --version $(BERP_VERSION) --tool-path /usr/bin
+berp -g gherkin.berp -t $< -o $@ --noBOM
+endef

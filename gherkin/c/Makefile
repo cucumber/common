@@ -61,11 +61,11 @@ libs_so: ./include/rule_type.h src/parser.c src/dialect.c $(SRC_FILES) src/Makef
 	$(RUN_GHERKIN) $(GOOD_FEATURE_FILES) | jq . > /dev/null
 	touch $@
 
-./include/rule_type.h: .berp_restored gherkin.berp gherkin-c-rule-type.razor
-	berp -g gherkin.berp -t gherkin-c-rule-type.razor -o $@ --noBOM
+./include/rule_type.h: gherkin-c-rule-type.razor gherkin.berp 
+	$(berp-generate-parser)
 
-src/parser.c: .berp_restored gherkin.berp gherkin-c-parser.razor
-	berp -g gherkin.berp -t gherkin-c-parser.razor -o $@ --noBOM
+src/parser.c: gherkin-c-parser.razor gherkin.berp
+	$(berp-generate-parser)
 
 src/dialect.c: gherkin-languages.json dialect.c.jq
 	cat $< | jq -f dialect.c.jq -r -c > $@

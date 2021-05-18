@@ -56,11 +56,11 @@ clobber: clean
 	rm -rf Gherkin/GHParser.m Gherkin/GHParser.h
 .PHONY: clobber
 
-Gherkin/GHParser.h: .berp_restored gherkin.berp gherkin-objective-c-header.razor
-	berp -g gherkin.berp -t gherkin-objective-c-header.razor -o $@ --noBOM
+Gherkin/GHParser.h: gherkin-objective-c-header.razor gherkin.berp
+	$(berp-generate-parser)
 
-Gherkin/GHParser.m: .berp_restored gherkin.berp gherkin-objective-c-implementation.razor
-	berp -g gherkin.berp -t gherkin-objective-c-implementation.razor -o $@ --noBOM
+Gherkin/GHParser.m: gherkin-objective-c-implementation.razor gherkin.berp
+	$(berp-generate-parser)
 
 build/AstGenerator: Gherkin/GHParser.h Gherkin/GHParser.m $(M_FILES) GherkinLanguages/gherkin-languages.json
 	xcodebuild -scheme "AstGenerator" CONFIGURATION_BUILD_DIR=build/

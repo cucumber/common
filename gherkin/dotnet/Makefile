@@ -15,8 +15,8 @@ default: .compared
 
 .deps: Gherkin/Parser.cs
 
-Gherkin/Parser.cs: .berp_restored gherkin.berp gherkin-csharp.razor
-	berp -g gherkin.berp -t gherkin-csharp.razor -o $@
+Gherkin/Parser.cs: gherkin-csharp.razor gherkin.berp
+	$(berp-generate-parser)
 
 .compared: $(TOKENS) $(ASTS) $(PICKLES) $(SOURCES) $(ERRORS)
 	touch $@
@@ -47,7 +47,7 @@ acceptance/testdata/%.feature.errors.ndjson: testdata/%.feature testdata/%.featu
 	diff --unified <(jq "." $<.errors.ndjson) <(jq "." $@)
 
 clean:
-	rm -rf .compared .berp_restored acceptance
+	rm -rf .compared acceptance
 .PHONY: clean
 
 clobber: clean
