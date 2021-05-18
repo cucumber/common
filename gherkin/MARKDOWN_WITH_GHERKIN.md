@@ -27,7 +27,7 @@ The parsing rules are as follows:
   - `* But`
 - Data Tables and `Examples` tables use the [GFM table](https://github.github.com/gfm/#tables-extension-) syntax.
 - Doc Strings use the [GFM fenced code blocks](https://github.github.com/gfm/#fenced-code-blocks) syntax.
-- Tags must be wrapped by single \` on each side, for example `` `@hello` ``
+- Tags must be wrapped by single \` on each side, for example `` `@hello` ``, and be placed on a line *above* the keyword (as with Gherkin Classic).
 
 ## Why Markdown with Gherkin
 
