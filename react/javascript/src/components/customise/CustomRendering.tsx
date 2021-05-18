@@ -84,15 +84,7 @@ export interface ErrorMessageClasses {
   message: string
 }
 
-export declare type CustomRenderable =
-  | 'Keyword'
-  | 'Parameter'
-  | 'DocString'
-  | 'DataTable'
-  | 'ExamplesTable'
-  | 'Tags'
-  | 'StatusIcon'
-  | 'ErrorMessage'
+export declare type CustomRenderable = keyof CustomRenderingSupport
 
 export interface CustomRenderingSupport {
   Keyword?: CustomRenderer<any, KeywordClasses>
