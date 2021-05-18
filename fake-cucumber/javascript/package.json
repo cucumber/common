@@ -1,6 +1,6 @@
 {
   "name": "@cucumber/fake-cucumber",
-  "version": "12.0.1",
+  "version": "12.0.2",
   "description": "Fake Cucumber generates fake results",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
