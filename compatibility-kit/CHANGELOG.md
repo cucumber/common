@@ -17,6 +17,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [5.0.1] - 2021-05-18
+
+### Fixed
+
+* Fixed statuses in some message streams, leveraging a bugfix in `@cucumber/fake-cucumber` 12.0.2
+
 ## [5.0.0] - 2021-05-17
 
 ### Changed
@@ -58,7 +64,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/compatibility-kit/v5.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/compatibility-kit/v5.0.1...master
+[5.0.1]:      https://github.com/cucumber/cucumber/releases/tag/compatibility-kit/v5.0.0
 [5.0.0]:      https://github.com/cucumber/cucumber/releases/tag/compatibility-kit/v4.0.1
 [4.0.1]:      https://github.com/cucumber/cucumber/releases/tag/compatibility-kit/v4.0.0
 [4.0.0]:      https://github.com/cucumber/cucumber/releases/tag/compatibility-kit/v3.0.0
