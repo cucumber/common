@@ -24,10 +24,9 @@ export interface ITestStep {
   execute(
     world: IWorld,
     testCaseStartedId: string,
-    listener: EnvelopeListener
+    listener: EnvelopeListener,
+    previousPassed: boolean
   ): Promise<messages.TestStepResult>
-
-  skip(listener: EnvelopeListener, testCaseStartedId: string): messages.TestStepResult
 }
 
 export interface ISupportCodeExecutor {

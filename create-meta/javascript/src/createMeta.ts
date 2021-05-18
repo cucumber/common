@@ -2,20 +2,8 @@ import os from 'os'
 import { parse as parseUrl, format as formatUrl } from 'url'
 import * as messages from '@cucumber/messages'
 import defaultCiDict from './ciDict.json'
-import evaluateVariableExpression from "./evaluateVariableExpression";
-
-export type CiDict = Record<string,CiSystem>
-export type Env = Record<string,string|undefined>
-
-export interface CiSystem {
-  url: string
-  git: {
-    remote: string | undefined
-    branch: string | undefined
-    revision: string | undefined
-    tag: string | undefined
-  }
-}
+import evaluateVariableExpression from './evaluateVariableExpression'
+import { CiDict, CiSystem, Env } from './types'
 
 export default function createMeta(
   toolName: string,
@@ -59,7 +47,13 @@ export function detectCI(ciDict: CiDict, envDict: Env): messages.Ci | undefined 
     return undefined
   }
   if (detected.length > 1) {
-    console.error(`@cucumber/create-meta WARNING: Detected more than one CI: ${JSON.stringify(detected, null, 2)}`)
+    console.error(
+      `@cucumber/create-meta WARNING: Detected more than one CI: ${JSON.stringify(
+        detected,
+        null,
+        2
+      )}`
+    )
     console.error('Using the first one.')
   }
   return detected[0]
@@ -81,7 +75,7 @@ function createCi(ciName: string, ciSystem: CiSystem, envDict: Env): messages.Ci
     return undefined
   }
 
-  let branch = evaluateVariableExpression(ciSystem.git.branch, envDict);
+  const branch = evaluateVariableExpression(ciSystem.git.branch, envDict)
   return {
     url,
     name: ciName,
@@ -93,4 +87,3 @@ function createCi(ciName: string, ciSystem: CiSystem, envDict: Env): messages.Ci
     },
   }
 }
-
