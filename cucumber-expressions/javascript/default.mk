@@ -76,3 +76,13 @@ clean-javascript:
 clobber: clean
 	rm -rf node_modules ../../node_modules
 .PHONY: clobber
+
+### COMMON stuff for all platforms
+
+BERP_VERSION = 1.3.0
+
+.berp_restored:
+ifeq ($(shell dotnet tool list --tool-path /usr/bin | grep "berp\s*$(BERP_VERSION)"),)
+	dotnet tool update Berp --version $(BERP_VERSION) --tool-path /usr/bin
+endif
+	touch $@

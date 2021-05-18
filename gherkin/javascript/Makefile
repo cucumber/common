@@ -14,11 +14,8 @@ GHERKIN = scripts/gherkin.sh
 
 .codegen: src/Parser.ts
 
-src/Parser.ts: gherkin.berp gherkin-javascript.razor
-	mono /var/lib/berp/1.1.1/tools/net471/Berp.exe -g gherkin.berp -t gherkin-javascript.razor -o $@
-	# Remove BOM
-	awk 'NR==1{sub(/^\xef\xbb\xbf/,"")}{print}' < $@ > $@.nobom
-	mv $@.nobom $@
+src/Parser.ts: .berp_restored gherkin.berp gherkin-javascript.razor
+	berp -g gherkin.berp -t gherkin-javascript.razor -o $@ --noBOM
 
 .tested: .compared
 

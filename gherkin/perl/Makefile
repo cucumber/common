@@ -1,4 +1,5 @@
-SHELL := /usr/bin/env bash
+include default.mk
+
 GOOD_FEATURE_FILES = $(shell find testdata/good -name "*.feature")
 BAD_FEATURE_FILES  = $(shell find testdata/bad -name "*.feature")
 
@@ -101,11 +102,8 @@ lib/Gherkin/Generated:
 lib/Gherkin/Generated/Languages.pm: gherkin-languages.json .cpanfile_dependencies
 	PERL5LIB=./perl5/lib/perl5 perl helper-scripts/build_languages.pl < $< > $@
 
-lib/Gherkin/Generated/Parser.pm: gherkin.berp gherkin-perl.razor
-	mono  /var/lib/berp/1.1.1/tools/net471/Berp.exe -g gherkin.berp -t gherkin-perl.razor -o $@
-	# Remove BOM
-	awk 'NR==1{sub(/^\xef\xbb\xbf/,"")}{print}' < $@ > $@.nobom
-	mv $@.nobom $@
+lib/Gherkin/Generated/Parser.pm: .berp_restored gherkin.berp gherkin-perl.razor
+	berp -g gherkin.berp -t gherkin-perl.razor -o $@ --noBOM
 
 pre-release: update-version
 .PHONY: pre-release
