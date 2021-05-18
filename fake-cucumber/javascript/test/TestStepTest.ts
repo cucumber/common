@@ -3,17 +3,19 @@ import * as messages from '@cucumber/messages'
 import makePickleTestStep from '../src/makePickleTestStep'
 import TestWorld from './TestWorld'
 import IncrementClock from '../src/IncrementClock'
-import {withSourceFramesOnlyStackTrace, withFullStackTrace, IWorld, makeHookTestStep} from '../src'
-import ExpressionStepDefinition from '../src/ExpressionStepDefinition'
 import {
-  CucumberExpression,
-  ParameterTypeRegistry,
-} from '@cucumber/cucumber-expressions'
+  withSourceFramesOnlyStackTrace,
+  withFullStackTrace,
+  IWorld,
+  makeHookTestStep,
+} from '../src'
+import ExpressionStepDefinition from '../src/ExpressionStepDefinition'
+import { CucumberExpression, ParameterTypeRegistry } from '@cucumber/cucumber-expressions'
 import IncrementStopwatch from '../src/IncrementStopwatch'
 import { ITestStep } from '../src/types'
-import Hook from "../src/Hook";
+import Hook from '../src/Hook'
 import { Query } from '@cucumber/gherkin-utils'
-import {TimeConversion} from "@cucumber/messages";
+import { TimeConversion } from '@cucumber/messages'
 
 describe('TestStep', () => {
   let world: IWorld
@@ -119,7 +121,9 @@ describe('TestStep', () => {
       withSourceFramesOnlyStackTrace()
     )
 
-    const hook = new Hook('hook-id', null, {uri: 'hook.ts'}, () => {throw new Error()});
+    const hook = new Hook('hook-id', null, { uri: 'hook.ts' }, () => {
+      throw new Error()
+    })
     failedHookTestStep = makeHookTestStep(
       {
         name: 'hello',
@@ -128,7 +132,7 @@ describe('TestStep', () => {
         language: 'en',
         uri: 'test.feature',
         astNodeIds: [],
-        tags: []
+        tags: [],
       },
       hook,
       true,
@@ -140,60 +144,81 @@ describe('TestStep', () => {
     )
   })
 
-  async function execute(
-    testStep: ITestStep,
-    previousPassed: boolean
-  ): Promise<messages.Envelope[]> {
-    const receivedMessages: messages.Envelope[] = []
-    await testStep.execute(
-      world,
-      'some-testCaseStartedId',
-      (message) => receivedMessages.push(message),
-      previousPassed
-    )
-    return receivedMessages //.pop().testStepFinished
-  }
-
   describe('#execute', () => {
     it('returns a TestStepFinished with status UNDEFINED when there are no matching step definitions', async () => {
-      const testStepResult = await undefinedPickleTestStep.execute(world, 'some-testCaseStartedId', () => undefined,true)
+      const testStepResult = await undefinedPickleTestStep.execute(
+        world,
+        'some-testCaseStartedId',
+        () => undefined,
+        true
+      )
       assert.strictEqual(testStepResult.status, 'UNDEFINED')
       assert.deepStrictEqual(testStepResult.duration, TimeConversion.millisecondsToDuration(0))
     })
 
     it('returns a TestStepResult with status AMBIGUOUS when there are multiple matching step definitions', async () => {
-      const testStepResult = await ambiguousPickleTestStep.execute(world, 'some-testCaseStartedId', () => undefined,true)
+      const testStepResult = await ambiguousPickleTestStep.execute(
+        world,
+        'some-testCaseStartedId',
+        () => undefined,
+        true
+      )
       assert.strictEqual(testStepResult.status, 'AMBIGUOUS')
       assert.deepStrictEqual(testStepResult.duration, TimeConversion.millisecondsToDuration(0))
     })
 
     it('returns a TestStepResult with status PASSED when the sole step definitions passes', async () => {
-      const testStepResult = await passedPickleTestStep.execute(world, 'some-testCaseStartedId', () => undefined,true)
+      const testStepResult = await passedPickleTestStep.execute(
+        world,
+        'some-testCaseStartedId',
+        () => undefined,
+        true
+      )
       assert.strictEqual(testStepResult.status, 'PASSED')
       assert.notDeepStrictEqual(testStepResult.duration, TimeConversion.millisecondsToDuration(0))
     })
 
     it('returns a TestStepResult with status PENDING when the sole step definitions returns "pending"', async () => {
-      const testStepResult = await pendingPickleTestStep.execute(world, 'some-testCaseStartedId', () => undefined,true)
+      const testStepResult = await pendingPickleTestStep.execute(
+        world,
+        'some-testCaseStartedId',
+        () => undefined,
+        true
+      )
       assert.strictEqual(testStepResult.status, 'PENDING')
       assert.notDeepStrictEqual(testStepResult.duration, TimeConversion.millisecondsToDuration(0))
     })
 
     it('returns a TestStepResult with status FAILED when the sole step definitions throws an exception', async () => {
-      const testStepResult = await failedPickleTestStep.execute(world, 'some-testCaseStartedId', () => undefined,true)
+      const testStepResult = await failedPickleTestStep.execute(
+        world,
+        'some-testCaseStartedId',
+        () => undefined,
+        true
+      )
       assert.strictEqual(testStepResult.status, 'FAILED')
       assert.ok(testStepResult.message.includes('at failed.feature:234'))
       assert.notDeepStrictEqual(testStepResult.duration, TimeConversion.millisecondsToDuration(0))
     })
 
     it('returns a TestStepResult with status SKIPPED when the previous step was not passed', async () => {
-      const testStepResult = await failedPickleTestStep.execute(world, 'some-testCaseStartedId', () => undefined,false)
+      const testStepResult = await failedPickleTestStep.execute(
+        world,
+        'some-testCaseStartedId',
+        () => undefined,
+        false
+      )
       assert.strictEqual(testStepResult.status, 'SKIPPED')
       assert.deepStrictEqual(testStepResult.duration, TimeConversion.millisecondsToDuration(0))
     })
 
     it('returns a TestStepResult with status FAILED when the previous aftr hook step was not passed', async () => {
-      const testStepResult = await failedHookTestStep.execute(world, 'some-testCaseStartedId', () => undefined,false)
+      const testStepResult = await failedHookTestStep.execute(
+        world,
+        'some-testCaseStartedId',
+        () => undefined,
+        false
+      )
       assert.strictEqual(testStepResult.status, 'FAILED')
       assert.notDeepStrictEqual(testStepResult.duration, TimeConversion.millisecondsToDuration(0))
     })
