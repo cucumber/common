@@ -1,10 +1,11 @@
 import assert from 'assert'
 import parse from './parse'
 import pretty from '../src/pretty'
+import {GherkinClassicTokenMatcher, GherkinInMarkdownTokenMatcher} from "@cucumber/gherkin";
 
 describe('PrettyFormatter', () => {
   it('renders a feature with no scenarios', () => {
-    assertPrettyIdentical('Feature: hello\n')
+    assertPrettyIdentical('Feature: hello\n', true)
   })
 
   it('renders a feature with two scenarios', () => {
@@ -15,7 +16,7 @@ describe('PrettyFormatter', () => {
 
   Scenario: two
     Given world
-`)
+`, true)
   })
 
   it('renders a feature with two scenarios in a rule', () => {
@@ -28,7 +29,7 @@ describe('PrettyFormatter', () => {
 
     Scenario: two
       Given world
-`)
+`, true)
   })
 
   it('renders a feature with background and scenario', () => {
@@ -39,7 +40,7 @@ describe('PrettyFormatter', () => {
 
   Scenario: two
     Given world
-`)
+`, true)
   })
 
   it('renders a rule with background and scenario', () => {
@@ -52,7 +53,7 @@ describe('PrettyFormatter', () => {
 
     Scenario: two
       Given world
-`)
+`, true)
   })
 
   it('renders tags when set', () => {
@@ -67,7 +68,7 @@ Feature: hello
     @scenarioTag @secondTag
     Scenario: two
       Given world
-`)
+`, true)
   })
 
   it('renders descriptions when set', () => {
@@ -86,11 +87,26 @@ Feature: hello
       This scenario will do things, maybe
 
       Given world
-`)
+`, false)
   })
 })
 
-function assertPrettyIdentical(source: string) {
-  const gherkinDocument = parse(source)
-  assert.strictEqual(pretty(gherkinDocument), source)
+function assertPrettyIdentical(gherkinSource: string, viaMarkdown: boolean) {
+  const gherkinClassicTokenMatcher = new GherkinClassicTokenMatcher()
+  const gherkinDocument = parse(gherkinSource, gherkinClassicTokenMatcher)
+
+  if(viaMarkdown) {
+    const markdownSource = pretty(gherkinDocument, 'markdown')
+//     console.log(`-------
+// ${markdownSource}
+// -------`)
+    const gherkinInMarkdownTokenMatcher = new GherkinInMarkdownTokenMatcher()
+    const markdownGherkinDocument = parse(markdownSource, gherkinInMarkdownTokenMatcher)
+
+    const newGherkinSource = pretty(markdownGherkinDocument, "gherkin")
+    assert.strictEqual(newGherkinSource, gherkinSource)
+  } else {
+    const newGherkinSource = pretty(gherkinDocument, "gherkin")
+    assert.strictEqual(newGherkinSource, gherkinSource)
+  }
 }

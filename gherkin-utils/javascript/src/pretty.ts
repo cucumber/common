@@ -1,29 +1,31 @@
 import * as messages from '@cucumber/messages'
 
-export default function pretty(gherkinDocument: messages.GherkinDocument): string {
-  const feature = gherkinDocument.feature
-  let s = prettyTags(feature.tags)
+type Syntax = 'markdown' | 'gherkin'
 
-  s += feature.keyword + ': ' + feature.name + '\n'
+export default function pretty(gherkinDocument: messages.GherkinDocument, syntax: Syntax): string {
+  const feature = gherkinDocument.feature
+  let s = prettyTags(feature.tags, 0, syntax)
+
+  s += indent(0, syntax) + feature.keyword + ': ' + feature.name + '\n'
   if (feature.description) {
-    s += feature.description + '\n'
+    s += formatDescription(feature.description, syntax)
   }
   for (const child of feature.children) {
     if (child.background) {
-      s += prettyStepContainer(child.background, '  ')
+      s += prettyStepContainer(child.background, 1, syntax)
     } else if (child.scenario) {
-      s += prettyStepContainer(child.scenario, '  ')
+      s += prettyStepContainer(child.scenario, 1, syntax)
     } else if (child.rule) {
-      s += `\n  ${child.rule.keyword}: ${child.rule.name}\n`
+      s += `\n${indent(1, syntax)}${child.rule.keyword}: ${child.rule.name}\n`
       if (child.rule.description) {
-        s += child.rule.description + '\n'
+        s += formatDescription(child.rule.description, syntax)
       }
       for (const ruleChild of child.rule.children) {
         if (ruleChild.background) {
-          s += prettyStepContainer(ruleChild.background, '    ')
+          s += prettyStepContainer(ruleChild.background, 2, syntax)
         }
         if (ruleChild.scenario) {
-          s += prettyStepContainer(ruleChild.scenario, '    ')
+          s += prettyStepContainer(ruleChild.scenario, 2, syntax)
         }
       }
     }
@@ -33,46 +35,73 @@ export default function pretty(gherkinDocument: messages.GherkinDocument): strin
 
 function prettyStepContainer(
   stepContainer: messages.Scenario | messages.Background,
-  indent: string
+  level: number,
+  syntax: Syntax
 ): string {
   const scenario: messages.Scenario = 'tags' in stepContainer ? stepContainer : null
   const tags: readonly messages.Tag[] = scenario?.tags || []
-  let s = `\n${prettyTags(tags, indent)}${indent}${stepContainer.keyword}: ${stepContainer.name}\n`
+  let s = `\n${prettyTags(tags, level, syntax)}${indent(level,syntax)}${stepContainer.keyword}: ${stepContainer.name}\n`
   if (stepContainer.description) {
-    s += stepContainer.description + '\n\n'
+    s += formatDescription(stepContainer.description, syntax) + '\n'
   }
 
   for (const step of stepContainer.steps) {
-    s += `${indent}  ${step.keyword}${step.text}\n`
+    s += `${stepIndent(level + 1, syntax)}${step.keyword}${step.text}\n`
   }
 
   if (scenario) {
     for (const example of scenario.examples) {
-      s += prettyExample(example, `${indent}  `)
+      s += prettyExample(example, level+1, syntax)
     }
   }
   return s
 }
 
-function prettyExample(example: messages.Examples, indent: string): string {
+function prettyExample(example: messages.Examples, level: number, syntax: Syntax): string {
   let s = `\n${indent}Examples: ${example.name}\n`
 
-  s += prettyTableRow(example.tableHeader, `${indent}  `)
+  s += prettyTableRow(example.tableHeader, level+1, syntax)
   for (const row of example.tableBody) {
-    s += prettyTableRow(row, `${indent}  `)
+    s += prettyTableRow(row, level+1, syntax)
   }
 
   return s
 }
 
-function prettyTableRow(row: messages.TableRow, indent: string): string {
-  return `${indent}| ${row.cells.map((cell) => cell.value).join(' | ')} |\n`
+function prettyTableRow(row: messages.TableRow, level: number, syntax: Syntax): string {
+  return `${indent(level, syntax)}| ${row.cells.map((cell) => cell.value).join(' | ')} |\n`
 }
 
-function prettyTags(tags: readonly messages.Tag[], indent = ''): string {
+function prettyTags(tags: readonly messages.Tag[], level: number, syntax: Syntax): string {
   if (tags === undefined || tags.length == 0) {
     return ''
   }
 
-  return indent + tags.map((tag) => tag.name).join(' ') + '\n'
+  if(syntax === 'gherkin')
+    return indent(level, syntax) + tags.map((tag) => tag.name).join(' ') + '\n'
+  else
+    return tags.map(tag => `\`${tag.name}\``).join(' ') + '\n'
+}
+
+function indent(level: number, syntax: Syntax): string {
+  if(syntax === 'markdown') {
+    return new Array(level + 2).join('#') + ' '
+  } else {
+    return new Array(level + 1).join('  ')
+  }
+}
+
+function stepIndent(level: number, syntax: Syntax): string {
+  if(syntax === 'markdown') {
+    return '* '
+  } else {
+    return new Array(level + 1).join('  ')
+  }
+}
+
+function formatDescription(description: string, syntax: Syntax): string {
+  if(syntax === 'gherkin')
+    return description + '\n'
+  else
+    return description.replace(/^\s*/gm, '') + '\n'
 }
