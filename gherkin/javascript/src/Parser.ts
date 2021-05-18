@@ -82,9 +82,9 @@ export enum RuleType {
   Rule, // Rule! := RuleHeader Background? ScenarioDefinition*
   RuleHeader, // RuleHeader! := Tags? #RuleLine DescriptionHelper
   Background, // Background! := #BackgroundLine DescriptionHelper Step*
-  ScenarioDefinition, // ScenarioDefinition! [#Empty|#Comment|#TagLine-&gt;#ScenarioLine] := Tags? Scenario
+  ScenarioDefinition, // ScenarioDefinition! [#Empty|#Comment|#TagLine->#ScenarioLine] := Tags? Scenario
   Scenario, // Scenario! := #ScenarioLine DescriptionHelper Step* ExamplesDefinition*
-  ExamplesDefinition, // ExamplesDefinition! [#Empty|#Comment|#TagLine-&gt;#ExamplesLine] := Tags? Examples
+  ExamplesDefinition, // ExamplesDefinition! [#Empty|#Comment|#TagLine->#ExamplesLine] := Tags? Examples
   Examples, // Examples! := #ExamplesLine DescriptionHelper ExamplesTable?
   ExamplesTable, // ExamplesTable! := #TableRow #TableRow*
   Step, // Step! := #StepLine StepArg?
@@ -347,7 +347,7 @@ export default class Parser<AstNode> {
       this.build(context, token);
       return 0;
     }
-    
+
     token.detach();
     const expectedTokens = ["#EOF", "#Language", "#TagLine", "#FeatureLine", "#Comment", "#Empty"];
     const error = token.isEof ?
@@ -355,9 +355,7 @@ export default class Parser<AstNode> {
       UnexpectedTokenException.create(token, expectedTokens);
     if (this.stopAtFirstError) throw error;
     this.addError(context, error);
-    return 0;
-  }
-
+    return 0;  }
 
   // GherkinDocument:0>Feature:0>FeatureHeader:0>#Language:0
   private matchTokenAt_1(token: IToken<TokenType>, context: Context) {
@@ -378,7 +376,7 @@ export default class Parser<AstNode> {
       this.build(context, token);
       return 1;
     }
-    
+
     token.detach();
     const expectedTokens = ["#TagLine", "#FeatureLine", "#Comment", "#Empty"];
     const error = token.isEof ?
@@ -386,9 +384,7 @@ export default class Parser<AstNode> {
       UnexpectedTokenException.create(token, expectedTokens);
     if (this.stopAtFirstError) throw error;
     this.addError(context, error);
-    return 1;
-  }
-
+    return 1;  }
 
   // GherkinDocument:0>Feature:0>FeatureHeader:1>Tags:0>#TagLine:0
   private matchTokenAt_2(token: IToken<TokenType>, context: Context) {
@@ -409,7 +405,7 @@ export default class Parser<AstNode> {
       this.build(context, token);
       return 2;
     }
-    
+
     token.detach();
     const expectedTokens = ["#TagLine", "#FeatureLine", "#Comment", "#Empty"];
     const error = token.isEof ?
@@ -417,9 +413,7 @@ export default class Parser<AstNode> {
       UnexpectedTokenException.create(token, expectedTokens);
     if (this.stopAtFirstError) throw error;
     this.addError(context, error);
-    return 2;
-  }
-
+    return 2;  }
 
   // GherkinDocument:0>Feature:0>FeatureHeader:2>#FeatureLine:0
   private matchTokenAt_3(token: IToken<TokenType>, context: Context) {
@@ -479,7 +473,7 @@ export default class Parser<AstNode> {
       this.build(context, token);
       return 4;
     }
-    
+
     token.detach();
     const expectedTokens = ["#EOF", "#Empty", "#Comment", "#BackgroundLine", "#TagLine", "#ScenarioLine", "#RuleLine", "#Other"];
     const error = token.isEof ?
@@ -487,9 +481,7 @@ export default class Parser<AstNode> {
       UnexpectedTokenException.create(token, expectedTokens);
     if (this.stopAtFirstError) throw error;
     this.addError(context, error);
-    return 3;
-  }
-
+    return 3;  }
 
   // GherkinDocument:0>Feature:0>FeatureHeader:3>DescriptionHelper:1>Description:0>#Other:0
   private matchTokenAt_4(token: IToken<TokenType>, context: Context) {
@@ -551,7 +543,7 @@ export default class Parser<AstNode> {
       this.build(context, token);
       return 4;
     }
-    
+
     token.detach();
     const expectedTokens = ["#EOF", "#Comment", "#BackgroundLine", "#TagLine", "#ScenarioLine", "#RuleLine", "#Other"];
     const error = token.isEof ?
@@ -559,9 +551,7 @@ export default class Parser<AstNode> {
       UnexpectedTokenException.create(token, expectedTokens);
     if (this.stopAtFirstError) throw error;
     this.addError(context, error);
-    return 4;
-  }
-
+    return 4;  }
 
   // GherkinDocument:0>Feature:0>FeatureHeader:3>DescriptionHelper:2>#Comment:0
   private matchTokenAt_5(token: IToken<TokenType>, context: Context) {
@@ -616,7 +606,7 @@ export default class Parser<AstNode> {
       this.build(context, token);
       return 5;
     }
-    
+
     token.detach();
     const expectedTokens = ["#EOF", "#Comment", "#BackgroundLine", "#TagLine", "#ScenarioLine", "#RuleLine", "#Empty"];
     const error = token.isEof ?
@@ -624,9 +614,7 @@ export default class Parser<AstNode> {
       UnexpectedTokenException.create(token, expectedTokens);
     if (this.stopAtFirstError) throw error;
     this.addError(context, error);
-    return 5;
-  }
-
+    return 5;  }
 
   // GherkinDocument:0>Feature:1>Background:0>#BackgroundLine:0
   private matchTokenAt_6(token: IToken<TokenType>, context: Context) {
@@ -685,7 +673,7 @@ export default class Parser<AstNode> {
       this.build(context, token);
       return 7;
     }
-    
+
     token.detach();
     const expectedTokens = ["#EOF", "#Empty", "#Comment", "#StepLine", "#TagLine", "#ScenarioLine", "#RuleLine", "#Other"];
     const error = token.isEof ?
@@ -693,9 +681,7 @@ export default class Parser<AstNode> {
       UnexpectedTokenException.create(token, expectedTokens);
     if (this.stopAtFirstError) throw error;
     this.addError(context, error);
-    return 6;
-  }
-
+    return 6;  }
 
   // GherkinDocument:0>Feature:1>Background:1>DescriptionHelper:1>Description:0>#Other:0
   private matchTokenAt_7(token: IToken<TokenType>, context: Context) {
@@ -756,7 +742,7 @@ export default class Parser<AstNode> {
       this.build(context, token);
       return 7;
     }
-    
+
     token.detach();
     const expectedTokens = ["#EOF", "#Comment", "#StepLine", "#TagLine", "#ScenarioLine", "#RuleLine", "#Other"];
     const error = token.isEof ?
@@ -764,9 +750,7 @@ export default class Parser<AstNode> {
       UnexpectedTokenException.create(token, expectedTokens);
     if (this.stopAtFirstError) throw error;
     this.addError(context, error);
-    return 7;
-  }
-
+    return 7;  }
 
   // GherkinDocument:0>Feature:1>Background:1>DescriptionHelper:2>#Comment:0
   private matchTokenAt_8(token: IToken<TokenType>, context: Context) {
@@ -820,7 +804,7 @@ export default class Parser<AstNode> {
       this.build(context, token);
       return 8;
     }
-    
+
     token.detach();
     const expectedTokens = ["#EOF", "#Comment", "#StepLine", "#TagLine", "#ScenarioLine", "#RuleLine", "#Empty"];
     const error = token.isEof ?
@@ -828,9 +812,7 @@ export default class Parser<AstNode> {
       UnexpectedTokenException.create(token, expectedTokens);
     if (this.stopAtFirstError) throw error;
     this.addError(context, error);
-    return 8;
-  }
-
+    return 8;  }
 
   // GherkinDocument:0>Feature:1>Background:2>Step:0>#StepLine:0
   private matchTokenAt_9(token: IToken<TokenType>, context: Context) {
@@ -900,7 +882,7 @@ export default class Parser<AstNode> {
       this.build(context, token);
       return 9;
     }
-    
+
     token.detach();
     const expectedTokens = ["#EOF", "#TableRow", "#DocStringSeparator", "#StepLine", "#TagLine", "#ScenarioLine", "#RuleLine", "#Comment", "#Empty"];
     const error = token.isEof ?
@@ -908,9 +890,7 @@ export default class Parser<AstNode> {
       UnexpectedTokenException.create(token, expectedTokens);
     if (this.stopAtFirstError) throw error;
     this.addError(context, error);
-    return 9;
-  }
-
+    return 9;  }
 
   // GherkinDocument:0>Feature:1>Background:2>Step:1>StepArg:0>__alt0:0>DataTable:0>#TableRow:0
   private matchTokenAt_10(token: IToken<TokenType>, context: Context) {
@@ -980,7 +960,7 @@ export default class Parser<AstNode> {
       this.build(context, token);
       return 10;
     }
-    
+
     token.detach();
     const expectedTokens = ["#EOF", "#TableRow", "#StepLine", "#TagLine", "#ScenarioLine", "#RuleLine", "#Comment", "#Empty"];
     const error = token.isEof ?
@@ -988,9 +968,7 @@ export default class Parser<AstNode> {
       UnexpectedTokenException.create(token, expectedTokens);
     if (this.stopAtFirstError) throw error;
     this.addError(context, error);
-    return 10;
-  }
-
+    return 10;  }
 
   // GherkinDocument:0>Feature:2>ScenarioDefinition:0>Tags:0>#TagLine:0
   private matchTokenAt_11(token: IToken<TokenType>, context: Context) {
@@ -1012,7 +990,7 @@ export default class Parser<AstNode> {
       this.build(context, token);
       return 11;
     }
-    
+
     token.detach();
     const expectedTokens = ["#TagLine", "#ScenarioLine", "#Comment", "#Empty"];
     const error = token.isEof ?
@@ -1020,9 +998,7 @@ export default class Parser<AstNode> {
       UnexpectedTokenException.create(token, expectedTokens);
     if (this.stopAtFirstError) throw error;
     this.addError(context, error);
-    return 11;
-  }
-
+    return 11;  }
 
   // GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:0>#ScenarioLine:0
   private matchTokenAt_12(token: IToken<TokenType>, context: Context) {
@@ -1100,7 +1076,7 @@ export default class Parser<AstNode> {
       this.build(context, token);
       return 13;
     }
-    
+
     token.detach();
     const expectedTokens = ["#EOF", "#Empty", "#Comment", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Other"];
     const error = token.isEof ?
@@ -1108,9 +1084,7 @@ export default class Parser<AstNode> {
       UnexpectedTokenException.create(token, expectedTokens);
     if (this.stopAtFirstError) throw error;
     this.addError(context, error);
-    return 12;
-  }
-
+    return 12;  }
 
   // GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:1>DescriptionHelper:1>Description:0>#Other:0
   private matchTokenAt_13(token: IToken<TokenType>, context: Context) {
@@ -1192,7 +1166,7 @@ export default class Parser<AstNode> {
       this.build(context, token);
       return 13;
     }
-    
+
     token.detach();
     const expectedTokens = ["#EOF", "#Comment", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Other"];
     const error = token.isEof ?
@@ -1200,9 +1174,7 @@ export default class Parser<AstNode> {
       UnexpectedTokenException.create(token, expectedTokens);
     if (this.stopAtFirstError) throw error;
     this.addError(context, error);
-    return 13;
-  }
-
+    return 13;  }
 
   // GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:1>DescriptionHelper:2>#Comment:0
   private matchTokenAt_14(token: IToken<TokenType>, context: Context) {
@@ -1275,7 +1247,7 @@ export default class Parser<AstNode> {
       this.build(context, token);
       return 14;
     }
-    
+
     token.detach();
     const expectedTokens = ["#EOF", "#Comment", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Empty"];
     const error = token.isEof ?
@@ -1283,9 +1255,7 @@ export default class Parser<AstNode> {
       UnexpectedTokenException.create(token, expectedTokens);
     if (this.stopAtFirstError) throw error;
     this.addError(context, error);
-    return 14;
-  }
-
+    return 14;  }
 
   // GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:2>Step:0>#StepLine:0
   private matchTokenAt_15(token: IToken<TokenType>, context: Context) {
@@ -1376,7 +1346,7 @@ export default class Parser<AstNode> {
       this.build(context, token);
       return 15;
     }
-    
+
     token.detach();
     const expectedTokens = ["#EOF", "#TableRow", "#DocStringSeparator", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Comment", "#Empty"];
     const error = token.isEof ?
@@ -1384,9 +1354,7 @@ export default class Parser<AstNode> {
       UnexpectedTokenException.create(token, expectedTokens);
     if (this.stopAtFirstError) throw error;
     this.addError(context, error);
-    return 15;
-  }
-
+    return 15;  }
 
   // GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:2>Step:1>StepArg:0>__alt0:0>DataTable:0>#TableRow:0
   private matchTokenAt_16(token: IToken<TokenType>, context: Context) {
@@ -1479,7 +1447,7 @@ export default class Parser<AstNode> {
       this.build(context, token);
       return 16;
     }
-    
+
     token.detach();
     const expectedTokens = ["#EOF", "#TableRow", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Comment", "#Empty"];
     const error = token.isEof ?
@@ -1487,9 +1455,7 @@ export default class Parser<AstNode> {
       UnexpectedTokenException.create(token, expectedTokens);
     if (this.stopAtFirstError) throw error;
     this.addError(context, error);
-    return 16;
-  }
-
+    return 16;  }
 
   // GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:0>Tags:0>#TagLine:0
   private matchTokenAt_17(token: IToken<TokenType>, context: Context) {
@@ -1511,7 +1477,7 @@ export default class Parser<AstNode> {
       this.build(context, token);
       return 17;
     }
-    
+
     token.detach();
     const expectedTokens = ["#TagLine", "#ExamplesLine", "#Comment", "#Empty"];
     const error = token.isEof ?
@@ -1519,9 +1485,7 @@ export default class Parser<AstNode> {
       UnexpectedTokenException.create(token, expectedTokens);
     if (this.stopAtFirstError) throw error;
     this.addError(context, error);
-    return 17;
-  }
-
+    return 17;  }
 
   // GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:1>Examples:0>#ExamplesLine:0
   private matchTokenAt_18(token: IToken<TokenType>, context: Context) {
@@ -1613,7 +1577,7 @@ export default class Parser<AstNode> {
       this.build(context, token);
       return 19;
     }
-    
+
     token.detach();
     const expectedTokens = ["#EOF", "#Empty", "#Comment", "#TableRow", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Other"];
     const error = token.isEof ?
@@ -1621,9 +1585,7 @@ export default class Parser<AstNode> {
       UnexpectedTokenException.create(token, expectedTokens);
     if (this.stopAtFirstError) throw error;
     this.addError(context, error);
-    return 18;
-  }
-
+    return 18;  }
 
   // GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:1>Examples:1>DescriptionHelper:1>Description:0>#Other:0
   private matchTokenAt_19(token: IToken<TokenType>, context: Context) {
@@ -1719,7 +1681,7 @@ export default class Parser<AstNode> {
       this.build(context, token);
       return 19;
     }
-    
+
     token.detach();
     const expectedTokens = ["#EOF", "#Comment", "#TableRow", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Other"];
     const error = token.isEof ?
@@ -1727,9 +1689,7 @@ export default class Parser<AstNode> {
       UnexpectedTokenException.create(token, expectedTokens);
     if (this.stopAtFirstError) throw error;
     this.addError(context, error);
-    return 19;
-  }
-
+    return 19;  }
 
   // GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:1>Examples:1>DescriptionHelper:2>#Comment:0
   private matchTokenAt_20(token: IToken<TokenType>, context: Context) {
@@ -1816,7 +1776,7 @@ export default class Parser<AstNode> {
       this.build(context, token);
       return 20;
     }
-    
+
     token.detach();
     const expectedTokens = ["#EOF", "#Comment", "#TableRow", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Empty"];
     const error = token.isEof ?
@@ -1824,9 +1784,7 @@ export default class Parser<AstNode> {
       UnexpectedTokenException.create(token, expectedTokens);
     if (this.stopAtFirstError) throw error;
     this.addError(context, error);
-    return 20;
-  }
-
+    return 20;  }
 
   // GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:1>Examples:2>ExamplesTable:0>#TableRow:0
   private matchTokenAt_21(token: IToken<TokenType>, context: Context) {
@@ -1919,7 +1877,7 @@ export default class Parser<AstNode> {
       this.build(context, token);
       return 21;
     }
-    
+
     token.detach();
     const expectedTokens = ["#EOF", "#TableRow", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Comment", "#Empty"];
     const error = token.isEof ?
@@ -1927,9 +1885,7 @@ export default class Parser<AstNode> {
       UnexpectedTokenException.create(token, expectedTokens);
     if (this.stopAtFirstError) throw error;
     this.addError(context, error);
-    return 21;
-  }
-
+    return 21;  }
 
   // GherkinDocument:0>Feature:3>Rule:0>RuleHeader:0>Tags:0>#TagLine:0
   private matchTokenAt_22(token: IToken<TokenType>, context: Context) {
@@ -1950,7 +1906,7 @@ export default class Parser<AstNode> {
       this.build(context, token);
       return 22;
     }
-    
+
     token.detach();
     const expectedTokens = ["#TagLine", "#RuleLine", "#Comment", "#Empty"];
     const error = token.isEof ?
@@ -1958,9 +1914,7 @@ export default class Parser<AstNode> {
       UnexpectedTokenException.create(token, expectedTokens);
     if (this.stopAtFirstError) throw error;
     this.addError(context, error);
-    return 22;
-  }
-
+    return 22;  }
 
   // GherkinDocument:0>Feature:3>Rule:0>RuleHeader:1>#RuleLine:0
   private matchTokenAt_23(token: IToken<TokenType>, context: Context) {
@@ -2023,7 +1977,7 @@ export default class Parser<AstNode> {
       this.build(context, token);
       return 24;
     }
-    
+
     token.detach();
     const expectedTokens = ["#EOF", "#Empty", "#Comment", "#BackgroundLine", "#TagLine", "#ScenarioLine", "#RuleLine", "#Other"];
     const error = token.isEof ?
@@ -2031,9 +1985,7 @@ export default class Parser<AstNode> {
       UnexpectedTokenException.create(token, expectedTokens);
     if (this.stopAtFirstError) throw error;
     this.addError(context, error);
-    return 23;
-  }
-
+    return 23;  }
 
   // GherkinDocument:0>Feature:3>Rule:0>RuleHeader:2>DescriptionHelper:1>Description:0>#Other:0
   private matchTokenAt_24(token: IToken<TokenType>, context: Context) {
@@ -2098,7 +2050,7 @@ export default class Parser<AstNode> {
       this.build(context, token);
       return 24;
     }
-    
+
     token.detach();
     const expectedTokens = ["#EOF", "#Comment", "#BackgroundLine", "#TagLine", "#ScenarioLine", "#RuleLine", "#Other"];
     const error = token.isEof ?
@@ -2106,9 +2058,7 @@ export default class Parser<AstNode> {
       UnexpectedTokenException.create(token, expectedTokens);
     if (this.stopAtFirstError) throw error;
     this.addError(context, error);
-    return 24;
-  }
-
+    return 24;  }
 
   // GherkinDocument:0>Feature:3>Rule:0>RuleHeader:2>DescriptionHelper:2>#Comment:0
   private matchTokenAt_25(token: IToken<TokenType>, context: Context) {
@@ -2166,7 +2116,7 @@ export default class Parser<AstNode> {
       this.build(context, token);
       return 25;
     }
-    
+
     token.detach();
     const expectedTokens = ["#EOF", "#Comment", "#BackgroundLine", "#TagLine", "#ScenarioLine", "#RuleLine", "#Empty"];
     const error = token.isEof ?
@@ -2174,9 +2124,7 @@ export default class Parser<AstNode> {
       UnexpectedTokenException.create(token, expectedTokens);
     if (this.stopAtFirstError) throw error;
     this.addError(context, error);
-    return 25;
-  }
-
+    return 25;  }
 
   // GherkinDocument:0>Feature:3>Rule:1>Background:0>#BackgroundLine:0
   private matchTokenAt_26(token: IToken<TokenType>, context: Context) {
@@ -2238,7 +2186,7 @@ export default class Parser<AstNode> {
       this.build(context, token);
       return 27;
     }
-    
+
     token.detach();
     const expectedTokens = ["#EOF", "#Empty", "#Comment", "#StepLine", "#TagLine", "#ScenarioLine", "#RuleLine", "#Other"];
     const error = token.isEof ?
@@ -2246,9 +2194,7 @@ export default class Parser<AstNode> {
       UnexpectedTokenException.create(token, expectedTokens);
     if (this.stopAtFirstError) throw error;
     this.addError(context, error);
-    return 26;
-  }
-
+    return 26;  }
 
   // GherkinDocument:0>Feature:3>Rule:1>Background:1>DescriptionHelper:1>Description:0>#Other:0
   private matchTokenAt_27(token: IToken<TokenType>, context: Context) {
@@ -2312,7 +2258,7 @@ export default class Parser<AstNode> {
       this.build(context, token);
       return 27;
     }
-    
+
     token.detach();
     const expectedTokens = ["#EOF", "#Comment", "#StepLine", "#TagLine", "#ScenarioLine", "#RuleLine", "#Other"];
     const error = token.isEof ?
@@ -2320,9 +2266,7 @@ export default class Parser<AstNode> {
       UnexpectedTokenException.create(token, expectedTokens);
     if (this.stopAtFirstError) throw error;
     this.addError(context, error);
-    return 27;
-  }
-
+    return 27;  }
 
   // GherkinDocument:0>Feature:3>Rule:1>Background:1>DescriptionHelper:2>#Comment:0
   private matchTokenAt_28(token: IToken<TokenType>, context: Context) {
@@ -2379,7 +2323,7 @@ export default class Parser<AstNode> {
       this.build(context, token);
       return 28;
     }
-    
+
     token.detach();
     const expectedTokens = ["#EOF", "#Comment", "#StepLine", "#TagLine", "#ScenarioLine", "#RuleLine", "#Empty"];
     const error = token.isEof ?
@@ -2387,9 +2331,7 @@ export default class Parser<AstNode> {
       UnexpectedTokenException.create(token, expectedTokens);
     if (this.stopAtFirstError) throw error;
     this.addError(context, error);
-    return 28;
-  }
-
+    return 28;  }
 
   // GherkinDocument:0>Feature:3>Rule:1>Background:2>Step:0>#StepLine:0
   private matchTokenAt_29(token: IToken<TokenType>, context: Context) {
@@ -2462,7 +2404,7 @@ export default class Parser<AstNode> {
       this.build(context, token);
       return 29;
     }
-    
+
     token.detach();
     const expectedTokens = ["#EOF", "#TableRow", "#DocStringSeparator", "#StepLine", "#TagLine", "#ScenarioLine", "#RuleLine", "#Comment", "#Empty"];
     const error = token.isEof ?
@@ -2470,9 +2412,7 @@ export default class Parser<AstNode> {
       UnexpectedTokenException.create(token, expectedTokens);
     if (this.stopAtFirstError) throw error;
     this.addError(context, error);
-    return 29;
-  }
-
+    return 29;  }
 
   // GherkinDocument:0>Feature:3>Rule:1>Background:2>Step:1>StepArg:0>__alt0:0>DataTable:0>#TableRow:0
   private matchTokenAt_30(token: IToken<TokenType>, context: Context) {
@@ -2545,7 +2485,7 @@ export default class Parser<AstNode> {
       this.build(context, token);
       return 30;
     }
-    
+
     token.detach();
     const expectedTokens = ["#EOF", "#TableRow", "#StepLine", "#TagLine", "#ScenarioLine", "#RuleLine", "#Comment", "#Empty"];
     const error = token.isEof ?
@@ -2553,9 +2493,7 @@ export default class Parser<AstNode> {
       UnexpectedTokenException.create(token, expectedTokens);
     if (this.stopAtFirstError) throw error;
     this.addError(context, error);
-    return 30;
-  }
-
+    return 30;  }
 
   // GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:0>Tags:0>#TagLine:0
   private matchTokenAt_31(token: IToken<TokenType>, context: Context) {
@@ -2577,7 +2515,7 @@ export default class Parser<AstNode> {
       this.build(context, token);
       return 31;
     }
-    
+
     token.detach();
     const expectedTokens = ["#TagLine", "#ScenarioLine", "#Comment", "#Empty"];
     const error = token.isEof ?
@@ -2585,9 +2523,7 @@ export default class Parser<AstNode> {
       UnexpectedTokenException.create(token, expectedTokens);
     if (this.stopAtFirstError) throw error;
     this.addError(context, error);
-    return 31;
-  }
-
+    return 31;  }
 
   // GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:0>#ScenarioLine:0
   private matchTokenAt_32(token: IToken<TokenType>, context: Context) {
@@ -2668,7 +2604,7 @@ export default class Parser<AstNode> {
       this.build(context, token);
       return 33;
     }
-    
+
     token.detach();
     const expectedTokens = ["#EOF", "#Empty", "#Comment", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Other"];
     const error = token.isEof ?
@@ -2676,9 +2612,7 @@ export default class Parser<AstNode> {
       UnexpectedTokenException.create(token, expectedTokens);
     if (this.stopAtFirstError) throw error;
     this.addError(context, error);
-    return 32;
-  }
-
+    return 32;  }
 
   // GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:1>DescriptionHelper:1>Description:0>#Other:0
   private matchTokenAt_33(token: IToken<TokenType>, context: Context) {
@@ -2763,7 +2697,7 @@ export default class Parser<AstNode> {
       this.build(context, token);
       return 33;
     }
-    
+
     token.detach();
     const expectedTokens = ["#EOF", "#Comment", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Other"];
     const error = token.isEof ?
@@ -2771,9 +2705,7 @@ export default class Parser<AstNode> {
       UnexpectedTokenException.create(token, expectedTokens);
     if (this.stopAtFirstError) throw error;
     this.addError(context, error);
-    return 33;
-  }
-
+    return 33;  }
 
   // GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:1>DescriptionHelper:2>#Comment:0
   private matchTokenAt_34(token: IToken<TokenType>, context: Context) {
@@ -2849,7 +2781,7 @@ export default class Parser<AstNode> {
       this.build(context, token);
       return 34;
     }
-    
+
     token.detach();
     const expectedTokens = ["#EOF", "#Comment", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Empty"];
     const error = token.isEof ?
@@ -2857,9 +2789,7 @@ export default class Parser<AstNode> {
       UnexpectedTokenException.create(token, expectedTokens);
     if (this.stopAtFirstError) throw error;
     this.addError(context, error);
-    return 34;
-  }
-
+    return 34;  }
 
   // GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:2>Step:0>#StepLine:0
   private matchTokenAt_35(token: IToken<TokenType>, context: Context) {
@@ -2953,7 +2883,7 @@ export default class Parser<AstNode> {
       this.build(context, token);
       return 35;
     }
-    
+
     token.detach();
     const expectedTokens = ["#EOF", "#TableRow", "#DocStringSeparator", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Comment", "#Empty"];
     const error = token.isEof ?
@@ -2961,9 +2891,7 @@ export default class Parser<AstNode> {
       UnexpectedTokenException.create(token, expectedTokens);
     if (this.stopAtFirstError) throw error;
     this.addError(context, error);
-    return 35;
-  }
-
+    return 35;  }
 
   // GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:2>Step:1>StepArg:0>__alt0:0>DataTable:0>#TableRow:0
   private matchTokenAt_36(token: IToken<TokenType>, context: Context) {
@@ -3059,7 +2987,7 @@ export default class Parser<AstNode> {
       this.build(context, token);
       return 36;
     }
-    
+
     token.detach();
     const expectedTokens = ["#EOF", "#TableRow", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Comment", "#Empty"];
     const error = token.isEof ?
@@ -3067,9 +2995,7 @@ export default class Parser<AstNode> {
       UnexpectedTokenException.create(token, expectedTokens);
     if (this.stopAtFirstError) throw error;
     this.addError(context, error);
-    return 36;
-  }
-
+    return 36;  }
 
   // GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:0>Tags:0>#TagLine:0
   private matchTokenAt_37(token: IToken<TokenType>, context: Context) {
@@ -3091,7 +3017,7 @@ export default class Parser<AstNode> {
       this.build(context, token);
       return 37;
     }
-    
+
     token.detach();
     const expectedTokens = ["#TagLine", "#ExamplesLine", "#Comment", "#Empty"];
     const error = token.isEof ?
@@ -3099,9 +3025,7 @@ export default class Parser<AstNode> {
       UnexpectedTokenException.create(token, expectedTokens);
     if (this.stopAtFirstError) throw error;
     this.addError(context, error);
-    return 37;
-  }
-
+    return 37;  }
 
   // GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:1>Examples:0>#ExamplesLine:0
   private matchTokenAt_38(token: IToken<TokenType>, context: Context) {
@@ -3196,7 +3120,7 @@ export default class Parser<AstNode> {
       this.build(context, token);
       return 39;
     }
-    
+
     token.detach();
     const expectedTokens = ["#EOF", "#Empty", "#Comment", "#TableRow", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Other"];
     const error = token.isEof ?
@@ -3204,9 +3128,7 @@ export default class Parser<AstNode> {
       UnexpectedTokenException.create(token, expectedTokens);
     if (this.stopAtFirstError) throw error;
     this.addError(context, error);
-    return 38;
-  }
-
+    return 38;  }
 
   // GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:1>Examples:1>DescriptionHelper:1>Description:0>#Other:0
   private matchTokenAt_39(token: IToken<TokenType>, context: Context) {
@@ -3305,7 +3227,7 @@ export default class Parser<AstNode> {
       this.build(context, token);
       return 39;
     }
-    
+
     token.detach();
     const expectedTokens = ["#EOF", "#Comment", "#TableRow", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Other"];
     const error = token.isEof ?
@@ -3313,9 +3235,7 @@ export default class Parser<AstNode> {
       UnexpectedTokenException.create(token, expectedTokens);
     if (this.stopAtFirstError) throw error;
     this.addError(context, error);
-    return 39;
-  }
-
+    return 39;  }
 
   // GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:1>Examples:1>DescriptionHelper:2>#Comment:0
   private matchTokenAt_40(token: IToken<TokenType>, context: Context) {
@@ -3405,7 +3325,7 @@ export default class Parser<AstNode> {
       this.build(context, token);
       return 40;
     }
-    
+
     token.detach();
     const expectedTokens = ["#EOF", "#Comment", "#TableRow", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Empty"];
     const error = token.isEof ?
@@ -3413,9 +3333,7 @@ export default class Parser<AstNode> {
       UnexpectedTokenException.create(token, expectedTokens);
     if (this.stopAtFirstError) throw error;
     this.addError(context, error);
-    return 40;
-  }
-
+    return 40;  }
 
   // GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:1>Examples:2>ExamplesTable:0>#TableRow:0
   private matchTokenAt_41(token: IToken<TokenType>, context: Context) {
@@ -3511,7 +3429,7 @@ export default class Parser<AstNode> {
       this.build(context, token);
       return 41;
     }
-    
+
     token.detach();
     const expectedTokens = ["#EOF", "#TableRow", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Comment", "#Empty"];
     const error = token.isEof ?
@@ -3519,9 +3437,7 @@ export default class Parser<AstNode> {
       UnexpectedTokenException.create(token, expectedTokens);
     if (this.stopAtFirstError) throw error;
     this.addError(context, error);
-    return 41;
-  }
-
+    return 41;  }
 
   // GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:2>Step:1>StepArg:0>__alt0:1>DocString:0>#DocStringSeparator:0
   private matchTokenAt_43(token: IToken<TokenType>, context: Context) {
@@ -3533,7 +3449,7 @@ export default class Parser<AstNode> {
       this.build(context, token);
       return 43;
     }
-    
+
     token.detach();
     const expectedTokens = ["#DocStringSeparator", "#Other"];
     const error = token.isEof ?
@@ -3541,9 +3457,7 @@ export default class Parser<AstNode> {
       UnexpectedTokenException.create(token, expectedTokens);
     if (this.stopAtFirstError) throw error;
     this.addError(context, error);
-    return 43;
-  }
-
+    return 43;  }
 
   // GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:2>Step:1>StepArg:0>__alt0:1>DocString:2>#DocStringSeparator:0
   private matchTokenAt_44(token: IToken<TokenType>, context: Context) {
@@ -3635,7 +3549,7 @@ export default class Parser<AstNode> {
       this.build(context, token);
       return 44;
     }
-    
+
     token.detach();
     const expectedTokens = ["#EOF", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Comment", "#Empty"];
     const error = token.isEof ?
@@ -3643,9 +3557,7 @@ export default class Parser<AstNode> {
       UnexpectedTokenException.create(token, expectedTokens);
     if (this.stopAtFirstError) throw error;
     this.addError(context, error);
-    return 44;
-  }
-
+    return 44;  }
 
   // GherkinDocument:0>Feature:3>Rule:1>Background:2>Step:1>StepArg:0>__alt0:1>DocString:0>#DocStringSeparator:0
   private matchTokenAt_45(token: IToken<TokenType>, context: Context) {
@@ -3657,7 +3569,7 @@ export default class Parser<AstNode> {
       this.build(context, token);
       return 45;
     }
-    
+
     token.detach();
     const expectedTokens = ["#DocStringSeparator", "#Other"];
     const error = token.isEof ?
@@ -3665,9 +3577,7 @@ export default class Parser<AstNode> {
       UnexpectedTokenException.create(token, expectedTokens);
     if (this.stopAtFirstError) throw error;
     this.addError(context, error);
-    return 45;
-  }
-
+    return 45;  }
 
   // GherkinDocument:0>Feature:3>Rule:1>Background:2>Step:1>StepArg:0>__alt0:1>DocString:2>#DocStringSeparator:0
   private matchTokenAt_46(token: IToken<TokenType>, context: Context) {
@@ -3736,7 +3646,7 @@ export default class Parser<AstNode> {
       this.build(context, token);
       return 46;
     }
-    
+
     token.detach();
     const expectedTokens = ["#EOF", "#StepLine", "#TagLine", "#ScenarioLine", "#RuleLine", "#Comment", "#Empty"];
     const error = token.isEof ?
@@ -3744,9 +3654,7 @@ export default class Parser<AstNode> {
       UnexpectedTokenException.create(token, expectedTokens);
     if (this.stopAtFirstError) throw error;
     this.addError(context, error);
-    return 46;
-  }
-
+    return 46;  }
 
   // GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:2>Step:1>StepArg:0>__alt0:1>DocString:0>#DocStringSeparator:0
   private matchTokenAt_47(token: IToken<TokenType>, context: Context) {
@@ -3758,7 +3666,7 @@ export default class Parser<AstNode> {
       this.build(context, token);
       return 47;
     }
-    
+
     token.detach();
     const expectedTokens = ["#DocStringSeparator", "#Other"];
     const error = token.isEof ?
@@ -3766,9 +3674,7 @@ export default class Parser<AstNode> {
       UnexpectedTokenException.create(token, expectedTokens);
     if (this.stopAtFirstError) throw error;
     this.addError(context, error);
-    return 47;
-  }
-
+    return 47;  }
 
   // GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:2>Step:1>StepArg:0>__alt0:1>DocString:2>#DocStringSeparator:0
   private matchTokenAt_48(token: IToken<TokenType>, context: Context) {
@@ -3857,7 +3763,7 @@ export default class Parser<AstNode> {
       this.build(context, token);
       return 48;
     }
-    
+
     token.detach();
     const expectedTokens = ["#EOF", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Comment", "#Empty"];
     const error = token.isEof ?
@@ -3865,9 +3771,7 @@ export default class Parser<AstNode> {
       UnexpectedTokenException.create(token, expectedTokens);
     if (this.stopAtFirstError) throw error;
     this.addError(context, error);
-    return 48;
-  }
-
+    return 48;  }
 
   // GherkinDocument:0>Feature:1>Background:2>Step:1>StepArg:0>__alt0:1>DocString:0>#DocStringSeparator:0
   private matchTokenAt_49(token: IToken<TokenType>, context: Context) {
@@ -3879,7 +3783,7 @@ export default class Parser<AstNode> {
       this.build(context, token);
       return 49;
     }
-    
+
     token.detach();
     const expectedTokens = ["#DocStringSeparator", "#Other"];
     const error = token.isEof ?
@@ -3887,9 +3791,7 @@ export default class Parser<AstNode> {
       UnexpectedTokenException.create(token, expectedTokens);
     if (this.stopAtFirstError) throw error;
     this.addError(context, error);
-    return 49;
-  }
-
+    return 49;  }
 
   // GherkinDocument:0>Feature:1>Background:2>Step:1>StepArg:0>__alt0:1>DocString:2>#DocStringSeparator:0
   private matchTokenAt_50(token: IToken<TokenType>, context: Context) {
@@ -3955,7 +3857,7 @@ export default class Parser<AstNode> {
       this.build(context, token);
       return 50;
     }
-    
+
     token.detach();
     const expectedTokens = ["#EOF", "#StepLine", "#TagLine", "#ScenarioLine", "#RuleLine", "#Comment", "#Empty"];
     const error = token.isEof ?
@@ -3963,93 +3865,77 @@ export default class Parser<AstNode> {
       UnexpectedTokenException.create(token, expectedTokens);
     if (this.stopAtFirstError) throw error;
     this.addError(context, error);
-    return 50;
-  }
-
+    return 50;  }
 
 
   private match_EOF(context: Context, token: IToken<TokenType>) {
     return this.handleExternalError(context, false, () => this.tokenMatcher.match_EOF(token));
   }
 
-
   private match_Empty(context: Context, token: IToken<TokenType>) {
     if(token.isEof) return false;
     return this.handleExternalError(context, false, () => this.tokenMatcher.match_Empty(token));
   }
-
 
   private match_Comment(context: Context, token: IToken<TokenType>) {
     if(token.isEof) return false;
     return this.handleExternalError(context, false, () => this.tokenMatcher.match_Comment(token));
   }
 
-
   private match_TagLine(context: Context, token: IToken<TokenType>) {
     if(token.isEof) return false;
     return this.handleExternalError(context, false, () => this.tokenMatcher.match_TagLine(token));
   }
-
 
   private match_FeatureLine(context: Context, token: IToken<TokenType>) {
     if(token.isEof) return false;
     return this.handleExternalError(context, false, () => this.tokenMatcher.match_FeatureLine(token));
   }
 
-
   private match_RuleLine(context: Context, token: IToken<TokenType>) {
     if(token.isEof) return false;
     return this.handleExternalError(context, false, () => this.tokenMatcher.match_RuleLine(token));
   }
-
 
   private match_BackgroundLine(context: Context, token: IToken<TokenType>) {
     if(token.isEof) return false;
     return this.handleExternalError(context, false, () => this.tokenMatcher.match_BackgroundLine(token));
   }
 
-
   private match_ScenarioLine(context: Context, token: IToken<TokenType>) {
     if(token.isEof) return false;
     return this.handleExternalError(context, false, () => this.tokenMatcher.match_ScenarioLine(token));
   }
-
 
   private match_ExamplesLine(context: Context, token: IToken<TokenType>) {
     if(token.isEof) return false;
     return this.handleExternalError(context, false, () => this.tokenMatcher.match_ExamplesLine(token));
   }
 
-
   private match_StepLine(context: Context, token: IToken<TokenType>) {
     if(token.isEof) return false;
     return this.handleExternalError(context, false, () => this.tokenMatcher.match_StepLine(token));
   }
-
 
   private match_DocStringSeparator(context: Context, token: IToken<TokenType>) {
     if(token.isEof) return false;
     return this.handleExternalError(context, false, () => this.tokenMatcher.match_DocStringSeparator(token));
   }
 
-
   private match_TableRow(context: Context, token: IToken<TokenType>) {
     if(token.isEof) return false;
     return this.handleExternalError(context, false, () => this.tokenMatcher.match_TableRow(token));
   }
-
 
   private match_Language(context: Context, token: IToken<TokenType>) {
     if(token.isEof) return false;
     return this.handleExternalError(context, false, () => this.tokenMatcher.match_Language(token));
   }
 
-
   private match_Other(context: Context, token: IToken<TokenType>) {
     if(token.isEof) return false;
     return this.handleExternalError(context, false, () => this.tokenMatcher.match_Other(token));
   }
-
 
 
   private lookahead_0(context: Context, currentToken: IToken<TokenType>) {
@@ -4062,17 +3948,16 @@ export default class Parser<AstNode> {
       token.detach();
       queue.push(token);
 
-      if (false  || this.match_ScenarioLine(context, token)) {
+      if (false || this.match_ScenarioLine(context, token)) {
         match = true;
         break;
       }
-    } while(false  || this.match_Empty(context, token) || this.match_Comment(context, token) || this.match_TagLine(context, token));
+    } while(false || this.match_Empty(context, token)|| this.match_Comment(context, token)|| this.match_TagLine(context, token));
 
     context.tokenQueue = context.tokenQueue.concat(queue);
 
     return match;
   }
-
 
   private lookahead_1(context: Context, currentToken: IToken<TokenType>) {
     currentToken.detach();
@@ -4084,16 +3969,15 @@ export default class Parser<AstNode> {
       token.detach();
       queue.push(token);
 
-      if (false  || this.match_ExamplesLine(context, token)) {
+      if (false || this.match_ExamplesLine(context, token)) {
         match = true;
         break;
       }
-    } while(false  || this.match_Empty(context, token) || this.match_Comment(context, token) || this.match_TagLine(context, token));
+    } while(false || this.match_Empty(context, token)|| this.match_Comment(context, token)|| this.match_TagLine(context, token));
 
     context.tokenQueue = context.tokenQueue.concat(queue);
 
     return match;
   }
-
 
 }
