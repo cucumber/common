@@ -15,12 +15,6 @@ default: .compared
 
 .deps: src/main/java/io/cucumber/gherkin/Parser.java
 
-# this will move to default.mk
-define berp-generate-parser =
--! dotnet tool list --tool-path /usr/bin | grep "berp\s*$(BERP_VERSION)" && dotnet tool update Berp --version $(BERP_VERSION) --tool-path /usr/bin
-berp -g gherkin.berp -t $< -o $@ --noBOM
-endef
-
 src/main/java/io/cucumber/gherkin/Parser.java: gherkin-java.razor gherkin.berp
 	$(berp-generate-parser)
 
