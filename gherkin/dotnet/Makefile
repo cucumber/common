@@ -1,14 +1,5 @@
 include default.mk
 
-# this will go to default.mk
-BERP_VERSION = 1.3.0-pre20210514-1
-
-.berp_restored:
-ifeq ($(shell dotnet tool list --tool-path /usr/bin | grep "berp\s*$(BERP_VERSION)"),)
-	dotnet tool update Berp --version $(BERP_VERSION) --tool-path /usr/bin
-endif
-	touch $@
-
 GOOD_FEATURE_FILES = $(shell find testdata/good -name "*.feature")
 BAD_FEATURE_FILES  = $(shell find testdata/bad -name "*.feature")
 
