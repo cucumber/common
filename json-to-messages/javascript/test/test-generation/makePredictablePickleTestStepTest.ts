@@ -15,7 +15,7 @@ describe('makePredictablePickleTestStep', () => {
       },
       []
     )
-    const result = await step.execute(null, 'some-id', () => null)
+    const result = await step.execute(null, 'some-id', () => null, true)
 
     assert.strictEqual(result.status, 'UNDEFINED')
     assert.strictEqual(result.duration.seconds, 0)
@@ -40,7 +40,7 @@ describe('makePredictablePickleTestStep', () => {
         ),
       ]
     )
-    const result = await step.execute(null, 'some-id', () => null)
+    const result = await step.execute(null, 'some-id', () => null, true)
 
     assert.strictEqual(result.status, messages.TestStepResultStatus.SKIPPED)
     assert.strictEqual(result.duration.seconds, 987)
@@ -66,7 +66,7 @@ describe('makePredictablePickleTestStep', () => {
         ),
       ]
     )
-    const result = await step.execute(null, 'some-id', () => null)
+    const result = await step.execute(null, 'some-id', () => null, true)
 
     assert.strictEqual(result.message, 'An error has been raised here')
   })

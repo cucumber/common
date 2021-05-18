@@ -24,19 +24,16 @@ export default abstract class TestStep implements ITestStep {
   public async execute(
     world: IWorld,
     testCaseStartedId: string,
-    listener: EnvelopeListener
+    listener: EnvelopeListener,
+    previousPassed: boolean
   ): Promise<messages.TestStepResult> {
     this.emitTestStepStarted(testCaseStartedId, listener)
 
-    const start = this.stopwatch.stopwatchNow()
-
     if (this.supportCodeExecutors.length === 0) {
-      const duration = millisecondsToDuration(this.clock.clockNow() - start)
-
       return this.emitTestStepFinished(
         testCaseStartedId,
         {
-          duration: duration,
+          duration: millisecondsToDuration(0),
           status: messages.TestStepResultStatus.UNDEFINED,
           willBeRetried: false,
         },
@@ -45,12 +42,10 @@ export default abstract class TestStep implements ITestStep {
     }
 
     if (this.supportCodeExecutors.length > 1) {
-      const duration = millisecondsToDuration(this.clock.clockNow() - start)
-
       return this.emitTestStepFinished(
         testCaseStartedId,
         {
-          duration: duration,
+          duration: millisecondsToDuration(0),
           status: messages.TestStepResultStatus.AMBIGUOUS,
           willBeRetried: false,
         },
@@ -58,6 +53,19 @@ export default abstract class TestStep implements ITestStep {
       )
     }
 
+    if (!previousPassed && !this.alwaysExecute) {
+      return this.emitTestStepFinished(
+        testCaseStartedId,
+        {
+          duration: millisecondsToDuration(0),
+          status: messages.TestStepResultStatus.SKIPPED,
+          willBeRetried: false,
+        },
+        listener
+      )
+    }
+
+    const start = this.stopwatch.stopwatchNow()
     try {
       world.attach = makeAttach(this.id, testCaseStartedId, listener)
       world.log = (text: string) => {
@@ -80,7 +88,7 @@ export default abstract class TestStep implements ITestStep {
         listener
       )
     } catch (error) {
-      const finish = this.clock.clockNow()
+      const finish = this.stopwatch.stopwatchNow()
 
       const message = this.makeErrorMessage(error, this.sourceFrames)
       const duration = millisecondsToDuration(finish - start)
@@ -95,19 +103,6 @@ export default abstract class TestStep implements ITestStep {
         listener
       )
     }
-  }
-
-  public skip(listener: EnvelopeListener, testCaseStartedId: string): messages.TestStepResult {
-    this.emitTestStepStarted(testCaseStartedId, listener)
-    return this.emitTestStepFinished(
-      testCaseStartedId,
-      {
-        duration: millisecondsToDuration(0),
-        status: messages.TestStepResultStatus.SKIPPED,
-        willBeRetried: false,
-      },
-      listener
-    )
   }
 
   protected emitTestStepStarted(testCaseStartedId: string, listener: EnvelopeListener) {

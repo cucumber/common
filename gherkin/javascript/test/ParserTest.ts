@@ -6,9 +6,6 @@ import GherkinClassicTokenMatcher from '../src/GherkinClassicTokenMatcher'
 import AstNode from '../src/AstNode'
 import generateMessages from '../src/generateMessages'
 import GherkinInMarkdownTokenMatcher from '../src/GherkinInMarkdownTokenMatcher'
-import fs from 'fs'
-import { promisify } from 'util'
-const readFile = promisify(fs.readFile)
 
 describe('Parser', function () {
   describe('with Gherkin Classic', () => {
