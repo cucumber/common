@@ -1,4 +1,4 @@
-CF_BUILD_URL=https://cihost.com/path/to/the/build
-CF_COMMIT_URL=https://scmhost.com/path/to/the/project
-CF_BRANCH=main
-CF_REVISION=decafbad
+CI_BUILD_URL=https://cihost.com/path/to/the/build
+CI_PULL_REQUEST=https://github.com/owner/repo/pull/42
+CI_BRANCH=main
+CI_COMMIT_ID=decafbad

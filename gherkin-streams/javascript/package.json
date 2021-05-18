@@ -1,6 +1,6 @@
 {
   "name": "@cucumber/gherkin-streams",
-  "version": "1.0.0",
+  "version": "2.0.2",
   "description": "Streams for reading Gherkin parser output",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
@@ -18,9 +18,9 @@
     "prepublishOnly": "tsc --build tsconfig.build.json"
   },
   "dependencies": {
-    "@cucumber/messages": "15.0.0",
-    "@cucumber/message-streams": "1.0.0",
-    "@cucumber/gherkin": "18.1.1",
+    "@cucumber/messages": "^16.0.0",
+    "@cucumber/message-streams": "^2.0.0",
+    "@cucumber/gherkin": "^19.0.1",
     "commander": "7.2.0",
     "source-map-support": "0.5.19"
   },

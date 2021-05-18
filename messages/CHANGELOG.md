@@ -9,6 +9,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+## [16.0.0] - 2021-05-15
+
+### Added
+
 * [Ruby] The generated code is added to Git.
   ([#1461](https://github.com/cucumber/cucumber/pull/1461)
    [aslakhellesoy])
@@ -19,12 +31,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * [Go, Java, JavaScript, Ruby] The library no longer depends on protocol buffers.
   ([#1414](https://github.com/cucumber/cucumber/pull/1414)
    [aslakhellesoy])
-
-### Deprecated
-
-### Removed
-
-### Fixed
+   * Empty `string` properties are set to `""` rather than being omitted.
+   * Empty `Array` properties are set to `[]` rather than being omitted.
+   * The `seconds` property on `Timestamp` and `Diration` is now a `number` rather than a `string`.
 
 ## [15.0.0] - 2021-03-23
 
@@ -512,7 +521,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Protobuf messages for Go, Java, JavaScript, TypeScript and Ruby
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/messages/v15.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/messages/v16.0.0...master
+[16.0.0]:      https://github.com/cucumber/cucumber/compare/messages/v15.0.0...messages/v16.0.0
 [15.0.0]:      https://github.com/cucumber/cucumber/compare/messages/v14.1.2...messages/v15.0.0
 [14.1.2]:      https://github.com/cucumber/cucumber/compare/messages/v14.0.1...messages/v14.1.2
 [14.1.1]:      https://github.com/cucumber/cucumber/compare/messages/v14.1.0...messages/v14.1.1

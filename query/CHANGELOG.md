@@ -15,10 +15,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Removed
 
+### Fixed
+
+## [10.0.0] - 2021-05-17
+
+### Changed
+
+* Upgrade to gherkin 19.0.0
+* Upgrade to messages 16.0.0
+
+### Removed
+
 * [JavaScript] Removed `Query#getWorstTestStepResult` method. Use `getWorstTestStepResult`
   from `@cucumber/messages` instead.
-
-### Fixed
 
 ## [9.0.2] - 2021-04-06
 
@@ -122,7 +131,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First JavaScript implementation
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/query/v9.0.2...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/query/v10.0.0...master
+[10.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-query/v9.0.2...query/v10.0.0
 [9.0.2]:      https://github.com/cucumber/cucumber/compare/cucumber-query/v9.0.1...query/v9.0.2
 [9.0.1]:      https://github.com/cucumber/cucumber/compare/cucumber-query/v9.0.0...query/v9.0.1
 [9.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-query/v8.0.0...query/v9.0.0
