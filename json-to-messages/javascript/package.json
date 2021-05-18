@@ -1,6 +1,6 @@
 {
   "name": "@cucumber/json-to-messages",
-  "version": "7.0.0",
+  "version": "9.0.0",
   "description": "Translate legacy JSON to messages",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
@@ -34,13 +34,13 @@
     "typescript": "4.2.4"
   },
   "dependencies": {
-    "@cucumber/create-meta": "4.0.0",
-    "@cucumber/fake-cucumber": "11.0.0",
-    "@cucumber/gherkin": "19.0.0",
-    "@cucumber/gherkin-streams": "2.0.0",
-    "@cucumber/gherkin-utils": "5.0.0",
-    "@cucumber/messages": "16.0.0",
-    "@cucumber/message-streams": "1.0.0",
+    "@cucumber/create-meta": "^5.0.0",
+    "@cucumber/fake-cucumber": "^12.0.2",
+    "@cucumber/gherkin": "^19.0.1",
+    "@cucumber/gherkin-streams": "^2.0.2",
+    "@cucumber/gherkin-utils": "^5.0.2",
+    "@cucumber/messages": "^16.0.0",
+    "@cucumber/message-streams": "^2.0.0",
     "commander": "7.2.0",
     "glob": "7.1.7",
     "source-map-support": "0.5.19"

@@ -1,0 +1,9 @@
+{
+  "git": {
+    "branch": "main",
+    "remote": "https://scmhost.com/path/to/the/project",
+    "revision": "decafbad"
+  },
+  "name": "Jenkins",
+  "url": "https://cihost.com/path/to/the/build"
+}

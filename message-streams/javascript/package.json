@@ -1,6 +1,6 @@
 {
   "name": "@cucumber/message-streams",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Streams for reading/writing messages",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
@@ -15,7 +15,7 @@
     "prepublishOnly": "tsc --build tsconfig.build.json"
   },
   "dependencies": {
-    "@cucumber/messages": "16.0.0"
+    "@cucumber/messages": "^16.0.0"
   },
   "devDependencies": {
     "@types/mocha": "8.2.2",

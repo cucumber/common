@@ -1,10 +1,12 @@
 require 'uri'
-require 'cucumber/messages'
 require 'sys/uname'
 require 'json'
+require 'cucumber/messages'
+require 'cucumber/create_meta/variable_expression'
 
 module Cucumber
   module CreateMeta
+    extend Cucumber::CreateMeta::VariableExpression
     CI_DICT = JSON.parse(IO.read(File.join(File.dirname(__FILE__), "ciDict.json")))
 
     def create_meta(tool_name, tool_version, env = ENV)
@@ -53,34 +55,6 @@ module Cucumber
       }
     end
 
-    def evaluate(template, env)
-      return nil if template.nil?
-      begin
-        template.gsub(/\${((refbranch|reftag)\s+)?([^\s}]+)(\s+\|\s+([^}]+))?}/) do
-          func = $2
-          variable = $3
-          default_value = $5 == "" ? nil : $5
-          value = env[variable] || default_value
-
-          if func == 'refbranch'
-            value = group1(value, /^refs\/heads\/(.*)/)
-          elsif func == 'reftag'
-            value = group1(value, /^refs\/tags\/(.*)/)
-          end
-          raise "Undefined variable: #{variable}" if value.nil?
-          value
-        end
-      rescue
-        nil
-      end
-    end
-
-    def group1(value, regexp)
-      m = value.match(regexp)
-      raise "No match" if m.nil?
-      m[1]
-    end
-
     def remove_userinfo_from_url(value)
       return nil if value.nil?
       begin
@@ -92,6 +66,6 @@ module Cucumber
       end
     end
 
-    module_function :create_meta, :detect_ci, :create_ci, :group1, :evaluate, :remove_userinfo_from_url
+    module_function :create_meta, :detect_ci, :create_ci, :remove_userinfo_from_url
   end
 end

@@ -1,5 +1,5 @@
 import assert from 'assert'
-import { TimeConversion } from '../src'
+import { Duration, TimeConversion } from '../src'
 import { addDurations } from '../src/TimeConversion'
 
 const {
@@ -10,6 +10,17 @@ const {
 } = TimeConversion
 
 describe('TimeConversion', () => {
+  it('converts legacy string seconds', () => {
+    const duration: Duration = {
+      // @ts-ignore
+      seconds: '3',
+      nanos: 40000,
+    }
+    const millis = durationToMilliseconds(duration)
+
+    assert.strictEqual(millis, 3000.04)
+  })
+
   it('converts to and from milliseconds since epoch', () => {
     const millisecondsSinceEpoch = Date.now()
     const timestamp = millisecondsSinceEpochToTimestamp(millisecondsSinceEpoch)

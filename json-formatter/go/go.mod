@@ -1,4 +1,4 @@
-module github.com/cucumber/json-formatter-go/v17
+module github.com/cucumber/json-formatter-go/v18
 
 replace github.com/cucumber/messages-go/v16 => ../../messages/go
 

@@ -17,9 +17,8 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
+import static io.cucumber.createmeta.VariableExpression.evaluate;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class CreateMeta {
@@ -70,10 +69,10 @@ public class CreateMeta {
         return detected.size() == 1 ? detected.get(0) : null;
     }
 
-    private static Ci createCi(String name, JsonObject ciSystem, Map<String, String> env) {
-        String url = evaluate(getString(ciSystem, "url"), env);
+    private static Ci createCi(String name, JsonObject ci, Map<String, String> env) {
+        String url = evaluate(getString(ci, "url"), env);
         if (url == null) return null;
-        JsonObject git = ciSystem.get("git").asObject();
+        JsonObject git = ci.get("git").asObject();
         String remote = removeUserInfoFromUrl(evaluate(getString(git, "remote"), env));
         String revision = evaluate(getString(git, "revision"), env);
         String branch = evaluate(getString(git, "branch"), env);
@@ -84,50 +83,6 @@ public class CreateMeta {
                 url,
                 new Git(remote, revision, branch, tag)
         );
-    }
-
-    private static String evaluate(String template, Map<String, String> env) {
-        if (template == null) return null;
-        try {
-            Pattern pattern = Pattern.compile("\\$\\{((refbranch|reftag)\\s+)?([^\\s}]+)(\\s+\\|\\s+([^}]+))?}");
-            Matcher matcher = pattern.matcher(template);
-            StringBuffer sb = new StringBuffer();
-            while (matcher.find()) {
-                String func = matcher.group(2);
-                String variable = matcher.group(3);
-                String defaultValue = matcher.group(5);
-                String value = env.getOrDefault(variable, defaultValue);
-                if (value == null) {
-                    throw new RuntimeException(String.format("Undefined variable: %s", variable));
-                }
-                if (func != null) {
-                    switch (func) {
-                        case "refbranch":
-                            value = group1(value, Pattern.compile("^refs/heads/(.*)"));
-                            break;
-                        case "reftag":
-                            value = group1(value, Pattern.compile("^refs/tags/(.*)"));
-                            break;
-                    }
-                }
-                if (value == null) {
-                    throw new RuntimeException(String.format("Undefined variable: %s", variable));
-                }
-                matcher.appendReplacement(sb, value);
-            }
-            matcher.appendTail(sb);
-            return sb.toString();
-        } catch (RuntimeException e) {
-            return null;
-        }
-    }
-
-    private static String group1(String value, Pattern pattern) {
-        Matcher matcher = pattern.matcher(value);
-        if (matcher.find()) {
-            return matcher.group(1);
-        }
-        return matcher.find() ? matcher.group(1) : null;
     }
 
     private static String getString(JsonObject json, String name) {

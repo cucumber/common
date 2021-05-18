@@ -31,6 +31,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * [Go, Java, JavaScript, Ruby] The library no longer depends on protocol buffers.
   ([#1414](https://github.com/cucumber/cucumber/pull/1414)
    [aslakhellesoy])
+   * Empty `string` properties are set to `""` rather than being omitted.
+   * Empty `Array` properties are set to `[]` rather than being omitted.
+   * The `seconds` property on `Timestamp` and `Diration` is now a `number` rather than a `string`.
 
 ## [15.0.0] - 2021-03-23
 

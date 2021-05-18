@@ -12,7 +12,7 @@ executors:
   # the build nodes (faster builds).
   docker-cucumber-build:
     docker:
-      - image: cucumber/cucumber-build:0.3.0
+      - image: cucumber/cucumber-build:0.4.4
     working_directory: ~/cucumber
     environment:
       # nvm, node and npm are installed locally rather globally.
@@ -732,6 +732,19 @@ jobs:
             cd gherkin/dotnet
             make
 
+### Perl
+
+  gherkin-perl:
+    executor: docker-cucumber-build
+    steps:
+      - attach_workspace:
+          at: "~/cucumber"
+      - run:
+          name: gherkin/perl
+          command: |
+            cd gherkin/perl
+            make
+
 ### Python
 
   tag-expressions-python:
@@ -1026,6 +1039,12 @@ workflows:
             - prepare-parallel
 
       - gherkin-dotnet:
+          requires:
+            - prepare-parallel
+
+## Perl
+
+      - gherkin-perl:
           requires:
             - prepare-parallel
 

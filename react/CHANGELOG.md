@@ -9,10 +9,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
- * [JavaScript] Export `StatusIcon` component.
-  ([#1478](https://github.com/cucumber/cucumber/pull/1478)
-   [@vincent-psarga])
-
 ### Changed
 
 ### Deprecated
@@ -20,6 +16,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Removed
 
 ### Fixed
+
+## [14.0.0] - 2021-05-17
+
+### Added
+
+ * [JavaScript] Export `StatusIcon` component.
+  ([#1478](https://github.com/cucumber/cucumber/pull/1478)
+   [@vincent-psarga])
+
+### Changed
+
+* Upgrade to messages 16.0.0
 
 ## [13.0.0] - 2021-04-06
 
@@ -337,7 +345,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/react/v13.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/react/v14.0.0...master
+[14.0.0]:      https://github.com/cucumber/cucumber/compare/react/v13.0.0...react/v14.0.0
 [13.0.0]:      https://github.com/cucumber/cucumber/compare/react/v12.0.0...react/v13.0.0
 [12.0.0]:      https://github.com/cucumber/cucumber/compare/react/v11.0.2...react/v12.0.0
 [11.0.2]:      https://github.com/cucumber/cucumber/compare/react/v11.0.1...react/v11.0.2

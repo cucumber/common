@@ -1,6 +1,6 @@
 {
   "name": "@cucumber/gherkin",
-  "version": "19.0.0",
+  "version": "19.0.1",
   "description": "Gherkin parser",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
@@ -31,8 +31,8 @@
     "typescript": "4.2.4"
   },
   "dependencies": {
-    "@cucumber/messages": "16.0.0",
-    "@cucumber/message-streams": "1.0.0"
+    "@cucumber/messages": "^16.0.0",
+    "@cucumber/message-streams": "^2.0.0"
   },
   "directories": {
     "test": "test"
