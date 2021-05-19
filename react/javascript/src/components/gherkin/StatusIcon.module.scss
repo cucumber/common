@@ -10,7 +10,7 @@ $statusColors:
 .icon {
   @each $name, $color in $statusColors {
     &[data-status='#{$name}'] {
-      color: $color
+      color: fade-out($color, 0.333);
     }
   }
 }
