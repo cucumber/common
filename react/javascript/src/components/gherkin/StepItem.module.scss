@@ -21,6 +21,6 @@ $statusWidth: 1.5em;
 
   // bit of detail (doc string, data table, error, attachment) get consistent spacing between them
   > * + * {
-    margin-top: 0.25rem;
+    margin-top: 0.25rem !important;
   }
 }
