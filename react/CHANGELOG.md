@@ -10,8 +10,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 
 * New `<MDG>` component for rendering [Markdown with Gherkin](../gherkin/MARKDOWN_WITH_GHERKIN.md) documents.
+* Experimental support for theming and custom rendering ([1391](https://github.com/cucumber/common/pull/1391))
 
 ### Changed
+
+* Various look and feel changes ([1391](https://github.com/cucumber/common/pull/1391))
 
 ### Deprecated
 
