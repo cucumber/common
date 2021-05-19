@@ -36,7 +36,7 @@ export interface DataTableClasses {
 }
 
 export interface DescriptionProps {
-  description: string
+  description?: string
 }
 
 export interface DescriptionClasses {
