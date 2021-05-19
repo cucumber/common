@@ -5,28 +5,28 @@ import { faPaperclip } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 // @ts-ignore
 import Convert from 'ansi-to-html'
-import styles from './Attachment.module.scss'
+import defaultStyles from './Attachment.module.scss'
 import {
   AttachmentClasses,
   AttachmentProps,
+  DefaultComponent,
   useCustomRendering,
 } from '../customise/CustomRendering'
 
-const Attachment: React.FunctionComponent<AttachmentProps> = ({ attachment }) => {
-  const Customised = useCustomRendering<AttachmentProps, AttachmentClasses>('Attachment', styles)
-  if (typeof Customised === 'function') {
-    return <Customised attachment={attachment} />
-  }
+const DefaultRenderer: DefaultComponent<AttachmentProps, AttachmentClasses> = ({
+  attachment,
+  styles,
+}) => {
   if (attachment.mediaType.match(/^image\//)) {
-    return image(attachment, Customised as AttachmentClasses)
+    return image(attachment, styles)
   } else if (attachment.mediaType.match(/^video\//)) {
     return video(attachment)
   } else if (attachment.mediaType == 'text/x.cucumber.log+plain') {
-    return text(attachment, prettyANSI, true, Customised as AttachmentClasses)
+    return text(attachment, prettyANSI, true, styles)
   } else if (attachment.mediaType.match(/^text\//)) {
-    return text(attachment, (s) => s, false, Customised as AttachmentClasses)
+    return text(attachment, (s) => s, false, styles)
   } else if (attachment.mediaType.match(/^application\/json/)) {
-    return text(attachment, prettyJSON, false, Customised as AttachmentClasses)
+    return text(attachment, prettyJSON, false, styles)
   } else {
     return (
       <ErrorMessage
@@ -34,6 +34,15 @@ const Attachment: React.FunctionComponent<AttachmentProps> = ({ attachment }) =>
       />
     )
   }
+}
+
+const Attachment: React.FunctionComponent<AttachmentProps> = (props) => {
+  const ResolvedRenderer = useCustomRendering<AttachmentProps, AttachmentClasses>(
+    'Attachment',
+    defaultStyles,
+    DefaultRenderer
+  )
+  return <ResolvedRenderer {...props} />
 }
 
 function image(attachment: messages.Attachment, classes: AttachmentClasses) {
@@ -105,8 +114,8 @@ function text(
     )
   }
   return (
-    <pre className={styles.text}>
-      <FontAwesomeIcon icon={faPaperclip} className={styles.icon} />
+    <pre className={classes.text}>
+      <FontAwesomeIcon icon={faPaperclip} className={classes.icon} />
       {prettify(body)}
     </pre>
   )

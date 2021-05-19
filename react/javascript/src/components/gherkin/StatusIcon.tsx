@@ -10,26 +10,35 @@ import {
 import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import * as messages from '@cucumber/messages'
-import styles from './StatusIcon.module.scss'
+import defaultStyles from './StatusIcon.module.scss'
 import {
+  DefaultComponent,
   StatusIconClasses,
   StatusIconProps,
   useCustomRendering,
 } from '../customise/CustomRendering'
 
-const StatusIcon: React.FunctionComponent<StatusIconProps> = (props) => {
-  const Customised = useCustomRendering<StatusIconProps, StatusIconClasses>('StatusIcon', styles)
-  if (typeof Customised === 'function') {
-    return <Customised {...props}>{props.children}</Customised>
-  }
+const DefaultRenderer: DefaultComponent<StatusIconProps, StatusIconClasses> = ({
+  status,
+  styles,
+}) => {
   return (
     <FontAwesomeIcon
-      icon={statusIcon(props.status)}
+      icon={statusIcon(status)}
       size="1x"
-      className={Customised.icon}
-      data-status={props.status}
+      className={styles.icon}
+      data-status={status}
     />
   )
+}
+
+const StatusIcon: React.FunctionComponent<StatusIconProps> = (props) => {
+  const Customised = useCustomRendering<StatusIconProps, StatusIconClasses>(
+    'StatusIcon',
+    defaultStyles,
+    DefaultRenderer
+  )
+  return <Customised {...props}>{props.children}</Customised>
 }
 
 export default StatusIcon

@@ -1,25 +1,34 @@
 import React from 'react'
 import HighLight from '../app/HighLight'
 import {
+  DefaultComponent,
   DescriptionClasses,
   DescriptionProps,
   useCustomRendering,
 } from '../customise/CustomRendering'
-import styles from './Description.module.scss'
+import defaultStyles from './Description.module.scss'
 
-const Description: React.FunctionComponent<DescriptionProps> = ({ description }) => {
-  const Customised = useCustomRendering<DescriptionProps, DescriptionClasses>('Description', styles)
-  if (typeof Customised === 'function') {
-    return <Customised description={description} />
+const DefaultRenderer: DefaultComponent<DescriptionProps, DescriptionClasses> = ({
+  description,
+  styles,
+}) => {
+  if (!description || description.trim() === '') {
+    return null
   }
-  if (description && description.trim() !== '') {
-    return (
-      <div className={Customised.content}>
-        <HighLight text={description} markdown={true} />
-      </div>
-    )
-  }
-  return null
+  return (
+    <div className={styles.content}>
+      <HighLight text={description} markdown={true} />
+    </div>
+  )
+}
+
+const Description: React.FunctionComponent<DescriptionProps> = (props) => {
+  const ResolvedRenderer = useCustomRendering<DescriptionProps, DescriptionClasses>(
+    'Description',
+    defaultStyles,
+    DefaultRenderer
+  )
+  return <ResolvedRenderer {...props} />
 }
 
 export default Description

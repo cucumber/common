@@ -1,6 +1,11 @@
 import React from 'react'
-import styles from './DataTable.module.scss'
-import { DataTableClasses, DataTableProps, useCustomRendering } from '../customise/CustomRendering'
+import defaultStyles from './DataTable.module.scss'
+import {
+  DataTableClasses,
+  DataTableProps,
+  DefaultComponent,
+  useCustomRendering,
+} from '../customise/CustomRendering'
 import * as messages from '@cucumber/messages'
 import isNumber from './isNumber'
 import HighLight from '../app/HighLight'
@@ -23,16 +28,24 @@ const TableBody: React.FunctionComponent<{
   )
 }
 
-const DataTable: React.FunctionComponent<DataTableProps> = (props) => {
-  const Customised = useCustomRendering<DataTableProps, DataTableClasses>('DataTable', styles)
-  if (typeof Customised === 'function') {
-    return <Customised {...props} />
-  }
+const DefaultRenderer: DefaultComponent<DataTableProps, DataTableClasses> = ({
+  dataTable,
+  styles,
+}) => {
   return (
-    <table className={Customised.table}>
-      <TableBody rows={props.dataTable.rows || []} />
+    <table className={styles.table}>
+      <TableBody rows={dataTable.rows || []} />
     </table>
   )
+}
+
+const DataTable: React.FunctionComponent<DataTableProps> = (props) => {
+  const ResolvedRenderer = useCustomRendering<DataTableProps, DataTableClasses>(
+    'DataTable',
+    defaultStyles,
+    DefaultRenderer
+  )
+  return <ResolvedRenderer {...props} />
 }
 
 export default DataTable

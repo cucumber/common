@@ -1,25 +1,35 @@
 import React from 'react'
 import HighLight from '../app/HighLight'
-import { TagsClasses, TagsProps, useCustomRendering } from '../customise/CustomRendering'
-import styles from './Tags.module.scss'
+import {
+  DefaultComponent,
+  TagsClasses,
+  TagsProps,
+  useCustomRendering,
+} from '../customise/CustomRendering'
+import defaultStyles from './Tags.module.scss'
 
-const Tags: React.FunctionComponent<TagsProps> = (props) => {
-  const Customised = useCustomRendering<TagsProps, TagsClasses>('Tags', styles)
-  if (typeof Customised === 'function') {
-    return <Customised {...props} />
-  }
-  if (!props.tags.length) {
+const DefaultRenderer: DefaultComponent<TagsProps, TagsClasses> = ({ tags, styles }) => {
+  if (!tags.length) {
     return null
   }
   return (
-    <ul className={Customised.tags}>
-      {props.tags.map((tag, index) => (
-        <li className={Customised.tag} key={index}>
+    <ul className={styles.tags}>
+      {tags.map((tag, index) => (
+        <li className={styles.tag} key={index}>
           <HighLight text={tag.name} />
         </li>
       ))}
     </ul>
   )
+}
+
+const Tags: React.FunctionComponent<TagsProps> = (props) => {
+  const ResolvedRenderer = useCustomRendering<TagsProps, TagsClasses>(
+    'Tags',
+    defaultStyles,
+    DefaultRenderer
+  )
+  return <ResolvedRenderer {...props} />
 }
 
 export default Tags

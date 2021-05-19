@@ -65,6 +65,6 @@ describe('<Step>', () => {
     const texts = Array.from(document.querySelectorAll('#content h3 > *')).map(
       (span) => span.textContent
     )
-    assert.deepStrictEqual(texts, ['Given', 'the ', '48', ' pixies'])
+    assert.deepStrictEqual(texts, ['Given', 'the 48 pixies'])
   })
 })

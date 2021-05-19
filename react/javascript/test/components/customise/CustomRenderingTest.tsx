@@ -138,4 +138,41 @@ describe('custom rendering and theming', () => {
 
     assert.equal(document.getElementById('content').innerHTML, '<p>Totally custom!</p>')
   })
+
+  it('a custom component can defer to the default renderer if it wants to', () => {
+    const dom = new JSDOM('<html lang="en"><body><div id="content"></div></body></html>')
+    // @ts-ignore
+    global.window = dom.window
+    // global.navigator = dom.window.navigator
+    const document = dom.window.document
+
+    const tags: messages.Tag[] = [
+      {
+        id: '123',
+        name: 'sometag',
+        location: {
+          line: 1,
+          column: 1,
+        },
+      },
+    ]
+
+    const CustomComponent = (props: any) => {
+      return <props.DefaultRenderer {...props} />
+    }
+
+    const app = (
+      <CustomRendering
+        support={{
+          Tags: CustomComponent,
+        }}
+      >
+        <Tags tags={tags} />
+      </CustomRendering>
+    )
+    ReactDOM.render(app, document.getElementById('content'))
+
+    assert.equal(document.querySelector('ul').className, 'tags__generated')
+    assert.equal(document.querySelector('ul > li').className, 'tag__generated')
+  })
 })

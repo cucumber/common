@@ -3,14 +3,14 @@ import * as messages from '@cucumber/messages'
 
 function mixinStyles<Classes>(
   builtIn: Record<string, string>,
-  custom?: Record<string, string>
+  custom?: Record<string, string> | React.FunctionComponent
 ): Classes {
   const mixed: any = {}
   Object.keys(builtIn).forEach((key) => {
     if (builtIn[key]) {
       mixed[key] = builtIn[key]
     }
-    if (custom && custom[key]) {
+    if (custom && typeof custom !== 'function' && custom[key]) {
       mixed[key] = custom[key]
     }
   })
@@ -98,19 +98,32 @@ export interface TagsClasses {
   tag: string
 }
 
-export declare type CustomRenderer<R, C> = React.FunctionComponent<R> | Partial<C>
+export declare type DefaultComponent<Props, Classes> = React.FunctionComponent<
+  Props & { styles: Classes }
+>
+
+export declare type CustomisedComponent<Props, Classes> = React.FunctionComponent<
+  Props & {
+    styles: Classes
+    DefaultRenderer: React.FunctionComponent<Props>
+  }
+>
+
+export declare type Customised<Props, Classes> =
+  | CustomisedComponent<Props, Classes>
+  | Partial<Classes>
 
 export interface CustomRenderingSupport {
-  Attachment?: CustomRenderer<AttachmentProps, AttachmentClasses>
-  DataTable?: CustomRenderer<DataTableProps, DataTableClasses>
-  Description?: CustomRenderer<DescriptionProps, DescriptionClasses>
-  DocString?: CustomRenderer<DocStringProps, DocStringClasses>
-  ErrorMessage?: CustomRenderer<ErrorMessageProps, ErrorMessageClasses>
-  ExamplesTable?: CustomRenderer<ExamplesTableProps, ExamplesTableClasses>
-  Keyword?: CustomRenderer<any, KeywordClasses>
-  Parameter?: CustomRenderer<ParameterProps, ParameterClasses>
-  StatusIcon?: CustomRenderer<StatusIconProps, StatusIconClasses>
-  Tags?: CustomRenderer<TagsProps, TagsClasses>
+  Attachment?: Customised<AttachmentProps, AttachmentClasses>
+  DataTable?: Customised<DataTableProps, DataTableClasses>
+  Description?: Customised<DescriptionProps, DescriptionClasses>
+  DocString?: Customised<DocStringProps, DocStringClasses>
+  ErrorMessage?: Customised<ErrorMessageProps, ErrorMessageClasses>
+  ExamplesTable?: Customised<ExamplesTableProps, ExamplesTableClasses>
+  Keyword?: Customised<any, KeywordClasses>
+  Parameter?: Customised<ParameterProps, ParameterClasses>
+  StatusIcon?: Customised<StatusIconProps, StatusIconClasses>
+  Tags?: Customised<TagsProps, TagsClasses>
 }
 
 export declare type CustomRenderable = keyof CustomRenderingSupport
@@ -119,13 +132,21 @@ const CustomRenderingContext = React.createContext<CustomRenderingSupport>({})
 
 export function useCustomRendering<Props, Classes>(
   component: CustomRenderable,
-  styles: Record<string, string>
-): CustomRenderer<Props, Classes> {
+  defaultStyles: Record<string, string>,
+  DefaultRenderer: DefaultComponent<Props, Classes>
+): React.FunctionComponent<Props> {
   const { [component]: Custom } = useContext(CustomRenderingContext)
-  if (typeof Custom === 'function') {
-    return Custom as React.FunctionComponent<Props>
+  const composedStyles = mixinStyles<Classes>(defaultStyles, Custom)
+  const StyledDefaultRenderer: React.FunctionComponent<Props> = (props) => {
+    return <DefaultRenderer {...props} styles={composedStyles} />
   }
-  return mixinStyles<Classes>(styles, Custom)
+  if (typeof Custom === 'function') {
+    const StyledCustomRenderer: React.FunctionComponent<Props> = (props) => {
+      return <Custom {...props} styles={composedStyles} DefaultRenderer={StyledDefaultRenderer} />
+    }
+    return StyledCustomRenderer
+  }
+  return StyledDefaultRenderer
 }
 
 const CustomRendering: React.FunctionComponent<{

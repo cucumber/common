@@ -1,17 +1,31 @@
 import React from 'react'
-import { ParameterClasses, ParameterProps, useCustomRendering } from '../customise/CustomRendering'
-import styles from './Parameter.module.scss'
+import {
+  DefaultComponent,
+  ParameterClasses,
+  ParameterProps,
+  useCustomRendering,
+} from '../customise/CustomRendering'
+import defaultStyles from './Parameter.module.scss'
 
-const Parameter: React.FunctionComponent<ParameterProps> = (props) => {
-  const Customised = useCustomRendering<ParameterProps, ParameterClasses>('Parameter', styles)
-  if (typeof Customised === 'function') {
-    return <Customised {...props} />
-  }
+const DefaultRenderer: DefaultComponent<ParameterProps, ParameterClasses> = ({
+  parameterTypeName,
+  children,
+  styles,
+}) => {
   return (
-    <span title={props.parameterTypeName} className={Customised.parameter}>
-      {props.children}
+    <span title={parameterTypeName} className={styles.parameter}>
+      {children}
     </span>
   )
+}
+
+const Parameter: React.FunctionComponent<ParameterProps> = (props) => {
+  const ResolvedRenderer = useCustomRendering<ParameterProps, ParameterClasses>(
+    'Parameter',
+    defaultStyles,
+    DefaultRenderer
+  )
+  return <ResolvedRenderer {...props} />
 }
 
 export default Parameter

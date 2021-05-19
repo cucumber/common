@@ -1,7 +1,7 @@
 import React from 'react'
 import * as messages from '@cucumber/messages'
 import { getWorstTestStepResult } from '@cucumber/messages'
-import styles from './DataTable.module.scss'
+import defaultStyles from './DataTable.module.scss'
 import GherkinQueryContext from '../../GherkinQueryContext'
 import CucumberQueryContext from '../../CucumberQueryContext'
 import UriContext from '../../UriContext'
@@ -9,32 +9,39 @@ import StatusIcon from './StatusIcon'
 import isNumber from './isNumber'
 import ErrorMessage from './ErrorMessage'
 import {
+  DefaultComponent,
   ExamplesTableClasses,
   ExamplesTableProps,
   useCustomRendering,
 } from '../customise/CustomRendering'
 
-const ExamplesTable: React.FunctionComponent<ExamplesTableProps> = (props) => {
-  const Customised = useCustomRendering<ExamplesTableProps, ExamplesTableClasses>(
-    'ExamplesTable',
-    styles
-  )
-  if (typeof Customised === 'function') {
-    return <Customised {...props} />
-  }
+const DefaultRenderer: DefaultComponent<ExamplesTableProps, ExamplesTableClasses> = ({
+  tableHeader,
+  tableBody,
+  styles,
+}) => {
   return (
-    <table className={Customised.examplesTable}>
+    <table className={styles.examplesTable}>
       <thead>
         <tr>
           <th>&nbsp;</th>
-          {props.tableHeader.cells.map((cell, j) => (
+          {tableHeader.cells.map((cell, j) => (
             <th key={j}>{cell.value}</th>
           ))}
         </tr>
       </thead>
-      <ExamplesTableBody rows={props.tableBody || []} detailClass={Customised.detailRow} />
+      <ExamplesTableBody rows={tableBody || []} detailClass={styles.detailRow} />
     </table>
   )
+}
+
+const ExamplesTable: React.FunctionComponent<ExamplesTableProps> = (props) => {
+  const ResolvedRenderer = useCustomRendering<ExamplesTableProps, ExamplesTableClasses>(
+    'ExamplesTable',
+    defaultStyles,
+    DefaultRenderer
+  )
+  return <ResolvedRenderer {...props} />
 }
 
 const ExamplesTableBody: React.FunctionComponent<{
