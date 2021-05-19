@@ -3,13 +3,13 @@ import ReactDOM from 'react-dom'
 import React from 'react'
 import * as messages from '@cucumber/messages'
 import { Query as CucumberQuery } from '@cucumber/query'
-import Step from '../src/components/gherkin/Step'
+import Step from '../../../src/components/gherkin/Step'
 import { JSDOM } from 'jsdom'
 
-import UriContext from '../src/UriContext'
-import GherkinQueryContext from '../src/GherkinQueryContext'
+import UriContext from '../../../src/UriContext'
+import GherkinQueryContext from '../../../src/GherkinQueryContext'
 import { Query as GherkinQuery } from '@cucumber/gherkin-utils'
-import CucumberQueryContext from '../src/CucumberQueryContext'
+import CucumberQueryContext from '../../../src/CucumberQueryContext'
 
 describe('<Step>', () => {
   it('renders', () => {

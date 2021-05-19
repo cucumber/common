@@ -2,8 +2,8 @@ import assert from 'assert'
 import ReactDOM from 'react-dom'
 import React from 'react'
 import { JSDOM } from 'jsdom'
-import Tags from '../src/components/gherkin/Tags'
-import CustomRendering from '../src/components/customise/CustomRendering'
+import Tags from '../../../src/components/gherkin/Tags'
+import CustomRendering from '../../../src/components/customise/CustomRendering'
 import * as messages from '@cucumber/messages'
 
 describe('custom rendering and theming', () => {
