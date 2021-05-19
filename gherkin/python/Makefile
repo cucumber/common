@@ -61,10 +61,7 @@ clobber: clean
 	rm -rf gherkin/parser.py
 .PHONY: clobber
 
-gherkin/parser.py: gherkin.berp gherkin-python.razor
-	mono  /var/lib/berp/1.1.1/tools/net471/Berp.exe -g gherkin.berp -t gherkin-python.razor -o $@
-	# Remove BOM
-	awk 'NR==1{sub(/^\xef\xbb\xbf/,"")}{print}' < $@ > $@.nobom
-	mv $@.nobom $@
+gherkin/parser.py: gherkin-python.razor gherkin.berp
+	$(berp-generate-parser)
 
 include default.mk

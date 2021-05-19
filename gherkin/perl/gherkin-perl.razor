@@ -15,7 +15,7 @@
   }
 }
 @helper HandleParserError(IEnumerable<string> expectedTokens, State state)
-{<text>$token->detach;
+{<text>    $token->detach;
 
     # Create the appropriate error
     my $error_class = "Gherkin::Exceptions::" . (
@@ -33,7 +33,7 @@
     $self->add_error( $context, $@@ );
 
     return @state.Id;
-} </text>}
+</text>}
 @helper MatchToken(TokenType tokenType)
 {<text>match_@(tokenType)($context, $token)</text>}
 package Gherkin::Generated::@(Model.ParserClassName);
@@ -143,7 +143,9 @@ sub match_token_at_@(state.Id) {
     @:}
     }
 
-    @HandleParserError(state.Transitions.Select(t => "#" + t.TokenType.ToString()).Distinct(), state)</text>
+    @HandleParserError(state.Transitions.Select(t => "#" + t.TokenType.ToString()).Distinct(), state)
+}
+</text>
 }
 
 @foreach(var lookAheadHint in Model.RuleSet.LookAheadHints)

@@ -22,11 +22,11 @@ typedef enum RuleType {
     Rule_Feature, /* Feature! := FeatureHeader Background? ScenarioDefinition* Rule* */
     Rule_FeatureHeader, /* FeatureHeader! := #Language? Tags? #FeatureLine DescriptionHelper */
     Rule_Rule, /* Rule! := RuleHeader Background? ScenarioDefinition* */
-    Rule_RuleHeader, /* RuleHeader! := #RuleLine DescriptionHelper */
+    Rule_RuleHeader, /* RuleHeader! := Tags? #RuleLine DescriptionHelper */
     Rule_Background, /* Background! := #BackgroundLine DescriptionHelper Step* */
-    Rule_ScenarioDefinition, /* ScenarioDefinition! := Tags? Scenario */
+    Rule_ScenarioDefinition, /* ScenarioDefinition! [#Empty|#Comment|#TagLine->#ScenarioLine] := Tags? Scenario */
     Rule_Scenario, /* Scenario! := #ScenarioLine DescriptionHelper Step* ExamplesDefinition* */
-    Rule_ExamplesDefinition, /* ExamplesDefinition! [#Empty|#Comment|#TagLine-&gt;#ExamplesLine] := Tags? Examples */
+    Rule_ExamplesDefinition, /* ExamplesDefinition! [#Empty|#Comment|#TagLine->#ExamplesLine] := Tags? Examples */
     Rule_Examples, /* Examples! := #ExamplesLine DescriptionHelper ExamplesTable? */
     Rule_ExamplesTable, /* ExamplesTable! := #TableRow #TableRow* */
     Rule_Step, /* Step! := #StepLine StepArg? */
