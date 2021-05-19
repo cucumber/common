@@ -71,6 +71,18 @@ Feature: hello
 `, true)
   })
 
+  it('renders tables', () => {
+    assertPrettyIdentical(`Feature: hello
+
+  Scenario: one
+    Given a data table:
+      | text | numbers |
+      | a    |       1 |
+      | ab   |      10 |
+      | abc  |     100 |
+`, true)
+  })
+
   it('renders descriptions when set', () => {
     assertPrettyIdentical(`Feature: hello
   So this is a feature
