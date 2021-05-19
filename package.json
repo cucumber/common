@@ -28,6 +28,7 @@
     "test": "./scripts/npm-each npm test",
     "upgrade": "npm-check-updates --upgrade && ./scripts/npm-each npm-check-updates --upgrade",
     "eslint-fix": "eslint --ext ts,tsx --max-warnings 0 --fix */javascript",
+    "eslint": "eslint --ext ts,tsx --max-warnings 0 */javascript",
     "prepare": "./scripts/npm-each npm run prepare --if-present"
   },
   "devDependencies": {

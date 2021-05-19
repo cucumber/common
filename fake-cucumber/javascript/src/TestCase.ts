@@ -11,13 +11,7 @@ export default class TestCase implements ITestCase {
     private readonly testSteps: ITestStep[],
     private readonly pickleId: string,
     private readonly clock: IClock
-  ) {
-    testSteps.forEach((testStep) => {
-      if (!testStep) {
-        throw new Error('undefined step')
-      }
-    })
-  }
+  ) {}
 
   public toMessage(): messages.Envelope {
     return {
@@ -53,16 +47,15 @@ export default class TestCase implements ITestCase {
     }
 
     const testStepResults: messages.TestStepResult[] = []
-    let executeNext = true
+    let previousPassed = true
     for (const testStep of this.testSteps) {
-      let testStepResult: messages.TestStepResult
-      // TODO: Also ask testStep if it should always execute (true for After steps)
-      if (executeNext || testStep.alwaysExecute) {
-        testStepResult = await testStep.execute(world, testCaseStartedId, listener)
-        executeNext = testStepResult.status === messages.TestStepResultStatus.PASSED
-      } else {
-        testStepResult = testStep.skip(listener, testCaseStartedId)
-      }
+      const testStepResult: messages.TestStepResult = await testStep.execute(
+        world,
+        testCaseStartedId,
+        listener,
+        previousPassed
+      )
+      previousPassed = testStepResult.status === messages.TestStepResultStatus.PASSED
       testStepResults.push(testStepResult)
     }
 

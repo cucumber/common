@@ -17,6 +17,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [9.0.0] - 2021-05-18
+
+### Changed
+
+* Upgrade to `@cucumber/fake-cucumber` 12.0.2
+
 ## [8.0.0] - 2021-05-17
 
 ### Changed
@@ -73,7 +79,8 @@ This should have been 2.0.0, but was accidentally released as 6.0.0.
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/json-to-messages/v8.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/json-to-messages/v9.0.0...master
+[9.0.0]: https://github.com/cucumber/cucumber/compare/json-to-messages/v8.0.0...json-to-messages/v9.0.0
 [8.0.0]: https://github.com/cucumber/cucumber/compare/json-to-messages/v7.0.0...json-to-messages/v8.0.0
 [7.0.0]: https://github.com/cucumber/cucumber/compare/json-to-messages/v6.0.0...json-to-messages/v7.0.0
 [6.0.0]: https://github.com/cucumber/cucumber/compare/json-to-messages/v1.1.0...json-to-messages/v6.0.0

@@ -17,6 +17,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [12.0.2] - 2021-05-18
+
+### Fixed
+
+* `UNDEFINED` steps are always reported as `UNDEFINED`. They used to be reported as `SKIPPED`
+  if the previous step was not `PASSED`.
+
 ## [12.0.1] - 2021-05-17
 
 ### Changed
@@ -232,7 +239,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/fake-cucumber/v12.0.1...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/fake-cucumber/v12.0.2...master
+[12.0.2]:      https://github.com/cucumber/cucumber/compare/fake-cucumber/v12.0.1...fake-cucumber/v12.0.2
 [12.0.1]:      https://github.com/cucumber/cucumber/compare/fake-cucumber/v12.0.0...fake-cucumber/v12.0.1
 [12.0.0]:      https://github.com/cucumber/cucumber/compare/fake-cucumber/v11.0.0...fake-cucumber/v12.0.0
 [11.0.0]:      https://github.com/cucumber/cucumber/compare/fake-cucumber/v10.0.0...fake-cucumber/v11.0.0
