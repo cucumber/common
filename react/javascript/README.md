@@ -42,8 +42,7 @@ There are several ways you can apply different styling to the components.
 
 Besides the default, we have a few other built-in themes:
 
-- dark
-- ???
+- `dark`
 
 You can activate one of these by wrapping your top-level usage with the `Theme` component:
 
@@ -69,10 +68,15 @@ That name will act as a suffix for a classname `cucumber-theme--acme-widgets`, a
 .cucumber-theme--dark {
   --cucumber-background-color: #1d1d26;
   --cucumber-text-color: #c9c9d1;
+  --cucumber-anchor-color: #4caaee;
   --cucumber-keyword-color: #d89077;
   --cucumber-parameter-color: #4caaee;
   --cucumber-tag-color: #85a658;
-  --cucumber-docstring-color: #3d5e41;
+  --cucumber-docstring-color: #66a565;
+  --cucumber-error-background-color: #cf6679;
+  --cucumber-error-text-color: #222;
+  --cucumber-code-background-color: #282a36;
+  --cucumber-code-text-color: #f8f8f2;
 }
 ```
 
@@ -125,6 +129,11 @@ Staying with the doc string example, you can use the same `CustomRendering` wrap
   <GherkinDocument />
 </CustomRendering>
 ```
+
+In each case where you provide your own component, it will receive the same props as the default component, plus two more:
+
+- `styles` - class names for the default styling, so you can still apply these to your custom component if it makes sense
+- `DefaultRenderer` - the default React component, useful if you only want to provide your own rendering for certain cases, and otherwise fall back to the default rendering (don't forget to pass it the props)
 
 ## Build / hack
 
