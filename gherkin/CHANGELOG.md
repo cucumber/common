@@ -19,17 +19,16 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Fixed
 
-## [19.0.1] - 2021-05-17
-
-### Added
-
-### Changed
-
-### Deprecated
-
-### Removed
+## [19.0.2] - 2021-05-19
 
 ### Fixed
+
+* Upgrade to `@cucumber/message-streams` `^2.0.0`
+
+## [19.0.1] - 2021-05-17
+
+### Fixed
+
 * [Perl]   Updated to pass acceptance tests.
   ([#1552](https://github.com/cucumber/common/pull/1552) [ehuelsmann])
 
@@ -991,7 +990,8 @@ to Gherkin 2.
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v19.0.1...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v19.0.2...master
+[19.0.2]:     https://github.com/cucumber/cucumber/compare/gherkin/v19.0.1...gherkin/v19.0.2
 [19.0.1]:     https://github.com/cucumber/cucumber/compare/gherkin/v19.0.0...gherkin/v19.0.1
 [19.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v18.1.1...gherkin/v19.0.0
 [18.1.1]:     https://github.com/cucumber/cucumber/compare/gherkin/v18.1.0...gherkin/v18.1.1
