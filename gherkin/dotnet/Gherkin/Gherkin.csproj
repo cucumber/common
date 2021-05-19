@@ -2,27 +2,34 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net45</TargetFrameworks>
-  </PropertyGroup>
-
-  <PropertyGroup>
-    <PackageId>Gherkin</PackageId>
-    <VersionNumber>19.0.1</VersionNumber>
-    <Version Condition="'$(SnapshotSuffix)' != ''">$(VersionNumber)-$(SnapshotSuffix)</Version>
-    <Version Condition="'$(SnapshotSuffix)' == ''">$(VersionNumber)</Version>
-    <Authors>Cucumber Ltd, Gaspar Nagy</Authors>
-    <Title>Gherkin Parser</Title>
-    <Description>Cross-platform parser for the Gherkin language, used by Cucumber, SpecFlow and other Cucumber-based tools to parse feature files.</Description>
-    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <Copyright>Copyright © Cucumber Ltd, Gaspar Nagy</Copyright>
-    <PackageTags>specflow gherkin cucumber</PackageTags>
-    <PackageProjectUrl>https://github.com/cucumber/cucumber/tree/master/gherkin</PackageProjectUrl>
-    <PackageIcon>cucumber-mark-green-128.png</PackageIcon>
-    <PackageLicense>MIT</PackageLicense>
-
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Deterministic Condition="'$(Configuration)' == 'Release'">false</Deterministic>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <NoWarn>1591</NoWarn>
+    <Deterministic Condition="'$(Configuration)' == 'Release'">false</Deterministic>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\Gherkin.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Version">
+    <VersionNumber>19.0.2</VersionNumber>
+    <Version Condition="'$(SnapshotSuffix)' != ''">$(VersionNumber)-$(SnapshotSuffix)</Version>
+    <Version Condition="'$(SnapshotSuffix)' == ''">$(VersionNumber)</Version>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Package Properties">
+    <Product>Gherkin Parser</Product>
+    <PackageId>Gherkin</PackageId>
+    <Authors>Cucumber Ltd, Gaspar Nagy</Authors>
+    <Copyright>Copyright © Cucumber Ltd, Gaspar Nagy</Copyright>
+    <Description>Cross-platform parser for the Gherkin language, used by Cucumber, SpecFlow and other Cucumber-based tools to parse feature files.</Description>
+    <PackageTags>specflow gherkin cucumber</PackageTags>
+    <PackageProjectUrl>https://github.com/cucumber/common/tree/master/gherkin</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/cucumber/common</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageIcon>cucumber-mark-green-128.png</PackageIcon>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageOutputPath>bin/$(Configuration)/NuGet</PackageOutputPath>
   </PropertyGroup>
 
   <ItemGroup>

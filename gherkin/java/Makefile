@@ -15,11 +15,8 @@ default: .compared
 
 .deps: src/main/java/io/cucumber/gherkin/Parser.java
 
-src/main/java/io/cucumber/gherkin/Parser.java: gherkin.berp gherkin-java.razor
-	mono  /var/lib/berp/1.1.1/tools/net471/Berp.exe -g gherkin.berp -t gherkin-java.razor -o $@
-	# Remove BOM
-	awk 'NR==1{sub(/^\xef\xbb\xbf/,"")}{print}' < $@ > $@.nobom
-	mv $@.nobom $@
+src/main/java/io/cucumber/gherkin/Parser.java: gherkin-java.razor gherkin.berp
+	$(berp-generate-parser)
 
 .compared: $(TOKENS) $(ASTS) $(PICKLES) $(ERRORS) $(SOURCES)
 	touch $@
