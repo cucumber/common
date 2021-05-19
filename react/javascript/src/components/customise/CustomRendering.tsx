@@ -17,9 +17,49 @@ function mixinStyles<Classes>(
   return mixed as Classes
 }
 
-const CustomRenderingContext = React.createContext<CustomRenderingSupport>({})
+export interface AttachmentProps {
+  attachment: messages.Attachment
+}
 
-export declare type CustomRenderer<R, C> = React.FunctionComponent<R> | Partial<C>
+export interface AttachmentClasses {
+  text: string
+  icon: string
+  image: string
+}
+
+export interface DataTableProps {
+  dataTable: messages.DataTable
+}
+
+export interface DataTableClasses {
+  table: string
+}
+
+export interface DocStringProps {
+  docString: messages.DocString
+}
+
+export interface DocStringClasses {
+  docString: string
+}
+
+export interface ErrorMessageProps {
+  message: string
+}
+
+export interface ErrorMessageClasses {
+  message: string
+}
+
+export interface ExamplesTableProps {
+  tableHeader: messages.TableRow
+  tableBody: readonly messages.TableRow[]
+}
+
+export interface ExamplesTableClasses {
+  examplesTable: string
+  exampleDetail: string
+}
 
 export interface KeywordClasses {
   keyword: string
@@ -33,30 +73,12 @@ export interface ParameterClasses {
   parameter: string
 }
 
-export interface DocStringProps {
-  docString: messages.DocString
+export interface StatusIconProps {
+  status: messages.TestStepResultStatus
 }
 
-export interface DocStringClasses {
-  docString: string
-}
-
-export interface DataTableProps {
-  dataTable: messages.DataTable
-}
-
-export interface DataTableClasses {
-  table: string
-}
-
-export interface ExamplesTableProps {
-  tableHeader: messages.TableRow
-  tableBody: readonly messages.TableRow[]
-}
-
-export interface ExamplesTableClasses {
-  examplesTable: string
-  exampleDetail: string
+export interface StatusIconClasses {
+  icon: string
 }
 
 export interface TagsProps {
@@ -68,45 +90,23 @@ export interface TagsClasses {
   tag: string
 }
 
-export interface AttachmentProps {
-  attachment: messages.Attachment
-}
+export declare type CustomRenderer<R, C> = React.FunctionComponent<R> | Partial<C>
 
-export interface AttachmentClasses {
-  text: string
-  icon: string
-  image: string
-}
-
-export interface StatusIconProps {
-  status: messages.TestStepResultStatus
-}
-
-export interface StatusIconClasses {
-  icon: string
-}
-
-export interface ErrorMessageProps {
-  message: string
-}
-
-export interface ErrorMessageClasses {
-  message: string
+export interface CustomRenderingSupport {
+  Attachment?: CustomRenderer<AttachmentProps, AttachmentClasses>
+  DataTable?: CustomRenderer<DataTableProps, DataTableClasses>
+  DocString?: CustomRenderer<DocStringProps, DocStringClasses>
+  ErrorMessage?: CustomRenderer<ErrorMessageProps, ErrorMessageClasses>
+  ExamplesTable?: CustomRenderer<ExamplesTableProps, ExamplesTableClasses>
+  Keyword?: CustomRenderer<any, KeywordClasses>
+  Parameter?: CustomRenderer<ParameterProps, ParameterClasses>
+  StatusIcon?: CustomRenderer<StatusIconProps, StatusIconClasses>
+  Tags?: CustomRenderer<TagsProps, TagsClasses>
 }
 
 export declare type CustomRenderable = keyof CustomRenderingSupport
 
-export interface CustomRenderingSupport {
-  Keyword?: CustomRenderer<any, KeywordClasses>
-  Parameter?: CustomRenderer<ParameterProps, ParameterClasses>
-  DocString?: CustomRenderer<DocStringProps, DocStringClasses>
-  DataTable?: CustomRenderer<DataTableProps, DataTableClasses>
-  ExamplesTable?: CustomRenderer<ExamplesTableProps, ExamplesTableClasses>
-  Tags?: CustomRenderer<TagsProps, TagsClasses>
-  Attachment?: CustomRenderer<AttachmentProps, AttachmentClasses>
-  StatusIcon?: CustomRenderer<StatusIconProps, StatusIconClasses>
-  ErrorMessage?: CustomRenderer<ErrorMessageProps, ErrorMessageClasses>
-}
+const CustomRenderingContext = React.createContext<CustomRenderingSupport>({})
 
 export function useCustomRendering<Props, Classes>(
   component: CustomRenderable,
