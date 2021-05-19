@@ -35,6 +35,14 @@ export interface DataTableClasses {
   table: string
 }
 
+export interface DescriptionProps {
+  description: string
+}
+
+export interface DescriptionClasses {
+  content: string
+}
+
 export interface DocStringProps {
   docString: messages.DocString
 }
@@ -95,6 +103,7 @@ export declare type CustomRenderer<R, C> = React.FunctionComponent<R> | Partial<
 export interface CustomRenderingSupport {
   Attachment?: CustomRenderer<AttachmentProps, AttachmentClasses>
   DataTable?: CustomRenderer<DataTableProps, DataTableClasses>
+  Description?: CustomRenderer<DescriptionProps, DescriptionClasses>
   DocString?: CustomRenderer<DocStringProps, DocStringClasses>
   ErrorMessage?: CustomRenderer<ErrorMessageProps, ErrorMessageClasses>
   ExamplesTable?: CustomRenderer<ExamplesTableProps, ExamplesTableClasses>
