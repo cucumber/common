@@ -1,6 +1,14 @@
 import assert from 'assert'
-import { Given } from '@cucumber/fake-cucumber'
+import { Given, When } from '@cucumber/fake-cucumber'
 
-Given('I have {int} cukes in my belly', function (cukeCount: number) {
-  assert(cukeCount)
+Given('the following step definition:', function (code: string) {
+  assert(code)
+})
+
+Given('the following Gherkin step:', function (gherkin: string) {
+  assert(gherkin)
+})
+
+When('the step runs', function () {
+  throw new Error('An exception was thrown')
 })

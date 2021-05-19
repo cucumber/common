@@ -16,12 +16,14 @@ const StepList: React.FunctionComponent<IProps> = ({
   return (
     <>
       {steps.map((step, index) => (
-        <Step
-          key={index}
-          step={step}
-          renderStepMatchArguments={renderStepMatchArguments}
-          renderMessage={renderMessage}
-        />
+        <li key={index}>
+          <Step
+            key={index}
+            step={step}
+            renderStepMatchArguments={renderStepMatchArguments}
+            renderMessage={renderMessage}
+          />
+        </li>
       ))}
     </>
   )

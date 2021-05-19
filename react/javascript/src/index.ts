@@ -7,6 +7,7 @@ import GherkinQueryContext from './GherkinQueryContext'
 import CucumberQueryContext from './CucumberQueryContext'
 import SearchQueryContext from './SearchQueryContext'
 import EnvelopesQueryContext, { EnvelopesQuery } from './EnvelopesQueryContext'
+import MDG from './components/gherkin/MDG'
 
 export {
   GherkinDocumentList,
@@ -19,4 +20,5 @@ export {
   EnvelopesQuery,
   FilteredResults,
   filterByStatus,
+  MDG
 }

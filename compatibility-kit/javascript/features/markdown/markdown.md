@@ -19,7 +19,7 @@ your programming language.
   ```
 * And the following Gherkin step:
   ```gherkin
-  Given there are 4 apples in Mary's basket
+  Given there are 24 apples in Mary's basket
   ```
 * When the step runs
 * Then the following should be printed:
@@ -27,7 +27,11 @@ your programming language.
   [24, "Mary"]
   ```
 
-## Rule: A step definition can be passes multiline arguments
+## Rule: A step definition can be passed multiline arguments
+
+A step definition is not executed if:
+* There are more than one step definitions matching a step
+* There previous step failed
 
 ### Example: DataTable
 

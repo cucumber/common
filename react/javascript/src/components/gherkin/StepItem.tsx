@@ -8,10 +8,10 @@ const StepItem: React.FunctionComponent<{
   status?: messages.TestStepResultStatus
 }> = ({ status, children }) => {
   return (
-    <li className={styles.container}>
+    <div className={styles.container}>
       <span className={styles.status}>{status && <StatusIcon status={status} />}</span>
       <div className={styles.content}>{children}</div>
-    </li>
+    </div>
   )
 }
 

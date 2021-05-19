@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+* New `<MDG>` component for rendering [Markdown with Gherkin](../gherkin/MARKDOWN_WITH_GHERKIN.md) documents.
+
 ### Changed
 
 ### Deprecated
