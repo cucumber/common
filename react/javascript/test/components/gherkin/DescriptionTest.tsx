@@ -12,9 +12,7 @@ describe('Description', () => {
     // global.navigator = dom.window.navigator
     const document = dom.window.document
 
-    const app = (
-      <Description description={description}/>
-    )
+    const app = <Description description={description} />
     ReactDOM.render(app, document.getElementById('content'))
     return document
   }

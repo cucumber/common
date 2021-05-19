@@ -51,11 +51,7 @@ const Step: React.FunctionComponent<IProps> = ({
       stepMatchArguments.forEach((argument, index) => {
         plain = step.text.slice(offset, argument.group.start)
         if (plain.length > 0) {
-          stepTextElements.push(
-            <span className="cucumber-step__text" key={`plain-${index}`}>
-              <HighLight text={plain} />
-            </span>
-          )
+          stepTextElements.push(<HighLight key={`plain-${index}`} text={plain} />)
         }
         const arg = argument.group.value
         if (arg.length > 0) {
@@ -69,41 +65,25 @@ const Step: React.FunctionComponent<IProps> = ({
       })
       plain = step.text.slice(offset)
       if (plain.length > 0) {
-        stepTextElements.push(
-          <span key={`plain-rest`}>
-            <HighLight text={plain} />
-          </span>
-        )
+        stepTextElements.push(<HighLight key={`plain-rest`} text={plain} />)
       }
     } else if (stepMatchArgumentsLists.length >= 2) {
       // Step is ambiguous
-      stepTextElements.push(
-        <span key={`plain-ambiguous`}>
-          <HighLight text={step.text} />
-        </span>
-      )
+      stepTextElements.push(<HighLight key={`plain-ambiguous`} text={step.text} />)
     } else {
       // Step is undefined
-      stepTextElements.push(
-        <span key={`plain-undefined`}>
-          <HighLight text={step.text} />
-        </span>
-      )
+      stepTextElements.push(<HighLight key={`plain-undefined`} text={step.text} />)
     }
   } else {
     // Step is from scenario with examples, and has <> placeholders.
-    stepTextElements.push(
-      <span key={`plain-placeholders`}>
-        <HighLight text={step.text} />
-      </span>
-    )
+    stepTextElements.push(<HighLight key={`plain-placeholders`} text={step.text} />)
   }
 
   return (
     <StepItem status={testStepResult.status}>
       <Title tag="h3">
-        <Keyword>{step.keyword}</Keyword>
-        {stepTextElements}
+        <Keyword>{step.keyword.trim()}</Keyword>
+        <span>{stepTextElements}</span>
       </Title>
       {step.dataTable && <DataTable dataTable={step.dataTable} />}
       {step.docString && <DocString docString={step.docString} />}

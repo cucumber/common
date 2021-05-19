@@ -4,8 +4,11 @@ import Description from './Description'
 import Scenario from './Scenario'
 import * as messages from '@cucumber/messages'
 import Background from './Background'
-import RuleTitle from './RuleTitle'
 import Tags from './Tags'
+import Anchor from './Anchor'
+import Title from './Title'
+import Keyword from './Keyword'
+import HighLight from '../app/HighLight'
 
 interface IProps {
   rule: messages.Rule
@@ -17,9 +20,14 @@ const Rule: React.FunctionComponent<IProps> = ({ rule }) => {
   const idGenerated = generator.generate(rule.name)
 
   return (
-    <section className="cucumber-rule">
+    <section>
       <Tags tags={rule.tags} />
-      <RuleTitle id={idGenerated} rule={rule} />
+      <Anchor id={idGenerated}>
+        <Title id={idGenerated} tag="h2">
+          <Keyword>{rule.keyword}:</Keyword>
+          <HighLight text={rule.name} />
+        </Title>
+      </Anchor>
       <Description description={rule.description} />
       <div className="cucumber-children">
         {(rule.children || []).map((child, index) => {

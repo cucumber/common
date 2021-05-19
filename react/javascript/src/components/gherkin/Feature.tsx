@@ -6,7 +6,10 @@ import Scenario from './Scenario'
 import * as messages from '@cucumber/messages'
 import Rule from './Rule'
 import Background from './Background'
-import FeatureTitle from './FeatureTitle'
+import Title from './Title'
+import Keyword from './Keyword'
+import HighLight from '../app/HighLight'
+import Anchor from './Anchor'
 
 interface IProps {
   feature: messages.Feature
@@ -18,9 +21,14 @@ const Feature: React.FunctionComponent<IProps> = ({ feature }) => {
   const idGenerated = generator.generate(feature.name)
 
   return (
-    <section className="cucumber-feature">
+    <section>
       <Tags tags={feature.tags} />
-      <FeatureTitle id={idGenerated} feature={feature} />
+      <Anchor id={idGenerated}>
+        <Title id={idGenerated} tag="h1">
+          <Keyword>{feature.keyword}:</Keyword>
+          <HighLight text={feature.name} />
+        </Title>
+      </Anchor>
       <Description description={feature.description} />
       <div className="cucumber-children">
         {(feature.children || []).map((child, index) => {

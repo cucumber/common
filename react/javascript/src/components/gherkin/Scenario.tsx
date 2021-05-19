@@ -6,10 +6,13 @@ import * as messages from '@cucumber/messages'
 import StepList from './StepList'
 import HookList from './HookList'
 import IdGenerator from '../../IdGenerator'
-import ScenarioTitle from './ScenarioTitle'
 import CucumberQueryContext from '../../CucumberQueryContext'
 import GherkinQueryContext from '../../GherkinQueryContext'
 import UriContext from '../../UriContext'
+import Anchor from './Anchor'
+import Title from './Title'
+import Keyword from './Keyword'
+import HighLight from '../app/HighLight'
 
 interface IProps {
   scenario: messages.Scenario
@@ -31,7 +34,12 @@ const Scenario: React.FunctionComponent<IProps> = ({ scenario }) => {
   return (
     <section>
       <Tags tags={scenario.tags} />
-      <ScenarioTitle id={idGenerated} scenario={scenario} />
+      <Anchor id={idGenerated}>
+        <Title id={idGenerated} tag="h2">
+          <Keyword>{scenario.keyword}:</Keyword>
+          <HighLight text={scenario.name} />
+        </Title>
+      </Anchor>
       <Description description={scenario.description} />
       <ol className="cucumber-steps">
         <HookList hookSteps={beforeHooks} />

@@ -3,7 +3,9 @@ import Description from './Description'
 import * as messages from '@cucumber/messages'
 import StepList from './StepList'
 import IdGenerator from '../../IdGenerator'
-import BackgroundTitle from './BackgroundTitle'
+import Anchor from './Anchor'
+import Title from './Title'
+import Keyword from './Keyword'
 
 interface IProps {
   background: messages.Background
@@ -15,8 +17,13 @@ const Background: React.FunctionComponent<IProps> = ({ background }) => {
   const idGenerated = generator.generate(background.name)
 
   return (
-    <section className="cucumber-background">
-      <BackgroundTitle id={idGenerated} background={background} />
+    <section>
+      <Anchor id={idGenerated}>
+        <Title id={idGenerated} tag="h2">
+          <Keyword>{background.keyword}:</Keyword>
+          <span>{background.name}</span>
+        </Title>
+      </Anchor>
       <Description description={background.description} />
       <ol className="cucumber-steps">
         <StepList
