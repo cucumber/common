@@ -13,9 +13,7 @@ import './custom-classes.scss'
 
 import attachments from '../../acceptance/attachments/attachments.feature'
 import rules from '../../acceptance/rules/rules.feature'
-import {
-  TagsProps,
-} from '../components/customise/CustomRendering'
+import { TagsProps } from '../components/customise/CustomRendering'
 import Theme from '../components/customise/Theme'
 import DocString from '../components/gherkin/DocString'
 import CustomRendering from '../components/customise/CustomRendering'
