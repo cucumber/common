@@ -8,6 +8,9 @@ const Tags: React.FunctionComponent<TagsProps> = (props) => {
   if (typeof Customised === 'function') {
     return <Customised {...props} />
   }
+  if (!props.tags.length) {
+    return null
+  }
   return (
     <ul className={Customised.tags}>
       {props.tags.map((tag, index) => (
