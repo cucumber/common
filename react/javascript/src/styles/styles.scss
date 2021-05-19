@@ -7,14 +7,14 @@ $summary-border-color: rgba(0, 0, 0, 0.1);
 .cucumber-steps {
   list-style: none;
   padding: 0;
-  margin: 1rem;
+  margin: 1em;
 }
 
 // TODO encapsulate in a component
 .cucumber-description,
 .cucumber-children {
   padding: 0;
-  margin: 1rem;
+  margin: 1em;
 
   a {
     color: $anchorColor;
