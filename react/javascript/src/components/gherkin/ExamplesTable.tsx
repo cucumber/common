@@ -32,7 +32,7 @@ const ExamplesTable: React.FunctionComponent<ExamplesTableProps> = (props) => {
           ))}
         </tr>
       </thead>
-      <ExamplesTableBody rows={props.tableBody || []} detailClass={Customised.exampleDetail} />
+      <ExamplesTableBody rows={props.tableBody || []} detailClass={Customised.detailRow} />
     </table>
   )
 }

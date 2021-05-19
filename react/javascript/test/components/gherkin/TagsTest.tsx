@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom'
 import React from 'react'
 import { JSDOM } from 'jsdom'
 import * as messages from '@cucumber/messages'
-import Description from '../../../src/components/gherkin/Description'
 import Tags from '../../../src/components/gherkin/Tags'
 
 describe('Tags', () => {
@@ -14,9 +13,7 @@ describe('Tags', () => {
     // global.navigator = dom.window.navigator
     const document = dom.window.document
 
-    const app = (
-      <Tags tags={tags}/>
-    )
+    const app = <Tags tags={tags} />
     ReactDOM.render(app, document.getElementById('content'))
     return document
   }
@@ -31,17 +28,17 @@ describe('Tags', () => {
     const document = render([
       {
         location: {
-          line: 1
+          line: 1,
         },
         name: '@foo',
-        id: '1'
+        id: '1',
       },
       {
         location: {
-          line: 3
+          line: 3,
         },
         name: '@bar',
-        id: '2'
+        id: '2',
       },
     ])
     const rendered = document.querySelectorAll('#content ul li')

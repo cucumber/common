@@ -66,7 +66,7 @@ export interface ExamplesTableProps {
 
 export interface ExamplesTableClasses {
   examplesTable: string
-  exampleDetail: string
+  detailRow: string
 }
 
 export interface KeywordClasses {
