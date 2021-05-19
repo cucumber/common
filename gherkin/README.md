@@ -23,7 +23,7 @@ Our wish-list is (in no particular order):
 
 ## Markdown with Gherkin
 
-See [Markdown with Gherkin](./MARKDOWN_WITH_GHERKIN).
+See [Markdown with Gherkin](./MARKDOWN_WITH_GHERKIN.md).
 
 ## Usage
 
