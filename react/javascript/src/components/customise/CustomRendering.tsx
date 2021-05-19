@@ -68,6 +68,16 @@ export interface TagsClasses {
   tag: string
 }
 
+export interface AttachmentProps {
+  attachment: messages.Attachment
+}
+
+export interface AttachmentClasses {
+  text: string
+  icon: string
+  image: string
+}
+
 export interface StatusIconProps {
   status: messages.TestStepResultStatus
 }
@@ -93,6 +103,7 @@ export interface CustomRenderingSupport {
   DataTable?: CustomRenderer<DataTableProps, DataTableClasses>
   ExamplesTable?: CustomRenderer<ExamplesTableProps, ExamplesTableClasses>
   Tags?: CustomRenderer<TagsProps, TagsClasses>
+  Attachment?: CustomRenderer<AttachmentProps, AttachmentClasses>
   StatusIcon?: CustomRenderer<StatusIconProps, StatusIconClasses>
   ErrorMessage?: CustomRenderer<ErrorMessageProps, ErrorMessageClasses>
 }

@@ -58,30 +58,8 @@ $summary-border-color: rgba(0, 0, 0, 0.1);
     }
   }
 
-  .cucumber-code {
-    padding: 0.25em;
-    background-color: rgb(235, 235, 235);
-  }
-
   .cucumber-no-documents {
     font: 14px 'Open Sans', sans-serif;
-  }
-
-  .cucumber-attachment {
-    &__icon {
-      margin-right: 0.5em;
-    }
-
-    &__image {
-      max-width: 100%;
-      margin-top: 1em;
-    }
-
-    &__text {
-      background-color: rgb(235, 235, 235);
-      padding: 0.5em;
-      overflow-x: auto;
-    }
   }
 
   .cucumber-anchor {
