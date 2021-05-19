@@ -1,10 +1,9 @@
 import React from 'react'
 import * as messages from '@cucumber/messages'
-
 import Keyword from './Keyword'
 import HighLight from '../app/HighLight'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faLink } from '@fortawesome/free-solid-svg-icons'
+import Anchor from './Anchor'
+import Title from './Title'
 
 interface IProps {
   id: string
@@ -13,15 +12,11 @@ interface IProps {
 
 const RuleTitle: React.FunctionComponent<IProps> = ({ id, rule }) => {
   return (
-    <div className="cucumber-anchor cucumber-title">
-      <a href={'#' + id} className="cucumber-anchor__link">
-        <FontAwesomeIcon icon={faLink} className="cucumber-anchor__icon" />
-      </a>
-      <h2 id={id}>
-        <Keyword>{rule.keyword}:</Keyword>{' '}
-        <HighLight className="cucumber-title__text" text={rule.name} />
-      </h2>
-    </div>
+    <Anchor id={id}>
+      <Title id={id} tag="h2">
+        <Keyword>{rule.keyword}:</Keyword> <HighLight text={rule.name} />
+      </Title>
+    </Anchor>
   )
 }
 

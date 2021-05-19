@@ -2,9 +2,10 @@ import React from 'react'
 import * as messages from '@cucumber/messages'
 import CucumberQueryContext from '../../CucumberQueryContext'
 import ErrorMessage from './ErrorMessage'
-import StepContainer from './StepContainer'
+import StepItem from './StepItem'
 import Attachment from './Attachment'
 import { getWorstTestStepResult } from '@cucumber/messages'
+import Title from './Title'
 
 interface IProps {
   step: messages.TestStep
@@ -25,23 +26,23 @@ const HookStep: React.FunctionComponent<IProps> = ({ step }) => {
       ? hook.sourceReference.javaMethod.className + '.' + hook.sourceReference.javaMethod.methodName
       : 'Unknown location'
     return (
-      <StepContainer status={stepResult.status}>
-        <h3>Hook failed: {location}</h3>
+      <StepItem status={stepResult.status}>
+        <Title tag="h3">Hook failed: {location}</Title>
         {stepResult.message && <ErrorMessage message={stepResult.message} />}
         {attachments.map((attachment, i) => (
           <Attachment key={i} attachment={attachment} />
         ))}
-      </StepContainer>
+      </StepItem>
     )
   }
 
   if (attachments) {
     return (
-      <li className="cucumber-step">
+      <StepItem>
         {attachments.map((attachment, i) => (
           <Attachment key={i} attachment={attachment} />
         ))}
-      </li>
+      </StepItem>
     )
   }
 }

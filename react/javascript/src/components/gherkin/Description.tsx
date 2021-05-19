@@ -6,7 +6,10 @@ interface IProps {
 }
 
 const Description: React.FunctionComponent<IProps> = ({ description }) => {
-  return <HighLight className="cucumber-description" text={description} markdown={true} />
+  if (description && description.trim() !== '') {
+    return <HighLight className="cucumber-description" text={description} markdown={true} />
+  }
+  return null
 }
 
 export default Description

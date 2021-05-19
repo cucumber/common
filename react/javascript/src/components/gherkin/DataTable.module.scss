@@ -2,6 +2,7 @@
 
 @mixin cucumber-table-style {
   border-collapse: collapse;
+  margin: 0;
 
   tr {
     border-top: 6px solid white;

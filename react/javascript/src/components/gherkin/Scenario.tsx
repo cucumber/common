@@ -29,7 +29,7 @@ const Scenario: React.FunctionComponent<IProps> = ({ scenario }) => {
   const afterHooks = cucumberQuery.getAfterHookSteps(pickleIds[0])
 
   return (
-    <section className="cucumber-scenario">
+    <section>
       <Tags tags={scenario.tags} />
       <ScenarioTitle id={idGenerated} scenario={scenario} />
       <Description description={scenario.description} />

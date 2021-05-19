@@ -3,6 +3,7 @@
 .docString {
     color: $docstringColor;
     padding-bottom: 0.25em;
+    margin: 0;
     overflow-x: auto;
 
     &::before,

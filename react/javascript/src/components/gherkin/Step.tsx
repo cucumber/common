@@ -6,11 +6,12 @@ import * as messages from '@cucumber/messages'
 import CucumberQueryContext from '../../CucumberQueryContext'
 import GherkinQueryContext from '../../GherkinQueryContext'
 import ErrorMessage from './ErrorMessage'
-import StepContainer from './StepContainer'
+import StepItem from './StepItem'
 import Attachment from './Attachment'
 import HighLight from '../app/HighLight'
 import { getWorstTestStepResult } from '@cucumber/messages'
 import Parameter from './Parameter'
+import Title from './Title'
 
 interface IProps {
   step: messages.Step
@@ -69,7 +70,7 @@ const Step: React.FunctionComponent<IProps> = ({
       plain = step.text.slice(offset)
       if (plain.length > 0) {
         stepTextElements.push(
-          <span className="cucumber-step__text" key={`plain-rest`}>
+          <span key={`plain-rest`}>
             <HighLight text={plain} />
           </span>
         )
@@ -77,14 +78,14 @@ const Step: React.FunctionComponent<IProps> = ({
     } else if (stepMatchArgumentsLists.length >= 2) {
       // Step is ambiguous
       stepTextElements.push(
-        <span className="cucumber-step__text" key={`plain-ambiguous`}>
+        <span key={`plain-ambiguous`}>
           <HighLight text={step.text} />
         </span>
       )
     } else {
       // Step is undefined
       stepTextElements.push(
-        <span className="cucumber-step__text" key={`plain-undefined`}>
+        <span key={`plain-undefined`}>
           <HighLight text={step.text} />
         </span>
       )
@@ -92,27 +93,25 @@ const Step: React.FunctionComponent<IProps> = ({
   } else {
     // Step is from scenario with examples, and has <> placeholders.
     stepTextElements.push(
-      <span className="cucumber-step__text" key={`plain-placeholders`}>
+      <span key={`plain-placeholders`}>
         <HighLight text={step.text} />
       </span>
     )
   }
 
   return (
-    <StepContainer status={testStepResult.status}>
-      <h3 className="cucumber-step__title">
+    <StepItem status={testStepResult.status}>
+      <Title tag="h3">
         <Keyword>{step.keyword}</Keyword>
         {stepTextElements}
-      </h3>
+      </Title>
       {step.dataTable && <DataTable dataTable={step.dataTable} />}
       {step.docString && <DocString docString={step.docString} />}
       {renderMessage && testStepResult.message && <ErrorMessage message={testStepResult.message} />}
-      <div className="cucumber-attachments">
-        {attachments.map((attachment, i) => (
-          <Attachment key={i} attachment={attachment} />
-        ))}
-      </div>
-    </StepContainer>
+      {attachments.map((attachment, i) => (
+        <Attachment key={i} attachment={attachment} />
+      ))}
+    </StepItem>
   )
 }
 

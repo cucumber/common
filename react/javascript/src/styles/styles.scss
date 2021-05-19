@@ -3,98 +3,22 @@
 
 $summary-border-color: rgba(0, 0, 0, 0.1);
 
-.cucumber-react {
-  // Reset browser defaults.
-  h1, h2, h3 {
-    padding: 0;
-    margin: 0;
-  }
+// TODO encapsulate in a component
+.cucumber-steps {
+  list-style: none;
+  padding: 0;
+  margin: 1rem;
+}
 
-  .cucumber-title {
-    margin-top: 0.3em;
-    margin-bottom: 0;
-    display: inline-block;
+// TODO encapsulate in a component
+.cucumber-description,
+.cucumber-children {
+  padding: 0;
+  margin: 1rem;
+}
 
-    &__text {
-      font-weight: normal;
-    }
-  }
-
-  // Indentation inside feature and rules
-  .cucumber-description,
-  .cucumber-children {
-    margin-left: 1em;
-  }
-
-  // Spacing between elements
-  .cucumber-feature,
-  .cucumber-rule,
-  .cucumber-scenario,
-  .cucumber-background {
-    margin-bottom: 1em;
-  }
-
-  .cucumber-steps {
-    list-style-type: none;
-    padding-left: 10px;
-
-    & .cucumber-step {
-      display: flex;
-
-      &__status {
-        padding-top: 0.2em;
-        padding-right: 0.5em;
-      }
-
-      &__content {
-        flex-grow: 1;
-        // don't grow wider than container (less icon) width
-        max-width: calc(100% - 1.5em);
-      }
-
-      &__text {
-        font-weight: normal;
-      }
-    }
-  }
-
-  .cucumber-no-documents {
-    font: 14px 'Open Sans', sans-serif;
-  }
-
-  .cucumber-anchor {
-    position: relative;
-    display: flex;
-    align-items: center;
-    margin-top: 0.3em;
-
-    &__link {
-      opacity: 0;
-      transition: all 0.35s ease-in-out;
-      position: absolute;
-      left: -20px;
-
-      display: flex;
-      align-items: center;
-    }
-
-    &__icon {
-      margin-right: 0.5em;
-    }
-
-    &:hover {
-      a {
-        opacity: 1;
-        width: max-content;
-        transition: all 0.35s ease-in-out;
-      }
-    }
-
-    & > * {
-      height: 100%;
-      margin-top: 0px;
-    }
-  }
+.cucumber-no-documents {
+  font: 14px 'Open Sans', sans-serif;
 }
 
 .cucumber-report-header {

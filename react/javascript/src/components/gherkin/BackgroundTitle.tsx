@@ -1,8 +1,8 @@
 import React from 'react'
 import * as messages from '@cucumber/messages'
 import Keyword from './Keyword'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faLink } from '@fortawesome/free-solid-svg-icons'
+import Anchor from './Anchor'
+import Title from './Title'
 
 interface IProps {
   id: string
@@ -11,15 +11,11 @@ interface IProps {
 
 const BackgroundTitle: React.FunctionComponent<IProps> = ({ id, background }) => {
   return (
-    <div className="cucumber-anchor cucumber-title">
-      <a href={'#' + id} className="cucumber-anchor__link">
-        <FontAwesomeIcon icon={faLink} className="cucumber-anchor__icon" />
-      </a>
-      <h2 id={id}>
-        <Keyword>{background.keyword}:</Keyword>{' '}
-        <span className="cucumber-title__text">{background.name}</span>
-      </h2>
-    </div>
+    <Anchor id={id}>
+      <Title id={id} tag="h2">
+        <Keyword>{background.keyword}:</Keyword> <span>{background.name}</span>
+      </Title>
+    </Anchor>
   )
 }
 
