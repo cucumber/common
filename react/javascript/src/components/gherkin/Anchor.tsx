@@ -7,8 +7,8 @@ const Anchor: React.FunctionComponent<{
   id: string
 }> = ({ id, children }) => {
   return (
-    <div className={styles.anchor}>
-      <a href={'#' + id}>
+    <div className={styles.wrapper}>
+      <a href={'#' + id} className={styles.anchor}>
         <FontAwesomeIcon icon={faLink} />
       </a>
       {children}

@@ -15,6 +15,10 @@ $summary-border-color: rgba(0, 0, 0, 0.1);
 .cucumber-children {
   padding: 0;
   margin: 1rem;
+
+  a {
+    color: $anchorColor;
+  }
 }
 
 .cucumber-no-documents {
