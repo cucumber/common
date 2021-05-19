@@ -24,6 +24,9 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 ### Fixed
 
 * Upgrade to `@cucumber/message-streams` `^2.0.0`
+* Upgrade berp to 1.3.0 (parser behavior not changed)
+  ([#1542](https://github.com/cucumber/common/pull/1542)
+   [gasparnagy])
 
 ## [19.0.1] - 2021-05-17
 
