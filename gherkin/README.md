@@ -78,15 +78,15 @@ pickles = Gherkin::Pickles::Compiler.new(id_generator).compile(gherkin_document,
 
 ```javascript
 // JavaScript
-var Gherkin = require("@cucumber/gherkin")
-var Messages = require("@cucumber/messages")
+var Gherkin = require('@cucumber/gherkin')
+var Messages = require('@cucumber/messages')
 
-var uuidFn = Messages.IdGenerator.uuid();
-var builder = new Gherkin.AstBuilder(uuidFn);
-var matcher = new Gherkin.GherkinClassicTokenMatcher(); // or Gherkin.GherkinInMarkdownTokenMatcher()
+var uuidFn = Messages.IdGenerator.uuid()
+var builder = new Gherkin.AstBuilder(uuidFn)
+var matcher = new Gherkin.GherkinClassicTokenMatcher() // or Gherkin.GherkinInMarkdownTokenMatcher()
 
-var parser = new Gherkin.Parser(builder, matcher);
-var gherkinDocument = parser.parse("Feature: ...");
+var parser = new Gherkin.Parser(builder, matcher)
+var gherkinDocument = parser.parse('Feature: ...')
 var pickles = Gherkin.compile(gherkinDocument, 'uri_of_the_feature.feature', uuidFn)
 ```
 
@@ -198,7 +198,7 @@ design docs (which might be a little outdated, but mostly OK).
 
 The AST produced by the parser can be described with the following class diagram:
 
-![](https://github.com/cucumber/cucumber/blob/master/gherkin/docs/ast.png)
+![](https://github.com/cucumber/common/blob/main/gherkin/docs/ast.png)
 
 Every class represents a node in the AST. Every node has a `Location` that describes
 the line number and column number in the input file. These numbers are 1-indexed.

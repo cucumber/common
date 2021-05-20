@@ -25,7 +25,7 @@ gherkin - Parser of documents in the Gherkin language
 
 C<gherkin> accepts a series of filenames to parse. It outputs a series
 of ndjson formatted messages containing the source document, parsed
-document (AST) and pickles as specified at L<https://github.com/cucumber/cucumber/blob/master/messages/messages.md>.
+document (AST) and pickles as specified at L<https://github.com/cucumber/common/blob/main/messages/messages.md>.
 
 =head1 OPTIONS
 
