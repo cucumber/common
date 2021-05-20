@@ -28,7 +28,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
-* [Go, Java, JavaScript, Ruby] The library no longer depends on protocol buffers. The message classes are genreated from JSON Schema. The schemas are available in [v16.0.0/messages/jsonschema](https://github.com/cucumber/common/tree/messages/v16.0.0/messages
+* [Go, Java, JavaScript, Ruby] The library no longer depends on protocol buffers. The message classes are generated from [JSON Schemas](https://github.com/cucumber/common/tree/messages/v16.0.0/messages).
   ([#1414](https://github.com/cucumber/cucumber/pull/1414)
    [aslakhellesoy])
    * Empty `string` properties are set to `""` rather than being omitted.
