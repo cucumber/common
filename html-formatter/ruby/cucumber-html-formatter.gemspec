@@ -20,7 +20,7 @@ Gem::Specification.new do |s|
                     'documentation_uri' => 'https://cucumber.io/docs/gherkin/',
                     'homepage_uri'      => s.homepage,
                     'mailing_list_uri'  => 'https://groups.google.com/forum/#!forum/cukes',
-                    'source_code_uri'   => 'https://github.com/cucumber/cucumber/tree/master/html-formatter/ruby'
+                    'source_code_uri'   => 'https://github.com/cucumber/common/tree/main/html-formatter/ruby'
                   }
 
   s.add_dependency 'cucumber-messages', '~> 16.0', '>= 16.0.0'
