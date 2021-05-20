@@ -4,6 +4,7 @@ import rehypePlugins from '../app/rehypePlugins'
 import GherkinQueryContext from '../../GherkinQueryContext'
 import Step from './Step'
 import styles from '../app/GherkinDocumentList.module.scss'
+import dataTableStyles from './DataTable.module.scss'
 
 type IProps = { uri: string; children: any }
 
@@ -15,6 +16,9 @@ const MDG: React.FunctionComponent<IProps> = ({ uri, children }) => {
       <ReactMarkdown
         rehypePlugins={rehypePlugins}
         components={{
+          table({ children }) {
+            return <table className={dataTableStyles.table}>{children}</table>
+          },
           ul({ children }) {
             return <ul className={'cucumber-steps'}>{children}</ul>
           },
