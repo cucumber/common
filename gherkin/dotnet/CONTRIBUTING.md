@@ -7,7 +7,7 @@ to contribute.
 ### MacOS/Linux
 
 Install [.NET 5](https://github.com/dotnet/core/blob/master/release-notes/download-archives/2.0.7-download.md)
-    
+
 Just run `make` from this directory.
 
 ### Windows
@@ -21,7 +21,7 @@ For a complete verification, run the `make` command as well (or let the PR build
 
 ## Make a release
 
-The 'make' command is now prepared to make NuGet package releases as well, ie the `make update-version` command will update the version number in the project file. For the general release procedure, check [CONTRIBUTING](https://github.com/cucumber/cucumber/blob/master/gherkin/CONTRIBUTING.md).
+The 'make' command is now prepared to make NuGet package releases as well, ie the `make update-version` command will update the version number in the project file. For the general release procedure, check [CONTRIBUTING](https://github.com/cucumber/common/blob/main/gherkin/CONTRIBUTING.md).
 
     # prepare new version
     echo "X.Y.Z" > VERSION
@@ -32,7 +32,6 @@ The 'make' command is now prepared to make NuGet package releases as well, ie th
     # verify and publish
     make publish
 
-    # push    
+    # push
     git push
     git push --tags
-

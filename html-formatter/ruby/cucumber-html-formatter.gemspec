@@ -16,11 +16,11 @@ Gem::Specification.new do |s|
 
   s.metadata    = {
                     'bug_tracker_uri'   => 'https://github.com/cucumber/cucumber/issues',
-                    'changelog_uri'     => 'https://github.com/cucumber/cucumber/blob/master/html-formatter/CHANGELOG.md',
+                    'changelog_uri'     => 'https://github.com/cucumber/common/blob/main/html-formatter/CHANGELOG.md',
                     'documentation_uri' => 'https://cucumber.io/docs/gherkin/',
                     'homepage_uri'      => s.homepage,
                     'mailing_list_uri'  => 'https://groups.google.com/forum/#!forum/cukes',
-                    'source_code_uri'   => 'https://github.com/cucumber/cucumber/tree/master/html-formatter/ruby'
+                    'source_code_uri'   => 'https://github.com/cucumber/common/tree/main/html-formatter/ruby'
                   }
 
   s.add_dependency 'cucumber-messages', '~> 16.0', '>= 16.0.0'
