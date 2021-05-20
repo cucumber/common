@@ -24,7 +24,7 @@
   "homepage": "https://github.com/cucumber/gherkin-javascript",
   "devDependencies": {
     "@types/mocha": "8.2.2",
-    "@types/node": "15.3.0",
+    "@types/node": "15.3.1",
     "core-js": "3.12.1",
     "mocha": "8.4.0",
     "ts-node": "9.1.1",
