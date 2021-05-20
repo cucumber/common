@@ -5,9 +5,12 @@ $summary-border-color: rgba(0, 0, 0, 0.1);
 
 // TODO encapsulate in a component
 .cucumber-steps {
-  list-style: none;
   padding: 0;
   margin: 1em;
+
+  > li {
+    list-style: none;
+  }
 }
 
 // TODO encapsulate in a component
