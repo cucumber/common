@@ -3,6 +3,17 @@
 
 $summary-border-color: rgba(0, 0, 0, 0.1);
 
+.cucumber {
+  font-size: 14px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+  color: $textColor;
+  background: $backgroundColor;
+
+  pre {
+    font-family: inherit;
+  }
+}
+
 // TODO encapsulate in a component
 .cucumber-steps {
   padding: 0;

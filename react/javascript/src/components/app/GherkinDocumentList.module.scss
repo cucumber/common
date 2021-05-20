@@ -1,15 +1,7 @@
 @import '../../styles/theming';
 
 .list {
-  font-size: 14px;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
-  color: $textColor;
-  background: $backgroundColor;
   overflow-x: hidden;
-
-  pre {
-    font-family: inherit;
-  }
 }
 
 .icon {

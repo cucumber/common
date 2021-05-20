@@ -42,7 +42,7 @@ const GherkinDocumentList: React.FunctionComponent<{
     .map((doc) => doc.uri)
 
   return (
-    <div className={styles.list}>
+    <div className={`cucumber ${styles.list}`}>
       <Accordion
         allowMultipleExpanded={true}
         allowZeroExpanded={true}

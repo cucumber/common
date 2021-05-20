@@ -3,7 +3,6 @@ import ReactMarkdown from 'react-markdown'
 import rehypePlugins from '../app/rehypePlugins'
 import GherkinQueryContext from '../../GherkinQueryContext'
 import Step from './Step'
-import styles from '../app/GherkinDocumentList.module.scss'
 import dataTableStyles from './DataTable.module.scss'
 
 type IProps = { uri: string; children: any }
@@ -12,7 +11,7 @@ const MDG: React.FunctionComponent<IProps> = ({ uri, children }) => {
   const gherkinQuery = React.useContext(GherkinQueryContext)
 
   return (
-    <div className={styles.list}>
+    <div className="cucumber">
       <ReactMarkdown
         rehypePlugins={rehypePlugins}
         components={{
