@@ -18,7 +18,13 @@ const MDG: React.FunctionComponent<IProps> = ({ uri, children }) => {
           table({ children }) {
             return <table className={dataTableStyles.table}>{children}</table>
           },
-          ul({ children }) {
+          ul({ node, children }) {
+            const line = node.position.start.line
+            const step = gherkinQuery.getStep(uri, line)
+            if (!step) {
+              // Non-Gherkin list
+              return <ul>{children}</ul>
+            }
             return <ul className={'cucumber-steps'}>{children}</ul>
           },
           li({ node, children }) {
