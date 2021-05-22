@@ -61,7 +61,8 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
   ([#1518](https://github.com/cucumber/cucumber/pull/1518)
    [gasparnagy])
 
-* Upgrade to messages 16.0.0
+* [Go, Java, JavaScript, Ruby] Upgrade to messages 16.0.0: this may have a big impact on APIs.
+  Please see [messages/CHANGELOG.md](https://github.com/cucumber/common/blob/master/messages/CHANGELOG.md#1600---2021-05-15) for more details.
 
 ### Removed
 

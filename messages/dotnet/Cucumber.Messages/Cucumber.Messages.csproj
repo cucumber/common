@@ -22,7 +22,7 @@
     <Copyright>Copyright &#xA9; Cucumber Ltd, TechTalk</Copyright>
     <Description>Protocol Buffer messages for Cucumber's and SpecFlow's inter-process communication</Description>
     <PackageTags>cucumber-messages cucumber specflow gherkin</PackageTags>
-    <PackageProjectUrl>https://github.com/cucumber/common/tree/master/messages</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/cucumber/common/tree/main/messages</PackageProjectUrl>
     <RepositoryUrl>https://github.com/cucumber/common</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageIcon>cucumber-mark-green-128.png</PackageIcon>

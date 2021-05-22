@@ -19,7 +19,7 @@ import static io.cucumber.datatable.TypeFactory.optionalOf;
  * A data table type describes how a data table should be represented as an
  * object.
  *
- * @see <a href="https://github.com/cucumber/cucumber/tree/master/datatable">DataTable - README.md</a>
+ * @see <a href="https://github.com/cucumber/common/tree/main/datatable">DataTable - README.md</a>
  */
 @API(status = API.Status.STABLE)
 public final class DataTableType {

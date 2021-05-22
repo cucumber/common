@@ -28,12 +28,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
-* [Go, Java, JavaScript, Ruby] The library no longer depends on protocol buffers.
+* [Go, Java, JavaScript, Ruby] The library no longer depends on protocol buffers. The message classes are generated from [JSON Schemas](https://github.com/cucumber/common/tree/messages/v16.0.0/messages).
   ([#1414](https://github.com/cucumber/cucumber/pull/1414)
    [aslakhellesoy])
    * Empty `string` properties are set to `""` rather than being omitted.
    * Empty `Array` properties are set to `[]` rather than being omitted.
    * The `seconds` property on `Timestamp` and `Diration` is now a `number` rather than a `string`.
+* [Go, Java, JavaScript, Ruby] Packages and structs have changed:
+  * [JavaScript]: Import with `import * as messages from '@cucumber/messages'`
+  * [Ruby] Messages are now plain ruby hashes with camelCase symbol keys instead of objects with snake_case properties.
 
 ## [15.0.0] - 2021-03-23
 

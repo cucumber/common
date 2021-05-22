@@ -1,6 +1,6 @@
 # Gherkin for JavaScript
 
-Gherkin parser/compiler for JavaScript. Please see [Gherkin](https://github.com/cucumber/cucumber/tree/master/gherkin) for details.
+Gherkin parser/compiler for JavaScript. Please see [Gherkin](https://github.com/cucumber/common/tree/main/gherkin) for details.
 
 ## Usage
 
