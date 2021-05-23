@@ -1,41 +1,46 @@
-# Feature: Step Definitions
+# Feature: Cheese
 
-Your Gherkin steps are connected to the system through *Step Definitions*.
+This table is not picked up by Gherkin (not indented 2+ spaces)
 
-## Rule: A step definition can be invoked with parameter values
+| foo | bar |
+| --- | --- |
+| boz | boo |
 
-A Step Definition is made up by an expression and a body.
-The expression is either a Regular Expression or a Cucumber Expression.
-The body is a function, method, lambda, block or closure, depending on
-your programming language.
 
-### Example: string and int
+## Rule: Nom nom nom
 
-* Given the following step definition:
+I love cheese, especially fromage macaroni cheese. Rubber cheese ricotta caerphilly blue castello who moved my cheese queso bavarian bergkase melted cheese.
+
+### Scenario Outline: Ylajali!
+
+* Given some TypeScript code:
   ```typescript
-  Given("there are {int} apples in {string}'s basket", function(apples: number, name: string) {
-    console.log(JSON.stringify([number, name]))
-  })
+  type Cheese = 'reblochon' | 'roquefort' | 'rocamadour'
   ```
-* And the following Gherkin step:
+* And some classic Gherkin:
   ```gherkin
   Given there are 4 apples in Mary's basket
   ```
-* When the step runs
-* Then the following should be printed:
-  ```
-  [24, "Mary"]
-  ```
+* When we use a data table and attach something and then <what>
+  | name | age |
+  | ---- | --: |
+  | Bill |   3 |
+  | Jane |   6 |
+  | Isla |   5 |
+* Then this might or might not run
 
-## Rule: A step definition can be passes multiline arguments
+#### Examples: because we need more tables
 
-### Example: DataTable
+This table is indented 2 spaces, so Gherkin will pick it up
 
-Here is an example of what it looks like:
+  | what |
+  | ---- |
+  | fail |
+  | pass |
 
-* Given this is a typical table:
+And oh by the way, this table is also ignored by Gherkin because it doesn't have 2+ space indent:
 
-| name | age |
-| ---- | --: |
-| Bill |   3 |
-| Jane |   6 |
+| cheese   |
+| -------- |
+| gouda    |
+| gamalost |
