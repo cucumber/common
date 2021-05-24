@@ -17,6 +17,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+* [JavaScript] `addDurations` works with legacy messages that represent `seconds` as a `string`.
+
 ## [16.0.0] - 2021-05-15
 
 ### Added
