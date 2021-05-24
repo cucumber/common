@@ -10,7 +10,7 @@
   </PropertyGroup>
 
   <PropertyGroup Label="Version">
-    <VersionNumber>15.0.0</VersionNumber>
+    <VersionNumber>16.0.1</VersionNumber>
     <Version Condition="'$(SnapshotSuffix)' != ''">$(VersionNumber)-$(SnapshotSuffix)</Version>
     <Version Condition="'$(SnapshotSuffix)' == ''">$(VersionNumber)</Version>
   </PropertyGroup>

@@ -17,6 +17,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [16.0.1] - 2021-05-24
+
+### Fixed
+
 * [JavaScript] `addDurations` works with legacy messages that represent `seconds` as a `string`.
 
 ## [16.0.0] - 2021-05-15
@@ -526,7 +530,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Protobuf messages for Go, Java, JavaScript, TypeScript and Ruby
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/messages/v16.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/messages/v16.0.1...master
+[16.0.1]:      https://github.com/cucumber/cucumber/compare/messages/v16.0.0...messages/v16.0.1
 [16.0.0]:      https://github.com/cucumber/cucumber/compare/messages/v15.0.0...messages/v16.0.0
 [15.0.0]:      https://github.com/cucumber/cucumber/compare/messages/v14.1.2...messages/v15.0.0
 [14.1.2]:      https://github.com/cucumber/cucumber/compare/messages/v14.0.1...messages/v14.1.2

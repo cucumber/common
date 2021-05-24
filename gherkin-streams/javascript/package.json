@@ -18,7 +18,7 @@
     "prepublishOnly": "tsc --build tsconfig.build.json"
   },
   "dependencies": {
-    "@cucumber/messages": "^16.0.0",
+    "@cucumber/messages": "^16.0.1",
     "@cucumber/message-streams": "^2.0.0",
     "@cucumber/gherkin": "^19.0.2",
     "commander": "7.2.0",
