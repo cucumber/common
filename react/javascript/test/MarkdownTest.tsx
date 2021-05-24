@@ -42,7 +42,9 @@ describe('Markdown', () => {
 
     const app = (
       <QueriesWrapper {...props(envelopes)}>
-        <MDG uri={source.uri}>{source.data}</MDG>
+        <UriContext.Provider value={source.uri}>
+          <MDG uri={source.uri}>{source.data}</MDG>
+        </UriContext.Provider>
       </QueriesWrapper>
     )
     ReactDOM.render(app, document.getElementById('content'))

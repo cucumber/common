@@ -7,6 +7,8 @@ import dataTableStyles from './DataTable.module.scss'
 import Title, { Header } from './Title'
 import Keyword from './Keyword'
 import HighLight from '../app/HighLight'
+import ExamplesTable from "./ExamplesTable"
+import * as messages from '@cucumber/messages'
 
 interface IProps {
   uri: string
@@ -17,15 +19,18 @@ const MDG: React.FunctionComponent<IProps> = ({ uri, children }) => {
   const gherkinQuery = React.useContext(GherkinQueryContext)
 
   let hasExamples = false
+  let examples: messages.Examples | undefined = undefined
 
   function header(line: number, level: number, children: any) {
     const scenario = gherkinQuery.getScenario(uri, line)
     hasExamples = scenario && scenario.examples.length > 0
+    examples = gherkinQuery.getExamples(uri, line)
+
     const titleAstNode =
       scenario ||
       gherkinQuery.getBackground(uri, line) ||
       gherkinQuery.getRule(uri, line) ||
-      gherkinQuery.getExamples(uri, line)
+      examples
     if (titleAstNode) {
       const header = `h${level}` as Header
       return (
@@ -58,7 +63,11 @@ const MDG: React.FunctionComponent<IProps> = ({ uri, children }) => {
           h5({ node, level, children }) {
             return header(node.position.start.line, level, children)
           },
-          table({ children }) {
+          table({ node, children }) {
+            if(examples && examples.tableHeader && node.position.start.column >= 3) {
+              console.log('start', node.position.start)
+              return <ExamplesTable tableHeader={examples.tableHeader} tableBody={examples.tableBody}/>
+            }
             return <table className={dataTableStyles.table}>{children}</table>
           },
           ul({ node, children }) {
