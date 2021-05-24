@@ -14,7 +14,7 @@ const Examples: React.FunctionComponent<IExamplesProps> = ({ examples }) => {
   return (
     <section>
       <Tags tags={examples.tags} />
-      <Title tag="h2">
+      <Title header="h2" id={examples.id}>
         <Keyword>{examples.keyword}:</Keyword>
         <span>{examples.name}</span>
       </Title>

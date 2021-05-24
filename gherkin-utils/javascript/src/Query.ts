@@ -10,7 +10,13 @@ export default class Query {
   private readonly pickleIdsMapByUri = new Map<string, ArrayMultimap<string, string>>()
   private readonly pickleIdsByAstNodeId = new Map<string, string[]>()
   private readonly pickleStepIdsByAstNodeId = new Map<string, string[]>()
-  private readonly stepByUriLocation = new Map<string, messages.Step>()
+  // AST nodes
+  private readonly featureByUriLine = new Map<string, messages.Feature>()
+  private readonly backgroundByUriLine = new Map<string, messages.Background>()
+  private readonly ruleByUriLine = new Map<string, messages.Rule>()
+  private readonly scenarioByUriLine = new Map<string, messages.Scenario>()
+  private readonly examplesByUriLine = new Map<string, messages.Examples>()
+  private readonly stepByUriLine = new Map<string, messages.Step>()
 
   /**
    * Gets the location (line and column) of an AST node.
@@ -32,8 +38,28 @@ export default class Query {
     return this.pickles
   }
 
+  public getFeature(uri: string, line: number): messages.Feature | undefined {
+    return getAstNode(this.featureByUriLine, uri, line)
+  }
+
+  public getBackground(uri: string, line: number): messages.Background | undefined {
+    return getAstNode(this.backgroundByUriLine, uri, line)
+  }
+
+  public getRule(uri: string, line: number): messages.Rule | undefined {
+    return getAstNode(this.ruleByUriLine, uri, line)
+  }
+
+  public getScenario(uri: string, line: number): messages.Scenario | undefined {
+    return getAstNode(this.scenarioByUriLine, uri, line)
+  }
+
+  public getExamples(uri: string, line: number): messages.Examples | undefined {
+    return getAstNode(this.examplesByUriLine, uri, line)
+  }
+
   public getStep(uri: string, line: number): messages.Step | undefined {
-    return this.stepByUriLocation.get([uri, line].join(':'))
+    return getAstNode(this.stepByUriLine, uri, line)
   }
 
   /**
@@ -61,30 +87,7 @@ export default class Query {
       this.gherkinDocuments.push(message.gherkinDocument)
 
       if (message.gherkinDocument.feature) {
-        this.pickleIdsMapByUri.set(message.gherkinDocument.uri, new ArrayMultimap<string, string>())
-
-        for (const featureChild of message.gherkinDocument.feature.children) {
-          if (featureChild.background) {
-            this.updateGherkinBackground(message.gherkinDocument.uri, featureChild.background)
-          }
-
-          if (featureChild.scenario) {
-            this.updateGherkinScenario(message.gherkinDocument.uri, featureChild.scenario)
-          }
-
-          if (featureChild.rule) {
-            const ruleChildren = featureChild.rule.children
-            for (const ruleChild of ruleChildren) {
-              if (ruleChild.background) {
-                this.updateGherkinBackground(message.gherkinDocument.uri, ruleChild.background)
-              }
-
-              if (ruleChild.scenario) {
-                this.updateGherkinScenario(message.gherkinDocument.uri, ruleChild.scenario)
-              }
-            }
-          }
-        }
+        this.updateGherkinFeature(message.gherkinDocument.uri, message.gherkinDocument.feature)
       }
     }
 
@@ -96,30 +99,68 @@ export default class Query {
     return this
   }
 
+  private updateGherkinFeature(uri: string, feature: messages.Feature) {
+    setAstNode(this.featureByUriLine, uri, feature)
+    this.pickleIdsMapByUri.set(uri, new ArrayMultimap<string, string>())
+
+    for (const featureChild of feature.children) {
+      if (featureChild.background) {
+        this.updateGherkinBackground(uri, featureChild.background)
+      }
+
+      if (featureChild.scenario) {
+        this.updateGherkinScenario(uri, featureChild.scenario)
+      }
+
+      if (featureChild.rule) {
+        this.updateGherkinRule(uri, featureChild.rule)
+      }
+    }
+  }
+
   private updateGherkinBackground(uri: string, background: messages.Background) {
+    setAstNode(this.backgroundByUriLine, uri, background)
     for (const step of background.steps) {
       this.updateGherkinStep(uri, step)
     }
   }
 
+  private updateGherkinRule(uri: string, rule: messages.Rule) {
+    setAstNode(this.ruleByUriLine, uri, rule)
+    for (const ruleChild of rule.children) {
+      if (ruleChild.background) {
+        this.updateGherkinBackground(uri, ruleChild.background)
+      }
+
+      if (ruleChild.scenario) {
+        this.updateGherkinScenario(uri, ruleChild.scenario)
+      }
+    }
+  }
+
   private updateGherkinScenario(uri: string, scenario: messages.Scenario) {
+    setAstNode(this.scenarioByUriLine, uri, scenario)
     this.locationByAstNodeId.set(scenario.id, scenario.location)
     for (const step of scenario.steps) {
       this.updateGherkinStep(uri, step)
     }
 
     for (const examples of scenario.examples) {
-      for (const tableRow of examples.tableBody || []) {
-        this.locationByAstNodeId.set(tableRow.id, tableRow.location)
-      }
+      this.updateGherkinExamples(uri, examples)
+    }
+  }
+
+  private updateGherkinExamples(uri: string, examples: messages.Examples) {
+    setAstNode(this.examplesByUriLine, uri, examples)
+    for (const tableRow of examples.tableBody || []) {
+      this.locationByAstNodeId.set(tableRow.id, tableRow.location)
     }
   }
 
   private updateGherkinStep(uri: string, step: messages.Step) {
+    setAstNode(this.stepByUriLine, uri, step)
     this.locationByAstNodeId.set(step.id, step.location)
     this.gherkinStepByAstNodeId.set(step.id, step)
-    const uriLocation = [uri, step.location.line].join(':')
-    this.stepByUriLocation.set(uriLocation, step)
   }
 
   private updatePickle(pickle: messages.Pickle) {
@@ -150,4 +191,27 @@ export default class Query {
       }
     }
   }
+}
+
+type HasLocation = {
+  location: messages.Location
+}
+
+function setAstNode<AstNode extends HasLocation>(
+  map: Map<string, AstNode>,
+  uri: string,
+  astNode: AstNode
+) {
+  const line = astNode.location.line
+  const uriLine = [uri, line].join(':')
+  map.set(uriLine, astNode)
+}
+
+function getAstNode<AstNode>(
+  map: Map<string, AstNode>,
+  uri: string,
+  line: number
+): AstNode | undefined {
+  const uriLine = [uri, line].join(':')
+  return map.get(uriLine)
 }

@@ -20,5 +20,5 @@ export {
   EnvelopesQuery,
   FilteredResults,
   filterByStatus,
-  MDG
+  MDG,
 }

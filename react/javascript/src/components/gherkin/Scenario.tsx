@@ -5,11 +5,9 @@ import Examples from './Examples'
 import * as messages from '@cucumber/messages'
 import StepList from './StepList'
 import HookList from './HookList'
-import IdGenerator from '../../IdGenerator'
 import CucumberQueryContext from '../../CucumberQueryContext'
 import GherkinQueryContext from '../../GherkinQueryContext'
 import UriContext from '../../UriContext'
-import Anchor from './Anchor'
 import Title from './Title'
 import Keyword from './Keyword'
 import HighLight from '../app/HighLight'
@@ -18,12 +16,9 @@ interface IProps {
   scenario: messages.Scenario
 }
 
-const generator = new IdGenerator()
-
 const Scenario: React.FunctionComponent<IProps> = ({ scenario }) => {
   const examplesList = scenario.examples || []
   const hasExamples = examplesList.length > 0
-  const idGenerated = generator.generate(scenario.name)
   const cucumberQuery = React.useContext(CucumberQueryContext)
   const gherkinQuery = React.useContext(GherkinQueryContext)
   const uri = React.useContext(UriContext)
@@ -34,12 +29,10 @@ const Scenario: React.FunctionComponent<IProps> = ({ scenario }) => {
   return (
     <section>
       <Tags tags={scenario.tags} />
-      <Anchor id={idGenerated}>
-        <Title id={idGenerated} tag="h2">
-          <Keyword>{scenario.keyword}:</Keyword>
-          <HighLight text={scenario.name} />
-        </Title>
-      </Anchor>
+      <Title header="h2" id={scenario.id}>
+        <Keyword>{scenario.keyword}:</Keyword>
+        <HighLight text={scenario.name} />
+      </Title>
       <Description description={scenario.description} />
       <ol className="cucumber-steps">
         <HookList hookSteps={beforeHooks} />

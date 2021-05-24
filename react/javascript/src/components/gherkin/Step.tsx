@@ -81,7 +81,7 @@ const Step: React.FunctionComponent<IProps> = ({
 
   return (
     <StepItem status={testStepResult.status}>
-      <Title tag="h3">
+      <Title header="h3" id={step.id}>
         <Keyword>{step.keyword.trim()}</Keyword>
         <span>{stepTextElements}</span>
       </Title>

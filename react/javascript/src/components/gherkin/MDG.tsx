@@ -4,17 +4,60 @@ import rehypePlugins from '../app/rehypePlugins'
 import GherkinQueryContext from '../../GherkinQueryContext'
 import Step from './Step'
 import dataTableStyles from './DataTable.module.scss'
+import Title, { Header } from './Title'
+import Keyword from './Keyword'
+import HighLight from '../app/HighLight'
 
-type IProps = { uri: string; children: any }
+interface IProps {
+  uri: string
+  children: any
+}
 
 const MDG: React.FunctionComponent<IProps> = ({ uri, children }) => {
   const gherkinQuery = React.useContext(GherkinQueryContext)
+
+  let renderStepMatchArguments = true
+
+  function header(line: number, level: number, children: any) {
+    const scenario = gherkinQuery.getScenario(uri, line)
+    renderStepMatchArguments = scenario && scenario.examples.length == 0
+    const titleAstNode =
+      scenario ||
+      gherkinQuery.getBackground(uri, line) ||
+      gherkinQuery.getRule(uri, line) ||
+      gherkinQuery.getExamples(uri, line)
+    if (titleAstNode) {
+      const header = `h${level}` as Header
+      return (
+        <Title header={header} id={titleAstNode.id}>
+          <Keyword>{titleAstNode.keyword}:</Keyword>
+          <HighLight text={titleAstNode.name} />
+        </Title>
+      )
+    }
+    return <h3>{children}</h3>
+  }
 
   return (
     <div className="cucumber">
       <ReactMarkdown
         rehypePlugins={rehypePlugins}
         components={{
+          h1({ node, level, children }) {
+            return header(node.position.start.line, level, children)
+          },
+          h2({ node, level, children }) {
+            return header(node.position.start.line, level, children)
+          },
+          h3({ node, level, children }) {
+            return header(node.position.start.line, level, children)
+          },
+          h4({ node, level, children }) {
+            return header(node.position.start.line, level, children)
+          },
+          h5({ node, level, children }) {
+            return header(node.position.start.line, level, children)
+          },
           table({ children }) {
             return <table className={dataTableStyles.table}>{children}</table>
           },
@@ -36,7 +79,11 @@ const MDG: React.FunctionComponent<IProps> = ({ uri, children }) => {
             }
             return (
               <li>
-                <Step step={step} renderStepMatchArguments={true} renderMessage={true} />
+                <Step
+                  step={step}
+                  renderStepMatchArguments={renderStepMatchArguments}
+                  renderMessage={true}
+                />
               </li>
             )
           },
