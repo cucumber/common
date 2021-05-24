@@ -22,7 +22,7 @@ src/Parser.ts: gherkin-javascript.razor gherkin.berp
 .compared: $(ASTS) $(PICKLES) $(ERRORS) $(SOURCES)
 	touch $@
 
-acceptance/testdata/%.ast.ndjson: testdata/% #testdata/%.ast.ndjson
+acceptance/testdata/%.ast.ndjson: testdata/% testdata/%.ast.ndjson
 	mkdir -p $(@D)
 	$(GHERKIN) --no-source --no-pickles --predictable-ids $< | jq --sort-keys --compact-output "." > $@
 ifndef GOLDEN
@@ -31,7 +31,7 @@ else
 	cp $@ ../testdata/$(word 2,$^)
 endif
 
-acceptance/testdata/%.pickles.ndjson: testdata/% #testdata/%.pickles.ndjson
+acceptance/testdata/%.pickles.ndjson: testdata/% testdata/%.pickles.ndjson
 	mkdir -p $(@D)
 	$(GHERKIN) --no-source --no-ast --predictable-ids $< | jq --sort-keys --compact-output "." > $@
 ifndef GOLDEN
@@ -40,7 +40,7 @@ else
 	cp $@ ../testdata/$(word 2,$^)
 endif
 
-acceptance/testdata/%.source.ndjson: testdata/% #testdata/%.source.ndjson
+acceptance/testdata/%.source.ndjson: testdata/% testdata/%.source.ndjson
 	mkdir -p $(@D)
 	$(GHERKIN) --no-ast --no-pickles --predictable-ids $< | jq --sort-keys --compact-output "." > $@
 ifndef GOLDEN
@@ -49,7 +49,7 @@ else
 	cp $@ ../testdata/$(word 2,$^)
 endif
 
-acceptance/testdata/%.errors.ndjson: testdata/% #testdata/%.errors.ndjson
+acceptance/testdata/%.errors.ndjson: testdata/% testdata/%.errors.ndjson
 	mkdir -p $(@D)
 	$(GHERKIN) --no-source --predictable-ids $< | jq --sort-keys --compact-output "." > $@
 ifndef GOLDEN
