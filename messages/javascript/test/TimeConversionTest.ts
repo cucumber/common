@@ -68,4 +68,16 @@ describe('TimeConversion', () => {
 
     assert.deepStrictEqual(sumDuration, { seconds: 3, nanos: 1e8 })
   })
+
+  it('adds durations (seconds and nanos) with legacy string seconds', () => {
+    const durationA = millisecondsToDuration(1500)
+    // @ts-ignore
+    durationA.seconds = String(durationA.seconds)
+    const durationB = millisecondsToDuration(1600)
+    // @ts-ignore
+    durationB.seconds = String(durationB.seconds)
+    const sumDuration = addDurations(durationA, durationB)
+
+    assert.deepStrictEqual(sumDuration, { seconds: 3, nanos: 1e8 })
+  })
 })
