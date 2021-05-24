@@ -1,7 +1,7 @@
 module github.com/cucumber/demo-formatter-go
 
 require (
-	github.com/cucumber/messages-go/v16 v16.0.0
+	github.com/cucumber/messages-go/v16 v16.0.1
 	github.com/stretchr/testify v1.7.0
 )
 
