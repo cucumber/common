@@ -85,10 +85,10 @@ not the [Bee Gees song](https://www.youtube.com/watch?v=I_izvAbhExY).
 
 #### Examples:
 
-| start | eat | left |
-| ----- | --- | ---- |
-|    12 |   5 |    7 |
-|    20 |   5 |   15 |
+  | start | eat | left |
+  | ----- | --- | ---- |
+  |    12 |   5 |    7 |
+  |    20 |   5 |   15 |
 
 ```
 
