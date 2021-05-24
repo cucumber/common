@@ -4,6 +4,8 @@ Markdown with Gherkin (MDG) is a dialect of Markdown that is supported by
 the Gherkin parser[^1].
 
 MDG is a strict superset of [GitHub Flavored Markdown](https://github.github.com/gfm/) (GFM).
+MDG files must use the `.feature.md` extension. This is to prevent regular `.md` files from
+being parsed by Gherkin, and also to provide a hint to editors.
 
 MDG makes it possible to embed Gherkin scenarios directly in Markdown, using
 conventional Markdown syntax. MDG documents can be rendered by any GFM compliant library.

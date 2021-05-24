@@ -1,0 +1,1 @@
+{"source":{"data":"## Feature: DocString variations\n\n### Scenario: minimalistic\n\n* And a DocString with an implicitly escaped separator inside\n````\n```\n````\n","mediaType":"text/x.cucumber.gherkin+markdown","uri":"testdata/good/docstrings.feature.md"}}

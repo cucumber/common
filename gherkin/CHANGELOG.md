@@ -19,6 +19,7 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Fixed
 
+* MDG files must use the `.feature.md` extension.
 * Data Tables and Examples Tables in Markdown *must* be indented 2-5 spaces in order to
   be recognised.
 
