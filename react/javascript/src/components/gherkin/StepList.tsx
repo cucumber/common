@@ -4,25 +4,15 @@ import Step from './Step'
 
 interface IProps {
   steps: readonly messages.Step[]
-  renderStepMatchArguments: boolean
-  renderMessage: boolean
+  hasExamples: boolean
 }
 
-const StepList: React.FunctionComponent<IProps> = ({
-  steps,
-  renderStepMatchArguments,
-  renderMessage,
-}) => {
+const StepList: React.FunctionComponent<IProps> = ({ steps, hasExamples }) => {
   return (
     <>
       {steps.map((step, index) => (
         <li key={index}>
-          <Step
-            key={index}
-            step={step}
-            renderStepMatchArguments={renderStepMatchArguments}
-            renderMessage={renderMessage}
-          />
+          <Step key={index} step={step} hasExamples={hasExamples} />
         </li>
       ))}
     </>

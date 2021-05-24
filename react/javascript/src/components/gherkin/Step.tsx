@@ -15,15 +15,10 @@ import Title from './Title'
 
 interface IProps {
   step: messages.Step
-  renderStepMatchArguments: boolean
-  renderMessage: boolean
+  hasExamples: boolean
 }
 
-const Step: React.FunctionComponent<IProps> = ({
-  step,
-  renderStepMatchArguments,
-  renderMessage,
-}) => {
+const Step: React.FunctionComponent<IProps> = ({ step, hasExamples }) => {
   const gherkinQuery = React.useContext(GherkinQueryContext)
   const cucumberQuery = React.useContext(CucumberQueryContext)
 
@@ -34,7 +29,7 @@ const Step: React.FunctionComponent<IProps> = ({
 
   const stepTextElements: JSX.Element[] = []
 
-  if (renderStepMatchArguments) {
+  if (!hasExamples) {
     const stepMatchArgumentsLists =
       pickleStepIds.length === 0
         ? // This can happen in rare cases for background steps in a document that only has step-less scenarios,
@@ -87,10 +82,9 @@ const Step: React.FunctionComponent<IProps> = ({
       </Title>
       {step.dataTable && <DataTable dataTable={step.dataTable} />}
       {step.docString && <DocString docString={step.docString} />}
-      {renderMessage && testStepResult.message && <ErrorMessage message={testStepResult.message} />}
-      {attachments.map((attachment, i) => (
-        <Attachment key={i} attachment={attachment} />
-      ))}
+      {!hasExamples && testStepResult.message && <ErrorMessage message={testStepResult.message} />}
+      {!hasExamples &&
+        attachments.map((attachment, i) => <Attachment key={i} attachment={attachment} />)}
     </StepItem>
   )
 }

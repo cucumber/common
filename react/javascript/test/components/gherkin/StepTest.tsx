@@ -54,7 +54,7 @@ describe('<Step>', () => {
       <GherkinQueryContext.Provider value={new StubGherkinQuery()}>
         <UriContext.Provider value={'some.feature'}>
           <CucumberQueryContext.Provider value={new StubCucumberQuery()}>
-            <Step step={step} renderStepMatchArguments={true} renderMessage={true} />
+            <Step step={step} hasExamples={false} />
           </CucumberQueryContext.Provider>
         </UriContext.Provider>
       </GherkinQueryContext.Provider>

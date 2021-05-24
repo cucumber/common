@@ -36,11 +36,7 @@ const Scenario: React.FunctionComponent<IProps> = ({ scenario }) => {
       <Description description={scenario.description} />
       <ol className="cucumber-steps">
         <HookList hookSteps={beforeHooks} />
-        <StepList
-          steps={scenario.steps || []}
-          renderStepMatchArguments={!hasExamples}
-          renderMessage={!hasExamples}
-        />
+        <StepList steps={scenario.steps || []} hasExamples={hasExamples} />
         <HookList hookSteps={afterHooks} />
       </ol>
 

@@ -18,11 +18,7 @@ const Background: React.FunctionComponent<IProps> = ({ background }) => {
       </Title>
       <Description description={background.description} />
       <ol className="cucumber-steps">
-        <StepList
-          steps={background.steps || []}
-          renderStepMatchArguments={true}
-          renderMessage={true}
-        />
+        <StepList steps={background.steps || []} hasExamples={false} />
       </ol>
     </section>
   )

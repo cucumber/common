@@ -16,11 +16,11 @@ interface IProps {
 const MDG: React.FunctionComponent<IProps> = ({ uri, children }) => {
   const gherkinQuery = React.useContext(GherkinQueryContext)
 
-  let renderStepMatchArguments = true
+  let hasExamples = false
 
   function header(line: number, level: number, children: any) {
     const scenario = gherkinQuery.getScenario(uri, line)
-    renderStepMatchArguments = scenario && scenario.examples.length == 0
+    hasExamples = scenario && scenario.examples.length > 0
     const titleAstNode =
       scenario ||
       gherkinQuery.getBackground(uri, line) ||
@@ -79,11 +79,7 @@ const MDG: React.FunctionComponent<IProps> = ({ uri, children }) => {
             }
             return (
               <li>
-                <Step
-                  step={step}
-                  renderStepMatchArguments={renderStepMatchArguments}
-                  renderMessage={true}
-                />
+                <Step step={step} hasExamples={hasExamples} />
               </li>
             )
           },
