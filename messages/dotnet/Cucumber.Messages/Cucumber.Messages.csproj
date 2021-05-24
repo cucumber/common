@@ -10,7 +10,7 @@
   </PropertyGroup>
 
   <PropertyGroup Label="Version">
-    <VersionNumber>15.0.0</VersionNumber>
+    <VersionNumber>16.0.1</VersionNumber>
     <Version Condition="'$(SnapshotSuffix)' != ''">$(VersionNumber)-$(SnapshotSuffix)</Version>
     <Version Condition="'$(SnapshotSuffix)' == ''">$(VersionNumber)</Version>
   </PropertyGroup>
@@ -33,7 +33,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Google.Protobuf" Version="3.17.0"/>
+    <PackageReference Include="Google.Protobuf" Version="3.17.1"/>
     <PackageReference Include="Grpc.Tools" Version="2.37.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

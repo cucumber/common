@@ -10,7 +10,7 @@ import GherkinDocument from '../components/gherkin/GherkinDocument'
 
 import '../styles/styles.scss'
 
-import markdown from '../../acceptance/markdown/markdown.md'
+import markdown from '../../acceptance/markdown/markdown.feature.md'
 import MDG from '../components/gherkin/MDG'
 import UriContext from '../UriContext'
 

@@ -17,6 +17,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [6.0.0] - 2021-05-24
+
+### Changed
+
+* Use `.feature.md` extension for Markdown files
+
 ## [5.0.1] - 2021-05-18
 
 ### Fixed
@@ -64,7 +70,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/compatibility-kit/v5.0.1...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/compatibility-kit/v6.0.0...master
+[6.0.0]:      https://github.com/cucumber/cucumber/releases/tag/compatibility-kit/v5.0.1
 [5.0.1]:      https://github.com/cucumber/cucumber/releases/tag/compatibility-kit/v5.0.0
 [5.0.0]:      https://github.com/cucumber/cucumber/releases/tag/compatibility-kit/v4.0.1
 [4.0.1]:      https://github.com/cucumber/cucumber/releases/tag/compatibility-kit/v4.0.0

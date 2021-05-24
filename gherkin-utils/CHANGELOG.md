@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
-* Added `getFeature`, `getBackground`, `getRule`, `getScenario` and `getExamples` methods
+* Added `getSource`, `getFeature`, `getBackground`, `getRule`, `getScenario` and `getExamples` methods
 
 ### Changed
 

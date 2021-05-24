@@ -3,6 +3,7 @@ import { ArrayMultimap } from '@teppeis/multimaps'
 
 export default class Query {
   private readonly sources: messages.Source[] = []
+  private readonly sourceByUri = new Map<string, messages.Source>()
   private readonly gherkinDocuments: messages.GherkinDocument[] = []
   private readonly pickles: messages.Pickle[] = []
   private readonly locationByAstNodeId = new Map<string, messages.Location>()
@@ -36,6 +37,10 @@ export default class Query {
 
   public getPickles(): readonly messages.Pickle[] {
     return this.pickles
+  }
+
+  public getSource(uri: string): messages.Source | undefined {
+    return this.sourceByUri.get(uri)
   }
 
   public getFeature(uri: string, line: number): messages.Feature | undefined {
@@ -84,6 +89,7 @@ export default class Query {
   public update(message: messages.Envelope): Query {
     if (message.source) {
       this.sources.push(message.source)
+      this.sourceByUri.set(message.source.uri, message.source)
     }
 
     if (message.gherkinDocument) {
