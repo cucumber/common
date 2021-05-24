@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
+* Use `.feature.md` extension for Markdown files
+
 ### Deprecated
 
 ### Removed
