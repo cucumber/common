@@ -1,14 +1,17 @@
-import assert from 'assert'
-import { Given, When } from '@cucumber/fake-cucumber'
+import { Given, When, Then, DataTable } from '@cucumber/fake-cucumber'
 
-Given('the following step definition:', function (code: string) {
-  assert(code)
+Given('some TypeScript code:', function (dataTable: DataTable) {
 })
 
-Given('the following Gherkin step:', function (gherkin: string) {
-  assert(gherkin)
+Given('some classic Gherkin:', function (gherkin: string) {
 })
 
-When('the step runs', function () {
-  throw new Error('An exception was thrown')
+When('we use a data table and attach something and then {word}', function (word: string, dataTable: DataTable) {
+  this.log('We are logging some plain text')
+  if(word === 'fail') {
+    throw new Error('You asked me to fail')
+  }
+})
+
+Then('this might or might not run', function () {
 })

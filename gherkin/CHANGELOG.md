@@ -19,6 +19,9 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Fixed
 
+* Data Tables and Examples Tables in Markdown *must* be indented 2-5 spaces in order to
+  be recognised.
+
 ## [19.0.2] - 2021-05-19
 
 ### Fixed

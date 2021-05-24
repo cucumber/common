@@ -121,7 +121,7 @@ describe('GherkinInMarkdownTokenMatcher', function () {
     assert.strictEqual(t3.matchedText, '')
   })
 
-  it('matches table cells', () => {
+  it('matches table row indented 2 spaces', () => {
     const t = new Token(new GherkinLine('  |foo|bar|', location.line), location)
     assert(tm.match_TableRow(t))
     assert.strictEqual(t.matchedType, TokenType.TableRow)
@@ -131,6 +131,28 @@ describe('GherkinInMarkdownTokenMatcher', function () {
       { column: 8, text: 'bar' },
     ]
     assert.deepStrictEqual(t.matchedItems, expectedItems)
+  })
+
+  it('matches table row indented 5 spaces', () => {
+    const t = new Token(new GherkinLine('     |foo|bar|', location.line), location)
+    assert(tm.match_TableRow(t))
+    assert.strictEqual(t.matchedType, TokenType.TableRow)
+    assert.strictEqual(t.matchedKeyword, '|')
+    const expectedItems: Item[] = [
+      { column: 7, text: 'foo' },
+      { column: 11, text: 'bar' },
+    ]
+    assert.deepStrictEqual(t.matchedItems, expectedItems)
+  })
+
+  it('does not matche table cells indented 1 space', () => {
+    const t = new Token(new GherkinLine(' |foo|bar|', location.line), location)
+    assert(!tm.match_TableRow(t))
+  })
+
+  it('does not matche table cells indented 6 spaces', () => {
+    const t = new Token(new GherkinLine('      |foo|bar|', location.line), location)
+    assert(!tm.match_TableRow(t))
   })
 
   it('matches table separator row as comment', () => {

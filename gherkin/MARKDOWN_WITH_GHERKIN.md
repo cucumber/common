@@ -25,7 +25,8 @@ The parsing rules are as follows:
   - `* Then`
   - `* And`
   - `* But`
-- Data Tables and `Examples` tables use the [GFM table](https://github.github.com/gfm/#tables-extension-) syntax.
+- Data Tables and `Examples` tables use the [GFM table](https://github.github.com/gfm/#tables-extension-)
+syntax. *IMPORTANT:* In order to recognise Data Tables and Examples Tables, they have to be indented 2-5 spaces. Unindented GFM tables will not be recognised as Data Tables or Examples Tables.
 - Doc Strings use the [GFM fenced code blocks](https://github.github.com/gfm/#fenced-code-blocks) syntax.
 - Tags must be wrapped by single \` on each side, for example `` `@hello` ``, and be placed on a line *above* the keyword (as with Gherkin Classic).
 
