@@ -7,7 +7,7 @@ Given('some classic Gherkin:', function (gherkin: string) {
 })
 
 When('we use a data table and attach something and then {word}', function (word: string, dataTable: DataTable) {
-  this.log('We are logging some plain text')
+  this.log(`We are logging some plain text (${word})`)
   if(word === 'fail') {
     throw new Error('You asked me to fail')
   }
