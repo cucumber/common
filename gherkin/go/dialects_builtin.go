@@ -28,7 +28,7 @@ var buildinDialects = gherkinDialectMap{
 				"Vermoë",
 			},
 			rule: []string{
-				"Rule",
+				"Regel",
 			},
 			background: []string{
 				"Agtergrond",
@@ -1676,7 +1676,7 @@ var buildinDialects = gherkinDialectMap{
 				"Jellemző",
 			},
 			rule: []string{
-				"Rule",
+				"Szabály",
 			},
 			background: []string{
 				"Háttér",
@@ -2741,6 +2741,7 @@ var buildinDialects = gherkinDialectMap{
 			},
 			scenarioOutline: []string{
 				"Структура сценария",
+				"Шаблон сценария",
 			},
 			examples: []string{
 				"Примеры",
