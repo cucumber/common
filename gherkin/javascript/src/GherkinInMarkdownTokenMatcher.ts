@@ -1,10 +1,10 @@
 import ITokenMatcher from './ITokenMatcher'
 import Dialect from './Dialect'
-import { Token, TokenType } from './Parser'
+import {Token, TokenType} from './Parser'
 import DIALECTS from './gherkin-languages.json'
-import { Item } from './IToken'
+import {Item} from './IToken'
 import * as messages from '@cucumber/messages'
-import { NoSuchLanguageException } from './Errors'
+import {NoSuchLanguageException} from './Errors'
 
 const DIALECT_DICT: { [key: string]: Dialect } = DIALECTS
 const DEFAULT_DOC_STRING_SEPARATOR = /^(```[`]*)(.*)/
@@ -97,22 +97,6 @@ export default class GherkinInMarkdownTokenMatcher implements ITokenMatcher<Toke
   }
 
   match_Other(token: Token): boolean {
-    // if(
-    //   this.match_TagLine(token)||
-    //   this.match_FeatureLine(token)||
-    //   this.match_ScenarioLine(token)||
-    //   this.match_BackgroundLine(token)||
-    //   this.match_ExamplesLine(token)||
-    //   this.match_RuleLine(token)||
-    //   this.match_TableRow(token)||
-    //   this.match_Empty(token)||
-    //   this.match_Comment(token)||
-    //   this.match_Language(token)||
-    //   this.match_DocStringSeparator(token)||
-    //   this.match_EOF(token)||
-    //   this.match_StepLine(token)
-    // ) return this.setTokenMatched(token, null, false)
-    //
     const text = token.line.getLineText(this.indentToRemove) // take the entire line, except removing DocString indents
     token.matchedType = TokenType.Other
     token.matchedText = text
@@ -273,7 +257,8 @@ export default class GherkinInMarkdownTokenMatcher implements ITokenMatcher<Toke
   }
 
   match_TableRow(token: Token): boolean {
-    if (token.line.startsWith('|')) {
+    // Gherkin tables must be indented 2-5 spaces in order to be distinguidedn from non-Gherkin tables
+    if (token.line.lineText.match(/^\s\s\s?\s?\s?\|/)) {
       const tableCells = token.line.getTableCells()
       if (this.isGfmTableSeparator(tableCells)) return false
 

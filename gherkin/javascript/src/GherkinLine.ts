@@ -8,7 +8,7 @@ export default class GherkinLine implements IGherkinLine {
   public column: number
   public text: string
 
-  constructor(private readonly lineText: string, public readonly lineNumber: number) {
+  constructor(public readonly lineText: string, public readonly lineNumber: number) {
     this.trimmedLineText = lineText.replace(/^\s+/g, '') // ltrim
     this.isEmpty = this.trimmedLineText.length === 0
     this.indent = countSymbols(lineText) - countSymbols(this.trimmedLineText)

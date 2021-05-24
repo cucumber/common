@@ -15,16 +15,16 @@
 `@ex_tag1` `@ex_tag2`
   `@ex_tag3`
 ### Examples:
-| what       |
-| ---------- |
-| minimalism |
+  | what       |
+  | ---------- |
+  | minimalism |
 
 `@ex_tag4` `@ex_tag5`
   `@ex_tag6`
 ### Examples:
-| what       |
-| ---------- |
-| more minimalism |
+  | what       |
+  | ---------- |
+  | more minimalism |
 
 `@comment_tag1` #a comment
 ## Scenario: comments
