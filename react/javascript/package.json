@@ -11,7 +11,7 @@
   "author": "Aslak Hellesøy",
   "license": "MIT",
   "scripts": {
-    "prepare": "make .codegen",
+    "prepare": "make .codegen && npx cpy-cli '**/*.scss' '../dist/src' --cwd='src' --parents",
     "test": "mocha",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
@@ -34,7 +34,8 @@
     "react-accessible-accordion": "3.3.4",
     "react-markdown": "6.0.2",
     "rehype-raw": "5.1.0",
-    "rehype-sanitize": "4.0.0"
+    "rehype-sanitize": "4.0.0",
+    "remark-gfm": "1.0.0"
   },
   "peerDependencies": {
     "react": "~17",
@@ -58,11 +59,12 @@
     "@types/react": "17.0.6",
     "@types/react-dom": "17.0.5",
     "babel-loader": "8.2.2",
+    "css-modules-require-hook": "4.2.3",
     "core-js": "3.12.1",
+    "cpy-cli": "3.1.1",
     "glob": "7.1.7",
     "jsdom": "16.6.0",
     "mocha": "8.4.0",
-    "node-sass": "6.0.0",
     "nyc": "15.1.0",
     "raw-loader": "4.0.2",
     "react": "17.0.2",

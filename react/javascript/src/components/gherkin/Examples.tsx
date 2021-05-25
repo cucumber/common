@@ -4,6 +4,7 @@ import ExamplesTable from './ExamplesTable'
 import * as messages from '@cucumber/messages'
 import Tags from './Tags'
 import Description from './Description'
+import Title from './Title'
 
 interface IExamplesProps {
   examples: messages.Examples
@@ -11,15 +12,17 @@ interface IExamplesProps {
 
 const Examples: React.FunctionComponent<IExamplesProps> = ({ examples }) => {
   return (
-    <section className="cucumber-examples">
+    <section>
       <Tags tags={examples.tags} />
-      <h2 className="cucumber-title">
-        <Keyword className="cucumber-title__keyword">{examples.keyword}:</Keyword>{' '}
-        <span className="cucumber-title__text">{examples.name}</span>
-      </h2>
+      <Title header="h2" id={examples.id}>
+        <Keyword>{examples.keyword}:</Keyword>
+        <span>{examples.name}</span>
+      </Title>
       <Description description={examples.description} />
       {examples.tableHeader && (
-        <ExamplesTable tableHeader={examples.tableHeader} tableBody={examples.tableBody} />
+        <div className="cucumber-children">
+          <ExamplesTable tableHeader={examples.tableHeader} tableBody={examples.tableBody} />
+        </div>
       )}
     </section>
   )

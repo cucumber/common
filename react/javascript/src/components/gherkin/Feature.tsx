@@ -1,27 +1,27 @@
 import React from 'react'
 import Tags from './Tags'
-import IdGenerator from '../../IdGenerator'
 import Description from './Description'
 import Scenario from './Scenario'
 import * as messages from '@cucumber/messages'
 import Rule from './Rule'
 import Background from './Background'
-import FeatureTitle from './FeatureTitle'
+import Title from './Title'
+import Keyword from './Keyword'
+import HighLight from '../app/HighLight'
 
 interface IProps {
   feature: messages.Feature
 }
 
-const generator = new IdGenerator()
-
 const Feature: React.FunctionComponent<IProps> = ({ feature }) => {
-  const idGenerated = generator.generate(feature.name)
-
   return (
-    <section className="cucumber-feature">
+    <section>
       <Tags tags={feature.tags} />
-      <FeatureTitle id={idGenerated} feature={feature} />
-      {feature.description ? <Description description={feature.description} /> : null}
+      <Title header="h1" id={feature.name}>
+        <Keyword>{feature.keyword}:</Keyword>
+        <HighLight text={feature.name} />
+      </Title>
+      <Description description={feature.description} />
       <div className="cucumber-children">
         {(feature.children || []).map((child, index) => {
           if (child.background) {

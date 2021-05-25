@@ -1,0 +1,16 @@
+$statusColors:
+  'PASSED' #2CB14A,
+  'SKIPPED' #00A0CC,
+  'PENDING' #FFAD33,
+  'UNDEFINED' #FFAD33,
+  'AMBIGUOUS' #F4EBFD,
+  'FAILED' #BB0000,
+  'UNKNOWN' #B6BECB;
+
+.icon {
+  @each $name, $color in $statusColors {
+    &[data-status='#{$name}'] {
+      color: fade-out($color, 0.333);
+    }
+  }
+}

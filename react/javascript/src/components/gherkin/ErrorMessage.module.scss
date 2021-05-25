@@ -1,0 +1,13 @@
+@import '../../styles/theming';
+
+.message {
+  white-space: pre-wrap;
+  font-family: inherit;
+  font-size: 0.875em;
+  padding: 0.666em 0.75em;
+  border-radius: 0.25em;
+  margin: 0;
+  overflow-x: auto;
+  background-color: $errorBackgroundColor;
+  color: $errorTextColor;
+}

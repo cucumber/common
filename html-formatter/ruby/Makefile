@@ -9,9 +9,9 @@ acceptance/%.html: ../../compatibility-kit/javascript/features/%.ndjson
 	mkdir -p $(@D)
 	cat $< | bundle exec bin/cucumber-html-formatter > $@
 
-.deps: assets/cucumber-react.css assets/cucumber-html.js assets/index.mustache.html
+.deps: assets/cucumber-html.css assets/cucumber-html.js assets/index.mustache.html
 
-assets/cucumber-react.css: ../../react/javascript/dist/src/styles/cucumber-react.css
+assets/cucumber-html.css: ../javascript/dist/main.css
 	mkdir -p $(@D)
 	cp $< $@
 
@@ -24,4 +24,4 @@ assets/index.mustache.html: ../javascript/dist/src/index.mustache.html
 	cp $< $@
 
 clean:
-	rm -f assets/cucumber-react.css assets/cucumber-html.js assets/index.mustache.html
+	rm -f assets/cucumber-html.css assets/cucumber-html.js assets/index.mustache.html

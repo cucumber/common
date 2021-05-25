@@ -9,21 +9,36 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import statusName from './statusName'
 import * as messages from '@cucumber/messages'
+import defaultStyles from './StatusIcon.module.scss'
+import {
+  DefaultComponent,
+  StatusIconClasses,
+  StatusIconProps,
+  useCustomRendering,
+} from '../customise/CustomRendering'
 
-interface IProps {
-  status: messages.TestStepResultStatus
-}
-
-const StatusIcon: React.FunctionComponent<IProps> = ({ status }) => {
+const DefaultRenderer: DefaultComponent<StatusIconProps, StatusIconClasses> = ({
+  status,
+  styles,
+}) => {
   return (
     <FontAwesomeIcon
       icon={statusIcon(status)}
       size="1x"
-      className={`cucumber-status--${statusName(status)}`}
+      className={styles.icon}
+      data-status={status}
     />
   )
+}
+
+const StatusIcon: React.FunctionComponent<StatusIconProps> = (props) => {
+  const Customised = useCustomRendering<StatusIconProps, StatusIconClasses>(
+    'StatusIcon',
+    defaultStyles,
+    DefaultRenderer
+  )
+  return <Customised {...props}>{props.children}</Customised>
 }
 
 export default StatusIcon

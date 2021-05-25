@@ -96,9 +96,6 @@ This Markdown document can be rendered beautifully by any GMF-compliant tool.
 
 ## Rendering MDG with results
 
-(This is currently under development and will soon be available in Cucumber's built-in
-`html` formatter as well as in https://reports.cucumber.io/).
-
 The [@cucumber/react](../react/javascript) library provides an `<MDG>` React component that
 renders a Markdown document with results coming from Cucumber (using [Cucumber Messages](../messages)).
 
