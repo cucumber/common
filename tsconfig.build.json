@@ -47,6 +47,9 @@
       "path": "./react/javascript/tsconfig.build.json"
     },
     {
+      "path": "./markdown-editor/javascript/tsconfig.build.json"
+    },
+    {
       "path": "./html-formatter/javascript/tsconfig.build.json"
     },
     {

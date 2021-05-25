@@ -1,0 +1,56 @@
+.App {
+    font-family: sans-serif;
+}
+
+.ProseMirrorContainer {
+    padding: 16px;
+    border: 1px solid #ccc;
+    transition: 0.1s;
+    border-radius: 5px;
+    background-color: #fff;
+}
+
+.ProseMirrorContainer:focus-within {
+    box-shadow: 0 0 0 3px #a6c3ff;
+    border-color: blue;
+}
+
+.ProseMirror {
+    min-height: 200px;
+    outline: none;
+    padding: 0;
+    font-size: 18px;
+}
+
+.Menu {
+    display: flex;
+    margin-bottom: 7px;
+    padding-left: 2px;
+}
+
+button {
+    font-size: 14px;
+    cursor: pointer;
+    width: 36px;
+    height: 36px;
+    margin-right: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    box-shadow: none;
+    border: 1px solid #ccc;
+}
+
+button.bold {
+    font-weight: 700;
+}
+
+button.italic {
+    font-style: italic;
+}
+
+p {
+    margin: 0;
+    line-height: 1.3;
+}
