@@ -34,7 +34,7 @@
     "@types/react": "17.0.6",
     "@types/react-dom": "17.0.5",
     "babel-loader": "8.2.2",
-    "css-loader": "5.2.4",
+    "css-loader": "5.2.6",
     "mini-css-extract-plugin": "1.6.0",
     "mocha": "8.4.0",
     "puppeteer": "9.1.1",
