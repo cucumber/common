@@ -1,6 +1,6 @@
 {
   "name": "@cucumber/html-formatter",
-  "version": "14.0.0",
+  "version": "15.0.0",
   "description": "HTML formatter for Cucumber",
   "bin": {
     "cucumber-html-formatter": "bin/cucumber-html-formatter.js"
@@ -30,7 +30,7 @@
     "@cucumber/query": "^10.0.0",
     "@cucumber/react": "^16.0.0",
     "@types/mocha": "8.2.2",
-    "@types/node": "15.3.1",
+    "@types/node": "15.6.1",
     "@types/react": "17.0.8",
     "@types/react-dom": "17.0.5",
     "babel-loader": "8.2.2",
