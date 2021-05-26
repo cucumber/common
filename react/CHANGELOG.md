@@ -9,18 +9,24 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
-* New `<MDG>` component for rendering [Markdown with Gherkin](../gherkin/MARKDOWN_WITH_GHERKIN.md) documents.
-* Experimental support for theming and custom rendering ([1391](https://github.com/cucumber/common/pull/1391))
-
 ### Changed
-
-* Various look and feel changes ([1391](https://github.com/cucumber/common/pull/1391))
 
 ### Deprecated
 
 ### Removed
 
 ### Fixed
+
+## [16.0.0] - 2021-05-26
+
+### Added
+
+* New `<MDG>` component for rendering [Markdown with Gherkin](../gherkin/MARKDOWN_WITH_GHERKIN.md) documents.
+* Experimental support for theming and custom rendering ([1391](https://github.com/cucumber/common/pull/1391))
+
+### Changed
+
+* Various look and feel changes ([1391](https://github.com/cucumber/common/pull/1391))
 
 ## [14.0.0] - 2021-05-17
 
@@ -350,7 +356,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/react/v14.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/react/v16.0.0...master
+[16.0.0]:      https://github.com/cucumber/cucumber/compare/react/v14.0.0...react/v16.0.0
 [14.0.0]:      https://github.com/cucumber/cucumber/compare/react/v13.0.0...react/v14.0.0
 [13.0.0]:      https://github.com/cucumber/cucumber/compare/react/v12.0.0...react/v13.0.0
 [12.0.0]:      https://github.com/cucumber/cucumber/compare/react/v11.0.2...react/v12.0.0
