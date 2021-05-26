@@ -2,13 +2,12 @@
   "$schema": "http://json-schema.org/draft-04/schema#",
   "additionalProperties": false,
   "required": [
-    "name",
-    "regularExpressions",
-    "preferForRegularExpressionMatch",
-    "useForSnippets",
-    "id",
     "children",
-    "id"
+    "id",
+    "name",
+    "preferForRegularExpressionMatch",
+    "regularExpressions",
+    "useForSnippets"
   ],
   "properties": {
     "name": {
@@ -29,6 +28,12 @@
     },
     "id": {
       "type": "string"
+    },
+    "children": {
+      "items": {
+        "$ref": "#"
+     },
+     "type": "array"
     }
   },
   "type": "object"
