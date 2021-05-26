@@ -1,5 +1,3 @@
-import MarkdownEditor from "./MarkdownEditor";
+import MarkdownEditor from './MarkdownEditor'
 
-export {
-  MarkdownEditor
-}
+export { MarkdownEditor }
