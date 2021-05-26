@@ -25,7 +25,7 @@
   "devDependencies": {
     "@babel/core": "7.14.3",
     "@cucumber/gherkin-streams": "^2.0.2",
-    "@cucumber/gherkin-utils": "^5.0.2",
+    "@cucumber/gherkin-utils": "^5.1.0",
     "@cucumber/message-streams": "^2.0.0",
     "@cucumber/query": "^10.0.0",
     "@cucumber/react": "^14.0.0",

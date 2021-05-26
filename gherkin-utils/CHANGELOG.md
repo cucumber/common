@@ -9,8 +9,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
-* Added `getSource`, `getFeature`, `getBackground`, `getRule`, `getScenario` and `getExamples` methods
-
 ### Changed
 
 ### Deprecated
@@ -18,6 +16,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Removed
 
 ### Fixed
+
+## [5.1.0] - 2021-05-26
+
+### Added
+
+* Added `getSource`, `getFeature`, `getBackground`, `getRule`, `getScenario` and `getExamples` methods
 
 ## [5.0.2] - 2021-05-17
 
@@ -94,7 +98,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin-utils/v5.0.2...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin-utils/v5.1.0...master
+[5.1.0]:      https://github.com/cucumber/cucumber/compare/gherkin-utils/v5.0.2...gherkin-utils/v5.1.0
 [5.0.2]:      https://github.com/cucumber/cucumber/compare/gherkin-utils/v5.0.1...gherkin-utils/v5.0.2
 [5.0.1]:      https://github.com/cucumber/cucumber/compare/gherkin-utils/v5.0.0...gherkin-utils/v5.0.1
 [5.0.0]:      https://github.com/cucumber/cucumber/compare/gherkin-utils/v4.0.0...gherkin-utils/v5.0.0
