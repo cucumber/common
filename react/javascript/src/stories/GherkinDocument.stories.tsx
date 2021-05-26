@@ -9,7 +9,6 @@ import QueriesWrapper from '../components/app/QueriesWrapper'
 import { EnvelopesQuery } from '../../src'
 import GherkinDocument from '../components/gherkin/GherkinDocument'
 
-import '../styles/react-accessible-accordion.css'
 import '../styles/styles.scss'
 
 import attachments from '../../acceptance/attachments/attachments.feature'
@@ -33,7 +32,10 @@ type Props = {
   cucumberQuery: CucumberQuery
   envelopesQuery: EnvelopesQuery
 }
-type TemplateArgs = { envelopes: readonly messages.Envelope[] }
+
+type TemplateArgs = {
+  envelopes: readonly messages.Envelope[]
+}
 
 const Template: Story<TemplateArgs> = ({ envelopes }) => {
   return (

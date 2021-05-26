@@ -1,7 +1,7 @@
 import { JSDOM } from 'jsdom'
 import ReactDOM from 'react-dom'
 import React from 'react'
-import Attachment from '../src/components/gherkin/Attachment'
+import Attachment from '../../../src/components/gherkin/Attachment'
 import * as messages from '@cucumber/messages'
 import assert from 'assert'
 

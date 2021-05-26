@@ -1,5 +1,10 @@
 {
-  "require": ["tsconfig-paths/register", "ts-node/register", "source-map-support/register"],
+  "require": [
+    "tsconfig-paths/register",
+    "ts-node/register",
+    "source-map-support/register",
+    "./css-modules-hook.js"
+  ],
   "extension": ["ts", "tsx"],
   "recursive": true,
   "timeout": 10000

@@ -1,6 +1,7 @@
 import React from 'react'
 import GherkinDocument from '../gherkin/GherkinDocument'
 import * as messages from '@cucumber/messages'
+import {getWorstTestStepResult} from '@cucumber/messages'
 import {
   Accordion,
   AccordionItem,
@@ -12,13 +13,12 @@ import UriContext from '../../UriContext'
 import GherkinQueryContext from '../../GherkinQueryContext'
 import CucumberQueryContext from '../../CucumberQueryContext'
 import StatusIcon from '../gherkin/StatusIcon'
-import { getWorstTestStepResult } from '@cucumber/messages'
+import styles from './GherkinDocumentList.module.scss'
+import MDG from "../gherkin/MDG";
 
-interface IProps {
-  gherkinDocuments?: readonly messages.GherkinDocument[]
-}
-
-const GherkinDocumentList: React.FunctionComponent<IProps> = ({ gherkinDocuments }) => {
+const GherkinDocumentList: React.FunctionComponent<{
+  gherkinDocuments?: ReadonlyArray<messages.GherkinDocument>
+}> = ({gherkinDocuments}) => {
   const gherkinQuery = React.useContext(GherkinQueryContext)
   const cucumberQuery = React.useContext(CucumberQueryContext)
 
@@ -29,8 +29,8 @@ const GherkinDocumentList: React.FunctionComponent<IProps> = ({ gherkinDocuments
     (gherkinDocument) => {
       const gherkinDocumentStatus = gherkinDocument.feature
         ? getWorstTestStepResult(
-            cucumberQuery.getPickleTestStepResults(gherkinQuery.getPickleIds(gherkinDocument.uri))
-          ).status
+          cucumberQuery.getPickleTestStepResults(gherkinQuery.getPickleIds(gherkinDocument.uri))
+        ).status
         : messages.TestStepResultStatus.UNDEFINED
       return [gherkinDocument.uri, gherkinDocumentStatus]
     }
@@ -41,25 +41,35 @@ const GherkinDocumentList: React.FunctionComponent<IProps> = ({ gherkinDocuments
   const preExpanded = gherkinDocs
     .filter((doc) => gherkinDocumentStatusByUri.get(doc.uri) !== 'PASSED')
     .map((doc) => doc.uri)
+
   return (
-    <div className="gherkin-document-list">
-      <Accordion allowMultipleExpanded={true} allowZeroExpanded={true} preExpanded={preExpanded}>
+    <div className={`cucumber ${styles.list}`}>
+      <Accordion
+        allowMultipleExpanded={true}
+        allowZeroExpanded={true}
+        preExpanded={preExpanded}
+        className={styles.accordion}
+      >
         {gherkinDocs.map((doc) => {
           const gherkinDocumentStatus = gherkinDocumentStatusByUri.get(doc.uri)
+          const source = gherkinQuery.getSource(doc.uri)
 
           return (
-            <AccordionItem key={doc.uri} uuid={doc.uri}>
+            <AccordionItem key={doc.uri} uuid={doc.uri} className={styles.accordionItem}>
               <AccordionItemHeading>
-                <AccordionItemButton>
-                  <span className="cucumber-feature__icon">
-                    <StatusIcon status={gherkinDocumentStatus} />
+                <AccordionItemButton className={styles.accordionButton}>
+                  <span className={styles.icon}>
+                    <StatusIcon status={gherkinDocumentStatus}/>
                   </span>
                   <span>{doc.uri}</span>
                 </AccordionItemButton>
               </AccordionItemHeading>
-              <AccordionItemPanel>
+              <AccordionItemPanel className={styles.accordionPanel}>
                 <UriContext.Provider value={doc.uri}>
-                  <GherkinDocument gherkinDocument={doc} />
+                  {source.mediaType === messages.SourceMediaType.TEXT_X_CUCUMBER_GHERKIN_PLAIN ?
+                    <GherkinDocument gherkinDocument={doc}/> :
+                    <MDG uri={doc.uri}>{source.data}</MDG>
+                  }
                 </UriContext.Provider>
               </AccordionItemPanel>
             </AccordionItem>

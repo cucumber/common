@@ -1,10 +1,10 @@
 import ITokenMatcher from './ITokenMatcher'
 import Dialect from './Dialect'
-import {Token, TokenType} from './Parser'
+import { Token, TokenType } from './Parser'
 import DIALECTS from './gherkin-languages.json'
-import {Item} from './IToken'
+import { Item } from './IToken'
 import * as messages from '@cucumber/messages'
-import {NoSuchLanguageException} from './Errors'
+import { NoSuchLanguageException } from './Errors'
 
 const DIALECT_DICT: { [key: string]: Dialect } = DIALECTS
 const DEFAULT_DOC_STRING_SEPARATOR = /^(```[`]*)(.*)/

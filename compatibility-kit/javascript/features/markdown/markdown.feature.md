@@ -19,7 +19,7 @@ I love cheese, especially fromage macaroni cheese. Rubber cheese ricotta caerphi
   ```
 * And some classic Gherkin:
   ```gherkin
-  Given there are 4 apples in Mary's basket
+  Given there are 24 apples in Mary's basket
   ```
 * When we use a data table and attach something and then <what>
   | name | age |
