@@ -17,6 +17,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [16.0.1] - 2021-05-27
+
+### Fixed
+
+* Fixed a bug in `Step.tsx` that threw an error when a `Group#value` had value `undefined`
+
 ## [16.0.0] - 2021-05-26
 
 ### Added
@@ -356,7 +362,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/react/v16.0.0...main
+[Unreleased]: https://github.com/cucumber/cucumber/compare/react/v16.0.1...main
+[16.0.1]:      https://github.com/cucumber/cucumber/compare/react/v16.0.0...react/v16.0.1
 [16.0.0]:      https://github.com/cucumber/cucumber/compare/react/v14.0.0...react/v16.0.0
 [14.0.0]:      https://github.com/cucumber/cucumber/compare/react/v13.0.0...react/v14.0.0
 [13.0.0]:      https://github.com/cucumber/cucumber/compare/react/v12.0.0...react/v13.0.0

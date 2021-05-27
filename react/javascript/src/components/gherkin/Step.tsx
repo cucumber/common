@@ -49,14 +49,16 @@ const Step: React.FunctionComponent<IProps> = ({ step, hasExamples }) => {
           stepTextElements.push(<HighLight key={`plain-${index}`} text={plain} />)
         }
         const arg = argument.group.value
-        if (arg.length > 0) {
-          stepTextElements.push(
-            <Parameter parameterTypeName={argument.parameterTypeName} key={`param-${index}`}>
-              <HighLight text={arg} />
-            </Parameter>
-          )
+        if (arg) {
+          if (arg.length > 0) {
+            stepTextElements.push(
+              <Parameter parameterTypeName={argument.parameterTypeName} key={`param-${index}`}>
+                <HighLight text={arg}/>
+              </Parameter>
+            )
+          }
+          offset += plain.length + arg.length
         }
-        offset += plain.length + arg.length
       })
       plain = step.text.slice(offset)
       if (plain.length > 0) {
