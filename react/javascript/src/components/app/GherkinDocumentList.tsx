@@ -16,9 +16,13 @@ import StatusIcon from '../gherkin/StatusIcon'
 import styles from './GherkinDocumentList.module.scss'
 import MDG from "../gherkin/MDG";
 
-const GherkinDocumentList: React.FunctionComponent<{
-  gherkinDocuments?: ReadonlyArray<messages.GherkinDocument>
-}> = ({gherkinDocuments}) => {
+interface IProps {
+  gherkinDocuments?: readonly messages.GherkinDocument[]
+  // Set to true if non-PASSED documents should be pre-expanded
+  preExpand?: boolean
+}
+
+const GherkinDocumentList: React.FunctionComponent<IProps> = ({gherkinDocuments, preExpand}) => {
   const gherkinQuery = React.useContext(GherkinQueryContext)
   const cucumberQuery = React.useContext(CucumberQueryContext)
 
@@ -38,9 +42,13 @@ const GherkinDocumentList: React.FunctionComponent<{
   const gherkinDocumentStatusByUri = new Map(entries)
 
   // Pre-expand any document that is *not* passed - assuming this is what people want to look at first
-  const preExpanded = gherkinDocs
-    .filter((doc) => gherkinDocumentStatusByUri.get(doc.uri) !== 'PASSED')
-    .map((doc) => doc.uri)
+  const preExpanded = preExpand
+    ? gherkinDocs
+      .filter(
+        (doc) => gherkinDocumentStatusByUri.get(doc.uri!) !== messages.TestStepResultStatus.PASSED
+      )
+      .map((doc) => doc.uri!)
+    : []
 
   return (
     <div className={`cucumber ${styles.list}`}>

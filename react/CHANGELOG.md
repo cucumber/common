@@ -17,6 +17,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [16.1.0] - 2021-05-27
+
+### Added
+
+* Add `preExpand` property to `<GherkinDocumentList>`, controlling whether or not
+  non-PASSED feature files are expanded or not.
+
+### Fixed
+
 ## [16.0.2] - 2021-05-27
 
 ### Fixed
@@ -370,7 +379,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/react/v16.0.2...main
+[Unreleased]: https://github.com/cucumber/cucumber/compare/react/v16.1.0...main
+[16.1.0]:      https://github.com/cucumber/cucumber/compare/react/v16.0.2...react/v16.1.0
 [16.0.2]:      https://github.com/cucumber/cucumber/compare/react/v16.0.1...react/v16.0.2
 [16.0.1]:      https://github.com/cucumber/cucumber/compare/react/v16.0.0...react/v16.0.1
 [16.0.0]:      https://github.com/cucumber/cucumber/compare/react/v14.0.0...react/v16.0.0

@@ -61,7 +61,7 @@ function makeStep(
   keyword: string,
   text: string,
   docstring = '',
-  datatable: readonly ReadonlyArray<string>[] = []
+  datatable: readonly (readonly string[])[] = []
 ): messages.Step {
   const idGenerator = messages.IdGenerator.uuid()
   const docString: messages.DocString = docstring
