@@ -52,6 +52,9 @@ const tableMenu = [
   item('Make cell not-green', setCellAttr('background', null)),
 ]
 
+// TODO: Adapt one of these:
+// https://gitlab.coko.foundation/wax/wax-prosemirror/-/blob/master/wax-prosemirror-components/src/ui/tables/InsertTableTool.js
+// https://github.com/chanzuckerberg/czi-prosemirror/blob/master/src/ui/TableGridSizeEditor.js
 function addTable() {
   console.log('ADDED TABLE')
   return true
