@@ -2,8 +2,7 @@ import { Command } from 'commander'
 import packageJson from '../package.json'
 import loadSupportCode from './loadSupportCode'
 import runCucumber from './runCucumber'
-import { IGherkinOptions } from '@cucumber/gherkin'
-import { GherkinStreams } from '@cucumber/gherkin-streams'
+import { GherkinStreams, IGherkinStreamOptions } from '@cucumber/gherkin-streams'
 import { Query as GherkinQuery } from '@cucumber/gherkin-utils'
 import { version } from '../package.json'
 import * as messages from '@cucumber/messages'
@@ -24,11 +23,12 @@ async function main() {
 
   const supportCode = await loadSupportCode(predictableIds, requirePaths)
 
-  const gherkinOptions: IGherkinOptions = {
+  const gherkinStreamOptions: IGherkinStreamOptions = {
     defaultDialect: 'en',
     newId: supportCode.newId,
+    relativeTo: process.cwd()
   }
-  const gherkinEnvelopeStream = GherkinStreams.fromPaths(paths, gherkinOptions)
+  const gherkinEnvelopeStream = GherkinStreams.fromPaths(paths, gherkinStreamOptions)
 
   const envelopeOutputStream = new MessageToNdjsonStream()
   envelopeOutputStream.pipe(process.stdout)
