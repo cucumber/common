@@ -2,6 +2,7 @@ import 'prosemirror-view/style/prosemirror.css'
 import 'prosemirror-example-setup/style/style.css'
 import 'prosemirror-menu/style/menu.css'
 import 'prosemirror-tables/style/tables.css'
+import './styles.css'
 
 import React from 'react'
 import { ProseMirror, useProseMirror } from 'use-prosemirror'

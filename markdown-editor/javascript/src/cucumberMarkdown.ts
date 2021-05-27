@@ -14,14 +14,15 @@ export const schema = new Schema({
   nodes: markdownSchema.spec.nodes.append(
     tableNodes({
       tableGroup: 'block',
-      // Examples suggest block+ but we want to be more restrictive - ideally just text
+      // Examples suggest block+ but we want to restrict to a single paragraph (single line)
+      // TODO: Investigate if we can restrict to a span, if such a thing exists in prosemirror
       cellContent: 'paragraph',
       cellAttributes: {
         background: {
           default: null,
           getFromDOM(dom) {
             // @ts-ignore
-            return dom.style.backgroundColor || null
+            return (dom.style && dom.style.backgroundColor) || null;
           },
           setDOMAttr(value, attrs) {
             if (value) attrs.style = (attrs.style || '') + `background-color: ${value};`
