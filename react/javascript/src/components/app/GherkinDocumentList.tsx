@@ -55,7 +55,7 @@ const GherkinDocumentList: React.FunctionComponent<{
           const source = gherkinQuery.getSource(doc.uri)
 
           return (
-            <AccordionItem key={doc.uri} uuid={doc.uri} className={styles.accordionItem}>
+            <AccordionItem key={doc.uri} className={styles.accordionItem}>
               <AccordionItemHeading>
                 <AccordionItemButton className={styles.accordionButton}>
                   <span className={styles.icon}>
