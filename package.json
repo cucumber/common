@@ -24,7 +24,7 @@
   ],
   "scripts": {
     "build": "tsc --build tsconfig.build.json",
-    "clean": "./scripts/npm-each rm -rf node_modules dist acceptance && rm -rf node_modules",
+    "clean": "./scripts/npm-each rm -rf node_modules package-lock.json dist acceptance && rm -rf node_modules package-lock.json",
     "clean-tsc": "./scripts/npm-each rm -rf dist",
     "test": "./scripts/npm-each npm test",
     "upgrade": "npm-check-updates --upgrade && ./scripts/npm-each npm-check-updates --upgrade",
@@ -47,7 +47,7 @@
     "prettier": "2.3.0",
     "pretty-quick": "3.1.0",
     "tsconfig-paths": "3.9.0",
-    "typescript": "4.2.4"
+    "typescript": "4.3.2"
   },
   "prettier": {
     "trailingComma": "es5",

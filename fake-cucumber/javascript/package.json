@@ -37,14 +37,14 @@
     "source-map-support": "0.5.19",
     "stream-buffers": "3.0.2",
     "ts-node": "10.0.0",
-    "typescript": "4.2.4"
+    "typescript": "4.3.2"
   },
   "dependencies": {
     "@cucumber/cucumber-expressions": "^12.1.1",
     "@cucumber/create-meta": "^5.0.0",
     "@cucumber/gherkin": "^19.0.3",
     "@cucumber/gherkin-streams": "^2.0.2",
-    "@cucumber/gherkin-utils": "^5.0.2",
+    "@cucumber/gherkin-utils": "^5.1.0",
     "@cucumber/messages": "^16.0.1",
     "@cucumber/message-streams": "^2.0.0",
     "@cucumber/tag-expressions": "^3.0.1",

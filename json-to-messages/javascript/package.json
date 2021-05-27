@@ -31,14 +31,14 @@
     "mocha": "8.4.0",
     "ts-node": "10.0.0",
     "ts-sinon": "2.0.1",
-    "typescript": "4.2.4"
+    "typescript": "4.3.2"
   },
   "dependencies": {
     "@cucumber/create-meta": "^5.0.0",
     "@cucumber/fake-cucumber": "^12.0.2",
     "@cucumber/gherkin": "^19.0.3",
     "@cucumber/gherkin-streams": "^2.0.2",
-    "@cucumber/gherkin-utils": "^5.0.2",
+    "@cucumber/gherkin-utils": "^5.1.0",
     "@cucumber/messages": "^16.0.1",
     "@cucumber/message-streams": "^2.0.0",
     "commander": "7.2.0",

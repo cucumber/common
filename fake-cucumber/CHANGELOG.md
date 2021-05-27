@@ -239,7 +239,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/fake-cucumber/v12.0.2...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/fake-cucumber/v12.0.2...main
 [12.0.2]:      https://github.com/cucumber/cucumber/compare/fake-cucumber/v12.0.1...fake-cucumber/v12.0.2
 [12.0.1]:      https://github.com/cucumber/cucumber/compare/fake-cucumber/v12.0.0...fake-cucumber/v12.0.1
 [12.0.0]:      https://github.com/cucumber/cucumber/compare/fake-cucumber/v11.0.0...fake-cucumber/v12.0.0
