@@ -309,7 +309,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/html-formatter/v15.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/html-formatter/v15.0.0...main
 [15.0.0]:      https://github.com/cucumber/cucumber/compare/html-formatter/v14.0.0...html-formatter/v15.0.0
 [14.0.0]:      https://github.com/cucumber/cucumber/compare/html-formatter/v13.0.0...html-formatter/v14.0.0
 [13.0.0]:      https://github.com/cucumber/cucumber/compare/html-formatter/v12.0.0...html-formatter/v13.0.0

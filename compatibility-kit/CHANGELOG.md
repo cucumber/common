@@ -76,7 +76,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/compatibility-kit/v7.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/compatibility-kit/v7.0.0...main
 [7.0.0]:      https://github.com/cucumber/cucumber/releases/tag/compatibility-kit/v6.0.0
 [6.0.0]:      https://github.com/cucumber/cucumber/releases/tag/compatibility-kit/v5.0.1
 [5.0.1]:      https://github.com/cucumber/cucumber/releases/tag/compatibility-kit/v5.0.0
