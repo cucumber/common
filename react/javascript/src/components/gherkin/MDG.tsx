@@ -65,7 +65,6 @@ const MDG: React.FunctionComponent<IProps> = ({ uri, children }) => {
           },
           table({ node, children }) {
             if(examples && examples.tableHeader && node.position.start.column >= 3) {
-              console.log('start', node.position.start)
               return <ExamplesTable tableHeader={examples.tableHeader} tableBody={examples.tableBody}/>
             }
             return <table className={dataTableStyles.table}>{children}</table>

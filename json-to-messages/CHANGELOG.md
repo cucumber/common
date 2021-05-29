@@ -79,7 +79,7 @@ This should have been 2.0.0, but was accidentally released as 6.0.0.
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/json-to-messages/v9.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/json-to-messages/v9.0.0...main
 [9.0.0]: https://github.com/cucumber/cucumber/compare/json-to-messages/v8.0.0...json-to-messages/v9.0.0
 [8.0.0]: https://github.com/cucumber/cucumber/compare/json-to-messages/v7.0.0...json-to-messages/v8.0.0
 [7.0.0]: https://github.com/cucumber/cucumber/compare/json-to-messages/v6.0.0...json-to-messages/v7.0.0

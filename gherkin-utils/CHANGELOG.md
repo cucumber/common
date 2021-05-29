@@ -98,7 +98,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin-utils/v5.1.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin-utils/v5.1.0...main
 [5.1.0]:      https://github.com/cucumber/cucumber/compare/gherkin-utils/v5.0.2...gherkin-utils/v5.1.0
 [5.0.2]:      https://github.com/cucumber/cucumber/compare/gherkin-utils/v5.0.1...gherkin-utils/v5.0.2
 [5.0.1]:      https://github.com/cucumber/cucumber/compare/gherkin-utils/v5.0.0...gherkin-utils/v5.0.1

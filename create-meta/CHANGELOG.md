@@ -109,7 +109,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/create-meta/v5.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/create-meta/v5.0.0...main
 [5.0.0]:      https://github.com/cucumber/cucumber/compare/create-meta/v4.0.0...create-meta/v5.0.0
 [4.0.0]:      https://github.com/cucumber/cucumber/compare/create-meta/v3.0.0...create-meta/v4.0.0
 [3.0.0]:      https://github.com/cucumber/cucumber/compare/create-meta/v2.0.4...create-meta/v3.0.0

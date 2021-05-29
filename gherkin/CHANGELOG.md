@@ -1002,7 +1002,7 @@ to Gherkin 2.
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v19.0.3...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v19.0.3...main
 [19.0.3]:     https://github.com/cucumber/cucumber/compare/gherkin/v19.0.2...gherkin/v19.0.3
 [19.0.2]:     https://github.com/cucumber/cucumber/compare/gherkin/v19.0.1...gherkin/v19.0.2
 [19.0.1]:     https://github.com/cucumber/cucumber/compare/gherkin/v19.0.0...gherkin/v19.0.1

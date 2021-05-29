@@ -53,7 +53,7 @@ const FilteredResults: React.FunctionComponent = () => {
           scenarioCountByStatus={scenarioCountByStatus}
         />
       </div>
-      <GherkinDocumentList gherkinDocuments={filtered} />
+      <GherkinDocumentList gherkinDocuments={filtered} preExpand={true}/>
       <NoMatchResult query={query} matches={filtered} />
     </div>
   )
