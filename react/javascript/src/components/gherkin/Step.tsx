@@ -53,7 +53,7 @@ const Step: React.FunctionComponent<IProps> = ({ step, hasExamples }) => {
           if (arg.length > 0) {
             stepTextElements.push(
               <Parameter parameterTypeName={argument.parameterTypeName} key={`param-${index}`}>
-                <HighLight text={arg}/>
+                <HighLight text={arg} />
               </Parameter>
             )
           }

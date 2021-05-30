@@ -26,7 +26,7 @@ async function main() {
   const gherkinStreamOptions: IGherkinStreamOptions = {
     defaultDialect: 'en',
     newId: supportCode.newId,
-    relativeTo: process.cwd()
+    relativeTo: process.cwd(),
   }
   const gherkinEnvelopeStream = GherkinStreams.fromPaths(paths, gherkinStreamOptions)
 
