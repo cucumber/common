@@ -42,7 +42,7 @@
     "eslint-plugin-react": "7.24.0",
     "eslint-plugin-react-hooks": "4.2.0",
     "eslint-plugin-simple-import-sort": "7.0.0",
-    "npm-check-updates": "11.5.13",
+    "npm-check-updates": "11.6.0",
     "prettier": "2.3.0",
     "pretty-quick": "3.1.0",
     "tsconfig-paths": "3.9.0",
