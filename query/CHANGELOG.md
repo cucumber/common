@@ -9,13 +9,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
-### Changed
-
-### Deprecated
-
-### Removed
-
-### Fixed
+* New `Query#getStatusCounts(pickleIds: string[])` method which calculates a summary
+  of a run.
 
 ## [10.0.0] - 2021-05-17
 
