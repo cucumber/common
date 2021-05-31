@@ -19,17 +19,27 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Fixed
 
-## [19.0.1] - 2021-05-17
-
-### Added
-
-### Changed
-
-### Deprecated
-
-### Removed
+## [19.0.3] - 2021-05-24
 
 ### Fixed
+
+* MDG files must use the `.feature.md` extension.
+* Data Tables and Examples Tables in Markdown *must* be indented 2-5 spaces in order to
+  be recognised.
+
+## [19.0.2] - 2021-05-19
+
+### Fixed
+
+* Upgrade to `@cucumber/message-streams` `^2.0.0`
+* Upgrade berp to 1.3.0 (parser behavior not changed)
+  ([#1542](https://github.com/cucumber/common/pull/1542)
+   [gasparnagy])
+
+## [19.0.1] - 2021-05-17
+
+### Fixed
+
 * [Perl]   Updated to pass acceptance tests.
   ([#1552](https://github.com/cucumber/common/pull/1552) [ehuelsmann])
 
@@ -59,7 +69,8 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
   ([#1518](https://github.com/cucumber/cucumber/pull/1518)
    [gasparnagy])
 
-* Upgrade to messages 16.0.0
+* [Go, Java, JavaScript, Ruby] Upgrade to messages 16.0.0: this may have a big impact on APIs.
+  Please see [messages/CHANGELOG.md](https://github.com/cucumber/common/blob/master/messages/CHANGELOG.md#1600---2021-05-15) for more details.
 
 ### Removed
 
@@ -991,7 +1002,9 @@ to Gherkin 2.
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v19.0.1...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v19.0.3...main
+[19.0.3]:     https://github.com/cucumber/cucumber/compare/gherkin/v19.0.2...gherkin/v19.0.3
+[19.0.2]:     https://github.com/cucumber/cucumber/compare/gherkin/v19.0.1...gherkin/v19.0.2
 [19.0.1]:     https://github.com/cucumber/cucumber/compare/gherkin/v19.0.0...gherkin/v19.0.1
 [19.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v18.1.1...gherkin/v19.0.0
 [18.1.1]:     https://github.com/cucumber/cucumber/compare/gherkin/v18.1.0...gherkin/v18.1.1

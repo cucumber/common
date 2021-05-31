@@ -5,7 +5,7 @@ replace github.com/cucumber/messages-go/v16 => ../../messages/go
 go 1.13
 
 require (
-	github.com/cucumber/messages-go/v16 v16.0.0
-	github.com/onsi/ginkgo v1.16.2
-	github.com/onsi/gomega v1.12.0
+	github.com/cucumber/messages-go/v16 v16.0.1
+	github.com/onsi/ginkgo v1.16.3
+	github.com/onsi/gomega v1.13.0
 )

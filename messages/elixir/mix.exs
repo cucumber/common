@@ -3,7 +3,7 @@ defmodule CucumberMessages.MixProject do
   use Mix.Project
 
   @vsn "15.0.0"
-  @github "https://github.com/cucumber/cucumber/tree/master/messages/elixir"
+  @github "https://github.com/cucumber/common/tree/main/messages/elixir"
   @name "CucumberMessages"
 
   def project do

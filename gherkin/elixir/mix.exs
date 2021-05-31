@@ -2,7 +2,7 @@ defmodule CucumberGherkin.MixProject do
   use Mix.Project
 
   @vsn "18.1.1"
-  @github "https://github.com/cucumber/cucumber/tree/master/gherkin/elixir"
+  @github "https://github.com/cucumber/common/tree/main/gherkin/elixir"
   @name "CucumberGherkin"
 
   def project do

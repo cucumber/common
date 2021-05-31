@@ -4,6 +4,8 @@ Markdown with Gherkin (MDG) is a dialect of Markdown that is supported by
 the Gherkin parser[^1].
 
 MDG is a strict superset of [GitHub Flavored Markdown](https://github.github.com/gfm/) (GFM).
+MDG files must use the `.feature.md` extension. This is to prevent regular `.md` files from
+being parsed by Gherkin, and also to provide a hint to editors.
 
 MDG makes it possible to embed Gherkin scenarios directly in Markdown, using
 conventional Markdown syntax. MDG documents can be rendered by any GFM compliant library.
@@ -25,7 +27,8 @@ The parsing rules are as follows:
   - `* Then`
   - `* And`
   - `* But`
-- Data Tables and `Examples` tables use the [GFM table](https://github.github.com/gfm/#tables-extension-) syntax.
+- Data Tables and `Examples` tables use the [GFM table](https://github.github.com/gfm/#tables-extension-)
+syntax. *IMPORTANT:* In order to recognise Data Tables and Examples Tables, they have to be indented 2-5 spaces. Unindented GFM tables will not be recognised as Data Tables or Examples Tables.
 - Doc Strings use the [GFM fenced code blocks](https://github.github.com/gfm/#fenced-code-blocks) syntax.
 - Tags must be wrapped by single \` on each side, for example `` `@hello` ``, and be placed on a line *above* the keyword (as with Gherkin Classic).
 
@@ -82,19 +85,16 @@ not the [Bee Gees song](https://www.youtube.com/watch?v=I_izvAbhExY).
 
 #### Examples:
 
-| start | eat | left |
-| ----- | --- | ---- |
-|    12 |   5 |    7 |
-|    20 |   5 |   15 |
+  | start | eat | left |
+  | ----- | --- | ---- |
+  |    12 |   5 |    7 |
+  |    20 |   5 |   15 |
 
 ```
 
 This Markdown document can be rendered beautifully by any GMF-compliant tool.
 
 ## Rendering MDG with results
-
-(This is currently under development and will soon be available in Cucumber's built-in
-`html` formatter as well as in https://reports.cucumber.io/).
 
 The [@cucumber/react](../react/javascript) library provides an `<MDG>` React component that
 renders a Markdown document with results coming from Cucumber (using [Cucumber Messages](../messages)).

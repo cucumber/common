@@ -1,7 +1,7 @@
 include default.mk
 
-GOOD_FEATURE_FILES = $(shell find testdata/good -name "*.feature" -o -name "*.md")
-BAD_FEATURE_FILES  = $(shell find testdata/bad -name "*.feature" -o -name "*.md")
+GOOD_FEATURE_FILES = $(shell find testdata/good -name "*.feature" -o -name "*.feature.md")
+BAD_FEATURE_FILES  = $(shell find testdata/bad -name "*.feature" -o -name "*.feature.md")
 
 ASTS         = $(patsubst testdata/%,acceptance/testdata/%.ast.ndjson,$(GOOD_FEATURE_FILES))
 PICKLES      = $(patsubst testdata/%,acceptance/testdata/%.pickles.ndjson,$(GOOD_FEATURE_FILES))
@@ -14,11 +14,8 @@ GHERKIN = scripts/gherkin.sh
 
 .codegen: src/Parser.ts
 
-src/Parser.ts: gherkin.berp gherkin-javascript.razor
-	mono /var/lib/berp/1.1.1/tools/net471/Berp.exe -g gherkin.berp -t gherkin-javascript.razor -o $@
-	# Remove BOM
-	awk 'NR==1{sub(/^\xef\xbb\xbf/,"")}{print}' < $@ > $@.nobom
-	mv $@.nobom $@
+src/Parser.ts: gherkin-javascript.razor gherkin.berp
+	$(berp-generate-parser)
 
 .tested: .compared
 

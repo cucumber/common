@@ -17,6 +17,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [2.1.0] - 2021-05-30
+
+### Added
+
+* The `NdjsonToMessageStream` constructor accepts an optional function for parsing
+  a line, which may return null if a line is ignored. This can be used to improve performance
+  by ignoring certain lines.
+
 ## [2.0.0] - 2021-05-17
 
 ### Changed
@@ -28,7 +36,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/message-streams/v2.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/message-streams/v2.1.0...main
+[2.1.0]:      https://github.com/cucumber/cucumber/releases/tag/message-streams/v2.0.0
 [2.0.0]:      https://github.com/cucumber/cucumber/releases/tag/message-streams/v1.0.0
 [1.0.0]:      https://github.com/cucumber/cucumber/releases/tag/message-streams/v1.0.0
 

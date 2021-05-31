@@ -1,5 +1,6 @@
 import * as messages from '@cucumber/messages'
 import { ArrayMultimap } from '@teppeis/multimaps'
+import { getWorstTestStepResult } from '@cucumber/messages'
 
 export default class Query {
   private readonly testStepResultByPickleId = new ArrayMultimap<string, messages.TestStepResult>()
@@ -183,5 +184,17 @@ export default class Query {
 
   public getTestStepResults(testStepId: string): messages.TestStepResult[] {
     return this.testStepResultsbyTestStepId.get(testStepId)
+  }
+
+  public getStatusCounts(
+    pickleIds: readonly string[]
+  ): Partial<Record<messages.TestStepResultStatus, number>> {
+    const result: Partial<Record<messages.TestStepResultStatus, number>> = {}
+    for (const pickleId of pickleIds) {
+      const testStepResult = getWorstTestStepResult(this.getPickleTestStepResults([pickleId]))
+      const count = result[testStepResult.status] || 0
+      result[testStepResult.status] = count + 1
+    }
+    return result
   }
 }

@@ -10,7 +10,9 @@ const HookList: React.FunctionComponent<IProps> = ({ hookSteps }) => {
   return (
     <>
       {hookSteps.map((step, index) => (
-        <HookStep key={index} step={step} />
+        <li key={index}>
+          <HookStep key={index} step={step} />
+        </li>
       ))}
     </>
   )

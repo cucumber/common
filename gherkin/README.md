@@ -23,7 +23,7 @@ Our wish-list is (in no particular order):
 
 ## Markdown with Gherkin
 
-See [Markdown with Gherkin](./MARKDOWN_WITH_GHERKIN).
+See [Markdown with Gherkin](./MARKDOWN_WITH_GHERKIN.md).
 
 ## Usage
 
@@ -78,15 +78,15 @@ pickles = Gherkin::Pickles::Compiler.new(id_generator).compile(gherkin_document,
 
 ```javascript
 // JavaScript
-var Gherkin = require("@cucumber/gherkin")
-var Messages = require("@cucumber/messages")
+var Gherkin = require('@cucumber/gherkin')
+var Messages = require('@cucumber/messages')
 
-var uuidFn = Messages.IdGenerator.uuid();
-var builder = new Gherkin.AstBuilder(uuidFn);
-var matcher = new Gherkin.GherkinClassicTokenMatcher(); // or Gherkin.GherkinInMarkdownTokenMatcher()
+var uuidFn = Messages.IdGenerator.uuid()
+var builder = new Gherkin.AstBuilder(uuidFn)
+var matcher = new Gherkin.GherkinClassicTokenMatcher() // or Gherkin.GherkinInMarkdownTokenMatcher()
 
-var parser = new Gherkin.Parser(builder, matcher);
-var gherkinDocument = parser.parse("Feature: ...");
+var parser = new Gherkin.Parser(builder, matcher)
+var gherkinDocument = parser.parse('Feature: ...')
 var pickles = Gherkin.compile(gherkinDocument, 'uri_of_the_feature.feature', uuidFn)
 ```
 
@@ -157,8 +157,8 @@ document you can pipe it to the [jq](https://stedolan.github.io/jq/) program:
 ## Table cell escaping
 
 If you want to use a newline character in a table cell, you can write this
-as `\n`. If you need a '|' as part of the cell, you can escape it as `\|`. And
-finally, if you need a '\', you can escape that with `\\`.
+as `\n`. If you need a `|` as part of the cell, you can escape it as `\|`. And
+finally, if you need a `\`, you can escape that with `\\`.
 
 ## Architecture
 
@@ -198,7 +198,7 @@ design docs (which might be a little outdated, but mostly OK).
 
 The AST produced by the parser can be described with the following class diagram:
 
-![](https://github.com/cucumber/cucumber/blob/master/gherkin/docs/ast.png)
+![](https://github.com/cucumber/common/blob/main/gherkin/docs/ast.png)
 
 Every class represents a node in the AST. Every node has a `Location` that describes
 the line number and column number in the input file. These numbers are 1-indexed.
@@ -213,7 +213,7 @@ Each node in the JSON representation also has a `type` property with the name
 of the node type.
 
 You can see some examples in the
-[testdata/good](https://github.com/cucumber/cucumber/tree/master/gherkin/testdata/good)
+[testdata/good](https://github.com/cucumber/common/tree/main/gherkin/testdata/good)
 directory.
 
 ### Pickles

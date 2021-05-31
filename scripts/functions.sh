@@ -93,8 +93,8 @@ function push_subrepo_branch_maybe()
 
   if [ -z "${branch}" ]; then
     echo "No branch to push"
-  elif [ "${branch}" != "master" ]; then
-    echo "Not pushing branch (we only push master)"
+  elif [ "${branch}" != "main" ]; then
+    echo "Not pushing branch (we only push main)"
   else
     {
       git push --force "${remote}" $(splitsh-lite --prefix=${subrepo}):refs/heads/${branch}

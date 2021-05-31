@@ -9,14 +9,13 @@ import QueriesWrapper from '../components/app/QueriesWrapper'
 import { EnvelopesQuery } from '../../src'
 import GherkinDocument from '../components/gherkin/GherkinDocument'
 
-import '../styles/react-accessible-accordion.css'
 import '../styles/styles.scss'
 
 import attachments from '../../acceptance/attachments/attachments.feature'
 import dataTables from '../../acceptance/data-tables/data-tables.feature'
 import examplesTables from '../../acceptance/examples-tables/examples-tables.feature'
 import hooks from '../../acceptance/hooks/hooks.feature'
-import markdown from '../../acceptance/markdown/markdown.md'
+import markdown from '../../acceptance/markdown/markdown.feature.md'
 import minimal from '../../acceptance/minimal/minimal.feature'
 import parameterTypes from '../../acceptance/parameter-types/parameter-types.feature'
 import rules from '../../acceptance/rules/rules.feature'
@@ -33,7 +32,10 @@ type Props = {
   cucumberQuery: CucumberQuery
   envelopesQuery: EnvelopesQuery
 }
-type TemplateArgs = { envelopes: readonly messages.Envelope[] }
+
+type TemplateArgs = {
+  envelopes: readonly messages.Envelope[]
+}
 
 const Template: Story<TemplateArgs> = ({ envelopes }) => {
   return (

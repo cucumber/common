@@ -1,17 +1,31 @@
 import React from 'react'
-import * as messages from '@cucumber/messages'
 import HighLight from '../app/HighLight'
+import defaultStyles from './DocString.module.scss'
+import {
+  DefaultComponent,
+  DocStringClasses,
+  DocStringProps,
+  useCustomRendering,
+} from '../customise/CustomRendering'
 
-interface IProps {
-  docString: messages.DocString
-}
-
-const DocString: React.FunctionComponent<IProps> = ({ docString }) => {
+const DefaultRenderer: DefaultComponent<DocStringProps, DocStringClasses> = ({
+  docString,
+  styles,
+}) => {
   return (
-    <pre className="cucumber-code cucumber-docstring">
+    <pre className={styles.docString}>
       <HighLight text={docString.content} />
     </pre>
   )
+}
+
+const DocString: React.FunctionComponent<DocStringProps> = (props) => {
+  const ResolvedRenderer = useCustomRendering<DocStringProps, DocStringClasses>(
+    'DocString',
+    defaultStyles,
+    DefaultRenderer
+  )
+  return <ResolvedRenderer {...props} />
 }
 
 export default DocString
