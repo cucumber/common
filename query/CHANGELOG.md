@@ -9,6 +9,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+## [10.1.0] - 2021-05-31
+
+### Added
+
 * New `Query#getStatusCounts(pickleIds: string[])` method which calculates a summary
   of a run.
 
@@ -126,7 +138,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First JavaScript implementation
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/query/v10.0.0...main
+[Unreleased]: https://github.com/cucumber/cucumber/compare/query/v10.1.0...main
+[10.1.0]:      https://github.com/cucumber/cucumber/compare/cucumber-query/v10.0.0...query/v10.1.0
 [10.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-query/v9.0.2...query/v10.0.0
 [9.0.2]:      https://github.com/cucumber/cucumber/compare/cucumber-query/v9.0.1...query/v9.0.2
 [9.0.1]:      https://github.com/cucumber/cucumber/compare/cucumber-query/v9.0.0...query/v9.0.1
