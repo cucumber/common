@@ -1,7 +1,10 @@
 import assert from 'assert'
 import parse from './parse'
-import pretty from '../src/pretty'
+import pretty, { escapeCell } from '../src/pretty'
 import { GherkinClassicTokenMatcher, GherkinInMarkdownTokenMatcher } from '@cucumber/gherkin'
+import glob from 'glob'
+import * as fs from 'fs'
+import * as messages from '@cucumber/messages'
 
 describe('PrettyFormatter', () => {
   it('renders a feature with no scenarios', () => {
@@ -101,27 +104,77 @@ Feature: hello
       Given world
 `)
   })
+
+  const featureFiles = glob.sync(`${__dirname}/../../../gherkin/testdata/good/*.feature`)
+  for (const featureFile of featureFiles) {
+    it(`renders ${featureFile}`, () => {
+      const gherkinSource = fs.readFileSync(featureFile, 'utf-8')
+      const gherkinDocument = parse(gherkinSource, new GherkinClassicTokenMatcher())
+      const formattedGherkinSource = pretty(gherkinDocument, 'gherkin')
+      const language = gherkinDocument.feature?.language || 'en'
+      const newGherkinDocument = checkGherkinToAstToGherkin(formattedGherkinSource, language)
+      assert(newGherkinDocument)
+      // TODO: comments, tags, docstrings
+      // assert.deepStrictEqual(neutralize(newGherkinDocument), neutralize(gherkinDocument))
+    })
+  }
+
+  describe('escapeCell', () => {
+    it('escapes nothing', () => {
+      assert.strictEqual(escapeCell('hello'), 'hello')
+    })
+
+    it('escapes newline', () => {
+      assert.strictEqual(escapeCell('\n'), '\\n')
+    })
+
+    it('escapes pipe', () => {
+      assert.strictEqual(escapeCell('|'), '\\|')
+    })
+
+    it('escapes backslash', () => {
+      assert.strictEqual(escapeCell('\\'), '\\\\')
+    })
+  })
 })
 
 function checkGherkinToAstToMarkdowToAstToGherkin(gherkinSource: string) {
-  const gherkinClassicTokenMatcher = new GherkinClassicTokenMatcher()
-  const gherkinDocument = parse(gherkinSource, gherkinClassicTokenMatcher)
+  const gherkinDocument = parse(gherkinSource, new GherkinClassicTokenMatcher())
 
   const markdownSource = pretty(gherkinDocument, 'markdown')
   //     console.log(`-------
   // ${markdownSource}
   // -------`)
-  const gherkinInMarkdownTokenMatcher = new GherkinInMarkdownTokenMatcher()
-  const markdownGherkinDocument = parse(markdownSource, gherkinInMarkdownTokenMatcher)
+  const markdownGherkinDocument = parse(markdownSource, new GherkinInMarkdownTokenMatcher())
 
   const newGherkinSource = pretty(markdownGherkinDocument, 'gherkin')
   assert.strictEqual(newGherkinSource, gherkinSource)
 }
 
-function checkGherkinToAstToGherkin(gherkinSource: string) {
-  const gherkinClassicTokenMatcher = new GherkinClassicTokenMatcher()
-  const gherkinDocument = parse(gherkinSource, gherkinClassicTokenMatcher)
+function checkGherkinToAstToGherkin(
+  gherkinSource: string,
+  language = 'en'
+): messages.GherkinDocument {
+  const gherkinDocument = parse(gherkinSource, new GherkinClassicTokenMatcher(language))
 
   const newGherkinSource = pretty(gherkinDocument, 'gherkin')
   assert.strictEqual(newGherkinSource, gherkinSource)
+  return gherkinDocument
+}
+
+function neutralize(gherkinDocument: messages.GherkinDocument): messages.GherkinDocument {
+  const json = JSON.stringify(
+    gherkinDocument,
+    (key, value) => {
+      if ('id' === key) {
+        return 'id'
+      } else if (['column', 'line'].includes(key)) {
+        return '0'
+      } else {
+        return value
+      }
+    },
+    2
+  )
+  return JSON.parse(json)
 }

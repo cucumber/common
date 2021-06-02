@@ -4,6 +4,7 @@ type Syntax = 'markdown' | 'gherkin'
 
 export default function pretty(gherkinDocument: messages.GherkinDocument, syntax: Syntax): string {
   const feature = gherkinDocument.feature
+  if (!feature) return ''
   let s = prettyTags(feature.tags, 0, syntax)
 
   s += indent(0, syntax) + feature.keyword + ': ' + feature.name + '\n'
@@ -68,8 +69,11 @@ function prettyStepContainer(
 }
 
 function prettyExample(example: messages.Examples, level: number, syntax: Syntax): string {
-  let s = `\n${indent}Examples: ${example.name}\n`
-  s += prettyTableRows([example.tableHeader, ...example.tableBody], level, syntax)
+  let s = `\n${indent(level, syntax)}Examples: ${example.name}\n`
+  if (example.tableHeader) {
+    const tableRows = [example.tableHeader, ...example.tableBody]
+    s += prettyTableRows(tableRows, level, syntax)
+  }
   return s
 }
 
@@ -81,7 +85,7 @@ function prettyTableRows(
   const maxWidths: number[] = new Array(tableRows[0].cells.length).fill(0)
   tableRows.forEach((tableRow) => {
     tableRow.cells.forEach((tableCell, j) => {
-      maxWidths[j] = Math.max(maxWidths[j], tableCell.value.length)
+      maxWidths[j] = Math.max(maxWidths[j], escapeCell(tableCell.value).length)
     })
   })
 
@@ -114,11 +118,33 @@ function prettyTableRow(
   const actualLevel = syntax === 'markdown' ? 1 : level
   return `${indentSpace(actualLevel)}| ${row.cells
     .map((cell, j) => {
-      const spaceCount = maxWidths[j] - cell.value.length
+      const escapedCellValue = escapeCell(cell.value)
+      const spaceCount = maxWidths[j] - escapedCellValue.length
       const spaces = new Array(spaceCount + 1).join(' ')
-      return isNumeric(cell.value) ? spaces + cell.value : cell.value + spaces
+      return isNumeric(escapedCellValue) ? spaces + escapedCellValue : escapedCellValue + spaces
     })
     .join(' | ')} |\n`
+}
+
+export function escapeCell(s: string) {
+  let e = ''
+  const characters = s.split('')
+  for (const c of characters) {
+    switch (c) {
+      case '\\':
+        e += '\\\\'
+        break
+      case '\n':
+        e += '\\n'
+        break
+      case '|':
+        e += '\\|'
+        break
+      default:
+        e += c
+    }
+  }
+  return e
 }
 
 function isNumeric(s: string) {

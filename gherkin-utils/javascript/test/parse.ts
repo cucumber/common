@@ -14,7 +14,12 @@ export default function parse(
 ): messages.GherkinDocument {
   const newId = messages.IdGenerator.uuid()
   const parser = new Parser(new AstBuilder(newId), tokenMatcher)
-  const gherkinDocument = parser.parse(source)
-  gherkinDocument.uri = ''
-  return gherkinDocument
+  try {
+    const gherkinDocument = parser.parse(source)
+    gherkinDocument.uri = ''
+    return gherkinDocument
+  } catch (err) {
+    err.message += `\n${source}`
+    throw err
+  }
 }
