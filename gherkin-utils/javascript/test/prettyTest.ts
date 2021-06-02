@@ -1,7 +1,7 @@
 import assert from 'assert'
 import parse from './parse'
 import pretty from '../src/pretty'
-import {GherkinClassicTokenMatcher, GherkinInMarkdownTokenMatcher} from "@cucumber/gherkin";
+import { GherkinClassicTokenMatcher, GherkinInMarkdownTokenMatcher } from '@cucumber/gherkin'
 
 describe('PrettyFormatter', () => {
   it('renders a feature with no scenarios', () => {
@@ -9,18 +9,22 @@ describe('PrettyFormatter', () => {
   })
 
   it('renders a feature with two scenarios', () => {
-    assertPrettyIdentical(`Feature: hello
+    assertPrettyIdentical(
+      `Feature: hello
 
   Scenario: one
     Given hello
 
   Scenario: two
     Given world
-`, true)
+`,
+      true
+    )
   })
 
   it('renders a feature with two scenarios in a rule', () => {
-    assertPrettyIdentical(`Feature: hello
+    assertPrettyIdentical(
+      `Feature: hello
 
   Rule: ok
 
@@ -29,22 +33,28 @@ describe('PrettyFormatter', () => {
 
     Scenario: two
       Given world
-`, true)
+`,
+      true
+    )
   })
 
   it('renders a feature with background and scenario', () => {
-    assertPrettyIdentical(`Feature: hello
+    assertPrettyIdentical(
+      `Feature: hello
 
   Background: bbb
     Given hello
 
   Scenario: two
     Given world
-`, true)
+`,
+      true
+    )
   })
 
   it('renders a rule with background and scenario', () => {
-    assertPrettyIdentical(`Feature: hello
+    assertPrettyIdentical(
+      `Feature: hello
 
   Rule: machin
 
@@ -53,11 +63,14 @@ describe('PrettyFormatter', () => {
 
     Scenario: two
       Given world
-`, true)
+`,
+      true
+    )
   })
 
   it('renders tags when set', () => {
-    assertPrettyIdentical(`@featureTag
+    assertPrettyIdentical(
+      `@featureTag
 Feature: hello
 
   Rule: machin
@@ -68,11 +81,14 @@ Feature: hello
     @scenarioTag @secondTag
     Scenario: two
       Given world
-`, true)
+`,
+      true
+    )
   })
 
   it('renders tables', () => {
-    assertPrettyIdentical(`Feature: hello
+    assertPrettyIdentical(
+      `Feature: hello
 
   Scenario: one
     Given a data table:
@@ -80,11 +96,14 @@ Feature: hello
       | a    |       1 |
       | ab   |      10 |
       | abc  |     100 |
-`, true)
+`,
+      true
+    )
   })
 
   it('renders descriptions when set', () => {
-    assertPrettyIdentical(`Feature: hello
+    assertPrettyIdentical(
+      `Feature: hello
   So this is a feature
 
   Rule: machin
@@ -99,7 +118,9 @@ Feature: hello
       This scenario will do things, maybe
 
       Given world
-`, false)
+`,
+      false
+    )
   })
 })
 
@@ -107,18 +128,18 @@ function assertPrettyIdentical(gherkinSource: string, viaMarkdown: boolean) {
   const gherkinClassicTokenMatcher = new GherkinClassicTokenMatcher()
   const gherkinDocument = parse(gherkinSource, gherkinClassicTokenMatcher)
 
-  if(viaMarkdown) {
+  if (viaMarkdown) {
     const markdownSource = pretty(gherkinDocument, 'markdown')
-//     console.log(`-------
-// ${markdownSource}
-// -------`)
+    //     console.log(`-------
+    // ${markdownSource}
+    // -------`)
     const gherkinInMarkdownTokenMatcher = new GherkinInMarkdownTokenMatcher()
     const markdownGherkinDocument = parse(markdownSource, gherkinInMarkdownTokenMatcher)
 
-    const newGherkinSource = pretty(markdownGherkinDocument, "gherkin")
+    const newGherkinSource = pretty(markdownGherkinDocument, 'gherkin')
     assert.strictEqual(newGherkinSource, gherkinSource)
   } else {
-    const newGherkinSource = pretty(gherkinDocument, "gherkin")
+    const newGherkinSource = pretty(gherkinDocument, 'gherkin')
     assert.strictEqual(newGherkinSource, gherkinSource)
   }
 }

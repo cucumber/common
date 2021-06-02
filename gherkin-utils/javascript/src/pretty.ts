@@ -33,6 +33,14 @@ export default function pretty(gherkinDocument: messages.GherkinDocument, syntax
   return s
 }
 
+function prettyStep(step: messages.Step, level: number, syntax: 'markdown' | 'gherkin') {
+  let s = `${stepIndent(level, syntax)}${step.keyword}${step.text}\n`
+  if (step.dataTable) {
+    s += prettyTableRows(step.dataTable.rows, level + 1, syntax)
+  }
+  return s
+}
+
 function prettyStepContainer(
   stepContainer: messages.Scenario | messages.Background,
   level: number,
@@ -40,18 +48,20 @@ function prettyStepContainer(
 ): string {
   const scenario: messages.Scenario = 'tags' in stepContainer ? stepContainer : null
   const tags: readonly messages.Tag[] = scenario?.tags || []
-  let s = `\n${prettyTags(tags, level, syntax)}${indent(level,syntax)}${stepContainer.keyword}: ${stepContainer.name}\n`
+  let s = `\n${prettyTags(tags, level, syntax)}${indent(level, syntax)}${stepContainer.keyword}: ${
+    stepContainer.name
+  }\n`
   if (stepContainer.description) {
     s += formatDescription(stepContainer.description, syntax) + '\n'
   }
 
   for (const step of stepContainer.steps) {
-    s += `${stepIndent(level + 1, syntax)}${step.keyword}${step.text}\n`
+    s += prettyStep(step, level + 1, syntax)
   }
 
   if (scenario) {
     for (const example of scenario.examples) {
-      s += prettyExample(example, level+1, syntax)
+      s += prettyExample(example, level + 1, syntax)
     }
   }
   return s
@@ -59,17 +69,60 @@ function prettyStepContainer(
 
 function prettyExample(example: messages.Examples, level: number, syntax: Syntax): string {
   let s = `\n${indent}Examples: ${example.name}\n`
-
-  s += prettyTableRow(example.tableHeader, level+1, syntax)
-  for (const row of example.tableBody) {
-    s += prettyTableRow(row, level+1, syntax)
-  }
-
+  s += prettyTableRows([example.tableHeader, ...example.tableBody], level, syntax)
   return s
 }
 
-function prettyTableRow(row: messages.TableRow, level: number, syntax: Syntax): string {
-  return `${indent(level, syntax)}| ${row.cells.map((cell) => cell.value).join(' | ')} |\n`
+function prettyTableRows(
+  tableRows: readonly messages.TableRow[],
+  level: number,
+  syntax: 'markdown' | 'gherkin'
+) {
+  const maxWidths: number[] = new Array(tableRows[0].cells.length).fill(0)
+  tableRows.forEach((tableRow) => {
+    tableRow.cells.forEach((tableCell, j) => {
+      maxWidths[j] = Math.max(maxWidths[j], tableCell.value.length)
+    })
+  })
+
+  let n = 0
+  let s = ''
+  for (const row of tableRows) {
+    s += prettyTableRow(row, level, maxWidths, syntax)
+    if (n === 0 && syntax === 'markdown') {
+      const separatorRow: messages.TableRow = {
+        location: row.location,
+        id: row.id + '-separator',
+        cells: row.cells.map((cell, j) => ({
+          location: cell.location,
+          value: new Array(maxWidths[j] + 1).join('-'),
+        })),
+      }
+      s += prettyTableRow(separatorRow, level, maxWidths, syntax)
+    }
+    n++
+  }
+  return s
+}
+
+function prettyTableRow(
+  row: messages.TableRow,
+  level: number,
+  maxWidths: readonly number[],
+  syntax: Syntax
+): string {
+  const actualLevel = syntax === 'markdown' ? 1 : level
+  return `${indentSpace(actualLevel)}| ${row.cells
+    .map((cell, j) => {
+      const spaceCount = maxWidths[j] - cell.value.length
+      const spaces = new Array(spaceCount + 1).join(' ')
+      return isNumeric(cell.value) ? spaces + cell.value : cell.value + spaces
+    })
+    .join(' | ')} |\n`
+}
+
+function isNumeric(s: string) {
+  return !isNaN(parseFloat(s))
 }
 
 function prettyTags(tags: readonly messages.Tag[], level: number, syntax: Syntax): string {
@@ -77,22 +130,25 @@ function prettyTags(tags: readonly messages.Tag[], level: number, syntax: Syntax
     return ''
   }
 
-  if(syntax === 'gherkin')
+  if (syntax === 'gherkin')
     return indent(level, syntax) + tags.map((tag) => tag.name).join(' ') + '\n'
-  else
-    return tags.map(tag => `\`${tag.name}\``).join(' ') + '\n'
+  else return tags.map((tag) => `\`${tag.name}\``).join(' ') + '\n'
 }
 
 function indent(level: number, syntax: Syntax): string {
-  if(syntax === 'markdown') {
+  if (syntax === 'markdown') {
     return new Array(level + 2).join('#') + ' '
   } else {
     return new Array(level + 1).join('  ')
   }
 }
 
+function indentSpace(level: number): string {
+  return new Array(level + 1).join('  ')
+}
+
 function stepIndent(level: number, syntax: Syntax): string {
-  if(syntax === 'markdown') {
+  if (syntax === 'markdown') {
     return '* '
   } else {
     return new Array(level + 1).join('  ')
@@ -100,8 +156,6 @@ function stepIndent(level: number, syntax: Syntax): string {
 }
 
 function formatDescription(description: string, syntax: Syntax): string {
-  if(syntax === 'gherkin')
-    return description + '\n'
-  else
-    return description.replace(/^\s*/gm, '') + '\n'
+  if (syntax === 'gherkin') return description + '\n'
+  else return description.replace(/^\s*/gm, '') + '\n'
 }
