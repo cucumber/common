@@ -5,26 +5,22 @@ import { GherkinClassicTokenMatcher, GherkinInMarkdownTokenMatcher } from '@cucu
 
 describe('PrettyFormatter', () => {
   it('renders a feature with no scenarios', () => {
-    assertPrettyIdentical('Feature: hello\n', true)
+    checkGherkinToAstToMarkdowToAstToGherkin('Feature: hello\n')
   })
 
   it('renders a feature with two scenarios', () => {
-    assertPrettyIdentical(
-      `Feature: hello
+    checkGherkinToAstToMarkdowToAstToGherkin(`Feature: hello
 
   Scenario: one
     Given hello
 
   Scenario: two
     Given world
-`,
-      true
-    )
+`)
   })
 
   it('renders a feature with two scenarios in a rule', () => {
-    assertPrettyIdentical(
-      `Feature: hello
+    checkGherkinToAstToMarkdowToAstToGherkin(`Feature: hello
 
   Rule: ok
 
@@ -33,28 +29,22 @@ describe('PrettyFormatter', () => {
 
     Scenario: two
       Given world
-`,
-      true
-    )
+`)
   })
 
   it('renders a feature with background and scenario', () => {
-    assertPrettyIdentical(
-      `Feature: hello
+    checkGherkinToAstToMarkdowToAstToGherkin(`Feature: hello
 
   Background: bbb
     Given hello
 
   Scenario: two
     Given world
-`,
-      true
-    )
+`)
   })
 
   it('renders a rule with background and scenario', () => {
-    assertPrettyIdentical(
-      `Feature: hello
+    checkGherkinToAstToMarkdowToAstToGherkin(`Feature: hello
 
   Rule: machin
 
@@ -63,14 +53,11 @@ describe('PrettyFormatter', () => {
 
     Scenario: two
       Given world
-`,
-      true
-    )
+`)
   })
 
   it('renders tags when set', () => {
-    assertPrettyIdentical(
-      `@featureTag
+    checkGherkinToAstToMarkdowToAstToGherkin(`@featureTag
 Feature: hello
 
   Rule: machin
@@ -81,14 +68,11 @@ Feature: hello
     @scenarioTag @secondTag
     Scenario: two
       Given world
-`,
-      true
-    )
+`)
   })
 
   it('renders tables', () => {
-    assertPrettyIdentical(
-      `Feature: hello
+    checkGherkinToAstToMarkdowToAstToGherkin(`Feature: hello
 
   Scenario: one
     Given a data table:
@@ -96,14 +80,11 @@ Feature: hello
       | a    |       1 |
       | ab   |      10 |
       | abc  |     100 |
-`,
-      true
-    )
+`)
   })
 
   it('renders descriptions when set', () => {
-    assertPrettyIdentical(
-      `Feature: hello
+    checkGherkinToAstToGherkin(`Feature: hello
   So this is a feature
 
   Rule: machin
@@ -118,28 +99,29 @@ Feature: hello
       This scenario will do things, maybe
 
       Given world
-`,
-      false
-    )
+`)
   })
 })
 
-function assertPrettyIdentical(gherkinSource: string, viaMarkdown: boolean) {
+function checkGherkinToAstToMarkdowToAstToGherkin(gherkinSource: string) {
   const gherkinClassicTokenMatcher = new GherkinClassicTokenMatcher()
   const gherkinDocument = parse(gherkinSource, gherkinClassicTokenMatcher)
 
-  if (viaMarkdown) {
-    const markdownSource = pretty(gherkinDocument, 'markdown')
-    //     console.log(`-------
-    // ${markdownSource}
-    // -------`)
-    const gherkinInMarkdownTokenMatcher = new GherkinInMarkdownTokenMatcher()
-    const markdownGherkinDocument = parse(markdownSource, gherkinInMarkdownTokenMatcher)
+  const markdownSource = pretty(gherkinDocument, 'markdown')
+  //     console.log(`-------
+  // ${markdownSource}
+  // -------`)
+  const gherkinInMarkdownTokenMatcher = new GherkinInMarkdownTokenMatcher()
+  const markdownGherkinDocument = parse(markdownSource, gherkinInMarkdownTokenMatcher)
 
-    const newGherkinSource = pretty(markdownGherkinDocument, 'gherkin')
-    assert.strictEqual(newGherkinSource, gherkinSource)
-  } else {
-    const newGherkinSource = pretty(gherkinDocument, 'gherkin')
-    assert.strictEqual(newGherkinSource, gherkinSource)
-  }
+  const newGherkinSource = pretty(markdownGherkinDocument, 'gherkin')
+  assert.strictEqual(newGherkinSource, gherkinSource)
+}
+
+function checkGherkinToAstToGherkin(gherkinSource: string) {
+  const gherkinClassicTokenMatcher = new GherkinClassicTokenMatcher()
+  const gherkinDocument = parse(gherkinSource, gherkinClassicTokenMatcher)
+
+  const newGherkinSource = pretty(gherkinDocument, 'gherkin')
+  assert.strictEqual(newGherkinSource, gherkinSource)
 }
