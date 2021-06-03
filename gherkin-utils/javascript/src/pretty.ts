@@ -27,7 +27,11 @@ export default function pretty(gherkinDocument: messages.GherkinDocument, syntax
 }
 
 function prettyRule(rule: messages.Rule, syntax: Syntax) {
-  let s = `\n${indent(1, syntax)}${rule.keyword}: ${rule.name}\n`
+  let s = ''
+  if(rule.tags.length > 0) {
+    s += `\n${prettyTags(rule.tags, 1, syntax)}`
+  }
+  s += `\n${indent(1, syntax)}${rule.keyword}: ${rule.name}\n`
   if (rule.description) {
     s += formatDescription(rule.description, syntax)
   }
@@ -80,7 +84,11 @@ function prettyStep(step: messages.Step, level: number, syntax: Syntax) {
 }
 
 function prettyExample(example: messages.Examples, level: number, syntax: Syntax): string {
-  let s = `\n${indent(level, syntax)}Examples: ${example.name}\n`
+  let s = ''
+  if(example.tags.length > 0) {
+    s += `\n${prettyTags(example.tags, level, syntax)}`
+  }
+  s += `\n${indent(level, syntax)}Examples: ${example.name}\n`
   if (example.tableHeader) {
     const tableRows = [example.tableHeader, ...example.tableBody]
     s += prettyTableRows(tableRows, level, syntax)

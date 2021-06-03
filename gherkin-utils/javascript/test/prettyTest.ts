@@ -1,4 +1,5 @@
 import assert from 'assert'
+import path from 'path'
 import parse from './parse'
 import pretty, { escapeCell } from '../src/pretty'
 import { GherkinClassicTokenMatcher, GherkinInMarkdownTokenMatcher } from '@cucumber/gherkin'
@@ -148,15 +149,18 @@ Feature: hello
 
   const featureFiles = glob.sync(`${__dirname}/../../../gherkin/testdata/good/*.feature`)
   for (const featureFile of featureFiles) {
-    it(`renders ${featureFile}`, () => {
+    const relativePath = path.relative(__dirname, featureFile)
+    it(`renders ${relativePath}`, () => {
       const gherkinSource = fs.readFileSync(featureFile, 'utf-8')
       const gherkinDocument = parse(gherkinSource, new GherkinClassicTokenMatcher())
       const formattedGherkinSource = pretty(gherkinDocument, 'gherkin')
       const language = gherkinDocument.feature?.language || 'en'
       const newGherkinDocument = checkGherkinToAstToGherkin(formattedGherkinSource, language)
       assert(newGherkinDocument)
-      // TODO: comments, tags, docstrings
-      // assert.deepStrictEqual(neutralize(newGherkinDocument), neutralize(gherkinDocument))
+      // TODO: comments
+      if(gherkinDocument.comments.length === 0) {
+        assert.deepStrictEqual(neutralize(newGherkinDocument), neutralize(gherkinDocument))
+      }
     })
   }
 
