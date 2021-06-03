@@ -5,7 +5,9 @@ type Syntax = 'markdown' | 'gherkin'
 export default function pretty(gherkinDocument: messages.GherkinDocument, syntax: Syntax): string {
   const feature = gherkinDocument.feature
   if (!feature) return ''
-  let s = prettyTags(feature.tags, 0, syntax)
+  let s = ''
+
+  s += prettyTags(feature.tags, 0, syntax)
 
   s += indent(0, syntax) + feature.keyword + ': ' + feature.name + '\n'
   if (feature.description) {
@@ -17,30 +19,25 @@ export default function pretty(gherkinDocument: messages.GherkinDocument, syntax
     } else if (child.scenario) {
       s += prettyStepContainer(child.scenario, 1, syntax)
     } else if (child.rule) {
-      s += `\n${indent(1, syntax)}${child.rule.keyword}: ${child.rule.name}\n`
-      if (child.rule.description) {
-        s += formatDescription(child.rule.description, syntax)
-      }
-      for (const ruleChild of child.rule.children) {
-        if (ruleChild.background) {
-          s += prettyStepContainer(ruleChild.background, 2, syntax)
-        }
-        if (ruleChild.scenario) {
-          s += prettyStepContainer(ruleChild.scenario, 2, syntax)
-        }
-      }
+      const rule = child.rule;
+      s += prettyRule(rule, syntax);
     }
   }
   return s
 }
 
-function prettyStep(step: messages.Step, level: number, syntax: Syntax) {
-  let s = `${stepIndent(level, syntax)}${step.keyword}${step.text}\n`
-  if (step.dataTable) {
-    s += prettyTableRows(step.dataTable.rows, level + 1, syntax)
+function prettyRule(rule: messages.Rule, syntax: Syntax) {
+  let s = `\n${indent(1, syntax)}${rule.keyword}: ${rule.name}\n`
+  if (rule.description) {
+    s += formatDescription(rule.description, syntax)
   }
-  if (step.docString) {
-    s += prettyDocString(step.docString, level + 1, syntax)
+  for (const ruleChild of rule.children) {
+    if (ruleChild.background) {
+      s += prettyStepContainer(ruleChild.background, 2, syntax)
+    }
+    if (ruleChild.scenario) {
+      s += prettyStepContainer(ruleChild.scenario, 2, syntax)
+    }
   }
   return s
 }
@@ -71,6 +68,17 @@ function prettyStepContainer(
   return s
 }
 
+function prettyStep(step: messages.Step, level: number, syntax: Syntax) {
+  let s = `${stepIndent(level, syntax)}${step.keyword}${step.text}\n`
+  if (step.dataTable) {
+    s += prettyTableRows(step.dataTable.rows, level + 1, syntax)
+  }
+  if (step.docString) {
+    s += prettyDocString(step.docString, level + 1, syntax)
+  }
+  return s
+}
+
 function prettyExample(example: messages.Examples, level: number, syntax: Syntax): string {
   let s = `\n${indent(level, syntax)}Examples: ${example.name}\n`
   if (example.tableHeader) {
@@ -86,7 +94,7 @@ function prettyDocString(docString: messages.DocString, level: number, syntax: S
   const actualLevel = syntax === 'markdown' ? 1 : level
   const indent = indentSpace(actualLevel)
   let content = docString.content.replace(/^/gm, indent)
-  if(syntax === 'gherkin') {
+  if (syntax === 'gherkin') {
     if (docString.delimiter === '"""') {
       content = content.replace(/"""/gm, '\\"\\"\\"')
     } else if (docString.delimiter === '```') {

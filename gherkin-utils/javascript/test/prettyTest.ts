@@ -112,6 +112,21 @@ Feature: hello
 `)
   })
 
+  xit('renders comments', () => {
+    checkGherkinToAstToGherkin(`# one
+Feature: hello
+
+  Scenario: one
+    # two
+    Given a doc string:
+      """
+      a
+      \\"\\"\\"
+      b
+      """
+`)
+  })
+
   it('renders descriptions when set', () => {
     checkGherkinToAstToGherkin(`Feature: hello
   So this is a feature
