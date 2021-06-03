@@ -74,7 +74,7 @@ Feature: hello
 `)
   })
 
-  it('renders tables', () => {
+  it('renders data tables', () => {
     checkGherkinToAstToMarkdowToAstToGherkin(`Feature: hello
 
   Scenario: one
@@ -83,6 +83,32 @@ Feature: hello
       | a    |       1 |
       | ab   |      10 |
       | abc  |     100 |
+`)
+  })
+
+  it('renders docstrings', () => {
+    checkGherkinToAstToMarkdowToAstToGherkin(`Feature: hello
+
+  Scenario: one
+    Given a doc string:
+      \`\`\`json
+      {
+        "foo": "bar"
+      }
+      \`\`\`
+`)
+  })
+
+  it('escapes docstring separators', () => {
+    checkGherkinToAstToGherkin(`Feature: hello
+
+  Scenario: one
+    Given a doc string:
+      """
+      a
+      \\"\\"\\"
+      b
+      """
 `)
   })
 
@@ -140,11 +166,10 @@ Feature: hello
 
 function checkGherkinToAstToMarkdowToAstToGherkin(gherkinSource: string) {
   const gherkinDocument = parse(gherkinSource, new GherkinClassicTokenMatcher())
-
   const markdownSource = pretty(gherkinDocument, 'markdown')
-  //     console.log(`-------
+  //     console.log(`---<MDG>---
   // ${markdownSource}
-  // -------`)
+  // ---</MDG>--`)
   const markdownGherkinDocument = parse(markdownSource, new GherkinInMarkdownTokenMatcher())
 
   const newGherkinSource = pretty(markdownGherkinDocument, 'gherkin')
@@ -156,8 +181,10 @@ function checkGherkinToAstToGherkin(
   language = 'en'
 ): messages.GherkinDocument {
   const gherkinDocument = parse(gherkinSource, new GherkinClassicTokenMatcher(language))
-
   const newGherkinSource = pretty(gherkinDocument, 'gherkin')
+  // console.log(`---<Gherkin>---
+  // ${newGherkinSource}
+  // ---</Gherkin>--`)
   assert.strictEqual(newGherkinSource, gherkinSource)
   return gherkinDocument
 }

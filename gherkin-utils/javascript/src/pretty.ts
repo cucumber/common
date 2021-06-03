@@ -34,10 +34,13 @@ export default function pretty(gherkinDocument: messages.GherkinDocument, syntax
   return s
 }
 
-function prettyStep(step: messages.Step, level: number, syntax: 'markdown' | 'gherkin') {
+function prettyStep(step: messages.Step, level: number, syntax: Syntax) {
   let s = `${stepIndent(level, syntax)}${step.keyword}${step.text}\n`
   if (step.dataTable) {
     s += prettyTableRows(step.dataTable.rows, level + 1, syntax)
+  }
+  if (step.docString) {
+    s += prettyDocString(step.docString, level + 1, syntax)
   }
   return s
 }
@@ -75,6 +78,25 @@ function prettyExample(example: messages.Examples, level: number, syntax: Syntax
     s += prettyTableRows(tableRows, level, syntax)
   }
   return s
+}
+
+function prettyDocString(docString: messages.DocString, level: number, syntax: Syntax) {
+  const delimiter = syntax === 'markdown' ? '```' : docString.delimiter
+  const mediaType = docString.mediaType || ''
+  const actualLevel = syntax === 'markdown' ? 1 : level
+  const indent = indentSpace(actualLevel)
+  let content = docString.content.replace(/^/gm, indent)
+  if(syntax === 'gherkin') {
+    if (docString.delimiter === '"""') {
+      content = content.replace(/"""/gm, '\\"\\"\\"')
+    } else if (docString.delimiter === '```') {
+      content = content.replace(/```/gm, '\\`\\`\\`')
+    }
+  }
+  return `${indent}${delimiter}${mediaType}
+${content}
+${indent}${delimiter}
+`
 }
 
 function prettyTableRows(

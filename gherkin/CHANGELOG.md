@@ -19,6 +19,8 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Fixed
 
+* MDG parser correctly removes leading space from content in DocStrings
+
 ## [19.0.3] - 2021-05-24
 
 ### Fixed
