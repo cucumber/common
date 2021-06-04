@@ -15,7 +15,7 @@ describe Gherkin::Query do
 
   let(:gherkin_document) { find_message_by_attribute(messages, :gherkinDocument) }
 
-  let(:messages) {
+  let(:messages) do
     Gherkin.from_source(
       "some/path",
       feature_content,
@@ -23,9 +23,9 @@ describe Gherkin::Query do
         include_gherkin_document: true
       }
     ).to_a
-  }
+  end
 
-  let(:feature_content) {
+  let(:feature_content) do
     """
     @feature-tag
     Feature: my feature
@@ -40,12 +40,12 @@ describe Gherkin::Query do
       Scenario Outline: with examples
         Given a <Status> step
 
-        @example-tag
+        @examples-tag
         Examples:
           | Status |
           | passed |
 
-
+      @rule-tag
       Rule: this is a rule
         Background:
           Given the passed step in the rule background
@@ -53,31 +53,28 @@ describe Gherkin::Query do
         @ruled-scenario-tag
         Scenario: a ruled scenario
           Given a step in the ruled scenario
-      """
-  }
+    """
+  end
 
-  context '#update' do
+  describe '#update' do
     context 'when the feature file is empty' do
       let(:feature_content) { '' }
 
       it 'does not fail' do
-        expect {
-          messages.each { |message|
-            subject.update(message)
-          }
-        }.not_to raise_exception
+        expect do
+          messages.each { |message| subject.update(message) }
+        end.not_to raise_exception
       end
     end
   end
 
-  context '#location' do
+  describe '#location' do
     before do
-      messages.each { |message|
-        subject.update(message)
-      }
+      messages.each { |message| subject.update(message) }
     end
 
     let(:background) { find_message_by_attribute(gherkin_document[:feature][:children], :background) }
+    let(:rule) { find_message_by_attribute(gherkin_document[:feature][:children], :rule) }
     let(:scenarios) { filter_messages_by_attribute(gherkin_document[:feature][:children], :scenario) }
     let(:scenario) { scenarios.first }
 
@@ -109,8 +106,9 @@ describe Gherkin::Query do
 
     context 'when querying tags' do
       let(:feature_tag) { gherkin_document[:feature][:tags].first }
+      let(:rule_tag) { rule[:tags].first }
       let(:scenario_tag) { scenario[:tags].first }
-      let(:example_tag) { scenarios.last[:examples].first[:tags].first }
+      let(:examples_tag) { scenarios.last[:examples].first[:tags].first }
 
       it 'provides the location of a feature tags' do
         expect(subject.location(feature_tag[:id])).to eq(feature_tag[:location])
@@ -120,13 +118,16 @@ describe Gherkin::Query do
         expect(subject.location(scenario_tag[:id])).to eq(scenario_tag[:location])
       end
 
-      it 'provides the location of a scenario example tags' do
-        expect(subject.location(example_tag[:id])).to eq(example_tag[:location])
+      it 'provides the location of scenario examples tags' do
+        expect(subject.location(examples_tag[:id])).to eq(examples_tag[:location])
+      end
+
+      it 'provides the location of a rule tag' do
+        expect(subject.location(rule_tag[:id])).to eq(rule_tag[:location])
       end
     end
 
     context 'when children are scoped in a Rule' do
-      let(:rule) { find_message_by_attribute(gherkin_document[:feature][:children], :rule) }
       let(:rule_background) { find_message_by_attribute(rule[:children], :background) }
       let(:rule_background_step) { rule_background[:steps].first }
       let(:rule_scenario) { find_message_by_attribute(rule[:children], :scenario) }

@@ -19,7 +19,7 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Fixed
 * [Ruby] Rules weren't inheriting the relevant tags during the Gherkin Query stage (Where it caches the NodeID)
-  ([#????](https://github.com/cucumber/cucumber/pull/????) [luke-hill])
+  ([#1593](https://github.com/cucumber/cucumber/pull/1593) [luke-hill])
 
 ## [19.0.3] - 2021-05-24
 
