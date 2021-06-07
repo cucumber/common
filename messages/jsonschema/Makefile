@@ -9,7 +9,7 @@ default: .validated
 	mkdir -p $(@D)
 	touch $@
 
-../../node_modules ../../package-lock.json: package.json
+../../node_modules ../../package-lock.json:
 	cd ../.. && npm install
 
 ## General targets called by parent makefiles
