@@ -4,10 +4,13 @@ OPTIONS = $(patsubst %,-s %,$(SCHEMA_FILES))
 
 default: .validated
 
-.validated: $(SCHEMA_FILES)
+.validated: $(SCHEMA_FILES) ../../node_modules ../../package-lock.json
 	../../node_modules/.bin/ajv compile --spec=draft2020 --strict=true $(OPTIONS)
 	mkdir -p $(@D)
 	touch $@
+
+../../node_modules ../../package-lock.json: package.json
+	cd ../.. && npm install
 
 ## General targets called by parent makefiles
 
