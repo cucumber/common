@@ -96,13 +96,6 @@ jobs:
             npm install --global npm@7
             npm ci
             npm run build
-      - run:
-          name: validate messages schemas
-          # We validate messages here because it is not part of a language
-          # implementation. This is an easy way to make sure they are validated
-          # in the parallel pipeline without adding a dedicated job for it.
-          command: |
-            (cd messages && make .validated)
       - persist_to_workspace:
           root: ~/cucumber
           paths:
