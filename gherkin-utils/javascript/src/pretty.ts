@@ -19,8 +19,8 @@ export default function pretty(gherkinDocument: messages.GherkinDocument, syntax
     } else if (child.scenario) {
       s += prettyStepContainer(child.scenario, 1, syntax)
     } else if (child.rule) {
-      const rule = child.rule;
-      s += prettyRule(rule, syntax);
+      const rule = child.rule
+      s += prettyRule(rule, syntax)
     }
   }
   return s
@@ -28,7 +28,7 @@ export default function pretty(gherkinDocument: messages.GherkinDocument, syntax
 
 function prettyRule(rule: messages.Rule, syntax: Syntax) {
   let s = ''
-  if(rule.tags.length > 0) {
+  if (rule.tags.length > 0) {
     s += `\n${prettyTags(rule.tags, 1, syntax)}`
   }
   s += `\n${indent(1, syntax)}${rule.keyword}: ${rule.name}\n`
@@ -85,7 +85,7 @@ function prettyStep(step: messages.Step, level: number, syntax: Syntax) {
 
 function prettyExample(example: messages.Examples, level: number, syntax: Syntax): string {
   let s = ''
-  if(example.tags.length > 0) {
+  if (example.tags.length > 0) {
     s += `\n${prettyTags(example.tags, level, syntax)}`
   }
   s += `\n${indent(level, syntax)}Examples: ${example.name}\n`

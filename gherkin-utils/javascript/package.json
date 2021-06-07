@@ -35,7 +35,9 @@
   },
   "dependencies": {
     "@cucumber/messages": "^16.0.1",
-    "@teppeis/multimaps": "2.0.0"
+    "@teppeis/multimaps": "2.0.0",
+    "@types/ramda": "0.27.40",
+    "commander": "~7.2.0"
   },
   "directories": {
     "test": "test"

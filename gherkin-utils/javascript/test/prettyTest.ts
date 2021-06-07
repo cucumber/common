@@ -158,7 +158,7 @@ Feature: hello
       const newGherkinDocument = checkGherkinToAstToGherkin(formattedGherkinSource, language)
       assert(newGherkinDocument)
       // TODO: comments
-      if(gherkinDocument.comments.length === 0) {
+      if (gherkinDocument.comments.length === 0) {
         assert.deepStrictEqual(neutralize(newGherkinDocument), neutralize(gherkinDocument))
       }
     })
