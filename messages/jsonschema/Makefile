@@ -5,7 +5,7 @@ OPTIONS = $(patsubst %,-s %,$(SCHEMA_FILES))
 default: .validated
 
 .validated: $(SCHEMA_FILES)
-	npx ajv compile --spec=draft2020 --strict=true $(OPTIONS)
+	../../node_modules/.bin/ajv compile --spec=draft2020 --strict=true $(OPTIONS)
 	mkdir -p $(@D)
 	touch $@
 
