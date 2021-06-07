@@ -5,6 +5,8 @@ ifndef ALPINE
 # Rebuild the docs unless we're already running in the build docker image (running
 # docker from docker doesn't work).
 default: .validated messages.md
+else
+default: .validated
 endif
 
 .validated:
