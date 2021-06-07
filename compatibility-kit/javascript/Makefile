@@ -6,9 +6,7 @@ VALIDATION_FILES = $(patsubst features/%.ndjson,acceptance/%.ndjson.valid,$(NDJS
 
 .DELETE_ON_ERROR:
 
-.tested: $(NDJSON_FILES)
-# TODO: Uncomment next line and remove previous line
-#.tested: $(NDJSON_FILES) $(VALIDATION_FILES)
+.tested: $(NDJSON_FILES) $(VALIDATION_FILES)
 
 features/%.ndjson: features/% features/%.ts
 ifdef GOLDEN

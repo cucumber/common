@@ -36,9 +36,7 @@
       "properties": {
         "group": {
           "$ref": "#/definitions/Group",
-          "additionalProperties": false,
-          "description": "*\n Represents the outermost capture group of an argument. This message closely matches the\n `Group` class in the `cucumber-expressions` library.",
-          "type": "object"
+          "description": "*\n Represents the outermost capture group of an argument. This message closely matches the\n `Group` class in the `cucumber-expressions` library."
         },
         "parameterTypeName": {
           "type": "string"

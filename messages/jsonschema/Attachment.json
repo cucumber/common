@@ -30,9 +30,7 @@
       "type": "string"
     },
     "source": {
-      "$ref": "./Source.json",
-      "additionalProperties": false,
-      "type": "object"
+      "$ref": "./Source.json"
     },
     "testCaseStartedId": {
       "type": "string"

@@ -7,9 +7,7 @@
   ],
   "properties": {
     "timestamp": {
-      "$ref": "./Timestamp.json",
-      "additionalProperties": false,
-      "type": "object"
+      "$ref": "./Timestamp.json"
     }
   },
   "type": "object"

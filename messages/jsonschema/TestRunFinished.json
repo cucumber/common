@@ -17,9 +17,7 @@
     },
     "timestamp": {
       "$ref": "./Timestamp.json",
-      "additionalProperties": false,
-      "description": "Timestamp when the TestRun is finished",
-      "type": "object"
+      "description": "Timestamp when the TestRun is finished"
     }
   },
   "type": "object"

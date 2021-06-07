@@ -12,9 +12,7 @@
       ],
       "properties": {
         "duration": {
-          "$ref": "./Duration.json",
-          "additionalProperties": false,
-          "type": "object"
+          "$ref": "./Duration.json"
         },
         "message": {
           "type": "string"
@@ -55,9 +53,7 @@
       "$ref": "#/definitions/TestStepResult"
     },
     "timestamp": {
-      "$ref": "./Timestamp.json",
-      "additionalProperties": false,
-      "type": "object"
+      "$ref": "./Timestamp.json"
     }
   },
   "type": "object"

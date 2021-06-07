@@ -11,9 +11,7 @@
       "type": "string"
     },
     "sourceReference": {
-      "$ref": "./SourceReference.json",
-      "additionalProperties": false,
-      "type": "object"
+      "$ref": "./SourceReference.json"
     },
     "tagExpression": {
       "type": "string"
