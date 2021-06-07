@@ -76,24 +76,24 @@ The protocol aims to decouple various components of the Cucumber platform so tha
 
 ![messages.png](messages.png)
 
-## Protocol Buffers
+## JSON Schema
 
-Cucumber Messages are implemented with [Protocol Buffers](https://developers.google.com/protocol-buffers/).
-The messages are defined in [messages.proto](./messages.proto).
+The [jsonschema](jsonschema) directory contains [JSON Schema](https://json-schema.org/)
+definitions for each message type.
+
+See [messages.md](messages.md) for a detailed description of each message type.
+
+## Encoding
+
+When Cucumber Messages are stored in a file or sent over a network, they are
+encoded as [NDJSON](http://ndjson.org/). We call this a *message stream*.
+
+Each message in a message stream is of type [Envelope](messages.md#envelope).
+
+## Language implementations
 
 Each subdirectory defines language-specific implementations of these messages,
-generated from the [messages.proto](./messages.proto) schema.
-
-Cucumber outputs the JSON representation of these messages rather than the binary
-representation (which is often more common with Protocol Buffers). This does increase
-the size of the messages, but on the flip side they are readable by humans and easier
-to process with tools like `jq`, `grep` etc.
-
-Each JSON message is written as a single line (it's [NDJSON](http://ndjson.org/)).
-
-## Detailed message documentation
-
-See the generated [messages.md](messages.md) file.
+generated from the JSON schemas.
 
 ## Examples
 

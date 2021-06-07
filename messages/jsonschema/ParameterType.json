@@ -1,14 +1,13 @@
 {
-  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "ParameterType.json",
   "additionalProperties": false,
   "required": [
-    "name",
-    "regularExpressions",
-    "preferForRegularExpressionMatch",
-    "useForSnippets",
     "id",
-    "children",
-    "id"
+    "name",
+    "preferForRegularExpressionMatch",
+    "regularExpressions",
+    "useForSnippets"
   ],
   "properties": {
     "name": {

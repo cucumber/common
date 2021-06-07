@@ -1,19 +1,17 @@
 {
-  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "TestCaseFinished.json",
   "additionalProperties": false,
   "required": [
     "testCaseStartedId",
-    "timestamp",
-    "testSteps"
+    "timestamp"
   ],
   "properties": {
     "testCaseStartedId": {
       "type": "string"
     },
     "timestamp": {
-      "$ref": "./Timestamp.json",
-      "additionalProperties": false,
-      "type": "object"
+      "$ref": "./Timestamp.json"
     }
   },
   "type": "object"
