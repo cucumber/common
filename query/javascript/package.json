@@ -1,6 +1,6 @@
 {
   "name": "@cucumber/query",
-  "version": "10.0.0",
+  "version": "10.1.0",
   "description": "Cucumber Query - query messages",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
@@ -27,7 +27,7 @@
     "@cucumber/gherkin-streams": "^2.0.2",
     "@cucumber/gherkin-utils": "^5.1.0",
     "@types/mocha": "8.2.2",
-    "@types/node": "15.3.1",
+    "@types/node": "15.6.1",
     "mocha": "8.4.0",
     "ts-node": "10.0.0",
     "typescript": "4.3.2"

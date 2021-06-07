@@ -7,7 +7,7 @@ import dataTableStyles from './DataTable.module.scss'
 import Title, { Header } from './Title'
 import Keyword from './Keyword'
 import HighLight from '../app/HighLight'
-import ExamplesTable from "./ExamplesTable"
+import ExamplesTable from './ExamplesTable'
 import * as messages from '@cucumber/messages'
 
 interface IProps {
@@ -64,8 +64,10 @@ const MDG: React.FunctionComponent<IProps> = ({ uri, children }) => {
             return header(node.position.start.line, level, children)
           },
           table({ node, children }) {
-            if(examples && examples.tableHeader && node.position.start.column >= 3) {
-              return <ExamplesTable tableHeader={examples.tableHeader} tableBody={examples.tableBody}/>
+            if (examples && examples.tableHeader && node.position.start.column >= 3) {
+              return (
+                <ExamplesTable tableHeader={examples.tableHeader} tableBody={examples.tableBody} />
+              )
             }
             return <table className={dataTableStyles.table}>{children}</table>
           },

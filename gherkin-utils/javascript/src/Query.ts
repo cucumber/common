@@ -74,7 +74,7 @@ export default class Query {
    */
   public getPickleIds(uri: string, astNodeId?: string): readonly string[] {
     const pickleIdsByAstNodeId = this.pickleIdsMapByUri.get(uri)
-    if(!pickleIdsByAstNodeId) {
+    if (!pickleIdsByAstNodeId) {
       throw new Error(`No pickleIds for uri=${uri}`)
     }
     return astNodeId === undefined
