@@ -82,7 +82,7 @@ class Codegen
       else
         raise "No type mapping for JSONSchema type #{type}. Schema:\n#{JSON.pretty_generate(property)}" unless @language_type_by_schema_type[type]
         if enum
-          enum_type_name = "#{parent_type_name}#{capitalize(property_name)}"
+          enum_type_name = property_type_from_enum("#{parent_type_name}#{capitalize(property_name)}")
           @enums.add({ name: enum_type_name, values: enum })
           enum_type_name
         else
@@ -149,6 +149,10 @@ EOF
     class_name(ref)
   end
 
+  def property_type_from_enum(enum)
+    enum
+  end
+
   def array_type_for(type_name)
     "readonly #{type_name}[]"
   end
@@ -206,8 +210,68 @@ EOF
     "*#{class_name(ref)}"
   end
 
+  def property_type_from_enum(enum)
+    enum
+  end
+
   def array_type_for(type_name)
     "[]#{type_name}"
+  end
+end
+
+class Markdown < Codegen
+  def initialize(paths)
+    template = <<-EOF
+# Cucumber Messages
+
+Each message is an instance of [Envelope](#envelope). The `Envelope` message
+will only have one of its fields set, which indicates the payload of the message.
+
+<% @schemas.sort.each do |key, schema| -%>
+## <%= class_name(key) %>
+
+| Field | Type | Required    | Description |
+| ----- | ---- | ----------- | ----------- |
+<% schema['properties'].each do |property_name, property| -%>
+<%
+type_name = type_for(class_name(key), property_name, property)
+required = (schema['required'] || []).index(property_name)
+-%>
+| `<%= property_name %>` | <%= type_name %> | <%= required ? 'yes' : 'no' %> | |
+<% end -%>
+
+<% end -%>
+EOF
+
+enum_template = <<-EOF
+## <%= enum[:name] %>
+
+One of the following:
+
+<% enum[:values].each do |value| -%>
+* `"<%= value %>"`
+<% end -%>
+
+EOF
+
+    language_type_by_schema_type = {
+      'integer' => 'integer',
+      'string' => 'string',
+      'boolean' => 'boolean',
+    }
+    super(paths, template, enum_template, language_type_by_schema_type)
+  end
+
+  def property_type_from_ref(ref)
+    "[#{class_name(ref)}](##{class_name(ref).downcase})"
+  end
+
+  def property_type_from_enum(enum)
+    "[#{enum}](##{enum.downcase})"
+  end
+
+  def array_type_for(type_name)
+    "#{type_name}[]"
   end
 end
 
