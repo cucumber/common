@@ -1,5 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "GherkinDocument.json",
   "additionalProperties": false,
   "definitions": {
     "Background": {
@@ -279,7 +280,6 @@
     "Scenario": {
       "$schema": "https://json-schema.org/draft/2020-12/schema",
       "additionalProperties": false,
-      "id": "Scenario",
       "required": [
         "location",
         "tags",
@@ -335,7 +335,6 @@
       "$schema": "https://json-schema.org/draft/2020-12/schema",
       "additionalProperties": false,
       "description": "A step",
-      "id": "Step",
       "required": [
         "location",
         "keyword",
@@ -390,7 +389,6 @@
       "$schema": "https://json-schema.org/draft/2020-12/schema",
       "additionalProperties": false,
       "description": "A row in a table",
-      "id": "TableRow",
       "required": [
         "location",
         "cells",
@@ -419,7 +417,6 @@
       "$schema": "https://json-schema.org/draft/2020-12/schema",
       "additionalProperties": false,
       "description": "*\n A tag",
-      "id": "Tag",
       "required": [
         "location",
         "name",

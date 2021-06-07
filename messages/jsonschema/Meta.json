@@ -1,5 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "Meta.json",
   "additionalProperties": false,
   "definitions": {
     "Ci": {
@@ -50,7 +51,6 @@
       "$schema": "https://json-schema.org/draft/2020-12/schema",
       "additionalProperties": false,
       "description": "Used to describe various properties of Meta",
-      "id": "Product",
       "required": [
         "name"
       ],

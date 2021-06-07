@@ -1,5 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "Envelope.json",
   "additionalProperties": false,
   "description": "When removing a field, replace it with reserved, rather than deleting the line.\n When adding a field, add it to the end and increment the number by one.\n See https://developers.google.com/protocol-buffers/docs/proto#updating for details\n\n*\n All the messages that are passed between different components/processes are Envelope\n messages.",
   "properties": {

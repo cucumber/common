@@ -1,11 +1,11 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "TestCase.json",
   "additionalProperties": false,
   "definitions": {
     "Group": {
       "$schema": "https://json-schema.org/draft/2020-12/schema",
       "additionalProperties": false,
-      "id": "Group",
       "required": [
         "children"
       ],
@@ -37,7 +37,8 @@
         "group": {
           "$ref": "#/definitions/Group",
           "additionalProperties": false,
-          "description": "*\n Represents the outermost capture group of an argument. This message closely matches the\n `Group` class in the `cucumber-expressions` library."
+          "description": "*\n Represents the outermost capture group of an argument. This message closely matches the\n `Group` class in the `cucumber-expressions` library.",
+          "type": "object"
         },
         "parameterTypeName": {
           "type": "string"

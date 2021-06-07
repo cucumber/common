@@ -1,5 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "Location.json",
   "additionalProperties": false,
   "description": "*\n Points to a line and a column in a text file",
   "properties": {
