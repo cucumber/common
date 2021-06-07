@@ -470,28 +470,28 @@ will only have one of its fields set, which indicates the payload of the message
 | `expression` | string | yes | |
 | `name` | string | yes | |
 
-## [AttachmentContentEncoding](#attachmentcontentencoding)
+## AttachmentContentEncoding
 
 One of the following:
 
 * `"IDENTITY"`
 * `"BASE64"`
 
-## [SourceMediaType](#sourcemediatype)
+## SourceMediaType
 
 One of the following:
 
 * `"text/x.cucumber.gherkin+plain"`
 * `"text/x.cucumber.gherkin+markdown"`
 
-## [StepDefinitionPatternType](#stepdefinitionpatterntype)
+## StepDefinitionPatternType
 
 One of the following:
 
 * `"CUCUMBER_EXPRESSION"`
 * `"REGULAR_EXPRESSION"`
 
-## [TestStepResultStatus](#teststepresultstatus)
+## TestStepResultStatus
 
 One of the following:
 

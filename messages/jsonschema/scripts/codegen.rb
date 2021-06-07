@@ -82,9 +82,9 @@ class Codegen
       else
         raise "No type mapping for JSONSchema type #{type}. Schema:\n#{JSON.pretty_generate(property)}" unless @language_type_by_schema_type[type]
         if enum
-          enum_type_name = property_type_from_enum("#{parent_type_name}#{capitalize(property_name)}")
+          enum_type_name = "#{parent_type_name}#{capitalize(property_name)}"
           @enums.add({ name: enum_type_name, values: enum })
-          enum_type_name
+          property_type_from_enum(enum_type_name)
         else
           @language_type_by_schema_type[type]
         end
