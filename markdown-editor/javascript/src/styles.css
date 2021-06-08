@@ -20,3 +20,7 @@
     font-weight: bold;
     text-align: left;
 }
+
+.ProseMirror th p, .ProseMirror td p {
+  margin: 1px;
+}

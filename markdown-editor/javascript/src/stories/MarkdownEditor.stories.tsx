@@ -13,15 +13,18 @@ const Template: Story<TemplateArgs> = ({ content }) => {
   return <MarkdownEditor content={content} />
 }
 
-export const Tables = Template.bind({})
-Tables.args = {
-  content: `# Welcome
-Bla bla
+export const DataTables = Template.bind({})
+DataTables.args = {
+  content: `# Feature: Welcome
+Let's use some tables
 
-| COL1 | COL2 | 
-| ---- | ---- | 
-| One | Two | 
-| Un | Deux | 
-| En | To |
+## Scenario: some tables
+
+* Given the following people
+  | Name | Age |
+  | ---- | ---- |
+  | Jill |   1 |
+  | Bob | 10 |
+  | Sally | 100 |
 `,
 }
