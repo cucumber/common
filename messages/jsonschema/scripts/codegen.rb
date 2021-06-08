@@ -3,6 +3,8 @@ require 'erb'
 require 'set'
 
 class Codegen
+  TEMPLATES_DIRECTORY = "#{File.dirname(__FILE__)}/templates/"
+
   def initialize(paths, template, enum_template, language_type_by_schema_type)
     @paths = paths
     @template = ERB.new(template, nil, '-')
@@ -106,42 +108,15 @@ end
 
 class TypeScript < Codegen
   def initialize(paths)
-    template = <<-EOF
-import { Type } from 'class-transformer'
-import 'reflect-metadata'
-
-<% @schemas.sort.each do |key, schema| -%>
-export class <%= class_name(key) %> {
-<% schema['properties'].each do |property_name, property| -%>
-<% ref = property['$ref'] || property['items'] && property['items']['$ref'] %>
-<% if ref -%>
-  @Type(() => <%= class_name(ref) %>)
-<% end -%>
-<% if (schema['required'] || []).index(property_name) -%>
-  <%= property_name %>: <%= type_for(class_name(key), property_name, property) %> = <%= default_value(class_name(key), property_name, property) %>
-<% else -%>
-  <%= property_name %>?: <%= type_for(class_name(key), property_name, property) %>
-<% end -%>
-<% end -%>
-}
-
-<% end -%>
-EOF
-
-    enum_template = <<-EOF
-export enum <%= enum[:name] %> {
-<% enum[:values].each do |value| -%>
-  <%= enum_constant(value) %> = '<%= value %>',
-<% end -%>
-}
-
-EOF
+    template = File.read("#{TEMPLATES_DIRECTORY}/typescript.ts.erb")
+    enum_template = File.read("#{TEMPLATES_DIRECTORY}/typescript.enum.ts.erb")
 
     language_type_by_schema_type = {
       'integer' => 'number',
       'string' => 'string',
       'boolean' => 'boolean',
     }
+
     super(paths, template, enum_template, language_type_by_schema_type)
   end
 
