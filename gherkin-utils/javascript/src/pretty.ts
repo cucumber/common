@@ -2,7 +2,10 @@ import * as messages from '@cucumber/messages'
 
 type Syntax = 'markdown' | 'gherkin'
 
-export default function pretty(gherkinDocument: messages.GherkinDocument, syntax: Syntax = 'gherkin'): string {
+export default function pretty(
+  gherkinDocument: messages.GherkinDocument,
+  syntax: Syntax = 'gherkin'
+): string {
   const feature = gherkinDocument.feature
   if (!feature) return ''
   let s = ''
