@@ -133,6 +133,49 @@ class TypeScript < Codegen
   end
 end
 
+class Ruby < Codegen
+  def initialize(paths)
+    template = File.read("#{TEMPLATES_DIRECTORY}/ruby.rb.erb")
+    enum_template = File.read("#{TEMPLATES_DIRECTORY}/ruby.enum.rb.erb")
+
+    language_type_by_schema_type = {
+      'integer' => 'number',
+      'string' => 'string',
+      'boolean' => 'boolean',
+    }
+
+    super(paths, template, enum_template, language_type_by_schema_type)
+  end
+
+  def property_type_from_ref(ref)
+    class_name(ref)
+  end
+
+  def property_type_from_enum(enum)
+    enum
+  end
+
+  def array_type_for(type_name)
+    "[]"
+  end
+
+  def default_value(parent_type_name, property_name, property)
+    if property['type'] == 'string'
+      if property['enum']
+        enum_type_name = type_for(parent_type_name, property_name, property)
+        "#{enum_type_name}::#{enum_constant(property['enum'][0])}"
+      else
+        "''"
+      end
+    elsif property['$ref']
+      type = type_for(parent_type_name, nil, property)
+      "#{type}.new"
+    else
+      super(parent_type_name, property_name, property)
+    end
+  end
+end
+
 class Go < Codegen
   def initialize(paths)
     template = File.read("#{TEMPLATES_DIRECTORY}/go.go.erb")

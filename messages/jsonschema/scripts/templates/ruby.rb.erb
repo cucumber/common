@@ -1,0 +1,25 @@
+module Cucumber
+  module Messages
+  <%- @schemas.sort.each do |key, schema| %>
+    class <%= class_name(key) %>
+    <%- schema['properties'].each do |property_name, property| -%>
+      attr_reader :<%= property_name %>
+    <%- end -%>
+
+      def initialize(
+      <%- schema['properties'].each do |property_name, property| -%>
+        <%= property_name -%>: <%=
+          (schema['required'] || []).index(property_name) ?
+            default_value(class_name(key), property_name, property) :
+            'nil'
+          -%><%= property_name == schema['properties'].keys.last ? '' : ',' %>
+      <%- end -%>
+      )
+      <%- schema['properties'].each do |property_name, property| -%>
+        @<%= property_name %> = <%= property_name %>
+      <%- end -%>
+      end
+    end
+  <%- end %>
+  end
+end
