@@ -135,43 +135,9 @@ end
 
 class Go < Codegen
   def initialize(paths)
-    template = <<-EOF
-package messages
+    template = File.read("#{TEMPLATES_DIRECTORY}/go.go.erb")
 
-<% @schemas.sort.each do |key, schema| -%>
-type <%= class_name(key) %> struct {
-<% schema['properties'].each do |property_name, property| -%>
-<%
-type_name = type_for(class_name(key), property_name, property)
-required = (schema['required'] || []).index(property_name)
--%>
-  <%= capitalize(property_name) %> <%= type_name %> `json:"<%= property_name %><%= required ? '' : ',omitempty' %>"`
-<% end -%>
-}
-
-<% end -%>
-EOF
-
-    enum_template = <<-EOF
-type <%= enum[:name] %> string
-
-const(
-<% enum[:values].each do |value| -%>
-  <%= enum[:name] %>_<%= enum_constant(value) %> <%= enum[:name] %> = "<%= value %>"
-<% end -%>
-)
-
-func (e <%= enum[:name] %>) String() string {
-	switch e {
-<% enum[:values].each do |value| -%>
-  case <%= enum[:name] %>_<%= enum_constant(value) %>:
-    return "<%= value %>"
-<% end -%>
-	default:
-		panic("Bad enum value for <%= enum[:name] %>")
-	}
-}
-EOF
+    enum_template = File.read("#{TEMPLATES_DIRECTORY}/go.enum.go.erb")
 
     language_type_by_schema_type = {
       'integer' => 'int64',
