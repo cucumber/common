@@ -136,7 +136,6 @@ end
 class Go < Codegen
   def initialize(paths)
     template = File.read("#{TEMPLATES_DIRECTORY}/go.go.erb")
-
     enum_template = File.read("#{TEMPLATES_DIRECTORY}/go.enum.go.erb")
 
     language_type_by_schema_type = {
@@ -162,38 +161,8 @@ end
 
 class Markdown < Codegen
   def initialize(paths)
-    template = <<-EOF
-# Cucumber Messages
-
-Each message is an instance of [Envelope](#envelope). The `Envelope` message
-will only have one of its fields set, which indicates the payload of the message.
-
-<% @schemas.sort.each do |key, schema| -%>
-## <%= class_name(key) %>
-
-| Field | Type | Required    | Description |
-| ----- | ---- | ----------- | ----------- |
-<% schema['properties'].each do |property_name, property| -%>
-<%
-type_name = type_for(class_name(key), property_name, property)
-required = (schema['required'] || []).index(property_name)
--%>
-| `<%= property_name %>` | <%= type_name %> | <%= required ? 'yes' : 'no' %> | |
-<% end -%>
-
-<% end -%>
-EOF
-
-enum_template = <<-EOF
-## <%= enum[:name] %>
-
-One of the following:
-
-<% enum[:values].each do |value| -%>
-* `"<%= value %>"`
-<% end -%>
-
-EOF
+    template = File.read("#{TEMPLATES_DIRECTORY}/markdown.md.erb")
+    enum_template = File.read("#{TEMPLATES_DIRECTORY}/markdown.enum.md.erb")
 
     language_type_by_schema_type = {
       'integer' => 'integer',
