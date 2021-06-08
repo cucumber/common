@@ -1,7 +1,7 @@
 import React from 'react'
 import GherkinDocument from '../gherkin/GherkinDocument'
 import * as messages from '@cucumber/messages'
-import {getWorstTestStepResult} from '@cucumber/messages'
+import { getWorstTestStepResult } from '@cucumber/messages'
 import {
   Accordion,
   AccordionItem,
@@ -14,7 +14,7 @@ import GherkinQueryContext from '../../GherkinQueryContext'
 import CucumberQueryContext from '../../CucumberQueryContext'
 import StatusIcon from '../gherkin/StatusIcon'
 import styles from './GherkinDocumentList.module.scss'
-import MDG from "../gherkin/MDG";
+import MDG from '../gherkin/MDG'
 
 interface IProps {
   gherkinDocuments?: readonly messages.GherkinDocument[]
@@ -22,7 +22,7 @@ interface IProps {
   preExpand?: boolean
 }
 
-const GherkinDocumentList: React.FunctionComponent<IProps> = ({gherkinDocuments, preExpand}) => {
+const GherkinDocumentList: React.FunctionComponent<IProps> = ({ gherkinDocuments, preExpand }) => {
   const gherkinQuery = React.useContext(GherkinQueryContext)
   const cucumberQuery = React.useContext(CucumberQueryContext)
 
@@ -33,8 +33,8 @@ const GherkinDocumentList: React.FunctionComponent<IProps> = ({gherkinDocuments,
     (gherkinDocument) => {
       const gherkinDocumentStatus = gherkinDocument.feature
         ? getWorstTestStepResult(
-          cucumberQuery.getPickleTestStepResults(gherkinQuery.getPickleIds(gherkinDocument.uri))
-        ).status
+            cucumberQuery.getPickleTestStepResults(gherkinQuery.getPickleIds(gherkinDocument.uri))
+          ).status
         : messages.TestStepResultStatus.UNDEFINED
       return [gherkinDocument.uri, gherkinDocumentStatus]
     }
@@ -44,10 +44,10 @@ const GherkinDocumentList: React.FunctionComponent<IProps> = ({gherkinDocuments,
   // Pre-expand any document that is *not* passed - assuming this is what people want to look at first
   const preExpanded = preExpand
     ? gherkinDocs
-      .filter(
-        (doc) => gherkinDocumentStatusByUri.get(doc.uri!) !== messages.TestStepResultStatus.PASSED
-      )
-      .map((doc) => doc.uri!)
+        .filter(
+          (doc) => gherkinDocumentStatusByUri.get(doc.uri) !== messages.TestStepResultStatus.PASSED
+        )
+        .map((doc) => doc.uri)
     : []
 
   return (
@@ -67,17 +67,18 @@ const GherkinDocumentList: React.FunctionComponent<IProps> = ({gherkinDocuments,
               <AccordionItemHeading>
                 <AccordionItemButton className={styles.accordionButton}>
                   <span className={styles.icon}>
-                    <StatusIcon status={gherkinDocumentStatus}/>
+                    <StatusIcon status={gherkinDocumentStatus} />
                   </span>
                   <span>{doc.uri}</span>
                 </AccordionItemButton>
               </AccordionItemHeading>
               <AccordionItemPanel className={styles.accordionPanel}>
                 <UriContext.Provider value={doc.uri}>
-                  {source.mediaType === messages.SourceMediaType.TEXT_X_CUCUMBER_GHERKIN_PLAIN ?
-                    <GherkinDocument gherkinDocument={doc}/> :
+                  {source.mediaType === messages.SourceMediaType.TEXT_X_CUCUMBER_GHERKIN_PLAIN ? (
+                    <GherkinDocument gherkinDocument={doc} />
+                  ) : (
                     <MDG uri={doc.uri}>{source.data}</MDG>
-                  }
+                  )}
                 </UriContext.Provider>
               </AccordionItemPanel>
             </AccordionItem>

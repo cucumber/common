@@ -1,5 +1,6 @@
 {
-  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "Pickle.json",
   "additionalProperties": false,
   "definitions": {
     "PickleDocString": {
@@ -18,7 +19,7 @@
       "type": "object"
     },
     "PickleStep": {
-      "$schema": "http://json-schema.org/draft-04/schema#",
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
       "additionalProperties": false,
       "description": "*\n An executable step",
       "required": [
@@ -76,7 +77,7 @@
       "type": "object"
     },
     "PickleTableCell": {
-      "$schema": "http://json-schema.org/draft-04/schema#",
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
       "additionalProperties": false,
       "required": [
         "value"
@@ -89,7 +90,7 @@
       "type": "object"
     },
     "PickleTableRow": {
-      "$schema": "http://json-schema.org/draft-04/schema#",
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
       "additionalProperties": false,
       "required": [
         "cells"
@@ -105,7 +106,7 @@
       "type": "object"
     },
     "PickleTag": {
-      "$schema": "http://json-schema.org/draft-04/schema#",
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
       "additionalProperties": false,
       "description": "*\n A tag",
       "required": [

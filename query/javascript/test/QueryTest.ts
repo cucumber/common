@@ -424,13 +424,60 @@ describe('Query', () => {
         assert.strictEqual(attachments[0].body, 'Hello')
       })
     })
+
+    describe('#getStatusCounts', () => {
+      it('returns the number of pickles for each status', async () => {
+        await execute(
+          `Feature: hello
+    Scenario: ok
+      Given a passed step
+  `,
+          () => undefined
+        )
+
+        await execute(
+          `Feature: hello
+    Scenario: ok
+      Given a passed step
+  `,
+          () => undefined
+        )
+
+        await execute(
+          `Feature: hello
+    Scenario: ok
+      Given a failed step
+  `,
+          () => undefined
+        )
+
+        await execute(
+          `Feature: hello
+    Scenario: ok
+      Given an undefined step
+  `,
+          () => undefined
+        )
+
+        const statuses = cucumberQuery.getStatusCounts(
+          gherkinQuery.getPickles().map((pickle) => pickle.id)
+        )
+
+        const expectedStatuses: Partial<Record<messages.TestStepResultStatus, number>> = {
+          PASSED: 2,
+          FAILED: 1,
+          UNDEFINED: 1,
+        }
+        assert.deepStrictEqual(statuses, expectedStatuses)
+      })
+    })
   })
 
   async function execute(
     gherkinSource: string,
     messagesHandler: (envelope: messages.Envelope) => void = () => null
   ): Promise<void> {
-    const newId = messages.IdGenerator.incrementing()
+    const newId = messages.IdGenerator.uuid()
     const clock = new IncrementClock()
     const stopwatch = new IncrementStopwatch()
     const makeErrorMessage = withFullStackTrace()

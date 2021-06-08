@@ -27,6 +27,9 @@ module Gherkin
     end
 
     def update_rule(rule)
+      return if rule.nil?
+      store_nodes_location(rule[:tags])
+
       rule[:children].each do |child|
         update_background(child[:background]) if child[:background]
         update_scenario(child[:scenario]) if child[:scenario]
