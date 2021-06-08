@@ -22,7 +22,7 @@ export const schema = new Schema({
           default: null,
           getFromDOM(dom) {
             // @ts-ignore
-            return (dom.style && dom.style.backgroundColor) || null;
+            return (dom.style && dom.style.backgroundColor) || null
           },
           setDOMAttr(value, attrs) {
             if (value) attrs.style = (attrs.style || '') + `background-color: ${value};`
@@ -34,14 +34,16 @@ export const schema = new Schema({
   marks: markdownSchema.spec.marks,
 })
 
-// TODO: Simplify when/if this is released: https://github.com/ProseMirror/prosemirror-markdown/pull/54
-const tokens = {...defaultMarkdownParser.tokens, ...{
-  table: { block: 'table' },
-  // THEAD and TBODY don't exist in the prosemirror-tables schema
-  thead: { ignore: true },
-  tbody: { ignore: true },
-  tr: { block: 'table_row' },
-}}
+const tokens = {
+  ...defaultMarkdownParser.tokens,
+  ...{
+    table: { block: 'table' },
+    // THEAD and TBODY don't exist in the prosemirror-tables schema
+    thead: { ignore: true },
+    tbody: { ignore: true },
+    tr: { block: 'table_row' },
+  },
+}
 export const cucumberMarkdownParser = new MarkdownParser(schema, new MarkdownIt(), tokens)
 
 // @ts-ignore
@@ -82,7 +84,7 @@ cucumberMarkdownSerializer.nodes['table'] = (state, tableNode) => {
 cucumberMarkdownSerializer.nodes['table_row'] = (state, node) => {
   state.renderContent(node)
   state.text('|\n')
-  if(rowIndex === 0) {
+  if (rowIndex === 0) {
     const json = node.toJSON()
     json.content.forEach((tableHeader: Node) => {
       tableHeader.content.forEach((paragraph: Node) => {

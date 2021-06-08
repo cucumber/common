@@ -30,7 +30,7 @@ import { keymap } from 'prosemirror-keymap'
 import { Dropdown, MenuItem } from 'prosemirror-menu'
 import { cucumberMarkdownParser, schema } from './cucumberMarkdown'
 import { EditorState, TextSelection, Transaction } from 'prosemirror-state'
-import { Fragment, Node } from 'prosemirror-model'
+import { Fragment, Node, Schema } from 'prosemirror-model'
 
 const menu = buildMenuItems(schema).fullMenu
 
@@ -58,48 +58,44 @@ const tableMenu = [
 // TODO: Adapt one of these:
 // https://gitlab.coko.foundation/wax/wax-prosemirror/-/blob/master/wax-prosemirror-components/src/ui/tables/InsertTableTool.js
 // https://github.com/chanzuckerberg/czi-prosemirror/blob/master/src/ui/TableGridSizeEditor.js
-
 // https://discuss.prosemirror.net/t/how-co-create-table/3510/3
-function insertTable() {
-  return (
-    state: EditorState,
-    dispatch: (tr: Transaction) => void
-  ): boolean => {
-    const offset: number = state.tr.selection.anchor + 1;
-    const transaction: Transaction = state.tr;
-    const cell: Node = state.schema.nodes.table_cell.createAndFill();
+
+function insertTable<S extends Schema = any>(
+  state: EditorState<S>,
+  dispatch?: (tr: Transaction<S>) => void
+): boolean {
+  if (dispatch) {
+    const offset: number = state.tr.selection.anchor + 1
+    const header: Node = state.schema.nodes.table_header.createAndFill()
+    const cell: Node = state.schema.nodes.table_cell.createAndFill()
     const node: Node = state.schema.nodes.table.create(
       null,
       Fragment.fromArray([
-        state.schema.nodes.table_row.create(
-          null,
-          Fragment.fromArray([cell, cell, cell])
-        ),
-        state.schema.nodes.table_row.create(
-          null,
-          Fragment.fromArray([cell, cell, cell])
-        )
+        state.schema.nodes.table_row.create(null, Fragment.fromArray([header, header, header])),
+        state.schema.nodes.table_row.create(null, Fragment.fromArray([cell, cell, cell])),
+        state.schema.nodes.table_row.create(null, Fragment.fromArray([cell, cell, cell])),
       ])
-    );
+    )
 
-    if (dispatch) {
-      dispatch(
-        transaction
-          .replaceSelectionWith(node)
-          .scrollIntoView()
-          .setSelection(
-            TextSelection.near(
-              transaction.doc.resolve(offset)
-            )
-          )
-      );
-    }
+    const transaction: Transaction = state.tr
+    dispatch(
+      transaction
+        .replaceSelectionWith(node)
+        .scrollIntoView()
+        .setSelection(TextSelection.near(transaction.doc.resolve(offset)))
+    )
+  }
 
-    return true;
-  };
+  return true
 }
+
 menu.splice(2, 0, [
-  new MenuItem({ label: 'Add table', title: 'Insert table', class: 'ProseMirror-icon', run: insertTable }),
+  new MenuItem({
+    label: 'Add table',
+    title: 'Insert table',
+    class: 'ProseMirror-icon',
+    run: insertTable,
+  }),
   new Dropdown(tableMenu, { label: 'Table' }),
 ])
 

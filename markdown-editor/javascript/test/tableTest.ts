@@ -1,7 +1,7 @@
 import assert from 'assert'
 import { JSDOM } from 'jsdom'
-import {cucumberMarkdownParser, cucumberMarkdownSerializer, schema} from '../src/cucumberMarkdown'
-import {DOMParser} from 'prosemirror-model'
+import { cucumberMarkdownParser, cucumberMarkdownSerializer, schema } from '../src/cucumberMarkdown'
+import { DOMParser } from 'prosemirror-model'
 
 describe('fromMarkdown', () => {
   it('roundtrips markdown table', () => {
@@ -39,6 +39,5 @@ describe('fromMarkdown', () => {
 | En | To |
 `
     assert.strictEqual(markdown, expectedMarkdown)
-
   })
 })
