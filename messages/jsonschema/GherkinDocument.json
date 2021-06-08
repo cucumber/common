@@ -1,9 +1,10 @@
 {
-  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "GherkinDocument.json",
   "additionalProperties": false,
   "definitions": {
     "Background": {
-      "$schema": "http://json-schema.org/draft-04/schema#",
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
       "additionalProperties": false,
       "required": [
         "location",
@@ -30,7 +31,7 @@
         "steps": {
           "items": {
             "$ref": "#/definitions/Step",
-            "$schema": "http://json-schema.org/draft-04/schema#"
+            "$schema": "https://json-schema.org/draft/2020-12/schema"
           },
           "type": "array"
         },
@@ -41,7 +42,7 @@
       "type": "object"
     },
     "Comment": {
-      "$schema": "http://json-schema.org/draft-04/schema#",
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
       "additionalProperties": false,
       "description": "*\n A comment in a Gherkin document",
       "required": [
@@ -121,7 +122,7 @@
         "tags": {
           "items": {
             "$ref": "#/definitions/Tag",
-            "$schema": "http://json-schema.org/draft-04/schema#"
+            "$schema": "https://json-schema.org/draft/2020-12/schema"
           },
           "type": "array"
         },
@@ -140,7 +141,7 @@
         "tableBody": {
           "items": {
             "$ref": "#/definitions/TableRow",
-            "$schema": "http://json-schema.org/draft-04/schema#"
+            "$schema": "https://json-schema.org/draft/2020-12/schema"
           },
           "type": "array"
         },
@@ -170,7 +171,7 @@
           "description": "All the tags placed above the `Feature` keyword",
           "items": {
             "$ref": "#/definitions/Tag",
-            "$schema": "http://json-schema.org/draft-04/schema#"
+            "$schema": "https://json-schema.org/draft/2020-12/schema"
           },
           "type": "array"
         },
@@ -201,7 +202,7 @@
       "type": "object"
     },
     "FeatureChild": {
-      "$schema": "http://json-schema.org/draft-04/schema#",
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
       "additionalProperties": false,
       "description": "*\n A child node of a `Feature` node",
       "properties": {
@@ -237,7 +238,7 @@
           "description": "All the tags placed above the `Rule` keyword",
           "items": {
             "$ref": "#/definitions/Tag",
-            "$schema": "http://json-schema.org/draft-04/schema#"
+            "$schema": "https://json-schema.org/draft/2020-12/schema"
           },
           "type": "array"
         },
@@ -263,7 +264,7 @@
       "type": "object"
     },
     "RuleChild": {
-      "$schema": "http://json-schema.org/draft-04/schema#",
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
       "additionalProperties": false,
       "description": "*\n A child node of a `Rule` node",
       "properties": {
@@ -277,9 +278,8 @@
       "type": "object"
     },
     "Scenario": {
-      "$schema": "http://json-schema.org/draft-04/schema#",
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
       "additionalProperties": false,
-      "id": "Scenario",
       "required": [
         "location",
         "tags",
@@ -298,7 +298,7 @@
         "tags": {
           "items": {
             "$ref": "#/definitions/Tag",
-            "$schema": "http://json-schema.org/draft-04/schema#"
+            "$schema": "https://json-schema.org/draft/2020-12/schema"
           },
           "type": "array"
         },
@@ -314,14 +314,14 @@
         "steps": {
           "items": {
             "$ref": "#/definitions/Step",
-            "$schema": "http://json-schema.org/draft-04/schema#"
+            "$schema": "https://json-schema.org/draft/2020-12/schema"
           },
           "type": "array"
         },
         "examples": {
           "items": {
             "$ref": "#/definitions/Examples",
-            "$schema": "http://json-schema.org/draft-04/schema#"
+            "$schema": "https://json-schema.org/draft/2020-12/schema"
           },
           "type": "array"
         },
@@ -332,10 +332,9 @@
       "type": "object"
     },
     "Step": {
-      "$schema": "http://json-schema.org/draft-04/schema#",
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
       "additionalProperties": false,
       "description": "A step",
-      "id": "Step",
       "required": [
         "location",
         "keyword",
@@ -367,7 +366,7 @@
       "type": "object"
     },
     "TableCell": {
-      "$schema": "http://json-schema.org/draft-04/schema#",
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
       "additionalProperties": false,
       "description": "A cell in a `TableRow`",
       "required": [
@@ -387,10 +386,9 @@
       "type": "object"
     },
     "TableRow": {
-      "$schema": "http://json-schema.org/draft-04/schema#",
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
       "additionalProperties": false,
       "description": "A row in a table",
-      "id": "TableRow",
       "required": [
         "location",
         "cells",
@@ -405,7 +403,7 @@
           "description": "Cells in the row",
           "items": {
             "$ref": "#/definitions/TableCell",
-            "$schema": "http://json-schema.org/draft-04/schema#"
+            "$schema": "https://json-schema.org/draft/2020-12/schema"
           },
           "type": "array"
         },
@@ -416,10 +414,9 @@
       "type": "object"
     },
     "Tag": {
-      "$schema": "http://json-schema.org/draft-04/schema#",
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
       "additionalProperties": false,
       "description": "*\n A tag",
-      "id": "Tag",
       "required": [
         "location",
         "name",
