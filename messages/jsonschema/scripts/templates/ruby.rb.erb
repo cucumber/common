@@ -12,6 +12,12 @@ module Cucumber
 
     class <%= class_name(key) %>
     <%- schema['properties'].each do |property_name, property| -%>
+
+      <%- if property['description'] -%>
+      ##
+      <%= format_description(property['description'], indent_string: '      ') %>
+
+      <%- end -%>
       attr_reader :<%= property_name %>
     <%- end -%>
 
