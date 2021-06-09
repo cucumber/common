@@ -1,0 +1,10 @@
+^Gherkin-
+^gherkin-
+^gherkin.berp
+^helper-scripts/
+^acceptance/
+^perl5/
+^Makefile$
+^MANIFEST.SKIP
+^.*~
+^VERSION$

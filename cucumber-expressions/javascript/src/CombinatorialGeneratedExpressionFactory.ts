@@ -12,7 +12,7 @@ export default class CombinatorialGeneratedExpressionFactory {
     this.expressionTemplate = expressionTemplate
   }
 
-  public generateExpressions(): ReadonlyArray<GeneratedExpression> {
+  public generateExpressions(): readonly GeneratedExpression[] {
     const generatedExpressions: GeneratedExpression[] = []
     this.generatePermutations(generatedExpressions, 0, [])
     return generatedExpressions
@@ -43,11 +43,7 @@ export default class CombinatorialGeneratedExpressionFactory {
 
       const newCurrentParameterTypes = currentParameterTypes.slice() // clone
       newCurrentParameterTypes.push(this.parameterTypeCombinations[depth][i])
-      this.generatePermutations(
-        generatedExpressions,
-        depth + 1,
-        newCurrentParameterTypes
-      )
+      this.generatePermutations(generatedExpressions, depth + 1, newCurrentParameterTypes)
     }
   }
 }

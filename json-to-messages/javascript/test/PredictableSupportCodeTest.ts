@@ -1,6 +1,6 @@
 import assert from 'assert'
 import PredictableSupportCode from '../src/PredictableSupportCode'
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import { SupportCode } from '@cucumber/fake-cucumber'
 import PredictableHook from '../src/PredictableHook'
 import PredictableStepDefinition from '../src/PredictableStepDefinition'
@@ -10,47 +10,42 @@ describe('PredictableSupportCode', () => {
     const supportCode = new SupportCode()
     const predictableSupportCode = new PredictableSupportCode(supportCode)
     const scenarioId = 'some-scenario-id'
-    const pickle = messages.Pickle.create({
+    const pickle: messages.Pickle = {
       astNodeIds: [scenarioId],
-    })
+      id: 'some-pickle-id',
+      language: 'en',
+      tags: [],
+      steps: [],
+      uri: 'some-uri',
+      name: 'Some Name',
+    }
 
     beforeEach(() => {
-      predictableSupportCode.addPredictableBeforeHook(
-        'some/where:7',
-        scenarioId,
-        'passed'
-      )
+      predictableSupportCode.addPredictableBeforeHook('some/where:7', scenarioId, 'passed')
     })
 
     it('adds a beforeHook', () => {
-      assert.equal(supportCode.beforeHooks.length, 1)
+      assert.strictEqual(supportCode.beforeHooks.length, 1)
     })
 
     it('adds a beforeHook that matches the pickle from the scenario', () => {
       const hook = supportCode.beforeHooks[0]
-      assert.notEqual(hook.match(pickle), null)
+      assert.notStrictEqual(hook.match(pickle), null)
     })
 
     it('adds a beforeHook with correct location', () => {
       const hook = supportCode.beforeHooks[0]
 
-      assert.deepEqual(
-        hook.toMessage().hook.sourceReference,
-        messages.SourceReference.create({
-          uri: 'some/where',
-          location: messages.Location.create({
-            line: 7,
-          }),
-        })
-      )
+      const expected: messages.SourceReference = {
+        uri: 'some/where',
+        location: { line: 7 },
+      }
+      assert.deepStrictEqual(hook.toMessage().hook.sourceReference, expected)
     })
 
     it('adds a hook with a passed status when status is "passed"', () => {
       const hook = supportCode.beforeHooks[0] as PredictableHook
-      assert.equal(
-        hook.status,
-        messages.TestStepFinished.TestStepResult.Status.PASSED
-      )
+      assert.strictEqual(hook.status, 'PASSED')
     })
 
     it('adds a hook with a failed status when status is "failed"', () => {
@@ -65,12 +60,9 @@ describe('PredictableSupportCode', () => {
       )
       const hook = supportCode.beforeHooks[0] as PredictableHook
 
-      assert.equal(
-        hook.status,
-        messages.TestStepFinished.TestStepResult.Status.FAILED
-      )
-      assert.equal(hook.errorMessage, 'BOOM !!')
-      assert.equal(hook.duration, 0.01)
+      assert.strictEqual(hook.status, 'FAILED')
+      assert.strictEqual(hook.errorMessage, 'BOOM !!')
+      assert.strictEqual(hook.duration, 0.01)
     })
   })
 
@@ -78,48 +70,45 @@ describe('PredictableSupportCode', () => {
     const supportCode = new SupportCode()
     const predictableSupportCode2 = new PredictableSupportCode(supportCode)
     const scenarioId = 'some-scenario-id'
-    const pickle = messages.Pickle.create({
+    const pickle: messages.Pickle = {
       astNodeIds: [scenarioId],
-    })
+      id: 'some-pickle-id',
+      language: 'en',
+      tags: [],
+      steps: [],
+      uri: 'some-uri',
+      name: 'Some Name',
+    }
 
     beforeEach(() => {
-      predictableSupportCode2.addPredictableAfterHook(
-        'some/where:7',
-        scenarioId,
-        'passed'
-      )
+      predictableSupportCode2.addPredictableAfterHook('some/where:7', scenarioId, 'passed')
     })
 
     it('adds a beforeHook', () => {
-      assert.equal(supportCode.afterHooks.length, 1)
+      assert.strictEqual(supportCode.afterHooks.length, 1)
     })
 
     it('adds a beforeHook that matches the pickle from the scenario', () => {
       const hook = supportCode.afterHooks[0]
-      assert.notEqual(hook.match(pickle), null)
+      assert.notStrictEqual(hook.match(pickle), null)
     })
 
     it('adds a beforeHook with correct location', () => {
       const hook = supportCode.afterHooks[0]
 
-      assert.deepEqual(
-        hook.toMessage().hook.sourceReference,
-        messages.SourceReference.create({
-          uri: 'some/where',
-          location: messages.Location.create({
-            line: 7,
-          }),
-        })
-      )
+      const sourceReference: messages.SourceReference = {
+        uri: 'some/where',
+        location: {
+          line: 7,
+        },
+      }
+      assert.deepStrictEqual(hook.toMessage().hook.sourceReference, sourceReference)
     })
 
     it('adds a hook with a passed status when status is "passed"', () => {
       const hook = supportCode.afterHooks[0] as PredictableHook
 
-      assert.equal(
-        hook.status,
-        messages.TestStepFinished.TestStepResult.Status.PASSED
-      )
+      assert.strictEqual(hook.status, 'PASSED')
     })
 
     it('adds a hook with a failed status when status is "failed"', () => {
@@ -134,12 +123,9 @@ describe('PredictableSupportCode', () => {
       )
       const hook = supportCode.afterHooks[0] as PredictableHook
 
-      assert.equal(
-        hook.status,
-        messages.TestStepFinished.TestStepResult.Status.FAILED
-      )
-      assert.equal(hook.errorMessage, 'BOOM !!')
-      assert.equal(hook.duration, 0.12)
+      assert.strictEqual(hook.status, 'FAILED')
+      assert.strictEqual(hook.errorMessage, 'BOOM !!')
+      assert.strictEqual(hook.duration, 0.12)
     })
   })
 
@@ -147,9 +133,11 @@ describe('PredictableSupportCode', () => {
     const supportCode = new SupportCode()
     const predictableSupportCode = new PredictableSupportCode(supportCode)
     const stepId = 'some-step-id'
-    const picklestep = messages.Pickle.PickleStep.create({
+    const picklestep: messages.PickleStep = {
       astNodeIds: [stepId],
-    })
+      text: 'hello',
+      id: 'step-id',
+    }
 
     beforeEach(() => {
       predictableSupportCode.addPredictableStepDefinition(
@@ -160,25 +148,26 @@ describe('PredictableSupportCode', () => {
     })
 
     it('registers the step definition', () => {
-      assert.equal(supportCode.stepDefinitions.length, 1)
+      assert.strictEqual(supportCode.stepDefinitions.length, 1)
     })
 
     it('creates a stepDefinition that matches the step id', () => {
       const stepDefinition = supportCode.stepDefinitions[0]
-      assert.notEqual(stepDefinition.match(picklestep), null)
+      assert.notStrictEqual(stepDefinition.match(picklestep), null)
     })
 
     it('creates a stepDefinition with correct location', () => {
       const stepDefinition = supportCode.stepDefinitions[0]
 
-      assert.deepEqual(
+      const sourceReference: messages.SourceReference = {
+        uri: 'somewhere/over/the/rain.bow',
+        location: {
+          line: 2,
+        },
+      }
+      assert.deepStrictEqual(
         stepDefinition.toMessage().stepDefinition.sourceReference,
-        messages.SourceReference.create({
-          uri: 'somewhere/over/the/rain.bow',
-          location: messages.Location.create({
-            line: 2,
-          }),
-        })
+        sourceReference
       )
     })
 
@@ -193,12 +182,8 @@ describe('PredictableSupportCode', () => {
           'passed'
         )
 
-        const stepDefinition = supportCode
-          .stepDefinitions[0] as PredictableStepDefinition
-        assert.equal(
-          stepDefinition.status,
-          messages.TestStepFinished.TestStepResult.Status.PASSED
-        )
+        const stepDefinition = supportCode.stepDefinitions[0] as PredictableStepDefinition
+        assert.strictEqual(stepDefinition.status, 'PASSED')
       })
 
       it('creates a StepDefinition with status pending for "pending"', () => {
@@ -211,12 +196,8 @@ describe('PredictableSupportCode', () => {
           'pending'
         )
 
-        const stepDefinition = supportCode
-          .stepDefinitions[0] as PredictableStepDefinition
-        assert.equal(
-          stepDefinition.status,
-          messages.TestStepFinished.TestStepResult.Status.PENDING
-        )
+        const stepDefinition = supportCode.stepDefinitions[0] as PredictableStepDefinition
+        assert.strictEqual(stepDefinition.status, 'PENDING')
       })
 
       it('creates a StepDefinition with status failed for "failed"', () => {
@@ -231,13 +212,9 @@ describe('PredictableSupportCode', () => {
           'something wrong happened'
         )
 
-        const stepDefinition = supportCode
-          .stepDefinitions[0] as PredictableStepDefinition
-        assert.equal(
-          stepDefinition.status,
-          messages.TestStepFinished.TestStepResult.Status.FAILED
-        )
-        assert.equal(stepDefinition.duration, 1.23)
+        const stepDefinition = supportCode.stepDefinitions[0] as PredictableStepDefinition
+        assert.strictEqual(stepDefinition.status, 'FAILED')
+        assert.strictEqual(stepDefinition.duration, 1.23)
       })
     })
   })

@@ -16,16 +16,16 @@ Gem::Specification.new do |s|
 
   s.metadata    = {
                     'bug_tracker_uri'   => 'https://github.com/cucumber/cucumber/issues',
-                    'changelog_uri'     => 'https://github.com/cucumber/cucumber/blob/master/gherkin/CHANGELOG.md',
+                    'changelog_uri'     => 'https://github.com/cucumber/common/blob/main/gherkin/CHANGELOG.md',
                     'documentation_uri' => 'https://cucumber.io/docs/gherkin/',
                     'mailing_list_uri'  => 'https://groups.google.com/forum/#!forum/cukes',
-                    'source_code_uri'   => 'https://github.com/cucumber/cucumber/blob/master/gherkin/ruby',
+                    'source_code_uri'   => 'https://github.com/cucumber/common/blob/main/gherkin/ruby',
                   }
 
-  s.add_dependency 'cucumber-messages', '~> 13.1', '>= 13.1.0'
+  s.add_dependency 'cucumber-messages', '~> 16.0', '>= 16.0.0'
   s.add_dependency 'sys-uname', '~> 1.2', '>= 1.2.2'
 
-  s.add_development_dependency 'rake', '~> 13.0', '>= 13.0.1'
+  s.add_development_dependency 'rake', '~> 13.0', '>= 13.0.3'
   s.add_development_dependency 'rspec', '~> 3.10', '>= 3.10.0'
 
   s.executables      = []

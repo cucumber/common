@@ -2,17 +2,10 @@ package main
 
 import (
 	"flag"
-	"fmt"
-	jsonFormatter "github.com/cucumber/json-formatter-go/v6"
-	fio "github.com/cucumber/messages-go/v13/io"
-	gio "github.com/gogo/protobuf/io"
-	"io"
+	jsonFormatter "github.com/cucumber/json-formatter-go/v18"
 	"log"
-	"math"
 	"os"
 )
-
-var formatFlag = flag.String("format", "protobuf", "output format")
 
 func main() {
 	flag.Parse()
@@ -27,29 +20,13 @@ func main() {
 			if err != nil {
 				log.Fatal("ERROR: ", err)
 			}
-			err = jf.ProcessMessages(newReader(file), os.Stdout)
+			err = jf.ProcessMessages(file, os.Stdout)
 			log.Fatal("ERROR: ", err)
 		}
 	} else {
-		err = jf.ProcessMessages(newReader(os.Stdin), os.Stdout)
+		err = jf.ProcessMessages(os.Stdin, os.Stdout)
 		if err != nil {
 			log.Fatal("ERROR: ", err)
 		}
 	}
-}
-
-func newReader(in io.Reader) gio.ReadCloser {
-	var reader gio.ReadCloser
-	switch *formatFlag {
-	case "protobuf":
-		reader = gio.NewDelimitedReader(in, math.MaxInt32)
-	case "ndjson":
-		reader = fio.NewNdjsonReader(in)
-	default:
-		_, err := fmt.Fprintf(os.Stderr, "Unsupported format: %s\n", *formatFlag)
-		if err != nil {
-			log.Fatal("ERROR: ", err)
-		}
-	}
-	return reader
 }

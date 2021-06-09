@@ -1,4 +1,4 @@
-import { IdGenerator, messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import { IStep, IDocString, IDataTableRow, IElement } from './JSONSchema'
 import IAstMaker from '../IAstMaker'
 import IPredictableSupportCode from '../IPredictableSupportCode'
@@ -15,25 +15,19 @@ function durationToMillis(duration: number) {
 export function traverseFeature(
   feature: IFeature,
   astMaker: IAstMaker,
-  newId: IdGenerator.NewId,
+  newId: messages.IdGenerator.NewId,
   predictableSupportCode: IPredictableSupportCode
-): messages.IGherkinDocument {
-  return genericTraverseFeature(
-    feature,
-    astMaker,
-    newId,
-    predictableSupportCode,
-    traverseElement
-  )
+): messages.GherkinDocument {
+  return genericTraverseFeature(feature, astMaker, newId, predictableSupportCode, traverseElement)
 }
 
 export function traverseElement(
   element: IElement,
   astMaker: IAstMaker,
-  newId: IdGenerator.NewId,
+  newId: messages.IdGenerator.NewId,
   predictableSupportCode: IPredictableSupportCode
-): messages.GherkinDocument.Feature.IFeatureChild {
-  let child: messages.GherkinDocument.Feature.IFeatureChild
+): messages.FeatureChild {
+  let child: messages.FeatureChild
 
   switch (element.type) {
     case 'background':
@@ -42,24 +36,18 @@ export function traverseElement(
         element.keyword,
         element.name,
         element.description,
-        element.steps.map((step) =>
-          traverseStep(step, astMaker, newId, predictableSupportCode)
-        )
+        element.steps.map((step) => traverseStep(step, astMaker, newId, predictableSupportCode))
       )
       break
     case 'scenario': {
-      const tags = element.tags
-        ? element.tags.map((tag) => traverseTag(tag, astMaker))
-        : undefined
+      const tags = element.tags ? element.tags.map((tag) => traverseTag(tag, astMaker)) : []
       child = astMaker.makeScenarioFeatureChild(
         newId(),
         element.line,
         element.keyword,
         element.name,
         element.description,
-        element.steps.map((step) =>
-          traverseStep(step, astMaker, newId, predictableSupportCode)
-        ),
+        element.steps.map((step) => traverseStep(step, astMaker, newId, predictableSupportCode)),
         tags
       )
       break
@@ -98,12 +86,10 @@ export function traverseElement(
 export function traverseStep(
   step: IStep,
   astMaker: IAstMaker,
-  newId: IdGenerator.NewId,
+  newId: messages.IdGenerator.NewId,
   predictableSupportCode: IPredictableSupportCode
-): messages.GherkinDocument.Feature.IStep {
-  const docString = step.doc_string
-    ? traverseDocString(step.doc_string, astMaker)
-    : null
+): messages.Step {
+  const docString = step.docString ? traverseDocString(step.docString, astMaker) : null
   const dataTable = step.rows ? traverseDataTable(step.rows, astMaker) : null
   const gherkinStep = astMaker.makeStep(
     newId(),
@@ -127,16 +113,13 @@ export function traverseStep(
   return gherkinStep
 }
 
-export function traverseDocString(
-  docString: IDocString,
-  astMaker: IAstMaker
-): messages.GherkinDocument.Feature.Step.IDocString {
+export function traverseDocString(docString: IDocString, astMaker: IAstMaker): messages.DocString {
   return astMaker.makeDocstring(docString.content_type, docString.value)
 }
 
 export function traverseDataTable(
-  rows: ReadonlyArray<IDataTableRow>,
+  rows: readonly IDataTableRow[],
   astMaker: IAstMaker
-): messages.GherkinDocument.Feature.Step.IDataTable {
+): messages.DataTable {
   return astMaker.makeDataTable(rows.map((row) => row.cells))
 }

@@ -14,28 +14,22 @@ export default class RegularExpression implements Expression {
     this.treeRegexp = new TreeRegexp(regexp)
   }
 
-  public match(text: string): ReadonlyArray<Argument<any>> {
-    const parameterTypes = this.treeRegexp.groupBuilder.children.map(
-      (groupBuilder) => {
-        const parameterTypeRegexp = groupBuilder.source
+  public match(text: string): readonly Argument<any>[] {
+    const parameterTypes = this.treeRegexp.groupBuilder.children.map((groupBuilder) => {
+      const parameterTypeRegexp = groupBuilder.source
 
-        return (
-          this.parameterTypeRegistry.lookupByRegexp(
-            parameterTypeRegexp,
-            this.regexp,
-            text
-          ) ||
-          new ParameterType(
-            null,
-            parameterTypeRegexp,
-            String,
-            (s) => (s === undefined ? null : s),
-            false,
-            false
-          )
+      return (
+        this.parameterTypeRegistry.lookupByRegexp(parameterTypeRegexp, this.regexp, text) ||
+        new ParameterType(
+          null,
+          parameterTypeRegexp,
+          String,
+          (s) => (s === undefined ? null : s),
+          false,
+          false
         )
-      }
-    )
+      )
+    })
 
     return Argument.build(this.treeRegexp, text, parameterTypes)
   }

@@ -1,31 +1,30 @@
 package gherkin
 
 import (
+	"encoding/json"
 	"fmt"
-	"github.com/cucumber/messages-go/v13"
-	gio "github.com/gogo/protobuf/io"
+	"github.com/cucumber/messages-go/v16"
 	"io"
 	"io/ioutil"
-	"math"
 	"strings"
 )
 
 func Messages(
 	paths []string,
-	sourceStream io.Reader,
+	decoder *json.Decoder,
 	language string,
 	includeSource bool,
 	includeGherkinDocument bool,
 	includePickles bool,
-	writer gio.WriteCloser,
+	encoder *json.Encoder,
 	newId func() string,
 ) ([]messages.Envelope, error) {
 	var result []messages.Envelope
 	var err error
 
 	handleMessage := func(result []messages.Envelope, message *messages.Envelope) ([]messages.Envelope, error) {
-		if writer != nil {
-			err = writer.WriteMsg(message)
+		if encoder != nil {
+			err = encoder.Encode(message)
 			return result, err
 		} else {
 			result = append(result, *message)
@@ -37,9 +36,7 @@ func Messages(
 	processSource := func(source *messages.Source) error {
 		if includeSource {
 			result, err = handleMessage(result, &messages.Envelope{
-				Message: &messages.Envelope_Source{
-					Source: source,
-				},
+				Source: source,
 			})
 		}
 		doc, err := ParseGherkinDocumentForLanguage(strings.NewReader(source.Data), language, newId)
@@ -58,18 +55,14 @@ func Messages(
 		if includeGherkinDocument {
 			doc.Uri = source.Uri
 			result, err = handleMessage(result, &messages.Envelope{
-				Message: &messages.Envelope_GherkinDocument{
-					GherkinDocument: doc,
-				},
+				GherkinDocument: doc,
 			})
 		}
 
 		if includePickles {
 			for _, pickle := range Pickles(*doc, source.Uri, newId) {
 				result, err = handleMessage(result, &messages.Envelope{
-					Message: &messages.Envelope_Pickle{
-						Pickle: pickle,
-					},
+					Pickle: pickle,
 				})
 			}
 		}
@@ -77,17 +70,20 @@ func Messages(
 	}
 
 	if len(paths) == 0 {
-		reader := gio.NewDelimitedReader(sourceStream, math.MaxInt32)
 		for {
 			envelope := &messages.Envelope{}
-			err := reader.ReadMsg(envelope)
+			err := decoder.Decode(envelope)
+			//marshal, err := json.Marshal(envelope)
+			//fmt.Println(string(marshal))
 			if err == io.EOF {
 				break
 			}
 
-			switch t := envelope.Message.(type) {
-			case *messages.Envelope_Source:
-				processSource(t.Source)
+			if envelope.Source != nil {
+				err = processSource(envelope.Source)
+				if err != nil {
+					return result, err
+				}
 			}
 		}
 	} else {
@@ -110,18 +106,15 @@ func Messages(
 
 func (a *parseError) asMessage(uri string) *messages.Envelope {
 	return &messages.Envelope{
-		Message: &messages.Envelope_ParseError{
-			ParseError: &messages.ParseError{
-				Message: a.Error(),
-				Source: &messages.SourceReference{
-					Reference: &messages.SourceReference_Uri{
-						Uri: uri,
-					},
-					Location: &messages.Location{
-						Line:   uint32(a.loc.Line),
-						Column: uint32(a.loc.Column),
-					},
+		ParseError: &messages.ParseError{
+			Message: a.Error(),
+			Source: &messages.SourceReference{
+				Uri: uri,
+				Location: &messages.Location{
+					Line:   int64(a.loc.Line),
+					Column: int64(a.loc.Column),
 				},
-			}},
+			},
+		},
 	}
 }

@@ -1,8 +1,9 @@
 package gherkin
 
 import (
+	"encoding/json"
 	"fmt"
-	messages "github.com/cucumber/messages-go/v13"
+	"github.com/cucumber/messages-go/v16"
 	"os"
 	"strings"
 )
@@ -27,9 +28,10 @@ func ExampleCompilePickles() {
 	}
 	pickles := Pickles(*gherkinDocument, "test.feature", (&messages.Incrementing{}).NewId)
 
-	fmt.Fprintf(os.Stdout, "Text: %+v\n", pickles[0].Steps[0].Text)
+	marshal, err := json.Marshal(pickles)
+	fmt.Fprintf(os.Stdout, string(marshal))
 
 	// Output:
 	//
-	// Text: a red ball
+	// [{"id":"1","uri":"test.feature","name":"test","language":"en","steps":[{"astNodeIds":["0","2"],"id":"0","text":"a red ball"}],"tags":[],"astNodeIds":["4","2"]}]
 }

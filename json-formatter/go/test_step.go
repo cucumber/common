@@ -6,20 +6,20 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/cucumber/messages-go/v13"
+	"github.com/cucumber/messages-go/v16"
 )
 
 type TestStep struct {
 	TestCaseID      string
 	Hook            *messages.Hook
 	Pickle          *messages.Pickle
-	PickleStep      *messages.Pickle_PickleStep
-	Step            *messages.GherkinDocument_Feature_Step
+	PickleStep      *messages.PickleStep
+	Step            *messages.Step
 	StepDefinitions []*messages.StepDefinition
-	Result          *messages.TestStepFinished_TestStepResult
-	Background      *messages.GherkinDocument_Feature_Background
+	Result          *messages.TestStepResult
+	Background      *messages.Background
 	Attachments     []*messages.Attachment
-	ExampleRow      *messages.GherkinDocument_Feature_TableRow
+	ExampleRow      *messages.TableRow
 }
 
 func ProcessTestStepFinished(testStepFinished *messages.TestStepFinished, lookup *MessageLookup) (error, *TestStep) {
@@ -45,9 +45,10 @@ func ProcessTestStepFinished(testStepFinished *messages.TestStepFinished, lookup
 		}
 
 		return nil, &TestStep{
-			TestCaseID: testCase.Id,
-			Hook:       hook,
-			Result:     testStepFinished.TestStepResult,
+			TestCaseID:  testCase.Id,
+			Hook:        hook,
+			Result:      testStepFinished.TestStepResult,
+			Attachments: lookup.LookupAttachments(testStepFinished.TestStepId),
 		}
 	}
 
@@ -61,12 +62,12 @@ func ProcessTestStepFinished(testStepFinished *messages.TestStepFinished, lookup
 		return errors.New("No pickleStep for " + testStep.PickleStepId), nil
 	}
 
-	var exampleRow *messages.GherkinDocument_Feature_TableRow
+	var exampleRow *messages.TableRow
 	if len(pickle.AstNodeIds) > 1 {
 		exampleRow = lookup.LookupExampleRow(pickle.AstNodeIds[1])
 	}
 
-	var background *messages.GherkinDocument_Feature_Background
+	var background *messages.Background
 	scenarioStep := lookup.LookupStep(pickleStep.AstNodeIds[0])
 	if scenarioStep != nil {
 		background = lookup.LookupBackgroundByStepID(scenarioStep.Id)
@@ -102,6 +103,7 @@ func TestStepToJSON(step *TestStep) *jsonStep {
 				ErrorMessage: step.Result.Message,
 				Duration:     duration,
 			},
+			Embeddings: makeEmbeddings(step.Attachments),
 		}
 	}
 
@@ -117,7 +119,7 @@ func TestStepToJSON(step *TestStep) *jsonStep {
 	jsonStep := &jsonStep{
 		Keyword: step.Step.Keyword,
 		Name:    step.PickleStep.Text,
-		Line:    step.Step.Location.Line,
+		Line:    uint32(step.Step.Location.Line),
 		Match: &jsonStepMatch{
 			Location: location,
 		},
@@ -130,19 +132,19 @@ func TestStepToJSON(step *TestStep) *jsonStep {
 		Output:     makeOutput(step.Attachments),
 	}
 
-	docString := step.Step.GetDocString()
+	docString := step.Step.DocString
 	if docString != nil {
 		jsonStep.DocString = &jsonDocString{
-			Line:        docString.Location.Line,
+			Line:        uint32(docString.Location.Line),
 			ContentType: docString.MediaType,
 			Value:       docString.Content,
 		}
 	}
 
-	datatable := step.Step.GetDataTable()
+	datatable := step.Step.DataTable
 	if datatable != nil {
-		jsonStep.Rows = make([]*jsonDatatableRow, len(datatable.GetRows()))
-		for rowIndex, row := range datatable.GetRows() {
+		jsonStep.Rows = make([]*jsonDatatableRow, len(datatable.Rows))
+		for rowIndex, row := range datatable.Rows {
 			cells := make([]string, len(row.Cells))
 			for cellIndex, cell := range row.Cells {
 				cells[cellIndex] = cell.Value
@@ -163,7 +165,7 @@ func makeEmbeddings(attachments []*messages.Attachment) []*jsonEmbedding {
 
 	for index, attachment := range embeddableAttachments {
 		var data string
-		if attachment.ContentEncoding == messages.Attachment_BASE64 {
+		if attachment.ContentEncoding == messages.AttachmentContentEncoding_BASE64 {
 			data = attachment.Body
 		} else {
 			data = base64.StdEncoding.EncodeToString([]byte(attachment.Body))
@@ -182,7 +184,7 @@ func makeOutput(attachments []*messages.Attachment) []string {
 	output := make([]string, len(outputAttachments))
 
 	for index, attachment := range outputAttachments {
-		output[index] = attachment.GetBody()
+		output[index] = attachment.Body
 	}
 
 	return output
@@ -203,41 +205,41 @@ func isEmbeddable(attachment *messages.Attachment) bool {
 }
 
 func isOutput(attachment *messages.Attachment) bool {
-	return attachment.GetMediaType() == "text/x.cucumber.log+plain"
+	return attachment.MediaType == "text/x.cucumber.log+plain"
 }
 
-func makeLocation(file string, line uint32) string {
+func makeLocation(file string, line int64) string {
 	return fmt.Sprintf("%s:%d", file, line)
 }
 
 func makeJavaMethodLocation(
-	javaMethod *messages.SourceReference_JavaMethod,
+	javaMethod *messages.JavaMethod,
 ) string {
 	typeList := strings.Join(javaMethod.MethodParameterTypes, ",")
-	return fmt.Sprintf("%s.%s(%s)", javaMethod.GetClassName(), javaMethod.GetMethodName(), typeList)
+	return fmt.Sprintf("%s.%s(%s)", javaMethod.ClassName, javaMethod.MethodName, typeList)
 }
 
 func makeJavaStackTraceElementLocation(
-	javaStackTraceElement *messages.SourceReference_JavaStackTraceElement,
+	javaStackTraceElement *messages.JavaStackTraceElement,
 	location *messages.Location,
 ) string {
 	if location != nil {
-		return makeLocation(javaStackTraceElement.GetFileName(), location.GetLine())
+		return makeLocation(javaStackTraceElement.FileName, location.Line)
 	}
-	return javaStackTraceElement.GetFileName()
+	return javaStackTraceElement.FileName
 }
 
 func makeSourceReferenceLocation(sourceReference *messages.SourceReference) string {
-	javaMethod := sourceReference.GetJavaMethod()
+	javaMethod := sourceReference.JavaMethod
 	if javaMethod != nil {
 		return makeJavaMethodLocation(javaMethod)
 	}
 
-	location := sourceReference.GetLocation()
-	javaStackTraceElement := sourceReference.GetJavaStackTraceElement()
+	location := sourceReference.Location
+	javaStackTraceElement := sourceReference.JavaStackTraceElement
 	if javaStackTraceElement != nil {
 		return makeJavaStackTraceElementLocation(javaStackTraceElement, location)
 	}
 
-	return makeLocation(sourceReference.GetUri(), location.GetLine())
+	return makeLocation(sourceReference.Uri, location.Line)
 }

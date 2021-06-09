@@ -1,13 +1,13 @@
-import { IMatch, IResult } from '../cucumber-generic/JSONSchema'
+import { IMatch, IResult } from '../types'
 
 export interface IFeature {
   location: string
   keyword: string
   name: string
-  description: ReadonlyArray<string>
+  description: readonly string[]
   status: string
-  elements: ReadonlyArray<IElement>
-  tags: ReadonlyArray<string>
+  elements: readonly IElement[]
+  tags: readonly string[]
 }
 
 export interface IElement {
@@ -17,8 +17,8 @@ export interface IElement {
   name: string
   description?: string
   status: string
-  steps: ReadonlyArray<IStep>
-  tags?: ReadonlyArray<string>
+  steps: readonly IStep[]
+  tags?: readonly string[]
 }
 
 export interface IStep {
@@ -34,7 +34,7 @@ export interface IStep {
 
 export interface ITable {
   headings: cells
-  rows: ReadonlyArray<cells>
+  rows: readonly cells[]
 }
 
-export type cells = ReadonlyArray<string>
+export type cells = readonly string[]

@@ -2,11 +2,8 @@ require 'cucumber/messages'
 require 'cucumber/html_formatter/template_writer'
 require 'cucumber/html_formatter/assets_loader'
 
-
 module Cucumber
   module HTMLFormatter
-    class MessageExpected < StandardError; end
-
     class Formatter
       attr_reader :out
 
@@ -30,11 +27,10 @@ module Cucumber
       end
 
       def write_message(message)
-        raise MessageExpected unless message.is_a?(Cucumber::Messages::Envelope)
         unless @first_message
           out.puts(',')
         end
-       out.print(message.to_json(proto3: true))
+        out.print(message.to_json(proto3: true))
 
         @first_message = false
       end

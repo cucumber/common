@@ -1,10 +1,8 @@
-import { messages } from '@cucumber/messages'
-import Token from './Token'
-import createLocation from './cli/createLocation'
+import * as messages from '@cucumber/messages'
 
-class GherkinException extends Error {
+export class GherkinException extends Error {
   public errors: Error[]
-  public location: messages.ILocation
+  public location: messages.Location
 
   constructor(message: string) {
     super(message)
@@ -20,7 +18,7 @@ class GherkinException extends Error {
     }
   }
 
-  protected static _create(message: string, location?: messages.ILocation) {
+  protected static _create(message: string, location?: messages.Location) {
     const column = location != null ? location.column || 0 : -1
     const line = location != null ? location.line || 0 : -1
     const m = `(${line}:${column}): ${message}`
@@ -33,7 +31,7 @@ class GherkinException extends Error {
 export class ParserException extends GherkinException {
   public static create(message: string, line: number, column: number) {
     const err = new this(`(${line}:${column}): ${message}`)
-    err.location = createLocation({ line, column })
+    err.location = { line, column }
     return err
   }
 }
@@ -47,50 +45,15 @@ export class CompositeParserException extends GherkinException {
   }
 }
 
-export class UnexpectedTokenException extends GherkinException {
-  public static create(token: Token, expectedTokenTypes: string[]) {
-    const message = `expected: ${expectedTokenTypes.join(
-      ', '
-    )}, got '${token.getTokenValue().trim()}'`
-
-    const location = tokenLocation(token)
-
-    return this._create(message, location)
-  }
-}
-
-export class UnexpectedEOFException extends GherkinException {
-  public static create(token: Token, expectedTokenTypes: string[]) {
-    const message = `unexpected end of file, expected: ${expectedTokenTypes.join(
-      ', '
-    )}`
-    const location = tokenLocation(token)
-
-    return this._create(message, location)
-  }
-}
-
 export class AstBuilderException extends GherkinException {
-  public static create(message: string, location: messages.ILocation) {
+  public static create(message: string, location: messages.Location) {
     return this._create(message, location)
   }
 }
 
 export class NoSuchLanguageException extends GherkinException {
-  public static create(language: string, location?: messages.ILocation) {
+  public static create(language: string, location?: messages.Location) {
     const message = 'Language not supported: ' + language
     return this._create(message, location)
   }
-}
-
-function tokenLocation(token: Token) {
-  return token.location &&
-    token.location.line &&
-    token.line &&
-    token.line.indent !== undefined
-    ? createLocation({
-        line: token.location.line,
-        column: token.line.indent + 1,
-      })
-    : token.location
 }

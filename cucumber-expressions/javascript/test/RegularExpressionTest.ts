@@ -33,20 +33,14 @@ describe('RegularExpression', () => {
 
   it('transforms float without integer part', () => {
     assert.deepStrictEqual(
-      match(
-        new RegExp(`(${ParameterTypeRegistry.FLOAT_REGEXP.source})`),
-        '.22'
-      )[0],
+      match(new RegExp(`(${ParameterTypeRegistry.FLOAT_REGEXP.source})`), '.22')[0],
       0.22
     )
   })
 
   it('transforms float with sign', () => {
     assert.deepStrictEqual(
-      match(
-        new RegExp(`(${ParameterTypeRegistry.FLOAT_REGEXP.source})`),
-        '-1.22'
-      )[0],
+      match(new RegExp(`(${ParameterTypeRegistry.FLOAT_REGEXP.source})`), '-1.22')[0],
       -1.22
     )
   })
@@ -56,20 +50,18 @@ describe('RegularExpression', () => {
   })
 
   it('matches nested capture group without match', () => {
-    assert.deepStrictEqual(match(/^a user( named "([^"]*)")?$/, 'a user'), [
-      null,
-    ])
+    assert.deepStrictEqual(match(/^a user( named "([^"]*)")?$/, 'a user'), [null])
   })
 
   it('matches nested capture group with match', () => {
-    assert.deepStrictEqual(
-      match(/^a user( named "([^"]*)")?$/, 'a user named "Charlie"'),
-      ['Charlie']
-    )
+    assert.deepStrictEqual(match(/^a user( named "([^"]*)")?$/, 'a user named "Charlie"'), [
+      'Charlie',
+    ])
   })
 
   it('matches capture group nested in optional one', () => {
-    const regexp = /^a (pre-commercial transaction |pre buyer fee model )?purchase(?: for \$(\d+))?$/
+    const regexp =
+      /^a (pre-commercial transaction |pre buyer fee model )?purchase(?: for \$(\d+))?$/
     assert.deepStrictEqual(match(regexp, 'a purchase'), [null, null])
     assert.deepStrictEqual(match(regexp, 'a purchase for $33'), [null, 33])
     assert.deepStrictEqual(match(regexp, 'a pre buyer fee model purchase'), [
@@ -89,18 +81,12 @@ describe('RegularExpression', () => {
   })
 
   it('works with escaped parenthesis', () => {
-    assert.deepStrictEqual(
-      match(/Across the line\(s\)/, 'Across the line(s)'),
-      []
-    )
+    assert.deepStrictEqual(match(/Across the line\(s\)/, 'Across the line(s)'), [])
   })
 
   it('exposes regexp and source', () => {
     const regexp = /I have (\d+) cukes? in my (.+) now/
-    const expression = new RegularExpression(
-      regexp,
-      new ParameterTypeRegistry()
-    )
+    const expression = new RegularExpression(regexp, new ParameterTypeRegistry())
     assert.deepStrictEqual(expression.regexp, regexp)
     assert.deepStrictEqual(expression.source, regexp.source)
   })

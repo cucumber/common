@@ -17,6 +17,52 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [7.0.0] - 2021-05-26
+
+### Changed
+
+* Changed the `markdown.feature.md` feature and associated stepdefs
+
+## [6.0.0] - 2021-05-24
+
+### Changed
+
+* Use `.feature.md` extension for Markdown files
+
+## [5.0.1] - 2021-05-18
+
+### Fixed
+
+* Fixed statuses in some message streams, leveraging a bugfix in `@cucumber/fake-cucumber` 12.0.2
+
+## [5.0.0] - 2021-05-17
+
+### Changed
+
+* Upgrade to gherkin 19.0.0
+* Upgrade to messages 16.0.0
+
+## [4.0.1] - 2021-04-06
+
+### Fixed
+
+* Make the package public again
+  ([#1454](https://github.com/cucumber/cucumber/pull/1454))
+
+## [4.0.0] - 2021-03-29
+
+### Changed
+
+* Upgrade to gherkin 18.0.0
+* Upgrade to messages 15.0.0
+
+## [3.0.0] - 2021-02-07
+
+### Changed
+
+* Upgrade to gherkin 17.0.0
+* Upgrade to messages 14.0.0
+
 ## [2.0.0] - 2020-08-10
 
 ### Changed
@@ -30,7 +76,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/compatibility-kit/v2.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/compatibility-kit/v7.0.0...main
+[7.0.0]:      https://github.com/cucumber/cucumber/releases/tag/compatibility-kit/v6.0.0
+[6.0.0]:      https://github.com/cucumber/cucumber/releases/tag/compatibility-kit/v5.0.1
+[5.0.1]:      https://github.com/cucumber/cucumber/releases/tag/compatibility-kit/v5.0.0
+[5.0.0]:      https://github.com/cucumber/cucumber/releases/tag/compatibility-kit/v4.0.1
+[4.0.1]:      https://github.com/cucumber/cucumber/releases/tag/compatibility-kit/v4.0.0
+[4.0.0]:      https://github.com/cucumber/cucumber/releases/tag/compatibility-kit/v3.0.0
+[3.0.0]:      https://github.com/cucumber/cucumber/releases/tag/compatibility-kit/v2.0.0
 [2.0.0]:      https://github.com/cucumber/cucumber/releases/tag/compatibility-kit/v1.0.0
 [1.0.0]:      https://github.com/cucumber/cucumber/releases/tag/compatibility-kit/v1.0.0
 

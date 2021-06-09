@@ -2,40 +2,34 @@ import React from 'react'
 import DataTable from './DataTable'
 import Keyword from './Keyword'
 import DocString from './DocString'
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import CucumberQueryContext from '../../CucumberQueryContext'
 import GherkinQueryContext from '../../GherkinQueryContext'
 import ErrorMessage from './ErrorMessage'
-import StepContainer from './StepContainer'
+import StepItem from './StepItem'
 import Attachment from './Attachment'
 import HighLight from '../app/HighLight'
+import { getWorstTestStepResult } from '@cucumber/messages'
+import Parameter from './Parameter'
+import Title from './Title'
 
 interface IProps {
-  step: messages.GherkinDocument.Feature.IStep
-  renderStepMatchArguments: boolean
-  renderMessage: boolean
+  step: messages.Step
+  hasExamples: boolean
 }
 
-const Step: React.FunctionComponent<IProps> = ({
-  step,
-  renderStepMatchArguments,
-  renderMessage,
-}) => {
+const Step: React.FunctionComponent<IProps> = ({ step, hasExamples }) => {
   const gherkinQuery = React.useContext(GherkinQueryContext)
   const cucumberQuery = React.useContext(CucumberQueryContext)
 
   const pickleStepIds = gherkinQuery.getPickleStepIds(step.id)
-  const pickleStepTestStepResults = cucumberQuery.getPickleStepTestStepResults(
-    pickleStepIds
-  )
-  const testStepResult = cucumberQuery.getWorstTestStepResult(
-    pickleStepTestStepResults
-  )
+  const pickleStepTestStepResults = cucumberQuery.getPickleStepTestStepResults(pickleStepIds)
+  const testStepResult = getWorstTestStepResult(pickleStepTestStepResults)
   const attachments = cucumberQuery.getPickleStepAttachments(pickleStepIds)
 
   const stepTextElements: JSX.Element[] = []
 
-  if (renderStepMatchArguments) {
+  if (!hasExamples) {
     const stepMatchArgumentsLists =
       pickleStepIds.length === 0
         ? // This can happen in rare cases for background steps in a document that only has step-less scenarios,
@@ -52,75 +46,48 @@ const Step: React.FunctionComponent<IProps> = ({
       stepMatchArguments.forEach((argument, index) => {
         plain = step.text.slice(offset, argument.group.start)
         if (plain.length > 0) {
-          stepTextElements.push(
-            <span className="cucumber-step__text" key={`plain-${index}`}>
-              <HighLight text={plain} />
-            </span>
-          )
+          stepTextElements.push(<HighLight key={`plain-${index}`} text={plain} />)
         }
         const arg = argument.group.value
-        if (arg.length > 0) {
-          stepTextElements.push(
-            <a
-              className="cucumber-step__param"
-              key={`bold-${index}`}
-              title={argument.parameterTypeName}
-            >
-              <HighLight text={arg} />
-            </a>
-          )
+        if (arg) {
+          if (arg.length > 0) {
+            stepTextElements.push(
+              <Parameter parameterTypeName={argument.parameterTypeName} key={`param-${index}`}>
+                <HighLight text={arg} />
+              </Parameter>
+            )
+          }
+          offset += plain.length + arg.length
         }
-        offset += plain.length + arg.length
       })
       plain = step.text.slice(offset)
       if (plain.length > 0) {
-        stepTextElements.push(
-          <span className="cucumber-step__text" key={`plain-rest`}>
-            <HighLight text={plain} />
-          </span>
-        )
+        stepTextElements.push(<HighLight key={`plain-rest`} text={plain} />)
       }
     } else if (stepMatchArgumentsLists.length >= 2) {
       // Step is ambiguous
-      stepTextElements.push(
-        <span className="cucumber-step__text" key={`plain-ambiguous`}>
-          <HighLight text={step.text} />
-        </span>
-      )
+      stepTextElements.push(<HighLight key={`plain-ambiguous`} text={step.text} />)
     } else {
       // Step is undefined
-      stepTextElements.push(
-        <span className="cucumber-step__text" key={`plain-undefined`}>
-          <HighLight text={step.text} />
-        </span>
-      )
+      stepTextElements.push(<HighLight key={`plain-undefined`} text={step.text} />)
     }
   } else {
     // Step is from scenario with examples, and has <> placeholders.
-    stepTextElements.push(
-      <span className="cucumber-step__text" key={`plain-placeholders`}>
-        <HighLight text={step.text} />
-      </span>
-    )
+    stepTextElements.push(<HighLight key={`plain-placeholders`} text={step.text} />)
   }
 
   return (
-    <StepContainer status={testStepResult.status}>
-      <h3 className="cucumber-step__title">
-        <Keyword className="cucumber-step__keyword">{step.keyword}</Keyword>
-        {stepTextElements}
-      </h3>
+    <StepItem status={testStepResult.status}>
+      <Title header="h3" id={step.id}>
+        <Keyword>{step.keyword.trim()}</Keyword>
+        <span>{stepTextElements}</span>
+      </Title>
       {step.dataTable && <DataTable dataTable={step.dataTable} />}
       {step.docString && <DocString docString={step.docString} />}
-      {renderMessage && testStepResult.message && (
-        <ErrorMessage message={testStepResult.message} />
-      )}
-      <div className="cucumber-attachments">
-        {attachments.map((attachment, i) => (
-          <Attachment key={i} attachment={attachment} />
-        ))}
-      </div>
-    </StepContainer>
+      {!hasExamples && testStepResult.message && <ErrorMessage message={testStepResult.message} />}
+      {!hasExamples &&
+        attachments.map((attachment, i) => <Attachment key={i} attachment={attachment} />)}
+    </StepItem>
   )
 }
 

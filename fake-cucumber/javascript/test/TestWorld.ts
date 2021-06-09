@@ -1,5 +1,5 @@
-import IWorld from '../src/IWorld'
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
+import { IWorld } from '../src'
 
 export default class TestWorld implements IWorld {
   public testStepId: string
@@ -10,10 +10,11 @@ export default class TestWorld implements IWorld {
     if (typeof data !== 'string') {
       throw new Error('Can only attach strings')
     }
-    const attachment = new messages.Attachment({
+    const attachment: messages.Attachment = {
       body: data,
       mediaType: 'text/plain',
-    })
+      contentEncoding: messages.AttachmentContentEncoding.IDENTITY,
+    }
     this.attachments.push(attachment)
   }
 

@@ -40,6 +40,7 @@
 @helper MatchToken(TokenType tokenType)
 {<text>Match_@(tokenType)(context, token)</text>}
 using System;
+using System.Linq;
 using System.Collections.Generic;
 namespace @Model.Namespace
 {
@@ -123,6 +124,8 @@ namespace @Model.Namespace
 
         private void AddError(ParserContext context, ParserException error)
         {
+            if (context.Errors.Any(e => e.Message == error.Message))
+                return;
             context.Errors.Add(error);
             if (context.Errors.Count > 10)
                 throw new CompositeParserException(context.Errors.ToArray());

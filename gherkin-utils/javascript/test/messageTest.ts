@@ -1,4 +1,5 @@
-import { NdjsonToMessageStream, messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
+import { NdjsonToMessageStream } from '@cucumber/message-streams'
 import { Writable, pipeline } from 'stream'
 
 import { GherkinDocumentWalker } from '../src'
@@ -17,9 +18,7 @@ describe('Walking with messages', () => {
 
   for (const messageFile of messageFiles) {
     it(`can walk through GherkinDocuments in ${messageFile}`, async () => {
-      const messageStream = new NdjsonToMessageStream(
-        messages.Envelope.fromObject.bind(messages.Envelope)
-      )
+      const messageStream = new NdjsonToMessageStream()
 
       await asyncPipeline(
         fs.createReadStream(messageFile, 'utf-8'),
@@ -27,7 +26,7 @@ describe('Walking with messages', () => {
         new Writable({
           objectMode: true,
           write(
-            envelope: messages.IEnvelope,
+            envelope: messages.Envelope,
             _encoding: string,
             callback: (error?: Error | null) => void
           ) {

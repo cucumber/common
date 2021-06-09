@@ -1,23 +1,21 @@
-import { messages, IdGenerator } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import { ITable, IStep, IElement, IFeature } from './JSONSchema'
 import IAstMaker from '../IAstMaker'
 import IPredictableSupportCode from '../IPredictableSupportCode'
 
-import {
-  IFeature as IGenericFeature,
-  ITag,
-} from '../cucumber-generic/JSONSchema'
+import { IFeature as IGenericFeature } from '../cucumber-generic/JSONSchema'
 import {
   traverseFeature as traverseGenericFeature,
   traverseTag,
 } from '../cucumber-generic/JSONTraverse'
+import { ITag } from '../types'
 
-function makeTags(tags: ReadonlyArray<string>): ITag[] {
+function makeTags(tags: readonly string[]): ITag[] {
   return tags
     ? tags.map((tag) => {
         return { name: `@${tag}` }
       })
-    : undefined
+    : []
 }
 
 function makeLine(location: string): number {
@@ -47,9 +45,9 @@ function makeGenericFeature(source: IFeature): IGenericFeature {
 export function traverseFeature(
   feature: IFeature,
   astMaker: IAstMaker,
-  newId: IdGenerator.NewId,
+  newId: messages.IdGenerator.NewId,
   predictableSupportCode: IPredictableSupportCode
-): messages.IGherkinDocument {
+): messages.GherkinDocument {
   return traverseGenericFeature(
     makeGenericFeature(feature),
     astMaker,
@@ -62,9 +60,9 @@ export function traverseFeature(
 export function traverseElement(
   element: IElement,
   astMaker: IAstMaker,
-  newId: IdGenerator.NewId,
+  newId: messages.IdGenerator.NewId,
   predictableSupportCode: IPredictableSupportCode
-): messages.GherkinDocument.Feature.IFeatureChild {
+): messages.FeatureChild {
   if (element.type === 'background') {
     return
   }
@@ -78,9 +76,7 @@ export function traverseElement(
     element.keyword,
     element.name,
     element.description,
-    element.steps.map((step) =>
-      traverseStep(step, astMaker, newId, predictableSupportCode)
-    ),
+    element.steps.map((step) => traverseStep(step, astMaker, newId, predictableSupportCode)),
     tags
   )
 }
@@ -88,9 +84,9 @@ export function traverseElement(
 export function traverseStep(
   step: IStep,
   astMaker: IAstMaker,
-  newId: IdGenerator.NewId,
+  newId: messages.IdGenerator.NewId,
   predictableSupportCode: IPredictableSupportCode
-): messages.GherkinDocument.Feature.IStep {
+): messages.Step {
   const line = makeLine(step.location)
   const docstring = step.text ? traverseDocstring(step.text, astMaker) : null
   const datatable = step.table ? traverseTable(step.table, astMaker) : null
@@ -117,17 +113,11 @@ export function traverseStep(
   return gherkinStep
 }
 
-export function traverseDocstring(
-  text: string,
-  astMaker: IAstMaker
-): messages.GherkinDocument.Feature.Step.IDocString {
+export function traverseDocstring(text: string, astMaker: IAstMaker): messages.DocString {
   return astMaker.makeDocstring(null, text)
 }
 
-export function traverseTable(
-  table: ITable,
-  astMaker: IAstMaker
-): messages.GherkinDocument.Feature.Step.IDataTable {
+export function traverseTable(table: ITable, astMaker: IAstMaker): messages.DataTable {
   const cells: string[][] = [table.headings.map((head) => head)]
   for (const row of table.rows) {
     cells.push(row.map((cell) => cell))

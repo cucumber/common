@@ -15,7 +15,7 @@ import IStopwatch from './IStopwatch'
 
 export default async function loadSupportCode(
   predictableIds: boolean,
-  requirePaths: ReadonlyArray<string>
+  requirePaths: readonly string[]
 ): Promise<SupportCode> {
   const supportCode = makeSupportCode(predictableIds)
 

@@ -1,176 +1,183 @@
 import re
 
 from ..count_symbols import count_symbols
+from ..stream.id_generator import IdGenerator
 
 
-def compile(gherkin_document):
-    pickles = []
-    if 'feature' not in gherkin_document:
+class Compiler(object):
+    def __init__(self, id_generator=None):
+        self.id_generator = id_generator
+        if self.id_generator is None:
+            self.id_generator = IdGenerator()
+
+    def compile(self, gherkin_document):
+        pickles = []
+        if 'feature' not in gherkin_document:
+            return pickles
+
+        feature = gherkin_document['feature']
+        if not feature['children']:
+            return pickles
+
+        uri = gherkin_document['uri']
+        feature_tags = feature['tags']
+        language = feature['language']
+        background_steps = []
+        for scenario_definition in feature['children']:
+            if 'background' in scenario_definition:
+                if scenario_definition['background']['steps']:
+                    background_steps += scenario_definition['background']['steps']
+            elif 'rule' in scenario_definition:
+                self._compile_rule(uri, feature_tags, background_steps, scenario_definition['rule'], language, pickles)
+            else:
+                scenario = scenario_definition['scenario']
+                args = (uri, feature_tags, background_steps, scenario, language, pickles)
+                if not scenario['examples']:
+                    self._compile_scenario(*args)
+                else:
+                    self._compile_scenario_outline(*args)
         return pickles
 
-    feature = gherkin_document['feature']
-    feature_tags = feature['tags']
-    language = feature['language']
-    background_steps = []
-    for scenario_definition in feature['children']:
-        args = (feature_tags, background_steps, scenario_definition, language, pickles)
-        if scenario_definition['type'] == 'Background':
-            background_steps = _pickle_steps(scenario_definition)
-        elif scenario_definition['type'] == 'Scenario':
-            _compile_scenario(*args)
-        else:
-            _compile_scenario_outline(*args)
-    return pickles
+    def _compile_rule(self, uri, feature_tags, feature_background_steps, rule, language, pickles):
+        tags = list(feature_tags) + list(rule['tags'])
+        background_steps = []
+        background_steps += feature_background_steps
+        for scenario_definition in rule['children']:
+            if 'background' in scenario_definition:
+                if scenario_definition['background']['steps']:
+                    background_steps += scenario_definition['background']['steps']
+            else:
+                scenario = scenario_definition['scenario']
+                args = (uri, tags, background_steps, scenario, language, pickles)
+                if not scenario['examples']:
+                    self._compile_scenario(*args)
+                else:
+                    self._compile_scenario_outline(*args)
+        return pickles
 
+    def _compile_scenario(self, uri, inherited_tags, background_steps, scenario, language, pickles):
+        tags = list(inherited_tags) + list(scenario['tags'])
+        steps = list()
+        if scenario['steps']:
+            steps.extend(self._pickle_steps(background_steps + scenario['steps']))
 
-def _compile_scenario(feature_tags, background_steps, scenario, language, pickles):
-    steps = list()
-    if len(scenario['steps']) > 0:
-        steps.extend(background_steps)
-
-    tags = list(feature_tags) + list(scenario['tags'])
-
-    for step in scenario['steps']:
-        steps.append(_pickle_step(step))
-
-    pickle = {
-        'tags': _pickle_tags(tags),
-        'name': scenario['name'],
-        'language': language,
-        'locations': [_pickle_location(scenario['location'])],
-        'steps': steps
-    }
-    pickles.append(pickle)
-
-
-def _compile_scenario_outline(feature_tags, background_steps, scenario_outline, language, pickles):
-    for examples in (e for e in scenario_outline['examples'] if 'tableHeader' in e):
-        variable_cells = examples['tableHeader']['cells']
-
-        for values in examples['tableBody']:
-            value_cells = values['cells']
-            steps = list()
-            if len(scenario_outline['steps']) > 0:
-                steps.extend(background_steps)
-            tags = list(feature_tags) \
-                + list(scenario_outline['tags']) \
-                + list(examples['tags'])
-
-            for scenario_outline_step in scenario_outline['steps']:
-                step_text = _interpolate(
-                    scenario_outline_step['text'],
-                    variable_cells,
-                    value_cells)
-                arguments = _create_pickle_arguments(
-                    scenario_outline_step.get('argument'),
-                    variable_cells,
-                    value_cells)
-                _pickle_step = {
-                    'text': step_text,
-                    'arguments': arguments,
-                    'locations': [
-                        _pickle_location(values['location']),
-                        _pickle_step_location(scenario_outline_step)
-                    ]
-                }
-                steps.append(_pickle_step)
-
-            pickle = {
-                'name': _interpolate(
-                    scenario_outline['name'],
-                    variable_cells,
-                    value_cells),
-                'language': language,
-                'steps': steps,
-                'tags': _pickle_tags(tags),
-                'locations': [
-                    _pickle_location(values['location']),
-                    _pickle_location(scenario_outline['location'])
-                ]
-            }
-            pickles.append(pickle)
-
-
-def _create_pickle_arguments(argument, variables, values):
-    result = []
-
-    if not argument:
-        return result
-
-    if argument['type'] == 'DataTable':
-        table = {'rows': []}
-        for row in argument['rows']:
-            cells = [
-                {
-                    'location': _pickle_location(cell['location']),
-                    'value': _interpolate(cell['value'], variables, values)
-                } for cell in row['cells']
-            ]
-            table['rows'].append({'cells': cells})
-        result.append(table)
-
-    elif argument['type'] == 'DocString':
-        docstring = {
-            'location': _pickle_location(argument['location']),
-            'content': _interpolate(argument['content'], variables, values)
+        pickle = {
+            'astNodeIds': [scenario['id']],
+            'id': self.id_generator.get_next_id(),
+            'tags': self._pickle_tags(tags),
+            'name': scenario['name'],
+            'language': language,
+            'steps': steps,
+            'uri': uri
         }
-        if 'contentType' in argument:
-            docstring['contentType'] = _interpolate(argument['contentType'], variables, values)
-        result.append(docstring)
-
-    else:
-        raise Exception('Internal error')
-
-    return result
+        pickles.append(pickle)
 
 
-def _interpolate(name, variable_cells, value_cells):
-    for n, variable_cell in enumerate(variable_cells):
-        value_cell = value_cells[n]
-        name = re.sub(
-            u'<{0[value]}>'.format(variable_cell),
-            value_cell['value'],
-            name
+    def _compile_scenario_outline(self, uri, inherited_tags, background_steps, scenario, language, pickles):
+        for examples in (e for e in scenario['examples'] if 'tableHeader' in e):
+            variable_cells = examples['tableHeader']['cells']
+
+            for values in examples['tableBody']:
+                value_cells = values['cells']
+                steps = list()
+                if scenario['steps']:
+                    steps.extend(self._pickle_steps(background_steps))
+                tags = list(inherited_tags) + list(scenario['tags']) + list(examples['tags'])
+
+                if scenario['steps']:
+                    for outline_step in scenario['steps']:
+                        step_text = self._interpolate(
+                            outline_step['text'],
+                            variable_cells,
+                            value_cells)
+                        argument = self._create_pickle_arguments(
+                            outline_step,
+                            variable_cells,
+                            value_cells)
+                        _pickle_step = {
+                            'astNodeIds': [outline_step['id'], values['id']],
+                            'id': self.id_generator.get_next_id(),
+                            'text': step_text
+                        }
+                        if argument is not None:
+                            _pickle_step['argument'] = argument
+
+                        steps.append(_pickle_step)
+
+                pickle = {
+                    'astNodeIds': [scenario['id'], values['id']],
+                    'id': self.id_generator.get_next_id(),
+                    'name': self._interpolate(
+                        scenario['name'],
+                        variable_cells,
+                        value_cells),
+                    'language': language,
+                    'steps': steps,
+                    'tags': self._pickle_tags(tags),
+                    'uri': uri
+                }
+                pickles.append(pickle)
+
+    def _create_pickle_arguments(self, step, variables, values):
+        if 'dataTable' in step:
+            table = {'rows': []}
+            for row in step['dataTable']['rows']:
+                cells = [
+                    {
+                        'value': self._interpolate(cell['value'], variables, values)
+                    } for cell in row['cells']
+                ]
+                table['rows'].append({'cells': cells})
+            return {'dataTable': table}
+
+        elif 'docString' in step:
+            argument = step['docString']
+            docstring = {
+                'content': self._interpolate(argument['content'], variables, values)
+            }
+            if 'mediaType' in argument:
+                docstring['mediaType'] = self._interpolate(argument['mediaType'], variables, values)
+            return {'docString': docstring}
+        else:
+            return None
+
+    def _interpolate(self, name, variable_cells, value_cells):
+        if name is None:
+            return name
+
+        for n, variable_cell in enumerate(variable_cells):
+            value_cell = value_cells[n]
+            name = re.sub(
+                u'<{0[value]}>'.format(variable_cell),
+                value_cell['value'],
+                name
             )
-    return name
+        return name
 
+    def _pickle_steps(self, steps):
+        return [self._pickle_step(step)for step in steps]
 
-def _pickle_steps(scenario_definition):
-    return [_pickle_step(step)
-            for step in scenario_definition['steps']]
-
-
-def _pickle_step(step):
-    return {
-        'text': step['text'],
-        'arguments': _create_pickle_arguments(
-            step.get('argument'),
+    def _pickle_step(self, step):
+        pickle_step = {
+            'astNodeIds': [step['id']],
+            'id': self.id_generator.get_next_id(),
+            'text': step['text'],
+        }
+        argument = self._create_pickle_arguments(
+            step,
             [],
-            []),
-        'locations': [_pickle_step_location(step)]
-    }
+            [])
+        if argument is not None:
+            pickle_step['argument'] = argument
+        return pickle_step
 
 
-def _pickle_step_location(step):
-    return {
-        'line': step['location']['line'],
-        'column': step['location']['column'] + count_symbols(step.get('keyword', 0))
-    }
+    def _pickle_tags(self, tags):
+        return [self._pickle_tag(tag) for tag in tags]
 
 
-def _pickle_location(location):
-    return {
-        'line': location['line'],
-        'column': location['column']
-    }
-
-
-def _pickle_tags(tags):
-    return [_pickle_tag(tag) for tag in tags]
-
-
-def _pickle_tag(tag):
-    return {
-        'name': tag['name'],
-        'location': _pickle_location(tag['location'])
-    }
+    def _pickle_tag(self, tag):
+        return {
+            'astNodeId': tag['id'],
+            'name': tag['name']
+        }

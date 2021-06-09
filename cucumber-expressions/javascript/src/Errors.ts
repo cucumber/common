@@ -1,8 +1,7 @@
 import ParameterType from './ParameterType'
 import GeneratedExpression from './GeneratedExpression'
 import { Located, Node, purposeOf, symbolOf, Token, TokenType } from './Ast'
-
-export class CucumberExpressionError extends Error {}
+import CucumberExpressionError from './CucumberExpressionError'
 
 export function createAlternativeMayNotExclusivelyContainOptionals(
   node: Node,
@@ -76,9 +75,7 @@ export function createOptionalIsNotAllowedInOptional(
   )
 }
 
-export function createTheEndOfLIneCanNotBeEscaped(
-  expression: string
-): CucumberExpressionError {
+export function createTheEndOfLIneCanNotBeEscaped(expression: string): CucumberExpressionError {
   const index = Array.from(expression).length - 1
   return new CucumberExpressionError(
     message(
@@ -111,10 +108,7 @@ export function createMissingEndToken(
   )
 }
 
-export function createAlternationNotAllowedInOptional(
-  expression: string,
-  current: Token
-) {
+export function createAlternationNotAllowedInOptional(expression: string, current: Token) {
   return new CucumberExpressionError(
     message(
       current.start,
@@ -138,16 +132,7 @@ export function createCantEscaped(expression: string, index: number) {
   )
 }
 
-export function createInvalidParameterTypeName(typeName: string) {
-  return new CucumberExpressionError(
-    `Illegal character in parameter name {${typeName}}. Parameter names may not contain '{', '}', '(', ')', '\\' or '/'`
-  )
-}
-
-export function createInvalidParameterTypeNameInNode(
-  token: Token,
-  expression: string
-) {
+export function createInvalidParameterTypeNameInNode(token: Token, expression: string) {
   return new CucumberExpressionError(
     message(
       token.start,
@@ -198,8 +183,8 @@ export class AmbiguousParameterTypeError extends CucumberExpressionError {
   public static forConstructor(
     keyName: string,
     keyValue: string,
-    parameterTypes: ReadonlyArray<ParameterType<any>>,
-    generatedExpressions: ReadonlyArray<GeneratedExpression>
+    parameterTypes: readonly ParameterType<any>[],
+    generatedExpressions: readonly GeneratedExpression[]
   ) {
     return new this(
       `parameter type with ${keyName}=${keyValue} is used by several parameter types: ${parameterTypes}, ${generatedExpressions}`
@@ -209,8 +194,8 @@ export class AmbiguousParameterTypeError extends CucumberExpressionError {
   public static forRegExp(
     parameterTypeRegexp: string,
     expressionRegexp: RegExp,
-    parameterTypes: ReadonlyArray<ParameterType<any>>,
-    generatedExpressions: ReadonlyArray<GeneratedExpression>
+    parameterTypes: readonly ParameterType<any>[],
+    generatedExpressions: readonly GeneratedExpression[]
   ) {
     return new this(
       `Your Regular Expression ${expressionRegexp}
@@ -227,24 +212,17 @@ I couldn't decide which one to use. You have two options:
     )
   }
 
-  public static _parameterTypeNames(
-    parameterTypes: ReadonlyArray<ParameterType<any>>
-  ) {
+  public static _parameterTypeNames(parameterTypes: readonly ParameterType<any>[]) {
     return parameterTypes.map((p) => `{${p.name}}`).join('\n   ')
   }
 
-  public static _expressions(
-    generatedExpressions: ReadonlyArray<GeneratedExpression>
-  ) {
+  public static _expressions(generatedExpressions: readonly GeneratedExpression[]) {
     return generatedExpressions.map((e) => e.source).join('\n   ')
   }
 }
 
 export class UndefinedParameterTypeError extends CucumberExpressionError {
-  constructor(
-    public readonly undefinedParameterTypeName: string,
-    message: string
-  ) {
+  constructor(public readonly undefinedParameterTypeName: string, message: string) {
     super(message)
   }
 }

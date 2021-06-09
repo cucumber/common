@@ -1,6 +1,6 @@
 import { IDocString, IStep, IDataTable, IElement } from './JSONSchema'
 import IAstMaker from '../IAstMaker'
-import { messages, IdGenerator } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import IPredictableSupportCode from '../IPredictableSupportCode'
 import { traverseDataTable } from '../cucumber-ruby/JSONTraverse'
 import {
@@ -16,24 +16,18 @@ function durationToMillis(duration: number): number {
 export function traverseFeature(
   feature: IFeature,
   astMaker: IAstMaker,
-  newId: IdGenerator.NewId,
+  newId: messages.IdGenerator.NewId,
   predictableSupportCode: IPredictableSupportCode
-): messages.IGherkinDocument {
-  return genericTraverseFeature(
-    feature,
-    astMaker,
-    newId,
-    predictableSupportCode,
-    traverseElement
-  )
+): messages.GherkinDocument {
+  return genericTraverseFeature(feature, astMaker, newId, predictableSupportCode, traverseElement)
 }
 
 export function traverseElement(
   element: IElement,
   astMaker: IAstMaker,
-  newId: IdGenerator.NewId,
+  newId: messages.IdGenerator.NewId,
   predictableSupportCode: IPredictableSupportCode
-): messages.GherkinDocument.Feature.IFeatureChild {
+): messages.FeatureChild {
   const beforeHooks: IStep[] = []
   const scenarioSteps: IStep[] = []
   const afterHooks: IStep[] = []
@@ -62,9 +56,7 @@ export function traverseElement(
       }
     }
   }
-  const tags = element.tags
-    ? element.tags.map((tag) => traverseTag(tag, astMaker))
-    : undefined
+  const tags = element.tags ? element.tags.map((tag) => traverseTag(tag, astMaker)) : []
 
   const featureChild = astMaker.makeScenarioFeatureChild(
     newId(),
@@ -72,9 +64,7 @@ export function traverseElement(
     element.keyword,
     element.name,
     element.description,
-    scenarioSteps.map((step) =>
-      traverseStep(step, astMaker, newId, predictableSupportCode)
-    ),
+    scenarioSteps.map((step) => traverseStep(step, astMaker, newId, predictableSupportCode)),
     tags
   )
 
@@ -91,7 +81,7 @@ export function traverseElement(
 
 export function traverseBeforeHook(
   step: IStep,
-  scenario: messages.GherkinDocument.Feature.IScenario,
+  scenario: messages.Scenario,
   predictableSupportCode: IPredictableSupportCode
 ): void {
   predictableSupportCode.addPredictableBeforeHook(
@@ -105,7 +95,7 @@ export function traverseBeforeHook(
 
 export function traverseAfterHook(
   step: IStep,
-  scenario: messages.GherkinDocument.Feature.IScenario,
+  scenario: messages.Scenario,
   predictableSupportCode: IPredictableSupportCode
 ): void {
   predictableSupportCode.addPredictableAfterHook(
@@ -120,23 +110,15 @@ export function traverseAfterHook(
 export function traverseStep(
   step: IStep,
   astMaker: IAstMaker,
-  newId: IdGenerator.NewId,
+  newId: messages.IdGenerator.NewId,
   predictableSupportCode: IPredictableSupportCode
-): messages.GherkinDocument.Feature.IStep {
+): messages.Step {
   const stepArguments = step.arguments || []
-  const docStringArgument = stepArguments.find(
-    (arg: IDocString) => arg.content
-  ) as IDocString
-  const docString = docStringArgument
-    ? traverseDocString(docStringArgument, astMaker)
-    : null
+  const docStringArgument = stepArguments.find((arg: IDocString) => arg.content) as IDocString
+  const docString = docStringArgument ? traverseDocString(docStringArgument, astMaker) : null
 
-  const datatableArgument = stepArguments.find(
-    (arg: IDataTable) => arg.rows
-  ) as IDataTable
-  const datatable = datatableArgument
-    ? traverseDataTable(datatableArgument.rows, astMaker)
-    : null
+  const datatableArgument = stepArguments.find((arg: IDataTable) => arg.rows) as IDataTable
+  const datatable = datatableArgument ? traverseDataTable(datatableArgument.rows, astMaker) : null
 
   const gherkinStep = astMaker.makeStep(
     newId(),
@@ -160,9 +142,6 @@ export function traverseStep(
   return gherkinStep
 }
 
-export function traverseDocString(
-  docString: IDocString,
-  astMaker: IAstMaker
-): messages.GherkinDocument.Feature.Step.IDocString {
+export function traverseDocString(docString: IDocString, astMaker: IAstMaker): messages.DocString {
   return astMaker.makeDocstring(null, docString.content)
 }

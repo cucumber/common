@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+#
+# Runs a command once for each npm workspace
+#
+# Usage: npm-each ARGS...
+
+set -eu -o pipefail
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+
+# Allows sub commands to use functions defined in functions.sh
+source "${DIR}"/functions.sh
+
+for workspace in "${DIR}"/../*/javascript/
+do
+  pushd "${workspace}" >/dev/null
+  "$@"
+  popd >/dev/null
+done

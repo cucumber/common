@@ -1,4 +1,4 @@
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import FeatureSearch from './FeatureSearch'
 import ScenarioSearch from './ScenarioSearch'
 import StepSearch from './StepSearch'
@@ -12,9 +12,9 @@ export default class TextSearch {
   private readonly stepSearch = new StepSearch()
   private readonly ruleSearch = new RuleSearch()
 
-  private readonly gherkinDocuments: messages.IGherkinDocument[] = []
+  private readonly gherkinDocuments: messages.GherkinDocument[] = []
 
-  public search(query: string): messages.IGherkinDocument[] {
+  public search(query: string): messages.GherkinDocument[] {
     const matchingSteps = this.stepSearch.search(query)
     const matchingBackgrounds = this.backgroundSearch.search(query)
     const matchingScenarios = this.scenarioSearch.search(query)
@@ -24,8 +24,10 @@ export default class TextSearch {
     const walker = new GherkinDocumentWalker({
       acceptStep: (step) => matchingSteps.includes(step),
       acceptScenario: (scenario) => matchingScenarios.includes(scenario),
+      // TODO: This is an ugly hack to work around the fact that Scenario and Background are no longer interchangeable,
+      // because tags is now mandatory.
       acceptBackground: (background) =>
-        matchingBackgrounds.includes(background),
+        matchingBackgrounds.includes(background as messages.Scenario),
       acceptRule: (rule) => matchingRules.includes(rule),
       acceptFeature: (feature) => matchingFeatures.includes(feature),
     })
@@ -35,14 +37,15 @@ export default class TextSearch {
       .filter((gherkinDocument) => gherkinDocument !== null)
   }
 
-  public add(gherkinDocument: messages.IGherkinDocument) {
+  public add(gherkinDocument: messages.GherkinDocument) {
     this.gherkinDocuments.push(gherkinDocument)
     const walker = new GherkinDocumentWalker(
       {},
       {
         handleStep: (step) => this.stepSearch.add(step),
         handleScenario: (scenario) => this.scenarioSearch.add(scenario),
-        handleBackground: (background) => this.backgroundSearch.add(background),
+        handleBackground: (background) =>
+          this.backgroundSearch.add(background as messages.Scenario),
         handleRule: (rule) => this.ruleSearch.add(rule),
       }
     )

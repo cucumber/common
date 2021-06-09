@@ -1,7 +1,7 @@
 package json
 
 import (
-	"github.com/cucumber/messages-go/v13"
+	"github.com/cucumber/messages-go/v16"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 )
@@ -15,13 +15,13 @@ var _ = Describe("ProcessTestStepFinished", func() {
 		lookup = &MessageLookup{}
 		lookup.Initialize(false)
 
-		pickleStep := &messages.Pickle_PickleStep{
+		pickleStep := &messages.PickleStep{
 			Id:         "pickle-step-id",
 			AstNodeIds: []string{"some-id"},
 		}
 		pickle := &messages.Pickle{
 			Id:    "pickle-id",
-			Steps: []*messages.Pickle_PickleStep{pickleStep},
+			Steps: []*messages.PickleStep{pickleStep},
 		}
 		lookup.ProcessMessage(makePickleEnvelope(pickle))
 
@@ -34,7 +34,7 @@ var _ = Describe("ProcessTestStepFinished", func() {
 		testCase := makeTestCase(
 			"test-case-id",
 			pickle.Id,
-			[]*messages.TestCase_TestStep{testStep},
+			[]*messages.TestStep{testStep},
 		)
 		lookup.ProcessMessage(makeTestCaseEnvelope(testCase))
 
@@ -100,7 +100,7 @@ var _ = Describe("ProcessTestStepFinished", func() {
 			testCase := makeTestCase(
 				"test-case-id",
 				"whatever-pickle-id",
-				[]*messages.TestCase_TestStep{
+				[]*messages.TestStep{
 					makeHookTestStep("hook-step-id", hook.Id),
 					makeHookTestStep("wrong-hook-step-id", "unknown-hook-id"),
 				},
@@ -118,15 +118,15 @@ var _ = Describe("ProcessTestStepFinished", func() {
 			testStepFinished := &messages.TestStepFinished{
 				TestCaseStartedId: "test-case-started-id",
 				TestStepId:        "hook-step-id",
-				TestStepResult: &messages.TestStepFinished_TestStepResult{
-					Status: messages.TestStepFinished_TestStepResult_PASSED,
+				TestStepResult: &messages.TestStepResult{
+					Status: messages.TestStepResultStatus_PASSED,
 				},
 			}
 
 			_, testStep := ProcessTestStepFinished(testStepFinished, lookup)
 
 			Expect(testStep.Hook.Id).To(Equal("hook-id"))
-			Expect(testStep.Result.Status).To(Equal(messages.TestStepFinished_TestStepResult_PASSED))
+			Expect(testStep.Result.Status).To(Equal(messages.TestStepResultStatus_PASSED))
 		})
 
 		It("returns a TestStep with a nil Step", func() {
@@ -154,16 +154,16 @@ var _ = Describe("ProcessTestStepFinished", func() {
 	Context("When step references a PickleStep", func() {
 		var (
 			testCaseStarted *messages.TestCaseStarted
-			background      *messages.GherkinDocument_Feature_Background
+			background      *messages.Background
 		)
 		BeforeEach(func() {
 			// This is a bit dirty hack to avoid creating all the AST
-			background = &messages.GherkinDocument_Feature_Background{
+			background = &messages.Background{
 				Keyword: "Background",
 			}
 			backgroundStep := makeGherkinStep("background-step", "Given", "a passed step")
 			step := makeGherkinStep("step-id", "Given", "a passed step")
-			scenario := makeScenario("scenario-id", []*messages.GherkinDocument_Feature_Step{
+			scenario := makeScenario("scenario-id", []*messages.Step{
 				step,
 			})
 			lookup.stepByID[backgroundStep.Id] = backgroundStep
@@ -173,19 +173,19 @@ var _ = Describe("ProcessTestStepFinished", func() {
 
 			stepDefinitionConfig := &messages.StepDefinition{
 				Id: "step-def-id",
-				Pattern: &messages.StepDefinition_StepDefinitionPattern{
+				Pattern: &messages.StepDefinitionPattern{
 					Source: "a passed {word}",
 				},
 			}
 			lookup.ProcessMessage(makeStepDefinitionEnvelope(stepDefinitionConfig))
 
-			backgroundPickleStep := &messages.Pickle_PickleStep{
+			backgroundPickleStep := &messages.PickleStep{
 				Id:         "background-pickle-step-id",
 				AstNodeIds: []string{backgroundStep.Id},
 				Text:       "a passed step",
 			}
 
-			pickleStep := &messages.Pickle_PickleStep{
+			pickleStep := &messages.PickleStep{
 				Id:         "pickle-step-id",
 				AstNodeIds: []string{step.Id},
 				Text:       "a passed step",
@@ -195,7 +195,7 @@ var _ = Describe("ProcessTestStepFinished", func() {
 				Id:         "pickle-id",
 				Uri:        "some_feature.feature",
 				AstNodeIds: []string{scenario.Id},
-				Steps: []*messages.Pickle_PickleStep{
+				Steps: []*messages.PickleStep{
 					backgroundPickleStep,
 					pickleStep,
 				},
@@ -205,7 +205,7 @@ var _ = Describe("ProcessTestStepFinished", func() {
 			testCase := makeTestCase(
 				"test-case-id",
 				pickle.Id,
-				[]*messages.TestCase_TestStep{
+				[]*messages.TestStep{
 					makeTestStep("background-step-id", backgroundPickleStep.Id, []string{"step-def-id"}),
 					makeTestStep("test-step-id", pickleStep.Id, []string{"step-def-id"}),
 					makeTestStep("unknown-pickle", "unknown-pickle-step-id", []string{}),
@@ -265,7 +265,7 @@ var _ = Describe("ProcessTestStepFinished", func() {
 				testCase := makeTestCase(
 					"test-case-id",
 					"unknown-pickle",
-					[]*messages.TestCase_TestStep{},
+					[]*messages.TestStep{},
 				)
 				lookup.ProcessMessage(makeTestCaseEnvelope(testCase))
 
@@ -308,23 +308,29 @@ var _ = Describe("TestStepToJSON", func() {
 			step = &TestStep{
 				Hook: &messages.Hook{
 					SourceReference: &messages.SourceReference{
-						Reference: &messages.SourceReference_Uri{
-							Uri: "some/hooks.go",
-						},
+						Uri: "some/hooks.go",
 						Location: &messages.Location{
 							Column: 3,
 							Line:   12,
 						},
 					},
 				},
-				Result: &messages.TestStepFinished_TestStepResult{
-					Status: messages.TestStepFinished_TestStepResult_PASSED,
+				Result: &messages.TestStepResult{
+					Status: messages.TestStepResultStatus_PASSED,
 					Duration: &messages.Duration{
 						Seconds: 123,
 						Nanos:   456,
 					},
 				},
+				Attachments: make([]*messages.Attachment, 0),
 			}
+
+			step.Attachments = append(step.Attachments, &messages.Attachment{
+				Body:            "Hello",
+				MediaType:       "text/plain",
+				ContentEncoding: messages.AttachmentContentEncoding_BASE64,
+			})
+
 			jsonStep = TestStepToJSON(step)
 		})
 
@@ -339,12 +345,18 @@ var _ = Describe("TestStepToJSON", func() {
 		It("Has a Duration", func() {
 			Expect(jsonStep.Result.Duration).To(Equal(uint64(123000000456)))
 		})
+
+		It("has an Embedding", func() {
+			Expect(len(jsonStep.Embeddings)).To(Equal(1))
+			Expect(jsonStep.Embeddings[0].MimeType).To(Equal("text/plain"))
+			Expect(jsonStep.Embeddings[0].Data).To(Equal("Hello"))
+		})
 	})
 
 	Context("When TestStep comes from a feature step", func() {
 		BeforeEach(func() {
 			step = &TestStep{
-				Step: &messages.GherkinDocument_Feature_Step{
+				Step: &messages.Step{
 					Id:      "some-id",
 					Keyword: "Given",
 					Text:    "a <status> step",
@@ -355,17 +367,25 @@ var _ = Describe("TestStepToJSON", func() {
 				Pickle: &messages.Pickle{
 					Uri: "my_feature.feature",
 				},
-				PickleStep: &messages.Pickle_PickleStep{
+				PickleStep: &messages.PickleStep{
 					Text: "a passed step",
 				},
-				Result: &messages.TestStepFinished_TestStepResult{
-					Status: messages.TestStepFinished_TestStepResult_FAILED,
+				Result: &messages.TestStepResult{
+					Status: messages.TestStepResultStatus_FAILED,
 					Duration: &messages.Duration{
 						Seconds: 123,
 						Nanos:   456,
 					},
 				},
+				Attachments: make([]*messages.Attachment, 0),
 			}
+
+			step.Attachments = append(step.Attachments, &messages.Attachment{
+				Body:            "Hello",
+				MediaType:       "text/plain",
+				ContentEncoding: messages.AttachmentContentEncoding_BASE64,
+			})
+
 			jsonStep = TestStepToJSON(step)
 		})
 
@@ -389,6 +409,12 @@ var _ = Describe("TestStepToJSON", func() {
 			Expect(jsonStep.Line).To(Equal(uint32(5)))
 		})
 
+		It("has an Embedding", func() {
+			Expect(len(jsonStep.Embeddings)).To(Equal(1))
+			Expect(jsonStep.Embeddings[0].MimeType).To(Equal("text/plain"))
+			Expect(jsonStep.Embeddings[0].Data).To(Equal("Hello"))
+		})
+
 		Context("When it does not have a StepDefinition", func() {
 			It("Has a Match referencing the feature file", func() {
 				Expect(jsonStep.Match.Location).To(Equal("my_feature.feature:5"))
@@ -400,9 +426,7 @@ var _ = Describe("TestStepToJSON", func() {
 				step.StepDefinitions = []*messages.StepDefinition{
 					&messages.StepDefinition{
 						SourceReference: &messages.SourceReference{
-							Reference: &messages.SourceReference_Uri{
-								Uri: "support_code.go",
-							},
+							Uri: "support_code.go",
 							Location: &messages.Location{
 								Line: 12,
 							},
@@ -422,20 +446,18 @@ var _ = Describe("TestStepToJSON", func() {
 				step = &TestStep{
 					Hook: &messages.Hook{
 						SourceReference: &messages.SourceReference{
-							Reference: &messages.SourceReference_JavaMethod_{
-								JavaMethod: &messages.SourceReference_JavaMethod{
-									ClassName:  "org.cucumber.jvm.Class",
-									MethodName: "someMethod",
-									MethodParameterTypes: []string{
-										"java.lang.String",
-										"int",
-									},
+							JavaMethod: &messages.JavaMethod{
+								ClassName:  "org.cucumber.jvm.Class",
+								MethodName: "someMethod",
+								MethodParameterTypes: []string{
+									"java.lang.String",
+									"int",
 								},
 							},
 						},
 					},
-					Result: &messages.TestStepFinished_TestStepResult{
-						Status: messages.TestStepFinished_TestStepResult_PASSED,
+					Result: &messages.TestStepResult{
+						Status: messages.TestStepResultStatus_PASSED,
 						Duration: &messages.Duration{
 							Seconds: 123,
 							Nanos:   456,
@@ -453,7 +475,7 @@ var _ = Describe("TestStepToJSON", func() {
 		Describe("from a feature step", func() {
 			BeforeEach(func() {
 				step = &TestStep{
-					Step: &messages.GherkinDocument_Feature_Step{
+					Step: &messages.Step{
 						Id:      "some-id",
 						Keyword: "Given",
 						Text:    "a <status> step",
@@ -464,11 +486,11 @@ var _ = Describe("TestStepToJSON", func() {
 					Pickle: &messages.Pickle{
 						Uri: "my_feature.feature",
 					},
-					PickleStep: &messages.Pickle_PickleStep{
+					PickleStep: &messages.PickleStep{
 						Text: "a passed step",
 					},
-					Result: &messages.TestStepFinished_TestStepResult{
-						Status: messages.TestStepFinished_TestStepResult_FAILED,
+					Result: &messages.TestStepResult{
+						Status: messages.TestStepResultStatus_FAILED,
 						Duration: &messages.Duration{
 							Seconds: 123,
 							Nanos:   456,
@@ -477,14 +499,12 @@ var _ = Describe("TestStepToJSON", func() {
 					StepDefinitions: []*messages.StepDefinition{
 						&messages.StepDefinition{
 							SourceReference: &messages.SourceReference{
-								Reference: &messages.SourceReference_JavaMethod_{
-									JavaMethod: &messages.SourceReference_JavaMethod{
-										ClassName:  "org.cucumber.jvm.Class",
-										MethodName: "someMethod",
-										MethodParameterTypes: []string{
-											"java.lang.String",
-											"int",
-										},
+								JavaMethod: &messages.JavaMethod{
+									ClassName:  "org.cucumber.jvm.Class",
+									MethodName: "someMethod",
+									MethodParameterTypes: []string{
+										"java.lang.String",
+										"int",
 									},
 								},
 							},
@@ -506,20 +526,18 @@ var _ = Describe("TestStepToJSON", func() {
 				step = &TestStep{
 					Hook: &messages.Hook{
 						SourceReference: &messages.SourceReference{
-							Reference: &messages.SourceReference_JavaStackTraceElement_{
-								JavaStackTraceElement: &messages.SourceReference_JavaStackTraceElement{
-									ClassName:  "org.cucumber.jvm.ExceptionClass",
-									MethodName: "someMethod",
-									FileName:   "ExceptionClass.java",
-								},
+							JavaStackTraceElement: &messages.JavaStackTraceElement{
+								ClassName:  "org.cucumber.jvm.ExceptionClass",
+								MethodName: "someMethod",
+								FileName:   "ExceptionClass.java",
 							},
 							Location: &messages.Location{
 								Line: 123,
 							},
 						},
 					},
-					Result: &messages.TestStepFinished_TestStepResult{
-						Status: messages.TestStepFinished_TestStepResult_PASSED,
+					Result: &messages.TestStepResult{
+						Status: messages.TestStepResultStatus_PASSED,
 						Duration: &messages.Duration{
 							Seconds: 123,
 							Nanos:   456,
@@ -537,7 +555,7 @@ var _ = Describe("TestStepToJSON", func() {
 		Describe("from a feature step", func() {
 			BeforeEach(func() {
 				step = &TestStep{
-					Step: &messages.GherkinDocument_Feature_Step{
+					Step: &messages.Step{
 						Id:      "some-id",
 						Keyword: "Given",
 						Text:    "a <status> step",
@@ -548,11 +566,11 @@ var _ = Describe("TestStepToJSON", func() {
 					Pickle: &messages.Pickle{
 						Uri: "my_feature.feature",
 					},
-					PickleStep: &messages.Pickle_PickleStep{
+					PickleStep: &messages.PickleStep{
 						Text: "a passed step",
 					},
-					Result: &messages.TestStepFinished_TestStepResult{
-						Status: messages.TestStepFinished_TestStepResult_FAILED,
+					Result: &messages.TestStepResult{
+						Status: messages.TestStepResultStatus_FAILED,
 						Duration: &messages.Duration{
 							Seconds: 123,
 							Nanos:   456,
@@ -561,12 +579,10 @@ var _ = Describe("TestStepToJSON", func() {
 					StepDefinitions: []*messages.StepDefinition{
 						&messages.StepDefinition{
 							SourceReference: &messages.SourceReference{
-								Reference: &messages.SourceReference_JavaStackTraceElement_{
-									JavaStackTraceElement: &messages.SourceReference_JavaStackTraceElement{
-										ClassName:  "org.cucumber.jvm.ExceptionClass",
-										MethodName: "someMethod",
-										FileName:   "ExceptionClass.java",
-									},
+								JavaStackTraceElement: &messages.JavaStackTraceElement{
+									ClassName:  "org.cucumber.jvm.ExceptionClass",
+									MethodName: "someMethod",
+									FileName:   "ExceptionClass.java",
 								},
 								Location: &messages.Location{
 									Line: 123,
@@ -590,17 +606,15 @@ var _ = Describe("TestStepToJSON", func() {
 				step = &TestStep{
 					Hook: &messages.Hook{
 						SourceReference: &messages.SourceReference{
-							Reference: &messages.SourceReference_JavaStackTraceElement_{
-								JavaStackTraceElement: &messages.SourceReference_JavaStackTraceElement{
-									ClassName:  "org.cucumber.jvm.ExceptionClass",
-									MethodName: "someMethod",
-									FileName:   "ExceptionClass.java",
-								},
+							JavaStackTraceElement: &messages.JavaStackTraceElement{
+								ClassName:  "org.cucumber.jvm.ExceptionClass",
+								MethodName: "someMethod",
+								FileName:   "ExceptionClass.java",
 							},
 						},
 					},
-					Result: &messages.TestStepFinished_TestStepResult{
-						Status: messages.TestStepFinished_TestStepResult_PASSED,
+					Result: &messages.TestStepResult{
+						Status: messages.TestStepResultStatus_PASSED,
 						Duration: &messages.Duration{
 							Seconds: 123,
 							Nanos:   456,
@@ -618,7 +632,7 @@ var _ = Describe("TestStepToJSON", func() {
 		Describe("from a feature step", func() {
 			BeforeEach(func() {
 				step = &TestStep{
-					Step: &messages.GherkinDocument_Feature_Step{
+					Step: &messages.Step{
 						Id:      "some-id",
 						Keyword: "Given",
 						Text:    "a <status> step",
@@ -629,11 +643,11 @@ var _ = Describe("TestStepToJSON", func() {
 					Pickle: &messages.Pickle{
 						Uri: "my_feature.feature",
 					},
-					PickleStep: &messages.Pickle_PickleStep{
+					PickleStep: &messages.PickleStep{
 						Text: "a passed step",
 					},
-					Result: &messages.TestStepFinished_TestStepResult{
-						Status: messages.TestStepFinished_TestStepResult_FAILED,
+					Result: &messages.TestStepResult{
+						Status: messages.TestStepResultStatus_FAILED,
 						Duration: &messages.Duration{
 							Seconds: 123,
 							Nanos:   456,
@@ -642,12 +656,10 @@ var _ = Describe("TestStepToJSON", func() {
 					StepDefinitions: []*messages.StepDefinition{
 						&messages.StepDefinition{
 							SourceReference: &messages.SourceReference{
-								Reference: &messages.SourceReference_JavaStackTraceElement_{
-									JavaStackTraceElement: &messages.SourceReference_JavaStackTraceElement{
-										ClassName:  "org.cucumber.jvm.ExceptionClass",
-										MethodName: "someMethod",
-										FileName:   "ExceptionClass.java",
-									},
+								JavaStackTraceElement: &messages.JavaStackTraceElement{
+									ClassName:  "org.cucumber.jvm.ExceptionClass",
+									MethodName: "someMethod",
+									FileName:   "ExceptionClass.java",
 								},
 							},
 						},

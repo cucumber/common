@@ -1,0 +1,42 @@
+{
+  "name": "@cucumber/gherkin-streams",
+  "version": "2.0.2",
+  "description": "Streams for reading Gherkin parser output",
+  "main": "dist/src/index.js",
+  "types": "dist/src/index.d.ts",
+  "bin": {
+    "gherkin-javascript": "bin/gherkin"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/cucumber/cucumber.git"
+  },
+  "author": "Cucumber Limited <cukes@googlegroups.com>",
+  "license": "MIT",
+  "scripts": {
+    "test": "mocha",
+    "prepublishOnly": "tsc --build tsconfig.build.json"
+  },
+  "dependencies": {
+    "@cucumber/messages": "^16.0.1",
+    "@cucumber/message-streams": "^2.1.0",
+    "@cucumber/gherkin": "^19.0.3",
+    "commander": "7.2.0",
+    "source-map-support": "0.5.19"
+  },
+  "devDependencies": {
+    "@types/mocha": "8.2.2",
+    "@types/node": "15.3.1",
+    "mocha": "8.4.0",
+    "nyc": "15.1.0",
+    "typescript": "4.3.2"
+  },
+  "bugs": {
+    "url": "https://github.com/cucumber/cucumber/issues"
+  },
+  "homepage": "https://github.com/cucumber/cucumber#readme",
+  "directories": {
+    "test": "test"
+  },
+  "keywords": []
+}

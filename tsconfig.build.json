@@ -1,0 +1,59 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "composite": true,
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "target": "es6",
+    "module": "commonjs"
+  },
+  "files": [],
+  "references": [
+    {
+      "path": "./messages/javascript/tsconfig.build.json"
+    },
+    {
+      "path": "./message-streams/javascript/tsconfig.build.json"
+    },
+    {
+      "path": "./gherkin/javascript/tsconfig.build.json"
+    },
+    {
+      "path": "./gherkin-streams/javascript/tsconfig.build.json"
+    },
+    {
+      "path": "./gherkin-utils/javascript/tsconfig.build.json"
+    },
+    {
+      "path": "./cucumber-expressions/javascript/tsconfig.build.json"
+    },
+    {
+      "path": "./tag-expressions/javascript/tsconfig.build.json"
+    },
+    {
+      "path": "./create-meta/javascript/tsconfig.build.json"
+    },
+    {
+      "path": "./fake-cucumber/javascript/tsconfig.build.json"
+    },
+    {
+      "path": "./query/javascript/tsconfig.build.json"
+    },
+    {
+      "path": "./compatibility-kit/javascript/tsconfig.build.json"
+    },
+    {
+      "path": "./react/javascript/tsconfig.build.json"
+    },
+    {
+      "path": "./html-formatter/javascript/tsconfig.build.json"
+    },
+    {
+      "path": "./json-to-messages/javascript/tsconfig.build.json"
+    },
+    {
+      "path": "./json-to-messages/javascript-testdata/tsconfig.build.json"
+    }
+  ]
+}

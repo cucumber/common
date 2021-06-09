@@ -1,4 +1,3 @@
-import { Readable } from 'stream'
 import { IdGenerator } from '@cucumber/messages'
 
 export default interface IGherkinOptions {
@@ -7,5 +6,4 @@ export default interface IGherkinOptions {
   includeGherkinDocument?: boolean
   includePickles?: boolean
   newId?: IdGenerator.NewId
-  createReadStream?: (path: string) => Readable
 }

@@ -1,12 +1,9 @@
 import assert from 'assert'
-import { IdGenerator, messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import makeTestCase from '../src/makeTestCase'
 import ExpressionStepDefinition from '../src/ExpressionStepDefinition'
 import Hook from '../src/Hook'
-import {
-  CucumberExpression,
-  ParameterTypeRegistry,
-} from '@cucumber/cucumber-expressions'
+import { CucumberExpression, ParameterTypeRegistry } from '@cucumber/cucumber-expressions'
 import { Query as GherkinQuery } from '@cucumber/gherkin-utils'
 import IncrementClock from '../src/IncrementClock'
 import { withSourceFramesOnlyStackTrace } from '../src/ErrorMessageGenerator'
@@ -25,7 +22,7 @@ describe('makeTestCase', () => {
       [],
       [],
       new GherkinQuery(),
-      IdGenerator.incrementing(),
+      messages.IdGenerator.incrementing(),
       new IncrementClock(),
       new IncrementStopwatch(),
       withSourceFramesOnlyStackTrace(),
@@ -42,18 +39,22 @@ describe('makeTestCase', () => {
   context('when the pickle has no steps', () => {
     it('generates a synthetic undefined test step', async () => {
       // See https://github.com/cucumber/cucumber/issues/249
-      const pickle = new messages.Pickle({
+      const pickle: messages.Pickle = {
         id: 'some-id',
         name: 'some name',
         steps: [],
-      })
+        astNodeIds: [],
+        tags: [],
+        language: 'en',
+        uri: 'uri',
+      }
       const testCase = makeTestCase(
         pickle,
         [],
         [],
         [],
         new GherkinQuery(),
-        IdGenerator.incrementing(),
+        messages.IdGenerator.incrementing(),
         new IncrementClock(),
         new IncrementStopwatch(),
         withSourceFramesOnlyStackTrace(),
@@ -61,11 +62,10 @@ describe('makeTestCase', () => {
         makeHookTestStep
       )
 
-      const messageList: messages.IEnvelope[] = []
-      const listener: EnvelopeListener = (message: messages.IEnvelope) =>
-        messageList.push(message)
+      const messageList: messages.Envelope[] = []
+      const listener: EnvelopeListener = (message: messages.Envelope) => messageList.push(message)
       await testCase.execute(listener, 0, 'some-test-case-started-id')
-      assert.equal(messageList.length, 4)
+      assert.strictEqual(messageList.length, 4)
     })
   })
 
@@ -81,7 +81,7 @@ describe('makeTestCase', () => {
           beforeHooks,
           [],
           new GherkinQuery(),
-          IdGenerator.incrementing(),
+          messages.IdGenerator.incrementing(),
           new IncrementClock(),
           new IncrementStopwatch(),
           withSourceFramesOnlyStackTrace(),
@@ -112,7 +112,7 @@ describe('makeTestCase', () => {
         [],
         afterHooks,
         new GherkinQuery(),
-        IdGenerator.incrementing(),
+        messages.IdGenerator.incrementing(),
         new IncrementClock(),
         new IncrementStopwatch(),
         withSourceFramesOnlyStackTrace(),
@@ -131,21 +131,27 @@ describe('makeTestCase', () => {
     })
   })
 
-  function makePickleWithTwoSteps() {
-    return new messages.Pickle({
+  function makePickleWithTwoSteps(): messages.Pickle {
+    return {
       id: 'some-id',
       name: 'some name',
       steps: [
-        new messages.Pickle.PickleStep({
+        {
           id: 'step-1',
           text: 'a passed step',
-        }),
-        new messages.Pickle.PickleStep({
+          astNodeIds: [],
+        },
+        {
           id: 'step-2',
           text: 'a failed step',
-        }),
+          astNodeIds: [],
+        },
       ],
-    })
+      astNodeIds: [],
+      tags: [],
+      language: 'en',
+      uri: 'uri',
+    }
   }
 
   function makeStepDefinitions() {

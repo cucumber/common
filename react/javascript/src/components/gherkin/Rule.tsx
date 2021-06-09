@@ -1,25 +1,27 @@
 import React from 'react'
-import IdGenerator from '../../IdGenerator'
 import Description from './Description'
 import Scenario from './Scenario'
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import Background from './Background'
-import RuleTitle from './RuleTitle'
+import Tags from './Tags'
+import Title from './Title'
+import Keyword from './Keyword'
+import HighLight from '../app/HighLight'
 
 interface IProps {
-  rule: messages.GherkinDocument.Feature.FeatureChild.IRule
+  rule: messages.Rule
 }
 
-const generator = new IdGenerator()
-
 const Rule: React.FunctionComponent<IProps> = ({ rule }) => {
-  const idGenerated = generator.generate(rule.name)
-
   return (
-    <section className="cucumber-rule">
-      <RuleTitle id={idGenerated} rule={rule} />
+    <section>
+      <Tags tags={rule.tags} />
+      <Title header="h2" id={rule.id}>
+        <Keyword>{rule.keyword}:</Keyword>
+        <HighLight text={rule.name} />
+      </Title>
+      <Description description={rule.description} />
       <div className="cucumber-children">
-        <Description description={rule.description} />
         {(rule.children || []).map((child, index) => {
           if (child.background) {
             return <Background key={index} background={child.background} />

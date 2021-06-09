@@ -9,11 +9,11 @@ import {
   createOptionalMayNotBeEmpty,
   createParameterIsNotAllowedInOptional,
   createUndefinedParameterType,
-  CucumberExpressionError,
 } from './Errors'
 import Expression from './Expression'
 import CucumberExpressionParser from './CucumberExpressionParser'
 import { Node, NodeType } from './Ast'
+import CucumberExpressionError from './CucumberExpressionError'
 
 const ESCAPE_PATTERN = () => /([\\^[({$.|?*+})\]])/g
 
@@ -66,9 +66,7 @@ export default class CucumberExpression implements Expression {
     this.assertNoOptionals(node, (astNode) =>
       createOptionalIsNotAllowedInOptional(astNode, this.expression)
     )
-    this.assertNotEmpty(node, (astNode) =>
-      createOptionalMayNotBeEmpty(astNode, this.expression)
-    )
+    this.assertNotEmpty(node, (astNode) => createOptionalMayNotBeEmpty(astNode, this.expression))
     const regex = node.nodes.map((node) => this.rewriteToRegex(node)).join('')
     return `(?:${regex})?`
   }
@@ -80,10 +78,7 @@ export default class CucumberExpression implements Expression {
         throw createAlternativeMayNotBeEmpty(alternative, this.expression)
       }
       this.assertNotEmpty(alternative, (astNode) =>
-        createAlternativeMayNotExclusivelyContainOptionals(
-          astNode,
-          this.expression
-        )
+        createAlternativeMayNotExclusivelyContainOptionals(astNode, this.expression)
       )
     })
     const regex = node.nodes.map((node) => this.rewriteToRegex(node)).join('|')
@@ -117,9 +112,7 @@ export default class CucumberExpression implements Expression {
     node: Node,
     createNodeWasNotEmptyException: (astNode: Node) => CucumberExpressionError
   ) {
-    const textNodes = node.nodes.filter(
-      (astNode) => NodeType.text == astNode.type
-    )
+    const textNodes = node.nodes.filter((astNode) => NodeType.text == astNode.type)
 
     if (textNodes.length == 0) {
       throw createNodeWasNotEmptyException(node)
@@ -128,13 +121,9 @@ export default class CucumberExpression implements Expression {
 
   private assertNoParameters(
     node: Node,
-    createNodeContainedAParameterError: (
-      astNode: Node
-    ) => CucumberExpressionError
+    createNodeContainedAParameterError: (astNode: Node) => CucumberExpressionError
   ) {
-    const parameterNodes = node.nodes.filter(
-      (astNode) => NodeType.parameter == astNode.type
-    )
+    const parameterNodes = node.nodes.filter((astNode) => NodeType.parameter == astNode.type)
     if (parameterNodes.length > 0) {
       throw createNodeContainedAParameterError(parameterNodes[0])
     }
@@ -142,19 +131,15 @@ export default class CucumberExpression implements Expression {
 
   private assertNoOptionals(
     node: Node,
-    createNodeContainedAnOptionalError: (
-      astNode: Node
-    ) => CucumberExpressionError
+    createNodeContainedAnOptionalError: (astNode: Node) => CucumberExpressionError
   ) {
-    const parameterNodes = node.nodes.filter(
-      (astNode) => NodeType.optional == astNode.type
-    )
+    const parameterNodes = node.nodes.filter((astNode) => NodeType.optional == astNode.type)
     if (parameterNodes.length > 0) {
       throw createNodeContainedAnOptionalError(parameterNodes[0])
     }
   }
 
-  public match(text: string): ReadonlyArray<Argument<any>> {
+  public match(text: string): readonly Argument<any>[] {
     return Argument.build(this.treeRegexp, text, this.parameterTypes)
   }
 

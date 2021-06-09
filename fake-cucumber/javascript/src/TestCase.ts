@@ -1,11 +1,9 @@
-import ITestStep from './ITestStep'
-import { EnvelopeListener } from './types'
-import { messages, TimeConversion } from '@cucumber/messages'
-import IWorld from './IWorld'
+import { EnvelopeListener, ITestCase, ITestStep, IWorld } from './types'
+import * as messages from '@cucumber/messages'
 import IClock from './IClock'
-import ITestCase from './ITestCase'
+import { getWorstTestStepResult } from '@cucumber/messages'
 
-const { millisecondsSinceEpochToTimestamp } = TimeConversion
+const { millisecondsSinceEpochToTimestamp } = messages.TimeConversion
 
 export default class TestCase implements ITestCase {
   constructor(
@@ -13,39 +11,31 @@ export default class TestCase implements ITestCase {
     private readonly testSteps: ITestStep[],
     private readonly pickleId: string,
     private readonly clock: IClock
-  ) {
-    testSteps.forEach((testStep) => {
-      if (!testStep) {
-        throw new Error('undefined step')
-      }
-    })
-  }
+  ) {}
 
-  public toMessage(): messages.IEnvelope {
-    return new messages.Envelope({
-      testCase: new messages.TestCase({
+  public toMessage(): messages.Envelope {
+    return {
+      testCase: {
         id: this.id,
         pickleId: this.pickleId,
         testSteps: this.testSteps.map((step) => step.toMessage()),
-      }),
-    })
+      },
+    }
   }
 
   public async execute(
     listener: EnvelopeListener,
     attempt: number,
     testCaseStartedId: string
-  ): Promise<void> {
-    listener(
-      new messages.Envelope({
-        testCaseStarted: new messages.TestCaseStarted({
-          attempt,
-          testCaseId: this.id,
-          id: testCaseStartedId,
-          timestamp: millisecondsSinceEpochToTimestamp(this.clock.clockNow()),
-        }),
-      })
-    )
+  ): Promise<messages.TestStepResultStatus> {
+    listener({
+      testCaseStarted: {
+        attempt,
+        testCaseId: this.id,
+        id: testCaseStartedId,
+        timestamp: millisecondsSinceEpochToTimestamp(this.clock.clockNow()),
+      },
+    })
 
     const world: IWorld = {
       attach: () => {
@@ -56,31 +46,27 @@ export default class TestCase implements ITestCase {
       },
     }
 
-    let executeNext = true
+    const testStepResults: messages.TestStepResult[] = []
+    let previousPassed = true
     for (const testStep of this.testSteps) {
-      let testStepResult: messages.TestStepFinished.ITestStepResult
-      // TODO: Also ask testStep if it should always execute (true for After steps)
-      if (executeNext || testStep.alwaysExecute) {
-        testStepResult = await testStep.execute(
-          world,
-          testCaseStartedId,
-          listener
-        )
-        executeNext =
-          testStepResult.status ===
-          messages.TestStepFinished.TestStepResult.Status.PASSED
-      } else {
-        testStepResult = testStep.skip(listener, testCaseStartedId)
-      }
+      const testStepResult: messages.TestStepResult = await testStep.execute(
+        world,
+        testCaseStartedId,
+        listener,
+        previousPassed
+      )
+      previousPassed = testStepResult.status === messages.TestStepResultStatus.PASSED
+      testStepResults.push(testStepResult)
     }
 
-    listener(
-      new messages.Envelope({
-        testCaseFinished: new messages.TestCaseFinished({
-          testCaseStartedId,
-          timestamp: millisecondsSinceEpochToTimestamp(this.clock.clockNow()),
-        }),
-      })
-    )
+    listener({
+      testCaseFinished: {
+        testCaseStartedId: testCaseStartedId,
+        timestamp: millisecondsSinceEpochToTimestamp(this.clock.clockNow()),
+      },
+    })
+
+    const finalStepResult = getWorstTestStepResult(testStepResults)
+    return finalStepResult.status
   }
 }

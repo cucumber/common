@@ -6,8 +6,7 @@ import (
 	"io"
 	"strings"
 
-	"github.com/cucumber/messages-go/v13"
-	gio "github.com/gogo/protobuf/io"
+	"github.com/cucumber/messages-go/v16"
 )
 
 type Formatter struct {
@@ -20,7 +19,7 @@ type Formatter struct {
 }
 
 // ProcessMessages writes a JSON report to STDOUT
-func (self *Formatter) ProcessMessages(reader gio.ReadCloser, stdout io.Writer) (err error) {
+func (self *Formatter) ProcessMessages(reader io.Reader, stdout io.Writer) (err error) {
 	self.verbose = false
 	self.lookup = &MessageLookup{}
 	self.lookup.Initialize(self.verbose)
@@ -29,9 +28,10 @@ func (self *Formatter) ProcessMessages(reader gio.ReadCloser, stdout io.Writer) 
 	self.jsonFeaturesByURI = make(map[string]*jsonFeature)
 	self.testCaseById = make(map[string]*TestCase)
 
+	decoder := json.NewDecoder(reader)
 	for {
 		envelope := &messages.Envelope{}
-		err := reader.ReadMsg(envelope)
+		err := decoder.Decode(envelope)
 		if err == io.EOF {
 			break
 		}
@@ -44,16 +44,16 @@ func (self *Formatter) ProcessMessages(reader gio.ReadCloser, stdout io.Writer) 
 			return err
 		}
 
-		switch m := envelope.Message.(type) {
-		case *messages.Envelope_TestCaseStarted:
-			err, testCase := ProcessTestCaseStarted(m.TestCaseStarted, self.lookup)
+		if envelope.TestCaseStarted != nil {
+			err, testCase := ProcessTestCaseStarted(envelope.TestCaseStarted, self.lookup)
 			if err != nil {
 				return err
 			}
 			self.testCaseById[testCase.TestCase.Id] = testCase
+		}
 
-		case *messages.Envelope_TestStepFinished:
-			err, testStep := ProcessTestStepFinished(m.TestStepFinished, self.lookup)
+		if envelope.TestStepFinished != nil {
+			err, testStep := ProcessTestStepFinished(envelope.TestStepFinished, self.lookup)
 			if err != nil {
 				return err
 			}
@@ -66,9 +66,10 @@ func (self *Formatter) ProcessMessages(reader gio.ReadCloser, stdout io.Writer) 
 				panic("No testCase for " + testStep.TestCaseID + strings.Join(keys, ", "))
 			}
 			testCase.appendStep(testStep)
+		}
 
-		case *messages.Envelope_TestCaseFinished:
-			testCaseStarted := self.lookup.LookupTestCaseStarted(m.TestCaseFinished.TestCaseStartedId)
+		if envelope.TestCaseFinished != nil {
+			testCaseStarted := self.lookup.LookupTestCaseStarted(envelope.TestCaseFinished.TestCaseStartedId)
 			testCase, ok := self.testCaseById[testCaseStarted.TestCaseId]
 
 			if ok {
@@ -95,7 +96,7 @@ func (self *Formatter) findOrCreateJsonFeature(pickle *messages.Pickle) *jsonFea
 			Elements:    make([]*jsonFeatureElement, 0),
 			ID:          self.makeId(gherkinDocumentFeature.Name),
 			Keyword:     gherkinDocumentFeature.Keyword,
-			Line:        gherkinDocumentFeature.Location.Line,
+			Line:        uint32(gherkinDocumentFeature.Location.Line),
 			Name:        gherkinDocumentFeature.Name,
 			URI:         pickle.Uri,
 			Tags:        make([]*jsonTag, len(gherkinDocumentFeature.Tags)),
@@ -103,7 +104,7 @@ func (self *Formatter) findOrCreateJsonFeature(pickle *messages.Pickle) *jsonFea
 
 		for tagIndex, tag := range gherkinDocumentFeature.Tags {
 			jFeature.Tags[tagIndex] = &jsonTag{
-				Line: tag.Location.Line,
+				Line: uint32(tag.Location.Line),
 				Name: tag.Name,
 			}
 		}

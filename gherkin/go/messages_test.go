@@ -2,8 +2,8 @@ package gherkin
 
 import (
 	"bytes"
-	"github.com/cucumber/messages-go/v13"
-	gio "github.com/gogo/protobuf/io"
+	"encoding/json"
+	"github.com/cucumber/messages-go/v16"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"testing"
@@ -11,7 +11,7 @@ import (
 
 func TestMessagesWithStdin(t *testing.T) {
 	stdin := &bytes.Buffer{}
-	writer := gio.NewDelimitedWriter(stdin)
+	encoder := json.NewEncoder(stdin)
 
 	gherkin := `Feature: Minimal
 
@@ -22,22 +22,22 @@ func TestMessagesWithStdin(t *testing.T) {
     Given b
 `
 
-	wrapper := &messages.Envelope{
-		Message: &messages.Envelope_Source{
-			Source: &messages.Source{
-				Uri:       "features/test.feature",
-				Data:      gherkin,
-				MediaType: "text/x.cucumber.gherkin+plain",
-			},
+	envelope := &messages.Envelope{
+		Source: &messages.Source{
+			Uri:       "features/test.feature",
+			Data:      gherkin,
+			MediaType: "text/x.cucumber.gherkin+plain",
 		},
 	}
 
-	require.NoError(t, writer.WriteMsg(wrapper))
-	require.NoError(t, writer.WriteMsg(wrapper))
+	require.NoError(t, encoder.Encode(envelope))
+	require.NoError(t, encoder.Encode(envelope))
+
+	decoder := json.NewDecoder(stdin)
 
 	writtenMessages, err := Messages(
 		nil,
-		stdin,
+		decoder,
 		"en",
 		true,
 		true,

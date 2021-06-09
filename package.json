@@ -1,0 +1,59 @@
+{
+  "name": "@cucumber/cucumber-monorepo",
+  "private": true,
+  "version": "0.0.0",
+  "license": "MIT",
+  "workspaces": [
+    "messages/javascript",
+    "message-streams/javascript",
+    "gherkin/javascript",
+    "gherkin-streams/javascript",
+    "gherkin-utils/javascript",
+    "cucumber-expressions/javascript",
+    "tag-expressions/javascript",
+    "create-meta/javascript",
+    "fake-cucumber/javascript",
+    "query/javascript",
+    "compatibility-kit/javascript",
+    "json-formatter/javascript-testdata",
+    "react/javascript",
+    "html-formatter/javascript",
+    "json-to-messages/javascript",
+    "json-to-messages/javascript-testdata"
+  ],
+  "scripts": {
+    "build": "tsc --build tsconfig.build.json",
+    "clean": "./scripts/npm-each rm -rf node_modules package-lock.json dist acceptance && rm -rf node_modules package-lock.json",
+    "clean-tsc": "./scripts/npm-each rm -rf dist",
+    "test": "./scripts/npm-each npm test",
+    "upgrade": "npm-check-updates --upgrade && ./scripts/npm-each npm-check-updates --upgrade",
+    "eslint-fix": "eslint --ext ts,tsx --max-warnings 0 --fix */javascript",
+    "eslint": "eslint --ext ts,tsx --max-warnings 0 */javascript",
+    "prepare": "./scripts/npm-each npm run prepare --if-present"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "4.26.1",
+    "@typescript-eslint/parser": "4.26.1",
+    "ajv": "8.6.0",
+    "ajv-cli": "5.0.0",
+    "eslint": "7.28.0",
+    "eslint-config-prettier": "8.3.0",
+    "eslint-plugin-import": "2.23.4",
+    "eslint-plugin-node": "11.1.0",
+    "eslint-plugin-prettier": "3.4.0",
+    "eslint-plugin-react": "7.24.0",
+    "eslint-plugin-react-hooks": "4.2.0",
+    "eslint-plugin-simple-import-sort": "7.0.0",
+    "npm-check-updates": "11.6.0",
+    "prettier": "2.3.1",
+    "pretty-quick": "3.1.0",
+    "tsconfig-paths": "3.9.0",
+    "typescript": "4.3.2"
+  },
+  "prettier": {
+    "trailingComma": "es5",
+    "semi": false,
+    "singleQuote": true,
+    "printWidth": 100
+  }
+}

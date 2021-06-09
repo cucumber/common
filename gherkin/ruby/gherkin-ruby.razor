@@ -92,7 +92,7 @@ module Gherkin
     end
 
     def add_error(context, error)
-      context.errors.push(error)
+      context.errors.push(error) unless context.errors.map { |e| e.message }.include?(error.message)
       raise CompositeParserException, context.errors if context.errors.length > 10
     end
 
@@ -126,7 +126,8 @@ module Gherkin
       return handle_external_error(context, false) do
         context.token_matcher.match_@(rule.Name.Replace("#", ""))(token)
       end
-    end</text>
+    end
+</text>
 }
 
     def match_token(state, token, context)
@@ -150,7 +151,7 @@ module Gherkin
       @:if @MatchToken(transition.TokenType)
         if (transition.LookAheadHint != null)
         {
-        @:if lookahead_@(transition.LookAheadHint.Id)(context, token)
+        @:@("if lookahead_")@(transition.LookAheadHint.Id)(context, token)
         }
         foreach(var production in transition.Productions)
         {
@@ -164,6 +165,7 @@ module Gherkin
       @:end
       }
       @HandleParserError(state.Transitions.Select(t => "#" + t.TokenType.ToString()).Distinct(), state)
+
     end</text>
 }
 

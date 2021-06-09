@@ -3,11 +3,9 @@ import {
   ParameterType,
   ParameterTypeRegistry,
 } from '@cucumber/cucumber-expressions'
-import { IdGenerator, messages } from '@cucumber/messages'
-import { AnyBody } from './types'
+import * as messages from '@cucumber/messages'
+import { IHook, AnyBody, IStepDefinition } from './types'
 import ExpressionStepDefinition from './ExpressionStepDefinition'
-import IStepDefinition from './IStepDefinition'
-import IHook from './IHook'
 import Hook from './Hook'
 import IClock from './IClock'
 import { MakeErrorMessage, withFullStackTrace } from './ErrorMessageGenerator'
@@ -25,27 +23,23 @@ function defaultTransformer(...args: string[]) {
  */
 export default class SupportCode {
   public readonly parameterTypes: Array<ParameterType<any>> = []
-  public readonly parameterTypeMessages: Array<messages.IEnvelope> = []
+  public readonly parameterTypeMessages: Array<messages.Envelope> = []
   public readonly stepDefinitions: IStepDefinition[] = []
   public readonly beforeHooks: IHook[] = []
   public readonly afterHooks: IHook[] = []
 
   private readonly parameterTypeRegistry = new ParameterTypeRegistry()
-  private readonly expressionFactory = new ExpressionFactory(
-    this.parameterTypeRegistry
-  )
-  public readonly undefinedParameterTypeMessages: messages.IEnvelope[] = []
+  private readonly expressionFactory = new ExpressionFactory(this.parameterTypeRegistry)
+  public readonly undefinedParameterTypeMessages: messages.Envelope[] = []
 
   constructor(
-    public readonly newId: IdGenerator.NewId = IdGenerator.uuid(),
+    public readonly newId: messages.IdGenerator.NewId = messages.IdGenerator.uuid(),
     public readonly clock: IClock = new DateClock(),
     public readonly stopwatch: IStopwatch = new PerfHooksStopwatch(),
     public readonly makeErrorMessage: MakeErrorMessage = withFullStackTrace()
   ) {}
 
-  public defineParameterType(
-    parameterTypeDefinition: IParameterTypeDefinition
-  ) {
+  public defineParameterType(parameterTypeDefinition: IParameterTypeDefinition) {
     const parameterType = new ParameterType<any>(
       parameterTypeDefinition.name,
       parameterTypeDefinition.regexp,
@@ -56,43 +50,34 @@ export default class SupportCode {
     )
     this.parameterTypeRegistry.defineParameterType(parameterType)
     this.parameterTypes.push(parameterType)
-    this.parameterTypeMessages.push(
-      new messages.Envelope({
-        parameterType: new messages.ParameterType({
-          id: this.newId(),
-          name: parameterType.name,
-          regularExpressions: parameterType.regexpStrings.slice(),
-          preferForRegularExpressionMatch: parameterType.preferForRegexpMatch,
-          useForSnippets: parameterType.useForSnippets,
-        }),
-      })
-    )
+    this.parameterTypeMessages.push({
+      parameterType: {
+        id: this.newId(),
+        name: parameterType.name,
+        regularExpressions: parameterType.regexpStrings.slice(),
+        preferForRegularExpressionMatch: parameterType.preferForRegexpMatch,
+        useForSnippets: parameterType.useForSnippets,
+      },
+    })
   }
 
   public defineStepDefinition(
-    sourceReference: messages.ISourceReference,
+    sourceReference: messages.SourceReference,
     expression: string | RegExp,
     body: AnyBody
   ): void {
     try {
       const expr = this.expressionFactory.createExpression(expression)
-      const stepDefinition = new ExpressionStepDefinition(
-        this.newId(),
-        expr,
-        sourceReference,
-        body
-      )
+      const stepDefinition = new ExpressionStepDefinition(this.newId(), expr, sourceReference, body)
       this.registerStepDefinition(stepDefinition)
     } catch (e) {
       if (e.undefinedParameterTypeName) {
-        this.undefinedParameterTypeMessages.push(
-          new messages.Envelope({
-            undefinedParameterType: new messages.UndefinedParameterType({
-              expression: expression.toString(),
-              name: e.undefinedParameterTypeName,
-            }),
-          })
-        )
+        this.undefinedParameterTypeMessages.push({
+          undefinedParameterType: {
+            expression: expression.toString(),
+            name: e.undefinedParameterTypeName,
+          },
+        })
       } else {
         throw e
       }
@@ -104,13 +89,11 @@ export default class SupportCode {
   }
 
   public defineBeforeHook(
-    sourceReference: messages.ISourceReference,
+    sourceReference: messages.SourceReference,
     tagExpressionOrBody: string | AnyBody,
     body?: AnyBody
   ) {
-    this.registerBeforeHook(
-      this.makeHook(sourceReference, tagExpressionOrBody, body)
-    )
+    this.registerBeforeHook(this.makeHook(sourceReference, tagExpressionOrBody, body))
   }
 
   public registerBeforeHook(hook: IHook) {
@@ -118,13 +101,11 @@ export default class SupportCode {
   }
 
   public defineAfterHook(
-    sourceReference: messages.ISourceReference,
+    sourceReference: messages.SourceReference,
     tagExpressionOrBody: string | AnyBody,
     body?: AnyBody
   ) {
-    this.registerAfterHook(
-      this.makeHook(sourceReference, tagExpressionOrBody, body)
-    )
+    this.registerAfterHook(this.makeHook(sourceReference, tagExpressionOrBody, body))
   }
 
   public registerAfterHook(hook: IHook) {
@@ -132,12 +113,11 @@ export default class SupportCode {
   }
 
   private makeHook(
-    sourceReference: messages.ISourceReference,
+    sourceReference: messages.SourceReference,
     tagExpressionOrBody: string | AnyBody,
     body?: AnyBody
   ) {
-    const tagExpression =
-      typeof tagExpressionOrBody === 'string' ? tagExpressionOrBody : null
+    const tagExpression = typeof tagExpressionOrBody === 'string' ? tagExpressionOrBody : null
     body = typeof tagExpressionOrBody !== 'string' ? tagExpressionOrBody : body
     return new Hook(this.newId(), tagExpression, sourceReference, body)
   }

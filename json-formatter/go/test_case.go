@@ -5,16 +5,16 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/cucumber/messages-go/v13"
+	"github.com/cucumber/messages-go/v16"
 )
 
 type TestCase struct {
 	FeatureName string
-	Scenario    *messages.GherkinDocument_Feature_Scenario
+	Scenario    *messages.Scenario
 	Pickle      *messages.Pickle
 	TestCase    *messages.TestCase
 	Steps       []*TestStep
-	Tags        []*messages.GherkinDocument_Feature_Tag
+	Tags        []*messages.Tag
 }
 
 type SortedSteps struct {
@@ -35,7 +35,7 @@ func ProcessTestCaseStarted(testCaseStarted *messages.TestCaseStarted, lookup *M
 		return errors.New("No pickle for " + testCase.PickleId), nil
 	}
 
-	tags := make([]*messages.GherkinDocument_Feature_Tag, len(pickle.Tags))
+	tags := make([]*messages.Tag, len(pickle.Tags))
 	for index, tag := range pickle.Tags {
 		sourceTag := lookup.LookupTag(tag.AstNodeId)
 		if sourceTag == nil {
@@ -92,7 +92,7 @@ func backgroundStepsToJSON(steps []*TestStep) *jsonFeatureElement {
 		Keyword:     background.Keyword,
 		Name:        background.Name,
 		Description: background.Description,
-		Line:        background.Location.Line,
+		Line:        uint32(background.Location.Line),
 		Type:        "background",
 		Steps:       makeJSONSteps(steps),
 	}
@@ -130,7 +130,7 @@ func scenarioStepsToJSON(testCase *TestCase, steps []*TestStep) *jsonFeatureElem
 		Type:        "scenario",
 		Name:        testCase.Scenario.Name,
 		Description: testCase.Scenario.Description,
-		Line:        line,
+		Line:        uint32(line),
 		Steps:       makeJSONSteps(steps),
 		Tags:        makeJSONTags(testCase.Tags),
 	}
@@ -144,12 +144,12 @@ func makeJSONSteps(steps []*TestStep) []*jsonStep {
 	return jsonSteps
 }
 
-func makeJSONTags(tags []*messages.GherkinDocument_Feature_Tag) []*jsonTag {
+func makeJSONTags(tags []*messages.Tag) []*jsonTag {
 	jsonTags := make([]*jsonTag, len(tags))
 	for index, tag := range tags {
 		jsonTags[index] = &jsonTag{
 			Name: tag.Name,
-			Line: tag.Location.Line,
+			Line: uint32(tag.Location.Line),
 		}
 	}
 	return jsonTags

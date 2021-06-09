@@ -3,7 +3,7 @@ package gherkin
 import (
 	"bufio"
 	"fmt"
-	"github.com/cucumber/messages-go/v13"
+	"github.com/cucumber/messages-go/v16"
 	"io"
 	"strings"
 )

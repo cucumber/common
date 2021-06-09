@@ -15,9 +15,9 @@ describe Cucumber::HTMLFormatter::AssetsLoader do
   end
 
   context '.css' do
-    it 'reads the content of assets/cucumber-react.css' do
+    it 'reads the content of assets/cucumber-html.css' do
       expect(subject.css).to eq('whatever content')
-      expect(File).to have_received(:read).with(/.*\/assets\/cucumber-react\.css$/)
+      expect(File).to have_received(:read).with(/.*\/assets\/cucumber-html\.css$/)
     end
   end
 

@@ -1,22 +1,18 @@
-[![CircleCI](https://circleci.com/gh/cucumber/cucumber.svg?style=svg)](https://circleci.com/gh/cucumber/cucumber)
+[![CircleCI](https://circleci.com/gh/cucumber/common.svg?style=svg)](https://circleci.com/gh/cucumber/common)
 [![OpenCollective](https://opencollective.com/cucumber/backers/badge.svg)](#backers) [![OpenCollective](https://opencollective.com/cucumber/sponsors/badge.svg)](#sponsors)
+[![pull requests](https://www.oselvar.com/api/badge?label=pull+requests&csvUrl=https%3A%2F%2Fraw.githubusercontent.com%2Fcucumber%2Foselvar-github-metrics%2Fmain%2Fdata%2Fcucumber%2Fcommon%2FpullRequests.csv)](https://www.oselvar.com/github/cucumber/oselvar-github-metrics/main/cucumber/common '3rd quartile cycle time')
+[![issues](https://www.oselvar.com/api/badge?label=issues&csvUrl=https%3A%2F%2Fraw.githubusercontent.com%2Fcucumber%2Foselvar-github-metrics%2Fmain%2Fdata%2Fcucumber%2Fcommon%2Fissues.csv)](https://www.oselvar.com/github/cucumber/oselvar-github-metrics/main/cucumber/common '3rd quartile cycle time')
 
-# ![Cucumber Logo](https://github.com/cucumber-ltd/brand/raw/master/images/png/notm/cucumber-black/cucumber-black-128.png)
+# Cucumber Common Components
 
-Cucumber is a tool that supports [Behaviour-Driven Development
-(BDD)](https://cucumber.io/blog/intro-to-bdd-and-tdd/) - a software
-development process that aims to enhance software quality and reduce
-maintenance costs.
+This repo contains the libraries/modules for behaviour that's common between the various Cucumber implementations. These include:
 
-Cucumber executes *executable specifications* written in [plain language](https://cucumber.io/docs/gherkin/)
-and produces reports indicating whether the software behaves according to the
-specification or not.
+- [parsing Gherkin documents](https://github.com/cucumber/common/tree/main/gherkin) into a machine-readable object model.
+- [parsing Tag expressions](https://github.com/cucumber/common/tree/main/tag-expressions) passed as arguments when running Cucumber to filter which scenarios are run.
+- [parsing Cucumber expressions](https://github.com/cucumber/common/tree/main/cucumber-expressions) used to map step definition functions to Gherkin steps
+- [formatting HTML output](https://github.com/cucumber/common/tree/main/html-formatter)
 
-Cucumber reduces the effort to keep requirements specifications, tests and documentation
-in sync - with Cucumber they are all the same documents - a single source of truth
-for everyone on the team.
-
-Cucumber is compatible with all the major software platforms.
+Most of these modules have implemnentations in multiple langages, and use shared test suites to ensure behaviour is consistent. See the [contributing guide](https://github.com/cucumber/common/blob/master/CONTRIBUTING.md) for more details.
 
 ## Backers
 

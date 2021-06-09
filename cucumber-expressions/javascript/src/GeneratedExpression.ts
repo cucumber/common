@@ -4,14 +4,11 @@ import ParameterType from './ParameterType'
 export default class GeneratedExpression {
   constructor(
     private readonly expressionTemplate: string,
-    public readonly parameterTypes: ReadonlyArray<ParameterType<any>>
+    public readonly parameterTypes: readonly ParameterType<any>[]
   ) {}
 
   get source() {
-    return util.format(
-      this.expressionTemplate,
-      ...this.parameterTypes.map((t) => t.name)
-    )
+    return util.format(this.expressionTemplate, ...this.parameterTypes.map((t) => t.name))
   }
 
   /**
@@ -19,18 +16,13 @@ export default class GeneratedExpression {
    *
    * @returns {ReadonlyArray.<String>}
    */
-  get parameterNames(): ReadonlyArray<string> {
+  get parameterNames(): readonly string[] {
     const usageByTypeName: { [key: string]: number } = {}
-    return this.parameterTypes.map((t) =>
-      getParameterName(t.name, usageByTypeName)
-    )
+    return this.parameterTypes.map((t) => getParameterName(t.name, usageByTypeName))
   }
 }
 
-function getParameterName(
-  typeName: string,
-  usageByTypeName: { [key: string]: number }
-) {
+function getParameterName(typeName: string, usageByTypeName: { [key: string]: number }) {
   let count = usageByTypeName[typeName]
   count = count ? count + 1 : 1
   usageByTypeName[typeName] = count

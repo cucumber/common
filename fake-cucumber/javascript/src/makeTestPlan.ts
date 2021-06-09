@@ -2,8 +2,7 @@ import { Query as GherkinQuery } from '@cucumber/gherkin-utils'
 import SupportCode from './SupportCode'
 import TestPlan from './TestPlan'
 import makePickleTestStep from './makePickleTestStep'
-import ITestPlan from './ITestPlan'
-import { MakeTestCase } from '.'
+import { ITestPlan, MakeTestCase } from './types'
 import makeHookTestStep from './makeHookTestStep'
 
 export default function makeTestPlan(
@@ -17,7 +16,7 @@ export default function makeTestPlan(
       pickle,
       supportCode.stepDefinitions,
       supportCode.beforeHooks,
-      supportCode.afterHooks,
+      supportCode.afterHooks.slice().reverse(),
       gherkinQuery,
       supportCode.newId,
       supportCode.clock,

@@ -2,53 +2,45 @@ package cucumber_demo_formatter
 
 import (
 	"bytes"
-	"github.com/cucumber/messages-go/v13"
-	fio "github.com/cucumber/messages-go/v13/io"
+	"encoding/json"
+	"github.com/cucumber/messages-go/v16"
 	"github.com/stretchr/testify/require"
 	"testing"
 )
 
 func TestAllResultTypes(t *testing.T) {
 	stdin := &bytes.Buffer{}
-	writer := fio.NewNdjsonWriter(stdin)
+	writer := json.NewEncoder(stdin)
 
-	var statuses = []messages.TestStepFinished_TestStepResult_Status{
-		messages.TestStepFinished_TestStepResult_UNKNOWN,
-		messages.TestStepFinished_TestStepResult_PASSED,
-		messages.TestStepFinished_TestStepResult_SKIPPED,
-		messages.TestStepFinished_TestStepResult_PENDING,
-		messages.TestStepFinished_TestStepResult_UNDEFINED,
-		messages.TestStepFinished_TestStepResult_AMBIGUOUS,
-		messages.TestStepFinished_TestStepResult_FAILED,
+	var statuses = []messages.TestStepResultStatus{
+		messages.TestStepResultStatus_UNKNOWN,
+		messages.TestStepResultStatus_PASSED,
+		messages.TestStepResultStatus_SKIPPED,
+		messages.TestStepResultStatus_PENDING,
+		messages.TestStepResultStatus_UNDEFINED,
+		messages.TestStepResultStatus_AMBIGUOUS,
+		messages.TestStepResultStatus_FAILED,
 	}
 	for _, status := range statuses {
-		err := writer.WriteMsg(newTestStepFinished(status))
+		err := writer.Encode(newTestStepFinished(status))
 		require.NoError(t, err)
 	}
-	err := writer.WriteMsg(newTestRunFinished())
+	err := writer.Encode(newTestRunFinished())
 	require.NoError(t, err)
-
-	err = writer.Close()
-	require.NoError(t, err)
-
-	stdinReader := bytes.NewReader(stdin.Bytes())
-	reader := fio.NewNdjsonReader(stdinReader)
 
 	stdout := &bytes.Buffer{}
-	ProcessMessages(reader, stdout)
+	ProcessMessages(stdin, stdout)
 
 	require.EqualValues(t,
 		"👽😃🥶⏰🤷🦄💣\n",
 		stdout.String())
 }
 
-func newTestStepFinished(status messages.TestStepFinished_TestStepResult_Status) *messages.Envelope {
+func newTestStepFinished(status messages.TestStepResultStatus) *messages.Envelope {
 	return &messages.Envelope{
-		Message: &messages.Envelope_TestStepFinished{
-			TestStepFinished: &messages.TestStepFinished{
-				TestStepResult: &messages.TestStepFinished_TestStepResult{
-					Status: status,
-				},
+		TestStepFinished: &messages.TestStepFinished{
+			TestStepResult: &messages.TestStepResult{
+				Status: status,
 			},
 		},
 	}
@@ -56,8 +48,6 @@ func newTestStepFinished(status messages.TestStepFinished_TestStepResult_Status)
 
 func newTestRunFinished() *messages.Envelope {
 	return &messages.Envelope{
-		Message: &messages.Envelope_TestRunFinished{
-			TestRunFinished: &messages.TestRunFinished{},
-		},
+		TestRunFinished: &messages.TestRunFinished{},
 	}
 }

@@ -6,26 +6,27 @@ an emoji for each step.
 package cucumber_demo_formatter
 
 import (
+	"encoding/json"
 	"fmt"
-	"github.com/cucumber/messages-go/v13"
-	gio "github.com/gogo/protobuf/io"
+	"github.com/cucumber/messages-go/v16"
 	"io"
 )
 
-func ProcessMessages(reader gio.ReadCloser, output io.Writer) {
-	var emoji = map[messages.TestStepFinished_TestStepResult_Status]string{
-		messages.TestStepFinished_TestStepResult_UNKNOWN:   "👽",
-		messages.TestStepFinished_TestStepResult_PASSED:    "😃",
-		messages.TestStepFinished_TestStepResult_SKIPPED:   "🥶",
-		messages.TestStepFinished_TestStepResult_PENDING:   "⏰",
-		messages.TestStepFinished_TestStepResult_UNDEFINED: "🤷",
-		messages.TestStepFinished_TestStepResult_AMBIGUOUS: "🦄",
-		messages.TestStepFinished_TestStepResult_FAILED:    "💣",
+func ProcessMessages(reader io.Reader, output io.Writer) {
+	var emoji = map[messages.TestStepResultStatus]string{
+		messages.TestStepResultStatus_UNKNOWN:   "👽",
+		messages.TestStepResultStatus_PASSED:    "😃",
+		messages.TestStepResultStatus_SKIPPED:   "🥶",
+		messages.TestStepResultStatus_PENDING:   "⏰",
+		messages.TestStepResultStatus_UNDEFINED: "🤷",
+		messages.TestStepResultStatus_AMBIGUOUS: "🦄",
+		messages.TestStepResultStatus_FAILED:    "💣",
 	}
 
+	decoder := json.NewDecoder(reader)
 	for {
 		envelope := &messages.Envelope{}
-		err := reader.ReadMsg(envelope)
+		err := decoder.Decode(envelope)
 		if err == io.EOF {
 			break
 		}
@@ -33,10 +34,10 @@ func ProcessMessages(reader gio.ReadCloser, output io.Writer) {
 			panic(err)
 		}
 
-		switch m := envelope.Message.(type) {
-		case *messages.Envelope_TestStepFinished:
-			_, err = fmt.Fprintf(output, emoji[m.TestStepFinished.TestStepResult.Status])
-		case *messages.Envelope_TestRunFinished:
+		if envelope.TestStepFinished != nil {
+			_, err = fmt.Fprintf(output, emoji[envelope.TestStepFinished.TestStepResult.Status])
+		}
+		if envelope.TestRunFinished != nil {
 			_, err = fmt.Fprint(output, "\n")
 		}
 		if err != nil {

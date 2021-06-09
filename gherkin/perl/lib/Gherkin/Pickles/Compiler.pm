@@ -5,8 +5,9 @@ use warnings;
 use Scalar::Util qw(reftype);
 
 sub compile {
-    my ( $class, $gherkin_document, $id_generator ) = @_;
+    my ( $class, $gherkin_document, $id_generator, $pickle_sink ) = @_;
     my @pickles;
+    $pickle_sink ||= sub { push @pickles, $_[0] };
 
     my $feature = $gherkin_document->{'gherkinDocument'}->{'feature'};
     my $language         = $feature->{'language'};
@@ -21,17 +22,17 @@ sub compile {
                 $gherkin_document->{'gherkinDocument'}->{'uri'},
                 $feature_tags, $background_steps,
                 $child->{'scenario'}, $language, $id_generator,
-                \@pickles
+                $pickle_sink
                 );
         } elsif ( $child->{'rule'} ) {
             $class->_compile_rule(
                 $gherkin_document->{'gherkinDocument'}->{'uri'},
                 $feature_tags, $background_steps,
                 $child->{'rule'}, $language, $id_generator,
-                \@pickles
+                $pickle_sink
                 );
         } else {
-            ...;
+            die "Unimplemented";
         }
     }
 
@@ -53,19 +54,7 @@ sub reject_nones {
     for my $key ( keys %$values ) {
         my $value = $values->{$key};
         if (defined $value) {
-            if (ref $value) {
-                if (reftype $value eq 'ARRAY') {
-                    $defined_only->{$key} = $value
-                        if (scalar(@$value) > 0);
-                }
-                else {
-                    $defined_only->{$key} = $value;
-                }
-            }
-            elsif (not ref $value) {
-                $defined_only->{$key} = $value
-                    unless "$value" eq '';
-            }
+            $defined_only->{$key} = $value;
         }
     }
 
@@ -74,12 +63,17 @@ sub reject_nones {
 
 sub _compile_scenario {
     my ( $class, $uri, $feature_tags, $background_steps,
-         $scenario, $language, $id_generator, $pickles )
+         $scenario, $language, $id_generator, $pickle_sink )
         = @_;
 
-    for my $examples ( @{ $scenario->{'examples'} ||
-                              [ { tableHeader => {},
-                                  tableBody   => [ { cells => [] } ]} ] } ) {
+    my @examples = @{ $scenario->{'examples'} };
+    if (scalar @examples == 0) {
+        # Create an empty example in order to iterate once below
+        push @examples, { tableHeader => {},
+                          tableBody   => [ { cells => [] } ]};
+    }
+
+    for my $examples (@examples) {
         my $variable_cells = $examples->{'tableHeader'}->{'cells'};
 
         for my $values ( @{ $examples->{'tableBody'} || [] } ) {
@@ -119,8 +113,7 @@ sub _compile_scenario {
                 }
             }
 
-            push(
-                @$pickles,
+            $pickle_sink->(
                 {
                     pickle =>
                         reject_nones(
@@ -141,17 +134,20 @@ sub _compile_scenario {
                                      $values->{'id'}
                                     ])
                             })
-                }
-            );
+                });
         }
     }
 }
 
 sub _compile_rule {
     my ( $class, $uri, $feature_tags, $feature_background_steps,
-         $rule_definition, $language, $id_generator, $pickles )
+         $rule_definition, $language, $id_generator, $pickle_sink )
         = @_;
     my $background_steps = $feature_background_steps;
+    my @tags = (
+        @{ $feature_tags || [] },
+        @{ $rule_definition->{'tags'} || []}
+    );
 
     for my $child ( @{ $rule_definition->{'children'} } ) {
         if ( $child->{'background'} ) {
@@ -160,12 +156,12 @@ sub _compile_rule {
                   @{ $child->{'background'}->{'steps'} } ];
         } elsif ( $child->{'scenario'} ) {
             $class->_compile_scenario(
-                $uri, $feature_tags, $background_steps,
+                $uri, \@tags, $background_steps,
                 $child->{'scenario'}, $language, $id_generator,
-                $pickles
+                $pickle_sink
                 );
         } else {
-            ...;
+            die "Unimplemented";
         }
     }
 }

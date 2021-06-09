@@ -3,8 +3,11 @@ package io.cucumber.createmeta;
 import com.eclipsesource.json.Json;
 import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonValue;
-import io.cucumber.messages.Messages;
 import io.cucumber.messages.ProtocolVersion;
+import io.cucumber.messages.types.Ci;
+import io.cucumber.messages.types.Git;
+import io.cucumber.messages.types.Meta;
+import io.cucumber.messages.types.Product;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -14,9 +17,8 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
+import static io.cucumber.createmeta.VariableExpression.evaluate;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class CreateMeta {
@@ -31,33 +33,19 @@ public class CreateMeta {
         }
     }
 
-    public static Messages.Meta createMeta(
-            String toolName,
-            String toolVersion,
+    public static Meta createMeta(
+            String implementationName,
+            String implementationVersion,
             Map<String, String> env
     ) {
-        Messages.Meta.Builder metaBuilder = Messages.Meta.newBuilder()
-                .setRuntime(Messages.Meta.Product.newBuilder()
-                        .setName(System.getProperty("java.vm.name"))
-                        .setVersion(System.getProperty("java.vm.version")))
-                .setImplementation(Messages.Meta.Product.newBuilder()
-                        .setName(toolName)
-                        .setVersion(toolVersion))
-                .setOs(Messages.Meta.Product.newBuilder()
-                        .setName(System.getProperty("os.name")))
-                .setCpu(Messages.Meta.Product.newBuilder()
-                        .setName(System.getProperty("os.arch")));
-
-        ProtocolVersion.getVersion()
-                .ifPresent(metaBuilder::setProtocolVersion);
-
-        Messages.Meta.CI ci = detectCI(env);
-        if (ci != null) {
-            metaBuilder.setCi(ci);
-        }
-
-        return metaBuilder
-                .build();
+        return new Meta(
+                ProtocolVersion.getVersion(),
+                new Product(implementationName, implementationVersion),
+                new Product(System.getProperty("java.vm.name"), System.getProperty("java.vm.version")),
+                new Product(System.getProperty("os.name"), null),
+                new Product(System.getProperty("os.arch"), null),
+                detectCI(env)
+        );
     }
 
     public static String removeUserInfoFromUrl(String value) {
@@ -70,10 +58,10 @@ public class CreateMeta {
         }
     }
 
-    static Messages.Meta.CI detectCI(Map<String, String> env) {
-        List<Messages.Meta.CI> detected = new ArrayList<>();
+    static Ci detectCI(Map<String, String> env) {
+        List<Ci> detected = new ArrayList<>();
         for (JsonObject.Member envEntry : CI_DICT) {
-            Messages.Meta.CI ci = createCi(envEntry.getName(), envEntry.getValue().asObject(), env);
+            Ci ci = createCi(envEntry.getName(), envEntry.getValue().asObject(), env);
             if (ci != null) {
                 detected.add(ci);
             }
@@ -81,69 +69,20 @@ public class CreateMeta {
         return detected.size() == 1 ? detected.get(0) : null;
     }
 
-    private static Messages.Meta.CI createCi(String name, JsonObject ciSystem, Map<String, String> env) {
-        String url = evaluate(getString(ciSystem, "url"), env);
+    private static Ci createCi(String name, JsonObject ci, Map<String, String> env) {
+        String url = evaluate(getString(ci, "url"), env);
         if (url == null) return null;
-        JsonObject git = ciSystem.get("git").asObject();
+        JsonObject git = ci.get("git").asObject();
         String remote = removeUserInfoFromUrl(evaluate(getString(git, "remote"), env));
         String revision = evaluate(getString(git, "revision"), env);
         String branch = evaluate(getString(git, "branch"), env);
         String tag = evaluate(getString(git, "tag"), env);
 
-        Messages.Meta.CI.Builder ciBuilder = Messages.Meta.CI.newBuilder()
-                .setName(name)
-                .setUrl(url);
-        Messages.Meta.CI.Git.Builder gitBuilder = Messages.Meta.CI.Git.newBuilder();
-        if (remote != null) gitBuilder.setRemote(remote);
-        if (revision != null) gitBuilder.setRevision(revision);
-        if (branch != null) gitBuilder.setBranch(branch);
-        if (tag != null) gitBuilder.setTag(tag);
-        return ciBuilder.setGit(gitBuilder).build();
-    }
-
-    private static String evaluate(String template, Map<String, String> env) {
-        if (template == null) return null;
-        try {
-            Pattern pattern = Pattern.compile("\\$\\{((refbranch|reftag)\\s+)?([^\\s}]+)(\\s+\\|\\s+([^}]+))?}");
-            Matcher matcher = pattern.matcher(template);
-            StringBuffer sb = new StringBuffer();
-            while (matcher.find()) {
-                String func = matcher.group(2);
-                String variable = matcher.group(3);
-                String defaultValue = matcher.group(5);
-                String value = env.getOrDefault(variable, defaultValue);
-                if (value == null) {
-                    throw new RuntimeException(String.format("Undefined variable: %s", variable));
-                }
-                if (func != null) {
-                    switch (func) {
-                        case "refbranch":
-                            value = group1(value, Pattern.compile("^refs/heads/(.*)"));
-                            break;
-                        case "reftag":
-                            value = group1(value, Pattern.compile("^refs/tags/(.*)"));
-                            break;
-                    }
-                }
-                if (value == null) {
-                    throw new RuntimeException(String.format("Undefined variable: %s", variable));
-                }
-                matcher.appendReplacement(sb, value);
-            }
-            matcher.appendTail(sb);
-            return sb.toString();
-        } catch (RuntimeException e) {
-            return null;
-        }
-    }
-
-    private static String group1(String value, Pattern pattern) {
-        Matcher matcher = pattern.matcher(value);
-        if (matcher.find()) {
-            String g1 = matcher.group(1);
-            return g1;
-        }
-        return matcher.find() ? matcher.group(1) : null;
+        return new Ci(
+                name,
+                url,
+                new Git(remote, revision, branch, tag)
+        );
     }
 
     private static String getString(JsonObject json, String name) {

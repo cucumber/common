@@ -1,7 +1,7 @@
 package json
 
 import (
-	"github.com/cucumber/messages-go/v13"
+	"github.com/cucumber/messages-go/v16"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 )
@@ -23,7 +23,7 @@ var _ = Describe("TestCase.appendStep", func() {
 			},
 		}
 		pickleTestStep = &TestStep{
-			PickleStep: &messages.Pickle_PickleStep{
+			PickleStep: &messages.PickleStep{
 				Id: "pickle-step",
 			},
 		}
@@ -67,29 +67,29 @@ var _ = Describe("TestCase.SortedSteps", func() {
 			},
 		}
 
-		background := &messages.GherkinDocument_Feature_Background{}
+		background := &messages.Background{}
 		firstBackgroundStep = &TestStep{
 			Background: background,
-			PickleStep: &messages.Pickle_PickleStep{
+			PickleStep: &messages.PickleStep{
 				Id: "step-1",
 			},
 		}
 
 		secondBackgroundStep = &TestStep{
 			Background: background,
-			PickleStep: &messages.Pickle_PickleStep{
+			PickleStep: &messages.PickleStep{
 				Id: "step-2",
 			},
 		}
 
 		firstPickleStep = &TestStep{
-			PickleStep: &messages.Pickle_PickleStep{
+			PickleStep: &messages.PickleStep{
 				Id: "step-3",
 			},
 		}
 
 		secondPickleStep = &TestStep{
-			PickleStep: &messages.Pickle_PickleStep{
+			PickleStep: &messages.PickleStep{
 				Id: "step-4",
 			},
 		}
@@ -192,7 +192,7 @@ var _ = Describe("ProcessTestCaseStarted", func() {
 		pickle   *messages.Pickle
 		testCase *TestCase
 		document *messages.GherkinDocument
-		scenario *messages.GherkinDocument_Feature_Scenario
+		scenario *messages.Scenario
 	)
 
 	BeforeEach(func() {
@@ -202,12 +202,12 @@ var _ = Describe("ProcessTestCaseStarted", func() {
 		// This is a bit dirty hack to avoid creating all the AST
 		document = &messages.GherkinDocument{
 			Uri: "feature-uri",
-			Feature: &messages.GherkinDocument_Feature{
+			Feature: &messages.Feature{
 				Name: "My feature",
 			},
 		}
-		scenario = makeScenario("scenario-id", []*messages.GherkinDocument_Feature_Step{})
-		tag := &messages.GherkinDocument_Feature_Tag{
+		scenario = makeScenario("scenario-id", []*messages.Step{})
+		tag := &messages.Tag{
 			Id:   "tag-id",
 			Name: "@scenario-tag",
 		}
@@ -220,7 +220,7 @@ var _ = Describe("ProcessTestCaseStarted", func() {
 			Id:         "pickle-id",
 			Uri:        document.Uri,
 			AstNodeIds: []string{scenario.Id},
-			Tags: []*messages.Pickle_PickleTag{
+			Tags: []*messages.PickleTag{
 				{
 					AstNodeId: tag.Id,
 				},
@@ -231,7 +231,7 @@ var _ = Describe("ProcessTestCaseStarted", func() {
 		testCaseMsg := makeTestCase(
 			"test-case-id",
 			pickle.Id,
-			[]*messages.TestCase_TestStep{},
+			[]*messages.TestStep{},
 		)
 		lookup.ProcessMessage(makeTestCaseEnvelope(testCaseMsg))
 
@@ -274,7 +274,7 @@ var _ = Describe("ProcessTestCaseStarted", func() {
 			testCaseReferencingUnknownPickle = makeTestCase(
 				"wrong-pickle-test-case",
 				"unknown-pickle-id",
-				[]*messages.TestCase_TestStep{},
+				[]*messages.TestStep{},
 			)
 			lookup.ProcessMessage(makeTestCaseEnvelope(testCaseReferencingUnknownPickle))
 
@@ -285,7 +285,7 @@ var _ = Describe("ProcessTestCaseStarted", func() {
 			testCaseForPickleWithoutSource = makeTestCase(
 				"empty-pickle-test-case",
 				pickleWithoutSource.Id,
-				[]*messages.TestCase_TestStep{},
+				[]*messages.TestStep{},
 			)
 			lookup.ProcessMessage(makePickleEnvelope(pickleWithoutSource))
 			lookup.ProcessMessage(makeTestCaseEnvelope(testCaseForPickleWithoutSource))
@@ -297,7 +297,7 @@ var _ = Describe("ProcessTestCaseStarted", func() {
 			testCaseForPickleWithWrongScenarioReference = makeTestCase(
 				"unknow-scenario-test-case",
 				pickleWithWrongScenarioReference.Id,
-				[]*messages.TestCase_TestStep{},
+				[]*messages.TestStep{},
 			)
 			lookup.ProcessMessage(makePickleEnvelope(pickleWithWrongScenarioReference))
 			lookup.ProcessMessage(makeTestCaseEnvelope(testCaseForPickleWithWrongScenarioReference))
@@ -310,7 +310,7 @@ var _ = Describe("ProcessTestCaseStarted", func() {
 			testCaseForPickleWithWrongDocumentURI = makeTestCase(
 				"wrong-document-uri",
 				pickleWithWrongDocumentURI.Id,
-				[]*messages.TestCase_TestStep{},
+				[]*messages.TestStep{},
 			)
 			lookup.ProcessMessage(makePickleEnvelope(pickleWithWrongDocumentURI))
 			lookup.ProcessMessage(makeTestCaseEnvelope(testCaseForPickleWithWrongDocumentURI))
@@ -319,7 +319,7 @@ var _ = Describe("ProcessTestCaseStarted", func() {
 				Id:         "wrong-tag-id-pickle",
 				Uri:        document.Uri,
 				AstNodeIds: []string{scenario.Id},
-				Tags: []*messages.Pickle_PickleTag{
+				Tags: []*messages.PickleTag{
 					{
 						AstNodeId: "tag-id",
 					},
@@ -331,7 +331,7 @@ var _ = Describe("ProcessTestCaseStarted", func() {
 			testCaseForPickleWithUnknownTag = makeTestCase(
 				"wrong-tag-id",
 				pickleWithUnknownTag.Id,
-				[]*messages.TestCase_TestStep{},
+				[]*messages.TestStep{},
 			)
 			lookup.ProcessMessage(makePickleEnvelope(pickleWithUnknownTag))
 			lookup.ProcessMessage(makeTestCaseEnvelope(testCaseForPickleWithUnknownTag))
@@ -395,7 +395,7 @@ var _ = Describe("TestCaseToJSON", func() {
 	)
 
 	BeforeEach(func() {
-		scenario := &messages.GherkinDocument_Feature_Scenario{
+		scenario := &messages.Scenario{
 			Id:          "scenario-id",
 			Keyword:     "Eksempel",
 			Name:        "A scenario (<exampleId>)",
@@ -418,9 +418,9 @@ var _ = Describe("TestCaseToJSON", func() {
 			TestCase: makeTestCase(
 				"test-case-id",
 				"pickle-id",
-				[]*messages.TestCase_TestStep{},
+				[]*messages.TestStep{},
 			),
-			Tags: []*messages.GherkinDocument_Feature_Tag{
+			Tags: []*messages.Tag{
 				{
 					Location: &messages.Location{
 						Line: 3,
@@ -432,7 +432,7 @@ var _ = Describe("TestCaseToJSON", func() {
 		}
 
 		testCase.appendStep(&TestStep{
-			Step: &messages.GherkinDocument_Feature_Step{
+			Step: &messages.Step{
 				Id:      "some-id",
 				Keyword: "Given",
 				Text:    "a <status> step",
@@ -441,11 +441,11 @@ var _ = Describe("TestCaseToJSON", func() {
 				},
 			},
 			Pickle: pickle,
-			PickleStep: &messages.Pickle_PickleStep{
+			PickleStep: &messages.PickleStep{
 				Text: "a passed step",
 			},
-			Result: &messages.TestStepFinished_TestStepResult{
-				Status: messages.TestStepFinished_TestStepResult_FAILED,
+			Result: &messages.TestStepResult{
+				Status: messages.TestStepResultStatus_FAILED,
 			},
 		})
 		jsonTestCase = TestCaseToJSON(testCase)
@@ -491,7 +491,7 @@ var _ = Describe("TestCaseToJSON", func() {
 		BeforeEach(func() {
 			testCase.Steps = []*TestStep{
 				{
-					Step: &messages.GherkinDocument_Feature_Step{
+					Step: &messages.Step{
 						Id:      "background-step-id",
 						Keyword: "Given",
 						Text:    "a passed step",
@@ -500,17 +500,17 @@ var _ = Describe("TestCaseToJSON", func() {
 						},
 					},
 					Pickle: pickle,
-					PickleStep: &messages.Pickle_PickleStep{
+					PickleStep: &messages.PickleStep{
 						Text: "a passed step",
 					},
-					Result: &messages.TestStepFinished_TestStepResult{
-						Status: messages.TestStepFinished_TestStepResult_PASSED,
+					Result: &messages.TestStepResult{
+						Status: messages.TestStepResultStatus_PASSED,
 						Duration: &messages.Duration{
 							Seconds: 123,
 							Nanos:   456,
 						},
 					},
-					Background: &messages.GherkinDocument_Feature_Background{
+					Background: &messages.Background{
 						Keyword: "Kontext",
 						Location: &messages.Location{
 							Line: 3,
@@ -537,17 +537,17 @@ var _ = Describe("TestCaseToJSON", func() {
 
 	Context("when pickles come from a Examples row", func() {
 		BeforeEach(func() {
-			exampleRow := &messages.GherkinDocument_Feature_TableRow{
+			exampleRow := &messages.TableRow{
 				Id: "example-row-id",
 				Location: &messages.Location{
 					Line: 13,
 				},
 			}
 
-			testCase.Scenario.Examples = []*messages.GherkinDocument_Feature_Scenario_Examples{
+			testCase.Scenario.Examples = []*messages.Examples{
 				{
 					Name: "some examples",
-					TableBody: []*messages.GherkinDocument_Feature_TableRow{
+					TableBody: []*messages.TableRow{
 						exampleRow,
 					},
 				},
@@ -572,16 +572,14 @@ var _ = Describe("TestCaseToJSON", func() {
 				{
 					Hook: &messages.Hook{
 						SourceReference: &messages.SourceReference{
-							Reference: &messages.SourceReference_Uri{
-								Uri: "some_hooks.rb",
-							},
+							Uri: "some_hooks.rb",
 							Location: &messages.Location{
 								Line: 5,
 							},
 						},
 					},
-					Result: &messages.TestStepFinished_TestStepResult{
-						Status: messages.TestStepFinished_TestStepResult_PASSED,
+					Result: &messages.TestStepResult{
+						Status: messages.TestStepResultStatus_PASSED,
 						Duration: &messages.Duration{
 							Seconds: 123,
 							Nanos:   456,
@@ -604,16 +602,14 @@ var _ = Describe("TestCaseToJSON", func() {
 			testCase.Steps = append(testCase.Steps, &TestStep{
 				Hook: &messages.Hook{
 					SourceReference: &messages.SourceReference{
-						Reference: &messages.SourceReference_Uri{
-							Uri: "some_hooks.rb",
-						},
+						Uri: "some_hooks.rb",
 						Location: &messages.Location{
 							Line: 12,
 						},
 					},
 				},
-				Result: &messages.TestStepFinished_TestStepResult{
-					Status: messages.TestStepFinished_TestStepResult_PASSED,
+				Result: &messages.TestStepResult{
+					Status: messages.TestStepResultStatus_PASSED,
 					Duration: &messages.Duration{
 						Seconds: 123,
 						Nanos:   456,

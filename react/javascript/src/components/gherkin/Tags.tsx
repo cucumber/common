@@ -1,24 +1,35 @@
 import React from 'react'
-import { messages } from '@cucumber/messages'
 import HighLight from '../app/HighLight'
+import {
+  DefaultComponent,
+  TagsClasses,
+  TagsProps,
+  useCustomRendering,
+} from '../customise/CustomRendering'
+import defaultStyles from './Tags.module.scss'
 
-interface IProps {
-  tags: messages.GherkinDocument.Feature.ITag[]
-}
-
-const Tags: React.FunctionComponent<IProps> = ({ tags }) => {
-  if (!tags) {
+const DefaultRenderer: DefaultComponent<TagsProps, TagsClasses> = ({ tags, styles }) => {
+  if (!tags.length) {
     return null
   }
   return (
-    <ul className="cucumber-tags">
+    <ul className={styles.tags}>
       {tags.map((tag, index) => (
-        <li className="cucumber-tag" key={index}>
+        <li className={styles.tag} key={index}>
           <HighLight text={tag.name} />
         </li>
       ))}
     </ul>
   )
+}
+
+const Tags: React.FunctionComponent<TagsProps> = (props) => {
+  const ResolvedRenderer = useCustomRendering<TagsProps, TagsClasses>(
+    'Tags',
+    defaultStyles,
+    DefaultRenderer
+  )
+  return <ResolvedRenderer {...props} />
 }
 
 export default Tags

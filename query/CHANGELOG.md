@@ -17,6 +17,50 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [10.1.0] - 2021-05-31
+
+### Added
+
+* New `Query#getStatusCounts(pickleIds: string[])` method which calculates a summary
+  of a run.
+
+## [10.0.0] - 2021-05-17
+
+### Changed
+
+* Upgrade to gherkin 19.0.0
+* Upgrade to messages 16.0.0
+
+### Removed
+
+* [JavaScript] Removed `Query#getWorstTestStepResult` method. Use `getWorstTestStepResult`
+  from `@cucumber/messages` instead.
+
+## [9.0.2] - 2021-04-06
+
+### Fixed
+
+* [JavaScript] Fix issue with compiled files not appearing in published package
+  ([#1452](https://github.com/cucumber/cucumber/pull/1452))
+
+## [9.0.1] - 2021-04-03
+
+### Fixed
+
+* Fixed a snafu with the 9.0.0 release
+
+## [9.0.0] - 2021-03-29
+
+### Changed
+
+* Upgrade to messages 15.0.0
+
+## [8.0.0] - 2021-02-07
+
+### Changed
+
+* Upgrade to messages 14.0.0
+
 ## [7.0.1] - 2020-12-17
 
 ### Fixed
@@ -94,7 +138,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First JavaScript implementation
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/query/v7.0.1...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/query/v10.1.0...main
+[10.1.0]:      https://github.com/cucumber/cucumber/compare/cucumber-query/v10.0.0...query/v10.1.0
+[10.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-query/v9.0.2...query/v10.0.0
+[9.0.2]:      https://github.com/cucumber/cucumber/compare/cucumber-query/v9.0.1...query/v9.0.2
+[9.0.1]:      https://github.com/cucumber/cucumber/compare/cucumber-query/v9.0.0...query/v9.0.1
+[9.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-query/v8.0.0...query/v9.0.0
+[8.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-query/v7.0.1...query/v8.0.0
 [7.0.1]:      https://github.com/cucumber/cucumber/compare/cucumber-query/v7.0.0...query/v7.0.1
 [7.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-query/v6.1.0...query/v7.0.0
 [6.1.0]:      https://github.com/cucumber/cucumber/compare/cucumber-query/v6.0.0...query/v6.1.0

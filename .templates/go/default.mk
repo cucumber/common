@@ -75,8 +75,10 @@ ifndef NO_UPX_COMPRESSION
 	# may produce an error ARCH not supported
 	-upx $@ -o $@.upx
 
-	# Remove the compressed file if it doesn't pass the integrity test
-	if [ -f "$@.upx" ]; then upx -t $@.upx && mv $@.upx $@ || rm $@; fi
+	# If the compressed file passes the integrity test, replace the original
+	# file with the compressed file. Otherwise, preserve the original file
+	# and remove the compressed file.
+	if [ -f "$@.upx" ]; then upx -t $@.upx && mv $@.upx $@ || rm -f $@.upx; fi
 endif
 
 update-dependencies:
@@ -144,3 +146,13 @@ else
 	sed -Ei "s/$(LIBNAME)-go(\/v$(CURRENT_MAJOR))?/$(LIBNAME)-go\/v$(NEW_MAJOR)/" $(shell find . -name "*.go")
 endif
 .PHONY: update-major
+
+### COMMON stuff for all platforms
+
+BERP_VERSION = 1.3.0
+BERP_GRAMMAR = gherkin.berp
+
+define berp-generate-parser =
+-! dotnet tool list --tool-path /usr/bin | grep "berp\s*$(BERP_VERSION)" && dotnet tool update Berp --version $(BERP_VERSION) --tool-path /usr/bin
+berp -g $(BERP_GRAMMAR) -t $< -o $@ --noBOM
+endef

@@ -2,7 +2,7 @@ package gherkin
 
 import (
 	"fmt"
-	messages "github.com/cucumber/messages-go/v13"
+	messages "github.com/cucumber/messages-go/v16"
 	"os"
 	"strings"
 )
@@ -40,13 +40,13 @@ func ExampleParseGherkinDocument() {
 	fmt.Fprintf(os.Stdout, "Name: %+v\n", feature.Name)
 	fmt.Fprintf(os.Stdout, "Children: length: %+v\n", len(feature.Children))
 
-	scenario1 := feature.Children[0].GetScenario()
+	scenario1 := feature.Children[0].Scenario
 	//fmt.Fprintf(os.Stdout, " 1: Location: %+v\n", scenario1.Location)
 	fmt.Fprintf(os.Stdout, "    Keyword: %+v\n", scenario1.Keyword)
 	fmt.Fprintf(os.Stdout, "    Name: %+v\n", scenario1.Name)
 	fmt.Fprintf(os.Stdout, "    Steps: length: %+v\n", len(scenario1.Steps))
 
-	scenario2 := feature.Children[1].GetScenario()
+	scenario2 := feature.Children[1].Scenario
 	//fmt.Fprintf(os.Stdout, " 2: Location: %+v\n", scenario2.Location)
 	fmt.Fprintf(os.Stdout, "    Keyword: %+v\n", scenario2.Keyword)
 	fmt.Fprintf(os.Stdout, "    Name: %+v\n", scenario2.Name)
@@ -154,7 +154,7 @@ Feature: Foo
 	fmt.Fprintf(os.Stdout, "Keyword: %+v\n", feature2.Keyword)
 	fmt.Fprintf(os.Stdout, "Name: %+v\n", feature2.Name)
 	fmt.Fprintf(os.Stdout, "Children: length: %+v\n", len(feature2.Children))
-	scenario1 := feature2.Children[0].GetScenario()
+	scenario1 := feature2.Children[0].Scenario
 	//fmt.Fprintf(os.Stdout, " 1: Location: %+v\n", scenario1.Location)
 	fmt.Fprintf(os.Stdout, "    Keyword: %+v\n", scenario1.Keyword)
 	fmt.Fprintf(os.Stdout, "    Name: %+v\n", scenario1.Name)

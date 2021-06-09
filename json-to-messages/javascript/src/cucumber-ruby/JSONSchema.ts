@@ -1,4 +1,4 @@
-import { IMatch, IResult, ITag } from '../cucumber-generic/JSONSchema'
+import { IMatch, IResult, ITag } from '../types'
 
 export interface IElement {
   line: number
@@ -7,10 +7,10 @@ export interface IElement {
   keyword: string
   name: string
   description: string
-  steps: ReadonlyArray<IStep>
-  before?: ReadonlyArray<IHook>
-  after?: ReadonlyArray<IHook>
-  tags?: ReadonlyArray<ITag>
+  steps: readonly IStep[]
+  before?: readonly IHook[]
+  after?: readonly IHook[]
+  tags?: readonly ITag[]
 }
 
 export interface IHook {
@@ -24,12 +24,12 @@ export interface IStep {
   match?: IMatch
   name: string
   result: IResult
-  doc_string?: IDocString
-  rows?: ReadonlyArray<IDataTableRow>
+  docString?: IDocString
+  rows?: readonly IDataTableRow[]
 }
 
 export interface IDataTableRow {
-  cells: ReadonlyArray<string>
+  cells: readonly string[]
 }
 
 export interface IDocString {

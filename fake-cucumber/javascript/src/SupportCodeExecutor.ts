@@ -1,17 +1,15 @@
 import { Argument, Group } from '@cucumber/cucumber-expressions'
-import { messages } from '@cucumber/messages'
-import IWorld from './IWorld'
-import { AnyBody } from './types'
+import * as messages from '@cucumber/messages'
+import { AnyBody, ISupportCodeExecutor, IWorld } from './types'
 import DataTable from './DataTable'
-import ISupportCodeExecutor from './ISupportCodeExecutor'
 
 export default class SupportCodeExecutor implements ISupportCodeExecutor {
   constructor(
     public readonly stepDefinitionId: string,
     private readonly body: AnyBody,
-    private readonly args: ReadonlyArray<Argument<any>>,
-    private readonly docString: messages.PickleStepArgument.IPickleDocString,
-    private readonly dataTable: messages.PickleStepArgument.IPickleTable
+    private readonly args: readonly Argument<any>[],
+    private readonly docString: messages.PickleDocString,
+    private readonly dataTable: messages.PickleTable
   ) {}
 
   public execute(thisObj: IWorld): any {
@@ -21,35 +19,25 @@ export default class SupportCodeExecutor implements ISupportCodeExecutor {
       argArray.push(this.docString.content)
     }
     if (this.dataTable) {
-      argArray.push(
-        new DataTable(
-          this.dataTable.rows.map((r) => r.cells.map((c) => c.value))
-        )
-      )
+      argArray.push(new DataTable(this.dataTable.rows.map((r) => r.cells.map((c) => c.value))))
     }
     return this.body.apply(thisObj, argArray)
   }
 
-  public argsToMessages(): messages.TestCase.TestStep.StepMatchArgumentsList.IStepMatchArgument[] {
+  public argsToMessages(): messages.StepMatchArgument[] {
     return this.args.map((arg) => {
-      return new messages.TestCase.TestStep.StepMatchArgumentsList.StepMatchArgument(
-        {
-          group: toMessageGroup(arg.group),
-          parameterTypeName: arg.parameterType.name,
-        }
-      )
+      return {
+        group: toMessageGroup(arg.group),
+        parameterTypeName: arg.parameterType.name,
+      }
     })
   }
 }
 
-function toMessageGroup(
-  group: Group
-): messages.TestCase.TestStep.StepMatchArgumentsList.StepMatchArgument.IGroup {
-  return new messages.TestCase.TestStep.StepMatchArgumentsList.StepMatchArgument.Group(
-    {
-      value: group.value,
-      start: group.start,
-      children: group.children.map((g) => toMessageGroup(g)),
-    }
-  )
+function toMessageGroup(group: Group): messages.Group {
+  return {
+    value: group.value,
+    start: group.start,
+    children: group.children.map((g) => toMessageGroup(g)),
+  }
 }

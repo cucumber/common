@@ -16,13 +16,13 @@ Gem::Specification.new do |s|
 
   s.metadata    = {
                     'bug_tracker_uri'   => 'https://github.com/cucumber/cucumber/issues',
-                    'changelog_uri'     => 'https://github.com/cucumber/cucumber/blob/master/cucumber-expressions/CHANGELOG.md',
+                    'changelog_uri'     => 'https://github.com/cucumber/common/blob/main/cucumber-expressions/CHANGELOG.md',
                     'documentation_uri' => 'https://cucumber.io/docs/cucumber/cucumber-expressions/',
                     'mailing_list_uri'  => 'https://groups.google.com/forum/#!forum/cukes',
-                    'source_code_uri'   => 'https://github.com/cucumber/cucumber/blob/master/cucumber-expressions/ruby',
+                    'source_code_uri'   => 'https://github.com/cucumber/common/blob/main/cucumber-expressions/ruby',
                   }
 
-  s.add_development_dependency 'rake', '~> 13.0', '>= 13.0.1'
+  s.add_development_dependency 'rake', '~> 13.0', '>= 13.0.3'
   s.add_development_dependency 'rspec', '~> 3.10', '>= 3.10.0'
 
   s.rubygems_version = ">= 1.6.1"

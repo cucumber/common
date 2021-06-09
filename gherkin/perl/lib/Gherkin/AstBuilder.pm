@@ -165,7 +165,7 @@ sub get_cells {
     return \@cells;
 }
 
-sub get_description { return $_[1]->get_single('Description') }
+sub get_description { return ($_[1]->get_single('Description') || '') }
 sub get_steps       { return $_[1]->get_items('Step') }
 
 sub reject_nones {
@@ -175,19 +175,7 @@ sub reject_nones {
     for my $key ( keys %$values ) {
         my $value = $values->{$key};
         if (defined $value) {
-            if (ref $value) {
-                if (reftype $value eq 'ARRAY') {
-                    $defined_only->{$key} = $value
-                        if (scalar(@$value) > 0);
-                }
-                else {
-                    $defined_only->{$key} = $value;
-                }
-            }
-            elsif (not ref $value) {
-                $defined_only->{$key} = $value
-                    unless "$value" eq '';
-            }
+            $defined_only->{$key} = $value;
         }
     }
 
@@ -228,10 +216,10 @@ sub transform_node {
             {
                 location    => $self->get_location($separator_token),
                 content     => $content,
-                mediaType   => $media_type,
+                mediaType   => ($media_type eq '' ) ? undef : $media_type,
                 delimiter   => $delimiter
             }
-        );
+            );
     } elsif ( $node->rule_type eq 'DataTable' ) {
         my $rows = $self->get_table_rows($node);
         return $self->reject_nones(
@@ -326,7 +314,7 @@ sub transform_node {
                 name        => $examples_line->matched_text,
                 description => $description,
                 tableHeader => $examples_table->{'tableHeader'} || undef,
-                tableBody   => $examples_table->{'tableBody'} || undef
+                tableBody   => $examples_table->{'tableBody'} || []
             }
         );
     } elsif ( $node->rule_type eq 'ExamplesTable' ) {

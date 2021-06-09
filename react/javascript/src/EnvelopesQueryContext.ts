@@ -1,22 +1,18 @@
 import React from 'react'
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 
 export class EnvelopesQuery {
-  private envelopes: messages.IEnvelope[] = []
+  private envelopes: messages.Envelope[] = []
 
-  public update(envelope: messages.IEnvelope) {
+  public update(envelope: messages.Envelope) {
     this.envelopes.push(envelope)
   }
 
-  public find(
-    predicate: (envelope: messages.IEnvelope) => boolean
-  ): messages.IEnvelope {
+  public find(predicate: (envelope: messages.Envelope) => boolean): messages.Envelope {
     return this.envelopes.find(predicate)
   }
 
-  public filter(
-    predicate: (envelope: messages.IEnvelope) => boolean
-  ): messages.IEnvelope[] {
+  public filter(predicate: (envelope: messages.Envelope) => boolean): messages.Envelope[] {
     return this.envelopes.filter(predicate)
   }
 }

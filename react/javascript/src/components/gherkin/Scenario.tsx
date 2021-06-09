@@ -2,25 +2,23 @@ import React from 'react'
 import Tags from './Tags'
 import Description from './Description'
 import Examples from './Examples'
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import StepList from './StepList'
 import HookList from './HookList'
-import IdGenerator from '../../IdGenerator'
-import ScenarioTitle from './ScenarioTitle'
 import CucumberQueryContext from '../../CucumberQueryContext'
 import GherkinQueryContext from '../../GherkinQueryContext'
 import UriContext from '../../UriContext'
+import Title from './Title'
+import Keyword from './Keyword'
+import HighLight from '../app/HighLight'
 
 interface IProps {
-  scenario: messages.GherkinDocument.Feature.IScenario
+  scenario: messages.Scenario
 }
-
-const generator = new IdGenerator()
 
 const Scenario: React.FunctionComponent<IProps> = ({ scenario }) => {
   const examplesList = scenario.examples || []
   const hasExamples = examplesList.length > 0
-  const idGenerated = generator.generate(scenario.name)
   const cucumberQuery = React.useContext(CucumberQueryContext)
   const gherkinQuery = React.useContext(GherkinQueryContext)
   const uri = React.useContext(UriContext)
@@ -29,17 +27,18 @@ const Scenario: React.FunctionComponent<IProps> = ({ scenario }) => {
   const afterHooks = cucumberQuery.getAfterHookSteps(pickleIds[0])
 
   return (
-    <section className="cucumber-scenario">
+    <section>
       <Tags tags={scenario.tags} />
-      <ScenarioTitle id={idGenerated} scenario={scenario} />
+      <Title header="h2" id={scenario.id}>
+        <Keyword>{scenario.keyword}:</Keyword>
+        <HighLight text={scenario.name} />
+      </Title>
       <Description description={scenario.description} />
-      <HookList hookSteps={beforeHooks} />
-      <StepList
-        steps={scenario.steps || []}
-        renderStepMatchArguments={!hasExamples}
-        renderMessage={!hasExamples}
-      />
-      <HookList hookSteps={afterHooks} />
+      <ol className="cucumber-steps">
+        <HookList hookSteps={beforeHooks} />
+        <StepList steps={scenario.steps || []} hasExamples={hasExamples} />
+        <HookList hookSteps={afterHooks} />
+      </ol>
 
       {examplesList.map((examples, index) => (
         <Examples key={index} examples={examples} />

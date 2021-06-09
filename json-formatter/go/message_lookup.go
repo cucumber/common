@@ -3,314 +3,321 @@ package json
 import (
 	"fmt"
 
-	"github.com/cucumber/messages-go/v13"
+	"github.com/cucumber/messages-go/v16"
 )
 
 type MessageLookup struct {
 	gherkinDocumentByURI    map[string]*messages.GherkinDocument
 	pickleByID              map[string]*messages.Pickle
-	pickleStepByID          map[string]*messages.Pickle_PickleStep
+	pickleStepByID          map[string]*messages.PickleStep
 	testCaseByID            map[string]*messages.TestCase
-	testStepByID            map[string]*messages.TestCase_TestStep
+	testStepByID            map[string]*messages.TestStep
 	testCaseStartedByID     map[string]*messages.TestCaseStarted
-	stepByID                map[string]*messages.GherkinDocument_Feature_Step
-	scenarioByID            map[string]*messages.GherkinDocument_Feature_Scenario
-	exampleByRowID          map[string]*messages.GherkinDocument_Feature_Scenario_Examples
-	exampleRowByID          map[string]*messages.GherkinDocument_Feature_TableRow
+	stepByID                map[string]*messages.Step
+	scenarioByID            map[string]*messages.Scenario
+	exampleByRowID          map[string]*messages.Examples
+	exampleRowByID          map[string]*messages.TableRow
 	stepDefinitionByID      map[string]*messages.StepDefinition
-	backgroundByStepID      map[string]*messages.GherkinDocument_Feature_Background
-	tagByID                 map[string]*messages.GherkinDocument_Feature_Tag
+	backgroundByStepID      map[string]*messages.Background
+	tagByID                 map[string]*messages.Tag
 	hookByID                map[string]*messages.Hook
 	attachmentsByTestStepID map[string][]*messages.Attachment
 	verbose                 bool
 }
 
-func (self *MessageLookup) Initialize(verbose bool) {
-	self.gherkinDocumentByURI = make(map[string]*messages.GherkinDocument)
-	self.pickleByID = make(map[string]*messages.Pickle)
-	self.pickleStepByID = make(map[string]*messages.Pickle_PickleStep)
-	self.testCaseByID = make(map[string]*messages.TestCase)
-	self.testStepByID = make(map[string]*messages.TestCase_TestStep)
-	self.testCaseStartedByID = make(map[string]*messages.TestCaseStarted)
-	self.stepByID = make(map[string]*messages.GherkinDocument_Feature_Step)
-	self.scenarioByID = make(map[string]*messages.GherkinDocument_Feature_Scenario)
-	self.exampleByRowID = make(map[string]*messages.GherkinDocument_Feature_Scenario_Examples)
-	self.exampleRowByID = make(map[string]*messages.GherkinDocument_Feature_TableRow)
-	self.stepDefinitionByID = make(map[string]*messages.StepDefinition)
-	self.backgroundByStepID = make(map[string]*messages.GherkinDocument_Feature_Background)
-	self.tagByID = make(map[string]*messages.GherkinDocument_Feature_Tag)
-	self.hookByID = make(map[string]*messages.Hook)
-	self.attachmentsByTestStepID = make(map[string][]*messages.Attachment)
+func (ml *MessageLookup) Initialize(verbose bool) {
+	ml.gherkinDocumentByURI = make(map[string]*messages.GherkinDocument)
+	ml.pickleByID = make(map[string]*messages.Pickle)
+	ml.pickleStepByID = make(map[string]*messages.PickleStep)
+	ml.testCaseByID = make(map[string]*messages.TestCase)
+	ml.testStepByID = make(map[string]*messages.TestStep)
+	ml.testCaseStartedByID = make(map[string]*messages.TestCaseStarted)
+	ml.stepByID = make(map[string]*messages.Step)
+	ml.scenarioByID = make(map[string]*messages.Scenario)
+	ml.exampleByRowID = make(map[string]*messages.Examples)
+	ml.exampleRowByID = make(map[string]*messages.TableRow)
+	ml.stepDefinitionByID = make(map[string]*messages.StepDefinition)
+	ml.backgroundByStepID = make(map[string]*messages.Background)
+	ml.tagByID = make(map[string]*messages.Tag)
+	ml.hookByID = make(map[string]*messages.Hook)
+	ml.attachmentsByTestStepID = make(map[string][]*messages.Attachment)
 
-	self.verbose = verbose
+	ml.verbose = verbose
 }
 
-func (self *MessageLookup) ProcessMessage(envelope *messages.Envelope) (err error) {
-	switch m := envelope.Message.(type) {
-	case *messages.Envelope_GherkinDocument:
-		self.gherkinDocumentByURI[m.GherkinDocument.Uri] = m.GherkinDocument
-		self.comment(fmt.Sprintf("Stored GherkinDocument: %s", m.GherkinDocument.Uri))
-		for key, _ := range self.gherkinDocumentByURI {
-			self.comment(fmt.Sprintf(" - %s ", key))
+func (ml *MessageLookup) ProcessMessage(envelope *messages.Envelope) (err error) {
+	if envelope.GherkinDocument != nil {
+		ml.gherkinDocumentByURI[envelope.GherkinDocument.Uri] = envelope.GherkinDocument
+		ml.comment(fmt.Sprintf("Stored GherkinDocument: %s", envelope.GherkinDocument.Uri))
+		for key := range ml.gherkinDocumentByURI {
+			ml.comment(fmt.Sprintf(" - %s ", key))
 		}
-		if m.GherkinDocument.Feature == nil {
+		if envelope.GherkinDocument.Feature == nil {
 			return nil
 		}
-		self.processTags(m.GherkinDocument.Feature.Tags)
+		ml.processTags(envelope.GherkinDocument.Feature.Tags)
 
-		for _, child := range m.GherkinDocument.Feature.Children {
-			self.processRule(child.GetRule())
-			self.processBackground(child.GetBackground())
-			self.processScenario(child.GetScenario())
+		for _, child := range envelope.GherkinDocument.Feature.Children {
+			ml.processRule(child.Rule)
+			ml.processBackground(child.Background)
+			ml.processScenario(child.Scenario)
 		}
+	}
 
-	case *messages.Envelope_Pickle:
-		self.pickleByID[m.Pickle.Id] = m.Pickle
+	if envelope.Pickle != nil {
+		ml.pickleByID[envelope.Pickle.Id] = envelope.Pickle
 
-		for _, step := range m.Pickle.Steps {
-			self.pickleStepByID[step.Id] = step
+		for _, step := range envelope.Pickle.Steps {
+			ml.pickleStepByID[step.Id] = step
 		}
+	}
 
-	case *messages.Envelope_TestCase:
-		self.testCaseByID[m.TestCase.Id] = m.TestCase
+	if envelope.TestCase != nil {
+		ml.testCaseByID[envelope.TestCase.Id] = envelope.TestCase
 
-		for _, step := range m.TestCase.TestSteps {
-			self.testStepByID[step.Id] = step
+		for _, step := range envelope.TestCase.TestSteps {
+			ml.testStepByID[step.Id] = step
 		}
+	}
 
-	case *messages.Envelope_TestCaseStarted:
-		self.testCaseStartedByID[m.TestCaseStarted.Id] = m.TestCaseStarted
+	if envelope.TestCaseStarted != nil {
+		ml.testCaseStartedByID[envelope.TestCaseStarted.Id] = envelope.TestCaseStarted
+	}
 
-	case *messages.Envelope_Attachment:
-		attachments, ok := self.attachmentsByTestStepID[m.Attachment.TestStepId]
+	if envelope.Attachment != nil {
+		attachments, ok := ml.attachmentsByTestStepID[envelope.Attachment.TestStepId]
 		if !ok {
 			attachments = make([]*messages.Attachment, 0)
-			self.attachmentsByTestStepID[m.Attachment.TestStepId] = attachments
+			ml.attachmentsByTestStepID[envelope.Attachment.TestStepId] = attachments
 		}
-		attachments = append(attachments, m.Attachment)
-		self.attachmentsByTestStepID[m.Attachment.TestStepId] = attachments
+		attachments = append(attachments, envelope.Attachment)
+		ml.attachmentsByTestStepID[envelope.Attachment.TestStepId] = attachments
+	}
 
-	case *messages.Envelope_StepDefinition:
-		self.stepDefinitionByID[m.StepDefinition.Id] = m.StepDefinition
+	if envelope.StepDefinition != nil {
+		ml.stepDefinitionByID[envelope.StepDefinition.Id] = envelope.StepDefinition
+	}
 
-	case *messages.Envelope_Hook:
-		self.hookByID[m.Hook.Id] = m.Hook
+	if envelope.Hook != nil {
+		ml.hookByID[envelope.Hook.Id] = envelope.Hook
 	}
 
 	return nil
 }
 
-func (self *MessageLookup) processTags(tags []*messages.GherkinDocument_Feature_Tag) {
+func (ml *MessageLookup) processTags(tags []*messages.Tag) {
 	for _, tag := range tags {
-		self.tagByID[tag.Id] = tag
+		ml.tagByID[tag.Id] = tag
 	}
 }
 
-func (self *MessageLookup) processRule(rule *messages.GherkinDocument_Feature_FeatureChild_Rule) {
+func (ml *MessageLookup) processRule(rule *messages.Rule) {
 	if rule != nil {
 		for _, ruleChild := range rule.Children {
-			self.processBackground(ruleChild.GetBackground())
-			self.processScenario(ruleChild.GetScenario())
+			ml.processBackground(ruleChild.Background)
+			ml.processScenario(ruleChild.Scenario)
 		}
 	}
 }
 
-func (self *MessageLookup) processBackground(background *messages.GherkinDocument_Feature_Background) {
+func (ml *MessageLookup) processBackground(background *messages.Background) {
 	if background != nil {
 		for _, step := range background.Steps {
-			self.backgroundByStepID[step.Id] = background
-			self.stepByID[step.Id] = step
+			ml.backgroundByStepID[step.Id] = background
+			ml.stepByID[step.Id] = step
 		}
 	}
 }
 
-func (self *MessageLookup) processScenario(scenario *messages.GherkinDocument_Feature_Scenario) {
+func (ml *MessageLookup) processScenario(scenario *messages.Scenario) {
 	if scenario != nil {
-		self.scenarioByID[scenario.Id] = scenario
-		self.processTags(scenario.Tags)
+		ml.scenarioByID[scenario.Id] = scenario
+		ml.processTags(scenario.Tags)
 
 		for _, step := range scenario.Steps {
-			self.stepByID[step.Id] = step
+			ml.stepByID[step.Id] = step
 		}
 
 		for _, example := range scenario.Examples {
+			ml.processTags(example.Tags)
+
 			for _, row := range example.TableBody {
 				// TODO: we may also need to add IDs to the examples
-				self.exampleByRowID[row.Id] = example
-				self.exampleRowByID[row.Id] = row
+				ml.exampleByRowID[row.Id] = example
+				ml.exampleRowByID[row.Id] = row
 			}
 		}
 	}
 }
 
-func (self *MessageLookup) LookupGherkinDocument(uri string) *messages.GherkinDocument {
-	item, ok := self.gherkinDocumentByURI[uri]
+func (ml *MessageLookup) LookupGherkinDocument(uri string) *messages.GherkinDocument {
+	item, ok := ml.gherkinDocumentByURI[uri]
 	if ok {
-		self.informFoundKey(uri, "gherkinDocumentByURI")
+		ml.informFoundKey(uri, "gherkinDocumentByURI")
 	} else {
-		self.informMissingKey(uri, "gherkinDocumentByURI")
+		ml.informMissingKey(uri, "gherkinDocumentByURI")
 	}
 	return item
 }
 
-func (self *MessageLookup) LookupScenario(id string) *messages.GherkinDocument_Feature_Scenario {
-	item, ok := self.scenarioByID[id]
+func (ml *MessageLookup) LookupScenario(id string) *messages.Scenario {
+	item, ok := ml.scenarioByID[id]
 	if ok {
-		self.informFoundKey(id, "scenarioByID")
+		ml.informFoundKey(id, "scenarioByID")
 	} else {
-		self.informMissingKey(id, "scenarioByID")
+		ml.informMissingKey(id, "scenarioByID")
 	}
 	return item
 }
 
-func (self *MessageLookup) LookupPickle(id string) *messages.Pickle {
-	item, ok := self.pickleByID[id]
+func (ml *MessageLookup) LookupPickle(id string) *messages.Pickle {
+	item, ok := ml.pickleByID[id]
 	if ok {
-		self.informFoundKey(id, "pickleByID")
+		ml.informFoundKey(id, "pickleByID")
 	} else {
-		self.informMissingKey(id, "pickleByID")
+		ml.informMissingKey(id, "pickleByID")
 	}
 	return item
 }
 
-func (self *MessageLookup) LookupStep(id string) *messages.GherkinDocument_Feature_Step {
-	item, ok := self.stepByID[id]
+func (ml *MessageLookup) LookupStep(id string) *messages.Step {
+	item, ok := ml.stepByID[id]
 	if ok {
-		self.informFoundKey(id, "stepByID")
+		ml.informFoundKey(id, "stepByID")
 	} else {
-		self.informMissingKey(id, "stepByID")
+		ml.informMissingKey(id, "stepByID")
 	}
 	return item
 }
 
-func (self *MessageLookup) LookupExample(id string) *messages.GherkinDocument_Feature_Scenario_Examples {
-	item, ok := self.exampleByRowID[id]
+func (ml *MessageLookup) LookupExample(id string) *messages.Examples {
+	item, ok := ml.exampleByRowID[id]
 	if ok {
-		self.informFoundKey(id, "exampleByRowID")
+		ml.informFoundKey(id, "exampleByRowID")
 	} else {
-		self.informMissingKey(id, "exampleByRowID")
+		ml.informMissingKey(id, "exampleByRowID")
 	}
 	return item
 }
 
-func (self *MessageLookup) LookupExampleRow(id string) *messages.GherkinDocument_Feature_TableRow {
-	item, ok := self.exampleRowByID[id]
+func (ml *MessageLookup) LookupExampleRow(id string) *messages.TableRow {
+	item, ok := ml.exampleRowByID[id]
 	if ok {
-		self.informFoundKey(id, "exampleRowByID")
+		ml.informFoundKey(id, "exampleRowByID")
 	} else {
-		self.informMissingKey(id, "exampleRowByID")
+		ml.informMissingKey(id, "exampleRowByID")
 	}
 	return item
 }
 
-func (self *MessageLookup) LookupBackgroundByStepID(id string) *messages.GherkinDocument_Feature_Background {
-	item, ok := self.backgroundByStepID[id]
+func (ml *MessageLookup) LookupBackgroundByStepID(id string) *messages.Background {
+	item, ok := ml.backgroundByStepID[id]
 	if ok {
-		self.informFoundKey(id, "backgroundByStepID")
+		ml.informFoundKey(id, "backgroundByStepID")
 	} else {
-		self.informMissingKey(id, "backgroundByStepID")
+		ml.informMissingKey(id, "backgroundByStepID")
 	}
 	return item
 }
 
-func (self *MessageLookup) LookupTag(id string) *messages.GherkinDocument_Feature_Tag {
-	item, ok := self.tagByID[id]
+func (ml *MessageLookup) LookupTag(id string) *messages.Tag {
+	item, ok := ml.tagByID[id]
 	if ok {
-		self.informFoundKey(id, "tagByID")
+		ml.informFoundKey(id, "tagByID")
 	} else {
-		self.informMissingKey(id, "tagByID")
+		ml.informMissingKey(id, "tagByID")
 	}
 	return item
 }
 
-func (self *MessageLookup) LookupTestCaseStarted(id string) *messages.TestCaseStarted {
-	item, ok := self.testCaseStartedByID[id]
+func (ml *MessageLookup) LookupTestCaseStarted(id string) *messages.TestCaseStarted {
+	item, ok := ml.testCaseStartedByID[id]
 	if ok {
-		self.informFoundKey(id, "testCaseStartedByID")
+		ml.informFoundKey(id, "testCaseStartedByID")
 	} else {
-		self.informMissingKey(id, "testCaseStartedByID")
+		ml.informMissingKey(id, "testCaseStartedByID")
 	}
 	return item
 }
 
-func (self *MessageLookup) LookupTestCase(id string) *messages.TestCase {
-	item, ok := self.testCaseByID[id]
+func (ml *MessageLookup) LookupTestCase(id string) *messages.TestCase {
+	item, ok := ml.testCaseByID[id]
 	if ok {
-		self.informFoundKey(id, "testCaseByID")
+		ml.informFoundKey(id, "testCaseByID")
 	} else {
-		self.informMissingKey(id, "testCaseByID")
+		ml.informMissingKey(id, "testCaseByID")
 	}
 	return item
 }
 
-func (self *MessageLookup) LookupTestStep(id string) *messages.TestCase_TestStep {
-	item, ok := self.testStepByID[id]
+func (ml *MessageLookup) LookupTestStep(id string) *messages.TestStep {
+	item, ok := ml.testStepByID[id]
 	if ok {
-		self.informFoundKey(id, "testStepByID")
+		ml.informFoundKey(id, "testStepByID")
 	} else {
-		self.informMissingKey(id, "testStepByID")
+		ml.informMissingKey(id, "testStepByID")
 	}
 	return item
 }
 
-func (self *MessageLookup) LookupPickleStep(id string) *messages.Pickle_PickleStep {
-	item, ok := self.pickleStepByID[id]
+func (ml *MessageLookup) LookupPickleStep(id string) *messages.PickleStep {
+	item, ok := ml.pickleStepByID[id]
 	if ok {
-		self.informFoundKey(id, "pickleStepByID")
+		ml.informFoundKey(id, "pickleStepByID")
 	} else {
-		self.informMissingKey(id, "pickleStepByID")
+		ml.informMissingKey(id, "pickleStepByID")
 	}
 	return item
 }
 
-func (self *MessageLookup) LookupStepDefinitions(ids []string) []*messages.StepDefinition {
+func (ml *MessageLookup) LookupStepDefinitions(ids []string) []*messages.StepDefinition {
 	stepDefinitions := make([]*messages.StepDefinition, len(ids))
 	for index, id := range ids {
-		stepDefinitions[index] = self.LookupStepDefinition(id)
+		stepDefinitions[index] = ml.LookupStepDefinition(id)
 	}
 	return stepDefinitions
 }
 
-func (self *MessageLookup) LookupStepDefinition(id string) *messages.StepDefinition {
-	item, ok := self.stepDefinitionByID[id]
+func (ml *MessageLookup) LookupStepDefinition(id string) *messages.StepDefinition {
+	item, ok := ml.stepDefinitionByID[id]
 	if ok {
-		self.informFoundKey(id, "stepDefinitionByID")
+		ml.informFoundKey(id, "stepDefinitionByID")
 	} else {
-		self.informMissingKey(id, "stepDefinitionByID")
+		ml.informMissingKey(id, "stepDefinitionByID")
 	}
 	return item
 }
 
-func (self *MessageLookup) LookupHook(id string) *messages.Hook {
-	item, ok := self.hookByID[id]
+func (ml *MessageLookup) LookupHook(id string) *messages.Hook {
+	item, ok := ml.hookByID[id]
 	if ok {
-		self.informFoundKey(id, "hookByID")
+		ml.informFoundKey(id, "hookByID")
 	} else {
-		self.informMissingKey(id, "hookByID")
+		ml.informMissingKey(id, "hookByID")
 	}
 	return item
 }
 
-func (self *MessageLookup) LookupAttachments(testStepId string) []*messages.Attachment {
-	item, ok := self.attachmentsByTestStepID[testStepId]
+func (ml *MessageLookup) LookupAttachments(testStepId string) []*messages.Attachment {
+	item, ok := ml.attachmentsByTestStepID[testStepId]
 	if ok {
-		self.informFoundKey(testStepId, "attachmentsByTestStepID")
+		ml.informFoundKey(testStepId, "attachmentsByTestStepID")
 	} else {
-		self.informMissingKey(testStepId, "attachmentsByTestStepID")
+		ml.informMissingKey(testStepId, "attachmentsByTestStepID")
 	}
 	return item
 }
 
-func (self *MessageLookup) informFoundKey(key string, mapName string) {
-	self.comment((fmt.Sprintf("Found item'%s' in %s", key, mapName)))
+func (ml *MessageLookup) informFoundKey(key string, mapName string) {
+	ml.comment(fmt.Sprintf("Found item'%s' in %s", key, mapName))
 }
 
-func (self *MessageLookup) informMissingKey(key string, mapName string) {
-	self.comment((fmt.Sprintf("Unable to find '%s' in %s", key, mapName)))
+func (ml *MessageLookup) informMissingKey(key string, mapName string) {
+	ml.comment(fmt.Sprintf("Unable to find '%s' in %s", key, mapName))
 }
 
-func (self *MessageLookup) comment(message string) {
-	if self.verbose {
+func (ml *MessageLookup) comment(message string) {
+	if ml.verbose {
 		fmt.Println(fmt.Sprintf("// LookUp: %s", message))
 	}
 }

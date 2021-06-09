@@ -36,7 +36,7 @@ endif
 
 acceptance/ruby/%.ndjson: ../ruby-testdata/acceptance/%.json $(TYPESCRIPT_SOURCE_FILES)
 	mkdir -p $(@D)
-	cat $< | bin/json-to-messages > $@
+	cat $< | bin/json-to-messages-dev > $@
 
 js_reports: $(JS_HTMLS) $(JS_GENERATED_JSONS) acceptance/javascript/all.ndjson.html
 
@@ -50,7 +50,7 @@ endif
 
 acceptance/javascript/%.ndjson: ../javascript-testdata/acceptance/%.json $(TYPESCRIPT_SOURCE_FILES)
 	mkdir -p $(@D)
-	cat $< | bin/json-to-messages > $@
+	cat $< | bin/json-to-messages-dev > $@
 
 java_reports: $(JAVA_HTMLS) $(JAVA_GENERATED_JSONS) acceptance/java/all.ndjson.html
 
@@ -64,7 +64,7 @@ endif
 
 acceptance/java/%.ndjson: ../java-testdata/acceptance/%.json $(TYPESCRIPT_SOURCE_FILES)
 	mkdir -p $(@D)
-	cat $< | bin/json-to-messages > $@
+	cat $< | bin/json-to-messages-dev > $@
 
 python_reports: $(PYTHON_HTMLS) $(PYTHON_GENERATED_JSONS) acceptance/python/all.ndjson.html
 
@@ -78,7 +78,7 @@ endif
 
 acceptance/python/%.ndjson: ../python-testdata/acceptance/%.json $(TYPESCRIPT_SOURCE_FILES)
 	mkdir -p $(@D)
-	cat $< | bin/json-to-messages > $@
+	cat $< | bin/json-to-messages-dev > $@
 
 acceptance/%.ndjson.json: acceptance/%.ndjson
 	mkdir -p $(@D)

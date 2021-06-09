@@ -20,8 +20,7 @@ int main(int argc, const char * argv[])
             }
             @catch (NSException * exception)
             {
-                // Ideally we'd use Console.Error here, but we can't because
-                // 2> doesn't seem to work properly - at least not on Mono on OS X.
+                // Ideally we'd use stderr here...
                 puts([[exception reason] UTF8String]);
                 return 1;
             }

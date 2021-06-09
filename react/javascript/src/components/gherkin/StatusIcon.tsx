@@ -7,39 +7,50 @@ import {
   faInfoCircle,
   IconDefinition,
 } from '@fortawesome/free-solid-svg-icons'
-import { messages } from '@cucumber/messages'
 import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import statusName from './statusName'
+import * as messages from '@cucumber/messages'
+import defaultStyles from './StatusIcon.module.scss'
+import {
+  DefaultComponent,
+  StatusIconClasses,
+  StatusIconProps,
+  useCustomRendering,
+} from '../customise/CustomRendering'
 
-interface IProps {
-  status: messages.TestStepFinished.TestStepResult.Status
-}
-
-const StatusIcon: React.FunctionComponent<IProps> = ({ status }) => {
+const DefaultRenderer: DefaultComponent<StatusIconProps, StatusIconClasses> = ({
+  status,
+  styles,
+}) => {
   return (
     <FontAwesomeIcon
       icon={statusIcon(status)}
       size="1x"
-      className={`cucumber-status--${statusName(status)}`}
+      className={styles.icon}
+      data-status={status}
     />
   )
 }
 
+const StatusIcon: React.FunctionComponent<StatusIconProps> = (props) => {
+  const Customised = useCustomRendering<StatusIconProps, StatusIconClasses>(
+    'StatusIcon',
+    defaultStyles,
+    DefaultRenderer
+  )
+  return <Customised {...props}>{props.children}</Customised>
+}
+
 export default StatusIcon
 
-const statusIcon = (
-  status: messages.TestStepFinished.TestStepResult.Status
-): IconDefinition => {
+const statusIcon = (status: messages.TestStepResultStatus): IconDefinition => {
   return {
-    // Keep the same order as in messages.proto - for readability's sake
-    [messages.TestStepFinished.TestStepResult.Status.PASSED]: faCheckCircle,
-    [messages.TestStepFinished.TestStepResult.Status.SKIPPED]: faStopCircle,
-    [messages.TestStepFinished.TestStepResult.Status.PENDING]: faPauseCircle,
-    [messages.TestStepFinished.TestStepResult.Status
-      .UNDEFINED]: faQuestionCircle,
-    [messages.TestStepFinished.TestStepResult.Status.AMBIGUOUS]: faInfoCircle,
-    [messages.TestStepFinished.TestStepResult.Status.FAILED]: faTimesCircle,
-    [messages.TestStepFinished.TestStepResult.Status.UNKNOWN]: faQuestionCircle,
+    ['PASSED']: faCheckCircle,
+    ['SKIPPED']: faStopCircle,
+    ['PENDING']: faPauseCircle,
+    ['UNDEFINED']: faQuestionCircle,
+    ['AMBIGUOUS']: faInfoCircle,
+    ['FAILED']: faTimesCircle,
+    ['UNKNOWN']: faQuestionCircle,
   }[status]
 }

@@ -1,12 +1,11 @@
 include default.mk
 
-.deps: lib/cucumber/messages.pb.rb
+JSONSCHEMAS = $(shell find ../jsonschema -name "*.json")
 
-lib/cucumber/messages.pb.rb: messages.proto
-	mv $< $<.bak
-	cat $<.bak | sed "s/package io.cucumber.messages/package cucumber.messages/" > $<
-	bundle exec rake protobuf:compile[.,.,lib/cucumber]
-	mv $<.bak $<
+.codegen: lib/cucumber/messages.dtos.rb
+
+lib/cucumber/messages.dtos.rb: $(JSONSCHEMAS) ../jsonschema/scripts/codegen.rb
+	ruby ../jsonschema/scripts/codegen.rb Ruby ../jsonschema > $@
 
 clean:
-	rm -f lib/cucumber/messages.pb.rb
+	rm -f lib/cucumber/messages.dtos.rb

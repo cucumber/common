@@ -1,7 +1,7 @@
-import { messages } from '@cucumber/messages'
 import { EventEmitter } from 'events'
 import { Readable } from 'stream'
 import { Attach, EnvelopeListener } from './types'
+import * as messages from '@cucumber/messages'
 
 export default function makeAttach(
   testStepId: string,
@@ -12,28 +12,33 @@ export default function makeAttach(
     data: string | Buffer | Readable,
     mediaType: string
   ): void | Promise<void> {
-    const attachment = new messages.Attachment({
-      testStepId,
-      testCaseStartedId,
-      mediaType,
-    })
+    let body: string
+    let contentEncoding: messages.AttachmentContentEncoding
 
     if (typeof data === 'string') {
-      attachment.body = data
-      attachment.contentEncoding = messages.Attachment.ContentEncoding.IDENTITY
-      listener(
-        new messages.Envelope({
-          attachment,
-        })
-      )
+      body = data
+      contentEncoding = messages.AttachmentContentEncoding.IDENTITY
+      listener({
+        attachment: {
+          testStepId,
+          testCaseStartedId,
+          mediaType,
+          body,
+          contentEncoding,
+        },
+      })
     } else if (Buffer.isBuffer(data)) {
-      attachment.body = (data as Buffer).toString('base64')
-      attachment.contentEncoding = messages.Attachment.ContentEncoding.BASE64
-      listener(
-        new messages.Envelope({
-          attachment,
-        })
-      )
+      body = (data as Buffer).toString('base64')
+      contentEncoding = messages.AttachmentContentEncoding.BASE64
+      listener({
+        attachment: {
+          testStepId,
+          testCaseStartedId,
+          mediaType,
+          body,
+          contentEncoding,
+        },
+      })
     } else if (
       data instanceof EventEmitter &&
       // @ts-ignore
@@ -52,14 +57,17 @@ export default function makeAttach(
           buf = Buffer.concat([buf, chunk])
         })
         stream.on('end', () => {
-          attachment.body = buf.toString('base64')
-          attachment.contentEncoding =
-            messages.Attachment.ContentEncoding.BASE64
-          listener(
-            new messages.Envelope({
-              attachment,
-            })
-          )
+          body = buf.toString('base64')
+          contentEncoding = messages.AttachmentContentEncoding.BASE64
+          listener({
+            attachment: {
+              testStepId,
+              testCaseStartedId,
+              mediaType,
+              body,
+              contentEncoding,
+            },
+          })
           resolve()
         })
         stream.on('error', reject)

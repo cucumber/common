@@ -28,19 +28,47 @@
 {<text>match_@(tokenType)(context, token)</text>}
 // This file is generated. Do not edit! Edit gherkin-javascript.razor instead.
 
-import { messages } from '@@cucumber/messages'
+import * as messages from '@@cucumber/messages'
 import {
-  ParserException,
-  CompositeParserException,
-  UnexpectedTokenException,
-  UnexpectedEOFException,
   AstBuilderException,
-  NoSuchLanguageException
+  CompositeParserException,
+  NoSuchLanguageException,
+  ParserException,
 } from './Errors'
-import AstBuilder from './AstBuilder'
-import Token from './Token'
+import {
+  UnexpectedEOFException,
+  UnexpectedTokenException,
+} from './TokenExceptions'
 import TokenScanner from './TokenScanner'
-import TokenMatcher from './TokenMatcher'
+import ITokenMatcher from './ITokenMatcher'
+import GherkinLine from './GherkinLine'
+import IToken, { Item } from './IToken'
+import { IAstBuilder } from './IAstBuilder'
+
+export class Token implements IToken<TokenType> {
+  public isEof: boolean
+  public matchedText?: string
+  public matchedType: TokenType
+  public matchedItems: readonly Item[]
+  public matchedKeyword: string
+  public matchedIndent: number
+  public matchedGherkinDialect: string
+
+  constructor(
+    public readonly line: GherkinLine,
+    public readonly location:  messages.Location
+  ) {
+    this.isEof = !line
+  }
+
+  public getTokenValue(): string {
+    return this.isEof ? 'EOF' : this.line.getLineText(-1)
+  }
+
+  public detach() {
+    // TODO: Detach line, but is this really needed?
+  }
+}
 
 export enum TokenType {
   None,
@@ -57,81 +85,96 @@ export enum RuleType {
 }
 
 interface Context {
-  tokenScanner: TokenScanner
-  tokenMatcher: TokenMatcher
-  tokenQueue: Token[]
+  tokenScanner: TokenScanner<TokenType>
+  tokenQueue: IToken<TokenType>[]
   errors: Error[]
 }
 
-export default class Parser {
-  public stopAtFirstError: boolean = false
+export default class Parser<AstNode> {
+  public stopAtFirstError = false
   private context: Context
 
-  constructor(private readonly builder: AstBuilder) {
-  }
+  constructor(
+    private readonly builder: IAstBuilder<AstNode, TokenType, RuleType>,
+    private readonly tokenMatcher: ITokenMatcher<TokenType>
+  ) {}
 
-  public parse(gherkinSource: string, tokenMatcher: TokenMatcher = new TokenMatcher()): messages.IGherkinDocument {
-    const tokenScanner = new TokenScanner(gherkinSource);
-    this.builder.reset();
-    tokenMatcher.reset();
+  public parse(gherkinSource: string): messages.GherkinDocument {
+    const tokenScanner = new TokenScanner(
+      gherkinSource,
+      (line: string, location:  messages.Location) => {
+        const gherkinLine =
+          line === null || line === undefined
+            ? null
+            : new GherkinLine(line, location.line)
+        return new Token(gherkinLine, location)
+      }
+    )
+    this.builder.reset()
+    this.tokenMatcher.reset()
     this.context = {
       tokenScanner,
-      tokenMatcher,
       tokenQueue: [],
-      errors: []
-    };
-    this.startRule(this.context, RuleType.@Model.RuleSet.StartRule.Name);
-    let state = 0;
-    let token = null;
-    while(true) {
-      token = this.readToken(this.context);
-      state = this.matchToken(state, token, this.context);
-      if(token.isEof) break;
+      errors: [],
+    }
+    this.startRule(this.context, RuleType.GherkinDocument)
+    let state = 0
+    let token: IToken<TokenType> = null
+    while (true) {
+      token = this.readToken(this.context) as Token
+      state = this.matchToken(state, token, this.context)
+      if (token.isEof) break
     }
 
-    this.endRule(this.context);
+    this.endRule(this.context)
 
-    if(this.context.errors.length > 0) {
-      throw CompositeParserException.create(this.context.errors);
+    if (this.context.errors.length > 0) {
+      throw CompositeParserException.create(this.context.errors)
     }
 
-    return this.getResult();
+    return this.getResult()
   }
 
   private addError(context: Context, error: Error) {
-    context.errors.push(error);
-    if (context.errors.length > 10)
-      throw CompositeParserException.create(context.errors);
+    if (!context.errors.map(e => { return e.message }).includes(error.message)) {
+      context.errors.push(error)
+      if (context.errors.length > 10)
+        throw CompositeParserException.create(context.errors)
+    }
   }
 
   private startRule(context: Context, ruleType: RuleType) {
-    this.handleAstError(context, () => this.builder.startRule(ruleType));
+    this.handleAstError(context, () => this.builder.startRule(ruleType))
   }
 
   private endRule(context: Context) {
-    this.handleAstError(context, () => this.builder.endRule());
+    this.handleAstError(context, () => this.builder.endRule())
   }
 
-  private build(context: Context, token: Token) {
-    this.handleAstError(context, () => this.builder.build(token));
+  private build(context: Context, token: IToken<TokenType>) {
+    this.handleAstError(context, () => this.builder.build(token))
   }
 
   private getResult() {
-    return this.builder.getResult();
+    return this.builder.getResult()
   }
 
   private handleAstError(context: Context, action: () => any) {
     this.handleExternalError(context, true, action)
   }
 
-  private handleExternalError<T>(context: Context, defaultValue: T, action: () => T) {
-    if(this.stopAtFirstError) return action()
+  private handleExternalError<T>(
+    context: Context,
+    defaultValue: T,
+    action: () => T
+  ) {
+    if (this.stopAtFirstError) return action()
     try {
       return action()
     } catch (e) {
-      if(e instanceof CompositeParserException) {
+      if (e instanceof CompositeParserException) {
         e.errors.forEach((error: Error) => this.addError(context, error))
-      } else if(
+      } else if (
         e instanceof ParserException ||
         e instanceof AstBuilderException ||
         e instanceof UnexpectedTokenException ||
@@ -139,19 +182,19 @@ export default class Parser {
       ) {
         this.addError(context, e)
       } else {
-        throw e;
+        throw e
       }
     }
-    return defaultValue;
+    return defaultValue
   }
 
   private readToken(context: Context) {
-    return context.tokenQueue.length > 0 ?
-      context.tokenQueue.shift() :
-      context.tokenScanner.read();
+    return context.tokenQueue.length > 0
+      ? context.tokenQueue.shift()
+      : context.tokenScanner.read()
   }
 
-  private matchToken(state: number, token: Token, context: Context) {
+  private matchToken(state: number, token: IToken<TokenType>, context: Context) {
     switch(state) {
     @foreach(var state in Model.States.Values.Where(s => !s.IsEndState))
     {
@@ -167,7 +210,7 @@ export default class Parser {
 {
 <text>
   // @Raw(state.Comment)
-  private matchTokenAt_@(state.Id)(token: Token, context: Context) {
+  private matchTokenAt_@(state.Id)(token: IToken<TokenType>, context: Context) {
     @foreach(var transition in state.Transitions)
     {
     @:if(this.@MatchToken(transition.TokenType)) {
@@ -194,12 +237,12 @@ export default class Parser {
 @foreach(var rule in Model.RuleSet.TokenRules)
 {
 <text>
-  private match_@(rule.Name.Replace("#", ""))(context: Context, token: Token) {
+  private match_@(rule.Name.Replace("#", ""))(context: Context, token: IToken<TokenType>) {
     @if (rule.Name != "#EOF")
     {
     @:if(token.isEof) return false;
     }
-    return this.handleExternalError(context, false, () => context.tokenMatcher.match_@(rule.Name.Replace("#", ""))(token));
+    return this.handleExternalError(context, false, () => this.tokenMatcher.match_@(rule.Name.Replace("#", ""))(token));
   }
 </text>
 }
@@ -207,10 +250,10 @@ export default class Parser {
 @foreach(var lookAheadHint in Model.RuleSet.LookAheadHints)
 {
 <text>
-  private lookahead_@(lookAheadHint.Id)(context: Context, currentToken: Token) {
+  private lookahead_@(lookAheadHint.Id)(context: Context, currentToken: IToken<TokenType>) {
     currentToken.detach();
     let token;
-    const queue: Token[] = [];
+    const queue: IToken<TokenType>[] = [];
     let match = false;
     do {
       token = this.readToken(this.context);

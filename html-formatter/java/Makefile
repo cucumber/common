@@ -9,15 +9,15 @@ acceptance/%.html: ../../compatibility-kit/javascript/features/%.ndjson .built
 	mkdir -p $(@D)
 	cat $< | mvn --quiet --batch-mode exec:java -Dexec.mainClass=io.cucumber.htmlformatter.Main > $@
 
-.deps: target/classes/io/cucumber/htmlformatter/cucumber-react.css target/classes/io/cucumber/htmlformatter/cucumber-html.js target/classes/io/cucumber/htmlformatter/index.mustache.html
+.deps: target/classes/io/cucumber/htmlformatter/cucumber-html.css target/classes/io/cucumber/htmlformatter/cucumber-html.js target/classes/io/cucumber/htmlformatter/index.mustache.html
 
-target/classes/io/cucumber/htmlformatter/cucumber-react.css:
+target/classes/io/cucumber/htmlformatter/cucumber-html.css:
 	mkdir -p $(@D)
-	cp ../../react/javascript/dist/src/styles/cucumber-react.css $@
+	cp ../javascript/dist/main.css $@
 
 target/classes/io/cucumber/htmlformatter/cucumber-html.js:
 	mkdir -p $(@D)
-	cp ../javascript/dist/main.js $@
+	cp ../javascript/dist/src/main.js $@
 
 target/classes/io/cucumber/htmlformatter/index.mustache.html:
 	mkdir -p $(@D)
