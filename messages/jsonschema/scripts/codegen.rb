@@ -3,6 +3,8 @@ require 'erb'
 require 'set'
 
 class Codegen
+  TEMPLATES_DIRECTORY = "#{File.dirname(__FILE__)}/templates/"
+
   def initialize(paths, template, enum_template, language_type_by_schema_type)
     @paths = paths
     @template = ERB.new(template, nil, '-')
@@ -106,42 +108,15 @@ end
 
 class TypeScript < Codegen
   def initialize(paths)
-    template = <<-EOF
-import { Type } from 'class-transformer'
-import 'reflect-metadata'
-
-<% @schemas.sort.each do |key, schema| -%>
-export class <%= class_name(key) %> {
-<% schema['properties'].each do |property_name, property| -%>
-<% ref = property['$ref'] || property['items'] && property['items']['$ref'] %>
-<% if ref -%>
-  @Type(() => <%= class_name(ref) %>)
-<% end -%>
-<% if (schema['required'] || []).index(property_name) -%>
-  <%= property_name %>: <%= type_for(class_name(key), property_name, property) %> = <%= default_value(class_name(key), property_name, property) %>
-<% else -%>
-  <%= property_name %>?: <%= type_for(class_name(key), property_name, property) %>
-<% end -%>
-<% end -%>
-}
-
-<% end -%>
-EOF
-
-    enum_template = <<-EOF
-export enum <%= enum[:name] %> {
-<% enum[:values].each do |value| -%>
-  <%= enum_constant(value) %> = '<%= value %>',
-<% end -%>
-}
-
-EOF
+    template = File.read("#{TEMPLATES_DIRECTORY}/typescript.ts.erb")
+    enum_template = File.read("#{TEMPLATES_DIRECTORY}/typescript.enum.ts.erb")
 
     language_type_by_schema_type = {
       'integer' => 'number',
       'string' => 'string',
       'boolean' => 'boolean',
     }
+
     super(paths, template, enum_template, language_type_by_schema_type)
   end
 
@@ -158,45 +133,62 @@ EOF
   end
 end
 
+class Ruby < Codegen
+  def initialize(paths)
+    template = File.read("#{TEMPLATES_DIRECTORY}/ruby.rb.erb")
+    enum_template = File.read("#{TEMPLATES_DIRECTORY}/ruby.enum.rb.erb")
+
+    language_type_by_schema_type = {
+      'integer' => 'number',
+      'string' => 'string',
+      'boolean' => 'boolean',
+    }
+
+    super(paths, template, enum_template, language_type_by_schema_type)
+  end
+
+  def property_type_from_ref(ref)
+    class_name(ref)
+  end
+
+  def property_type_from_enum(enum)
+    enum
+  end
+
+  def array_type_for(type_name)
+    "[]"
+  end
+
+  def default_value(parent_type_name, property_name, property)
+    if property['type'] == 'string'
+      if property['enum']
+        enum_type_name = type_for(parent_type_name, property_name, property)
+        "#{enum_type_name}::#{enum_constant(property['enum'][0])}"
+      else
+        "''"
+      end
+    elsif property['$ref']
+      type = type_for(parent_type_name, nil, property)
+      "#{type}.new"
+    else
+      super(parent_type_name, property_name, property)
+    end
+  end
+
+  def format_description(raw_description, indent_string: "    ")
+    return '' if raw_description.nil?
+
+    raw_description
+      .split("\n")
+      .map { |description_line| "# #{description_line}" }
+      .join("\n#{indent_string}")
+  end
+end
+
 class Go < Codegen
   def initialize(paths)
-    template = <<-EOF
-package messages
-
-<% @schemas.sort.each do |key, schema| -%>
-type <%= class_name(key) %> struct {
-<% schema['properties'].each do |property_name, property| -%>
-<%
-type_name = type_for(class_name(key), property_name, property)
-required = (schema['required'] || []).index(property_name)
--%>
-  <%= capitalize(property_name) %> <%= type_name %> `json:"<%= property_name %><%= required ? '' : ',omitempty' %>"`
-<% end -%>
-}
-
-<% end -%>
-EOF
-
-    enum_template = <<-EOF
-type <%= enum[:name] %> string
-
-const(
-<% enum[:values].each do |value| -%>
-  <%= enum[:name] %>_<%= enum_constant(value) %> <%= enum[:name] %> = "<%= value %>"
-<% end -%>
-)
-
-func (e <%= enum[:name] %>) String() string {
-	switch e {
-<% enum[:values].each do |value| -%>
-  case <%= enum[:name] %>_<%= enum_constant(value) %>:
-    return "<%= value %>"
-<% end -%>
-	default:
-		panic("Bad enum value for <%= enum[:name] %>")
-	}
-}
-EOF
+    template = File.read("#{TEMPLATES_DIRECTORY}/go.go.erb")
+    enum_template = File.read("#{TEMPLATES_DIRECTORY}/go.enum.go.erb")
 
     language_type_by_schema_type = {
       'integer' => 'int64',
@@ -221,38 +213,8 @@ end
 
 class Markdown < Codegen
   def initialize(paths)
-    template = <<-EOF
-# Cucumber Messages
-
-Each message is an instance of [Envelope](#envelope). The `Envelope` message
-will only have one of its fields set, which indicates the payload of the message.
-
-<% @schemas.sort.each do |key, schema| -%>
-## <%= class_name(key) %>
-
-| Field | Type | Required    | Description |
-| ----- | ---- | ----------- | ----------- |
-<% schema['properties'].each do |property_name, property| -%>
-<%
-type_name = type_for(class_name(key), property_name, property)
-required = (schema['required'] || []).index(property_name)
--%>
-| `<%= property_name %>` | <%= type_name %> | <%= required ? 'yes' : 'no' %> | |
-<% end -%>
-
-<% end -%>
-EOF
-
-enum_template = <<-EOF
-## <%= enum[:name] %>
-
-One of the following:
-
-<% enum[:values].each do |value| -%>
-* `"<%= value %>"`
-<% end -%>
-
-EOF
+    template = File.read("#{TEMPLATES_DIRECTORY}/markdown.md.erb")
+    enum_template = File.read("#{TEMPLATES_DIRECTORY}/markdown.enum.md.erb")
 
     language_type_by_schema_type = {
       'integer' => 'integer',
