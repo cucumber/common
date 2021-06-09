@@ -174,6 +174,15 @@ class Ruby < Codegen
       super(parent_type_name, property_name, property)
     end
   end
+
+  def format_description(raw_description, indent_string: "    ")
+    return '' if raw_description.nil?
+
+    raw_description
+      .split("\n")
+      .map { |description_line| "# #{description_line}" }
+      .join("\n#{indent_string}")
+  end
 end
 
 class Go < Codegen
