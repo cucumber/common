@@ -183,6 +183,17 @@ class Ruby < Codegen
       .map { |description_line| "# #{description_line}" }
       .join("\n#{indent_string}")
   end
+
+  # Thank you very munch rails!
+  # https://github.com/rails/rails/blob/v6.1.3.2/activesupport/lib/active_support/inflector/methods.rb#L92
+  def underscore(camel_cased_word)
+    return camel_cased_word unless /[A-Z-]/.match?(camel_cased_word)
+    word = camel_cased_word.gsub(/([A-Z\d]+)([A-Z][a-z])/, '\1_\2')
+    word.gsub!(/([a-z\d])([A-Z])/, '\1_\2')
+    word.tr!("-", "_")
+    word.downcase!
+    word
+  end
 end
 
 class Go < Codegen
