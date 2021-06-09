@@ -42,13 +42,13 @@ module Cucumber
       #  - byte array => BASE64
       #  - stream => BASE64
 
-      attr_reader :contentEncoding
+      attr_reader :content_encoding
 
       ##
       # *
       #  Suggested file name of the attachment. (Provided by the user as an argument to `attach`)
 
-      attr_reader :fileName
+      attr_reader :file_name
 
       ##
       # *
@@ -57,13 +57,13 @@ module Cucumber
       #  as well as Cucumber-specific media types such as `text/x.cucumber.gherkin+plain`
       #  and `text/x.cucumber.stacktrace+plain`
 
-      attr_reader :mediaType
+      attr_reader :media_type
 
       attr_reader :source
 
-      attr_reader :testCaseStartedId
+      attr_reader :test_case_started_id
 
-      attr_reader :testStepId
+      attr_reader :test_step_id
 
       ##
       # *
@@ -83,21 +83,21 @@ module Cucumber
 
       def initialize(
         body: '',
-        contentEncoding: AttachmentContentEncoding::IDENTITY,
-        fileName: nil,
-        mediaType: '',
+        content_encoding: AttachmentContentEncoding::IDENTITY,
+        file_name: nil,
+        media_type: '',
         source: nil,
-        testCaseStartedId: nil,
-        testStepId: nil,
+        test_case_started_id: nil,
+        test_step_id: nil,
         url: nil
       )
         @body = body
-        @contentEncoding = contentEncoding
-        @fileName = fileName
-        @mediaType = mediaType
+        @content_encoding = content_encoding
+        @file_name = file_name
+        @media_type = media_type
         @source = source
-        @testCaseStartedId = testCaseStartedId
-        @testStepId = testStepId
+        @test_case_started_id = test_case_started_id
+        @test_step_id = test_step_id
         @url = url
       end
     end
@@ -152,74 +152,74 @@ module Cucumber
 
       attr_reader :attachment
 
-      attr_reader :gherkinDocument
+      attr_reader :gherkin_document
 
       attr_reader :hook
 
       attr_reader :meta
 
-      attr_reader :parameterType
+      attr_reader :parameter_type
 
-      attr_reader :parseError
+      attr_reader :parse_error
 
       attr_reader :pickle
 
       attr_reader :source
 
-      attr_reader :stepDefinition
+      attr_reader :step_definition
 
-      attr_reader :testCase
+      attr_reader :test_case
 
-      attr_reader :testCaseFinished
+      attr_reader :test_case_finished
 
-      attr_reader :testCaseStarted
+      attr_reader :test_case_started
 
-      attr_reader :testRunFinished
+      attr_reader :test_run_finished
 
-      attr_reader :testRunStarted
+      attr_reader :test_run_started
 
-      attr_reader :testStepFinished
+      attr_reader :test_step_finished
 
-      attr_reader :testStepStarted
+      attr_reader :test_step_started
 
-      attr_reader :undefinedParameterType
+      attr_reader :undefined_parameter_type
 
       def initialize(
         attachment: nil,
-        gherkinDocument: nil,
+        gherkin_document: nil,
         hook: nil,
         meta: nil,
-        parameterType: nil,
-        parseError: nil,
+        parameter_type: nil,
+        parse_error: nil,
         pickle: nil,
         source: nil,
-        stepDefinition: nil,
-        testCase: nil,
-        testCaseFinished: nil,
-        testCaseStarted: nil,
-        testRunFinished: nil,
-        testRunStarted: nil,
-        testStepFinished: nil,
-        testStepStarted: nil,
-        undefinedParameterType: nil
+        step_definition: nil,
+        test_case: nil,
+        test_case_finished: nil,
+        test_case_started: nil,
+        test_run_finished: nil,
+        test_run_started: nil,
+        test_step_finished: nil,
+        test_step_started: nil,
+        undefined_parameter_type: nil
       )
         @attachment = attachment
-        @gherkinDocument = gherkinDocument
+        @gherkin_document = gherkin_document
         @hook = hook
         @meta = meta
-        @parameterType = parameterType
-        @parseError = parseError
+        @parameter_type = parameter_type
+        @parse_error = parse_error
         @pickle = pickle
         @source = source
-        @stepDefinition = stepDefinition
-        @testCase = testCase
-        @testCaseFinished = testCaseFinished
-        @testCaseStarted = testCaseStarted
-        @testRunFinished = testRunFinished
-        @testRunStarted = testRunStarted
-        @testStepFinished = testStepFinished
-        @testStepStarted = testStepStarted
-        @undefinedParameterType = undefinedParameterType
+        @step_definition = step_definition
+        @test_case = test_case
+        @test_case_finished = test_case_finished
+        @test_case_started = test_case_started
+        @test_run_finished = test_run_finished
+        @test_run_started = test_run_started
+        @test_step_finished = test_step_finished
+        @test_step_started = test_step_started
+        @undefined_parameter_type = undefined_parameter_type
       end
     end
 
@@ -376,7 +376,7 @@ module Cucumber
 
       attr_reader :location
 
-      attr_reader :mediaType
+      attr_reader :media_type
 
       attr_reader :content
 
@@ -384,12 +384,12 @@ module Cucumber
 
       def initialize(
         location: Location.new,
-        mediaType: nil,
+        media_type: nil,
         content: '',
         delimiter: ''
       )
         @location = location
-        @mediaType = mediaType
+        @media_type = media_type
         @content = content
         @delimiter = delimiter
       end
@@ -419,9 +419,9 @@ module Cucumber
 
       attr_reader :description
 
-      attr_reader :tableHeader
+      attr_reader :table_header
 
-      attr_reader :tableBody
+      attr_reader :table_body
 
       attr_reader :id
 
@@ -431,8 +431,8 @@ module Cucumber
         keyword: '',
         name: '',
         description: '',
-        tableHeader: nil,
-        tableBody: [],
+        table_header: nil,
+        table_body: [],
         id: ''
       )
         @location = location
@@ -440,8 +440,8 @@ module Cucumber
         @keyword = keyword
         @name = name
         @description = description
-        @tableHeader = tableHeader
-        @tableBody = tableBody
+        @table_header = table_header
+        @table_body = table_body
         @id = id
       end
     end
@@ -686,9 +686,9 @@ module Cucumber
 
       attr_reader :text
 
-      attr_reader :docString
+      attr_reader :doc_string
 
-      attr_reader :dataTable
+      attr_reader :data_table
 
       ##
       # Unique ID to be able to reference the Step from PickleStep
@@ -699,15 +699,15 @@ module Cucumber
         location: Location.new,
         keyword: '',
         text: '',
-        docString: nil,
-        dataTable: nil,
+        doc_string: nil,
+        data_table: nil,
         id: ''
       )
         @location = location
         @keyword = keyword
         @text = text
-        @docString = docString
-        @dataTable = dataTable
+        @doc_string = doc_string
+        @data_table = data_table
         @id = id
       end
     end
@@ -827,18 +827,18 @@ module Cucumber
 
       attr_reader :id
 
-      attr_reader :sourceReference
+      attr_reader :source_reference
 
-      attr_reader :tagExpression
+      attr_reader :tag_expression
 
       def initialize(
         id: '',
-        sourceReference: SourceReference.new,
-        tagExpression: nil
+        source_reference: SourceReference.new,
+        tag_expression: nil
       )
         @id = id
-        @sourceReference = sourceReference
-        @tagExpression = tagExpression
+        @source_reference = source_reference
+        @tag_expression = tag_expression
       end
     end
 
@@ -884,7 +884,7 @@ module Cucumber
       # *
       #  The [SEMVER](https://semver.org/) version number of the protocol
 
-      attr_reader :protocolVersion
+      attr_reader :protocol_version
 
       ##
       # SpecFlow, Cucumber-JVM, Cucumber.js, Cucumber-Ruby, Behat etc.
@@ -909,14 +909,14 @@ module Cucumber
       attr_reader :ci
 
       def initialize(
-        protocolVersion: '',
+        protocol_version: '',
         implementation: Product.new,
         runtime: Product.new,
         os: Product.new,
         cpu: Product.new,
         ci: nil
       )
-        @protocolVersion = protocolVersion
+        @protocol_version = protocol_version
         @implementation = implementation
         @runtime = runtime
         @os = os
@@ -1038,25 +1038,25 @@ module Cucumber
 
       attr_reader :name
 
-      attr_reader :regularExpressions
+      attr_reader :regular_expressions
 
-      attr_reader :preferForRegularExpressionMatch
+      attr_reader :prefer_for_regular_expression_match
 
-      attr_reader :useForSnippets
+      attr_reader :use_for_snippets
 
       attr_reader :id
 
       def initialize(
         name: '',
-        regularExpressions: [],
-        preferForRegularExpressionMatch: false,
-        useForSnippets: false,
+        regular_expressions: [],
+        prefer_for_regular_expression_match: false,
+        use_for_snippets: false,
         id: ''
       )
         @name = name
-        @regularExpressions = regularExpressions
-        @preferForRegularExpressionMatch = preferForRegularExpressionMatch
-        @useForSnippets = useForSnippets
+        @regular_expressions = regular_expressions
+        @prefer_for_regular_expression_match = prefer_for_regular_expression_match
+        @use_for_snippets = use_for_snippets
         @id = id
       end
     end
@@ -1149,7 +1149,7 @@ module Cucumber
       #  id of the pickle. A pickle constructed from `Examples` will have the first
       #  id originating from the `Scenario` AST node, and the second from the `TableRow` AST node.
 
-      attr_reader :astNodeIds
+      attr_reader :ast_node_ids
 
       def initialize(
         id: '',
@@ -1158,7 +1158,7 @@ module Cucumber
         language: '',
         steps: [],
         tags: [],
-        astNodeIds: []
+        ast_node_ids: []
       )
         @id = id
         @uri = uri
@@ -1166,7 +1166,7 @@ module Cucumber
         @language = language
         @steps = steps
         @tags = tags
-        @astNodeIds = astNodeIds
+        @ast_node_ids = ast_node_ids
       end
     end
 
@@ -1181,15 +1181,15 @@ module Cucumber
 
     class PickleDocString
 
-      attr_reader :mediaType
+      attr_reader :media_type
 
       attr_reader :content
 
       def initialize(
-        mediaType: nil,
+        media_type: nil,
         content: ''
       )
-        @mediaType = mediaType
+        @media_type = media_type
         @content = content
       end
     end
@@ -1212,7 +1212,7 @@ module Cucumber
       # References the IDs of the source of the step. For Gherkin, this can be
       #  the ID of a Step, and possibly also the ID of a TableRow
 
-      attr_reader :astNodeIds
+      attr_reader :ast_node_ids
 
       ##
       # A unique ID for the PickleStep
@@ -1223,12 +1223,12 @@ module Cucumber
 
       def initialize(
         argument: nil,
-        astNodeIds: [],
+        ast_node_ids: [],
         id: '',
         text: ''
       )
         @argument = argument
-        @astNodeIds = astNodeIds
+        @ast_node_ids = ast_node_ids
         @id = id
         @text = text
       end
@@ -1245,16 +1245,16 @@ module Cucumber
 
     class PickleStepArgument
 
-      attr_reader :docString
+      attr_reader :doc_string
 
-      attr_reader :dataTable
+      attr_reader :data_table
 
       def initialize(
-        docString: nil,
-        dataTable: nil
+        doc_string: nil,
+        data_table: nil
       )
-        @docString = docString
-        @dataTable = dataTable
+        @doc_string = doc_string
+        @data_table = data_table
       end
     end
 
@@ -1335,14 +1335,14 @@ module Cucumber
       ##
       # Points to the AST node this was created from
 
-      attr_reader :astNodeId
+      attr_reader :ast_node_id
 
       def initialize(
         name: '',
-        astNodeId: ''
+        ast_node_id: ''
       )
         @name = name
-        @astNodeId = astNodeId
+        @ast_node_id = ast_node_id
       end
     end
 
@@ -1376,16 +1376,16 @@ module Cucumber
       # The media type of the file. Can be used to specify custom types, such as
       #  text/x.cucumber.gherkin+plain
 
-      attr_reader :mediaType
+      attr_reader :media_type
 
       def initialize(
         uri: '',
         data: '',
-        mediaType: SourceMediaType::TEXT_X_CUCUMBER_GHERKIN_PLAIN
+        media_type: SourceMediaType::TEXT_X_CUCUMBER_GHERKIN_PLAIN
       )
         @uri = uri
         @data = data
-        @mediaType = mediaType
+        @media_type = media_type
       end
     end
 
@@ -1404,21 +1404,21 @@ module Cucumber
 
       attr_reader :uri
 
-      attr_reader :javaMethod
+      attr_reader :java_method
 
-      attr_reader :javaStackTraceElement
+      attr_reader :java_stack_trace_element
 
       attr_reader :location
 
       def initialize(
         uri: nil,
-        javaMethod: nil,
-        javaStackTraceElement: nil,
+        java_method: nil,
+        java_stack_trace_element: nil,
         location: nil
       )
         @uri = uri
-        @javaMethod = javaMethod
-        @javaStackTraceElement = javaStackTraceElement
+        @java_method = java_method
+        @java_stack_trace_element = java_stack_trace_element
         @location = location
       end
     end
@@ -1434,20 +1434,20 @@ module Cucumber
 
     class JavaMethod
 
-      attr_reader :className
+      attr_reader :class_name
 
-      attr_reader :methodName
+      attr_reader :method_name
 
-      attr_reader :methodParameterTypes
+      attr_reader :method_parameter_types
 
       def initialize(
-        className: '',
-        methodName: '',
-        methodParameterTypes: []
+        class_name: '',
+        method_name: '',
+        method_parameter_types: []
       )
-        @className = className
-        @methodName = methodName
-        @methodParameterTypes = methodParameterTypes
+        @class_name = class_name
+        @method_name = method_name
+        @method_parameter_types = method_parameter_types
       end
     end
 
@@ -1462,20 +1462,20 @@ module Cucumber
 
     class JavaStackTraceElement
 
-      attr_reader :className
+      attr_reader :class_name
 
-      attr_reader :fileName
+      attr_reader :file_name
 
-      attr_reader :methodName
+      attr_reader :method_name
 
       def initialize(
-        className: '',
-        fileName: '',
-        methodName: ''
+        class_name: '',
+        file_name: '',
+        method_name: ''
       )
-        @className = className
-        @fileName = fileName
-        @methodName = methodName
+        @class_name = class_name
+        @file_name = file_name
+        @method_name = method_name
       end
     end
 
@@ -1494,16 +1494,16 @@ module Cucumber
 
       attr_reader :pattern
 
-      attr_reader :sourceReference
+      attr_reader :source_reference
 
       def initialize(
         id: '',
         pattern: StepDefinitionPattern.new,
-        sourceReference: SourceReference.new
+        source_reference: SourceReference.new
       )
         @id = id
         @pattern = pattern
-        @sourceReference = sourceReference
+        @source_reference = source_reference
       end
     end
 
@@ -1550,18 +1550,18 @@ module Cucumber
       ##
       # The ID of the `Pickle` this `TestCase` is derived from.
 
-      attr_reader :pickleId
+      attr_reader :pickle_id
 
-      attr_reader :testSteps
+      attr_reader :test_steps
 
       def initialize(
         id: '',
-        pickleId: '',
-        testSteps: []
+        pickle_id: '',
+        test_steps: []
       )
         @id = id
-        @pickleId = pickleId
-        @testSteps = testSteps
+        @pickle_id = pickle_id
+        @test_steps = test_steps
       end
     end
 
@@ -1617,14 +1617,14 @@ module Cucumber
 
       attr_reader :group
 
-      attr_reader :parameterTypeName
+      attr_reader :parameter_type_name
 
       def initialize(
         group: Group.new,
-        parameterTypeName: nil
+        parameter_type_name: nil
       )
         @group = group
-        @parameterTypeName = parameterTypeName
+        @parameter_type_name = parameter_type_name
       end
     end
 
@@ -1639,12 +1639,12 @@ module Cucumber
 
     class StepMatchArgumentsList
 
-      attr_reader :stepMatchArguments
+      attr_reader :step_match_arguments
 
       def initialize(
-        stepMatchArguments: []
+        step_match_arguments: []
       )
-        @stepMatchArguments = stepMatchArguments
+        @step_match_arguments = step_match_arguments
       end
     end
 
@@ -1664,39 +1664,39 @@ module Cucumber
       ##
       # Pointer to the `Hook` (if derived from a Hook)
 
-      attr_reader :hookId
+      attr_reader :hook_id
 
       attr_reader :id
 
       ##
       # Pointer to the `PickleStep` (if derived from a `PickleStep`)
 
-      attr_reader :pickleStepId
+      attr_reader :pickle_step_id
 
       ##
       # Pointer to all the matching `StepDefinition`s (if derived from a `PickleStep`)
 
-      attr_reader :stepDefinitionIds
+      attr_reader :step_definition_ids
 
       ##
       # A list of list of StepMatchArgument (if derived from a `PickleStep`).
       #  Each element represents a matching step definition. A size of 0 means `UNDEFINED`,
       #  and a size of 2+ means `AMBIGUOUS`
 
-      attr_reader :stepMatchArgumentsLists
+      attr_reader :step_match_arguments_lists
 
       def initialize(
-        hookId: nil,
+        hook_id: nil,
         id: '',
-        pickleStepId: nil,
-        stepDefinitionIds: nil,
-        stepMatchArgumentsLists: nil
+        pickle_step_id: nil,
+        step_definition_ids: nil,
+        step_match_arguments_lists: nil
       )
-        @hookId = hookId
+        @hook_id = hook_id
         @id = id
-        @pickleStepId = pickleStepId
-        @stepDefinitionIds = stepDefinitionIds
-        @stepMatchArgumentsLists = stepMatchArgumentsLists
+        @pickle_step_id = pickle_step_id
+        @step_definition_ids = step_definition_ids
+        @step_match_arguments_lists = step_match_arguments_lists
       end
     end
 
@@ -1711,15 +1711,15 @@ module Cucumber
 
     class TestCaseFinished
 
-      attr_reader :testCaseStartedId
+      attr_reader :test_case_started_id
 
       attr_reader :timestamp
 
       def initialize(
-        testCaseStartedId: '',
+        test_case_started_id: '',
         timestamp: Timestamp.new
       )
-        @testCaseStartedId = testCaseStartedId
+        @test_case_started_id = test_case_started_id
         @timestamp = timestamp
       end
     end
@@ -1749,19 +1749,19 @@ module Cucumber
 
       attr_reader :id
 
-      attr_reader :testCaseId
+      attr_reader :test_case_id
 
       attr_reader :timestamp
 
       def initialize(
         attempt: 0,
         id: '',
-        testCaseId: '',
+        test_case_id: '',
         timestamp: Timestamp.new
       )
         @attempt = attempt
         @id = id
-        @testCaseId = testCaseId
+        @test_case_id = test_case_id
         @timestamp = timestamp
       end
     end
@@ -1838,23 +1838,23 @@ module Cucumber
 
     class TestStepFinished
 
-      attr_reader :testCaseStartedId
+      attr_reader :test_case_started_id
 
-      attr_reader :testStepId
+      attr_reader :test_step_id
 
-      attr_reader :testStepResult
+      attr_reader :test_step_result
 
       attr_reader :timestamp
 
       def initialize(
-        testCaseStartedId: '',
-        testStepId: '',
-        testStepResult: TestStepResult.new,
+        test_case_started_id: '',
+        test_step_id: '',
+        test_step_result: TestStepResult.new,
         timestamp: Timestamp.new
       )
-        @testCaseStartedId = testCaseStartedId
-        @testStepId = testStepId
-        @testStepResult = testStepResult
+        @test_case_started_id = test_case_started_id
+        @test_step_id = test_step_id
+        @test_step_result = test_step_result
         @timestamp = timestamp
       end
     end
@@ -1876,18 +1876,18 @@ module Cucumber
 
       attr_reader :status
 
-      attr_reader :willBeRetried
+      attr_reader :will_be_retried
 
       def initialize(
         duration: Duration.new,
         message: nil,
         status: TestStepResultStatus::UNKNOWN,
-        willBeRetried: false
+        will_be_retried: false
       )
         @duration = duration
         @message = message
         @status = status
-        @willBeRetried = willBeRetried
+        @will_be_retried = will_be_retried
       end
     end
 
@@ -1902,19 +1902,19 @@ module Cucumber
 
     class TestStepStarted
 
-      attr_reader :testCaseStartedId
+      attr_reader :test_case_started_id
 
-      attr_reader :testStepId
+      attr_reader :test_step_id
 
       attr_reader :timestamp
 
       def initialize(
-        testCaseStartedId: '',
-        testStepId: '',
+        test_case_started_id: '',
+        test_step_id: '',
         timestamp: Timestamp.new
       )
-        @testCaseStartedId = testCaseStartedId
-        @testStepId = testStepId
+        @test_case_started_id = test_case_started_id
+        @test_step_id = test_step_id
         @timestamp = timestamp
       end
     end
