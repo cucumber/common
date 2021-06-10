@@ -1,0 +1,4 @@
+bamboo.buildResultsUrl=???
+bamboo.planRepository.1.branch=???
+bamboo.planRepository.1.repositoryUrl=???
+bamboo.planRepository.1.revision=???

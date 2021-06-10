@@ -1,6 +1,6 @@
 {
   "Azure Pipelines": {
-    "url": "${BUILD_URI}",
+    "url": "${BUILD_BUILDURI}",
     "git": {
       "remote": "${BUILD_REPOSITORY_URI}",
       "revision": "${BUILD_SOURCEVERSION}",
