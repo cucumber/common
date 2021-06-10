@@ -6,7 +6,7 @@ import {
   Parser,
 } from '@cucumber/gherkin'
 import pretty, { Syntax } from '../pretty'
-import { readFile as readFileCb, writeFile as writeFileCb } from 'fs'
+import { readFile as readFileCb, writeFile as writeFileCb, unlink as unlinkCb } from 'fs'
 import {promisify} from 'util'
 import path from 'path'
 import fg from 'fast-glob'
@@ -15,12 +15,23 @@ import micromatch from 'micromatch'
 
 const readFile = promisify(readFileCb)
 const writeFile = promisify(writeFileCb)
+const unlink = promisify(unlinkCb)
 
-export default async (from: string, to: string = from) => {
+type Options = {
+  move: boolean
+}
+
+export default async (from: string, to: string | undefined, options: Partial<Options> = {}) => {
+  if(!to) {
+    to = from
+  }
   const fromPaths = await fg(from)
   for (const fromPath of fromPaths) {
     const toPath = makeToPath(fromPath, from, to)
     await format(fromPath, toPath)
+    if(options.move && toPath !== fromPath) {
+      await unlink(fromPath)
+    }
   }
 }
 

@@ -1,8 +1,26 @@
 # gherkin-utils
 
-This library is a set of utilities to work with Gherkin documents and AST. It does not depend on Gherkin library, so it is lightweight enough for using in a browser.
+This library is a set of utilities to work with Gherkin documents and AST.
 
-It provides two main utilities, `pretty` and `gherkinDocumentWalker`.
+## Command line
+
+The command-line tool can be used to format `.feature` files or translate `.feature` files
+into `.feature.md` files.
+
+Example usage:
+
+    # Translate all `.feature` files to `.feature.md` files and delete the `.feature` files.
+    # See https://github.com/cucumber/common/blob/main/gherkin/MARKDOWN_WITH_GHERKIN.md
+    # Note that the globs must be quoted to prevent the shell from expanding the globs.
+    npx @cucumber/gherkin-utils --move "features/**/*.feature" "features/**/*.feature.md"
+
+More details:
+
+    npx @cucumber/gherkin-utils --help
+
+## As a library
+
+This module can also be used as a library. It provides two main utilities, `pretty` and `gherkinDocumentWalker`.
 
 # pretty(gherkinDocument: messages.GherkinDocument)
 

@@ -34,6 +34,35 @@ describe('formatCommand', () => {
     assert.deepStrictEqual(markdown2, '# Feature: 2\n')
   })
 
+  it('formats Gherkin files in-place', async () => {
+    await fs.writeFileSync(`${tmpdir}/1.feature`, '     Feature:     1\n', 'utf-8')
+    await formatCommand(`${tmpdir}/1.feature`, undefined)
+
+    const gherkin = fs.readFileSync(`${tmpdir}/1.feature`, 'utf-8')
+    assert.deepStrictEqual(gherkin, 'Feature: 1\n')
+  })
+
+  it('deletes the from file when move is specified', async () => {
+    const from = `${tmpdir}/1.feature`;
+    const to = `${tmpdir}/1.feature.md`;
+    await fs.writeFileSync(from, 'Feature: 1\n', 'utf-8')
+    await formatCommand(from, to, {move: true})
+
+    const markdown = fs.readFileSync(to, 'utf-8')
+    assert.deepStrictEqual(markdown, '# Feature: 1\n')
+    assert(!fs.existsSync(from))
+  })
+
+  it('does not remove the from file when move is specified and to is the same as from', async () => {
+    const from = `${tmpdir}/1.feature`;
+    await fs.writeFileSync(from, '  Feature:   1\n', 'utf-8')
+    await formatCommand(from, from, {move: true})
+
+    const gherkin = fs.readFileSync(from, 'utf-8')
+    assert.deepStrictEqual(gherkin, 'Feature: 1\n')
+    assert(fs.existsSync(from))
+  })
+
   describe('makeToPath', () => {
     it('does it', () => {
       const fromGlob = `/a/b/**/*.feature`

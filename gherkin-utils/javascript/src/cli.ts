@@ -8,6 +8,7 @@ program.version(version)
 program
   .command('format')
   .arguments('<source> [destination]')
+  .option('-m, --move', 'Delete the source file. If the destination is the same as the source, the file is not deleted.')
   .description(
     'Formats one or more <source> files and writes them to [destination].\nIf [destination] is not specified, the source files are modified in-place',
     {
