@@ -76,7 +76,7 @@ function prettyStepContainer(
 }
 
 function prettyStep(step: messages.Step, level: number, syntax: Syntax) {
-  let s = `${stepIndent(level, syntax)}${step.keyword}${step.text}\n`
+  let s = `${stepPrefix(level, syntax)}${step.keyword}${step.text}\n`
   if (step.dataTable) {
     s += prettyTableRows(step.dataTable.rows, level + 1, syntax)
   }
@@ -213,7 +213,7 @@ function spaces(level: number): string {
   return new Array(level + 1).join('  ')
 }
 
-function stepIndent(level: number, syntax: Syntax): string {
+function stepPrefix(level: number, syntax: Syntax): string {
   if (syntax === 'markdown') {
     return '* '
   } else {
