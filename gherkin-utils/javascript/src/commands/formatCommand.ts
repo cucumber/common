@@ -6,11 +6,15 @@ import {
   Parser,
 } from '@cucumber/gherkin'
 import pretty, { Syntax } from '../pretty'
-import { readFile, writeFile } from 'fs/promises'
+import { readFile as readFileCb, writeFile as writeFileCb } from 'fs'
+import {promisify} from 'util'
 import path from 'path'
 import fg from 'fast-glob'
 import isGlob from 'is-glob'
 import micromatch from 'micromatch'
+
+const readFile = promisify(readFileCb)
+const writeFile = promisify(writeFileCb)
 
 export default async (from: string, to: string = from) => {
   const fromPaths = await fg(from)

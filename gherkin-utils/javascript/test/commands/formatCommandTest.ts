@@ -1,4 +1,4 @@
-import formatCommand, { makeToPath } from '../../src/commands/formatCommand'
+import formatCommand, {makeToPath} from '../../src/commands/formatCommand'
 import assert from 'assert'
 import fs from 'fs'
 import os from 'os'
@@ -6,7 +6,7 @@ import os from 'os'
 describe('formatCommand', () => {
   let tmpdir: string
   beforeEach(async () => {
-    tmpdir = fs.mkdtempSync(os.tmpdir())
+    tmpdir = fs.mkdtempSync(os.tmpdir() + '/')
   })
 
   it('formats single Gherkin file to Markdown file', async () => {
