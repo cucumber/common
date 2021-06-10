@@ -8,6 +8,15 @@ import * as fs from 'fs'
 import * as messages from '@cucumber/messages'
 
 describe('PrettyFormatter', () => {
+  it('renders an empty file', () => {
+    checkGherkinToAstToMarkdownToAstToGherkin('')
+  })
+
+  it('renders the language header if it is not "en"' , () => {
+    checkGherkinToAstToGherkin(`# language: no
+Egenskap: hallo\n`)
+  })
+
   it('renders a feature with no scenarios', () => {
     checkGherkinToAstToMarkdownToAstToGherkin('Feature: hello\n')
   })

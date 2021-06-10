@@ -9,6 +9,7 @@ program
   .command('format')
   .arguments('<source> [destination]')
   .option('-m, --move', 'Delete the source file. If the destination is the same as the source, the file is not deleted.')
+  .option('--language <ISO 639-1>', 'Specify the language (dialect) used in the source file(s) if it doesn\`t have a "# language: <ISO 639-1>" header')
   .description(
     'Formats one or more <source> files and writes them to [destination].\nIf [destination] is not specified, the source files are modified in-place',
     {

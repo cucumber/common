@@ -8,7 +8,7 @@ export default function pretty(
 ): string {
   const feature = gherkinDocument.feature
   if (!feature) return ''
-  let s = ''
+  let s = gherkinDocument.feature.language === 'en' ? '' : `# language: ${gherkinDocument.feature.language}\n`
 
   s += prettyTags(feature.tags, 0, syntax)
   s += `${keywordPrefix(0, syntax) + feature.keyword}: ${feature.name}

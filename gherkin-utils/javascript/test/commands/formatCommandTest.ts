@@ -9,6 +9,17 @@ describe('formatCommand', () => {
     tmpdir = fs.mkdtempSync(os.tmpdir() + '/')
   })
 
+  it('formats an empty file', async () => {
+    const fromPath = `${tmpdir}/source.feature`
+    await fs.writeFileSync(fromPath, '', 'utf-8')
+
+    const toPath = `${tmpdir}/source.feature.md`
+
+    await formatCommand(fromPath, toPath)
+    const markdown = fs.readFileSync(toPath, 'utf-8')
+    assert.deepStrictEqual(markdown, '')
+  })
+
   it('formats single Gherkin file to Markdown file', async () => {
     const fromPath = `${tmpdir}/source.feature`
     await fs.writeFileSync(fromPath, 'Feature: Hello\n', 'utf-8')

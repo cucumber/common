@@ -14,6 +14,7 @@ const unlink = promisify(unlinkCb)
 
 type Options = {
   move: boolean
+  language: string
 }
 
 export default async (from: string, to: string | undefined, options: Partial<Options> = {}) => {
@@ -24,7 +25,7 @@ export default async (from: string, to: string | undefined, options: Partial<Opt
   for (const fromPath of fromPaths) {
     let gherkinDocument: messages.GherkinDocument
     try {
-      gherkinDocument = await parseFile(fromPath)
+      gherkinDocument = await parseFile(fromPath, options.language)
     } catch (err) {
       console.error(`Failed to parse ${fromPath}`)
       console.error(err.message)
@@ -35,12 +36,12 @@ export default async (from: string, to: string | undefined, options: Partial<Opt
     const destinationSyntax: Syntax = getSyntax(toPath)
     const toSource = pretty(gherkinDocument, destinationSyntax)
     try {
-      // Sanity check that what we generated is OK
-      makeParser(destinationSyntax).parse(toSource)
+      // Sanity check that what we generated is OK.
+      makeParser(destinationSyntax, gherkinDocument.feature?.language).parse(toSource)
     } catch (err) {
       console.error(`Failed to generate ${fromPath} because the generated source is not valid.`)
       console.error(`Please report a bug at https://github.com/cucumber/common/issues/new`)
-      console.error(err.message)
+      console.error(err.stack)
       console.error(`--- Generated ${destinationSyntax} source ---`)
       console.error(toSource)
       process.exit(2)
@@ -60,8 +61,8 @@ export function makeToPath(fromPath: string, from: string, to: string): string {
   return to.replace(/\*\*?/g, () => fromMatches.shift())
 }
 
-async function parseFile(fromPath: string) {
-  const fromParser = makeParser(getSyntax(fromPath))
+async function parseFile(fromPath: string, language: string) {
+  const fromParser = makeParser(getSyntax(fromPath), language)
   const fromSource = await readFile(fromPath, 'utf-8')
   const gherkinDocument = fromParser.parse(fromSource)
   gherkinDocument.uri = fromPath
@@ -73,11 +74,11 @@ function getSyntax(fromPath: string) {
   return path.extname(fromPath) === '.feature' ? 'gherkin' : 'markdown';
 }
 
-function makeParser(sourceSyntax: "markdown" | "gherkin") {
+function makeParser(sourceSyntax: "markdown" | "gherkin", language: string) {
   return new Parser(
     new AstBuilder(messages.IdGenerator.uuid()),
     sourceSyntax === 'gherkin'
-      ? new GherkinClassicTokenMatcher()
-      : new GherkinInMarkdownTokenMatcher()
+      ? new GherkinClassicTokenMatcher(language)
+      : new GherkinInMarkdownTokenMatcher(language)
   );
 }
