@@ -12,7 +12,7 @@ export default function pretty(
 
   s += prettyTags(feature.tags, 0, syntax)
 
-  s += indent(0, syntax) + feature.keyword + ': ' + feature.name + '\n'
+  s += keywordPrefix(0, syntax) + feature.keyword + ': ' + feature.name + '\n'
   if (feature.description) {
     s += formatDescription(feature.description, syntax)
   }
@@ -34,7 +34,7 @@ function prettyRule(rule: messages.Rule, syntax: Syntax) {
   if (rule.tags.length > 0) {
     s += `\n${prettyTags(rule.tags, 1, syntax)}`
   }
-  s += `\n${indent(1, syntax)}${rule.keyword}: ${rule.name}\n`
+  s += `\n${keywordPrefix(1, syntax)}${rule.keyword}: ${rule.name}\n`
   if (rule.description) {
     s += formatDescription(rule.description, syntax)
   }
@@ -56,7 +56,7 @@ function prettyStepContainer(
 ): string {
   const scenario: messages.Scenario = 'tags' in stepContainer ? stepContainer : null
   const tags: readonly messages.Tag[] = scenario?.tags || []
-  let s = `\n${prettyTags(tags, level, syntax)}${indent(level, syntax)}${stepContainer.keyword}: ${
+  let s = `\n${prettyTags(tags, level, syntax)}${keywordPrefix(level, syntax)}${stepContainer.keyword}: ${
     stepContainer.name
   }\n`
   if (stepContainer.description) {
@@ -91,7 +91,7 @@ function prettyExample(example: messages.Examples, level: number, syntax: Syntax
   if (example.tags.length > 0) {
     s += `\n${prettyTags(example.tags, level, syntax)}`
   }
-  s += `\n${indent(level, syntax)}Examples: ${example.name}\n`
+  s += `\n${keywordPrefix(level, syntax)}Examples: ${example.name}\n`
   if (example.tableHeader) {
     const tableRows = [example.tableHeader, ...example.tableBody]
     s += prettyTableRows(tableRows, level + 1, syntax)
@@ -103,7 +103,7 @@ function prettyDocString(docString: messages.DocString, level: number, syntax: S
   const delimiter = syntax === 'markdown' ? '```' : docString.delimiter
   const mediaType = docString.mediaType || ''
   const actualLevel = syntax === 'markdown' ? 1 : level
-  const indent = indentSpace(actualLevel)
+  const indent = spaces(actualLevel)
   let content = docString.content.replace(/^/gm, indent)
   if (syntax === 'gherkin') {
     if (docString.delimiter === '"""') {
@@ -157,7 +157,7 @@ function prettyTableRow(
   syntax: Syntax
 ): string {
   const actualLevel = syntax === 'markdown' ? 1 : level
-  return `${indentSpace(actualLevel)}| ${row.cells
+  return `${spaces(actualLevel)}| ${row.cells
     .map((cell, j) => {
       const escapedCellValue = escapeCell(cell.value)
       const spaceCount = maxWidths[j] - escapedCellValue.length
@@ -198,19 +198,19 @@ function prettyTags(tags: readonly messages.Tag[], level: number, syntax: Syntax
   }
 
   if (syntax === 'gherkin')
-    return indent(level, syntax) + tags.map((tag) => tag.name).join(' ') + '\n'
+    return keywordPrefix(level, syntax) + tags.map((tag) => tag.name).join(' ') + '\n'
   else return tags.map((tag) => `\`${tag.name}\``).join(' ') + '\n'
 }
 
-function indent(level: number, syntax: Syntax): string {
+function keywordPrefix(level: number, syntax: Syntax): string {
   if (syntax === 'markdown') {
     return new Array(level + 2).join('#') + ' '
   } else {
-    return new Array(level + 1).join('  ')
+    return spaces(level)
   }
 }
 
-function indentSpace(level: number): string {
+function spaces(level: number): string {
   return new Array(level + 1).join('  ')
 }
 
