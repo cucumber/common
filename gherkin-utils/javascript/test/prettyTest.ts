@@ -75,6 +75,20 @@ Feature: hello
 `)
   })
 
+  it('renders examples tables', () => {
+    checkGherkinToAstToMarkdowToAstToGherkin(`Feature: hello
+
+  Scenario: one
+    Given a a <text> and a <number>
+
+    Examples: some data
+      | text | number |
+      | a    |      1 |
+      | ab   |     10 |
+      | abc  |    100 |
+`)
+  })
+
   it('renders data tables', () => {
     checkGherkinToAstToMarkdowToAstToGherkin(`Feature: hello
 

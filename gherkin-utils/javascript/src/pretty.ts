@@ -94,7 +94,7 @@ function prettyExample(example: messages.Examples, level: number, syntax: Syntax
   s += `\n${indent(level, syntax)}Examples: ${example.name}\n`
   if (example.tableHeader) {
     const tableRows = [example.tableHeader, ...example.tableBody]
-    s += prettyTableRows(tableRows, level, syntax)
+    s += prettyTableRows(tableRows, level + 1, syntax)
   }
   return s
 }
