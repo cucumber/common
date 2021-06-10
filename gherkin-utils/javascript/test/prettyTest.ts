@@ -3,7 +3,7 @@ import path from 'path'
 import parse from './parse'
 import pretty, { escapeCell } from '../src/pretty'
 import { GherkinClassicTokenMatcher, GherkinInMarkdownTokenMatcher } from '@cucumber/gherkin'
-import glob from 'glob'
+import fg from 'fast-glob'
 import * as fs from 'fs'
 import * as messages from '@cucumber/messages'
 
@@ -147,7 +147,7 @@ Feature: hello
 `)
   })
 
-  const featureFiles = glob.sync(`${__dirname}/../../../gherkin/testdata/good/*.feature`)
+  const featureFiles = fg.sync(`${__dirname}/../../../gherkin/testdata/good/*.feature`)
   for (const featureFile of featureFiles) {
     const relativePath = path.relative(__dirname, featureFile)
     it(`renders ${relativePath}`, () => {

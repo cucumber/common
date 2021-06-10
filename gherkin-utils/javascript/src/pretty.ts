@@ -1,6 +1,6 @@
 import * as messages from '@cucumber/messages'
 
-type Syntax = 'markdown' | 'gherkin'
+export type Syntax = 'markdown' | 'gherkin'
 
 export default function pretty(
   gherkinDocument: messages.GherkinDocument,

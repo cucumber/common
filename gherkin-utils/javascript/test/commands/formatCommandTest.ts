@@ -1,4 +1,4 @@
-import formatCommand, {makeToPath} from '../../src/commands/formatCommand'
+import formatCommand, { makeToPath } from '../../src/commands/formatCommand'
 import assert from 'assert'
 import fs from 'fs'
 import os from 'os'
@@ -21,8 +21,8 @@ describe('formatCommand', () => {
   })
 
   it('formats several Gherkin files to several Markdown files', async () => {
-    await fs.mkdirSync(`${tmpdir}/x/1`, {recursive: true})
-    await fs.mkdirSync(`${tmpdir}/x/2`, {recursive: true})
+    await fs.mkdirSync(`${tmpdir}/x/1`, { recursive: true })
+    await fs.mkdirSync(`${tmpdir}/x/2`, { recursive: true })
     await fs.writeFileSync(`${tmpdir}/x/1/1.feature`, 'Feature: 1\n', 'utf-8')
     await fs.writeFileSync(`${tmpdir}/x/2/2.feature`, 'Feature: 2\n', 'utf-8')
 
