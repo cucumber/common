@@ -1,216 +1,41 @@
-$border-color: #4B5662;
-$white: #F0EFFB;
+@import './theming';
+@import './themes';
+
 $summary-border-color: rgba(0, 0, 0, 0.1);
 
-$statusColors:
-  "passed" #2CB14A,
-  "skipped" #00A0CC,
-  "pending" #FFAD33,
-  "undefined" #FFAD33,
-  "ambiguous" #F4EBFD,
-  "failed" #BB0000,
-  "unknown" #B6BECB;
+.cucumber {
+  font-size: 14px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+  color: $textColor;
+  background: $backgroundColor;
 
-@mixin padding-table-cell {
-  padding: .3em;
+  pre {
+    font-family: inherit;
+  }
 }
 
-@mixin border-table-cell {
-  border: 1px solid $border-color;
+// TODO encapsulate in a component
+.cucumber-steps {
+  padding: 0;
+  margin: 1em;
+
+  > li {
+    list-style: none;
+  }
+
+  > li + li {
+    margin-top: 0.25em;
+  }
 }
 
-.cucumber-react {
-  @each $name, $color in $statusColors {
-    .cucumber-status--#{$name} {
-      color: $color
-    }
-  }
+// TODO encapsulate in a component
+.cucumber-children {
+  padding: 0;
+  margin: 1em;
+}
 
-  // Reset browser defaults.
-  h1, h2, h3 {
-    padding: 0;
-    margin: 0;
-  }
-  a { color: inherit; }
-
-
-  .gherkin-document-list {
-    font: 14px 'Open Sans', sans-serif;
-    color: #161C24;
-    background: #fff;
-    overflow-x: hidden;
-  }
-
-  .cucumber-title {
-    margin-top: 0.3em;
-    margin-bottom: 0;
-    display: inline-block;
-
-    &__keyword {
-      font-weight: bold;
-    }
-
-    &__text {
-      font-weight: normal;
-    }
-  }
-
-
-  .cucumber-tags {
-    padding: 0;
-    margin-bottom: 0;
-
-    .cucumber-tag {
-      display: inline;
-      list-style-type: none;
-      padding: 4px 8px 4px 8px;
-      margin-right: 6px;
-      background-color: #FFFFFF;
-      border-radius: 6px;
-    }
-  }
-
-  .cucumber-feature__icon {
-    padding-top: 0.35em;
-    padding-right: 0.5em;
-  }
-
-  // Indentation inside feature and rules
-  .cucumber-description,
-  .cucumber-children {
-    margin-left: 1em;
-  }
-
-  // Spacing between elements
-  .cucumber-feature,
-  .cucumber-rule,
-  .cucumber-scenario,
-  .cucumber-background {
-    margin-bottom: 1em;
-  }
-
-  .cucumber-steps {
-    list-style-type: none;
-    padding-left: 10px;
-
-    & .cucumber-step {
-      display: flex;
-
-      &__status {
-        padding-top: 0.2em;
-        padding-right: 0.5em;
-      }
-
-      &__content {
-        flex-grow: 1;
-        // don't grow wider than container (less icon) width
-        max-width: calc(100% - 1.5em);
-      }
-
-      &__keyword {
-        font-weight: bold;
-      }
-
-      &__text {
-        font-weight: normal;
-      }
-
-      &__param {
-        font-weight: normal;
-        font-style: italic;
-      }
-    }
-  }
-
-  .cucumber-table {
-    border-collapse: collapse;
-    margin-top: .5em;
-    margin-bottom: .5em;
-
-    &__header-cell {
-      @include border-table-cell;
-      @include padding-table-cell;
-    }
-
-    &__cell {
-      @include border-table-cell;
-      @include padding-table-cell;
-
-      &__status {
-        padding: 0.5em 3px 3px 3px;
-      }
-
-      &__step {
-        flex-grow: 1;
-      }
-    }
-  }
-
-  .cucumber-code {
-    padding: 0.25em;
-    background-color: rgb(235, 235, 235);
-  }
-
-  .cucumber-error {
-    padding: 0.5em;
-    margin: 0;
-    overflow-x: auto;
-  }
-
-  .cucumber-no-documents {
-    font: 14px 'Open Sans', sans-serif;
-  }
-
-  .cucumber-attachment {
-    &__icon {
-      margin-right: 0.5em;
-    }
-
-    &__image {
-      max-width: 100%;
-      margin-top: 1em;
-    }
-
-    &__text {
-      background-color: rgb(235, 235, 235);
-      padding: 0.5em;
-      overflow-x: auto;
-    }
-  }
-
-  .cucumber-anchor {
-    position: relative;
-    display: flex;
-    align-items: center;
-    margin-top: 0.3em;
-
-    &__link {
-      opacity: 0;
-      transition: all 0.35s ease-in-out;
-      position: absolute;
-      left: -20px;
-
-      display: flex;
-      align-items: center;
-    }
-
-    &__icon {
-      margin-right: 0.5em;
-    }
-
-    &:hover {
-      a {
-        opacity: 1;
-        width: max-content;
-        transition: all 0.35s ease-in-out;
-      }
-    }
-
-    & > * {
-      height: 100%;
-      margin-top: 0px;
-    }
-  }
+.cucumber-no-documents {
+  font: 14px 'Open Sans', sans-serif;
 }
 
 .cucumber-report-header {

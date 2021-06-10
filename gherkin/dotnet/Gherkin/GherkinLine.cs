@@ -1,11 +1,15 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using System.Linq;
+using Gherkin.Ast;
 
 namespace Gherkin
 {
     public class GherkinLine : IGherkinLine
     {
+        private static char[] inlineWhitespaceChars = new char[] { ' ', '\t', '\u00A0'};
+
         private readonly string lineText;
         private readonly string trimmedLineText;
         public int LineNumber { get; private set; }
@@ -64,17 +68,26 @@ namespace Gherkin
 
         public IEnumerable<GherkinLineSpan> GetTags()
         {
+            var uncommentedLine = Regex.Split(trimmedLineText, @"\s" + GherkinLanguageConstants.COMMENT_PREFIX)[0];
             int position = Indent;
-            foreach (string item in trimmedLineText.Split())
+            foreach (string item in uncommentedLine.Split(GherkinLanguageConstants.TAG_PREFIX[0]))
             {
                 if (item.Length > 0)
                 {
-                    yield return new GherkinLineSpan(position + 1, item);
+                    var tagName = GherkinLanguageConstants.TAG_PREFIX + item.TrimEnd(inlineWhitespaceChars);
+                    if (tagName.Length == 1)
+                        continue;
+
+                    if (tagName.IndexOfAny(inlineWhitespaceChars) >= 0)
+                        throw new InvalidTagException("A tag may not contain whitespace", new Location(LineNumber, position));
+
+                    yield return new GherkinLineSpan(position, tagName);
                     position += item.Length;
                 }
                 position++; // separator
             }
         }
+        
         public IEnumerable<GherkinLineSpan> GetTableCells()
         {
             var items = SplitCells(trimmedLineText).ToList();
@@ -133,10 +146,10 @@ namespace Gherkin
         private string Trim(string s, out int trimmedStart)
         {
             trimmedStart = 0;
-            while (trimmedStart < s.Length && char.IsWhiteSpace(s[trimmedStart]))
+            while (trimmedStart < s.Length && inlineWhitespaceChars.Contains(s[trimmedStart]))
                 trimmedStart++;
 
-            return s.Trim();
+            return s.Trim(inlineWhitespaceChars);
         }
     }
 }

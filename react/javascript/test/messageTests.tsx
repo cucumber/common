@@ -1,6 +1,6 @@
 import fs from 'fs'
-import { messages } from '@cucumber/messages'
-import { NdjsonToMessageStream } from '@cucumber/messages/dist/src/stream'
+import * as messages from '@cucumber/messages'
+import { NdjsonToMessageStream } from '@cucumber/message-streams'
 import { Query as GherkinQuery } from '@cucumber/gherkin-utils'
 import React from 'react'
 import ReactDOM from 'react-dom'
@@ -23,9 +23,7 @@ describe('App with messages', () => {
 
   for (const messageFile of messageFiles) {
     it(`can render ${messageFile}`, async () => {
-      const dom = new JSDOM(
-        '<html lang="en"><body><div id="content"></div></body></html>'
-      )
+      const dom = new JSDOM('<html lang="en"><body><div id="content"></div></body></html>')
       // @ts-ignore
       global.window = dom.window
       // global.navigator = dom.window.navigator
@@ -35,9 +33,7 @@ describe('App with messages', () => {
       const cucumberQuery = new CucumberQuery()
       const envelopesQuery = new EnvelopesQuery()
 
-      const messageStream = new NdjsonToMessageStream(
-        messages.Envelope.fromObject.bind(messages.Envelope)
-      )
+      const messageStream = new NdjsonToMessageStream()
 
       await asyncPipeline(
         fs.createReadStream(messageFile, 'utf-8'),
@@ -45,7 +41,7 @@ describe('App with messages', () => {
         new Writable({
           objectMode: true,
           write(
-            envelope: messages.IEnvelope,
+            envelope: messages.Envelope,
             encoding: string,
             callback: (error?: Error | null) => void
           ) {
@@ -63,9 +59,7 @@ describe('App with messages', () => {
           cucumberQuery={cucumberQuery}
           envelopesQuery={envelopesQuery}
         >
-          <GherkinDocumentList
-            gherkinDocuments={gherkinQuery.getGherkinDocuments()}
-          />
+          <GherkinDocumentList gherkinDocuments={gherkinQuery.getGherkinDocuments()} />
         </QueriesWrapper>
       )
       ReactDOM.render(app, document.getElementById('content'))

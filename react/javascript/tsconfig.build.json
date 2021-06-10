@@ -1,0 +1,15 @@
+{
+  "extends": "../../tsconfig.build.json",
+  "compilerOptions": {
+    "rootDir": ".",
+    "outDir": "dist"
+  },
+  "include": [
+    "src",
+    "test",
+    "acceptance"
+  ],
+  "exclude": [
+    "src/stories"
+  ]
+}

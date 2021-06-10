@@ -34,6 +34,107 @@ This is fine for simple use cases where results are not important.
 To render a `<GherkinDocument>` with results and highlighted [Cucumber Expression parameters](https://cucumber.io/docs/cucumber/cucumber-expressions/) parameters it must be nested inside a 
 [`<Wrapper>`](src/components/app/Wrapper.tsx) component.
 
+## Styling
+
+There are several ways you can apply different styling to the components.
+
+### Built-in themes
+
+Besides the default, we have a few other built-in themes:
+
+- `dark`
+
+You can activate one of these by wrapping your top-level usage with the `Theme` component:
+
+```jsx
+<Theme theme="dark">
+  <GherkinDocument />
+</Theme>
+```
+
+### Custom themes
+
+You can also provide your own theme with a small amount of CSS. Pass the `Theme` component an appropriate name:
+
+```jsx
+<Theme theme="acme-widgets">
+  <GherkinDocument />
+</Theme>
+```
+
+That name will act as a suffix for a classname `cucumber-theme--acme-widgets`, against which you can override the supported [custom property](https://developer.mozilla.org/en-US/docs/Web/CSS/--*) values as desired. Here's the CSS that drives the built-in "dark" theme:
+
+```css
+.cucumber-theme--dark {
+  --cucumber-background-color: #1d1d26;
+  --cucumber-text-color: #c9c9d1;
+  --cucumber-anchor-color: #4caaee;
+  --cucumber-keyword-color: #d89077;
+  --cucumber-parameter-color: #4caaee;
+  --cucumber-tag-color: #85a658;
+  --cucumber-docstring-color: #66a565;
+  --cucumber-error-background-color: #cf6679;
+  --cucumber-error-text-color: #222;
+  --cucumber-code-background-color: #282a36;
+  --cucumber-code-text-color: #f8f8f2;
+}
+```
+
+### Custom styles
+
+For more control over the styling, you can override the CSS used by individual components.
+
+Let's say you want to do something totally different with the typography of doc strings. In your own CSS, you might write something like:
+
+```css
+.acme-docstring {
+  font-weight: bold;
+  font-style: italic;
+  background-color: black;
+  color: hotpink;
+  text-shadow: 1px 1px 2px white;
+  padding: 10px;
+}
+```
+
+Then, you can wrap your usage in the `CustomRendering` component and provide an object that declares which class names you're going to override and what with:
+
+```jsx
+<CustomRendering support={{
+  DocString: {
+    docString: 'acme-docstring'
+  }
+}}>
+  <GherkinDocument />
+</CustomRendering>
+```
+
+Some components have multiple styling hooks - e.g. the `<Tags>` component has the `tags` class name for the list, and the `tag` class name for each item. In these cases, you can provide custom class names for just the ones you want to change, and any you omit will pick up the built-in styling like normal.
+
+### Custom rendering
+
+To change the rendering of some components entirely, you can selectively provide your own component implementations to be used instead of the built-in ones.
+
+Staying with the doc string example, you can use the same `CustomRendering` wrapper, but this time instead of an object with class names, you provide a React functional component, giving you full control over the rendering:
+
+```jsx
+<CustomRendering support={{
+  DocString: (props) => (
+    <>
+      <p>I am going to render this doc string in a textarea:</p>
+      <textarea>{props.docString.content}</textarea>
+    </>
+  )
+}}>
+  <GherkinDocument />
+</CustomRendering>
+```
+
+In each case where you provide your own component, it will receive the same props as the default component, plus two more:
+
+- `styles` - class names for the default styling, so you can still apply these to your custom component if it makes sense
+- `DefaultRenderer` - the default React component, useful if you only want to provide your own rendering for certain cases, and otherwise fall back to the default rendering (don't forget to pass it the props)
+
 ## Build / hack
 
 Install dependencies

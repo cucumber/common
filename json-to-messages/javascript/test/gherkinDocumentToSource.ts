@@ -1,10 +1,11 @@
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 
 export default function gherkinDocumentToSource(
-  gherkinDocument: messages.IGherkinDocument
-): messages.ISource {
-  return messages.Source.create({
+  gherkinDocument: messages.GherkinDocument
+): messages.Source {
+  return {
     uri: gherkinDocument.uri,
-    mediaType: 'text/x.cucumber.gherkin+plain',
-  })
+    mediaType: messages.SourceMediaType.TEXT_X_CUCUMBER_GHERKIN_PLAIN,
+    data: '[No source available]',
+  }
 }

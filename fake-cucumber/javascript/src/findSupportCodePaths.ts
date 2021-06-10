@@ -10,9 +10,7 @@ function globCode(dir: string) {
   return globPromise(`${dir}/**/*.{js,ts}`)
 }
 
-export default async function findSupportCodePaths(
-  paths: ReadonlyArray<string>
-): Promise<string[]> {
+export default async function findSupportCodePaths(paths: readonly string[]): Promise<string[]> {
   const files = new Set<string>()
   for (const path of paths) {
     const stats = fs.lstatSync(path)
@@ -32,9 +30,7 @@ export default async function findSupportCodePaths(
         }
       }
     } else {
-      throw new Error(
-        `Can't load ${path} - it is not a regular file or directory`
-      )
+      throw new Error(`Can't load ${path} - it is not a regular file or directory`)
     }
   }
   return Array.from(files).sort()

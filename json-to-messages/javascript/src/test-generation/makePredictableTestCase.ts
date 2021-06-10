@@ -1,4 +1,4 @@
-import { messages, IdGenerator } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import { Query as GherkinQuery } from '@cucumber/gherkin-utils'
 import {
   makeTestCase,
@@ -14,12 +14,12 @@ import makePredictableHookTestStep from './makePredictableHookTestStep'
 import makePredictablePickleTestStep from './makePredictablePickleTestStep'
 
 export default function makePredictableTestCase(
-  pickle: messages.IPickle,
-  stepDefinitions: ReadonlyArray<IStepDefinition>,
-  beforeHooks: ReadonlyArray<IHook>,
-  afterHooks: ReadonlyArray<IHook>,
+  pickle: messages.Pickle,
+  stepDefinitions: readonly IStepDefinition[],
+  beforeHooks: readonly IHook[],
+  afterHooks: readonly IHook[],
   gherkinQuery: GherkinQuery,
-  newId: IdGenerator.NewId,
+  newId: messages.IdGenerator.NewId,
   clock: IClock,
   stopwatch: IStopwatch,
   makeErrorMessage: MakeErrorMessage

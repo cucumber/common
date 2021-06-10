@@ -1,0 +1,22 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "sourceReference"
+  ],
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "sourceReference": {
+      "$ref": "./SourceReference.json",
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "tagExpression": {
+      "type": "string"
+    }
+  },
+  "type": "object"
+}

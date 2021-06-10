@@ -56,8 +56,8 @@ publish-%: %
 
 create-and-push-release-tag:
 	[ -f '/home/cukebot/configure' ] && /home/cukebot/configure
-	git commit -am "Release $(LIBNAME) v$(NEW_VERSION)"
-	git tag -s "$(LIBNAME)/v$(NEW_VERSION)" -m "Release $(LIBNAME) v$(NEW_VERSION)"
+	git commit --gpg-sign --all --message "Release $(LIBNAME) v$(NEW_VERSION)"
+	git tag --sign "$(LIBNAME)/v$(NEW_VERSION)" -m "Release $(LIBNAME) v$(NEW_VERSION)"
 	git push --tags
 .PHONY: create-and-push-release-tag
 
@@ -73,7 +73,7 @@ post-release-%: %
 commit-and-push-post-release:
 ifdef NEW_VERSION
 	git push --tags
-	git commit -am "Post release $(LIBNAME) v$(NEW_VERSION)" 2> /dev/null || true
+	git commit --gpg-sign --all --message "Post release $(LIBNAME) v$(NEW_VERSION)" 2> /dev/null || true
 	git push
 else
 	@echo -e "\033[0;31mNEW_VERSION is not defined.\033[0m"

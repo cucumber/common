@@ -1,6 +1,6 @@
 import fs from 'fs'
 import { Readable, Transform, TransformCallback } from 'stream'
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 
 export default class CucumberHtmlStream extends Transform {
   private template: string | null = null
@@ -11,10 +11,8 @@ export default class CucumberHtmlStream extends Transform {
    * @param cssPath
    * @param jsPath
    */
-  constructor(cssPath: string, jsPath: string) {
+  constructor(private readonly cssPath: string, private readonly jsPath: string) {
     super({ objectMode: true })
-    this.cssPath = cssPath
-    this.jsPath = jsPath
   }
 
   public _transform(
@@ -37,8 +35,6 @@ export default class CucumberHtmlStream extends Transform {
     this.writePostMessage(callback)
   }
 
-  private cssPath: string
-
   private writePreMessageUnlessAlreadyWritten(callback: TransformCallback) {
     if (this.preMessageWritten) {
       return callback()
@@ -56,8 +52,6 @@ export default class CucumberHtmlStream extends Transform {
       })
     })
   }
-
-  private jsPath: string
 
   private writePostMessage(callback: TransformCallback) {
     this.writePreMessageUnlessAlreadyWritten((err) => {
@@ -86,29 +80,22 @@ export default class CucumberHtmlStream extends Transform {
   ) {
     this.readTemplate((err, template) => {
       if (err) return callback(err)
-      const beginIndex =
-        begin == null ? 0 : template.indexOf(begin) + begin.length
+      const beginIndex = begin == null ? 0 : template.indexOf(begin) + begin.length
       const endIndex = end == null ? template.length : template.indexOf(end)
       this.push(template.substring(beginIndex, endIndex))
       callback()
     })
   }
 
-  private readTemplate(
-    callback: (error?: Error | null, data?: string) => void
-  ) {
+  private readTemplate(callback: (error?: Error | null, data?: string) => void) {
     if (this.template !== null) {
       return callback(null, this.template)
     }
-    fs.readFile(
-      __dirname + '/index.mustache.html',
-      { encoding: 'utf-8' },
-      (err, template) => {
-        if (err) return callback(err)
-        this.template = template
-        return callback(null, template)
-      }
-    )
+    fs.readFile(__dirname + '/index.mustache.html', { encoding: 'utf-8' }, (err, template) => {
+      if (err) return callback(err)
+      this.template = template
+      return callback(null, template)
+    })
   }
 
   private writeMessage(envelope: messages.Envelope) {
@@ -117,6 +104,6 @@ export default class CucumberHtmlStream extends Transform {
     } else {
       this.push(',')
     }
-    this.push(JSON.stringify(envelope.toJSON()))
+    this.push(JSON.stringify(envelope))
   }
 }

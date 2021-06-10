@@ -1,0 +1,20 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "additionalProperties": false,
+  "required": [
+    "testCaseStartedId",
+    "timestamp",
+    "testSteps"
+  ],
+  "properties": {
+    "testCaseStartedId": {
+      "type": "string"
+    },
+    "timestamp": {
+      "$ref": "./Timestamp.json",
+      "additionalProperties": false,
+      "type": "object"
+    }
+  },
+  "type": "object"
+}

@@ -28,7 +28,7 @@
 {<text>match_@(tokenType)(context, token)</text>}
 // This file is generated. Do not edit! Edit gherkin-javascript.razor instead.
 
-import { messages } from '@@cucumber/messages'
+import * as messages from '@@cucumber/messages'
 import {
   AstBuilderException,
   CompositeParserException,
@@ -40,23 +40,23 @@ import {
   UnexpectedTokenException,
 } from './TokenExceptions'
 import TokenScanner from './TokenScanner'
-import TokenMatcher from './TokenMatcher'
+import ITokenMatcher from './ITokenMatcher'
 import GherkinLine from './GherkinLine'
-import IToken from './IToken'
+import IToken, { Item } from './IToken'
 import { IAstBuilder } from './IAstBuilder'
 
 export class Token implements IToken<TokenType> {
   public isEof: boolean
   public matchedText?: string
   public matchedType: TokenType
-  public matchedItems: GherkinLine[]
+  public matchedItems: readonly Item[]
   public matchedKeyword: string
   public matchedIndent: number
   public matchedGherkinDialect: string
 
   constructor(
     public readonly line: GherkinLine,
-    public readonly location: messages.ILocation
+    public readonly location:  messages.Location
   ) {
     this.isEof = !line
   }
@@ -86,8 +86,7 @@ export enum RuleType {
 
 interface Context {
   tokenScanner: TokenScanner<TokenType>
-  tokenMatcher: TokenMatcher
-  tokenQueue: Token[]
+  tokenQueue: IToken<TokenType>[]
   errors: Error[]
 }
 
@@ -96,16 +95,14 @@ export default class Parser<AstNode> {
   private context: Context
 
   constructor(
-    private readonly builder: IAstBuilder<AstNode, TokenType, RuleType>
+    private readonly builder: IAstBuilder<AstNode, TokenType, RuleType>,
+    private readonly tokenMatcher: ITokenMatcher<TokenType>
   ) {}
 
-  public parse(
-    gherkinSource: string,
-    tokenMatcher: TokenMatcher = new TokenMatcher()
-  ): messages.IGherkinDocument {
+  public parse(gherkinSource: string): messages.GherkinDocument {
     const tokenScanner = new TokenScanner(
       gherkinSource,
-      (line: string, location: messages.ILocation) => {
+      (line: string, location:  messages.Location) => {
         const gherkinLine =
           line === null || line === undefined
             ? null
@@ -114,16 +111,15 @@ export default class Parser<AstNode> {
       }
     )
     this.builder.reset()
-    tokenMatcher.reset()
+    this.tokenMatcher.reset()
     this.context = {
       tokenScanner,
-      tokenMatcher,
       tokenQueue: [],
       errors: [],
     }
     this.startRule(this.context, RuleType.GherkinDocument)
     let state = 0
-    let token: Token = null
+    let token: IToken<TokenType> = null
     while (true) {
       token = this.readToken(this.context) as Token
       state = this.matchToken(state, token, this.context)
@@ -140,9 +136,11 @@ export default class Parser<AstNode> {
   }
 
   private addError(context: Context, error: Error) {
-    context.errors.push(error)
-    if (context.errors.length > 10)
-      throw CompositeParserException.create(context.errors)
+    if (!context.errors.map(e => { return e.message }).includes(error.message)) {
+      context.errors.push(error)
+      if (context.errors.length > 10)
+        throw CompositeParserException.create(context.errors)
+    }
   }
 
   private startRule(context: Context, ruleType: RuleType) {
@@ -153,7 +151,7 @@ export default class Parser<AstNode> {
     this.handleAstError(context, () => this.builder.endRule())
   }
 
-  private build(context: Context, token: Token) {
+  private build(context: Context, token: IToken<TokenType>) {
     this.handleAstError(context, () => this.builder.build(token))
   }
 
@@ -196,7 +194,7 @@ export default class Parser<AstNode> {
       : context.tokenScanner.read()
   }
 
-  private matchToken(state: number, token: Token, context: Context) {
+  private matchToken(state: number, token: IToken<TokenType>, context: Context) {
     switch(state) {
     @foreach(var state in Model.States.Values.Where(s => !s.IsEndState))
     {
@@ -212,7 +210,7 @@ export default class Parser<AstNode> {
 {
 <text>
   // @Raw(state.Comment)
-  private matchTokenAt_@(state.Id)(token: Token, context: Context) {
+  private matchTokenAt_@(state.Id)(token: IToken<TokenType>, context: Context) {
     @foreach(var transition in state.Transitions)
     {
     @:if(this.@MatchToken(transition.TokenType)) {
@@ -239,12 +237,12 @@ export default class Parser<AstNode> {
 @foreach(var rule in Model.RuleSet.TokenRules)
 {
 <text>
-  private match_@(rule.Name.Replace("#", ""))(context: Context, token: Token) {
+  private match_@(rule.Name.Replace("#", ""))(context: Context, token: IToken<TokenType>) {
     @if (rule.Name != "#EOF")
     {
     @:if(token.isEof) return false;
     }
-    return this.handleExternalError(context, false, () => context.tokenMatcher.match_@(rule.Name.Replace("#", ""))(token));
+    return this.handleExternalError(context, false, () => this.tokenMatcher.match_@(rule.Name.Replace("#", ""))(token));
   }
 </text>
 }
@@ -252,10 +250,10 @@ export default class Parser<AstNode> {
 @foreach(var lookAheadHint in Model.RuleSet.LookAheadHints)
 {
 <text>
-  private lookahead_@(lookAheadHint.Id)(context: Context, currentToken: Token) {
+  private lookahead_@(lookAheadHint.Id)(context: Context, currentToken: IToken<TokenType>) {
     currentToken.detach();
     let token;
-    const queue: Token[] = [];
+    const queue: IToken<TokenType>[] = [];
     let match = false;
     do {
       token = this.readToken(this.context);

@@ -1,6 +1,6 @@
 import { Query as GherkinQuery } from '@cucumber/gherkin-utils'
 import { Query as CucumberQuery } from '@cucumber/query'
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import { SupportCode } from '@cucumber/fake-cucumber'
 import runFeature from './runFeature'
 import assert from 'assert'
@@ -21,7 +21,7 @@ describe('countScenariosByStatuses', () => {
     })
   })
 
-  it('counts the number of sscenarios with a given status', async () => {
+  it('counts the number of scenarios with a given status', async () => {
     const feature = `
 Feature: statuses
 
@@ -37,30 +37,19 @@ Feature: statuses
   Scenario: undefined
     Given we have no clue how to handle this step
     `
-    const emitted = await runFeature(feature, gherkinQuery, supportCode)
-    emitted.map((message) => cucumberQuery.update(message))
-    const gherkinDocuments = emitted
-      .filter((message) => message.gherkinDocument)
-      .map((message) => message.gherkinDocument)
+    const envelopes = await runFeature(feature, gherkinQuery, supportCode)
+    for (const envelope of envelopes) {
+      cucumberQuery.update(envelope)
+    }
+    const gherkinDocuments = envelopes
+      .filter((envelope) => envelope.gherkinDocument)
+      .map((envelope) => envelope.gherkinDocument)
 
-    const statuses = countScenariosByStatuses(
-      gherkinDocuments,
-      gherkinQuery,
-      cucumberQuery
-    )
+    const statuses = countScenariosByStatuses(gherkinDocuments, gherkinQuery, cucumberQuery)
 
-    assert.strictEqual(
-      statuses.get(messages.TestStepFinished.TestStepResult.Status.PASSED),
-      2
-    )
-    assert.strictEqual(
-      statuses.get(messages.TestStepFinished.TestStepResult.Status.FAILED),
-      1
-    )
-    assert.strictEqual(
-      statuses.get(messages.TestStepFinished.TestStepResult.Status.UNDEFINED),
-      1
-    )
+    assert.strictEqual(statuses.get(messages.TestStepResultStatus.PASSED), 2)
+    assert.strictEqual(statuses.get(messages.TestStepResultStatus.FAILED), 1)
+    assert.strictEqual(statuses.get(messages.TestStepResultStatus.UNDEFINED), 1)
   })
 
   it('counts different statuses with example tables', async () => {
@@ -77,29 +66,19 @@ Feature: statuses
     | undefined |
 
     `
-    const emitted = await runFeature(feature, gherkinQuery, supportCode)
-    emitted.map((message) => cucumberQuery.update(message))
-    const gherkinDocuments = emitted
-      .filter((message) => message.gherkinDocument)
-      .map((message) => message.gherkinDocument)
+    const envelopes = await runFeature(feature, gherkinQuery, supportCode)
+    for (const envelope of envelopes) {
+      cucumberQuery.update(envelope)
+    }
 
-    const statuses = countScenariosByStatuses(
-      gherkinDocuments,
-      gherkinQuery,
-      cucumberQuery
-    )
+    const gherkinDocuments = envelopes
+      .filter((envelope) => envelope.gherkinDocument)
+      .map((envelope) => envelope.gherkinDocument)
 
-    assert.strictEqual(
-      statuses.get(messages.TestStepFinished.TestStepResult.Status.PASSED),
-      1
-    )
-    assert.strictEqual(
-      statuses.get(messages.TestStepFinished.TestStepResult.Status.FAILED),
-      1
-    )
-    assert.strictEqual(
-      statuses.get(messages.TestStepFinished.TestStepResult.Status.UNDEFINED),
-      1
-    )
+    const statuses = countScenariosByStatuses(gherkinDocuments, gherkinQuery, cucumberQuery)
+
+    assert.strictEqual(statuses.get(messages.TestStepResultStatus.PASSED), 1)
+    assert.strictEqual(statuses.get(messages.TestStepResultStatus.FAILED), 1)
+    assert.strictEqual(statuses.get(messages.TestStepResultStatus.UNDEFINED), 1)
   })
 })

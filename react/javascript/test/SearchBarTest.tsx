@@ -51,14 +51,10 @@ describe('SearchBar', () => {
 
     const document = renderSearchBar({}, onSearchQueryUpdated)
 
-    const searchTextElem = document.getElementsByName(
-      'query'
-    )[0] as HTMLInputElement
+    const searchTextElem = document.getElementsByName('query')[0] as HTMLInputElement
     searchTextElem.value = 'search text'
 
-    const searchForm = document.querySelector(
-      '.cucumber-search-bar-search'
-    ) as HTMLFormElement
+    const searchForm = document.querySelector('.cucumber-search-bar-search') as HTMLFormElement
     searchForm.submit()
 
     sinon.assert.calledOnce(onSearchQueryUpdated)
@@ -75,9 +71,7 @@ describe('SearchBar', () => {
 
     const document = renderSearchBar({}, onSearchQueryUpdated)
 
-    const searchTextElem = document.getElementsByName(
-      'query'
-    )[0] as HTMLInputElement
+    const searchTextElem = document.getElementsByName('query')[0] as HTMLInputElement
     searchTextElem.value = 'search text'
 
     const searchButton = document.querySelector(
@@ -124,9 +118,7 @@ describe('SearchBar', () => {
     )[0] as HTMLInputElement
     searchTextElem.value = ''
 
-    const searchForm = document.querySelector(
-      '.cucumber-search-bar-search'
-    ) as HTMLFormElement
+    const searchForm = document.querySelector('.cucumber-search-bar-search') as HTMLFormElement
     searchForm.submit()
 
     sinon.assert.calledOnce(onSearchQueryUpdated)

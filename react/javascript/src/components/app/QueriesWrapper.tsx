@@ -7,9 +7,10 @@ import SearchQueryContext, {
 } from '../../SearchQueryContext'
 import { Query as GherkinQuery } from '@cucumber/gherkin-utils'
 import { Query as CucumberQuery } from '@cucumber/query'
-import EnvelopesQueryContext, {
-  EnvelopesQuery,
-} from '../../EnvelopesQueryContext'
+import EnvelopesQueryContext, { EnvelopesQuery } from '../../EnvelopesQueryContext'
+
+// temporary until we get all(?) styles into css modules
+import '../../styles/styles.scss'
 
 interface IProps extends SearchQueryProps {
   cucumberQuery: CucumberQuery

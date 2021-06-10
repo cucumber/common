@@ -1,17 +1,15 @@
-import { messages, TimeConversion } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 
 export default function getDurationsMillis(
-  testRunStarted: messages.ITestRunStarted,
-  testRunFinished: messages.ITestRunFinished
+  testRunStarted: messages.TestRunStarted,
+  testRunFinished: messages.TestRunFinished
 ): number {
   if (testRunStarted === undefined || testRunFinished === undefined) {
     return
   }
 
   return (
-    TimeConversion.timestampToMillisecondsSinceEpoch(
-      testRunFinished.timestamp
-    ) -
-    TimeConversion.timestampToMillisecondsSinceEpoch(testRunStarted.timestamp)
+    messages.TimeConversion.timestampToMillisecondsSinceEpoch(testRunFinished.timestamp) -
+    messages.TimeConversion.timestampToMillisecondsSinceEpoch(testRunStarted.timestamp)
   )
 }

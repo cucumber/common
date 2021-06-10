@@ -1,8 +1,8 @@
 import { SupportCode } from '@cucumber/fake-cucumber'
+import * as messages from '@cucumber/messages'
 import IPredictableSupportCode from './IPredictableSupportCode'
 
 import PredictableHook from './PredictableHook'
-import { messages } from '@cucumber/messages'
 import PredictableStepDefinition from './PredictableStepDefinition'
 
 export default class PredictableSupportCode implements IPredictableSupportCode {
@@ -69,19 +69,8 @@ export default class PredictableSupportCode implements IPredictableSupportCode {
     )
   }
 
-  private statusFromString(
-    status: string
-  ): messages.TestStepFinished.TestStepResult.Status {
-    if (status === 'passed') {
-      return messages.TestStepFinished.TestStepResult.Status.PASSED
-    }
-    if (status === 'pending') {
-      return messages.TestStepFinished.TestStepResult.Status.PENDING
-    }
-    if (status === 'failed') {
-      return messages.TestStepFinished.TestStepResult.Status.FAILED
-    }
-
-    return messages.TestStepFinished.TestStepResult.Status.UNDEFINED
+  private statusFromString(status: string): messages.TestStepResultStatus {
+    // @ts-ignore
+    return status.toUpperCase()
   }
 }

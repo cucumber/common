@@ -32,6 +32,9 @@ Scenario: comments
 Scenario: hash in tags
   Given a comment is preceded by a space
 
+@rule_tag
+Rule:
+
 @joined_tag3@joined_tag4
 Scenario: joined tags
   Given the @delimits tags

@@ -10,7 +10,7 @@ import {
   traverseElement,
 } from '../../src/cucumber-js/JSONTraverse'
 import IPredictableSupportCode from '../../src/IPredictableSupportCode'
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 
 describe('traversing elements', () => {
   context('traverseFeature', () => {
@@ -93,51 +93,66 @@ describe('traversing elements', () => {
     it('creates a Scenario using the AstMaker', () => {
       const astMaker = stubInterface<IAstMaker>()
       const supportCode = stubInterface<IPredictableSupportCode>()
-      const step = messages.GherkinDocument.Feature.Step.create()
+      const step: messages.Step = {
+        id: 'step-id',
+        text: 'hello',
+        location: { line: 0, column: 0 },
+        keyword: 'Given ',
+      }
       astMaker.makeStep.returns(step)
 
       traverseElement(simpleScenario, astMaker, () => 'new-id', supportCode)
 
-      assert.deepEqual(astMaker.makeScenarioFeatureChild.getCall(0).args, [
+      assert.deepStrictEqual(astMaker.makeScenarioFeatureChild.getCall(0).args, [
         'new-id',
         3,
         'scenario',
         'My scenario',
         'This scenario does things',
         [step],
-        undefined,
+        [],
       ])
     })
 
     it('doe not create steps for hooks', () => {
       const astMaker = stubInterface<IAstMaker>()
       const supportCode = stubInterface<IPredictableSupportCode>()
-      astMaker.makeScenarioFeatureChild.returns(
-        messages.GherkinDocument.Feature.FeatureChild.create({
-          scenario: messages.GherkinDocument.Feature.Scenario.create({
-            id: 'scenario-id',
-          }),
-        })
-      )
+      astMaker.makeScenarioFeatureChild.returns({
+        scenario: {
+          id: 'scenario-id',
+          examples: [],
+          location: { column: 0, line: 0 },
+          name: 'Name',
+          steps: [],
+          tags: [],
+          keyword: 'Scenario',
+          description: '',
+        },
+      })
 
       traverseElement(hookedScenario, astMaker, () => 'new-id', supportCode)
-      assert.equal(astMaker.makeStep.callCount, 1)
+      assert.strictEqual(astMaker.makeStep.callCount, 1)
     })
 
     it('correctly registers beforeHooks', () => {
       const astMaker = stubInterface<IAstMaker>()
       const supportCode = stubInterface<IPredictableSupportCode>()
-      astMaker.makeScenarioFeatureChild.returns(
-        messages.GherkinDocument.Feature.FeatureChild.create({
-          scenario: messages.GherkinDocument.Feature.Scenario.create({
-            id: 'scenario-id',
-          }),
-        })
-      )
+      astMaker.makeScenarioFeatureChild.returns({
+        scenario: {
+          id: 'scenario-id',
+          examples: [],
+          location: { column: 0, line: 0 },
+          name: 'Name',
+          steps: [],
+          tags: [],
+          keyword: 'Scenario',
+          description: '',
+        },
+      })
 
       traverseElement(hookedScenario, astMaker, () => 'new-id', supportCode)
 
-      assert.deepEqual(supportCode.addPredictableBeforeHook.getCall(0).args, [
+      assert.deepStrictEqual(supportCode.addPredictableBeforeHook.getCall(0).args, [
         'whatever.go:123',
         'scenario-id',
         'passed',
@@ -149,17 +164,22 @@ describe('traversing elements', () => {
     it('correctly registers afterHooks', () => {
       const astMaker = stubInterface<IAstMaker>()
       const supportCode = stubInterface<IPredictableSupportCode>()
-      astMaker.makeScenarioFeatureChild.returns(
-        messages.GherkinDocument.Feature.FeatureChild.create({
-          scenario: messages.GherkinDocument.Feature.Scenario.create({
-            id: 'scenario-id',
-          }),
-        })
-      )
+      astMaker.makeScenarioFeatureChild.returns({
+        scenario: {
+          id: 'scenario-id',
+          examples: [],
+          location: { column: 0, line: 0 },
+          name: 'Name',
+          steps: [],
+          tags: [],
+          keyword: 'Scenario',
+          description: '',
+        },
+      })
 
       traverseElement(hookedScenario, astMaker, () => 'new-id', supportCode)
 
-      assert.deepEqual(supportCode.addPredictableAfterHook.getCall(0).args, [
+      assert.deepStrictEqual(supportCode.addPredictableAfterHook.getCall(0).args, [
         'whatever.go:456',
         'scenario-id',
         'failed',
@@ -188,11 +208,20 @@ describe('traversing elements', () => {
       const supportCode = stubInterface<IPredictableSupportCode>()
       traverseBeforeHook(
         beforeHook,
-        messages.GherkinDocument.Feature.Scenario.create({ id: 'scenario-id' }),
+        {
+          id: 'scenario-id',
+          examples: [],
+          location: { column: 0, line: 0 },
+          name: 'Name',
+          steps: [],
+          tags: [],
+          keyword: 'Scenario',
+          description: '',
+        },
         supportCode
       )
 
-      assert.deepEqual(supportCode.addPredictableBeforeHook.getCall(0).args, [
+      assert.deepStrictEqual(supportCode.addPredictableBeforeHook.getCall(0).args, [
         'whatever.go:123',
         'scenario-id',
         'passed',
@@ -221,11 +250,20 @@ describe('traversing elements', () => {
       const supportCode = stubInterface<IPredictableSupportCode>()
       traverseAfterHook(
         beforeHook,
-        messages.GherkinDocument.Feature.Scenario.create({ id: 'scenario-id' }),
+        {
+          id: 'scenario-id',
+          examples: [],
+          location: { column: 0, line: 0 },
+          name: 'Name',
+          steps: [],
+          tags: [],
+          keyword: 'Scenario',
+          description: '',
+        },
         supportCode
       )
 
-      assert.deepEqual(supportCode.addPredictableAfterHook.getCall(0).args, [
+      assert.deepStrictEqual(supportCode.addPredictableAfterHook.getCall(0).args, [
         'whatever.go:123',
         'scenario-id',
         'passed',
@@ -291,12 +329,16 @@ describe('traversing elements', () => {
     it('builds the doctring using the AstMaker', () => {
       const astMaker = stubInterface<IAstMaker>()
       const supportCode = stubInterface<IPredictableSupportCode>()
-      const docString = messages.GherkinDocument.Feature.Step.DocString.create()
+      const docString: messages.DocString = {
+        content: 'hello',
+        delimiter: '"""',
+        location: { line: 0, column: 0 },
+      }
       astMaker.makeDocstring.returns(docString)
 
       traverseStep(docStringStep, astMaker, () => 'the-id', supportCode)
 
-      assert.deepEqual(astMaker.makeStep.getCall(0).args, [
+      assert.deepStrictEqual(astMaker.makeStep.getCall(0).args, [
         'the-id',
         15,
         'Given ',
@@ -309,12 +351,15 @@ describe('traversing elements', () => {
     it('builds the datatable using the astMaker', () => {
       const astMaker = stubInterface<IAstMaker>()
       const supportCode = stubInterface<IPredictableSupportCode>()
-      const datatable = messages.GherkinDocument.Feature.Step.DataTable.create()
+      const datatable: messages.DataTable = {
+        location: { line: 0, column: 0 },
+        rows: [],
+      }
       astMaker.makeDataTable.returns(datatable)
 
       traverseStep(datatableStep, astMaker, () => 'the-id', supportCode)
 
-      assert.deepEqual(astMaker.makeStep.getCall(0).args, [
+      assert.deepStrictEqual(astMaker.makeStep.getCall(0).args, [
         'the-id',
         15,
         'Given ',
@@ -327,18 +372,22 @@ describe('traversing elements', () => {
     it('registers the step in supportCode', () => {
       const astMaker = stubInterface<IAstMaker>()
       const supportCode = stubInterface<IPredictableSupportCode>()
-      astMaker.makeStep.returns(
-        messages.GherkinDocument.Feature.Step.create({
-          id: 'a-random-step-id',
-        })
-      )
+      astMaker.makeStep.returns({
+        id: 'a-random-step-id',
+        text: 'hello',
+        location: { line: 0, column: 0 },
+        keyword: 'Given ',
+      })
 
       traverseStep(simpleStep, astMaker, () => 'the-id', supportCode)
 
-      assert.deepEqual(
-        supportCode.addPredictableStepDefinition.getCall(0).args,
-        ['whatever.go:123', 'a-random-step-id', 'failed', 0.456, undefined]
-      )
+      assert.deepStrictEqual(supportCode.addPredictableStepDefinition.getCall(0).args, [
+        'whatever.go:123',
+        'a-random-step-id',
+        'failed',
+        0.456,
+        undefined,
+      ])
     })
   })
 
@@ -352,7 +401,7 @@ describe('traversing elements', () => {
       const astMaker = stubInterface<IAstMaker>()
 
       traverseDocString(docString, astMaker)
-      assert.deepEqual(astMaker.makeDocstring.getCall(0).args, [
+      assert.deepStrictEqual(astMaker.makeDocstring.getCall(0).args, [
         null,
         '  This is some content',
       ])

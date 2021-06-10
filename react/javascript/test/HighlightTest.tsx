@@ -6,14 +6,8 @@ import { JSDOM } from 'jsdom'
 import SearchQueryContext, { SearchQueryCtx } from '../src/SearchQueryContext'
 
 describe('HighLight', () => {
-  function renderHighlight(
-    text: string,
-    query: string,
-    markdown: boolean
-  ): Document {
-    const dom = new JSDOM(
-      '<html lang="en"><body><div id="content"></div></body></html>'
-    )
+  function renderHighlight(text: string, query: string, markdown: boolean): Document {
+    const dom = new JSDOM('<html lang="en"><body><div id="content"></div></body></html>')
     // @ts-ignore
     global.window = dom.window
     // global.navigator = dom.window.navigator
@@ -29,14 +23,10 @@ describe('HighLight', () => {
   }
 
   it('puts <mark> around exact matches', () => {
-    const document = renderHighlight(
-      'Some text with a keyword inside',
-      'keyword',
-      false
+    const document = renderHighlight('Some text with a keyword inside', 'keyword', false)
+    const highlighted = Array.from(document.querySelectorAll('#content mark')).map(
+      (span) => span.textContent
     )
-    const highlighted = Array.from(
-      document.querySelectorAll('#content mark')
-    ).map((span) => span.textContent)
 
     assert.deepStrictEqual(highlighted, ['keyword'])
   })
@@ -47,9 +37,9 @@ describe('HighLight', () => {
       'failed',
       false
     )
-    const highlighted = Array.from(
-      document.querySelectorAll('#content mark')
-    ).map((span) => span.textContent)
+    const highlighted = Array.from(document.querySelectorAll('#content mark')).map(
+      (span) => span.textContent
+    )
 
     // The first one is the exact match.
     // The second one corresponds to the "failure" word, which stem is "fail"
@@ -63,29 +53,18 @@ describe('HighLight', () => {
       'step fail pass skipped',
       false
     )
-    const highlighted = Array.from(
-      document.querySelectorAll('#content mark')
-    ).map((span) => span.textContent)
+    const highlighted = Array.from(document.querySelectorAll('#content mark')).map(
+      (span) => span.textContent
+    )
 
-    assert.deepStrictEqual(highlighted, [
-      'pass',
-      'step',
-      'fail',
-      'step',
-      'skipped',
-      'step',
-    ])
+    assert.deepStrictEqual(highlighted, ['pass', 'step', 'fail', 'step', 'skipped', 'step'])
   })
 
   it('puts <mark> around matches in markdown', () => {
-    const document = renderHighlight(
-      '* This is\n* a bullet list',
-      'bullet',
-      true
+    const document = renderHighlight('* This is\n* a bullet list', 'bullet', true)
+    const highlighted = Array.from(document.querySelectorAll('#content mark')).map(
+      (span) => span.textContent
     )
-    const highlighted = Array.from(
-      document.querySelectorAll('#content mark')
-    ).map((span) => span.textContent)
 
     assert.deepStrictEqual(highlighted, ['bullet'])
   })
@@ -100,7 +79,7 @@ describe('HighLight', () => {
     // Script tags will be removed (rather than escaped). Ideally we'd *escape* them to &lt;script&gt;.
     assert.deepStrictEqual(
       html,
-      '<div class="highlight"><p>Failed XSS: <mark>alert</mark>("<mark>hello</mark>")</p></div>'
+      '<div class="highlight"><p>Failed XSS: ("<mark>hello</mark>")</p></div>'
     )
   })
 
@@ -113,7 +92,7 @@ describe('HighLight', () => {
     const html = document.querySelector('#content').innerHTML
     assert.deepStrictEqual(
       html,
-      '<div class="highlight"><p>We <em>like</em> other HTML tags:</p><section>hello</section></div>'
+      `<div class="highlight"><p>We <em>like</em> other HTML tags:</p>\n<section>hello</section></div>`
     )
   })
 

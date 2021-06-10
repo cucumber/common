@@ -1,7 +1,7 @@
 import createMeta from '../src/createMeta'
 import assert from 'assert'
 import ciDict from '../src/ciDict.json'
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 
 describe('createMeta', () => {
   it('defines the implementation product', () => {
@@ -21,19 +21,17 @@ describe('createMeta', () => {
     }
 
     const meta = createMeta('someTool', '1.2.3', envDict, ciDict)
-    assert.deepStrictEqual(
-      meta.ci,
-      messages.Meta.CI.create({
-        name: 'CircleCI',
-        url: 'the-url',
-        git: {
-          remote: 'the-remote',
-          branch: 'the-branch',
-          revision: 'the-revision',
-          tag: 'the-tag',
-        },
-      })
-    )
+    const ci: messages.Ci = {
+      name: 'CircleCI',
+      url: 'the-url',
+      git: {
+        remote: 'the-remote',
+        branch: 'the-branch',
+        revision: 'the-revision',
+        tag: 'the-tag',
+      },
+    }
+    assert.deepStrictEqual(meta.ci, ci)
   })
 
   it('detects GitHub Actions', () => {
@@ -46,19 +44,17 @@ describe('createMeta', () => {
     }
 
     const meta = createMeta('someTool', '1.2.3', envDict, ciDict)
-    assert.deepStrictEqual(
-      meta.ci,
-      messages.Meta.CI.create({
-        name: 'GitHub Actions',
-        url: 'https://github.com/cucumber/cucumber-ruby/actions/runs/140170388',
-        git: {
-          remote: 'https://github.com/cucumber/cucumber-ruby.git',
-          branch: undefined,
-          revision: 'the-revision',
-          tag: 'the-tag',
-        },
-      })
-    )
+    const ci: messages.Ci = {
+      name: 'GitHub Actions',
+      url: 'https://github.com/cucumber/cucumber-ruby/actions/runs/140170388',
+      git: {
+        remote: 'https://github.com/cucumber/cucumber-ruby.git',
+        branch: undefined,
+        revision: 'the-revision',
+        tag: 'the-tag',
+      },
+    }
+    assert.deepStrictEqual(meta.ci, ci)
   })
 
   it('detects GitHub Actions with custom base url', () => {
@@ -71,20 +67,17 @@ describe('createMeta', () => {
     }
 
     const meta = createMeta('someTool', '1.2.3', envDict, ciDict)
-    assert.deepStrictEqual(
-      meta.ci,
-      messages.Meta.CI.create({
-        name: 'GitHub Actions',
-        url:
-          'https://github.company.com/cucumber/cucumber-ruby/actions/runs/140170388',
-        git: {
-          remote: 'https://github.company.com/cucumber/cucumber-ruby.git',
-          branch: 'the-branch',
-          revision: 'the-revision',
-          tag: undefined,
-        },
-      })
-    )
+    const ci: messages.Ci = {
+      name: 'GitHub Actions',
+      url: 'https://github.company.com/cucumber/cucumber-ruby/actions/runs/140170388',
+      git: {
+        remote: 'https://github.company.com/cucumber/cucumber-ruby.git',
+        branch: 'the-branch',
+        revision: 'the-revision',
+        tag: undefined,
+      },
+    }
+    assert.deepStrictEqual(meta.ci, ci)
   })
 
   it('post-processes git refs to branch', () => {
@@ -96,19 +89,17 @@ describe('createMeta', () => {
     }
 
     const meta = createMeta('someTool', '1.2.3', envDict, ciDict)
-    assert.deepStrictEqual(
-      meta.ci,
-      messages.Meta.CI.create({
-        name: 'Azure Pipelines',
-        url: 'the-url',
-        git: {
-          remote: 'the-remote',
-          branch: 'main',
-          revision: 'the-revision',
-          tag: undefined,
-        },
-      })
-    )
+    const ci: messages.Ci = {
+      name: 'Azure Pipelines',
+      url: 'the-url',
+      git: {
+        remote: 'the-remote',
+        branch: 'main',
+        revision: 'the-revision',
+        tag: undefined,
+      },
+    }
+    assert.deepStrictEqual(meta.ci, ci)
   })
 
   it('post-processes git refs to tag', () => {
@@ -120,18 +111,16 @@ describe('createMeta', () => {
     }
 
     const meta = createMeta('someTool', '1.2.3', envDict, ciDict)
-    assert.deepStrictEqual(
-      meta.ci,
-      messages.Meta.CI.create({
-        name: 'Azure Pipelines',
-        url: 'the-url',
-        git: {
-          remote: 'the-remote',
-          branch: undefined,
-          revision: 'the-revision',
-          tag: 'v1.2.3',
-        },
-      })
-    )
+    const ci: messages.Ci = {
+      name: 'Azure Pipelines',
+      url: 'the-url',
+      git: {
+        remote: 'the-remote',
+        branch: undefined,
+        revision: 'the-revision',
+        tag: 'v1.2.3',
+      },
+    }
+    assert.deepStrictEqual(meta.ci, ci)
   })
 })

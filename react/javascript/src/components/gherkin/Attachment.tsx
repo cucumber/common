@@ -1,26 +1,32 @@
 import React from 'react'
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import ErrorMessage from './ErrorMessage'
 import { faPaperclip } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 // @ts-ignore
 import Convert from 'ansi-to-html'
+import defaultStyles from './Attachment.module.scss'
+import {
+  AttachmentClasses,
+  AttachmentProps,
+  DefaultComponent,
+  useCustomRendering,
+} from '../customise/CustomRendering'
 
-interface IProps {
-  attachment: messages.IAttachment
-}
-
-const Attachment: React.FunctionComponent<IProps> = ({ attachment }) => {
+const DefaultRenderer: DefaultComponent<AttachmentProps, AttachmentClasses> = ({
+  attachment,
+  styles,
+}) => {
   if (attachment.mediaType.match(/^image\//)) {
-    return image(attachment)
+    return image(attachment, styles)
   } else if (attachment.mediaType.match(/^video\//)) {
     return video(attachment)
   } else if (attachment.mediaType == 'text/x.cucumber.log+plain') {
-    return text(attachment, prettyANSI, true)
+    return text(attachment, prettyANSI, true, styles)
   } else if (attachment.mediaType.match(/^text\//)) {
-    return text(attachment, (s) => s, false)
+    return text(attachment, (s) => s, false, styles)
   } else if (attachment.mediaType.match(/^application\/json/)) {
-    return text(attachment, prettyJSON, false)
+    return text(attachment, prettyJSON, false, styles)
   } else {
     return (
       <ErrorMessage
@@ -30,13 +36,19 @@ const Attachment: React.FunctionComponent<IProps> = ({ attachment }) => {
   }
 }
 
-function image(attachment: messages.IAttachment) {
-  if (
-    attachment.contentEncoding !== messages.Attachment.ContentEncoding.BASE64
-  ) {
+const Attachment: React.FunctionComponent<AttachmentProps> = (props) => {
+  const ResolvedRenderer = useCustomRendering<AttachmentProps, AttachmentClasses>(
+    'Attachment',
+    defaultStyles,
+    DefaultRenderer
+  )
+  return <ResolvedRenderer {...props} />
+}
+
+function image(attachment: messages.Attachment, classes: AttachmentClasses) {
+  if (attachment.contentEncoding !== 'BASE64') {
     return (
       <ErrorMessage
-        className="cucumber-attachment"
         message={`Couldn't display ${attachment.mediaType} image because it wasn't base64 encoded`}
       />
     )
@@ -47,19 +59,16 @@ function image(attachment: messages.IAttachment) {
       <img
         alt="Embedded Image"
         src={`data:${attachment.mediaType};base64,${attachment.body}`}
-        className="cucumber-attachment cucumber-attachment__image"
+        className={classes.image}
       />
     </details>
   )
 }
 
-function video(attachment: messages.IAttachment) {
-  if (
-    attachment.contentEncoding !== messages.Attachment.ContentEncoding.BASE64
-  ) {
+function video(attachment: messages.Attachment) {
+  if (attachment.contentEncoding !== 'BASE64') {
     return (
       <ErrorMessage
-        className="cucumber-attachment"
         message={`Couldn't display ${attachment.mediaType} video because it wasn't base64 encoded`}
       />
     )
@@ -68,9 +77,7 @@ function video(attachment: messages.IAttachment) {
     <details>
       <summary>Attached Video</summary>
       <video controls>
-        <source
-          src={`data:${attachment.mediaType};base64,${attachment.body}`}
-        />
+        <source src={`data:${attachment.mediaType};base64,${attachment.body}`} />
         Your browser is unable to display video
       </video>
     </details>
@@ -90,32 +97,25 @@ function base64Decode(body: string) {
 }
 
 function text(
-  attachment: messages.IAttachment,
+  attachment: messages.Attachment,
   prettify: (body: string) => string,
-  dangerouslySetInnerHTML: boolean
+  dangerouslySetInnerHTML: boolean,
+  classes: AttachmentClasses
 ) {
   const body =
-    attachment.contentEncoding === messages.Attachment.ContentEncoding.IDENTITY
-      ? attachment.body
-      : base64Decode(attachment.body)
+    attachment.contentEncoding === 'IDENTITY' ? attachment.body : base64Decode(attachment.body)
 
   if (dangerouslySetInnerHTML) {
     return (
-      <pre className="cucumber-attachment cucumber-attachment__text">
-        <FontAwesomeIcon
-          icon={faPaperclip}
-          className="cucumber-attachment__icon"
-        />
+      <pre className={classes.text}>
+        <FontAwesomeIcon icon={faPaperclip} className={classes.icon} />
         <span dangerouslySetInnerHTML={{ __html: prettify(body) }} />
       </pre>
     )
   }
   return (
-    <pre className="cucumber-attachment cucumber-attachment__text">
-      <FontAwesomeIcon
-        icon={faPaperclip}
-        className="cucumber-attachment__icon"
-      />
+    <pre className={classes.text}>
+      <FontAwesomeIcon icon={faPaperclip} className={classes.icon} />
       {prettify(body)}
     </pre>
   )

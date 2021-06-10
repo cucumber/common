@@ -1,4 +1,4 @@
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import {
   QueriesWrapper,
   EnvelopesQuery,
@@ -12,7 +12,7 @@ import ReactDOM from 'react-dom'
 
 declare global {
   interface Window {
-    CUCUMBER_MESSAGES: messages.IEnvelope[]
+    CUCUMBER_MESSAGES: messages.Envelope[]
   }
 }
 
@@ -20,8 +20,7 @@ const gherkinQuery = new GherkinQuery()
 const cucumberQuery = new CucumberQuery()
 const envelopesQuery = new EnvelopesQuery()
 
-for (const envelopeObject of window.CUCUMBER_MESSAGES) {
-  const envelope = messages.Envelope.fromObject(envelopeObject)
+for (const envelope of window.CUCUMBER_MESSAGES as messages.Envelope[]) {
   gherkinQuery.update(envelope)
   cucumberQuery.update(envelope)
   envelopesQuery.update(envelope)

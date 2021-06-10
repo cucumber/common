@@ -1,6 +1,6 @@
 import assert from 'assert'
 import makePredictableHookTestStep from '../../src/test-generation/makePredictableHookTestStep'
-import { messages, IdGenerator } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import PredictableHook from '../../src/PredictableHook'
 
 describe('makePredictableHookTestStep', () => {
@@ -8,42 +8,51 @@ describe('makePredictableHookTestStep', () => {
     'some-id',
     'scenario-id',
     'somewhere.rb:11',
-    messages.TestStepFinished.TestStepResult.Status.PASSED,
+    messages.TestStepResultStatus.PASSED,
     123456
   )
 
   it('returns undefined when the Hook does not match', () => {
-    const pickle = messages.Pickle.create({
+    const pickle: messages.Pickle = {
       astNodeIds: ['another-scenario-id'],
-    })
+      steps: [],
+      id: 'id',
+      language: 'en',
+      tags: [],
+      uri: 'uri',
+      name: 'Name',
+    }
     const step = makePredictableHookTestStep(
       pickle,
       passedHook,
       true,
       null,
-      IdGenerator.uuid()
+      messages.IdGenerator.uuid()
     )
 
-    assert.equal(step, undefined)
+    assert.strictEqual(step, undefined)
   })
 
   it('creates a PredictableHookTestStep', async () => {
-    const pickle = messages.Pickle.create({
+    const pickle: messages.Pickle = {
       astNodeIds: ['scenario-id'],
-    })
+      steps: [],
+      id: 'id',
+      language: 'en',
+      tags: [],
+      uri: 'uri',
+      name: 'Name',
+    }
     const step = makePredictableHookTestStep(
       pickle,
       passedHook,
       true,
       null,
-      IdGenerator.uuid()
+      messages.IdGenerator.uuid()
     )
-    const testResult = await step.execute(null, '', () => null)
+    const testResult = await step.execute(null, '', () => null, true)
 
-    assert.equal(
-      testResult.status,
-      messages.TestStepFinished.TestStepResult.Status.PASSED
-    )
-    assert.equal(testResult.duration.seconds, 123)
+    assert.strictEqual(testResult.status, messages.TestStepResultStatus.PASSED)
+    assert.strictEqual(testResult.duration.seconds, 123)
   })
 })

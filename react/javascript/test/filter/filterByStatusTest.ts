@@ -2,12 +2,12 @@ import assert from 'assert'
 import { SupportCode } from '@cucumber/fake-cucumber'
 import { Query as GherkinQuery } from '@cucumber/gherkin-utils'
 import { Query as CucumberQuery } from '@cucumber/query'
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import filterByStatus from '../../src/filter/filterByStatus'
 import { pretty } from '@cucumber/gherkin-utils'
 import runFeature, { FailingHook } from '../runFeature'
 
-function scenarioNames(gherkinDocument: messages.IGherkinDocument): string[] {
+function scenarioNames(gherkinDocument: messages.GherkinDocument): string[] {
   if (gherkinDocument === null) {
     return []
   }
@@ -47,55 +47,36 @@ Feature: statuses
 
   it('only accepts scenarios having one of the expected results', async () => {
     const emitted = await runFeature(feature, gherkinQuery, supportCode)
-    const gherkinDocument = emitted.find((envelope) => envelope.gherkinDocument)
-      .gherkinDocument
+    const gherkinDocument = emitted.find((envelope) => envelope.gherkinDocument).gherkinDocument
     emitted.map((message) => cucumberQuery.update(message))
 
-    const passedScenarios = filterByStatus(
-      gherkinDocument,
-      gherkinQuery,
-      cucumberQuery,
-      [messages.TestStepFinished.TestStepResult.Status.PASSED]
-    )
+    const passedScenarios = filterByStatus(gherkinDocument, gherkinQuery, cucumberQuery, [
+      messages.TestStepResultStatus.PASSED,
+    ])
 
     assert.deepStrictEqual(scenarioNames(passedScenarios), ['passed'])
 
-    const failedScenarios = filterByStatus(
-      gherkinDocument,
-      gherkinQuery,
-      cucumberQuery,
-      [messages.TestStepFinished.TestStepResult.Status.FAILED]
-    )
+    const failedScenarios = filterByStatus(gherkinDocument, gherkinQuery, cucumberQuery, [
+      messages.TestStepResultStatus.FAILED,
+    ])
     assert.deepStrictEqual(scenarioNames(failedScenarios), ['failed'])
 
-    const undefinedScenarios = filterByStatus(
-      gherkinDocument,
-      gherkinQuery,
-      cucumberQuery,
-      [messages.TestStepFinished.TestStepResult.Status.UNDEFINED]
-    )
+    const undefinedScenarios = filterByStatus(gherkinDocument, gherkinQuery, cucumberQuery, [
+      messages.TestStepResultStatus.UNDEFINED,
+    ])
     assert.deepStrictEqual(scenarioNames(undefinedScenarios), ['undefined'])
   })
 
   it('can filter with multiple statuses', async () => {
     const emitted = await runFeature(feature, gherkinQuery, supportCode)
-    const gherkinDocument = emitted.find((envelope) => envelope.gherkinDocument)
-      .gherkinDocument
+    const gherkinDocument = emitted.find((envelope) => envelope.gherkinDocument).gherkinDocument
     emitted.map((message) => cucumberQuery.update(message))
 
-    const passedAndFailedScenarios = filterByStatus(
-      gherkinDocument,
-      gherkinQuery,
-      cucumberQuery,
-      [
-        messages.TestStepFinished.TestStepResult.Status.PASSED,
-        messages.TestStepFinished.TestStepResult.Status.FAILED,
-      ]
-    )
-    assert.deepStrictEqual(scenarioNames(passedAndFailedScenarios), [
-      'passed',
-      'failed',
+    const passedAndFailedScenarios = filterByStatus(gherkinDocument, gherkinQuery, cucumberQuery, [
+      messages.TestStepResultStatus.PASSED,
+      messages.TestStepResultStatus.FAILED,
     ])
+    assert.deepStrictEqual(scenarioNames(passedAndFailedScenarios), ['passed', 'failed'])
   })
 
   context('when using examples', () => {
@@ -110,44 +91,26 @@ Feature: statuses
       | failed |
 `
     it('does not keep scenarios when no result matches', async () => {
-      const emitted = await runFeature(
-        featureWithExamples,
-        gherkinQuery,
-        supportCode
-      )
-      const gherkinDocument = emitted.find(
-        (envelope) => envelope.gherkinDocument
-      ).gherkinDocument
+      const emitted = await runFeature(featureWithExamples, gherkinQuery, supportCode)
+      const gherkinDocument = emitted.find((envelope) => envelope.gherkinDocument).gherkinDocument
       emitted.map((message) => cucumberQuery.update(message))
 
-      const pendingScenarios = filterByStatus(
-        gherkinDocument,
-        gherkinQuery,
-        cucumberQuery,
-        [messages.TestStepFinished.TestStepResult.Status.PENDING]
-      )
+      const pendingScenarios = filterByStatus(gherkinDocument, gherkinQuery, cucumberQuery, [
+        messages.TestStepResultStatus.PENDING,
+      ])
 
       assert.deepStrictEqual(scenarioNames(pendingScenarios), [])
     })
 
     it('does not drop the lines of Example tables with the incorrect status', async () => {
-      const emitted = await runFeature(
-        featureWithExamples,
-        gherkinQuery,
-        supportCode
-      )
+      const emitted = await runFeature(featureWithExamples, gherkinQuery, supportCode)
 
-      const gherkinDocument = emitted.find(
-        (envelope) => envelope.gherkinDocument
-      ).gherkinDocument
+      const gherkinDocument = emitted.find((envelope) => envelope.gherkinDocument).gherkinDocument
       emitted.map((message) => cucumberQuery.update(message))
 
-      const onlyPassedScenarios = filterByStatus(
-        gherkinDocument,
-        gherkinQuery,
-        cucumberQuery,
-        [messages.TestStepFinished.TestStepResult.Status.PASSED]
-      )
+      const onlyPassedScenarios = filterByStatus(gherkinDocument, gherkinQuery, cucumberQuery, [
+        messages.TestStepResultStatus.PASSED,
+      ])
 
       assert.strictEqual(pretty(onlyPassedScenarios), featureWithExamples)
     })
@@ -158,23 +121,14 @@ Feature: statuses
       supportCode.registerBeforeHook(new FailingHook('1234-5678'))
 
       const emitted = await runFeature(feature, gherkinQuery, supportCode)
-      const gherkinDocument = emitted.find(
-        (envelope) => envelope.gherkinDocument
-      ).gherkinDocument
+      const gherkinDocument = emitted.find((envelope) => envelope.gherkinDocument).gherkinDocument
       emitted.map((message) => cucumberQuery.update(message))
 
-      const onlyFailedScenarios = filterByStatus(
-        gherkinDocument,
-        gherkinQuery,
-        cucumberQuery,
-        [messages.TestStepFinished.TestStepResult.Status.FAILED]
-      )
-
-      assert.deepStrictEqual(scenarioNames(onlyFailedScenarios), [
-        'passed',
-        'failed',
-        'undefined',
+      const onlyFailedScenarios = filterByStatus(gherkinDocument, gherkinQuery, cucumberQuery, [
+        messages.TestStepResultStatus.FAILED,
       ])
+
+      assert.deepStrictEqual(scenarioNames(onlyFailedScenarios), ['passed', 'failed', 'undefined'])
     })
   })
 
@@ -183,23 +137,14 @@ Feature: statuses
       supportCode.registerAfterHook(new FailingHook('1234-5678'))
 
       const emitted = await runFeature(feature, gherkinQuery, supportCode)
-      const gherkinDocument = emitted.find(
-        (envelope) => envelope.gherkinDocument
-      ).gherkinDocument
+      const gherkinDocument = emitted.find((envelope) => envelope.gherkinDocument).gherkinDocument
       emitted.map((message) => cucumberQuery.update(message))
 
-      const onlyFailedScenarios = filterByStatus(
-        gherkinDocument,
-        gherkinQuery,
-        cucumberQuery,
-        [messages.TestStepFinished.TestStepResult.Status.FAILED]
-      )
-
-      assert.deepStrictEqual(scenarioNames(onlyFailedScenarios), [
-        'passed',
-        'failed',
-        'undefined',
+      const onlyFailedScenarios = filterByStatus(gherkinDocument, gherkinQuery, cucumberQuery, [
+        messages.TestStepResultStatus.FAILED,
       ])
+
+      assert.deepStrictEqual(scenarioNames(onlyFailedScenarios), ['passed', 'failed', 'undefined'])
     })
   })
 })

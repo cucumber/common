@@ -1,30 +1,23 @@
 import { Query as GherkinQuery } from '@cucumber/gherkin-utils'
 import { Query as CucumberQuery } from '@cucumber/query'
-import { messages } from '@cucumber/messages'
-import {
-  GherkinDocumentWalker,
-  rejectAllFilters,
-} from '@cucumber/gherkin-utils'
+import * as messages from '@cucumber/messages'
+import { GherkinDocumentWalker, rejectAllFilters } from '@cucumber/gherkin-utils'
+import { getWorstTestStepResult } from '@cucumber/messages'
 
 export default function filterByStatus(
-  gherkinDocument: messages.IGherkinDocument,
+  gherkinDocument: messages.GherkinDocument,
   gherkinQuery: GherkinQuery,
   cucumberQuery: CucumberQuery,
-  statuses: messages.TestStepFinished.TestStepResult.Status[]
-): messages.IGherkinDocument | null {
+  statuses: readonly messages.TestStepResultStatus[]
+): messages.GherkinDocument | null {
   const filters = {
-    acceptScenario: (scenario: messages.GherkinDocument.Feature.IScenario) => {
-      const pickleIds = gherkinQuery.getPickleIds(
-        gherkinDocument.uri,
-        scenario.id
-      )
+    acceptScenario: (scenario: messages.Scenario) => {
+      const pickleIds = gherkinQuery.getPickleIds(gherkinDocument.uri, scenario.id)
 
       return pickleIds
         .map((pickleId) =>
           statuses.includes(
-            cucumberQuery.getWorstTestStepResult(
-              cucumberQuery.getPickleTestStepResults([pickleId])
-            ).status
+            getWorstTestStepResult(cucumberQuery.getPickleTestStepResults([pickleId])).status
           )
         )
         .includes(true)

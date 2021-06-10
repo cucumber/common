@@ -3,11 +3,12 @@ from __future__ import print_function
 import json
 import textwrap
 
-from gherkin.token_scanner import TokenScanner
-from gherkin.token_matcher import TokenMatcher
+from gherkin.ast_builder import AstBuilder
+from gherkin.parser import Parser
 from gherkin.parser import Parser
 from gherkin.errors import ParserError
-from gherkin.pickles import compiler
+from gherkin.pickles.compiler import Compiler
+from gherkin.stream.id_generator import IdGenerator
 
 from nose.tools import assert_equals, assert_raises
 
@@ -19,33 +20,27 @@ def test_compiles_a_scenario():
           Scenario: s
             Given passing
         """)
-    output = Parser().parse(feature_text)
-    pickle = compiler.compile(output)
+    id_generator = IdGenerator()
+    gherkin_document = Parser(AstBuilder(id_generator)).parse(feature_text)
+    gherkin_document['uri'] = 'uri'
+    pickle = Compiler(id_generator).compile(gherkin_document)
     expected_pickle = textwrap.dedent(
         """\
         [
           {
+            "id": "3",
+            "astNodeIds": ["1"],
             "name": "s",
             "language": "en",
             "steps": [
               {
-                "text": "passing",
-                "arguments": [],
-                "locations": [
-                  {
-                    "line": 3,
-                    "column": 11
-                  }
-                ]
+                "id": "2",
+                "astNodeIds": ["0"],
+                "text": "passing"
               }
             ],
             "tags": [],
-            "locations": [
-              {
-                "line": 2,
-                "column": 3
-              }
-            ]
+            "uri": "uri"
           }
         ]
         """
@@ -67,41 +62,27 @@ def test_compiles_a_scenario_outline_with_i18n_characters():
             | with-é  |
             | passing |
         """)
-    output = Parser().parse(feature_text)
-    pickle = compiler.compile(output)
+    id_generator = IdGenerator()
+    gherkin_document = Parser(AstBuilder(id_generator)).parse(feature_text)
+    gherkin_document['uri'] = 'uri'
+    pickle = Compiler(id_generator).compile(gherkin_document)
     expected_pickle = textwrap.dedent(
         """\
         [
           {
+            "id": "6",
+            "astNodeIds": ["4", "2"],
             "name": "with 'é' in title",
             "language": "en",
             "steps": [
               {
-                "text": "passing",
-                "arguments": [],
-                "locations": [
-                  {
-                    "line": 6,
-                    "column": 5
-                  },
-                  {
-                    "line": 3,
-                    "column": 11
-                  }
-                ]
+                "id": "5",
+                "astNodeIds": ["0", "2"],
+                "text": "passing"
               }
             ],
             "tags": [],
-            "locations": [
-              {
-                "line": 6,
-                "column": 5
-              },
-              {
-                "line": 2,
-                "column": 3
-              }
-            ]
+            "uri": "uri"
           }
         ]
         """

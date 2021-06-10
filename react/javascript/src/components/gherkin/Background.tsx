@@ -1,29 +1,24 @@
 import React from 'react'
 import Description from './Description'
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import StepList from './StepList'
-import IdGenerator from '../../IdGenerator'
-import BackgroundTitle from './BackgroundTitle'
+import Title from './Title'
+import Keyword from './Keyword'
 
 interface IProps {
-  background: messages.GherkinDocument.Feature.IBackground
+  background: messages.Background
 }
 
-const generator = new IdGenerator()
-
 const Background: React.FunctionComponent<IProps> = ({ background }) => {
-  const idGenerated = generator.generate(background.name)
-
   return (
-    <section className="cucumber-background">
-      <BackgroundTitle id={idGenerated} background={background} />
+    <section>
+      <Title header="h2" id={background.id}>
+        <Keyword>{background.keyword}:</Keyword>
+        <span>{background.name}</span>
+      </Title>
       <Description description={background.description} />
       <ol className="cucumber-steps">
-        <StepList
-          steps={background.steps || []}
-          renderStepMatchArguments={true}
-          renderMessage={true}
-        />
+        <StepList steps={background.steps || []} hasExamples={false} />
       </ol>
     </section>
   )

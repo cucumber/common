@@ -27,11 +27,7 @@ const FilteredResults: React.FunctionComponent<IProps> = ({
   const { query, hiddenStatuses } = React.useContext(SearchQueryContext)
   const allDocuments = gherkinQuery.getGherkinDocuments()
 
-  const scenarioCountByStatus = countScenariosByStatuses(
-    allDocuments,
-    gherkinQuery,
-    cucumberQuery
-  )
+  const scenarioCountByStatus = countScenariosByStatuses(allDocuments, gherkinQuery, cucumberQuery)
 
   const search = new Search(gherkinQuery)
 
@@ -69,7 +65,7 @@ const FilteredResults: React.FunctionComponent<IProps> = ({
           renderSearchURL={renderSearchURL}
         />
       </div>
-      <GherkinDocumentList gherkinDocuments={filtered} />
+      <GherkinDocumentList gherkinDocuments={filtered} preExpand={true} />
       <NoMatchResult query={query} matches={filtered} />
     </div>
   )

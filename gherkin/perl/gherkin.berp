@@ -10,12 +10,12 @@ Feature! := FeatureHeader Background? ScenarioDefinition* Rule*
 FeatureHeader! := #Language? Tags? #FeatureLine DescriptionHelper
 
 Rule! := RuleHeader Background? ScenarioDefinition*
-RuleHeader! := #RuleLine DescriptionHelper
+RuleHeader! := Tags? #RuleLine DescriptionHelper
 
 Background! := #BackgroundLine DescriptionHelper Step*
 
-// we could avoid defining ScenarioDefinition, but that would require regular look-aheads, so worse performance
-ScenarioDefinition! := Tags? Scenario
+// Interpreting a tag line is ambiguous (tag line of rule or of scenario)
+ScenarioDefinition! [#Empty|#Comment|#TagLine->#ScenarioLine]:= Tags? Scenario
 
 Scenario! := #ScenarioLine DescriptionHelper Step* ExamplesDefinition*
 // after the first "Data" block, interpreting a tag line is ambiguous (tagline of next examples or of next scenario)

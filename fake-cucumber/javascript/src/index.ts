@@ -1,12 +1,4 @@
-import {
-  Given,
-  When,
-  Then,
-  Before,
-  After,
-  ParameterType,
-  defineParameterType,
-} from './dsl'
+import { Given, When, Then, Before, After, ParameterType, defineParameterType } from './dsl'
 import runCucumber from './runCucumber'
 import SupportCode from './SupportCode'
 import {
@@ -34,6 +26,8 @@ import makeTestPlan from './makeTestPlan'
 import makeHookTestStep from './makeHookTestStep'
 import TestStep from './TestStep'
 import IClock from './IClock'
+import IncrementClock from './IncrementClock'
+import IncrementStopwatch from './IncrementStopwatch'
 import DateClock from './DateClock'
 import IStopwatch from './IStopwatch'
 import PerfHooksStopwatch from './PerfHooksStopwatch'
@@ -68,6 +62,8 @@ export {
   ITestCase,
   ITestPlan,
   IClock,
+  IncrementClock,
+  IncrementStopwatch,
   DateClock,
   IStopwatch,
   PerfHooksStopwatch,

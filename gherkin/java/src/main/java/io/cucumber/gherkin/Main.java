@@ -1,10 +1,9 @@
 package io.cucumber.gherkin;
 
 import io.cucumber.messages.IdGenerator;
-import io.cucumber.messages.MessageToBinaryWriter;
 import io.cucumber.messages.MessageToNdjsonWriter;
 import io.cucumber.messages.MessageWriter;
-import io.cucumber.messages.Messages.Envelope;
+import io.cucumber.messages.types.Envelope;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -22,7 +21,6 @@ public class Main {
         boolean includeSource = true;
         boolean includeAst = true;
         boolean includePickles = true;
-        String format = "protobuf";
         IdGenerator idGenerator = null;
 
         while (!args.isEmpty()) {
@@ -38,9 +36,6 @@ public class Main {
                 case "--no-pickles":
                     includePickles = false;
                     break;
-                case "--format":
-                    format = args.remove(0).trim();
-                    break;
                 case "--predictable-ids":
                     idGenerator = new IdGenerator.Incrementing();
                     break;
@@ -53,11 +48,9 @@ public class Main {
             idGenerator = new IdGenerator.UUID();
         }
 
-        MessageWriter messageWriter = makeMessageWriter(format);
+        MessageWriter messageWriter = makeMessageWriter();
 
-        Stream<Envelope> messages = paths.isEmpty() ?
-                Gherkin.fromStream(System.in) :
-                Gherkin.fromPaths(paths, includeSource, includeAst, includePickles, idGenerator);
+        Stream<Envelope> messages = Gherkin.fromPaths(paths, includeSource, includeAst, includePickles, idGenerator);
         printMessages(messageWriter, messages);
     }
 
@@ -71,18 +64,7 @@ public class Main {
         });
     }
 
-    private static MessageWriter makeMessageWriter(String format) {
-        MessageWriter messageWriter;
-        switch (format) {
-            case "ndjson":
-                messageWriter = new MessageToNdjsonWriter(System.out);
-                break;
-            case "protobuf":
-                messageWriter = new MessageToBinaryWriter(System.out);
-                break;
-            default:
-                throw new Error(String.format("Unsupported format: %s", format));
-        }
-        return messageWriter;
+    private static MessageWriter makeMessageWriter() {
+        return new MessageToNdjsonWriter(System.out);
     }
 }

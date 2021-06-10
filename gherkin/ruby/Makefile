@@ -25,22 +25,22 @@ acceptance/testdata/%.feature.tokens: testdata/%.feature testdata/%.feature.toke
 
 acceptance/testdata/%.feature.ast.ndjson: testdata/%.feature testdata/%.feature.ast.ndjson .deps
 	mkdir -p $(@D)
-	bundle exec bin/gherkin --predictable-ids --no-source --no-pickles --format ndjson $< | jq --sort-keys --compact-output "." > $@
+	bundle exec bin/gherkin --predictable-ids --no-source --no-pickles $< | jq --sort-keys --compact-output "." > $@
 	diff --unified <(jq "." $<.ast.ndjson) <(jq "." $@)
 
 acceptance/testdata/%.feature.pickles.ndjson: testdata/%.feature testdata/%.feature.pickles.ndjson .deps
 	mkdir -p $(@D)
-	bundle exec bin/gherkin --predictable-ids --no-source --no-ast --format ndjson $< | jq --sort-keys --compact-output "." > $@
+	bundle exec bin/gherkin --predictable-ids --no-source --no-ast $< | jq --sort-keys --compact-output "." > $@
 	diff --unified <(jq "." $<.pickles.ndjson) <(jq "." $@)
 
 acceptance/testdata/%.feature.source.ndjson: testdata/%.feature testdata/%.feature.source.ndjson .deps
 	mkdir -p $(@D)
-	bundle exec bin/gherkin --predictable-ids --no-ast --no-pickles --format ndjson $< | jq --sort-keys --compact-output "." > $@
+	bundle exec bin/gherkin --predictable-ids --no-ast --no-pickles $< | jq --sort-keys --compact-output "." > $@
 	diff --unified <(jq "." $<.source.ndjson) <(jq "." $@)
 
 acceptance/testdata/%.feature.errors.ndjson: testdata/%.feature testdata/%.feature.errors.ndjson .deps
 	mkdir -p $(@D)
-	bundle exec bin/gherkin --predictable-ids --no-source --format ndjson $< | jq --sort-keys --compact-output "." > $@
+	bundle exec bin/gherkin --predictable-ids --no-source $< | jq --sort-keys --compact-output "." > $@
 	diff --unified <(jq "." $<.errors.ndjson) <(jq "." $@)
 
 clean:
@@ -51,8 +51,5 @@ clobber: clean
 	rm -rf lib/gherkin/parser.rb Gemfile.lock
 .PHONY: clobber
 
-lib/gherkin/parser.rb: gherkin.berp gherkin-ruby.razor
-	mono  /var/lib/berp/1.1.1/tools/net471/Berp.exe -g gherkin.berp -t gherkin-ruby.razor -o $@
-	# Remove BOM
-	awk 'NR==1{sub(/^\xef\xbb\xbf/,"")}{print}' < $@ > $@.nobom
-	mv $@.nobom $@
+lib/gherkin/parser.rb: gherkin-ruby.razor gherkin.berp
+	$(berp-generate-parser)

@@ -26,7 +26,7 @@
     "name": "Afrikaans",
     "native": "Afrikaans",
     "rule": [
-      "Rule"
+      "Regel"
     ],
     "scenario": [
       "Voorbeeld",
@@ -494,7 +494,7 @@
     "name": "Czech",
     "native": "Česky",
     "rule": [
-      "Rule"
+      "Pravidlo"
     ],
     "scenario": [
       "Příklad",
@@ -1078,7 +1078,9 @@
       "Ejemplos"
     ],
     "feature": [
-      "Característica"
+      "Característica",
+      "Necesidad del negocio",
+      "Requisito"
     ],
     "given": [
       "* ",
@@ -1090,7 +1092,8 @@
     "name": "Spanish",
     "native": "español",
     "rule": [
-      "Regla"
+      "Regla",
+      "Regla de negocio"
     ],
     "scenario": [
       "Ejemplo",
@@ -1672,7 +1675,7 @@
     "name": "Hungarian",
     "native": "magyar",
     "rule": [
-      "Rule"
+      "Szabály"
     ],
     "scenario": [
       "Példa",
@@ -2738,7 +2741,8 @@
       "Сценарий"
     ],
     "scenarioOutline": [
-      "Структура сценария"
+      "Структура сценария",
+      "Шаблон сценария"
     ],
     "then": [
       "* ",
