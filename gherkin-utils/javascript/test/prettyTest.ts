@@ -9,11 +9,11 @@ import * as messages from '@cucumber/messages'
 
 describe('PrettyFormatter', () => {
   it('renders a feature with no scenarios', () => {
-    checkGherkinToAstToMarkdowToAstToGherkin('Feature: hello\n')
+    checkGherkinToAstToMarkdownToAstToGherkin('Feature: hello\n')
   })
 
   it('renders a feature with two scenarios', () => {
-    checkGherkinToAstToMarkdowToAstToGherkin(`Feature: hello
+    checkGherkinToAstToMarkdownToAstToGherkin(`Feature: hello
 
   Scenario: one
     Given hello
@@ -24,7 +24,7 @@ describe('PrettyFormatter', () => {
   })
 
   it('renders a feature with two scenarios in a rule', () => {
-    checkGherkinToAstToMarkdowToAstToGherkin(`Feature: hello
+    checkGherkinToAstToMarkdownToAstToGherkin(`Feature: hello
 
   Rule: ok
 
@@ -37,7 +37,7 @@ describe('PrettyFormatter', () => {
   })
 
   it('renders a feature with background and scenario', () => {
-    checkGherkinToAstToMarkdowToAstToGherkin(`Feature: hello
+    checkGherkinToAstToMarkdownToAstToGherkin(`Feature: hello
 
   Background: bbb
     Given hello
@@ -48,7 +48,7 @@ describe('PrettyFormatter', () => {
   })
 
   it('renders a rule with background and scenario', () => {
-    checkGherkinToAstToMarkdowToAstToGherkin(`Feature: hello
+    checkGherkinToAstToMarkdownToAstToGherkin(`Feature: hello
 
   Rule: machin
 
@@ -61,7 +61,7 @@ describe('PrettyFormatter', () => {
   })
 
   it('renders tags when set', () => {
-    checkGherkinToAstToMarkdowToAstToGherkin(`@featureTag
+    checkGherkinToAstToMarkdownToAstToGherkin(`@featureTag
 Feature: hello
 
   Rule: machin
@@ -76,7 +76,7 @@ Feature: hello
   })
 
   it('renders examples tables', () => {
-    checkGherkinToAstToMarkdowToAstToGherkin(`Feature: hello
+    checkGherkinToAstToMarkdownToAstToGherkin(`Feature: hello
 
   Scenario: one
     Given a a <text> and a <number>
@@ -90,7 +90,7 @@ Feature: hello
   })
 
   it('renders data tables', () => {
-    checkGherkinToAstToMarkdowToAstToGherkin(`Feature: hello
+    checkGherkinToAstToMarkdownToAstToGherkin(`Feature: hello
 
   Scenario: one
     Given a data table:
@@ -101,8 +101,9 @@ Feature: hello
 `)
   })
 
-  it('renders docstrings', () => {
-    checkGherkinToAstToMarkdowToAstToGherkin(`Feature: hello
+  describe('DocString', () => {
+    it('is rendered with type', () => {
+      checkGherkinToAstToMarkdownToAstToGherkin(`Feature: hello
 
   Scenario: one
     Given a doc string:
@@ -112,19 +113,25 @@ Feature: hello
       }
       \`\`\`
 `)
-  })
+    })
 
-  it('escapes docstring separators', () => {
-    checkGherkinToAstToGherkin(`Feature: hello
+    it('escapes DocString separators', () => {
+      checkGherkinToAstToMarkdownToAstToGherkin(`Feature: hello
 
   Scenario: one
     Given a doc string:
-      """
-      a
-      \\"\\"\\"
-      b
-      """
+      \`\`\`
+      2
+      \`\`
+      3
+      \\\`\\\`\\\`
+      4
+      \\\`\\\`\\\`\`
+      5
+      \\\`\\\`\\\`\`\`
+      \`\`\`
 `)
+    })
   })
 
   xit('renders comments', () => {
@@ -197,7 +204,7 @@ Feature: hello
   })
 })
 
-function checkGherkinToAstToMarkdowToAstToGherkin(gherkinSource: string) {
+function checkGherkinToAstToMarkdownToAstToGherkin(gherkinSource: string) {
   const gherkinDocument = parse(gherkinSource, new GherkinClassicTokenMatcher())
   const markdownSource = pretty(gherkinDocument, 'markdown')
   //     console.log(`---<MDG>---

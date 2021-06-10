@@ -100,7 +100,7 @@ function prettyExample(example: messages.Examples, level: number, syntax: Syntax
 }
 
 function prettyDocString(docString: messages.DocString, level: number, syntax: Syntax) {
-  const delimiter = syntax === 'markdown' ? '```' : docString.delimiter
+  const delimiter = makeDocStringDelimiter(syntax, docString)
   const mediaType = docString.mediaType || ''
   const actualLevel = syntax === 'markdown' ? 1 : level
   const indent = spaces(actualLevel)
@@ -108,7 +108,7 @@ function prettyDocString(docString: messages.DocString, level: number, syntax: S
   if (syntax === 'gherkin') {
     if (docString.delimiter === '"""') {
       content = content.replace(/"""/gm, '\\"\\"\\"')
-    } else if (docString.delimiter === '```') {
+    } else {
       content = content.replace(/```/gm, '\\`\\`\\`')
     }
   }
@@ -116,6 +116,27 @@ function prettyDocString(docString: messages.DocString, level: number, syntax: S
 ${content}
 ${indent}${delimiter}
 `
+}
+
+function makeDocStringDelimiter(syntax: "markdown" | "gherkin", docString: messages.DocString) {
+  if(syntax === 'gherkin') {
+    return docString.delimiter.substring(0, 3)
+  }
+
+  // The length of the fenced code block delimiter is three backticks when the content inside doesn't have backticks.
+  // If the content inside has three or more backticks, the number of backticks in the delimiter must be at least one more
+  // https://github.github.com/gfm/#fenced-code-blocks
+  const threeOrMoreBackticks = /(```+)/g
+  let maxContentBackTickCount = 2
+  let match;
+  do {
+    match = threeOrMoreBackticks.exec(docString.content);
+    if (match) {
+      maxContentBackTickCount = Math.max(maxContentBackTickCount, match[1].length)
+    }
+  } while (match);
+  // Return a delimiter with one more backtick than the max number of backticks in the contents (3 ny default)
+  return new Array(maxContentBackTickCount + 2).join('`')
 }
 
 function prettyTableRows(
