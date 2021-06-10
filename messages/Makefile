@@ -1,2 +1,3 @@
-LANGUAGES ?= jsonschema javascript go java ruby python dotnet
+LANGUAGES ?= jsonschema javascript go java ruby python
+
 include default.mk
