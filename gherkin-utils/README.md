@@ -12,7 +12,7 @@ Example usage:
     # Translate all `.feature` files to `.feature.md` files and delete the `.feature` files.
     # See https://github.com/cucumber/common/blob/main/gherkin/MARKDOWN_WITH_GHERKIN.md
     # Note that the globs must be quoted to prevent the shell from expanding the globs.
-    npx @cucumber/gherkin-utils --move "features/**/*.feature" "features/**/*.feature.md"
+    npx @cucumber/gherkin-utils format --move "features/**/*.feature" "features/**/*.feature.md"
 
 More details:
 
