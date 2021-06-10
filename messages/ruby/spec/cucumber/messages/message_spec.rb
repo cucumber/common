@@ -40,15 +40,33 @@ describe Cucumber::Messages::Message do
     }
   end
 
+  let(:expected_camelized_hash) do
+    {
+      isMessage: {
+        isNil: nil,
+        isString: '',
+        isArray: [],
+        isNumber: 0
+      },
+      isEnum: 'an enum'
+    }
+  end
+
   describe '#to_h' do
     it 'returns hashes for embedded messages' do
       expect(subject.to_h).to eq(expected_hash)
+    end
+
+    context 'with camelize: true' do
+      it 'transform keys of the h to camelCase' do
+        expect(subject.to_h(camelize: true)).to eq(expected_camelized_hash)
+      end
     end
   end
 
   describe '#to_json' do
     it 'returns hashes for embedded messages' do
-      expect(subject.to_json).to eq(expected_hash.to_json)
+      expect(subject.to_json).to eq(expected_camelized_hash.to_json)
     end
   end
 end
