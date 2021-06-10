@@ -11,8 +11,8 @@ export default function pretty(
   let s = ''
 
   s += prettyTags(feature.tags, 0, syntax)
-
-  s += keywordPrefix(0, syntax) + feature.keyword + ': ' + feature.name + '\n'
+  s += `${keywordPrefix(0, syntax) + feature.keyword}: ${feature.name}
+`
   if (feature.description) {
     s += formatDescription(feature.description, syntax)
   }
@@ -196,10 +196,9 @@ function prettyTags(tags: readonly messages.Tag[], level: number, syntax: Syntax
   if (tags === undefined || tags.length == 0) {
     return ''
   }
-
-  if (syntax === 'gherkin')
-    return keywordPrefix(level, syntax) + tags.map((tag) => tag.name).join(' ') + '\n'
-  else return tags.map((tag) => `\`${tag.name}\``).join(' ') + '\n'
+  const prefix = syntax === 'gherkin' ? spaces(level) : ''
+  const tagQuote = syntax === 'gherkin' ? '' : '`'
+  return prefix + tags.map((tag) => `${tagQuote}${tag.name}${tagQuote}`).join(' ') + '\n'
 }
 
 function keywordPrefix(level: number, syntax: Syntax): string {
