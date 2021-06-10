@@ -1,36 +1,40 @@
 require 'rspec'
 require 'cucumber/messages/message'
 
-class ComprehensiveMessage < Cucumber::Messages::Message
-  attr_reader :is_message, :is_enum
+module Cucumber
+  module Messages
+    class ComprehensiveMessage < ::Cucumber::Messages::Message
+      attr_reader :simple_message, :is_enum
 
-  def initialize(is_message: SimpleMessage.new, is_enum: EnumMessage::ENUM)
-    @is_message = is_message
-    @is_enum = is_enum
+      def initialize(simple_message: SimpleMessage.new, is_enum: EnumMessage::ENUM)
+        @simple_message = simple_message
+        @is_enum = is_enum
+      end
+    end
+
+    class SimpleMessage < ::Cucumber::Messages::Message
+      attr_reader :is_nil, :is_string, :is_array, :is_number
+
+      def initialize(is_nil: nil, is_string: '', is_array: [], is_number: 0)
+        @is_nil = is_nil
+        @is_string = is_string
+        @is_array = is_array
+        @is_number = is_number
+      end
+    end
   end
 end
 
-class SimpleMessage < Cucumber::Messages::Message
-  attr_reader :is_nil, :is_string, :is_array, :is_number
-
-  def initialize(is_nil: nil, is_string: '', is_array: [], is_number: 0)
-    @is_nil = is_nil
-    @is_string = is_string
-    @is_array = is_array
-    @is_number = is_number
-  end
-end
-
-class EnumMessage
+class Cucumber::Messages::EnumMessage
   ENUM = 'an enum'
 end
 
 describe Cucumber::Messages::Message do
-  subject { ComprehensiveMessage.new }
+  subject { Cucumber::Messages::ComprehensiveMessage.new }
 
   let(:expected_hash) do
     {
-      is_message: {
+      simple_message: {
         is_nil: nil,
         is_string: '',
         is_array: [],
@@ -42,7 +46,7 @@ describe Cucumber::Messages::Message do
 
   let(:expected_camelized_hash) do
     {
-      isMessage: {
+      simpleMessage: {
         isNil: nil,
         isString: '',
         isArray: [],
@@ -67,6 +71,36 @@ describe Cucumber::Messages::Message do
   describe '#to_json' do
     it 'returns hashes for embedded messages' do
       expect(subject.to_json).to eq(expected_camelized_hash.to_json)
+    end
+  end
+
+  describe '#from_json' do
+    subject { Cucumber::Messages::Message.from_json(json_string) }
+
+    let(:json_string) {
+      {
+        comprehensiveMessage: {
+          simpleMessage: {
+            isNil: nil,
+            isString: 'a string',
+            isArray: [1, 2, 3],
+            isNumber: 4
+          },
+          isEnum: 'an enum'
+        }
+      }.to_json
+    }
+
+    it 'returns an instance of the corresponding DTO' do
+      expect(subject).to be_a(Cucumber::Messages::ComprehensiveMessage)
+    end
+
+    it 'properly deserialize DTO attributes' do
+      expect(subject.is_enum).to eq 'an enum'
+      expect(subject.simple_message).to be_a(Cucumber::Messages::SimpleMessage)
+      expect(subject.simple_message.is_string).to eq 'a string'
+      expect(subject.simple_message.is_number).to eq 4
+      expect(subject.simple_message.is_array).to eq [1, 2, 3]
     end
   end
 end
