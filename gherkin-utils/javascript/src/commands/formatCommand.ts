@@ -1,15 +1,14 @@
 import * as messages from '@cucumber/messages'
 import {AstBuilder, GherkinClassicTokenMatcher, GherkinInMarkdownTokenMatcher, Parser,} from '@cucumber/gherkin'
 import pretty, {Syntax} from '../pretty'
-import {readFile as readFileCb, unlink as unlinkCb, writeFile as writeFileCb} from 'fs'
+import fs, {unlink as unlinkCb} from 'fs'
 import {promisify} from 'util'
 import path from 'path'
-import fg from 'fast-glob'
+import {Readable, Writable} from 'stream'
+import glob from 'fast-glob'
 import isGlob from 'is-glob'
 import micromatch from 'micromatch'
 
-const readFile = promisify(readFileCb)
-const writeFile = promisify(writeFileCb)
 const unlink = promisify(unlinkCb)
 
 type Options = {
@@ -17,40 +16,49 @@ type Options = {
   language: string
 }
 
-export default async (from: string, to: string | undefined, options: Partial<Options> = {}) => {
+type Conversion = {
+  readable: () => Readable,
+  readableSyntax: Syntax
+  readableLanguage: string
+  writable: () => Writable,
+  writableSyntax: Syntax
+  afterWrite: () => Promise<void>
+}
+
+export default async (from: string | undefined, to: string | undefined, options: Partial<Options> = {}) => {
   if (!to) {
     to = from
   }
-  const fromPaths = await fg(from)
-  for (const fromPath of fromPaths) {
-    let gherkinDocument: messages.GherkinDocument
-    try {
-      gherkinDocument = await parseFile(fromPath, options.language)
-    } catch (err) {
-      console.error(`Failed to parse ${fromPath}`)
-      console.error(err.message)
-      process.exit(1)
-    }
-
-    const toPath = makeToPath(fromPath, from, to)
-    const destinationSyntax: Syntax = getSyntax(toPath)
-    const toSource = pretty(gherkinDocument, destinationSyntax)
-    try {
-      // Sanity check that what we generated is OK.
-      makeParser(destinationSyntax, gherkinDocument.feature?.language).parse(toSource)
-    } catch (err) {
-      console.error(`Failed to generate ${fromPath} because the generated source is not valid.`)
-      console.error(`Please report a bug at https://github.com/cucumber/common/issues/new`)
-      console.error(err.stack)
-      console.error(`--- Generated ${destinationSyntax} source ---`)
-      console.error(toSource)
-      process.exit(2)
-    }
-    await writeFile(toPath, toSource, 'utf-8')
-    if (options.move && toPath !== fromPath) {
-      await unlink(fromPath)
-    }
+  const fromPaths = await glob(from)
+  const conversions = fileConversions(fromPaths, from, to, options);
+  for (const conversion of conversions) {
+    await convert(conversion)
   }
+}
+
+function fileConversions(fromPaths: readonly string[], from: string, to: string, options: Partial<Options>): readonly Conversion[] {
+  return fromPaths.map(fromPath => {
+    const readable = () => fs.createReadStream(fromPath)
+    const readableSyntax = getSyntax(fromPath);
+    const toPath = makeToPath(fromPath, from, to)
+    const writable = () => fs.createWriteStream(toPath, 'utf8')
+    const writableSyntax = getSyntax(toPath)
+    const afterWrite = (options.move && toPath !== fromPath) ? () => unlink(fromPath) : () => Promise.resolve()
+    return {
+      readable,
+      readableSyntax,
+      readableLanguage: options.language,
+      writable,
+      writableSyntax,
+      afterWrite
+    }
+  })
+}
+
+async function read(readable: Readable): Promise<string> {
+  const chunks = []
+  for await (const chunk of readable) chunks.push(chunk)
+  return Buffer.concat(chunks).toString('utf-8')
 }
 
 export function makeToPath(fromPath: string, from: string, to: string): string {
@@ -61,24 +69,40 @@ export function makeToPath(fromPath: string, from: string, to: string): string {
   return to.replace(/\*\*?/g, () => fromMatches.shift())
 }
 
-async function parseFile(fromPath: string, language: string) {
-  const fromParser = makeParser(getSyntax(fromPath), language)
-  const fromSource = await readFile(fromPath, 'utf-8')
-  const gherkinDocument = fromParser.parse(fromSource)
-  gherkinDocument.uri = fromPath
-  return gherkinDocument;
-}
-
-
 function getSyntax(fromPath: string) {
   return path.extname(fromPath) === '.feature' ? 'gherkin' : 'markdown';
 }
 
-function makeParser(sourceSyntax: "markdown" | "gherkin", language: string) {
-  return new Parser(
+function parse(source: string, syntax: Syntax, language: string) {
+  const fromParser = new Parser(
     new AstBuilder(messages.IdGenerator.uuid()),
-    sourceSyntax === 'gherkin'
+    syntax === 'gherkin'
       ? new GherkinClassicTokenMatcher(language)
       : new GherkinInMarkdownTokenMatcher(language)
-  );
+  )
+  return fromParser.parse(source);
+}
+
+async function convert(conversion: Conversion) {
+  const source = await read(conversion.readable())
+  const gherkinDocument = parse(source, conversion.readableSyntax, conversion.readableLanguage)
+  const output = pretty(gherkinDocument, conversion.writableSyntax)
+
+  try {
+    // Sanity check that what we generated is OK.
+    parse(output, conversion.writableSyntax, gherkinDocument.feature?.language)
+  } catch (err) {
+    console.error(`The generated output is not parseable. This is a bug.`)
+    console.error(`Please report a bug at https://github.com/cucumber/common/issues/new`)
+    console.error(err.stack)
+    console.error(`--- Generated ${conversion.writableSyntax} source ---`)
+    console.error(output)
+    console.error(`------`)
+    process.exit(2)
+  }
+  const writable = conversion.writable()
+  writable.write(output)
+  writable.end()
+  await new Promise((resolve) => writable.once('finish', resolve))
+  await conversion.afterWrite()
 }
