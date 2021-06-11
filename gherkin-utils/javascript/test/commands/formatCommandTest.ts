@@ -1,8 +1,14 @@
-import formatCommand, {makeToPath} from '../../src/commands/formatCommand'
+import formatCommand, { makeToPath } from '../../src/commands/formatCommand'
 import assert from 'assert'
-import {existsSync, readFile as readFileCb, writeFile as writeFileCb, mkdir as mkdirCb, mkdtemp as mkdtempCb} from 'fs'
+import {
+  existsSync,
+  readFile as readFileCb,
+  writeFile as writeFileCb,
+  mkdir as mkdirCb,
+  mkdtemp as mkdtempCb,
+} from 'fs'
 import os from 'os'
-import {promisify} from "util";
+import { promisify } from 'util'
 
 const mkdtemp = promisify(mkdtempCb)
 const mkdir = promisify(mkdirCb)
@@ -42,7 +48,7 @@ describe('formatCommand', () => {
   })
 
   it('formats Gherkin files in-place', async () => {
-    const fromPath = `${tmpdir}/1.feature`;
+    const fromPath = `${tmpdir}/1.feature`
     await writeFile(fromPath, '     Feature:     1\n', 'utf-8')
 
     await formatCommand(fromPath, undefined)
@@ -66,10 +72,10 @@ describe('formatCommand', () => {
   })
 
   it('deletes the from file when move is specified', async () => {
-    const from = `${tmpdir}/1.feature`;
-    const to = `${tmpdir}/1.feature.md`;
+    const from = `${tmpdir}/1.feature`
+    const to = `${tmpdir}/1.feature.md`
     await writeFile(from, 'Feature: 1\n', 'utf-8')
-    await formatCommand(from, to, {move: true})
+    await formatCommand(from, to, { move: true })
 
     const markdown = await readFile(to, 'utf-8')
     assert.deepStrictEqual(markdown, '# Feature: 1\n')
@@ -77,9 +83,9 @@ describe('formatCommand', () => {
   })
 
   it('does not remove the from file when move is specified and to is the same as from', async () => {
-    const from = `${tmpdir}/1.feature`;
+    const from = `${tmpdir}/1.feature`
     await writeFile(from, '  Feature:   1\n', 'utf-8')
-    await formatCommand(from, from, {move: true})
+    await formatCommand(from, from, { move: true })
 
     const gherkin = await readFile(from, 'utf-8')
     assert.deepStrictEqual(gherkin, 'Feature: 1\n')

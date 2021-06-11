@@ -1,10 +1,15 @@
 import * as messages from '@cucumber/messages'
-import {AstBuilder, GherkinClassicTokenMatcher, GherkinInMarkdownTokenMatcher, Parser,} from '@cucumber/gherkin'
-import pretty, {Syntax} from '../pretty'
-import fs, {unlink as unlinkCb} from 'fs'
-import {promisify} from 'util'
+import {
+  AstBuilder,
+  GherkinClassicTokenMatcher,
+  GherkinInMarkdownTokenMatcher,
+  Parser,
+} from '@cucumber/gherkin'
+import pretty, { Syntax } from '../pretty'
+import fs, { unlink as unlinkCb } from 'fs'
+import { promisify } from 'util'
 import path from 'path'
-import {Readable, Writable} from 'stream'
+import { Readable, Writable } from 'stream'
 import glob from 'fast-glob'
 import isGlob from 'is-glob'
 import micromatch from 'micromatch'
@@ -14,43 +19,67 @@ const unlink = promisify(unlinkCb)
 type Options = {
   move: boolean
   language: string
+  syntax: Syntax
+  destinationSyntax: Syntax
 }
 
 type Conversion = {
-  readable: () => Readable,
+  readable: () => Readable
   readableSyntax: Syntax
   readableLanguage: string
-  writable: () => Writable,
+  writable: () => Writable
   writableSyntax: Syntax
   afterWrite: () => Promise<void>
 }
 
-export default async (from: string | undefined, to: string | undefined, options: Partial<Options> = {}) => {
-  if (!to) {
-    to = from
+export default async (
+  from: string | undefined,
+  to: string | undefined,
+  options: Partial<Options> = {}
+) => {
+  let conversions: Conversion[] = []
+
+  if (from) {
+    to = to || from
+    const fromPaths = await glob(from)
+    conversions = conversions.concat(fileConversions(fromPaths, from, to, options))
   }
-  const fromPaths = await glob(from)
-  const conversions = fileConversions(fromPaths, from, to, options);
+  if (!process.stdin.isTTY) {
+    conversions.push({
+      readable: () => process.stdin,
+      readableSyntax: options.syntax,
+      readableLanguage: options.language,
+      writable: () => process.stdout,
+      writableSyntax: options.destinationSyntax,
+      afterWrite: () => Promise.resolve(),
+    })
+  }
   for (const conversion of conversions) {
     await convert(conversion)
   }
 }
 
-function fileConversions(fromPaths: readonly string[], from: string, to: string, options: Partial<Options>): readonly Conversion[] {
-  return fromPaths.map(fromPath => {
+function fileConversions(
+  fromPaths: readonly string[],
+  from: string,
+  to: string,
+  options: Partial<Options>
+): readonly Conversion[] {
+  return fromPaths.map((fromPath) => {
     const readable = () => fs.createReadStream(fromPath)
-    const readableSyntax = getSyntax(fromPath);
+    const readableSyntax = getSyntax(fromPath)
     const toPath = makeToPath(fromPath, from, to)
     const writable = () => fs.createWriteStream(toPath, 'utf8')
     const writableSyntax = getSyntax(toPath)
-    const afterWrite = (options.move && toPath !== fromPath) ? () => unlink(fromPath) : () => Promise.resolve()
+    const afterWrite =
+      options.move && toPath !== fromPath ? () => unlink(fromPath) : () => Promise.resolve()
     return {
       readable,
       readableSyntax,
       readableLanguage: options.language,
       writable,
       writableSyntax,
-      afterWrite
+      afterWrite,
     }
   })
 }
@@ -70,7 +99,7 @@ export function makeToPath(fromPath: string, from: string, to: string): string {
 }
 
 function getSyntax(fromPath: string) {
-  return path.extname(fromPath) === '.feature' ? 'gherkin' : 'markdown';
+  return path.extname(fromPath) === '.feature' ? 'gherkin' : 'markdown'
 }
 
 function parse(source: string, syntax: Syntax, language: string) {
@@ -80,7 +109,7 @@ function parse(source: string, syntax: Syntax, language: string) {
       ? new GherkinClassicTokenMatcher(language)
       : new GherkinInMarkdownTokenMatcher(language)
   )
-  return fromParser.parse(source);
+  return fromParser.parse(source)
 }
 
 async function convert(conversion: Conversion) {

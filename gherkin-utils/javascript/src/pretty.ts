@@ -8,7 +8,10 @@ export default function pretty(
 ): string {
   const feature = gherkinDocument.feature
   if (!feature) return ''
-  let s = gherkinDocument.feature.language === 'en' ? '' : `# language: ${gherkinDocument.feature.language}\n`
+  let s =
+    gherkinDocument.feature.language === 'en'
+      ? ''
+      : `# language: ${gherkinDocument.feature.language}\n`
 
   s += prettyTags(feature.tags, 0, syntax)
   s += `${keywordPrefix(0, syntax) + feature.keyword}: ${feature.name}
@@ -56,9 +59,9 @@ function prettyStepContainer(
 ): string {
   const scenario: messages.Scenario = 'tags' in stepContainer ? stepContainer : null
   const tags: readonly messages.Tag[] = scenario?.tags || []
-  let s = `\n${prettyTags(tags, level, syntax)}${keywordPrefix(level, syntax)}${stepContainer.keyword}: ${
-    stepContainer.name
-  }\n`
+  let s = `\n${prettyTags(tags, level, syntax)}${keywordPrefix(level, syntax)}${
+    stepContainer.keyword
+  }: ${stepContainer.name}\n`
   if (stepContainer.description) {
     s += formatDescription(stepContainer.description, syntax) + '\n'
   }
@@ -118,8 +121,8 @@ ${indent}${delimiter}
 `
 }
 
-function makeDocStringDelimiter(syntax: "markdown" | "gherkin", docString: messages.DocString) {
-  if(syntax === 'gherkin') {
+function makeDocStringDelimiter(syntax: 'markdown' | 'gherkin', docString: messages.DocString) {
+  if (syntax === 'gherkin') {
     return docString.delimiter.substring(0, 3)
   }
 
@@ -128,13 +131,13 @@ function makeDocStringDelimiter(syntax: "markdown" | "gherkin", docString: messa
   // https://github.github.com/gfm/#fenced-code-blocks
   const threeOrMoreBackticks = /(```+)/g
   let maxContentBackTickCount = 2
-  let match;
+  let match
   do {
-    match = threeOrMoreBackticks.exec(docString.content);
+    match = threeOrMoreBackticks.exec(docString.content)
     if (match) {
       maxContentBackTickCount = Math.max(maxContentBackTickCount, match[1].length)
     }
-  } while (match);
+  } while (match)
   // Return a delimiter with one more backtick than the max number of backticks in the contents (3 ny default)
   return new Array(maxContentBackTickCount + 2).join('`')
 }

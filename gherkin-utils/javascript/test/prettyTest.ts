@@ -12,7 +12,7 @@ describe('PrettyFormatter', () => {
     checkGherkinToAstToMarkdownToAstToGherkin('')
   })
 
-  it('renders the language header if it is not "en"' , () => {
+  it('renders the language header if it is not "en"', () => {
     checkGherkinToAstToGherkin(`# language: no
 Egenskap: hallo\n`)
   })
