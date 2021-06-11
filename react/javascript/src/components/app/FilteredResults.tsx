@@ -2,7 +2,7 @@ import React from 'react'
 import GherkinQueryContext from '../../GherkinQueryContext'
 import CucumberQueryContext from '../../CucumberQueryContext'
 import SearchQueryContext, { RenderSearchURLFn } from '../../SearchQueryContext'
-import statusName, { allStatuses } from '../gherkin/statusName'
+import statusName from '../gherkin/statusName'
 
 import SearchBar from './SearchBar'
 
@@ -14,6 +14,7 @@ import countScenariosByStatuses from '../../countScenariosByStatuses'
 import ExecutionSummary from './ExecutionSummary'
 import EnvelopesQueryContext from '../../EnvelopesQueryContext'
 import GherkinDocumentList from './GherkinDocumentList'
+import statuses from './statuses'
 
 interface IProps {
   renderSearchURL?: RenderSearchURLFn
@@ -40,7 +41,7 @@ const FilteredResults: React.FunctionComponent<IProps> = ({ renderSearchURL }) =
         document,
         gherkinQuery,
         cucumberQuery,
-        allStatuses.filter((status) => !hiddenStatuses.includes(statusName(status)))
+        statuses.filter((status) => !hiddenStatuses.includes(statusName(status)))
       )
     )
     .filter((document) => document !== null)

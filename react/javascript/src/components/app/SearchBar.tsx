@@ -2,9 +2,10 @@ import React from 'react'
 import { faSearch, faQuestionCircle, faFilter, faShare } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import SearchQueryContext, { RenderSearchURLFn } from '../../SearchQueryContext'
-import statusName, { allStatuses } from '../gherkin/statusName'
+import statusName from '../gherkin/statusName'
+import statuses from './statuses'
 
-const statuses = allStatuses.map(statusName).sort()
+const statusNames = statuses.map(statusName).sort()
 
 interface IProps {
   statusesWithScenarios: string[]
@@ -63,7 +64,7 @@ const SearchBar: React.FunctionComponent<IProps> = ({ statusesWithScenarios, ren
             <FontAwesomeIcon icon={faFilter} /> Filter by scenario status:
           </span>
           <ul>
-            {statuses.map((name, index) => {
+            {statusNames.map((name, index) => {
               if (!statusesWithScenarios.includes(name)) {
                 return
               }
