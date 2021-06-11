@@ -5,10 +5,7 @@ import StatusIcon from './components/gherkin/StatusIcon'
 import filterByStatus from './filter/filterByStatus'
 import GherkinQueryContext from './GherkinQueryContext'
 import CucumberQueryContext from './CucumberQueryContext'
-import SearchQueryContext, {
-  RenderSearchURLFn,
-  searchFromURLParams,
-} from './SearchQueryContext'
+import SearchQueryContext, { RenderSearchURLFn, searchFromURLParams } from './SearchQueryContext'
 import EnvelopesQueryContext, { EnvelopesQuery } from './EnvelopesQueryContext'
 import MDG from './components/gherkin/MDG'
 import GherkinDocument from './components/gherkin/GherkinDocument'

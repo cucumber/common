@@ -77,11 +77,7 @@ describe('searchFromURLParams()', () => {
   })
 
   it('uses null values when no search parameters are present', () => {
-    const ret = searchFromURLParams(
-      'search',
-      'hidden',
-      () => 'http://example.org'
-    )
+    const ret = searchFromURLParams('search', 'hidden', () => 'http://example.org')
 
     assert.strictEqual(ret.searchQuery.query, null)
     assert.deepStrictEqual(ret.searchQuery.hiddenStatuses, null)

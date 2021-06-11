@@ -2,10 +2,7 @@ import assert from 'assert'
 import ReactDOM from 'react-dom'
 import React from 'react'
 import { JSDOM } from 'jsdom'
-import SearchQueryContext, {
-  SearchQueryProps,
-  SearchQueryCtx,
-} from '../src/SearchQueryContext'
+import SearchQueryContext, { SearchQueryProps, SearchQueryCtx } from '../src/SearchQueryContext'
 import QueriesWrapper from '../src/components/app/QueriesWrapper'
 import { Query as GherkinQuery } from '@cucumber/gherkin-utils'
 import { Query as CucumberQuery } from '@cucumber/query'
@@ -23,9 +20,7 @@ describe('QueriesWrapper', () => {
     document: Document
     searchQueryCapture: sinon.SinonSpy<SearchQueryCtx[], any>
   } {
-    const dom = new JSDOM(
-      '<html lang="en"><body><div id="content"></div></body></html>'
-    )
+    const dom = new JSDOM('<html lang="en"><body><div id="content"></div></body></html>')
     // @ts-ignore
     global.window = dom.window
     const document = dom.window.document

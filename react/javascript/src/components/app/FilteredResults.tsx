@@ -19,9 +19,7 @@ interface IProps {
   renderSearchURL?: RenderSearchURLFn
 }
 
-const FilteredResults: React.FunctionComponent<IProps> = ({
-  renderSearchURL,
-}) => {
+const FilteredResults: React.FunctionComponent<IProps> = ({ renderSearchURL }) => {
   const gherkinQuery = React.useContext(GherkinQueryContext)
   const cucumberQuery = React.useContext(CucumberQueryContext)
   const { query, hiddenStatuses } = React.useContext(SearchQueryContext)
@@ -42,18 +40,14 @@ const FilteredResults: React.FunctionComponent<IProps> = ({
         document,
         gherkinQuery,
         cucumberQuery,
-        allStatuses.filter(
-          (status) => !hiddenStatuses.includes(statusName(status))
-        )
+        allStatuses.filter((status) => !hiddenStatuses.includes(statusName(status)))
       )
     )
     .filter((document) => document !== null)
 
   const envelopesQuery = React.useContext(EnvelopesQueryContext)
   const meta = envelopesQuery.find((envelope) => envelope.meta !== null).meta
-  const statusesWithScenarios = [...scenarioCountByStatus.keys()].map(
-    statusName
-  )
+  const statusesWithScenarios = [...scenarioCountByStatus.keys()].map(statusName)
 
   return (
     <div className="cucumber-filtered-results">

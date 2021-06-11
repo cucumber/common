@@ -15,9 +15,7 @@ describe('SearchBar', () => {
     searchQuery: SearchQueryProps = {},
     setSearchQuery?: (searchQuery: SearchQuery) => void
   ): Document {
-    const dom = new JSDOM(
-      '<html lang="en"><body><div id="content"></div></body></html>'
-    )
+    const dom = new JSDOM('<html lang="en"><body><div id="content"></div></body></html>')
     // @ts-ignore
     global.window = dom.window
     // global.navigator = dom.window.navigator
@@ -26,9 +24,7 @@ describe('SearchBar', () => {
     const statusesWithScenarios: string[] = []
 
     const app = (
-      <SearchQueryContext.Provider
-        value={new SearchQueryCtx(searchQuery, setSearchQuery)}
-      >
+      <SearchQueryContext.Provider value={new SearchQueryCtx(searchQuery, setSearchQuery)}>
         <SearchBar statusesWithScenarios={statusesWithScenarios} />
       </SearchQueryContext.Provider>
     )
@@ -94,9 +90,7 @@ describe('SearchBar', () => {
     const eventListener = sinon.spy()
     document.addEventListener('submit', eventListener)
 
-    const searchForm = document.querySelector(
-      '.cucumber-search-bar-search'
-    ) as HTMLFormElement
+    const searchForm = document.querySelector('.cucumber-search-bar-search') as HTMLFormElement
     searchForm.submit()
 
     sinon.assert.calledOnce(eventListener)
@@ -113,9 +107,7 @@ describe('SearchBar', () => {
 
     const document = renderSearchBar({ query: 'foo' }, onSearchQueryUpdated)
 
-    const searchTextElem = document.getElementsByName(
-      'query'
-    )[0] as HTMLInputElement
+    const searchTextElem = document.getElementsByName('query')[0] as HTMLInputElement
     searchTextElem.value = ''
 
     const searchForm = document.querySelector('.cucumber-search-bar-search') as HTMLFormElement

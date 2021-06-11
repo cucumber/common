@@ -1,10 +1,5 @@
 import React from 'react'
-import {
-  faSearch,
-  faQuestionCircle,
-  faFilter,
-  faShare,
-} from '@fortawesome/free-solid-svg-icons'
+import { faSearch, faQuestionCircle, faFilter, faShare } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import SearchQueryContext, { RenderSearchURLFn } from '../../SearchQueryContext'
 import statusName, { allStatuses } from '../gherkin/statusName'
@@ -16,10 +11,7 @@ interface IProps {
   renderSearchURL?: RenderSearchURLFn
 }
 
-const SearchBar: React.FunctionComponent<IProps> = ({
-  statusesWithScenarios,
-  renderSearchURL,
-}) => {
+const SearchBar: React.FunctionComponent<IProps> = ({ statusesWithScenarios, renderSearchURL }) => {
   const searchQueryContext = React.useContext(SearchQueryContext)
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -32,17 +24,14 @@ const SearchBar: React.FunctionComponent<IProps> = ({
 
   const showFilters =
     statusesWithScenarios.length > 1 ||
-    statusesWithScenarios.find((n) =>
-      searchQueryContext.hiddenStatuses.includes(n)
-    )
+    statusesWithScenarios.find((n) => searchQueryContext.hiddenStatuses.includes(n))
 
   let link = null
   if (renderSearchURL) {
     const href = renderSearchURL(searchQueryContext)
     link = (
       <p className="help">
-        <FontAwesomeIcon icon={faShare} /> &nbsp; Link to this search:{' '}
-        <a href={href}>{href}</a>
+        <FontAwesomeIcon icon={faShare} /> &nbsp; Link to this search: <a href={href}>{href}</a>
       </p>
     )
   }
@@ -91,9 +80,7 @@ const SearchBar: React.FunctionComponent<IProps> = ({
                     onChange={(evt) => {
                       searchQueryContext.update({
                         hiddenStatuses: evt.target.checked
-                          ? searchQueryContext.hiddenStatuses.filter(
-                              (n) => n !== name
-                            )
+                          ? searchQueryContext.hiddenStatuses.filter((n) => n !== name)
                           : searchQueryContext.hiddenStatuses.concat(name),
                       })
                     }}

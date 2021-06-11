@@ -6,9 +6,7 @@ const defaultQuerySearchParam = 'search'
 const defaultHideStatusesSearchParam = 'hide'
 
 const defaultQuery = ''
-const defaultHiddenStatuses: readonly string[] = [
-  statusName(messages.TestStepResultStatus.UNKNOWN),
-]
+const defaultHiddenStatuses: readonly string[] = [statusName(messages.TestStepResultStatus.UNKNOWN)]
 
 function isDefault(hiddenStatuses: readonly string[]): boolean {
   if (hiddenStatuses.length !== defaultHiddenStatuses.length) {
@@ -39,10 +37,7 @@ export type RenderSearchURLFn = (query: SearchQuery) => string
 function toSearchQuery(iQuery?: SearchQueryProps): SearchQuery {
   return {
     query: iQuery?.query != null ? iQuery.query : defaultQuery,
-    hiddenStatuses:
-      iQuery?.hiddenStatuses != null
-        ? iQuery.hiddenStatuses
-        : defaultHiddenStatuses,
+    hiddenStatuses: iQuery?.hiddenStatuses != null ? iQuery.hiddenStatuses : defaultHiddenStatuses,
   }
 }
 
@@ -70,9 +65,7 @@ export function searchFromURLParams(
       if (query.hiddenStatuses.length == 0) {
         url.searchParams.set(hideStatusesSearchParam, '')
       }
-      query.hiddenStatuses.forEach((s) =>
-        url.searchParams.append(hideStatusesSearchParam, s)
-      )
+      query.hiddenStatuses.forEach((s) => url.searchParams.append(hideStatusesSearchParam, s))
     }
 
     return url.toString()
@@ -82,9 +75,7 @@ export function searchFromURLParams(
     searchQuery: {
       query: url.searchParams.get(querySearchParam),
       hiddenStatuses:
-        hiddenStatusesParams.length === 0
-          ? null
-          : hiddenStatusesParams.filter((n) => n !== ''),
+        hiddenStatusesParams.length === 0 ? null : hiddenStatusesParams.filter((n) => n !== ''),
     },
     renderSearchURL: toURL,
   }
@@ -95,10 +86,7 @@ export class SearchQueryCtx implements SearchQuery {
   readonly hiddenStatuses: readonly string[]
   private readonly updateValue: (query: SearchQuery) => void
 
-  constructor(
-    value: SearchQueryProps,
-    updateValue?: (query: SearchQuery) => void
-  ) {
+  constructor(value: SearchQueryProps, updateValue?: (query: SearchQuery) => void) {
     const q = toSearchQuery(value)
     this.query = q.query
     this.hiddenStatuses = q.hiddenStatuses
@@ -112,10 +100,7 @@ export class SearchQueryCtx implements SearchQuery {
   update = (values: SearchQueryProps) => {
     this.updateValue({
       query: values.query != null ? values.query : this.query,
-      hiddenStatuses:
-        values.hiddenStatuses != null
-          ? values.hiddenStatuses
-          : this.hiddenStatuses,
+      hiddenStatuses: values.hiddenStatuses != null ? values.hiddenStatuses : this.hiddenStatuses,
     })
   }
 }
