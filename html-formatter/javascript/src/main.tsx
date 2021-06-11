@@ -26,16 +26,16 @@ for (const envelope of window.CUCUMBER_MESSAGES as messages.Envelope[]) {
   envelopesQuery.update(envelope)
 }
 
-const searchFromUrl = searchFromURLParams()
+const { searchQuery, renderSearchURL } = searchFromURLParams()
 
 const app = (
   <QueriesWrapper
     gherkinQuery={gherkinQuery}
     cucumberQuery={cucumberQuery}
     envelopesQuery={envelopesQuery}
-    {...searchFromUrl.searchQuery}
+    {...searchQuery}
   >
-    <FilteredResults renderSearchURL={searchFromUrl.renderSearchURL} />
+    <FilteredResults renderSearchURL={renderSearchURL} />
   </QueriesWrapper>
 )
 
