@@ -1,11 +1,11 @@
 {
-  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "TestCase.json",
   "additionalProperties": false,
   "definitions": {
     "Group": {
-      "$schema": "http://json-schema.org/draft-04/schema#",
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
       "additionalProperties": false,
-      "id": "Group",
       "required": [
         "children"
       ],
@@ -13,7 +13,7 @@
         "children": {
           "items": {
             "$ref": "#/definitions/Group",
-            "$schema": "http://json-schema.org/draft-04/schema#"
+            "$schema": "https://json-schema.org/draft/2020-12/schema"
           },
           "type": "array"
         },
@@ -27,7 +27,7 @@
       "type": "object"
     },
     "StepMatchArgument": {
-      "$schema": "http://json-schema.org/draft-04/schema#",
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
       "additionalProperties": false,
       "description": "*\n Represents a single argument extracted from a step match and passed to a step definition.\n This is used for the following purposes:\n - Construct an argument to pass to a step definition (possibly through a parameter type transform)\n - Highlight the matched parameter in rich formatters such as the HTML formatter\n\n This message closely matches the `Argument` class in the `cucumber-expressions` library.",
       "required": [
@@ -36,7 +36,6 @@
       "properties": {
         "group": {
           "$ref": "#/definitions/Group",
-          "additionalProperties": false,
           "description": "*\n Represents the outermost capture group of an argument. This message closely matches the\n `Group` class in the `cucumber-expressions` library."
         },
         "parameterTypeName": {
@@ -46,7 +45,7 @@
       "type": "object"
     },
     "StepMatchArgumentsList": {
-      "$schema": "http://json-schema.org/draft-04/schema#",
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
       "additionalProperties": false,
       "required": [
         "stepMatchArguments"
@@ -62,7 +61,7 @@
       "type": "object"
     },
     "TestStep": {
-      "$schema": "http://json-schema.org/draft-04/schema#",
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
       "additionalProperties": false,
       "description": "*\n A `TestStep` is derived from either a `PickleStep`\n combined with a `StepDefinition`, or from a `Hook`.",
       "required": [

@@ -1,14 +1,13 @@
 {
-  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "TestRunStarted.json",
   "additionalProperties": false,
   "required": [
     "timestamp"
   ],
   "properties": {
     "timestamp": {
-      "$ref": "./Timestamp.json",
-      "additionalProperties": false,
-      "type": "object"
+      "$ref": "./Timestamp.json"
     }
   },
   "type": "object"
