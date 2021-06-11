@@ -1,5 +1,5 @@
 import React from 'react'
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import statusName from './components/gherkin/statusName'
 
 const defaultQuerySearchParam = 'search'
@@ -7,7 +7,7 @@ const defaultHideStatusesSearchParam = 'hide'
 
 const defaultQuery = ''
 const defaultHiddenStatuses: readonly string[] = [
-  statusName(messages.TestStepFinished.TestStepResult.Status.UNKNOWN),
+  statusName(messages.TestStepResultStatus.UNKNOWN),
 ]
 
 function isDefault(hiddenStatuses: readonly string[]): boolean {
