@@ -51,7 +51,7 @@ endif
 
 dist: $(EXES)
 
-dist/$(EXE_BASE_NAME)-%: .deps $(GO_SOURCE_FILES)
+dist/$(EXE_BASE_NAME)-%: .deps $(GO_SOURCE_FILES) go.mod
 	mkdir -p dist
 	echo "EXES=$(EXES)"
 	echo "Building $@"
