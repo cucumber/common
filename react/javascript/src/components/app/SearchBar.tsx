@@ -5,7 +5,7 @@ import SearchQueryContext, { RenderSearchURLFn } from '../../SearchQueryContext'
 import statusName from '../gherkin/statusName'
 import statuses from './statuses'
 
-const statusNames = statuses.map(statusName).sort()
+const statusNames = statuses.map(statusName)
 
 interface IProps {
   statusesWithScenarios: string[]
