@@ -17,6 +17,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+* Handle missing hook message when rendering hook failure
+
 ## [16.2.0] - 2021-06-02
 
 ### Added
