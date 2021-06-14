@@ -33,6 +33,10 @@ executors:
     docker:
       - image: circleci/node:12
     working_directory: ~/cucumber
+  docker-circleci-node-14:
+    docker:
+      - image: circleci/node:12
+    working_directory: ~/cucumber
   docker-circleci-node-15:
     docker:
       - image: circleci/node:15
@@ -304,13 +308,14 @@ jobs:
             make
 
   react-javascript:
-    executor: docker-cucumber-build
+    executor: docker-circleci-node-14
     steps:
       - attach_workspace:
           at: '~/cucumber'
       - run:
           name: react/javascript
           command: |
+            sudo npm install --global npm@7
             cd react/javascript
             make
 
