@@ -4,11 +4,22 @@ require 'cucumber/messages/message'
 module Cucumber
   module Messages
     class ComprehensiveMessage < ::Cucumber::Messages::Message
-      attr_reader :simple_message, :is_enum
+      attr_reader :simple_message, :message_array, :is_enum
 
-      def initialize(simple_message: SimpleMessage.new, is_enum: EnumMessage::ENUM)
+      def initialize(
+        simple_message: SimpleMessage.new,
+        message_array: [],
+        is_enum: EnumMessage::ENUM
+      )
         @simple_message = simple_message
+        @message_array = message_array
         @is_enum = is_enum
+      end
+
+      private
+
+      def self.message_array_from_h(hash)
+        SimpleMessage.from_h(hash)
       end
     end
 
@@ -40,6 +51,7 @@ describe Cucumber::Messages::Message do
         is_array: [],
         is_number: 0
       },
+      message_array: [],
       is_enum: 'an enum'
     }
   end
@@ -52,6 +64,7 @@ describe Cucumber::Messages::Message do
         isArray: [],
         isNumber: 0
       },
+      messageArray: [],
       isEnum: 'an enum'
     }
   end
@@ -86,6 +99,9 @@ describe Cucumber::Messages::Message do
             isArray: [1, 2, 3],
             isNumber: 4
           },
+          messageArray: [{
+            isString: 'another string',
+          }],
           isEnum: 'an enum'
         }
       }.to_json
@@ -98,9 +114,15 @@ describe Cucumber::Messages::Message do
     it 'properly deserialize DTO attributes' do
       expect(subject.is_enum).to eq 'an enum'
       expect(subject.simple_message).to be_a(Cucumber::Messages::SimpleMessage)
+      expect(subject.simple_message.is_nil).to be_nil
       expect(subject.simple_message.is_string).to eq 'a string'
       expect(subject.simple_message.is_number).to eq 4
       expect(subject.simple_message.is_array).to eq [1, 2, 3]
+    end
+
+    it 'properly deserialize array attributes' do
+      expect(subject.message_array.first).to be_a(Cucumber::Messages::SimpleMessage)
+      expect(subject.message_array.first.is_string).to eq 'another string'
     end
   end
 end

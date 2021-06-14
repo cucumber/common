@@ -14,13 +14,17 @@ module Cucumber
       end
 
       def self.from_h(hash)
+        unless self.to_s === 'Cucumber::Messages::Message'
+          return self.new(prepare_DTO_arguments(self, hash))
+        end
+
         hash.map do |key, value|
           class_name = key.dup
           class_name[0] = key[0].upcase
 
           klass = find_DTO_class(class_name)
 
-          arguments = prepare_DTO_arguments(value)
+          arguments = prepare_DTO_arguments(klass, value)
           klass.new(arguments)
         end
       end
@@ -58,10 +62,14 @@ module Cucumber
         Object.const_get("::Cucumber::Messages::#{class_name}")
       end
 
-      def self.prepare_DTO_arguments(raw_arguments)
+      def self.prepare_DTO_arguments(klass, raw_arguments)
         raw_arguments.each do |key, value|
           if value.is_a?(Hash)
             raw_arguments[key] = from_h(raw_arguments.select { |k, v| k == key }).first
+          end
+
+          if value.is_a?(Array) && klass.respond_to?("#{underscore(key)}_from_h".to_sym, true)
+            raw_arguments[key] = value.map{ |v| klass.send("#{underscore(key)}_from_h".to_sym, v) }
           end
         end
 
