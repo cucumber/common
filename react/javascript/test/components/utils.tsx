@@ -17,9 +17,9 @@ const AllTheProviders: React.FunctionComponent<{ options: TestRenderOptions }> =
   options,
 }) => {
   return (
-    <GherkinQueryContext.Provider value={options.gherkinQuery}>
-      <UriContext.Provider value={options.uri}>
-        <CucumberQueryContext.Provider value={options.cucumberQuery}>
+    <GherkinQueryContext.Provider value={options.gherkinQuery ?? new GherkinQuery()}>
+      <UriContext.Provider value={options.uri ?? 'some.feature'}>
+        <CucumberQueryContext.Provider value={options.cucumberQuery ?? new CucumberQuery()}>
           {children}
         </CucumberQueryContext.Provider>
       </UriContext.Provider>
@@ -27,20 +27,11 @@ const AllTheProviders: React.FunctionComponent<{ options: TestRenderOptions }> =
   )
 }
 
-const customRender = (ui: ReactElement, options?: Partial<TestRenderOptions>) => {
-  const mergedOptions: TestRenderOptions = Object.assign(
-    {
-      uri: 'some.feature',
-      gherkinQuery: new GherkinQuery(),
-      cucumberQuery: new CucumberQuery(),
-    },
-    options
+const customRender = (ui: ReactElement, options: Partial<TestRenderOptions> = {}) => {
+  const WrappedWithOptions: React.FunctionComponent = ({ children }) => (
+    <AllTheProviders options={options}>{children}</AllTheProviders>
   )
-  return render(ui, {
-    wrapper: ({ children }) => (
-      <AllTheProviders options={mergedOptions}>{children}</AllTheProviders>
-    ),
-  })
+  return render(ui, { wrapper: WrappedWithOptions })
 }
 
 export * from '@testing-library/react'
