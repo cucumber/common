@@ -5,7 +5,6 @@ import { Query as CucumberQuery } from '@cucumber/query'
 import UriContext from '../../src/UriContext'
 import CucumberQueryContext from '../../src/CucumberQueryContext'
 import GherkinQueryContext from '../../src/GherkinQueryContext'
-import 'global-jsdom/register'
 
 export interface TestRenderOptions {
   uri?: string
