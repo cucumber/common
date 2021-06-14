@@ -21,9 +21,9 @@ const HookStep: React.FunctionComponent<IProps> = ({ step }) => {
 
   if (stepResult.status === 'FAILED') {
     let location = 'Unknown location'
-    if (hook && hook.sourceReference.location) {
+    if (hook?.sourceReference.location) {
       location = `${hook.sourceReference.uri}:${hook.sourceReference.location.line}`
-    } else if (hook && hook.sourceReference.javaMethod) {
+    } else if (hook?.sourceReference.javaMethod) {
       location = `${hook.sourceReference.javaMethod.className}.${hook.sourceReference.javaMethod.methodName}`
     }
 
