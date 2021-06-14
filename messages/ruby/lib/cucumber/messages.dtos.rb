@@ -260,6 +260,10 @@ module Cucumber
         @feature = feature
         @comments = comments
       end
+
+      private def self.comments_from_h(hash)
+        Comment.from_h(hash)
+      end
     end
 
 
@@ -300,6 +304,10 @@ module Cucumber
         @description = description
         @steps = steps
         @id = id
+      end
+
+      private def self.steps_from_h(hash)
+        Step.from_h(hash)
       end
     end
 
@@ -351,6 +359,10 @@ module Cucumber
       )
         @location = location
         @rows = rows
+      end
+
+      private def self.rows_from_h(hash)
+        TableRow.from_h(hash)
       end
     end
 
@@ -431,6 +443,14 @@ module Cucumber
         @table_body = table_body
         @id = id
       end
+
+      private def self.tags_from_h(hash)
+        Tag.from_h(hash)
+      end
+
+      private def self.table_body_from_h(hash)
+        TableRow.from_h(hash)
+      end
     end
 
 
@@ -493,6 +513,14 @@ module Cucumber
         @name = name
         @description = description
         @children = children
+      end
+
+      private def self.tags_from_h(hash)
+        Tag.from_h(hash)
+      end
+
+      private def self.children_from_h(hash)
+        FeatureChild.from_h(hash)
       end
     end
 
@@ -569,6 +597,14 @@ module Cucumber
         @children = children
         @id = id
       end
+
+      private def self.tags_from_h(hash)
+        Tag.from_h(hash)
+      end
+
+      private def self.children_from_h(hash)
+        RuleChild.from_h(hash)
+      end
     end
 
 
@@ -640,6 +676,18 @@ module Cucumber
         @steps = steps
         @examples = examples
         @id = id
+      end
+
+      private def self.tags_from_h(hash)
+        Tag.from_h(hash)
+      end
+
+      private def self.steps_from_h(hash)
+        Step.from_h(hash)
+      end
+
+      private def self.examples_from_h(hash)
+        Examples.from_h(hash)
       end
     end
 
@@ -744,6 +792,10 @@ module Cucumber
         @location = location
         @cells = cells
         @id = id
+      end
+
+      private def self.cells_from_h(hash)
+        TableCell.from_h(hash)
       end
     end
 
@@ -1119,6 +1171,14 @@ module Cucumber
         @tags = tags
         @ast_node_ids = ast_node_ids
       end
+
+      private def self.steps_from_h(hash)
+        PickleStep.from_h(hash)
+      end
+
+      private def self.tags_from_h(hash)
+        PickleTag.from_h(hash)
+      end
     end
 
 
@@ -1219,6 +1279,10 @@ module Cucumber
       )
         @rows = rows
       end
+
+      private def self.rows_from_h(hash)
+        PickleTableRow.from_h(hash)
+      end
     end
 
 
@@ -1254,6 +1318,10 @@ module Cucumber
         cells: []
       )
         @cells = cells
+      end
+
+      private def self.cells_from_h(hash)
+        PickleTableCell.from_h(hash)
       end
     end
 
@@ -1486,6 +1554,10 @@ module Cucumber
         @pickle_id = pickle_id
         @test_steps = test_steps
       end
+
+      private def self.test_steps_from_h(hash)
+        TestStep.from_h(hash)
+      end
     end
 
 
@@ -1511,6 +1583,10 @@ module Cucumber
         @children = children
         @start = start
         @value = value
+      end
+
+      private def self.children_from_h(hash)
+        Group.from_h(hash)
       end
     end
 
@@ -1563,6 +1639,10 @@ module Cucumber
       )
         @step_match_arguments = step_match_arguments
       end
+
+      private def self.step_match_arguments_from_h(hash)
+        StepMatchArgument.from_h(hash)
+      end
     end
 
 
@@ -1612,6 +1692,10 @@ module Cucumber
         @pickle_step_id = pickle_step_id
         @step_definition_ids = step_definition_ids
         @step_match_arguments_lists = step_match_arguments_lists
+      end
+
+      private def self.step_match_arguments_lists_from_h(hash)
+        StepMatchArgumentsList.from_h(hash)
       end
     end
 

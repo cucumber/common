@@ -37,6 +37,14 @@ module Cucumber
         @<%= underscore(property_name) %> = <%= underscore(property_name) %>
       <%- end -%>
       end
+      <%- schema['properties'].each do |property_name, property| -%>
+        <%- if property['items'] && property['items']['$ref']  -%>
+
+      private def self.<%= underscore(property_name) %>_from_h(hash)
+        <%= property_type_from_ref(property['items']['$ref']) %>.from_h(hash)
+      end
+        <%- end -%>
+      <%- end -%>
     end
   <%- end %>
   end
