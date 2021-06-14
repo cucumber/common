@@ -308,7 +308,7 @@ jobs:
             make
 
   react-javascript:
-    executor: docker-circleci-node-14
+    executor: docker-circleci-node-12
     steps:
       - attach_workspace:
           at: '~/cucumber'
