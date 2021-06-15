@@ -53,16 +53,6 @@ module Cucumber
 
         raw_arguments.transform_keys { |key| underscore(key).to_sym }
       end
-
-      def get_h_value(variable_name, camelize: false)
-        value = self.instance_variable_get(variable_name)
-
-        if value.is_a?(Cucumber::Messages::Message)
-          return value.to_h(camelize: camelize)
-        end
-
-        value
-      end
     end
   end
 end
