@@ -111,7 +111,7 @@ describe Cucumber::Messages::Message do
       expect(subject).to be_a(Cucumber::Messages::ComprehensiveMessage)
     end
 
-    it 'properly deserialize DTO attributes' do
+    it 'properly deserialize simple DTO attributes' do
       expect(subject.is_enum).to eq 'an enum'
       expect(subject.simple_message).to be_a(Cucumber::Messages::SimpleMessage)
       expect(subject.simple_message.is_nil).to be_nil
@@ -120,7 +120,7 @@ describe Cucumber::Messages::Message do
       expect(subject.simple_message.is_array).to eq [1, 2, 3]
     end
 
-    it 'properly deserialize array attributes' do
+    it 'properly deserialize object array attributes' do
       expect(subject.message_array.first).to be_a(Cucumber::Messages::SimpleMessage)
       expect(subject.message_array.first.is_string).to eq 'another string'
     end
