@@ -1,8 +1,10 @@
 require 'json'
+require 'cucumber/messages/message/utils'
 
 module Cucumber
   module Messages
     class Message
+      include Cucumber::Messages::Message::Utils
 
       def self.from_json(json_string)
         message_hash = JSON.parse(json_string)
@@ -29,21 +31,10 @@ module Cucumber
         end
       end
 
-      # Thank you very munch rails!
-      # https://github.com/rails/rails/blob/v6.1.3.2/activesupport/lib/active_support/inflector/methods.rb#L92
-      def self.underscore(camel_cased_word)
-        return camel_cased_word unless /[A-Z-]/.match?(camel_cased_word)
-        word = camel_cased_word.gsub(/([A-Z\d]+)([A-Z][a-z])/, '\1_\2')
-        word.gsub!(/([a-z\d])([A-Z])/, '\1_\2')
-        word.tr!("-", "_")
-        word.downcase!
-        word
-      end
-
       def to_h(camelize: false)
         self.instance_variables.to_h do |variable_name|
           key = variable_name[1..-1]
-          key = camelize(key) if camelize
+          key = Cucumber::Messages::Message.camelize(key) if camelize
 
           [key.to_sym, get_h_value(variable_name, camelize: camelize)]
         end
@@ -84,11 +75,6 @@ module Cucumber
         end
 
         value
-      end
-
-      def camelize(term)
-        camelized = term.to_s
-        camelized.gsub!(/(?:_|(\/))([a-z\d]*)/i) { "#{$1}#{$2.capitalize}" }
       end
     end
   end
