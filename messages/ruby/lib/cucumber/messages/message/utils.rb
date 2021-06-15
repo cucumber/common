@@ -32,6 +32,7 @@ module Cucumber
           def camelize(term)
             camelized = term.to_s
             camelized.gsub!(/(?:_|(\/))([a-z\d]*)/i) { "#{$1}#{$2.capitalize}" }
+            camelized
           end
         end
 
