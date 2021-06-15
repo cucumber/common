@@ -6,7 +6,7 @@ module Cucumber
 
           ##
           # Makes an underscored, lowercase form from the expression in the string.
-          #          #
+          #
           #   underscore('GherkinDocument')         # => "gherkin_document"
           #
           # This is a simplified version of the Ruby on Rails implementation
