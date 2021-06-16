@@ -1,2 +1,2 @@
-# Cucumber Messages for Ruby (Protocol Buffers)
+# Cucumber Messages for Ruby (JSON schema)
 
