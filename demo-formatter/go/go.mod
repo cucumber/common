@@ -1,4 +1,4 @@
-module github.com/cucumber/demo-formatter-go
+module github.com/cucumber/common/demo-formatter/go
 
 require (
 	github.com/cucumber/messages-go/v16 v16.0.1
