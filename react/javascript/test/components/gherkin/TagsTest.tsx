@@ -1,31 +1,16 @@
 import assert from 'assert'
-import ReactDOM from 'react-dom'
 import React from 'react'
-import { JSDOM } from 'jsdom'
-import * as messages from '@cucumber/messages'
 import Tags from '../../../src/components/gherkin/Tags'
+import { render } from '../utils'
 
 describe('Tags', () => {
-  function render(tags: messages.Tag[]): Document {
-    const dom = new JSDOM('<html lang="en"><body><div id="content"></div></body></html>')
-    // @ts-ignore
-    global.window = dom.window
-    // global.navigator = dom.window.navigator
-    const document = dom.window.document
-
-    const app = <Tags tags={tags} />
-    ReactDOM.render(app, document.getElementById('content'))
-    return document
-  }
-
   it('doesnt render anything if no tags', () => {
-    const document = render([])
-    const rendered = document.getElementById('content')
-    assert.strictEqual(rendered.innerHTML, '')
+    const { container } = render(<Tags tags={[]} />)
+    assert.strictEqual(container.innerHTML, '')
   })
 
   it('renders if we really have some tags', () => {
-    const document = render([
+    const tags = [
       {
         location: {
           line: 1,
@@ -40,8 +25,8 @@ describe('Tags', () => {
         name: '@bar',
         id: '2',
       },
-    ])
-    const rendered = document.querySelectorAll('#content ul li')
-    assert.strictEqual(rendered.length, 2)
+    ]
+    const { container } = render(<Tags tags={tags} />)
+    assert.strictEqual(container.querySelectorAll('ul li').length, 2)
   })
 })
