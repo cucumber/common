@@ -2,7 +2,7 @@ package main
 
 import (
 	"flag"
-	jsonFormatter "github.com/cucumber/json-formatter-go/v18"
+	jsonFormatter "github.com/cucumber/common/json-formatter/go/v18"
 	"log"
 	"os"
 )
