@@ -119,7 +119,7 @@ module Cucumber
           end
 
           def prepare_hash(name, value)
-            from_h({ "#{name}" => value })
+            Cucumber::Messages::Message.from_h({ "#{name}" => value })
           end
 
           def prepare_array(name, array, dto: self)

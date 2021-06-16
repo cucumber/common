@@ -26,8 +26,10 @@ module Cucumber
             h_key = variable_name[1..-1]
             h_key = Cucumber::Messages::Message.camelize(h_key) if camelize
 
-            h_value = self.instance_variable_get(variable_name)
-            h_value = h_value.to_h(camelize: camelize) if h_value.is_a?(Cucumber::Messages::Message)
+            h_value = prepare_value(
+              self.instance_variable_get(variable_name),
+              camelize: camelize
+            )
 
             [ h_key.to_sym, h_value ]
           end
@@ -48,6 +50,15 @@ module Cucumber
 
         def to_json
           to_h(camelize: true).to_json
+        end
+
+        private
+
+        def prepare_value(value, camelize:)
+          return value.to_h(camelize: camelize) if value.is_a?(Cucumber::Messages::Message)
+          return value.map { |v| prepare_value(v, camelize: camelize) } if value.is_a?(Array)
+
+          value
         end
       end
     end
