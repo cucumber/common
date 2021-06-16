@@ -5,8 +5,17 @@ module Cucumber
     describe 'messages' do
       it "can be serialised over an ndjson stream" do
         outgoing_messages = [
-          {'source' => {'data' => 'Feature: Hello'}},
-          {'attachment' => {'binary' => [1,2,3,4].pack('C*')}}
+          Envelope.new(
+            source: Source.new(
+              data: 'Feature: Hello'
+            )
+          ),
+          Envelope.new(
+            attachment: Attachment.new(
+              body: 'Bonjour',
+              content_encoding: AttachmentContentEncoding::IDENTITY
+            )
+          )
         ]
 
         io = StringIO.new
@@ -15,13 +24,22 @@ module Cucumber
         io.rewind
         incoming_messages = NdjsonToMessageEnumerator.new(io)
 
-        expect(incoming_messages.to_a).to(eq(outgoing_messages))
+        expect(incoming_messages.to_a.map(&:to_camel_symbol_hash)).to(eq(outgoing_messages.map(&:to_camel_symbol_hash)))
       end
 
       it "ignores empty lines" do
         outgoing_messages = [
-          {'source' => {'data' => 'Feature: Hello'}},
-          {'attachment' => {'binary' => [1,2,3,4].pack('C*')}}
+          Envelope.new(
+            source: Source.new(
+              data: 'Feature: Hello'
+            )
+          ),
+          Envelope.new(
+            attachment: Attachment.new(
+              body: 'Bonjour',
+              content_encoding: AttachmentContentEncoding::IDENTITY
+            )
+          )
         ]
 
         io = StringIO.new
@@ -31,7 +49,7 @@ module Cucumber
         io.rewind
         incoming_messages = NdjsonToMessageEnumerator.new(io)
 
-        expect(incoming_messages.to_a).to(eq(outgoing_messages))
+        expect(incoming_messages.to_a.map(&:to_camel_symbol_hash)).to(eq(outgoing_messages.map(&:to_camel_symbol_hash)))
       end
 
       it "includes offending line in error message" do
