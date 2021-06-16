@@ -41,13 +41,11 @@ describe('<Step>', () => {
 
     const { container } = render(<Step step={step} hasExamples={false} />, {
       gherkinQuery: new StubGherkinQuery(),
-      cucumberQuery: new StubCucumberQuery()
+      cucumberQuery: new StubCucumberQuery(),
     })
 
     // TODO a bit dom-specific - can we use snapshots to test this?
-    const texts = Array.from(container.querySelectorAll('h3 > *')).map(
-      (span) => span.textContent
-    )
+    const texts = Array.from(container.querySelectorAll('h3 > *')).map((span) => span.textContent)
     assert.deepStrictEqual(texts, ['Given', 'the 48 pixies'])
   })
 })
