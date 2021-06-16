@@ -12,7 +12,7 @@
   transition: all 0.35s ease-in-out;
   position: absolute;
   font-size: 0.75rem;
-  left: -1rem;
+  left: var(--cucumber-anchor-offset, -1.25em);
 
   .wrapper:hover & {
     opacity: 1;
