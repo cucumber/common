@@ -85,20 +85,20 @@ module Cucumber
       attr_reader :url
 
       def self.from_json(json)
-        from_hash(JSON.parse(json))
+        from_camel_symbol_hash(JSON.parse(json, {symbolize_names: true}))
       end
 
-      def self.from_hash(hash)
+      def self.from_camel_symbol_hash(hash)
         return nil if hash.nil?
         self.new(
-          body: hash['body'],
-          content_encoding: hash['contentEncoding'],
-          file_name: hash['fileName'],
-          media_type: hash['mediaType'],
-          source: Source.from_hash(hash['source']),
-          test_case_started_id: hash['testCaseStartedId'],
-          test_step_id: hash['testStepId'],
-          url: hash['url'],
+          body: hash[:body],
+          content_encoding: hash[:contentEncoding],
+          file_name: hash[:fileName],
+          media_type: hash[:mediaType],
+          source: Source.from_camel_symbol_hash(hash[:source]),
+          test_case_started_id: hash[:testCaseStartedId],
+          test_step_id: hash[:testStepId],
+          url: hash[:url],
         )
       end
 
@@ -122,13 +122,13 @@ module Cucumber
         @url = url
       end
 
-      def to_hash
+      def to_camel_symbol_hash
         {
           body: body,
           contentEncoding: content_encoding,
           fileName: file_name,
           mediaType: media_type,
-          source: source ? source.to_hash : nil,
+          source: source ? source.to_camel_symbol_hash : nil,
           testCaseStartedId: test_case_started_id,
           testStepId: test_step_id,
           url: url,
@@ -136,7 +136,7 @@ module Cucumber
       end
 
       def to_json
-        to_hash.to_json
+        to_camel_symbol_hash.to_json
       end
 
     end
@@ -162,14 +162,14 @@ module Cucumber
       attr_reader :nanos
 
       def self.from_json(json)
-        from_hash(JSON.parse(json))
+        from_camel_symbol_hash(JSON.parse(json, {symbolize_names: true}))
       end
 
-      def self.from_hash(hash)
+      def self.from_camel_symbol_hash(hash)
         return nil if hash.nil?
         self.new(
-          seconds: hash['seconds'],
-          nanos: hash['nanos'],
+          seconds: hash[:seconds],
+          nanos: hash[:nanos],
         )
       end
 
@@ -181,7 +181,7 @@ module Cucumber
         @nanos = nanos
       end
 
-      def to_hash
+      def to_camel_symbol_hash
         {
           seconds: seconds,
           nanos: nanos,
@@ -189,7 +189,7 @@ module Cucumber
       end
 
       def to_json
-        to_hash.to_json
+        to_camel_symbol_hash.to_json
       end
 
     end
@@ -244,29 +244,29 @@ module Cucumber
       attr_reader :undefined_parameter_type
 
       def self.from_json(json)
-        from_hash(JSON.parse(json))
+        from_camel_symbol_hash(JSON.parse(json, {symbolize_names: true}))
       end
 
-      def self.from_hash(hash)
+      def self.from_camel_symbol_hash(hash)
         return nil if hash.nil?
         self.new(
-          attachment: Attachment.from_hash(hash['attachment']),
-          gherkin_document: GherkinDocument.from_hash(hash['gherkinDocument']),
-          hook: Hook.from_hash(hash['hook']),
-          meta: Meta.from_hash(hash['meta']),
-          parameter_type: ParameterType.from_hash(hash['parameterType']),
-          parse_error: ParseError.from_hash(hash['parseError']),
-          pickle: Pickle.from_hash(hash['pickle']),
-          source: Source.from_hash(hash['source']),
-          step_definition: StepDefinition.from_hash(hash['stepDefinition']),
-          test_case: TestCase.from_hash(hash['testCase']),
-          test_case_finished: TestCaseFinished.from_hash(hash['testCaseFinished']),
-          test_case_started: TestCaseStarted.from_hash(hash['testCaseStarted']),
-          test_run_finished: TestRunFinished.from_hash(hash['testRunFinished']),
-          test_run_started: TestRunStarted.from_hash(hash['testRunStarted']),
-          test_step_finished: TestStepFinished.from_hash(hash['testStepFinished']),
-          test_step_started: TestStepStarted.from_hash(hash['testStepStarted']),
-          undefined_parameter_type: UndefinedParameterType.from_hash(hash['undefinedParameterType']),
+          attachment: Attachment.from_camel_symbol_hash(hash[:attachment]),
+          gherkin_document: GherkinDocument.from_camel_symbol_hash(hash[:gherkinDocument]),
+          hook: Hook.from_camel_symbol_hash(hash[:hook]),
+          meta: Meta.from_camel_symbol_hash(hash[:meta]),
+          parameter_type: ParameterType.from_camel_symbol_hash(hash[:parameterType]),
+          parse_error: ParseError.from_camel_symbol_hash(hash[:parseError]),
+          pickle: Pickle.from_camel_symbol_hash(hash[:pickle]),
+          source: Source.from_camel_symbol_hash(hash[:source]),
+          step_definition: StepDefinition.from_camel_symbol_hash(hash[:stepDefinition]),
+          test_case: TestCase.from_camel_symbol_hash(hash[:testCase]),
+          test_case_finished: TestCaseFinished.from_camel_symbol_hash(hash[:testCaseFinished]),
+          test_case_started: TestCaseStarted.from_camel_symbol_hash(hash[:testCaseStarted]),
+          test_run_finished: TestRunFinished.from_camel_symbol_hash(hash[:testRunFinished]),
+          test_run_started: TestRunStarted.from_camel_symbol_hash(hash[:testRunStarted]),
+          test_step_finished: TestStepFinished.from_camel_symbol_hash(hash[:testStepFinished]),
+          test_step_started: TestStepStarted.from_camel_symbol_hash(hash[:testStepStarted]),
+          undefined_parameter_type: UndefinedParameterType.from_camel_symbol_hash(hash[:undefinedParameterType]),
         )
       end
 
@@ -308,30 +308,30 @@ module Cucumber
         @undefined_parameter_type = undefined_parameter_type
       end
 
-      def to_hash
+      def to_camel_symbol_hash
         {
-          attachment: attachment ? attachment.to_hash : nil,
-          gherkinDocument: gherkin_document ? gherkin_document.to_hash : nil,
-          hook: hook ? hook.to_hash : nil,
-          meta: meta ? meta.to_hash : nil,
-          parameterType: parameter_type ? parameter_type.to_hash : nil,
-          parseError: parse_error ? parse_error.to_hash : nil,
-          pickle: pickle ? pickle.to_hash : nil,
-          source: source ? source.to_hash : nil,
-          stepDefinition: step_definition ? step_definition.to_hash : nil,
-          testCase: test_case ? test_case.to_hash : nil,
-          testCaseFinished: test_case_finished ? test_case_finished.to_hash : nil,
-          testCaseStarted: test_case_started ? test_case_started.to_hash : nil,
-          testRunFinished: test_run_finished ? test_run_finished.to_hash : nil,
-          testRunStarted: test_run_started ? test_run_started.to_hash : nil,
-          testStepFinished: test_step_finished ? test_step_finished.to_hash : nil,
-          testStepStarted: test_step_started ? test_step_started.to_hash : nil,
-          undefinedParameterType: undefined_parameter_type ? undefined_parameter_type.to_hash : nil,
+          attachment: attachment ? attachment.to_camel_symbol_hash : nil,
+          gherkinDocument: gherkin_document ? gherkin_document.to_camel_symbol_hash : nil,
+          hook: hook ? hook.to_camel_symbol_hash : nil,
+          meta: meta ? meta.to_camel_symbol_hash : nil,
+          parameterType: parameter_type ? parameter_type.to_camel_symbol_hash : nil,
+          parseError: parse_error ? parse_error.to_camel_symbol_hash : nil,
+          pickle: pickle ? pickle.to_camel_symbol_hash : nil,
+          source: source ? source.to_camel_symbol_hash : nil,
+          stepDefinition: step_definition ? step_definition.to_camel_symbol_hash : nil,
+          testCase: test_case ? test_case.to_camel_symbol_hash : nil,
+          testCaseFinished: test_case_finished ? test_case_finished.to_camel_symbol_hash : nil,
+          testCaseStarted: test_case_started ? test_case_started.to_camel_symbol_hash : nil,
+          testRunFinished: test_run_finished ? test_run_finished.to_camel_symbol_hash : nil,
+          testRunStarted: test_run_started ? test_run_started.to_camel_symbol_hash : nil,
+          testStepFinished: test_step_finished ? test_step_finished.to_camel_symbol_hash : nil,
+          testStepStarted: test_step_started ? test_step_started.to_camel_symbol_hash : nil,
+          undefinedParameterType: undefined_parameter_type ? undefined_parameter_type.to_camel_symbol_hash : nil,
         }.delete_if {|k,v| v.nil?}
       end
 
       def to_json
-        to_hash.to_json
+        to_camel_symbol_hash.to_json
       end
 
     end
@@ -366,15 +366,15 @@ module Cucumber
       attr_reader :comments
 
       def self.from_json(json)
-        from_hash(JSON.parse(json))
+        from_camel_symbol_hash(JSON.parse(json, {symbolize_names: true}))
       end
 
-      def self.from_hash(hash)
+      def self.from_camel_symbol_hash(hash)
         return nil if hash.nil?
         self.new(
-          uri: hash['uri'],
-          feature: Feature.from_hash(hash['feature']),
-          comments: hash['comments'],
+          uri: hash[:uri],
+          feature: Feature.from_camel_symbol_hash(hash[:feature]),
+          comments: hash[:comments],
         )
       end
 
@@ -388,16 +388,16 @@ module Cucumber
         @comments = comments
       end
 
-      def to_hash
+      def to_camel_symbol_hash
         {
           uri: uri,
-          feature: feature ? feature.to_hash : nil,
+          feature: feature ? feature.to_camel_symbol_hash : nil,
           comments: comments,
         }.delete_if {|k,v| v.nil?}
       end
 
       def to_json
-        to_hash.to_json
+        to_camel_symbol_hash.to_json
       end
 
     end
@@ -427,18 +427,18 @@ module Cucumber
       attr_reader :id
 
       def self.from_json(json)
-        from_hash(JSON.parse(json))
+        from_camel_symbol_hash(JSON.parse(json, {symbolize_names: true}))
       end
 
-      def self.from_hash(hash)
+      def self.from_camel_symbol_hash(hash)
         return nil if hash.nil?
         self.new(
-          location: Location.from_hash(hash['location']),
-          keyword: hash['keyword'],
-          name: hash['name'],
-          description: hash['description'],
-          steps: hash['steps'],
-          id: hash['id'],
+          location: Location.from_camel_symbol_hash(hash[:location]),
+          keyword: hash[:keyword],
+          name: hash[:name],
+          description: hash[:description],
+          steps: hash[:steps],
+          id: hash[:id],
         )
       end
 
@@ -458,9 +458,9 @@ module Cucumber
         @id = id
       end
 
-      def to_hash
+      def to_camel_symbol_hash
         {
-          location: location ? location.to_hash : nil,
+          location: location ? location.to_camel_symbol_hash : nil,
           keyword: keyword,
           name: name,
           description: description,
@@ -470,7 +470,7 @@ module Cucumber
       end
 
       def to_json
-        to_hash.to_json
+        to_camel_symbol_hash.to_json
       end
 
     end
@@ -496,14 +496,14 @@ module Cucumber
       attr_reader :text
 
       def self.from_json(json)
-        from_hash(JSON.parse(json))
+        from_camel_symbol_hash(JSON.parse(json, {symbolize_names: true}))
       end
 
-      def self.from_hash(hash)
+      def self.from_camel_symbol_hash(hash)
         return nil if hash.nil?
         self.new(
-          location: Location.from_hash(hash['location']),
-          text: hash['text'],
+          location: Location.from_camel_symbol_hash(hash[:location]),
+          text: hash[:text],
         )
       end
 
@@ -515,15 +515,15 @@ module Cucumber
         @text = text
       end
 
-      def to_hash
+      def to_camel_symbol_hash
         {
-          location: location ? location.to_hash : nil,
+          location: location ? location.to_camel_symbol_hash : nil,
           text: text,
         }.delete_if {|k,v| v.nil?}
       end
 
       def to_json
-        to_hash.to_json
+        to_camel_symbol_hash.to_json
       end
 
     end
@@ -542,14 +542,14 @@ module Cucumber
       attr_reader :rows
 
       def self.from_json(json)
-        from_hash(JSON.parse(json))
+        from_camel_symbol_hash(JSON.parse(json, {symbolize_names: true}))
       end
 
-      def self.from_hash(hash)
+      def self.from_camel_symbol_hash(hash)
         return nil if hash.nil?
         self.new(
-          location: Location.from_hash(hash['location']),
-          rows: hash['rows'],
+          location: Location.from_camel_symbol_hash(hash[:location]),
+          rows: hash[:rows],
         )
       end
 
@@ -561,15 +561,15 @@ module Cucumber
         @rows = rows
       end
 
-      def to_hash
+      def to_camel_symbol_hash
         {
-          location: location ? location.to_hash : nil,
+          location: location ? location.to_camel_symbol_hash : nil,
           rows: rows,
         }.delete_if {|k,v| v.nil?}
       end
 
       def to_json
-        to_hash.to_json
+        to_camel_symbol_hash.to_json
       end
 
     end
@@ -592,16 +592,16 @@ module Cucumber
       attr_reader :delimiter
 
       def self.from_json(json)
-        from_hash(JSON.parse(json))
+        from_camel_symbol_hash(JSON.parse(json, {symbolize_names: true}))
       end
 
-      def self.from_hash(hash)
+      def self.from_camel_symbol_hash(hash)
         return nil if hash.nil?
         self.new(
-          location: Location.from_hash(hash['location']),
-          media_type: hash['mediaType'],
-          content: hash['content'],
-          delimiter: hash['delimiter'],
+          location: Location.from_camel_symbol_hash(hash[:location]),
+          media_type: hash[:mediaType],
+          content: hash[:content],
+          delimiter: hash[:delimiter],
         )
       end
 
@@ -617,9 +617,9 @@ module Cucumber
         @delimiter = delimiter
       end
 
-      def to_hash
+      def to_camel_symbol_hash
         {
-          location: location ? location.to_hash : nil,
+          location: location ? location.to_camel_symbol_hash : nil,
           mediaType: media_type,
           content: content,
           delimiter: delimiter,
@@ -627,7 +627,7 @@ module Cucumber
       end
 
       def to_json
-        to_hash.to_json
+        to_camel_symbol_hash.to_json
       end
 
     end
@@ -661,20 +661,20 @@ module Cucumber
       attr_reader :id
 
       def self.from_json(json)
-        from_hash(JSON.parse(json))
+        from_camel_symbol_hash(JSON.parse(json, {symbolize_names: true}))
       end
 
-      def self.from_hash(hash)
+      def self.from_camel_symbol_hash(hash)
         return nil if hash.nil?
         self.new(
-          location: Location.from_hash(hash['location']),
-          tags: hash['tags'],
-          keyword: hash['keyword'],
-          name: hash['name'],
-          description: hash['description'],
-          table_header: TableRow.from_hash(hash['tableHeader']),
-          table_body: hash['tableBody'],
-          id: hash['id'],
+          location: Location.from_camel_symbol_hash(hash[:location]),
+          tags: hash[:tags],
+          keyword: hash[:keyword],
+          name: hash[:name],
+          description: hash[:description],
+          table_header: TableRow.from_camel_symbol_hash(hash[:tableHeader]),
+          table_body: hash[:tableBody],
+          id: hash[:id],
         )
       end
 
@@ -698,21 +698,21 @@ module Cucumber
         @id = id
       end
 
-      def to_hash
+      def to_camel_symbol_hash
         {
-          location: location ? location.to_hash : nil,
+          location: location ? location.to_camel_symbol_hash : nil,
           tags: tags,
           keyword: keyword,
           name: name,
           description: description,
-          tableHeader: table_header ? table_header.to_hash : nil,
+          tableHeader: table_header ? table_header.to_camel_symbol_hash : nil,
           tableBody: table_body,
           id: id,
         }.delete_if {|k,v| v.nil?}
       end
 
       def to_json
-        to_hash.to_json
+        to_camel_symbol_hash.to_json
       end
 
     end
@@ -762,19 +762,19 @@ module Cucumber
       attr_reader :children
 
       def self.from_json(json)
-        from_hash(JSON.parse(json))
+        from_camel_symbol_hash(JSON.parse(json, {symbolize_names: true}))
       end
 
-      def self.from_hash(hash)
+      def self.from_camel_symbol_hash(hash)
         return nil if hash.nil?
         self.new(
-          location: Location.from_hash(hash['location']),
-          tags: hash['tags'],
-          language: hash['language'],
-          keyword: hash['keyword'],
-          name: hash['name'],
-          description: hash['description'],
-          children: hash['children'],
+          location: Location.from_camel_symbol_hash(hash[:location]),
+          tags: hash[:tags],
+          language: hash[:language],
+          keyword: hash[:keyword],
+          name: hash[:name],
+          description: hash[:description],
+          children: hash[:children],
         )
       end
 
@@ -796,9 +796,9 @@ module Cucumber
         @children = children
       end
 
-      def to_hash
+      def to_camel_symbol_hash
         {
-          location: location ? location.to_hash : nil,
+          location: location ? location.to_camel_symbol_hash : nil,
           tags: tags,
           language: language,
           keyword: keyword,
@@ -809,7 +809,7 @@ module Cucumber
       end
 
       def to_json
-        to_hash.to_json
+        to_camel_symbol_hash.to_json
       end
 
     end
@@ -831,15 +831,15 @@ module Cucumber
       attr_reader :scenario
 
       def self.from_json(json)
-        from_hash(JSON.parse(json))
+        from_camel_symbol_hash(JSON.parse(json, {symbolize_names: true}))
       end
 
-      def self.from_hash(hash)
+      def self.from_camel_symbol_hash(hash)
         return nil if hash.nil?
         self.new(
-          rule: Rule.from_hash(hash['rule']),
-          background: Background.from_hash(hash['background']),
-          scenario: Scenario.from_hash(hash['scenario']),
+          rule: Rule.from_camel_symbol_hash(hash[:rule]),
+          background: Background.from_camel_symbol_hash(hash[:background]),
+          scenario: Scenario.from_camel_symbol_hash(hash[:scenario]),
         )
       end
 
@@ -853,16 +853,16 @@ module Cucumber
         @scenario = scenario
       end
 
-      def to_hash
+      def to_camel_symbol_hash
         {
-          rule: rule ? rule.to_hash : nil,
-          background: background ? background.to_hash : nil,
-          scenario: scenario ? scenario.to_hash : nil,
+          rule: rule ? rule.to_camel_symbol_hash : nil,
+          background: background ? background.to_camel_symbol_hash : nil,
+          scenario: scenario ? scenario.to_camel_symbol_hash : nil,
         }.delete_if {|k,v| v.nil?}
       end
 
       def to_json
-        to_hash.to_json
+        to_camel_symbol_hash.to_json
       end
 
     end
@@ -897,19 +897,19 @@ module Cucumber
       attr_reader :id
 
       def self.from_json(json)
-        from_hash(JSON.parse(json))
+        from_camel_symbol_hash(JSON.parse(json, {symbolize_names: true}))
       end
 
-      def self.from_hash(hash)
+      def self.from_camel_symbol_hash(hash)
         return nil if hash.nil?
         self.new(
-          location: Location.from_hash(hash['location']),
-          tags: hash['tags'],
-          keyword: hash['keyword'],
-          name: hash['name'],
-          description: hash['description'],
-          children: hash['children'],
-          id: hash['id'],
+          location: Location.from_camel_symbol_hash(hash[:location]),
+          tags: hash[:tags],
+          keyword: hash[:keyword],
+          name: hash[:name],
+          description: hash[:description],
+          children: hash[:children],
+          id: hash[:id],
         )
       end
 
@@ -931,9 +931,9 @@ module Cucumber
         @id = id
       end
 
-      def to_hash
+      def to_camel_symbol_hash
         {
-          location: location ? location.to_hash : nil,
+          location: location ? location.to_camel_symbol_hash : nil,
           tags: tags,
           keyword: keyword,
           name: name,
@@ -944,7 +944,7 @@ module Cucumber
       end
 
       def to_json
-        to_hash.to_json
+        to_camel_symbol_hash.to_json
       end
 
     end
@@ -964,14 +964,14 @@ module Cucumber
       attr_reader :scenario
 
       def self.from_json(json)
-        from_hash(JSON.parse(json))
+        from_camel_symbol_hash(JSON.parse(json, {symbolize_names: true}))
       end
 
-      def self.from_hash(hash)
+      def self.from_camel_symbol_hash(hash)
         return nil if hash.nil?
         self.new(
-          background: Background.from_hash(hash['background']),
-          scenario: Scenario.from_hash(hash['scenario']),
+          background: Background.from_camel_symbol_hash(hash[:background]),
+          scenario: Scenario.from_camel_symbol_hash(hash[:scenario]),
         )
       end
 
@@ -983,15 +983,15 @@ module Cucumber
         @scenario = scenario
       end
 
-      def to_hash
+      def to_camel_symbol_hash
         {
-          background: background ? background.to_hash : nil,
-          scenario: scenario ? scenario.to_hash : nil,
+          background: background ? background.to_camel_symbol_hash : nil,
+          scenario: scenario ? scenario.to_camel_symbol_hash : nil,
         }.delete_if {|k,v| v.nil?}
       end
 
       def to_json
-        to_hash.to_json
+        to_camel_symbol_hash.to_json
       end
 
     end
@@ -1025,20 +1025,20 @@ module Cucumber
       attr_reader :id
 
       def self.from_json(json)
-        from_hash(JSON.parse(json))
+        from_camel_symbol_hash(JSON.parse(json, {symbolize_names: true}))
       end
 
-      def self.from_hash(hash)
+      def self.from_camel_symbol_hash(hash)
         return nil if hash.nil?
         self.new(
-          location: Location.from_hash(hash['location']),
-          tags: hash['tags'],
-          keyword: hash['keyword'],
-          name: hash['name'],
-          description: hash['description'],
-          steps: hash['steps'],
-          examples: hash['examples'],
-          id: hash['id'],
+          location: Location.from_camel_symbol_hash(hash[:location]),
+          tags: hash[:tags],
+          keyword: hash[:keyword],
+          name: hash[:name],
+          description: hash[:description],
+          steps: hash[:steps],
+          examples: hash[:examples],
+          id: hash[:id],
         )
       end
 
@@ -1062,9 +1062,9 @@ module Cucumber
         @id = id
       end
 
-      def to_hash
+      def to_camel_symbol_hash
         {
-          location: location ? location.to_hash : nil,
+          location: location ? location.to_camel_symbol_hash : nil,
           tags: tags,
           keyword: keyword,
           name: name,
@@ -1076,7 +1076,7 @@ module Cucumber
       end
 
       def to_json
-        to_hash.to_json
+        to_camel_symbol_hash.to_json
       end
 
     end
@@ -1109,18 +1109,18 @@ module Cucumber
       attr_reader :id
 
       def self.from_json(json)
-        from_hash(JSON.parse(json))
+        from_camel_symbol_hash(JSON.parse(json, {symbolize_names: true}))
       end
 
-      def self.from_hash(hash)
+      def self.from_camel_symbol_hash(hash)
         return nil if hash.nil?
         self.new(
-          location: Location.from_hash(hash['location']),
-          keyword: hash['keyword'],
-          text: hash['text'],
-          doc_string: DocString.from_hash(hash['docString']),
-          data_table: DataTable.from_hash(hash['dataTable']),
-          id: hash['id'],
+          location: Location.from_camel_symbol_hash(hash[:location]),
+          keyword: hash[:keyword],
+          text: hash[:text],
+          doc_string: DocString.from_camel_symbol_hash(hash[:docString]),
+          data_table: DataTable.from_camel_symbol_hash(hash[:dataTable]),
+          id: hash[:id],
         )
       end
 
@@ -1140,19 +1140,19 @@ module Cucumber
         @id = id
       end
 
-      def to_hash
+      def to_camel_symbol_hash
         {
-          location: location ? location.to_hash : nil,
+          location: location ? location.to_camel_symbol_hash : nil,
           keyword: keyword,
           text: text,
-          docString: doc_string ? doc_string.to_hash : nil,
-          dataTable: data_table ? data_table.to_hash : nil,
+          docString: doc_string ? doc_string.to_camel_symbol_hash : nil,
+          dataTable: data_table ? data_table.to_camel_symbol_hash : nil,
           id: id,
         }.delete_if {|k,v| v.nil?}
       end
 
       def to_json
-        to_hash.to_json
+        to_camel_symbol_hash.to_json
       end
 
     end
@@ -1177,14 +1177,14 @@ module Cucumber
       attr_reader :value
 
       def self.from_json(json)
-        from_hash(JSON.parse(json))
+        from_camel_symbol_hash(JSON.parse(json, {symbolize_names: true}))
       end
 
-      def self.from_hash(hash)
+      def self.from_camel_symbol_hash(hash)
         return nil if hash.nil?
         self.new(
-          location: Location.from_hash(hash['location']),
-          value: hash['value'],
+          location: Location.from_camel_symbol_hash(hash[:location]),
+          value: hash[:value],
         )
       end
 
@@ -1196,15 +1196,15 @@ module Cucumber
         @value = value
       end
 
-      def to_hash
+      def to_camel_symbol_hash
         {
-          location: location ? location.to_hash : nil,
+          location: location ? location.to_camel_symbol_hash : nil,
           value: value,
         }.delete_if {|k,v| v.nil?}
       end
 
       def to_json
-        to_hash.to_json
+        to_camel_symbol_hash.to_json
       end
 
     end
@@ -1231,15 +1231,15 @@ module Cucumber
       attr_reader :id
 
       def self.from_json(json)
-        from_hash(JSON.parse(json))
+        from_camel_symbol_hash(JSON.parse(json, {symbolize_names: true}))
       end
 
-      def self.from_hash(hash)
+      def self.from_camel_symbol_hash(hash)
         return nil if hash.nil?
         self.new(
-          location: Location.from_hash(hash['location']),
-          cells: hash['cells'],
-          id: hash['id'],
+          location: Location.from_camel_symbol_hash(hash[:location]),
+          cells: hash[:cells],
+          id: hash[:id],
         )
       end
 
@@ -1253,16 +1253,16 @@ module Cucumber
         @id = id
       end
 
-      def to_hash
+      def to_camel_symbol_hash
         {
-          location: location ? location.to_hash : nil,
+          location: location ? location.to_camel_symbol_hash : nil,
           cells: cells,
           id: id,
         }.delete_if {|k,v| v.nil?}
       end
 
       def to_json
-        to_hash.to_json
+        to_camel_symbol_hash.to_json
       end
 
     end
@@ -1293,15 +1293,15 @@ module Cucumber
       attr_reader :id
 
       def self.from_json(json)
-        from_hash(JSON.parse(json))
+        from_camel_symbol_hash(JSON.parse(json, {symbolize_names: true}))
       end
 
-      def self.from_hash(hash)
+      def self.from_camel_symbol_hash(hash)
         return nil if hash.nil?
         self.new(
-          location: Location.from_hash(hash['location']),
-          name: hash['name'],
-          id: hash['id'],
+          location: Location.from_camel_symbol_hash(hash[:location]),
+          name: hash[:name],
+          id: hash[:id],
         )
       end
 
@@ -1315,16 +1315,16 @@ module Cucumber
         @id = id
       end
 
-      def to_hash
+      def to_camel_symbol_hash
         {
-          location: location ? location.to_hash : nil,
+          location: location ? location.to_camel_symbol_hash : nil,
           name: name,
           id: id,
         }.delete_if {|k,v| v.nil?}
       end
 
       def to_json
-        to_hash.to_json
+        to_camel_symbol_hash.to_json
       end
 
     end
@@ -1345,15 +1345,15 @@ module Cucumber
       attr_reader :tag_expression
 
       def self.from_json(json)
-        from_hash(JSON.parse(json))
+        from_camel_symbol_hash(JSON.parse(json, {symbolize_names: true}))
       end
 
-      def self.from_hash(hash)
+      def self.from_camel_symbol_hash(hash)
         return nil if hash.nil?
         self.new(
-          id: hash['id'],
-          source_reference: SourceReference.from_hash(hash['sourceReference']),
-          tag_expression: hash['tagExpression'],
+          id: hash[:id],
+          source_reference: SourceReference.from_camel_symbol_hash(hash[:sourceReference]),
+          tag_expression: hash[:tagExpression],
         )
       end
 
@@ -1367,16 +1367,16 @@ module Cucumber
         @tag_expression = tag_expression
       end
 
-      def to_hash
+      def to_camel_symbol_hash
         {
           id: id,
-          sourceReference: source_reference ? source_reference.to_hash : nil,
+          sourceReference: source_reference ? source_reference.to_camel_symbol_hash : nil,
           tagExpression: tag_expression,
         }.delete_if {|k,v| v.nil?}
       end
 
       def to_json
-        to_hash.to_json
+        to_camel_symbol_hash.to_json
       end
 
     end
@@ -1396,14 +1396,14 @@ module Cucumber
       attr_reader :column
 
       def self.from_json(json)
-        from_hash(JSON.parse(json))
+        from_camel_symbol_hash(JSON.parse(json, {symbolize_names: true}))
       end
 
-      def self.from_hash(hash)
+      def self.from_camel_symbol_hash(hash)
         return nil if hash.nil?
         self.new(
-          line: hash['line'],
-          column: hash['column'],
+          line: hash[:line],
+          column: hash[:column],
         )
       end
 
@@ -1415,7 +1415,7 @@ module Cucumber
         @column = column
       end
 
-      def to_hash
+      def to_camel_symbol_hash
         {
           line: line,
           column: column,
@@ -1423,7 +1423,7 @@ module Cucumber
       end
 
       def to_json
-        to_hash.to_json
+        to_camel_symbol_hash.to_json
       end
 
     end
@@ -1468,18 +1468,18 @@ module Cucumber
       attr_reader :ci
 
       def self.from_json(json)
-        from_hash(JSON.parse(json))
+        from_camel_symbol_hash(JSON.parse(json, {symbolize_names: true}))
       end
 
-      def self.from_hash(hash)
+      def self.from_camel_symbol_hash(hash)
         return nil if hash.nil?
         self.new(
-          protocol_version: hash['protocolVersion'],
-          implementation: Product.from_hash(hash['implementation']),
-          runtime: Product.from_hash(hash['runtime']),
-          os: Product.from_hash(hash['os']),
-          cpu: Product.from_hash(hash['cpu']),
-          ci: Ci.from_hash(hash['ci']),
+          protocol_version: hash[:protocolVersion],
+          implementation: Product.from_camel_symbol_hash(hash[:implementation]),
+          runtime: Product.from_camel_symbol_hash(hash[:runtime]),
+          os: Product.from_camel_symbol_hash(hash[:os]),
+          cpu: Product.from_camel_symbol_hash(hash[:cpu]),
+          ci: Ci.from_camel_symbol_hash(hash[:ci]),
         )
       end
 
@@ -1499,19 +1499,19 @@ module Cucumber
         @ci = ci
       end
 
-      def to_hash
+      def to_camel_symbol_hash
         {
           protocolVersion: protocol_version,
-          implementation: implementation ? implementation.to_hash : nil,
-          runtime: runtime ? runtime.to_hash : nil,
-          os: os ? os.to_hash : nil,
-          cpu: cpu ? cpu.to_hash : nil,
-          ci: ci ? ci.to_hash : nil,
+          implementation: implementation ? implementation.to_camel_symbol_hash : nil,
+          runtime: runtime ? runtime.to_camel_symbol_hash : nil,
+          os: os ? os.to_camel_symbol_hash : nil,
+          cpu: cpu ? cpu.to_camel_symbol_hash : nil,
+          ci: ci ? ci.to_camel_symbol_hash : nil,
         }.delete_if {|k,v| v.nil?}
       end
 
       def to_json
-        to_hash.to_json
+        to_camel_symbol_hash.to_json
       end
 
     end
@@ -1538,15 +1538,15 @@ module Cucumber
       attr_reader :git
 
       def self.from_json(json)
-        from_hash(JSON.parse(json))
+        from_camel_symbol_hash(JSON.parse(json, {symbolize_names: true}))
       end
 
-      def self.from_hash(hash)
+      def self.from_camel_symbol_hash(hash)
         return nil if hash.nil?
         self.new(
-          name: hash['name'],
-          url: hash['url'],
-          git: Git.from_hash(hash['git']),
+          name: hash[:name],
+          url: hash[:url],
+          git: Git.from_camel_symbol_hash(hash[:git]),
         )
       end
 
@@ -1560,16 +1560,16 @@ module Cucumber
         @git = git
       end
 
-      def to_hash
+      def to_camel_symbol_hash
         {
           name: name,
           url: url,
-          git: git ? git.to_hash : nil,
+          git: git ? git.to_camel_symbol_hash : nil,
         }.delete_if {|k,v| v.nil?}
       end
 
       def to_json
-        to_hash.to_json
+        to_camel_symbol_hash.to_json
       end
 
     end
@@ -1593,16 +1593,16 @@ module Cucumber
       attr_reader :tag
 
       def self.from_json(json)
-        from_hash(JSON.parse(json))
+        from_camel_symbol_hash(JSON.parse(json, {symbolize_names: true}))
       end
 
-      def self.from_hash(hash)
+      def self.from_camel_symbol_hash(hash)
         return nil if hash.nil?
         self.new(
-          remote: hash['remote'],
-          revision: hash['revision'],
-          branch: hash['branch'],
-          tag: hash['tag'],
+          remote: hash[:remote],
+          revision: hash[:revision],
+          branch: hash[:branch],
+          tag: hash[:tag],
         )
       end
 
@@ -1618,7 +1618,7 @@ module Cucumber
         @tag = tag
       end
 
-      def to_hash
+      def to_camel_symbol_hash
         {
           remote: remote,
           revision: revision,
@@ -1628,7 +1628,7 @@ module Cucumber
       end
 
       def to_json
-        to_hash.to_json
+        to_camel_symbol_hash.to_json
       end
 
     end
@@ -1653,14 +1653,14 @@ module Cucumber
       attr_reader :version
 
       def self.from_json(json)
-        from_hash(JSON.parse(json))
+        from_camel_symbol_hash(JSON.parse(json, {symbolize_names: true}))
       end
 
-      def self.from_hash(hash)
+      def self.from_camel_symbol_hash(hash)
         return nil if hash.nil?
         self.new(
-          name: hash['name'],
-          version: hash['version'],
+          name: hash[:name],
+          version: hash[:version],
         )
       end
 
@@ -1672,7 +1672,7 @@ module Cucumber
         @version = version
       end
 
-      def to_hash
+      def to_camel_symbol_hash
         {
           name: name,
           version: version,
@@ -1680,7 +1680,7 @@ module Cucumber
       end
 
       def to_json
-        to_hash.to_json
+        to_camel_symbol_hash.to_json
       end
 
     end
@@ -1708,17 +1708,17 @@ module Cucumber
       attr_reader :id
 
       def self.from_json(json)
-        from_hash(JSON.parse(json))
+        from_camel_symbol_hash(JSON.parse(json, {symbolize_names: true}))
       end
 
-      def self.from_hash(hash)
+      def self.from_camel_symbol_hash(hash)
         return nil if hash.nil?
         self.new(
-          name: hash['name'],
-          regular_expressions: hash['regularExpressions'],
-          prefer_for_regular_expression_match: hash['preferForRegularExpressionMatch'],
-          use_for_snippets: hash['useForSnippets'],
-          id: hash['id'],
+          name: hash[:name],
+          regular_expressions: hash[:regularExpressions],
+          prefer_for_regular_expression_match: hash[:preferForRegularExpressionMatch],
+          use_for_snippets: hash[:useForSnippets],
+          id: hash[:id],
         )
       end
 
@@ -1736,7 +1736,7 @@ module Cucumber
         @id = id
       end
 
-      def to_hash
+      def to_camel_symbol_hash
         {
           name: name,
           regularExpressions: regular_expressions,
@@ -1747,7 +1747,7 @@ module Cucumber
       end
 
       def to_json
-        to_hash.to_json
+        to_camel_symbol_hash.to_json
       end
 
     end
@@ -1766,14 +1766,14 @@ module Cucumber
       attr_reader :message
 
       def self.from_json(json)
-        from_hash(JSON.parse(json))
+        from_camel_symbol_hash(JSON.parse(json, {symbolize_names: true}))
       end
 
-      def self.from_hash(hash)
+      def self.from_camel_symbol_hash(hash)
         return nil if hash.nil?
         self.new(
-          source: SourceReference.from_hash(hash['source']),
-          message: hash['message'],
+          source: SourceReference.from_camel_symbol_hash(hash[:source]),
+          message: hash[:message],
         )
       end
 
@@ -1785,15 +1785,15 @@ module Cucumber
         @message = message
       end
 
-      def to_hash
+      def to_camel_symbol_hash
         {
-          source: source ? source.to_hash : nil,
+          source: source ? source.to_camel_symbol_hash : nil,
           message: message,
         }.delete_if {|k,v| v.nil?}
       end
 
       def to_json
-        to_hash.to_json
+        to_camel_symbol_hash.to_json
       end
 
     end
@@ -1863,19 +1863,19 @@ module Cucumber
       attr_reader :ast_node_ids
 
       def self.from_json(json)
-        from_hash(JSON.parse(json))
+        from_camel_symbol_hash(JSON.parse(json, {symbolize_names: true}))
       end
 
-      def self.from_hash(hash)
+      def self.from_camel_symbol_hash(hash)
         return nil if hash.nil?
         self.new(
-          id: hash['id'],
-          uri: hash['uri'],
-          name: hash['name'],
-          language: hash['language'],
-          steps: hash['steps'],
-          tags: hash['tags'],
-          ast_node_ids: hash['astNodeIds'],
+          id: hash[:id],
+          uri: hash[:uri],
+          name: hash[:name],
+          language: hash[:language],
+          steps: hash[:steps],
+          tags: hash[:tags],
+          ast_node_ids: hash[:astNodeIds],
         )
       end
 
@@ -1897,7 +1897,7 @@ module Cucumber
         @ast_node_ids = ast_node_ids
       end
 
-      def to_hash
+      def to_camel_symbol_hash
         {
           id: id,
           uri: uri,
@@ -1910,7 +1910,7 @@ module Cucumber
       end
 
       def to_json
-        to_hash.to_json
+        to_camel_symbol_hash.to_json
       end
 
     end
@@ -1929,14 +1929,14 @@ module Cucumber
       attr_reader :content
 
       def self.from_json(json)
-        from_hash(JSON.parse(json))
+        from_camel_symbol_hash(JSON.parse(json, {symbolize_names: true}))
       end
 
-      def self.from_hash(hash)
+      def self.from_camel_symbol_hash(hash)
         return nil if hash.nil?
         self.new(
-          media_type: hash['mediaType'],
-          content: hash['content'],
+          media_type: hash[:mediaType],
+          content: hash[:content],
         )
       end
 
@@ -1948,7 +1948,7 @@ module Cucumber
         @content = content
       end
 
-      def to_hash
+      def to_camel_symbol_hash
         {
           mediaType: media_type,
           content: content,
@@ -1956,7 +1956,7 @@ module Cucumber
       end
 
       def to_json
-        to_hash.to_json
+        to_camel_symbol_hash.to_json
       end
 
     end
@@ -1987,16 +1987,16 @@ module Cucumber
       attr_reader :text
 
       def self.from_json(json)
-        from_hash(JSON.parse(json))
+        from_camel_symbol_hash(JSON.parse(json, {symbolize_names: true}))
       end
 
-      def self.from_hash(hash)
+      def self.from_camel_symbol_hash(hash)
         return nil if hash.nil?
         self.new(
-          argument: PickleStepArgument.from_hash(hash['argument']),
-          ast_node_ids: hash['astNodeIds'],
-          id: hash['id'],
-          text: hash['text'],
+          argument: PickleStepArgument.from_camel_symbol_hash(hash[:argument]),
+          ast_node_ids: hash[:astNodeIds],
+          id: hash[:id],
+          text: hash[:text],
         )
       end
 
@@ -2012,9 +2012,9 @@ module Cucumber
         @text = text
       end
 
-      def to_hash
+      def to_camel_symbol_hash
         {
-          argument: argument ? argument.to_hash : nil,
+          argument: argument ? argument.to_camel_symbol_hash : nil,
           astNodeIds: ast_node_ids,
           id: id,
           text: text,
@@ -2022,7 +2022,7 @@ module Cucumber
       end
 
       def to_json
-        to_hash.to_json
+        to_camel_symbol_hash.to_json
       end
 
     end
@@ -2041,14 +2041,14 @@ module Cucumber
       attr_reader :data_table
 
       def self.from_json(json)
-        from_hash(JSON.parse(json))
+        from_camel_symbol_hash(JSON.parse(json, {symbolize_names: true}))
       end
 
-      def self.from_hash(hash)
+      def self.from_camel_symbol_hash(hash)
         return nil if hash.nil?
         self.new(
-          doc_string: PickleDocString.from_hash(hash['docString']),
-          data_table: PickleTable.from_hash(hash['dataTable']),
+          doc_string: PickleDocString.from_camel_symbol_hash(hash[:docString]),
+          data_table: PickleTable.from_camel_symbol_hash(hash[:dataTable]),
         )
       end
 
@@ -2060,15 +2060,15 @@ module Cucumber
         @data_table = data_table
       end
 
-      def to_hash
+      def to_camel_symbol_hash
         {
-          docString: doc_string ? doc_string.to_hash : nil,
-          dataTable: data_table ? data_table.to_hash : nil,
+          docString: doc_string ? doc_string.to_camel_symbol_hash : nil,
+          dataTable: data_table ? data_table.to_camel_symbol_hash : nil,
         }.delete_if {|k,v| v.nil?}
       end
 
       def to_json
-        to_hash.to_json
+        to_camel_symbol_hash.to_json
       end
 
     end
@@ -2085,13 +2085,13 @@ module Cucumber
       attr_reader :rows
 
       def self.from_json(json)
-        from_hash(JSON.parse(json))
+        from_camel_symbol_hash(JSON.parse(json, {symbolize_names: true}))
       end
 
-      def self.from_hash(hash)
+      def self.from_camel_symbol_hash(hash)
         return nil if hash.nil?
         self.new(
-          rows: hash['rows'],
+          rows: hash[:rows],
         )
       end
 
@@ -2101,14 +2101,14 @@ module Cucumber
         @rows = rows
       end
 
-      def to_hash
+      def to_camel_symbol_hash
         {
           rows: rows,
         }.delete_if {|k,v| v.nil?}
       end
 
       def to_json
-        to_hash.to_json
+        to_camel_symbol_hash.to_json
       end
 
     end
@@ -2125,13 +2125,13 @@ module Cucumber
       attr_reader :value
 
       def self.from_json(json)
-        from_hash(JSON.parse(json))
+        from_camel_symbol_hash(JSON.parse(json, {symbolize_names: true}))
       end
 
-      def self.from_hash(hash)
+      def self.from_camel_symbol_hash(hash)
         return nil if hash.nil?
         self.new(
-          value: hash['value'],
+          value: hash[:value],
         )
       end
 
@@ -2141,14 +2141,14 @@ module Cucumber
         @value = value
       end
 
-      def to_hash
+      def to_camel_symbol_hash
         {
           value: value,
         }.delete_if {|k,v| v.nil?}
       end
 
       def to_json
-        to_hash.to_json
+        to_camel_symbol_hash.to_json
       end
 
     end
@@ -2165,13 +2165,13 @@ module Cucumber
       attr_reader :cells
 
       def self.from_json(json)
-        from_hash(JSON.parse(json))
+        from_camel_symbol_hash(JSON.parse(json, {symbolize_names: true}))
       end
 
-      def self.from_hash(hash)
+      def self.from_camel_symbol_hash(hash)
         return nil if hash.nil?
         self.new(
-          cells: hash['cells'],
+          cells: hash[:cells],
         )
       end
 
@@ -2181,14 +2181,14 @@ module Cucumber
         @cells = cells
       end
 
-      def to_hash
+      def to_camel_symbol_hash
         {
           cells: cells,
         }.delete_if {|k,v| v.nil?}
       end
 
       def to_json
-        to_hash.to_json
+        to_camel_symbol_hash.to_json
       end
 
     end
@@ -2211,14 +2211,14 @@ module Cucumber
       attr_reader :ast_node_id
 
       def self.from_json(json)
-        from_hash(JSON.parse(json))
+        from_camel_symbol_hash(JSON.parse(json, {symbolize_names: true}))
       end
 
-      def self.from_hash(hash)
+      def self.from_camel_symbol_hash(hash)
         return nil if hash.nil?
         self.new(
-          name: hash['name'],
-          ast_node_id: hash['astNodeId'],
+          name: hash[:name],
+          ast_node_id: hash[:astNodeId],
         )
       end
 
@@ -2230,7 +2230,7 @@ module Cucumber
         @ast_node_id = ast_node_id
       end
 
-      def to_hash
+      def to_camel_symbol_hash
         {
           name: name,
           astNodeId: ast_node_id,
@@ -2238,7 +2238,7 @@ module Cucumber
       end
 
       def to_json
-        to_hash.to_json
+        to_camel_symbol_hash.to_json
       end
 
     end
@@ -2274,15 +2274,15 @@ module Cucumber
       attr_reader :media_type
 
       def self.from_json(json)
-        from_hash(JSON.parse(json))
+        from_camel_symbol_hash(JSON.parse(json, {symbolize_names: true}))
       end
 
-      def self.from_hash(hash)
+      def self.from_camel_symbol_hash(hash)
         return nil if hash.nil?
         self.new(
-          uri: hash['uri'],
-          data: hash['data'],
-          media_type: hash['mediaType'],
+          uri: hash[:uri],
+          data: hash[:data],
+          media_type: hash[:mediaType],
         )
       end
 
@@ -2296,7 +2296,7 @@ module Cucumber
         @media_type = media_type
       end
 
-      def to_hash
+      def to_camel_symbol_hash
         {
           uri: uri,
           data: data,
@@ -2305,7 +2305,7 @@ module Cucumber
       end
 
       def to_json
-        to_hash.to_json
+        to_camel_symbol_hash.to_json
       end
 
     end
@@ -2330,16 +2330,16 @@ module Cucumber
       attr_reader :location
 
       def self.from_json(json)
-        from_hash(JSON.parse(json))
+        from_camel_symbol_hash(JSON.parse(json, {symbolize_names: true}))
       end
 
-      def self.from_hash(hash)
+      def self.from_camel_symbol_hash(hash)
         return nil if hash.nil?
         self.new(
-          uri: hash['uri'],
-          java_method: JavaMethod.from_hash(hash['javaMethod']),
-          java_stack_trace_element: JavaStackTraceElement.from_hash(hash['javaStackTraceElement']),
-          location: Location.from_hash(hash['location']),
+          uri: hash[:uri],
+          java_method: JavaMethod.from_camel_symbol_hash(hash[:javaMethod]),
+          java_stack_trace_element: JavaStackTraceElement.from_camel_symbol_hash(hash[:javaStackTraceElement]),
+          location: Location.from_camel_symbol_hash(hash[:location]),
         )
       end
 
@@ -2355,17 +2355,17 @@ module Cucumber
         @location = location
       end
 
-      def to_hash
+      def to_camel_symbol_hash
         {
           uri: uri,
-          javaMethod: java_method ? java_method.to_hash : nil,
-          javaStackTraceElement: java_stack_trace_element ? java_stack_trace_element.to_hash : nil,
-          location: location ? location.to_hash : nil,
+          javaMethod: java_method ? java_method.to_camel_symbol_hash : nil,
+          javaStackTraceElement: java_stack_trace_element ? java_stack_trace_element.to_camel_symbol_hash : nil,
+          location: location ? location.to_camel_symbol_hash : nil,
         }.delete_if {|k,v| v.nil?}
       end
 
       def to_json
-        to_hash.to_json
+        to_camel_symbol_hash.to_json
       end
 
     end
@@ -2386,15 +2386,15 @@ module Cucumber
       attr_reader :method_parameter_types
 
       def self.from_json(json)
-        from_hash(JSON.parse(json))
+        from_camel_symbol_hash(JSON.parse(json, {symbolize_names: true}))
       end
 
-      def self.from_hash(hash)
+      def self.from_camel_symbol_hash(hash)
         return nil if hash.nil?
         self.new(
-          class_name: hash['className'],
-          method_name: hash['methodName'],
-          method_parameter_types: hash['methodParameterTypes'],
+          class_name: hash[:className],
+          method_name: hash[:methodName],
+          method_parameter_types: hash[:methodParameterTypes],
         )
       end
 
@@ -2408,7 +2408,7 @@ module Cucumber
         @method_parameter_types = method_parameter_types
       end
 
-      def to_hash
+      def to_camel_symbol_hash
         {
           className: class_name,
           methodName: method_name,
@@ -2417,7 +2417,7 @@ module Cucumber
       end
 
       def to_json
-        to_hash.to_json
+        to_camel_symbol_hash.to_json
       end
 
     end
@@ -2438,15 +2438,15 @@ module Cucumber
       attr_reader :method_name
 
       def self.from_json(json)
-        from_hash(JSON.parse(json))
+        from_camel_symbol_hash(JSON.parse(json, {symbolize_names: true}))
       end
 
-      def self.from_hash(hash)
+      def self.from_camel_symbol_hash(hash)
         return nil if hash.nil?
         self.new(
-          class_name: hash['className'],
-          file_name: hash['fileName'],
-          method_name: hash['methodName'],
+          class_name: hash[:className],
+          file_name: hash[:fileName],
+          method_name: hash[:methodName],
         )
       end
 
@@ -2460,7 +2460,7 @@ module Cucumber
         @method_name = method_name
       end
 
-      def to_hash
+      def to_camel_symbol_hash
         {
           className: class_name,
           fileName: file_name,
@@ -2469,7 +2469,7 @@ module Cucumber
       end
 
       def to_json
-        to_hash.to_json
+        to_camel_symbol_hash.to_json
       end
 
     end
@@ -2490,15 +2490,15 @@ module Cucumber
       attr_reader :source_reference
 
       def self.from_json(json)
-        from_hash(JSON.parse(json))
+        from_camel_symbol_hash(JSON.parse(json, {symbolize_names: true}))
       end
 
-      def self.from_hash(hash)
+      def self.from_camel_symbol_hash(hash)
         return nil if hash.nil?
         self.new(
-          id: hash['id'],
-          pattern: StepDefinitionPattern.from_hash(hash['pattern']),
-          source_reference: SourceReference.from_hash(hash['sourceReference']),
+          id: hash[:id],
+          pattern: StepDefinitionPattern.from_camel_symbol_hash(hash[:pattern]),
+          source_reference: SourceReference.from_camel_symbol_hash(hash[:sourceReference]),
         )
       end
 
@@ -2512,16 +2512,16 @@ module Cucumber
         @source_reference = source_reference
       end
 
-      def to_hash
+      def to_camel_symbol_hash
         {
           id: id,
-          pattern: pattern ? pattern.to_hash : nil,
-          sourceReference: source_reference ? source_reference.to_hash : nil,
+          pattern: pattern ? pattern.to_camel_symbol_hash : nil,
+          sourceReference: source_reference ? source_reference.to_camel_symbol_hash : nil,
         }.delete_if {|k,v| v.nil?}
       end
 
       def to_json
-        to_hash.to_json
+        to_camel_symbol_hash.to_json
       end
 
     end
@@ -2540,14 +2540,14 @@ module Cucumber
       attr_reader :type
 
       def self.from_json(json)
-        from_hash(JSON.parse(json))
+        from_camel_symbol_hash(JSON.parse(json, {symbolize_names: true}))
       end
 
-      def self.from_hash(hash)
+      def self.from_camel_symbol_hash(hash)
         return nil if hash.nil?
         self.new(
-          source: hash['source'],
-          type: hash['type'],
+          source: hash[:source],
+          type: hash[:type],
         )
       end
 
@@ -2559,7 +2559,7 @@ module Cucumber
         @type = type
       end
 
-      def to_hash
+      def to_camel_symbol_hash
         {
           source: source,
           type: type,
@@ -2567,7 +2567,7 @@ module Cucumber
       end
 
       def to_json
-        to_hash.to_json
+        to_camel_symbol_hash.to_json
       end
 
     end
@@ -2594,15 +2594,15 @@ module Cucumber
       attr_reader :test_steps
 
       def self.from_json(json)
-        from_hash(JSON.parse(json))
+        from_camel_symbol_hash(JSON.parse(json, {symbolize_names: true}))
       end
 
-      def self.from_hash(hash)
+      def self.from_camel_symbol_hash(hash)
         return nil if hash.nil?
         self.new(
-          id: hash['id'],
-          pickle_id: hash['pickleId'],
-          test_steps: hash['testSteps'],
+          id: hash[:id],
+          pickle_id: hash[:pickleId],
+          test_steps: hash[:testSteps],
         )
       end
 
@@ -2616,7 +2616,7 @@ module Cucumber
         @test_steps = test_steps
       end
 
-      def to_hash
+      def to_camel_symbol_hash
         {
           id: id,
           pickleId: pickle_id,
@@ -2625,7 +2625,7 @@ module Cucumber
       end
 
       def to_json
-        to_hash.to_json
+        to_camel_symbol_hash.to_json
       end
 
     end
@@ -2646,15 +2646,15 @@ module Cucumber
       attr_reader :value
 
       def self.from_json(json)
-        from_hash(JSON.parse(json))
+        from_camel_symbol_hash(JSON.parse(json, {symbolize_names: true}))
       end
 
-      def self.from_hash(hash)
+      def self.from_camel_symbol_hash(hash)
         return nil if hash.nil?
         self.new(
-          children: hash['children'],
-          start: hash['start'],
-          value: hash['value'],
+          children: hash[:children],
+          start: hash[:start],
+          value: hash[:value],
         )
       end
 
@@ -2668,7 +2668,7 @@ module Cucumber
         @value = value
       end
 
-      def to_hash
+      def to_camel_symbol_hash
         {
           children: children,
           start: start,
@@ -2677,7 +2677,7 @@ module Cucumber
       end
 
       def to_json
-        to_hash.to_json
+        to_camel_symbol_hash.to_json
       end
 
     end
@@ -2707,14 +2707,14 @@ module Cucumber
       attr_reader :parameter_type_name
 
       def self.from_json(json)
-        from_hash(JSON.parse(json))
+        from_camel_symbol_hash(JSON.parse(json, {symbolize_names: true}))
       end
 
-      def self.from_hash(hash)
+      def self.from_camel_symbol_hash(hash)
         return nil if hash.nil?
         self.new(
-          group: Group.from_hash(hash['group']),
-          parameter_type_name: hash['parameterTypeName'],
+          group: Group.from_camel_symbol_hash(hash[:group]),
+          parameter_type_name: hash[:parameterTypeName],
         )
       end
 
@@ -2726,15 +2726,15 @@ module Cucumber
         @parameter_type_name = parameter_type_name
       end
 
-      def to_hash
+      def to_camel_symbol_hash
         {
-          group: group ? group.to_hash : nil,
+          group: group ? group.to_camel_symbol_hash : nil,
           parameterTypeName: parameter_type_name,
         }.delete_if {|k,v| v.nil?}
       end
 
       def to_json
-        to_hash.to_json
+        to_camel_symbol_hash.to_json
       end
 
     end
@@ -2751,13 +2751,13 @@ module Cucumber
       attr_reader :step_match_arguments
 
       def self.from_json(json)
-        from_hash(JSON.parse(json))
+        from_camel_symbol_hash(JSON.parse(json, {symbolize_names: true}))
       end
 
-      def self.from_hash(hash)
+      def self.from_camel_symbol_hash(hash)
         return nil if hash.nil?
         self.new(
-          step_match_arguments: hash['stepMatchArguments'],
+          step_match_arguments: hash[:stepMatchArguments],
         )
       end
 
@@ -2767,14 +2767,14 @@ module Cucumber
         @step_match_arguments = step_match_arguments
       end
 
-      def to_hash
+      def to_camel_symbol_hash
         {
           stepMatchArguments: step_match_arguments,
         }.delete_if {|k,v| v.nil?}
       end
 
       def to_json
-        to_hash.to_json
+        to_camel_symbol_hash.to_json
       end
 
     end
@@ -2815,17 +2815,17 @@ module Cucumber
       attr_reader :step_match_arguments_lists
 
       def self.from_json(json)
-        from_hash(JSON.parse(json))
+        from_camel_symbol_hash(JSON.parse(json, {symbolize_names: true}))
       end
 
-      def self.from_hash(hash)
+      def self.from_camel_symbol_hash(hash)
         return nil if hash.nil?
         self.new(
-          hook_id: hash['hookId'],
-          id: hash['id'],
-          pickle_step_id: hash['pickleStepId'],
-          step_definition_ids: hash['stepDefinitionIds'],
-          step_match_arguments_lists: hash['stepMatchArgumentsLists'],
+          hook_id: hash[:hookId],
+          id: hash[:id],
+          pickle_step_id: hash[:pickleStepId],
+          step_definition_ids: hash[:stepDefinitionIds],
+          step_match_arguments_lists: hash[:stepMatchArgumentsLists],
         )
       end
 
@@ -2843,7 +2843,7 @@ module Cucumber
         @step_match_arguments_lists = step_match_arguments_lists
       end
 
-      def to_hash
+      def to_camel_symbol_hash
         {
           hookId: hook_id,
           id: id,
@@ -2854,7 +2854,7 @@ module Cucumber
       end
 
       def to_json
-        to_hash.to_json
+        to_camel_symbol_hash.to_json
       end
 
     end
@@ -2873,14 +2873,14 @@ module Cucumber
       attr_reader :timestamp
 
       def self.from_json(json)
-        from_hash(JSON.parse(json))
+        from_camel_symbol_hash(JSON.parse(json, {symbolize_names: true}))
       end
 
-      def self.from_hash(hash)
+      def self.from_camel_symbol_hash(hash)
         return nil if hash.nil?
         self.new(
-          test_case_started_id: hash['testCaseStartedId'],
-          timestamp: Timestamp.from_hash(hash['timestamp']),
+          test_case_started_id: hash[:testCaseStartedId],
+          timestamp: Timestamp.from_camel_symbol_hash(hash[:timestamp]),
         )
       end
 
@@ -2892,15 +2892,15 @@ module Cucumber
         @timestamp = timestamp
       end
 
-      def to_hash
+      def to_camel_symbol_hash
         {
           testCaseStartedId: test_case_started_id,
-          timestamp: timestamp ? timestamp.to_hash : nil,
+          timestamp: timestamp ? timestamp.to_camel_symbol_hash : nil,
         }.delete_if {|k,v| v.nil?}
       end
 
       def to_json
-        to_hash.to_json
+        to_camel_symbol_hash.to_json
       end
 
     end
@@ -2933,16 +2933,16 @@ module Cucumber
       attr_reader :timestamp
 
       def self.from_json(json)
-        from_hash(JSON.parse(json))
+        from_camel_symbol_hash(JSON.parse(json, {symbolize_names: true}))
       end
 
-      def self.from_hash(hash)
+      def self.from_camel_symbol_hash(hash)
         return nil if hash.nil?
         self.new(
-          attempt: hash['attempt'],
-          id: hash['id'],
-          test_case_id: hash['testCaseId'],
-          timestamp: Timestamp.from_hash(hash['timestamp']),
+          attempt: hash[:attempt],
+          id: hash[:id],
+          test_case_id: hash[:testCaseId],
+          timestamp: Timestamp.from_camel_symbol_hash(hash[:timestamp]),
         )
       end
 
@@ -2958,17 +2958,17 @@ module Cucumber
         @timestamp = timestamp
       end
 
-      def to_hash
+      def to_camel_symbol_hash
         {
           attempt: attempt,
           id: id,
           testCaseId: test_case_id,
-          timestamp: timestamp ? timestamp.to_hash : nil,
+          timestamp: timestamp ? timestamp.to_camel_symbol_hash : nil,
         }.delete_if {|k,v| v.nil?}
       end
 
       def to_json
-        to_hash.to_json
+        to_camel_symbol_hash.to_json
       end
 
     end
@@ -3002,15 +3002,15 @@ module Cucumber
       attr_reader :timestamp
 
       def self.from_json(json)
-        from_hash(JSON.parse(json))
+        from_camel_symbol_hash(JSON.parse(json, {symbolize_names: true}))
       end
 
-      def self.from_hash(hash)
+      def self.from_camel_symbol_hash(hash)
         return nil if hash.nil?
         self.new(
-          message: hash['message'],
-          success: hash['success'],
-          timestamp: Timestamp.from_hash(hash['timestamp']),
+          message: hash[:message],
+          success: hash[:success],
+          timestamp: Timestamp.from_camel_symbol_hash(hash[:timestamp]),
         )
       end
 
@@ -3024,16 +3024,16 @@ module Cucumber
         @timestamp = timestamp
       end
 
-      def to_hash
+      def to_camel_symbol_hash
         {
           message: message,
           success: success,
-          timestamp: timestamp ? timestamp.to_hash : nil,
+          timestamp: timestamp ? timestamp.to_camel_symbol_hash : nil,
         }.delete_if {|k,v| v.nil?}
       end
 
       def to_json
-        to_hash.to_json
+        to_camel_symbol_hash.to_json
       end
 
     end
@@ -3050,13 +3050,13 @@ module Cucumber
       attr_reader :timestamp
 
       def self.from_json(json)
-        from_hash(JSON.parse(json))
+        from_camel_symbol_hash(JSON.parse(json, {symbolize_names: true}))
       end
 
-      def self.from_hash(hash)
+      def self.from_camel_symbol_hash(hash)
         return nil if hash.nil?
         self.new(
-          timestamp: Timestamp.from_hash(hash['timestamp']),
+          timestamp: Timestamp.from_camel_symbol_hash(hash[:timestamp]),
         )
       end
 
@@ -3066,14 +3066,14 @@ module Cucumber
         @timestamp = timestamp
       end
 
-      def to_hash
+      def to_camel_symbol_hash
         {
-          timestamp: timestamp ? timestamp.to_hash : nil,
+          timestamp: timestamp ? timestamp.to_camel_symbol_hash : nil,
         }.delete_if {|k,v| v.nil?}
       end
 
       def to_json
-        to_hash.to_json
+        to_camel_symbol_hash.to_json
       end
 
     end
@@ -3096,16 +3096,16 @@ module Cucumber
       attr_reader :timestamp
 
       def self.from_json(json)
-        from_hash(JSON.parse(json))
+        from_camel_symbol_hash(JSON.parse(json, {symbolize_names: true}))
       end
 
-      def self.from_hash(hash)
+      def self.from_camel_symbol_hash(hash)
         return nil if hash.nil?
         self.new(
-          test_case_started_id: hash['testCaseStartedId'],
-          test_step_id: hash['testStepId'],
-          test_step_result: TestStepResult.from_hash(hash['testStepResult']),
-          timestamp: Timestamp.from_hash(hash['timestamp']),
+          test_case_started_id: hash[:testCaseStartedId],
+          test_step_id: hash[:testStepId],
+          test_step_result: TestStepResult.from_camel_symbol_hash(hash[:testStepResult]),
+          timestamp: Timestamp.from_camel_symbol_hash(hash[:timestamp]),
         )
       end
 
@@ -3121,17 +3121,17 @@ module Cucumber
         @timestamp = timestamp
       end
 
-      def to_hash
+      def to_camel_symbol_hash
         {
           testCaseStartedId: test_case_started_id,
           testStepId: test_step_id,
-          testStepResult: test_step_result ? test_step_result.to_hash : nil,
-          timestamp: timestamp ? timestamp.to_hash : nil,
+          testStepResult: test_step_result ? test_step_result.to_camel_symbol_hash : nil,
+          timestamp: timestamp ? timestamp.to_camel_symbol_hash : nil,
         }.delete_if {|k,v| v.nil?}
       end
 
       def to_json
-        to_hash.to_json
+        to_camel_symbol_hash.to_json
       end
 
     end
@@ -3154,16 +3154,16 @@ module Cucumber
       attr_reader :will_be_retried
 
       def self.from_json(json)
-        from_hash(JSON.parse(json))
+        from_camel_symbol_hash(JSON.parse(json, {symbolize_names: true}))
       end
 
-      def self.from_hash(hash)
+      def self.from_camel_symbol_hash(hash)
         return nil if hash.nil?
         self.new(
-          duration: Duration.from_hash(hash['duration']),
-          message: hash['message'],
-          status: hash['status'],
-          will_be_retried: hash['willBeRetried'],
+          duration: Duration.from_camel_symbol_hash(hash[:duration]),
+          message: hash[:message],
+          status: hash[:status],
+          will_be_retried: hash[:willBeRetried],
         )
       end
 
@@ -3179,9 +3179,9 @@ module Cucumber
         @will_be_retried = will_be_retried
       end
 
-      def to_hash
+      def to_camel_symbol_hash
         {
-          duration: duration ? duration.to_hash : nil,
+          duration: duration ? duration.to_camel_symbol_hash : nil,
           message: message,
           status: status,
           willBeRetried: will_be_retried,
@@ -3189,7 +3189,7 @@ module Cucumber
       end
 
       def to_json
-        to_hash.to_json
+        to_camel_symbol_hash.to_json
       end
 
     end
@@ -3210,15 +3210,15 @@ module Cucumber
       attr_reader :timestamp
 
       def self.from_json(json)
-        from_hash(JSON.parse(json))
+        from_camel_symbol_hash(JSON.parse(json, {symbolize_names: true}))
       end
 
-      def self.from_hash(hash)
+      def self.from_camel_symbol_hash(hash)
         return nil if hash.nil?
         self.new(
-          test_case_started_id: hash['testCaseStartedId'],
-          test_step_id: hash['testStepId'],
-          timestamp: Timestamp.from_hash(hash['timestamp']),
+          test_case_started_id: hash[:testCaseStartedId],
+          test_step_id: hash[:testStepId],
+          timestamp: Timestamp.from_camel_symbol_hash(hash[:timestamp]),
         )
       end
 
@@ -3232,16 +3232,16 @@ module Cucumber
         @timestamp = timestamp
       end
 
-      def to_hash
+      def to_camel_symbol_hash
         {
           testCaseStartedId: test_case_started_id,
           testStepId: test_step_id,
-          timestamp: timestamp ? timestamp.to_hash : nil,
+          timestamp: timestamp ? timestamp.to_camel_symbol_hash : nil,
         }.delete_if {|k,v| v.nil?}
       end
 
       def to_json
-        to_hash.to_json
+        to_camel_symbol_hash.to_json
       end
 
     end
@@ -3271,14 +3271,14 @@ module Cucumber
       attr_reader :nanos
 
       def self.from_json(json)
-        from_hash(JSON.parse(json))
+        from_camel_symbol_hash(JSON.parse(json, {symbolize_names: true}))
       end
 
-      def self.from_hash(hash)
+      def self.from_camel_symbol_hash(hash)
         return nil if hash.nil?
         self.new(
-          seconds: hash['seconds'],
-          nanos: hash['nanos'],
+          seconds: hash[:seconds],
+          nanos: hash[:nanos],
         )
       end
 
@@ -3290,7 +3290,7 @@ module Cucumber
         @nanos = nanos
       end
 
-      def to_hash
+      def to_camel_symbol_hash
         {
           seconds: seconds,
           nanos: nanos,
@@ -3298,7 +3298,7 @@ module Cucumber
       end
 
       def to_json
-        to_hash.to_json
+        to_camel_symbol_hash.to_json
       end
 
     end
@@ -3317,14 +3317,14 @@ module Cucumber
       attr_reader :name
 
       def self.from_json(json)
-        from_hash(JSON.parse(json))
+        from_camel_symbol_hash(JSON.parse(json, {symbolize_names: true}))
       end
 
-      def self.from_hash(hash)
+      def self.from_camel_symbol_hash(hash)
         return nil if hash.nil?
         self.new(
-          expression: hash['expression'],
-          name: hash['name'],
+          expression: hash[:expression],
+          name: hash[:name],
         )
       end
 
@@ -3336,7 +3336,7 @@ module Cucumber
         @name = name
       end
 
-      def to_hash
+      def to_camel_symbol_hash
         {
           expression: expression,
           name: name,
@@ -3344,7 +3344,7 @@ module Cucumber
       end
 
       def to_json
-        to_hash.to_json
+        to_camel_symbol_hash.to_json
       end
 
     end

@@ -25,18 +25,18 @@ module Cucumber
     <%- end -%>
 
       def self.from_json(json)
-        from_hash(JSON.parse(json))
+        from_camel_symbol_hash(JSON.parse(json, {symbolize_names: true}))
       end
 
-      def self.from_hash(hash)
+      def self.from_camel_symbol_hash(hash)
         return nil if hash.nil?
         self.new(
         <%- schema['properties'].each do |property_name, property| -%>
           <%- ref = property['$ref'] -%>
           <%- if ref -%>
-          <%= underscore(property_name) %>: <%= class_name(ref) %>.from_hash(hash['<%= property_name -%>']),
+          <%= underscore(property_name) %>: <%= class_name(ref) %>.from_camel_symbol_hash(hash[:<%= property_name -%>]),
           <%- else -%>
-          <%= underscore(property_name) %>: hash['<%= property_name -%>'],
+          <%= underscore(property_name) %>: hash[:<%= property_name -%>],
           <%- end -%>
         <%- end -%>
         )
@@ -56,12 +56,12 @@ module Cucumber
       <%- end -%>
       end
 
-      def to_hash
+      def to_camel_symbol_hash
         {
         <%- schema['properties'].each do |property_name, property| -%>
           <%- ref = property['$ref'] -%>
           <%- if ref -%>
-          <%= property_name %>: <%= underscore(property_name) -%> ? <%= underscore(property_name) -%>.to_hash : nil,
+          <%= property_name %>: <%= underscore(property_name) -%> ? <%= underscore(property_name) -%>.to_camel_symbol_hash : nil,
           <%- else -%>
           <%= property_name %>: <%= underscore(property_name) -%>,
           <%- end -%>
@@ -70,7 +70,7 @@ module Cucumber
       end
 
       def to_json
-        to_hash.to_json
+        to_camel_symbol_hash.to_json
       end
 
     end
