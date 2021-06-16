@@ -7,7 +7,7 @@ Cucumber Messages are currently implemented in the following versions of Cucumbe
 
 * Cucumber-JVM 6.0.0 and greater
 * Cucumber-Ruby 4.0.0 and greater
-* Cucumber.js 6.0.5 and greater
+* Cucumber.js 7.0.0 and greater
 
 The use of the `json` formatter may be deprecated and eventually removed from these implementations.
 See [utilities](#utilities) for a list of tools that may help with backward and forward compatibility
