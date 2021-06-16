@@ -7,6 +7,10 @@ module Cucumber
       include Cucumber::Messages::Message::Utils
 
       module Deserialization
+        def self.included(other)
+          other.extend(ClassMethods)
+        end
+
         module ClassMethods
 
           ##
@@ -131,10 +135,6 @@ module Cucumber
               dto.send(method_name, value)
             end
           end
-        end
-
-        def self.included(other)
-          other.extend(ClassMethods)
         end
       end
     end

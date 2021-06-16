@@ -2,6 +2,10 @@ module Cucumber
   module Messages
     class Message
       module Utils
+        def self.included(other)
+          other.extend(ClassMethods)
+        end
+
         module ClassMethods
 
           ##
@@ -35,10 +39,6 @@ module Cucumber
             camelized.gsub!(/(?:_|(\/))([a-z\d]*)/i) { "#{$1}#{$2.capitalize}" }
             camelized
           end
-        end
-
-        def self.included(other)
-          other.extend(ClassMethods)
         end
       end
     end

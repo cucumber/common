@@ -6,7 +6,6 @@ module Cucumber
     class Message
       include Cucumber::Messages::Message::Deserialization
       include Cucumber::Messages::Message::Serialization
-
     end
   end
 end
