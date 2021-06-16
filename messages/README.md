@@ -9,7 +9,7 @@ Cucumber Messages are currently implemented in the following versions of Cucumbe
 * Cucumber-Ruby 4.0.0 and greater
 * Cucumber.js 7.0.0 and greater
 
-The use of the `json` formatter may be deprecated and eventually removed from these implementations.
+The `json` formatter is now in maintenance mode for these these implementations, and Messages is the preferred standard.
 See [utilities](#utilities) for a list of tools that may help with backward and forward compatibility
 with the `json` format.
 
