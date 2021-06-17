@@ -14,6 +14,7 @@ import {
   ExamplesTableProps,
   useCustomRendering,
 } from '../customise/CustomRendering'
+import Attachment from "./Attachment";
 
 const DefaultRenderer: DefaultComponent<ExamplesTableProps, ExamplesTableClasses> = ({
   tableHeader,
@@ -68,6 +69,10 @@ const RowOrRows: React.FunctionComponent<{
   const testStepResult = getWorstTestStepResult(
     cucumberQuery.getPickleTestStepResults(gherkinQuery.getPickleIds(uri, row.id))
   )
+
+  const pickleStepIds = gherkinQuery.getPickleStepIds(row.id)
+  const attachments = cucumberQuery.getPickleStepAttachments(pickleStepIds)
+
   return (
     <>
       <tr>
@@ -80,33 +85,37 @@ const RowOrRows: React.FunctionComponent<{
           </td>
         ))}
       </tr>
-      <ErrorMessageRow
+      <AttachmentAndErrorRow
         key="row-error"
         className={detailClass}
-        testStepResult={testStepResult}
+        attachments={attachments}
+        errorMessage={testStepResult.message}
         colSpan={row.cells.length}
       />
     </>
   )
 }
 
-interface IErrorMessageRowProps {
-  testStepResult: messages.TestStepResult
+interface IAttachmentAndErrorRowProps {
+  attachments: readonly messages.Attachment[]
+  errorMessage: string
   colSpan: number
   className?: string
 }
 
-const ErrorMessageRow: React.FunctionComponent<IErrorMessageRowProps> = ({
-  testStepResult,
+const AttachmentAndErrorRow: React.FunctionComponent<IAttachmentAndErrorRowProps> = ({
+  attachments,
+  errorMessage,
   colSpan,
   className,
 }) => {
-  if (!testStepResult.message) return null
+  if (!errorMessage && attachments.length === 0) return null
   return (
     <tr className={className}>
       <td>&nbsp;</td>
       <td colSpan={colSpan}>
-        <ErrorMessage message={testStepResult.message} />
+        {errorMessage && <ErrorMessage message={errorMessage} />}
+        {attachments.map((attachment, i) => <Attachment key={i} attachment={attachment}/>)}
       </td>
     </tr>
   )
