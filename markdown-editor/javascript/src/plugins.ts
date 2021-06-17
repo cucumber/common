@@ -1,13 +1,3 @@
-import 'prosemirror-view/style/prosemirror.css'
-import 'prosemirror-example-setup/style/style.css'
-import 'prosemirror-menu/style/menu.css'
-import 'prosemirror-tables/style/tables.css'
-import './styles.css'
-
-import React from 'react'
-import { ProseMirror, useProseMirror } from 'use-prosemirror'
-// @ts-ignore
-import { buildMenuItems, exampleSetup } from 'prosemirror-example-setup'
 import {
   addColumnAfter,
   addColumnBefore,
@@ -28,9 +18,11 @@ import {
 } from 'prosemirror-tables'
 import { keymap } from 'prosemirror-keymap'
 import { Dropdown, MenuItem } from 'prosemirror-menu'
-import { cucumberMarkdownParser, schema, cucumberMarkdownSerializer } from './cucumberMarkdown'
+import { schema } from './cucumberMarkdown'
 import { EditorState, TextSelection, Transaction } from 'prosemirror-state'
 import { Fragment, Node, Schema } from 'prosemirror-model'
+// @ts-ignore
+import { buildMenuItems, exampleSetup } from 'prosemirror-example-setup'
 
 const menu = buildMenuItems(schema).fullMenu
 
@@ -99,24 +91,13 @@ menu.splice(2, 0, [
   new Dropdown(tableMenu, { label: 'Table' }),
 ])
 
-const MarkdownEditor: React.FunctionComponent<{ content: string }> = ({ content }) => {
-  const [state, setState] = useProseMirror({
-    doc: cucumberMarkdownParser.parse(content),
-    plugins: [
-      columnResizing({}),
-      tableEditing(),
-      keymap({
-        Tab: goToNextCell(1),
-        'Shift-Tab': goToNextCell(-1),
-      }),
-    ].concat(exampleSetup({ schema, menuContent: menu })),
-  })
-  return <ProseMirror state={state} onChange={(newState) => {
-    const markdown = cucumberMarkdownSerializer.serialize(newState.doc)
-    console.log('---------')
-    console.log(markdown)
-    setState(newState)
-  }} />
-}
+const plugins = [
+  columnResizing({}),
+  tableEditing(),
+  keymap({
+    Tab: goToNextCell(1),
+    'Shift-Tab': goToNextCell(-1),
+  }),
+].concat(exampleSetup({ schema, menuContent: menu }))
 
-export default MarkdownEditor
+export default plugins

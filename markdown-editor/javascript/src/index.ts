@@ -1,3 +1,3 @@
-import MarkdownEditor from './MarkdownEditor'
+import CucumberMarkdownProseMirror from './CucumberMarkdownProseMirror'
 
-export { MarkdownEditor }
+export { CucumberMarkdownProseMirror }
