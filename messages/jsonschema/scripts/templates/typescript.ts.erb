@@ -1,0 +1,21 @@
+import { Type } from 'class-transformer'
+import 'reflect-metadata'
+
+<% @schemas.sort.each do |key, schema| -%>
+export class <%= class_name(key) -%> {
+  <%- schema['properties'].each do |property_name, property| -%>
+
+    <%- ref = property['$ref'] || property['items'] && property['items']['$ref'] -%>
+    <%- if ref -%>
+      <%- %>  @Type(() => <%= class_name(ref) -%>)
+    <%- end -%>
+    <%- if (schema['required'] || []).index(property_name) -%>
+      <%- %>  <%= property_name %>: <%= type_for(class_name(key), property_name, property) -%> = <%= default_value(class_name(key), property_name, property) -%>
+    <%- else -%>
+      <%- %>  <%= property_name %>?: <%= type_for(class_name(key), property_name, property) -%>
+    <%- end -%>
+
+  <%- end -%>
+}
+
+<% end -%>

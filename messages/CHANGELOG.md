@@ -9,7 +9,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+* [Ruby] Generate DTOs from the json schemas to avoid usage of plain ruby hashes
+  ([#1574](https://github.com/cucumber/common/issues/1574))
+
 ### Changed
+
+* [Go] Move module paths to point to monorepo
+  ([#1550](https://github.com/cucumber/common/issues/1550))
 
 ### Deprecated
 

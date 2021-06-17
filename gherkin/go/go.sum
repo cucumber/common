@@ -1,3 +1,8 @@
+github.com/cucumber/common/messages/go/v16 v16.0.0-20210616143200-16b27f1a25b2/go.mod h1:M2BQJNS63rzmxaz/VgU6US/REUbAeROGJ6QdntfY98Y=
+github.com/cucumber/gherkin-go v5.1.0+incompatible h1:RCvyVI6KQLI2IJkijZBeJcE4K3U7DnhQ1RjD7VV+AIk=
+github.com/cucumber/gherkin-go/v19 v19.0.3 h1:mMSKu1077ffLbTJULUfM5HPokgeBcIGboyeNUof1MdE=
+github.com/cucumber/gherkin-go/v19 v19.0.3/go.mod h1:jY/NP6jUtRSArQQJ5h1FXOUgk5fZK24qtE7vKi776Vw=
+github.com/cucumber/messages-go v3.0.0+incompatible h1:IIZ+6dRebLcM80cStIDad0Wr6ipgs4zYGMqNH0kp7pY=
 github.com/cucumber/messages-go/v16 v16.0.0 h1:3QR8gAu6JYUI8U7gVUMZs/m+C0ZlBcTwf2QKCHMDH88=
 github.com/cucumber/messages-go/v16 v16.0.0/go.mod h1:EJcyR5Mm5ZuDsKJnT2N9KRnBK30BGjtYotDKpwQ0v6g=
 github.com/cucumber/messages-go/v16 v16.0.1 h1:fvkpwsLgnIm0qugftrw2YwNlio+ABe2Iu94Ap8GMYIY=

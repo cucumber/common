@@ -12,7 +12,7 @@ executors:
   # the build nodes (faster builds).
   docker-cucumber-build:
     docker:
-      - image: cucumber/cucumber-build:0.4.4
+      - image: cucumber/cucumber-build:0.5.2
     working_directory: ~/cucumber
     environment:
       # nvm, node and npm are installed locally rather globally.
@@ -32,6 +32,10 @@ executors:
   docker-circleci-node-12:
     docker:
       - image: circleci/node:12
+    working_directory: ~/cucumber
+  docker-circleci-node-14:
+    docker:
+      - image: circleci/node:14
     working_directory: ~/cucumber
   docker-circleci-node-15:
     docker:
@@ -304,13 +308,14 @@ jobs:
             make
 
   react-javascript:
-    executor: docker-cucumber-build
+    executor: docker-circleci-node-12
     steps:
       - attach_workspace:
           at: '~/cucumber'
       - run:
           name: react/javascript
           command: |
+            sudo npm install --global npm@7
             cd react/javascript
             make
 

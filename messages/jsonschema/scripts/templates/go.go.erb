@@ -1,0 +1,14 @@
+package messages
+
+<% @schemas.sort.each do |key, schema| -%>
+type <%= class_name(key) %> struct {
+  <%- schema['properties'].each do |property_name, property| -%>
+    <%-
+      type_name = type_for(class_name(key), property_name, property)
+      required = (schema['required'] || []).index(property_name)
+    -%>
+    <%- %>  <%= capitalize(property_name) %> <%= type_name %> `json:"<%= property_name %><%= required ? '' : ',omitempty' %>"`
+  <%- end -%>
+}
+
+<% end -%>
