@@ -17,6 +17,7 @@
     "compatibility-kit/javascript",
     "json-formatter/javascript-testdata",
     "react/javascript",
+    "markdown-editor/javascript",
     "html-formatter/javascript",
     "json-to-messages/javascript",
     "json-to-messages/javascript-testdata"
