@@ -1,7 +1,7 @@
 package main
 
 import (
-	formatter "github.com/cucumber/demo-formatter-go"
+	formatter "github.com/cucumber/common/demo-formatter/go"
 	"os"
 )
 
