@@ -23,6 +23,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+* [JSON Schema] marked `TestStep#stepDefinitionIds` and `TestStep#stepMatchArgumentsLists` as required fields.
+
 ## [16.0.1] - 2021-05-24
 
 ### Fixed

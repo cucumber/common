@@ -24,6 +24,8 @@ describe('<HookStep>', () => {
     const step: messages.TestStep = {
       id: '123',
       hookId: '456',
+      stepMatchArgumentsLists: [],
+      stepDefinitionIds: []
     }
 
     const { container } = render(<HookStep step={step} />, {
@@ -59,6 +61,8 @@ describe('<HookStep>', () => {
     const step: messages.TestStep = {
       id: '123',
       hookId: '456',
+      stepMatchArgumentsLists: [],
+      stepDefinitionIds: []
     }
 
     const { container } = render(<HookStep step={step} />, {
@@ -85,6 +89,8 @@ describe('<HookStep>', () => {
     const step: messages.TestStep = {
       id: '123',
       hookId: '456',
+      stepMatchArgumentsLists: [],
+      stepDefinitionIds: []
     }
 
     const { container } = render(<HookStep step={step} />, {
@@ -123,6 +129,8 @@ describe('<HookStep>', () => {
     const step: messages.TestStep = {
       id: '123',
       hookId: '456',
+      stepMatchArgumentsLists: [],
+      stepDefinitionIds: []
     }
 
     const { container } = render(<HookStep step={step} />, {

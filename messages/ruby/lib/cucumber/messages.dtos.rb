@@ -374,7 +374,7 @@ module Cucumber
         self.new(
           uri: hash[:uri],
           feature: Feature.from_camel_symbol_hash(hash[:feature]),
-          comments: hash[:comments],
+          comments: hash[:comments].map { |item| Comment.from_camel_symbol_hash(item) },
         )
       end
 
@@ -392,7 +392,7 @@ module Cucumber
         {
           uri: uri,
           feature: feature ? feature.to_camel_symbol_hash : nil,
-          comments: comments,
+          comments: comments.map { |item| item.to_camel_symbol_hash },
         }.delete_if {|k,v| v.nil?}
       end
 
@@ -437,7 +437,7 @@ module Cucumber
           keyword: hash[:keyword],
           name: hash[:name],
           description: hash[:description],
-          steps: hash[:steps],
+          steps: hash[:steps].map { |item| Step.from_camel_symbol_hash(item) },
           id: hash[:id],
         )
       end
@@ -464,7 +464,7 @@ module Cucumber
           keyword: keyword,
           name: name,
           description: description,
-          steps: steps,
+          steps: steps.map { |item| item.to_camel_symbol_hash },
           id: id,
         }.delete_if {|k,v| v.nil?}
       end
@@ -549,7 +549,7 @@ module Cucumber
         return nil if hash.nil?
         self.new(
           location: Location.from_camel_symbol_hash(hash[:location]),
-          rows: hash[:rows],
+          rows: hash[:rows].map { |item| TableRow.from_camel_symbol_hash(item) },
         )
       end
 
@@ -564,7 +564,7 @@ module Cucumber
       def to_camel_symbol_hash
         {
           location: location ? location.to_camel_symbol_hash : nil,
-          rows: rows,
+          rows: rows.map { |item| item.to_camel_symbol_hash },
         }.delete_if {|k,v| v.nil?}
       end
 
@@ -668,12 +668,12 @@ module Cucumber
         return nil if hash.nil?
         self.new(
           location: Location.from_camel_symbol_hash(hash[:location]),
-          tags: hash[:tags],
+          tags: hash[:tags].map { |item| Tag.from_camel_symbol_hash(item) },
           keyword: hash[:keyword],
           name: hash[:name],
           description: hash[:description],
           table_header: TableRow.from_camel_symbol_hash(hash[:tableHeader]),
-          table_body: hash[:tableBody],
+          table_body: hash[:tableBody].map { |item| TableRow.from_camel_symbol_hash(item) },
           id: hash[:id],
         )
       end
@@ -701,12 +701,12 @@ module Cucumber
       def to_camel_symbol_hash
         {
           location: location ? location.to_camel_symbol_hash : nil,
-          tags: tags,
+          tags: tags.map { |item| item.to_camel_symbol_hash },
           keyword: keyword,
           name: name,
           description: description,
           tableHeader: table_header ? table_header.to_camel_symbol_hash : nil,
-          tableBody: table_body,
+          tableBody: table_body.map { |item| item.to_camel_symbol_hash },
           id: id,
         }.delete_if {|k,v| v.nil?}
       end
@@ -769,12 +769,12 @@ module Cucumber
         return nil if hash.nil?
         self.new(
           location: Location.from_camel_symbol_hash(hash[:location]),
-          tags: hash[:tags],
+          tags: hash[:tags].map { |item| Tag.from_camel_symbol_hash(item) },
           language: hash[:language],
           keyword: hash[:keyword],
           name: hash[:name],
           description: hash[:description],
-          children: hash[:children],
+          children: hash[:children].map { |item| FeatureChild.from_camel_symbol_hash(item) },
         )
       end
 
@@ -799,12 +799,12 @@ module Cucumber
       def to_camel_symbol_hash
         {
           location: location ? location.to_camel_symbol_hash : nil,
-          tags: tags,
+          tags: tags.map { |item| item.to_camel_symbol_hash },
           language: language,
           keyword: keyword,
           name: name,
           description: description,
-          children: children,
+          children: children.map { |item| item.to_camel_symbol_hash },
         }.delete_if {|k,v| v.nil?}
       end
 
@@ -904,11 +904,11 @@ module Cucumber
         return nil if hash.nil?
         self.new(
           location: Location.from_camel_symbol_hash(hash[:location]),
-          tags: hash[:tags],
+          tags: hash[:tags].map { |item| Tag.from_camel_symbol_hash(item) },
           keyword: hash[:keyword],
           name: hash[:name],
           description: hash[:description],
-          children: hash[:children],
+          children: hash[:children].map { |item| RuleChild.from_camel_symbol_hash(item) },
           id: hash[:id],
         )
       end
@@ -934,11 +934,11 @@ module Cucumber
       def to_camel_symbol_hash
         {
           location: location ? location.to_camel_symbol_hash : nil,
-          tags: tags,
+          tags: tags.map { |item| item.to_camel_symbol_hash },
           keyword: keyword,
           name: name,
           description: description,
-          children: children,
+          children: children.map { |item| item.to_camel_symbol_hash },
           id: id,
         }.delete_if {|k,v| v.nil?}
       end
@@ -1032,12 +1032,12 @@ module Cucumber
         return nil if hash.nil?
         self.new(
           location: Location.from_camel_symbol_hash(hash[:location]),
-          tags: hash[:tags],
+          tags: hash[:tags].map { |item| Tag.from_camel_symbol_hash(item) },
           keyword: hash[:keyword],
           name: hash[:name],
           description: hash[:description],
-          steps: hash[:steps],
-          examples: hash[:examples],
+          steps: hash[:steps].map { |item| Step.from_camel_symbol_hash(item) },
+          examples: hash[:examples].map { |item| Examples.from_camel_symbol_hash(item) },
           id: hash[:id],
         )
       end
@@ -1065,12 +1065,12 @@ module Cucumber
       def to_camel_symbol_hash
         {
           location: location ? location.to_camel_symbol_hash : nil,
-          tags: tags,
+          tags: tags.map { |item| item.to_camel_symbol_hash },
           keyword: keyword,
           name: name,
           description: description,
-          steps: steps,
-          examples: examples,
+          steps: steps.map { |item| item.to_camel_symbol_hash },
+          examples: examples.map { |item| item.to_camel_symbol_hash },
           id: id,
         }.delete_if {|k,v| v.nil?}
       end
@@ -1238,7 +1238,7 @@ module Cucumber
         return nil if hash.nil?
         self.new(
           location: Location.from_camel_symbol_hash(hash[:location]),
-          cells: hash[:cells],
+          cells: hash[:cells].map { |item| TableCell.from_camel_symbol_hash(item) },
           id: hash[:id],
         )
       end
@@ -1256,7 +1256,7 @@ module Cucumber
       def to_camel_symbol_hash
         {
           location: location ? location.to_camel_symbol_hash : nil,
-          cells: cells,
+          cells: cells.map { |item| item.to_camel_symbol_hash },
           id: id,
         }.delete_if {|k,v| v.nil?}
       end
@@ -1873,8 +1873,8 @@ module Cucumber
           uri: hash[:uri],
           name: hash[:name],
           language: hash[:language],
-          steps: hash[:steps],
-          tags: hash[:tags],
+          steps: hash[:steps].map { |item| PickleStep.from_camel_symbol_hash(item) },
+          tags: hash[:tags].map { |item| PickleTag.from_camel_symbol_hash(item) },
           ast_node_ids: hash[:astNodeIds],
         )
       end
@@ -1903,8 +1903,8 @@ module Cucumber
           uri: uri,
           name: name,
           language: language,
-          steps: steps,
-          tags: tags,
+          steps: steps.map { |item| item.to_camel_symbol_hash },
+          tags: tags.map { |item| item.to_camel_symbol_hash },
           astNodeIds: ast_node_ids,
         }.delete_if {|k,v| v.nil?}
       end
@@ -2091,7 +2091,7 @@ module Cucumber
       def self.from_camel_symbol_hash(hash)
         return nil if hash.nil?
         self.new(
-          rows: hash[:rows],
+          rows: hash[:rows].map { |item| PickleTableRow.from_camel_symbol_hash(item) },
         )
       end
 
@@ -2103,7 +2103,7 @@ module Cucumber
 
       def to_camel_symbol_hash
         {
-          rows: rows,
+          rows: rows.map { |item| item.to_camel_symbol_hash },
         }.delete_if {|k,v| v.nil?}
       end
 
@@ -2171,7 +2171,7 @@ module Cucumber
       def self.from_camel_symbol_hash(hash)
         return nil if hash.nil?
         self.new(
-          cells: hash[:cells],
+          cells: hash[:cells].map { |item| PickleTableCell.from_camel_symbol_hash(item) },
         )
       end
 
@@ -2183,7 +2183,7 @@ module Cucumber
 
       def to_camel_symbol_hash
         {
-          cells: cells,
+          cells: cells.map { |item| item.to_camel_symbol_hash },
         }.delete_if {|k,v| v.nil?}
       end
 
@@ -2602,7 +2602,7 @@ module Cucumber
         self.new(
           id: hash[:id],
           pickle_id: hash[:pickleId],
-          test_steps: hash[:testSteps],
+          test_steps: hash[:testSteps].map { |item| TestStep.from_camel_symbol_hash(item) },
         )
       end
 
@@ -2620,7 +2620,7 @@ module Cucumber
         {
           id: id,
           pickleId: pickle_id,
-          testSteps: test_steps,
+          testSteps: test_steps.map { |item| item.to_camel_symbol_hash },
         }.delete_if {|k,v| v.nil?}
       end
 
@@ -2652,7 +2652,7 @@ module Cucumber
       def self.from_camel_symbol_hash(hash)
         return nil if hash.nil?
         self.new(
-          children: hash[:children],
+          children: hash[:children].map { |item| Group.from_camel_symbol_hash(item) },
           start: hash[:start],
           value: hash[:value],
         )
@@ -2670,7 +2670,7 @@ module Cucumber
 
       def to_camel_symbol_hash
         {
-          children: children,
+          children: children.map { |item| item.to_camel_symbol_hash },
           start: start,
           value: value,
         }.delete_if {|k,v| v.nil?}
@@ -2757,7 +2757,7 @@ module Cucumber
       def self.from_camel_symbol_hash(hash)
         return nil if hash.nil?
         self.new(
-          step_match_arguments: hash[:stepMatchArguments],
+          step_match_arguments: hash[:stepMatchArguments].map { |item| StepMatchArgument.from_camel_symbol_hash(item) },
         )
       end
 
@@ -2769,7 +2769,7 @@ module Cucumber
 
       def to_camel_symbol_hash
         {
-          stepMatchArguments: step_match_arguments,
+          stepMatchArguments: step_match_arguments.map { |item| item.to_camel_symbol_hash },
         }.delete_if {|k,v| v.nil?}
       end
 
@@ -2825,7 +2825,7 @@ module Cucumber
           id: hash[:id],
           pickle_step_id: hash[:pickleStepId],
           step_definition_ids: hash[:stepDefinitionIds],
-          step_match_arguments_lists: hash[:stepMatchArgumentsLists],
+          step_match_arguments_lists: hash[:stepMatchArgumentsLists].map { |item| StepMatchArgumentsList.from_camel_symbol_hash(item) },
         )
       end
 
@@ -2833,8 +2833,8 @@ module Cucumber
         hook_id: nil,
         id: '',
         pickle_step_id: nil,
-        step_definition_ids: nil,
-        step_match_arguments_lists: nil
+        step_definition_ids: [],
+        step_match_arguments_lists: []
       )
         @hook_id = hook_id
         @id = id
@@ -2849,7 +2849,7 @@ module Cucumber
           id: id,
           pickleStepId: pickle_step_id,
           stepDefinitionIds: step_definition_ids,
-          stepMatchArgumentsLists: step_match_arguments_lists,
+          stepMatchArgumentsLists: step_match_arguments_lists.map { |item| item.to_camel_symbol_hash },
         }.delete_if {|k,v| v.nil?}
       end
 

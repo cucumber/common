@@ -6,6 +6,8 @@ export default class HookTestStep extends TestStep {
     return {
       id: this.id,
       hookId: this.sourceId,
+      stepDefinitionIds: [],
+      stepMatchArgumentsLists: []
     }
   }
 }

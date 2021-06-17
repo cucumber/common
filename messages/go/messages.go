@@ -303,8 +303,8 @@ type TestStep struct {
 	HookId                  string                    `json:"hookId,omitempty"`
 	Id                      string                    `json:"id"`
 	PickleStepId            string                    `json:"pickleStepId,omitempty"`
-	StepDefinitionIds       []string                  `json:"stepDefinitionIds,omitempty"`
-	StepMatchArgumentsLists []*StepMatchArgumentsList `json:"stepMatchArgumentsLists,omitempty"`
+	StepDefinitionIds       []string                  `json:"stepDefinitionIds"`
+	StepMatchArgumentsLists []*StepMatchArgumentsList `json:"stepMatchArgumentsLists"`
 }
 
 type TestCaseFinished struct {

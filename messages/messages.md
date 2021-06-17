@@ -397,8 +397,8 @@ will only have one of its fields set, which indicates the payload of the message
 | `hookId` | string | no | |
 | `id` | string | yes | |
 | `pickleStepId` | string | no | |
-| `stepDefinitionIds` | string[] | no | |
-| `stepMatchArgumentsLists` | [StepMatchArgumentsList](#stepmatchargumentslist)[] | no | |
+| `stepDefinitionIds` | string[] | yes | |
+| `stepMatchArgumentsLists` | [StepMatchArgumentsList](#stepmatchargumentslist)[] | yes | |
 
 ## TestCaseFinished
 

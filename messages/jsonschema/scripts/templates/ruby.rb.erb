@@ -31,14 +31,19 @@ module Cucumber
       def self.from_camel_symbol_hash(hash)
         return nil if hash.nil?
         self.new(
-        <%- schema['properties'].each do |property_name, property| -%>
-          <%- ref = property['$ref'] -%>
-          <%- if ref -%>
+      <%-
+        schema['properties'].each do |property_name, property|
+          ref = property['$ref']
+          items_ref = property.dig('items', '$ref')
+      -%>
+        <%- if items_ref -%>
+          <%= underscore(property_name) %>: hash[:<%= property_name -%>].map { |item| <%= class_name(items_ref) %>.from_camel_symbol_hash(item) },
+        <%- elsif ref -%>
           <%= underscore(property_name) %>: <%= class_name(ref) %>.from_camel_symbol_hash(hash[:<%= property_name -%>]),
-          <%- else -%>
+        <%- else -%>
           <%= underscore(property_name) %>: hash[:<%= property_name -%>],
-          <%- end -%>
         <%- end -%>
+      <%- end -%>
         )
       end
 
@@ -58,14 +63,19 @@ module Cucumber
 
       def to_camel_symbol_hash
         {
-        <%- schema['properties'].each do |property_name, property| -%>
-          <%- ref = property['$ref'] -%>
-          <%- if ref -%>
+      <%-
+        schema['properties'].each do |property_name, property|
+          ref = property['$ref']
+          items_ref = property.dig('items', '$ref')
+      -%>
+        <%- if items_ref -%>
+          <%= property_name %>: <%= underscore(property_name) -%>.map { |item| item.to_camel_symbol_hash },
+        <%- elsif ref -%>
           <%= property_name %>: <%= underscore(property_name) -%> ? <%= underscore(property_name) -%>.to_camel_symbol_hash : nil,
-          <%- else -%>
+        <%- else -%>
           <%= property_name %>: <%= underscore(property_name) -%>,
-          <%- end -%>
         <%- end -%>
+      <%- end -%>
         }.delete_if {|k,v| v.nil?}
       end
 

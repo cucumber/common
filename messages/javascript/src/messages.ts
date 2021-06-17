@@ -551,10 +551,10 @@ export class TestStep {
 
   pickleStepId?: string
 
-  stepDefinitionIds?: readonly string[]
+  stepDefinitionIds: readonly string[] = []
 
   @Type(() => StepMatchArgumentsList)
-  stepMatchArgumentsLists?: readonly StepMatchArgumentsList[]
+  stepMatchArgumentsLists: readonly StepMatchArgumentsList[] = []
 }
 
 export class TestCaseFinished {
