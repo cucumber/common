@@ -61,6 +61,7 @@ export class PredictablePickleTestStep extends PredictableTestStep {
       id: this.id,
       pickleStepId: this.sourceId,
       stepDefinitionIds: stepDefinitionIds,
+      stepMatchArgumentsLists: []
     }
   }
 }
@@ -70,6 +71,8 @@ export class PredictableHookTestStep extends PredictableTestStep {
     return {
       id: this.id,
       hookId: this.sourceId,
+      stepDefinitionIds: [],
+      stepMatchArgumentsLists: []
     }
   }
 }
