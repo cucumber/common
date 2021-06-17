@@ -22,7 +22,6 @@
     "@types/prosemirror-markdown": "1.5.1",
     "@types/prosemirror-menu": "1.0.3",
     "@types/prosemirror-schema-basic": "1.0.2",
-    "@types/prosemirror-tables": "0.9.1",
     "@types/prosemirror-view": "1.17.1",
     "markdown-it": "12.0.6",
     "prosemirror-commands": "1.1.8",
