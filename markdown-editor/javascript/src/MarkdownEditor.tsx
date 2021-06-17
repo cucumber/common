@@ -28,7 +28,7 @@ import {
 } from 'prosemirror-tables'
 import { keymap } from 'prosemirror-keymap'
 import { Dropdown, MenuItem } from 'prosemirror-menu'
-import { cucumberMarkdownParser, schema } from './cucumberMarkdown'
+import { cucumberMarkdownParser, schema, cucumberMarkdownSerializer } from './cucumberMarkdown'
 import { EditorState, TextSelection, Transaction } from 'prosemirror-state'
 import { Fragment, Node, Schema } from 'prosemirror-model'
 
@@ -111,7 +111,12 @@ const MarkdownEditor: React.FunctionComponent<{ content: string }> = ({ content 
       }),
     ].concat(exampleSetup({ schema, menuContent: menu })),
   })
-  return <ProseMirror state={state} onChange={(newState) => setState(newState)} />
+  return <ProseMirror state={state} onChange={(newState) => {
+    const markdown = cucumberMarkdownSerializer.serialize(newState.doc)
+    console.log('---------')
+    console.log(markdown)
+    setState(newState)
+  }} />
 }
 
 export default MarkdownEditor
