@@ -24,7 +24,7 @@ describe('SearchBar', () => {
     const statusesWithScenarios: string[] = []
 
     const app = (
-      <SearchQueryContext.Provider value={new SearchQueryCtx(searchQuery, setSearchQuery)}>
+      <SearchQueryContext.Provider value={SearchQueryCtx.withDefaults(searchQuery, setSearchQuery)}>
         <SearchBar statusesWithScenarios={statusesWithScenarios} />
       </SearchQueryContext.Provider>
     )

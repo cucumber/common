@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import * as messages from '@cucumber/messages'
 import statusName from './components/gherkin/statusName'
 
@@ -22,7 +22,7 @@ function isDefault(hiddenStatuses: readonly string[]): boolean {
   return true
 }
 
-export interface SearchQueryProps {
+export interface SearchQueryUpdate {
   readonly query?: string
   readonly hiddenStatuses?: readonly string[]
 }
@@ -32,28 +32,33 @@ export interface SearchQuery {
   readonly hiddenStatuses: readonly string[]
 }
 
-export type RenderSearchURLFn = (query: SearchQuery) => string
+export type SearchQueryUpdateFn = (query: SearchQuery) => void
 
-function toSearchQuery(iQuery?: SearchQueryProps): SearchQuery {
-  return {
-    query: iQuery?.query != null ? iQuery.query : defaultQuery,
-    hiddenStatuses: iQuery?.hiddenStatuses != null ? iQuery.hiddenStatuses : defaultHiddenStatuses,
-  }
+export interface SearchQueryProps extends SearchQueryUpdate {
+  onSearchQueryUpdated?: SearchQueryUpdateFn
 }
 
-export function searchFromURLParams(
-  querySearchParam: string = defaultQuerySearchParam,
-  hideStatusesSearchParam: string = defaultHideStatusesSearchParam,
-  getURL: () => string = () => window.location.toString()
-): {
-  searchQuery: SearchQueryProps
-  renderSearchURL: RenderSearchURLFn
-} {
-  const url = new URL(getURL())
-  const hiddenStatusesParams = url.searchParams.getAll(hideStatusesSearchParam)
+export interface WindowUrlApi {
+  getURL: () => string
+  setURL: (url: string) => void
+}
 
-  function toURL(query: SearchQuery): string {
-    const url = new URL(getURL())
+const defaultWindowUrlApi: WindowUrlApi = {
+  getURL: () => window.location.toString(),
+  setURL: (url) => window.history.replaceState({}, '', url),
+}
+
+export function searchFromURLParams(opts?: {
+  querySearchParam?: string
+  hideStatusesSearchParam?: string
+  windowUrlApi?: WindowUrlApi
+}): SearchQueryProps {
+  const querySearchParam = opts?.querySearchParam ?? defaultQuerySearchParam
+  const hideStatusesSearchParam = opts?.hideStatusesSearchParam ?? defaultHideStatusesSearchParam
+  const windowUrlApi = opts?.windowUrlApi ?? defaultWindowUrlApi
+
+  function onSearchQueryUpdated(query: SearchQuery): void {
+    const url = new URL(windowUrlApi.getURL())
 
     if (query.query !== defaultQuery) {
       url.searchParams.set(querySearchParam, query.query)
@@ -68,41 +73,64 @@ export function searchFromURLParams(
       query.hiddenStatuses.forEach((s) => url.searchParams.append(hideStatusesSearchParam, s))
     }
 
-    return url.toString()
+    windowUrlApi.setURL(url.toString())
   }
 
+  const url = new URL(windowUrlApi.getURL())
+  const hiddenStatusesParams = url.searchParams.getAll(hideStatusesSearchParam)
+
   return {
-    searchQuery: {
-      query: url.searchParams.get(querySearchParam),
-      hiddenStatuses:
-        hiddenStatusesParams.length === 0 ? null : hiddenStatusesParams.filter((n) => n !== ''),
-    },
-    renderSearchURL: toURL,
+    query: url.searchParams.get(querySearchParam),
+    hiddenStatuses:
+      hiddenStatusesParams.length === 0 ? null : hiddenStatusesParams.filter((n) => n !== ''),
+    onSearchQueryUpdated,
+  }
+}
+
+function toSearchQuery(iQuery?: SearchQueryUpdate): SearchQuery {
+  return {
+    query: iQuery.query ?? defaultQuery,
+    hiddenStatuses: iQuery.hiddenStatuses ?? defaultHiddenStatuses,
   }
 }
 
 export class SearchQueryCtx implements SearchQuery {
   readonly query: string
   readonly hiddenStatuses: readonly string[]
-  private readonly updateValue: (query: SearchQuery) => void
+  readonly update: (query: SearchQueryUpdate) => void
 
-  constructor(value: SearchQueryProps, updateValue?: (query: SearchQuery) => void) {
-    const q = toSearchQuery(value)
-    this.query = q.query
-    this.hiddenStatuses = q.hiddenStatuses
-    this.updateValue =
-      updateValue ||
-      (() => {
-        // Do nothing
+  constructor(value: SearchQuery, updateValue: SearchQueryUpdateFn) {
+    this.query = value.query
+    this.hiddenStatuses = value.hiddenStatuses
+    this.update = (values: SearchQueryUpdate) => {
+      updateValue({
+        query: values.query ?? this.query,
+        hiddenStatuses: values.hiddenStatuses ?? this.hiddenStatuses,
       })
+    }
   }
 
-  update = (values: SearchQueryProps) => {
-    this.updateValue({
-      query: values.query != null ? values.query : this.query,
-      hiddenStatuses: values.hiddenStatuses != null ? values.hiddenStatuses : this.hiddenStatuses,
-    })
+  static withDefaults = (
+    value: SearchQueryUpdate,
+    onSearchQueryUpdated: SearchQueryUpdateFn = () => {
+      //Do nothing
+    }
+  ) => {
+    return new SearchQueryCtx(toSearchQuery(value), onSearchQueryUpdated)
   }
 }
 
-export default React.createContext<SearchQueryCtx>(new SearchQueryCtx({}))
+export function useSearchQueryCtx(props: SearchQueryProps): SearchQueryCtx {
+  const [searchQuery, setSearchQuery] = useState(toSearchQuery(props))
+  return new SearchQueryCtx(
+    searchQuery,
+    props.onSearchQueryUpdated
+      ? (query) => {
+          props.onSearchQueryUpdated(query)
+          setSearchQuery(query)
+        }
+      : setSearchQuery
+  )
+}
+
+export default React.createContext<SearchQueryCtx>(SearchQueryCtx.withDefaults({}))

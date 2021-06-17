@@ -1,7 +1,7 @@
 import React from 'react'
-import { faSearch, faQuestionCircle, faFilter, faShare } from '@fortawesome/free-solid-svg-icons'
+import { faSearch, faQuestionCircle, faFilter } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import SearchQueryContext, { RenderSearchURLFn } from '../../SearchQueryContext'
+import SearchQueryContext from '../../SearchQueryContext'
 import statusName from '../gherkin/statusName'
 import statuses from './statuses'
 
@@ -9,10 +9,9 @@ const statusNames = statuses.map(statusName)
 
 interface IProps {
   statusesWithScenarios: string[]
-  renderSearchURL?: RenderSearchURLFn
 }
 
-const SearchBar: React.FunctionComponent<IProps> = ({ statusesWithScenarios, renderSearchURL }) => {
+const SearchBar: React.FunctionComponent<IProps> = ({ statusesWithScenarios }) => {
   const searchQueryContext = React.useContext(SearchQueryContext)
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -26,16 +25,6 @@ const SearchBar: React.FunctionComponent<IProps> = ({ statusesWithScenarios, ren
   const showFilters =
     statusesWithScenarios.length > 1 ||
     statusesWithScenarios.find((n) => searchQueryContext.hiddenStatuses.includes(n))
-
-  let link = null
-  if (renderSearchURL) {
-    const href = renderSearchURL(searchQueryContext)
-    link = (
-      <p className="help">
-        <FontAwesomeIcon icon={faShare} /> &nbsp; Link to this search: <a href={href}>{href}</a>
-      </p>
-    )
-  }
 
   return (
     <div className="cucumber-search-bar">
@@ -93,7 +82,6 @@ const SearchBar: React.FunctionComponent<IProps> = ({ statusesWithScenarios, ren
           </ul>
         </form>
       )}
-      {link}
     </div>
   )
 }

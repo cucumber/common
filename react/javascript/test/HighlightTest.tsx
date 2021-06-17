@@ -14,7 +14,7 @@ describe('HighLight', () => {
     const document = dom.window.document
 
     const app = (
-      <SearchQueryContext.Provider value={new SearchQueryCtx({ query })}>
+      <SearchQueryContext.Provider value={SearchQueryCtx.withDefaults({ query })}>
         <HighLight text={text} markdown={markdown} />
       </SearchQueryContext.Provider>
     )

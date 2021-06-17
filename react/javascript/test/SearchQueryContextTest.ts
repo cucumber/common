@@ -3,8 +3,8 @@ import assert from 'assert'
 import sinon from 'sinon'
 
 describe('SearchQueryCtx', () => {
-  it('uses the given values its initial value', () => {
-    const sq = new SearchQueryCtx({
+  it('uses the given values in its initial value', () => {
+    const sq = SearchQueryCtx.withDefaults({
       query: 'foo bar',
       hiddenStatuses: ['passed'],
     })
@@ -14,19 +14,19 @@ describe('SearchQueryCtx', () => {
   })
 
   it('has a blank initial query by default', () => {
-    const sq = new SearchQueryCtx({})
+    const sq = SearchQueryCtx.withDefaults({})
 
     assert.strictEqual(sq.query, '')
   })
 
   it('hides unknown statuses by default', () => {
-    const sq = new SearchQueryCtx({})
+    const sq = SearchQueryCtx.withDefaults({})
 
     assert.deepStrictEqual(sq.hiddenStatuses, ['unknown'])
   })
 
   it('does not change its value on update by default', () => {
-    const sq = new SearchQueryCtx({ query: 'foo' })
+    const sq = SearchQueryCtx.withDefaults({ query: 'foo' })
 
     sq.update({
       query: 'bar',
@@ -40,7 +40,7 @@ describe('SearchQueryCtx', () => {
   it("notifies its listener when it's updated", () => {
     const onSearchQueryUpdated = sinon.spy()
 
-    const sq = new SearchQueryCtx({}, onSearchQueryUpdated)
+    const sq = SearchQueryCtx.withDefaults({}, onSearchQueryUpdated)
 
     sq.update({ query: 'foo' })
 
@@ -53,7 +53,7 @@ describe('SearchQueryCtx', () => {
   it("notifies its listener when it's updated with blank values", () => {
     const onSearchQueryUpdated = sinon.spy()
 
-    const sq = new SearchQueryCtx({}, onSearchQueryUpdated)
+    const sq = SearchQueryCtx.withDefaults({}, onSearchQueryUpdated)
 
     sq.update({ query: '', hiddenStatuses: [] })
 
@@ -66,42 +66,67 @@ describe('SearchQueryCtx', () => {
 
 describe('searchFromURLParams()', () => {
   it('uses the search parameters from the given URL as its initial value', () => {
-    const ret = searchFromURLParams(
-      'foo',
-      'bar',
-      () => 'http://example.org?foo=search%20text&bar=passed&bar=failed'
-    )
+    const ret = searchFromURLParams({
+      querySearchParam: 'foo',
+      hideStatusesSearchParam: 'bar',
+      windowUrlApi: {
+        getURL: () => 'http://example.org/?foo=search%20text&bar=passed&bar=failed',
+        setURL: () => {
+          // Do nothing
+        },
+      },
+    })
 
-    assert.strictEqual(ret.searchQuery.query, 'search text')
-    assert.deepStrictEqual(ret.searchQuery.hiddenStatuses, ['passed', 'failed'])
+    assert.strictEqual(ret.query, 'search text')
+    assert.deepStrictEqual(ret.hiddenStatuses, ['passed', 'failed'])
   })
 
   it('uses null values when no search parameters are present', () => {
-    const ret = searchFromURLParams('search', 'hidden', () => 'http://example.org')
+    const ret = searchFromURLParams({
+      querySearchParam: 'search',
+      hideStatusesSearchParam: 'hidden',
+      windowUrlApi: {
+        getURL: () => 'http://example.org',
+        setURL: () => {
+          // Do nothing
+        },
+      },
+    })
 
-    assert.strictEqual(ret.searchQuery.query, null)
-    assert.deepStrictEqual(ret.searchQuery.hiddenStatuses, null)
+    assert.strictEqual(ret.query, null)
+    assert.deepStrictEqual(ret.hiddenStatuses, null)
   })
 
-  it('creates a renderer function that adds parameters to the given URL', () => {
-    const ret = searchFromURLParams(
-      'foo',
-      'bar',
-      () => 'http://example.org?foo=search%20text&baz=sausage'
-    )
+  it('creates an update function that adds parameters to the given URL', () => {
+    const setURL = sinon.spy()
+    const ret = searchFromURLParams({
+      querySearchParam: 'foo',
+      hideStatusesSearchParam: 'bar',
+      windowUrlApi: {
+        getURL: () => 'http://example.org/?foo=search%20text&baz=sausage',
+        setURL,
+      },
+    })
 
-    const urlString = ret.renderSearchURL({
+    ret.onSearchQueryUpdated({
       query: '@slow',
       hiddenStatuses: ['failed', 'pending'],
     })
 
-    const url = new URL(urlString)
-    const hidden = url.searchParams.getAll('bar')
-    assert.strictEqual(url.host, 'example.org')
-    assert.strictEqual(url.searchParams.get('foo'), '@slow')
-    assert.strictEqual(url.searchParams.get('baz'), 'sausage')
-    assert.strictEqual(hidden.length, 2)
-    assert.strictEqual(hidden.includes('failed'), true)
-    assert.strictEqual(hidden.includes('pending'), true)
+    sinon.assert.calledOnceWithMatch(
+      setURL,
+      sinon.match((urlString) => {
+        const url = new URL(urlString.toString())
+        const hidden = url.searchParams.getAll('bar')
+        return (
+          url.host === 'example.org' &&
+          url.searchParams.get('foo') === '@slow' &&
+          url.searchParams.get('baz') === 'sausage' &&
+          hidden.length === 2 &&
+          hidden.includes('failed') &&
+          hidden.includes('pending')
+        )
+      })
+    )
   })
 })

@@ -1,7 +1,7 @@
 import React from 'react'
 import GherkinQueryContext from '../../GherkinQueryContext'
 import CucumberQueryContext from '../../CucumberQueryContext'
-import SearchQueryContext, { RenderSearchURLFn } from '../../SearchQueryContext'
+import SearchQueryContext from '../../SearchQueryContext'
 import statusName from '../gherkin/statusName'
 
 import SearchBar from './SearchBar'
@@ -16,11 +16,7 @@ import EnvelopesQueryContext from '../../EnvelopesQueryContext'
 import GherkinDocumentList from './GherkinDocumentList'
 import statuses from './statuses'
 
-interface IProps {
-  renderSearchURL?: RenderSearchURLFn
-}
-
-const FilteredResults: React.FunctionComponent<IProps> = ({ renderSearchURL }) => {
+const FilteredResults: React.FunctionComponent = () => {
   const gherkinQuery = React.useContext(GherkinQueryContext)
   const cucumberQuery = React.useContext(CucumberQueryContext)
   const { query, hiddenStatuses } = React.useContext(SearchQueryContext)
@@ -55,10 +51,7 @@ const FilteredResults: React.FunctionComponent<IProps> = ({ renderSearchURL }) =
       <div className="cucumber-report-header">
         <StatusesSummary scenarioCountByStatus={scenarioCountByStatus} />
         <ExecutionSummary meta={meta} />
-        <SearchBar
-          statusesWithScenarios={statusesWithScenarios}
-          renderSearchURL={renderSearchURL}
-        />
+        <SearchBar statusesWithScenarios={statusesWithScenarios} />
       </div>
       <GherkinDocumentList gherkinDocuments={filtered} preExpand={true} />
       <NoMatchResult query={query} matches={filtered} />
