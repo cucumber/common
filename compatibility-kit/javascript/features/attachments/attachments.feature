@@ -38,4 +38,4 @@ Feature: Attachments
 
     Examples:
       | image                        |
-      | cucumber-growing-on-vine.jpg |
+      | cucumber.png |
