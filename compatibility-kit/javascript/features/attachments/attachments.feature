@@ -34,8 +34,8 @@ Feature: Attachments
     When a JPEG image is attached
 
   Scenario: Attaching images in examples
-    When the <image> jpg is attached
+    When the <image> png is attached
 
     Examples:
-      | image                        |
+      | image        |
       | cucumber.png |

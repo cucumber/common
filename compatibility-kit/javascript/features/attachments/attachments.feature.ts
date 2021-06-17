@@ -49,6 +49,6 @@ When('a JPEG image is attached', async function () {
   await this.attach(fs.createReadStream(__dirname + '/cucumber.png'), 'image/png')
 })
 
-When('the {word} jpg is attached', async function (filename) {
+When('the {word} png is attached', async function (filename) {
   await this.attach(fs.createReadStream(__dirname + `/${filename}`), 'image/png')
 })

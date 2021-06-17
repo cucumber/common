@@ -45,3 +45,7 @@ end
 When('a JPEG image is attached') do
   attach_or_embed(self, File.open("#{__dir__}/cucumber.png"), 'image/png')
 end
+
+When('the {word} png is attached') do |filename|
+  attach_or_embed(self, File.open("#{__dir__}/#{filename}"), 'image/png')
+end
