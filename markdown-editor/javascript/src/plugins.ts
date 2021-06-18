@@ -16,18 +16,19 @@ import {
   toggleHeaderColumn,
   toggleHeaderRow,
 } from 'prosemirror-tables'
-import { keymap } from 'prosemirror-keymap'
-import { Dropdown, MenuItem } from 'prosemirror-menu'
-import { schema } from './cucumberMarkdown'
-import { EditorState, TextSelection, Transaction } from 'prosemirror-state'
-import { Fragment, Node, Schema } from 'prosemirror-model'
+import {keymap} from 'prosemirror-keymap'
+import {Dropdown, MenuItem} from 'prosemirror-menu'
+import {schema} from './cucumberMarkdown'
+import {EditorState, TextSelection, Transaction} from 'prosemirror-state'
+import {Schema} from 'prosemirror-model'
 // @ts-ignore
-import { buildMenuItems, exampleSetup } from 'prosemirror-example-setup'
+import {buildMenuItems, exampleSetup} from 'prosemirror-example-setup'
+import createTableNode from "./createTableNode";
 
 const menu = buildMenuItems(schema).fullMenu
 
 function item(label: string, cmd: any) {
-  return new MenuItem({ label, select: cmd, run: cmd })
+  return new MenuItem({label, select: cmd, run: cmd})
 }
 
 const tableMenu = [
@@ -51,28 +52,16 @@ const tableMenu = [
 // https://gitlab.coko.foundation/wax/wax-prosemirror/-/blob/master/wax-prosemirror-components/src/ui/tables/InsertTableTool.js
 // https://github.com/chanzuckerberg/czi-prosemirror/blob/master/src/ui/TableGridSizeEditor.js
 // https://discuss.prosemirror.net/t/how-co-create-table/3510/3
-
 function insertTable<S extends Schema = any>(
   state: EditorState<S>,
   dispatch?: (tr: Transaction<S>) => void
 ): boolean {
   if (dispatch) {
-    const offset: number = state.tr.selection.anchor + 1
-    const header: Node = state.schema.nodes.table_header.createAndFill()
-    const cell: Node = state.schema.nodes.table_cell.createAndFill()
-    const node: Node = state.schema.nodes.table.create(
-      null,
-      Fragment.fromArray([
-        state.schema.nodes.table_row.create(null, Fragment.fromArray([header, header, header])),
-        state.schema.nodes.table_row.create(null, Fragment.fromArray([cell, cell, cell])),
-        state.schema.nodes.table_row.create(null, Fragment.fromArray([cell, cell, cell])),
-      ])
-    )
-
     const transaction: Transaction = state.tr
+    const offset: number = state.tr.selection.anchor + 1
     dispatch(
       transaction
-        .replaceSelectionWith(node)
+        .replaceSelectionWith(createTableNode(state))
         .scrollIntoView()
         .setSelection(TextSelection.near(transaction.doc.resolve(offset)))
     )
@@ -88,7 +77,7 @@ menu.splice(2, 0, [
     class: 'ProseMirror-icon',
     run: insertTable,
   }),
-  new Dropdown(tableMenu, { label: 'Table' }),
+  new Dropdown(tableMenu, {label: 'Table'}),
 ])
 
 const plugins = [
@@ -98,6 +87,6 @@ const plugins = [
     Tab: goToNextCell(1),
     'Shift-Tab': goToNextCell(-1),
   }),
-].concat(exampleSetup({ schema, menuContent: menu }))
+].concat(exampleSetup({schema, menuContent: menu}))
 
 export default plugins

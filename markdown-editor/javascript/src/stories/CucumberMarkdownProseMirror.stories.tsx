@@ -24,6 +24,11 @@ const Template: Story<TemplateArgs> = ({ initialMarkdown }) => {
   )
 }
 
+export const EmptyDocument = Template.bind({})
+EmptyDocument.args = {
+  initialMarkdown: ``,
+}
+
 export const DataTables = Template.bind({})
 DataTables.args = {
   initialMarkdown: `# Feature: Welcome
@@ -34,10 +39,10 @@ Let's use some tables
 
 * Given the following people
 
-  | Name  | Age  |
-  | ----- | ---- |
-  | Jill  |    1 |
-  | Bob   |   10 |
-  | Sally |  100 |
+  | Name  | Age |
+  | ----- | --- |
+  | Jill  |   1 |
+  | Bob   |  10 |
+  | Sally | 100 |
 `,
 }

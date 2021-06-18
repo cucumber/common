@@ -5,9 +5,9 @@ import {
   MarkdownParser,
   schema as markdownSchema,
 } from 'prosemirror-markdown'
-import { Schema } from 'prosemirror-model'
-import { tableNodes } from 'prosemirror-tables'
-import { Node } from 'prosemirror-model'
+import {Schema} from 'prosemirror-model'
+import {tableNodes} from 'prosemirror-tables'
+import {prettyTable, Table} from "./prettyFork";
 
 export const schema = new Schema({
   // @ts-ignore
@@ -75,36 +75,12 @@ cucumberMarkdownParser.tokenHandlers['td_close'] = function (state) {
 }
 
 export const cucumberMarkdownSerializer = defaultMarkdownSerializer
-
-let rowIndex: number
-cucumberMarkdownSerializer.nodes['table'] = (state, tableNode) => {
-  rowIndex = 0
-  state.renderContent(tableNode)
-}
-cucumberMarkdownSerializer.nodes['table_row'] = (state, node) => {
-  state.renderContent(node)
-  state.text('|\n')
-  if (rowIndex === 0) {
-    const json = node.toJSON()
-    json.content.forEach((tableHeader: Node) => {
-      tableHeader.content.forEach((paragraph: Node) => {
-        // @ts-ignore
-        paragraph.content[0].text = '----'
-      })
+cucumberMarkdownSerializer.nodes['table'] = (state, node) => {
+  const table: Table = node.toJSON().content.map((row: any) => {
+    return row.content.map((row: any) => {
+      return row.content[0].content[0].text
     })
-    const separatorNode = Node.fromJSON(schema, json)
-    state.renderContent(separatorNode)
-    state.text('|\n')
-  }
-  rowIndex++
-}
-cucumberMarkdownSerializer.nodes['table_header'] = (state, node) => {
-  state.text('| ')
-  node.forEach((childNode) => state.renderContent(childNode))
-  state.text(' ')
-}
-cucumberMarkdownSerializer.nodes['table_cell'] = (state, node) => {
-  state.text('| ')
-  node.forEach((childNode) => state.renderContent(childNode))
-  state.text(' ')
+  })
+  const markdownTable = prettyTable(table, 0, 'markdown')
+  state.text(markdownTable)
 }
