@@ -16,6 +16,8 @@
     "build-storybook": "build-storybook"
   },
   "dependencies": {
+    "@cucumber/gherkin": "19.0.3",
+    "@cucumber/messages": "16.0.1",
     "@types/prosemirror-commands": "1.0.4",
     "@types/prosemirror-history": "1.0.2",
     "@types/prosemirror-keymap": "1.0.4",

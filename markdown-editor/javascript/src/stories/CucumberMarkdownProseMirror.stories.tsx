@@ -4,6 +4,7 @@ import CucumberMarkdownProseMirror from '../CucumberMarkdownProseMirror'
 import { useProseMirror } from 'use-prosemirror'
 import makeConfig from '../makeConfig'
 import MarkdownSimpleCodeEditor from '../MarkdownSimpleCodeEditor'
+import useGherkinDocument from "../useGherkinDocument";
 
 export default {
   title: 'MarkdownEditor',
@@ -14,11 +15,12 @@ type TemplateArgs = { initialMarkdown: string }
 
 const Template: Story<TemplateArgs> = ({ initialMarkdown }) => {
   const [markdown, setMarkdown] = useState(initialMarkdown)
+  const {gherkinDocument, error} = useGherkinDocument(markdown)
   const [state, setState] = useProseMirror(makeConfig(markdown))
 
   return (
     <div>
-      <CucumberMarkdownProseMirror state={state} setState={setState} setMarkdown={setMarkdown} />
+      <CucumberMarkdownProseMirror state={state} setState={setState} setMarkdown={setMarkdown} gherkinDocument={gherkinDocument}/>
       <MarkdownSimpleCodeEditor markdown={markdown} setMarkdown={setMarkdown} setState={setState} />
     </div>
   )

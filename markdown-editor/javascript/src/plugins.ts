@@ -18,7 +18,7 @@ import {
 } from 'prosemirror-tables'
 import {keymap} from 'prosemirror-keymap'
 import {Dropdown, MenuItem} from 'prosemirror-menu'
-import {schema} from './cucumberMarkdown'
+import schema from './schema'
 import {EditorState, TextSelection, Transaction} from 'prosemirror-state'
 import {Schema} from 'prosemirror-model'
 // @ts-ignore

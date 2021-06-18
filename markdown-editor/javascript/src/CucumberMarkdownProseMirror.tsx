@@ -6,13 +6,16 @@ import './styles.css'
 
 import React, { Dispatch, SetStateAction } from 'react'
 import { ProseMirror } from 'use-prosemirror'
-import { cucumberMarkdownSerializer } from './cucumberMarkdown'
+import schema from './schema'
 import { EditorState } from 'prosemirror-state'
+import {GherkinDocument } from '@cucumber/messages'
+import {cucumberMarkdownSerializer} from "./markdownSerializer";
 
 type Props = {
   state: EditorState
   setState: Dispatch<SetStateAction<EditorState>>
   setMarkdown: Dispatch<SetStateAction<string>>
+  gherkinDocument: GherkinDocument
 }
 
 const CucumberMarkdownProseMirror: React.FunctionComponent<Props> = ({

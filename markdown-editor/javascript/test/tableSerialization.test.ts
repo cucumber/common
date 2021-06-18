@@ -1,11 +1,9 @@
 import assert from 'assert'
-import { JSDOM } from 'jsdom'
-import {
-  cucumberMarkdownParser,
-  cucumberMarkdownSerializer,
-  schema
-} from '../src/cucumberMarkdown'
-import { DOMParser } from 'prosemirror-model'
+import {JSDOM} from 'jsdom'
+import schema from '../src/schema'
+import {DOMParser} from 'prosemirror-model'
+import makeMarkdownParser from "../src/makeMarkdownParser";
+import {cucumberMarkdownSerializer} from "../src/markdownSerializer";
 
 describe('table serialization', () => {
   it('can serialize a table', () => {
@@ -40,7 +38,8 @@ describe('table serialization', () => {
 | Un   | Deux |
 | En   | To   |
 `
-    const doc = cucumberMarkdownParser.parse(markdown)
+    const parser = makeMarkdownParser();
+    const doc = parser.parse(markdown)
     const newMarkdown = cucumberMarkdownSerializer.serialize(doc)
     assert.strictEqual(newMarkdown, markdown)
   })
