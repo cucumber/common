@@ -39,10 +39,10 @@ Let's use some tables
 
 * Given the following people
 
-  | Name  | Age |
-  | ----- | --- |
-  | Jill  |   1 |
-  | Bob   |  10 |
-  | Sally | 100 |
+  | Name  | Number |
+  | ----- | ------ |
+  | Jill  |      1 |
+  | Bob   |     10 |
+  | Sally |    100 |
 `,
 }

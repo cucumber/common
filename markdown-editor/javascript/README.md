@@ -10,4 +10,4 @@ The editor is based on [ProseMirror](https://prosemirror.net/)
 
 ## Screenshot
 
-![Markdown Editor](images/markdown-editor.png)
+![Markdown Editor](images/markdown-editor.gif)
