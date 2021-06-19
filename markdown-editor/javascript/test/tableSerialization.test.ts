@@ -38,7 +38,7 @@ describe('table serialization', () => {
 | Un   | Deux |
 | En   | To   |
 `
-    const parser = makeMarkdownParser();
+    const parser = makeMarkdownParser([]);
     const doc = parser.parse(markdown)
     const newMarkdown = cucumberMarkdownSerializer.serialize(doc)
     assert.strictEqual(newMarkdown, markdown)

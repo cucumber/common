@@ -14,7 +14,6 @@ type Props = {
   state: EditorState
   setState: Dispatch<SetStateAction<EditorState>>
   setMarkdown: Dispatch<SetStateAction<string>>
-  gherkinDocument: GherkinDocument
 }
 
 const CucumberMarkdownProseMirror: React.FunctionComponent<Props> = ({

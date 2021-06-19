@@ -4,7 +4,6 @@ import CucumberMarkdownProseMirror from '../CucumberMarkdownProseMirror'
 import { useProseMirror } from 'use-prosemirror'
 import makeConfig from '../makeConfig'
 import MarkdownSimpleCodeEditor from '../MarkdownSimpleCodeEditor'
-import useGherkinDocument from "../useGherkinDocument";
 
 export default {
   title: 'MarkdownEditor',
@@ -15,12 +14,11 @@ type TemplateArgs = { initialMarkdown: string }
 
 const Template: Story<TemplateArgs> = ({ initialMarkdown }) => {
   const [markdown, setMarkdown] = useState(initialMarkdown)
-  const {gherkinDocument, error} = useGherkinDocument(markdown)
-  const [state, setState] = useProseMirror(makeConfig(markdown))
+  const [state, setState] = useProseMirror(makeConfig(markdown || ''))
 
   return (
     <div>
-      <CucumberMarkdownProseMirror state={state} setState={setState} setMarkdown={setMarkdown} gherkinDocument={gherkinDocument}/>
+      <CucumberMarkdownProseMirror state={state} setState={setState} setMarkdown={setMarkdown} />
       <MarkdownSimpleCodeEditor markdown={markdown} setMarkdown={setMarkdown} setState={setState} />
     </div>
   )
@@ -29,6 +27,26 @@ const Template: Story<TemplateArgs> = ({ initialMarkdown }) => {
 export const EmptyDocument = Template.bind({})
 EmptyDocument.args = {
   initialMarkdown: ``,
+}
+
+export const MultipleScenarios = Template.bind({})
+MultipleScenarios.args = {
+  initialMarkdown: `# Feature: Multiple
+bla bla
+bla bla
+
+# Scenario: One
+
+bla
+
+# ScenariX: Other header
+
+lorem ipsum
+
+# Scenario: Two
+
+hi
+`,
 }
 
 export const DataTables = Template.bind({})

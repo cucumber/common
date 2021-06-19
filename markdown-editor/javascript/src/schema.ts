@@ -2,6 +2,8 @@ import {schema as markdownSchema,} from 'prosemirror-markdown'
 import {Schema} from 'prosemirror-model'
 import {tableNodes} from 'prosemirror-tables'
 
+// https://github.com/b-kelly/prosemirror-highlightjs/blob/master/src/sample-schema.ts
+
 // @ts-ignore
 const heading = markdownSchema.spec.nodes.get('heading')
 heading.attrs = {

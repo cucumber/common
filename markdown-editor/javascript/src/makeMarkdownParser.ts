@@ -2,18 +2,19 @@ import MarkdownIt from 'markdown-it'
 import schema from "./schema";
 import {defaultMarkdownParser, MarkdownParser,} from 'prosemirror-markdown'
 
-export default function makeMarkdownParser() {
-
+export default function makeMarkdownParser(gherkinKeywordLines: readonly number[]) {
   const tokens = {
     ...defaultMarkdownParser.tokens,
     ...{
-      heading: {block: "heading", getAttrs: (tok: any) => {
-        const gherkinKeyword = tok.map[0] == 4
-        return {
-          level: +tok.tag.slice(1),
-          gherkinKeyword
+      heading: {
+        block: "heading", getAttrs: (tok: any) => {
+          const gherkinKeyword = gherkinKeywordLines.includes(tok.map[1])
+          return {
+            level: +tok.tag.slice(1),
+            gherkinKeyword
+          }
         }
-      }},
+      },
 
       table: {block: 'table'},
       // THEAD and TBODY don't exist in the prosemirror-tables schema
