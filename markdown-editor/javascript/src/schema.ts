@@ -2,6 +2,20 @@ import {schema as markdownSchema,} from 'prosemirror-markdown'
 import {Schema} from 'prosemirror-model'
 import {tableNodes} from 'prosemirror-tables'
 
+// @ts-ignore
+const heading = markdownSchema.spec.nodes.get('heading')
+heading.attrs = {
+  level: {default: 1},
+  gherkinKeyword: {default: false}
+}
+
+// @ts-ignore
+heading.toDOM = (node) => {
+  const attrs = node.attrs.gherkinKeyword ? {class: 'gherkinKeyword'} : {}
+  return ['h1', attrs, 0]
+}
+
+
 export default new Schema({
   // @ts-ignore
   nodes: markdownSchema.spec.nodes.append(
@@ -19,6 +33,7 @@ export default new Schema({
             return (dom.style && dom.style.backgroundColor) || null
           },
           setDOMAttr(value, attrs) {
+            // console.log('setDOMAttr', value, attrs)
             if (value) attrs.style = (attrs.style || '') + `background-color: ${value};`
           },
         },

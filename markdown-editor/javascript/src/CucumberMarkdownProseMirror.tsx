@@ -6,7 +6,6 @@ import './styles.css'
 
 import React, { Dispatch, SetStateAction } from 'react'
 import { ProseMirror } from 'use-prosemirror'
-import schema from './schema'
 import { EditorState } from 'prosemirror-state'
 import {GherkinDocument } from '@cucumber/messages'
 import {cucumberMarkdownSerializer} from "./markdownSerializer";

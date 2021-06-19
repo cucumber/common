@@ -2,25 +2,34 @@
     border: 1px solid silver;
     outline: none;
 }
+
 .ProseMirror {
     padding: 5px 15px;
 }
+
 .ProseMirror table {
     margin: 0;
 }
+
 .ProseMirror th, .ProseMirror td {
     min-width: 1em;
     border: 1px solid #ddd;
     padding: 3px 5px;
 }
+
 .ProseMirror .tableWrapper {
     margin: 1em 0;
 }
+
 .ProseMirror th {
     font-weight: bold;
     text-align: left;
 }
 
 .ProseMirror th p, .ProseMirror td p {
-  margin: 1px;
+    margin: 1px;
+}
+
+.ProseMirror .gherkinKeyword {
+    color: darkorchid;
 }
