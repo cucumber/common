@@ -1,22 +1,12 @@
 import {schema as markdownSchema,} from 'prosemirror-markdown'
 import {Schema} from 'prosemirror-model'
 import {tableNodes} from 'prosemirror-tables'
-
-// https://github.com/b-kelly/prosemirror-highlightjs/blob/master/src/sample-schema.ts
-
 // @ts-ignore
 const heading = markdownSchema.spec.nodes.get('heading')
 heading.attrs = {
   level: {default: 1},
-  gherkinKeyword: {default: false}
+  gherkin: {default: false},
 }
-
-// @ts-ignore
-heading.toDOM = (node) => {
-  const attrs = node.attrs.gherkinKeyword ? {class: 'gherkinKeyword'} : {}
-  return ['h1', attrs, 0]
-}
-
 
 export default new Schema({
   // @ts-ignore

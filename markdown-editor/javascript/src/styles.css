@@ -30,6 +30,7 @@
     margin: 1px;
 }
 
-.ProseMirror .gherkinKeyword {
+/* DOM nodes derived from a GherkinDocument have this class */
+.ProseMirror .gherkin {
     color: darkorchid;
 }

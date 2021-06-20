@@ -6,7 +6,7 @@ import makeConfig from '../makeConfig'
 import MarkdownSimpleCodeEditor from '../MarkdownSimpleCodeEditor'
 
 export default {
-  title: 'MarkdownEditor',
+  title: 'CucumberMarkdownProseMirror',
   component: CucumberMarkdownProseMirror,
 } as Meta
 

@@ -4,11 +4,11 @@ import 'prosemirror-menu/style/menu.css'
 import 'prosemirror-tables/style/tables.css'
 import './styles.css'
 
-import React, { Dispatch, SetStateAction } from 'react'
-import { ProseMirror } from 'use-prosemirror'
-import { EditorState } from 'prosemirror-state'
-import {GherkinDocument } from '@cucumber/messages'
+import React, {Dispatch, SetStateAction} from 'react'
+import {ProseMirror} from 'use-prosemirror'
+import {EditorState} from 'prosemirror-state'
 import {cucumberMarkdownSerializer} from "./markdownSerializer";
+import {Decoration, DecorationSet} from 'prosemirror-view'
 
 type Props = {
   state: EditorState
@@ -24,8 +24,20 @@ const CucumberMarkdownProseMirror: React.FunctionComponent<Props> = ({
   return (
     <ProseMirror
       state={state}
+      decorations={(state) => {
+        const decorations: Decoration[] = []
+        // console.log('---decorations ---')
+        state.doc.forEach((node, offset) => {
+          if(node.attrs.gherkin) {
+            decorations.push(Decoration.node(offset, offset + node.nodeSize, {class: 'gherkin'}));
+          }
+        })
+        // console.log('decorations:', decorations.length)
+        return DecorationSet.create(state.doc, decorations);
+      }}
       onChange={(newState) => {
-        setMarkdown(cucumberMarkdownSerializer.serialize(newState.doc))
+        const markdown = cucumberMarkdownSerializer.serialize(newState.doc);
+        setMarkdown(markdown)
         setState(newState)
       }}
     />
