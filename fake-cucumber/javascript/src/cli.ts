@@ -1,7 +1,7 @@
 import { Command } from 'commander'
 import packageJson from '../package.json'
 import loadSupportCode from './loadSupportCode'
-import runCucumber from './runCucumber'
+import runCucumber, { RunOptions } from "./runCucumber";
 import { GherkinStreams, IGherkinStreamOptions } from '@cucumber/gherkin-streams'
 import { Query as GherkinQuery } from '@cucumber/gherkin-utils'
 import { version } from '../package.json'
@@ -12,16 +12,21 @@ import { MessageToNdjsonStream } from '@cucumber/message-streams'
 const program = new Command()
 program.version(packageJson.version)
 program.option('-r, --require <path>', 'override require path')
+program.option('--retry <count>', 'allow up to <count> retries')
 program.option('--predictable-ids', 'Use predictable ids', false)
 
 async function main() {
   program.parse(process.argv)
-  const { predictableIds, require } = program.opts()
+  const { predictableIds, require, retry } = program.opts()
 
   const paths = program.args
   const requirePaths = require ? require.split(':') : paths
 
   const supportCode = await loadSupportCode(predictableIds, requirePaths)
+
+  const runOptions: RunOptions = {
+    allowedRetries: retry ?? 0
+  }
 
   const gherkinStreamOptions: IGherkinStreamOptions = {
     defaultDialect: 'en',
@@ -40,7 +45,7 @@ async function main() {
 
   const gherkinQuery = new GherkinQuery()
 
-  await runCucumber(supportCode, gherkinEnvelopeStream, gherkinQuery, envelopeOutputStream)
+  await runCucumber(supportCode, runOptions, gherkinEnvelopeStream, gherkinQuery, envelopeOutputStream)
 }
 
 main().catch((err) => {

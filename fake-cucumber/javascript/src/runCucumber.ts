@@ -6,8 +6,13 @@ import SupportCode from './SupportCode'
 import { MakeTestPlan } from './types'
 import makeTestCase from './makeTestCase'
 
+export interface RunOptions {
+  allowedRetries: number
+}
+
 export default async function runCucumber(
   supportCode: SupportCode,
+  runOptions: RunOptions,
   gherkinEnvelopeStream: Readable,
   gherkinQuery: GherkinQuery,
   envelopeOutputStream: Writable,
