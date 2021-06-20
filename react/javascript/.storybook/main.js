@@ -4,14 +4,24 @@ module.exports = {
     "../src/stories/**/*.stories.@(js|jsx|ts|tsx)"
   ],
   "addons": [
-    "@storybook/addon-links",
-    "@storybook/addon-essentials"
+    "@storybook/addon-links"
   ],
   webpackFinal: async (config, { configType }) => {
     config.resolve.fallback = { "assert": false }
     config.module.rules.push({
       test: /\.scss$/,
-      use: ['style-loader', 'css-loader', 'sass-loader'],
+      use: [
+        'style-loader',
+        {
+          loader: 'css-loader',
+          options: {
+            modules: {
+              auto: true
+            }
+          }
+        },
+        'sass-loader'
+      ],
     })
     return config
   },

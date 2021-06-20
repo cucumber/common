@@ -34,7 +34,6 @@ def test_compiles_a_scenario():
             "language": "en",
             "steps": [
               {
-                "argument": {},
                 "id": "2",
                 "astNodeIds": ["0"],
                 "text": "passing"
@@ -77,7 +76,6 @@ def test_compiles_a_scenario_outline_with_i18n_characters():
             "language": "en",
             "steps": [
               {
-                "argument": {},
                 "id": "5",
                 "astNodeIds": ["0", "2"],
                 "text": "passing"

@@ -6,7 +6,7 @@ module Cucumber
       end
 
       def css
-        read_asset('cucumber-react.css')
+        read_asset('cucumber-html.css')
       end
 
       def script

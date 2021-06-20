@@ -1,5 +1,5 @@
-SHELL := /usr/bin/env bash
-ALPINE := $(shell which apk 2> /dev/null)
+include default.mk
+
 GOOD_FEATURE_FILES = $(shell find testdata/good -name "*.feature")
 BAD_FEATURE_FILES  = $(shell find testdata/bad -name "*.feature")
 
@@ -56,17 +56,11 @@ clobber: clean
 	rm -rf Gherkin/GHParser.m Gherkin/GHParser.h
 .PHONY: clobber
 
-Gherkin/GHParser.h: gherkin.berp gherkin-objective-c-header.razor
-	mono  /var/lib/berp/1.1.1/tools/net471/Berp.exe -g gherkin.berp -t gherkin-objective-c-header.razor -o $@
-	# Remove BOM
-	awk 'NR==1{sub(/^\xef\xbb\xbf/,"")}{print}' < $@ > $@.nobom
-	mv $@.nobom $@
+Gherkin/GHParser.h: gherkin-objective-c-header.razor gherkin.berp
+	$(berp-generate-parser)
 
-Gherkin/GHParser.m: gherkin.berp gherkin-objective-c-implementation.razor
-	mono  /var/lib/berp/1.1.1/tools/net471/Berp.exe -g gherkin.berp -t gherkin-objective-c-implementation.razor -o $@
-	# Remove BOM
-	awk 'NR==1{sub(/^\xef\xbb\xbf/,"")}{print}' < $@ > $@.nobom
-	mv $@.nobom $@
+Gherkin/GHParser.m: gherkin-objective-c-implementation.razor gherkin.berp
+	$(berp-generate-parser)
 
 build/AstGenerator: Gherkin/GHParser.h Gherkin/GHParser.m $(M_FILES) GherkinLanguages/gherkin-languages.json
 	xcodebuild -scheme "AstGenerator" CONFIGURATION_BUILD_DIR=build/

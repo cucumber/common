@@ -17,6 +17,30 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [15.0.2] - 2021-05-27
+
+### Fixed
+
+* Upgrade to `@cucumber/react` `16.1.0`
+
+## [15.0.1] - 2021-05-27
+
+### Fixed
+
+* Upgrade to `@cucumber/react` `16.0.2`, fixing a couple of bugs
+
+## [15.0.0] - 2021-05-26
+
+### Changed
+
+* Upgrade to `@cucumber/react` `16.0.0`
+
+## [14.0.0] - 2021-05-17
+
+### Changed
+
+* Upgrade to messages 16.0.0
+
 ## [13.0.0] - 2021-04-06
 
 ### Added
@@ -25,7 +49,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
-* Upgrade dependencies including `@cucumber/gherkin` ^18.0.0, 
+* Upgrade dependencies including `@cucumber/gherkin` ^18.0.0,
   `@cucumber/messages` ^15.0.0, `@cucumber/query` ^9.0.2 and
   `@cucumber/react` ^13.0.0
 
@@ -297,7 +321,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/html-formatter/v13.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/html-formatter/v15.0.2...main
+[15.0.2]:      https://github.com/cucumber/cucumber/compare/html-formatter/v15.0.1...html-formatter/v15.0.2
+[15.0.1]:      https://github.com/cucumber/cucumber/compare/html-formatter/v15.0.0...html-formatter/v15.0.1
+[15.0.0]:      https://github.com/cucumber/cucumber/compare/html-formatter/v14.0.0...html-formatter/v15.0.0
+[14.0.0]:      https://github.com/cucumber/cucumber/compare/html-formatter/v13.0.0...html-formatter/v14.0.0
 [13.0.0]:      https://github.com/cucumber/cucumber/compare/html-formatter/v12.0.0...html-formatter/v13.0.0
 [12.0.0]:      https://github.com/cucumber/cucumber/compare/html-formatter/v11.0.4...html-formatter/v12.0.0
 [11.0.4]:      https://github.com/cucumber/cucumber/compare/html-formatter/v11.0.3...html-formatter/v11.0.4

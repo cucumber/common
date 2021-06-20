@@ -4,15 +4,15 @@ CCK_NDJSONS = $(shell find ../../compatibility-kit/javascript/features -name "*.
 HTML_REPORTS = $(patsubst ../../compatibility-kit/javascript/features/%.ndjson,acceptance/%.html,$(CCK_NDJSONS))
 HTML_REPORT_CHECKS = $(patsubst acceptance/%.html,acceptance/%.html.checked,$(HTML_REPORTS))
 
-.built: webpack.config.js dist/main.js dist/src/index.mustache.html dist/cucumber-react.css
+.built: webpack.config.js dist/main.js dist/src/index.mustache.html
 
 dist/main.js: dist/src/main.js
 	../../node_modules/.bin/webpack-cli
 
-dist/src/index.mustache.html: src/index.mustache.html
-	cp $< $@
+dist/src/main.js:
+	npm run prepublishOnly
 
-dist/cucumber-react.css: ../../node_modules/@cucumber/react/dist/src/styles/cucumber-react.css
+dist/src/index.mustache.html: src/index.mustache.html
 	cp $< $@
 
 .tested: $(HTML_REPORT_CHECKS)
@@ -20,7 +20,7 @@ dist/cucumber-react.css: ../../node_modules/@cucumber/react/dist/src/styles/cucu
 .PRECIOUS: acceptance/%.html
 acceptance/%.html: ../../compatibility-kit/javascript/features/%.ndjson .built
 	mkdir -p $(@D)
-	cat $< | ./bin/cucumber-html-formatter.js --format ndjson > $@
+	cat $< | ./bin/cucumber-html-formatter.js > $@
 
 acceptance/%.html.checked: acceptance/%.html
 	node check.js $< > $@

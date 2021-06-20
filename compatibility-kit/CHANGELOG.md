@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+* Added Examples to the attachments feature to generate messages for fixing
+  [#1173](https://github.com/cucumber/common/issues/1173)
+
 ### Changed
 
 ### Deprecated
@@ -16,6 +19,31 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Removed
 
 ### Fixed
+
+## [7.0.0] - 2021-05-26
+
+### Changed
+
+* Changed the `markdown.feature.md` feature and associated stepdefs
+
+## [6.0.0] - 2021-05-24
+
+### Changed
+
+* Use `.feature.md` extension for Markdown files
+
+## [5.0.1] - 2021-05-18
+
+### Fixed
+
+* Fixed statuses in some message streams, leveraging a bugfix in `@cucumber/fake-cucumber` 12.0.2
+
+## [5.0.0] - 2021-05-17
+
+### Changed
+
+* Upgrade to gherkin 19.0.0
+* Upgrade to messages 16.0.0
 
 ## [4.0.1] - 2021-04-06
 
@@ -51,7 +79,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/compatibility-kit/v4.0.1...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/compatibility-kit/v7.0.0...main
+[7.0.0]:      https://github.com/cucumber/cucumber/releases/tag/compatibility-kit/v6.0.0
+[6.0.0]:      https://github.com/cucumber/cucumber/releases/tag/compatibility-kit/v5.0.1
+[5.0.1]:      https://github.com/cucumber/cucumber/releases/tag/compatibility-kit/v5.0.0
+[5.0.0]:      https://github.com/cucumber/cucumber/releases/tag/compatibility-kit/v4.0.1
 [4.0.1]:      https://github.com/cucumber/cucumber/releases/tag/compatibility-kit/v4.0.0
 [4.0.0]:      https://github.com/cucumber/cucumber/releases/tag/compatibility-kit/v3.0.0
 [3.0.0]:      https://github.com/cucumber/cucumber/releases/tag/compatibility-kit/v2.0.0

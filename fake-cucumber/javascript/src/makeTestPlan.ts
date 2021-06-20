@@ -16,7 +16,7 @@ export default function makeTestPlan(
       pickle,
       supportCode.stepDefinitions,
       supportCode.beforeHooks,
-      supportCode.afterHooks,
+      supportCode.afterHooks.slice().reverse(),
       gherkinQuery,
       supportCode.newId,
       supportCode.clock,

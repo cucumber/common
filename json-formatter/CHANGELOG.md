@@ -13,11 +13,28 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Changed
 
+* [Go] Move module paths to point to monorepo
+  ([#1550](https://github.com/cucumber/common/issues/1550))
+
 ### Deprecated
 
 ### Removed
 
 ### Fixed
+
+## [18.0.0] - 2021-05-17
+
+### Changed
+
+* Upgrade to messages 16.0.0
+
+## [17.0.2] - 2021-04-22
+
+### Fixed
+
+* Handle tagged examples
+  ([1489](https://github.com/cucumber/cucumber/pull/1489)
+   [aurelien-reeves])
 
 ## [7.0.1] - 2021-04-09
 
@@ -120,7 +137,9 @@ Upgrade messages
 * Initial release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/json-formatter/v7.0.1...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/json-formatter/v18.0.0...main
+[18.0.0]:      https://github.com/cucumber/cucumber/compare/json-formatter/v17.0.2...json-formatter/v18.0.0
+[17.0.2]:      https://github.com/cucumber/cucumber/compare/json-formatter/v7.0.1...json-formatter/v17.0.2
 [7.0.1]:      https://github.com/cucumber/cucumber/compare/json-formatter/v7.0.0...json-formatter/v7.0.1
 [7.0.0]:      https://github.com/cucumber/cucumber/compare/json-formatter/v6.0.0...json-formatter/v7.0.0
 [6.0.0]:      https://github.com/cucumber/cucumber/compare/json-formatter/v5.1.0...json-formatter/v6.0.0

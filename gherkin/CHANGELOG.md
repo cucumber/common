@@ -13,11 +13,94 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Changed
 
+* [Go] Move module paths to point to monorepo
+  ([#1550](https://github.com/cucumber/common/issues/1550))
+
 ### Deprecated
 
 ### Removed
 
 ### Fixed
+* [Ruby] Rules weren't inheriting the relevant tags during the Gherkin Query stage (Where it caches the NodeID)
+  ([#1593](https://github.com/cucumber/cucumber/pull/1593) [luke-hill])
+
+## [19.0.3] - 2021-05-24
+
+### Fixed
+
+* MDG files must use the `.feature.md` extension.
+* Data Tables and Examples Tables in Markdown *must* be indented 2-5 spaces in order to
+  be recognised.
+
+## [19.0.2] - 2021-05-19
+
+### Fixed
+
+* Upgrade to `@cucumber/message-streams` `^2.0.0`
+* Upgrade berp to 1.3.0 (parser behavior not changed)
+  ([#1542](https://github.com/cucumber/common/pull/1542)
+   [gasparnagy])
+
+## [19.0.1] - 2021-05-17
+
+### Fixed
+
+* [Perl]   Updated to pass acceptance tests.
+  ([#1552](https://github.com/cucumber/common/pull/1552) [ehuelsmann])
+
+## [19.0.0] - 2021-05-15
+
+### Added
+
+* [JavaScript] Experimental support for Markdown. See [MARKDOWN_WITH_GHERKIN.md](./MARKDOWN_WITH_GHERKIN.md)
+  ([#1209](https://github.com/cucumber/common/pull/1209)
+   [aslakhellesoy])
+
+### Changed
+
+* [DotNet] Replaced Utf8Json with source-embedded TinyJson.
+  ([#511](https://github.com/cucumber/cucumber/pull/1511)
+   [gasparnagy])   
+
+* Update Dutch translation of the "Rule" keyword.
+  ([#1513](https://github.com/cucumber/common/pull/1513)
+   [OrhanTozan])
+
+* Update Russian translation of the "Scenario Outline" keyword.
+  ([#1499](https://github.com/cucumber/cucumber/pull/1499)
+   [hkosova])
+
+* Update Hungarian translation of the "Rule" keyword.
+  ([#1518](https://github.com/cucumber/cucumber/pull/1518)
+   [gasparnagy])
+
+* [Go, Java, JavaScript, Ruby] Upgrade to messages 16.0.0: this may have a big impact on APIs.
+  Please see [messages/CHANGELOG.md](https://github.com/cucumber/common/blob/master/messages/CHANGELOG.md#1600---2021-05-15) for more details.
+
+### Removed
+
+* [Elixir] The package was not released - it needs to be updated to pass acceptance tests.
+* [Perl]   The package was not released - it needs to be updated to pass acceptance tests.
+
+### Fixed
+
+* [Perl] Reinstate Perl 5.10.1 compatibility.
+  ([#1495](https://github.com/cucumber/cucumber/pull/1495)
+   [#1494](https://github.com/cucumber/cucumber/issues/1494)
+   [ehuelsmann])
+
+* [DotNet] Fixed .NET Gherkin compatibility with other Gherkin implementations.
+  ([#511](https://github.com/cucumber/cucumber/pull/1511)
+   [gasparnagy])   
+
+## [18.1.1] - 2021-04-22
+
+### Fixed
+
+* [python] Run gherkin as a module.
+  ([#1480](https://github.com/cucumber/cucumber/pull/1480)
+   [#1475](https://github.com/cucumber/cucumber/issues/1475)
+   [brasmusson] [aurelien-reeves])
 
 ## [18.1.0] - 2021-04-06
 
@@ -924,7 +1007,12 @@ to Gherkin 2.
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v18.1.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v19.0.3...main
+[19.0.3]:     https://github.com/cucumber/cucumber/compare/gherkin/v19.0.2...gherkin/v19.0.3
+[19.0.2]:     https://github.com/cucumber/cucumber/compare/gherkin/v19.0.1...gherkin/v19.0.2
+[19.0.1]:     https://github.com/cucumber/cucumber/compare/gherkin/v19.0.0...gherkin/v19.0.1
+[19.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v18.1.1...gherkin/v19.0.0
+[18.1.1]:     https://github.com/cucumber/cucumber/compare/gherkin/v18.1.0...gherkin/v18.1.1
 [18.1.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v18.0.0...gherkin/v18.1.0
 [18.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v17.0.2...gherkin/v18.0.0
 [17.0.2]:     https://github.com/cucumber/cucumber/compare/gherkin/v17.0.1...gherkin/v17.0.2
@@ -992,7 +1080,9 @@ to Gherkin 2.
 [ehuelsmann]:        https://github.com/ehuelsmann
 [enkessler]:         https://github.com/enkessler
 [gabanz]:            https://github.com/gabanz
+[gasparnagy]:        https://github.com/gasparnagy
 [Haukinger]:         https://github.com/Haukinger
+[hkosova]:           https://github.com/hkosova
 [jargalan]:          https://github.com/jargalan
 [jmezach]:           https://github.com/jmezach
 [joscha]:            https://github.com/joscha
@@ -1001,6 +1091,7 @@ to Gherkin 2.
 [KniveX]:            https://github.com/KniveX
 [l3pp4rd]:           https://github.com/l3pp4rd
 [LiohAu]:            https://github.com/LiohAu
+[luke-hill]:         https://github.com/luke-hill
 [mattwynne]:         https://github.com/mattwynne
 [mauriciotogneri]:   https://github.com/mauriciotogneri
 [maximeg]:           https://github.com/maximeg
@@ -1012,11 +1103,12 @@ to Gherkin 2.
 [moreau-nicolas]:    https://github.com/moreau-nicolas
 [mpkorstanje]:       https://github.com/mpkorstanje
 [nvmkpk]:            https://github.com/nvmkpk
-[ookull]:            https://github.com/ookull
 [nalekberov]:        https://github.com/nalekberov
 [nixel2007]:         https://github.com/nixel2007
 [nikolovski]:        https://github.com/nikolovski
 [noisygerman]:       https://github.com/noisygerman
+[ookull]:            https://github.com/ookull
+[OrhanTozan]:        https://github.com/OrhanTozan
 [paigehf]:           https://github.com/paigehf
 [pjlsergeant]:       https://github.com/pjlsergeant
 [plavcik]:           https://github.com/plavcik

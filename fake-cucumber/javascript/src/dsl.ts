@@ -1,6 +1,6 @@
 import SupportCode from './SupportCode'
 import { AnyBody } from './types'
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import StackUtils from 'stack-utils'
 import IParameterTypeDefinition from './IParameterTypeDefinition'
 import { deprecate } from 'util'
@@ -9,13 +9,15 @@ declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace NodeJS {
     interface Global {
+      // @ts-ignore
       supportCode: SupportCode
     }
   }
 }
 
-function setSupportCode(setSupportCode: SupportCode) {
-  global.supportCode = setSupportCode
+function setSupportCode(supportCode: SupportCode) {
+  // @ts-ignore
+  global.supportCode = supportCode
 }
 
 function defineStepDefinition(expression: string | RegExp, body: AnyBody) {
@@ -42,7 +44,7 @@ function defineParameterType0(parameterTypeDefinition: IParameterTypeDefinition)
   global.supportCode.defineParameterType(parameterTypeDefinition)
 }
 
-function getSourceReference(stackTrace: string): messages.ISourceReference {
+function getSourceReference(stackTrace: string): messages.SourceReference {
   const stack = new StackUtils({
     cwd: process.cwd(),
     internals: StackUtils.nodeInternals(),
@@ -50,12 +52,12 @@ function getSourceReference(stackTrace: string): messages.ISourceReference {
   const trace = stack.clean(stackTrace)
   const callSite = stack.parseLine(trace.split('\n')[1])
   const { file: uri, line } = callSite
-  return new messages.SourceReference({
+  return {
     uri,
-    location: new messages.Location({
+    location: {
       line,
-    }),
-  })
+    },
+  }
 }
 
 const Given = defineStepDefinition

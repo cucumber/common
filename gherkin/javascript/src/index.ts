@@ -7,7 +7,8 @@ import AstBuilder from './AstBuilder'
 import TokenScanner from './TokenScanner'
 import compile from './pickles/compile'
 import DIALECTS from './gherkin-languages.json'
-import TokenMatcher from './TokenMatcher'
+import GherkinClassicTokenMatcher from './GherkinClassicTokenMatcher'
+import GherkinInMarkdownTokenMatcher from './GherkinInMarkdownTokenMatcher'
 
 const dialects = DIALECTS as Readonly<{ [key: string]: Dialect }>
 
@@ -20,6 +21,7 @@ export {
   Parser,
   AstBuilder,
   TokenScanner,
-  TokenMatcher,
+  GherkinClassicTokenMatcher,
+  GherkinInMarkdownTokenMatcher,
   compile,
 }

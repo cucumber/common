@@ -93,8 +93,8 @@ function push_subrepo_branch_maybe()
 
   if [ -z "${branch}" ]; then
     echo "No branch to push"
-  elif [ "${branch}" != "master" ]; then
-    echo "Not pushing branch (we only push master)"
+  elif [ "${branch}" != "main" ]; then
+    echo "Not pushing branch (we only push main)"
   else
     {
       git push --force "${remote}" $(splitsh-lite --prefix=${subrepo}):refs/heads/${branch}
@@ -156,8 +156,8 @@ function update_npm_dependency_if_exists() {
   module_version=$3
 
   cat "${package_json}" | \
-    jq "if .[\"dependencies\"][\"${module_name}\"]? then .[\"dependencies\"][\"${module_name}\"] = \"${module_version}\" else . end" | \
-    jq "if .[\"devDependencies\"][\"${module_name}\"]? then .[\"devDependencies\"][\"${module_name}\"] = \"${module_version}\" else . end" > \
+    jq "if .[\"dependencies\"][\"${module_name}\"]? then .[\"dependencies\"][\"${module_name}\"] = \"^${module_version}\" else . end" | \
+    jq "if .[\"devDependencies\"][\"${module_name}\"]? then .[\"devDependencies\"][\"${module_name}\"] = \"^${module_version}\" else . end" > \
     "${package_json}".tmp
   mv "${package_json}".tmp "${package_json}"
 }

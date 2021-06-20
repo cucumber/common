@@ -1,0 +1,4 @@
+BITRISE_BUILD_URL=https://cihost.com/path/to/the/build
+GIT_REPOSITORY_URL=https://scmhost.com/path/to/the/project
+BITRISE_GIT_BRANCH=main
+BITRISE_GIT_COMMIT=decafbad

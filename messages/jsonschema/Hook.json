@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "Hook.json",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "sourceReference"
+  ],
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "sourceReference": {
+      "$ref": "./SourceReference.json"
+    },
+    "tagExpression": {
+      "type": "string"
+    }
+  },
+  "type": "object"
+}

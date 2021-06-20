@@ -1,0 +1,10 @@
+@import '../../styles/theming';
+
+.content {
+  padding: 0;
+  margin: 1em;
+
+  a {
+    color: $anchorColor;
+  }
+}

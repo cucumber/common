@@ -1,21 +1,18 @@
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 
 export default interface IAstMaker {
-  makeGherkinDocument(
-    uri: string,
-    feature: messages.GherkinDocument.IFeature
-  ): messages.IGherkinDocument
+  makeGherkinDocument(uri: string, feature: messages.Feature): messages.GherkinDocument
 
   makeFeature(
     line: number,
     keyword: string,
     name: string,
     description: string,
-    children: ReadonlyArray<messages.GherkinDocument.Feature.IFeatureChild>,
-    tags?: ReadonlyArray<messages.GherkinDocument.Feature.ITag>
-  ): messages.GherkinDocument.IFeature
+    children: readonly messages.FeatureChild[],
+    tags?: readonly messages.Tag[]
+  ): messages.Feature
 
-  makeTag(name: string, line: number): messages.GherkinDocument.Feature.ITag
+  makeTag(name: string, line: number): messages.Tag
 
   makeScenarioFeatureChild(
     id: string,
@@ -23,34 +20,29 @@ export default interface IAstMaker {
     keyword: string,
     name: string,
     description: string,
-    steps: ReadonlyArray<messages.GherkinDocument.Feature.IStep>,
-    tags?: ReadonlyArray<messages.GherkinDocument.Feature.ITag>
-  ): messages.GherkinDocument.Feature.IFeatureChild
+    steps: readonly messages.Step[],
+    tags?: readonly messages.Tag[]
+  ): messages.FeatureChild
 
   makeBackgroundFeatureChild(
     line: number,
     keyword: string,
     name: string,
     description: string,
-    steps: ReadonlyArray<messages.GherkinDocument.Feature.IStep>,
-    tags?: ReadonlyArray<messages.GherkinDocument.Feature.ITag>
-  ): messages.GherkinDocument.Feature.IFeatureChild
+    steps: readonly messages.Step[],
+    tags?: readonly messages.Tag[]
+  ): messages.FeatureChild
 
   makeStep(
     id: string,
     line: number,
     keyword: string,
     text: string,
-    docString?: messages.GherkinDocument.Feature.Step.IDocString,
-    dataTable?: messages.GherkinDocument.Feature.Step.IDataTable
-  ): messages.GherkinDocument.Feature.IStep
+    docString?: messages.DocString,
+    dataTable?: messages.DataTable
+  ): messages.Step
 
-  makeDocstring(
-    mediaType: string,
-    content: string
-  ): messages.GherkinDocument.Feature.Step.IDocString
+  makeDocstring(mediaType: string, content: string): messages.DocString
 
-  makeDataTable(
-    cells: ReadonlyArray<ReadonlyArray<string>>
-  ): messages.GherkinDocument.Feature.Step.IDataTable
+  makeDataTable(cells: readonly ReadonlyArray<string>[]): messages.DataTable
 }

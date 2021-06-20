@@ -4,8 +4,8 @@
     "git": {
       "remote": "${BUILD_REPOSITORY_URI}",
       "revision": "${BUILD_SOURCEVERSION}",
-      "branch": "${refbranch BUILD_SOURCEBRANCH}",
-      "tag": "${reftag BUILD_SOURCEBRANCH}"
+      "branch": "${BUILD_SOURCEBRANCH/refs\/heads\/(.*)/\\1}",
+      "tag": "${BUILD_SOURCEBRANCH/refs\/tags\/(.*)/\\1}"
     }
   },
   "Bamboo": {
@@ -26,6 +26,15 @@
       "tag": "${BUDDY_EXECUTION_TAG}"
     }
   },
+  "Bitrise": {
+    "url": "${BITRISE_BUILD_URL}",
+    "git": {
+      "remote": "${GIT_REPOSITORY_URL}",
+      "revision": "${BITRISE_GIT_COMMIT}",
+      "branch": "${BITRISE_GIT_BRANCH}",
+      "tag": "${BITRISE_GIT_TAG}"
+    }
+  },
   "CircleCI": {
     "url": "${CIRCLE_BUILD_URL}",
     "git": {
@@ -35,7 +44,7 @@
       "tag": "${CIRCLE_TAG}"
     }
   },
-  "CodeShip": {
+  "CodeFresh": {
     "url": "${CF_BUILD_URL}",
     "git": {
       "remote": "${CF_COMMIT_URL}",
@@ -44,13 +53,22 @@
       "tag": null
     }
   },
+  "CodeShip": {
+    "url": "${CI_BUILD_URL}",
+    "git": {
+      "remote": "${CI_PULL_REQUEST/(.*)\\/pull\\/\\d+/\\1.git}",
+      "revision": "${CI_COMMIT_ID}",
+      "branch": "${CI_BRANCH}",
+      "tag": null
+    }
+  },
   "GitHub Actions": {
     "url": "${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}",
     "git": {
       "remote": "${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}.git",
       "revision": "${GITHUB_SHA}",
-      "branch": "${refbranch GITHUB_REF}",
-      "tag": "${reftag GITHUB_REF}"
+      "branch": "${GITHUB_REF/refs\/heads\/(.*)/\\1}",
+      "tag": "${GITHUB_REF/refs\/tags\/(.*)/\\1}"
     }
   },
   "GitLab": {
@@ -63,16 +81,25 @@
     }
   },
   "GoCD": {
-    "url": "${GO_SERVER_URL}/???",
+    "url": "${GO_SERVER_URL}/pipelines/${GO_PIPELINE_NAME}/${GO_PIPELINE_COUNTER}/${GO_STAGE_NAME}/${GO_STAGE_COUNTER}",
     "git": {
-      "remote": null,
+      "remote": "${GO_SCM_*_PR_URL/(.*)\\/pull\\/\\d+/\\1.git}",
       "revision": "${GO_REVISION}",
-      "branch": null,
+      "branch": "${GO_SCM_*_PR_BRANCH/.*:(.*)/\\1}",
+      "tag": null
+    }
+  },
+  "Jenkins": {
+    "url": "${BUILD_URL}",
+    "git": {
+      "remote": "${GIT_URL}",
+      "revision": "${GIT_COMMIT}",
+      "branch": "${GIT_LOCAL_BRANCH}",
       "tag": null
     }
   },
   "Semaphore": {
-    "url": "${SEMAPHORE_ORGANIZATION_URL}/${}",
+    "url": "${SEMAPHORE_ORGANIZATION_URL}/jobs/${SEMAPHORE_JOB_ID}",
     "git": {
       "remote": "${SEMAPHORE_GIT_URL}",
       "revision": "${SEMAPHORE_GIT_SHA}",

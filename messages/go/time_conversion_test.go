@@ -31,7 +31,7 @@ func TestTimeConversion(t *testing.T) {
 		durationInNanosecondsAgain := DurationToGoDuration(duration)
 
 		require.Equal(t, duration.Seconds, int64(3))
-		require.Equal(t, duration.Nanos, int32(890))
+		require.Equal(t, duration.Nanos, int64(890))
 
 		require.Equal(t, durationInNanoseconds, durationInNanosecondsAgain)
 	})

@@ -10,16 +10,14 @@ EXE_BASE_NAME := cucumber-$(LIBNAME)
 LDFLAGS := "-X main.version=${NEW_VERSION}"
 
 # Enumerating Cross compilation targets
-PLATFORMS = darwin-amd64 linux-386 linux-amd64 linux-arm freebsd-386 freebsd-amd64 openbsd-386 openbsd-amd64 windows-386 windows-amd64 freebsd-arm netbsd-386 netbsd-amd64 netbsd-arm
+PLATFORMS = darwin-amd64 linux-386 linux-amd64 linux-arm linux-arm64 freebsd-386 freebsd-amd64 openbsd-386 openbsd-amd64 windows-386 windows-amd64 freebsd-arm netbsd-386 netbsd-amd64 netbsd-arm
 PLATFORM = $(patsubst dist/$(EXE_BASE_NAME)-%,%,$@)
 OS_ARCH = $(subst -, ,$(PLATFORM))
 X-OS = $(word 1, $(OS_ARCH))
 X-ARCH = $(word 2, $(OS_ARCH))
 
-# Determine if we're on linux or osx (ignoring other OSes as we're not building on them)
-OS := $(shell [[ "$$(uname)" == "Darwin" ]] && echo "darwin" || echo "linux")
-# Determine if we're on 386 or amd64 (ignoring other processors as we're not building on them)
-ARCH := $(shell [[ "$$(uname -m)" == "x86_64" ]] && echo "amd64" || echo "386")
+OS := $(shell go env GOOS)
+ARCH := $(shell go env GOARCH)
 EXE := dist/$(EXE_BASE_NAME)-$(OS)-$(ARCH)
 
 ifndef NO_CROSS_COMPILE
@@ -53,7 +51,7 @@ endif
 
 dist: $(EXES)
 
-dist/$(EXE_BASE_NAME)-%: .deps $(GO_SOURCE_FILES)
+dist/$(EXE_BASE_NAME)-%: .deps $(GO_SOURCE_FILES) go.mod
 	mkdir -p dist
 	echo "EXES=$(EXES)"
 	echo "Building $@"
@@ -146,3 +144,13 @@ else
 	sed -Ei "s/$(LIBNAME)-go(\/v$(CURRENT_MAJOR))?/$(LIBNAME)-go\/v$(NEW_MAJOR)/" $(shell find . -name "*.go")
 endif
 .PHONY: update-major
+
+### COMMON stuff for all platforms
+
+BERP_VERSION = 1.3.0
+BERP_GRAMMAR = gherkin.berp
+
+define berp-generate-parser =
+-! dotnet tool list --tool-path /usr/bin | grep "berp\s*$(BERP_VERSION)" && dotnet tool update Berp --version $(BERP_VERSION) --tool-path /usr/bin
+berp -g $(BERP_GRAMMAR) -t $< -o $@ --noBOM
+endef

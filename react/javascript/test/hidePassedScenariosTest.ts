@@ -1,7 +1,5 @@
 import assert from 'assert'
-import { stubObject } from 'ts-sinon'
-import { IdGenerator, messages } from '@cucumber/messages'
-import GherkinDocument = messages.GherkinDocument
+import * as messages from '@cucumber/messages'
 import { Query as CucumberQuery, Query } from '@cucumber/query'
 import { GherkinStreams } from '@cucumber/gherkin-streams'
 import { Query as GherkinQuery } from '@cucumber/gherkin-utils'
@@ -19,48 +17,14 @@ describe('hidePassedScenarios', () => {
     assert.deepStrictEqual(hidePassedScenarios([], testResultsQuery, gherkinQuery), [])
   })
 
-  it('keeps documents which do not have a passed status', () => {
-    const document = new GherkinDocument()
-    const testResultsQuery = stubObject<Query>(new Query())
-    testResultsQuery.getWorstTestStepResult.returns(
-      new messages.TestStepFinished.TestStepResult({
-        status: messages.TestStepFinished.TestStepResult.Status.FAILED,
-      })
-    )
-    testResultsQuery.getPickleTestStepResults.returns([])
-
-    const gherkinQuery = stubObject<GherkinQuery>(new GherkinQuery())
-    gherkinQuery.getPickleIds.returns([])
-
-    assert.deepStrictEqual(hidePassedScenarios([document], testResultsQuery, gherkinQuery), [
-      document,
-    ])
-  })
-
-  it('removes documents which do have a passed status', () => {
-    const document = new GherkinDocument()
-    const testResultsQuery = stubObject<Query>(new Query())
-    testResultsQuery.getWorstTestStepResult.returns(
-      new messages.TestStepFinished.TestStepResult({
-        status: messages.TestStepFinished.TestStepResult.Status.PASSED,
-      })
-    )
-    testResultsQuery.getPickleTestStepResults.returns([])
-
-    const gherkinQuery = stubObject<GherkinQuery>(new GherkinQuery())
-    gherkinQuery.getPickleIds.returns([])
-
-    assert.deepStrictEqual(hidePassedScenarios([document], testResultsQuery, gherkinQuery), [])
-  })
-
   it('can process multiple documents and statuses', async () => {
     const supportCode = new SupportCode()
     // Make one of the scenarios pass so it's filtered out
     supportCode.defineStepDefinition(
-      messages.SourceReference.create({
+      {
         uri: __filename,
         location: { column: 1, line: 1 },
-      }),
+      },
       'I have {int} cukes in my belly',
       function (cukeCount: number) {
         assert(cukeCount)
@@ -71,7 +35,7 @@ describe('hidePassedScenarios', () => {
       .sync('../../compatibility-kit/javascript/features/**/*.feature')
       .sort()
     const gherkinStream = GherkinStreams.fromPaths(featureFiles, {
-      newId: IdGenerator.incrementing(),
+      newId: messages.IdGenerator.incrementing(),
     })
     const gherkinQuery = new GherkinQuery()
     const cucumberQuery = new CucumberQuery()

@@ -1,0 +1,22 @@
+$statusWidth: 1.5em;
+
+.container {
+  display: flex;
+  --cucumber-anchor-offset: -3.25em;
+}
+
+.status {
+  width: $statusWidth;
+  padding-top: 0.1em;
+}
+
+.content {
+  flex-grow: 1;
+  // don't grow wider than container (less status) width
+  max-width: calc(100% - #{$statusWidth});
+
+  // bit of detail (doc string, data table, error, attachment) get consistent spacing between them
+  > * + * {
+    margin-top: 0.25em !important;
+  }
+}

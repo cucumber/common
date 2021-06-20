@@ -1,12 +1,11 @@
 import IToken from './IToken'
-import createLocation from './createLocation'
 import { GherkinException } from './Errors'
 
 export class UnexpectedTokenException extends GherkinException {
   public static create<TokenType>(token: IToken<TokenType>, expectedTokenTypes: string[]) {
-    const message = `expected: ${expectedTokenTypes.join(
-      ', '
-    )}, got '${token.getTokenValue().trim()}'`
+    const message = `expected: ${expectedTokenTypes.join(', ')}, got '${token
+      .getTokenValue()
+      .trim()}'`
 
     const location = tokenLocation(token)
 
@@ -25,9 +24,9 @@ export class UnexpectedEOFException extends GherkinException {
 
 function tokenLocation<TokenType>(token: IToken<TokenType>) {
   return token.location && token.location.line && token.line && token.line.indent !== undefined
-    ? createLocation({
+    ? {
         line: token.location.line,
         column: token.line.indent + 1,
-      })
+      }
     : token.location
 }

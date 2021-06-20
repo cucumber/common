@@ -1,14 +1,15 @@
 import { Query as GherkinQuery } from '@cucumber/gherkin-utils'
 import { Query as CucumberQuery } from '@cucumber/query'
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import { GherkinDocumentWalker } from '@cucumber/gherkin-utils'
+import { getWorstTestStepResult } from '@cucumber/messages'
 
 export default function countScenariosByStatuses(
-  gherkinDocuments: readonly messages.IGherkinDocument[],
+  gherkinDocuments: readonly messages.GherkinDocument[],
   gherkinQuery: GherkinQuery,
   cucumberQuery: CucumberQuery
-): Map<messages.TestStepFinished.TestStepResult.Status, number> {
-  const statuses = new Map<messages.TestStepFinished.TestStepResult.Status, number>()
+): Map<messages.TestStepResultStatus, number> {
+  const statuses = new Map<messages.TestStepResultStatus, number>()
 
   for (const gherkinDocument of gherkinDocuments) {
     const counter = new GherkinDocumentWalker(
@@ -18,7 +19,7 @@ export default function countScenariosByStatuses(
           const pickleIds = gherkinQuery.getPickleIds(gherkinDocument.uri, scenario.id)
 
           pickleIds.forEach((pickleId) => {
-            const status = cucumberQuery.getWorstTestStepResult(
+            const status = getWorstTestStepResult(
               cucumberQuery.getPickleTestStepResults([pickleId])
             ).status
 

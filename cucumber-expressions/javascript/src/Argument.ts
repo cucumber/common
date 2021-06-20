@@ -7,8 +7,8 @@ export default class Argument<T> {
   public static build(
     treeRegexp: TreeRegexp,
     text: string,
-    parameterTypes: ReadonlyArray<ParameterType<any>>
-  ): ReadonlyArray<Argument<any>> {
+    parameterTypes: readonly ParameterType<any>[]
+  ): readonly Argument<any>[] {
     const group = treeRegexp.match(text)
     if (!group) {
       return null

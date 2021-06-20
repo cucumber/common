@@ -2,7 +2,7 @@ import { Token, TokenType } from './Ast'
 import { createCantEscaped, createTheEndOfLIneCanNotBeEscaped } from './Errors'
 
 export default class CucumberExpressionTokenizer {
-  tokenize(expression: string): ReadonlyArray<Token> {
+  tokenize(expression: string): readonly Token[] {
     const codePoints = Array.from(expression)
     const tokens: Array<Token> = []
     let buffer: Array<string> = []

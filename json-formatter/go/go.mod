@@ -1,12 +1,11 @@
-module github.com/cucumber/json-formatter-go/v7
+module github.com/cucumber/common/json-formatter/go/v18
 
-replace github.com/cucumber/messages-go/v15 => ../../messages/go
+replace github.com/cucumber/common/messages/go/v16 => ../../messages/go
 
 go 1.13
 
 require (
-	github.com/cucumber/messages-go/v15 v15.0.0
-	github.com/gogo/protobuf v1.3.2
-	github.com/onsi/ginkgo v1.16.1
-	github.com/onsi/gomega v1.11.0
+	github.com/cucumber/common/messages/go/v16 v16.0.1
+	github.com/onsi/ginkgo v1.16.4
+	github.com/onsi/gomega v1.13.0
 )

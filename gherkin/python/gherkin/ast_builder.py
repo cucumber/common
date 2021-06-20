@@ -77,7 +77,7 @@ class AstBuilder(object):
              'value': cell_item['text']}) for cell_item in table_row_token.matched_items]
 
     def get_description(self, node):
-        return node.get_single('Description')
+        return node.get_single('Description', '')
 
     def get_steps(self, node):
         return node.get_items('Step')
@@ -158,7 +158,7 @@ class AstBuilder(object):
             description = self.get_description(examples_node)
             examples_table_rows = examples_node.get_single('ExamplesTable')
             table_header = examples_table_rows[0] if examples_table_rows else None
-            table_body = examples_table_rows[1:] if examples_table_rows else None
+            table_body = examples_table_rows[1:] if examples_table_rows else []
 
             return self.reject_nones({
                 'id': self.id_generator.get_next_id(),

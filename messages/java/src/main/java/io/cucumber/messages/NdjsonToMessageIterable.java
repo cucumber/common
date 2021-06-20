@@ -1,7 +1,9 @@
 package io.cucumber.messages;
 
-import com.google.protobuf.InvalidProtocolBufferException;
-import com.google.protobuf.util.JsonFormat;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import io.cucumber.messages.types.Envelope;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -15,20 +17,20 @@ import java.util.Iterator;
  * directly, but rather on a {@code Iterable<Messages.Envelope>} object.
  * Tests can then use a {@code new ArrayList<Messages.Envelope>} which implements the same interface.
  */
-public class NdjsonToMessageIterable implements Iterable<Messages.Envelope> {
-    public static final JsonFormat.Parser JSON_PARSER = JsonFormat
-            .parser()
-            .ignoringUnknownFields();
+public class NdjsonToMessageIterable implements Iterable<Envelope> {
+    private final ObjectMapper mapper = new ObjectMapper()
+            .enable(DeserializationFeature.READ_ENUMS_USING_TO_STRING)
+            .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     private final BufferedReader input;
-    private Messages.Envelope next;
+    private Envelope next;
 
     public NdjsonToMessageIterable(InputStream input) {
         this.input = new BufferedReader(new InputStreamReader(input, StandardCharsets.UTF_8));
     }
 
     @Override
-    public Iterator<Messages.Envelope> iterator() {
-        return new Iterator<Messages.Envelope>() {
+    public Iterator<Envelope> iterator() {
+        return new Iterator<Envelope>() {
             @Override
             public boolean hasNext() {
                 try {
@@ -37,13 +39,11 @@ public class NdjsonToMessageIterable implements Iterable<Messages.Envelope> {
                     if (line.trim().equals("")) {
                         return hasNext();
                     }
-                    Messages.Envelope.Builder builder = Messages.Envelope.newBuilder();
                     try {
-                        JSON_PARSER.merge(line, builder);
-                    } catch(InvalidProtocolBufferException e) {
+                        next = mapper.readValue(line, Envelope.class);
+                    } catch (JsonProcessingException e) {
                         throw new RuntimeException(String.format("Not JSON: %s", line), e);
                     }
-                    next = builder.build();
                     return true;
                 } catch (IOException e) {
                     throw new RuntimeException(e);
@@ -51,7 +51,7 @@ public class NdjsonToMessageIterable implements Iterable<Messages.Envelope> {
             }
 
             @Override
-            public Messages.Envelope next() {
+            public Envelope next() {
                 if (next == null) {
                     throw new IllegalStateException("next() should only be called after a call to hasNext() that returns true");
                 }

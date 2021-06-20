@@ -49,52 +49,49 @@ acceptance/testdata/%.feature.tokens: testdata/%.feature testdata/%.feature.toke
 testdata/%.feature.ast.ndjson: testdata/%.feature $(EXE)
 ifdef GOLDEN
 	mkdir -p $(@D)
-	$(EXE) --predictable-ids --format ndjson --no-source --no-pickles $< | jq --sort-keys  --compact-output -f remove_empty.jq > $@
+	$(EXE) --predictable-ids --no-source --no-pickles $< | jq --sort-keys  --compact-output > $@
 endif
 
 acceptance/testdata/%.feature.ast.ndjson: testdata/%.feature testdata/%.feature.ast.ndjson $(EXE)
 	mkdir -p $(@D)
-	$(EXE) --predictable-ids --format ndjson --no-source --no-pickles $< | jq --sort-keys --compact-output -f remove_empty.jq > $@
-	-diff --unified <(jq "." $<.ast.ndjson) <(jq "." $@)
+	$(EXE) --predictable-ids --no-source --no-pickles $< | jq --sort-keys --compact-output > $@
+	diff --unified <(jq "." $<.ast.ndjson) <(jq "." $@)
 
 testdata/%.feature.errors.ndjson: testdata/%.feature $(EXE)
 ifdef GOLDEN
 	mkdir -p $(@D)
-	$(EXE) --predictable-ids --format ndjson --no-source $< | jq --sort-keys  --compact-output -f remove_empty.jq > $@
+	$(EXE) --predictable-ids --no-source $< | jq --sort-keys  --compact-output > $@
 endif
 
 acceptance/testdata/%.feature.errors.ndjson: testdata/%.feature testdata/%.feature.errors.ndjson $(EXE)
 	mkdir -p $(@D)
-	$(EXE) --predictable-ids --format ndjson --no-source $< | jq --sort-keys --compact-output -f remove_empty.jq > $@
+	$(EXE) --predictable-ids --no-source $< | jq --sort-keys --compact-output > $@
 	diff --unified <(jq "." $<.errors.ndjson) <(jq "." $@)
 
 testdata/%.feature.source.ndjson: testdata/%.feature $(EXE)
 ifdef GOLDEN
 	mkdir -p $(@D)
-	$(EXE) --predictable-ids --format ndjson --no-ast --no-pickles $< | jq --sort-keys  --compact-output -f remove_empty.jq > $@
+	$(EXE) --predictable-ids --no-ast --no-pickles $< | jq --sort-keys  --compact-output > $@
 endif
 
 acceptance/testdata/%.feature.source.ndjson: testdata/%.feature testdata/%.feature.source.ndjson $(EXE)
 	mkdir -p $(@D)
-	$(EXE) --predictable-ids --format ndjson --no-ast --no-pickles $< | jq --sort-keys --compact-output -f remove_empty.jq > $@
+	$(EXE) --predictable-ids --no-ast --no-pickles $< | jq --sort-keys --compact-output > $@
 	diff --unified <(jq "." $<.source.ndjson) <(jq "." $@)
 
 testdata/%.feature.pickles.ndjson: testdata/%.feature $(EXE)
 ifdef GOLDEN
 	mkdir -p $(@D)
-	$(EXE) --predictable-ids --format ndjson --no-source --no-ast $< | jq --sort-keys --compact-output -f remove_empty.jq > $@
+	$(EXE) --predictable-ids --no-source --no-ast $< | jq --sort-keys --compact-output > $@
 endif
 
 acceptance/testdata/%.feature.pickles.ndjson: testdata/%.feature testdata/%.feature.pickles.ndjson $(EXE)
 	mkdir -p $(@D)
-	$(EXE) --predictable-ids --format ndjson --no-source --no-ast $< | jq --sort-keys --compact-output -f remove_empty.jq > $@
+	$(EXE) --predictable-ids --no-source --no-ast $< | jq --sort-keys --compact-output > $@
 	diff --unified <(jq "." $<.pickles.ndjson) <(jq "." $@)
 
-parser.go: gherkin.berp parser.go.razor
-	mono  /var/lib/berp/1.1.1/tools/net471/Berp.exe -g gherkin.berp -t parser.go.razor -o $@
-	# Remove BOM
-	awk 'NR==1{sub(/^\xef\xbb\xbf/,"")}{print}' < $@ > $@.nobom
-	mv $@.nobom $@
+parser.go: parser.go.razor gherkin.berp
+	$(berp-generate-parser)
 	gofmt -w $@
 
 dialects_builtin.go: gherkin-languages.json dialects_builtin.go.jq

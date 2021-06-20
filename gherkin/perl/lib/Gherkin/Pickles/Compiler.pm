@@ -32,7 +32,7 @@ sub compile {
                 $pickle_sink
                 );
         } else {
-            ...;
+            die "Unimplemented";
         }
     }
 
@@ -54,19 +54,7 @@ sub reject_nones {
     for my $key ( keys %$values ) {
         my $value = $values->{$key};
         if (defined $value) {
-            if (ref $value) {
-                if (reftype $value eq 'ARRAY') {
-                    $defined_only->{$key} = $value
-                        if (scalar(@$value) > 0);
-                }
-                else {
-                    $defined_only->{$key} = $value;
-                }
-            }
-            elsif (not ref $value) {
-                $defined_only->{$key} = $value
-                    unless "$value" eq '';
-            }
+            $defined_only->{$key} = $value;
         }
     }
 
@@ -78,9 +66,14 @@ sub _compile_scenario {
          $scenario, $language, $id_generator, $pickle_sink )
         = @_;
 
-    for my $examples ( @{ $scenario->{'examples'} ||
-                              [ { tableHeader => {},
-                                  tableBody   => [ { cells => [] } ]} ] } ) {
+    my @examples = @{ $scenario->{'examples'} };
+    if (scalar @examples == 0) {
+        # Create an empty example in order to iterate once below
+        push @examples, { tableHeader => {},
+                          tableBody   => [ { cells => [] } ]};
+    }
+
+    for my $examples (@examples) {
         my $variable_cells = $examples->{'tableHeader'}->{'cells'};
 
         for my $values ( @{ $examples->{'tableBody'} || [] } ) {
@@ -168,7 +161,7 @@ sub _compile_rule {
                 $pickle_sink
                 );
         } else {
-            ...;
+            die "Unimplemented";
         }
     }
 }

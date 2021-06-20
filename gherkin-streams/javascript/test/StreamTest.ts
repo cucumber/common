@@ -1,6 +1,6 @@
 import assert from 'assert'
 import { Readable } from 'stream'
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import { dialects, IGherkinOptions, makeSourceEnvelope } from '@cucumber/gherkin'
 import { GherkinStreams } from '../src'
 
@@ -12,12 +12,28 @@ describe('gherkin', () => {
       GherkinStreams.fromPaths(['testdata/good/minimal.feature'], defaultOptions)
     )
     assert.strictEqual(envelopes.length, 3)
+    assert.strictEqual(envelopes[0].source.uri, 'testdata/good/minimal.feature')
+    assert.strictEqual(envelopes[1].gherkinDocument.uri, 'testdata/good/minimal.feature')
+    assert.strictEqual(envelopes[2].pickle.uri, 'testdata/good/minimal.feature')
   })
 
   it('throws an error when the path is a directory', async () => {
     assert.rejects(async () =>
       streamToArray(GherkinStreams.fromPaths(['testdata/good'], defaultOptions))
     )
+  })
+
+  it('emits uris relative to a given path', async () => {
+    const envelopes = await streamToArray(
+      GherkinStreams.fromPaths(['testdata/good/minimal.feature'], {
+        ...defaultOptions,
+        relativeTo: 'testdata/good',
+      })
+    )
+    assert.strictEqual(envelopes.length, 3)
+    assert.strictEqual(envelopes[0].source.uri, 'minimal.feature')
+    assert.strictEqual(envelopes[1].gherkinDocument.uri, 'minimal.feature')
+    assert.strictEqual(envelopes[2].pickle.uri, 'minimal.feature')
   })
 
   it('parses gherkin from STDIN', async () => {
@@ -53,10 +69,10 @@ describe('gherkin', () => {
   })
 })
 
-async function streamToArray(readableStream: Readable): Promise<messages.IEnvelope[]> {
-  return new Promise<messages.IEnvelope[]>(
-    (resolve: (wrappers: messages.IEnvelope[]) => void, reject: (err: Error) => void) => {
-      const items: messages.IEnvelope[] = []
+async function streamToArray(readableStream: Readable): Promise<messages.Envelope[]> {
+  return new Promise<messages.Envelope[]>(
+    (resolve: (wrappers: messages.Envelope[]) => void, reject: (err: Error) => void) => {
+      const items: messages.Envelope[] = []
       readableStream.on('data', items.push.bind(items))
       readableStream.on('error', (err: Error) => reject(err))
       readableStream.on('end', () => resolve(items))

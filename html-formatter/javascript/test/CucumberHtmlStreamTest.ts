@@ -1,9 +1,9 @@
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import CucumberHtmlStream from '../src/CucumberHtmlStream'
 import { Writable } from 'stream'
 import assert from 'assert'
 
-async function renderAsHtml(...envelopes: messages.IEnvelope[]): Promise<string> {
+async function renderAsHtml(...envelopes: messages.Envelope[]): Promise<string> {
   return new Promise((resolve, reject) => {
     let html = ''
     const sink: Writable = new Writable({
@@ -34,25 +34,30 @@ describe('CucumberHtmlStream', () => {
   })
 
   it('writes one message to html', async () => {
-    const e1 = messages.Envelope.create({
-      testRunStarted: messages.TestRunStarted.create({}),
-    })
+    const e1: messages.Envelope = {
+      testRunStarted: {
+        timestamp: { seconds: 0, nanos: 0 },
+      },
+    }
     const html = await renderAsHtml(e1)
-    assert(html.indexOf(`window.CUCUMBER_MESSAGES = [${JSON.stringify(e1.toJSON())}]`) >= 0)
+    assert(html.indexOf(`window.CUCUMBER_MESSAGES = [${JSON.stringify(e1)}]`) >= 0)
   })
 
   it('writes two messages to html', async () => {
-    const e1 = messages.Envelope.create({
-      testRunStarted: messages.TestRunStarted.create({}),
-    })
-    const e2 = messages.Envelope.create({
-      testRunFinished: messages.TestRunFinished.create({}),
-    })
+    const e1: messages.Envelope = {
+      testRunStarted: {
+        timestamp: { seconds: 0, nanos: 0 },
+      },
+    }
+    const e2: messages.Envelope = {
+      testRunFinished: {
+        timestamp: { seconds: 0, nanos: 0 },
+        success: true,
+      },
+    }
     const html = await renderAsHtml(e1, e2)
     assert(
-      html.indexOf(
-        `window.CUCUMBER_MESSAGES = [${JSON.stringify(e1.toJSON())},${JSON.stringify(e2.toJSON())}]`
-      ) >= 0
+      html.indexOf(`window.CUCUMBER_MESSAGES = [${JSON.stringify(e1)},${JSON.stringify(e2)}]`) >= 0
     )
   })
 })

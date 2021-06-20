@@ -1,0 +1,6 @@
+@import '../../styles/theming';
+
+.parameter {
+  font-weight: normal; // TODO should we need this if parent can always be normal?
+  color: $parameterColor;
+}

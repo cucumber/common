@@ -1,9 +1,19 @@
-﻿using Xunit;
+﻿using FluentAssertions;
+using Xunit;
 
 namespace Gherkin.Specs
 {
     public class GherkinDialectTests
     {
+        [Fact]
+        public void ShouldParseSpecialCharacters()
+        {
+            var dialectProvider = new GherkinDialectProvider();
+            var dialect = dialectProvider.GetDialect("hu", new Ast.Location(1, 2));
+
+            dialect.FeatureKeywords.Should().Contain("Jellemző");
+        }
+
         [Fact]
         public void ShouldThrowNoSuchLanguageExceptionForInvalidLanguage()
         {

@@ -1,46 +1,52 @@
 import React from 'react'
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import CucumberQueryContext from '../../CucumberQueryContext'
 import ErrorMessage from './ErrorMessage'
-import StepContainer from './StepContainer'
+import StepItem from './StepItem'
 import Attachment from './Attachment'
+import { getWorstTestStepResult } from '@cucumber/messages'
+import Title from './Title'
 
 interface IProps {
-  step: messages.TestCase.ITestStep
+  step: messages.TestStep
 }
 
 const HookStep: React.FunctionComponent<IProps> = ({ step }) => {
   const cucumberQuery = React.useContext(CucumberQueryContext)
 
-  const stepResult = cucumberQuery.getWorstTestStepResult(cucumberQuery.getTestStepResults(step.id))
+  const stepResult = getWorstTestStepResult(cucumberQuery.getTestStepResults(step.id))
 
   const hook = cucumberQuery.getHook(step.hookId)
   const attachments = cucumberQuery.getTestStepsAttachments([step.id])
 
-  if (stepResult.status === messages.TestStepFinished.TestStepResult.Status.FAILED) {
-    const location = hook.sourceReference.location
-      ? hook.sourceReference.uri + ':' + hook.sourceReference.location.line
-      : hook.sourceReference.javaMethod
-      ? hook.sourceReference.javaMethod.className + '.' + hook.sourceReference.javaMethod.methodName
-      : 'Unknown location'
+  if (stepResult.status === 'FAILED') {
+    let location = 'Unknown location'
+    if (hook?.sourceReference.location) {
+      location = `${hook.sourceReference.uri}:${hook.sourceReference.location.line}`
+    } else if (hook?.sourceReference.javaMethod) {
+      location = `${hook.sourceReference.javaMethod.className}.${hook.sourceReference.javaMethod.methodName}`
+    }
+
     return (
-      <StepContainer status={stepResult.status}>
-        <h3>Hook failed: {location}</h3>
+      <StepItem status={stepResult.status}>
+        <Title header="h3" id={step.id}>
+          Hook failed: {location}
+        </Title>
         {stepResult.message && <ErrorMessage message={stepResult.message} />}
         {attachments.map((attachment, i) => (
           <Attachment key={i} attachment={attachment} />
         ))}
-      </StepContainer>
+      </StepItem>
     )
   }
 
   if (attachments) {
     return (
-      <li className="cucumber-step">
+      <StepItem>
         {attachments.map((attachment, i) => (
           <Attachment key={i} attachment={attachment} />
         ))}
-      </li>
+      </StepItem>
     )
   }
 }

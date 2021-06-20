@@ -1,15 +1,18 @@
 import { Transform, TransformCallback } from 'stream'
+import { Envelope, parseEnvelope } from '@cucumber/messages'
 
 /**
  * Transforms an NDJSON stream to a stream of message objects
  */
-export default class NdjsonToMessageStream<T> extends Transform {
+export default class NdjsonToMessageStream extends Transform {
   private buffer: string
 
-  constructor(
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    private readonly fromObject: (object: { [k: string]: any }) => T
-  ) {
+  /**
+   * Create a new stream
+   *
+   * @param parseLine a function that parses a line. This function may ignore a line by returning null.
+   */
+  constructor(private readonly parseLine: (line: string) => Envelope | null = parseEnvelope) {
     super({ writableObjectMode: false, readableObjectMode: true })
   }
 
@@ -23,10 +26,17 @@ export default class NdjsonToMessageStream<T> extends Transform {
     for (const line of lines) {
       if (line.trim().length > 0) {
         try {
-          const object = JSON.parse(line)
-          this.push(this.fromObject(object))
+          const envelope = this.parseLine(line)
+          if (envelope !== null) {
+            this.push(envelope)
+          }
         } catch (err) {
-          return callback(new Error(`Not JSON: ${line}`))
+          err.message =
+            err.message +
+            `
+Not JSON: '${line}'
+`
+          return callback(err)
         }
       }
     }
@@ -37,7 +47,7 @@ export default class NdjsonToMessageStream<T> extends Transform {
     if (this.buffer) {
       try {
         const object = JSON.parse(this.buffer)
-        this.push(this.fromObject(object))
+        this.push(object)
       } catch (err) {
         return callback(new Error(`Not JSONs: ${this.buffer}`))
       }

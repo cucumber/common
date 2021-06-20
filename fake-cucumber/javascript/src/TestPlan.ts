@@ -1,5 +1,5 @@
 import { EnvelopeListener, ITestCase, ITestPlan } from './types'
-import { messages, TimeConversion } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import SupportCode from './SupportCode'
 
 export default class TestPlan implements ITestPlan {
@@ -22,30 +22,40 @@ export default class TestPlan implements ITestPlan {
       listener(hook.toMessage())
     }
 
-    listener(
-      new messages.Envelope({
-        testRunStarted: new messages.TestRunStarted({
-          timestamp: TimeConversion.millisecondsSinceEpochToTimestamp(
-            this.supportCode.clock.clockNow()
-          ),
-        }),
-      })
-    )
+    listener({
+      testRunStarted: {
+        timestamp: messages.TimeConversion.millisecondsSinceEpochToTimestamp(
+          this.supportCode.clock.clockNow()
+        ),
+      },
+    })
     for (const testCase of this.testCases) {
       listener(testCase.toMessage())
     }
+    let success = true
     // TODO: By using Promise.all here we could execute in parallel
     for (const testCase of this.testCases) {
-      await testCase.execute(listener, 0, this.supportCode.newId())
+      const testStepResultStatus = await testCase.execute(listener, 0, this.supportCode.newId())
+      if (shouldCauseFailure(testStepResultStatus)) {
+        success = false
+      }
     }
-    listener(
-      new messages.Envelope({
-        testRunFinished: new messages.TestRunFinished({
-          timestamp: TimeConversion.millisecondsSinceEpochToTimestamp(
-            this.supportCode.clock.clockNow()
-          ),
-        }),
-      })
-    )
+    listener({
+      testRunFinished: {
+        timestamp: messages.TimeConversion.millisecondsSinceEpochToTimestamp(
+          this.supportCode.clock.clockNow()
+        ),
+        success,
+      },
+    })
   }
+}
+
+function shouldCauseFailure(status: messages.TestStepResultStatus): boolean {
+  const failureStatuses: messages.TestStepResultStatus[] = [
+    messages.TestStepResultStatus.AMBIGUOUS,
+    messages.TestStepResultStatus.FAILED,
+    messages.TestStepResultStatus.UNDEFINED,
+  ]
+  return failureStatuses.includes(status)
 }

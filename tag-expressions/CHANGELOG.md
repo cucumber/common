@@ -11,6 +11,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
+* [Go] Move module paths to point to monorepo
+  ([#1550](https://github.com/cucumber/common/issues/1550))
+
 ### Deprecated
 
 ### Removed
@@ -137,7 +140,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First stable release!
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/tag-expressions/v3.0.1...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/tag-expressions/v3.0.1...main
 [3.0.1]: https://github.com/cucumber/cucumber/compare/tag-expressions/v3.0.0...tag-expressions/v3.0.1
 [3.0.0]: https://github.com/cucumber/cucumber/compare/tag-expressions/v2.0.4...tag-expressions/v3.0.0
 [2.0.4]: https://github.com/cucumber/cucumber/compare/tag-expressions/v2.0.3...tag-expressions/v2.0.4

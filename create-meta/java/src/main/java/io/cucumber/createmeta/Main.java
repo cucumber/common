@@ -1,12 +1,11 @@
 package io.cucumber.createmeta;
 
-import io.cucumber.messages.Messages;
-import io.cucumber.messages.internal.com.google.protobuf.util.JsonFormat;
+import io.cucumber.messages.types.Ci;
+import io.cucumber.messages.JSON;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -18,8 +17,7 @@ public class Main {
                 .stream()
                 .map(line -> line.split("="))
                 .collect(Collectors.toMap(arr -> arr[0], arr -> arr.length > 1 ? arr[1] : ""));
-        Messages.Meta.CI ci = CreateMeta.detectCI(env);
-        JsonFormat.Printer jsonPrinter = JsonFormat.printer();
-        System.out.println(jsonPrinter.print(ci));
+        Ci ci = CreateMeta.detectCI(env);
+        System.out.println(JSON.toJSON(ci));
     }
 }

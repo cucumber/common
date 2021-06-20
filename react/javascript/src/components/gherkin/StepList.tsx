@@ -1,27 +1,19 @@
-import { messages } from '@cucumber/messages'
+import * as messages from '@cucumber/messages'
 import React from 'react'
 import Step from './Step'
 
 interface IProps {
-  steps: messages.GherkinDocument.Feature.IStep[]
-  renderStepMatchArguments: boolean
-  renderMessage: boolean
+  steps: readonly messages.Step[]
+  hasExamples: boolean
 }
 
-const StepList: React.FunctionComponent<IProps> = ({
-  steps,
-  renderStepMatchArguments,
-  renderMessage,
-}) => {
+const StepList: React.FunctionComponent<IProps> = ({ steps, hasExamples }) => {
   return (
     <>
       {steps.map((step, index) => (
-        <Step
-          key={index}
-          step={step}
-          renderStepMatchArguments={renderStepMatchArguments}
-          renderMessage={renderMessage}
-        />
+        <li key={index}>
+          <Step key={index} step={step} hasExamples={hasExamples} />
+        </li>
       ))}
     </>
   )

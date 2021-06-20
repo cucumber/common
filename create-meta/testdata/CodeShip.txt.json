@@ -1,7 +1,7 @@
 {
   "git": {
     "branch": "main",
-    "remote": "https://scmhost.com/path/to/the/project",
+    "remote": "https://github.com/owner/repo.git",
     "revision": "decafbad"
   },
   "name": "CodeShip",

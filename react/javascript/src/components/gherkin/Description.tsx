@@ -1,12 +1,34 @@
 import React from 'react'
 import HighLight from '../app/HighLight'
+import {
+  DefaultComponent,
+  DescriptionClasses,
+  DescriptionProps,
+  useCustomRendering,
+} from '../customise/CustomRendering'
+import defaultStyles from './Description.module.scss'
 
-interface IProps {
-  description: string
+const DefaultRenderer: DefaultComponent<DescriptionProps, DescriptionClasses> = ({
+  description,
+  styles,
+}) => {
+  if (!description || description.trim() === '') {
+    return null
+  }
+  return (
+    <div className={styles.content}>
+      <HighLight text={description} markdown={true} />
+    </div>
+  )
 }
 
-const Description: React.FunctionComponent<IProps> = ({ description }) => {
-  return <HighLight className="cucumber-description" text={description} markdown={true} />
+const Description: React.FunctionComponent<DescriptionProps> = (props) => {
+  const ResolvedRenderer = useCustomRendering<DescriptionProps, DescriptionClasses>(
+    'Description',
+    defaultStyles,
+    DefaultRenderer
+  )
+  return <ResolvedRenderer {...props} />
 }
 
 export default Description
