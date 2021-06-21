@@ -33,7 +33,7 @@ const CucumberMarkdownProseMirror: React.FunctionComponent<Props> = ({
             console.log('gherkin node', node.textContent, offset, node.nodeSize)
             decorations.push(Decoration.node(offset, offset + node.nodeSize, {class: 'gherkin'}))
           } else {
-            console.log('non-gherkin node', node.textContent, node.attrs)
+            // console.log('non-gherkin node', node.textContent, node.attrs)
           }
         })
         return DecorationSet.create(state.doc, decorations)

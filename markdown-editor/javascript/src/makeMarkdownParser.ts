@@ -16,14 +16,13 @@ export default function makeMarkdownParser(gherkinLines: readonly number[]) {
   }
 
   // Add gherkin property to attrs
-  for(const tokenName of ['heading', 'list_item']) {
+  for(const tokenName of ['heading', 'list_item', 'table']) {
     const token = tokens[tokenName]
     const getAttrs = token.getAttrs
     token.getAttrs = (token: Token) => {
-      const attrs = getAttrs ? getAttrs(token) : {}
       const lineNumber = token.map[0] + 1
-      attrs.gherkin = gherkinLines.includes(lineNumber)
-      return attrs
+      const attrs = getAttrs ? getAttrs(token) : {}
+      return { ...attrs, gherkin: gherkinLines.includes(lineNumber) }
     }
   }
 

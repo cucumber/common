@@ -29,8 +29,8 @@ EmptyDocument.args = {
   initialMarkdown: ``,
 }
 
-export const MultipleScenarios = Template.bind({})
-MultipleScenarios.args = {
+export const Bullets = Template.bind({})
+Bullets.args = {
   initialMarkdown: `# Feature: Multiple
 
 * NOPE
@@ -38,8 +38,6 @@ MultipleScenarios.args = {
 # Scenario: One
 
 * Given YES
-
-## Examples: hello
 `,
 }
 
