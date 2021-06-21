@@ -9,9 +9,9 @@ class TestTokenFormatter
     }
     var items = token.matchedItems.map((element) => '${element.column}:${element.text}');
     var matchedItems = items.isEmpty ? '' : items.join(',');
-    var matchedType = token.matchedType.toString();
-    var matchedKeyword = token.matchedKeyword.isEmpty ? token.matchedKeyword : '';
-    var matchedText = token.matchedText.isEmpty ? token.matchedText : '';
+    var matchedType = token.matchedType.toString().split('.').last;
+    var matchedKeyword = token.matchedKeyword.isEmpty ? '' : token.matchedKeyword;
+    var matchedText = token.matchedText.isEmpty ? '' : token.matchedText;
     return '(${token.location.line}:${token.location.column})'
         '$matchedType:$matchedKeyword/$matchedText/$matchedItems';
   }

@@ -16,6 +16,7 @@ void main()
     final testDataDir = 'testdata/good';
     final path = Directory('$assetDir/$testDataDir');
     final files = path.listSync().where((file) => file.path.endsWith('.feature'));
+//    final files = path.listSync().where((file) => file.path.endsWith('datatables_with_new_lines.feature'));
 
     final dialectProvider = GherkinDialectProvider(languages);
     final tokenMatcher = TokenMatcher(dialectProvider);
