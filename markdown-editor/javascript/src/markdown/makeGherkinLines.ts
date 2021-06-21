@@ -9,7 +9,20 @@ import {
   Step,
 } from '@cucumber/messages'
 
-export default function makeGherkinLines(markdown: string): readonly number[] {
+export type Result = {
+  gherkinLines: GherkinLines
+  parseError?: ParseError
+}
+
+export type GherkinLines = readonly number[]
+
+export type ParseError = {
+  line: number
+  message: string
+}
+
+
+export default function makeGherkinLines(markdown: string): Result {
   const gherkinParser = new Parser(
     new AstBuilder(IdGenerator.uuid()),
     new GherkinInMarkdownTokenMatcher()
@@ -20,13 +33,19 @@ export default function makeGherkinLines(markdown: string): readonly number[] {
     if (gherkinDocument.feature) {
       walkFeature(gherkinDocument.feature, gherkinLines)
     }
+    return { gherkinLines }
   } catch (parseError) {
     console.log(parseError.message)
     console.log('---')
     console.log(markdown)
-    // ignore
+    return {
+      gherkinLines: [],
+      parseError: {
+        line: 22,
+        message: parseError.message
+      }
+    }
   }
-  return gherkinLines
 }
 
 function walkFeature(feature: Feature, gherkinLines: number[]) {

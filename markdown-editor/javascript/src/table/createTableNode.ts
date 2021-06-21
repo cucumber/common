@@ -1,12 +1,12 @@
-import { Fragment, Schema, Node } from 'prosemirror-model'
+import { Fragment, Schema, Node as ProsemirrorNode } from 'prosemirror-model'
 import { EditorState } from 'prosemirror-state'
 
-export default function createTableNode<S extends Schema>(state: EditorState<S>): Node {
-  const tableHeader: Node = state.schema.nodes.table_header.create(
+export default function createTableNode<S extends Schema>(state: EditorState<S>): ProsemirrorNode {
+  const tableHeader: ProsemirrorNode = state.schema.nodes.table_header.create(
     null,
     state.schema.nodes.paragraph.create(null, state.schema.text('h'))
   )
-  const tableCell: Node = state.schema.nodes.table_cell.create(
+  const tableCell: ProsemirrorNode = state.schema.nodes.table_cell.create(
     null,
     state.schema.nodes.paragraph.create(null, state.schema.text('c'))
   )

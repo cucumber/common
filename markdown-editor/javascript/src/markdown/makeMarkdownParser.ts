@@ -2,8 +2,9 @@ import MarkdownIt from 'markdown-it'
 import schema from './schema'
 import { defaultMarkdownParser, MarkdownParser, TokenConfig } from 'prosemirror-markdown'
 import Token from 'markdown-it/lib/token'
+import {GherkinLines, ParseError} from "./makeGherkinLines";
 
-export default function makeMarkdownParser(gherkinLines: readonly number[]): MarkdownParser {
+export default function makeMarkdownParser(gherkinLines: GherkinLines, parseError: ParseError | undefined): MarkdownParser {
   const tokens: Record<string, TokenConfig> = {
     ...defaultMarkdownParser.tokens,
     ...{
