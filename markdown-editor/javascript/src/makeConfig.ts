@@ -6,7 +6,8 @@ export default function makeConfig(markdown: string) {
   const gherkinLines = makeGherkinLines(markdown)
 
   const markdownParser = makeMarkdownParser(gherkinLines)
-  const doc = markdownParser.parse(markdown);
+  const doc = markdownParser.parse(markdown)
+
   return {
     doc,
     plugins,

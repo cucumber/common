@@ -28,12 +28,9 @@ const CucumberMarkdownProseMirror: React.FunctionComponent<Props> = ({
       state={state}
       decorations={(state) => {
         const decorations: Decoration[] = []
-        state.doc.forEach((node, offset) => {
-          if(node.attrs.gherkin) {
-            console.log('gherkin node', node.textContent, offset, node.nodeSize)
-            decorations.push(Decoration.node(offset, offset + node.nodeSize, {class: 'gherkin'}))
-          } else {
-            // console.log('non-gherkin node', node.textContent, node.attrs)
+        state.doc.nodesBetween(0, state.doc.nodeSize - 2, (node, pos) => {
+          if (node.attrs.gherkin) {
+            decorations.push(Decoration.node(pos, pos + node.nodeSize, {class: 'gherkin'}))
           }
         })
         return DecorationSet.create(state.doc, decorations)

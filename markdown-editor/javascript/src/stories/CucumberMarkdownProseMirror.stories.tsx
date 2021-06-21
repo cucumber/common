@@ -34,10 +34,12 @@ Bullets.args = {
   initialMarkdown: `# Feature: Multiple
 
 * NOPE
+* NAY
 
 # Scenario: One
 
 * Given YES
+* When HEY
 `,
 }
 
