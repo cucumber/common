@@ -7,6 +7,24 @@ class TablePrinter {
     private int[][] cellLengths;
     private int[] maxLengths;
 
+    private String startIndent = "      ";
+    private Boolean shouldEscapeCells = true;
+
+    TablePrinter() {}
+
+    TablePrinter(String startIndent, Boolean shouldEscapeCells) {
+        this.startIndent = startIndent;
+        this.shouldEscapeCells = shouldEscapeCells;
+    }
+
+    /**
+     * @return TablePrinterBuilder
+     * ...used to configure a custom instance of TablePrinter
+     */
+    public static TablePrinterBuilder builder() {
+        return new TablePrinterBuilder();
+      }
+
     void printTable(List<List<String>> table, StringBuilder appendable) {
         try {
             printTable(table, (Appendable) appendable);
@@ -25,7 +43,7 @@ class TablePrinter {
     }
 
     protected void printStartIndent(Appendable buffer, int rowIndex) throws IOException {
-        buffer.append("      ");
+        buffer.append(startIndent);
     }
 
     private void calculateColumnAndMaxLengths(List<List<String>> rows) {
@@ -71,6 +89,10 @@ class TablePrinter {
     }
 
     private String escapeCell(String cell) {
+        if (shouldEscapeCells == false) {
+            return cell;
+        }
+
         if (cell == null) {
             return "";
         }

@@ -643,6 +643,25 @@ public final class DataTable {
     }
 
     /**
+     * Prints a string representation of this
+     * table to the {@code appendable},
+     * with custom indentation
+     * and without escaping cell contents
+     *
+     * @param appendable to append the string representation
+     *                   of this table to.
+     * @param indent     level of start indentation
+     * @throws IOException
+     */
+    public void printFormatted(Appendable appendable, String indent) throws IOException {
+        TablePrinter printer = TablePrinter.builder()
+            .indent(indent)
+            .escapeCells(false)
+            .build();
+        printer.printTable(raw, appendable);
+    }
+
+    /**
      * Returns a transposed view on this table. Example:
      *
      * <pre>
