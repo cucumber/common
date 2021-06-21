@@ -1,21 +1,12 @@
 import MarkdownIt from 'markdown-it'
 import schema from "./schema";
-import {defaultMarkdownParser, MarkdownParser,} from 'prosemirror-markdown'
+import {defaultMarkdownParser, MarkdownParser, TokenConfig,} from 'prosemirror-markdown'
+import Token from 'markdown-it/lib/token';
 
 export default function makeMarkdownParser(gherkinLines: readonly number[]) {
-  const tokens = {
+  const tokens: Record<string,TokenConfig> = {
     ...defaultMarkdownParser.tokens,
     ...{
-      heading: {
-        block: "heading", getAttrs: (tok: any) => {
-          const gherkin = gherkinLines.includes(tok.map[1])
-          return {
-            level: +tok.tag.slice(1),
-            gherkin
-          }
-        }
-      },
-
       table: {block: 'table'},
       // THEAD and TBODY don't exist in the prosemirror-tables schema
       thead: {ignore: true},
@@ -24,6 +15,19 @@ export default function makeMarkdownParser(gherkinLines: readonly number[]) {
     },
   }
 
+  // Add gherkin property to attrs
+  for(const tokenName of ['heading', 'list_item']) {
+    const token = tokens[tokenName]
+    const getAttrs = token.getAttrs
+    token.getAttrs = (token: Token) => {
+      const attrs = getAttrs ? getAttrs(token) : {}
+      const lineNumber = token.map[0] + 1
+      attrs.gherkin = gherkinLines.includes(lineNumber)
+      return attrs
+    }
+  }
+
+  // @ts-ignore
   const markdownParser = new MarkdownParser(schema, new MarkdownIt(), tokens)
 
   // @ts-ignore
@@ -55,4 +59,11 @@ export default function makeMarkdownParser(gherkinLines: readonly number[]) {
   }
 
   return markdownParser
+}
+
+// @ts-ignore
+function listIsTight(tokens, i) {
+  while (++i < tokens.length)
+    if (tokens[i].type != "list_item_open") return tokens[i].hidden
+  return false
 }

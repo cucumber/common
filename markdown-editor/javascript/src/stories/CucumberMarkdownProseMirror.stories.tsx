@@ -32,20 +32,14 @@ EmptyDocument.args = {
 export const MultipleScenarios = Template.bind({})
 MultipleScenarios.args = {
   initialMarkdown: `# Feature: Multiple
-bla bla
-bla bla
+
+* NOPE
 
 # Scenario: One
 
-bla
+* Given YES
 
-# ScenariX: Other header
-
-lorem ipsum
-
-# Scenario: Two
-
-hi
+## Examples: hello
 `,
 }
 

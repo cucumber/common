@@ -9,6 +9,8 @@ import {ProseMirror} from 'use-prosemirror'
 import {EditorState} from 'prosemirror-state'
 import {cucumberMarkdownSerializer} from "./markdownSerializer";
 import {Decoration, DecorationSet} from 'prosemirror-view'
+import makeMarkdownParser from "./makeMarkdownParser";
+import makeGherkinLines from "./makeGherkinLines";
 
 type Props = {
   state: EditorState
@@ -26,19 +28,37 @@ const CucumberMarkdownProseMirror: React.FunctionComponent<Props> = ({
       state={state}
       decorations={(state) => {
         const decorations: Decoration[] = []
-        // console.log('---decorations ---')
         state.doc.forEach((node, offset) => {
           if(node.attrs.gherkin) {
-            decorations.push(Decoration.node(offset, offset + node.nodeSize, {class: 'gherkin'}));
+            console.log('gherkin node', node.textContent, offset, node.nodeSize)
+            decorations.push(Decoration.node(offset, offset + node.nodeSize, {class: 'gherkin'}))
+          } else {
+            console.log('non-gherkin node', node.textContent, node.attrs)
           }
         })
-        // console.log('decorations:', decorations.length)
-        return DecorationSet.create(state.doc, decorations);
+        return DecorationSet.create(state.doc, decorations)
       }}
       onChange={(newState) => {
-        const markdown = cucumberMarkdownSerializer.serialize(newState.doc);
-        setMarkdown(markdown)
+        const markdown = cucumberMarkdownSerializer.serialize(newState.doc)
+        const gherkinLines = makeGherkinLines(markdown)
+        const markdownParser = makeMarkdownParser(gherkinLines)
+        const newDoc = markdownParser.parse(markdown)
+
+        // Cannot do `newState.doc = doc` here because it messes up editing.
+        // Instead we iterate over both docs and modify the existing doc node if the nodes are "similar"
+        newState.doc.forEach((newStateNode) => {
+          newStateNode.attrs.gherkin = false
+          newDoc.forEach((newDocNode) => {
+            if(newDocNode.attrs.gherkin) {
+              if(newStateNode.textContent === newDocNode.textContent) {
+                newStateNode.attrs.gherkin = true
+              }
+            }
+          })
+        })
+
         setState(newState)
+        setMarkdown(markdown)
       }}
     />
   )

@@ -1,12 +1,23 @@
 import {schema as markdownSchema,} from 'prosemirror-markdown'
 import {Schema} from 'prosemirror-model'
 import {tableNodes} from 'prosemirror-tables'
+
 // @ts-ignore
-const heading = markdownSchema.spec.nodes.get('heading')
-heading.attrs = {
+markdownSchema.spec.nodes.get('heading').attrs = {
   level: {default: 1},
   gherkin: {default: false},
 }
+// @ts-ignore
+const listItem = markdownSchema.spec.nodes.get('list_item');
+listItem.attrs = {
+  gherkin: {default: false},
+}
+// @ts-ignore
+// listItem.toDOM = (node) => {
+//   const attrs = node.attrs.gherkin ? {class: 'gherkin'} : {}
+//   console.log('new li', attrs)
+//   return ["li", attrs, 0]
+// }
 
 export default new Schema({
   // @ts-ignore

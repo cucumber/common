@@ -38,3 +38,5 @@ This works fine for the initial rendering. However, when the user edits the docu
 are not updated. For example, changing a non-Gherkin heading from `ScenariX` to `Scenario` does not
 add the `gherkin` class.
 
+Editing a heading doesn't seem to create a new node, so the `gherkin` attribute isn't updated on the node.
+Or something like that...
