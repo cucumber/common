@@ -1,0 +1,54 @@
+{
+  "pickle": {
+    "astNodeIds": [
+      "2"
+    ],
+    "id": "7",
+    "language": "en",
+    "name": "minimalistic",
+    "steps": [
+      {
+        "astNodeIds": [
+          "0"
+        ],
+        "id": "5",
+        "text": "the minimalism inside a background"
+      },
+      {
+        "astNodeIds": [
+          "1"
+        ],
+        "id": "6",
+        "text": "the minimalism"
+      }
+    ],
+    "uri": "testdata/good/background.feature"
+  }
+}
+{
+  "pickle": {
+    "astNodeIds": [
+      "4"
+    ],
+    "id": "10",
+    "language": "en",
+    "name": "also minimalistic",
+    "steps": [
+      {
+        "astNodeIds": [
+          "0"
+        ],
+        "id": "8",
+        "text": "the minimalism inside a background"
+      },
+      {
+        "astNodeIds": [
+          "3"
+        ],
+        "id": "9",
+        "text": "the minimalism"
+      }
+    ],
+    "uri": "testdata/good/background.feature"
+  }
+}

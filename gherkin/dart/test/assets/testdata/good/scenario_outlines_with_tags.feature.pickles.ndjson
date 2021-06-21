@@ -1,0 +1,74 @@
+{
+  "pickle": {
+    "astNodeIds": [
+      "5",
+      "2"
+    ],
+    "id": "15",
+    "language": "en",
+    "steps": [
+      {
+        "astNodeIds": [
+          "0",
+          "2"
+        ],
+        "id": "14",
+        "text": "y"
+      }
+    ],
+    "tags": [
+      {
+        "astNodeId": "13",
+        "name": "@a"
+      },
+      {
+        "astNodeId": "3",
+        "name": "@b"
+      },
+      {
+        "astNodeId": "4",
+        "name": "@c"
+      }
+    ],
+    "uri": "testdata/good/scenario_outlines_with_tags.feature"
+  }
+}
+{
+  "pickle": {
+    "astNodeIds": [
+      "12",
+      "8"
+    ],
+    "id": "17",
+    "language": "en",
+    "steps": [
+      {
+        "astNodeIds": [
+          "6",
+          "8"
+        ],
+        "id": "16",
+        "text": "n"
+      }
+    ],
+    "tags": [
+      {
+        "astNodeId": "13",
+        "name": "@a"
+      },
+      {
+        "astNodeId": "10",
+        "name": "@d"
+      },
+      {
+        "astNodeId": "11",
+        "name": "@e"
+      },
+      {
+        "astNodeId": "9",
+        "name": "@f"
+      }
+    ],
+    "uri": "testdata/good/scenario_outlines_with_tags.feature"
+  }
+}

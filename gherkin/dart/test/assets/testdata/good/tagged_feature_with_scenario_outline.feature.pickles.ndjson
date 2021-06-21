@@ -1,0 +1,56 @@
+{
+  "pickle": {
+    "astNodeIds": [
+      "4",
+      "2"
+    ],
+    "id": "7",
+    "language": "en",
+    "name": "Bar",
+    "steps": [
+      {
+        "astNodeIds": [
+          "0",
+          "2"
+        ],
+        "id": "6",
+        "text": "Baz"
+      }
+    ],
+    "tags": [
+      {
+        "astNodeId": "5",
+        "name": "@sometag"
+      }
+    ],
+    "uri": "testdata/good/tagged_feature_with_scenario_outline.feature"
+  }
+}
+{
+  "pickle": {
+    "astNodeIds": [
+      "4",
+      "3"
+    ],
+    "id": "9",
+    "language": "en",
+    "name": "Bar",
+    "steps": [
+      {
+        "astNodeIds": [
+          "0",
+          "3"
+        ],
+        "id": "8",
+        "text": "Baz"
+      }
+    ],
+    "tags": [
+      {
+        "astNodeId": "5",
+        "name": "@sometag"
+      }
+    ],
+    "uri": "testdata/good/tagged_feature_with_scenario_outline.feature"
+  }
+}

@@ -1,0 +1,199 @@
+{
+  "gherkinDocument": {
+    "feature": {
+      "children": [
+        {
+          "scenario": {
+            "examples": [
+              {
+                "keyword": "Examples",
+                "location": {
+                  "column": 5,
+                  "line": 7
+                },
+                "tableBody": [
+                  {
+                    "cells": [
+                      {
+                        "location": {
+                          "column": 9,
+                          "line": 9
+                        },
+                        "value": "y"
+                      }
+                    ],
+                    "id": "2",
+                    "location": {
+                      "column": 7,
+                      "line": 9
+                    }
+                  }
+                ],
+                "tableHeader": {
+                  "cells": [
+                    {
+                      "location": {
+                        "column": 9,
+                        "line": 8
+                      },
+                      "value": "x"
+                    }
+                  ],
+                  "id": "1",
+                  "location": {
+                    "column": 7,
+                    "line": 8
+                  }
+                }
+              }
+            ],
+            "id": "5",
+            "keyword": "Scenario Outline",
+            "location": {
+              "column": 3,
+              "line": 4
+            },
+            "steps": [
+              {
+                "id": "0",
+                "keyword": "Given ",
+                "location": {
+                  "column": 5,
+                  "line": 5
+                },
+                "text": "<x>"
+              }
+            ],
+            "tags": [
+              {
+                "id": "3",
+                "location": {
+                  "column": 3,
+                  "line": 3
+                },
+                "name": "@b"
+              },
+              {
+                "id": "4",
+                "location": {
+                  "column": 6,
+                  "line": 3
+                },
+                "name": "@c"
+              }
+            ]
+          }
+        },
+        {
+          "scenario": {
+            "examples": [
+              {
+                "keyword": "Examples",
+                "location": {
+                  "column": 5,
+                  "line": 16
+                },
+                "tableBody": [
+                  {
+                    "cells": [
+                      {
+                        "location": {
+                          "column": 9,
+                          "line": 18
+                        },
+                        "value": "n"
+                      }
+                    ],
+                    "id": "8",
+                    "location": {
+                      "column": 7,
+                      "line": 18
+                    }
+                  }
+                ],
+                "tableHeader": {
+                  "cells": [
+                    {
+                      "location": {
+                        "column": 9,
+                        "line": 17
+                      },
+                      "value": "m"
+                    }
+                  ],
+                  "id": "7",
+                  "location": {
+                    "column": 7,
+                    "line": 17
+                  }
+                },
+                "tags": [
+                  {
+                    "id": "9",
+                    "location": {
+                      "column": 5,
+                      "line": 15
+                    },
+                    "name": "@f"
+                  }
+                ]
+              }
+            ],
+            "id": "12",
+            "keyword": "Scenario Outline",
+            "location": {
+              "column": 3,
+              "line": 12
+            },
+            "steps": [
+              {
+                "id": "6",
+                "keyword": "Given ",
+                "location": {
+                  "column": 5,
+                  "line": 13
+                },
+                "text": "<m>"
+              }
+            ],
+            "tags": [
+              {
+                "id": "10",
+                "location": {
+                  "column": 3,
+                  "line": 11
+                },
+                "name": "@d"
+              },
+              {
+                "id": "11",
+                "location": {
+                  "column": 6,
+                  "line": 11
+                },
+                "name": "@e"
+              }
+            ]
+          }
+        }
+      ],
+      "keyword": "Feature",
+      "language": "en",
+      "location": {
+        "column": 1,
+        "line": 2
+      },
+      "tags": [
+        {
+          "id": "13",
+          "location": {
+            "column": 1,
+            "line": 1
+          },
+          "name": "@a"
+        }
+      ]
+    },
+    "uri": "testdata/good/readme_example.feature"
+  }
+}

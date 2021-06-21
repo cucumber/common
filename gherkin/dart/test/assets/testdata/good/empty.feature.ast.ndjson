@@ -1,0 +1,5 @@
+{
+  "gherkinDocument": {
+    "uri": "testdata/good/empty.feature"
+  }
+}

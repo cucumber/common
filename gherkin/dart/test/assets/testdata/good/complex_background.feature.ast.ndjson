@@ -1,0 +1,195 @@
+{
+  "gherkinDocument": {
+    "feature": {
+      "children": [
+        {
+          "background": {
+            "keyword": "Background",
+            "location": {
+              "column": 3,
+              "line": 4
+            },
+            "name": "a simple background",
+            "steps": [
+              {
+                "id": "0",
+                "keyword": "Given ",
+                "location": {
+                  "column": 5,
+                  "line": 5
+                },
+                "text": "the minimalism inside a background"
+              }
+            ]
+          }
+        },
+        {
+          "scenario": {
+            "id": "2",
+            "keyword": "Scenario",
+            "location": {
+              "column": 3,
+              "line": 7
+            },
+            "name": "minimalistic",
+            "steps": [
+              {
+                "id": "1",
+                "keyword": "Given ",
+                "location": {
+                  "column": 5,
+                  "line": 8
+                },
+                "text": "the minimalism"
+              }
+            ]
+          }
+        },
+        {
+          "scenario": {
+            "id": "4",
+            "keyword": "Scenario",
+            "location": {
+              "column": 3,
+              "line": 10
+            },
+            "name": "also minimalistic",
+            "steps": [
+              {
+                "id": "3",
+                "keyword": "Given ",
+                "location": {
+                  "column": 5,
+                  "line": 11
+                },
+                "text": "the minimalism"
+              }
+            ]
+          }
+        },
+        {
+          "rule": {
+            "children": [
+              {
+                "background": {
+                  "keyword": "Background",
+                  "location": {
+                    "column": 5,
+                    "line": 15
+                  },
+                  "steps": [
+                    {
+                      "id": "5",
+                      "keyword": "Given ",
+                      "location": {
+                        "column": 7,
+                        "line": 16
+                      },
+                      "text": "a rule background step"
+                    }
+                  ]
+                }
+              },
+              {
+                "scenario": {
+                  "examples": [
+                    {
+                      "keyword": "Examples",
+                      "location": {
+                        "column": 7,
+                        "line": 21
+                      },
+                      "tableBody": [
+                        {
+                          "cells": [
+                            {
+                              "location": {
+                                "column": 9,
+                                "line": 23
+                              },
+                              "value": "1"
+                            }
+                          ],
+                          "id": "8",
+                          "location": {
+                            "column": 7,
+                            "line": 23
+                          }
+                        },
+                        {
+                          "cells": [
+                            {
+                              "location": {
+                                "column": 9,
+                                "line": 24
+                              },
+                              "value": "2"
+                            }
+                          ],
+                          "id": "9",
+                          "location": {
+                            "column": 7,
+                            "line": 24
+                          }
+                        }
+                      ],
+                      "tableHeader": {
+                        "cells": [
+                          {
+                            "location": {
+                              "column": 9,
+                              "line": 22
+                            },
+                            "value": "value"
+                          }
+                        ],
+                        "id": "7",
+                        "location": {
+                          "column": 7,
+                          "line": 22
+                        }
+                      }
+                    }
+                  ],
+                  "id": "10",
+                  "keyword": "Scenario",
+                  "location": {
+                    "column": 5,
+                    "line": 18
+                  },
+                  "name": "with examples",
+                  "steps": [
+                    {
+                      "id": "6",
+                      "keyword": "Given ",
+                      "location": {
+                        "column": 7,
+                        "line": 19
+                      },
+                      "text": "the <value> minimalism"
+                    }
+                  ]
+                }
+              }
+            ],
+            "keyword": "Rule",
+            "location": {
+              "column": 3,
+              "line": 13
+            },
+            "name": "My Rule"
+          }
+        }
+      ],
+      "description": "  We want to ensure PickleStep all have different IDs",
+      "keyword": "Feature",
+      "language": "en",
+      "location": {
+        "column": 1,
+        "line": 1
+      },
+      "name": "Complex background"
+    },
+    "uri": "testdata/good/complex_background.feature"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "pickle": {
+    "astNodeIds": [
+      "1"
+    ],
+    "id": "3",
+    "language": "en",
+    "name": "still pickles up",
+    "steps": [
+      {
+        "astNodeIds": [
+          "0"
+        ],
+        "id": "2",
+        "text": "a step"
+      }
+    ],
+    "uri": "testdata/good/incomplete_background_2.feature"
+  }
+}

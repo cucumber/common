@@ -1,0 +1,48 @@
+{
+  "gherkinDocument": {
+    "feature": {
+      "children": [
+        {
+          "background": {
+            "keyword": "Background",
+            "location": {
+              "column": 3,
+              "line": 3
+            },
+            "name": "no steps"
+          }
+        },
+        {
+          "scenario": {
+            "id": "1",
+            "keyword": "Scenario",
+            "location": {
+              "column": 3,
+              "line": 5
+            },
+            "name": "still pickles up",
+            "steps": [
+              {
+                "id": "0",
+                "keyword": "* ",
+                "location": {
+                  "column": 5,
+                  "line": 6
+                },
+                "text": "a step"
+              }
+            ]
+          }
+        }
+      ],
+      "keyword": "Feature",
+      "language": "en",
+      "location": {
+        "column": 1,
+        "line": 1
+      },
+      "name": "Incomplete backgrounds, Part 1"
+    },
+    "uri": "testdata/good/incomplete_background_1.feature"
+  }
+}

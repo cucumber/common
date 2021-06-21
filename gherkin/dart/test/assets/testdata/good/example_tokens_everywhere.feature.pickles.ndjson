@@ -1,0 +1,96 @@
+{
+  "pickle": {
+    "astNodeIds": [
+      "6",
+      "4"
+    ],
+    "id": "9",
+    "language": "en",
+    "name": "the un",
+    "steps": [
+      {
+        "argument": {
+          "docString": {
+            "content": "trois"
+          }
+        },
+        "astNodeIds": [
+          "0",
+          "4"
+        ],
+        "id": "7",
+        "text": "the deux:"
+      },
+      {
+        "argument": {
+          "dataTable": {
+            "rows": [
+              {
+                "cells": [
+                  {
+                    "value": "cinq"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "astNodeIds": [
+          "2",
+          "4"
+        ],
+        "id": "8",
+        "text": "the quatre:"
+      }
+    ],
+    "uri": "testdata/good/example_tokens_everywhere.feature"
+  }
+}
+{
+  "pickle": {
+    "astNodeIds": [
+      "6",
+      "5"
+    ],
+    "id": "12",
+    "language": "en",
+    "name": "the uno",
+    "steps": [
+      {
+        "argument": {
+          "docString": {
+            "content": "tres"
+          }
+        },
+        "astNodeIds": [
+          "0",
+          "5"
+        ],
+        "id": "10",
+        "text": "the dos:"
+      },
+      {
+        "argument": {
+          "dataTable": {
+            "rows": [
+              {
+                "cells": [
+                  {
+                    "value": "cinco"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "astNodeIds": [
+          "2",
+          "5"
+        ],
+        "id": "11",
+        "text": "the quatro:"
+      }
+    ],
+    "uri": "testdata/good/example_tokens_everywhere.feature"
+  }
+}

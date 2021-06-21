@@ -1,0 +1,48 @@
+{
+  "gherkinDocument": {
+    "feature": {
+      "children": [
+        {
+          "background": {
+            "keyword": "Background",
+            "location": {
+              "column": 3,
+              "line": 3
+            },
+            "name": "Adding a background won't make a pickle",
+            "steps": [
+              {
+                "id": "0",
+                "keyword": "* ",
+                "location": {
+                  "column": 5,
+                  "line": 4
+                },
+                "text": "a step"
+              }
+            ]
+          }
+        },
+        {
+          "scenario": {
+            "id": "1",
+            "keyword": "Scenario",
+            "location": {
+              "column": 3,
+              "line": 6
+            },
+            "name": "no steps"
+          }
+        }
+      ],
+      "keyword": "Feature",
+      "language": "en",
+      "location": {
+        "column": 1,
+        "line": 1
+      },
+      "name": "Incomplete scenarios"
+    },
+    "uri": "testdata/good/incomplete_scenario.feature"
+  }
+}

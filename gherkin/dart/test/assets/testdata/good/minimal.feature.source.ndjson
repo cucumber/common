@@ -1,0 +1,7 @@
+{
+  "source": {
+    "data": "Feature: Minimal\n\n  Scenario: minimalistic\n    Given the minimalism\n",
+    "mediaType": "text/x.cucumber.gherkin+plain",
+    "uri": "testdata/good/minimal.feature"
+  }
+}

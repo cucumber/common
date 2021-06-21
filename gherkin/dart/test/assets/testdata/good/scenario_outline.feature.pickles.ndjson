@@ -1,0 +1,22 @@
+{
+  "pickle": {
+    "astNodeIds": [
+      "3",
+      "2"
+    ],
+    "id": "5",
+    "language": "en",
+    "name": "minimalistic",
+    "steps": [
+      {
+        "astNodeIds": [
+          "0",
+          "2"
+        ],
+        "id": "4",
+        "text": "the minimalism"
+      }
+    ],
+    "uri": "testdata/good/scenario_outline.feature"
+  }
+}

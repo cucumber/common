@@ -1,0 +1,56 @@
+{
+  "pickle": {
+    "astNodeIds": [
+      "4",
+      "2"
+    ],
+    "id": "6",
+    "language": "en",
+    "name": "Greetings come in many forms",
+    "steps": [
+      {
+        "argument": {
+          "docString": {
+            "content": "Greeting:Hello",
+            "mediaType": "en"
+          }
+        },
+        "astNodeIds": [
+          "0",
+          "2"
+        ],
+        "id": "5",
+        "text": "this file:"
+      }
+    ],
+    "uri": "testdata/good/scenario_outline_with_docstring.feature"
+  }
+}
+{
+  "pickle": {
+    "astNodeIds": [
+      "4",
+      "3"
+    ],
+    "id": "8",
+    "language": "en",
+    "name": "Greetings come in many forms",
+    "steps": [
+      {
+        "argument": {
+          "docString": {
+            "content": "Greeting:Bonjour",
+            "mediaType": "fr"
+          }
+        },
+        "astNodeIds": [
+          "0",
+          "3"
+        ],
+        "id": "7",
+        "text": "this file:"
+      }
+    ],
+    "uri": "testdata/good/scenario_outline_with_docstring.feature"
+  }
+}

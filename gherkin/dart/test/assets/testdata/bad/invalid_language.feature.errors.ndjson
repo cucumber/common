@@ -1,0 +1,12 @@
+{
+  "attachment": {
+    "source": {
+      "location": {
+        "column": 1,
+        "line": 1
+      },
+      "uri": "testdata/bad/invalid_language.feature"
+    },
+    "text": "(1:1): Language not supported: no-such"
+  }
+}
