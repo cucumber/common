@@ -19,37 +19,26 @@ export function computeCellWidths(tableRows: Table): Widths {
 }
 
 export function markdownSeparatorRow(row: Row, widths: Widths): Row {
-  return row.map((cell, j) => (
-    new Array(widths[j] + 1).join('-'))
-  )
+  return row.map((cell, j) => new Array(widths[j] + 1).join('-'))
 }
 
-export function prettyTable(
-  table: Table,
-  level: number,
-  syntax: Syntax
-) {
+export function prettyTable(table: Table, level: number, syntax: Syntax) {
   const widths = computeCellWidths(table)
 
   let n = 0
   let s = ''
   for (const row of table) {
-    s += prettyTableRow(row, level, widths, syntax)
+    s += prettyTableRow(row, level, widths)
     if (n === 0 && syntax === 'markdown') {
       const separatorRow = markdownSeparatorRow(row, widths)
-      s += prettyTableRow(separatorRow, level, widths, syntax)
+      s += prettyTableRow(separatorRow, level, widths)
     }
     n++
   }
   return s
 }
 
-export function prettyTableRow(
-  row: Row,
-  level: number,
-  widths: Widths,
-  syntax: Syntax
-): string {
+export function prettyTableRow(row: Row, level: number, widths: Widths): string {
   return `${spaces(level)}| ${row
     .map((cell, j) => {
       const escapedCellValue = escapeCell(cell)

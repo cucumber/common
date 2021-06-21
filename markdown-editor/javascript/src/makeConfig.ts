@@ -1,6 +1,6 @@
 import plugins from './plugins'
-import makeMarkdownParser from "./makeMarkdownParser";
-import makeGherkinLines from "./makeGherkinLines";
+import makeMarkdownParser from './makeMarkdownParser'
+import makeGherkinLines from './makeGherkinLines'
 
 export default function makeConfig(markdown: string) {
   const gherkinLines = makeGherkinLines(markdown)

@@ -4,10 +4,10 @@ import 'prosemirror-menu/style/menu.css'
 import 'prosemirror-tables/style/tables.css'
 import './styles.css'
 
-import React, {Dispatch, SetStateAction} from 'react'
-import {ProseMirror} from 'use-prosemirror'
-import {EditorState} from 'prosemirror-state'
-import {cucumberMarkdownSerializer} from "./markdownSerializer"
+import React, { Dispatch, SetStateAction } from 'react'
+import { ProseMirror } from 'use-prosemirror'
+import { EditorState } from 'prosemirror-state'
+import { cucumberMarkdownSerializer } from './markdownSerializer'
 
 type Props = {
   state: EditorState

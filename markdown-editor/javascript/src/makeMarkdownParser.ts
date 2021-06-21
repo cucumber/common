@@ -1,22 +1,22 @@
 import MarkdownIt from 'markdown-it'
-import schema from "./schema";
-import {defaultMarkdownParser, MarkdownParser, TokenConfig,} from 'prosemirror-markdown'
-import Token from 'markdown-it/lib/token';
+import schema from './schema'
+import { defaultMarkdownParser, MarkdownParser, TokenConfig } from 'prosemirror-markdown'
+import Token from 'markdown-it/lib/token'
 
 export default function makeMarkdownParser(gherkinLines: readonly number[]): MarkdownParser {
-  const tokens: Record<string,TokenConfig> = {
+  const tokens: Record<string, TokenConfig> = {
     ...defaultMarkdownParser.tokens,
     ...{
-      table: {block: 'table'},
+      table: { block: 'table' },
       // THEAD and TBODY don't exist in the prosemirror-tables schema
-      thead: {ignore: true},
-      tbody: {ignore: true},
-      tr: {block: 'table_row'},
+      thead: { ignore: true },
+      tbody: { ignore: true },
+      tr: { block: 'table_row' },
     },
   }
 
   // Add gherkin property to attrs
-  for(const tokenName of ['heading', 'list_item']) {
+  for (const tokenName of ['heading', 'list_item']) {
     const token = tokens[tokenName]
     const getAttrs = token.getAttrs
     token.getAttrs = (token: Token) => {

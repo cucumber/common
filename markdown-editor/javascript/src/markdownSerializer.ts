@@ -1,5 +1,5 @@
-import {prettyTable, Table} from "./prettyFork";
-import {defaultMarkdownSerializer,} from 'prosemirror-markdown'
+import { prettyTable, Table } from './prettyFork'
+import { defaultMarkdownSerializer } from 'prosemirror-markdown'
 
 export const cucumberMarkdownSerializer = defaultMarkdownSerializer
 cucumberMarkdownSerializer.nodes['table'] = (state, node) => {

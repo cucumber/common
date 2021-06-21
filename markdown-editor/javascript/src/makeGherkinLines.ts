@@ -1,8 +1,19 @@
-import {AstBuilder, GherkinInMarkdownTokenMatcher, Parser} from '@cucumber/gherkin';
-import {Background, Examples, Feature, IdGenerator, Rule, Scenario, Step} from '@cucumber/messages';
+import { AstBuilder, GherkinInMarkdownTokenMatcher, Parser } from '@cucumber/gherkin'
+import {
+  Background,
+  Examples,
+  Feature,
+  IdGenerator,
+  Rule,
+  Scenario,
+  Step,
+} from '@cucumber/messages'
 
 export default function makeGherkinLines(markdown: string): readonly number[] {
-  const gherkinParser = new Parser(new AstBuilder(IdGenerator.uuid()), new GherkinInMarkdownTokenMatcher())
+  const gherkinParser = new Parser(
+    new AstBuilder(IdGenerator.uuid()),
+    new GherkinInMarkdownTokenMatcher()
+  )
   const gherkinLines: number[] = []
   try {
     const gherkinDocument = gherkinParser.parse(markdown)

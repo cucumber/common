@@ -16,20 +16,20 @@ import {
   toggleHeaderColumn,
   toggleHeaderRow,
 } from 'prosemirror-tables'
-import {keymap} from 'prosemirror-keymap'
-import {Dropdown, MenuItem} from 'prosemirror-menu'
+import { keymap } from 'prosemirror-keymap'
+import { Dropdown, MenuItem } from 'prosemirror-menu'
 import schema from './schema'
-import {EditorState, TextSelection, Transaction} from 'prosemirror-state'
-import {Schema} from 'prosemirror-model'
+import { EditorState, TextSelection, Transaction } from 'prosemirror-state'
+import { Schema } from 'prosemirror-model'
 // @ts-ignore
-import {buildMenuItems, exampleSetup} from 'prosemirror-example-setup'
-import createTableNode from "./createTableNode";
-import gherkinHighlighting from "./plugins/gherkinHighlighting";
+import { buildMenuItems, exampleSetup } from 'prosemirror-example-setup'
+import createTableNode from './createTableNode'
+import gherkinHighlighting from './plugins/gherkinHighlighting'
 
 const menu = buildMenuItems(schema).fullMenu
 
 function item(label: string, cmd: any) {
-  return new MenuItem({label, select: cmd, run: cmd})
+  return new MenuItem({ label, select: cmd, run: cmd })
 }
 
 const tableMenu = [
@@ -78,7 +78,7 @@ menu.splice(2, 0, [
     class: 'ProseMirror-icon',
     run: insertTable,
   }),
-  new Dropdown(tableMenu, {label: 'Table'}),
+  new Dropdown(tableMenu, { label: 'Table' }),
 ])
 
 const plugins = [
@@ -88,7 +88,7 @@ const plugins = [
     Tab: goToNextCell(1),
     'Shift-Tab': goToNextCell(-1),
   }),
-  gherkinHighlighting()
-].concat(exampleSetup({schema, menuContent: menu}))
+  gherkinHighlighting(),
+].concat(exampleSetup({ schema, menuContent: menu }))
 
 export default plugins
