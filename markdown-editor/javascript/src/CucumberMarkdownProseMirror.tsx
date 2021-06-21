@@ -7,10 +7,7 @@ import './styles.css'
 import React, {Dispatch, SetStateAction} from 'react'
 import {ProseMirror} from 'use-prosemirror'
 import {EditorState} from 'prosemirror-state'
-import {cucumberMarkdownSerializer} from "./markdownSerializer";
-import {Decoration, DecorationSet} from 'prosemirror-view'
-import makeMarkdownParser from "./makeMarkdownParser";
-import makeGherkinLines from "./makeGherkinLines";
+import {cucumberMarkdownSerializer} from "./markdownSerializer"
 
 type Props = {
   state: EditorState
@@ -26,34 +23,8 @@ const CucumberMarkdownProseMirror: React.FunctionComponent<Props> = ({
   return (
     <ProseMirror
       state={state}
-      decorations={(state) => {
-        const decorations: Decoration[] = []
-        state.doc.nodesBetween(0, state.doc.nodeSize - 2, (node, pos) => {
-          if (node.attrs.gherkin) {
-            decorations.push(Decoration.node(pos, pos + node.nodeSize, {class: 'gherkin'}))
-          }
-        })
-        return DecorationSet.create(state.doc, decorations)
-      }}
       onChange={(newState) => {
         const markdown = cucumberMarkdownSerializer.serialize(newState.doc)
-        const gherkinLines = makeGherkinLines(markdown)
-        const markdownParser = makeMarkdownParser(gherkinLines)
-        const newDoc = markdownParser.parse(markdown)
-
-        // Cannot do `newState.doc = doc` here because it messes up editing.
-        // Instead we iterate over both docs and modify the existing doc node if the nodes are "similar"
-        newState.doc.forEach((newStateNode) => {
-          newStateNode.attrs.gherkin = false
-          newDoc.forEach((newDocNode) => {
-            if(newDocNode.attrs.gherkin) {
-              if(newStateNode.textContent === newDocNode.textContent) {
-                newStateNode.attrs.gherkin = true
-              }
-            }
-          })
-        })
-
         setState(newState)
         setMarkdown(markdown)
       }}

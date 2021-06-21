@@ -24,6 +24,7 @@ import {Schema} from 'prosemirror-model'
 // @ts-ignore
 import {buildMenuItems, exampleSetup} from 'prosemirror-example-setup'
 import createTableNode from "./createTableNode";
+import gherkinHighlighting from "./plugins/gherkinHighlighting";
 
 const menu = buildMenuItems(schema).fullMenu
 
@@ -87,6 +88,7 @@ const plugins = [
     Tab: goToNextCell(1),
     'Shift-Tab': goToNextCell(-1),
   }),
+  gherkinHighlighting()
 ].concat(exampleSetup({schema, menuContent: menu}))
 
 export default plugins

@@ -3,7 +3,7 @@ import schema from "./schema";
 import {defaultMarkdownParser, MarkdownParser, TokenConfig,} from 'prosemirror-markdown'
 import Token from 'markdown-it/lib/token';
 
-export default function makeMarkdownParser(gherkinLines: readonly number[]) {
+export default function makeMarkdownParser(gherkinLines: readonly number[]): MarkdownParser {
   const tokens: Record<string,TokenConfig> = {
     ...defaultMarkdownParser.tokens,
     ...{
