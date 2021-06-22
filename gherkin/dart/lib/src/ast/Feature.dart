@@ -20,13 +20,7 @@ class Feature
       this._name, this._description, this._children);
 
   @override
-  bool get isEmpty => false; /*_tags.isEmpty
-      && _location.isEmpty
-      && language.isEmpty
-      && _keyword.isEmpty
-      && _name.isEmpty
-      && _description.isEmpty
-      && _children.isEmpty;*/
+  bool get isEmpty => false;
 
   @override
   bool get isNotEmpty => !isEmpty;

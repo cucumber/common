@@ -13,7 +13,7 @@ dependencies:
 
   uuid: ^3.0.4
   path: ^1.8.0
-  resource: ^2.1.6
+  #resource: ^2.1.6
   #resource_portable: ^3.0.0
   characters: ^1.1.0
 

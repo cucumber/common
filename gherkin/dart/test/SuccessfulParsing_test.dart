@@ -20,7 +20,7 @@ void main()
 
     final filesEntities = goodDir.listSync().where((file) => file.path.endsWith('.feature'));
 
-    var builder = AstBuilder(idGenerator);
+    var builder = GherkinDocumentBuilder(idGenerator);
 
     var parser = Parser<GherkinDocument>(builder);
 

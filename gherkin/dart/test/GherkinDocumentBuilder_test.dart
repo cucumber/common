@@ -9,7 +9,7 @@ void main()
     final languages = loadGherkinLanguagesFromJsonAsset();
     final dialectProvider = GherkinDialectProvider(languages);
     final idGenerator = IdGenerator.incrementingGenerator;
-    final builder = AstBuilder(idGenerator);
+    final builder = GherkinDocumentBuilder(idGenerator);
     final parser = Parser<GherkinDocument>(builder);
     final matcher = TokenMatcher(dialectProvider);
 

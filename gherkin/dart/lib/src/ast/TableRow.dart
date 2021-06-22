@@ -21,7 +21,7 @@ class TableRow implements IHasLocation, INullSafetyObject
   const TableRow(this._location, this.cells, {this.id=Strings.empty});
 
   @override
-  bool get isEmpty => false;//_location.isEmpty & cells.isEmpty;
+  bool get isEmpty => false;
 
   @override
   bool get isNotEmpty => !isEmpty;

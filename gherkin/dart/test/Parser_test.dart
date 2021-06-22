@@ -10,7 +10,7 @@ void main() {
       var matcher = TokenMatcher(dialectProvider);
       var idGenerator = IdGenerator.incrementingGenerator;
 
-      var builder = AstBuilder(idGenerator);
+      var builder = GherkinDocumentBuilder(idGenerator);
 
       var tokenScanner = StringTokenScanner('Egenskap: i18n support\n');
 

@@ -1,4 +1,4 @@
-library gherkin;
+library gherkin.language;
 
 export 'src/language/GherkinDialect.dart';
 export 'src/language/GherkinDialectProvider.dart';

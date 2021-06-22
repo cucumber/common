@@ -12,7 +12,7 @@ void main()
       var dialectProvider = GherkinDialectProvider(languages, 'no');
       var matcher = TokenMatcher(dialectProvider);
 
-      var builder = AstBuilder(idGenerator);
+      var builder = GherkinDocumentBuilder(idGenerator);
 
       var tokenScanner = StringTokenScanner('Egenskap: i18n support\n');
 

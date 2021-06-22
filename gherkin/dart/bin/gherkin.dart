@@ -1,33 +1,55 @@
 /* TODO
-import 'dart:io';
+import 'package:gherkin/Gherkin.dart';
+import 'package:gherkin/language.dart';
+import 'package:gherkin/messages.dart';
 
-import 'package:dart/language.dart';
-import 'dart:convert' show utf8;
-
-void _main(List<String> args) async
+void main(List<String> args) async
 {
-  var printSource = true;
-  var printAst = true;
-  var printPickles = true;
+  final languages = loadGherkinLanguagesFromJsonAsset();
+
+  var includeSource = true;
+  var includeAst = true;
+  var includePickles = true;
   var paths = <String>[];
+  var idGenerator = IdGenerator.uuidGenerator;
 
   for( var arg in args ) {
     switch(arg) {
       case '--no-source':
-        printSource = false;
+        includeSource = false;
         break;
       case '--no-ast':
-        printAst = false;
+        includeAst = false;
         break;
       case '--no-pickles':
-        printPickles = false;
+        includePickles = false;
+        break;
+      case '--predictable-ids':
+        idGenerator = IdGenerator.incrementingGenerator;
         break;
       default:
         paths.add(arg);
     }
 
-    //SourceEvents sourceEvents = SourceEvents(paths);
-    var dialectProvider = await GherkinDialectProvider.initialize();
-    var gherkinEvents = GherkinEvents(dialectProvider, printSource, printAst, printPickles);
+    MessageWriter messageWriter = makeMessageWriter();
+
+    var messages = Gherkin.fromPaths(paths, includeSource
+        , includeAst, includePickles, idGenerator);
+    printMessages(messageWriter, messages);
   }
-}*/
+
+  void printMessages(MessageWriter messageWriter, Stream<Envelope> messages) {
+    messages.forEach((envelope) {
+      try {
+        messageWriter.write(envelope);
+      } catch (IOException e) {
+        throw GherkinException("Couldn't print messages", e);
+      }
+    });
+   }
+
+  MessageWriter makeMessageWriter() {
+    return MessageToNdjsonWriter(print);
+  }
+}
+*/

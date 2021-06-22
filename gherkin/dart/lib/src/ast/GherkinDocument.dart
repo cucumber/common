@@ -1,18 +1,24 @@
 import 'package:gherkin/ast.dart';
 import 'package:gherkin/core.dart';
+import 'package:gherkin/extensions.dart';
 
 class GherkinDocument implements INullSafetyObject
 {
-  static const empty = _InvalidGherkinDocument();
+  static final empty = _InvalidGherkinDocument();
 
   final Feature feature;
 
   final Iterable<Comment> comments;
 
-  const GherkinDocument(this.feature, this.comments);
+  String uri;
+
+  GherkinDocument(Feature feature, Iterable<Comment> comments)
+    : this.withUri(Strings.empty, feature, comments);
+
+  GherkinDocument.withUri(this.uri, this.feature, this.comments);
 
   @override
-  bool get isEmpty => false;//feature.isEmpty && comments.isEmpty;
+  bool get isEmpty => false;
 
   @override
   bool get isNotEmpty => !isEmpty;
@@ -21,7 +27,8 @@ class GherkinDocument implements INullSafetyObject
 /// Convenience implementation of an invalid [GherkinDocument] instance.
 class _InvalidGherkinDocument extends GherkinDocument
 {
-  const _InvalidGherkinDocument() : super(Feature.empty, const <Comment>[]);
+  _InvalidGherkinDocument() : super.withUri(Strings.empty, Feature.empty
+      , const <Comment>[]);
 
   @override
   bool get isEmpty => true;

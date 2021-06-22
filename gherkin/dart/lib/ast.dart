@@ -1,6 +1,6 @@
 library gherkin.ast;
 
-export 'src/ast/AstBuilder.dart';
+export 'src/ast/GherkinDocumentBuilder.dart';
 export 'src/ast/AstNode.dart';
 export 'src/ast/Background.dart';
 export 'src/ast/Comment.dart';

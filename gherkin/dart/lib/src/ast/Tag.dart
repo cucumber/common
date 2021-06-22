@@ -19,7 +19,7 @@ class Tag implements IHasLocation, INullSafetyObject
   final String name;
 
   @override
-  bool get isEmpty => false;//_location.isEmpty && name.isEmpty;
+  bool get isEmpty => false;
 
   @override
   bool get isNotEmpty => !isEmpty;

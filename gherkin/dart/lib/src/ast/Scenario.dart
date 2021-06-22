@@ -27,9 +27,7 @@ class Scenario extends StepsContainer implements IHasTags, INullSafetyObject
     : super(location, keyword, name, description, steps);
 
   @override
-  bool get isEmpty => false;/*_tags.isEmpty
-    && examples.isEmpty
-    && super.isEmpty;*/
+  bool get isEmpty => false;
 }
 
 /// Convenience implementation of an invalid [Scenario] instance.
