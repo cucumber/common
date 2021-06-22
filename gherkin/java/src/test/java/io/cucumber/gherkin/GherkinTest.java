@@ -84,26 +84,4 @@ public class GherkinTest {
         Feature feature = gherkinDocument.getFeature();
         assertEquals("Minimal", feature.getName());
     }
-
-    @Test
-    public void test_successful_token_matching() throws IOException {
-        List<String> paths = singletonList("testdata/good/rule_without_name_and_description.feature");
-
-        // Get the AST
-        for (String featureFilePath: paths)
-        {
-            TokenMatcher tokenMatcher = new TokenMatcher();
-
-            Path path = Paths.get(featureFilePath);
-            String featureContent = new String(Files.readAllBytes(path));
-            String featureTokens = TokensGenerator.generateTokens(featureContent, tokenMatcher);
-
-            String tokenFilePath = featureFilePath + ".tokens";
-            path = Paths.get(tokenFilePath);
-            String expectedTokensText = new String(Files.readAllBytes(path));
-
-            assertEquals(expectedTokensText, featureTokens);
-        }
-
-    }
 }
