@@ -21,7 +21,7 @@ import 'Step.dart';
 import 'StepArgument.dart';
 import 'Tag.dart';
 
-class AstBuilder
+class GherkinDocumentBuilder
     extends AstRulesBuilder
     implements IBuilder<GherkinDocument>
 {
@@ -29,7 +29,7 @@ class AstBuilder
   final Stack<AstNode> _stack = Stack<AstNode>();
   final List<Comment> _comments = <Comment>[];
 
-  AstBuilder(this.idGenerator) {
+  GherkinDocumentBuilder(this.idGenerator) {
     reset();
   }
 
