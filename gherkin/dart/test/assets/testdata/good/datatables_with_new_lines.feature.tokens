@@ -2,7 +2,8 @@
 (2:1)Empty://
 (3:3)ScenarioLine:Scenario/some whitespace is important/
 (4:5)StepLine:Given /3 lines of poetry on 5 lines/
-(5:7)TableRow://11:raindrops--
+(5:7)TableRow://10:
+raindrops--
 her last kiss
 goodbye.
 

@@ -163,8 +163,8 @@ class GherkinLine implements IGherkinLine
           default:
             cellBuffer.write(chr);
         }
-        col++;
       }
+      col++;
     }
     return lineSpans;
   }

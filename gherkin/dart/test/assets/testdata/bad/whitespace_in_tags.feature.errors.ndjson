@@ -1,12 +1,1 @@
-{
-  "attachment": {
-    "source": {
-      "location": {
-        "column": 3,
-        "line": 3
-      },
-      "uri": "testdata/bad/whitespace_in_tags.feature"
-    },
-    "text": "(3:3): A tag may not contain whitespace"
-  }
-}
+{"parseError":{"message":"(3:3): A tag may not contain whitespace","source":{"location":{"column":3,"line":3},"uri":"testdata/bad/whitespace_in_tags.feature"}}}
