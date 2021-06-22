@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { Meta, Story } from '@storybook/react'
-import CucumberMarkdownProseMirror from '../CucumberMarkdownProseMirror'
+import CucumberMarkdownProseMirror from '../components/CucumberMarkdownProseMirror'
 import { useProseMirror } from 'use-prosemirror'
 import makeConfig from '../makeConfig'
-import MarkdownSimpleCodeEditor from '../MarkdownSimpleCodeEditor'
+import MarkdownSimpleCodeEditor from '../components/MarkdownSimpleCodeEditor'
 
 export default {
   title: 'CucumberMarkdownProseMirror',

@@ -23,7 +23,7 @@ import { EditorState, TextSelection, Transaction } from 'prosemirror-state'
 import { Schema } from 'prosemirror-model'
 // @ts-ignore
 import { buildMenuItems, exampleSetup } from 'prosemirror-example-setup'
-import createTableNode from './createTableNode'
+import createTableNode from './table/createTableNode'
 import gherkinHighlighting from './plugins/gherkinHighlighting'
 
 const menu = buildMenuItems(schema).fullMenu

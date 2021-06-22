@@ -4,9 +4,9 @@
 export type Syntax = 'markdown' | 'gherkin'
 
 export type Table = readonly Row[]
-type Row = readonly Cell[]
-type Cell = string
-type Widths = readonly number[]
+export type Row = readonly Cell[]
+export type Cell = string
+export type Widths = readonly number[]
 
 export function computeCellWidths(tableRows: Table): Widths {
   const widths: number[] = new Array(tableRows[0].length).fill(0)
@@ -42,9 +42,9 @@ export function prettyTableRow(row: Row, level: number, widths: Widths): string 
   return `${spaces(level)}| ${row
     .map((cell, j) => {
       const escapedCellValue = escapeCell(cell)
-      const spaceCount = widths[j] - escapedCellValue.length
-      const spaces = new Array(spaceCount + 1).join(' ')
-      return isNumeric(escapedCellValue) ? spaces + escapedCellValue : escapedCellValue + spaces
+      const paddingCount = widths[j] - escapedCellValue.length
+      const padding = new Array(paddingCount + 1).join(' ')
+      return isNumeric(escapedCellValue) ? padding + escapedCellValue : escapedCellValue + padding
     })
     .join(' | ')} |\n`
 }

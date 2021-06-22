@@ -1,8 +1,8 @@
 import { EditorState, Transaction } from 'prosemirror-state'
-import createTableNode from '../src/createTableNode'
+import createTableNode from '../src/table/createTableNode'
 import makeConfig from '../src/makeConfig'
 import assert from 'assert'
-import { cucumberMarkdownSerializer } from '../src/markdownSerializer'
+import { cucumberMarkdownSerializer } from '../src/markdown/markdownSerializer'
 
 describe('createTableNode', () => {
   it('creates a table node that can be turned into markdown', () => {

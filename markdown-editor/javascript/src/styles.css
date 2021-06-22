@@ -34,3 +34,8 @@
 .ProseMirror .gherkin {
     color: darkorchid;
 }
+
+/* DOM nodes derived from a GherkinDocument have this class */
+.ProseMirror .error {
+    color: crimson;
+}

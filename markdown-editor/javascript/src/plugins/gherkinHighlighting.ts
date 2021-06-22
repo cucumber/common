@@ -1,14 +1,16 @@
 import { Node as ProseMirrorNode } from 'prosemirror-model'
 import { Plugin, PluginKey } from 'prosemirror-state'
 import { Decoration, DecorationSet } from 'prosemirror-view'
-import makeGherkinLines from '../makeGherkinLines'
-import makeMarkdownParser from '../makeMarkdownParser'
-import { cucumberMarkdownSerializer } from '../markdownSerializer'
+import { cucumberMarkdownSerializer } from '../markdown/markdownSerializer'
+import parseMarkdown from '../markdown/parseMarkdown'
 
 interface State {
   decorations: DecorationSet
 }
 
+/**
+ * ProseMirror plugin that highlights Gherkin lines
+ */
 export default function gherkinHighlighting(): Plugin<State> {
   const key = new PluginKey<State>()
 
@@ -48,15 +50,16 @@ function makeDecorations(doc: ProseMirrorNode): Decoration[] {
     return []
   }
   const markdown = cucumberMarkdownSerializer.serialize(doc)
-  const gherkinLines = makeGherkinLines(markdown)
-  const markdownParser = makeMarkdownParser(gherkinLines)
-  const parsedDoc = markdownParser.parse(markdown)
+  const parsedDoc = parseMarkdown(markdown)
 
   const decorations: Decoration[] = []
 
   parsedDoc.descendants((node, pos) => {
     if (node.attrs.gherkin) {
       decorations.push(Decoration.node(pos, pos + node.nodeSize, { class: 'gherkin' }))
+    }
+    if (node.attrs.error) {
+      decorations.push(Decoration.node(pos, pos + node.nodeSize, { class: 'error' }))
     }
   })
 

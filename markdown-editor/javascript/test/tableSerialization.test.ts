@@ -2,8 +2,8 @@ import assert from 'assert'
 import { JSDOM } from 'jsdom'
 import schema from '../src/schema'
 import { DOMParser } from 'prosemirror-model'
-import makeMarkdownParser from '../src/makeMarkdownParser'
-import { cucumberMarkdownSerializer } from '../src/markdownSerializer'
+import makeMarkdownParser from '../src/markdown/makeMarkdownParser'
+import { cucumberMarkdownSerializer } from '../src/markdown/markdownSerializer'
 
 describe('table serialization', () => {
   it('can serialize a table', () => {

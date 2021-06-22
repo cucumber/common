@@ -7,7 +7,7 @@ import 'prismjs/components/prism-markdown'
 import 'prismjs/themes/prism.css'
 
 import { EditorState } from 'prosemirror-state'
-import makeConfig from './makeConfig'
+import makeConfig from '../makeConfig'
 
 type Props = {
   markdown: string

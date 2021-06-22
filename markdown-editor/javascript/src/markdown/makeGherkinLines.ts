@@ -21,12 +21,13 @@ export type ParseError = {
   message: string
 }
 
-
 export default function makeGherkinLines(markdown: string): Result {
   const gherkinParser = new Parser(
     new AstBuilder(IdGenerator.uuid()),
     new GherkinInMarkdownTokenMatcher()
   )
+  gherkinParser.stopAtFirstError = true
+
   const gherkinLines: number[] = []
   try {
     const gherkinDocument = gherkinParser.parse(markdown)
@@ -34,16 +35,23 @@ export default function makeGherkinLines(markdown: string): Result {
       walkFeature(gherkinDocument.feature, gherkinLines)
     }
     return { gherkinLines }
-  } catch (parseError) {
-    console.log(parseError.message)
-    console.log('---')
-    console.log(markdown)
+  } catch (error) {
+    const match = error.message.match(/^\(([\d]+):\d+\)/)
+    if (!match) {
+      throw new Error('Got a parse error we could not understand')
+    }
+    const line = +match[1]
+
+    const parseError: ParseError = {
+      line,
+      message: error.message,
+    }
+
+    console.error(parseError)
+
     return {
       gherkinLines: [],
-      parseError: {
-        line: 22,
-        message: parseError.message
-      }
+      parseError,
     }
   }
 }

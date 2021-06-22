@@ -1,3 +1,3 @@
-import CucumberMarkdownProseMirror from './CucumberMarkdownProseMirror'
+import CucumberMarkdownProseMirror from './components/CucumberMarkdownProseMirror'
 
 export { CucumberMarkdownProseMirror }

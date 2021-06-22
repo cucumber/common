@@ -11,9 +11,13 @@ const nodes = markdownSchema.spec.nodes.append(
   })
 )
 
-// Update node specs to include a gherkin attribute which defaults to false
-for (const nodeName of ['heading', 'list_item']) {
-  nodes.get(nodeName).attrs = { ...nodes.get(nodeName).attrs, gherkin: { default: false } }
+// Update node specs to include gherkin and error attributes which defaults to false
+for (const nodeName of ['heading', 'list_item', 'table_row']) {
+  nodes.get(nodeName).attrs = {
+    ...nodes.get(nodeName).attrs,
+    gherkin: { default: false },
+    error: { default: false },
+  }
 }
 
 export default new Schema({
