@@ -98,7 +98,7 @@ export default abstract class TestStep implements ITestStep {
         {
           duration,
           status: messages.TestStepResultStatus.FAILED,
-          willBeRetried: false,
+          willBeRetried: retryable,
           message,
         },
         listener

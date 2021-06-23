@@ -77,7 +77,9 @@ describe('TestPlan', () => {
       .map((m) => m.testStepFinished)
     assert.deepStrictEqual(testStepFinisheds.length, 2)
     assert.strictEqual(testStepFinisheds[0].testStepResult.status, 'FAILED')
+    assert.strictEqual(testStepFinisheds[0].testStepResult.willBeRetried, true)
     assert.strictEqual(testStepFinisheds[1].testStepResult.status, 'PASSED')
+    assert.strictEqual(testStepFinisheds[1].testStepResult.willBeRetried, false)
   })
 
   it('executes test cases once if passing first time with retry', async () => {
@@ -99,6 +101,7 @@ describe('TestPlan', () => {
       .map((m) => m.testStepFinished)
     assert.deepStrictEqual(testStepFinisheds.length, 1)
     assert.strictEqual(testStepFinisheds[0].testStepResult.status, 'PASSED')
+    assert.strictEqual(testStepFinisheds[0].testStepResult.willBeRetried, false)
   })
 
   it('executes test cases once if undefined first time with retry', async () => {
@@ -118,6 +121,7 @@ describe('TestPlan', () => {
       .map((m) => m.testStepFinished)
     assert.deepStrictEqual(testStepFinisheds.length, 1)
     assert.strictEqual(testStepFinisheds[0].testStepResult.status, 'UNDEFINED')
+    assert.strictEqual(testStepFinisheds[0].testStepResult.willBeRetried, false)
   })
 
   class Flight {

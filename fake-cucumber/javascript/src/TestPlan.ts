@@ -45,7 +45,7 @@ export default class TestPlan implements ITestPlan {
         testStepResultStatus = await testCase.execute(
           listener,
           attempt,
-          false,
+          attempt < allowedAttempts - 1,
           this.supportCode.newId()
         )
         if (testStepResultStatus !== 'FAILED') {

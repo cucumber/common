@@ -206,6 +206,18 @@ describe('TestStep', () => {
       assert.notDeepStrictEqual(testStepResult.duration, TimeConversion.millisecondsToDuration(0))
     })
 
+    it('indicates the test will be retried if status FAILED and retryable', async () => {
+      const testStepResult = await failedPickleTestStep.execute(
+        world,
+        'some-testCaseStartedId',
+        () => undefined,
+        true,
+        true
+      )
+      assert.strictEqual(testStepResult.status, 'FAILED')
+      assert.strictEqual(testStepResult.willBeRetried, true)
+    })
+
     it('returns a TestStepResult with status SKIPPED when the previous step was not passed', async () => {
       const testStepResult = await failedPickleTestStep.execute(
         world,
