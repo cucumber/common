@@ -22,8 +22,8 @@ describe Cucumber::Messages::Message::Serialization do
     describe '#to_json' do
       subject { Cucumber::Messages::SimpleMessage.new.to_json }
 
-      it 'returns a JSON document with all the attributes of the Message' do
-        expect(subject).to eq({ isNil: nil, isString: '', isArray: [], isNumber: 0 }.to_json)
+      it 'returns a JSON document with all the attributes of the Message except nil values' do
+        expect(subject).to eq({ isString: '', isArray: [], isNumber: 0 }.to_json)
       end
     end
   end

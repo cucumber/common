@@ -49,7 +49,9 @@ module Cucumber
         #
 
         def to_json
-          to_h(camelize: true).to_json
+          to_h(camelize: true)
+            .select { |_, value| !value.nil? }
+            .to_json
         end
 
         private
