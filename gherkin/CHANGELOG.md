@@ -13,8 +13,7 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Changed
 * Add US Texan translations.
-  ([#1625](https://github.com/cucumber/common/pull/1625)
-   [willmac321])   
+  ([#1625](https://github.com/cucumber/common/pull/1625) [willmac321])   
 * [Go] Move module paths to point to monorepo
   ([#1550](https://github.com/cucumber/common/issues/1550))
 
