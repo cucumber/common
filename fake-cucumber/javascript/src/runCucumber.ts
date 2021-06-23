@@ -6,12 +6,16 @@ import SupportCode from './SupportCode'
 import { MakeTestPlan, RunOptions } from './types'
 import makeTestCase from './makeTestCase'
 
+const DEFAULT_OPTIONS: RunOptions = {
+  allowedRetries: 0,
+}
+
 export default async function runCucumber(
   supportCode: SupportCode,
-  runOptions: RunOptions,
   gherkinEnvelopeStream: Readable,
   gherkinQuery: GherkinQuery,
   envelopeOutputStream: Writable,
+  runOptions: RunOptions = DEFAULT_OPTIONS,
   makeTestPlanFn: MakeTestPlan<SupportCode> = makeTestPlan
 ) {
   const gherkinQueryStream = new GherkinQueryStream(gherkinQuery)

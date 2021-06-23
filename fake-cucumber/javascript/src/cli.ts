@@ -48,10 +48,10 @@ async function main() {
 
   await runCucumber(
     supportCode,
-    runOptions,
     gherkinEnvelopeStream,
     gherkinQuery,
-    envelopeOutputStream
+    envelopeOutputStream,
+    runOptions
   )
 }
 
