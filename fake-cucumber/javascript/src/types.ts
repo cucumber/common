@@ -30,7 +30,7 @@ export interface ITestStep {
     testCaseStartedId: string,
     listener: EnvelopeListener,
     previousPassed: boolean,
-    retryable: boolean
+    retryable?: boolean
   ): Promise<messages.TestStepResult>
 }
 
