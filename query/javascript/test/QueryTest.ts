@@ -10,6 +10,7 @@ import {
   makeTestCase,
   IncrementClock,
   IncrementStopwatch,
+  RunOptions,
 } from '@cucumber/fake-cucumber'
 
 import { promisify } from 'util'
@@ -381,6 +382,24 @@ describe('Query', () => {
         assert.deepStrictEqual(results.length, 1)
         assert.deepStrictEqual(results[0].status, 'PASSED')
       })
+
+      it('returns the result from the last attempt where retry has been used', async () => {
+        const emittedMessages: Array<messages.Envelope> = []
+        await execute(
+          `Feature: hello
+Scenario: hi
+  Given a step that passes the second time
+`,
+          (message) => emittedMessages.push(message),
+          { allowedRetries: 1 }
+        )
+        const testCase = emittedMessages.find((child) => child.testCase).testCase
+        const testStep = testCase.testSteps[0]
+        const results = cucumberQuery.getTestStepResults(testStep.id)
+
+        assert.deepStrictEqual(results.length, 1)
+        assert.deepStrictEqual(results[0].status, 'PASSED')
+      })
     })
 
     describe('#getHook(HookId)', () => {
@@ -475,7 +494,8 @@ describe('Query', () => {
 
   async function execute(
     gherkinSource: string,
-    messagesHandler: (envelope: messages.Envelope) => void = () => null
+    messagesHandler: (envelope: messages.Envelope) => void = () => null,
+    runOptions: RunOptions = { allowedRetries: 0 }
   ): Promise<void> {
     const newId = messages.IdGenerator.uuid()
     const clock = new IncrementClock()
@@ -500,6 +520,13 @@ describe('Query', () => {
     supportCode.defineStepDefinition(null, 'I have {int} cukes in my {word}', (cukes: number) => {
       assert.ok(cukes)
     })
+    let passesSecondTime = 0
+    supportCode.defineStepDefinition(null, 'a step that passes the second time', () => {
+      passesSecondTime++
+      if (passesSecondTime < 2) {
+        throw new Error(`This step failed.`)
+      }
+    })
 
     const queryUpdateStream = new Writable({
       objectMode: true,
@@ -520,7 +547,7 @@ describe('Query', () => {
     })
     await pipelinePromise(gherkinMessages(gherkinSource, 'test.feature', newId), queryUpdateStream)
 
-    const testPlan = makeTestPlan(gherkinQuery, supportCode, {allowedRetries: 0}, makeTestCase)
+    const testPlan = makeTestPlan(gherkinQuery, supportCode, runOptions, makeTestCase)
     await testPlan.execute((envelope: messages.Envelope) => {
       messagesHandler(envelope)
       cucumberQuery.update(envelope)

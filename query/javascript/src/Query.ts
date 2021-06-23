@@ -1,6 +1,6 @@
 import * as messages from '@cucumber/messages'
-import { ArrayMultimap } from '@teppeis/multimaps'
 import { getWorstTestStepResult } from '@cucumber/messages'
+import { ArrayMultimap } from '@teppeis/multimaps'
 
 export default class Query {
   private readonly testStepResultByPickleId = new ArrayMultimap<string, messages.TestStepResult>()
@@ -10,6 +10,7 @@ export default class Query {
   >()
   private readonly testStepById = new Map<string, messages.TestStep>()
   private readonly testCaseByPickleId = new Map<string, messages.TestCase>()
+  private readonly testCaseByTestCaseId = new Map<string, messages.TestCase>()
   private readonly pickleIdByTestStepId = new Map<string, string>()
   private readonly pickleStepIdByTestStepId = new Map<string, string>()
   private readonly testStepResultsbyTestStepId = new ArrayMultimap<
@@ -28,6 +29,7 @@ export default class Query {
 
   public update(envelope: messages.Envelope) {
     if (envelope.testCase) {
+      this.testCaseByTestCaseId.set(envelope.testCase.id, envelope.testCase)
       this.testCaseByPickleId.set(envelope.testCase.pickleId, envelope.testCase)
       for (const testStep of envelope.testCase.testSteps) {
         this.testStepById.set(testStep.id, testStep)
@@ -38,6 +40,16 @@ export default class Query {
           testStep.pickleStepId,
           testStep.stepMatchArgumentsLists
         )
+      }
+    }
+
+    if (envelope.testCaseStarted) {
+      const testCase = this.testCaseByTestCaseId.get(envelope.testCaseStarted.testCaseId)
+      this.testStepResultByPickleId.delete(testCase.pickleId)
+      for (const testStep of testCase.testSteps) {
+        this.testStepResultsByPickleStepId.delete(testStep.pickleStepId)
+        this.testStepResultsbyTestStepId.delete(testStep.id)
+        this.attachmentsByTestStepId.delete(testStep.id)
       }
     }
 
