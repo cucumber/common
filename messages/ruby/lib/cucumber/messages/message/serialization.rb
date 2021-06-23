@@ -11,9 +11,11 @@ module Cucumber
         ##
         # Returns a new Hash formed from the message attributes
         # If +camelize:+ keyword parameter is set to true, then keys will be camelized
+        # If +reject_nil_values:+ keyword parameter is set to true, resulting hash won't include nil values
         #
         #   Cucumber::Messages::Duration.new(seconds: 1, nanos: 42).to_h                                 # => { seconds: 1, nanos: 42 }
         #   Cucumber::Messages::PickleTag.new(name: 'foo', ast_node_id: 'abc-def').to_h(camelize: true)  # => { name: 'foo', astNodeId: 'abc-def' }
+        #   Cucumber::Messages::PickleTag.new(name: 'foo', ast_node_id: nil).to_h(reject_nil_values: true)  # => { name: 'foo' }
         #
         # It is recursive so embedded messages are also processed
         #
@@ -21,18 +23,22 @@ module Cucumber
         #   Cucumber::Messages::Comment.new(location: location, text: 'comment').to_h  # => { location: { line: 2, :column: nil }, text: "comment" }
         #
 
-        def to_h(camelize: false)
-          self.instance_variables.to_h do |variable_name|
+        def to_h(camelize: false, reject_nil_values: false)
+          resulting_hash = self.instance_variables.to_h do |variable_name|
             h_key = variable_name[1..-1]
             h_key = Cucumber::Messages::Message.camelize(h_key) if camelize
 
             h_value = prepare_value(
               self.instance_variable_get(variable_name),
-              camelize: camelize
+              camelize: camelize,
+              reject_nil_values: reject_nil_values
             )
 
             [ h_key.to_sym, h_value ]
           end
+
+          resulting_hash.reject! { |_, value| value.nil? } if reject_nil_values
+          resulting_hash
         end
 
         ##
@@ -49,16 +55,14 @@ module Cucumber
         #
 
         def to_json
-          to_h(camelize: true)
-            .select { |_, value| !value.nil? }
-            .to_json
+          to_h(camelize: true, reject_nil_values: true).to_json
         end
 
         private
 
-        def prepare_value(value, camelize:)
-          return value.to_h(camelize: camelize) if value.is_a?(Cucumber::Messages::Message)
-          return value.map { |v| prepare_value(v, camelize: camelize) } if value.is_a?(Array)
+        def prepare_value(value, camelize:, reject_nil_values:)
+          return value.to_h(camelize: camelize, reject_nil_values: reject_nil_values) if value.is_a?(Cucumber::Messages::Message)
+          return value.map { |v| prepare_value(v, camelize: camelize, reject_nil_values: reject_nil_values) } if value.is_a?(Array)
 
           value
         end
