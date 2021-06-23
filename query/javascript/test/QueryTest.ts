@@ -520,7 +520,7 @@ describe('Query', () => {
     })
     await pipelinePromise(gherkinMessages(gherkinSource, 'test.feature', newId), queryUpdateStream)
 
-    const testPlan = makeTestPlan(gherkinQuery, supportCode, makeTestCase)
+    const testPlan = makeTestPlan(gherkinQuery, supportCode, {allowedRetries: 0}, makeTestCase)
     await testPlan.execute((envelope: messages.Envelope) => {
       messagesHandler(envelope)
       cucumberQuery.update(envelope)
