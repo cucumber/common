@@ -8,7 +8,7 @@ import { version } from '../package.json'
 import * as messages from '@cucumber/messages'
 import createMeta from '@cucumber/create-meta'
 import { MessageToNdjsonStream } from '@cucumber/message-streams'
-import { RunOptions } from "./types";
+import { RunOptions } from './types'
 
 const program = new Command()
 program.version(packageJson.version)
