@@ -67,6 +67,12 @@ describe('TestPlan', () => {
       envelopes.push(envelope)
     }
     await testPlan.execute(listener)
+    const testCaseStarteds = envelopes
+      .filter((m) => m.testCaseStarted)
+      .map((m) => m.testCaseStarted)
+    assert.deepStrictEqual(testCaseStarteds.length, 2)
+    assert.strictEqual(testCaseStarteds[0].attempt, 0)
+    assert.strictEqual(testCaseStarteds[1].attempt, 1)
     const testStepFinisheds = envelopes
       .filter((m) => m.testStepFinished)
       .map((m) => m.testStepFinished)
