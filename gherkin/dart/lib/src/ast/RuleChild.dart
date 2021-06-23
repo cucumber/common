@@ -17,7 +17,7 @@ class RuleChild
       : background = Background.empty;
 
   @override
-  bool get isEmpty => true;
+  bool get isEmpty => false;
 
   @override
   bool get isNotEmpty => !isEmpty;
@@ -29,6 +29,5 @@ class _InvalidRuleChild extends RuleChild
       : super.fromBackground(Background.empty);
 
   @override
-  bool get isEmpty => false;
-
+  bool get isEmpty => true;
 }

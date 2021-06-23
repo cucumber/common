@@ -15,6 +15,32 @@ class PickleTable
 
   @override
   bool get isNotEmpty => !isEmpty;
+
+  @override
+  String toString() {
+    final hexIdentityHashCode = hashCode.toRadixString(16);
+    final sb = StringBuffer();
+    sb..write(runtimeType)
+      ..write('@')
+      ..write(hexIdentityHashCode)
+      ..write('[')
+      ..write('rows')
+      ..write('=')
+      ..write(rows.isEmpty ? '<null>' : rows)
+      ..write(']');
+    return sb.toString();
+  }
+
+  @override
+  bool operator ==(other) {
+    return (other is PickleTable)
+        && other.rows == rows
+    ;
+  }
+
+  @override
+  int get hashCode
+    => rows.hashCode;
 }
 
 class _InvalidPickleTable extends PickleTable {

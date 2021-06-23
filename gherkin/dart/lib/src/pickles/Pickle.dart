@@ -28,6 +28,71 @@ class Pickle implements INullSafetyObject
 
   @override
   bool get isNotEmpty => !isEmpty;
+
+  @override
+  String toString() {
+    final hexIdentityHashCode = hashCode.toRadixString(16);
+    var sb = StringBuffer();
+    sb
+      ..write(runtimeType)
+      ..write('@')
+      ..write(hexIdentityHashCode)
+      ..write('[')
+      ..write('id')
+      ..write('=')
+      ..write(id.isEmpty ? '<null>' : id)
+      ..write(',')
+      ..write('uri')
+      ..write('=')
+      ..write(uri.isEmpty ? '<null>' : uri)
+      ..write(',')
+      ..write('name')
+      ..write('=')
+      ..write(name.isEmpty ? '<null>' : name)
+      ..write(',')
+      ..write('language')
+      ..write('=')
+      ..write(language.isEmpty ? '<null>' : language)
+      ..write(',')
+      ..write('steps')
+      ..write('=')
+      ..write(steps.isEmpty ? '<null>' : steps)
+      ..write(',')
+      ..write('tags')
+      ..write('=')
+      ..write(tags.isEmpty ? '<null>' : tags)
+      ..write(',')
+      ..write('astNodeIds')
+      ..write('=')
+      ..write(astNodeIds.isEmpty ? '<null>' : astNodeIds)
+      ..write(']');
+    return sb.toString();
+  }
+
+  //https://api.flutter.dev/flutter/package-collection_collection/ListEquality-class.html
+  @override
+  bool operator ==(other) {
+    return (other is Pickle)
+        && other.id == id
+        && other.uri == uri
+        && other.name == name
+        && other.language == language
+        && other.steps == steps
+        && other.tags == tags
+        && other.astNodeIds == astNodeIds
+    ;
+  }
+
+  @override
+  int get hashCode =>
+    id.hashCode
+    ^ uri.hashCode
+    ^ name.hashCode
+    ^ language.hashCode
+    ^ steps.hashCode
+    ^ tags.hashCode
+    ^ astNodeIds.hashCode
+    ;
 }
 
 /// Convenience implementation of an invalid [Pickle] instance.

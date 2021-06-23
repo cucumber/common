@@ -1,5 +1,6 @@
 library gherkin.exceptions;
 
+export 'src/exceptions/GherkinException.dart';
 export 'src/exceptions/NoSuchLanguageException.dart';
 export 'src/exceptions/ParserException.dart';
 export 'src/exceptions/CompositeParserException.dart';

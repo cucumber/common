@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:gherkin/ast.dart';
 import 'package:gherkin/exceptions.dart';
-import 'package:gherkin/language.dart';
+import 'package:gherkin/extensions.dart';
+import 'package:gherkin/language.dart' as lang;
 import 'package:gherkin/messages.dart';
 import 'package:gherkin/parser.dart';
 import 'package:gherkin/pickles.dart';
@@ -13,35 +16,35 @@ class Gherkin
   final bool includeSource;
   final bool includeAst;
   final bool includePickles;
-  final IdGenerator idGenerator;
+  final lang.IdGenerator idGenerator;
 
   late Map<String, GherkinLanguageKeywords> _languages;
-  late IGherkinDialectProvider _dialectProvider;
+  late lang.IGherkinDialectProvider _dialectProvider;
   late ITokenMatcher _tokenMatcher;
 
   Gherkin(this.paths, this.envelopes, this.includeSource, this.includeAst
       , this.includePickles, this.idGenerator)
   {
-    _languages = loadGherkinLanguagesFromJsonAsset();
-    _dialectProvider = GherkinDialectProvider(_languages);
-    _tokenMatcher = TokenMatcher(_dialectProvider);
+    _languages = lang.loadGherkinLanguagesFromJsonAsset();
+    _dialectProvider = lang.GherkinDialectProvider(_languages);
+    _tokenMatcher = lang.TokenMatcher(_dialectProvider);
   }
 
   static Stream<Envelope> fromPaths(List<String> paths, bool includeSource
-      , bool includeAst, bool includePickles, IdGenerator idGenerator)
+      , bool includeAst, bool includePickles, lang.IdGenerator idGenerator)
   {
     return Gherkin(paths, <Envelope>[], includeSource, includeAst
         , includePickles, idGenerator).messages();
   }
 
-  Stream<Envelope> fromSources(List<Envelope> envelopes, bool includeSource
-      , bool includeAst, bool includePickles, IdGenerator idGenerator)
+  static Stream<Envelope> fromSources(List<Envelope> envelopes, bool includeSource
+      , bool includeAst, bool includePickles, lang.IdGenerator idGenerator)
   {
     return Gherkin(<String>[], envelopes, includeSource, includeAst
         , includePickles, idGenerator).messages();
   }
 
-  Envelope makeSourceEnvelope(String data, String uri) {
+  static Envelope makeSourceEnvelope(String data, String uri) {
     final source = Source(uri, data, MediaType.TEXT_X_CUCUMBER_GHERKIN_PLAIN);
     var envelope = Envelope();
     envelope.source = source;
@@ -63,13 +66,13 @@ class Gherkin
   }
 
   Envelope _envelopeFromPath(String path) {
-    return Envelope.empty;
-    /*try {
-      String data = _read(new InputStreamReader(new FileInputStream(path), StandardCharsets.UTF_8));
+    try {
+      var data = File(path).readAsStringSync();
       return makeSourceEnvelope(data, path);
-    } catch (IOException e) {
-      throw GherkinException(e.getMessage(), e);
-    }*/
+    }
+    on IOException catch (e) {
+      throw GherkinException(e.toString(), e);
+    }
   }
 
   Iterable<Envelope> _parserMessageStream(Envelope envelope, bool includeSource
@@ -88,7 +91,7 @@ class Gherkin
       var uri = source.uri;
       var data = source.data;
 
-      final tokenScanner = StringTokenScanner(data);
+      final tokenScanner = lang.StringTokenScanner(data);
 
       try {
         GherkinDocument gherkinDocument = GherkinDocument.empty;
@@ -127,25 +130,20 @@ class Gherkin
   }
 
   void _addParseError(List<Envelope> messages, ParserException e, String uri) {
-    /* TODO
-    var line = e.location.line;
-    var column = e.location.column;
-    var parseError = ParseError(
-        SourceReference(
-            uri,
-            null, null,
-            // We want 0 values not to be serialised, which is why we set them to null
-            // This is a legacy requirement brought over from old protobuf behaviour
-            new Location(
-                line == 0 ? null : line,
-                column == 0 ? null : column
-            )
-        ),
-        e.getMessage()
-    );
-    Envelope envelope = new Envelope();
-    envelope.parseError = parseError;
-    messages.add(envelope);*/
-  }
+    // We want 0 values not to be serialised, which is why we set them to null
+    // This is a legacy requirement brought over from old protobuf behaviour
+    final line = e.location.line == 0 ? Int.min : e.location.line;
+    final column = e.location.column == 0 ? Int.min : e.location.column;
+    final location = Location(line: line, column: column);
 
+    final sourceReference = SourceReference(
+        uri,
+        // TODO null, null,
+        location
+    );
+    var parseError = ParseError(sourceReference, e.message);
+    var envelope = Envelope();
+    envelope.parseError = parseError;
+    messages.add(envelope);
+  }
 }

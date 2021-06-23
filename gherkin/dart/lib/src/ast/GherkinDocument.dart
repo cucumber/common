@@ -22,6 +22,44 @@ class GherkinDocument implements INullSafetyObject
 
   @override
   bool get isNotEmpty => !isEmpty;
+
+  @override
+  String toString() {
+    final hexIdentityHashCode = hashCode.toRadixString(16);
+    var sb = StringBuffer();
+    sb
+      ..write(runtimeType)
+      ..write('@')
+      ..write(hexIdentityHashCode)
+      ..write('[')
+      ..write('uri')
+      ..write('=')
+      ..write(uri.isEmpty ? '<null>' : uri)
+      ..write(',')
+      ..write('feature')
+      ..write('=')
+      ..write(feature.isEmpty ? '<null>' : feature)
+      ..write(',')
+      ..write('comments')
+      ..write('=')
+      ..write(comments.isEmpty ? '<null>' : comments)
+      ..write(']');
+    return sb.toString();
+  }
+
+  @override
+  bool operator ==(other) {
+    return (other is GherkinDocument)
+        && other.uri == uri
+        && other.feature == feature
+        && other.comments == comments;
+  }
+
+  @override
+  int get hashCode
+    => uri.hashCode
+    ^ feature.hashCode
+    ^ comments.hashCode;
 }
 
 /// Convenience implementation of an invalid [GherkinDocument] instance.

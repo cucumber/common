@@ -1,12 +1,12 @@
-/* TODO
+import 'dart:io';
+
 import 'package:gherkin/Gherkin.dart';
+import 'package:gherkin/exceptions.dart';
 import 'package:gherkin/language.dart';
 import 'package:gherkin/messages.dart';
 
 void main(List<String> args) async
 {
-  final languages = loadGherkinLanguagesFromJsonAsset();
-
   var includeSource = true;
   var includeAst = true;
   var includePickles = true;
@@ -31,25 +31,26 @@ void main(List<String> args) async
         paths.add(arg);
     }
 
-    MessageWriter messageWriter = makeMessageWriter();
+    var messageWriter = makeMessageWriter();
 
     var messages = Gherkin.fromPaths(paths, includeSource
         , includeAst, includePickles, idGenerator);
     printMessages(messageWriter, messages);
   }
-
-  void printMessages(MessageWriter messageWriter, Stream<Envelope> messages) {
-    messages.forEach((envelope) {
-      try {
-        messageWriter.write(envelope);
-      } catch (IOException e) {
-        throw GherkinException("Couldn't print messages", e);
-      }
-    });
-   }
-
-  MessageWriter makeMessageWriter() {
-    return MessageToNdjsonWriter(print);
-  }
 }
-*/
+
+IMessageWriter makeMessageWriter() {
+  return MessageToNdjsonWriter(stdout);
+}
+
+void printMessages(IMessageWriter messageWriter, Stream<Envelope> messages) {
+  messages.forEach((envelope) {
+    try {
+      messageWriter.write(envelope);
+    }
+    on IOException catch (e) {
+      throw GherkinException("Couldn't print messages", e);
+    }
+  });
+}
+

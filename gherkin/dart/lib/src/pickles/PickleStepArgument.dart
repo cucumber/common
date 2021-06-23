@@ -20,6 +20,39 @@ class PickleStepArgument
 
   @override
   bool get isNotEmpty => !isEmpty;
+
+  @override
+  String toString() {
+    final hexIdentityHashCode = hashCode.toRadixString(16);
+    var sb = StringBuffer();
+    sb
+      ..write(runtimeType)
+      ..write('@')
+      ..write(hexIdentityHashCode)
+      ..write('[')
+      ..write('docString')
+      ..write('=')
+      ..write(docString.isEmpty ? '<null>' : docString)
+      ..write(',')
+      ..write('dataTable')
+      ..write('=')
+      ..write(dataTable.isEmpty ? '<null>' : dataTable)
+      ..write(']');
+    return sb.toString();
+  }
+
+  @override
+  bool operator ==(other) {
+    return (other is PickleStepArgument)
+        && other.dataTable == dataTable
+        && other.docString == docString
+    ;
+  }
+
+  @override
+  int get hashCode =>
+      dataTable.hashCode
+      ^ docString.hashCode;
 }
 
 class _InvalidPickleStepArgument extends PickleStepArgument
