@@ -26,7 +26,7 @@ async function main() {
   const supportCode = await loadSupportCode(predictableIds, requirePaths)
 
   const runOptions: RunOptions = {
-    allowedRetries: retry ?? 0,
+    allowedRetries: retry ? Number(retry) : 0,
   }
 
   const gherkinStreamOptions: IGherkinStreamOptions = {
