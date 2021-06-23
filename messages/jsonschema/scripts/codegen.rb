@@ -196,6 +196,53 @@ class Ruby < Codegen
   end
 end
 
+class RubyDeserializers < Codegen
+  def initialize(paths)
+    template = File.read("#{TEMPLATES_DIRECTORY}/ruby_deserializers.rb.erb")
+    enum_template = File.read("#{TEMPLATES_DIRECTORY}/ruby_deserializers.enum.rb.erb")
+
+    language_type_by_schema_type = {
+      'integer' => 'number',
+      'string' => 'string',
+      'boolean' => 'boolean',
+    }
+
+    super(paths, template, enum_template, language_type_by_schema_type)
+  end
+
+  def property_type_from_ref(ref)
+    class_name(ref)
+  end
+
+  def property_type_from_enum(enum)
+    enum
+  end
+
+  def array_type_for(type_name)
+    "[]"
+  end
+
+  def format_description(raw_description, indent_string: "    ")
+    return '' if raw_description.nil?
+
+    raw_description
+      .split("\n")
+      .map { |description_line| "# #{description_line}" }
+      .join("\n#{indent_string}")
+  end
+
+  # Thank you very munch rails!
+  # https://github.com/rails/rails/blob/v6.1.3.2/activesupport/lib/active_support/inflector/methods.rb#L92
+  def underscore(camel_cased_word)
+    return camel_cased_word unless /[A-Z-]/.match?(camel_cased_word)
+    word = camel_cased_word.gsub(/([A-Z\d]+)([A-Z][a-z])/, '\1_\2')
+    word.gsub!(/([a-z\d])([A-Z])/, '\1_\2')
+    word.tr!("-", "_")
+    word.downcase!
+    word
+  end
+end
+
 class Go < Codegen
   def initialize(paths)
     template = File.read("#{TEMPLATES_DIRECTORY}/go.go.erb")
