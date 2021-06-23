@@ -4,7 +4,10 @@ import IClock from './IClock'
 import { MakeErrorMessage } from './ErrorMessageGenerator'
 import { Query, Query as GherkinQuery } from '@cucumber/gherkin-utils'
 import IStopwatch from './IStopwatch'
-import { RunOptions } from './runCucumber'
+
+export interface RunOptions {
+  allowedRetries: number
+}
 
 export interface IWorld {
   attach: Attach

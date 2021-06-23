@@ -3,12 +3,8 @@ import GherkinQueryStream from './GherkinQueryStream'
 import makeTestPlan from './makeTestPlan'
 import { Readable, Writable } from 'stream'
 import SupportCode from './SupportCode'
-import { MakeTestPlan } from './types'
+import { MakeTestPlan, RunOptions } from './types'
 import makeTestCase from './makeTestCase'
-
-export interface RunOptions {
-  allowedRetries: number
-}
 
 export default async function runCucumber(
   supportCode: SupportCode,
