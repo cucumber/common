@@ -1,7 +1,7 @@
 import { Command } from 'commander'
 import packageJson from '../package.json'
 import loadSupportCode from './loadSupportCode'
-import runCucumber, { RunOptions } from "./runCucumber";
+import runCucumber, { RunOptions } from './runCucumber'
 import { GherkinStreams, IGherkinStreamOptions } from '@cucumber/gherkin-streams'
 import { Query as GherkinQuery } from '@cucumber/gherkin-utils'
 import { version } from '../package.json'
@@ -25,7 +25,7 @@ async function main() {
   const supportCode = await loadSupportCode(predictableIds, requirePaths)
 
   const runOptions: RunOptions = {
-    allowedRetries: retry ?? 0
+    allowedRetries: retry ?? 0,
   }
 
   const gherkinStreamOptions: IGherkinStreamOptions = {
@@ -45,7 +45,13 @@ async function main() {
 
   const gherkinQuery = new GherkinQuery()
 
-  await runCucumber(supportCode, runOptions, gherkinEnvelopeStream, gherkinQuery, envelopeOutputStream)
+  await runCucumber(
+    supportCode,
+    runOptions,
+    gherkinEnvelopeStream,
+    gherkinQuery,
+    envelopeOutputStream
+  )
 }
 
 main().catch((err) => {

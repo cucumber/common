@@ -4,7 +4,7 @@ import TestPlan from './TestPlan'
 import makePickleTestStep from './makePickleTestStep'
 import { ITestPlan, MakeTestCase } from './types'
 import makeHookTestStep from './makeHookTestStep'
-import { RunOptions } from "./runCucumber";
+import { RunOptions } from './runCucumber'
 
 export default function makeTestPlan(
   gherkinQuery: GherkinQuery,

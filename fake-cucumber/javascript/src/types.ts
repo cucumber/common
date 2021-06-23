@@ -4,7 +4,7 @@ import IClock from './IClock'
 import { MakeErrorMessage } from './ErrorMessageGenerator'
 import { Query, Query as GherkinQuery } from '@cucumber/gherkin-utils'
 import IStopwatch from './IStopwatch'
-import { RunOptions } from "./runCucumber";
+import { RunOptions } from './runCucumber'
 
 export interface IWorld {
   attach: Attach
@@ -26,7 +26,8 @@ export interface ITestStep {
     world: IWorld,
     testCaseStartedId: string,
     listener: EnvelopeListener,
-    previousPassed: boolean
+    previousPassed: boolean,
+    retryable: boolean
   ): Promise<messages.TestStepResult>
 }
 
@@ -58,6 +59,7 @@ export interface ITestCase {
   execute(
     listener: EnvelopeListener,
     attempt: number,
+    retryable: boolean,
     testCaseStartedId: string
   ): Promise<messages.TestStepResultStatus>
 }

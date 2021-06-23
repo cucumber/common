@@ -150,7 +150,8 @@ describe('TestStep', () => {
         world,
         'some-testCaseStartedId',
         () => undefined,
-        true
+        true,
+        false
       )
       assert.strictEqual(testStepResult.status, 'UNDEFINED')
       assert.deepStrictEqual(testStepResult.duration, TimeConversion.millisecondsToDuration(0))
@@ -161,7 +162,8 @@ describe('TestStep', () => {
         world,
         'some-testCaseStartedId',
         () => undefined,
-        true
+        true,
+        false
       )
       assert.strictEqual(testStepResult.status, 'AMBIGUOUS')
       assert.deepStrictEqual(testStepResult.duration, TimeConversion.millisecondsToDuration(0))
@@ -172,7 +174,8 @@ describe('TestStep', () => {
         world,
         'some-testCaseStartedId',
         () => undefined,
-        true
+        true,
+        false
       )
       assert.strictEqual(testStepResult.status, 'PASSED')
       assert.notDeepStrictEqual(testStepResult.duration, TimeConversion.millisecondsToDuration(0))
@@ -183,7 +186,8 @@ describe('TestStep', () => {
         world,
         'some-testCaseStartedId',
         () => undefined,
-        true
+        true,
+        false
       )
       assert.strictEqual(testStepResult.status, 'PENDING')
       assert.notDeepStrictEqual(testStepResult.duration, TimeConversion.millisecondsToDuration(0))
@@ -194,7 +198,8 @@ describe('TestStep', () => {
         world,
         'some-testCaseStartedId',
         () => undefined,
-        true
+        true,
+        false
       )
       assert.strictEqual(testStepResult.status, 'FAILED')
       assert.ok(testStepResult.message.includes('at failed.feature:234'))
@@ -206,6 +211,7 @@ describe('TestStep', () => {
         world,
         'some-testCaseStartedId',
         () => undefined,
+        false,
         false
       )
       assert.strictEqual(testStepResult.status, 'SKIPPED')
@@ -217,6 +223,7 @@ describe('TestStep', () => {
         world,
         'some-testCaseStartedId',
         () => undefined,
+        false,
         false
       )
       assert.strictEqual(testStepResult.status, 'FAILED')

@@ -26,6 +26,7 @@ export default class TestCase implements ITestCase {
   public async execute(
     listener: EnvelopeListener,
     attempt: number,
+    retryable: boolean,
     testCaseStartedId: string
   ): Promise<messages.TestStepResultStatus> {
     listener({
@@ -53,7 +54,8 @@ export default class TestCase implements ITestCase {
         world,
         testCaseStartedId,
         listener,
-        previousPassed
+        previousPassed,
+        retryable
       )
       previousPassed = testStepResult.status === messages.TestStepResultStatus.PASSED
       testStepResults.push(testStepResult)

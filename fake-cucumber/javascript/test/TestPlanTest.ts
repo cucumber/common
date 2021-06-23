@@ -11,7 +11,7 @@ import makeTestCase from '../src/makeTestCase'
 import makePickleTestStep from '../src/makePickleTestStep'
 import makeHookTestStep from '../src/makeHookTestStep'
 import IncrementStopwatch from '../src/IncrementStopwatch'
-import { RunOptions } from "../src/runCucumber";
+import { RunOptions } from '../src/runCucumber'
 
 const defaultRunOptions: RunOptions = { allowedRetries: 0 }
 
@@ -51,7 +51,7 @@ describe('TestPlan', () => {
     let ran = false
     supportCode.defineStepDefinition(null, 'a sometimes-failing step', () => {
       if (!ran) {
-        ran = true;
+        ran = true
         throw new Error('fail')
       }
     })
@@ -157,7 +157,11 @@ describe('TestPlan', () => {
   })
 })
 
-async function makeTestPlan(gherkinSource: string, supportCode: SupportCode, runOptions: RunOptions): Promise<TestPlan> {
+async function makeTestPlan(
+  gherkinSource: string,
+  supportCode: SupportCode,
+  runOptions: RunOptions
+): Promise<TestPlan> {
   const gherkinEnvelopes = await streamToArray(gherkinMessages(gherkinSource, 'test.feature'))
   const gherkinQuery = new Query()
   for (const gherkinEnvelope of gherkinEnvelopes) {

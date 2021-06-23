@@ -51,6 +51,7 @@ describe('TestCase', () => {
       await testCase.execute(
         (message: messages.Envelope) => emitted.push(message),
         0,
+        false,
         'test-case-started-id'
       )
 

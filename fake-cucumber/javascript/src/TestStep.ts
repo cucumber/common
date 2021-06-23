@@ -25,7 +25,8 @@ export default abstract class TestStep implements ITestStep {
     world: IWorld,
     testCaseStartedId: string,
     listener: EnvelopeListener,
-    previousPassed: boolean
+    previousPassed: boolean,
+    retryable: boolean
   ): Promise<messages.TestStepResult> {
     this.emitTestStepStarted(testCaseStartedId, listener)
 

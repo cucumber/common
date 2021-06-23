@@ -1,10 +1,14 @@
 import { EnvelopeListener, ITestCase, ITestPlan } from './types'
 import * as messages from '@cucumber/messages'
 import SupportCode from './SupportCode'
-import { RunOptions } from "./runCucumber";
+import { RunOptions } from './runCucumber'
 
 export default class TestPlan implements ITestPlan {
-  constructor(private readonly testCases: ITestCase[], private readonly supportCode: SupportCode, private readonly runOptions: RunOptions) {}
+  constructor(
+    private readonly testCases: ITestCase[],
+    private readonly supportCode: SupportCode,
+    private readonly runOptions: RunOptions
+  ) {}
 
   public async execute(listener: EnvelopeListener): Promise<void> {
     for (const parameterTypeMessage of this.supportCode.parameterTypeMessages) {
@@ -39,7 +43,12 @@ export default class TestPlan implements ITestPlan {
       const allowedAttempts = this.runOptions.allowedRetries + 1
       let testStepResultStatus: messages.TestStepResultStatus
       for (let attempt = 0; attempt < allowedAttempts; attempt++) {
-        testStepResultStatus = await testCase.execute(listener, attempt, this.supportCode.newId())
+        testStepResultStatus = await testCase.execute(
+          listener,
+          attempt,
+          false,
+          this.supportCode.newId()
+        )
         if (!shouldCauseFailure(testStepResultStatus)) {
           break
         }
