@@ -11,6 +11,9 @@ import makeTestCase from '../src/makeTestCase'
 import makePickleTestStep from '../src/makePickleTestStep'
 import makeHookTestStep from '../src/makeHookTestStep'
 import IncrementStopwatch from '../src/IncrementStopwatch'
+import { RunOptions } from "../src/runCucumber";
+
+const defaultRunOptions: RunOptions = { allowedRetries: 0 }
 
 describe('TestPlan', () => {
   let supportCode: SupportCode
@@ -30,7 +33,56 @@ describe('TestPlan', () => {
   Scenario: test
     Given a passed step
 `
-    const testPlan = await makeTestPlan(gherkinSource, supportCode)
+    const testPlan = await makeTestPlan(gherkinSource, supportCode, defaultRunOptions)
+    const envelopes: messages.Envelope[] = []
+    const listener: EnvelopeListener = (envelope) => {
+      if (!envelope) throw new Error('Envelope was null or undefined')
+      envelopes.push(envelope)
+    }
+    await testPlan.execute(listener)
+    const testStepFinisheds = envelopes
+      .filter((m) => m.testStepFinished)
+      .map((m) => m.testStepFinished)
+    assert.deepStrictEqual(testStepFinisheds.length, 1)
+    assert.strictEqual(testStepFinisheds[0].testStepResult.status, 'PASSED')
+  })
+
+  it('executes test cases multiple times with retry', async () => {
+    let ran = false
+    supportCode.defineStepDefinition(null, 'a sometimes-failing step', () => {
+      if (!ran) {
+        ran = true;
+        throw new Error('fail')
+      }
+    })
+
+    const gherkinSource = `Feature: test
+  Scenario: test
+    Given a sometimes-failing step
+`
+    const testPlan = await makeTestPlan(gherkinSource, supportCode, { allowedRetries: 1 })
+    const envelopes: messages.Envelope[] = []
+    const listener: EnvelopeListener = (envelope) => {
+      if (!envelope) throw new Error('Envelope was null or undefined')
+      envelopes.push(envelope)
+    }
+    await testPlan.execute(listener)
+    const testStepFinisheds = envelopes
+      .filter((m) => m.testStepFinished)
+      .map((m) => m.testStepFinished)
+    assert.deepStrictEqual(testStepFinisheds.length, 2)
+    assert.strictEqual(testStepFinisheds[0].testStepResult.status, 'FAILED')
+    assert.strictEqual(testStepFinisheds[1].testStepResult.status, 'PASSED')
+  })
+
+  it('executes test cases once if passing first time with retry', async () => {
+    supportCode.defineStepDefinition(null, 'a passed step', () => undefined)
+
+    const gherkinSource = `Feature: test
+  Scenario: test
+    Given a passed step
+`
+    const testPlan = await makeTestPlan(gherkinSource, supportCode, { allowedRetries: 1 })
     const envelopes: messages.Envelope[] = []
     const listener: EnvelopeListener = (envelope) => {
       if (!envelope) throw new Error('Envelope was null or undefined')
@@ -65,7 +117,7 @@ describe('TestPlan', () => {
   Scenario: test
     Given flight LHR-CDG
 `
-    const testPlan = await makeTestPlan(gherkinSource, supportCode)
+    const testPlan = await makeTestPlan(gherkinSource, supportCode, defaultRunOptions)
     const envelopes: messages.Envelope[] = []
     const listener: EnvelopeListener = (envelope) => envelopes.push(envelope)
     await testPlan.execute(listener)
@@ -88,7 +140,7 @@ describe('TestPlan', () => {
   Scenario: test
     Given a passed step
 `
-    const testPlan = await makeTestPlan(gherkinSource, supportCode)
+    const testPlan = await makeTestPlan(gherkinSource, supportCode, defaultRunOptions)
     const envelopes: messages.Envelope[] = []
     const listener: EnvelopeListener = (envelope) => envelopes.push(envelope)
     await testPlan.execute(listener)
@@ -99,7 +151,7 @@ describe('TestPlan', () => {
   })
 })
 
-async function makeTestPlan(gherkinSource: string, supportCode: SupportCode): Promise<TestPlan> {
+async function makeTestPlan(gherkinSource: string, supportCode: SupportCode, runOptions: RunOptions): Promise<TestPlan> {
   const gherkinEnvelopes = await streamToArray(gherkinMessages(gherkinSource, 'test.feature'))
   const gherkinQuery = new Query()
   for (const gherkinEnvelope of gherkinEnvelopes) {
@@ -124,5 +176,5 @@ async function makeTestPlan(gherkinSource: string, supportCode: SupportCode): Pr
       )
     )
 
-  return new TestPlan(testCases, supportCode)
+  return new TestPlan(testCases, supportCode, runOptions)
 }

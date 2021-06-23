@@ -1,9 +1,10 @@
 import { EnvelopeListener, ITestCase, ITestPlan } from './types'
 import * as messages from '@cucumber/messages'
 import SupportCode from './SupportCode'
+import { RunOptions } from "./runCucumber";
 
 export default class TestPlan implements ITestPlan {
-  constructor(private readonly testCases: ITestCase[], private readonly supportCode: SupportCode) {}
+  constructor(private readonly testCases: ITestCase[], private readonly supportCode: SupportCode, private readonly runOptions: RunOptions) {}
 
   public async execute(listener: EnvelopeListener): Promise<void> {
     for (const parameterTypeMessage of this.supportCode.parameterTypeMessages) {
@@ -35,7 +36,14 @@ export default class TestPlan implements ITestPlan {
     let success = true
     // TODO: By using Promise.all here we could execute in parallel
     for (const testCase of this.testCases) {
-      const testStepResultStatus = await testCase.execute(listener, 0, this.supportCode.newId())
+      const allowedAttempts = this.runOptions.allowedRetries + 1
+      let testStepResultStatus: messages.TestStepResultStatus
+      for (let attempt = 0; attempt < allowedAttempts; attempt++) {
+        testStepResultStatus = await testCase.execute(listener, attempt, this.supportCode.newId())
+        if (!shouldCauseFailure(testStepResultStatus)) {
+          break
+        }
+      }
       if (shouldCauseFailure(testStepResultStatus)) {
         success = false
       }

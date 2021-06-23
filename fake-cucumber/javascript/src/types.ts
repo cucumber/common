@@ -4,6 +4,7 @@ import IClock from './IClock'
 import { MakeErrorMessage } from './ErrorMessageGenerator'
 import { Query, Query as GherkinQuery } from '@cucumber/gherkin-utils'
 import IStopwatch from './IStopwatch'
+import { RunOptions } from "./runCucumber";
 
 export interface IWorld {
   attach: Attach
@@ -104,5 +105,6 @@ export type MakeTestCase = (
 export type MakeTestPlan<SupportCode> = (
   gherkinQuery: GherkinQuery,
   supportCode: SupportCode,
+  runOptions: RunOptions,
   makeTestCase: MakeTestCase
 ) => ITestPlan
