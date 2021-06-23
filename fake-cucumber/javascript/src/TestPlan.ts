@@ -48,7 +48,7 @@ export default class TestPlan implements ITestPlan {
           false,
           this.supportCode.newId()
         )
-        if (!shouldCauseFailure(testStepResultStatus)) {
+        if (testStepResultStatus !== 'FAILED') {
           break
         }
       }

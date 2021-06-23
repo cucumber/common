@@ -1,6 +1,6 @@
 import { gherkinMessages, streamToArray } from './TestHelpers'
 import * as messages from '@cucumber/messages'
-import { EnvelopeListener } from '../src/types'
+import { EnvelopeListener, RunOptions } from '../src/types'
 import assert from 'assert'
 import TestPlan from '../src/TestPlan'
 import { Query } from '@cucumber/gherkin-utils'
@@ -11,7 +11,6 @@ import makeTestCase from '../src/makeTestCase'
 import makePickleTestStep from '../src/makePickleTestStep'
 import makeHookTestStep from '../src/makeHookTestStep'
 import IncrementStopwatch from '../src/IncrementStopwatch'
-import { RunOptions } from '../src/runCucumber'
 
 const defaultRunOptions: RunOptions = { allowedRetries: 0 }
 
@@ -100,6 +99,25 @@ describe('TestPlan', () => {
       .map((m) => m.testStepFinished)
     assert.deepStrictEqual(testStepFinisheds.length, 1)
     assert.strictEqual(testStepFinisheds[0].testStepResult.status, 'PASSED')
+  })
+
+  it('executes test cases once if undefined first time with retry', async () => {
+    const gherkinSource = `Feature: test
+  Scenario: test
+    Given a step we think exists
+`
+    const testPlan = await makeTestPlan(gherkinSource, supportCode, { allowedRetries: 1 })
+    const envelopes: messages.Envelope[] = []
+    const listener: EnvelopeListener = (envelope) => {
+      if (!envelope) throw new Error('Envelope was null or undefined')
+      envelopes.push(envelope)
+    }
+    await testPlan.execute(listener)
+    const testStepFinisheds = envelopes
+      .filter((m) => m.testStepFinished)
+      .map((m) => m.testStepFinished)
+    assert.deepStrictEqual(testStepFinisheds.length, 1)
+    assert.strictEqual(testStepFinisheds[0].testStepResult.status, 'UNDEFINED')
   })
 
   class Flight {
