@@ -8,6 +8,15 @@ module Cucumber
   module Messages
 
     class Attachment
+
+      ##
+      # Returns a new Attachment from the given hash.
+      # If the hash keys are camelCased, they are properly assigned to the
+      # corresponding snake_cased attributes.
+      #
+      #   Cucumber::Messages::Attachment.from_h(some_hash) # => #<Cucumber::Messages::Attachment:0x... ...>
+      #
+
       def self.from_h(hash)
         return nil if hash.nil?
 
@@ -25,6 +34,15 @@ module Cucumber
     end
 
     class Duration
+
+      ##
+      # Returns a new Duration from the given hash.
+      # If the hash keys are camelCased, they are properly assigned to the
+      # corresponding snake_cased attributes.
+      #
+      #   Cucumber::Messages::Duration.from_h(some_hash) # => #<Cucumber::Messages::Duration:0x... ...>
+      #
+
       def self.from_h(hash)
         return nil if hash.nil?
 
@@ -36,6 +54,15 @@ module Cucumber
     end
 
     class Envelope
+
+      ##
+      # Returns a new Envelope from the given hash.
+      # If the hash keys are camelCased, they are properly assigned to the
+      # corresponding snake_cased attributes.
+      #
+      #   Cucumber::Messages::Envelope.from_h(some_hash) # => #<Cucumber::Messages::Envelope:0x... ...>
+      #
+
       def self.from_h(hash)
         return nil if hash.nil?
 
@@ -62,6 +89,15 @@ module Cucumber
     end
 
     class GherkinDocument
+
+      ##
+      # Returns a new GherkinDocument from the given hash.
+      # If the hash keys are camelCased, they are properly assigned to the
+      # corresponding snake_cased attributes.
+      #
+      #   Cucumber::Messages::GherkinDocument.from_h(some_hash) # => #<Cucumber::Messages::GherkinDocument:0x... ...>
+      #
+
       def self.from_h(hash)
         return nil if hash.nil?
 
@@ -74,6 +110,15 @@ module Cucumber
     end
 
     class Background
+
+      ##
+      # Returns a new Background from the given hash.
+      # If the hash keys are camelCased, they are properly assigned to the
+      # corresponding snake_cased attributes.
+      #
+      #   Cucumber::Messages::Background.from_h(some_hash) # => #<Cucumber::Messages::Background:0x... ...>
+      #
+
       def self.from_h(hash)
         return nil if hash.nil?
 
@@ -89,6 +134,15 @@ module Cucumber
     end
 
     class Comment
+
+      ##
+      # Returns a new Comment from the given hash.
+      # If the hash keys are camelCased, they are properly assigned to the
+      # corresponding snake_cased attributes.
+      #
+      #   Cucumber::Messages::Comment.from_h(some_hash) # => #<Cucumber::Messages::Comment:0x... ...>
+      #
+
       def self.from_h(hash)
         return nil if hash.nil?
 
@@ -100,6 +154,15 @@ module Cucumber
     end
 
     class DataTable
+
+      ##
+      # Returns a new DataTable from the given hash.
+      # If the hash keys are camelCased, they are properly assigned to the
+      # corresponding snake_cased attributes.
+      #
+      #   Cucumber::Messages::DataTable.from_h(some_hash) # => #<Cucumber::Messages::DataTable:0x... ...>
+      #
+
       def self.from_h(hash)
         return nil if hash.nil?
 
@@ -111,6 +174,15 @@ module Cucumber
     end
 
     class DocString
+
+      ##
+      # Returns a new DocString from the given hash.
+      # If the hash keys are camelCased, they are properly assigned to the
+      # corresponding snake_cased attributes.
+      #
+      #   Cucumber::Messages::DocString.from_h(some_hash) # => #<Cucumber::Messages::DocString:0x... ...>
+      #
+
       def self.from_h(hash)
         return nil if hash.nil?
 
@@ -124,6 +196,15 @@ module Cucumber
     end
 
     class Examples
+
+      ##
+      # Returns a new Examples from the given hash.
+      # If the hash keys are camelCased, they are properly assigned to the
+      # corresponding snake_cased attributes.
+      #
+      #   Cucumber::Messages::Examples.from_h(some_hash) # => #<Cucumber::Messages::Examples:0x... ...>
+      #
+
       def self.from_h(hash)
         return nil if hash.nil?
 
@@ -141,6 +222,15 @@ module Cucumber
     end
 
     class Feature
+
+      ##
+      # Returns a new Feature from the given hash.
+      # If the hash keys are camelCased, they are properly assigned to the
+      # corresponding snake_cased attributes.
+      #
+      #   Cucumber::Messages::Feature.from_h(some_hash) # => #<Cucumber::Messages::Feature:0x... ...>
+      #
+
       def self.from_h(hash)
         return nil if hash.nil?
 
@@ -157,6 +247,15 @@ module Cucumber
     end
 
     class FeatureChild
+
+      ##
+      # Returns a new FeatureChild from the given hash.
+      # If the hash keys are camelCased, they are properly assigned to the
+      # corresponding snake_cased attributes.
+      #
+      #   Cucumber::Messages::FeatureChild.from_h(some_hash) # => #<Cucumber::Messages::FeatureChild:0x... ...>
+      #
+
       def self.from_h(hash)
         return nil if hash.nil?
 
@@ -169,6 +268,15 @@ module Cucumber
     end
 
     class Rule
+
+      ##
+      # Returns a new Rule from the given hash.
+      # If the hash keys are camelCased, they are properly assigned to the
+      # corresponding snake_cased attributes.
+      #
+      #   Cucumber::Messages::Rule.from_h(some_hash) # => #<Cucumber::Messages::Rule:0x... ...>
+      #
+
       def self.from_h(hash)
         return nil if hash.nil?
 
@@ -185,6 +293,15 @@ module Cucumber
     end
 
     class RuleChild
+
+      ##
+      # Returns a new RuleChild from the given hash.
+      # If the hash keys are camelCased, they are properly assigned to the
+      # corresponding snake_cased attributes.
+      #
+      #   Cucumber::Messages::RuleChild.from_h(some_hash) # => #<Cucumber::Messages::RuleChild:0x... ...>
+      #
+
       def self.from_h(hash)
         return nil if hash.nil?
 
@@ -196,6 +313,15 @@ module Cucumber
     end
 
     class Scenario
+
+      ##
+      # Returns a new Scenario from the given hash.
+      # If the hash keys are camelCased, they are properly assigned to the
+      # corresponding snake_cased attributes.
+      #
+      #   Cucumber::Messages::Scenario.from_h(some_hash) # => #<Cucumber::Messages::Scenario:0x... ...>
+      #
+
       def self.from_h(hash)
         return nil if hash.nil?
 
@@ -213,6 +339,15 @@ module Cucumber
     end
 
     class Step
+
+      ##
+      # Returns a new Step from the given hash.
+      # If the hash keys are camelCased, they are properly assigned to the
+      # corresponding snake_cased attributes.
+      #
+      #   Cucumber::Messages::Step.from_h(some_hash) # => #<Cucumber::Messages::Step:0x... ...>
+      #
+
       def self.from_h(hash)
         return nil if hash.nil?
 
@@ -228,6 +363,15 @@ module Cucumber
     end
 
     class TableCell
+
+      ##
+      # Returns a new TableCell from the given hash.
+      # If the hash keys are camelCased, they are properly assigned to the
+      # corresponding snake_cased attributes.
+      #
+      #   Cucumber::Messages::TableCell.from_h(some_hash) # => #<Cucumber::Messages::TableCell:0x... ...>
+      #
+
       def self.from_h(hash)
         return nil if hash.nil?
 
@@ -239,6 +383,15 @@ module Cucumber
     end
 
     class TableRow
+
+      ##
+      # Returns a new TableRow from the given hash.
+      # If the hash keys are camelCased, they are properly assigned to the
+      # corresponding snake_cased attributes.
+      #
+      #   Cucumber::Messages::TableRow.from_h(some_hash) # => #<Cucumber::Messages::TableRow:0x... ...>
+      #
+
       def self.from_h(hash)
         return nil if hash.nil?
 
@@ -251,6 +404,15 @@ module Cucumber
     end
 
     class Tag
+
+      ##
+      # Returns a new Tag from the given hash.
+      # If the hash keys are camelCased, they are properly assigned to the
+      # corresponding snake_cased attributes.
+      #
+      #   Cucumber::Messages::Tag.from_h(some_hash) # => #<Cucumber::Messages::Tag:0x... ...>
+      #
+
       def self.from_h(hash)
         return nil if hash.nil?
 
@@ -263,6 +425,15 @@ module Cucumber
     end
 
     class Hook
+
+      ##
+      # Returns a new Hook from the given hash.
+      # If the hash keys are camelCased, they are properly assigned to the
+      # corresponding snake_cased attributes.
+      #
+      #   Cucumber::Messages::Hook.from_h(some_hash) # => #<Cucumber::Messages::Hook:0x... ...>
+      #
+
       def self.from_h(hash)
         return nil if hash.nil?
 
@@ -275,6 +446,15 @@ module Cucumber
     end
 
     class Location
+
+      ##
+      # Returns a new Location from the given hash.
+      # If the hash keys are camelCased, they are properly assigned to the
+      # corresponding snake_cased attributes.
+      #
+      #   Cucumber::Messages::Location.from_h(some_hash) # => #<Cucumber::Messages::Location:0x... ...>
+      #
+
       def self.from_h(hash)
         return nil if hash.nil?
 
@@ -286,6 +466,15 @@ module Cucumber
     end
 
     class Meta
+
+      ##
+      # Returns a new Meta from the given hash.
+      # If the hash keys are camelCased, they are properly assigned to the
+      # corresponding snake_cased attributes.
+      #
+      #   Cucumber::Messages::Meta.from_h(some_hash) # => #<Cucumber::Messages::Meta:0x... ...>
+      #
+
       def self.from_h(hash)
         return nil if hash.nil?
 
@@ -301,6 +490,15 @@ module Cucumber
     end
 
     class Ci
+
+      ##
+      # Returns a new Ci from the given hash.
+      # If the hash keys are camelCased, they are properly assigned to the
+      # corresponding snake_cased attributes.
+      #
+      #   Cucumber::Messages::Ci.from_h(some_hash) # => #<Cucumber::Messages::Ci:0x... ...>
+      #
+
       def self.from_h(hash)
         return nil if hash.nil?
 
@@ -313,6 +511,15 @@ module Cucumber
     end
 
     class Git
+
+      ##
+      # Returns a new Git from the given hash.
+      # If the hash keys are camelCased, they are properly assigned to the
+      # corresponding snake_cased attributes.
+      #
+      #   Cucumber::Messages::Git.from_h(some_hash) # => #<Cucumber::Messages::Git:0x... ...>
+      #
+
       def self.from_h(hash)
         return nil if hash.nil?
 
@@ -326,6 +533,15 @@ module Cucumber
     end
 
     class Product
+
+      ##
+      # Returns a new Product from the given hash.
+      # If the hash keys are camelCased, they are properly assigned to the
+      # corresponding snake_cased attributes.
+      #
+      #   Cucumber::Messages::Product.from_h(some_hash) # => #<Cucumber::Messages::Product:0x... ...>
+      #
+
       def self.from_h(hash)
         return nil if hash.nil?
 
@@ -337,6 +553,15 @@ module Cucumber
     end
 
     class ParameterType
+
+      ##
+      # Returns a new ParameterType from the given hash.
+      # If the hash keys are camelCased, they are properly assigned to the
+      # corresponding snake_cased attributes.
+      #
+      #   Cucumber::Messages::ParameterType.from_h(some_hash) # => #<Cucumber::Messages::ParameterType:0x... ...>
+      #
+
       def self.from_h(hash)
         return nil if hash.nil?
 
@@ -351,6 +576,15 @@ module Cucumber
     end
 
     class ParseError
+
+      ##
+      # Returns a new ParseError from the given hash.
+      # If the hash keys are camelCased, they are properly assigned to the
+      # corresponding snake_cased attributes.
+      #
+      #   Cucumber::Messages::ParseError.from_h(some_hash) # => #<Cucumber::Messages::ParseError:0x... ...>
+      #
+
       def self.from_h(hash)
         return nil if hash.nil?
 
@@ -362,6 +596,15 @@ module Cucumber
     end
 
     class Pickle
+
+      ##
+      # Returns a new Pickle from the given hash.
+      # If the hash keys are camelCased, they are properly assigned to the
+      # corresponding snake_cased attributes.
+      #
+      #   Cucumber::Messages::Pickle.from_h(some_hash) # => #<Cucumber::Messages::Pickle:0x... ...>
+      #
+
       def self.from_h(hash)
         return nil if hash.nil?
 
@@ -378,6 +621,15 @@ module Cucumber
     end
 
     class PickleDocString
+
+      ##
+      # Returns a new PickleDocString from the given hash.
+      # If the hash keys are camelCased, they are properly assigned to the
+      # corresponding snake_cased attributes.
+      #
+      #   Cucumber::Messages::PickleDocString.from_h(some_hash) # => #<Cucumber::Messages::PickleDocString:0x... ...>
+      #
+
       def self.from_h(hash)
         return nil if hash.nil?
 
@@ -389,6 +641,15 @@ module Cucumber
     end
 
     class PickleStep
+
+      ##
+      # Returns a new PickleStep from the given hash.
+      # If the hash keys are camelCased, they are properly assigned to the
+      # corresponding snake_cased attributes.
+      #
+      #   Cucumber::Messages::PickleStep.from_h(some_hash) # => #<Cucumber::Messages::PickleStep:0x... ...>
+      #
+
       def self.from_h(hash)
         return nil if hash.nil?
 
@@ -402,6 +663,15 @@ module Cucumber
     end
 
     class PickleStepArgument
+
+      ##
+      # Returns a new PickleStepArgument from the given hash.
+      # If the hash keys are camelCased, they are properly assigned to the
+      # corresponding snake_cased attributes.
+      #
+      #   Cucumber::Messages::PickleStepArgument.from_h(some_hash) # => #<Cucumber::Messages::PickleStepArgument:0x... ...>
+      #
+
       def self.from_h(hash)
         return nil if hash.nil?
 
@@ -413,6 +683,15 @@ module Cucumber
     end
 
     class PickleTable
+
+      ##
+      # Returns a new PickleTable from the given hash.
+      # If the hash keys are camelCased, they are properly assigned to the
+      # corresponding snake_cased attributes.
+      #
+      #   Cucumber::Messages::PickleTable.from_h(some_hash) # => #<Cucumber::Messages::PickleTable:0x... ...>
+      #
+
       def self.from_h(hash)
         return nil if hash.nil?
 
@@ -423,6 +702,15 @@ module Cucumber
     end
 
     class PickleTableCell
+
+      ##
+      # Returns a new PickleTableCell from the given hash.
+      # If the hash keys are camelCased, they are properly assigned to the
+      # corresponding snake_cased attributes.
+      #
+      #   Cucumber::Messages::PickleTableCell.from_h(some_hash) # => #<Cucumber::Messages::PickleTableCell:0x... ...>
+      #
+
       def self.from_h(hash)
         return nil if hash.nil?
 
@@ -433,6 +721,15 @@ module Cucumber
     end
 
     class PickleTableRow
+
+      ##
+      # Returns a new PickleTableRow from the given hash.
+      # If the hash keys are camelCased, they are properly assigned to the
+      # corresponding snake_cased attributes.
+      #
+      #   Cucumber::Messages::PickleTableRow.from_h(some_hash) # => #<Cucumber::Messages::PickleTableRow:0x... ...>
+      #
+
       def self.from_h(hash)
         return nil if hash.nil?
 
@@ -443,6 +740,15 @@ module Cucumber
     end
 
     class PickleTag
+
+      ##
+      # Returns a new PickleTag from the given hash.
+      # If the hash keys are camelCased, they are properly assigned to the
+      # corresponding snake_cased attributes.
+      #
+      #   Cucumber::Messages::PickleTag.from_h(some_hash) # => #<Cucumber::Messages::PickleTag:0x... ...>
+      #
+
       def self.from_h(hash)
         return nil if hash.nil?
 
@@ -454,6 +760,15 @@ module Cucumber
     end
 
     class Source
+
+      ##
+      # Returns a new Source from the given hash.
+      # If the hash keys are camelCased, they are properly assigned to the
+      # corresponding snake_cased attributes.
+      #
+      #   Cucumber::Messages::Source.from_h(some_hash) # => #<Cucumber::Messages::Source:0x... ...>
+      #
+
       def self.from_h(hash)
         return nil if hash.nil?
 
@@ -466,6 +781,15 @@ module Cucumber
     end
 
     class SourceReference
+
+      ##
+      # Returns a new SourceReference from the given hash.
+      # If the hash keys are camelCased, they are properly assigned to the
+      # corresponding snake_cased attributes.
+      #
+      #   Cucumber::Messages::SourceReference.from_h(some_hash) # => #<Cucumber::Messages::SourceReference:0x... ...>
+      #
+
       def self.from_h(hash)
         return nil if hash.nil?
 
@@ -479,6 +803,15 @@ module Cucumber
     end
 
     class JavaMethod
+
+      ##
+      # Returns a new JavaMethod from the given hash.
+      # If the hash keys are camelCased, they are properly assigned to the
+      # corresponding snake_cased attributes.
+      #
+      #   Cucumber::Messages::JavaMethod.from_h(some_hash) # => #<Cucumber::Messages::JavaMethod:0x... ...>
+      #
+
       def self.from_h(hash)
         return nil if hash.nil?
 
@@ -491,6 +824,15 @@ module Cucumber
     end
 
     class JavaStackTraceElement
+
+      ##
+      # Returns a new JavaStackTraceElement from the given hash.
+      # If the hash keys are camelCased, they are properly assigned to the
+      # corresponding snake_cased attributes.
+      #
+      #   Cucumber::Messages::JavaStackTraceElement.from_h(some_hash) # => #<Cucumber::Messages::JavaStackTraceElement:0x... ...>
+      #
+
       def self.from_h(hash)
         return nil if hash.nil?
 
@@ -503,6 +845,15 @@ module Cucumber
     end
 
     class StepDefinition
+
+      ##
+      # Returns a new StepDefinition from the given hash.
+      # If the hash keys are camelCased, they are properly assigned to the
+      # corresponding snake_cased attributes.
+      #
+      #   Cucumber::Messages::StepDefinition.from_h(some_hash) # => #<Cucumber::Messages::StepDefinition:0x... ...>
+      #
+
       def self.from_h(hash)
         return nil if hash.nil?
 
@@ -515,6 +866,15 @@ module Cucumber
     end
 
     class StepDefinitionPattern
+
+      ##
+      # Returns a new StepDefinitionPattern from the given hash.
+      # If the hash keys are camelCased, they are properly assigned to the
+      # corresponding snake_cased attributes.
+      #
+      #   Cucumber::Messages::StepDefinitionPattern.from_h(some_hash) # => #<Cucumber::Messages::StepDefinitionPattern:0x... ...>
+      #
+
       def self.from_h(hash)
         return nil if hash.nil?
 
@@ -526,6 +886,15 @@ module Cucumber
     end
 
     class TestCase
+
+      ##
+      # Returns a new TestCase from the given hash.
+      # If the hash keys are camelCased, they are properly assigned to the
+      # corresponding snake_cased attributes.
+      #
+      #   Cucumber::Messages::TestCase.from_h(some_hash) # => #<Cucumber::Messages::TestCase:0x... ...>
+      #
+
       def self.from_h(hash)
         return nil if hash.nil?
 
@@ -538,6 +907,15 @@ module Cucumber
     end
 
     class Group
+
+      ##
+      # Returns a new Group from the given hash.
+      # If the hash keys are camelCased, they are properly assigned to the
+      # corresponding snake_cased attributes.
+      #
+      #   Cucumber::Messages::Group.from_h(some_hash) # => #<Cucumber::Messages::Group:0x... ...>
+      #
+
       def self.from_h(hash)
         return nil if hash.nil?
 
@@ -550,6 +928,15 @@ module Cucumber
     end
 
     class StepMatchArgument
+
+      ##
+      # Returns a new StepMatchArgument from the given hash.
+      # If the hash keys are camelCased, they are properly assigned to the
+      # corresponding snake_cased attributes.
+      #
+      #   Cucumber::Messages::StepMatchArgument.from_h(some_hash) # => #<Cucumber::Messages::StepMatchArgument:0x... ...>
+      #
+
       def self.from_h(hash)
         return nil if hash.nil?
 
@@ -561,6 +948,15 @@ module Cucumber
     end
 
     class StepMatchArgumentsList
+
+      ##
+      # Returns a new StepMatchArgumentsList from the given hash.
+      # If the hash keys are camelCased, they are properly assigned to the
+      # corresponding snake_cased attributes.
+      #
+      #   Cucumber::Messages::StepMatchArgumentsList.from_h(some_hash) # => #<Cucumber::Messages::StepMatchArgumentsList:0x... ...>
+      #
+
       def self.from_h(hash)
         return nil if hash.nil?
 
@@ -571,6 +967,15 @@ module Cucumber
     end
 
     class TestStep
+
+      ##
+      # Returns a new TestStep from the given hash.
+      # If the hash keys are camelCased, they are properly assigned to the
+      # corresponding snake_cased attributes.
+      #
+      #   Cucumber::Messages::TestStep.from_h(some_hash) # => #<Cucumber::Messages::TestStep:0x... ...>
+      #
+
       def self.from_h(hash)
         return nil if hash.nil?
 
@@ -585,6 +990,15 @@ module Cucumber
     end
 
     class TestCaseFinished
+
+      ##
+      # Returns a new TestCaseFinished from the given hash.
+      # If the hash keys are camelCased, they are properly assigned to the
+      # corresponding snake_cased attributes.
+      #
+      #   Cucumber::Messages::TestCaseFinished.from_h(some_hash) # => #<Cucumber::Messages::TestCaseFinished:0x... ...>
+      #
+
       def self.from_h(hash)
         return nil if hash.nil?
 
@@ -596,6 +1010,15 @@ module Cucumber
     end
 
     class TestCaseStarted
+
+      ##
+      # Returns a new TestCaseStarted from the given hash.
+      # If the hash keys are camelCased, they are properly assigned to the
+      # corresponding snake_cased attributes.
+      #
+      #   Cucumber::Messages::TestCaseStarted.from_h(some_hash) # => #<Cucumber::Messages::TestCaseStarted:0x... ...>
+      #
+
       def self.from_h(hash)
         return nil if hash.nil?
 
@@ -609,6 +1032,15 @@ module Cucumber
     end
 
     class TestRunFinished
+
+      ##
+      # Returns a new TestRunFinished from the given hash.
+      # If the hash keys are camelCased, they are properly assigned to the
+      # corresponding snake_cased attributes.
+      #
+      #   Cucumber::Messages::TestRunFinished.from_h(some_hash) # => #<Cucumber::Messages::TestRunFinished:0x... ...>
+      #
+
       def self.from_h(hash)
         return nil if hash.nil?
 
@@ -621,6 +1053,15 @@ module Cucumber
     end
 
     class TestRunStarted
+
+      ##
+      # Returns a new TestRunStarted from the given hash.
+      # If the hash keys are camelCased, they are properly assigned to the
+      # corresponding snake_cased attributes.
+      #
+      #   Cucumber::Messages::TestRunStarted.from_h(some_hash) # => #<Cucumber::Messages::TestRunStarted:0x... ...>
+      #
+
       def self.from_h(hash)
         return nil if hash.nil?
 
@@ -631,6 +1072,15 @@ module Cucumber
     end
 
     class TestStepFinished
+
+      ##
+      # Returns a new TestStepFinished from the given hash.
+      # If the hash keys are camelCased, they are properly assigned to the
+      # corresponding snake_cased attributes.
+      #
+      #   Cucumber::Messages::TestStepFinished.from_h(some_hash) # => #<Cucumber::Messages::TestStepFinished:0x... ...>
+      #
+
       def self.from_h(hash)
         return nil if hash.nil?
 
@@ -644,6 +1094,15 @@ module Cucumber
     end
 
     class TestStepResult
+
+      ##
+      # Returns a new TestStepResult from the given hash.
+      # If the hash keys are camelCased, they are properly assigned to the
+      # corresponding snake_cased attributes.
+      #
+      #   Cucumber::Messages::TestStepResult.from_h(some_hash) # => #<Cucumber::Messages::TestStepResult:0x... ...>
+      #
+
       def self.from_h(hash)
         return nil if hash.nil?
 
@@ -657,6 +1116,15 @@ module Cucumber
     end
 
     class TestStepStarted
+
+      ##
+      # Returns a new TestStepStarted from the given hash.
+      # If the hash keys are camelCased, they are properly assigned to the
+      # corresponding snake_cased attributes.
+      #
+      #   Cucumber::Messages::TestStepStarted.from_h(some_hash) # => #<Cucumber::Messages::TestStepStarted:0x... ...>
+      #
+
       def self.from_h(hash)
         return nil if hash.nil?
 
@@ -669,6 +1137,15 @@ module Cucumber
     end
 
     class Timestamp
+
+      ##
+      # Returns a new Timestamp from the given hash.
+      # If the hash keys are camelCased, they are properly assigned to the
+      # corresponding snake_cased attributes.
+      #
+      #   Cucumber::Messages::Timestamp.from_h(some_hash) # => #<Cucumber::Messages::Timestamp:0x... ...>
+      #
+
       def self.from_h(hash)
         return nil if hash.nil?
 
@@ -680,6 +1157,15 @@ module Cucumber
     end
 
     class UndefinedParameterType
+
+      ##
+      # Returns a new UndefinedParameterType from the given hash.
+      # If the hash keys are camelCased, they are properly assigned to the
+      # corresponding snake_cased attributes.
+      #
+      #   Cucumber::Messages::UndefinedParameterType.from_h(some_hash) # => #<Cucumber::Messages::UndefinedParameterType:0x... ...>
+      #
+
       def self.from_h(hash)
         return nil if hash.nil?
 
