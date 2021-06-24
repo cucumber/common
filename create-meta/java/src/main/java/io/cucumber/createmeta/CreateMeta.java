@@ -71,9 +71,9 @@ public class CreateMeta {
 
     private static Ci createCi(String name, JsonObject ci, Map<String, String> env) {
         String url = evaluate(getString(ci, "url"), env);
-        String buildNumber = evaluate(getString(ci, "buildNumber"), env);
         if (url == null) return null;
         JsonObject git = ci.get("git").asObject();
+        String buildNumber = evaluate(getString(ci, "buildNumber"), env);
         String remote = removeUserInfoFromUrl(evaluate(getString(git, "remote"), env));
         String revision = evaluate(getString(git, "revision"), env);
         String branch = evaluate(getString(git, "branch"), env);
