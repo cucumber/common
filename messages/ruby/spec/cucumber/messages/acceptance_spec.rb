@@ -1,6 +1,5 @@
 require 'json'
 require 'cucumber/messages'
-require 'cucumber/messages.deserializers'
 
 module Cucumber
   module Messages
