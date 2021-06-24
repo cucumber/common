@@ -43,10 +43,11 @@ module Cucumber
 
         ##
         # Generates a JSON document from the message.
-        # Keys are camelized during the process
+        # Keys are camelized during the process. Null values are not part of the json document.
         #
         #   Cucumber::Messages::Duration.new(seconds: 1, nanos: 42).to_json                 # => '{"seconds":1,"nanos":42}'
         #   Cucumber::Messages::PickleTag.new(name: 'foo', ast_node_id: 'abc-def').to_json  # => '{"name":"foo","astNodeId":"abc-def"}'
+        #   Cucumber::Messages::PickleTag.new(name: 'foo', ast_node_id: nil).to_json        # => '{"name":"foo"}'
         #
         # As #to_h, the method is recursive
         #
