@@ -54,17 +54,19 @@ export default class TestCase implements ITestCase {
         world,
         testCaseStartedId,
         listener,
-        previousPassed,
-        retryable
+        previousPassed
       )
       previousPassed = testStepResult.status === messages.TestStepResultStatus.PASSED
       testStepResults.push(testStepResult)
     }
 
+    const willBeRetried = retryable && getWorstTestStepResult(testStepResults).status === "FAILED"
+
     listener({
       testCaseFinished: {
         testCaseStartedId: testCaseStartedId,
         timestamp: millisecondsSinceEpochToTimestamp(this.clock.clockNow()),
+        willBeRetried,
       },
     })
 

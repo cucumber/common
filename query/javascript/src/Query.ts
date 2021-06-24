@@ -91,7 +91,6 @@ export default class Query {
         {
           status: messages.TestStepResultStatus.UNKNOWN,
           duration: messages.TimeConversion.millisecondsToDuration(0),
-          willBeRetried: false,
         },
       ]
     }
@@ -112,7 +111,6 @@ export default class Query {
         {
           status: messages.TestStepResultStatus.UNKNOWN,
           duration: messages.TimeConversion.millisecondsToDuration(0),
-          willBeRetried: false,
         },
       ]
     }

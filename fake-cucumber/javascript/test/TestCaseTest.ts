@@ -61,5 +61,26 @@ describe('TestCase', () => {
       assert.strictEqual(testCaseStarted.testCaseId, testCase.id)
       assert.strictEqual(testCaseFinished.testCaseStartedId, testCaseStarted.id)
     })
+
+    it('indicates an upcoming retry on TestCaseFinished when FAILED', async () => {
+      const emitted: messages.Envelope[] = []
+      const testSteps: ITestStep[] = [passedPickleTestStep]
+      const testCase = new TestCase(
+        'some-test-case-id',
+        testSteps,
+        'some-pickle-id',
+        new IncrementClock()
+      )
+      await testCase.execute(
+        (message: messages.Envelope) => emitted.push(message),
+        0,
+        true,
+        'test-case-started-id'
+      )
+
+      const testCaseFinished = emitted.find((m) => m.testCaseFinished).testCaseFinished
+
+      assert.strictEqual(testCaseFinished.willBeRetried, true)
+    })
   })
 })

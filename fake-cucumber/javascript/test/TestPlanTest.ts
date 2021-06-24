@@ -39,9 +39,7 @@ describe('TestPlan', () => {
       envelopes.push(envelope)
     }
     await testPlan.execute(listener)
-    const testStepFinisheds = envelopes
-      .filter((m) => m.testStepFinished)
-      .map((m) => m.testStepFinished)
+    const testStepFinisheds = extractEnvelopes(envelopes, e => e.testStepFinished)
     assert.deepStrictEqual(testStepFinisheds.length, 1)
     assert.strictEqual(testStepFinisheds[0].testStepResult.status, 'PASSED')
   })
@@ -66,20 +64,19 @@ describe('TestPlan', () => {
       envelopes.push(envelope)
     }
     await testPlan.execute(listener)
-    const testCaseStarteds = envelopes
-      .filter((m) => m.testCaseStarted)
-      .map((m) => m.testCaseStarted)
+    extractEnvelopes(envelopes, e => e.testCaseStarted)
+    const testCaseStarteds = extractEnvelopes(envelopes, e => e.testCaseStarted)
     assert.deepStrictEqual(testCaseStarteds.length, 2)
     assert.strictEqual(testCaseStarteds[0].attempt, 0)
     assert.strictEqual(testCaseStarteds[1].attempt, 1)
-    const testStepFinisheds = envelopes
-      .filter((m) => m.testStepFinished)
-      .map((m) => m.testStepFinished)
+    const testCaseFinisheds = extractEnvelopes(envelopes, e => e.testCaseFinished)
+    assert.strictEqual(testCaseFinisheds.length, 2)
+    assert.strictEqual(testCaseFinisheds[0].willBeRetried, true)
+    assert.strictEqual(testCaseFinisheds[1].willBeRetried, false)
+    const testStepFinisheds = extractEnvelopes(envelopes, e => e.testStepFinished)
     assert.deepStrictEqual(testStepFinisheds.length, 2)
     assert.strictEqual(testStepFinisheds[0].testStepResult.status, 'FAILED')
-    assert.strictEqual(testStepFinisheds[0].testStepResult.willBeRetried, true)
     assert.strictEqual(testStepFinisheds[1].testStepResult.status, 'PASSED')
-    assert.strictEqual(testStepFinisheds[1].testStepResult.willBeRetried, false)
   })
 
   it('executes test cases once if passing first time with retry', async () => {
@@ -96,12 +93,10 @@ describe('TestPlan', () => {
       envelopes.push(envelope)
     }
     await testPlan.execute(listener)
-    const testStepFinisheds = envelopes
-      .filter((m) => m.testStepFinished)
-      .map((m) => m.testStepFinished)
+    const testStepFinisheds = extractEnvelopes(envelopes, e => e.testStepFinished)
+    assert.strictEqual(envelopes.find(e => e.testCaseFinished).testCaseFinished.willBeRetried, false)
     assert.deepStrictEqual(testStepFinisheds.length, 1)
     assert.strictEqual(testStepFinisheds[0].testStepResult.status, 'PASSED')
-    assert.strictEqual(testStepFinisheds[0].testStepResult.willBeRetried, false)
   })
 
   it('executes test cases once if undefined first time with retry', async () => {
@@ -116,12 +111,10 @@ describe('TestPlan', () => {
       envelopes.push(envelope)
     }
     await testPlan.execute(listener)
-    const testStepFinisheds = envelopes
-      .filter((m) => m.testStepFinished)
-      .map((m) => m.testStepFinished)
+    const testStepFinisheds = extractEnvelopes(envelopes, e => e.testStepFinished)
+    assert.strictEqual(envelopes.find(e => e.testCaseFinished).testCaseFinished.willBeRetried, false)
     assert.deepStrictEqual(testStepFinisheds.length, 1)
     assert.strictEqual(testStepFinisheds[0].testStepResult.status, 'UNDEFINED')
-    assert.strictEqual(testStepFinisheds[0].testStepResult.willBeRetried, false)
   })
 
   class Flight {
@@ -149,9 +142,7 @@ describe('TestPlan', () => {
     const envelopes: messages.Envelope[] = []
     const listener: EnvelopeListener = (envelope) => envelopes.push(envelope)
     await testPlan.execute(listener)
-    const testStepFinisheds = envelopes
-      .filter((m) => m.testStepFinished)
-      .map((m) => m.testStepFinished)
+    const testStepFinisheds = extractEnvelopes(envelopes, e => e.testStepFinished)
     assert.deepStrictEqual(testStepFinisheds.length, 1)
     assert.strictEqual(testStepFinisheds[0].testStepResult.status, 'PASSED')
     const parameterTypes = envelopes.filter((m) => m.parameterType).map((m) => m.parameterType)
@@ -209,4 +200,11 @@ async function makeTestPlan(
     )
 
   return new TestPlan(testCases, supportCode, runOptions)
+}
+
+function extractEnvelopes<M>(
+  envelopes: messages.Envelope[],
+  mapper: (e: messages.Envelope) => M
+): M[] {
+  return envelopes.filter(mapper).map(mapper)
 }
