@@ -383,7 +383,7 @@ describe('Query', () => {
         assert.deepStrictEqual(results[0].status, 'PASSED')
       })
 
-      it('returns the result from the last attempt where retry has been used', async () => {
+      it('returns the result from the last attempt only where retry has been used', async () => {
         const emittedMessages: Array<messages.Envelope> = []
         await execute(
           `Feature: hello
@@ -435,6 +435,28 @@ Scenario: hi
               testCases.push(envelope.testCase)
             }
           }
+        )
+
+        const attachments = cucumberQuery.getTestStepsAttachments([testCases[0].testSteps[0].id])
+        assert.strictEqual(attachments.length, 1)
+
+        assert.strictEqual(attachments[0].body, 'Hello')
+      })
+
+      it('returns attachments from the last attempt only where retry has been used', async () => {
+        const testCases: messages.TestCase[] = []
+        await execute(
+          `Feature: hello
+    Scenario: ok
+      Given a passed step with attachment
+      And a step that passes the second time
+  `,
+          (envelope) => {
+            if (envelope.testCase) {
+              testCases.push(envelope.testCase)
+            }
+          },
+          { allowedRetries: 1 }
         )
 
         const attachments = cucumberQuery.getTestStepsAttachments([testCases[0].testSteps[0].id])

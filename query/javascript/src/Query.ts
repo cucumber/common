@@ -43,7 +43,12 @@ export default class Query {
       }
     }
 
-    if (envelope.testCaseStarted) {
+    /*
+    when a test case attempt starts besides the first one, clear all existing results
+    and attachments for that test case, so we always report on the latest attempt
+    TODO keep track of results and attachments from all attempts, expand API accordingly
+     */
+    if (envelope.testCaseStarted && envelope.testCaseStarted.attempt > 0) {
       const testCase = this.testCaseByTestCaseId.get(envelope.testCaseStarted.testCaseId)
       this.testStepResultByPickleId.delete(testCase.pickleId)
       for (const testStep of testCase.testSteps) {
