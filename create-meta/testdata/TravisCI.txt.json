@@ -6,5 +6,6 @@
     "revision": "057f8fe233b17629af084064c2a7b8d1dbb795ad"
   },
   "name": "Travis CI",
-  "url": "https://cihost.com/path/to/the/build"
+  "url": "https://cihost.com/path/to/the/build",
+  "buildNumber": "4.1"
 }

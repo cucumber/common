@@ -6,5 +6,6 @@
     "tag": "v1.0"
   },
   "name": "Semaphore",
-  "url": "https://my.semaphore.com/jobs/job-123"
+  "url": "https://my.semaphore.com/jobs/a26d42cf-89ac-4c3f-9e2d-51bb231897bf",
+  "buildNumber": "a26d42cf-89ac-4c3f-9e2d-51bb231897bf"
 }

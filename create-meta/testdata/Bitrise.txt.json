@@ -6,5 +6,6 @@
     "revision": "decafbad"
   },
   "name": "Bitrise",
-  "url": "https://cihost.com/path/to/the/build"
+  "url": "https://cihost.com/path/to/the/build",
+  "buildNumber": "1234"
 }

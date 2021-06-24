@@ -42,6 +42,9 @@ Then build and run the tests:
 If all tests pass, commit your code and send us a pull request. Bonus points if you
 also update `CHANGELOG.md` and `README.md`.
 
+You might want to look at the source code for [danger](https://github.com/danger/danger/tree/master/lib/danger/ci_source)
+to understand how various CI server environment variables should be interpreted.
+
 ## CI definitions
 
 The `ciDict.json` file contains definitions of various CI servers. Each property of a CI

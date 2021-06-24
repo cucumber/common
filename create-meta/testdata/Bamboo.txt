@@ -1,4 +1,5 @@
-bamboo.buildResultsUrl=https://cihost.com/path/to/the/build
-bamboo.planRepository.1.branch=main
-bamboo.planRepository.1.repositoryUrl=https://github.com/cucumber-ltd/shouty.rb
-bamboo.planRepository.1.revision=057f8fe233b17629af084064c2a7b8d1dbb795ad
+bamboo_buildResultsUrl=https://cihost.com/path/to/the/build
+bamboo_buildNumber=1234
+bamboo_planRepository_branch=main
+bamboo_planRepository_repositoryUrl=https://github.com/cucumber-ltd/shouty.rb
+bamboo_planRepository_revision=057f8fe233b17629af084064c2a7b8d1dbb795ad
