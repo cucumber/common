@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+* Added Examples to the attachments feature to generate messages for fixing
+  [#1173](https://github.com/cucumber/common/issues/1173)
+
 ### Changed
 
 ### Deprecated

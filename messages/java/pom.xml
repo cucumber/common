@@ -11,7 +11,7 @@
     <version>16.0.2-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>Cucumber Messages</name>
-    <description>Protocol Buffer messages for Cucumber's inter-process communication</description>
+    <description>JSON schema-based messages for Cucumber's inter-process communication</description>
     <url>https://github.com/cucumber/cucumber-messages-java</url>
 
     <properties>
