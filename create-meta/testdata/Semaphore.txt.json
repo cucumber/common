@@ -1,0 +1,10 @@
+{
+  "git": {
+    "branch": "main",
+    "remote": "https://scmhost.com/path/to/the/project",
+    "revision": "decafbad",
+    "tag": "v1.0"
+  },
+  "name": "Semaphore",
+  "url": "https://my.semaphore.com/jobs/job-123"
+}

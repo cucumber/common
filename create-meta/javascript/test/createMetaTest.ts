@@ -82,7 +82,7 @@ describe('createMeta', () => {
 
   it('post-processes git refs to branch', () => {
     const envDict = {
-      BUILD_URI: 'the-url',
+      BUILD_BUILDURI: 'the-url',
       BUILD_REPOSITORY_URI: 'the-remote',
       BUILD_SOURCEBRANCH: 'refs/heads/main',
       BUILD_SOURCEVERSION: 'the-revision',
@@ -104,7 +104,7 @@ describe('createMeta', () => {
 
   it('post-processes git refs to tag', () => {
     const envDict = {
-      BUILD_URI: 'the-url',
+      BUILD_BUILDURI: 'the-url',
       BUILD_REPOSITORY_URI: 'the-remote',
       BUILD_SOURCEBRANCH: 'refs/tags/v1.2.3',
       BUILD_SOURCEVERSION: 'the-revision',

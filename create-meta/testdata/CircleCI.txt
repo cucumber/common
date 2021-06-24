@@ -1,5 +1,5 @@
-CIRCLE_BRANCH=???
-CIRCLE_BUILD_URL=???
-CIRCLE_REPOSITORY_URL=???
-CIRCLE_SHA1=???
-CIRCLE_TAG=???
+CIRCLE_BRANCH=main
+CIRCLE_BUILD_URL=https://cihost.com/path/to/the/build
+CIRCLE_REPOSITORY_URL=https://github.com/cucumber-ltd/shouty.rb
+CIRCLE_SHA1=057f8fe233b17629af084064c2a7b8d1dbb795ad
+CIRCLE_TAG=v1.2.3

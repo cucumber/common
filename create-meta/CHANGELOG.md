@@ -15,6 +15,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Removed
 
+* Removed support for TeamCity since it doesn't seem to expose enough environment variables.
+
 ### Fixed
 
 ## [5.0.0] - 2021-05-17

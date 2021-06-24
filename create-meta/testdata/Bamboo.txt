@@ -1,4 +1,4 @@
-bamboo.buildResultsUrl=???
-bamboo.planRepository.1.branch=???
-bamboo.planRepository.1.repositoryUrl=???
-bamboo.planRepository.1.revision=???
+bamboo.buildResultsUrl=https://cihost.com/path/to/the/build
+bamboo.planRepository.1.branch=main
+bamboo.planRepository.1.repositoryUrl=https://github.com/cucumber-ltd/shouty.rb
+bamboo.planRepository.1.revision=057f8fe233b17629af084064c2a7b8d1dbb795ad

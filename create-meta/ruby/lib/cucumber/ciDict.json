@@ -1,6 +1,6 @@
 {
   "Azure Pipelines": {
-    "url": "${BUILD_URI}",
+    "url": "${BUILD_BUILDURI}",
     "git": {
       "remote": "${BUILD_REPOSITORY_URI}",
       "revision": "${BUILD_SOURCEVERSION}",
@@ -47,7 +47,7 @@
   "CodeFresh": {
     "url": "${CF_BUILD_URL}",
     "git": {
-      "remote": "${CF_COMMIT_URL}",
+      "remote": "${CF_COMMIT_URL/(.*)\\/commit.+$/\\1}.git",
       "revision": "${CF_REVISION}",
       "branch": "${CF_BRANCH}",
       "tag": null
@@ -105,15 +105,6 @@
       "revision": "${SEMAPHORE_GIT_SHA}",
       "branch": "${SEMAPHORE_GIT_BRANCH}",
       "tag": "${SEMAPHORE_GIT_TAG_NAME}"
-    }
-  },
-  "TeamCity": {
-    "url": "${teamcity.serverUrl}/app/rest/builds/id:${teamcity.build.id}",
-    "git": {
-      "remote": null,
-      "revision": "${build.vcs.number}",
-      "branch": "${teamcity.build.branch}",
-      "tag": null
     }
   },
   "Travis CI": {

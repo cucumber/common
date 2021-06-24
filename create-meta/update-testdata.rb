@@ -1,6 +1,9 @@
 require 'json'
 require 'set'
 
+# This script can be used to update the test data when the ciDict.json file is modified.
+# After running this script, the testdata should be inspected and updated manually
+
 ciDict = JSON.parse(File.read(File.dirname(__FILE__) + '/ciDict.json'))
 
 def collect_vars(ob, env_vars)
