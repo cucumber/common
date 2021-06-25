@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+* Detect and populate `Ci#buildNumber` for all supported CI servers.
+  ([#1632](https://github.com/cucumber/common/pull/1632)
+   [#1606](https://github.com/cucumber/common/issues/1606)
+   [aslakhellesoy])
+
 ### Changed
 
 ### Deprecated
@@ -18,6 +23,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Removed support for TeamCity since it doesn't seem to expose enough environment variables.
 
 ### Fixed
+
+* Improve detection of Bamboo environment variables
+* Improve detection of Azure environment variables
+* Fix `Git#remote` for CodeFresh
 
 ## [5.0.0] - 2021-05-17
 
