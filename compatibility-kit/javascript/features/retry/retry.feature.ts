@@ -23,7 +23,3 @@ Given('a step that passes the third time', function () {
 Given('a step that always fails', function () {
   throw new Error('Exception in step')
 })
-
-Given('a pending step', function () {
-  return 'pending'
-})

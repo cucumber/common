@@ -18,8 +18,5 @@ Feature: Retry
   Scenario: test case fails on every attempt
     Given a step that always fails
 
-  Scenario: don't retry on PENDING
-    Given a pending step
-
   Scenario: don't retry on UNDEFINED
     Given a non-existent step
