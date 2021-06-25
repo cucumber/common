@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+* Added `Ci#buildNumber` field
+  ([#1632](https://github.com/cucumber/common/pull/1632)
+   [#1606](https://github.com/cucumber/common/issues/1606)
+   [aslakhellesoy])
 * [Ruby] Generate DTOs from the json schemas to avoid usage of plain ruby hashes
   ([#1574](https://github.com/cucumber/common/issues/1574))
 

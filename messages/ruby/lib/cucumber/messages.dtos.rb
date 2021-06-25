@@ -946,15 +946,22 @@ module Cucumber
 
       attr_reader :url
 
+      ##
+      # The build number. Some CI servers use non-numeric build numbers, which is why this is a string
+
+      attr_reader :build_number
+
       attr_reader :git
 
       def initialize(
         name: '',
         url: nil,
+        build_number: nil,
         git: nil
       )
         @name = name
         @url = url
+        @build_number = build_number
         @git = git
       end
     end
