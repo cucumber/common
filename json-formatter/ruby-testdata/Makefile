@@ -17,10 +17,6 @@ features/%.json: features/%-unprocessed.json
 features/rules/rules.feature.json:
 	mkdir -p $(@D)
 	echo "[]" > $@
-	
-features/retry/retry.feature.json:
-	mkdir -p $(@D)
-	echo "[]" > $@
 
 features/unknown-parameter-type/unknown-parameter-type.feature.json:
 	mkdir -p $(@D)
