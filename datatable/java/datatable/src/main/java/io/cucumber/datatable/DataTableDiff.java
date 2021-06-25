@@ -36,7 +36,7 @@ public final class DataTableDiff {
     public String toString() {
         StringBuilder result = new StringBuilder();
         DiffTablePrinter printer = new DiffTablePrinter(diffTypes);
-        printer.printTable(table, result);
+        printer.printTable(DataTable.create(table), result);
         return result.toString();
     }
 }

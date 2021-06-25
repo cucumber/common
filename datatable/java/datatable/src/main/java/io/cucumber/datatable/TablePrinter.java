@@ -2,30 +2,28 @@ package io.cucumber.datatable;
 
 import java.io.IOException;
 import java.util.List;
+import org.apiguardian.api.API;
 
-class TablePrinter {
+@API(status = API.Status.STABLE)
+public class TablePrinter {
     private int[][] cellLengths;
     private int[] maxLengths;
 
     private String startIndent = "      ";
-    private Boolean shouldEscapeCells = true;
+    private Boolean escapeCells = true;
 
-    TablePrinter() {}
 
-    TablePrinter(String startIndent, Boolean shouldEscapeCells) {
+    public TablePrinter withIndent(String startIndent) {
         this.startIndent = startIndent;
-        this.shouldEscapeCells = shouldEscapeCells;
+        return this;
     }
 
-    /**
-     * @return TablePrinterBuilder
-     * ...used to configure a custom instance of TablePrinter
-     */
-    public static TablePrinterBuilder builder() {
-        return new TablePrinterBuilder();
-      }
+    public TablePrinter escapeCells(Boolean escapeCells) {
+        this.escapeCells = escapeCells;
+        return this;
+    }
 
-    void printTable(List<List<String>> table, StringBuilder appendable) {
+    public void printTable(DataTable table, StringBuilder appendable) {
         try {
             printTable(table, (Appendable) appendable);
         } catch (IOException e) {
@@ -33,13 +31,13 @@ class TablePrinter {
         }
     }
 
-    void printTable(List<List<String>> table, Appendable appendable) throws IOException {
-        calculateColumnAndMaxLengths(table);
-        for (int i = 0; i < table.size(); ++i) {
-            printRow(table.get(i), i, appendable);
+    public void printTable(DataTable table, Appendable appendable) throws IOException {
+        List<List<String>> rawTable = table.cells();
+        calculateColumnAndMaxLengths(rawTable);
+        for (int i = 0; i < rawTable.size(); ++i) {
+            printRow(rawTable.get(i), i, appendable);
             appendable.append("\n");
         }
-
     }
 
     protected void printStartIndent(Appendable buffer, int rowIndex) throws IOException {
@@ -89,7 +87,7 @@ class TablePrinter {
     }
 
     private String escapeCell(String cell) {
-        if (shouldEscapeCells == false) {
+        if (escapeCells == false) {
             return cell;
         }
 
