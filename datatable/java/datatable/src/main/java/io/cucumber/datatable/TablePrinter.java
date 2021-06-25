@@ -32,10 +32,10 @@ public class TablePrinter {
     }
 
     public void printTable(DataTable table, Appendable appendable) throws IOException {
-        List<List<String>> rawTable = table.cells();
-        calculateColumnAndMaxLengths(rawTable);
-        for (int i = 0; i < rawTable.size(); ++i) {
-            printRow(rawTable.get(i), i, appendable);
+        List<List<String>> rows = table.cells();
+        calculateColumnAndMaxLengths(rows);
+        for (int i = 0; i < rows.size(); ++i) {
+            printRow(rows.get(i), i, appendable);
             appendable.append("\n");
         }
     }
