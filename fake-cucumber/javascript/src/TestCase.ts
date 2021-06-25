@@ -60,7 +60,7 @@ export default class TestCase implements ITestCase {
       testStepResults.push(testStepResult)
     }
 
-    const willBeRetried = retryable && getWorstTestStepResult(testStepResults).status === "FAILED"
+    const willBeRetried = retryable && getWorstTestStepResult(testStepResults).status === messages.TestStepResultStatus.FAILED
 
     listener({
       testCaseFinished: {

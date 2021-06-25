@@ -48,7 +48,7 @@ export default class TestPlan implements ITestPlan {
           attempt < allowedAttempts - 1,
           this.supportCode.newId()
         )
-        if (testStepResultStatus !== 'FAILED') {
+        if (testStepResultStatus !== messages.TestStepResultStatus.FAILED) {
           break
         }
       }

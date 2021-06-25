@@ -13,7 +13,7 @@ import { RunOptions } from './types'
 const program = new Command()
 program.version(packageJson.version)
 program.option('-r, --require <path>', 'override require path')
-program.option('--retry <count>', 'allow up to <count> retries')
+program.option('--retry <count>', 'allow up to <count> retries for scenarios that fail')
 program.option('--predictable-ids', 'Use predictable ids', false)
 
 async function main() {
