@@ -621,7 +621,7 @@ public final class DataTable {
      * Prints a string representation of this
      * table to the {@code appendable}.
      * 
-     * @deprecated superseded by TablePrinter.printTable()
+     * @deprecated superseded by {@link TablePrinter#printTable()}
      *
      * @param appendable to append the string representation
      *                   of this table to.
@@ -629,7 +629,7 @@ public final class DataTable {
      */
     @Deprecated
     public void print(Appendable appendable) throws IOException {
-        TablePrinter printer = new TablePrinter();
+        TablePrinter printer = TablePrinter.builder().build();
         printer.printTable(this, appendable);
     }
 
@@ -637,14 +637,14 @@ public final class DataTable {
      * Prints a string representation of this
      * table to the {@code appendable}.
      * 
-     * @deprecated superseded by TablePrinter.printTable()
+     * @deprecated superseded by {@link TablePrinter#printTable()}
      *
      * @param appendable to append the string representation
      *                   of this table to.
      */
     @Deprecated
     public void print(StringBuilder appendable) {
-        TablePrinter printer = new TablePrinter();
+        TablePrinter printer = TablePrinter.builder().build();
         printer.printTable(this, appendable);
     }
 

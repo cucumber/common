@@ -9,18 +9,16 @@ public class TablePrinter {
     private int[][] cellLengths;
     private int[] maxLengths;
 
-    private String startIndent = "      ";
-    private Boolean escapeCells = true;
+    private String startIndent;
+    private Boolean escapeCells;
 
-
-    public TablePrinter withIndent(String startIndent) {
-        this.startIndent = startIndent;
-        return this;
+    protected TablePrinter(Builder builder) {
+        this.startIndent = builder.startIndent;
+        this.escapeCells = builder.escapeCells;
     }
 
-    public TablePrinter escapeCells(Boolean escapeCells) {
-        this.escapeCells = escapeCells;
-        return this;
+    public static TablePrinter.Builder builder() {
+        return new Builder();
     }
 
     public void printTable(DataTable table, StringBuilder appendable) {
@@ -108,6 +106,25 @@ public class TablePrinter {
     private void padSpace(Appendable buffer, int indent) throws IOException {
         for (int i = 0; i < indent; i++) {
             buffer.append(" ");
+        }
+    }
+
+    static class Builder {
+        private String startIndent = "      ";
+        private Boolean escapeCells = true;
+
+        public Builder indent(String startIndent) {
+            this.startIndent = startIndent;
+            return this;
+        }
+
+        public Builder escape(Boolean escapeCells) {
+            this.escapeCells = escapeCells;
+            return this;
+        }
+
+        public TablePrinter build() {
+            return new TablePrinter(this);
         }
     }
 }

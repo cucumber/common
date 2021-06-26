@@ -7,6 +7,7 @@ final class DiffTablePrinter extends TablePrinter {
     private final List<DiffType> diffTypes;
 
     DiffTablePrinter(List<DiffType> diffTypes) {
+        super(TablePrinter.builder());
         this.diffTypes = diffTypes;
     }
 
