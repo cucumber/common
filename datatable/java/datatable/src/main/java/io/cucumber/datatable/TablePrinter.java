@@ -9,8 +9,8 @@ public class TablePrinter {
     private int[][] cellLengths;
     private int[] maxLengths;
 
-    private String startIndent;
-    private Boolean escapeCells;
+    private final String startIndent;
+    private final Boolean escapeCells;
 
     protected TablePrinter(Builder builder) {
         this.startIndent = builder.startIndent;
