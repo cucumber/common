@@ -2,6 +2,7 @@ package io.cucumber.datatable;
 
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.util.List;
 
 import static io.cucumber.datatable.DataTablePrinter.builder;
@@ -19,6 +20,14 @@ class DataTablePrinterTest {
         StringBuilder stringBuilder = new StringBuilder();
         printer.print(table, stringBuilder);
         assertEquals("| hello |\n", stringBuilder.toString());
+    }
+
+    @Test
+    void should_print_to_appendable() throws IOException {
+        DataTable table = tableOf("hello");
+        Appendable appendable = new StringBuilder();
+        printer.print(table, appendable);
+        assertEquals("| hello |\n", appendable.toString());
     }
 
     @Test
@@ -54,10 +63,17 @@ class DataTablePrinterTest {
 
     @Test
     void should_escape_table_delimiters() {
-        DataTable table = tableOf("|");
+        DataTable table = DataTable.create(asList(
+                asList("|"),
+                asList("\\"),
+                asList("\n")
+        ));
         StringBuilder stringBuilder = new StringBuilder();
         printer.print(table, stringBuilder);
-        assertEquals("| \\| |\n", stringBuilder.toString());
+        assertEquals("" +
+                "| \\| |\n" +
+                "| \\\\ |\n" +
+                "| \\n |\n", stringBuilder.toString());
     }
 
     @Test

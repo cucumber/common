@@ -605,31 +605,6 @@ class DataTableTest {
     }
 
     @Test
-    void can_print_table_with_escape_characters_regular() throws IOException {
-        DataTable table = createTableWithEscapeCharacter();
-        Appendable appendable = new StringBuilder();
-        table.print(appendable);
-        String expected = "" +
-                "      | col1   | col2  | col3   |\n" +
-                "      | 11\\\\22 | 33333 | 444444 |\n";
-        assertEquals(expected, appendable.toString());
-    }
-
-    @Test
-    void can_print_table_with_escape_characters_formatted() throws IOException {
-        DataTable table = createTableWithEscapeCharacter();
-        Appendable appendable = new StringBuilder();
-        DataTablePrinter printer = DataTablePrinter.builder()
-            .escape(false)
-            .build();
-        printer.print(table, appendable);
-        String expected = "" +
-                "| col1  | col2  | col3   |\n" +
-                "| 11\\22 | 33333 | 444444 |\n";
-        assertEquals(expected, appendable.toString());
-    }
-
-    @Test
     void repeated_transposition_yields_original_table() {
         DataTable table = createSimpleTable();
         assertSame(table, table.transpose().transpose());
