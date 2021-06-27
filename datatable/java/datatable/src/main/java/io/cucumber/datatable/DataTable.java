@@ -621,7 +621,7 @@ public final class DataTable {
      * Prints a string representation of this
      * table to the {@code appendable}.
      * 
-     * @deprecated superseded by {@link TablePrinter#printTable()}
+     * @deprecated superseded by {@link TablePrinter#printTable(DataTable, Appendable)}
      *
      * @param appendable to append the string representation
      *                   of this table to.
@@ -636,8 +636,8 @@ public final class DataTable {
     /**
      * Prints a string representation of this
      * table to the {@code appendable}.
-     * 
-     * @deprecated superseded by {@link TablePrinter#printTable()}
+     *
+     * @deprecated superseded by {@link TablePrinter#printTable(DataTable, Appendable)}
      *
      * @param appendable to append the string representation
      *                   of this table to.
