@@ -10,11 +10,11 @@ public class TablePrinter {
     private int[] maxLengths;
 
     private final String startIndent;
-    private final Boolean escapeCells;
+    private final boolean escapeCells;
 
-    protected TablePrinter(Builder builder) {
-        this.startIndent = builder.startIndent;
-        this.escapeCells = builder.escapeCells;
+    TablePrinter(String startIndent, boolean escapeCells) {
+        this.startIndent = startIndent;
+        this.escapeCells = escapeCells;
     }
 
     public static TablePrinter.Builder builder() {
@@ -38,7 +38,7 @@ public class TablePrinter {
         }
     }
 
-    protected void printStartIndent(Appendable buffer, int rowIndex) throws IOException {
+    void printStartIndent(Appendable buffer, int rowIndex) throws IOException {
         buffer.append(startIndent);
     }
 
@@ -57,7 +57,7 @@ public class TablePrinter {
             final List<String> cells = rows.get(rowIndex);
             for (int colIndex = 0; colIndex < columnCount; colIndex++) {
                 final String cell = getCellSafely(cells, colIndex);
-                final int length = escapeCell(cell).length();
+                final int length = renderCell(cell).length();
                 cellLengths[rowIndex][colIndex] = length;
                 maxLengths[colIndex] = Math.max(maxLengths[colIndex], length);
             }
@@ -72,7 +72,7 @@ public class TablePrinter {
         printStartIndent(buffer, rowIndex);
         buffer.append("| ");
         for (int colIndex = 0; colIndex < maxLengths.length; colIndex++) {
-            String cellText = escapeCell(getCellSafely(cells, colIndex));
+            String cellText = renderCell(getCellSafely(cells, colIndex));
             buffer.append(cellText);
             int padding = maxLengths[colIndex] - cellLengths[rowIndex][colIndex];
             padSpace(buffer, padding);
@@ -84,17 +84,17 @@ public class TablePrinter {
         }
     }
 
-    private String escapeCell(String cell) {
-        if (escapeCells == false) {
-            return cell;
-        }
-
+    private String renderCell(String cell) {
         if (cell == null) {
             return "";
         }
 
         if (cell.isEmpty()) {
             return "[empty]";
+        }
+
+        if (!escapeCells) {
+            return cell;
         }
 
         return cell
@@ -109,22 +109,22 @@ public class TablePrinter {
         }
     }
 
-    static class Builder {
-        private String startIndent = "      ";
-        private Boolean escapeCells = true;
+    public static final class Builder {
+        private String startIndent = "";
+        private boolean escapeCells = true;
 
         public Builder indent(String startIndent) {
             this.startIndent = startIndent;
             return this;
         }
 
-        public Builder escape(Boolean escapeCells) {
+        public Builder escape(boolean escapeCells) {
             this.escapeCells = escapeCells;
             return this;
         }
 
         public TablePrinter build() {
-            return new TablePrinter(this);
+            return new TablePrinter(startIndent, escapeCells);
         }
     }
 }

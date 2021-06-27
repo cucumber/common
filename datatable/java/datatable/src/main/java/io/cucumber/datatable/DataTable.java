@@ -613,7 +613,9 @@ public final class DataTable {
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
-        print(result);
+        TablePrinter.builder()
+                .build()
+                .printTable(this, result);
         return result.toString();
     }
 
@@ -629,8 +631,10 @@ public final class DataTable {
      */
     @Deprecated
     public void print(Appendable appendable) throws IOException {
-        TablePrinter printer = TablePrinter.builder().build();
-        printer.printTable(this, appendable);
+        TablePrinter.builder()
+                .indent("      ")
+                .build()
+                .printTable(this, appendable);
     }
 
     /**
@@ -644,8 +648,10 @@ public final class DataTable {
      */
     @Deprecated
     public void print(StringBuilder appendable) {
-        TablePrinter printer = TablePrinter.builder().build();
-        printer.printTable(this, appendable);
+        TablePrinter.builder()
+                .indent("      ")
+                .build()
+                .printTable(this, appendable);
     }
 
     /**

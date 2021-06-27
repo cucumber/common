@@ -357,26 +357,8 @@ class DataTableTest {
         List<List<String>> listOfListOfString = dataTable.cells();
         DataTable other = DataTable.create(listOfListOfString);
         assertEquals("" +
-                        "      | one  | four  | seven  |\n" +
-                        "      | 4444 | 55555 | 666666 |\n",
-                other.toString());
-    }
-
-    @Test
-    void can_print_table_with_empty_cells() {
-        DataTable dataTable = DataTable.create(singletonList(singletonList("")));
-        List<List<String>> listOfListOfString = dataTable.cells();
-        DataTable other = DataTable.create(listOfListOfString);
-        assertEquals("      | [empty] |\n",
-                other.toString());
-    }
-
-    @Test
-    void can_print_table_with_null_cells() {
-        DataTable dataTable = DataTable.create(singletonList(singletonList(null)));
-        List<List<String>> listOfListOfString = dataTable.cells();
-        DataTable other = DataTable.create(listOfListOfString);
-        assertEquals("      |  |\n",
+                        "| one  | four  | seven  |\n" +
+                        "| 4444 | 55555 | 666666 |\n",
                 other.toString());
     }
 
