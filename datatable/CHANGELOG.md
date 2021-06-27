@@ -8,10 +8,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 
 ### Added
-* [Java] Add `TablePrinter` to the public API, allow configurable printing, and deprecate legacy DataTable.print() methods.
+* [Java] Add `DataTablePrinter` to the public API, allow configurable printing, and deprecate legacy DataTable.print() methods.
     ([cucumber-jvm/2320](https://github.com/cucumber/cucumber-jvm/issues/2320)
     [1624](https://github.com/cucumber/cucumber/pull/1624)
-      [artysidorenko])
+      [artysidorenko], [mpkorstanje])
 
 ### Changed
 
