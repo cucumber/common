@@ -35,10 +35,10 @@ public final class DataTableDiff {
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
-        DataTablePrinter.builder()
-                .indent(this::indentForRow)
+        DataTableFormatter.builder()
+                .prefixRow(this::indentForRow)
                 .build()
-                .print(DataTable.create(table), result);
+                .formatTo(DataTable.create(table), result);
         return result.toString();
     }
 

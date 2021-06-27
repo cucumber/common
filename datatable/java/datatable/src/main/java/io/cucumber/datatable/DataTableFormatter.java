@@ -5,30 +5,41 @@ import org.apiguardian.api.API;
 import java.io.IOException;
 import java.util.function.Function;
 
+import static java.util.Objects.requireNonNull;
+
 @API(status = API.Status.STABLE)
-public final class DataTablePrinter {
+public final class DataTableFormatter {
 
-    private final Function<Integer, String> startIndent;
-    private final boolean escapeCells;
+    private final Function<Integer, String> rowPrefix;
+    private final boolean escapeDelimiters;
 
-    private DataTablePrinter(Function<Integer, String> startIndent, boolean escapeCells) {
-        this.startIndent = startIndent;
-        this.escapeCells = escapeCells;
+    private DataTableFormatter(Function<Integer, String> rowPrefix, boolean escapeDelimiters) {
+        this.rowPrefix = rowPrefix;
+        this.escapeDelimiters = escapeDelimiters;
     }
 
-    public static DataTablePrinter.Builder builder() {
+    public static DataTableFormatter.Builder builder() {
         return new Builder();
     }
 
-    public void print(DataTable table, StringBuilder appendable) {
+    public String format(DataTable table) {
+        StringBuilder result = new StringBuilder();
+        formatTo(table, result);
+        return result.toString();
+    }
+
+    public void formatTo(DataTable table, StringBuilder appendable) {
         try {
-            print(table, (Appendable) appendable);
+            formatTo(table, (Appendable) appendable);
         } catch (IOException e) {
-            throw new IllegalStateException(e);
+            throw new CucumberDataTableException(e.getMessage(), e);
         }
     }
 
-    public void print(DataTable table, Appendable appendable) throws IOException {
+    public void formatTo(DataTable table, Appendable appendable) throws IOException {
+        requireNonNull(table, "table may not be null");
+        requireNonNull(appendable, "appendable may not be null");
+
         if (table.isEmpty()) {
             return;
         }
@@ -56,7 +67,7 @@ public final class DataTablePrinter {
 
         // print the rendered cells with padding
         for (int rowIndex = 0; rowIndex < height; rowIndex++) {
-            printStartIndent(appendable, rowIndex);
+            printRowPrefix(appendable, rowIndex);
             appendable.append("| ");
             for (int colIndex = 0; colIndex < width; colIndex++) {
                 String cellText = renderedCells[rowIndex][colIndex];
@@ -73,8 +84,11 @@ public final class DataTablePrinter {
         }
     }
 
-    void printStartIndent(Appendable buffer, int rowIndex) throws IOException {
-        buffer.append(startIndent.apply(rowIndex));
+    void printRowPrefix(Appendable buffer, int rowIndex) throws IOException {
+        String prefix = rowPrefix.apply(rowIndex);
+        if (prefix != null) {
+            buffer.append(prefix);
+        }
     }
 
     private String renderCell(String cell) {
@@ -86,7 +100,7 @@ public final class DataTablePrinter {
             return "[empty]";
         }
 
-        if (!escapeCells) {
+        if (!escapeDelimiters) {
             return cell;
         }
 
@@ -103,25 +117,27 @@ public final class DataTablePrinter {
     }
 
     public static final class Builder {
-        private Function<Integer, String> startIndent = rowIndex -> "";
-        private boolean escapeCells = true;
+        private Function<Integer, String> rowPrefix = rowIndex -> "";
+        private boolean escapeDelimiters = true;
 
-        public Builder indent(Function<Integer, String> startIndent) {
-            this.startIndent = startIndent;
+        public Builder prefixRow(Function<Integer, String> rowPrefix) {
+            requireNonNull(rowPrefix, "rowPrefix may not be null");
+            this.rowPrefix = rowPrefix;
             return this;
         }
 
-        public Builder indent(String startIndent) {
-            return indent(rowIndex -> startIndent);
+        public Builder prefixRow(String rowPrefix) {
+            requireNonNull(rowPrefix, "rowPrefix may not be null");
+            return prefixRow(rowIndex -> rowPrefix);
         }
 
-        public Builder escape(boolean escapeCells) {
-            this.escapeCells = escapeCells;
+        public Builder escapeDelimiters(boolean escapeDelimiters) {
+            this.escapeDelimiters = escapeDelimiters;
             return this;
         }
 
-        public DataTablePrinter build() {
-            return new DataTablePrinter(startIndent, escapeCells);
+        public DataTableFormatter build() {
+            return new DataTableFormatter(rowPrefix, escapeDelimiters);
         }
 
     }

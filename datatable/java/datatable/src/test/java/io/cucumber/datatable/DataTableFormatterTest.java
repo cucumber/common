@@ -5,20 +5,26 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.util.List;
 
-import static io.cucumber.datatable.DataTablePrinter.builder;
+import static io.cucumber.datatable.DataTableFormatter.builder;
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class DataTablePrinterTest {
+class DataTableFormatterTest {
 
-    final DataTablePrinter printer = builder().build();
+    final DataTableFormatter formatter = builder().build();
 
     @Test
     void should_print() {
         DataTable table = tableOf("hello");
+        assertEquals("| hello |\n", formatter.format(table));
+    }
+
+    @Test
+    void should_print_to_string_builder() {
+        DataTable table = tableOf("hello");
         StringBuilder stringBuilder = new StringBuilder();
-        printer.print(table, stringBuilder);
+        formatter.formatTo(table, stringBuilder);
         assertEquals("| hello |\n", stringBuilder.toString());
     }
 
@@ -26,7 +32,7 @@ class DataTablePrinterTest {
     void should_print_to_appendable() throws IOException {
         DataTable table = tableOf("hello");
         Appendable appendable = new StringBuilder();
-        printer.print(table, appendable);
+        formatter.formatTo(table, appendable);
         assertEquals("| hello |\n", appendable.toString());
     }
 
@@ -37,54 +43,45 @@ class DataTablePrinterTest {
                 asList("4", "5", "6"),
                 asList("7", "8", "9")
         ));
-        StringBuilder stringBuilder = new StringBuilder();
-        printer.print(table, stringBuilder);
         assertEquals("" +
                 "| 1 | 1 | 1 |\n" +
                 "| 4 | 5 | 6 |\n" +
-                "| 7 | 8 | 9 |\n", stringBuilder.toString());
+                "| 7 | 8 | 9 |\n", formatter.format(table));
     }
 
     @Test
     void should_print_null_as_empty_string() {
         DataTable table = tableOf(null);
-        StringBuilder stringBuilder = new StringBuilder();
-        printer.print(table, stringBuilder);
-        assertEquals("|  |\n", stringBuilder.toString());
+        assertEquals("|  |\n", formatter.format(table));
     }
 
     @Test
     void should_print_empty_string_as_empty() {
         DataTable table = tableOf("");
-        StringBuilder stringBuilder = new StringBuilder();
-        printer.print(table, stringBuilder);
-        assertEquals("| [empty] |\n", stringBuilder.toString());
+        assertEquals("| [empty] |\n", formatter.format(table));
     }
 
     @Test
     void should_escape_table_delimiters() {
         DataTable table = DataTable.create(asList(
-                asList("|"),
-                asList("\\"),
-                asList("\n")
+                singletonList("|"),
+                singletonList("\\"),
+                singletonList("\n")
         ));
-        StringBuilder stringBuilder = new StringBuilder();
-        printer.print(table, stringBuilder);
+        ;
         assertEquals("" +
                 "| \\| |\n" +
                 "| \\\\ |\n" +
-                "| \\n |\n", stringBuilder.toString());
+                "| \\n |\n", formatter.format(table));
     }
 
     @Test
     void should_add_indent() {
         DataTable table = tableOf("Hello");
-        DataTablePrinter printer = builder()
-                .indent("    ")
+        DataTableFormatter formatter = builder()
+                .prefixRow("    ")
                 .build();
-        StringBuilder stringBuilder = new StringBuilder();
-        printer.print(table, stringBuilder);
-        assertEquals("    | Hello |\n", stringBuilder.toString());
+        assertEquals("    | Hello |\n", formatter.format(table));
     }
 
     @Test
@@ -95,26 +92,22 @@ class DataTablePrinterTest {
                 asList("7", "8", "9")
         ));
         String[] prefix = new String[] { "+ ", "- ", "  " };
-        DataTablePrinter printer = builder()
-                .indent(rowIndex -> prefix[rowIndex])
+        DataTableFormatter formatter = builder()
+                .prefixRow(rowIndex -> prefix[rowIndex])
                 .build();
-        StringBuilder stringBuilder = new StringBuilder();
-        printer.print(table, stringBuilder);
         assertEquals("" +
                 "+ | 1 | 1 | 1 |\n" +
                 "- | 4 | 5 | 6 |\n" +
-                "  | 7 | 8 | 9 |\n", stringBuilder.toString());
+                "  | 7 | 8 | 9 |\n", formatter.format(table));
     }
 
     @Test
     void should_disable_escape_of_table_delimiter() {
         DataTable table = tableOf("|");
-        DataTablePrinter printer = builder()
-                .escape(false)
+        DataTableFormatter formatter = builder()
+                .escapeDelimiters(false)
                 .build();
-        StringBuilder stringBuilder = new StringBuilder();
-        printer.print(table, stringBuilder);
-        assertEquals("| | |\n", stringBuilder.toString());
+        assertEquals("| | |\n", formatter.format(table));
     }
 
     private DataTable tableOf(String hello) {
