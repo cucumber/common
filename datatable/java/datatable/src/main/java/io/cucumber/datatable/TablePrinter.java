@@ -3,13 +3,10 @@ package io.cucumber.datatable;
 import org.apiguardian.api.API;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.function.Function;
 
 @API(status = API.Status.STABLE)
 public final class TablePrinter {
-    private int[][] cellLengths;
-    private int[] maxLengths;
 
     private final Function<Integer, String> startIndent;
     private final boolean escapeCells;
@@ -32,58 +29,52 @@ public final class TablePrinter {
     }
 
     public void printTable(DataTable table, Appendable appendable) throws IOException {
-        List<List<String>> rows = table.cells();
-        calculateColumnAndMaxLengths(rows);
-        for (int i = 0; i < rows.size(); ++i) {
-            printRow(rows.get(i), i, appendable);
+        if (table.isEmpty()) {
+            return;
+        }
+        // datatables are always square and non-sparse.
+        int height = table.height();
+        int width = table.width();
+
+        // render the individual cells
+        String[][] renderedCells = new String[height][width];
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                renderedCells[i][j] = renderCell(table.cell(i, j));
+            }
+        }
+
+        // find the longest rendered cell in each column
+        int[] longestCellInColumnLength = new int[width];
+        for (String[] row : renderedCells) {
+            for (int colIndex = 0; colIndex < width; colIndex++) {
+                int current = longestCellInColumnLength[colIndex];
+                int candidate = row[colIndex].length();
+                longestCellInColumnLength[colIndex] = Math.max(current, candidate);
+            }
+        }
+
+        // print the rendered cells with padding
+        for (int rowIndex = 0; rowIndex < height; rowIndex++) {
+            printStartIndent(appendable, rowIndex);
+            appendable.append("| ");
+            for (int colIndex = 0; colIndex < width; colIndex++) {
+                String cellText = renderedCells[rowIndex][colIndex];
+                appendable.append(cellText);
+                int padding = longestCellInColumnLength[colIndex] - cellText.length();
+                padSpace(appendable, padding);
+                if (colIndex < width - 1) {
+                    appendable.append(" | ");
+                } else {
+                    appendable.append(" |");
+                }
+            }
             appendable.append("\n");
         }
     }
 
     void printStartIndent(Appendable buffer, int rowIndex) throws IOException {
         buffer.append(startIndent.apply(rowIndex));
-    }
-
-    private void calculateColumnAndMaxLengths(List<List<String>> rows) {
-        // find the largest row
-        int columnCount = 0;
-        for (List<String> row : rows) {
-            if (columnCount < row.size()) {
-                columnCount = row.size();
-            }
-        }
-
-        cellLengths = new int[rows.size()][columnCount];
-        maxLengths = new int[columnCount];
-        for (int rowIndex = 0; rowIndex < rows.size(); rowIndex++) {
-            final List<String> cells = rows.get(rowIndex);
-            for (int colIndex = 0; colIndex < columnCount; colIndex++) {
-                final String cell = getCellSafely(cells, colIndex);
-                final int length = renderCell(cell).length();
-                cellLengths[rowIndex][colIndex] = length;
-                maxLengths[colIndex] = Math.max(maxLengths[colIndex], length);
-            }
-        }
-    }
-
-    private String getCellSafely(final List<String> cells, final int colIndex) {
-        return (colIndex < cells.size()) ? cells.get(colIndex) : "";
-    }
-
-    private void printRow(List<String> cells, int rowIndex, Appendable buffer) throws IOException {
-        printStartIndent(buffer, rowIndex);
-        buffer.append("| ");
-        for (int colIndex = 0; colIndex < maxLengths.length; colIndex++) {
-            String cellText = renderCell(getCellSafely(cells, colIndex));
-            buffer.append(cellText);
-            int padding = maxLengths[colIndex] - cellLengths[rowIndex][colIndex];
-            padSpace(buffer, padding);
-            if (colIndex < maxLengths.length - 1) {
-                buffer.append(" | ");
-            } else {
-                buffer.append(" |");
-            }
-        }
     }
 
     private String renderCell(String cell) {
