@@ -634,12 +634,4 @@ class DataTableTest {
         return DataTable.create(raw, tableConverter);
     }
 
-    private DataTable createTableWithEscapeCharacter() {
-        List<List<String>> raw = asList(
-                asList("col1", "col2", "col3"),
-                asList("11\\22", "33333", "444444")
-        );
-        return DataTable.create(raw, tableConverter);
-    }
-
 }
