@@ -618,11 +618,11 @@ class DataTableTest {
     @Test
     void can_print_table_with_escape_characters_formatted() throws IOException {
         DataTable table = createTableWithEscapeCharacter();
-        TablePrinter tablePrinter = TablePrinter.builder()
+        Appendable appendable = new StringBuilder();
+        DataTablePrinter printer = DataTablePrinter.builder()
             .escape(false)
             .build();
-        Appendable appendable = new StringBuilder();
-        tablePrinter.printTable(table, appendable);
+        printer.print(table, appendable);
         String expected = "" +
                 "| col1  | col2  | col3   |\n" +
                 "| 11\\22 | 33333 | 444444 |\n";

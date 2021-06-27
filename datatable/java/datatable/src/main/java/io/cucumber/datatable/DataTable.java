@@ -613,9 +613,9 @@ public final class DataTable {
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
-        TablePrinter.builder()
+        DataTablePrinter.builder()
                 .build()
-                .printTable(this, result);
+                .print(this, result);
         return result.toString();
     }
 
@@ -623,7 +623,7 @@ public final class DataTable {
      * Prints a string representation of this
      * table to the {@code appendable}.
      * 
-     * @deprecated superseded by {@link TablePrinter#printTable(DataTable, Appendable)}
+     * @deprecated superseded by {@link DataTablePrinter#print(DataTable, Appendable)}
      *
      * @param appendable to append the string representation
      *                   of this table to.
@@ -631,27 +631,27 @@ public final class DataTable {
      */
     @Deprecated
     public void print(Appendable appendable) throws IOException {
-        TablePrinter.builder()
+        DataTablePrinter.builder()
                 .indent("      ")
                 .build()
-                .printTable(this, appendable);
+                .print(this, appendable);
     }
 
     /**
      * Prints a string representation of this
      * table to the {@code appendable}.
      *
-     * @deprecated superseded by {@link TablePrinter#printTable(DataTable, Appendable)}
+     * @deprecated superseded by {@link DataTablePrinter#print(DataTable, Appendable)}
      *
      * @param appendable to append the string representation
      *                   of this table to.
      */
     @Deprecated
     public void print(StringBuilder appendable) {
-        TablePrinter.builder()
+        DataTablePrinter.builder()
                 .indent("      ")
                 .build()
-                .printTable(this, appendable);
+                .print(this, appendable);
     }
 
     /**

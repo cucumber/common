@@ -6,29 +6,29 @@ import java.io.IOException;
 import java.util.function.Function;
 
 @API(status = API.Status.STABLE)
-public final class TablePrinter {
+public final class DataTablePrinter {
 
     private final Function<Integer, String> startIndent;
     private final boolean escapeCells;
 
-    private TablePrinter(Function<Integer, String> startIndent, boolean escapeCells) {
+    private DataTablePrinter(Function<Integer, String> startIndent, boolean escapeCells) {
         this.startIndent = startIndent;
         this.escapeCells = escapeCells;
     }
 
-    public static TablePrinter.Builder builder() {
+    public static DataTablePrinter.Builder builder() {
         return new Builder();
     }
 
-    public void printTable(DataTable table, StringBuilder appendable) {
+    public void print(DataTable table, StringBuilder appendable) {
         try {
-            printTable(table, (Appendable) appendable);
+            print(table, (Appendable) appendable);
         } catch (IOException e) {
             throw new IllegalStateException(e);
         }
     }
 
-    public void printTable(DataTable table, Appendable appendable) throws IOException {
+    public void print(DataTable table, Appendable appendable) throws IOException {
         if (table.isEmpty()) {
             return;
         }
@@ -120,8 +120,8 @@ public final class TablePrinter {
             return this;
         }
 
-        public TablePrinter build() {
-            return new TablePrinter(startIndent, escapeCells);
+        public DataTablePrinter build() {
+            return new DataTablePrinter(startIndent, escapeCells);
         }
 
     }
