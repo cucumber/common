@@ -1,18 +1,20 @@
 package io.cucumber.datatable;
 
-import java.io.IOException;
-import java.util.List;
 import org.apiguardian.api.API;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.function.Function;
+
 @API(status = API.Status.STABLE)
-public class TablePrinter {
+public final class TablePrinter {
     private int[][] cellLengths;
     private int[] maxLengths;
 
-    private final String startIndent;
+    private final Function<Integer, String> startIndent;
     private final boolean escapeCells;
 
-    TablePrinter(String startIndent, boolean escapeCells) {
+    private TablePrinter(Function<Integer, String> startIndent, boolean escapeCells) {
         this.startIndent = startIndent;
         this.escapeCells = escapeCells;
     }
@@ -39,7 +41,7 @@ public class TablePrinter {
     }
 
     void printStartIndent(Appendable buffer, int rowIndex) throws IOException {
-        buffer.append(startIndent);
+        buffer.append(startIndent.apply(rowIndex));
     }
 
     private void calculateColumnAndMaxLengths(List<List<String>> rows) {
@@ -110,12 +112,16 @@ public class TablePrinter {
     }
 
     public static final class Builder {
-        private String startIndent = "";
+        private Function<Integer, String> startIndent = rowIndex -> "";
         private boolean escapeCells = true;
 
-        public Builder indent(String startIndent) {
+        public Builder indent(Function<Integer, String> startIndent) {
             this.startIndent = startIndent;
             return this;
+        }
+
+        public Builder indent(String startIndent) {
+            return indent(rowIndex -> startIndent);
         }
 
         public Builder escape(boolean escapeCells) {
@@ -126,5 +132,7 @@ public class TablePrinter {
         public TablePrinter build() {
             return new TablePrinter(startIndent, escapeCells);
         }
+
     }
+
 }

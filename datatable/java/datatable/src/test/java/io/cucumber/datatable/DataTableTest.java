@@ -619,7 +619,6 @@ class DataTableTest {
     void can_print_table_with_escape_characters_formatted() throws IOException {
         DataTable table = createTableWithEscapeCharacter();
         TablePrinter tablePrinter = TablePrinter.builder()
-            .indent("")
             .escape(false)
             .build();
         Appendable appendable = new StringBuilder();
