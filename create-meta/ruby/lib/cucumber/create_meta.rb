@@ -46,6 +46,7 @@ module Cucumber
       {
           url: url,
           name: ci_name,
+          buildNumber: evaluate(ci_system['buildNumber'], env),
           git: {
               remote: remove_userinfo_from_url(evaluate(ci_system['git']['remote'], env)),
               revision: evaluate(ci_system['git']['revision'], env),

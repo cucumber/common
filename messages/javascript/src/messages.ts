@@ -336,6 +336,8 @@ export class Ci {
 
   url?: string
 
+  buildNumber?: string
+
   @Type(() => Git)
   git?: Git
 }

@@ -1,6 +1,7 @@
 {
   "Azure Pipelines": {
-    "url": "${BUILD_URI}",
+    "url": "${BUILD_BUILDURI}",
+    "buildNumber": "${BUILD_BUILDNUMBER}",
     "git": {
       "remote": "${BUILD_REPOSITORY_URI}",
       "revision": "${BUILD_SOURCEVERSION}",
@@ -9,16 +10,18 @@
     }
   },
   "Bamboo": {
-    "url": "${bamboo.buildResultsUrl}",
+    "url": "${bamboo_buildResultsUrl}",
+    "buildNumber": "${bamboo_buildNumber}",
     "git": {
-      "remote": "${bamboo.planRepository.1.repositoryUrl}",
-      "revision": "${bamboo.planRepository.1.revision}",
-      "branch": "${bamboo.planRepository.1.branch}",
+      "remote": "${bamboo_planRepository_repositoryUrl}",
+      "revision": "${bamboo_planRepository_revision}",
+      "branch": "${bamboo_planRepository_branch}",
       "tag": null
     }
   },
   "Buddy": {
     "url": "${BUDDY_EXECUTION_URL}",
+    "buildNumber": "${BUDDY_EXECUTION_ID}",
     "git": {
       "remote": "${BUDDY_SCM_URL}",
       "revision": "${BUDDY_EXECUTION_REVISION}",
@@ -28,6 +31,7 @@
   },
   "Bitrise": {
     "url": "${BITRISE_BUILD_URL}",
+    "buildNumber": "${BITRISE_BUILD_NUMBER}",
     "git": {
       "remote": "${GIT_REPOSITORY_URL}",
       "revision": "${BITRISE_GIT_COMMIT}",
@@ -37,6 +41,7 @@
   },
   "CircleCI": {
     "url": "${CIRCLE_BUILD_URL}",
+    "buildNumber": "${CIRCLE_BUILD_NUM}",
     "git": {
       "remote": "${CIRCLE_REPOSITORY_URL}",
       "revision": "${CIRCLE_SHA1}",
@@ -46,8 +51,9 @@
   },
   "CodeFresh": {
     "url": "${CF_BUILD_URL}",
+    "buildNumber": "${CF_BUILD_ID}",
     "git": {
-      "remote": "${CF_COMMIT_URL}",
+      "remote": "${CF_COMMIT_URL/(.*)\\/commit.+$/\\1}.git",
       "revision": "${CF_REVISION}",
       "branch": "${CF_BRANCH}",
       "tag": null
@@ -55,6 +61,7 @@
   },
   "CodeShip": {
     "url": "${CI_BUILD_URL}",
+    "buildNumber": "${CI_BUILD_NUMBER}",
     "git": {
       "remote": "${CI_PULL_REQUEST/(.*)\\/pull\\/\\d+/\\1.git}",
       "revision": "${CI_COMMIT_ID}",
@@ -64,6 +71,7 @@
   },
   "GitHub Actions": {
     "url": "${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}",
+    "buildNumber": "${GITHUB_RUN_ID}",
     "git": {
       "remote": "${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}.git",
       "revision": "${GITHUB_SHA}",
@@ -73,6 +81,7 @@
   },
   "GitLab": {
     "url": "${CI_JOB_URL}",
+    "buildNumber": "${CI_JOB_ID}",
     "git": {
       "remote": "${CI_REPOSITORY_URL}",
       "revision": "${CI_COMMIT_SHA}",
@@ -82,6 +91,7 @@
   },
   "GoCD": {
     "url": "${GO_SERVER_URL}/pipelines/${GO_PIPELINE_NAME}/${GO_PIPELINE_COUNTER}/${GO_STAGE_NAME}/${GO_STAGE_COUNTER}",
+    "buildNumber": "${GO_PIPELINE_NAME}/${GO_PIPELINE_COUNTER}/${GO_STAGE_NAME}/${GO_STAGE_COUNTER}",
     "git": {
       "remote": "${GO_SCM_*_PR_URL/(.*)\\/pull\\/\\d+/\\1.git}",
       "revision": "${GO_REVISION}",
@@ -91,6 +101,7 @@
   },
   "Jenkins": {
     "url": "${BUILD_URL}",
+    "buildNumber": "${BUILD_NUMBER}",
     "git": {
       "remote": "${GIT_URL}",
       "revision": "${GIT_COMMIT}",
@@ -100,6 +111,7 @@
   },
   "Semaphore": {
     "url": "${SEMAPHORE_ORGANIZATION_URL}/jobs/${SEMAPHORE_JOB_ID}",
+    "buildNumber": "${SEMAPHORE_JOB_ID}",
     "git": {
       "remote": "${SEMAPHORE_GIT_URL}",
       "revision": "${SEMAPHORE_GIT_SHA}",
@@ -107,17 +119,9 @@
       "tag": "${SEMAPHORE_GIT_TAG_NAME}"
     }
   },
-  "TeamCity": {
-    "url": "${teamcity.serverUrl}/app/rest/builds/id:${teamcity.build.id}",
-    "git": {
-      "remote": null,
-      "revision": "${build.vcs.number}",
-      "branch": "${teamcity.build.branch}",
-      "tag": null
-    }
-  },
   "Travis CI": {
     "url": "${TRAVIS_BUILD_WEB_URL}",
+    "buildNumber": "${TRAVIS_JOB_NUMBER}",
     "git": {
       "remote": "https://github.com/${TRAVIS_REPO_SLUG}.git",
       "revision": "${TRAVIS_COMMIT}",
@@ -127,6 +131,7 @@
   },
   "Wercker": {
     "url": "${WERCKER_RUN_URL}",
+    "buildNumber": "${WERCKER_RUN_URL/.*\\/([^\\/]+)$/\\1}",
     "git": {
       "remote": "https://${WERCKER_GIT_DOMAIN}/${WERCKER_GIT_OWNER}/${WERCKER_GIT_REPOSITORY}.git",
       "revision": "${WERCKER_GIT_COMMIT}",
