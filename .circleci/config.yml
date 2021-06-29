@@ -232,7 +232,7 @@ jobs:
             cd gherkin-streams/javascript
             make
 
-  gherkin-javascript-12:
+  gherkin-javascript-node-12:
     executor: docker-circleci-node-12
     steps:
       - attach_workspace:
@@ -244,7 +244,7 @@ jobs:
             cd gherkin/javascript
             make
 
-  gherkin-javascript-14:
+  gherkin-javascript-node-14:
     executor: docker-circleci-node-14
     steps:
       - attach_workspace:
@@ -256,7 +256,7 @@ jobs:
             cd gherkin/javascript
             make
 
-  gherkin-javascript-16:
+  gherkin-javascript-node-16:
     executor: docker-circleci-node-16
     steps:
       - attach_workspace:
@@ -919,19 +919,13 @@ workflows:
       - gherkin-streams-javascript:
           requires:
             - prepare-parallel
-      - gherkin-javascript-12:
+      - gherkin-javascript-node-12:
           requires:
             - prepare-parallel
-      - gherkin-javascript-14:
+      - gherkin-javascript-node-14:
           requires:
             - prepare-parallel
-      - gherkin-javascript-16:
-          requires:
-            - prepare-parallel
-      - gherkin-javascript-17:
-          requires:
-            - prepare-parallel
-      - gherkin-javascript-18:
+      - gherkin-javascript-node-16:
           requires:
             - prepare-parallel
       - gherkin-utils-javascript:
@@ -975,7 +969,7 @@ workflows:
             - json-to-messages-javascript-testdata
             - create-meta-javascript
             - fake-cucumber-javascript
-            - gherkin-javascript-18
+            - gherkin-javascript-node-16
             - gherkin-utils-javascript
             - html-formatter-javascript
 
