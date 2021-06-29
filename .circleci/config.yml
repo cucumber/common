@@ -38,14 +38,6 @@ executors:
     docker:
       - image: circleci/node:16
     working_directory: ~/cucumber
-  docker-circleci-node-17:
-    docker:
-      - image: circleci/node:17
-    working_directory: ~/cucumber
-  docker-circleci-node-18:
-    docker:
-      - image: circleci/node:18
-    working_directory: ~/cucumber
 
   # Ruby
   docker-circleci-ruby-23:
@@ -180,8 +172,8 @@ jobs:
 
   ### JavaScript
 
-  cucumber-expressions-javascript-node-18:
-    executor: docker-circleci-node-18
+  cucumber-expressions-javascript-node-16:
+    executor: docker-circleci-node-16
     steps:
       - attach_workspace:
           at: '~/cucumber'
@@ -193,7 +185,7 @@ jobs:
             make
 
   message-streams-javascript:
-    executor: docker-circleci-node-18
+    executor: docker-circleci-node-16
     steps:
       - attach_workspace:
           at: '~/cucumber'
@@ -205,7 +197,7 @@ jobs:
             make
 
   messages-javascript:
-    executor: docker-circleci-node-18
+    executor: docker-circleci-node-16
     steps:
       - attach_workspace:
           at: '~/cucumber'
@@ -217,7 +209,7 @@ jobs:
             make
 
   create-meta-javascript:
-    executor: docker-circleci-node-18
+    executor: docker-circleci-node-16
     steps:
       - attach_workspace:
           at: '~/cucumber'
@@ -229,7 +221,7 @@ jobs:
             make
 
   gherkin-streams-javascript:
-    executor: docker-circleci-node-18
+    executor: docker-circleci-node-16
     steps:
       - attach_workspace:
           at: '~/cucumber'
@@ -276,32 +268,8 @@ jobs:
             cd gherkin/javascript
             make
 
-  gherkin-javascript-17:
-    executor: docker-circleci-node-17
-    steps:
-      - attach_workspace:
-          at: '~/cucumber'
-      - run:
-          name: gherkin/javascript
-          command: |
-            sudo npm install --global npm@7
-            cd gherkin/javascript
-            make
-
-  gherkin-javascript-18:
-    executor: docker-circleci-node-18
-    steps:
-      - attach_workspace:
-          at: '~/cucumber'
-      - run:
-          name: gherkin/javascript
-          command: |
-            sudo npm install --global npm@7
-            cd gherkin/javascript
-            make
-
   gherkin-utils-javascript:
-    executor: docker-circleci-node-18
+    executor: docker-circleci-node-16
     steps:
       - attach_workspace:
           at: '~/cucumber'
@@ -313,7 +281,7 @@ jobs:
             make
 
   tag-expressions-javascript:
-    executor: docker-circleci-node-18
+    executor: docker-circleci-node-16
     steps:
       - attach_workspace:
           at: '~/cucumber'
@@ -325,7 +293,7 @@ jobs:
             make
 
   fake-cucumber-javascript:
-    executor: docker-circleci-node-18
+    executor: docker-circleci-node-16
     steps:
       - attach_workspace:
           at: '~/cucumber'
@@ -337,7 +305,7 @@ jobs:
             make
 
   compatibility-kit-javascript:
-    executor: docker-circleci-node-18
+    executor: docker-circleci-node-16
     steps:
       - attach_workspace:
           at: '~/cucumber'
@@ -349,7 +317,7 @@ jobs:
             make
 
   react-javascript:
-    executor: docker-circleci-node-18
+    executor: docker-circleci-node-16
     steps:
       - attach_workspace:
           at: '~/cucumber'
@@ -361,7 +329,7 @@ jobs:
             make
 
   html-formatter-javascript:
-    executor: docker-circleci-node-18
+    executor: docker-circleci-node-16
     steps:
       - attach_workspace:
           at: '~/cucumber'
@@ -386,7 +354,7 @@ jobs:
             - html-formatter/javascript/dist
 
   json-formatter-javascript-testdata:
-    executor: docker-circleci-node-18
+    executor: docker-circleci-node-16
     steps:
       - attach_workspace:
           at: '~/cucumber'
@@ -402,7 +370,7 @@ jobs:
             - json-formatter/javascript-testdata/features
 
   json-to-messages-javascript:
-    executor: docker-circleci-node-18
+    executor: docker-circleci-node-16
     steps:
       - attach_workspace:
           at: '~/cucumber'
@@ -414,7 +382,7 @@ jobs:
             make
 
   json-to-messages-javascript-testdata:
-    executor: docker-circleci-node-18
+    executor: docker-circleci-node-16
     steps:
       - attach_workspace:
           at: '~/cucumber'
@@ -430,7 +398,7 @@ jobs:
             - json-to-messages/javascript-testdata/acceptance
 
   query-javascript:
-    executor: docker-circleci-node-18
+    executor: docker-circleci-node-16
     steps:
       - attach_workspace:
           at: '~/cucumber'
@@ -936,7 +904,7 @@ workflows:
 
       ### JavaScript
 
-      - cucumber-expressions-javascript-node-18:
+      - cucumber-expressions-javascript-node-16:
           requires:
             - prepare-parallel
       - message-streams-javascript:
