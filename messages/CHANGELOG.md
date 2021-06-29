@@ -18,7 +18,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
-* Move `willBeRetried` field from `TestStepResult` to `TestCaseFinished` ([#902](https://github.com/cucumber/common/issues/902) [#1631](https://github.com/cucumber/common/pull/1631))
+* **BREAKING** Move `willBeRetried` field from `TestStepResult` to `TestCaseFinished` ([#902](https://github.com/cucumber/common/issues/902) [#1631](https://github.com/cucumber/common/pull/1631))
 * [Go] Move module paths to point to monorepo
   ([#1550](https://github.com/cucumber/common/issues/1550))
 
