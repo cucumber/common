@@ -17,6 +17,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+* Render attachments in Examples Tables.
+  ([#1173](https://github.com/cucumber/common/issues/1173)
+   [#1619](https://github.com/cucumber/common/pull/1619)
+   [aslakhellesoy])
 * Handle missing hook message when rendering hook failure
 * Stop the anchor link for the step from overlapping the status icon
 

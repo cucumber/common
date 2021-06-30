@@ -49,11 +49,11 @@ class CreateMetaTest {
             put("GITHUB_REF", "refs/tags/the-tag");
         }};
         Meta meta = createMeta("cucumber-jvm", "3.2.1", env);
-        System.out.println("JSON.toJSON(meta.getCi()) = " + JSON.toJSON(meta.getCi()));
 
         assertEquals(new Ci(
                         "GitHub Actions",
                         "https://github.company.com/cucumber/cucumber-ruby/actions/runs/140170388",
+                        "140170388",
                         new Git(
                                 "https://github.company.com/cucumber/cucumber-ruby.git",
                                 "the-revision",
@@ -83,6 +83,7 @@ class CreateMetaTest {
         assertEquals(new Ci(
                         "GoCD",
                         "https://mygocd.com/pipelines/my-pipeline/1234/my-stage/456",
+                        "my-pipeline/1234/my-stage/456",
                         new Git(
                                 "https://github.com/owner/repo.git",
                                 "the-revision",

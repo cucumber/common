@@ -218,6 +218,7 @@ will only have one of its fields set, which indicates the payload of the message
 | ----- | ---- | ----------- | ----------- |
 | `name` | string | yes | |
 | `url` | string | no | |
+| `buildNumber` | string | no | |
 | `git` | [Git](#git) | no | |
 
 ## Git

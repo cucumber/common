@@ -18,6 +18,10 @@
           "description": "Link to the build",
           "type": "string"
         },
+        "buildNumber": {
+          "description": "The build number. Some CI servers use non-numeric build numbers, which is why this is a string",
+          "type": "string"
+        },
         "git": {
           "$ref": "#/definitions/Git"
         }

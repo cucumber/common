@@ -29,9 +29,9 @@
     "@types/mocha": "8.2.2",
     "@types/node": "15.6.1",
     "glob": "7.1.7",
-    "mocha": "8.4.0",
+    "mocha": "9.0.1",
     "ts-node": "10.0.0",
-    "typescript": "4.3.3"
+    "typescript": "4.3.4"
   },
   "dependencies": {
     "@cucumber/messages": "^16.0.1",

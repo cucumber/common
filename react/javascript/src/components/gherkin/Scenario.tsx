@@ -40,9 +40,9 @@ const Scenario: React.FunctionComponent<IProps> = ({ scenario }) => {
         <HookList hookSteps={afterHooks} />
       </ol>
 
-      {examplesList.map((examples, index) => (
-        <Examples key={index} examples={examples} />
-      ))}
+      {examplesList.map((examples, index) => {
+        return <Examples key={index} examples={examples}/>
+      })}
     </section>
   )
 }

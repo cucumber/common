@@ -2,3 +2,11 @@
 
 # Cucumber Messages for Java (JSON schema)
 
+```java
+Iterable<Envelope> envelopes = new io.cucumber.messages.NdjsonToMessageIterable(inputStream)
+for (Envelope envelope : envelopes) {
+  // Do something with the message
+}
+```
+
+See Unit tests for more examples.
