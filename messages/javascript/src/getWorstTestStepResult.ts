@@ -10,7 +10,6 @@ export function getWorstTestStepResult(testStepResults: readonly TestStepResult[
     testStepResults.slice().sort((r1, r2) => ordinal(r2.status) - ordinal(r1.status))[0] || {
       status: TestStepResultStatus.UNKNOWN,
       duration: millisecondsToDuration(0),
-      willBeRetried: false,
     }
   )
 }

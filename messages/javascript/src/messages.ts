@@ -565,6 +565,8 @@ export class TestCaseFinished {
 
   @Type(() => Timestamp)
   timestamp: Timestamp = new Timestamp()
+
+  willBeRetried: boolean = false
 }
 
 export class TestCaseStarted {
@@ -616,8 +618,6 @@ export class TestStepResult {
   message?: string
 
   status: TestStepResultStatus = TestStepResultStatus.UNKNOWN
-
-  willBeRetried: boolean = false
 }
 
 export class TestStepStarted {

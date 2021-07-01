@@ -35,8 +35,22 @@ public final class DataTableDiff {
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
-        DiffTablePrinter printer = new DiffTablePrinter(diffTypes);
-        printer.printTable(table, result);
+        DataTableFormatter.builder()
+                .prefixRow(this::indentForRow)
+                .build()
+                .formatTo(DataTable.create(table), result);
         return result.toString();
     }
+
+    private String indentForRow(Integer rowIndex) {
+        switch (diffTypes.get(rowIndex)) {
+            case DELETE:
+                return "    - ";
+            case INSERT:
+                return "    + ";
+            default:
+                return "      ";
+        }
+    }
+
 }
