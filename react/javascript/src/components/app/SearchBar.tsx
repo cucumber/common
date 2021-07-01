@@ -4,17 +4,20 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import SearchQueryContext from '../../SearchQueryContext'
 import statusName from '../gherkin/statusName'
 import statuses from './statuses'
+import { TestStepResultStatus as Status } from '@cucumber/messages'
 
-const statusNames = statuses.map(statusName)
+function hasSameElements<T>(a: T[], b: T[]): boolean {
+  return a.length === b.length && a.reduce((x, y) => x && b.includes(y), true)
+}
 
 interface IProps {
-  statusesWithScenarios: string[]
+  statusesWithScenarios: Status[]
 }
 
 const SearchBar: React.FunctionComponent<IProps> = ({ statusesWithScenarios }) => {
   const searchQueryContext = React.useContext(SearchQueryContext)
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const searchSubmitted = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const formData = new window.FormData(event.currentTarget)
     searchQueryContext.update({
@@ -22,13 +25,27 @@ const SearchBar: React.FunctionComponent<IProps> = ({ statusesWithScenarios }) =
     })
   }
 
-  const showFilters =
-    statusesWithScenarios.length > 1 ||
-    statusesWithScenarios.find((n) => searchQueryContext.hiddenStatuses.includes(n))
+  const filterChanged = (name: Status, show: boolean) => {
+    const oldFilters =
+      searchQueryContext.onlyShowStatuses?.filter((s) => statusesWithScenarios.includes(s)) ??
+      statusesWithScenarios
+
+    const newShownStatuses = show ? oldFilters.concat(name) : oldFilters.filter((n) => n !== name)
+
+    const showAll = hasSameElements(newShownStatuses, statusesWithScenarios)
+
+    searchQueryContext.update({
+      onlyShowStatuses: showAll ? null : newShownStatuses,
+    })
+  }
+
+  const showFilters = true
+
+  const showAll = searchQueryContext.onlyShowStatuses === null
 
   return (
     <div className="cucumber-search-bar">
-      <form className="cucumber-search-bar-search" onSubmit={handleSubmit}>
+      <form className="cucumber-search-bar-search" onSubmit={searchSubmitted}>
         <input
           type="text"
           name="query"
@@ -53,12 +70,12 @@ const SearchBar: React.FunctionComponent<IProps> = ({ statusesWithScenarios }) =
             <FontAwesomeIcon icon={faFilter} /> Filter by scenario status:
           </span>
           <ul>
-            {statusNames.map((name, index) => {
-              if (!statusesWithScenarios.includes(name)) {
+            {statuses.map((status, index) => {
+              if (!statusesWithScenarios.includes(status)) {
                 return
               }
-
-              const enabled = !searchQueryContext.hiddenStatuses.includes(name)
+              const name = statusName(status)
+              const enabled = showAll || searchQueryContext.onlyShowStatuses.includes(status)
               const inputId = `filter-status-${name}`
 
               return (
@@ -67,13 +84,7 @@ const SearchBar: React.FunctionComponent<IProps> = ({ statusesWithScenarios }) =
                     id={inputId}
                     type="checkbox"
                     defaultChecked={enabled}
-                    onChange={(evt) => {
-                      searchQueryContext.update({
-                        hiddenStatuses: evt.target.checked
-                          ? searchQueryContext.hiddenStatuses.filter((n) => n !== name)
-                          : searchQueryContext.hiddenStatuses.concat(name),
-                      })
-                    }}
+                    onChange={(evt) => filterChanged(status, evt.target.checked)}
                   />
                   <label htmlFor={inputId}>{name}</label>
                 </li>

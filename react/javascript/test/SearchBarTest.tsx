@@ -8,6 +8,7 @@ import SearchQueryContext, {
   SearchQueryCtx,
   SearchQuery,
 } from '../src/SearchQueryContext'
+import { TestStepResultStatus as Status } from '@cucumber/messages'
 import sinon from 'sinon'
 
 describe('SearchBar', () => {
@@ -21,7 +22,7 @@ describe('SearchBar', () => {
     // global.navigator = dom.window.navigator
     const document = dom.window.document
 
-    const statusesWithScenarios: string[] = []
+    const statusesWithScenarios: Status[] = []
 
     const app = (
       <SearchQueryContext.Provider value={SearchQueryCtx.withDefaults(searchQuery, setSearchQuery)}>

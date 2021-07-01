@@ -12,7 +12,7 @@
   "license": "MIT",
   "scripts": {
     "prepare": "make .codegen && npx -y cpy-cli '**/*.scss' '../dist/src' --cwd='src' --parents",
-    "test": "mocha",
+    "test": "mocha --exit",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },
