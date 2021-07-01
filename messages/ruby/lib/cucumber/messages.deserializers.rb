@@ -505,6 +505,7 @@ module Cucumber
         self.new(
           name: hash[:name],
           url: hash[:url],
+          build_number: hash[:buildNumber],
           git: Git.from_h(hash[:git]),
         )
       end
@@ -1005,6 +1006,7 @@ module Cucumber
         self.new(
           test_case_started_id: hash[:testCaseStartedId],
           timestamp: Timestamp.from_h(hash[:timestamp]),
+          will_be_retried: hash[:willBeRetried],
         )
       end
     end
@@ -1110,7 +1112,6 @@ module Cucumber
           duration: Duration.from_h(hash[:duration]),
           message: hash[:message],
           status: hash[:status],
-          will_be_retried: hash[:willBeRetried],
         )
       end
     end
