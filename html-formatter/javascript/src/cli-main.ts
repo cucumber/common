@@ -1,8 +1,10 @@
 import { NdjsonToMessageStream } from '@cucumber/message-streams'
-import program from 'commander'
+import commander from 'commander'
 import p from '../package.json'
 import { pipeline } from 'stream'
 import CucumberHtmlStream from './CucumberHtmlStream'
+
+const program = new commander.Command()
 
 program.version(p.version)
 program.parse(process.argv)

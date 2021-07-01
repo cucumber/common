@@ -32,3 +32,10 @@ Feature: Attachments
 
   Scenario: Streams are always base64-encoded
     When a JPEG image is attached
+
+  Scenario: Attaching images in examples
+    When the <image> png is attached
+
+    Examples:
+      | image        |
+      | cucumber.png |

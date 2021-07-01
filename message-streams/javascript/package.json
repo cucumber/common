@@ -20,8 +20,8 @@
   "devDependencies": {
     "@types/mocha": "8.2.2",
     "@types/node": "15.6.1",
-    "mocha": "8.4.0",
-    "typescript": "4.3.2"
+    "mocha": "9.0.1",
+    "typescript": "4.3.4"
   },
   "bugs": {
     "url": "https://github.com/cucumber/cucumber/issues"
