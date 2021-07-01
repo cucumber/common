@@ -33,11 +33,11 @@
     "@types/mocha": "8.2.2",
     "@types/node": "15.3.1",
     "@types/stream-buffers": "3.0.3",
-    "mocha": "8.4.0",
+    "mocha": "9.0.1",
     "source-map-support": "0.5.19",
     "stream-buffers": "3.0.2",
     "ts-node": "10.0.0",
-    "typescript": "4.3.4"
+    "typescript": "4.3.5"
   },
   "dependencies": {
     "@cucumber/cucumber-expressions": "^12.1.1",
@@ -49,7 +49,7 @@
     "@cucumber/message-streams": "^2.1.0",
     "@cucumber/tag-expressions": "^3.0.1",
     "@types/stack-utils": "2.0.0",
-    "commander": "7.2.0",
+    "commander": "8.0.0",
     "glob": "7.1.7",
     "stack-utils": "2.0.3"
   },
