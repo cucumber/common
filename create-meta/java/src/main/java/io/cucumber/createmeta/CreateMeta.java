@@ -73,6 +73,7 @@ public class CreateMeta {
         String url = evaluate(getString(ci, "url"), env);
         if (url == null) return null;
         JsonObject git = ci.get("git").asObject();
+        String buildNumber = evaluate(getString(ci, "buildNumber"), env);
         String remote = removeUserInfoFromUrl(evaluate(getString(git, "remote"), env));
         String revision = evaluate(getString(git, "revision"), env);
         String branch = evaluate(getString(git, "branch"), env);
@@ -81,12 +82,16 @@ public class CreateMeta {
         return new Ci(
                 name,
                 url,
+                buildNumber,
                 new Git(remote, revision, branch, tag)
         );
     }
 
     private static String getString(JsonObject json, String name) {
         JsonValue val = json.get(name);
+        if(val == null) {
+            throw new RuntimeException(String.format("Missing %s property in %s", name, json.toString()));
+        }
         return val.isNull() ? null : val.asString();
     }
 }
