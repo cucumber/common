@@ -8,6 +8,6 @@
 {"testCase":{"id":"7","pickleId":"5","testSteps":[{"id":"6","pickleStepId":"4","stepDefinitionIds":["1"],"stepMatchArgumentsLists":[{"stepMatchArguments":[{"group":{"value":"LHR-CDG","start":0,"children":[{"value":"LHR","start":0,"children":[]},{"value":"CDG","start":4,"children":[]}]},"parameterTypeName":"flight"},{"group":{"value":"45","start":25,"children":[]},"parameterTypeName":"int"}]}]}]}}
 {"testCaseStarted":{"attempt":0,"testCaseId":"7","id":"8","timestamp":{"seconds":0,"nanos":1000000}}}
 {"testStepStarted":{"testCaseStartedId":"8","testStepId":"6","timestamp":{"seconds":0,"nanos":2000000}}}
-{"testStepFinished":{"testCaseStartedId":"8","testStepId":"6","testStepResult":{"duration":{"seconds":0,"nanos":277789},"status":"PASSED"},"timestamp":{"seconds":0,"nanos":3000000}}}
+{"testStepFinished":{"testCaseStartedId":"8","testStepId":"6","testStepResult":{"duration":{"seconds":0,"nanos":1000000},"status":"PASSED"},"timestamp":{"seconds":0,"nanos":3000000}}}
 {"testCaseFinished":{"testCaseStartedId":"8","timestamp":{"seconds":0,"nanos":4000000},"willBeRetried":false}}
 {"testRunFinished":{"timestamp":{"seconds":0,"nanos":5000000},"success":true}}
