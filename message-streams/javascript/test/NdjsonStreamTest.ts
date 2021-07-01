@@ -18,7 +18,6 @@ describe('NdjsonStream', () => {
         testStepResult: {
           status: messages.TestStepResultStatus.UNKNOWN,
           duration: { nanos: 0, seconds: 0 },
-          willBeRetried: false,
         },
         testCaseStartedId: '1',
         testStepId: '2',
@@ -50,7 +49,6 @@ describe('NdjsonStream', () => {
           testStepResult: {
             status: messages.TestStepResultStatus.UNKNOWN,
             duration: { nanos: 0, seconds: 0 },
-            willBeRetried: false,
           },
           testCaseStartedId: '1',
           testStepId: '2',
@@ -68,7 +66,6 @@ describe('NdjsonStream', () => {
         testStepResult: {
           status: messages.TestStepResultStatus.UNKNOWN,
           duration: { nanos: 0, seconds: 0 },
-          willBeRetried: false,
         },
         testCaseStartedId: '1',
         testStepId: '2',

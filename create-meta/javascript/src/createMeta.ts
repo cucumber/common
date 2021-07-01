@@ -69,6 +69,7 @@ export function removeUserInfoFromUrl(value: string): string {
 
 function createCi(ciName: string, ciSystem: CiSystem, envDict: Env): messages.Ci | undefined {
   const url = evaluateVariableExpression(ciSystem.url, envDict)
+  const buildNumber = evaluateVariableExpression(ciSystem.buildNumber, envDict)
   if (url === undefined) {
     // The url is what consumers will use as the primary key for a build
     // If this cannot be determined, we return nothing.
@@ -77,8 +78,9 @@ function createCi(ciName: string, ciSystem: CiSystem, envDict: Env): messages.Ci
 
   const branch = evaluateVariableExpression(ciSystem.git.branch, envDict)
   return {
-    url,
     name: ciName,
+    url,
+    buildNumber,
     git: {
       remote: removeUserInfoFromUrl(evaluateVariableExpression(ciSystem.git.remote, envDict)),
       revision: evaluateVariableExpression(ciSystem.git.revision, envDict),

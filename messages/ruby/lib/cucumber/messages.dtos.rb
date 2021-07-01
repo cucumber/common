@@ -946,15 +946,22 @@ module Cucumber
 
       attr_reader :url
 
+      ##
+      # The build number. Some CI servers use non-numeric build numbers, which is why this is a string
+
+      attr_reader :build_number
+
       attr_reader :git
 
       def initialize(
         name: '',
         url: nil,
+        build_number: nil,
         git: nil
       )
         @name = name
         @url = url
+        @build_number = build_number
         @git = git
       end
     end
@@ -1715,12 +1722,16 @@ module Cucumber
 
       attr_reader :timestamp
 
+      attr_reader :will_be_retried
+
       def initialize(
         test_case_started_id: '',
-        timestamp: Timestamp.new
+        timestamp: Timestamp.new,
+        will_be_retried: false
       )
         @test_case_started_id = test_case_started_id
         @timestamp = timestamp
+        @will_be_retried = will_be_retried
       end
     end
 
@@ -1876,18 +1887,14 @@ module Cucumber
 
       attr_reader :status
 
-      attr_reader :will_be_retried
-
       def initialize(
         duration: Duration.new,
         message: nil,
-        status: TestStepResultStatus::UNKNOWN,
-        will_be_retried: false
+        status: TestStepResultStatus::UNKNOWN
       )
         @duration = duration
         @message = message
         @status = status
-        @will_be_retried = will_be_retried
       end
     end
 
