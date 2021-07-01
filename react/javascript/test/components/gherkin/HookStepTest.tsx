@@ -36,7 +36,6 @@ describe('<HookStep>', () => {
               seconds: 1,
               nanos: 0,
             },
-            willBeRetried: false,
           },
         ],
         {
@@ -71,7 +70,6 @@ describe('<HookStep>', () => {
               seconds: 1,
               nanos: 0,
             },
-            willBeRetried: false,
           },
         ],
         null
@@ -97,7 +95,6 @@ describe('<HookStep>', () => {
               seconds: 1,
               nanos: 0,
             },
-            willBeRetried: false,
           },
         ],
         {
@@ -135,7 +132,6 @@ describe('<HookStep>', () => {
               seconds: 1,
               nanos: 0,
             },
-            willBeRetried: false,
           },
         ],
         {

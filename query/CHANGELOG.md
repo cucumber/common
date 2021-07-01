@@ -17,6 +17,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+* Methods that return/map step results now include results from _only the last attempt_ where there have been retries ([#1631](https://github.com/cucumber/common/pull/1631)). Affects methods:
+  * `Query#getPickleStepAttachments`
+  * `Query#getPickleStepTestStepResults`
+  * `Query#getPickleTestStepResults`
+  * `Query#getStatusCounts`
+  * `Query#getTestStepResults`
+  * `Query#getTestStepsAttachments`
+
 ## [10.1.0] - 2021-05-31
 
 ### Added
