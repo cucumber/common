@@ -31,7 +31,7 @@
     "js-yaml": "4.1.0",
     "mocha": "9.0.1",
     "ts-node": "10.0.0",
-    "typescript": "4.3.4"
+    "typescript": "4.3.5"
   },
   "dependencies": {
     "becke-ch--regex--s0-0-v1--base--pl--lib": "1.4.0"
