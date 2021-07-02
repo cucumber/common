@@ -41,7 +41,7 @@ const Scenario: React.FunctionComponent<IProps> = ({ scenario }) => {
       </ol>
 
       {examplesList.map((examples, index) => {
-        return <Examples key={index} examples={examples}/>
+        return <Examples key={index} examples={examples} />
       })}
     </section>
   )
