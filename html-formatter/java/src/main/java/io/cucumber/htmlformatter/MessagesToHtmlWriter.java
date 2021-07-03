@@ -18,7 +18,7 @@ import static java.util.Objects.requireNonNull;
 /**
  * Writes the message output of a test run as single page html report.
  */
-public class MessagesToHtmlWriter implements AutoCloseable {
+public final class MessagesToHtmlWriter implements AutoCloseable {
 
     private final String template;
 
