@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
    [aslakhellesoy])
 
 ### Changed
+* [Java] Removed implicit utility class constructors and made classes final
 
 ### Deprecated
 

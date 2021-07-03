@@ -15,12 +15,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
    [aslakhellesoy])
 * [Ruby] Generate DTOs from the json schemas to avoid usage of plain ruby hashes
   ([#1574](https://github.com/cucumber/common/issues/1574))
+* [Java] Added various overloads to `JSON` to work with streams efficiently
 
 ### Changed
 
 * **BREAKING** Move `willBeRetried` field from `TestStepResult` to `TestCaseFinished` ([#902](https://github.com/cucumber/common/issues/902) [#1631](https://github.com/cucumber/common/pull/1631))
 * [Go] Move module paths to point to monorepo
   ([#1550](https://github.com/cucumber/common/issues/1550))
+* [Java] Removed implicit utility class constructors and made classes final
 
 ### Deprecated
 

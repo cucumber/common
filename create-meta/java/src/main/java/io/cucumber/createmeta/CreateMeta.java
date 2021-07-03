@@ -21,7 +21,7 @@ import java.util.Map;
 import static io.cucumber.createmeta.VariableExpression.evaluate;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-public class CreateMeta {
+public final class CreateMeta {
     private static final JsonObject CI_DICT;
     private static final String JSON_PATH = "/io/cucumber/createmeta/ciDict.json";
 
@@ -31,6 +31,10 @@ public class CreateMeta {
         } catch (IOException e) {
             throw new RuntimeException("Unable to parse " + JSON_PATH, e);
         }
+    }
+
+    private CreateMeta(){
+
     }
 
     public static Meta createMeta(
