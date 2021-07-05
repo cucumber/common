@@ -2,19 +2,19 @@ import React, { useState } from 'react'
 import { TestStepResultStatus as Status } from '@cucumber/messages'
 
 const defaultQuerySearchParam = 'search'
-const defaultShowStatusesSearchParam = 'only'
+const defaultHideStatusesSearchParam = 'hide'
 
 const defaultQuery = ''
-const defaultOnlyShowStatuses: Status[] | null = null
+const defaultHideStatuses: Status[] = []
 
 export interface SearchQueryUpdate {
   readonly query?: string
-  readonly onlyShowStatuses?: readonly Status[] | null
+  readonly hideStatuses?: readonly Status[]
 }
 
 export interface SearchQuery {
   readonly query: string
-  readonly onlyShowStatuses: readonly Status[] | null
+  readonly hideStatuses: readonly Status[]
 }
 
 export type SearchQueryUpdateFn = (query: SearchQuery) => void
@@ -35,11 +35,11 @@ const defaultWindowUrlApi: WindowUrlApi = {
 
 export function searchFromURLParams(opts?: {
   querySearchParam?: string
-  showStatusesSearchParam?: string
+  hideStatusesSearchParam?: string
   windowUrlApi?: WindowUrlApi
 }): SearchQueryProps {
   const querySearchParam = opts?.querySearchParam ?? defaultQuerySearchParam
-  const showStatusesSearchParam = opts?.showStatusesSearchParam ?? defaultShowStatusesSearchParam
+  const hideStatusesSearchParam = opts?.hideStatusesSearchParam ?? defaultHideStatusesSearchParam
   const windowUrlApi = opts?.windowUrlApi ?? defaultWindowUrlApi
 
   function onSearchQueryUpdated(query: SearchQuery): void {
@@ -50,34 +50,20 @@ export function searchFromURLParams(opts?: {
     } else {
       url.searchParams.delete(querySearchParam)
     }
-    url.searchParams.delete(showStatusesSearchParam)
-    if (query.onlyShowStatuses !== null) {
-      if (query.onlyShowStatuses.length === 0) {
-        url.searchParams.append(showStatusesSearchParam, '')
-      } else {
-        query.onlyShowStatuses.forEach((s) => url.searchParams.append(showStatusesSearchParam, s))
-      }
-    }
+    url.searchParams.delete(hideStatusesSearchParam)
+    query.hideStatuses.forEach((s) => url.searchParams.append(hideStatusesSearchParam, s))
 
     windowUrlApi.setURL(url.toString())
   }
 
   const url = new URL(windowUrlApi.getURL())
 
-  const onlyShowStatusesParams = url.searchParams.getAll(showStatusesSearchParam)
-
-  const onlyShowStatuses =
-    onlyShowStatusesParams.length === 0
-      ? null
-      : onlyShowStatusesParams.length === 1 && onlyShowStatusesParams[0] === ''
-      ? []
-      : onlyShowStatusesParams
-          .filter((s) => (<any>Object).values(Status).includes(s))
-          .map((s) => Status[s as keyof typeof Status])
-
   return {
     query: url.searchParams.get(querySearchParam),
-    onlyShowStatuses,
+    hideStatuses: url.searchParams
+      .getAll(hideStatusesSearchParam)
+      .filter((s) => (<any>Object).values(Status).includes(s))
+      .map((s) => Status[s as keyof typeof Status]),
     onSearchQueryUpdated,
   }
 }
@@ -85,24 +71,22 @@ export function searchFromURLParams(opts?: {
 function toSearchQuery(iQuery?: SearchQueryUpdate): SearchQuery {
   return {
     query: iQuery.query ?? defaultQuery,
-    onlyShowStatuses:
-      iQuery.onlyShowStatuses === undefined ? defaultOnlyShowStatuses : iQuery.onlyShowStatuses,
+    hideStatuses: iQuery.hideStatuses ?? defaultHideStatuses,
   }
 }
 
 export class SearchQueryCtx implements SearchQuery {
   readonly query: string
-  readonly onlyShowStatuses: readonly Status[] | null
+  readonly hideStatuses: readonly Status[] | null
   readonly update: (query: SearchQueryUpdate) => void
 
   constructor(value: SearchQuery, updateValue: SearchQueryUpdateFn) {
     this.query = value.query
-    this.onlyShowStatuses = value.onlyShowStatuses
+    this.hideStatuses = value.hideStatuses
     this.update = (values: SearchQueryUpdate) => {
       updateValue({
         query: values.query ?? this.query,
-        onlyShowStatuses:
-          values.onlyShowStatuses === undefined ? this.onlyShowStatuses : values.onlyShowStatuses,
+        hideStatuses: values.hideStatuses ?? this.hideStatuses,
       })
     }
   }

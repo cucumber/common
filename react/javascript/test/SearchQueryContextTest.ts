@@ -7,11 +7,11 @@ describe('SearchQueryCtx', () => {
   it('uses the given values in its initial value', () => {
     const sq = SearchQueryCtx.withDefaults({
       query: 'foo bar',
-      onlyShowStatuses: [Status.PASSED],
+      hideStatuses: [Status.PASSED],
     })
 
     assert.strictEqual(sq.query, 'foo bar')
-    assert.deepStrictEqual(sq.onlyShowStatuses, [Status.PASSED])
+    assert.deepStrictEqual(sq.hideStatuses, [Status.PASSED])
   })
 
   it('has a blank initial query by default', () => {
@@ -20,10 +20,10 @@ describe('SearchQueryCtx', () => {
     assert.strictEqual(sq.query, '')
   })
 
-  it('has a null "onlyShow" array by default', () => {
+  it('hides no statuses by default', () => {
     const sq = SearchQueryCtx.withDefaults({})
 
-    assert.strictEqual(sq.onlyShowStatuses, null)
+    assert.deepStrictEqual(sq.hideStatuses, [])
   })
 
   it('does not change its value on update by default', () => {
@@ -31,18 +31,18 @@ describe('SearchQueryCtx', () => {
 
     sq.update({
       query: 'bar',
-      onlyShowStatuses: [Status.PASSED],
+      hideStatuses: [Status.PASSED],
     })
 
     assert.strictEqual(sq.query, 'foo')
-    assert.strictEqual(sq.onlyShowStatuses, null)
+    assert.deepStrictEqual(sq.hideStatuses, [])
   })
 
   it('notifies its listener when the query is updated', () => {
     const onSearchQueryUpdated = sinon.spy()
 
     const sq = SearchQueryCtx.withDefaults(
-      { query: 'bar', onlyShowStatuses: [Status.FAILED] },
+      { query: 'bar', hideStatuses: [Status.FAILED] },
       onSearchQueryUpdated
     )
 
@@ -50,7 +50,7 @@ describe('SearchQueryCtx', () => {
 
     sinon.assert.calledOnceWithMatch(onSearchQueryUpdated, {
       query: 'foo',
-      onlyShowStatuses: sinon.match((s) => s.length === 1 && s[0] === Status.FAILED),
+      hideStatuses: sinon.match((s) => s.length === 1 && s[0] === Status.FAILED),
     })
   })
 
@@ -59,11 +59,11 @@ describe('SearchQueryCtx', () => {
 
     const sq = SearchQueryCtx.withDefaults({}, onSearchQueryUpdated)
 
-    sq.update({ onlyShowStatuses: [Status.PENDING] })
+    sq.update({ hideStatuses: [Status.PENDING] })
 
     sinon.assert.calledOnceWithMatch(onSearchQueryUpdated, {
       query: '',
-      onlyShowStatuses: sinon.match((s) => s.length === 1 && s[0] === Status.PENDING),
+      hideStatuses: sinon.match((s) => s.length === 1 && s[0] === Status.PENDING),
     })
   })
 
@@ -71,15 +71,15 @@ describe('SearchQueryCtx', () => {
     const onSearchQueryUpdated = sinon.spy()
 
     const sq = SearchQueryCtx.withDefaults(
-      { query: 'foo', onlyShowStatuses: [Status.FAILED] },
+      { query: 'foo', hideStatuses: [Status.FAILED] },
       onSearchQueryUpdated
     )
 
-    sq.update({ query: '', onlyShowStatuses: null })
+    sq.update({ query: '', hideStatuses: [] })
 
     sinon.assert.calledOnceWithMatch(onSearchQueryUpdated, {
       query: '',
-      onlyShowStatuses: null,
+      hideStatuses: sinon.match((s) => s.length === 0),
     })
   })
 })
@@ -88,7 +88,7 @@ describe('searchFromURLParams()', () => {
   it('uses the search parameters from the given URL as its initial value', () => {
     const ret = searchFromURLParams({
       querySearchParam: 'foo',
-      showStatusesSearchParam: 'bar',
+      hideStatusesSearchParam: 'bar',
       windowUrlApi: {
         getURL: () => 'http://example.org/?foo=search%20text&bar=PASSED&bar=FAILED',
         setURL: () => {
@@ -98,13 +98,13 @@ describe('searchFromURLParams()', () => {
     })
 
     assert.strictEqual(ret.query, 'search text')
-    assert.deepStrictEqual(ret.onlyShowStatuses, [Status.PASSED, Status.FAILED])
+    assert.deepStrictEqual(ret.hideStatuses, [Status.PASSED, Status.FAILED])
   })
 
   it('uses null values when no search parameters are present', () => {
     const ret = searchFromURLParams({
       querySearchParam: 'search',
-      showStatusesSearchParam: 'only',
+      hideStatusesSearchParam: 'hide',
       windowUrlApi: {
         getURL: () => 'http://example.org',
         setURL: () => {
@@ -114,14 +114,14 @@ describe('searchFromURLParams()', () => {
     })
 
     assert.strictEqual(ret.query, null)
-    assert.deepStrictEqual(ret.onlyShowStatuses, null)
+    assert.deepStrictEqual(ret.hideStatuses, [])
   })
 
   it('creates an update function that adds parameters to the given URL', () => {
     const setURL = sinon.spy()
     const ret = searchFromURLParams({
       querySearchParam: 'foo',
-      showStatusesSearchParam: 'bar',
+      hideStatusesSearchParam: 'bar',
       windowUrlApi: {
         getURL: () => 'http://example.org/?foo=search%20text&baz=sausage',
         setURL,
@@ -130,7 +130,7 @@ describe('searchFromURLParams()', () => {
 
     ret.onSearchQueryUpdated({
       query: '@slow',
-      onlyShowStatuses: [Status.FAILED, Status.PENDING],
+      hideStatuses: [Status.FAILED, Status.PENDING],
     })
 
     sinon.assert.calledOnceWithMatch(

@@ -6,10 +6,6 @@ import statusName from '../gherkin/statusName'
 import statuses from './statuses'
 import { TestStepResultStatus as Status } from '@cucumber/messages'
 
-function hasSameElements<T>(a: T[], b: T[]): boolean {
-  return a.length === b.length && a.reduce((x, y) => x && b.includes(y), true)
-}
-
 interface IProps {
   statusesWithScenarios: Status[]
 }
@@ -26,22 +22,14 @@ const SearchBar: React.FunctionComponent<IProps> = ({ statusesWithScenarios }) =
   }
 
   const filterChanged = (name: Status, show: boolean) => {
-    const oldFilters =
-      searchQueryContext.onlyShowStatuses?.filter((s) => statusesWithScenarios.includes(s)) ??
-      statusesWithScenarios
-
-    const newShownStatuses = show ? oldFilters.concat(name) : oldFilters.filter((n) => n !== name)
-
-    const showAll = hasSameElements(newShownStatuses, statusesWithScenarios)
-
     searchQueryContext.update({
-      onlyShowStatuses: showAll ? null : newShownStatuses,
+      hideStatuses: show
+        ? searchQueryContext.hideStatuses.filter((s) => s !== name)
+        : searchQueryContext.hideStatuses.concat(name),
     })
   }
 
-  const showFilters = true
-
-  const showAll = searchQueryContext.onlyShowStatuses === null
+  const showFilters = statusesWithScenarios.length > 1
 
   return (
     <div className="cucumber-search-bar">
@@ -75,7 +63,7 @@ const SearchBar: React.FunctionComponent<IProps> = ({ statusesWithScenarios }) =
                 return
               }
               const name = statusName(status)
-              const enabled = showAll || searchQueryContext.onlyShowStatuses.includes(status)
+              const enabled = !searchQueryContext.hideStatuses.includes(status)
               const inputId = `filter-status-${name}`
 
               return (

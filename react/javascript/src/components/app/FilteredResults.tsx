@@ -18,7 +18,7 @@ import statuses from './statuses'
 const FilteredResults: React.FunctionComponent = () => {
   const gherkinQuery = React.useContext(GherkinQueryContext)
   const cucumberQuery = React.useContext(CucumberQueryContext)
-  const { query, onlyShowStatuses } = React.useContext(SearchQueryContext)
+  const { query, hideStatuses } = React.useContext(SearchQueryContext)
   const allDocuments = gherkinQuery.getGherkinDocuments()
 
   const scenarioCountByStatus = countScenariosByStatuses(allDocuments, gherkinQuery, cucumberQuery)
@@ -29,11 +29,11 @@ const FilteredResults: React.FunctionComponent = () => {
     search.add(gherkinDocument)
   }
 
+  const onlyShowStatuses = statuses.filter((s) => !hideStatuses.includes(s))
+
   const matches = query ? search.search(query) : allDocuments
   const filtered = matches
-    .map((document) =>
-      filterByStatus(document, gherkinQuery, cucumberQuery, onlyShowStatuses ?? statuses)
-    )
+    .map((document) => filterByStatus(document, gherkinQuery, cucumberQuery, onlyShowStatuses))
     .filter((document) => document !== null)
 
   const envelopesQuery = React.useContext(EnvelopesQueryContext)
