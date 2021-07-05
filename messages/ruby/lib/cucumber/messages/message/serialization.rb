@@ -24,7 +24,7 @@ module Cucumber
         #
 
         def to_h(camelize: false, reject_nil_values: false)
-          resulting_hash = self.instance_variables.to_h do |variable_name|
+          resulting_hash = self.instance_variables.map do |variable_name|
             h_key = variable_name[1..-1]
             h_key = Cucumber::Messages::Message.camelize(h_key) if camelize
 
@@ -35,7 +35,7 @@ module Cucumber
             )
 
             [ h_key.to_sym, h_value ]
-          end
+          end.to_h
 
           resulting_hash.reject! { |_, value| value.nil? } if reject_nil_values
           resulting_hash
