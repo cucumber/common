@@ -84,7 +84,7 @@ module Gherkin
       cell_count = rows[0].cells.length
       rows.each do |row|
         if row.cells.length != cell_count
-          raise AstBuilderException.new("inconsistent cell count within the table", row.location)
+          raise AstBuilderException.new("inconsistent cell count within the table", row.location.to_h)
         end
       end
     end
@@ -136,7 +136,7 @@ module Gherkin
       when :DataTable
         rows = get_table_rows(node)
         Cucumber::Messages::DataTable.new(
-          location: rows[0][:location],
+          location: rows[0].location,
           rows: rows
         )
       when :Background

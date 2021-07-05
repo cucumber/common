@@ -85,8 +85,8 @@ module Gherkin
             tags = [].concat(inherited_tags).concat(scenario.tags).concat(examples.tags)
 
             scenario.steps.each do |scenario_step|
-              step = pickle_step_props(scenario_step, variable_cells, values_row)
-              steps.push(step)
+              step_props = pickle_step_props(scenario_step, variable_cells, values_row)
+              steps.push(Cucumber::Messages::PickleStep.new(**step_props))
             end
 
             pickle = Cucumber::Messages::Pickle.new(
@@ -110,7 +110,7 @@ module Gherkin
       def interpolate(name, variable_cells, value_cells)
         variable_cells.each_with_index do |variable_cell, n|
           value_cell = value_cells[n]
-          name = name.gsub('<' + variable_cell[:value] + '>', value_cell[:value])
+          name = name.gsub('<' + variable_cell.value + '>', value_cell.value)
         end
         name
       end
@@ -122,7 +122,7 @@ module Gherkin
       end
 
       def pickle_step(step)
-        pickle_step_props(step, [], nil)
+        Cucumber::Messages::PickleStep.new(**pickle_step_props(step, [], nil))
       end
 
       def pickle_step_props(step, variable_cells, values_row)
@@ -170,9 +170,9 @@ module Gherkin
           content: interpolate(doc_string.content, variable_cells, value_cells)
         }
         if doc_string.media_type
-          props[:media_type] = interpolate(doc_string.mediaType, variable_cells, value_cells)
+          props[:media_type] = interpolate(doc_string.media_type, variable_cells, value_cells)
         end
-        props
+        Cucumber::Messages::PickleDocString.new(**props)
       end
 
       def pickle_tags(tags)
@@ -181,8 +181,8 @@ module Gherkin
 
       def pickle_tag(tag)
         Cucumber::Messages::PickleTag.new(
-          name: tag[:name],
-          ast_node_id: tag[:id]
+          name: tag.name,
+          ast_node_id: tag.id
         )
       end
     end
