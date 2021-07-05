@@ -12,7 +12,9 @@ features/%.ndjson: features/% features/%.ts
 ifdef GOLDEN
 	source ../ci_env
 	../../node_modules/@cucumber/fake-cucumber/bin/fake-cucumber \
-	$< $(shell [ -f $(subst .feature,.arguments.txt,$<) ] && cat $(subst .feature,.arguments.txt,$<)) > $@
+	$< $(shell [ -f $(subst .feature,.arguments.txt,$<) ] && cat $(subst .feature,.arguments.txt,$<)) \
+	--predictable-ids \
+	> $@
 else
   # no-op: run with GOLDEN=1
 endif

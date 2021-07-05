@@ -14,7 +14,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
    [#1606](https://github.com/cucumber/common/issues/1606)
    [aslakhellesoy])
 * [Ruby] Generate DTOs from the json schemas to avoid usage of plain ruby hashes
-  ([#1574](https://github.com/cucumber/common/issues/1574))
+  ([#1574](https://github.com/cucumber/common/issues/1574)
+   [#1605](https://github.com/cucumber/common/pull/1605))
 
 ### Changed
 
