@@ -8,6 +8,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 
 ### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+## [4.1.0] - 2021-07-03
+
+### Added
 * [Java] Add `DataTablePrinter` to the public API, allow configurable printing, and deprecate legacy DataTable.print() methods.
     ([cucumber-jvm/2320](https://github.com/cucumber/cucumber-jvm/issues/2320)
     [1624](https://github.com/cucumber/cucumber/pull/1624)
@@ -195,7 +207,8 @@ There are no (1.1.0 and 1.1.1 releases).
 * java: OSGI fixes
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/datatable/v4.0.0...main
+[Unreleased]: https://github.com/cucumber/cucumber/compare/datatable/v4.1.0...main
+[4.1.0]:      https://github.com/cucumber/cucumber/compare/datatable/v4.0.0...datatable/v4.1.0
 [4.0.0]:      https://github.com/cucumber/cucumber/compare/datatable/v3.5.0...datatable/v4.0.0
 [3.5.0]:      https://github.com/cucumber/cucumber/compare/datatable/v3.4.0...datatable/v3.5.0
 [3.4.0]:      https://github.com/cucumber/cucumber/compare/datatable/v3.3.1...datatable/v3.4.0
