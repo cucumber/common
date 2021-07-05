@@ -12,6 +12,7 @@ import findSupportCodePaths from './findSupportCodePaths'
 import IClock from './IClock'
 import DateClock from './DateClock'
 import IStopwatch from './IStopwatch'
+import IncrementStopwatch from "./IncrementStopwatch";
 
 export default async function loadSupportCode(
   predictableIds: boolean,
@@ -44,6 +45,7 @@ function makeSupportCode(predictableIds: boolean) {
   if (predictableIds) {
     newId = IdGenerator.incrementing()
     clock = new IncrementClock()
+    stopwatch = new IncrementStopwatch()
     makeErrorMessage = withSourceFramesOnlyStackTrace()
   } else {
     newId = IdGenerator.uuid()
