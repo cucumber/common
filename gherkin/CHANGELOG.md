@@ -15,6 +15,8 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 * [Go] Move module paths to point to monorepo
   ([#1550](https://github.com/cucumber/common/issues/1550))
+* [Ruby] Usage of Message DTOs instead of plain ruby hashes
+  ([#1603](https://github.com/cucumber/common/pull/1603))
 
 ### Deprecated
 
@@ -60,7 +62,7 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 * [DotNet] Replaced Utf8Json with source-embedded TinyJson.
   ([#511](https://github.com/cucumber/cucumber/pull/1511)
-   [gasparnagy])   
+   [gasparnagy])
 
 * Update Dutch translation of the "Rule" keyword.
   ([#1513](https://github.com/cucumber/common/pull/1513)
@@ -91,7 +93,7 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 * [DotNet] Fixed .NET Gherkin compatibility with other Gherkin implementations.
   ([#511](https://github.com/cucumber/cucumber/pull/1511)
-   [gasparnagy])   
+   [gasparnagy])
 
 ## [18.1.1] - 2021-04-22
 
@@ -178,7 +180,7 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 ### Removed
 * [JavaScript] remove `IGherkinOptions#createReadStream`. This function was introduced in `9.1.0`
   in order to decouple this lib from the Node.js `fs` library. This decoupling was improved in
-  [#1333](https://github.com/cucumber/cucumber/pull/1333) which made it obsolete.  
+  [#1333](https://github.com/cucumber/cucumber/pull/1333) which made it obsolete.
   (Fixes [#1284](https://github.com/cucumber/cucumber/issues/1284)
 
 ### Fixed
