@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+* Add filters and highlighted search terms in URL query parameter of HTML reports to make sharing those easier
+  ([#1302](https://github.com/cucumber/cucumber/pull/1302))
+
 ### Changed
 
 ### Deprecated

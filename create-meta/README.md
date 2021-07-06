@@ -19,8 +19,6 @@ defined by the following supported CI and build servers:
 * [GoCD](https://docs.gocd.org/current/faq/dev_use_current_revision_in_build.html)
 * [Jenkins](https://www.jenkins.io/doc/book/pipeline/jenkinsfile/#using-environment-variables) and [Jenkins Git plugin](https://plugins.jenkins.io/git/#environment-variables)
 * [Semaphore](https://docs.semaphoreci.com/ci-cd-environment/environment-variables/)
-* [TeamCity](https://www.jetbrains.com/help/teamcity/predefined-build-parameters.html)
-  * Also see [REST API](https://www.jetbrains.com/help/teamcity/rest-api.html#)
 * [Travis CI](https://docs.travis-ci.com/user/environment-variables/#Default-Environment-Variables)
 * [Wercker](https://devcenter.wercker.com/administration/environment-variables/available-env-vars/)
 
@@ -43,6 +41,9 @@ Then build and run the tests:
 
 If all tests pass, commit your code and send us a pull request. Bonus points if you
 also update `CHANGELOG.md` and `README.md`.
+
+You might want to look at the source code for [danger](https://github.com/danger/danger/tree/master/lib/danger/ci_source)
+to understand how various CI server environment variables should be interpreted.
 
 ## CI definitions
 

@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+* Add support for retrying failed scenarios via `--retry <COUNT>` option ([#1631](https://github.com/cucumber/common/pull/1631))
+
 ### Changed
 
 ### Deprecated

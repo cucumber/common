@@ -13,11 +13,16 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Changed
 
+* [Go] Move module paths to point to monorepo
+  ([#1550](https://github.com/cucumber/common/issues/1550))
+
 ### Deprecated
 
 ### Removed
 
 ### Fixed
+* [Ruby] Rules weren't inheriting the relevant tags during the Gherkin Query stage (Where it caches the NodeID)
+  ([#1593](https://github.com/cucumber/cucumber/pull/1593) [luke-hill])
 
 ## [19.0.3] - 2021-05-24
 
@@ -1086,6 +1091,7 @@ to Gherkin 2.
 [KniveX]:            https://github.com/KniveX
 [l3pp4rd]:           https://github.com/l3pp4rd
 [LiohAu]:            https://github.com/LiohAu
+[luke-hill]:         https://github.com/luke-hill
 [mattwynne]:         https://github.com/mattwynne
 [mauriciotogneri]:   https://github.com/mauriciotogneri
 [maximeg]:           https://github.com/maximeg

@@ -1,5 +1,6 @@
 {
-  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "Duration.json",
   "additionalProperties": false,
   "description": "The structure is pretty close of the Timestamp one. For clarity, a second type\n of message is used.",
   "required": [

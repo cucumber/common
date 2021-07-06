@@ -2,6 +2,7 @@ $statusWidth: 1.5em;
 
 .container {
   display: flex;
+  --cucumber-anchor-offset: -3.25em;
 }
 
 .status {

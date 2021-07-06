@@ -18,6 +18,7 @@ import hooks from '../../acceptance/hooks/hooks.feature'
 import markdown from '../../acceptance/markdown/markdown.feature.md'
 import minimal from '../../acceptance/minimal/minimal.feature'
 import parameterTypes from '../../acceptance/parameter-types/parameter-types.feature'
+import retry from '../../acceptance/retry/retry.feature'
 import rules from '../../acceptance/rules/rules.feature'
 import stacktTraces from '../../acceptance/stack-traces/stack-traces.feature'
 import unknownParameterTypes from '../../acceptance/unknown-parameter-type/unknown-parameter-type.feature'
@@ -78,6 +79,11 @@ Minimal.args = {
 export const ParameterTypes = Template.bind({})
 ParameterTypes.args = {
   envelopes: parameterTypes,
+}
+
+export const Retry = Template.bind({})
+Retry.args = {
+  envelopes: retry,
 }
 
 export const Rules = Template.bind({})

@@ -1,5 +1,5 @@
 SHELL := /usr/bin/env bash
-BUILD_CONTAINER ?= cucumber/cucumber-build:0.4.4
+BUILD_IMAGE ?= cucumber/cucumber-build:0.5.0
 PACKAGES ?= messages \
 	message-streams \
 	gherkin \
@@ -67,7 +67,7 @@ docker-run:
 	  --rm \
 	  --interactive \
 	  --tty \
-	  ${BUILD_CONTAINER} \
+	  ${BUILD_IMAGE} \
 	  bash
 .PHONY:
 
@@ -92,5 +92,5 @@ docker-run-with-secrets:
 	  --rm \
 	  --interactive \
 	  --tty \
-	  ${BUILD_CONTAINER} \
+	  ${BUILD_IMAGE} \
 	  bash

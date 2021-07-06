@@ -1,19 +1,17 @@
 {
-  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "TestStepFinished.json",
   "additionalProperties": false,
   "definitions": {
     "TestStepResult": {
       "additionalProperties": false,
       "required": [
         "duration",
-        "status",
-        "willBeRetried"
+        "status"
       ],
       "properties": {
         "duration": {
-          "$ref": "./Duration.json",
-          "additionalProperties": false,
-          "type": "object"
+          "$ref": "./Duration.json"
         },
         "message": {
           "type": "string"
@@ -29,9 +27,6 @@
             "FAILED"
           ],
           "type": "string"
-        },
-        "willBeRetried": {
-          "type": "boolean"
         }
       },
       "type": "object"
@@ -54,9 +49,7 @@
       "$ref": "#/definitions/TestStepResult"
     },
     "timestamp": {
-      "$ref": "./Timestamp.json",
-      "additionalProperties": false,
-      "type": "object"
+      "$ref": "./Timestamp.json"
     }
   },
   "type": "object"

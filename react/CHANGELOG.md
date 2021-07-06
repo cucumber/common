@@ -17,6 +17,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+* Render attachments in Examples Tables.
+  ([#1173](https://github.com/cucumber/common/issues/1173)
+   [#1619](https://github.com/cucumber/common/pull/1619)
+   [aslakhellesoy])
+* Handle missing hook message when rendering hook failure
+* Stop the anchor link for the step from overlapping the status icon
+
+## [16.2.0] - 2021-06-02
+
+### Added
+
+* Export the `<GherkinDocument>` React component.
+
 ## [16.1.0] - 2021-05-27
 
 ### Added
@@ -379,7 +392,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/react/v16.1.0...main
+[Unreleased]: https://github.com/cucumber/cucumber/compare/react/v16.2.0...main
+[16.2.0]:      https://github.com/cucumber/cucumber/compare/react/v16.1.0...react/v16.2.0
 [16.1.0]:      https://github.com/cucumber/cucumber/compare/react/v16.0.2...react/v16.1.0
 [16.0.2]:      https://github.com/cucumber/cucumber/compare/react/v16.0.1...react/v16.0.2
 [16.0.1]:      https://github.com/cucumber/cucumber/compare/react/v16.0.0...react/v16.0.1

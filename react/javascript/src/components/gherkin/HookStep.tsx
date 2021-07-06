@@ -20,11 +20,13 @@ const HookStep: React.FunctionComponent<IProps> = ({ step }) => {
   const attachments = cucumberQuery.getTestStepsAttachments([step.id])
 
   if (stepResult.status === 'FAILED') {
-    const location = hook.sourceReference.location
-      ? hook.sourceReference.uri + ':' + hook.sourceReference.location.line
-      : hook.sourceReference.javaMethod
-      ? hook.sourceReference.javaMethod.className + '.' + hook.sourceReference.javaMethod.methodName
-      : 'Unknown location'
+    let location = 'Unknown location'
+    if (hook?.sourceReference.location) {
+      location = `${hook.sourceReference.uri}:${hook.sourceReference.location.line}`
+    } else if (hook?.sourceReference.javaMethod) {
+      location = `${hook.sourceReference.javaMethod.className}.${hook.sourceReference.javaMethod.methodName}`
+    }
+
     return (
       <StepItem status={stepResult.status}>
         <Title header="h3" id={step.id}>

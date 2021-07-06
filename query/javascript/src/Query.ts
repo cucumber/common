@@ -1,4 +1,5 @@
 import * as messages from '@cucumber/messages'
+import { getWorstTestStepResult } from '@cucumber/messages'
 import { ArrayMultimap } from '@teppeis/multimaps'
 
 export default class Query {
@@ -9,6 +10,7 @@ export default class Query {
   >()
   private readonly testStepById = new Map<string, messages.TestStep>()
   private readonly testCaseByPickleId = new Map<string, messages.TestCase>()
+  private readonly testCaseByTestCaseId = new Map<string, messages.TestCase>()
   private readonly pickleIdByTestStepId = new Map<string, string>()
   private readonly pickleStepIdByTestStepId = new Map<string, string>()
   private readonly testStepResultsbyTestStepId = new ArrayMultimap<
@@ -27,6 +29,7 @@ export default class Query {
 
   public update(envelope: messages.Envelope) {
     if (envelope.testCase) {
+      this.testCaseByTestCaseId.set(envelope.testCase.id, envelope.testCase)
       this.testCaseByPickleId.set(envelope.testCase.pickleId, envelope.testCase)
       for (const testStep of envelope.testCase.testSteps) {
         this.testStepById.set(testStep.id, testStep)
@@ -37,6 +40,21 @@ export default class Query {
           testStep.pickleStepId,
           testStep.stepMatchArgumentsLists
         )
+      }
+    }
+
+    /*
+    when a test case attempt starts besides the first one, clear all existing results
+    and attachments for that test case, so we always report on the latest attempt
+    TODO keep track of results and attachments from all attempts, expand API accordingly
+     */
+    if (envelope.testCaseStarted && envelope.testCaseStarted.attempt > 0) {
+      const testCase = this.testCaseByTestCaseId.get(envelope.testCaseStarted.testCaseId)
+      this.testStepResultByPickleId.delete(testCase.pickleId)
+      for (const testStep of testCase.testSteps) {
+        this.testStepResultsByPickleStepId.delete(testStep.pickleStepId)
+        this.testStepResultsbyTestStepId.delete(testStep.id)
+        this.attachmentsByTestStepId.delete(testStep.id)
       }
     }
 
@@ -73,7 +91,6 @@ export default class Query {
         {
           status: messages.TestStepResultStatus.UNKNOWN,
           duration: messages.TimeConversion.millisecondsToDuration(0),
-          willBeRetried: false,
         },
       ]
     }
@@ -94,7 +111,6 @@ export default class Query {
         {
           status: messages.TestStepResultStatus.UNKNOWN,
           duration: messages.TimeConversion.millisecondsToDuration(0),
-          willBeRetried: false,
         },
       ]
     }
@@ -183,5 +199,17 @@ export default class Query {
 
   public getTestStepResults(testStepId: string): messages.TestStepResult[] {
     return this.testStepResultsbyTestStepId.get(testStepId)
+  }
+
+  public getStatusCounts(
+    pickleIds: readonly string[]
+  ): Partial<Record<messages.TestStepResultStatus, number>> {
+    const result: Partial<Record<messages.TestStepResultStatus, number>> = {}
+    for (const pickleId of pickleIds) {
+      const testStepResult = getWorstTestStepResult(this.getPickleTestStepResults([pickleId]))
+      const count = result[testStepResult.status] || 0
+      result[testStepResult.status] = count + 1
+    }
+    return result
   }
 }

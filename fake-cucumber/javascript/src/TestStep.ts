@@ -35,7 +35,6 @@ export default abstract class TestStep implements ITestStep {
         {
           duration: millisecondsToDuration(0),
           status: messages.TestStepResultStatus.UNDEFINED,
-          willBeRetried: false,
         },
         listener
       )
@@ -47,7 +46,6 @@ export default abstract class TestStep implements ITestStep {
         {
           duration: millisecondsToDuration(0),
           status: messages.TestStepResultStatus.AMBIGUOUS,
-          willBeRetried: false,
         },
         listener
       )
@@ -59,7 +57,6 @@ export default abstract class TestStep implements ITestStep {
         {
           duration: millisecondsToDuration(0),
           status: messages.TestStepResultStatus.SKIPPED,
-          willBeRetried: false,
         },
         listener
       )
@@ -83,7 +80,6 @@ export default abstract class TestStep implements ITestStep {
             result === 'pending'
               ? messages.TestStepResultStatus.PENDING
               : messages.TestStepResultStatus.PASSED,
-          willBeRetried: false,
         },
         listener
       )
@@ -97,7 +93,6 @@ export default abstract class TestStep implements ITestStep {
         {
           duration,
           status: messages.TestStepResultStatus.FAILED,
-          willBeRetried: false,
           message,
         },
         listener
