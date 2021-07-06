@@ -14,7 +14,7 @@ import {
   ExamplesTableProps,
   useCustomRendering,
 } from '../customise/CustomRendering'
-import Attachment from "./Attachment";
+import Attachment from './Attachment'
 
 const DefaultRenderer: DefaultComponent<ExamplesTableProps, ExamplesTableClasses> = ({
   tableHeader,
@@ -115,7 +115,9 @@ const AttachmentAndErrorRow: React.FunctionComponent<IAttachmentAndErrorRowProps
       <td>&nbsp;</td>
       <td colSpan={colSpan}>
         {errorMessage && <ErrorMessage message={errorMessage} />}
-        {attachments.map((attachment, i) => <Attachment key={i} attachment={attachment}/>)}
+        {attachments.map((attachment, i) => (
+          <Attachment key={i} attachment={attachment} />
+        ))}
       </td>
     </tr>
   )

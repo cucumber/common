@@ -5,6 +5,10 @@ import { MakeErrorMessage } from './ErrorMessageGenerator'
 import { Query, Query as GherkinQuery } from '@cucumber/gherkin-utils'
 import IStopwatch from './IStopwatch'
 
+export interface RunOptions {
+  allowedRetries: number
+}
+
 export interface IWorld {
   attach: Attach
   log: Log
@@ -57,6 +61,7 @@ export interface ITestCase {
   execute(
     listener: EnvelopeListener,
     attempt: number,
+    retryable: boolean,
     testCaseStartedId: string
   ): Promise<messages.TestStepResultStatus>
 }
@@ -104,5 +109,6 @@ export type MakeTestCase = (
 export type MakeTestPlan<SupportCode> = (
   gherkinQuery: GherkinQuery,
   supportCode: SupportCode,
+  runOptions: RunOptions,
   makeTestCase: MakeTestCase
 ) => ITestPlan

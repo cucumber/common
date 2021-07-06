@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 * Added Examples to the attachments feature to generate messages for fixing
   [#1173](https://github.com/cucumber/common/issues/1173)
+* Added `retry` feature to validate Retry behaviour in implementations that have it ([#1631](https://github.com/cucumber/common/pull/1631))
+* Added mechanism to optionally specify CLI options for `fake-cucumber` per feature
 
 ### Changed
 

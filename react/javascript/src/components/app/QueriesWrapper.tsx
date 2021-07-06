@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React from 'react'
 import GherkinQueryContext from '../../GherkinQueryContext'
 import CucumberQueryContext from '../../CucumberQueryContext'
-import SearchQueryContext, { SearchQuery } from '../../SearchQueryContext'
+import SearchQueryContext, { SearchQueryProps, useSearchQueryCtx } from '../../SearchQueryContext'
 import { Query as GherkinQuery } from '@cucumber/gherkin-utils'
 import { Query as CucumberQuery } from '@cucumber/query'
 import EnvelopesQueryContext, { EnvelopesQuery } from '../../EnvelopesQueryContext'
@@ -9,40 +9,24 @@ import EnvelopesQueryContext, { EnvelopesQuery } from '../../EnvelopesQueryConte
 // temporary until we get all(?) styles into css modules
 import '../../styles/styles.scss'
 
-interface IProps {
+interface IProps extends SearchQueryProps {
   cucumberQuery: CucumberQuery
   gherkinQuery: GherkinQuery
   envelopesQuery: EnvelopesQuery
-  query?: string
 }
 
-const QueriesWrapper: React.FunctionComponent<IProps> = ({
-  gherkinQuery,
-  cucumberQuery,
-  envelopesQuery,
-  query,
-  children,
-}) => {
-  const [currentQuery, setCurrentQuery] = useState(query)
-
-  const searchQuery: SearchQuery = {
-    query: currentQuery,
-    updateQuery: setCurrentQuery,
-  }
-
-  return (
-    <div className="cucumber-react">
-      <CucumberQueryContext.Provider value={cucumberQuery}>
-        <GherkinQueryContext.Provider value={gherkinQuery}>
-          <SearchQueryContext.Provider value={searchQuery}>
-            <EnvelopesQueryContext.Provider value={envelopesQuery}>
-              {children}
-            </EnvelopesQueryContext.Provider>
-          </SearchQueryContext.Provider>
-        </GherkinQueryContext.Provider>
-      </CucumberQueryContext.Provider>
-    </div>
-  )
-}
+const QueriesWrapper: React.FunctionComponent<IProps> = (props) => (
+  <div className="cucumber-react">
+    <CucumberQueryContext.Provider value={props.cucumberQuery}>
+      <GherkinQueryContext.Provider value={props.gherkinQuery}>
+        <SearchQueryContext.Provider value={useSearchQueryCtx(props)}>
+          <EnvelopesQueryContext.Provider value={props.envelopesQuery}>
+            {props.children}
+          </EnvelopesQueryContext.Provider>
+        </SearchQueryContext.Provider>
+      </GherkinQueryContext.Provider>
+    </CucumberQueryContext.Provider>
+  </div>
+)
 
 export default QueriesWrapper
