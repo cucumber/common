@@ -3,14 +3,14 @@
 
 #include <wchar.h>
 
-#include "pickle_location.h"
+#include "pickle_ast_node_id.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 typedef struct PickleTag {
-    PickleLocation location;
+    PickleAstNodeId ast_node_id;
     wchar_t* name;
 } PickleTag;
 
@@ -21,7 +21,7 @@ typedef struct PickleTags {
 
 void PickleTag_delete(const PickleTag* tag);
 
-void PickleTag_transfer(PickleTag* to_tag, const wchar_t* name, int line, int column);
+void PickleTag_transfer(PickleTag* to_tag, const wchar_t* ast_node_id, const wchar_t* name);
 
 void PickleTags_delete(const PickleTags* tags);
 

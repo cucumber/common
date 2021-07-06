@@ -4,6 +4,7 @@
 #include <wchar.h>
 
 #include "ast.h"
+#include "id_generator.h"
 #include "location.h"
 
 #ifdef __cplusplus
@@ -19,6 +20,7 @@ typedef struct Step {
     item_delete_function step_delete;
     GherkinAstType type;
     Location location;
+    const wchar_t* id;
     wchar_t* keyword;
     wchar_t* text;
     const StepArgument* argument;
@@ -29,7 +31,7 @@ typedef struct Steps {
     Step* steps;
 } Steps;
 
-const Step* Step_new(Location location, const wchar_t* keyword, const wchar_t* text, const StepArgument* argument);
+const Step* Step_new(Location location, IdGenerator* id_generator, const wchar_t* keyword, const wchar_t* text, const StepArgument* argument);
 
 void Step_delete(const Step* step);
 

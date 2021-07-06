@@ -2,12 +2,13 @@
 #include "string_utilities.h"
 #include <stdlib.h>
 
-const Scenario* Scenario_new(Location location, const wchar_t* keyword, const wchar_t* name, const wchar_t* description, const Tags* tags, const Steps* steps, const Examples* examples) {
+const Scenario* Scenario_new(Location location, IdGenerator* id_generator, const wchar_t* keyword, const wchar_t* name, const wchar_t* description, const Tags* tags, const Steps* steps, const Examples* examples) {
     Scenario* scenario = (Scenario*)malloc(sizeof(Scenario));
     scenario->scenario_delete = (item_delete_function)Scenario_delete;
     scenario->type = Gherkin_Scenario;
     scenario->location.line = location.line;
     scenario->location.column = location.column;
+    scenario->id = id_generator->new_id(id_generator);
     scenario->keyword = 0;
     if (keyword) {
         scenario->keyword = StringUtilities_copy_string(keyword);
@@ -26,6 +27,9 @@ const Scenario* Scenario_new(Location location, const wchar_t* keyword, const wc
 void Scenario_delete(const Scenario* scenario) {
     if (!scenario) {
         return;
+    }
+    if (scenario->id) {
+        free((void*)scenario->id);
     }
     if (scenario->keyword) {
         free((void*)scenario->keyword);
@@ -52,6 +56,8 @@ void Scenario_transfer(Scenario* to_scenario, Scenario* from_scenario) {
     to_scenario->type = from_scenario->type;
     to_scenario->location.line = from_scenario->location.line;
     to_scenario->location.column = from_scenario->location.column;
+    to_scenario->id = from_scenario->id;
+    from_scenario->id = 0;
     to_scenario->keyword = from_scenario->keyword;
     from_scenario->keyword = 0;
     to_scenario->name = from_scenario->name;

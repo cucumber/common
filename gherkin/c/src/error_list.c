@@ -1,6 +1,7 @@
 #include "error_list.h"
 #include "error.h"
 #include "item_queue.h"
+#include "string_utilities.h"
 #include "token.h"
 #include <math.h>
 #include <stdlib.h>
@@ -180,6 +181,31 @@ void ErrorList_add_invalid_operation_error(ErrorList* error_list, int state) {
     text[total_length] = L'\0';
     Location location = {-1, -1};
     ErrorList_add(error_list, text, location);
+}
+
+bool ErrorList_check_token_tags_for_whitespace(ErrorList* error_list, Token* received_token) {
+    bool errors_found = false;
+    int i, j;
+    for (i = 0; i < received_token->matched_items->count; ++i) {
+        for (j = 0; received_token->matched_items->items[i].text[j] != L'\0'; ++j) {
+            if (StringUtilities_is_whitespace(received_token->matched_items->items[i].text[j])) {
+                const wchar_t* const message = L"A tag may not contain whitespace";
+                const int message_length = wcslen(message);
+                const int line_width = calculate_string_length_for_number(received_token->location.line);
+                const int column_width = calculate_string_length_for_number(received_token->location.column);
+                const int total_length = calculate_string_length_for_location(line_width, column_width) + message_length;
+                wchar_t* text = (wchar_t*)malloc((total_length + 1) * sizeof(wchar_t*));
+                int pos = 0;
+                pos = print_location_to_string(text, pos, received_token->location.line, line_width, received_token->location.column, column_width);
+                wcscpy(text + pos, message);
+                text[total_length] = L'\0';
+                ErrorList_add(error_list, text, received_token->location);
+                errors_found = true;
+                break;
+            }
+        }
+    }
+    return errors_found;
 }
 
 bool ErrorList_has_more_errors(ErrorList* error_list) {

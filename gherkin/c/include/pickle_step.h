@@ -3,15 +3,17 @@
 
 #include <wchar.h>
 
-#include "pickle_location.h"
+#include "pickle_ast_node_id.h"
 #include "pickle_argument.h"
+#include "id_generator.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 typedef struct PickleStep {
-    const PickleLocations* locations;
+    const PickleAstNodeIds* ast_node_ids;
+    const wchar_t* id;
     wchar_t* text;
     const PickleArgument* argument;
 } PickleStep;
@@ -21,7 +23,7 @@ typedef struct PickleSteps {
     PickleStep* steps;
 } PickleSteps;
 
-const PickleStep* PickleStep_new(const PickleLocations* locations, const wchar_t* text, const PickleArgument* argument);
+const PickleStep* PickleStep_new(const PickleAstNodeIds* ast_node_ids, IdGenerator* id_generator, const wchar_t* text, const PickleArgument* argument);
 
 void PickleStep_delete(const PickleStep* pickle_step);
 

@@ -15,6 +15,7 @@ typedef struct AstBuilder {
     ItemQueue* stack;
     ItemQueue* comments;
     ErrorList* errors;
+    IdGenerator* id_generator;
 } AstBuilder;
 
 typedef struct ExampleTableOnly {
@@ -47,13 +48,13 @@ static const StepArgument* get_step_argument(AstNode* ast_node);
 
 static const Examples* get_examples(AstNode* ast_node);
 
-static const TableRow* get_table_header(AstNode* ast_node);
+static const TableRow* get_table_header(IdGenerator* id_generator, AstNode* ast_node);
 
-static const TableRows* get_table_body(AstNode* ast_node);
+static const TableRows* get_table_body(IdGenerator* id_generator, AstNode* ast_node);
 
 static const TableCells* get_table_cells(Token* token);
 
-static const Tags* get_tags(AstNode* ast_node);
+static const Tags* get_tags(IdGenerator* id_generator, AstNode* ast_node);
 
 static const wchar_t* get_description_text(AstNode* ast_node);
 
@@ -77,7 +78,7 @@ void AstBuilder_start_rule(Builder* builder, RuleType rule);
 
 void AstBuilder_end_rule(Builder* builder, RuleType rule);
 
-Builder* AstBuilder_new() {
+Builder* AstBuilder_new(IdGenerator* id_generator) {
     AstBuilder* builder = (AstBuilder*)malloc(sizeof(AstBuilder));
     builder->builder.build = &AstBuilder_build;
     builder->builder.reset = &AstBuilder_reset;
@@ -87,6 +88,7 @@ Builder* AstBuilder_new() {
     builder->stack = 0;
     builder->comments = 0;
     builder->errors = 0;
+    builder->id_generator = id_generator;
     AstBuilder_reset((Builder*)builder);
     return (Builder*)builder;
 }
@@ -155,13 +157,13 @@ static void* transform_node(AstNode* ast_node, AstBuilder* ast_builder) {
     switch (ast_node->rule_type) {
     case Rule_Step: {
         token = AstNode_get_token(ast_node, Token_StepLine);
-        const Step* step = Step_new(token->location, token->matched_keyword, token->matched_text, get_step_argument(ast_node));
+        const Step* step = Step_new(token->location, ast_builder->id_generator, token->matched_keyword, token->matched_text, get_step_argument(ast_node));
         Token_delete(token);
         AstNode_delete(ast_node);
         return (void*)step;
     }
     case Rule_DataTable: {
-        const TableRows* rows = get_table_body(ast_node);
+        const TableRows* rows = get_table_body(ast_builder->id_generator, ast_node);
         ensure_cell_count(ast_builder->errors, rows, 0, ast_node);
         const DataTable* data_table = DataTable_new(rows->table_rows[0].location, rows);
         AstNode_delete(ast_node);
@@ -169,14 +171,14 @@ static void* transform_node(AstNode* ast_node, AstBuilder* ast_builder) {
     }
     case Rule_DocString: {
         token = AstNode_get_token(ast_node, Token_DocStringSeparator);
-        const DocString* doc_string = DocString_new(token->location,token->matched_keyword, token->matched_text, get_doc_string_text(ast_node));
+        const DocString* doc_string = DocString_new(token->location, token->matched_keyword, token->matched_text, get_doc_string_text(ast_node));
         Token_delete(token);
         AstNode_delete(ast_node);
         return (void*)doc_string;
     }
     case Rule_Background: {
         token = (Token*)AstNode_get_single(ast_node, Rule_BackgroundLine);
-        const Background* background = Background_new(token->location, token->matched_keyword, token->matched_text, get_description(ast_node), get_steps(ast_node));
+        const Background* background = Background_new(token->location, ast_builder->id_generator, token->matched_keyword, token->matched_text, get_description(ast_node), get_steps(ast_node));
         Token_delete(token);
         AstNode_delete(ast_node);
         return (void*)background;
@@ -184,7 +186,7 @@ static void* transform_node(AstNode* ast_node, AstBuilder* ast_builder) {
     case Rule_ScenarioDefinition: {
         node = AstNode_get_single(ast_node, Rule_Scenario);
         token = AstNode_get_token(node, Token_ScenarioLine);
-        const Scenario* scenario = Scenario_new(token->location, token->matched_keyword, token->matched_text, get_description(node), get_tags(ast_node), get_steps(node), get_examples(node));
+        const Scenario* scenario = Scenario_new(token->location, ast_builder->id_generator, token->matched_keyword, token->matched_text, get_description(node), get_tags(ast_builder->id_generator, ast_node), get_steps(node), get_examples(node));
         Token_delete(token);
         AstNode_delete(node);
         AstNode_delete(ast_node);
@@ -196,7 +198,7 @@ static void* transform_node(AstNode* ast_node, AstBuilder* ast_builder) {
         const ExampleTableOnly* table = (ExampleTableOnly*)AstNode_get_single(node, Rule_ExamplesTable);
         const TableRow* header = table ? table->table_header : 0;
         const TableRows* body = table ? table->table_body : 0;
-        const ExampleTable* example_table = ExampleTable_new(token->location, token->matched_keyword, token->matched_text, get_description(node), get_tags(ast_node), header, body);
+        const ExampleTable* example_table = ExampleTable_new(token->location, ast_builder->id_generator, token->matched_keyword, token->matched_text, get_description(node), get_tags(ast_builder->id_generator, ast_node), header, body);
         ExampleTableOnly_delete(table);
         Token_delete(token);
         AstNode_delete(node);
@@ -204,8 +206,8 @@ static void* transform_node(AstNode* ast_node, AstBuilder* ast_builder) {
         return (void*)example_table;
     }
     case Rule_ExamplesTable: {
-        const TableRow* header = get_table_header(ast_node);
-        const TableRows* body = get_table_body(ast_node);
+        const TableRow* header = get_table_header(ast_builder->id_generator, ast_node);
+        const TableRows* body = get_table_body(ast_builder->id_generator, ast_node);
         ensure_cell_count(ast_builder->errors, body, header, ast_node);
         const ExampleTableOnly* table = ExampleTableOnly_new(header, body);
         AstNode_delete(ast_node);
@@ -222,7 +224,7 @@ static void* transform_node(AstNode* ast_node, AstBuilder* ast_builder) {
     case Rule_Rule: {
         node = AstNode_get_single(ast_node, Rule_RuleHeader);
         token = AstNode_get_token(node, Token_RuleLine);
-        const Rule* rule = Rule_new(token->location, token->matched_keyword, token->matched_text, get_description(node), get_child_definitions(ast_node));
+        const Rule* rule = Rule_new(token->location, ast_builder->id_generator, token->matched_keyword, token->matched_text, get_description(node), get_tags(ast_builder->id_generator, node), get_child_definitions(ast_node));
         Token_delete(token);
         AstNode_delete(node);
         AstNode_delete(ast_node);
@@ -237,7 +239,7 @@ static void* transform_node(AstNode* ast_node, AstBuilder* ast_builder) {
         if (!token) {
             return (void*)0;
         }
-        const Feature* feature = Feature_new(token->location, token->matched_language, token->matched_keyword, token->matched_text, get_description(node), get_tags(node), get_child_definitions(ast_node));
+        const Feature* feature = Feature_new(token->location, token->matched_language, token->matched_keyword, token->matched_text, get_description(node), get_tags(ast_builder->id_generator, node), get_child_definitions(ast_node));
         Token_delete(token);
         AstNode_delete(node);
         AstNode_delete(ast_node);
@@ -324,18 +326,18 @@ static const Examples* get_examples(AstNode* ast_node) {
     return examples;
 }
 
-static const TableRow* get_table_header(AstNode* ast_node) {
+static const TableRow* get_table_header(IdGenerator* id_generator, AstNode* ast_node) {
     ItemQueue* table_rows_queue = AstNode_get_items(ast_node, Rule_TableRow);
     if (!ItemQueue_is_empty(table_rows_queue)) {
         Token* token = (Token*)ItemQueue_remove(table_rows_queue);
-        const TableRow* table_row = TableRow_new(token->location, get_table_cells(token));
+        const TableRow* table_row = TableRow_new(token->location, id_generator, get_table_cells(token));
         Token_delete(token);
         return table_row;
     }
     return (const TableRow*)0;
 }
 
-static const TableRows* get_table_body(AstNode* ast_node) {
+static const TableRows* get_table_body(IdGenerator* id_generator, AstNode* ast_node) {
     ItemQueue* table_rows_queue = AstNode_get_items(ast_node, Rule_TableRow);
     TableRows* table_rows = (TableRows*)malloc(sizeof(TableRows));
     table_rows->row_count = ItemQueue_size(table_rows_queue);
@@ -346,7 +348,7 @@ static const TableRows* get_table_body(AstNode* ast_node) {
         int i;
         for (i = 0; i < table_rows->row_count; ++i) {
             token = (Token*)ItemQueue_remove(table_rows_queue);
-            TableRow_transfer(&table_rows->table_rows[i], (TableRow*)TableRow_new(token->location, get_table_cells(token)));
+            TableRow_transfer(&table_rows->table_rows[i], (TableRow*)TableRow_new(token->location, id_generator, get_table_cells(token)));
             Token_delete(token);
         }
     }
@@ -387,7 +389,7 @@ static const TableCells* get_table_cells(Token* token) {
     return table_cells;
 }
 
-static const Tags* get_tags(AstNode* ast_node) {
+static const Tags* get_tags(IdGenerator* id_generator, AstNode* ast_node) {
     AstNode* tags_node = AstNode_get_single(ast_node, Rule_Tags);
     Tags* tags = (Tags*)malloc(sizeof(Tags));
     if (!tags_node) {
@@ -415,7 +417,7 @@ static const Tags* get_tags(AstNode* ast_node) {
             int i;
             for (i = 0; i < token->matched_items->count; ++i) {
                 location.column = token->matched_items->items[i].column;
-                Tag_transfer(&tags->tags[tag_index++], location, &token->matched_items->items[i].text);
+                Tag_transfer(&tags->tags[tag_index++], location, id_generator, &token->matched_items->items[i].text);
             }
             Token_delete(token);
         }

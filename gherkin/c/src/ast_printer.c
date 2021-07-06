@@ -21,19 +21,26 @@ static void print_location(FILE* file, const Location* location) {
     fprintf(file, "}");
 }
 
+static void print_id(FILE* file, const wchar_t* id) {
+    fprintf(file, "\"id\":\"");
+    PrintUtilities_print_json_string(file, id);
+    fprintf(file, "\",");
+}
+
 static void print_table_cell(FILE* file, const TableCell* table_cell) {
     fprintf(file, "{");
     print_location(file, &table_cell->location);
+    fprintf(file, ",\"value\":\"");
     if (table_cell->value && wcslen(table_cell->value) > 0) {
-        fprintf(file, ",\"value\":\"");
         PrintUtilities_print_json_string(file, table_cell->value);
-        fprintf(file, "\"");
     }
+    fprintf(file, "\"");
     fprintf(file, "}");
 }
 
 static void print_table_row(FILE* file, const TableRow* table_row) {
     fprintf(file, "{");
+    print_id(file, table_row->id);
     print_location(file, &table_row->location);
     fprintf(file, ",\"cells\":[");
     int i;
@@ -68,9 +75,9 @@ static void print_doc_string(FILE* file, const DocString* doc_string) {
         PrintUtilities_print_json_string(file, doc_string->delimiter);
         fprintf(file, "\"");
     }
-    if (doc_string->content_type) {
-        fprintf(file, ",\"contentType\":\"");
-        PrintUtilities_print_json_string(file, doc_string->content_type);
+    if (doc_string->media_type) {
+        fprintf(file, ",\"mediaType\":\"");
+        PrintUtilities_print_json_string(file, doc_string->media_type);
         fprintf(file, "\"");
     }
     if (doc_string->content) {
@@ -95,6 +102,7 @@ static void print_text(FILE* file, const wchar_t* text) {
 
 static void print_step(FILE* file, const Step* step) {
     fprintf(file, "{");
+    print_id(file, step->id);
     print_keyword(file, step->keyword);
     print_text(file, step->text);
     print_location(file, &step->location);
@@ -112,30 +120,31 @@ static void print_step(FILE* file, const Step* step) {
 }
 
 static void print_name(FILE* file, const wchar_t* name) {
+    fprintf(file, "\"name\":\"");
     if (name && wcslen(name) > 0) {
-        fprintf(file, "\"name\":\"");
         PrintUtilities_print_json_string(file, name);
-        fprintf(file, "\",");
     }
+    fprintf(file, "\",");
 }
 
 static void print_description(FILE* file, const wchar_t* description) {
+    fprintf(file, "\"description\":\"");
     if (description) {
-        fprintf(file, "\"description\":\"");
         PrintUtilities_print_json_string(file, description);
-        fprintf(file, "\",");
     }
+    fprintf(file, "\",");
 }
 
 
 static void print_background(FILE* file, const Background* background) {
     fprintf(file, "{\"background\":{");
+    print_id(file, background->id);
     print_keyword(file, background->keyword);
     print_name(file, background->name);
     print_description(file, background->description);
     print_location(file, &background->location);
+    fprintf(file, ",\"steps\":[");
     if (background->steps && background->steps->step_count > 0) {
-        fprintf(file, ",\"steps\":[");
         int i;
         for (i = 0; i < background->steps->step_count; ++i) {
             if (i > 0) {
@@ -143,13 +152,14 @@ static void print_background(FILE* file, const Background* background) {
             }
             print_step(file, &background->steps->steps[i]);
         }
-        fprintf(file, "]");
     }
+    fprintf(file, "]");
     fprintf(file, "}}");
 }
 
 static void print_tag(FILE* file, const Tag* tag) {
     fprintf(file, "{");
+    print_id(file, tag->id);
     print_location(file, &tag->location);
     fprintf(file, ",\"name\":\"");
     PrintUtilities_print_json_string(file, tag->name);
@@ -157,8 +167,8 @@ static void print_tag(FILE* file, const Tag* tag) {
 }
 
 static void print_tags(FILE* file, const Tags* tags) {
+    fprintf(file, "\"tags\":[");
     if (tags && tags->tag_count > 0) {
-        fprintf(file, "\"tags\":[");
         int i;
         for (i = 0; i < tags->tag_count; ++i) {
             if (i > 0) {
@@ -166,14 +176,15 @@ static void print_tags(FILE* file, const Tags* tags) {
             }
             print_tag(file, &tags->tags[i]);
         }
-        fprintf(file, "],");
     }
+    fprintf(file, "],");
 }
 
 
 static void print_example_table(FILE* file, const ExampleTable* example_table) {
     fprintf(file, "{");
     print_description(file, example_table->description);
+    print_id(file, example_table->id);
     print_keyword(file, example_table->keyword);
     print_name(file, example_table->name);
     print_tags(file, example_table->tags);
@@ -183,16 +194,16 @@ static void print_example_table(FILE* file, const ExampleTable* example_table) {
         fprintf(file, ",\"tableHeader\":");
         print_table_row(file, example_table->table_header);
     }
+    fprintf(file, ",\"tableBody\":[");
     if (example_table->table_body && example_table->table_body->row_count > 0) {
-        fprintf(file, ",\"tableBody\":[");
         for (i = 0; i < example_table->table_body->row_count; ++i) {
             if (i > 0) {
                 fprintf(file, ",");
             }
             print_table_row(file, &example_table->table_body->table_rows[i]);
         }
-        fprintf(file, "]");
     }
+    fprintf(file, "]");
     fprintf(file, "}");
 }
 
@@ -200,31 +211,32 @@ static void print_example_table(FILE* file, const ExampleTable* example_table) {
 static void print_scenario(FILE* file, const Scenario* scenario) {
     fprintf(file, "{\"scenario\":{");
     print_tags(file, scenario->tags);
+    print_id(file, scenario->id);
     print_keyword(file, scenario->keyword);
     print_name(file, scenario->name);
     print_description(file, scenario->description);
     print_location(file, &scenario->location);
     int i;
+    fprintf(file, ",\"steps\":[");
     if (scenario->steps && scenario->steps->step_count > 0) {
-        fprintf(file, ",\"steps\":[");
         for (i = 0; i < scenario->steps->step_count; ++i) {
             if (i > 0) {
                 fprintf(file, ",");
             }
             print_step(file, &scenario->steps->steps[i]);
         }
-        fprintf(file, "]");
     }
+    fprintf(file, "]");
+    fprintf(file, ",\"examples\":[");
     if (scenario->examples && scenario->examples->example_count > 0) {
-        fprintf(file, ",\"examples\":[");
         for (i = 0; i < scenario->examples->example_count; ++i) {
             if (i > 0) {
                 fprintf(file, ",");
             }
             print_example_table(file, &scenario->examples->example_table[i]);
         }
-        fprintf(file, "]");
     }
+    fprintf(file, "]");
     fprintf(file, "}}");
 }
 
@@ -238,8 +250,8 @@ static void print_comment(FILE* file, const Comment* comment) {
 
 
 static void print_comments(FILE* file, const Comments* comments) {
+    fprintf(file, ",\"comments\":[");
     if (comments->comment_count > 0) {
-        fprintf(file, ",\"comments\":[");
         int i;
         for (i = 0; i < comments->comment_count; ++i) {
             if (i > 0) {
@@ -247,19 +259,21 @@ static void print_comments(FILE* file, const Comments* comments) {
             }
             print_comment(file, &comments->comments[i]);
         }
-        fprintf(file, "]");
     }
+    fprintf(file, "]");
 }
 
 
 static void print_rule(FILE* file, const Rule* rule) {
     fprintf(file, "{\"rule\":{");
+    print_id(file, rule->id);
     print_keyword(file, rule->keyword);
     print_name(file, rule->name);
     print_description(file, rule->description);
+    print_tags(file, rule->tags);
     print_location(file, &rule->location);
+    fprintf(file, ",\"children\":[");
     if (rule->child_definitions && rule->child_definitions->child_definition_count > 0) {
-        fprintf(file, ",\"children\":[");
         int i;
         for (i = 0; i < rule->child_definitions->child_definition_count; ++i) {
             if (i > 0) {
@@ -272,8 +286,8 @@ static void print_rule(FILE* file, const Rule* rule) {
                 print_scenario(file, (Scenario*)rule->child_definitions->child_definitions[i]);
             }
         }
-        fprintf(file, "]");
     }
+    fprintf(file, "]");
     fprintf(file, "}}");
 }
 
@@ -288,8 +302,8 @@ static void print_feature(FILE* file, const Feature* feature) {
     print_name(file, feature->name);
     print_description(file, feature->description);
     print_location(file, &feature->location);
+    fprintf(file, ",\"children\":[");
     if (feature->child_definitions && feature->child_definitions->child_definition_count > 0) {
-        fprintf(file, ",\"children\":[");
         int i;
         for (i = 0; i < feature->child_definitions->child_definition_count; ++i) {
             if (i > 0) {
@@ -305,8 +319,8 @@ static void print_feature(FILE* file, const Feature* feature) {
                 print_rule(file, (Rule*)feature->child_definitions->child_definitions[i]);
             }
         }
-        fprintf(file, "]");
     }
+    fprintf(file, "]");
     fprintf(file, "}");
 }
 

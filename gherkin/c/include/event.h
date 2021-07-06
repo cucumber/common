@@ -15,7 +15,7 @@ typedef void (*event_print_function) (const Event*, FILE* file);
 
 typedef enum EventType {
     Gherkin_SourceEvent,
-    Gherkin_AttachmentEvent,
+    Gherkin_ErrorEvent,
     Gherkin_GherkinDocumentEvent,
     Gherkin_PickleEvent
 } EventType;

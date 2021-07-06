@@ -7,7 +7,8 @@
 
 const wchar_t* const DOC_STRING_SEPARATOR_1 = L"\"\"\"";
 const wchar_t* const DOC_STRING_SEPARATOR_2 = L"```";
-const wchar_t* const ESCAPED_DOC_STRING_SEPARATOR = L"\\\"\\\"\\\"";
+const wchar_t* const ESCAPED_DOC_STRING_SEPARATOR_1 = L"\\\"\\\"\\\"";
+const wchar_t* const ESCAPED_DOC_STRING_SEPARATOR_2 = L"\\`\\`\\`";
 
 void TokenMatcher_reset(TokenMatcher* token_matcher);
 
@@ -230,16 +231,16 @@ static bool match_DocStringSeparator(TokenMatcher* token_matcher, Token* token, 
     if (!token || !token->line)
         return false;
     if (GherkinLine_start_with(token->line, separator)) {
-        const wchar_t* content_type = 0;
+        const wchar_t* media_type = 0;
         if (is_open) {
-            content_type = GherkinLine_copy_rest_trimmed(token->line, wcslen(separator));
+            media_type = GherkinLine_copy_rest_trimmed(token->line, wcslen(separator));
             token_matcher->active_doc_string_separator = separator;
             token_matcher->indent_to_remove = token->line->indent;
         } else {
             token_matcher->active_doc_string_separator = 0;
             token_matcher->indent_to_remove = 0;
         }
-        set_token_matched(token, Token_DocStringSeparator, content_type, separator, -1, 0);
+        set_token_matched(token, Token_DocStringSeparator, media_type, separator, -1, 0);
         return true;
     }
     return false;
@@ -304,7 +305,7 @@ static wchar_t* unescaped_docstring(TokenMatcher* token_matcher, wchar_t* text) 
     const wchar_t* from = text;
     wchar_t* to = text;
     while (*from != L'\0') {
-        if (*from == L'\\' && wcsncmp(ESCAPED_DOC_STRING_SEPARATOR, from, wcslen(ESCAPED_DOC_STRING_SEPARATOR)) == 0) {
+        if (*from == L'\\' && (wcsncmp(ESCAPED_DOC_STRING_SEPARATOR_1, from, wcslen(ESCAPED_DOC_STRING_SEPARATOR_1)) == 0 || wcsncmp(ESCAPED_DOC_STRING_SEPARATOR_2, from, wcslen(ESCAPED_DOC_STRING_SEPARATOR_2)) == 0)) {
             int i;
             for (i = 0; i < 3; ++i) {
                 from++;
