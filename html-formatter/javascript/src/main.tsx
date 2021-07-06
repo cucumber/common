@@ -1,5 +1,10 @@
 import * as messages from '@cucumber/messages'
-import { QueriesWrapper, EnvelopesQuery, FilteredResults } from '@cucumber/react'
+import {
+  QueriesWrapper,
+  EnvelopesQuery,
+  FilteredResults,
+  searchFromURLParams,
+} from '@cucumber/react'
 import { Query as GherkinQuery } from '@cucumber/gherkin-utils'
 import { Query as CucumberQuery } from '@cucumber/query'
 import React from 'react'
@@ -26,6 +31,7 @@ const app = (
     gherkinQuery={gherkinQuery}
     cucumberQuery={cucumberQuery}
     envelopesQuery={envelopesQuery}
+    {...searchFromURLParams()}
   >
     <FilteredResults />
   </QueriesWrapper>
