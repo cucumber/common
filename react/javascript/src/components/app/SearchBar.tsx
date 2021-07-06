@@ -3,35 +3,37 @@ import { faSearch, faQuestionCircle, faFilter } from '@fortawesome/free-solid-sv
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import SearchQueryContext from '../../SearchQueryContext'
 import statusName from '../gherkin/statusName'
-import * as messages from '@cucumber/messages'
 import statuses from './statuses'
+import { TestStepResultStatus as Status } from '@cucumber/messages'
 
 interface IProps {
-  statusesUpdated: (statuses: readonly messages.TestStepResultStatus[]) => any
-  enabledStatuses: readonly messages.TestStepResultStatus[]
-  scenarioCountByStatus: Map<messages.TestStepResultStatus, number>
+  statusesWithScenarios: Status[]
 }
 
-const SearchBar: React.FunctionComponent<IProps> = ({
-  statusesUpdated,
-  enabledStatuses,
-  scenarioCountByStatus,
-}) => {
+const SearchBar: React.FunctionComponent<IProps> = ({ statusesWithScenarios }) => {
   const searchQueryContext = React.useContext(SearchQueryContext)
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const searchSubmitted = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const formData = new window.FormData(event.currentTarget)
-    searchQueryContext.updateQuery(formData.get('query').toString())
+    searchQueryContext.update({
+      query: formData.get('query').toString(),
+    })
   }
 
-  const showFilters =
-    scenarioCountByStatus.size > 1 ||
-    scenarioCountByStatus.has(messages.TestStepResultStatus.UNKNOWN)
+  const filterChanged = (name: Status, show: boolean) => {
+    searchQueryContext.update({
+      hideStatuses: show
+        ? searchQueryContext.hideStatuses.filter((s) => s !== name)
+        : searchQueryContext.hideStatuses.concat(name),
+    })
+  }
+
+  const showFilters = statusesWithScenarios.length > 1
 
   return (
     <div className="cucumber-search-bar">
-      <form className="cucumber-search-bar-search" onSubmit={handleSubmit}>
+      <form className="cucumber-search-bar-search" onSubmit={searchSubmitted}>
         <input
           type="text"
           name="query"
@@ -57,13 +59,12 @@ const SearchBar: React.FunctionComponent<IProps> = ({
           </span>
           <ul>
             {statuses.map((status, index) => {
-              const name = statusName(status)
-              const enabled = enabledStatuses.includes(status)
-              const inputId = `filter-status-${name}`
-
-              if (scenarioCountByStatus.get(status) === undefined) {
+              if (!statusesWithScenarios.includes(status)) {
                 return
               }
+              const name = statusName(status)
+              const enabled = !searchQueryContext.hideStatuses.includes(status)
+              const inputId = `filter-status-${name}`
 
               return (
                 <li key={index}>
@@ -71,13 +72,7 @@ const SearchBar: React.FunctionComponent<IProps> = ({
                     id={inputId}
                     type="checkbox"
                     defaultChecked={enabled}
-                    onChange={() => {
-                      if (enabledStatuses.includes(status)) {
-                        statusesUpdated(enabledStatuses.filter((s) => s !== status))
-                      } else {
-                        statusesUpdated([status].concat(enabledStatuses))
-                      }
-                    }}
+                    onChange={(evt) => filterChanged(status, evt.target.checked)}
                   />
                   <label htmlFor={inputId}>{name}</label>
                 </li>

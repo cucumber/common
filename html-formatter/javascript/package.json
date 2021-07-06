@@ -35,8 +35,8 @@
     "@types/react-dom": "17.0.8",
     "babel-loader": "8.2.2",
     "css-loader": "5.2.6",
-    "mini-css-extract-plugin": "2.0.0",
-    "mocha": "9.0.1",
+    "mini-css-extract-plugin": "2.1.0",
+    "mocha": "9.0.2",
     "puppeteer": "10.1.0",
     "react": "17.0.2",
     "react-dom": "17.0.2",
@@ -44,7 +44,7 @@
     "ts-loader": "9.2.3",
     "ts-node": "10.0.0",
     "typescript": "4.3.5",
-    "webpack": "5.42.0",
+    "webpack": "5.42.1",
     "webpack-cli": "4.7.2"
   },
   "bugs": {
