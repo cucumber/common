@@ -47,7 +47,7 @@
     "npm-check-updates": "11.8.1",
     "prettier": "2.3.2",
     "pretty-quick": "3.1.1",
-    "tsconfig-paths": "3.9.0",
+    "tsconfig-paths": "3.10.1",
     "typescript": "4.3.5"
   },
   "prettier": {
