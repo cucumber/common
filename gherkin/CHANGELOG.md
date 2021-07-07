@@ -19,6 +19,8 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
   ([#1625](https://github.com/cucumber/common/pull/1625) [willmac321])
 * [Go] Move module paths to point to monorepo
   ([#1550](https://github.com/cucumber/common/issues/1550))
+* [Ruby] Usage of Message DTOs instead of plain ruby hashes
+  ([#1603](https://github.com/cucumber/common/pull/1603))
 
 ### Deprecated
 
