@@ -2605,7 +2605,8 @@ var buildinDialects = gherkinDialectMap{
 				"Potrzeba biznesowa",
 			},
 			rule: []string{
-				"Rule",
+				"Zasada",
+				"Reguła",
 			},
 			background: []string{
 				"Założenia",
