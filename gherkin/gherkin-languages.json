@@ -2606,7 +2606,8 @@
     "name": "Polish",
     "native": "polski",
     "rule": [
-      "Zasada"
+      "Zasada",
+      "Reguła"
     ],
     "scenario": [
       "Przykład",
