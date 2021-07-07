@@ -22,7 +22,7 @@
     "reflect-metadata": "0.1.13"
   },
   "devDependencies": {
-    "@types/mocha": "8.2.2",
+    "@types/mocha": "8.2.3",
     "@types/node": "15.6.0",
     "copyfiles": "2.4.1",
     "mocha": "9.0.2",

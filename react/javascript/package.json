@@ -55,7 +55,7 @@
     "@types/color": "3.0.2",
     "@types/glob": "7.1.4",
     "@types/jsdom": "16.2.13",
-    "@types/mocha": "8.2.2",
+    "@types/mocha": "8.2.3",
     "@types/node": "15.6.2",
     "@types/react": "17.0.13",
     "@types/react-dom": "17.0.8",
