@@ -13,6 +13,10 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Changed
 
+* Update `rule` polish translation
+  ([#1579](https://github.com/cucumber/common/pull/1579) [l310][jakzal])
+* Add US Texan translations.
+  ([#1625](https://github.com/cucumber/common/pull/1625) [willmac321])
 * [Go] Move module paths to point to monorepo
   ([#1550](https://github.com/cucumber/common/issues/1550))
 * [Ruby] Usage of Message DTOs instead of plain ruby hashes
@@ -1085,12 +1089,14 @@ to Gherkin 2.
 [gasparnagy]:        https://github.com/gasparnagy
 [Haukinger]:         https://github.com/Haukinger
 [hkosova]:           https://github.com/hkosova
+[jakzal]:            https://github.com/jakzal
 [jargalan]:          https://github.com/jargalan
 [jmezach]:           https://github.com/jmezach
 [joscha]:            https://github.com/joscha
 [johnknoop]:         https://github.com/johnknoop
 [koterpillar]:       https://github.com/koterpillar
 [KniveX]:            https://github.com/KniveX
+[l310]:              https://github.com/l3l0/
 [l3pp4rd]:           https://github.com/l3pp4rd
 [LiohAu]:            https://github.com/LiohAu
 [luke-hill]:         https://github.com/luke-hill
@@ -1126,3 +1132,4 @@ to Gherkin 2.
 [zbmott]:            https://github.com/zbmott
 [Zearin]:            https://github.com/Zearin
 [WannesFransen1994]: https://github.com/WannesFransen1994
+[willmac321]:        https://github.com/willmac321
