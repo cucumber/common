@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/cucumber/tag-expressions-javascript",
   "devDependencies": {
-    "@types/mocha": "8.2.2",
+    "@types/mocha": "8.2.3",
     "@types/node": "15.3.1",
     "mocha": "9.0.2",
     "ts-node": "10.0.0",
