@@ -30,7 +30,7 @@
     "@cucumber/query": "^10.1.0",
     "@cucumber/react": "^16.2.0",
     "@types/mocha": "8.2.3",
-    "@types/node": "15.6.1",
+    "@types/node": "14.17.5",
     "@types/react": "17.0.14",
     "@types/react-dom": "17.0.9",
     "babel-loader": "8.2.2",
