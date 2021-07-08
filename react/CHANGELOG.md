@@ -17,6 +17,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [17.0.0] - 2021-07-08
+
+### Changed
+
+* Upgrade dependencies including `@cucumber/messages` to 17.0.0, `@cucumber/query` to 11.0.0 and `@cucumber/gherkin-utils` to 6.O.0
+
+### Fixed
+
 * Render attachments in Examples Tables.
   ([#1173](https://github.com/cucumber/common/issues/1173)
    [#1619](https://github.com/cucumber/common/pull/1619)
@@ -392,7 +400,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/react/v16.2.0...main
+[Unreleased]: https://github.com/cucumber/cucumber/compare/react/v17.0.0...main
+[17.0.0]:      https://github.com/cucumber/cucumber/compare/react/v16.2.0...react/v17.0.0
 [16.2.0]:      https://github.com/cucumber/cucumber/compare/react/v16.1.0...react/v16.2.0
 [16.1.0]:      https://github.com/cucumber/cucumber/compare/react/v16.0.2...react/v16.1.0
 [16.0.2]:      https://github.com/cucumber/cucumber/compare/react/v16.0.1...react/v16.0.2
