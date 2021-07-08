@@ -1,6 +1,4 @@
-module github.com/cucumber/common/json-formatter/go/v18
-
-replace github.com/cucumber/common/messages/go/v17 => ../../messages/go
+module github.com/cucumber/common/json-formatter/go/v19
 
 go 1.13
 
