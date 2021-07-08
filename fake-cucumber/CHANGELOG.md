@@ -9,8 +9,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
-* Add support for retrying failed scenarios via `--retry <COUNT>` option ([#1631](https://github.com/cucumber/common/pull/1631))
-
 ### Changed
 
 ### Deprecated
@@ -18,6 +16,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Removed
 
 ### Fixed
+
+## [13.0.0] - 2021-07-08
+
+### Added
+
+* Add support for retrying failed scenarios via `--retry <COUNT>` option ([#1631](https://github.com/cucumber/common/pull/1631))
+
+### Changed
+
+* Upgrade dependencies including `@cucumber/gherkin` v20.0 and `@cucumber/messages` v17.0
 
 ## [12.0.2] - 2021-05-18
 
@@ -241,7 +249,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/fake-cucumber/v12.0.2...main
+[Unreleased]: https://github.com/cucumber/cucumber/compare/fake-cucumber/v13.0.0...main
+[13.0.0]:      https://github.com/cucumber/cucumber/compare/fake-cucumber/v12.0.2...fake-cucumber/v13.0.0
 [12.0.2]:      https://github.com/cucumber/cucumber/compare/fake-cucumber/v12.0.1...fake-cucumber/v12.0.2
 [12.0.1]:      https://github.com/cucumber/cucumber/compare/fake-cucumber/v12.0.0...fake-cucumber/v12.0.1
 [12.0.0]:      https://github.com/cucumber/cucumber/compare/fake-cucumber/v11.0.0...fake-cucumber/v12.0.0
