@@ -46,7 +46,7 @@
     "@cucumber/fake-cucumber": "^12.0.2",
     "@cucumber/gherkin": "^19.0.3",
     "@cucumber/gherkin-streams": "^2.0.2",
-    "@cucumber/message-streams": "^2.1.0",
+    "@cucumber/message-streams": "^3.0.0",
     "@storybook/addon-actions": "6.3.3",
     "@storybook/addon-links": "6.3.3",
     "@storybook/builder-webpack5": "6.3.3",

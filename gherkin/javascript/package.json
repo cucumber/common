@@ -32,7 +32,7 @@
   },
   "dependencies": {
     "@cucumber/messages": "^17.0.0",
-    "@cucumber/message-streams": "^2.1.0"
+    "@cucumber/message-streams": "^3.0.0"
   },
   "directories": {
     "test": "test"
