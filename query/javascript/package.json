@@ -1,6 +1,6 @@
 {
   "name": "@cucumber/query",
-  "version": "10.1.0",
+  "version": "11.0.0",
   "description": "Cucumber Query - query messages",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",

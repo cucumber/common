@@ -17,6 +17,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [11.0.0] - 2021-07-08
+
+### Changed
+
+* Bump `@cucumber/messages` to v17.0.0
+
+### Fixed
+
 * Methods that return/map step results now include results from _only the last attempt_ where there have been retries ([#1631](https://github.com/cucumber/common/pull/1631)). Affects methods:
   * `Query#getPickleStepAttachments`
   * `Query#getPickleStepTestStepResults`
@@ -146,7 +154,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First JavaScript implementation
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/query/v10.1.0...main
+[Unreleased]: https://github.com/cucumber/cucumber/compare/query/v11.0.0...main
+[11.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-query/v10.1.0...query/v11.0.0
 [10.1.0]:      https://github.com/cucumber/cucumber/compare/cucumber-query/v10.0.0...query/v10.1.0
 [10.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-query/v9.0.2...query/v10.0.0
 [9.0.2]:      https://github.com/cucumber/cucumber/compare/cucumber-query/v9.0.1...query/v9.0.2
