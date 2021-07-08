@@ -9,6 +9,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+## [6.0.0] - 2021-07-08
+
+### Added
+
 * Detect and populate `Ci#buildNumber` for all supported CI servers.
   ([#1632](https://github.com/cucumber/common/pull/1632)
    [#1606](https://github.com/cucumber/common/issues/1606)
@@ -16,8 +28,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 * [Java] Removed implicit utility class constructors and made classes final
-
-### Deprecated
 
 ### Removed
 
@@ -121,7 +131,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/create-meta/v5.0.0...main
+[Unreleased]: https://github.com/cucumber/cucumber/compare/create-meta/v6.0.0...main
+[6.0.0]:      https://github.com/cucumber/cucumber/compare/create-meta/v5.0.0...create-meta/v6.0.0
 [5.0.0]:      https://github.com/cucumber/cucumber/compare/create-meta/v4.0.0...create-meta/v5.0.0
 [4.0.0]:      https://github.com/cucumber/cucumber/compare/create-meta/v3.0.0...create-meta/v4.0.0
 [3.0.0]:      https://github.com/cucumber/cucumber/compare/create-meta/v2.0.4...create-meta/v3.0.0
