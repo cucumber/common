@@ -1,7 +1,7 @@
 package json
 
 import (
-	"github.com/cucumber/common/messages/go/v16"
+	"github.com/cucumber/common/messages/go/v17"
 )
 
 func makeScenario(id string, steps []*messages.Step) *messages.Scenario {

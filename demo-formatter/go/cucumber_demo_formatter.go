@@ -8,7 +8,7 @@ package cucumber_demo_formatter
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/cucumber/common/messages/go/v16"
+	"github.com/cucumber/common/messages/go/v17"
 	"io"
 )
 

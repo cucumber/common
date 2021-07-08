@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/cucumber/common/messages/go/v16"
+	"github.com/cucumber/common/messages/go/v17"
 )
 
 type TestStep struct {
