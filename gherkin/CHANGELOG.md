@@ -13,6 +13,17 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Changed
 
+### Deprecated
+
+### Removed
+
+### Fixed
+
+## [20.0.0] - 2021-07-08
+
+### Changed
+
+* Update messages to v17.0.0
 * Update `rule` polish translation
   ([#1579](https://github.com/cucumber/common/pull/1579) [l310][jakzal])
 * Add US Texan translations.
@@ -21,10 +32,6 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
   ([#1550](https://github.com/cucumber/common/issues/1550))
 * [Ruby] Usage of Message DTOs instead of plain ruby hashes
   ([#1603](https://github.com/cucumber/common/pull/1603))
-
-### Deprecated
-
-### Removed
 
 ### Fixed
 * [Ruby] Rules weren't inheriting the relevant tags during the Gherkin Query stage (Where it caches the NodeID)
@@ -1013,7 +1020,8 @@ to Gherkin 2.
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v19.0.3...main
+[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v20.0.0...main
+[20.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v19.0.3...gherkin/v20.0.0
 [19.0.3]:     https://github.com/cucumber/cucumber/compare/gherkin/v19.0.2...gherkin/v19.0.3
 [19.0.2]:     https://github.com/cucumber/cucumber/compare/gherkin/v19.0.1...gherkin/v19.0.2
 [19.0.1]:     https://github.com/cucumber/cucumber/compare/gherkin/v19.0.0...gherkin/v19.0.1
