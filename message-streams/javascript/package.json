@@ -15,7 +15,7 @@
     "prepublishOnly": "tsc --build tsconfig.build.json"
   },
   "dependencies": {
-    "@cucumber/messages": "^16.0.1"
+    "@cucumber/messages": "^17.0.0"
   },
   "devDependencies": {
     "@types/mocha": "8.2.3",
