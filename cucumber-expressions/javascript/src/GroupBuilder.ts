@@ -1,5 +1,4 @@
 import Group from './Group'
-import RegexExecArray from './RegexExecArray'
 
 export default class GroupBuilder {
   public source: string
@@ -10,15 +9,15 @@ export default class GroupBuilder {
     this.groupBuilders.push(groupBuilder)
   }
 
-  public build(match: RegexExecArray, nextGroupIndex: () => number): Group {
+  public build(match: RegExpExecArray, nextGroupIndex: () => number): Group {
     const groupIndex = nextGroupIndex()
     const children = this.groupBuilders.map((gb) => gb.build(match, nextGroupIndex))
-    return new Group(
-      match[groupIndex] || undefined,
-      match.index[groupIndex],
-      match.index[groupIndex] + (match[groupIndex] || '').length,
-      children
-    )
+    const value = match[groupIndex] || undefined
+    // @ts-ignore
+    const index = match.indices[groupIndex]
+    const start = index ? index[0] : undefined
+    const end = index ? index[1] : undefined
+    return new Group(value, start, end, children)
   }
 
   public setNonCapturing() {

@@ -120,8 +120,14 @@ describe('TreeRegexp', () => {
     assert.strictEqual(group.children.length, 1)
   })
 
-  it('works with flags', () => {
+  it('works with case insensitive flag', () => {
     const tr = new TreeRegexp(/HELLO/i)
+    const group = tr.match('hello')
+    assert.strictEqual(group.value, 'hello')
+  })
+
+  it('works with indices flag already present', () => {
+    const tr = new TreeRegexp(new RegExp('HELLO', 'id'))
     const group = tr.match('hello')
     assert.strictEqual(group.value, 'hello')
   })

@@ -1,18 +1,21 @@
 import GroupBuilder from './GroupBuilder'
-// @ts-ignore
-import Regex from 'becke-ch--regex--s0-0-v1--base--pl--lib'
-import RegexExecArray from './RegexExecArray'
 import Group from './Group'
 
 export default class TreeRegexp {
-  public regexp: RegExp
-  private regex: any
-  public groupBuilder: GroupBuilder
+  public readonly regexp: RegExp
+  public readonly groupBuilder: GroupBuilder
 
   constructor(regexp: RegExp | string) {
-    this.regexp = 'string' === typeof regexp ? new RegExp(regexp) : regexp
-    this.regex = new Regex(this.regexp.source, this.regexp.flags)
-    this.groupBuilder = TreeRegexp.createGroupBuilder(this.regex)
+    if (regexp instanceof RegExp) {
+      if (!regexp.flags.includes('d')) {
+        this.regexp = new RegExp(regexp.source, regexp.flags + 'd')
+      } else {
+        this.regexp = regexp
+      }
+    } else {
+      this.regexp = new RegExp(regexp, 'd')
+    }
+    this.groupBuilder = TreeRegexp.createGroupBuilder(this.regexp)
   }
 
   private static createGroupBuilder(regexp: RegExp) {
@@ -53,22 +56,22 @@ export default class TreeRegexp {
 
   private static isNonCapturing(source: string, i: number): boolean {
     // Regex is valid. Bounds check not required.
-    if (source[i + 1] != '?') {
+    if (source[i + 1] !== '?') {
       // (X)
       return false
     }
-    if (source[i + 2] != '<') {
+    if (source[i + 2] !== '<') {
       // (?:X)
       // (?=X)
       // (?!X)
       return true
     }
     // (?<=X) or (?<!X) else (?<name>X)
-    return source[i + 3] == '=' || source[i + 3] == '!'
+    return source[i + 3] === '=' || source[i + 3] === '!'
   }
 
   public match(s: string): Group | null {
-    const match: RegexExecArray = this.regex.exec(s)
+    const match = this.regexp.exec(s)
     if (!match) {
       return null
     }
