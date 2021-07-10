@@ -126,12 +126,6 @@ describe('TreeRegexp', () => {
     assert.strictEqual(group.value, 'hello')
   })
 
-  it('works with indices flag already present', () => {
-    const tr = new TreeRegexp(new RegExp('HELLO', 'id'))
-    const group = tr.match('hello')
-    assert.strictEqual(group.value, 'hello')
-  })
-
   it('empty capturing group', () => {
     const tr = new TreeRegexp(/()/)
     const group = tr.match('')

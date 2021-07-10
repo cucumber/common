@@ -1,5 +1,6 @@
 import GroupBuilder from './GroupBuilder'
 import Group from './Group'
+import execWithIndices from 'regexp-match-indices'
 
 export default class TreeRegexp {
   public readonly regexp: RegExp
@@ -7,13 +8,9 @@ export default class TreeRegexp {
 
   constructor(regexp: RegExp | string) {
     if (regexp instanceof RegExp) {
-      if (!regexp.flags.includes('d')) {
-        this.regexp = new RegExp(regexp.source, regexp.flags + 'd')
-      } else {
-        this.regexp = regexp
-      }
+      this.regexp = regexp
     } else {
-      this.regexp = new RegExp(regexp, 'd')
+      this.regexp = new RegExp(regexp)
     }
     this.groupBuilder = TreeRegexp.createGroupBuilder(this.regexp)
   }
@@ -71,7 +68,7 @@ export default class TreeRegexp {
   }
 
   public match(s: string): Group | null {
-    const match = this.regexp.exec(s)
+    const match = execWithIndices(this.regexp, s)
     if (!match) {
       return null
     }
