@@ -6,7 +6,7 @@ export default class Group {
     public readonly children: readonly Group[]
   ) {}
 
-  get values(): readonly string[] {
+  get values(): string[] {
     return (this.children.length === 0 ? [this] : this.children).map((g) => g.value)
   }
 }
