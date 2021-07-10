@@ -1,4 +1,5 @@
 import Group from './Group'
+import { RegExpExecArray } from 'regexp-match-indices'
 
 export default class GroupBuilder {
   public source: string
@@ -13,7 +14,6 @@ export default class GroupBuilder {
     const groupIndex = nextGroupIndex()
     const children = this.groupBuilders.map((gb) => gb.build(match, nextGroupIndex))
     const value = match[groupIndex] || undefined
-    // @ts-ignore
     const index = match.indices[groupIndex]
     const start = index ? index[0] : undefined
     const end = index ? index[1] : undefined
