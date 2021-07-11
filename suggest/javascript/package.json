@@ -35,6 +35,6 @@
   },
   "dependencies": {
     "@cucumber/cucumber": "7.3.0",
-    "@cucumber/messages": "^17.0.0"
+    "@cucumber/cucumber-expressions": "12.1.1"
   }
 }
