@@ -10,19 +10,24 @@ for suggestions as they cannot be inserted directly into a text document as-is.
 The library uses Cucumber Expressions and Regular Expressions to provide *better*
 suggestions than what would have been possible using only Gherkin steps.
 
-## Rule: Existing steps are the basis of suggestions
+## Rule: Suggestions must have a matching step definition
+
+It isn't enough to type something that matches an existing step,
+the existing step must also have a matching step definition.
 
 ### Example: A single step is suggested
 
 * Given the following Gherkin steps exist:
   | I have 42 cukes in my belly |
+* And the following Step Definitions exist:
+  | Something else |
 * When I type "I have"
-* Then the suggestions should be:
-  | I have 42 cukes in my belly |
+* Then the suggestions should be empty
 
-## Rule: Existing steps matching the same step definition are only suggested once
+## Rule: Only one suggestion per step definition
 
-If there are multiple steps the one with the lowest lexical order is used
+If there are multiple steps that match the same step definition,
+then use the one with the lowest lexical order.
 
 ### Example: Two steps matching the same step definitiom
 

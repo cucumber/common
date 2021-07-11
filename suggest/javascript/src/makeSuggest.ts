@@ -12,10 +12,10 @@ export default function makeSuggest(steps: readonly string[], expressions: reado
       const match = expression.match(step)
       if (match) {
         suggestionSteps.push(step)
+        break
       }
     }
   }
-
 
   return (text) => {
     return suggestionSteps.map(step => {
