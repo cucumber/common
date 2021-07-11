@@ -5,7 +5,9 @@
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
   "scripts": {
-    "test": "mocha",
+    "test": "npm run cucumber && npm run mocha",
+    "mocha": "mocha",
+    "cucumber": "cucumber-js README.md",
     "prepublishOnly": "tsc --build tsconfig.build.json"
   },
   "repository": {
@@ -32,6 +34,7 @@
     "typescript": "4.3.5"
   },
   "dependencies": {
+    "@cucumber/cucumber": "7.3.0",
     "@cucumber/messages": "^17.0.0"
   }
 }

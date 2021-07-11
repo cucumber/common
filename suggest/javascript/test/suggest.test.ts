@@ -1,6 +1,5 @@
 import assert from 'assert'
-
-type Suggestion = {}
+import { Suggestion } from '../src/makeSuggest'
 
 function suggest(text: string): readonly Suggestion[] {
   return [{
