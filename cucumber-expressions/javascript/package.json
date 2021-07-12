@@ -34,7 +34,7 @@
     "typescript": "4.3.5"
   },
   "dependencies": {
-    "becke-ch--regex--s0-0-v1--base--pl--lib": "1.4.0"
+    "regexp-match-indices": "1.0.2"
   },
   "directories": {
     "test": "test"
