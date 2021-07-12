@@ -1,12 +1,13 @@
 import { Expression } from '@cucumber/cucumber-expressions'
-import { PermutationExpression } from './types'
+import { StepDocument } from './types'
 
 type TextOrChoiceIndexExpression = TextOrChoiceIndexSegment[]
 type TextOrChoiceIndexSegment = string | number
 type ChoicesArray = Set<string>[]
 
-export default class PermutationExpressionBuilder {
-  private readonly jsonExpressions = new Set<string>()
+export default class StepDocumentBuilder {
+  // We can't store StepDocument in a Set, so we store a string representation instead
+  private readonly jsonDocuments = new Set<string>()
   private choicesArray: ChoicesArray = []
 
   constructor(private readonly expression: Expression) {
@@ -33,15 +34,14 @@ export default class PermutationExpressionBuilder {
       if (lastSegment !== '') {
         expression.push(lastSegment)
       }
-      this.jsonExpressions.add(JSON.stringify(expression))
+      this.jsonDocuments.add(JSON.stringify(expression))
     }
   }
 
-  toPermutationExpressions(): readonly PermutationExpression[] {
-    return [...this.jsonExpressions].sort().map(jsonSnippet => {
-      const snippet: TextOrChoiceIndexExpression = JSON.parse(jsonSnippet)
-      const permutationExpression: PermutationExpression = snippet.map((segment, i) => typeof segment === 'number' ? [...this.choicesArray[segment]].sort() : segment)
-      return permutationExpression
+  getStepDocuments(): readonly StepDocument[] {
+    return [...this.jsonDocuments].sort().map(jsonSnippet => {
+      const textOrChoiceIndexEcpression: TextOrChoiceIndexExpression = JSON.parse(jsonSnippet)
+      return textOrChoiceIndexEcpression.map((segment, i) => typeof segment === 'number' ? [...this.choicesArray[segment]].sort() : segment)
     })
   }
 }

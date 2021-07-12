@@ -1,4 +1,4 @@
-import { Index, PermutationExpression } from '../src/types'
+import { Index, StepDocument } from '../src/types'
 import { Search } from 'js-search'
 
 type Doc = {
@@ -6,7 +6,7 @@ type Doc = {
   text: string
 }
 
-export default function fuseIndex(permutationExpressions: readonly PermutationExpression[]): Index {
+export default function fuseIndex(permutationExpressions: readonly StepDocument[]): Index {
   const docs: Doc[] = permutationExpressions.map((expression, id) => {
     return {
       id,

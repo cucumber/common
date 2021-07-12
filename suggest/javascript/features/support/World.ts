@@ -1,6 +1,6 @@
 import { setWorldConstructor } from '@cucumber/cucumber'
 import { Expression } from '@cucumber/cucumber-expressions'
-import { PermutationExpression } from '../../src/types'
+import { StepDocument } from '../../src/types'
 
 export default class World {
   /**
@@ -9,14 +9,14 @@ export default class World {
   steps: readonly string[] = []
 
   /**
-   * The [Cucumber|Regular]Expressions from the step definitions
+   * The known [Cucumber|Regular]Expressions from the step definitions
    */
   expressions: readonly Expression[] = []
 
   /**
    * The results of calling the index(text) function
    */
-  permutationExpressions: readonly PermutationExpression[]
+  stepDocuments: readonly StepDocument[]
 }
 
 setWorldConstructor(World)

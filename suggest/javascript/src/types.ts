@@ -1,14 +1,14 @@
 /**
- * A search index function. Results can be formatted with {@link lspSnippet} for use in LSP systems.
+ * A search index function.
  *
  * @param text a text to search for
  * @return results in the form of permutation expressions
  */
-export type Index = (text: string) => readonly PermutationExpression[]
+export type Index = (text: string) => readonly StepDocument[]
 
 /**
- * Represents variation of a sentence.
+ * A document that can be indexed.
  */
-export type PermutationExpression = readonly PermutationSegment[]
+export type StepDocument = readonly StepSegment[]
 
-export type PermutationSegment = string | readonly string[]
+export type StepSegment = string | readonly string[]

@@ -1,24 +1,29 @@
 # Cucumber Suggest
 
-This library provides logic for building an index that can provide autocomplete
-suggestions for Gherkin steps. 
+This is a library that can be used to build Gherkin step auto-complete in editors.
 
-The library uses a combination of *Gherkin Steps* and *Step Definitions*
-(their Cucumber Expressions and Regular Expressions) to build a *vocabulary* that can be used 
-to build a search index.
+An auto-complete engine uses a [search index](https://en.wikipedia.org/wiki/Search_engine_indexing)
+that it can query as the user types. It then presents the search hits in the editor as *suggestions*.
 
-The examples below illustrate how the library works from the perspective of a user. 
+A search index indexes *documents*. 
+
+This library uses *Gherkin Steps* and *Step Definitions*
+(their Cucumber Expressions and Regular Expressions) to build `StepDocument`s.
+These `StepDocument`s can then be added to a search index.
+
+The details of a `StepDocument` is explained below - for now just think of it as a step,
+such as `I have 42 cukes in my belly`.
+
+The examples below illustrate how the library works from the perspective of a user.
+(Yep, this README.md file is executed by Cucumber.js)!
+
 The suggestions in the examples use the
 [LSP Completion Snippet syntax](https://microsoft.github.io/language-server-protocol/specifications/specification-3-17/#snippet_syntax)
 to represent search results.
 
-## Rule: Two matches
+## Rule: Suggestions are based on both steps and step definitions
 
-If there are multiple steps that match the same step definition,
-suggest a 
-using suggestions from all steps.
-
-### Example: Two steps matching the same step definitiom
+### Example: Two suggestions
 
 * Given the following Gherkin steps exist:
   | Gherkin Step                   |
@@ -41,12 +46,12 @@ using suggestions from all steps.
 
 LSP-compatible editors such as
 [Monaco Editor](https://microsoft.github.io/monaco-editor/) or 
-[Visual Studio Code](https://code.visualstudio.com/) will display these suggestions
+[Visual Studio Code](https://code.visualstudio.com/) can display these suggestions
 as `I have {int} cukes in my {word}` and `I have {int} cukes on my {word}`.
 
 When the user chooses a suggestion, the editor will focus the editor at the first parameter and
-suggest `11` or `23`. When the user has made a choice, the focus will move to the next
-parameter and suggest `belly`, `suitcase` or `table`.
+let the user choose between `11` or `23` (or type a custom value). When the user has made a choice, 
+the focus moves to the next parameter and suggests `belly`, `suitcase` or `table`.
 
 ## Rule: Suggestions must have a matching step definition
 
@@ -68,61 +73,73 @@ the existing step must also have a matching step definition.
 
 ## Implementation
 
-The suggest functionality in this module consists of two parts:
+This library consists of three parts
 
-* Permutation Expressions
+* Step Documents
 * Search Index
+* Presentation
 
-The library itself is not dependent on [LSP](https://microsoft.github.io/language-server-protocol/),
-but it can be used to build an LSP server.
+### Step Documents
 
-### Permutation Expressions
+A `StepDocument` is a representation of an existing Gherkin step, with known possible permutations
+of its *parameters*.
 
-A `PermutationExpression` is a partial *vocabulary* that can be used to build a search index.
-It is a compact representation of permutations of existing Gherkin steps.
-
-Here is an example of a `PermutationExpression`:
+Here is an example of a `StepDocument`:
 
 `["I have ", ["42", "54"], " cukes in my ", ["basket", "belly"]]`
 
-The possible permutations of this expression are:
+That document has the following plain-text permutations:
 
 * `I have 42 cukes in my basket`
 * `I have 54 cukes in my basket`
 * `I have 42 cukes in my belly`
 * `I have 54 cukes in my belly`
 
-A `PermutationExpression` can be converted to an *LSP Completion Snippet* using the `lspCompletionSnippet` function:
+The `buildStepDocuments` function takes an array of Gherkin Step texts and another array of Cucumber/Regular Expressions.
+and returns an array of `StepDocument`.
 
-`I have ${1|42,54|} cukes in my ${2|basket,belly|}`
-
-A `PermutationExcpression` can also be used to update an *index* that can be used to look up matches
-for what a user types. For example, if they type `cuke`, the index would return matches based on the
-permutation expression above.
-
-The `buildPermutationExpressions` function can be used to build an array of `PermutationExpression`
-from Gherkin Steps and Step Definitions (Cucumber Expressions and Regular Expressions).
+The Gherkin Step texts and Cucumber/Regular Expressions can be extracted from a stream of 
+[Cucumber Messages](../../messages).
 
 ### Search Index
 
-A Search Index can be built by passing all the Gherkin Step texts and Step Definition expressions
-to the `buildPermutationExpressions` to obtain a set of `PermutationExpression`s.
-
-These expressions (which represent the entire vocabulary for auto-completion) can then be used to 
-build a search index. 
+Each `StepDocument` can be added to a *search index*. The search index will return matching
+`StepDocument`s for a search term.
 
 The index is a function with the following signature:
 
-`type Index = (text: string) => readonly PermutationExpression[]`
+`type Index = (text: string) => readonly StepDocument[]`
 
-It takes a string (what the user has typed) as input, and returns a list of matching `PermutationExpression`.
-Depending on the environment, they can be presented in different ways (for example in an LSP environment
-they would each be converted to a snippet using `lspCompletionSnippet`).
+There are three experimental search index implementations in this library:
 
-There are several
-[algorithms](https://futurice.com/blog/data-structures-for-fast-autocomplete) for building efficient
-search indexes. The `bruteForceIndex` function builds a functional, but not very performant
-index.
+* `fuseIndex` (based on [Fuse.js](https://fusejs.io/))
+* `jsSearchIndex` (based on [JS Search](http://bvaughn.github.io/js-search/))
+* `bruteForceIndex` (based on [String.prototype.includes()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/includes))
 
-See the `Index.test.ts` file for more details about how the index should behave. This should
-be the basis for more performant index implementations.
+They are currently only in the test code, but one of them might be promoted to be part of the library at a later stage 
+when we have tried them out on real data.
+
+See the `Index.test.ts` contract test for more details about how the indexes behave.
+
+### Presentation
+
+The `StepDocument`s coming back from an index search can be converted to an
+[LSP Completion Snippet](https://microsoft.github.io/language-server-protocol/specifications/specification-3-17/#snippet_syntax)
+using the `lspCompletionSnippet` function.
+
+For example, this `StepDocument`:
+
+`["I have ", ["42", "54"], " cukes in my ", ["basket", "belly"]]`
+
+becomes the following LSP Completion Snippet:
+
+`I have ${1|42,54|} cukes in my ${2|basket,belly|}`
+
+### Not in this library
+
+It's beyond the scope of this library to implement an LSP server.
+An LSP server could be built on this library though.
+
+It would also be possible to build a complete in-browser auto-complete
+plugin for e.g. CodeMirror by embedding this library in the UI code, and build an
+index from Cucumber Messages.

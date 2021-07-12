@@ -1,11 +1,11 @@
-import { Index, PermutationExpression } from '../src/types'
+import { Index, StepDocument } from '../src/types'
 import Fuse from 'fuse.js'
 
 type Doc = {
   text: string
 }
 
-export default function fuseIndex(permutationExpressions: readonly PermutationExpression[]): Index {
+export default function fuseIndex(permutationExpressions: readonly StepDocument[]): Index {
   const docs: Doc[] = permutationExpressions.map(expression => {
     return {
       text: expression.map(segment => typeof segment === 'string' ? segment : segment.join(' ')).join('')

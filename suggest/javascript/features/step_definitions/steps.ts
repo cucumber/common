@@ -2,8 +2,8 @@ import { DataTable, Given, Then, When } from '@cucumber/cucumber'
 import World from '../support/World'
 import assert from 'assert'
 import { CucumberExpression, ParameterTypeRegistry } from '@cucumber/cucumber-expressions'
-import bruteForceIndex from '../../src/bruteForceIndex'
-import buildPermutationExpressions from '../../src/buildPermutationExpressions'
+import bruteForceIndex from '../../test/bruteForceIndex'
+import buildStepDocuments from '../../src/buildStepDocuments'
 import lspCompletionSnippet from '../../src/lspCompletionSnippet'
 
 Given('the following Gherkin steps exist:', function (this: World, stepsTable: DataTable) {
@@ -16,16 +16,16 @@ Given('the following Step Definitions exist:', function (this: World, stepDefini
 })
 
 When('I type {string}', function (this: World, text: string) {
-  const permutationExpressions = buildPermutationExpressions(this.steps, this.expressions)
+  const permutationExpressions = buildStepDocuments(this.steps, this.expressions)
   const index = bruteForceIndex(permutationExpressions)
-  this.permutationExpressions = index(text)
+  this.stepDocuments = index(text)
 })
 
 Then('the suggestions should be:', function (this: World, expectedSuggetionsTable: DataTable) {
   const expectedSuggestions: readonly string[] = expectedSuggetionsTable.rows().map((row) => (row[0]))
-  assert.deepStrictEqual(this.permutationExpressions.map(lspCompletionSnippet), expectedSuggestions)
+  assert.deepStrictEqual(this.stepDocuments.map(lspCompletionSnippet), expectedSuggestions)
 })
 
 Then('the suggestions should be empty', function (this: World) {
-  assert.deepStrictEqual(this.permutationExpressions, [])
+  assert.deepStrictEqual(this.stepDocuments, [])
 })

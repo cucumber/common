@@ -3,9 +3,9 @@
  *
  * @param expression the expression to generate the snippet from
  */
-import { PermutationExpression } from './types'
+import { StepDocument } from './types'
 
-export default function lspCompletionSnippet(expression: PermutationExpression): string {
+export default function lspCompletionSnippet(expression: StepDocument): string {
   let n = 1
   return expression.map((segment) => Array.isArray(segment) ? lspPlaceholder(n++, segment) : segment).join('')
 }
