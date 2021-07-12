@@ -1,6 +1,7 @@
 # Cucumber Suggest
 
-This is a library that can be used to build Gherkin step auto-complete in editors.
+This is a library that can be used to build Gherkin step auto-complete in editors. 
+It does not implement a UI component, but it can provide suggestions to a UI component.
 
 An auto-complete engine uses a [search index](https://en.wikipedia.org/wiki/Search_engine_indexing)
 that it can query as the user types. It then presents the search hits in the editor as *suggestions*.
