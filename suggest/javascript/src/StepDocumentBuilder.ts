@@ -10,8 +10,7 @@ export default class StepDocumentBuilder {
   private readonly jsonDocuments = new Set<string>()
   private choicesArray: ChoicesArray = []
 
-  constructor(private readonly expression: Expression) {
-  }
+  constructor(private readonly expression: Expression) {}
 
   update(text: string) {
     const args = this.expression.match(text)
@@ -39,9 +38,11 @@ export default class StepDocumentBuilder {
   }
 
   getStepDocuments(): readonly StepDocument[] {
-    return [...this.jsonDocuments].sort().map(jsonSnippet => {
+    return [...this.jsonDocuments].sort().map((jsonSnippet) => {
       const textOrChoiceIndexEcpression: TextOrChoiceIndexExpression = JSON.parse(jsonSnippet)
-      return textOrChoiceIndexEcpression.map((segment, i) => typeof segment === 'number' ? [...this.choicesArray[segment]].sort() : segment)
+      return textOrChoiceIndexEcpression.map((segment) =>
+        typeof segment === 'number' ? [...this.choicesArray[segment]].sort() : segment
+      )
     })
   }
 }

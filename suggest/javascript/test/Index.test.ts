@@ -1,6 +1,6 @@
 import assert from 'assert'
 import bruteForceIndex from './bruteForceIndex'
-import { Index, StepDocument } from '../src/types'
+import { Index, StepDocument } from '../src'
 import fuseIndex from './fuseIndex'
 import jsSearchIndex from './jsSearchIndex'
 import * as txtgen from 'txtgen'
@@ -38,25 +38,28 @@ function verifyIndexContract(name: string, buildIndex: BuildIndex) {
       })
     })
 
-    describe('performance', () => {
+    describe('performance / fuzz', () => {
       it('matches how quickly exactly?', () => {
         for (let i = 0; i < 100; i++) {
           const length = 100
-          const expressions: StepDocument[] = Array(length).fill(0).map(() => [txtgen.sentence()])
+          const expressions: StepDocument[] = Array(length)
+            .fill(0)
+            .map(() => [txtgen.sentence()])
           const index = buildIndex(expressions)
 
-          const sentence = expressions[Math.floor(length/2)][0] as string
+          const sentence = expressions[Math.floor(length / 2)][0] as string
           const words = sentence.split(' ')
           // Find a word longer than 5 letters (fall back to the middle word if there are none)
-          const term = words.find(word => word.length > 5) || words[Math.floor(words.length / 2)]
+          const word = words.find((word) => word.length > 5) || words[Math.floor(words.length / 2)]
+          const term = word.replace(/[.?!;,]/g, '').toLowerCase()
 
           const suggestions = index(term)
-          if(suggestions.length === 0) {
+          if (suggestions.length === 0) {
             console.error(`WARNING: ${name} - no hits for "${term}"`)
           }
           for (const suggestion of suggestions) {
-            const s = expressions[Math.floor(length/2)][0] as string
-            if(!s.includes(term)) {
+            const s = (suggestion[0] as string).toLowerCase()
+            if (!s.includes(term)) {
               console.error(`WARNING: ${name} - "${s}" does not include "${term}"`)
             }
           }

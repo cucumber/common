@@ -1,4 +1,4 @@
-import { Index, StepDocument } from '../src/types'
+import { Index, StepDocument } from '../src'
 import { Search } from 'js-search'
 
 type Doc = {
@@ -6,11 +6,13 @@ type Doc = {
   text: string
 }
 
-export default function fuseIndex(permutationExpressions: readonly StepDocument[]): Index {
-  const docs: Doc[] = permutationExpressions.map((expression, id) => {
+export default function fuseIndex(stepDocuments: readonly StepDocument[]): Index {
+  const docs: Doc[] = stepDocuments.map((expression, id) => {
     return {
       id,
-      text: expression.map(segment => typeof segment === 'string' ? segment : segment.join(' ')).join('')
+      text: expression
+        .map((segment) => (typeof segment === 'string' ? segment : segment.join(' ')))
+        .join(''),
     }
   })
 
@@ -20,6 +22,6 @@ export default function fuseIndex(permutationExpressions: readonly StepDocument[
 
   return (text) => {
     const results = search.search(text)
-    return results.map((result: Doc) => permutationExpressions[result.id])
+    return results.map((result: Doc) => stepDocuments[result.id])
   }
 }

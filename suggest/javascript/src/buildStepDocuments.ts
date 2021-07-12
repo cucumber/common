@@ -8,9 +8,12 @@ import { Expression } from '@cucumber/cucumber-expressions'
  * @param stepTexts
  * @param expressions
  */
-export default function buildStepDocuments(stepTexts: readonly string[], expressions: readonly Expression[]): readonly StepDocument[] {
+export default function buildStepDocuments(
+  stepTexts: readonly string[],
+  expressions: readonly Expression[]
+): readonly StepDocument[] {
   let stepDocuments: StepDocument[] = []
-  const builders = expressions.map(expression => new StepDocumentBuilder(expression))
+  const builders = expressions.map((expression) => new StepDocumentBuilder(expression))
   for (const builder of builders) {
     for (const step of stepTexts) {
       builder.update(step)

@@ -5,12 +5,13 @@
  */
 import { StepDocument } from './types'
 
-export default function lspCompletionSnippet(expression: StepDocument): string {
+export default function lspCompletionSnippet(stepDocument: StepDocument): string {
   let n = 1
-  return expression.map((segment) => Array.isArray(segment) ? lspPlaceholder(n++, segment) : segment).join('')
+  return stepDocument
+    .map((segment) => (Array.isArray(segment) ? lspPlaceholder(n++, segment) : segment))
+    .join('')
 }
 
 function lspPlaceholder(i: number, choices: readonly string[]) {
   return `\${${i}|${choices.join(',')}|}`
 }
-

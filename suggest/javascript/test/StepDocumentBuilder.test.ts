@@ -3,7 +3,7 @@ import assert from 'assert'
 import StepDocumentBuilder from '../src/StepDocumentBuilder'
 
 describe('StepDocumentBuilder', () => {
-  it('builds permutation expressions', () => {
+  it('builds step documents', () => {
     const registry = new ParameterTypeRegistry()
 
     const expression = new CucumberExpression('I have {int} cukes in/on my {word}', registry)

@@ -1,17 +1,21 @@
-import { Index, StepDocument } from '../src/types'
+import { Index, StepDocument } from '../src'
 
 /**
  * A brute force (not very performant or fuzzy-search capable) index that matches permutation expressions with string.includes()
  *
- * @param permutationExpressions
+ * @param stepDocuments
  */
-export default function bruteForceIndex(permutationExpressions: readonly StepDocument[]): Index {
+export default function bruteForceIndex(stepDocuments: readonly StepDocument[]): Index {
   return (text) => {
-    const predicate = (segment: string) => segment.includes(text)
-    return permutationExpressions.filter(permutationExpression => matches(permutationExpression, predicate))
+    const predicate = (segment: string) => segment.toLowerCase().includes(text.toLowerCase())
+    return stepDocuments.filter((permutationExpression) =>
+      matches(permutationExpression, predicate)
+    )
   }
 }
 
-function matches(expression: StepDocument, predicate: (segment: string) => boolean): boolean {
-  return !!expression.find(segment => typeof segment === 'string' ? predicate(segment) : !!segment.find(predicate))
+function matches(stepDocument: StepDocument, predicate: (segment: string) => boolean): boolean {
+  return !!stepDocument.find((segment) =>
+    typeof segment === 'string' ? predicate(segment) : !!segment.find(predicate)
+  )
 }
