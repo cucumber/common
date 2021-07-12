@@ -6,7 +6,7 @@ import bruteForceIndex from '../../test/bruteForceIndex'
 import buildStepDocuments from '../../src/buildStepDocuments'
 import lspCompletionSnippet from '../../src/lspCompletionSnippet'
 
-Given('the following Gherkin steps exist:', function (this: World, stepsTable: DataTable) {
+Given('the following Gherkin step texts exist:', function (this: World, stepsTable: DataTable) {
   this.steps = stepsTable.rows().map(row => row[0])
 })
 

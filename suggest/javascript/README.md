@@ -26,7 +26,7 @@ to represent search results.
 
 ### Example: Two suggestions
 
-* Given the following Gherkin steps exist:
+* Given the following Gherkin step texts exist:
   | Gherkin Step                   |
   | ------------------------------ |
   | I have 23 cukes in my belly    |
@@ -61,7 +61,7 @@ the existing step must also have a matching step definition.
 
 ### Example: Nothing matches
 
-* Given the following Gherkin steps exist:
+* Given the following Gherkin step texts exist:
   | Gherkin Step                |
   | --------------------------- |
   | I have 42 cukes in my belly |
