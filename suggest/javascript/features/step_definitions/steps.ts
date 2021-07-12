@@ -21,11 +21,11 @@ When('I type {string}', function (this: World, text: string) {
   this.permutationExpressions = index(text)
 })
 
-Then('the lsp completion snippets should be:', function (this: World, expectedSuggetionsTable: DataTable) {
+Then('the suggestions should be:', function (this: World, expectedSuggetionsTable: DataTable) {
   const expectedSuggestions: readonly string[] = expectedSuggetionsTable.rows().map((row) => (row[0]))
   assert.deepStrictEqual(this.permutationExpressions.map(lspCompletionSnippet), expectedSuggestions)
 })
 
-Then('the lsp completion snippets should be empty', function (this: World) {
+Then('the suggestions should be empty', function (this: World) {
   assert.deepStrictEqual(this.permutationExpressions, [])
 })
