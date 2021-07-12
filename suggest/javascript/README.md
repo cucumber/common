@@ -141,6 +141,10 @@ becomes the following LSP Completion Snippet:
 It's beyond the scope of this library to implement an LSP server.
 An LSP server could be built on this library though.
 
-It would also be possible to build a complete in-browser auto-complete
-plugin for e.g. CodeMirror by embedding this library in the UI code, and build an
-index from Cucumber Messages.
+It is also beyond the scope of this library to provide any kind of UI component.
+For LSP-capable editors this isn't even needed - it is built into the editor.
+
+For non-LSP capable editors written in JavaScript (such as CodeMirror) it would be possible to 
+build an auto-complete plugin that uses one of the `Index` implementations in this library.
+Building the `StepDocument`s could happen on a server somewhere, and could be transferred to
+the browser over HTTP/JSON.
