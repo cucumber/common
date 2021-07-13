@@ -37,11 +37,11 @@ export default class StepDocumentBuilder {
     }
   }
 
-  getStepDocuments(): readonly StepDocument[] {
+  getStepDocuments(maxChoices = 10): readonly StepDocument[] {
     return [...this.jsonDocuments].sort().map((jsonSnippet) => {
-      const textOrChoiceIndexEcpression: TextOrChoiceIndexExpression = JSON.parse(jsonSnippet)
-      return textOrChoiceIndexEcpression.map((segment) =>
-        typeof segment === 'number' ? [...this.choicesArray[segment]].sort() : segment
+      const textOrChoiceIndexExpression: TextOrChoiceIndexExpression = JSON.parse(jsonSnippet)
+      return textOrChoiceIndexExpression.map((segment) =>
+        typeof segment === 'number' ? [...this.choicesArray[segment]].sort().slice(0, maxChoices) : segment
       )
     })
   }
