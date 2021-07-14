@@ -17,8 +17,21 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [0.0.1] - 2021-07-14
+
+### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
 <!-- Releases -->
 [Unreleased]: https://github.com/cucumber/common/compare/cucumber-suggest/v0.0.1...main
+[0.0.1]:      https://github.com/cucumber/common/releases/tag/cucumber-suggest-v0.0.1
 [0.0.1]:      https://github.com/cucumber/common/releases/tag/cucumber-suggest-v0.0.1
 
 <!-- Contributors in alphabetical order -->
