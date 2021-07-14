@@ -19,7 +19,8 @@
     "react/javascript",
     "html-formatter/javascript",
     "json-to-messages/javascript",
-    "json-to-messages/javascript-testdata"
+    "json-to-messages/javascript-testdata",
+    "suggest/javascript"
   ],
   "scripts": {
     "build": "tsc --build tsconfig.build.json",

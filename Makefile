@@ -6,6 +6,7 @@ PACKAGES ?= messages \
 	gherkin-streams \
 	gherkin-utils \
 	cucumber-expressions \
+	suggest \
 	tag-expressions \
 	create-meta \
 	fake-cucumber \
