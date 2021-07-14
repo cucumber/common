@@ -17,22 +17,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
-## [0.0.1] - 2021-07-14
+## [0.0.1]
 
 ### Added
 
-### Changed
-
-### Deprecated
-
-### Removed
-
-### Fixed
+* First release!
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/common/compare/cucumber-suggest/v0.0.1...main
-[0.0.1]:      https://github.com/cucumber/common/releases/tag/cucumber-suggest-v0.0.1
-[0.0.1]:      https://github.com/cucumber/common/releases/tag/cucumber-suggest-v0.0.1
+[Unreleased]: https://github.com/cucumber/common/compare/suggest/v0.0.1...main
+[0.0.1]:      https://github.com/cucumber/common/releases/tag/suggest-v0.0.1
 
 <!-- Contributors in alphabetical order -->
 [aslakhellesoy]:    https://github.com/aslakhellesoy
