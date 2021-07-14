@@ -25,7 +25,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 <!-- Releases -->
 [Unreleased]: https://github.com/cucumber/common/compare/suggest/v0.0.1...main
-[0.0.1]:      https://github.com/cucumber/common/releases/tag/suggest-v0.0.1
+[0.0.1]:      https://github.com/cucumber/common/tree/suggest/v0.0.1
 
 <!-- Contributors in alphabetical order -->
 [aslakhellesoy]:    https://github.com/aslakhellesoy
