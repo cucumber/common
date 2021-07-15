@@ -1,6 +1,6 @@
 import { Before, Given } from '@cucumber/fake-cucumber'
 
-Before('@skip', function() {
+Before('@skip', function () {
   return 'skipped'
 })
 
