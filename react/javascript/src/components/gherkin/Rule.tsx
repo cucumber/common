@@ -1,18 +1,18 @@
 import React from 'react'
-import Description from './Description'
-import Scenario from './Scenario'
+import { Description } from './Description'
+import { Background } from './Background'
+import { Keyword } from './Keyword'
+import { Scenario } from './Scenario'
+import { Tags } from './Tags'
+import { Title } from './Title'
 import * as messages from '@cucumber/messages'
-import Background from './Background'
-import Tags from './Tags'
-import Title from './Title'
-import Keyword from './Keyword'
-import HighLight from '../app/HighLight'
+import { HighLight } from '../app/HighLight'
 
 interface IProps {
   rule: messages.Rule
 }
 
-const Rule: React.FunctionComponent<IProps> = ({ rule }) => {
+export const Rule: React.FunctionComponent<IProps> = ({ rule }) => {
   return (
     <section>
       <Tags tags={rule.tags} />
@@ -35,5 +35,3 @@ const Rule: React.FunctionComponent<IProps> = ({ rule }) => {
     </section>
   )
 }
-
-export default Rule

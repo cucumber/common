@@ -137,7 +137,7 @@ export interface CustomRenderingSupport {
 
 export declare type CustomRenderable = keyof CustomRenderingSupport
 
-const CustomRenderingContext = React.createContext<CustomRenderingSupport>({})
+export const CustomRenderingContext = React.createContext<CustomRenderingSupport>({})
 
 export function useCustomRendering<Props, Classes>(
   component: CustomRenderable,
@@ -158,7 +158,7 @@ export function useCustomRendering<Props, Classes>(
   return StyledDefaultRenderer
 }
 
-const CustomRendering: React.FunctionComponent<{
+export const CustomRendering: React.FunctionComponent<{
   support: CustomRenderingSupport
 }> = (props) => {
   return (
@@ -167,5 +167,3 @@ const CustomRendering: React.FunctionComponent<{
     </CustomRenderingContext.Provider>
   )
 }
-
-export default CustomRendering

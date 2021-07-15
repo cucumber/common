@@ -3,7 +3,7 @@ import { faLink } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import styles from './Anchor.module.scss'
 
-const Anchor: React.FunctionComponent<{
+export const Anchor: React.FunctionComponent<{
   id: string
 }> = ({ id, children }) => {
   return (
@@ -15,5 +15,3 @@ const Anchor: React.FunctionComponent<{
     </div>
   )
 }
-
-export default Anchor
