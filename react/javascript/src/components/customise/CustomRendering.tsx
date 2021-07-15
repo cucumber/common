@@ -69,6 +69,14 @@ export interface ExamplesTableClasses {
   detailRow: string
 }
 
+export interface FeatureProps {
+  feature: messages.Feature
+}
+
+export interface FeatureClasses {
+  children: string
+}
+
 export interface KeywordClasses {
   keyword: string
 }
@@ -120,6 +128,7 @@ export interface CustomRenderingSupport {
   DocString?: Customised<DocStringProps, DocStringClasses>
   ErrorMessage?: Customised<ErrorMessageProps, ErrorMessageClasses>
   ExamplesTable?: Customised<ExamplesTableProps, ExamplesTableClasses>
+  Feature?: Customised<FeatureProps, FeatureClasses>
   Keyword?: Customised<any, KeywordClasses>
   Parameter?: Customised<ParameterProps, ParameterClasses>
   StatusIcon?: Customised<StatusIconProps, StatusIconClasses>

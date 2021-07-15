@@ -13,11 +13,12 @@ import './custom-classes.scss'
 
 import attachments from '../../acceptance/attachments/attachments.feature'
 import rules from '../../acceptance/rules/rules.feature'
-import { TagsProps } from '../components/customise/CustomRendering'
+import { FeatureProps, TagsProps } from '../components/customise/CustomRendering'
 import Theme from '../components/customise/Theme'
 import DocString from '../components/gherkin/DocString'
 import CustomRendering from '../components/customise/CustomRendering'
 import Tags from '../components/gherkin/Tags'
+import Feature from '../components/gherkin/Feature'
 
 export default {
   title: 'Themes & Customisation',
@@ -75,7 +76,7 @@ Classes.args = {
   },
 }
 
-export const Components: Story = ({ support, tags }) => {
+export const CustomTagComponent: Story = ({ support, tags }) => {
   return (
     <>
       <h2>Tags with JIRA linking</h2>
@@ -85,7 +86,8 @@ export const Components: Story = ({ support, tags }) => {
     </>
   )
 }
-Components.args = {
+
+CustomTagComponent.args = {
   tags: [
     {
       location: {
@@ -124,6 +126,43 @@ Components.args = {
           return <li key={i}>{tag.name}</li>
         })}
       </ul>
+    ),
+  },
+}
+
+export const CustomFeatureComponent: Story = ({ support, feature }) => {
+  return (
+    <>
+      <h2>Feature with button on top</h2>
+      <CustomRendering support={support}>
+        <Feature feature={feature} />
+      </CustomRendering>
+    </>
+  )
+}
+
+const feature: messages.Feature = {
+  keyword: 'Feature',
+  name: 'My feature',
+  children: [],
+  tags: [],
+  location: {
+    column: 1,
+    line: 1,
+  },
+  description: 'This\nis\nthe\ndescription',
+  language: 'en'
+}
+
+CustomFeatureComponent.args = {
+  feature: feature,
+  support: {
+    // eslint-disable-next-line react/display-name
+    Feature: (props: FeatureProps) => (
+      <div>
+        <button>Click me</button>
+        <Feature.DefaultRenderer {...props} />
+      </div>
     ),
   },
 }
