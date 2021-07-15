@@ -15,7 +15,7 @@ export default function bruteForceIndex(stepDocuments: readonly StepDocument[]):
 }
 
 function matches(stepDocument: StepDocument, predicate: (segment: string) => boolean): boolean {
-  return !!stepDocument.find((segment) =>
+  return !!stepDocument.segments.find((segment) =>
     typeof segment === 'string' ? predicate(segment) : !!segment.find(predicate)
   )
 }

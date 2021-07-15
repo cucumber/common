@@ -24,7 +24,7 @@ to represent search results.
 
 ## Rule: Suggestions are based on both steps and step definitions
 
-### Example: Two suggestions
+### Example: Two suggestions from Cucumber Expression
 
 * Given the following Gherkin step texts exist:
   | Gherkin Step                   |
@@ -34,16 +34,53 @@ to represent search results.
   | I have 11 cukes in my suitcase |
   | the weather forecast is rain   |
 * And the following Step Definitions exist:
-  | Step Definition Expression         |
+  | Cucumber Expression                |
   | ---------------------------------- |
   | I have {int} cukes in/on my {word} |
   | the weather forecast is {word}     |
 * When I type "cukes"
 * Then the suggestions should be:
-  | LSP Completion Snippet                                        |
-  | ------------------------------------------------------------- |
-  | I have ${1\|11,23\|} cukes in my ${2\|belly,suitcase,table\|} |
-  | I have ${1\|11,23\|} cukes on my ${2\|belly,suitcase,table\|} |
+  | Suggestion                      |
+  | ------------------------------- |
+  | I have {int} cukes in my {word} |
+  | I have {int} cukes on my {word} |
+
+### Example: Two suggestions from Regular Expression
+
+* Given the following Gherkin step texts exist:
+  | Gherkin Step                     |
+  | -------------------------------- |
+  | I have 23 cukes in my "belly"    |
+  | I have 11 cukes in my "suitcase" |
+* And the following Step Definitions exist:
+  | Regular Expression                              |
+  | ----------------------------------------------- |
+  | /I have (\d\d) cukes in my "(belly\|suitcase)"/ |
+* When I type "cukes"
+* Then the suggestions should be:
+  | Suggestion                 |
+  | -------------------------- |
+  | I have {} cukes in my "{}" |
+
+The parameters are not named, because the regular expression doesn't have named capture groups.
+
+### Example: Choices for a selected suggestion
+
+* Given the following Gherkin step texts exist:
+  | Gherkin Step                   |
+  | ------------------------------ |
+  | I have 23 cukes in my belly    |
+  | I have 11 cukes on my table    |
+  | I have 11 cukes in my suitcase |
+  | the weather forecast is rain   |
+* And the following Step Definitions exist:
+  | Cucumber Expression                |
+  | ---------------------------------- |
+  | I have {int} cukes in/on my {word} |
+  | the weather forecast is {word}     |
+* When I type "cukes"
+* And I select the 2nd snippet
+* Then the LSP snippet should be "I have ${1|11,23|} cukes on my ${2|belly,suitcase,table|}"
 
 LSP-compatible editors such as
 [Monaco Editor](https://microsoft.github.io/monaco-editor/) or 

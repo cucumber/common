@@ -1,21 +1,46 @@
-import { CucumberExpression, ParameterTypeRegistry } from '@cucumber/cucumber-expressions'
+import { CucumberExpression, ParameterTypeRegistry, RegularExpression } from '@cucumber/cucumber-expressions'
 import assert from 'assert'
 import StepDocumentBuilder from '../src/StepDocumentBuilder'
+import { StepDocument } from '../src'
 
 describe('StepDocumentBuilder', () => {
-  it('builds step documents', () => {
+  it('builds step documents from CucumberExpression', () => {
     const registry = new ParameterTypeRegistry()
-
     const expression = new CucumberExpression('I have {int} cukes in/on my {word}', registry)
     const builder = new StepDocumentBuilder(expression)
     builder.update('I have 42 cukes in my belly')
     builder.update('I have 54 cukes on my table')
     builder.update('I have 54 cukes in my basket')
 
-    assert.deepStrictEqual(builder.getStepDocuments(), [
-      ['I have ', ['42', '54'], ' cukes in my ', ['basket', 'belly', 'table']],
-      ['I have ', ['42', '54'], ' cukes on my ', ['basket', 'belly', 'table']],
-    ])
+    const expectedDocuments: StepDocument[] = [
+      {
+        suggestion: 'I have {int} cukes in my {word}',
+        segments: ['I have ', ['42', '54'], ' cukes in my ', ['basket', 'belly', 'table']],
+      },
+      {
+        suggestion: 'I have {int} cukes on my {word}',
+        segments: ['I have ', ['42', '54'], ' cukes on my ', ['basket', 'belly', 'table']],
+      },
+    ]
+
+    assert.deepStrictEqual(builder.getStepDocuments(), expectedDocuments)
+  })
+
+  it('builds step documents from RegularExpression', () => {
+    const registry = new ParameterTypeRegistry()
+    const expression = new RegularExpression(/I have (\d\d) cukes in my "(belly|suitcase)"/, registry)
+    const builder = new StepDocumentBuilder(expression)
+    builder.update('I have 42 cukes in my "belly"')
+    builder.update('I have 54 cukes in my "suitcase"')
+
+    const expectedDocuments: StepDocument[] = [
+      {
+        suggestion: 'I have {} cukes in my "{}"',
+        segments: ['I have ', ['42', '54'], ' cukes in my "', ['belly', 'suitcase'], '"'],
+      },
+    ]
+
+    assert.deepStrictEqual(builder.getStepDocuments(), expectedDocuments)
   })
 
   it('builds step documents with a max number of choices', () => {
@@ -28,9 +53,16 @@ describe('StepDocumentBuilder', () => {
     builder.update('I have 67 cukes in my belly')
     builder.update('I have 54 cukes in my basket')
 
-    assert.deepStrictEqual(builder.getStepDocuments(2), [
-      ['I have ', ['42', '54'], ' cukes in my ', ['basket', 'belly']],
-      ['I have ', ['42', '54'], ' cukes on my ', ['basket', 'belly']],
-    ])
+    const expectedDocuments: StepDocument[] = [
+      {
+        suggestion: 'I have {int} cukes in my {word}',
+        segments: ['I have ', ['42', '54'], ' cukes in my ', ['basket', 'belly']],
+      },
+      {
+        suggestion: 'I have {int} cukes on my {word}',
+        segments: ['I have ', ['42', '54'], ' cukes on my ', ['basket', 'belly']],
+      },
+    ]
+    assert.deepStrictEqual(builder.getStepDocuments(2), expectedDocuments)
   })
 })

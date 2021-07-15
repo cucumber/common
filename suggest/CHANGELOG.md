@@ -9,7 +9,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+* Added `suggestion` string property on `StepDocument`
+  ([#1657](https://github.com/cucumber/common/pull/1657)
+   [aslakhellesoy])
+
 ### Changed
+
+* The `StepDocument` type has changed to `{ suggestion: string, segments: StepSegments }`
+  ([#1657](https://github.com/cucumber/common/pull/1657)
+   [aslakhellesoy])
 
 ### Deprecated
 

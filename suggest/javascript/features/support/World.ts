@@ -1,6 +1,14 @@
-import { setWorldConstructor } from '@cucumber/cucumber'
+import { setWorldConstructor, defineParameterType } from '@cucumber/cucumber'
 import { Expression } from '@cucumber/cucumber-expressions'
-import { StepDocument } from '../../src/types'
+import { StepDocument } from '../../src'
+
+defineParameterType({
+  name: 'ordinal',
+  regexp: /(\d+)(?:st|nd|rd|th)/,
+  transformer(s) {
+    return +s - 1
+  },
+})
 
 export default class World {
   /**
@@ -16,7 +24,12 @@ export default class World {
   /**
    * The results of calling the index(text) function
    */
-  stepDocuments: readonly StepDocument[]
+  suggestedStepDocuments: readonly StepDocument[]
+
+  /**
+   * The index of the selected suggestion
+   */
+  selectedSuggestionIndex: number
 }
 
 setWorldConstructor(World)

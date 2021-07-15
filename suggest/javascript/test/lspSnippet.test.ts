@@ -1,17 +1,17 @@
 import assert from 'assert'
 import lspCompletionSnippet from '../src/lspCompletionSnippet'
-import { StepDocument } from '../src'
+import { StepSegments } from '../src/types'
 
 describe('lspSnippet', () => {
   it('converts a PermutationExpression to an LSP snippet', () => {
-    const expression: StepDocument = [
+    const stepSegments: StepSegments = [
       'I have ',
       ['42', '54'],
       ' cukes in my ',
       ['basket', 'belly', 'table'],
     ]
     assert.strictEqual(
-      lspCompletionSnippet(expression),
+      lspCompletionSnippet(stepSegments),
       'I have ${1|42,54|} cukes in my ${2|basket,belly,table|}'
     )
   })
