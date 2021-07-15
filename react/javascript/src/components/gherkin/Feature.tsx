@@ -36,9 +36,7 @@ const DefaultRenderer: DefaultComponent<FeatureProps, FeatureClasses> = ({ featu
   )
 }
 
-export const Feature: React.FunctionComponent<FeatureProps> & {
-  DefaultRenderer: React.FunctionComponent<FeatureProps>
-} = (props) => {
+export const Feature: React.FunctionComponent<FeatureProps> = (props) => {
   const ResolvedRenderer = useCustomRendering<FeatureProps, FeatureClasses>(
     'Feature',
     defaultStyles,
@@ -46,4 +44,3 @@ export const Feature: React.FunctionComponent<FeatureProps> & {
   )
   return <ResolvedRenderer {...props} />
 }
-Feature.DefaultRenderer = DefaultRenderer
