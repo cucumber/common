@@ -9,6 +9,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+## [0.0.2] - 2021-07-15
+
+### Added
+
 * Added `suggestion` string property on `StepDocument`
   ([#1657](https://github.com/cucumber/common/pull/1657)
    [aslakhellesoy])
@@ -19,12 +31,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
   ([#1657](https://github.com/cucumber/common/pull/1657)
    [aslakhellesoy])
 
-### Deprecated
-
-### Removed
-
-### Fixed
-
 ## [0.0.1]
 
 ### Added
@@ -32,7 +38,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release!
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/common/compare/suggest/v0.0.1...main
+[Unreleased]: https://github.com/cucumber/common/compare/suggest/v0.0.2...main
+[0.0.2]:      https://github.com/cucumber/common/tree/suggest/v0.0.1
 [0.0.1]:      https://github.com/cucumber/common/tree/suggest/v0.0.1
 
 <!-- Contributors in alphabetical order -->
