@@ -19,7 +19,8 @@
     "react/javascript",
     "html-formatter/javascript",
     "json-to-messages/javascript",
-    "json-to-messages/javascript-testdata"
+    "json-to-messages/javascript-testdata",
+    "suggest/javascript"
   ],
   "scripts": {
     "build": "tsc --build tsconfig.build.json",
@@ -44,7 +45,7 @@
     "eslint-plugin-react": "7.24.0",
     "eslint-plugin-react-hooks": "4.2.0",
     "eslint-plugin-simple-import-sort": "7.0.0",
-    "npm-check-updates": "11.8.2",
+    "npm-check-updates": "11.8.3",
     "prettier": "2.3.2",
     "pretty-quick": "3.1.1",
     "tsconfig-paths": "3.10.1",

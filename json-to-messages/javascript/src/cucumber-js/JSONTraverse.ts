@@ -85,7 +85,7 @@ export function traverseBeforeHook(
   predictableSupportCode: IPredictableSupportCode
 ): void {
   predictableSupportCode.addPredictableBeforeHook(
-    step.match.location,
+    step.match?.location || '',
     scenario.id,
     step.result.status,
     durationToMillis(step.result.duration),
@@ -99,7 +99,7 @@ export function traverseAfterHook(
   predictableSupportCode: IPredictableSupportCode
 ): void {
   predictableSupportCode.addPredictableAfterHook(
-    step.match.location,
+    step.match?.location || '',
     scenario.id,
     step.result.status,
     durationToMillis(step.result.duration),

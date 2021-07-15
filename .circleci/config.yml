@@ -184,6 +184,18 @@ jobs:
             cd cucumber-expressions/javascript
             make
 
+  suggest-javascript:
+    executor: docker-circleci-node-14
+    steps:
+      - attach_workspace:
+          at: '~/cucumber'
+      - run:
+          name: suggest/javascript
+          command: |
+            sudo npm install --global npm@7
+            cd suggest/javascript
+            make
+
   message-streams-javascript:
     executor: docker-circleci-node-14
     steps:
@@ -905,6 +917,9 @@ workflows:
       ### JavaScript
 
       - cucumber-expressions-javascript-node-14:
+          requires:
+            - prepare-parallel
+      - suggest-javascript:
           requires:
             - prepare-parallel
       - message-streams-javascript:
