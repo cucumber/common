@@ -14,6 +14,7 @@ import SearchQueryContext, {
 import EnvelopesQueryContext, { EnvelopesQuery } from './EnvelopesQueryContext'
 import MDG from './components/gherkin/MDG'
 import GherkinDocument from './components/gherkin/GherkinDocument'
+import CustomRendering from './components/customise/CustomRendering'
 
 export {
   GherkinDocumentList,
@@ -32,4 +33,5 @@ export {
   searchFromURLParams,
   MDG,
   GherkinDocument,
+  CustomRendering,
 }
