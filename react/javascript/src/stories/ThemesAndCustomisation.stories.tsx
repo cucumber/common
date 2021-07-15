@@ -14,6 +14,8 @@ import rules from '../../acceptance/rules/rules.feature'
 import { components, EnvelopesQuery } from '..'
 import { CustomRenderingSupport } from '../components/customise'
 
+const { DocString, Tags } = components.gherkin
+
 export default {
   title: 'Themes & Customisation',
   component: components.customise.CustomRendering,
@@ -49,7 +51,7 @@ export const Classes: Story<{support: CustomRenderingSupport, docString: message
       <components.gherkin.DocString docString={docString} />
       <h2>With Custom Classes:</h2>
       <components.customise.CustomRendering support={support}>
-        <components.gherkin.DocString docString={docString} />
+        <DocString docString={docString} />
       </components.customise.CustomRendering>
     </>
   )
@@ -75,7 +77,7 @@ export const CustomTagComponent: Story<{support: CustomRenderingSupport, tags: m
     <>
       <h2>Tags with JIRA linking</h2>
       <components.customise.CustomRendering support={support}>
-        <components.gherkin.Tags tags={tags} />
+        <Tags tags={tags} />
       </components.customise.CustomRendering>
     </>
   )
