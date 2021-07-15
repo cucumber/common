@@ -51,7 +51,7 @@ export default class StepDocumentBuilder {
       const suggestion = textOrIndexExpression
         .map((segment) => {
           if (typeof segment === 'number') {
-            return `{${this.parameterTypes[segment].name}}`
+            return `{${this.parameterTypes[segment].name || ''}}`
           } else {
             return segment
           }

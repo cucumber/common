@@ -1,7 +1,7 @@
 import { DataTable, Given, Then, When } from '@cucumber/cucumber'
 import World from '../support/World'
 import assert from 'assert'
-import { CucumberExpression, ParameterTypeRegistry } from '@cucumber/cucumber-expressions'
+import { CucumberExpression, ExpressionFactory, ParameterTypeRegistry } from '@cucumber/cucumber-expressions'
 import bruteForceIndex from '../../test/bruteForceIndex'
 import buildStepDocuments from '../../src/buildStepDocuments'
 import { lspCompletionSnippet } from '../../src'
@@ -14,9 +14,15 @@ Given(
   'the following Step Definitions exist:',
   function (this: World, stepDefinitionsTable: DataTable) {
     const parameterTypeRegistry = new ParameterTypeRegistry()
+    const expressionFactory = new ExpressionFactory(parameterTypeRegistry)
     this.expressions = stepDefinitionsTable
       .rows()
-      .map((row) => new CucumberExpression(row[0], parameterTypeRegistry))
+      .map((row) => {
+        const expressionSource = row[0]
+        const match = expressionSource.match(/^\/(.*)\/$/)
+        const stringOrRegexp = match ? new RegExp(match[1]) : expressionSource
+        return expressionFactory.createExpression(stringOrRegexp)
+      })
   }
 )
 
@@ -42,7 +48,7 @@ Then('the suggestions should be empty', function (this: World) {
   assert.deepStrictEqual(this.suggestedStepDocuments, [])
 })
 
-Then('the inserted text should be {string}', function (this: World, expectedText: string) {
+Then('the LSP snippet should be {string}', function (this: World, expectedText: string) {
   const selectedSuggestion = this.suggestedStepDocuments[this.selectedSuggestionIndex]
   assert.strictEqual(lspCompletionSnippet(selectedSuggestion.segments), expectedText)
 })

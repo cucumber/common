@@ -1,10 +1,10 @@
-import { CucumberExpression, ParameterTypeRegistry } from '@cucumber/cucumber-expressions'
+import { CucumberExpression, ParameterTypeRegistry, RegularExpression } from '@cucumber/cucumber-expressions'
 import assert from 'assert'
 import StepDocumentBuilder from '../src/StepDocumentBuilder'
 import { StepDocument } from '../src'
 
 describe('StepDocumentBuilder', () => {
-  it('builds step documents', () => {
+  it('builds step documents from CucumberExpression', () => {
     const registry = new ParameterTypeRegistry()
     const expression = new CucumberExpression('I have {int} cukes in/on my {word}', registry)
     const builder = new StepDocumentBuilder(expression)
@@ -20,6 +20,23 @@ describe('StepDocumentBuilder', () => {
       {
         suggestion: 'I have {int} cukes on my {word}',
         segments: ['I have ', ['42', '54'], ' cukes on my ', ['basket', 'belly', 'table']],
+      },
+    ]
+
+    assert.deepStrictEqual(builder.getStepDocuments(), expectedDocuments)
+  })
+
+  it('builds step documents from RegularExpression', () => {
+    const registry = new ParameterTypeRegistry()
+    const expression = new RegularExpression(/I have (\d\d) cukes in my "(belly|suitcase)"/, registry)
+    const builder = new StepDocumentBuilder(expression)
+    builder.update('I have 42 cukes in my "belly"')
+    builder.update('I have 54 cukes in my "suitcase"')
+
+    const expectedDocuments: StepDocument[] = [
+      {
+        suggestion: 'I have {} cukes in my "{}"',
+        segments: ['I have ', ['42', '54'], ' cukes in my "', ['belly', 'suitcase'], '"'],
       },
     ]
 
