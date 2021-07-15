@@ -1,33 +1,40 @@
-import { Expression } from '@cucumber/cucumber-expressions'
+import { Expression, ParameterType } from '@cucumber/cucumber-expressions'
 import { StepDocument } from './types'
 
-type TextOrChoiceIndexExpression = TextOrChoiceIndexSegment[]
-type TextOrChoiceIndexSegment = string | number
+type TextOrIndexExpression = TextOrIndexSegment[]
+type TextOrIndexSegment = string | number
 type ChoicesArray = Set<string>[]
 
 export default class StepDocumentBuilder {
   // We can't store StepDocument in a Set, so we store a string representation instead
   private readonly jsonDocuments = new Set<string>()
   private choicesArray: ChoicesArray = []
+  private parameterTypes: ParameterType<any>[] = []
 
   constructor(private readonly expression: Expression) {}
 
   update(text: string) {
     const args = this.expression.match(text)
+    const firstUpdate = this.choicesArray.length === 0
     if (args) {
-      if (this.choicesArray.length === 0) {
+      if (firstUpdate) {
         this.choicesArray = args.map(() => new Set())
       }
-      const expression: TextOrChoiceIndexExpression = []
+      const expression: TextOrIndexExpression = []
       let index = 0
       for (let choiceIndex = 0; choiceIndex < args.length; choiceIndex++) {
-        const choice = args[choiceIndex]
-        const segment = text.substring(index, choice.group.start)
+        const arg = args[choiceIndex]
+        if (firstUpdate) {
+          const parameterType = arg.getParameterType()
+          this.parameterTypes.push(parameterType)
+        }
+
+        const segment = text.substring(index, arg.group.start)
         expression.push(segment)
         expression.push(choiceIndex)
         const choices = this.choicesArray[choiceIndex]
-        choices.add(choice.group.value)
-        index = choice.group.end
+        choices.add(arg.group.value)
+        index = arg.group.end
       }
       const lastSegment = text.substring(index)
       if (lastSegment !== '') {
@@ -39,10 +46,31 @@ export default class StepDocumentBuilder {
 
   getStepDocuments(maxChoices = 10): readonly StepDocument[] {
     return [...this.jsonDocuments].sort().map((jsonSnippet) => {
-      const textOrChoiceIndexExpression: TextOrChoiceIndexExpression = JSON.parse(jsonSnippet)
-      return textOrChoiceIndexExpression.map((segment) =>
-        typeof segment === 'number' ? [...this.choicesArray[segment]].sort().slice(0, maxChoices) : segment
-      )
+      const textOrIndexExpression: TextOrIndexExpression = JSON.parse(jsonSnippet)
+
+      const suggestion = textOrIndexExpression
+        .map((segment) => {
+          if (typeof segment === 'number') {
+            return `{${this.parameterTypes[segment].name}}`
+          } else {
+            return segment
+          }
+        })
+        .join('')
+
+      const segments = textOrIndexExpression.map((segment) => {
+        if (typeof segment === 'number') {
+          return [...this.choicesArray[segment]].sort().slice(0, maxChoices)
+        } else {
+          return segment
+        }
+      })
+
+      const stepDocument: StepDocument = {
+        suggestion,
+        segments,
+      }
+      return stepDocument
     })
   }
 }

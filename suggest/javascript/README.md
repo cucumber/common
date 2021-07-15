@@ -40,10 +40,28 @@ to represent search results.
   | the weather forecast is {word}     |
 * When I type "cukes"
 * Then the suggestions should be:
-  | LSP Completion Snippet                                        |
-  | ------------------------------------------------------------- |
-  | I have ${1\|11,23\|} cukes in my ${2\|belly,suitcase,table\|} |
-  | I have ${1\|11,23\|} cukes on my ${2\|belly,suitcase,table\|} |
+  | LSP Completion Snippet          |
+  | ------------------------------- |
+  | I have {int} cukes in my {word} |
+  | I have {int} cukes on my {word} |
+
+### Example: Choices for a selected suggestion
+
+* Given the following Gherkin step texts exist:
+  | Gherkin Step                   |
+  | ------------------------------ |
+  | I have 23 cukes in my belly    |
+  | I have 11 cukes on my table    |
+  | I have 11 cukes in my suitcase |
+  | the weather forecast is rain   |
+* And the following Step Definitions exist:
+  | Step Definition Expression         |
+  | ---------------------------------- |
+  | I have {int} cukes in/on my {word} |
+  | the weather forecast is {word}     |
+* When I type "cukes"
+* And I select the 2nd snippet
+* Then the inserted text should be "I have ${1|11,23|} cukes on my ${2|belly,suitcase,table|}"
 
 LSP-compatible editors such as
 [Monaco Editor](https://microsoft.github.io/monaco-editor/) or 
