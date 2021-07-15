@@ -22,6 +22,10 @@ features/rules/rules.feature.json:
 	mkdir -p $(@D)
 	echo "[]" > $@
 
+features/skipped/skipped.feature.json:
+	mkdir -p $(@D)
+	echo "[]" > $@
+
 features/unknown-parameter-type/unknown-parameter-type.feature.json:
 	mkdir -p $(@D)
 	echo "[]" > $@

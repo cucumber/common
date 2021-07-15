@@ -17,6 +17,10 @@ features/rules/rules.feature.ndjson:
 	mkdir -p $(@D)
 	echo "" > $@
 
+features/skipped/skipped.feature.ndjson:
+    mkdir -p $(@D)
+    echo "" > $@
+
 features/unknown-parameter-type/unknown-parameter-type.feature.ndjson:
 	mkdir -p $(@D)
 	echo "" > $@
