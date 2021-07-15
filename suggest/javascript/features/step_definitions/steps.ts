@@ -1,7 +1,7 @@
 import { DataTable, Given, Then, When } from '@cucumber/cucumber'
 import World from '../support/World'
 import assert from 'assert'
-import { CucumberExpression, ExpressionFactory, ParameterTypeRegistry } from '@cucumber/cucumber-expressions'
+import { ExpressionFactory, ParameterTypeRegistry } from '@cucumber/cucumber-expressions'
 import bruteForceIndex from '../../test/bruteForceIndex'
 import buildStepDocuments from '../../src/buildStepDocuments'
 import { lspCompletionSnippet } from '../../src'
