@@ -1,6 +1,7 @@
 export * from './Anchor'
 export * from './Attachment'
 export * from './Background'
+export * from './Children'
 export * from './DataTable'
 export * from './Description'
 export * from './DocString'

@@ -17,78 +17,80 @@ function mixinStyles<Classes>(
   return mixed as Classes
 }
 
-type Classes<C extends string> = Record<C,string>
+type Styles<C extends string> = Record<C,string>
 
 export interface AnchorProps {
   id: string
 }
 
-export type AnchorClasses = Classes<'wrapper' | 'anchor'>
+export type AnchorClasses = Styles<'wrapper' | 'anchor'>
 
 export interface AttachmentProps {
   attachment: messages.Attachment
 }
 
-export type AttachmentClasses = Classes<'text' | 'icon' | 'image'>
+export type AttachmentClasses = Styles<'text' | 'icon' | 'image'>
+
+export interface ChildrenProps {}
+
+export type ChildrenClasses = Styles<'children'>
 
 export interface DataTableProps {
   dataTable: messages.DataTable
 }
 
-export type DataTableClasses = Classes<'table'>
+export type DataTableClasses = Styles<'table'>
 
 export interface DescriptionProps {
   description?: string
 }
 
-export type DescriptionClasses = Classes<'content'>
+export type DescriptionClasses = Styles<'content'>
 
 export interface DocStringProps {
   docString: messages.DocString
 }
 
-export type DocStringClasses = Classes<'docString'>
+export type DocStringClasses = Styles<'docString'>
 
 export interface ErrorMessageProps {
   message: string
 }
 
-export type ErrorMessageClasses = Classes<'message'>
+export type ErrorMessageClasses = Styles<'message'>
 
 export interface ExamplesTableProps {
   tableHeader: messages.TableRow
   tableBody: readonly messages.TableRow[]
 }
 
-export type ExamplesTableClasses = Classes<'examplesTable' | 'detailRow'>
+export type ExamplesTableClasses = Styles<'examplesTable' | 'detailRow'>
 
 export interface FeatureProps {
   feature: messages.Feature
 }
 
-export type FeatureClasses = Classes<'children'>
-
-export type KeywordClasses = Classes<'keyword'>
+export type KeywordClasses = Styles<'keyword'>
 
 export interface ParameterProps {
   parameterTypeName: string
 }
 
-export type ParameterClasses = Classes<'parameter'>
+export type ParameterClasses = Styles<'parameter'>
 
 export interface StatusIconProps {
   status: messages.TestStepResultStatus
 }
 
-export type StatusIconClasses = Classes<'icon'>
+export type StatusIconClasses = Styles<'icon'>
 
 export interface TagsProps {
   tags: readonly messages.Tag[]
 }
 
-export type TagsClasses = Classes<'tags' | 'tag'>
+export type TagsClasses = Styles<'tags' | 'tag'>
 
-export declare type DefaultComponent<Props, Classes> = React.FunctionComponent<
+export declare type DefaultComponent<Props, Classes extends Styles<string> = {}> = React.FunctionComponent<
   Props & { styles: Classes }
 >
 
@@ -106,12 +108,13 @@ export declare type Customised<Props, Classes> =
 export interface CustomRenderingSupport {
   Anchor?: Customised<AnchorProps, AnchorClasses>
   Attachment?: Customised<AttachmentProps, AttachmentClasses>
+  Children?: Customised<ChildrenProps, ChildrenClasses>
   DataTable?: Customised<DataTableProps, DataTableClasses>
   Description?: Customised<DescriptionProps, DescriptionClasses>
   DocString?: Customised<DocStringProps, DocStringClasses>
   ErrorMessage?: Customised<ErrorMessageProps, ErrorMessageClasses>
   ExamplesTable?: Customised<ExamplesTableProps, ExamplesTableClasses>
-  Feature?: Customised<FeatureProps, FeatureClasses>
+  Feature?: Customised<FeatureProps, {}>
   Keyword?: Customised<any, KeywordClasses>
   Parameter?: Customised<ParameterProps, ParameterClasses>
   StatusIcon?: Customised<StatusIconProps, StatusIconClasses>
@@ -122,7 +125,7 @@ export declare type CustomRenderable = keyof CustomRenderingSupport
 
 export const CustomRenderingContext = React.createContext<CustomRenderingSupport>({})
 
-export function useCustomRendering<Props, Classes>(
+export function useCustomRendering<Props, Classes extends Styles<string> = {}>(
   component: CustomRenderable,
   defaultStyles: Record<string, string>,
   DefaultRenderer: DefaultComponent<Props, Classes>

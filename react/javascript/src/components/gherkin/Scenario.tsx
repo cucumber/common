@@ -10,7 +10,7 @@ import { Description } from './Description'
 import CucumberQueryContext from '../../CucumberQueryContext'
 import GherkinQueryContext from '../../GherkinQueryContext'
 import UriContext from '../../UriContext'
-import { HighLight } from '../app/HighLight'
+import { HighLight } from '../app'
 
 interface IProps {
   scenario: messages.Scenario
