@@ -17,94 +17,76 @@ function mixinStyles<Classes>(
   return mixed as Classes
 }
 
+type Classes<C extends string> = Record<C,string>
+
+export interface AnchorProps {
+  id: string
+}
+
+export type AnchorClasses = Classes<'wrapper' | 'anchor'>
+
 export interface AttachmentProps {
   attachment: messages.Attachment
 }
 
-export interface AttachmentClasses {
-  text: string
-  icon: string
-  image: string
-}
+export type AttachmentClasses = Classes<'text' | 'icon' | 'image'>
 
 export interface DataTableProps {
   dataTable: messages.DataTable
 }
 
-export interface DataTableClasses {
-  table: string
-}
+export type DataTableClasses = Classes<'table'>
 
 export interface DescriptionProps {
   description?: string
 }
 
-export interface DescriptionClasses {
-  content: string
-}
+export type DescriptionClasses = Classes<'content'>
 
 export interface DocStringProps {
   docString: messages.DocString
 }
 
-export interface DocStringClasses {
-  docString: string
-}
+export type DocStringClasses = Classes<'docString'>
 
 export interface ErrorMessageProps {
   message: string
 }
 
-export interface ErrorMessageClasses {
-  message: string
-}
+export type ErrorMessageClasses = Classes<'message'>
 
 export interface ExamplesTableProps {
   tableHeader: messages.TableRow
   tableBody: readonly messages.TableRow[]
 }
 
-export interface ExamplesTableClasses {
-  examplesTable: string
-  detailRow: string
-}
+export type ExamplesTableClasses = Classes<'examplesTable' | 'detailRow'>
 
 export interface FeatureProps {
   feature: messages.Feature
 }
 
-export interface FeatureClasses {
-  children: string
-}
+export type FeatureClasses = Classes<'children'>
 
-export interface KeywordClasses {
-  keyword: string
-}
+export type KeywordClasses = Classes<'keyword'>
 
 export interface ParameterProps {
   parameterTypeName: string
 }
 
-export interface ParameterClasses {
-  parameter: string
-}
+export type ParameterClasses = Classes<'parameter'>
 
 export interface StatusIconProps {
   status: messages.TestStepResultStatus
 }
 
-export interface StatusIconClasses {
-  icon: string
-}
+export type StatusIconClasses = Classes<'icon'>
 
 export interface TagsProps {
   tags: readonly messages.Tag[]
 }
 
-export interface TagsClasses {
-  tags: string
-  tag: string
-}
+export type TagsClasses = Classes<'tags' | 'tag'>
 
 export declare type DefaultComponent<Props, Classes> = React.FunctionComponent<
   Props & { styles: Classes }
@@ -122,6 +104,7 @@ export declare type Customised<Props, Classes> =
   | Partial<Classes>
 
 export interface CustomRenderingSupport {
+  Anchor?: Customised<AnchorProps, AnchorClasses>
   Attachment?: Customised<AttachmentProps, AttachmentClasses>
   DataTable?: Customised<DataTableProps, DataTableClasses>
   Description?: Customised<DescriptionProps, DescriptionClasses>
