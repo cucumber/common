@@ -10,9 +10,10 @@ import CucumberQueryContext from '../../CucumberQueryContext'
 import GherkinQueryContext from '../../GherkinQueryContext'
 import UriContext from '../../UriContext'
 import { HighLight } from '../app/HighLight'
-import { DefaultComponent, ScenarioProps, useCustomRendering } from '../customise'
+import { DefaultComponent, ScenarioClasses, ScenarioProps, useCustomRendering } from '../customise'
+import defaultStyles from './Scenario.module.scss'
 
-const DefaultRenderer: DefaultComponent<ScenarioProps, {}> = ({ scenario }) => {
+const DefaultRenderer: DefaultComponent<ScenarioProps, ScenarioClasses> = ({ scenario, styles }) => {
   const examplesList = scenario.examples || []
   const hasExamples = examplesList.length > 0
   const cucumberQuery = React.useContext(CucumberQueryContext)
@@ -30,7 +31,7 @@ const DefaultRenderer: DefaultComponent<ScenarioProps, {}> = ({ scenario }) => {
         <HighLight text={scenario.name} />
       </Title>
       <Description description={scenario.description} />
-      <ol className="cucumber-steps">
+      <ol className={styles.steps}>
         <HookList hookSteps={beforeHooks} />
         <StepList steps={scenario.steps || []} hasExamples={hasExamples} />
         <HookList hookSteps={afterHooks} />
@@ -44,6 +45,6 @@ const DefaultRenderer: DefaultComponent<ScenarioProps, {}> = ({ scenario }) => {
 }
 
 export const Scenario: React.FunctionComponent<ScenarioProps> = (props) => {
-  const ResolvedRenderer = useCustomRendering<ScenarioProps, {}>('Scenario', {}, DefaultRenderer)
+  const ResolvedRenderer = useCustomRendering<ScenarioProps, {}>('Scenario', defaultStyles, DefaultRenderer)
   return <ResolvedRenderer {...props} />
 }

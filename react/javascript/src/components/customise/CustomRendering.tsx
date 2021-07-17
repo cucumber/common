@@ -109,6 +109,8 @@ export interface ScenarioProps {
   scenario: messages.Scenario
 }
 
+export type ScenarioClasses = Styles<'steps'>
+
 export type StatusIconClasses = Styles<'icon'>
 
 export interface StepListProps {
@@ -162,7 +164,7 @@ export interface CustomRenderingSupport {
   Keyword?: Customised<any, KeywordClasses>
   Parameter?: Customised<ParameterProps, ParameterClasses>
   Rule?: Customised<RuleProps, {}>
-  Scenario?: Customised<ScenarioProps, {}>
+  Scenario?: Customised<ScenarioProps, ScenarioClasses>
   StatusIcon?: Customised<StatusIconProps, StatusIconClasses>
   StepList?: Customised<StepListProps, {}>
   Tags?: Customised<TagsProps, TagsClasses>
