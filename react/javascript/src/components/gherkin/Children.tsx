@@ -1,18 +1,12 @@
 import React from 'react'
 import defaultStyles from './Anchor.module.scss'
-import {
-  ChildrenClasses,
-  ChildrenProps,
-  DefaultComponent,
-  useCustomRendering
-} from '../customise'
+import { ChildrenClasses, ChildrenProps, DefaultComponent, useCustomRendering } from '../customise'
 
-const DefaultRenderer: DefaultComponent<ChildrenProps, ChildrenClasses> = ({ styles, children }) => {
-  return (
-    <div className={styles.children}>
-      {children}
-    </div>
-  )
+const DefaultRenderer: DefaultComponent<ChildrenProps, ChildrenClasses> = ({
+  styles,
+  children,
+}) => {
+  return <div className={styles.children}>{children}</div>
 }
 
 export const Children: React.FunctionComponent<ChildrenProps> = (props) => {

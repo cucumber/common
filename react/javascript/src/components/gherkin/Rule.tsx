@@ -6,14 +6,10 @@ import { Keyword } from './Keyword'
 import { Scenario } from './Scenario'
 import { Tags } from './Tags'
 import { Title } from './Title'
-import * as messages from '@cucumber/messages'
-import { HighLight } from '../app'
+import { HighLight } from '../app/HighLight'
+import { DefaultComponent, RuleProps, useCustomRendering } from '../customise'
 
-interface IProps {
-  rule: messages.Rule
-}
-
-export const Rule: React.FunctionComponent<IProps> = ({ rule }) => {
+const DefaultRenderer: DefaultComponent<RuleProps, {}> = ({ rule }) => {
   return (
     <section>
       <Tags tags={rule.tags} />
@@ -35,4 +31,9 @@ export const Rule: React.FunctionComponent<IProps> = ({ rule }) => {
       </Children>
     </section>
   )
+}
+
+export const Rule: React.FunctionComponent<RuleProps> = (props) => {
+  const ResolvedRenderer = useCustomRendering<RuleProps, {}>('Rule', {}, DefaultRenderer)
+  return <ResolvedRenderer {...props} />
 }

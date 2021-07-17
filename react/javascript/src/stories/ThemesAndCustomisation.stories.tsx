@@ -27,7 +27,10 @@ type Props = {
   envelopesQuery: EnvelopesQuery
 }
 
-export const Themes: Story<{envelopes: messages.Envelope[], theme: string}> = ({ envelopes, theme }) => {
+export const Themes: Story<{ envelopes: messages.Envelope[]; theme: string }> = ({
+  envelopes,
+  theme,
+}) => {
   return (
     <>
       <h2>Dark Theme</h2>
@@ -40,11 +43,14 @@ export const Themes: Story<{envelopes: messages.Envelope[], theme: string}> = ({
   )
 }
 Themes.args = {
-  envelopes: [...attachments as messages.Envelope[], ...rules as messages.Envelope[]],
+  envelopes: [...(attachments as messages.Envelope[]), ...(rules as messages.Envelope[])],
   theme: 'dark',
 }
 
-export const Classes: Story<{support: CustomRenderingSupport, docString: messages.DocString}> = ({ support, docString }) => {
+export const Classes: Story<{ support: CustomRenderingSupport; docString: messages.DocString }> = ({
+  support,
+  docString,
+}) => {
   return (
     <>
       <h2>Default DocString:</h2>
@@ -72,16 +78,17 @@ Classes.args = {
   },
 }
 
-export const CustomTagComponent: Story<{support: CustomRenderingSupport, tags: messages.Tag[]}> = ({ support, tags }) => {
-  return (
-    <>
-      <h2>Tags with JIRA linking</h2>
-      <components.customise.CustomRendering support={support}>
-        <Tags tags={tags} />
-      </components.customise.CustomRendering>
-    </>
-  )
-}
+export const CustomTagComponent: Story<{ support: CustomRenderingSupport; tags: messages.Tag[] }> =
+  ({ support, tags }) => {
+    return (
+      <>
+        <h2>Tags with JIRA linking</h2>
+        <components.customise.CustomRendering support={support}>
+          <Tags tags={tags} />
+        </components.customise.CustomRendering>
+      </>
+    )
+  }
 
 CustomTagComponent.args = {
   tags: [
@@ -91,7 +98,7 @@ CustomTagComponent.args = {
         line: 1,
       },
       name: '@foo',
-      id: '1'
+      id: '1',
     },
     {
       location: {
@@ -99,7 +106,7 @@ CustomTagComponent.args = {
         line: 1,
       },
       name: '@bar',
-      id: '1'
+      id: '1',
     },
     {
       location: {
@@ -107,7 +114,7 @@ CustomTagComponent.args = {
         line: 1,
       },
       name: '@PRODUCT-12345',
-      id: '1'
+      id: '1',
     },
   ],
   support: {
@@ -129,7 +136,10 @@ CustomTagComponent.args = {
   },
 }
 
-export const CustomFeatureComponent: Story<{support: CustomRenderingSupport, feature: messages.Feature}> = ({ support, feature }) => {
+export const CustomFeatureComponent: Story<{
+  support: CustomRenderingSupport
+  feature: messages.Feature
+}> = ({ support, feature }) => {
   return (
     <>
       <h2>Feature with button on top</h2>

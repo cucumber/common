@@ -7,18 +7,13 @@ import { StepItem } from './StepItem'
 import { Attachment } from './Attachment'
 import { Parameter } from './Parameter'
 import { Title } from './Title'
-import * as messages from '@cucumber/messages'
 import { getWorstTestStepResult } from '@cucumber/messages'
 import CucumberQueryContext from '../../CucumberQueryContext'
 import GherkinQueryContext from '../../GherkinQueryContext'
 import { HighLight } from '../app/HighLight'
+import { DefaultComponent, GherkinStepProps, useCustomRendering } from '../customise'
 
-interface IProps {
-  step: messages.Step
-  hasExamples: boolean
-}
-
-export const Step: React.FunctionComponent<IProps> = ({ step, hasExamples }) => {
+const DefaultRenderer: DefaultComponent<GherkinStepProps, {}> = ({ step, hasExamples }) => {
   const gherkinQuery = React.useContext(GherkinQueryContext)
   const cucumberQuery = React.useContext(CucumberQueryContext)
 
@@ -89,4 +84,13 @@ export const Step: React.FunctionComponent<IProps> = ({ step, hasExamples }) => 
         attachments.map((attachment, i) => <Attachment key={i} attachment={attachment} />)}
     </StepItem>
   )
+}
+
+export const GherkinStep: React.FunctionComponent<GherkinStepProps> = (props) => {
+  const ResolvedRenderer = useCustomRendering<GherkinStepProps, {}>(
+    'GherkinStep',
+    {},
+    DefaultRenderer
+  )
+  return <ResolvedRenderer {...props} />
 }

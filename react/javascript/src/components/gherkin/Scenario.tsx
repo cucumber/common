@@ -1,5 +1,4 @@
 import React from 'react'
-import * as messages from '@cucumber/messages'
 import { HookList } from './HookList'
 import { Keyword } from './Keyword'
 import { StepList } from './StepList'
@@ -10,13 +9,10 @@ import { Description } from './Description'
 import CucumberQueryContext from '../../CucumberQueryContext'
 import GherkinQueryContext from '../../GherkinQueryContext'
 import UriContext from '../../UriContext'
-import { HighLight } from '../app'
+import { HighLight } from '../app/HighLight'
+import { DefaultComponent, ScenarioProps, useCustomRendering } from '../customise'
 
-interface IProps {
-  scenario: messages.Scenario
-}
-
-export const Scenario: React.FunctionComponent<IProps> = ({ scenario }) => {
+const DefaultRenderer: DefaultComponent<ScenarioProps, {}> = ({ scenario }) => {
   const examplesList = scenario.examples || []
   const hasExamples = examplesList.length > 0
   const cucumberQuery = React.useContext(CucumberQueryContext)
@@ -45,4 +41,9 @@ export const Scenario: React.FunctionComponent<IProps> = ({ scenario }) => {
       })}
     </section>
   )
+}
+
+export const Scenario: React.FunctionComponent<ScenarioProps> = (props) => {
+  const ResolvedRenderer = useCustomRendering<ScenarioProps, {}>('Scenario', {}, DefaultRenderer)
+  return <ResolvedRenderer {...props} />
 }

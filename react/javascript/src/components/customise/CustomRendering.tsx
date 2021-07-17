@@ -17,7 +17,7 @@ function mixinStyles<Classes>(
   return mixed as Classes
 }
 
-type Styles<C extends string> = Record<C,string>
+type Styles<C extends string> = Record<C, string>
 
 export interface AnchorProps {
   id: string
@@ -30,6 +30,10 @@ export interface AttachmentProps {
 }
 
 export type AttachmentClasses = Styles<'text' | 'icon' | 'image'>
+
+export interface BackgroundProps {
+  background: messages.Background
+}
 
 export interface ChildrenProps {}
 
@@ -59,6 +63,10 @@ export interface ErrorMessageProps {
 
 export type ErrorMessageClasses = Styles<'message'>
 
+export interface ExamplesProps {
+  examples: messages.Examples
+}
+
 export interface ExamplesTableProps {
   tableHeader: messages.TableRow
   tableBody: readonly messages.TableRow[]
@@ -68,6 +76,17 @@ export type ExamplesTableClasses = Styles<'examplesTable' | 'detailRow'>
 
 export interface FeatureProps {
   feature: messages.Feature
+}
+
+export interface GherkinStepProps {
+  step: messages.Step
+  hasExamples: boolean
+}
+
+export type Header = 'h1' | 'h2' | 'h3' | 'h4' | 'h5'
+
+export interface HookStepProps {
+  step: messages.TestStep
 }
 
 export type KeywordClasses = Styles<'keyword'>
@@ -82,7 +101,20 @@ export interface StatusIconProps {
   status: messages.TestStepResultStatus
 }
 
+export interface RuleProps {
+  rule: messages.Rule
+}
+
+export interface ScenarioProps {
+  scenario: messages.Scenario
+}
+
 export type StatusIconClasses = Styles<'icon'>
+
+export interface StepListProps {
+  steps: readonly messages.Step[]
+  hasExamples: boolean
+}
 
 export interface TagsProps {
   tags: readonly messages.Tag[]
@@ -90,9 +122,17 @@ export interface TagsProps {
 
 export type TagsClasses = Styles<'tags' | 'tag'>
 
-export declare type DefaultComponent<Props, Classes extends Styles<string> = {}> = React.FunctionComponent<
-  Props & { styles: Classes }
->
+export interface TitleProps {
+  header: Header
+  id: string
+}
+
+export type TitleClasses = Styles<'title'>
+
+export declare type DefaultComponent<
+  Props,
+  Classes extends Styles<string> = {}
+> = React.FunctionComponent<Props & { styles: Classes }>
 
 export declare type CustomisedComponent<Props, Classes> = React.FunctionComponent<
   Props & {
@@ -107,18 +147,26 @@ export declare type Customised<Props, Classes> =
 
 export interface CustomRenderingSupport {
   Anchor?: Customised<AnchorProps, AnchorClasses>
+  Background?: Customised<BackgroundProps, {}>
   Attachment?: Customised<AttachmentProps, AttachmentClasses>
   Children?: Customised<ChildrenProps, ChildrenClasses>
   DataTable?: Customised<DataTableProps, DataTableClasses>
   Description?: Customised<DescriptionProps, DescriptionClasses>
+  Examples?: Customised<ExamplesProps, {}>
   DocString?: Customised<DocStringProps, DocStringClasses>
   ErrorMessage?: Customised<ErrorMessageProps, ErrorMessageClasses>
   ExamplesTable?: Customised<ExamplesTableProps, ExamplesTableClasses>
   Feature?: Customised<FeatureProps, {}>
+  GherkinStep?: Customised<GherkinStepProps, {}>
+  HookStep?: Customised<HookStepProps, {}>
   Keyword?: Customised<any, KeywordClasses>
   Parameter?: Customised<ParameterProps, ParameterClasses>
+  Rule?: Customised<RuleProps, {}>
+  Scenario?: Customised<ScenarioProps, {}>
   StatusIcon?: Customised<StatusIconProps, StatusIconClasses>
+  StepList?: Customised<StepListProps, {}>
   Tags?: Customised<TagsProps, TagsClasses>
+  Title?: Customised<TitleProps, TitleClasses>
 }
 
 export declare type CustomRenderable = keyof CustomRenderingSupport

@@ -4,14 +4,10 @@ import { ExamplesTable } from './ExamplesTable'
 import { Description } from './Description'
 import { Title } from './Title'
 import { Tags } from './Tags'
-import * as messages from '@cucumber/messages'
 import { Children } from './Children'
+import { DefaultComponent, ExamplesProps, useCustomRendering } from '../customise'
 
-interface IExamplesProps {
-  examples: messages.Examples
-}
-
-export const Examples: React.FunctionComponent<IExamplesProps> = ({ examples }) => {
+const DefaultRenderer: DefaultComponent<ExamplesProps, {}> = ({ examples }) => {
   return (
     <section>
       <Tags tags={examples.tags} />
@@ -27,4 +23,9 @@ export const Examples: React.FunctionComponent<IExamplesProps> = ({ examples }) 
       )}
     </section>
   )
+}
+
+export const Examples: React.FunctionComponent<ExamplesProps> = (props) => {
+  const ResolvedRenderer = useCustomRendering<ExamplesProps, {}>('Examples', {}, DefaultRenderer)
+  return <ResolvedRenderer {...props} />
 }

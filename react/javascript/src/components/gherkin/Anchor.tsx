@@ -4,7 +4,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import defaultStyles from './Anchor.module.scss'
 import { AnchorClasses, AnchorProps, DefaultComponent, useCustomRendering } from '../customise'
 
-const DefaultRenderer: DefaultComponent<AnchorProps, AnchorClasses> = ({ id, styles, children }) => {
+const DefaultRenderer: DefaultComponent<AnchorProps, AnchorClasses> = ({
+  id,
+  styles,
+  children,
+}) => {
   return (
     <div className={styles.wrapper}>
       <a href={'#' + id} className={defaultStyles.anchor}>

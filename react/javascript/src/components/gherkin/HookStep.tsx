@@ -6,12 +6,9 @@ import { ErrorMessage } from './ErrorMessage'
 import { StepItem } from './StepItem'
 import { Attachment } from './Attachment'
 import { getWorstTestStepResult } from '@cucumber/messages'
+import { HookStepProps, useCustomRendering } from '../customise'
 
-interface IProps {
-  step: messages.TestStep
-}
-
-export const HookStep: React.FunctionComponent<IProps> = ({ step }) => {
+const DefaultRenderer: React.FunctionComponent<HookStepProps> = ({ step }) => {
   const cucumberQuery = React.useContext(CucumberQueryContext)
 
   const stepResult = getWorstTestStepResult(cucumberQuery.getTestStepResults(step.id))
@@ -19,7 +16,7 @@ export const HookStep: React.FunctionComponent<IProps> = ({ step }) => {
   const hook = cucumberQuery.getHook(step.hookId)
   const attachments = cucumberQuery.getTestStepsAttachments([step.id])
 
-  if (stepResult.status === 'FAILED') {
+  if (stepResult.status === messages.TestStepResultStatus.FAILED) {
     let location = 'Unknown location'
     if (hook?.sourceReference.location) {
       location = `${hook.sourceReference.uri}:${hook.sourceReference.location.line}`
@@ -49,4 +46,9 @@ export const HookStep: React.FunctionComponent<IProps> = ({ step }) => {
       </StepItem>
     )
   }
+}
+
+export const HookStep: React.FunctionComponent<HookStepProps> = (props) => {
+  const ResolvedRenderer = useCustomRendering<HookStepProps, {}>('HookStep', {}, DefaultRenderer)
+  return <ResolvedRenderer {...props} />
 }

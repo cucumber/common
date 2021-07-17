@@ -7,10 +7,10 @@ import { Scenario } from './Scenario'
 import { Rule } from './Rule'
 import { Title } from './Title'
 import { Keyword } from './Keyword'
-import { HighLight } from '../app'
+import { HighLight } from '../app/HighLight'
 import { DefaultComponent, FeatureProps, useCustomRendering } from '../customise'
 
-const DefaultRenderer: DefaultComponent<FeatureProps> = ({ feature }) => {
+const DefaultRenderer: DefaultComponent<FeatureProps, {}> = ({ feature }) => {
   return (
     <section>
       <Tags tags={feature.tags} />
@@ -37,10 +37,6 @@ const DefaultRenderer: DefaultComponent<FeatureProps> = ({ feature }) => {
 }
 
 export const Feature: React.FunctionComponent<FeatureProps> = (props) => {
-  const ResolvedRenderer = useCustomRendering<FeatureProps>(
-    'Feature',
-    {},
-    DefaultRenderer
-  )
+  const ResolvedRenderer = useCustomRendering<FeatureProps, {}>('Feature', {}, DefaultRenderer)
   return <ResolvedRenderer {...props} />
 }
