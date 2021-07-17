@@ -34,11 +34,17 @@ sub new {
 sub next_line {
     my $self = shift;
 
+    return (undef, $self->line_number) if not defined $self->fh;
+
+    my $line = $self->fh->getline;
     $self->line_number( $self->line_number + 1 );
-    return (
-        $self->fh->getline,
-        $self->line_number
-        );
+
+    if (not defined $line) {
+        $self->fh->close;
+        $self->fh( undef );
+    }
+
+    return ($line, $self->line_number);
 }
 
 sub read {
@@ -55,13 +61,6 @@ sub read {
             );
     }
     return Gherkin::Token->new(line => $line_token, location => $location);
-}
-
-sub DESTROY {
-    my $self = shift;
-    if ( $self->fh ) {
-        $self->fh->close;
-    }
 }
 
 1;
