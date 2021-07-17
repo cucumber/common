@@ -5,7 +5,6 @@ use warnings;
 
 use Class::XSAccessor accessors => [qw/fh line_number/];
 
-use IO::File;
 use IO::Scalar;
 use Carp qw/croak/;
 
@@ -22,8 +21,7 @@ sub new {
     if ( ref $path_or_str eq 'SCALAR' ) {
         $fh = new IO::Scalar $path_or_str;
     } else {
-        $fh = IO::File->new();
-        $fh->open( $path_or_str, '<' )
+        open( $fh, '<', $path_or_str )
           || croak "Can't open [$path_or_str] for reading";
         $fh->binmode(':utf8');
     }

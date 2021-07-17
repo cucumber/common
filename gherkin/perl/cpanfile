@@ -1,5 +1,5 @@
 
-requires "perl", "5.10.1";
+requires "perl", "5.12.0";
 requires "Cpanel::JSON::XS";
 requires "Class::XSAccessor";
 requires "Data::UUID";
