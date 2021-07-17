@@ -20,6 +20,8 @@ import rules from '../../acceptance/rules/rules.feature'
 import stacktTraces from '../../acceptance/stack-traces/stack-traces.feature'
 import unknownParameterTypes from '../../acceptance/unknown-parameter-type/unknown-parameter-type.feature'
 
+const { QueriesWrapper, GherkinDocumentList } = components.app
+
 export default {
   title: 'GherkinDocument',
   component: components.gherkin.GherkinDocument,
@@ -37,9 +39,9 @@ type TemplateArgs = {
 
 const Template: Story<TemplateArgs> = ({ envelopes }) => {
   return (
-    <components.app.QueriesWrapper {...props(envelopes)}>
-      <components.app.GherkinDocumentList />
-    </components.app.QueriesWrapper>
+    <QueriesWrapper {...props(envelopes)}>
+      <GherkinDocumentList />
+    </QueriesWrapper>
   )
 }
 

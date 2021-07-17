@@ -14,7 +14,9 @@ import rules from '../../acceptance/rules/rules.feature'
 import { components, EnvelopesQuery } from '..'
 import { CustomRenderingSupport } from '../components/customise'
 
-const { DocString, Tags } = components.gherkin
+const { QueriesWrapper, GherkinDocumentList } = components.app
+const { DocString, Tags, Feature } = components.gherkin
+const { CustomRendering, Theme } = components.customise
 
 export default {
   title: 'Themes & Customisation',
@@ -34,11 +36,11 @@ export const Themes: Story<{ envelopes: messages.Envelope[]; theme: string }> = 
   return (
     <>
       <h2>Dark Theme</h2>
-      <components.customise.Theme theme={theme}>
-        <components.app.QueriesWrapper {...props(envelopes)}>
-          <components.app.GherkinDocumentList />
-        </components.app.QueriesWrapper>
-      </components.customise.Theme>
+      <Theme theme={theme}>
+        <QueriesWrapper {...props(envelopes)}>
+          <GherkinDocumentList />
+        </QueriesWrapper>
+      </Theme>
     </>
   )
 }
@@ -54,11 +56,11 @@ export const Classes: Story<{ support: CustomRenderingSupport; docString: messag
   return (
     <>
       <h2>Default DocString:</h2>
-      <components.gherkin.DocString docString={docString} />
+      <DocString docString={docString} />
       <h2>With Custom Classes:</h2>
-      <components.customise.CustomRendering support={support}>
+      <CustomRendering support={support}>
         <DocString docString={docString} />
-      </components.customise.CustomRendering>
+      </CustomRendering>
     </>
   )
 }
@@ -83,9 +85,9 @@ export const CustomTagComponent: Story<{ support: CustomRenderingSupport; tags: 
     return (
       <>
         <h2>Tags with JIRA linking</h2>
-        <components.customise.CustomRendering support={support}>
+        <CustomRendering support={support}>
           <Tags tags={tags} />
-        </components.customise.CustomRendering>
+        </CustomRendering>
       </>
     )
   }
@@ -143,9 +145,9 @@ export const CustomFeatureComponent: Story<{
   return (
     <>
       <h2>Feature with button on top</h2>
-      <components.customise.CustomRendering support={support}>
-        <components.gherkin.Feature feature={feature} />
-      </components.customise.CustomRendering>
+      <CustomRendering support={support}>
+        <Feature feature={feature} />
+      </CustomRendering>
     </>
   )
 }

@@ -11,6 +11,9 @@ import '../styles/styles.scss'
 import markdown from '../../acceptance/markdown/markdown.feature.md'
 import UriContext from '../UriContext'
 
+const { QueriesWrapper } = components.app
+const { MDG } = components.gherkin
+
 export default {
   title: 'MDG',
   component: components.gherkin.GherkinDocument,
@@ -26,11 +29,11 @@ type TemplateArgs = { envelopes: readonly messages.Envelope[] }
 const Template: Story<TemplateArgs> = ({ envelopes }) => {
   const source = envelopes.filter((envelope) => envelope.source)[0].source
   return (
-    <components.app.QueriesWrapper {...props(envelopes)}>
+    <QueriesWrapper {...props(envelopes)}>
       <UriContext.Provider value={source.uri}>
-        <components.gherkin.MDG uri={source.uri}>{source.data}</components.gherkin.MDG>
+        <MDG uri={source.uri}>{source.data}</MDG>
       </UriContext.Provider>
-    </components.app.QueriesWrapper>
+    </QueriesWrapper>
   )
 }
 

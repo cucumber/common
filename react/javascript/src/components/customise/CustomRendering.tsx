@@ -152,9 +152,9 @@ export interface CustomRenderingSupport {
   Children?: Customised<ChildrenProps, ChildrenClasses>
   DataTable?: Customised<DataTableProps, DataTableClasses>
   Description?: Customised<DescriptionProps, DescriptionClasses>
-  Examples?: Customised<ExamplesProps, {}>
   DocString?: Customised<DocStringProps, DocStringClasses>
   ErrorMessage?: Customised<ErrorMessageProps, ErrorMessageClasses>
+  Examples?: Customised<ExamplesProps, {}>
   ExamplesTable?: Customised<ExamplesTableProps, ExamplesTableClasses>
   Feature?: Customised<FeatureProps, {}>
   GherkinStep?: Customised<GherkinStepProps, {}>
