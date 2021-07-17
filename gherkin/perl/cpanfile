@@ -4,7 +4,6 @@ requires "Cpanel::JSON::XS";
 requires "Class::XSAccessor";
 requires "Data::UUID";
 requires "Getopt::Long", "2.36";
-requires "IO::Scalar";
 
 on 'test' => sub {
     requires "Path::Class";

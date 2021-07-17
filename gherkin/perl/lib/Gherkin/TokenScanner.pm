@@ -5,8 +5,8 @@ use warnings;
 
 use Class::XSAccessor accessors => [qw/fh line_number/];
 
-use IO::Scalar;
 use Carp qw/croak/;
+use Encode;
 
 use Gherkin::Line;
 use Gherkin::Token;
@@ -19,7 +19,8 @@ sub new {
     # a straight string is a path
     my $fh;
     if ( ref $path_or_str eq 'SCALAR' ) {
-        $fh = new IO::Scalar $path_or_str;
+        my $bytes = Encode::encode('UTF-8', ${ $path_or_str });
+        open $fh, '<:encoding(UTF-8)', \$bytes;
     } else {
         open( $fh, '<', $path_or_str )
           || croak "Can't open [$path_or_str] for reading";
