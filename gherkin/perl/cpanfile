@@ -7,9 +7,9 @@ requires "Getopt::Long", "2.36";
 
 on 'test' => sub {
     requires "Path::Class";
-    requires "Test::Differences";
-    requires "Test::Exception";
     requires "Test::More";
+    requires "Test2::V0";
+    requires "Test2::Tools::ClassicCompare";
 };
 
 on 'develop' => sub {
