@@ -33,24 +33,28 @@ sub new {
 
 sub next_line {
     my $self = shift;
+
     $self->line_number( $self->line_number + 1 );
+    return (
+        $self->fh->getline,
+        $self->line_number
+        );
 }
 
 sub read {
     my $self = shift;
-    $self->next_line();
-    my $line = $self->fh->getline;
-    $line =~ s/\r$// if $line; # \n as well as \r\n are considered lines separators
-    return Gherkin::Token->new(
-        line => $line
-        ? (
+    my ($line, $line_number) = $self->next_line;
+
+    my $location   = { line => $line_number };
+    my $line_token = undef;
+    if (defined $line) {
+        $line =~ s/\r$//; # \n as well as \r\n are considered lines separators
+        $line_token =
             Gherkin::Line->new(
-                { line_text => $line, line_number => $self->line_number }
-            )
-          )
-        : undef,
-        location => { line => $self->line_number }
-    );
+                { line_text => $line, line_number => $line_number }
+            );
+    }
+    return Gherkin::Token->new(line => $line_token, location => $location);
 }
 
 sub DESTROY {
