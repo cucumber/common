@@ -1,0 +1,18 @@
+
+requires "perl", "5.14.0";
+
+requires "JSON::MaybeXS";
+requires "Moo";
+
+
+on 'test' => sub {
+   requires "File::Find::Rule";
+   requires "Test2::Tools::ClassicCompare";
+   requires "Test2::V0";
+
+};
+
+
+on 'develop' => sub {
+   # There are no specific development dependencies
+}
