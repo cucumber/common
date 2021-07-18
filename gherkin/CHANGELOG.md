@@ -13,9 +13,15 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Changed
 
+* [Perl] Minimum Perl version upgraded to 5.12 (from 5.10.1)
+  ([#1665](https://github.com/cucumber/common/pull/1665) [ehuelsmann])
+
 ### Deprecated
 
 ### Removed
+
+* [Perl] Dependency on `IO::Scalar` removed
+  ([#1665](https://github.com/cucumber/common/pull/1665) [ehuelsmann])
 
 ### Fixed
 
