@@ -65,13 +65,11 @@ The changes made *will not* be committed to git. Examine what changed:
 
     git diff
 
-Inspect the diff, and undo any changes that you think shouldn't have been made.
-Make sure the package still builds, and that the tests are still passing:
+Inspect the diff. If all is good, proceed to the next step to release. 
+
+Otherwise, undo any changes that you think shouldn't have been made and make the necessary edits until the build passes. Make sure the package still builds, and that the tests are still passing:
 
     make clean && make
-
-If all is good, proceed to the next step. Otherwise, make the necessary edits
-until the build passes.
 
 ## Release packages
 

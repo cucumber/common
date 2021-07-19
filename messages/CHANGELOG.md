@@ -17,6 +17,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [17.0.1] - 2021-07-19
+
+### Fixed
+
 - [Ruby] `seconds_to_duration` convert nanos to an integer to match the json schema
   ([#1655](https://github.com/cucumber/common/pull/1655))
 
@@ -554,7 +558,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Protobuf messages for Go, Java, JavaScript, TypeScript and Ruby
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/messages/v17.0.0...main
+[Unreleased]: https://github.com/cucumber/cucumber/compare/messages/v17.0.1...main
+[17.0.1]:      https://github.com/cucumber/cucumber/compare/messages/v17.0.0...messages/v17.0.1
 [17.0.0]:      https://github.com/cucumber/cucumber/compare/messages/v16.0.1...messages/v17.0.0
 [16.0.1]:      https://github.com/cucumber/cucumber/compare/messages/v16.0.0...messages/v16.0.1
 [16.0.0]:      https://github.com/cucumber/cucumber/compare/messages/v15.0.0...messages/v16.0.0
