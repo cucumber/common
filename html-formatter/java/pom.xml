@@ -9,7 +9,7 @@
     </parent>
 
     <artifactId>html-formatter</artifactId>
-    <version>16.0.1-SNAPSHOT</version>
+    <version>16.0.1</version>
     <packaging>jar</packaging>
     <name>Cucumber HTML Formatter</name>
     <description>Renders Cucumber Messages as HTML</description>
@@ -29,7 +29,7 @@
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>messages</artifactId>
-            <version>[17.0.0,18.0.0)</version>
+            <version>[17.0.1,18.0.0)</version>
         </dependency>
         <dependency>
             <groupId>org.hamcrest</groupId>
