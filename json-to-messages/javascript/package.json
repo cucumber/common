@@ -34,7 +34,7 @@
     "typescript": "4.3.5"
   },
   "dependencies": {
-    "@cucumber/create-meta": "^6.0.0",
+    "@cucumber/create-meta": "^6.0.1",
     "@cucumber/fake-cucumber": "^13.0.0",
     "@cucumber/gherkin": "^20.0.1",
     "@cucumber/gherkin-streams": "^3.0.0",
