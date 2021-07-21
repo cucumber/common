@@ -23,7 +23,7 @@
   "homepage": "https://github.com/cucumber/cucumber#readme",
   "devDependencies": {
     "@cucumber/fake-cucumber": "^13.0.0",
-    "@cucumber/gherkin": "^20.0.0",
+    "@cucumber/gherkin": "^20.0.1",
     "@cucumber/gherkin-streams": "^3.0.0",
     "@cucumber/gherkin-utils": "^6.0.0",
     "@types/mocha": "8.2.3",
