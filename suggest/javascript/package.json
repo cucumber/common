@@ -27,7 +27,7 @@
   },
   "homepage": "https://github.com/cucumber/suggest-javascript#readme",
   "devDependencies": {
-    "@cucumber/cucumber": "7.3.0",
+    "@cucumber/cucumber": "7.3.1",
     "@types/js-search": "1.4.0",
     "@types/mocha": "8.2.3",
     "@types/node": "14.17.5",
