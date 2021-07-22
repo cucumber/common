@@ -1,6 +1,10 @@
-import { CucumberExpression, ParameterTypeRegistry, RegularExpression } from '@cucumber/cucumber-expressions'
+import {
+  CucumberExpression,
+  ParameterTypeRegistry,
+  RegularExpression,
+} from '@cucumber/cucumber-expressions'
 import assert from 'assert'
-import StepDocumentBuilder from '../src/StepDocumentBuilder'
+import buildStepDocuments from '../src/buildStepDocuments'
 import { StepDocument } from '../src'
 
 describe('StepDocumentBuilder', () => {
@@ -9,17 +13,16 @@ describe('StepDocumentBuilder', () => {
     const expression1 = new CucumberExpression('The {word} song', registry)
     const expression2 = new CucumberExpression('The {word} boat', registry)
 
-    const choicesByParameterTypeRegexpStrings = new Map<string,Set<string>>()
-    const builder1 = new StepDocumentBuilder(expression1, choicesByParameterTypeRegexpStrings)
-    const builder2 = new StepDocumentBuilder(expression2, choicesByParameterTypeRegexpStrings)
-    builder1.update('The nice song')
-    builder2.update('The big boat')
+    const stepDocuments = buildStepDocuments(
+      ['The nice song', 'The big boat'],
+      [expression1, expression2]
+    )
 
     const expected1: StepDocument[] = [
       {
         suggestion: 'The {word} song',
         segments: ['The ', ['big', 'nice'], ' song'],
-      }
+      },
     ]
 
     const expected2: StepDocument[] = [
@@ -29,18 +32,21 @@ describe('StepDocumentBuilder', () => {
       },
     ]
 
-    assert.deepStrictEqual(builder1.getStepDocuments(), expected1)
-    assert.deepStrictEqual(builder2.getStepDocuments(), expected1)
+    assert.deepStrictEqual(stepDocuments, [expected2, expected1])
   })
 
   it('builds step documents from CucumberExpression', () => {
     const registry = new ParameterTypeRegistry()
     const expression = new CucumberExpression('I have {int} cukes in/on my {word}', registry)
-    const choicesByParameterTypeRegexpStrings = new Map<string,Set<string>>()
-    const builder = new StepDocumentBuilder(expression, choicesByParameterTypeRegexpStrings)
-    builder.update('I have 42 cukes in my belly')
-    builder.update('I have 54 cukes on my table')
-    builder.update('I have 54 cukes in my basket')
+
+    const stepDocuments = buildStepDocuments(
+      [
+        'I have 42 cukes in my belly',
+        'I have 54 cukes on my table',
+        'I have 54 cukes in my basket',
+      ],
+      [expression]
+    )
 
     const expectedDocuments: StepDocument[] = [
       {
@@ -53,16 +59,20 @@ describe('StepDocumentBuilder', () => {
       },
     ]
 
-    assert.deepStrictEqual(builder.getStepDocuments(), expectedDocuments)
+    assert.deepStrictEqual(stepDocuments, expectedDocuments)
   })
 
   it('builds step documents from RegularExpression', () => {
     const registry = new ParameterTypeRegistry()
-    const expression = new RegularExpression(/I have (\d\d) cukes in my "(belly|suitcase)"/, registry)
-    const choicesByParameterTypeRegexpStrings = new Map<string,Set<string>>()
-    const builder = new StepDocumentBuilder(expression, choicesByParameterTypeRegexpStrings)
-    builder.update('I have 42 cukes in my "belly"')
-    builder.update('I have 54 cukes in my "suitcase"')
+    const expression = new RegularExpression(
+      /I have (\d\d) cukes in my "(belly|suitcase)"/,
+      registry
+    )
+
+    const stepDocuments = buildStepDocuments(
+      ['I have 42 cukes in my "belly"', 'I have 54 cukes in my "suitcase"'],
+      [expression]
+    )
 
     const expectedDocuments: StepDocument[] = [
       {
@@ -71,19 +81,23 @@ describe('StepDocumentBuilder', () => {
       },
     ]
 
-    assert.deepStrictEqual(builder.getStepDocuments(), expectedDocuments)
+    assert.deepStrictEqual(stepDocuments, expectedDocuments)
   })
 
   it('builds step documents with a max number of choices', () => {
     const registry = new ParameterTypeRegistry()
 
     const expression = new CucumberExpression('I have {int} cukes in/on my {word}', registry)
-    const choicesByParameterTypeRegexpStrings = new Map<string,Set<string>>()
-    const builder = new StepDocumentBuilder(expression, choicesByParameterTypeRegexpStrings)
-    builder.update('I have 42 cukes in my belly')
-    builder.update('I have 54 cukes on my table')
-    builder.update('I have 67 cukes in my belly')
-    builder.update('I have 54 cukes in my basket')
+    const stepDocuments = buildStepDocuments(
+      [
+        'I have 42 cukes in my belly',
+        'I have 54 cukes on my table',
+        'I have 67 cukes in my belly',
+        'I have 54 cukes in my basket',
+      ],
+      [expression],
+      2
+    )
 
     const expectedDocuments: StepDocument[] = [
       {
@@ -95,6 +109,6 @@ describe('StepDocumentBuilder', () => {
         segments: ['I have ', ['42', '54'], ' cukes on my ', ['basket', 'belly']],
       },
     ]
-    assert.deepStrictEqual(builder.getStepDocuments(2), expectedDocuments)
+    assert.deepStrictEqual(stepDocuments, expectedDocuments)
   })
 })

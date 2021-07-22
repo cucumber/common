@@ -15,14 +15,12 @@ Given(
   function (this: World, stepDefinitionsTable: DataTable) {
     const parameterTypeRegistry = new ParameterTypeRegistry()
     const expressionFactory = new ExpressionFactory(parameterTypeRegistry)
-    this.expressions = stepDefinitionsTable
-      .rows()
-      .map((row) => {
-        const expressionSource = row[0]
-        const match = expressionSource.match(/^\/(.*)\/$/)
-        const stringOrRegexp = match ? new RegExp(match[1]) : expressionSource
-        return expressionFactory.createExpression(stringOrRegexp)
-      })
+    this.expressions = stepDefinitionsTable.rows().map((row) => {
+      const expressionSource = row[0]
+      const match = expressionSource.match(/^\/(.*)\/$/)
+      const stringOrRegexp = match ? new RegExp(match[1]) : expressionSource
+      return expressionFactory.createExpression(stringOrRegexp)
+    })
   }
 )
 
