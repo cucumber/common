@@ -29,7 +29,7 @@
     "@cucumber/message-streams": "^3.0.0",
     "@cucumber/query": "^11.0.0",
     "@cucumber/react": "^17.0.0",
-    "@types/mocha": "8.2.3",
+    "@types/mocha": "9.0.0",
     "@types/node": "14.17.5",
     "@types/react": "17.0.14",
     "@types/react-dom": "17.0.9",
