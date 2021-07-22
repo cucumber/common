@@ -8,6 +8,12 @@ Feature: Pending steps
   result to be treated as a failure.
 
   Scenario: Unimplemented step signals pending status
-    Given a step
+    Given a step that isnt implemented yet
+
+  Scenario: Steps before unimplemented steps are executed
+    Given an implemented step
     When a step that isnt implemented yet
-    Then a step
+
+  Scenario: Steps after unimplemented steps are skipped
+    Given a step that isnt implemented yet
+    Then a step that we expect to be skipped

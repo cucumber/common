@@ -6,6 +6,12 @@ Feature: Undefined steps
   as a failure.
 
   Scenario: Undefined step causes failure
-    Given a step
-    When a step that isnt defined
-    Then a step
+    Given a step that isnt implemented yet
+
+  Scenario: Steps before undefined steps are executed
+    Given an implemented step
+    When a step that isnt implemented yet
+
+  Scenario: Steps after undefined steps are skipped
+    Given a step that isnt implemented yet
+    Then a step that we expect to be skipped
