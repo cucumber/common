@@ -769,6 +769,17 @@ jobs:
             cd gherkin/perl
             make
 
+  messages-perl:
+    executor: docker-cucumber-build
+    steps:
+      - attach_workspace:
+          at: '~/cucumber'
+      - run:
+          name: messages/perl
+          command: |
+            cd messages/perl
+            make
+
   ### Python
 
   tag-expressions-python:
@@ -1075,6 +1086,10 @@ workflows:
       ## Perl
 
       - gherkin-perl:
+          requires:
+            - prepare-parallel
+
+      - messages-perl:
           requires:
             - prepare-parallel
 
