@@ -7,10 +7,10 @@ type Doc = {
 }
 
 export default function fuseIndex(stepDocuments: readonly StepDocument[]): Index {
-  const docs: Doc[] = stepDocuments.map((expression, id) => {
+  const docs: Doc[] = stepDocuments.map((stepDocument, id) => {
     return {
       id,
-      text: expression
+      text: stepDocument.segments
         .map((segment) => (typeof segment === 'string' ? segment : segment.join(' ')))
         .join(''),
     }

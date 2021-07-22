@@ -1,12 +1,16 @@
 # Cucumber Suggest
 
-This is a library that can be used to build Gherkin step auto-complete in editors. 
+This is a library that can be used to build Gherkin step auto-complete in editors.
 It does not implement a UI component, but it can provide *suggestions* to an editor's auto-complete component.
+
+Here is an example of a [Monaco]() editor using this library:
+
+![Monaco](Monaco.gif)
 
 An auto-complete engine uses a [search index](https://en.wikipedia.org/wiki/Search_engine_indexing)
 that it can query as the user types. It then presents the search hits in the editor as *suggestions*.
 
-A search index indexes *documents*. 
+A search index indexes *documents*.
 
 This library uses *Gherkin Steps* and *Step Definitions*
 (their Cucumber Expressions and Regular Expressions) to build `StepDocument`s.
@@ -24,7 +28,7 @@ to represent search results.
 
 ## Rule: Suggestions are based on both steps and step definitions
 
-### Example: Two suggestions
+### Example: Two suggestions from Cucumber Expression
 
 * Given the following Gherkin step texts exist:
   | Gherkin Step                   |
@@ -34,24 +38,61 @@ to represent search results.
   | I have 11 cukes in my suitcase |
   | the weather forecast is rain   |
 * And the following Step Definitions exist:
-  | Step Definition Expression         |
+  | Cucumber Expression                |
   | ---------------------------------- |
   | I have {int} cukes in/on my {word} |
   | the weather forecast is {word}     |
 * When I type "cukes"
 * Then the suggestions should be:
-  | LSP Completion Snippet                                        |
-  | ------------------------------------------------------------- |
-  | I have ${1\|11,23\|} cukes in my ${2\|belly,suitcase,table\|} |
-  | I have ${1\|11,23\|} cukes on my ${2\|belly,suitcase,table\|} |
+  | Suggestion                      |
+  | ------------------------------- |
+  | I have {int} cukes in my {word} |
+  | I have {int} cukes on my {word} |
+
+### Example: Two suggestions from Regular Expression
+
+* Given the following Gherkin step texts exist:
+  | Gherkin Step                     |
+  | -------------------------------- |
+  | I have 23 cukes in my "belly"    |
+  | I have 11 cukes in my "suitcase" |
+* And the following Step Definitions exist:
+  | Regular Expression                              |
+  | ----------------------------------------------- |
+  | /I have (\d\d) cukes in my "(belly\|suitcase)"/ |
+* When I type "cukes"
+* Then the suggestions should be:
+  | Suggestion                 |
+  | -------------------------- |
+  | I have {} cukes in my "{}" |
+
+The parameters are not named, because the regular expression doesn't have named capture groups.
+
+### Example: Choices for a selected suggestion
+
+* Given the following Gherkin step texts exist:
+  | Gherkin Step                   |
+  | ------------------------------ |
+  | I have 23 cukes in my belly    |
+  | I have 11 cukes on my table    |
+  | I have 11 cukes in my suitcase |
+  | the weather forecast is rain   |
+* And the following Step Definitions exist:
+  | Cucumber Expression                |
+  | ---------------------------------- |
+  | I have {int} cukes in/on my {word} |
+  | the weather forecast is {word}     |
+* When I type "cukes"
+* And I select the 2nd snippet
+* Then the LSP snippet should be "I have ${1|11,23|} cukes on my ${2|belly,suitcase,table|}"
 
 LSP-compatible editors such as
-[Monaco Editor](https://microsoft.github.io/monaco-editor/) or 
+[Monaco Editor](https://microsoft.github.io/monaco-editor/) or
 [Visual Studio Code](https://code.visualstudio.com/) can display these suggestions
 as `I have {int} cukes in my {word}` and `I have {int} cukes on my {word}`.
 
 When the user chooses a suggestion, the editor will focus the editor at the first parameter and
-let the user choose between `11` or `23` (or type a custom value). When the user has made a choice, 
+let the user choose between `11` or `23` (or type a custom value). When the user has made a choice,
 the focus moves to the next parameter and suggests `belly`, `suitcase` or `table`.
 
 ## Rule: Suggestions must have a matching step definition
@@ -99,7 +140,7 @@ That document has the following plain-text permutations:
 The `buildStepDocuments` function takes an array of Gherkin Step texts and another array of Cucumber/Regular Expressions.
 and returns an array of `StepDocument`.
 
-The Gherkin Step texts and Cucumber/Regular Expressions can be extracted from a stream of 
+The Gherkin Step texts and Cucumber/Regular Expressions can be extracted from a stream of
 [Cucumber Messages](../../messages).
 
 ### Search Index
@@ -117,7 +158,7 @@ There are three experimental search index implementations in this library:
 * `jsSearchIndex` (based on [JS Search](http://bvaughn.github.io/js-search/))
 * `bruteForceIndex` (based on [String.prototype.includes()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/includes))
 
-They are currently only in the test code, but one of them might be promoted to be part of the library at a later stage 
+They are currently only in the test code, but one of them might be promoted to be part of the library at a later stage
 when we have tried them out on real data.
 
 See the `Index.test.ts` contract test for more details about how the indexes behave.
@@ -144,7 +185,7 @@ An LSP server could be built on this library though.
 It is also beyond the scope of this library to provide any kind of UI component.
 For LSP-capable editors this isn't even needed - it is built into the editor.
 
-For non-LSP capable editors written in JavaScript (such as CodeMirror) it would be possible to 
+For non-LSP capable editors written in JavaScript (such as CodeMirror) it would be possible to
 build an auto-complete plugin that uses one of the `Index` implementations in this library.
 Building the `StepDocument`s could happen on a server somewhere, and could be transferred to
 the browser over HTTP/JSON.
