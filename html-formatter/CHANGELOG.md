@@ -17,6 +17,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [16.0.1] - 2021-07-19
+
+### Changed
+
+* Upgrade to `messages` v17.0.1
+
 ## [16.0.0] - 2021-07-08
 
 ### Added
@@ -332,7 +338,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/html-formatter/v16.0.0...main
+[Unreleased]: https://github.com/cucumber/cucumber/compare/html-formatter/v16.0.1...main
+[16.0.1]:      https://github.com/cucumber/cucumber/compare/html-formatter/v16.0.0...html-formatter/v16.0.1
 [16.0.0]:      https://github.com/cucumber/cucumber/compare/html-formatter/v15.0.2...html-formatter/v16.0.0
 [15.0.2]:      https://github.com/cucumber/cucumber/compare/html-formatter/v15.0.1...html-formatter/v15.0.2
 [15.0.1]:      https://github.com/cucumber/cucumber/compare/html-formatter/v15.0.0...html-formatter/v15.0.1
