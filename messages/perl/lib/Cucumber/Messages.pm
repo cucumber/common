@@ -7,10 +7,31 @@ package Cucumber::Messages;
 
 =head1 NAME
 
+Cucumber::Messages - Library of classes to encapsulate Cucumber messages
+
 =head1 SYNOPSIS
+
+  use Cucumber::Messages;
+
+  my $loc = Cucumber::Messages::Location->new(
+     line => 12, column => 26
+  );
+  my $loc_json = $loc->to_json;
+
+  my $envelope = Cucumber::Messages::Envelope->from_json($serialized_envelope);
 
 =head1 DESCRIPTION
 
+L<Cucumber messages|https://github.com/cucumber/common/tree/main/messages>
+define the central protocol in the Cucumber ecosystem by which the various
+components communicate. Messages are serialized to NDJSON.
+
+This library provides both serialization/deserialization to/from NDJSON as
+well as the in-memory representation of the messages for Perl applications.
+
+Each serialized message should be wrapped in a C<Cucumber::Messages::Envelope>
+and can thereby be deserialized by calling the C<from_json> class message
+with the serialized representation as its argument, like shown in the SYNOPSIS.
 
 =cut
 
@@ -4540,5 +4561,20 @@ has name =>
 
 1;
 
+__END__
+
+=head1 LICENSE
+
+Please see the included LICENSE.txt for the canonical version. In summary:
+
+The MIT License (MIT)
+
+Copyright (c) 2021 Erik Huelsmann
+
+
+This work is loosely derived from prior work of the same library for Ruby,
+called C<cucumber-messages>.
+
+=cut
 
 
