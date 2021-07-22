@@ -1,0 +1,16 @@
+#!perl
+
+requires "perl", "5.12.0"; # Minimum Perl version
+requires "module-name", "minimum-version"; # other runtime dependency
+
+on 'test' => sub {
+    requires "Test2::V0";  # The test-library
+    # testing-only dependencies here
+};
+
+on 'develop' => sub {
+    # there are no specific development dependencies...
+    # here go dependencies which are targetted at developing
+    # or tests run at development time, while 'test' dependencies
+    # also apply at installation time
+};
