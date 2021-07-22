@@ -27,8 +27,8 @@ Given(
 )
 
 When('I type {string}', function (this: World, text: string) {
-  const permutationExpressions = buildStepDocuments(this.steps, this.expressions)
-  const index = bruteForceIndex(permutationExpressions)
+  const stepDocuments = buildStepDocuments(this.steps, this.expressions)
+  const index = bruteForceIndex(stepDocuments)
   this.suggestedStepDocuments = index(text)
 })
 

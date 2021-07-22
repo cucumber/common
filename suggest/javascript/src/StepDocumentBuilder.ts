@@ -1,6 +1,10 @@
 import { Expression, ParameterType } from '@cucumber/cucumber-expressions'
 import { StepDocument } from './types'
 
+type TextOrParameterTypeNameExpression = TextOrParameterTypeNameSegment[]
+type TextOrParameterTypeNameSegment = string | ParameterTypeData
+type ParameterTypeData = { name: string, regexpStrings: string }
+
 type TextOrIndexExpression = TextOrIndexSegment[]
 type TextOrIndexSegment = string | number
 type ChoicesArray = Set<string>[]
@@ -8,10 +12,11 @@ type ChoicesArray = Set<string>[]
 export default class StepDocumentBuilder {
   // We can't store StepDocument in a Set, so we store a string representation instead
   private readonly jsonDocuments = new Set<string>()
+  private readonly jsonTextOrParameterTypeNameExpression = new Set<string>()
   private choicesArray: ChoicesArray = []
   private parameterTypes: ParameterType<any>[] = []
 
-  constructor(private readonly expression: Expression) {}
+  constructor(private readonly expression: Expression, private readonly choicesByParameterTypeRegexpStrings: Map<string,Set<string>>) {}
 
   update(text: string) {
     const args = this.expression.match(text)
@@ -19,50 +24,62 @@ export default class StepDocumentBuilder {
     if (args) {
       if (firstUpdate) {
         this.choicesArray = args.map(() => new Set())
+        this.parameterTypes = args.map(arg => arg.getParameterType())
       }
-      const expression: TextOrIndexExpression = []
+      const textOrIndexExpression: TextOrIndexExpression = []
+      const textOrParameterTypeNameExpression: TextOrParameterTypeNameExpression = []
       let index = 0
-      for (let choiceIndex = 0; choiceIndex < args.length; choiceIndex++) {
-        const arg = args[choiceIndex]
-        if (firstUpdate) {
-          const parameterType = arg.getParameterType()
-          this.parameterTypes.push(parameterType)
-        }
+      for (let argIndex = 0; argIndex < args.length; argIndex++) {
+        const arg = args[argIndex]
 
         const segment = text.substring(index, arg.group.start)
-        expression.push(segment)
-        expression.push(choiceIndex)
-        const choices = this.choicesArray[choiceIndex]
+        textOrParameterTypeNameExpression.push(segment)
+        const parameterType = this.parameterTypes[argIndex]
+        const regexpStrings = parameterType.regexpStrings.join('|')
+        textOrParameterTypeNameExpression.push({ name: parameterType.name || '', regexpStrings })
+        let choices2 = this.choicesByParameterTypeRegexpStrings.get(regexpStrings)
+        if(!choices2) {
+          choices2 = new Set<string>()
+          this.choicesByParameterTypeRegexpStrings.set(regexpStrings, choices2)
+        }
+        choices2.add(arg.group.value)
+
+        textOrIndexExpression.push(segment)
+        textOrIndexExpression.push(argIndex)
+        const choices = this.choicesArray[argIndex]
         choices.add(arg.group.value)
         index = arg.group.end
       }
       const lastSegment = text.substring(index)
       if (lastSegment !== '') {
-        expression.push(lastSegment)
+        textOrIndexExpression.push(lastSegment)
+        textOrParameterTypeNameExpression.push(lastSegment)
       }
-      this.jsonDocuments.add(JSON.stringify(expression))
+      this.jsonDocuments.add(JSON.stringify(textOrIndexExpression))
+      this.jsonTextOrParameterTypeNameExpression.add(JSON.stringify(textOrParameterTypeNameExpression))
     }
   }
 
   getStepDocuments(maxChoices = 10): readonly StepDocument[] {
-    return [...this.jsonDocuments].sort().map((jsonSnippet) => {
-      const textOrIndexExpression: TextOrIndexExpression = JSON.parse(jsonSnippet)
+    return [...this.jsonTextOrParameterTypeNameExpression].map(json => {
+      const textOrParameterTypeNameExpression: TextOrParameterTypeNameExpression = JSON.parse(json)
 
-      const suggestion = textOrIndexExpression
+      const suggestion = textOrParameterTypeNameExpression
         .map((segment) => {
-          if (typeof segment === 'number') {
-            return `{${this.parameterTypes[segment].name || ''}}`
-          } else {
+          if (typeof segment === 'string') {
             return segment
+          } else {
+            return `{${segment.name}}`
           }
         })
         .join('')
 
-      const segments = textOrIndexExpression.map((segment) => {
-        if (typeof segment === 'number') {
-          return [...this.choicesArray[segment]].sort().slice(0, maxChoices)
-        } else {
+      const segments = textOrParameterTypeNameExpression.map((segment) => {
+        if (typeof segment === 'string') {
           return segment
+        } else {
+          const choices = this.choicesByParameterTypeRegexpStrings.get(segment.regexpStrings)
+          return [...choices].sort().slice(0, maxChoices)
         }
       })
 
@@ -70,6 +87,7 @@ export default class StepDocumentBuilder {
         suggestion,
         segments,
       }
+
       return stepDocument
     })
   }
