@@ -7,6 +7,8 @@ Cucumber::Messages::Message - Base class for cucumber messages
 
 =head1 SYNOPSIS
 
+
+  # Create a new message class:
   use Moo;
   extends 'Cucumber::Messages::Message';
 
@@ -125,7 +127,13 @@ sub _from_hash {
 
 =head1 METHODS
 
-=head2 to_json
+=head2 $self->to_json
+
+Instance method.
+
+Returns the data encapsulated by C<$self> as a serialized byte string
+represented as a single NDJSON line. Note that line-terminating newline
+character (C<\n>) is not included in the return value.
 
 =cut
 
@@ -135,6 +143,14 @@ sub to_json {
     return $json->encode( _to_hash( $self, %args ) );
 }
 
+=head2 $class->from_json( $str )
+
+Returns an instance of class C<$class> which encapsulates the data
+from the bytestring C<$str>, assuming that it is a single valid NDJSON
+line.
+
+=cut
+
 sub from_json {
     my ($class, $msgstr ) = @_;
 
@@ -143,5 +159,21 @@ sub from_json {
     $rv;
 }
 
-
 1;
+
+__END__
+
+=head1 LICENSE
+
+Please see the included LICENSE for the canonical version. In summary:
+
+The MIT License (MIT)
+
+  Copyright (c) 2021 Erik Huelsmann
+  Copyright (c) 2021 Cucumber Ltd
+
+This work is loosely derived from prior work of the same library for Ruby,
+called C<cucumber-messages>.
+
+=cut
+
