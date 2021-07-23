@@ -15,20 +15,18 @@ Given(
   function (this: World, stepDefinitionsTable: DataTable) {
     const parameterTypeRegistry = new ParameterTypeRegistry()
     const expressionFactory = new ExpressionFactory(parameterTypeRegistry)
-    this.expressions = stepDefinitionsTable
-      .rows()
-      .map((row) => {
-        const expressionSource = row[0]
-        const match = expressionSource.match(/^\/(.*)\/$/)
-        const stringOrRegexp = match ? new RegExp(match[1]) : expressionSource
-        return expressionFactory.createExpression(stringOrRegexp)
-      })
+    this.expressions = stepDefinitionsTable.rows().map((row) => {
+      const expressionSource = row[0]
+      const match = expressionSource.match(/^\/(.*)\/$/)
+      const stringOrRegexp = match ? new RegExp(match[1]) : expressionSource
+      return expressionFactory.createExpression(stringOrRegexp)
+    })
   }
 )
 
 When('I type {string}', function (this: World, text: string) {
-  const permutationExpressions = buildStepDocuments(this.steps, this.expressions)
-  const index = bruteForceIndex(permutationExpressions)
+  const stepDocuments = buildStepDocuments(this.steps, this.expressions)
+  const index = bruteForceIndex(stepDocuments)
   this.suggestedStepDocuments = index(text)
 })
 

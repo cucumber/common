@@ -28,5 +28,6 @@ export type StepDocument = {
 }
 
 export type StepSegments = readonly StepSegment[]
-
-export type StepSegment = string | readonly string[]
+type Text = string
+type Choices = readonly string[]
+export type StepSegment = Text | Choices
