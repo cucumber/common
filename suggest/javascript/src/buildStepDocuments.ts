@@ -17,7 +17,6 @@ export default function buildStepDocuments(
   expressions: readonly Expression[],
   maxChoices = 10
 ): readonly StepDocument[] {
-  // let stepDocuments: StepDocument[] = []
   const jsonTextOrParameterTypeNameExpression = new Set<string>()
   const choicesByParameterTypeRegexpStrings = new Map<string, Set<string>>()
 
