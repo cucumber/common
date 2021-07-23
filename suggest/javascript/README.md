@@ -139,7 +139,7 @@ to represent search results.
   | I have {int} cukes in my {word} |
   | I have {int} cukes on my {word} |
 
-#### Example: Two suggestions from Regular Expression
+#### Example: One suggestion from Regular Expression
 
 * Given the following Gherkin step texts exist:
   | Gherkin Step                     |
@@ -186,8 +186,8 @@ LSP-compatible editors such as
 as `I have {int} cukes in my {word}` and `I have {int} cukes on my {word}`.
 
 When the user chooses a suggestion, the editor will focus the editor at the first parameter and
-let the user choose between `11` or `23` (or type a custom value). When the user has made a choice,
-the focus moves to the next parameter and suggests `belly`, `suitcase` or `table`.
+let the user choose between `11`, `17` or `23` (or type a custom value). When the user has made a choice,
+the focus moves to the next parameter and suggests `belly`, `table` or `tree`.
 
 ### Rule: Suggestions must have a matching step definition
 
@@ -207,19 +207,11 @@ the existing step must also have a matching step definition.
 * When I type "cukes"
 * Then the suggestions should be empty
 
-## Implementation
-
-This library consists of three parts
-
-* Step Documents
-* Search Index
-* Presentation
-
 ### Step Documents
 
 A *Step Document* is a data structure with the following properties:
 
-* `suggestion` - what the user will see when a suggestion is presented in the editor
+* `suggestion` - what the user will see when the editor presents a suggestion
 * `segments` - what the editor will use to *insert* a suggestion, along with choices for parameters
 
 A *Step Document* can be represented as a JSON document. Here is an example:
