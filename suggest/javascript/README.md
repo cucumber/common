@@ -62,33 +62,30 @@ process would do the following:
 First, **extract** [Cucumber Expressions](../../cucumber-expressions) and Regular Expressions from step definitions,
 and the text from Gherkin Steps. This can be done by parsing [Cucumber Messages](../../messages) from Cucumber dry-runs.
 
-Second, **transform** the expressions and steps to [Step Documents](#step-documents)
+Second, **transform** the expressions and steps to [Step Documents](#step-documents) using the `buildStepDocuments` function.
 
 Third, **load** the *Step Documents* into a persistent storage. This can be a [search index](https://en.wikipedia.org/wiki/Search_engine_indexing),
 or some other form of persistent storage (such as a file in a file system or a database).
-
-### Step Documents
-
-A *Step Document* is a data structure with the following properties:
-
-* `suggestion` - what the user will see when a suggestion is presented in the editor
-* `segments` - what the editor will use to *insert* a suggestion, along with choices for parameters
-
-A *Step Document* can be represented as a JSON document. Here is an example:
-
-```json
-{
-  "suggestion": "I have {int} cukes in my belly",
-  "segments": ["I have ", ["4", "9", "13"], " cukes in my belly"]
-}
-```
-
-During the **load** step, the search index will typically use the `segments` field to update the index.
+See the [Search Index](#search-index) section below for more details.
 
 ### Editor suggest
 
 This library does not implement any editor functionality, but it *does define* the *Step Document* data structure
 on which editor auto-complete can be implemented. There are two ways to build support for an editor.
+
+What is common for both approaches is that they will query a search index.
+
+The `StepDocument`s coming back from an index search can be converted to an
+[LSP Completion Snippet](https://microsoft.github.io/language-server-protocol/specifications/specification-3-17/#snippet_syntax)
+using the `lspCompletionSnippet` function.
+
+For example, this `StepDocument`:
+
+`["I have ", ["42", "54"], " cukes in my ", ["basket", "belly"]]`
+
+becomes the following LSP Completion Snippet:
+
+`I have ${1|42,54|} cukes in my ${2|basket,belly|}`
 
 ### LSP
 
@@ -216,30 +213,38 @@ This library consists of three parts
 
 ### Step Documents
 
-A `StepDocument` is a representation of an existing Gherkin step, with known possible permutations
-of its *parameters*.
+A *Step Document* is a data structure with the following properties:
 
-Here is an example of a `StepDocument`:
+* `suggestion` - what the user will see when a suggestion is presented in the editor
+* `segments` - what the editor will use to *insert* a suggestion, along with choices for parameters
 
-`["I have ", ["42", "54"], " cukes in my ", ["basket", "belly"]]`
+A *Step Document* can be represented as a JSON document. Here is an example:
 
-That document has the following plain-text permutations:
+```json
+{
+  "suggestion": "I have {int} cukes in my belly",
+  "segments": ["I have ", ["42", "54"], " cukes in my ", ["basket", "belly"]]
+}
+```
+
+The `segments` field is an array of `Text` (a string) or `Choices` (an array of strings).
+The purpose of the `Choices` is to present the user with *possible* values for step parameters.
+The segments above could be used to write the following steps texts:
 
 * `I have 42 cukes in my basket`
 * `I have 54 cukes in my basket`
 * `I have 42 cukes in my belly`
 * `I have 54 cukes in my belly`
 
-The `buildStepDocuments` function takes an array of Gherkin Step texts and another array of Cucumber/Regular Expressions.
-and returns an array of `StepDocument`.
+When a *Step Document* is added to a search index, it should use the `segments` field for indexing.
 
-The Gherkin Step texts and Cucumber/Regular Expressions can be extracted from a stream of
-[Cucumber Messages](../../messages).
+The `segments` field can also be used to build an
+[LSP Completion Snippet](https://microsoft.github.io/language-server-protocol/specifications/specification-3-17/#snippet_syntax)
 
 ### Search Index
 
-Each `StepDocument` can be added to a *search index*. The search index will return matching
-`StepDocument`s for a search term.
+Each `StepDocument` can be added to a *search index*, either during the ETL process, or inside a dedicated editor plugin. 
+The search index will return matching `StepDocument`s for a search term.
 
 The index is a function with the following signature:
 
@@ -255,20 +260,6 @@ They are currently only in the test code, but one of them might be promoted to b
 when we have tried them out on real data.
 
 See the `Index.test.ts` contract test for more details about how the indexes behave.
-
-### Presentation
-
-The `StepDocument`s coming back from an index search can be converted to an
-[LSP Completion Snippet](https://microsoft.github.io/language-server-protocol/specifications/specification-3-17/#snippet_syntax)
-using the `lspCompletionSnippet` function.
-
-For example, this `StepDocument`:
-
-`["I have ", ["42", "54"], " cukes in my ", ["basket", "belly"]]`
-
-becomes the following LSP Completion Snippet:
-
-`I have ${1|42,54|} cukes in my ${2|basket,belly|}`
 
 ### Not in this library
 
