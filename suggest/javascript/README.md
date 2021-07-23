@@ -3,32 +3,125 @@
 This is a library that can be used to build Gherkin step auto-complete in editors.
 It does not implement a UI component, but it can provide *suggestions* to an editor's auto-complete component.
 
-Here is an example of a [Monaco]() editor using this library:
+Here is an example of a [Monaco editor](https://microsoft.github.io/monaco-editor/) using this library:
 
 ![Monaco](Monaco.gif)
 
-An auto-complete engine uses a [search index](https://en.wikipedia.org/wiki/Search_engine_indexing)
-that it can query as the user types. It then presents the search hits in the editor as *suggestions*.
+## Architecture
 
-A search index indexes *documents*.
+The suggest system consists of multiple components, each of which may run in a different process.
 
-This library uses *Gherkin Steps* and *Step Definitions*
-(their Cucumber Expressions and Regular Expressions) to build `StepDocument`s.
-These `StepDocument`s can then be added to a search index.
+```
++--------------------+       +---------------+    +-------+
+| Cucumber/Regular   |       |               |    |       |
+| Expressions        |       | Gherkin Steps |    |       |
+| (Step definitions) |       |               |    |       |
++----------+---------+       +-------+-------+    |       |
+           |                         |            |       |
+           |                         |            |       |
+           +-------------+-----------+            |       |
+                         |                        |       |
+                         |                        |       |
+               +---------v----------+             |       |
+               | buildStepDocuments |             |       |
+               |    (Transform)     |             |  ETL  |
+               +---------+----------+             |       |
+                         |                        |       |
+                         |                        |       |
+                         |                        |       |
+                 +-------v--------+               |       |
+                 | Step Documents |               |       |
+                 +-------+--------+               |       |
+                         |                        |       |
+                         |                        |       |
+                         |                        |       |
+                   +-----v-----+                  |       |
+                   |  Storage  |                  |       |
+                   +-----^-----+                  +-------+
+                         |
+                +--------+-------+
+                |                |
+            +---+----+      +----+----+
+            |  LSP   |      | Editor  |
+            | Server |      | Plugin  |
+            +---^----+      +----^----+
+                |                |
+                |                |
+            +---+----+      +----+----+
+            |  LSP   |      | Editor  |
+            | Editor |      |(Non-LSP)|
+            +--------+      +---------+
+```
 
-The details of a `StepDocument` is explained below - for now just think of it as a step,
-such as `I have 42 cukes in my belly`.
+### ETL process for Step Documents
 
-The examples below illustrate how the library works from the perspective of a user.
+At the top right of the diagram is an [ETL](https://en.wikipedia.org/wiki/Extract,_transform,_load) process. Implementing
+a full ETL process is currently beyond the scope of this library - it only implements the **transform** step. A full ETL
+process would do the following:
+
+First, **extract** [Cucumber Expressions](../../cucumber-expressions) and Regular Expressions from step definitions,
+and the text from Gherkin Steps. This can be done by parsing [Cucumber Messages](../../messages) from Cucumber dry-runs.
+
+Second, **transform** the expressions and steps to [Step Documents](#step-documents)
+
+Third, **load** the *Step Documents* into a persistent storage. This can be a [search index](https://en.wikipedia.org/wiki/Search_engine_indexing),
+or some other form of persistent storage (such as a file in a file system or a database).
+
+### Step Documents
+
+A *Step Document* is a data structure with the following properties:
+
+* `suggestion` - what the user will see when a suggestion is presented in the editor
+* `segments` - what the editor will use to *insert* a suggestion, along with choices for parameters
+
+A *Step Document* can be represented as a JSON document. Here is an example:
+
+```json
+{
+  "suggestion": "I have {int} cukes in my belly",
+  "segments": ["I have ", ["4", "9", "13"], " cukes in my belly"]
+}
+```
+
+During the **load** step, the search index will typically use the `segments` field to update the index.
+
+### Editor suggest
+
+This library does not implement any editor functionality, but it *does define* the *Step Document* data structure
+on which editor auto-complete can be implemented. There are two ways to build support for an editor.
+
+### LSP
+
+With the [LSP](https://microsoft.github.io/language-server-protocol/) approach, the storage is typically a 
+[search index](https://en.wikipedia.org/wiki/Search_engine_indexing).
+When the user invokes the auto-complete command in the editor, the editor will send a 
+[completion request](https://microsoft.github.io/language-server-protocol/specifications/specification-3-17/#textDocument_completion) 
+to the LSP server. The LSP server queries the search index, and uses the returned *Step Documents* to build the response to
+the completion request.
+
+### Dedicated plugin
+
+With the dedicated plugin approach, the storage is typically a file system or a database.
+When the editor plugin is loaded, it will fetch the *Step Documents* from the storage in raw form,
+and add them to an embedded (in-memory) search index.
+
+When the user invokes the auto-complete command in the editor, the editor plugin will query the in-memory search index
+and use the editor's native API to present the suggestions.
+
+## Examples
+
+The examples below illustrate how the library works from the perspective of a user, with a full stack. The ETL process
+and the index all run in-memory.
+
 (Yep, this README.md file is executed by Cucumber.js)!
 
 The suggestions in the examples use the
 [LSP Completion Snippet syntax](https://microsoft.github.io/language-server-protocol/specifications/specification-3-17/#snippet_syntax)
 to represent search results.
 
-## Rule: Suggestions are based on both steps and step definitions
+### Rule: Suggestions are based on both steps and step definitions
 
-### Example: Two suggestions from Cucumber Expression
+#### Example: Two suggestions from Cucumber Expression
 
 * Given the following Gherkin step texts exist:
   | Gherkin Step                   |
@@ -49,7 +142,7 @@ to represent search results.
   | I have {int} cukes in my {word} |
   | I have {int} cukes on my {word} |
 
-### Example: Two suggestions from Regular Expression
+#### Example: Two suggestions from Regular Expression
 
 * Given the following Gherkin step texts exist:
   | Gherkin Step                     |
@@ -68,7 +161,7 @@ to represent search results.
 
 The parameters are not named, because the regular expression doesn't have named capture groups.
 
-### Example: Choices for a selected suggestion
+#### Example: Choices for a selected suggestion
 
 * Given the following Gherkin step texts exist:
   | Gherkin Step                   |
@@ -95,12 +188,12 @@ When the user chooses a suggestion, the editor will focus the editor at the firs
 let the user choose between `11` or `23` (or type a custom value). When the user has made a choice,
 the focus moves to the next parameter and suggests `belly`, `suitcase` or `table`.
 
-## Rule: Suggestions must have a matching step definition
+### Rule: Suggestions must have a matching step definition
 
 It isn't enough to type something that matches an existing step -
 the existing step must also have a matching step definition.
 
-### Example: Nothing matches
+#### Example: Nothing matches
 
 * Given the following Gherkin step texts exist:
   | Gherkin Step                |
