@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+* Build choices based on all values for a parameter type, across steps
+  ([#1671](https://github.com/cucumber/common/pull/1671)
+   [aslakhellesoy])
+
 ### Changed
 
 ### Deprecated
