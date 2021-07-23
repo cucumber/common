@@ -158,23 +158,27 @@ to represent search results.
 
 The parameters are not named, because the regular expression doesn't have named capture groups.
 
-#### Example: Choices for a selected suggestion
+### Rule: Parameter choices are based on all steps
+
+The available choices for a parameter type are built from *all* the choices
+encoutered for that parameter type, across steps.
+
+#### Example: {int} and {word} choices are build from three steps
 
 * Given the following Gherkin step texts exist:
-  | Gherkin Step                   |
-  | ------------------------------ |
-  | I have 23 cukes in my belly    |
-  | I have 11 cukes on my table    |
-  | I have 11 cukes in my suitcase |
-  | the weather forecast is rain   |
+  | Gherkin Step                     |
+  | -------------------------------- |
+  | I have 23 cukes in my belly      |
+  | I have 11 cukes on my table      |
+  | there are 17 apples on the tree  |
 * And the following Step Definitions exist:
-  | Cucumber Expression                |
-  | ---------------------------------- |
-  | I have {int} cukes in/on my {word} |
-  | the weather forecast is {word}     |
+  | Cucumber Expression                  |
+  | ------------------------------------ |
+  | I have {int} cukes in/on my {word}   |
+  | there are {int} apples on the {word} |
 * When I type "cukes"
 * And I select the 2nd snippet
-* Then the LSP snippet should be "I have ${1|11,23|} cukes on my ${2|belly,suitcase,table|}"
+* Then the LSP snippet should be "I have ${1|11,17,23|} cukes on my ${2|belly,table,tree|}"
 
 LSP-compatible editors such as
 [Monaco Editor](https://microsoft.github.io/monaco-editor/) or
