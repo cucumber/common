@@ -220,12 +220,10 @@ A *Step Document* is a data structure with the following properties:
 
 A *Step Document* can be represented as a JSON document. Here is an example:
 
-```json
-{
-  "suggestion": "I have {int} cukes in my belly",
-  "segments": ["I have ", ["42", "54"], " cukes in my ", ["basket", "belly"]]
-}
-```
+    {
+      "suggestion": "I have {int} cukes in my belly",
+      "segments": ["I have ", ["42", "54"], " cukes in my ", ["basket", "belly"]]
+    }
 
 The `segments` field is an array of `Text` (a string) or `Choices` (an array of strings).
 The purpose of the `Choices` is to present the user with *possible* values for step parameters.
