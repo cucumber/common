@@ -31,7 +31,7 @@
     "elasticlunr": "0.9.5",
     "hast-util-sanitize": "3.0.2",
     "highlight-words": "1.1.1",
-    "react-accessible-accordion": "3.3.4",
+    "react-accessible-accordion": "3.3.5",
     "react-markdown": "6.0.3",
     "rehype-raw": "5.1.0",
     "rehype-sanitize": "4.0.0",
