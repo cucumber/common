@@ -23,7 +23,7 @@
     "@cucumber/tag-expressions": "^3.0.1",
     "@fortawesome/fontawesome-svg-core": "1.2.35",
     "@fortawesome/free-solid-svg-icons": "5.15.3",
-    "@fortawesome/react-fontawesome": "0.1.14",
+    "@fortawesome/react-fontawesome": "0.1.15",
     "@teppeis/multimaps": "2.0.0",
     "@types/elasticlunr": "0.9.2",
     "ansi-to-html": "0.7.1",
