@@ -27,7 +27,7 @@
   "devDependencies": {
     "@types/js-yaml": "4.0.2",
     "@types/mocha": "9.0.0",
-    "@types/node": "14.17.8",
+    "@types/node": "14.17.9",
     "js-yaml": "4.1.0",
     "mocha": "9.0.3",
     "ts-node": "10.1.0",

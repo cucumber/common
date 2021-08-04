@@ -30,7 +30,7 @@
     "@cucumber/cucumber": "7.3.1",
     "@types/js-search": "1.4.0",
     "@types/mocha": "9.0.0",
-    "@types/node": "14.17.8",
+    "@types/node": "14.17.9",
     "fuse.js": "6.4.6",
     "js-search": "2.0.0",
     "mocha": "9.0.3",
