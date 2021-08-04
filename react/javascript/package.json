@@ -42,7 +42,7 @@
     "react-dom": "~17"
   },
   "devDependencies": {
-    "@babel/core": "7.14.8",
+    "@babel/core": "7.15.0",
     "@cucumber/fake-cucumber": "^13.0.0",
     "@cucumber/gherkin": "^20.0.1",
     "@cucumber/gherkin-streams": "^3.0.0",
