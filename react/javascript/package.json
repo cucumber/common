@@ -27,7 +27,7 @@
     "@teppeis/multimaps": "2.0.0",
     "@types/elasticlunr": "0.9.2",
     "ansi-to-html": "0.7.1",
-    "color": "4.0.0",
+    "color": "4.0.1",
     "elasticlunr": "0.9.5",
     "hast-util-sanitize": "3.0.2",
     "highlight-words": "1.1.1",
