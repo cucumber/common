@@ -57,7 +57,7 @@
     "@types/jsdom": "16.2.13",
     "@types/mocha": "9.0.0",
     "@types/node": "14.17.9",
-    "@types/react": "17.0.15",
+    "@types/react": "17.0.16",
     "@types/react-dom": "17.0.9",
     "babel-loader": "8.2.2",
     "css-modules-require-hook": "4.2.3",
