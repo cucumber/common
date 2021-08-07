@@ -54,6 +54,9 @@
     },
     {
       "path": "./json-to-messages/javascript-testdata/tsconfig.build.json"
+    },
+    {
+      "path": "./suggest/javascript/tsconfig.build.json"
     }
   ]
 }
