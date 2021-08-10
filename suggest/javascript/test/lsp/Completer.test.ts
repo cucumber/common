@@ -9,7 +9,7 @@ import Completer from '../../src/lsp/Completer'
 import { TextDocument } from 'vscode-languageserver-textdocument'
 import assert from 'assert'
 import bruteForceIndex from '../bruteForceIndex'
-import { StepDocument } from '@cucumber/suggest'
+import { StepDocument } from '../../src/types'
 
 const doc1: StepDocument = {
   suggestion: 'I have {int} cukes in my belly',

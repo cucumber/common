@@ -16,7 +16,7 @@ import {
   TextDocument
 } from 'vscode-languageserver-textdocument';
 import Completer from './Completer'
-import { StepDocument } from '@cucumber/suggest'
+import { StepDocument } from '../types'
 import bruteForceIndex from '../../test/bruteForceIndex'
 
 // Create a connection for the server, using Node's IPC as a transport.

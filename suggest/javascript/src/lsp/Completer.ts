@@ -6,12 +6,12 @@ import {
   TextDocumentPositionParams,
   TextDocuments
 } from 'vscode-languageserver/node'
-import { Index, lspCompletionSnippet } from '@cucumber/suggest'
-
 
 import { AstBuilder, GherkinClassicTokenMatcher, Parser } from '@cucumber/gherkin'
 import { IdGenerator } from '@cucumber/messages'
 import { GherkinDocumentWalker } from '@cucumber/gherkin-utils'
+import { Index } from '../types'
+import lspCompletionSnippet from '../lspCompletionSnippet'
 
 const uuidFn = IdGenerator.uuid()
 const builder = new AstBuilder(uuidFn)
@@ -36,12 +36,11 @@ export default class Completer {
     })
     walker.walkGherkinDocument(gherkinDocument)
     const stepDocuments = this.index(text)
-    const completionItems: CompletionItem[] = stepDocuments.map(stepDocument => ({
+    return stepDocuments.map(stepDocument => ({
       label: stepDocument.suggestion,
       insertText: lspCompletionSnippet(stepDocument.segments),
       insertTextFormat: InsertTextFormat.Snippet,
       kind: CompletionItemKind.Text,
     }))
-    return completionItems
   }
 }
