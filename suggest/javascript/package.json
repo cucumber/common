@@ -26,7 +26,7 @@
   "scripts": {
     "test": "npm run cucumber && npm run mocha",
     "mocha": "mocha",
-    "cucumber": "cucumber-js README.md",
+    "cucumber": "cucumber-js",
     "vscode:prepublish": "npm run compile",
     "compile": "tsc --build tsconfig.build.json",
     "watch": "tsc --build tsconfig.build.json --watch",
