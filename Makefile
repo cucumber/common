@@ -7,6 +7,8 @@ PACKAGES ?= messages \
 	gherkin-utils \
 	cucumber-expressions \
 	suggest \
+	lsp \
+	vscode \
 	tag-expressions \
 	create-meta \
 	fake-cucumber \

@@ -196,6 +196,18 @@ jobs:
             cd suggest/javascript
             make
 
+  vscode-javascript:
+    executor: docker-circleci-node-14
+    steps:
+      - attach_workspace:
+          at: '~/cucumber'
+      - run:
+          name: vscode/javascript
+          command: |
+            sudo npm install --global npm@7
+            cd vscode/javascript
+            make
+
   lsp-javascript:
     executor: docker-circleci-node-14
     steps:
@@ -932,6 +944,9 @@ workflows:
           requires:
             - prepare-parallel
       - suggest-javascript:
+          requires:
+            - prepare-parallel
+      - vscode-javascript:
           requires:
             - prepare-parallel
       - lsp-javascript:

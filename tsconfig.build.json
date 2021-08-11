@@ -60,6 +60,9 @@
     },
     {
       "path": "./lsp/javascript/tsconfig.build.json"
+    },
+    {
+      "path": "./vscode/javascript/tsconfig.build.json"
     }
   ]
 }

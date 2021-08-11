@@ -1,0 +1,43 @@
+{
+  "name": "cucumber",
+  "displayName": "Cucumber",
+  "description": "Official Cucumber extension",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.59.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onCommand:cucumber.helloWorld"
+  ],
+  "main": "./dist/src/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "cucumber.helloWorld",
+        "title": "Hello World"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc --build tsconfig.build.json",
+    "watch": "tsc --watch --build tsconfig.build.json",
+    "pretest": "npm run compile && npm run eslint",
+    "eslint": "eslint src --ext ts",
+    "eslint-fix": "eslint src --ext ts --max-warnings 0 --fix",
+    "test": "node ./dist/src/test/runTest.js"
+  },
+  "devDependencies": {
+    "@types/vscode": "1.59.0",
+    "@types/glob": "7.1.4",
+    "@types/mocha": "9.0.0",
+    "@types/node": "14.x",
+    "glob": "7.1.7",
+    "mocha": "9.0.3",
+    "typescript": "4.3.5",
+    "vscode-test": "1.6.1"
+  }
+}

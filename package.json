@@ -21,7 +21,8 @@
     "json-to-messages/javascript",
     "json-to-messages/javascript-testdata",
     "suggest/javascript",
-    "lsp/javascript"
+    "lsp/javascript",
+    "vscode/javascript"
   ],
   "scripts": {
     "build": "tsc --build tsconfig.build.json",
