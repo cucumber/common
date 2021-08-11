@@ -26,8 +26,8 @@ describe('getGherkinDiagnostics', () => {
           },
         },
         severity: DiagnosticSeverity.Warning,
-        source: 'ex'
-      }
+        source: 'ex',
+      },
     ])
   })
 
@@ -52,8 +52,8 @@ describe('getGherkinDiagnostics', () => {
           },
         },
         severity: DiagnosticSeverity.Warning,
-        source: 'ex'
-      }
+        source: 'ex',
+      },
     ]
     assert.deepStrictEqual(diagnostics, expectedDiagnostics)
   })

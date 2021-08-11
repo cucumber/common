@@ -3,7 +3,7 @@ import {
   CompletionItemKind,
   InsertTextFormat,
   TextDocumentPositionParams,
-  TextDocuments
+  TextDocuments,
 } from 'vscode-languageserver/node'
 import Completer from '../src/Completer'
 import { TextDocument } from 'vscode-languageserver-textdocument'
@@ -25,30 +25,37 @@ describe('Completer', () => {
     const textDocuments = new TextDocuments<TextDocument>(TextDocument)
     const uri = 'test-uri'
     // @ts-ignore
-    textDocuments._documents[uri] = TextDocument.create(uri, 'gherkin', 1, `Feature: Hello
+    textDocuments._documents[uri] = TextDocument.create(
+      uri,
+      'gherkin',
+      1,
+      `Feature: Hello
   Scenario: World
     Given cukes
-`)
+`
+    )
 
     const completer = new Completer(textDocuments, index)
 
     const p: TextDocumentPositionParams = {
       textDocument: {
-        uri: uri
+        uri: uri,
       },
       position: {
         line: 2,
-        character: 14
-      }
+        character: 14,
+      },
     }
 
     const completions = completer.complete(p)
-    const expectedCompletions: CompletionItem[] = [{
-      label: 'I have {int} cukes in my belly',
-      insertText: 'I have ${1|42,98|} cukes in my belly',
-      insertTextFormat: InsertTextFormat.Snippet,
-      kind: CompletionItemKind.Text,
-    }]
+    const expectedCompletions: CompletionItem[] = [
+      {
+        label: 'I have {int} cukes in my belly',
+        insertText: 'I have ${1|42,98|} cukes in my belly',
+        insertTextFormat: InsertTextFormat.Snippet,
+        kind: CompletionItemKind.Text,
+      },
+    ]
     assert.deepStrictEqual(completions, expectedCompletions)
   })
 })

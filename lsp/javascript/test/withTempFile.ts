@@ -15,7 +15,7 @@ export default async function withTempFile(fn: DirFn) {
 }
 
 async function withTempDir(fn: DirFn) {
-  const dirName = await realpath(os.tmpdir()) + path.sep
+  const dirName = (await realpath(os.tmpdir())) + path.sep
   const dir = await mkdtemp(dirName)
   try {
     return await fn(dir)

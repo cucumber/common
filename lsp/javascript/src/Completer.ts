@@ -4,7 +4,7 @@ import {
   InsertTextFormat,
   TextDocument,
   TextDocumentPositionParams,
-  TextDocuments
+  TextDocuments,
 } from 'vscode-languageserver/node'
 
 import { AstBuilder, GherkinClassicTokenMatcher, Parser } from '@cucumber/gherkin'
@@ -19,8 +19,10 @@ const matcher = new GherkinClassicTokenMatcher()
 const parser = new Parser(builder, matcher)
 
 export default class Completer {
-  constructor(private readonly documents: TextDocuments<TextDocument>, private readonly index: Index) {
-  }
+  constructor(
+    private readonly documents: TextDocuments<TextDocument>,
+    private readonly index: Index
+  ) {}
 
   complete(p: TextDocumentPositionParams): CompletionItem[] {
     const doc = this.documents.get(p.textDocument.uri)
@@ -28,14 +30,14 @@ export default class Completer {
     let text: string
     const walker = new GherkinDocumentWalker(undefined, {
       handleStep(step) {
-        if(step.location.line === p.position.line + 1) {
+        if (step.location.line === p.position.line + 1) {
           text = step.text
         }
-      }
+      },
     })
     walker.walkGherkinDocument(gherkinDocument)
     const stepDocuments = this.index(text)
-    return stepDocuments.map(stepDocument => ({
+    return stepDocuments.map((stepDocument) => ({
       label: stepDocument.suggestion,
       insertText: lspCompletionSnippet(stepDocument.segments),
       insertTextFormat: InsertTextFormat.Snippet,

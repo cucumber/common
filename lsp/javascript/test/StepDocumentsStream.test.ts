@@ -21,62 +21,30 @@ describe('StepDocumentsStream', () => {
         write(_stepDocuments: StepDocument[], encoding, callback) {
           stepDocuments = _stepDocuments
           callback()
-        }
+        },
       })
     )
     const expectedStepDocuments: StepDocument[] = [
       {
-        'segments': [
-          'Lucy is at ',
-          [
-            '0',
-            '800',
-            '900',
-          ],
-          ', ',
-          [
-            '0',
-            '800',
-            '900',
-          ]
-        ],
-        'suggestion': 'Lucy is at {int}, {int}',
+        segments: ['Lucy is at ', ['0', '800', '900'], ', ', ['0', '800', '900']],
+        suggestion: 'Lucy is at {int}, {int}',
       },
       {
-        'segments': [
-          'Lucy should hear Sean'
-        ],
-        'suggestion': 'Lucy should hear Sean',
+        segments: ['Lucy should hear Sean'],
+        suggestion: 'Lucy should hear Sean',
       },
       {
-        'segments': [
-          'Lucy should hear nothing'
-        ],
-        'suggestion': 'Lucy should hear nothing',
+        segments: ['Lucy should hear nothing'],
+        suggestion: 'Lucy should hear nothing',
       },
       {
-        'segments': [
-          'Sean is at ',
-          [
-            '0',
-            '800',
-            '900',
-          ],
-          ', ',
-          [
-            '0',
-            '800',
-            '900',
-          ],
-        ],
-        'suggestion': 'Sean is at {int}, {int}',
+        segments: ['Sean is at ', ['0', '800', '900'], ', ', ['0', '800', '900']],
+        suggestion: 'Sean is at {int}, {int}',
       },
       {
-        'segments': [
-          'Sean shouts'
-        ],
-        'suggestion': 'Sean shouts'
-      }
+        segments: ['Sean shouts'],
+        suggestion: 'Sean shouts',
+      },
     ]
     assert.deepStrictEqual(stepDocuments, expectedStepDocuments)
   })
@@ -93,64 +61,44 @@ describe('StepDocumentsStream', () => {
         write(_stepDocuments: StepDocument[], encoding, callback) {
           stepDocuments = _stepDocuments
           callback()
-        }
+        },
       })
     )
     const expectedStepDocuments: StepDocument[] = [
       {
-        'segments': [
-          'I select the ',
-          [
-            '2nd'
-          ],
-          ' snippet'
-        ],
-        'suggestion': 'I select the {ordinal} snippet'
+        segments: ['I select the ', ['2nd'], ' snippet'],
+        suggestion: 'I select the {ordinal} snippet',
       },
       {
-        'segments': [
+        segments: [
           'I type ',
-          [
-            '"I have ${1|11,17,23|} cukes on my ${2|belly,table,tree|}"',
-            '"cukes"'
-          ]
+          ['"I have ${1|11,17,23|} cukes on my ${2|belly,table,tree|}"', '"cukes"'],
         ],
-        'suggestion': 'I type {string}'
+        suggestion: 'I type {string}',
       },
       {
-        'segments': [
+        segments: [
           'the LSP snippet should be ',
-          [
-            '"I have ${1|11,17,23|} cukes on my ${2|belly,table,tree|}"',
-            '"cukes"'
-          ],
+          ['"I have ${1|11,17,23|} cukes on my ${2|belly,table,tree|}"', '"cukes"'],
         ],
-        'suggestion': 'the LSP snippet should be {string}'
+        suggestion: 'the LSP snippet should be {string}',
       },
       {
-        'segments': [
-          'the following Gherkin step texts exist:'
-        ],
-        'suggestion': 'the following Gherkin step texts exist:'
+        segments: ['the following Gherkin step texts exist:'],
+        suggestion: 'the following Gherkin step texts exist:',
       },
       {
-        'segments': [
-          'the following Step Definitions exist:'
-        ],
-        'suggestion': 'the following Step Definitions exist:'
+        segments: ['the following Step Definitions exist:'],
+        suggestion: 'the following Step Definitions exist:',
       },
       {
-        'segments': [
-          'the suggestions should be empty'
-        ],
-        'suggestion': 'the suggestions should be empty'
+        segments: ['the suggestions should be empty'],
+        suggestion: 'the suggestions should be empty',
       },
       {
-        'segments': [
-          'the suggestions should be:'
-        ],
-        'suggestion': 'the suggestions should be:'
-      }
+        segments: ['the suggestions should be:'],
+        suggestion: 'the suggestions should be:',
+      },
     ]
     assert.deepStrictEqual(stepDocuments, expectedStepDocuments)
   })

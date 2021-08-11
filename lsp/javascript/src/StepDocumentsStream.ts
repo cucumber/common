@@ -1,7 +1,12 @@
 import { buildStepDocuments } from '@cucumber/suggest'
 import { Transform, TransformCallback } from 'stream'
 import { Envelope, StepDefinitionPatternType } from '@cucumber/messages'
-import { Expression, ExpressionFactory, ParameterType, ParameterTypeRegistry } from '@cucumber/cucumber-expressions'
+import {
+  Expression,
+  ExpressionFactory,
+  ParameterType,
+  ParameterTypeRegistry,
+} from '@cucumber/cucumber-expressions'
 import { GherkinDocumentWalker } from '@cucumber/gherkin-utils'
 
 export default class StepDocumentsStream extends Transform {
@@ -17,18 +22,24 @@ export default class StepDocumentsStream extends Transform {
 
   _transform(envelope: Envelope, _: BufferEncoding, callback: TransformCallback) {
     if (envelope.parameterType) {
-      const { name, regularExpressions, useForSnippets, preferForRegularExpressionMatch } = envelope.parameterType
-      this.parameterTypeRegistry.defineParameterType(new ParameterType(
-        name,
-        regularExpressions,
-        Object,
-        () => undefined,
-        useForSnippets,
-        preferForRegularExpressionMatch
-      ))
+      const { name, regularExpressions, useForSnippets, preferForRegularExpressionMatch } =
+        envelope.parameterType
+      this.parameterTypeRegistry.defineParameterType(
+        new ParameterType(
+          name,
+          regularExpressions,
+          Object,
+          () => undefined,
+          useForSnippets,
+          preferForRegularExpressionMatch
+        )
+      )
     }
     if (envelope.stepDefinition) {
-      const expr = envelope.stepDefinition.pattern.type === StepDefinitionPatternType.CUCUMBER_EXPRESSION ? envelope.stepDefinition.pattern.source : new RegExp(envelope.stepDefinition.pattern.source)
+      const expr =
+        envelope.stepDefinition.pattern.type === StepDefinitionPatternType.CUCUMBER_EXPRESSION
+          ? envelope.stepDefinition.pattern.source
+          : new RegExp(envelope.stepDefinition.pattern.source)
       const expression = this.expressionFactory.createExpression(expr)
       this.expressions.push(expression)
     }
@@ -37,7 +48,7 @@ export default class StepDocumentsStream extends Transform {
       const walker = new GherkinDocumentWalker(undefined, {
         handleStep(step) {
           stepTexts.push(step.text)
-        }
+        },
       })
       walker.walkGherkinDocument(envelope.gherkinDocument)
     }

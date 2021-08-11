@@ -7,7 +7,7 @@ import {
   ProposedFeatures,
   TextDocumentPositionParams,
   TextDocuments,
-  TextDocumentSyncKind
+  TextDocumentSyncKind,
 } from 'vscode-languageserver/node'
 
 import { TextDocument } from 'vscode-languageserver-textdocument'
@@ -42,9 +42,7 @@ connection.onInitialize((params: InitializeParams) => {
 
   // Does the client support the `workspace/configuration` request?
   // If not, we fall back using global settings.
-  hasConfigurationCapability = !!(
-    capabilities.workspace && !!capabilities.workspace.configuration
-  )
+  hasConfigurationCapability = !!(capabilities.workspace && !!capabilities.workspace.configuration)
   hasWorkspaceFolderCapability = !!(
     capabilities.workspace && !!capabilities.workspace.workspaceFolders
   )
@@ -59,15 +57,15 @@ connection.onInitialize((params: InitializeParams) => {
       textDocumentSync: TextDocumentSyncKind.Incremental,
       // Tell the client that this server supports code completion.
       completionProvider: {
-        resolveProvider: true
-      }
-    }
+        resolveProvider: true,
+      },
+    },
   }
   if (hasWorkspaceFolderCapability) {
     result.capabilities.workspace = {
       workspaceFolders: {
-        supported: true
-      }
+        supported: true,
+      },
     }
   }
   return result
@@ -79,7 +77,7 @@ connection.onInitialized(() => {
     connection.client.register(DidChangeConfigurationNotification.type, undefined)
   }
   if (hasWorkspaceFolderCapability) {
-    connection.workspace.onDidChangeWorkspaceFolders(_event => {
+    connection.workspace.onDidChangeWorkspaceFolders((_event) => {
       connection.console.log('Workspace folder change event received.')
     })
   }
@@ -87,7 +85,7 @@ connection.onInitialized(() => {
 
 // The example settings
 interface ExampleSettings {
-  maxNumberOfProblems: number;
+  maxNumberOfProblems: number
 }
 
 // The global settings, used when the `workspace/configuration` request is not supported by the client.
@@ -99,14 +97,12 @@ let globalSettings: ExampleSettings = defaultSettings
 // Cache the settings of all open documents
 const documentSettings: Map<string, Thenable<ExampleSettings>> = new Map()
 
-connection.onDidChangeConfiguration(change => {
+connection.onDidChangeConfiguration((change) => {
   if (hasConfigurationCapability) {
     // Reset all cached document settings
     documentSettings.clear()
   } else {
-    globalSettings = <ExampleSettings>(
-      (change.settings.languageServerExample || defaultSettings)
-    )
+    globalSettings = <ExampleSettings>(change.settings.languageServerExample || defaultSettings)
   }
 
   // Revalidate all open text documents
@@ -121,7 +117,7 @@ function getDocumentSettings(resource: string): Thenable<ExampleSettings> {
   if (!result) {
     result = connection.workspace.getConfiguration({
       scopeUri: resource,
-      section: 'languageServerExample'
+      section: 'languageServerExample',
     })
     documentSettings.set(resource, result)
   }
@@ -129,13 +125,13 @@ function getDocumentSettings(resource: string): Thenable<ExampleSettings> {
 }
 
 // Only keep settings for open documents
-documents.onDidClose(e => {
+documents.onDidClose((e) => {
   documentSettings.delete(e.document.uri)
 })
 
 // The content of a text document has changed. This event is emitted
 // when the text document first opened or when its content has changed.
-documents.onDidChangeContent(change => {
+documents.onDidChangeContent((change) => {
   validateGherkinDocument(change.document)
 })
 
@@ -144,17 +140,15 @@ function validateGherkinDocument(textDocument: TextDocument): void {
   connection.sendDiagnostics({ uri: textDocument.uri, diagnostics })
 }
 
-connection.onDidChangeWatchedFiles(_change => {
+connection.onDidChangeWatchedFiles((_change) => {
   // Monitored files have change in VSCode
   connection.console.log('We received an file change event')
 })
 
 // This handler provides the initial list of the completion items.
-connection.onCompletion(
-  (textDocumentPosition: TextDocumentPositionParams): CompletionItem[] => {
-    return completer.complete(textDocumentPosition)
-  }
-)
+connection.onCompletion((textDocumentPosition: TextDocumentPositionParams): CompletionItem[] => {
+  return completer.complete(textDocumentPosition)
+})
 
 // Make the text document manager listen on the connection
 // for open, change and close text document events

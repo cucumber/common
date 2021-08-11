@@ -14,25 +14,25 @@ export default function getGherkinDiagnostics(gherkinSource: string): Diagnostic
   try {
     parser.parse(gherkinSource)
   } catch (err) {
-    const errors: Error[] = (err instanceof Errors.CompositeParserException) ? err.errors : [err]
+    const errors: Error[] = err instanceof Errors.CompositeParserException ? err.errors : [err]
     for (const error of errors) {
       if (error instanceof Errors.GherkinException) {
-        const line = error.location.line -1
-        const character = error.location.column !== undefined ? error.location.column -1 : 0
+        const line = error.location.line - 1
+        const character = error.location.column !== undefined ? error.location.column - 1 : 0
         const diagnostic: Diagnostic = {
           severity: DiagnosticSeverity.Warning,
           range: {
             start: {
               line,
-              character
+              character,
             },
             end: {
               line,
-              character: lines[line].length
-            }
+              character: lines[line].length,
+            },
           },
           message: error.message,
-          source: 'ex'
+          source: 'ex',
         }
         diagnostics.push(diagnostic)
       }

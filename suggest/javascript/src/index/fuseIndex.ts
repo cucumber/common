@@ -14,7 +14,12 @@ export function fuseIndex(stepDocuments: readonly StepDocument[]): Index {
         .join(''),
     }
   })
-  const fuse = new Fuse(docs, { keys: ['text'], minMatchCharLength: 2, threshold: 0.1, ignoreLocation: true })
+  const fuse = new Fuse(docs, {
+    keys: ['text'],
+    minMatchCharLength: 2,
+    threshold: 0.1,
+    ignoreLocation: true,
+  })
 
   return (text) => {
     const results = fuse.search(text, { limit: 10 })

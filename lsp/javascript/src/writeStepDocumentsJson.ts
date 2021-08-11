@@ -5,7 +5,11 @@ import { StepDocument } from '@cucumber/suggest'
 import StepDocumentsStream from '../src/StepDocumentsStream'
 import fs from 'fs'
 
-export default function writeStepDocumentsJson(command: string, args: string[], jsonPath: string): Promise<void> {
+export default function writeStepDocumentsJson(
+  command: string,
+  args: string[],
+  jsonPath: string
+): Promise<void> {
   const cucumber = spawn(command, args)
   const stderr: Buffer[] = []
 
@@ -18,7 +22,9 @@ export default function writeStepDocumentsJson(command: string, args: string[], 
       if (code === 0) {
         return resolve()
       }
-      reject(new Error(`Exited with status ${code}. STDERR:\n${Buffer.concat(stderr).toString('utf8')}`))
+      reject(
+        new Error(`Exited with status ${code}. STDERR:\n${Buffer.concat(stderr).toString('utf8')}`)
+      )
     })
 
     cucumber.on('spawn', () => {
@@ -28,7 +34,7 @@ export default function writeStepDocumentsJson(command: string, args: string[], 
           write(chunk: Buffer, _, callback) {
             stderr.push(chunk)
             callback()
-          }
+          },
         }),
         (err) => err && reject(err)
       )
@@ -41,10 +47,10 @@ export default function writeStepDocumentsJson(command: string, args: string[], 
           objectMode: true,
           transform(stepDocuments: StepDocument[], encoding, callback) {
             callback(null, JSON.stringify(stepDocuments, null, 2))
-          }
+          },
         }),
         fs.createWriteStream(jsonPath, { encoding: 'utf-8' }),
-        (err) => err ? reject(err) : resolve()
+        (err) => (err ? reject(err) : resolve())
       )
     })
   })
