@@ -1,6 +1,6 @@
 import { spawn } from 'child_process'
 import assert from 'assert'
-import writeStepDocumentsJson from '../../src/lsp/writeStepDocumentsJson'
+import writeStepDocumentsJson from '../src/writeStepDocumentsJson'
 import withTempFile from './withTempFile'
 import fs from 'fs'
 

@@ -196,6 +196,18 @@ jobs:
             cd suggest/javascript
             make
 
+  lsp-javascript:
+    executor: docker-circleci-node-14
+    steps:
+      - attach_workspace:
+          at: '~/cucumber'
+      - run:
+          name: lsp/javascript
+          command: |
+            sudo npm install --global npm@7
+            cd lsp/javascript
+            make
+
   message-streams-javascript:
     executor: docker-circleci-node-14
     steps:
@@ -920,6 +932,9 @@ workflows:
           requires:
             - prepare-parallel
       - suggest-javascript:
+          requires:
+            - prepare-parallel
+      - lsp-javascript:
           requires:
             - prepare-parallel
       - message-streams-javascript:

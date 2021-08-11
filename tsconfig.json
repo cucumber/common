@@ -15,7 +15,8 @@
       "@cucumber/query": ["query/javascript/src/index.ts"],
       "@cucumber/compatibility-kit": ["compatibility-kit/javascript/src/index.ts"],
       "@cucumber/react": ["react/javascript/src/index.ts"],
-      "@cucumber/suggest": ["suggest/javascript/src/index.ts"]
+      "@cucumber/suggest": ["suggest/javascript/src/index.ts"],
+      "@cucumber/lsp": ["lsp/javascript/src/index.ts"]
     },
     "noEmit": true
   }

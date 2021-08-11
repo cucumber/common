@@ -57,6 +57,9 @@
     },
     {
       "path": "./suggest/javascript/tsconfig.build.json"
+    },
+    {
+      "path": "./lsp/javascript/tsconfig.build.json"
     }
   ]
 }

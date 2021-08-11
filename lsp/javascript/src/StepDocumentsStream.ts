@@ -1,4 +1,4 @@
-import buildStepDocuments from '../buildStepDocuments'
+import { buildStepDocuments } from '@cucumber/suggest'
 import { Transform, TransformCallback } from 'stream'
 import { Envelope, StepDefinitionPatternType } from '@cucumber/messages'
 import { Expression, ExpressionFactory, ParameterType, ParameterTypeRegistry } from '@cucumber/cucumber-expressions'

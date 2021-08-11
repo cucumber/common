@@ -5,11 +5,10 @@ import {
   TextDocumentPositionParams,
   TextDocuments
 } from 'vscode-languageserver/node'
-import Completer from '../../src/lsp/Completer'
+import Completer from '../src/Completer'
 import { TextDocument } from 'vscode-languageserver-textdocument'
 import assert from 'assert'
-import bruteForceIndex from '../bruteForceIndex'
-import { StepDocument } from '../../src/types'
+import { StepDocument, bruteForceIndex } from '@cucumber/suggest'
 
 const doc1: StepDocument = {
   suggestion: 'I have {int} cukes in my belly',

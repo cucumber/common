@@ -10,8 +10,7 @@ import {
 import { AstBuilder, GherkinClassicTokenMatcher, Parser } from '@cucumber/gherkin'
 import { IdGenerator } from '@cucumber/messages'
 import { GherkinDocumentWalker } from '@cucumber/gherkin-utils'
-import { Index } from '../types'
-import lspCompletionSnippet from '../lspCompletionSnippet'
+import { Index, lspCompletionSnippet } from '@cucumber/suggest'
 
 const uuidFn = IdGenerator.uuid()
 const builder = new AstBuilder(uuidFn)

@@ -2,8 +2,8 @@ import { ChildProcess } from 'child_process'
 import { pipeline as pipelineCb, Transform } from 'stream'
 import { promisify } from 'util'
 import { NdjsonToMessageStream } from '@cucumber/message-streams'
-import { StepDocument } from '../../src/types'
-import StepDocumentsStream from '../../src/lsp/StepDocumentsStream'
+import { StepDocument } from '@cucumber/suggest'
+import StepDocumentsStream from '../src/StepDocumentsStream'
 import fs from 'fs'
 
 const pipeline = promisify(pipelineCb)

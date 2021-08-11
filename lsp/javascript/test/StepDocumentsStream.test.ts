@@ -2,9 +2,9 @@ import { pipeline as pipelineCb, Writable } from 'stream'
 import { promisify } from 'util'
 import fs from 'fs'
 import { NdjsonToMessageStream } from '@cucumber/message-streams'
-import { StepDocument } from '../../src/types'
+import { StepDocument } from '@cucumber/suggest'
 import assert from 'assert'
-import StepDocumentsStream from '../../src/lsp/StepDocumentsStream'
+import StepDocumentsStream from '../src/StepDocumentsStream'
 
 const pipeline = promisify(pipelineCb)
 
