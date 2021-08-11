@@ -22,6 +22,7 @@ export function jsSearchIndex(stepDocuments: readonly StepDocument[]): Index {
   search.addDocuments(docs)
 
   return (text) => {
+    if (!text) return []
     const results = search.search(text)
     return results.map((result: Doc) => stepDocuments[result.id])
   }

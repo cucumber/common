@@ -59,7 +59,7 @@
       "path": "./suggest/javascript/tsconfig.build.json"
     },
     {
-      "path": "./lsp/javascript/tsconfig.build.json"
+      "path": "./language-server/javascript/tsconfig.build.json"
     },
     {
       "path": "./vscode/javascript/tsconfig.build.json"

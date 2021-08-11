@@ -21,7 +21,7 @@
     "json-to-messages/javascript",
     "json-to-messages/javascript-testdata",
     "suggest/javascript",
-    "lsp/javascript",
+    "language-server/javascript",
     "vscode/javascript"
   ],
   "scripts": {

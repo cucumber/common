@@ -16,7 +16,7 @@
       "@cucumber/compatibility-kit": ["compatibility-kit/javascript/src/index.ts"],
       "@cucumber/react": ["react/javascript/src/index.ts"],
       "@cucumber/suggest": ["suggest/javascript/src/index.ts"],
-      "@cucumber/lsp": ["lsp/javascript/src/index.ts"],
+      "@cucumber/language-server": ["language-server/javascript/src/index.ts"],
       "@cucumber/vscode": ["vscode/javascript/src/index.ts"]
     },
     "noEmit": true

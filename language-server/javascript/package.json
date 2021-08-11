@@ -1,9 +1,12 @@
 {
-  "name": "@cucumber/lsp",
+  "name": "@cucumber/language-server",
   "version": "0.0.1",
   "description": "Cucumber Language Server",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
+  "bin": {
+    "cucumber-language-server": "bin/cucumber-language-server.js"
+  },
   "scripts": {
     "test": "mocha",
     "prepublishOnly": "tsc --build tsconfig.build.json"
@@ -37,6 +40,7 @@
     "@cucumber/messages": "17.0.1",
     "@cucumber/message-streams": "3.0.0",
     "@cucumber/suggest": "0.0.2",
+    "source-map-support": "0.5.19",
     "vscode-languageserver": "7.0.0",
     "vscode-languageserver-textdocument": "1.0.1"
   }

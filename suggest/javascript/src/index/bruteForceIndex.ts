@@ -8,6 +8,7 @@ import { StepDocument } from '../types'
  */
 export function bruteForceIndex(stepDocuments: readonly StepDocument[]): Index {
   return (text) => {
+    if (!text) return []
     const predicate = (segment: string) => segment.toLowerCase().includes(text.toLowerCase())
     return stepDocuments.filter((permutationExpression) =>
       matches(permutationExpression, predicate)

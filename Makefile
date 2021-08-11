@@ -7,7 +7,7 @@ PACKAGES ?= messages \
 	gherkin-utils \
 	cucumber-expressions \
 	suggest \
-	lsp \
+	language-server \
 	vscode \
 	tag-expressions \
 	create-meta \

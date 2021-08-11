@@ -22,6 +22,7 @@ export function fuseIndex(stepDocuments: readonly StepDocument[]): Index {
   })
 
   return (text) => {
+    if (!text) return []
     const results = fuse.search(text, { limit: 10 })
     return results.map((result) => stepDocuments[result.refIndex])
   }

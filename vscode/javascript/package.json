@@ -10,25 +10,39 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:cucumber.helloWorld"
+    "onLanguage:gherkin"
   ],
   "main": "./dist/src/extension.js",
   "contributes": {
-    "commands": [
+    "languages": [
       {
-        "command": "cucumber.helloWorld",
-        "title": "Hello World"
+        "id": "gherkin",
+        "aliases": [
+          "feature",
+          "gherkin",
+          "Gherkin",
+          "cucumber"
+        ],
+        "extensions": [
+          ".feature",
+          ".feature.md"
+        ],
+        "configuration": "./language-configuration.json"
       }
     ]
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
     "compile": "tsc --build tsconfig.build.json",
-    "watch": "tsc --watch --build tsconfig.build.json",
+    "watch": "tsc --build --watch tsconfig.build.json",
     "pretest": "npm run compile && npm run eslint",
     "eslint": "eslint src --ext ts",
     "eslint-fix": "eslint src --ext ts --max-warnings 0 --fix",
     "test": "node ./dist/src/test/runTest.js"
+  },
+  "dependencies": {
+    "vscode-languageclient": "7.0.0",
+    "@cucumber/language-server": "0.0.1"
   },
   "devDependencies": {
     "@types/vscode": "1.59.0",
