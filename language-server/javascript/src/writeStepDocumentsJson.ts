@@ -11,6 +11,7 @@ export default function writeStepDocumentsJson(
   jsonPath: string
 ): Promise<void> {
   const cucumber = spawn(command, args)
+
   const stderr: Buffer[] = []
 
   return new Promise((resolve, reject) => {
@@ -19,7 +20,8 @@ export default function writeStepDocumentsJson(
       if (signal) {
         reject(new Error(`Received signal ${signal}`))
       }
-      if (code === 0) {
+      // https://github.com/cucumber/cucumber-js/issues/1768
+      if (code === 1 || code === 0) {
         return resolve()
       }
       reject(
@@ -27,31 +29,29 @@ export default function writeStepDocumentsJson(
       )
     })
 
-    cucumber.on('spawn', () => {
-      pipeline(
-        cucumber.stderr,
-        new Writable({
-          write(chunk: Buffer, _, callback) {
-            stderr.push(chunk)
-            callback()
-          },
-        }),
-        (err) => err && reject(err)
-      )
+    pipeline(
+      cucumber.stderr,
+      new Writable({
+        write(chunk: Buffer, _, callback) {
+          stderr.push(chunk)
+          callback()
+        },
+      }),
+      (err) => err && reject(err)
+    )
 
-      pipeline(
-        cucumber.stdout,
-        new NdjsonToMessageStream(),
-        new StepDocumentsStream(),
-        new Transform({
-          objectMode: true,
-          transform(stepDocuments: StepDocument[], encoding, callback) {
-            callback(null, JSON.stringify(stepDocuments, null, 2))
-          },
-        }),
-        fs.createWriteStream(jsonPath, { encoding: 'utf-8' }),
-        (err) => (err ? reject(err) : resolve())
-      )
-    })
+    pipeline(
+      cucumber.stdout,
+      new NdjsonToMessageStream(),
+      new StepDocumentsStream(),
+      new Transform({
+        objectMode: true,
+        transform(stepDocuments: StepDocument[], encoding, callback) {
+          callback(null, JSON.stringify(stepDocuments, null, 2))
+        },
+      }),
+      fs.createWriteStream(jsonPath, { encoding: 'utf-8' }),
+      (err) => err && reject(err)
+    )
   })
 }

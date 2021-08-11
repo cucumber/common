@@ -11,6 +11,7 @@
       "outFiles": [
         "${workspaceFolder}/dist/**/*.js"
       ],
+      "log": true,
       "preLaunchTask": {
         "type": "npm",
         "script": "watch"

@@ -37,6 +37,7 @@ export default class Completer {
     })
     walker.walkGherkinDocument(gherkinDocument)
     const stepDocuments = this.index(text)
+    console.log('%s => %s', text, stepDocuments.map(d => d.suggestion))
     return stepDocuments.map((stepDocument) => ({
       label: stepDocument.suggestion,
       insertText: lspCompletionSnippet(stepDocument.segments),

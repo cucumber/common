@@ -12,8 +12,14 @@ import {
 
 import { TextDocument } from 'vscode-languageserver-textdocument'
 import Completer from './Completer'
-import { StepDocument, bruteForceIndex } from '@cucumber/suggest'
+import { bruteForceIndex, fuseIndex, Index, jsSearchIndex, StepDocument } from '@cucumber/suggest'
 import getGherkinDiagnostics from './getGherkinDiagnostics'
+import writeStepDocumentsJson from './writeStepDocumentsJson'
+import fs from 'fs'
+import os from 'os'
+import path from 'path'
+
+const stepDocumentsPath = path.join(os.tmpdir(), 'cucumber-language-server-step-documents.json')
 
 // Create a connection for the server, using Node's IPC as a transport.
 // Also include all preview / proposed LSP features.
@@ -22,16 +28,8 @@ const connection = createConnection(ProposedFeatures.all)
 // Create a simple text document manager.
 const documents: TextDocuments<TextDocument> = new TextDocuments(TextDocument)
 
-const doc1: StepDocument = {
-  suggestion: 'I have {int} cukes in my belly',
-  segments: ['I have ', ['42', '98'], ' cukes in my belly'],
-}
-const doc2: StepDocument = {
-  suggestion: 'I am a teapot',
-  segments: ['I am a teapot'],
-}
-const index = bruteForceIndex([doc1, doc2])
-const completer = new Completer(documents, index)
+let index: Index = fuseIndex([])
+updateIndex()
 
 let hasConfigurationCapability = false
 let hasWorkspaceFolderCapability = false
@@ -81,6 +79,7 @@ connection.onInitialized(() => {
       connection.console.log('Workspace folder change event received.')
     })
   }
+  connection.console.log('Cucumber Language server initialized')
 })
 
 connection.onDidChangeConfiguration(() => {
@@ -90,29 +89,40 @@ connection.onDidChangeConfiguration(() => {
 // The content of a text document has changed. This event is emitted
 // when the text document first opened or when its content has changed.
 documents.onDidChangeContent((change) => {
+  updateIndexDebounce()
   validateGherkinDocument(change.document)
 })
+
+let updateTimer: NodeJS.Timer
+
+function updateIndexDebounce() {
+  if (updateTimer) clearTimeout(updateTimer)
+  updateTimer = setTimeout(updateIndex, 5000)
+}
+
+function updateIndex() {
+  writeStepDocumentsJson(process.execPath, ['./node_modules/.bin/cucumber-js', '--dry-run', '--format', 'message'], stepDocumentsPath)
+    .then(() => loadIndex())
+    .catch(err => connection.console.error('Failed to build Cucumber index: ' + err.message))
+}
+
+function loadIndex() {
+  const stepDocuments: StepDocument[] = JSON.parse(fs.readFileSync(stepDocumentsPath, { encoding: 'utf-8' }))
+  index = jsSearchIndex(stepDocuments)
+}
 
 function validateGherkinDocument(textDocument: TextDocument): void {
   const diagnostics = getGherkinDiagnostics(textDocument.getText())
   connection.sendDiagnostics({ uri: textDocument.uri, diagnostics })
 }
 
-connection.onDidChangeWatchedFiles((_change) => {
-  // Monitored files have change in VSCode
-  connection.console.log('We received an file change event')
-})
-
-// This handler provides the initial list of the completion items.
 connection.onCompletion((textDocumentPosition: TextDocumentPositionParams): CompletionItem[] => {
+  const completer = new Completer(documents, index)
   return completer.complete(textDocumentPosition)
 })
 
 connection.onCompletionResolve((item) => item)
 
-// Make the text document manager listen on the connection
-// for open, change and close text document events
 documents.listen(connection)
 
-// Listen on the connection
 connection.listen()
