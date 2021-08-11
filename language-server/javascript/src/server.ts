@@ -12,14 +12,10 @@ import {
 
 import { TextDocument } from 'vscode-languageserver-textdocument'
 import Completer from './Completer'
-import { bruteForceIndex, fuseIndex, Index, jsSearchIndex, StepDocument } from '@cucumber/suggest'
+import { fuseIndex, Index, jsSearchIndex } from '@cucumber/suggest'
 import getGherkinDiagnostics from './getGherkinDiagnostics'
-import writeStepDocumentsJson from './writeStepDocumentsJson'
-import fs from 'fs'
-import os from 'os'
-import path from 'path'
-
-const stepDocumentsPath = path.join(os.tmpdir(), 'cucumber-language-server-step-documents.json')
+import makeCucumberInfo from './makeCucumberInfo'
+import { Expression } from '@cucumber/cucumber-expressions'
 
 // Create a connection for the server, using Node's IPC as a transport.
 // Also include all preview / proposed LSP features.
@@ -28,8 +24,9 @@ const connection = createConnection(ProposedFeatures.all)
 // Create a simple text document manager.
 const documents: TextDocuments<TextDocument> = new TextDocuments(TextDocument)
 
+let expressions: readonly Expression[] = []
 let index: Index = fuseIndex([])
-updateIndex()
+updateCucumberInfo()
 
 let hasConfigurationCapability = false
 let hasWorkspaceFolderCapability = false
@@ -89,30 +86,28 @@ connection.onDidChangeConfiguration(() => {
 // The content of a text document has changed. This event is emitted
 // when the text document first opened or when its content has changed.
 documents.onDidChangeContent((change) => {
-  updateIndexDebounce()
+  updateCucumberInfoDebounce()
   validateGherkinDocument(change.document)
 })
 
 let updateTimer: NodeJS.Timer
 
-function updateIndexDebounce() {
+function updateCucumberInfoDebounce() {
   if (updateTimer) clearTimeout(updateTimer)
-  updateTimer = setTimeout(updateIndex, 5000)
+  updateTimer = setTimeout(updateCucumberInfo, 5000)
 }
 
-function updateIndex() {
-  writeStepDocumentsJson(process.execPath, ['./node_modules/.bin/cucumber-js', '--dry-run', '--format', 'message'], stepDocumentsPath)
-    .then(() => loadIndex())
-    .catch(err => connection.console.error('Failed to build Cucumber index: ' + err.message))
-}
-
-function loadIndex() {
-  const stepDocuments: StepDocument[] = JSON.parse(fs.readFileSync(stepDocumentsPath, { encoding: 'utf-8' }))
-  index = jsSearchIndex(stepDocuments)
+function updateCucumberInfo() {
+  makeCucumberInfo(process.execPath, ['./node_modules/.bin/cucumber-js', '--dry-run', '--format', 'message'])
+    .then((cucumberInfo) => {
+      expressions = cucumberInfo.expressions
+      index = jsSearchIndex(cucumberInfo.stepDocuments)
+    })
+    .catch(err => connection.console.error('Failed to make Cucumber Info: ' + err.message))
 }
 
 function validateGherkinDocument(textDocument: TextDocument): void {
-  const diagnostics = getGherkinDiagnostics(textDocument.getText())
+  const diagnostics = getGherkinDiagnostics(textDocument.getText(), expressions)
   connection.sendDiagnostics({ uri: textDocument.uri, diagnostics })
 }
 

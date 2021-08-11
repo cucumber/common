@@ -17,9 +17,9 @@ const isDebugMode = () => process.env.VSCODE_DEBUG_MODE === 'true'
 // your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
   let serverModule: string
-  if(isDebugMode()) {
+  if (isDebugMode()) {
     serverModule = context.asAbsolutePath(
-      path.join('../../language-server/javascript/bin/cucumber-language-server.js'),
+      path.join('../../language-server/javascript/bin/cucumber-language-server.js')
     )
   } else {
     serverModule = require.resolve('@cucumber/language-server/bin/cucumber-language-server.js')

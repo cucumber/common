@@ -1,15 +1,12 @@
 import { spawn } from 'child_process'
-import { pipeline, Transform, Writable } from 'stream'
+import { pipeline, Writable } from 'stream'
 import { NdjsonToMessageStream } from '@cucumber/message-streams'
-import { StepDocument } from '@cucumber/suggest'
-import StepDocumentsStream from '../src/StepDocumentsStream'
-import fs from 'fs'
+import { CucumberInfoStream, CucumberInfo } from './CucumberInfoStream'
 
-export default function writeStepDocumentsJson(
+export default function makeCucumberInfo(
   command: string,
-  args: string[],
-  jsonPath: string
-): Promise<void> {
+  args: string[]
+): Promise<CucumberInfo | null> {
   const cucumber = spawn(command, args)
 
   const stderr: Buffer[] = []
@@ -22,7 +19,7 @@ export default function writeStepDocumentsJson(
       }
       // https://github.com/cucumber/cucumber-js/issues/1768
       if (code === 1 || code === 0) {
-        return resolve()
+        return resolve(null)
       }
       reject(
         new Error(`Exited with status ${code}. STDERR:\n${Buffer.concat(stderr).toString('utf8')}`)
@@ -40,18 +37,22 @@ export default function writeStepDocumentsJson(
       (err) => err && reject(err)
     )
 
+    let cucumberInfo: CucumberInfo = null
     pipeline(
       cucumber.stdout,
       new NdjsonToMessageStream(),
-      new StepDocumentsStream(),
-      new Transform({
+      new CucumberInfoStream(),
+      new Writable({
         objectMode: true,
-        transform(stepDocuments: StepDocument[], encoding, callback) {
-          callback(null, JSON.stringify(stepDocuments, null, 2))
+        write(_cucumberInfo: CucumberInfo, encoding, callback) {
+          cucumberInfo = _cucumberInfo
+          callback()
         },
       }),
-      fs.createWriteStream(jsonPath, { encoding: 'utf-8' }),
-      (err) => err && reject(err)
+      (err) => {
+        if (err) return reject(err)
+        resolve(cucumberInfo)
+      }
     )
   })
 }

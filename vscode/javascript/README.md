@@ -1,8 +1,39 @@
-# cucumber README
+# VSCode Cucumber Extension
 
-This is the README for your extension "cucumber". After writing up a brief description, we recommend including the following sections.
+This is the official Cucumber extension for VSCode
 
 ## Features
+
+- [ ] Syntax highlighting
+- [x] Zero configuration
+  - [ ] Override cucumber messages command in settings
+- [ ] Auto complete
+  - [x] Parameterized snippets
+    - [ ] Fuzzy search
+  - [ ] Gherkin keywords
+- [x] Syntax validation
+  - [x] Syntax errors
+  - [x] Undefined steps
+  - [ ] Ambiguous steps
+- [ ] Quick fix for undefined steps
+- [ ] Go to Step Definition(s) from Gherkin step
+- [ ] Go to Gherkin step(s) from Step Definition
+- [ ] Formatting
+- [ ] I18n support 
+- [ ] Platforms
+  - [x] Cucumber-js
+  - [ ] Cucumber-ruby
+  - [ ] Cucumber-jvm
+
+TODOs:
+
+- [ ] Logo
+- [ ] Publish
+  - [ ] https://open-vsx.org/
+- [ ] Fix/ignore CI
+
+
+
 
 Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
 
