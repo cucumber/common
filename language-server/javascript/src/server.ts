@@ -6,7 +6,6 @@ import {
   InitializeResult,
   ProposedFeatures,
   SemanticTokensParams,
-  SemanticTokenTypes,
   TextDocumentPositionParams,
   TextDocuments,
   TextDocumentSyncKind,
@@ -14,7 +13,13 @@ import {
 
 import { TextDocument } from 'vscode-languageserver-textdocument'
 import { fuseIndex, Index, jsSearchIndex } from '@cucumber/suggest'
-import { getGherkinCompletionItems, getGherkinDiagnostics, getGherkinSemanticTokens } from './lsp'
+import {
+  getGherkinCompletionItems,
+  getGherkinDiagnostics,
+  getGherkinSemanticTokens,
+  semanticTokenModifiers,
+  semanticTokenTypes
+} from './lsp'
 import makeCucumberInfo from './makeCucumberInfo'
 import { Expression } from '@cucumber/cucumber-expressions'
 
@@ -62,10 +67,8 @@ connection.onInitialize((params: InitializeParams) => {
           delta: false
         },
         legend: {
-          tokenTypes: [
-            SemanticTokenTypes.keyword,
-          ],
-          tokenModifiers: []
+          tokenTypes: semanticTokenTypes,
+          tokenModifiers: semanticTokenModifiers
         }
       } : undefined,
     },
@@ -134,7 +137,7 @@ connection.onCompletionResolve((item) => item)
 
 connection.languages.semanticTokens.on((semanticTokenParams: SemanticTokensParams) => {
   const gherkinSource = documents.get(semanticTokenParams.textDocument.uri).getText()
-  return getGherkinSemanticTokens(gherkinSource)
+  return getGherkinSemanticTokens(gherkinSource, expressions)
 })
 
 documents.listen(connection)
