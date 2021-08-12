@@ -1,5 +1,5 @@
 import assert from 'assert'
-import getGherkinDiagnostics from '../src/getGherkinDiagnostics'
+import { getGherkinDiagnostics } from '../../src/lsp'
 import { Diagnostic, DiagnosticSeverity } from 'vscode-languageserver/node'
 import { CucumberExpression, ParameterTypeRegistry } from '@cucumber/cucumber-expressions'
 

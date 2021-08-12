@@ -2,13 +2,10 @@ import {
   CompletionItem,
   CompletionItemKind,
   InsertTextFormat,
-  TextDocumentPositionParams,
-  TextDocuments,
-} from 'vscode-languageserver/node'
-import Completer from '../src/Completer'
-import { TextDocument } from 'vscode-languageserver-textdocument'
+} from 'vscode-languageserver-types'
 import assert from 'assert'
 import { StepDocument, bruteForceIndex } from '@cucumber/suggest'
+import { getGherkinCompletionItems } from '../../src/lsp/getGherkinCompletionItems'
 
 const doc1: StepDocument = {
   suggestion: 'I have {int} cukes in my belly',
@@ -20,34 +17,13 @@ const doc2: StepDocument = {
 }
 const index = bruteForceIndex([doc1, doc2])
 
-describe('Completer', () => {
+describe('getGherkinCompletionItems', () => {
   it('completes with step text', () => {
-    const textDocuments = new TextDocuments<TextDocument>(TextDocument)
-    const uri = 'test-uri'
-    // @ts-ignore
-    textDocuments._documents[uri] = TextDocument.create(
-      uri,
-      'gherkin',
-      1,
-      `Feature: Hello
+    const gherkinSource = `Feature: Hello
   Scenario: World
     Given cukes
 `
-    )
-
-    const completer = new Completer(textDocuments, index)
-
-    const p: TextDocumentPositionParams = {
-      textDocument: {
-        uri: uri,
-      },
-      position: {
-        line: 2,
-        character: 14,
-      },
-    }
-
-    const completions = completer.complete(p)
+    const completions = getGherkinCompletionItems(gherkinSource, 2, index)
     const expectedCompletions: CompletionItem[] = [
       {
         label: 'I have {int} cukes in my belly',

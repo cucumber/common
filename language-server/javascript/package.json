@@ -42,6 +42,7 @@
     "@cucumber/suggest": "0.0.2",
     "source-map-support": "0.5.19",
     "vscode-languageserver": "7.0.0",
+    "vscode-languageserver-types": "3.17.0-next.1",
     "vscode-languageserver-textdocument": "1.0.1"
   }
 }

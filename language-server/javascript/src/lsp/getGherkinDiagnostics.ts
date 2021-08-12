@@ -1,11 +1,12 @@
-import { Diagnostic, DiagnosticSeverity } from 'vscode-languageserver/node'
+import { Diagnostic, DiagnosticSeverity } from 'vscode-languageserver-types'
 
 import { AstBuilder, Errors, GherkinClassicTokenMatcher, Parser } from '@cucumber/gherkin'
 import { GherkinDocument, IdGenerator } from '@cucumber/messages'
 import { Expression } from '@cucumber/cucumber-expressions'
 import { GherkinDocumentWalker } from '@cucumber/gherkin-utils'
 
-export default function getGherkinDiagnostics(gherkinSource: string, expressions: readonly Expression[]): Diagnostic[] {
+// https://microsoft.github.io/language-server-protocol/specifications/specification-3-17/#diagnostic
+export function getGherkinDiagnostics(gherkinSource: string, expressions: readonly Expression[]): Diagnostic[] {
   const lines = gherkinSource.split(/\r?\n/)
   const diagnostics: Diagnostic[] = []
   const uuidFn = IdGenerator.uuid()

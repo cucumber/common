@@ -5,15 +5,16 @@ import {
   InitializeParams,
   InitializeResult,
   ProposedFeatures,
+  SemanticTokensParams,
+  SemanticTokenTypes,
   TextDocumentPositionParams,
   TextDocuments,
   TextDocumentSyncKind,
 } from 'vscode-languageserver/node'
 
 import { TextDocument } from 'vscode-languageserver-textdocument'
-import Completer from './Completer'
 import { fuseIndex, Index, jsSearchIndex } from '@cucumber/suggest'
-import getGherkinDiagnostics from './getGherkinDiagnostics'
+import { getGherkinCompletionItems, getGherkinDiagnostics, getGherkinSemanticTokens } from './lsp'
 import makeCucumberInfo from './makeCucumberInfo'
 import { Expression } from '@cucumber/cucumber-expressions'
 
@@ -47,6 +48,8 @@ connection.onInitialize((params: InitializeParams) => {
     capabilities.textDocument.publishDiagnostics.relatedInformation
   )
 
+  const semanticTokensSupport = params.capabilities.textDocument && params.capabilities.textDocument.semanticTokens
+
   const result: InitializeResult = {
     capabilities: {
       textDocumentSync: TextDocumentSyncKind.Incremental,
@@ -54,6 +57,17 @@ connection.onInitialize((params: InitializeParams) => {
       completionProvider: {
         resolveProvider: false,
       },
+      semanticTokensProvider: semanticTokensSupport ? {
+        full: {
+          delta: false
+        },
+        legend: {
+          tokenTypes: [
+            SemanticTokenTypes.keyword,
+          ],
+          tokenModifiers: []
+        }
+      } : undefined,
     },
   }
   if (hasWorkspaceFolderCapability) {
@@ -112,12 +126,18 @@ function validateGherkinDocument(textDocument: TextDocument): void {
 }
 
 connection.onCompletion((textDocumentPosition: TextDocumentPositionParams): CompletionItem[] => {
-  const completer = new Completer(documents, index)
-  return completer.complete(textDocumentPosition)
+  const gherkinSource = documents.get(textDocumentPosition.textDocument.uri).getText()
+  return getGherkinCompletionItems(gherkinSource, textDocumentPosition.position.line, index)
 })
 
 connection.onCompletionResolve((item) => item)
 
+connection.languages.semanticTokens.on((semanticTokenParams: SemanticTokensParams) => {
+  const gherkinSource = documents.get(semanticTokenParams.textDocument.uri).getText()
+  return getGherkinSemanticTokens(gherkinSource)
+})
+
 documents.listen(connection)
 
 connection.listen()
+
