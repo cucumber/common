@@ -208,16 +208,16 @@ jobs:
             cd vscode/javascript
             make
 
-  lsp-javascript:
+  language-server-javascript:
     executor: docker-circleci-node-14
     steps:
       - attach_workspace:
           at: '~/cucumber'
       - run:
-          name: lsp/javascript
+          name: language-server/javascript
           command: |
             sudo npm install --global npm@7
-            cd lsp/javascript
+            cd language-server/javascript
             make
 
   message-streams-javascript:
@@ -949,7 +949,7 @@ workflows:
       - vscode-javascript:
           requires:
             - prepare-parallel
-      - lsp-javascript:
+      - language-server-javascript:
           requires:
             - prepare-parallel
       - message-streams-javascript:

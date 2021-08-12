@@ -5,6 +5,7 @@ This is the official Cucumber extension for VSCode
 ## Features
 
 - [ ] Syntax highlighting
+- [ ] Code folding
 - [x] Zero configuration
   - [ ] Override cucumber messages command in settings
 - [ ] Auto complete
@@ -30,7 +31,7 @@ TODOs:
 - [ ] Logo
 - [ ] Publish
   - [ ] https://open-vsx.org/
-- [ ] Fix/ignore CI
+- [ ] Enable src/test/runTest in CI
 
 
 
