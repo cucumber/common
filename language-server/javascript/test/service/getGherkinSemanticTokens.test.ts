@@ -12,6 +12,11 @@ Feature: a
 
   Scenario: b
     Given I have 42 cukes in my belly
+      """sometype
+     hello
+        world
+       """
+    And a table
 `
     const expression = new CucumberExpression('I have {int} cukes in my {word}', new ParameterTypeRegistry())
 
@@ -20,11 +25,17 @@ Feature: a
       // See https://microsoft.github.io/language-server-protocol/specifications/specification-3-17/#textDocument_semanticTokens
       // for details about how tokens are encoded
       data: [
-        1, 0, 7, 0, 0,
-        4, 2, 8, 0, 0,
-        1, 4, 6, 0, 0,
-        0, 13, 2, 1, 0,
-        0, 15, 5, 1, 0
+        1, 0, 7, 0, 0,  // Feature
+        4, 2, 8, 0, 0,  // Scenario
+        1, 4, 6, 0, 0,  // Given
+        0, 13, 2, 1, 0, // 42
+        0, 15, 5, 1, 0, // belly
+        1, 6, 3, 2, 0,  // """
+        0, 3, 8, 3, 0,  // sometype
+        1, 5, 5, 2, 0,  // hello
+        1, 8, 5, 2, 0,  // world
+        1, 7, 3, 2, 0,  // """
+        1, 4, 4, 0, 0,  // And
       ]
     }
     assert.deepStrictEqual(semanticTokens, expectedSemanticTokens)

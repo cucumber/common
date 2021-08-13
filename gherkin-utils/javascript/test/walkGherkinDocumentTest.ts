@@ -5,35 +5,35 @@ import { GherkinDocumentHandlers, walkGherkinDocument } from '../src'
 describe('walkDepthFirst', () => {
   it('traverses depth first', () => {
     const gherkinDocument = parse(`
-          @A
-          Feature: B
-            Background: C
+      @A
+      Feature: B
+        Background: C
 
-            @D
-            Scenario: E
-              Given F
+        @D
+        Scenario: E
+          Given F
 
-            Scenario: G
-              Given H
+        Scenario: G
+          Given H
 
-            Rule: I
-              @J
-              Scenario: K
-                Given L
-                  | M | N |
-                  | O | P |
-                
-                Examples: Q
+        Rule: I
+          @J
+          Scenario: K
+            Given L
+              | M | N |
+              | O | P |
+            
+            Examples: Q
 
-              Scenario: R
-                Given S
-                  """
-                  T
-                  """
+          Scenario: R
+            Given S
+              """
+              T
+              """
 
-                Examples: U
-                  | V |
-                  | W |
+            Examples: U
+              | V |
+              | W |
 `)
 
     const handlers: GherkinDocumentHandlers<string[]> = {

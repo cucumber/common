@@ -9,6 +9,7 @@ A [Language Server](https://langserver.org/) for Cucumber.
 - [x] [Semantic tokens](https://microsoft.github.io/language-server-protocol/specifications/specification-3-17/#textDocument_semanticTokens) (syntax highlighting)
   - [x] Gherkin keywords
   - [x] Gherkin step parameters
+  - [x] DocStrings
   - [ ] Data tables
   - [ ] Scenario Outline step <placeholders>
   - [ ] Examples tables headers (bold)
