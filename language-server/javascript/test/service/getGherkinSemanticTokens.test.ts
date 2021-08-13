@@ -17,6 +17,8 @@ Feature: a
         world
        """
     And a table
+      | a  | bbb |
+      | cc |  dd |
 `
     const expression = new CucumberExpression('I have {int} cukes in my {word}', new ParameterTypeRegistry())
 
@@ -36,6 +38,10 @@ Feature: a
         1, 8, 5, 2, 0,  // world
         1, 7, 3, 2, 0,  // """
         1, 4, 4, 0, 0,  // And
+        1, 8, 1, 1, 0,  // a
+        0, 5, 3, 1, 0,  // bbb
+        1, 8, 2, 1, 0,  // cc
+        0, 6, 2, 1, 0,  // dd
       ]
     }
     assert.deepStrictEqual(semanticTokens, expectedSemanticTokens)

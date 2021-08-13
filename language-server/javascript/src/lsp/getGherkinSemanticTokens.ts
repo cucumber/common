@@ -69,7 +69,7 @@ export function getGherkinSemanticTokens(gherkinSource: string, expressions: rea
       arr = makeLocationToken(docString.location, docString.delimiter, SemanticTokenTypes.string, arr)
       if (docString.mediaType) {
         const character = docString.location.column -1 + docString.delimiter.length
-        arr = makeToken(docString.location.line - 1, character, docString.mediaType, SemanticTokenTypes.type, arr)
+        arr = makeToken(docString.location.line - 1, character  , docString.mediaType, SemanticTokenTypes.type, arr)
       }
       const maxLineNumber = docString.location.line + docString.content.split(/\r?\n/).length
       for(let lineNumber = docString.location.line; lineNumber <= maxLineNumber; lineNumber++) {
@@ -77,6 +77,12 @@ export function getGherkinSemanticTokens(gherkinSource: string, expressions: rea
         const startChar = spaceContent[1].length
         const token = spaceContent[2]
         arr = makeToken(lineNumber, startChar, token, SemanticTokenTypes.string, arr)
+      }
+      return arr
+    },
+    tableRow(tableRow, arr) {
+      for (const cell of tableRow.cells) {
+        arr = makeLocationToken(cell.location, cell.value, SemanticTokenTypes.parameter, arr)
       }
       return arr
     }
