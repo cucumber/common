@@ -20,6 +20,7 @@ export function getGherkinSemanticTokens(gherkinSource: string, expressions: rea
   const gherkinDocument = parseGherkinDocument(gherkinSource)
   const lines = gherkinSource.split(/\r?\n/)
   let lastLineNumber = 0
+  let lastCharacter = 0
 
   function makeLocationToken(location: messages.Location, token: string, type: SemanticTokenTypes, data: readonly number[]) {
     const lineNumber = location.line - 1
@@ -28,11 +29,13 @@ export function getGherkinSemanticTokens(gherkinSource: string, expressions: rea
   }
 
   function makeToken(lineNumber: number, character: number, token: string, type: SemanticTokenTypes, data: readonly number[]) {
+    const charDelta = lineNumber === lastLineNumber ? character - lastCharacter : character
+    lastCharacter = character
     const lineOffset = lineNumber - lastLineNumber
     lastLineNumber = lineNumber
     const length = token.length
     const typeIndex = indexByType[type]
-    return data.concat([lineOffset, character, length, typeIndex, 0])
+    return data.concat([lineOffset, charDelta, length, typeIndex, 0])
   }
 
   const data = walkGherkinDocument<number[]>(gherkinDocument, [], {
@@ -53,11 +56,9 @@ export function getGherkinSemanticTokens(gherkinSource: string, expressions: rea
       for (const expression of expressions) {
         const args = expression.match(step.text)
         if (args) {
-          let previousChar = -step.keyword.length
           for (const arg of args) {
-            const deltaStartChar = arg.group.start - previousChar
-            previousChar = arg.group.start
-            arr = makeToken(step.location.line - 1, deltaStartChar, arg.group.value, SemanticTokenTypes.parameter, arr)
+            const character = step.location.column -1 + step.keyword.length + arg.group.start
+            arr = makeToken(step.location.line - 1, character, arg.group.value, SemanticTokenTypes.parameter, arr)
           }
           break
         }
@@ -67,8 +68,8 @@ export function getGherkinSemanticTokens(gherkinSource: string, expressions: rea
     docString(docString, arr) {
       arr = makeLocationToken(docString.location, docString.delimiter, SemanticTokenTypes.string, arr)
       if (docString.mediaType) {
-        const deltaStartChar = docString.delimiter.length
-        arr = makeToken(docString.location.line - 1, deltaStartChar, docString.mediaType, SemanticTokenTypes.type, arr)
+        const character = docString.location.column -1 + docString.delimiter.length
+        arr = makeToken(docString.location.line - 1, character, docString.mediaType, SemanticTokenTypes.type, arr)
       }
       const maxLineNumber = docString.location.line + docString.content.split(/\r?\n/).length
       for(let lineNumber = docString.location.line; lineNumber <= maxLineNumber; lineNumber++) {
