@@ -30,7 +30,7 @@ module Cucumber
         unless @first_message
           out.puts(',')
         end
-        out.print(message.to_json(proto3: true))
+        out.print(message.to_json)
 
         @first_message = false
       end

@@ -19,7 +19,8 @@
     "react/javascript",
     "html-formatter/javascript",
     "json-to-messages/javascript",
-    "json-to-messages/javascript-testdata"
+    "json-to-messages/javascript-testdata",
+    "suggest/javascript"
   ],
   "scripts": {
     "build": "tsc --build tsconfig.build.json",
@@ -32,22 +33,22 @@
     "prepare": "./scripts/npm-each npm run prepare --if-present"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "4.28.1",
-    "@typescript-eslint/parser": "4.28.1",
-    "ajv": "8.6.0",
+    "@typescript-eslint/eslint-plugin": "4.29.2",
+    "@typescript-eslint/parser": "4.29.2",
+    "ajv": "8.6.2",
     "ajv-cli": "5.0.0",
-    "eslint": "7.30.0",
+    "eslint": "7.32.0",
     "eslint-config-prettier": "8.3.0",
-    "eslint-plugin-import": "2.23.4",
+    "eslint-plugin-import": "2.24.0",
     "eslint-plugin-node": "11.1.0",
     "eslint-plugin-prettier": "3.4.0",
     "eslint-plugin-react": "7.24.0",
     "eslint-plugin-react-hooks": "4.2.0",
     "eslint-plugin-simple-import-sort": "7.0.0",
-    "npm-check-updates": "11.8.1",
+    "npm-check-updates": "11.8.3",
     "prettier": "2.3.2",
     "pretty-quick": "3.1.1",
-    "tsconfig-paths": "3.9.0",
+    "tsconfig-paths": "3.10.1",
     "typescript": "4.3.5"
   },
   "prettier": {

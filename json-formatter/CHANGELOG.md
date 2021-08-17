@@ -13,14 +13,19 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Changed
 
-* [Go] Move module paths to point to monorepo
-  ([#1550](https://github.com/cucumber/common/issues/1550))
-
 ### Deprecated
 
 ### Removed
 
 ### Fixed
+
+## [19.0.0] - 2021-07-08
+
+### Changed
+
+* Update messages to v17
+* [Go] Move module paths to point to monorepo
+  ([#1550](https://github.com/cucumber/common/issues/1550))
 
 ## [18.0.0] - 2021-05-17
 
@@ -137,7 +142,8 @@ Upgrade messages
 * Initial release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/json-formatter/v18.0.0...main
+[Unreleased]: https://github.com/cucumber/cucumber/compare/json-formatter/v19.0.0...main
+[19.0.0]:      https://github.com/cucumber/cucumber/compare/json-formatter/v18.0.0...json-formatter/v19.0.0
 [18.0.0]:      https://github.com/cucumber/cucumber/compare/json-formatter/v17.0.2...json-formatter/v18.0.0
 [17.0.2]:      https://github.com/cucumber/cucumber/compare/json-formatter/v7.0.1...json-formatter/v17.0.2
 [7.0.1]:      https://github.com/cucumber/cucumber/compare/json-formatter/v7.0.0...json-formatter/v7.0.1

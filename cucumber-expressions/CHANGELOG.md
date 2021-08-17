@@ -17,6 +17,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+* Use native RegExp Match indices (currently relying on a polyfill)
+  ([#1652](https://github.com/cucumber/common/pull/1652)
+  [aslakhellesoy])
+
 ## [12.1.2] - 2021-08-17
 
 ### Changed

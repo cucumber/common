@@ -17,6 +17,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [6.0.0] - 2021-07-08
+
+### Changed
+
+* Bump `@cucumber/messages` version to 17.0.0
+
 ## [5.1.0] - 2021-05-26
 
 ### Added
@@ -98,7 +104,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin-utils/v5.1.0...main
+[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin-utils/v6.0.0...main
+[6.0.0]:      https://github.com/cucumber/cucumber/compare/gherkin-utils/v5.1.0...gherkin-utils/v6.0.0
 [5.1.0]:      https://github.com/cucumber/cucumber/compare/gherkin-utils/v5.0.2...gherkin-utils/v5.1.0
 [5.0.2]:      https://github.com/cucumber/cucumber/compare/gherkin-utils/v5.0.1...gherkin-utils/v5.0.2
 [5.0.1]:      https://github.com/cucumber/cucumber/compare/gherkin-utils/v5.0.0...gherkin-utils/v5.0.1

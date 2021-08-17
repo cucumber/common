@@ -1,0 +1,1703 @@
+(1:1)FeatureLine:Feature/Long feature file/
+(2:1)Other:/  This is a long feature file/
+(3:1)Other://
+(4:3)ScenarioLine:Scenario/scenario 01/
+(5:5)StepLine:Given /a simple data table/
+(6:7)TableRow://9:foo,15:bar
+(7:7)TableRow://9:boz,15:boo
+(8:5)StepLine:And /a data table with a single cell/
+(9:7)TableRow://9:foo
+(10:5)StepLine:And /a data table with different fromatting/
+(11:7)TableRow://11:foo,15:bar,23:boz
+(12:5)StepLine:And /a data table with an empty cell/
+(13:7)TableRow://8:foo,12:,13:boz
+(14:5)StepLine:And /a data table with comments and newlines inside/
+(15:7)TableRow://9:foo,15:bar
+(16:1)Empty://
+(17:7)TableRow://9:boz,16:boo
+(18:1)Comment:/      # this is a comment/
+(19:7)TableRow://9:boz2,16:boo2
+(20:1)Empty://
+(21:3)ScenarioLine:Scenario/scenario 02/
+(22:5)StepLine:Given /a simple data table/
+(23:7)TableRow://9:foo,15:bar
+(24:7)TableRow://9:boz,15:boo
+(25:5)StepLine:And /a data table with a single cell/
+(26:7)TableRow://9:foo
+(27:5)StepLine:And /a data table with different fromatting/
+(28:7)TableRow://11:foo,15:bar,23:boz
+(29:5)StepLine:And /a data table with an empty cell/
+(30:7)TableRow://8:foo,12:,13:boz
+(31:5)StepLine:And /a data table with comments and newlines inside/
+(32:7)TableRow://9:foo,15:bar
+(33:1)Empty://
+(34:7)TableRow://9:boz,16:boo
+(35:1)Comment:/      # this is a comment/
+(36:7)TableRow://9:boz2,16:boo2
+(37:1)Empty://
+(38:3)ScenarioLine:Scenario/scenario 03/
+(39:5)StepLine:Given /a simple data table/
+(40:7)TableRow://9:foo,15:bar
+(41:7)TableRow://9:boz,15:boo
+(42:5)StepLine:And /a data table with a single cell/
+(43:7)TableRow://9:foo
+(44:5)StepLine:And /a data table with different fromatting/
+(45:7)TableRow://11:foo,15:bar,23:boz
+(46:5)StepLine:And /a data table with an empty cell/
+(47:7)TableRow://8:foo,12:,13:boz
+(48:5)StepLine:And /a data table with comments and newlines inside/
+(49:7)TableRow://9:foo,15:bar
+(50:1)Empty://
+(51:7)TableRow://9:boz,16:boo
+(52:1)Comment:/      # this is a comment/
+(53:7)TableRow://9:boz2,16:boo2
+(54:1)Empty://
+(55:3)ScenarioLine:Scenario/scenario 04/
+(56:5)StepLine:Given /a simple data table/
+(57:7)TableRow://9:foo,15:bar
+(58:7)TableRow://9:boz,15:boo
+(59:5)StepLine:And /a data table with a single cell/
+(60:7)TableRow://9:foo
+(61:5)StepLine:And /a data table with different fromatting/
+(62:7)TableRow://11:foo,15:bar,23:boz
+(63:5)StepLine:And /a data table with an empty cell/
+(64:7)TableRow://8:foo,12:,13:boz
+(65:5)StepLine:And /a data table with comments and newlines inside/
+(66:7)TableRow://9:foo,15:bar
+(67:1)Empty://
+(68:7)TableRow://9:boz,16:boo
+(69:1)Comment:/      # this is a comment/
+(70:7)TableRow://9:boz2,16:boo2
+(71:1)Empty://
+(72:3)ScenarioLine:Scenario/scenario 05/
+(73:5)StepLine:Given /a simple data table/
+(74:7)TableRow://9:foo,15:bar
+(75:7)TableRow://9:boz,15:boo
+(76:5)StepLine:And /a data table with a single cell/
+(77:7)TableRow://9:foo
+(78:5)StepLine:And /a data table with different fromatting/
+(79:7)TableRow://11:foo,15:bar,23:boz
+(80:5)StepLine:And /a data table with an empty cell/
+(81:7)TableRow://8:foo,12:,13:boz
+(82:5)StepLine:And /a data table with comments and newlines inside/
+(83:7)TableRow://9:foo,15:bar
+(84:1)Empty://
+(85:7)TableRow://9:boz,16:boo
+(86:1)Comment:/      # this is a comment/
+(87:7)TableRow://9:boz2,16:boo2
+(88:1)Empty://
+(89:3)ScenarioLine:Scenario/scenario 06/
+(90:5)StepLine:Given /a simple data table/
+(91:7)TableRow://9:foo,15:bar
+(92:7)TableRow://9:boz,15:boo
+(93:5)StepLine:And /a data table with a single cell/
+(94:7)TableRow://9:foo
+(95:5)StepLine:And /a data table with different fromatting/
+(96:7)TableRow://11:foo,15:bar,23:boz
+(97:5)StepLine:And /a data table with an empty cell/
+(98:7)TableRow://8:foo,12:,13:boz
+(99:5)StepLine:And /a data table with comments and newlines inside/
+(100:7)TableRow://9:foo,15:bar
+(101:1)Empty://
+(102:7)TableRow://9:boz,16:boo
+(103:1)Comment:/      # this is a comment/
+(104:7)TableRow://9:boz2,16:boo2
+(105:1)Empty://
+(106:3)ScenarioLine:Scenario/scenario 07/
+(107:5)StepLine:Given /a simple data table/
+(108:7)TableRow://9:foo,15:bar
+(109:7)TableRow://9:boz,15:boo
+(110:5)StepLine:And /a data table with a single cell/
+(111:7)TableRow://9:foo
+(112:5)StepLine:And /a data table with different fromatting/
+(113:7)TableRow://11:foo,15:bar,23:boz
+(114:5)StepLine:And /a data table with an empty cell/
+(115:7)TableRow://8:foo,12:,13:boz
+(116:5)StepLine:And /a data table with comments and newlines inside/
+(117:7)TableRow://9:foo,15:bar
+(118:1)Empty://
+(119:7)TableRow://9:boz,16:boo
+(120:1)Comment:/      # this is a comment/
+(121:7)TableRow://9:boz2,16:boo2
+(122:1)Empty://
+(123:3)ScenarioLine:Scenario/scenario 08/
+(124:5)StepLine:Given /a simple data table/
+(125:7)TableRow://9:foo,15:bar
+(126:7)TableRow://9:boz,15:boo
+(127:5)StepLine:And /a data table with a single cell/
+(128:7)TableRow://9:foo
+(129:5)StepLine:And /a data table with different fromatting/
+(130:7)TableRow://11:foo,15:bar,23:boz
+(131:5)StepLine:And /a data table with an empty cell/
+(132:7)TableRow://8:foo,12:,13:boz
+(133:5)StepLine:And /a data table with comments and newlines inside/
+(134:7)TableRow://9:foo,15:bar
+(135:1)Empty://
+(136:7)TableRow://9:boz,16:boo
+(137:1)Comment:/      # this is a comment/
+(138:7)TableRow://9:boz2,16:boo2
+(139:1)Empty://
+(140:3)ScenarioLine:Scenario/scenario 09/
+(141:5)StepLine:Given /a simple data table/
+(142:7)TableRow://9:foo,15:bar
+(143:7)TableRow://9:boz,15:boo
+(144:5)StepLine:And /a data table with a single cell/
+(145:7)TableRow://9:foo
+(146:5)StepLine:And /a data table with different fromatting/
+(147:7)TableRow://11:foo,15:bar,23:boz
+(148:5)StepLine:And /a data table with an empty cell/
+(149:7)TableRow://8:foo,12:,13:boz
+(150:5)StepLine:And /a data table with comments and newlines inside/
+(151:7)TableRow://9:foo,15:bar
+(152:1)Empty://
+(153:7)TableRow://9:boz,16:boo
+(154:1)Comment:/      # this is a comment/
+(155:7)TableRow://9:boz2,16:boo2
+(156:1)Empty://
+(157:3)ScenarioLine:Scenario/scenario 10/
+(158:5)StepLine:Given /a simple data table/
+(159:7)TableRow://9:foo,15:bar
+(160:7)TableRow://9:boz,15:boo
+(161:5)StepLine:And /a data table with a single cell/
+(162:7)TableRow://9:foo
+(163:5)StepLine:And /a data table with different fromatting/
+(164:7)TableRow://11:foo,15:bar,23:boz
+(165:5)StepLine:And /a data table with an empty cell/
+(166:7)TableRow://8:foo,12:,13:boz
+(167:5)StepLine:And /a data table with comments and newlines inside/
+(168:7)TableRow://9:foo,15:bar
+(169:1)Empty://
+(170:7)TableRow://9:boz,16:boo
+(171:1)Comment:/      # this is a comment/
+(172:7)TableRow://9:boz2,16:boo2
+(173:1)Empty://
+(174:3)ScenarioLine:Scenario/scenario 11/
+(175:5)StepLine:Given /a simple data table/
+(176:7)TableRow://9:foo,15:bar
+(177:7)TableRow://9:boz,15:boo
+(178:5)StepLine:And /a data table with a single cell/
+(179:7)TableRow://9:foo
+(180:5)StepLine:And /a data table with different fromatting/
+(181:7)TableRow://11:foo,15:bar,23:boz
+(182:5)StepLine:And /a data table with an empty cell/
+(183:7)TableRow://8:foo,12:,13:boz
+(184:5)StepLine:And /a data table with comments and newlines inside/
+(185:7)TableRow://9:foo,15:bar
+(186:1)Empty://
+(187:7)TableRow://9:boz,16:boo
+(188:1)Comment:/      # this is a comment/
+(189:7)TableRow://9:boz2,16:boo2
+(190:1)Empty://
+(191:3)ScenarioLine:Scenario/scenario 12/
+(192:5)StepLine:Given /a simple data table/
+(193:7)TableRow://9:foo,15:bar
+(194:7)TableRow://9:boz,15:boo
+(195:5)StepLine:And /a data table with a single cell/
+(196:7)TableRow://9:foo
+(197:5)StepLine:And /a data table with different fromatting/
+(198:7)TableRow://11:foo,15:bar,23:boz
+(199:5)StepLine:And /a data table with an empty cell/
+(200:7)TableRow://8:foo,12:,13:boz
+(201:5)StepLine:And /a data table with comments and newlines inside/
+(202:7)TableRow://9:foo,15:bar
+(203:1)Empty://
+(204:7)TableRow://9:boz,16:boo
+(205:1)Comment:/      # this is a comment/
+(206:7)TableRow://9:boz2,16:boo2
+(207:1)Empty://
+(208:3)ScenarioLine:Scenario/scenario 13/
+(209:5)StepLine:Given /a simple data table/
+(210:7)TableRow://9:foo,15:bar
+(211:7)TableRow://9:boz,15:boo
+(212:5)StepLine:And /a data table with a single cell/
+(213:7)TableRow://9:foo
+(214:5)StepLine:And /a data table with different fromatting/
+(215:7)TableRow://11:foo,15:bar,23:boz
+(216:5)StepLine:And /a data table with an empty cell/
+(217:7)TableRow://8:foo,12:,13:boz
+(218:5)StepLine:And /a data table with comments and newlines inside/
+(219:7)TableRow://9:foo,15:bar
+(220:1)Empty://
+(221:7)TableRow://9:boz,16:boo
+(222:1)Comment:/      # this is a comment/
+(223:7)TableRow://9:boz2,16:boo2
+(224:1)Empty://
+(225:3)ScenarioLine:Scenario/scenario 14/
+(226:5)StepLine:Given /a simple data table/
+(227:7)TableRow://9:foo,15:bar
+(228:7)TableRow://9:boz,15:boo
+(229:5)StepLine:And /a data table with a single cell/
+(230:7)TableRow://9:foo
+(231:5)StepLine:And /a data table with different fromatting/
+(232:7)TableRow://11:foo,15:bar,23:boz
+(233:5)StepLine:And /a data table with an empty cell/
+(234:7)TableRow://8:foo,12:,13:boz
+(235:5)StepLine:And /a data table with comments and newlines inside/
+(236:7)TableRow://9:foo,15:bar
+(237:1)Empty://
+(238:7)TableRow://9:boz,16:boo
+(239:1)Comment:/      # this is a comment/
+(240:7)TableRow://9:boz2,16:boo2
+(241:1)Empty://
+(242:3)ScenarioLine:Scenario/scenario 15/
+(243:5)StepLine:Given /a simple data table/
+(244:7)TableRow://9:foo,15:bar
+(245:7)TableRow://9:boz,15:boo
+(246:5)StepLine:And /a data table with a single cell/
+(247:7)TableRow://9:foo
+(248:5)StepLine:And /a data table with different fromatting/
+(249:7)TableRow://11:foo,15:bar,23:boz
+(250:5)StepLine:And /a data table with an empty cell/
+(251:7)TableRow://8:foo,12:,13:boz
+(252:5)StepLine:And /a data table with comments and newlines inside/
+(253:7)TableRow://9:foo,15:bar
+(254:1)Empty://
+(255:7)TableRow://9:boz,16:boo
+(256:1)Comment:/      # this is a comment/
+(257:7)TableRow://9:boz2,16:boo2
+(258:1)Empty://
+(259:3)ScenarioLine:Scenario/scenario 16/
+(260:5)StepLine:Given /a simple data table/
+(261:7)TableRow://9:foo,15:bar
+(262:7)TableRow://9:boz,15:boo
+(263:5)StepLine:And /a data table with a single cell/
+(264:7)TableRow://9:foo
+(265:5)StepLine:And /a data table with different fromatting/
+(266:7)TableRow://11:foo,15:bar,23:boz
+(267:5)StepLine:And /a data table with an empty cell/
+(268:7)TableRow://8:foo,12:,13:boz
+(269:5)StepLine:And /a data table with comments and newlines inside/
+(270:7)TableRow://9:foo,15:bar
+(271:1)Empty://
+(272:7)TableRow://9:boz,16:boo
+(273:1)Comment:/      # this is a comment/
+(274:7)TableRow://9:boz2,16:boo2
+(275:1)Empty://
+(276:3)ScenarioLine:Scenario/scenario 17/
+(277:5)StepLine:Given /a simple data table/
+(278:7)TableRow://9:foo,15:bar
+(279:7)TableRow://9:boz,15:boo
+(280:5)StepLine:And /a data table with a single cell/
+(281:7)TableRow://9:foo
+(282:5)StepLine:And /a data table with different fromatting/
+(283:7)TableRow://11:foo,15:bar,23:boz
+(284:5)StepLine:And /a data table with an empty cell/
+(285:7)TableRow://8:foo,12:,13:boz
+(286:5)StepLine:And /a data table with comments and newlines inside/
+(287:7)TableRow://9:foo,15:bar
+(288:1)Empty://
+(289:7)TableRow://9:boz,16:boo
+(290:1)Comment:/      # this is a comment/
+(291:7)TableRow://9:boz2,16:boo2
+(292:1)Empty://
+(293:3)ScenarioLine:Scenario/scenario 18/
+(294:5)StepLine:Given /a simple data table/
+(295:7)TableRow://9:foo,15:bar
+(296:7)TableRow://9:boz,15:boo
+(297:5)StepLine:And /a data table with a single cell/
+(298:7)TableRow://9:foo
+(299:5)StepLine:And /a data table with different fromatting/
+(300:7)TableRow://11:foo,15:bar,23:boz
+(301:5)StepLine:And /a data table with an empty cell/
+(302:7)TableRow://8:foo,12:,13:boz
+(303:5)StepLine:And /a data table with comments and newlines inside/
+(304:7)TableRow://9:foo,15:bar
+(305:1)Empty://
+(306:7)TableRow://9:boz,16:boo
+(307:1)Comment:/      # this is a comment/
+(308:7)TableRow://9:boz2,16:boo2
+(309:1)Empty://
+(310:3)ScenarioLine:Scenario/scenario 19/
+(311:5)StepLine:Given /a simple data table/
+(312:7)TableRow://9:foo,15:bar
+(313:7)TableRow://9:boz,15:boo
+(314:5)StepLine:And /a data table with a single cell/
+(315:7)TableRow://9:foo
+(316:5)StepLine:And /a data table with different fromatting/
+(317:7)TableRow://11:foo,15:bar,23:boz
+(318:5)StepLine:And /a data table with an empty cell/
+(319:7)TableRow://8:foo,12:,13:boz
+(320:5)StepLine:And /a data table with comments and newlines inside/
+(321:7)TableRow://9:foo,15:bar
+(322:1)Empty://
+(323:7)TableRow://9:boz,16:boo
+(324:1)Comment:/      # this is a comment/
+(325:7)TableRow://9:boz2,16:boo2
+(326:1)Empty://
+(327:3)ScenarioLine:Scenario/scenario 20/
+(328:5)StepLine:Given /a simple data table/
+(329:7)TableRow://9:foo,15:bar
+(330:7)TableRow://9:boz,15:boo
+(331:5)StepLine:And /a data table with a single cell/
+(332:7)TableRow://9:foo
+(333:5)StepLine:And /a data table with different fromatting/
+(334:7)TableRow://11:foo,15:bar,23:boz
+(335:5)StepLine:And /a data table with an empty cell/
+(336:7)TableRow://8:foo,12:,13:boz
+(337:5)StepLine:And /a data table with comments and newlines inside/
+(338:7)TableRow://9:foo,15:bar
+(339:1)Empty://
+(340:7)TableRow://9:boz,16:boo
+(341:1)Comment:/      # this is a comment/
+(342:7)TableRow://9:boz2,16:boo2
+(343:1)Empty://
+(344:3)ScenarioLine:Scenario/scenario 21/
+(345:5)StepLine:Given /a simple data table/
+(346:7)TableRow://9:foo,15:bar
+(347:7)TableRow://9:boz,15:boo
+(348:5)StepLine:And /a data table with a single cell/
+(349:7)TableRow://9:foo
+(350:5)StepLine:And /a data table with different fromatting/
+(351:7)TableRow://11:foo,15:bar,23:boz
+(352:5)StepLine:And /a data table with an empty cell/
+(353:7)TableRow://8:foo,12:,13:boz
+(354:5)StepLine:And /a data table with comments and newlines inside/
+(355:7)TableRow://9:foo,15:bar
+(356:1)Empty://
+(357:7)TableRow://9:boz,16:boo
+(358:1)Comment:/      # this is a comment/
+(359:7)TableRow://9:boz2,16:boo2
+(360:1)Empty://
+(361:3)ScenarioLine:Scenario/scenario 22/
+(362:5)StepLine:Given /a simple data table/
+(363:7)TableRow://9:foo,15:bar
+(364:7)TableRow://9:boz,15:boo
+(365:5)StepLine:And /a data table with a single cell/
+(366:7)TableRow://9:foo
+(367:5)StepLine:And /a data table with different fromatting/
+(368:7)TableRow://11:foo,15:bar,23:boz
+(369:5)StepLine:And /a data table with an empty cell/
+(370:7)TableRow://8:foo,12:,13:boz
+(371:5)StepLine:And /a data table with comments and newlines inside/
+(372:7)TableRow://9:foo,15:bar
+(373:1)Empty://
+(374:7)TableRow://9:boz,16:boo
+(375:1)Comment:/      # this is a comment/
+(376:7)TableRow://9:boz2,16:boo2
+(377:1)Empty://
+(378:3)ScenarioLine:Scenario/scenario 23/
+(379:5)StepLine:Given /a simple data table/
+(380:7)TableRow://9:foo,15:bar
+(381:7)TableRow://9:boz,15:boo
+(382:5)StepLine:And /a data table with a single cell/
+(383:7)TableRow://9:foo
+(384:5)StepLine:And /a data table with different fromatting/
+(385:7)TableRow://11:foo,15:bar,23:boz
+(386:5)StepLine:And /a data table with an empty cell/
+(387:7)TableRow://8:foo,12:,13:boz
+(388:5)StepLine:And /a data table with comments and newlines inside/
+(389:7)TableRow://9:foo,15:bar
+(390:1)Empty://
+(391:7)TableRow://9:boz,16:boo
+(392:1)Comment:/      # this is a comment/
+(393:7)TableRow://9:boz2,16:boo2
+(394:1)Empty://
+(395:3)ScenarioLine:Scenario/scenario 24/
+(396:5)StepLine:Given /a simple data table/
+(397:7)TableRow://9:foo,15:bar
+(398:7)TableRow://9:boz,15:boo
+(399:5)StepLine:And /a data table with a single cell/
+(400:7)TableRow://9:foo
+(401:5)StepLine:And /a data table with different fromatting/
+(402:7)TableRow://11:foo,15:bar,23:boz
+(403:5)StepLine:And /a data table with an empty cell/
+(404:7)TableRow://8:foo,12:,13:boz
+(405:5)StepLine:And /a data table with comments and newlines inside/
+(406:7)TableRow://9:foo,15:bar
+(407:1)Empty://
+(408:7)TableRow://9:boz,16:boo
+(409:1)Comment:/      # this is a comment/
+(410:7)TableRow://9:boz2,16:boo2
+(411:1)Empty://
+(412:3)ScenarioLine:Scenario/scenario 25/
+(413:5)StepLine:Given /a simple data table/
+(414:7)TableRow://9:foo,15:bar
+(415:7)TableRow://9:boz,15:boo
+(416:5)StepLine:And /a data table with a single cell/
+(417:7)TableRow://9:foo
+(418:5)StepLine:And /a data table with different fromatting/
+(419:7)TableRow://11:foo,15:bar,23:boz
+(420:5)StepLine:And /a data table with an empty cell/
+(421:7)TableRow://8:foo,12:,13:boz
+(422:5)StepLine:And /a data table with comments and newlines inside/
+(423:7)TableRow://9:foo,15:bar
+(424:1)Empty://
+(425:7)TableRow://9:boz,16:boo
+(426:1)Comment:/      # this is a comment/
+(427:7)TableRow://9:boz2,16:boo2
+(428:1)Empty://
+(429:3)ScenarioLine:Scenario/scenario 26/
+(430:5)StepLine:Given /a simple data table/
+(431:7)TableRow://9:foo,15:bar
+(432:7)TableRow://9:boz,15:boo
+(433:5)StepLine:And /a data table with a single cell/
+(434:7)TableRow://9:foo
+(435:5)StepLine:And /a data table with different fromatting/
+(436:7)TableRow://11:foo,15:bar,23:boz
+(437:5)StepLine:And /a data table with an empty cell/
+(438:7)TableRow://8:foo,12:,13:boz
+(439:5)StepLine:And /a data table with comments and newlines inside/
+(440:7)TableRow://9:foo,15:bar
+(441:1)Empty://
+(442:7)TableRow://9:boz,16:boo
+(443:1)Comment:/      # this is a comment/
+(444:7)TableRow://9:boz2,16:boo2
+(445:1)Empty://
+(446:3)ScenarioLine:Scenario/scenario 27/
+(447:5)StepLine:Given /a simple data table/
+(448:7)TableRow://9:foo,15:bar
+(449:7)TableRow://9:boz,15:boo
+(450:5)StepLine:And /a data table with a single cell/
+(451:7)TableRow://9:foo
+(452:5)StepLine:And /a data table with different fromatting/
+(453:7)TableRow://11:foo,15:bar,23:boz
+(454:5)StepLine:And /a data table with an empty cell/
+(455:7)TableRow://8:foo,12:,13:boz
+(456:5)StepLine:And /a data table with comments and newlines inside/
+(457:7)TableRow://9:foo,15:bar
+(458:1)Empty://
+(459:7)TableRow://9:boz,16:boo
+(460:1)Comment:/      # this is a comment/
+(461:7)TableRow://9:boz2,16:boo2
+(462:1)Empty://
+(463:3)ScenarioLine:Scenario/scenario 28/
+(464:5)StepLine:Given /a simple data table/
+(465:7)TableRow://9:foo,15:bar
+(466:7)TableRow://9:boz,15:boo
+(467:5)StepLine:And /a data table with a single cell/
+(468:7)TableRow://9:foo
+(469:5)StepLine:And /a data table with different fromatting/
+(470:7)TableRow://11:foo,15:bar,23:boz
+(471:5)StepLine:And /a data table with an empty cell/
+(472:7)TableRow://8:foo,12:,13:boz
+(473:5)StepLine:And /a data table with comments and newlines inside/
+(474:7)TableRow://9:foo,15:bar
+(475:1)Empty://
+(476:7)TableRow://9:boz,16:boo
+(477:1)Comment:/      # this is a comment/
+(478:7)TableRow://9:boz2,16:boo2
+(479:1)Empty://
+(480:3)ScenarioLine:Scenario/scenario 29/
+(481:5)StepLine:Given /a simple data table/
+(482:7)TableRow://9:foo,15:bar
+(483:7)TableRow://9:boz,15:boo
+(484:5)StepLine:And /a data table with a single cell/
+(485:7)TableRow://9:foo
+(486:5)StepLine:And /a data table with different fromatting/
+(487:7)TableRow://11:foo,15:bar,23:boz
+(488:5)StepLine:And /a data table with an empty cell/
+(489:7)TableRow://8:foo,12:,13:boz
+(490:5)StepLine:And /a data table with comments and newlines inside/
+(491:7)TableRow://9:foo,15:bar
+(492:1)Empty://
+(493:7)TableRow://9:boz,16:boo
+(494:1)Comment:/      # this is a comment/
+(495:7)TableRow://9:boz2,16:boo2
+(496:1)Empty://
+(497:3)ScenarioLine:Scenario/scenario 30/
+(498:5)StepLine:Given /a simple data table/
+(499:7)TableRow://9:foo,15:bar
+(500:7)TableRow://9:boz,15:boo
+(501:5)StepLine:And /a data table with a single cell/
+(502:7)TableRow://9:foo
+(503:5)StepLine:And /a data table with different fromatting/
+(504:7)TableRow://11:foo,15:bar,23:boz
+(505:5)StepLine:And /a data table with an empty cell/
+(506:7)TableRow://8:foo,12:,13:boz
+(507:5)StepLine:And /a data table with comments and newlines inside/
+(508:7)TableRow://9:foo,15:bar
+(509:1)Empty://
+(510:7)TableRow://9:boz,16:boo
+(511:1)Comment:/      # this is a comment/
+(512:7)TableRow://9:boz2,16:boo2
+(513:1)Empty://
+(514:3)ScenarioLine:Scenario/scenario 31/
+(515:5)StepLine:Given /a simple data table/
+(516:7)TableRow://9:foo,15:bar
+(517:7)TableRow://9:boz,15:boo
+(518:5)StepLine:And /a data table with a single cell/
+(519:7)TableRow://9:foo
+(520:5)StepLine:And /a data table with different fromatting/
+(521:7)TableRow://11:foo,15:bar,23:boz
+(522:5)StepLine:And /a data table with an empty cell/
+(523:7)TableRow://8:foo,12:,13:boz
+(524:5)StepLine:And /a data table with comments and newlines inside/
+(525:7)TableRow://9:foo,15:bar
+(526:1)Empty://
+(527:7)TableRow://9:boz,16:boo
+(528:1)Comment:/      # this is a comment/
+(529:7)TableRow://9:boz2,16:boo2
+(530:1)Empty://
+(531:3)ScenarioLine:Scenario/scenario 32/
+(532:5)StepLine:Given /a simple data table/
+(533:7)TableRow://9:foo,15:bar
+(534:7)TableRow://9:boz,15:boo
+(535:5)StepLine:And /a data table with a single cell/
+(536:7)TableRow://9:foo
+(537:5)StepLine:And /a data table with different fromatting/
+(538:7)TableRow://11:foo,15:bar,23:boz
+(539:5)StepLine:And /a data table with an empty cell/
+(540:7)TableRow://8:foo,12:,13:boz
+(541:5)StepLine:And /a data table with comments and newlines inside/
+(542:7)TableRow://9:foo,15:bar
+(543:1)Empty://
+(544:7)TableRow://9:boz,16:boo
+(545:1)Comment:/      # this is a comment/
+(546:7)TableRow://9:boz2,16:boo2
+(547:1)Empty://
+(548:3)ScenarioLine:Scenario/scenario 33/
+(549:5)StepLine:Given /a simple data table/
+(550:7)TableRow://9:foo,15:bar
+(551:7)TableRow://9:boz,15:boo
+(552:5)StepLine:And /a data table with a single cell/
+(553:7)TableRow://9:foo
+(554:5)StepLine:And /a data table with different fromatting/
+(555:7)TableRow://11:foo,15:bar,23:boz
+(556:5)StepLine:And /a data table with an empty cell/
+(557:7)TableRow://8:foo,12:,13:boz
+(558:5)StepLine:And /a data table with comments and newlines inside/
+(559:7)TableRow://9:foo,15:bar
+(560:1)Empty://
+(561:7)TableRow://9:boz,16:boo
+(562:1)Comment:/      # this is a comment/
+(563:7)TableRow://9:boz2,16:boo2
+(564:1)Empty://
+(565:3)ScenarioLine:Scenario/scenario 34/
+(566:5)StepLine:Given /a simple data table/
+(567:7)TableRow://9:foo,15:bar
+(568:7)TableRow://9:boz,15:boo
+(569:5)StepLine:And /a data table with a single cell/
+(570:7)TableRow://9:foo
+(571:5)StepLine:And /a data table with different fromatting/
+(572:7)TableRow://11:foo,15:bar,23:boz
+(573:5)StepLine:And /a data table with an empty cell/
+(574:7)TableRow://8:foo,12:,13:boz
+(575:5)StepLine:And /a data table with comments and newlines inside/
+(576:7)TableRow://9:foo,15:bar
+(577:1)Empty://
+(578:7)TableRow://9:boz,16:boo
+(579:1)Comment:/      # this is a comment/
+(580:7)TableRow://9:boz2,16:boo2
+(581:1)Empty://
+(582:3)ScenarioLine:Scenario/scenario 35/
+(583:5)StepLine:Given /a simple data table/
+(584:7)TableRow://9:foo,15:bar
+(585:7)TableRow://9:boz,15:boo
+(586:5)StepLine:And /a data table with a single cell/
+(587:7)TableRow://9:foo
+(588:5)StepLine:And /a data table with different fromatting/
+(589:7)TableRow://11:foo,15:bar,23:boz
+(590:5)StepLine:And /a data table with an empty cell/
+(591:7)TableRow://8:foo,12:,13:boz
+(592:5)StepLine:And /a data table with comments and newlines inside/
+(593:7)TableRow://9:foo,15:bar
+(594:1)Empty://
+(595:7)TableRow://9:boz,16:boo
+(596:1)Comment:/      # this is a comment/
+(597:7)TableRow://9:boz2,16:boo2
+(598:1)Empty://
+(599:3)ScenarioLine:Scenario/scenario 36/
+(600:5)StepLine:Given /a simple data table/
+(601:7)TableRow://9:foo,15:bar
+(602:7)TableRow://9:boz,15:boo
+(603:5)StepLine:And /a data table with a single cell/
+(604:7)TableRow://9:foo
+(605:5)StepLine:And /a data table with different fromatting/
+(606:7)TableRow://11:foo,15:bar,23:boz
+(607:5)StepLine:And /a data table with an empty cell/
+(608:7)TableRow://8:foo,12:,13:boz
+(609:5)StepLine:And /a data table with comments and newlines inside/
+(610:7)TableRow://9:foo,15:bar
+(611:1)Empty://
+(612:7)TableRow://9:boz,16:boo
+(613:1)Comment:/      # this is a comment/
+(614:7)TableRow://9:boz2,16:boo2
+(615:1)Empty://
+(616:3)ScenarioLine:Scenario/scenario 37/
+(617:5)StepLine:Given /a simple data table/
+(618:7)TableRow://9:foo,15:bar
+(619:7)TableRow://9:boz,15:boo
+(620:5)StepLine:And /a data table with a single cell/
+(621:7)TableRow://9:foo
+(622:5)StepLine:And /a data table with different fromatting/
+(623:7)TableRow://11:foo,15:bar,23:boz
+(624:5)StepLine:And /a data table with an empty cell/
+(625:7)TableRow://8:foo,12:,13:boz
+(626:5)StepLine:And /a data table with comments and newlines inside/
+(627:7)TableRow://9:foo,15:bar
+(628:1)Empty://
+(629:7)TableRow://9:boz,16:boo
+(630:1)Comment:/      # this is a comment/
+(631:7)TableRow://9:boz2,16:boo2
+(632:1)Empty://
+(633:3)ScenarioLine:Scenario/scenario 38/
+(634:5)StepLine:Given /a simple data table/
+(635:7)TableRow://9:foo,15:bar
+(636:7)TableRow://9:boz,15:boo
+(637:5)StepLine:And /a data table with a single cell/
+(638:7)TableRow://9:foo
+(639:5)StepLine:And /a data table with different fromatting/
+(640:7)TableRow://11:foo,15:bar,23:boz
+(641:5)StepLine:And /a data table with an empty cell/
+(642:7)TableRow://8:foo,12:,13:boz
+(643:5)StepLine:And /a data table with comments and newlines inside/
+(644:7)TableRow://9:foo,15:bar
+(645:1)Empty://
+(646:7)TableRow://9:boz,16:boo
+(647:1)Comment:/      # this is a comment/
+(648:7)TableRow://9:boz2,16:boo2
+(649:1)Empty://
+(650:3)ScenarioLine:Scenario/scenario 39/
+(651:5)StepLine:Given /a simple data table/
+(652:7)TableRow://9:foo,15:bar
+(653:7)TableRow://9:boz,15:boo
+(654:5)StepLine:And /a data table with a single cell/
+(655:7)TableRow://9:foo
+(656:5)StepLine:And /a data table with different fromatting/
+(657:7)TableRow://11:foo,15:bar,23:boz
+(658:5)StepLine:And /a data table with an empty cell/
+(659:7)TableRow://8:foo,12:,13:boz
+(660:5)StepLine:And /a data table with comments and newlines inside/
+(661:7)TableRow://9:foo,15:bar
+(662:1)Empty://
+(663:7)TableRow://9:boz,16:boo
+(664:1)Comment:/      # this is a comment/
+(665:7)TableRow://9:boz2,16:boo2
+(666:1)Empty://
+(667:3)ScenarioLine:Scenario/scenario 40/
+(668:5)StepLine:Given /a simple data table/
+(669:7)TableRow://9:foo,15:bar
+(670:7)TableRow://9:boz,15:boo
+(671:5)StepLine:And /a data table with a single cell/
+(672:7)TableRow://9:foo
+(673:5)StepLine:And /a data table with different fromatting/
+(674:7)TableRow://11:foo,15:bar,23:boz
+(675:5)StepLine:And /a data table with an empty cell/
+(676:7)TableRow://8:foo,12:,13:boz
+(677:5)StepLine:And /a data table with comments and newlines inside/
+(678:7)TableRow://9:foo,15:bar
+(679:1)Empty://
+(680:7)TableRow://9:boz,16:boo
+(681:1)Comment:/      # this is a comment/
+(682:7)TableRow://9:boz2,16:boo2
+(683:1)Empty://
+(684:3)ScenarioLine:Scenario/scenario 41/
+(685:5)StepLine:Given /a simple data table/
+(686:7)TableRow://9:foo,15:bar
+(687:7)TableRow://9:boz,15:boo
+(688:5)StepLine:And /a data table with a single cell/
+(689:7)TableRow://9:foo
+(690:5)StepLine:And /a data table with different fromatting/
+(691:7)TableRow://11:foo,15:bar,23:boz
+(692:5)StepLine:And /a data table with an empty cell/
+(693:7)TableRow://8:foo,12:,13:boz
+(694:5)StepLine:And /a data table with comments and newlines inside/
+(695:7)TableRow://9:foo,15:bar
+(696:1)Empty://
+(697:7)TableRow://9:boz,16:boo
+(698:1)Comment:/      # this is a comment/
+(699:7)TableRow://9:boz2,16:boo2
+(700:1)Empty://
+(701:3)ScenarioLine:Scenario/scenario 42/
+(702:5)StepLine:Given /a simple data table/
+(703:7)TableRow://9:foo,15:bar
+(704:7)TableRow://9:boz,15:boo
+(705:5)StepLine:And /a data table with a single cell/
+(706:7)TableRow://9:foo
+(707:5)StepLine:And /a data table with different fromatting/
+(708:7)TableRow://11:foo,15:bar,23:boz
+(709:5)StepLine:And /a data table with an empty cell/
+(710:7)TableRow://8:foo,12:,13:boz
+(711:5)StepLine:And /a data table with comments and newlines inside/
+(712:7)TableRow://9:foo,15:bar
+(713:1)Empty://
+(714:7)TableRow://9:boz,16:boo
+(715:1)Comment:/      # this is a comment/
+(716:7)TableRow://9:boz2,16:boo2
+(717:1)Empty://
+(718:3)ScenarioLine:Scenario/scenario 43/
+(719:5)StepLine:Given /a simple data table/
+(720:7)TableRow://9:foo,15:bar
+(721:7)TableRow://9:boz,15:boo
+(722:5)StepLine:And /a data table with a single cell/
+(723:7)TableRow://9:foo
+(724:5)StepLine:And /a data table with different fromatting/
+(725:7)TableRow://11:foo,15:bar,23:boz
+(726:5)StepLine:And /a data table with an empty cell/
+(727:7)TableRow://8:foo,12:,13:boz
+(728:5)StepLine:And /a data table with comments and newlines inside/
+(729:7)TableRow://9:foo,15:bar
+(730:1)Empty://
+(731:7)TableRow://9:boz,16:boo
+(732:1)Comment:/      # this is a comment/
+(733:7)TableRow://9:boz2,16:boo2
+(734:1)Empty://
+(735:3)ScenarioLine:Scenario/scenario 44/
+(736:5)StepLine:Given /a simple data table/
+(737:7)TableRow://9:foo,15:bar
+(738:7)TableRow://9:boz,15:boo
+(739:5)StepLine:And /a data table with a single cell/
+(740:7)TableRow://9:foo
+(741:5)StepLine:And /a data table with different fromatting/
+(742:7)TableRow://11:foo,15:bar,23:boz
+(743:5)StepLine:And /a data table with an empty cell/
+(744:7)TableRow://8:foo,12:,13:boz
+(745:5)StepLine:And /a data table with comments and newlines inside/
+(746:7)TableRow://9:foo,15:bar
+(747:1)Empty://
+(748:7)TableRow://9:boz,16:boo
+(749:1)Comment:/      # this is a comment/
+(750:7)TableRow://9:boz2,16:boo2
+(751:1)Empty://
+(752:3)ScenarioLine:Scenario/scenario 45/
+(753:5)StepLine:Given /a simple data table/
+(754:7)TableRow://9:foo,15:bar
+(755:7)TableRow://9:boz,15:boo
+(756:5)StepLine:And /a data table with a single cell/
+(757:7)TableRow://9:foo
+(758:5)StepLine:And /a data table with different fromatting/
+(759:7)TableRow://11:foo,15:bar,23:boz
+(760:5)StepLine:And /a data table with an empty cell/
+(761:7)TableRow://8:foo,12:,13:boz
+(762:5)StepLine:And /a data table with comments and newlines inside/
+(763:7)TableRow://9:foo,15:bar
+(764:1)Empty://
+(765:7)TableRow://9:boz,16:boo
+(766:1)Comment:/      # this is a comment/
+(767:7)TableRow://9:boz2,16:boo2
+(768:1)Empty://
+(769:3)ScenarioLine:Scenario/scenario 46/
+(770:5)StepLine:Given /a simple data table/
+(771:7)TableRow://9:foo,15:bar
+(772:7)TableRow://9:boz,15:boo
+(773:5)StepLine:And /a data table with a single cell/
+(774:7)TableRow://9:foo
+(775:5)StepLine:And /a data table with different fromatting/
+(776:7)TableRow://11:foo,15:bar,23:boz
+(777:5)StepLine:And /a data table with an empty cell/
+(778:7)TableRow://8:foo,12:,13:boz
+(779:5)StepLine:And /a data table with comments and newlines inside/
+(780:7)TableRow://9:foo,15:bar
+(781:1)Empty://
+(782:7)TableRow://9:boz,16:boo
+(783:1)Comment:/      # this is a comment/
+(784:7)TableRow://9:boz2,16:boo2
+(785:1)Empty://
+(786:3)ScenarioLine:Scenario/scenario 47/
+(787:5)StepLine:Given /a simple data table/
+(788:7)TableRow://9:foo,15:bar
+(789:7)TableRow://9:boz,15:boo
+(790:5)StepLine:And /a data table with a single cell/
+(791:7)TableRow://9:foo
+(792:5)StepLine:And /a data table with different fromatting/
+(793:7)TableRow://11:foo,15:bar,23:boz
+(794:5)StepLine:And /a data table with an empty cell/
+(795:7)TableRow://8:foo,12:,13:boz
+(796:5)StepLine:And /a data table with comments and newlines inside/
+(797:7)TableRow://9:foo,15:bar
+(798:1)Empty://
+(799:7)TableRow://9:boz,16:boo
+(800:1)Comment:/      # this is a comment/
+(801:7)TableRow://9:boz2,16:boo2
+(802:1)Empty://
+(803:3)ScenarioLine:Scenario/scenario 48/
+(804:5)StepLine:Given /a simple data table/
+(805:7)TableRow://9:foo,15:bar
+(806:7)TableRow://9:boz,15:boo
+(807:5)StepLine:And /a data table with a single cell/
+(808:7)TableRow://9:foo
+(809:5)StepLine:And /a data table with different fromatting/
+(810:7)TableRow://11:foo,15:bar,23:boz
+(811:5)StepLine:And /a data table with an empty cell/
+(812:7)TableRow://8:foo,12:,13:boz
+(813:5)StepLine:And /a data table with comments and newlines inside/
+(814:7)TableRow://9:foo,15:bar
+(815:1)Empty://
+(816:7)TableRow://9:boz,16:boo
+(817:1)Comment:/      # this is a comment/
+(818:7)TableRow://9:boz2,16:boo2
+(819:1)Empty://
+(820:3)ScenarioLine:Scenario/scenario 49/
+(821:5)StepLine:Given /a simple data table/
+(822:7)TableRow://9:foo,15:bar
+(823:7)TableRow://9:boz,15:boo
+(824:5)StepLine:And /a data table with a single cell/
+(825:7)TableRow://9:foo
+(826:5)StepLine:And /a data table with different fromatting/
+(827:7)TableRow://11:foo,15:bar,23:boz
+(828:5)StepLine:And /a data table with an empty cell/
+(829:7)TableRow://8:foo,12:,13:boz
+(830:5)StepLine:And /a data table with comments and newlines inside/
+(831:7)TableRow://9:foo,15:bar
+(832:1)Empty://
+(833:7)TableRow://9:boz,16:boo
+(834:1)Comment:/      # this is a comment/
+(835:7)TableRow://9:boz2,16:boo2
+(836:1)Empty://
+(837:3)ScenarioLine:Scenario/scenario 50/
+(838:5)StepLine:Given /a simple data table/
+(839:7)TableRow://9:foo,15:bar
+(840:7)TableRow://9:boz,15:boo
+(841:5)StepLine:And /a data table with a single cell/
+(842:7)TableRow://9:foo
+(843:5)StepLine:And /a data table with different fromatting/
+(844:7)TableRow://11:foo,15:bar,23:boz
+(845:5)StepLine:And /a data table with an empty cell/
+(846:7)TableRow://8:foo,12:,13:boz
+(847:5)StepLine:And /a data table with comments and newlines inside/
+(848:7)TableRow://9:foo,15:bar
+(849:1)Empty://
+(850:7)TableRow://9:boz,16:boo
+(851:1)Comment:/      # this is a comment/
+(852:7)TableRow://9:boz2,16:boo2
+(853:1)Empty://
+(854:3)ScenarioLine:Scenario/scenario 51/
+(855:5)StepLine:Given /a simple data table/
+(856:7)TableRow://9:foo,15:bar
+(857:7)TableRow://9:boz,15:boo
+(858:5)StepLine:And /a data table with a single cell/
+(859:7)TableRow://9:foo
+(860:5)StepLine:And /a data table with different fromatting/
+(861:7)TableRow://11:foo,15:bar,23:boz
+(862:5)StepLine:And /a data table with an empty cell/
+(863:7)TableRow://8:foo,12:,13:boz
+(864:5)StepLine:And /a data table with comments and newlines inside/
+(865:7)TableRow://9:foo,15:bar
+(866:1)Empty://
+(867:7)TableRow://9:boz,16:boo
+(868:1)Comment:/      # this is a comment/
+(869:7)TableRow://9:boz2,16:boo2
+(870:1)Empty://
+(871:3)ScenarioLine:Scenario/scenario 52/
+(872:5)StepLine:Given /a simple data table/
+(873:7)TableRow://9:foo,15:bar
+(874:7)TableRow://9:boz,15:boo
+(875:5)StepLine:And /a data table with a single cell/
+(876:7)TableRow://9:foo
+(877:5)StepLine:And /a data table with different fromatting/
+(878:7)TableRow://11:foo,15:bar,23:boz
+(879:5)StepLine:And /a data table with an empty cell/
+(880:7)TableRow://8:foo,12:,13:boz
+(881:5)StepLine:And /a data table with comments and newlines inside/
+(882:7)TableRow://9:foo,15:bar
+(883:1)Empty://
+(884:7)TableRow://9:boz,16:boo
+(885:1)Comment:/      # this is a comment/
+(886:7)TableRow://9:boz2,16:boo2
+(887:1)Empty://
+(888:3)ScenarioLine:Scenario/scenario 53/
+(889:5)StepLine:Given /a simple data table/
+(890:7)TableRow://9:foo,15:bar
+(891:7)TableRow://9:boz,15:boo
+(892:5)StepLine:And /a data table with a single cell/
+(893:7)TableRow://9:foo
+(894:5)StepLine:And /a data table with different fromatting/
+(895:7)TableRow://11:foo,15:bar,23:boz
+(896:5)StepLine:And /a data table with an empty cell/
+(897:7)TableRow://8:foo,12:,13:boz
+(898:5)StepLine:And /a data table with comments and newlines inside/
+(899:7)TableRow://9:foo,15:bar
+(900:1)Empty://
+(901:7)TableRow://9:boz,16:boo
+(902:1)Comment:/      # this is a comment/
+(903:7)TableRow://9:boz2,16:boo2
+(904:1)Empty://
+(905:3)ScenarioLine:Scenario/scenario 54/
+(906:5)StepLine:Given /a simple data table/
+(907:7)TableRow://9:foo,15:bar
+(908:7)TableRow://9:boz,15:boo
+(909:5)StepLine:And /a data table with a single cell/
+(910:7)TableRow://9:foo
+(911:5)StepLine:And /a data table with different fromatting/
+(912:7)TableRow://11:foo,15:bar,23:boz
+(913:5)StepLine:And /a data table with an empty cell/
+(914:7)TableRow://8:foo,12:,13:boz
+(915:5)StepLine:And /a data table with comments and newlines inside/
+(916:7)TableRow://9:foo,15:bar
+(917:1)Empty://
+(918:7)TableRow://9:boz,16:boo
+(919:1)Comment:/      # this is a comment/
+(920:7)TableRow://9:boz2,16:boo2
+(921:1)Empty://
+(922:3)ScenarioLine:Scenario/scenario 55/
+(923:5)StepLine:Given /a simple data table/
+(924:7)TableRow://9:foo,15:bar
+(925:7)TableRow://9:boz,15:boo
+(926:5)StepLine:And /a data table with a single cell/
+(927:7)TableRow://9:foo
+(928:5)StepLine:And /a data table with different fromatting/
+(929:7)TableRow://11:foo,15:bar,23:boz
+(930:5)StepLine:And /a data table with an empty cell/
+(931:7)TableRow://8:foo,12:,13:boz
+(932:5)StepLine:And /a data table with comments and newlines inside/
+(933:7)TableRow://9:foo,15:bar
+(934:1)Empty://
+(935:7)TableRow://9:boz,16:boo
+(936:1)Comment:/      # this is a comment/
+(937:7)TableRow://9:boz2,16:boo2
+(938:1)Empty://
+(939:3)ScenarioLine:Scenario/scenario 56/
+(940:5)StepLine:Given /a simple data table/
+(941:7)TableRow://9:foo,15:bar
+(942:7)TableRow://9:boz,15:boo
+(943:5)StepLine:And /a data table with a single cell/
+(944:7)TableRow://9:foo
+(945:5)StepLine:And /a data table with different fromatting/
+(946:7)TableRow://11:foo,15:bar,23:boz
+(947:5)StepLine:And /a data table with an empty cell/
+(948:7)TableRow://8:foo,12:,13:boz
+(949:5)StepLine:And /a data table with comments and newlines inside/
+(950:7)TableRow://9:foo,15:bar
+(951:1)Empty://
+(952:7)TableRow://9:boz,16:boo
+(953:1)Comment:/      # this is a comment/
+(954:7)TableRow://9:boz2,16:boo2
+(955:1)Empty://
+(956:3)ScenarioLine:Scenario/scenario 57/
+(957:5)StepLine:Given /a simple data table/
+(958:7)TableRow://9:foo,15:bar
+(959:7)TableRow://9:boz,15:boo
+(960:5)StepLine:And /a data table with a single cell/
+(961:7)TableRow://9:foo
+(962:5)StepLine:And /a data table with different fromatting/
+(963:7)TableRow://11:foo,15:bar,23:boz
+(964:5)StepLine:And /a data table with an empty cell/
+(965:7)TableRow://8:foo,12:,13:boz
+(966:5)StepLine:And /a data table with comments and newlines inside/
+(967:7)TableRow://9:foo,15:bar
+(968:1)Empty://
+(969:7)TableRow://9:boz,16:boo
+(970:1)Comment:/      # this is a comment/
+(971:7)TableRow://9:boz2,16:boo2
+(972:1)Empty://
+(973:3)ScenarioLine:Scenario/scenario 58/
+(974:5)StepLine:Given /a simple data table/
+(975:7)TableRow://9:foo,15:bar
+(976:7)TableRow://9:boz,15:boo
+(977:5)StepLine:And /a data table with a single cell/
+(978:7)TableRow://9:foo
+(979:5)StepLine:And /a data table with different fromatting/
+(980:7)TableRow://11:foo,15:bar,23:boz
+(981:5)StepLine:And /a data table with an empty cell/
+(982:7)TableRow://8:foo,12:,13:boz
+(983:5)StepLine:And /a data table with comments and newlines inside/
+(984:7)TableRow://9:foo,15:bar
+(985:1)Empty://
+(986:7)TableRow://9:boz,16:boo
+(987:1)Comment:/      # this is a comment/
+(988:7)TableRow://9:boz2,16:boo2
+(989:1)Empty://
+(990:3)ScenarioLine:Scenario/scenario 59/
+(991:5)StepLine:Given /a simple data table/
+(992:7)TableRow://9:foo,15:bar
+(993:7)TableRow://9:boz,15:boo
+(994:5)StepLine:And /a data table with a single cell/
+(995:7)TableRow://9:foo
+(996:5)StepLine:And /a data table with different fromatting/
+(997:7)TableRow://11:foo,15:bar,23:boz
+(998:5)StepLine:And /a data table with an empty cell/
+(999:7)TableRow://8:foo,12:,13:boz
+(1000:5)StepLine:And /a data table with comments and newlines inside/
+(1001:7)TableRow://9:foo,15:bar
+(1002:1)Empty://
+(1003:7)TableRow://9:boz,16:boo
+(1004:1)Comment:/      # this is a comment/
+(1005:7)TableRow://9:boz2,16:boo2
+(1006:1)Empty://
+(1007:3)ScenarioLine:Scenario/scenario 60/
+(1008:5)StepLine:Given /a simple data table/
+(1009:7)TableRow://9:foo,15:bar
+(1010:7)TableRow://9:boz,15:boo
+(1011:5)StepLine:And /a data table with a single cell/
+(1012:7)TableRow://9:foo
+(1013:5)StepLine:And /a data table with different fromatting/
+(1014:7)TableRow://11:foo,15:bar,23:boz
+(1015:5)StepLine:And /a data table with an empty cell/
+(1016:7)TableRow://8:foo,12:,13:boz
+(1017:5)StepLine:And /a data table with comments and newlines inside/
+(1018:7)TableRow://9:foo,15:bar
+(1019:1)Empty://
+(1020:7)TableRow://9:boz,16:boo
+(1021:1)Comment:/      # this is a comment/
+(1022:7)TableRow://9:boz2,16:boo2
+(1023:1)Empty://
+(1024:3)ScenarioLine:Scenario/scenario 61/
+(1025:5)StepLine:Given /a simple data table/
+(1026:7)TableRow://9:foo,15:bar
+(1027:7)TableRow://9:boz,15:boo
+(1028:5)StepLine:And /a data table with a single cell/
+(1029:7)TableRow://9:foo
+(1030:5)StepLine:And /a data table with different fromatting/
+(1031:7)TableRow://11:foo,15:bar,23:boz
+(1032:5)StepLine:And /a data table with an empty cell/
+(1033:7)TableRow://8:foo,12:,13:boz
+(1034:5)StepLine:And /a data table with comments and newlines inside/
+(1035:7)TableRow://9:foo,15:bar
+(1036:1)Empty://
+(1037:7)TableRow://9:boz,16:boo
+(1038:1)Comment:/      # this is a comment/
+(1039:7)TableRow://9:boz2,16:boo2
+(1040:1)Empty://
+(1041:3)ScenarioLine:Scenario/scenario 62/
+(1042:5)StepLine:Given /a simple data table/
+(1043:7)TableRow://9:foo,15:bar
+(1044:7)TableRow://9:boz,15:boo
+(1045:5)StepLine:And /a data table with a single cell/
+(1046:7)TableRow://9:foo
+(1047:5)StepLine:And /a data table with different fromatting/
+(1048:7)TableRow://11:foo,15:bar,23:boz
+(1049:5)StepLine:And /a data table with an empty cell/
+(1050:7)TableRow://8:foo,12:,13:boz
+(1051:5)StepLine:And /a data table with comments and newlines inside/
+(1052:7)TableRow://9:foo,15:bar
+(1053:1)Empty://
+(1054:7)TableRow://9:boz,16:boo
+(1055:1)Comment:/      # this is a comment/
+(1056:7)TableRow://9:boz2,16:boo2
+(1057:1)Empty://
+(1058:3)ScenarioLine:Scenario/scenario 63/
+(1059:5)StepLine:Given /a simple data table/
+(1060:7)TableRow://9:foo,15:bar
+(1061:7)TableRow://9:boz,15:boo
+(1062:5)StepLine:And /a data table with a single cell/
+(1063:7)TableRow://9:foo
+(1064:5)StepLine:And /a data table with different fromatting/
+(1065:7)TableRow://11:foo,15:bar,23:boz
+(1066:5)StepLine:And /a data table with an empty cell/
+(1067:7)TableRow://8:foo,12:,13:boz
+(1068:5)StepLine:And /a data table with comments and newlines inside/
+(1069:7)TableRow://9:foo,15:bar
+(1070:1)Empty://
+(1071:7)TableRow://9:boz,16:boo
+(1072:1)Comment:/      # this is a comment/
+(1073:7)TableRow://9:boz2,16:boo2
+(1074:1)Empty://
+(1075:3)ScenarioLine:Scenario/scenario 64/
+(1076:5)StepLine:Given /a simple data table/
+(1077:7)TableRow://9:foo,15:bar
+(1078:7)TableRow://9:boz,15:boo
+(1079:5)StepLine:And /a data table with a single cell/
+(1080:7)TableRow://9:foo
+(1081:5)StepLine:And /a data table with different fromatting/
+(1082:7)TableRow://11:foo,15:bar,23:boz
+(1083:5)StepLine:And /a data table with an empty cell/
+(1084:7)TableRow://8:foo,12:,13:boz
+(1085:5)StepLine:And /a data table with comments and newlines inside/
+(1086:7)TableRow://9:foo,15:bar
+(1087:1)Empty://
+(1088:7)TableRow://9:boz,16:boo
+(1089:1)Comment:/      # this is a comment/
+(1090:7)TableRow://9:boz2,16:boo2
+(1091:1)Empty://
+(1092:3)ScenarioLine:Scenario/scenario 65/
+(1093:5)StepLine:Given /a simple data table/
+(1094:7)TableRow://9:foo,15:bar
+(1095:7)TableRow://9:boz,15:boo
+(1096:5)StepLine:And /a data table with a single cell/
+(1097:7)TableRow://9:foo
+(1098:5)StepLine:And /a data table with different fromatting/
+(1099:7)TableRow://11:foo,15:bar,23:boz
+(1100:5)StepLine:And /a data table with an empty cell/
+(1101:7)TableRow://8:foo,12:,13:boz
+(1102:5)StepLine:And /a data table with comments and newlines inside/
+(1103:7)TableRow://9:foo,15:bar
+(1104:1)Empty://
+(1105:7)TableRow://9:boz,16:boo
+(1106:1)Comment:/      # this is a comment/
+(1107:7)TableRow://9:boz2,16:boo2
+(1108:1)Empty://
+(1109:3)ScenarioLine:Scenario/scenario 66/
+(1110:5)StepLine:Given /a simple data table/
+(1111:7)TableRow://9:foo,15:bar
+(1112:7)TableRow://9:boz,15:boo
+(1113:5)StepLine:And /a data table with a single cell/
+(1114:7)TableRow://9:foo
+(1115:5)StepLine:And /a data table with different fromatting/
+(1116:7)TableRow://11:foo,15:bar,23:boz
+(1117:5)StepLine:And /a data table with an empty cell/
+(1118:7)TableRow://8:foo,12:,13:boz
+(1119:5)StepLine:And /a data table with comments and newlines inside/
+(1120:7)TableRow://9:foo,15:bar
+(1121:1)Empty://
+(1122:7)TableRow://9:boz,16:boo
+(1123:1)Comment:/      # this is a comment/
+(1124:7)TableRow://9:boz2,16:boo2
+(1125:1)Empty://
+(1126:3)ScenarioLine:Scenario/scenario 67/
+(1127:5)StepLine:Given /a simple data table/
+(1128:7)TableRow://9:foo,15:bar
+(1129:7)TableRow://9:boz,15:boo
+(1130:5)StepLine:And /a data table with a single cell/
+(1131:7)TableRow://9:foo
+(1132:5)StepLine:And /a data table with different fromatting/
+(1133:7)TableRow://11:foo,15:bar,23:boz
+(1134:5)StepLine:And /a data table with an empty cell/
+(1135:7)TableRow://8:foo,12:,13:boz
+(1136:5)StepLine:And /a data table with comments and newlines inside/
+(1137:7)TableRow://9:foo,15:bar
+(1138:1)Empty://
+(1139:7)TableRow://9:boz,16:boo
+(1140:1)Comment:/      # this is a comment/
+(1141:7)TableRow://9:boz2,16:boo2
+(1142:1)Empty://
+(1143:3)ScenarioLine:Scenario/scenario 68/
+(1144:5)StepLine:Given /a simple data table/
+(1145:7)TableRow://9:foo,15:bar
+(1146:7)TableRow://9:boz,15:boo
+(1147:5)StepLine:And /a data table with a single cell/
+(1148:7)TableRow://9:foo
+(1149:5)StepLine:And /a data table with different fromatting/
+(1150:7)TableRow://11:foo,15:bar,23:boz
+(1151:5)StepLine:And /a data table with an empty cell/
+(1152:7)TableRow://8:foo,12:,13:boz
+(1153:5)StepLine:And /a data table with comments and newlines inside/
+(1154:7)TableRow://9:foo,15:bar
+(1155:1)Empty://
+(1156:7)TableRow://9:boz,16:boo
+(1157:1)Comment:/      # this is a comment/
+(1158:7)TableRow://9:boz2,16:boo2
+(1159:1)Empty://
+(1160:3)ScenarioLine:Scenario/scenario 69/
+(1161:5)StepLine:Given /a simple data table/
+(1162:7)TableRow://9:foo,15:bar
+(1163:7)TableRow://9:boz,15:boo
+(1164:5)StepLine:And /a data table with a single cell/
+(1165:7)TableRow://9:foo
+(1166:5)StepLine:And /a data table with different fromatting/
+(1167:7)TableRow://11:foo,15:bar,23:boz
+(1168:5)StepLine:And /a data table with an empty cell/
+(1169:7)TableRow://8:foo,12:,13:boz
+(1170:5)StepLine:And /a data table with comments and newlines inside/
+(1171:7)TableRow://9:foo,15:bar
+(1172:1)Empty://
+(1173:7)TableRow://9:boz,16:boo
+(1174:1)Comment:/      # this is a comment/
+(1175:7)TableRow://9:boz2,16:boo2
+(1176:1)Empty://
+(1177:3)ScenarioLine:Scenario/scenario 70/
+(1178:5)StepLine:Given /a simple data table/
+(1179:7)TableRow://9:foo,15:bar
+(1180:7)TableRow://9:boz,15:boo
+(1181:5)StepLine:And /a data table with a single cell/
+(1182:7)TableRow://9:foo
+(1183:5)StepLine:And /a data table with different fromatting/
+(1184:7)TableRow://11:foo,15:bar,23:boz
+(1185:5)StepLine:And /a data table with an empty cell/
+(1186:7)TableRow://8:foo,12:,13:boz
+(1187:5)StepLine:And /a data table with comments and newlines inside/
+(1188:7)TableRow://9:foo,15:bar
+(1189:1)Empty://
+(1190:7)TableRow://9:boz,16:boo
+(1191:1)Comment:/      # this is a comment/
+(1192:7)TableRow://9:boz2,16:boo2
+(1193:1)Empty://
+(1194:3)ScenarioLine:Scenario/scenario 71/
+(1195:5)StepLine:Given /a simple data table/
+(1196:7)TableRow://9:foo,15:bar
+(1197:7)TableRow://9:boz,15:boo
+(1198:5)StepLine:And /a data table with a single cell/
+(1199:7)TableRow://9:foo
+(1200:5)StepLine:And /a data table with different fromatting/
+(1201:7)TableRow://11:foo,15:bar,23:boz
+(1202:5)StepLine:And /a data table with an empty cell/
+(1203:7)TableRow://8:foo,12:,13:boz
+(1204:5)StepLine:And /a data table with comments and newlines inside/
+(1205:7)TableRow://9:foo,15:bar
+(1206:1)Empty://
+(1207:7)TableRow://9:boz,16:boo
+(1208:1)Comment:/      # this is a comment/
+(1209:7)TableRow://9:boz2,16:boo2
+(1210:1)Empty://
+(1211:3)ScenarioLine:Scenario/scenario 72/
+(1212:5)StepLine:Given /a simple data table/
+(1213:7)TableRow://9:foo,15:bar
+(1214:7)TableRow://9:boz,15:boo
+(1215:5)StepLine:And /a data table with a single cell/
+(1216:7)TableRow://9:foo
+(1217:5)StepLine:And /a data table with different fromatting/
+(1218:7)TableRow://11:foo,15:bar,23:boz
+(1219:5)StepLine:And /a data table with an empty cell/
+(1220:7)TableRow://8:foo,12:,13:boz
+(1221:5)StepLine:And /a data table with comments and newlines inside/
+(1222:7)TableRow://9:foo,15:bar
+(1223:1)Empty://
+(1224:7)TableRow://9:boz,16:boo
+(1225:1)Comment:/      # this is a comment/
+(1226:7)TableRow://9:boz2,16:boo2
+(1227:1)Empty://
+(1228:3)ScenarioLine:Scenario/scenario 73/
+(1229:5)StepLine:Given /a simple data table/
+(1230:7)TableRow://9:foo,15:bar
+(1231:7)TableRow://9:boz,15:boo
+(1232:5)StepLine:And /a data table with a single cell/
+(1233:7)TableRow://9:foo
+(1234:5)StepLine:And /a data table with different fromatting/
+(1235:7)TableRow://11:foo,15:bar,23:boz
+(1236:5)StepLine:And /a data table with an empty cell/
+(1237:7)TableRow://8:foo,12:,13:boz
+(1238:5)StepLine:And /a data table with comments and newlines inside/
+(1239:7)TableRow://9:foo,15:bar
+(1240:1)Empty://
+(1241:7)TableRow://9:boz,16:boo
+(1242:1)Comment:/      # this is a comment/
+(1243:7)TableRow://9:boz2,16:boo2
+(1244:1)Empty://
+(1245:3)ScenarioLine:Scenario/scenario 74/
+(1246:5)StepLine:Given /a simple data table/
+(1247:7)TableRow://9:foo,15:bar
+(1248:7)TableRow://9:boz,15:boo
+(1249:5)StepLine:And /a data table with a single cell/
+(1250:7)TableRow://9:foo
+(1251:5)StepLine:And /a data table with different fromatting/
+(1252:7)TableRow://11:foo,15:bar,23:boz
+(1253:5)StepLine:And /a data table with an empty cell/
+(1254:7)TableRow://8:foo,12:,13:boz
+(1255:5)StepLine:And /a data table with comments and newlines inside/
+(1256:7)TableRow://9:foo,15:bar
+(1257:1)Empty://
+(1258:7)TableRow://9:boz,16:boo
+(1259:1)Comment:/      # this is a comment/
+(1260:7)TableRow://9:boz2,16:boo2
+(1261:1)Empty://
+(1262:3)ScenarioLine:Scenario/scenario 75/
+(1263:5)StepLine:Given /a simple data table/
+(1264:7)TableRow://9:foo,15:bar
+(1265:7)TableRow://9:boz,15:boo
+(1266:5)StepLine:And /a data table with a single cell/
+(1267:7)TableRow://9:foo
+(1268:5)StepLine:And /a data table with different fromatting/
+(1269:7)TableRow://11:foo,15:bar,23:boz
+(1270:5)StepLine:And /a data table with an empty cell/
+(1271:7)TableRow://8:foo,12:,13:boz
+(1272:5)StepLine:And /a data table with comments and newlines inside/
+(1273:7)TableRow://9:foo,15:bar
+(1274:1)Empty://
+(1275:7)TableRow://9:boz,16:boo
+(1276:1)Comment:/      # this is a comment/
+(1277:7)TableRow://9:boz2,16:boo2
+(1278:1)Empty://
+(1279:3)ScenarioLine:Scenario/scenario 76/
+(1280:5)StepLine:Given /a simple data table/
+(1281:7)TableRow://9:foo,15:bar
+(1282:7)TableRow://9:boz,15:boo
+(1283:5)StepLine:And /a data table with a single cell/
+(1284:7)TableRow://9:foo
+(1285:5)StepLine:And /a data table with different fromatting/
+(1286:7)TableRow://11:foo,15:bar,23:boz
+(1287:5)StepLine:And /a data table with an empty cell/
+(1288:7)TableRow://8:foo,12:,13:boz
+(1289:5)StepLine:And /a data table with comments and newlines inside/
+(1290:7)TableRow://9:foo,15:bar
+(1291:1)Empty://
+(1292:7)TableRow://9:boz,16:boo
+(1293:1)Comment:/      # this is a comment/
+(1294:7)TableRow://9:boz2,16:boo2
+(1295:1)Empty://
+(1296:3)ScenarioLine:Scenario/scenario 77/
+(1297:5)StepLine:Given /a simple data table/
+(1298:7)TableRow://9:foo,15:bar
+(1299:7)TableRow://9:boz,15:boo
+(1300:5)StepLine:And /a data table with a single cell/
+(1301:7)TableRow://9:foo
+(1302:5)StepLine:And /a data table with different fromatting/
+(1303:7)TableRow://11:foo,15:bar,23:boz
+(1304:5)StepLine:And /a data table with an empty cell/
+(1305:7)TableRow://8:foo,12:,13:boz
+(1306:5)StepLine:And /a data table with comments and newlines inside/
+(1307:7)TableRow://9:foo,15:bar
+(1308:1)Empty://
+(1309:7)TableRow://9:boz,16:boo
+(1310:1)Comment:/      # this is a comment/
+(1311:7)TableRow://9:boz2,16:boo2
+(1312:1)Empty://
+(1313:3)ScenarioLine:Scenario/scenario 78/
+(1314:5)StepLine:Given /a simple data table/
+(1315:7)TableRow://9:foo,15:bar
+(1316:7)TableRow://9:boz,15:boo
+(1317:5)StepLine:And /a data table with a single cell/
+(1318:7)TableRow://9:foo
+(1319:5)StepLine:And /a data table with different fromatting/
+(1320:7)TableRow://11:foo,15:bar,23:boz
+(1321:5)StepLine:And /a data table with an empty cell/
+(1322:7)TableRow://8:foo,12:,13:boz
+(1323:5)StepLine:And /a data table with comments and newlines inside/
+(1324:7)TableRow://9:foo,15:bar
+(1325:1)Empty://
+(1326:7)TableRow://9:boz,16:boo
+(1327:1)Comment:/      # this is a comment/
+(1328:7)TableRow://9:boz2,16:boo2
+(1329:1)Empty://
+(1330:3)ScenarioLine:Scenario/scenario 79/
+(1331:5)StepLine:Given /a simple data table/
+(1332:7)TableRow://9:foo,15:bar
+(1333:7)TableRow://9:boz,15:boo
+(1334:5)StepLine:And /a data table with a single cell/
+(1335:7)TableRow://9:foo
+(1336:5)StepLine:And /a data table with different fromatting/
+(1337:7)TableRow://11:foo,15:bar,23:boz
+(1338:5)StepLine:And /a data table with an empty cell/
+(1339:7)TableRow://8:foo,12:,13:boz
+(1340:5)StepLine:And /a data table with comments and newlines inside/
+(1341:7)TableRow://9:foo,15:bar
+(1342:1)Empty://
+(1343:7)TableRow://9:boz,16:boo
+(1344:1)Comment:/      # this is a comment/
+(1345:7)TableRow://9:boz2,16:boo2
+(1346:1)Empty://
+(1347:3)ScenarioLine:Scenario/scenario 80/
+(1348:5)StepLine:Given /a simple data table/
+(1349:7)TableRow://9:foo,15:bar
+(1350:7)TableRow://9:boz,15:boo
+(1351:5)StepLine:And /a data table with a single cell/
+(1352:7)TableRow://9:foo
+(1353:5)StepLine:And /a data table with different fromatting/
+(1354:7)TableRow://11:foo,15:bar,23:boz
+(1355:5)StepLine:And /a data table with an empty cell/
+(1356:7)TableRow://8:foo,12:,13:boz
+(1357:5)StepLine:And /a data table with comments and newlines inside/
+(1358:7)TableRow://9:foo,15:bar
+(1359:1)Empty://
+(1360:7)TableRow://9:boz,16:boo
+(1361:1)Comment:/      # this is a comment/
+(1362:7)TableRow://9:boz2,16:boo2
+(1363:1)Empty://
+(1364:3)ScenarioLine:Scenario/scenario 81/
+(1365:5)StepLine:Given /a simple data table/
+(1366:7)TableRow://9:foo,15:bar
+(1367:7)TableRow://9:boz,15:boo
+(1368:5)StepLine:And /a data table with a single cell/
+(1369:7)TableRow://9:foo
+(1370:5)StepLine:And /a data table with different fromatting/
+(1371:7)TableRow://11:foo,15:bar,23:boz
+(1372:5)StepLine:And /a data table with an empty cell/
+(1373:7)TableRow://8:foo,12:,13:boz
+(1374:5)StepLine:And /a data table with comments and newlines inside/
+(1375:7)TableRow://9:foo,15:bar
+(1376:1)Empty://
+(1377:7)TableRow://9:boz,16:boo
+(1378:1)Comment:/      # this is a comment/
+(1379:7)TableRow://9:boz2,16:boo2
+(1380:1)Empty://
+(1381:3)ScenarioLine:Scenario/scenario 82/
+(1382:5)StepLine:Given /a simple data table/
+(1383:7)TableRow://9:foo,15:bar
+(1384:7)TableRow://9:boz,15:boo
+(1385:5)StepLine:And /a data table with a single cell/
+(1386:7)TableRow://9:foo
+(1387:5)StepLine:And /a data table with different fromatting/
+(1388:7)TableRow://11:foo,15:bar,23:boz
+(1389:5)StepLine:And /a data table with an empty cell/
+(1390:7)TableRow://8:foo,12:,13:boz
+(1391:5)StepLine:And /a data table with comments and newlines inside/
+(1392:7)TableRow://9:foo,15:bar
+(1393:1)Empty://
+(1394:7)TableRow://9:boz,16:boo
+(1395:1)Comment:/      # this is a comment/
+(1396:7)TableRow://9:boz2,16:boo2
+(1397:1)Empty://
+(1398:3)ScenarioLine:Scenario/scenario 83/
+(1399:5)StepLine:Given /a simple data table/
+(1400:7)TableRow://9:foo,15:bar
+(1401:7)TableRow://9:boz,15:boo
+(1402:5)StepLine:And /a data table with a single cell/
+(1403:7)TableRow://9:foo
+(1404:5)StepLine:And /a data table with different fromatting/
+(1405:7)TableRow://11:foo,15:bar,23:boz
+(1406:5)StepLine:And /a data table with an empty cell/
+(1407:7)TableRow://8:foo,12:,13:boz
+(1408:5)StepLine:And /a data table with comments and newlines inside/
+(1409:7)TableRow://9:foo,15:bar
+(1410:1)Empty://
+(1411:7)TableRow://9:boz,16:boo
+(1412:1)Comment:/      # this is a comment/
+(1413:7)TableRow://9:boz2,16:boo2
+(1414:1)Empty://
+(1415:3)ScenarioLine:Scenario/scenario 84/
+(1416:5)StepLine:Given /a simple data table/
+(1417:7)TableRow://9:foo,15:bar
+(1418:7)TableRow://9:boz,15:boo
+(1419:5)StepLine:And /a data table with a single cell/
+(1420:7)TableRow://9:foo
+(1421:5)StepLine:And /a data table with different fromatting/
+(1422:7)TableRow://11:foo,15:bar,23:boz
+(1423:5)StepLine:And /a data table with an empty cell/
+(1424:7)TableRow://8:foo,12:,13:boz
+(1425:5)StepLine:And /a data table with comments and newlines inside/
+(1426:7)TableRow://9:foo,15:bar
+(1427:1)Empty://
+(1428:7)TableRow://9:boz,16:boo
+(1429:1)Comment:/      # this is a comment/
+(1430:7)TableRow://9:boz2,16:boo2
+(1431:1)Empty://
+(1432:3)ScenarioLine:Scenario/scenario 85/
+(1433:5)StepLine:Given /a simple data table/
+(1434:7)TableRow://9:foo,15:bar
+(1435:7)TableRow://9:boz,15:boo
+(1436:5)StepLine:And /a data table with a single cell/
+(1437:7)TableRow://9:foo
+(1438:5)StepLine:And /a data table with different fromatting/
+(1439:7)TableRow://11:foo,15:bar,23:boz
+(1440:5)StepLine:And /a data table with an empty cell/
+(1441:7)TableRow://8:foo,12:,13:boz
+(1442:5)StepLine:And /a data table with comments and newlines inside/
+(1443:7)TableRow://9:foo,15:bar
+(1444:1)Empty://
+(1445:7)TableRow://9:boz,16:boo
+(1446:1)Comment:/      # this is a comment/
+(1447:7)TableRow://9:boz2,16:boo2
+(1448:1)Empty://
+(1449:3)ScenarioLine:Scenario/scenario 86/
+(1450:5)StepLine:Given /a simple data table/
+(1451:7)TableRow://9:foo,15:bar
+(1452:7)TableRow://9:boz,15:boo
+(1453:5)StepLine:And /a data table with a single cell/
+(1454:7)TableRow://9:foo
+(1455:5)StepLine:And /a data table with different fromatting/
+(1456:7)TableRow://11:foo,15:bar,23:boz
+(1457:5)StepLine:And /a data table with an empty cell/
+(1458:7)TableRow://8:foo,12:,13:boz
+(1459:5)StepLine:And /a data table with comments and newlines inside/
+(1460:7)TableRow://9:foo,15:bar
+(1461:1)Empty://
+(1462:7)TableRow://9:boz,16:boo
+(1463:1)Comment:/      # this is a comment/
+(1464:7)TableRow://9:boz2,16:boo2
+(1465:1)Empty://
+(1466:3)ScenarioLine:Scenario/scenario 87/
+(1467:5)StepLine:Given /a simple data table/
+(1468:7)TableRow://9:foo,15:bar
+(1469:7)TableRow://9:boz,15:boo
+(1470:5)StepLine:And /a data table with a single cell/
+(1471:7)TableRow://9:foo
+(1472:5)StepLine:And /a data table with different fromatting/
+(1473:7)TableRow://11:foo,15:bar,23:boz
+(1474:5)StepLine:And /a data table with an empty cell/
+(1475:7)TableRow://8:foo,12:,13:boz
+(1476:5)StepLine:And /a data table with comments and newlines inside/
+(1477:7)TableRow://9:foo,15:bar
+(1478:1)Empty://
+(1479:7)TableRow://9:boz,16:boo
+(1480:1)Comment:/      # this is a comment/
+(1481:7)TableRow://9:boz2,16:boo2
+(1482:1)Empty://
+(1483:3)ScenarioLine:Scenario/scenario 88/
+(1484:5)StepLine:Given /a simple data table/
+(1485:7)TableRow://9:foo,15:bar
+(1486:7)TableRow://9:boz,15:boo
+(1487:5)StepLine:And /a data table with a single cell/
+(1488:7)TableRow://9:foo
+(1489:5)StepLine:And /a data table with different fromatting/
+(1490:7)TableRow://11:foo,15:bar,23:boz
+(1491:5)StepLine:And /a data table with an empty cell/
+(1492:7)TableRow://8:foo,12:,13:boz
+(1493:5)StepLine:And /a data table with comments and newlines inside/
+(1494:7)TableRow://9:foo,15:bar
+(1495:1)Empty://
+(1496:7)TableRow://9:boz,16:boo
+(1497:1)Comment:/      # this is a comment/
+(1498:7)TableRow://9:boz2,16:boo2
+(1499:1)Empty://
+(1500:3)ScenarioLine:Scenario/scenario 89/
+(1501:5)StepLine:Given /a simple data table/
+(1502:7)TableRow://9:foo,15:bar
+(1503:7)TableRow://9:boz,15:boo
+(1504:5)StepLine:And /a data table with a single cell/
+(1505:7)TableRow://9:foo
+(1506:5)StepLine:And /a data table with different fromatting/
+(1507:7)TableRow://11:foo,15:bar,23:boz
+(1508:5)StepLine:And /a data table with an empty cell/
+(1509:7)TableRow://8:foo,12:,13:boz
+(1510:5)StepLine:And /a data table with comments and newlines inside/
+(1511:7)TableRow://9:foo,15:bar
+(1512:1)Empty://
+(1513:7)TableRow://9:boz,16:boo
+(1514:1)Comment:/      # this is a comment/
+(1515:7)TableRow://9:boz2,16:boo2
+(1516:1)Empty://
+(1517:3)ScenarioLine:Scenario/scenario 90/
+(1518:5)StepLine:Given /a simple data table/
+(1519:7)TableRow://9:foo,15:bar
+(1520:7)TableRow://9:boz,15:boo
+(1521:5)StepLine:And /a data table with a single cell/
+(1522:7)TableRow://9:foo
+(1523:5)StepLine:And /a data table with different fromatting/
+(1524:7)TableRow://11:foo,15:bar,23:boz
+(1525:5)StepLine:And /a data table with an empty cell/
+(1526:7)TableRow://8:foo,12:,13:boz
+(1527:5)StepLine:And /a data table with comments and newlines inside/
+(1528:7)TableRow://9:foo,15:bar
+(1529:1)Empty://
+(1530:7)TableRow://9:boz,16:boo
+(1531:1)Comment:/      # this is a comment/
+(1532:7)TableRow://9:boz2,16:boo2
+(1533:1)Empty://
+(1534:3)ScenarioLine:Scenario/scenario 91/
+(1535:5)StepLine:Given /a simple data table/
+(1536:7)TableRow://9:foo,15:bar
+(1537:7)TableRow://9:boz,15:boo
+(1538:5)StepLine:And /a data table with a single cell/
+(1539:7)TableRow://9:foo
+(1540:5)StepLine:And /a data table with different fromatting/
+(1541:7)TableRow://11:foo,15:bar,23:boz
+(1542:5)StepLine:And /a data table with an empty cell/
+(1543:7)TableRow://8:foo,12:,13:boz
+(1544:5)StepLine:And /a data table with comments and newlines inside/
+(1545:7)TableRow://9:foo,15:bar
+(1546:1)Empty://
+(1547:7)TableRow://9:boz,16:boo
+(1548:1)Comment:/      # this is a comment/
+(1549:7)TableRow://9:boz2,16:boo2
+(1550:1)Empty://
+(1551:3)ScenarioLine:Scenario/scenario 92/
+(1552:5)StepLine:Given /a simple data table/
+(1553:7)TableRow://9:foo,15:bar
+(1554:7)TableRow://9:boz,15:boo
+(1555:5)StepLine:And /a data table with a single cell/
+(1556:7)TableRow://9:foo
+(1557:5)StepLine:And /a data table with different fromatting/
+(1558:7)TableRow://11:foo,15:bar,23:boz
+(1559:5)StepLine:And /a data table with an empty cell/
+(1560:7)TableRow://8:foo,12:,13:boz
+(1561:5)StepLine:And /a data table with comments and newlines inside/
+(1562:7)TableRow://9:foo,15:bar
+(1563:1)Empty://
+(1564:7)TableRow://9:boz,16:boo
+(1565:1)Comment:/      # this is a comment/
+(1566:7)TableRow://9:boz2,16:boo2
+(1567:1)Empty://
+(1568:3)ScenarioLine:Scenario/scenario 93/
+(1569:5)StepLine:Given /a simple data table/
+(1570:7)TableRow://9:foo,15:bar
+(1571:7)TableRow://9:boz,15:boo
+(1572:5)StepLine:And /a data table with a single cell/
+(1573:7)TableRow://9:foo
+(1574:5)StepLine:And /a data table with different fromatting/
+(1575:7)TableRow://11:foo,15:bar,23:boz
+(1576:5)StepLine:And /a data table with an empty cell/
+(1577:7)TableRow://8:foo,12:,13:boz
+(1578:5)StepLine:And /a data table with comments and newlines inside/
+(1579:7)TableRow://9:foo,15:bar
+(1580:1)Empty://
+(1581:7)TableRow://9:boz,16:boo
+(1582:1)Comment:/      # this is a comment/
+(1583:7)TableRow://9:boz2,16:boo2
+(1584:1)Empty://
+(1585:3)ScenarioLine:Scenario/scenario 94/
+(1586:5)StepLine:Given /a simple data table/
+(1587:7)TableRow://9:foo,15:bar
+(1588:7)TableRow://9:boz,15:boo
+(1589:5)StepLine:And /a data table with a single cell/
+(1590:7)TableRow://9:foo
+(1591:5)StepLine:And /a data table with different fromatting/
+(1592:7)TableRow://11:foo,15:bar,23:boz
+(1593:5)StepLine:And /a data table with an empty cell/
+(1594:7)TableRow://8:foo,12:,13:boz
+(1595:5)StepLine:And /a data table with comments and newlines inside/
+(1596:7)TableRow://9:foo,15:bar
+(1597:1)Empty://
+(1598:7)TableRow://9:boz,16:boo
+(1599:1)Comment:/      # this is a comment/
+(1600:7)TableRow://9:boz2,16:boo2
+(1601:1)Empty://
+(1602:3)ScenarioLine:Scenario/scenario 95/
+(1603:5)StepLine:Given /a simple data table/
+(1604:7)TableRow://9:foo,15:bar
+(1605:7)TableRow://9:boz,15:boo
+(1606:5)StepLine:And /a data table with a single cell/
+(1607:7)TableRow://9:foo
+(1608:5)StepLine:And /a data table with different fromatting/
+(1609:7)TableRow://11:foo,15:bar,23:boz
+(1610:5)StepLine:And /a data table with an empty cell/
+(1611:7)TableRow://8:foo,12:,13:boz
+(1612:5)StepLine:And /a data table with comments and newlines inside/
+(1613:7)TableRow://9:foo,15:bar
+(1614:1)Empty://
+(1615:7)TableRow://9:boz,16:boo
+(1616:1)Comment:/      # this is a comment/
+(1617:7)TableRow://9:boz2,16:boo2
+(1618:1)Empty://
+(1619:3)ScenarioLine:Scenario/scenario 96/
+(1620:5)StepLine:Given /a simple data table/
+(1621:7)TableRow://9:foo,15:bar
+(1622:7)TableRow://9:boz,15:boo
+(1623:5)StepLine:And /a data table with a single cell/
+(1624:7)TableRow://9:foo
+(1625:5)StepLine:And /a data table with different fromatting/
+(1626:7)TableRow://11:foo,15:bar,23:boz
+(1627:5)StepLine:And /a data table with an empty cell/
+(1628:7)TableRow://8:foo,12:,13:boz
+(1629:5)StepLine:And /a data table with comments and newlines inside/
+(1630:7)TableRow://9:foo,15:bar
+(1631:1)Empty://
+(1632:7)TableRow://9:boz,16:boo
+(1633:1)Comment:/      # this is a comment/
+(1634:7)TableRow://9:boz2,16:boo2
+(1635:1)Empty://
+(1636:3)ScenarioLine:Scenario/scenario 97/
+(1637:5)StepLine:Given /a simple data table/
+(1638:7)TableRow://9:foo,15:bar
+(1639:7)TableRow://9:boz,15:boo
+(1640:5)StepLine:And /a data table with a single cell/
+(1641:7)TableRow://9:foo
+(1642:5)StepLine:And /a data table with different fromatting/
+(1643:7)TableRow://11:foo,15:bar,23:boz
+(1644:5)StepLine:And /a data table with an empty cell/
+(1645:7)TableRow://8:foo,12:,13:boz
+(1646:5)StepLine:And /a data table with comments and newlines inside/
+(1647:7)TableRow://9:foo,15:bar
+(1648:1)Empty://
+(1649:7)TableRow://9:boz,16:boo
+(1650:1)Comment:/      # this is a comment/
+(1651:7)TableRow://9:boz2,16:boo2
+(1652:1)Empty://
+(1653:3)ScenarioLine:Scenario/scenario 98/
+(1654:5)StepLine:Given /a simple data table/
+(1655:7)TableRow://9:foo,15:bar
+(1656:7)TableRow://9:boz,15:boo
+(1657:5)StepLine:And /a data table with a single cell/
+(1658:7)TableRow://9:foo
+(1659:5)StepLine:And /a data table with different fromatting/
+(1660:7)TableRow://11:foo,15:bar,23:boz
+(1661:5)StepLine:And /a data table with an empty cell/
+(1662:7)TableRow://8:foo,12:,13:boz
+(1663:5)StepLine:And /a data table with comments and newlines inside/
+(1664:7)TableRow://9:foo,15:bar
+(1665:1)Empty://
+(1666:7)TableRow://9:boz,16:boo
+(1667:1)Comment:/      # this is a comment/
+(1668:7)TableRow://9:boz2,16:boo2
+(1669:1)Empty://
+(1670:3)ScenarioLine:Scenario/scenario 99/
+(1671:5)StepLine:Given /a simple data table/
+(1672:7)TableRow://9:foo,15:bar
+(1673:7)TableRow://9:boz,15:boo
+(1674:5)StepLine:And /a data table with a single cell/
+(1675:7)TableRow://9:foo
+(1676:5)StepLine:And /a data table with different fromatting/
+(1677:7)TableRow://11:foo,15:bar,23:boz
+(1678:5)StepLine:And /a data table with an empty cell/
+(1679:7)TableRow://8:foo,12:,13:boz
+(1680:5)StepLine:And /a data table with comments and newlines inside/
+(1681:7)TableRow://9:foo,15:bar
+(1682:1)Empty://
+(1683:7)TableRow://9:boz,16:boo
+(1684:1)Comment:/      # this is a comment/
+(1685:7)TableRow://9:boz2,16:boo2
+(1686:1)Empty://
+(1687:3)ScenarioLine:Scenario/scenario 100/
+(1688:5)StepLine:Given /a simple data table/
+(1689:7)TableRow://9:foo,15:bar
+(1690:7)TableRow://9:boz,15:boo
+(1691:5)StepLine:And /a data table with a single cell/
+(1692:7)TableRow://9:foo
+(1693:5)StepLine:And /a data table with different fromatting/
+(1694:7)TableRow://11:foo,15:bar,23:boz
+(1695:5)StepLine:And /a data table with an empty cell/
+(1696:7)TableRow://8:foo,12:,13:boz
+(1697:5)StepLine:And /a data table with comments and newlines inside/
+(1698:7)TableRow://9:foo,15:bar
+(1699:1)Empty://
+(1700:7)TableRow://9:boz,16:boo
+(1701:1)Comment:/      # this is a comment/
+(1702:7)TableRow://9:boz2,16:boo2
+EOF

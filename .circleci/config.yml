@@ -12,7 +12,7 @@ executors:
   # the build nodes (faster builds).
   docker-cucumber-build:
     docker:
-      - image: cucumber/cucumber-build:0.5.2
+      - image: cucumber/cucumber-build:0.8.0
     working_directory: ~/cucumber
     environment:
       # nvm, node and npm are installed locally rather globally.
@@ -182,6 +182,18 @@ jobs:
           command: |
             sudo npm install --global npm@7
             cd cucumber-expressions/javascript
+            make
+
+  suggest-javascript:
+    executor: docker-circleci-node-14
+    steps:
+      - attach_workspace:
+          at: '~/cucumber'
+      - run:
+          name: suggest/javascript
+          command: |
+            sudo npm install --global npm@7
+            cd suggest/javascript
             make
 
   message-streams-javascript:
@@ -905,6 +917,9 @@ workflows:
       ### JavaScript
 
       - cucumber-expressions-javascript-node-14:
+          requires:
+            - prepare-parallel
+      - suggest-javascript:
           requires:
             - prepare-parallel
       - message-streams-javascript:

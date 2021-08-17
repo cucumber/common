@@ -37,15 +37,6 @@ Open `CHANGELOG.md` and remove any `###` headers without content. Do not commit.
 No further edits should be made. The markdown headers and links will be updated
 automatically in the next step.
 
-## Build all TypeScript code
-
-Before you can make a release, the TypeScript code has to be built.
-This is because compiling TypeScript is done at the root directory
-using npm workspaces, and not in individual module directories.
-
-    cd /app
-    make .typescript-built
-
 ## Decide what the next version should be
 
 This depends on what's changed (see `CHANGELOG.md`):
@@ -74,13 +65,11 @@ The changes made *will not* be committed to git. Examine what changed:
 
     git diff
 
-Inspect the diff, and undo any changes that you think shouldn't have been made.
-Make sure the package still builds, and that the tests are still passing:
+Inspect the diff. If all is good, proceed to the next step to release. 
+
+Otherwise, undo any changes that you think shouldn't have been made and make the necessary edits until the build passes. Make sure the package still builds, and that the tests are still passing:
 
     make clean && make
-
-If all is good, proceed to the next step. Otherwise, make the necessary edits
-until the build passes.
 
 ## Release packages
 

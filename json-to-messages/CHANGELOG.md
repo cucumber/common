@@ -17,6 +17,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [10.0.0] - 2021-07-08
+
+### Changed
+
+* upgrade cucumber dependencies including gherkin to 20.0.0 and messages to 17.0.0
+
 ## [9.0.0] - 2021-05-18
 
 ### Changed
@@ -79,7 +85,8 @@ This should have been 2.0.0, but was accidentally released as 6.0.0.
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/json-to-messages/v9.0.0...main
+[Unreleased]: https://github.com/cucumber/cucumber/compare/json-to-messages/v10.0.0...main
+[10.0.0]: https://github.com/cucumber/cucumber/compare/json-to-messages/v9.0.0...json-to-messages/v10.0.0
 [9.0.0]: https://github.com/cucumber/cucumber/compare/json-to-messages/v8.0.0...json-to-messages/v9.0.0
 [8.0.0]: https://github.com/cucumber/cucumber/compare/json-to-messages/v7.0.0...json-to-messages/v8.0.0
 [7.0.0]: https://github.com/cucumber/cucumber/compare/json-to-messages/v6.0.0...json-to-messages/v7.0.0

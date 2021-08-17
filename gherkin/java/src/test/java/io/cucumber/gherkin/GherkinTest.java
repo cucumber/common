@@ -9,6 +9,11 @@ import io.cucumber.messages.types.PickleStep;
 import io.cucumber.messages.types.Scenario;
 import org.junit.Test;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -55,7 +60,9 @@ public class GherkinTest {
 
     @Test
     public void provides_access_to_pickles_which_are_compiled_from_the_ast() {
-        List<Envelope> envelopes = Gherkin.fromPaths(singletonList("testdata/good/scenario_outline.feature"), false, false, true, idGenerator).collect(Collectors.toList());
+        List<Envelope> envelopes = Gherkin.fromPaths(singletonList("testdata/good/scenario_outline.feature")
+          , false, false, true, idGenerator)
+          .collect(Collectors.toList());
 
         // Get the first pickle
         Pickle pickle = envelopes.get(0).getPickle();

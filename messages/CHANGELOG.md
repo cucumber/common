@@ -9,26 +9,41 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
-* Added `Ci#buildNumber` field
-  ([#1632](https://github.com/cucumber/common/pull/1632)
-   [#1606](https://github.com/cucumber/common/issues/1606)
-   [aslakhellesoy])
-* [Ruby] Generate DTOs from the json schemas to avoid usage of plain ruby hashes
-  ([#1574](https://github.com/cucumber/common/issues/1574))
-* [Java] Added various overloads to `JSON` to work with streams efficiently
-
 ### Changed
-
-* **BREAKING** Move `willBeRetried` field from `TestStepResult` to `TestCaseFinished` ([#902](https://github.com/cucumber/common/issues/902) [#1631](https://github.com/cucumber/common/pull/1631))
-* [Go] Move module paths to point to monorepo
-  ([#1550](https://github.com/cucumber/common/issues/1550))
-* [Java] Removed implicit utility class constructors and made classes final
 
 ### Deprecated
 
 ### Removed
 
 ### Fixed
+
+## [17.0.1] - 2021-07-19
+
+### Fixed
+
+- [Ruby] `seconds_to_duration` convert nanos to an integer to match the json schema
+  ([#1655](https://github.com/cucumber/common/pull/1655))
+
+## [17.0.0] - 2021-07-08
+
+### Added
+
+* Added `Ci#buildNumber` field
+  ([#1632](https://github.com/cucumber/common/pull/1632)
+   [#1606](https://github.com/cucumber/common/issues/1606)
+   [aslakhellesoy])
+* [Ruby] Generate DTOs from the json schemas to avoid usage of plain ruby hashes
+  ([#1574](https://github.com/cucumber/common/issues/1574)
+   [#1605](https://github.com/cucumber/common/pull/1605))
+* [Java] Added various overloads to `JSON` to work with streams efficiently
+
+### Changed
+
+* **BREAKING** Move `willBeRetried` field from `TestStepResult` to `TestCaseFinished`
+  ([#902](https://github.com/cucumber/common/issues/902) [#1631](https://github.com/cucumber/common/pull/1631))
+* [Go] Move module paths to point to monorepo
+  ([#1550](https://github.com/cucumber/common/issues/1550))
+* [Java] Removed implicit utility class constructors and made classes final
 
 ## [16.0.1] - 2021-05-24
 
@@ -543,7 +558,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Protobuf messages for Go, Java, JavaScript, TypeScript and Ruby
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/messages/v16.0.1...main
+[Unreleased]: https://github.com/cucumber/cucumber/compare/messages/v17.0.1...main
+[17.0.1]:      https://github.com/cucumber/cucumber/compare/messages/v17.0.0...messages/v17.0.1
+[17.0.0]:      https://github.com/cucumber/cucumber/compare/messages/v16.0.1...messages/v17.0.0
 [16.0.1]:      https://github.com/cucumber/cucumber/compare/messages/v16.0.0...messages/v16.0.1
 [16.0.0]:      https://github.com/cucumber/cucumber/compare/messages/v15.0.0...messages/v16.0.0
 [15.0.0]:      https://github.com/cucumber/cucumber/compare/messages/v14.1.2...messages/v15.0.0
