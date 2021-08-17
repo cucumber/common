@@ -25,7 +25,7 @@
     "@fortawesome/free-solid-svg-icons": "5.15.4",
     "@fortawesome/react-fontawesome": "0.1.15",
     "@teppeis/multimaps": "2.0.0",
-    "@types/elasticlunr": "0.9.2",
+    "@types/elasticlunr": "0.9.3",
     "ansi-to-html": "0.7.1",
     "color": "4.0.1",
     "elasticlunr": "0.9.5",
