@@ -311,7 +311,6 @@ type TestStep struct {
 type TestCaseFinished struct {
 	TestCaseStartedId string     `json:"testCaseStartedId"`
 	Timestamp         *Timestamp `json:"timestamp"`
-	WillBeRetried     bool       `json:"willBeRetried"`
 }
 
 type TestCaseStarted struct {
@@ -339,9 +338,10 @@ type TestStepFinished struct {
 }
 
 type TestStepResult struct {
-	Duration *Duration            `json:"duration"`
-	Message  string               `json:"message,omitempty"`
-	Status   TestStepResultStatus `json:"status"`
+	Duration      *Duration            `json:"duration"`
+	Message       string               `json:"message,omitempty"`
+	Status        TestStepResultStatus `json:"status"`
+	WillBeRetried bool                 `json:"willBeRetried"`
 }
 
 type TestStepStarted struct {
