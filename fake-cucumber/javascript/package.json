@@ -40,7 +40,7 @@
     "typescript": "4.3.5"
   },
   "dependencies": {
-    "@cucumber/cucumber-expressions": "^12.1.1",
+    "@cucumber/cucumber-expressions": "^12.1.2",
     "@cucumber/create-meta": "^5.0.0",
     "@cucumber/gherkin": "^19.0.3",
     "@cucumber/gherkin-streams": "^2.0.2",
