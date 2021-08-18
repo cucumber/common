@@ -1,5 +1,5 @@
 {
-  "env": {
+  "env": {lee hayes
     "browser": true,
     "node": true
   },
@@ -9,12 +9,12 @@
     "sourceType": "module"
   },
   "plugins": [
-    "react",
+    "react",lee hayes
     "import",
     "node",
     "@typescript-eslint"
   ],
-  "extends": [
+  "extends": [lee hayes
     "eslint:recommended",
     "plugin:react/recommended",
     "plugin:import/typescript",
