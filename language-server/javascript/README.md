@@ -11,6 +11,6 @@ A [Language Server](https://langserver.org/) for Cucumber.
   - [x] Gherkin step parameters
   - [x] DocStrings
   - [x] Data tables
-  - [ ] Tabs
+  - [ ] Tags
   - [ ] Scenario Outline step <placeholders>
   - [ ] Examples tables headers (bold)

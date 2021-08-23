@@ -1,5 +1,5 @@
-import { buildStepDocuments, Index, StepDocument } from '@cucumber/suggest'
 import { Transform, TransformCallback } from 'stream'
+import { buildStepDocuments, StepDocument } from '@cucumber/suggest'
 import { Envelope, StepDefinitionPatternType } from '@cucumber/messages'
 import { Expression, ExpressionFactory, ParameterType, ParameterTypeRegistry, } from '@cucumber/cucumber-expressions'
 import { GherkinDocumentWalker } from '@cucumber/gherkin-utils'
