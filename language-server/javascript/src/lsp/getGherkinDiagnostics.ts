@@ -8,7 +8,6 @@ import { walkGherkinDocument } from '@cucumber/gherkin-utils'
 // https://microsoft.github.io/language-server-protocol/specifications/specification-3-17/#diagnostic
 export function getGherkinDiagnostics(gherkinSource: string, expressions: readonly Expression[]): Diagnostic[] {
   const lines = gherkinSource.split(/\r?\n/)
-  const diagnostics: Diagnostic[] = []
   const uuidFn = IdGenerator.uuid()
   const builder = new AstBuilder(uuidFn)
   const matcher = new GherkinClassicTokenMatcher()
@@ -20,6 +19,7 @@ export function getGherkinDiagnostics(gherkinSource: string, expressions: readon
   } catch (err) {
     // TODO: Try to fix parse error so we can still validate other steps
 
+    const diagnostics: Diagnostic[] = []
     const errors: Error[] = err instanceof Errors.CompositeParserException ? err.errors : [err]
     for (const error of errors) {
       if (error instanceof Errors.GherkinException) {
@@ -43,18 +43,20 @@ export function getGherkinDiagnostics(gherkinSource: string, expressions: readon
         diagnostics.push(diagnostic)
       }
     }
+    return diagnostics
   }
 
   if (gherkinDocument) {
     let inScenarioOutline = false
 
-    walkGherkinDocument(gherkinDocument, undefined, {
-      scenario(scenario) {
+    return walkGherkinDocument<Diagnostic[]>(gherkinDocument, [], {
+      scenario(scenario, arr) {
         inScenarioOutline = (scenario.examples || []).length > 0
+        return arr
       },
-      step(step) {
+      step(step, arr) {
         if(inScenarioOutline) {
-          return
+          return arr
         }
         if (isUndefined(step.text, expressions)) {
           const line = step.location.line -1
@@ -74,13 +76,11 @@ export function getGherkinDiagnostics(gherkinSource: string, expressions: readon
             message: `Undefined step: ${step.text}`,
             source: 'ex',
           }
-          diagnostics.push(diagnostic)
+          return arr.concat(diagnostic)
         }
       },
     })
   }
-
-  return diagnostics
 }
 
 function isUndefined(stepText: string, expressions: readonly Expression[]): boolean {
