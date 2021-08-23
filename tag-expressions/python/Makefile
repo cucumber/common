@@ -36,13 +36,8 @@ export PYTHONPATH
 # -----------------------------------------------------------------------------
 # MAKE VARIATION LOGIC:
 # -----------------------------------------------------------------------------
-ifeq ($(CI),true)
-  # -- USE: pip (instead of pipenv) in CI environment.
-  USE_PIPENV := no
-else
 ifeq ($(TRAVIS),true)
   USE_PIPENV := no
-endif
 endif
 
 _PIPENV_RESOLVED = $(shell which pipenv)
