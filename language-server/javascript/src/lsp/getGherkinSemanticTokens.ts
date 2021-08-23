@@ -10,6 +10,7 @@ export const semanticTokenTypes: SemanticTokenTypes[] = [
   SemanticTokenTypes.string,
   SemanticTokenTypes.type,
   SemanticTokenTypes.class,
+  SemanticTokenTypes.variable,
 ]
 
 export const semanticTokenModifiers: SemanticTokenModifiers[] = []
@@ -39,6 +40,8 @@ export function getGherkinSemanticTokens(gherkinSource: string, expressions: rea
     return data.concat([lineOffset, charDelta, length, typeIndex, 0])
   }
 
+  let inScenarioOutline = false
+
   const data = walkGherkinDocument<number[]>(gherkinDocument, [], {
     tag(tag, arr) {
       return makeLocationToken(tag.location, tag.name, SemanticTokenTypes.class, arr)
@@ -50,6 +53,7 @@ export function getGherkinSemanticTokens(gherkinSource: string, expressions: rea
       return makeLocationToken(rule.location, rule.keyword, SemanticTokenTypes.keyword, arr)
     },
     scenario(scenario, arr) {
+      inScenarioOutline = (scenario.examples || []).length > 0
       return makeLocationToken(scenario.location, scenario.keyword, SemanticTokenTypes.keyword, arr)
     },
     examples(examples, arr) {
@@ -57,14 +61,23 @@ export function getGherkinSemanticTokens(gherkinSource: string, expressions: rea
     },
     step(step, arr) {
       arr = makeLocationToken(step.location, step.keyword, SemanticTokenTypes.keyword, arr)
-      for (const expression of expressions) {
-        const args = expression.match(step.text)
-        if (args) {
-          for (const arg of args) {
-            const character = step.location.column -1 + step.keyword.length + arg.group.start
-            arr = makeToken(step.location.line - 1, character, arg.group.value, SemanticTokenTypes.parameter, arr)
+      if (inScenarioOutline) {
+        const regexp = /(<[^>]+>)/g
+        let match: RegExpMatchArray = null
+        while ((match = regexp.exec(step.text)) !== null) {
+          const character = step.location.column - 1 + step.keyword.length + match.index
+          arr = makeToken(step.location.line -1, character, match[0], SemanticTokenTypes.variable, arr)
+        }
+      } else {
+        for (const expression of expressions) {
+          const args = expression.match(step.text)
+          if (args) {
+            for (const arg of args) {
+              const character = step.location.column - 1 + step.keyword.length + arg.group.start
+              arr = makeToken(step.location.line - 1, character, arg.group.value, SemanticTokenTypes.parameter, arr)
+            }
+            break
           }
-          break
         }
       }
       return arr
@@ -72,11 +85,11 @@ export function getGherkinSemanticTokens(gherkinSource: string, expressions: rea
     docString(docString, arr) {
       arr = makeLocationToken(docString.location, docString.delimiter, SemanticTokenTypes.string, arr)
       if (docString.mediaType) {
-        const character = docString.location.column -1 + docString.delimiter.length
-        arr = makeToken(docString.location.line - 1, character  , docString.mediaType, SemanticTokenTypes.type, arr)
+        const character = docString.location.column - 1 + docString.delimiter.length
+        arr = makeToken(docString.location.line - 1, character, docString.mediaType, SemanticTokenTypes.type, arr)
       }
       const maxLineNumber = docString.location.line + docString.content.split(/\r?\n/).length
-      for(let lineNumber = docString.location.line; lineNumber <= maxLineNumber; lineNumber++) {
+      for (let lineNumber = docString.location.line; lineNumber <= maxLineNumber; lineNumber++) {
         const spaceContent = /^(\s*)(.*)$/.exec(lines[lineNumber])
         const startChar = spaceContent[1].length
         const token = spaceContent[2]

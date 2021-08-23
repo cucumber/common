@@ -20,6 +20,13 @@ Feature: a
     And a table
       | a  | bbb |
       | cc |  dd |
+
+  Scenario Outline: c
+    Given a <foo> and <bar>
+    
+    Examples:
+      | foo | bar |
+      | a   | b   |
 `
     const expression = new CucumberExpression('I have {int} cukes in my {word}', new ParameterTypeRegistry())
 
@@ -45,6 +52,15 @@ Feature: a
         0, 5, 3, 1, 0,  // bbb
         1, 8, 2, 1, 0,  // cc
         0, 6, 2, 1, 0,  // dd
+        2, 2, 16, 0, 0, // Scenario Outline
+        1, 4, 6, 0, 0,  // Given
+        0, 8, 5, 5, 0,  // <foo>
+        0, 10, 5, 5, 0, // <bar>
+        2, 4, 8, 0, 0,  // Examples
+        1, 8, 3, 1, 0,  // foo
+        0, 6, 3, 1, 0,  // bar
+        1, 8, 1, 1, 0,  // a
+        0, 6, 1, 1, 0   // b
       ]
     }
     assert.deepStrictEqual(semanticTokens, expectedSemanticTokens)
