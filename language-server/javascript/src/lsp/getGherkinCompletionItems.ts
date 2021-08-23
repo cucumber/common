@@ -1,4 +1,4 @@
-import { GherkinDocumentWalker } from '@cucumber/gherkin-utils';
+import { walkGherkinDocument } from '@cucumber/gherkin-utils';
 import { Index, lspCompletionSnippet } from '@cucumber/suggest';
 import { CompletionItem, CompletionItemKind, InsertTextFormat } from 'vscode-languageserver-types'
 import parseGherkinDocument from './parseGherkinDocument'
@@ -7,14 +7,13 @@ import parseGherkinDocument from './parseGherkinDocument'
 export function getGherkinCompletionItems(gherkinSource: string, line: number, index: Index): CompletionItem[] {
   const gherkinDocument = parseGherkinDocument(gherkinSource)
   let text: string
-  const walker = new GherkinDocumentWalker(undefined, {
-    handleStep(step) {
+  walkGherkinDocument(gherkinDocument, undefined, {
+    step(step) {
       if (step.location.line === line + 1) {
         text = step.text
       }
-    },
+    }
   })
-  walker.walkGherkinDocument(gherkinDocument)
   const stepDocuments = index(text)
   return stepDocuments.map((stepDocument) => ({
     label: stepDocument.suggestion,

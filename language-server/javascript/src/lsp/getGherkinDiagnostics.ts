@@ -3,7 +3,7 @@ import { Diagnostic, DiagnosticSeverity } from 'vscode-languageserver-types'
 import { AstBuilder, Errors, GherkinClassicTokenMatcher, Parser } from '@cucumber/gherkin'
 import { GherkinDocument, IdGenerator } from '@cucumber/messages'
 import { Expression } from '@cucumber/cucumber-expressions'
-import { GherkinDocumentWalker } from '@cucumber/gherkin-utils'
+import { walkGherkinDocument } from '@cucumber/gherkin-utils'
 
 // https://microsoft.github.io/language-server-protocol/specifications/specification-3-17/#diagnostic
 export function getGherkinDiagnostics(gherkinSource: string, expressions: readonly Expression[]): Diagnostic[] {
@@ -46,8 +46,8 @@ export function getGherkinDiagnostics(gherkinSource: string, expressions: readon
   }
 
   if (gherkinDocument) {
-    const walker = new GherkinDocumentWalker(undefined, {
-      handleStep(step) {
+    walkGherkinDocument(gherkinDocument, undefined, {
+      step(step) {
         if (isUndefined(step.text, expressions)) {
           const line = step.location.line -1
           const character = step.location.column -1 + step.keyword.length
@@ -70,7 +70,6 @@ export function getGherkinDiagnostics(gherkinSource: string, expressions: readon
         }
       },
     })
-    walker.walkGherkinDocument(gherkinDocument)
   }
 
   return diagnostics

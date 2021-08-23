@@ -5,7 +5,7 @@ import {
 } from 'vscode-languageserver-types'
 import assert from 'assert'
 import { StepDocument, bruteForceIndex } from '@cucumber/suggest'
-import { getGherkinCompletionItems } from '../../src/lsp/getGherkinCompletionItems'
+import { getGherkinCompletionItems } from '../../src/lsp'
 
 const doc1: StepDocument = {
   suggestion: 'I have {int} cukes in my belly',
