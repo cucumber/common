@@ -83,4 +83,16 @@ describe('getGherkinDiagnostics', () => {
       },
     ]
     assert.deepStrictEqual(diagnostics, expectedDiagnostics)
-  })})
+  })
+
+  it('does not return warning diagnostic for undefined step in Scenario Outline', () => {
+    const diagnostics = getGherkinDiagnostics(`Feature: Hello
+  Scenario: Hi
+    Given an undefined step
+    
+    Examples: Hello
+`, [])
+    const expectedDiagnostics: Diagnostic[] = []
+    assert.deepStrictEqual(diagnostics, expectedDiagnostics)
+  })
+})

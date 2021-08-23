@@ -46,8 +46,16 @@ export function getGherkinDiagnostics(gherkinSource: string, expressions: readon
   }
 
   if (gherkinDocument) {
+    let inScenarioOutline = false
+
     walkGherkinDocument(gherkinDocument, undefined, {
+      scenario(scenario) {
+        inScenarioOutline = (scenario.examples || []).length > 0
+      },
       step(step) {
+        if(inScenarioOutline) {
+          return
+        }
         if (isUndefined(step.text, expressions)) {
           const line = step.location.line -1
           const character = step.location.column -1 + step.keyword.length
