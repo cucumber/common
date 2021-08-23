@@ -9,6 +9,7 @@ export const semanticTokenTypes: SemanticTokenTypes[] = [
   SemanticTokenTypes.parameter,
   SemanticTokenTypes.string,
   SemanticTokenTypes.type,
+  SemanticTokenTypes.class,
 ]
 
 export const semanticTokenModifiers: SemanticTokenModifiers[] = []
@@ -39,6 +40,9 @@ export function getGherkinSemanticTokens(gherkinSource: string, expressions: rea
   }
 
   const data = walkGherkinDocument<number[]>(gherkinDocument, [], {
+    tag(tag, arr) {
+      return makeLocationToken(tag.location, tag.name, SemanticTokenTypes.class, arr)
+    },
     feature(feature, arr) {
       return makeLocationToken(feature.location, feature.keyword, SemanticTokenTypes.keyword, arr)
     },

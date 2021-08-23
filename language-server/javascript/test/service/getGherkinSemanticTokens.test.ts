@@ -6,6 +6,7 @@ import { CucumberExpression, ParameterTypeRegistry } from '@cucumber/cucumber-ex
 describe('getGherkinSemanticTokens', () => {
   it('creates tokens for keywords', () => {
     const gherkinSource = `# some comment
+@foo @bar
 Feature: a
   This is a description
   and so is this
@@ -27,6 +28,8 @@ Feature: a
       // See https://microsoft.github.io/language-server-protocol/specifications/specification-3-17/#textDocument_semanticTokens
       // for details about how tokens are encoded
       data: [
+        1, 0, 4, 4, 0,  // @foo
+        0, 5, 4, 4, 0,  // @bar
         1, 0, 7, 0, 0,  // Feature
         4, 2, 8, 0, 0,  // Scenario
         1, 4, 6, 0, 0,  // Given
