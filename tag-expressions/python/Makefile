@@ -69,8 +69,8 @@ ifeq ($(_PIPENV_RESOLVED),)
 	$(SUDO) pip install pipenv==$(PIPENV_VERSION)
 endif
 
-$(PIPENV) install $(addprefix -r ,$(PY_REQUIREMENT_FILES))
-touch $(BOOTSTRAP_DONE_MARKER_FILE)
+	$(PIPENV) install $(addprefix -r ,$(PY_REQUIREMENT_FILES))
+	touch $(BOOTSTRAP_DONE_MARKER_FILE)
 
 #	$(PIPENV) install -r py.requirements/testing.txt
 #	$(PIPENV) install -r tasks/py.requirements.txt
