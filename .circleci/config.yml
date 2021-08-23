@@ -64,7 +64,7 @@ executors:
   # Python
   docker-circleci-python:
     docker:
-      - image: circleci/python:3.9.6
+      - image: cimg/python:3.9.6
     working_directory: ~/cucumber
 ###
 ### Jobs ###
@@ -73,11 +73,6 @@ executors:
 jobs:
   build-serial:
     executor: docker-cucumber-build
-    environment:
-      # Override CI=true to false because CI=true causes
-      # tag-expressions/python/Makefile to use sudo, which we don't want
-      # because the cucumber-build docker image doesn't have sudo installed
-      CI: false
     steps:
       - checkout
       - run:
