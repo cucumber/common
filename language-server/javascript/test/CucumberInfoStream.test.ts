@@ -4,7 +4,8 @@ import fs from 'fs'
 import { NdjsonToMessageStream } from '@cucumber/message-streams'
 import assert from 'assert'
 import { StepDocument } from '@cucumber/suggest'
-import { CucumberInfo, CucumberInfoStream } from '../src/CucumberInfoStream'
+import { CucumberInfoStream } from '../src/CucumberInfoStream'
+import { CucumberInfo } from '../src/makeCucumberInfo'
 
 const pipeline = promisify(pipelineCb)
 

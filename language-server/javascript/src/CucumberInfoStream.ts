@@ -3,11 +3,7 @@ import { buildStepDocuments, StepDocument } from '@cucumber/suggest'
 import { Envelope, StepDefinitionPatternType } from '@cucumber/messages'
 import { Expression, ExpressionFactory, ParameterType, ParameterTypeRegistry, } from '@cucumber/cucumber-expressions'
 import { GherkinDocumentWalker } from '@cucumber/gherkin-utils'
-
-export type CucumberInfo = {
-  stepDocuments: readonly StepDocument[]
-  expressions: readonly Expression[]
-}
+import { CucumberInfo } from './makeCucumberInfo'
 
 export class CucumberInfoStream extends Transform {
   private readonly parameterTypeRegistry = new ParameterTypeRegistry()

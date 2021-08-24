@@ -12,7 +12,7 @@ import {
 } from 'vscode-languageserver/node'
 
 import { TextDocument } from 'vscode-languageserver-textdocument'
-import { fuseIndex, Index, jsSearchIndex } from '@cucumber/suggest'
+import { Index, jsSearchIndex } from '@cucumber/suggest'
 import {
   getGherkinCompletionItems,
   getGherkinDiagnostics,
@@ -20,7 +20,7 @@ import {
   semanticTokenModifiers,
   semanticTokenTypes
 } from './lsp'
-import makeCucumberInfo from './makeCucumberInfo'
+import { makeCucumberInfo } from './makeCucumberInfo'
 import { Expression } from '@cucumber/cucumber-expressions'
 
 // Create a connection for the server, using Node's IPC as a transport.
@@ -30,15 +30,22 @@ const connection = createConnection(ProposedFeatures.all)
 // Create a simple text document manager.
 const documents: TextDocuments<TextDocument> = new TextDocuments(TextDocument)
 
-let expressions: readonly Expression[] = []
-let index: Index = fuseIndex([])
-updateCucumberInfo()
+type IndexAndExpressions = {
+  expressions: readonly Expression[]
+  index: Index
+}
+
+let indexAndExpressions: IndexAndExpressions
+
+// let expressions: readonly Expression[] = []
+// let index: Index = fuseIndex([])
+// updateIndexAndExpressions()
 
 let hasConfigurationCapability = false
 let hasWorkspaceFolderCapability = false
 let hasDiagnosticRelatedInformationCapability = false
 
-connection.onInitialize((params: InitializeParams) => {
+connection.onInitialize(async (params: InitializeParams) => {
   const capabilities = params.capabilities
 
   // Does the client support the `workspace/configuration` request?
@@ -80,6 +87,7 @@ connection.onInitialize((params: InitializeParams) => {
       },
     }
   }
+  indexAndExpressions = await makeIndexAndExpressions()
   return result
 })
 
@@ -94,6 +102,7 @@ connection.onInitialized(() => {
     })
   }
   connection.console.log('Cucumber Language server initialized')
+  updateIndexAndExpressions()
 })
 
 connection.onDidChangeConfiguration(() => {
@@ -103,41 +112,48 @@ connection.onDidChangeConfiguration(() => {
 // The content of a text document has changed. This event is emitted
 // when the text document first opened or when its content has changed.
 documents.onDidChangeContent((change) => {
-  updateCucumberInfoDebounce()
+  updateIndexAndExpressionsDebounce()
   validateGherkinDocument(change.document)
 })
 
 let updateTimer: NodeJS.Timer
 
-function updateCucumberInfoDebounce() {
+function updateIndexAndExpressionsDebounce() {
   if (updateTimer) clearTimeout(updateTimer)
-  updateTimer = setTimeout(updateCucumberInfo, 5000)
+  updateTimer = setTimeout(updateIndexAndExpressions, 5000)
 }
 
-function updateCucumberInfo() {
-  makeCucumberInfo(process.execPath, ['./node_modules/.bin/cucumber-js', '--dry-run', '--format', 'message'])
-    .then((cucumberInfo) => {
-      expressions = cucumberInfo.expressions
-      index = jsSearchIndex(cucumberInfo.stepDocuments)
+function updateIndexAndExpressions() {
+  makeIndexAndExpressions()
+    .then((_indexAndExpressions) => {
+      indexAndExpressions = _indexAndExpressions
     })
     .catch(err => connection.console.error('Failed to make Cucumber Info: ' + err.message))
 }
 
+async function makeIndexAndExpressions(): Promise<IndexAndExpressions> {
+  const cucumberInfo = await makeCucumberInfo(process.execPath, ['./node_modules/.bin/cucumber-js', '--dry-run', '--format', 'message'])
+  return {
+    index: jsSearchIndex(cucumberInfo.stepDocuments),
+    expressions: cucumberInfo.expressions
+  }
+}
+
 function validateGherkinDocument(textDocument: TextDocument): void {
-  const diagnostics = getGherkinDiagnostics(textDocument.getText(), expressions)
+  const diagnostics = getGherkinDiagnostics(textDocument.getText(), indexAndExpressions.expressions)
   connection.sendDiagnostics({ uri: textDocument.uri, diagnostics })
 }
 
 connection.onCompletion((textDocumentPosition: TextDocumentPositionParams): CompletionItem[] => {
   const gherkinSource = documents.get(textDocumentPosition.textDocument.uri).getText()
-  return getGherkinCompletionItems(gherkinSource, textDocumentPosition.position.line, index)
+  return getGherkinCompletionItems(gherkinSource, textDocumentPosition.position.line, indexAndExpressions.index)
 })
 
 connection.onCompletionResolve((item) => item)
 
 connection.languages.semanticTokens.on((semanticTokenParams: SemanticTokensParams) => {
   const gherkinSource = documents.get(semanticTokenParams.textDocument.uri).getText()
-  return getGherkinSemanticTokens(gherkinSource, expressions)
+  return getGherkinSemanticTokens(gherkinSource, indexAndExpressions.expressions)
 })
 
 documents.listen(connection)

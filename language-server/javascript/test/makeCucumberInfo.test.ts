@@ -1,6 +1,6 @@
 import assert from 'assert'
 import fs from 'fs'
-import makeCucumberInfo from '../src/makeCucumberInfo'
+import { makeCucumberInfo } from '../src/makeCucumberInfo'
 
 describe('makeCucumberInfo', () => {
   it('builds CucumberInfo', async () => {
