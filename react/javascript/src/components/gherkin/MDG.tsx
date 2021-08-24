@@ -1,6 +1,5 @@
 import React from 'react'
 import ReactMarkdown from 'react-markdown'
-import rehypePlugins from '../app/rehypePlugins'
 import GherkinQueryContext from '../../GherkinQueryContext'
 import Step from './Step'
 import dataTableStyles from './DataTable.module.scss'
@@ -9,6 +8,14 @@ import Keyword from './Keyword'
 import HighLight from '../app/HighLight'
 import ExamplesTable from './ExamplesTable'
 import * as messages from '@cucumber/messages'
+
+import sanitizerGithubSchema from 'hast-util-sanitize/lib/github.json'
+import rehypeRaw from 'rehype-raw'
+import rehypeSanitize from 'rehype-sanitize'
+import gfm from 'remark-gfm'
+
+sanitizerGithubSchema['tagNames'].push('section')
+sanitizerGithubSchema['attributes']['*'].push('className')
 
 interface IProps {
   uri: string
@@ -46,7 +53,8 @@ const MDG: React.FunctionComponent<IProps> = ({ uri, children }) => {
   return (
     <div className="cucumber">
       <ReactMarkdown
-        rehypePlugins={rehypePlugins}
+        rehypePlugins={[rehypeRaw, [rehypeSanitize, sanitizerGithubSchema]]}
+        remarkPlugins={[gfm]}
         components={{
           h1({ node, level, children }) {
             return header(node.position.start.line, level, children)

@@ -3,7 +3,14 @@ import SearchQueryContext from '../../SearchQueryContext'
 import elasticlunr from 'elasticlunr'
 import highlightWords from 'highlight-words'
 import ReactMarkdown from 'react-markdown'
-import rehypePlugins from './rehypePlugins'
+
+import sanitizerGithubSchema from 'hast-util-sanitize/lib/github.json'
+import rehypeRaw from 'rehype-raw'
+import rehypeSanitize from 'rehype-sanitize'
+import gfm from 'remark-gfm'
+
+sanitizerGithubSchema['tagNames'].push('section')
+sanitizerGithubSchema['attributes']['*'].push('className')
 
 interface IProps {
   text: string
@@ -39,7 +46,10 @@ const HighLight: React.FunctionComponent<IProps> = ({ text, markdown = false, cl
 
     return (
       <div className={appliedClassName}>
-        <ReactMarkdown rehypePlugins={rehypePlugins}>{highlightedText}</ReactMarkdown>
+        <ReactMarkdown 
+          rehypePlugins={[rehypeRaw, [rehypeSanitize, sanitizerGithubSchema]]} 
+          remarkPlugins={[gfm]}
+        >{highlightedText}</ReactMarkdown>
       </div>
     )
   }
