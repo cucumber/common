@@ -5,13 +5,13 @@ import { parseGherkinDocument } from './parseGherkinDocument'
 import { Expression } from '@cucumber/cucumber-expressions'
 
 export const semanticTokenTypes: SemanticTokenTypes[] = [
-  SemanticTokenTypes.keyword,
-  SemanticTokenTypes.parameter,
-  SemanticTokenTypes.string,
-  SemanticTokenTypes.type,
-  SemanticTokenTypes.class,
-  SemanticTokenTypes.variable,
-  SemanticTokenTypes.property,
+  SemanticTokenTypes.keyword,   // Feature, Scenario, Given etc
+  SemanticTokenTypes.parameter, // step parameters
+  SemanticTokenTypes.string,    // DocString content and ``` delimiter
+  SemanticTokenTypes.type,      // DocString ```type
+  SemanticTokenTypes.class,     // @tags
+  SemanticTokenTypes.variable,  // step <placeholder>
+  SemanticTokenTypes.property,  // examples table header row
 ]
 
 export const semanticTokenModifiers: SemanticTokenModifiers[] = []
