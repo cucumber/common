@@ -39,6 +39,7 @@ const HighLight: React.FunctionComponent<IProps> = ({ text, markdown = false, cl
 
     return (
       <div className={appliedClassName}>
+        {/* @ts-ignore */}
         <ReactMarkdown rehypePlugins={rehypePlugins}>{highlightedText}</ReactMarkdown>
       </div>
     )

@@ -40,7 +40,7 @@
     "typescript": "4.3.5"
   },
   "dependencies": {
-    "@cucumber/cucumber-expressions": "^12.1.1",
+    "@cucumber/cucumber-expressions": "^12.1.2",
     "@cucumber/create-meta": "^6.0.1",
     "@cucumber/gherkin": "^20.0.1",
     "@cucumber/gherkin-streams": "^3.0.0",
@@ -49,7 +49,7 @@
     "@cucumber/message-streams": "^3.0.0",
     "@cucumber/tag-expressions": "^3.0.1",
     "@types/stack-utils": "2.0.1",
-    "commander": "8.0.0",
+    "commander": "8.1.0",
     "glob": "7.1.7",
     "stack-utils": "2.0.3"
   },

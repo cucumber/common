@@ -46,6 +46,7 @@ const MDG: React.FunctionComponent<IProps> = ({ uri, children }) => {
   return (
     <div className="cucumber">
       <ReactMarkdown
+        // @ts-ignore
         rehypePlugins={rehypePlugins}
         components={{
           h1({ node, level, children }) {
