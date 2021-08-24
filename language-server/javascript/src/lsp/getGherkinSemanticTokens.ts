@@ -1,7 +1,7 @@
 import * as messages from '@cucumber/messages'
 import { walkGherkinDocument } from '@cucumber/gherkin-utils'
 import { SemanticTokenModifiers, SemanticTokens, SemanticTokenTypes } from 'vscode-languageserver-types'
-import parseGherkinDocument from './parseGherkinDocument'
+import { parseGherkinDocument } from './parseGherkinDocument'
 import { Expression } from '@cucumber/cucumber-expressions'
 
 export const semanticTokenTypes: SemanticTokenTypes[] = [
@@ -20,7 +20,12 @@ const indexByType = Object.fromEntries(semanticTokenTypes.map((type, index) => [
 
 // https://microsoft.github.io/language-server-protocol/specifications/specification-3-17/#textDocument_semanticTokens
 export function getGherkinSemanticTokens(gherkinSource: string, expressions: readonly Expression[]): SemanticTokens {
-  const gherkinDocument = parseGherkinDocument(gherkinSource)
+  const { gherkinDocument } = parseGherkinDocument(gherkinSource)
+  if (!gherkinDocument) {
+    return {
+      data: []
+    }
+  }
   const lines = gherkinSource.split(/\r?\n/)
   let lastLineNumber = 0
   let lastCharacter = 0
@@ -70,7 +75,7 @@ export function getGherkinSemanticTokens(gherkinSource: string, expressions: rea
         let match: RegExpMatchArray = null
         while ((match = regexp.exec(step.text)) !== null) {
           const character = step.location.column - 1 + step.keyword.length + match.index
-          arr = makeToken(step.location.line -1, character, match[0], SemanticTokenTypes.variable, arr)
+          arr = makeToken(step.location.line - 1, character, match[0], SemanticTokenTypes.variable, arr)
         }
       } else {
         for (const expression of expressions) {
