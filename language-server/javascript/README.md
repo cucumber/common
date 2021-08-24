@@ -4,6 +4,7 @@ A [Language Server](https://langserver.org/) for Cucumber.
 
 ## Supported features
 
+- [ ] Handle parse errors
 - [x] Code completion
 - [x] Syntax validation
   - [x] Parse errors
@@ -17,4 +18,4 @@ A [Language Server](https://langserver.org/) for Cucumber.
   - [x] Data tables
   - [x] Tags
   - [x] Scenario Outline step <placeholders>
-  - [ ] Examples tables headers (bold)
+  - [x] Examples tables headers (bold)

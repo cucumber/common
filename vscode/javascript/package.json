@@ -1,14 +1,25 @@
 {
   "name": "cucumber",
   "displayName": "Cucumber",
-  "description": "Official Cucumber extension",
+  "description": "Official Cucumber VSCode extension",
   "version": "0.0.1",
+  "publisher": "Cucumber",
   "engines": {
     "vscode": "^1.59.0"
   },
   "categories": [
-    "Other"
+    "Programming Languages",
+    "Snippets"
   ],
+  "keywords": [
+    "Cucumber",
+    "Gherkin"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/cucumber/cucumber.git"
+  },
+  "icon": "images/icon.png",
   "activationEvents": [
     "onLanguage:gherkin"
   ],
@@ -52,6 +63,7 @@
     "glob": "7.1.7",
     "mocha": "9.0.3",
     "typescript": "4.3.5",
+    "vsce": "1.96.1",
     "vscode-test": "1.6.1"
   }
 }

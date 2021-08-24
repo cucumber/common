@@ -11,6 +11,7 @@ export const semanticTokenTypes: SemanticTokenTypes[] = [
   SemanticTokenTypes.type,
   SemanticTokenTypes.class,
   SemanticTokenTypes.variable,
+  SemanticTokenTypes.property,
 ]
 
 export const semanticTokenModifiers: SemanticTokenModifiers[] = []
@@ -41,6 +42,7 @@ export function getGherkinSemanticTokens(gherkinSource: string, expressions: rea
   }
 
   let inScenarioOutline = false
+  let inExamples = false
 
   const data = walkGherkinDocument<number[]>(gherkinDocument, [], {
     tag(tag, arr) {
@@ -57,9 +59,11 @@ export function getGherkinSemanticTokens(gherkinSource: string, expressions: rea
       return makeLocationToken(scenario.location, scenario.keyword, SemanticTokenTypes.keyword, arr)
     },
     examples(examples, arr) {
+      inExamples = true
       return makeLocationToken(examples.location, examples.keyword, SemanticTokenTypes.keyword, arr)
     },
     step(step, arr) {
+      inExamples = false
       arr = makeLocationToken(step.location, step.keyword, SemanticTokenTypes.keyword, arr)
       if (inScenarioOutline) {
         const regexp = /(<[^>]+>)/g
@@ -98,9 +102,11 @@ export function getGherkinSemanticTokens(gherkinSource: string, expressions: rea
       return arr
     },
     tableRow(tableRow, arr) {
+      let type = inExamples ? SemanticTokenTypes.property : SemanticTokenTypes.parameter
       for (const cell of tableRow.cells) {
-        arr = makeLocationToken(cell.location, cell.value, SemanticTokenTypes.parameter, arr)
+        arr = makeLocationToken(cell.location, cell.value, type, arr)
       }
+      inExamples = false
       return arr
     }
   })

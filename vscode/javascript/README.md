@@ -4,7 +4,7 @@ This is the official Cucumber extension for VSCode
 
 ## Features
 
-- [ ] Syntax highlighting
+- [x] Syntax highlighting
 - [ ] Code folding
 - [x] Zero configuration
   - [ ] Override cucumber messages command in settings
@@ -20,7 +20,7 @@ This is the official Cucumber extension for VSCode
 - [ ] Go to Step Definition(s) from Gherkin step
 - [ ] Go to Gherkin step(s) from Step Definition
 - [ ] Formatting
-- [ ] I18n support 
+- [ ] I18n support
 - [ ] Platforms
   - [x] Cucumber-js
   - [ ] Cucumber-ruby
@@ -28,7 +28,7 @@ This is the official Cucumber extension for VSCode
 
 TODOs:
 
-- [ ] Logo
+- [x] Logo
 - [ ] Publish
   - [ ] https://open-vsx.org/
 - [ ] Enable src/test/runTest in CI
