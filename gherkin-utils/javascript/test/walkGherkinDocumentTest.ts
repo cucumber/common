@@ -2,7 +2,7 @@ import assert from 'assert'
 import parse from './parse'
 import { GherkinDocumentHandlers, walkGherkinDocument } from '../src'
 
-describe('walkDepthFirst', () => {
+describe('walkGherkinDocument', () => {
   it('traverses depth first', () => {
     const gherkinDocument = parse(`
       @A
@@ -22,7 +22,7 @@ describe('walkDepthFirst', () => {
             Given L
               | M | N |
               | O | P |
-            
+
             Examples: Q
 
           Scenario: R

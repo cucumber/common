@@ -18,8 +18,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/common/compare/language-server/v0.0.1...main
-[0.0.1]:      https://github.com/cucumber/common/tree/language-server/v0.0.1
+[Unreleased]: https://github.com/cucumber/common/compare/language-service/v0.0.1...main
+[0.0.1]:      https://github.com/cucumber/common/tree/language-service/v0.0.1
 
 <!-- Contributors in alphabetical order -->
 [aslakhellesoy]:    https://github.com/aslakhellesoy

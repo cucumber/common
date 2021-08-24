@@ -1,5 +1,5 @@
 import { Transform, TransformCallback } from 'stream'
-import { buildStepDocuments, StepDocument } from '@cucumber/suggest'
+import { buildStepDocuments } from '@cucumber/suggest'
 import { Envelope, StepDefinitionPatternType } from '@cucumber/messages'
 import {
   Expression,
@@ -7,7 +7,7 @@ import {
   ParameterType,
   ParameterTypeRegistry,
 } from '@cucumber/cucumber-expressions'
-import { GherkinDocumentWalker } from '@cucumber/gherkin-utils'
+import { walkGherkinDocument } from '@cucumber/gherkin-utils'
 import { CucumberInfo } from './makeCucumberInfo'
 
 export class CucumberInfoStream extends Transform {
@@ -15,7 +15,7 @@ export class CucumberInfoStream extends Transform {
   private readonly expressionFactory = new ExpressionFactory(this.parameterTypeRegistry)
 
   private readonly expressions: Expression[] = []
-  private readonly stepTexts: string[] = []
+  private stepTexts: string[] = []
 
   constructor() {
     super({ objectMode: true })
@@ -46,12 +46,11 @@ export class CucumberInfoStream extends Transform {
     }
     if (envelope.gherkinDocument) {
       const stepTexts = this.stepTexts
-      const walker = new GherkinDocumentWalker(undefined, {
-        handleStep(step) {
-          stepTexts.push(step.text)
+      this.stepTexts = walkGherkinDocument(envelope.gherkinDocument, this.stepTexts, {
+        step(step, arr) {
+          return arr.concat(step.text)
         },
       })
-      walker.walkGherkinDocument(envelope.gherkinDocument)
     }
     callback()
   }
