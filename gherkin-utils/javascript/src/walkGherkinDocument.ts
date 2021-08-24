@@ -75,14 +75,16 @@ export function walkGherkinDocument<Acc>(
   ): Acc {
     const scenario: messages.Scenario = 'tags' in stepContainer ? stepContainer : null
     acc = walkTags(scenario?.tags || [], acc)
-    acc = scenario ? h.scenario(scenario, acc) : h.background(stepContainer as messages.Background, acc)
+    acc = scenario
+      ? h.scenario(scenario, acc)
+      : h.background(stepContainer as messages.Background, acc)
     acc = walkSteps(stepContainer.steps, acc)
 
     if (scenario) {
       for (const examples of scenario.examples || []) {
         acc = walkTags(examples.tags || [], acc)
         acc = h.examples(examples, acc)
-        if(examples.tableHeader) {
+        if (examples.tableHeader) {
           acc = walkTableRow(examples.tableHeader, acc)
           acc = walkTableRows(examples.tableBody || [], acc)
         }

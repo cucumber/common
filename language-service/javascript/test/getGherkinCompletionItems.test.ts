@@ -1,11 +1,7 @@
-import {
-  CompletionItem,
-  CompletionItemKind,
-  InsertTextFormat,
-} from 'vscode-languageserver-types'
+import { CompletionItem, CompletionItemKind, InsertTextFormat } from 'vscode-languageserver-types'
 import assert from 'assert'
 import { StepDocument, bruteForceIndex } from '@cucumber/suggest'
-import { getGherkinCompletionItems } from '../../src/lsp'
+import { getGherkinCompletionItems } from '../src'
 
 const doc1: StepDocument = {
   suggestion: 'I have {int} cukes in my belly',

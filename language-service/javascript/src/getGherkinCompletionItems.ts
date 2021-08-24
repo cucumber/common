@@ -4,7 +4,11 @@ import { CompletionItem, CompletionItemKind, InsertTextFormat } from 'vscode-lan
 import { parseGherkinDocument } from './parseGherkinDocument'
 
 // https://microsoft.github.io/language-server-protocol/specifications/specification-3-17/#textDocument_completion
-export function getGherkinCompletionItems(gherkinSource: string, line: number, index: Index): CompletionItem[] {
+export function getGherkinCompletionItems(
+  gherkinSource: string,
+  line: number,
+  index: Index
+): CompletionItem[] {
   const { gherkinDocument } = parseGherkinDocument(gherkinSource)
   if (!gherkinDocument) {
     return []
@@ -15,7 +19,7 @@ export function getGherkinCompletionItems(gherkinSource: string, line: number, i
       if (step.location.line === line + 1) {
         text = step.text
       }
-    }
+    },
   })
   const stepDocuments = index(text)
   return stepDocuments.map((stepDocument) => ({

@@ -6,7 +6,10 @@ import { walkGherkinDocument } from '@cucumber/gherkin-utils'
 import { parseGherkinDocument } from './parseGherkinDocument'
 
 // https://microsoft.github.io/language-server-protocol/specifications/specification-3-17/#diagnostic
-export function getGherkinDiagnostics(gherkinSource: string, expressions: readonly Expression[]): Diagnostic[] {
+export function getGherkinDiagnostics(
+  gherkinSource: string,
+  expressions: readonly Expression[]
+): Diagnostic[] {
   const lines = gherkinSource.split(/\r?\n/)
   const { gherkinDocument, error } = parseGherkinDocument(gherkinSource)
   const diagnostics: Diagnostic[] = []
@@ -80,4 +83,3 @@ function isUndefined(stepText: string, expressions: readonly Expression[]): bool
   }
   return true
 }
-

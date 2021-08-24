@@ -1,6 +1,6 @@
 import assert from 'assert'
-import { getGherkinDiagnostics } from '../../src/lsp'
-import { Diagnostic, DiagnosticSeverity } from 'vscode-languageserver/node'
+import { getGherkinDiagnostics } from '../src'
+import { Diagnostic, DiagnosticSeverity } from 'vscode-languageserver-types'
 import { CucumberExpression, ParameterTypeRegistry } from '@cucumber/cucumber-expressions'
 
 describe('getGherkinDiagnostics', () => {
@@ -10,9 +10,12 @@ describe('getGherkinDiagnostics', () => {
   })
 
   it('returns error diagnostic for unexpected end of file', () => {
-    const diagnostics = getGherkinDiagnostics(`Feature: Hello
+    const diagnostics = getGherkinDiagnostics(
+      `Feature: Hello
 @tag
-`, [])
+`,
+      []
+    )
     assert.deepStrictEqual(diagnostics, [
       {
         message: '(3:0): unexpected end of file, expected: #TagLine, #RuleLine, #Comment, #Empty',
@@ -34,12 +37,15 @@ describe('getGherkinDiagnostics', () => {
 
   it('returns error diagnostic for missing table separator', () => {
     const expression = new CucumberExpression('a table:', new ParameterTypeRegistry())
-    const diagnostics = getGherkinDiagnostics(`Feature: Hello
+    const diagnostics = getGherkinDiagnostics(
+      `Feature: Hello
   Scenario: Hi
     Given a table:
       | a |
       | b
-`, [expression])
+`,
+      [expression]
+    )
     const expectedDiagnostics: Diagnostic[] = [
       {
         message: '(5:7): inconsistent cell count within the table',
@@ -61,10 +67,13 @@ describe('getGherkinDiagnostics', () => {
   })
 
   it('returns warning diagnostic for undefined step', () => {
-    const diagnostics = getGherkinDiagnostics(`Feature: Hello
+    const diagnostics = getGherkinDiagnostics(
+      `Feature: Hello
   Scenario: Hi
     Given an undefined step
-`, [])
+`,
+      []
+    )
     const expectedDiagnostics: Diagnostic[] = [
       {
         message: 'Undefined step: an undefined step',
@@ -86,12 +95,15 @@ describe('getGherkinDiagnostics', () => {
   })
 
   it('does not return warning diagnostic for undefined step in Scenario Outline', () => {
-    const diagnostics = getGherkinDiagnostics(`Feature: Hello
+    const diagnostics = getGherkinDiagnostics(
+      `Feature: Hello
   Scenario: Hi
     Given an undefined step
-    
+
     Examples: Hello
-`, [])
+`,
+      []
+    )
     const expectedDiagnostics: Diagnostic[] = []
     assert.deepStrictEqual(diagnostics, expectedDiagnostics)
   })

@@ -1,4 +1,4 @@
-import { parseGherkinDocument } from '../../src/lsp/parseGherkinDocument'
+import { parseGherkinDocument } from '../src/parseGherkinDocument'
 import assert from 'assert'
 
 describe('parseGherkinDocument', () => {
@@ -8,6 +8,9 @@ describe('parseGherkinDocument', () => {
 `
     const { gherkinDocument, error } = parseGherkinDocument(source)
     assert.strictEqual(gherkinDocument.feature.name, 'Hello')
-    assert.strictEqual(error.message, 'Parser errors:\n(3:0): unexpected end of file, expected: #TagLine, #RuleLine, #Comment, #Empty')
+    assert.strictEqual(
+      error.message,
+      'Parser errors:\n(3:0): unexpected end of file, expected: #TagLine, #RuleLine, #Comment, #Empty'
+    )
   })
 })

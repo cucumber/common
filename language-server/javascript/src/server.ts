@@ -18,10 +18,10 @@ import {
   getGherkinDiagnostics,
   getGherkinSemanticTokens,
   semanticTokenModifiers,
-  semanticTokenTypes
-} from './lsp'
-import { makeCucumberInfo } from './makeCucumberInfo'
+  semanticTokenTypes,
+} from '@cucumber/language-service'
 import { Expression } from '@cucumber/cucumber-expressions'
+import { makeCucumberInfo } from './makeCucumberInfo'
 
 // Create a connection for the server, using Node's IPC as a transport.
 // Also include all preview / proposed LSP features.
@@ -36,10 +36,6 @@ type IndexAndExpressions = {
 }
 
 let indexAndExpressions: IndexAndExpressions
-
-// let expressions: readonly Expression[] = []
-// let index: Index = fuseIndex([])
-// updateIndexAndExpressions()
 
 let hasConfigurationCapability = false
 let hasWorkspaceFolderCapability = false
@@ -60,7 +56,8 @@ connection.onInitialize(async (params: InitializeParams) => {
     capabilities.textDocument.publishDiagnostics.relatedInformation
   )
 
-  const semanticTokensSupport = params.capabilities.textDocument && params.capabilities.textDocument.semanticTokens
+  const semanticTokensSupport =
+    params.capabilities.textDocument && params.capabilities.textDocument.semanticTokens
 
   const result: InitializeResult = {
     capabilities: {
@@ -69,15 +66,17 @@ connection.onInitialize(async (params: InitializeParams) => {
       completionProvider: {
         resolveProvider: false,
       },
-      semanticTokensProvider: semanticTokensSupport ? {
-        full: {
-          delta: false
-        },
-        legend: {
-          tokenTypes: semanticTokenTypes,
-          tokenModifiers: semanticTokenModifiers
-        }
-      } : undefined,
+      semanticTokensProvider: semanticTokensSupport
+        ? {
+            full: {
+              delta: false,
+            },
+            legend: {
+              tokenTypes: semanticTokenTypes,
+              tokenModifiers: semanticTokenModifiers,
+            },
+          }
+        : undefined,
     },
   }
   if (hasWorkspaceFolderCapability) {
@@ -128,14 +127,19 @@ function updateIndexAndExpressions() {
     .then((_indexAndExpressions) => {
       indexAndExpressions = _indexAndExpressions
     })
-    .catch(err => connection.console.error('Failed to make Cucumber Info: ' + err.message))
+    .catch((err) => connection.console.error('Failed to make Cucumber Info: ' + err.message))
 }
 
 async function makeIndexAndExpressions(): Promise<IndexAndExpressions> {
-  const cucumberInfo = await makeCucumberInfo(process.execPath, ['./node_modules/.bin/cucumber-js', '--dry-run', '--format', 'message'])
+  const cucumberInfo = await makeCucumberInfo(process.execPath, [
+    './node_modules/.bin/cucumber-js',
+    '--dry-run',
+    '--format',
+    'message',
+  ])
   return {
     index: jsSearchIndex(cucumberInfo.stepDocuments),
-    expressions: cucumberInfo.expressions
+    expressions: cucumberInfo.expressions,
   }
 }
 
@@ -146,7 +150,11 @@ function validateGherkinDocument(textDocument: TextDocument): void {
 
 connection.onCompletion((textDocumentPosition: TextDocumentPositionParams): CompletionItem[] => {
   const gherkinSource = documents.get(textDocumentPosition.textDocument.uri).getText()
-  return getGherkinCompletionItems(gherkinSource, textDocumentPosition.position.line, indexAndExpressions.index)
+  return getGherkinCompletionItems(
+    gherkinSource,
+    textDocumentPosition.position.line,
+    indexAndExpressions.index
+  )
 })
 
 connection.onCompletionResolve((item) => item)
@@ -159,4 +167,3 @@ connection.languages.semanticTokens.on((semanticTokenParams: SemanticTokensParam
 documents.listen(connection)
 
 connection.listen()
-

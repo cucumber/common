@@ -21,6 +21,7 @@
     "json-to-messages/javascript",
     "json-to-messages/javascript-testdata",
     "suggest/javascript",
+    "language-service/javascript",
     "language-server/javascript",
     "vscode/javascript"
   ],

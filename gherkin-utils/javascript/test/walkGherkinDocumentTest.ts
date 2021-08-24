@@ -48,14 +48,10 @@ describe('walkDepthFirst', () => {
       rule: (rule, acc) => acc.concat(rule.name),
       scenario: (scenario, acc) => acc.concat(scenario.name),
       examples: (examples, acc) => acc.concat(examples.name),
-      step: (step, acc) => acc.concat(step.text)
+      step: (step, acc) => acc.concat(step.text),
     }
 
-    const names = walkGherkinDocument<string[]>(
-      gherkinDocument,
-      [],
-      handlers
-    )
+    const names = walkGherkinDocument<string[]>(gherkinDocument, [], handlers)
     assert.deepEqual(names, 'A B C D E F G H I J K L M N O P Q R S T U V W'.split(' '))
   })
 })

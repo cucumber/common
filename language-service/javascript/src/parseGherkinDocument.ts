@@ -24,18 +24,17 @@ export function parseGherkinDocument(gherkinSource: string): ParseResult {
       if (gherkinDocument) {
         return {
           gherkinDocument,
-          error
+          error,
         }
       }
 
       try {
         builder.endRule()
-      } catch (ignore) {
-      }
+      } catch (ignore) {}
     }
 
     return {
-      error
+      error,
     }
   }
 }

@@ -7,6 +7,7 @@ PACKAGES ?= messages \
 	gherkin-utils \
 	cucumber-expressions \
 	suggest \
+	language-service \
 	language-server \
 	vscode \
 	tag-expressions \

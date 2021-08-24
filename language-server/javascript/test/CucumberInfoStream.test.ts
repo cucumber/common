@@ -64,14 +64,17 @@ describe('CucumberInfoStream', () => {
     assert.deepStrictEqual(cucumberInfo.stepDocuments, expectedStepDocuments)
 
     const expectedExpressionSources = [
-      "the following Gherkin step texts exist:",
-      "the following Step Definitions exist:",
-      "I type {string}",
-      "I select the {ordinal} snippet",
-      "the suggestions should be:",
-      "the suggestions should be empty",
-      "the LSP snippet should be {string}"
+      'the following Gherkin step texts exist:',
+      'the following Step Definitions exist:',
+      'I type {string}',
+      'I select the {ordinal} snippet',
+      'the suggestions should be:',
+      'the suggestions should be empty',
+      'the LSP snippet should be {string}',
     ]
-    assert.deepStrictEqual(cucumberInfo.expressions.map(e => e.source), expectedExpressionSources)
+    assert.deepStrictEqual(
+      cucumberInfo.expressions.map((e) => e.source),
+      expectedExpressionSources
+    )
   })
 })

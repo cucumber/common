@@ -191,16 +191,16 @@ jobs:
             cd suggest/javascript
             make
 
-  vscode-javascript:
+  language-service-javascript:
     executor: docker-circleci-node-14
     steps:
       - attach_workspace:
           at: '~/cucumber'
       - run:
-          name: vscode/javascript
+          name: language-service/javascript
           command: |
             sudo npm install --global npm@7
-            cd vscode/javascript
+            cd language-service/javascript
             make
 
   language-server-javascript:
@@ -213,6 +213,18 @@ jobs:
           command: |
             sudo npm install --global npm@7
             cd language-server/javascript
+            make
+
+  vscode-javascript:
+    executor: docker-circleci-node-14
+    steps:
+      - attach_workspace:
+          at: '~/cucumber'
+      - run:
+          name: vscode/javascript
+          command: |
+            sudo npm install --global npm@7
+            cd vscode/javascript
             make
 
   message-streams-javascript:
@@ -942,6 +954,9 @@ workflows:
           requires:
             - prepare-parallel
       - vscode-javascript:
+          requires:
+            - prepare-parallel
+      - language-service-javascript:
           requires:
             - prepare-parallel
       - language-server-javascript:

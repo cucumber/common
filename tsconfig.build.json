@@ -59,6 +59,9 @@
       "path": "./suggest/javascript/tsconfig.build.json"
     },
     {
+      "path": "./language-service/javascript/tsconfig.build.json"
+    },
+    {
       "path": "./language-server/javascript/tsconfig.build.json"
     },
     {

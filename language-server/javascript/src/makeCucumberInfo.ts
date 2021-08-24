@@ -10,10 +10,7 @@ export type CucumberInfo = {
   expressions: readonly Expression[]
 }
 
-export function makeCucumberInfo(
-  command: string,
-  args: string[]
-): Promise<CucumberInfo | null> {
+export function makeCucumberInfo(command: string, args: string[]): Promise<CucumberInfo | null> {
   const cucumber = spawn(command, args)
 
   const stderr: Buffer[] = []

@@ -1,7 +1,12 @@
 import { Transform, TransformCallback } from 'stream'
 import { buildStepDocuments, StepDocument } from '@cucumber/suggest'
 import { Envelope, StepDefinitionPatternType } from '@cucumber/messages'
-import { Expression, ExpressionFactory, ParameterType, ParameterTypeRegistry, } from '@cucumber/cucumber-expressions'
+import {
+  Expression,
+  ExpressionFactory,
+  ParameterType,
+  ParameterTypeRegistry,
+} from '@cucumber/cucumber-expressions'
 import { GherkinDocumentWalker } from '@cucumber/gherkin-utils'
 import { CucumberInfo } from './makeCucumberInfo'
 
@@ -54,7 +59,7 @@ export class CucumberInfoStream extends Transform {
   _flush(callback: TransformCallback) {
     const cucumberInfo: CucumberInfo = {
       stepDocuments: buildStepDocuments(this.stepTexts, this.expressions),
-      expressions: this.expressions
+      expressions: this.expressions,
     }
     callback(null, cucumberInfo)
   }
