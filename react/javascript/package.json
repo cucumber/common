@@ -35,7 +35,7 @@
     "react-markdown": "6.0.3",
     "rehype-raw": "5.1.0",
     "rehype-sanitize": "4.0.0",
-    "remark-gfm": "1.0.0"
+    "remark-gfm": "2.0.0"
   },
   "peerDependencies": {
     "react": "~17",
