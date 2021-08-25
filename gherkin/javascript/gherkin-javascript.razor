@@ -34,16 +34,16 @@ import {
   CompositeParserException,
   NoSuchLanguageException,
   ParserException,
-} from './Errors'
+} from './Errors.js'
 import {
   UnexpectedEOFException,
   UnexpectedTokenException,
-} from './TokenExceptions'
-import TokenScanner from './TokenScanner'
-import ITokenMatcher from './ITokenMatcher'
-import GherkinLine from './GherkinLine'
-import IToken, { Item } from './IToken'
-import { IAstBuilder } from './IAstBuilder'
+} from './TokenExceptions.js'
+import TokenScanner from './TokenScanner.js'
+import ITokenMatcher from './ITokenMatcher.js'
+import GherkinLine from './GherkinLine.js'
+import IToken, { Item } from './IToken.js'
+import { IAstBuilder } from './IAstBuilder.js'
 
 export class Token implements IToken<TokenType> {
   public isEof: boolean

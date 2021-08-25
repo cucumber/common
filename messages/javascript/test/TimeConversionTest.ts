@@ -1,12 +1,12 @@
 import assert from 'assert'
-import {
+import { Duration, TimeConversion } from '../src/index.js'
+const {
   addDurations,
-  Duration,
   durationToMilliseconds,
   millisecondsSinceEpochToTimestamp,
   millisecondsToDuration,
-  timestampToMillisecondsSinceEpoch
-} from '../src/index.js'
+  timestampToMillisecondsSinceEpoch,
+} = TimeConversion
 
 describe('TimeConversion', () => {
   it('converts legacy string seconds', () => {

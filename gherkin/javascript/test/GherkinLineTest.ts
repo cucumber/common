@@ -1,5 +1,5 @@
 import assert from 'assert'
-import GherkinLine from '../src/GherkinLine'
+import GherkinLine from '../src/GherkinLine.js'
 
 describe('GherkinLine', () => {
   describe('#getTableCells', () => {

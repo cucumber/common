@@ -2,7 +2,11 @@
   "name": "@cucumber/react",
   "version": "17.0.0",
   "description": "React components for Cucumber",
-  "main": "dist/src/index.js",
+  "type": "module",
+  "exports": {
+    ".": "./dist/src/index.js",
+    "./typescript": "./src/index.ts"
+  },
   "types": "dist/src/index.d.ts",
   "repository": {
     "type": "git",

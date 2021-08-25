@@ -1,5 +1,5 @@
-import { RuleType, TokenType } from './Parser'
-import IToken from './IToken'
+import { RuleType, TokenType } from './Parser.js'
+import IToken from './IToken.js'
 
 export default class AstNode {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

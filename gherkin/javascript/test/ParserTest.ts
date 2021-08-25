@@ -1,11 +1,11 @@
 import assert from 'assert'
 import * as messages from '@cucumber/messages'
-import AstBuilder from '../src/AstBuilder'
-import Parser from '../src/Parser'
-import GherkinClassicTokenMatcher from '../src/GherkinClassicTokenMatcher'
-import AstNode from '../src/AstNode'
-import generateMessages from '../src/generateMessages'
-import GherkinInMarkdownTokenMatcher from '../src/GherkinInMarkdownTokenMatcher'
+import AstBuilder from '../src/AstBuilder.js'
+import Parser from '../src/Parser.js'
+import GherkinClassicTokenMatcher from '../src/GherkinClassicTokenMatcher.js'
+import AstNode from '../src/AstNode.js'
+import generateMessages from '../src/generateMessages.js'
+import GherkinInMarkdownTokenMatcher from '../src/GherkinInMarkdownTokenMatcher.js'
 
 describe('Parser', function () {
   describe('with Gherkin Classic', () => {

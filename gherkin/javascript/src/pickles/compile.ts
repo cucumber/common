@@ -1,8 +1,7 @@
 import * as messages from '@cucumber/messages'
-import IGherkinDocument = messages.GherkinDocument
 
 export default function compile(
-  gherkinDocument: IGherkinDocument,
+  gherkinDocument: messages.GherkinDocument,
   uri: string,
   newId: messages.IdGenerator.NewId
 ): readonly messages.Pickle[] {

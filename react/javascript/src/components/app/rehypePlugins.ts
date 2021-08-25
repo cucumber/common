@@ -1,4 +1,4 @@
-import sanitizerGithubSchema from 'hast-util-sanitize/lib/github.json'
+import { defaultSchema as sanitizerGithubSchema } from 'hast-util-sanitize'
 import rehypeRaw from 'rehype-raw'
 import rehypeSanitize from 'rehype-sanitize'
 import gfm from 'remark-gfm'

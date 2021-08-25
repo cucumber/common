@@ -1,5 +1,5 @@
-import countSymbols from './countSymbols'
-import { IGherkinLine, Item } from './IToken'
+import countSymbols from './countSymbols.js'
+import { IGherkinLine, Item } from './IToken.js'
 
 export default class GherkinLine implements IGherkinLine {
   public trimmedLineText: string
@@ -84,5 +84,3 @@ export default class GherkinLine implements IGherkinLine {
     return cells
   }
 }
-
-module.exports = GherkinLine

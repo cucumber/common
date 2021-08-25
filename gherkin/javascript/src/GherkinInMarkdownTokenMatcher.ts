@@ -1,12 +1,11 @@
-import ITokenMatcher from './ITokenMatcher'
-import Dialect from './Dialect'
-import { Token, TokenType } from './Parser'
-import DIALECTS from './gherkin-languages.json'
-import { Item } from './IToken'
 import * as messages from '@cucumber/messages'
-import { NoSuchLanguageException } from './Errors'
+import ITokenMatcher from './ITokenMatcher.js'
+import { dialects } from './dialects.js'
+import Dialect from './Dialect.js'
+import { Token, TokenType } from './Parser.js'
+import { Item } from './IToken.js'
+import { NoSuchLanguageException } from './Errors.js'
 
-const DIALECT_DICT: { [key: string]: Dialect } = DIALECTS
 const DEFAULT_DOC_STRING_SEPARATOR = /^(```[`]*)(.*)/
 
 export default class GherkinInMarkdownTokenMatcher implements ITokenMatcher<TokenType> {
@@ -20,7 +19,7 @@ export default class GherkinInMarkdownTokenMatcher implements ITokenMatcher<Toke
   private matchedFeatureLine: boolean
 
   constructor(private readonly defaultDialectName: string = 'en') {
-    this.dialect = DIALECT_DICT[defaultDialectName]
+    this.dialect = dialects[defaultDialectName]
     this.nonStarStepKeywords = []
       .concat(this.dialect.given)
       .concat(this.dialect.when)
@@ -50,7 +49,7 @@ export default class GherkinInMarkdownTokenMatcher implements ITokenMatcher<Toke
   }
 
   changeDialect(newDialectName: string, location?: messages.Location) {
-    const newDialect = DIALECT_DICT[newDialectName]
+    const newDialect = dialects[newDialectName]
     if (!newDialect) {
       throw NoSuchLanguageException.create(newDialectName, location)
     }

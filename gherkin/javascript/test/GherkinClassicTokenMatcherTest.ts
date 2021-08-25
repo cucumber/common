@@ -1,9 +1,9 @@
 import assert from 'assert'
-import GherkinClassicTokenMatcher from '../src/GherkinClassicTokenMatcher'
-import { NoSuchLanguageException } from '../src/Errors'
 import * as messages from '@cucumber/messages'
-import GherkinLine from '../src/GherkinLine'
-import { Token, TokenType } from '../src/Parser'
+import GherkinClassicTokenMatcher from '../src/GherkinClassicTokenMatcher.js'
+import { NoSuchLanguageException } from '../src/Errors.js'
+import GherkinLine from '../src/GherkinLine.js'
+import { Token, TokenType } from '../src/Parser.js'
 
 describe('TokenMatcher', function () {
   it('throws for invalid languages', function () {
