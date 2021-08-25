@@ -1,5 +1,5 @@
 import assert from 'assert'
-import parse from '../src'
+import parse from '../src/index.js'
 
 describe('TagExpressionParser', () => {
   describe('#parse', () => {

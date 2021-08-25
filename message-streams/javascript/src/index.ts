@@ -1,4 +1,2 @@
-import MessageToNdjsonStream from './MessageToNdjsonStream'
-import NdjsonToMessageStream from './NdjsonToMessageStream'
-
-export { MessageToNdjsonStream, NdjsonToMessageStream }
+export * from './MessageToNdjsonStream.js'
+export * from './NdjsonToMessageStream.js'

@@ -4,7 +4,7 @@ import { Envelope, parseEnvelope } from '@cucumber/messages'
 /**
  * Transforms an NDJSON stream to a stream of message objects
  */
-export default class NdjsonToMessageStream extends Transform {
+export class NdjsonToMessageStream extends Transform {
   private buffer: string
 
   /**

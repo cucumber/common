@@ -2,7 +2,8 @@
   "name": "@cucumber/tag-expressions",
   "version": "3.0.1",
   "description": "Cucumber Tag Expression parser",
-  "main": "dist/src/index.js",
+  "type": "module",
+  "exports": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
   "scripts": {
     "test": "mocha",

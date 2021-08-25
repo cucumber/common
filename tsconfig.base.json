@@ -10,7 +10,7 @@
     "allowJs": false,
     "jsx": "react",
     "resolveJsonModule": true,
-    "module": "commonjs",
+    "module": "ESNext",
     "esModuleInterop": true,
     "noImplicitAny": true,
     "moduleResolution": "node",

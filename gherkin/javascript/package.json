@@ -2,7 +2,11 @@
   "name": "@cucumber/gherkin",
   "version": "20.0.1",
   "description": "Gherkin parser",
-  "main": "dist/src/index.js",
+  "type": "module",
+  "exports": {
+    ".": "./dist/src/index.js",
+    "./typescript": "./src/index.ts"
+  },
   "types": "dist/src/index.d.ts",
   "scripts": {
     "test": "mocha",

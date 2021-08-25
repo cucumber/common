@@ -4,7 +4,7 @@ import * as messages from '@cucumber/messages'
 /**
  * Transforms a stream of message objects to NDJSON
  */
-export default class MessageToNdjsonStream extends Transform {
+export class MessageToNdjsonStream extends Transform {
   constructor() {
     super({ writableObjectMode: true, readableObjectMode: false })
   }

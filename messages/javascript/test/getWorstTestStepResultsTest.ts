@@ -1,5 +1,4 @@
-import { getWorstTestStepResult } from '../src/getWorstTestStepResult'
-import { TestStepResultStatus } from '../src/messages'
+import { getWorstTestStepResult, TestStepResultStatus } from '../src/index.js'
 import assert from 'assert'
 
 describe('getWorstTestStepResult', () => {
