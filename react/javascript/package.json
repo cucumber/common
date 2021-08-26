@@ -30,7 +30,7 @@
     "color": "4.0.1",
     "elasticlunr": "0.9.5",
     "hast-util-sanitize": "3.0.2",
-    "highlight-words": "1.1.1",
+    "highlight-words": "1.2.0",
     "react-accessible-accordion": "3.3.5",
     "react-markdown": "6.0.3",
     "rehype-raw": "5.1.0",
