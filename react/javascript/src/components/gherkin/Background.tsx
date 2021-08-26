@@ -1,15 +1,11 @@
 import React from 'react'
-import Description from './Description'
-import * as messages from '@cucumber/messages'
-import StepList from './StepList'
-import Title from './Title'
-import Keyword from './Keyword'
+import { Description } from './Description'
+import { StepList } from './StepList'
+import { Title } from './Title'
+import { Keyword } from './Keyword'
+import { BackgroundProps, DefaultComponent, useCustomRendering } from '../customise'
 
-interface IProps {
-  background: messages.Background
-}
-
-const Background: React.FunctionComponent<IProps> = ({ background }) => {
+const DefaultRenderer: DefaultComponent<BackgroundProps, {}> = ({ background }) => {
   return (
     <section>
       <Title header="h2" id={background.id}>
@@ -24,4 +20,11 @@ const Background: React.FunctionComponent<IProps> = ({ background }) => {
   )
 }
 
-export default Background
+export const Background: React.FunctionComponent<BackgroundProps> = (props) => {
+  const ResolvedRenderer = useCustomRendering<BackgroundProps, {}>(
+    'Background',
+    {},
+    DefaultRenderer
+  )
+  return <ResolvedRenderer {...props} />
+}

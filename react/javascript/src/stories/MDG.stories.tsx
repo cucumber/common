@@ -4,19 +4,19 @@ import { Meta, Story } from '@storybook/react'
 import * as messages from '@cucumber/messages'
 import { Query as CucumberQuery } from '@cucumber/query'
 import { Query as GherkinQuery } from '@cucumber/gherkin-utils'
-import QueriesWrapper from '../components/app/QueriesWrapper'
-import { EnvelopesQuery } from '../../src'
-import GherkinDocument from '../components/gherkin/GherkinDocument'
+import { EnvelopesQuery, components } from '../../src'
 
 import '../styles/styles.scss'
 
 import markdown from '../../acceptance/markdown/markdown.feature.md'
-import MDG from '../components/gherkin/MDG'
 import UriContext from '../UriContext'
+
+const { QueriesWrapper } = components.app
+const { MDG } = components.gherkin
 
 export default {
   title: 'MDG',
-  component: GherkinDocument,
+  component: components.gherkin.GherkinDocument,
 } as Meta
 
 type Props = {

@@ -1,24 +1,19 @@
 import React from 'react'
-import DataTable from './DataTable'
-import Keyword from './Keyword'
-import DocString from './DocString'
-import * as messages from '@cucumber/messages'
+import { DataTable } from './DataTable'
+import { Keyword } from './Keyword'
+import { DocString } from './DocString'
+import { ErrorMessage } from './ErrorMessage'
+import { StepItem } from './StepItem'
+import { Attachment } from './Attachment'
+import { Parameter } from './Parameter'
+import { Title } from './Title'
+import { getWorstTestStepResult } from '@cucumber/messages'
 import CucumberQueryContext from '../../CucumberQueryContext'
 import GherkinQueryContext from '../../GherkinQueryContext'
-import ErrorMessage from './ErrorMessage'
-import StepItem from './StepItem'
-import Attachment from './Attachment'
-import HighLight from '../app/HighLight'
-import { getWorstTestStepResult } from '@cucumber/messages'
-import Parameter from './Parameter'
-import Title from './Title'
+import { HighLight } from '../app/HighLight'
+import { DefaultComponent, GherkinStepProps, useCustomRendering } from '../customise'
 
-interface IProps {
-  step: messages.Step
-  hasExamples: boolean
-}
-
-const Step: React.FunctionComponent<IProps> = ({ step, hasExamples }) => {
+const DefaultRenderer: DefaultComponent<GherkinStepProps, {}> = ({ step, hasExamples }) => {
   const gherkinQuery = React.useContext(GherkinQueryContext)
   const cucumberQuery = React.useContext(CucumberQueryContext)
 
@@ -91,4 +86,11 @@ const Step: React.FunctionComponent<IProps> = ({ step, hasExamples }) => {
   )
 }
 
-export default Step
+export const GherkinStep: React.FunctionComponent<GherkinStepProps> = (props) => {
+  const ResolvedRenderer = useCustomRendering<GherkinStepProps, {}>(
+    'GherkinStep',
+    {},
+    DefaultRenderer
+  )
+  return <ResolvedRenderer {...props} />
+}

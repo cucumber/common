@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
+* The React components are exported via the `components` property.
+  ([#1660](https://github.com/cucumber/common/pull/1660)
+   [aslakhellesoy])
+
 ### Deprecated
 
 ### Removed
