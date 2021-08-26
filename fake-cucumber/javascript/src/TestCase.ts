@@ -1,6 +1,6 @@
-import { EnvelopeListener, ITestCase, ITestStep, IWorld } from './types'
+import { EnvelopeListener, ITestCase, ITestStep, IWorld } from './types.js'
 import * as messages from '@cucumber/messages'
-import IClock from './IClock'
+import IClock from './IClock.js'
 import { getWorstTestStepResult } from '@cucumber/messages'
 
 const { millisecondsSinceEpochToTimestamp } = messages.TimeConversion

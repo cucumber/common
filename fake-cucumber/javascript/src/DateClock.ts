@@ -1,4 +1,4 @@
-import IClock from './IClock'
+import IClock from './IClock.js'
 
 export default class DateClock implements IClock {
   public clockNow(): number {

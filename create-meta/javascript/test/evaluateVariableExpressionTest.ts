@@ -1,5 +1,5 @@
 import assert from 'assert'
-import evaluateVariableExpression from '../src/evaluateVariableExpression'
+import evaluateVariableExpression from '../src/evaluateVariableExpression.js'
 
 describe('createMeta', () => {
   it('returns undefined when a variable is undefined', () => {

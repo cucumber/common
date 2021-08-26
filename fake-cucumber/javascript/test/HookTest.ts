@@ -1,7 +1,7 @@
 import assert from 'assert'
-import Hook from '../src/Hook'
+import Hook from '../src/Hook.js'
 import * as messages from '@cucumber/messages'
-import TestWorld from './TestWorld'
+import TestWorld from './TestWorld.js'
 
 describe('Hook', () => {
   describe('#match', () => {

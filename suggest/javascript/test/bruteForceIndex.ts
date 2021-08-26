@@ -1,4 +1,4 @@
-import { Index, StepDocument } from '../src'
+import { Index, StepDocument } from '../src/index.js'
 
 /**
  * A brute force (not very performant or fuzzy-search capable) index that matches permutation expressions with string.includes()

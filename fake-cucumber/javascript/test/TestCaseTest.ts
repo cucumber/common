@@ -6,10 +6,10 @@ import {
   IncrementClock,
   makePickleTestStep,
   IncrementStopwatch,
-} from '../src'
-import ExpressionStepDefinition from '../src/ExpressionStepDefinition'
+} from '../src/index.js'
+import ExpressionStepDefinition from '../src/ExpressionStepDefinition.js'
 import { CucumberExpression, ParameterTypeRegistry } from '@cucumber/cucumber-expressions'
-import TestCase from '../src/TestCase'
+import TestCase from '../src/TestCase.js'
 
 describe('TestCase', () => {
   describe('#execute', () => {

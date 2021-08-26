@@ -2,7 +2,7 @@ import { GherkinStreams } from '@cucumber/gherkin-streams'
 import * as messages from '@cucumber/messages'
 import { pipeline, Readable, Writable } from 'stream'
 import assert from 'assert'
-import Query from '../src/Query'
+import Query from '../src/Query.js'
 import { promisify } from 'util'
 
 const pipelinePromise = promisify(pipeline)

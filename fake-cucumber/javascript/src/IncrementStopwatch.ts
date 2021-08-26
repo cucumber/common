@@ -1,4 +1,4 @@
-import IStopwatch from './IStopwatch'
+import IStopwatch from './IStopwatch.js'
 
 export default class IncrementStopwatch implements IStopwatch {
   private time = 1000000

@@ -1,4 +1,4 @@
-import { StepDocument } from './types'
+import { StepDocument } from './types.js'
 import { Expression } from '@cucumber/cucumber-expressions'
 
 type TextOrParameterTypeNameExpression = TextOrParameterTypeNameSegment[]

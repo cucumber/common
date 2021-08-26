@@ -2,7 +2,11 @@
   "name": "@cucumber/query",
   "version": "11.0.0",
   "description": "Cucumber Query - query messages",
-  "main": "dist/src/index.js",
+  "type": "module",
+  "exports": {
+    ".": "./dist/src/index.js",
+    "./typescript": "./src/index.ts"
+  },
   "types": "dist/src/index.d.ts",
   "scripts": {
     "test": "mocha",

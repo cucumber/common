@@ -1,9 +1,9 @@
 import { Readable } from 'stream'
 import * as messages from '@cucumber/messages'
-import IClock from './IClock'
-import { MakeErrorMessage } from './ErrorMessageGenerator'
+import IClock from './IClock.js'
+import { MakeErrorMessage } from './ErrorMessageGenerator.js'
 import { Query, Query as GherkinQuery } from '@cucumber/gherkin-utils'
-import IStopwatch from './IStopwatch'
+import IStopwatch from './IStopwatch.js'
 
 export interface RunOptions {
   allowedRetries: number

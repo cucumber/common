@@ -2,7 +2,11 @@
   "name": "@cucumber/cucumber-expressions",
   "version": "12.1.1",
   "description": "Cucumber Expressions - a simpler alternative to Regular Expressions",
-  "main": "dist/src/index.js",
+  "type": "module",
+  "exports": {
+    ".": "./dist/src/index.js",
+    "./typescript": "./src/index.ts"
+  },
   "types": "dist/src/index.d.ts",
   "scripts": {
     "test": "mocha",

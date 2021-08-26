@@ -1,12 +1,12 @@
 import assert from 'assert'
 import * as messages from '@cucumber/messages'
-import ExpressionStepDefinition from '../src/ExpressionStepDefinition'
+import ExpressionStepDefinition from '../src/ExpressionStepDefinition.js'
 import {
   CucumberExpression,
   ParameterTypeRegistry,
   RegularExpression,
 } from '@cucumber/cucumber-expressions'
-import TestWorld from './TestWorld'
+import TestWorld from './TestWorld.js'
 
 describe('StepDefinition', () => {
   describe('#match', () => {

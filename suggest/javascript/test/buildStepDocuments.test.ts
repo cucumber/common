@@ -1,7 +1,6 @@
 import { ExpressionFactory, ParameterTypeRegistry } from '@cucumber/cucumber-expressions'
 import assert from 'assert'
-import buildStepDocuments from '../src/buildStepDocuments'
-import { StepDocument } from '../src'
+import { buildStepDocuments, StepDocument } from '../src/index.js'
 
 describe('buildStepDocuments', () => {
   it('builds step documents with global choices', () => {

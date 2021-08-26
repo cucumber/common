@@ -1,10 +1,10 @@
 import * as messages from '@cucumber/messages'
 import { Query } from '@cucumber/gherkin-utils'
-import IClock from './IClock'
-import HookTestStep from './HookTestStep'
-import { MakeErrorMessage } from './ErrorMessageGenerator'
-import IStopwatch from './IStopwatch'
-import { IHook, ITestStep } from './types'
+import IClock from './IClock.js'
+import HookTestStep from './HookTestStep.js'
+import { MakeErrorMessage } from './ErrorMessageGenerator.js'
+import IStopwatch from './IStopwatch.js'
+import { IHook, ITestStep } from './types.js'
 
 export default function makeHookTestStep(
   pickle: messages.Pickle,

@@ -1,7 +1,10 @@
-import createMeta from '../src/createMeta'
+import createMeta from '../src/createMeta.js'
 import assert from 'assert'
-import ciDict from '../src/ciDict.json'
 import * as messages from '@cucumber/messages'
+
+import { createRequire } from 'module'
+const require = createRequire(import.meta.url)
+const ciDict = require('../src/ciDict.json')
 
 describe('createMeta', () => {
   it('defines the implementation product', () => {

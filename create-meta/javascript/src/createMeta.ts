@@ -1,9 +1,12 @@
 import os from 'os'
 import { parse as parseUrl, format as formatUrl } from 'url'
 import * as messages from '@cucumber/messages'
-import defaultCiDict from './ciDict.json'
-import evaluateVariableExpression from './evaluateVariableExpression'
-import { CiDict, CiSystem, Env } from './types'
+import evaluateVariableExpression from './evaluateVariableExpression.js'
+import { CiDict, CiSystem, Env } from './types.js'
+
+import { createRequire } from 'module'
+const require = createRequire(import.meta.url)
+const defaultCiDict = require('./ciDict.json')
 
 export default function createMeta(
   toolName: string,

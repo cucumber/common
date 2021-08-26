@@ -1,6 +1,6 @@
-import { EnvelopeListener, ITestCase, ITestPlan, RunOptions } from './types'
+import { EnvelopeListener, ITestCase, ITestPlan, RunOptions } from './types.js'
 import * as messages from '@cucumber/messages'
-import SupportCode from './SupportCode'
+import SupportCode from './SupportCode.js'
 
 export default class TestPlan implements ITestPlan {
   constructor(

@@ -5,7 +5,11 @@
   "bin": {
     "cucumber-html-formatter": "bin/cucumber-html-formatter.js"
   },
-  "main": "dist/src/CucumberHtmlStream.js",
+  "type": "module",
+  "exports": {
+    ".": "./dist/src/index.js",
+    "./typescript": "./src/index.ts"
+  },
   "types": "dist/src/CucumberHtmlStream.d.ts",
   "repository": {
     "type": "git",

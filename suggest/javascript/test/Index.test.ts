@@ -1,8 +1,8 @@
 import assert from 'assert'
-import bruteForceIndex from './bruteForceIndex'
-import { Index, StepDocument } from '../src'
-import fuseIndex from './fuseIndex'
-import jsSearchIndex from './jsSearchIndex'
+import bruteForceIndex from './bruteForceIndex.js'
+import { Index, StepDocument } from '../src/index.js'
+import fuseIndex from './fuseIndex.js'
+import jsSearchIndex from './jsSearchIndex.js'
 import * as txtgen from 'txtgen'
 
 type BuildIndex = (stepDocuments: readonly StepDocument[]) => Index

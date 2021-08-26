@@ -1,7 +1,7 @@
 import { Argument, Group } from '@cucumber/cucumber-expressions'
 import * as messages from '@cucumber/messages'
-import { AnyBody, ISupportCodeExecutor, IWorld } from './types'
-import DataTable from './DataTable'
+import { AnyBody, ISupportCodeExecutor, IWorld } from './types.js'
+import DataTable from './DataTable.js'
 
 export default class SupportCodeExecutor implements ISupportCodeExecutor {
   constructor(

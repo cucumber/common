@@ -2,14 +2,17 @@ import * as messages from '@cucumber/messages'
 import { NdjsonToMessageStream } from '@cucumber/message-streams'
 import { Writable, pipeline } from 'stream'
 
-import { GherkinDocumentWalker } from '../src'
+import { GherkinDocumentWalker } from '../src/index.js'
 import fs from 'fs'
 import glob from 'glob'
 import { promisify } from 'util'
+import { fileURLToPath } from 'url'
+import { dirname } from 'path'
 
 const asyncPipeline = promisify(pipeline)
 
 describe('Walking with messages', () => {
+  const __dirname = dirname(fileURLToPath(import.meta.url))
   const localMessageFiles = glob.sync(`${__dirname}/messages/**/*.ndjson`)
   const tckMessageFiles = glob.sync(
     `${__dirname}/../../../compatibility-kit/javascript/features/**/*.ndjson`

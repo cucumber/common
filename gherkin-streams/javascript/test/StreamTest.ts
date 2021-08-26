@@ -2,7 +2,7 @@ import assert from 'assert'
 import { Readable } from 'stream'
 import * as messages from '@cucumber/messages'
 import { dialects, IGherkinOptions, makeSourceEnvelope } from '@cucumber/gherkin'
-import { GherkinStreams } from '../src'
+import { GherkinStreams } from '../src/index.js'
 
 const defaultOptions: IGherkinOptions = {}
 

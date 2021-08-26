@@ -1,4 +1,4 @@
-import DataTable from '../src/DataTable'
+import DataTable from '../src/DataTable.js'
 import assert from 'assert'
 
 describe('DataTable', () => {

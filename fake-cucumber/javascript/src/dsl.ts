@@ -1,8 +1,8 @@
-import SupportCode from './SupportCode'
-import { AnyBody } from './types'
+import SupportCode from './SupportCode.js'
+import { AnyBody } from './types.js'
 import * as messages from '@cucumber/messages'
 import StackUtils from 'stack-utils'
-import IParameterTypeDefinition from './IParameterTypeDefinition'
+import IParameterTypeDefinition from './IParameterTypeDefinition.js'
 import { deprecate } from 'util'
 
 declare global {

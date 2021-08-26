@@ -1,6 +1,6 @@
 import assert from 'assert'
-import parse from './parse'
-import pretty from '../src/pretty'
+import parse from './parse.js'
+import pretty from '../src/pretty.js'
 
 describe('PrettyFormatter', () => {
   it('renders a feature with no scenarios', () => {

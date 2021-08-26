@@ -1,10 +1,10 @@
 import { Query as GherkinQuery } from '@cucumber/gherkin-utils'
-import GherkinQueryStream from './GherkinQueryStream'
-import makeTestPlan from './makeTestPlan'
+import GherkinQueryStream from './GherkinQueryStream.js'
+import makeTestPlan from './makeTestPlan.js'
 import { Readable, Writable } from 'stream'
-import SupportCode from './SupportCode'
-import { MakeTestPlan, RunOptions } from './types'
-import makeTestCase from './makeTestCase'
+import SupportCode from './SupportCode.js'
+import { MakeTestPlan, RunOptions } from './types.js'
+import makeTestCase from './makeTestCase.js'
 
 const DEFAULT_OPTIONS: RunOptions = {
   allowedRetries: 0,

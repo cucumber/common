@@ -1,18 +1,18 @@
-import SupportCode from './SupportCode'
+import SupportCode from './SupportCode.js'
 import { IdGenerator } from '@cucumber/messages'
-import PerfHooksStopwatch from './PerfHooksStopwatch'
+import PerfHooksStopwatch from './PerfHooksStopwatch.js'
 import {
   MakeErrorMessage,
   withFullStackTrace,
   withSourceFramesOnlyStackTrace,
-} from './ErrorMessageGenerator'
-import IncrementClock from './IncrementClock'
-import * as dsl from './dsl'
-import findSupportCodePaths from './findSupportCodePaths'
-import IClock from './IClock'
-import DateClock from './DateClock'
-import IStopwatch from './IStopwatch'
-import IncrementStopwatch from './IncrementStopwatch'
+} from './ErrorMessageGenerator.js'
+import IncrementClock from './IncrementClock.js'
+import * as dsl from './dsl.js'
+import findSupportCodePaths from './findSupportCodePaths.js'
+import IClock from './IClock.js'
+import DateClock from './DateClock.js'
+import IStopwatch from './IStopwatch.js'
+import IncrementStopwatch from './IncrementStopwatch.js'
 
 export default async function loadSupportCode(
   predictableIds: boolean,

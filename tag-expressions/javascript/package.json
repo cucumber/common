@@ -3,7 +3,10 @@
   "version": "3.0.1",
   "description": "Cucumber Tag Expression parser",
   "type": "module",
-  "exports": "dist/src/index.js",
+  "exports": {
+    ".": "./dist/src/index.js",
+    "./typescript": "./src/index.ts"
+  },
   "types": "dist/src/index.d.ts",
   "scripts": {
     "test": "mocha",

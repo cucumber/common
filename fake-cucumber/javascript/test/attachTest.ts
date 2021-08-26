@@ -1,8 +1,12 @@
 import assert from 'assert'
-import makeAttach from '../src/makeAttach'
-import { EnvelopeListener } from '../src/types'
+import makeAttach from '../src/makeAttach.js'
+import { EnvelopeListener } from '../src/types.js'
 import * as messages from '@cucumber/messages'
 import fs from 'fs'
+
+import { fileURLToPath } from 'url'
+import { dirname } from 'path'
+const __dirname = dirname(fileURLToPath(import.meta.url))
 
 describe('#attach', () => {
   it('can attach a string', () => {

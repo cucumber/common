@@ -2,7 +2,11 @@
   "name": "@cucumber/gherkin-utils",
   "version": "6.0.0",
   "description": "Various Gherkin utilities",
-  "main": "dist/src/index.js",
+  "type": "module",
+  "exports": {
+    ".": "./dist/src/index.js",
+    "./typescript": "./src/index.ts"
+  },
   "types": "dist/src/index.d.ts",
   "scripts": {
     "test": "mocha",

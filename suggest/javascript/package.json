@@ -2,10 +2,14 @@
   "name": "@cucumber/suggest",
   "version": "0.0.2",
   "description": "Library for suggesting steps",
-  "main": "dist/src/index.js",
+  "type": "module",
+  "exports": {
+    ".": "./dist/src/index.js",
+    "./typescript": "./src/index.ts"
+  },
   "types": "dist/src/index.d.ts",
   "scripts": {
-    "test": "npm run cucumber && npm run mocha",
+    "test": "npm run mocha && npm run cucumber",
     "mocha": "mocha",
     "cucumber": "cucumber-js README.md",
     "prepublishOnly": "tsc --build tsconfig.build.json"

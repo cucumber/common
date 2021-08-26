@@ -1,19 +1,19 @@
 import assert from 'assert'
 import * as messages from '@cucumber/messages'
-import makePickleTestStep from '../src/makePickleTestStep'
-import TestWorld from './TestWorld'
-import IncrementClock from '../src/IncrementClock'
+import makePickleTestStep from '../src/makePickleTestStep.js'
+import TestWorld from './TestWorld.js'
+import IncrementClock from '../src/IncrementClock.js'
 import {
   withSourceFramesOnlyStackTrace,
   withFullStackTrace,
   IWorld,
   makeHookTestStep,
-} from '../src'
-import ExpressionStepDefinition from '../src/ExpressionStepDefinition'
+} from '../src/index.js'
+import ExpressionStepDefinition from '../src/ExpressionStepDefinition.js'
 import { CucumberExpression, ParameterTypeRegistry } from '@cucumber/cucumber-expressions'
-import IncrementStopwatch from '../src/IncrementStopwatch'
-import { ITestStep } from '../src/types'
-import Hook from '../src/Hook'
+import IncrementStopwatch from '../src/IncrementStopwatch.js'
+import { ITestStep } from '../src/types.js'
+import Hook from '../src/Hook.js'
 import { Query } from '@cucumber/gherkin-utils'
 import { TimeConversion } from '@cucumber/messages'
 

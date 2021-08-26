@@ -1,5 +1,8 @@
 import assert from 'assert'
-import findSupportCodePaths from '../src/findSupportCodePaths'
+import findSupportCodePaths from '../src/findSupportCodePaths.js'
+import { fileURLToPath } from 'url'
+import { dirname } from 'path'
+const __dirname = dirname(fileURLToPath(import.meta.url))
 
 describe('#findSupportCodePaths', () => {
   it('finds files underneath feature directories', async () => {

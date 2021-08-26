@@ -1,6 +1,6 @@
-import { Given, When, Then, Before, After, ParameterType, defineParameterType } from './dsl'
-import runCucumber from './runCucumber'
-import SupportCode from './SupportCode'
+import { Given, When, Then, Before, After, ParameterType, defineParameterType } from './dsl.js'
+import runCucumber from './runCucumber.js'
+import SupportCode from './SupportCode.js'
 import {
   IHook,
   IWorld,
@@ -15,23 +15,23 @@ import {
   ITestPlan,
   ITestStep,
   RunOptions,
-} from './types'
+} from './types.js'
 import {
   MakeErrorMessage,
   withFullStackTrace,
   withSourceFramesOnlyStackTrace,
-} from './ErrorMessageGenerator'
-import makePickleTestStep from './makePickleTestStep'
-import makeTestCase from './makeTestCase'
-import makeTestPlan from './makeTestPlan'
-import makeHookTestStep from './makeHookTestStep'
-import TestStep from './TestStep'
-import IClock from './IClock'
-import IncrementClock from './IncrementClock'
-import IncrementStopwatch from './IncrementStopwatch'
-import DateClock from './DateClock'
-import IStopwatch from './IStopwatch'
-import PerfHooksStopwatch from './PerfHooksStopwatch'
+} from './ErrorMessageGenerator.js'
+import makePickleTestStep from './makePickleTestStep.js'
+import makeTestCase from './makeTestCase.js'
+import makeTestPlan from './makeTestPlan.js'
+import makeHookTestStep from './makeHookTestStep.js'
+import TestStep from './TestStep.js'
+import IClock from './IClock.js'
+import IncrementClock from './IncrementClock.js'
+import IncrementStopwatch from './IncrementStopwatch.js'
+import DateClock from './DateClock.js'
+import IStopwatch from './IStopwatch.js'
+import PerfHooksStopwatch from './PerfHooksStopwatch.js'
 
 export {
   Given,

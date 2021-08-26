@@ -1,3 +1,3 @@
-import createMeta from './createMeta'
+import createMeta from './createMeta.js'
 
 export default createMeta

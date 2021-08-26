@@ -1,4 +1,4 @@
-import TestStep from './TestStep'
+import TestStep from './TestStep.js'
 import * as messages from '@cucumber/messages'
 
 export default class PickleTestStep extends TestStep {

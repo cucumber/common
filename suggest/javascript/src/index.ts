@@ -1,7 +1,7 @@
-import buildStepDocuments from './buildStepDocuments'
-import lspCompletionSnippet from './lspCompletionSnippet'
-import { Index, StepDocument, StepSegment } from './types'
+import buildStepDocuments from './buildStepDocuments.js'
+import lspCompletionSnippet from './lspCompletionSnippet.js'
+import { Index, StepDocument, StepSegment, StepSegments } from './types.js'
 
 export { buildStepDocuments, lspCompletionSnippet }
 
-export type { Index, StepDocument, StepSegment }
+export type { Index, StepDocument, StepSegment, StepSegments }

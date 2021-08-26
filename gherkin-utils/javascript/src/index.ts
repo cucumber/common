@@ -1,5 +1,5 @@
-import pretty from './pretty'
-import Query from './Query'
-import GherkinDocumentWalker, { rejectAllFilters } from './GherkinDocumentWalker'
+import pretty from './pretty.js'
+import Query from './Query.js'
+import GherkinDocumentWalker, { rejectAllFilters } from './GherkinDocumentWalker.js'
 
 export { pretty, Query, GherkinDocumentWalker, rejectAllFilters }

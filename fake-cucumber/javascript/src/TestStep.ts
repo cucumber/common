@@ -1,9 +1,9 @@
 import * as messages from '@cucumber/messages'
-import { EnvelopeListener, ISupportCodeExecutor, ITestStep, IWorld } from './types'
-import makeAttach from './makeAttach'
-import IClock from './IClock'
-import IStopwatch from './IStopwatch'
-import { MakeErrorMessage } from './ErrorMessageGenerator'
+import { EnvelopeListener, ISupportCodeExecutor, ITestStep, IWorld } from './types.js'
+import makeAttach from './makeAttach.js'
+import IClock from './IClock.js'
+import IStopwatch from './IStopwatch.js'
+import { MakeErrorMessage } from './ErrorMessageGenerator.js'
 
 const { millisecondsToDuration, millisecondsSinceEpochToTimestamp } = messages.TimeConversion
 

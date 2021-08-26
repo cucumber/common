@@ -3,7 +3,7 @@
  *
  * @param expression the expression to generate the snippet from
  */
-import { StepSegments } from './types'
+import { StepSegments } from './types.js'
 
 export default function lspCompletionSnippet(stepSegments: StepSegments): string {
   let n = 1

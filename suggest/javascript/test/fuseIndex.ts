@@ -1,4 +1,4 @@
-import { Index, StepDocument } from '../src'
+import { Index, StepDocument } from '../src/index.js'
 import Fuse from 'fuse.js'
 
 type Doc = {

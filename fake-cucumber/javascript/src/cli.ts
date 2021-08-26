@@ -1,14 +1,14 @@
 import { Command } from 'commander'
 import packageJson from '../package.json'
-import loadSupportCode from './loadSupportCode'
-import runCucumber from './runCucumber'
+import loadSupportCode from './loadSupportCode.js'
+import runCucumber from './runCucumber.js'
 import { GherkinStreams, IGherkinStreamOptions } from '@cucumber/gherkin-streams'
 import { Query as GherkinQuery } from '@cucumber/gherkin-utils'
 import { version } from '../package.json'
 import * as messages from '@cucumber/messages'
 import createMeta from '@cucumber/create-meta'
 import { MessageToNdjsonStream } from '@cucumber/message-streams'
-import { RunOptions } from './types'
+import { RunOptions } from './types.js'
 
 const program = new Command()
 program.version(packageJson.version)

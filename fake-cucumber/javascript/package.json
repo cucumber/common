@@ -2,7 +2,11 @@
   "name": "@cucumber/fake-cucumber",
   "version": "13.0.0",
   "description": "Fake Cucumber generates fake results",
-  "main": "dist/src/index.js",
+  "type": "module",
+  "exports": {
+    ".": "./dist/src/index.js",
+    "./typescript": "./src/index.ts"
+  },
   "types": "dist/src/index.d.ts",
   "bin": {
     "fake-cucumber": "bin/fake-cucumber"

@@ -1,6 +1,6 @@
 import { EventEmitter } from 'events'
 import { Readable } from 'stream'
-import { Attach, EnvelopeListener } from './types'
+import { Attach, EnvelopeListener } from './types.js'
 import * as messages from '@cucumber/messages'
 
 export default function makeAttach(

@@ -1,6 +1,6 @@
-import SupportCodeExecutor from '../src/SupportCodeExecutor'
+import SupportCodeExecutor from '../src/SupportCodeExecutor.js'
 import assert from 'assert'
-import TestWorld from './TestWorld'
+import TestWorld from './TestWorld.js'
 
 describe('SupportCodeExecutor', () => {
   it('can wait for a promise', async () => {

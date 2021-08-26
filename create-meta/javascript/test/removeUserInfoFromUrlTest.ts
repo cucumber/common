@@ -1,4 +1,4 @@
-import { removeUserInfoFromUrl } from '../src/createMeta'
+import { removeUserInfoFromUrl } from '../src/createMeta.js'
 import assert from 'assert'
 
 describe('removeUserInfoFromUrl', () => {

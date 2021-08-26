@@ -4,15 +4,15 @@ import {
   ParameterTypeRegistry,
 } from '@cucumber/cucumber-expressions'
 import * as messages from '@cucumber/messages'
-import { IHook, AnyBody, IStepDefinition } from './types'
-import ExpressionStepDefinition from './ExpressionStepDefinition'
-import Hook from './Hook'
-import IClock from './IClock'
-import { MakeErrorMessage, withFullStackTrace } from './ErrorMessageGenerator'
-import IParameterTypeDefinition from './IParameterTypeDefinition'
-import PerfHooksStopwatch from './PerfHooksStopwatch'
-import IStopwatch from './IStopwatch'
-import DateClock from './DateClock'
+import { IHook, AnyBody, IStepDefinition } from './types.js'
+import ExpressionStepDefinition from './ExpressionStepDefinition.js'
+import Hook from './Hook.js'
+import IClock from './IClock.js'
+import { MakeErrorMessage, withFullStackTrace } from './ErrorMessageGenerator.js'
+import IParameterTypeDefinition from './IParameterTypeDefinition.js'
+import PerfHooksStopwatch from './PerfHooksStopwatch.js'
+import IStopwatch from './IStopwatch.js'
+import DateClock from './DateClock.js'
 
 function defaultTransformer(...args: string[]) {
   return args

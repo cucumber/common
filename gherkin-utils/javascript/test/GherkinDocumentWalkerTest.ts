@@ -1,7 +1,7 @@
 import assert from 'assert'
-import GherkinDocumentWalker, { rejectAllFilters } from '../src/GherkinDocumentWalker'
-import pretty from '../src/pretty'
-import parse from './parse'
+import GherkinDocumentWalker, { rejectAllFilters } from '../src/GherkinDocumentWalker.js'
+import pretty from '../src/pretty.js'
+import parse from './parse.js'
 
 describe('GherkinDocumentWalker', () => {
   let walker: GherkinDocumentWalker
