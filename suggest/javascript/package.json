@@ -36,7 +36,7 @@
     "mocha": "9.1.0",
     "txtgen": "2.2.8",
     "ts-node": "10.2.1",
-    "typescript": "4.3.5"
+    "typescript": "4.4.2"
   },
   "dependencies": {
     "@cucumber/cucumber-expressions": "12.1.1"
