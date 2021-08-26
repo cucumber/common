@@ -1,9 +1,13 @@
-import Ajv from "ajv/dist/2020"
+// @ts-ignore
+import Ajv from './ajv2020.cjs'
 import * as messageStreams from '@cucumber/message-streams'
 import * as messages from '@cucumber/messages'
 import {pipeline as asyncPipeline, Writable} from 'stream'
 import {promisify} from 'util'
 import fs from 'fs'
+import { fileURLToPath } from 'url'
+import { dirname } from 'path'
+const __dirname = dirname(fileURLToPath(import.meta.url))
 
 const pipeline = promisify(asyncPipeline)
 

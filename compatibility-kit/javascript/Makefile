@@ -21,7 +21,7 @@ endif
 
 acceptance/%.ndjson.valid: features/%.ndjson
 	mkdir -p $(@D)
-	cat $< | ../../node_modules/.bin/ts-node src/validate.ts > $@
+	cat $< | node --experimental-loader ./esm-loader.mjs src/validate.ts > $@
 
 clean:
 ifdef GOLDEN
