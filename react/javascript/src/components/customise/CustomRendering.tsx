@@ -17,46 +17,54 @@ function mixinStyles<Classes>(
   return mixed as Classes
 }
 
+type Styles<C extends string> = Record<C, string>
+
+export interface AnchorProps {
+  id: string
+}
+
+export type AnchorClasses = Styles<'wrapper' | 'anchor'>
+
 export interface AttachmentProps {
   attachment: messages.Attachment
 }
 
-export interface AttachmentClasses {
-  text: string
-  icon: string
-  image: string
+export type AttachmentClasses = Styles<'text' | 'icon' | 'image'>
+
+export interface BackgroundProps {
+  background: messages.Background
 }
+
+export interface ChildrenProps {}
+
+export type ChildrenClasses = Styles<'children'>
 
 export interface DataTableProps {
   dataTable: messages.DataTable
 }
 
-export interface DataTableClasses {
-  table: string
-}
+export type DataTableClasses = Styles<'table'>
 
 export interface DescriptionProps {
   description?: string
 }
 
-export interface DescriptionClasses {
-  content: string
-}
+export type DescriptionClasses = Styles<'content'>
 
 export interface DocStringProps {
   docString: messages.DocString
 }
 
-export interface DocStringClasses {
-  docString: string
-}
+export type DocStringClasses = Styles<'docString'>
 
 export interface ErrorMessageProps {
   message: string
 }
 
-export interface ErrorMessageClasses {
-  message: string
+export type ErrorMessageClasses = Styles<'message'>
+
+export interface ExamplesProps {
+  examples: messages.Examples
 }
 
 export interface ExamplesTableProps {
@@ -64,43 +72,69 @@ export interface ExamplesTableProps {
   tableBody: readonly messages.TableRow[]
 }
 
-export interface ExamplesTableClasses {
-  examplesTable: string
-  detailRow: string
+export type ExamplesTableClasses = Styles<'examplesTable' | 'detailRow'>
+
+export interface FeatureProps {
+  feature: messages.Feature
 }
 
-export interface KeywordClasses {
-  keyword: string
+export interface GherkinStepProps {
+  step: messages.Step
+  hasExamples: boolean
 }
+
+export type Header = 'h1' | 'h2' | 'h3' | 'h4' | 'h5'
+
+export interface HookStepProps {
+  step: messages.TestStep
+}
+
+export type KeywordClasses = Styles<'keyword'>
 
 export interface ParameterProps {
   parameterTypeName: string
 }
 
-export interface ParameterClasses {
-  parameter: string
-}
+export type ParameterClasses = Styles<'parameter'>
 
 export interface StatusIconProps {
   status: messages.TestStepResultStatus
 }
 
-export interface StatusIconClasses {
-  icon: string
+export interface RuleProps {
+  rule: messages.Rule
+}
+
+export interface ScenarioProps {
+  scenario: messages.Scenario
+}
+
+export type ScenarioClasses = Styles<'steps'>
+
+export type StatusIconClasses = Styles<'icon'>
+
+export interface StepListProps {
+  steps: readonly messages.Step[]
+  hasExamples: boolean
 }
 
 export interface TagsProps {
   tags: readonly messages.Tag[]
 }
 
-export interface TagsClasses {
-  tags: string
-  tag: string
+export type TagsClasses = Styles<'tags' | 'tag'>
+
+export interface TitleProps {
+  header: Header
+  id: string
 }
 
-export declare type DefaultComponent<Props, Classes> = React.FunctionComponent<
-  Props & { styles: Classes }
->
+export type TitleClasses = Styles<'title'>
+
+export declare type DefaultComponent<
+  Props,
+  Classes extends Styles<string> = {}
+> = React.FunctionComponent<Props & { styles: Classes }>
 
 export declare type CustomisedComponent<Props, Classes> = React.FunctionComponent<
   Props & {
@@ -114,23 +148,34 @@ export declare type Customised<Props, Classes> =
   | Partial<Classes>
 
 export interface CustomRenderingSupport {
+  Anchor?: Customised<AnchorProps, AnchorClasses>
+  Background?: Customised<BackgroundProps, {}>
   Attachment?: Customised<AttachmentProps, AttachmentClasses>
+  Children?: Customised<ChildrenProps, ChildrenClasses>
   DataTable?: Customised<DataTableProps, DataTableClasses>
   Description?: Customised<DescriptionProps, DescriptionClasses>
   DocString?: Customised<DocStringProps, DocStringClasses>
   ErrorMessage?: Customised<ErrorMessageProps, ErrorMessageClasses>
+  Examples?: Customised<ExamplesProps, {}>
   ExamplesTable?: Customised<ExamplesTableProps, ExamplesTableClasses>
+  Feature?: Customised<FeatureProps, {}>
+  GherkinStep?: Customised<GherkinStepProps, {}>
+  HookStep?: Customised<HookStepProps, {}>
   Keyword?: Customised<any, KeywordClasses>
   Parameter?: Customised<ParameterProps, ParameterClasses>
+  Rule?: Customised<RuleProps, {}>
+  Scenario?: Customised<ScenarioProps, ScenarioClasses>
   StatusIcon?: Customised<StatusIconProps, StatusIconClasses>
+  StepList?: Customised<StepListProps, {}>
   Tags?: Customised<TagsProps, TagsClasses>
+  Title?: Customised<TitleProps, TitleClasses>
 }
 
 export declare type CustomRenderable = keyof CustomRenderingSupport
 
-const CustomRenderingContext = React.createContext<CustomRenderingSupport>({})
+export const CustomRenderingContext = React.createContext<CustomRenderingSupport>({})
 
-export function useCustomRendering<Props, Classes>(
+export function useCustomRendering<Props, Classes extends Styles<string> = {}>(
   component: CustomRenderable,
   defaultStyles: Record<string, string>,
   DefaultRenderer: DefaultComponent<Props, Classes>
@@ -149,7 +194,7 @@ export function useCustomRendering<Props, Classes>(
   return StyledDefaultRenderer
 }
 
-const CustomRendering: React.FunctionComponent<{
+export const CustomRendering: React.FunctionComponent<{
   support: CustomRenderingSupport
 }> = (props) => {
   return (
@@ -158,5 +203,3 @@ const CustomRendering: React.FunctionComponent<{
     </CustomRenderingContext.Provider>
   )
 }
-
-export default CustomRendering

@@ -1,4 +1,4 @@
-module github.com/cucumber/common/messages/go/v16
+module github.com/cucumber/common/messages/go/v17
 
 require (
 	github.com/gofrs/uuid v4.0.0+incompatible

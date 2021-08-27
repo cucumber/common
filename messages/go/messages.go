@@ -168,9 +168,10 @@ type Meta struct {
 }
 
 type Ci struct {
-	Name string `json:"name"`
-	Url  string `json:"url,omitempty"`
-	Git  *Git   `json:"git,omitempty"`
+	Name        string `json:"name"`
+	Url         string `json:"url,omitempty"`
+	BuildNumber string `json:"buildNumber,omitempty"`
+	Git         *Git   `json:"git,omitempty"`
 }
 
 type Git struct {

@@ -6,7 +6,7 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 
-public class MessageToNdjsonWriter implements MessageWriter {
+public final class MessageToNdjsonWriter implements MessageWriter {
     private final Writer out;
 
     public MessageToNdjsonWriter(OutputStream out) {
@@ -15,7 +15,7 @@ public class MessageToNdjsonWriter implements MessageWriter {
 
     @Override
     public void write(Object message) throws IOException {
-        out.write(JSON.toJSON(message));
+        JSON.writeValue(out, message);
         out.write("\n");
         out.flush();
     }

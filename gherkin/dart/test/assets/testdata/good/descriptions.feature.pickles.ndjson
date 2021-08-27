@@ -1,0 +1,8 @@
+{"pickle":{"astNodeIds":["1"],"id":"20","language":"en","name":"two lines","steps":[{"astNodeIds":["0"],"id":"19","text":"the minimalism"}],"tags":[],"uri":"testdata/good/descriptions.feature"}}
+{"pickle":{"astNodeIds":["3"],"id":"22","language":"en","name":"without indentation","steps":[{"astNodeIds":["2"],"id":"21","text":"the minimalism"}],"tags":[],"uri":"testdata/good/descriptions.feature"}}
+{"pickle":{"astNodeIds":["5"],"id":"24","language":"en","name":"empty lines in the middle","steps":[{"astNodeIds":["4"],"id":"23","text":"the minimalism"}],"tags":[],"uri":"testdata/good/descriptions.feature"}}
+{"pickle":{"astNodeIds":["7"],"id":"26","language":"en","name":"empty lines around","steps":[{"astNodeIds":["6"],"id":"25","text":"the minimalism"}],"tags":[],"uri":"testdata/good/descriptions.feature"}}
+{"pickle":{"astNodeIds":["9"],"id":"28","language":"en","name":"comment after description","steps":[{"astNodeIds":["8"],"id":"27","text":"the minimalism"}],"tags":[],"uri":"testdata/good/descriptions.feature"}}
+{"pickle":{"astNodeIds":["11"],"id":"30","language":"en","name":"comment right after description","steps":[{"astNodeIds":["10"],"id":"29","text":"the minimalism"}],"tags":[],"uri":"testdata/good/descriptions.feature"}}
+{"pickle":{"astNodeIds":["13"],"id":"32","language":"en","name":"description with escaped docstring separator","steps":[{"astNodeIds":["12"],"id":"31","text":"the minimalism"}],"tags":[],"uri":"testdata/good/descriptions.feature"}}
+{"pickle":{"astNodeIds":["18","16"],"id":"34","language":"en","name":"scenario outline with a description","steps":[{"astNodeIds":["14","16"],"id":"33","text":"the minimalism"}],"tags":[],"uri":"testdata/good/descriptions.feature"}}

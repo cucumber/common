@@ -9,8 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
-* Added Examples to the attachments feature to generate messages for fixing
-  [#1173](https://github.com/cucumber/common/issues/1173)
+* Features for pending steps, skipped scenarios and undefined steps
 
 ### Changed
 
@@ -19,6 +18,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Removed
 
 ### Fixed
+
+## [7.1.0] - 2021-07-08
+
+### Added
+
+* Added Examples to the attachments feature to generate messages for fixing
+  [#1173](https://github.com/cucumber/common/issues/1173)
+* Added `retry` feature to validate Retry behaviour in implementations that have it ([#1631](https://github.com/cucumber/common/pull/1631))
+* Added mechanism to optionally specify CLI options for `fake-cucumber` per feature
 
 ## [7.0.0] - 2021-05-26
 
@@ -79,7 +87,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/compatibility-kit/v7.0.0...main
+[Unreleased]: https://github.com/cucumber/cucumber/compare/compatibility-kit/v7.1.0...main
+[7.1.0]:      https://github.com/cucumber/cucumber/releases/tag/compatibility-kit/v7.0.0
 [7.0.0]:      https://github.com/cucumber/cucumber/releases/tag/compatibility-kit/v6.0.0
 [6.0.0]:      https://github.com/cucumber/cucumber/releases/tag/compatibility-kit/v5.0.1
 [5.0.1]:      https://github.com/cucumber/cucumber/releases/tag/compatibility-kit/v5.0.0

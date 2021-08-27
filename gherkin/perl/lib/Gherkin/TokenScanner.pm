@@ -5,9 +5,8 @@ use warnings;
 
 use Class::XSAccessor accessors => [qw/fh line_number/];
 
-use IO::File;
-use IO::Scalar;
 use Carp qw/croak/;
+use Encode;
 
 use Gherkin::Line;
 use Gherkin::Token;
@@ -20,10 +19,10 @@ sub new {
     # a straight string is a path
     my $fh;
     if ( ref $path_or_str eq 'SCALAR' ) {
-        $fh = new IO::Scalar $path_or_str;
+        my $bytes = Encode::encode('UTF-8', ${ $path_or_str });
+        open $fh, '<:encoding(UTF-8)', \$bytes;
     } else {
-        $fh = IO::File->new();
-        $fh->open( $path_or_str, '<' )
+        open( $fh, '<', $path_or_str )
           || croak "Can't open [$path_or_str] for reading";
         $fh->binmode(':utf8');
     }
@@ -33,31 +32,34 @@ sub new {
 
 sub next_line {
     my $self = shift;
+
+    return (undef, $self->line_number) if not defined $self->fh;
+
+    my $line = $self->fh->getline;
     $self->line_number( $self->line_number + 1 );
+
+    if (not defined $line) {
+        $self->fh->close;
+        $self->fh( undef );
+    }
+
+    return ($line, $self->line_number);
 }
 
 sub read {
     my $self = shift;
-    $self->next_line();
-    my $line = $self->fh->getline;
-    $line =~ s/\r$// if $line; # \n as well as \r\n are considered lines separators
-    return Gherkin::Token->new(
-        line => $line
-        ? (
-            Gherkin::Line->new(
-                { line_text => $line, line_number => $self->line_number }
-            )
-          )
-        : undef,
-        location => { line => $self->line_number }
-    );
-}
+    my ($line, $line_number) = $self->next_line;
 
-sub DESTROY {
-    my $self = shift;
-    if ( $self->fh ) {
-        $self->fh->close;
+    my $location   = { line => $line_number };
+    my $line_token = undef;
+    if (defined $line) {
+        $line =~ s/\r$//; # \n as well as \r\n are considered lines separators
+        $line_token =
+            Gherkin::Line->new(
+                { line_text => $line, line_number => $line_number }
+            );
     }
+    return Gherkin::Token->new(line => $line_token, location => $location);
 }
 
 1;

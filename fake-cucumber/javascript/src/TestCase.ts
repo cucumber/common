@@ -26,6 +26,7 @@ export default class TestCase implements ITestCase {
   public async execute(
     listener: EnvelopeListener,
     attempt: number,
+    retryable: boolean,
     testCaseStartedId: string
   ): Promise<messages.TestStepResultStatus> {
     listener({
@@ -59,10 +60,15 @@ export default class TestCase implements ITestCase {
       testStepResults.push(testStepResult)
     }
 
+    const willBeRetried =
+      retryable &&
+      getWorstTestStepResult(testStepResults).status === messages.TestStepResultStatus.FAILED
+
     listener({
       testCaseFinished: {
         testCaseStartedId: testCaseStartedId,
         timestamp: millisecondsSinceEpochToTimestamp(this.clock.clockNow()),
+        willBeRetried,
       },
     })
 
