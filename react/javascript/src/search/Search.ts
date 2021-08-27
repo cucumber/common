@@ -2,7 +2,7 @@ import * as messages from '@cucumber/messages'
 import { Query as GherkinQuery } from '@cucumber/gherkin-utils'
 import TagSearch from '../../src/search/TagSearch'
 import TextSearch from '../../src/search/TextSearch'
-import isTagExpression from '../../src/is_tag_expression'
+import isTagExpression from '../../src/isTagExpression'
 
 export default class Search {
   private readonly tagSearch: TagSearch

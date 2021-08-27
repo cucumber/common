@@ -29,7 +29,7 @@
     "mocha": "9.1.0",
     "source-map-support": "0.5.19",
     "ts-node": "10.2.1",
-    "typescript": "4.3.5"
+    "typescript": "4.4.2"
   },
   "dependencies": {
     "@cucumber/messages": "^17.0.1"

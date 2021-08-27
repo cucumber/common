@@ -1,16 +1,13 @@
 import React from 'react'
-import Keyword from './Keyword'
-import ExamplesTable from './ExamplesTable'
-import * as messages from '@cucumber/messages'
-import Tags from './Tags'
-import Description from './Description'
-import Title from './Title'
+import { Keyword } from './Keyword'
+import { ExamplesTable } from './ExamplesTable'
+import { Description } from './Description'
+import { Title } from './Title'
+import { Tags } from './Tags'
+import { Children } from './Children'
+import { DefaultComponent, ExamplesProps, useCustomRendering } from '../customise'
 
-interface IExamplesProps {
-  examples: messages.Examples
-}
-
-const Examples: React.FunctionComponent<IExamplesProps> = ({ examples }) => {
+const DefaultRenderer: DefaultComponent<ExamplesProps, {}> = ({ examples }) => {
   return (
     <section>
       <Tags tags={examples.tags} />
@@ -20,12 +17,15 @@ const Examples: React.FunctionComponent<IExamplesProps> = ({ examples }) => {
       </Title>
       <Description description={examples.description} />
       {examples.tableHeader && (
-        <div className="cucumber-children">
+        <Children>
           <ExamplesTable tableHeader={examples.tableHeader} tableBody={examples.tableBody} />
-        </div>
+        </Children>
       )}
     </section>
   )
 }
 
-export default Examples
+export const Examples: React.FunctionComponent<ExamplesProps> = (props) => {
+  const ResolvedRenderer = useCustomRendering<ExamplesProps, {}>('Examples', {}, DefaultRenderer)
+  return <ResolvedRenderer {...props} />
+}
