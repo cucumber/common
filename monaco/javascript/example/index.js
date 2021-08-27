@@ -1,5 +1,6 @@
 import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
-import { jsSearchIndex } from '@cucumber/suggest'
+import { buildStepDocuments, jsSearchIndex } from '@cucumber/suggest'
+import { ExpressionFactory, ParameterTypeRegistry } from '@cucumber/cucumber-expressions'
 import { configure } from '../dist/src/index'
 
 (function () {
@@ -12,22 +13,26 @@ import { configure } from '../dist/src/index'
   document.body.appendChild(div);
 })();
 
-const doc1 = {
-  suggestion: 'I have {int} cukes in my belly',
-  segments: ['I have ', ['42', '98'], ' cukes in my belly'],
-}
-const doc2 = {
-  suggestion: 'I am a teapot',
-  segments: ['I am a teapot'],
-}
-const index = jsSearchIndex([doc1, doc2])
+const ef = new ExpressionFactory(new ParameterTypeRegistry())
+const docs = buildStepDocuments(
+  [
+    'I have 42 cukes in my belly',
+    'I have 96 cukes in my belly',
+    'there are 38 blind mice',
+  ],
+  [
+    ef.createExpression('I have {int} cukes in my belly'),
+    ef.createExpression('there are {int} blind mice')
+  ]
+)
+const index = jsSearchIndex(docs)
 
 configure(monaco, index, [])
 
 monaco.editor.create(document.getElementById('root'), {
   value: `Feature: Hello
   Scenario: Hi
-    Given I have 42 cukes in my belly
+    Given 
 `,
   language: 'gherkin',
   theme: 'vs-dark',
