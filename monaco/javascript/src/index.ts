@@ -1,6 +1,7 @@
 import * as monacoEditor from 'monaco-editor/esm/vs/editor/editor.api'
 import {
   getGherkinCompletionItems,
+  getGherkinDiagnostics,
   getGherkinSemanticTokens,
   semanticTokenModifiers,
   semanticTokenTypes
@@ -12,6 +13,30 @@ type Monaco = typeof monacoEditor
 
 export function configure(monaco: Monaco, index: Index | undefined, expressions: readonly Expression[]) {
   monaco.languages.register({ id: 'gherkin' })
+
+  monaco.editor.onDidCreateModel((model) => {
+    function validate() {
+      const gherkinSource = model.getValue()
+      const diagnostics = getGherkinDiagnostics(gherkinSource, expressions)
+      const markers: monacoEditor.editor.IMarkerData[] = diagnostics.map((d) => ({
+        severity: monaco.MarkerSeverity.Error,
+        message: d.message,
+        startLineNumber: d.range.start.line + 1,
+        startColumn: d.range.start.character + 1,
+        endLineNumber: d.range.end.line + 1,
+        endColumn: d.range.end.character + 1,
+      }))
+      monaco.editor.setModelMarkers(model, 'gherkin', markers)
+    }
+
+    let timeout: any
+    model.onDidChangeContent(() => {
+      // debounce
+      clearTimeout(timeout)
+      timeout = setTimeout(() => validate(), 500)
+    })
+    validate()
+  })
 
   // https://microsoft.github.io/monaco-editor/playground.html#extending-language-services-semantic-tokens-provider-example
   monaco.languages.registerDocumentSemanticTokensProvider('gherkin', {
@@ -38,7 +63,7 @@ export function configure(monaco: Monaco, index: Index | undefined, expressions:
       provideCompletionItems: function (model, position) {
         const gherkinSource = model.getValue()
         const word = model.getWordUntilPosition(position)
-        const completionItems = getGherkinCompletionItems(gherkinSource, position.lineNumber -1, index)
+        const completionItems = getGherkinCompletionItems(gherkinSource, position.lineNumber - 1, index)
         const range = {
           startLineNumber: position.lineNumber,
           endLineNumber: position.lineNumber,
