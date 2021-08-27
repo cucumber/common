@@ -1,9 +1,7 @@
 # Cucumber Language Service
 
-This library implements the services provided by [Cucumber Language Server](../../language-server/javascript).
-
-It is a standalone library that can also be used *without* the Cucumber Language Server,
-for example in a browser.
+This library implements the services used by [Cucumber Language Server](../../language-server/javascript)
+and [Cucumber Monaco](../../monaco/javascript).
 
 ## Supported features
 

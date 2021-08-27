@@ -14,6 +14,8 @@ type Monaco = typeof monacoEditor
 export function configure(monaco: Monaco, index: Index | undefined, expressions: readonly Expression[]) {
   monaco.languages.register({ id: 'gherkin' })
 
+  // Diagnostics (Syntax validation)
+
   monaco.editor.onDidCreateModel((model) => {
     function validate() {
       const gherkinSource = model.getValue()
@@ -38,7 +40,8 @@ export function configure(monaco: Monaco, index: Index | undefined, expressions:
     validate()
   })
 
-  // https://microsoft.github.io/monaco-editor/playground.html#extending-language-services-semantic-tokens-provider-example
+  // Syntax Highlighting (Semantic Tokens)
+
   monaco.languages.registerDocumentSemanticTokensProvider('gherkin', {
     getLegend: function () {
       return {
@@ -58,28 +61,28 @@ export function configure(monaco: Monaco, index: Index | undefined, expressions:
     }
   })
 
-  if (index) {
-    monaco.languages.registerCompletionItemProvider('gherkin', {
-      provideCompletionItems: function (model, position) {
-        const gherkinSource = model.getValue()
-        const word = model.getWordUntilPosition(position)
-        const completionItems = getGherkinCompletionItems(gherkinSource, position.lineNumber - 1, index)
-        const range = {
-          startLineNumber: position.lineNumber,
-          endLineNumber: position.lineNumber,
-          startColumn: word.startColumn,
-          endColumn: word.endColumn,
-        }
-        return {
-          suggestions: completionItems.map((ci) => ({
-            label: ci.label,
-            kind: monaco.languages.CompletionItemKind.Text,
-            insertText: ci.insertText,
-            insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
-            range,
-          }))
-        }
+  // Auto-Complete
+
+  monaco.languages.registerCompletionItemProvider('gherkin', {
+    provideCompletionItems: function (model, position) {
+      const gherkinSource = model.getValue()
+      const word = model.getWordUntilPosition(position)
+      const completionItems = getGherkinCompletionItems(gherkinSource, position.lineNumber - 1, index)
+      const range = {
+        startLineNumber: position.lineNumber,
+        endLineNumber: position.lineNumber,
+        startColumn: word.startColumn,
+        endColumn: word.endColumn,
       }
-    })
-  }
+      return {
+        suggestions: completionItems.map((ci) => ({
+          label: ci.label,
+          kind: monaco.languages.CompletionItemKind.Text,
+          insertText: ci.insertText,
+          insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+          range,
+        }))
+      }
+    }
+  })
 }

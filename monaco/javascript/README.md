@@ -1,17 +1,21 @@
 # Cucumber Monaco
 
-This library configures a [monaco editor](https://github.com/microsoft/monaco-editor) instance
-to use [@cucumber/language-service](../../language-service/javascript).
+This library configures a [monaco editor](https://github.com/microsoft/monaco-editor)
+with editor features similar to the [Visual Studio Code Cucumber Extension](../../vscode/javascript).
 
-This makes it possible to build a web based editor for Gherkin with code completion,
-syntax highlighting and all the services offered by @cucumber/language-service.
+![Screenshot 1](screenshot1.png)
+
+![Screenshot 2](screenshot2.png)
+
+The library is a small Monaco adapter for the [@cucumber/language-service](../../language-service/javascript)
+library.
 
 ## Example
 
 To build the example, run the following:
 
 ```
-pushd ../.. 
+pushd ../..
 npm install
 npm run build
 popd
