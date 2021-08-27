@@ -6,6 +6,7 @@ set -euf -o pipefail
 
 version=$1
 libname=$(basename $(dirname $(pwd)))
+git_tag_name=${libname}/go
 exe_base_name=cucumber-${libname}
 add_args=$(find dist -type f -name "${exe_base_name}-*" | \
   # Replace newline with space
@@ -14,6 +15,7 @@ add_args=$(find dist -type f -name "${exe_base_name}-*" | \
   sed -e 's/[[:space:]]*$//' | \
   # Insert ' -a ' between all files
   sed "s/[[:space:]]/ -a /g")
+
 eval hub release create \
   --attach ${add_args} \
-  --message "${exe_base_name}/v${version}" "${exe_base_name}/v${version}"
+  --message "${git_tag_name}/v${version}" "${git_tag_name}/v${version}"

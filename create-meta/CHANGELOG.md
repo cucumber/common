@@ -17,6 +17,34 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [6.0.1] - 2021-07-19
+
+### Changed
+
+* Upgrade `cucumber-messages` to v17.0.1
+
+## [6.0.0] - 2021-07-08
+
+### Added
+
+* Detect and populate `Ci#buildNumber` for all supported CI servers.
+  ([#1632](https://github.com/cucumber/common/pull/1632)
+   [#1606](https://github.com/cucumber/common/issues/1606)
+   [aslakhellesoy])
+
+### Changed
+* [Java] Removed implicit utility class constructors and made classes final
+
+### Removed
+
+* Removed support for TeamCity since it doesn't seem to expose enough environment variables.
+
+### Fixed
+
+* Improve detection of Bamboo environment variables
+* Improve detection of Azure environment variables
+* Fix `Git#remote` for CodeFresh
+
 ## [5.0.0] - 2021-05-17
 
 ### Added
@@ -109,7 +137,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/create-meta/v5.0.0...main
+[Unreleased]: https://github.com/cucumber/cucumber/compare/create-meta/v6.0.1...main
+[6.0.1]:      https://github.com/cucumber/cucumber/compare/create-meta/v6.0.0...create-meta/v6.0.1
+[6.0.0]:      https://github.com/cucumber/cucumber/compare/create-meta/v5.0.0...create-meta/v6.0.0
 [5.0.0]:      https://github.com/cucumber/cucumber/compare/create-meta/v4.0.0...create-meta/v5.0.0
 [4.0.0]:      https://github.com/cucumber/cucumber/compare/create-meta/v3.0.0...create-meta/v4.0.0
 [3.0.0]:      https://github.com/cucumber/cucumber/compare/create-meta/v2.0.4...create-meta/v3.0.0

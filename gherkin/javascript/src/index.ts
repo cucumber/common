@@ -5,6 +5,7 @@ import Dialect from './Dialect'
 import Parser from './Parser'
 import AstBuilder from './AstBuilder'
 import TokenScanner from './TokenScanner'
+import * as Errors from './Errors'
 import compile from './pickles/compile'
 import DIALECTS from './gherkin-languages.json'
 import GherkinClassicTokenMatcher from './GherkinClassicTokenMatcher'
@@ -21,6 +22,7 @@ export {
   Parser,
   AstBuilder,
   TokenScanner,
+  Errors,
   GherkinClassicTokenMatcher,
   GherkinInMarkdownTokenMatcher,
   compile,

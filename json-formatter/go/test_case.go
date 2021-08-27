@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/cucumber/messages-go/v16"
+	"github.com/cucumber/common/messages/go/v17"
 )
 
 type TestCase struct {

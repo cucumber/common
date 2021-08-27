@@ -1,0 +1,46 @@
+{
+  "name": "@cucumber/monaco",
+  "version": "0.0.1",
+  "description": "Cucumber Monaco",
+  "main": "dist/src/index.js",
+  "types": "dist/src/index.d.ts",
+  "scripts": {
+    "test": "mocha",
+    "build": "webpack",
+    "prepublishOnly": "tsc --build tsconfig.build.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/cucumber/common.git"
+  },
+  "keywords": [
+    "cucumber",
+    "lsp",
+    "language service"
+  ],
+  "author": "Cucumber Limited <cukes@googlegroups.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cucumber/common/issues"
+  },
+  "homepage": "https://github.com/cucumber/common#readme",
+  "devDependencies": {
+    "@types/mocha": "9.0.0",
+    "@types/node": "14.17.12",
+    "@cucumber/cucumber-expressions": "12.1.1",
+    "mocha": "9.0.3",
+    "monaco-editor": "0.27.0",
+    "monaco-editor-webpack-plugin": "4.1.2",
+    "ts-node": "10.1.0",
+    "typescript": "4.3.5",
+    "webpack": "5.51.1",
+    "webpack-cli": "4.8.0"
+  },
+  "dependencies": {
+    "@cucumber/language-service": "^0.0.1",
+    "@cucumber/suggest": "^0.0.2"
+  },
+  "peerDependencies": {
+    "monaco-editor": "^0.27.0"
+  }
+}

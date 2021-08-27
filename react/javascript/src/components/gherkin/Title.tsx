@@ -1,13 +1,14 @@
 import React from 'react'
-import styles from './Title.module.scss'
-import Anchor from './Anchor'
+import defaultStyles from './Title.module.scss'
+import { Anchor } from './Anchor'
+import { TitleProps, TitleClasses, useCustomRendering, DefaultComponent } from '../customise'
 
-export type Header = 'h1' | 'h2' | 'h3' | 'h4' | 'h5'
-
-const Title: React.FunctionComponent<{
-  header: Header
-  id: string
-}> = ({ header: Header, id, children }) => {
+const DefaultRenderer: DefaultComponent<TitleProps, TitleClasses> = ({
+  header: Header,
+  id,
+  children,
+  styles,
+}) => {
   return (
     <Anchor id={id}>
       <Header id={id} className={styles.title}>
@@ -17,4 +18,11 @@ const Title: React.FunctionComponent<{
   )
 }
 
-export default Title
+export const Title: React.FunctionComponent<TitleProps> = (props) => {
+  const ResolvedRenderer = useCustomRendering<TitleProps, TitleClasses>(
+    'Title',
+    defaultStyles,
+    DefaultRenderer
+  )
+  return <ResolvedRenderer {...props} />
+}

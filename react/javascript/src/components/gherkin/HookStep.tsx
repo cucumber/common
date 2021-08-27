@@ -1,17 +1,14 @@
 import React from 'react'
 import * as messages from '@cucumber/messages'
 import CucumberQueryContext from '../../CucumberQueryContext'
-import ErrorMessage from './ErrorMessage'
-import StepItem from './StepItem'
-import Attachment from './Attachment'
+import { Title } from './Title'
+import { ErrorMessage } from './ErrorMessage'
+import { StepItem } from './StepItem'
+import { Attachment } from './Attachment'
 import { getWorstTestStepResult } from '@cucumber/messages'
-import Title from './Title'
+import { HookStepProps, useCustomRendering } from '../customise'
 
-interface IProps {
-  step: messages.TestStep
-}
-
-const HookStep: React.FunctionComponent<IProps> = ({ step }) => {
+const DefaultRenderer: React.FunctionComponent<HookStepProps> = ({ step }) => {
   const cucumberQuery = React.useContext(CucumberQueryContext)
 
   const stepResult = getWorstTestStepResult(cucumberQuery.getTestStepResults(step.id))
@@ -19,12 +16,14 @@ const HookStep: React.FunctionComponent<IProps> = ({ step }) => {
   const hook = cucumberQuery.getHook(step.hookId)
   const attachments = cucumberQuery.getTestStepsAttachments([step.id])
 
-  if (stepResult.status === 'FAILED') {
-    const location = hook.sourceReference.location
-      ? hook.sourceReference.uri + ':' + hook.sourceReference.location.line
-      : hook.sourceReference.javaMethod
-      ? hook.sourceReference.javaMethod.className + '.' + hook.sourceReference.javaMethod.methodName
-      : 'Unknown location'
+  if (stepResult.status === messages.TestStepResultStatus.FAILED) {
+    let location = 'Unknown location'
+    if (hook?.sourceReference.location) {
+      location = `${hook.sourceReference.uri}:${hook.sourceReference.location.line}`
+    } else if (hook?.sourceReference.javaMethod) {
+      location = `${hook.sourceReference.javaMethod.className}.${hook.sourceReference.javaMethod.methodName}`
+    }
+
     return (
       <StepItem status={stepResult.status}>
         <Title header="h3" id={step.id}>
@@ -49,4 +48,7 @@ const HookStep: React.FunctionComponent<IProps> = ({ step }) => {
   }
 }
 
-export default HookStep
+export const HookStep: React.FunctionComponent<HookStepProps> = (props) => {
+  const ResolvedRenderer = useCustomRendering<HookStepProps, {}>('HookStep', {}, DefaultRenderer)
+  return <ResolvedRenderer {...props} />
+}

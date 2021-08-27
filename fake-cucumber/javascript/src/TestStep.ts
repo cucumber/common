@@ -35,7 +35,6 @@ export default abstract class TestStep implements ITestStep {
         {
           duration: millisecondsToDuration(0),
           status: messages.TestStepResultStatus.UNDEFINED,
-          willBeRetried: false,
         },
         listener
       )
@@ -47,7 +46,6 @@ export default abstract class TestStep implements ITestStep {
         {
           duration: millisecondsToDuration(0),
           status: messages.TestStepResultStatus.AMBIGUOUS,
-          willBeRetried: false,
         },
         listener
       )
@@ -59,7 +57,6 @@ export default abstract class TestStep implements ITestStep {
         {
           duration: millisecondsToDuration(0),
           status: messages.TestStepResultStatus.SKIPPED,
-          willBeRetried: false,
         },
         listener
       )
@@ -75,15 +72,12 @@ export default abstract class TestStep implements ITestStep {
       const result = await this.supportCodeExecutors[0].execute(world)
       const finish = this.stopwatch.stopwatchNow()
       const duration = millisecondsToDuration(finish - start)
+      const status: messages.TestStepResultStatus = this.inferStatus(result)
       return this.emitTestStepFinished(
         testCaseStartedId,
         {
           duration,
-          status:
-            result === 'pending'
-              ? messages.TestStepResultStatus.PENDING
-              : messages.TestStepResultStatus.PASSED,
-          willBeRetried: false,
+          status,
         },
         listener
       )
@@ -97,7 +91,6 @@ export default abstract class TestStep implements ITestStep {
         {
           duration,
           status: messages.TestStepResultStatus.FAILED,
-          willBeRetried: false,
           message,
         },
         listener
@@ -129,5 +122,16 @@ export default abstract class TestStep implements ITestStep {
       },
     })
     return testStepResult
+  }
+
+  private inferStatus(result: any): messages.TestStepResultStatus {
+    switch (result) {
+      case 'pending':
+        return messages.TestStepResultStatus.PENDING
+      case 'skipped':
+        return messages.TestStepResultStatus.SKIPPED
+      default:
+        return messages.TestStepResultStatus.PASSED
+    }
   }
 }

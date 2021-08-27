@@ -218,6 +218,7 @@ will only have one of its fields set, which indicates the payload of the message
 | ----- | ---- | ----------- | ----------- |
 | `name` | string | yes | |
 | `url` | string | no | |
+| `buildNumber` | string | no | |
 | `git` | [Git](#git) | no | |
 
 ## Git
@@ -406,6 +407,7 @@ will only have one of its fields set, which indicates the payload of the message
 | ----- | ---- | ----------- | ----------- |
 | `testCaseStartedId` | string | yes | |
 | `timestamp` | [Timestamp](#timestamp) | yes | |
+| `willBeRetried` | boolean | yes | |
 
 ## TestCaseStarted
 
@@ -446,7 +448,6 @@ will only have one of its fields set, which indicates the payload of the message
 | `duration` | [Duration](#duration) | yes | |
 | `message` | string | no | |
 | `status` | [TestStepResultStatus](#teststepresultstatus) | yes | |
-| `willBeRetried` | boolean | yes | |
 
 ## TestStepStarted
 

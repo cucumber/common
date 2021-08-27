@@ -1,4 +1,4 @@
-import { When } from 'cucumber'
+import { When } from '@cucumber/cucumber'
 
 When('a passed step', function () {
   // no-op
