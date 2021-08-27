@@ -11,6 +11,8 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Added
 
+* [JavaScript] Expose `Errors` object.
+
 ### Changed
 
 * [Perl] Minimum Perl version upgraded to 5.12 (from 5.10.1)

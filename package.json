@@ -20,7 +20,11 @@
     "html-formatter/javascript",
     "json-to-messages/javascript",
     "json-to-messages/javascript-testdata",
-    "suggest/javascript"
+    "suggest/javascript",
+    "language-service/javascript",
+    "language-server/javascript",
+    "monaco/javascript",
+    "vscode/javascript"
   ],
   "scripts": {
     "build": "tsc --build tsconfig.build.json",
