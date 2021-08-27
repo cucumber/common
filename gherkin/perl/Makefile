@@ -12,15 +12,8 @@ PERL_FILES = $(shell find . -name "*.pm")
 
 .DELETE_ON_ERROR:
 
-default: test
-.PHONY: all
-
 test: .built $(TOKENS) $(ASTS) $(PICKLES)
 	PERL5LIB=./perl5/lib/perl5 prove -l
-
-.cpanfile_dependencies: cpanfile dist.ini
-	cpanm --notest --local-lib ./perl5 --installdeps .
-	touch $@
 
 .built: .cpanfile_dependencies lib/Gherkin/Generated/Parser.pm lib/Gherkin/Generated/Languages.pm $(PERL_FILES) bin/gherkin-generate-tokens LICENSE.txt
 	@$(MAKE) --no-print-directory show-version-info
@@ -51,38 +44,8 @@ acceptance/testdata/%.feature.errors.ndjson: testdata/%.feature testdata/%.featu
 	PERL5LIB=./perl5/lib/perl5 bin/gherkin --predictable-ids --no-source --no-pickles $< > $@
 	diff --unified <(jq "." $<.errors.ndjson) <(jq "." $@)
 
-CHANGELOG.md: ../CHANGELOG.md
-	cp ../CHANGELOG.md CHANGELOG.md
-
-# Make sure dzil can be run ('dzil authordeps' installs dist.ini deps)
-predistribution: test CHANGELOG.md
-# --notest to keep the number of dependencies low: it doesn't install the
-# testing dependencies of the dependencies.
-	cpanm --notest --local-lib ./perl5 --installdeps --with-develop .
-	cpanm --notest --local-lib ./perl5 'Dist::Zilla'
-	PERL5LIB=./perl5/lib/perl5 PATH=$$PATH:./perl5/bin dzil authordeps --missing | cpanm --notest --local-lib ./perl5
-	PERL5LIB=./perl5/lib/perl5 PATH=$$PATH:./perl5/bin dzil clean
-	@(git status --porcelain 2>/dev/null | grep "^??" | perl -ne\
-	    'die "The `release` target includes all files in the working directory. Please remove [$$_], or add it to .gitignore if it should be included\n" if s!.+ perl/(.+?)\n!$$1!')
-
-distribution: predistribution
-	PERL5LIB=$$PWD/perl5/lib/perl5 PATH=$$PATH:$$PWD/perl5/bin dzil test --release
-	PERL5LIB=$$PWD/perl5/lib/perl5 PATH=$$PATH:$$PWD/perl5/bin dzil build
-
-publish: predistribution
-	PERL5LIB=$$PWD/perl5/lib/perl5 PATH=$$PATH:$$PWD/perl5/bin dzil release
-
 post-release:
 .PHONY: post-release
-
-update-version:
-ifdef NEW_VERSION
-	echo $(NEW_VERSION) > VERSION
-else
-	@echo -e "\033[0;31mNEW_VERSION is not defined. Can't update version :-(\033[0m"
-	exit 1
-endif
-.PHONY: update-version
 
 update-dependencies:
 	@echo -e "\033[0;31mPlease update dependencies for perl manually!!\033[0m"

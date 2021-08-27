@@ -1,22 +1,20 @@
-import * as messages from '@cucumber/messages'
 import React from 'react'
-import Step from './Step'
+import { GherkinStep } from './GherkinStep'
+import { DefaultComponent, StepListProps, useCustomRendering } from '../customise'
 
-interface IProps {
-  steps: readonly messages.Step[]
-  hasExamples: boolean
-}
-
-const StepList: React.FunctionComponent<IProps> = ({ steps, hasExamples }) => {
+const DefaultRenderer: DefaultComponent<StepListProps, {}> = ({ steps, hasExamples }) => {
   return (
     <>
       {steps.map((step, index) => (
         <li key={index}>
-          <Step key={index} step={step} hasExamples={hasExamples} />
+          <GherkinStep key={index} step={step} hasExamples={hasExamples} />
         </li>
       ))}
     </>
   )
 }
 
-export default StepList
+export const StepList: React.FunctionComponent<StepListProps> = (props) => {
+  const ResolvedRenderer = useCustomRendering<StepListProps, {}>('StepList', {}, DefaultRenderer)
+  return <ResolvedRenderer {...props} />
+}

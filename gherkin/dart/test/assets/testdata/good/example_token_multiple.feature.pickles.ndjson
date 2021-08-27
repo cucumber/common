@@ -1,0 +1,1 @@
+{"pickle":{"astNodeIds":["4","2"],"id":"6","language":"en","name":"Token used twice in a single step","steps":[{"astNodeIds":["0","2"],"id":"5","text":"usage usage"}],"tags":[],"uri":"testdata/good/example_token_multiple.feature"}}

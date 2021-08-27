@@ -63,7 +63,7 @@ function verifyIndexContract(name: string, buildIndex: BuildIndex) {
           const words = sentence.split(' ')
           // Find a word longer than 5 letters (fall back to the middle word if there are none)
           const word = words.find((word) => word.length > 5) || words[Math.floor(words.length / 2)]
-          const term = word.replace(/[.?!;,]/g, '').toLowerCase()
+          const term = word.replace(/[.?!;,']/g, '').toLowerCase()
 
           const suggestions = index(term)
           if (suggestions.length === 0) {
@@ -72,6 +72,7 @@ function verifyIndexContract(name: string, buildIndex: BuildIndex) {
           for (const suggestion of suggestions) {
             const s = (suggestion.segments[0] as string).toLowerCase()
             if (!s.includes(term)) {
+              // console.log(JSON.stringify(stepDocuments, null, 2))
               console.error(`WARNING: ${name} - "${s}" does not include "${term}"`)
             }
           }

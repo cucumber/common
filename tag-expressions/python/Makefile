@@ -36,13 +36,8 @@ export PYTHONPATH
 # -----------------------------------------------------------------------------
 # MAKE VARIATION LOGIC:
 # -----------------------------------------------------------------------------
-ifeq ($(CI),true)
-  # -- USE: pip (instead of pipenv) in CI environment.
-  USE_PIPENV := no
-else
 ifeq ($(TRAVIS),true)
   USE_PIPENV := no
-endif
 endif
 
 _PIPENV_RESOLVED = $(shell which pipenv)
@@ -69,11 +64,7 @@ ifeq ($(_PIPENV_RESOLVED),)
 	$(SUDO) pip install pipenv==$(PIPENV_VERSION)
 endif
 
-ifeq ($(CI),true)
-	$(SUDO) $(PIPENV) install $(addprefix -r ,$(PY_REQUIREMENT_FILES))
-else
 	$(PIPENV) install $(addprefix -r ,$(PY_REQUIREMENT_FILES))
-endif
 	touch $(BOOTSTRAP_DONE_MARKER_FILE)
 
 #	$(PIPENV) install -r py.requirements/testing.txt
