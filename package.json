@@ -23,6 +23,7 @@
     "suggest/javascript",
     "language-service/javascript",
     "language-server/javascript",
+    "monaco/javascript",
     "vscode/javascript"
   ],
   "scripts": {

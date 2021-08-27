@@ -215,6 +215,18 @@ jobs:
             cd language-server/javascript
             make
 
+  monaco-javascript:
+    executor: docker-circleci-node-14
+    steps:
+      - attach_workspace:
+          at: '~/cucumber'
+      - run:
+          name: monaco/javascript
+          command: |
+            sudo npm install --global npm@7
+            cd monaco/javascript
+            make
+
   vscode-javascript:
     executor: docker-circleci-node-14
     steps:
@@ -953,13 +965,16 @@ workflows:
       - suggest-javascript:
           requires:
             - prepare-parallel
-      - vscode-javascript:
-          requires:
-            - prepare-parallel
       - language-service-javascript:
           requires:
             - prepare-parallel
       - language-server-javascript:
+          requires:
+            - prepare-parallel
+      - monaco-javascript:
+          requires:
+            - prepare-parallel
+      - vscode-javascript:
           requires:
             - prepare-parallel
       - message-streams-javascript:

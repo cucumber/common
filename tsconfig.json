@@ -18,6 +18,7 @@
       "@cucumber/suggest": ["suggest/javascript/src/index.ts"],
       "@cucumber/language-server": ["language-service/javascript/src/index.ts"],
       "@cucumber/language-server": ["language-server/javascript/src/index.ts"],
+      "@cucumber/monaco": ["monaco/javascript/src/index.ts"],
       "@cucumber/vscode": ["vscode/javascript/src/index.ts"]
     },
     "noEmit": true

@@ -9,6 +9,7 @@ PACKAGES ?= messages \
 	suggest \
 	language-service \
 	language-server \
+	monaco \
 	vscode \
 	tag-expressions \
 	create-meta \
