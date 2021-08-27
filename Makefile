@@ -7,6 +7,10 @@ PACKAGES ?= messages \
 	gherkin-utils \
 	cucumber-expressions \
 	suggest \
+	language-service \
+	language-server \
+	monaco \
+	vscode \
 	tag-expressions \
 	create-meta \
 	fake-cucumber \

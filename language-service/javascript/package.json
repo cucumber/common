@@ -1,0 +1,42 @@
+{
+  "name": "@cucumber/language-service",
+  "version": "0.0.1",
+  "description": "Cucumber Language Service",
+  "main": "dist/src/index.js",
+  "types": "dist/src/index.d.ts",
+  "scripts": {
+    "test": "mocha",
+    "prepublishOnly": "tsc --build tsconfig.build.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/cucumber/common.git"
+  },
+  "keywords": [
+    "cucumber",
+    "lsp",
+    "language service"
+  ],
+  "author": "Cucumber Limited <cukes@googlegroups.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cucumber/common/issues"
+  },
+  "homepage": "https://github.com/cucumber/common#readme",
+  "devDependencies": {
+    "@types/mocha": "9.0.0",
+    "@types/node": "14.17.7",
+    "mocha": "9.0.3",
+    "ts-node": "10.1.0",
+    "typescript": "4.3.5"
+  },
+  "dependencies": {
+    "@cucumber/cucumber-expressions": "12.1.1",
+    "@cucumber/gherkin": "20.0.1",
+    "@cucumber/gherkin-utils": "6.0.0",
+    "@cucumber/messages": "17.0.1",
+    "@cucumber/suggest": "0.0.2",
+    "source-map-support": "0.5.19",
+    "vscode-languageserver-types": "3.17.0-next.3"
+  }
+}
