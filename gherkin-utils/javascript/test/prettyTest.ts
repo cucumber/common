@@ -6,6 +6,7 @@ import { GherkinClassicTokenMatcher, GherkinInMarkdownTokenMatcher } from '@cucu
 import fg from 'fast-glob'
 import * as fs from 'fs'
 import * as messages from '@cucumber/messages'
+import pretty2 from '../src/pretty2'
 
 describe('PrettyFormatter', () => {
   it('renders an empty file', () => {
@@ -215,7 +216,7 @@ Feature: hello
 
 function checkGherkinToAstToMarkdownToAstToGherkin(gherkinSource: string) {
   const gherkinDocument = parse(gherkinSource, new GherkinClassicTokenMatcher())
-  const markdownSource = pretty(gherkinDocument, 'markdown')
+  const markdownSource = pretty2(gherkinDocument, 'markdown')
   //     console.log(`---<MDG>---
   // ${markdownSource}
   // ---</MDG>--`)
@@ -230,7 +231,7 @@ function checkGherkinToAstToGherkin(
   language = 'en'
 ): messages.GherkinDocument {
   const gherkinDocument = parse(gherkinSource, new GherkinClassicTokenMatcher(language))
-  const newGherkinSource = pretty(gherkinDocument, 'gherkin')
+  const newGherkinSource = pretty2(gherkinDocument, 'gherkin')
   // console.log(`---<Gherkin>---
   // ${newGherkinSource}
   // ---</Gherkin>--`)
