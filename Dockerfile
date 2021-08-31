@@ -5,6 +5,7 @@ FROM golang:1.17.0-alpine3.14 AS go-base
 
 RUN apk add gcc musl-dev
 
+#### messages
 
 FROM ruby-base AS messages-codegen
 
@@ -16,24 +17,27 @@ RUN ruby /jsonschema/scripts/codegen.rb RubyDeserializers /jsonschema > /tmp/mes
 RUN ruby /jsonschema/scripts/codegen.rb Go /jsonschema > /tmp/messages.go
 
 
-FROM go-base AS go-messages
+FROM go-base AS messages-go
 
-WORKDIR /messages
+WORKDIR /common/messages/go
 
 COPY messages/go .
 COPY --from=messages-codegen /tmp/messages.go .
 
 RUN go test ./...
 
+#### gherkin
 
-FROM go-base AS go-gherkin
+FROM go-base AS gherkin-go
 
-WORKDIR /gherkin
+WORKDIR /common/gherkin/go
 
 COPY gherkin/go .
+COPY --from=messages-go /common/messages/go /common/messages/go
 
+# TODO: Use a build argument
+RUN GOOS=darwin GOARCH=amd64 go build -buildmode=exe -ldflags "-X main.version=20.0.0" -o dist/gherkin-macos -a ./cmd
 
-FROM scratch AS messages-codegen-final
+FROM scratch AS artefacts
 
-COPY --from=messages-codegen /tmp/messages.* /
-
+COPY --from=gherkin-go /common/gherkin/go/dist/gherkin-macos /common/gherkin/go/dist/gherkin-macos
