@@ -39,5 +39,8 @@ COPY --from=messages-go /common/messages/go /common/messages/go
 RUN GOOS=darwin GOARCH=amd64 go build -buildmode=exe -ldflags "-X main.version=20.0.0" -o dist/gherkin-macos -a ./cmd
 
 FROM scratch AS artefacts
+# https://github.com/orgs/cucumber/packages/container/package/build-cache
+LABEL org.opencontainers.image.source https://github.com/cucumber/common
 
-COPY --from=gherkin-go /common/gherkin/go/dist/gherkin-macos /common/gherkin/go/dist/gherkin-macos
+# docker buildx build . --target=artefacts --output=.
+COPY --from=gherkin-go /common/gherkin/go/dist/gherkin-macos gherkin/go/dist/gherkin-macos
