@@ -4,22 +4,27 @@ import parse from './parse'
 import pretty, { escapeCell } from '../src/pretty'
 import { GherkinClassicTokenMatcher, GherkinInMarkdownTokenMatcher } from '@cucumber/gherkin'
 import fg from 'fast-glob'
-import * as fs from 'fs'
+import fs from 'fs'
 import * as messages from '@cucumber/messages'
-import pretty2 from '../src/pretty2'
 
-describe('PrettyFormatter', () => {
+describe('pretty', () => {
   it('renders an empty file', () => {
     checkGherkinToAstToMarkdownToAstToGherkin('')
   })
 
   it('renders the language header if it is not "en"', () => {
     checkGherkinToAstToGherkin(`# language: no
-Egenskap: hallo\n`)
+Egenskap: hallo
+`)
   })
 
-  it('renders a feature with no scenarios', () => {
-    checkGherkinToAstToMarkdownToAstToGherkin('Feature: hello\n')
+  it('renders a feature with empty scenarios', () => {
+    checkGherkinToAstToMarkdownToAstToGherkin(`Feature: hello
+
+  Scenario: one
+
+  Scenario: Two
+`)
   })
 
   it('renders a feature with two scenarios', () => {
@@ -216,13 +221,14 @@ Feature: hello
 
 function checkGherkinToAstToMarkdownToAstToGherkin(gherkinSource: string) {
   const gherkinDocument = parse(gherkinSource, new GherkinClassicTokenMatcher())
-  const markdownSource = pretty2(gherkinDocument, 'markdown')
-  //     console.log(`---<MDG>---
-  // ${markdownSource}
-  // ---</MDG>--`)
+  // console.log({gherkinDocument})
+  const markdownSource = pretty(gherkinDocument, 'markdown')
+  // console.log(`<Markdown>${markdownSource}</Markdown>`)
   const markdownGherkinDocument = parse(markdownSource, new GherkinInMarkdownTokenMatcher())
+  // console.log({markdownGherkinDocument})
 
   const newGherkinSource = pretty(markdownGherkinDocument, 'gherkin')
+  // console.log(`<Gherkin>${newGherkinSource}</Gherkin>`)
   assert.strictEqual(newGherkinSource, gherkinSource)
 }
 
@@ -231,10 +237,8 @@ function checkGherkinToAstToGherkin(
   language = 'en'
 ): messages.GherkinDocument {
   const gherkinDocument = parse(gherkinSource, new GherkinClassicTokenMatcher(language))
-  const newGherkinSource = pretty2(gherkinDocument, 'gherkin')
-  // console.log(`---<Gherkin>---
-  // ${newGherkinSource}
-  // ---</Gherkin>--`)
+  const newGherkinSource = pretty(gherkinDocument, 'gherkin')
+  // console.log(`<Gherkin>${newGherkinSource}</Gherkin>`)
   assert.strictEqual(newGherkinSource, gherkinSource)
   return gherkinDocument
 }

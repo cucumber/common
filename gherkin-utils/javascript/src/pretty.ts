@@ -1,4 +1,5 @@
 import * as messages from '@cucumber/messages'
+import { walkGherkinDocument } from './walkGherkinDocument'
 
 export type Syntax = 'markdown' | 'gherkin'
 
@@ -6,122 +7,132 @@ export default function pretty(
   gherkinDocument: messages.GherkinDocument,
   syntax: Syntax = 'gherkin'
 ): string {
-  const feature = gherkinDocument.feature
-  if (!feature) return ''
-  let s =
-    gherkinDocument.feature.language === 'en'
-      ? ''
-      : `# language: ${gherkinDocument.feature.language}\n`
-
-  s += prettyTags(feature.tags, 0, syntax)
-  s += `${keywordPrefix(0, syntax) + feature.keyword}: ${feature.name}
-`
-  if (feature.description) {
-    s += formatDescription(feature.description, syntax)
-  }
-  for (const child of feature.children) {
-    if (child.background) {
-      s += prettyStepContainer(child.background, 1, syntax)
-    } else if (child.scenario) {
-      s += prettyStepContainer(child.scenario, 1, syntax)
-    } else if (child.rule) {
-      const rule = child.rule
-      s += prettyRule(rule, syntax)
+  let scenarioLevel = 1
+  let stepPadding = false
+  return walkGherkinDocument<string>(gherkinDocument, '', {
+    feature(feature, content) {
+      return content
+        .concat(prettyLanguageHeader(feature.language))
+        .concat(prettyKeywordContainer(feature, syntax, 0))
+    },
+    rule(rule, content) {
+      scenarioLevel = 2
+      return content.concat(prettyKeywordContainer(rule, syntax, 1))
+    },
+    background(background, content) {
+      return content.concat(prettyKeywordContainer(background, syntax, scenarioLevel))
+    },
+    scenario(scenario, content) {
+      return content.concat(prettyKeywordContainer(scenario, syntax, scenarioLevel))
+    },
+    examples(examples, content) {
+      const tableRows = examples.tableHeader ? [examples.tableHeader, ...examples.tableBody] : []
+      return content
+        .concat(prettyKeywordContainer(examples, syntax, scenarioLevel + 1))
+        .concat(prettyTableRows(tableRows, syntax, scenarioLevel + 2))
+    },
+    step(step, content) {
+      return content
+        .concat(stepPrefix(scenarioLevel + 1, syntax))
+        .concat(step.keyword)
+        .concat(step.text)
+        .concat('\n')
+    },
+    dataTable(dataTable, content) {
+      const level = syntax === 'markdown' ? 1 : scenarioLevel + 2
+      return content.concat(prettyTableRows(dataTable.rows || [], syntax, level))
+    },
+    docString(docString, content) {
+      const delimiter = makeDocStringDelimiter(syntax, docString)
+      const level = syntax === 'markdown' ? 1 : scenarioLevel + 2
+      const indent = spaces(level)
+      let docStringContent = docString.content.replace(/^/gm, indent)
+      if (syntax === 'gherkin') {
+        if (docString.delimiter === '"""') {
+          docStringContent = docStringContent.replace(/"""/gm, '\\"\\"\\"')
+        } else {
+          docStringContent = docStringContent.replace(/```/gm, '\\`\\`\\`')
+        }
+      }
+      return content
+        .concat(indent)
+        .concat(delimiter)
+        .concat(docString.mediaType || '')
+        .concat('\n')
+        .concat(docStringContent)
+        .concat('\n')
+        .concat(indent)
+        .concat(delimiter)
+        .concat('\n')
     }
-  }
-  return s
+  })
 }
 
-function prettyRule(rule: messages.Rule, syntax: Syntax) {
-  let s = ''
-  if (rule.tags.length > 0) {
-    s += `\n${prettyTags(rule.tags, 1, syntax)}`
-  }
-  s += `\n${keywordPrefix(1, syntax)}${rule.keyword}: ${rule.name}\n`
-  if (rule.description) {
-    s += formatDescription(rule.description, syntax)
-  }
-  for (const ruleChild of rule.children) {
-    if (ruleChild.background) {
-      s += prettyStepContainer(ruleChild.background, 2, syntax)
-    }
-    if (ruleChild.scenario) {
-      s += prettyStepContainer(ruleChild.scenario, 2, syntax)
-    }
-  }
-  return s
+function prettyLanguageHeader(language: string | undefined): string {
+  return language === 'en'
+    ? ''
+    : `# language: ${language}\n`
 }
 
-function prettyStepContainer(
-  stepContainer: messages.Scenario | messages.Background,
-  level: number,
-  syntax: Syntax
+function prettyKeywordContainer(
+  stepContainer: messages.Feature | messages.Scenario | messages.Rule | messages.Examples | messages.Background,
+  syntax: Syntax,
+  level: number
 ): string {
-  const scenario: messages.Scenario = 'tags' in stepContainer ? stepContainer : null
-  const tags: readonly messages.Tag[] = scenario?.tags || []
-  let s = `\n${prettyTags(tags, level, syntax)}${keywordPrefix(level, syntax)}${
-    stepContainer.keyword
-  }: ${stepContainer.name}\n`
-  if (stepContainer.description) {
-    s += formatDescription(stepContainer.description, syntax) + '\n'
-  }
+  const hasTags: messages.Feature | messages.Scenario | messages.Rule | messages.Examples = 'tags' in stepContainer ? stepContainer : null
+  const tags: readonly messages.Tag[] = hasTags?.tags || []
 
-  for (const step of stepContainer.steps) {
-    s += prettyStep(step, level + 1, syntax)
-  }
+  const stepCount = 'steps' in stepContainer ? stepContainer.steps.length : 0
+  const description = prettyDescription(stepContainer.description, syntax)
 
-  if (scenario) {
-    for (const example of scenario.examples) {
-      s += prettyExample(example, level + 1, syntax)
-    }
-  }
-  return s
+  return ''
+    .concat(level === 0 ? '' : '\n')
+    .concat(prettyTags(tags, syntax, level))
+    .concat(keywordPrefix(level, syntax))
+    .concat(stepContainer.keyword)
+    .concat(': ')
+    .concat(stepContainer.name)
+    .concat('\n')
+    .concat(description)
+    .concat(description && stepCount > 0 ? '\n' : '')
 }
 
-function prettyStep(step: messages.Step, level: number, syntax: Syntax) {
-  let s = `${stepPrefix(level, syntax)}${step.keyword}${step.text}\n`
-  if (step.dataTable) {
-    s += prettyTableRows(step.dataTable.rows, level + 1, syntax)
-  }
-  if (step.docString) {
-    s += prettyDocString(step.docString, level + 1, syntax)
-  }
-  return s
+function prettyDescription(description: string, syntax: Syntax): string {
+  if (!description) return ''
+  if (syntax === 'gherkin') return description + '\n'
+  else return description.replace(/^\s*/gm, '') + '\n'
 }
 
-function prettyExample(example: messages.Examples, level: number, syntax: Syntax): string {
-  let s = ''
-  if (example.tags.length > 0) {
-    s += `\n${prettyTags(example.tags, level, syntax)}`
+function prettyTags(tags: readonly messages.Tag[], syntax: Syntax, level: number): string {
+  if (tags === undefined || tags.length == 0) {
+    return ''
   }
-  s += `\n${keywordPrefix(level, syntax)}Examples: ${example.name}\n`
-  if (example.tableHeader) {
-    const tableRows = [example.tableHeader, ...example.tableBody]
-    s += prettyTableRows(tableRows, level + 1, syntax)
-  }
-  return s
+  const prefix = syntax === 'gherkin' ? spaces(level) : ''
+  const tagQuote = syntax === 'gherkin' ? '' : '`'
+  return prefix + tags.map((tag) => `${tagQuote}${tag.name}${tagQuote}`).join(' ') + '\n'
 }
 
-function prettyDocString(docString: messages.DocString, level: number, syntax: Syntax) {
-  const delimiter = makeDocStringDelimiter(syntax, docString)
-  const mediaType = docString.mediaType || ''
-  const actualLevel = syntax === 'markdown' ? 1 : level
-  const indent = spaces(actualLevel)
-  let content = docString.content.replace(/^/gm, indent)
-  if (syntax === 'gherkin') {
-    if (docString.delimiter === '"""') {
-      content = content.replace(/"""/gm, '\\"\\"\\"')
-    } else {
-      content = content.replace(/```/gm, '\\`\\`\\`')
-    }
+function keywordPrefix(level: number, syntax: Syntax): string {
+  if (syntax === 'markdown') {
+    return new Array(level + 2).join('#') + ' '
+  } else {
+    return spaces(level)
   }
-  return `${indent}${delimiter}${mediaType}
-${content}
-${indent}${delimiter}
-`
 }
 
-function makeDocStringDelimiter(syntax: 'markdown' | 'gherkin', docString: messages.DocString) {
+function stepPrefix(level: number, syntax: Syntax): string {
+  if (syntax === 'markdown') {
+    return '* '
+  } else {
+    return new Array(level + 1).join('  ')
+  }
+}
+
+function spaces(level: number): string {
+  return new Array(level + 1).join('  ')
+}
+
+function makeDocStringDelimiter(syntax: Syntax, docString: messages.DocString) {
   if (syntax === 'gherkin') {
     return docString.delimiter.substring(0, 3)
   }
@@ -144,9 +155,10 @@ function makeDocStringDelimiter(syntax: 'markdown' | 'gherkin', docString: messa
 
 function prettyTableRows(
   tableRows: readonly messages.TableRow[],
-  level: number,
-  syntax: 'markdown' | 'gherkin'
-) {
+  syntax: Syntax,
+  level: number
+): string {
+  if (tableRows.length === 0) return ''
   const maxWidths: number[] = new Array(tableRows[0].cells.length).fill(0)
   tableRows.forEach((tableRow) => {
     tableRow.cells.forEach((tableCell, j) => {
@@ -214,38 +226,4 @@ export function escapeCell(s: string) {
 
 function isNumeric(s: string) {
   return !isNaN(parseFloat(s))
-}
-
-function prettyTags(tags: readonly messages.Tag[], level: number, syntax: Syntax): string {
-  if (tags === undefined || tags.length == 0) {
-    return ''
-  }
-  const prefix = syntax === 'gherkin' ? spaces(level) : ''
-  const tagQuote = syntax === 'gherkin' ? '' : '`'
-  return prefix + tags.map((tag) => `${tagQuote}${tag.name}${tagQuote}`).join(' ') + '\n'
-}
-
-function keywordPrefix(level: number, syntax: Syntax): string {
-  if (syntax === 'markdown') {
-    return new Array(level + 2).join('#') + ' '
-  } else {
-    return spaces(level)
-  }
-}
-
-function spaces(level: number): string {
-  return new Array(level + 1).join('  ')
-}
-
-function stepPrefix(level: number, syntax: Syntax): string {
-  if (syntax === 'markdown') {
-    return '* '
-  } else {
-    return new Array(level + 1).join('  ')
-  }
-}
-
-function formatDescription(description: string, syntax: Syntax): string {
-  if (syntax === 'gherkin') return description + '\n'
-  else return description.replace(/^\s*/gm, '') + '\n'
 }
