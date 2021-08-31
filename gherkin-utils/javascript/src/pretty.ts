@@ -8,7 +8,6 @@ export default function pretty(
   syntax: Syntax = 'gherkin'
 ): string {
   let scenarioLevel = 1
-  let stepPadding = false
   return walkGherkinDocument<string>(gherkinDocument, '', {
     feature(feature, content) {
       return content
@@ -64,22 +63,26 @@ export default function pretty(
         .concat(indent)
         .concat(delimiter)
         .concat('\n')
-    }
+    },
   })
 }
 
 function prettyLanguageHeader(language: string | undefined): string {
-  return language === 'en'
-    ? ''
-    : `# language: ${language}\n`
+  return language === 'en' ? '' : `# language: ${language}\n`
 }
 
 function prettyKeywordContainer(
-  stepContainer: messages.Feature | messages.Scenario | messages.Rule | messages.Examples | messages.Background,
+  stepContainer:
+    | messages.Feature
+    | messages.Scenario
+    | messages.Rule
+    | messages.Examples
+    | messages.Background,
   syntax: Syntax,
   level: number
 ): string {
-  const hasTags: messages.Feature | messages.Scenario | messages.Rule | messages.Examples = 'tags' in stepContainer ? stepContainer : null
+  const hasTags: messages.Feature | messages.Scenario | messages.Rule | messages.Examples =
+    'tags' in stepContainer ? stepContainer : null
   const tags: readonly messages.Tag[] = hasTags?.tags || []
 
   const stepCount = 'steps' in stepContainer ? stepContainer.steps.length : 0
