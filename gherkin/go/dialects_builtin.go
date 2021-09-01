@@ -1560,7 +1560,7 @@ var buildinDialects = gherkinDialectMap{
 				"रूप लेख",
 			},
 			rule: []string{
-				"Rule",
+				"नियम",
 			},
 			background: []string{
 				"पृष्ठभूमि",
