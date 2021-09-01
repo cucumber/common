@@ -11,8 +11,15 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Added
 
+* [JavaScript] Expose `Errors` object.
+
 ### Changed
 
+* Fixed `Rule` translation for `hi`, `sr-Cyrl`, `sr-Latn` and `tr`
+  ([aslakhellesoy])
+* [Java] Renamed `Token#mathcedItems` to `Token#matchedItems`
+  ([#1687](https://github.com/cucumber/common/issues/1687)
+   [aslakhellesoy])
 * [Perl] Minimum Perl version upgraded to 5.12 (from 5.10.1)
   ([#1665](https://github.com/cucumber/common/pull/1665) [ehuelsmann])
 
@@ -48,6 +55,8 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 ### Fixed
 * [Ruby] Rules weren't inheriting the relevant tags during the Gherkin Query stage (Where it caches the NodeID)
   ([#1593](https://github.com/cucumber/cucumber/pull/1593) [luke-hill])
+
+* MDG parser correctly removes leading space from content in DocStrings
 
 ## [19.0.3] - 2021-05-24
 

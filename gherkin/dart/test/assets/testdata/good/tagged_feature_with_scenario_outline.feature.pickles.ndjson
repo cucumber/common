@@ -1,0 +1,2 @@
+{"pickle":{"astNodeIds":["5","2"],"id":"8","language":"en","name":"Bar","steps":[{"astNodeIds":["0","2"],"id":"7","text":"Baz"}],"tags":[{"astNodeId":"6","name":"@sometag"}],"uri":"testdata/good/tagged_feature_with_scenario_outline.feature"}}
+{"pickle":{"astNodeIds":["5","3"],"id":"10","language":"en","name":"Bar","steps":[{"astNodeIds":["0","3"],"id":"9","text":"Baz"}],"tags":[{"astNodeId":"6","name":"@sometag"}],"uri":"testdata/good/tagged_feature_with_scenario_outline.feature"}}

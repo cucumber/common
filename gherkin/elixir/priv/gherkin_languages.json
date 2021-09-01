@@ -1563,7 +1563,7 @@
     "name": "Hindi",
     "native": "हिंदी",
     "rule": [
-      "Rule"
+      "नियम"
     ],
     "scenario": [
       "परिदृश्य"
@@ -2943,7 +2943,7 @@
     "name": "Serbian",
     "native": "Српски",
     "rule": [
-      "Rule"
+      "Правило"
     ],
     "scenario": [
       "Пример",
@@ -2998,7 +2998,7 @@
     "name": "Serbian (Latin)",
     "native": "Srpski (Latinica)",
     "rule": [
-      "Rule"
+      "Pravilo"
     ],
     "scenario": [
       "Scenario",
@@ -3276,7 +3276,7 @@
     "name": "Turkish",
     "native": "Türkçe",
     "rule": [
-      "Rule"
+      "Kural"
     ],
     "scenario": [
       "Örnek",

@@ -5,7 +5,7 @@
  */
 import { StepSegments } from './types'
 
-export default function lspCompletionSnippet(stepSegments: StepSegments): string {
+export function lspCompletionSnippet(stepSegments: StepSegments): string {
   let n = 1
   return stepSegments
     .map((segment) => (Array.isArray(segment) ? lspPlaceholder(n++, segment) : segment))

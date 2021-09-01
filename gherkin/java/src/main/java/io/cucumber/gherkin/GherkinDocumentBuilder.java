@@ -273,7 +273,7 @@ public class GherkinDocumentBuilder implements Builder<GherkinDocument> {
 
     private List<TableCell> getCells(Token token) {
         List<TableCell> cells = new ArrayList<>();
-        for (GherkinLineSpan cellItem : token.mathcedItems) {
+        for (GherkinLineSpan cellItem : token.matchedItems) {
             TableCell tableCell = new TableCell(
                     getLocation(token, cellItem.column),
                     cellItem.text
@@ -304,7 +304,7 @@ public class GherkinDocumentBuilder implements Builder<GherkinDocument> {
         List<Token> tokens = tagsNode.getTokens(TokenType.TagLine);
         List<Tag> tags = new ArrayList<>();
         for (Token token : tokens) {
-            for (GherkinLineSpan tagItem : token.mathcedItems) {
+            for (GherkinLineSpan tagItem : token.matchedItems) {
                 tags.add(new Tag(getLocation(token, tagItem.column), tagItem.text, idGenerator.newId()));
             }
         }
