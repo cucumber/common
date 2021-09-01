@@ -1,5 +1,5 @@
-github.com/cucumber/common/messages/go/v17 v17.0.1 h1:zHQ2Zq4GVxbb8OAaVo07+BoN/QBodGvS4PbvsE2L9SU=
-github.com/cucumber/common/messages/go/v17 v17.0.1/go.mod h1:bpGxb57tDE385Rb2EohgUadLkAbhoC4IyCFi89u/JQI=
+github.com/cucumber/common/messages/go/v17 v17.1.0 h1:3FHmyS3SyowLghOH1tQNDHyaGOnIYk3UjJ2bQXWH1vA=
+github.com/cucumber/common/messages/go/v17 v17.1.0/go.mod h1:bpGxb57tDE385Rb2EohgUadLkAbhoC4IyCFi89u/JQI=
 github.com/davecgh/go-spew v1.1.0 h1:ZDRjVQ15GmhC3fiQ8ni8+OwkZQO4DARzQgrnXU1Liz8=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/gofrs/uuid v4.0.0+incompatible h1:1SD/1F5pU8p29ybwgQSwpQk+mwdRrXCYuPhW6m+TnJw=

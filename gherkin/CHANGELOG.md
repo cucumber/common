@@ -11,6 +11,18 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Added
 
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+## [21.0.0] - 2021-09-01
+
+### Added
+
 * [JavaScript] Expose `Errors` object.
 
 ### Changed
@@ -22,8 +34,6 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
    [aslakhellesoy])
 * [Perl] Minimum Perl version upgraded to 5.12 (from 5.10.1)
   ([#1665](https://github.com/cucumber/common/pull/1665) [ehuelsmann])
-
-### Deprecated
 
 ### Removed
 
@@ -1041,7 +1051,8 @@ to Gherkin 2.
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v20.0.1...main
+[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v21.0.0...main
+[21.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v20.0.1...gherkin/v21.0.0
 [20.0.1]:     https://github.com/cucumber/cucumber/compare/gherkin/v20.0.0...gherkin/v20.0.1
 [20.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v19.0.3...gherkin/v20.0.0
 [19.0.3]:     https://github.com/cucumber/cucumber/compare/gherkin/v19.0.2...gherkin/v19.0.3
