@@ -41,7 +41,7 @@
     "@cucumber/cucumber-expressions": "12.1.1",
     "@cucumber/gherkin": "20.0.1",
     "@cucumber/gherkin-utils": "6.0.0",
-    "@cucumber/messages": "17.0.1",
+    "@cucumber/messages": "^17.1.0",
     "@cucumber/message-streams": "3.0.0",
     "fuse.js": "6.4.6",
     "js-search": "2.0.0"

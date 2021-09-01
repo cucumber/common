@@ -6,7 +6,7 @@ When a package is released, _all_ implementations of the package are released.
 For example, when you release `cucumber-expressions`, it will release the Java, Ruby,
 Go and JavaScript implementations of that library, with the same version number.
 
-You *must* be on the `master` branch when you make a release. The steps below
+You *must* be on the `main` branch when you make a release. The steps below
 outline the process:
 
 * Start the docker container with secrets
@@ -58,7 +58,7 @@ Run the `pre-release` target:
 
     NEW_VERSION=X.Y.Z make pre-release
 
-This will update the package version in the package descriptor and `CHANGELOG.md`.
+This will update the package version in the package descriptors and `CHANGELOG.md`.
 It will also update dependencies and verify that the build passes.
 
 The changes made *will not* be committed to git. Examine what changed:

@@ -4565,12 +4565,12 @@ __END__
 
 =head1 LICENSE
 
-Please see the included LICENSE.txt for the canonical version. In summary:
+Please see the included LICENSE for the canonical version. In summary:
 
 The MIT License (MIT)
 
-Copyright (c) 2021 Erik Huelsmann
-
+  Copyright (c) 2021 Erik Huelsmann
+  Copyright (c) 2021 Cucumber Ltd
 
 This work is loosely derived from prior work of the same library for Ruby,
 called C<cucumber-messages>.
