@@ -3,7 +3,7 @@ package cucumber_demo_formatter
 import (
 	"bytes"
 	"encoding/json"
-	"github.com/cucumber/common/messages/go/v16"
+	"github.com/cucumber/common/messages/go/v17"
 	"github.com/stretchr/testify/require"
 	"testing"
 )

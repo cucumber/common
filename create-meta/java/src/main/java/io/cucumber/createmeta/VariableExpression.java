@@ -4,8 +4,12 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class VariableExpression {
+public final class VariableExpression {
     private static final Pattern variablePattern = Pattern.compile("\\$\\{(.*?)(?:(?<!\\\\)/(.*)/(.*))?}");
+
+    private VariableExpression(){
+
+    }
 
     public static String evaluate(String expression, Map<String, String> env) {
         if(expression == null) return null;

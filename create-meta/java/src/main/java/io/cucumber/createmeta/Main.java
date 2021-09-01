@@ -18,6 +18,7 @@ public class Main {
                 .map(line -> line.split("="))
                 .collect(Collectors.toMap(arr -> arr[0], arr -> arr.length > 1 ? arr[1] : ""));
         Ci ci = CreateMeta.detectCI(env);
-        System.out.println(JSON.toJSON(ci));
+        JSON.writeValue(System.out, ci);
+        System.out.println();
     }
 }

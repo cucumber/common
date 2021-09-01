@@ -92,6 +92,6 @@ class CreateMetaTest {
                         )
                 ),
                 meta.getCi(),
-                "The Git JSON was:\n" + JSON.toJSON(meta.getCi()));
+                "The Git JSON was:\n" + JSON.writeValueAsString(meta.getCi()));
     }
 }

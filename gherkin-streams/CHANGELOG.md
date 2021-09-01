@@ -17,6 +17,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [3.0.0] - 2021-07-08
+
+### Changed
+
+* Upgrade to `@cucumber/messages` `17.0.0`
+* Upgrade to `@cucumber/gherkin` `20.0.0`
+
 ## [2.0.2] - 2021-05-17
 
 ### Changed
@@ -44,7 +51,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin-streams/v2.0.2...main
+[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin-streams/v3.0.0...main
+[3.0.0]:      https://github.com/cucumber/cucumber/releases/tag/gherkin-streams/v2.0.2
 [2.0.2]:      https://github.com/cucumber/cucumber/releases/tag/gherkin-streams/v2.0.1
 [2.0.1]:      https://github.com/cucumber/cucumber/releases/tag/gherkin-streams/v2.0.0
 [2.0.0]:      https://github.com/cucumber/cucumber/releases/tag/gherkin-streams/v1.0.0

@@ -1,7 +1,6 @@
 package io.cucumber.htmlformatter;
 
-import io.cucumber.messages.internal.com.fasterxml.jackson.annotation.JsonInclude;
-import io.cucumber.messages.internal.com.fasterxml.jackson.databind.json.JsonMapper;
+import io.cucumber.messages.JSON;
 import io.cucumber.messages.types.Envelope;
 
 import java.io.BufferedReader;
@@ -19,9 +18,8 @@ import static java.util.Objects.requireNonNull;
 /**
  * Writes the message output of a test run as single page html report.
  */
-public class MessagesToHtmlWriter implements AutoCloseable {
+public final class MessagesToHtmlWriter implements AutoCloseable {
 
-    private final JsonMapper jsonPrinter = JsonMapper.builder().serializationInclusion(JsonInclude.Include.NON_NULL).build();
     private final String template;
 
     private final Writer writer;
@@ -69,7 +67,7 @@ public class MessagesToHtmlWriter implements AutoCloseable {
             writer.write(",");
         }
 
-        writer.write(jsonPrinter.writeValueAsString(envelope));
+        JSON.writeValue(writer, envelope);
     }
 
     /**

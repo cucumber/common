@@ -2,7 +2,7 @@ import assert from 'assert'
 import React from 'react'
 import * as messages from '@cucumber/messages'
 import { Query as CucumberQuery } from '@cucumber/query'
-import HookStep from '../../../src/components/gherkin/HookStep'
+import { HookStep } from '../../../src/components/gherkin'
 import { render } from '../utils'
 
 describe('<HookStep>', () => {
@@ -36,7 +36,6 @@ describe('<HookStep>', () => {
               seconds: 1,
               nanos: 0,
             },
-            willBeRetried: false,
           },
         ],
         {
@@ -71,7 +70,6 @@ describe('<HookStep>', () => {
               seconds: 1,
               nanos: 0,
             },
-            willBeRetried: false,
           },
         ],
         null
@@ -97,7 +95,6 @@ describe('<HookStep>', () => {
               seconds: 1,
               nanos: 0,
             },
-            willBeRetried: false,
           },
         ],
         {
@@ -135,7 +132,6 @@ describe('<HookStep>', () => {
               seconds: 1,
               nanos: 0,
             },
-            willBeRetried: false,
           },
         ],
         {

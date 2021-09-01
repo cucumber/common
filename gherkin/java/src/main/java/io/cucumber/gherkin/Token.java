@@ -7,7 +7,7 @@ public class Token {
     public Parser.TokenType matchedType;
     public String matchedKeyword;
     public String matchedText;
-    public List<GherkinLineSpan> mathcedItems;
+    public List<GherkinLineSpan> matchedItems;
     public int matchedIndent;
     public GherkinDialect matchedGherkinDialect;
     public Location location;

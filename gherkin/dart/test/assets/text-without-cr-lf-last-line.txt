@@ -1,0 +1,8 @@
+Text
+without
+CR
+or
+in
+the
+last
+line

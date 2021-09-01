@@ -2,7 +2,7 @@ import assert from 'assert'
 import React from 'react'
 import * as messages from '@cucumber/messages'
 import { Query as CucumberQuery } from '@cucumber/query'
-import Step from '../../../src/components/gherkin/Step'
+import { GherkinStep } from '../../../src/components/gherkin'
 import { Query as GherkinQuery } from '@cucumber/gherkin-utils'
 import { render } from '../utils'
 
@@ -39,7 +39,7 @@ describe('<Step>', () => {
       }
     }
 
-    const { container } = render(<Step step={step} hasExamples={false} />, {
+    const { container } = render(<GherkinStep step={step} hasExamples={false} />, {
       gherkinQuery: new StubGherkinQuery(),
       cucumberQuery: new StubCucumberQuery(),
     })

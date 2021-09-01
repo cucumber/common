@@ -3,14 +3,19 @@ import GherkinQueryStream from './GherkinQueryStream'
 import makeTestPlan from './makeTestPlan'
 import { Readable, Writable } from 'stream'
 import SupportCode from './SupportCode'
-import { MakeTestPlan } from './types'
+import { MakeTestPlan, RunOptions } from './types'
 import makeTestCase from './makeTestCase'
+
+const DEFAULT_OPTIONS: RunOptions = {
+  allowedRetries: 0,
+}
 
 export default async function runCucumber(
   supportCode: SupportCode,
   gherkinEnvelopeStream: Readable,
   gherkinQuery: GherkinQuery,
   envelopeOutputStream: Writable,
+  runOptions: RunOptions = DEFAULT_OPTIONS,
   makeTestPlanFn: MakeTestPlan<SupportCode> = makeTestPlan
 ) {
   const gherkinQueryStream = new GherkinQueryStream(gherkinQuery)
@@ -22,7 +27,7 @@ export default async function runCucumber(
     gherkinEnvelopeStream.on('error', reject)
   })
 
-  const testPlan = makeTestPlanFn(gherkinQuery, supportCode, makeTestCase)
+  const testPlan = makeTestPlanFn(gherkinQuery, supportCode, runOptions, makeTestCase)
   await testPlan.execute((envelope) => {
     envelopeOutputStream.write(envelope)
     if (envelope.testRunFinished) {

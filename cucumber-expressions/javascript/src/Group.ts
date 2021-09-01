@@ -1,8 +1,8 @@
 export default class Group {
   constructor(
     public readonly value: string | undefined,
-    public readonly start: number,
-    public readonly end: number,
+    public readonly start: number | undefined,
+    public readonly end: number | undefined,
     public readonly children: readonly Group[]
   ) {}
 

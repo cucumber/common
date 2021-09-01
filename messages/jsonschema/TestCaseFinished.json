@@ -4,7 +4,8 @@
   "additionalProperties": false,
   "required": [
     "testCaseStartedId",
-    "timestamp"
+    "timestamp",
+    "willBeRetried"
   ],
   "properties": {
     "testCaseStartedId": {
@@ -12,6 +13,9 @@
     },
     "timestamp": {
       "$ref": "./Timestamp.json"
+    },
+    "willBeRetried": {
+      "type": "boolean"
     }
   },
   "type": "object"

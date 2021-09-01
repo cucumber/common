@@ -31,7 +31,7 @@ pre-release: clean update-version update-dependencies default
 .PHONY: pre-release
 
 update-dependencies:
-	../../node_modules/.bin/npm-check-updates --upgrade --reject hast-util-sanitize
+	../../node_modules/.bin/npm-check-updates --upgrade --reject hast-util-sanitize,@types/node
 .PHONY: update-dependencies
 
 update-version:
