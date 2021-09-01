@@ -65,7 +65,7 @@ The changes made *will not* be committed to git. Examine what changed:
 
     git diff
 
-Inspect the diff. If all is good, proceed to the next step to release. 
+Inspect the diff. If all is good, proceed to the next step to release.
 
 Otherwise, undo any changes that you think shouldn't have been made and make the necessary edits until the build passes. Make sure the package still builds, and that the tests are still passing:
 
@@ -101,11 +101,5 @@ Run the following command (using the same NEW_VERSION as you used for the releas
 This should update the version in `java/pom.xml` file to use a `-SNAPSHOT` suffix and add
 `replace` directives in the `go.mod` file.
 This is automatically committed, and pushed along with the tag of the release.
-
-If you did a new major release of a Go package, you must also update all the references in the
-libraries using it:
-
-    # Run this in the root directory
-    source scripts/functions.sh && update_go_library_version libraryName X.Y.Z
 
 For the time being you have to do the same for Java (`pom.xml`) manually.

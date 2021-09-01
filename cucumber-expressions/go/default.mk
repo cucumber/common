@@ -100,7 +100,13 @@ else
 endif
 else
 publish:
-	# no-op
+ifdef NEW_VERSION
+	git tag --sign "$(LIBNAME)/go/v$(NEW_VERSION)" -m "Release $(LIBNAME)/go v$(NEW_VERSION)"
+	git push --tags
+else
+	@echo -e "\033[0;31mNEW_VERSION is not defined. Can't publish :-(\033[0m"
+	exit 1
+endif
 endif
 .PHONY: publish
 
@@ -113,6 +119,14 @@ endif
 	touch $@
 
 post-release: add-replaces
+ifdef NEW_VERSION
+	pushd ../.. && \
+	source scripts/functions.sh && update_go_library_version $(LIBNAME) $(NEW_VERSION) && \
+	popd
+else
+	@echo -e "\033[0;31mNEW_VERSION is not defined. Can't post-release :-(\033[0m"
+	exit 1
+endif
 .PHONY: post-release
 
 clean: clean-go
