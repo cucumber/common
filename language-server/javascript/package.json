@@ -35,7 +35,7 @@
   },
   "dependencies": {
     "@cucumber/cucumber-expressions": "12.1.1",
-    "@cucumber/gherkin-utils": "6.0.0",
+    "@cucumber/gherkin-utils": "^7.0.0",
     "@cucumber/language-service": "0.0.1",
     "@cucumber/messages": "^17.1.0",
     "@cucumber/suggest": "0.0.2",
