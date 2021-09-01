@@ -20,7 +20,7 @@ DOTNET_SKIP_FIRST_TIME_EXPERIENCE="1"
 CI=true
 DOTNET_NOLOGO="1"
 USER=runner
-GITHUB_HEAD_REF=
+GITHUB_HEAD_REF
 GITHUB_ACTOR=aslakhellesoy
 GITHUB_ACTION=run2
 GRADLE_HOME=/usr/share/gradle
@@ -49,7 +49,7 @@ CHROMEWEBDRIVER=/usr/local/share/chrome_driver
 HOMEBREW_REPOSITORY="/home/linuxbrew/.linuxbrew/Homebrew"
 GITHUB_GRAPHQL_URL=https://api.github.com/graphql
 RUNNER_OS=Linux
-GITHUB_BASE_REF=
+GITHUB_BASE_REF
 VCPKG_INSTALLATION_ROOT=/usr/local/share/vcpkg
 GITHUB_JOB=test
 PERFLOG_LOCATION_SETTING=RUNNER_PERFLOG

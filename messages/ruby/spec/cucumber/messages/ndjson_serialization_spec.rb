@@ -3,27 +3,28 @@ require 'cucumber/messages'
 module Cucumber
   module Messages
     describe 'messages' do
-      it "can be serialised over an ndjson stream" do
-        outgoing_messages = [
-          {'source' => {'data' => 'Feature: Hello'}},
-          {'attachment' => {'binary' => [1,2,3,4].pack('C*')}}
+      let(:outgoing_messages) do
+        [
+          Envelope.new(
+            source: Source.new(data: 'Feature: Hello')
+          ),
+          Envelope.new(
+            attachment: Attachment.new(body: 'Hello', content_encoding: AttachmentContentEncoding::IDENTITY)
+          )
         ]
+      end
 
+      it "can be serialised over an ndjson stream" do
         io = StringIO.new
         write_outgoing_messages(outgoing_messages, io)
 
         io.rewind
         incoming_messages = NdjsonToMessageEnumerator.new(io)
 
-        expect(incoming_messages.to_a).to(eq(outgoing_messages))
+        expect(incoming_messages.to_a.map(&:to_h)).to(eq(outgoing_messages.map(&:to_h)))
       end
 
       it "ignores empty lines" do
-        outgoing_messages = [
-          {'source' => {'data' => 'Feature: Hello'}},
-          {'attachment' => {'binary' => [1,2,3,4].pack('C*')}}
-        ]
-
         io = StringIO.new
         write_outgoing_messages(outgoing_messages, io)
         io.write("\n\n")
@@ -31,7 +32,7 @@ module Cucumber
         io.rewind
         incoming_messages = NdjsonToMessageEnumerator.new(io)
 
-        expect(incoming_messages.to_a).to(eq(outgoing_messages))
+        expect(incoming_messages.to_a.map(&:to_h)).to(eq(outgoing_messages.map(&:to_h)))
       end
 
       it "includes offending line in error message" do

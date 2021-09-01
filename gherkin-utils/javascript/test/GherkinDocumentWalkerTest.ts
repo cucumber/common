@@ -77,7 +77,7 @@ Feature: hello
         ...{ acceptScenario: (scenario) => scenario.name === 'Earth' },
       })
       const newGherkinDocument = walker.walkGherkinDocument(gherkinDocument)
-      const newSource = pretty(newGherkinDocument)
+      const newSource = pretty(newGherkinDocument, 'gherkin')
       const expectedNewSource = `Feature: Solar System
 
   Scenario: Earth
@@ -101,7 +101,7 @@ Feature: hello
         ...{ acceptStep: (step) => step.text.includes('liquid') },
       })
       const newGherkinDocument = walker.walkGherkinDocument(gherkinDocument)
-      const newSource = pretty(newGherkinDocument)
+      const newSource = pretty(newGherkinDocument, 'gherkin')
       const expectedNewSource = `Feature: Solar System
 
   Scenario: Earth
@@ -146,7 +146,7 @@ Feature: hello
         ...{ acceptScenario: (scenario) => scenario.name === 'Saturn' },
       })
       const newGherkinDocument = walker.walkGherkinDocument(gherkinDocument)
-      const newSource = pretty(newGherkinDocument)
+      const newSource = pretty(newGherkinDocument, 'gherkin')
       const expectedNewSource = `Feature: Solar System
 
   Scenario: Saturn
@@ -178,7 +178,7 @@ Feature: hello
         },
       })
       const newGherkinDocument = walker.walkGherkinDocument(gherkinDocument)
-      const newSource = pretty(newGherkinDocument)
+      const newSource = pretty(newGherkinDocument, 'gherkin')
       const expectedNewSource = `Feature: Solar System
 
   Background: Space
@@ -212,7 +212,7 @@ Feature: hello
         ...{ acceptStep: (step) => step.text.includes('space') },
       })
       const newGherkinDocument = walker.walkGherkinDocument(gherkinDocument)
-      const newSource = pretty(newGherkinDocument)
+      const newSource = pretty(newGherkinDocument, 'gherkin')
       const expectedNewSource = `Feature: Solar System
 
   Background: Space
@@ -252,7 +252,7 @@ Feature: hello
         ...{ acceptScenario: (scenario) => scenario.name === 'Andromeda' },
       })
       const newGherkinDocument = walker.walkGherkinDocument(gherkinDocument)
-      const newSource = pretty(newGherkinDocument)
+      const newSource = pretty(newGherkinDocument, 'gherkin')
       const expectedNewSource = `Feature: Solar System
 
   Rule: Galaxy
@@ -286,7 +286,7 @@ Feature: hello
         ...{ acceptRule: (rule) => rule.name === 'Galaxy' },
       })
       const newGherkinDocument = walker.walkGherkinDocument(gherkinDocument)
-      const newSource = pretty(newGherkinDocument)
+      const newSource = pretty(newGherkinDocument, 'gherkin')
       const expectedNewSource = `Feature: Solar System
 
   Rule: Galaxy
@@ -320,7 +320,7 @@ Feature: hello
         ...{ acceptRule: () => true },
       })
       const newGherkinDocument = walker.walkGherkinDocument(gherkinDocument)
-      const newSource = pretty(newGherkinDocument)
+      const newSource = pretty(newGherkinDocument, 'gherkin')
       const expectedNewSource = `Feature: Solar System
 
   Rule: Galaxy
@@ -346,7 +346,7 @@ Feature: hello
         acceptFeature: (feature) => feature.name === 'Solar System',
       })
       const newGherkinDocument = walker.walkGherkinDocument(gherkinDocument)
-      const newSource = pretty(newGherkinDocument)
+      const newSource = pretty(newGherkinDocument, 'gherkin')
       const expectedNewSource = `Feature: Solar System
 
   Scenario: Saturn
@@ -377,7 +377,7 @@ Feature: hello
   context('handling objects', () => {
     describe('handleStep', () => {
       it('is called for each steps', () => {
-        const source = parse(`Feature: Solar System
+        const gherkinDocument = parse(`Feature: Solar System
 
         Scenario: Earth
           Given it is a planet
@@ -390,7 +390,7 @@ Feature: hello
             handleStep: (step) => stepText.push(step.text),
           }
         )
-        astWalker.walkGherkinDocument(source)
+        astWalker.walkGherkinDocument(gherkinDocument)
 
         assert.deepEqual(stepText, ['it is a planet'])
       })
@@ -398,7 +398,7 @@ Feature: hello
 
     describe('handleScenario', () => {
       it('is called for each scenarios', () => {
-        const source = parse(`Feature: Solar System
+        const gherkinDocument = parse(`Feature: Solar System
 
         Scenario: Earth
           Given it is a planet
@@ -414,7 +414,7 @@ Feature: hello
             handleScenario: (scenario) => scenarioName.push(scenario.name),
           }
         )
-        astWalker.walkGherkinDocument(source)
+        astWalker.walkGherkinDocument(gherkinDocument)
 
         assert.deepEqual(scenarioName, ['Earth', 'Saturn'])
       })
@@ -422,7 +422,7 @@ Feature: hello
 
     describe('handleBackground', () => {
       it('is called for each backgrounds', () => {
-        const source = parse(`Feature: Solar System
+        const gherkinDocument = parse(`Feature: Solar System
 
         Background: Milky Way
           Scenario: Earth
@@ -436,7 +436,7 @@ Feature: hello
             handleBackground: (background) => backgroundName.push(background.name),
           }
         )
-        astWalker.walkGherkinDocument(source)
+        astWalker.walkGherkinDocument(gherkinDocument)
 
         assert.deepEqual(backgroundName, ['Milky Way'])
       })
@@ -444,7 +444,7 @@ Feature: hello
 
     describe('handleRule', () => {
       it('is called for each rules', () => {
-        const source = parse(`Feature: Solar System
+        const gherkinDocument = parse(`Feature: Solar System
 
         Rule: On a planet
           Scenario: There is life
@@ -462,7 +462,7 @@ Feature: hello
             handleRule: (rule) => ruleName.push(rule.name),
           }
         )
-        astWalker.walkGherkinDocument(source)
+        astWalker.walkGherkinDocument(gherkinDocument)
 
         assert.deepEqual(ruleName, ['On a planet', 'On an exoplanet'])
       })
@@ -470,7 +470,7 @@ Feature: hello
 
     describe('handleFeature', () => {
       it('is called for each features', () => {
-        const source = parse(`Feature: Solar System
+        const gherkinDocument = parse(`Feature: Solar System
 
         Rule: On a planet
           Scenario: There is life
@@ -488,7 +488,7 @@ Feature: hello
             handleFeature: (feature) => featureName.push(feature.name),
           }
         )
-        astWalker.walkGherkinDocument(source)
+        astWalker.walkGherkinDocument(gherkinDocument)
 
         assert.deepEqual(featureName, ['Solar System'])
       })
@@ -497,10 +497,10 @@ Feature: hello
 
   describe('regression tests', () => {
     it('does not fail with empty/commented documents', () => {
-      const source = parse('# Feature: Solar System')
+      const gherkinDocument = parse('# Feature: Solar System')
       const astWalker = new GherkinDocumentWalker()
 
-      astWalker.walkGherkinDocument(source)
+      astWalker.walkGherkinDocument(gherkinDocument)
     })
   })
 })

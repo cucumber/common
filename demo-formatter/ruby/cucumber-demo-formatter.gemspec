@@ -22,8 +22,8 @@ Gem::Specification.new do |s|
                     'source_code_uri'   => 'https://github.com/cucumber/common/blob/main/cucumber-demo-formatter/ruby',
                   }
 
-  s.add_dependency 'cucumber-messages', '~> 16.0', '>= 16.0.0'
-  s.add_development_dependency 'rake', '~> 13.0', '>= 13.0.3'
+  s.add_dependency 'cucumber-messages', '~> 17.0', '>= 17.0.0'
+  s.add_development_dependency 'rake', '~> 13.0', '>= 13.0.5'
   s.add_development_dependency 'rspec', '~> 3.10', '>= 3.10.0'
 
   s.executables      = ["cucumber-demo-formatter"]

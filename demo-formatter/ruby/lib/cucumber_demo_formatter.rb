@@ -12,13 +12,13 @@ class CucumberDemoFormatter
       'FAILED'    => '💣',
     }
     message_enumerator.each do |message|
-      if message['testStepFinished']
-        status = message['testStepFinished']['testStepResult']['status']
+      if message.test_step_finished
+        status = message.test_step_finished.test_step_result.status
         em = emoji[status]
         raise "No emoji found for status #{status}" if em.nil?
         output.write(em)
       end
-      if message['testRunFinished']
+      if message.test_run_finished
         output.write("\n")
       end
     end

@@ -612,34 +612,44 @@ public final class DataTable {
      */
     @Override
     public String toString() {
-        StringBuilder result = new StringBuilder();
-        print(result);
-        return result.toString();
+        return DataTableFormatter.builder()
+                .build()
+                .format(this);
     }
 
     /**
      * Prints a string representation of this
      * table to the {@code appendable}.
+     * 
+     * @deprecated superseded by {@link DataTableFormatter#formatTo(DataTable, Appendable)}
      *
      * @param appendable to append the string representation
      *                   of this table to.
      * @throws IOException If an I/O error occurs
      */
+    @Deprecated
     public void print(Appendable appendable) throws IOException {
-        TablePrinter printer = new TablePrinter();
-        printer.printTable(raw, appendable);
+        DataTableFormatter.builder()
+                .prefixRow("      ")
+                .build()
+                .formatTo(this, appendable);
     }
 
     /**
      * Prints a string representation of this
      * table to the {@code appendable}.
      *
+     * @deprecated superseded by {@link DataTableFormatter#formatTo(DataTable, StringBuilder)}
+     *
      * @param appendable to append the string representation
      *                   of this table to.
      */
+    @Deprecated
     public void print(StringBuilder appendable) {
-        TablePrinter printer = new TablePrinter();
-        printer.printTable(raw, appendable);
+        DataTableFormatter.builder()
+                .prefixRow("      ")
+                .build()
+                .formatTo(this, appendable);
     }
 
     /**

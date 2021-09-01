@@ -1,32 +1,27 @@
-import React, { useState } from 'react'
+import React from 'react'
 import GherkinQueryContext from '../../GherkinQueryContext'
 import CucumberQueryContext from '../../CucumberQueryContext'
 import SearchQueryContext from '../../SearchQueryContext'
 
-import SearchBar from './SearchBar'
+import { SearchBar } from './SearchBar'
+import { NoMatchResult } from './NoMatchResult'
+import { StatusesSummary } from './StatusesSummary'
+import { GherkinDocumentList } from './GherkinDocumentList'
 
-import NoMatchResult from './NoMatchResult'
 import Search from '../../search/Search'
 import filterByStatus from '../../filter/filterByStatus'
-import StatusesSummary from './StatusesSummary'
 import countScenariosByStatuses from '../../countScenariosByStatuses'
-import ExecutionSummary from './ExecutionSummary'
+import { ExecutionSummary } from './ExecutionSummary'
 import EnvelopesQueryContext from '../../EnvelopesQueryContext'
-import GherkinDocumentList from './GherkinDocumentList'
-import * as messages from '@cucumber/messages'
 import statuses from './statuses'
 
-const FilteredResults: React.FunctionComponent = () => {
+export const FilteredResults: React.FunctionComponent = () => {
   const gherkinQuery = React.useContext(GherkinQueryContext)
   const cucumberQuery = React.useContext(CucumberQueryContext)
-  const { query } = React.useContext(SearchQueryContext)
+  const { query, hideStatuses } = React.useContext(SearchQueryContext)
   const allDocuments = gherkinQuery.getGherkinDocuments()
 
   const scenarioCountByStatus = countScenariosByStatuses(allDocuments, gherkinQuery, cucumberQuery)
-
-  const [displayedStatuses, setDisplayedStatuses] = useState<
-    readonly messages.TestStepResultStatus[]
-  >(statuses.filter((status) => scenarioCountByStatus.get(status)))
 
   const search = new Search(gherkinQuery)
 
@@ -34,29 +29,26 @@ const FilteredResults: React.FunctionComponent = () => {
     search.add(gherkinDocument)
   }
 
+  const onlyShowStatuses = statuses.filter((s) => !hideStatuses.includes(s))
+
   const matches = query ? search.search(query) : allDocuments
   const filtered = matches
-    .map((document) => filterByStatus(document, gherkinQuery, cucumberQuery, displayedStatuses))
+    .map((document) => filterByStatus(document, gherkinQuery, cucumberQuery, onlyShowStatuses))
     .filter((document) => document !== null)
 
   const envelopesQuery = React.useContext(EnvelopesQueryContext)
   const meta = envelopesQuery.find((envelope) => envelope.meta !== null).meta
+  const statusesWithScenarios = [...scenarioCountByStatus.keys()]
 
   return (
     <div className="cucumber-filtered-results">
       <div className="cucumber-report-header">
         <StatusesSummary scenarioCountByStatus={scenarioCountByStatus} />
         <ExecutionSummary meta={meta} />
-        <SearchBar
-          statusesUpdated={(statuses) => setDisplayedStatuses(statuses)}
-          enabledStatuses={displayedStatuses}
-          scenarioCountByStatus={scenarioCountByStatus}
-        />
+        <SearchBar statusesWithScenarios={statusesWithScenarios} />
       </div>
       <GherkinDocumentList gherkinDocuments={filtered} preExpand={true} />
       <NoMatchResult query={query} matches={filtered} />
     </div>
   )
 }
-
-export default FilteredResults

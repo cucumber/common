@@ -40,23 +40,21 @@ describe Cucumber::HTMLFormatter::Formatter do
 
   context '.write_message' do
     let(:message) do
-      {
-        pickle: {
-          id: 'some-random-uid'
-        }
-      }
+      ::Cucumber::Messages::Envelope.new(
+        pickle: ::Cucumber::Messages::Pickle.new(id: 'some-random-uid')
+      )
     end
 
     it 'appends the message to out' do
       subject.write_message(message)
-      expect(out.string).to eq(%|{"pickle":{"id":"some-random-uid"}}|)
+      expect(out.string).to eq(message.to_json)
     end
 
     it 'adds commas between the messages' do
       subject.write_message(message)
       subject.write_message(message)
 
-      expect(out.string).to eq(%|{"pickle":{"id":"some-random-uid"}},\n{"pickle":{"id":"some-random-uid"}}|)
+      expect(out.string).to eq("#{message.to_json},\n#{message.to_json}")
     end
   end
 
@@ -69,11 +67,9 @@ describe Cucumber::HTMLFormatter::Formatter do
 
   context '.process_messages' do
     let(:message) do
-      {
-        pickle: {
-          id: 'some-random-uid'
-        }
-      }
+      ::Cucumber::Messages::Envelope.new(
+        pickle: ::Cucumber::Messages::Pickle.new(id: 'some-random-uid')
+      )
     end
 
     it 'produces the full html report' do
@@ -82,7 +78,7 @@ describe Cucumber::HTMLFormatter::Formatter do
         '<html>',
         '<style>div { color: red }</style>',
         '<body>',
-        '{"pickle":{"id":"some-random-uid"}}</body>',
+        "#{message.to_json}</body>",
         "<script>alert('Hi')</script>",
         '</html>'
       ].join("\n"))

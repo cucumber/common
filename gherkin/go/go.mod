@@ -1,10 +1,10 @@
-module github.com/cucumber/gherkin-go/v19
+module github.com/cucumber/common/gherkin/go/v20
 
 require (
-	github.com/cucumber/messages-go/v16 v16.0.1
+	github.com/cucumber/common/messages/go/v17 v17.0.1
 	github.com/stretchr/testify v1.7.0
 )
 
-replace github.com/cucumber/messages-go/v16 => ../../messages/go
+replace github.com/cucumber/common/messages/go/v17 => ../../messages/go
 
 go 1.13

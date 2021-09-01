@@ -7,7 +7,7 @@ import java.io.OutputStreamWriter;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-public class Main {
+public final class Main {
     public static void main(String[] args) {
         OutputStreamWriter writer = new OutputStreamWriter(System.out, UTF_8);
         NdjsonToMessageIterable envelopes = new NdjsonToMessageIterable(System.in);
