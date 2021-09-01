@@ -81,10 +81,7 @@ function prettyKeywordContainer(
   syntax: Syntax,
   level: number
 ): string {
-  const hasTags: messages.Feature | messages.Scenario | messages.Rule | messages.Examples =
-    'tags' in stepContainer ? stepContainer : null
-  const tags: readonly messages.Tag[] = hasTags?.tags || []
-
+  const tags: readonly messages.Tag[] = 'tags' in stepContainer ? stepContainer.tags : []
   const stepCount = 'steps' in stepContainer ? stepContainer.steps.length : 0
   const description = prettyDescription(stepContainer.description, syntax)
 

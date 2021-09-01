@@ -1,108 +1,83 @@
-import * as messages from '@cucumber/messages'
-import {
-  AstBuilder,
-  GherkinClassicTokenMatcher,
-  GherkinInMarkdownTokenMatcher,
-  Parser,
-} from '@cucumber/gherkin'
-import pretty, { Syntax } from '../pretty'
 import fs, { unlink as unlinkCb } from 'fs'
-import { promisify } from 'util'
 import path from 'path'
+import * as messages from '@cucumber/messages'
+import { AstBuilder, GherkinClassicTokenMatcher, GherkinInMarkdownTokenMatcher, Parser, } from '@cucumber/gherkin'
+import pretty, { Syntax } from '../pretty'
+import { promisify } from 'util'
 import { Readable, Writable } from 'stream'
-import glob from 'fast-glob'
-import isGlob from 'is-glob'
-import micromatch from 'micromatch'
 
 const unlink = promisify(unlinkCb)
 
-type Options = {
-  move: boolean
-  language: string
-  syntax: Syntax
-  destinationSyntax: Syntax
+export type FormatOptions = {
+  fromSyntax?: Syntax
+  toSyntax?: Syntax
+  language?: string
 }
 
-type Conversion = {
-  readable: () => Readable
+type FileFormat = {
   readableSyntax: Syntax
-  readableLanguage: string
-  writable: () => Writable
   writableSyntax: Syntax
+  readable: () => Readable
+  writable: () => Writable
   afterWrite: () => Promise<void>
 }
 
-export default async (
-  from: string | undefined,
-  to: string | undefined,
-  options: Partial<Options> = {}
-) => {
-  let conversions: Conversion[] = []
-
-  if (from) {
-    to = to || from
-    const fromPaths = await glob(from)
-    conversions = conversions.concat(fileConversions(fromPaths, from, to, options))
-  }
-  if (!process.stdin.isTTY) {
-    conversions.push({
-      readable: () => process.stdin,
-      readableSyntax: options.syntax,
-      readableLanguage: options.language,
-      writable: () => process.stdout,
-      writableSyntax: options.destinationSyntax,
-      afterWrite: () => Promise.resolve(),
-    })
-  }
-  for (const conversion of conversions) {
-    await convert(conversion)
-  }
-}
-
-function fileConversions(
-  fromPaths: readonly string[],
-  from: string,
-  to: string,
-  options: Partial<Options>
-): readonly Conversion[] {
-  return fromPaths.map((fromPath) => {
-    const readable = () => fs.createReadStream(fromPath)
-    const readableSyntax = getSyntax(fromPath)
-    const toPath = makeToPath(fromPath, from, to)
-    const writable = () => fs.createWriteStream(toPath, 'utf8')
-    const writableSyntax = getSyntax(toPath)
-    const afterWrite =
-      options.move && toPath !== fromPath ? () => unlink(fromPath) : () => Promise.resolve()
+export async function formatCommand(
+  files: string[],
+  stdin: Readable | null,
+  stdout: Writable | null,
+  options: FormatOptions
+): Promise<void> {
+  const fileFormats: FileFormat[] = files.map(file => {
+    const toFile = syntaxPath(file, options.toSyntax)
     return {
-      readable,
-      readableSyntax,
-      readableLanguage: options.language,
-      writable,
-      writableSyntax,
-      afterWrite,
+      readableSyntax: syntaxFromPath(file, options.fromSyntax),
+      writableSyntax: syntaxFromPath(toFile, options.toSyntax),
+      readable: () => fs.createReadStream(file),
+      writable: () => fs.createWriteStream(toFile),
+      afterWrite: file !== toFile ? () => unlink(file) : () => Promise.resolve()
     }
   })
-}
-
-async function read(readable: Readable): Promise<string> {
-  const chunks = []
-  for await (const chunk of readable) chunks.push(chunk)
-  return Buffer.concat(chunks).toString('utf-8')
-}
-
-export function makeToPath(fromPath: string, from: string, to: string): string {
-  if (!isGlob(to)) {
-    return to
+  if (stdin && stdout) {
+    fileFormats.push({
+      readableSyntax: options.fromSyntax,
+      writableSyntax: options.toSyntax,
+      readable: () => stdin,
+      writable: () => stdout,
+      afterWrite: () => Promise.resolve()
+    })
   }
-  const fromMatches = micromatch.capture(from, fromPath)
-  return to.replace(/\*\*?/g, () => fromMatches.shift())
+  for (const fileFormat of fileFormats) {
+    await convert(fileFormat, options.language)
+  }
 }
 
-function getSyntax(fromPath: string) {
-  return path.extname(fromPath) === '.feature' ? 'gherkin' : 'markdown'
+async function convert(fileFormat: FileFormat, language: string) {
+  const source = await read(fileFormat.readable())
+  const gherkinDocument = parse(source, fileFormat.readableSyntax, language)
+  const output = pretty(gherkinDocument, fileFormat.writableSyntax)
+  try {
+    // Sanity check that what we generated is OK.
+    parse(output, fileFormat.writableSyntax, gherkinDocument.feature?.language)
+  } catch (err) {
+    err.message += `The generated output is not parseable. This is a bug.
+Please report a bug at https://github.com/cucumber/common/issues/new
+
+--- Generated ${fileFormat.writableSyntax} source ---
+${output}
+------
+`
+    throw err
+  }
+  const writable = fileFormat.writable()
+  writable.write(output)
+  writable.end()
+  await new Promise((resolve) => writable.once('finish', resolve))
+  await fileFormat.afterWrite()
 }
 
 function parse(source: string, syntax: Syntax, language: string) {
+  if (!syntax) throw new Error('No syntax')
   const fromParser = new Parser(
     new AstBuilder(messages.IdGenerator.uuid()),
     syntax === 'gherkin'
@@ -112,26 +87,32 @@ function parse(source: string, syntax: Syntax, language: string) {
   return fromParser.parse(source)
 }
 
-async function convert(conversion: Conversion) {
-  const source = await read(conversion.readable())
-  const gherkinDocument = parse(source, conversion.readableSyntax, conversion.readableLanguage)
-  const output = pretty(gherkinDocument, conversion.writableSyntax)
+async function read(readable: Readable): Promise<string> {
+  const chunks = []
+  for await (const chunk of readable) chunks.push(chunk)
+  return Buffer.concat(chunks).toString('utf-8')
+}
 
-  try {
-    // Sanity check that what we generated is OK.
-    parse(output, conversion.writableSyntax, gherkinDocument.feature?.language)
-  } catch (err) {
-    console.error(`The generated output is not parseable. This is a bug.`)
-    console.error(`Please report a bug at https://github.com/cucumber/common/issues/new`)
-    console.error(err.stack)
-    console.error(`--- Generated ${conversion.writableSyntax} source ---`)
-    console.error(output)
-    console.error(`------`)
-    process.exit(2)
+function syntaxPath(file: string, syntax: Syntax): string {
+  console.log({ syntax, file })
+  if (syntax === 'markdown') {
+    if (syntaxFromPath(file) === 'markdown') return file
+    return file + '.md'
   }
-  const writable = conversion.writable()
-  writable.write(output)
-  writable.end()
-  await new Promise((resolve) => writable.once('finish', resolve))
-  await conversion.afterWrite()
+
+  if (syntax === 'gherkin') {
+    if (syntaxFromPath(file) === 'gherkin') return file
+    return file.replace(/\.feature\.md/, '.feature')
+  }
+
+  return file
+}
+
+function syntaxFromPath(file: string, explicitSyntax?: Syntax): Syntax {
+  let syntax: Syntax
+  if (path.extname(file) === '.feature') syntax = 'gherkin'
+  if (path.extname(file) === '.md') syntax = 'markdown'
+  if (!syntax) throw new Error(`Cannot determine syntax from path ${file}`)
+  if (explicitSyntax && explicitSyntax !== syntax) throw new Error(`Cannot treat ${file} as ${explicitSyntax}`)
+  return syntax
 }

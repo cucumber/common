@@ -1,4 +1,4 @@
-import formatCommand, { makeToPath } from '../../src/commands/formatCommand'
+import { formatCommand } from '../../src/commands/formatCommand'
 import assert from 'assert'
 import {
   existsSync,
@@ -9,11 +9,20 @@ import {
 } from 'fs'
 import os from 'os'
 import { promisify } from 'util'
+import { Readable, Writable } from 'stream'
 
 const mkdtemp = promisify(mkdtempCb)
 const mkdir = promisify(mkdirCb)
 const writeFile = promisify(writeFileCb)
 const readFile = promisify(readFileCb)
+
+class BufStream extends Writable {
+  public buf = Buffer.alloc(0)
+  _write(chunk: Buffer, encoding: BufferEncoding, callback: (error?: Error | null) => void) {
+    this.buf = Buffer.concat([this.buf, chunk])
+    callback()
+  }
+}
 
 describe('formatCommand', () => {
   let tmpdir: string
@@ -21,84 +30,64 @@ describe('formatCommand', () => {
     tmpdir = await mkdtemp(os.tmpdir() + '/')
   })
 
-  afterEach(async () => {
-    tmpdir = await mkdtemp(os.tmpdir() + '/')
+  it('formats STDIN Gherkin to STDOUT Markdown', async () => {
+    const stdin = Readable.from(Buffer.from('Feature: Hello\n'))
+    const stdout = new BufStream()
+    await formatCommand([], stdin, stdout, {fromSyntax: 'gherkin', toSyntax: 'markdown'})
+    assert.deepStrictEqual(stdout.buf.toString('utf-8'), '# Feature: Hello\n')
   })
 
-  it('formats an empty file', async () => {
-    const fromPath = `${tmpdir}/source.feature`
-    await writeFile(fromPath, '', 'utf-8')
-
-    const toPath = `${tmpdir}/source.feature.md`
-
-    await formatCommand(fromPath, toPath)
-    const markdown = await readFile(toPath, 'utf-8')
-    assert.deepStrictEqual(markdown, '')
+  it('formats STDIN Markdown to STDOUT Gherkin', async () => {
+    const stdin = Readable.from(Buffer.from('# Feature: Hello\n'))
+    const stdout = new BufStream()
+    await formatCommand([], stdin, stdout, {fromSyntax: 'markdown', toSyntax: 'gherkin'})
+    assert.deepStrictEqual(stdout.buf.toString('utf-8'), 'Feature: Hello\n')
   })
 
-  it('formats single Gherkin file to Markdown file', async () => {
+  it('formats Gherkin file in-place', async () => {
+    const path = `${tmpdir}/source.feature`
+    await writeFile(path, '   Feature: Hello\n', 'utf-8')
+
+    await formatCommand([path], null, null, {})
+    const gherkin = await readFile(path, 'utf-8')
+    assert.deepStrictEqual(gherkin, 'Feature: Hello\n')
+  })
+
+  it('formats Markdown file in-place', async () => {
+    const path = `${tmpdir}/source.feature.md`
+    await writeFile(path, '# Feature: Hello\n', 'utf-8')
+
+    await formatCommand([path], null, null, {})
+    const markdown = await readFile(path, 'utf-8')
+    assert.deepStrictEqual(markdown, '# Feature: Hello\n')
+  })
+
+  it('formats/moves Gherkin file to Markdown file', async () => {
     const fromPath = `${tmpdir}/source.feature`
     await writeFile(fromPath, 'Feature: Hello\n', 'utf-8')
 
     const toPath = `${tmpdir}/source.feature.md`
 
-    await formatCommand(fromPath, toPath)
+    await formatCommand([fromPath], null, null, {toSyntax: 'markdown'})
     const markdown = await readFile(toPath, 'utf-8')
     assert.deepStrictEqual(markdown, '# Feature: Hello\n')
+    assert(!existsSync(fromPath))
   })
 
-  it('formats Gherkin files in-place', async () => {
-    const fromPath = `${tmpdir}/1.feature`
-    await writeFile(fromPath, '     Feature:     1\n', 'utf-8')
+  it('formats/moves Markdown file to Gherkin file', async () => {
+    const fromPath = `${tmpdir}/source.feature.md`
+    await writeFile(fromPath, '# Feature: Hello\n', 'utf-8')
 
-    await formatCommand(fromPath, undefined)
+    const toPath = `${tmpdir}/source.feature`
 
-    const gherkin = await readFile(fromPath, 'utf-8')
-    assert.deepStrictEqual(gherkin, 'Feature: 1\n')
+    await formatCommand([fromPath], null, null, {toSyntax: 'gherkin'})
+    const markdown = await readFile(toPath, 'utf-8')
+    assert.deepStrictEqual(markdown, 'Feature: Hello\n')
+    assert(!existsSync(fromPath))
   })
 
-  it('formats several Gherkin files to several Markdown files', async () => {
-    await mkdir(`${tmpdir}/x/1`, { recursive: true })
-    await mkdir(`${tmpdir}/x/2`, { recursive: true })
-    await writeFile(`${tmpdir}/x/1/1.feature`, 'Feature: 1\n', 'utf-8')
-    await writeFile(`${tmpdir}/x/2/2.feature`, 'Feature: 2\n', 'utf-8')
-
-    await formatCommand(`${tmpdir}/**/*.feature`, `${tmpdir}/**/*.feature.md`)
-
-    const markdown1 = await readFile(`${tmpdir}/x/1/1.feature.md`, 'utf-8')
-    assert.deepStrictEqual(markdown1, '# Feature: 1\n')
-    const markdown2 = await readFile(`${tmpdir}/x/2/2.feature.md`, 'utf-8')
-    assert.deepStrictEqual(markdown2, '# Feature: 2\n')
-  })
-
-  it('deletes the from file when move is specified', async () => {
-    const from = `${tmpdir}/1.feature`
-    const to = `${tmpdir}/1.feature.md`
-    await writeFile(from, 'Feature: 1\n', 'utf-8')
-    await formatCommand(from, to, { move: true })
-
-    const markdown = await readFile(to, 'utf-8')
-    assert.deepStrictEqual(markdown, '# Feature: 1\n')
-    assert(!existsSync(from))
-  })
-
-  it('does not remove the from file when move is specified and to is the same as from', async () => {
-    const from = `${tmpdir}/1.feature`
-    await writeFile(from, '  Feature:   1\n', 'utf-8')
-    await formatCommand(from, from, { move: true })
-
-    const gherkin = await readFile(from, 'utf-8')
-    assert.deepStrictEqual(gherkin, 'Feature: 1\n')
-    assert(existsSync(from))
-  })
-
-  describe('makeToPath', () => {
-    it('does it', () => {
-      const fromGlob = `/a/b/**/*.feature`
-      const toGlob = `/x/y/**/*.feature.md`
-
-      const toPath = makeToPath(`/a/b/c/d/e.feature`, fromGlob, toGlob)
-      assert.deepStrictEqual(toPath, `/x/y/c/d/e.feature.md`)
-    })
+  it('throws an error when fromSyntax inconsitent with file extension', async () => {
+    const fromPath = `${tmpdir}/source.feature.md`
+    await assert.rejects(formatCommand([fromPath], null, null, {fromSyntax: 'gherkin'}))
   })
 })
