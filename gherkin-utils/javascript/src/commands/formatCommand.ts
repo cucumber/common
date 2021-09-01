@@ -40,8 +40,8 @@ export async function formatCommand(
   })
   if (stdin && stdout) {
     fileFormats.push({
-      readableSyntax: options.fromSyntax,
-      writableSyntax: options.toSyntax,
+      readableSyntax: options.fromSyntax || 'gherkin',
+      writableSyntax: options.toSyntax || 'gherkin',
       readable: () => stdin,
       writable: () => stdout,
       afterWrite: () => Promise.resolve()
@@ -94,7 +94,6 @@ async function read(readable: Readable): Promise<string> {
 }
 
 function syntaxPath(file: string, syntax: Syntax): string {
-  console.log({ syntax, file })
   if (syntax === 'markdown') {
     if (syntaxFromPath(file) === 'markdown') return file
     return file + '.md'
