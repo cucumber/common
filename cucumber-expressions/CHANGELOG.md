@@ -17,6 +17,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [12.1.3] - 2021-09-01
+
+### Fixed
+
 * Use native RegExp Match indices (currently relying on a polyfill)
   ([#1652](https://github.com/cucumber/common/pull/1652)
   [aslakhellesoy])
@@ -802,7 +806,8 @@ N/A
 * First stable release!
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions/v12.1.2...main
+[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions/v12.1.3...main
+[12.1.3]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v12.1.2...cucumber-expressions/v12.1.3
 [12.1.2]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v12.1.1...cucumber-expressions/v12.1.2
 [12.1.1]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v12.1.0...cucumber-expressions/v12.1.1
 [12.1.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v12.0.1...cucumber-expressions/v12.1.0
