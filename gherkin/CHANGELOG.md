@@ -15,6 +15,8 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Changed
 
+* Fixed `Rule` translation for `hi`, `sr-Cyrl`, `sr-Latn` and `tr`
+  ([aslakhellesoy])
 * [Java] Renamed `Token#mathcedItems` to `Token#matchedItems`
   ([#1687](https://github.com/cucumber/common/issues/1687)
    [aslakhellesoy])
