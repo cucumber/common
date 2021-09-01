@@ -8,7 +8,7 @@
         <version>2.1.2</version>
     </parent>
     <artifactId>messages</artifactId>
-    <version>17.1.0</version>
+    <version>17.1.1-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>Cucumber Messages</name>
     <description>JSON schema-based messages for Cucumber's inter-process communication</description>

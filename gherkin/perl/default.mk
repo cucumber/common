@@ -59,3 +59,6 @@ predistribution: test CHANGELOG.md
 
 pre-release: update-version
 .PHONY: pre-release
+
+post-release:
+.PHONY: post-release
