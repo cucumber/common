@@ -9,7 +9,7 @@
     </parent>
 
     <artifactId>tag-expressions</artifactId>
-    <version>3.0.2-SNAPSHOT</version>
+    <version>4.0.0</version>
     <packaging>jar</packaging>
     <name>Cucumber Tag Expressions</name>
     <description>Parses boolean infix expressions</description>
@@ -35,13 +35,13 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
-            <version>5.7.2</version>
+            <version>5.8.0-RC1</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-params</artifactId>
-            <version>5.7.2</version>
+            <version>5.8.0-RC1</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
