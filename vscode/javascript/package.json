@@ -56,7 +56,7 @@
     "@cucumber/language-server": "^0.0.1"
   },
   "devDependencies": {
-    "@types/vscode": "1.59.0",
+    "@types/vscode": "1.60.0",
     "@types/glob": "7.1.4",
     "@types/mocha": "9.0.0",
     "@types/node": "14.x",
