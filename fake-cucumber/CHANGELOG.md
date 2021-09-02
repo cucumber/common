@@ -17,6 +17,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [14.0.0] - 2021-09-02
+
+### Changed
+
+* Upgrade to `@cucumber/messages` `17.1.0`
+* Upgrade to `@cucumber/gherkin` `21.0.0`
+
 ## [13.0.0] - 2021-07-08
 
 ### Added
@@ -249,7 +256,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/fake-cucumber/v13.0.0...main
+[Unreleased]: https://github.com/cucumber/cucumber/compare/fake-cucumber/v14.0.0...main
+[14.0.0]:      https://github.com/cucumber/cucumber/compare/fake-cucumber/v13.0.0...fake-cucumber/v14.0.0
 [13.0.0]:      https://github.com/cucumber/cucumber/compare/fake-cucumber/v12.0.2...fake-cucumber/v13.0.0
 [12.0.2]:      https://github.com/cucumber/cucumber/compare/fake-cucumber/v12.0.1...fake-cucumber/v12.0.2
 [12.0.1]:      https://github.com/cucumber/cucumber/compare/fake-cucumber/v12.0.0...fake-cucumber/v12.0.1
