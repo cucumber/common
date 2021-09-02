@@ -17,6 +17,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [0.0.1] - 2021-09-02
+
+### Added
+
+* First release
+
 <!-- Releases -->
 [Unreleased]: https://github.com/cucumber/common/compare/language-server/v0.0.1...main
 [0.0.1]:      https://github.com/cucumber/common/tree/language-server/v0.0.1
