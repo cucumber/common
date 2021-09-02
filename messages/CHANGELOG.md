@@ -17,6 +17,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [17.1.0] - 2021-09-01
+
+### Added
+
+* Initial Perl implementation
+  ([#1670](https://github.com/cucumber/common/pull/1670) [ehuelsmann])
+
 ## [17.0.1] - 2021-07-19
 
 ### Fixed
@@ -558,7 +565,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Protobuf messages for Go, Java, JavaScript, TypeScript and Ruby
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/messages/v17.0.1...main
+[Unreleased]: https://github.com/cucumber/cucumber/compare/messages/v17.1.0...main
+[17.1.0]:      https://github.com/cucumber/cucumber/compare/messages/v17.0.1...messages/v17.1.0
 [17.0.1]:      https://github.com/cucumber/cucumber/compare/messages/v17.0.0...messages/v17.0.1
 [17.0.0]:      https://github.com/cucumber/cucumber/compare/messages/v16.0.1...messages/v17.0.0
 [16.0.1]:      https://github.com/cucumber/cucumber/compare/messages/v16.0.0...messages/v16.0.1
@@ -620,6 +628,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 [brasmusson]:       https://github.com/brasmusson
 [charlierudolph]:   https://github.com/charlierudolph
 [david1995]:        https://github.com/david1995
+[ehuelsmann]:       https://github.com/ehuelsmann
 [luke-hill]:        https://github.com/luke-hill
 [mpkorstanje]:      https://github.com/mpkorstanje
 [mvz]:              https://github.com/mvz

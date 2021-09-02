@@ -14,26 +14,6 @@ $summary-border-color: rgba(0, 0, 0, 0.1);
   }
 }
 
-// TODO encapsulate in a component
-.cucumber-steps {
-  padding: 0;
-  margin: 1em;
-
-  > li {
-    list-style: none;
-  }
-
-  > li + li {
-    margin-top: 0.25em;
-  }
-}
-
-// TODO encapsulate in a component
-.cucumber-children {
-  padding: 0;
-  margin: 1em;
-}
-
 .cucumber-no-documents {
   font: 14px 'Open Sans', sans-serif;
 }

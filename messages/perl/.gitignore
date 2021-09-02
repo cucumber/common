@@ -1,0 +1,8 @@
+.build/
+.built
+acceptance/
+Cucumber-Messages-*
+perl5/
+.cpanfile_dependencies
+cpanfile.snapshot
+CHANGELOG.md

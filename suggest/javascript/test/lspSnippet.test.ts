@@ -1,6 +1,5 @@
 import assert from 'assert'
-import lspCompletionSnippet from '../src/lspCompletionSnippet'
-import { StepSegments } from '../src/types'
+import { StepSegments, lspCompletionSnippet } from '../src'
 
 describe('lspSnippet', () => {
   it('converts a PermutationExpression to an LSP snippet', () => {

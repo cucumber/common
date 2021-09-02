@@ -43,7 +43,6 @@ ifdef NEW_VERSION
 	# Update all npm packages that depend on us
 	pushd ../.. && \
 		./scripts/npm-each update_npm_dependency_if_exists package.json "$(NPM_MODULE)" "$(NEW_VERSION)"
-		# npm install
 else
 	@echo -e "\033[0;31mNEW_VERSION is not defined. Can't update version :-(\033[0m"
 	exit 1

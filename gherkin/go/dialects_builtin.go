@@ -1560,7 +1560,7 @@ var buildinDialects = gherkinDialectMap{
 				"रूप लेख",
 			},
 			rule: []string{
-				"Rule",
+				"नियम",
 			},
 			background: []string{
 				"पृष्ठभूमि",
@@ -2940,7 +2940,7 @@ var buildinDialects = gherkinDialectMap{
 				"Особина",
 			},
 			rule: []string{
-				"Rule",
+				"Правило",
 			},
 			background: []string{
 				"Контекст",
@@ -2995,7 +2995,7 @@ var buildinDialects = gherkinDialectMap{
 				"Osobina",
 			},
 			rule: []string{
-				"Rule",
+				"Pravilo",
 			},
 			background: []string{
 				"Kontekst",
@@ -3277,7 +3277,7 @@ var buildinDialects = gherkinDialectMap{
 				"Özellik",
 			},
 			rule: []string{
-				"Rule",
+				"Kural",
 			},
 			background: []string{
 				"Geçmiş",

@@ -1,22 +1,19 @@
 import React from 'react'
-import Tags from './Tags'
-import Description from './Description'
-import Examples from './Examples'
-import * as messages from '@cucumber/messages'
-import StepList from './StepList'
-import HookList from './HookList'
+import { HookList } from './HookList'
+import { Keyword } from './Keyword'
+import { StepList } from './StepList'
+import { Tags } from './Tags'
+import { Title } from './Title'
+import { Examples } from './Examples'
+import { Description } from './Description'
 import CucumberQueryContext from '../../CucumberQueryContext'
 import GherkinQueryContext from '../../GherkinQueryContext'
 import UriContext from '../../UriContext'
-import Title from './Title'
-import Keyword from './Keyword'
-import HighLight from '../app/HighLight'
+import { HighLight } from '../app/HighLight'
+import { DefaultComponent, ScenarioClasses, ScenarioProps, useCustomRendering } from '../customise'
+import defaultStyles from './Scenario.module.scss'
 
-interface IProps {
-  scenario: messages.Scenario
-}
-
-const Scenario: React.FunctionComponent<IProps> = ({ scenario }) => {
+const DefaultRenderer: DefaultComponent<ScenarioProps, ScenarioClasses> = ({ scenario, styles }) => {
   const examplesList = scenario.examples || []
   const hasExamples = examplesList.length > 0
   const cucumberQuery = React.useContext(CucumberQueryContext)
@@ -34,7 +31,7 @@ const Scenario: React.FunctionComponent<IProps> = ({ scenario }) => {
         <HighLight text={scenario.name} />
       </Title>
       <Description description={scenario.description} />
-      <ol className="cucumber-steps">
+      <ol className={styles.steps}>
         <HookList hookSteps={beforeHooks} />
         <StepList steps={scenario.steps || []} hasExamples={hasExamples} />
         <HookList hookSteps={afterHooks} />
@@ -47,4 +44,7 @@ const Scenario: React.FunctionComponent<IProps> = ({ scenario }) => {
   )
 }
 
-export default Scenario
+export const Scenario: React.FunctionComponent<ScenarioProps> = (props) => {
+  const ResolvedRenderer = useCustomRendering<ScenarioProps, {}>('Scenario', defaultStyles, DefaultRenderer)
+  return <ResolvedRenderer {...props} />
+}

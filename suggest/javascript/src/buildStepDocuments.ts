@@ -12,7 +12,7 @@ type ParameterTypeData = { name: string; regexpStrings: string }
  * @param expressions
  * @param maxChoices
  */
-export default function buildStepDocuments(
+export function buildStepDocuments(
   stepTexts: readonly string[],
   expressions: readonly Expression[],
   maxChoices = 10

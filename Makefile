@@ -1,5 +1,5 @@
 SHELL := /usr/bin/env bash
-BUILD_IMAGE ?= cucumber/cucumber-build:0.5.2
+BUILD_IMAGE ?= $(shell grep "image: cucumber/cucumber-build:" .circleci/config.yml | cut -c 16-)
 PACKAGES ?= messages \
 	message-streams \
 	gherkin \
@@ -7,6 +7,10 @@ PACKAGES ?= messages \
 	gherkin-utils \
 	cucumber-expressions \
 	suggest \
+	language-service \
+	language-server \
+	monaco \
+	vscode \
 	tag-expressions \
 	create-meta \
 	fake-cucumber \
@@ -59,6 +63,7 @@ push_subrepos:
 	touch $@
 
 docker-run:
+	[ "${BUILD_IMAGE}" ] || (echo "Build image version could not be read from .circleci/config.yml" && exit 1)
 	[ -d "${HOME}/.m2/repository" ] || mkdir -p "${HOME}/.m2/repository"
 	docker run \
 	  --publish "6006:6006" \

@@ -11,18 +11,26 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
-* [Go] Move module paths to point to monorepo
-  ([#1550](https://github.com/cucumber/common/issues/1550))
-
 ### Deprecated
 
 ### Removed
 
 ### Fixed
 
+## [12.1.3] - 2021-09-01
+
+### Fixed
+
 * Use native RegExp Match indices (currently relying on a polyfill)
   ([#1652](https://github.com/cucumber/common/pull/1652)
-   [aslakhellesoy])
+  [aslakhellesoy])
+
+## [12.1.2] - 2021-08-17
+
+### Changed
+* [Go] Move module paths to point to monorepo
+  ([#1550](https://github.com/cucumber/common/issues/1550))
+* [Java] Upgraded apiguardian to v1.1.2
 
 ## [12.1.1] - 2021-04-06
 
@@ -798,7 +806,9 @@ N/A
 * First stable release!
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions/v12.1.1...main
+[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions/v12.1.3...main
+[12.1.3]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v12.1.2...cucumber-expressions/v12.1.3
+[12.1.2]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v12.1.1...cucumber-expressions/v12.1.2
 [12.1.1]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v12.1.0...cucumber-expressions/v12.1.1
 [12.1.0]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v12.0.1...cucumber-expressions/v12.1.0
 [12.0.1]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v12.0.0...cucumber-expressions/v12.0.1
