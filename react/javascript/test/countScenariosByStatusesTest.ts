@@ -50,7 +50,8 @@ Feature: statuses
     assert.strictEqual(statuses.get(messages.TestStepResultStatus.PASSED), 2)
     assert.strictEqual(statuses.get(messages.TestStepResultStatus.FAILED), 1)
     assert.strictEqual(statuses.get(messages.TestStepResultStatus.UNDEFINED), 1)
-  })
+    // Ridiculously long because runFeature (fake cucumber) seems to run very slowly with ts-node (?)
+  }).timeout(30000)
 
   it('counts different statuses with example tables', async () => {
     const feature = `
