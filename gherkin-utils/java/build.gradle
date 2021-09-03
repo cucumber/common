@@ -1,0 +1,20 @@
+plugins {
+    id 'java'
+}
+
+group 'org.gherkin'
+version '1.0'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation group: 'io.cucumber', name: 'gherkin', version: '20.0.1'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+}
+
+test {
+    useJUnitPlatform()
+}
