@@ -1,4 +1,4 @@
-package org.gherkin.util;
+package io.cucumber.gherkin.util;
 
 import java.util.Collections;
 import java.util.List;

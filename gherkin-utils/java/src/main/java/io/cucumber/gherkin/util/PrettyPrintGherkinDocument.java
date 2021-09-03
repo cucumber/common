@@ -1,4 +1,4 @@
-package org.gherkin.util;
+package io.cucumber.gherkin.util;
 
 import java.util.ArrayList;
 import java.util.Arrays;

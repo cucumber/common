@@ -1,31 +1,32 @@
-package org.gherkin.util;
+package io.cucumber.gherkin.util;
+
+import static org.junit.Assert.assertEquals;
 
 import io.cucumber.gherkin.GherkinDocumentBuilder;
 import io.cucumber.gherkin.Parser;
 import io.cucumber.messages.IdGenerator;
 import io.cucumber.messages.types.GherkinDocument;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.Before;
+import org.junit.Test;
 
-class PrettyPrintGherkinDocumentTest {
+public class PrettyPrintGherkinDocumentTest {
 
     Parser<GherkinDocument> parser;
 
-    @BeforeEach
-    void beforeEach() {
+    @Before
+    public void beforeEach() {
         IdGenerator idGen = new IdGenerator.Incrementing();
         parser = new Parser<>(new GherkinDocumentBuilder(idGen));
     }
 
     @Test
-    void emptyFile() {
+    public void emptyFile() {
         GherkinDocument gherkinDocument = parser.parse("");
-        Assertions.assertEquals("", PrettyPrintGherkinDocument.prettyPrint(gherkinDocument, Syntax.gherkin));
+        assertEquals("", PrettyPrintGherkinDocument.prettyPrint(gherkinDocument, Syntax.gherkin));
     }
 
     @Test
-    void scenarioOutlineWithExamples() {
+    public void scenarioOutlineWithExamples() {
         GherkinDocument gherkinDocument = parser.parse("    Feature: Overdue tasks\n" +
                 "  Let users know when tasks are overdue, even when using other\n" +
                 "  features of the app\n\n\n" +
@@ -39,7 +40,7 @@ class PrettyPrintGherkinDocumentTest {
                 "    | start | eat |left|\n" +
                 "      |12 |    5 |             7 |\n" +
                 "   |20|   5 |                             15 |\n");
-        Assertions.assertEquals("Feature: Overdue tasks\n" +
+        assertEquals("Feature: Overdue tasks\n" +
                 "  Let users know when tasks are overdue, even when using other\n" +
                 "  features of the app\n" +
                 "\n" +
@@ -55,21 +56,21 @@ class PrettyPrintGherkinDocumentTest {
     }
 
     @Test
-    void languageHeaderIsNotEn() {
+    public void languageHeaderIsNotEn() {
         GherkinDocument gherkinDocument = parser.parse("# language: no\n" +
                 "Egenskap: hallo");
-        Assertions.assertEquals("# language: no\n" +
+        assertEquals("# language: no\n" +
                 "Egenskap: hallo\n", PrettyPrintGherkinDocument.prettyPrint(gherkinDocument, Syntax.gherkin));
     }
 
     @Test
-    void emptyScenarios() {
+    public void emptyScenarios() {
         GherkinDocument gherkinDocument = parser.parse("Feature: hello\n" +
                 "\n" +
                 "  Scenario: one\n" +
                 "\n" +
                 "  Scenario: Two");
-        Assertions.assertEquals("Feature: hello\n" +
+        assertEquals("Feature: hello\n" +
                 "\n" +
                 "  Scenario: one\n" +
                 "\n" +
@@ -77,7 +78,7 @@ class PrettyPrintGherkinDocumentTest {
     }
 
     @Test
-    void twoScenarios() {
+    public void twoScenarios() {
         GherkinDocument gherkinDocument = parser.parse("Feature: hello\n" +
                 "\n" +
                 "  Scenario: one\n" +
@@ -85,7 +86,7 @@ class PrettyPrintGherkinDocumentTest {
                 "\n" +
                 "  Scenario: two\n" +
                 "    Given world");
-        Assertions.assertEquals("Feature: hello\n" +
+        assertEquals("Feature: hello\n" +
                 "\n" +
                 "  Scenario: one\n" +
                 "    Given hello\n" +
@@ -95,7 +96,7 @@ class PrettyPrintGherkinDocumentTest {
     }
 
     @Test
-    void twoScenariosInRule() {
+    public void twoScenariosInRule() {
         GherkinDocument gherkinDocument = parser.parse("Feature: hello\n" +
                 "\n" +
                 "  Rule: ok\n" +
@@ -105,7 +106,7 @@ class PrettyPrintGherkinDocumentTest {
                 "\n" +
                 "    Scenario: two\n" +
                 "      Given world\n");
-        Assertions.assertEquals("Feature: hello\n" +
+        assertEquals("Feature: hello\n" +
                 "\n" +
                 "  Rule: ok\n" +
                 "\n" +
@@ -117,7 +118,7 @@ class PrettyPrintGherkinDocumentTest {
     }
 
     @Test
-    void featureWithBackgroundAndScenario() {
+    public void featureWithBackgroundAndScenario() {
         GherkinDocument gherkinDocument = parser.parse("Feature: hello\n" +
                 "\n" +
                 "  Background: bbb\n" +
@@ -125,7 +126,7 @@ class PrettyPrintGherkinDocumentTest {
                 "\n" +
                 "  Scenario: two\n" +
                 "    Given world");
-        Assertions.assertEquals("Feature: hello\n" +
+        assertEquals("Feature: hello\n" +
                 "\n" +
                 "  Background: bbb\n" +
                 "    Given hello\n" +
@@ -135,7 +136,7 @@ class PrettyPrintGherkinDocumentTest {
     }
 
     @Test
-    void ruleWithBackgroundAndScenario() {
+    public void ruleWithBackgroundAndScenario() {
         GherkinDocument gherkinDocument = parser.parse("Feature: hello\n" +
                 "\n" +
                 "  Rule: machin\n" +
@@ -145,7 +146,7 @@ class PrettyPrintGherkinDocumentTest {
                 "\n" +
                 "    Scenario: two\n" +
                 "      Given world\n");
-        Assertions.assertEquals("Feature: hello\n" +
+        assertEquals("Feature: hello\n" +
                 "\n" +
                 "  Rule: machin\n" +
                 "\n" +
@@ -157,7 +158,7 @@ class PrettyPrintGherkinDocumentTest {
     }
 
     @Test
-    void tags() {
+    public void tags() {
         GherkinDocument gherkinDocument = parser.parse("@featureTag\n" +
                 "Feature: hello\n" +
                 "\n" +
@@ -169,7 +170,7 @@ class PrettyPrintGherkinDocumentTest {
                 "    @scenarioTag @secondTag\n" +
                 "    Scenario: two\n" +
                 "      Given world\n");
-        Assertions.assertEquals("@featureTag\n" +
+        assertEquals("@featureTag\n" +
                 "Feature: hello\n" +
                 "\n" +
                 "  Rule: machin\n" +
@@ -183,7 +184,7 @@ class PrettyPrintGherkinDocumentTest {
     }
 
     @Test
-    void exampleTables() {
+    public void exampleTables() {
         GherkinDocument gherkinDocument = parser.parse("Feature: hello\n" +
                 "\n" +
                 "  Scenario: one\n" +
@@ -194,7 +195,7 @@ class PrettyPrintGherkinDocumentTest {
                 "      | a    |      1 |\n" +
                 "      | ab   |     10 |\n" +
                 "      | abc  |    100 |\n");
-        Assertions.assertEquals("Feature: hello\n" +
+        assertEquals("Feature: hello\n" +
                 "\n" +
                 "  Scenario: one\n" +
                 "    Given a a <text> and a <number>\n" +
@@ -207,7 +208,7 @@ class PrettyPrintGherkinDocumentTest {
     }
 
     @Test
-    void dataTables() {
+    public void dataTables() {
         GherkinDocument gherkinDocument = parser.parse("Feature: hello\n" +
                 "\n" +
                 "  Scenario: one\n" +
@@ -216,7 +217,7 @@ class PrettyPrintGherkinDocumentTest {
                 "      | a    |       1 |\n" +
                 "      | ab   |      10 |\n" +
                 "      | abc  |     100 |\n");
-        Assertions.assertEquals("Feature: hello\n" +
+        assertEquals("Feature: hello\n" +
                 "\n" +
                 "  Scenario: one\n" +
                 "    Given a data table:\n" +
@@ -227,7 +228,7 @@ class PrettyPrintGherkinDocumentTest {
     }
 
     @Test
-    void docString() {
+    public void docString() {
         GherkinDocument gherkinDocument = parser.parse("Feature: hello\n" +
                 "\n" +
                 "  Scenario: one\n" +
@@ -236,7 +237,7 @@ class PrettyPrintGherkinDocumentTest {
                 "      | a    |       1 |\n" +
                 "      | ab   |      10 |\n" +
                 "      | abc  |     100 |\n");
-        Assertions.assertEquals("Feature: hello\n" +
+        assertEquals("Feature: hello\n" +
                 "\n" +
                 "  Scenario: one\n" +
                 "    Given a data table:\n" +
@@ -247,7 +248,7 @@ class PrettyPrintGherkinDocumentTest {
     }
 
     @Test
-    void description() {
+    public void description() {
         GherkinDocument gherkinDocument = parser.parse("Feature: hello\n" +
                 "  So this is a feature\n" +
                 "\n" +
@@ -263,7 +264,7 @@ class PrettyPrintGherkinDocumentTest {
                 "      This scenario will do things, maybe\n" +
                 "\n" +
                 "      Given world\n");
-        Assertions.assertEquals("Feature: hello\n" +
+        assertEquals("Feature: hello\n" +
                 "  So this is a feature\n" +
                 "\n" +
                 "  Rule: machin\n" +
