@@ -113,7 +113,8 @@ public class PrettyPrintGherkinDocument {
     }
 
     public static String prettyPrint(GherkinDocument gherkinDocument, Syntax syntax) {
-        return WalkGherkinDocument.walkGherkinDocument(gherkinDocument, "", new PrettyPrintGherkinDocumentHandlers(syntax));
+        return WalkGherkinDocument.walkGherkinDocument(gherkinDocument, "",
+                new PrettyPrintGherkinDocumentHandlers(syntax));
     }
 
     private static String prettyLanguageHeader(String language) {

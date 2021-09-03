@@ -20,8 +20,8 @@ public class WalkGherkinDocument {
      * Walks a Gherkin Document, visiting each node depth first (in the order they appear in the source)
      *
      * @param gherkinDocument
-     * @param initialValue the initial value of the traversal
-     * @param h handlers for each node type, which may return a new value
+     * @param initialValue    the initial value of the traversal
+     * @param h               handlers for each node type, which may return a new value
      * @return result the final value
      */
     public static <Acc> Acc walkGherkinDocument(
@@ -29,8 +29,8 @@ public class WalkGherkinDocument {
             Acc initialValue,
             GherkinDocumentHandlers<Acc> h) {
         Acc acc = initialValue;
-    Feature feature = gherkinDocument.getFeature();
-        if ( feature == null) {
+        Feature feature = gherkinDocument.getFeature();
+        if (feature == null) {
             return acc;
         }
         acc = walkTags(feature.getTags() == null ? Collections.emptyList() : feature.getTags(), h, acc);
@@ -42,7 +42,8 @@ public class WalkGherkinDocument {
             } else if (child.getScenario() != null) {
                 acc = walkScenario(child.getScenario(), h, acc);
             } else if (child.getRule() != null) {
-                acc = walkTags(child.getRule().getTags() != null ? child.getRule().getTags() : Collections.emptyList(), h, acc);
+                acc = walkTags(child.getRule().getTags() != null ? child.getRule().getTags() : Collections.emptyList(),
+                        h, acc);
                 acc = h.handleRule(child.getRule(), acc);
                 for (RuleChild ruleChild : child.getRule().getChildren()) {
                     if (ruleChild.getBackground() != null) {
@@ -108,7 +109,9 @@ public class WalkGherkinDocument {
                 acc = h.handleExamples(examples, acc);
                 if (examples.getTableHeader() != null) {
                     acc = walkTableRow(examples.getTableHeader(), h, acc);
-                    acc = walkTableRows(examples.getTableBody() != null ? examples.getTableBody() : Collections.emptyList(), h,  acc);
+                    acc = walkTableRows(
+                            examples.getTableBody() != null ? examples.getTableBody() : Collections.emptyList(), h,
+                            acc);
                 }
             }
         }

@@ -19,47 +19,47 @@ public interface GherkinDocumentHandlers<Acc> {
         return content;
     }
 
-    default Acc handleComment(Comment comment, Acc content)  {
+    default Acc handleComment(Comment comment, Acc content) {
         return content;
     }
 
-    default Acc handleDataTable(DataTable dataTable, Acc content)  {
+    default Acc handleDataTable(DataTable dataTable, Acc content) {
         return content;
     }
 
-    default Acc handleDocString(DocString docString, Acc content)  {
+    default Acc handleDocString(DocString docString, Acc content) {
         return content;
     }
 
-    default Acc handleExamples(Examples examples, Acc content)  {
+    default Acc handleExamples(Examples examples, Acc content) {
         return content;
     }
 
-    default Acc handleFeature(Feature feature, Acc content)  {
+    default Acc handleFeature(Feature feature, Acc content) {
         return content;
     }
 
-    default Acc handleRule(Rule rule, Acc content)  {
+    default Acc handleRule(Rule rule, Acc content) {
         return content;
     }
 
-    default Acc handleScenario(Scenario scenario, Acc content)  {
+    default Acc handleScenario(Scenario scenario, Acc content) {
         return content;
     }
 
-    default Acc handleStep(Step step, Acc content)  {
+    default Acc handleStep(Step step, Acc content) {
         return content;
     }
 
-    default Acc handleTableCell(TableCell tableCell, Acc content)  {
+    default Acc handleTableCell(TableCell tableCell, Acc content) {
         return content;
     }
 
-    default Acc handleTableRow(TableRow tableRow, Acc content)  {
+    default Acc handleTableRow(TableRow tableRow, Acc content) {
         return content;
     }
 
-    default Acc handleTag(Tag tag, Acc content)  {
+    default Acc handleTag(Tag tag, Acc content) {
         return content;
     }
 }
