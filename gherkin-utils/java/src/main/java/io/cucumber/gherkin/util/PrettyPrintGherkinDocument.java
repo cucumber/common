@@ -112,6 +112,13 @@ public class PrettyPrintGherkinDocument {
         }
     }
 
+    /**
+     * Pretty print a GherkinDocument as either markdown or gherkin.
+     *
+     * @param gherkinDocument The GherkinDocument object.
+     * @param syntax          What syntax do you want to format to?
+     * @return The pretty printed string representation of the Gherkin doc in the syntax indicated.
+     */
     public static String prettyPrint(GherkinDocument gherkinDocument, Syntax syntax) {
         return WalkGherkinDocument.walkGherkinDocument(gherkinDocument, "",
                 new PrettyPrintGherkinDocumentHandlers(syntax));

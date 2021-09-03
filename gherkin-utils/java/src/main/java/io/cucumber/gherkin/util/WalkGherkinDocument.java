@@ -19,7 +19,7 @@ public class WalkGherkinDocument {
     /**
      * Walks a Gherkin Document, visiting each node depth first (in the order they appear in the source)
      *
-     * @param gherkinDocument
+     * @param gherkinDocument The gherkin document we want to walk
      * @param initialValue    the initial value of the traversal
      * @param h               handlers for each node type, which may return a new value
      * @return result the final value
