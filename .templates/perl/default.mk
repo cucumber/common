@@ -46,7 +46,7 @@ endif
 	cpanm --notest --local-lib ./perl5 --installdeps .
 	touch $@
 
-predistribution: test CHANGELOG.md
+predistribution: dist-clean test CHANGELOG.md
 # --notest to keep the number of dependencies low: it doesn't install the
 # testing dependencies of the dependencies.
 	cpanm --notest --local-lib ./perl5 --installdeps --with-develop .
@@ -62,3 +62,8 @@ pre-release: update-version
 
 post-release:
 .PHONY: post-release
+
+dist-clean: clean
+	rm -rf ./perl5
+
+.PHONY: dist-clean

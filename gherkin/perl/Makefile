@@ -8,14 +8,12 @@ ASTS     = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.ast.ndjso
 PICKLES  = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.pickles.ndjson,$(GOOD_FEATURE_FILES))
 ERRORS   = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.errors.ndjson,$(BAD_FEATURE_FILES))
 
-PERL_FILES = $(shell find . -name "*.pm")
-
 .DELETE_ON_ERROR:
 
 test: .built $(TOKENS) $(ASTS) $(PICKLES)
 	PERL5LIB=./perl5/lib/perl5 prove -l
 
-.built: .cpanfile_dependencies lib/Gherkin/Generated/Parser.pm lib/Gherkin/Generated/Languages.pm $(PERL_FILES) bin/gherkin-generate-tokens LICENSE.txt
+.built: .cpanfile_dependencies lib/Gherkin/Generated/Parser.pm lib/Gherkin/Generated/Languages.pm bin/gherkin-generate-tokens LICENSE.txt
 	@$(MAKE) --no-print-directory show-version-info
 	# add Perl-level unit tests
 	touch $@
