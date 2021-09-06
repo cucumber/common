@@ -11,15 +11,23 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
-* The React components are exported via the `components` property.
-  ([#1660](https://github.com/cucumber/common/pull/1660)
-   [aslakhellesoy])
-
 ### Deprecated
 
 ### Removed
 
 ### Fixed
+
+## [18.0.0] - 2021-09-02
+
+### Changed
+
+* The React components are exported via the `components` property.
+  ([#1660](https://github.com/cucumber/common/pull/1660)
+   [aslakhellesoy])
+* Upgrade to `@cucumber/gherkin-utils` `^7.0.0`
+* Upgrade to `@cucumber/messages` `^17.1.0`
+* Upgrade to `@cucumber/query` `^11.0.0`
+* Upgrade to `@cucumber/tag-expressions` `4.0.0`
 
 ## [17.0.0] - 2021-07-08
 
@@ -404,7 +412,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/react/v17.0.0...main
+[Unreleased]: https://github.com/cucumber/cucumber/compare/react/v18.0.0...main
+[18.0.0]:      https://github.com/cucumber/cucumber/compare/react/v17.0.0...react/v18.0.0
 [17.0.0]:      https://github.com/cucumber/cucumber/compare/react/v16.2.0...react/v17.0.0
 [16.2.0]:      https://github.com/cucumber/cucumber/compare/react/v16.1.0...react/v16.2.0
 [16.1.0]:      https://github.com/cucumber/cucumber/compare/react/v16.0.2...react/v16.1.0
