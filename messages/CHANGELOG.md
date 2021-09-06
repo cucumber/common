@@ -17,6 +17,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+* Perl: incorrectly included `null` values & guaranteed field order
+  ([#1727](https://github.com/cucumber/common/pull/1727) [ehuelsmann])
+
 ## [17.1.0] - 2021-09-01
 
 ### Added
