@@ -80,7 +80,7 @@ sub _to_hash {
             map {
                 __PACKAGE__->_camelize($_)
                     => _to_hash( $value->{$_}, %args, type => $types->{$_} )
-            } keys %$value
+            } grep { defined $value->{$_} } keys %$value
         };
     }
     else {
