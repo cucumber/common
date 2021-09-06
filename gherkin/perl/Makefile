@@ -57,7 +57,7 @@ update-dependencies:
 .PHONY: update-dependencies
 
 clean:
-	rm -rf Gherkin-* .cpanfile_dependencies .built acceptance CHANGES
+	rm -rf Gherkin-* .cpanfile_dependencies .built acceptance CHANGELOG.md
 .PHONY: clean
 
 clobber: clean
