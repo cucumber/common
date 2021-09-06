@@ -106,7 +106,6 @@ sub _from_hash {
             my $type = $args{type} =~ s/^\[\]//r;
             return [ map { _from_hash( $_, %args, type => $type ) } @$value ];
         }
-        use Data::Dumper;
         croak 'No type supplied to deserialize hash'
             unless $args{type};
 
