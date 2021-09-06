@@ -45,7 +45,7 @@ use Moo;
 
 
 my $json = JSON::MaybeXS->new(
-    utf8 => 0, pretty => 0, indent => 0
+    utf8 => 0, pretty => 0, indent => 0, canonical => 1
     );
 
 sub _camelize {
