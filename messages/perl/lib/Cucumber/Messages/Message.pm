@@ -45,7 +45,7 @@ use Moo;
 
 
 my $json = JSON::MaybeXS->new(
-    utf8 => 0, pretty => 0, indent => 0
+    utf8 => 0, pretty => 0, indent => 0, canonical => 1
     );
 
 sub _camelize {
@@ -80,7 +80,7 @@ sub _to_hash {
             map {
                 __PACKAGE__->_camelize($_)
                     => _to_hash( $value->{$_}, %args, type => $types->{$_} )
-            } keys %$value
+            } grep { defined $value->{$_} } keys %$value
         };
     }
     else {
@@ -106,7 +106,6 @@ sub _from_hash {
             my $type = $args{type} =~ s/^\[\]//r;
             return [ map { _from_hash( $_, %args, type => $type ) } @$value ];
         }
-        use Data::Dumper;
         croak 'No type supplied to deserialize hash'
             unless $args{type};
 
