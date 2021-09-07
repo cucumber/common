@@ -142,12 +142,15 @@ and compiler as developed by the Cucumber project
 Gherkin is a simple language, with a formal specification. The parser
 in this implementation is generated off the official language grammar.
 
+B<NOTE> Versions 21 and lower of this library used to send hashes to
+the C<$sink>, whereas the current version sends L<Cucumber::Messages>.
+
 =head1 OVERVIEW
 
 The Cucumber toolkit consists of a set of tools which form a pipe line:
 each consumes and produces protobuf messages
-(L<https://github.com/cucumber/messages/messages.proto>). These messages
-are either use ndjson or binary formatting.
+(See L<https://github.com/cucumber/common/tree/main/messages>). Messages
+use ndjson formatting.
 
 The start of the pipeline is the Gherkin language parser. C<Gherkin>
 implements that functionality in Perl. It's the first building block in
@@ -166,18 +169,18 @@ Accepted C<%options> are:
 =item include_source
 
 Boolean. Indicates whether the text of the source document is to be included
-in the output stream using a Source message.
+in the output stream using a L<Source message|Cucumber::Messages/Cucumber::Messages::Source>.
 
 =item include_ast
 
 Boolean. Indicates whether the parsed source (AST or Abstract Syntax Tree) is
-to be included in the output stream using a GherkinDocument message.
+to be included in the output stream using a L<GherkinDocument message|Cucumber::Messages/Cucumber::Messages::GherkinDocument>.
 
 =item include_pickles
 
 Boolean. Indicates whether the expanded-and-interpolated (executable)
 scenarios are to be included in the output stream using
-Pickle messages.
+L<Pickle messages|Cucumber::Messages/Cucumber::Messages::Pickle>.
 
 =back
 
@@ -189,7 +192,8 @@ for each of the paths in the arrayref C<$paths>.
 C<$id_gen> is a coderef to a function generating unique
 IDs which messages in the output stream can use to refer to other content
 in the stream. C<$sink> is a coderef to a function taking the next message
-in the stream as its argument.
+in the stream as its argument. Each message is encapsulated in an
+L<Envelope message|Cucumber::Messages/Cucumber::Messages::Envelope>.
 
 C<%options> are passed to C<new>.
 
@@ -201,19 +205,12 @@ C<%options> are passed to C<new>.
 Generates a stream of AST and pickle messages sent to C<$sink>. The source
 text in the message's C<data> attribute is assumed to be C<utf8> or C<UTF-8>
 encoded. The document header is scanned for an C<# encoding: ...> instruction.
-If one is found, the text is recoded from that encoding into UTF-8.
+If one is found, the text is recoded from that encoding into Perl's internal
+Unicode representation.
 
-The data in the C<source> message sent to the sink always is UTF-8 encoded.
-
-C<$source_msg> is a hash with the following structure:
-
-  {
-    source => {
-      data => 'feature content',
-      uri => 'e.g. path to source',
-      media_type => 'text/x.cucumber.gherkin+plain',
-    }
-  }
+The L<Source|Cucumber::Messages/Cucumber::Messages::Source> message sent to
+the sink is wrapped in an envelope which has a C<to_json> method to create
+UTF-8 encoded L<NDJSON|http://ndjson.org/> output.
 
 C<$id_gen> and C<$sink> are as documented in C<from_paths>.
 
@@ -222,10 +219,10 @@ C<$id_gen> and C<$sink> are as documented in C<from_paths>.
 
 Please see the included LICENSE.txt for the canonical version. In summary:
 
-The MIT License (MIT)
+  The MIT License (MIT)
 
-Copyright (c) 2020-2021 Erik Huelsmann
-Copyright (c) 2016      Peter Sergeant
+  Copyright (c) 2020-2021 Erik Huelsmann
+  Copyright (c) 2016      Peter Sergeant
 
 This work is a derivative of work that is:
 Copyright (c) 2014-2016 Cucumber Ltd, Gaspar Nagy
