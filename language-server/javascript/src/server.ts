@@ -9,6 +9,7 @@ import {
   TextDocumentPositionParams,
   TextDocuments,
   TextDocumentSyncKind,
+  TextEdit,
 } from 'vscode-languageserver/node'
 
 import { TextDocument } from 'vscode-languageserver-textdocument'
@@ -17,6 +18,7 @@ import {
   getGherkinCompletionItems,
   getGherkinDiagnostics,
   getGherkinSemanticTokens,
+  getGherkinFormattingEdits,
   semanticTokenModifiers,
   semanticTokenTypes,
 } from '@cucumber/language-service'
@@ -77,6 +79,7 @@ connection.onInitialize(async (params: InitializeParams) => {
             },
           }
         : undefined,
+      documentFormattingProvider: true,
     },
   }
   if (hasWorkspaceFolderCapability) {
@@ -162,6 +165,11 @@ connection.onCompletionResolve((item) => item)
 connection.languages.semanticTokens.on((semanticTokenParams: SemanticTokensParams) => {
   const gherkinSource = documents.get(semanticTokenParams.textDocument.uri).getText()
   return getGherkinSemanticTokens(gherkinSource, indexAndExpressions.expressions)
+})
+
+connection.onDocumentFormatting(async (params): Promise<TextEdit[]> => {
+  const gherkinSource = documents.get(params.textDocument.uri).getText()
+  return getGherkinFormattingEdits(gherkinSource)
 })
 
 documents.listen(connection)

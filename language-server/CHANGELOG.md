@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+* Document Formatting
+  ([#1732](https://github.com/cucumber/common/pull/1732)
+   [aslakhellesoy])
+
 ### Changed
 
 ### Deprecated
