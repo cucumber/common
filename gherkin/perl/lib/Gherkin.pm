@@ -4,6 +4,8 @@ use strict;
 use warnings;
 use Encode qw(encode_utf8 find_encoding);
 
+use Cucumber::Messages;
+
 use Gherkin::AstBuilder;
 use Gherkin::Parser;
 use Gherkin::Pickles::Compiler;
@@ -46,25 +48,25 @@ sub from_paths {
             or warn "Unable to close gherkin document $path: $!";
 
         $gherkin->from_source(
-            {
-                source => {
+            Cucumber::Messages::Envelope->new(
+                source => Cucumber::Messages::Source->new(
                     uri        => $path,
                     data       => $content,
-                    media_type => 'text/x.cucumber.gherkin+plain',
-                }
-            },
+                    media_type => Cucumber::Messages::Source::MEDIATYPE_TEXT_X_CUCUMBER_GHERKIN_PLAIN,
+                    )
+            ),
             $id_generator,
             $sink);
     }
 }
 
 sub _parse_source_encoding_header {
-    my ($source_msg) = @_;
-    my $source = $source_msg->{source};
+    my ($envelope) = @_;
+    my $source = $envelope->source;
     my $header_end = 0;
     my @header     = grep {
         not ($header_end ||= ($_ !~ m/^\s*#/))
-    } split( /\n/, $source->{data} );
+    } split( /\n/, $source->data );
     my $encoding;
     for my $line (@header) {
         if ($line =~ m/\s*#\s+encoding:\s+(\S+)/) {
@@ -74,25 +76,28 @@ sub _parse_source_encoding_header {
     }
     if ($encoding) {
         my $enc = find_encoding($encoding);
-        die "Header in $source->{uri} specifies unknown encoding $encoding"
+        my $uri = $source->uri;
+        die "Header in $uri specifies unknown encoding $encoding"
             unless $enc;
-        $source->{data} = $enc->decode(encode_utf8($source->{data}));
+        $source->data( $enc->decode(encode_utf8($source->data)) );
     }
 }
 
 sub from_source {
-    my ($self, $source_msg, $id_generator, $sink) = @_;
+    my ($self, $envelope, $id_generator, $sink) = @_;
 
-    _parse_source_encoding_header($source_msg);
+    _parse_source_encoding_header($envelope);
     if ($self->include_source) {
-        $sink->($source_msg);
+        $sink->($envelope);
     }
 
     if ($self->include_ast or $self->include_pickles) {
-        my $source = $source_msg->{source};
-        my $ast_msg = Gherkin::Parser->new(
+        my $source = $envelope->source;
+        my $parser = Gherkin::Parser->new(
             Gherkin::AstBuilder->new($id_generator)
-            )->parse(\$source->{data}, $source->{uri});
+            );
+        my $data = $source->data;
+        my $ast_msg = $parser->parse( \$data, $source->uri);
         $sink->($ast_msg) if $self->include_ast;
 
         if ($self->include_pickles) {
