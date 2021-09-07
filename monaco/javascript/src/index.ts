@@ -3,6 +3,7 @@ import {
   getGherkinCompletionItems,
   getGherkinDiagnostics,
   getGherkinSemanticTokens,
+  getGherkinFormattingEdits,
   semanticTokenModifiers,
   semanticTokenTypes
 } from '@cucumber/language-service'
@@ -83,6 +84,23 @@ export function configure(monaco: Monaco, index: Index | undefined, expressions:
           range,
         }))
       }
+    }
+  })
+
+  // Document Formatting
+  monaco.languages.registerDocumentFormattingEditProvider('gherkin', {
+    provideDocumentFormattingEdits: function (model, options, token) {
+      const gherkinSource = model.getValue()
+      const textEdits = getGherkinFormattingEdits(gherkinSource)
+      return textEdits.map(textEdit => ({
+        range: {
+          startLineNumber: textEdit.range.start.line + 1,
+          startColumn: textEdit.range.start.character + 1,
+          endLineNumber: textEdit.range.end.line + 1,
+          endColumn: textEdit.range.end.character + 1,
+        },
+        text: textEdit.newText
+      }))
     }
   })
 }
