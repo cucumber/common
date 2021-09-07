@@ -1,5 +1,12 @@
 include default.mk
 
+ifeq ($(CI),)
+PERL5LIB  = $$PWD/../../messages/perl/lib:$$PWD/perl5/lib/perl5
+else
+PERL5LIB  = $$PWD/perl5/lib/perl5
+endif
+PERL5PATH = $$PWD/perl5/bin
+
 GOOD_FEATURE_FILES = $(shell find testdata/good -name "*.feature")
 BAD_FEATURE_FILES  = $(shell find testdata/bad -name "*.feature")
 
@@ -11,7 +18,7 @@ ERRORS   = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.errors.nd
 .DELETE_ON_ERROR:
 
 test: .built $(TOKENS) $(ASTS) $(PICKLES)
-	PERL5LIB=./perl5/lib/perl5 prove -l
+	PERL5LIB=${PERL5LIB} prove -l
 
 .built: .cpanfile_dependencies lib/Gherkin/Generated/Parser.pm lib/Gherkin/Generated/Languages.pm bin/gherkin-generate-tokens LICENSE.txt
 	@$(MAKE) --no-print-directory show-version-info
@@ -24,22 +31,22 @@ show-version-info:
 
 acceptance/testdata/%.feature.tokens: testdata/%.feature testdata/%.feature.tokens .built
 	mkdir -p $(@D)
-	PERL5LIB=./perl5/lib/perl5 bin/gherkin-generate-tokens $< > $@
+	PERL5LIB=${PERL5LIB} bin/gherkin-generate-tokens $< > $@
 	diff --unified $<.tokens $@
 
 acceptance/testdata/%.feature.ast.ndjson: testdata/%.feature testdata/%.feature.ast.ndjson .built
 	mkdir -p $(@D)
-	PERL5LIB=./perl5/lib/perl5 bin/gherkin --predictable-ids --no-source --no-pickles $< > $@
+	PERL5LIB=${PERL5LIB} bin/gherkin --predictable-ids --no-source --no-pickles $< > $@
 	diff --unified <(jq "." $<.ast.ndjson) <(jq "." $@)
 
 acceptance/testdata/%.feature.pickles.ndjson: testdata/%.feature testdata/%.feature.pickles.ndjson .built
 	mkdir -p $(@D)
-	PERL5LIB=./perl5/lib/perl5 bin/gherkin --predictable-ids --no-source --no-ast $< > $@
+	PERL5LIB=${PERL5LIB} bin/gherkin --predictable-ids --no-source --no-ast $< > $@
 	diff --unified <(jq "." $<.pickles.ndjson) <(jq "." $@)
 
 acceptance/testdata/%.feature.errors.ndjson: testdata/%.feature testdata/%.feature.errors.ndjson .built
 	mkdir -p $(@D)
-	PERL5LIB=./perl5/lib/perl5 bin/gherkin --predictable-ids --no-source --no-pickles $< > $@
+	PERL5LIB=${PERL5LIB} bin/gherkin --predictable-ids --no-source --no-pickles $< > $@
 	diff --unified <(jq "." $<.errors.ndjson) <(jq "." $@)
 
 post-release:
@@ -50,7 +57,7 @@ update-dependencies:
 .PHONY: update-dependencies
 
 clean:
-	rm -rf Gherkin-* .cpanfile_dependencies .built acceptance CHANGES
+	rm -rf Gherkin-* .cpanfile_dependencies .built acceptance CHANGELOG.md
 .PHONY: clean
 
 clobber: clean

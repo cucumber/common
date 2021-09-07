@@ -19,6 +19,9 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Fixed
 
+* [Perl] Failure to include CHANGELOG.md in the release tarball
+  ([#1728](https://github.com/cucumber/common/pull/1728) [ehuelsmann])
+
 ## [21.0.0] - 2021-09-01
 
 ### Added
