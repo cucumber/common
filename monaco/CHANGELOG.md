@@ -9,10 +9,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
-* Document Formatting
-  ([#1732](https://github.com/cucumber/common/pull/1732)
-   [aslakhellesoy])
-
 ### Changed
 
 ### Deprecated
@@ -21,6 +17,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [0.1.0] - 2021-09-07
+
+### Added
+
+* Document Formatting
+  ([#1732](https://github.com/cucumber/common/pull/1732)
+   [aslakhellesoy])
+
 ## [0.0.1] - 2021-09-02
 
 ### Added
@@ -28,7 +32,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/common/compare/monaco/v0.0.1...main
+[Unreleased]: https://github.com/cucumber/common/compare/monaco/v0.1.0...main
+[0.1.0]:      https://github.com/cucumber/common/compare/monaco/v0.0.1...v0.1.0
 [0.0.1]:      https://github.com/cucumber/common/tree/monaco/v0.0.1
 
 <!-- Contributors in alphabetical order -->
