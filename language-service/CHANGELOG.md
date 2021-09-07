@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 
 * Add `CucumberInfoBuilder` and `CucumberInfo`
+  ([#1734](https://github.com/cucumber/common/pull/1734)
+   [aslakhellesoy])
 * Document Formatting
   ([#1732](https://github.com/cucumber/common/pull/1732)
    [aslakhellesoy])
