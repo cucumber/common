@@ -5,7 +5,7 @@ import { NdjsonToMessageStream } from '@cucumber/message-streams'
 import assert from 'assert'
 import { StepDocument } from '@cucumber/suggest'
 import { CucumberInfoStream } from '../src/CucumberInfoStream'
-import { CucumberInfo } from '../src/makeCucumberInfo'
+import { CucumberInfo } from '@cucumber/language-service'
 
 const pipeline = promisify(pipelineCb)
 
