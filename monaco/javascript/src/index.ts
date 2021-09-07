@@ -89,7 +89,7 @@ export function configure(monaco: Monaco, index: Index | undefined, expressions:
 
   // Document Formatting
   monaco.languages.registerDocumentFormattingEditProvider('gherkin', {
-    provideDocumentFormattingEdits: function (model, options, token) {
+    provideDocumentFormattingEdits: function (model) {
       const gherkinSource = model.getValue()
       const textEdits = getGherkinFormattingEdits(gherkinSource)
       return textEdits.map(textEdit => ({
