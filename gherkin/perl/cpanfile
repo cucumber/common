@@ -1,7 +1,8 @@
 
-requires "perl", "5.12.0";
+requires "perl", "5.14.0";
 requires "Cpanel::JSON::XS";
 requires "Class::XSAccessor";
+requires "Cucumber::Messages";
 requires "Data::UUID";
 requires "Getopt::Long", "2.36";
 
