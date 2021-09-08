@@ -8,8 +8,9 @@ import {
   semanticTokenTypes,
 } from '@cucumber/language-service'
 import { Index } from '@cucumber/suggest'
+import { Range, TextEdit } from 'vscode-languageserver-types'
 import * as monacoEditor from 'monaco-editor/esm/vs/editor/editor.api'
-import { editor } from 'monaco-editor/esm/vs/editor/editor.api'
+import { editor, IRange } from 'monaco-editor/esm/vs/editor/editor.api'
 
 type Monaco = typeof monacoEditor
 
@@ -26,14 +27,13 @@ export function configure(
     const model = editor.getModel()
     const gherkinSource = model.getValue()
     const diagnostics = getGherkinDiagnostics(gherkinSource, expressions)
-    const markers: monacoEditor.editor.IMarkerData[] = diagnostics.map((d) => ({
-      severity: monaco.MarkerSeverity.Error,
-      message: d.message,
-      startLineNumber: d.range.start.line + 1,
-      startColumn: d.range.start.character + 1,
-      endLineNumber: d.range.end.line + 1,
-      endColumn: d.range.end.character + 1,
-    }))
+    const markers: monacoEditor.editor.IMarkerData[] = diagnostics.map((diagnostic) => {
+      return {
+        ...(convertRange(diagnostic.range)),
+        severity: monaco.MarkerSeverity.Error,
+        message: diagnostic.message,
+      }
+    })
     monaco.editor.setModelMarkers(model, 'gherkin', markers)
   }
 
@@ -78,25 +78,18 @@ export function configure(
   monaco.languages.registerCompletionItemProvider('gherkin', {
     provideCompletionItems: function (model, position) {
       const gherkinSource = model.getValue()
-      const word = model.getWordUntilPosition(position)
       const completionItems = getGherkinCompletionItems(
         gherkinSource,
         position.lineNumber - 1,
         index
       )
-      const range = {
-        startLineNumber: position.lineNumber,
-        endLineNumber: position.lineNumber,
-        startColumn: word.startColumn,
-        endColumn: word.endColumn,
-      }
       return {
-        suggestions: completionItems.map((ci) => ({
-          label: ci.label,
+        suggestions: completionItems.map((completionItem) => ({
+          label: completionItem.label,
           kind: monaco.languages.CompletionItemKind.Text,
-          insertText: ci.insertText,
           insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
-          range,
+          insertText: (completionItem.textEdit as TextEdit).newText,
+          range: convertRange((completionItem.textEdit as TextEdit).range),
         })),
       }
     },
@@ -108,14 +101,18 @@ export function configure(
       const gherkinSource = model.getValue()
       const textEdits = getGherkinFormattingEdits(gherkinSource)
       return textEdits.map((textEdit) => ({
-        range: {
-          startLineNumber: textEdit.range.start.line + 1,
-          startColumn: textEdit.range.start.character + 1,
-          endLineNumber: textEdit.range.end.line + 1,
-          endColumn: textEdit.range.end.character + 1,
-        },
+        range: convertRange(textEdit.range),
         text: textEdit.newText,
       }))
     },
   })
+}
+
+function convertRange(range: Range): IRange {
+  return {
+    startLineNumber: range.start.line + 1,
+    startColumn: range.start.character + 1,
+    endLineNumber: range.end.line + 1,
+    endColumn: range.end.character + 1,
+  }
 }
