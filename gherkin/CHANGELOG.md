@@ -13,6 +13,11 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Changed
 
+* [Perl] Changed API to pass around `Cucumber::Messages` instead of hashes
+  and increased minimum Perl version in accordance with `Cucumber::Messages`
+  (to 5.14; from 5.12) ([#1735](https://github.com/cucumber/common/pull/1735)
+  [ehuelsmann])
+
 ### Deprecated
 
 ### Removed

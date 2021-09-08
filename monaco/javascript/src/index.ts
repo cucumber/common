@@ -1,43 +1,54 @@
-import * as monacoEditor from 'monaco-editor/esm/vs/editor/editor.api'
+import { Expression } from '@cucumber/cucumber-expressions'
 import {
   getGherkinCompletionItems,
   getGherkinDiagnostics,
+  getGherkinFormattingEdits,
   getGherkinSemanticTokens,
   semanticTokenModifiers,
-  semanticTokenTypes
+  semanticTokenTypes,
 } from '@cucumber/language-service'
 import { Index } from '@cucumber/suggest'
-import { Expression } from '@cucumber/cucumber-expressions'
+import { Range, TextEdit } from 'vscode-languageserver-types'
+import * as monacoEditor from 'monaco-editor/esm/vs/editor/editor.api'
+import { editor, IRange } from 'monaco-editor/esm/vs/editor/editor.api'
 
 type Monaco = typeof monacoEditor
 
-export function configure(monaco: Monaco, index: Index | undefined, expressions: readonly Expression[]) {
+export function configure(
+  monaco: Monaco,
+  editor: editor.IStandaloneCodeEditor,
+  index: Index,
+  expressions: readonly Expression[]
+) {
   monaco.languages.register({ id: 'gherkin' })
 
   // Diagnostics (Syntax validation)
-
-  monaco.editor.onDidCreateModel((model) => {
-    function validate() {
-      const gherkinSource = model.getValue()
-      const diagnostics = getGherkinDiagnostics(gherkinSource, expressions)
-      const markers: monacoEditor.editor.IMarkerData[] = diagnostics.map((d) => ({
+  function setDiagnosticMarkers() {
+    const model = editor.getModel()
+    const gherkinSource = model.getValue()
+    const diagnostics = getGherkinDiagnostics(gherkinSource, expressions)
+    const markers: monacoEditor.editor.IMarkerData[] = diagnostics.map((diagnostic) => {
+      return {
+        ...(convertRange(diagnostic.range)),
         severity: monaco.MarkerSeverity.Error,
-        message: d.message,
-        startLineNumber: d.range.start.line + 1,
-        startColumn: d.range.start.character + 1,
-        endLineNumber: d.range.end.line + 1,
-        endColumn: d.range.end.character + 1,
-      }))
-      monaco.editor.setModelMarkers(model, 'gherkin', markers)
-    }
-
-    let timeout: any
-    model.onDidChangeContent(() => {
-      // debounce
-      clearTimeout(timeout)
-      timeout = setTimeout(() => validate(), 500)
+        message: diagnostic.message,
+      }
     })
-    validate()
+    monaco.editor.setModelMarkers(model, 'gherkin', markers)
+  }
+
+  function requestValidation() {
+    window.requestAnimationFrame(() => {
+      setDiagnosticMarkers()
+    })
+  }
+
+  requestValidation()
+
+  let validationTimeout: NodeJS.Timeout
+  editor.onDidChangeModelContent(() => {
+    clearTimeout(validationTimeout)
+    validationTimeout = setTimeout(requestValidation, 500)
   })
 
   // Syntax Highlighting (Semantic Tokens)
@@ -50,15 +61,16 @@ export function configure(monaco: Monaco, index: Index | undefined, expressions:
       }
     },
     releaseDocumentSemanticTokens: function () {
+      // no-op
     },
     provideDocumentSemanticTokens: function (model) {
       const gherkinSource = model.getValue()
       const tokens = getGherkinSemanticTokens(gherkinSource, expressions)
       const data = new Uint32Array(tokens.data)
       return {
-        data
+        data,
       }
-    }
+    },
   })
 
   // Auto-Complete
@@ -66,23 +78,41 @@ export function configure(monaco: Monaco, index: Index | undefined, expressions:
   monaco.languages.registerCompletionItemProvider('gherkin', {
     provideCompletionItems: function (model, position) {
       const gherkinSource = model.getValue()
-      const word = model.getWordUntilPosition(position)
-      const completionItems = getGherkinCompletionItems(gherkinSource, position.lineNumber - 1, index)
-      const range = {
-        startLineNumber: position.lineNumber,
-        endLineNumber: position.lineNumber,
-        startColumn: word.startColumn,
-        endColumn: word.endColumn,
-      }
+      const completionItems = getGherkinCompletionItems(
+        gherkinSource,
+        position.lineNumber - 1,
+        index
+      )
       return {
-        suggestions: completionItems.map((ci) => ({
-          label: ci.label,
+        suggestions: completionItems.map((completionItem) => ({
+          label: completionItem.label,
           kind: monaco.languages.CompletionItemKind.Text,
-          insertText: ci.insertText,
           insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
-          range,
-        }))
+          insertText: (completionItem.textEdit as TextEdit).newText,
+          range: convertRange((completionItem.textEdit as TextEdit).range),
+        })),
       }
-    }
+    },
   })
+
+  // Document Formatting
+  monaco.languages.registerDocumentFormattingEditProvider('gherkin', {
+    provideDocumentFormattingEdits: function (model) {
+      const gherkinSource = model.getValue()
+      const textEdits = getGherkinFormattingEdits(gherkinSource)
+      return textEdits.map((textEdit) => ({
+        range: convertRange(textEdit.range),
+        text: textEdit.newText,
+      }))
+    },
+  })
+}
+
+function convertRange(range: Range): IRange {
+  return {
+    startLineNumber: range.start.line + 1,
+    startColumn: range.start.character + 1,
+    endLineNumber: range.end.line + 1,
+    endColumn: range.end.character + 1,
+  }
 }

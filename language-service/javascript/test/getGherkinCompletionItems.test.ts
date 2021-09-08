@@ -23,9 +23,21 @@ describe('getGherkinCompletionItems', () => {
     const expectedCompletions: CompletionItem[] = [
       {
         label: 'I have {int} cukes in my belly',
-        insertText: 'I have ${1|42,98|} cukes in my belly',
         insertTextFormat: InsertTextFormat.Snippet,
         kind: CompletionItemKind.Text,
+        textEdit: {
+          newText: 'I have ${1|42,98|} cukes in my belly',
+          range: {
+            start: {
+              line: 2,
+              character: 10
+            },
+            end: {
+              line: 2,
+              character: 15
+            }
+          }
+        }
       },
     ]
     assert.deepStrictEqual(completions, expectedCompletions)

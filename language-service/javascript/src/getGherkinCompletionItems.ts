@@ -14,18 +14,35 @@ export function getGherkinCompletionItems(
     return []
   }
   let text: string
+  let startCharacter: number
+  let endCharacter: number
   walkGherkinDocument(gherkinDocument, undefined, {
     step(step) {
       if (step.location.line === line + 1) {
         text = step.text
+        startCharacter = step.location.column + step.keyword.length - 1
+        endCharacter = startCharacter + text.length
       }
     },
   })
+  if (text === undefined) return []
   const stepDocuments = index(text)
   return stepDocuments.map((stepDocument) => ({
     label: stepDocument.suggestion,
-    insertText: lspCompletionSnippet(stepDocument.segments),
     insertTextFormat: InsertTextFormat.Snippet,
     kind: CompletionItemKind.Text,
+    textEdit: {
+      newText: lspCompletionSnippet(stepDocument.segments),
+      range: {
+        start: {
+          line,
+          character: startCharacter,
+        },
+        end: {
+          line,
+          character: endCharacter
+        }
+      }
+    }
   }))
 }

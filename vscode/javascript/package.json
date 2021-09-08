@@ -53,7 +53,7 @@
   },
   "dependencies": {
     "vscode-languageclient": "7.0.0",
-    "@cucumber/language-server": "^0.0.1"
+    "@cucumber/language-server": "^0.1.0"
   },
   "devDependencies": {
     "@types/vscode": "1.60.0",

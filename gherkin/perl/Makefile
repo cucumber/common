@@ -1,9 +1,9 @@
 include default.mk
 
 ifeq ($(CI),)
-PERL5LIB  = $$PWD/../../messages/perl/lib:$$PWD/perl5/lib/perl5
-else
 PERL5LIB  = $$PWD/perl5/lib/perl5
+else
+PERL5LIB  = $$PWD/../../messages/perl/lib:$$PWD/perl5/lib/perl5
 endif
 PERL5PATH = $$PWD/perl5/bin
 
