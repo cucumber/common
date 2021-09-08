@@ -11,11 +11,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
+* Add an `editor` argument to the `configure` function
+
 ### Deprecated
 
 ### Removed
 
 ### Fixed
+
+* Fix event listener for diagnostics by listening to the editor directly
 
 ## [0.1.0] - 2021-09-07
 
