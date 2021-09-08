@@ -1,9 +1,9 @@
-import ParameterTypeMatcher from './ParameterTypeMatcher'
-import ParameterType from './ParameterType'
+import ParameterTypeMatcher from './ParameterTypeMatcher.js'
+import ParameterType from './ParameterType.js'
 
 import util from 'util'
-import CombinatorialGeneratedExpressionFactory from './CombinatorialGeneratedExpressionFactory'
-import GeneratedExpression from './GeneratedExpression'
+import CombinatorialGeneratedExpressionFactory from './CombinatorialGeneratedExpressionFactory.js'
+import GeneratedExpression from './GeneratedExpression.js'
 
 export default class CucumberExpressionGenerator {
   constructor(private readonly parameterTypes: () => Iterable<ParameterType<any>>) {}
@@ -114,5 +114,3 @@ function escape(s: string): string {
     .replace(/{/g, '\\{')
     .replace(/\//g, '\\/')
 }
-
-module.exports = CucumberExpressionGenerator

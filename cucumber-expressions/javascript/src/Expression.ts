@@ -1,4 +1,4 @@
-import Argument from './Argument'
+import Argument from './Argument.js'
 
 export default interface Expression {
   readonly source: string

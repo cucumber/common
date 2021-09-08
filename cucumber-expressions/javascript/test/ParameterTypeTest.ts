@@ -1,4 +1,4 @@
-import ParameterType from '../src/ParameterType'
+import ParameterType from '../src/ParameterType.js'
 import * as assert from 'assert'
 
 describe('ParameterType', () => {

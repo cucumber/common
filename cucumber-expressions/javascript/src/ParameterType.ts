@@ -1,4 +1,4 @@
-import CucumberExpressionError from './CucumberExpressionError'
+import CucumberExpressionError from './CucumberExpressionError.js'
 
 const ILLEGAL_PARAMETER_NAME_PATTERN = /([[\]()$.|?*+])/
 const UNESCAPE_PATTERN = () => /(\\([[$.|?*+\]]))/g

@@ -1,8 +1,8 @@
 import fs from 'fs'
 import assert from 'assert'
-import CucumberExpression from '../src/CucumberExpression'
-import RegularExpression from '../src/RegularExpression'
-import ParameterTypeRegistry from '../src/ParameterTypeRegistry'
+import CucumberExpression from '../src/CucumberExpression.js'
+import RegularExpression from '../src/RegularExpression.js'
+import ParameterTypeRegistry from '../src/ParameterTypeRegistry.js'
 
 describe('examples.txt', () => {
   const match = (expressionText: string, text: string) => {

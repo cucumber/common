@@ -1,10 +1,10 @@
 import assert from 'assert'
-import CucumberExpression from '../src/CucumberExpression'
-import ParameterTypeRegistry from '../src/ParameterTypeRegistry'
-import ParameterType from '../src/ParameterType'
+import CucumberExpression from '../src/CucumberExpression.js'
+import ParameterTypeRegistry from '../src/ParameterTypeRegistry.js'
+import ParameterType from '../src/ParameterType.js'
 import fs from 'fs'
 import yaml from 'js-yaml'
-import CucumberExpressionError from '../src/CucumberExpressionError'
+import CucumberExpressionError from '../src/CucumberExpressionError.js'
 
 interface Expectation {
   expression: string

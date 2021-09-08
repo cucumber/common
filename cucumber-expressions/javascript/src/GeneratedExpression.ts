@@ -1,5 +1,5 @@
 import util from 'util'
-import ParameterType from './ParameterType'
+import ParameterType from './ParameterType.js'
 
 export default class GeneratedExpression {
   constructor(

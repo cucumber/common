@@ -1,12 +1,15 @@
 {
   "extends": "../../tsconfig.build.json",
   "compilerOptions": {
+    "lib": [
+      "es6"
+    ],
+    "moduleResolution": "node",
     "rootDir": ".",
-    "outDir": "dist"
+    "declaration": true
   },
   "include": [
-    "package.json",
     "src",
     "test"
-  ]
+  ],
 }

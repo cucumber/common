@@ -1,5 +1,5 @@
-import GroupBuilder from './GroupBuilder'
-import Group from './Group'
+import GroupBuilder from './GroupBuilder.js'
+import Group from './Group.js'
 import execWithIndices from 'regexp-match-indices'
 
 export default class TreeRegexp {

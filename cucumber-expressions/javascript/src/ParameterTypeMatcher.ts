@@ -1,4 +1,4 @@
-import ParameterType from './ParameterType'
+import ParameterType from './ParameterType.js'
 
 export default class ParameterTypeMatcher {
   private readonly match: RegExpExecArray
@@ -75,5 +75,3 @@ export default class ParameterTypeMatcher {
     return 0
   }
 }
-
-module.exports = ParameterTypeMatcher

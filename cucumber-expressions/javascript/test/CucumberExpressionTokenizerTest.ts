@@ -1,8 +1,8 @@
 import fs from 'fs'
 import yaml from 'js-yaml'
-import CucumberExpressionTokenizer from '../src/CucumberExpressionTokenizer'
+import CucumberExpressionTokenizer from '../src/CucumberExpressionTokenizer.js'
 import assert from 'assert'
-import CucumberExpressionError from '../src/CucumberExpressionError'
+import CucumberExpressionError from '../src/CucumberExpressionError.js'
 
 interface Expectation {
   expression: string
