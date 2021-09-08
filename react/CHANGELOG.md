@@ -9,8 +9,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
-* Make `<GherkinDocument>` customiseable.
-
 ### Changed
 
 ### Deprecated
@@ -18,6 +16,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Removed
 
 ### Fixed
+
+## [18.1.0] - 2021-09-08
+
+### Added
+
+* Make `<GherkinDocument>` customiseable.
 
 ## [18.0.0] - 2021-09-02
 
@@ -414,7 +418,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/react/v18.0.0...main
+[Unreleased]: https://github.com/cucumber/cucumber/compare/react/v18.1.0...main
+[18.1.0]:      https://github.com/cucumber/cucumber/compare/react/v18.0.0...react/v18.1.0
 [18.0.0]:      https://github.com/cucumber/cucumber/compare/react/v17.0.0...react/v18.0.0
 [17.0.0]:      https://github.com/cucumber/cucumber/compare/react/v16.2.0...react/v17.0.0
 [16.2.0]:      https://github.com/cucumber/cucumber/compare/react/v16.1.0...react/v16.2.0
