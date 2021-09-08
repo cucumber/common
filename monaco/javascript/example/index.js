@@ -30,9 +30,7 @@ const docs = buildStepDocuments(
 )
 const index = jsSearchIndex(docs)
 
-configure(monaco, index, expressions)
-
-monaco.editor.create(document.getElementById('root'), {
+const editor = monaco.editor.create(document.getElementById('root'), {
   value: `@foo
 Feature: Hello
   Scenario: Hi
@@ -45,4 +43,7 @@ Feature: Hello
   theme: 'vs-dark',
   // semantic tokens provider is disabled by default
   'semanticHighlighting.enabled': true
-});
+})
+
+configure(monaco, editor, index, expressions)
+
