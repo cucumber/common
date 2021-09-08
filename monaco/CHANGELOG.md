@@ -11,15 +11,25 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
-* Add an `editor` argument to the `configure` function
-
 ### Deprecated
 
 ### Removed
 
 ### Fixed
 
+## [0.2.0] - 2021-09-08
+
+### Changed
+
+* Add an `editor` argument to the `configure` function
+  ([#1737](https://github.com/cucumber/common/pull/1737)
+   [aslakhellesoy])
+
+### Fixed
+
 * Fix event listener for diagnostics by listening to the editor directly
+  ([#1737](https://github.com/cucumber/common/pull/1737)
+   [aslakhellesoy])
 
 ## [0.1.0] - 2021-09-07
 
@@ -36,7 +46,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/common/compare/monaco/v0.1.0...main
+[Unreleased]: https://github.com/cucumber/common/compare/monaco/v0.2.0...main
+[0.2.0]:      https://github.com/cucumber/common/compare/monaco/v0.1.0...v0.2.0
 [0.1.0]:      https://github.com/cucumber/common/compare/monaco/v0.0.1...v0.1.0
 [0.0.1]:      https://github.com/cucumber/common/tree/monaco/v0.0.1
 
