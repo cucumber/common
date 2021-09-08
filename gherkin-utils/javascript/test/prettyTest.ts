@@ -149,18 +149,28 @@ Feature: hello
     })
   })
 
-  xit('renders comments', () => {
+  it('renders comments', () => {
     checkGherkinToAstToGherkin(`# one
+# two
 Feature: hello
+  # three
+  # four
 
   Scenario: one
-    # two
+    # five
+    # six
     Given a doc string:
       """
       a
       \\"\\"\\"
       b
       """
+`)
+  })
+
+  it('renders just comments', () => {
+    checkGherkinToAstToGherkin(`# one
+# two
 `)
   })
 

@@ -9,6 +9,9 @@ export default function pretty(
 ): string {
   let scenarioLevel = 1
   return walkGherkinDocument<string>(gherkinDocument, '', {
+    comment(comment, content) {
+      return content.concat(comment.text).concat('\n')
+    },
     feature(feature, content) {
       return content
         .concat(prettyLanguageHeader(feature.language))

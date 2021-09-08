@@ -14,9 +14,11 @@ export function walkGherkinDocument<Acc>(
   initialValue: Acc,
   handlers: Partial<GherkinDocumentHandlers<Acc>>
 ): Acc {
+  const commentsStack = gherkinDocument.comments.slice()
   let acc = initialValue
   const h: GherkinDocumentHandlers<Acc> = { ...makeDefaultHandlers<Acc>(), ...handlers }
   const feature = gherkinDocument.feature
+  acc = walkComments(popCommentsUntil(feature?.location), acc)
   if (!feature) return acc
   acc = walkTags(feature.tags || [], acc)
   acc = h.feature(feature, acc)
@@ -40,6 +42,10 @@ export function walkGherkinDocument<Acc>(
   }
   return acc
 
+  function walkComments(comments: readonly messages.Comment[], acc: Acc): Acc {
+    return comments.reduce((acc, comment) => h.comment(comment, acc), acc)
+  }
+
   function walkTags(tags: readonly messages.Tag[], acc: Acc): Acc {
     return tags.reduce((acc, tag) => h.tag(tag, acc), acc)
   }
@@ -49,6 +55,7 @@ export function walkGherkinDocument<Acc>(
   }
 
   function walkStep(step: messages.Step, acc: Acc): Acc {
+    acc = walkComments(popCommentsUntil(step.location), acc)
     acc = h.step(step, acc)
     if (step.docString) {
       acc = h.docString(step.docString, acc)
@@ -74,6 +81,7 @@ export function walkGherkinDocument<Acc>(
     acc: Acc
   ): Acc {
     const scenario: messages.Scenario = 'tags' in stepContainer ? stepContainer : null
+    acc = walkComments(popCommentsUntil(scenario?.location), acc)
     acc = walkTags(scenario?.tags || [], acc)
     acc = scenario
       ? h.scenario(scenario, acc)
@@ -92,7 +100,20 @@ export function walkGherkinDocument<Acc>(
     }
     return acc
   }
+
+  function popCommentsUntil(location?: messages.Location): readonly messages.Comment[] {
+    let count = 0
+    for (const comment of commentsStack) {
+      if (location === undefined || comment.location.line < location.line) {
+        count++
+      } else {
+        break
+      }
+    }
+    return commentsStack.splice(0, count)
+  }
 }
+
 
 function makeDefaultHandlers<Acc>() {
   const defaultHandlers: GherkinDocumentHandlers<Acc> = {

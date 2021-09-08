@@ -17,6 +17,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+* Walk comments in `walkGherkinDocument`
+* Pretty print comments in `pretty`
+
 ## [7.0.0] - 2021-09-01
 
 ### Added
