@@ -11,6 +11,9 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Added
 
+* [Perl] Documentation for most of the modules
+  ([#1740](https://github.com/cucumber/common/pull/1740) [ehuelsmann])
+
 ### Changed
 
 * [Perl] Changed API to pass around `Cucumber::Messages` instead of hashes
