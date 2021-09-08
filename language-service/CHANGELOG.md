@@ -7,17 +7,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ----
 ## [Unreleased]
 
-### Added
-
-### Changed
-
-### Deprecated
-
-### Removed
-
 ### Fixed
 
 * Fix insertion of completion items so it always replaces the full line rather than appending to the end.
+  ([#1737](https://github.com/cucumber/common/pull/1737)
+   [aslakhellesoy])
 
 ## [0.1.0] - 2021-09-07
 
