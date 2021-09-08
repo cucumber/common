@@ -38,6 +38,8 @@ Feature: Hello
   Scenario: Hi
     Given I have 58 cukes in my belly
     And this is an undefined step
+      | some | poorly |
+      | formatted | table |
 `,
   language: 'gherkin',
   theme: 'vs-dark',

@@ -25,12 +25,12 @@ CHANGELOG.md: ../CHANGELOG.md
 	cp ../CHANGELOG.md CHANGELOG.md
 
 distribution: predistribution
-	PERL5LIB=$$PWD/perl5/lib/perl5 PATH=$$PATH:$$PWD/perl5/bin dzil test --release
-	PERL5LIB=$$PWD/perl5/lib/perl5 PATH=$$PATH:$$PWD/perl5/bin dzil build
+	PERL5LIB=${PERL5LIB} PATH=$$PATH:${PERL5PATH} dzil test --release
+	PERL5LIB=${PERL5LIB} PATH=$$PATH:${PERL5PATH} dzil build
 .PHONY: distribution
 
 publish: predistribution
-	PERL5LIB=$$PWD/perl5/lib/perl5 PATH=$$PATH:$$PWD/perl5/bin dzil release
+	PERL5LIB=${PERL5LIB} PATH=$$PATH:${PERL5PATH} dzil release
 .PHONY: publish
 
 update-version:
@@ -43,7 +43,7 @@ endif
 .PHONY: update-version
 
 .cpanfile_dependencies: cpanfile
-	cpanm --notest --local-lib ./perl5 --installdeps .
+	PERL5LIB=${PERL5LIB} cpanm --notest --local-lib ./perl5 --installdeps .
 	touch $@
 
 predistribution: dist-clean test CHANGELOG.md
@@ -51,8 +51,8 @@ predistribution: dist-clean test CHANGELOG.md
 # testing dependencies of the dependencies.
 	cpanm --notest --local-lib ./perl5 --installdeps --with-develop .
 	cpanm --notest --local-lib ./perl5 'Dist::Zilla'
-	PERL5LIB=./perl5/lib/perl5 PATH=$$PATH:./perl5/bin dzil authordeps --missing | cpanm --notest --local-lib ./perl5
-	PERL5LIB=./perl5/lib/perl5 PATH=$$PATH:./perl5/bin dzil clean
+	PERL5LIB=${PERL5LIB} PATH=$$PATH:${PERL5PATH} dzil authordeps --missing | cpanm --notest --local-lib ./perl5
+	PERL5LIB=${PERL5LIB} PATH=$$PATH:${PERL5PATH} dzil clean
 	@(git status --porcelain 2>/dev/null | grep "^??" | perl -ne\
 	    'die "The `release` target includes all files in the working directory. Please remove [$$_], or add it to .gitignore if it should be included\n" if s!.+ perl/(.+?)\n!$$1!')
 .PHONY: predistribution

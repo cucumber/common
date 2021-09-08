@@ -5,6 +5,7 @@ and [Cucumber Monaco](../../monaco/javascript).
 
 ## Supported features
 
+- [x] Formatting / pretty printing
 - [x] Handle parse errors
 - [x] Code completion
   - [x] Steps
