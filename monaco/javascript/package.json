@@ -37,7 +37,7 @@
     "webpack-cli": "4.8.0"
   },
   "dependencies": {
-    "@cucumber/language-service": "^0.1.0",
+    "@cucumber/language-service": "^0.1.1",
     "@cucumber/suggest": "^0.0.3"
   },
   "peerDependencies": {
