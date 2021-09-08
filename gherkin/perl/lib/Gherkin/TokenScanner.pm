@@ -10,7 +10,6 @@ use Encode;
 
 use Gherkin::Line;
 use Gherkin::Token;
-use Gherkin::TokenMatcher;
 
 sub new {
     my ( $class, $path_or_str ) = @_;
@@ -63,3 +62,76 @@ sub read {
 }
 
 1;
+
+
+__END__
+
+
+=head1 NAME
+
+Gherkin::TokenScanner - Input-line format abstraction
+
+=head1 SYNOPSIS
+
+  use Gherkin::TokenScanner;
+
+  my $fn = 'my.feature';
+  my $scanner = Gherkin::TokenScanner->new( $fn );
+
+
+=head1 DESCRIPTION
+
+This module implements an input-line format abstraction, returning
+inputlines from the indicated source. Currently, only text files are
+supported input formats, but the idea is that e.g. Excel files could
+be used as input formats as well, with an abstracted definition of
+"input line".
+
+=head1 METHODS
+
+=head2 new( $path_or_ref )
+
+Constructor.
+
+The parameter C<$path_or_ref> can be passed either of two types of values:
+
+=over
+
+=item A reference to a scalar
+
+In this case, the parameter is assumed to reference the content to be parsed.
+
+=item A scalar value
+
+In this case, the parameter is assumed to be a filename. The file will
+be opened for input and parsed as a feature file.
+
+=back
+
+
+=head2 read
+
+Returns the next line (L<Gherkin::Line>) token (L<Gherkin::Token>) from
+the input.
+
+When the end of a file is reached, the file handle is closed.
+
+=head1 SEE ALSO
+
+=over 8
+
+=item * L<Gherkin>
+
+=item * L<Gherkin::Line>
+
+=item * L<Gherkin::Parser>
+
+=item * L<Gherkin::Token>
+
+=back
+
+=head1 LICENSE
+
+See L<Gherkin>.
+
+=cut
