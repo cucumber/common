@@ -15,6 +15,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Removed
 
+* [Python] Remove call to deprecated `2to3` library during setup
+  ([#1736](https://github.com/cucumber/common/issues/1736)
+   [krisgesling])
+
 ### Fixed
 
 ## [4.0.0] - 2021-09-02

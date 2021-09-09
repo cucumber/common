@@ -29,10 +29,6 @@ python_version = float('%s.%s' % sys.version_info[:2])
 README = os.path.join(HERE, "README.rst")
 long_description = ''.join(open(README).readlines()[4:])
 
-use_2to3_enabled = False
-if python_version >= 3.0:
-    use_2to3_enabled = True
-
 
 # -----------------------------------------------------------------------------
 # UTILITY:
@@ -109,5 +105,4 @@ setup(
         "License :: OSI Approved :: BSD License",
     ],
     platforms = ['any'],
-    use_2to3 = use_2to3_enabled
 )
