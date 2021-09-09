@@ -39,7 +39,7 @@
     "@cucumber/language-service": "^0.1.1",
     "@cucumber/messages": "^17.1.0",
     "@cucumber/suggest": "^0.0.3",
-    "source-map-support": "0.5.19",
+    "source-map-support": "0.5.20",
     "vscode-languageserver": "7.0.0",
     "vscode-languageserver-textdocument": "1.0.1"
   }

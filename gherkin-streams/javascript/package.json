@@ -22,7 +22,7 @@
     "@cucumber/message-streams": "^3.0.0",
     "@cucumber/gherkin": "^21.0.0",
     "commander": "8.1.0",
-    "source-map-support": "0.5.19"
+    "source-map-support": "0.5.20"
   },
   "devDependencies": {
     "@types/mocha": "9.0.0",

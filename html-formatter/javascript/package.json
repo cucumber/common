@@ -20,7 +20,7 @@
   "dependencies": {
     "@cucumber/messages": "^17.1.0",
     "commander": "8.1.0",
-    "source-map-support": "0.5.19"
+    "source-map-support": "0.5.20"
   },
   "devDependencies": {
     "@babel/core": "7.15.5",
