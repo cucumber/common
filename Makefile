@@ -19,7 +19,6 @@ PACKAGES ?= messages \
 	compatibility-kit \
 	react \
 	html-formatter \
-	datatable \
 	config \
 	demo-formatter \
 	json-to-messages
