@@ -14,42 +14,14 @@ import { editor, IRange } from 'monaco-editor/esm/vs/editor/editor.api'
 
 type Monaco = typeof monacoEditor
 
-export function configure(
+export type ConfigureEditor = (editor: editor.IStandaloneCodeEditor) => void
+
+export function configureMonaco(
   monaco: Monaco,
-  editor: editor.IStandaloneCodeEditor,
   index: Index,
   expressions: readonly Expression[]
-) {
+): ConfigureEditor {
   monaco.languages.register({ id: 'gherkin' })
-
-  // Diagnostics (Syntax validation)
-  function setDiagnosticMarkers() {
-    const model = editor.getModel()
-    const gherkinSource = model.getValue()
-    const diagnostics = getGherkinDiagnostics(gherkinSource, expressions)
-    const markers: monacoEditor.editor.IMarkerData[] = diagnostics.map((diagnostic) => {
-      return {
-        ...(convertRange(diagnostic.range)),
-        severity: monaco.MarkerSeverity.Error,
-        message: diagnostic.message,
-      }
-    })
-    monaco.editor.setModelMarkers(model, 'gherkin', markers)
-  }
-
-  function requestValidation() {
-    window.requestAnimationFrame(() => {
-      setDiagnosticMarkers()
-    })
-  }
-
-  requestValidation()
-
-  let validationTimeout: NodeJS.Timeout
-  editor.onDidChangeModelContent(() => {
-    clearTimeout(validationTimeout)
-    validationTimeout = setTimeout(requestValidation, 500)
-  })
 
   // Syntax Highlighting (Semantic Tokens)
 
@@ -106,6 +78,37 @@ export function configure(
       }))
     },
   })
+
+  return function(editor) {
+    // Diagnostics (Syntax validation)
+    function setDiagnosticMarkers() {
+      const model = editor.getModel()
+      const gherkinSource = model.getValue()
+      const diagnostics = getGherkinDiagnostics(gherkinSource, expressions)
+      const markers: monacoEditor.editor.IMarkerData[] = diagnostics.map((diagnostic) => {
+        return {
+          ...(convertRange(diagnostic.range)),
+          severity: monaco.MarkerSeverity.Error,
+          message: diagnostic.message,
+        }
+      })
+      monaco.editor.setModelMarkers(model, 'gherkin', markers)
+    }
+
+    function requestValidation() {
+      window.requestAnimationFrame(() => {
+        setDiagnosticMarkers()
+      })
+    }
+
+    requestValidation()
+
+    let validationTimeout: NodeJS.Timeout
+    editor.onDidChangeModelContent(() => {
+      clearTimeout(validationTimeout)
+      validationTimeout = setTimeout(requestValidation, 500)
+    })
+  }
 }
 
 function convertRange(range: Range): IRange {

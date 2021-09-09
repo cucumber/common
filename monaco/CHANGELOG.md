@@ -7,15 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ----
 ## [Unreleased]
 
-### Added
-
 ### Changed
 
-### Deprecated
-
-### Removed
+* Changed exports and API so the monaco global is configured once, and each editor configured once each.
 
 ### Fixed
+
+* Fixed double-rendering of auto-complete
 
 ## [0.2.0] - 2021-09-08
 
