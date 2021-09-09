@@ -68,11 +68,14 @@ sub _compile_scenario {
                 $class->_create_pickle_arguments(
                     $step,
                     $variables, $values );
+
             push @steps,
                 Cucumber::Messages::PickleStep->new(
-                    id         => $id_generator->(),
-                    text       => $step_text,
-                    argument   => $arguments,
+                    id           => $id_generator->(),
+                    keyword      => $step->keyword,
+                    keyword_type => $step->keyword_type,
+                    text         => $step_text,
+                    argument     => $arguments,
                     ast_node_ids => [ $step->id,
                                       $values_id ? ($values_id,) : () ],
                 );
@@ -208,6 +211,8 @@ sub _pickle_step {
     return Cucumber::Messages::PickleStep->new(
         text         => $step->text,
         id           => $id_generator->(),
+        keyword      => $step->keyword,
+        keyword_type => $step->keyword_type,
         ast_node_ids => [ $step->id ],
         argument     => $class->_create_pickle_arguments(
             $step, [], [],

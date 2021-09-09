@@ -174,16 +174,36 @@ sub _unescaped_docstring {
     }
 }
 
+
+my %keyword_type = (
+    Given => 'Context',
+    When  => 'Action',
+    Then  => 'Outcome',
+    And   => 'Conjunction',
+    But   => 'Conjunction',
+    );
+
 sub match_StepLine {
     my ( $self, $token ) = @_;
     my @keywords = map { @{ $self->dialect->$_ } } qw/Given When Then And But/;
 
-    for my $keyword (@keywords) {
-        if ( $token->line->startswith($keyword) ) {
-            my $title = $token->line->get_rest_trimmed( length($keyword) );
-            $self->_set_token_matched( $token,
-                StepLine => { text => $title, keyword => $keyword } );
-            return 1;
+    for my $step_keyword (qw/Given When Then And But/) {
+        for my $translation (@{ $self->dialect->$step_keyword() }) {
+            if ( $token->line->startswith($translation) ) {
+                my $title = $token->line->get_rest_trimmed(
+                    length($translation)
+                    );
+                my $keyword_type = ($translation eq '* ') ?
+                    'General' : $keyword_type{$step_keyword};
+                $self->_set_token_matched(
+                    $token,
+                    StepLine => {
+                        text         => $title,
+                        keyword      => $translation,
+                        keyword_type => $keyword_type,
+                    } );
+                return 1;
+            }
         }
     }
     return;
