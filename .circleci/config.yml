@@ -709,23 +709,6 @@ jobs:
           paths:
             - 'io/cucumber/tag-expressions'
 
-  datatable-java:
-    executor: docker-circleci-openjdk
-    steps:
-      - attach_workspace:
-          at: '~/cucumber'
-      - attach_workspace:
-          at: '~/.m2/repository'
-      - run:
-          name: datatable-java
-          command: |
-            cd datatable/java
-            make
-      - persist_to_workspace:
-          root: '~/.m2/repository'
-          paths:
-            - 'io/cucumber/datatable'
-
   config-java:
     executor: docker-circleci-openjdk
     steps:
@@ -1110,9 +1093,6 @@ workflows:
           requires:
             - messages-java
       - tag-expressions-java:
-          requires:
-            - prepare-parallel
-      - datatable-java:
           requires:
             - prepare-parallel
       - config-java:

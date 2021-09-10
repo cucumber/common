@@ -3,6 +3,13 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
     <title>Cucumber Monaco</title>
+    <style>
+.editor {
+  width:800px;
+  height:300px;
+  border:1px solid #ccc;
+}
+    </style>
 </head>
 <body>
 <h1>
@@ -16,6 +23,8 @@
     <li>Modify the first step and see it underlined as undefined</li>
     <li>Type a new step and see auto-complete suggestions</li>
 </ul>
+<div id="editor1" class="editor"></div>
+<div id="editor2" class="editor"></div>
 <script src="./main.bundle.js"></script>
 </body>
 </html>
