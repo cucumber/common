@@ -1,8 +1,11 @@
 {
-  "extends": "./tsconfig.build.json",
+  "extends": "../../tsconfig.build-cjs.json",
   "compilerOptions": {
-    "target": "ES5",
-    "module": "CommonJS",
+    "rootDir": ".",
     "outDir": "dist/cjs"
-  }
+  },
+  "include": [
+    "src",
+    "test"
+  ],
 }
