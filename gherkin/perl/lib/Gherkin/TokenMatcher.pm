@@ -193,7 +193,8 @@ sub match_StepLine {
                 my $title = $token->line->get_rest_trimmed(
                     length($translation)
                     );
-                my $keyword_type = ($translation eq '* ') ?
+                my $keyword_type =
+                    $self->dialect->general_keywords->{$translation} ?
                     'General' : $keyword_type{$step_keyword};
                 $self->_set_token_matched(
                     $token,
