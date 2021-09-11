@@ -10,7 +10,7 @@ This is the official Cucumber extension for VSCode
   - [ ] Override cucumber messages command in settings
 - [ ] Auto complete
   - [x] Parameterized snippets
-    - [ ] Fuzzy search
+    - [x] Fuzzy search
   - [ ] Gherkin keywords
 - [x] Syntax validation
   - [x] Syntax errors
@@ -19,8 +19,8 @@ This is the official Cucumber extension for VSCode
 - [ ] Quick fix for undefined steps
 - [ ] Go to Step Definition(s) from Gherkin step
 - [ ] Go to Gherkin step(s) from Step Definition
-- [ ] Formatting
-- [ ] I18n support
+- [x] Formatting
+- [x] I18n support
 - [ ] Platforms
   - [x] Cucumber-js
   - [ ] Cucumber-ruby
