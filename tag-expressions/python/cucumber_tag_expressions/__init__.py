@@ -16,4 +16,4 @@ Theses selected items are normally included in a test run.
 from __future__ import absolute_import
 from .parser import parse, TagExpressionParser, TagExpressionError
 
-__version__ = "1.1.2"
+__version__ = "4.0.1"
