@@ -1,6 +1,6 @@
 {
   "name": "@cucumber/monaco",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Cucumber Monaco",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
@@ -32,8 +32,8 @@
     "monaco-editor": "0.27.0",
     "monaco-editor-webpack-plugin": "4.1.2",
     "ts-node": "10.2.1",
-    "typescript": "4.4.2",
-    "webpack": "5.52.0",
+    "typescript": "4.4.3",
+    "webpack": "5.52.1",
     "webpack-cli": "4.8.0"
   },
   "dependencies": {
