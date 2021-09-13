@@ -72,6 +72,7 @@ function shouldCauseFailure(status: messages.TestStepResultStatus): boolean {
     messages.TestStepResultStatus.AMBIGUOUS,
     messages.TestStepResultStatus.FAILED,
     messages.TestStepResultStatus.UNDEFINED,
+    messages.TestStepResultStatus.PENDING,
   ]
   return failureStatuses.includes(status)
 }
