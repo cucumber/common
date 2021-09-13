@@ -15,11 +15,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Removed
 
-* [Python] Remove call to deprecated `2to3` library during setup
-  ([#1736](https://github.com/cucumber/common/issues/1736)
-   [krisgesling])
+### Fixed
+
+## [4.0.2] - 2021-09-13
+
+Note: some issues while releasing 4.0.1 prevent us to release it again.
 
 ### Fixed
+
+* [Python] Remove call to deprecated `2to3` library causing `pip install` to fail
+  ([#1736](https://github.com/cucumber/common/issues/1736)
+   [krisgesling])
 
 ## [4.0.0] - 2021-09-02
 
@@ -148,7 +154,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First stable release!
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/tag-expressions/v4.0.0...main
+[Unreleased]: https://github.com/cucumber/cucumber/compare/tag-expressions/v4.0.2...main
+[4.0.2]: https://github.com/cucumber/cucumber/compare/tag-expressions/v4.0.0...tag-expressions/v4.0.2
 [4.0.0]: https://github.com/cucumber/cucumber/compare/tag-expressions/v3.0.1...tag-expressions/v4.0.0
 [3.0.1]: https://github.com/cucumber/cucumber/compare/tag-expressions/v3.0.0...tag-expressions/v3.0.1
 [3.0.0]: https://github.com/cucumber/cucumber/compare/tag-expressions/v2.0.4...tag-expressions/v3.0.0
