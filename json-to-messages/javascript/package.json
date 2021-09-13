@@ -31,7 +31,7 @@
     "mocha": "9.1.1",
     "ts-node": "10.2.1",
     "ts-sinon": "2.0.1",
-    "typescript": "4.4.2"
+    "typescript": "4.4.3"
   },
   "dependencies": {
     "@cucumber/create-meta": "^6.0.1",

@@ -20,7 +20,7 @@
     "@cucumber/gherkin-utils": "^7.0.0",
     "@cucumber/messages": "^17.1.0",
     "@cucumber/query": "^11.0.0",
-    "@cucumber/tag-expressions": "^4.0.0",
+    "@cucumber/tag-expressions": "^4.0.2",
     "@fortawesome/fontawesome-svg-core": "1.2.36",
     "@fortawesome/free-solid-svg-icons": "5.15.4",
     "@fortawesome/react-fontawesome": "0.1.15",
@@ -77,10 +77,10 @@
     "sinon": "11.1.2",
     "source-map-support": "0.5.20",
     "style-loader": "3.2.1",
-    "@testing-library/react": "12.0.0",
+    "@testing-library/react": "12.1.0",
     "ts-node": "10.2.1",
     "ts-sinon": "2.0.1",
-    "typescript": "4.4.2"
+    "typescript": "4.4.3"
   },
   "bugs": {
     "url": "https://github.com/cucumber/cucumber/issues"
