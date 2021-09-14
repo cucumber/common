@@ -19,7 +19,7 @@ module Cucumber
         ### [generate-expression]
         generator = CucumberExpressionGenerator.new(parameter_registry)
         undefined_step_text = "I have 2 cucumbers and 1.5 tomato"
-        generated_expression = generator.generate_expression(undefined_step_text)
+        generated_expression = generator.generate_expressions(undefined_step_text)[0]
         expect(generated_expression.source).to eq("I have {int} cucumbers and {float} tomato")
         expect(generated_expression.parameter_types[1].type).to eq(Float)
         ### [generate-expression]
@@ -93,7 +93,7 @@ module Cucumber
       end
 
       it "exposes parameters in generated expression" do
-        expression = @generator.generate_expression("I have 2 cukes and 1.5 euro")
+        expression = @generator.generate_expressions("I have 2 cukes and 1.5 euro")[0]
         types = expression.parameter_types.map(&:type)
         expect(types).to eq([Integer, Float])
       end
@@ -175,18 +175,18 @@ module Cucumber
         end
 
         it "at the beginning of a word" do
-          expect(@generator.generate_expression("When I download a picture").source).not_to eq("When I {direction}load a picture")
-          expect(@generator.generate_expression("When I download a picture").source).to eq("When I download a picture")
+          expect(@generator.generate_expressions("When I download a picture")[0].source).not_to eq("When I {direction}load a picture")
+          expect(@generator.generate_expressions("When I download a picture")[0].source).to eq("When I download a picture")
         end
 
         it "inside a word" do
-          expect(@generator.generate_expression("When I watch the muppet show").source).not_to eq("When I watch the m{direction}pet show")
-          expect(@generator.generate_expression("When I watch the muppet show").source).to eq("When I watch the muppet show")
+          expect(@generator.generate_expressions("When I watch the muppet show")[0].source).not_to eq("When I watch the m{direction}pet show")
+          expect(@generator.generate_expressions("When I watch the muppet show")[0].source).to eq("When I watch the muppet show")
         end
 
         it "at the end of a word" do
-          expect(@generator.generate_expression("When I create a group").source).not_to eq("When I create a gro{direction}")
-          expect(@generator.generate_expression("When I create a group").source).to eq("When I create a group")
+          expect(@generator.generate_expressions("When I create a group")[0].source).not_to eq("When I create a gro{direction}")
+          expect(@generator.generate_expressions("When I create a group")[0].source).to eq("When I create a group")
         end
       end
 
@@ -203,19 +203,19 @@ module Cucumber
         end
 
         it "a full word" do
-          expect(@generator.generate_expression("When I go down the road").source).to eq("When I go {direction} the road")
-          expect(@generator.generate_expression("When I walk up the hill").source).to eq("When I walk {direction} the hill")
-          expect(@generator.generate_expression("up the hill, the road goes down").source).to eq("{direction} the hill, the road goes {direction}")
+          expect(@generator.generate_expressions("When I go down the road")[0].source).to eq("When I go {direction} the road")
+          expect(@generator.generate_expressions("When I walk up the hill")[0].source).to eq("When I walk {direction} the hill")
+          expect(@generator.generate_expressions("up the hill, the road goes down")[0].source).to eq("{direction} the hill, the road goes {direction}")
         end
 
         it 'wrapped around punctuation characters' do
-          expect(@generator.generate_expression("When direction is:down").source).to eq("When direction is:{direction}")
-          expect(@generator.generate_expression("Then direction is down.").source).to eq("Then direction is {direction}.")
+          expect(@generator.generate_expressions("When direction is:down")[0].source).to eq("When direction is:{direction}")
+          expect(@generator.generate_expressions("Then direction is down.")[0].source).to eq("Then direction is {direction}.")
         end
       end
 
       def assert_expression(expected_expression, expected_argument_names, text)
-        generated_expression = @generator.generate_expression(text)
+        generated_expression = @generator.generate_expressions(text)[0]
         expect(generated_expression.parameter_names).to eq(expected_argument_names)
         expect(generated_expression.source).to eq(expected_expression)
 
