@@ -17,7 +17,7 @@ describe('CucumberExpressionGenerator', () => {
     ]
 
     const factory = new CombinatorialGeneratedExpressionFactory(
-      'I bought a {%s} ball on {%s}',
+      'I bought a {{0}} ball on {{1}}',
       parameterTypeCombinations
     )
     const expressions = factory.generateExpressions().map((ge) => ge.source)

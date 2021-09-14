@@ -11,6 +11,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
+* Remove dependency on Node.js APIs (`util` module)
+* Remove dependency on Browser APIs (`window` constant)
+
 ### Deprecated
 
 ### Removed

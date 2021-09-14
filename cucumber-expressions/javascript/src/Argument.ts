@@ -48,5 +48,3 @@ export default class Argument<T> {
     return this.parameterType
   }
 }
-
-module.exports = Argument
