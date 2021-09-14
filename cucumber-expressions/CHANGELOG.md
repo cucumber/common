@@ -15,6 +15,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Removed
 
+* Remove deprecated `CucumberExpressionGenerator#generateExpression` method.
+
 ### Fixed
 
 ## [12.1.3] - 2021-09-01

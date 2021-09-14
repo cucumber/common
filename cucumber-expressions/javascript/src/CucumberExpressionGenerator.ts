@@ -72,16 +72,6 @@ export default class CucumberExpressionGenerator {
     ).generateExpressions()
   }
 
-  /**
-   * @deprecated
-   */
-  public generateExpression(text: string): GeneratedExpression {
-    return util.deprecate(
-      () => this.generateExpressions(text)[0],
-      'CucumberExpressionGenerator.generateExpression: Use CucumberExpressionGenerator.generateExpressions instead'
-    )()
-  }
-
   private createParameterTypeMatchers(text: string): ParameterTypeMatcher[] {
     let parameterMatchers: ParameterTypeMatcher[] = []
     for (const parameterType of this.parameterTypes()) {
