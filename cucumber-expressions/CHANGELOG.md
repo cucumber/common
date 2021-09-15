@@ -12,8 +12,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 
 * Remove dependency on Node.js APIs (`util` module)
+  ([#1250](https://github.com/cucumber/common/issues/1250)
+   [#1752](https://github.com/cucumber/common/pull/1752)
+   [aslakhellesoy])
 * Remove dependency on Browser APIs (`window` constant)
-  ([#1752](https://github.com/cucumber/common/pull/1752))
+  ([#1752](https://github.com/cucumber/common/pull/1752)
+   [aslakhellesoy])
 
 ### Deprecated
 
