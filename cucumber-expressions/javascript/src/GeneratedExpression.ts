@@ -1,4 +1,3 @@
-import util from 'util'
 import ParameterType from './ParameterType'
 
 export default class GeneratedExpression {
@@ -8,7 +7,7 @@ export default class GeneratedExpression {
   ) {}
 
   get source() {
-    return util.format(this.expressionTemplate, ...this.parameterTypes.map((t) => t.name))
+    return format(this.expressionTemplate, ...this.parameterTypes.map((t) => t.name))
   }
 
   /**
@@ -28,4 +27,8 @@ function getParameterName(typeName: string, usageByTypeName: { [key: string]: nu
   usageByTypeName[typeName] = count
 
   return count === 1 ? typeName : `${typeName}${count}`
+}
+
+function format(pattern: string, ...args: readonly string[]): string {
+  return pattern.replace(/{(\d+)}/g, (match, number) => args[number])
 }

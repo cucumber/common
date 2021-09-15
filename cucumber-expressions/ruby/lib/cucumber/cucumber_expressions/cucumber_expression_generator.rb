@@ -9,10 +9,6 @@ module Cucumber
         @parameter_type_registry = parameter_type_registry
       end
 
-      def generate_expression(text)
-        generate_expressions(text)[0]
-      end
-
       def generate_expressions(text)
         parameter_type_combinations = []
         parameter_type_matchers = create_parameter_type_matchers(text)

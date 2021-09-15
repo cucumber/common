@@ -11,9 +11,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
+* Remove dependency on Node.js APIs (`util` module)
+* Remove dependency on Browser APIs (`window` constant)
+  ([#1752](https://github.com/cucumber/common/pull/1752))
+
 ### Deprecated
 
 ### Removed
+
+* Remove deprecated `CucumberExpressionGenerator#generateExpression` method.
+  ([#1752](https://github.com/cucumber/common/pull/1752))
 
 ### Fixed
 

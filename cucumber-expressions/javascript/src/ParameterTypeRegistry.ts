@@ -125,5 +125,3 @@ export default class ParameterTypeRegistry {
     }
   }
 }
-
-module.exports = ParameterTypeRegistry
