@@ -105,6 +105,13 @@ public class RegularExpressionTest {
     }
 
     @Test
+    public void matches_empty_string() {
+        List<?> match = match(compile("^The value equals \"([^\"]*)\"$"), "The value equals \"\"", String.class);
+        assertEquals(String.class, match.get(0).getClass());
+        assertEquals("", match.get(0));
+    }
+
+    @Test
     public void uses_two_type_hints_to_resolve_anonymous_parameter_type() {
         List<?> match = match(compile("a (.*) and a (.*)"), "a 22 and a 33.5", Float.class, Double.class);
 

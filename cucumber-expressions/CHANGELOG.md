@@ -28,6 +28,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+* [JavaScript] Correctly match empty strings
+  ([#1329](https://github.com/cucumber/common/issues/1329)
+   [aslakhellesoy])
+
 ## [12.1.3] - 2021-09-01
 
 ### Fixed
