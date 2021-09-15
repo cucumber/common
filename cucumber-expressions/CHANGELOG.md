@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 * Remove dependency on Node.js APIs (`util` module)
 * Remove dependency on Browser APIs (`window` constant)
+  ([#1752](https://github.com/cucumber/common/pull/1752))
 
 ### Deprecated
 
