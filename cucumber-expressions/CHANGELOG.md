@@ -30,6 +30,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 * [JavaScript] Correctly match empty strings
   ([#1329](https://github.com/cucumber/common/issues/1329)
+   [#1753](https://github.com/cucumber/common/pull/1753)
    [aslakhellesoy])
 
 ## [12.1.3] - 2021-09-01
