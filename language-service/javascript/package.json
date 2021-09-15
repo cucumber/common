@@ -35,7 +35,7 @@
     "@cucumber/gherkin": "^21.0.0",
     "@cucumber/gherkin-utils": "^7.0.0",
     "@cucumber/messages": "^17.1.0",
-    "@cucumber/suggest": "^0.0.3",
+    "@cucumber/suggest": "^0.0.4",
     "source-map-support": "0.5.20",
     "vscode-languageserver-types": "3.17.0-next.3"
   }
