@@ -13,7 +13,7 @@ export default class GroupBuilder {
   public build(match: RegExpExecArray, nextGroupIndex: () => number): Group {
     const groupIndex = nextGroupIndex()
     const children = this.groupBuilders.map((gb) => gb.build(match, nextGroupIndex))
-    const value = match[groupIndex] || undefined
+    const value = match[groupIndex]
     const index = match.indices[groupIndex]
     const start = index ? index[0] : undefined
     const end = index ? index[1] : undefined

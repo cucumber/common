@@ -16,37 +16,41 @@ describe('RegularExpression', () => {
   })
 
   it('does no transform by default', () => {
-    assert.deepStrictEqual(match(/(\d\d)/, '22')[0], '22')
+    assert.deepStrictEqual(match(/(\d\d)/, '22'), ['22'])
   })
 
   it('does not transform anonymous', () => {
-    assert.deepStrictEqual(match(/(.*)/, '22')[0], '22')
+    assert.deepStrictEqual(match(/(.*)/, '22'), ['22'])
   })
 
   it('transforms negative int', () => {
-    assert.deepStrictEqual(match(/(-?\d+)/, '-22')[0], -22)
+    assert.deepStrictEqual(match(/(-?\d+)/, '-22'), [-22])
   })
 
   it('transforms positive int', () => {
-    assert.deepStrictEqual(match(/(\d+)/, '22')[0], 22)
+    assert.deepStrictEqual(match(/(\d+)/, '22'), [22])
   })
 
   it('transforms float without integer part', () => {
     assert.deepStrictEqual(
-      match(new RegExp(`(${ParameterTypeRegistry.FLOAT_REGEXP.source})`), '.22')[0],
-      0.22
+      match(new RegExp(`(${ParameterTypeRegistry.FLOAT_REGEXP.source})`), '.22'),
+      [0.22]
     )
   })
 
   it('transforms float with sign', () => {
     assert.deepStrictEqual(
-      match(new RegExp(`(${ParameterTypeRegistry.FLOAT_REGEXP.source})`), '-1.22')[0],
-      -1.22
+      match(new RegExp(`(${ParameterTypeRegistry.FLOAT_REGEXP.source})`), '-1.22'),
+      [-1.22]
     )
   })
 
   it('returns null when there is no match', () => {
     assert.strictEqual(match(/hello/, 'world'), null)
+  })
+
+  it('matches empty string', () => {
+    assert.deepStrictEqual(match(/^The value equals "([^"]*)"$/, 'The value equals ""'), [''])
   })
 
   it('matches nested capture group without match', () => {
