@@ -11,6 +11,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
+### Deprecated
+
+### Removed
+
+### Fixed
+
+## [13.0.1] - 2021-09-15
+
+### Changed
+
 * Remove dependency on Node.js APIs (`util` module)
   ([#1250](https://github.com/cucumber/common/issues/1250)
    [#1752](https://github.com/cucumber/common/pull/1752)
@@ -18,8 +28,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Remove dependency on Browser APIs (`window` constant)
   ([#1752](https://github.com/cucumber/common/pull/1752)
    [aslakhellesoy])
-
-### Deprecated
 
 ### Removed
 
@@ -822,7 +830,8 @@ N/A
 * First stable release!
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions/v12.1.3...main
+[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions/v13.0.1...main
+[13.0.1]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v12.1.3...cucumber-expressions/v13.0.1
 [12.1.3]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v12.1.2...cucumber-expressions/v12.1.3
 [12.1.2]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v12.1.1...cucumber-expressions/v12.1.2
 [12.1.1]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v12.1.0...cucumber-expressions/v12.1.1
