@@ -70,6 +70,7 @@ clean: clean-javascript
 
 clean-javascript:
 	rm -rf .deps .codegen .tested* coverage dist acceptance
+	git checkout dist
 .PHONY: clean-javascript
 
 clobber: clean
