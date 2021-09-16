@@ -9,6 +9,9 @@
   },
   "references": [
     {
+      "path": "./messages/javascript/tsconfig.build-esm.json"
+    },
+    {
       "path": "./cucumber-expressions/javascript/tsconfig.build-esm.json"
     },
   ]
