@@ -17,6 +17,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [0.0.4] - 2021-09-15
+
+### Changed
+
+* Upgrade to `@cucumber/cucumber-expressions 13.0.1`
+
 ## [0.0.3] - 2021-09-01
 
 ### Added
@@ -46,7 +52,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release!
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/common/compare/suggest/v0.0.3...main
+[Unreleased]: https://github.com/cucumber/common/compare/suggest/v0.0.4...main
+[0.0.4]:      https://github.com/cucumber/common/tree/suggest/v0.0.3
 [0.0.3]:      https://github.com/cucumber/common/tree/suggest/v0.0.2
 [0.0.2]:      https://github.com/cucumber/common/tree/suggest/v0.0.1
 [0.0.1]:      https://github.com/cucumber/common/tree/suggest/v0.0.1

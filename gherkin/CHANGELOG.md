@@ -11,13 +11,24 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Added
 
+* [Perl] Documentation for most of the modules
+  ([#1740](https://github.com/cucumber/common/pull/1740) [ehuelsmann])
+
 ### Changed
+
+* [Perl] Changed API to pass around `Cucumber::Messages` instead of hashes
+  and increased minimum Perl version in accordance with `Cucumber::Messages`
+  (to 5.14; from 5.12) ([#1735](https://github.com/cucumber/common/pull/1735)
+  [ehuelsmann])
 
 ### Deprecated
 
 ### Removed
 
 ### Fixed
+
+* [Perl] Failure to include CHANGELOG.md in the release tarball
+  ([#1728](https://github.com/cucumber/common/pull/1728) [ehuelsmann])
 
 ## [21.0.0] - 2021-09-01
 

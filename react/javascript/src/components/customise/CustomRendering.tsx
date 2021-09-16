@@ -78,6 +78,11 @@ export interface FeatureProps {
   feature: messages.Feature
 }
 
+export interface GherkinDocumentProps {
+  gherkinDocument: messages.GherkinDocument
+  source?: messages.Source
+}
+
 export interface GherkinStepProps {
   step: messages.Step
   hasExamples: boolean
@@ -159,6 +164,7 @@ export interface CustomRenderingSupport {
   Examples?: Customised<ExamplesProps, {}>
   ExamplesTable?: Customised<ExamplesTableProps, ExamplesTableClasses>
   Feature?: Customised<FeatureProps, {}>
+  GherkinDocument?: Customised<GherkinDocumentProps, {}>
   GherkinStep?: Customised<GherkinStepProps, {}>
   HookStep?: Customised<HookStepProps, {}>
   Keyword?: Customised<any, KeywordClasses>

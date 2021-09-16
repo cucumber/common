@@ -51,6 +51,7 @@ This depends on what's changed (see `CHANGELOG.md`):
 
 ## Prepare the release
 
+    npm run clean
     cd thepackage
     make clean
 

@@ -36,6 +36,10 @@ module Cucumber
         expect( match(/hello/, "world") ).to be_nil
       end
 
+      it "matches empty string when there is an empty string match" do
+        expect( match(/^The value equals "([^"]*)"$/, 'The value equals ""') ).to eq([''])
+      end
+
       it "matches nested capture group without match" do
         expect( match(/^a user( named "([^"]*)")?$/, 'a user') ).to eq([nil])
       end

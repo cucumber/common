@@ -4,6 +4,8 @@ use strict;
 use warnings;
 use Encode qw(encode_utf8 find_encoding);
 
+use Cucumber::Messages;
+
 use Gherkin::AstBuilder;
 use Gherkin::Parser;
 use Gherkin::Pickles::Compiler;
@@ -46,25 +48,25 @@ sub from_paths {
             or warn "Unable to close gherkin document $path: $!";
 
         $gherkin->from_source(
-            {
-                source => {
+            Cucumber::Messages::Envelope->new(
+                source => Cucumber::Messages::Source->new(
                     uri        => $path,
                     data       => $content,
-                    media_type => 'text/x.cucumber.gherkin+plain',
-                }
-            },
+                    media_type => Cucumber::Messages::Source::MEDIATYPE_TEXT_X_CUCUMBER_GHERKIN_PLAIN,
+                    )
+            ),
             $id_generator,
             $sink);
     }
 }
 
 sub _parse_source_encoding_header {
-    my ($source_msg) = @_;
-    my $source = $source_msg->{source};
+    my ($envelope) = @_;
+    my $source = $envelope->source;
     my $header_end = 0;
     my @header     = grep {
         not ($header_end ||= ($_ !~ m/^\s*#/))
-    } split( /\n/, $source->{data} );
+    } split( /\n/, $source->data );
     my $encoding;
     for my $line (@header) {
         if ($line =~ m/\s*#\s+encoding:\s+(\S+)/) {
@@ -74,25 +76,28 @@ sub _parse_source_encoding_header {
     }
     if ($encoding) {
         my $enc = find_encoding($encoding);
-        die "Header in $source->{uri} specifies unknown encoding $encoding"
+        my $uri = $source->uri;
+        die "Header in $uri specifies unknown encoding $encoding"
             unless $enc;
-        $source->{data} = $enc->decode(encode_utf8($source->{data}));
+        $source->data( $enc->decode(encode_utf8($source->data)) );
     }
 }
 
 sub from_source {
-    my ($self, $source_msg, $id_generator, $sink) = @_;
+    my ($self, $envelope, $id_generator, $sink) = @_;
 
-    _parse_source_encoding_header($source_msg);
+    _parse_source_encoding_header($envelope);
     if ($self->include_source) {
-        $sink->($source_msg);
+        $sink->($envelope);
     }
 
     if ($self->include_ast or $self->include_pickles) {
-        my $source = $source_msg->{source};
-        my $ast_msg = Gherkin::Parser->new(
+        my $source = $envelope->source;
+        my $parser = Gherkin::Parser->new(
             Gherkin::AstBuilder->new($id_generator)
-            )->parse(\$source->{data}, $source->{uri});
+            );
+        my $data = $source->data;
+        my $ast_msg = $parser->parse( \$data, $source->uri);
         $sink->($ast_msg) if $self->include_ast;
 
         if ($self->include_pickles) {
@@ -137,12 +142,15 @@ and compiler as developed by the Cucumber project
 Gherkin is a simple language, with a formal specification. The parser
 in this implementation is generated off the official language grammar.
 
+B<NOTE> Versions 21 and lower of this library used to send hashes to
+the C<$sink>, whereas the current version sends L<Cucumber::Messages>.
+
 =head1 OVERVIEW
 
 The Cucumber toolkit consists of a set of tools which form a pipe line:
 each consumes and produces protobuf messages
-(L<https://github.com/cucumber/messages/messages.proto>). These messages
-are either use ndjson or binary formatting.
+(See L<https://github.com/cucumber/common/tree/main/messages>). Messages
+use ndjson formatting.
 
 The start of the pipeline is the Gherkin language parser. C<Gherkin>
 implements that functionality in Perl. It's the first building block in
@@ -161,18 +169,18 @@ Accepted C<%options> are:
 =item include_source
 
 Boolean. Indicates whether the text of the source document is to be included
-in the output stream using a Source message.
+in the output stream using a L<Source message|Cucumber::Messages/Cucumber::Messages::Source>.
 
 =item include_ast
 
 Boolean. Indicates whether the parsed source (AST or Abstract Syntax Tree) is
-to be included in the output stream using a GherkinDocument message.
+to be included in the output stream using a L<GherkinDocument message|Cucumber::Messages/Cucumber::Messages::GherkinDocument>.
 
 =item include_pickles
 
 Boolean. Indicates whether the expanded-and-interpolated (executable)
 scenarios are to be included in the output stream using
-Pickle messages.
+L<Pickle messages|Cucumber::Messages/Cucumber::Messages::Pickle>.
 
 =back
 
@@ -184,7 +192,8 @@ for each of the paths in the arrayref C<$paths>.
 C<$id_gen> is a coderef to a function generating unique
 IDs which messages in the output stream can use to refer to other content
 in the stream. C<$sink> is a coderef to a function taking the next message
-in the stream as its argument.
+in the stream as its argument. Each message is encapsulated in an
+L<Envelope message|Cucumber::Messages/Cucumber::Messages::Envelope>.
 
 C<%options> are passed to C<new>.
 
@@ -196,31 +205,35 @@ C<%options> are passed to C<new>.
 Generates a stream of AST and pickle messages sent to C<$sink>. The source
 text in the message's C<data> attribute is assumed to be C<utf8> or C<UTF-8>
 encoded. The document header is scanned for an C<# encoding: ...> instruction.
-If one is found, the text is recoded from that encoding into UTF-8.
+If one is found, the text is recoded from that encoding into Perl's internal
+Unicode representation.
 
-The data in the C<source> message sent to the sink always is UTF-8 encoded.
-
-C<$source_msg> is a hash with the following structure:
-
-  {
-    source => {
-      data => 'feature content',
-      uri => 'e.g. path to source',
-      media_type => 'text/x.cucumber.gherkin+plain',
-    }
-  }
+The L<Source|Cucumber::Messages/Cucumber::Messages::Source> message sent to
+the sink is wrapped in an envelope which has a C<to_json> method to create
+UTF-8 encoded L<NDJSON|http://ndjson.org/> output.
 
 C<$id_gen> and C<$sink> are as documented in C<from_paths>.
+
+
+=head1 SEE ALSO
+
+=over 8
+
+=item * L<Cucumber::Messages>
+
+=item * L<Gherkin::Parser>
+
+=back
 
 
 =head1 LICENSE
 
 Please see the included LICENSE.txt for the canonical version. In summary:
 
-The MIT License (MIT)
+  The MIT License (MIT)
 
-Copyright (c) 2020-2021 Erik Huelsmann
-Copyright (c) 2016      Peter Sergeant
+  Copyright (c) 2020-2021 Erik Huelsmann
+  Copyright (c) 2016      Peter Sergeant
 
 This work is a derivative of work that is:
 Copyright (c) 2014-2016 Cucumber Ltd, Gaspar Nagy

@@ -11,14 +11,28 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
-* [Go] Move module paths to point to monorepo
-  ([#1550](https://github.com/cucumber/common/issues/1550))
-
 ### Deprecated
 
 ### Removed
 
 ### Fixed
+
+## [4.0.2] - 2021-09-13
+
+Note: some issues while releasing 4.0.1 prevent us to release it again.
+
+### Fixed
+
+* [Python] Remove call to deprecated `2to3` library causing `pip install` to fail
+  ([#1736](https://github.com/cucumber/common/issues/1736)
+   [krisgesling])
+
+## [4.0.0] - 2021-09-02
+
+### Changed
+
+* [Go] Move module paths to point to monorepo
+  ([#1550](https://github.com/cucumber/common/issues/1550))
 
 ## [3.0.1] - 2021-03-31
 
@@ -140,7 +154,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First stable release!
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/tag-expressions/v3.0.1...main
+[Unreleased]: https://github.com/cucumber/cucumber/compare/tag-expressions/v4.0.2...main
+[4.0.2]: https://github.com/cucumber/cucumber/compare/tag-expressions/v4.0.0...tag-expressions/v4.0.2
+[4.0.0]: https://github.com/cucumber/cucumber/compare/tag-expressions/v3.0.1...tag-expressions/v4.0.0
 [3.0.1]: https://github.com/cucumber/cucumber/compare/tag-expressions/v3.0.0...tag-expressions/v3.0.1
 [3.0.0]: https://github.com/cucumber/cucumber/compare/tag-expressions/v2.0.4...tag-expressions/v3.0.0
 [2.0.4]: https://github.com/cucumber/cucumber/compare/tag-expressions/v2.0.3...tag-expressions/v2.0.4

@@ -17,6 +17,30 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [13.0.1] - 2021-09-15
+
+### Changed
+
+* Remove dependency on Node.js APIs (`util` module)
+  ([#1250](https://github.com/cucumber/common/issues/1250)
+   [#1752](https://github.com/cucumber/common/pull/1752)
+   [aslakhellesoy])
+* Remove dependency on Browser APIs (`window` constant)
+  ([#1752](https://github.com/cucumber/common/pull/1752)
+   [aslakhellesoy])
+
+### Removed
+
+* Remove deprecated `CucumberExpressionGenerator#generateExpression` method.
+  ([#1752](https://github.com/cucumber/common/pull/1752))
+
+### Fixed
+
+* [JavaScript] Correctly match empty strings
+  ([#1329](https://github.com/cucumber/common/issues/1329)
+   [#1753](https://github.com/cucumber/common/pull/1753)
+   [aslakhellesoy])
+
 ## [12.1.3] - 2021-09-01
 
 ### Fixed
@@ -806,7 +830,8 @@ N/A
 * First stable release!
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions/v12.1.3...main
+[Unreleased]: https://github.com/cucumber/cucumber/compare/cucumber-expressions/v13.0.1...main
+[13.0.1]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v12.1.3...cucumber-expressions/v13.0.1
 [12.1.3]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v12.1.2...cucumber-expressions/v12.1.3
 [12.1.2]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v12.1.1...cucumber-expressions/v12.1.2
 [12.1.1]:      https://github.com/cucumber/cucumber/compare/cucumber-expressions/v12.1.0...cucumber-expressions/v12.1.1

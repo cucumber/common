@@ -112,6 +112,10 @@ func TestRegularExpression(t *testing.T) {
 		require.Equal(t, Match(t, `^a user( named "([^"]*)")?$`, "a user named \"Charlie\"")[0], "Charlie")
 	})
 
+	t.Run("matches empty string", func(t *testing.T) {
+		require.Equal(t, Match(t, `^The value equals "([^"]*)"$`, "The value equals \"\"")[0], "")
+	})
+
 	t.Run("matches capture group nested in optional one", func(t *testing.T) {
 		regexp := `^a (pre-commercial transaction |pre buyer fee model )?purchase(?: for \$(\d+))?$`
 		require.Equal(t, Match(t, regexp, "a purchase"), []interface{}{nil, nil})

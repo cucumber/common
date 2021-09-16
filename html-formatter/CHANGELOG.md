@@ -17,6 +17,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [17.0.0] - 2021-09-02
+
+### Changed
+
+* Upgrade to `@cucumber/react` `^18.0.0`
+
+### Fixed
+
+* [Java] Fix a regression from 14.0.0 where the embedded JavaScript had the wrong content,
+  preventing reports from displaying properly.
+
 ## [16.0.1] - 2021-07-19
 
 ### Changed
@@ -338,7 +349,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/html-formatter/v16.0.1...main
+[Unreleased]: https://github.com/cucumber/cucumber/compare/html-formatter/v17.0.0...main
+[17.0.0]:      https://github.com/cucumber/cucumber/compare/html-formatter/v16.0.1...html-formatter/v17.0.0
 [16.0.1]:      https://github.com/cucumber/cucumber/compare/html-formatter/v16.0.0...html-formatter/v16.0.1
 [16.0.0]:      https://github.com/cucumber/cucumber/compare/html-formatter/v15.0.2...html-formatter/v16.0.0
 [15.0.2]:      https://github.com/cucumber/cucumber/compare/html-formatter/v15.0.1...html-formatter/v15.0.2

@@ -78,7 +78,7 @@ export const GherkinDocumentList: React.FunctionComponent<IProps> = ({
               <AccordionItemPanel className={styles.accordionPanel}>
                 <UriContext.Provider value={doc.uri}>
                   {source.mediaType === messages.SourceMediaType.TEXT_X_CUCUMBER_GHERKIN_PLAIN ? (
-                    <GherkinDocument gherkinDocument={doc} />
+                    <GherkinDocument gherkinDocument={doc} source={source} />
                   ) : (
                     <MDG uri={doc.uri}>{source.data}</MDG>
                   )}
