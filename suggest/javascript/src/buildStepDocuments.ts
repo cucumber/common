@@ -19,6 +19,7 @@ export function buildStepDocuments(
 ): readonly StepDocument[] {
   const jsonTextOrParameterTypeNameExpression = new Set<string>()
   const choicesByParameterTypeRegexpStrings = new Map<string, Set<string>>()
+  const expressionByJson = new Map<string, Expression>()
 
   for (const expression of expressions) {
     for (const text of stepTexts) {
@@ -48,13 +49,16 @@ export function buildStepDocuments(
         if (lastSegment !== '') {
           textOrParameterTypeNameExpression.push(lastSegment)
         }
-        jsonTextOrParameterTypeNameExpression.add(JSON.stringify(textOrParameterTypeNameExpression))
+        const json = JSON.stringify(textOrParameterTypeNameExpression)
+        expressionByJson.set(json, expression)
+        jsonTextOrParameterTypeNameExpression.add(json)
       }
     }
   }
 
   return [...jsonTextOrParameterTypeNameExpression].sort().map((json) => {
     const textOrParameterTypeNameExpression: TextOrParameterTypeNameExpression = JSON.parse(json)
+    const expression = expressionByJson.get(json)
 
     const suggestion = textOrParameterTypeNameExpression
       .map((segment) => {
@@ -78,6 +82,7 @@ export function buildStepDocuments(
     const stepDocument: StepDocument = {
       suggestion,
       segments,
+      expression
     }
 
     return stepDocument

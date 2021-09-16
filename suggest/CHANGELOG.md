@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
+* The `StepDocument` type now includes an `expression: Expression` field.
+
 ### Deprecated
 
 ### Removed

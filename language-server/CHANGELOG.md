@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
+* Upgrade to `@cucumber/cucumber-expressions 13.0.1`
+
 ### Deprecated
 
 ### Removed
