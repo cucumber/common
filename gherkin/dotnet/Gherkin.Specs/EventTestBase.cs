@@ -21,7 +21,7 @@ namespace Gherkin.Specs
                config => config
                    .AllowingInfiniteRecursion()
                    .IgnoringCyclicReferences()
-                   .Excluding(ghe => ghe.SelectedMemberPath.EndsWith("Uri"))
+                   .Excluding(ghe => ghe.Path.EndsWith("Uri"))
                    .Using<string>(ctx =>
                                     {
                                         var replacedSubject = NormalizeNewLines(ctx.Subject);
