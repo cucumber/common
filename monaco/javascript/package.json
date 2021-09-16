@@ -37,8 +37,8 @@
     "webpack-cli": "4.8.0"
   },
   "dependencies": {
-    "@cucumber/language-service": "^0.1.1",
-    "@cucumber/suggest": "^0.0.3"
+    "@cucumber/language-service": "^0.2.0",
+    "@cucumber/suggest": "^0.0.4"
   },
   "peerDependencies": {
     "monaco-editor": "^0.27.0"

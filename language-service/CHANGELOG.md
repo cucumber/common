@@ -17,6 +17,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [0.2.0] - 2021-09-15
+
+### Changed
+
+* Upgrade to `@cucumber/cucumber-expressions 13.0.1`
+
 ## [0.1.1] - 2021-09-08
 
 ### Fixed
@@ -43,7 +49,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/common/compare/language-service/v0.1.1...main
+[Unreleased]: https://github.com/cucumber/common/compare/language-service/v0.2.0...main
+[0.2.0]:      https://github.com/cucumber/common/compare/language-service/v0.1.1...v0.2.0
 [0.1.1]:      https://github.com/cucumber/common/compare/language-service/v0.1.0...v0.1.1
 [0.1.0]:      https://github.com/cucumber/common/compare/language-service/v0.0.1...v0.1.0
 [0.0.1]:      https://github.com/cucumber/common/tree/language-service/v0.0.1
