@@ -51,7 +51,7 @@
     "@types/stack-utils": "2.0.1",
     "commander": "8.1.0",
     "glob": "7.1.7",
-    "stack-utils": "2.0.4"
+    "stack-utils": "2.0.5"
   },
   "directories": {
     "test": "test"
