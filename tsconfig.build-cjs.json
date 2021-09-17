@@ -9,6 +9,9 @@
       "path": "./messages/javascript/tsconfig.build-cjs.json"
     },
     {
+      "path": "./message-streams/javascript/tsconfig.build-cjs.json"
+    },
+    {
       "path": "./cucumber-expressions/javascript/tsconfig.build-cjs.json"
     },
   ]
