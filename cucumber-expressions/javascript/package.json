@@ -2,11 +2,28 @@
   "name": "@cucumber/cucumber-expressions",
   "version": "13.0.1",
   "description": "Cucumber Expressions - a simpler alternative to Regular Expressions",
-  "main": "dist/src/index.js",
-  "types": "dist/src/index.d.ts",
+  "type": "module",
+  "main": "dist/cjs/src/index.js",
+  "types": "dist/cjs/src/index.d.ts",
+  "files": [
+    "dist/cjs",
+    "dist/esm"
+  ],
+  "module": "dist/esm/src/index.js",
+  "jsnext:main": "dist/esm/src/index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/esm/src/index.js",
+      "require": "./dist/cjs/src/index.js"
+    }
+  },
   "scripts": {
-    "test": "mocha",
-    "prepublishOnly": "tsc --build tsconfig.build.json"
+    "build:cjs": "tsc --build tsconfig.build-cjs.json",
+    "build:esm": "tsc --build tsconfig.build-esm.json",
+    "build": "npm run build:cjs && npm run build:esm",
+    "test": "mocha && npm run test:cjs",
+    "test:cjs": "npm run build:cjs && mocha --no-config dist/cjs/test",
+    "prepublishOnly": "npm run build"
   },
   "repository": {
     "type": "git",

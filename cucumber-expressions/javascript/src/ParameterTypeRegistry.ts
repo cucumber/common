@@ -1,8 +1,8 @@
-import ParameterType from './ParameterType'
+import ParameterType from './ParameterType.js'
 
-import CucumberExpressionGenerator from './CucumberExpressionGenerator'
-import { AmbiguousParameterTypeError } from './Errors'
-import CucumberExpressionError from './CucumberExpressionError'
+import CucumberExpressionGenerator from './CucumberExpressionGenerator.js'
+import { AmbiguousParameterTypeError } from './Errors.js'
+import CucumberExpressionError from './CucumberExpressionError.js'
 
 export default class ParameterTypeRegistry {
   public static readonly INTEGER_REGEXPS = [/-?\d+/, /\d+/]
