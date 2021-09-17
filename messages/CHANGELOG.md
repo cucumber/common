@@ -17,6 +17,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [17.1.1] - 2021-09-17
+
+### Fixed
+
 * Perl: incorrectly included `null` values & guaranteed field order
   ([#1727](https://github.com/cucumber/common/pull/1727) [ehuelsmann])
 
@@ -568,7 +572,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Protobuf messages for Go, Java, JavaScript, TypeScript and Ruby
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/messages/v17.1.0...main
+[Unreleased]: https://github.com/cucumber/cucumber/compare/messages/v17.1.1...main
+[17.1.1]:      https://github.com/cucumber/cucumber/compare/messages/v17.1.0...messages/v17.1.1
 [17.1.0]:      https://github.com/cucumber/cucumber/compare/messages/v17.0.1...messages/v17.1.0
 [17.0.1]:      https://github.com/cucumber/cucumber/compare/messages/v17.0.0...messages/v17.0.1
 [17.0.0]:      https://github.com/cucumber/cucumber/compare/messages/v16.0.1...messages/v17.0.0
