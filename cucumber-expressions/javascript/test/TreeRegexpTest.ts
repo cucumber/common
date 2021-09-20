@@ -1,5 +1,5 @@
 import assert from 'assert'
-import TreeRegexp from '../src/TreeRegexp'
+import TreeRegexp from '../src/TreeRegexp.js'
 
 describe('TreeRegexp', () => {
   it('exposes group source', () => {
@@ -129,16 +129,14 @@ describe('TreeRegexp', () => {
   it('empty capturing group', () => {
     const tr = new TreeRegexp(/()/)
     const group = tr.match('')
-    // TODO: Would expect the empty string here
-    assert.strictEqual(group.value, undefined)
+    assert.strictEqual(group.value, '')
     assert.strictEqual(group.children.length, 1)
   })
 
   it('empty look ahead', () => {
     const tr = new TreeRegexp(/(?<=)/)
     const group = tr.match('')
-    // TODO: Would expect the empty string here
-    assert.strictEqual(group.value, undefined)
+    assert.strictEqual(group.value, '')
     assert.strictEqual(group.children.length, 0)
   })
 

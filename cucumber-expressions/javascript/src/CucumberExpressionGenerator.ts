@@ -1,9 +1,7 @@
-import ParameterTypeMatcher from './ParameterTypeMatcher'
-import ParameterType from './ParameterType'
-
-import util from 'util'
-import CombinatorialGeneratedExpressionFactory from './CombinatorialGeneratedExpressionFactory'
-import GeneratedExpression from './GeneratedExpression'
+import ParameterTypeMatcher from './ParameterTypeMatcher.js'
+import ParameterType from './ParameterType.js'
+import CombinatorialGeneratedExpressionFactory from './CombinatorialGeneratedExpressionFactory.js'
+import GeneratedExpression from './GeneratedExpression.js'
 
 export default class CucumberExpressionGenerator {
   constructor(private readonly parameterTypes: () => Iterable<ParameterType<any>>) {}
@@ -13,7 +11,7 @@ export default class CucumberExpressionGenerator {
     const parameterTypeMatchers = this.createParameterTypeMatchers(text)
     let expressionTemplate = ''
     let pos = 0
-
+    let counter = 0
     // eslint-disable-next-line no-constant-condition
     while (true) {
       let matchingParameterTypeMatchers = []
@@ -53,7 +51,7 @@ export default class CucumberExpressionGenerator {
         parameterTypeCombinations.push(parameterTypes)
 
         expressionTemplate += escape(text.slice(pos, bestParameterTypeMatcher.start))
-        expressionTemplate += '{%s}'
+        expressionTemplate += `{{${counter++}}}`
 
         pos = bestParameterTypeMatcher.start + bestParameterTypeMatcher.group.length
       } else {
@@ -70,16 +68,6 @@ export default class CucumberExpressionGenerator {
       expressionTemplate,
       parameterTypeCombinations
     ).generateExpressions()
-  }
-
-  /**
-   * @deprecated
-   */
-  public generateExpression(text: string): GeneratedExpression {
-    return util.deprecate(
-      () => this.generateExpressions(text)[0],
-      'CucumberExpressionGenerator.generateExpression: Use CucumberExpressionGenerator.generateExpressions instead'
-    )()
   }
 
   private createParameterTypeMatchers(text: string): ParameterTypeMatcher[] {
@@ -109,10 +97,7 @@ export default class CucumberExpressionGenerator {
 
 function escape(s: string): string {
   return s
-    .replace(/%/g, '%%') // for util.format
     .replace(/\(/g, '\\(')
     .replace(/{/g, '\\{')
     .replace(/\//g, '\\/')
 }
-
-module.exports = CucumberExpressionGenerator

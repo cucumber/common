@@ -1,7 +1,7 @@
-import Expression from './Expression'
-import CucumberExpression from './CucumberExpression'
-import RegularExpression from './RegularExpression'
-import ParameterTypeRegistry from './ParameterTypeRegistry'
+import Expression from './Expression.js'
+import CucumberExpression from './CucumberExpression.js'
+import RegularExpression from './RegularExpression.js'
+import ParameterTypeRegistry from './ParameterTypeRegistry.js'
 
 export default class ExpressionFactory {
   public constructor(private readonly parameterTypeRegistry: ParameterTypeRegistry) {}

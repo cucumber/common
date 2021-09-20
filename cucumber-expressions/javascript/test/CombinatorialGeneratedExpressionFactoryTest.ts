@@ -1,6 +1,6 @@
 import assert from 'assert'
-import ParameterType from '../src/ParameterType'
-import CombinatorialGeneratedExpressionFactory from '../src/CombinatorialGeneratedExpressionFactory'
+import ParameterType from '../src/ParameterType.js'
+import CombinatorialGeneratedExpressionFactory from '../src/CombinatorialGeneratedExpressionFactory.js'
 
 describe('CucumberExpressionGenerator', () => {
   it('generates multiple expressions', () => {
@@ -17,7 +17,7 @@ describe('CucumberExpressionGenerator', () => {
     ]
 
     const factory = new CombinatorialGeneratedExpressionFactory(
-      'I bought a {%s} ball on {%s}',
+      'I bought a {{0}} ball on {{1}}',
       parameterTypeCombinations
     )
     const expressions = factory.generateExpressions().map((ge) => ge.source)

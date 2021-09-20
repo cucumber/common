@@ -1,8 +1,8 @@
 import assert from 'assert'
-import CucumberExpressionGenerator from '../src/CucumberExpressionGenerator'
-import CucumberExpression from '../src/CucumberExpression'
-import ParameterType from '../src/ParameterType'
-import ParameterTypeRegistry from '../src/ParameterTypeRegistry'
+import CucumberExpressionGenerator from '../src/CucumberExpressionGenerator.js'
+import CucumberExpression from '../src/CucumberExpression.js'
+import ParameterType from '../src/ParameterType.js'
+import ParameterTypeRegistry from '../src/ParameterTypeRegistry.js'
 
 class Currency {
   constructor(public readonly s: string) {}

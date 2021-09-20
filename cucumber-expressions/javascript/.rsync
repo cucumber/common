@@ -1,5 +1,5 @@
 ../../LICENSE LICENSE
 ../../.templates/github/ .github/
-../../.templates/javascript/ .
+../../.templates/javascript-esm/ .
 ../examples.txt examples.txt
 ../testdata .

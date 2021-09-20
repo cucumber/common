@@ -1,5 +1,5 @@
-import GeneratedExpression from './GeneratedExpression'
-import ParameterType from './ParameterType'
+import GeneratedExpression from './GeneratedExpression.js'
+import ParameterType from './ParameterType.js'
 
 // 256 generated expressions ought to be enough for anybody
 const MAX_EXPRESSIONS = 256
