@@ -1,7 +1,7 @@
-import TreeRegexp from './TreeRegexp'
-import ParameterType from './ParameterType'
-import Group from './Group'
-import CucumberExpressionError from './CucumberExpressionError'
+import TreeRegexp from './TreeRegexp.js'
+import ParameterType from './ParameterType.js'
+import Group from './Group.js'
+import CucumberExpressionError from './CucumberExpressionError.js'
 
 export default class Argument<T> {
   public static build(

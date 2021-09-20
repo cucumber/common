@@ -1,6 +1,6 @@
 import assert from 'assert'
-import RegularExpression from '../src/RegularExpression'
-import ParameterTypeRegistry from '../src/ParameterTypeRegistry'
+import RegularExpression from '../src/RegularExpression.js'
+import ParameterTypeRegistry from '../src/ParameterTypeRegistry.js'
 
 describe('RegularExpression', () => {
   it('documents match arguments', () => {

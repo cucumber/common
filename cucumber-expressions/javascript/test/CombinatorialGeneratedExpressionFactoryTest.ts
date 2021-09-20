@@ -1,6 +1,6 @@
 import assert from 'assert'
-import ParameterType from '../src/ParameterType'
-import CombinatorialGeneratedExpressionFactory from '../src/CombinatorialGeneratedExpressionFactory'
+import ParameterType from '../src/ParameterType.js'
+import CombinatorialGeneratedExpressionFactory from '../src/CombinatorialGeneratedExpressionFactory.js'
 
 describe('CucumberExpressionGenerator', () => {
   it('generates multiple expressions', () => {

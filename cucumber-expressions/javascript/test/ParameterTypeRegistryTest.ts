@@ -1,6 +1,6 @@
 import assert from 'assert'
-import ParameterTypeRegistry from '../src/ParameterTypeRegistry'
-import ParameterType from '../src/ParameterType'
+import ParameterTypeRegistry from '../src/ParameterTypeRegistry.js'
+import ParameterType from '../src/ParameterType.js'
 
 class Name {
   constructor(public readonly name: string) {}

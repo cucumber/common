@@ -1,5 +1,5 @@
-import { Token, TokenType } from './Ast'
-import { createCantEscaped, createTheEndOfLIneCanNotBeEscaped } from './Errors'
+import { Token, TokenType } from './Ast.js'
+import { createCantEscaped, createTheEndOfLIneCanNotBeEscaped } from './Errors.js'
 
 export default class CucumberExpressionTokenizer {
   tokenize(expression: string): readonly Token[] {

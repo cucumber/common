@@ -1,6 +1,6 @@
-import TreeRegexp from '../src/TreeRegexp'
-import ParameterTypeRegistry from '../src/ParameterTypeRegistry'
-import Argument from '../src/Argument'
+import TreeRegexp from '../src/TreeRegexp.js'
+import ParameterTypeRegistry from '../src/ParameterTypeRegistry.js'
+import Argument from '../src/Argument.js'
 import * as assert from 'assert'
 
 describe('Argument', () => {
