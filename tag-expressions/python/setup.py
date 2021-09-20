@@ -27,7 +27,7 @@ HERE = os.path.dirname(__file__)
 python_version = float('%s.%s' % sys.version_info[:2])
 
 README = os.path.join(HERE, "README.rst")
-long_description = ''.join(open(README).readlines()[4:])
+long_description = ''.join(open(README).readlines()[3:])
 
 
 # -----------------------------------------------------------------------------
