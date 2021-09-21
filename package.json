@@ -9,6 +9,7 @@
     "gherkin/javascript",
     "gherkin-streams/javascript",
     "gherkin-utils/javascript",
+    "cucumber-expressions/javascript",
     "tag-expressions/javascript",
     "create-meta/javascript",
     "fake-cucumber/javascript",
