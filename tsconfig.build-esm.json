@@ -9,7 +9,6 @@
   },
   "references": [
     {
-      "path": "./cucumber-expressions/javascript/tsconfig.build-esm.json"
-    },
+    }
   ]
 }
