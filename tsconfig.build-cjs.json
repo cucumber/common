@@ -6,7 +6,6 @@
   },
   "references": [
     {
-      "path": "./cucumber-expressions/javascript/tsconfig.build-cjs.json"
-    },
+    }
   ]
 }
