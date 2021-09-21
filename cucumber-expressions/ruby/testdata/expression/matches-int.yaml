@@ -1,5 +1,0 @@
-expression: |-
-  {int}
-text: '22'
-expected: |-
-  [22]

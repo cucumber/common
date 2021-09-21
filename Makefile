@@ -5,7 +5,6 @@ PACKAGES ?= messages \
 	gherkin \
 	gherkin-streams \
 	gherkin-utils \
-	cucumber-expressions \
 	suggest \
 	language-service \
 	language-server \
