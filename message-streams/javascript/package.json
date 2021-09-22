@@ -27,6 +27,7 @@
     "build:cjs": "tsc --build tsconfig.build-cjs.json",
     "build:esm": "tsc --build tsconfig.build-esm.json",
     "build": "npm run build:cjs && npm run build:esm",
+    "postbuild:cjs": "cp package.cjs.json dist/cjs/package.json",
     "test": "mocha && npm run test:cjs",
     "test:cjs": "npm run build:cjs && mocha --no-config dist/cjs/test",
     "prepublishOnly": "npm run build"

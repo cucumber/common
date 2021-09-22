@@ -30,6 +30,7 @@
     "build:esm": "tsc --build tsconfig.build-esm.json",
     "build:legacy": "tsc --build tsconfig.build.json",
     "build": "npm run build:cjs && npm run build:esm && npm run build:legacy",
+    "postbuild:cjs": "./scripts/npm-each npm run postbuild:cjs --if-present",
     "clean": "npm run clean-tsc && ./scripts/npm-each rm -rf node_modules package-lock.json acceptance && rm -rf node_modules package-lock.json",
     "clean-tsc": "rimraf './*/javascript/dist/cjs/!(package.json)' && rimraf './*/javascript/dist/!(cjs)'",
     "test": "./scripts/npm-each npm test",
