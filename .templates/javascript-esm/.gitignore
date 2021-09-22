@@ -1,7 +1,4 @@
-dist/*
-!dist/cjs
-dist/cjs/*
-!dist/cjs/package.json
+dist/
 .idea/
 .nyc_output/
 coverage/
