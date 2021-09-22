@@ -10,7 +10,6 @@
     "dist/esm"
   ],
   "module": "dist/esm/src/index.js",
-  "jsnext:main": "dist/esm/src/index.js",
   "exports": {
     ".": {
       "import": "./dist/esm/src/index.js",
