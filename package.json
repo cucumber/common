@@ -31,7 +31,7 @@
     "build:legacy": "tsc --build tsconfig.build.json",
     "build": "npm run build:cjs && npm run build:esm && npm run build:legacy",
     "clean": "npm run clean-tsc && ./scripts/npm-each rm -rf node_modules package-lock.json acceptance && rm -rf node_modules package-lock.json",
-    "clean-tsc": "rimraf './*/javascript/dist/cjs/!(package.json)' && rimraf './*/javascript/dist/!(cjs)'",
+    "clean-tsc": "./scripts/npm-each rm -rf dist",
     "test": "./scripts/npm-each npm test",
     "upgrade": "npm-check-updates --upgrade && ./scripts/npm-each npm-check-updates --upgrade",
     "eslint-fix": "eslint --ext ts,tsx --max-warnings 0 --fix */javascript",
