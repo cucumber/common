@@ -44,7 +44,7 @@
   "devDependencies": {
     "@babel/core": "7.15.5",
     "@cucumber/fake-cucumber": "^14.0.0",
-    "@cucumber/gherkin": "^21.0.0",
+    "@cucumber/gherkin": "^22.0.0",
     "@cucumber/gherkin-streams": "^4.0.0",
     "@cucumber/message-streams": "^3.0.0",
     "@storybook/addon-actions": "6.3.8",
