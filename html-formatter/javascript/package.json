@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "@cucumber/messages": "^17.1.1",
-    "commander": "8.1.0",
+    "commander": "8.2.0",
     "source-map-support": "0.5.20"
   },
   "devDependencies": {
