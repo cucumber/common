@@ -2,8 +2,20 @@
   "name": "@cucumber/messages",
   "version": "17.1.1",
   "description": "JSON schema-based messages for Cucumber's inter-process communication",
-  "main": "dist/src/index.js",
-  "types": "dist/src/index.d.ts",
+  "type": "module",
+  "main": "dist/cjs/src/index.js",
+  "types": "dist/cjs/src/index.d.ts",
+  "files": [
+    "dist/cjs",
+    "dist/esm"
+  ],
+  "module": "dist/esm/src/index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/esm/src/index.js",
+      "require": "./dist/cjs/src/index.js"
+    }
+  },
   "repository": {
     "type": "git",
     "url": "git://github.com/cucumber/messages-javascript.git"
@@ -11,15 +23,20 @@
   "author": "Cucumber Limited <cukes@googlegroups.com>",
   "license": "MIT",
   "scripts": {
+    "build:cjs": "tsc --build tsconfig.build-cjs.json",
+    "build:esm": "tsc --build tsconfig.build-esm.json",
+    "build": "npm run build:cjs && npm run build:esm",
+    "postbuild:cjs": "cp package.cjs.json dist/cjs/package.json",
     "prepare": "make src/messages.ts",
-    "test": "mocha",
-    "prepublishOnly": "tsc --build tsconfig.build.json"
+    "test": "mocha && npm run test:cjs",
+    "test:cjs": "npm run build:cjs && mocha --no-config dist/cjs/test",
+    "prepublishOnly": "npm run build"
   },
   "dependencies": {
     "@types/uuid": "8.3.1",
-    "uuid": "8.3.2",
     "class-transformer": "0.4.0",
-    "reflect-metadata": "0.1.13"
+    "reflect-metadata": "0.1.13",
+    "uuid": "8.3.2"
   },
   "devDependencies": {
     "@types/mocha": "9.0.0",

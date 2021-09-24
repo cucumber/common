@@ -1,9 +1,9 @@
 import * as messages from '@cucumber/messages'
-import { MessageToNdjsonStream } from '../src'
+import { MessageToNdjsonStream } from '../src/index.js'
 import assert from 'assert'
-import NdjsonToMessageStream from '../src/NdjsonToMessageStream'
-import verifyStreamContract from './verifyStreamContract'
-import toArray from './toArray'
+import NdjsonToMessageStream from '../src/NdjsonToMessageStream.js'
+import verifyStreamContract from './verifyStreamContract.js'
+import toArray from './toArray.js'
 import { Envelope } from '@cucumber/messages'
 
 describe('NdjsonStream', () => {

@@ -3,8 +3,8 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@cucumber/messages": ["messages/javascript/src/index.ts"],
-      "@cucumber/message-streams": ["message-streams/javascript/src/index.ts"],
+      "@cucumber/messages": ["messages/javascript"],
+      "@cucumber/message-streams": ["message-streams/javascript"],
       "@cucumber/gherkin": ["gherkin/javascript/src/index.ts"],
       "@cucumber/gherkin-streams": ["gherkin-streams/javascript/src/index.ts"],
       "@cucumber/gherkin-utils": ["gherkin-utils/javascript/src/index.ts"],
