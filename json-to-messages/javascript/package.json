@@ -36,13 +36,13 @@
   "dependencies": {
     "@cucumber/create-meta": "^6.0.1",
     "@cucumber/fake-cucumber": "^14.0.0",
-    "@cucumber/gherkin": "^21.0.0",
+    "@cucumber/gherkin": "^22.0.0",
     "@cucumber/gherkin-streams": "^4.0.0",
     "@cucumber/gherkin-utils": "^7.0.0",
     "@cucumber/messages": "^17.1.1",
     "@cucumber/message-streams": "^3.0.0",
-    "commander": "8.1.0",
-    "glob": "7.1.7",
+    "commander": "8.2.0",
+    "glob": "7.2.0",
     "source-map-support": "0.5.20"
   },
   "directories": {
