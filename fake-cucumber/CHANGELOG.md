@@ -11,6 +11,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
+- Pending results are now properly failing the execution
+  ([PR#1751](https://github.com/cucumber/common/pull/1751))
+
 ### Deprecated
 
 ### Removed
