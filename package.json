@@ -40,8 +40,8 @@
     "prepare": "./scripts/npm-each npm run prepare --if-present"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "4.31.2",
-    "@typescript-eslint/parser": "4.31.2",
+    "@typescript-eslint/eslint-plugin": "4.32.0",
+    "@typescript-eslint/parser": "4.32.0",
     "ajv": "8.6.3",
     "ajv-cli": "5.0.0",
     "eslint": "7.32.0",
@@ -49,7 +49,7 @@
     "eslint-plugin-import": "2.24.2",
     "eslint-plugin-node": "11.1.0",
     "eslint-plugin-prettier": "4.0.0",
-    "eslint-plugin-react": "7.26.0",
+    "eslint-plugin-react": "7.26.1",
     "eslint-plugin-react-hooks": "4.2.0",
     "eslint-plugin-simple-import-sort": "7.0.0",
     "npm-check-updates": "11.8.5",
