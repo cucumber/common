@@ -11,14 +11,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
-- Pending results are now properly failing the execution
-  ([PR#1751](https://github.com/cucumber/common/pull/1751))
-
 ### Deprecated
 
 ### Removed
 
 ### Fixed
+
+## [15.0.0] - 2021-10-01
+
+### Changed
+
+- Pending results are now properly failing the execution
+  ([PR#1751](https://github.com/cucumber/common/pull/1751))
 
 ## [14.0.0] - 2021-09-02
 
@@ -259,7 +263,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/fake-cucumber/v14.0.0...main
+[Unreleased]: https://github.com/cucumber/cucumber/compare/fake-cucumber/v15.0.0...main
+[15.0.0]:      https://github.com/cucumber/cucumber/compare/fake-cucumber/v14.0.0...fake-cucumber/v15.0.0
 [14.0.0]:      https://github.com/cucumber/cucumber/compare/fake-cucumber/v13.0.0...fake-cucumber/v14.0.0
 [13.0.0]:      https://github.com/cucumber/cucumber/compare/fake-cucumber/v12.0.2...fake-cucumber/v13.0.0
 [12.0.2]:      https://github.com/cucumber/cucumber/compare/fake-cucumber/v12.0.1...fake-cucumber/v12.0.2
