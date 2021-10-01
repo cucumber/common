@@ -11,14 +11,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
-- Pending results are now properly reported as failures
-  ([PR#1751](https://github.com/cucumber/common/pull/1751))
-
 ### Deprecated
 
 ### Removed
 
 ### Fixed
+
+## [9.0.0] - 2021-10-01
+
+### Changed
+
+* Pending results are now properly reported as failures
+  ([PR#1751](https://github.com/cucumber/common/pull/1751))
 
 ## [8.0.0] - 2021-09-02
 
@@ -99,7 +103,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/common/compare/compatibility-kit/v8.0.0...main
+[Unreleased]: https://github.com/cucumber/common/compare/compatibility-kit/v9.0.0...main
+[9.0.0]:      https://github.com/cucumber/common/compare/compatibility-kit/v8.0.0...v9.0.0
 [8.0.0]:      https://github.com/cucumber/common/compare/compatibility-kit/v7.1.0...v8.0.0
 [7.1.0]:      https://github.com/cucumber/common/compare/compatibility-kit/v7.0.0...v7.1.0
 [7.0.0]:      https://github.com/cucumber/common/compare/compatibility-kit/v6.0.0...v7.0.0
