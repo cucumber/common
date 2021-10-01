@@ -17,6 +17,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+- [Ruby] Generate cucumber messages rather than plain ruby hashes
+  ([PR#1772](https://github.com/cucumber/common/pull/1772))
+
 ## [6.0.1] - 2021-07-19
 
 ### Changed
