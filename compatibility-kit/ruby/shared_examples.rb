@@ -6,7 +6,7 @@ require_relative 'lib/messages_comparator'
 require_relative 'lib/keys_checker'
 
 def message_type(message)
-  message.to_hash.keys.first
+  message.to_h.keys.first
 end
 
 def parse_ndjson(path)
