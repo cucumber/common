@@ -1,6 +1,6 @@
 {
   "name": "@cucumber/fake-cucumber",
-  "version": "14.0.0",
+  "version": "15.0.0",
   "description": "Fake Cucumber generates fake results",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
@@ -40,7 +40,7 @@
     "typescript": "4.4.3"
   },
   "dependencies": {
-    "@cucumber/cucumber-expressions": "^13.0.1",
+    "@cucumber/cucumber-expressions": "^13.1.3",
     "@cucumber/create-meta": "^6.0.1",
     "@cucumber/gherkin": "^22.0.0",
     "@cucumber/gherkin-streams": "^4.0.0",
