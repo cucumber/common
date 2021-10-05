@@ -94,7 +94,7 @@ public final class TagExpressionParser {
         StringBuilder token = null;
         for (int i = 0; i < expr.length(); i++) {
             char c = expr.charAt(i);
-            if (ESCAPING_CHAR == c) {
+            if (ESCAPING_CHAR == c && !isEscaped) {
                 isEscaped = true;
             } else {
                 if (Character.isWhitespace(c)) { // skip
@@ -197,7 +197,7 @@ public final class TagExpressionParser {
 
         @Override
         public String toString() {
-            return value.replaceAll("\\(", "\\\\(").replaceAll("\\)", "\\\\)");
+            return value.replaceAll("\\\\", "\\\\\\\\").replaceAll("\\(", "\\\\(").replaceAll("\\)", "\\\\)");
         }
     }
 
