@@ -12,6 +12,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * [Perl] Add new implementation
   ([#1782](https://github.com/cucumber/common/pull/1782) [ehuelsmann])
 
+* [Go] Add support for escaping backslashes using "\\"
+  ([#1778](https://github.com/cucumber/common/pull/1778))
+
 ### Changed
 
 ### Deprecated
