@@ -20,6 +20,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+* [Go], [JavaScript], [Java], [Ruby] Support backslash-escape in tag expressions
+  ([#1778](https://github.com/cucumber/common/pull/1778) [yusuke-noda])
+
 ## [4.0.2] - 2021-09-13
 
 Note: some issues while releasing 4.0.1 prevent us to release it again.
@@ -178,3 +181,4 @@ Note: some issues while releasing 4.0.1 prevent us to release it again.
 [ehuelsmann]:       https://github.com/ehuelsmann
 [link89]:           https://github.com/link89
 [luke-hill]:        https://github.com/luke-hill
+[yusuke-noda]:      https://github.com/yusuke-noda

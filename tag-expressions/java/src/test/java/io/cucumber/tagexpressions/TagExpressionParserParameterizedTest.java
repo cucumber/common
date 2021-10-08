@@ -18,7 +18,11 @@ class TagExpressionParserParameterizedTest {
                 arguments("not a", "not ( a )"),
                 arguments("( a and b ) or ( c and d )", "( ( a and b ) or ( c and d ) )"),
                 arguments("not a or b and not c or not d or e and f", "( ( ( not ( a ) or ( b and not ( c ) ) ) or not ( d ) ) or ( e and f ) )"),
-                arguments("not a\\(1\\) or b and not c or not d or e and f", "( ( ( not ( a\\(1\\) ) or ( b and not ( c ) ) ) or not ( d ) ) or ( e and f ) )")
+                arguments("not a\\(1\\) or b and not c or not d or e and f", "( ( ( not ( a\\(1\\) ) or ( b and not ( c ) ) ) or not ( d ) ) or ( e and f ) )"),
+                arguments("a\\\\ and b", "( a\\\\ and b )"),
+                arguments("\\a and b\\ and c\\", "( ( a and b ) and c )"),
+                arguments("a\\\\\\( and b\\\\\\)", "( a\\\\\\( and b\\\\\\) )"),
+                arguments("(a and \\b)", "( a and b )")
         );
     }
 
