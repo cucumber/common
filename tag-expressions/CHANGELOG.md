@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+* [Perl] Add new implementation
+  ([#1782](https://github.com/cucumber/common/pull/1782) [ehuelsmann])
+
 ### Changed
 
 ### Deprecated
@@ -172,5 +175,6 @@ Note: some issues while releasing 4.0.1 prevent us to release it again.
 [aslakhellesoy]:    https://github.com/aslakhellesoy
 [brasmusson]:       https://github.com/brasmusson
 [charlierudolph]:   https://github.com/charlierudolph
+[ehuelsmann]:       https://github.com/ehuelsmann
 [link89]:           https://github.com/link89
 [luke-hill]:        https://github.com/luke-hill
