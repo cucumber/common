@@ -9,6 +9,13 @@ use Cucumber::TagExpressions;
 
 
 my @good = (
+    { expr => '@a\  or @b',
+      tests => [ { tags => [ '@a\ ' ],    outcome => !!0 },
+                 { tags => [ '@a '  ],    outcome => 1 },
+                 { tags => [ '@b'   ],    outcome => 1 },
+                 { tags => [ '@a'   ],    outcome => !!0 },
+          ] },
+    { expr => "\@a\\\\", tests => [] },
     { expr => '@a',
       tests => [ { tags => [ qw/@a/ ],    outcome => 1 },
                  { tags => [ qw/@b/ ],    outcome => !!0 },
@@ -70,11 +77,16 @@ my @good = (
                  { tags => [ qw/@b @d/ ], outcome => 1 },
                  { tags => [ qw/@q/ ],    outcome => !!0 },
           ] },
-    { expr => '@a\b',
-      tests => [ { tags => [ qw/@a\b/ ],  outcome => 1 },
+    { expr => "\@a\\b",
+      tests => [ { tags => [ "\@a\\b" ],  outcome => !!0 },
+                 { tags => [ '@ab' ],     outcome => 1 },
                  { tags => [ qw/@a/ ],    outcome => !!0 },
           ] },
-
+    { expr => "\@a\\\\b",
+      tests => [ { tags => [ "\@a\\b" ],  outcome => 1 },
+                 { tags => [ '@ab' ],     outcome => !!0 },
+                 { tags => [ qw/@a/ ],    outcome => !!0 },
+          ] },
     );
 
 for my $ex (@good) {
@@ -102,6 +114,7 @@ my %bad_syntax = (
     '@'          => 'Tag must be longer than the at-sign',
     '@a or @'    => 'Tag must be longer than the at-sign',
     '@a and @b)' => 'Junk at end of expression',
+    "\@a\\"      => 'Unexpected end of string parsing tag expression',
     );
 
 for my $expr (keys %bad_syntax) {
