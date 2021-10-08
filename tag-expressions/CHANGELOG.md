@@ -9,14 +9,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
-* [Perl] Add new implementation
-  ([#1782](https://github.com/cucumber/common/pull/1782) [ehuelsmann])
-
 ### Changed
 
 ### Deprecated
 
 ### Removed
+
+### Fixed
+
+## [4.1.0] - 2021-10-08
+
+### Added
+
+* [Perl] Add new implementation
+  ([#1782](https://github.com/cucumber/common/pull/1782) [ehuelsmann])
 
 ### Fixed
 
@@ -160,7 +166,8 @@ Note: some issues while releasing 4.0.1 prevent us to release it again.
 * First stable release!
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/tag-expressions/v4.0.2...main
+[Unreleased]: https://github.com/cucumber/cucumber/compare/tag-expressions/v4.1.0...main
+[4.1.0]: https://github.com/cucumber/cucumber/compare/tag-expressions/v4.0.2...tag-expressions/v4.1.0
 [4.0.2]: https://github.com/cucumber/cucumber/compare/tag-expressions/v4.0.0...tag-expressions/v4.0.2
 [4.0.0]: https://github.com/cucumber/cucumber/compare/tag-expressions/v3.0.1...tag-expressions/v4.0.0
 [3.0.1]: https://github.com/cucumber/cucumber/compare/tag-expressions/v3.0.0...tag-expressions/v3.0.1
