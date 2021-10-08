@@ -37,6 +37,6 @@
     "@cucumber/messages": "^17.1.1",
     "@cucumber/suggest": "^0.0.4",
     "source-map-support": "0.5.20",
-    "vscode-languageserver-types": "3.17.0-next.3"
+    "vscode-languageserver-types": "3.17.0-next.4"
   }
 }
