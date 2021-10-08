@@ -71,10 +71,11 @@ sub _get_token {
                 _save_token( $state, $char );
                 return $token;
             }
-            $token .= $char unless $char =~ /\s/;
-
             if ( $char eq "\\" ) {
                 $token .= _consume_char( $state );
+            }
+            else {
+                $token .= $char;
             }
         }
     }
