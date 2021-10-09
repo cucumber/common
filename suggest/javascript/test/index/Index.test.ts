@@ -1,19 +1,24 @@
 import assert from 'assert'
 import { Index, StepDocument, bruteForceIndex, fuseIndex, jsSearchIndex } from '../../src'
 import * as txtgen from 'txtgen'
+import { ExpressionFactory, ParameterTypeRegistry } from '@cucumber/cucumber-expressions'
 
 type BuildIndex = (stepDocuments: readonly StepDocument[]) => Index
 
 function verifyIndexContract(name: string, buildIndex: BuildIndex) {
   describe(name, () => {
     describe('basics', () => {
+      const ef = new ExpressionFactory(new ParameterTypeRegistry())
+
       const doc1: StepDocument = {
         suggestion: 'I have {int} cukes in my belly',
         segments: ['I have ', ['42', '98'], ' cukes in my belly'],
+        expression: ef.createExpression('I have {int} cukes in my belly')
       }
       const doc2: StepDocument = {
         suggestion: 'I am a teapot',
         segments: ['I am a teapot'],
+        expression: ef.createExpression('I am a teapot')
       }
       let index: Index
       beforeEach(() => {
@@ -43,6 +48,7 @@ function verifyIndexContract(name: string, buildIndex: BuildIndex) {
 
     describe('performance / fuzz', () => {
       it('matches how quickly exactly?', () => {
+        const ef = new ExpressionFactory(new ParameterTypeRegistry())
         for (let i = 0; i < 100; i++) {
           const length = 100
           const stepDocuments: StepDocument[] = Array(length)
@@ -52,6 +58,7 @@ function verifyIndexContract(name: string, buildIndex: BuildIndex) {
               return {
                 suggestion: sentence,
                 segments: [sentence],
+                expression: ef.createExpression(sentence)
               }
             })
           const index = buildIndex(stepDocuments)
