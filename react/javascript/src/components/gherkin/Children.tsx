@@ -1,5 +1,5 @@
 import React from 'react'
-import defaultStyles from './Anchor.module.scss'
+import defaultStyles from './Children.module.scss'
 import { ChildrenClasses, ChildrenProps, DefaultComponent, useCustomRendering } from '../customise'
 
 const DefaultRenderer: DefaultComponent<ChildrenProps, ChildrenClasses> = ({
