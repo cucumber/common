@@ -17,6 +17,26 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+* Import correct stylesheet in the Children component. This also allows to override it using `CustomRendering`.
+
+## [18.1.2] - 2021-09-08
+
+### Fixed
+
+* The 8.1.1 release was accidentally released without compiling the TypeScript code
+
+## [18.1.1] - 2021-09-08
+
+### Fixed
+
+* The 8.1.0 release was accidentally released without compiling the TypeScript code
+
+## [18.1.0] - 2021-09-08
+
+### Added
+
+* Make `<GherkinDocument>` customiseable.
+
 ## [18.0.0] - 2021-09-02
 
 ### Changed
@@ -412,7 +432,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/react/v18.0.0...main
+[Unreleased]: https://github.com/cucumber/cucumber/compare/react/v18.1.2...main
+[18.1.2]:      https://github.com/cucumber/cucumber/compare/react/v18.1.1...react/v18.1.2
+[18.1.1]:      https://github.com/cucumber/cucumber/compare/react/v18.1.0...react/v18.1.1
+[18.1.0]:      https://github.com/cucumber/cucumber/compare/react/v18.0.0...react/v18.1.0
 [18.0.0]:      https://github.com/cucumber/cucumber/compare/react/v17.0.0...react/v18.0.0
 [17.0.0]:      https://github.com/cucumber/cucumber/compare/react/v16.2.0...react/v17.0.0
 [16.2.0]:      https://github.com/cucumber/cucumber/compare/react/v16.1.0...react/v16.2.0

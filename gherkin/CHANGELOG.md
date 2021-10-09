@@ -19,6 +19,22 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Fixed
 
+## [22.0.0] - 2021-09-23
+
+### Added
+
+* [Perl] Documentation for most of the modules
+  ([#1740](https://github.com/cucumber/common/pull/1740) [ehuelsmann])
+
+### Changed
+
+* [Perl] Changed API to pass around `Cucumber::Messages` instead of hashes
+  and increased minimum Perl version in accordance with `Cucumber::Messages`
+  (to 5.14; from 5.12) ([#1735](https://github.com/cucumber/common/pull/1735)
+  [ehuelsmann])
+
+### Fixed
+
 * [Perl] Failure to include CHANGELOG.md in the release tarball
   ([#1728](https://github.com/cucumber/common/pull/1728) [ehuelsmann])
 
@@ -1054,7 +1070,8 @@ to Gherkin 2.
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v21.0.0...main
+[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v22.0.0...main
+[22.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v21.0.0...gherkin/v22.0.0
 [21.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v20.0.1...gherkin/v21.0.0
 [20.0.1]:     https://github.com/cucumber/cucumber/compare/gherkin/v20.0.0...gherkin/v20.0.1
 [20.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v19.0.3...gherkin/v20.0.0

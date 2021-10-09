@@ -99,17 +99,6 @@ jobs:
 
   ### Go
 
-  cucumber-expressions-go:
-    executor: docker-circleci-golang
-    steps:
-      - attach_workspace:
-          at: '~/cucumber'
-      - run:
-          name: cucumber-expressions/go
-          command: |
-            cd cucumber-expressions/go
-            make
-
   messages-go:
     executor: docker-cucumber-build
     steps:
@@ -166,18 +155,6 @@ jobs:
             make
 
   ### JavaScript
-
-  cucumber-expressions-javascript-node-14:
-    executor: docker-circleci-node-14
-    steps:
-      - attach_workspace:
-          at: '~/cucumber'
-      - run:
-          name: cucumber-expressions/javascript
-          command: |
-            sudo npm install --global npm@7
-            cd cucumber-expressions/javascript
-            make
 
   suggest-javascript:
     executor: docker-circleci-node-14
@@ -466,17 +443,6 @@ jobs:
 
   ### Ruby
 
-  cucumber-expressions-ruby:
-    executor: docker-circleci-ruby-26
-    steps:
-      - attach_workspace:
-          at: '~/cucumber'
-      - run:
-          name: cucumber-expressions/ruby
-          command: |
-            cd cucumber-expressions/ruby
-            make
-
   messages-ruby:
     executor: docker-cucumber-build
     steps:
@@ -628,23 +594,6 @@ jobs:
 
   ### Java
 
-  cucumber-expressions-java:
-    executor: docker-circleci-openjdk
-    steps:
-      - attach_workspace:
-          at: '~/cucumber'
-      - attach_workspace:
-          at: '~/.m2/repository'
-      - run:
-          name: cucumber-expressions/java
-          command: |
-            cd cucumber-expressions/java
-            make
-      - persist_to_workspace:
-          root: '~/.m2/repository'
-          paths:
-            - 'io/cucumber/cucumber-expressions'
-
   messages-java:
     executor: docker-cucumber-build
     steps:
@@ -708,23 +657,6 @@ jobs:
           root: '~/.m2/repository'
           paths:
             - 'io/cucumber/tag-expressions'
-
-  datatable-java:
-    executor: docker-circleci-openjdk
-    steps:
-      - attach_workspace:
-          at: '~/cucumber'
-      - attach_workspace:
-          at: '~/.m2/repository'
-      - run:
-          name: datatable-java
-          command: |
-            cd datatable/java
-            make
-      - persist_to_workspace:
-          root: '~/.m2/repository'
-          paths:
-            - 'io/cucumber/datatable'
 
   config-java:
     executor: docker-circleci-openjdk
@@ -821,6 +753,17 @@ jobs:
           name: messages/perl
           command: |
             cd messages/perl
+            make
+
+  tag-expressions-perl:
+    executor: docker-cucumber-build
+    steps:
+      - attach_workspace:
+          at: '~/cucumber'
+      - run:
+          name: tag-expressions/perl
+          command: |
+            cd tag-expressions/perl
             make
 
   ### Python
@@ -947,9 +890,6 @@ workflows:
 
       ### Go
 
-      - cucumber-expressions-go:
-          requires:
-            - prepare-parallel
       - messages-go:
           requires:
             - prepare-parallel
@@ -970,9 +910,6 @@ workflows:
 
       ### JavaScript
 
-      - cucumber-expressions-javascript-node-14:
-          requires:
-            - prepare-parallel
       - suggest-javascript:
           requires:
             - prepare-parallel
@@ -1056,9 +993,6 @@ workflows:
 
       ### Ruby
 
-      - cucumber-expressions-ruby:
-          requires:
-            - prepare-parallel
       - messages-ruby:
           requires:
             - prepare-parallel
@@ -1097,9 +1031,6 @@ workflows:
 
       ### Java
 
-      - cucumber-expressions-java:
-          requires:
-            - prepare-parallel
       - messages-java:
           requires:
             - prepare-parallel
@@ -1110,9 +1041,6 @@ workflows:
           requires:
             - messages-java
       - tag-expressions-java:
-          requires:
-            - prepare-parallel
-      - datatable-java:
           requires:
             - prepare-parallel
       - config-java:
@@ -1145,6 +1073,10 @@ workflows:
             - prepare-parallel
 
       - messages-perl:
+          requires:
+            - prepare-parallel
+
+      - tag-expressions-perl:
           requires:
             - prepare-parallel
 

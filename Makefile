@@ -5,7 +5,6 @@ PACKAGES ?= messages \
 	gherkin \
 	gherkin-streams \
 	gherkin-utils \
-	cucumber-expressions \
 	suggest \
 	language-service \
 	language-server \
@@ -19,7 +18,6 @@ PACKAGES ?= messages \
 	compatibility-kit \
 	react \
 	html-formatter \
-	datatable \
 	config \
 	demo-formatter \
 	json-to-messages

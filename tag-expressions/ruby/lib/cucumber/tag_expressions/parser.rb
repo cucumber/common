@@ -53,7 +53,36 @@ module Cucumber
       end
 
       def tokens(infix_expression)
-        infix_expression.gsub(/(?<!\\)\(/, ' ( ').gsub(/(?<!\\)\)/, ' ) ').strip.split(/\s+/)
+        escaped = false
+        token = ""
+        result = []
+        infix_expression.chars.each do | ch |
+          if ch == '\\' && !escaped
+            escaped = true
+          else
+            if ch.match(/\s/)
+              if token.length > 0
+                result.push(token)
+                token = ""
+              end
+            else
+              if (ch == '(' || ch == ')') && !escaped
+                if token.length > 0
+                  result.push(token)
+                  token = ""
+                end
+                result.push(ch)
+              else
+                token = token + ch
+              end
+            end
+            escaped = false
+          end
+        end
+        if token.length > 0
+          result.push(token)
+        end
+        result
       end
 
       def process_tokens!(infix_expression)

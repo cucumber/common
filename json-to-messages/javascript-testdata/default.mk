@@ -30,8 +30,8 @@ default: .tested
 pre-release: clean update-version update-dependencies default
 .PHONY: pre-release
 
-update-dependencies:
-	../../node_modules/.bin/npm-check-updates --upgrade --reject hast-util-sanitize,@types/node
+update-dependencies: ../../node_modules ../../package-lock.json
+	../../node_modules/.bin/npm-check-updates --upgrade --reject hast-util-sanitize,@types/node,react-markdown,rehype-raw,rehype-sanitize,remark-gfm
 .PHONY: update-dependencies
 
 update-version:

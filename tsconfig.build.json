@@ -11,12 +11,6 @@
   "files": [],
   "references": [
     {
-      "path": "./messages/javascript/tsconfig.build.json"
-    },
-    {
-      "path": "./message-streams/javascript/tsconfig.build.json"
-    },
-    {
       "path": "./gherkin/javascript/tsconfig.build.json"
     },
     {
@@ -24,9 +18,6 @@
     },
     {
       "path": "./gherkin-utils/javascript/tsconfig.build.json"
-    },
-    {
-      "path": "./cucumber-expressions/javascript/tsconfig.build.json"
     },
     {
       "path": "./tag-expressions/javascript/tsconfig.build.json"

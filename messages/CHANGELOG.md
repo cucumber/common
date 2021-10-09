@@ -9,11 +9,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+* Support for EcmaScript modules (aka ESM)
+  ([#1756](https://github.com/cucumber/common/pull/1756))
+
 ### Changed
 
 ### Deprecated
 
 ### Removed
+
+### Fixed
+
+## [17.1.1] - 2021-09-17
 
 ### Fixed
 
@@ -568,7 +575,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Protobuf messages for Go, Java, JavaScript, TypeScript and Ruby
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/messages/v17.1.0...main
+[Unreleased]: https://github.com/cucumber/cucumber/compare/messages/v17.1.1...main
+[17.1.1]:      https://github.com/cucumber/cucumber/compare/messages/v17.1.0...messages/v17.1.1
 [17.1.0]:      https://github.com/cucumber/cucumber/compare/messages/v17.0.1...messages/v17.1.0
 [17.0.1]:      https://github.com/cucumber/cucumber/compare/messages/v17.0.0...messages/v17.0.1
 [17.0.0]:      https://github.com/cucumber/cucumber/compare/messages/v16.0.1...messages/v17.0.0
