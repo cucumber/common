@@ -17,6 +17,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+* Import correct stylesheet in the Children component. This also allows to override it using `CustomRendering`.
+
 ## [18.1.2] - 2021-09-08
 
 ### Fixed

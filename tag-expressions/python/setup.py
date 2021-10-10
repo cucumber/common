@@ -27,7 +27,7 @@ HERE = os.path.dirname(__file__)
 python_version = float('%s.%s' % sys.version_info[:2])
 
 README = os.path.join(HERE, "README.rst")
-long_description = ''.join(open(README).readlines()[4:])
+long_description = ''.join(open(README).readlines()[3:])
 
 
 # -----------------------------------------------------------------------------
@@ -50,7 +50,7 @@ def find_packages_by_root_package(where):
 # -----------------------------------------------------------------------------
 setup(
     name = "cucumber-tag-expressions",
-    version = "4.0.2",
+    version = "4.1.0",
     author = "Jens Engel",
     author_email = "jenisys@noreply.github.com",
     url = "https://github.com/cucumber/tag-expressions-python",

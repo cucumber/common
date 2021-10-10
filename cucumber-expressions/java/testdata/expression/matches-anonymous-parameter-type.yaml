@@ -1,5 +1,0 @@
-expression: |-
-  {}
-text: '0.22'
-expected: |-
-  ["0.22"]

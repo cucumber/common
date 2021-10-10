@@ -17,6 +17,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [4.1.0] - 2021-10-08
+
+### Added
+
+* [Perl] Add new implementation
+  ([#1782](https://github.com/cucumber/common/pull/1782) [ehuelsmann])
+
+### Fixed
+
+* [Go], [JavaScript], [Java], [Ruby] Support backslash-escape in tag expressions
+  ([#1778](https://github.com/cucumber/common/pull/1778) [yusuke-noda])
+
 ## [4.0.2] - 2021-09-13
 
 Note: some issues while releasing 4.0.1 prevent us to release it again.
@@ -154,7 +166,8 @@ Note: some issues while releasing 4.0.1 prevent us to release it again.
 * First stable release!
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/tag-expressions/v4.0.2...main
+[Unreleased]: https://github.com/cucumber/cucumber/compare/tag-expressions/v4.1.0...main
+[4.1.0]: https://github.com/cucumber/cucumber/compare/tag-expressions/v4.0.2...tag-expressions/v4.1.0
 [4.0.2]: https://github.com/cucumber/cucumber/compare/tag-expressions/v4.0.0...tag-expressions/v4.0.2
 [4.0.0]: https://github.com/cucumber/cucumber/compare/tag-expressions/v3.0.1...tag-expressions/v4.0.0
 [3.0.1]: https://github.com/cucumber/cucumber/compare/tag-expressions/v3.0.0...tag-expressions/v3.0.1
@@ -172,5 +185,7 @@ Note: some issues while releasing 4.0.1 prevent us to release it again.
 [aslakhellesoy]:    https://github.com/aslakhellesoy
 [brasmusson]:       https://github.com/brasmusson
 [charlierudolph]:   https://github.com/charlierudolph
+[ehuelsmann]:       https://github.com/ehuelsmann
 [link89]:           https://github.com/link89
 [luke-hill]:        https://github.com/luke-hill
+[yusuke-noda]:      https://github.com/yusuke-noda

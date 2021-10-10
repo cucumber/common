@@ -48,4 +48,22 @@ class TagExpressionParserTest {
         assertThat("Unexpected message", thrownException.getMessage(), is(equalTo("Tag expression 'or or' could not be parsed because of syntax error: expected operand")));
     }
 
+    @Test
+    void evaluates_expr_with_escaped_backslash() {
+        Expression expr = TagExpressionParser.parse("@a\\\\ or (@b\\\\\\)) or (@c\\\\)");
+        assertFalse(expr.evaluate(asList("@a @b) @c".split(" "))));
+        assertTrue(expr.evaluate(asList("@a\\".split(" "))));
+        assertTrue(expr.evaluate(asList("@b\\)".split(" "))));
+        assertTrue(expr.evaluate(asList("@c\\".split(" "))));
+    }
+
+    @Test
+    void evaluates_expr_with_backslash() {
+        Expression expr = TagExpressionParser.parse("@\\a or @b\\ or @c\\");
+        assertFalse(expr.evaluate(asList("@\\a @b\\ @c\\".split(" "))));
+        assertTrue(expr.evaluate(asList("@a".split(" "))));
+        assertTrue(expr.evaluate(asList("@b".split(" "))));
+        assertTrue(expr.evaluate(asList("@c".split(" "))));
+    }
+
 }

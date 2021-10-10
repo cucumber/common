@@ -17,6 +17,13 @@ describe('TagExpressionParser', () => {
         'not a\\(\\) or b and not c or not d or e and f',
         '( ( ( not ( a\\(\\) ) or ( b and not ( c ) ) ) or not ( d ) ) or ( e and f ) )',
       ],
+      ['a\\\\ and b', '( a\\\\ and b )'],
+      ['\\a and b', '( a and b )'],
+      ['a\\ and b', '( a and b )'],
+      ['a and b\\', '( a and b )'],
+      ['( a and b\\\\)', '( a and b\\\\ )'],
+      ['a\\\\\\( and b\\\\\\)', '( a\\\\\\( and b\\\\\\) )'],
+      ['(a and \\b)', '( a and b )'],
       // a or not b
     ]
     tests.forEach(function (inOut) {
@@ -88,6 +95,28 @@ describe('TagExpressionParser', () => {
       assert.strictEqual(expr.evaluate([]), true)
       assert.strictEqual(expr.evaluate(['y']), true)
       assert.strictEqual(expr.evaluate(['x']), true)
+    })
+
+    it('evaluates expressions with escaped backslash', function () {
+      const expr = parse('x\\\\ or(y\\\\\\)) or(z\\\\)')
+      assert.strictEqual(expr.evaluate([]), false)
+      assert.strictEqual(expr.evaluate(['x\\']), true)
+      assert.strictEqual(expr.evaluate(['y\\)']), true)
+      assert.strictEqual(expr.evaluate(['z\\']), true)
+      assert.strictEqual(expr.evaluate(['x']), false)
+      assert.strictEqual(expr.evaluate(['y)']), false)
+      assert.strictEqual(expr.evaluate(['z']), false)
+    })
+
+    it('evaluates expressions with backslash', function () {
+      const expr = parse('\\x or y\\ or z\\')
+      assert.strictEqual(expr.evaluate([]), false)
+      assert.strictEqual(expr.evaluate(['x']), true)
+      assert.strictEqual(expr.evaluate(['y']), true)
+      assert.strictEqual(expr.evaluate(['z']), true)
+      assert.strictEqual(expr.evaluate(['\\x']), false)
+      assert.strictEqual(expr.evaluate(['y\\']), false)
+      assert.strictEqual(expr.evaluate(['z\\']), false)
     })
   })
 })

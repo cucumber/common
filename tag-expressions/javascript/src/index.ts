@@ -84,7 +84,7 @@ function tokenize(expr: string): string[] {
   let token
   for (let i = 0; i < expr.length; i++) {
     const c = expr.charAt(i)
-    if ('\\' === c) {
+    if ('\\' === c && !isEscaped) {
       isEscaped = true
     } else {
       if (/\s/.test(c)) {
@@ -171,7 +171,7 @@ class Literal implements Node {
   }
 
   public toString() {
-    return this.value.replace(/\(/g, '\\(').replace(/\)/g, '\\)')
+    return this.value.replace(/\\/g, '\\\\').replace(/\(/g, '\\(').replace(/\)/g, '\\)')
   }
 }
 

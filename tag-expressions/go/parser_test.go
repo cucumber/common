@@ -42,6 +42,16 @@ func TestParseForValidCases(t *testing.T) {
 			given:    "not a\\(\\) or b and not c or not d or e and f",
 			expected: "( ( ( not ( a\\(\\) ) or ( b and not ( c ) ) ) or not ( d ) ) or ( e and f ) )",
 		},
+		{
+			name:     "test escaping backslash",
+			given:    "(a\\\\ and b\\\\\\( and c\\\\\\) and d\\\\)",
+			expected: "( ( ( a\\\\ and b\\\\\\( ) and c\\\\\\) ) and d\\\\ )",
+		},
+		{
+			name:     "test backslash",
+			given:    "(a\\ and \\b) and c\\",
+			expected: "( ( a and b ) and c )",
+		},
 	}
 
 	for _, tc := range cases {
@@ -174,6 +184,32 @@ func TestParseForEvaluationErrors(t *testing.T) {
 				require.True(t, expr.Evaluate([]string{}))
 				require.True(t, expr.Evaluate([]string{"y"}))
 				require.True(t, expr.Evaluate([]string{"x"}))
+			},
+		},
+		{
+			name:  "evaluate expressions with escaped backslash",
+			given: "x\\\\ or(y\\\\\\)) or(z\\\\)",
+			expectations: func(t *testing.T, expr Evaluatable) {
+				require.False(t, expr.Evaluate([]string{}))
+				require.True(t, expr.Evaluate([]string{"x\\"}))
+				require.True(t, expr.Evaluate([]string{"y\\)"}))
+				require.True(t, expr.Evaluate([]string{"z\\"}))
+				require.False(t, expr.Evaluate([]string{"x"}))
+				require.False(t, expr.Evaluate([]string{"y)"}))
+				require.False(t, expr.Evaluate([]string{"z"}))
+			},
+		},
+		{
+			name:  "evaluate expressions with backslash",
+			given: "\\x or y\\ or z\\",
+			expectations: func(t *testing.T, expr Evaluatable) {
+				require.False(t, expr.Evaluate([]string{}))
+				require.True(t, expr.Evaluate([]string{"x"}))
+				require.True(t, expr.Evaluate([]string{"y"}))
+				require.True(t, expr.Evaluate([]string{"z"}))
+				require.False(t, expr.Evaluate([]string{"\\x"}))
+				require.False(t, expr.Evaluate([]string{"y\\"}))
+				require.False(t, expr.Evaluate([]string{"z\\"}))
 			},
 		},
 	}

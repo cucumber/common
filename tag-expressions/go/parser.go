@@ -112,6 +112,7 @@ func tokenize(expr string) []string {
 	for _, c := range expr {
 		if unicode.IsSpace(c) {
 			collectToken()
+			escaped = false
 			continue
 		}
 
@@ -119,7 +120,12 @@ func tokenize(expr string) []string {
 
 		switch ch {
 		case "\\":
-			escaped = true
+			if escaped {
+				token.WriteString(ch)
+				escaped = false
+			} else {
+				escaped = true
+			}
 		case "(", ")":
 			if escaped {
 				token.WriteString(ch)
@@ -130,6 +136,7 @@ func tokenize(expr string) []string {
 			}
 		default:
 			token.WriteString(ch)
+			escaped = false
 		}
 	}
 
@@ -192,7 +199,12 @@ func (l *literalExpr) Evaluate(variables []string) bool {
 
 func (l *literalExpr) ToString() string {
 	return strings.Replace(
-		strings.Replace(l.value, "(", "\\(", -1),
+		strings.Replace(
+			strings.Replace(l.value, "\\", "\\\\", -1),
+			"(",
+			"\\(",
+			-1,
+		),
 		")",
 		"\\)",
 		-1,
