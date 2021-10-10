@@ -44,7 +44,7 @@
     "@typescript-eslint/parser": "4.33.0",
     "ajv": "8.6.3",
     "ajv-cli": "5.0.0",
-    "eslint": "7.32.0",
+    "eslint": "8.0.0",
     "eslint-config-prettier": "8.3.0",
     "eslint-plugin-import": "2.24.2",
     "eslint-plugin-node": "11.1.0",
