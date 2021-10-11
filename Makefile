@@ -10,7 +10,6 @@ PACKAGES ?= messages \
 	language-server \
 	monaco \
 	vscode \
-	tag-expressions \
 	create-meta \
 	fake-cucumber \
 	query \
