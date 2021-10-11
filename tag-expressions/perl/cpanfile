@@ -1,0 +1,8 @@
+#!perl
+
+requires 'perl' => '5.14.0';
+requires 'Moo';
+
+on 'test' => sub {
+    requires 'Test2::V0';
+};

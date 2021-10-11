@@ -755,6 +755,17 @@ jobs:
             cd messages/perl
             make
 
+  tag-expressions-perl:
+    executor: docker-cucumber-build
+    steps:
+      - attach_workspace:
+          at: '~/cucumber'
+      - run:
+          name: tag-expressions/perl
+          command: |
+            cd tag-expressions/perl
+            make
+
   ### Python
 
   tag-expressions-python:
@@ -1062,6 +1073,10 @@ workflows:
             - prepare-parallel
 
       - messages-perl:
+          requires:
+            - prepare-parallel
+
+      - tag-expressions-perl:
           requires:
             - prepare-parallel
 

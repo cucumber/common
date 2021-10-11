@@ -52,4 +52,33 @@ describe 'Expression node' do
       include_examples 'expression node', infix_expression, data
     end
   end
+
+  describe Cucumber::TagExpressions::Or do
+    context '#evaluate' do
+      infix_expression = 'x\\\\ or (y\\\\\\)) or (z\\\\)'
+      data = [[%w(), false],
+              [%w(x), false],
+              [%w(y\)), false],
+              [%w(z), false],
+              [%w(x\\), true],
+              [%w(y\\\)), true],
+              [%w(z\\), true]]
+      include_examples 'expression node', infix_expression, data
+    end
+  end
+
+  describe Cucumber::TagExpressions::Or do
+    context '#evaluate' do
+      infix_expression = '\\x or y\\ or z\\'
+      data = [[%w(), false],
+              [%w(\\x), false],
+              [%w(y\\), false],
+              [%w(z\\), false],
+              [%w(x), true],
+              [%w(y), true],
+              [%w(z), true]]
+      include_examples 'expression node', infix_expression, data
+    end
+  end
+
 end

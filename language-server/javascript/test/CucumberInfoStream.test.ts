@@ -25,7 +25,7 @@ describe('CucumberInfoStream', () => {
         },
       })
     )
-    const expectedStepDocuments: StepDocument[] = [
+    const expectedStepDocuments: Partial<StepDocument>[] = [
       {
         segments: ['I select the ', ['2nd'], ' snippet'],
         suggestion: 'I select the {ordinal} snippet',
@@ -61,7 +61,7 @@ describe('CucumberInfoStream', () => {
         suggestion: 'the suggestions should be:',
       },
     ]
-    assert.deepStrictEqual(cucumberInfo.stepDocuments, expectedStepDocuments)
+    assert.deepStrictEqual(cucumberInfo.stepDocuments.map(d => ({segments: d.segments, suggestion: d.suggestion})), expectedStepDocuments)
 
     const expectedExpressionSources = [
       'the following Gherkin step texts exist:',

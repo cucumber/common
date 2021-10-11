@@ -9,7 +9,11 @@ describe Cucumber::TagExpressions::Parser do
     ['not a or b and not c or not d or e and f',
      '( ( ( not ( a ) or ( b and not ( c ) ) ) or not ( d ) ) or ( e and f ) )'],
     ['not a\\(\\) or b and not c or not d or e and f',
-     '( ( ( not ( a\\(\\) ) or ( b and not ( c ) ) ) or not ( d ) ) or ( e and f ) )']
+     '( ( ( not ( a\\(\\) ) or ( b and not ( c ) ) ) or not ( d ) ) or ( e and f ) )'],
+     ['a\\\\ and b', '( a\\\\ and b )'],
+     ['\\a and b\\ and c\\', '( ( a and b ) and c )'],
+     ['(a and b\\\\)', '( a and b\\\\ )'],
+     ['a\\\\\\( and b\\\\\\)', '( a\\\\\\( and b\\\\\\) )']
   ]
 
   error_test_data = [

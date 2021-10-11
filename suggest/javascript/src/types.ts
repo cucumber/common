@@ -1,3 +1,5 @@
+import { Expression } from '@cucumber/cucumber-expressions'
+
 /**
  * A document that can be indexed. It's recommended to index the segments rather than the suggestion.
  * When indexing the segments, the nested arrays (representing choices) may be given lower weight
@@ -17,6 +19,11 @@ export type StepDocument = {
    * lspCompletionSnippet function.
    */
   segments: StepSegments
+
+  /**
+   * The Cucumber Expression or Regular Expression
+   */
+  expression: Expression
 }
 
 export type StepSegments = readonly StepSegment[]
