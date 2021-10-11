@@ -35,7 +35,7 @@
     "txtgen": "2.2.8",
     "tree-sitter-cli": "0.20.0",
     "tree-sitter-java": "0.19.1",
-    "ts-node": "10.2.1",
+    "ts-node": "10.3.0",
     "typescript": "4.4.3"
   },
   "dependencies": {
