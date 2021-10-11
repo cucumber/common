@@ -121,17 +121,6 @@ jobs:
             cd gherkin/go
             make
 
-  tag-expressions-go:
-    executor: docker-circleci-golang
-    steps:
-      - attach_workspace:
-          at: '~/cucumber'
-      - run:
-          name: tag-expressions/go
-          command: |
-            cd tag-expressions/go
-            make
-
   demo-formatter-go:
     executor: docker-cucumber-build
     steps:
@@ -310,18 +299,6 @@ jobs:
           command: |
             sudo npm install --global npm@7
             cd gherkin-utils/javascript
-            make
-
-  tag-expressions-javascript:
-    executor: docker-circleci-node-14
-    steps:
-      - attach_workspace:
-          at: '~/cucumber'
-      - run:
-          name: tag-expressions/javascript
-          command: |
-            sudo npm install --global npm@7
-            cd tag-expressions/javascript
             make
 
   fake-cucumber-javascript:
@@ -513,17 +490,6 @@ jobs:
             cd gherkin/ruby
             make
 
-  tag-expressions-ruby:
-    executor: docker-circleci-ruby-26
-    steps:
-      - attach_workspace:
-          at: '~/cucumber'
-      - run:
-          name: tag-expressions/ruby
-          command: |
-            cd tag-expressions/ruby
-            make
-
   json-formatter-ruby-testdata:
     executor: docker-circleci-ruby-26
     steps:
@@ -641,23 +607,6 @@ jobs:
           paths:
             - 'io/cucumber/gherkin'
 
-  tag-expressions-java:
-    executor: docker-circleci-openjdk
-    steps:
-      - attach_workspace:
-          at: '~/cucumber'
-      - attach_workspace:
-          at: '~/.m2/repository'
-      - run:
-          name: tag-expressions/java
-          command: |
-            cd tag-expressions/java
-            make
-      - persist_to_workspace:
-          root: '~/.m2/repository'
-          paths:
-            - 'io/cucumber/tag-expressions'
-
   config-java:
     executor: docker-circleci-openjdk
     steps:
@@ -755,29 +704,7 @@ jobs:
             cd messages/perl
             make
 
-  tag-expressions-perl:
-    executor: docker-cucumber-build
-    steps:
-      - attach_workspace:
-          at: '~/cucumber'
-      - run:
-          name: tag-expressions/perl
-          command: |
-            cd tag-expressions/perl
-            make
-
   ### Python
-
-  tag-expressions-python:
-    executor: docker-circleci-python
-    steps:
-      - attach_workspace:
-          at: '~/cucumber'
-      - run:
-          name: tag-expressions/python
-          command: |
-            cd tag-expressions/python
-            make
 
   json-to-messages-python-testdata:
     executor: docker-circleci-python
@@ -896,9 +823,6 @@ workflows:
       - gherkin-go:
           requires:
             - messages-go
-      - tag-expressions-go:
-          requires:
-            - prepare-parallel
       - demo-formatter-go:
           requires:
             - messages-go
@@ -947,9 +871,6 @@ workflows:
           requires:
             - prepare-parallel
       - gherkin-utils-javascript:
-          requires:
-            - prepare-parallel
-      - tag-expressions-javascript:
           requires:
             - prepare-parallel
       - fake-cucumber-javascript:
@@ -1011,9 +932,6 @@ workflows:
       - gherkin-ruby-26:
           requires:
             - messages-ruby
-      - tag-expressions-ruby:
-          requires:
-            - prepare-parallel
       - demo-formatter-ruby:
           requires:
             - messages-ruby
@@ -1040,9 +958,6 @@ workflows:
       - gherkin-java:
           requires:
             - messages-java
-      - tag-expressions-java:
-          requires:
-            - prepare-parallel
       - config-java:
           requires:
             - prepare-parallel
@@ -1076,15 +991,7 @@ workflows:
           requires:
             - prepare-parallel
 
-      - tag-expressions-perl:
-          requires:
-            - prepare-parallel
-
       ## Python
-
-      - tag-expressions-python:
-          requires:
-            - prepare-parallel
 
       - json-to-messages-python-testdata:
           requires:
