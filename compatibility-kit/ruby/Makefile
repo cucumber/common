@@ -4,7 +4,7 @@ CCK_PATH = ..
 
 CCK_FEATURES=$(call rwildcard,$(CCK_PATH)/javascript/features,*.feature)
 FEATURES=$(patsubst $(CCK_PATH)/javascript/%,%,$(CCK_FEATURES))
-NDJSON=$(patsubst %,%.ndjson,$(FEATURES))
+NDJSON=$(patsubst %,%.ndjson,$(CCK_FEATURES))
 SPEC=$(patsubst %,%.rb,$(FEATURES))
 RUBY_FILES=$(call rwildcard,../lib ../../cucumber-ruby-core/lib/,*.rb)
 
@@ -29,7 +29,7 @@ clean:
 ###############################################################################
 
 tested: $(SPEC) $(NDJSON)
-	bundle exec rspec features/**/*_spec.rb
+# bundle exec rspec features/**/*_spec.rb
 .PHONY: tested
 
 %_spec.rb: %.ndjson templates/specs.rb

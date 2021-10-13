@@ -2,8 +2,8 @@ require 'json'
 require 'rspec'
 require 'cucumber/messages'
 
-require_relative 'lib/messages_comparator'
-require_relative 'lib/keys_checker'
+require 'messages_comparator'
+require 'keys_checker'
 
 def message_type(message)
   message.to_h.keys.first
@@ -32,7 +32,7 @@ RSpec.shared_examples 'equivalent messages' do
   # let(:original) { 'path to .ndjson file in CCK' }
   # let(:generated) { 'path to generated .ndjson file' }
 
-  let(:parsed_original) { parse_ndjson(original) }
+  let(:parsed_original) { parse_ndjson("#{File.expand_path(File.dirname(__FILE__))}/../features/#{original}/#{original}.feature.ndjson") }
   let(:parsed_generated) { parse_ndjson(generated) }
 
   let(:original_messages_types) { parsed_original.map { |msg| message_type(msg) } }
