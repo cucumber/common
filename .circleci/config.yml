@@ -774,21 +774,6 @@ workflows:
 
       ### JavaScript
 
-      - suggest-javascript:
-          requires:
-            - prepare-parallel
-      - language-service-javascript:
-          requires:
-            - prepare-parallel
-      - language-server-javascript:
-          requires:
-            - prepare-parallel
-      - monaco-javascript:
-          requires:
-            - prepare-parallel
-      - vscode-javascript:
-          requires:
-            - prepare-parallel
       - message-streams-javascript:
           requires:
             - prepare-parallel
