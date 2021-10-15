@@ -5,7 +5,7 @@ version = File.read(File.expand_path("VERSION", __dir__)).strip
 Gem::Specification.new do |s|
   s.name        = 'cucumber-compatibility-kit'
   s.version     = version
-  s.authors     = ["Aurélien Reeves"]
+  s.authors     = ["Aurélien Reeves", "Aslak Hellesøy", "Vincent Prêtre", "Cucumber Ltd"]
   s.description = 'Kit to check compatibility with official cucumber implementation'
   s.summary     = "#{s.name}-#{s.version}"
   s.email       = 'cukebot@cucumber.io'
