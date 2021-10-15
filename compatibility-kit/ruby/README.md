@@ -10,10 +10,10 @@ execution of the CCK's features.
 
 ## Installation and Usage
 
-Add 'cucumber-compatibility-kit' to your gemfile as a development dependency, and
+Add `cucumber-compatibility-kit` to your `Gemfile` as a development dependency, and
 install it:
 
-    bundle
+    bundle install
 
 Then add a spec that could look like this:
 
@@ -43,13 +43,13 @@ end
 ```
 
 `Cucumber::CompatibilityKit.gherkin_examples` returns an array that list all the
-gherkinexamples available within the CCK. Here, we want to execute all of them with
+gherkin examples available within the CCK. Here, we want to execute all of them with
 the exception of the `retry` one.
 
 `let(:messages)` executes the cucumber command. `example_path` is provided by the
 CCK. It is the path to the folder which contains the feature, and the support code
 required to execute the given example. As we use the `--format message` formatter,
-`messages` will then contains the messages as a `ndjson` document.
+`messages` will then contain the messages as a `ndjson` document.
 
 You can use `gem open cucumber-compatibility-kit` in order to take a look on the
 features, their support code, and the expected messages.They are available in the
