@@ -5,12 +5,6 @@ PACKAGES ?= messages \
 	gherkin \
 	gherkin-streams \
 	gherkin-utils \
-	suggest \
-	language-service \
-	language-server \
-	monaco \
-	vscode \
-	tag-expressions \
 	create-meta \
 	fake-cucumber \
 	query \
