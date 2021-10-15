@@ -5,7 +5,7 @@ require 'cucumber/messages'
 require 'messages_comparator'
 require 'keys_checker'
 
-RSpec.shared_examples 'equivalent messages' do
+RSpec.shared_examples 'cucumber compatibility kit' do
   # Note: to use those examples, you need to define:
   # let(:example) {  } # the name of the example to test
   # let(:messages) {  } # the messages to validate
@@ -13,7 +13,7 @@ RSpec.shared_examples 'equivalent messages' do
   let(:example) { raise "`example` missing: add `let(:example) { example_name }` to your spec" }
   let(:messages) { raise "`messages` missing: add `let(:messages) { ndjson }` to your spec" }
 
-  let(:example_path) { Cucumber::CompatibilityKit.getExamplePath(example) }
+  let(:example_path) { Cucumber::CompatibilityKit.example_path(example) }
 
   let(:parsed_original) { parse_ndjson_file("#{example_path}/#{example}.feature.ndjson") }
   let(:parsed_generated) { parse_ndjson(messages) }

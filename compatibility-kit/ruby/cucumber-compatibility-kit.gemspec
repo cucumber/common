@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-version = "1.0.0"
+version = File.read(File.expand_path("VERSION", __dir__)).strip
 
 Gem::Specification.new do |s|
   s.name        = 'cucumber-compatibility-kit'
@@ -8,14 +8,14 @@ Gem::Specification.new do |s|
   s.authors     = ["Aurélien Reeves"]
   s.description = 'Kit to check compatibility with official cucumber implementation'
   s.summary     = "#{s.name}-#{s.version}"
-  s.email       = 'cukes@googlegroups.com'
+  s.email       = 'cukebot@cucumber.io'
   s.homepage    = "https://github.com/cucumber/common"
   s.platform    = Gem::Platform::RUBY
   s.license     = "MIT"
   s.required_ruby_version = ">= 2.3"
 
   s.metadata    = {
-                    'bug_tracker_uri'   => 'https://github.com/cucumber/cucumber/issues',
+                    'bug_tracker_uri'   => 'https://github.com/cucumber/common/issues',
                     'changelog_uri'     => 'https://github.com/cucumber/common/blob/main/compatibility-kit/CHANGELOG.md',
                     'documentation_uri' => 'https://cucumber.io/docs/gherkin/',
                     'mailing_list_uri'  => 'https://groups.google.com/forum/#!forum/cukes',
