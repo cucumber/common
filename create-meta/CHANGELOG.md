@@ -17,6 +17,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [6.0.2] - 2021-10-18
+
+### Fixed
+
 - [Ruby] Generate cucumber messages rather than plain ruby hashes
   ([PR#1772](https://github.com/cucumber/common/pull/1772))
 
@@ -140,7 +144,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/create-meta/v6.0.1...main
+[Unreleased]: https://github.com/cucumber/cucumber/compare/create-meta/v6.0.2...main
+[6.0.2]:      https://github.com/cucumber/cucumber/compare/create-meta/v6.0.1...create-meta/v6.0.2
 [6.0.1]:      https://github.com/cucumber/cucumber/compare/create-meta/v6.0.0...create-meta/v6.0.1
 [6.0.0]:      https://github.com/cucumber/cucumber/compare/create-meta/v5.0.0...create-meta/v6.0.0
 [5.0.0]:      https://github.com/cucumber/cucumber/compare/create-meta/v4.0.0...create-meta/v5.0.0
