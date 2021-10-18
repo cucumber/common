@@ -38,7 +38,7 @@ First, generate Cucumber messages using Cucumber's built-in `message` formatter 
 
 Next, generate JSON:
 
-    cat cucumber-messages.ndjson | cucumber-json-formatter --format ndjson > cucumber-results.json
+    cat cucumber-messages.ndjson | cucumber-json-formatter > cucumber-results.json
 
 That's it. If you are the maintainer of a tool that consumes the legacy Cucumber JSON format you should consider
 updating your tool to consume Cucumber Messages instead.
