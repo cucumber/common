@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+* [Ruby] The compatibility kit is now available for Ruby as a gem
+  ([PR#1773](https://github.com/cucumber/common/pull/1773))
+
 ### Changed
 
 ### Deprecated

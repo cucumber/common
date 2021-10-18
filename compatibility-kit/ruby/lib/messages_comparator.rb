@@ -41,11 +41,13 @@ module CCK
     end
 
     def message_type(message)
-      message.to_hash.keys.first
+      message.to_h.each do |key, value|
+        return key unless value.nil?
+      end
     end
 
     def remove_envelope(message)
-      message[message_type(message)]
+      message.send(message_type(message))
     end
 
     def compare_list(found, expected)
@@ -55,9 +57,10 @@ module CCK
     end
 
     def compare_message(found, expected)
+      return unless found.is_a?(Cucumber::Messages::Message)
       return if found.is_a?(Cucumber::Messages::GherkinDocument)
       return if found.is_a?(Cucumber::Messages::Pickle)
-      return if found.is_a?(Cucumber::Messages::Timestamp) & expected.is_a?(Cucumber::Messages::Timestamp)
+      return if found.is_a?(Cucumber::Messages::Timestamp) && expected.is_a?(Cucumber::Messages::Timestamp)
       return if found.is_a?(Cucumber::Messages::Duration) && expected.is_a?(Cucumber::Messages::Duration)
 
       @compared << found.class.name
@@ -66,8 +69,8 @@ module CCK
     end
 
     def compare_sub_messages(found, expected)
-      return unless expected.respond_to? :to_hash
-      expected.to_hash.keys.each do |key|
+      return unless expected.respond_to? :to_h
+      expected.to_h.keys.each do |key|
         value = expected.send(key)
         if value.is_a?(Array)
           compare_list(found.send(key), value)
