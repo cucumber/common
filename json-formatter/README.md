@@ -1,9 +1,6 @@
 # Cucumber Standalone JSON Formatter
 
-Newer versions of Cucumber have deprecated the built-in JSON formatters in favour of [cucumber messages](../messages).
-
-The purpose of the *Standalone JSON Formatter* is to provide backwards compatibility for tools that consume the legacy
-Cucumber JSON format after native JSON formatters have been removed from Cucumber.
+This *standalone JSON Formatter* provide a language agnostic tool to convert [cucumber messages](../messages) into a JSON document.
 
 ## Installation
 
