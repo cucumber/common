@@ -5,7 +5,7 @@ This *standalone JSON Formatter* provide a language agnostic tool to convert [cu
 ## Installation
 
 The Standalone JSON Formatter is a prebuilt executable. (It's written in Go).
-It can be downloaded from [GitHub Releases](https://github.com/cucumber/cucumber/releases/tag/cucumber-json-formatter%2Fv7.0.1)
+It can be downloaded from [GitHub Releases](https://github.com/cucumber/common/releases/tag/json-formatter%2Fgo%2Fv19.0.0)
 where you'll find executables for various operating systems and CPU architectures.
 
 ### MacOS
