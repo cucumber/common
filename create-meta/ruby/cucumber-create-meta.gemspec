@@ -15,11 +15,11 @@ Gem::Specification.new do |s|
   s.required_ruby_version = ">= 2.3"
 
   s.metadata    = {
-                    'bug_tracker_uri'   => 'https://github.com/cucumber/cucumber/issues',
-                    'changelog_uri'     => 'https://github.com/cucumber/common/blob/main/gherkin/CHANGELOG.md',
+                    'bug_tracker_uri'   => 'https://github.com/cucumber/common/issues',
+                    'changelog_uri'     => 'https://github.com/cucumber/common/blob/main/create-meta/CHANGELOG.md',
                     'documentation_uri' => 'https://cucumber.io/docs/gherkin/',
                     'mailing_list_uri'  => 'https://groups.google.com/forum/#!forum/cukes',
-                    'source_code_uri'   => 'https://github.com/cucumber/common/blob/main/gherkin/ruby',
+                    'source_code_uri'   => 'https://github.com/cucumber/common/tree/main/create-meta/ruby',
                   }
 
   s.add_dependency 'cucumber-messages', '~> 17.1', '>= 17.1.1'
