@@ -41,7 +41,7 @@
   },
   "dependencies": {
     "@cucumber/cucumber-expressions": "^13.1.3",
-    "@cucumber/create-meta": "^6.0.1",
+    "@cucumber/create-meta": "^6.0.2",
     "@cucumber/gherkin": "^22.0.0",
     "@cucumber/gherkin-streams": "^4.0.0",
     "@cucumber/gherkin-utils": "^7.0.0",
