@@ -17,6 +17,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [9.1.1] - 2021-10-19
+
+### Fixed
+
 * [Ruby] Ignores messages related to an actual CI
   ([PR#1803](https://github.com/cucumber/common/pull/1803))
 
@@ -113,7 +117,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/common/compare/compatibility-kit/v9.1.0...main
+[Unreleased]: https://github.com/cucumber/common/compare/compatibility-kit/v9.1.1...main
+[9.1.1]:      https://github.com/cucumber/common/compare/compatibility-kit/v9.1.0...v9.1.1
 [9.1.0]:      https://github.com/cucumber/common/compare/compatibility-kit/v9.0.0...v9.1.0
 [9.0.0]:      https://github.com/cucumber/common/compare/compatibility-kit/v8.0.0...v9.0.0
 [8.0.0]:      https://github.com/cucumber/common/compare/compatibility-kit/v7.1.0...v8.0.0
