@@ -17,6 +17,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+* [Ruby] Ignores messages related to an actual CI
+  ([PR#1803](https://github.com/cucumber/common/pull/1803))
+
 ## [9.1.0] - 2021-10-19
 
 ### Added

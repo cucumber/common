@@ -62,6 +62,7 @@ module CCK
       return if found.is_a?(Cucumber::Messages::Pickle)
       return if found.is_a?(Cucumber::Messages::Timestamp) && expected.is_a?(Cucumber::Messages::Timestamp)
       return if found.is_a?(Cucumber::Messages::Duration) && expected.is_a?(Cucumber::Messages::Duration)
+      return if ENV['CI'] && found.is_a?(Cucumber::Messages::Ci) && expected.nil?
 
       @compared << found.class.name
       @all_errors << @validator.compare(found, expected)
