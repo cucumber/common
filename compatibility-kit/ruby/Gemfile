@@ -8,4 +8,4 @@ if ENV['USE_MONOREPO_GEM']
   gem 'cucumber-messages', path: "../../messages/ruby/"
 end
 
-#gem 'rspec'
+gem 'rspec'
