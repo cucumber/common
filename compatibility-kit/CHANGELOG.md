@@ -17,6 +17,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+* [Ruby] Fix the `Skipped` support code to match the JavaScript implementation
+  ([PR#1805](https://github.com/cucumber/common/pull/1805))
+
 ## [9.1.1] - 2021-10-19
 
 ### Fixed
