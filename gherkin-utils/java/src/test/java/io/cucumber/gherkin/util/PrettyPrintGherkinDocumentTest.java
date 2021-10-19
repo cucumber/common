@@ -188,9 +188,12 @@ public class PrettyPrintGherkinDocumentTest {
         GherkinDocument gherkinDocument = parser.parse("Feature: hello\n" +
                 "\n" +
                 "  Scenario: one\n" +
+                "    #some comment in the scenario\n" +
                 "    Given a a <text> and a <number>\n" +
                 "\n" +
+                "    # comment1 is here   \n  " +
                 "    Examples: some data\n" +
+                " # comment2 is here     \n" +
                 "      | text | number |\n" +
                 "      | a    |      1 |\n" +
                 "      | ab   |     10 |\n" +
@@ -198,9 +201,12 @@ public class PrettyPrintGherkinDocumentTest {
         assertEquals("Feature: hello\n" +
                 "\n" +
                 "  Scenario: one\n" +
+                "    # some comment in the scenario\n" +
                 "    Given a a <text> and a <number>\n" +
                 "\n" +
+                "    # comment1 is here\n" +
                 "    Examples: some data\n" +
+                "      # comment2 is here\n" +
                 "      | text | number |\n" +
                 "      | a    |      1 |\n" +
                 "      | ab   |     10 |\n" +

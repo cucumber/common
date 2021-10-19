@@ -3,17 +3,20 @@ package io.cucumber.gherkin.util;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import io.cucumber.messages.types.Background;
+import io.cucumber.messages.types.Comment;
 import io.cucumber.messages.types.DataTable;
 import io.cucumber.messages.types.DocString;
 import io.cucumber.messages.types.Examples;
 import io.cucumber.messages.types.Feature;
 import io.cucumber.messages.types.GherkinDocument;
+import io.cucumber.messages.types.Location;
 import io.cucumber.messages.types.Rule;
 import io.cucumber.messages.types.Scenario;
 import io.cucumber.messages.types.Step;
@@ -35,27 +38,27 @@ public class PrettyPrintGherkinDocument {
         }
 
         @Override
-        public String handleFeature(Feature feature, String content) {
+        public String handleFeature(Feature feature, String content, List<Comment> comments) {
             return content +
                     prettyLanguageHeader(feature.getLanguage()) +
-                    prettyKeywordContainer(feature, syntax, 0);
+                    prettyKeywordContainer(feature, syntax, 0, comments);
         }
 
         @Override
-        public String handleBackground(Background background, String content) {
-            return content.concat(prettyKeywordContainer(background, syntax, scenarioLevel));
+        public String handleBackground(Background background, String content, List<Comment> comments) {
+            return content.concat(prettyKeywordContainer(background, syntax, scenarioLevel, comments));
         }
 
         @Override
-        public String handleDataTable(DataTable dataTable, String content) {
+        public String handleDataTable(DataTable dataTable, String content, List<Comment> comments) {
             int level = syntax == Syntax.markdown ? 1 : scenarioLevel + 2;
             return content.concat(
                     prettyTableRows(dataTable.getRows() == null ? Collections.emptyList() : dataTable.getRows(),
-                            syntax, level));
+                            syntax, level, comments));
         }
 
         @Override
-        public String handleDocString(DocString docString, String content) {
+        public String handleDocString(DocString docString, String content, List<Comment> comments) {
             String delimiter = makeDocStringDelimiter(syntax, docString);
             int level = syntax == Syntax.markdown ? 1 : scenarioLevel + 2;
             String indent = repeatString(level, "  ");
@@ -80,35 +83,38 @@ public class PrettyPrintGherkinDocument {
         }
 
         @Override
-        public String handleExamples(Examples examples, String content) {
+        public String handleExamples(Examples examples, String content, List<Comment> comments) {
             List<TableRow> tableRows = new ArrayList<>();
             if (examples.getTableHeader() != null) {
                 tableRows.add(examples.getTableHeader());
                 tableRows.addAll(examples.getTableBody());
             }
             return content
-                    .concat(prettyKeywordContainer(examples, syntax, scenarioLevel + 1))
-                    .concat(prettyTableRows(tableRows, syntax, scenarioLevel + 2));
+                    .concat(prettyKeywordContainer(examples, syntax, scenarioLevel + 1, comments))
+                    .concat(prettyTableRows(tableRows, syntax, scenarioLevel + 2, comments));
         }
 
         @Override
-        public String handleRule(Rule rule, String content) {
+        public String handleRule(Rule rule, String content, List<Comment> comments) {
             scenarioLevel = 2;
-            return content.concat(prettyKeywordContainer(rule, syntax, 1));
+            return content.concat(prettyKeywordContainer(rule, syntax, 1, comments));
         }
 
         @Override
-        public String handleScenario(Scenario scenario, String content) {
-            return content.concat(prettyKeywordContainer(scenario, syntax, scenarioLevel));
+        public String handleScenario(Scenario scenario, String content, List<Comment> comments) {
+            StringBuilder res = new StringBuilder();
+            prettyComments(scenario.getLocation(), comments, scenarioLevel, res);
+            return content.concat(prettyKeywordContainer(scenario, syntax, scenarioLevel, comments));
         }
 
         @Override
-        public String handleStep(Step step, String content) {
-            return content
-                    .concat(stepPrefix(scenarioLevel + 1, syntax))
-                    .concat(step.getKeyword())
-                    .concat(step.getText())
-                    .concat("\n");
+        public String handleStep(Step step, String content, List<Comment> comments) {
+            StringBuilder res = new StringBuilder(content);
+            prettyComments(step.getLocation(), comments, scenarioLevel + 1, res);
+            return res.append(stepPrefix(scenarioLevel + 1, syntax))
+                    .append(step.getKeyword())
+                    .append(step.getText())
+                    .append("\n").toString();
         }
     }
 
@@ -131,89 +137,105 @@ public class PrettyPrintGherkinDocument {
     private static String prettyKeywordContainer(
             Scenario stepContainer,
             Syntax syntax,
-            int level) {
+            int level,
+            List<Comment> comments) {
         List<Tag> tags = stepContainer.getTags() != null ? stepContainer.getTags() : Collections.emptyList();
         int stepCount = stepContainer.getSteps() != null ? stepContainer.getSteps().size() : 0;
         String description = prettyDescription(stepContainer.getDescription(), syntax);
-        return (level == 0 ? "" : "\n") +
-                prettyTags(tags, syntax, level) +
-                keywordPrefix(level, syntax) +
-                stepContainer.getKeyword() +
-                ": " +
-                stepContainer.getName() +
-                "\n" +
-                description +
-                (description != null && !"".equals(description.trim()) && stepCount > 0 ? "\n" : "");
+        StringBuilder res = new StringBuilder();
+        prettyComments(stepContainer.getLocation(), comments, level, res);
+        res.append(level == 0 ? "" : "\n")
+                .append(prettyTags(tags, syntax, level))
+                .append(keywordPrefix(level, syntax))
+                .append(stepContainer.getKeyword())
+                .append(": ")
+                .append(stepContainer.getName())
+                .append("\n").append(description)
+                .append(description != null && !"".equals(description.trim()) && stepCount > 0 ? "\n" : "");
+        return res.toString();
     }
 
     private static String prettyKeywordContainer(
             Feature stepContainer,
             Syntax syntax,
-            int level
+            int level,
+            List<Comment> comments
     ) {
         List<Tag> tags = stepContainer.getTags() != null ? stepContainer.getTags() : Collections.emptyList();
         String description = prettyDescription(stepContainer.getDescription(), syntax);
-        return (level == 0 ? "" : "\n") +
-                prettyTags(tags, syntax, level) +
-                keywordPrefix(level, syntax) +
-                stepContainer.getKeyword() +
-                ": " +
-                stepContainer.getName() +
-                "\n" +
-                description +
-                "";
+        StringBuilder res = new StringBuilder();
+        prettyComments(stepContainer.getLocation(), comments, level, res);
+        res.append(level == 0 ? "" : "\n")
+                .append(prettyTags(tags, syntax, level))
+                .append(keywordPrefix(level, syntax))
+                .append(stepContainer.getKeyword())
+                .append(": ")
+                .append(stepContainer.getName())
+                .append("\n")
+                .append(description);
+        return res.toString();
     }
 
     private static String prettyKeywordContainer(
             Rule stepContainer,
             Syntax syntax,
-            int level
+            int level,
+            List<Comment> comments
     ) {
         List<Tag> tags = stepContainer.getTags() != null ? stepContainer.getTags() : Collections.emptyList();
         String description = prettyDescription(stepContainer.getDescription(), syntax);
-        return (level == 0 ? "" : "\n") +
-                prettyTags(tags, syntax, level) +
-                keywordPrefix(level, syntax) +
-                stepContainer.getKeyword() +
-                ": " +
-                stepContainer.getName() +
-                "\n" +
-                description;
+        StringBuilder res = new StringBuilder();
+        prettyComments(stepContainer.getLocation(), comments, level, res);
+        res.append(level == 0 ? "" : "\n")
+                .append(prettyTags(tags, syntax, level))
+                .append(keywordPrefix(level, syntax))
+                .append(stepContainer.getKeyword())
+                .append(": ")
+                .append(stepContainer.getName())
+                .append("\n")
+                .append(description);
+        return res.toString();
     }
 
     private static String prettyKeywordContainer(
             Examples stepContainer,
             Syntax syntax,
-            int level
+            int level,
+            List<Comment> comments
     ) {
         List<Tag> tags = stepContainer.getTags() != null ? stepContainer.getTags() : Collections.emptyList();
         String description = prettyDescription(stepContainer.getDescription(), syntax);
-        return (level == 0 ? "" : "\n") +
-                prettyTags(tags, syntax, level) +
-                keywordPrefix(level, syntax) +
-                stepContainer.getKeyword() +
-                ": " +
-                stepContainer.getName() +
-                "\n" +
-                description;
+        StringBuilder res = new StringBuilder();
+        res.append(level == 0 ? "" : "\n");
+        prettyComments(stepContainer.getLocation(), comments, level, res);
+        res.append(prettyTags(tags, syntax, level))
+                .append(keywordPrefix(level, syntax))
+                .append(stepContainer.getKeyword())
+                .append(": ")
+                .append(stepContainer.getName())
+                .append("\n")
+                .append(description);
+        return res.toString();
     }
 
     private static String prettyKeywordContainer(
             Background stepContainer,
             Syntax syntax,
-            int level
+            int level,
+            List<Comment> comments
     ) {
         int stepCount = stepContainer.getSteps() != null ? stepContainer.getSteps().size() : 0;
         String description = prettyDescription(stepContainer.getDescription(), syntax);
-        return (level == 0 ? "" : "\n") +
-                prettyTags(Collections.emptyList(), syntax, level) +
-                keywordPrefix(level, syntax) +
-                stepContainer.getKeyword() +
-                ": " +
-                stepContainer.getName() +
-                "\n" +
-                description +
-                (!"".equals(description.trim()) && stepCount > 0 ? "\n" : "");
+        StringBuilder res = new StringBuilder();
+        prettyComments(stepContainer.getLocation(), comments, level, res);
+        res.append(level == 0 ? "" : "\n")
+                .append(prettyTags(Collections.emptyList(), syntax, level))
+                .append(keywordPrefix(level, syntax))
+                .append(stepContainer.getKeyword())
+                .append(": ").append(stepContainer.getName())
+                .append("\n").append(description)
+                .append(!"".equals(description.trim()) && stepCount > 0 ? "\n" : "");
+        return res.toString();
     }
 
     private static String prettyDescription(String description, Syntax syntax) {
@@ -283,7 +305,7 @@ public class PrettyPrintGherkinDocument {
     private static String prettyTableRows(
             List<TableRow> tableRows,
             Syntax syntax,
-            int level) {
+            int level, List<Comment> comments) {
         if (tableRows.isEmpty()) {
             return "";
         }
@@ -299,7 +321,7 @@ public class PrettyPrintGherkinDocument {
         int n = 0;
         StringBuilder s = new StringBuilder();
         for (TableRow row : tableRows) {
-            s.append(prettyTableRow(row, level, maxWidths, syntax));
+            s.append(prettyTableRow(row, level, maxWidths, syntax, comments));
             if (n == 0 && syntax == Syntax.markdown) {
                 List<TableCell> mappedCells = new ArrayList<>();
                 for (int j = 0; j < row.getCells().size(); ++j) {
@@ -309,21 +331,39 @@ public class PrettyPrintGherkinDocument {
                 TableRow separatorRow = new TableRow(row.getLocation(),
                         mappedCells,
                         row.getId() + "-separator");
-                s.append(prettyTableRow(separatorRow, level, maxWidths, syntax));
+                s.append(prettyTableRow(separatorRow, level, maxWidths, syntax, comments));
             }
             n++;
         }
         return s.toString();
     }
 
+    private static List<Comment> popComments(Location curLoc, List<Comment> comments) {
+        List<Comment> res = new ArrayList<>();
+        Iterator<Comment> iter = comments.iterator();
+        while (iter.hasNext()) {
+            Comment comment = iter.next();
+            if (curLoc.getLine() > comment.getLocation().getLine()) {
+                res.add(comment);
+                iter.remove();
+            }
+        }
+        return res;
+    }
+
     private static String prettyTableRow(
             TableRow row,
             int level,
             int[] maxWidths,
-            Syntax syntax) {
+            Syntax syntax,
+            List<Comment> comments) {
+
         int actualLevel = syntax == Syntax.markdown ? 1 : level;
-        StringBuilder res = new StringBuilder()
-                .append(repeatString(actualLevel, "  "))
+        StringBuilder res = new StringBuilder();
+
+        prettyComments(row.getLocation(), comments, actualLevel, res);
+
+        res.append(repeatString(actualLevel, "  "))
                 .append("| ");
         for (int j = 0; j < row.getCells().size(); ++j) {
             if (j > 0) {
@@ -338,6 +378,21 @@ public class PrettyPrintGherkinDocument {
         return res.append(" |\n")
                 .toString();
     }
+
+    private static void prettyComments(Location location, List<Comment> comments, int actualLevel, StringBuilder res) {
+        for (Comment nextComment : popComments(location, comments)) {
+            if (nextComment.getText() == null || nextComment.getText().trim().isEmpty()) {
+                continue;
+            }
+            String comment = nextComment.getText().trim();
+            if (!comment.isEmpty()) {
+                res.append(repeatString(actualLevel, "  "))
+                        .append("# " + comment.substring(1).trim())
+                        .append("\n");
+            }
+        }
+    }
+
 
     private static String escapeCell(String s) {
         StringBuilder e = new StringBuilder();
