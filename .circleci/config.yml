@@ -860,6 +860,9 @@ workflows:
       - demo-formatter-ruby:
           requires:
             - messages-ruby
+      - compatibility-kit-ruby:
+          requires:
+            - messages-ruby
       - json-formatter-ruby-testdata:
           requires:
             - prepare-parallel
