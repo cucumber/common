@@ -9,9 +9,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
-* [Ruby] The compatibility kit is now available for Ruby as a gem
-  ([PR#1773](https://github.com/cucumber/common/pull/1773))
-
 ### Changed
 
 ### Deprecated
@@ -19,6 +16,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Removed
 
 ### Fixed
+
+## [9.1.0] - 2021-10-19
+
+### Added
+
+* [Ruby] The compatibility kit is now available for Ruby as a gem
+  ([PR#1773](https://github.com/cucumber/common/pull/1773))
 
 ## [9.0.0] - 2021-10-01
 
@@ -106,7 +110,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/common/compare/compatibility-kit/v9.0.0...main
+[Unreleased]: https://github.com/cucumber/common/compare/compatibility-kit/v9.1.0...main
+[9.1.0]:      https://github.com/cucumber/common/compare/compatibility-kit/v9.0.0...v9.1.0
 [9.0.0]:      https://github.com/cucumber/common/compare/compatibility-kit/v8.0.0...v9.0.0
 [8.0.0]:      https://github.com/cucumber/common/compare/compatibility-kit/v7.1.0...v8.0.0
 [7.1.0]:      https://github.com/cucumber/common/compare/compatibility-kit/v7.0.0...v7.1.0
