@@ -2,6 +2,8 @@ github.com/cucumber/common/messages/go/v17 v17.0.0 h1:reX1S9JidKvrd4Z7IDvqY/ObGW
 github.com/cucumber/common/messages/go/v17 v17.0.0/go.mod h1:bpGxb57tDE385Rb2EohgUadLkAbhoC4IyCFi89u/JQI=
 github.com/cucumber/common/messages/go/v17 v17.0.1 h1:zHQ2Zq4GVxbb8OAaVo07+BoN/QBodGvS4PbvsE2L9SU=
 github.com/cucumber/common/messages/go/v17 v17.0.1/go.mod h1:bpGxb57tDE385Rb2EohgUadLkAbhoC4IyCFi89u/JQI=
+github.com/cucumber/common/messages/go/v17 v17.1.1 h1:RNqopvIFyLWnKv0LfATh34SWBhXeoFTJnSrgm9cT/Ts=
+github.com/cucumber/common/messages/go/v17 v17.1.1/go.mod h1:bpGxb57tDE385Rb2EohgUadLkAbhoC4IyCFi89u/JQI=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
@@ -36,6 +38,7 @@ github.com/onsi/ginkgo v1.16.2 h1:HFB2fbVIlhIfCfOW81bZFbiC/RvnpXSdhbF2/DJr134=
 github.com/onsi/ginkgo v1.16.2/go.mod h1:CObGmKUOKaSC0RjmoAK7tKyn4Azo5P2IWuoMnvwxz1E=
 github.com/onsi/ginkgo v1.16.4 h1:29JGrr5oVBm5ulCWet69zQkzWipVXIol6ygQUe/EzNc=
 github.com/onsi/ginkgo v1.16.4/go.mod h1:dX+/inL/fNMqNlz0e9LfyB9TswhZpCVdJM/Z6Vvnwo0=
+github.com/onsi/ginkgo v1.16.5/go.mod h1:+E8gABHa3K6zRBolWtd+ROzc/U5bkGt0FwiG042wbpU=
 github.com/onsi/gomega v1.7.1/go.mod h1:XdKZgCCFLUoM/7CFJVPcG8C1xQ1AJ0vpAezJrB7JYyY=
 github.com/onsi/gomega v1.10.1/go.mod h1:iN09h71vgCQne3DLsj+A5owkum+a2tYe+TOCB1ybHNo=
 github.com/onsi/gomega v1.13.0 h1:7lLHu94wT9Ij0o6EWWclhu0aOh32VxhkwEJvzuWPeak=

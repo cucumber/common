@@ -1,14 +1,11 @@
 # Cucumber Standalone JSON Formatter
 
-Newer versions of Cucumber have deprecated the built-in JSON formatters in favour of [cucumber messages](../messages).
-
-The purpose of the *Standalone JSON Formatter* is to provide backwards compatibility for tools that consume the legacy
-Cucumber JSON format after native JSON formatters have been removed from Cucumber.
+This *standalone JSON Formatter* provide a language agnostic tool to convert [cucumber messages](../messages) into a JSON document.
 
 ## Installation
 
 The Standalone JSON Formatter is a prebuilt executable. (It's written in Go).
-It can be downloaded from [GitHub Releases](https://github.com/cucumber/cucumber/releases/tag/cucumber-json-formatter%2Fv7.0.1)
+It can be downloaded from [GitHub Releases](https://github.com/cucumber/common/releases/tag/json-formatter%2Fgo%2Fv19.0.0)
 where you'll find executables for various operating systems and CPU architectures.
 
 ### MacOS
@@ -41,7 +38,7 @@ First, generate Cucumber messages using Cucumber's built-in `message` formatter 
 
 Next, generate JSON:
 
-    cat cucumber-messages.ndjson | cucumber-json-formatter --format ndjson > cucumber-results.json
+    cat cucumber-messages.ndjson | cucumber-json-formatter > cucumber-results.json
 
 That's it. If you are the maintainer of a tool that consumes the legacy Cucumber JSON format you should consider
 updating your tool to consume Cucumber Messages instead.

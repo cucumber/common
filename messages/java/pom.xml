@@ -8,7 +8,7 @@
         <version>2.1.2</version>
     </parent>
     <artifactId>messages</artifactId>
-    <version>17.1.1-SNAPSHOT</version>
+    <version>17.1.2-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>Cucumber Messages</name>
     <description>JSON schema-based messages for Cucumber's inter-process communication</description>
@@ -16,7 +16,7 @@
 
     <properties>
         <project.Automatic-Module-Name>io.cucumber.messages</project.Automatic-Module-Name>
-        <jackson-databind.version>2.12.5</jackson-databind.version>
+        <jackson-databind.version>2.13.0</jackson-databind.version>
     </properties>
 
     <scm>
@@ -24,6 +24,18 @@
         <developerConnection>scm:git:git@github.com:cucumber/messages-java.git</developerConnection>
         <url>git://github.com/cucumber/messages-java.git</url>
     </scm>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.junit</groupId>
+                <artifactId>junit-bom</artifactId>
+                <version>5.8.1</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <dependencies>
         <dependency>
@@ -35,7 +47,6 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
-            <version>5.8.0-RC1</version>
             <scope>test</scope>
         </dependency>
 
@@ -104,7 +115,21 @@
                                 <filter>
                                     <artifact>com.fasterxml.jackson.core:jackson-databind</artifact>
                                     <excludes>
-                                        <exclude>module-info.class</exclude>
+                                        <exclude>**/module-info.class</exclude>
+                                        <exclude>META-INF/MANIFEST.MF</exclude>
+                                    </excludes>
+                                </filter>
+                                <filter>
+                                    <artifact>com.fasterxml.jackson.core:jackson-core</artifact>
+                                    <excludes>
+                                        <exclude>**/module-info.class</exclude>
+                                        <exclude>META-INF/MANIFEST.MF</exclude>
+                                    </excludes>
+                                </filter>
+                                <filter>
+                                    <artifact>com.fasterxml.jackson.core:jackson-annotations</artifact>
+                                    <excludes>
+                                        <exclude>**/module-info.class</exclude>
                                         <exclude>META-INF/MANIFEST.MF</exclude>
                                     </excludes>
                                 </filter>

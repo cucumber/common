@@ -228,3 +228,69 @@ sub _pickle_tag {
 }
 
 1;
+
+__END__
+
+=head1 NAME
+
+Gherkin::Pickles::Compiler - Transform Gherkin to execution plans
+
+=head1 SYNOPSIS
+
+  use Data::Dumper;
+  use Gherkin::Parser;
+  use Gherkin::Pickles::Compiler;
+
+
+  my $parser = Gherkin::Parser->new();
+  my $envelope = $parser->parse( 'my.feature' );
+
+  my $c = 0;
+  Gherkin::Pickles::Compiler->compile( $envelope,
+                                       sub { $c++ },
+                                       sub { print Dumper($_[0]) . "\n" },
+  );
+
+=head1 DESCRIPTION
+
+The pickle compiler translates the Gherkin document representation (AST)
+as represented by a L<Cucumber::Messages::GherkinDocument|Cucumber::Messages/Cucumber::Messages::GherkinDocument>
+message into a series of test execution plans (pickles).
+
+=head1 CLASS METHODS
+
+=head2 compile($envelope, $id_generator, [$sink])
+
+Traverses the gherkin document as wrapped by the C<$envelope> message,
+generating execution plans represented by L<Cucumber::Messages::Pickle
+messages|Cucumber::Messages/Cucumber::Messages::Pickle>.
+
+If a C<$sink> is provided, this function is called for each Pickle being
+generated, with one argument: an envelope messages wrapping a Pickle.
+
+In case no C<$sink> is provided, the pickle messages will be collected and
+returned (each wrapped in an envelope) from the function.
+
+The C<$id_generator> is a generator function responsible for returning unique
+string values, used to identify nodes in the returned Pickles.
+
+=head1 SEE ALSO
+
+=over 8
+
+=item * L<Gherkin>
+
+=item * L<Gherkin::Parser>
+
+=item * L<Cucumber::Messages::Pickle|Cucumber::Messages/Cucumber::Messages::Pickle>
+
+=item * L<Cucumber::Messages::GherkinDocument|Cucumber::Messages/Cucumber::Messages::GherkinDocument>
+
+=back
+
+
+=head1 LICENSE
+
+See L<Gherkin>.
+
+=cut
