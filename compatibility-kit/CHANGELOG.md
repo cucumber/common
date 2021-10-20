@@ -17,6 +17,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [9.1.2] - 2021-10-20
+
+### Fixed
+
 * [Ruby] Fix the `Skipped` support code to match the JavaScript implementation
   ([PR#1805](https://github.com/cucumber/common/pull/1805))
 
@@ -120,7 +124,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/common/compare/compatibility-kit/v9.1.1...main
+[Unreleased]: https://github.com/cucumber/common/compare/compatibility-kit/v9.1.2...main
+[9.1.2]:      https://github.com/cucumber/common/compare/compatibility-kit/v9.1.1...v9.1.2
 [9.1.1]:      https://github.com/cucumber/common/compare/compatibility-kit/v9.1.0...v9.1.1
 [9.1.0]:      https://github.com/cucumber/common/compare/compatibility-kit/v9.0.0...v9.1.0
 [9.0.0]:      https://github.com/cucumber/common/compare/compatibility-kit/v8.0.0...v9.0.0
