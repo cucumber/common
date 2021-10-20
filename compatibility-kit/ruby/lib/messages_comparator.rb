@@ -29,6 +29,8 @@ module CCK
 
       found_by_type.keys.each do |type|
         compare_list(found_by_type[type], expected_by_type[type])
+      rescue StandardError => e
+        @all_errors << "Error whild comparing #{type}: #{e.message}"
       end
     end
 
