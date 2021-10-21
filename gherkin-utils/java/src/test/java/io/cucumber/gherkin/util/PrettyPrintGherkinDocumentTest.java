@@ -49,10 +49,10 @@ public class PrettyPrintGherkinDocumentTest {
                 "    When I eat <eat> cucumbers\n" +
                 "    Then I should have <left> cucumbers\n" +
                 "\n" +
-                "    Examples: \n" +
+                "    Examples:\n" +
                 "      | start | eat | left |\n" +
-                "      |    12 |   5 |    7 |\n" +
-                "      |    20 |   5 |   15 |\n", PrettyPrintGherkinDocument.prettyPrint(gherkinDocument, Syntax.gherkin));
+                "      | 12    | 5   | 7    |\n" +
+                "      | 20    | 5   | 15   |\n", PrettyPrintGherkinDocument.prettyPrint(gherkinDocument, Syntax.gherkin));
     }
 
     @Test
@@ -187,6 +187,7 @@ public class PrettyPrintGherkinDocumentTest {
     public void exampleTables() {
         GherkinDocument gherkinDocument = parser.parse("Feature: hello\n" +
                 "\n" +
+                "  # i am tag hear me roar\n" +
                 "  Scenario: one\n" +
                 "    #some comment in the scenario\n" +
                 "    Given a a <text> and a <number>\n" +
@@ -200,6 +201,7 @@ public class PrettyPrintGherkinDocumentTest {
                 "      | abc  |    100 |\n");
         assertEquals("Feature: hello\n" +
                 "\n" +
+                "  # i am tag hear me roar\n" +
                 "  Scenario: one\n" +
                 "    # some comment in the scenario\n" +
                 "    Given a a <text> and a <number>\n" +
@@ -208,9 +210,9 @@ public class PrettyPrintGherkinDocumentTest {
                 "    Examples: some data\n" +
                 "      # comment2 is here\n" +
                 "      | text | number |\n" +
-                "      | a    |      1 |\n" +
-                "      | ab   |     10 |\n" +
-                "      | abc  |    100 |\n", PrettyPrintGherkinDocument.prettyPrint(gherkinDocument, Syntax.gherkin));
+                "      | a    | 1      |\n" +
+                "      | ab   | 10     |\n" +
+                "      | abc  | 100    |\n", PrettyPrintGherkinDocument.prettyPrint(gherkinDocument, Syntax.gherkin));
     }
 
     @Test
@@ -228,9 +230,9 @@ public class PrettyPrintGherkinDocumentTest {
                 "  Scenario: one\n" +
                 "    Given a data table:\n" +
                 "      | text | numbers |\n" +
-                "      | a    |       1 |\n" +
-                "      | ab   |      10 |\n" +
-                "      | abc  |     100 |\n", PrettyPrintGherkinDocument.prettyPrint(gherkinDocument, Syntax.gherkin));
+                "      | a    | 1       |\n" +
+                "      | ab   | 10      |\n" +
+                "      | abc  | 100     |\n", PrettyPrintGherkinDocument.prettyPrint(gherkinDocument, Syntax.gherkin));
     }
 
     @Test
@@ -248,9 +250,9 @@ public class PrettyPrintGherkinDocumentTest {
                 "  Scenario: one\n" +
                 "    Given a data table:\n" +
                 "      | text | numbers |\n" +
-                "      | a    |       1 |\n" +
-                "      | ab   |      10 |\n" +
-                "      | abc  |     100 |\n", PrettyPrintGherkinDocument.prettyPrint(gherkinDocument, Syntax.gherkin));
+                "      | a    | 1       |\n" +
+                "      | ab   | 10      |\n" +
+                "      | abc  | 100     |\n", PrettyPrintGherkinDocument.prettyPrint(gherkinDocument, Syntax.gherkin));
     }
 
     @Test

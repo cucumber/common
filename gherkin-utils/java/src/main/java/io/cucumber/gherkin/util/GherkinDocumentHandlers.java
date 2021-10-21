@@ -1,6 +1,5 @@
 package io.cucumber.gherkin.util;
 
-
 import java.util.List;
 
 import io.cucumber.messages.types.Background;
