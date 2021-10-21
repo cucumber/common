@@ -11,12 +11,6 @@
   "files": [],
   "references": [
     {
-      "path": "./messages/javascript/tsconfig.build.json"
-    },
-    {
-      "path": "./message-streams/javascript/tsconfig.build.json"
-    },
-    {
       "path": "./gherkin/javascript/tsconfig.build.json"
     },
     {
@@ -24,12 +18,6 @@
     },
     {
       "path": "./gherkin-utils/javascript/tsconfig.build.json"
-    },
-    {
-      "path": "./cucumber-expressions/javascript/tsconfig.build.json"
-    },
-    {
-      "path": "./tag-expressions/javascript/tsconfig.build.json"
     },
     {
       "path": "./create-meta/javascript/tsconfig.build.json"
@@ -54,21 +42,6 @@
     },
     {
       "path": "./json-to-messages/javascript-testdata/tsconfig.build.json"
-    },
-    {
-      "path": "./suggest/javascript/tsconfig.build.json"
-    },
-    {
-      "path": "./language-service/javascript/tsconfig.build.json"
-    },
-    {
-      "path": "./language-server/javascript/tsconfig.build.json"
-    },
-    {
-      "path": "./monaco/javascript/tsconfig.build.json"
-    },
-    {
-      "path": "./vscode/javascript/tsconfig.build.json"
     }
   ]
 }

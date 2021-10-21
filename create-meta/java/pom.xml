@@ -9,7 +9,7 @@
     </parent>
 
     <artifactId>create-meta</artifactId>
-    <version>6.0.2-SNAPSHOT</version>
+    <version>6.0.3-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>Cucumber create meta</name>
     <description>Produce the meta message for Cucumber-JVM</description>
@@ -25,11 +25,23 @@
         <url>git://github.com/cucumber/create-meta-java.git</url>
     </scm>
 
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.junit</groupId>
+                <artifactId>junit-bom</artifactId>
+                <version>5.8.1</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <dependencies>
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>messages</artifactId>
-            <version>[17.0.1,18.0.0)</version>
+            <version>[17.1.1,18.0.0)</version>
         </dependency>
 
         <dependency>
@@ -48,14 +60,12 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
-            <version>5.7.2</version>
             <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-params</artifactId>
-            <version>5.7.2</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

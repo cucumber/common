@@ -215,6 +215,17 @@ UTF-8 encoded L<NDJSON|http://ndjson.org/> output.
 C<$id_gen> and C<$sink> are as documented in C<from_paths>.
 
 
+=head1 SEE ALSO
+
+=over 8
+
+=item * L<Cucumber::Messages>
+
+=item * L<Gherkin::Parser>
+
+=back
+
+
 =head1 LICENSE
 
 Please see the included LICENSE.txt for the canonical version. In summary:

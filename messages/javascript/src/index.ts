@@ -1,9 +1,9 @@
-import * as TimeConversion from './TimeConversion'
-import * as IdGenerator from './IdGenerator'
-import { version } from '../package.json'
-import { parseEnvelope } from './parseEnvelope'
-import { getWorstTestStepResult } from './getWorstTestStepResult'
+import * as TimeConversion from './TimeConversion.js'
+import * as IdGenerator from './IdGenerator.js'
+import { parseEnvelope } from './parseEnvelope.js'
+import { getWorstTestStepResult } from './getWorstTestStepResult.js'
+import { version } from './version.js'
 
-export * from './messages'
+export * from './messages.js'
 
 export { TimeConversion, IdGenerator, version, parseEnvelope, getWorstTestStepResult }
