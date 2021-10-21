@@ -76,7 +76,7 @@
     "sass-loader": "12.2.0",
     "sinon": "11.1.2",
     "source-map-support": "0.5.20",
-    "style-loader": "3.3.0",
+    "style-loader": "3.3.1",
     "@testing-library/react": "12.1.2",
     "ts-node": "10.3.0",
     "ts-sinon": "2.0.2",
