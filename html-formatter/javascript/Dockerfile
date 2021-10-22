@@ -1,5 +1,5 @@
 # cucumber/html-formatter
-FROM node:16-alpine
+FROM node:17-alpine
 
 RUN mkdir -p /home/node/app
 ADD src /home/node/app/src
