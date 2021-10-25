@@ -61,7 +61,7 @@
     "@types/react-dom": "17.0.10",
     "babel-loader": "8.2.3",
     "css-modules-require-hook": "4.2.3",
-    "core-js": "3.18.3",
+    "core-js": "3.19.0",
     "cpy-cli": "3.1.1",
     "glob": "7.2.0",
     "global-jsdom": "8.3.0",
