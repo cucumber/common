@@ -21,8 +21,12 @@ default: .built .compared
 .built: gherkin/parser.py gherkin/gherkin-languages.json $(PYTHON_FILES) bin/gherkin .pipped
 	# nosetest most likely installed in $(HOME)/.local/bin since normal
 	# site-packages most likely is not writeable
-	PATH=$(PATH):$(HOME)/.local/bin nosetests
+	$(MAKE) test
 	touch $@
+
+.PHONY: test
+test: gherkin/parser.py
+	PATH=$(PATH):$(HOME)/.local/bin nosetests
 
 .pipped:
 	pip install -r requirements.txt

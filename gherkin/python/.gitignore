@@ -5,3 +5,4 @@ acceptance/
 *.pyc
 dist/
 build/
+.tox/
