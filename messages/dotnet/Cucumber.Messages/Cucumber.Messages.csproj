@@ -33,7 +33,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Google.Protobuf" Version="3.19.0"/>
+    <PackageReference Include="Google.Protobuf" Version="3.19.1"/>
     <PackageReference Include="Grpc.Tools" Version="2.41.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
