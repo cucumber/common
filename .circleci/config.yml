@@ -169,18 +169,6 @@ jobs:
             cd messages/javascript
             make
 
-  create-meta-javascript:
-    executor: docker-circleci-node-14
-    steps:
-      - attach_workspace:
-          at: '~/cucumber'
-      - run:
-          name: create-meta/javascript
-          command: |
-            sudo npm install --global npm@7
-            cd create-meta/javascript
-            make
-
   gherkin-streams-javascript:
     executor: docker-circleci-node-14
     steps:
@@ -375,17 +363,6 @@ jobs:
           paths:
             - messages/ruby
 
-  create-meta-ruby:
-    executor: docker-circleci-ruby-26
-    steps:
-      - attach_workspace:
-          at: '~/cucumber'
-      - run:
-          name: create-meta/ruby
-          command: |
-            cd create-meta/ruby
-            make
-
   gherkin-ruby-23:
     executor: docker-circleci-ruby-23
     steps:
@@ -516,19 +493,6 @@ jobs:
           root: '~/.m2/repository'
           paths:
             - 'io/cucumber/messages'
-
-  create-meta-java:
-    executor: docker-cucumber-build
-    steps:
-      - attach_workspace:
-          at: '~/cucumber'
-      - attach_workspace:
-          at: '~/.m2/repository'
-      - run:
-          name: create-meta/java
-          command: |
-            cd create-meta/java
-            make
 
   gherkin-java:
     executor: docker-circleci-openjdk
@@ -780,9 +744,6 @@ workflows:
       - messages-javascript:
           requires:
             - prepare-parallel
-      - create-meta-javascript:
-          requires:
-            - prepare-parallel
       - gherkin-streams-javascript:
           requires:
             - prepare-parallel
@@ -831,7 +792,6 @@ workflows:
             - json-to-messages-java-testdata
             - json-to-messages-python-testdata
             - json-to-messages-javascript-testdata
-            - create-meta-javascript
             - fake-cucumber-javascript
             - gherkin-javascript-node-14
             - gherkin-utils-javascript
@@ -842,9 +802,6 @@ workflows:
       - messages-ruby:
           requires:
             - prepare-parallel
-      - create-meta-ruby:
-          requires:
-            - messages-ruby
       - gherkin-ruby-23:
           requires:
             - messages-ruby
@@ -880,9 +837,6 @@ workflows:
       - messages-java:
           requires:
             - prepare-parallel
-      - create-meta-java:
-          requires:
-            - messages-java
       - gherkin-java:
           requires:
             - messages-java

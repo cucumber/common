@@ -5,7 +5,6 @@ PACKAGES ?= messages \
 	gherkin \
 	gherkin-streams \
 	gherkin-utils \
-	create-meta \
 	fake-cucumber \
 	query \
 	json-formatter \
