@@ -1,1 +1,7 @@
+# -- FOR TESTING:
 nose
+pytest <  5.0; python_version <  '3.0'
+pytest >= 5.0; python_version >= '3.0'
+
+# -- FOR DEVELOPMENT:
+# tox
