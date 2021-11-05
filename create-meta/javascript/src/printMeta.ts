@@ -1,6 +1,6 @@
 import { promises as fs } from 'fs'
 import { detectCI } from './createMeta'
-import ciDict from './ciDict.json'
+import { ciDict } from './ciDict'
 import { Writable } from 'stream'
 
 export async function main(envPath: string, stdout: Writable) {

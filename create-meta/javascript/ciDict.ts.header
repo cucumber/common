@@ -1,0 +1,5 @@
+// This file is auto-generated using npm run build-ci-dict
+
+import { CiDict } from './types'
+
+export const ciDict: CiDict =

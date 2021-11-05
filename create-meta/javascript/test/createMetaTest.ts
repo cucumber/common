@@ -1,6 +1,5 @@
 import createMeta from '../src/createMeta'
 import assert from 'assert'
-import ciDict from '../src/ciDict.json'
 import * as messages from '@cucumber/messages'
 
 describe('createMeta', () => {
@@ -21,7 +20,7 @@ describe('createMeta', () => {
       CIRCLE_BUILD_NUM: '234',
     }
 
-    const meta = createMeta('someTool', '1.2.3', envDict, ciDict)
+    const meta = createMeta('someTool', '1.2.3', envDict)
     const ci: messages.Ci = {
       name: 'CircleCI',
       url: 'the-url',
@@ -45,7 +44,7 @@ describe('createMeta', () => {
       GITHUB_REF: 'refs/tags/the-tag',
     }
 
-    const meta = createMeta('someTool', '1.2.3', envDict, ciDict)
+    const meta = createMeta('someTool', '1.2.3', envDict)
     const ci: messages.Ci = {
       name: 'GitHub Actions',
       url: 'https://github.com/cucumber/cucumber-ruby/actions/runs/140170388',
@@ -69,7 +68,7 @@ describe('createMeta', () => {
       GITHUB_REF: 'refs/heads/the-branch',
     }
 
-    const meta = createMeta('someTool', '1.2.3', envDict, ciDict)
+    const meta = createMeta('someTool', '1.2.3', envDict)
     const ci: messages.Ci = {
       name: 'GitHub Actions',
       url: 'https://github.company.com/cucumber/cucumber-ruby/actions/runs/140170388',
@@ -93,7 +92,7 @@ describe('createMeta', () => {
       BUILD_BUILDNUMBER: '456',
     }
 
-    const meta = createMeta('someTool', '1.2.3', envDict, ciDict)
+    const meta = createMeta('someTool', '1.2.3', envDict)
     const ci: messages.Ci = {
       name: 'Azure Pipelines',
       url: 'the-url',
@@ -117,7 +116,7 @@ describe('createMeta', () => {
       BUILD_BUILDNUMBER: '456',
     }
 
-    const meta = createMeta('someTool', '1.2.3', envDict, ciDict)
+    const meta = createMeta('someTool', '1.2.3', envDict)
     const ci: messages.Ci = {
       name: 'Azure Pipelines',
       url: 'the-url',
@@ -142,7 +141,7 @@ describe('createMeta', () => {
       WERCKER_RUN_URL: 'https://cihost.com/path/to/build/629af084064c2',
     }
 
-    const meta = createMeta('someTool', '1.2.3', envDict, ciDict)
+    const meta = createMeta('someTool', '1.2.3', envDict)
     const ci: messages.Ci = {
       git: {
         branch: 'main',
