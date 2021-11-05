@@ -9,7 +9,6 @@
     "gherkin/javascript",
     "gherkin-streams/javascript",
     "gherkin-utils/javascript",
-    "create-meta/javascript",
     "fake-cucumber/javascript",
     "query/javascript",
     "compatibility-kit/javascript",

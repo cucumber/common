@@ -1,4 +1,0 @@
-../../LICENSE LICENSE
-../../.templates/github/ .github/
-../../.templates/javascript/ .
-../ciDict.json src/ciDict.json

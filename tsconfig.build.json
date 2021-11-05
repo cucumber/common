@@ -20,9 +20,6 @@
       "path": "./gherkin-utils/javascript/tsconfig.build.json"
     },
     {
-      "path": "./create-meta/javascript/tsconfig.build.json"
-    },
-    {
       "path": "./fake-cucumber/javascript/tsconfig.build.json"
     },
     {
