@@ -1,4 +1,0 @@
-../../LICENSE LICENSE
-../../.templates/github/ .github/
-../../.templates/java/ .
-../ciDict.json src/main/resources/io/cucumber/createmeta/ciDict.json

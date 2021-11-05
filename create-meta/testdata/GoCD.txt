@@ -1,8 +1,0 @@
-GO_SERVER_URL=https://cihost.com
-GO_PIPELINE_NAME=my-pipeline-name
-GO_PIPELINE_COUNTER=1234
-GO_STAGE_NAME=my-stage-name
-GO_STAGE_COUNTER=456
-GO_REVISION=decafbad
-GO_SCM_MY_MATERIAL_PR_BRANCH=aslakhellesoy:bug-fix-42
-GO_SCM_MY_MATERIAL_PR_URL=https://github.com/owner/repo/pull/1669
