@@ -6,3 +6,5 @@ acceptance/
 dist/
 build/
 .tox/
+.coverage
+.coverage.*
