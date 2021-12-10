@@ -8,18 +8,14 @@ import { Query as GherkinQuery } from '@cucumber/gherkin-utils'
 import '../styles/styles.scss'
 import './custom-classes.scss'
 
-import attachments from '../../acceptance/attachments/attachments.feature'
-import rules from '../../acceptance/rules/rules.feature'
-
 import { components, EnvelopesQuery } from '..'
 import { CustomRenderingSupport } from '../components/customise'
 
-const { QueriesWrapper, GherkinDocumentList } = components.app
-const { DocString, Tags, Feature } = components.gherkin
-const { CustomRendering, Theme } = components.customise
+const { Tags, Feature } = components.gherkin
+const { CustomRendering } = components.customise
 
 export default {
-  title: 'App/Customisation',
+  title: 'Customisation/Components',
   component: components.customise.CustomRendering,
 } as Meta
 
@@ -29,68 +25,19 @@ type Props = {
   envelopesQuery: EnvelopesQuery
 }
 
-export const Themes: Story<{ envelopes: messages.Envelope[]; theme: string }> = ({
-  envelopes,
-  theme,
-}) => {
+export const CustomTagComponent: Story<{
+  support: CustomRenderingSupport
+  tags: messages.Tag[]
+}> = ({ support, tags }) => {
   return (
     <>
-      <h2>Dark Theme</h2>
-      <Theme theme={theme}>
-        <QueriesWrapper {...props(envelopes)}>
-          <GherkinDocumentList />
-        </QueriesWrapper>
-      </Theme>
-    </>
-  )
-}
-Themes.args = {
-  envelopes: [...(attachments as messages.Envelope[]), ...(rules as messages.Envelope[])],
-  theme: 'dark',
-}
-
-export const Classes: Story<{ support: CustomRenderingSupport; docString: messages.DocString }> = ({
-  support,
-  docString,
-}) => {
-  return (
-    <>
-      <h2>Default DocString:</h2>
-      <DocString docString={docString} />
-      <h2>With Custom Classes:</h2>
+      <h2>Tags with JIRA linking</h2>
       <CustomRendering support={support}>
-        <DocString docString={docString} />
+        <Tags tags={tags} />
       </CustomRendering>
     </>
   )
 }
-Classes.args = {
-  docString: {
-    location: {
-      column: 1,
-      line: 1,
-    },
-    content: "Hello world, I'm a doc string!",
-    delimiter: '`',
-  },
-  support: {
-    DocString: {
-      docString: 'custom-docstring',
-    },
-  },
-}
-
-export const CustomTagComponent: Story<{ support: CustomRenderingSupport; tags: messages.Tag[] }> =
-  ({ support, tags }) => {
-    return (
-      <>
-        <h2>Tags with JIRA linking</h2>
-        <CustomRendering support={support}>
-          <Tags tags={tags} />
-        </CustomRendering>
-      </>
-    )
-  }
 
 CustomTagComponent.args = {
   tags: [
