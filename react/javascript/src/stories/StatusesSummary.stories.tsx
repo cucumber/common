@@ -21,12 +21,26 @@ const Template: Story<IStatusesSummaryProps> = (props) => {
   )
 }
 
-export const Default = Template.bind({})
-Default.args = {
+export const Typical = Template.bind({})
+Typical.args = {
   scenarioCountByStatus: new Map<messages.TestStepResultStatus, number>([
     [TestStepResultStatus.PASSED, 100],
     [TestStepResultStatus.FAILED, 3],
     [TestStepResultStatus.UNDEFINED, 1],
   ]),
   totalScenarioCount: 104,
+} as IStatusesSummaryProps
+
+export const All = Template.bind({})
+All.args = {
+  scenarioCountByStatus: new Map<messages.TestStepResultStatus, number>([
+    [TestStepResultStatus.PASSED, 3],
+    [TestStepResultStatus.FAILED, 3],
+    [TestStepResultStatus.PENDING, 3],
+    [TestStepResultStatus.SKIPPED, 3],
+    [TestStepResultStatus.UNDEFINED, 3],
+    [TestStepResultStatus.AMBIGUOUS, 3],
+    [TestStepResultStatus.UNKNOWN, 3],
+  ]),
+  totalScenarioCount: 21,
 } as IStatusesSummaryProps
