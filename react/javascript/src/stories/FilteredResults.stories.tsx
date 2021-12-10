@@ -5,7 +5,7 @@ import { Query as GherkinQuery } from '@cucumber/gherkin-utils'
 import { Query as CucumberQuery } from '@cucumber/query'
 
 import { EnvelopesQuery, components } from '../../src'
-import minimal from '../../acceptance/minimal/minimal.feature'
+import testData from '../../acceptance/examples-tables/examples-tables.feature'
 
 const { QueriesWrapper, FilteredResults } = components.app
 
@@ -46,5 +46,5 @@ const Template: Story<TemplateArgs> = ({ envelopes }) => {
 
 export const Default = Template.bind({})
 Default.args = {
-  envelopes: minimal,
+  envelopes: testData,
 }
