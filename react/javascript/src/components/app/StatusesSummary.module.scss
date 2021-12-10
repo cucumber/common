@@ -16,12 +16,14 @@ $statusColors:
 }
 
 .status {
+    box-sizing: border-box;
     flex-grow: 1;
-    min-width: 6rem;
-    padding: 0.25rem 0.5rem;
+    min-width: 11rem;
+    padding: 0.25rem 2.5rem;
     background-color: black;
     color: white;
     white-space: nowrap;
+    text-align: center;
 
     @each $name, $color in $statusColors {
         &[data-status='#{$name}'] {
