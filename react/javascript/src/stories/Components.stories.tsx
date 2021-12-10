@@ -2,13 +2,11 @@ import React from 'react'
 import { Meta, Story } from '@storybook/react'
 
 import * as messages from '@cucumber/messages'
-import { Query as CucumberQuery } from '@cucumber/query'
-import { Query as GherkinQuery } from '@cucumber/gherkin-utils'
 
 import '../styles/styles.scss'
 import './custom-classes.scss'
 
-import { components, EnvelopesQuery } from '..'
+import { components } from '..'
 import { CustomRenderingSupport } from '../components/customise'
 
 const { Tags, Feature } = components.gherkin
@@ -18,12 +16,6 @@ export default {
   title: 'Customisation/Components',
   component: components.customise.CustomRendering,
 } as Meta
-
-type Props = {
-  gherkinQuery: GherkinQuery
-  cucumberQuery: CucumberQuery
-  envelopesQuery: EnvelopesQuery
-}
 
 export const CustomTagComponent: Story<{
   support: CustomRenderingSupport
@@ -121,16 +113,4 @@ CustomFeatureComponent.args = {
       </div>
     ),
   },
-}
-
-function props(envelopes: readonly messages.Envelope[]): Props {
-  const gherkinQuery = new GherkinQuery()
-  const cucumberQuery = new CucumberQuery()
-  const envelopesQuery = new EnvelopesQuery()
-  for (const envelope of envelopes) {
-    gherkinQuery.update(envelope)
-    cucumberQuery.update(envelope)
-    envelopesQuery.update(envelope)
-  }
-  return { gherkinQuery, cucumberQuery, envelopesQuery }
 }

@@ -1,11 +1,10 @@
 import React from 'react'
 import { Meta, Story } from '@storybook/react'
 import * as messages from '@cucumber/messages'
-import { Query as GherkinQuery } from '@cucumber/gherkin-utils'
-import { Query as CucumberQuery } from '@cucumber/query'
 
-import { EnvelopesQuery, components } from '../../src'
+import { components } from '../../src'
 import testData from '../../acceptance/examples-tables/examples-tables.feature'
+import { props } from './helpers'
 
 const { QueriesWrapper, FilteredResults } = components.app
 
@@ -13,24 +12,6 @@ export default {
   title: 'App/FilteredResults',
   component: components.app.FilteredResults,
 } as Meta
-
-function props(envelopes: readonly messages.Envelope[]): Props {
-  const gherkinQuery = new GherkinQuery()
-  const cucumberQuery = new CucumberQuery()
-  const envelopesQuery = new EnvelopesQuery()
-  for (const envelope of envelopes) {
-    gherkinQuery.update(envelope)
-    cucumberQuery.update(envelope)
-    envelopesQuery.update(envelope)
-  }
-  return { gherkinQuery, cucumberQuery, envelopesQuery }
-}
-
-type Props = {
-  gherkinQuery: GherkinQuery
-  cucumberQuery: CucumberQuery
-  envelopesQuery: EnvelopesQuery
-}
 
 type TemplateArgs = {
   envelopes: readonly messages.Envelope[]
