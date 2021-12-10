@@ -3,6 +3,7 @@
 
 $summary-border-color: rgba(0, 0, 0, 0.1);
 
+// TODO this is used in FilteredResults and GherkinDocumentList - make it one place?
 .cucumber {
   font-size: 14px;
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;

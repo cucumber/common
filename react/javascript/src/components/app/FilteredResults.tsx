@@ -22,6 +22,10 @@ export const FilteredResults: React.FunctionComponent = () => {
   const allDocuments = gherkinQuery.getGherkinDocuments()
 
   const scenarioCountByStatus = countScenariosByStatuses(allDocuments, gherkinQuery, cucumberQuery)
+  const totalScenarioCount = [...scenarioCountByStatus.values()].reduce(
+    (prev, curr) => prev + curr,
+    0
+  )
 
   const search = new Search(gherkinQuery)
 
@@ -41,9 +45,12 @@ export const FilteredResults: React.FunctionComponent = () => {
   const statusesWithScenarios = [...scenarioCountByStatus.keys()]
 
   return (
-    <div className="cucumber-filtered-results">
+    <div className="cucumber">
+      <StatusesSummary
+        scenarioCountByStatus={scenarioCountByStatus}
+        totalScenarioCount={totalScenarioCount}
+      />
       <div className="cucumber-report-header">
-        <StatusesSummary scenarioCountByStatus={scenarioCountByStatus} />
         <ExecutionSummary meta={meta} />
         <SearchBar statusesWithScenarios={statusesWithScenarios} />
       </div>

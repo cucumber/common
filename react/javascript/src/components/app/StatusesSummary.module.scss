@@ -1,0 +1,31 @@
+$statusColors:
+        'PASSED' #2CB14A,
+        'SKIPPED' #00A0CC,
+        'PENDING' #FFAD33,
+        'UNDEFINED' #FFAD33,
+        'AMBIGUOUS' #F4EBFD,
+        'FAILED' #BB0000,
+        'UNKNOWN' #B6BECB;
+
+.list {
+    list-style: none;
+    display: flex;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+.status {
+    flex-grow: 1;
+    min-width: 6rem;
+    padding: 0.25rem 0.5rem;
+    background-color: black;
+    color: white;
+    white-space: nowrap;
+
+    @each $name, $color in $statusColors {
+        &[data-status='#{$name}'] {
+            background-color: $color
+        }
+    }
+}
