@@ -36,11 +36,13 @@ function findTestRunFinished(envelopesQuery: EnvelopesQuery): messages.TestRunFi
   return testRunFinished ? testRunFinished.testRunFinished : undefined
 }
 
-interface IProps {
+export interface IExecutionSummaryProps {
   meta: messages.Meta
 }
 
-export const ExecutionSummary: React.FunctionComponent<IProps> = ({ meta: meta }) => {
+export const ExecutionSummary: React.FunctionComponent<IExecutionSummaryProps> = ({
+  meta: meta,
+}) => {
   const envelopesQuery = React.useContext(EnvelopesQueryContext)
 
   const testRunStarted = findTestRunStarted(envelopesQuery)
