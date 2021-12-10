@@ -15,7 +15,7 @@ const { QueriesWrapper } = components.app
 const { MDG } = components.gherkin
 
 export default {
-  title: 'MDG',
+  title: 'Gherkin/MDG',
   component: components.gherkin.GherkinDocument,
 } as Meta
 

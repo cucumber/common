@@ -19,7 +19,7 @@ const { DocString, Tags, Feature } = components.gherkin
 const { CustomRendering, Theme } = components.customise
 
 export default {
-  title: 'Themes & Customisation',
+  title: 'App/Customisation',
   component: components.customise.CustomRendering,
 } as Meta
 

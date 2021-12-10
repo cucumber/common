@@ -26,7 +26,7 @@ import unknownParameterTypes from '../../acceptance/unknown-parameter-type/unkno
 const { QueriesWrapper, GherkinDocumentList } = components.app
 
 export default {
-  title: 'GherkinDocument',
+  title: 'Gherkin/GherkinDocument',
   component: components.gherkin.GherkinDocument,
 } as Meta
 

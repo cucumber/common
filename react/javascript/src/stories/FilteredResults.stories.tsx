@@ -10,7 +10,7 @@ import testData from '../../acceptance/examples-tables/examples-tables.feature'
 const { QueriesWrapper, FilteredResults } = components.app
 
 export default {
-  title: 'FilteredResults',
+  title: 'App/FilteredResults',
   component: components.app.FilteredResults,
 } as Meta
 

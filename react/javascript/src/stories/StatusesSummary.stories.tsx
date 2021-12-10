@@ -9,7 +9,7 @@ import { IStatusesSummaryProps } from '../components/app'
 const { StatusesSummary } = components.app
 
 export default {
-  title: 'StatusesSummary',
+  title: 'App/StatusesSummary',
   component: components.app.StatusesSummary,
 } as Meta
 
