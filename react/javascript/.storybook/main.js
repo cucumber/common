@@ -8,6 +8,7 @@ module.exports = {
   ],
   webpackFinal: async (config, { configType }) => {
     config.resolve.fallback = { "assert": false }
+    config.resolve.fallback = { "path": require.resolve('path-browserify') }
     config.module.rules.push({
       test: /\.scss$/,
       use: [
