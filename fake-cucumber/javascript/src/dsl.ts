@@ -5,18 +5,7 @@ import StackUtils from 'stack-utils'
 import IParameterTypeDefinition from './IParameterTypeDefinition'
 import { deprecate } from 'util'
 
-declare global {
-  // eslint-disable-next-line @typescript-eslint/no-namespace
-  namespace NodeJS {
-    interface Global {
-      // @ts-ignore
-      supportCode: SupportCode
-    }
-  }
-}
-
 function setSupportCode(supportCode: SupportCode) {
-  // @ts-ignore
   global.supportCode = supportCode
 }
 
