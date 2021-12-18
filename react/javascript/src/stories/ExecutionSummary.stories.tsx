@@ -1,27 +1,29 @@
 import React from 'react'
 import { Meta, Story } from '@storybook/react'
 import * as messages from '@cucumber/messages'
-
+import { TestStepResultStatus } from '@cucumber/messages'
 import { components } from '../../src'
 import { IExecutionSummaryProps } from '../components/app'
 
 const { ExecutionSummary } = components.app
 
-const testData: messages.Meta = {
-  protocolVersion: '17.1.1',
-  implementation: { version: '8.0.0-rc.1', name: 'cucumber-js' },
-  cpu: { name: 'x64' },
-  os: { name: 'darwin', version: '21.1.0' },
-  runtime: { name: 'node.js', version: '12.22.1' },
-  ci: null,
-}
+const scenarioCountByStatus = new Map<messages.TestStepResultStatus, number>([
+  [TestStepResultStatus.PASSED, 100],
+  [TestStepResultStatus.FAILED, 3],
+  [TestStepResultStatus.UNDEFINED, 1],
+])
 
-const testDataWithCi: messages.Meta = {
+const metaMinimal: messages.Meta = {
   protocolVersion: '17.1.1',
   implementation: { version: '8.0.0-rc.1', name: 'cucumber-js' },
   cpu: { name: 'x64' },
   os: { name: 'linux', version: '5.11.0-1022-azure' },
   runtime: { name: 'node.js', version: '16.13.1' },
+  ci: null,
+}
+
+const metaWithCi: messages.Meta = {
+  ...metaMinimal,
   ci: {
     name: 'GitHub Actions',
     url: 'https://github.com/cucumber/cucumber-js/actions/runs/1592557391',
@@ -32,6 +34,21 @@ const testDataWithCi: messages.Meta = {
       branch: 'main',
     },
   },
+}
+
+const testRunStarted: messages.TestRunStarted = {
+  timestamp: {
+    seconds: 1639753096,
+    nanos: 870,
+  },
+}
+
+const testRunFinished: messages.TestRunFinished = {
+  timestamp: {
+    seconds: 1639753197,
+    nanos: 340,
+  },
+  success: true,
 }
 
 export default {
@@ -48,11 +65,20 @@ const Template: Story<IExecutionSummaryProps> = (props) => {
 }
 
 export const Default = Template.bind({})
+
 Default.args = {
-  meta: testData,
+  scenarioCountByStatus,
+  totalScenarioCount: 104,
+  testRunStarted,
+  testRunFinished,
+  meta: metaMinimal,
 } as IExecutionSummaryProps
 
 export const WithCi = Template.bind({})
 WithCi.args = {
-  meta: testDataWithCi,
+  scenarioCountByStatus,
+  totalScenarioCount: 104,
+  testRunStarted,
+  testRunFinished,
+  meta: metaWithCi,
 } as IExecutionSummaryProps

@@ -1,9 +1,8 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import * as messages from '@cucumber/messages'
-import EnvelopesQueryContext, { EnvelopesQuery } from '../../EnvelopesQueryContext'
-import { CICommitLink } from './CICommitLink'
-import getDurationsMillis from '../../getDurationMillis'
-import { Duration } from './Duration'
+import { TestRunFinished, TestRunStarted, TimeConversion } from '@cucumber/messages'
+import { formatDistanceStrict } from 'date-fns'
+import styles from './ExecutionSummary.module.scss'
 
 interface IProductProps {
   name: string
@@ -26,63 +25,66 @@ export const Product: React.FunctionComponent<IProductProps> = ({
   )
 }
 
-function findTestRunStarted(envelopesQuery: EnvelopesQuery): messages.TestRunStarted {
-  const testRunStarted = envelopesQuery.find((envelope) => envelope.testRunStarted !== null)
-  return testRunStarted ? testRunStarted.testRunStarted : undefined
-}
-
-function findTestRunFinished(envelopesQuery: EnvelopesQuery): messages.TestRunFinished {
-  const testRunFinished = envelopesQuery.find((envelope) => envelope.testRunFinished !== null)
-  return testRunFinished ? testRunFinished.testRunFinished : undefined
-}
-
 export interface IExecutionSummaryProps {
+  scenarioCountByStatus: Map<messages.TestStepResultStatus, number>
+  totalScenarioCount: number
+  testRunStarted: TestRunStarted
+  testRunFinished: TestRunFinished
   meta: messages.Meta
+  referenceDate?: Date
 }
 
 export const ExecutionSummary: React.FunctionComponent<IExecutionSummaryProps> = ({
-  meta: meta,
+  testRunStarted,
+  testRunFinished,
+  referenceDate,
 }) => {
-  const envelopesQuery = React.useContext(EnvelopesQueryContext)
-
-  const testRunStarted = findTestRunStarted(envelopesQuery)
-  const testRunFinished = findTestRunFinished(envelopesQuery)
-  const millisDuration = getDurationsMillis(testRunStarted, testRunFinished)
-
+  const referenceDateMemo: Date = useMemo(() => referenceDate ?? new Date(), [referenceDate])
+  const testRunDate: Date = new Date(
+    TimeConversion.timestampToMillisecondsSinceEpoch(testRunStarted.timestamp)
+  )
   return (
-    <div className="cucumber-execution-data">
-      <table>
-        <tbody>
-          {millisDuration && (
-            <tr>
-              <th>Duration</th>
-              <td>
-                <Duration durationMillis={millisDuration} />
-              </td>
-            </tr>
-          )}
-          {meta.ci && (
-            <tr>
-              <th>Build</th>
-              <td>
-                <a href={meta.ci.url}>{meta.ci.name}</a>
-              </td>
-            </tr>
-          )}
-          {meta.ci && (
-            <tr>
-              <th>Commit</th>
-              <td>
-                <CICommitLink ci={meta.ci} />
-              </td>
-            </tr>
-          )}
-          {meta.implementation && <Product name="Implementation" product={meta.implementation} />}
-          {meta.runtime && <Product name="Runtime" product={meta.runtime} />}
-          {meta.os && <Product name="OS" product={meta.os} />}
-          {meta.cpu && <Product name="CPU" product={meta.cpu} />}
-        </tbody>
-      </table>
-    </div>
+    <>
+      <div className={styles.layout}>
+        <div>
+          <span>{formatDistanceStrict(testRunDate, referenceDateMemo, { addSuffix: true })}</span>
+          <span>last run</span>
+        </div>
+      </div>
+      {/*<div className="cucumber-execution-data">*/}
+      {/*  <table>*/}
+      {/*    <tbody>*/}
+      {/*      {millisDuration && (*/}
+      {/*        <tr>*/}
+      {/*          <th>Duration</th>*/}
+      {/*          <td>*/}
+      {/*            <Duration durationMillis={millisDuration} />*/}
+      {/*          </td>*/}
+      {/*        </tr>*/}
+      {/*      )}*/}
+      {/*      {meta.ci && (*/}
+      {/*        <tr>*/}
+      {/*          <th>Build</th>*/}
+      {/*          <td>*/}
+      {/*            <a href={meta.ci.url}>{meta.ci.name}</a>*/}
+      {/*          </td>*/}
+      {/*        </tr>*/}
+      {/*      )}*/}
+      {/*      {meta.ci && (*/}
+      {/*        <tr>*/}
+      {/*          <th>Commit</th>*/}
+      {/*          <td>*/}
+      {/*            <CICommitLink ci={meta.ci} />*/}
+      {/*          </td>*/}
+      {/*        </tr>*/}
+      {/*      )}*/}
+      {/*      {meta.implementation && <Product name="Implementation" product={meta.implementation} />}*/}
+      {/*      {meta.runtime && <Product name="Runtime" product={meta.runtime} />}*/}
+      {/*      {meta.os && <Product name="OS" product={meta.os} />}*/}
+      {/*      {meta.cpu && <Product name="CPU" product={meta.cpu} />}*/}
+      {/*    </tbody>*/}
+      {/*  </table>*/}
+      {/*</div>*/}
+    </>
   )
 }

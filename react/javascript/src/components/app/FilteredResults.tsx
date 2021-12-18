@@ -16,6 +16,7 @@ import EnvelopesQueryContext from '../../EnvelopesQueryContext'
 import statuses from './statuses'
 
 export const FilteredResults: React.FunctionComponent = () => {
+  const envelopesQuery = React.useContext(EnvelopesQueryContext)
   const gherkinQuery = React.useContext(GherkinQueryContext)
   const cucumberQuery = React.useContext(CucumberQueryContext)
   const { query, hideStatuses } = React.useContext(SearchQueryContext)
@@ -40,7 +41,12 @@ export const FilteredResults: React.FunctionComponent = () => {
     .map((document) => filterByStatus(document, gherkinQuery, cucumberQuery, onlyShowStatuses))
     .filter((document) => document !== null)
 
-  const envelopesQuery = React.useContext(EnvelopesQueryContext)
+  const testRunStarted = envelopesQuery.find(
+    (envelope) => !!envelope.testRunStarted
+  )?.testRunStarted
+  const testRunFinished = envelopesQuery.find(
+    (envelope) => !!envelope.testRunFinished
+  )?.testRunFinished
   const meta = envelopesQuery.find((envelope) => envelope.meta !== null).meta
   const statusesWithScenarios = [...scenarioCountByStatus.keys()]
 
@@ -51,7 +57,13 @@ export const FilteredResults: React.FunctionComponent = () => {
         totalScenarioCount={totalScenarioCount}
       />
       <div className="cucumber-report-header">
-        <ExecutionSummary meta={meta} />
+        <ExecutionSummary
+          scenarioCountByStatus={scenarioCountByStatus}
+          totalScenarioCount={totalScenarioCount}
+          testRunStarted={testRunStarted}
+          testRunFinished={testRunFinished}
+          meta={meta}
+        />
         <SearchBar statusesWithScenarios={statusesWithScenarios} />
       </div>
       <GherkinDocumentList gherkinDocuments={filtered} preExpand={true} />
