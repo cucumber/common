@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react'
 import * as messages from '@cucumber/messages'
 import { TestRunFinished, TestRunStarted, TimeConversion } from '@cucumber/messages'
-import { formatDistanceStrict } from 'date-fns'
+import { formatDistanceStrict, formatDuration, intervalToDuration } from 'date-fns'
 import styles from './ExecutionSummary.module.scss'
 
 interface IProductProps {
@@ -25,6 +25,10 @@ export const Product: React.FunctionComponent<IProductProps> = ({
   )
 }
 
+const numberFormat = new Intl.NumberFormat(undefined, {
+  maximumFractionDigits: 2,
+})
+
 export interface IExecutionSummaryProps {
   scenarioCountByStatus: Map<messages.TestStepResultStatus, number>
   totalScenarioCount: number
@@ -40,17 +44,34 @@ export const ExecutionSummary: React.FunctionComponent<IExecutionSummaryProps> =
   referenceDate,
 }) => {
   const referenceDateMemo: Date = useMemo(() => referenceDate ?? new Date(), [referenceDate])
-  const testRunDate: Date = new Date(
+  const startDate: Date = new Date(
     TimeConversion.timestampToMillisecondsSinceEpoch(testRunStarted.timestamp)
   )
+  const finishDate: Date = new Date(
+    TimeConversion.timestampToMillisecondsSinceEpoch(testRunFinished.timestamp)
+  )
+  const formattedDuration: string = useMemo(() => {
+    const inMilllis = finishDate.getTime() - startDate.getTime()
+    // if under 10s, use 0.01s precision, otherwise 1s is fine
+    if (inMilllis < 10000) {
+      return `${numberFormat.format(inMilllis / 1000)} seconds`
+    }
+    return formatDuration(intervalToDuration({ start: startDate, end: finishDate }), {})
+  }, [startDate, finishDate])
   return (
     <>
-      <div className={styles.layout}>
-        <div>
-          <span>{formatDistanceStrict(testRunDate, referenceDateMemo, { addSuffix: true })}</span>
-          <span>last run</span>
+      <dl className={styles.layout}>
+        <div className={styles.item}>
+          <dt className={styles.suffix}>last run</dt>
+          <dd className={styles.value}>
+            {formatDistanceStrict(startDate, referenceDateMemo, { addSuffix: true })}
+          </dd>
         </div>
-      </div>
+        <div className={styles.item}>
+          <dt className={styles.suffix}>duration</dt>
+          <dd className={styles.value}>{formattedDuration}</dd>
+        </div>
+      </dl>
       {/*<div className="cucumber-execution-data">*/}
       {/*  <table>*/}
       {/*    <tbody>*/}

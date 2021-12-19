@@ -4,7 +4,7 @@ import { ExecutionSummary, IExecutionSummaryProps } from '../../../src/component
 import * as messages from '@cucumber/messages'
 import { TestStepResultStatus, TimeConversion } from '@cucumber/messages'
 import assert from 'assert'
-import { add } from 'date-fns'
+import { add, addMilliseconds } from 'date-fns'
 
 const DEFAULT_PROPS: IExecutionSummaryProps = {
   scenarioCountByStatus: new Map<messages.TestStepResultStatus, number>([
@@ -66,6 +66,33 @@ describe('ExecutionSummary', () => {
 
         assert.ok(getByText(text))
         assert.ok(getByText('last run'))
+      })
+    }
+  })
+
+  describe('run duration', () => {
+    const examples: [text: string, finishDate: Date][] = [
+      ['1 hour 45 minutes 23 seconds', add(startDate, { hours: 1, minutes: 45, seconds: 23 })],
+      ['12 minutes 15 seconds', add(startDate, { minutes: 12, seconds: 15 })],
+      ['10 seconds', add(startDate, { seconds: 10.01 })],
+      ['9.88 seconds', addMilliseconds(startDate, 9876)],
+      ['6.54 seconds', addMilliseconds(startDate, 6543)],
+    ]
+
+    for (const [text, finishDate] of examples) {
+      it(`should render correctly for ${text}`, () => {
+        const { getByText } = render(
+          <ExecutionSummary
+            {...DEFAULT_PROPS}
+            testRunFinished={{
+              timestamp: TimeConversion.millisecondsSinceEpochToTimestamp(finishDate.getTime()),
+              success: true,
+            }}
+          />
+        )
+
+        assert.ok(getByText(text))
+        assert.ok(getByText('duration'))
       })
     }
   })

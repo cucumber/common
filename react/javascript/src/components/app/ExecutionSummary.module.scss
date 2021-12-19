@@ -2,4 +2,21 @@
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr;
+    text-align: center;
+}
+
+.item {
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+.value {
+    font-weight: bold;
+    padding: 0;
+    margin: 0;
+}
+
+.suffix {
+    padding: 0;
+    margin: 0;
 }
