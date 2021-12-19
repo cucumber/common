@@ -43,13 +43,17 @@ export const ExecutionSummary: React.FunctionComponent<IExecutionSummaryProps> =
   testRunFinished,
   referenceDate,
 }) => {
-  const referenceDateMemo: Date = useMemo(() => referenceDate ?? new Date(), [referenceDate])
-  const startDate: Date = new Date(
-    TimeConversion.timestampToMillisecondsSinceEpoch(testRunStarted.timestamp)
+  const startDate: Date = useMemo(
+    () => new Date(TimeConversion.timestampToMillisecondsSinceEpoch(testRunStarted.timestamp)),
+    [testRunStarted]
   )
-  const finishDate: Date = new Date(
-    TimeConversion.timestampToMillisecondsSinceEpoch(testRunFinished.timestamp)
+  const finishDate: Date = useMemo(
+    () => new Date(TimeConversion.timestampToMillisecondsSinceEpoch(testRunFinished.timestamp)),
+    [testRunFinished]
   )
+  const formattedTimestamp: string = useMemo(() => {
+    return formatDistanceStrict(startDate, referenceDate ?? new Date(), { addSuffix: true })
+  }, [startDate, referenceDate])
   const formattedDuration: string = useMemo(() => {
     const inMilllis = finishDate.getTime() - startDate.getTime()
     // if under 10s, use 0.01s precision, otherwise 1s is fine
@@ -63,9 +67,7 @@ export const ExecutionSummary: React.FunctionComponent<IExecutionSummaryProps> =
       <dl className={styles.layout}>
         <div className={styles.item}>
           <dt className={styles.suffix}>last run</dt>
-          <dd className={styles.value}>
-            {formatDistanceStrict(startDate, referenceDateMemo, { addSuffix: true })}
-          </dd>
+          <dd className={styles.value}>{formattedTimestamp}</dd>
         </div>
         <div className={styles.item}>
           <dt className={styles.suffix}>duration</dt>
