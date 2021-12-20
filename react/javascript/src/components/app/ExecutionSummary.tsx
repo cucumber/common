@@ -67,20 +67,22 @@ export const ExecutionSummary: React.FunctionComponent<IExecutionSummaryProps> =
   }, [startDate, finishDate])
   return (
     <>
-      <dl className={styles.layout}>
-        <div className={styles.item}>
-          <dt className={styles.suffix}>{totalScenarioCount} executed</dt>
-          <dd className={styles.value}>{percentagePassed}</dd>
-        </div>
-        <div className={styles.item}>
-          <dt className={styles.suffix}>last run</dt>
-          <dd className={styles.value}>{formattedTimestamp}</dd>
-        </div>
-        <div className={styles.item}>
-          <dt className={styles.suffix}>duration</dt>
-          <dd className={styles.value}>{formattedDuration}</dd>
-        </div>
-      </dl>
+      <div className={styles.backdrop}>
+        <dl className={styles.layout}>
+          <div className={styles.item}>
+            <dt className={styles.suffix}>{totalScenarioCount} executed</dt>
+            <dd className={styles.value}>{percentagePassed}</dd>
+          </div>
+          <div className={styles.item}>
+            <dt className={styles.suffix}>last run</dt>
+            <dd className={styles.value}>{formattedTimestamp}</dd>
+          </div>
+          <div className={styles.item}>
+            <dt className={styles.suffix}>duration</dt>
+            <dd className={styles.value}>{formattedDuration}</dd>
+          </div>
+        </dl>
+      </div>
       <div className="cucumber-execution-data">
         <table>
           <tbody>

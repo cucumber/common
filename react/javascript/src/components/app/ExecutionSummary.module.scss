@@ -1,7 +1,12 @@
+.backdrop {
+    background-color: #bbb;
+}
+
 .layout {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr;
+    gap: 1px;
     text-align: center;
 }
 
@@ -9,7 +14,7 @@
     display: flex;
     flex-direction: column-reverse;
     padding: 1.5rem;
-    border: 1px solid #bbb;
+    background-color: white;
 }
 
 .value {
