@@ -55,7 +55,7 @@
     "@testing-library/react": "12.1.2",
     "@types/color": "3.0.2",
     "@types/glob": "7.2.0",
-    "@types/jsdom": "16.2.13",
+    "@types/jsdom": "16.2.14",
     "@types/mocha": "9.0.0",
     "@types/node": "16.11.14",
     "@types/react": "17.0.37",
