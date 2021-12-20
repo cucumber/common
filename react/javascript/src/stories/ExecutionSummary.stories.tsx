@@ -36,20 +36,9 @@ const metaWithCi: messages.Meta = {
   },
 }
 
-const testRunStarted: messages.TestRunStarted = {
-  timestamp: {
-    seconds: 1639753096,
-    nanos: 870,
-  },
-}
+const startDate = new Date(1639753096000)
 
-const testRunFinished: messages.TestRunFinished = {
-  timestamp: {
-    seconds: 1639753197,
-    nanos: 340,
-  },
-  success: true,
-}
+const finishDate = new Date(1639753197000)
 
 export default {
   title: 'App/ExecutionSummary',
@@ -69,8 +58,8 @@ export const Default = Template.bind({})
 Default.args = {
   scenarioCountByStatus,
   totalScenarioCount: 104,
-  testRunStarted,
-  testRunFinished,
+  startDate,
+  finishDate,
   meta: metaMinimal,
 } as IExecutionSummaryProps
 
@@ -78,7 +67,7 @@ export const WithCi = Template.bind({})
 WithCi.args = {
   scenarioCountByStatus,
   totalScenarioCount: 104,
-  testRunStarted,
-  testRunFinished,
+  startDate,
+  finishDate,
   meta: metaWithCi,
 } as IExecutionSummaryProps
