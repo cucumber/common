@@ -3,6 +3,7 @@ import * as messages from '@cucumber/messages'
 import { TestStepResultStatus } from '@cucumber/messages'
 import { formatDistanceStrict, formatDuration, intervalToDuration } from 'date-fns'
 import styles from './ExecutionSummary.module.scss'
+import { CICommitLink } from './CICommitLink'
 
 interface IProductProps {
   name: string
@@ -40,6 +41,7 @@ export const ExecutionSummary: React.FunctionComponent<IExecutionSummaryProps> =
   startDate,
   finishDate,
   referenceDate,
+  meta,
 }) => {
   const percentagePassed: string = useMemo(() => {
     return (
@@ -79,40 +81,32 @@ export const ExecutionSummary: React.FunctionComponent<IExecutionSummaryProps> =
           <dd className={styles.value}>{formattedDuration}</dd>
         </div>
       </dl>
-      {/*<div className="cucumber-execution-data">*/}
-      {/*  <table>*/}
-      {/*    <tbody>*/}
-      {/*      {millisDuration && (*/}
-      {/*        <tr>*/}
-      {/*          <th>Duration</th>*/}
-      {/*          <td>*/}
-      {/*            <Duration durationMillis={millisDuration} />*/}
-      {/*          </td>*/}
-      {/*        </tr>*/}
-      {/*      )}*/}
-      {/*      {meta.ci && (*/}
-      {/*        <tr>*/}
-      {/*          <th>Build</th>*/}
-      {/*          <td>*/}
-      {/*            <a href={meta.ci.url}>{meta.ci.name}</a>*/}
-      {/*          </td>*/}
-      {/*        </tr>*/}
-      {/*      )}*/}
-      {/*      {meta.ci && (*/}
-      {/*        <tr>*/}
-      {/*          <th>Commit</th>*/}
-      {/*          <td>*/}
-      {/*            <CICommitLink ci={meta.ci} />*/}
-      {/*          </td>*/}
-      {/*        </tr>*/}
-      {/*      )}*/}
-      {/*      {meta.implementation && <Product name="Implementation" product={meta.implementation} />}*/}
-      {/*      {meta.runtime && <Product name="Runtime" product={meta.runtime} />}*/}
-      {/*      {meta.os && <Product name="OS" product={meta.os} />}*/}
-      {/*      {meta.cpu && <Product name="CPU" product={meta.cpu} />}*/}
-      {/*    </tbody>*/}
-      {/*  </table>*/}
-      {/*</div>*/}
+      <div className="cucumber-execution-data">
+        <table>
+          <tbody>
+            {meta.ci && (
+              <tr>
+                <th>Build</th>
+                <td>
+                  <a href={meta.ci.url}>{meta.ci.name}</a>
+                </td>
+              </tr>
+            )}
+            {meta.ci && (
+              <tr>
+                <th>Commit</th>
+                <td>
+                  <CICommitLink ci={meta.ci} />
+                </td>
+              </tr>
+            )}
+            {meta.implementation && <Product name="Implementation" product={meta.implementation} />}
+            {meta.runtime && <Product name="Runtime" product={meta.runtime} />}
+            {meta.os && <Product name="OS" product={meta.os} />}
+            {meta.cpu && <Product name="CPU" product={meta.cpu} />}
+          </tbody>
+        </table>
+      </div>
     </>
   )
 }
