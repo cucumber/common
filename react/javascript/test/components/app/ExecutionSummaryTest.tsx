@@ -96,4 +96,32 @@ describe('ExecutionSummary', () => {
       })
     }
   })
+
+  describe('passed rate', () => {
+    const examples: [passed: number, total: number, percentage: string][] = [
+      [13, 45, '29%'],
+      [5, 45, '11%'],
+      [45, 45, '100%'],
+      [0, 45, '0%'],
+    ]
+
+    for (const [passed, total, percentage] of examples) {
+      it(`should render correctly for ${percentage} passed`, () => {
+        const { getByText } = render(
+          <ExecutionSummary
+            {...DEFAULT_PROPS}
+            scenarioCountByStatus={
+              new Map<messages.TestStepResultStatus, number>([
+                [TestStepResultStatus.PASSED, passed],
+              ])
+            }
+            totalScenarioCount={total}
+          />
+        )
+
+        assert.ok(getByText(`${percentage} passed`))
+        assert.ok(getByText(`${total} executed`))
+      })
+    }
+  })
 })

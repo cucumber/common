@@ -1,6 +1,11 @@
 import React, { useMemo } from 'react'
 import * as messages from '@cucumber/messages'
-import { TestRunFinished, TestRunStarted, TimeConversion } from '@cucumber/messages'
+import {
+  TestRunFinished,
+  TestRunStarted,
+  TestStepResultStatus,
+  TimeConversion,
+} from '@cucumber/messages'
 import { formatDistanceStrict, formatDuration, intervalToDuration } from 'date-fns'
 import styles from './ExecutionSummary.module.scss'
 
@@ -25,10 +30,6 @@ export const Product: React.FunctionComponent<IProductProps> = ({
   )
 }
 
-const numberFormat = new Intl.NumberFormat(undefined, {
-  maximumFractionDigits: 2,
-})
-
 export interface IExecutionSummaryProps {
   scenarioCountByStatus: Map<messages.TestStepResultStatus, number>
   totalScenarioCount: number
@@ -39,6 +40,8 @@ export interface IExecutionSummaryProps {
 }
 
 export const ExecutionSummary: React.FunctionComponent<IExecutionSummaryProps> = ({
+  scenarioCountByStatus,
+  totalScenarioCount,
   testRunStarted,
   testRunFinished,
   referenceDate,
@@ -51,6 +54,15 @@ export const ExecutionSummary: React.FunctionComponent<IExecutionSummaryProps> =
     () => new Date(TimeConversion.timestampToMillisecondsSinceEpoch(testRunFinished.timestamp)),
     [testRunFinished]
   )
+  const percentagePassed: string = useMemo(() => {
+    return (
+      new Intl.NumberFormat(undefined, {
+        style: 'percent',
+      }).format(
+        (scenarioCountByStatus.get(TestStepResultStatus.PASSED) ?? 0) / totalScenarioCount
+      ) + ' passed'
+    )
+  }, [scenarioCountByStatus, totalScenarioCount])
   const formattedTimestamp: string = useMemo(() => {
     return formatDistanceStrict(startDate, referenceDate ?? new Date(), { addSuffix: true })
   }, [startDate, referenceDate])
@@ -58,13 +70,19 @@ export const ExecutionSummary: React.FunctionComponent<IExecutionSummaryProps> =
     const inMilllis = finishDate.getTime() - startDate.getTime()
     // if under 10s, use 0.01s precision, otherwise 1s is fine
     if (inMilllis < 10000) {
-      return `${numberFormat.format(inMilllis / 1000)} seconds`
+      return `${new Intl.NumberFormat(undefined, {
+        maximumFractionDigits: 2,
+      }).format(inMilllis / 1000)} seconds`
     }
     return formatDuration(intervalToDuration({ start: startDate, end: finishDate }), {})
   }, [startDate, finishDate])
   return (
     <>
       <dl className={styles.layout}>
+        <div className={styles.item}>
+          <dt className={styles.suffix}>{totalScenarioCount} executed</dt>
+          <dd className={styles.value}>{percentagePassed}</dd>
+        </div>
         <div className={styles.item}>
           <dt className={styles.suffix}>last run</dt>
           <dd className={styles.value}>{formattedTimestamp}</dd>
