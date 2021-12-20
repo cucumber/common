@@ -81,6 +81,9 @@ export const ExecutionSummary: React.FunctionComponent<IExecutionSummaryProps> =
             <dt className={styles.suffix}>duration</dt>
             <dd className={styles.value}>{formattedDuration}</dd>
           </div>
+          <div className={styles.item}></div>
+          <div className={styles.item}></div>
+          <div className={styles.item}></div>
         </dl>
       </div>
       <div className="cucumber-execution-data">
