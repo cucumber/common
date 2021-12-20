@@ -14,6 +14,7 @@ import countScenariosByStatuses from '../../countScenariosByStatuses'
 import { ExecutionSummary } from './ExecutionSummary'
 import EnvelopesQueryContext from '../../EnvelopesQueryContext'
 import statuses from './statuses'
+import { TimeConversion } from '@cucumber/messages'
 
 export const FilteredResults: React.FunctionComponent = () => {
   const envelopesQuery = React.useContext(EnvelopesQueryContext)
@@ -41,14 +42,20 @@ export const FilteredResults: React.FunctionComponent = () => {
     .map((document) => filterByStatus(document, gherkinQuery, cucumberQuery, onlyShowStatuses))
     .filter((document) => document !== null)
 
-  const testRunStarted = envelopesQuery.find(
-    (envelope) => !!envelope.testRunStarted
-  )?.testRunStarted
-  const testRunFinished = envelopesQuery.find(
-    (envelope) => !!envelope.testRunFinished
-  )?.testRunFinished
-  const meta = envelopesQuery.find((envelope) => envelope.meta !== null).meta
   const statusesWithScenarios = [...scenarioCountByStatus.keys()]
+
+  const startDate: Date = new Date(
+    TimeConversion.timestampToMillisecondsSinceEpoch(
+      envelopesQuery.find((envelope) => !!envelope.testRunStarted)?.testRunStarted.timestamp
+    )
+  )
+  const finishDate: Date = new Date(
+    TimeConversion.timestampToMillisecondsSinceEpoch(
+      envelopesQuery.find((envelope) => !!envelope.testRunFinished)?.testRunFinished.timestamp
+    )
+  )
+
+  const meta = envelopesQuery.find((envelope) => envelope.meta !== null).meta
 
   return (
     <div className="cucumber">
@@ -60,8 +67,8 @@ export const FilteredResults: React.FunctionComponent = () => {
         <ExecutionSummary
           scenarioCountByStatus={scenarioCountByStatus}
           totalScenarioCount={totalScenarioCount}
-          testRunStarted={testRunStarted}
-          testRunFinished={testRunFinished}
+          startDate={startDate}
+          finishDate={finishDate}
           meta={meta}
         />
         <SearchBar statusesWithScenarios={statusesWithScenarios} />

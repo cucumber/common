@@ -2,7 +2,7 @@ import React from 'react'
 import { render } from '@testing-library/react'
 import { ExecutionSummary, IExecutionSummaryProps } from '../../../src/components/app'
 import * as messages from '@cucumber/messages'
-import { TestStepResultStatus, TimeConversion } from '@cucumber/messages'
+import { TestStepResultStatus } from '@cucumber/messages'
 import assert from 'assert'
 import { add, addMilliseconds } from 'date-fns'
 
@@ -13,19 +13,8 @@ const DEFAULT_PROPS: IExecutionSummaryProps = {
     [TestStepResultStatus.UNDEFINED, 1],
   ]),
   totalScenarioCount: 104,
-  testRunStarted: {
-    timestamp: {
-      seconds: 1639753096,
-      nanos: 870,
-    },
-  },
-  testRunFinished: {
-    timestamp: {
-      seconds: 1639753197,
-      nanos: 340,
-    },
-    success: true,
-  },
+  startDate: new Date(1639753096000),
+  finishDate: new Date(1639753197000),
   meta: {
     protocolVersion: '17.1.1',
     implementation: { version: '8.0.0-rc.1', name: 'cucumber-js' },
@@ -45,17 +34,13 @@ const DEFAULT_PROPS: IExecutionSummaryProps = {
   },
 }
 
-const startDate = new Date(
-  TimeConversion.timestampToMillisecondsSinceEpoch(DEFAULT_PROPS.testRunStarted.timestamp)
-)
-
 describe('ExecutionSummary', () => {
   describe('last run date/time', () => {
     const examples: [text: string, referenceDate: Date][] = [
-      ['1 hour ago', add(startDate, { hours: 1 })],
-      ['3 hours ago', add(startDate, { hours: 3, minutes: 24, seconds: 18 })],
-      ['1 day ago', add(startDate, { days: 1, hours: 3, minutes: 24, seconds: 18 })],
-      ['15 days ago', add(startDate, { weeks: 2, days: 1 })],
+      ['1 hour ago', add(DEFAULT_PROPS.startDate, { hours: 1 })],
+      ['3 hours ago', add(DEFAULT_PROPS.startDate, { hours: 3, minutes: 24, seconds: 18 })],
+      ['1 day ago', add(DEFAULT_PROPS.startDate, { days: 1, hours: 3, minutes: 24, seconds: 18 })],
+      ['15 days ago', add(DEFAULT_PROPS.startDate, { weeks: 2, days: 1 })],
     ]
 
     for (const [text, referenceDate] of examples) {
@@ -72,23 +57,20 @@ describe('ExecutionSummary', () => {
 
   describe('run duration', () => {
     const examples: [text: string, finishDate: Date][] = [
-      ['1 hour 45 minutes 23 seconds', add(startDate, { hours: 1, minutes: 45, seconds: 23 })],
-      ['12 minutes 15 seconds', add(startDate, { minutes: 12, seconds: 15 })],
-      ['10 seconds', add(startDate, { seconds: 10.01 })],
-      ['9.88 seconds', addMilliseconds(startDate, 9876)],
-      ['6.54 seconds', addMilliseconds(startDate, 6543)],
+      [
+        '1 hour 45 minutes 23 seconds',
+        add(DEFAULT_PROPS.startDate, { hours: 1, minutes: 45, seconds: 23 }),
+      ],
+      ['12 minutes 15 seconds', add(DEFAULT_PROPS.startDate, { minutes: 12, seconds: 15 })],
+      ['10 seconds', add(DEFAULT_PROPS.startDate, { seconds: 10.01 })],
+      ['9.88 seconds', addMilliseconds(DEFAULT_PROPS.startDate, 9876)],
+      ['6.54 seconds', addMilliseconds(DEFAULT_PROPS.startDate, 6543)],
     ]
 
     for (const [text, finishDate] of examples) {
       it(`should render correctly for ${text}`, () => {
         const { getByText } = render(
-          <ExecutionSummary
-            {...DEFAULT_PROPS}
-            testRunFinished={{
-              timestamp: TimeConversion.millisecondsSinceEpochToTimestamp(finishDate.getTime()),
-              success: true,
-            }}
-          />
+          <ExecutionSummary {...DEFAULT_PROPS} finishDate={finishDate} />
         )
 
         assert.ok(getByText(text))

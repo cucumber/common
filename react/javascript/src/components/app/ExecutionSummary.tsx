@@ -1,11 +1,6 @@
 import React, { useMemo } from 'react'
 import * as messages from '@cucumber/messages'
-import {
-  TestRunFinished,
-  TestRunStarted,
-  TestStepResultStatus,
-  TimeConversion,
-} from '@cucumber/messages'
+import { TestStepResultStatus } from '@cucumber/messages'
 import { formatDistanceStrict, formatDuration, intervalToDuration } from 'date-fns'
 import styles from './ExecutionSummary.module.scss'
 
@@ -33,27 +28,19 @@ export const Product: React.FunctionComponent<IProductProps> = ({
 export interface IExecutionSummaryProps {
   scenarioCountByStatus: Map<messages.TestStepResultStatus, number>
   totalScenarioCount: number
-  testRunStarted: TestRunStarted
-  testRunFinished: TestRunFinished
-  meta: messages.Meta
+  startDate: Date
+  finishDate: Date
   referenceDate?: Date
+  meta: messages.Meta
 }
 
 export const ExecutionSummary: React.FunctionComponent<IExecutionSummaryProps> = ({
   scenarioCountByStatus,
   totalScenarioCount,
-  testRunStarted,
-  testRunFinished,
+  startDate,
+  finishDate,
   referenceDate,
 }) => {
-  const startDate: Date = useMemo(
-    () => new Date(TimeConversion.timestampToMillisecondsSinceEpoch(testRunStarted.timestamp)),
-    [testRunStarted]
-  )
-  const finishDate: Date = useMemo(
-    () => new Date(TimeConversion.timestampToMillisecondsSinceEpoch(testRunFinished.timestamp)),
-    [testRunFinished]
-  )
   const percentagePassed: string = useMemo(() => {
     return (
       new Intl.NumberFormat(undefined, {
