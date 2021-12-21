@@ -5,6 +5,8 @@ import { formatDistanceStrict, formatDuration, intervalToDuration } from 'date-f
 import styles from './ExecutionSummary.module.scss'
 import { CICommitLink } from './CICommitLink'
 import { Cucumber } from './icons/Cucumber'
+import { Linux } from './icons/Linux'
+import { OSIcon } from './OSIcon'
 
 interface IProductProps {
   name: string
@@ -82,7 +84,12 @@ export const ExecutionSummary: React.FunctionComponent<IExecutionSummaryProps> =
             <dt className={styles.suffix}>duration</dt>
             <dd className={styles.value}>{formattedDuration}</dd>
           </div>
-          <div className={styles.item}></div>
+          <div className={styles.item}>
+            <dt className={styles.suffix}>{meta.os.name}</dt>
+            <dd className={styles.value}>
+              <OSIcon name={meta.os.name} />
+            </dd>
+          </div>
           <div className={styles.item}></div>
           <div className={styles.item}>
             <dt className={styles.suffix}>
