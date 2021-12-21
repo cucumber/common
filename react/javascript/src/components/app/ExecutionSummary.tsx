@@ -126,9 +126,6 @@ export const ExecutionSummary: React.FunctionComponent<IExecutionSummaryProps> =
                 </td>
               </tr>
             )}
-            {meta.runtime && <Product name="Runtime" product={meta.runtime} />}
-            {meta.os && <Product name="OS" product={meta.os} />}
-            {meta.cpu && <Product name="CPU" product={meta.cpu} />}
           </tbody>
         </table>
       </div>
