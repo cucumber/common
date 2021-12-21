@@ -7,6 +7,7 @@ import { CICommitLink } from './CICommitLink'
 import { Cucumber } from './icons/Cucumber'
 import { Linux } from './icons/Linux'
 import { OSIcon } from './OSIcon'
+import { RuntimeIcon } from './RuntimeIcon'
 
 interface IProductProps {
   name: string
@@ -90,7 +91,12 @@ export const ExecutionSummary: React.FunctionComponent<IExecutionSummaryProps> =
               <OSIcon name={meta.os.name} />
             </dd>
           </div>
-          <div className={styles.item}></div>
+          <div className={styles.item}>
+            <dt className={styles.suffix}>{meta.runtime.name + ' ' + meta.runtime.version}</dt>
+            <dd className={styles.value}>
+              <RuntimeIcon name={meta.runtime.name} />
+            </dd>
+          </div>
           <div className={styles.item}>
             <dt className={styles.suffix}>
               {`${meta.implementation.name} ${meta.implementation.version}`}
