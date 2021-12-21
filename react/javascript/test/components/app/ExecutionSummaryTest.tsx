@@ -106,4 +106,12 @@ describe('ExecutionSummary', () => {
       })
     }
   })
+
+  describe('meta', () => {
+    it('should include the implementation name and version', () => {
+      const { getByText } = render(<ExecutionSummary {...DEFAULT_PROPS} />)
+
+      assert.ok(getByText('cucumber-js 8.0.0-rc.1'))
+    })
+  })
 })

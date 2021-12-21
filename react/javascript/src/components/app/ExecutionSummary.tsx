@@ -4,6 +4,7 @@ import { TestStepResultStatus } from '@cucumber/messages'
 import { formatDistanceStrict, formatDuration, intervalToDuration } from 'date-fns'
 import styles from './ExecutionSummary.module.scss'
 import { CICommitLink } from './CICommitLink'
+import { Cucumber } from './icons/Cucumber'
 
 interface IProductProps {
   name: string
@@ -83,7 +84,14 @@ export const ExecutionSummary: React.FunctionComponent<IExecutionSummaryProps> =
           </div>
           <div className={styles.item}></div>
           <div className={styles.item}></div>
-          <div className={styles.item}></div>
+          <div className={styles.item}>
+            <dt className={styles.suffix}>
+              {`${meta.implementation.name} ${meta.implementation.version}`}
+            </dt>
+            <dd className={styles.value}>
+              <Cucumber />
+            </dd>
+          </div>
         </dl>
       </div>
       <div className="cucumber-execution-data">
@@ -105,7 +113,6 @@ export const ExecutionSummary: React.FunctionComponent<IExecutionSummaryProps> =
                 </td>
               </tr>
             )}
-            {meta.implementation && <Product name="Implementation" product={meta.implementation} />}
             {meta.runtime && <Product name="Runtime" product={meta.runtime} />}
             {meta.os && <Product name="OS" product={meta.os} />}
             {meta.cpu && <Product name="CPU" product={meta.cpu} />}
