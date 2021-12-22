@@ -35,6 +35,7 @@ export const SearchBar: React.FunctionComponent<IProps> = ({ statusesWithScenari
     <div className="cucumber-search-bar">
       <form className="cucumber-search-bar-search" onSubmit={searchSubmitted}>
         <input
+          aria-label="Search"
           type="text"
           name="query"
           placeholder="Some text or @tags"

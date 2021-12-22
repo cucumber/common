@@ -54,6 +54,7 @@
     "@storybook/manager-webpack5": "6.4.9",
     "@storybook/react": "6.4.9",
     "@testing-library/react": "12.1.2",
+    "@testing-library/user-event": "13.5.0",
     "@types/color": "3.0.2",
     "@types/glob": "7.2.0",
     "@types/jsdom": "16.2.13",
