@@ -6,6 +6,7 @@ import styles from './ExecutionSummary.module.scss'
 import { Cucumber } from './icons/Cucumber'
 import { OSIcon } from './OSIcon'
 import { RuntimeIcon } from './RuntimeIcon'
+import { CICommitLink } from './CICommitLink'
 
 interface IProductProps {
   name: string
@@ -68,41 +69,49 @@ export const ExecutionSummary: React.FunctionComponent<IExecutionSummaryProps> =
     return formatDuration(intervalToDuration({ start: startDate, end: finishDate }), {})
   }, [startDate, finishDate])
   return (
-    <div className={styles.backdrop}>
-      <dl className={styles.layout}>
-        <div className={styles.item}>
-          <dt className={styles.suffix}>{totalScenarioCount} executed</dt>
-          <dd className={styles.value}>{percentagePassed}</dd>
+    <>
+      <div className={styles.grid}>
+        <dl className={styles.list}>
+          <div className={styles.item}>
+            <dt className={styles.suffix}>{totalScenarioCount} executed</dt>
+            <dd className={styles.value}>{percentagePassed}</dd>
+          </div>
+          <div className={styles.item}>
+            <dt className={styles.suffix}>last run</dt>
+            <dd className={styles.value}>{formattedTimestamp}</dd>
+          </div>
+          <div className={styles.item}>
+            <dt className={styles.suffix}>duration</dt>
+            <dd className={styles.value}>{formattedDuration}</dd>
+          </div>
+          <div className={styles.item}>
+            <dt className={styles.suffix}>{meta.os.name}</dt>
+            <dd className={styles.value}>
+              <OSIcon name={meta.os.name} />
+            </dd>
+          </div>
+          <div className={styles.item}>
+            <dt className={styles.suffix}>{meta.runtime.name + ' ' + meta.runtime.version}</dt>
+            <dd className={styles.value}>
+              <RuntimeIcon name={meta.runtime.name} />
+            </dd>
+          </div>
+          <div className={styles.item}>
+            <dt className={styles.suffix}>
+              {`${meta.implementation.name} ${meta.implementation.version}`}
+            </dt>
+            <dd className={styles.value}>
+              <Cucumber />
+            </dd>
+          </div>
+        </dl>
+      </div>
+      {meta.ci && (
+        <div className={styles.ci}>
+          <span>{meta.ci.name}</span>
+          {meta.ci.git && <CICommitLink ci={meta.ci} />}
         </div>
-        <div className={styles.item}>
-          <dt className={styles.suffix}>last run</dt>
-          <dd className={styles.value}>{formattedTimestamp}</dd>
-        </div>
-        <div className={styles.item}>
-          <dt className={styles.suffix}>duration</dt>
-          <dd className={styles.value}>{formattedDuration}</dd>
-        </div>
-        <div className={styles.item}>
-          <dt className={styles.suffix}>{meta.os.name}</dt>
-          <dd className={styles.value}>
-            <OSIcon name={meta.os.name} />
-          </dd>
-        </div>
-        <div className={styles.item}>
-          <dt className={styles.suffix}>{meta.runtime.name + ' ' + meta.runtime.version}</dt>
-          <dd className={styles.value}>
-            <RuntimeIcon name={meta.runtime.name} />
-          </dd>
-        </div>
-        <div className={styles.item}>
-          <dt className={styles.suffix}>
-            {`${meta.implementation.name} ${meta.implementation.version}`}
-          </dt>
-          <dd className={styles.value}>
-            <Cucumber />
-          </dd>
-        </div>
-      </dl>
-    </div>
+      )}
+    </>
   )
 }

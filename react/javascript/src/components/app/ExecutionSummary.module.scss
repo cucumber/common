@@ -1,10 +1,10 @@
 @import '../../styles/theming';
 
-.backdrop {
+.grid {
     background-color: rgba(0, 0, 0, 0.1);
 }
 
-.layout {
+.list {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr;
@@ -34,4 +34,12 @@
     font-size: 1rem;
     margin-top: 0.25rem;
     color: $codeTextColor;
+}
+
+.ci {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    padding: 1rem;
+    border: 1px solid rgba(0, 0, 0, 0.1);
 }
