@@ -63,16 +63,14 @@ export const FilteredResults: React.FunctionComponent = () => {
         scenarioCountByStatus={scenarioCountByStatus}
         totalScenarioCount={totalScenarioCount}
       />
-      <div className="cucumber-report-header">
-        <ExecutionSummary
-          scenarioCountByStatus={scenarioCountByStatus}
-          totalScenarioCount={totalScenarioCount}
-          startDate={startDate}
-          finishDate={finishDate}
-          meta={meta}
-        />
-        <SearchBar statusesWithScenarios={statusesWithScenarios} />
-      </div>
+      <ExecutionSummary
+        scenarioCountByStatus={scenarioCountByStatus}
+        totalScenarioCount={totalScenarioCount}
+        startDate={startDate}
+        finishDate={finishDate}
+        meta={meta}
+      />
+      <SearchBar statusesWithScenarios={statusesWithScenarios} />
       <GherkinDocumentList gherkinDocuments={filtered} preExpand={true} />
       <NoMatchResult query={query} matches={filtered} />
     </div>

@@ -1,7 +1,7 @@
 @import '../../styles/theming';
 
 .backdrop {
-    background-color: #bbb;
+    background-color: rgba(0, 0, 0, 0.1);
 }
 
 .layout {
@@ -9,6 +9,7 @@
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr;
     gap: 1px;
+    margin: 0;
     text-align: center;
 }
 
