@@ -3,9 +3,7 @@ import * as messages from '@cucumber/messages'
 import { TestStepResultStatus } from '@cucumber/messages'
 import { formatDistanceStrict, formatDuration, intervalToDuration } from 'date-fns'
 import styles from './ExecutionSummary.module.scss'
-import { CICommitLink } from './CICommitLink'
 import { Cucumber } from './icons/Cucumber'
-import { Linux } from './icons/Linux'
 import { OSIcon } from './OSIcon'
 import { RuntimeIcon } from './RuntimeIcon'
 
@@ -70,65 +68,41 @@ export const ExecutionSummary: React.FunctionComponent<IExecutionSummaryProps> =
     return formatDuration(intervalToDuration({ start: startDate, end: finishDate }), {})
   }, [startDate, finishDate])
   return (
-    <>
-      <div className={styles.backdrop}>
-        <dl className={styles.layout}>
-          <div className={styles.item}>
-            <dt className={styles.suffix}>{totalScenarioCount} executed</dt>
-            <dd className={styles.value}>{percentagePassed}</dd>
-          </div>
-          <div className={styles.item}>
-            <dt className={styles.suffix}>last run</dt>
-            <dd className={styles.value}>{formattedTimestamp}</dd>
-          </div>
-          <div className={styles.item}>
-            <dt className={styles.suffix}>duration</dt>
-            <dd className={styles.value}>{formattedDuration}</dd>
-          </div>
-          <div className={styles.item}>
-            <dt className={styles.suffix}>{meta.os.name}</dt>
-            <dd className={styles.value}>
-              <OSIcon name={meta.os.name} />
-            </dd>
-          </div>
-          <div className={styles.item}>
-            <dt className={styles.suffix}>{meta.runtime.name + ' ' + meta.runtime.version}</dt>
-            <dd className={styles.value}>
-              <RuntimeIcon name={meta.runtime.name} />
-            </dd>
-          </div>
-          <div className={styles.item}>
-            <dt className={styles.suffix}>
-              {`${meta.implementation.name} ${meta.implementation.version}`}
-            </dt>
-            <dd className={styles.value}>
-              <Cucumber />
-            </dd>
-          </div>
-        </dl>
-      </div>
-      <div className="cucumber-execution-data">
-        <table>
-          <tbody>
-            {meta.ci && (
-              <tr>
-                <th>Build</th>
-                <td>
-                  <a href={meta.ci.url}>{meta.ci.name}</a>
-                </td>
-              </tr>
-            )}
-            {meta.ci && (
-              <tr>
-                <th>Commit</th>
-                <td>
-                  <CICommitLink ci={meta.ci} />
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
-    </>
+    <div className={styles.backdrop}>
+      <dl className={styles.layout}>
+        <div className={styles.item}>
+          <dt className={styles.suffix}>{totalScenarioCount} executed</dt>
+          <dd className={styles.value}>{percentagePassed}</dd>
+        </div>
+        <div className={styles.item}>
+          <dt className={styles.suffix}>last run</dt>
+          <dd className={styles.value}>{formattedTimestamp}</dd>
+        </div>
+        <div className={styles.item}>
+          <dt className={styles.suffix}>duration</dt>
+          <dd className={styles.value}>{formattedDuration}</dd>
+        </div>
+        <div className={styles.item}>
+          <dt className={styles.suffix}>{meta.os.name}</dt>
+          <dd className={styles.value}>
+            <OSIcon name={meta.os.name} />
+          </dd>
+        </div>
+        <div className={styles.item}>
+          <dt className={styles.suffix}>{meta.runtime.name + ' ' + meta.runtime.version}</dt>
+          <dd className={styles.value}>
+            <RuntimeIcon name={meta.runtime.name} />
+          </dd>
+        </div>
+        <div className={styles.item}>
+          <dt className={styles.suffix}>
+            {`${meta.implementation.name} ${meta.implementation.version}`}
+          </dt>
+          <dd className={styles.value}>
+            <Cucumber />
+          </dd>
+        </div>
+      </dl>
+    </div>
   )
 }
