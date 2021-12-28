@@ -59,8 +59,7 @@ docker-run:
 	docker run \
 	  --publish "6006:6006" \
 	  --volume "${shell pwd}":/app \
-	  --volume "${HOME}/.m2/repository":/home/cukebot/.m2/repository \
-	  --user 1000 \
+	  --volume "${HOME}/.m2/repository":/root/.m2/repository \
 	  --rm \
 	  --interactive \
 	  --tty \
@@ -76,16 +75,15 @@ docker-run-with-secrets:
 	docker run \
 	  --publish "6006:6006" \
 	  --volume "${shell pwd}":/app \
-	  --volume "${HOME}/.m2/repository":/home/cukebot/.m2/repository \
-	  --volume "${shell pwd}/../secrets/.pause":/home/cukebot/.pause \
-	  --volume "${shell pwd}/../secrets/.gem":/home/cukebot/.gem \
-	  --volume "${shell pwd}/../secrets/.ssh":/home/cukebot/.ssh \
-	  --volume "${shell pwd}/../secrets/.npmrc":/home/cukebot/.npmrc \
-	  --volume "${shell pwd}/../secrets/configure":/home/cukebot/configure \
-	  --volume "${shell pwd}/../secrets/codesigning.key":/home/cukebot/codesigning.key \
-	  --volume "${shell pwd}/../secrets/gpg-with-passphrase":/home/cukebot/gpg-with-passphrase \
+	  --volume "${HOME}/.m2/repository":/root/.m2/repository \
+	  --volume "${shell pwd}/../secrets/.pause":/root/.pause \
+	  --volume "${shell pwd}/../secrets/.gem":/root/.gem \
+	  --volume "${shell pwd}/../secrets/.ssh":/root/.ssh \
+	  --volume "${shell pwd}/../secrets/.npmrc":/root/.npmrc \
+	  --volume "${shell pwd}/../secrets/configure":/root/configure \
+	  --volume "${shell pwd}/../secrets/codesigning.key":/root/codesigning.key \
+	  --volume "${shell pwd}/../secrets/gpg-with-passphrase":/root/gpg-with-passphrase \
 	  --env-file ../secrets/secrets.list \
-	  --user 1000 \
 	  --rm \
 	  --interactive \
 	  --tty \
