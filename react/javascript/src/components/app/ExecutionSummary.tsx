@@ -7,6 +7,8 @@ import { Cucumber } from './icons/Cucumber'
 import { OSIcon } from './OSIcon'
 import { RuntimeIcon } from './RuntimeIcon'
 import { CICommitLink } from './CICommitLink'
+import { faCloud, faCodeBranch, faFilter, faTag } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 interface IProductProps {
   name: string
@@ -108,8 +110,27 @@ export const ExecutionSummary: React.FunctionComponent<IExecutionSummaryProps> =
       </div>
       {meta.ci && (
         <div className={styles.ci}>
-          <span>{meta.ci.name}</span>
-          {meta.ci.git && <CICommitLink ci={meta.ci} />}
+          <span>
+            <FontAwesomeIcon icon={faCloud} />
+            {meta.ci.name}
+          </span>
+          {meta.ci.git && (
+            <>
+              {meta.ci.git.branch && (
+                <span>
+                  <FontAwesomeIcon icon={faCodeBranch} />
+                  {meta.ci.git.branch}
+                </span>
+              )}
+              {meta.ci.git.tag && (
+                <span>
+                  <FontAwesomeIcon icon={faTag} />
+                  {meta.ci.git.tag}
+                </span>
+              )}
+              <CICommitLink ci={meta.ci} />
+            </>
+          )}
         </div>
       )}
     </>
