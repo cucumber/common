@@ -1,0 +1,23 @@
+.searchForm {
+    position: relative;
+    width: 100%;
+}
+
+.queryIcon {
+    position: absolute;
+    left: 1rem;
+    top: 1rem;
+    opacity: 0.5;
+}
+
+.queryField {
+    box-sizing: border-box;
+    background-color: rgba(0, 0, 0, 0.1);
+    color: black;
+    width: 100%;
+    padding: 1rem 1rem 1rem 2.5rem;
+    border: none;
+    font-family: inherit;
+}
+
+

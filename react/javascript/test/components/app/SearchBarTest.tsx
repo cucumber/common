@@ -51,22 +51,6 @@ describe('SearchBar', () => {
       )
     })
 
-    it('updates the context when the search button is clicked', () => {
-      const onSearchQueryUpdated = sinon.spy()
-      const { getByRole } = renderSearchBar([], {}, onSearchQueryUpdated)
-
-      userEvent.type(getByRole('textbox', { name: 'Search' }), 'search text')
-      userEvent.click(getByRole('button'))
-
-      sinon.assert.calledOnce(onSearchQueryUpdated)
-      sinon.assert.calledWith(
-        onSearchQueryUpdated,
-        sinon.match({
-          query: 'search text',
-        })
-      )
-    })
-
     it("doesn't perform the default form action when submitting", () => {
       const eventListener = sinon.spy()
       const { getByRole, baseElement } = renderSearchBar()

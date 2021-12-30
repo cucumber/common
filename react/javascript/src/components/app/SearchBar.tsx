@@ -6,6 +6,8 @@ import statusName from '../gherkin/statusName'
 import statuses from './statuses'
 import { TestStepResultStatus as Status } from '@cucumber/messages'
 
+import styles from './SearchBar.module.scss'
+
 interface IProps {
   statusesWithScenarios: Status[]
 }
@@ -32,18 +34,17 @@ export const SearchBar: React.FunctionComponent<IProps> = ({ statusesWithScenari
   const showFilters = statusesWithScenarios.length > 1
 
   return (
-    <div>
-      <form onSubmit={searchSubmitted}>
+    <>
+      <form className={styles.searchForm} onSubmit={searchSubmitted}>
+        <FontAwesomeIcon aria-hidden="true" className={styles.queryIcon} icon={faSearch} />
         <input
+          className={styles.queryField}
           aria-label="Search"
           type="text"
           name="query"
           placeholder="Some text or @tags"
           defaultValue={searchQueryContext.query}
         />
-        <button type="submit" value="search">
-          <FontAwesomeIcon icon={faSearch} />
-        </button>
       </form>
       <p className="help">
         <FontAwesomeIcon icon={faQuestionCircle} />
@@ -82,6 +83,6 @@ export const SearchBar: React.FunctionComponent<IProps> = ({ statusesWithScenari
           </ul>
         </>
       )}
-    </div>
+    </>
   )
 }
