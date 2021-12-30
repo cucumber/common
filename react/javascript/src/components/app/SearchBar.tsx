@@ -32,8 +32,8 @@ export const SearchBar: React.FunctionComponent<IProps> = ({ statusesWithScenari
   const showFilters = statusesWithScenarios.length > 1
 
   return (
-    <div className="cucumber-search-bar">
-      <form className="cucumber-search-bar-search" onSubmit={searchSubmitted}>
+    <div>
+      <form onSubmit={searchSubmitted}>
         <input
           aria-label="Search"
           type="text"
@@ -54,33 +54,33 @@ export const SearchBar: React.FunctionComponent<IProps> = ({ statusesWithScenari
         &nbsp; to filter the output.
       </p>
       {showFilters && (
-        <form className="cucumber-search-bar-filter">
+        <>
           <span>
             <FontAwesomeIcon icon={faFilter} /> Filter by scenario status:
           </span>
           <ul>
-            {statuses.map((status, index) => {
+            {statuses.map((status) => {
               if (!statusesWithScenarios.includes(status)) {
                 return
               }
               const name = statusName(status)
               const enabled = !searchQueryContext.hideStatuses.includes(status)
-              const inputId = `filter-status-${name}`
 
               return (
-                <li key={index}>
-                  <input
-                    id={inputId}
-                    type="checkbox"
-                    defaultChecked={enabled}
-                    onChange={(evt) => filterChanged(status, evt.target.checked)}
-                  />
-                  <label htmlFor={inputId}>{name}</label>
+                <li key={name}>
+                  <label>
+                    <input
+                      type="checkbox"
+                      defaultChecked={enabled}
+                      onChange={(evt) => filterChanged(status, evt.target.checked)}
+                    />{' '}
+                    {name}
+                  </label>
                 </li>
               )
             })}
           </ul>
-        </form>
+        </>
       )}
     </div>
   )
