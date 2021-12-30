@@ -1,23 +1,35 @@
+@import '../../styles/theming';
+
 .searchForm {
+    box-sizing: border-box;
     position: relative;
     width: 100%;
+    padding: 1rem;
+    background-color: rgba(0, 0, 0, 0.1);
 }
 
 .queryIcon {
     position: absolute;
     left: 1rem;
     top: 1rem;
-    opacity: 0.5;
+    color: $codeTextColor;
 }
 
 .queryField {
-    box-sizing: border-box;
-    background-color: rgba(0, 0, 0, 0.1);
-    color: black;
     width: 100%;
-    padding: 1rem 1rem 1rem 2.5rem;
+    padding: 0 0 0 1.5rem;
     border: none;
     font-family: inherit;
+    font-size: inherit;
+    background-color: transparent;
 }
 
+.searchHelp {
+    display: block;
+    font-style: italic;
+    font-size: 0.666rem;
+    line-height: 1em;
+    margin-top: 0.5rem;
+    color: $codeTextColor;
+}
 

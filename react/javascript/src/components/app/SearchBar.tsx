@@ -42,18 +42,18 @@ export const SearchBar: React.FunctionComponent<IProps> = ({ statusesWithScenari
           aria-label="Search"
           type="text"
           name="query"
-          placeholder="Some text or @tags"
+          placeholder='e.g. "some text" or "@tags"'
           defaultValue={searchQueryContext.query}
         />
+        <small className={styles.searchHelp}>
+          You can use either plain text for the search or{' '}
+          <a href="https://cucumber.io/docs/cucumber/api/#tag-expressions">
+            cucumber tag expressions
+          </a>{' '}
+          to filter the output.
+        </small>
       </form>
-      <p className="help">
-        <FontAwesomeIcon icon={faQuestionCircle} />
-        &nbsp; You can use either plain text for the search or &nbsp;
-        <a href="https://cucumber.io/docs/cucumber/api/#tag-expressions">
-          cucumber tag expressions
-        </a>
-        &nbsp; to filter the output.
-      </p>
+
       {showFilters && (
         <>
           <span>
