@@ -1,7 +1,12 @@
 import React from 'react'
 import { Meta, Story } from '@storybook/react'
 import * as messages from '@cucumber/messages'
-import { TestStepResultStatus } from '@cucumber/messages'
+import {
+  TestRunFinished,
+  TestRunStarted,
+  TestStepResultStatus,
+  TimeConversion,
+} from '@cucumber/messages'
 import { components } from '../../src'
 import { IExecutionSummaryProps } from '../components/app'
 
@@ -36,9 +41,14 @@ const metaWithCi: messages.Meta = {
   },
 }
 
-const startDate = new Date(1639753096000)
+const testRunStarted: TestRunStarted = {
+  timestamp: TimeConversion.millisecondsSinceEpochToTimestamp(1639753096000),
+}
 
-const finishDate = new Date(1639753197000)
+const testRunFinished: TestRunFinished = {
+  timestamp: TimeConversion.millisecondsSinceEpochToTimestamp(1639753197000),
+  success: false,
+}
 
 export default {
   title: 'App/ExecutionSummary',
@@ -58,8 +68,8 @@ export const Default = Template.bind({})
 Default.args = {
   scenarioCountByStatus,
   totalScenarioCount: 104,
-  startDate,
-  finishDate,
+  testRunStarted,
+  testRunFinished,
   meta: metaMinimal,
 } as IExecutionSummaryProps
 
@@ -67,7 +77,7 @@ export const WithCi = Template.bind({})
 WithCi.args = {
   scenarioCountByStatus,
   totalScenarioCount: 104,
-  startDate,
-  finishDate,
+  testRunStarted,
+  testRunFinished,
   meta: metaWithCi,
 } as IExecutionSummaryProps
