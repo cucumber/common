@@ -39,7 +39,7 @@ describe('FilteredResults', () => {
       )
     })
 
-    it('updates the context when the form is submitted', () => {
+    it('updates the context when a search is triggered', () => {
       const onSearchQueryUpdated = sinon.spy()
       const { getByRole } = renderFilteredResults({}, onSearchQueryUpdated)
 
@@ -51,40 +51,6 @@ describe('FilteredResults', () => {
         onSearchQueryUpdated,
         sinon.match({
           query: 'search text',
-        })
-      )
-    })
-
-    it("doesn't perform the default form action when submitting", () => {
-      const eventListener = sinon.spy()
-      const { getByRole, baseElement } = renderFilteredResults()
-
-      baseElement.ownerDocument.addEventListener('submit', eventListener)
-
-      userEvent.type(getByRole('textbox', { name: 'Search' }), 'search text')
-      userEvent.keyboard('{Enter}')
-
-      sinon.assert.calledOnce(eventListener)
-      sinon.assert.calledWith(
-        eventListener,
-        sinon.match({
-          defaultPrevented: true,
-        })
-      )
-    })
-
-    it('updates the context when a blank search is submitted', () => {
-      const onSearchQueryUpdated = sinon.spy()
-      const { getByRole } = renderFilteredResults({ query: 'foo' }, onSearchQueryUpdated)
-
-      userEvent.clear(getByRole('textbox', { name: 'Search' }))
-      userEvent.keyboard('{Enter}')
-
-      sinon.assert.calledOnce(onSearchQueryUpdated)
-      sinon.assert.calledWith(
-        onSearchQueryUpdated,
-        sinon.match({
-          query: '',
         })
       )
     })

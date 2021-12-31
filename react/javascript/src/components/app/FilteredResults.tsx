@@ -15,12 +15,13 @@ import { ExecutionSummary } from './ExecutionSummary'
 import EnvelopesQueryContext from '../../EnvelopesQueryContext'
 import statuses from './statuses'
 import { TimeConversion } from '@cucumber/messages'
+import { StatusesFilter } from './StatusesFilter'
 
 export const FilteredResults: React.FunctionComponent = () => {
   const envelopesQuery = React.useContext(EnvelopesQueryContext)
   const gherkinQuery = React.useContext(GherkinQueryContext)
   const cucumberQuery = React.useContext(CucumberQueryContext)
-  const { query, hideStatuses } = React.useContext(SearchQueryContext)
+  const { query, hideStatuses, update } = React.useContext(SearchQueryContext)
   const allDocuments = gherkinQuery.getGherkinDocuments()
 
   const scenarioCountByStatus = countScenariosByStatuses(allDocuments, gherkinQuery, cucumberQuery)
@@ -70,7 +71,12 @@ export const FilteredResults: React.FunctionComponent = () => {
         finishDate={finishDate}
         meta={meta}
       />
-      <SearchBar statusesWithScenarios={statusesWithScenarios} />
+      <SearchBar query={query} onSearch={(query) => update({ query })} />
+      <StatusesFilter
+        statusesWithScenarios={statusesWithScenarios}
+        hideStatuses={hideStatuses}
+        onChange={(hideStatuses) => update({ hideStatuses })}
+      />
       <GherkinDocumentList gherkinDocuments={filtered} preExpand={true} />
       <NoMatchResult query={query} matches={filtered} />
     </div>
