@@ -1,5 +1,5 @@
 import React from 'react'
-import { faSearch, faQuestionCircle, faFilter } from '@fortawesome/free-solid-svg-icons'
+import { faSearch, faFilter } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import SearchQueryContext from '../../SearchQueryContext'
 import statusName from '../gherkin/statusName'
