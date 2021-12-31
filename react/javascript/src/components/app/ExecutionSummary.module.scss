@@ -1,10 +1,11 @@
 @import '../../styles/theming';
 
-.grid {
+.summaryBackdrop {
     background-color: rgba(0, 0, 0, 0.1);
+    border: 1px solid transparent;
 }
 
-.list {
+.summaryList {
     display: grid;
     grid-template-columns: repeat(12, 1fr);
     grid-template-rows: 1fr 1fr;
@@ -13,7 +14,7 @@
     text-align: center;
 }
 
-.item {
+.summaryItem {
     grid-column-end: span 4;
     display: flex;
     flex-direction: column-reverse;
@@ -26,7 +27,7 @@
     }
 }
 
-.value {
+.summaryValue {
     font-weight: bold;
     font-size: 1.25rem;
     margin: 0;
@@ -36,7 +37,7 @@
     }
 }
 
-.suffix {
+.summarySuffix {
     font-size: 1rem;
     margin-top: 0.25rem;
     color: $codeTextColor;

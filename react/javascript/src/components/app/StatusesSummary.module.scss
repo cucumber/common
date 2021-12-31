@@ -7,7 +7,7 @@ $statusColors:
         'FAILED' #BB0000,
         'UNKNOWN' #B6BECB;
 
-.list {
+.statusesList {
     list-style: none;
     display: flex;
     width: 100%;
@@ -15,7 +15,7 @@ $statusColors:
     margin: 0;
 }
 
-.status {
+.statusesItem {
     box-sizing: border-box;
     flex-grow: 1;
     min-width: 11rem;

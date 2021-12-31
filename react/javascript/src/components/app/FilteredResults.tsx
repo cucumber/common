@@ -15,6 +15,7 @@ import { ExecutionSummary } from './ExecutionSummary'
 import EnvelopesQueryContext from '../../EnvelopesQueryContext'
 import statuses from './statuses'
 import { StatusesFilter } from './StatusesFilter'
+import styles from './FilteredResults.module.scss'
 
 export const FilteredResults: React.FunctionComponent = () => {
   const envelopesQuery = React.useContext(EnvelopesQueryContext)
@@ -54,23 +55,25 @@ export const FilteredResults: React.FunctionComponent = () => {
 
   return (
     <div className="cucumber">
-      <StatusesSummary
-        scenarioCountByStatus={scenarioCountByStatus}
-        totalScenarioCount={totalScenarioCount}
-      />
-      <ExecutionSummary
-        scenarioCountByStatus={scenarioCountByStatus}
-        totalScenarioCount={totalScenarioCount}
-        testRunStarted={testRunStarted}
-        testRunFinished={testRunFinished}
-        meta={meta}
-      />
-      <SearchBar query={query} onSearch={(query) => update({ query })} />
-      <StatusesFilter
-        statusesWithScenarios={statusesWithScenarios}
-        hideStatuses={hideStatuses}
-        onChange={(hideStatuses) => update({ hideStatuses })}
-      />
+      <div className={styles.reportHeader}>
+        <StatusesSummary
+          scenarioCountByStatus={scenarioCountByStatus}
+          totalScenarioCount={totalScenarioCount}
+        />
+        <ExecutionSummary
+          scenarioCountByStatus={scenarioCountByStatus}
+          totalScenarioCount={totalScenarioCount}
+          testRunStarted={testRunStarted}
+          testRunFinished={testRunFinished}
+          meta={meta}
+        />
+        <SearchBar query={query} onSearch={(query) => update({ query })} />
+        <StatusesFilter
+          statusesWithScenarios={statusesWithScenarios}
+          hideStatuses={hideStatuses}
+          onChange={(hideStatuses) => update({ hideStatuses })}
+        />
+      </div>
       <GherkinDocumentList gherkinDocuments={filtered} preExpand={true} />
       <NoMatchResult query={query} matches={filtered} />
     </div>

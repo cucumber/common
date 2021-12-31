@@ -14,7 +14,7 @@ export const StatusesSummary: React.FunctionComponent<IStatusesSummaryProps> = (
   totalScenarioCount,
 }) => {
   return (
-    <ol className={styles.list}>
+    <ol className={styles.statusesList}>
       {statuses.map((status) => {
         const scenarioCount = scenarioCountByStatus.get(status)
         if (scenarioCount === undefined) {
@@ -24,7 +24,7 @@ export const StatusesSummary: React.FunctionComponent<IStatusesSummaryProps> = (
           <li
             key={status}
             data-status={status}
-            className={styles.status}
+            className={styles.statusesItem}
             style={{ width: `calc(${scenarioCount} / ${totalScenarioCount} * 100%)` }}
           >
             {scenarioCount} {statusName(status)}

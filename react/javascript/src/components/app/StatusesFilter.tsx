@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFilter } from '@fortawesome/free-solid-svg-icons'
 import statuses from './statuses'
 import statusName from '../gherkin/statusName'
+import styles from './StatusesFilter.module.scss'
 
 interface IProps {
   statusesWithScenarios: readonly Status[]
@@ -23,11 +24,11 @@ export const StatusesFilter: VoidFunctionComponent<IProps> = ({
     onChange(show ? hideStatuses.filter((s) => s !== name) : hideStatuses.concat(name))
   }
   return (
-    <>
+    <div className={styles.filterLayout}>
       <span>
-        <FontAwesomeIcon icon={faFilter} /> Filter by scenario status:
+        <FontAwesomeIcon icon={faFilter} /> by status:
       </span>
-      <ul>
+      <ul className={styles.filterList}>
         {statuses.map((status) => {
           if (!statusesWithScenarios.includes(status)) {
             return
@@ -37,18 +38,18 @@ export const StatusesFilter: VoidFunctionComponent<IProps> = ({
 
           return (
             <li key={name}>
-              <label>
+              <label className={styles.filterField}>
                 <input
                   type="checkbox"
                   defaultChecked={enabled}
                   onChange={(evt) => filterChanged(status, evt.target.checked)}
-                />{' '}
+                />
                 {name}
               </label>
             </li>
           )
         })}
       </ul>
-    </>
+    </div>
   )
 }

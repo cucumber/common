@@ -15,6 +15,8 @@ import UriContext from '../../UriContext'
 import GherkinQueryContext from '../../GherkinQueryContext'
 import CucumberQueryContext from '../../CucumberQueryContext'
 import styles from './GherkinDocumentList.module.scss'
+import { faChevronRight } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 interface IProps {
   gherkinDocuments?: readonly messages.GherkinDocument[]
@@ -54,7 +56,7 @@ export const GherkinDocumentList: React.FunctionComponent<IProps> = ({
     : []
 
   return (
-    <div className={`cucumber ${styles.list}`}>
+    <div className={`cucumber`}>
       <Accordion
         allowMultipleExpanded={true}
         allowZeroExpanded={true}
@@ -69,6 +71,11 @@ export const GherkinDocumentList: React.FunctionComponent<IProps> = ({
             <AccordionItem key={doc.uri} className={styles.accordionItem}>
               <AccordionItemHeading>
                 <AccordionItemButton className={styles.accordionButton}>
+                  <FontAwesomeIcon
+                    className={styles.accordionChevron}
+                    aria-hidden="true"
+                    icon={faChevronRight}
+                  />
                   <span className={styles.icon}>
                     <StatusIcon status={gherkinDocumentStatus} />
                   </span>
