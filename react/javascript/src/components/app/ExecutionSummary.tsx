@@ -7,7 +7,7 @@ import { Cucumber } from './icons/Cucumber'
 import { OSIcon } from './OSIcon'
 import { RuntimeIcon } from './RuntimeIcon'
 import { CICommitLink } from './CICommitLink'
-import { faCloud, faCodeBranch, faFilter, faTag } from '@fortawesome/free-solid-svg-icons'
+import { faCodeBranch, faTag } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 interface IProductProps {
@@ -86,6 +86,34 @@ export const ExecutionSummary: React.FunctionComponent<IExecutionSummaryProps> =
             <dt className={styles.suffix}>duration</dt>
             <dd className={styles.value}>{formattedDuration}</dd>
           </div>
+          {meta.ci && (
+            <div className={`${styles.item} ${styles.itemCi}`}>
+              <dt className={styles.suffix}>
+                {meta.ci.git ? (
+                  <>
+                    {meta.ci.git.branch && (
+                      <span className={styles.gitItem}>
+                        <FontAwesomeIcon icon={faCodeBranch} />
+                        {meta.ci.git.branch}
+                      </span>
+                    )}
+                    {meta.ci.git.tag && (
+                      <span className={styles.gitItem}>
+                        <FontAwesomeIcon icon={faTag} />
+                        {meta.ci.git.tag}
+                      </span>
+                    )}
+                    <span className={styles.gitItem}>
+                      <CICommitLink ci={meta.ci} />
+                    </span>
+                  </>
+                ) : (
+                  '-'
+                )}
+              </dt>
+              <dd className={styles.value}>{meta.ci.name}</dd>
+            </div>
+          )}
           <div className={styles.item}>
             <dt className={styles.suffix}>{meta.os.name}</dt>
             <dd className={styles.value}>
@@ -108,31 +136,6 @@ export const ExecutionSummary: React.FunctionComponent<IExecutionSummaryProps> =
           </div>
         </dl>
       </div>
-      {meta.ci && (
-        <div className={styles.ci}>
-          <span>
-            <FontAwesomeIcon icon={faCloud} />
-            {meta.ci.name}
-          </span>
-          {meta.ci.git && (
-            <>
-              {meta.ci.git.branch && (
-                <span>
-                  <FontAwesomeIcon icon={faCodeBranch} />
-                  {meta.ci.git.branch}
-                </span>
-              )}
-              {meta.ci.git.tag && (
-                <span>
-                  <FontAwesomeIcon icon={faTag} />
-                  {meta.ci.git.tag}
-                </span>
-              )}
-              <CICommitLink ci={meta.ci} />
-            </>
-          )}
-        </div>
-      )}
     </>
   )
 }

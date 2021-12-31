@@ -6,7 +6,7 @@
 
 .list {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: repeat(12, 1fr);
     grid-template-rows: 1fr 1fr;
     gap: 1px;
     margin: 0;
@@ -14,10 +14,16 @@
 }
 
 .item {
+    grid-column-end: span 4;
     display: flex;
     flex-direction: column-reverse;
     padding: 1.5rem;
     background-color: white;
+
+    &Ci,
+    &Ci ~ & {
+        grid-column-end: span 3;
+    }
 }
 
 .value {
@@ -36,10 +42,11 @@
     color: $codeTextColor;
 }
 
-.ci {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-    padding: 1rem;
-    border: 1px solid rgba(0, 0, 0, 0.1);
+.gitItem {
+    display: inline-flex;
+    gap: 0.25rem;
+
+    & + & {
+        margin-left: 1rem;
+    }
 }
