@@ -2,6 +2,7 @@
 
 .icon {
   padding-top: 0.35em;
+  padding-left: 0.5em;
   padding-right: 0.5em;
 }
 
@@ -31,8 +32,8 @@
 }
 
 .accordionChevron {
-  margin-right: 0.5em;
   transform-origin: center center;
+  transition: transform 0.2s linear;
 
   .accordionButton[aria-expanded='true'] &,
   .accordionButton[aria-selected='true'] & {
@@ -42,5 +43,4 @@
 
 .accordionPanel {
   padding: 1rem;
-  animation: fadein 0.35s ease-in;
 }
