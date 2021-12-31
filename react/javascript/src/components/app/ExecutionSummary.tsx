@@ -3,7 +3,7 @@ import * as messages from '@cucumber/messages'
 import { TestStepResultStatus } from '@cucumber/messages'
 import { formatDistanceStrict, formatDuration, intervalToDuration } from 'date-fns'
 import styles from './ExecutionSummary.module.scss'
-import { Cucumber } from './icons/Cucumber'
+import { CucumberLogo } from './icons/CucumberLogo'
 import { OSIcon } from './OSIcon'
 import { RuntimeIcon } from './RuntimeIcon'
 import { CICommitLink } from './CICommitLink'
@@ -110,7 +110,7 @@ export const ExecutionSummary: React.FunctionComponent<IExecutionSummaryProps> =
               {`${meta.implementation.name} ${meta.implementation.version}`}
             </dt>
             <dd className={styles.value}>
-              <Cucumber />
+              <CucumberLogo />
             </dd>
           </div>
         </dl>

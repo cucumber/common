@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const Cucumber = () => {
+export const CucumberLogo = () => {
   return (
     <svg viewBox="0 0 40.59 46.31">
       <g>
