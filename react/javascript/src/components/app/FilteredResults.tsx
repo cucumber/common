@@ -14,7 +14,6 @@ import countScenariosByStatuses from '../../countScenariosByStatuses'
 import { ExecutionSummary } from './ExecutionSummary'
 import EnvelopesQueryContext from '../../EnvelopesQueryContext'
 import statuses from './statuses'
-import { TimeConversion } from '@cucumber/messages'
 import { StatusesFilter } from './StatusesFilter'
 
 export const FilteredResults: React.FunctionComponent = () => {
@@ -45,17 +44,12 @@ export const FilteredResults: React.FunctionComponent = () => {
 
   const statusesWithScenarios = [...scenarioCountByStatus.keys()]
 
-  const startDate: Date = new Date(
-    TimeConversion.timestampToMillisecondsSinceEpoch(
-      envelopesQuery.find((envelope) => !!envelope.testRunStarted)?.testRunStarted.timestamp
-    )
-  )
-  const finishDate: Date = new Date(
-    TimeConversion.timestampToMillisecondsSinceEpoch(
-      envelopesQuery.find((envelope) => !!envelope.testRunFinished)?.testRunFinished.timestamp
-    )
-  )
-
+  const testRunStarted = envelopesQuery.find(
+    (envelope) => !!envelope.testRunStarted
+  )?.testRunStarted
+  const testRunFinished = envelopesQuery.find(
+    (envelope) => !!envelope.testRunFinished
+  )?.testRunFinished
   const meta = envelopesQuery.find((envelope) => envelope.meta !== null).meta
 
   return (
@@ -67,8 +61,8 @@ export const FilteredResults: React.FunctionComponent = () => {
       <ExecutionSummary
         scenarioCountByStatus={scenarioCountByStatus}
         totalScenarioCount={totalScenarioCount}
-        startDate={startDate}
-        finishDate={finishDate}
+        testRunStarted={testRunStarted}
+        testRunFinished={testRunFinished}
         meta={meta}
       />
       <SearchBar query={query} onSearch={(query) => update({ query })} />

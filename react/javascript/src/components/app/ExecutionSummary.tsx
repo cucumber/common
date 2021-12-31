@@ -1,6 +1,11 @@
 import React, { useMemo } from 'react'
 import * as messages from '@cucumber/messages'
-import { TestStepResultStatus } from '@cucumber/messages'
+import {
+  TestRunFinished,
+  TestRunStarted,
+  TestStepResultStatus,
+  TimeConversion,
+} from '@cucumber/messages'
 import { formatDistanceStrict, formatDuration, intervalToDuration } from 'date-fns'
 import styles from './ExecutionSummary.module.scss'
 import { CucumberLogo } from './icons/CucumberLogo'
@@ -13,8 +18,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 export interface IExecutionSummaryProps {
   scenarioCountByStatus: Map<messages.TestStepResultStatus, number>
   totalScenarioCount: number
-  startDate: Date
-  finishDate: Date
+  testRunStarted: TestRunStarted
+  testRunFinished: TestRunFinished
   referenceDate?: Date
   meta: messages.Meta
 }
@@ -22,8 +27,8 @@ export interface IExecutionSummaryProps {
 export const ExecutionSummary: React.FunctionComponent<IExecutionSummaryProps> = ({
   scenarioCountByStatus,
   totalScenarioCount,
-  startDate,
-  finishDate,
+  testRunStarted,
+  testRunFinished,
   referenceDate,
   meta,
 }) => {
@@ -36,6 +41,14 @@ export const ExecutionSummary: React.FunctionComponent<IExecutionSummaryProps> =
       ) + ' passed'
     )
   }, [scenarioCountByStatus, totalScenarioCount])
+  const startDate: Date = useMemo(
+    () => new Date(TimeConversion.timestampToMillisecondsSinceEpoch(testRunStarted.timestamp)),
+    [testRunStarted]
+  )
+  const finishDate: Date = useMemo(
+    () => new Date(TimeConversion.timestampToMillisecondsSinceEpoch(testRunFinished.timestamp)),
+    [testRunFinished]
+  )
   const formattedTimestamp: string = useMemo(() => {
     return formatDistanceStrict(startDate, referenceDate ?? new Date(), { addSuffix: true })
   }, [startDate, referenceDate])
