@@ -10,27 +10,6 @@ import { CICommitLink } from './CICommitLink'
 import { faCodeBranch, faTag } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-interface IProductProps {
-  name: string
-  product: messages.Product
-}
-
-export const Product: React.FunctionComponent<IProductProps> = ({
-  name: name,
-  product: product,
-}) => {
-  const value = [product.name, product.version]
-    .filter((v) => v !== '' && v !== undefined && v !== null)
-    .join(' - ')
-
-  return (
-    <tr>
-      <th>{name}</th>
-      <td>{value}</td>
-    </tr>
-  )
-}
-
 export interface IExecutionSummaryProps {
   scenarioCountByStatus: Map<messages.TestStepResultStatus, number>
   totalScenarioCount: number
