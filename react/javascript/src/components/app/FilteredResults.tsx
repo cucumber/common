@@ -74,8 +74,9 @@ export const FilteredResults: React.FunctionComponent = () => {
           onFilter={(hideStatuses) => update({ hideStatuses })}
         />
       </div>
-      <GherkinDocumentList gherkinDocuments={filtered} preExpand={true} />
-      <NoMatchResult query={query} matches={filtered} />
+
+      {filtered.length > 0 && <GherkinDocumentList gherkinDocuments={filtered} preExpand={true} />}
+      {filtered.length < 1 && <NoMatchResult query={query} />}
     </div>
   )
 }
