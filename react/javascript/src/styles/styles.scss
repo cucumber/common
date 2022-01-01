@@ -1,8 +1,6 @@
 @import './theming';
 @import './themes';
 
-$summary-border-color: rgba(0, 0, 0, 0.1);
-
 /**
 TODO this is used in FilteredResults and GherkinDocumentList - make it one place?
 probably wrap it into CustomRendering and then rename that, plus allow a "root" class override
@@ -12,9 +10,4 @@ probably wrap it into CustomRendering and then rename that, plus allow a "root" 
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
   color: $textColor;
   background: $backgroundColor;
-
-  // TODO push this down to specific components, dont forget markdown though
-  pre {
-    font-family: inherit;
-  }
 }
