@@ -23,14 +23,10 @@ export const FilteredResults: React.FunctionComponent = () => {
   const { query, hideStatuses, update } = React.useContext(SearchQueryContext)
   const allDocuments = gherkinQuery.getGherkinDocuments()
 
-  const scenarioCountByStatus = countScenariosByStatuses(allDocuments, gherkinQuery, cucumberQuery)
-  const totalScenarioCount = [...scenarioCountByStatus.values()].reduce(
-    (prev, curr) => prev + curr,
-    0
-  )
+  const { scenarioCountByStatus, statusesWithScenarios, totalScenarioCount } =
+    countScenariosByStatuses(gherkinQuery, cucumberQuery)
 
   const search = new Search(gherkinQuery)
-
   for (const gherkinDocument of allDocuments) {
     search.add(gherkinDocument)
   }
@@ -42,16 +38,6 @@ export const FilteredResults: React.FunctionComponent = () => {
     .map((document) => filterByStatus(document, gherkinQuery, cucumberQuery, onlyShowStatuses))
     .filter((document) => document !== null)
 
-  const statusesWithScenarios = [...scenarioCountByStatus.keys()]
-
-  const testRunStarted = envelopesQuery.find(
-    (envelope) => !!envelope.testRunStarted
-  )?.testRunStarted
-  const testRunFinished = envelopesQuery.find(
-    (envelope) => !!envelope.testRunFinished
-  )?.testRunFinished
-  const meta = envelopesQuery.find((envelope) => envelope.meta !== null).meta
-
   return (
     <div className="cucumber">
       <div className={styles.reportHeader}>
@@ -62,9 +48,9 @@ export const FilteredResults: React.FunctionComponent = () => {
         <ExecutionSummary
           scenarioCountByStatus={scenarioCountByStatus}
           totalScenarioCount={totalScenarioCount}
-          testRunStarted={testRunStarted}
-          testRunFinished={testRunFinished}
-          meta={meta}
+          testRunStarted={envelopesQuery.getTestRunStarted()}
+          testRunFinished={envelopesQuery.getTestRunFinished()}
+          meta={envelopesQuery.getMeta()}
         />
         <SearchBar
           query={query}
