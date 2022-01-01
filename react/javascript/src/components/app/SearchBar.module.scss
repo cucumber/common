@@ -1,23 +1,32 @@
 @import '../../styles/theming';
 
-.searchForm {
+.layout {
     box-sizing: border-box;
-    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     width: 100%;
     padding: 1rem;
-    background-color: rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    background-color: #f4f4f4;
+}
+
+.searchForm {
+    position: relative;
+    margin-top: -0.5rem;
 }
 
 .queryIcon {
     position: absolute;
-    left: 1rem;
-    top: 1rem;
+    left: 0;
+    top: 0.5rem;
     color: $codeTextColor;
 }
 
 .queryField {
+    box-sizing: border-box;
     width: 100%;
-    padding: 0 0 0 1.5rem;
+    padding: 0.5rem 0 0.5rem 1.5rem;
     border: none;
     font-family: inherit;
     font-size: inherit;
@@ -29,7 +38,29 @@
     font-style: italic;
     font-size: 0.666rem;
     line-height: 1em;
-    margin-top: 0.5rem;
     color: $codeTextColor;
 }
+
+.filterLayout {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: $codeTextColor;
+}
+
+.filterList {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.filterField {
+    display: flex;
+    align-items: center;
+    gap: 1px;
+}
+
 

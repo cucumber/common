@@ -14,7 +14,6 @@ import countScenariosByStatuses from '../../countScenariosByStatuses'
 import { ExecutionSummary } from './ExecutionSummary'
 import EnvelopesQueryContext from '../../EnvelopesQueryContext'
 import statuses from './statuses'
-import { StatusesFilter } from './StatusesFilter'
 import styles from './FilteredResults.module.scss'
 
 export const FilteredResults: React.FunctionComponent = () => {
@@ -67,11 +66,12 @@ export const FilteredResults: React.FunctionComponent = () => {
           testRunFinished={testRunFinished}
           meta={meta}
         />
-        <SearchBar query={query} onSearch={(query) => update({ query })} />
-        <StatusesFilter
+        <SearchBar
+          query={query}
+          onSearch={(query) => update({ query })}
           statusesWithScenarios={statusesWithScenarios}
           hideStatuses={hideStatuses}
-          onChange={(hideStatuses) => update({ hideStatuses })}
+          onFilter={(hideStatuses) => update({ hideStatuses })}
         />
       </div>
       <GherkinDocumentList gherkinDocuments={filtered} preExpand={true} />
