@@ -25,9 +25,8 @@
   cursor: pointer;
   text-align: left;
 
-  &:hover,
-  &:focus {
-    background-color: #ddd;
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.1);
   }
 }
 
