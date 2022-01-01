@@ -64,23 +64,23 @@ export const ExecutionSummary: React.FunctionComponent<IExecutionSummaryProps> =
   }, [startDate, finishDate])
   return (
     <>
-      <div className={styles.summaryBackdrop}>
-        <dl className={styles.summaryList}>
-          <div className={styles.summaryItem}>
-            <dt className={styles.summarySuffix}>{totalScenarioCount} executed</dt>
-            <dd className={styles.summaryValue}>{percentagePassed}</dd>
+      <div className={styles.backdrop}>
+        <dl className={styles.list}>
+          <div className={styles.item}>
+            <dt className={styles.suffix}>{totalScenarioCount} executed</dt>
+            <dd className={styles.value}>{percentagePassed}</dd>
           </div>
-          <div className={styles.summaryItem}>
-            <dt className={styles.summarySuffix}>last run</dt>
-            <dd className={styles.summaryValue}>{formattedTimestamp}</dd>
+          <div className={styles.item}>
+            <dt className={styles.suffix}>last run</dt>
+            <dd className={styles.value}>{formattedTimestamp}</dd>
           </div>
-          <div className={styles.summaryItem}>
-            <dt className={styles.summarySuffix}>duration</dt>
-            <dd className={styles.summaryValue}>{formattedDuration}</dd>
+          <div className={styles.item}>
+            <dt className={styles.suffix}>duration</dt>
+            <dd className={styles.value}>{formattedDuration}</dd>
           </div>
           {meta.ci && (
-            <div className={`${styles.summaryItem} ${styles.summaryItemCi}`}>
-              <dt className={styles.summarySuffix}>
+            <div className={`${styles.item} ${styles.itemCi}`}>
+              <dt className={styles.suffix}>
                 {meta.ci.git ? (
                   <>
                     {meta.ci.git.branch && (
@@ -103,28 +103,26 @@ export const ExecutionSummary: React.FunctionComponent<IExecutionSummaryProps> =
                   '-'
                 )}
               </dt>
-              <dd className={styles.summaryValue}>{meta.ci.name}</dd>
+              <dd className={styles.value}>{meta.ci.name}</dd>
             </div>
           )}
-          <div className={styles.summaryItem}>
-            <dt className={styles.summarySuffix}>{meta.os.name}</dt>
-            <dd className={styles.summaryValue}>
+          <div className={styles.item}>
+            <dt className={styles.suffix}>{meta.os.name}</dt>
+            <dd className={styles.value}>
               <OSIcon name={meta.os.name} />
             </dd>
           </div>
-          <div className={styles.summaryItem}>
-            <dt className={styles.summarySuffix}>
-              {meta.runtime.name + ' ' + meta.runtime.version}
-            </dt>
-            <dd className={styles.summaryValue}>
+          <div className={styles.item}>
+            <dt className={styles.suffix}>{meta.runtime.name + ' ' + meta.runtime.version}</dt>
+            <dd className={styles.value}>
               <RuntimeIcon name={meta.runtime.name} />
             </dd>
           </div>
-          <div className={styles.summaryItem}>
-            <dt className={styles.summarySuffix}>
+          <div className={styles.item}>
+            <dt className={styles.suffix}>
               {`${meta.implementation.name} ${meta.implementation.version}`}
             </dt>
-            <dd className={styles.summaryValue}>
+            <dd className={styles.value}>
               <CucumberLogo />
             </dd>
           </div>
