@@ -5,6 +5,7 @@ import * as messages from '@cucumber/messages'
 import { components } from '../../src'
 import testData from '../../acceptance/examples-tables/examples-tables.feature'
 import { props } from './helpers'
+import { CucumberReact } from '../components'
 
 const { QueriesWrapper, FilteredResults } = components.app
 
@@ -19,9 +20,11 @@ type TemplateArgs = {
 
 const Template: Story<TemplateArgs> = ({ envelopes }) => {
   return (
-    <QueriesWrapper {...props(envelopes)}>
-      <FilteredResults />
-    </QueriesWrapper>
+    <CucumberReact>
+      <QueriesWrapper {...props(envelopes)}>
+        <FilteredResults />
+      </QueriesWrapper>
+    </CucumberReact>
   )
 }
 

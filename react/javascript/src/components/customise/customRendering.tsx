@@ -199,13 +199,3 @@ export function useCustomRendering<Props, Classes extends Styles<string> = {}>(
   }
   return StyledDefaultRenderer
 }
-
-export const CustomRendering: React.FunctionComponent<{
-  support: CustomRenderingSupport
-}> = (props) => {
-  return (
-    <CustomRenderingContext.Provider value={props.support}>
-      {props.children}
-    </CustomRenderingContext.Provider>
-  )
-}

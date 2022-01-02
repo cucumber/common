@@ -9,6 +9,7 @@ import {
 } from '@cucumber/messages'
 import { components } from '../../src'
 import { IExecutionSummaryProps } from '../components/app'
+import { CucumberReact } from '../components'
 
 const { ExecutionSummary } = components.app
 
@@ -57,9 +58,9 @@ export default {
 
 const Template: Story<IExecutionSummaryProps> = (props) => {
   return (
-    <div className="cucumber">
+    <CucumberReact>
       <ExecutionSummary {...props} />
-    </div>
+    </CucumberReact>
   )
 }
 

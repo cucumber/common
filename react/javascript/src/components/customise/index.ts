@@ -1,2 +1,2 @@
-export * from './CustomRendering'
-export * from './Theme'
+export * from './customRendering'
+export * from './theming'

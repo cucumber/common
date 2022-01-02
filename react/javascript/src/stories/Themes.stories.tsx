@@ -3,35 +3,33 @@ import { Meta, Story } from '@storybook/react'
 
 import * as messages from '@cucumber/messages'
 
-import '../styles/styles.scss'
-import './custom-classes.scss'
-
 import attachments from '../../acceptance/attachments/attachments.feature'
 import rules from '../../acceptance/rules/rules.feature'
 
 import { components } from '..'
 import { props } from './helpers'
+import { IncludedTheme } from '../components/customise'
 
 const { QueriesWrapper, GherkinDocumentList } = components.app
-const { Theme } = components.customise
+const { CucumberReact } = components
 
 export default {
   title: 'Customisation/Themes',
-  component: components.customise.CustomRendering,
+  component: components.CucumberReact,
 } as Meta
 
-export const Themes: Story<{ envelopes: messages.Envelope[]; theme: string }> = ({
+export const Themes: Story<{ envelopes: messages.Envelope[]; theme: IncludedTheme }> = ({
   envelopes,
   theme,
 }) => {
   return (
     <>
       <h2>Dark Theme</h2>
-      <Theme theme={theme}>
+      <CucumberReact theme={theme}>
         <QueriesWrapper {...props(envelopes)}>
           <GherkinDocumentList />
         </QueriesWrapper>
-      </Theme>
+      </CucumberReact>
     </>
   )
 }

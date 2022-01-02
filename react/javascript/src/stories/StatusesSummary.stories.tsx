@@ -5,6 +5,7 @@ import { TestStepResultStatus } from '@cucumber/messages'
 
 import { components } from '../../src'
 import { IStatusesSummaryProps } from '../components/app'
+import { CucumberReact } from '../components'
 
 const { StatusesSummary } = components.app
 
@@ -15,9 +16,9 @@ export default {
 
 const Template: Story<IStatusesSummaryProps> = (props) => {
   return (
-    <div className="cucumber">
+    <CucumberReact>
       <StatusesSummary {...props} />
-    </div>
+    </CucumberReact>
   )
 }
 

@@ -3,18 +3,17 @@ import { Meta, Story } from '@storybook/react'
 
 import * as messages from '@cucumber/messages'
 
-import '../styles/styles.scss'
 import './custom-classes.scss'
 
 import { components } from '..'
 import { CustomRenderingSupport } from '../components/customise'
 
 const { DocString } = components.gherkin
-const { CustomRendering } = components.customise
+const { CucumberReact } = components
 
 export default {
   title: 'Customisation/Classes',
-  component: components.customise.CustomRendering,
+  component: components.CucumberReact,
 } as Meta
 
 export const Classes: Story<{ support: CustomRenderingSupport; docString: messages.DocString }> = ({
@@ -26,9 +25,9 @@ export const Classes: Story<{ support: CustomRenderingSupport; docString: messag
       <h2>Default DocString:</h2>
       <DocString docString={docString} />
       <h2>With Custom Classes:</h2>
-      <CustomRendering support={support}>
+      <CucumberReact customRendering={support}>
         <DocString docString={docString} />
-      </CustomRendering>
+      </CucumberReact>
     </>
   )
 }

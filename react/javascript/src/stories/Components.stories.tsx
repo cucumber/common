@@ -3,18 +3,15 @@ import { Meta, Story } from '@storybook/react'
 
 import * as messages from '@cucumber/messages'
 
-import '../styles/styles.scss'
-import './custom-classes.scss'
-
 import { components } from '..'
 import { CustomRenderingSupport } from '../components/customise'
 
 const { Tags, Feature } = components.gherkin
-const { CustomRendering } = components.customise
+const { CucumberReact } = components
 
 export default {
   title: 'Customisation/Components',
-  component: components.customise.CustomRendering,
+  component: components.CucumberReact,
 } as Meta
 
 export const CustomTagComponent: Story<{
@@ -24,9 +21,9 @@ export const CustomTagComponent: Story<{
   return (
     <>
       <h2>Tags with JIRA linking</h2>
-      <CustomRendering support={support}>
+      <CucumberReact customRendering={support}>
         <Tags tags={tags} />
-      </CustomRendering>
+      </CucumberReact>
     </>
   )
 }
@@ -84,9 +81,9 @@ export const CustomFeatureComponent: Story<{
   return (
     <>
       <h2>Feature with button on top</h2>
-      <CustomRendering support={support}>
+      <CucumberReact customRendering={support}>
         <Feature feature={feature} />
-      </CustomRendering>
+      </CucumberReact>
     </>
   )
 }

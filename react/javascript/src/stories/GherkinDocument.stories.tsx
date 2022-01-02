@@ -4,8 +4,6 @@ import { Meta, Story } from '@storybook/react'
 import * as messages from '@cucumber/messages'
 import { components } from '../../src'
 
-import '../styles/styles.scss'
-
 import attachments from '../../acceptance/attachments/attachments.feature'
 import dataTables from '../../acceptance/data-tables/data-tables.feature'
 import examplesTables from '../../acceptance/examples-tables/examples-tables.feature'
@@ -21,6 +19,7 @@ import stacktTraces from '../../acceptance/stack-traces/stack-traces.feature'
 import undefinedEnvelopes from '../../acceptance/undefined/undefined.feature'
 import unknownParameterTypes from '../../acceptance/unknown-parameter-type/unknown-parameter-type.feature'
 import { props } from './helpers'
+import { CucumberReact } from '../components'
 
 const { QueriesWrapper, GherkinDocumentList } = components.app
 
@@ -35,9 +34,11 @@ type TemplateArgs = {
 
 const Template: Story<TemplateArgs> = ({ envelopes }) => {
   return (
-    <QueriesWrapper {...props(envelopes)}>
-      <GherkinDocumentList />
-    </QueriesWrapper>
+    <CucumberReact>
+      <QueriesWrapper {...props(envelopes)}>
+        <GherkinDocumentList />
+      </QueriesWrapper>
+    </CucumberReact>
   )
 }
 

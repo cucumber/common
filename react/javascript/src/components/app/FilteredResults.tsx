@@ -39,7 +39,7 @@ export const FilteredResults: React.FunctionComponent = () => {
     .filter((document) => document !== null)
 
   return (
-    <div className="cucumber">
+    <div>
       <div className={styles.reportHeader}>
         <StatusesSummary
           scenarioCountByStatus={scenarioCountByStatus}
