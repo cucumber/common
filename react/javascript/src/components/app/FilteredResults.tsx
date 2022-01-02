@@ -1,6 +1,4 @@
 import React from 'react'
-import GherkinQueryContext from '../../GherkinQueryContext'
-import CucumberQueryContext from '../../CucumberQueryContext'
 import SearchQueryContext from '../../SearchQueryContext'
 
 import { SearchBar } from './SearchBar'
@@ -12,14 +10,12 @@ import Search from '../../search/Search'
 import filterByStatus from '../../filter/filterByStatus'
 import countScenariosByStatuses from '../../countScenariosByStatuses'
 import { ExecutionSummary } from './ExecutionSummary'
-import EnvelopesQueryContext from '../../EnvelopesQueryContext'
 import statuses from './statuses'
 import styles from './FilteredResults.module.scss'
+import { useQueries } from '../../hooks'
 
 export const FilteredResults: React.FunctionComponent = () => {
-  const envelopesQuery = React.useContext(EnvelopesQueryContext)
-  const gherkinQuery = React.useContext(GherkinQueryContext)
-  const cucumberQuery = React.useContext(CucumberQueryContext)
+  const { cucumberQuery, gherkinQuery, envelopesQuery } = useQueries()
   const { query, hideStatuses, update } = React.useContext(SearchQueryContext)
   const allDocuments = gherkinQuery.getGherkinDocuments()
 
