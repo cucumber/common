@@ -11,9 +11,11 @@ export const NoMatchResult: React.FunctionComponent<IProps> = ({ query }) => {
   return (
     <p className={styles.message}>
       <FontAwesomeIcon className={styles.icon} aria-hidden="true" icon={faGrimace} />
-      {query
-        ? `No matches found for your query "${query}" and/or filters`
-        : 'No matches found for your filters'}
+      <span>
+        {query
+          ? `No matches found for your query "${query}" and/or filters`
+          : 'No matches found for your filters'}
+      </span>
     </p>
   )
 }

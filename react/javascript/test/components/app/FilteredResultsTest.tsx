@@ -1,28 +1,22 @@
-import { Envelope, TestStepResultStatus } from '@cucumber/messages'
-import testData from '../../../acceptance/examples-tables/examples-tables.feature'
-import SearchQueryContext, {
-  SearchQuery,
-  SearchQueryCtx,
-  SearchQueryProps,
-} from '../../../src/SearchQueryContext'
-import { render } from '@testing-library/react'
+import { Envelope } from '@cucumber/messages'
+import SearchQueryContext, { useSearchQueryCtx } from '../../../src/SearchQueryContext'
 import { FilteredResults } from '../../../src/components/app'
 import assert from 'assert'
-import sinon from 'sinon'
 import userEvent from '@testing-library/user-event'
-import React from 'react'
+import React, { VoidFunctionComponent } from 'react'
 import { EnvelopesWrapper } from '../../../src/components/app/EnvelopesWrapper'
+import attachments from '../../../acceptance/attachments/attachments.feature'
+import examplesTables from '../../../acceptance/examples-tables/examples-tables.feature'
+import minimal from '../../../acceptance/minimal/minimal.feature'
+import { render } from '@testing-library/react'
 
 describe('FilteredResults', () => {
-  function renderFilteredResults(
-    searchQuery: SearchQueryProps = {},
-    setSearchQuery?: (searchQuery: SearchQuery) => void
-  ) {
-    return render(
-      <EnvelopesWrapper envelopes={testData as Envelope[]}>
-        <SearchQueryContext.Provider
-          value={SearchQueryCtx.withDefaults(searchQuery, setSearchQuery)}
-        >
+  const TestableFilteredResults: VoidFunctionComponent<{ envelopes: Envelope[] }> = ({
+    envelopes,
+  }) => {
+    return (
+      <EnvelopesWrapper envelopes={envelopes}>
+        <SearchQueryContext.Provider value={useSearchQueryCtx({})}>
           <FilteredResults />
         </SearchQueryContext.Provider>
       </EnvelopesWrapper>
@@ -30,35 +24,48 @@ describe('FilteredResults', () => {
   }
 
   describe('searching', () => {
-    it('puts the context query as the initial search text', () => {
-      const { getByRole } = renderFilteredResults({ query: 'keyword' })
-
-      assert.strictEqual(
-        (getByRole('textbox', { name: 'Search' }) as HTMLInputElement).value,
-        'keyword'
+    it('shows a message for a search term that yields no results', () => {
+      const { getByRole, getByText } = render(
+        <TestableFilteredResults envelopes={attachments as Envelope[]} />
       )
-    })
 
-    it('updates the context when a search is triggered', () => {
-      const onSearchQueryUpdated = sinon.spy()
-      const { getByRole } = renderFilteredResults({}, onSearchQueryUpdated)
-
-      userEvent.type(getByRole('textbox', { name: 'Search' }), 'search text')
+      userEvent.type(getByRole('textbox', { name: 'Search' }), 'nope!')
       userEvent.keyboard('{Enter}')
 
-      sinon.assert.calledOnce(onSearchQueryUpdated)
-      sinon.assert.calledWith(
-        onSearchQueryUpdated,
-        sinon.match({
-          query: 'search text',
-        })
+      assert.ok(getByText('No matches found for your query "nope!" and/or filters'))
+    })
+
+    it('narrows the results with a valid search term, and restores when we clear the search', () => {
+      const { getByRole, queryByRole } = render(
+        <TestableFilteredResults envelopes={attachments as Envelope[]} />
       )
+
+      userEvent.type(getByRole('textbox', { name: 'Search' }), 'json')
+      userEvent.keyboard('{Enter}')
+      userEvent.click(getByRole('button', { name: 'features/attachments/attachments.feature' }))
+
+      assert.ok(getByRole('heading', { name: 'Scenario: Log JSON' }))
+      assert.strictEqual(queryByRole('heading', { name: 'Scenario: Log text' }), null)
+
+      userEvent.clear(getByRole('textbox', { name: 'Search' }))
+      userEvent.keyboard('{Enter}')
+
+      assert.ok(getByRole('heading', { name: 'Scenario: Log JSON' }))
+      assert.ok(getByRole('heading', { name: 'Scenario: Log text' }))
     })
   })
 
   describe('filtering by status', () => {
+    it('should not show filters when only one status', () => {
+      const { queryByRole } = render(<TestableFilteredResults envelopes={minimal as Envelope[]} />)
+
+      assert.strictEqual(queryByRole('checkbox'), null)
+    })
+
     it('should show named status filters, all checked by default', () => {
-      const { getAllByRole, getByRole } = renderFilteredResults()
+      const { getAllByRole, getByRole } = render(
+        <TestableFilteredResults envelopes={examplesTables as Envelope[]} />
+      )
 
       assert.strictEqual(getAllByRole('checkbox').length, 3)
       assert.ok(getByRole('checkbox', { name: 'passed' }))
@@ -69,56 +76,43 @@ describe('FilteredResults', () => {
       })
     })
 
-    it('should fire an event to hide a status when unchecked', () => {
-      const onSearchQueryUpdated = sinon.spy()
-      const { getByRole } = renderFilteredResults({}, onSearchQueryUpdated)
+    it('should hide features with a certain status when we uncheck it', () => {
+      const { getByRole, queryByRole } = render(
+        <TestableFilteredResults envelopes={[...examplesTables, ...minimal] as Envelope[]} />
+      )
 
+      assert.ok(getByRole('heading', { name: 'features/examples-tables/examples-tables.feature' }))
+      assert.ok(getByRole('heading', { name: 'features/minimal/minimal.feature' }))
+
+      userEvent.click(getByRole('checkbox', { name: 'passed' }))
+
+      assert.ok(getByRole('heading', { name: 'features/examples-tables/examples-tables.feature' }))
+      assert.strictEqual(
+        queryByRole('heading', {
+          name: 'features/minimal/minimal.feature',
+        }),
+        null
+      )
+    })
+
+    it('should show a message if we filter all statuses out', () => {
+      const { getByRole, queryByRole, getByText } = render(
+        <TestableFilteredResults envelopes={examplesTables as Envelope[]} />
+      )
+
+      assert.ok(getByRole('heading', { name: 'features/examples-tables/examples-tables.feature' }))
+
+      userEvent.click(getByRole('checkbox', { name: 'passed' }))
+      userEvent.click(getByRole('checkbox', { name: 'failed' }))
       userEvent.click(getByRole('checkbox', { name: 'undefined' }))
 
-      sinon.assert.calledOnce(onSearchQueryUpdated)
-      sinon.assert.calledWith(
-        onSearchQueryUpdated,
-        sinon.match({
-          hideStatuses: [TestStepResultStatus.UNDEFINED],
-        })
-      )
-    })
-
-    it('should show filtered out statuses as unchecked', () => {
-      const { getByRole } = renderFilteredResults({
-        hideStatuses: [TestStepResultStatus.UNDEFINED],
-      })
-
       assert.strictEqual(
-        (getByRole('checkbox', { name: 'passed' }) as HTMLInputElement).checked,
-        true
+        queryByRole('heading', {
+          name: 'features/examples-tables/examples-tables.feature',
+        }),
+        null
       )
-      assert.strictEqual(
-        (getByRole('checkbox', { name: 'failed' }) as HTMLInputElement).checked,
-        true
-      )
-      assert.strictEqual(
-        (getByRole('checkbox', { name: 'undefined' }) as HTMLInputElement).checked,
-        false
-      )
-    })
-
-    it('should fire to unhide a status when rechecked', () => {
-      const onSearchQueryUpdated = sinon.spy()
-      const { getByRole } = renderFilteredResults(
-        { hideStatuses: [TestStepResultStatus.FAILED, TestStepResultStatus.PENDING] },
-        onSearchQueryUpdated
-      )
-
-      userEvent.click(getByRole('checkbox', { name: 'failed' }))
-
-      sinon.assert.calledOnce(onSearchQueryUpdated)
-      sinon.assert.calledWith(
-        onSearchQueryUpdated,
-        sinon.match({
-          hideStatuses: [TestStepResultStatus.PENDING],
-        })
-      )
+      assert.ok(getByText('No matches found for your filters'))
     })
   })
 })
