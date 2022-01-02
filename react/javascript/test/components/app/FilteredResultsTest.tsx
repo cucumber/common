@@ -6,12 +6,12 @@ import SearchQueryContext, {
   SearchQueryProps,
 } from '../../../src/SearchQueryContext'
 import { render } from '@testing-library/react'
-import { FilteredResults, QueriesWrapper } from '../../../src/components/app'
+import { FilteredResults } from '../../../src/components/app'
 import assert from 'assert'
 import sinon from 'sinon'
 import userEvent from '@testing-library/user-event'
 import React from 'react'
-import { props } from '../../../src/stories/helpers'
+import { EnvelopesWrapper } from '../../../src/components/app/EnvelopesWrapper'
 
 describe('FilteredResults', () => {
   function renderFilteredResults(
@@ -19,13 +19,13 @@ describe('FilteredResults', () => {
     setSearchQuery?: (searchQuery: SearchQuery) => void
   ) {
     return render(
-      <QueriesWrapper {...props(testData as Envelope[])}>
+      <EnvelopesWrapper envelopes={testData as Envelope[]}>
         <SearchQueryContext.Provider
           value={SearchQueryCtx.withDefaults(searchQuery, setSearchQuery)}
         >
           <FilteredResults />
         </SearchQueryContext.Provider>
-      </QueriesWrapper>
+      </EnvelopesWrapper>
     )
   }
 
