@@ -17,7 +17,9 @@ export const CucumberReact: FunctionComponent<IProps> = ({
   const classes = [styles.cucumberReact, styles[`${theme}Theme`], className]
   return (
     <CustomRenderingContext.Provider value={customRendering}>
-      <div className={classes.filter((c) => !!c).join(' ')}>{children}</div>
+      <div data-testid="cucumber-react" className={classes.filter((c) => !!c).join(' ')}>
+        {children}
+      </div>
     </CustomRenderingContext.Provider>
   )
 }
