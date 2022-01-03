@@ -14,7 +14,11 @@ import statuses from './statuses'
 import styles from './FilteredResults.module.scss'
 import { useQueries } from '../../hooks'
 
-export const FilteredResults: React.FunctionComponent = () => {
+interface IProps {
+  className?: string
+}
+
+export const FilteredResults: React.FunctionComponent<IProps> = ({ className }) => {
   const { cucumberQuery, gherkinQuery, envelopesQuery } = useQueries()
   const { query, hideStatuses, update } = React.useContext(SearchQueryContext)
   const allDocuments = gherkinQuery.getGherkinDocuments()
@@ -35,7 +39,7 @@ export const FilteredResults: React.FunctionComponent = () => {
     .filter((document) => document !== null)
 
   return (
-    <div>
+    <div className={className}>
       <div className={styles.reportHeader}>
         <StatusesSummary
           scenarioCountByStatus={scenarioCountByStatus}

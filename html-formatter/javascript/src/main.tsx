@@ -4,6 +4,7 @@ import { Query as GherkinQuery } from '@cucumber/gherkin-utils'
 import { Query as CucumberQuery } from '@cucumber/query'
 import React from 'react'
 import ReactDOM from 'react-dom'
+import './styles.scss'
 
 const { CucumberReact } = components
 const { FilteredResults, QueriesWrapper } = components.app
@@ -32,7 +33,7 @@ const app = (
       envelopesQuery={envelopesQuery}
       {...searchFromURLParams()}
     >
-      <FilteredResults />
+      <FilteredResults className="html-formatter" />
     </QueriesWrapper>
   </CucumberReact>
 )
