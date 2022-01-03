@@ -35,6 +35,8 @@ export interface BackgroundProps {
   background: messages.Background
 }
 
+export type BackgroundClasses = Styles<'steps'>
+
 export interface ChildrenProps {}
 
 export type ChildrenClasses = Styles<'children'>
@@ -154,7 +156,7 @@ export declare type Customised<Props, Classes> =
 
 export interface CustomRenderingSupport {
   Anchor?: Customised<AnchorProps, AnchorClasses>
-  Background?: Customised<BackgroundProps, {}>
+  Background?: Customised<BackgroundProps, BackgroundClasses>
   Attachment?: Customised<AttachmentProps, AttachmentClasses>
   Children?: Customised<ChildrenProps, ChildrenClasses>
   DataTable?: Customised<DataTableProps, DataTableClasses>

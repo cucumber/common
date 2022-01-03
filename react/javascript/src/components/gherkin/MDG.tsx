@@ -10,6 +10,7 @@ import dataTableStyles from './DataTable.module.scss'
 import { HighLight } from '../app/HighLight'
 import * as messages from '@cucumber/messages'
 import { Header } from '../customise'
+import styles from './MDG.module.scss'
 
 interface IProps {
   uri: string
@@ -78,7 +79,7 @@ export const MDG: React.FunctionComponent<IProps> = ({ uri, children }) => {
             // Non-Gherkin list
             return <ul>{children}</ul>
           }
-          return <ul className={'cucumber-steps'}>{children}</ul>
+          return <ul className={styles.steps}>{children}</ul>
         },
         li({ node, children }) {
           const line = node.position.start.line

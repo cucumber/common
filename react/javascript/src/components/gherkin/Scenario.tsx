@@ -48,7 +48,7 @@ const DefaultRenderer: DefaultComponent<ScenarioProps, ScenarioClasses> = ({
 }
 
 export const Scenario: React.FunctionComponent<ScenarioProps> = (props) => {
-  const ResolvedRenderer = useCustomRendering<ScenarioProps, {}>(
+  const ResolvedRenderer = useCustomRendering<ScenarioProps, ScenarioClasses>(
     'Scenario',
     defaultStyles,
     DefaultRenderer
