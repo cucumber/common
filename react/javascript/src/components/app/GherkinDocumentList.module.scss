@@ -18,7 +18,7 @@
 .accordionButton {
   box-sizing: border-box;
   width: 100%;
-  padding: 0.666rem 1rem;
+  padding: 0.75em 1em;
   border: none;
   background-color: $panelBackgroundColor;
   color: $panelTextColor;
@@ -41,5 +41,5 @@
 }
 
 .accordionPanel {
-  padding: 1rem;
+  padding: 1.25em;
 }
