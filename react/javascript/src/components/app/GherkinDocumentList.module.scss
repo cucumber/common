@@ -7,12 +7,12 @@
 }
 
 .accordion {
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  border: 1px solid $panelAccentColor;
   border-radius: 2px;
 }
 
 .accordionItem + .accordionItem {
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  border-top: 1px solid $panelAccentColor;
 }
 
 .accordionButton {
@@ -20,13 +20,13 @@
   width: 100%;
   padding: 0.666rem 1rem;
   border: none;
-  background-color: #f4f4f4;
-  color: #444;
+  background-color: $panelBackgroundColor;
+  color: $panelTextColor;
   cursor: pointer;
   text-align: left;
 
   &:hover {
-    background-color: rgba(0, 0, 0, 0.1);
+    background-color: $panelAccentColor;
   }
 }
 

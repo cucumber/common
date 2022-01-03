@@ -55,7 +55,7 @@ export const SearchBar: FunctionComponent<IProps> = ({
       </form>
       {statusesWithScenarios.length > 1 && (
         <div className={styles.filterLayout}>
-          <FontAwesomeIcon title="Filter by status" icon={faFilter} />
+          <FontAwesomeIcon className={styles.filterIcon} title="Filter by status" icon={faFilter} />
           <ul className={styles.filterList}>
             {statuses.map((status) => {
               if (!statusesWithScenarios.includes(status)) {

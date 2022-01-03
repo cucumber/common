@@ -1,7 +1,7 @@
 @import '../../styles/theming';
 
 .backdrop {
-    background-color: rgba(0, 0, 0, 0.1);
+    background-color: $panelAccentColor;
     border: 1px solid transparent;
 }
 
@@ -20,7 +20,8 @@
     flex-direction: column-reverse;
     justify-content: center;
     padding: 1.5rem;
-    background-color: white;
+    background-color: $backgroundColor;
+    color: $textColor;
 
     &Ci,
     &Ci ~ & {
@@ -50,5 +51,9 @@
 
     & + & {
         margin-left: 1rem;
+    }
+
+    a {
+        color: $anchorColor;
     }
 }
