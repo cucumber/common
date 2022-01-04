@@ -12,7 +12,7 @@ import countScenariosByStatuses from '../../countScenariosByStatuses'
 import { ExecutionSummary } from './ExecutionSummary'
 import statuses from './statuses'
 import styles from './FilteredResults.module.scss'
-import { useQueries } from '../../hooks'
+import { useQueries, useSearch } from '../../hooks'
 
 interface IProps {
   className?: string
@@ -20,7 +20,7 @@ interface IProps {
 
 export const FilteredResults: React.FunctionComponent<IProps> = ({ className }) => {
   const { cucumberQuery, gherkinQuery, envelopesQuery } = useQueries()
-  const { query, hideStatuses, update } = React.useContext(SearchQueryContext)
+  const { query, hideStatuses, update } = useSearch()
   const allDocuments = gherkinQuery.getGherkinDocuments()
 
   const { scenarioCountByStatus, statusesWithScenarios, totalScenarioCount } =
