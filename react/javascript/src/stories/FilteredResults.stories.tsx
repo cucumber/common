@@ -4,10 +4,9 @@ import * as messages from '@cucumber/messages'
 
 import { components } from '../../src'
 import testData from '../../acceptance/examples-tables/examples-tables.feature'
-import { props } from './helpers'
 import { CucumberReact } from '../components'
 
-const { QueriesWrapper, FilteredResults } = components.app
+const { EnvelopesWrapper, SearchWrapper, FilteredResults } = components.app
 
 export default {
   title: 'App/FilteredResults',
@@ -21,9 +20,11 @@ type TemplateArgs = {
 const Template: Story<TemplateArgs> = ({ envelopes }) => {
   return (
     <CucumberReact>
-      <QueriesWrapper {...props(envelopes)}>
-        <FilteredResults />
-      </QueriesWrapper>
+      <EnvelopesWrapper envelopes={envelopes}>
+        <SearchWrapper>
+          <FilteredResults />
+        </SearchWrapper>
+      </EnvelopesWrapper>
     </CucumberReact>
   )
 }

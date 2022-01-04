@@ -6,10 +6,9 @@ import { components } from '../../src'
 
 import markdown from '../../acceptance/markdown/markdown.feature.md'
 import UriContext from '../UriContext'
-import { props } from './helpers'
 import { CucumberReact } from '../components'
 
-const { QueriesWrapper } = components.app
+const { EnvelopesWrapper } = components.app
 const { MDG } = components.gherkin
 
 export default {
@@ -23,11 +22,11 @@ const Template: Story<TemplateArgs> = ({ envelopes }) => {
   const source = envelopes.filter((envelope) => envelope.source)[0].source
   return (
     <CucumberReact>
-      <QueriesWrapper {...props(envelopes)}>
+      <EnvelopesWrapper envelopes={envelopes}>
         <UriContext.Provider value={source.uri}>
           <MDG uri={source.uri}>{source.data}</MDG>
         </UriContext.Provider>
-      </QueriesWrapper>
+      </EnvelopesWrapper>
     </CucumberReact>
   )
 }

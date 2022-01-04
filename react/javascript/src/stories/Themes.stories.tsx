@@ -7,10 +7,9 @@ import attachments from '../../acceptance/attachments/attachments.feature'
 import rules from '../../acceptance/rules/rules.feature'
 
 import { components } from '..'
-import { props } from './helpers'
 import { IncludedTheme } from '../components/customise'
 
-const { QueriesWrapper, GherkinDocumentList } = components.app
+const { EnvelopesWrapper, GherkinDocumentList } = components.app
 const { CucumberReact } = components
 
 export default {
@@ -26,9 +25,9 @@ export const Themes: Story<{ envelopes: messages.Envelope[]; theme: IncludedThem
     <>
       <h2>`{theme}` Theme</h2>
       <CucumberReact theme={theme}>
-        <QueriesWrapper {...props(envelopes)}>
+        <EnvelopesWrapper envelopes={envelopes}>
           <GherkinDocumentList />
-        </QueriesWrapper>
+        </EnvelopesWrapper>
       </CucumberReact>
     </>
   )

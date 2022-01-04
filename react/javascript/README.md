@@ -11,9 +11,9 @@ Cucumber-React is a set of React components for rendering Gherkin documents and 
 The source code for screenshots above is:
 
 ```jsx
-<Wrapper envelopes={envelopes}>
+<EnvelopesWrapper envelopes={envelopes}>
   <GherkinDocumentList />
-</Wrapper>
+</EnvelopesWrapper>
 ```
 
 The [`<GherkinDocumentList>`](src/components/app/GherkinDocumentList.tsx) React component,

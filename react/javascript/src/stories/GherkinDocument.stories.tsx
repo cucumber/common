@@ -18,10 +18,9 @@ import skipped from '../../acceptance/skipped/skipped.feature'
 import stacktTraces from '../../acceptance/stack-traces/stack-traces.feature'
 import undefinedEnvelopes from '../../acceptance/undefined/undefined.feature'
 import unknownParameterTypes from '../../acceptance/unknown-parameter-type/unknown-parameter-type.feature'
-import { props } from './helpers'
 import { CucumberReact } from '../components'
 
-const { QueriesWrapper, GherkinDocumentList } = components.app
+const { EnvelopesWrapper, GherkinDocumentList } = components.app
 
 export default {
   title: 'Gherkin/GherkinDocument',
@@ -35,9 +34,9 @@ type TemplateArgs = {
 const Template: Story<TemplateArgs> = ({ envelopes }) => {
   return (
     <CucumberReact>
-      <QueriesWrapper {...props(envelopes)}>
+      <EnvelopesWrapper envelopes={envelopes}>
         <GherkinDocumentList />
-      </QueriesWrapper>
+      </EnvelopesWrapper>
     </CucumberReact>
   )
 }

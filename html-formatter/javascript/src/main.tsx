@@ -1,13 +1,11 @@
 import * as messages from '@cucumber/messages'
-import { components, EnvelopesQuery, searchFromURLParams } from '@cucumber/react'
-import { Query as GherkinQuery } from '@cucumber/gherkin-utils'
-import { Query as CucumberQuery } from '@cucumber/query'
+import { components, searchFromURLParams } from '@cucumber/react'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import './styles.scss'
 
 const { CucumberReact } = components
-const { FilteredResults, QueriesWrapper } = components.app
+const { FilteredResults, EnvelopesWrapper, SearchWrapper } = components.app
 
 declare global {
   interface Window {
@@ -15,26 +13,13 @@ declare global {
   }
 }
 
-const gherkinQuery = new GherkinQuery()
-const cucumberQuery = new CucumberQuery()
-const envelopesQuery = new EnvelopesQuery()
-
-for (const envelope of window.CUCUMBER_MESSAGES as messages.Envelope[]) {
-  gherkinQuery.update(envelope)
-  cucumberQuery.update(envelope)
-  envelopesQuery.update(envelope)
-}
-
 const app = (
   <CucumberReact theme="auto">
-    <QueriesWrapper
-      gherkinQuery={gherkinQuery}
-      cucumberQuery={cucumberQuery}
-      envelopesQuery={envelopesQuery}
-      {...searchFromURLParams()}
-    >
-      <FilteredResults className="html-formatter" />
-    </QueriesWrapper>
+    <EnvelopesWrapper envelopes={window.CUCUMBER_MESSAGES}>
+      <SearchWrapper {...searchFromURLParams()}>
+        <FilteredResults className="html-formatter" />
+      </SearchWrapper>
+    </EnvelopesWrapper>
   </CucumberReact>
 )
 
