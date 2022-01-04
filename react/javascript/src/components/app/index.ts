@@ -1,5 +1,4 @@
 export * from './CICommitLink'
-export * from './Duration'
 export * from './ExecutionSummary'
 export * from './FilteredResults'
 export * from './GherkinDocumentList'
