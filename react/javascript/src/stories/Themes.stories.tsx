@@ -24,7 +24,7 @@ export const Themes: Story<{ envelopes: messages.Envelope[]; theme: IncludedThem
 }) => {
   return (
     <>
-      <h2>Dark Theme</h2>
+      <h2>`{theme}` Theme</h2>
       <CucumberReact theme={theme}>
         <QueriesWrapper {...props(envelopes)}>
           <GherkinDocumentList />

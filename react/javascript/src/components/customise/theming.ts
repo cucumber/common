@@ -1,1 +1,1 @@
-export declare type IncludedTheme = 'dark' | 'default'
+export declare type IncludedTheme = 'light' | 'dark' | 'auto'

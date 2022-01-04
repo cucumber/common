@@ -26,7 +26,7 @@ for (const envelope of window.CUCUMBER_MESSAGES as messages.Envelope[]) {
 }
 
 const app = (
-  <CucumberReact>
+  <CucumberReact theme="auto">
     <QueriesWrapper
       gherkinQuery={gherkinQuery}
       cucumberQuery={cucumberQuery}

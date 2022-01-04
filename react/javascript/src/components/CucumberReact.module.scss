@@ -7,7 +7,7 @@
     background: $backgroundColor;
 }
 
-.darkTheme {
+@mixin dark-theme {
     --cucumber-background-color: #1d1d26;
     --cucumber-text-color: #c9c9d1;
     --cucumber-anchor-color: #4caaee;
@@ -22,4 +22,14 @@
     --cucumber-panel-background-color: #282a36;
     --cucumber-panel-accent-color: #313442;
     --cucumber-panel-text-color: #f8f8f2;
+}
+
+.darkTheme {
+    @include dark-theme;
+}
+
+.autoTheme {
+    @media all and (prefers-color-scheme: dark) {
+        @include dark-theme;
+    }
 }

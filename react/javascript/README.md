@@ -40,9 +40,11 @@ The standard styling comes from wrapping your top-level usage with the `Cucumber
 
 ### Built-in themes
 
-Besides the default, we have a few other built-in themes:
+These are the built-in themes:
 
+- `light` (default)
 - `dark`
+- `auto` (honours your operating system preference for either light or dark)
 
 You can activate one of these by passing the `theme` prop to the `CucumberReact` component:
 
