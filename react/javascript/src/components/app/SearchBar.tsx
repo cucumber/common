@@ -38,11 +38,11 @@ export const SearchBar: FunctionComponent<IProps> = ({
           aria-label="Search"
           type="text"
           name="query"
-          placeholder='e.g. "some text" or "@tags"'
+          placeholder="Search with text or @tags"
           defaultValue={query}
         />
         <small className={styles.searchHelp}>
-          Search with plain text or{' '}
+          You can search with plain text or{' '}
           <a
             href="https://cucumber.io/docs/cucumber/api/#tag-expressions"
             target="_blank"
