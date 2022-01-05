@@ -12,8 +12,9 @@ default: .validated ../messages.md
 ../../node_modules ../../package-lock.json:
 	cd ../.. && npm install
 
-../messages.md: $(SCHEMA_FILES) ./scripts/codegen.rb
-	ruby ./scripts/codegen.rb Markdown . > $@
+../messages.md: $(SCHEMA_FILES) ./scripts/codegen.rb ./scripts/templates/typescript.ts.erb ./scripts/templates/typescript.enum.ts.erb
+	ruby ./scripts/codegen.rb Markdown . markdown.md.erb > $@
+	ruby ./scripts/codegen.rb Markdown . markdown.enum.md.erb >> $@
 
 ## General targets called by parent makefiles
 
