@@ -1,6 +1,9 @@
 package io.cucumber.htmlformatter;
 
 import io.cucumber.messages.TimeConversion;
+import io.cucumber.messages.types.Envelope;
+import io.cucumber.messages.types.TestRunFinished;
+import io.cucumber.messages.types.TestRunStarted;
 import org.junit.jupiter.api.Test;
 
 import java.io.BufferedWriter;
@@ -9,7 +12,6 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.time.Instant;
 
-import static io.cucumber.messages.Messages.*;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.MatcherAssert.assertThat;

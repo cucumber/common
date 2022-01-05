@@ -1,7 +1,7 @@
 package io.cucumber.gherkin;
 
 import io.cucumber.messages.IdGenerator;
-import static io.cucumber.messages.Messages.*;
+import io.cucumber.messages.types.GherkinDocument;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

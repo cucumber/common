@@ -2,11 +2,15 @@ package io.cucumber.gherkin;
 
 import io.cucumber.gherkin.pickles.PickleCompiler;
 import io.cucumber.messages.IdGenerator;
+import io.cucumber.messages.types.Comment;
+import io.cucumber.messages.types.FeatureChild;
+import io.cucumber.messages.types.GherkinDocument;
+import io.cucumber.messages.types.Pickle;
+import io.cucumber.messages.types.TableRow;
 import org.junit.Test;
 
 import java.util.List;
 
-import static io.cucumber.messages.Messages.*;
 import static org.junit.Assert.assertEquals;
 
 public class GherkinDocumentBuilderTest {

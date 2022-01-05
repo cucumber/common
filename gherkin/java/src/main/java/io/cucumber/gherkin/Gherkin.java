@@ -2,6 +2,12 @@ package io.cucumber.gherkin;
 
 import io.cucumber.gherkin.pickles.PickleCompiler;
 import io.cucumber.messages.IdGenerator;
+import io.cucumber.messages.types.Envelope;
+import io.cucumber.messages.types.GherkinDocument;
+import io.cucumber.messages.types.ParseError;
+import io.cucumber.messages.types.Pickle;
+import io.cucumber.messages.types.Source;
+import io.cucumber.messages.types.SourceReference;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -13,8 +19,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Stream;
-
-import static io.cucumber.messages.Messages.*;
 
 /**
  * Main entry point for the Gherkin library
@@ -46,7 +50,7 @@ public class Gherkin {
 
     public static Envelope makeSourceEnvelope(String data, String uri) {
         Envelope envelope = new Envelope();
-        envelope.setSource(new Source(uri, data, SourceMediaType.TEXT_X_CUCUMBER_GHERKIN_PLAIN));
+        envelope.setSource(new Source(uri, data, Source.MediaType.TEXT_X_CUCUMBER_GHERKIN_PLAIN));
         return envelope;
     }
 
@@ -138,7 +142,7 @@ public class Gherkin {
                         null, null,
                         // We want 0 values not to be serialised, which is why we set them to null
                         // This is a legacy requirement brought over from old protobuf behaviour
-                        new io.cucumber.messages.Messages.Location(
+                        new io.cucumber.messages.types.Location(
                                 line,
                                 column == 0 ? null : column
                         )

@@ -1,6 +1,12 @@
 package io.cucumber.gherkin;
 
 import io.cucumber.messages.IdGenerator;
+import io.cucumber.messages.types.Envelope;
+import io.cucumber.messages.types.Feature;
+import io.cucumber.messages.types.GherkinDocument;
+import io.cucumber.messages.types.Pickle;
+import io.cucumber.messages.types.PickleStep;
+import io.cucumber.messages.types.Scenario;
 import org.junit.Test;
 
 import java.io.File;
@@ -12,7 +18,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static io.cucumber.messages.Messages.*;
 import static io.cucumber.gherkin.Gherkin.makeSourceEnvelope;
 import static java.util.Collections.singletonList;
 import static org.junit.Assert.assertEquals;
