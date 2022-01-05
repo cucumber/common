@@ -44,7 +44,7 @@ use Cucumber::Messages::Message;
 
 =cut
 
-<%- @schemas.sort.each do |key, schema| %>
+<%- @schemas.each do |key, schema| %>
 
 package Cucumber::Messages::<%= class_name(key) %> {
 

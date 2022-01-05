@@ -23,6 +23,7 @@ class Codegen
       end
     end
 
+    @schemas = @schemas.sort
     @enums = @enum_set.to_a.sort{|a,b| a[:name] <=> b[:name]}
   end
 
@@ -151,7 +152,7 @@ end
 class Java < Codegen
   def initialize(paths)
     language_type_by_schema_type = {
-      'integer' => 'Integer',
+      'integer' => 'Long',
       'string' => 'String',
       'boolean' => 'Boolean',
     }
@@ -160,7 +161,7 @@ class Java < Codegen
   end
 
   def array_type_for(type_name)
-    "List<#{type_name}>"
+    "java.util.List<#{type_name}>"
   end
 end
 

@@ -2,7 +2,6 @@ package io.cucumber.messages;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
-import io.cucumber.messages.types.Envelope;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.BufferedReader;
@@ -11,6 +10,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
+
+import static io.cucumber.messages.Messages.*;
 
 /**
  * Iterates over messages read from a stream. Client code should not depend on this class

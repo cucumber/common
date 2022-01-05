@@ -1,7 +1,6 @@
 package io.cucumber.messages;
 
-import io.cucumber.messages.types.Duration;
-import io.cucumber.messages.types.Timestamp;
+import static io.cucumber.messages.Messages.*;
 
 public final class TimeConversion {
 

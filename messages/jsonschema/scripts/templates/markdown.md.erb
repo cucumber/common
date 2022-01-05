@@ -3,7 +3,7 @@
 Each message is an instance of [Envelope](#envelope). The `Envelope` message
 will only have one of its fields set, which indicates the payload of the message.
 
-<% @schemas.sort.each do |key, schema| -%>
+<% @schemas.each do |key, schema| -%>
 ## <%= class_name(key) %>
 
 | Field | Type | Required    | Description |

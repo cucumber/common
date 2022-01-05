@@ -1,0 +1,78 @@
+<% @schemas.each do |key, schema| %>
+    public static class <%= class_name(key) %> {
+      <%- schema['properties'].each do |property_name, property| -%>
+        private <%= type_for(class_name(key), property_name, property) -%> <%= property_name %>;
+      <%- end -%>
+
+        public <%= class_name(key) %>() {}
+
+        public <%= class_name(key) %>(
+        <%- schema['properties'].each_with_index do |(property_name, property), index| -%>
+            <%= type_for(class_name(key), property_name, property) -%> <%= property_name %><%= index < schema['properties'].length-1 ? ',' : ''%>
+        <%- end -%>
+        ) {
+          <%- schema['properties'].each_with_index do |(property_name, property), index| -%>
+            <%- if (schema['required'] || []).index(property_name) -%>
+            this.<%= property_name %> = java.util.Objects.requireNonNull(<%= property_name %>);
+            <%- else -%>
+            this.<%= property_name %> = <%= property_name %>;
+            <%- end -%>
+          <%- end -%>
+        }
+
+      <%- schema['properties'].each do |property_name, property| -%>
+        <%- if (schema['required'] || []).index(property_name) -%>
+        public <%= type_for(class_name(key), property_name, property) -%> get<%= capitalize(property_name) %>() {
+            return java.util.Objects.requireNonNull(<%= property_name %>);
+        }
+
+        public void set<%= capitalize(property_name) %>(<%= type_for(class_name(key), property_name, property) -%> <%= property_name %>) {
+            this.<%= property_name %> = java.util.Objects.requireNonNull(<%= property_name %>);
+        }
+        <%- else -%>
+        public java.util.Optional<<%= type_for(class_name(key), property_name, property) -%>> get<%= capitalize(property_name) %>() {
+            return java.util.Optional.ofNullable(<%= property_name %>);
+        }
+
+        public void set<%= capitalize(property_name) %>(<%= type_for(class_name(key), property_name, property) -%> <%= property_name %>) {
+            this.<%= property_name %> = <%= property_name %>;
+        }
+        <%- end -%>
+
+      <%- end -%>
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            <%= class_name(key) %> that = (<%= class_name(key) %>) o;
+            return <%- schema['properties'].each_with_index do |(property_name, property), index| %>
+                <%- if (schema['required'] || []).index(property_name) -%>
+                <%= property_name -%>.equals(that.<%= property_name -%>)<%= index < schema['properties'].length-1 ? ' && ' : ';' -%>
+                <%- else -%>
+                java.util.Objects.equals(<%= property_name -%>, that.<%= property_name -%>)<%= index < schema['properties'].length-1 ? ' && ' : ';' -%>
+                <%- end -%>
+            <% end -%>
+
+        }
+
+        @Override
+        public int hashCode() {
+            return java.util.Objects.hash(
+            <%- schema['properties'].each_with_index do |(property_name, property), index| -%>
+                <%= property_name %><%= index < schema['properties'].length-1 ? ',' : ''%>
+            <%- end -%>
+            );
+        }
+
+        @Override
+        public String toString() {
+            return "<%= class_name(key) %>{" +
+            <%- schema['properties'].each_with_index do |(property_name, property), index| -%>
+                "<%= index == 0 ? '' : ', '%><%= property_name %>=" + <%= property_name %> +
+            <%- end -%>
+                '}';
+        }
+    }
+
+<% end -%>

@@ -1,11 +1,5 @@
 package io.cucumber.messages;
 
-import io.cucumber.messages.types.Attachment;
-import io.cucumber.messages.types.Envelope;
-import io.cucumber.messages.types.Feature;
-import io.cucumber.messages.types.GherkinDocument;
-import io.cucumber.messages.types.Location;
-import io.cucumber.messages.types.Source;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
@@ -13,9 +7,11 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
+import static io.cucumber.messages.Messages.*;
 import static java.util.Collections.emptyList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -26,13 +22,15 @@ abstract class MessageSerializationContract {
         List<Envelope> outgoingMessages = new ArrayList<>();
         {
             Envelope envelope = new Envelope();
-            envelope.setSource(new Source(null, "Feature: Hello", null));
+            envelope.setSource(new Source("hello.feature", "Feature: Hello", SourceMediaType.TEXT_X_CUCUMBER_GHERKIN_PLAIN));
             outgoingMessages.add(envelope);
         }
         {
             Envelope envelope = new Envelope();
             Attachment attachment = new Attachment();
             attachment.setBody("the body");
+            attachment.setContentEncoding(AttachmentContentEncoding.IDENTITY);
+            attachment.setMediaType("text/plain");
             envelope.setAttachment(attachment);
             outgoingMessages.add(envelope);
         }
@@ -49,11 +47,11 @@ abstract class MessageSerializationContract {
                     new GherkinDocument(
                             "hello.feature",
                             new Feature(
-                                    new Location(),
+                                    new Location(1L, 1L),
                                     emptyList(),
                                     "en",
-                                    null,
-                                    null,
+                                    "Given ",
+                                    "Hello",
                                     "",
                                     emptyList()
                             ),
