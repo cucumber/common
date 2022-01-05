@@ -14,7 +14,7 @@ import static com.fasterxml.jackson.databind.SerializationFeature.WRITE_ENUMS_US
 public final class JSON {
     private static final ObjectMapper mapper = new ObjectMapper()
             .registerModule(new Jdk8Module())
-            .setSerializationInclusion(JsonInclude.Include.NON_NULL)
+            .setSerializationInclusion(JsonInclude.Include.NON_ABSENT)
             .enable(WRITE_ENUMS_USING_TO_STRING)
             .disable(JsonGenerator.Feature.AUTO_CLOSE_TARGET);
 

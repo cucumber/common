@@ -7,6 +7,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 
@@ -35,6 +36,15 @@ class NdjsonSerializationTest extends MessageSerializationContract {
         writer.write(new Source("uri", "data", SourceMediaType.TEXT_X_CUCUMBER_GHERKIN_PLAIN));
         String json = new String(output.toByteArray(), StandardCharsets.UTF_8);
         assertEquals("{\"uri\":\"uri\",\"data\":\"data\",\"mediaType\":\"text/x.cucumber.gherkin+plain\"}\n", json);
+    }
+
+    @Test
+    void does_not_serialize_null_fields() throws IOException {
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        OutputStreamWriter writer = new OutputStreamWriter(output);
+        JSON.writeValue(writer, new Envelope());
+        writer.flush();
+        assertEquals("{}", new String(output.toByteArray(), UTF_8));
     }
 
     @Test
