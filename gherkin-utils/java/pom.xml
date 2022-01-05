@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.cucumber</groupId>
   <artifactId>gherkin-utils</artifactId>
-  <version>21.0.1-SNAPSHOT</version>
+  <version>22.0.0</version>
   <packaging>jar</packaging>
   <name>Gherkin Utils</name>
   <description>Gherkin utils for doing things such as walking a Gherkin tree or pretty printing Gherkin files.
@@ -32,9 +32,9 @@
     </dependency>
 
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.13.2</version>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-engine</artifactId>
+      <version>5.5.2</version>
       <scope>test</scope>
     </dependency>
   </dependencies>

@@ -1,7 +1,5 @@
-[![Maven Central](https://img.shields.io/maven-central/v/io.cucumber/gherkin.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22io.cucumber%22%20AND%20a:%22gherkin%22)
+# Gherkin Utilties for Java
 
-# Gherkin for Java
+This contains a Java library with some common Utilties
 
-Gherkin parser/compiler for Java.
-
-See [GherkinTest](src/test/java/io/cucumber/gherkin/PrettyPrintGherkinDocumentTest.java) for sample usage.
+See [GherkinTest](src/test/java/io/cucumber/gherkin/util/PrettyPrintGherkinDocumentTest.java) for sample usage.

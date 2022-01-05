@@ -1,19 +1,19 @@
 package io.cucumber.gherkin.util;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import io.cucumber.gherkin.GherkinDocumentBuilder;
 import io.cucumber.gherkin.Parser;
 import io.cucumber.messages.IdGenerator;
 import io.cucumber.messages.types.GherkinDocument;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class PrettyPrintGherkinDocumentTest {
 
     Parser<GherkinDocument> parser;
 
-    @Before
+    @BeforeEach
     public void beforeEach() {
         IdGenerator idGen = new IdGenerator.Incrementing();
         parser = new Parser<>(new GherkinDocumentBuilder(idGen));
