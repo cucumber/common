@@ -2,15 +2,11 @@ package io.cucumber.gherkin;
 
 import io.cucumber.gherkin.pickles.PickleCompiler;
 import io.cucumber.messages.IdGenerator;
-import io.cucumber.messages.types.Comment;
-import io.cucumber.messages.types.FeatureChild;
-import io.cucumber.messages.types.GherkinDocument;
-import io.cucumber.messages.types.Pickle;
-import io.cucumber.messages.types.TableRow;
 import org.junit.Test;
 
 import java.util.List;
 
+import static io.cucumber.messages.Messages.*;
 import static org.junit.Assert.assertEquals;
 
 public class GherkinDocumentBuilderTest {
@@ -24,8 +20,8 @@ public class GherkinDocumentBuilderTest {
         GherkinDocument d1 = parser.parse("Feature: 1", matcher);
         GherkinDocument d2 = parser.parse("Feature: 2", matcher);
 
-        assertEquals("1", d1.getFeature().getName());
-        assertEquals("2", d2.getFeature().getName());
+        assertEquals("1", d1.getFeature().get().getName());
+        assertEquals("2", d2.getFeature().get().getName());
     }
 
     @Test
@@ -53,7 +49,7 @@ public class GherkinDocumentBuilderTest {
                 "      Given b";
         GherkinDocument doc = parser.parse(data);
 
-        List<FeatureChild> children = doc.getFeature().getChildren();
+        List<FeatureChild> children = doc.getFeature().get().getChildren();
         assertEquals(3, children.size());
 
         IdGenerator idGenerator = new IdGenerator.Incrementing();
@@ -84,7 +80,7 @@ public class GherkinDocumentBuilderTest {
                 "    Given a table\n" +
                 "      |a||b|"
         );
-        TableRow row = doc.getFeature().getChildren().get(0).getScenario().getSteps().get(0).getDataTable().getRows().get(0);
+        TableRow row = doc.getFeature().get().getChildren().get(0).getScenario().get().getSteps().get(0).getDataTable().get().getRows().get(0);
         assertEquals("a", row.getCells().get(0).getValue());
         assertEquals("", row.getCells().get(1).getValue());
         assertEquals("b", row.getCells().get(2).getValue());

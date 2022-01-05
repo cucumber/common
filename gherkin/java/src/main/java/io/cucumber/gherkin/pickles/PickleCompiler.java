@@ -1,27 +1,6 @@
 package io.cucumber.gherkin.pickles;
 
 import io.cucumber.messages.IdGenerator;
-import io.cucumber.messages.types.DataTable;
-import io.cucumber.messages.types.DocString;
-import io.cucumber.messages.types.Examples;
-import io.cucumber.messages.types.Feature;
-import io.cucumber.messages.types.FeatureChild;
-import io.cucumber.messages.types.GherkinDocument;
-import io.cucumber.messages.types.Pickle;
-import io.cucumber.messages.types.PickleDocString;
-import io.cucumber.messages.types.PickleStep;
-import io.cucumber.messages.types.PickleStepArgument;
-import io.cucumber.messages.types.PickleTable;
-import io.cucumber.messages.types.PickleTableCell;
-import io.cucumber.messages.types.PickleTableRow;
-import io.cucumber.messages.types.PickleTag;
-import io.cucumber.messages.types.Rule;
-import io.cucumber.messages.types.RuleChild;
-import io.cucumber.messages.types.Scenario;
-import io.cucumber.messages.types.Step;
-import io.cucumber.messages.types.TableCell;
-import io.cucumber.messages.types.TableRow;
-import io.cucumber.messages.types.Tag;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -30,6 +9,27 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static io.cucumber.messages.Messages.DataTable;
+import static io.cucumber.messages.Messages.DocString;
+import static io.cucumber.messages.Messages.Examples;
+import static io.cucumber.messages.Messages.Feature;
+import static io.cucumber.messages.Messages.FeatureChild;
+import static io.cucumber.messages.Messages.GherkinDocument;
+import static io.cucumber.messages.Messages.Pickle;
+import static io.cucumber.messages.Messages.PickleDocString;
+import static io.cucumber.messages.Messages.PickleStep;
+import static io.cucumber.messages.Messages.PickleStepArgument;
+import static io.cucumber.messages.Messages.PickleTable;
+import static io.cucumber.messages.Messages.PickleTableCell;
+import static io.cucumber.messages.Messages.PickleTableRow;
+import static io.cucumber.messages.Messages.PickleTag;
+import static io.cucumber.messages.Messages.Rule;
+import static io.cucumber.messages.Messages.RuleChild;
+import static io.cucumber.messages.Messages.Scenario;
+import static io.cucumber.messages.Messages.Step;
+import static io.cucumber.messages.Messages.TableCell;
+import static io.cucumber.messages.Messages.TableRow;
+import static io.cucumber.messages.Messages.Tag;
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 import static java.util.Collections.unmodifiableList;
@@ -44,10 +44,10 @@ public class PickleCompiler {
 
     public List<Pickle> compile(GherkinDocument gherkinDocument, String uri) {
         List<Pickle> pickles = new ArrayList<>();
-        Feature feature = gherkinDocument.getFeature();
-        if (feature == null) {
+        if (!gherkinDocument.getFeature().isPresent()) {
             return pickles;
         }
+        Feature feature = gherkinDocument.getFeature().get();
 
         String language = feature.getLanguage();
 
@@ -59,12 +59,12 @@ public class PickleCompiler {
         List<Tag> tags = feature.getTags();
         List<Step> featureBackgroundSteps = new ArrayList<>();
         for (FeatureChild featureChild : feature.getChildren()) {
-            if (featureChild.getBackground() != null) {
-                featureBackgroundSteps.addAll(featureChild.getBackground().getSteps());
-            } else if (featureChild.getRule() != null) {
-                compileRule(pickles, featureChild.getRule(), tags, featureBackgroundSteps, language, uri);
-            } else {
-                Scenario scenario = featureChild.getScenario();
+            if (featureChild.getBackground().isPresent()) {
+                featureBackgroundSteps.addAll(featureChild.getBackground().get().getSteps());
+            } else if (featureChild.getRule().isPresent()) {
+                compileRule(pickles, featureChild.getRule().get(), tags, featureBackgroundSteps, language, uri);
+            } else if (featureChild.getScenario().isPresent()) {
+                Scenario scenario = featureChild.getScenario().get();
                 if (scenario.getExamples().isEmpty()) {
                     compileScenario(pickles, scenario, tags, featureBackgroundSteps, language, uri);
                 } else {
@@ -82,10 +82,10 @@ public class PickleCompiler {
         ruleTags.addAll(rule.getTags());
 
         for (RuleChild ruleChild : rule.getChildren()) {
-            if (ruleChild.getBackground() != null) {
-                ruleBackgroundSteps.addAll(ruleChild.getBackground().getSteps());
-            } else {
-                Scenario scenario = ruleChild.getScenario();
+            if (ruleChild.getBackground().isPresent()) {
+                ruleBackgroundSteps.addAll(ruleChild.getBackground().get().getSteps());
+            } else if (ruleChild.getScenario().isPresent()) {
+                Scenario scenario = ruleChild.getScenario().get();
                 if (scenario.getExamples().isEmpty()) {
                     compileScenario(pickles, scenario, ruleTags, ruleBackgroundSteps, language, uri);
                 } else {
@@ -122,8 +122,8 @@ public class PickleCompiler {
 
     private void compileScenarioOutline(List<Pickle> pickles, Scenario scenario, List<Tag> featureTags, List<Step> backgroundSteps, String language, String uri) {
         for (final Examples examples : scenario.getExamples()) {
-            if (examples.getTableHeader() == null) continue;
-            List<TableCell> variableCells = examples.getTableHeader().getCells();
+            if (!examples.getTableHeader().isPresent()) continue;
+            List<TableCell> variableCells = examples.getTableHeader().get().getCells();
             for (final TableRow valuesRow : examples.getTableBody()) {
                 List<TableCell> valueCells = valuesRow.getCells();
 
@@ -176,7 +176,7 @@ public class PickleCompiler {
 
     private PickleDocString pickleDocString(DocString docString, List<TableCell> variableCells, List<TableCell> valueCells) {
         return new PickleDocString(
-                docString.getMediaType() == null ? null : interpolate(docString.getMediaType(), variableCells, valueCells),
+                docString.getMediaType().isPresent() ? interpolate(docString.getMediaType().get(), variableCells, valueCells) : null,
                 interpolate(docString.getContent(), variableCells, valueCells)
         );
     }
@@ -196,12 +196,12 @@ public class PickleCompiler {
             pickleStep.setAstNodeIds(astNodeIds);
         }
 
-        if (step.getDataTable() != null) {
-            pickleStep.setArgument(new PickleStepArgument(null, pickleDataTable(step.getDataTable(), variableCells, valueCells)));
+        if (step.getDataTable().isPresent()) {
+            pickleStep.setArgument(new PickleStepArgument(null, pickleDataTable(step.getDataTable().get(), variableCells, valueCells)));
         }
 
-        if (step.getDocString() != null) {
-            pickleStep.setArgument(new PickleStepArgument(pickleDocString(step.getDocString(), variableCells, valueCells), null));
+        if (step.getDocString().isPresent()) {
+            pickleStep.setArgument(new PickleStepArgument(pickleDocString(step.getDocString().get(), variableCells, valueCells), null));
         }
         return pickleStep;
     }

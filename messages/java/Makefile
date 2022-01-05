@@ -11,6 +11,3 @@ src/main/java/io/cucumber/messages/Messages.java: $(JSONSCHEMAS) ../jsonschema/s
 	ruby ../jsonschema/scripts/codegen.rb Java ../jsonschema java.java.erb >> $@
 	ruby ../jsonschema/scripts/codegen.rb Java ../jsonschema java.enum.java.erb >> $@
 	echo "}" >> $@
-
-clean:
-	rm -f src/main/java/io/messages/cucumber/Messages.java

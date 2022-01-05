@@ -476,7 +476,7 @@ public class Messages {
     public static class GherkinDocument {
         private String uri;
         private Feature feature;
-        private java.util.List<Comment> comments;
+        private java.util.List<Comment> comments = new java.util.ArrayList<>();
 
         public GherkinDocument() {}
 
@@ -551,7 +551,7 @@ public class Messages {
         private String keyword;
         private String name;
         private String description;
-        private java.util.List<Step> steps;
+        private java.util.List<Step> steps = new java.util.ArrayList<>();
         private String id;
 
         public Background() {}
@@ -722,7 +722,7 @@ public class Messages {
 
     public static class DataTable {
         private Location location;
-        private java.util.List<TableRow> rows;
+        private java.util.List<TableRow> rows = new java.util.ArrayList<>();
 
         public DataTable() {}
 
@@ -868,12 +868,12 @@ public class Messages {
 
     public static class Examples {
         private Location location;
-        private java.util.List<Tag> tags;
+        private java.util.List<Tag> tags = new java.util.ArrayList<>();
         private String keyword;
         private String name;
         private String description;
         private TableRow tableHeader;
-        private java.util.List<TableRow> tableBody;
+        private java.util.List<TableRow> tableBody = new java.util.ArrayList<>();
         private String id;
 
         public Examples() {}
@@ -1011,12 +1011,12 @@ public class Messages {
 
     public static class Feature {
         private Location location;
-        private java.util.List<Tag> tags;
+        private java.util.List<Tag> tags = new java.util.ArrayList<>();
         private String language;
         private String keyword;
         private String name;
         private String description;
-        private java.util.List<FeatureChild> children;
+        private java.util.List<FeatureChild> children = new java.util.ArrayList<>();
 
         public Feature() {}
 
@@ -1213,11 +1213,11 @@ public class Messages {
 
     public static class Rule {
         private Location location;
-        private java.util.List<Tag> tags;
+        private java.util.List<Tag> tags = new java.util.ArrayList<>();
         private String keyword;
         private String name;
         private String description;
-        private java.util.List<RuleChild> children;
+        private java.util.List<RuleChild> children = new java.util.ArrayList<>();
         private String id;
 
         public Rule() {}
@@ -1401,12 +1401,12 @@ public class Messages {
 
     public static class Scenario {
         private Location location;
-        private java.util.List<Tag> tags;
+        private java.util.List<Tag> tags = new java.util.ArrayList<>();
         private String keyword;
         private String name;
         private String description;
-        private java.util.List<Step> steps;
-        private java.util.List<Examples> examples;
+        private java.util.List<Step> steps = new java.util.ArrayList<>();
+        private java.util.List<Examples> examples = new java.util.ArrayList<>();
         private String id;
 
         public Scenario() {}
@@ -1718,7 +1718,7 @@ public class Messages {
 
     public static class TableRow {
         private Location location;
-        private java.util.List<TableCell> cells;
+        private java.util.List<TableCell> cells = new java.util.ArrayList<>();
         private String id;
 
         public TableRow() {}
@@ -2344,7 +2344,7 @@ public class Messages {
 
     public static class ParameterType {
         private String name;
-        private java.util.List<String> regularExpressions;
+        private java.util.List<String> regularExpressions = new java.util.ArrayList<>();
         private Boolean preferForRegularExpressionMatch;
         private Boolean useForSnippets;
         private String id;
@@ -2507,9 +2507,9 @@ public class Messages {
         private String uri;
         private String name;
         private String language;
-        private java.util.List<PickleStep> steps;
-        private java.util.List<PickleTag> tags;
-        private java.util.List<String> astNodeIds;
+        private java.util.List<PickleStep> steps = new java.util.ArrayList<>();
+        private java.util.List<PickleTag> tags = new java.util.ArrayList<>();
+        private java.util.List<String> astNodeIds = new java.util.ArrayList<>();
 
         public Pickle() {}
 
@@ -2692,7 +2692,7 @@ public class Messages {
 
     public static class PickleStep {
         private PickleStepArgument argument;
-        private java.util.List<String> astNodeIds;
+        private java.util.List<String> astNodeIds = new java.util.ArrayList<>();
         private String id;
         private String text;
 
@@ -2837,7 +2837,7 @@ public class Messages {
 
 
     public static class PickleTable {
-        private java.util.List<PickleTableRow> rows;
+        private java.util.List<PickleTableRow> rows = new java.util.ArrayList<>();
 
         public PickleTable() {}
 
@@ -2927,7 +2927,7 @@ public class Messages {
 
 
     public static class PickleTableRow {
-        private java.util.List<PickleTableCell> cells;
+        private java.util.List<PickleTableCell> cells = new java.util.ArrayList<>();
 
         public PickleTableRow() {}
 
@@ -3193,7 +3193,7 @@ public class Messages {
     public static class JavaMethod {
         private String className;
         private String methodName;
-        private java.util.List<String> methodParameterTypes;
+        private java.util.List<String> methodParameterTypes = new java.util.ArrayList<>();
 
         public JavaMethod() {}
 
@@ -3471,7 +3471,7 @@ public class Messages {
     public static class TestCase {
         private String id;
         private String pickleId;
-        private java.util.List<TestStep> testSteps;
+        private java.util.List<TestStep> testSteps = new java.util.ArrayList<>();
 
         public TestCase() {}
 
@@ -3542,7 +3542,7 @@ public class Messages {
 
 
     public static class Group {
-        private java.util.List<Group> children;
+        private java.util.List<Group> children = new java.util.ArrayList<>();
         private Long start;
         private String value;
 
@@ -3674,7 +3674,7 @@ public class Messages {
 
 
     public static class StepMatchArgumentsList {
-        private java.util.List<StepMatchArgument> stepMatchArguments;
+        private java.util.List<StepMatchArgument> stepMatchArguments = new java.util.ArrayList<>();
 
         public StepMatchArgumentsList() {}
 
@@ -3722,8 +3722,8 @@ public class Messages {
         private String hookId;
         private String id;
         private String pickleStepId;
-        private java.util.List<String> stepDefinitionIds;
-        private java.util.List<StepMatchArgumentsList> stepMatchArgumentsLists;
+        private java.util.List<String> stepDefinitionIds = new java.util.ArrayList<>();
+        private java.util.List<StepMatchArgumentsList> stepMatchArgumentsLists = new java.util.ArrayList<>();
 
         public TestStep() {}
 

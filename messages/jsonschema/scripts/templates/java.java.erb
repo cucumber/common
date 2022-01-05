@@ -1,7 +1,7 @@
 <% @schemas.each do |key, schema| %>
     public static class <%= class_name(key) %> {
       <%- schema['properties'].each do |property_name, property| -%>
-        private <%= type_for(class_name(key), property_name, property) -%> <%= property_name %>;
+        private <%= type_for(class_name(key), property_name, property) -%> <%= property_name %><%= property['items'] ? ' = new java.util.ArrayList<>()' : '' %>;
       <%- end -%>
 
         public <%= class_name(key) %>() {}
