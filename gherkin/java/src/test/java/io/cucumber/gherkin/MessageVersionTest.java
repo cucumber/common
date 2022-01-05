@@ -1,6 +1,6 @@
 package io.cucumber.gherkin;
 
-import static io.cucumber.messages.Messages.*;
+import io.cucumber.messages.types.Envelope;
 import org.junit.Test;
 
 import static org.junit.Assert.assertNotNull;
