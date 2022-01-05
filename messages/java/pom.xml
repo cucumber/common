@@ -92,7 +92,7 @@
                                     <include>com.fasterxml.jackson.core:jackson-databind</include>
                                     <include>com.fasterxml.jackson.core:jackson-core</include>
                                     <include>com.fasterxml.jackson.core:jackson-annotations</include>
-                                    <include>com.fasterxml.jackson.core:jackson-datatype-jdk8</include>
+                                    <include>com.fasterxml.jackson.datatype:jackson-datatype-jdk8</include>
                                 </includes>
                             </artifactSet>
                             <relocations>
@@ -118,6 +118,13 @@
                                 </filter>
                                 <filter>
                                     <artifact>com.fasterxml.jackson.core:jackson-annotations</artifact>
+                                    <excludes>
+                                        <exclude>**/module-info.class</exclude>
+                                        <exclude>META-INF/MANIFEST.MF</exclude>
+                                    </excludes>
+                                </filter>
+                                <filter>
+                                    <artifact>com.fasterxml.jackson.datatype:jackson-datatype-jdk8</artifact>
                                     <excludes>
                                         <exclude>**/module-info.class</exclude>
                                         <exclude>META-INF/MANIFEST.MF</exclude>
