@@ -1,0 +1,69 @@
+package io.cucumber.messages;
+
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+
+import static java.util.Objects.requireNonNull;
+import static java.util.Optional.empty;
+import static java.util.Optional.of;
+import static java.util.Optional.ofNullable;
+
+public class Messages {
+  <% @schemas.sort.each do |key, schema| %>
+    public static class <%= class_name(key) %> {
+    <%- schema['properties'].each do |property_name, property| -%>
+        private final <%= type_for(class_name(key), property_name, property) -%> <%= property_name %>;
+        <%- if (schema['required'] || []).index(property_name) -%>
+        public <%= type_for(class_name(key), property_name, property) -%> get<%= capitalize(property_name) %>() {
+            return <%= property_name %>;
+        }
+        <%- else -%>
+        public Optional<<%= type_for(class_name(key), property_name, property) -%>> get<%= capitalize(property_name) %>() {
+            return ofNullable(<%= property_name %>);
+        }
+        <%- end -%>
+
+    <%- end -%>
+
+        public <%= class_name(key) %>(
+        <%- schema['properties'].each_with_index do |(property_name, property), index| -%>
+            <%= type_for(class_name(key), property_name, property) -%> <%= property_name %><%= index < schema['properties'].length-1 ? ',' : ''%>
+        <%- end -%>
+        ) {
+          <%- schema['properties'].each_with_index do |(property_name, property), index| -%>
+            <%- if (schema['required'] || []).index(property_name) -%>
+            this.<%= property_name %> = requireNonNull(<%= property_name %>);
+            <%- else -%>
+            this.<%= property_name %> = <%= property_name %>;
+            <%- end -%>
+          <%- end -%>
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            <%= class_name(key) %> that = (<%= class_name(key) %>) o;
+            return <%- schema['properties'].each_with_index do |(property_name, property), index| %>
+                <%- if (schema['required'] || []).index(property_name) -%>
+                <%= property_name -%>.equals(that.<%= property_name -%>)<%= index < schema['properties'].length-1 ? ' && ' : ';' -%>
+                <%- else -%>
+                Objects.equals(<%= property_name -%>, that.<%= property_name -%>)<%= index < schema['properties'].length-1 ? ' && ' : ';' -%>
+                <%- end -%>
+            <% end -%>
+
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(
+            <%- schema['properties'].each_with_index do |(property_name, property), index| -%>
+                <%= property_name %><%= index < schema['properties'].length-1 ? ',' : ''%>
+            <%- end -%>
+            );
+        }
+    }
+
+  <% end -%>
+}

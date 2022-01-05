@@ -11,4 +11,4 @@ src/version.ts: package.json
 	npm version --json | jq $$'"// This file is generated using `make src/version.ts` or `make .codegen`\nexport const version = \'" + (."@cucumber/messages") + "\'"' --raw-output > $@
 
 clean:
-	rm -rf src/types/*.ts
+	rm -f src/messages.ts src/version.ts

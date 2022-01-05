@@ -144,6 +144,25 @@ class TypeScript < Codegen
   end
 end
 
+class Java < Codegen
+  def initialize(paths)
+    template = File.read("#{TEMPLATES_DIRECTORY}/java.ts.erb")
+    enum_template = File.read("#{TEMPLATES_DIRECTORY}/java.enum.ts.erb")
+
+    language_type_by_schema_type = {
+      'integer' => 'Integer',
+      'string' => 'String',
+      'boolean' => 'Boolean',
+    }
+
+    super(paths, template, enum_template, language_type_by_schema_type)
+  end
+
+  def array_type_for(type_name)
+    "List<#{type_name}>"
+  end
+end
+
 class Perl < Codegen
   def initialize(paths, template_file_name: 'perl.pm.erb')
     template = File.read("#{TEMPLATES_DIRECTORY}/#{template_file_name}")
