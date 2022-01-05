@@ -149,22 +149,6 @@ class TypeScript < Codegen
   end
 end
 
-class Java < Codegen
-  def initialize(paths)
-    language_type_by_schema_type = {
-      'integer' => 'Long',
-      'string' => 'String',
-      'boolean' => 'Boolean',
-    }
-
-    super(paths, language_type_by_schema_type)
-  end
-
-  def array_type_for(type_name)
-    "java.util.List<#{type_name}>"
-  end
-end
-
 class Perl < Codegen
   def initialize(paths)
     language_type_by_schema_type = {
