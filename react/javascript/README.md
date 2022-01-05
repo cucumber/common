@@ -79,6 +79,9 @@ In your CSS for the `acme-widgets` class, you can override the supported [custom
   --cucumber-error-text-color: #222;
   --cucumber-code-background-color: #282a36;
   --cucumber-code-text-color: #f8f8f2;
+  --cucumber-panel-background-color: #282a36;
+  --cucumber-panel-accent-color: #313442;
+  --cucumber-panel-text-color: #f8f8f2;
 }
 ```
 
