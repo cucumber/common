@@ -1,8 +1,5 @@
 package io.cucumber.messages;
 
-import io.cucumber.messages.types.Attachment;
-import io.cucumber.messages.types.Envelope;
-import io.cucumber.messages.types.Source;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
@@ -14,6 +11,7 @@ import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 
+import static io.cucumber.messages.Messages.*;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -27,7 +25,7 @@ class NdjsonSerializationTest extends MessageSerializationContract {
     }
 
     @Override
-    protected Iterable<Envelope> makeMessageIterable(InputStream input) {
+    protected Iterable<Messages.Envelope> makeMessageIterable(InputStream input) {
         return new NdjsonToMessageIterable(input);
     }
 
@@ -35,7 +33,7 @@ class NdjsonSerializationTest extends MessageSerializationContract {
     void writes_source_envelope() throws IOException {
         ByteArrayOutputStream output = new ByteArrayOutputStream();
         MessageWriter writer = makeMessageWriter(output);
-        writer.write(new Source("uri", "data", Source.MediaType.TEXT_X_CUCUMBER_GHERKIN_PLAIN));
+        writer.write(new Source("uri", "data", SourceMediaType.TEXT_X_CUCUMBER_GHERKIN_PLAIN));
         String json = new String(output.toByteArray(), StandardCharsets.UTF_8);
         assertEquals("{\"uri\":\"uri\",\"data\":\"data\",\"mediaType\":\"text/x.cucumber.gherkin+plain\"}\n", json);
     }
@@ -80,7 +78,7 @@ class NdjsonSerializationTest extends MessageSerializationContract {
         Iterator<Envelope> iterator = incomingMessages.iterator();
         assertTrue(iterator.hasNext());
         Envelope envelope = iterator.next();
-        assertEquals(Attachment.ContentEncoding.BASE_64, envelope.getAttachment().get().getContentEncoding());
+        assertEquals(AttachmentContentEncoding.BASE64, envelope.getAttachment().get().getContentEncoding());
         assertFalse(iterator.hasNext());
     }
 

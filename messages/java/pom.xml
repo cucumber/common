@@ -78,28 +78,6 @@
         </resources>
         <plugins>
             <plugin>
-                <groupId>org.jsonschema2pojo</groupId>
-                <artifactId>jsonschema2pojo-maven-plugin</artifactId>
-                <version>1.1.1</version>
-                <configuration>
-                    <sourceDirectory>${basedir}/../jsonschema</sourceDirectory>
-                    <includes>*.json</includes>
-                    <annotationStyle>none</annotationStyle>
-                    <useLongIntegers>true</useLongIntegers>
-                    <includeConstructors>true</includeConstructors>
-                    <includeGeneratedAnnotation>false</includeGeneratedAnnotation>
-                    <useOptionalForGetters>true</useOptionalForGetters>
-                    <targetPackage>io.cucumber.messages.types</targetPackage>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
                 <executions>
