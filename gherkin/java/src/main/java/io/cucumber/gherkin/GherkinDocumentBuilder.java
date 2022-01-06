@@ -1,21 +1,6 @@
 package io.cucumber.gherkin;
 
 import io.cucumber.messages.IdGenerator;
-import io.cucumber.messages.types.Background;
-import io.cucumber.messages.types.Comment;
-import io.cucumber.messages.types.DataTable;
-import io.cucumber.messages.types.DocString;
-import io.cucumber.messages.types.Examples;
-import io.cucumber.messages.types.Feature;
-import io.cucumber.messages.types.FeatureChild;
-import io.cucumber.messages.types.GherkinDocument;
-import io.cucumber.messages.types.Rule;
-import io.cucumber.messages.types.RuleChild;
-import io.cucumber.messages.types.Scenario;
-import io.cucumber.messages.types.Step;
-import io.cucumber.messages.types.TableCell;
-import io.cucumber.messages.types.TableRow;
-import io.cucumber.messages.types.Tag;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -24,10 +9,12 @@ import java.util.Deque;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static io.cucumber.messages.Messages.*;
+import static io.cucumber.gherkin.Parser.Builder;
 import static io.cucumber.gherkin.Parser.RuleType;
 import static io.cucumber.gherkin.Parser.TokenType;
 
-public class GherkinDocumentBuilder implements Parser.Builder<GherkinDocument> {
+public class GherkinDocumentBuilder implements Builder<GherkinDocument> {
     private final IdGenerator idGenerator;
 
     private Deque<AstNode> stack;
@@ -286,9 +273,9 @@ public class GherkinDocumentBuilder implements Parser.Builder<GherkinDocument> {
         return node.getItems(RuleType.Step);
     }
 
-    private io.cucumber.messages.types.Location getLocation(Token token, int column) {
+    private io.cucumber.messages.Messages.Location getLocation(Token token, int column) {
         column = column == 0 ? token.location.getColumn() : column;
-        return new io.cucumber.messages.types.Location((long) token.location.getLine(), (long) column);
+        return new io.cucumber.messages.Messages.Location((long) token.location.getLine(), (long) column);
     }
 
     private String getDescription(AstNode node) {

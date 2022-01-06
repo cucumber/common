@@ -1,0 +1,39 @@
+<% @enums.each do |enum| -%>
+    public enum <%= enum[:name] %> {
+    <% enum[:values].each_with_index do |value, index| -%>
+    <%= enum_constant(value) %>("<%= value %>")<%= index < enum[:values].length-1 ? ',' : ';' %>
+    <% end -%>
+
+        private final String value;
+        private final static java.util.Map<String, <%= enum[:name] %>> CONSTANTS = new java.util.HashMap<>();
+
+        static {
+            for (<%= enum[:name] %> c: values()) {
+                CONSTANTS.put(c.value, c);
+            }
+        }
+
+        <%= enum[:name] %>(String value) {
+            this.value = value;
+        }
+
+        @Override
+        public String toString() {
+            return this.value;
+        }
+
+        public String value() {
+            return this.value;
+        }
+
+        public static <%= enum[:name] %> fromValue(String value) {
+            <%= enum[:name] %> constant = CONSTANTS.get(value);
+            if (constant == null) {
+                throw new IllegalArgumentException(value);
+            } else {
+                return constant;
+            }
+        }
+    }
+
+<% end -%>

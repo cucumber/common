@@ -3,13 +3,13 @@ package io.cucumber.gherkin;
 import io.cucumber.messages.IdGenerator;
 import io.cucumber.messages.MessageToNdjsonWriter;
 import io.cucumber.messages.MessageWriter;
-import io.cucumber.messages.types.Envelope;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
+import static io.cucumber.messages.Messages.*;
 import static java.util.Arrays.asList;
 
 public class Main {
