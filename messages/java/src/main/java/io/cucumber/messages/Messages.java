@@ -98,6 +98,12 @@ public class Messages {
             this.url = url;
         }
 
+        public void validate() {
+            java.util.Objects.requireNonNull(body);
+            java.util.Objects.requireNonNull(contentEncoding);
+            java.util.Objects.requireNonNull(mediaType);
+            if (source != null) source.validate();
+        }
 
         @Override
         public boolean equals(Object o) {
@@ -175,6 +181,10 @@ public class Messages {
             this.nanos = java.util.Objects.requireNonNull(nanos);
         }
 
+        public void validate() {
+            java.util.Objects.requireNonNull(seconds);
+            java.util.Objects.requireNonNull(nanos);
+        }
 
         @Override
         public boolean equals(Object o) {
@@ -399,6 +409,25 @@ public class Messages {
             this.undefinedParameterType = undefinedParameterType;
         }
 
+        public void validate() {
+            if (attachment != null) attachment.validate();
+            if (gherkinDocument != null) gherkinDocument.validate();
+            if (hook != null) hook.validate();
+            if (meta != null) meta.validate();
+            if (parameterType != null) parameterType.validate();
+            if (parseError != null) parseError.validate();
+            if (pickle != null) pickle.validate();
+            if (source != null) source.validate();
+            if (stepDefinition != null) stepDefinition.validate();
+            if (testCase != null) testCase.validate();
+            if (testCaseFinished != null) testCaseFinished.validate();
+            if (testCaseStarted != null) testCaseStarted.validate();
+            if (testRunFinished != null) testRunFinished.validate();
+            if (testRunStarted != null) testRunStarted.validate();
+            if (testStepFinished != null) testStepFinished.validate();
+            if (testStepStarted != null) testStepStarted.validate();
+            if (undefinedParameterType != null) undefinedParameterType.validate();
+        }
 
         @Override
         public boolean equals(Object o) {
@@ -514,6 +543,11 @@ public class Messages {
             this.comments = java.util.Objects.requireNonNull(comments);
         }
 
+        public void validate() {
+            if (feature != null) feature.validate();
+            java.util.Objects.requireNonNull(comments);
+            comments.forEach(Comment::validate);
+        }
 
         @Override
         public boolean equals(Object o) {
@@ -620,6 +654,16 @@ public class Messages {
             this.id = java.util.Objects.requireNonNull(id);
         }
 
+        public void validate() {
+            java.util.Objects.requireNonNull(location);
+            location.validate();
+            java.util.Objects.requireNonNull(keyword);
+            java.util.Objects.requireNonNull(name);
+            java.util.Objects.requireNonNull(description);
+            java.util.Objects.requireNonNull(steps);
+            steps.forEach(Step::validate);
+            java.util.Objects.requireNonNull(id);
+        }
 
         @Override
         public boolean equals(Object o) {
@@ -691,6 +735,11 @@ public class Messages {
             this.text = java.util.Objects.requireNonNull(text);
         }
 
+        public void validate() {
+            java.util.Objects.requireNonNull(location);
+            location.validate();
+            java.util.Objects.requireNonNull(text);
+        }
 
         @Override
         public boolean equals(Object o) {
@@ -750,6 +799,12 @@ public class Messages {
             this.rows = java.util.Objects.requireNonNull(rows);
         }
 
+        public void validate() {
+            java.util.Objects.requireNonNull(location);
+            location.validate();
+            java.util.Objects.requireNonNull(rows);
+            rows.forEach(TableRow::validate);
+        }
 
         @Override
         public boolean equals(Object o) {
@@ -831,6 +886,12 @@ public class Messages {
             this.delimiter = java.util.Objects.requireNonNull(delimiter);
         }
 
+        public void validate() {
+            java.util.Objects.requireNonNull(location);
+            location.validate();
+            java.util.Objects.requireNonNull(content);
+            java.util.Objects.requireNonNull(delimiter);
+        }
 
         @Override
         public boolean equals(Object o) {
@@ -962,6 +1023,19 @@ public class Messages {
             this.id = java.util.Objects.requireNonNull(id);
         }
 
+        public void validate() {
+            java.util.Objects.requireNonNull(location);
+            location.validate();
+            java.util.Objects.requireNonNull(tags);
+            tags.forEach(Tag::validate);
+            java.util.Objects.requireNonNull(keyword);
+            java.util.Objects.requireNonNull(name);
+            java.util.Objects.requireNonNull(description);
+            if (tableHeader != null) tableHeader.validate();
+            java.util.Objects.requireNonNull(tableBody);
+            tableBody.forEach(TableRow::validate);
+            java.util.Objects.requireNonNull(id);
+        }
 
         @Override
         public boolean equals(Object o) {
@@ -1094,6 +1168,18 @@ public class Messages {
             this.children = java.util.Objects.requireNonNull(children);
         }
 
+        public void validate() {
+            java.util.Objects.requireNonNull(location);
+            location.validate();
+            java.util.Objects.requireNonNull(tags);
+            tags.forEach(Tag::validate);
+            java.util.Objects.requireNonNull(language);
+            java.util.Objects.requireNonNull(keyword);
+            java.util.Objects.requireNonNull(name);
+            java.util.Objects.requireNonNull(description);
+            java.util.Objects.requireNonNull(children);
+            children.forEach(FeatureChild::validate);
+        }
 
         @Override
         public boolean equals(Object o) {
@@ -1179,6 +1265,11 @@ public class Messages {
             this.scenario = scenario;
         }
 
+        public void validate() {
+            if (rule != null) rule.validate();
+            if (background != null) background.validate();
+            if (scenario != null) scenario.validate();
+        }
 
         @Override
         public boolean equals(Object o) {
@@ -1296,6 +1387,18 @@ public class Messages {
             this.id = java.util.Objects.requireNonNull(id);
         }
 
+        public void validate() {
+            java.util.Objects.requireNonNull(location);
+            location.validate();
+            java.util.Objects.requireNonNull(tags);
+            tags.forEach(Tag::validate);
+            java.util.Objects.requireNonNull(keyword);
+            java.util.Objects.requireNonNull(name);
+            java.util.Objects.requireNonNull(description);
+            java.util.Objects.requireNonNull(children);
+            children.forEach(RuleChild::validate);
+            java.util.Objects.requireNonNull(id);
+        }
 
         @Override
         public boolean equals(Object o) {
@@ -1370,6 +1473,10 @@ public class Messages {
             this.scenario = scenario;
         }
 
+        public void validate() {
+            if (background != null) background.validate();
+            if (scenario != null) scenario.validate();
+        }
 
         @Override
         public boolean equals(Object o) {
@@ -1495,6 +1602,20 @@ public class Messages {
             this.id = java.util.Objects.requireNonNull(id);
         }
 
+        public void validate() {
+            java.util.Objects.requireNonNull(location);
+            location.validate();
+            java.util.Objects.requireNonNull(tags);
+            tags.forEach(Tag::validate);
+            java.util.Objects.requireNonNull(keyword);
+            java.util.Objects.requireNonNull(name);
+            java.util.Objects.requireNonNull(description);
+            java.util.Objects.requireNonNull(steps);
+            steps.forEach(Step::validate);
+            java.util.Objects.requireNonNull(examples);
+            examples.forEach(Examples::validate);
+            java.util.Objects.requireNonNull(id);
+        }
 
         @Override
         public boolean equals(Object o) {
@@ -1616,6 +1737,15 @@ public class Messages {
             this.id = java.util.Objects.requireNonNull(id);
         }
 
+        public void validate() {
+            java.util.Objects.requireNonNull(location);
+            location.validate();
+            java.util.Objects.requireNonNull(keyword);
+            java.util.Objects.requireNonNull(text);
+            if (docString != null) docString.validate();
+            if (dataTable != null) dataTable.validate();
+            java.util.Objects.requireNonNull(id);
+        }
 
         @Override
         public boolean equals(Object o) {
@@ -1687,6 +1817,11 @@ public class Messages {
             this.value = java.util.Objects.requireNonNull(value);
         }
 
+        public void validate() {
+            java.util.Objects.requireNonNull(location);
+            location.validate();
+            java.util.Objects.requireNonNull(value);
+        }
 
         @Override
         public boolean equals(Object o) {
@@ -1757,6 +1892,13 @@ public class Messages {
             this.id = java.util.Objects.requireNonNull(id);
         }
 
+        public void validate() {
+            java.util.Objects.requireNonNull(location);
+            location.validate();
+            java.util.Objects.requireNonNull(cells);
+            cells.forEach(TableCell::validate);
+            java.util.Objects.requireNonNull(id);
+        }
 
         @Override
         public boolean equals(Object o) {
@@ -1830,6 +1972,12 @@ public class Messages {
             this.id = java.util.Objects.requireNonNull(id);
         }
 
+        public void validate() {
+            java.util.Objects.requireNonNull(location);
+            location.validate();
+            java.util.Objects.requireNonNull(name);
+            java.util.Objects.requireNonNull(id);
+        }
 
         @Override
         public boolean equals(Object o) {
@@ -1903,6 +2051,11 @@ public class Messages {
             this.tagExpression = tagExpression;
         }
 
+        public void validate() {
+            java.util.Objects.requireNonNull(id);
+            java.util.Objects.requireNonNull(sourceReference);
+            sourceReference.validate();
+        }
 
         @Override
         public boolean equals(Object o) {
@@ -1965,6 +2118,9 @@ public class Messages {
             this.column = column;
         }
 
+        public void validate() {
+            java.util.Objects.requireNonNull(line);
+        }
 
         @Override
         public boolean equals(Object o) {
@@ -2068,6 +2224,18 @@ public class Messages {
             this.ci = ci;
         }
 
+        public void validate() {
+            java.util.Objects.requireNonNull(protocolVersion);
+            java.util.Objects.requireNonNull(implementation);
+            implementation.validate();
+            java.util.Objects.requireNonNull(runtime);
+            runtime.validate();
+            java.util.Objects.requireNonNull(os);
+            os.validate();
+            java.util.Objects.requireNonNull(cpu);
+            cpu.validate();
+            if (ci != null) ci.validate();
+        }
 
         @Override
         public boolean equals(Object o) {
@@ -2161,6 +2329,10 @@ public class Messages {
             this.git = git;
         }
 
+        public void validate() {
+            java.util.Objects.requireNonNull(name);
+            if (git != null) git.validate();
+        }
 
         @Override
         public boolean equals(Object o) {
@@ -2248,6 +2420,10 @@ public class Messages {
             this.tag = tag;
         }
 
+        public void validate() {
+            java.util.Objects.requireNonNull(remote);
+            java.util.Objects.requireNonNull(revision);
+        }
 
         @Override
         public boolean equals(Object o) {
@@ -2313,6 +2489,9 @@ public class Messages {
             this.version = version;
         }
 
+        public void validate() {
+            java.util.Objects.requireNonNull(name);
+        }
 
         @Override
         public boolean equals(Object o) {
@@ -2405,6 +2584,14 @@ public class Messages {
             this.id = java.util.Objects.requireNonNull(id);
         }
 
+        public void validate() {
+            java.util.Objects.requireNonNull(name);
+            java.util.Objects.requireNonNull(regularExpressions);
+            regularExpressions.forEach(java.util.Objects::requireNonNull);
+            java.util.Objects.requireNonNull(preferForRegularExpressionMatch);
+            java.util.Objects.requireNonNull(useForSnippets);
+            java.util.Objects.requireNonNull(id);
+        }
 
         @Override
         public boolean equals(Object o) {
@@ -2473,6 +2660,11 @@ public class Messages {
             this.message = java.util.Objects.requireNonNull(message);
         }
 
+        public void validate() {
+            java.util.Objects.requireNonNull(source);
+            source.validate();
+            java.util.Objects.requireNonNull(message);
+        }
 
         @Override
         public boolean equals(Object o) {
@@ -2587,6 +2779,18 @@ public class Messages {
             this.astNodeIds = java.util.Objects.requireNonNull(astNodeIds);
         }
 
+        public void validate() {
+            java.util.Objects.requireNonNull(id);
+            java.util.Objects.requireNonNull(uri);
+            java.util.Objects.requireNonNull(name);
+            java.util.Objects.requireNonNull(language);
+            java.util.Objects.requireNonNull(steps);
+            steps.forEach(PickleStep::validate);
+            java.util.Objects.requireNonNull(tags);
+            tags.forEach(PickleTag::validate);
+            java.util.Objects.requireNonNull(astNodeIds);
+            astNodeIds.forEach(java.util.Objects::requireNonNull);
+        }
 
         @Override
         public boolean equals(Object o) {
@@ -2661,6 +2865,9 @@ public class Messages {
             this.content = java.util.Objects.requireNonNull(content);
         }
 
+        public void validate() {
+            java.util.Objects.requireNonNull(content);
+        }
 
         @Override
         public boolean equals(Object o) {
@@ -2742,6 +2949,13 @@ public class Messages {
             this.text = java.util.Objects.requireNonNull(text);
         }
 
+        public void validate() {
+            if (argument != null) argument.validate();
+            java.util.Objects.requireNonNull(astNodeIds);
+            astNodeIds.forEach(java.util.Objects::requireNonNull);
+            java.util.Objects.requireNonNull(id);
+            java.util.Objects.requireNonNull(text);
+        }
 
         @Override
         public boolean equals(Object o) {
@@ -2807,6 +3021,10 @@ public class Messages {
             this.dataTable = dataTable;
         }
 
+        public void validate() {
+            if (docString != null) docString.validate();
+            if (dataTable != null) dataTable.validate();
+        }
 
         @Override
         public boolean equals(Object o) {
@@ -2855,6 +3073,10 @@ public class Messages {
             this.rows = java.util.Objects.requireNonNull(rows);
         }
 
+        public void validate() {
+            java.util.Objects.requireNonNull(rows);
+            rows.forEach(PickleTableRow::validate);
+        }
 
         @Override
         public boolean equals(Object o) {
@@ -2900,6 +3122,9 @@ public class Messages {
             this.value = java.util.Objects.requireNonNull(value);
         }
 
+        public void validate() {
+            java.util.Objects.requireNonNull(value);
+        }
 
         @Override
         public boolean equals(Object o) {
@@ -2945,6 +3170,10 @@ public class Messages {
             this.cells = java.util.Objects.requireNonNull(cells);
         }
 
+        public void validate() {
+            java.util.Objects.requireNonNull(cells);
+            cells.forEach(PickleTableCell::validate);
+        }
 
         @Override
         public boolean equals(Object o) {
@@ -3001,6 +3230,10 @@ public class Messages {
             this.astNodeId = java.util.Objects.requireNonNull(astNodeId);
         }
 
+        public void validate() {
+            java.util.Objects.requireNonNull(name);
+            java.util.Objects.requireNonNull(astNodeId);
+        }
 
         @Override
         public boolean equals(Object o) {
@@ -3071,6 +3304,11 @@ public class Messages {
             this.mediaType = java.util.Objects.requireNonNull(mediaType);
         }
 
+        public void validate() {
+            java.util.Objects.requireNonNull(uri);
+            java.util.Objects.requireNonNull(data);
+            java.util.Objects.requireNonNull(mediaType);
+        }
 
         @Override
         public boolean equals(Object o) {
@@ -3155,6 +3393,11 @@ public class Messages {
             this.location = location;
         }
 
+        public void validate() {
+            if (javaMethod != null) javaMethod.validate();
+            if (javaStackTraceElement != null) javaStackTraceElement.validate();
+            if (location != null) location.validate();
+        }
 
         @Override
         public boolean equals(Object o) {
@@ -3231,6 +3474,12 @@ public class Messages {
             this.methodParameterTypes = java.util.Objects.requireNonNull(methodParameterTypes);
         }
 
+        public void validate() {
+            java.util.Objects.requireNonNull(className);
+            java.util.Objects.requireNonNull(methodName);
+            java.util.Objects.requireNonNull(methodParameterTypes);
+            methodParameterTypes.forEach(java.util.Objects::requireNonNull);
+        }
 
         @Override
         public boolean equals(Object o) {
@@ -3304,6 +3553,11 @@ public class Messages {
             this.methodName = java.util.Objects.requireNonNull(methodName);
         }
 
+        public void validate() {
+            java.util.Objects.requireNonNull(className);
+            java.util.Objects.requireNonNull(fileName);
+            java.util.Objects.requireNonNull(methodName);
+        }
 
         @Override
         public boolean equals(Object o) {
@@ -3377,6 +3631,13 @@ public class Messages {
             this.sourceReference = java.util.Objects.requireNonNull(sourceReference);
         }
 
+        public void validate() {
+            java.util.Objects.requireNonNull(id);
+            java.util.Objects.requireNonNull(pattern);
+            pattern.validate();
+            java.util.Objects.requireNonNull(sourceReference);
+            sourceReference.validate();
+        }
 
         @Override
         public boolean equals(Object o) {
@@ -3439,6 +3700,10 @@ public class Messages {
             this.type = java.util.Objects.requireNonNull(type);
         }
 
+        public void validate() {
+            java.util.Objects.requireNonNull(source);
+            java.util.Objects.requireNonNull(type);
+        }
 
         @Override
         public boolean equals(Object o) {
@@ -3509,6 +3774,12 @@ public class Messages {
             this.testSteps = java.util.Objects.requireNonNull(testSteps);
         }
 
+        public void validate() {
+            java.util.Objects.requireNonNull(id);
+            java.util.Objects.requireNonNull(pickleId);
+            java.util.Objects.requireNonNull(testSteps);
+            testSteps.forEach(TestStep::validate);
+        }
 
         @Override
         public boolean equals(Object o) {
@@ -3582,6 +3853,10 @@ public class Messages {
             this.value = value;
         }
 
+        public void validate() {
+            java.util.Objects.requireNonNull(children);
+            children.forEach(Group::validate);
+        }
 
         @Override
         public boolean equals(Object o) {
@@ -3644,6 +3919,10 @@ public class Messages {
             this.parameterTypeName = parameterTypeName;
         }
 
+        public void validate() {
+            java.util.Objects.requireNonNull(group);
+            group.validate();
+        }
 
         @Override
         public boolean equals(Object o) {
@@ -3692,6 +3971,10 @@ public class Messages {
             this.stepMatchArguments = java.util.Objects.requireNonNull(stepMatchArguments);
         }
 
+        public void validate() {
+            java.util.Objects.requireNonNull(stepMatchArguments);
+            stepMatchArguments.forEach(StepMatchArgument::validate);
+        }
 
         @Override
         public boolean equals(Object o) {
@@ -3781,6 +4064,11 @@ public class Messages {
             this.stepMatchArgumentsLists = stepMatchArgumentsLists;
         }
 
+        public void validate() {
+            java.util.Objects.requireNonNull(id);
+            if (stepDefinitionIds != null) stepDefinitionIds.forEach(java.util.Objects::requireNonNull);
+            if (stepMatchArgumentsLists != null) stepMatchArgumentsLists.forEach(StepMatchArgumentsList::validate);
+        }
 
         @Override
         public boolean equals(Object o) {
@@ -3860,6 +4148,12 @@ public class Messages {
             this.willBeRetried = java.util.Objects.requireNonNull(willBeRetried);
         }
 
+        public void validate() {
+            java.util.Objects.requireNonNull(testCaseStartedId);
+            java.util.Objects.requireNonNull(timestamp);
+            timestamp.validate();
+            java.util.Objects.requireNonNull(willBeRetried);
+        }
 
         @Override
         public boolean equals(Object o) {
@@ -3944,6 +4238,13 @@ public class Messages {
             this.timestamp = java.util.Objects.requireNonNull(timestamp);
         }
 
+        public void validate() {
+            java.util.Objects.requireNonNull(attempt);
+            java.util.Objects.requireNonNull(id);
+            java.util.Objects.requireNonNull(testCaseId);
+            java.util.Objects.requireNonNull(timestamp);
+            timestamp.validate();
+        }
 
         @Override
         public boolean equals(Object o) {
@@ -4020,6 +4321,11 @@ public class Messages {
             this.timestamp = java.util.Objects.requireNonNull(timestamp);
         }
 
+        public void validate() {
+            java.util.Objects.requireNonNull(success);
+            java.util.Objects.requireNonNull(timestamp);
+            timestamp.validate();
+        }
 
         @Override
         public boolean equals(Object o) {
@@ -4071,6 +4377,10 @@ public class Messages {
             this.timestamp = java.util.Objects.requireNonNull(timestamp);
         }
 
+        public void validate() {
+            java.util.Objects.requireNonNull(timestamp);
+            timestamp.validate();
+        }
 
         @Override
         public boolean equals(Object o) {
@@ -4149,6 +4459,14 @@ public class Messages {
             this.timestamp = java.util.Objects.requireNonNull(timestamp);
         }
 
+        public void validate() {
+            java.util.Objects.requireNonNull(testCaseStartedId);
+            java.util.Objects.requireNonNull(testStepId);
+            java.util.Objects.requireNonNull(testStepResult);
+            testStepResult.validate();
+            java.util.Objects.requireNonNull(timestamp);
+            timestamp.validate();
+        }
 
         @Override
         public boolean equals(Object o) {
@@ -4225,6 +4543,11 @@ public class Messages {
             this.status = java.util.Objects.requireNonNull(status);
         }
 
+        public void validate() {
+            java.util.Objects.requireNonNull(duration);
+            duration.validate();
+            java.util.Objects.requireNonNull(status);
+        }
 
         @Override
         public boolean equals(Object o) {
@@ -4298,6 +4621,12 @@ public class Messages {
             this.timestamp = java.util.Objects.requireNonNull(timestamp);
         }
 
+        public void validate() {
+            java.util.Objects.requireNonNull(testCaseStartedId);
+            java.util.Objects.requireNonNull(testStepId);
+            java.util.Objects.requireNonNull(timestamp);
+            timestamp.validate();
+        }
 
         @Override
         public boolean equals(Object o) {
@@ -4360,6 +4689,10 @@ public class Messages {
             this.nanos = java.util.Objects.requireNonNull(nanos);
         }
 
+        public void validate() {
+            java.util.Objects.requireNonNull(seconds);
+            java.util.Objects.requireNonNull(nanos);
+        }
 
         @Override
         public boolean equals(Object o) {
@@ -4419,6 +4752,10 @@ public class Messages {
             this.name = java.util.Objects.requireNonNull(name);
         }
 
+        public void validate() {
+            java.util.Objects.requireNonNull(expression);
+            java.util.Objects.requireNonNull(name);
+        }
 
         @Override
         public boolean equals(Object o) {

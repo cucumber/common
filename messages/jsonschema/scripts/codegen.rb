@@ -51,6 +51,7 @@ class Codegen
   end
 
   def native_type?(type_name)
+    STDERR.puts "NATIVE #{type_name}"
     @language_type_by_schema_type.values.include?(type_name)
   end
 
