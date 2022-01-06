@@ -20,6 +20,8 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
+import static java.util.Collections.emptyList;
+
 /**
  * Main entry point for the Gherkin library
  */
@@ -92,45 +94,55 @@ public class Gherkin {
         if (includeSource) {
             messages.add(envelope);
         }
-        if (envelope.getSource().isPresent()) {
+        messages.addAll(parseSource(envelope, includeGherkinDocument, includePickles));
+        return messages.stream();
+    }
 
-            Parser<GherkinDocument> parser = new Parser<>(new GherkinDocumentBuilder(idGenerator));
-            Source source = envelope.getSource().get();
-            String uri = source.getUri();
-            String data = source.getData();
+    private List<Envelope> parseSource(Envelope envelope, boolean includeGherkinDocument, boolean includePickles) {
+        return envelope.getSource()
+                .map(source -> parseSource(includeGherkinDocument, includePickles, source))
+                .orElse(emptyList());
+    }
 
-            try {
-                GherkinDocument gherkinDocument = null;
+    private List<Envelope> parseSource(boolean includeGherkinDocument, boolean includePickles, Source source) {
+        List<Envelope> messages = new ArrayList<>();
 
-                if (includeGherkinDocument) {
+        Parser<GherkinDocument> parser = new Parser<>(new GherkinDocumentBuilder(idGenerator));
+        String uri = source.getUri();
+        String data = source.getData();
+
+        try {
+            GherkinDocument gherkinDocument = null;
+
+            if (includeGherkinDocument) {
+                gherkinDocument = parser.parse(data);
+                gherkinDocument.setUri(uri);
+                Envelope gherkinDocumentEnvelope = new Envelope();
+                gherkinDocumentEnvelope.setGherkinDocument(gherkinDocument);
+                messages.add(gherkinDocumentEnvelope);
+            }
+            if (includePickles) {
+                if (gherkinDocument == null) {
                     gherkinDocument = parser.parse(data);
                     gherkinDocument.setUri(uri);
-                    Envelope gherkinDocumentEnvelope = new Envelope();
-                    gherkinDocumentEnvelope.setGherkinDocument(gherkinDocument);
-                    messages.add(gherkinDocumentEnvelope);
                 }
-                if (includePickles) {
-                    if (gherkinDocument == null) {
-                        gherkinDocument = parser.parse(data);
-                        gherkinDocument.setUri(uri);
-                    }
-                    PickleCompiler pickleCompiler = new PickleCompiler(idGenerator);
-                    List<Pickle> pickles = pickleCompiler.compile(gherkinDocument, uri);
-                    for (Pickle pickle : pickles) {
-                        Envelope pickleEnvelope = new Envelope();
-                        pickleEnvelope.setPickle(pickle);
-                        messages.add(pickleEnvelope);
-                    }
+                PickleCompiler pickleCompiler = new PickleCompiler(idGenerator);
+                List<Pickle> pickles = pickleCompiler.compile(gherkinDocument, uri);
+                for (Pickle pickle : pickles) {
+                    Envelope pickleEnvelope = new Envelope();
+                    pickleEnvelope.setPickle(pickle);
+                    messages.add(pickleEnvelope);
                 }
-            } catch (ParserException.CompositeParserException e) {
-                for (ParserException error : e.errors) {
-                    addParseError(messages, error, uri);
-                }
-            } catch (ParserException e) {
-                addParseError(messages, e, uri);
             }
+        } catch (ParserException.CompositeParserException e) {
+            for (ParserException error : e.errors) {
+                addParseError(messages, error, uri);
+            }
+        } catch (ParserException e) {
+            addParseError(messages, e, uri);
         }
-        return messages.stream();
+
+        return messages;
     }
 
     private void addParseError(List<Envelope> messages, ParserException e, String uri) {
