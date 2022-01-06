@@ -1,9 +1,9 @@
 package io.cucumber.gherkin;
 
 import io.cucumber.messages.IdGenerator;
-import static io.cucumber.messages.Messages.*;
 import org.junit.Test;
 
+import static io.cucumber.messages.Messages.GherkinDocument;
 import static org.junit.Assert.assertEquals;
 
 public class ParserTest {

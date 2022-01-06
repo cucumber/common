@@ -1,7 +1,8 @@
 package io.cucumber.htmlformatter;
 
 import io.cucumber.messages.NdjsonToMessageIterable;
-import static io.cucumber.messages.Messages.*;
+
+import static io.cucumber.messages.Messages.Envelope;
 
 import java.io.OutputStreamWriter;
 

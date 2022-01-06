@@ -6,8 +6,13 @@ import org.junit.Test;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static io.cucumber.messages.Messages.*;
 import static io.cucumber.gherkin.Gherkin.makeSourceEnvelope;
+import static io.cucumber.messages.Messages.Envelope;
+import static io.cucumber.messages.Messages.Feature;
+import static io.cucumber.messages.Messages.GherkinDocument;
+import static io.cucumber.messages.Messages.Pickle;
+import static io.cucumber.messages.Messages.PickleStep;
+import static io.cucumber.messages.Messages.Scenario;
 import static java.util.Collections.singletonList;
 import static org.junit.Assert.assertEquals;
 

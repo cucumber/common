@@ -14,8 +14,14 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
+import static io.cucumber.messages.Messages.Envelope;
+import static io.cucumber.messages.Messages.GherkinDocument;
+import static io.cucumber.messages.Messages.ParseError;
+import static io.cucumber.messages.Messages.Pickle;
+import static io.cucumber.messages.Messages.Source;
+import static io.cucumber.messages.Messages.SourceMediaType;
+import static io.cucumber.messages.Messages.SourceReference;
 import static java.util.Collections.emptyList;
-import static io.cucumber.messages.Messages.*;
 
 /**
  * Main entry point for the Gherkin library

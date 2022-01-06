@@ -9,10 +9,24 @@ import java.util.Deque;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static io.cucumber.messages.Messages.*;
 import static io.cucumber.gherkin.Parser.Builder;
 import static io.cucumber.gherkin.Parser.RuleType;
 import static io.cucumber.gherkin.Parser.TokenType;
+import static io.cucumber.messages.Messages.Background;
+import static io.cucumber.messages.Messages.Comment;
+import static io.cucumber.messages.Messages.DataTable;
+import static io.cucumber.messages.Messages.DocString;
+import static io.cucumber.messages.Messages.Examples;
+import static io.cucumber.messages.Messages.Feature;
+import static io.cucumber.messages.Messages.FeatureChild;
+import static io.cucumber.messages.Messages.GherkinDocument;
+import static io.cucumber.messages.Messages.Rule;
+import static io.cucumber.messages.Messages.RuleChild;
+import static io.cucumber.messages.Messages.Scenario;
+import static io.cucumber.messages.Messages.Step;
+import static io.cucumber.messages.Messages.TableCell;
+import static io.cucumber.messages.Messages.TableRow;
+import static io.cucumber.messages.Messages.Tag;
 
 public class GherkinDocumentBuilder implements Builder<GherkinDocument> {
     private final IdGenerator idGenerator;

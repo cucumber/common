@@ -11,7 +11,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 
-import static io.cucumber.messages.Messages.*;
+import static io.cucumber.messages.Messages.Envelope;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Objects.requireNonNull;
 
@@ -79,7 +79,7 @@ public final class MessagesToHtmlWriter implements AutoCloseable {
      */
     @Override
     public void close() throws IOException {
-        if(streamClosed){
+        if (streamClosed) {
             return;
         }
 

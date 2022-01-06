@@ -9,7 +9,9 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.time.Instant;
 
-import static io.cucumber.messages.Messages.*;
+import static io.cucumber.messages.Messages.Envelope;
+import static io.cucumber.messages.Messages.TestRunFinished;
+import static io.cucumber.messages.Messages.TestRunStarted;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.MatcherAssert.assertThat;

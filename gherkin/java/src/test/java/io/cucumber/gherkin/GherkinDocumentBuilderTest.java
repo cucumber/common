@@ -6,7 +6,11 @@ import org.junit.Test;
 
 import java.util.List;
 
-import static io.cucumber.messages.Messages.*;
+import static io.cucumber.messages.Messages.Comment;
+import static io.cucumber.messages.Messages.FeatureChild;
+import static io.cucumber.messages.Messages.GherkinDocument;
+import static io.cucumber.messages.Messages.Pickle;
+import static io.cucumber.messages.Messages.TableRow;
 import static org.junit.Assert.assertEquals;
 
 public class GherkinDocumentBuilderTest {

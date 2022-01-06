@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
-import static io.cucumber.messages.Messages.*;
+import static io.cucumber.messages.Messages.Envelope;
 import static java.util.Arrays.asList;
 
 public class Main {
