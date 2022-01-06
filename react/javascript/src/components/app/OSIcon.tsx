@@ -4,16 +4,17 @@ import { Linux } from './icons/Linux'
 import { MacOS } from './icons/MacOS'
 
 export const OSIcon: VoidFunctionComponent<{ name: string }> = ({ name }) => {
-  // TODO need to pattern match more permissively here
-  switch (name) {
-    case 'linux':
-      return <Linux />
-    case 'darwin':
-      return <MacOS />
-    case 'win32':
-    case 'windows':
-      return <Windows />
-    default:
-      return <>&mdash;</>
+  if (!name) {
+    return <>Unknown OS</>
   }
+  if (name.match(/windows|win32/i)) {
+    return <Windows />
+  }
+  if (name.match(/(darwin|mac)/i)) {
+    return <MacOS />
+  }
+  if (name.match(/linux/i)) {
+    return <Linux />
+  }
+  return <>{name}</>
 }

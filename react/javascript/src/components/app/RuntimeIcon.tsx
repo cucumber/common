@@ -4,15 +4,17 @@ import { Jvm } from './icons/Jvm'
 import { Ruby } from './icons/Ruby'
 
 export const RuntimeIcon: VoidFunctionComponent<{ name: string }> = ({ name }) => {
-  // TODO need to pattern match more permissively here
-  switch (name) {
-    case 'node.js':
-      return <NodeJs />
-    case 'jvm':
-      return <Jvm />
-    case 'ruby':
-      return <Ruby />
-    default:
-      return <>&mdash;</>
+  if (!name) {
+    return <>Unknown Runtime</>
   }
+  if (name.match(/(oracle|openjdk|java)/i)) {
+    return <Jvm />
+  }
+  if (name.match(/ruby/i)) {
+    return <Ruby />
+  }
+  if (name.match(/node/i)) {
+    return <NodeJs />
+  }
+  return <>{name}</>
 }
