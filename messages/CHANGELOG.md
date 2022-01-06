@@ -11,6 +11,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 * Support for EcmaScript modules (aka ESM)
   ([#1756](https://github.com/cucumber/common/pull/1756))
+* [Java] Add a `validate()` method to all messages. This will throw a `NullPointerException`
+  with a detailed message if a `required` field is `null`. This works recursively
+  for all non-null values (including non-required fields).
+  Argument constructors, getters and setters also throw `NullPointerException`
+  if a required `field` is `null`, but they don't validate recursively.
+  ([#1858](https://github.com/cucumber/common/pull/1858) [aslakhellesoy])
+
 
 ### Changed
 
