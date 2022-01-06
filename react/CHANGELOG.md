@@ -9,15 +9,26 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+* Add `<EnvelopesWrapper/>` component to succinctly populate query contexts from an array of messages.
+* Add 'auto' theme, honouring platform light/dark preference.
+* Add `useQueries` and `useSearch` hooks to avoid accessing many contexts directly.
+
 ### Changed
+
+* New `<CucumberReact/>` component is used as root component in consuming projects, replacing. `<CustomRendering/>`.
+* New visual designs for report-related components.
+* Move search-related props from `<QueriesWrapper/>` to new `<SearchWrapper/>` component.
 
 ### Deprecated
 
 ### Removed
 
+* Remove global stylesheet, all styles are now encapsulated in appropriate components.
+
 ### Fixed
 
 * Import correct stylesheet in the Children component. This also allows to override it using `CustomRendering`.
+* Display step list items correctly (i.e. without bullets) in Backgrounds and in MDX documents.
 
 ## [18.1.2] - 2021-09-08
 
