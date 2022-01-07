@@ -28,7 +28,7 @@
     "@types/elasticlunr": "0.9.4",
     "ansi-to-html": "0.7.2",
     "color": "4.1.0",
-    "date-fns": "2.27.0",
+    "date-fns": "2.28.0",
     "elasticlunr": "0.9.5",
     "hast-util-sanitize": "3.0.2",
     "highlight-words": "1.2.0",
