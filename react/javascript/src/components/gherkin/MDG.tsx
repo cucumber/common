@@ -10,6 +10,7 @@ import dataTableStyles from './DataTable.module.scss'
 import { HighLight } from '../app/HighLight'
 import * as messages from '@cucumber/messages'
 import { Header } from '../customise'
+import styles from './MDG.module.scss'
 
 interface IProps {
   uri: string
@@ -45,59 +46,57 @@ export const MDG: React.FunctionComponent<IProps> = ({ uri, children }) => {
   }
 
   return (
-    <div className="cucumber">
-      <ReactMarkdown
-        rehypePlugins={rehypePlugins}
-        components={{
-          h1({ node, level, children }) {
-            return header(node.position.start.line, level, children)
-          },
-          h2({ node, level, children }) {
-            return header(node.position.start.line, level, children)
-          },
-          h3({ node, level, children }) {
-            return header(node.position.start.line, level, children)
-          },
-          h4({ node, level, children }) {
-            return header(node.position.start.line, level, children)
-          },
-          h5({ node, level, children }) {
-            return header(node.position.start.line, level, children)
-          },
-          table({ node, children }) {
-            if (examples && examples.tableHeader && node.position.start.column >= 3) {
-              return (
-                <ExamplesTable tableHeader={examples.tableHeader} tableBody={examples.tableBody} />
-              )
-            }
-            return <table className={dataTableStyles.table}>{children}</table>
-          },
-          ul({ node, children }) {
-            const line = node.position.start.line
-            const step = gherkinQuery.getStep(uri, line)
-            if (!step) {
-              // Non-Gherkin list
-              return <ul>{children}</ul>
-            }
-            return <ul className={'cucumber-steps'}>{children}</ul>
-          },
-          li({ node, children }) {
-            const line = node.position.start.line
-            const step = gherkinQuery.getStep(uri, line)
-            if (!step) {
-              // Non-Gherkin list item
-              return <li>{children}</li>
-            }
+    <ReactMarkdown
+      rehypePlugins={rehypePlugins}
+      components={{
+        h1({ node, level, children }) {
+          return header(node.position.start.line, level, children)
+        },
+        h2({ node, level, children }) {
+          return header(node.position.start.line, level, children)
+        },
+        h3({ node, level, children }) {
+          return header(node.position.start.line, level, children)
+        },
+        h4({ node, level, children }) {
+          return header(node.position.start.line, level, children)
+        },
+        h5({ node, level, children }) {
+          return header(node.position.start.line, level, children)
+        },
+        table({ node, children }) {
+          if (examples && examples.tableHeader && node.position.start.column >= 3) {
             return (
-              <li>
-                <GherkinStep step={step} hasExamples={hasExamples} />
-              </li>
+              <ExamplesTable tableHeader={examples.tableHeader} tableBody={examples.tableBody} />
             )
-          },
-        }}
-      >
-        {children}
-      </ReactMarkdown>
-    </div>
+          }
+          return <table className={dataTableStyles.table}>{children}</table>
+        },
+        ul({ node, children }) {
+          const line = node.position.start.line
+          const step = gherkinQuery.getStep(uri, line)
+          if (!step) {
+            // Non-Gherkin list
+            return <ul>{children}</ul>
+          }
+          return <ul className={styles.steps}>{children}</ul>
+        },
+        li({ node, children }) {
+          const line = node.position.start.line
+          const step = gherkinQuery.getStep(uri, line)
+          if (!step) {
+            // Non-Gherkin list item
+            return <li>{children}</li>
+          }
+          return (
+            <li>
+              <GherkinStep step={step} hasExamples={hasExamples} />
+            </li>
+          )
+        },
+      }}
+    >
+      {children}
+    </ReactMarkdown>
   )
 }

@@ -35,6 +35,8 @@ export interface BackgroundProps {
   background: messages.Background
 }
 
+export type BackgroundClasses = Styles<'steps'>
+
 export interface ChildrenProps {}
 
 export type ChildrenClasses = Styles<'children'>
@@ -154,7 +156,7 @@ export declare type Customised<Props, Classes> =
 
 export interface CustomRenderingSupport {
   Anchor?: Customised<AnchorProps, AnchorClasses>
-  Background?: Customised<BackgroundProps, {}>
+  Background?: Customised<BackgroundProps, BackgroundClasses>
   Attachment?: Customised<AttachmentProps, AttachmentClasses>
   Children?: Customised<ChildrenProps, ChildrenClasses>
   DataTable?: Customised<DataTableProps, DataTableClasses>
@@ -198,14 +200,4 @@ export function useCustomRendering<Props, Classes extends Styles<string> = {}>(
     return StyledCustomRenderer
   }
   return StyledDefaultRenderer
-}
-
-export const CustomRendering: React.FunctionComponent<{
-  support: CustomRenderingSupport
-}> = (props) => {
-  return (
-    <CustomRenderingContext.Provider value={props.support}>
-      {props.children}
-    </CustomRenderingContext.Provider>
-  )
 }

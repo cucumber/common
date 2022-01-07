@@ -1,17 +1,21 @@
 import React from 'react'
-import * as messages from '@cucumber/messages'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faGrimace } from '@fortawesome/free-solid-svg-icons'
+import styles from './NoMatchResult.module.scss'
 
 interface IProps {
   query: string
-  matches: readonly messages.GherkinDocument[]
 }
 
-export const NoMatchResult: React.FunctionComponent<IProps> = ({ query, matches }) => {
-  const showNoMatchMessage = query !== '' && matches.length === 0
-
+export const NoMatchResult: React.FunctionComponent<IProps> = ({ query }) => {
   return (
-    <p className="cucumber-no-documents">
-      {showNoMatchMessage && `No match found for: "${query}"`}
+    <p className={styles.message}>
+      <FontAwesomeIcon className={styles.icon} aria-hidden="true" icon={faGrimace} />
+      <span>
+        {query
+          ? `No matches found for your query "${query}" and/or filters`
+          : 'No matches found for your filters'}
+      </span>
     </p>
   )
 }

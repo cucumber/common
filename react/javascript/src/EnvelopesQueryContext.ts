@@ -15,6 +15,18 @@ export class EnvelopesQuery {
   public filter(predicate: (envelope: messages.Envelope) => boolean): messages.Envelope[] {
     return this.envelopes.filter(predicate)
   }
+
+  public getMeta(): messages.Meta {
+    return this.find((envelope) => !!envelope.meta)?.meta
+  }
+
+  public getTestRunStarted(): messages.TestRunStarted {
+    return this.find((envelope) => !!envelope.testRunStarted)?.testRunStarted
+  }
+
+  public getTestRunFinished(): messages.TestRunFinished {
+    return this.find((envelope) => !!envelope.testRunFinished)?.testRunFinished
+  }
 }
 
 export default React.createContext(new EnvelopesQuery())

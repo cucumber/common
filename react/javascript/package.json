@@ -11,7 +11,7 @@
   "author": "Aslak Hellesøy",
   "license": "MIT",
   "scripts": {
-    "prepare": "make .codegen && npx -y cpy-cli '**/*.scss' '../dist/src' --cwd='src' --parents",
+    "prepare": "make .codegen && cpy '**/*.scss' '../dist/src' --cwd='src' --parents",
     "test": "mocha",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
@@ -28,6 +28,7 @@
     "@types/elasticlunr": "0.9.4",
     "ansi-to-html": "0.7.2",
     "color": "4.1.0",
+    "date-fns": "2.27.0",
     "elasticlunr": "0.9.5",
     "hast-util-sanitize": "3.0.2",
     "highlight-words": "1.2.0",
@@ -53,6 +54,7 @@
     "@storybook/manager-webpack5": "6.4.9",
     "@storybook/react": "6.4.9",
     "@testing-library/react": "12.1.2",
+    "@testing-library/user-event": "13.5.0",
     "@types/color": "3.0.2",
     "@types/glob": "7.2.0",
     "@types/jsdom": "16.2.14",

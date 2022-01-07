@@ -2,20 +2,15 @@ import assert from 'assert'
 import ReactDOM from 'react-dom'
 import React from 'react'
 import { JSDOM } from 'jsdom'
-import SearchQueryContext, { SearchQueryProps, SearchQueryCtx } from '../src/SearchQueryContext'
-import { Query as GherkinQuery } from '@cucumber/gherkin-utils'
-import { Query as CucumberQuery } from '@cucumber/query'
-import { EnvelopesQuery, components } from '../src'
+import SearchQueryContext, {
+  SearchQueryProps,
+  SearchQueryCtx,
+} from '../../../src/SearchQueryContext'
+import { components } from '../../../src'
 import sinon from 'sinon'
 
-describe('QueriesWrapper', () => {
-  function renderQueriesWrapper(
-    opts?: {
-      gherkinQuery?: GherkinQuery
-      cucumberQuery?: CucumberQuery
-      envelopesQuery?: EnvelopesQuery
-    } & SearchQueryProps
-  ): {
+describe('SearchWrapper', () => {
+  function renderSearchWrapper(opts?: SearchQueryProps): {
     document: Document
     searchQueryCapture: sinon.SinonSpy<SearchQueryCtx[], any>
   } {
@@ -27,19 +22,14 @@ describe('QueriesWrapper', () => {
     const searchQueryCapture = sinon.spy()
 
     const app = (
-      <components.app.QueriesWrapper
-        {...opts}
-        gherkinQuery={opts?.gherkinQuery || new GherkinQuery()}
-        cucumberQuery={opts?.cucumberQuery || new CucumberQuery()}
-        envelopesQuery={opts?.envelopesQuery || new EnvelopesQuery()}
-      >
+      <components.app.SearchWrapper {...opts}>
         <SearchQueryContext.Consumer>
           {(sq) => {
             searchQueryCapture(sq)
             return <div />
           }}
         </SearchQueryContext.Consumer>
-      </components.app.QueriesWrapper>
+      </components.app.SearchWrapper>
     )
     ReactDOM.render(app, document.getElementById('content'))
     return {
@@ -49,7 +39,7 @@ describe('QueriesWrapper', () => {
   }
 
   it('creates a search context given no query prop', () => {
-    const { searchQueryCapture } = renderQueriesWrapper()
+    const { searchQueryCapture } = renderSearchWrapper()
 
     sinon.assert.calledOnce(searchQueryCapture)
     sinon.assert.calledWith(searchQueryCapture, sinon.match.has('query', ''))
@@ -66,7 +56,7 @@ describe('QueriesWrapper', () => {
   })
 
   it('creates a search context given a string query prop', () => {
-    const { searchQueryCapture } = renderQueriesWrapper({ query: 'foo' })
+    const { searchQueryCapture } = renderSearchWrapper({ query: 'foo' })
 
     const sq1 = searchQueryCapture.firstCall.args[0]
     searchQueryCapture.resetHistory()
