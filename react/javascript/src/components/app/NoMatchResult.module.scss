@@ -1,0 +1,13 @@
+.message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5em;
+    padding-bottom: 1.5em;
+    text-align: center;
+}
+
+.icon {
+    font-size: 3em;
+    opacity: 0.125;
+}

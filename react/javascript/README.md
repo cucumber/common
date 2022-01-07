@@ -11,9 +11,9 @@ Cucumber-React is a set of React components for rendering Gherkin documents and 
 The source code for screenshots above is:
 
 ```jsx
-<Wrapper envelopes={envelopes}>
+<EnvelopesWrapper envelopes={envelopes}>
   <GherkinDocumentList />
-</Wrapper>
+</EnvelopesWrapper>
 ```
 
 The [`<GherkinDocumentList>`](src/components/app/GherkinDocumentList.tsx) React component,
@@ -36,36 +36,38 @@ To render a `<GherkinDocument>` with results and highlighted [Cucumber Expressio
 
 ## Styling
 
-There are several ways you can apply different styling to the components.
+The standard styling comes from wrapping your top-level usage with the `CucumberReact` component (sans-props). There are several ways you can apply different styling to the components.
 
 ### Built-in themes
 
-Besides the default, we have a few other built-in themes:
+These are the built-in themes:
 
+- `light` (default)
 - `dark`
+- `auto` (honours your operating system preference for either light or dark)
 
-You can activate one of these by wrapping your top-level usage with the `Theme` component:
+You can activate one of these by passing the `theme` prop to the `CucumberReact` component:
 
 ```jsx
-<Theme theme="dark">
+<CucumberReact theme="dark">
   <GherkinDocument />
-</Theme>
+</CucumberReact>
 ```
 
 ### Custom themes
 
-You can also provide your own theme with a small amount of CSS. Pass the `Theme` component an appropriate name:
+You can also provide your own theme with a small amount of CSS. Pass the `CucumberReact` component a class name instead of a theme name:
 
 ```jsx
-<Theme theme="acme-widgets">
+<CucumberReact className="acme-widgets">
   <GherkinDocument />
-</Theme>
+</CucumberReact>
 ```
 
-That name will act as a suffix for a classname `cucumber-theme--acme-widgets`, against which you can override the supported [custom property](https://developer.mozilla.org/en-US/docs/Web/CSS/--*) values as desired. Here's the CSS that drives the built-in "dark" theme:
+In your CSS for the `acme-widgets` class, you can override the supported [custom property](https://developer.mozilla.org/en-US/docs/Web/CSS/--*) values as desired. Here's the CSS that drives the built-in "dark" theme:
 
 ```css
-.cucumber-theme--dark {
+.darkTheme {
   --cucumber-background-color: #1d1d26;
   --cucumber-text-color: #c9c9d1;
   --cucumber-anchor-color: #4caaee;
@@ -77,6 +79,9 @@ That name will act as a suffix for a classname `cucumber-theme--acme-widgets`, a
   --cucumber-error-text-color: #222;
   --cucumber-code-background-color: #282a36;
   --cucumber-code-text-color: #f8f8f2;
+  --cucumber-panel-background-color: #282a36;
+  --cucumber-panel-accent-color: #313442;
+  --cucumber-panel-text-color: #f8f8f2;
 }
 ```
 
@@ -97,16 +102,16 @@ Let's say you want to do something totally different with the typography of doc 
 }
 ```
 
-Then, you can wrap your usage in the `CustomRendering` component and provide an object that declares which class names you're going to override and what with:
+Then, you can provide a `customRendering` prop to the `CucumberReact` component, in the form of an object that declares which class names you're going to override and what with:
 
 ```jsx
-<CustomRendering support={{
+<CucumberReact customRendering={{
   DocString: {
     docString: 'acme-docstring'
   }
 }}>
   <GherkinDocument />
-</CustomRendering>
+</CucumberReact>
 ```
 
 Some components have multiple styling hooks - e.g. the `<Tags>` component has the `tags` class name for the list, and the `tag` class name for each item. In these cases, you can provide custom class names for just the ones you want to change, and any you omit will pick up the built-in styling like normal.
@@ -115,10 +120,10 @@ Some components have multiple styling hooks - e.g. the `<Tags>` component has th
 
 To change the rendering of some components entirely, you can selectively provide your own component implementations to be used instead of the built-in ones.
 
-Staying with the doc string example, you can use the same `CustomRendering` wrapper, but this time instead of an object with class names, you provide a React functional component, giving you full control over the rendering:
+Staying with the doc string example, you can use the same `customRendering` prop, but this time instead of an object with class names, you provide a React functional component, giving you full control over the rendering:
 
 ```jsx
-<CustomRendering support={{
+<CucumberReact customRendering={{
   DocString: (props) => (
     <>
       <p>I am going to render this doc string in a textarea:</p>
@@ -127,7 +132,7 @@ Staying with the doc string example, you can use the same `CustomRendering` wrap
   )
 }}>
   <GherkinDocument />
-</CustomRendering>
+</CucumberReact>
 ```
 
 In each case where you provide your own component, it will receive the same props as the default component, plus two more:

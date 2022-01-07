@@ -7,6 +7,10 @@ const DefaultRenderer: React.FunctionComponent<GherkinDocumentProps> = ({ gherki
 }
 
 export const GherkinDocument: React.FunctionComponent<GherkinDocumentProps> = (props) => {
-  const ResolvedRenderer = useCustomRendering<GherkinDocumentProps, {}>('GherkinDocument', {}, DefaultRenderer)
+  const ResolvedRenderer = useCustomRendering<GherkinDocumentProps, {}>(
+    'GherkinDocument',
+    {},
+    DefaultRenderer
+  )
   return <ResolvedRenderer {...props} />
 }

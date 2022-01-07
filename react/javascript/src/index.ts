@@ -10,6 +10,7 @@ import SearchQueryContext, {
 import EnvelopesQueryContext, { EnvelopesQuery } from './EnvelopesQueryContext'
 
 export * as components from './components'
+export * as hooks from './hooks'
 export {
   GherkinQueryContext,
   CucumberQueryContext,
