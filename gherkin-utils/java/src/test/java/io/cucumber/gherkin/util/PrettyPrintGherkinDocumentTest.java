@@ -190,28 +190,38 @@ public class PrettyPrintGherkinDocumentTest {
                 "  # i am tag hear me roar\n" +
                 "  Scenario: one\n" +
                 "    #some comment in the scenario\n" +
+                "    #another line in the comment in the scenario\n" +
                 "    Given a a <text> and a <number>\n" +
                 "\n" +
                 "    # comment1 is here   \n  " +
                 "    Examples: some data\n" +
                 " # comment2 is here     \n" +
                 "      | text | number |\n" +
+                " # comment3 is here     \n" +
+                " # comment4 is here     \n" +
                 "      | a    |      1 |\n" +
                 "      | ab   |     10 |\n" +
+                " # comment5 is here     \n" +
+                " # comment6 is here     \n" +
                 "      | abc  |    100 |\n");
         assertEquals("Feature: hello\n" +
                 "\n" +
                 "  # i am tag hear me roar\n" +
                 "  Scenario: one\n" +
                 "    # some comment in the scenario\n" +
+                "    # another line in the comment in the scenario\n" +
                 "    Given a a <text> and a <number>\n" +
                 "\n" +
                 "    # comment1 is here\n" +
                 "    Examples: some data\n" +
                 "      # comment2 is here\n" +
                 "      | text | number |\n" +
+                "      # comment3 is here\n" +
+                "      # comment4 is here\n" +
                 "      | a    | 1      |\n" +
                 "      | ab   | 10     |\n" +
+                "      # comment5 is here\n" +
+                "      # comment6 is here\n" +
                 "      | abc  | 100    |\n", PrettyPrintGherkinDocument.prettyPrint(gherkinDocument, Syntax.gherkin));
     }
 
@@ -287,5 +297,28 @@ public class PrettyPrintGherkinDocumentTest {
                 "      This scenario will do things, maybe\n" +
                 "\n" +
                 "      Given world\n", PrettyPrintGherkinDocument.prettyPrint(gherkinDocument, Syntax.gherkin));
+    }
+
+    @Test
+    public void commentAtStartAndEndOfFile() {
+        GherkinDocument gherkinDocument = parser.parse("#   i am comment at start of file \n" +
+                "Feature: hello\n" +
+                "\n" +
+                "  # i am tag hear me roar\n" +
+                "  Scenario: one\n" +
+                "    #some comment in the scenario\n" +
+                "    #another line in the comment in the scenario\n" +
+                "    Given a a <text> and a <number>\n" +
+                "# i am a comment at the end of the file.");
+        assertEquals("# i am comment at start of file\n" +
+                        "Feature: hello\n" +
+                        "\n" +
+                        "  # i am tag hear me roar\n" +
+                        "  Scenario: one\n" +
+                        "    # some comment in the scenario\n" +
+                        "    # another line in the comment in the scenario\n" +
+                        "    Given a a <text> and a <number>\n" +
+                        "# i am a comment at the end of the file.\n",
+                PrettyPrintGherkinDocument.prettyPrint(gherkinDocument, Syntax.gherkin));
     }
 }
