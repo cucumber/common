@@ -1,6 +1,0 @@
-BUDDY_EXECUTION_BRANCH=main
-BUDDY_EXECUTION_REVISION=057f8fe233b17629af084064c2a7b8d1dbb795ad
-BUDDY_EXECUTION_TAG=v1.2.3
-BUDDY_EXECUTION_URL=https://cihost.com/path/to/the/build
-BUDDY_EXECUTION_ID=1234
-BUDDY_SCM_URL=https://github.com/cucumber-ltd/shouty.rb

@@ -2,11 +2,7 @@ import React from 'react'
 import { Meta, Story } from '@storybook/react'
 
 import * as messages from '@cucumber/messages'
-import { Query as CucumberQuery } from '@cucumber/query'
-import { Query as GherkinQuery } from '@cucumber/gherkin-utils'
-import { EnvelopesQuery, components } from '../../src'
-
-import '../styles/styles.scss'
+import { components } from '../../src'
 
 import attachments from '../../acceptance/attachments/attachments.feature'
 import dataTables from '../../acceptance/data-tables/data-tables.feature'
@@ -22,19 +18,14 @@ import skipped from '../../acceptance/skipped/skipped.feature'
 import stacktTraces from '../../acceptance/stack-traces/stack-traces.feature'
 import undefinedEnvelopes from '../../acceptance/undefined/undefined.feature'
 import unknownParameterTypes from '../../acceptance/unknown-parameter-type/unknown-parameter-type.feature'
+import { CucumberReact } from '../components'
 
-const { QueriesWrapper, GherkinDocumentList } = components.app
+const { EnvelopesWrapper, GherkinDocumentList } = components.app
 
 export default {
-  title: 'GherkinDocument',
+  title: 'Gherkin/GherkinDocument',
   component: components.gherkin.GherkinDocument,
 } as Meta
-
-type Props = {
-  gherkinQuery: GherkinQuery
-  cucumberQuery: CucumberQuery
-  envelopesQuery: EnvelopesQuery
-}
 
 type TemplateArgs = {
   envelopes: readonly messages.Envelope[]
@@ -42,9 +33,11 @@ type TemplateArgs = {
 
 const Template: Story<TemplateArgs> = ({ envelopes }) => {
   return (
-    <QueriesWrapper {...props(envelopes)}>
-      <GherkinDocumentList />
-    </QueriesWrapper>
+    <CucumberReact>
+      <EnvelopesWrapper envelopes={envelopes}>
+        <GherkinDocumentList />
+      </EnvelopesWrapper>
+    </CucumberReact>
   )
 }
 
@@ -116,16 +109,4 @@ Undefined.args = {
 export const UnknownParameterTypes = Template.bind({})
 UnknownParameterTypes.args = {
   envelopes: unknownParameterTypes,
-}
-
-function props(envelopes: readonly messages.Envelope[]): Props {
-  const gherkinQuery = new GherkinQuery()
-  const cucumberQuery = new CucumberQuery()
-  const envelopesQuery = new EnvelopesQuery()
-  for (const envelope of envelopes) {
-    gherkinQuery.update(envelope)
-    cucumberQuery.update(envelope)
-    envelopesQuery.update(envelope)
-  }
-  return { gherkinQuery, cucumberQuery, envelopesQuery }
 }

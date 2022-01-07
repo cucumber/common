@@ -8,18 +8,14 @@
       "@cucumber/gherkin": ["gherkin/javascript/src/index.ts"],
       "@cucumber/gherkin-streams": ["gherkin-streams/javascript/src/index.ts"],
       "@cucumber/gherkin-utils": ["gherkin-utils/javascript/src/index.ts"],
-      "@cucumber/tag-expressions": ["tag-expressions/javascript/src/index.ts"],
-      "@cucumber/create-meta": ["create-meta/javascript/src/index.ts"],
       "@cucumber/fake-cucumber": ["fake-cucumber/javascript/src/index.ts"],
       "@cucumber/query": ["query/javascript/src/index.ts"],
       "@cucumber/compatibility-kit": ["compatibility-kit/javascript/src/index.ts"],
-      "@cucumber/react": ["react/javascript/src/index.ts"],
-      "@cucumber/suggest": ["suggest/javascript/src/index.ts"],
-      "@cucumber/language-server": ["language-service/javascript/src/index.ts"],
-      "@cucumber/language-server": ["language-server/javascript/src/index.ts"],
-      "@cucumber/monaco": ["monaco/javascript/src/index.ts"],
-      "@cucumber/vscode": ["vscode/javascript/src/index.ts"]
+      "@cucumber/react": ["react/javascript/src/index.ts"]
     },
     "noEmit": true
+  },
+  "ts-node": {
+    "files": true
   }
 }

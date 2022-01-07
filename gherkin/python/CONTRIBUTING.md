@@ -19,9 +19,9 @@ The exception is [parser.py](https://github.com/cucumber/gherkin/blob/master/pyt
 
 Just run `make` from this directory.
 
-### Using nosetests
+### Using pytest
 
-Just run `nosetests` from this directory (you need to `pip install -r requirements.txt` first).
+Just run `pytest` from this directory (you need to `pip install -r requirements.txt` first).
 
 Keep in mind that this will only run unit tests. The acceptance tests are only
 run when you build with `make`.

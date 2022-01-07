@@ -1,0 +1,35 @@
+@import '../styles/theming';
+
+.cucumberReact {
+    font-size: 14px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+    color: $textColor;
+    background: $backgroundColor;
+}
+
+@mixin dark-theme {
+    --cucumber-background-color: #1d1d26;
+    --cucumber-text-color: #c9c9d1;
+    --cucumber-anchor-color: #4caaee;
+    --cucumber-keyword-color: #d89077;
+    --cucumber-parameter-color: #4caaee;
+    --cucumber-tag-color: #85a658;
+    --cucumber-docstring-color: #66a565;
+    --cucumber-error-background-color: #cf6679;
+    --cucumber-error-text-color: #222;
+    --cucumber-code-background-color: #282a36;
+    --cucumber-code-text-color: #f8f8f2;
+    --cucumber-panel-background-color: #282a36;
+    --cucumber-panel-accent-color: #313442;
+    --cucumber-panel-text-color: #f8f8f2;
+}
+
+.darkTheme {
+    @include dark-theme;
+}
+
+.autoTheme {
+    @media all and (prefers-color-scheme: dark) {
+        @include dark-theme;
+    }
+}

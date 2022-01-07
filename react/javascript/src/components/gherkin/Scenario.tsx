@@ -13,7 +13,10 @@ import { HighLight } from '../app/HighLight'
 import { DefaultComponent, ScenarioClasses, ScenarioProps, useCustomRendering } from '../customise'
 import defaultStyles from './Scenario.module.scss'
 
-const DefaultRenderer: DefaultComponent<ScenarioProps, ScenarioClasses> = ({ scenario, styles }) => {
+const DefaultRenderer: DefaultComponent<ScenarioProps, ScenarioClasses> = ({
+  scenario,
+  styles,
+}) => {
   const examplesList = scenario.examples || []
   const hasExamples = examplesList.length > 0
   const cucumberQuery = React.useContext(CucumberQueryContext)
@@ -45,6 +48,10 @@ const DefaultRenderer: DefaultComponent<ScenarioProps, ScenarioClasses> = ({ sce
 }
 
 export const Scenario: React.FunctionComponent<ScenarioProps> = (props) => {
-  const ResolvedRenderer = useCustomRendering<ScenarioProps, {}>('Scenario', defaultStyles, DefaultRenderer)
+  const ResolvedRenderer = useCustomRendering<ScenarioProps, ScenarioClasses>(
+    'Scenario',
+    defaultStyles,
+    DefaultRenderer
+  )
   return <ResolvedRenderer {...props} />
 }

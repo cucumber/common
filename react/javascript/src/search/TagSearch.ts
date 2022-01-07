@@ -9,7 +9,9 @@ export default class TagSearch {
   private readonly picklesByScenarioId = new ArrayMultimap<string, messages.Pickle>()
   private gherkinDocuments: messages.GherkinDocument[] = []
 
-  constructor(private readonly gherkinQuery: GherkinQuery) {}
+  constructor(private readonly gherkinQuery: GherkinQuery) {
+    this.gherkinQuery = gherkinQuery
+  }
 
   public search(query: string): messages.GherkinDocument[] {
     const expressionNode = parse(query)

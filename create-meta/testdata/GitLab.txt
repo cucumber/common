@@ -1,5 +1,0 @@
-CI_JOB_URL=https://gitlab.com/cucumber/cucumber/jobs/713869896
-CI_REPOSITORY_URL=https://cukebot:thisIsAVerySensitiveInformation@gitlab.com/cucumber/cucumber.git
-CI_COMMIT_SHA=123456789
-CI_COMMIT_BRANCH=main
-CI_JOB_ID=713869896

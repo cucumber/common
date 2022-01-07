@@ -1,9 +1,9 @@
 import assert from 'assert'
 import React from 'react'
 import { Tags } from '../../../src/components/gherkin'
-import { CustomRendering } from '../../../src/components/customise'
 import * as messages from '@cucumber/messages'
 import { render } from '../utils'
+import { CucumberReact } from '../../../src/components'
 
 describe('custom rendering and theming', () => {
   it('uses the generated class names from built-in styles by default', () => {
@@ -37,8 +37,8 @@ describe('custom rendering and theming', () => {
     ]
 
     const { container } = render(
-      <CustomRendering
-        support={{
+      <CucumberReact
+        customRendering={{
           Tags: {
             tags: 'custom-list-class',
             tag: 'custom-item-class',
@@ -46,7 +46,7 @@ describe('custom rendering and theming', () => {
         }}
       >
         <Tags tags={tags} />
-      </CustomRendering>
+      </CucumberReact>
     )
 
     assert.strictEqual(container.querySelector('ul').className, 'custom-list-class')
@@ -66,15 +66,15 @@ describe('custom rendering and theming', () => {
     ]
 
     const { container } = render(
-      <CustomRendering
-        support={{
+      <CucumberReact
+        customRendering={{
           Tags: {
             tags: 'custom-list-class',
           },
         }}
       >
         <Tags tags={tags} />
-      </CustomRendering>
+      </CucumberReact>
     )
 
     assert.strictEqual(container.querySelector('ul').className, 'custom-list-class')
@@ -98,16 +98,16 @@ describe('custom rendering and theming', () => {
     }
 
     const { container } = render(
-      <CustomRendering
-        support={{
+      <CucumberReact
+        customRendering={{
           Tags: CustomComponent,
         }}
       >
         <Tags tags={tags} />
-      </CustomRendering>
+      </CucumberReact>
     )
 
-    assert.strictEqual(container.innerHTML, '<p>Totally custom!</p>')
+    assert.strictEqual(container.querySelector('div').innerHTML, '<p>Totally custom!</p>')
   })
 
   it('a custom component can defer to the default renderer if it wants to', () => {
@@ -127,13 +127,13 @@ describe('custom rendering and theming', () => {
     }
 
     const { container } = render(
-      <CustomRendering
-        support={{
+      <CucumberReact
+        customRendering={{
           Tags: CustomComponent,
         }}
       >
         <Tags tags={tags} />
-      </CustomRendering>
+      </CucumberReact>
     )
 
     assert.strictEqual(container.querySelector('ul').className, 'tags__generated')

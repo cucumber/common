@@ -1,4 +1,4 @@
-After('@skip') do
+Before('@skip') do
   'skipped'
 end
 

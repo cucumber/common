@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+- Use `auto` theme to automatically render with light or dark theme per platform preference.
+
 ### Changed
 
 ### Deprecated

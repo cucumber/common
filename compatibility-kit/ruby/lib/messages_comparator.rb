@@ -29,6 +29,8 @@ module CCK
 
       found_by_type.keys.each do |type|
         compare_list(found_by_type[type], expected_by_type[type])
+      rescue StandardError => e
+        @all_errors << "Error whild comparing #{type}: #{e.message}"
       end
     end
 
@@ -41,11 +43,13 @@ module CCK
     end
 
     def message_type(message)
-      message.to_hash.keys.first
+      message.to_h.each do |key, value|
+        return key unless value.nil?
+      end
     end
 
     def remove_envelope(message)
-      message[message_type(message)]
+      message.send(message_type(message))
     end
 
     def compare_list(found, expected)
@@ -55,10 +59,12 @@ module CCK
     end
 
     def compare_message(found, expected)
+      return unless found.is_a?(Cucumber::Messages::Message)
       return if found.is_a?(Cucumber::Messages::GherkinDocument)
       return if found.is_a?(Cucumber::Messages::Pickle)
-      return if found.is_a?(Cucumber::Messages::Timestamp) & expected.is_a?(Cucumber::Messages::Timestamp)
+      return if found.is_a?(Cucumber::Messages::Timestamp) && expected.is_a?(Cucumber::Messages::Timestamp)
       return if found.is_a?(Cucumber::Messages::Duration) && expected.is_a?(Cucumber::Messages::Duration)
+      return if ENV['CI'] && found.is_a?(Cucumber::Messages::Ci) && expected.nil?
 
       @compared << found.class.name
       @all_errors << @validator.compare(found, expected)
@@ -66,8 +72,8 @@ module CCK
     end
 
     def compare_sub_messages(found, expected)
-      return unless expected.respond_to? :to_hash
-      expected.to_hash.keys.each do |key|
+      return unless expected.respond_to? :to_h
+      expected.to_h.keys.each do |key|
         value = expected.send(key)
         if value.is_a?(Array)
           compare_list(found.send(key), value)

@@ -14,5 +14,6 @@
       "automerge": true,
       "automergeType": "branch"
     }
-  ]
+  ],
+  "ignorePaths": ["json-to-messages/ruby-testdata/Gemfile"]
 }

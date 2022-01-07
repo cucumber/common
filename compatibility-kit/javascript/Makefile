@@ -14,7 +14,7 @@ ifdef GOLDEN
 	../../node_modules/@cucumber/fake-cucumber/bin/fake-cucumber \
 	$< $(shell [ -f $(subst .feature,.arguments.txt,$<) ] && cat $(subst .feature,.arguments.txt,$<)) \
 	--predictable-ids \
-	> $@
+	| jq -cS > $@
 else
   # no-op: run with GOLDEN=1
 endif

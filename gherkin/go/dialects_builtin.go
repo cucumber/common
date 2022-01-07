@@ -305,7 +305,7 @@ var buildinDialects = gherkinDialectMap{
 				"Функционалност",
 			},
 			rule: []string{
-				"Rule",
+				"Правило",
 			},
 			background: []string{
 				"Предистория",

@@ -7,7 +7,7 @@ export default class SupportCodeExecutor implements ISupportCodeExecutor {
   constructor(
     public readonly stepDefinitionId: string,
     private readonly body: AnyBody,
-    private readonly args: readonly Argument<any>[],
+    private readonly args: readonly Argument[],
     private readonly docString: messages.PickleDocString,
     private readonly dataTable: messages.PickleTable
   ) {}
