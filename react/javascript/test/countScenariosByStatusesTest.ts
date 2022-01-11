@@ -5,6 +5,7 @@ import { SupportCode } from '@cucumber/fake-cucumber'
 import runFeature from './runFeature'
 import assert from 'assert'
 import countScenariosByStatuses from '../src/countScenariosByStatuses'
+import { TestStepResultStatus } from '@cucumber/messages'
 
 describe('countScenariosByStatuses', () => {
   let gherkinQuery: GherkinQuery
@@ -41,15 +42,19 @@ Feature: statuses
     for (const envelope of envelopes) {
       cucumberQuery.update(envelope)
     }
-    const gherkinDocuments = envelopes
-      .filter((envelope) => envelope.gherkinDocument)
-      .map((envelope) => envelope.gherkinDocument)
 
-    const statuses = countScenariosByStatuses(gherkinDocuments, gherkinQuery, cucumberQuery)
+    const { scenarioCountByStatus, statusesWithScenarios, totalScenarioCount } =
+      countScenariosByStatuses(gherkinQuery, cucumberQuery)
 
-    assert.strictEqual(statuses.get(messages.TestStepResultStatus.PASSED), 2)
-    assert.strictEqual(statuses.get(messages.TestStepResultStatus.FAILED), 1)
-    assert.strictEqual(statuses.get(messages.TestStepResultStatus.UNDEFINED), 1)
+    assert.strictEqual(scenarioCountByStatus.get(messages.TestStepResultStatus.PASSED), 2)
+    assert.strictEqual(scenarioCountByStatus.get(messages.TestStepResultStatus.FAILED), 1)
+    assert.strictEqual(scenarioCountByStatus.get(messages.TestStepResultStatus.UNDEFINED), 1)
+    assert.deepStrictEqual(statusesWithScenarios, [
+      TestStepResultStatus.PASSED,
+      TestStepResultStatus.FAILED,
+      TestStepResultStatus.UNDEFINED,
+    ])
+    assert.strictEqual(totalScenarioCount, 4)
     // Ridiculously long because runFeature (fake cucumber) seems to run very slowly with ts-node (?)
   }).timeout(30000)
 
@@ -72,14 +77,17 @@ Feature: statuses
       cucumberQuery.update(envelope)
     }
 
-    const gherkinDocuments = envelopes
-      .filter((envelope) => envelope.gherkinDocument)
-      .map((envelope) => envelope.gherkinDocument)
+    const { scenarioCountByStatus, statusesWithScenarios, totalScenarioCount } =
+      countScenariosByStatuses(gherkinQuery, cucumberQuery)
 
-    const statuses = countScenariosByStatuses(gherkinDocuments, gherkinQuery, cucumberQuery)
-
-    assert.strictEqual(statuses.get(messages.TestStepResultStatus.PASSED), 1)
-    assert.strictEqual(statuses.get(messages.TestStepResultStatus.FAILED), 1)
-    assert.strictEqual(statuses.get(messages.TestStepResultStatus.UNDEFINED), 1)
+    assert.strictEqual(scenarioCountByStatus.get(messages.TestStepResultStatus.PASSED), 1)
+    assert.strictEqual(scenarioCountByStatus.get(messages.TestStepResultStatus.FAILED), 1)
+    assert.strictEqual(scenarioCountByStatus.get(messages.TestStepResultStatus.UNDEFINED), 1)
+    assert.deepStrictEqual(statusesWithScenarios, [
+      TestStepResultStatus.PASSED,
+      TestStepResultStatus.FAILED,
+      TestStepResultStatus.UNDEFINED,
+    ])
+    assert.strictEqual(totalScenarioCount, 3)
   })
 })

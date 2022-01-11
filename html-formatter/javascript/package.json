@@ -14,6 +14,7 @@
   "author": "Aslak Hellesøy",
   "license": "MIT",
   "scripts": {
+    "prepare": "cpy '**/*.scss' '../dist/src' --cwd='src' --parents",
     "test": "mocha",
     "prepublishOnly": "tsc --build tsconfig.build.json"
   },
@@ -23,19 +24,20 @@
     "source-map-support": "0.5.21"
   },
   "devDependencies": {
-    "@babel/core": "7.16.5",
+    "@babel/core": "7.16.7",
     "@cucumber/gherkin-streams": "^4.0.0",
     "@cucumber/gherkin-utils": "^7.0.0",
     "@cucumber/message-streams": "^3.0.0",
     "@cucumber/query": "^11.0.0",
     "@cucumber/react": "^18.1.2",
     "@types/mocha": "9.0.0",
-    "@types/node": "16.11.17",
+    "@types/node": "16.11.19",
     "@types/react": "17.0.38",
     "@types/react-dom": "17.0.11",
     "babel-loader": "8.2.3",
+    "cpy-cli": "3.1.1",
     "css-loader": "6.5.1",
-    "mini-css-extract-plugin": "2.4.5",
+    "mini-css-extract-plugin": "2.4.6",
     "mocha": "9.1.3",
     "puppeteer": "13.0.1",
     "react": "17.0.2",

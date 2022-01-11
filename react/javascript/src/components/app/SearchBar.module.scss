@@ -1,0 +1,74 @@
+@import '../../styles/theming';
+
+.layout {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 1em;
+    border: 1px solid $panelAccentColor;
+    background-color: $panelBackgroundColor;
+    color: $panelTextColor;
+}
+
+.searchForm {
+    position: relative;
+    margin-top: -0.5em;
+}
+
+.queryIcon {
+    position: absolute;
+    left: 0;
+    top: 0.5em;
+    opacity: 0.666;
+}
+
+.queryField {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 0.5em 0 0.5em 1.5em;
+    border: none;
+    font-family: inherit;
+    font-size: inherit;
+    background-color: transparent;
+    color: $textColor;
+}
+
+.searchHelp {
+    display: block;
+    font-size: 0.75em;
+    line-height: 1em;
+
+    a {
+        color: $anchorColor;
+    }
+}
+
+.filterLayout {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+}
+
+.filterList {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.filterIcon {
+    opacity: 0.666;
+}
+
+.filterField {
+    display: flex;
+    align-items: center;
+    gap: 1px;
+    accent-color: $anchorColor;
+}
+
+

@@ -1,0 +1,59 @@
+@import '../../styles/theming';
+
+.backdrop {
+    background-color: $panelAccentColor;
+    border: 1px solid transparent;
+}
+
+.list {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: 1fr 1fr;
+    gap: 1px;
+    margin: 0;
+    text-align: center;
+}
+
+.item {
+    grid-column-end: span 4;
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: center;
+    padding: 1.5em;
+    background-color: $backgroundColor;
+    color: $textColor;
+
+    &Ci,
+    &Ci ~ & {
+        grid-column-end: span 3;
+    }
+}
+
+.value {
+    font-weight: bold;
+    font-size: 1.25em;
+    margin: 0;
+
+    svg {
+        max-width: 2em;
+    }
+}
+
+.suffix {
+    font-size: 1em;
+    margin-top: 0.25em;
+    color: $codeTextColor;
+}
+
+.gitItem {
+    display: inline-flex;
+    gap: 0.25em;
+
+    & + & {
+        margin-left: 1em;
+    }
+
+    a {
+        color: $anchorColor;
+    }
+}

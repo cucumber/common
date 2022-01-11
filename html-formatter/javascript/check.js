@@ -8,15 +8,20 @@ async function check() {
   const page = await browser.newPage()
   await page.setContent(html)
   const dynamicHTML = await page.evaluate(() => {
-    const content = document.querySelector('.cucumber-react')
+    const content = document.querySelector('[data-testid="cucumber-react"]')
     return content && content.innerHTML
   })
   await browser.close()
 
-  if(!dynamicHTML) throw new Error(`The file ${path} did not render a .cucumber-react element. Inspect manually.`)
+  if (!dynamicHTML)
+    throw new Error(
+      `The file ${path} did not render a [data-testid="cucumber-react"] element. Inspect manually.`
+    )
 }
 
-check().then(() => console.log(`${path} rendered OK!`)).catch((err) => {
-  console.error(err.stack)
-  process.exit(1)
-})
+check()
+  .then(() => console.log(`${path} rendered OK!`))
+  .catch((err) => {
+    console.error(err.stack)
+    process.exit(1)
+  })
