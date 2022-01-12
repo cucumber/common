@@ -31,7 +31,7 @@ defmodule CucumberGherkin.MixProject do
       {:elixir_uuid, "~> 1.2"},
       # {:cucumber_messages, "~> 15.0"},
       {:cucumber_messages, path: "../../messages/elixir"},
-      {:ex_doc, "~> 0.26", only: :dev, runtime: false}
+      {:ex_doc, "~> 0.27", only: :dev, runtime: false}
     ]
   end
 
