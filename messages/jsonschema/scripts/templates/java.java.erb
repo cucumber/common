@@ -11,7 +11,7 @@
         public static <%= class_name(key) %> from(<%= type_for(class_name(key), property_name, property) -%> <%= property_name %>) {
           <%= class_name(key) %> o = new <%= class_name(key) %>();
           <%- if property['items'] -%>
-          o.<%= property_name %> = java.util.Collections.unmodifiableList(java.util.Objects.requireNonNull(<%= property_name %>, "<%= class_name(key) %>.<%= property_name %> cannot be null"));
+          o.<%= property_name %> = java.util.Collections.unmodifiableList(new java.util.ArrayList<>(java.util.Objects.requireNonNull(<%= property_name %>, "<%= class_name(key) %>.<%= property_name %> cannot be null")));
           <%- else -%>
           o.<%= property_name %> = java.util.Objects.requireNonNull(<%= property_name %>, "<%= class_name(key) %>.<%= property_name %> cannot be null");
           <%- end -%>
@@ -30,7 +30,7 @@
         ) {
           <%- schema['properties'].each_with_index do |(property_name, property), index| -%>
             <%- if property['items'] -%>
-            this.<%= property_name %> = <%= property_name %> == null ? null : java.util.Collections.unmodifiableList(<%= property_name %>);
+            this.<%= property_name %> = <%= property_name %> == null ? null : java.util.Collections.unmodifiableList(new java.util.ArrayList<>(<%= property_name %>));
             <%- else -%>
             this.<%= property_name %> = <%= property_name %>;
             <%- end -%>

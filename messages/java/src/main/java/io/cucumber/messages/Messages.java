@@ -533,7 +533,7 @@ public class Messages {
         ) {
             this.uri = uri;
             this.feature = feature;
-            this.comments = comments == null ? null : java.util.Collections.unmodifiableList(comments);
+            this.comments = comments == null ? null : java.util.Collections.unmodifiableList(new java.util.ArrayList<>(comments));
             validate();
         }
 
@@ -609,7 +609,7 @@ public class Messages {
             this.keyword = keyword;
             this.name = name;
             this.description = description;
-            this.steps = steps == null ? null : java.util.Collections.unmodifiableList(steps);
+            this.steps = steps == null ? null : java.util.Collections.unmodifiableList(new java.util.ArrayList<>(steps));
             this.id = id;
             validate();
         }
@@ -759,7 +759,7 @@ public class Messages {
             java.util.List<TableRow> rows
         ) {
             this.location = location;
-            this.rows = rows == null ? null : java.util.Collections.unmodifiableList(rows);
+            this.rows = rows == null ? null : java.util.Collections.unmodifiableList(new java.util.ArrayList<>(rows));
             validate();
         }
 
@@ -909,12 +909,12 @@ public class Messages {
             String id
         ) {
             this.location = location;
-            this.tags = tags == null ? null : java.util.Collections.unmodifiableList(tags);
+            this.tags = tags == null ? null : java.util.Collections.unmodifiableList(new java.util.ArrayList<>(tags));
             this.keyword = keyword;
             this.name = name;
             this.description = description;
             this.tableHeader = tableHeader;
-            this.tableBody = tableBody == null ? null : java.util.Collections.unmodifiableList(tableBody);
+            this.tableBody = tableBody == null ? null : java.util.Collections.unmodifiableList(new java.util.ArrayList<>(tableBody));
             this.id = id;
             validate();
         }
@@ -1033,12 +1033,12 @@ public class Messages {
             java.util.List<FeatureChild> children
         ) {
             this.location = location;
-            this.tags = tags == null ? null : java.util.Collections.unmodifiableList(tags);
+            this.tags = tags == null ? null : java.util.Collections.unmodifiableList(new java.util.ArrayList<>(tags));
             this.language = language;
             this.keyword = keyword;
             this.name = name;
             this.description = description;
-            this.children = children == null ? null : java.util.Collections.unmodifiableList(children);
+            this.children = children == null ? null : java.util.Collections.unmodifiableList(new java.util.ArrayList<>(children));
             validate();
         }
 
@@ -1237,11 +1237,11 @@ public class Messages {
             String id
         ) {
             this.location = location;
-            this.tags = tags == null ? null : java.util.Collections.unmodifiableList(tags);
+            this.tags = tags == null ? null : java.util.Collections.unmodifiableList(new java.util.ArrayList<>(tags));
             this.keyword = keyword;
             this.name = name;
             this.description = description;
-            this.children = children == null ? null : java.util.Collections.unmodifiableList(children);
+            this.children = children == null ? null : java.util.Collections.unmodifiableList(new java.util.ArrayList<>(children));
             this.id = id;
             validate();
         }
@@ -1425,12 +1425,12 @@ public class Messages {
             String id
         ) {
             this.location = location;
-            this.tags = tags == null ? null : java.util.Collections.unmodifiableList(tags);
+            this.tags = tags == null ? null : java.util.Collections.unmodifiableList(new java.util.ArrayList<>(tags));
             this.keyword = keyword;
             this.name = name;
             this.description = description;
-            this.steps = steps == null ? null : java.util.Collections.unmodifiableList(steps);
-            this.examples = examples == null ? null : java.util.Collections.unmodifiableList(examples);
+            this.steps = steps == null ? null : java.util.Collections.unmodifiableList(new java.util.ArrayList<>(steps));
+            this.examples = examples == null ? null : java.util.Collections.unmodifiableList(new java.util.ArrayList<>(examples));
             this.id = id;
             validate();
         }
@@ -1702,7 +1702,7 @@ public class Messages {
             String id
         ) {
             this.location = location;
-            this.cells = cells == null ? null : java.util.Collections.unmodifiableList(cells);
+            this.cells = cells == null ? null : java.util.Collections.unmodifiableList(new java.util.ArrayList<>(cells));
             this.id = id;
             validate();
         }
@@ -2284,7 +2284,7 @@ public class Messages {
             String id
         ) {
             this.name = name;
-            this.regularExpressions = regularExpressions == null ? null : java.util.Collections.unmodifiableList(regularExpressions);
+            this.regularExpressions = regularExpressions == null ? null : java.util.Collections.unmodifiableList(new java.util.ArrayList<>(regularExpressions));
             this.preferForRegularExpressionMatch = preferForRegularExpressionMatch;
             this.useForSnippets = useForSnippets;
             this.id = id;
@@ -2440,9 +2440,9 @@ public class Messages {
             this.uri = uri;
             this.name = name;
             this.language = language;
-            this.steps = steps == null ? null : java.util.Collections.unmodifiableList(steps);
-            this.tags = tags == null ? null : java.util.Collections.unmodifiableList(tags);
-            this.astNodeIds = astNodeIds == null ? null : java.util.Collections.unmodifiableList(astNodeIds);
+            this.steps = steps == null ? null : java.util.Collections.unmodifiableList(new java.util.ArrayList<>(steps));
+            this.tags = tags == null ? null : java.util.Collections.unmodifiableList(new java.util.ArrayList<>(tags));
+            this.astNodeIds = astNodeIds == null ? null : java.util.Collections.unmodifiableList(new java.util.ArrayList<>(astNodeIds));
             validate();
         }
 
@@ -2602,7 +2602,7 @@ public class Messages {
             String text
         ) {
             this.argument = argument;
-            this.astNodeIds = astNodeIds == null ? null : java.util.Collections.unmodifiableList(astNodeIds);
+            this.astNodeIds = astNodeIds == null ? null : java.util.Collections.unmodifiableList(new java.util.ArrayList<>(astNodeIds));
             this.id = id;
             this.text = text;
             validate();
@@ -2746,7 +2746,7 @@ public class Messages {
         public PickleTable(
             java.util.List<PickleTableRow> rows
         ) {
-            this.rows = rows == null ? null : java.util.Collections.unmodifiableList(rows);
+            this.rows = rows == null ? null : java.util.Collections.unmodifiableList(new java.util.ArrayList<>(rows));
             validate();
         }
 
@@ -2839,7 +2839,7 @@ public class Messages {
         public PickleTableRow(
             java.util.List<PickleTableCell> cells
         ) {
-            this.cells = cells == null ? null : java.util.Collections.unmodifiableList(cells);
+            this.cells = cells == null ? null : java.util.Collections.unmodifiableList(new java.util.ArrayList<>(cells));
             validate();
         }
 
@@ -3123,7 +3123,7 @@ public class Messages {
         ) {
             this.className = className;
             this.methodName = methodName;
-            this.methodParameterTypes = methodParameterTypes == null ? null : java.util.Collections.unmodifiableList(methodParameterTypes);
+            this.methodParameterTypes = methodParameterTypes == null ? null : java.util.Collections.unmodifiableList(new java.util.ArrayList<>(methodParameterTypes));
             validate();
         }
 
@@ -3387,7 +3387,7 @@ public class Messages {
         ) {
             this.id = id;
             this.pickleId = pickleId;
-            this.testSteps = testSteps == null ? null : java.util.Collections.unmodifiableList(testSteps);
+            this.testSteps = testSteps == null ? null : java.util.Collections.unmodifiableList(new java.util.ArrayList<>(testSteps));
             validate();
         }
 
@@ -3454,7 +3454,7 @@ public class Messages {
             Long start,
             String value
         ) {
-            this.children = children == null ? null : java.util.Collections.unmodifiableList(children);
+            this.children = children == null ? null : java.util.Collections.unmodifiableList(new java.util.ArrayList<>(children));
             this.start = start;
             this.value = value;
             validate();
@@ -3574,7 +3574,7 @@ public class Messages {
         public StepMatchArgumentsList(
             java.util.List<StepMatchArgument> stepMatchArguments
         ) {
-            this.stepMatchArguments = stepMatchArguments == null ? null : java.util.Collections.unmodifiableList(stepMatchArguments);
+            this.stepMatchArguments = stepMatchArguments == null ? null : java.util.Collections.unmodifiableList(new java.util.ArrayList<>(stepMatchArguments));
             validate();
         }
 
@@ -3632,8 +3632,8 @@ public class Messages {
             this.hookId = hookId;
             this.id = id;
             this.pickleStepId = pickleStepId;
-            this.stepDefinitionIds = stepDefinitionIds == null ? null : java.util.Collections.unmodifiableList(stepDefinitionIds);
-            this.stepMatchArgumentsLists = stepMatchArgumentsLists == null ? null : java.util.Collections.unmodifiableList(stepMatchArgumentsLists);
+            this.stepDefinitionIds = stepDefinitionIds == null ? null : java.util.Collections.unmodifiableList(new java.util.ArrayList<>(stepDefinitionIds));
+            this.stepMatchArgumentsLists = stepMatchArgumentsLists == null ? null : java.util.Collections.unmodifiableList(new java.util.ArrayList<>(stepMatchArgumentsLists));
             validate();
         }
 
