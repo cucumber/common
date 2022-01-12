@@ -11,18 +11,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 * Support for EcmaScript modules (aka ESM)
   ([#1756](https://github.com/cucumber/common/pull/1756))
-* [Java] Add a `validate()` method to all messages. This will throw a `NullPointerException`
-  with a detailed message if a `required` field is `null`. This works recursively
-  for all non-null values (including non-required fields).
-  Argument constructors, getters and setters also throw `NullPointerException`
-  if a required `field` is `null`, but they don't validate recursively.
-  ([#1858](https://github.com/cucumber/common/pull/1858) [aslakhellesoy])
-
 
 ### Changed
 
 * Java: Generate Java code that uses `Optional` in getters. This makes the library
   more type safe (avoids illegal null values). To upgrade, replace `import io.cucumber.messages.types.*` with `import static io.cucumber.messages.Messages.*`.
+  Classes without required fields have public empty constructors, and static `fromXxx`
+  methods for each field. Setters are removed. Classes with required fields do
+  not have public empty constructors.
   ([#1858](https://github.com/cucumber/common/pull/1858) [aslakhellesoy])
 
 ### Deprecated
