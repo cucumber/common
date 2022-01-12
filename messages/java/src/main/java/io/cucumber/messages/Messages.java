@@ -522,7 +522,7 @@ public class Messages {
     public static class GherkinDocument {
         private String uri;
         private Feature feature;
-        private java.util.List<Comment> comments = new java.util.ArrayList<>();
+        private java.util.List<Comment> comments;
 
         private GherkinDocument() {}
 
@@ -533,7 +533,7 @@ public class Messages {
         ) {
             this.uri = uri;
             this.feature = feature;
-            this.comments = comments;
+            this.comments = comments == null ? null : java.util.Collections.unmodifiableList(comments);
             validate();
         }
 
@@ -592,7 +592,7 @@ public class Messages {
         private String keyword;
         private String name;
         private String description;
-        private java.util.List<Step> steps = new java.util.ArrayList<>();
+        private java.util.List<Step> steps;
         private String id;
 
         private Background() {}
@@ -609,7 +609,7 @@ public class Messages {
             this.keyword = keyword;
             this.name = name;
             this.description = description;
-            this.steps = steps;
+            this.steps = steps == null ? null : java.util.Collections.unmodifiableList(steps);
             this.id = id;
             validate();
         }
@@ -750,7 +750,7 @@ public class Messages {
 
     public static class DataTable {
         private Location location;
-        private java.util.List<TableRow> rows = new java.util.ArrayList<>();
+        private java.util.List<TableRow> rows;
 
         private DataTable() {}
 
@@ -759,7 +759,7 @@ public class Messages {
             java.util.List<TableRow> rows
         ) {
             this.location = location;
-            this.rows = rows;
+            this.rows = rows == null ? null : java.util.Collections.unmodifiableList(rows);
             validate();
         }
 
@@ -888,12 +888,12 @@ public class Messages {
 
     public static class Examples {
         private Location location;
-        private java.util.List<Tag> tags = new java.util.ArrayList<>();
+        private java.util.List<Tag> tags;
         private String keyword;
         private String name;
         private String description;
         private TableRow tableHeader;
-        private java.util.List<TableRow> tableBody = new java.util.ArrayList<>();
+        private java.util.List<TableRow> tableBody;
         private String id;
 
         private Examples() {}
@@ -909,12 +909,12 @@ public class Messages {
             String id
         ) {
             this.location = location;
-            this.tags = tags;
+            this.tags = tags == null ? null : java.util.Collections.unmodifiableList(tags);
             this.keyword = keyword;
             this.name = name;
             this.description = description;
             this.tableHeader = tableHeader;
-            this.tableBody = tableBody;
+            this.tableBody = tableBody == null ? null : java.util.Collections.unmodifiableList(tableBody);
             this.id = id;
             validate();
         }
@@ -1014,12 +1014,12 @@ public class Messages {
 
     public static class Feature {
         private Location location;
-        private java.util.List<Tag> tags = new java.util.ArrayList<>();
+        private java.util.List<Tag> tags;
         private String language;
         private String keyword;
         private String name;
         private String description;
-        private java.util.List<FeatureChild> children = new java.util.ArrayList<>();
+        private java.util.List<FeatureChild> children;
 
         private Feature() {}
 
@@ -1033,12 +1033,12 @@ public class Messages {
             java.util.List<FeatureChild> children
         ) {
             this.location = location;
-            this.tags = tags;
+            this.tags = tags == null ? null : java.util.Collections.unmodifiableList(tags);
             this.language = language;
             this.keyword = keyword;
             this.name = name;
             this.description = description;
-            this.children = children;
+            this.children = children == null ? null : java.util.Collections.unmodifiableList(children);
             validate();
         }
 
@@ -1218,11 +1218,11 @@ public class Messages {
 
     public static class Rule {
         private Location location;
-        private java.util.List<Tag> tags = new java.util.ArrayList<>();
+        private java.util.List<Tag> tags;
         private String keyword;
         private String name;
         private String description;
-        private java.util.List<RuleChild> children = new java.util.ArrayList<>();
+        private java.util.List<RuleChild> children;
         private String id;
 
         private Rule() {}
@@ -1237,11 +1237,11 @@ public class Messages {
             String id
         ) {
             this.location = location;
-            this.tags = tags;
+            this.tags = tags == null ? null : java.util.Collections.unmodifiableList(tags);
             this.keyword = keyword;
             this.name = name;
             this.description = description;
-            this.children = children;
+            this.children = children == null ? null : java.util.Collections.unmodifiableList(children);
             this.id = id;
             validate();
         }
@@ -1404,12 +1404,12 @@ public class Messages {
 
     public static class Scenario {
         private Location location;
-        private java.util.List<Tag> tags = new java.util.ArrayList<>();
+        private java.util.List<Tag> tags;
         private String keyword;
         private String name;
         private String description;
-        private java.util.List<Step> steps = new java.util.ArrayList<>();
-        private java.util.List<Examples> examples = new java.util.ArrayList<>();
+        private java.util.List<Step> steps;
+        private java.util.List<Examples> examples;
         private String id;
 
         private Scenario() {}
@@ -1425,12 +1425,12 @@ public class Messages {
             String id
         ) {
             this.location = location;
-            this.tags = tags;
+            this.tags = tags == null ? null : java.util.Collections.unmodifiableList(tags);
             this.keyword = keyword;
             this.name = name;
             this.description = description;
-            this.steps = steps;
-            this.examples = examples;
+            this.steps = steps == null ? null : java.util.Collections.unmodifiableList(steps);
+            this.examples = examples == null ? null : java.util.Collections.unmodifiableList(examples);
             this.id = id;
             validate();
         }
@@ -1691,7 +1691,7 @@ public class Messages {
 
     public static class TableRow {
         private Location location;
-        private java.util.List<TableCell> cells = new java.util.ArrayList<>();
+        private java.util.List<TableCell> cells;
         private String id;
 
         private TableRow() {}
@@ -1702,7 +1702,7 @@ public class Messages {
             String id
         ) {
             this.location = location;
-            this.cells = cells;
+            this.cells = cells == null ? null : java.util.Collections.unmodifiableList(cells);
             this.id = id;
             validate();
         }
@@ -2269,7 +2269,7 @@ public class Messages {
 
     public static class ParameterType {
         private String name;
-        private java.util.List<String> regularExpressions = new java.util.ArrayList<>();
+        private java.util.List<String> regularExpressions;
         private Boolean preferForRegularExpressionMatch;
         private Boolean useForSnippets;
         private String id;
@@ -2284,7 +2284,7 @@ public class Messages {
             String id
         ) {
             this.name = name;
-            this.regularExpressions = regularExpressions;
+            this.regularExpressions = regularExpressions == null ? null : java.util.Collections.unmodifiableList(regularExpressions);
             this.preferForRegularExpressionMatch = preferForRegularExpressionMatch;
             this.useForSnippets = useForSnippets;
             this.id = id;
@@ -2421,9 +2421,9 @@ public class Messages {
         private String uri;
         private String name;
         private String language;
-        private java.util.List<PickleStep> steps = new java.util.ArrayList<>();
-        private java.util.List<PickleTag> tags = new java.util.ArrayList<>();
-        private java.util.List<String> astNodeIds = new java.util.ArrayList<>();
+        private java.util.List<PickleStep> steps;
+        private java.util.List<PickleTag> tags;
+        private java.util.List<String> astNodeIds;
 
         private Pickle() {}
 
@@ -2440,9 +2440,9 @@ public class Messages {
             this.uri = uri;
             this.name = name;
             this.language = language;
-            this.steps = steps;
-            this.tags = tags;
-            this.astNodeIds = astNodeIds;
+            this.steps = steps == null ? null : java.util.Collections.unmodifiableList(steps);
+            this.tags = tags == null ? null : java.util.Collections.unmodifiableList(tags);
+            this.astNodeIds = astNodeIds == null ? null : java.util.Collections.unmodifiableList(astNodeIds);
             validate();
         }
 
@@ -2589,7 +2589,7 @@ public class Messages {
 
     public static class PickleStep {
         private PickleStepArgument argument;
-        private java.util.List<String> astNodeIds = new java.util.ArrayList<>();
+        private java.util.List<String> astNodeIds;
         private String id;
         private String text;
 
@@ -2602,7 +2602,7 @@ public class Messages {
             String text
         ) {
             this.argument = argument;
-            this.astNodeIds = astNodeIds;
+            this.astNodeIds = astNodeIds == null ? null : java.util.Collections.unmodifiableList(astNodeIds);
             this.id = id;
             this.text = text;
             validate();
@@ -2739,14 +2739,14 @@ public class Messages {
 
 
     public static class PickleTable {
-        private java.util.List<PickleTableRow> rows = new java.util.ArrayList<>();
+        private java.util.List<PickleTableRow> rows;
 
         private PickleTable() {}
 
         public PickleTable(
             java.util.List<PickleTableRow> rows
         ) {
-            this.rows = rows;
+            this.rows = rows == null ? null : java.util.Collections.unmodifiableList(rows);
             validate();
         }
 
@@ -2832,14 +2832,14 @@ public class Messages {
 
 
     public static class PickleTableRow {
-        private java.util.List<PickleTableCell> cells = new java.util.ArrayList<>();
+        private java.util.List<PickleTableCell> cells;
 
         private PickleTableRow() {}
 
         public PickleTableRow(
             java.util.List<PickleTableCell> cells
         ) {
-            this.cells = cells;
+            this.cells = cells == null ? null : java.util.Collections.unmodifiableList(cells);
             validate();
         }
 
@@ -3112,7 +3112,7 @@ public class Messages {
     public static class JavaMethod {
         private String className;
         private String methodName;
-        private java.util.List<String> methodParameterTypes = new java.util.ArrayList<>();
+        private java.util.List<String> methodParameterTypes;
 
         private JavaMethod() {}
 
@@ -3123,7 +3123,7 @@ public class Messages {
         ) {
             this.className = className;
             this.methodName = methodName;
-            this.methodParameterTypes = methodParameterTypes;
+            this.methodParameterTypes = methodParameterTypes == null ? null : java.util.Collections.unmodifiableList(methodParameterTypes);
             validate();
         }
 
@@ -3376,7 +3376,7 @@ public class Messages {
     public static class TestCase {
         private String id;
         private String pickleId;
-        private java.util.List<TestStep> testSteps = new java.util.ArrayList<>();
+        private java.util.List<TestStep> testSteps;
 
         private TestCase() {}
 
@@ -3387,7 +3387,7 @@ public class Messages {
         ) {
             this.id = id;
             this.pickleId = pickleId;
-            this.testSteps = testSteps;
+            this.testSteps = testSteps == null ? null : java.util.Collections.unmodifiableList(testSteps);
             validate();
         }
 
@@ -3443,7 +3443,7 @@ public class Messages {
 
 
     public static class Group {
-        private java.util.List<Group> children = new java.util.ArrayList<>();
+        private java.util.List<Group> children;
         private Long start;
         private String value;
 
@@ -3454,7 +3454,7 @@ public class Messages {
             Long start,
             String value
         ) {
-            this.children = children;
+            this.children = children == null ? null : java.util.Collections.unmodifiableList(children);
             this.start = start;
             this.value = value;
             validate();
@@ -3567,14 +3567,14 @@ public class Messages {
 
 
     public static class StepMatchArgumentsList {
-        private java.util.List<StepMatchArgument> stepMatchArguments = new java.util.ArrayList<>();
+        private java.util.List<StepMatchArgument> stepMatchArguments;
 
         private StepMatchArgumentsList() {}
 
         public StepMatchArgumentsList(
             java.util.List<StepMatchArgument> stepMatchArguments
         ) {
-            this.stepMatchArguments = stepMatchArguments;
+            this.stepMatchArguments = stepMatchArguments == null ? null : java.util.Collections.unmodifiableList(stepMatchArguments);
             validate();
         }
 
@@ -3617,8 +3617,8 @@ public class Messages {
         private String hookId;
         private String id;
         private String pickleStepId;
-        private java.util.List<String> stepDefinitionIds = new java.util.ArrayList<>();
-        private java.util.List<StepMatchArgumentsList> stepMatchArgumentsLists = new java.util.ArrayList<>();
+        private java.util.List<String> stepDefinitionIds;
+        private java.util.List<StepMatchArgumentsList> stepMatchArgumentsLists;
 
         private TestStep() {}
 
@@ -3632,8 +3632,8 @@ public class Messages {
             this.hookId = hookId;
             this.id = id;
             this.pickleStepId = pickleStepId;
-            this.stepDefinitionIds = stepDefinitionIds;
-            this.stepMatchArgumentsLists = stepMatchArgumentsLists;
+            this.stepDefinitionIds = stepDefinitionIds == null ? null : java.util.Collections.unmodifiableList(stepDefinitionIds);
+            this.stepMatchArgumentsLists = stepMatchArgumentsLists == null ? null : java.util.Collections.unmodifiableList(stepMatchArgumentsLists);
             validate();
         }
 
