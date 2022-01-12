@@ -4301,13 +4301,6 @@ public class Messages {
         BASE64("BASE64");
     
         private final String value;
-        private final static java.util.Map<String, AttachmentContentEncoding> CONSTANTS = new java.util.HashMap<>();
-
-        static {
-            for (AttachmentContentEncoding c: values()) {
-                CONSTANTS.put(c.value, c);
-            }
-        }
 
         AttachmentContentEncoding(String value) {
             this.value = value;
@@ -4323,12 +4316,9 @@ public class Messages {
         }
 
         public static AttachmentContentEncoding fromValue(String value) {
-            AttachmentContentEncoding constant = CONSTANTS.get(value);
-            if (constant == null) {
-                throw new IllegalArgumentException(value);
-            } else {
-                return constant;
-            }
+            if ("IDENTITY".equals(value)) return IDENTITY;
+            if ("BASE64".equals(value)) return BASE64;
+            throw new IllegalArgumentException(value);
         }
     }
 
@@ -4337,13 +4327,6 @@ public class Messages {
         TEXT_X_CUCUMBER_GHERKIN_MARKDOWN("text/x.cucumber.gherkin+markdown");
     
         private final String value;
-        private final static java.util.Map<String, SourceMediaType> CONSTANTS = new java.util.HashMap<>();
-
-        static {
-            for (SourceMediaType c: values()) {
-                CONSTANTS.put(c.value, c);
-            }
-        }
 
         SourceMediaType(String value) {
             this.value = value;
@@ -4359,12 +4342,9 @@ public class Messages {
         }
 
         public static SourceMediaType fromValue(String value) {
-            SourceMediaType constant = CONSTANTS.get(value);
-            if (constant == null) {
-                throw new IllegalArgumentException(value);
-            } else {
-                return constant;
-            }
+            if ("TEXT_X_CUCUMBER_GHERKIN_PLAIN".equals(value)) return TEXT_X_CUCUMBER_GHERKIN_PLAIN;
+            if ("TEXT_X_CUCUMBER_GHERKIN_MARKDOWN".equals(value)) return TEXT_X_CUCUMBER_GHERKIN_MARKDOWN;
+            throw new IllegalArgumentException(value);
         }
     }
 
@@ -4373,13 +4353,6 @@ public class Messages {
         REGULAR_EXPRESSION("REGULAR_EXPRESSION");
     
         private final String value;
-        private final static java.util.Map<String, StepDefinitionPatternType> CONSTANTS = new java.util.HashMap<>();
-
-        static {
-            for (StepDefinitionPatternType c: values()) {
-                CONSTANTS.put(c.value, c);
-            }
-        }
 
         StepDefinitionPatternType(String value) {
             this.value = value;
@@ -4395,12 +4368,9 @@ public class Messages {
         }
 
         public static StepDefinitionPatternType fromValue(String value) {
-            StepDefinitionPatternType constant = CONSTANTS.get(value);
-            if (constant == null) {
-                throw new IllegalArgumentException(value);
-            } else {
-                return constant;
-            }
+            if ("CUCUMBER_EXPRESSION".equals(value)) return CUCUMBER_EXPRESSION;
+            if ("REGULAR_EXPRESSION".equals(value)) return REGULAR_EXPRESSION;
+            throw new IllegalArgumentException(value);
         }
     }
 
@@ -4414,13 +4384,6 @@ public class Messages {
         FAILED("FAILED");
     
         private final String value;
-        private final static java.util.Map<String, TestStepResultStatus> CONSTANTS = new java.util.HashMap<>();
-
-        static {
-            for (TestStepResultStatus c: values()) {
-                CONSTANTS.put(c.value, c);
-            }
-        }
 
         TestStepResultStatus(String value) {
             this.value = value;
@@ -4436,12 +4399,14 @@ public class Messages {
         }
 
         public static TestStepResultStatus fromValue(String value) {
-            TestStepResultStatus constant = CONSTANTS.get(value);
-            if (constant == null) {
-                throw new IllegalArgumentException(value);
-            } else {
-                return constant;
-            }
+            if ("UNKNOWN".equals(value)) return UNKNOWN;
+            if ("PASSED".equals(value)) return PASSED;
+            if ("SKIPPED".equals(value)) return SKIPPED;
+            if ("PENDING".equals(value)) return PENDING;
+            if ("UNDEFINED".equals(value)) return UNDEFINED;
+            if ("AMBIGUOUS".equals(value)) return AMBIGUOUS;
+            if ("FAILED".equals(value)) return FAILED;
+            throw new IllegalArgumentException(value);
         }
     }
 

@@ -5,13 +5,6 @@
     <% end -%>
 
         private final String value;
-        private final static java.util.Map<String, <%= enum[:name] %>> CONSTANTS = new java.util.HashMap<>();
-
-        static {
-            for (<%= enum[:name] %> c: values()) {
-                CONSTANTS.put(c.value, c);
-            }
-        }
 
         <%= enum[:name] %>(String value) {
             this.value = value;
@@ -27,12 +20,10 @@
         }
 
         public static <%= enum[:name] %> fromValue(String value) {
-            <%= enum[:name] %> constant = CONSTANTS.get(value);
-            if (constant == null) {
-                throw new IllegalArgumentException(value);
-            } else {
-                return constant;
-            }
+        <%- enum[:values].each do |value| -%>
+            if ("<%= enum_constant(value) %>".equals(value)) return <%= enum_constant(value) %>;
+        <%- end -%>
+            throw new IllegalArgumentException(value);
         }
     }
 
