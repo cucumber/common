@@ -8,7 +8,7 @@
         public <%= class_name(key) %>() {}
       <%- schema['properties'].each_with_index do |(property_name, property), index| -%>
 
-        public static <%= class_name(key) %> from<%= capitalize(property_name) %>(<%= type_for(class_name(key), property_name, property) -%> <%= property_name %>) {
+        public static <%= class_name(key) %> from(<%= type_for(class_name(key), property_name, property) -%> <%= property_name %>) {
           <%= class_name(key) %> o = new <%= class_name(key) %>();
           o.<%= property_name %> = java.util.Objects.requireNonNull(<%= property_name %>, "<%= class_name(key) %>.<%= property_name %> cannot be null");
           o.validate();

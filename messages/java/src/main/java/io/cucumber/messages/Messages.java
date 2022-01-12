@@ -199,119 +199,119 @@ public class Messages {
 
         public Envelope() {}
 
-        public static Envelope fromAttachment(Attachment attachment) {
+        public static Envelope from(Attachment attachment) {
           Envelope o = new Envelope();
           o.attachment = java.util.Objects.requireNonNull(attachment, "Envelope.attachment cannot be null");
           o.validate();
           return o;
         }
 
-        public static Envelope fromGherkinDocument(GherkinDocument gherkinDocument) {
+        public static Envelope from(GherkinDocument gherkinDocument) {
           Envelope o = new Envelope();
           o.gherkinDocument = java.util.Objects.requireNonNull(gherkinDocument, "Envelope.gherkinDocument cannot be null");
           o.validate();
           return o;
         }
 
-        public static Envelope fromHook(Hook hook) {
+        public static Envelope from(Hook hook) {
           Envelope o = new Envelope();
           o.hook = java.util.Objects.requireNonNull(hook, "Envelope.hook cannot be null");
           o.validate();
           return o;
         }
 
-        public static Envelope fromMeta(Meta meta) {
+        public static Envelope from(Meta meta) {
           Envelope o = new Envelope();
           o.meta = java.util.Objects.requireNonNull(meta, "Envelope.meta cannot be null");
           o.validate();
           return o;
         }
 
-        public static Envelope fromParameterType(ParameterType parameterType) {
+        public static Envelope from(ParameterType parameterType) {
           Envelope o = new Envelope();
           o.parameterType = java.util.Objects.requireNonNull(parameterType, "Envelope.parameterType cannot be null");
           o.validate();
           return o;
         }
 
-        public static Envelope fromParseError(ParseError parseError) {
+        public static Envelope from(ParseError parseError) {
           Envelope o = new Envelope();
           o.parseError = java.util.Objects.requireNonNull(parseError, "Envelope.parseError cannot be null");
           o.validate();
           return o;
         }
 
-        public static Envelope fromPickle(Pickle pickle) {
+        public static Envelope from(Pickle pickle) {
           Envelope o = new Envelope();
           o.pickle = java.util.Objects.requireNonNull(pickle, "Envelope.pickle cannot be null");
           o.validate();
           return o;
         }
 
-        public static Envelope fromSource(Source source) {
+        public static Envelope from(Source source) {
           Envelope o = new Envelope();
           o.source = java.util.Objects.requireNonNull(source, "Envelope.source cannot be null");
           o.validate();
           return o;
         }
 
-        public static Envelope fromStepDefinition(StepDefinition stepDefinition) {
+        public static Envelope from(StepDefinition stepDefinition) {
           Envelope o = new Envelope();
           o.stepDefinition = java.util.Objects.requireNonNull(stepDefinition, "Envelope.stepDefinition cannot be null");
           o.validate();
           return o;
         }
 
-        public static Envelope fromTestCase(TestCase testCase) {
+        public static Envelope from(TestCase testCase) {
           Envelope o = new Envelope();
           o.testCase = java.util.Objects.requireNonNull(testCase, "Envelope.testCase cannot be null");
           o.validate();
           return o;
         }
 
-        public static Envelope fromTestCaseFinished(TestCaseFinished testCaseFinished) {
+        public static Envelope from(TestCaseFinished testCaseFinished) {
           Envelope o = new Envelope();
           o.testCaseFinished = java.util.Objects.requireNonNull(testCaseFinished, "Envelope.testCaseFinished cannot be null");
           o.validate();
           return o;
         }
 
-        public static Envelope fromTestCaseStarted(TestCaseStarted testCaseStarted) {
+        public static Envelope from(TestCaseStarted testCaseStarted) {
           Envelope o = new Envelope();
           o.testCaseStarted = java.util.Objects.requireNonNull(testCaseStarted, "Envelope.testCaseStarted cannot be null");
           o.validate();
           return o;
         }
 
-        public static Envelope fromTestRunFinished(TestRunFinished testRunFinished) {
+        public static Envelope from(TestRunFinished testRunFinished) {
           Envelope o = new Envelope();
           o.testRunFinished = java.util.Objects.requireNonNull(testRunFinished, "Envelope.testRunFinished cannot be null");
           o.validate();
           return o;
         }
 
-        public static Envelope fromTestRunStarted(TestRunStarted testRunStarted) {
+        public static Envelope from(TestRunStarted testRunStarted) {
           Envelope o = new Envelope();
           o.testRunStarted = java.util.Objects.requireNonNull(testRunStarted, "Envelope.testRunStarted cannot be null");
           o.validate();
           return o;
         }
 
-        public static Envelope fromTestStepFinished(TestStepFinished testStepFinished) {
+        public static Envelope from(TestStepFinished testStepFinished) {
           Envelope o = new Envelope();
           o.testStepFinished = java.util.Objects.requireNonNull(testStepFinished, "Envelope.testStepFinished cannot be null");
           o.validate();
           return o;
         }
 
-        public static Envelope fromTestStepStarted(TestStepStarted testStepStarted) {
+        public static Envelope from(TestStepStarted testStepStarted) {
           Envelope o = new Envelope();
           o.testStepStarted = java.util.Objects.requireNonNull(testStepStarted, "Envelope.testStepStarted cannot be null");
           o.validate();
           return o;
         }
 
-        public static Envelope fromUndefinedParameterType(UndefinedParameterType undefinedParameterType) {
+        public static Envelope from(UndefinedParameterType undefinedParameterType) {
           Envelope o = new Envelope();
           o.undefinedParameterType = java.util.Objects.requireNonNull(undefinedParameterType, "Envelope.undefinedParameterType cannot be null");
           o.validate();
@@ -1134,21 +1134,21 @@ public class Messages {
 
         public FeatureChild() {}
 
-        public static FeatureChild fromRule(Rule rule) {
+        public static FeatureChild from(Rule rule) {
           FeatureChild o = new FeatureChild();
           o.rule = java.util.Objects.requireNonNull(rule, "FeatureChild.rule cannot be null");
           o.validate();
           return o;
         }
 
-        public static FeatureChild fromBackground(Background background) {
+        public static FeatureChild from(Background background) {
           FeatureChild o = new FeatureChild();
           o.background = java.util.Objects.requireNonNull(background, "FeatureChild.background cannot be null");
           o.validate();
           return o;
         }
 
-        public static FeatureChild fromScenario(Scenario scenario) {
+        public static FeatureChild from(Scenario scenario) {
           FeatureChild o = new FeatureChild();
           o.scenario = java.util.Objects.requireNonNull(scenario, "FeatureChild.scenario cannot be null");
           o.validate();
@@ -1337,14 +1337,14 @@ public class Messages {
 
         public RuleChild() {}
 
-        public static RuleChild fromBackground(Background background) {
+        public static RuleChild from(Background background) {
           RuleChild o = new RuleChild();
           o.background = java.util.Objects.requireNonNull(background, "RuleChild.background cannot be null");
           o.validate();
           return o;
         }
 
-        public static RuleChild fromScenario(Scenario scenario) {
+        public static RuleChild from(Scenario scenario) {
           RuleChild o = new RuleChild();
           o.scenario = java.util.Objects.requireNonNull(scenario, "RuleChild.scenario cannot be null");
           o.validate();
@@ -2673,14 +2673,14 @@ public class Messages {
 
         public PickleStepArgument() {}
 
-        public static PickleStepArgument fromDocString(PickleDocString docString) {
+        public static PickleStepArgument from(PickleDocString docString) {
           PickleStepArgument o = new PickleStepArgument();
           o.docString = java.util.Objects.requireNonNull(docString, "PickleStepArgument.docString cannot be null");
           o.validate();
           return o;
         }
 
-        public static PickleStepArgument fromDataTable(PickleTable dataTable) {
+        public static PickleStepArgument from(PickleTable dataTable) {
           PickleStepArgument o = new PickleStepArgument();
           o.dataTable = java.util.Objects.requireNonNull(dataTable, "PickleStepArgument.dataTable cannot be null");
           o.validate();
@@ -3011,28 +3011,28 @@ public class Messages {
 
         public SourceReference() {}
 
-        public static SourceReference fromUri(String uri) {
+        public static SourceReference from(String uri) {
           SourceReference o = new SourceReference();
           o.uri = java.util.Objects.requireNonNull(uri, "SourceReference.uri cannot be null");
           o.validate();
           return o;
         }
 
-        public static SourceReference fromJavaMethod(JavaMethod javaMethod) {
+        public static SourceReference from(JavaMethod javaMethod) {
           SourceReference o = new SourceReference();
           o.javaMethod = java.util.Objects.requireNonNull(javaMethod, "SourceReference.javaMethod cannot be null");
           o.validate();
           return o;
         }
 
-        public static SourceReference fromJavaStackTraceElement(JavaStackTraceElement javaStackTraceElement) {
+        public static SourceReference from(JavaStackTraceElement javaStackTraceElement) {
           SourceReference o = new SourceReference();
           o.javaStackTraceElement = java.util.Objects.requireNonNull(javaStackTraceElement, "SourceReference.javaStackTraceElement cannot be null");
           o.validate();
           return o;
         }
 
-        public static SourceReference fromLocation(Location location) {
+        public static SourceReference from(Location location) {
           SourceReference o = new SourceReference();
           o.location = java.util.Objects.requireNonNull(location, "SourceReference.location cannot be null");
           o.validate();

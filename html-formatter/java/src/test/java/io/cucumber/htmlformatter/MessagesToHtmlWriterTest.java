@@ -24,7 +24,7 @@ class MessagesToHtmlWriterTest {
     @Test
     void it_writes_one_message_to_html() throws IOException {
         Instant timestamp = Instant.ofEpochSecond(10);
-        Envelope envelope = Envelope.fromTestRunStarted(new TestRunStarted(TimeConversion.javaInstantToTimestamp(timestamp)));
+        Envelope envelope = Envelope.from(new TestRunStarted(TimeConversion.javaInstantToTimestamp(timestamp)));
         String html = renderAsHtml(envelope);
         assertThat(html, containsString("" +
                 "window.CUCUMBER_MESSAGES = [{\"testRunStarted\":{\"timestamp\":{\"seconds\":10,\"nanos\":0}}}];"));
@@ -78,9 +78,9 @@ class MessagesToHtmlWriterTest {
 
     @Test
     void it_writes_two_messages_separated_by_a_comma() throws IOException {
-        Envelope testRunStarted = Envelope.fromTestRunStarted(new TestRunStarted(TimeConversion.javaInstantToTimestamp(Instant.ofEpochSecond(10))));
+        Envelope testRunStarted = Envelope.from(new TestRunStarted(TimeConversion.javaInstantToTimestamp(Instant.ofEpochSecond(10))));
 
-        Envelope envelope = Envelope.fromTestRunFinished(new TestRunFinished(null, true, TimeConversion.javaInstantToTimestamp(Instant.ofEpochSecond(15))));
+        Envelope envelope = Envelope.from(new TestRunFinished(null, true, TimeConversion.javaInstantToTimestamp(Instant.ofEpochSecond(15))));
 
         String html = renderAsHtml(testRunStarted, envelope);
 

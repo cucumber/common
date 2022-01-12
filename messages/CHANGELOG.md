@@ -16,7 +16,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 * Java: Generate Java code that uses `Optional` in getters. This makes the library
   more type safe (avoids illegal null values). To upgrade, replace `import io.cucumber.messages.types.*` with `import static io.cucumber.messages.Messages.*`.
-  Classes without required fields have public empty constructors, and static `fromXxx`
+  Classes without required fields have public empty constructors, and static `from`
   methods for each field. Setters are removed. Classes with required fields do
   not have public empty constructors.
   ([#1858](https://github.com/cucumber/common/pull/1858) [aslakhellesoy])
