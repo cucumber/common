@@ -18,7 +18,8 @@
       "items": {
         "type": "string"
       },
-      "type": "array"
+      "type": "array",
+      "minItems": 1
     },
     "preferForRegularExpressionMatch": {
       "type": "boolean"

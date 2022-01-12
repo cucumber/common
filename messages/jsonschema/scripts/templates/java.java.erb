@@ -65,6 +65,9 @@
             <%- else -%>
             <% if !required %>if (<%= property_name %> != null) <%- end %><%= property_name %>.forEach(<%= type_for(key, nil, property['items']) %>::validate);
             <%- end -%>
+            <%- if property['minItems'] -%>
+            <% if !required %>if (<%= property_name %> != null) <%- end %>if(<%= property_name %>.size() < <%= property['minItems'] %>) throw new IllegalArgumentException("<%= class_name(key) %>.<%= property_name %> must have at least <%= property['minItems'] %> element<%= property['minItems'] > 1 ? 's' : '' %>");
+            <%- end -%>
           <%- elsif property['$ref'] -%>
             <% if !required %>if (<%= property_name %> != null) <%- end %><%= property_name %>.validate();
           <%- end -%>

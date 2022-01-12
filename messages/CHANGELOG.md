@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
+* JSON Schema: some `array` fields now have `"minItems": 1`.
 * Java: Generate Java code that uses `Optional` in getters. This makes the library
   more type safe (avoids illegal null values). To upgrade, replace `import io.cucumber.messages.types.*` with `import static io.cucumber.messages.Messages.*`.
   Classes without required fields have public empty constructors, and static `from`

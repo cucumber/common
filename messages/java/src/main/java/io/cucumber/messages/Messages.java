@@ -2316,6 +2316,7 @@ public class Messages {
             java.util.Objects.requireNonNull(name, "ParameterType.name cannot be null");
             java.util.Objects.requireNonNull(regularExpressions, "ParameterType.regularExpressions cannot be null");
             regularExpressions.forEach(e -> java.util.Objects.requireNonNull(e, "ParameterType.regularExpressions elements cannot be null"));
+            if(regularExpressions.size() < 1) throw new IllegalArgumentException("ParameterType.regularExpressions must have at least 1 element");
             java.util.Objects.requireNonNull(preferForRegularExpressionMatch, "ParameterType.preferForRegularExpressionMatch cannot be null");
             java.util.Objects.requireNonNull(useForSnippets, "ParameterType.useForSnippets cannot be null");
             java.util.Objects.requireNonNull(id, "ParameterType.id cannot be null");
@@ -2486,6 +2487,7 @@ public class Messages {
             tags.forEach(PickleTag::validate);
             java.util.Objects.requireNonNull(astNodeIds, "Pickle.astNodeIds cannot be null");
             astNodeIds.forEach(e -> java.util.Objects.requireNonNull(e, "Pickle.astNodeIds elements cannot be null"));
+            if(astNodeIds.size() < 1) throw new IllegalArgumentException("Pickle.astNodeIds must have at least 1 element");
         }
 
         @Override
@@ -2629,6 +2631,7 @@ public class Messages {
             if (argument != null) argument.validate();
             java.util.Objects.requireNonNull(astNodeIds, "PickleStep.astNodeIds cannot be null");
             astNodeIds.forEach(e -> java.util.Objects.requireNonNull(e, "PickleStep.astNodeIds elements cannot be null"));
+            if(astNodeIds.size() < 1) throw new IllegalArgumentException("PickleStep.astNodeIds must have at least 1 element");
             java.util.Objects.requireNonNull(id, "PickleStep.id cannot be null");
             java.util.Objects.requireNonNull(text, "PickleStep.text cannot be null");
         }
@@ -2851,6 +2854,7 @@ public class Messages {
         private void validate() {
             java.util.Objects.requireNonNull(cells, "PickleTableRow.cells cannot be null");
             cells.forEach(PickleTableCell::validate);
+            if(cells.size() < 1) throw new IllegalArgumentException("PickleTableRow.cells must have at least 1 element");
         }
 
         @Override
